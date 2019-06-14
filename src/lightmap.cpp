@@ -80,14 +80,14 @@ void map::add_light_from_items( const tripoint &p, std::list<item>::iterator beg
 }
 
 // TODO: Consider making this just clear the cache and dynamically fill it in as trans() is called
-void map::build_transparency_cache( const int zlev )
+bool map::build_transparency_cache( const int zlev )
 {
     auto &map_cache = get_cache( zlev );
     auto &transparency_cache = map_cache.transparency_cache;
     auto &outside_cache = map_cache.outside_cache;
 
     if( !map_cache.transparency_cache_dirty ) {
-        return;
+        return false;
     }
 
     // Default to just barely not transparent.
@@ -95,7 +95,7 @@ void map::build_transparency_cache( const int zlev )
         &transparency_cache[0][0], MAPSIZE_X * MAPSIZE_Y,
         static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR ) );
 
-    const float sight_penalty = weather_data( g->weather.weather ).sight_penalty;
+    const float sight_penalty = weather::sight_penalty( g->weather.weather );
 
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
@@ -124,10 +124,10 @@ void map::build_transparency_cache( const int zlev )
 
                     for( const auto &fld : cur_submap->fld[sx][sy] ) {
                         const field_entry &cur = fld.second;
-                        const field_id type = cur.getFieldType();
-                        const int density = cur.getFieldDensity();
+                        const field_id type = cur.get_field_type();
+                        const int density = cur.get_field_intensity();
 
-                        if( fieldlist[type].transparent[density - 1] ) {
+                        if( all_field_types_enum_list[type].transparent[density - 1] ) {
                             continue;
                         }
 
@@ -167,6 +167,7 @@ void map::build_transparency_cache( const int zlev )
         }
     }
     map_cache.transparency_cache_dirty = false;
+    return true;
 }
 
 void map::apply_character_light( player &p )
@@ -233,7 +234,7 @@ void map::build_sunlight_cache( int zlev )
     const auto &prev_transparency_cache = prev_map_cache.transparency_cache;
     const auto &prev_floor_cache = prev_map_cache.floor_cache;
     const auto &outside_cache = map_cache.outside_cache;
-    const float sight_penalty = weather_data( g->weather.weather ).sight_penalty;
+    const float sight_penalty = weather::sight_penalty( g->weather.weather );
     for( int x = 0, prev_x = offset.x; x < MAPSIZE_X; x++, prev_x++ ) {
         bool x_inbounds = true;
         if( prev_x < 0 || prev_x >= MAPSIZE_X ) {
@@ -362,11 +363,11 @@ void map::generate_lightmap( const int zlev )
                     for( auto &fld : cur_submap->fld[sx][sy] ) {
                         const field_entry *cur = &fld.second;
                         // TODO: [lightmap] Attach light brightness to fields
-                        switch( cur->getFieldType() ) {
+                        switch( cur->get_field_type() ) {
                             case fd_fire:
-                                if( 3 == cur->getFieldDensity() ) {
+                                if( 3 == cur->get_field_intensity() ) {
                                     add_light_source( p, 160 );
-                                } else if( 2 == cur->getFieldDensity() ) {
+                                } else if( 2 == cur->get_field_intensity() ) {
                                     add_light_source( p, 60 );
                                 } else {
                                     add_light_source( p, 20 );
@@ -378,9 +379,9 @@ void map::generate_lightmap( const int zlev )
                                 break;
                             case fd_electricity:
                             case fd_plasma:
-                                if( 3 == cur->getFieldDensity() ) {
+                                if( 3 == cur->get_field_intensity() ) {
                                     add_light_source( p, 20 );
-                                } else if( 2 == cur->getFieldDensity() ) {
+                                } else if( 2 == cur->get_field_intensity() ) {
                                     add_light_source( p, 4 );
                                 } else {
                                     // Kinda a hack as the square will still get marked.
@@ -388,9 +389,9 @@ void map::generate_lightmap( const int zlev )
                                 }
                                 break;
                             case fd_incendiary:
-                                if( 3 == cur->getFieldDensity() ) {
+                                if( 3 == cur->get_field_intensity() ) {
                                     add_light_source( p, 160 );
-                                } else if( 2 == cur->getFieldDensity() ) {
+                                } else if( 2 == cur->get_field_intensity() ) {
                                     add_light_source( p, 60 );
                                 } else {
                                     add_light_source( p, 20 );

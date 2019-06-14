@@ -19,6 +19,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "4570",
+    "name": ".45-70",
+    "default": "4570_sp"
+  },
+  {
+    "type": "ammunition_type",
     "id": "nail",
     "name": "nails",
     "default": "nail"
@@ -49,6 +55,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "shotcanister",
+    "name": "shotcanisters",
+    "default": "shotcanister_scrap"
+  },
+  {
+    "type": "ammunition_type",
     "id": "shot",
     "name": "shot",
     "default": "shot_00"
@@ -76,6 +88,12 @@
     "id": "357sig",
     "name": ".357 SIG",
     "default": "357sig_jhp"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "357mag",
+    "name": ".357 magnum",
+    "default": "357mag_jhp"
   },
   {
     "type": "ammunition_type",
@@ -117,7 +135,7 @@
     "type": "ammunition_type",
     "id": "460",
     "name": ".460",
-    "default": "45_acp"
+    "default": "460_rowland"
   },
   {
     "type": "ammunition_type",
@@ -501,6 +519,12 @@
     "id": "tinder",
     "name": "tinder",
     "default": "tinder",
+    "type": "ammunition_type"
+  },
+  {
+    "id": "esbit",
+    "name": "hexamine",
+    "default": "chem_hexamine",
     "type": "ammunition_type"
   }
 ]

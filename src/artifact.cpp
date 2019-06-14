@@ -1165,7 +1165,12 @@ void it_artifact_tool::deserialize( JsonObject &jo )
 
     tool->charges_per_use = jo.get_int( "charges_per_use" );
     tool->turns_per_charge = jo.get_int( "turns_per_charge" );
-    tool->ammo_id = ammotype( jo.get_string( "ammo" ) );
+
+    JsonArray atypes = jo.get_array( "ammo" );
+    for( size_t i = 0; i < atypes.size(); ++i ) {
+        tool->ammo_id.insert( ammotype( atypes.get_string( i ) ) );
+    }
+
     tool->revert_to.emplace( jo.get_string( "revert_to", "null" ) );
     if( *tool->revert_to == "null" ) {
         tool->revert_to.reset();

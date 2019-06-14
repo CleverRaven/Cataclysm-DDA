@@ -403,7 +403,8 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
             }
 
             if( has_miss_recovery_tec( cur_weapon ) ) {
-                add_msg( _( "You feint." ) );
+                ma_technique tec = get_miss_recovery_tec( cur_weapon );
+                add_msg( _( tec.player_message ), t.disp_name() );
             } else if( stumble_pen >= 60 ) {
                 add_msg( m_bad, _( "You miss and stumble with the momentum." ) );
             } else if( stumble_pen >= 10 ) {
@@ -1314,6 +1315,8 @@ static int blocking_ability( const item &shield )
         block_bonus = 6;
     } else if( shield.has_technique( WBLOCK_1 ) ) {
         block_bonus = 4;
+    } else if( shield.has_flag( "BLOCK_WHILE_WORN" ) ) {
+        block_bonus = 2;
     }
     return block_bonus;
 }
@@ -1322,6 +1325,8 @@ item &player::best_shield()
 {
     // Note: wielded weapon, not one used for attacks
     int best_value = blocking_ability( weapon );
+    // "BLOCK_WHILE_WORN" without a blocking tech need to be worn for the bonus
+    best_value = best_value == 2 ? 0 : best_value;
     item *best = best_value > 0 ? &weapon : &null_item_reference();
     for( item &shield : worn ) {
         if( shield.has_flag( "BLOCK_WHILE_WORN" ) && blocking_ability( shield ) >= best_value ) {
@@ -1361,7 +1366,7 @@ bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &da
     // Remember if we're using a weapon or a limb to block.
     // So that we don't suddenly switch that for any reason.
     const bool weapon_blocking = !shield.is_null();
-    if( weapon_blocking ) {
+    if( !is_force_unarmed() && weapon_blocking ) {
         /** @EFFECT_STR increases attack blocking effectiveness with a weapon */
 
         /** @EFFECT_MELEE increases attack blocking effectiveness with a weapon */
@@ -1411,7 +1416,7 @@ bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &da
             // but severely mitigated damage if not
         } else if( elem.type == DT_HEAT || elem.type == DT_ACID || elem.type == DT_COLD ) {
             // Unarmed weapons won't block those
-            if( weapon_blocking && !unarmed ) {
+            if( !is_force_unarmed() && weapon_blocking && !unarmed ) {
                 float previous_amount = elem.amount;
                 elem.amount /= 5;
                 damage_blocked += previous_amount - elem.amount;
@@ -1420,7 +1425,7 @@ bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &da
             // conductive weapon
         } else if( elem.type == DT_ELECTRIC ) {
             // Unarmed weapons and conductive weapons won't block this
-            if( weapon_blocking && !unarmed && !conductive_shield ) {
+            if( !is_force_unarmed() && weapon_blocking && !unarmed && !conductive_shield ) {
                 float previous_amount = elem.amount;
                 elem.amount /= 5;
                 damage_blocked += previous_amount - elem.amount;
@@ -1432,7 +1437,7 @@ bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &da
 
     // weapon blocks are preferred to limb blocks
     std::string thing_blocked_with;
-    if( weapon_blocking ) {
+    if( !is_force_unarmed() && weapon_blocking ) {
         thing_blocked_with = shield.tname();
         // TODO: Change this depending on damage blocked
         float wear_modifier = 1.0f;
@@ -2106,7 +2111,7 @@ void player::disarm( npc &target )
     target.on_attacked( *this );
 }
 
-void player::steal( npc &target )
+void avatar::steal( npc &target )
 {
     if( target.is_enemy() ) {
         add_msg( _( "%s is hostile!" ), target.name );

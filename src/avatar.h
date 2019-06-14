@@ -2,6 +2,7 @@
 #ifndef AVATAR_H
 #define AVATAR_H
 
+#include "enums.h"
 #include "player.h"
 
 class avatar : public player
@@ -92,6 +93,19 @@ class avatar : public player
 
         hint_rating rate_action_read( const item &it ) const;
 
+        void wake_up();
+        // Grab furniture / vehicle
+        void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
+        object_type get_grab_type() const;
+        /** Handles player vomiting effects */
+        void vomit();
+
+        /**
+         * Try to steal an item from the NPC's inventory. May result in fail attempt, when NPC not notices you,
+         * notices your steal attempt and getting angry with you, and you successfully stealing the item.
+         * @param target Target NPC to steal from
+         */
+        void steal( npc &target );
     private:
         map_memory player_map_memory;
         bool show_map_memory;
@@ -120,6 +134,8 @@ class avatar : public player
 
         // Items the player has identified.
         std::unordered_set<std::string> items_identified;
+
+        object_type grab_type;
 };
 
 #endif

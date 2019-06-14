@@ -27,6 +27,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "vpart_position.h"
+#include "vpart_reference.h"
 #include "tileray.h"
 #include "vehicle.h"
 #include "cata_utility.h"
@@ -53,6 +54,7 @@ const efftype_id effect_operating( "operating" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_pushed( "pushed" );
 const efftype_id effect_stunned( "stunned" );
+const efftype_id effect_harnessed( "harnessed" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id BLOB( "BLOB" );
@@ -153,7 +155,7 @@ bool monster::can_move_to( const tripoint &p ) const
             }
         } else if( has_flag( MF_AVOID_DANGER_1 ) ) {
             // Don't enter fire or electricity ever (other dangerous fields are fine though)
-            if( target_field.findField( fd_fire ) || target_field.findField( fd_electricity ) ) {
+            if( target_field.find_field( fd_fire ) || target_field.find_field( fd_electricity ) ) {
                 return false;
             }
         }
@@ -652,9 +654,18 @@ void monster::move()
 
     // don't move if a passenger in a moving vehicle
     auto vp = g->m.veh_at( pos() );
-    if( friendly && vp && vp->vehicle().is_moving() && vp->vehicle().get_pet( vp->part_index() ) ) {
+    bool harness_part = static_cast<bool>( g->m.veh_at( pos() ).part_with_feature( "ANIMAL_CTRL",
+                                           true ) );
+    if( vp && vp->vehicle().is_moving() && vp->vehicle().get_pet( vp->part_index() ) ) {
         moves = 0;
         return;
+        // Don't move if harnessed, even if vehicle is stationary
+    } else if( vp && has_effect( effect_harnessed ) ) {
+        moves = 0;
+        return;
+        // If harnessed monster finds itself moved from the harness point, the harness probably broke!
+    } else if( !harness_part && has_effect( effect_harnessed ) ) {
+        remove_effect( effect_harnessed );
     }
     // Set attitude to attitude to our current target
     monster_attitude current_attitude = attitude( nullptr );
@@ -906,18 +917,20 @@ void monster::footsteps( const tripoint &p )
     if( volume == 0 ) {
         return;
     }
-    std::string footstep = _( "footsteps." );
+    std::string footstep;
     if( type->in_species( BLOB ) ) {
-        footstep = _( "plop." );
+        footstep = translate_marker( "plop." );
     } else if( type->in_species( ZOMBIE ) ) {
-        footstep = _( "shuffling." );
+        footstep = translate_marker( "shuffling." );
     } else if( type->in_species( ROBOT ) ) {
-        footstep = _( "mechanical whirring." );
+        footstep = translate_marker( "mechanical whirring." );
     } else if( type->in_species( WORM ) ) {
-        footstep = _( "rustle." );
+        footstep = translate_marker( "rustle." );
+    } else {
+        footstep = translate_marker( "footsteps" );
     }
     int dist = rl_dist( p, g->u.pos() );
-    sounds::add_footstep( p, volume, dist, this, footstep );
+    sounds::add_footstep( p, volume, dist, this, _( footstep ) );
     return;
 }
 

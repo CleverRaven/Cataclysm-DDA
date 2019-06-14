@@ -66,16 +66,18 @@
 #include "units.h"
 #include "string_id.h"
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_laserlocked( "laserlocked" );
 const efftype_id effect_relax_gas( "relax_gas" );
+const efftype_id effect_riding( "riding" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 const skill_id skill_driving( "driving" );
 const skill_id skill_melee( "melee" );
@@ -534,17 +536,17 @@ static void handbrake()
 // Establish or release a grab on a vehicle
 static void grab()
 {
-    player &u = g->u;
+    avatar &you = g->u;
     map &m = g->m;
 
-    if( u.get_grab_type() != OBJECT_NONE ) {
-        if( const optional_vpart_position vp = m.veh_at( u.pos() + u.grab_point ) ) {
+    if( you.get_grab_type() != OBJECT_NONE ) {
+        if( const optional_vpart_position vp = m.veh_at( you.pos() + you.grab_point ) ) {
             add_msg( _( "You release the %s." ), vp->vehicle().name );
-        } else if( m.has_furn( u.pos() + u.grab_point ) ) {
-            add_msg( _( "You release the %s." ), m.furnname( u.pos() + u.grab_point ) );
+        } else if( m.has_furn( you.pos() + you.grab_point ) ) {
+            add_msg( _( "You release the %s." ), m.furnname( you.pos() + you.grab_point ) );
         }
 
-        u.grab( OBJECT_NONE );
+        you.grab( OBJECT_NONE );
         return;
     }
 
@@ -555,22 +557,22 @@ static void grab()
     }
     const tripoint grabp = *grabp_;
 
-    if( grabp == u.pos() ) {
+    if( grabp == you.pos() ) {
         add_msg( _( "You get a hold of yourself." ) );
-        u.grab( OBJECT_NONE );
+        you.grab( OBJECT_NONE );
         return;
     }
 
     if( const optional_vpart_position vp = m.veh_at( grabp ) ) {
-        u.grab( OBJECT_VEHICLE, grabp - u.pos() );
+        you.grab( OBJECT_VEHICLE, grabp - you.pos() );
         add_msg( _( "You grab the %s." ), vp->vehicle().name );
     } else if( m.has_furn( grabp ) ) { // If not, grab furniture if present
         if( m.furn( grabp ).obj().move_str_req < 0 ) {
             add_msg( _( "You can not grab the %s" ), m.furnname( grabp ) );
             return;
         }
-        u.grab( OBJECT_FURNITURE, grabp - u.pos() );
-        if( !m.can_move_furniture( grabp, &u ) ) {
+        you.grab( OBJECT_FURNITURE, grabp - you.pos() );
+        if( !m.can_move_furniture( grabp, &you ) ) {
             add_msg( _( "You grab the %s. It feels really heavy." ), m.furnname( grabp ) );
         } else {
             add_msg( _( "You grab the %s." ), m.furnname( grabp ) );
@@ -1044,7 +1046,7 @@ static void loot()
 
 static void wear()
 {
-    player &u = g->u;
+    avatar &u = g->u;
     item_location loc = game_menus::inv::wear( u );
 
     if( loc ) {
@@ -1056,7 +1058,7 @@ static void wear()
 
 static void takeoff()
 {
-    player &u = g->u;
+    avatar &u = g->u;
     item_location loc = game_menus::inv::take_off( u );
 
     if( loc ) {
@@ -1276,67 +1278,23 @@ static void cast_spell()
     }
 
     bool can_cast_spells = false;
-    std::vector<uilist_entry> spell_names;
-    {
-        uilist_entry dummy( _( "Spell" ) );
-        dummy.ctxt = string_format( "%3s  %3s  %3s %5s %10s %4s %3s", _( "LVL" ), _( "XP%" ), _( "RNG" ),
-                                    _( "FAIL%" ), _( "Cast Time" ), _( "Cost" ), _( "DMG" ) );
-        dummy.enabled = false;
-        dummy.text_color = c_light_blue;
-        dummy.force_color = true;
-        spell_names.emplace_back( dummy );
-    }
     for( spell_id sp : spells ) {
         spell temp_spell = u.magic.get_spell( sp );
-        std::string nm = temp_spell.name();
-        uilist_entry entry( nm );
         if( temp_spell.can_cast( u ) ) {
             can_cast_spells = true;
-        } else {
-            entry.enabled = false;
         }
-        std::string turns = temp_spell.casting_time() >= 100 ? string_format( _( "%i turns" ),
-                            temp_spell.casting_time() / 100 ) : string_format( _( "%i moves" ), temp_spell.casting_time() );
-        std::string cost = string_format( "%4i", temp_spell.energy_cost() );
-        switch( temp_spell.energy_source() ) {
-            case mana_energy:
-                cost = colorize( cost, c_light_blue );
-                break;
-            case stamina_energy:
-                cost = colorize( cost, c_green );
-                break;
-            case hp_energy:
-                cost = colorize( cost, c_red );
-                break;
-            case bionic_energy:
-                cost = colorize( cost, c_yellow );
-                break;
-            case none_energy:
-                cost = colorize( _( "none" ), c_light_gray );
-                break;
-            default:
-                debugmsg( "ERROR: %s has invalid energy_type", temp_spell.id().c_str() );
-                break;
-        }
-        entry.ctxt = string_format( "%3i (%3s) %3i %3i %% %10s %4s %3i", temp_spell.get_level(),
-                                    temp_spell.is_max_level() ? _( "MAX" ) : temp_spell.exp_progress(), temp_spell.range(),
-                                    static_cast<int>( round( 100.0f * temp_spell.spell_fail( u ) ) ), turns, cost,
-                                    temp_spell.damage() );
-        spell_names.emplace_back( entry );
     }
 
     if( !can_cast_spells ) {
         add_msg( m_bad, _( "You can't cast any of the spells you know!" ) );
     }
 
-    // if there's only one spell we know, we still want to see its information
-    // the 0th "spell" is a header
-    int action = uilist( _( "Choose your spell:" ), spell_names ) - 1;
-    if( action < 0 ) {
+    const int spell_index = u.magic.select_spell( u );
+    if( spell_index < 0 ) {
         return;
     }
 
-    spell sp = u.magic.get_spell( spells[action] );
+    spell &sp = *u.magic.get_spells()[spell_index];
 
     if( !u.magic.has_enough_energy( u, sp ) ) {
         add_msg( m_bad, _( "You don't have enough %s to cast the spell." ), sp.energy_string() );
@@ -1356,6 +1314,21 @@ static void cast_spell()
     // [2] this value overrides the mana cost if set to 0
     cast_spell.values.emplace_back( 1 );
     cast_spell.name = sp.id().c_str();
+    if( u.magic.casting_ignore ) {
+        const std::vector<distraction_type> ignored_distractions = {
+            distraction_type::noise,
+            distraction_type::pain,
+            distraction_type::attacked,
+            distraction_type::hostile_spotted,
+            distraction_type::talked_to,
+            distraction_type::asthma,
+            distraction_type::motion_alarm,
+            distraction_type::weather_change
+        };
+        for( const distraction_type ignored : ignored_distractions ) {
+            cast_spell.ignore_distraction( ignored );
+        }
+    }
     u.assign_activity( cast_spell, false );
 }
 
@@ -1634,20 +1607,26 @@ bool game::handle_action()
                 dest_delta = get_delta_from_movement_direction( act );
                 break;
             case ACTION_MOVE_DOWN:
-                if( !u.in_vehicle ) {
+                if( !u.in_vehicle && !u.has_effect( effect_riding ) ) {
                     vertical_move( -1, false );
+                } else if( u.has_effect( effect_riding ) ) {
+                    add_msg( m_info, _( "You can't go down stairs while you're riding." ) );
                 }
                 break;
 
             case ACTION_MOVE_UP:
-                if( !u.in_vehicle ) {
+                if( !u.in_vehicle && !u.has_effect( effect_riding ) ) {
                     vertical_move( 1, false );
+                } else if( u.has_effect( effect_riding ) ) {
+                    add_msg( m_info, _( "You can't go up stairs while you're riding." ) );
                 }
                 break;
 
             case ACTION_OPEN:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't open things while you're in your shell." ) );
+                } else if( u.has_effect( effect_riding ) ) {
+                    add_msg( m_info, _( "You can't open things while you're riding." ) );
                 } else {
                     open();
                 }
@@ -1656,6 +1635,8 @@ bool game::handle_action()
             case ACTION_CLOSE:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't close things while you're in your shell." ) );
+                } else if( u.has_effect( effect_riding ) ) {
+                    add_msg( m_info, _( "You can't close things while you're riding." ) );
                 } else if( mouse_target ) {
                     doors::close_door( m, u, *mouse_target );
                 } else {
@@ -1686,6 +1667,8 @@ bool game::handle_action()
             case ACTION_ADVANCEDINV:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't move mass quantities while you're in your shell." ) );
+                } else if( u.has_effect( effect_riding ) ) {
+                    add_msg( m_info, _( "You can't move mass quantities while you're riding." ) );
                 } else {
                     advanced_inv();
                 }
@@ -1694,6 +1677,8 @@ bool game::handle_action()
             case ACTION_PICKUP:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't pick anything up while you're in your shell." ) );
+                } else if( u.has_effect( effect_riding ) ) {
+                    add_msg( m_info, _( "You can't pick anything up while you're riding." ) );
                 } else if( mouse_target ) {
                     pickup( *mouse_target );
                 } else {
@@ -1712,6 +1697,8 @@ bool game::handle_action()
             case ACTION_GRAB:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't grab things while you're in your shell." ) );
+                } else if( u.has_effect( effect_riding ) ) {
+                    add_msg( m_info, _( "You can't grab things while you're riding." ) );
                 } else {
                     grab();
                 }
@@ -1720,6 +1707,8 @@ bool game::handle_action()
             case ACTION_HAUL:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't haul things while you're in your shell." ) );
+                } else if( u.has_effect( effect_riding ) ) {
+                    add_msg( m_info, _( "You can't haul things while you're riding." ) );
                 } else {
                     haul();
                 }
@@ -1728,6 +1717,8 @@ bool game::handle_action()
             case ACTION_BUTCHER:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't butcher while you're in your shell." ) );
+                } else if( u.has_effect( effect_riding ) ) {
+                    add_msg( m_info, _( "You can't butcher while you're riding." ) );
                 } else {
                     butcher();
                 }
@@ -1740,6 +1731,8 @@ bool game::handle_action()
             case ACTION_PEEK:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't peek around corners while you're in your shell." ) );
+                } else if( u.has_effect( effect_riding ) ) {
+                    add_msg( m_info, _( "You can't peek around corners while you're riding." ) );
                 } else {
                     peek();
                 }
@@ -1825,7 +1818,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_THROW:
-                plthrow();
+                avatar_action::plthrow( g->u );
                 break;
 
             case ACTION_FIRE:
@@ -1895,6 +1888,8 @@ bool game::handle_action()
             case ACTION_CRAFT:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't craft while you're in your shell." ) );
+                } else if( u.has_effect( effect_riding ) ) {
+                    add_msg( m_info, _( "You can't craft while you're riding." ) );
                 } else {
                     u.craft();
                 }
@@ -1903,6 +1898,8 @@ bool game::handle_action()
             case ACTION_RECRAFT:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't craft while you're in your shell." ) );
+                } else if( u.has_effect( effect_riding ) ) {
+                    add_msg( m_info, _( "You can't craft while you're riding." ) );
                 } else {
                     u.recraft();
                 }
@@ -1911,6 +1908,8 @@ bool game::handle_action()
             case ACTION_LONGCRAFT:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't craft while you're in your shell." ) );
+                } else if( u.has_effect( effect_riding ) ) {
+                    add_msg( m_info, _( "You can't craft while you're riding." ) );
                 } else {
                     u.long_craft();
                 }
@@ -1919,9 +1918,10 @@ bool game::handle_action()
             case ACTION_DISASSEMBLE:
                 if( u.controlling_vehicle ) {
                     add_msg( m_info, _( "You can't disassemble items while driving." ) );
+                } else if( u.has_effect( effect_riding ) ) {
+                    add_msg( m_info, _( "You can't disassemble items while you're riding." ) );
                 } else {
                     u.disassemble();
-                    g->m.invalidate_map_cache( g->get_levz() );
                     refresh_all();
                 }
                 break;
@@ -1931,6 +1931,10 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't construct while in a vehicle." ) );
                 } else if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't construct while you're in your shell." ) );
+                } else if( u.has_effect( effect_riding ) ) {
+                    add_msg( m_info, _( "You can't construct while you're riding." ) );
+                } else if( g->u.fine_detail_vision_mod() > 4 && !g->u.has_trait( trait_DEBUG_HS ) ) {
+                    add_msg( m_info, _( "It is too dark to construct right now." ) );
                 } else {
                     construction_menu();
                 }
@@ -1949,6 +1953,8 @@ bool game::handle_action()
             case ACTION_CONTROL_VEHICLE:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't operate a vehicle while you're in your shell." ) );
+                } else if( u.has_effect( effect_riding ) ) {
+                    u.dismount();
                 } else {
                     control_vehicle();
                 }
@@ -2177,6 +2183,15 @@ bool game::handle_action()
                          get_options().get_option( "AUTO_FORAGING" ).getValueName() );
                 break;
 
+            case ACTION_TOGGLE_AUTO_PICKUP:
+                get_options().get_option( "AUTO_PICKUP" ).setNext();
+                get_options().save();
+                //~ Auto pickup is now set to x
+                add_msg( _( "%s is now set to %s." ),
+                         get_options().get_option( "AUTO_PICKUP" ).getMenuText(),
+                         get_options().get_option( "AUTO_PICKUP" ).getValueName() );
+                break;
+
             case ACTION_DISPLAY_SCENT:
                 if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
                     break;    //don't do anything when sharing and not debugger
@@ -2189,6 +2204,13 @@ bool game::handle_action()
                     break;    //don't do anything when sharing and not debugger
                 }
                 display_temperature();
+                break;
+
+            case ACTION_DISPLAY_VISIBILITY:
+                if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
+                    break;    //don't do anything when sharing and not debugger
+                }
+                display_visibility();
                 break;
 
             case ACTION_TOGGLE_DEBUG_MODE:
