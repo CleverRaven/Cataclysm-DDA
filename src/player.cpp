@@ -5226,7 +5226,7 @@ void player::suffer()
         }
     }
 
-    if( has_trait( trait_SHARKTEETH ) && one_in( to_turns<int>( 24_hours ) ) ) { //originaly 14400
+    if( has_trait( trait_SHARKTEETH ) && one_in( to_turns<int>( 24_hours ) ) ) {
         add_msg_if_player( m_neutral, _( "You shed a tooth!" ) );
         g->m.spawn_item( pos(), "bone", 1 );
     }
@@ -5291,7 +5291,7 @@ void player::suffer()
             }
         }
         if( has_trait( trait_CHEMIMBALANCE ) ) {
-            if( one_in( to_turns<int>( 6_hours ) ) && !has_trait( trait_NOPAIN ) ) { 
+            if( one_in( to_turns<int>( 6_hours ) ) && !has_trait( trait_NOPAIN ) ) {
                 add_msg_if_player( m_bad, _( "You suddenly feel sharp pain for no reason." ) );
                 mod_pain( 3 * rng( 1, 3 ) );
             }
@@ -5614,7 +5614,7 @@ void player::suffer()
         }
 
         if( has_trait( trait_JITTERY ) && !has_effect( effect_shakes ) ) {
-            if( stim > 50 && one_in( to_turns<int>( 30_minutes ) - ( stim * 6 ) ) ) { 
+            if( stim > 50 && one_in( to_turns<int>( 30_minutes ) - ( stim * 6 ) ) ) {
                 add_effect( effect_shakes, 30_minutes + 1_turns * stim );
             } else if( ( get_hunger() > 80 || get_kcal_percent() < 1.0f ) && get_hunger() > 0 &&
                        one_in( to_turns<int>( 50_minutes ) - ( get_hunger() * 6 ) ) ) {
