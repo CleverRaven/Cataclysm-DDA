@@ -906,7 +906,7 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
         if( u.hp_cur[limb_index] < u.hp_max[limb_index] / 2 ) {
             hp = std::make_pair( string_format( " %s", _( "Bad" ) ), c_red );
         } else {
-            hp = std::make_pair( string_format(  " %s", _( "Good" ) ), c_green );
+            hp = std::make_pair( string_format( " %s", _( "Good" ) ), c_green );
         }
         wprintz( w, hp.second, hp.first );
     } else {
