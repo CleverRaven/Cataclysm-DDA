@@ -447,8 +447,6 @@ static const trait_id trait_WHISKERS( "WHISKERS" );
 static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
-static const itype_id OPTICAL_CLOAK_ITEM_ID( "optical_cloak" );
-
 stat_mod player::get_pain_penalty() const
 {
     stat_mod ret;
@@ -894,7 +892,7 @@ void player::action_taken()
 
 void player::update_morale()
 {
-    morale->decay( 10_turns );
+    morale->decay( 1_minutes );
     apply_persistent_morale();
 }
 
@@ -1170,6 +1168,7 @@ void player::update_bodytemp()
     // Difference between high and low is the "safe" heat - one we only apply if it's beneficial
     const int mutation_heat_bonus = mutation_heat_high - mutation_heat_low;
 
+    const int h_radiation = get_heat_radiation( pos(), false );
     // Current temperature and converging temperature calculations
     for( const body_part bp : all_body_parts ) {
         // Skip eyes
@@ -1224,7 +1223,6 @@ void player::update_bodytemp()
         // Bark : lowers blister count to -5; harder to get blisters
         int blister_count = ( has_bark ? -5 : 0 ); // If the counter is high, your skin starts to burn
 
-        const int h_radiation = get_heat_radiation( pos(), false );
         if( frostbite_timer[bp] > 0 ) {
             frostbite_timer[bp] -= std::max( 5, h_radiation );
         }
@@ -2524,7 +2522,7 @@ std::list<item *> player::get_artifact_items()
 bool player::has_active_optcloak() const
 {
     for( auto &w : worn ) {
-        if( w.active && w.typeId() == OPTICAL_CLOAK_ITEM_ID ) {
+        if( w.active && w.has_flag( "ACTIVE_CLOAKING" ) ) {
             return true;
         }
     }
@@ -2816,20 +2814,21 @@ void player::pause()
         return;
     }
 
-    VehicleList vehs = g->m.get_vehicles();
-    vehicle *veh = nullptr;
-    for( auto &v : vehs ) {
-        veh = v.v;
-        if( veh && veh->is_moving() && veh->player_in_control( *this ) ) {
-            if( one_in( 8 ) ) {
-                double exp_temp = 1 + veh->total_mass() / 400.0_kilogram + std::abs( veh->velocity / 3200.0 );
+    if( in_vehicle && one_in( 8 ) ) {
+        VehicleList vehs = g->m.get_vehicles();
+        vehicle *veh = nullptr;
+        for( auto &v : vehs ) {
+            veh = v.v;
+            if( veh && veh->is_moving() && veh->player_in_control( *this ) ) {
+                double exp_temp = 1 + veh->total_mass() / 400.0_kilogram +
+                                  std::abs( veh->velocity / 3200.0 );
                 int experience = static_cast<int>( exp_temp );
                 if( exp_temp - experience > 0 && x_in_y( exp_temp - experience, 1.0 ) ) {
                     experience++;
                 }
                 practice( skill_id( "driving" ), experience );
+                break;
             }
-            break;
         }
     }
 
@@ -2938,8 +2937,8 @@ void player::search_surroundings()
         if( !sees( tp ) ) {
             continue;
         }
-        if( tr.name().empty() || tr.can_see( tp, *this ) ) {
-            // Already seen, or has no name -> can never be seen
+        if( tr.is_always_invisible() || tr.can_see( tp, *this ) ) {
+            // Already seen, or can never be seen
             continue;
         }
         // Chance to detect traps we haven't yet seen.
@@ -2983,7 +2982,7 @@ int player::read_speed( bool return_stat_effect ) const
         ret = 100;
     }
     // return_stat_effect actually matters here
-    return ( return_stat_effect ? ret : ret / 10 );
+    return 6 * ( return_stat_effect ? ret : ret / 10 );
 }
 
 int player::rust_rate( bool return_stat_effect ) const
@@ -3959,8 +3958,8 @@ void player::update_body( const time_point &from, const time_point &to )
 {
     update_stamina( to_turns<int>( to - from ) );
     update_stomach( from, to );
-    if( ticks_between( from, to, 10_turns ) > 0 ) {
-        magic.update_mana( *this, to_turns<float>( 10_turns ) );
+    if( ticks_between( from, to, 3_minutes ) > 0 ) {
+        magic.update_mana( *this, to_turns<float>( 3_minutes ) );
     }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
@@ -4256,7 +4255,7 @@ void player::check_needs_extremes()
             /** @EFFECT_INT slightly decreases occurrence of short naps when dead tired */
             if( one_in( 50 + int_cur ) ) {
                 // Rivet's idea: look out for microsleeps!
-                fall_asleep( 5_turns );
+                fall_asleep( 30_seconds );
             }
         } else if( get_fatigue() >= EXHAUSTED ) {
             if( calendar::once_every( 30_minutes ) ) {
@@ -4265,7 +4264,7 @@ void player::check_needs_extremes()
             }
             /** @EFFECT_INT slightly decreases occurrence of short naps when exhausted */
             if( one_in( 100 + int_cur ) ) {
-                fall_asleep( 5_turns );
+                fall_asleep( 30_seconds );
             }
         } else if( get_fatigue() >= DEAD_TIRED && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "*yawn* You should really get some sleep." ) );
@@ -4312,7 +4311,7 @@ void player::check_needs_extremes()
             // Note: these can coexist with fatigue-related microsleeps
             /** @EFFECT_INT slightly decreases occurrence of short naps when sleep deprived */
             if( one_in( static_cast<int>( sleep_deprivation_pct * 75 ) + int_cur ) ) {
-                fall_asleep( 5_turns );
+                fall_asleep( 30_seconds );
             }
 
             // Stimulants can be used to stay awake a while longer, but after a while you'll just collapse.
@@ -5018,14 +5017,14 @@ void player::process_one_effect( effect &it, bool is_new )
                 } else {
                     add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp_torso ) );
                 }
-                apply_damage( nullptr, bp_torso, val );
+                apply_damage( nullptr, bp_torso, val, true );
             } else {
                 if( val > 5 ) {
                     add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bp ) );
                 } else {
                     add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
                 }
-                apply_damage( nullptr, bp, val );
+                apply_damage( nullptr, bp, val, true );
             }
         }
     }
@@ -5269,13 +5268,13 @@ void player::suffer()
         }
     }
 
-    if( x_in_y( root_vitamins, 96 ) ) {
+    if( x_in_y( root_vitamins, 576 ) ) {
         vitamin_mod( vitamin_id( "iron" ), 1, true );
         vitamin_mod( vitamin_id( "calcium" ), 1, true );
         mod_healthy_mod( 5, 50 );
     }
 
-    if( x_in_y( root_water, 425 ) ) {
+    if( x_in_y( root_water, 2550 ) ) {
         // Plants draw some crazy amounts of water from the ground in real life,
         // so these numbers try to reflect that uncertain but large amount
         // this should take 12 hours to meet your daily needs with ROOTS2, and 8 with ROOTS3
@@ -5777,12 +5776,12 @@ void player::suffer()
         }
     }
 
-    if( x_in_y( sunlight_nutrition, 3000 ) ) {
+    if( x_in_y( sunlight_nutrition, 18000 ) ) {
         vitamin_mod( vitamin_id( "vitA" ), 1, true );
         vitamin_mod( vitamin_id( "vitC" ), 1, true );
     }
 
-    if( x_in_y( sunlight_nutrition, 2000 ) ) {
+    if( x_in_y( sunlight_nutrition, 12000 ) ) {
         mod_hunger( -1 );
         // photosynthesis absorbs kcal directly
         mod_stored_nutr( -1 );
@@ -6383,14 +6382,14 @@ bool player::irradiate( float rads, bool bypass )
 
             // Actual irradiation levels of badges and the player aren't precisely matched.
             // This is intentional.
-            const int before = it->irridation;
+            const int before = it->irradiation;
 
             const int delta = rng( 0, rads_max );
             if( delta == 0 ) {
                 continue;
             }
 
-            it->irridation += delta;
+            it->irradiation += delta;
 
             // If in inventory (not worn), don't print anything.
             if( inv.has_item( *it ) ) {
@@ -6399,7 +6398,7 @@ bool player::irradiate( float rads, bool bypass )
 
             // If the color hasn't changed, don't print anything.
             const std::string &col_before = rad_badge_color( before );
-            const std::string &col_after = rad_badge_color( it->irridation );
+            const std::string &col_after = rad_badge_color( it->irradiation );
             if( col_before == col_after ) {
                 continue;
             }
@@ -6732,8 +6731,8 @@ void player::apply_wetness_morale( int temperature )
             morale_effect = -1;
         }
     }
-    // 11_turns because decay is applied in 10_turn increments
-    add_morale( MORALE_WET, morale_effect, total_morale, 11_turns, 11_turns, true );
+    // 61_seconds because decay is applied in 1_minutes increments
+    add_morale( MORALE_WET, morale_effect, total_morale, 61_seconds, 61_seconds, true );
 }
 
 void player::update_body_wetness( const w_point &weather )
@@ -6904,7 +6903,7 @@ void player::process_active_items()
         if( !w.active ) {
             continue;
         }
-        if( w.typeId() == OPTICAL_CLOAK_ITEM_ID ) {
+        if( w.has_flag( "ACTIVE_CLOAKING" ) ) {
             cloak = &w;
         }
         // Only the main power armor item can be active, the other ones (hauling frame, helmet) aren't.
@@ -6916,13 +6915,13 @@ void player::process_active_items()
         if( ch_UPS >= 20 ) {
             use_charges( "UPS", 20 );
             if( ch_UPS < 200 && one_in( 3 ) ) {
-                add_msg_if_player( m_warning, _( "Your optical cloak flickers for a moment!" ) );
+                add_msg_if_player( m_warning, _( "Your cloaking flickers for a moment!" ) );
             }
         } else if( ch_UPS > 0 ) {
             use_charges( "UPS", ch_UPS );
         } else {
-            add_msg_if_player( m_warning,
-                               _( "Your optical cloak flickers for a moment as it becomes opaque." ) );
+            add_msg_if_player( m_bad,
+                               _( "Your cloaking flickers and becomes opaque." ) );
             // Bypass the "you deactivate the ..." message
             cloak->active = false;
         }
@@ -7574,7 +7573,7 @@ item::reload_option player::select_ammo( const item &base,
         return row;
     };
 
-    itype_id last = uistate.lastreload[ base.ammo_type() ];
+    itype_id last = uistate.lastreload[ ammotype( base.ammo_default() ) ];
     // We keep the last key so that pressing the key twice (for example, r-r for reload)
     // will always pick the first option on the list.
     int last_key = inp_mngr.get_previously_pressed_key();
@@ -7682,7 +7681,8 @@ item::reload_option player::select_ammo( const item &base,
     }
 
     const item_location &sel = opts[ menu.ret ].ammo;
-    uistate.lastreload[ base.ammo_type() ] = sel->is_ammo_container() ? sel->contents.front().typeId() :
+    uistate.lastreload[ ammotype( base.ammo_default() ) ] = sel->is_ammo_container() ?
+            sel->contents.front().typeId() :
             sel->typeId();
     return std::move( opts[ menu.ret ] );
 }
@@ -7746,7 +7746,10 @@ item::reload_option player::select_ammo( const item &base, bool prompt, bool emp
             } else if( base.is_watertight_container() ) {
                 name = base.is_container_empty() ? "liquid" : base.contents.front().tname();
             } else {
-                name = base.ammo_type()->name();
+                name = enumerate_as_string( base.ammo_types().begin(),
+                base.ammo_types().end(), []( const ammotype & at ) {
+                    return at->name();
+                }, enumeration_conjunction::none );
             }
             add_msg_if_player( m_info, _( "You don't have any %s to reload your %s!" ),
                                name, base.tname() );
@@ -8067,7 +8070,7 @@ bool player::pick_style() // Style selection menu
 
     if( selection >= STYLE_OFFSET ) {
         style_selected = selectable_styles[selection - STYLE_OFFSET];
-        add_msg_if_player( m_info, _( style_selected.obj().get_initiate_player_message() ) );
+        martialart_use_message();
     } else if( selection == KEEP_HANDS_FREE ) {
         keep_hands_free = !keep_hands_free;
     } else {
@@ -8768,7 +8771,7 @@ bool player::unload( item &it )
     }
 
     // Next check for any reasons why the item cannot be unloaded
-    if( !target->ammo_type() || target->ammo_capacity() <= 0 ) {
+    if( target->ammo_types().empty() || target->ammo_capacity() <= 0 ) {
         add_msg( m_info, _( "You can't unload a %s!" ), target->tname() );
         return false;
     }
@@ -8830,7 +8833,7 @@ bool player::unload( item &it )
     } else if( target->ammo_remaining() ) {
         int qty = target->ammo_remaining();
 
-        if( target->ammo_type() == ammotype( "plutonium" ) ) {
+        if( target->ammo_current() == "plutonium" ) {
             qty = target->ammo_remaining() / PLUTONIUM_CHARGES;
             if( qty > 0 ) {
                 add_msg( _( "You recover %i unused plutonium." ), qty );
@@ -8858,7 +8861,7 @@ bool player::unload( item &it )
         // If successful remove appropriate qty of ammo consuming half as much time as required to load it
         this->moves -= this->item_reload_cost( *target, ammo, qty ) / 2;
 
-        if( target->ammo_type() == ammotype( "plutonium" ) ) {
+        if( target->ammo_current() == "plutonium" ) {
             qty *= PLUTONIUM_CHARGES;
         }
 
@@ -8926,7 +8929,7 @@ hint_rating player::rate_action_unload( const item &it ) const
         }
     }
 
-    if( it.ammo_type().is_null() ) {
+    if( it.ammo_types().empty() ) {
         return HINT_CANT;
     }
 
@@ -10757,7 +10760,7 @@ bool player::has_gun_for_ammo( const ammotype &at ) const
 {
     return has_item_with( [at]( const item & it ) {
         // item::ammo_type considers the active gunmod.
-        return it.is_gun() && it.ammo_type() == at;
+        return it.is_gun() && it.ammo_types().count( at );
     } );
 }
 
@@ -10765,10 +10768,10 @@ bool player::has_magazine_for_ammo( const ammotype &at ) const
 {
     return has_item_with( [&at]( const item & it ) {
         return !it.has_flag( "NO_RELOAD" ) &&
-               ( ( it.is_magazine() && it.ammo_type() == at ) ||
-                 ( it.is_gun() && it.magazine_integral() && it.ammo_type() == at ) ||
+               ( ( it.is_magazine() && it.ammo_types().count( at ) ) ||
+                 ( it.is_gun() && it.magazine_integral() && it.ammo_types().count( at ) ) ||
                  ( it.is_gun() && it.magazine_current() != nullptr &&
-                   it.magazine_current()->ammo_type() == at ) );
+                   it.magazine_current()->ammo_types().count( at ) ) );
     } );
 }
 
@@ -11514,7 +11517,7 @@ bool player::can_hear( const tripoint &source, const int volume ) const
     }
     const int dist = rl_dist( source, pos() );
     const float volume_multiplier = hearing_ability();
-    return ( volume - weather_data( g->weather.weather ).sound_attn ) * volume_multiplier >= dist;
+    return ( volume - weather::sound_attn( g->weather.weather ) ) * volume_multiplier >= dist;
 }
 
 float player::hearing_ability() const

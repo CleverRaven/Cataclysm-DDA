@@ -155,7 +155,7 @@ bool monster::can_move_to( const tripoint &p ) const
             }
         } else if( has_flag( MF_AVOID_DANGER_1 ) ) {
             // Don't enter fire or electricity ever (other dangerous fields are fine though)
-            if( target_field.findField( fd_fire ) || target_field.findField( fd_electricity ) ) {
+            if( target_field.find_field( fd_fire ) || target_field.find_field( fd_electricity ) ) {
                 return false;
             }
         }
@@ -917,18 +917,20 @@ void monster::footsteps( const tripoint &p )
     if( volume == 0 ) {
         return;
     }
-    std::string footstep = _( "footsteps." );
+    std::string footstep;
     if( type->in_species( BLOB ) ) {
-        footstep = _( "plop." );
+        footstep = translate_marker( "plop." );
     } else if( type->in_species( ZOMBIE ) ) {
-        footstep = _( "shuffling." );
+        footstep = translate_marker( "shuffling." );
     } else if( type->in_species( ROBOT ) ) {
-        footstep = _( "mechanical whirring." );
+        footstep = translate_marker( "mechanical whirring." );
     } else if( type->in_species( WORM ) ) {
-        footstep = _( "rustle." );
+        footstep = translate_marker( "rustle." );
+    } else {
+        footstep = translate_marker( "footsteps" );
     }
     int dist = rl_dist( p, g->u.pos() );
-    sounds::add_footstep( p, volume, dist, this, footstep );
+    sounds::add_footstep( p, volume, dist, this, _( footstep ) );
     return;
 }
 

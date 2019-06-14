@@ -31,6 +31,19 @@
     "//": "12Ah @ 12VDC. Could supply ~140 watts for an hour"
   },
   {
+    "id": "battery_motorbike_small",
+    "copy-from": "battery_car",
+    "type": "MAGAZINE",
+    "name": "small motorbike battery",
+    "name_plural": "small motorbike batteries",
+    "description": "A miniature 12v lead-acid battery used to power smaller vehicles' electrical systems.",
+    "weight": 1500,
+    "volume": 3,
+    "price": 20000,
+    "capacity": 150,
+    "//": "~2.4Ah @ 12VDC. Could supply ~140 watts 10 minutes or so"
+  },
+  {
     "id": "medium_storage_battery",
     "copy-from": "storage_battery",
     "type": "MAGAZINE",

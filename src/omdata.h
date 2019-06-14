@@ -104,7 +104,7 @@ class overmap_land_use_code
     public:
         overmap_land_use_code_id id = overmap_land_use_code_id::NULL_ID();
 
-        int land_use_code;
+        int land_use_code = 0;
         std::string name;
         std::string detailed_definition;
         uint32_t symbol;

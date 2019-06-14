@@ -28,6 +28,7 @@ class mission_data;
 struct expansion_data {
     std::string type;
     std::map<std::string, int> provides;
+    std::map<std::string, int> in_progress;
     tripoint pos;
     // legacy camp level, replaced by provides map and set to -1
     int cur_level;
@@ -74,6 +75,7 @@ struct basecamp_upgrade {
     std::string bldg;
     std::string name;
     bool avail = false;
+    bool in_progress = false;
 };
 
 class basecamp
@@ -110,7 +112,9 @@ class basecamp
         void set_name( const std::string &new_name );
         void query_new_name();
         void add_expansion( const std::string &terrain, const tripoint &new_pos );
-        void define_camp( npc &p );
+        void add_expansion( const std::string &bldg, const tripoint &new_pos,
+                            const std::string &dir );
+        void define_camp( npc &p, const std::string &camp_type = "default" );
 
         std::string expansion_tab( const std::string &dir ) const;
 
@@ -119,7 +123,7 @@ class basecamp
         bool has_provides( const std::string &req, const std::string &dir = "all", int level = 0 ) const;
         void update_resources( const std::string &bldg );
         void update_provides( const std::string &bldg, expansion_data &e_data );
-
+        void update_in_progress( const std::string &bldg, const std::string &dir );
 
         bool can_expand();
         /// Returns the name of the building the current building @ref dir upgrades into,
@@ -217,7 +221,8 @@ class basecamp
                                bool must_feed, const std::string &desc, bool group,
                                const std::vector<item *> &equipment,
                                const std::string &skill_tested, int skill_level );
-        void start_upgrade( const std::string &bldg, const std::string &key, bool by_radio );
+        void start_upgrade( const std::string &bldg, const std::string &dir, const std::string &key,
+                            bool by_radio );
         std::string om_upgrade_description( const std::string &bldg, bool trunc = false ) const;
         void start_menial_labor();
         void start_crafting( const std::string &cur_id, const std::string &cur_dir,

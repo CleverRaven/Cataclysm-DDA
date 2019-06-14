@@ -166,6 +166,111 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "campus_media_0_0_0",
+    "name": "campus media building",
+    "sym": "C",
+    "color": "light_blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_0_1_0",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_1_0_0",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_1_1_0",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_0_0_1",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_0_1_1",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_1_0_1",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_1_1_1",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_0_0_2",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_0_1_2",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_1_0_2",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_1_1_2",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_0_0_3",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_0_1_3",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_1_0_3",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_1_1_3",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_0_0_4",
+    "name": "campus media building roof",
+    "color": "blue",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_0_1_4",
+    "copy-from": "campus_media_0_0_4"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_1_0_4",
+    "copy-from": "campus_media_0_0_4"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_1_1_4",
+    "copy-from": "campus_media_0_0_4"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "campus_health_0_0_0",
     "name": "campus health building",
     "sym": "C",

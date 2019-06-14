@@ -13,6 +13,16 @@
     "price": 3000
   },
   {
+    "id": "motorcycle_headlight",
+    "type": "GENERIC",
+    "name": "motorcycle headlight",
+    "description": "A motorcycle headlight to light up the way.",
+    "weight": 500,
+    "volume": 1,
+    "price": 5000,
+    "copy-from": "car_headlight"
+  },
+  {
     "id": "car_wide_headlight",
     "type": "GENERIC",
     "name": "wide-angle car headlight",

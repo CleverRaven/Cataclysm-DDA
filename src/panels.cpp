@@ -50,6 +50,7 @@
 #include "tileray.h"
 #include "type_id.h"
 
+static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
@@ -861,7 +862,8 @@ static int get_int_digits( const int &digits )
 
 static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_index )
 {
-    const bool is_self_aware = u.has_trait( trait_SELFAWARE );
+    const bool no_feeling = u.has_trait( trait_NOPAIN );
+    const bool is_self_aware = u.has_trait( trait_SELFAWARE ) && !no_feeling;
     static auto print_symbol_num = []( const catacurses::window & w, int num, const std::string & sym,
     const nc_color & color ) {
         while( num-- > 0 ) {
@@ -882,11 +884,13 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
             if( is_self_aware || u.has_effect( effect_got_checked ) ) {
                 limb = string_format( "=%2d%%=", mend_perc );
                 color = c_blue;
-            } else {
+            } else if( !no_feeling ) {
                 const int num = mend_perc / 20;
                 print_symbol_num( w, num, "#", c_blue );
                 print_symbol_num( w, 5 - num, "=", c_blue );
                 return;
+            } else {
+                color = c_blue;
             }
         }
 
@@ -894,10 +898,17 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
         return;
     }
 
-    const auto &hp = get_hp_bar( u.hp_cur[limb_index], u.hp_max[limb_index] );
+    std::pair<std::string, nc_color> hp = get_hp_bar( u.hp_cur[limb_index], u.hp_max[limb_index] );
 
     if( is_self_aware || u.has_effect( effect_got_checked ) ) {
         wprintz( w, hp.second, "%3d  ", u.hp_cur[limb_index] );
+    } else if( no_feeling ) {
+        if( u.hp_cur[limb_index] < u.hp_max[limb_index] / 2 ) {
+            hp = std::make_pair( string_format( " %s", _( "Bad" ) ), c_red );
+        } else {
+            hp = std::make_pair( string_format( " %s", _( "Good" ) ), c_green );
+        }
+        wprintz( w, hp.second, hp.first );
     } else {
         wprintz( w, hp.second, hp.first );
 
@@ -1211,8 +1222,8 @@ static void draw_env1( const avatar &u, const catacurses::window &w )
         mvwprintz( w, 1, 1, c_light_gray, _( "Sky  : Underground" ) );
     } else {
         mvwprintz( w, 1, 1, c_light_gray, _( "Sky  :" ) );
-        wprintz( w, weather_data( g->weather.weather ).color, " %s",
-                 weather_data( g->weather.weather ).name );
+        const weather_datum wdata = weather_data( g->weather.weather );
+        wprintz( w, wdata.color, " %s", wdata.name );
     }
     // display lighting
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
@@ -1293,8 +1304,8 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     if( g->get_levz() < 0 ) {
         mvwprintz( w, 3, 8, c_light_gray, _( "Underground" ) );
     } else {
-        mvwprintz( w, 3, 8, weather_data( g->weather.weather ).color,
-                   weather_data( g->weather.weather ).name );
+        const weather_datum wdata = weather_data( g->weather.weather );
+        mvwprintz( w, 3, 8, wdata.color, wdata.name );
     }
     // display lighting
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
@@ -1602,9 +1613,9 @@ static void draw_weather_classic( avatar &, const catacurses::window &w )
     if( g->get_levz() < 0 ) {
         mvwprintz( w, 0, 0, c_light_gray, _( "Underground" ) );
     } else {
+        const weather_datum wdata = weather_data( g->weather.weather );
         mvwprintz( w, 0, 0, c_light_gray, _( "Weather :" ) );
-        mvwprintz( w, 0, 10, weather_data( g->weather.weather ).color,
-                   weather_data( g->weather.weather ).name );
+        mvwprintz( w, 0, 10, wdata.color, wdata.name );
     }
     mvwprintz( w, 0, 31, c_light_gray, _( "Moon :" ) );
     nc_color clr = c_white;
@@ -1963,7 +1974,7 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
     ctxt.register_action( "TOGGLE_PANEL" );
 
     const int column_width = 43; // how far apart the columns are
-    size_t max_index;
+    size_t max_index = 0;
     int counter = 0;
     bool selected = false;
     size_t source_index = 0;

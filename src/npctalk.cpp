@@ -101,7 +101,7 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 // Every OWED_VAL that the NPC owes you counts as +1 towards convincing
 #define OWED_VAL 1000
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 int topic_category( const talk_topic &the_topic );
 
@@ -125,8 +125,8 @@ const std::string &talk_trial::name() const
 /** Time (in turns) and cost (in cent) for training: */
 time_duration calc_skill_training_time( const npc &p, const skill_id &skill )
 {
-    return 1_minutes + 5_turns * g->u.get_skill_level( skill ) -
-           1_turns * p.get_skill_level( skill );
+    return 1_minutes + 30_seconds * g->u.get_skill_level( skill ) -
+           1_seconds * p.get_skill_level( skill );
 }
 
 int calc_skill_training_cost( const npc &p, const skill_id &skill )
@@ -1084,11 +1084,13 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         }
         for( auto &trained : trainable ) {
             const int cost = calc_skill_training_cost( *p, trained );
-            const int cur_level = g->u.get_skill_level( trained );
-            //~Skill name: current level -> next level (cost in dollars)
-            std::string text = string_format( cost > 0 ? _( "%s: %d -> %d (cost $%d)" ) :
-                                              _( "%s: %d -> %d" ),
-                                              trained.obj().name(), cur_level, cur_level + 1,
+            const SkillLevel skill_level_obj = g->u.get_skill_level_object( trained );
+            const int cur_level = skill_level_obj.level();
+            const int cur_level_exercise = skill_level_obj.exercise();
+            //~Skill name: current level (exercise) -> next level (cost in dollars)
+            std::string text = string_format( cost > 0 ? _( "%s: %d (%d%%) -> %d (cost $%d)" ) :
+                                              _( "%s: %d (%d%%) -> %d" ),
+                                              trained.obj().name(), cur_level, cur_level_exercise, cur_level + 1,
                                               cost / 100 );
             add_response( text, "TALK_TRAIN_START", trained );
         }
@@ -1350,7 +1352,7 @@ void parse_tags( std::string &phrase, const player &u, const player &me, const i
             if( !me.weapon.is_gun() ) {
                 phrase.replace( fa, l, _( "BADAMMO" ) );
             } else {
-                phrase.replace( fa, l, me.weapon.ammo_type()->name() );
+                phrase.replace( fa, l, me.weapon.ammo_current() );
             }
         } else if( tag == "<current_activity>" ) {
             std::string activity_name;
@@ -2234,6 +2236,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, JsonObjec
             WRAP( mission_reward ),
             WRAP( start_trade ),
             WRAP( sort_loot ),
+            WRAP( do_construction ),
             WRAP( assign_guard ),
             WRAP( stop_guard ),
             WRAP( start_camp ),
@@ -2781,7 +2784,7 @@ void conditional_t::set_npc_allies( JsonObject &jo )
 
 void conditional_t::set_npc_service( JsonObject &jo )
 {
-    const unsigned long service_price = jo.get_int( "npc_service" );
+    const signed long service_price = jo.get_int( "npc_service" );
     condition = [service_price]( const dialogue & d ) {
         return !d.beta->has_effect( effect_currently_busy ) && d.alpha->cash >= service_price;
     };
@@ -2789,7 +2792,7 @@ void conditional_t::set_npc_service( JsonObject &jo )
 
 void conditional_t::set_u_has_cash( JsonObject &jo )
 {
-    const unsigned long min_cash = jo.get_int( "u_has_cash" );
+    const signed long min_cash = jo.get_int( "u_has_cash" );
     condition = [min_cash]( const dialogue & d ) {
         return d.alpha->cash >= min_cash;
     };

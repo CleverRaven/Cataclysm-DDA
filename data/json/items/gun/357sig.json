@@ -18,5 +18,14 @@
     "durability": 7,
     "magazine_well": 1,
     "magazines": [ [ "357sig", [ "p226mag_15rd_357sig" ] ] ]
+  },
+  {
+    "id": "glock_31",
+    "copy-from": "glock_22",
+    "type": "GUN",
+    "name": "Glock 31",
+    "description": "A full size .357 SIG Glock pistol.  It is extremely similar to the Glock 22, and could be converted to fire .40 S&W by switching the barrel.",
+    "ammo": [ "357sig" ],
+    "magazines": [ [ "357sig", [ "glock40mag", "glock40bigmag" ] ] ]
   }
 ]

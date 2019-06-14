@@ -491,6 +491,8 @@ class player : public Character
         void add_martialart( const matype_id &ma_id );
         /** Returns true if the player can learn the entered martial art */
         bool can_autolearn( const matype_id &ma_id ) const;
+        /** Displays a message if the player can or cannot use the martial art */
+        void martialart_use_message() const;
 
         /** Returns the to hit bonus from martial arts buffs */
         float mabuff_tohit_bonus() const;
@@ -1545,7 +1547,7 @@ class player : public Character
         int blocks_left;
         int stim;
         int radiation;
-        unsigned long cash;
+        signed long cash;
         int movecounter;
         std::shared_ptr<monster> mounted_creature;
         bool death_drops;// Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight

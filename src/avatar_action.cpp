@@ -26,7 +26,7 @@
 #include "vpart_position.h"
 #include "vpart_reference.h"
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_SHELL2( "SHELL2" );
@@ -705,6 +705,10 @@ bool avatar_action::fire( avatar &you, map &m, item &weapon, int bp_cost )
     // gun can be null if the item is an unattached gunmod
     if( !gun ) {
         add_msg( m_info, _( "The %s can't be fired in its current state." ), weapon.tname() );
+        return false;
+    } else if( !weapon.ammo_types().count( weapon.ammo_data()->ammo->type ) ) {
+        add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
+                 weapon.tname(), weapon.ammo_current() );
         return false;
     }
 

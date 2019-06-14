@@ -188,7 +188,7 @@ std::vector<item> item::magazine_convert()
         // limit ammo to base capacity and return any excess as a new item
         charges = std::min( charges, type->gun->clip );
         if( qty > 0 ) {
-            res.emplace_back( ammo_current() != "null" ? ammo_current() : ammo_type()->default_ammotype(),
+            res.emplace_back( ammo_current() != "null" ? ammo_current() : ammo_default(),
                               calendar::turn, qty );
         }
 
@@ -201,7 +201,7 @@ std::vector<item> item::magazine_convert()
 
     // now handle items using the new detachable magazines that haven't yet been converted
     item mag( magazine_default(), calendar::turn );
-    item ammo( ammo_current() != "null" ? ammo_current() : ammo_type()->default_ammotype(),
+    item ammo( ammo_current() != "null" ? ammo_current() : ammo_default(),
                calendar::turn );
 
     // give base item an appropriate magazine and add to that any ammo originally stored in base item
@@ -1838,7 +1838,9 @@ time_duration time_duration::read_from_json_string( JsonIn &jsin )
             { "turns", 1_turns },
             { "turn", 1_turns },
             { "t", 1_turns },
-            // TODO: add seconds
+            { "seconds", 1_seconds },
+            { "second", 1_seconds },
+            { "s", 1_seconds },
             { "minutes", 1_minutes },
             { "minute", 1_minutes },
             { "m", 1_minutes },
@@ -1961,7 +1963,8 @@ void item::io( Archive &archive )
     archive.io( "poison", poison, 0 );
     archive.io( "frequency", frequency, 0 );
     archive.io( "note", note, 0 );
-    archive.io( "irridation", irridation, 0 );
+    // NB! field is named `irridation` in legacy files
+    archive.io( "irridation", irradiation, 0 );
     archive.io( "bday", bday, calendar::time_of_cataclysm );
     archive.io( "mission_id", mission_id, -1 );
     archive.io( "player_id", player_id, -1 );
@@ -2028,8 +2031,8 @@ void item::io( Archive &archive )
     if( poison != 0 && frequency == 0 && ( typeId() == "radio_on" || typeId() == "radio" ) ) {
         std::swap( frequency, poison );
     }
-    if( poison != 0 && irridation == 0 && typeId() == "rad_badge" ) {
-        std::swap( irridation, poison );
+    if( poison != 0 && irradiation == 0 && typeId() == "rad_badge" ) {
+        std::swap( irradiation, poison );
     }
 
     // Compatibility for item type changes: for example soap changed from being a generic item
@@ -3081,6 +3084,15 @@ void basecamp::serialize( JsonOut &json ) const
                 json.end_object();
             }
             json.end_array();
+            json.member( "in_progress" );
+            json.start_array();
+            for( const auto working : expansion.second.in_progress ) {
+                json.start_object();
+                json.member( "id", working.first );
+                json.member( "amount", working.second );
+                json.end_object();
+            }
+            json.end_array();
             json.member( "pos", expansion.second.pos );
             json.end_object();
         }
@@ -3128,6 +3140,13 @@ void basecamp::deserialize( JsonIn &jsin )
         const std::string &initial_provide = base_camps::faction_encode_abs( e, 0 );
         if( e.provides.find( initial_provide ) == e.provides.end() ) {
             e.provides[ initial_provide ] = 1;
+        }
+        JsonArray in_progress_arr = edata.get_array( "in_progress" );
+        while( in_progress_arr.has_more() ) {
+            JsonObject in_progress_data = in_progress_arr.next_object();
+            std::string id = in_progress_data.get_string( "id" );
+            int amount = in_progress_data.get_int( "amount" );
+            e.in_progress[ id ] = amount;
         }
         edata.read( "pos", e.pos );
         expansions[ dir ] = e;
@@ -3270,16 +3289,16 @@ void submap::store( JsonOut &jsout ) const
     for( int j = 0; j < SEEY; j++ ) {
         for( int i = 0; i < SEEX; i++ ) {
             // Save fields
-            if( fld[i][j].fieldCount() > 0 ) {
+            if( fld[i][j].field_count() > 0 ) {
                 jsout.write( i );
                 jsout.write( j );
                 jsout.start_array();
                 for( auto &elem : fld[i][j] ) {
                     const field_entry &cur = elem.second;
                     // We don't seem to have a string identifier for fields anywhere.
-                    jsout.write( cur.getFieldType() );
-                    jsout.write( cur.getFieldDensity() );
-                    jsout.write( cur.getFieldAge() );
+                    jsout.write( cur.get_field_type() );
+                    jsout.write( cur.get_field_intensity() );
+                    jsout.write( cur.get_field_age() );
                 }
                 jsout.end_array();
             }
@@ -3326,6 +3345,21 @@ void submap::store( JsonOut &jsout ) const
     }
     jsout.end_array();
 
+    jsout.member( "partial_constructions" );
+    jsout.start_array();
+    for( auto &elem : partial_constructions ) {
+        jsout.write( elem.first.x );
+        jsout.write( elem.first.y );
+        jsout.write( elem.first.z );
+        jsout.write( elem.second.counter );
+        jsout.write( elem.second.id );
+        jsout.start_array();
+        for( auto &it : elem.second.components ) {
+            jsout.write( it );
+        }
+        jsout.end_array();
+    }
+    jsout.end_array();
     // Output the computer
     if( comp != nullptr ) {
         jsout.member( "computers", comp->save_data() );
@@ -3484,10 +3518,10 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
                 int type = jsin.get_int();
                 int density = jsin.get_int();
                 int age = jsin.get_int();
-                if( fld[i][j].findField( field_id( type ) ) == nullptr ) {
+                if( fld[i][j].find_field( field_id( type ) ) == nullptr ) {
                     field_count++;
                 }
-                fld[i][j].addField( field_id( type ), density, time_duration::from_turns( age ) );
+                fld[i][j].add_field( field_id( type ), density, time_duration::from_turns( age ) );
             }
         }
     } else if( member_name == "graffiti" ) {
@@ -3550,6 +3584,24 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
             std::unique_ptr<vehicle> tmp( new vehicle() );
             jsin.read( *tmp );
             vehicles.push_back( std::move( tmp ) );
+        }
+    } else if( member_name == "partial_constructions" ) {
+        jsin.start_array();
+        while( !jsin.end_array() ) {
+            partial_con pc;
+            int i = jsin.get_int();
+            int j = jsin.get_int();
+            int k = jsin.get_int();
+            tripoint pt = tripoint( i, j, k );
+            pc.counter = jsin.get_int();
+            pc.id = jsin.get_int();
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                item tmp;
+                jsin.read( tmp );
+                pc.components.push_back( tmp );
+            }
+            partial_constructions[pt] = pc;
         }
     } else if( member_name == "computers" ) {
         std::string computer_data = jsin.get_string();

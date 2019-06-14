@@ -564,6 +564,21 @@ void computer::activate_function( computer_action action )
         }
         break;
 
+        case COMPACT_RADIO_ARCHIVE: {
+            g->u.moves -= 300;
+            sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, 21, 2000 );
+            print_text( "Accessing archive. Playing audio recording nr %d.\n%s", rng( 1, 9999 ),
+                        SNIPPET.random_from_category( "radio_archive" ) );
+            if( one_in( 3 ) ) {
+                query_any( _( "Warning: resticted data access. Attempt logged. Press any key..." ) );
+                alerts ++;
+            } else {
+                query_any( _( "Press any key..." ) );
+            }
+            sfx::fade_audio_channel( 21, 100 );
+        }
+        break;
+
         case COMPACT_MAPS: {
             g->u.moves -= 30;
             const tripoint center = g->u.global_omt_location();
@@ -791,7 +806,7 @@ PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
         }
 
         case COMPACT_AMIGARA_START:
-            g->events.add( EVENT_AMIGARA, calendar::turn + 10_turns );
+            g->events.add( EVENT_AMIGARA, calendar::turn + 1_minutes );
             if( !g->u.has_artifact_with( AEP_PSYSHIELD ) ) {
                 g->u.add_effect( effect_amigara, 2_minutes );
             }
@@ -1447,7 +1462,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
 
 void computer::activate_random_failure()
 {
-    next_attempt = calendar::turn + 450_turns;
+    next_attempt = calendar::turn + 45_minutes;
     static const computer_failure default_failure( COMPFAIL_SHUTDOWN );
     const computer_failure &fail = random_entry( failures, default_failure );
     activate_failure( fail.type );
@@ -1587,7 +1602,7 @@ void computer::activate_failure( computer_failure_type fail )
             break;
 
         case COMPFAIL_AMIGARA:
-            g->events.add( EVENT_AMIGARA, calendar::turn + 5_turns );
+            g->events.add( EVENT_AMIGARA, calendar::turn + 30_seconds );
             g->u.add_effect( effect_amigara, 2_minutes );
             explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
                                           10,
@@ -1878,6 +1893,7 @@ computer_action computer_action_from_string( const std::string &str )
             { "shutters", COMPACT_SHUTTERS },
             { "extract_rad_source", COMPACT_EXTRACT_RAD_SOURCE },
             { "deactivate_shock_vent", COMPACT_DEACTIVATE_SHOCK_VENT },
+            { "radio_archive", COMPACT_RADIO_ARCHIVE }
         }
     };
 

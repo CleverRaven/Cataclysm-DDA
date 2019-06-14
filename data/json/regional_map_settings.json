@@ -4,6 +4,7 @@
     "id": "default",
     "default_oter": "field",
     "default_groundcover": [ [ "t_grass", 4 ], [ "t_grass_long", 2 ], [ "t_dirt", 1 ] ],
+    "river_scale": 1.0,
     "field_coverage": {
       "percent_coverage": 0.9333,
       "default_ter": "t_shrub",
@@ -543,6 +544,31 @@
           "mx_portal_in": 1,
           "mx_anomaly": 3
         }
+      },
+      "research_facility_lot": {
+        "chance": 3,
+        "extras": {
+          "mx_helicopter": 90,
+          "mx_military": 65,
+          "mx_collegekids": 1,
+          "mx_portal": 200,
+          "mx_crater": 180,
+          "mx_fumarole": 10,
+          "mx_portal_in": 20,
+          "mx_anomaly": 10,
+          "mx_point_burned_ground": 100
+        }
+      },
+      "research_facility_interior": {
+        "chance": 2,
+        "extras": {
+          "mx_jabberwock": 1,
+          "mx_military": 5,
+          "mx_portal": 100,
+          "mx_crater": 300,
+          "mx_portal_in": 40,
+          "mx_point_burned_ground": 125
+        }
       }
     },
     "city": {
@@ -602,7 +628,9 @@
       "shops": {
         "bus_station": 200,
         "town_hall": 150,
-        "craft_shop": 100,
+        "craft_shop": 200,
+        "craft_shop_1": 200,
+        "craft_shop_2": 200,
         "s_gas": 500,
         "s_pharm": 300,
         "s_pharm_1": 300,
@@ -641,7 +669,9 @@
         "s_electronics": 500,
         "pawn": 300,
         "mil_surplus": 200,
-        "s_garage": 500,
+        "s_garage": 300,
+        "s_garage_1": 300,
+        "s_garage_2": 300,
         "station_radio": 400,
         "office_doctor": 200,
         "office_doctor_1": 200,

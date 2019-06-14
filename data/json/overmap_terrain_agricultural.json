@@ -892,6 +892,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "dirt_road_3way_forest",
+    "name": "dirt road",
+    "sym": "┬",
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": "2silos",
     "name": "silos",
     "sym": "O",
@@ -942,8 +952,18 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "yard",
+    "name": "yard",
+    "sym": "#",
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": "house_farm",
-    "name": "farm house",
+    "name": "rural house",
     "sym": "^",
     "color": "i_brown",
     "see_cost": 5,
@@ -953,7 +973,7 @@
   {
     "type": "overmap_terrain",
     "id": "house_farm_roof",
-    "name": "farm house roof",
+    "name": "rural house roof",
     "sym": "^",
     "color": "i_brown",
     "see_cost": 5,
