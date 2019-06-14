@@ -1045,10 +1045,10 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
             std::string aoe_string_temp = "Spell Radius";
             std::string degree_string = "";
             if( fx == "cone_attack" ) {
-                aoe_string = "Cone Arc";
+                aoe_string_temp = "Cone Arc";
                 degree_string = "degrees";
             } else if( fx == "line_attack" ) {
-                aoe_string = "Line Width";
+                aoe_string_temp = "Line Width";
             }
             aoe_string = _( string_format( "%s: %d %s", aoe_string_temp, sp.aoe(), degree_string ) );
         }
