@@ -2966,7 +2966,7 @@
       [ [ "pipe", 1 ] ],
       [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
     ]
-  },  
+  },
   {
     "type": "recipe",
     "result": "2h_flail_wood",
@@ -2995,6 +2995,6 @@
       [ [ "steel_lump", 3 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ],
       [ [ "stick_long", 1 ] ],
       [ [ "fur", 2 ], [ "leather", 2 ] ]
-	]
+    ]
   }
 ]
