@@ -932,7 +932,7 @@ class spellcasting_callback : public uilist_callback
 
         spellcasting_callback( std::vector<spell *> &spells,
                                bool casting_ignore ) : known_spells( spells ),
-            casting_ignore( casting_ignore ) {};
+            casting_ignore( casting_ignore ) {}
         bool key( const input_context &, const input_event &event, int /*entnum*/,
                   uilist * /*menu*/ ) override {
             if( event.get_first_input() == 'I' ) {
