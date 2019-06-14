@@ -4,12 +4,14 @@
 #include <cmath>
 #include <sstream>
 #include <string>
+#include <iterator>
 
 #include "assign.h"
 #include "debug.h"
 #include "item.h"
 #include "item_group.h"
 #include "output.h"
+#include "json.h"
 
 // TODO: Make a generic factory
 static std::map<harvest_id, harvest_list> harvest_all;
@@ -151,7 +153,7 @@ void harvest_list::check_consistency()
         const std::string errors = enumerate_as_string( hl.entries_.begin(), hl.entries_.end(),
                                    error_func );
         if( !errors.empty() ) {
-            debugmsg( "Harvest list %s has invalid entry: %s", hl_id, errors.c_str() );
+            debugmsg( "Harvest list %s has invalid entry: %s", hl_id, errors );
         }
 
     }

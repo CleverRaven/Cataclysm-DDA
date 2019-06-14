@@ -37,6 +37,20 @@
     ]
   },
   {
+    "id": "battery_motorbike_small",
+    "copy-from": "battery_car",
+    "type": "vehicle_part",
+    "name": "motorbike battery, small",
+    "item": "battery_motorbike_small",
+    "durability": 30,
+    "folded_volume": 3,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 7 ] },
+      { "item": "steel_chunk", "count": [ 4, 7 ] },
+      { "item": "scrap", "count": [ 4, 7 ] }
+    ]
+  },
+  {
     "id": "medium_storage_battery",
     "copy-from": "storage_battery",
     "type": "vehicle_part",
@@ -45,7 +59,7 @@
     "difficulty": 1,
     "durability": 250,
     "folded_volume": 10,
-    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "small_storage_battery", "count": [ 0, 4 ] } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "small_storage_battery", "count": [ 0, 7 ] } ],
     "requirements": { "install": { "time": 20000 } },
     "extend": { "flags": [ "TOOL_SCREWDRIVER", "FOLDABLE" ] }
   },
@@ -72,7 +86,6 @@
     "symbol": "O",
     "color": "yellow",
     "broken_color": "red",
-    "difficulty": 2,
     "durability": 300,
     "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.",
     "damage_modifier": 80,
@@ -81,7 +94,8 @@
       { "item": "steel_chunk", "count": [ 5, 10 ] },
       { "item": "scrap", "count": [ 5, 10 ] },
       { "item": "medium_storage_battery", "count": [ 1, 2 ] }
-    ]
+    ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 2 ] ], "time": 60000, "using": [ [ "welding_standard", 5 ] ] } }
   },
   {
     "id": "storage_battery_removable",

@@ -1,52 +1,45 @@
 [
-    {
-        "type" : "mapgen",
-        "om_terrain" : ["mil_outpost_ule"],
-        "comment" : "underground left edge",
-        "method": "json",
-        "weight": 250,
-        "object": {
-            "fill_ter": "t_concrete_floor",
-            "rows": [
-                "#######|  |#############",
-                "#######|  |#############",
-                "#######|  -------#######",
-                "#######|        |#######",
-                "#######|        |#######",
-                "###MMMMMMMMMMM  |#######",
-                "###M,,z,,,z,,M  |#######",
-                "###M,z,z,z,z,M  |#######",
-                "###M,,,z,z,,,M  |###----",
-                "###Mz,z,z,,z,M  |##-|bbb",
-                "##MM[MGGGGGGGM  |#-|b...",
-                "##M7,[,,,,,,,]  --|b....",
-                "##M7,],,,,,,,[  +.......",
-                "##MM]MGGGGGGGM  +.......",
-                "###M,,,,,,,,,M  --|b....",
-                "###M,,,,Z,,,,M    -|b...",
-                "###M,,Z,,,,,,M     -|b..",
-                "###M,,,,,,,,,M      -|--",
-                "###MMMMMMMMMMM          ",
-                "#############|          ",
-                "######-------|  --------",
-                "######|33..33|  |CCCCCCC",
-                "######|33..33|  |C...c..",
-                "######|......|  |......."
-            ],
-            "palettes":[
-               "mil_outpost_underground"
-            ],
-            "terrain":{
-                ",": "t_metal_floor",
-                "z": "t_metal_floor",
-                "Z": "t_metal_floor",
-                "H": "t_metal_floor"
-            },
-            "monster": {
-                "Z": { "monster": "mon_fungaloid" },
-                "H": { "monster": "mon_fungal_blossom" },
-                "z": { "monster": "mon_zombie_fungus" }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": [ "mil_outpost_ule" ],
+    "comment": "underground left edge",
+    "method": "json",
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_concrete_floor",
+      "rows": [
+        "#######|  |#############",
+        "#######|  |#############",
+        "#######|  -------#######",
+        "#######|        |#######",
+        "#######|        |#######",
+        "###MMMMMMMMMMM  |#######",
+        "###M,,z,,,z,,M  |#######",
+        "###M,z,z,z,z,M  |#######",
+        "###M,,,z,z,,,M  |###----",
+        "###Mz,z,z,,z,M  |##-|bbb",
+        "##MM[MGGGGGGGM  |#-|b...",
+        "##M7,[,,,,,,,]  --|b....",
+        "##M7,],,,,,,,[  +.......",
+        "##MM]MGGGGGGGM  +.......",
+        "###M,,,,,,,,,M  --|b....",
+        "###M,,,,Z,,,,M    -|b...",
+        "###M,,Z,,,,,,M     -|b..",
+        "###M,,,,,,,,,M      -|--",
+        "###MMMMMMMMMMM          ",
+        "#############|          ",
+        "######-------|  --------",
+        "######|33..33|  |CCCCCCC",
+        "######|33..33|  |C...c..",
+        "######|......|  |......."
+      ],
+      "palettes": [ "mil_outpost_underground" ],
+      "terrain": { ",": "t_metal_floor", "z": "t_metal_floor", "Z": "t_metal_floor", "H": "t_metal_floor" },
+      "monster": {
+        "Z": { "monster": "mon_fungaloid" },
+        "H": { "monster": "mon_fungal_blossom" },
+        "z": { "monster": "mon_zombie_fungus" }
+      }
     }
+  }
 ]

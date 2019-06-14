@@ -2,6 +2,11 @@
 
 #include <cstdlib>
 #include <cassert>
+#include <algorithm>
+#include <array>
+#include <memory>
+#include <tuple>
+#include <utility>
 
 #include "translations.h"
 #include "string_formatter.h"
@@ -317,7 +322,7 @@ unsigned make_xyz( const int x, const int y, const int z )
 }
 
 // returns the normalized dx, dy, dz for the current line vector.
-std::tuple<double, double, double> slope_of( const std::vector<tripoint> &line )
+static std::tuple<double, double, double> slope_of( const std::vector<tripoint> &line )
 {
     assert( !line.empty() && line.front() != line.back() );
     const double len = trig_dist( line.front(), line.back() );
@@ -448,7 +453,7 @@ const std::string direction_name_impl( const direction dir, const bool short_nam
         i = size;
     }
 
-    return short_name ? _( names[i].first.c_str() ) : _( names[i].second.c_str() );
+    return short_name ? _( names[i].first ) : _( names[i].second );
 }
 } //namespace
 
@@ -468,8 +473,7 @@ std::string direction_suffix( const tripoint &p, const tripoint &q )
     if( dist <= 0 ) {
         return std::string();
     }
-    return string_format( "%d%s", dist, trim( direction_name_short( direction_from( p,
-                          q ) ) ).c_str() );
+    return string_format( "%d%s", dist, trim( direction_name_short( direction_from( p, q ) ) ) );
 }
 
 // Cardinals are cardinals. Result is cardinal and adjacent sub-cardinals.

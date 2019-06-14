@@ -1,9 +1,15 @@
+#include <initializer_list>
+#include <limits>
+#include <list>
+
 #include "catch/catch.hpp"
 #include "calendar.h"
 #include "itype.h"
 #include "ret_val.h"
 #include "units.h"
 #include "item.h"
+#include "enums.h"
+#include "optional.h"
 
 TEST_CASE( "item_volume", "[item]" )
 {
@@ -134,22 +140,6 @@ TEST_CASE( "stacking_over_time", "[item]" )
         WHEN( "the items are aged a few seconds different but different seasons" ) {
             A.mod_rot( A.type->comestible->spoils - calendar::season_length() );
             B.mod_rot( B.type->comestible->spoils - calendar::season_length() );
-            B.mod_rot( 5_turns );
-            THEN( "they don't stack" ) {
-                CHECK( !A.stacks_with( B ) );
-            }
-        }
-        WHEN( "the items are aged the same to the year but different numbers of seconds" ) {
-            A.mod_rot( A.type->comestible->spoils - calendar::year_length() );
-            B.mod_rot( B.type->comestible->spoils - calendar::year_length() );
-            B.mod_rot( -5_turns );
-            THEN( "they stack" ) {
-                CHECK( A.stacks_with( B ) );
-            }
-        }
-        WHEN( "the items are aged a few seconds different but different years" ) {
-            A.mod_rot( A.type->comestible->spoils - calendar::year_length() );
-            B.mod_rot( B.type->comestible->spoils - calendar::year_length() );
             B.mod_rot( 5_turns );
             THEN( "they don't stack" ) {
                 CHECK( !A.stacks_with( B ) );

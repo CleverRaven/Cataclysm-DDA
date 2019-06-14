@@ -3,6 +3,11 @@
 #define WEATHER_H
 
 #include "color.h"
+#include "enums.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "type_id.h"
+#include "weather_gen.h"
 
 /**
  * @name BODYTEMP
@@ -24,6 +29,7 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include <utility>
 
 class time_duration;
@@ -33,10 +39,6 @@ struct point;
 struct tripoint;
 struct trap;
 struct rl_vec2d;
-template<typename T>
-class int_id;
-struct oter_t;
-using oter_id = int_id<oter_t>;
 
 /**
  * Weather type enum.
@@ -109,17 +111,19 @@ void snow_glare();
 void snowstorm();
 } //namespace weather_effect
 
+using weather_effect_fn = void ( * )();
+
 struct weather_datum {
-    std::string name;       //!< UI name of weather type.
-    nc_color color;         //!< UI color of weather type.
-    nc_color map_color;     //!< Map color of weather type.
-    char glyph;             //!< Map glyph of weather type.
-    int ranged_penalty;     //!< Penalty to ranged attacks.
-    float sight_penalty;    //!< Penalty to per-square visibility, applied in transparency map.
-    int light_modifier;     //!< Modification to ambient light.
-    int sound_attn;         //!< Sound attenuation of a given weather type.
-    bool dangerous;         //!< If true, our activity gets interrupted.
-    void ( *effect )();     //!< Function pointer for weather effects.
+    std::string name;             //!< UI name of weather type.
+    nc_color color;               //!< UI color of weather type.
+    nc_color map_color;           //!< Map color of weather type.
+    char glyph;                   //!< Map glyph of weather type.
+    int ranged_penalty;           //!< Penalty to ranged attacks.
+    float sight_penalty;          //!< Penalty to per-square visibility, applied in transparency map.
+    int light_modifier;           //!< Modification to ambient light.
+    int sound_attn;               //!< Sound attenuation of a given weather type.
+    bool dangerous;               //!< If true, our activity gets interrupted.
+    weather_effect_fn effect;     //!< Function pointer for weather effects.
 };
 
 struct weather_sum {
@@ -130,6 +134,19 @@ struct weather_sum {
 };
 
 weather_datum const weather_data( weather_type const type );
+namespace weather
+{
+std::string name( weather_type const type );
+nc_color color( weather_type const type );
+nc_color map_color( weather_type const type );
+char glyph( weather_type const type );
+int ranged_penalty( weather_type const type );
+float sight_penalty( weather_type const type );
+int light_modifier( weather_type const type );
+int sound_attn( weather_type const type );
+bool dangerous( weather_type const type );
+weather_effect_fn effect( weather_type const type );
+}
 
 std::string get_shortdirstring( int angle );
 
@@ -167,15 +184,6 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point 
 
 double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_per_hour );
 
-/**
- * Get the amount of rotting that an item would accumulate between start and end turn at the given
- * locations.
- * The location is in absolute maps squares (the system which the @ref map uses),
- * but absolute (@ref map::getabs).
- * The returned value is in time at standard conditions it is `end - start`.
- */
-time_duration get_rot_since( const time_point &start, const time_point &end, const tripoint &pos );
-
 rl_vec2d convert_wind_to_coord( const int angle );
 
 std::string get_wind_arrow( int );
@@ -194,5 +202,35 @@ int get_hourly_rotpoints_at_temp( const int temp );
 bool warm_enough_to_plant();
 
 bool is_wind_blocker( const tripoint &location );
+
+class weather_manager
+{
+    public:
+        weather_manager();
+        const weather_generator &get_cur_weather_gen() const;
+        // Updates the temperature and weather patten
+        void update_weather();
+        // The air temperature
+        int temperature;
+        bool lightning_active;
+        // Weather pattern
+        weather_type weather;
+        int winddirection;
+        int windspeed;
+        // Cached weather data
+        pimpl<w_point> weather_precise;
+        cata::optional<int> wind_direction_override;
+        cata::optional<int> windspeed_override;
+        weather_type weather_override;
+        // not only sets nextweather, but updates weather as well
+        void set_nextweather( time_point t );
+        // The time at which weather will shift next.
+        time_point nextweather;
+        /** temperature cache, cleared every turn, sparse map of map tripoints to temperatures */
+        std::unordered_map< tripoint, int > temperature_cache;
+        // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
+        int get_temperature( const tripoint &location );
+        void clear_temp_cache();
+};
 
 #endif

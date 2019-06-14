@@ -1,9 +1,16 @@
 #include "lightmap.h" // IWYU pragma: associated
 #include "shadowcasting.h" // IWYU pragma: associated
 
+#include <cstdint>
+#include <cstdlib>
 #include <cmath>
 #include <cstring>
+#include <list>
+#include <memory>
+#include <utility>
+#include <vector>
 
+#include "avatar.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "game.h"
 #include "map.h"
@@ -19,6 +26,16 @@
 #include "vpart_range.h"
 #include "vpart_reference.h"
 #include "weather.h"
+#include "calendar.h"
+#include "enums.h"
+#include "field.h"
+#include "item.h"
+#include "line.h"
+#include "optional.h"
+#include "player.h"
+#include "string_formatter.h"
+#include "tileray.h"
+#include "type_id.h"
 
 #define LIGHTMAP_CACHE_X MAPSIZE_X
 #define LIGHTMAP_CACHE_Y MAPSIZE_Y
@@ -63,14 +80,14 @@ void map::add_light_from_items( const tripoint &p, std::list<item>::iterator beg
 }
 
 // TODO: Consider making this just clear the cache and dynamically fill it in as trans() is called
-void map::build_transparency_cache( const int zlev )
+bool map::build_transparency_cache( const int zlev )
 {
     auto &map_cache = get_cache( zlev );
     auto &transparency_cache = map_cache.transparency_cache;
     auto &outside_cache = map_cache.outside_cache;
 
     if( !map_cache.transparency_cache_dirty ) {
-        return;
+        return false;
     }
 
     // Default to just barely not transparent.
@@ -78,7 +95,7 @@ void map::build_transparency_cache( const int zlev )
         &transparency_cache[0][0], MAPSIZE_X * MAPSIZE_Y,
         static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR ) );
 
-    float sight_penalty = weather_data( g->weather ).sight_penalty;
+    const float sight_penalty = weather::sight_penalty( g->weather.weather );
 
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
@@ -107,10 +124,10 @@ void map::build_transparency_cache( const int zlev )
 
                     for( const auto &fld : cur_submap->fld[sx][sy] ) {
                         const field_entry &cur = fld.second;
-                        const field_id type = cur.getFieldType();
-                        const int density = cur.getFieldDensity();
+                        const field_id type = cur.get_field_type();
+                        const int density = cur.get_field_intensity();
 
-                        if( fieldlist[type].transparent[density - 1] ) {
+                        if( all_field_types_enum_list[type].transparent[density - 1] ) {
                             continue;
                         }
 
@@ -150,6 +167,7 @@ void map::build_transparency_cache( const int zlev )
         }
     }
     map_cache.transparency_cache_dirty = false;
+    return true;
 }
 
 void map::apply_character_light( player &p )
@@ -167,6 +185,86 @@ void map::apply_character_light( player &p )
 
     if( held_luminance >= 4 && held_luminance > ambient_light_at( p.pos() ) - 0.5f ) {
         p.add_effect( effect_haslight, 1_turns );
+    }
+}
+
+// This function raytraces starting at the upper limit of the simulated area descending
+// toward the lower limit. Since it's sunlight, the rays are parallel.
+// Each layer consults the next layer up to determine the intensity of the light that reaches it.
+// Once this is complete, additional operations add more dynamic lighting.
+void map::build_sunlight_cache( int zlev )
+{
+    level_cache &map_cache = get_cache( zlev );
+    auto &lm = map_cache.lm;
+    // Grab illumination at ground level.
+    const float outside_light_level = g->natural_light_level( 0 );
+    const float inside_light_level = ( outside_light_level > LIGHT_SOURCE_BRIGHT ) ?
+                                     LIGHT_AMBIENT_LOW + 1.0 : LIGHT_AMBIENT_MINIMAL;
+    // Handling when z-levels are disabled is based on whether a tile is considered "outside".
+    if( !zlevels ) {
+        const auto &outside_cache = map_cache.outside_cache;
+        for( int x = 0; x < MAPSIZE_X; x++ ) {
+            for( int y = 0; y < MAPSIZE_Y; y++ ) {
+                if( outside_cache[x][y] ) {
+                    lm[x][y].fill( outside_light_level );
+                } else {
+                    lm[x][y].fill( inside_light_level );
+                }
+            }
+        }
+        return;
+    }
+    // If uppermost level, just apply weather illumination since there's no opportunity
+    // for light to be blocked.
+    if( zlev == OVERMAP_HEIGHT ) {
+        for( int x = 0; x < MAPSIZE_X; x++ ) {
+            for( int y = 0; y < MAPSIZE_Y; y++ ) {
+                lm[x][y].fill( outside_light_level );
+            }
+        }
+        return;
+    }
+
+    // Replace this with a calculated shift based on time of day and date.
+    // At first compress the angle such that it takes no more than one tile of shift per level.
+    // To exceed that, we'll have to handle casting light from the side instead of the top.
+    point offset( 0, 0 );
+    const level_cache &prev_map_cache = get_cache_ref( zlev + 1 );
+    const auto &prev_lm = prev_map_cache.lm;
+    const auto &prev_transparency_cache = prev_map_cache.transparency_cache;
+    const auto &prev_floor_cache = prev_map_cache.floor_cache;
+    const auto &outside_cache = map_cache.outside_cache;
+    const float sight_penalty = weather::sight_penalty( g->weather.weather );
+    for( int x = 0, prev_x = offset.x; x < MAPSIZE_X; x++, prev_x++ ) {
+        bool x_inbounds = true;
+        if( prev_x < 0 || prev_x >= MAPSIZE_X ) {
+            x_inbounds = false;
+        }
+        for( int y = 0, prev_y = offset.y; y < MAPSIZE_Y; y++, prev_y++ ) {
+            bool inbounds = true;
+            if( !x_inbounds || prev_y < 0 || prev_y >= MAPSIZE_Y ) {
+                inbounds = false;
+            }
+            four_quadrants prev_light( outside_light_level );
+            float prev_transparency = static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR );
+            if( inbounds ) {
+                prev_light = prev_lm[ prev_x ][ prev_y ];
+                prev_transparency = prev_transparency_cache[ prev_x ][ prev_y ];
+                // This is pretty gross, this cancels out the per-tile transparency effect
+                // derived from weather.
+                if( outside_cache[x][y] ) {
+                    prev_transparency /= sight_penalty;
+                }
+            }
+            // The formula to apply transparency to the light rays doesn't handle full opacity,
+            // so handle that seperately.
+            if( prev_transparency > LIGHT_TRANSPARENCY_SOLID &&
+                !prev_floor_cache[x][y] && prev_light.max() > 0.0 ) {
+                lm[x][y].fill( prev_light.max() * LIGHT_TRANSPARENCY_OPEN_AIR / prev_transparency );
+            } else {
+                lm[x][y].fill( inside_light_level );
+            }
+        }
     }
 }
 
@@ -203,20 +301,12 @@ void map::generate_lightmap( const int zlev )
     };
 
     const float natural_light  = g->natural_light_level( zlev );
-    const float inside_light = ( natural_light > LIGHT_SOURCE_BRIGHT ) ?
-                               LIGHT_AMBIENT_LOW + 1.0 : LIGHT_AMBIENT_MINIMAL;
-    // Apply sunlight, first light source so just assign
-    for( int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx ) {
-        for( int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy ) {
-            // In bright light indoor light exists to some degree
-            if( !outside_cache[sx][sy] ) {
-                lm[sx][sy].fill( inside_light );
-            } else {
-                lm[sx][sy].fill( natural_light );
-            }
-        }
+    const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
+    const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
+    // Iterate top to bottom because sunlight cache needs to construct in that order.
+    for( int z = maxz; z >= minz; z-- ) {
+        build_sunlight_cache( z );
     }
-
     apply_character_light( g->u );
     for( npc &guy : g->all_npcs() ) {
         apply_character_light( guy );
@@ -273,11 +363,11 @@ void map::generate_lightmap( const int zlev )
                     for( auto &fld : cur_submap->fld[sx][sy] ) {
                         const field_entry *cur = &fld.second;
                         // TODO: [lightmap] Attach light brightness to fields
-                        switch( cur->getFieldType() ) {
+                        switch( cur->get_field_type() ) {
                             case fd_fire:
-                                if( 3 == cur->getFieldDensity() ) {
+                                if( 3 == cur->get_field_intensity() ) {
                                     add_light_source( p, 160 );
-                                } else if( 2 == cur->getFieldDensity() ) {
+                                } else if( 2 == cur->get_field_intensity() ) {
                                     add_light_source( p, 60 );
                                 } else {
                                     add_light_source( p, 20 );
@@ -289,9 +379,9 @@ void map::generate_lightmap( const int zlev )
                                 break;
                             case fd_electricity:
                             case fd_plasma:
-                                if( 3 == cur->getFieldDensity() ) {
+                                if( 3 == cur->get_field_intensity() ) {
                                     add_light_source( p, 20 );
-                                } else if( 2 == cur->getFieldDensity() ) {
+                                } else if( 2 == cur->get_field_intensity() ) {
                                     add_light_source( p, 4 );
                                 } else {
                                     // Kinda a hack as the square will still get marked.
@@ -299,9 +389,9 @@ void map::generate_lightmap( const int zlev )
                                 }
                                 break;
                             case fd_incendiary:
-                                if( 3 == cur->getFieldDensity() ) {
+                                if( 3 == cur->get_field_intensity() ) {
                                     add_light_source( p, 160 );
-                                } else if( 2 == cur->getFieldDensity() ) {
+                                } else if( 2 == cur->get_field_intensity() ) {
                                     add_light_source( p, 60 );
                                 } else {
                                     add_light_source( p, 20 );
@@ -1092,20 +1182,16 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     constexpr float light_transparency_solid = LIGHT_TRANSPARENCY_SOLID;
     constexpr int map_dimensions = MAPSIZE_X * MAPSIZE_Y;
     std::uninitialized_fill_n(
-        &seen_cache[0][0], map_dimensions, light_transparency_solid );
-    std::uninitialized_fill_n(
         &camera_cache[0][0], map_dimensions, light_transparency_solid );
 
     if( !fov_3d ) {
+        std::uninitialized_fill_n(
+            &seen_cache[0][0], map_dimensions, light_transparency_solid );
         seen_cache[origin.x][origin.y] = LIGHT_TRANSPARENCY_CLEAR;
 
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
             seen_cache, transparency_cache, origin.x, origin.y, 0 );
     } else {
-        if( origin.z == target_z ) {
-            seen_cache[origin.x][origin.y] = LIGHT_TRANSPARENCY_CLEAR;
-        }
-
         // Cache the caches (pointers to them)
         std::array<const float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> transparency_caches;
         std::array<float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> seen_caches;
@@ -1115,6 +1201,11 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.transparency_cache;
             seen_caches[z + OVERMAP_DEPTH] = &cur_cache.seen_cache;
             floor_caches[z + OVERMAP_DEPTH] = &cur_cache.floor_cache;
+            std::uninitialized_fill_n(
+                &cur_cache.seen_cache[0][0], map_dimensions, light_transparency_solid );
+        }
+        if( origin.z == target_z ) {
+            get_cache( origin.z ).seen_cache[origin.x][origin.y] = LIGHT_TRANSPARENCY_CLEAR;
         }
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
             seen_caches, transparency_caches, floor_caches, origin, 0, 1.0 );
@@ -1355,6 +1446,7 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
     // attempt to determine beam density required to cover all squares
     const double wstep = ( wangle / ( wdist * SQRT_2 ) );
 
+    // NOLINTNEXTLINE(clang-analyzer-security.FloatLoopCounter)
     for( double ao = wstep; ao <= wangle; ao += wstep ) {
         if( trigdist ) {
             double fdist = ( ao * HALFPI ) / wangle;

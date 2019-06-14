@@ -2,6 +2,9 @@
 #ifndef ACTIVITY_TYPE_H
 #define ACTIVITY_TYPE_H
 
+#include <string>
+
+#include "game_constants.h"
 #include "string_id.h"
 
 class activity_type;
@@ -28,10 +31,12 @@ class activity_type
         activity_id id_;
         bool rooted_ = false;
         std::string stop_phrase_ = "THIS IS A BUG";
+        std::string verb_ = "THIS IS A BUG";
         bool suspendable_ = true;
         based_on_type based_on_ = based_on_type::SPEED;
         bool no_resume_ = false;
         bool refuel_fires = false;
+        float activity_level = NO_EXERCISE;
 
     public:
         const activity_id &id() const {
@@ -45,6 +50,9 @@ class activity_type
         }
         std::string stop_phrase() const {
             return stop_phrase_;
+        }
+        std::string verb() const {
+            return verb_;
         }
         based_on_type based_on() const {
             return based_on_;

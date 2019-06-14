@@ -1,14 +1,13 @@
 #include "inventory_ui.h"
 
+#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "game.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_search.h"
-#include "itype.h"
 #include "map.h"
-#include "map_selector.h"
 #include "options.h"
 #include "output.h"
 #include "player.h"
@@ -19,6 +18,14 @@
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
+#include "character.h"
+#include "debug.h"
+#include "enums.h"
+#include "inventory.h"
+#include "line.h"
+#include "optional.h"
+#include "string_id.h"
+#include "visitable.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -33,6 +40,8 @@
 #include <sstream>
 #include <algorithm>
 #include <cassert>
+#include <iterator>
+#include <type_traits>
 
 /** The maximum distance from the screen edge, to snap a window to it */
 static const size_t max_win_snap_distance = 4;
@@ -85,7 +94,7 @@ class selection_column_preset: public inventory_selector_preset
             } else if( available_count != 1 ) {
                 res << available_count << ' ';
             }
-            if( entry.location->ammo_type() == "money" ) {
+            if( entry.location->ammo_types().count( ammotype( "money" ) ) ) {
                 if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
                     //~ In the following string, the %s is the amount of money on the selected cards as passed by the display money function, out of the total amount of money on the cards, which is specified by the format_money function")
                     res << string_format( _( "%s of %s" ), entry.location->display_money( entry.chosen_count,
@@ -196,7 +205,7 @@ bool inventory_selector_preset::sort_compare( const inventory_entry &lhs,
     // Place items with an assigned inventory letter first, since the player cared enough to assign them
     const bool left_fav  = g->u.inv.assigned_invlet.count( lhs.location->invlet );
     const bool right_fav = g->u.inv.assigned_invlet.count( rhs.location->invlet );
-    if( ( left_fav && right_fav ) || ( !left_fav && !right_fav ) ) {
+    if( left_fav == right_fav ) {
         return lhs.cached_name.compare( rhs.cached_name ) < 0; // Simple alphabetic order
     } else if( left_fav ) {
         return true;
@@ -223,11 +232,11 @@ std::string inventory_selector_preset::get_caption( const inventory_entry &entry
 {
     const size_t count = entry.get_stack_size();
     const std::string disp_name =
-        ( entry.location->ammo_type() == "money" ) ?
+        ( entry.location->ammo_types().count( ammotype( "money" ) ) ) ?
         entry.location->display_money( count,
                                        entry.location.charges_in_stack( count ) ) : entry.location->display_name( count );
 
-    return ( count > 1 ) ? string_format( "%d %s", count, disp_name.c_str() ) : disp_name;
+    return ( count > 1 ) ? string_format( "%d %s", count, disp_name ) : disp_name;
 }
 
 std::string inventory_selector_preset::get_denial( const inventory_entry &entry ) const
@@ -465,8 +474,8 @@ void inventory_column::set_width( const size_t new_width )
 void inventory_column::set_height( size_t new_height )
 {
     if( height != new_height ) {
-        if( new_height == 0 ) {
-            debugmsg( "Unable to assign zero height." );
+        if( new_height <= 1 ) {
+            debugmsg( "Unable to assign height <= 1 (was %zd).", new_height );
             return;
         }
         height = new_height;
@@ -516,6 +525,7 @@ void inventory_column::reset_width()
 
 size_t inventory_column::page_of( size_t index ) const
 {
+    assert( entries_per_page ); // To appease static analysis
     return index / entries_per_page;
 }
 
@@ -600,7 +610,6 @@ void inventory_column::set_stack_favorite( const item_location &location, bool f
 
         for( auto &item : items ) {
             if( item.stacks_with( *selected_item ) ) {
-                printf( "%s %s\n", favorite ? "Favoriting" : "Unfavoriting", item.display_name().c_str() );
                 to_favorite.push_back( &item );
             }
         }
@@ -616,7 +625,6 @@ void inventory_column::set_stack_favorite( const item_location &location, bool f
 
         for( auto &item : items ) {
             if( item.stacks_with( *selected_item ) ) {
-                printf( "%s %s\n", favorite ? "Favoriting" : "Unfavoriting", item.display_name().c_str() );
                 to_favorite.push_back( &item );
             }
         }
@@ -974,8 +982,8 @@ void selection_column::on_change( const inventory_entry &entry )
 }
 
 // TODO: Move it into some 'item_stack' class.
-std::vector<std::list<item *>> restack_items( const std::list<item>::const_iterator &from,
-                            const std::list<item>::const_iterator &to, bool check_components = false )
+static std::vector<std::list<item *>> restack_items( const std::list<item>::const_iterator &from,
+                                   const std::list<item>::const_iterator &to, bool check_components = false )
 {
     std::vector<std::list<item *>> res;
 
@@ -1017,7 +1025,7 @@ const item_category *inventory_selector::naturalize_category( const item_categor
             return existing;
         }
 
-        const std::string name = string_format( "%s %s", category.name().c_str(), suffix.c_str() );
+        const std::string name = string_format( "%s %s", category.name(), suffix.c_str() );
         const int sort_rank = category.sort_rank() + dist;
         const item_category new_category( id, no_translation( name ), sort_rank );
 
@@ -1087,7 +1095,7 @@ void inventory_selector::add_character_items( Character &character )
     } );
     // Visitable interface does not support stacks so it has to be here
     for( const auto &elem : character.inv.slice() ) {
-        if( ( &elem->front() )->ammo_type() == "money" ) {
+        if( ( &elem->front() )->ammo_types().count( ammotype( "money" ) ) ) {
             add_item( own_inv_column, item_location( character, elem ), elem->size() );
         } else {
             add_items( own_inv_column, [&character]( item * it ) {
@@ -1119,7 +1127,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
     vehicle *const veh = &vp->vehicle();
     const int part = vp->part_index();
     const auto items = veh->get_items( part );
-    const std::string name = to_upper_case( veh->parts[part].name() );
+    const std::string name = to_upper_case( remove_color_tags( veh->parts[part].name() ) );
     const item_category vehicle_cat( name, no_translation( name ), 200 );
 
     const auto check_components = this->preset.get_checking_components();
@@ -1529,7 +1537,7 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
 
         mvwprintz( w, getmaxy( w ) - border, 2, c_light_gray, "< " );
         wprintz( w, c_light_gray, text );
-        wprintz( w, c_white, filter.c_str() );
+        wprintz( w, c_white, filter );
         wprintz( w, c_light_gray, " >" );
     }
 
@@ -1558,18 +1566,18 @@ inventory_selector::inventory_selector( const player &u, const inventory_selecto
     , own_gear_column( preset )
     , map_column( preset )
 {
-    ctxt.register_action( "DOWN", _( "Next item" ) );
-    ctxt.register_action( "UP", _( "Previous item" ) );
-    ctxt.register_action( "RIGHT", _( "Next column" ) );
-    ctxt.register_action( "LEFT", _( "Previous column" ) );
-    ctxt.register_action( "CONFIRM", _( "Confirm your selection" ) );
-    ctxt.register_action( "QUIT", _( "Cancel" ) );
-    ctxt.register_action( "CATEGORY_SELECTION", _( "Switch selection mode" ) );
-    ctxt.register_action( "TOGGLE_FAVORITE", _( "Toggle favorite" ) );
-    ctxt.register_action( "NEXT_TAB", _( "Page down" ) );
-    ctxt.register_action( "PREV_TAB", _( "Page up" ) );
-    ctxt.register_action( "HOME", _( "Home" ) );
-    ctxt.register_action( "END", _( "End" ) );
+    ctxt.register_action( "DOWN", translate_marker( "Next item" ) );
+    ctxt.register_action( "UP", translate_marker( "Previous item" ) );
+    ctxt.register_action( "RIGHT", translate_marker( "Next column" ) );
+    ctxt.register_action( "LEFT", translate_marker( "Previous column" ) );
+    ctxt.register_action( "CONFIRM", translate_marker( "Confirm your selection" ) );
+    ctxt.register_action( "QUIT", translate_marker( "Cancel" ) );
+    ctxt.register_action( "CATEGORY_SELECTION", translate_marker( "Switch selection mode" ) );
+    ctxt.register_action( "TOGGLE_FAVORITE", translate_marker( "Toggle favorite" ) );
+    ctxt.register_action( "NEXT_TAB", translate_marker( "Page down" ) );
+    ctxt.register_action( "PREV_TAB", translate_marker( "Page up" ) );
+    ctxt.register_action( "HOME", translate_marker( "Home" ) );
+    ctxt.register_action( "END", translate_marker( "End" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "ANY_INPUT" ); // For invlets
     ctxt.register_action( "INVENTORY_FILTER" );
@@ -1770,7 +1778,7 @@ item_location inventory_pick_selector::execute()
         if( input.action == "HELP_KEYBINDINGS" || input.action == "INVENTORY_FILTER" ) {
             g->draw_ter();
             wrefresh( g->w_terrain );
-            g->draw_panels();
+            g->draw_panels( true );
         }
     }
 }
@@ -1781,8 +1789,8 @@ inventory_multiselector::inventory_multiselector( const player &p,
     inventory_selector( p, preset ),
     selection_col( new selection_column( "SELECTION_COLUMN", selection_column_title ) )
 {
-    ctxt.register_action( "RIGHT", _( "Mark/unmark selected item" ) );
-    ctxt.register_action( "DROP_NON_FAVORITE", _( "Mark/unmark non-favorite items" ) );
+    ctxt.register_action( "RIGHT", translate_marker( "Mark/unmark selected item" ) );
+    ctxt.register_action( "DROP_NON_FAVORITE", translate_marker( "Mark/unmark non-favorite items" ) );
 
     for( auto &elem : get_all_columns() ) {
         elem->set_multiselect( true );
@@ -1830,7 +1838,7 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
             }
         } else if( input.action == "CONFIRM" ) {
             popup_getkey( _( "You need two items for comparison.  Use %s to select them." ),
-                          ctxt.get_desc( "RIGHT" ).c_str() );
+                          ctxt.get_desc( "RIGHT" ) );
         } else if( input.action == "QUIT" ) {
             return std::make_pair( nullptr, nullptr );
         } else if( input.action == "INVENTORY_FILTER" ) {
@@ -1915,7 +1923,7 @@ std::list<std::pair<int, int>> inventory_iuse_selector::execute()
         } else if( input.action == "CONFIRM" ) {
             if( to_use.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
-                              ctxt.get_desc( "RIGHT" ).c_str() );
+                              ctxt.get_desc( "RIGHT" ) );
                 continue;
             }
             break;
@@ -2063,7 +2071,7 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
         } else if( input.action == "CONFIRM" ) {
             if( dropping.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
-                              ctxt.get_desc( "RIGHT" ).c_str() );
+                              ctxt.get_desc( "RIGHT" ) );
                 continue;
             }
             break;

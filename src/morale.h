@@ -5,10 +5,15 @@
 #include <functional>
 #include <map>
 #include <vector>
+#include <algorithm>
+#include <array>
+#include <string>
 
 #include "bodypart.h"
 #include "calendar.h"
 #include "morale_types.h"
+#include "string_id.h"
+#include "type_id.h"
 
 class item;
 class JsonIn;
@@ -16,10 +21,6 @@ class JsonOut;
 class JsonObject;
 struct itype;
 struct morale_mult;
-class effect_type;
-using efftype_id = string_id<effect_type>;
-struct mutation_branch;
-using trait_id = string_id<mutation_branch>;
 
 class player_morale
 {
@@ -52,6 +53,13 @@ class player_morale
          *  Only permanent morale is checked */
         bool consistent_with( const player_morale &morale ) const;
 
+        /**calculates the percentage contribution for each morale point*/
+        void calculate_percentage();
+
+        int get_total_positive_value() const;
+        int get_total_negative_value() const;
+
+
         void on_mutation_gain( const trait_id &mid );
         void on_mutation_loss( const trait_id &mid );
         void on_stat_change( const std::string &stat, int value );
@@ -65,6 +73,7 @@ class player_morale
         void load( JsonObject &jsin );
 
     private:
+
         class morale_point
         {
             public:
@@ -98,7 +107,11 @@ class player_morale
                 void add( int new_bonus, int new_max_bonus, time_duration new_duration,
                           time_duration new_decay_start, bool new_cap );
                 void decay( time_duration ticks = 1_turns );
-
+                /*
+                 *contribution should be bettween [0,100] (inclusive)
+                 */
+                void set_percent_contribution( double contribution );
+                double get_percent_contribution();
             private:
                 morale_type type;
                 const itype *item_type;
@@ -107,6 +120,10 @@ class player_morale
                 time_duration duration;   // Zero duration == infinity
                 time_duration decay_start;
                 time_duration age;
+                /**
+                 *this point's percent contribution to the total positive or total negative morale effect
+                 */
+                double percent_contribution;
 
                 /**
                  * Returns either new_time or remaining time (which one is greater).
@@ -158,7 +175,7 @@ class player_morale
         std::array<body_part_data, num_bp> body_parts;
         body_part_data no_body_part;
 
-        typedef std::function<void( player_morale *morale )> mutation_handler;
+        using mutation_handler = std::function<void ( player_morale * )>;
         struct mutation_data {
             public:
                 mutation_data() = default;

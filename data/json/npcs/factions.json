@@ -8,15 +8,47 @@
     "known_by_u": true,
     "size": 1,
     "power": 100,
-    "combat_ability": 100,
     "food_supply": 0,
     "wealth": 0,
-    "good": 0,
-    "strength": 1,
-    "sneak": 0,
-    "crime": -1,
-    "cult": -1,
+    "relations": {
+      "your_followers": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      }
+    },
+    "mon_faction": "player",
     "description": "The survivors who have entrusted you with their well-being.  If morale drops, poor performance and mutiny may become issues."
+  },
+  {
+    "type": "faction",
+    "id": "robofac",
+    "name": "Hub 01",
+    "likes_u": 0,
+    "respects_u": 0,
+    "known_by_u": false,
+    "size": 100,
+    "power": 100,
+    "food_supply": 115200,
+    "wealth": 100000000,
+    "currency": "RobofacCoin",
+    "relations": {
+      "robofac": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "marloss": { "kill on sight": true }
+    },
+    "description": "The surviving staff of Hub 01, a pre-cataclysm research lab.  They rarely leave their lab, if at all, and rely on their robots and advanced technology to survive."
   },
   {
     "type": "faction",
@@ -27,14 +59,29 @@
     "known_by_u": false,
     "size": 100,
     "power": 100,
-    "combat_ability": 120,
     "food_supply": 201600,
     "wealth": 100000000,
-    "good": 1,
-    "strength": 1,
-    "sneak": 0,
-    "crime": -1,
-    "cult": -1,
+    "relations": {
+      "old_guard": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "free_merchants": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": false,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "hells_raiders": { "kill on sight": true }
+    },
     "description": "The remains of the federal government.  The extent of their strength is unknown but squads of patrolling soldiers have been seen under their banner."
   },
   {
@@ -46,15 +93,109 @@
     "known_by_u": false,
     "size": 100,
     "power": 100,
-    "combat_ability": 85,
     "food_supply": 115200,
     "wealth": 75000000,
-    "good": 1,
-    "strength": 0,
-    "sneak": 0,
-    "crime": -1,
-    "cult": 0,
+    "currency": "FMCNote",
+    "relations": {
+      "free_merchants": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "old_guard": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "tacoma_commune": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "lobby_beggars": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "wasteland_scavengers": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "hells_raiders": { "kill on sight": true }
+    },
     "description": "A conglomeration of entrepreneurs and businessmen that stand together to hammer-out an existence through trade and industry."
+  },
+  {
+    "type": "faction",
+    "id": "lobby_beggars",
+    "name": "The Beggars in the Lobby",
+    "likes_u": 0,
+    "respects_u": 0,
+    "known_by_u": false,
+    "size": 5,
+    "power": 0,
+    "food_supply": 1152,
+    "wealth": 100,
+    "relations": {
+      "lobby_beggars": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "free_merchants": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "old_guard": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "wasteland_scavengers": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      }
+    },
+    "description": "A collection of mentally and physically disadvantaged survivors who beg for food in the Evac Center lobby."
   },
   {
     "type": "faction",
@@ -65,15 +206,44 @@
     "known_by_u": false,
     "size": 100,
     "power": 100,
-    "combat_ability": 85,
     "food_supply": 115200,
     "wealth": 10000000,
-    "good": 1,
-    "strength": 0,
-    "sneak": 0,
-    "crime": -1,
-    "cult": 0,
+    "relations": {
+      "free_merchants": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      }
+    },
     "description": "An outpost started by the Free Merchants to provide a source of food and raw materials."
+  },
+  {
+    "type": "faction",
+    "id": "marloss",
+    "name": "Marloss Evangelists",
+    "likes_u": 15,
+    "respects_u": 0,
+    "known_by_u": false,
+    "size": 100,
+    "power": 100,
+    "food_supply": 172800,
+    "wealth": 250000,
+    "relations": {
+      "marloss": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      }
+    },
+    "description": "Diverse bands, congregations and organizations with the common goal of preaching human survival through symbiosis with fungaloids."
   },
   {
     "type": "faction",
@@ -84,14 +254,14 @@
     "known_by_u": false,
     "size": 100,
     "power": 100,
-    "combat_ability": 100,
     "food_supply": 172800,
     "wealth": 25000000,
-    "good": 0,
-    "strength": 0,
-    "sneak": 0,
-    "crime": -1,
-    "cult": 0,
+    "relations": {
+      "lobby_beggars": { "knows your voice": true },
+      "free_merchants": { "knows your voice": true },
+      "old_guard": { "knows your voice": true },
+      "wasteland_scavengers": { "share my stuff": true, "guard your stuff": true, "knows your voice": true }
+    },
     "description": "Autonomous bands or individuals who make their living raiding the ruins of the old-world for gear and provisions."
   },
   {
@@ -103,14 +273,62 @@
     "known_by_u": false,
     "size": 100,
     "power": 100,
-    "combat_ability": 100,
     "food_supply": 230400,
     "wealth": 45000000,
-    "good": -1,
-    "strength": 1,
-    "sneak": 0,
-    "crime": 1,
-    "cult": -1,
+    "relations": {
+      "hells_raiders": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "free_merchants": { "kill_on_sight": true },
+      "old_guard": { "kill_on_sight": true },
+      "your_followers": { "kill_on_sight": true }
+    },
     "description": "The largest gang of hooligans and bandits that preys upon other survivors.  Even if you have no gear, there is always a need for slaves and fresh meat."
+  },
+  {
+    "type": "faction",
+    "id": "apis_hive",
+    "name": "Mutants Bees",
+    "likes_u": -25,
+    "respects_u": -25,
+    "known_by_u": false,
+    "size": 1,
+    "power": 10,
+    "food_supply": 2304,
+    "wealth": 0,
+    "relations": {
+      "apis_hive": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "free_merchants": { "kill_on_sight": true },
+      "old_guard": { "kill_on_sight": true },
+      "your_followers": { "kill_on_sight": true }
+    },
+    "description": "Mutant bees who hate everyone."
+  },
+  {
+    "type": "faction",
+    "id": "gods_community",
+    "name": "God's Community",
+    "likes_u": 35,
+    "respects_u": 35,
+    "known_by_u": false,
+    "size": 20,
+    "power": 50,
+    "food_supply": 20000,
+    "wealth": 10000,
+    "description": "A small group of churchgoers that formed a community in the woods. They welcome anyone in their faction, but hate the unnatural."
   }
 ]

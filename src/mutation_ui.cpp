@@ -4,19 +4,18 @@
 #include <sstream>
 
 #include "mutation.h"
-#include "catacharset.h"
-#include "debug.h"
 #include "game.h"
 #include "input.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "string_id.h"
 
 // '!' and '=' are uses as default bindings in the menu
 const invlet_wrapper
 mutation_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}" );
 
-void draw_exam_window( const catacurses::window &win, const int border_y )
+static void draw_exam_window( const catacurses::window &win, const int border_y )
 {
     const int width = getmaxx( win );
     mvwputch( win, border_y, 0, BORDER_COLOR, LINE_XXXO );
@@ -26,12 +25,11 @@ void draw_exam_window( const catacurses::window &win, const int border_y )
 
 const auto shortcut_desc = []( const std::string &comment, const std::string &keys )
 {
-    return string_format( comment.c_str(),
-                          string_format( "<color_yellow>%s</color>", keys.c_str() ).c_str() );
+    return string_format( comment, string_format( "<color_yellow>%s</color>", keys ) );
 };
 
-void show_mutations_titlebar( const catacurses::window &window, const std::string &menu_mode,
-                              const input_context &ctxt )
+static void show_mutations_titlebar( const catacurses::window &window,
+                                     const std::string &menu_mode, const input_context &ctxt )
 {
     werase( window );
     std::ostringstream desc;
@@ -213,7 +211,7 @@ void player::power_mutations()
                         mut_desc << _( " - Active" );
                     }
                     mvwprintz( wBio, list_start_y + i, second_column + 2, type,
-                               mut_desc.str().c_str() );
+                               mut_desc.str() );
                 }
             }
 
@@ -246,7 +244,7 @@ void player::power_mutations()
             }
             if( !mutation_chars.valid( newch ) ) {
                 popup( _( "Invalid mutation letter. Only those characters are valid:\n\n%s" ),
-                       mutation_chars.get_allowed_chars().c_str() );
+                       mutation_chars.get_allowed_chars() );
                 continue;
             }
             const auto other_mut_id = trait_by_invlet( newch );

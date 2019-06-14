@@ -7,8 +7,7 @@
       { "monster": "mon_zombie", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zombie_child", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zombie_rot", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_dog", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_dog_skeleton", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_zombie_dog", "freq": 200, "cost_multiplier": 1, "pack_size": [ 1, 2 ] }
     ]
   },
   {
@@ -317,7 +316,7 @@
         "r": "t_dirt",
         "t": "t_tree",
         "w": "t_window",
-        "x": "t_wall",
+        "x": "t_wall_w",
         "|": "t_dirt"
       },
       "furniture": {

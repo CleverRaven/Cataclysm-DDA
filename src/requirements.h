@@ -3,30 +3,34 @@
 #define REQUIREMENTS_H
 
 #include <functional>
+#include <list>
 #include <map>
 #include <vector>
+#include <string>
+#include <utility>
 
 #include "string_id.h"
-#include "item.h"
+#include "type_id.h"
 
 class nc_color;
 class JsonObject;
 class JsonArray;
 class inventory;
-
-
-struct requirement_data;
-using requirement_id = string_id<requirement_data>;
+class item;
 
 // Denotes the id of an item type
-typedef std::string itype_id;
-struct quality;
-using quality_id = string_id<quality>;
+using itype_id = std::string;
 
 enum available_status {
     a_true = +1, // yes, it's available
     a_false = -1, // no, it's not available
     a_insufficent = 0, // neraly, bt not enough for tool+component
+};
+
+enum component_type : int {
+    COMPONENT_ITEM,
+    COMPONENT_TOOL,
+    COMPONENT_QUALITY,
 };
 
 struct quality {
@@ -77,6 +81,9 @@ struct tool_comp : public component {
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int batch = 1 ) const;
     bool by_charges() const;
+    component_type get_component_type() const {
+        return COMPONENT_TOOL;
+    }
 };
 
 struct item_comp : public component {
@@ -89,6 +96,9 @@ struct item_comp : public component {
     std::string to_string( int batch = 1 ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int batch = 1 ) const;
+    component_type get_component_type() const {
+        return COMPONENT_ITEM;
+    }
 };
 
 struct quality_requirement {
@@ -109,6 +119,9 @@ struct quality_requirement {
     void check_consistency( const std::string &display_name ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int = 0 ) const;
+    component_type get_component_type() const {
+        return COMPONENT_QUALITY;
+    }
 };
 
 /**
@@ -146,9 +159,9 @@ struct requirement_data {
         // TODO: remove once all parts specify installation requirements directly
         friend class vpart_info;
 
-        typedef std::vector< std::vector<tool_comp> > alter_tool_comp_vector;
-        typedef std::vector< std::vector<item_comp> > alter_item_comp_vector;
-        typedef std::vector< std::vector<quality_requirement> > alter_quali_req_vector;
+        using alter_tool_comp_vector = std::vector<std::vector<tool_comp> >;
+        using alter_quali_req_vector = std::vector<std::vector<quality_requirement> >;
+        using alter_item_comp_vector = std::vector<std::vector<item_comp> >;
 
     private:
         alter_tool_comp_vector tools;
@@ -211,6 +224,12 @@ struct requirement_data {
         static void reset();
 
         /**
+         * Returns a list of components/tools/qualities that are required,
+         * nicely formatted for popup window or similar.
+         */
+        std::string list_all() const;
+
+        /**
          * Returns a list of components/tools/qualities that are not available,
          * nicely formatted for popup window or similar.
          */
@@ -250,6 +269,19 @@ struct requirement_data {
          */
         requirement_data disassembly_requirements() const;
 
+        /**
+         * Returns the requirements to continue an in progress craft with the passed components.
+         * Returned requirement_data is for *all* batches at once.
+         * TODO: Make this return tool and quality requirments as well
+         */
+        static requirement_data continue_requirements( const std::vector<item_comp> &required_comps,
+                const std::list<item> &remaining_comps );
+
+        /**
+         * Removes duplicated qualities and tools
+         */
+        void consolidate();
+
     private:
         requirement_id id_ = requirement_id::NULL_ID();
 
@@ -266,6 +298,9 @@ struct requirement_data {
         template<typename T>
         static void finalize( std::vector< std::vector<T> > &vec );
         template<typename T>
+        static std::string print_all_objs( const std::string &header,
+                                           const std::vector< std::vector<T> > &objs );
+        template<typename T>
         static std::string print_missing_objs( const std::string &header,
                                                const std::vector< std::vector<T> > &objs );
         template<typename T>
@@ -275,7 +310,7 @@ struct requirement_data {
         template<typename T>
         std::vector<std::string> get_folded_list( int width, const inventory &crafting_inv,
                 const std::function<bool( const item & )> &filter, const std::vector< std::vector<T> > &objs,
-                int batch = 1, std::string hilite = "" ) const;
+                int batch = 1, const std::string &hilite = "" ) const;
 
         template<typename T>
         static bool any_marked_available( const std::vector<T> &comps );

@@ -1,23 +1,39 @@
 #include "inventory.h"
 
+#include <climits>
+#include <cmath>
+#include <cstdint>
+#include <cstdlib>
 #include <algorithm>
+#include <iterator>
+#include <memory>
+#include <set>
 
+#include "avatar.h"
 #include "debug.h"
 #include "game.h"
 #include "iexamine.h"
-#include "itype.h"
-#include "iuse_actor.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h" //for rust message
 #include "npc.h"
 #include "options.h"
-#include "output.h"
 #include "translations.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
+#include "calendar.h"
+#include "character.h"
+#include "damage.h"
+#include "enums.h"
+#include "optional.h"
+#include "player.h"
+#include "rng.h"
+#include "material.h"
+#include "type_id.h"
+
+struct itype;
 
 const invlet_wrapper
 inv_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()+.:;=@[\\]^_{|}" );
@@ -184,7 +200,7 @@ void inventory::unsort()
     binned = false;
 }
 
-bool stack_compare( const std::list<item> &lhs, const std::list<item> &rhs )
+static bool stack_compare( const std::list<item> &lhs, const std::list<item> &rhs )
 {
     return lhs.front() < rhs.front();
 }
@@ -354,7 +370,7 @@ void inventory::restack( player &p )
 #endif
 }
 
-static long count_charges_in_list( const itype *type, const map_stack &items )
+static int count_charges_in_list( const itype *type, const map_stack &items )
 {
     for( const auto &candidate : items ) {
         if( candidate.type == type ) {
@@ -373,14 +389,21 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
 void inventory::form_from_map( map &m, const tripoint &origin, int range, bool assign_invlet,
                                bool clear_path )
 {
-    items.clear();
-    for( const tripoint &p : m.points_in_radius( origin, range ) ) {
-        // can not reach this -> can not access its contents
-        if( clear_path ) {
-            if( origin != p && !m.clear_path( origin, p, range, 1, 100 ) ) {
-                continue;
-            }
+    // populate a grid of spots that can be reached
+    std::vector<tripoint> reachable_pts = {};
+    // If we need a clear path we care about the reachability of points
+    if( clear_path ) {
+        m.reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+    } else {
+        // Fill reachable points with points_in_radius
+        tripoint_range in_radius = m.points_in_radius( origin, range );
+        for( const tripoint &p : in_radius ) {
+            reachable_pts.emplace_back( p );
         }
+    }
+
+    items.clear();
+    for( const tripoint &p : reachable_pts ) {
         if( m.has_furn( p ) ) {
             const furn_t &f = m.furn( p ).obj();
             const itype *type = f.crafting_pseudo_item_type();
@@ -542,6 +565,7 @@ void inventory::form_from_map( map &m, const tripoint &origin, int range, bool a
             add_item( chemistry_set );
         }
     }
+    reachable_pts.clear();
 }
 
 std::list<item> inventory::reduce_stack( const int position, const int quantity )
@@ -700,10 +724,9 @@ int inventory::position_by_type( const itype_id &type ) const
     return INT_MIN;
 }
 
-std::list<item> inventory::use_amount( itype_id it, int _quantity,
+std::list<item> inventory::use_amount( itype_id it, int quantity,
                                        const std::function<bool( const item & )> &filter )
 {
-    long quantity = _quantity; // Don't want to change the function signature right now
     items.sort( stack_compare );
     std::list<item> ret;
     for( invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; /* noop */ ) {
@@ -738,10 +761,10 @@ bool inventory::has_components( const itype_id &it, int quantity,
     return has_amount( it, quantity, false, filter );
 }
 
-bool inventory::has_charges( const itype_id &it, long quantity,
+bool inventory::has_charges( const itype_id &it, int quantity,
                              const std::function<bool( const item & )> &filter ) const
 {
-    return ( charges_of( it, std::numeric_limits<long>::max(), filter ) >= quantity );
+    return ( charges_of( it, INT_MAX, filter ) >= quantity );
 }
 
 int inventory::leak_level( const std::string &flag ) const
@@ -873,7 +896,7 @@ void inventory::rust_iron_items()
                 g->m.water_from( g->u.pos() ).typeId() ==
                 "salt_water" ) { //Freshwater without oxygen rusts slower than air
                 elem_stack_iter.inc_damage( DT_ACID ); // rusting never completely destroys an item
-                add_msg( m_bad, _( "Your %s is damaged by rust." ), elem_stack_iter.tname().c_str() );
+                add_msg( m_bad, _( "Your %s is damaged by rust." ), elem_stack_iter.tname() );
             }
         }
     }
@@ -908,7 +931,7 @@ void for_each_item_in_both(
             continue;
         }
 
-        long num_to_count = other_it->second;
+        int num_to_count = other_it->second;
         if( representative.count_by_charges() ) {
             item copy = representative;
             copy.charges = std::min( copy.charges, num_to_count );
@@ -989,25 +1012,26 @@ std::vector<item *> inventory::active_items()
 
 void inventory::assign_empty_invlet( item &it, const Character &p, const bool force )
 {
-    if( !get_option<bool>( "AUTO_INV_ASSIGN" ) ) {
+    const std::string auto_setting = get_option<std::string>( "AUTO_INV_ASSIGN" );
+    if( auto_setting == "disabled" || ( ( auto_setting == "favorites" ) && !it.is_favorite ) ) {
         return;
     }
 
-    std::set<char> cur_inv = p.allocated_invlets();
+    invlets_bitset cur_inv = p.allocated_invlets();
     itype_id target_type = it.typeId();
-    for( const auto &iter : assigned_invlet ) {
-        if( iter.second == target_type && !cur_inv.count( iter.first ) ) {
+    for( auto iter : assigned_invlet ) {
+        if( iter.second == target_type && !cur_inv[iter.first] ) {
             it.invlet = iter.first;
             return;
         }
     }
-    if( cur_inv.size() < inv_chars.size() ) {
+    if( cur_inv.count() < inv_chars.size() ) {
         for( const auto &inv_char : inv_chars ) {
             if( assigned_invlet.count( inv_char ) ) {
                 // don't overwrite assigned keys
                 continue;
             }
-            if( cur_inv.find( inv_char ) == cur_inv.end() ) {
+            if( !cur_inv[inv_char] ) {
                 it.invlet = inv_char;
                 return;
             }
@@ -1026,7 +1050,7 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
             return;
         }
     }
-    debugmsg( "could not find a hotkey for %s", it.tname().c_str() );
+    debugmsg( "could not find a hotkey for %s", it.tname() );
 }
 
 void inventory::reassign_item( item &it, char invlet, bool remove_old )
@@ -1085,15 +1109,15 @@ void inventory::set_stack_favorite( const int position, const bool favorite )
     }
 }
 
-std::set<char> inventory::allocated_invlets() const
+invlets_bitset inventory::allocated_invlets() const
 {
-    std::set<char> invlets;
+    invlets_bitset invlets;
+
     for( const auto &stack : items ) {
         const char invlet = stack.front().invlet;
-        if( invlet != 0 ) {
-            invlets.insert( invlet );
-        }
+        invlets.set( invlet );
     }
+    invlets[0] = false;
     return invlets;
 }
 

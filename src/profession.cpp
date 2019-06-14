@@ -3,6 +3,8 @@
 #include <cmath>
 #include <iterator>
 #include <map>
+#include <algorithm>
+#include <memory>
 
 #include "addiction.h"
 #include "debug.h"
@@ -10,10 +12,13 @@
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
+#include "mtype.h"
 #include "player.h"
 #include "pldata.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "calendar.h"
+#include "item.h"
 
 namespace
 {
@@ -121,7 +126,7 @@ class item_reader : public generic_typed_reader<item_reader>
             JsonArray jarr = jin.get_array();
             const auto id = jarr.get_string( 0 );
             const auto s = jarr.get_string( 1 );
-            const auto snippet = _( s.c_str() );
+            const auto snippet = _( s );
             return profession::itypedec( id, snippet );
         }
         template<typename C>
@@ -156,7 +161,17 @@ void profession::load( JsonObject &jo, const std::string & )
         _description_male = pgettext( "prof_desc_male", desc.c_str() );
         _description_female = pgettext( "prof_desc_female", desc.c_str() );
     }
-
+    if( jo.has_array( "pets" ) ) {
+        JsonArray array = jo.get_array( "pets" );
+        while( array.has_more() ) {
+            JsonObject subobj = array.next_object();
+            int count = subobj.get_int( "amount" );
+            mtype_id mon = mtype_id( subobj.get_string( "name" ) );
+            for( int start = 0; start < count; ++start ) {
+                _starting_pets.push_back( mon );
+            }
+        }
+    }
     mandatory( jo, was_loaded, "points", _point_cost );
 
     if( !was_loaded || jo.has_member( "items" ) ) {
@@ -268,7 +283,11 @@ void profession::check_definition() const
             debugmsg( "trait %s for profession %s does not exist", t.c_str(), id.c_str() );
         }
     }
-
+    for( const auto &elem : _starting_pets ) {
+        if( !elem.is_valid() ) {
+            debugmsg( "startng pet %s for profession %s does not exist", elem.c_str(), id.c_str() );
+        }
+    }
     for( const auto &elem : _starting_skills ) {
         if( !elem.first.is_valid() ) {
             debugmsg( "skill %s for profession %s does not exist", elem.first.c_str(), id.c_str() );
@@ -377,6 +396,11 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
         return first.get_layer() < second.get_layer();
     } );
     return result;
+}
+
+std::vector<mtype_id> profession::pets() const
+{
+    return _starting_pets;
 }
 
 std::vector<addiction> profession::addictions() const
@@ -608,4 +632,3 @@ std::vector<itype_id> json_item_substitution::get_bonus_items( const std::vector
     }
     return ret;
 }
-

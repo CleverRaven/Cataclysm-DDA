@@ -2,7 +2,10 @@
 #ifndef FACTION_H
 #define FACTION_H
 
+#include <bitset>
 #include <vector>
+#include <map>
+#include <string>
 
 #include "color.h"
 #include "string_id.h"
@@ -15,19 +18,45 @@ std::string fac_respect_text( int val );
 std::string fac_wealth_text( int val, int size );
 std::string fac_combat_ability_text( int val );
 
-class player;
 class JsonObject;
 class JsonIn;
 class JsonOut;
-struct tripoint;
-
 class faction;
+
 using faction_id = string_id<faction>;
+
+namespace npc_factions
+{
+void finalize();
+enum relationship : int {
+    kill_on_sight,
+    watch_your_back,
+    share_my_stuff,
+    guard_your_stuff,
+    lets_you_in,
+    defend_your_space,
+    knows_your_voice,
+    // final value is the count
+    rel_types
+};
+
+const std::unordered_map<std::string, relationship> relation_strs = { {
+        { "kill on sight", kill_on_sight },
+        { "watch your back", watch_your_back },
+        { "share my stuff", share_my_stuff },
+        { "guard your stuff", guard_your_stuff },
+        { "lets you in", lets_you_in },
+        { "defends your space", defend_your_space },
+        { "knows your voice", knows_your_voice }
+    }
+};
+}
 
 class faction_template
 {
     protected:
         faction_template();
+        void load_relations( JsonObject &jsobj );
 
     private:
         explicit faction_template( JsonObject &jsobj );
@@ -47,6 +76,9 @@ class faction_template
         int power; // General measure of our power
         int food_supply;  //Total nutritional value held
         int wealth;  //Total trade currency
+        std::string currency; // itype_id of the faction currency
+        std::map<std::string, std::bitset<npc_factions::rel_types>> relations;
+        std::string mon_faction; // mon_faction_id of the monster faction; defaults to human
 };
 
 class faction : public faction_template
@@ -63,7 +95,9 @@ class faction : public faction_template
         std::string food_supply_text();
         nc_color food_supply_color();
 
+        bool has_relationship( const faction_id guy_id, npc_factions::relationship flag ) const;
         std::vector<int> opinion_of;
+        bool validated = false;
 };
 
 class faction_manager

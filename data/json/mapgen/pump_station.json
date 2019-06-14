@@ -249,13 +249,7 @@
         "RRRR~x2RRRRRRRRRRRRRRRRR",
         "RRRR~x2RRRRRRRRRRRRRRRRR"
       ],
-      "terrain": {
-        "2": "t_sewage_pipe",
-        "R": "t_rock",
-        "^": "t_ladder_up",
-        "x": "t_bridge",
-        "~": "t_sewage"
-      },
+      "terrain": { "2": "t_sewage_pipe", "R": "t_rock", "^": "t_ladder_up", "x": "t_bridge", "~": "t_sewage" },
       "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
   },

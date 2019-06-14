@@ -1,7 +1,11 @@
 #include "help.h"
 
+#include <cstddef>
 #include <algorithm>
 #include <vector>
+#include <array>
+#include <iterator>
+#include <list>
 
 #include "action.h"
 #include "catacharset.h"
@@ -12,6 +16,10 @@
 #include "path_info.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "cata_utility.h"
+#include "color.h"
+#include "debug.h"
+#include "string_formatter.h"
 
 help &get_help()
 {
@@ -94,7 +102,7 @@ Press ESC to return to the game." ) ) + 1;
     size_t half_size = help_texts.size() / 2;
     int second_column = getmaxx( win ) / 2;
     for( size_t i = 0; i < help_texts.size(); i++ ) {
-        std::string cat_name = _( help_texts[i].first.c_str() );
+        std::string cat_name = _( help_texts[i].first );
         if( i < half_size ) {
             second_column = std::max( second_column, utf8_width( cat_name ) + 4 );
         }
@@ -113,7 +121,7 @@ std::string help::get_note_colors()
         // The color index is not translatable, but the name is.
         text += string_format( "<color_%s>%s:%s</color>, ",
                                string_from_color( get_note_color( color_pair.first ) ),
-                               color_pair.first.c_str(), _( color_pair.second.c_str() ) );
+                               color_pair.first, _( color_pair.second ) );
     }
 
     return text;
@@ -128,8 +136,6 @@ void help::display_help()
                                 1 + static_cast<int>( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
                                 1 + static_cast<int>( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
 
-    bool needs_refresh = true;
-
     ctxt.register_cardinal();
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
@@ -139,13 +145,10 @@ void help::display_help()
     std::string action;
 
     do {
-        if( needs_refresh ) {
-            draw_border( w_help_border, BORDER_COLOR, _( " HELP " ) );
-            wrefresh( w_help_border );
-            draw_menu( w_help );
-            catacurses::refresh();
-            needs_refresh = false;
-        }
+        draw_border( w_help_border, BORDER_COLOR, _( " HELP " ) );
+        wrefresh( w_help_border );
+        draw_menu( w_help );
+        catacurses::refresh();
 
         action = ctxt.handle_input();
         std::string sInput = ctxt.get_raw_input().text;
@@ -156,7 +159,7 @@ void help::display_help()
                     i18n_help_texts.reserve( help_texts[i].second.size() );
                     std::transform( help_texts[i].second.begin(), help_texts[i].second.end(),
                     std::back_inserter( i18n_help_texts ), [&]( std::string & line ) {
-                        std::string line_proc = _( line.c_str() );
+                        std::string line_proc = _( line );
                         size_t pos = line_proc.find( "<press_", 0, 7 );
                         while( pos != std::string::npos ) {
                             size_t pos2 = line_proc.find( ">", pos, 1 );
@@ -181,8 +184,6 @@ void help::display_help()
                 }
             }
         }
-
-        needs_refresh = true;
     } while( action != "QUIT" );
 }
 

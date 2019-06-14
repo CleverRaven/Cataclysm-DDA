@@ -2,29 +2,27 @@
 #ifndef MOD_MANAGER_H
 #define MOD_MANAGER_H
 
+#include <cstddef>
 #include <map>
 #include <set>
 #include <string>
 #include <vector>
+#include <utility>
 
 #include "pimpl.h"
 #include "string_id.h"
+#include "type_id.h"
 
 struct WORLD;
-typedef WORLD *WORLDPTR;
+
+using WORLDPTR = WORLD *;
 class dependency_tree;
-class mod_ui;
-class game;
-class worldfactory;
 class JsonObject;
 class mod_manager;
 
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories();
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs();
 const std::map<std::string, std::string> &get_mod_list_cat_tab();
-
-struct MOD_INFORMATION;
-using mod_id = string_id<MOD_INFORMATION>;
 
 struct MOD_INFORMATION {
     private:
@@ -69,7 +67,7 @@ struct MOD_INFORMATION {
 class mod_manager
 {
     public:
-        typedef std::vector<mod_id> t_mod_list;
+        using t_mod_list = std::vector<mod_id>;
 
         mod_manager();
         ~mod_manager();

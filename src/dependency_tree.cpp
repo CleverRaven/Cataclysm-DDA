@@ -2,9 +2,14 @@
 
 #include <algorithm>
 #include <set>
+#include <array>
+#include <iterator>
+#include <sstream>
+#include <utility>
 
 #include "debug.h"
 #include "output.h"
+#include "string_id.h"
 
 std::array<std::string, 3> error_keyvals = {{ "Missing Dependency(ies): ", "", "" }};
 
@@ -145,6 +150,8 @@ std::vector<mod_id> dependency_node::get_dependencies_as_strings()
 
     std::vector<dependency_node *> as_nodes = get_dependencies_as_nodes();
 
+    ret.reserve( as_nodes.size() );
+
     for( auto &as_node : as_nodes ) {
         ret.push_back( ( as_node )->key );
     }
@@ -203,6 +210,8 @@ std::vector<mod_id> dependency_node::get_dependents_as_strings()
     std::vector<mod_id> ret;
 
     std::vector<dependency_node *> as_nodes = get_dependents_as_nodes();
+
+    ret.reserve( as_nodes.size() );
 
     for( auto &as_node : as_nodes ) {
         ret.push_back( ( as_node )->key );

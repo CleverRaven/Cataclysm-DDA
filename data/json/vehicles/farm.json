@@ -10,8 +10,16 @@
     ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame_vertical", "seat", "controls", "dashboard" ] },
-      { "x": 1, "y": 0, "parts": [ "frame_vertical", "halfboard_vertical", "engine_steam_medium", "alternator_truck", "battery_car" ] },
-      { "x": 2, "y": 0, "parts": [ "frame_cross", "halfboard_vertical", { "part": "fuel_bunker", "fuel": "coal_lump" } ] },
+      {
+        "x": 1,
+        "y": 0,
+        "parts": [ "frame_vertical", "halfboard_vertical", "engine_steam_medium", "alternator_truck", "battery_car" ]
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "parts": [ "frame_cross", "halfboard_vertical", { "part": "fuel_bunker", "fuel": "coal_lump" } ]
+      },
       { "x": 3, "y": 0, "part": "reaper" },
       { "x": -1, "y": 0, "parts": [ "frame_cross", "plow" ] },
       { "x": -2, "y": 0, "part": "seed_drill" },
@@ -20,7 +28,7 @@
       { "x": 2, "y": 1, "parts": [ "frame_cross", "wheel_wide_or_steerable" ] },
       { "x": 2, "y": -1, "parts": [ "frame_cross", "wheel_wide_or_steerable" ] }
     ],
-    "items": []
+    "items": [  ]
   },
   {
     "id": "autotractor",
@@ -81,7 +89,7 @@
       { "x": -2, "y": -1, "part": "cargo_space" },
       { "x": -2, "y": -1, "part": "wheel_wide_or_steerable" }
     ],
-    "items": []
+    "items": [  ]
   },
   {
     "id": "tractor_plow",
@@ -126,7 +134,7 @@
       { "x": -2, "y": 2, "part": "plow" },
       { "x": -2, "y": -2, "part": "plow" }
     ],
-    "items": []
+    "items": [  ]
   },
   {
     "id": "tractor_reaper",
@@ -168,7 +176,7 @@
       { "x": -2, "y": 2, "part": "reaper" },
       { "x": -2, "y": -2, "part": "reaper" }
     ],
-    "items": []
+    "items": [  ]
   },
   {
     "id": "tractor_seed",
@@ -210,6 +218,6 @@
       { "x": -2, "y": 2, "part": "seed_drill" },
       { "x": -2, "y": -2, "part": "seed_drill" }
     ],
-    "items": []
+    "items": [  ]
   }
 ]

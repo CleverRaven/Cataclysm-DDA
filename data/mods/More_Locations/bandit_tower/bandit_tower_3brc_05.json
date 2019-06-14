@@ -1,71 +1,49 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "bandit_tower_3brc",
-        "comment" : "bottom right corner, third and odd level floors.",
-        "weight": 250,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_floor",
-            "rows": [
-                "########################",
-                "########################",
-                "########################",
-                "#######==ww=====--==ww==",
-                "#######=DDDi.i|....|bb==",
-                "#####===.c....|.jk.|.b==",
-                "#####===.....i|....|.bbb",
-                "###=====+--------!--...b",
-                "###=DDD................*",
-                "###=.c....-------+----.b",
-                "###g......|s.&|S|...l|bb",
-                "###g......+.....|...l|--",
-                "###g......|..@|~|llll+.$",
-                "###=!-------------------",
-                "###=.........!..........",
-                "###=!--------|...@......",
-                "###g.......@*|..===!!==.",
-                "###g........L|..===..Mee",
-                "###g...TTT..L|..==<<<Mee",
-                "###gc..TTT..L|..==<<<Mee",
-                "###g...TTT..L|..==<<<Mee",
-                "###g.........|..=MMMMMMM",
-                "###g..6.6.6.9|..=eeeeM==",
-                "###===-------|...eeeeM=="
-            ],
-            "rotation": 2,
-            "palettes": [
-                "tri_tower",
-                "upper_level",
-                "bandit_tower_stuff"
-            ],
-            "terrain":{
-                "9": "t_generator_broken"
-            },
-            "furniture":{
-                "$": "f_safe_l",
-                "j": "f_shackle",
-                "k": "f_chair"
-            },
-            "item":{
-                "$": [ 
-                    { "item": "militarymap", "amount": [ 1, 3 ] }, 
-                    { "item": "optical_cloak", "chance": 2 }, 
-                    { "item": "survivormap" }
-                ],
-                "D": [ 
-                    { "item": "radio" }, 
-                    { "item": "two_way_radio" }
-                ],
-                "k": { "item": "rope_30", "amount": 2 }
-            },
-            "items":{
-                "l": { "item": "spider", "chance": 80 },
-                "L": { "item": "misc_smoking", "chance": 45 }
-            },
-            "npcs": {
-                "@": { "class": "raider" }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "bandit_tower_3brc",
+    "comment": "bottom right corner, third and odd level floors.",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "#######==ww=====--==ww==",
+        "#######=DDDi.i|....|bb==",
+        "#####===.c....|.jk.|.b==",
+        "#####===.....i|....|.bbb",
+        "###=====+--------!--...b",
+        "###=DDD................*",
+        "###=.c....-------+----.b",
+        "###g......|s.&|S|...l|bb",
+        "###g......+.....|...l|--",
+        "###g......|..@|~|llll+.$",
+        "###=!-------------------",
+        "###=.........!..........",
+        "###=!--------|...@......",
+        "###g.......@*|..===!!==.",
+        "###g........L|..===..Mee",
+        "###g...TTT..L|..==<<<Mee",
+        "###gc..TTT..L|..==<<<Mee",
+        "###g...TTT..L|..==<<<Mee",
+        "###g.........|..=MMMMMMM",
+        "###g..6.6.6.9|..=eeeeM==",
+        "###===-------|...eeeeM=="
+      ],
+      "rotation": 2,
+      "palettes": [ "tri_tower", "upper_level", "bandit_tower_stuff" ],
+      "terrain": { "9": "t_generator_broken" },
+      "furniture": { "$": "f_safe_l", "j": "f_shackle", "k": "f_chair" },
+      "item": {
+        "$": [ { "item": "militarymap", "amount": [ 1, 3 ] }, { "item": "optical_cloak", "chance": 2 }, { "item": "survivormap" } ],
+        "D": [ { "item": "radio" }, { "item": "two_way_radio" } ],
+        "k": { "item": "rope_30", "amount": 2 }
+      },
+      "items": { "l": { "item": "spider", "chance": 80 }, "L": { "item": "misc_smoking", "chance": 45 } },
+      "npcs": { "@": { "class": "raider" } }
     }
+  }
 ]

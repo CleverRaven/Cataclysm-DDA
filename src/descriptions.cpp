@@ -1,7 +1,10 @@
 #include "game.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <sstream>
+#include <utility>
 
+#include "avatar.h"
 #include "calendar.h"
 #include "harvest.h"
 #include "input.h"
@@ -10,7 +13,9 @@
 #include "output.h"
 #include "player.h"
 #include "string_formatter.h"
-#include "ui.h"
+#include "color.h"
+#include "translations.h"
+#include "string_id.h"
 
 const skill_id skill_survival( "survival" );
 
@@ -22,7 +27,7 @@ enum class description_target : int {
     terrain
 };
 
-const Creature *seen_critter( const game &g, const tripoint &p )
+static const Creature *seen_critter( const game &g, const tripoint &p )
 {
     const Creature *critter = g.critter_at( p, true );
     if( critter != nullptr && g.u.sees( *critter ) ) {
@@ -45,7 +50,7 @@ void game::extended_description( const tripoint &p )
     // TODO: De-hardcode
     std::string header_message = _( "\
 c to describe creatures, f to describe furniture, t to describe terrain, Esc/Enter to close." );
-    mvwprintz( w_head, 0, 0, c_white, header_message.c_str() );
+    mvwprintz( w_head, 0, 0, c_white, header_message );
 
     // Set up line drawings
     for( int i = 0; i < TERMX; i++ ) {
@@ -95,7 +100,7 @@ c to describe creatures, f to describe furniture, t to describe terrain, Esc/Ent
         std::string signage = m.get_signage( p );
         if( !signage.empty() ) {
             desc += u.has_trait( trait_ILLITERATE ) ? string_format( _( "\nSign: ???" ) ) : string_format(
-                        _( "\nSign: %s" ), signage.c_str() );
+                        _( "\nSign: %s" ), signage );
         }
 
         werase( w_main );
@@ -121,7 +126,7 @@ c to describe creatures, f to describe furniture, t to describe terrain, Esc/Ent
 std::string map_data_common_t::extended_description() const
 {
     std::stringstream ss;
-    ss << "<header>" << string_format( _( "That is a %s." ), name().c_str() ) << "</header>" << '\n';
+    ss << "<header>" << string_format( _( "That is a %s." ), name() ) << "</header>" << '\n';
     ss << description << std::endl;
     bool has_any_harvest = std::any_of( harvest_by_season.begin(), harvest_by_season.end(),
     []( const harvest_id & hv ) {

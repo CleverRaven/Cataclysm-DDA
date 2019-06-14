@@ -438,11 +438,11 @@
         { "chance": 10, "item": "tools_mechanic", "x": 11, "y": 7 },
         { "chance": 10, "item": "tools_construction", "x": 9, "y": 7 },
         { "chance": 10, "item": "tools_construction", "x": 10, "y": 7 },
-        { "chance": 10, "item": "raw_materials", "x": 14, "y": 15 },
-        { "chance": 10, "item": "raw_materials", "x": 15, "y": 15 },
-        { "chance": 10, "item": "raw_materials", "x": 16, "y": 15 },
-        { "chance": 10, "item": "raw_materials", "x": 17, "y": 14 },
-        { "chance": 10, "item": "raw_materials", "x": 17, "y": 15 }
+        { "chance": 10, "item": "hardware_bulk", "x": 14, "y": 15 },
+        { "chance": 10, "item": "plumbing_bulk", "x": 15, "y": 15 },
+        { "chance": 10, "item": "hardware_bulk", "x": 16, "y": 15 },
+        { "chance": 10, "item": "plumbing_bulk", "x": 17, "y": 14 },
+        { "chance": 10, "item": "hardware_bulk", "x": 17, "y": 15 }
       ],
       "place_nested": [ { "chunks": [ [ "null", 40 ], [ "ruins_4x4_camp", 40 ], [ "ruins_4x4_NPCs", 20 ] ], "x": 8, "y": 8 } ]
     }
@@ -487,8 +487,8 @@
         { "chance": 20, "item": "trash", "x": 8, "y": 6 },
         { "chance": 10, "item": "hand_tools", "x": 17, "y": 12 },
         { "chance": 10, "item": "hand_tools", "x": 15, "y": 12 },
-        { "chance": 10, "item": "raw_materials", "x": 7, "y": 12 },
-        { "chance": 10, "item": "raw_materials", "x": 8, "y": 12 }
+        { "chance": 10, "item": "hardware_bulk", "x": 7, "y": 12 },
+        { "chance": 10, "item": "plumbing_bulk", "x": 8, "y": 12 }
       ],
       "place_vehicles": [ { "chance": 100, "fuel": 0, "rotation": 180, "status": 1, "vehicle": "tractor_plow", "x": 10, "y": 9 } ],
       "place_rubble": [

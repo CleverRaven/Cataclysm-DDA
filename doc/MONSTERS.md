@@ -63,7 +63,7 @@ The id of the faction the monster belongs to, this affects what other monsters i
 ## "bodytype"
 (string)
 
-The id of the monster's bodytype, which is a general description of the layout of the monster's body. 
+The id of the monster's bodytype, which is a general description of the layout of the monster's body.
 
 Value should be one of:
 angel - a winged human
@@ -72,6 +72,7 @@ bird - a two legged animal with two wings
 blob - a blob of material
 crab - a multilegged animal with two large arms
 dog - a four legged animal with a short neck elevating the head above the line of the body
+elephant - a very large quadruped animal with a large head and torso with equal sized limbs
 fish - an aquatic animal with a streamlined body and fins
 flying insect - a six legged animal with a head and two body segments and wings
 frog - a four legged animal with a neck and with very large rear legs and small forelegs
@@ -79,6 +80,8 @@ gator - a four legged animal with a very long body and short legs
 horse - a four legged animal with a long neck elevating the head above the line of the body
 human - a bipedal animal with two arms
 insect - a six legged animal with a head and two body segments
+kangaroo - a pentapedal animal that utilizes a large tail for stability with very large rear legs and smaller forearms
+lizard - a smaller form of 'gator'
 migo - whatever form migos have
 pig - a four legged animal with the head in the same line as the body
 spider - an eight legged animal with a small head on a large abdomen
@@ -136,6 +139,11 @@ TODO: describe this.
 (integer, optional)
 
 Number of dices and their sides that are rolled on monster melee attack. This defines the amount of bash damage.
+
+## "grab_strength"
+(integer, optional)
+
+Intensity of the grab effect applied by this monster. Defaults to 1, is only useful for monster with a GRAB special attack and the GRABS flag. A monster with grab_strength = n applies a grab as if it was n zombies. A player with max(Str,Dex)<=n has no chance of breaking that grab.
 
 ## "melee_cut"
 (integer, optional)

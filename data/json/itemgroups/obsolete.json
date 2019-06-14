@@ -1,0 +1,17 @@
+[
+  {
+    "id": "raw_materials",
+    "type": "item_group",
+    "items": [ { "group": "hardware_bulk", "prob": 100 } ]
+  },
+  {
+    "id": "plumber_gear",
+    "type": "item_group",
+    "items": [ { "group": "hardware_plumbing", "prob": 100 } ]
+  },
+  {
+    "id": "elec_parts",
+    "type": "item_group",
+    "items": [ { "group": "supplies_electronics", "prob": 100 } ]
+  }
+]

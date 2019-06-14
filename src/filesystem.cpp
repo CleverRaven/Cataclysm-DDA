@@ -2,15 +2,17 @@
 
 // FILE I/O
 #include <sys/stat.h>
+#include <cstdlib>
 #include <algorithm>
 #include <cerrno>
-#include <cstddef>
 #include <cstdio>
 #include <cstring>
 #include <deque>
 #include <fstream>
 #include <string>
 #include <vector>
+#include <iterator>
+#include <utility>
 
 #include "debug.h"
 
@@ -63,7 +65,7 @@ bool do_mkdir( const std::string &path, const int mode )
 
 bool assure_dir_exist( const std::string &path )
 {
-    return dir_exist( path ) || do_mkdir( path, 0777 );
+    return do_mkdir( path, 0777 ) || ( errno == EEXIST && dir_exist( path ) );
 }
 
 bool dir_exist( const std::string &path )
@@ -413,4 +415,22 @@ bool copy_file( const std::string &source_path, const std::string &dest_path )
     dest_stream.close();
 
     return dest_stream && source_stream;
+}
+
+std::string ensure_valid_file_name( const std::string &file_name )
+{
+    const char replacement_char = ' ';
+    const std::string invalid_chars = "\\/:?\"<>|";
+
+    // do any replacement in the file name, if needed.
+    std::string new_file_name = file_name;
+    std::transform( new_file_name.begin(), new_file_name.end(),
+    new_file_name.begin(), [&]( const char c ) {
+        if( invalid_chars.find( c ) != std::string::npos ) {
+            return replacement_char;
+        }
+        return c;
+    } );
+
+    return new_file_name;
 }

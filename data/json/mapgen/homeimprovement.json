@@ -1,24 +1,5 @@
 [
   {
-    "id": "paint",
-    "type": "item_group",
-    "items": [
-      [ "r_paint", 45 ],
-      [ "b_paint", 45 ],
-      [ "w_paint", 45 ],
-      [ "g_paint", 45 ],
-      [ "p_paint", 45 ],
-      [ "y_paint", 45 ],
-      [ "chipper", 55 ],
-      [ "paint_brush", 55 ]
-    ]
-  },
-  {
-    "id": "rug",
-    "type": "item_group",
-    "items": [ [ "r_carpet", 45 ], [ "g_carpet", 45 ], [ "y_carpet", 45 ], [ "p_carpet", 45 ] ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "home_improvement" ],

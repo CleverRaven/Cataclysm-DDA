@@ -1,16 +1,17 @@
 #include "itype.h"
 
-#include <stdexcept>
+#include <utility>
 
 #include "debug.h"
-#include "output.h"
 #include "player.h"
 #include "translations.h"
+#include "item.h"
+#include "ret_val.h"
 
 std::string gunmod_location::name() const
 {
     // Yes, currently the name is just the translated id.
-    return _( _id.c_str() );
+    return _( _id );
 }
 
 std::string itype::nname( unsigned int quantity ) const
@@ -78,7 +79,7 @@ long itype::invoke( player &p, item &it, const tripoint &pos, const std::string 
     const use_function *use = get_use( iuse_name );
     if( use == nullptr ) {
         debugmsg( "Tried to invoke %s on a %s, which doesn't have this use_function",
-                  iuse_name.c_str(), nname( 1 ).c_str() );
+                  iuse_name, nname( 1 ) );
         return 0;
     }
 

@@ -5,7 +5,7 @@
     "furniture": {
       "b": "f_bed",
       "l": "f_locker",
-      "X": "f_crate_c",
+      "X": [ "f_cardboard_box", "f_crate_c" ],
       "r": "f_rack",
       "d": "f_desk",
       "s": "f_dresser",

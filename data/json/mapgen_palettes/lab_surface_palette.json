@@ -20,7 +20,7 @@
       ",": "t_pavement_y",
       "/": "t_chainfence",
       "^": "t_fence_barbed",
-      "!": "t_guardrail_bg_dp",
+      "!": "t_guardrail",
       "m": "t_door_metal_c",
       "M": "t_door_metal_locked",
       "w": "t_gates_control_brick",

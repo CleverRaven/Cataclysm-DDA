@@ -15,7 +15,7 @@
       [ "mintpatties", 20 ],
       [ "electrohack", 3 ],
       [ "usb_drive", 5 ],
-      [ "battery", 50 ],
+      { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "file", 10 ],
       [ "manual_computers", 20 ],
       [ "textbook_computer", 8 ],

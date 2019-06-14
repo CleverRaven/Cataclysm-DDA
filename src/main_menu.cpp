@@ -2,8 +2,15 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdio>
+#include <exception>
+#include <functional>
+#include <map>
+#include <memory>
+#include <sstream>
 
 #include "auto_pickup.h"
+#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "debug.h"
@@ -26,6 +33,11 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "worldfactory.h"
+#include "color.h"
+#include "enums.h"
+#include "options.h"
+#include "pldata.h"
+#include "string_formatter.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -106,9 +118,9 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const in
     const nc_color cColor3 = c_light_blue;
 
     if( halloween_theme ) {
-        fold_and_print_from( w_open, 0, 0, 30, 0, c_white, halloween_spider().c_str() );
+        fold_and_print_from( w_open, 0, 0, 30, 0, c_white, halloween_spider() );
         fold_and_print_from( w_open, iMenuOffsetY - 8, getmaxx( w_open ) - 25,
-                             25, 0, c_white, halloween_graves().c_str() );
+                             25, 0, c_white, halloween_graves() );
     }
 
     if( mmenu_title.size() > 1 ) {
@@ -126,7 +138,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const in
                 }
                 iLine++;
             } else {
-                mvwprintz( w_open, iLine++, iOffsetX, i < 6 ? cColor1 : cColor2, "%s", mmenu_title[i].c_str() );
+                mvwprintz( w_open, iLine++, iOffsetX, i < 6 ? cColor1 : cColor2, "%s", mmenu_title[i] );
             }
         }
     } else {
@@ -395,7 +407,7 @@ bool main_menu::opening_screen()
     ctxt.register_action( "ANY_INPUT" );
     bool start = false;
 
-    g->u = player();
+    g->u = avatar();
 
     int sel_line = 0;
 
@@ -539,12 +551,12 @@ bool main_menu::opening_screen()
                         } catch( const std::exception &err ) {
                             debugmsg( "Error: %s", err.what() );
                             g->gamemode.reset();
-                            g->u = player();
+                            g->u = avatar();
                             continue;
                         }
                         if( !g->gamemode->init() ) {
                             g->gamemode.reset();
-                            g->u = player();
+                            g->u = avatar();
                             continue;
                         }
                         start = true;
@@ -634,6 +646,7 @@ bool main_menu::new_character_tab()
         vSubItems.push_back( pgettext( "Main Menu|New Game", "Play <N|n>ow!" ) );
     }
     std::vector<std::vector<std::string>> vNewGameHotkeys;
+    vNewGameHotkeys.reserve( vSubItems.size() );
     for( const std::string &item : vSubItems ) {
         vNewGameHotkeys.push_back( get_hotkeys( item ) );
     }
@@ -694,7 +707,7 @@ bool main_menu::new_character_tab()
                         g->setup();
                     } catch( const std::exception &err ) {
                         debugmsg( "Error: %s", err.what() );
-                        g->u = player();
+                        g->u = avatar();
                         continue;
                     }
                     character_type play_type = PLTYPE_CUSTOM;
@@ -713,7 +726,7 @@ bool main_menu::new_character_tab()
                             break;
                     }
                     if( !g->u.create( play_type ) ) {
-                        g->u = player();
+                        g->u = avatar();
                         load_char_templates();
                         werase( w_background );
                         wrefresh( w_background );
@@ -724,7 +737,7 @@ bool main_menu::new_character_tab()
                     wrefresh( w_background );
 
                     if( !g->start_game() ) {
-                        g->u = player();
+                        g->u = avatar();
                         continue;
                     }
                     start = true;
@@ -744,8 +757,8 @@ bool main_menu::new_character_tab()
                            c_white, "%s", _( "Press 'd' to delete a preset." ) );
                 for( int i = 0; i < static_cast<int>( templates.size() ); i++ ) {
                     int line = iMenuOffsetY - 4 - i;
-                    mvwprintz( w_open, line, 20 + iMenuOffsetX + extra_w / 2,
-                               ( sel3 == i ? h_white : c_white ), "%s", templates[i].c_str() );
+                    mvwprintz( w_open, line, 20 + iMenuOffsetX + extra_w / 2, ( sel3 == i ? h_white : c_white ), "%s",
+                               templates[i] );
                 }
             }
             wrefresh( w_open );
@@ -788,7 +801,7 @@ bool main_menu::new_character_tab()
             } else if( action == "RIGHT" || action == "CONFIRM" ) {
                 WORLDPTR world = world_generator->pick_world();
                 if( world == nullptr ) {
-                    g->u = player();
+                    g->u = avatar();
                     continue;
                 }
                 world_generator->set_active_world( world );
@@ -796,11 +809,11 @@ bool main_menu::new_character_tab()
                     g->setup();
                 } catch( const std::exception &err ) {
                     debugmsg( "Error: %s", err.what() );
-                    g->u = player();
+                    g->u = avatar();
                     continue;
                 }
                 if( !g->u.create( PLTYPE_TEMPLATE, templates[sel3] ) ) {
-                    g->u = player();
+                    g->u = avatar();
                     load_char_templates();
                     werase( w_background );
                     wrefresh( w_background );
@@ -809,7 +822,7 @@ bool main_menu::new_character_tab()
                 werase( w_background );
                 wrefresh( w_background );
                 if( !g->start_game() ) {
-                    g->u = player();
+                    g->u = avatar();
                     continue;
                 }
                 start = true;
@@ -870,7 +883,7 @@ bool main_menu::load_character_tab()
                     }
                     mvwprintz( w_open, line, 15 + iMenuOffsetX + extra_w / 2,
                                ( sel2 == i ? color2 : color1 ), "%s (%d)",
-                               world_name.c_str(), savegames_count );
+                               world_name, savegames_count );
                 }
             }
             wrefresh( w_open );
@@ -910,8 +923,7 @@ bool main_menu::load_character_tab()
                 savegames.erase( new_end, savegames.end() );
             }
 
-            mvwprintz( w_open, iMenuOffsetY - 2 - sel2, 15 + iMenuOffsetX + extra_w / 2,
-                       h_white, "%s", wn.c_str() );
+            mvwprintz( w_open, iMenuOffsetY - 2 - sel2, 15 + iMenuOffsetX + extra_w / 2, h_white, "%s", wn );
 
             if( savegames.empty() ) {
                 mvwprintz( w_open, iMenuOffsetY - 2 - sel2, 40 + iMenuOffsetX + extra_w / 2,
@@ -924,7 +936,7 @@ bool main_menu::load_character_tab()
                     const bool selected = sel3 + line == iMenuOffsetY - 2;
                     mvwprintz( w_open, line--, 40 + iMenuOffsetX + extra_w / 2,
                                selected ? h_white : c_white,
-                               "%s", savename.player_name().c_str() );
+                               "%s", savename.player_name() );
                 }
             }
             wrefresh( w_open );
@@ -963,7 +975,7 @@ bool main_menu::load_character_tab()
                         g->setup();
                     } catch( const std::exception &err ) {
                         debugmsg( "Error: %s", err.what() );
-                        g->u = player();
+                        g->u = avatar();
                         continue;
                     }
 
@@ -990,7 +1002,7 @@ void main_menu::world_tab()
             int yoffset = iMenuOffsetY - 2 - sel2;
 
             const auto all_worldnames = world_generator->all_worldnames();
-            mvwprintz( w_open, yoffset, xoffset - 15, h_white, "%s", all_worldnames[sel2 - 1].c_str() );
+            mvwprintz( w_open, yoffset, xoffset - 15, h_white, "%s", all_worldnames[sel2 - 1] );
 
             for( size_t i = 0; i < vWorldSubItems.size(); ++i ) {
                 nc_color text_color;

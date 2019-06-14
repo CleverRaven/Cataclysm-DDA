@@ -1,10 +1,11 @@
 #include "recipe_dictionary.h"
 
 #include <algorithm>
+#include <iterator>
+#include <memory>
+#include <utility>
 
 #include "cata_utility.h"
-#include "crafting.h"
-#include "generic_factory.h"
 #include "init.h"
 #include "item.h"
 #include "item_factory.h"
@@ -12,6 +13,13 @@
 #include "output.h"
 #include "skill.h"
 #include "uistate.h"
+#include "debug.h"
+#include "json.h"
+#include "optional.h"
+#include "player.h"
+#include "requirements.h"
+#include "units.h"
+#include "string_id.h"
 
 recipe_dictionary recipe_dict;
 
@@ -283,9 +291,7 @@ recipe &recipe_dictionary::load( JsonObject &jo, const std::string &src,
 
     r.load( jo, src );
 
-    out[ r.ident() ] = std::move( r );
-
-    return out[ r.ident() ];
+    return out[ r.ident() ] = std::move( r );
 }
 
 size_t recipe_dictionary::size() const
@@ -369,16 +375,20 @@ void recipe_dictionary::finalize()
         }
     }
 
-    // Cache auto-learn recipes
+    // Cache auto-learn recipes and blueprints
     for( const auto &e : recipe_dict.recipes ) {
         if( e.second.autolearn ) {
             recipe_dict.autolearn.insert( &e.second );
+        }
+        if( e.second.is_blueprint() ) {
+            recipe_dict.blueprints.insert( &e.second );
         }
     }
 }
 
 void recipe_dictionary::reset()
 {
+    recipe_dict.blueprints.clear();
     recipe_dict.autolearn.clear();
     recipe_dict.recipes.clear();
     recipe_dict.uncraft.clear();

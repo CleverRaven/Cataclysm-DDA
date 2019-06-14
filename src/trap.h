@@ -2,23 +2,23 @@
 #ifndef TRAP_H
 #define TRAP_H
 
+#include <cstddef>
 #include <functional>
 #include <vector>
+#include <string>
 
 #include "color.h"
 #include "int_id.h"
 #include "string_id.h"
+#include "type_id.h"
 #include "units.h"
 
 class Creature;
 class item;
 class player;
 class map;
-struct trap;
 struct tripoint;
 class JsonObject;
-using trap_id = int_id<trap>;
-using trap_str_id = string_id<trap>;
 
 namespace trapfunc
 {
@@ -27,12 +27,14 @@ namespace trapfunc
 // creature can be NULL.
 void none( Creature *, const tripoint & );
 void bubble( Creature *creature, const tripoint &p );
+void glass( Creature *creature, const tripoint &p );
 void cot( Creature *creature, const tripoint &p );
 void beartrap( Creature *creature, const tripoint &p );
 void snare_light( Creature *creature, const tripoint &p );
 void snare_heavy( Creature *creature, const tripoint &p );
 void board( Creature *creature, const tripoint &p );
 void caltrops( Creature *creature, const tripoint &p );
+void caltrops_glass( Creature *creature, const tripoint &p );
 void tripwire( Creature *creature, const tripoint &p );
 void crossbow( Creature *creature, const tripoint &p );
 void shotgun( Creature *creature, const tripoint &p );
@@ -74,6 +76,7 @@ struct trap {
         int avoidance;  // 0 to ??, affects avoidance
         int difficulty; // 0 to ??, difficulty of assembly & disassembly
         bool benign = false;
+        bool always_invisible = false;
         trap_function act;
         std::string name_;
         /**
@@ -84,6 +87,12 @@ struct trap {
         std::vector<itype_id> components; // For disassembly?
     public:
         std::string name() const;
+        /**
+         * There are special always invisible traps. See player::search_surroundings
+         */
+        bool is_always_invisible() const {
+            return always_invisible;
+        }
         /**
          * How easy it is to spot the trap. Smaller values means it's easier to spot.
          */
@@ -207,6 +216,7 @@ const trap_function &trap_function_from_string( const std::string &function_name
 extern trap_id
 tr_null,
 tr_bubblewrap,
+tr_glass,
 tr_cot,
 tr_funnel,
 tr_metal_funnel,
@@ -218,6 +228,7 @@ tr_beartrap,
 tr_beartrap_buried,
 tr_nailboard,
 tr_caltrops,
+tr_caltrops_glass,
 tr_tripwire,
 tr_crossbow,
 tr_shotgun_2,

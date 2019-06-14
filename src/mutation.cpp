@@ -1,8 +1,12 @@
 #include "mutation.h"
 
+#include <cstddef>
 #include <algorithm>
+#include <list>
+#include <unordered_set>
 
 #include "action.h"
+#include "avatar_action.h"
 #include "field.h"
 #include "game.h"
 #include "item.h"
@@ -12,10 +16,17 @@
 #include "mapdata.h"
 #include "monster.h"
 #include "morale_types.h"
-#include "output.h"
+#include "overmapbuffer.h"
 #include "player.h"
 #include "translations.h"
 #include "ui.h"
+#include "int_id.h"
+#include "messages.h"
+#include "omdata.h"
+#include "optional.h"
+#include "player_activity.h"
+#include "rng.h"
+#include "string_id.h"
 
 const efftype_id effect_stunned( "stunned" );
 
@@ -41,6 +52,9 @@ static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
+static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
+static const trait_id trait_ROOTS2( "ROOTS2" );
+static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 
 bool Character::has_trait( const trait_id &b ) const
@@ -113,7 +127,7 @@ void Character::unset_mutation( const trait_id &flag )
     reset_encumbrance();
 }
 
-int Character::get_mod( const trait_id &mut, std::string arg ) const
+int Character::get_mod( const trait_id &mut, const std::string &arg ) const
 {
     auto &mod_data = mut->mods;
     int ret = 0;
@@ -215,7 +229,7 @@ void Character::mutation_effect( const trait_id &mut )
             add_msg_player_or_npc( m_bad,
                                    _( "Your %s is destroyed!" ),
                                    _( "<npcname>'s %s is destroyed!" ),
-                                   armor.tname().c_str() );
+                                   armor.tname() );
             for( item &remain : armor.contents ) {
                 g->m.add_item_or_charges( pos(), remain );
             }
@@ -223,7 +237,7 @@ void Character::mutation_effect( const trait_id &mut )
             add_msg_player_or_npc( m_bad,
                                    _( "Your %s is pushed off!" ),
                                    _( "<npcname>'s %s is pushed off!" ),
-                                   armor.tname().c_str() );
+                                   armor.tname() );
             g->m.add_item_or_charges( pos(), armor );
         }
         return true;
@@ -330,121 +344,9 @@ void player::activate_mutation( const trait_id &mut )
         g->m.add_field( pos(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
     } else if( mut == "BURROW" ) {
-        int choice = uilist( _( "Perform which function:" ), {
-            _( "Turn on digging mode" ),
-            _( "Dig pit" ),
-            _( "Fill pit/tamp ground" ),
-            _( "Clear rubble" ),
-            _( "Churn up ground" )
-        } );
-        if( choice == UILIST_CANCEL ) {
-            tdata.powered = false;
-        } else if( choice != 0 ) {
-            tdata.powered = false;
-            if( is_underwater() ) {
-                add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-                return;
-            } else {
-                if( choice == 1 ) {
-                    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Dig pit where?" ) );
-                    if( !pnt_ ) {
-                        return;
-                    }
-                    const tripoint pnt = *pnt_;
-
-                    if( pnt == pos() ) {
-                        add_msg_if_player( m_info, _( "You delve into yourself." ) );
-                        return;
-                    }
-                    int moves;
-                    if( g->m.ter( pnt ) == t_pit_shallow ) {
-                        moves = MINUTES( 30 ) * 100;
-                    } else if( g->m.has_flag( "DIGGABLE", pnt ) ) {
-                        moves = MINUTES( 10 ) * 100;
-                        if( g->m.ter( pnt ) == t_grave ) {
-                            moves *= 2; // 6 feet under
-                            if( g->u.has_trait_flag( "SPIRITUAL" ) && !g->u.has_trait_flag( "PSYCHOPATH" ) &&
-                                g->u.query_yn( _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
-                                add_msg( m_info, _( "You are really going against your beliefs here." ) );
-                                g->u.add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
-                                if( one_in( 3 ) ) {
-                                    g->u.vomit();
-                                }
-                            } else if( g->u.has_trait_flag( "PSYCHOPATH" ) ) {
-                                g->u.add_msg_if_player( m_good, _( "This is fun!" ) );
-                                g->u.add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
-                            } else if( !g->u.has_trait_flag( "EATDEAD" ) && !g->u.has_trait_flag( "SAPROVORE" ) ) {
-                                g->u.add_msg_if_player( m_bad, _( "This is utterly disgusting!" ) );
-                                g->u.add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
-                                if( one_in( 5 ) ) {
-                                    g->u.vomit();
-                                }
-                            }
-                        }
-                    } else {
-                        add_msg_if_player( _( "You can't dig a pit on this ground." ) );
-                        return;
-                    }
-                    assign_activity( activity_id( "ACT_DIG" ), moves, -1, 0 );
-                    activity.placement = pnt;
-                } else if( choice == 2 ) {
-                    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Fill pit where?" ) );
-                    if( !pnt_ ) {
-                        return;
-                    }
-                    const tripoint pnt = *pnt_;
-
-                    if( pnt == pos() ) {
-                        add_msg_if_player( m_info, _( "You decide not to bury yourself that early." ) );
-                        return;
-                    }
-                    int moves;
-                    if( g->m.ter( pnt ) == t_pit || g->m.ter( pnt ) == t_pit_spiked ||
-                        g->m.ter( pnt ) == t_pit_glass || g->m.ter( pnt ) == t_pit_corpsed ) {
-                        moves = MINUTES( 15 ) * 100;
-                    } else if( g->m.ter( pnt ) == t_pit_shallow ) {
-                        moves = MINUTES( 10 ) * 100;
-                    } else if( g->m.ter( pnt ) == t_dirtmound ) {
-                        moves = MINUTES( 5 ) * 100;
-                    } else {
-                        add_msg_if_player( _( "There is no pit to fill." ) );
-                        return;
-                    }
-                    assign_activity( activity_id( "ACT_FILL_PIT" ), moves, -1, 0 );
-                    activity.placement = pnt;
-                } else if( choice == 3 ) {
-                    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Clear rubble where?" ) );
-                    if( !pnt_ ) {
-                        return;
-                    }
-                    const tripoint pnt = *pnt_;
-
-                    if( g->m.has_flag( "RUBBLE", pnt ) ) {
-                        // 75 seconds
-                        assign_activity( activity_id( "ACT_CLEAR_RUBBLE" ), 1250, -1, 0 );
-                        activity.placement = pnt;
-                    } else {
-                        add_msg_if_player( m_bad, _( "There is no rubble to clear." ) );
-                        return;
-                    }
-                } else if( choice == 4 ) {
-                    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Churn up ground where?" ) );
-                    if( !pnt_ ) {
-                        return;
-                    }
-                    const tripoint pnt = *pnt_;
-
-                    if( g->m.has_flag( "PLOWABLE", pnt ) && !g->m.has_flag( "PLANT", pnt ) &&
-                        g->m.ter( pnt ) != t_dirtmound ) {
-                        add_msg_if_player( _( "You churn up the earth here." ) );
-                        moves = -300;
-                        g->m.ter_set( pnt, t_dirtmound );
-                    } else {
-                        add_msg_if_player( _( "You can't churn up this ground." ) );
-                    }
-                }
-            }
-        }
+        tdata.powered = false;
+        item burrowing_item( itype_id( "fake_burrowing" ) );
+        invoke_item( &burrowing_item );
         return;  // handled when the activity finishes
     } else if( mut == trait_SLIMESPAWNER ) {
         std::vector<tripoint> valid;
@@ -501,6 +403,47 @@ void player::activate_mutation( const trait_id &mut )
         print_health();
         tdata.powered = false;
         return;
+    } else if( mut == trait_TREE_COMMUNION ) {
+        tdata.powered = false;
+        if( !overmap_buffer.ter( global_omt_location() ).obj().is_wooded() ) {
+            add_msg_if_player( m_info, _( "You can only do that in a wooded area." ) );
+            return;
+        }
+        // Check for adjacent trees.
+        const tripoint p = pos();
+        bool adjacent_tree = false;
+        for( int dx = -1; dx <= 1; dx++ ) {
+            for( int dy = -1; dy <= 1; dy++ ) {
+                const tripoint p2 = tripoint( p.x + dx, p.y + dy, p.z );
+                if( g->m.has_flag( "TREE", p2 ) ) {
+                    adjacent_tree = true;
+                }
+            }
+        }
+        if( !adjacent_tree ) {
+            add_msg_if_player( m_info, _( "You can only do that next to a tree." ) );
+            return;
+        }
+
+        if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {
+            add_msg_if_player( _( "You reach out to the trees with your roots." ) );
+        } else {
+            add_msg_if_player(
+                _( "You lay next to the trees letting your hair roots tangle with the trees." ) );
+        }
+
+        assign_activity( activity_id( "ACT_TREE_COMMUNION" ) );
+
+        if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {
+            const time_duration startup_time = has_trait( trait_ROOTS3 ) ? rng( 15_minutes,
+                                               30_minutes ) : rng( 60_minutes, 90_minutes );
+            activity.values.push_back( to_turns<int>( startup_time ) );
+            return;
+        } else {
+            const time_duration startup_time = rng( 120_minutes, 180_minutes );
+            activity.values.push_back( to_turns<int>( startup_time ) );
+            return;
+        }
     } else if( mut == trait_DEBUG_BIONIC_POWER ) {
         max_power_level += 100;
         add_msg_if_player( m_good, _( "Bionic power storage increased by 100." ) );
@@ -516,7 +459,7 @@ void player::activate_mutation( const trait_id &mut )
         mut_ranged = item( mdata.ranged_mutation );
         add_msg_if_player( mdata.ranged_mutation_message() );
         g->refresh_all();
-        g->plfire( mut_ranged );
+        avatar_action::fire( g->u, g->m, mut_ranged );
         tdata.powered = false;
         return;
     }
@@ -1016,7 +959,7 @@ bool player::mutate_towards( const trait_id &mut )
     return true;
 }
 
-void player::remove_mutation( const trait_id &mut )
+void player::remove_mutation( const trait_id &mut, bool silent )
 {
     const auto &mdata = mut.obj();
     // Check if there's a prerequisite we should shrink back into
@@ -1112,10 +1055,12 @@ void player::remove_mutation( const trait_id &mut )
         } else {
             rating = m_neutral;
         }
-        add_msg_player_or_npc( rating,
-                               _( "Your %1$s mutation turns into %2$s." ),
-                               _( "<npcname>'s %1$s mutation turns into %2$s." ),
-                               mdata.name(), replace_mdata.name() );
+        if( !silent ) {
+            add_msg_player_or_npc( rating,
+                                   _( "Your %1$s mutation turns into %2$s." ),
+                                   _( "<npcname>'s %1$s mutation turns into %2$s." ),
+                                   mdata.name(), replace_mdata.name() );
+        }
         set_mutation( replacing );
         mutation_loss_effect( mut );
         mutation_effect( replacing );
@@ -1132,10 +1077,12 @@ void player::remove_mutation( const trait_id &mut )
         } else {
             rating = m_neutral;
         }
-        add_msg_player_or_npc( rating,
-                               _( "Your %1$s mutation turns into %2$s." ),
-                               _( "<npcname>'s %1$s mutation turns into %2$s." ),
-                               mdata.name(), replace_mdata.name() );
+        if( !silent ) {
+            add_msg_player_or_npc( rating,
+                                   _( "Your %1$s mutation turns into %2$s." ),
+                                   _( "<npcname>'s %1$s mutation turns into %2$s." ),
+                                   mdata.name(), replace_mdata.name() );
+        }
         set_mutation( replacing2 );
         mutation_loss_effect( mut );
         mutation_effect( replacing2 );
@@ -1151,10 +1098,12 @@ void player::remove_mutation( const trait_id &mut )
         } else {
             rating = m_neutral;
         }
-        add_msg_player_or_npc( rating,
-                               _( "You lose your %s mutation." ),
-                               _( "<npcname> loses their %s mutation." ),
-                               mdata.name() );
+        if( !silent ) {
+            add_msg_player_or_npc( rating,
+                                   _( "You lose your %s mutation." ),
+                                   _( "<npcname> loses their %s mutation." ),
+                                   mdata.name() );
+        }
         mutation_loss_effect( mut );
     }
 
@@ -1226,7 +1175,7 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
         p.add_msg_player_or_npc( m_warning,
                                  _( "The %s sears your insides white-hot, and you collapse to the ground!" ),
                                  _( "<npcname> writhes in agony and collapses to the ground!" ),
-                                 it.tname().c_str() );
+                                 it.tname() );
         p.vomit();
         p.mod_pain( 35 + ( strong ? 20 : 0 ) );
         // Lose a significant amount of HP, probably about 25-33%
@@ -1246,7 +1195,7 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
         } else {
             p.add_msg_if_player( m_warning,
                                  _( "That was some toxic %s!  Let's stick with Marloss next time, that's safe." ),
-                                 it.tname().c_str() );
+                                 it.tname() );
             p.add_memorial_log( pgettext( "memorial_male", "Suffered a toxic marloss/mutagen reaction." ),
                                 pgettext( "memorial_female", "Suffered a toxic marloss/mutagen reaction." ) );
         }

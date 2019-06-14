@@ -2,6 +2,7 @@
 #ifndef STRING_INPUT_POPUP_H
 #define STRING_INPUT_POPUP_H
 
+#include <cstddef>
 #include <functional>
 #include <map>
 #include <memory>
@@ -11,7 +12,6 @@
 #include "cursesdef.h"
 
 class input_context;
-struct input_event;
 class utf8_wrapper;
 
 /**

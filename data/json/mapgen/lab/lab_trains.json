@@ -35,7 +35,8 @@
       "palettes": [ "lab_palette" ],
       "computers": {
         "6": {
-          "name": "Laboratory Train Controls", "security": 2,
+          "name": "Laboratory Train Controls",
+          "security": 2,
           "options": [
             { "name": "Request Subway Train", "action": "disconnect", "security": 0 },
             { "name": "View Subway Routes", "action": "map_subway", "security": 0 }
@@ -52,14 +53,14 @@
         "p": "t_sewage_pipe"
       },
       "place_nested": [
-        { "chunks": [ "lab_train_subway_east" ], "x": 0, "y": 0, "neighbors": { "east": ["subway"] } },
-        { "chunks": [ "lab_train_subway_west" ], "x": 0, "y": 0, "neighbors": { "west": ["subway"] } },
-        { "chunks": [ "lab_train_subway_north" ], "x": 0, "y": 0, "neighbors": { "north": ["subway"] } },
-        { "chunks": [ "lab_train_subway_south" ], "x": 0, "y": 0, "neighbors": { "south": ["subway"] } },
-        { "chunks": [ "lab_train_entrance_north" ], "x": 0, "y": 0, "neighbors": { "north": ["lab"] } },
-        { "chunks": [ "lab_train_entrance_south" ], "x": 0, "y": 0, "neighbors": { "south": ["lab"] } },
-        { "chunks": [ "lab_train_entrance_east" ], "x": 0, "y": 0, "neighbors": { "east": ["lab"] } },
-        { "chunks": [ "lab_train_entrance_west" ], "x": 0, "y": 0, "neighbors": { "west": ["lab"] } }
+        { "chunks": [ "lab_train_subway_east" ], "x": 0, "y": 0, "neighbors": { "east": [ "subway" ] } },
+        { "chunks": [ "lab_train_subway_west" ], "x": 0, "y": 0, "neighbors": { "west": [ "subway" ] } },
+        { "chunks": [ "lab_train_subway_north" ], "x": 0, "y": 0, "neighbors": { "north": [ "subway" ] } },
+        { "chunks": [ "lab_train_subway_south" ], "x": 0, "y": 0, "neighbors": { "south": [ "subway" ] } },
+        { "chunks": [ "lab_train_entrance_north" ], "x": 0, "y": 0, "neighbors": { "north": [ "lab" ] } },
+        { "chunks": [ "lab_train_entrance_south" ], "x": 0, "y": 0, "neighbors": { "south": [ "lab" ] } },
+        { "chunks": [ "lab_train_entrance_east" ], "x": 0, "y": 0, "neighbors": { "east": [ "lab" ] } },
+        { "chunks": [ "lab_train_entrance_west" ], "x": 0, "y": 0, "neighbors": { "west": [ "lab" ] } }
       ]
     }
   },
@@ -71,31 +72,35 @@
       "mapgensize": [ 24, 24 ],
       "rows": [
         "                       .",
-        "        ^^|^^|^^|^^|^^|^",
-        "        XXxXXxXXxXXxXXxX",
-        "        ^^|^^|^^|^^|^^|^",
-        "        ^^|^^|^^|^^|^^|^",
-        "        ^^|^^|^^|^^|^^|^",
-        "        XXxXXxXXxXXxXXxX",
-        "        ^^|^^|^^|^^|^^|^",
-        "                       .",
-        "                       .",
-        "                       #",
-        "                       #",
-        "                       #",
-        "                       #",
-        "                       .",
-        "                       .",
-        "        ^^|^^|^^|^^|^^|^",
-        "        XXxXXxXXxXXxXXxX",
-        "        ^^|^^|^^|^^|^^|^",
-        "        ^^|^^|^^|^^|^^|^",
-        "        ^^|^^|^^|^^|^^|^",
-        "        XXxXXxXXxXXxXXxX",
-        "        ^^|^^|^^|^^|^^|^",
+        "                ........",
+        "                ........",
+        "          ^^^|^^|^^|^^|^",
+        "          SXXxXXxXXxXXxX",
+        "          ^^^|^^|^^|^^|^",
+        "          ^^^|^^|^^|^^|^",
+        "          ^^^|^^|^^|^^|^",
+        "          SXXxXXxXXxXXxX",
+        "          ^^^|^^|^^|^^|^",
+        "                ........",
+        "                ........",
+        "                ........",
+        "                ........",
+        "          ^^^|^^|^^|^^|^",
+        "          SXXxXXxXXxXXxX",
+        "          ^^^|^^|^^|^^|^",
+        "          ^^^|^^|^^|^^|^",
+        "          ^^^|^^|^^|^^|^",
+        "          SXXxXXxXXxXXxX",
+        "          ^^^|^^|^^|^^|^",
+        "                ........",
+        "                ........",
         "                       ."
       ],
-      "palettes": [ "subway_underground" ]
+      "palettes": [ "subway_underground" ],
+      "place_vehicles": [
+        { "vehicle": "trains_draisine", "x": [ 12, 17 ], "y": 7, "chance": 3, "rotation": 180 },
+        { "vehicle": "trains_draisine", "x": [ 16, 21 ], "y": 16, "chance": 3, "rotation": 0 }
+      ]
     }
   },
   {
@@ -106,31 +111,35 @@
       "mapgensize": [ 24, 24 ],
       "rows": [
         ".                       ",
-        "^|^^|^^|^^|^^|^^        ",
-        "XxXXxXXxXXxXXxXX        ",
-        "^|^^|^^|^^|^^|^^        ",
-        "^|^^|^^|^^|^^|^^        ",
-        "^|^^|^^|^^|^^|^^        ",
-        "XxXXxXXxXXxXXxXX        ",
-        "^|^^|^^|^^|^^|^^        ",
-        ".                       ",
-        ".                       ",
-        "#                       ",
-        "#                       ",
-        "#                       ",
-        "#                       ",
-        ".                       ",
-        ".                       ",
-        "^|^^|^^|^^|^^|^^        ",
-        "XxXXxXXxXXxXXxXX        ",
-        "^|^^|^^|^^|^^|^^        ",
-        "^|^^|^^|^^|^^|^^        ",
-        "^|^^|^^|^^|^^|^^        ",
-        "XxXXxXXxXXxXXxXX        ",
-        "^|^^|^^|^^|^^|^^        ",
+        ".......                 ",
+        ".......                 ",
+        "^|^^|^^|^^|^^^          ",
+        "XxXXxXXxXXxXXS          ",
+        "^|^^|^^|^^|^^^          ",
+        "^|^^|^^|^^|^^^          ",
+        "^|^^|^^|^^|^^^          ",
+        "XxXXxXXxXXxXXS          ",
+        "^|^^|^^|^^|^^^          ",
+        ".......                 ",
+        ".......                 ",
+        ".......                 ",
+        ".......                 ",
+        "^|^^|^^|^^|^^^          ",
+        "XxXXxXXxXXxXXS          ",
+        "^|^^|^^|^^|^^^          ",
+        "^|^^|^^|^^|^^^          ",
+        "^|^^|^^|^^|^^^          ",
+        "XxXXxXXxXXxXXS          ",
+        "^|^^|^^|^^|^^^          ",
+        ".......                 ",
+        ".......                 ",
         ".                       "
       ],
-      "palettes": [ "subway_underground" ]
+      "palettes": [ "subway_underground" ],
+      "place_vehicles": [
+        { "vehicle": "trains_draisine", "x": [ 1, 7 ], "y": 7, "chance": 3, "rotation": 180 },
+        { "vehicle": "trains_draisine", "x": [ 6, 11 ], "y": 16, "chance": 3, "rotation": 0 }
+      ]
     }
   },
   {
@@ -140,22 +149,22 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
-        ".^X^^^X^..####..^X^^^X^.",
-        " -x---x-        -x---x- ",
-        " xXXxXXx        xXXxXXx ",
-        " ^X^^^X^        ^X^^^X^ ",
-        " -x---x-        -x---x- ",
-        " ^X^^^X^        ^X^^^X^ ",
-        " xXXxXXx        xXXxXXx ",
-        " -x---x-        -x---x- ",
-        " ^X^^^X^        ^X^^^X^ ",
-        " ^X^^^X^        ^X^^^X^ ",
-        " -x---x-        -x---x- ",
-        " ^X^^^X^        ^X^^^X^ ",
-        " ^X^^^X^        ^X^^^X^ ",
-        " -x---x-        -x---x- ",
-        " ^X^^^X^        ^X^^^X^ ",
-        " ^X^^^X^        ^X^^^X^ ",
+        "...^X^^^X^....^X^^^X^...",
+        " ..-x---x-....-x---x-.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..-x---x-....-x---x-.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        "   -x---x-    -x---x-   ",
+        "   ^X^^^X^    ^X^^^X^   ",
+        "   ^X^^^X^    ^X^^^X^   ",
+        "   -x---x-    -x---x-   ",
+        "   ^X^^^X^    ^X^^^X^   ",
+        "   ^X^^^X^    ^X^^^X^   ",
+        "   ^S^^^S^    ^S^^^S^   ",
+        "                        ",
+        "                        ",
         "                        ",
         "                        ",
         "                        ",
@@ -165,7 +174,11 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "subway_underground" ]
+      "palettes": [ "subway_underground" ],
+      "place_vehicles": [
+        { "vehicle": "trains_draisine", "x": 7, "y": [ 6, 11 ], "chance": 3, "rotation": 90 },
+        { "vehicle": "trains_draisine", "x": 16, "y": [ 2, 7 ], "chance": 3, "rotation": 270 }
+      ]
     }
   },
   {
@@ -183,24 +196,28 @@
         "                        ",
         "                        ",
         "                        ",
-        " ^X^^^X^        ^X^^^X^ ",
-        " ^X^^^X^        ^X^^^X^ ",
-        " -x---x-        -x---x- ",
-        " ^X^^^X^        ^X^^^X^ ",
-        " ^X^^^X^        ^X^^^X^ ",
-        " -x---x-        -x---x- ",
-        " ^X^^^X^        ^X^^^X^ ",
-        " ^X^^^X^        ^X^^^X^ ",
-        " -x---x-        -x---x- ",
-        " xXXxXXx        xXXxXXx ",
-        " ^X^^^X^        ^X^^^X^ ",
-        " -x---x-        -x---x- ",
-        " ^X^^^X^        ^X^^^X^ ",
-        " xXXxXXx        xXXxXXx ",
-        " -x---x-        -x---x- ",
-        ".^X^^^X^..####..^X^^^X^."
+        "                        ",
+        "                        ",
+        "   ^S^^^S^    ^S^^^S^   ",
+        "   ^X^^^X^    ^X^^^X^   ",
+        "   ^X^^^X^    ^X^^^X^   ",
+        "   -x---x-    -x---x-   ",
+        "   ^X^^^X^    ^X^^^X^   ",
+        "   ^X^^^X^    ^X^^^X^   ",
+        " ..-x---x-....-x---x-.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..-x---x-....-x---x-.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..-x---x-....-x---x-.. ",
+        "...^X^^^X^....^X^^^X^..."
       ],
-      "palettes": [ "subway_underground" ]
+      "palettes": [ "subway_underground" ],
+      "place_vehicles": [
+        { "vehicle": "trains_draisine", "x": 16, "y": [ 12, 17 ], "chance": 3, "rotation": 270 },
+        { "vehicle": "trains_draisine", "x": 7, "y": [ 16, 21 ], "chance": 3, "rotation": 90 }
+      ]
     }
   },
   {
@@ -210,7 +227,7 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
-        "        .|....|.        ",
+        "         |....|         ",
         "        .|....|.        ",
         "        .|....|.        ",
         "        .|....|.        ",
@@ -218,8 +235,8 @@
         "        .|....|.        ",
         "        .--MM--.        ",
         "        ........        ",
-        "                        ",
-        "                        ",
+        "        ........        ",
+        "          ....          ",
         "                        ",
         "                        ",
         "                        ",
@@ -236,7 +253,7 @@
         "                        "
       ],
       "palettes": [ "lab_palette" ],
-      "place_nested": [ { "chunks": [ "sub_f_crate" ], "x": [10,13], "y": [1,4], "repeat": [0,4] } ]
+      "place_nested": [ { "chunks": [ "sub_f_crate" ], "x": [ 10, 13 ], "y": [ 1, 4 ], "repeat": [ 0, 4 ] } ]
     }
   },
   {
@@ -260,8 +277,8 @@
         "                        ",
         "                        ",
         "                        ",
-        "                        ",
-        "                        ",
+        "          ....          ",
+        "        ........        ",
         "        ........        ",
         "        .--MM--.        ",
         "        .|....|.        ",
@@ -272,7 +289,7 @@
         "-----------MM-----------"
       ],
       "palettes": [ "lab_palette" ],
-      "place_nested": [ { "chunks": [ "sub_f_crate" ], "x": [10,13], "y": [19,21], "repeat": [0,4] } ]
+      "place_nested": [ { "chunks": [ "sub_f_crate" ], "x": [ 10, 13 ], "y": [ 19, 21 ], "repeat": [ 0, 4 ] } ]
     }
   },
   {
@@ -290,14 +307,14 @@
         "                       |",
         "                       |",
         "                       |",
-        "                .......|",
-        "                .------|",
-        "                .|.....|",
-        "                .M.....M",
-        "                .M.....M",
-        "                .|.....|",
-        "                .------|",
-        "                .......|",
+        "              .........|",
+        "              ..|------|",
+        "             ...|......|",
+        "             ...M......M",
+        "             ...M......M",
+        "             ...|......|",
+        "              ..|------|",
+        "              .........|",
         "                       |",
         "                       |",
         "                       |",
@@ -308,7 +325,7 @@
         "                       |"
       ],
       "palettes": [ "lab_palette" ],
-      "place_nested": [ { "chunks": [ "sub_f_crate" ], "x": [19,21], "y": [10,13], "repeat": [0,4] } ]
+      "place_nested": [ { "chunks": [ "sub_f_crate" ], "x": [ 19, 21 ], "y": [ 10, 13 ], "repeat": [ 0, 4 ] } ]
     }
   },
   {
@@ -326,14 +343,14 @@
         "                        ",
         "                        ",
         "                        ",
-        "........                ",
-        "-------.                ",
-        "......|.                ",
-        "......M.                ",
-        "......M.                ",
-        "......|.                ",
-        "-------.                ",
-        "........                ",
+        " ........               ",
+        "------|..               ",
+        "......|...              ",
+        "......M...              ",
+        "......M...              ",
+        "......|...              ",
+        "------|..               ",
+        " ........               ",
         "                        ",
         "                        ",
         "                        ",
@@ -344,7 +361,7 @@
         "                        "
       ],
       "palettes": [ "lab_palette" ],
-      "place_nested": [ { "chunks": [ "sub_f_crate" ], "x": [1,4], "y": [10,13], "repeat": [0,4] } ]
+      "place_nested": [ { "chunks": [ "sub_f_crate" ], "x": [ 1, 4 ], "y": [ 10, 13 ], "repeat": [ 0, 4 ] } ]
     }
   }
 ]

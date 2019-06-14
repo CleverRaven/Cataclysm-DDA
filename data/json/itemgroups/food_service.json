@@ -750,7 +750,7 @@
       [ "onion", 15 ],
       [ "chili_pepper", 15 ],
       [ "carrot", 15 ],
-      [ "potato_raw", 15 ],
+      [ "potato", 15 ],
       [ "irradiated_tomato", 4 ],
       [ "irradiated_lettuce", 4 ],
       [ "irradiated_zucchini", 4 ],
@@ -975,6 +975,66 @@
       { "item": "pale_ale", "prob": 20, "container-item": "keg" },
       { "item": "stout", "prob": 10, "container-item": "keg" },
       { "item": "imperial_stout", "prob": 5, "container-item": "keg" }
+    ]
+  },
+  {
+    "id": "flask_liquor",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "flask_hip", 100 ],
+      { "item": "whiskey", "prob": 40, "container-item": "flask_hip" },
+      { "item": "vodka", "prob": 30, "container-item": "flask_hip" },
+      { "item": "gin", "prob": 20, "container-item": "flask_hip" },
+      { "item": "rum", "prob": 20, "container-item": "flask_hip" },
+      { "item": "tequila", "prob": 20, "container-item": "flask_hip" },
+      { "item": "brandy", "prob": 10, "container-item": "flask_hip" },
+      { "item": "moonshine", "prob": 5, "container-item": "flask_hip" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "butcher_raw_meat",
+    "items": [
+      [ "stomach_large", 2 ],
+      [ "stomach_boiled", 2 ],
+      [ "meat", 8 ],
+      [ "lunchmeat", 6 ],
+      [ "hotdogs_frozen", 6 ],
+      { "item": "lung", "prob": 2, "charges": 5 },
+      { "item": "kidney", "prob": 2, "charges": 5 },
+      { "item": "liver", "prob": 4, "charges": 5 },
+      { "item": "brain", "prob": 2, "charges": 5 },
+      { "item": "sweetbread", "prob": 2, "charges": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "butcher_meat",
+    "items": [
+      [ "lunchmeat", 15 ],
+      [ "bologna", 10 ],
+      [ "sausage", 4 ],
+      [ "sweet_sausage", 2 ],
+      [ "bratwurst_sausage", 4 ],
+      [ "meat_salted", 2 ],
+      [ "meat_canned", 2 ],
+      [ "offal_canned", 2 ],
+      [ "meat_smoked", 2 ],
+      { "item": "meat_pickled", "prob": 2, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "offal_pickled", "prob": 2, "charges": 2, "container-item": "jar_glass_sealed" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "butcher_tools",
+    "items": [
+      [ "knife_steak", 20 ],
+      [ "knife_butcher", 30 ],
+      [ "tongs", 10 ],
+      [ "carver_off", 5 ],
+      [ "meat", 1 ],
+      [ "hacksaw", 10 ]
     ]
   }
 ]

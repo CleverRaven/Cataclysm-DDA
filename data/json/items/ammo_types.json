@@ -19,6 +19,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "4570",
+    "name": ".45-70",
+    "default": "4570_sp"
+  },
+  {
+    "type": "ammunition_type",
     "id": "nail",
     "name": "nails",
     "default": "nail"
@@ -46,6 +52,12 @@
     "id": "pebble",
     "name": "pebbles",
     "default": "pebble"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "shotcanister",
+    "name": "shotcanisters",
+    "default": "shotcanister_scrap"
   },
   {
     "type": "ammunition_type",
@@ -79,9 +91,21 @@
   },
   {
     "type": "ammunition_type",
+    "id": "357mag",
+    "name": ".357 magnum",
+    "default": "357mag_jhp"
+  },
+  {
+    "type": "ammunition_type",
     "id": "9x18",
     "name": "9x18mm",
     "default": "9x18mm"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "380",
+    "name": ".380 ACP",
+    "default": "380_JHP"
   },
   {
     "type": "ammunition_type",
@@ -111,7 +135,7 @@
     "type": "ammunition_type",
     "id": "460",
     "name": ".460",
-    "default": "45_acp"
+    "default": "460_rowland"
   },
   {
     "type": "ammunition_type",
@@ -220,6 +244,12 @@
     "id": "thread",
     "name": "thread",
     "default": "thread"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "anesthetic",
+    "name": "anesthetic",
+    "default": "anesthetic"
   },
   {
     "type": "ammunition_type",
@@ -484,5 +514,17 @@
     "id": "nitrox",
     "name": "compressed air",
     "default": "nitrox"
+  },
+  {
+    "id": "tinder",
+    "name": "tinder",
+    "default": "tinder",
+    "type": "ammunition_type"
+  },
+  {
+    "id": "esbit",
+    "name": "hexamine",
+    "default": "chem_hexamine",
+    "type": "ammunition_type"
   }
 ]
