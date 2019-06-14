@@ -82,7 +82,7 @@ struct tutorial_game : public special_game {
     private:
         void add_message( tut_lesson lesson );
 
-        bool tutorials_seen[NUM_LESSONS];
+        bool tutorials_seen[NUM_LESSONS] = {};
 };
 
 // DEFENSE

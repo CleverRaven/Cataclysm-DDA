@@ -72,9 +72,9 @@ struct trap {
         long sym;
         nc_color color;
     private:
-        int visibility; // 1 to ??, affects detection
-        int avoidance;  // 0 to ??, affects avoidance
-        int difficulty; // 0 to ??, difficulty of assembly & disassembly
+        int visibility = 1; // 1 to ??, affects detection
+        int avoidance = 0;  // 0 to ??, affects avoidance
+        int difficulty = 0; // 0 to ??, difficulty of assembly & disassembly
         bool benign = false;
         bool always_invisible = false;
         trap_function act;
