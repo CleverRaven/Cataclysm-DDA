@@ -32,7 +32,7 @@
       [ "jackhammer", 40 ],
       [ "toolbox", 25 ],
       [ "recharge_station", 10 ],
-      [ "angular_grinder", 30]
+      [ "angular_grinder", 30 ]
     ]
   },
   {
@@ -57,7 +57,7 @@
       [ "multitool", 10 ],
       [ "recharge_station", 10 ],
       [ "hand_crank_charger", 25 ],
-      [ "metal_file", 10]
+      [ "metal_file", 10 ]
     ]
   },
   {
@@ -127,7 +127,7 @@
       [ "magnifying_glass", 20 ],
       [ "soldering_iron", 150 ],
       [ "cordless_drill", 100 ],
-      [ "pin_reamer", 30]
+      [ "pin_reamer", 30 ]
     ]
   },
   {
@@ -182,7 +182,7 @@
       { "item": "weldtank", "prob": 60, "count": [ 1, 2 ] },
       { "item": "tinyweldtank", "prob": 60, "count": [ 1, 3 ] },
       [ "polisher", 70 ],
-      ["angular_grinder", 5],
+      [ "angular_grinder", 5 ],
       [ "welder", 10 ]
     ]
   },
@@ -354,8 +354,8 @@
       [ "chipper", 60 ],
       [ "boltcutters", 50 ],
       [ "screwdriver", 35 ],
-      [ "pin_reamer", 10],
-      [ "metal_file", 10]
+      [ "pin_reamer", 10 ],
+      [ "metal_file", 10 ]
     ]
   },
   {
@@ -368,7 +368,7 @@
       [ "jackhammer", 50 ],
       [ "elec_jackhammer", 50 ],
       [ "circsaw_off", 10 ],
-      [ "angular_grinder", 20]
+      [ "angular_grinder", 20 ]
     ]
   },
   {
