@@ -6595,11 +6595,11 @@ static std::string colorized_field_description_at( const tripoint &point )
 
     std::string field_text;
     const field &field = g->m.field_at( point );
-    const field_entry *entry = field.findField( field.fieldSymbol() );
+    const field_entry *entry = field.find_field( field.field_symbol() );
     if( entry ) {
         std::string affix;
         for( const auto &pair : affixes_vec ) {
-            if( pair.first.find( entry->getFieldType() ) != pair.first.end() ) {
+            if( pair.first.find( entry->get_field_type() ) != pair.first.end() ) {
                 affix = pair.second;
             }
         }
