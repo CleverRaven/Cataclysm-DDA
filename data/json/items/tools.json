@@ -9191,7 +9191,7 @@
     "id": "metal_file",
     "type": "TOOL",
     "name": "metal fileset",
-    "description": "These tools are commonly used to remove small amounts of materials from the surface of metal objects. ",
+    "description": "These tools are commonly used to remove small amounts of materials from the surface of metal objects.",
     "weight": 76,
     "volume": 1,
     "price": 0,
