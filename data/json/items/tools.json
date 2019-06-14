@@ -5428,6 +5428,7 @@
     "color": "dark_gray",
     "ammo": "battery",
     "use_action": "MP3",
+    "charges_per_use": 1,
     "magazines": [
       [
         "battery",
@@ -5616,6 +5617,7 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": "battery",
+    "charges_per_use": 1,
     "use_action": "NOISE_EMITTER_OFF",
     "flags": [ "RADIO_MODABLE" ],
     "magazines": [
@@ -8479,6 +8481,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "battery",
+    "charges_per_use": 10,
     "use_action": "VIBE",
     "magazines": [
       [
