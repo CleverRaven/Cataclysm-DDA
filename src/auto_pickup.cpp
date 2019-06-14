@@ -356,7 +356,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
             test_pattern( iTab, iLine );
         } else if( action == "SWITCH_AUTO_PICKUP_OPTION" ) {
             // TODO: Now that NPCs use this function, it could be used for them too
-            OptionsManager::getInstance()->get_option( "AUTO_PICKUP" ).setNext();
+            OptionsManager::getInstance( )->get_option( "AUTO_PICKUP" ).setNextItem( );
             OptionsManager::getInstance()->save();
         } else if( action == "HELP_KEYBINDINGS" ) {
             initial_draw(); // de-mangle parts of the screen
@@ -503,7 +503,7 @@ void auto_pickup::add_rule( const item *it )
 
     if( !get_option<bool>( "AUTO_PICKUP" ) &&
         query_yn( _( "Autopickup is not enabled in the options. Enable it now?" ) ) ) {
-        OptionsManager::getInstance()->get_option( "AUTO_PICKUP" ).setNext();
+        OptionsManager::getInstance( )->get_option( "AUTO_PICKUP" ).setNextItem( );
         OptionsManager::getInstance()->save();
     }
 }

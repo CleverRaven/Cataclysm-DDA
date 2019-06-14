@@ -380,7 +380,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         } else if( action == "TEST_RULE" && !current_tab.empty() ) {
             test_pattern( tab, line );
         } else if( action == "SWITCH_SAFEMODE_OPTION" ) {
-            OptionsManager::getInstance()->get_option( "SAFEMODE" ).setNext();
+            OptionsManager::getInstance( )->get_option( "SAFEMODE" ).setNextItem( );
             OptionsManager::getInstance()->save();
         }
     }
@@ -512,7 +512,7 @@ void safemode::add_rule( const std::string &rule_in, const Creature::Attitude at
 
     if( !get_option<bool>( "SAFEMODE" ) &&
         query_yn( _( "Safe Mode is not enabled in the options. Enable it now?" ) ) ) {
-        OptionsManager::getInstance()->get_option( "SAFEMODE" ).setNext();
+        OptionsManager::getInstance( )->get_option( "SAFEMODE" ).setNextItem( );
         OptionsManager::getInstance()->save();
     }
 }

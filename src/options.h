@@ -23,14 +23,16 @@ extern std::map <std::string, std::string> TILESETS;
  */
 extern std::map <std::string, std::string> SOUNDPACKS;
 
-enum COPT_VALUE_TYPE
+enum ETypeOption
 {
-    CVT_UNKNOWN = 0,
-    CVT_BOOL = 1,
-    CVT_STRING = 2,
-    CVT_FLOAT = 3,
-    CVT_INT = 4,
-    CVT_VOID = 5
+    TYPE_UNKNOWN,
+    TYPE_BOOL,
+    TYPE_FLOAT,
+    TYPE_STRING_SELECT,
+    TYPE_STRING_INPUT,
+    TYPE_INT_MAP,
+    TYPE_INT,
+    TYPE_VOID
 };
 
 enum copt_hide_t
@@ -70,6 +72,8 @@ class OptionsContainer
 
 public:
 
+    // ---- Fields ----
+
     std::string sName;
     std::string sPage;
     // The *untranslated* displayed option name ( short string ).
@@ -77,55 +81,50 @@ public:
     // The *untranslated* displayed option tool tip ( longer string ).
     std::string sTooltip;
     std::string sType;
-
-    bool verbose;
-
-    std::string format;
-
     std::string sPrerequisite;
-    std::vector <std::string> sPrerequisiteAllowedValues;
-
-    copt_hide_t hide;
-    int iSortPos;
-
-    COPT_VALUE_TYPE eType;
-
+    std::string sDefault;
+    std::string format;
     //sType == "string"
     std::string sSet;
-    // first is internal value, second is untranslated text
-    std::vector <id_and_option> vItems;
-    std::string sDefault;
 
+    int iSortPos;
     int iMaxLength;
 
-    //sType == "bool"
-    bool bSet;
-    bool bDefault;
-
-    //sType == "int"
     int iSet;
     int iMin;
     int iMax;
     int iDefault;
-    std::vector< std::tuple<int, std::string> > mIntValues;
 
-    //sType == "float"
     float fSet;
     float fMin;
     float fMax;
     float fDefault;
     float fStep;
 
+    bool bSet;
+    bool bDefault;
+    bool verbose;
+
+    std::vector <std::string> sPrerequisiteAllowedValues;
+    // first is internal value, second is untranslated text
+    std::vector< std::tuple<int, std::string> > mIntValues;
+    std::vector <id_and_option> vItems;
+
+    copt_hide_t hide;
+    ETypeOption eType;
+
+    // ---- Constructs ----
+
     OptionsContainer( );
 
-    //helper functions
-    int getSortPos( ) const;
+    // ---- Static Functions ----
 
-    /**
-     * Option should be hidden in current build.
-     * @return true if option should be hidden, false if not.
-     */
-    bool is_hidden( ) const;
+    static std::vector <std::string> getPrerequisiteSupportedTypes( )
+    {
+        return { "bool", "string", "string_select", "string_input" };
+    };
+
+    // ---- Functions ----
 
     std::string getPage( ) const;
 
@@ -137,29 +136,39 @@ public:
 
     std::string getType( ) const;
 
+    std::string getPrerequisite( ) const;
+
+    std::string getDefaultText( const bool bTranslated = true ) const;
+
     std::string getValue( bool classis_locale = false ) const;
 
     /// The translated currently selected option value.
     std::string getValueName( ) const;
 
-    std::string getDefaultText( const bool bTranslated = true ) const;
+    //helper functions
+    int getSortPos( ) const;
 
     int getItemPos( const std::string &sSearch ) const;
 
-    std::vector <id_and_option> getItems( ) const;
-
     int getIntPos( const int iSearch ) const;
-    cata::optional< std::tuple<int, std::string> > findInt( const int iSearch ) const;
+
+    /**
+     * Option should be hidden in current build.
+     * @return true if option should be hidden, false if not.
+     */
+    bool isHidden( ) const;
+
+    bool hasPrerequisite( ) const;
+
+    bool checkPrerequisite( ) const;
 
     void setSortPos( const std::string &sPageIn );
 
     //set to next item
-    void setNext( );
+    void setNextItem( );
 
-    //set to previous item
-    void setPrev( );
+    void setPreviousItem( );
 
-    //set value
     void setValue( std::string sSetIn );
 
     void setValue( float fSetIn );
@@ -173,14 +182,11 @@ public:
         setPrerequisites( sOption, { sAllowedValue } );
     }
 
-    std::string getPrerequisite( ) const;
+    std::vector <id_and_option> getItems( ) const;
 
-    bool hasPrerequisite( ) const;
+    cata::optional< std::tuple<int, std::string> > findInt( const int iSearch ) const;
 
-    bool checkPrerequisite( ) const;
-
-    template <typename T>
-    T value_as( ) const;
+    // ---- Operators ----
 
     bool operator==( const OptionsContainer &rhs ) const;
 
@@ -189,10 +195,10 @@ public:
         return !operator==( rhs );
     }
 
-    static std::vector <std::string> getPrerequisiteSupportedTypes( )
-    {
-        return { "bool", "string", "string_select", "string_input" };
-    };
+    // ---- Templates ----
+
+    template <typename T>
+    T value_as( ) const;
 };
 
 class OptionsManager

@@ -52,28 +52,39 @@ std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tiles
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
 std::map<std::string, int> mOptionsSort;
 
+// ---------------------------------
+// ---- Class Options Container ----
+// ---------------------------------
+
 OptionsContainer::OptionsContainer()
 {
     sType = "VOID";
-    eType = CVT_VOID;
+    eType = TYPE_VOID;
     hide = COPT_NO_HIDE;
 }
 
-static COPT_VALUE_TYPE get_value_type( const std::string &sType )
+static ETypeOption get_value_type( const std::string &sType )
 {
-    using CVT = COPT_VALUE_TYPE;
-
-    static std::unordered_map<std::string, CVT> vt_map = {
-        { "float", CVT::CVT_FLOAT },
-        { "bool", CVT::CVT_BOOL },
-        { "int", CVT::CVT_INT },
-        { "int_map", CVT::CVT_INT },
-        { "string_select", CVT::CVT_STRING },
-        { "string_input", CVT::CVT_STRING },
-        { "VOID", CVT::CVT_VOID }
+    static std::unordered_map<std::string, ETypeOption> vt_map = {
+        { "float", ETypeOption::TYPE_FLOAT },
+        { "bool", ETypeOption::TYPE_BOOL },
+        { "int", ETypeOption::TYPE_INT },
+        { "int_map", ETypeOption::TYPE_INT_MAP },
+        { "string_select", ETypeOption::TYPE_STRING_SELECT },
+        { "string_input", ETypeOption::TYPE_STRING_INPUT },
+        { "VOID", ETypeOption::TYPE_VOID }
     };
+
     auto result = vt_map.find( sType );
-    return result != vt_map.end() ? result->second : CVT_UNKNOWN;
+
+    if ( result != vt_map.end( ))
+    {
+        return result->second;
+    }
+    else
+    {
+        return TYPE_UNKNOWN;
+    }
 }
 
 //add hidden external option with value
@@ -356,7 +367,7 @@ bool OptionsContainer::checkPrerequisite() const
 }
 
 //helper functions
-bool OptionsContainer::is_hidden() const
+bool OptionsContainer::isHidden() const
 {
     switch( hide ) {
         case COPT_NO_HIDE:
@@ -400,7 +411,7 @@ bool OptionsContainer::is_hidden() const
 
 void OptionsContainer::setSortPos( const std::string &sPageIn )
 {
-    if( !is_hidden() ) {
+    if( !isHidden( ) ) {
         mOptionsSort[sPageIn]++;
         iSortPos = mOptionsSort[sPageIn] - 1;
 
@@ -480,7 +491,7 @@ std::string OptionsContainer::getValue( bool classis_locale ) const
 template<>
 std::string OptionsContainer::value_as<std::string>() const
 {
-    if( eType != CVT_STRING ) {
+    if( eType != TYPE_STRING_SELECT ) {
         debugmsg( "%s tried to get string value from option of type %s", sName, sType );
     }
     return sSet;
@@ -489,7 +500,7 @@ std::string OptionsContainer::value_as<std::string>() const
 template<>
 bool OptionsContainer::value_as<bool>() const
 {
-    if( eType != CVT_BOOL ) {
+    if( eType != TYPE_BOOL ) {
         debugmsg( "%s tried to get boolean value from option of type %s", sName, sType );
     }
     return bSet;
@@ -498,7 +509,7 @@ bool OptionsContainer::value_as<bool>() const
 template<>
 float OptionsContainer::value_as<float>() const
 {
-    if( eType != CVT_FLOAT ) {
+    if( eType != TYPE_FLOAT ) {
         debugmsg( "%s tried to get float value from option of type %s", sName, sType );
     }
     return fSet;
@@ -507,7 +518,7 @@ float OptionsContainer::value_as<float>() const
 template<>
 int OptionsContainer::value_as<int>() const
 {
-    if( eType != CVT_INT ) {
+    if( eType != TYPE_INT ) {
         debugmsg( "%s tried to get integer value from option of type %s", sName, sType );
     }
     return iSet;
@@ -620,7 +631,7 @@ cata::optional< std::tuple<int, std::string> > OptionsContainer::findInt(
 }
 
 //set to next item
-void OptionsContainer::setNext()
+void OptionsContainer::setNextItem()
 {
     if( sType == "string_select" ) {
         int iNext = getItemPos( sSet ) + 1;
@@ -664,7 +675,7 @@ void OptionsContainer::setNext()
 }
 
 //set to previous item
-void OptionsContainer::setPrev()
+void OptionsContainer::setPreviousItem()
 {
     if( sType == "string_select" ) {
         int iPrev = static_cast<int>( getItemPos( sSet ) ) - 1;
@@ -675,7 +686,7 @@ void OptionsContainer::setPrev()
         sSet = vItems[iPrev].first;
 
     } else if( sType == "string_input" ) {
-        setNext();
+        setNextItem( );
 
     } else if( sType == "bool" ) {
         bSet = !bSet;
@@ -918,13 +929,6 @@ OptionsManager::OptionsManager()
 
 #endif
 
-    fillVectorWithOptionsGeneral( );
-    fillVectorWithOptionsInterface( );
-    fillVectorWithoptionsGraphics( );
-    fillVectorWithOptionsDebug( );
-    fillVectorWithOptionsWorldDefault( );
-    fillVectorWithOptionsAndroid( );
-
     world_options = nullptr;
 
     mMigrateOption = { {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } } };
@@ -948,6 +952,13 @@ OptionsManager* OptionsManager::getInstance()
 
 void OptionsManager::init()
 {
+    fillVectorWithOptionsGeneral( );
+    fillVectorWithOptionsInterface( );
+    fillVectorWithoptionsGraphics( );
+    fillVectorWithOptionsDebug( );
+    fillVectorWithOptionsWorldDefault( );
+    fillVectorWithOptionsAndroid( );
+
     for( unsigned i = 0; i < vectorPages.size(); ++i ) {
         mPageItems[i].resize( mOptionsSort[vectorPages[i].first] );
     }
@@ -2542,9 +2553,9 @@ std::string OptionsManager::show( bool ingame, const bool world_options_only )
                 }
             } while( cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText().empty() );
         } else if( !mPageItems[iCurrentPage].empty() && action == "RIGHT" ) {
-            current_opt.setNext();
+            current_opt.setNextItem( );
         } else if( !mPageItems[iCurrentPage].empty() && action == "LEFT" ) {
-            current_opt.setPrev();
+            current_opt.setPreviousItem( );
         } else if( action == "NEXT_TAB" ) {
             iCurrentLine = 0;
             iStartPos = 0;
@@ -2564,7 +2575,7 @@ std::string OptionsManager::show( bool ingame, const bool world_options_only )
         } else if( !mPageItems[iCurrentPage].empty() && action == "CONFIRM" ) {
             if( current_opt.getType() == "bool" || current_opt.getType() == "string_select" ||
                 current_opt.getType() == "string_input" || current_opt.getType() == "int_map" ) {
-                current_opt.setNext();
+                current_opt.setNextItem( );
             } else {
                 const bool is_int = current_opt.getType() == "int";
                 const bool is_float = current_opt.getType() == "float";

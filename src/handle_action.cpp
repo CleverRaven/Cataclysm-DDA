@@ -1986,7 +1986,7 @@ bool game::handle_action()
                 auto &autosafemode_option = OptionsManager::getInstance()->get_option( "AUTOSAFEMODE" );
                 add_msg( m_info, autosafemode_option.value_as<bool>()
                          ? _( "Auto safe mode OFF!" ) : _( "Auto safe mode ON!" ) );
-                autosafemode_option.setNext();
+                autosafemode_option.setNextItem( );
                 break;
             }
 
@@ -2148,7 +2148,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_TOGGLE_AUTO_FEATURES:
-                OptionsManager::getInstance()->get_option( "AUTO_FEATURES" ).setNext();
+                OptionsManager::getInstance( )->get_option( "AUTO_FEATURES" ).setNextItem( );
                 OptionsManager::getInstance()->save();
                 //~ Auto Features are now ON/OFF
                 add_msg( _( "%s are now %s." ),
@@ -2157,7 +2157,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_TOGGLE_AUTO_PULP_BUTCHER:
-                OptionsManager::getInstance()->get_option( "AUTO_PULP_BUTCHER" ).setNext();
+                OptionsManager::getInstance( )->get_option( "AUTO_PULP_BUTCHER" ).setNextItem( );
                 OptionsManager::getInstance()->save();
                 //~ Auto Pulp/Pulp Adjacent/Butcher is now set to x
                 add_msg( _( "%s is now set to %s." ),
@@ -2166,7 +2166,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_TOGGLE_AUTO_MINING:
-                OptionsManager::getInstance()->get_option( "AUTO_MINING" ).setNext();
+                OptionsManager::getInstance( )->get_option( "AUTO_MINING" ).setNextItem( );
                 OptionsManager::getInstance()->save();
                 //~ Auto Mining is now ON/OFF
                 add_msg( _( "%s is now %s." ),
@@ -2175,7 +2175,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_TOGGLE_AUTO_FORAGING:
-                OptionsManager::getInstance()->get_option( "AUTO_FORAGING" ).setNext();
+                OptionsManager::getInstance( )->get_option( "AUTO_FORAGING" ).setNextItem( );
                 OptionsManager::getInstance()->save();
                 //~ Auto Foraging is now set to x
                 add_msg( _( "%s is now set to %s." ),
@@ -2184,7 +2184,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_TOGGLE_AUTO_PICKUP:
-                OptionsManager::getInstance()->get_option( "AUTO_PICKUP" ).setNext();
+                OptionsManager::getInstance( )->get_option( "AUTO_PICKUP" ).setNextItem( );
                 OptionsManager::getInstance()->save();
                 //~ Auto pickup is now set to x
                 add_msg( _( "%s is now set to %s." ),
