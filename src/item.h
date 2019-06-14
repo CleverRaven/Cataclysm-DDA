@@ -1226,7 +1226,6 @@ class item : public visitable<item>
          * All numeric values are returned as doubles and may be cast to the desired type.
          * <code>
          * int v = itm.get_var("v", 0); // v will be an int
-         * long l = itm.get_var("v", 0l); // l will be a long
          * double d = itm.get_var("v", 0.0); // d will be a double
          * std::string s = itm.get_var("v", ""); // s will be a std::string
          * // no default means empty string as default:
