@@ -203,6 +203,6 @@
     "volume": 2,
     "symbol": "?",
     "color": "light_grey",
-    "use_action": { "type": "learn_spell", "spells": [ "magus_escape", "magus_haste" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "phase_door", "magus_escape", "magus_haste" ] }
   }
 ]
