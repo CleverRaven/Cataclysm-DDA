@@ -94,6 +94,7 @@ class ma_technique
         int knockback_dist;
         float knockback_spread; // adding randomness to knockback, like tec_throw
         std::string aoe; // corresponds to an aoe shape, defaults to just the target
+        int knockback_follow; // player follows the knocked-back party into their former tile
 
         // offensive
         bool disarms; // like tec_disarm

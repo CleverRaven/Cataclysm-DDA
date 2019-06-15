@@ -214,5 +214,13 @@
     "name": "The Way of the Spear",
     "name_plural": "The Way of the Spear",
     "description": "A complete guide to Sōjutsu."
+  },
+  {
+    "id": "manual_wingchun",
+    "copy-from": "book_martial",
+    "type": "GENERIC",
+    "name": "Beautiful Springtime",
+    "name_plural": "Beautiful Springtime",
+    "description": "A complete guide to Wing Chun Kung-fu.  Includes a section on butterfly swords and the use of long poles at the end."
   }
 ]
