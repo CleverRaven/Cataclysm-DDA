@@ -1330,7 +1330,6 @@
     "effects": [ "NEVER_MISFIRES" ]
   },
   {
-<<<<<<< master
     "type": "AMMO",
     "id": "RPG_die",
     "price": 10,
