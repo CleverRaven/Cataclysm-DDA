@@ -101,10 +101,12 @@ public:
     static Path &get_instance( );
 
     /*
-     * TODO: Make safe method, launch an error in case the key does not exist.
      * Returns the path according to the value of the key.
+     *
+     * Exception:
+     *      std::out_of_range: If the key does not exist.
      */
-    std::string get_path_for_value_key( std::string valueKey );
+    std::string get_path_for_value_key( std::string value_key );
 };
 
 namespace PATH_INFO

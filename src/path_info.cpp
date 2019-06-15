@@ -72,9 +72,20 @@ void Path::init_data_directory( )
     }
 }
 
-std::string Path::get_path_for_value_key( std::string valueKey )
+std::string Path::get_path_for_value_key( std::string value_key )
 {
-    return pathname[valueKey];
+    std::string value_path;
+
+    try
+    {
+        value_path = pathname.at( value_key );
+    }
+    catch (std::out_of_range &out_of_range)
+    {
+        // TODO: Print error message
+    }
+
+    return value_path;
 }
 
 Path &Path::get_instance( std::string basePath, std::string userDirectoryPath )
