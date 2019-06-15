@@ -103,6 +103,7 @@ static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 
 static const bionic_id bionic_TOOLS_EXTEND( "bio_tools_extend" );
@@ -1072,6 +1073,40 @@ void player::bionics_uninstall_failure( monster &installer, player &patient, int
             break;
     }
 
+}
+
+bool player::has_enough_anesth( const itype *cbm )
+{
+    if( !cbm->bionic ) {
+        debugmsg( "has_enough_anesth( const itype *cbm ): cbm is not a bionic" );
+        return false;
+    }
+
+    if( has_bionic( bionic_id( "bio_painkiller" ) ) || has_trait( trait_NOPAIN ) ) {
+        return true;
+    }
+
+    const int difficulty = cbm->bionic->difficulty;
+    int amount = difficulty * 40;
+
+    int anesth_count = 0;
+    std::vector<const item *> a_filter = crafting_inventory().items_with( []( const item & it ) {
+        return it.has_quality( quality_id( "ANESTHESIA" ) );
+    } );
+    std::vector<const item *> b_filter = crafting_inventory().items_with( []( const item & it ) {
+        return it.has_flag( "ANESTHESIA" ); // legacy
+    } );
+    for( const item *anesthesia_item : a_filter ) {
+        if( anesthesia_item->ammo_remaining() >= 1 ) {
+            anesth_count += anesthesia_item->ammo_remaining();
+        }
+    }
+
+    if( amount <= anesth_count || !b_filter.empty() ) {
+        return true;
+    }
+
+    return false;
 }
 
 // bionic manipulation adjusted skill
