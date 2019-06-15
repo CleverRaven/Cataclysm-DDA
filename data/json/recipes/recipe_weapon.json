@@ -3014,8 +3014,9 @@
     "components": [
       [ [ "steel_lump", 3 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ],
       [ [ "stick_long", 1 ] ],
-      [ [ "fur", 2 ], [ "leather", 2 ] ] 
-      },
+      [ [ "fur", 2 ], [ "leather", 2 ] ]
+    ]
+  },
   {
     "result": "butterfly_swords",
     "category": "CC_WEAPON",
