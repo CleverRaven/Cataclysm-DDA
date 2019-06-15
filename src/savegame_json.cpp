@@ -3289,16 +3289,16 @@ void submap::store( JsonOut &jsout ) const
     for( int j = 0; j < SEEY; j++ ) {
         for( int i = 0; i < SEEX; i++ ) {
             // Save fields
-            if( fld[i][j].fieldCount() > 0 ) {
+            if( fld[i][j].field_count() > 0 ) {
                 jsout.write( i );
                 jsout.write( j );
                 jsout.start_array();
                 for( auto &elem : fld[i][j] ) {
                     const field_entry &cur = elem.second;
                     // We don't seem to have a string identifier for fields anywhere.
-                    jsout.write( cur.getFieldType() );
-                    jsout.write( cur.getFieldDensity() );
-                    jsout.write( cur.getFieldAge() );
+                    jsout.write( cur.get_field_type() );
+                    jsout.write( cur.get_field_intensity() );
+                    jsout.write( cur.get_field_age() );
                 }
                 jsout.end_array();
             }
@@ -3518,10 +3518,10 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
                 int type = jsin.get_int();
                 int density = jsin.get_int();
                 int age = jsin.get_int();
-                if( fld[i][j].findField( field_id( type ) ) == nullptr ) {
+                if( fld[i][j].find_field( field_id( type ) ) == nullptr ) {
                     field_count++;
                 }
-                fld[i][j].addField( field_id( type ), density, time_duration::from_turns( age ) );
+                fld[i][j].add_field( field_id( type ), density, time_duration::from_turns( age ) );
             }
         }
     } else if( member_name == "graffiti" ) {

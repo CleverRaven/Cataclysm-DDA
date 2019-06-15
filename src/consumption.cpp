@@ -1261,7 +1261,7 @@ bool player::feed_furnace_with( item &it )
         return false;
     }
 
-    const long consumed_charges = std::min( it.charges, it.charges_per_volume( furnace_max_volume ) );
+    const int consumed_charges = std::min( it.charges, it.charges_per_volume( furnace_max_volume ) );
     const int energy = get_acquirable_energy( it, rechargeable_cbm::furnace );
 
     if( energy == 0 ) {
@@ -1333,7 +1333,7 @@ int player::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
             break;
 
         case rechargeable_cbm::battery:
-            return std::min<long>( it.charges, std::numeric_limits<int>::max() );
+            return std::min( it.charges, std::numeric_limits<int>::max() );
 
         case rechargeable_cbm::reactor:
             if( it.charges > 0 ) {

@@ -4420,7 +4420,6 @@ void mapgen_lake_shore( map *m, oter_id, mapgendata dat, const time_point &turn,
         }
     }
 
-
     // Ok, all of the fiddling with the polygon corners is done.
     // At this point we've got four points that make up four line segments that started out
     // at the map boundaries, but have subsequently been perturbed by the adjacent terrains.

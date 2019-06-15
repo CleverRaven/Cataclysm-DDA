@@ -147,6 +147,8 @@ class spell_type
         // lits of bodyparts this spell applies its effect to
         enum_bitset<body_part> affected_bps;
 
+        std::set<std::string> spell_tags;
+
         static void load_spell( JsonObject &jo, const std::string &src );
         void load( JsonObject &jo, const std::string & );
         /**
@@ -221,6 +223,8 @@ class spell
         bool is_valid() const;
         // is the bodypart affected by the effect
         bool bp_is_affected( body_part bp ) const;
+        // check if the spell has a particular flag
+        bool has_flag( const std::string &flag ) const;
 
         // get spell id (from type)
         spell_id id() const;
@@ -276,20 +280,20 @@ class known_magic
         known_magic();
 
         void learn_spell( const std::string &sp, player &p, bool force = false );
-        void learn_spell( spell_id sp, player &p, bool force = false );
+        void learn_spell( const spell_id &sp, player &p, bool force = false );
         void learn_spell( const spell_type *sp, player &p, bool force = false );
         void forget_spell( const std::string &sp );
-        void forget_spell( spell_id sp );
+        void forget_spell( const spell_id &sp );
         // time in moves for the player to memorize the spell
-        int time_to_learn_spell( const player &p, spell_id sp ) const;
+        int time_to_learn_spell( const player &p, const spell_id &sp ) const;
         int time_to_learn_spell( const player &p, const std::string &str ) const;
-        bool can_learn_spell( const player &p, spell_id sp ) const;
+        bool can_learn_spell( const player &p, const spell_id &sp ) const;
         bool knows_spell( const std::string &sp ) const;
-        bool knows_spell( spell_id sp ) const;
+        bool knows_spell( const spell_id &sp ) const;
         // spells known by player
         std::vector<spell_id> spells() const;
         // gets the spell associated with the spell_id to be edited
-        spell &get_spell( spell_id sp );
+        spell &get_spell( const spell_id &sp );
         // opens up a ui that the player can choose a spell from
         // returns the index of the spell in the vector of spells
         int select_spell( const player &p );
@@ -320,17 +324,17 @@ namespace spell_effect
 void teleport( int min_distance, int max_distance );
 void pain_split(); // only does g->u
 void move_earth( const tripoint &target );
-void target_attack( spell &sp, const tripoint &source, const tripoint &target );
-void projectile_attack( spell &sp, const tripoint &source, const tripoint &target );
-void cone_attack( spell &sp, const tripoint &source, const tripoint &target );
-void line_attack( spell &sp, const tripoint &source, const tripoint &target );
+void target_attack( const spell &sp, const tripoint &source, const tripoint &target );
+void projectile_attack( const spell &sp, const tripoint &source, const tripoint &target );
+void cone_attack( const spell &sp, const tripoint &source, const tripoint &target );
+void line_attack( const spell &sp, const tripoint &source, const tripoint &target );
 
-std::set<tripoint> spell_effect_blast( spell &, const tripoint &, const tripoint &target,
+std::set<tripoint> spell_effect_blast( const spell &, const tripoint &, const tripoint &target,
                                        const int aoe_radius, const bool ignore_walls );
-std::set<tripoint> spell_effect_cone( spell &sp, const tripoint &source,
+std::set<tripoint> spell_effect_cone( const spell &sp, const tripoint &source,
                                       const tripoint &target,
                                       const int aoe_radius, const bool ignore_walls );
-std::set<tripoint> spell_effect_line( spell &, const tripoint &source,
+std::set<tripoint> spell_effect_line( const spell &, const tripoint &source,
                                       const tripoint &target,
                                       const int aoe_radius, const bool ignore_walls );
 

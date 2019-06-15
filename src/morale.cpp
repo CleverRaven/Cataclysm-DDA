@@ -190,7 +190,6 @@ void player_morale::morale_point::set_percent_contribution( double contribution 
     percent_contribution = contribution;
 }
 
-
 double player_morale::morale_point::get_percent_contribution()
 {
     return percent_contribution;
@@ -410,8 +409,6 @@ int player_morale::get_total_positive_value() const
     }
     return sqrt( sum );
 }
-
-
 
 int player_morale::get_level() const
 {

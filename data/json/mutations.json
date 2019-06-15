@@ -610,9 +610,9 @@
     "id": "MARTIAL_ARTS2",
     "name": "Self-Defense Classes",
     "points": 2,
-    "description": "You have taken some self-defense classes at a nearby gym.  You start with your choice of Capoeira, Krav Maga, Muay Thai, Ninjutsu, or Zui Quan.",
+    "description": "You have taken some self-defense classes at a nearby gym.  You start with your choice of Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
     "starting_trait": true,
-    "initial_ma_styles": [ "style_krav_maga", "style_muay_thai", "style_ninjutsu", "style_capoeira", "style_zui_quan" ],
+    "initial_ma_styles": [ "style_krav_maga", "style_muay_thai", "style_ninjutsu", "style_capoeira", "style_zui_quan", "style_wingchun" ],
     "valid": false
   },
   {
@@ -654,6 +654,39 @@
     "starting_trait": true,
     "cancels": [ "TRUTHTELLER" ],
     "social_modifiers": { "lie": 40 }
+  },
+  {
+    "type": "mutation",
+    "id": "SAVINGS",
+    "name": "Savings",
+    "points": 1,
+    "description": "You had some money stashed at the bank for a rainy day. Now that the storm is raging, it's a last call to use it maybe?",
+    "starting_trait": true,
+    "purifiable": false,
+    "valid": false,
+    "cancels": [ "DEBT", "MILLIONAIRE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "DEBT",
+    "name": "Debt",
+    "points": -1,
+    "description": "You needed money and had a big loan in a bank. Good thing nobody will come to collect it now, right?  Right?",
+    "starting_trait": true,
+    "purifiable": false,
+    "valid": false,
+    "cancels": [ "SAVINGS", "MILLIONAIRE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MILLIONAIRE",
+    "name": "Millionaire",
+    "points": 3,
+    "description": "At the time of Cataclysm you were an owner of a fortune stashed in a bank.  Does that have any meaning now?",
+    "valid": false,
+    "purifiable": false,
+    "starting_trait": true,
+    "cancels": [ "DEBT", "SAVINGS" ]
   },
   {
     "type": "mutation",

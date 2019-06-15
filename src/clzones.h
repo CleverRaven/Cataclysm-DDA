@@ -145,7 +145,6 @@ class zone_data
 
     public:
         zone_data() {
-            name = "";
             type = zone_type_id( "" );
             invert = false;
             enabled = false;

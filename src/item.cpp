@@ -109,6 +109,8 @@ const efftype_id effect_weed_high( "weed_high" );
 const material_id mat_leather( "leather" );
 const material_id mat_kevlar( "kevlar" );
 
+const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
+
 const trait_id trait_small2( "SMALL2" );
 const trait_id trait_small_ok( "SMALL_OK" );
 const trait_id trait_huge( "HUGE" );
@@ -1366,6 +1368,12 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( ammo.ammo_effects.count( "RECYCLED" ) && parts->test( iteminfo_parts::AMMO_FX_RECYCLED ) ) {
                 fx.emplace_back( _( "This ammo has been <bad>hand-loaded</bad>." ) );
             }
+            if( ammo.ammo_effects.count( "BLACKPOWDER" ) &&
+                parts->test( iteminfo_parts::AMMO_FX_BLACKPOWDER ) ) {
+                fx.emplace_back(
+                    _( "This ammo has been loaded with <bad>blackpowder</bad>, and will quickly "
+                       "clog up most guns, and cause rust if the gun is not cleaned." ) );
+            }
             if( ammo.ammo_effects.count( "NEVER_MISFIRES" ) &&
                 parts->test( iteminfo_parts::AMMO_FX_CANTMISSFIRE ) ) {
                 fx.emplace_back( _( "This ammo <good>never misfires</good>." ) );
@@ -1437,9 +1445,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 }
             }
         } else if( parts->test( iteminfo_parts::GUN_TYPE ) ) {
-            const std::set<ammotype> &atypes = mod->ammo_types();
-            info.emplace_back( "GUN", _( "Type: " ), enumerate_as_string( atypes.begin(),
-            atypes.end(), []( const ammotype & at ) {
+            info.emplace_back( "GUN", _( "Type: " ), enumerate_as_string( mod->ammo_types().begin(),
+            mod->ammo_types().end(), []( const ammotype & at ) {
                 return at->name();
             }, enumeration_conjunction::none ) );
         }
@@ -2120,9 +2127,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( !ammo_types().empty() ) {
                 //~ "%s" is ammunition type. This types can't be plural.
                 tmp = ngettext( "Maximum <num> charge of %s.", "Maximum <num> charges of %s.", ammo_capacity() );
-                const std::set<ammotype> atypes = ammo_types();
-                tmp = string_format( tmp, enumerate_as_string( atypes.begin(),
-                atypes.end(), []( const ammotype & at ) {
+                tmp = string_format( tmp, enumerate_as_string( ammo_types().begin(),
+                ammo_types().end(), []( const ammotype & at ) {
                     return at->name();
                 }, enumeration_conjunction::none ) );
 
@@ -3264,7 +3270,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 
     const sizing sizing_level = get_sizing( g->u, get_encumber( g->u ) != 0 );
 
-
     if( sizing_level == sizing::human_sized_small_char ) {
         ret << _( " (too big)" );
     } else if( sizing_level == sizing::big_sized_small_char ) {
@@ -3351,7 +3356,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
 }
 
-std::string item::display_money( unsigned int quantity, unsigned long amount ) const
+std::string item::display_money( unsigned int quantity, unsigned int amount ) const
 {
     //~ This is a string to display the total amount of money in a stack of cash cards. The strings are: %s is the display name of cash cards. The following bracketed $%.2f is the amount of money on the stack of cards in dollars, to two decimal points. (e.g. "cash cards ($15.35)")
     return string_format( "%s %s", tname( quantity ), format_money( amount ) );
@@ -5183,9 +5188,7 @@ bool item::is_irremovable() const
 std::set<fault_id> item::faults_potential() const
 {
     std::set<fault_id> res;
-    if( type->engine ) {
-        res.insert( type->engine->faults.begin(), type->engine->faults.end() );
-    }
+    res.insert( type->faults.begin(), type->faults.end() );
     return res;
 }
 
@@ -5909,7 +5912,7 @@ itype_id item::ammo_current() const
     return ammo ? ammo->get_id() : "null";
 }
 
-std::set<ammotype> item::ammo_types( bool conversion ) const
+const std::set<ammotype> &item::ammo_types( bool conversion ) const
 {
     if( conversion ) {
         auto mods = is_gun() ? gunmods() : toolmods();
@@ -5927,7 +5930,9 @@ std::set<ammotype> item::ammo_types( bool conversion ) const
     } else if( is_magazine() ) {
         return type->magazine->type;
     }
-    return {};
+
+    static std::set<ammotype> atypes = {};
+    return atypes;
 }
 
 ammotype item::ammo_type() const
@@ -5940,9 +5945,8 @@ ammotype item::ammo_type() const
 
 itype_id item::ammo_default( bool conversion ) const
 {
-    std::set<ammotype> atypes = ammo_types( conversion );
-    if( !atypes.empty() ) {
-        itype_id res = ammotype( *atypes.begin() )->default_ammotype();
+    if( !ammo_types( conversion ).empty() ) {
+        itype_id res = ammotype( *ammo_types( conversion ).begin() )->default_ammotype();
         if( !res.empty() ) {
             return res;
         }
@@ -5952,9 +5956,8 @@ itype_id item::ammo_default( bool conversion ) const
 
 itype_id item::common_ammo_default( bool conversion ) const
 {
-    std::set<ammotype> atypes = ammo_types( conversion );
-    if( !atypes.empty() ) {
-        for( const ammotype &at : atypes ) {
+    if( !ammo_types( conversion ).empty() ) {
+        for( const ammotype &at : ammo_types( conversion ) ) {
             const item *mag = magazine_current();
             if( mag && mag->type->magazine->type.count( at ) ) {
                 itype_id res = at->default_ammotype();
@@ -6011,9 +6014,8 @@ bool item::magazine_integral() const
 
 itype_id item::magazine_default( bool conversion ) const
 {
-    std::set<ammotype> atypes = ammo_types( conversion );
-    if( !atypes.empty() ) {
-        auto mag = type->magazine_default.find( ammotype( *atypes.begin() ) );
+    if( !ammo_types( conversion ).empty() ) {
+        auto mag = type->magazine_default.find( ammotype( *ammo_types( conversion ).begin() ) );
         if( mag != type->magazine_default.end() ) {
             return mag->second;
         }
@@ -8049,37 +8051,56 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
 
 bool item::process_tool( player *carrier, const tripoint &pos )
 {
+    int energy = 0;
     if( type->tool->turns_per_charge > 0 &&
         static_cast<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
-        auto qty = std::max( ammo_required(), 1 );
-        qty -= ammo_consume( qty, pos );
+        energy = std::max( ammo_required(), 1 );
 
-        // for items in player possession if insufficient charges within tool try UPS
+    } else if( type->tool->power_draw > 0 ) {
+        // power_draw in mW / 1000 to give J per second
+        int energy_j = type->tool->power_draw / 1000;
+        // J / 1000 for kJ battery units
+        int energy_bat = energy_j / 1000;
+        // energy_bat remainder results in chance at additional charge/discharge
+        energy_bat += x_in_y( energy_j % 1000, 1000 ) ? 1 : 0;
+        energy = energy_bat;
+    }
+    energy -= ammo_consume( energy, pos );
+
+    // for items in player possession if insufficient charges within tool try UPS
+    if( carrier && has_flag( "USE_UPS" ) ) {
+        if( carrier->use_charges_if_avail( "UPS", energy ) ) {
+            energy = 0;
+        }
+    }
+
+    // if insufficient available charges shutdown the tool
+    if( energy > 0 ) {
         if( carrier && has_flag( "USE_UPS" ) ) {
-            if( carrier->use_charges_if_avail( "UPS", qty ) ) {
-                qty = 0;
-            }
+            carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
         }
 
-        // if insufficient available charges shutdown the tool
-        if( qty > 0 ) {
-            if( carrier && has_flag( "USE_UPS" ) ) {
-                carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
-            }
-
-            // invoking the object can convert the item to another type
-            const bool had_revert_to = type->tool->revert_to.has_value();
-            type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos );
-            if( had_revert_to ) {
-                deactivate( carrier );
-                return false;
-            } else {
-                return true;
-            }
+        // invoking the object can convert the item to another type
+        const bool had_revert_to = type->tool->revert_to.has_value();
+        type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos );
+        if( had_revert_to ) {
+            deactivate( carrier );
+            return false;
+        } else {
+            return true;
         }
     }
 
     type->tick( carrier != nullptr ? *carrier : g->u, *this, pos );
+    return false;
+}
+
+bool item::process_blackpowder_fouling( player *carrier )
+{
+    if( damage() < max_damage() && one_in( 2000 ) ) {
+        inc_damage( DT_ACID );
+        carrier->add_msg_if_player( m_bad, _( "Your %s rusts due to blackpowder fouling." ), tname() );
+    }
     return false;
 }
 
@@ -8110,6 +8131,10 @@ bool item::process( player *carrier, const tripoint &pos, bool activate,
             carrier->add_msg_if_player( _( "%s %s disappears!" ), carrier->disp_name( true ), tname() );
         }
         return processed;
+    }
+
+    if( faults.count( fault_gun_blackpowder ) ) {
+        return process_blackpowder_fouling( carrier );
     }
 
     if( activate ) {

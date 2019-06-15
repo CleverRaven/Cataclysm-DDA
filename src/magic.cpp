@@ -175,6 +175,8 @@ void spell_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "final_energy_cost", final_energy_cost, base_energy_cost );
     optional( jo, was_loaded, "energy_increment", energy_increment, 0.0f );
 
+    optional( jo, was_loaded, "flags", spell_tags );
+
     std::string temp_string;
     optional( jo, was_loaded, "spell_class", temp_string, "NONE" );
     spell_class = trait_id( temp_string );
@@ -318,6 +320,11 @@ int spell::energy_cost() const
     }
 }
 
+bool spell::has_flag( const std::string &flag ) const
+{
+    return type->spell_tags.count( flag );
+}
+
 bool spell::can_cast( const player &p ) const
 {
     if( !p.magic.knows_spell( type->id ) ) {
@@ -392,7 +399,7 @@ std::string spell::colorized_fail_percent( const player &p ) const
 {
     const float fail_fl = spell_fail( p ) * 100.0f;
     std::string fail_str;
-    fail_fl == 100.0f ? fail_str = _( "Difficult!" ) : fail_str =  string_format( "%.1f %% %s",
+    fail_fl == 100.0f ? fail_str = _( "Too Difficult!" ) : fail_str =  string_format( "%.1f %% %s",
                                    fail_fl, _( "Failure Chance" ) );
     nc_color color;
     if( fail_fl > 90.0f ) {
@@ -750,7 +757,7 @@ bool known_magic::knows_spell( const std::string &sp ) const
     return knows_spell( spell_id( sp ) );
 }
 
-bool known_magic::knows_spell( spell_id sp ) const
+bool known_magic::knows_spell( const spell_id &sp ) const
 {
     return spellbook.count( sp ) == 1;
 }
@@ -760,7 +767,7 @@ void known_magic::learn_spell( const std::string &sp, player &p, bool force )
     learn_spell( spell_id( sp ), p, force );
 }
 
-void known_magic::learn_spell( spell_id sp, player &p, bool force )
+void known_magic::learn_spell( const spell_id &sp, player &p, bool force )
 {
     learn_spell( &sp.obj(), p, force );
 }
@@ -801,7 +808,7 @@ void known_magic::forget_spell( const std::string &sp )
     forget_spell( spell_id( sp ) );
 }
 
-void known_magic::forget_spell( spell_id sp )
+void known_magic::forget_spell( const spell_id &sp )
 {
     if( !knows_spell( sp ) ) {
         debugmsg( "Can't forget a spell you don't know!" );
@@ -810,7 +817,7 @@ void known_magic::forget_spell( spell_id sp )
     spellbook.erase( sp );
 }
 
-bool known_magic::can_learn_spell( const player &p, spell_id sp ) const
+bool known_magic::can_learn_spell( const player &p, const spell_id &sp ) const
 {
     const spell_type sp_t = sp.obj();
     if( sp_t.spell_class == trait_id( "NONE" ) ) {
@@ -819,7 +826,7 @@ bool known_magic::can_learn_spell( const player &p, spell_id sp ) const
     return !p.has_opposite_trait( sp_t.spell_class );
 }
 
-spell &known_magic::get_spell( spell_id sp )
+spell &known_magic::get_spell( const spell_id &sp )
 {
     if( !knows_spell( sp ) ) {
         debugmsg( "ERROR: Tried to get unknown spell" );
@@ -906,7 +913,7 @@ int known_magic::time_to_learn_spell( const player &p, const std::string &str ) 
     return time_to_learn_spell( p, spell_id( str ) );
 }
 
-int known_magic::time_to_learn_spell( const player &p, spell_id sp ) const
+int known_magic::time_to_learn_spell( const player &p, const spell_id &sp ) const
 {
     const int base_time = to_moves<int>( 30_minutes );
     return base_time * ( 1.0 + sp.obj().difficulty / ( 1.0 + ( p.get_int() - 8.0 ) / 8.0 ) +
@@ -932,7 +939,7 @@ class spellcasting_callback : public uilist_callback
 
         spellcasting_callback( std::vector<spell *> &spells,
                                bool casting_ignore ) : known_spells( spells ),
-            casting_ignore( casting_ignore ) {};
+            casting_ignore( casting_ignore ) {}
         bool key( const input_context &, const input_event &event, int /*entnum*/,
                   uilist * /*menu*/ ) override {
             if( event.get_first_input() == 'I' ) {
@@ -1045,10 +1052,10 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
             std::string aoe_string_temp = "Spell Radius";
             std::string degree_string = "";
             if( fx == "cone_attack" ) {
-                aoe_string = "Cone Arc";
+                aoe_string_temp = "Cone Arc";
                 degree_string = "degrees";
             } else if( fx == "line_attack" ) {
-                aoe_string = "Line Width";
+                aoe_string_temp = "Line Width";
             }
             aoe_string = _( string_format( "%s: %d %s", aoe_string_temp, sp.aoe(), degree_string ) );
         }
@@ -1196,7 +1203,7 @@ void move_earth( const tripoint &target )
 
     std::set<ter_id> empty_air = { t_hole };
     std::set<ter_id> deep_pit = { t_pit, t_slope_down };
-    std::set<ter_id> shallow_pit = { t_pit_corpsed, t_pit_covered, t_pit_glass, t_pit_glass_covered, t_pit_shallow, t_pit_spiked, t_pit_spiked, t_pit_spiked_covered, t_rootcellar };
+    std::set<ter_id> shallow_pit = { t_pit_corpsed, t_pit_covered, t_pit_glass, t_pit_glass_covered, t_pit_shallow, t_pit_spiked, t_pit_spiked_covered, t_rootcellar };
     std::set<ter_id> soft_dirt = { t_grave, t_dirt, t_sand, t_clay, t_dirtmound, t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white, t_dirtfloor, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_sandbox };
     // rock: can still be dug through with patience, converts to sand upon completion
     std::set<ter_id> hard_dirt = { t_pavement, t_pavement_y, t_sidewalk, t_concrete, t_thconc_floor, t_thconc_floor_olight, t_strconc_floor, t_floor, t_floor_waxed, t_carpet_red, t_carpet_yellow, t_carpet_purple, t_carpet_green, t_linoleum_white, t_linoleum_gray, t_slope_up, t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue, t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp };
@@ -1235,7 +1242,7 @@ static bool in_spell_aoe( const tripoint &target, const tripoint &epicenter, con
     return rl_dist( epicenter, target ) <= radius;
 }
 
-std::set<tripoint> spell_effect_blast( spell &, const tripoint &, const tripoint &target,
+std::set<tripoint> spell_effect_blast( const spell &, const tripoint &, const tripoint &target,
                                        const int aoe_radius, const bool ignore_walls )
 {
     std::set<tripoint> targets;
@@ -1253,7 +1260,7 @@ std::set<tripoint> spell_effect_blast( spell &, const tripoint &, const tripoint
     return targets;
 }
 
-std::set<tripoint> spell_effect_cone( spell &sp, const tripoint &source,
+std::set<tripoint> spell_effect_cone( const spell &sp, const tripoint &source,
                                       const tripoint &target,
                                       const int aoe_radius, const bool ignore_walls )
 {
@@ -1283,7 +1290,7 @@ std::set<tripoint> spell_effect_cone( spell &sp, const tripoint &source,
     return targets;
 }
 
-std::set<tripoint> spell_effect_line( spell &, const tripoint &source,
+std::set<tripoint> spell_effect_line( const spell &, const tripoint &source,
                                       const tripoint &target,
                                       const int aoe_radius, const bool ignore_walls )
 {
@@ -1297,7 +1304,6 @@ std::set<tripoint> spell_effect_line( spell &, const tripoint &source,
     calc_ray_end( initial_angle - 90, floor( aoe_radius / 2.0 ), target, clockwise_end_point );
     tripoint cclockwise_end_point;
     calc_ray_end( initial_angle + 90, ceil( aoe_radius / 2.0 ), target, cclockwise_end_point );
-
 
     std::vector<tripoint> start_width = line_to( clockwise_starting_point, cclockwise_starting_point );
     start_width.insert( start_width.begin(), clockwise_end_point );
@@ -1364,9 +1370,9 @@ std::set<tripoint> spell_effect_line( spell &, const tripoint &source,
 
 // spells do not reduce in damage the further away from the epicenter the targets are
 // rather they do their full damage in the entire area of effect
-static std::set<tripoint> spell_effect_area( spell &sp, const tripoint &source,
+static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &source,
         const tripoint &target,
-        std::function<std::set<tripoint>( spell &, const tripoint &, const tripoint &, const int, const bool )>
+        std::function<std::set<tripoint>( const spell &, const tripoint &, const tripoint &, const int, const bool )>
         aoe_func, bool ignore_walls = false )
 {
     std::set<tripoint> targets = { target }; // initialize with epicenter
@@ -1406,7 +1412,7 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
     if( guy ) {
         for( const body_part bp : all_body_parts ) {
             if( sp.bp_is_affected( bp ) ) {
-                guy->add_effect( spell_effect, dur_td, bp );
+                guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( "PERMANENT" ) );
                 bodypart_effected = true;
             }
         }
@@ -1416,7 +1422,7 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
     }
 }
 
-static void damage_targets( spell &sp, std::set<tripoint> targets )
+static void damage_targets( const spell &sp, std::set<tripoint> targets )
 {
     for( const tripoint target : targets ) {
         Creature *const cr = g->critter_at<Creature>( target );
@@ -1444,7 +1450,7 @@ static void damage_targets( spell &sp, std::set<tripoint> targets )
     }
 }
 
-void projectile_attack( spell &sp, const tripoint &source, const tripoint &target )
+void projectile_attack( const spell &sp, const tripoint &source, const tripoint &target )
 {
     std::vector<tripoint> trajectory = line_to( source, target );
     for( const tripoint &pt : trajectory ) {
@@ -1454,25 +1460,28 @@ void projectile_attack( spell &sp, const tripoint &source, const tripoint &targe
     }
 }
 
-void target_attack( spell &sp, const tripoint &source, const tripoint &epicenter )
+void target_attack( const spell &sp, const tripoint &source, const tripoint &epicenter )
 {
-    damage_targets( sp, spell_effect_area( sp, source, epicenter, spell_effect_blast ) );
+    damage_targets( sp, spell_effect_area( sp, source, epicenter, spell_effect_blast,
+                                           sp.has_flag( "IGNORE_WALLS" ) ) );
 }
 
-void cone_attack( spell &sp, const tripoint &source, const tripoint &target )
+void cone_attack( const spell &sp, const tripoint &source, const tripoint &target )
 {
-    damage_targets( sp, spell_effect_area( sp, source, target, spell_effect_cone ) );
+    damage_targets( sp, spell_effect_area( sp, source, target, spell_effect_cone,
+                                           sp.has_flag( "IGNORE_WALLS" ) ) );
 }
 
-void line_attack( spell &sp, const tripoint &source, const tripoint &target )
+void line_attack( const spell &sp, const tripoint &source, const tripoint &target )
 {
-    damage_targets( sp, spell_effect_area( sp, source, target, spell_effect_line ) );
+    damage_targets( sp, spell_effect_area( sp, source, target, spell_effect_line,
+                                           sp.has_flag( "IGNORE_WALLS" ) ) );
 }
 
 void spawn_ethereal_item( spell &sp )
 {
     item granted( sp.effect_data(), calendar::turn );
-    if( !granted.is_comestible() ) {
+    if( !granted.is_comestible() && !( sp.has_flag( "PERMANENT" ) && sp.is_max_level() ) ) {
         granted.set_var( "ethereal", to_turns<int>( sp.duration_turns() ) );
         granted.set_flag( "ETHEREAL_ITEM" );
     }

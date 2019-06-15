@@ -235,7 +235,7 @@ std::string getOSXSystemLang()
     }
 
     const char *lang_code_raw = CFStringGetCStringPtr(
-                                    ( CFStringRef )CFArrayGetValueAtIndex( langs, 0 ),
+                                    reinterpret_cast<CFStringRef>( CFArrayGetValueAtIndex( langs, 0 ) ),
                                     kCFStringEncodingUTF8 );
     if( !lang_code_raw ) {
         return "en_US";

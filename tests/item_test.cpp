@@ -23,7 +23,7 @@ TEST_CASE( "item_volume", "[item]" )
              0_ml, 1_ml, i.volume(), big_volume
          } ) {
         INFO( "checking batteries that fit in " << v );
-        const long charges_that_should_fit = i.charges_per_volume( v );
+        const int charges_that_should_fit = i.charges_per_volume( v );
         i.charges = charges_that_should_fit;
         CHECK( i.volume() <= v ); // this many charges should fit
         i.charges++;

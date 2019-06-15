@@ -2169,17 +2169,52 @@
   },
   {
     "type": "overmap_special",
-    "id": "Rural House",
+    "id": "rural_house",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "dirtroad_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "dirtroad_north" },
-      { "point": [ 0, 2, 0 ], "overmap": "rural_house_north" }
+      { "point": [ 0, 1, 0 ], "overmap": "dirt_road_forest_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "dirt_road_forest_north" },
+      { "point": [ 0, 3, 0 ], "overmap": "house_farm_north" },
+      { "point": [ 0, 3, 1 ], "overmap": "house_farm_roof_north" }
     ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true } ],
+    "connections": [ { "point": [ 0, 0, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "forest" ],
-    "city_distance": [ 5, 25 ],
-    "city_sizes": [ 2, 10 ],
-    "occurrences": [ 0, 15 ],
+    "city_distance": [ 5, 65 ],
+    "city_sizes": [ 1, 20 ],
+    "occurrences": [ 0, 10 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "rural_house_turn",
+    "overmaps": [
+      { "point": [ 0, 1, 0 ], "overmap": "dirt_road_forest_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "dirt_road_turn1_forest_west" },
+      { "point": [ 1, 2, 0 ], "overmap": "house_farm_west" },
+      { "point": [ 1, 2, 1 ], "overmap": "house_farm_roof_west" }
+    ],
+    "connections": [ { "point": [ 0, 0, 0 ], "terrain": "road", "existing": true } ],
+    "locations": [ "forest" ],
+    "city_distance": [ 5, 65 ],
+    "city_sizes": [ 1, 20 ],
+    "occurrences": [ 0, 10 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "rural_house_yard",
+    "overmaps": [
+      { "point": [ 0, 1, 0 ], "overmap": "dirt_road_forest_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "dirt_road_3way_forest_east" },
+      { "point": [ -1, 2, 0 ], "overmap": "yard_south" },
+      { "point": [ 0, 3, 0 ], "overmap": "dirt_road_turn1_forest_west" },
+      { "point": [ 1, 3, 0 ], "overmap": "house_farm_west" },
+      { "point": [ 1, 3, 1 ], "overmap": "house_farm_roof_west" }
+    ],
+    "connections": [ { "point": [ 0, 0, 0 ], "terrain": "road", "existing": true } ],
+    "locations": [ "forest" ],
+    "city_distance": [ 5, 65 ],
+    "city_sizes": [ 1, 20 ],
+    "occurrences": [ 0, 10 ],
     "flags": [ "CLASSIC" ]
   },
   {
@@ -2280,7 +2315,23 @@
       { "point": [ 0, 1, -2 ], "overmap": "robofachq_hab_b0" },
       { "point": [ 1, 1, -2 ], "overmap": "robofachq_hab_b1" },
       { "point": [ 2, 1, -2 ], "overmap": "robofachq_hab_b2" },
-      { "point": [ 3, 1, -2 ], "overmap": "robofachq_hab_b3" }
+      { "point": [ 3, 1, -2 ], "overmap": "robofachq_hab_b3" },
+      { "point": [ 0, 0, -6 ], "overmap": "robofachq_ai_a0" },
+      { "point": [ 1, 0, -6 ], "overmap": "robofachq_ai_a1" },
+      { "point": [ 2, 0, -6 ], "overmap": "robofachq_ai_a2" },
+      { "point": [ 3, 0, -6 ], "overmap": "robofachq_ai_a3" },
+      { "point": [ 0, 1, -6 ], "overmap": "robofachq_ai_b0" },
+      { "point": [ 1, 1, -6 ], "overmap": "robofachq_ai_b1" },
+      { "point": [ 2, 1, -6 ], "overmap": "robofachq_ai_b2" },
+      { "point": [ 3, 1, -6 ], "overmap": "robofachq_ai_b3" },
+      { "point": [ 0, 0, -7 ], "overmap": "robofachq_aiutl_a0" },
+      { "point": [ 1, 0, -7 ], "overmap": "robofachq_aiutl_a1" },
+      { "point": [ 2, 0, -7 ], "overmap": "robofachq_aiutl_a2" },
+      { "point": [ 3, 0, -7 ], "overmap": "robofachq_aiutl_a3" },
+      { "point": [ 0, 1, -7 ], "overmap": "robofachq_aiutl_b0" },
+      { "point": [ 1, 1, -7 ], "overmap": "robofachq_aiutl_b1" },
+      { "point": [ 2, 1, -7 ], "overmap": "robofachq_aiutl_b2" },
+      { "point": [ 3, 1, -7 ], "overmap": "robofachq_aiutl_b3" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
     "locations": [ "wilderness" ],
