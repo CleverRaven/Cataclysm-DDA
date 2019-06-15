@@ -1073,7 +1073,6 @@
   },
   {
     "type": "technique",
-<<<<<<< master
     "id": "tec_wingchun_chainpunch",
     "name": "Chain Punch",
     "min_unarmed": 1,
