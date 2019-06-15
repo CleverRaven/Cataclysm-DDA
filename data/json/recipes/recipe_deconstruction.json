@@ -1908,6 +1908,13 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "hinge",
+    "type": "uncraft",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 1 ] ] ]
+  },
+  {
     "result": "wire",
     "type": "uncraft",
     "time": "1 m",
