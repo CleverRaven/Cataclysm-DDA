@@ -3018,6 +3018,7 @@
     ]
   },
   {
+    "type": "recipe",
     "result": "butterfly_swords",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
