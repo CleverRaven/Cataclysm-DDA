@@ -869,6 +869,15 @@
     "description": "A plastic name tag marking the wearer as a real doctor of the medical kind."
   },
   {
+    "id": "badge_foodkid",
+    "copy-from": "badge_abstract",
+    "type": "ARMOR",
+    "name": "Foodkid badge",
+    "material": [ "plastic" ],
+    "weight": 10,
+    "description": "A star shaped badge, on it you can read \"Foodkid\" in bold letters.  This is Foodperson's trusty sidekick's badge."
+  },
+  {
     "id": "balclava",
     "type": "ARMOR",
     "name": "balaclava",
@@ -1611,6 +1620,25 @@
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
+    "id": "cape_fp",
+    "type": "ARMOR",
+    "name": "Foodperson's cape",
+    "description": "A brightly-colored cape emblazoned with the \"Fp\" symbol.",
+    "weight": 900,
+    "volume": 12,
+    "price": 5000,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "]",
+    "color": "pink",
+    "covers": [ "TORSO" ],
+    "coverage": 50,
+    "encumbrance": 4,
+    "warmth": 10,
+    "material_thickness": 1,
+    "flags": [ "OVERSIZE", "BELTED" ]
+  },
+  {
     "id": "cassock",
     "type": "ARMOR",
     "name": "cassock",
@@ -1767,6 +1795,27 @@
     "warmth": 10,
     "material_thickness": 3,
     "flags": [ "OUTER" ]
+  },
+  {
+    "id": "chestguard_hard",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "hard chest guard",
+    "description": "A plastron of interlocking plastic plate protecting your torso.",
+    "weight": 1000,
+    "volume": 28,
+    "price": 60000,
+    "to_hit": -2,
+    "material": [ "plastic", "neoprene" ],
+    "symbol": "H",
+    "color": "dark_gray",
+    "covers": [ "TORSO" ],
+    "coverage": 90,
+    "encumbrance": 20,
+    "warmth": 20,
+    "material_thickness": 3,
+    "environmental_protection": 1,
+    "flags": [ "WATER_FRIENDLY", "STURDY", "OUTER" ]
   },
   {
     "id": "chestwrap",
@@ -5672,6 +5721,14 @@
     "warmth": 15,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "POCKETS" ]
+  },
+  {
+    "id": "robofac_jumpsuit",
+    "type": "ARMOR",
+    "copy-from": "jumpsuit",
+    "name": "Hub 01 jumpsuit",
+    "description": "A brown jumpsuit worn by the staff of Hub 01.",
+    "color": "brown"
   },
   {
     "id": "jumpsuit_xl",

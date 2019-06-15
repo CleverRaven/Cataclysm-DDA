@@ -109,6 +109,8 @@ const efftype_id effect_weed_high( "weed_high" );
 const material_id mat_leather( "leather" );
 const material_id mat_kevlar( "kevlar" );
 
+const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
+
 const trait_id trait_small2( "SMALL2" );
 const trait_id trait_small_ok( "SMALL_OK" );
 const trait_id trait_huge( "HUGE" );
@@ -1365,6 +1367,12 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             std::vector<std::string> fx;
             if( ammo.ammo_effects.count( "RECYCLED" ) && parts->test( iteminfo_parts::AMMO_FX_RECYCLED ) ) {
                 fx.emplace_back( _( "This ammo has been <bad>hand-loaded</bad>." ) );
+            }
+            if( ammo.ammo_effects.count( "BLACKPOWDER" ) &&
+                parts->test( iteminfo_parts::AMMO_FX_BLACKPOWDER ) ) {
+                fx.emplace_back(
+                    _( "This ammo has been loaded with <bad>blackpowder</bad>, and will quickly "
+                       "clog up most guns, and cause rust if the gun is not cleaned." ) );
             }
             if( ammo.ammo_effects.count( "NEVER_MISFIRES" ) &&
                 parts->test( iteminfo_parts::AMMO_FX_CANTMISSFIRE ) ) {
@@ -3348,7 +3356,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
 }
 
-std::string item::display_money( unsigned int quantity, unsigned long amount ) const
+std::string item::display_money( unsigned int quantity, unsigned int amount ) const
 {
     //~ This is a string to display the total amount of money in a stack of cash cards. The strings are: %s is the display name of cash cards. The following bracketed $%.2f is the amount of money on the stack of cards in dollars, to two decimal points. (e.g. "cash cards ($15.35)")
     return string_format( "%s %s", tname( quantity ), format_money( amount ) );
@@ -5180,9 +5188,7 @@ bool item::is_irremovable() const
 std::set<fault_id> item::faults_potential() const
 {
     std::set<fault_id> res;
-    if( type->engine ) {
-        res.insert( type->engine->faults.begin(), type->engine->faults.end() );
-    }
+    res.insert( type->faults.begin(), type->faults.end() );
     return res;
 }
 
@@ -8089,6 +8095,15 @@ bool item::process_tool( player *carrier, const tripoint &pos )
     return false;
 }
 
+bool item::process_blackpowder_fouling( player *carrier )
+{
+    if( damage() < max_damage() && one_in( 2000 ) ) {
+        inc_damage( DT_ACID );
+        carrier->add_msg_if_player( m_bad, _( "Your %s rusts due to blackpowder fouling." ), tname() );
+    }
+    return false;
+}
+
 bool item::process( player *carrier, const tripoint &pos, bool activate,
                     float insulation, const temperature_flag flag )
 {
@@ -8116,6 +8131,10 @@ bool item::process( player *carrier, const tripoint &pos, bool activate,
             carrier->add_msg_if_player( _( "%s %s disappears!" ), carrier->disp_name( true ), tname() );
         }
         return processed;
+    }
+
+    if( faults.count( fault_gun_blackpowder ) ) {
+        return process_blackpowder_fouling( carrier );
     }
 
     if( activate ) {

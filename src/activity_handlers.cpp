@@ -786,7 +786,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( entry.drop == "pheromone" ) {
                     if( one_in( 3 ) ) {
                         p.add_msg_if_player( m_bad,
-                                             _( "You notice some strange organs, pehraps harvestable via careful dissection." ) );
+                                             _( "You notice some strange organs, perhaps harvestable via careful dissection." ) );
                     }
                     continue;
                 }
@@ -3880,6 +3880,9 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
             if( !trajectory.empty() ) {
                 target = trajectory.back();
                 target_is_valid = casting.is_valid_target( target );
+                if( !( casting.is_valid_target( target_ground ) || p->sees( target ) ) ) {
+                    target_is_valid = false;
+                }
             } else {
                 target_is_valid = false;
             }

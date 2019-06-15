@@ -28,7 +28,7 @@
     "type": "faction",
     "id": "robofac",
     "name": "Hub 01",
-    "likes_u": 0,
+    "likes_u": -200,
     "respects_u": 0,
     "known_by_u": false,
     "size": 100,
@@ -208,6 +208,7 @@
     "power": 100,
     "food_supply": 115200,
     "wealth": 10000000,
+    "currency": "FMCNote",
     "relations": {
       "free_merchants": {
         "kill on sight": false,

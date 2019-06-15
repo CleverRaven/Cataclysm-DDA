@@ -163,7 +163,8 @@ void basecamp::define_camp( npc &p, const std::string &camp_type )
         e.pos = omt_pos;
         expansions[ base_camps::base_dir ] = e;
         omt_ref = oter_id( "faction_base_camp_0" );
-        update_provides( e.type, expansions[ base_camps::base_dir ] );
+        update_provides( base_camps::faction_encode_abs( e, 0 ),
+                         expansions[ base_camps::base_dir ] );
     } else {
         expansions[ base_camps::base_dir ] = parse_expansion( om_cur, omt_pos );
     }

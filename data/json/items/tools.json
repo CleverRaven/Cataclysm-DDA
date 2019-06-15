@@ -8154,7 +8154,10 @@
       [ "SAW_M_FINE", 1 ],
       [ "WRENCH_FINE", 1 ],
       [ "SCREW_FINE", 1 ],
-      [ "BUTCHER", 11 ]
+      [ "BUTCHER", 11 ],
+      [ "FILE", 2 ],
+      [ "REAM", 1 ],
+      [ "VICE", 1 ]
     ],
     "use_action": [ "HAMMER" ]
   },
@@ -8198,7 +8201,9 @@
       [ "CUT", 2 ],
       [ "PRY", 1 ],
       [ "DRILL", 1 ],
-      [ "BUTCHER", -38 ]
+      [ "BUTCHER", -38 ],
+      [ "FILE", 2 ],
+      [ "REAM", 1 ]
     ]
   },
   {
@@ -9167,5 +9172,80 @@
     "name": "metal hand axe",
     "description": "This is a chunk of steel with one edge hammered down to something resembling a cutting edge.  It works passably well as an axe but really can't compare to a proper axe.",
     "material": "steel"
+  },
+  {
+    "id": "pin_reamer",
+    "type": "TOOL",
+    "name": "pin reamer",
+    "description": "Handheld pin reamers of this kind are used to enlarge existing holes, or remove any burs and such from them.",
+    "weight": 76,
+    "volume": 1,
+    "price": 300,
+    "to_hit": -2,
+    "bashing": 1,
+    "cutting": 1,
+    "material": "steel",
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "REAM", 2 ] ]
+  },
+  {
+    "id": "metal_file",
+    "type": "TOOL",
+    "name": "metal fileset",
+    "description": "These tools are commonly used to remove small amounts of materials from the surface of metal objects.",
+    "weight": 76,
+    "volume": 1,
+    "price": 300,
+    "to_hit": -2,
+    "bashing": 1,
+    "cutting": 1,
+    "material": "steel",
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "FILE", 2 ] ]
+  },
+  {
+    "id": "angular_grinder",
+    "type": "TOOL",
+    "name": "angular grinder",
+    "description": "This widespread powertool is often used for removing excess material or polishing surfaces.",
+    "weight": 2780,
+    "volume": 7,
+    "price": 5000,
+    "to_hit": -3,
+    "bashing": 2,
+    "cutting": 2,
+    "material": [ "steel", "plastic" ],
+    "symbol": "/",
+    "color": "yellow",
+    "qualities": [ [ "GRIND", 2 ] ],
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "turns_per_charge": 20,
+    "flags": [ "NONCONDUCTIVE" ],
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
+  },
+  {
+    "id": "hand_vice",
+    "type": "TOOL",
+    "name": "hand vice",
+    "description": "This small handheld metal vice is useful for keeping things still.",
+    "weight": 320,
+    "volume": 2,
+    "price": 500,
+    "to_hit": -2,
+    "bashing": 1,
+    "cutting": 1,
+    "material": "steel",
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "VICE", 1 ] ]
   }
 ]

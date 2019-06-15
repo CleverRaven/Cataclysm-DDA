@@ -246,7 +246,7 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
 
     // Load the tileset into a separate instance and only set this->tileset_ptr
     // when the loading has succeeded.
-    std::unique_ptr<tileset> new_tileset_ptr( new tileset() );
+    std::unique_ptr<tileset> new_tileset_ptr = std::make_unique<tileset>();
     tileset_loader loader( *new_tileset_ptr, renderer );
     loader.load( tileset_id, precheck );
     tileset_ptr = std::move( new_tileset_ptr );

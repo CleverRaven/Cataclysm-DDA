@@ -74,6 +74,9 @@ static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 const trap_str_id tr_practice_target( "tr_practice_target" );
 
+static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
+static const fault_id fault_gun_clogged( "fault_gun_clogged" );
+
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire( const Character &p, const itype &firing );
 static void cycle_action( item &weap, const tripoint &pos );
@@ -153,7 +156,7 @@ int player::gun_engagement_moves( const item &gun, int target, int start ) const
     return mv;
 }
 
-bool player::handle_gun_damage( item &it )
+bool player::handle_gun_damage( item &it, int shots_fired )
 {
     if( !it.is_gun() ) {
         debugmsg( "Tried to handle_gun_damage of a non-gun %s", it.tname() );
@@ -166,7 +169,11 @@ bool player::handle_gun_damage( item &it )
     // As a result this causes no damage to the firearm, note that some guns are waterproof
     // and so are immune to this effect, note also that WATERPROOF_GUN status does not
     // mean the gun will actually be accurate underwater.
-    if( is_underwater() && !it.has_flag( "WATERPROOF_GUN" ) && one_in( firing->durability ) ) {
+    int effective_durability = firing->durability;
+    if( it.faults.count( fault_gun_blackpowder ) && effective_durability > 2 ) {
+        effective_durability -= 1;
+    }
+    if( is_underwater() && !it.has_flag( "WATERPROOF_GUN" ) && one_in( effective_durability ) ) {
         add_msg_player_or_npc( _( "Your %s misfires with a wet click!" ),
                                _( "<npcname>'s %s misfires with a wet click!" ),
                                it.tname() );
@@ -176,11 +183,11 @@ bool player::handle_gun_damage( item &it )
         // effect as current guns have a durability between 5 and 9 this results in
         // a chance of mechanical failure between 1/64 and 1/1024 on any given shot.
         // the malfunction may cause damage, but never enough to push the weapon beyond 'shattered'
-    } else if( ( one_in( 2 << firing->durability ) ) && !it.has_flag( "NEVER_JAMS" ) ) {
+    } else if( ( one_in( 2 << effective_durability ) ) && !it.has_flag( "NEVER_JAMS" ) ) {
         add_msg_player_or_npc( _( "Your %s malfunctions!" ),
                                _( "<npcname>'s %s malfunctions!" ),
                                it.tname() );
-        if( it.damage() < it.max_damage() && one_in( 4 * firing->durability ) ) {
+        if( it.damage() < it.max_damage() && one_in( 4 * effective_durability ) ) {
             add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the mechanical malfunction!" ),
                                    _( "<npcname>'s %s is damaged by the mechanical malfunction!" ),
                                    it.tname() );
@@ -204,7 +211,7 @@ bool player::handle_gun_damage( item &it )
         add_msg_player_or_npc( _( "Your %s misfires with a muffled click!" ),
                                _( "<npcname>'s %s misfires with a muffled click!" ),
                                it.tname() );
-        if( it.damage() < it.max_damage() && one_in( firing->durability ) ) {
+        if( it.damage() < it.max_damage() && one_in( effective_durability ) ) {
             add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the misfired round!" ),
                                    _( "<npcname>'s %s is damaged by the misfired round!" ),
                                    it.tname() );
@@ -248,6 +255,26 @@ bool player::handle_gun_damage( item &it )
                     }
                 }
             }
+        }
+    }
+    if( curammo_effects.count( "BLACKPOWDER" ) ) {
+        if( !it.faults.count( fault_gun_blackpowder ) &&
+            it.faults_potential().count( fault_gun_blackpowder ) ) {
+            it.faults.insert( fault_gun_blackpowder );
+        }
+        if( one_in( firing->blackpowder_tolerance ) &&
+            it.faults_potential().count( fault_gun_clogged ) ) {
+            add_msg_player_or_npc( m_bad, _( "Your %s is clogged up with blackpowder fouling!" ),
+                                   _( "<npcname>'s %s is clogged up with blackpowder fouling!" ),
+                                   it.tname() );
+            it.faults.insert( fault_gun_clogged );
+            return false;
+        }
+        if( it.ammo_data()->ammo->recoil < firing->min_cycle_recoil && shots_fired > 0 ) {
+            add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
+                                   _( "<npcname>'s %s fails to cycle!" ),
+                                   it.tname() );
+            return false;
         }
     }
     return true;
@@ -322,7 +349,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     int hits = 0; // total shots on target
     int delay = 0; // delayed recoil that has yet to be applied
     while( curshot != shots ) {
-        if( !handle_gun_damage( gun ) ) {
+        if( !handle_gun_damage( gun, curshot ) ) {
             break;
         }
 

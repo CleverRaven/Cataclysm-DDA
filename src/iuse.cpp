@@ -6907,6 +6907,26 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
+int iuse::foodperson( player *, item *it, bool t, const tripoint &pos )
+{
+    if( t ) {
+        if( calendar::once_every( 1_minutes ) ) {
+            const SpeechBubble &speech = get_speech( "foodperson_mask" );
+            sounds::sound( pos, speech.volume, sounds::sound_t::alarm, speech.text, true, "speech",
+                           "foodperson_mask" );
+        }
+
+        if( calendar::once_every( 1_hours ) ) {
+            time_duration shift = time_duration::from_turns( it->magazine_current()->ammo_remaining() *
+                                  it->type->tool->turns_per_charge );
+
+            add_msg( m_info, _( "Your HUD lights-up: \"Your shift ends in %s\"." ), to_string( shift ) );
+        }
+    }
+
+    return it->type->charges_to_use();
+}
+
 int iuse::radiocar( player *p, item *it, bool, const tripoint & )
 {
     int choice = -1;
