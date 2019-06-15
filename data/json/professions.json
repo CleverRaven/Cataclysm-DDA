@@ -3752,6 +3752,7 @@
     }
   },
   {
+    "type": "profession",
     "ident": "politician",
     "name": "Career Politician",
     "description": "You've spent your life appealing to the people, persuading many and promising much throughout your time in office.  Now that your voting base wants to eat you alive, winning hearts and minds just got that much harder.",
@@ -3784,22 +3785,22 @@
     "points": 2,
     "skills": { "level": 2, "name": "survival" },
     "items": {
-      "both": [ 
-        "jeans", 
-        "dress_shirt", 
-        "jacket_leather", 
-        "socks", 
-        "cowboy_hat", 
-        "boots_western", 
-        "wristwatch", 
-        "riding_saddle", 
-        "pockknife", 
-        "cattlefodder", 
-        "cattlefodder", 
-        "cig" 
-     ],
-     "male": [ "boxer_shorts" ],
-     "female": [ "bra", "panties" ] 
+      "both": [
+        "jeans",
+        "dress_shirt",
+        "jacket_leather",
+        "socks",
+        "cowboy_hat",
+        "boots_western",
+        "wristwatch",
+        "riding_saddle",
+        "pockknife",
+        "cattlefodder",
+        "cattlefodder",
+        "cig"
+      ],
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
     }
   }
 ]
