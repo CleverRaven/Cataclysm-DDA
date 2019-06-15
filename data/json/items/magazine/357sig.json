@@ -26,7 +26,7 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "357",
+    "ammo_type": "357sig",
     "capacity": 14,
     "reliability": 7,
     "reload_time": 140,
