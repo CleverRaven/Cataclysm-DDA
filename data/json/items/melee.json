@@ -2394,8 +2394,8 @@
     "price": 4000,
     "price_postapoc": 8000,
     "qualities": [ [ "HAMMER", 1 ] ]
-},
-{
+  },
+  {
     "id": "ji",
     "type": "GENERIC",
     "name": "ji",
