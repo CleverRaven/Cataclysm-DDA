@@ -1585,7 +1585,19 @@ void faction_manager::serialize( JsonOut &jsout ) const
 
 void faction_manager::deserialize( JsonIn &jsin )
 {
-    jsin.read( factions );
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        faction add_fac;
+        jsin.read( add_fac );
+        faction *old_fac = get( add_fac.id );
+        if( old_fac ) {
+            *old_fac = add_fac;
+            // force a revalidation of add_fac
+            get( add_fac.id );
+        } else {
+            factions.emplace_back( add_fac );
+        }
+    }
 }
 
 void Creature_tracker::deserialize( JsonIn &jsin )
