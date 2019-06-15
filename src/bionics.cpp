@@ -1102,7 +1102,7 @@ bool player::has_enough_anesth( const itype *cbm )
         }
     }
 
-    if( amount <= anesth_count || !b_filter.empty() ) {
+    if( amount <= anesth_count || b_filter.size() > 0 ) {
         return true;
     }
 
