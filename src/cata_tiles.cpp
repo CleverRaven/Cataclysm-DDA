@@ -1805,18 +1805,16 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile,
 #if defined(_WIN32)
                 destination.y -= 1;
 #endif
-                if (not tile_iso) // never rotate isometric tiles
-                {
-                    ret = sprite_tex->render_copy_ex(renderer, &destination, -90, NULL, SDL_FLIP_NONE);
+                if( ! tile_iso ) { // never rotate isometric tiles
+                    ret = sprite_tex->render_copy_ex( renderer, &destination, -90, NULL, SDL_FLIP_NONE );
                 } else {
-                    ret = sprite_tex->render_copy_ex(renderer, &destination, 0, NULL, SDL_FLIP_NONE);
+                    ret = sprite_tex->render_copy_ex( renderer, &destination, 0, NULL, SDL_FLIP_NONE );
                 }
                 break;
             case 2: // 180 degrees, implemented with flips instead of rotation
-                if (not tile_iso) // never flip isometric tiles vertically
-                {
-                    ret = sprite_tex->render_copy_ex(renderer, &destination, 0, NULL,
-                                                     static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ));
+                if( ! tile_iso ) { // never flip isometric tiles vertically
+                    ret = sprite_tex->render_copy_ex( renderer, &destination, 0, NULL,
+                                                      static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ) );
                 } else {
                     ret = sprite_tex->render_copy_ex( renderer, &destination, 0, NULL, SDL_FLIP_NONE );
                 }
@@ -1825,11 +1823,10 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile,
 #if defined(_WIN32)
                 destination.x -= 1;
 #endif
-                if (not tile_iso) // never rotate isometric tiles
-                {
-                    ret = sprite_tex->render_copy_ex(renderer, &destination, 90, NULL, SDL_FLIP_NONE);
+                if( ! tile_iso ) { // never rotate isometric tiles
+                    ret = sprite_tex->render_copy_ex( renderer, &destination, 90, NULL, SDL_FLIP_NONE );
                 } else {
-                    ret = sprite_tex->render_copy_ex(renderer, &destination, 0, NULL, SDL_FLIP_NONE);
+                    ret = sprite_tex->render_copy_ex( renderer, &destination, 0, NULL, SDL_FLIP_NONE );
                 }
                 break;
             case 4: // flip horizontally
@@ -1852,9 +1849,10 @@ bool cata_tiles::draw_tile_at( const tile_type &tile, int x, int y, unsigned int
                                int rota,
                                lit_level ll, bool apply_night_vision_goggles, int &height_3d )
 {
-    draw_sprite_at(tile, tile.bg, x, y, loc_rand, /*fg:*/ false, rota, ll, apply_night_vision_goggles);
-    draw_sprite_at(tile, tile.fg, x, y, loc_rand, /*fg:*/ true, rota, ll, apply_night_vision_goggles,
-                   height_3d);
+    draw_sprite_at( tile, tile.bg, x, y, loc_rand, /*fg:*/ false, rota, ll,
+                    apply_night_vision_goggles );
+    draw_sprite_at( tile, tile.fg, x, y, loc_rand, /*fg:*/ true, rota, ll, apply_night_vision_goggles,
+                    height_3d );
     return true;
 }
 
@@ -2331,7 +2329,7 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_le
         int rot_facing = -1;
         if( m->facing == FD_RIGHT ) {
             rot_facing = 0;
-        } else if( m->facing == FD_LEFT) {
+        } else if( m->facing == FD_LEFT ) {
             rot_facing = 4;
         }
         if( rot_facing >= 0 ) {
@@ -2400,9 +2398,9 @@ void cata_tiles::draw_entity_with_overlays( const player &pl, const tripoint &p,
         if( find_overlay_looks_like( pl.male, overlay, draw_id ) ) {
             int overlay_height_3d = prev_height_3d;
             if( pl.facing == FD_RIGHT ) {
-                draw_from_id_string(draw_id, C_NONE, "", p, corner, /*rota:*/ 0, ll, false, overlay_height_3d );
+                draw_from_id_string( draw_id, C_NONE, "", p, corner, /*rota:*/ 0, ll, false, overlay_height_3d );
             } else if( pl.facing == FD_LEFT ) {
-                draw_from_id_string(draw_id, C_NONE, "", p, corner, /*rota:*/ 4, ll, false, overlay_height_3d );
+                draw_from_id_string( draw_id, C_NONE, "", p, corner, /*rota:*/ 4, ll, false, overlay_height_3d );
             }
             // the tallest height-having overlay is the one that counts
             height_3d = std::max( height_3d, overlay_height_3d );

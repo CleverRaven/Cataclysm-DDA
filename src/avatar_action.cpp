@@ -104,16 +104,16 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     int new_dx = dest_loc.x - you.posx();
     int new_dy = dest_loc.y - you.posy();
 
-    if (not tile_iso) {
-        if (new_dx > 0) {
+    if( ! tile_iso ) {
+        if( new_dx > 0 ) {
             you.facing = FD_RIGHT;
-            if (you.has_effect(effect_riding) && you.mounted_creature) {
+            if( you.has_effect( effect_riding ) && you.mounted_creature ) {
                 auto mons = you.mounted_creature.get();
                 mons->facing = FD_RIGHT;
             }
-        } else if (new_dx < 0) {
+        } else if( new_dx < 0 ) {
             you.facing = FD_LEFT;
-            if (you.has_effect(effect_riding) && you.mounted_creature) {
+            if( you.has_effect( effect_riding ) && you.mounted_creature ) {
                 auto mons = you.mounted_creature.get();
                 mons->facing = FD_LEFT;
             }
@@ -149,16 +149,16 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         // y: left-up key       =>  __ -y       FD_LEFT
         // down key             =>  -x +y       ______
         //
-        if (new_dx >= 0 && new_dy >= 0) {
+        if( new_dx >= 0 && new_dy >= 0 ) {
             you.facing = FD_RIGHT;
-            if (you.has_effect(effect_riding) && you.mounted_creature) {
+            if( you.has_effect( effect_riding ) && you.mounted_creature ) {
                 auto mons = you.mounted_creature.get();
                 mons->facing = FD_RIGHT;
             }
         }
-        if (new_dy <= 0 && new_dx <= 0) {
+        if( new_dy <= 0 && new_dx <= 0 ) {
             you.facing = FD_LEFT;
-            if (you.has_effect(effect_riding) && you.mounted_creature) {
+            if( you.has_effect( effect_riding ) && you.mounted_creature ) {
                 auto mons = you.mounted_creature.get();
                 mons->facing = FD_LEFT;
             }
