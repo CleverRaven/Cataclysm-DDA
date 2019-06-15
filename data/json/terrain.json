@@ -1561,8 +1561,7 @@
         { "item": "2x4", "prob": 25 },
         { "item": "wood_panel", "prob": 10 },
         { "item": "splinter", "count": [ 1, 2 ] },
-        { "item": "nail", "charges": [ 0, 2 ] },
-        { "item": "hinge", "count": [ 1, 2 ] }
+        { "item": "nail", "charges": [ 0, 2 ] }
       ]
     }
   },
