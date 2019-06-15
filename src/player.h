@@ -1428,12 +1428,10 @@ class player : public Character
         ret_val<bool> can_disassemble( const item &obj, const inventory &inv ) const;
 
         bool disassemble();
-        bool disassemble( int pos );
-        bool disassemble( item &obj, int pos, bool ground, bool interactive = true );
+        bool disassemble( item_location target, bool interactive = true );
         void disassemble_all( bool one_pass ); // Disassemble all items on the tile
         void complete_disassemble();
-        void complete_disassemble( int item_pos, const tripoint &loc,
-                                   bool from_ground, const recipe &dis );
+        void complete_disassemble( item_location &target, const recipe &dis );
 
         // yet more crafting.cpp
         const inventory &crafting_inventory( tripoint src_pos = tripoint_zero,

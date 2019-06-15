@@ -9173,14 +9173,12 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
 
 int iuse::disassemble( player *p, item *it, bool, const tripoint & )
 {
-    int pos = p->get_item_position( it );
-
-    // Giving player::disassemble INT_MIN is actually a special case to
-    // disassemble all, but get_item_position returns INT_MIN if it's not
-    // actually in our inventory/worn/wielded. Skip this nonsensical case.
-    if( pos != INT_MIN ) {
-        p->disassemble( *it, pos, false, false );
+    if( !p->has_item( *it ) ) {
+        return 0;
     }
+
+    p->disassemble( item_location( *p, it ), false );
+
     return 0;
 }
 

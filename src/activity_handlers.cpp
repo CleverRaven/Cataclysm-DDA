@@ -332,33 +332,11 @@ static void butcher_cbm_group( const std::string &group, const tripoint &pos,
 
 static void set_up_butchery( player_activity &act, player &u, butcher_type action )
 {
-    if( !act.values.empty() ) {
-        act.index = act.values.back();
-        act.values.pop_back();
-    } else {
-        debugmsg( "Invalid butchery item index %d", act.index );
-        act.set_to_null();
-        return;
-    }
-
     const int factor = u.max_quality( action == DISSECT ? quality_id( "CUT_FINE" ) :
                                       quality_id( "BUTCHER" ) );
-    auto items = g->m.i_at( u.pos() );
-    if( static_cast<size_t>( act.index ) >= items.size() ) {
-        // Let it print a msg for lack of corpses
-        act.index = INT_MAX;
-        return;
-    }
 
-    item corpse_item = items[act.index];
-    const mtype *corpse_ptr = corpse_item.get_mtype();
-    if( corpse_ptr == nullptr ) {
-        debugmsg( "Tried to butcher a non-corpse item, %s",
-                  corpse_item.tname( corpse_item.count() ) );
-        act.set_to_null();
-        return;
-    }
-    const mtype &corpse = *corpse_ptr;
+    const item &corpse_item = *act.targets.back();
+    const mtype &corpse = *corpse_item.get_mtype();
 
     if( action != DISSECT ) {
         if( factor == INT_MIN ) {
@@ -422,32 +400,32 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
 
         if( !u.has_quality( quality_id( "CUT" ) ) ) {
             u.add_msg_if_player( m_info, _( "You need a cutting tool to perform a full butchery." ) );
-            act.index = -1;
+            act.targets.pop_back();
             return;
         }
         if( big_corpse ) {
             if( has_rope && !has_tree_nearby && !b_rack_present ) {
                 u.add_msg_if_player( m_info,
                                      _( "You need to suspend this corpse to butcher it. While you have a rope to lift the corpse, there is no tree nearby to hang it from." ) );
-                act.index = -1;
+                act.targets.pop_back();
                 return;
             }
             if( !has_rope && !b_rack_present ) {
                 u.add_msg_if_player( m_info,
                                      _( "To perform a full butchery on a corpse this big, you need either a butchering rack or both a long rope in your inventory and a nearby tree to hang the corpse from." ) );
-                act.index = -1;
+                act.targets.pop_back();
                 return;
             }
             if( !has_table_nearby ) {
                 u.add_msg_if_player( m_info,
                                      _( "To perform a full butchery on a corpse this big, you need a table nearby or something else with a flat surface. A leather tarp spread out on the ground could suffice." ) );
-                act.index = -1;
+                act.targets.pop_back();
                 return;
             }
             if( !( u.has_quality( quality_id( "SAW_W" ) ) || u.has_quality( quality_id( "SAW_M" ) ) ) ) {
                 u.add_msg_if_player( m_info,
                                      _( "For a corpse this big you need a saw to perform a full butchery." ) );
-                act.index = -1;
+                act.targets.pop_back();
                 return;
             }
         }
@@ -457,20 +435,20 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
                                corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
         u.add_msg_if_player( m_info,
                              _( "It would be futile to search for implants inside this badly damaged corpse." ) );
-        act.index = -1;
+        act.targets.pop_back();
         return;
     }
 
     if( action == F_DRESS && ( corpse_item.has_flag( "FIELD_DRESS" ) ||
                                corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
         u.add_msg_if_player( m_info, _( "This corpse is already field dressed." ) );
-        act.index = -1;
+        act.targets.pop_back();
         return;
     }
 
     if( action == SKIN && corpse_item.has_flag( "SKINNED" ) ) {
         u.add_msg_if_player( m_info, _( "This corpse is already skinned." ) );
-        act.index = -1;
+        act.targets.pop_back();
         return;
     }
 
@@ -478,18 +456,18 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
         if( corpse.size == MS_TINY ) {
             u.add_msg_if_player( m_bad, _( "This corpse is too small to quarter without damaging." ),
                                  corpse.nname() );
-            act.index = -1;
+            act.targets.pop_back();
             return;
         }
         if( corpse_item.has_flag( "QUARTERED" ) ) {
             u.add_msg_if_player( m_bad, _( "This is already quartered." ), corpse.nname() );
-            act.index = -1;
+            act.targets.pop_back();
             return;
         }
         if( !( corpse_item.has_flag( "FIELD_DRESS" ) || corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
             u.add_msg_if_player( m_bad, _( "You need to perform field dressing before quartering." ),
                                  corpse.nname() );
-            act.index = -1;
+            act.targets.pop_back();
             return;
         }
     }
@@ -516,12 +494,16 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
             }
         } else {
             u.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
-            act.index = -1;
+            act.targets.pop_back();
             return;
         }
     }
 
     act.moves_left = butcher_time_to_cut( u, corpse_item, action );
+
+    // We have a valid target, so preform the full finish function
+    // instead of just selecting the next valid target
+    act.index = false;
 }
 
 int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher_type action )
@@ -593,6 +575,7 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     time_to_cut = time_to_cut * ( 1 - ( g->u.get_num_crafting_helpers( 3 ) / 10 ) );
     return time_to_cut;
 }
+
 // The below function exists to allow mods to migrate their content fully to the new harvest system. This function should be removed eventually.
 static harvest_id butchery_flags_deprecate( const mtype &mt )
 {
@@ -1021,6 +1004,21 @@ static void butchery_quarter( item *corpse_item, player &p )
 
 void activity_handlers::butcher_finish( player_activity *act, player *p )
 {
+    // No targets means we are done
+    if( act->targets.empty() ) {
+        act->set_to_null();
+        return;
+    }
+
+    item_location &target = act->targets.back();
+
+    // Corpses can disappear (rezzing!), so check for that
+    if( !target || !target->is_corpse() ) {
+        p->add_msg_if_player( m_info, _( "There's no corpse to butcher!" ) );
+        act->set_to_null();
+        return;
+    }
+
     butcher_type action = BUTCHER;
     if( act->id() == activity_id( "ACT_BUTCHER" ) ) {
         action = BUTCHER;
@@ -1038,34 +1036,21 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         action = DISMEMBER;
     }
 
-    //Negative index means try to start next item
-    if( act->index < 0 ) {
-        //No values means no items left to try
-        if( act->values.empty() ) {
-            act->set_to_null();
-            return;
-        }
+    // index is a bool that determines if we are ready to start the next target
+    if( act->index ) {
         set_up_butchery( *act, *p, action );
         return;
     }
-    // Corpses can disappear (rezzing!), so check for that
-    auto items_here = g->m.i_at( p->pos() );
-    if( static_cast<int>( items_here.size() ) <= act->index ||
-        !( items_here[act->index].is_corpse() ) ) {
-        p->add_msg_if_player( m_info, _( "There's no corpse to butcher!" ) );
-        act->set_to_null();
-        return;
-    }
 
-    item &corpse_item = items_here[act->index];
-    auto contents = corpse_item.contents;
+    item &corpse_item = *target;
+    std::list<item> contents = corpse_item.contents;
     const mtype *corpse = corpse_item.get_mtype();
     const field_id type_blood = corpse->bloodType();
     const field_id type_gib = corpse->gibType();
 
     if( action == QUARTER ) {
         butchery_quarter( &corpse_item, *p );
-        act->index = -1;
+        act->index = true;
         return;
     }
 
@@ -1115,7 +1100,11 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                                       _( "You made so many mistakes during the process that you doubt even vultures will be interested in what's left of it." ) );
                 break;
         }
-        g->m.i_rem( p->pos(), act->index );
+
+        // Remove the target from the map
+        target.remove_item();
+        act->targets.pop_back();
+
         g->m.add_splatter( type_gib, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
         g->m.add_splatter( type_blood, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
         for( int i = 1; i <= corpse->size; i++ ) {
@@ -1124,7 +1113,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             g->m.add_splatter_trail( type_blood, p->pos(), random_entry( g->m.points_in_radius( p->pos(),
                                      corpse->size + 1 ) ) );
         }
-        act->index = -1;
+
+        // Ready to move on to the next item, if there is one
+        act->index = true;
         return;
     }
     // function just for drop yields
@@ -1157,11 +1148,17 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             p->add_msg_if_player( m_good,
                                   _( "You apply few quick cuts to the %s and leave what's left of it for scavengers." ),
                                   corpse_item.tname() );
-            g->m.i_rem( p->pos(), act->index );
-            break; //no set_to_null here, for multibutchering
+
+            // Remove the target from the map
+            target.remove_item();
+            act->targets.pop_back();
+            break;
         case BUTCHER_FULL:
             p->add_msg_if_player( m_good, _( "You finish butchering the %s." ), corpse_item.tname() );
-            g->m.i_rem( p->pos(), act->index );
+
+            // Remove the target from the map
+            target.remove_item();
+            act->targets.pop_back();
             break;
         case F_DRESS:
             if( roll_butchery() < 0 ) {  // partial failure
@@ -1250,15 +1247,22 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 case 3:
                     p->add_msg_if_player( m_good, _( "You cleave the %s into pieces." ), corpse_item.tname() );
             }
-            g->m.i_rem( p->pos(), act->index );
+
+            // Remove the target from the map
+            target.remove_item();
+            act->targets.pop_back();
             break;
         case DISSECT:
             p->add_msg_if_player( m_good, _( "You finish dissecting the %s." ), corpse_item.tname() );
-            g->m.i_rem( p->pos(), act->index );
+
+            // Remove the target from the map
+            target.remove_item();
+            act->targets.pop_back();
             break;
     }
-    // multibutchering
-    act->index = -1;
+
+    // Ready to move on to the next item, if there is one (for example if multibutchering)
+    act->index = true;
 }
 
 void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )

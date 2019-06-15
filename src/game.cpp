@@ -2086,7 +2086,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     u.read( pos );
                     break;
                 case 'D':
-                    u.disassemble( pos );
+                    u.disassemble( item_location( u, &u.i_at( pos ) ), false );
                     break;
                 case 'f':
                     oThisItem.is_favorite = !oThisItem.is_favorite;
@@ -7766,22 +7766,20 @@ static int get_initial_hotkey( const size_t menu_index )
 }
 
 // Returns a vector of pairs.
-//    Pair.first is the first items index with a unique tname.
+//    Pair.first is the iterator to the first item with a unique tname.
 //    Pair.second is the number of equivalent items per unique tname
 // There are options for optimization here, but the function is hit infrequently
 // enough that optimizing now is not a useful time expenditure.
-static const std::vector<std::pair<int, int>> generate_butcher_stack_display(
-            map_stack &items, const std::vector<int> &indices )
+static std::vector<std::pair<map_stack::iterator, int>> generate_butcher_stack_display(
+            std::vector<map_stack::iterator> &its )
 {
-    std::vector<std::pair<int, int>> result;
+    std::vector<std::pair<map_stack::iterator, int>> result;
     std::vector<std::string> result_strings;
-    result.reserve( indices.size() );
-    result_strings.reserve( indices.size() );
+    result.reserve( its.size() );
+    result_strings.reserve( its.size() );
 
-    for( const size_t ndx : indices ) {
-        const item &it = items[ ndx ];
-
-        const std::string tname = it.tname();
+    for( map_stack::iterator &it : its ) {
+        const std::string tname = it->tname();
         size_t s = 0;
         // Search for the index with a string equivalent to tname
         for( ; s < result_strings.size(); ++s ) {
@@ -7794,7 +7792,7 @@ static const std::vector<std::pair<int, int>> generate_butcher_stack_display(
         // Has the side effect of making 's' a valid index
         if( s == result_strings.size() ) {
             // make a new entry
-            result.push_back( std::make_pair<int, int>( static_cast<int>( ndx ), 0 ) );
+            result.emplace_back( it, 0 );
             // Also push new entry string
             result_strings.push_back( tname );
         }
@@ -7807,28 +7805,27 @@ static const std::vector<std::pair<int, int>> generate_butcher_stack_display(
 
 // Corpses are always individual items
 // Just add them individually to the menu
-static void add_corpses( uilist &menu, map_stack &items,
-                         const std::vector<int> &indices, size_t &menu_index )
+static void add_corpses( uilist &menu, const std::vector<map_stack::iterator> &its,
+                         size_t &menu_index )
 {
     int hotkey = get_initial_hotkey( menu_index );
 
-    for( const auto index : indices ) {
-        const item &it = items[index];
-        menu.addentry( menu_index++, true, hotkey, it.get_mtype()->nname() );
+    for( const map_stack::iterator &it : its ) {
+        menu.addentry( menu_index++, true, hotkey, it->get_mtype()->nname() );
         hotkey = -1;
     }
 }
 
 // Salvagables stack so we need to pass in a stack vector rather than an item index vector
-static void add_salvagables( uilist &menu, map_stack &items,
-                             const std::vector<std::pair<int, int>> &stacks, size_t &menu_index,
-                             const salvage_actor &salvage_iuse )
+static void add_salvagables( uilist &menu,
+                             const std::vector<std::pair<map_stack::iterator, int>> &stacks,
+                             size_t &menu_index, const salvage_actor &salvage_iuse )
 {
     if( !stacks.empty() ) {
         int hotkey = get_initial_hotkey( menu_index );
 
         for( const auto &stack : stacks ) {
-            const item &it = items[ stack.first ];
+            const item &it = *stack.first;
 
             //~ Name and number of items listed for cutting up
             const auto &msg = string_format( pgettext( "butchery menu", "Cut up %s (%d)" ),
@@ -7841,14 +7838,14 @@ static void add_salvagables( uilist &menu, map_stack &items,
 }
 
 // Disassemblables stack so we need to pass in a stack vector rather than an item index vector
-static void add_disassemblables( uilist &menu, map_stack &items,
-                                 const std::vector<std::pair<int, int>> &stacks, size_t &menu_index )
+static void add_disassemblables( uilist &menu,
+                                 const std::vector<std::pair<map_stack::iterator, int>> &stacks, size_t &menu_index )
 {
     if( !stacks.empty() ) {
         int hotkey = get_initial_hotkey( menu_index );
 
         for( const auto &stack : stacks ) {
-            const item &it = items[ stack.first ];
+            const item &it = *stack.first;
 
             //~ Name, number of items and time to complete disassembling
             const auto &msg = string_format( pgettext( "butchery menu", "%s (%d)" ),
@@ -7862,15 +7859,15 @@ static void add_disassemblables( uilist &menu, map_stack &items,
 }
 
 // Butchery sub-menu and time calculation
-static void butcher_submenu( map_stack &items, const std::vector<int> &corpses, int corpse = -1 )
+static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, int corpse = -1 )
 {
     auto cut_time = [&]( enum butcher_type bt ) {
         int time_to_cut = 0;
         if( corpse != -1 ) {
-            time_to_cut = butcher_time_to_cut( g->u, items[corpses[corpse]], bt );
+            time_to_cut = butcher_time_to_cut( g->u, *corpses[corpse], bt );
         } else {
-            for( int i : corpses ) {
-                time_to_cut += butcher_time_to_cut( g->u, items[i], bt );
+            for( const map_stack::iterator &it : corpses ) {
+                time_to_cut += butcher_time_to_cut( g->u, *it, bt );
             }
         }
         return to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) );
@@ -7903,25 +7900,25 @@ static void butcher_submenu( map_stack &items, const std::vector<int> &corpses, 
     smenu.query();
     switch( smenu.ret ) {
         case BUTCHER:
-            g->u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
+            g->u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, true );
             break;
         case BUTCHER_FULL:
-            g->u.assign_activity( activity_id( "ACT_BUTCHER_FULL" ), 0, -1 );
+            g->u.assign_activity( activity_id( "ACT_BUTCHER_FULL" ), 0, true );
             break;
         case F_DRESS:
-            g->u.assign_activity( activity_id( "ACT_FIELD_DRESS" ), 0, -1 );
+            g->u.assign_activity( activity_id( "ACT_FIELD_DRESS" ), 0, true );
             break;
         case SKIN:
-            g->u.assign_activity( activity_id( "ACT_SKIN" ), 0, -1 );
+            g->u.assign_activity( activity_id( "ACT_SKIN" ), 0, true );
             break;
         case QUARTER:
-            g->u.assign_activity( activity_id( "ACT_QUARTER" ), 0, -1 );
+            g->u.assign_activity( activity_id( "ACT_QUARTER" ), 0, true );
             break;
         case DISMEMBER:
-            g->u.assign_activity( activity_id( "ACT_DISMEMBER" ), 0, -1 );
+            g->u.assign_activity( activity_id( "ACT_DISMEMBER" ), 0, true );
             break;
         case DISSECT:
-            g->u.assign_activity( activity_id( "ACT_DISSECT" ), 0, -1 );
+            g->u.assign_activity( activity_id( "ACT_DISSECT" ), 0, true );
             break;
         default:
             return;
@@ -7955,10 +7952,10 @@ void game::butcher()
 
     const item *first_item_without_tools = nullptr;
     // Indices of relevant items
-    std::vector<int> corpses;
-    std::vector<int> disassembles;
-    std::vector<int> salvageables;
-    auto items = m.i_at( u.pos() );
+    std::vector<map_stack::iterator> corpses;
+    std::vector<map_stack::iterator> disassembles;
+    std::vector<map_stack::iterator> salvageables;
+    map_stack items = m.i_at( u.pos() );
     const inventory &crafting_inv = u.crafting_inventory();
 
     // TODO: Properly handle different material whitelists
@@ -7989,17 +7986,17 @@ void game::butcher()
     // Split into corpses, disassemble-able, and salvageable items
     // It's not much additional work to just generate a corpse list and
     // clear it later, but does make the splitting process nicer.
-    for( size_t i = 0; i < items.size(); ++i ) {
-        if( items[i].is_corpse() ) {
-            corpses.push_back( i );
+    for( map_stack::iterator it = items.begin(); it != items.end(); ++it ) {
+        if( it->is_corpse() ) {
+            corpses.push_back( it );
         } else {
-            if( ( salvage_tool_index != INT_MIN ) && salvage_iuse->valid_to_cut_up( items[i] ) ) {
-                salvageables.push_back( i );
+            if( ( salvage_tool_index != INT_MIN ) && salvage_iuse->valid_to_cut_up( *it ) ) {
+                salvageables.push_back( it );
             }
-            if( u.can_disassemble( items[i], crafting_inv ).success() ) {
-                disassembles.push_back( i );
-            } else if( first_item_without_tools == nullptr ) {
-                first_item_without_tools = &items[i];
+            if( u.can_disassemble( *it, crafting_inv ).success() ) {
+                disassembles.push_back( it );
+            } else if( !first_item_without_tools ) {
+                first_item_without_tools = &*it;
             }
         }
     }
@@ -8016,7 +8013,7 @@ void game::butcher()
             add_msg( m_info, no_knife_msg );
         }
 
-        if( first_item_without_tools != nullptr ) {
+        if( first_item_without_tools ) {
             add_msg( m_info, _( "You don't have the necessary tools to disassemble any items here." ) );
             // Just for the "You need x to disassemble y" messages
             const auto ret = u.can_disassemble( *first_item_without_tools, crafting_inv );
@@ -8050,25 +8047,25 @@ void game::butcher()
         BUTCHER_SALVAGE,
         BUTCHER_OTHER // For multisalvage etc.
     } butcher_select = BUTCHER_CORPSE;
-    // Index to std::vector of indices...
+    // Index to std::vector of iterators...
     int indexer_index = 0;
 
     // Generate the indexed stacks so we can display them nicely
-    const auto disassembly_stacks = generate_butcher_stack_display( items, disassembles );
-    const auto salvage_stacks = generate_butcher_stack_display( items, salvageables );
+    const auto disassembly_stacks = generate_butcher_stack_display( disassembles );
+    const auto salvage_stacks = generate_butcher_stack_display( salvageables );
     // Always ask before cutting up/disassembly, but not before butchery
     size_t ret = 0;
-    if( corpses.size() > 1 || !disassembles.empty() || !salvageables.empty() ) {
+    if( !corpses.empty() || !disassembles.empty() || !salvageables.empty() ) {
         uilist kmenu;
         kmenu.text = _( "Choose corpse to butcher / item to disassemble" );
 
         size_t i = 0;
         // Add corpses, disassembleables, and salvagables to the UI
-        add_corpses( kmenu, items, corpses, i );
-        add_disassemblables( kmenu, items, disassembly_stacks, i );
+        add_corpses( kmenu, corpses, i );
+        add_disassemblables( kmenu, disassembly_stacks, i );
         if( !salvageables.empty() ) {
             assert( salvage_iuse ); // To appease static analysis
-            add_salvagables( kmenu, items, salvage_stacks, i, *salvage_iuse );
+            add_salvagables( kmenu, salvage_stacks, i, *salvage_iuse );
         }
 
         if( corpses.size() > 1 ) {
@@ -8078,8 +8075,7 @@ void game::butcher()
             int time_to_disassemble = 0;
             int time_to_disassemble_all = 0;
             for( const auto &stack : disassembly_stacks ) {
-                const item &it = items[ stack.first ];
-                const int time = recipe_dictionary::get_uncraft( it.typeId() ).time;
+                const int time = recipe_dictionary::get_uncraft( stack.first->typeId() ).time;
                 time_to_disassemble += time;
                 time_to_disassemble_all += time * stack.second;
             }
@@ -8093,8 +8089,7 @@ void game::butcher()
             assert( salvage_iuse ); // To appease static analysis
             int time_to_salvage = 0;
             for( const auto &stack : salvage_stacks ) {
-                const item &it = items[ stack.first ];
-                time_to_salvage += salvage_iuse->time_to_cut_up( it ) * stack.second;
+                time_to_salvage += salvage_iuse->time_to_cut_up( *stack.first ) * stack.second;
             }
 
             kmenu.addentry_col( MULTISALVAGE, true, 'z', _( "Cut up everything" ),
@@ -8148,9 +8143,9 @@ void game::butcher()
                     u.assign_activity( activity_id( "ACT_LONGSALVAGE" ), 0, salvage_tool_index );
                     break;
                 case MULTIBUTCHER:
-                    butcher_submenu( items, corpses );
-                    for( int i : corpses ) {
-                        u.activity.values.push_back( i );
+                    butcher_submenu( corpses );
+                    for( map_stack::iterator &it : corpses ) {
+                        u.activity.targets.emplace_back( map_cursor( u.pos() ), &*it );
                     }
                     break;
                 case MULTIDISASSEMBLE_ONE:
@@ -8165,23 +8160,23 @@ void game::butcher()
             }
             break;
         case BUTCHER_CORPSE: {
-            butcher_submenu( items, corpses, indexer_index );
+            butcher_submenu( corpses, indexer_index );
             draw_ter();
             wrefresh( w_terrain );
             draw_panels( true );
-            u.activity.values.push_back( corpses[indexer_index] );
+            u.activity.targets.emplace_back( map_cursor( u.pos() ), &*corpses[indexer_index] );
         }
         break;
         case BUTCHER_DISASSEMBLE: {
             // Pick index of first item in the disassembly stack
-            size_t index = disassembly_stacks[indexer_index].first;
-            u.disassemble( items[index], index, true );
+            item *const target = &*disassembly_stacks[indexer_index].first;
+            u.disassemble( item_location( map_cursor( u.pos() ), target ), true );
         }
         break;
         case BUTCHER_SALVAGE: {
             // Pick index of first item in the salvage stack
-            size_t index = salvage_stacks[indexer_index].first;
-            item_location item_loc( map_cursor( u.pos() ), &items[index] );
+            item *const target = &*salvage_stacks[indexer_index].first;
+            item_location item_loc( map_cursor( u.pos() ), target );
             salvage_iuse->cut_up( u, *salvage_tool, item_loc );
         }
         break;
@@ -9188,19 +9183,16 @@ point game::place_player( const tripoint &dest_loc )
 
         const std::string pulp_butcher = get_option<std::string>( "AUTO_PULP_BUTCHER" );
         if( pulp_butcher == "butcher" && u.max_quality( quality_id( "BUTCHER" ) ) > INT_MIN ) {
-            std::vector<int> corpses;
-            auto items = m.i_at( u.pos() );
+            std::vector<item *> corpses;
 
-            for( size_t i = 0; i < items.size(); i++ ) {
-                if( items[i].is_corpse() ) {
-                    corpses.push_back( i );
-                }
+            for( item &it : m.i_at( u.pos() ) ) {
+                corpses.push_back( &it );
             }
 
             if( !corpses.empty() ) {
-                u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
-                for( int i : corpses ) {
-                    u.activity.values.push_back( i );
+                u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, true );
+                for( item *it : corpses ) {
+                    u.activity.targets.emplace_back( map_cursor( u.pos() ), it );
                 }
             }
         } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ) {
