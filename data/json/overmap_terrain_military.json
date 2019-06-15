@@ -113,7 +113,7 @@
     "type": "overmap_terrain",
     "id": "lmoe_under_empty",
     "name": "LMOE shelter",
-    "sym": 43,
+    "sym": "+",
     "color": "red",
     "see_cost": 2,
     "flags": [ "KNOWN_UP", "NO_ROTATE" ]
