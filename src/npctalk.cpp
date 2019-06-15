@@ -156,7 +156,7 @@ int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */ )
 }
 
 // Rescale values from "mission scale" to "opinion scale"
-int cash_to_favor( const npc &, int cash )
+int npc_trading::cash_to_favor( const npc &, int cash )
 {
     // TODO: It should affect different NPCs to a different degree
     // Square root of mission value in dollars
@@ -1759,24 +1759,27 @@ void talk_effect_fun_t::set_u_buy_item( const std::string &item_name, int cost, 
     function = [item_name, cost, count, container_name]( const dialogue & d ) {
         npc &p = *d.beta;
         player &u = *d.alpha;
+        if( !npc_trading::pay_npc( p, cost ) ) {
+            popup( _( "You can't afford it!" ) );
+            return;
+        }
         if( container_name.empty() ) {
             item new_item = item( item_name, calendar::turn, count );
             u.i_add( new_item );
             if( count == 1 ) {
                 //~ %1%s is the NPC name, %2$s is an item
-                popup( _( "%1$s gives you a %2$s" ), p.name, new_item.tname() );
+                popup( _( "%1$s gives you a %2$s." ), p.name, new_item.tname() );
             } else {
                 //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
-                popup( _( "%1$s gives you %2$d %3$s" ), p.name, count, new_item.tname() );
+                popup( _( "%1$s gives you %2$d %3$s." ), p.name, count, new_item.tname() );
             }
         } else {
             item container( container_name, calendar::turn );
             container.emplace_back( item_name, calendar::turn, count );
             u.i_add( container );
             //~ %1%s is the NPC name, %2$s is an item
-            popup( _( "%1$s gives you a %2$s" ), p.name, container.tname() );
+            popup( _( "%1$s gives you a %2$s." ), p.name, container.tname() );
         }
-        u.cash -= cost;
     };
 }
 
@@ -1799,12 +1802,12 @@ void talk_effect_fun_t::set_u_sell_item( const std::string &item_name, int cost,
 
         if( count == 1 ) {
             //~ %1%s is the NPC name, %2$s is an item
-            popup( _( "You give %1$s a %2$s" ), p.name, old_item.tname() );
+            popup( _( "You give %1$s a %2$s." ), p.name, old_item.tname() );
         } else {
             //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
-            popup( _( "You give %1$s %2$d %3$s" ), p.name, count, old_item.tname() );
+            popup( _( "You give %1$s %2$d %3$s." ), p.name, count, old_item.tname() );
         }
-        u.cash += cost;
+        p.op_of_u.owed += cost;
     };
 }
 
@@ -1852,8 +1855,8 @@ void talk_effect_fun_t::set_remove_item_with( JsonObject jo, const std::string &
 void talk_effect_fun_t::set_u_spend_cash( int amount )
 {
     function = [amount]( const dialogue & d ) {
-        player &u = *d.alpha;
-        u.cash -= amount;
+        npc &np = *d.beta;
+        npc_trading::pay_npc( np, amount );
     };
 }
 
@@ -2010,8 +2013,34 @@ void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, bool is_npc )
         item tmp( d.cur_item );
         tmp.charges = seller_has;
         if( is_trade ) {
-            int price = tmp.price( true ) * ( is_npc ? -1 : 1 );
-            g->u.cash += price;
+            int price = tmp.price( true ) * ( is_npc ? -1 : 1 ) + d.beta->op_of_u.owed;
+            if( d.beta->my_fac && !d.beta->my_fac->currency.empty() ) {
+                const itype_id &pay_in = d.beta->my_fac->currency;
+                item pay( pay_in );
+                if( d.beta->value( pay ) > 0 ) {
+                    int required = price / d.beta->value( pay );
+                    int buyer_has = required;
+                    if( is_npc ) {
+                        buyer_has = std::min( buyer_has, buyer->charges_of( pay_in ) );
+                        buyer->use_charges( pay_in, buyer_has );
+                    } else {
+                        if( buyer_has == 1 ) {
+                            //~ %1%s is the NPC name, %2$s is an item
+                            popup( _( "%1$s gives you a %2$s." ), d.beta->disp_name(),
+                                   pay.tname() );
+                        } else if( buyer_has > 1 ) {
+                            //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
+                            popup( _( "%1$s gives you %2$d %3$s." ), d.beta->disp_name(), buyer_has,
+                                   pay.tname() );
+                        }
+                    }
+                    for( int i = 0; i < buyer_has; i++ ) {
+                        seller->i_add( pay );
+                        price -= d.beta->value( pay );
+                    }
+                }
+                d.beta->op_of_u.owed += price;
+            }
         }
         seller->use_charges( d.cur_item, seller_has );
         buyer->i_add( tmp );
@@ -2071,7 +2100,7 @@ talk_topic talk_effect_t::apply( dialogue &d ) const
     d.beta->op_of_u += opinion;
     if( miss && ( mission_opinion.trust || mission_opinion.fear ||
                   mission_opinion.value || mission_opinion.anger ) ) {
-        int m_value = cash_to_favor( *d.beta, miss->get_value() );
+        int m_value = npc_trading::cash_to_favor( *d.beta, miss->get_value() );
         npc_opinion mod = npc_opinion( mission_opinion.trust ?
                                        m_value / mission_opinion.trust : 0,
                                        mission_opinion.fear ?
@@ -2782,19 +2811,19 @@ void conditional_t::set_npc_allies( JsonObject &jo )
     };
 }
 
-void conditional_t::set_npc_service( JsonObject &jo )
-{
-    const signed long service_price = jo.get_int( "npc_service" );
-    condition = [service_price]( const dialogue & d ) {
-        return !d.beta->has_effect( effect_currently_busy ) && d.alpha->cash >= service_price;
-    };
-}
-
 void conditional_t::set_u_has_cash( JsonObject &jo )
 {
     const signed long min_cash = jo.get_int( "u_has_cash" );
     condition = [min_cash]( const dialogue & d ) {
         return d.alpha->cash >= min_cash;
+    };
+}
+
+void conditional_t::set_u_are_owed( JsonObject &jo )
+{
+    const int min_debt = jo.get_int( "u_are_owed" );
+    condition = [min_debt]( const dialogue & d ) {
+        return d.beta->op_of_u.owed >= min_debt;
     };
 }
 
@@ -3263,9 +3292,11 @@ conditional_t::conditional_t( JsonObject jo )
     } else if( jo.has_int( "npc_allies" ) ) {
         set_npc_allies( jo );
     } else if( jo.has_int( "npc_service" ) ) {
-        set_npc_service( jo );
+        set_npc_available();
     } else if( jo.has_int( "u_has_cash" ) ) {
         set_u_has_cash( jo );
+    } else if( jo.has_int( "u_are_owed" ) ) {
+        set_u_are_owed( jo );
     } else if( jo.has_string( "npc_aim_rule" ) ) {
         set_npc_aim_rule( jo );
     } else if( jo.has_string( "npc_engagement_rule" ) ) {
