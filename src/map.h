@@ -1244,6 +1244,7 @@ class map
                               const int init_veh_fuel = -1, const int init_veh_status = -1,
                               const bool merge_wrecks = true );
 
+        void do_vehicle_caching( int z );
         // Note: in 3D mode, will actually build caches on ALL z-levels
         void build_map_cache( int zlev, bool skip_lightmap = false );
         // Unlike the other caches, this populates a supplied cache instead of an internal cache.

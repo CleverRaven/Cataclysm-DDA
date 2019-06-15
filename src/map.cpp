@@ -7850,30 +7850,17 @@ void map::build_floor_caches()
     }
 }
 
-void map::build_map_cache( const int zlev, bool skip_lightmap )
+void map::do_vehicle_caching( int z )
 {
-    const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
-    const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
-    bool seen_cache_dirty = false;
-    for( int z = minz; z <= maxz; z++ ) {
-        build_outside_cache( z );
-        seen_cache_dirty |= build_transparency_cache( z );
-        seen_cache_dirty |= build_floor_cache( z );
-    }
-
-    tripoint start( 0, 0, minz );
-    tripoint end( SEEX * my_MAPSIZE, SEEY * my_MAPSIZE, maxz );
-    VehicleList vehs = get_vehicles( start, end );
-    // Cache all the vehicle stuff in one loop
-    for( auto &v : vehs ) {
-        auto &ch = get_cache( v.z );
-        auto &outside_cache = ch.outside_cache;
-        auto &transparency_cache = ch.transparency_cache;
-        auto &floor_cache = ch.floor_cache;
-        for( const vpart_reference &vp : v.v->get_all_parts() ) {
+    auto &ch = get_cache( z );
+    auto &outside_cache = ch.outside_cache;
+    auto &transparency_cache = ch.transparency_cache;
+    auto &floor_cache = ch.floor_cache;
+    for( vehicle *v : ch.vehicle_list ) {
+        for( const vpart_reference &vp : v->get_all_parts() ) {
             const size_t part = vp.part_index();
-            int px = v.x + vp.part().precalc[0].x;
-            int py = v.y + vp.part().precalc[0].y;
+            int px = v->global_pos3().x + vp.part().precalc[0].x;
+            int py = v->global_pos3().y + vp.part().precalc[0].y;
             const point p( px, py );
             if( !inbounds( p ) ) {
                 continue;
@@ -7883,8 +7870,8 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
                 vp.has_feature( VPFLAG_OPAQUE ) && !vp.part().is_broken();
 
             if( vehicle_is_opaque ) {
-                int dpart = v.v->part_with_feature( part, VPFLAG_OPENABLE, true );
-                if( dpart < 0 || !v.v->parts[dpart].open ) {
+                int dpart = v->part_with_feature( part, VPFLAG_OPENABLE, true );
+                if( dpart < 0 || !v->parts[dpart].open ) {
                     transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
                 } else {
                     vehicle_is_opaque = false;
@@ -7899,6 +7886,19 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
                 floor_cache[px][py] = true;
             }
         }
+    }
+}
+
+void map::build_map_cache( const int zlev, bool skip_lightmap )
+{
+    const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
+    const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
+    bool seen_cache_dirty = false;
+    for( int z = minz; z <= maxz; z++ ) {
+        build_outside_cache( z );
+        seen_cache_dirty |= build_transparency_cache( z );
+        seen_cache_dirty |= build_floor_cache( z );
+        do_vehicle_caching( z );
     }
 
     // The tile player is standing on should always be transparent
