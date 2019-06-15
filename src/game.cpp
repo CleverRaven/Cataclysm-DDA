@@ -4974,6 +4974,11 @@ static void update_lum( item_location loc, bool add )
 
 void game::use_item( item_location &loc )
 {
+    if ( !loc )
+    {
+        // we can't use a null item!
+        return;
+    }
     if( loc.where() != item_location::type::character && !loc->has_flag( "ALLOWS_REMOTE_USE" ) ) {
         int obtain_cost = loc.obtain_cost( u );
         loc.obtain( u );
