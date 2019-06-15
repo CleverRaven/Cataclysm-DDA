@@ -1481,7 +1481,7 @@ void line_attack( const spell &sp, const tripoint &source, const tripoint &targe
 void spawn_ethereal_item( spell &sp )
 {
     item granted( sp.effect_data(), calendar::turn );
-    if( !granted.is_comestible() && !sp.has_flag( "PERMANENT" ) ) {
+    if( !granted.is_comestible() && !( sp.has_flag( "PERMANENT" ) && sp.is_max_level() ) ) {
         granted.set_var( "ethereal", to_turns<int>( sp.duration_turns() ) );
         granted.set_flag( "ETHEREAL_ITEM" );
     }
