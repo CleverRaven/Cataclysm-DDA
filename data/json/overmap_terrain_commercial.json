@@ -279,6 +279,69 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_gun_roof",
+    "name": "gun store roof",
+    "copy-from": "generic_city_building",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gun_1",
+    "name": "gun store",
+    "copy-from": "generic_city_building",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gun_roof_1",
+    "name": "gun store roof",
+    "copy-from": "generic_city_building",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gun_2",
+    "name": "gun store",
+    "copy-from": "generic_city_building",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gun_3",
+    "name": "gun store",
+    "copy-from": "generic_city_building",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gun_roof_3",
+    "name": "gun store roof",
+    "copy-from": "generic_city_building",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gun_4",
+    "name": "gun store",
+    "copy-from": "generic_city_building",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gun_2ndfloor_4",
+    "name": "gun store 2nd floor",
+    "copy-from": "generic_city_building",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gun_roof_4",
+    "name": "gun store roof",
+    "copy-from": "generic_city_building",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_clothes",
     "name": "clothing store",
     "copy-from": "generic_city_building",
