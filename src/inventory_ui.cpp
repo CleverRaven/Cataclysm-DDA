@@ -2092,8 +2092,8 @@ std::list<std::pair<item_location &, int>> inventory_drop_selector::execute()
     std::list<std::pair<item_location &, int>> dropped_pos_and_qty;
 
     for( std::pair<const item *, int> drop_pair : dropping ) {
-        item_location &loc = item_location( const_cast<player &>( u ),
-                                            const_cast<item *>( drop_pair.first ) );
+        item_location loc( const_cast<player &>( u ),
+                           const_cast<item *>( drop_pair.first ) );
         std::pair<item_location &, int> pair = { loc, drop_pair.second };
         dropped_pos_and_qty.push_back( pair );
     }
