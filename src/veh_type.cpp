@@ -1061,7 +1061,7 @@ void vehicle_prototype::finalize()
                     }
                 }
                 if( pt.ammo_types.empty() ) {
-                    if( !base->gun->ammo.empty() ){
+                    if( !base->gun->ammo.empty() ) {
                         pt.ammo_types.insert( ammotype( *base->gun->ammo.begin() )->default_ammotype() );
                     }
                 }
