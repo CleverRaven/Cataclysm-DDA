@@ -68,6 +68,7 @@ ignorable = {
     "colordef",
     "emit",
     "EXTERNAL_OPTION",
+    "field_type",
     "GAME_OPTION",
     "ITEM_BLACKLIST",
     "item_group",
@@ -541,8 +542,9 @@ def extract_talk_topic(item):
     outfile = get_outfile("talk_topic")
     if "dynamic_line" in item:
         extract_dynamic_line(item["dynamic_line"], outfile)
-    for r in item["responses"]:
-        extract_talk_response(r, outfile)
+    if "responses" in item:
+        for r in item["responses"]:
+            extract_talk_response(r, outfile)
 
 
 def extract_missiondef(item):

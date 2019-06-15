@@ -21,6 +21,7 @@
 #include "flat_set.h"
 #include "io_tags.h"
 #include "item_location.h"
+#include "requirements.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
@@ -67,7 +68,6 @@ struct fire_data;
 struct damage_instance;
 struct damage_unit;
 class map;
-struct item_comp;
 
 enum damage_type : int;
 
@@ -182,7 +182,7 @@ class item : public visitable<item>
         item( const itype *type, time_point turn, solitary_tag );
 
         /** For constructing in-progress crafts */
-        item( const recipe *rec, int qty, std::list<item> items );
+        item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections );
 
         /**
          * Filter converting this instance to another type preserving all other aspects
@@ -300,7 +300,7 @@ class item : public visitable<item>
          */
         std::string tname( unsigned int quantity = 1, bool with_prefix = true,
                            unsigned int truncate = 0 ) const;
-        std::string display_money( unsigned int quantity, unsigned long charge ) const;
+        std::string display_money( unsigned int quantity, unsigned int charge ) const;
         /**
          * Returns the item name and the charges or contained charges (if the item can have
          * charges at all). Calls @ref tname with given quantity and with_prefix being true.
@@ -1583,15 +1583,24 @@ class item : public visitable<item>
         const itype *ammo_data() const;
         /** Specific ammo type, returns "null" if item is neither ammo nor loaded with any */
         itype_id ammo_current() const;
-        /** Ammo type (@ref ammunition_type) used by item
+        /** Set of ammo types (@ref ammunition_type) used by item
          *  @param conversion whether to include the effect of any flags or mods which convert the type
-         *  @return NULL if item does not use a specific ammo type (and is consequently not reloadable) */
-        ammotype ammo_type( bool conversion = true ) const;
+         *  @return empty set if item does not use a specific ammo type (and is consequently not reloadable) */
+        const std::set<ammotype> &ammo_types( bool conversion = true ) const;
+
+        /** Ammo type of an ammo item
+         *  @return ammotype of ammo item or a null id if the item is not ammo */
+        ammotype ammo_type() const;
 
         /** Get default ammo used by item or "NULL" if item does not have a default ammo type
          *  @param conversion whether to include the effect of any flags or mods which convert the type
          *  @return NULL if item does not use a specific ammo type (and is consequently not reloadable) */
         itype_id ammo_default( bool conversion = true ) const;
+
+        /** Get default ammo for the first ammotype common to an item and its current magazine or "NULL" if none exists
+         * @param conversion whether to include the effect of any flags or mods which convert the type
+         * @return itype_id of default ammo for the first ammotype common to an item and its current magazine or "NULL" if none exists */
+        itype_id common_ammo_default( bool conversion = true ) const;
 
         /** Get ammo effects for item optionally inclusive of any resulting from the loaded ammo */
         std::set<std::string> ammo_effects( bool with_ammo = true ) const;
@@ -1906,8 +1915,7 @@ class item : public visitable<item>
          * Causes a debugmsg and returns empty requirement data if called on a non-craft
          * @return what is needed to continue craft, may be empty requirement data
          */
-        requirement_data get_continue_reqs();
-
+        requirement_data get_continue_reqs() const;
 
     private:
         /**
@@ -1957,6 +1965,7 @@ class item : public visitable<item>
         bool process_fake_smoke( player *carrier, const tripoint &pos );
         bool process_fake_mill( player *carrier, const tripoint &pos );
         bool process_cable( player *carrier, const tripoint &pos );
+        bool process_blackpowder_fouling( player *carrier );
         bool process_tool( player *carrier, const tripoint &pos );
 
     public:
@@ -1979,6 +1988,7 @@ class item : public visitable<item>
         // Only for in-progress crafts
         const recipe *making = nullptr;
         int next_failure_point = -1;
+        std::vector<item_comp> comps_used;
 
     public:
         int charges;
@@ -1989,7 +1999,7 @@ class item : public visitable<item>
         int poison = 0;          // How badly poisoned is it?
         int frequency = 0;       // Radio frequency
         int note = 0;            // Associated dynamic text snippet.
-        int irridation = 0;      // Tracks radiation dosage.
+        int irradiation = 0;      // Tracks radiation dosage.
         int item_counter = 0; // generic counter to be used with item flags
         int specific_energy = -10; // Specific energy (0.00001 J/g). Negative value for unprocessed.
         int temperature = 0; // Temperature of the item (in 0.00001 K).

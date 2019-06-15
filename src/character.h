@@ -538,7 +538,7 @@ class Character : public Creature, public visitable<Character>
          * @param unloading Do not try to add to a container when the item was intentionally unloaded.
          * @return Remaining charges which could not be stored in a container.
          */
-        long int i_add_to_container( const item &it, const bool unloading );
+        int i_add_to_container( const item &it, const bool unloading );
         item &i_add( item it, bool should_stack = true );
 
         /**
@@ -606,7 +606,7 @@ class Character : public Creature, public visitable<Character>
         /**
          * Counts ammo and UPS charges (lower of) for a given gun on the character.
          */
-        long ammo_count_for( const item &gun );
+        int ammo_count_for( const item &gun );
 
         /** Maximum thrown range with a given item, taking all active effects into account. */
         int throw_range( const item & ) const;
@@ -802,6 +802,12 @@ class Character : public Creature, public visitable<Character>
 
         /** Stable base metabolic rate due to traits */
         float metabolic_rate_base() const;
+        // gets the max value healthy you can be, related to your weight
+        int get_max_healthy() const;
+        // gets the string that describes your weight
+        std::string get_weight_string() const;
+        // gets the description, printed in player_display, related to your current bmi
+        std::string get_weight_description() const;
         // calculates the BMI
         float get_bmi() const;
         // returns amount of calories burned in a day given various metabolic factors
@@ -872,6 +878,10 @@ class Character : public Creature, public visitable<Character>
         /** How healthy the character is. */
         int healthy;
         int healthy_mod;
+
+        /**height at character creation*/
+        int init_height = 175;
+
         // the player's activity level for metabolism calculations
         float activity_level = NO_EXERCISE;
 

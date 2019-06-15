@@ -84,7 +84,8 @@
           "security": 2,
           "options": [
             { "name": "ERROR:  SIGNAL DISCONNECT", "action": "tower_unresponsive" },
-            { "name": "Install Repeater Mod", "action": "repeater_mod" }
+            { "name": "Install Repeater Mod", "action": "repeater_mod" },
+            { "name": "Browse Audio Archive", "action": "radio_archive" }
           ]
         }
       },

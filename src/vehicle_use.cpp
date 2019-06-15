@@ -51,7 +51,6 @@ static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_wind( "wind" );
-static const itype_id fuel_type_animal( "animal" );
 
 static const fault_id fault_diesel( "fault_engine_pump_diesel" );
 static const fault_id fault_glowplug( "fault_engine_glow_plug" );
@@ -823,17 +822,17 @@ bool vehicle::start_engine( const int e )
             if( einfo.has_flag( "MUSCLE_ARMS" ) && ( g->u.hp_cur[hp_arm_l] == 0 ||
                     g->u.hp_cur[hp_arm_r] == 0 ) ) {
                 add_msg( _( "You cannot use %s with a broken arm." ), eng.name() );
+                return false;
             } else if( einfo.has_flag( "MUSCLE_LEGS" ) && ( g->u.hp_cur[hp_leg_l] == 0 ||
                        g->u.hp_cur[hp_leg_r] == 0 ) ) {
                 add_msg( _( "You cannot use %s with a broken leg." ), eng.name() );
-            } else {
-                add_msg( _( "The %s's mechanism is out of reach!" ), name );
+                return false;
             }
         } else {
             add_msg( _( "Looks like the %1$s is out of %2$s." ), eng.name(),
                      item::nname( einfo.fuel_type ) );
+            return false;
         }
-        return false;
     }
 
     const double dmg = parts[engines[e]].damage_percent();

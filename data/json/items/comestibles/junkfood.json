@@ -567,8 +567,9 @@
   {
     "type": "COMESTIBLE",
     "id": "neccowafers",
-    "name": "Necco wafer",
-    "weight": 46,
+    "name": "Necco wafers",
+    "name_plural": "Necco wafers",
+    "weight": 60,
     "color": "magenta",
     "spoils_in": "180 days",
     "stim": 1,
@@ -581,7 +582,7 @@
     "description": "A handful of candy wafers, in assorted flavors: orange, lemon, lime, clove, chocolate, wintergreen, cinnamon, and licorice.  Yum!",
     "price": 100,
     "material": "junk",
-    "volume": 0,
+    "volume": "40 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 4
   },

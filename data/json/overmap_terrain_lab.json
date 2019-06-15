@@ -416,7 +416,8 @@
     "name": "parking lot",
     "sym": "_",
     "color": "dark_gray",
-    "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 1, 10 ], "chance": 30 },
+    "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 5, 20 ], "chance": 50 },
+    "extras": "research_facility_lot",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -471,7 +472,8 @@
     "name": "research facility",
     "sym": "l",
     "color": "light_gray",
-    "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 5, 15 ], "chance": 50 },
+    "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 10, 25 ], "chance": 60 },
+    "extras": "research_facility_interior",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -511,7 +513,8 @@
     "name": "research facility entrance",
     "sym": "L",
     "color": "white",
-    "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 5, 25 ], "chance": 50 },
+    "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 8, 25 ], "chance": 50 },
+    "extras": "research_facility_interior",
     "see_cost": 5,
     "mondensity": 2
   },

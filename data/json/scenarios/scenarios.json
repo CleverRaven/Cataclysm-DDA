@@ -105,7 +105,7 @@
     "name": "Safe Place",
     "points": 1,
     "description": "You've either made it to one of the refugee centers, but they've refused to let you join the others underground, or found some other distant safe place devoid of the living dead.  Looks like you're on your own...",
-    "allowed_locs": [ "refugee", "Swamp Shack", "survivalist farm", "cabin", "lmoe" ],
+    "allowed_locs": [ "refugee", "Swamp Shack", "survivalist farm", "cabin", "lmoe", "horse_farm_13" ],
     "start_name": "Safe Building",
     "flags": [ "LONE_START" ]
   },

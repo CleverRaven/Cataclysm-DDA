@@ -1255,7 +1255,7 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Stuck in tent.  Zombies outside.  Friends were outside too, now they're part of zombies.  Need to be quiet\"" ]
+    "text": [ "\"Stuck here.  Zombies outside.  Friends were outside too, now they're part of zombies.  Need to be quiet\"" ]
   },
   {
     "type": "snippet",
@@ -1793,10 +1793,17 @@
   },
   {
     "type": "snippet",
+    "category": "note",
+    "text": [
+      "\"Lisa always was a fan of sports.  Thank God these Global Athletics Games in Harran started some time before the outbreak, so she was able to leave New England before it was quarantined.  I can only hope there are no zombies, as we do have here, in the city she flew to.\""
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "newest_news",
     "text": [
       "LABS BOMBED: In further invasion proof (discounting earlier suggestion of a riot drug) most of New England's scientific labs were bombed simultaneously yesterday.  No word yet from the military about who the aggressors are.",
-      "CHINA INVADES?: Communications were muddled by a large influx of aggressive armed individuals.  \"We have this,\" says a local Police Chief.  \"We are authorizing our robotic security drones to use lethal force on combative humans\"",
+      "CHINA INVADES?: Communications were muddled by a large influx of aggressive armed individuals.  \"We have this,\" says a local Police Chief.  \"We are authorizing our robotic security drones to use lethal force on combative humans.\"",
       "INVADERS NOT HUMAN?: An earlier command by the Police Chief has backfired.  \"The invaders don't register as human.  The securibots turned on us when we tried to fight them.  We don't have enough people left to reprogram them.\"",
       "INVASION IS GM TROOPS: Reports of invasion by as yet unknown soldiers have been confirmed, and this paper has gained first hand footage proving genetic modification, with examples of extreme strength, speed and natural armor.",
       "INVADERS ARE SUPER SOLDIERS: Further proof of mutation, in addition to strength, speed & toughness, we now have reports of foreign enemies who are somehow firing lightning fields, spitting acid and reports of soldiers hidden in mobile clouds of smoke.",
@@ -1807,7 +1814,8 @@
       "TOWNS OCCUPIED TERRITORY: FEMA officials said today \"Do not try to defend your property in towns: invaders use advanced tracking, perhaps scent.  Please retreat to your nearest evacuation center outside town and await extraction.\"",
       "PUBLIC SERVICE ANNOUNCEMENT: \"Beware Acid Rain\".  Several caustic chemicals in the air react with rain clouds to cause deadly acid rain.  No word yet on if this is a deliberate tactic or a side effect of the earlier bombings.",
       "EDITOR SAYS \"DESTROY THE DEAD\".  Recognizable enemy dead left lying in the street may give away militia positions!  If you kill an enemy combatant, smash or butcher with a knife until unrecognizable!  Screw Geneva!  Protect our troops!",
-      "SOLDIERS SEEN HEADED UNDERGROUND.  Rumors abound as eyewitness see troops headed underground near a local salon.  Expert sources suggest that the soldiers may be headed to a possible underground bunker."
+      "SOLDIERS SEEN HEADED UNDERGROUND.  Rumors abound as eyewitness see troops headed underground near a local salon.  Expert sources suggest that the soldiers may be headed to a possible underground bunker.",
+      "A BRIDGE TOO FAR: In a Monday statement, the Department of Defense detailed its plans to deploy strategic minefields on key bridge crossings, in order to quarantine infected regions.  \"Military personnel will be on-site to assist any refugees fleeing the infected zones.  We urge citizens to comply with all military directives and avoid quarantined areas whenever possible until order can be restored.\""
     ]
   },
   {
@@ -2290,6 +2298,62 @@
       "We have even more distressing news than the widespread XE037 contamination, there are reports of the XE037 mutating into various new variants.  See data files on XE037a - XE037f.  Research on the effects of these variants is ongoing.  We do know that XE037d shows signs of PE062 immunity, and XE037b can revive various breeds of canines.  However, revival is not as guaranteed as standard XE037 humanoid infection.  Canine body size seems to influence the chances.  See experiment tXE037b_c.",
       "Today we found our solution, quite by accident.  It was found that XE037 is completely removed from a revivified body following a series of extremely-high energy 4th dimensional transpositions.  Unfortunately, this invariably allows subplane life forms to pass into the prime plan.  The cure is worse than the disease.",
       "XE037 revivification has reached critical levels, which are rapidly overwhelming the available military and regional police assets' ability to stop.  Every team in the field has encountered hostile specimens, and several are no longer responding to communications.  Dr. Savage has proposed a strategic redeployment to the underground complex known as the VAULT, and continuing production of PE062 there."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "radio_archive",
+    "text": [
+      "kssht.  Dark Horse, this is Blue Jay, what's your status, over.  kssht.  Blue Jay, this is Black Horse, still holding, but not for long.  kssht.  Dark Horse, you've got to hold position for 3 hours.  We're almost black on ammo, but resupply is on the way, over.  kssht.  Not possible Blue Jay, too many dead.  30 minutes max, and if you don't order us to retreat we're gone, over.  kssht.",
+      "kssht.  Blue Jay, this is Black Rose, got your resupply, going in on vector 36, what's the status of the LZ?  kssht.  Black Rose, this is Blue Jay, what took you so long?  LZ hot and unsecured, ammo black, bayonets in action, land on your own discretion, over.  kssht.  Roger that, hold on, Black Rose out.  kssht.",
+      "To whomever is listening, this may be our last broadcast.  Wish you luck.  Can't stay in the studio any longer, station is being rewired to military frequencies for automatic broadcast.  Stay safe, and bless you, people.",
+      "You're listening to KDDA from Boston, I'm Jenny Sanders with a special emergency news update.  Road closures by military and police forces have been reported on interstates 90, 91, 93, and 95. Alternative routes have not been suggested. Due to dangers on non-interstate roads, it is strongly recommended that you avoid major thoroughfares and population centers when travelling by car.",
+      "Those evacuating cities are advised to head to the nearest designated evacuation shelter and await pickup by a FEMA transport.  Do not engage with rioters.  Due to the danger of being mistaken for a rioter, do not approach military or police blockades, even for assistance.  I repeat, do not approach military or police blockades, even for assistance.",
+      "If you are not in an evacuation zone, officials highly recommend you pack gear for evacuation.  Make sure to include clean clothes, a blanket, and enough food and water to last a few days.",
+      "In other news, the federal government has confirmed that Rhode Island's declaration of secession is official, although the US government does not acknowledge its validity.  Our sources haven't been able to determine the extent of hostilities in the area, but there are rumors of border violence initiated by the Rhode Island militia.",
+      "Hey ladies and gentlemen of the apocalypse, you're listening to Dark Days Radio, the last radio station on the Eastern Seaboard, I'm DJ Dustbowl here with our mascot Sam.",
+      "DJ Dustbowl back, you're listening to Dark Days Radio.  Quick survivor tip: remember, killing a zombie isn't enough. You've gotta smash that thing to a pulp or chop it into pieces if you don't want it getting back up.  Good news though, you don't need to worry about headshots!  Any major damage will lay a shambler out.",
+      "You're listening to Dark Days Radio, I'm DJ Dustbowl!  In with a quick tip for any survivors listening: one zombie is bad news, two are worse.  Don't go Rambo on me.  Tackle threats in small numbers or through bottlenecks.  You aren't tougher than a zombie but you are smarter, use that to your advantage... or just run away.",
+      "…black goo in the water!  Drugs and who knows what else, the government wants you dumb and docile!  Wake up people.  They are the spawn of Satan!  This is Alan Jewels with the AJ show, we’ll be back after the break.",
+      "This is Escort, frequency one-fifty-five, nineteen-thousand, here's your report.  Can you gimme an 'amen', it's ...kshhhsk.... days after Armageddon and I'm still kicking.  The 49ers are headed southwards towards Neufolk, so if you're there and listening, barricade or lay low until they go by.  There's another horde forming out of Metro Bay.",
+      "I'll be calling them the Pigskins, and they're circling the city right now, but trickles tell me they're going to converge on Neufolk in the next few days, so once the 49ers pass, Neufolkians, get all the supplies you can, cause this is gonna be a big one...",
+      "This is an emergency broadcast from the National Emergency Alert System.  This is not a test.  There has been several hundred confirmed cases of an unknown pathogen in the metropolitan area of ...kshhssk... in the last 24 hours.  The contagion is believed to be highly transmittable.  Residents are advised to remain in their homes at this time.  More information will be released as it becomes available.",
+      "This is an emergency broadcast from the National Emergency Alert System.  This is not a test.  The new pathogen has now been confirmed in several cities across the US.  Victims of this disease are known to display highly aggressive, rabies-like behavior, and may be violent to people around them.  Avoid contact with infected persons at all costs.  If you suspect that you or someone else has contracted the pathogen, contact emergency services immediately.",
+      "This is not a test.  Seek immediate shelter.  Multiple missile launches have been confirmed to be targeting the ..ksshhsk... Seek immediate shelter.  If a community shelter is not available, alternative shelter locations are basements, beneath stairwells, or central rooms with no windows.  Ensure that you have sufficient protection from falling debris.  Ensure that you have food and water for at least one week.  Repeat.  Seek immediate shelter.",
+      "Hello American patriots!  This is the national guard, calling you to use your God-Given second amendment rights and buy a firearm!  It is obvious that the Chinese, a scourge upon the face of the earth and the stopper of freedom and prosperity, are in a state of aggression.  Therefore, we suggest that with the new gun laws introduced, YOU must help in the defense of this bastion of freedom and prosperity.  Go to your local gun store and prepare to defend yourself against the red scourge in every way you can!",
+      "zzzzchzzzzchurzzz Are you tired of always losing your dumpy old sunglasses?  Tired of having to pay for over price shades just to have them fall to pieces?  Well no longer now introducing zchzzzzch- brand Anti-glare compensators for the shade you need in you.  Order now for 12 easy payments of $1200.99 and we'll throw in a free order of zpzzzzpzz eye bot.",
+      "This is WSSA-233, broadcasting from <city>.  We've barricaded all the doors and windows.  There's a ton of them right outside, we're trying to stay quiet.  Do not, I repeat, do not approach.",
+      "First Fleet, this is Mount Wheater, we've send a helicopter with a squad to the location of the Guard Outpost. If any survivors of the crash are to reach the outpost, contact the base, we are short on men and one of the big ones has just breached the perimeter.  Over.",
+      "USS Eagle of Freedom to all callsigns.  Operation Ocean 11 is in effect.  Repeat.  Operation Ocean 11 is in effect.  Sir, this should effectively reach about 150 units, but there is no response from literally anyone in hours.  Their coms winked out like candles in the wind.  And how do we even secure the port to load anyone in?",
+      "Seagull 54 to USS Eagle of Freedom.  It's as we predicted.  Going down on last reserves of fuel, with dropping evacuated unit out of question at that point.  This is our last call.  Will try emergency landing at ...kshssssssk... Don't send us a rescue team, we know the odds.  Will be moving east towards the shore, and if we're not there in T minus 3 days, count us dead.  Proud to serve the country.  Over and out."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "amigara1",
+    "text": [
+      "ENTRY 47:\nOur normal mining routine has unearthed a hollow chamber.  This would not be out of the ordinary, save for the odd, perfectly vertical faultline found. This faultline has several odd concavities in it which have the more superstitious crew members alarmed; they seem to be of human origin.\nENTRY 48:\nThe concavities are between 10 and 20 feet tall, and run the length of the faultline.  Each one is vaguely human in shape, but with the proportions of the limbs, neck and head greatly distended, all twisted and curled in on themselves."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "amigara2",
+    "text": [
+      "ENTRY 49:\nWe've stopped mining operations in this area, obviously, until archaeologists have the chance to inspect the area.  This is going to set our schedule back by at least a week.  This stupid artifact-preservation law has been in place for 50 years, and hasn't even been up for termination despite the fact that these mining operations are the backbone of our economy.\nENTRY 52:\nStill waiting on the archaeologists.  We've done a little light inspection of the faultline; our sounding equipment is insufficient to measure the depth of the concavities.  The equipment is rated at 15 miles depth, but it isn't made for such narrow tunnels, so it's hard to say exactly how far back they go."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "amigara3",
+    "text": [
+      "ENTRY 54:\nI noticed a couple of the guys down in the chamber with a chisel, breaking off a piece of the sheer wall.  I'm looking the other way.  It's not like the eggheads are going to notice a little piece missing.  Fuck em.\nENTRY 55:\nWell, the archaeologists are down there now with a couple of the boys as guides.  They're hardly Indiana Jones types; I doubt they been below 20 feet.  I hate taking guys off assignment just to babysit the scientists, but if they get hurt we'll be shut down for god knows how long.\nENTRY 58:\nThey're bringing in ANOTHER CREW?  Christ, it's just some cave carvings!  I know that's sort of a big deal, but come on, these guys can't handle it?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "amigara4",
+    "text": [
+      "MINE OPERATIONS SUSPENDED; CONTROL TRANSFERRED TO AMIGARA PROJECT UNDER IMPERATIVE 2:07B.\nFAULTLINE SOUNDING HAS PLACED DEPTH AT 30.09 KM.\nDAMAGE TO FAULTLINE DISCOVERED; NEPOWER MINE CREW PLACED UNDER ARREST FOR VIOLATION OF REGULATION 87.08 AND TRANSFERRED TO LAB 89-C FOR USE AS SUBJECTS.\nQUALITY OF FAULTLINE NOT COMPROMISED.\nINITIATING STANDARD TREMOR TEST..."
     ]
   }
 ]

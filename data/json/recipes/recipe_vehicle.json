@@ -123,6 +123,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "mechanics",
+    "skill_required": [ "fabrication", 5 ],
     "difficulty": 5,
     "time": "180 m",
     "reversible": true,
@@ -150,6 +151,14 @@
     "result": "minifridge",
     "type": "recipe",
     "copy-from": "minifreezer",
+    "skill_required": [ "fabrication", 4 ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
     "components": [
       [ [ "sheet_metal", 10 ] ],
       [ [ "condensor_coil", 1 ] ],

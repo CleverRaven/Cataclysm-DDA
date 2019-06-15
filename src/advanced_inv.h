@@ -456,7 +456,7 @@ class advanced_inventory
          *      a valid item count to be moved.
          */
         bool query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
-                            const std::string &action, long &amount );
+                            const std::string &action, int &amount );
 
         void menu_square( uilist &menu );
 

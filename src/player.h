@@ -191,7 +191,6 @@ class player : public Character
 
         void normalize() override;
 
-
         bool is_player() const override {
             return true;
         }
@@ -491,6 +490,8 @@ class player : public Character
         void add_martialart( const matype_id &ma_id );
         /** Returns true if the player can learn the entered martial art */
         bool can_autolearn( const matype_id &ma_id ) const;
+        /** Displays a message if the player can or cannot use the martial art */
+        void martialart_use_message() const;
 
         /** Returns the to hit bonus from martial arts buffs */
         float mabuff_tohit_bonus() const;
@@ -576,7 +577,7 @@ class player : public Character
         dispersion_sources get_weapon_dispersion( const item &obj ) const;
 
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
-        bool handle_gun_damage( item &firing );
+        bool handle_gun_damage( item &firing, int shots_fired );
 
         /** Get maximum recoil penalty due to vehicle motion */
         double recoil_vehicle() const;
@@ -1545,7 +1546,7 @@ class player : public Character
         int blocks_left;
         int stim;
         int radiation;
-        unsigned long cash;
+        signed long cash;
         int movecounter;
         std::shared_ptr<monster> mounted_creature;
         bool death_drops;// Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
@@ -1719,13 +1720,6 @@ class player : public Character
          * @param target Target NPC to disarm
          */
         void disarm( npc &target );
-
-        /**
-         * Try to steal an item from the NPC's inventory. May result in fail attempt, when NPC not notices you,
-         * notices your steal attempt and getting angry with you, and you successfully stealing the item.
-         * @param target Target NPC to steal from
-         */
-        void steal( npc &target );
 
         /**
          * Accessor method for weapon targeting data, used for interactive weapon aiming.

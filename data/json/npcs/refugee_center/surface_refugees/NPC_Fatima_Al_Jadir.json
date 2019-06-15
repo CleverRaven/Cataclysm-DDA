@@ -120,7 +120,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_Background",
-    "dynamic_line": "Before <the_cataclysm> I had just finished welding school actually, and was about to start looking for a job.  That was fun, being a young Muslim woman in a Massachussets trade college, let me tell you.",
+    "dynamic_line": "Before <the_cataclysm> I had just finished welding school actually, and was about to start looking for a job.  That was fun, being a young Muslim woman in a Massachusetts trade college, let me tell you.",
     "responses": [
       {
         "text": "Welding seems like a pretty non-traditional occupational choice; is there a story there?",
@@ -136,7 +136,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_Cataclysm",
-    "dynamic_line": "I was on my way to visit my parents back in Burlington, waiting at a bus station, when the evacuation notices started sounding.  I'd been a little out of touch for a bit and didn't realize how bad the rioting was getting.  When my bus arrived it got repurposed into an evacuation vehicle, and took me here.  I... I didn't used to be very religious, it's just something I was born to, but since this happened I've been thinking a lot more about God, and how grateful I am for His help in surviving.  With things still so difficult, it helps to know He's got some plan for me.\n\nAnyway, mine was the second bus to arrive, and they were just getting some triage and processing stuff set up.  I was put in charge of helping with the wounded, along with Uyen.  Things went a little strange later on... one of the women doing triage and processing had a bit of a hang-up about particular, um, colors of people being allowed into the center.  She claimed to have lost our 'papers', along with a lot of other peoples'.  Thankfully because we'd helped so many we were able to argue that they could't leave us out, but there was no space left downstairs by the time we got that sorted, so here we are."
+    "dynamic_line": "I was on my way to visit my parents back in Burlington, waiting at a bus station, when the evacuation notices started sounding.  I'd been a little out of touch for a bit and didn't realize how bad the rioting was getting.  When my bus arrived it got repurposed into an evacuation vehicle, and took me here.  I... I didn't used to be very religious, it's just something I was born to, but since this happened I've been thinking a lot more about God, and how grateful I am for His help in surviving.  With things still so difficult, it helps to know He's got some plan for me.\n\nAnyway, mine was the second bus to arrive, and they were just getting some triage and processing stuff set up.  I was put in charge of helping with the wounded, along with Uyen.  Things went a little strange later on... one of the women doing triage and processing had a bit of a hang-up about particular, um, colors of people being allowed into the center.  She claimed to have lost our 'papers', along with a lot of other peoples'.  Thankfully because we'd helped so many we were able to argue that they couldn't leave us out, but there was no space left downstairs by the time we got that sorted, so here we are."
   },
   {
     "type": "talk_topic",
@@ -146,7 +146,7 @@
   {
     "id": "MISSION_REFUGEE_Fatima_1",
     "type": "mission_definition",
-    "name": "Find a copy of the Quran for Fatima",
+    "name": "Find a copy of the Quran",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 0,

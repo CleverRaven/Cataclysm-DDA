@@ -61,6 +61,8 @@
       [ "slingshot", 10 ],
       [ "frisbee", 10 ],
       [ "dnd_handbook", 1 ],
+      [ "RPG_die", 1 ],
+      [ "metal_RPG_die", 1 ],
       [ "milkshake_fastfood", 3 ]
     ]
   },
@@ -4564,7 +4566,8 @@
       [ "tourist_table", 5 ],
       [ "chem_hexamine", 5 ],
       [ "esbit_stove", 10 ],
-      [ "mess_tin", 10 ]
+      [ "mess_tin", 10 ],
+      [ "angular_grinder", 4 ]
     ]
   },
   {
@@ -4720,7 +4723,9 @@
       [ "chem_hexamine", 4 ],
       [ "esbit_stove", 8 ],
       [ "bottle_folding", 6 ],
-      [ "mess_tin", 8 ]
+      [ "mess_tin", 8 ],
+      [ "metal_file", 5 ],
+      [ "pin_reamer", 3 ]
     ]
   },
   {
@@ -9326,7 +9331,9 @@
       [ "hammer", 20 ],
       [ "screwdriver", 20 ],
       [ "lighter", 25 ],
-      [ "pockknife", 15 ]
+      [ "pockknife", 15 ],
+      [ "metal_file", 15 ],
+      [ "pin_reamer", 10 ]
     ]
   },
   {

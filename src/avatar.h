@@ -33,9 +33,9 @@ class avatar : public player
         /** Returns last stored map tile in given location in tiles mode */
         memorized_terrain_tile get_memorized_tile( const tripoint &p ) const;
         /** Memorizes a given tile in curses mode; finalize_terrain_memory_curses needs to be called after it */
-        void memorize_symbol( const tripoint &pos, const long symbol );
+        void memorize_symbol( const tripoint &pos, const int symbol );
         /** Returns last stored map tile in given location in curses mode */
-        long get_memorized_symbol( const tripoint &p ) const;
+        int get_memorized_symbol( const tripoint &p ) const;
         /** Returns the amount of tiles survivor can remember. */
         size_t max_memorized_tiles() const;
         void clear_memorized_tile( const tripoint &pos );
@@ -99,6 +99,13 @@ class avatar : public player
         object_type get_grab_type() const;
         /** Handles player vomiting effects */
         void vomit();
+
+        /**
+         * Try to steal an item from the NPC's inventory. May result in fail attempt, when NPC not notices you,
+         * notices your steal attempt and getting angry with you, and you successfully stealing the item.
+         * @param target Target NPC to steal from
+         */
+        void steal( npc &target );
     private:
         map_memory player_map_memory;
         bool show_map_memory;

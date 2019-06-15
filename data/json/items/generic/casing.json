@@ -259,6 +259,15 @@
     "volume": "5ml"
   },
   {
+    "id": "357mag_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".357 magnum casing",
+    "description": "An empty casing from a .357 magnum round.",
+    "weight": 3,
+    "volume": "5ml"
+  },
+  {
     "id": "9x18mm_casing",
     "copy-from": "casing",
     "type": "GENERIC",

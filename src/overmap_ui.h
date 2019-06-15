@@ -93,5 +93,6 @@ struct draw_data_t {
 void draw( const catacurses::window &w, const catacurses::window &wbar, const tripoint &center,
            const tripoint &orig, bool blink, bool show_explored, bool fast_scroll, input_context *inp_ctxt,
            const draw_data_t &data );
+void create_note( const tripoint &curs );
 }
 #endif /* OVERMAP_UI_H */

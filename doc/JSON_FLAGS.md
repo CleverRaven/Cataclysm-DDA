@@ -159,6 +159,7 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 
 - ```ACIDBOMB``` Leaves a pool of acid on detonation.
 - ```BEANBAG``` Stuns the target.
+- ```BLACKPOWDER``` May clog up the gun with blackpowder fouling, which will also cause rust.
 - ```BLINDS_EYES``` Blinds the target if it hits the head (ranged projectiles can't actually hit the eyes at the moment).
 - ```BOUNCE``` Inflicts target with `bounced` effect and rebounds to a nearby target without this effect.
 - ```COOKOFF``` Explodes when lit on fire.
@@ -219,6 +220,7 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 
 Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other item types. Experiment to find which flags work elsewhere.
 
+- ```ACTIVE_CLOAKING``` While active, drains UPS to provide invisibility.
 - ```ALARMCLOCK``` Has an alarm-clock feature.
 - ```ALLOWS_NATURAL_ATTACKS``` Doesn't prevent any natural attacks or similar benefits from mutations, fingertip razors, etc., like most items covering the relevant body part would.
 - ```BAROMETER``` This gear is equipped with an accurate barometer (which is used to measure atmospheric pressure).

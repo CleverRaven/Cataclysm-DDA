@@ -260,9 +260,9 @@ void editmap_hilight::draw( editmap &em, bool update )
                     t_col = furniture_type.color();
                 }
                 const field &t_field = g->m.field_at( p );
-                if( t_field.fieldCount() > 0 ) {
-                    field_id t_ftype = t_field.fieldSymbol();
-                    const field_entry *t_fld = t_field.findField( t_ftype );
+                if( t_field.field_count() > 0 ) {
+                    field_id t_ftype = t_field.field_symbol();
+                    const field_entry *t_fld = t_field.find_field( t_ftype );
                     if( t_fld != nullptr ) {
                         t_col = t_fld->color();
                         t_sym = t_fld->symbol();
@@ -467,7 +467,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
     for( int x = start.x, sx = 0; x <= end.x; x++, sx++ ) {
         for( int y = start.y, sy = 0; y <= end.y; y++, sy++ ) {
             tripoint p{ x, y, target.z };
-            long sym = ( game_map ? '%' : ' ' );
+            int sym = ( game_map ? '%' : ' ' );
             if( x >= 0 && x < msize && y >= 0 && y < msize ) {
                 if( game_map ) {
                     Creature *critter = g->critter_at( p );
@@ -550,9 +550,9 @@ void editmap::update_view( bool update_info )
                     t_col = furniture_type.color();
                 }
                 const field &t_field = g->m.field_at( p );
-                if( t_field.fieldCount() > 0 ) {
-                    field_id t_ftype = t_field.fieldSymbol();
-                    const field_entry *t_fld = t_field.findField( t_ftype );
+                if( t_field.field_count() > 0 ) {
+                    field_id t_ftype = t_field.field_symbol();
+                    const field_entry *t_fld = t_field.find_field( t_ftype );
                     if( t_fld != nullptr ) {
                         t_col = t_fld->color();
                         t_sym = t_fld->symbol();
@@ -649,8 +649,8 @@ void editmap::update_view( bool update_info )
             const field_entry &cur = fld.second;
             mvwprintz( w_info, off, 1, cur.color(),
                        _( "field: %s (%d) density %d age %d" ),
-                       cur.name(), cur.getFieldType(),
-                       cur.getFieldDensity(), to_turns<int>( cur.getFieldAge() )
+                       cur.name(), cur.get_field_type(),
+                       cur.get_field_intensity(), to_turns<int>( cur.get_field_age() )
                      );
             off++; // 10ish
         }
@@ -1060,10 +1060,10 @@ int editmap::edit_ter()
 void editmap::update_fmenu_entry( uilist &fmenu, field &field, const field_id idx )
 {
     int fdens = 1;
-    const field_t &ftype = fieldlist[idx];
-    field_entry *fld = field.findField( idx );
+    const field_t &ftype = all_field_types_enum_list[idx];
+    field_entry *fld = field.find_field( idx );
     if( fld != nullptr ) {
-        fdens = fld->getFieldDensity();
+        fdens = fld->get_field_intensity();
     }
     fmenu.entries[idx].txt = ftype.name( fdens - 1 );
     if( fld != nullptr ) {
@@ -1078,7 +1078,7 @@ void editmap::setup_fmenu( uilist &fmenu )
     fmenu.entries.clear();
     for( int i = 0; i < num_fields; i++ ) {
         const field_id fid = static_cast<field_id>( i );
-        const field_t &ftype = fieldlist[fid];
+        const field_t &ftype = all_field_types_enum_list[fid];
         int fdens = 1;
         std::string fname = ftype.name( fdens - 1 );
         fmenu.addentry( fid, true, -2, fname );
@@ -1114,9 +1114,9 @@ int editmap::edit_fld()
           ) {
             int fdens = 0;
             const field_id idx = static_cast<field_id>( fmenu.selected );
-            field_entry *fld = cur_field->findField( idx );
+            field_entry *fld = cur_field->find_field( idx );
             if( fld != nullptr ) {
-                fdens = fld->getFieldDensity();
+                fdens = fld->get_field_intensity();
             }
             int fsel_dens = fdens;
             if( fmenu.ret > 0 ) {
@@ -1126,7 +1126,7 @@ int editmap::edit_fld()
                 femenu.w_y = fmenu.w_height;
                 femenu.w_x = offsetX;
 
-                const field_t &ftype = fieldlist[idx];
+                const field_t &ftype = all_field_types_enum_list[idx];
                 femenu.text = ftype.name( fdens == 0 ? 0 : fdens - 1 );
                 femenu.addentry( pgettext( "map editor: used to describe a clean field (e.g. without blood)",
                                            "-clear-" ) );
@@ -1150,10 +1150,10 @@ int editmap::edit_fld()
                 for( auto &elem : target_list ) {
                     const auto fid = static_cast<field_id>( idx );
                     field &t_field = g->m.get_field( elem );
-                    field_entry *t_fld = t_field.findField( fid );
+                    field_entry *t_fld = t_field.find_field( fid );
                     int t_dens = 0;
                     if( t_fld != nullptr ) {
-                        t_dens = t_fld->getFieldDensity();
+                        t_dens = t_fld->get_field_intensity();
                     }
                     if( fsel_dens != 0 ) {
                         if( t_dens != 0 ) {
@@ -1175,7 +1175,7 @@ int editmap::edit_fld()
         } else if( fmenu.ret == 0 ) {
             for( auto &elem : target_list ) {
                 field &t_field = g->m.get_field( elem );
-                while( t_field.fieldCount() > 0 ) {
+                while( t_field.field_count() > 0 ) {
                     const auto rmid = t_field.begin()->first;
                     g->m.remove_field( elem, rmid );
                     if( elem == target ) {
