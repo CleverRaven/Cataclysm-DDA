@@ -3581,7 +3581,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
     } else if( member_name == "vehicles" ) {
         jsin.start_array();
         while( !jsin.end_array() ) {
-            std::unique_ptr<vehicle> tmp( new vehicle() );
+            std::unique_ptr<vehicle> tmp = std::make_unique<vehicle>();
             jsin.read( *tmp );
             vehicles.push_back( std::move( tmp ) );
         }
@@ -3605,7 +3605,8 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
         }
     } else if( member_name == "computers" ) {
         std::string computer_data = jsin.get_string();
-        std::unique_ptr<computer> new_comp( new computer( "BUGGED_COMPUTER", -100 ) );
+        std::unique_ptr<computer> new_comp =
+            std::make_unique<computer>( "BUGGED_COMPUTER", -100 );
         new_comp->load_data( computer_data );
         comp = std::move( new_comp );
     } else if( member_name == "camp" ) {

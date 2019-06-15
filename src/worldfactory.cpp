@@ -125,7 +125,7 @@ WORLDPTR worldfactory::add_world( std::unique_ptr<WORLD> retworld )
 
 WORLDPTR worldfactory::make_new_world( const std::vector<mod_id> &mods )
 {
-    std::unique_ptr<WORLD> retworld( new WORLD() );
+    std::unique_ptr<WORLD> retworld = std::make_unique<WORLD>();
     retworld->active_mod_order = mods;
     return add_world( std::move( retworld ) );
 }
@@ -133,7 +133,7 @@ WORLDPTR worldfactory::make_new_world( const std::vector<mod_id> &mods )
 WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &world_to_copy )
 {
     // World to return after generating
-    std::unique_ptr<WORLD> retworld( new WORLD() );
+    std::unique_ptr<WORLD> retworld = std::make_unique<WORLD>();
 
     if( !world_to_copy.empty() ) {
         retworld->COPY_WORLD( world_generator->get_world( world_to_copy ) );
@@ -190,7 +190,7 @@ WORLDPTR worldfactory::make_new_world( special_game_id special_type )
         return all_worlds[worldname].get();
     }
 
-    std::unique_ptr<WORLD> special_world( new WORLD() );
+    std::unique_ptr<WORLD> special_world = std::make_unique<WORLD>();
     special_world->world_name = worldname;
 
     special_world->WORLD_OPTIONS["WORLD_END"].setValue( "delete" );
@@ -298,7 +298,7 @@ void worldfactory::init()
     if( has_world( "save" ) ) {
         const WORLD &old_world = *all_worlds["save"];
 
-        std::unique_ptr<WORLD> newworld( new WORLD() );
+        std::unique_ptr<WORLD> newworld = std::make_unique<WORLD>();
         newworld->world_name = get_next_valid_worldname();
 
         // save world as conversion world

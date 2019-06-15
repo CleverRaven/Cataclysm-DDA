@@ -381,7 +381,7 @@ static void load_nested_mapgen( JsonObject &jio, const std::string &id_base )
             JsonObject jo = jio.get_object( "object" );
             std::string jstr = jo.str();
             nested_mapgen[id_base].push_back(
-                cata::make_unique<mapgen_function_json_nested>( jstr ) );
+                std::make_unique<mapgen_function_json_nested>( jstr ) );
         } else {
             debugmsg( "Nested mapgen: Invalid mapgen function (missing \"object\" object)", id_base.c_str() );
         }
@@ -399,7 +399,7 @@ static void load_update_mapgen( JsonObject &jio, const std::string &id_base )
             JsonObject jo = jio.get_object( "object" );
             std::string jstr = jo.str();
             update_mapgen[id_base].push_back(
-                cata::make_unique<update_mapgen_function_json>( jstr ) );
+                std::make_unique<update_mapgen_function_json>( jstr ) );
         } else {
             debugmsg( "Update mapgen: Invalid mapgen function (missing \"object\" object)",
                       id_base.c_str() );
