@@ -223,8 +223,8 @@ void Item_modifier::modify( item &new_item ) const
         } else if( new_item.is_tool() ) {
             const int qty = std::min( ch, new_item.ammo_capacity() );
             new_item.charges = qty;
-            if( new_item.ammo_type() && qty > 0 ) {
-                new_item.ammo_set( new_item.ammo_type()->default_ammotype(), qty );
+            if( !new_item.ammo_types().empty() && qty > 0 ) {
+                new_item.ammo_set( new_item.ammo_default(), qty );
             }
         } else if( !new_item.is_gun() ) {
             //not gun, food, ammo or tool.
@@ -235,8 +235,8 @@ void Item_modifier::modify( item &new_item ) const
     if( ch > 0 && ( new_item.is_gun() || new_item.is_magazine() ) ) {
         if( ammo == nullptr ) {
             // In case there is no explicit ammo item defined, use the default ammo
-            if( new_item.ammo_type() ) {
-                new_item.ammo_set( new_item.ammo_type()->default_ammotype(), ch );
+            if( !new_item.ammo_types().empty() ) {
+                new_item.ammo_set( new_item.ammo_default(), ch );
             }
         } else {
             const item am = ammo->create_single( new_item.birthday() );
@@ -265,7 +265,7 @@ void Item_modifier::modify( item &new_item ) const
                 const item am = ammo->create_single( new_item.birthday() );
                 new_item.ammo_set( am.typeId() );
             } else {
-                new_item.ammo_set( new_item.ammo_type()->default_ammotype() );
+                new_item.ammo_set( new_item.ammo_default() );
             }
         }
     }

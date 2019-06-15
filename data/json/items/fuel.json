@@ -102,7 +102,7 @@
     "material": "hydrocarbons",
     "symbol": "=",
     "color": "light_red",
-    "ammo_type": [ "gasoline", "flammable" ],
+    "ammo_type": "gasoline",
     "damage": 5,
     "range": 4,
     "pierce": 5,

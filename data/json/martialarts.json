@@ -6,7 +6,8 @@
     "description": "Not a martial art, this is just plain old punching and kicking.",
     "initiate": [ "You decide to not use any martial arts.", "%s enters a generic combat stance." ],
     "arm_block": 1,
-    "leg_block": 99
+    "leg_block": 99,
+    "allow_melee": true
   },
   {
     "type": "martial_art",
@@ -27,6 +28,7 @@
     "autolearn": [ [ "unarmed", "2" ] ],
     "arm_block": -1,
     "leg_block": 7,
+    "allow_melee": true,
     "techniques": [ "tec_brawl_feint", "tec_brawl_power", "tec_brawl_trip", "tec_brawl_counter" ]
   },
   {
@@ -259,6 +261,7 @@
     "initiate": [ "You perform a kuji-in mantra with your hands. Rin, Kai, Jin!", "%s performs a series of ninja hand signs." ],
     "arm_block": 3,
     "leg_block": 99,
+    "allow_melee": true,
     "static_buffs": [
       {
         "id": "ninjutsu_static",
@@ -424,6 +427,7 @@
     "initiate": [ "You give a salute of respect as you prepare to combat.", "%s gives a combat salute." ],
     "arm_block": 99,
     "leg_block": 99,
+    "strictly_melee": true,
     "static_buffs": [
       {
         "id": "silat_buff",
@@ -462,6 +466,7 @@
       "javelin",
       "javelin_iron",
       "knife_combat",
+      "copper_knife",
       "knife_hunting",
       "knife_trench",
       "kris",
@@ -494,9 +499,11 @@
       "spear_knife",
       "spear_rebar",
       "spear_pipe",
+      "spear_forked",
       "spear_steel",
       "spear_survivor",
       "spear_wood",
+      "spear_copper",
       "spear_homemade_halfpike",
       "stick",
       "survivor_machete",
@@ -519,6 +526,7 @@
     "initiate": [ "You move into the en-garde stance.", "%s moves into a fencing stance." ],
     "arm_block": 99,
     "leg_block": 99,
+    "strictly_melee": true,
     "onmove_buffs": [
       {
         "id": "fencing_move_buff",
@@ -557,6 +565,7 @@
     "initiate": [ "You clear your mind as you prepare yourself for combat.", "%s relaxes and prepares for combat." ],
     "arm_block": 99,
     "leg_block": 99,
+    "strictly_melee": true,
     "static_buffs": [
       {
         "id": "niten_stationary_buff",
@@ -628,6 +637,7 @@
     "initiate": [ "You enter an open guard stance and prepare to strike.", "%s enters an open stance." ],
     "arm_block": 99,
     "leg_block": 99,
+    "strictly_melee": true,
     "static_buffs": [
       {
         "id": "eskrima_bash",
@@ -676,6 +686,7 @@
       "knife_combat",
       "knife_hunting",
       "knife_trench",
+      "copper_knife",
       "machete",
       "survivor_machete",
       "makeshift_knife",
@@ -874,6 +885,41 @@
         ]
       }
     ],
+    "oncrit_buffs": [
+      {
+        "id": "debug_crit_buff",
+        "name": "Lightning Strike",
+        "description": "Lightning strikes twice.  +Perception electric damage for 3 turns.  Stacks 2 times.",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "buff_duration": 3,
+        "max_stacks": 2,
+        "flat_bonuses": [ [ "damage", "electric", "per", 1.0 ] ]
+      }
+    ],
+    "onmiss_buffs": [
+      {
+        "id": "debug_miss_buff",
+        "name": "Getting Angry",
+        "description": "When I get my hands on you...  +2 bash damage for 2 turns.  Stacks 5 times.",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "buff_duration": 2,
+        "max_stacks": 5,
+        "flat_bonuses": [ [ "damage", "bash", 2.0 ] ]
+      }
+    ],
+    "onkill_buffs": [
+      {
+        "id": "debug_kill_buff",
+        "name": "On Fire",
+        "description": "YOU ARE ON FIRE!  +5 fire damage for 5 turns.",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "buff_duration": 5,
+        "flat_bonuses": [ [ "damage", "heat", 5.0 ] ]
+      }
+    ],
     "techniques": [ "tec_debug_slow", "tec_debug_arpen" ]
   },
   {
@@ -884,6 +930,7 @@
     "initiate": [ "You prepare to defend against all that approach you.", "%s assumes a wide, defensive stance." ],
     "arm_block": 99,
     "leg_block": 99,
+    "strictly_melee": true,
     "static_buffs": [
       {
         "id": "sojutsu_static",
@@ -924,10 +971,43 @@
       "spear_forked",
       "spear_homemade_halfpike",
       "spear_pipe",
+      "spear_knife",
       "spear_rebar",
       "spear_steel",
       "spear_survivor",
       "spear_wood"
     ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_wingchun",
+    "name": "Wing Chun",
+    "description": "Wing Chun is a Chinese martial art that began by selecting the easiest-to-learn effective techniques from the various Shaolin animal forms.  It has a high stance, with weight entirely on the rear leg.  Wing Chun focuses on sensitivity to the opponent's direction of force, and flowing around it to get back to hitting.",
+    "initiate": [
+      "You take your stance and prepare to receive the gift of violence.",
+      "%s patiently assumes a curiously pigeon-toed stance."
+    ],
+    "arm_block": 99,
+    "leg_block": 99,
+    "static_buffs": [
+      {
+        "id": "wingchun_static",
+        "name": "Chi-Sao Sensitivity",
+        "description": "Perception increases dodging ability, +1 dodges per turn",
+        "unarmed_allowed": true,
+        "strictly_unarmed": true,
+        "flat_bonuses": [ [ "dodge", "per", 0.12 ] ],
+        "bonus_dodges": 1
+      }
+    ],
+    "techniques": [
+      "tec_wingchun_chainpunch",
+      "tec_wingchun_break",
+      "tec_wingchun_feint",
+      "tec_wingchun_stumble",
+      "tec_wingchun_counter",
+      "tec_wingchun_disarm"
+    ],
+    "weapons": [ "butterfly_swords", "long_pole" ]
   }
 ]

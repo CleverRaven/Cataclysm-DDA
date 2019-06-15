@@ -366,7 +366,8 @@
   {
     "type": "COMESTIBLE",
     "id": "soybean",
-    "name": "soybean",
+    "name": "soybeans",
+    "name_plural": "soybeans",
     "copy-from": "seed",
     "weight": 160,
     "symbol": ".",
@@ -374,10 +375,11 @@
     "healthy": -5,
     "spoils_in": "364 days",
     "calories": 56,
-    "description": "A light brown bean, has many uses, mildly toxic and not recommended, but you could eat them raw.",
+    "description": "Light brown beans, they have many uses, mildly toxic and not recommended, but you could eat them raw.",
     "price": 90,
     "fun": -5,
-    "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ]
+    "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ],
+    "flags": "NUTRIENT_OVERRIDE"
   },
   {
     "type": "COMESTIBLE",
@@ -393,7 +395,8 @@
     "description": "Light green raw edamame still in its pod, you should boil or freeze these, or you could eat them while they are still toxic.",
     "price": 150,
     "fun": 1,
-    "vitamins": [ [ "iron", 26 ], [ "vitC", 16 ], [ "calcium", 6 ] ]
+    "vitamins": [ [ "iron", 26 ], [ "vitC", 16 ], [ "calcium", 6 ] ],
+    "flags": "NUTRIENT_OVERRIDE"
   },
   {
     "type": "COMESTIBLE",
@@ -571,7 +574,7 @@
     "vitamins": [ [ "calcium", 1 ], [ "iron", 7 ] ],
     "fun": 5,
     "color": "brown",
-    "flags": [ "INEDIBLE", "BIRD" ],
+    "flags": [ "INEDIBLE", "BIRD", "NUTRIENT_OVERRIDE" ],
     "use_action": "BIRDFOOD"
   },
   {

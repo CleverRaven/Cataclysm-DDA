@@ -189,7 +189,7 @@ static void eff_fun_rat( player &u, effect &it )
     } else if( rng( 0, 100 ) < dur / 8 ) {
         if( one_in( 3 ) ) {
             u.vomit();
-            it.mod_duration( -10_turns );
+            it.mod_duration( -1_minutes );
         } else {
             u.add_msg_if_player( m_bad, _( "You feel nauseous!" ) );
             it.mod_duration( 3_turns );
@@ -509,7 +509,7 @@ void player::hardcoded_effects( effect &it )
             if( !is_npc() ) {
                 //~ %s is bodypart in accusative.
                 add_msg( m_warning, _( "You start scratching your %s!" ), body_part_name_accusative( bp ) );
-                g->cancel_activity();
+                g->u.cancel_activity();
             } else if( g->u.sees( pos() ) ) {
                 //~ 1$s is NPC name, 2$s is bodypart in accusative.
                 add_msg( _( "%1$s starts scratching their %2$s!" ), name, body_part_name_accusative( bp ) );
@@ -619,7 +619,7 @@ void player::hardcoded_effects( effect &it )
                     it.set_duration( 0_turns );
                 }
             }
-            if( one_in( 1200 - ( ( dur - 600_minutes ) / 5_turns ) ) && one_in( 20 ) ) {
+            if( one_in( 1200 - ( ( dur - 600_minutes ) / 30_seconds ) ) && one_in( 20 ) ) {
                 if( !is_npc() ) {
                     add_msg( m_bad, _( "You pass out." ) );
                 }

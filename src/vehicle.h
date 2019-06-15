@@ -618,7 +618,6 @@ class vehicle
         int part_epower_w( int index ) const;
 
         // convert watts over time to battery energy
-        // time duration can't resolve less than 6 seconds so specify time in seconds
         int power_to_energy_bat( const int power_w, const int t_seconds ) const;
 
         // convert vhp to watts.
@@ -1455,8 +1454,8 @@ class vehicle
         rl_vec2d dir_vec() const;
         // update vehicle parts as the vehicle moves
         void on_move();
-        // move the vehicle on the map
-        bool act_on_map();
+        // move the vehicle on the map. Returns updated pointer to self.
+        vehicle *act_on_map();
         // check if the vehicle should be falling or is in water
         void check_falling_or_floating();
 
@@ -1486,6 +1485,7 @@ class vehicle
         void use_washing_machine( int p );
         void use_monster_capture( int part, const tripoint &pos );
         void use_bike_rack( int part );
+        void use_harness( int part, const tripoint &pos );
 
         void interact_with( const tripoint &pos, int interact_part );
 
@@ -1521,6 +1521,7 @@ class vehicle
         std::vector<int> sails;            // List of sail indices
         std::vector<int> funnels;          // List of funnel indices
         std::vector<int> heaters;          // List of heater parts
+        std::vector<int> coolers;          // List of cooler parts
         std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
         std::vector<int> wheelcache;       // List of wheels
         std::vector<int> rail_wheelcache;  // List of rail wheels

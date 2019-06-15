@@ -13,6 +13,7 @@
 #include <exception>
 #include <unordered_set>
 #include <set>
+#include <iostream>
 
 #include "catacharset.h"
 #include "cata_utility.h"
@@ -50,7 +51,7 @@
 #include "monster.h"
 #include "string_formatter.h"
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define BUILDINGCHANCE 4
 #define MIN_ANT_SIZE 8
@@ -440,7 +441,6 @@ const std::vector<overmap_special> &overmap_specials::get_all()
 
 overmap_special_batch overmap_specials::get_default_batch( const point &origin )
 {
-    const bool only_classic = get_option<bool>( "CLASSIC_ZOMBIES" );
     const int city_size = get_option<int>( "CITY_SIZE" );
     std::vector<const overmap_special *> res;
 
@@ -450,10 +450,6 @@ overmap_special_batch overmap_specials::get_default_batch( const point &origin )
         std::any_of( elem.terrains.begin(), elem.terrains.end(), []( const overmap_special_terrain & t ) {
         return t.locations.empty();
         } ) ) {
-            continue;
-        }
-
-        if( only_classic && elem.flags.count( "CLASSIC" ) == 0 ) {
             continue;
         }
 
@@ -2319,6 +2315,11 @@ void overmap::place_lakes()
 void overmap::place_rivers( const overmap *north, const overmap *east, const overmap *south,
                             const overmap *west )
 {
+    if( settings.river_scale == 0.0 ) {
+        return;
+    }
+    int river_chance = static_cast<int>( std::max( 1.0, 1.0 / settings.river_scale ) );
+    int river_scale = static_cast<int>( std::max( 1.0, settings.river_scale ) );
     // West/North endpoints of rivers
     std::vector<point> river_start;
     // East/South endpoints of rivers
@@ -2336,8 +2337,8 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
             if( is_river( north->get_ter( i, OMAPY - 1, 0 ) ) &&
                 is_river( north->get_ter( i - 1, OMAPY - 1, 0 ) ) &&
                 is_river( north->get_ter( i + 1, OMAPY - 1, 0 ) ) ) {
-                if( river_start.empty() ||
-                    river_start[river_start.size() - 1].x < i - 6 ) {
+                if( one_in( river_chance ) && ( river_start.empty() ||
+                                                river_start[river_start.size() - 1].x < ( i - 6 ) * river_scale ) ) {
                     river_start.push_back( point( i, 0 ) );
                 }
             }
@@ -2352,8 +2353,8 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
             if( is_river( west->get_ter( OMAPX - 1, i, 0 ) ) &&
                 is_river( west->get_ter( OMAPX - 1, i - 1, 0 ) ) &&
                 is_river( west->get_ter( OMAPX - 1, i + 1, 0 ) ) ) {
-                if( river_start.size() == rivers_from_north ||
-                    river_start[river_start.size() - 1].y < i - 6 ) {
+                if( one_in( river_chance ) && ( river_start.size() == rivers_from_north ||
+                                                river_start[river_start.size() - 1].y < ( i - 6 ) * river_scale ) ) {
                     river_start.push_back( point( 0, i ) );
                 }
             }
@@ -2397,10 +2398,10 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
     if( north == nullptr || west == nullptr ) {
         while( river_start.empty() || river_start.size() + 1 < river_end.size() ) {
             new_rivers.clear();
-            if( north == nullptr ) {
+            if( north == nullptr && one_in( river_chance ) ) {
                 new_rivers.push_back( point( rng( 10, OMAPX - 11 ), 0 ) );
             }
-            if( west == nullptr ) {
+            if( west == nullptr && one_in( river_chance ) ) {
                 new_rivers.push_back( point( 0, rng( 10, OMAPY - 11 ) ) );
             }
             river_start.push_back( random_entry( new_rivers ) );
@@ -2409,10 +2410,10 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
     if( south == nullptr || east == nullptr ) {
         while( river_end.empty() || river_end.size() + 1 < river_start.size() ) {
             new_rivers.clear();
-            if( south == nullptr ) {
+            if( south == nullptr && one_in( river_chance ) ) {
                 new_rivers.push_back( point( rng( 10, OMAPX - 11 ), OMAPY - 1 ) );
             }
-            if( east == nullptr ) {
+            if( east == nullptr && one_in( river_chance ) ) {
                 new_rivers.push_back( point( OMAPX - 1, rng( 10, OMAPY - 11 ) ) );
             }
             river_end.push_back( random_entry( new_rivers ) );
@@ -2594,7 +2595,8 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
 void overmap::place_river( point pa, point pb )
 {
     const oter_id river_center( "river_center" );
-
+    int river_chance = static_cast<int>( std::max( 1.0, 1.0 / settings.river_scale ) );
+    int river_scale = static_cast<int>( std::max( 1.0, settings.river_scale ) );
     int x = pa.x;
     int y = pa.y;
     do {
@@ -2612,10 +2614,10 @@ void overmap::place_river( point pa, point pb )
         if( y > OMAPY - 1 ) {
             y = OMAPY - 1;
         }
-        for( int i = -1; i <= 1; i++ ) {
-            for( int j = -1; j <= 1; j++ ) {
+        for( int i = -1 * river_scale; i <= 1 * river_scale; i++ ) {
+            for( int j = -1 * river_scale; j <= 1 * river_scale; j++ ) {
                 if( y + i >= 0 && y + i < OMAPY && x + j >= 0 && x + j < OMAPX ) {
-                    if( !ter( x + j, y + i, 0 )->is_lake() ) {
+                    if( !ter( x + j, y + i, 0 )->is_lake() && one_in( river_chance ) ) {
                         ter( x + j, y + i, 0 ) = river_center;
                     }
                 }
@@ -2655,14 +2657,14 @@ void overmap::place_river( point pa, point pb )
         if( y > OMAPY - 1 ) {
             y = OMAPY - 1;
         }
-        for( int i = -1; i <= 1; i++ ) {
-            for( int j = -1; j <= 1; j++ ) {
+        for( int i = -1 * river_scale; i <= 1 * river_scale; i++ ) {
+            for( int j = -1 * river_scale; j <= 1 * river_scale; j++ ) {
                 // We don't want our riverbanks touching the edge of the map for many reasons
                 if( inbounds( tripoint( x + j, y + i, 0 ), 1 ) ||
                     // UNLESS, of course, that's where the river is headed!
                     ( abs( pb.y - ( y + i ) ) < 4 && abs( pb.x - ( x + j ) ) < 4 ) ) {
 
-                    if( !ter( x + j, y + i, 0 )->is_lake() ) {
+                    if( !ter( x + j, y + i, 0 )->is_lake() && one_in( river_chance ) ) {
                         ter( x + j, y + i, 0 ) = river_center;
                     }
                 }
@@ -4025,7 +4027,6 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     // occurrences, this will only contain those which have not yet met their
     // maximum.
     std::map<overmap_special_id, int> processed_specials;
-    std::map<overmap_special_id, int>::iterator iter;
     for( auto &elem : custom_overmap_specials ) {
         processed_specials[elem.special_details->id] = elem.instances_placed;
     }
@@ -4033,7 +4034,8 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     // Loop through the specials we started with.
     for( auto it = enabled_specials.begin(); it != enabled_specials.end(); ) {
         // Determine if this special is still in our callee's list of specials...
-        iter = processed_specials.find( it->special_details->id );
+        std::map<overmap_special_id, int>::iterator iter = processed_specials.find(
+                    it->special_details->id );
         if( iter != processed_specials.end() ) {
             // ... and if so, increment the placement count to reflect the callee's.
             it->instances_placed += ( iter->second - it->instances_placed );
@@ -4070,7 +4072,7 @@ void overmap::place_mongroups()
         }
     }
 
-    if( !( get_option<bool>( "CLASSIC_ZOMBIES" ) || get_option<bool>( "DISABLE_ANIMAL_CLASH" ) ) ) {
+    if( get_option<bool>( "DISABLE_ANIMAL_CLASH" ) ) {
         // Figure out where swamps are, and place swamp monsters
         for( int x = 3; x < OMAPX - 3; x += 7 ) {
             for( int y = 3; y < OMAPY - 3; y += 7 ) {
@@ -4090,34 +4092,30 @@ void overmap::place_mongroups()
         }
     }
 
-    if( !get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
-        // Figure out where rivers and lakes are, and place appropriate critters
-        for( int x = 3; x < OMAPX - 3; x += 7 ) {
-            for( int y = 3; y < OMAPY - 3; y += 7 ) {
-                int river_count = 0;
-                for( int sx = x - 3; sx <= x + 3; sx++ ) {
-                    for( int sy = y - 3; sy <= y + 3; sy++ ) {
-                        if( is_river_or_lake( ter( sx, sy, 0 ) ) ) {
-                            river_count++;
-                        }
+    // Figure out where rivers and lakes are, and place appropriate critters
+    for( int x = 3; x < OMAPX - 3; x += 7 ) {
+        for( int y = 3; y < OMAPY - 3; y += 7 ) {
+            int river_count = 0;
+            for( int sx = x - 3; sx <= x + 3; sx++ ) {
+                for( int sy = y - 3; sy <= y + 3; sy++ ) {
+                    if( is_river_or_lake( ter( sx, sy, 0 ) ) ) {
+                        river_count++;
                     }
                 }
-                if( river_count >= 25 ) {
-                    add_mon_group( mongroup( mongroup_id( "GROUP_RIVER" ), x * 2, y * 2, 0, 3,
-                                             rng( river_count * 8, river_count * 25 ) ) );
-                }
+            }
+            if( river_count >= 25 ) {
+                add_mon_group( mongroup( mongroup_id( "GROUP_RIVER" ), x * 2, y * 2, 0, 3,
+                                         rng( river_count * 8, river_count * 25 ) ) );
             }
         }
     }
 
-    if( !get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
-        // Place the "put me anywhere" groups
-        int numgroups = rng( 0, 3 );
-        for( int i = 0; i < numgroups; i++ ) {
-            add_mon_group( mongroup( mongroup_id( "GROUP_WORM" ), rng( 0, OMAPX * 2 - 1 ), rng( 0,
-                                     OMAPY * 2 - 1 ), 0,
-                                     rng( 20, 40 ), rng( 30, 50 ) ) );
-        }
+    // Place the "put me anywhere" groups
+    int numgroups = rng( 0, 3 );
+    for( int i = 0; i < numgroups; i++ ) {
+        add_mon_group( mongroup( mongroup_id( "GROUP_WORM" ), rng( 0, OMAPX * 2 - 1 ), rng( 0,
+                                 OMAPY * 2 - 1 ), 0,
+                                 rng( 20, 40 ), rng( 30, 50 ) ) );
     }
 }
 

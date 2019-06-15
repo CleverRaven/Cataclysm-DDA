@@ -49,6 +49,7 @@ const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_common_cold( "common_cold" );
 const efftype_id effect_flu( "flu" );
+const efftype_id effect_fungus( "fungus" );
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 
@@ -848,6 +849,10 @@ bool player::eat( item &food, bool force )
         }
     }
 
+    if( food.has_flag( "FUNGAL_VECTOR" ) && !has_trait( trait_id( "M_IMMUNE" ) ) ) {
+        add_effect( effect_fungus, 1_turns, num_bp, true );
+    }
+
     // The fun changes for these effects are applied in fun_for().
     if( food.has_flag( "MUSHY" ) ) {
         add_msg_if_player( m_bad,
@@ -1153,7 +1158,7 @@ bool player::can_feed_battery_with( const item &it ) const
         return false;
     }
 
-    return it.type->ammo->type.count( ammotype( "battery" ) );
+    return it.ammo_type() == ammotype( "battery" );
 }
 
 bool player::feed_battery_with( item &it )
@@ -1200,7 +1205,7 @@ bool player::can_feed_reactor_with( const item &it ) const
     }
 
     return std::any_of( acceptable.begin(), acceptable.end(), [ &it ]( const ammotype & elem ) {
-        return it.type->ammo->type.count( elem );
+        return it.ammo_type() == elem;
     } );
 }
 

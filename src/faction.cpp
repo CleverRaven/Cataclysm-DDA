@@ -1,6 +1,7 @@
 #include "faction.h"
 
 #include <cstdlib>
+#include <bitset>
 #include <map>
 #include <string>
 #include <memory>
@@ -30,17 +31,12 @@
 #include "pimpl.h"
 #include "type_id.h"
 
-static std::map<faction_id, faction_template> _all_faction_templates;
-
-std::string invent_name();
-std::string invent_adj();
+namespace npc_factions
+{
+std::vector<faction_template> all_templates;
+}
 
 const faction_id your_faction = faction_id( "your_followers" );
-
-constexpr inline unsigned long mfb( const int v )
-{
-    return 1ul << v;
-}
 
 faction_template::faction_template()
 {
@@ -51,6 +47,7 @@ faction_template::faction_template()
     wealth = 0;
     size = 0;
     power = 0;
+    currency = "null";
 }
 
 faction::faction( const faction_template &templ )
@@ -63,12 +60,25 @@ faction::faction( const faction_template &templ )
 void faction_template::load( JsonObject &jsobj )
 {
     faction_template fac( jsobj );
-    _all_faction_templates.emplace( fac.id, fac );
+    npc_factions::all_templates.emplace_back( fac );
 }
 
 void faction_template::reset()
 {
-    _all_faction_templates.clear();
+    npc_factions::all_templates.clear();
+}
+
+void faction_template::load_relations( JsonObject &jsobj )
+{
+    JsonObject jo = jsobj.get_object( "relations" );
+    for( const std::string &fac_id : jo.get_member_names() ) {
+        JsonObject rel_jo = jo.get_object( fac_id );
+        std::bitset<npc_factions::rel_types> fac_relation( 0 );
+        for( const auto &rel_flag : npc_factions::relation_strs ) {
+            fac_relation.set( rel_flag.second, rel_jo.get_bool( rel_flag.first, false ) );
+        }
+        relations[fac_id] = fac_relation;
+    }
 }
 
 faction_template::faction_template( JsonObject &jsobj )
@@ -83,6 +93,13 @@ faction_template::faction_template( JsonObject &jsobj )
     , food_supply( jsobj.get_int( "food_supply" ) )
     , wealth( jsobj.get_int( "wealth" ) )
 {
+    if( jsobj.has_string( "currency" ) ) {
+        currency = jsobj.get_string( "currency" );
+    } else {
+        currency = "null";
+    }
+    load_relations( jsobj );
+    mon_faction = jsobj.get_string( "mon_faction", "human" );
 }
 
 std::string faction::describe() const
@@ -252,6 +269,16 @@ nc_color faction::food_supply_color()
     }
 }
 
+bool faction::has_relationship( const faction_id guy_id, npc_factions::relationship flag ) const
+{
+    for( const auto rel_data : relations ) {
+        if( rel_data.first == guy_id.c_str() ) {
+            return rel_data.second.test( flag );
+        }
+    }
+    return false;
+}
+
 std::string fac_combat_ability_text( int val )
 {
     if( val >= 150 ) {
@@ -296,8 +323,8 @@ void faction_manager::create_if_needed()
     if( !factions.empty() ) {
         return;
     }
-    for( const auto &elem : _all_faction_templates ) {
-        factions.emplace_back( elem.second );
+    for( const auto &fac_temp : npc_factions::all_templates ) {
+        factions.emplace_back( fac_temp );
     }
 }
 
@@ -305,13 +332,30 @@ faction *faction_manager::get( const faction_id &id )
 {
     for( faction &elem : factions ) {
         if( elem.id == id ) {
+            if( !elem.validated ) {
+                for( const faction_template &fac_temp : npc_factions::all_templates ) {
+                    if( fac_temp.id == id ) {
+                        elem.currency = fac_temp.currency;
+                        elem.name = fac_temp.name;
+                        elem.desc = fac_temp.desc;
+                        elem.mon_faction = fac_temp.mon_faction;
+                        for( const auto &rel_data : fac_temp.relations ) {
+                            if( elem.relations.find( rel_data.first ) == elem.relations.end() ) {
+                                elem.relations[rel_data.first] = rel_data.second;
+                            }
+                        }
+                        break;
+                    }
+                }
+                elem.validated = true;
+            }
             return &elem;
         }
     }
-    for( const auto &iter : _all_faction_templates ) {
-        const faction_template &elem = iter.second;
+    for( const faction_template &elem : npc_factions::all_templates ) {
         if( elem.id == id ) {
             factions.emplace_back( elem );
+            factions.back().validated = true;
             return &factions.back();
         }
     }
@@ -418,7 +462,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
             max_range *= ( 1 + ( pos().z * 0.1 ) );
             if( is_stationed ) {
                 // if camp that NPC is at, has a radio tower
-                if( stationed_at->has_level( "camp", 20, "[B]" ) ) {
+                if( stationed_at->has_provides( "radio_tower" ) ) {
                     max_range *= 5;
                 }
             }
@@ -427,7 +471,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
                     g->u.global_omt_location().y );
             if( const cata::optional<basecamp *> player_camp = overmap_buffer.find_camp(
                         g->u.global_omt_location().x, g->u.global_omt_location().y ) ) {
-                if( ( *player_camp )->has_level( "camp", 20, "[B]" ) ) {
+                if( ( *player_camp )->has_provides( "radio_tower" ) ) {
                     max_range *= 5;
                 }
             }

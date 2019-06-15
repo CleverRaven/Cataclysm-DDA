@@ -56,7 +56,7 @@
       "v": "f_pinball_machine",
       "x": "f_pinball_machine",
       "y": "f_indoor_plant",
-      "z": "f_crate_c"
+      "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ]
     },
     "terrain": {
       "#": "t_shrub",
@@ -71,7 +71,7 @@
       "~": "t_carpet_green",
       "+": "t_door_c",
       ",": "t_pavement_y",
-      "-": "t_wall",
+      "-": "t_wall_w",
       ".": "t_grass",
       "1": "t_linoleum_white",
       "2": "t_linoleum_gray",
@@ -144,7 +144,7 @@
       "y": "t_linoleum_gray",
       "<": "t_stairs_up",
       "z": "t_floor",
-      "|": "t_wall"
+      "|": "t_wall_w"
     },
     "toilets": { "t": {  } }
   },
@@ -197,7 +197,7 @@
       "v": "f_gun_safe_el",
       "w": "f_safe_l",
       "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
-      "z": "f_crate_c"
+      "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ]
     },
     "terrain": {
       " ": "t_open_air",

@@ -26,6 +26,7 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
+#include "npc.h"
 #include "optional.h"
 #include "output.h"
 #include "pickup.h"
@@ -105,6 +106,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
             g->m.add_item_or_charges( where, it );
             fallen_count += it.count();
         }
+        it.handle_pickup_ownership( c );
     }
 
     const std::string part_name = veh.part_info( part ).name();
@@ -188,7 +190,17 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
     }
 }
 
-static void stash_on_pet( const std::list<item> &items, monster &pet )
+static void pass_to_ownership_handling( item obj, Character &c )
+{
+    obj.handle_pickup_ownership( c );
+}
+
+static void pass_to_ownership_handling( item obj, player *p )
+{
+    obj.handle_pickup_ownership( *p );
+}
+
+static void stash_on_pet( const std::list<item> &items, monster &pet, player *p )
 {
     units::volume remaining_volume = pet.inv.empty() ? 0_ml : pet.inv.front().get_storage();
     units::mass remaining_weight = pet.weight_capacity();
@@ -213,10 +225,12 @@ static void stash_on_pet( const std::list<item> &items, monster &pet )
             remaining_volume -= it.volume();
             remaining_weight -= it.weight();
         }
+        // TODO: if NPCs can have pets or move items onto pets
+        pass_to_ownership_handling( it, p );
     }
 }
 
-static void drop_on_map( const Character &c, item_drop_reason reason, const std::list<item> &items,
+static void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &items,
                          const tripoint &where )
 {
     if( items.empty() ) {
@@ -297,8 +311,9 @@ static void drop_on_map( const Character &c, item_drop_reason reason, const std:
                 break;
         }
     }
-    for( const auto &it : items ) {
+    for( auto &it : items ) {
         g->m.add_item_or_charges( where, it );
+        pass_to_ownership_handling( it, c );
     }
 }
 
@@ -663,7 +678,7 @@ void activity_handlers::stash_do_turn( player_activity *act, player *p )
 
     monster *pet = g->critter_at<monster>( pos );
     if( pet != nullptr && pet->has_effect( effect_pet ) ) {
-        stash_on_pet( obtain_activity_items( *act, *p ), *pet );
+        stash_on_pet( obtain_activity_items( *act, *p ), *pet, p );
     } else {
         p->add_msg_if_player( _( "The pet has moved somewhere else." ) );
         p->cancel_activity();
@@ -1188,6 +1203,10 @@ void activity_on_turn_move_loot( player_activity &, player &p )
 
     // If we got here without restarting the activity, it means we're done
     add_msg( m_info, string_format( _( "%s sorted out every item possible." ), p.disp_name() ) );
+    if( p.is_npc() ) {
+        npc *guy = dynamic_cast<npc *>( &p );
+        guy->current_activity.clear();
+    }
     mgr.end_sort();
 }
 
@@ -1198,11 +1217,11 @@ static cata::optional<tripoint> find_best_fire(
     time_duration best_fire_age = 1_days;
     for( const tripoint &pt : from ) {
         field_entry *fire = g->m.get_field( pt, fd_fire );
-        if( fire == nullptr || fire->getFieldDensity() > 1 ||
+        if( fire == nullptr || fire->get_field_intensity() > 1 ||
             !g->m.clear_path( center, pt, PICKUP_RANGE, 1, 100 ) ) {
             continue;
         }
-        time_duration fire_age = fire->getFieldAge();
+        time_duration fire_age = fire->get_field_age();
         // Refuel only the best fueled fire (if it needs it)
         if( fire_age < best_fire_age ) {
             best_fire = pt;

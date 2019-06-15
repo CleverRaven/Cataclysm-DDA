@@ -1,4 +1,4 @@
-Checks: 'clang-diagnostic-*'
+Checks: 'clang-diagnostic-*,modernize-use-using'
 WarningsAsErrors: '*'
 HeaderFilterRegex: '(src|test).*'
 FormatStyle:     none

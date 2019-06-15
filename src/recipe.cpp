@@ -15,7 +15,9 @@
 #include "assign.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "construction.h"
 #include "json.h"
+#include "mapgen_functions.h"
 #include "optional.h"
 #include "player.h"
 #include "translations.h"
@@ -23,6 +25,11 @@
 #include "string_id.h"
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
+
+time_duration recipe::batch_duration( int batch, float multiplier, size_t assistants ) const
+{
+    return time_duration::from_turns( batch_time( batch, multiplier, assistants ) / 100 );
+}
 
 int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
 {
@@ -37,7 +44,7 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
 
     // if recipe does not benefit from batching and we have no assistants, don't do unnecessary additional calculations
     if( batch_rscale == 0.0 && assistants == 0 ) {
-        return local_time * batch;
+        return static_cast<int>( local_time ) * batch;
     }
 
     float total_time = 0.0;
@@ -90,7 +97,11 @@ void recipe::load( JsonObject &jo, const std::string &src )
         assign( jo, "obsolete", obsolete );
     }
 
-    assign( jo, "time", time, strict, 0 );
+    if( jo.has_int( "time" ) ) {
+        time = jo.get_int( "time" );
+    } else if( jo.has_string( "time" ) ) {
+        time = to_moves<int>( time_duration::read_from_json_string( *jo.get_raw( "time" ) ) );
+    }
     assign( jo, "difficulty", difficulty, strict, 0, MAX_SKILL );
     assign( jo, "flags", flags );
 
@@ -217,14 +228,37 @@ void recipe::load( JsonObject &jo, const std::string &src )
         }
         assign( jo, "construction_blueprint", blueprint );
         if( !blueprint.empty() ) {
-            JsonArray bp_provides = jo.get_array( "blueprint_provides" );
-            blueprint_resources.clear();
-            while( bp_provides.has_more() ) {
-                std::string resource = bp_provides.next_string();
-                blueprint_resources.emplace_back( resource );
+            assign( jo, "blueprint_name", bp_name );
+            JsonArray bp_array = jo.get_array( "blueprint_resources" );
+            bp_resources.clear();
+            while( bp_array.has_more() ) {
+                std::string resource = bp_array.next_string();
+                bp_resources.emplace_back( resource );
             }
+            bp_array = jo.get_array( "blueprint_provides" );
+            while( bp_array.has_more() ) {
+                JsonObject provide = bp_array.next_object();
+                bp_provides.emplace_back( std::make_pair( provide.get_string( "id" ),
+                                          provide.get_int( "amount", 1 ) ) );
+            }
+            // all blueprints provide themselves with needing it written in JSON
+            bp_provides.emplace_back( std::make_pair( result_, 1 ) );
+            bp_array = jo.get_array( "blueprint_requires" );
+            while( bp_array.has_more() ) {
+                JsonObject require = bp_array.next_object();
+                bp_requires.emplace_back( std::make_pair( require.get_string( "id" ),
+                                          require.get_int( "amount", 1 ) ) );
+            }
+            // all blueprints exclude themselves with needing it written in JSON
+            bp_excludes.emplace_back( std::make_pair( result_, 1 ) );
+            bp_array = jo.get_array( "blueprint_excludes" );
+            while( bp_array.has_more() ) {
+                JsonObject exclude = bp_array.next_object();
+                bp_excludes.emplace_back( std::make_pair( exclude.get_string( "id" ),
+                                          exclude.get_int( "amount", 1 ) ) );
+            }
+            assign( jo, "blueprint_autocalc", bp_autocalc );
         }
-
     } else if( type == "uncraft" ) {
         reversible = true;
     } else {
@@ -239,12 +273,19 @@ void recipe::load( JsonObject &jo, const std::string &src )
 
 void recipe::finalize()
 {
+    if( bp_autocalc ) {
+        add_bp_autocalc_requirements();
+    }
     // concatenate both external and inline requirements
     add_requirements( reqs_external );
     add_requirements( reqs_internal );
 
     reqs_external.clear();
     reqs_internal.clear();
+
+    if( bp_autocalc ) {
+        requirements_.consolidate();
+    }
 
     if( contained && container == "null" ) {
         container = item::find_type( result_ )->default_container.value_or( "null" );
@@ -268,11 +309,14 @@ void recipe::add_requirements( const std::vector<std::pair<requirement_id, int>>
 
 std::string recipe::get_consistency_error() const
 {
-    if( !item::type_is_defined( result_ )  && category != "CC_BUILDING" ) {
+    if( category == "CC_BUILDING" ) {
+        if( is_blueprint() || oter_str_id( result_.c_str() ).is_valid() ) {
+            return std::string();
+        }
         return "defines invalid result";
     }
 
-    if( category == "CC_BUILDING" && !oter_str_id( result_.c_str() ).is_valid() ) {
+    if( !item::type_is_defined( result_ ) ) {
         return "defines invalid result";
     }
 
@@ -413,6 +457,18 @@ std::string recipe::required_skills_string( const Character *c ) const
     return required_skills_string( c, false );
 }
 
+std::string recipe::required_skills_string() const
+{
+    if( required_skills.empty() ) {
+        return _( "<color_white>none</color>" );
+    }
+    return enumerate_as_string( required_skills.begin(), required_skills.end(),
+    [&]( const std::pair<skill_id, int> &skill ) {
+        return string_format( "<color_white>%s: %d</color>", skill.first.obj().name(),
+                              skill.second );
+    } );
+}
+
 std::string recipe::batch_savings_string() const
 {
     return ( batch_rsize != 0 ) ?
@@ -480,9 +536,47 @@ const std::string &recipe::get_blueprint() const
     return blueprint;
 }
 
-const std::vector<itype_id> &recipe::blueprint_provides() const
+const std::string &recipe::blueprint_name() const
 {
-    return blueprint_resources;
+    return bp_name;
+}
+
+const std::vector<itype_id> &recipe::blueprint_resources() const
+{
+    return bp_resources;
+}
+
+const std::vector<std::pair<std::string, int>> &recipe::blueprint_provides() const
+{
+    return bp_provides;
+}
+
+const std::vector<std::pair<std::string, int>>  &recipe::blueprint_requires() const
+{
+    return bp_requires;
+}
+
+const std::vector<std::pair<std::string, int>>  &recipe::blueprint_excludes() const
+{
+    return bp_excludes;
+}
+
+void recipe::add_bp_autocalc_requirements()
+{
+    build_reqs total_reqs;
+    get_build_reqs_for_furn_ter_ids( get_changed_ids_from_update( blueprint ), total_reqs );
+    time = total_reqs.time;
+    for( const auto &skill_data : total_reqs.skills ) {
+        if( required_skills.find( skill_data.first ) == required_skills.end() ) {
+            required_skills[skill_data.first] = skill_data.second;
+        } else {
+            required_skills[skill_data.first] = std::max( skill_data.second,
+                                                required_skills[skill_data.first] );
+        }
+    }
+    for( const auto &req : total_reqs.reqs ) {
+        reqs_internal.emplace_back( std::make_pair( req.first, req.second ) );
+    }
 }
 
 bool recipe::hot_result() const

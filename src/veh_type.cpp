@@ -91,6 +91,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "SOLAR_PANEL", VPFLAG_SOLAR_PANEL },
     { "WIND_TURBINE", VPFLAG_WIND_TURBINE },
     { "SPACE_HEATER", VPFLAG_SPACE_HEATER, },
+    { "COOLER", VPFLAG_COOLER, },
     { "WATER_WHEEL", VPFLAG_WATER_WHEEL },
     { "RECHARGE", VPFLAG_RECHARGE },
     { "VISION", VPFLAG_EXTENDS_VISION },
@@ -1054,13 +1055,13 @@ void vehicle_prototype::finalize()
             } else {
                 for( const auto &e : pt.ammo_types ) {
                     const auto ammo = item::find_type( e );
-                    if( !ammo->ammo && ammo->ammo->type.count( base->gun->ammo ) ) {
+                    if( !ammo->ammo && base->gun->ammo.count( ammo->ammo->type ) ) {
                         debugmsg( "init_vehicles: turret %s has invalid ammo_type %s in %s",
                                   pt.part.c_str(), e.c_str(), id.c_str() );
                     }
                 }
                 if( pt.ammo_types.empty() ) {
-                    pt.ammo_types.insert( base->gun->ammo->default_ammotype() );
+                    pt.ammo_types.insert( ammotype( *base->gun->ammo.begin() )->default_ammotype() );
                 }
             }
 

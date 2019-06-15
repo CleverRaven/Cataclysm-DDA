@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <bitset>
+#include <iostream>
 #include <iterator>
 #include <stdexcept>
 #include <tuple>
@@ -60,12 +61,13 @@
 #include "map_memory.h"
 #include "math_defines.h"
 #include "optional.h"
+#include "sdltiles.h"
 #include "string_id.h"
 #include "tileray.h"
 #include "translations.h"
 #include "type_id.h"
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 static const std::string ITEM_HIGHLIGHT( "highlight_item" );
 
@@ -83,7 +85,8 @@ static const std::array<std::string, 8> multitile_keys = {{
 
 extern int fontwidth;
 extern int fontheight;
-
+const efftype_id effect_ridden( "ridden" );
+const efftype_id effect_riding( "riding" );
 static const std::string empty_string;
 static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
         "", // C_NONE,
@@ -971,7 +974,7 @@ struct tile_render_info {
 };
 
 void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, int height,
-                       std::multimap<point, formatted_text> &overlay_strings )
+                       std::multimap<point, formatted_text> &overlay_strings, color_block_overlay_container &color_blocks )
 {
     if( !g ) {
         return;
@@ -1043,6 +1046,17 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     auto vision_cache = g->u.get_vision_modes();
     nv_goggles_activated = vision_cache[NV_GOGGLES];
 
+    // check that the creature for which we'll draw the visibility map is still alive at that point
+    if( g->displaying_visibility && g->displaying_visibility_creature != nullptr )  {
+        const Creature *creature = g->displaying_visibility_creature;
+        const auto is_same_creature_predicate = [&creature]( const Creature & c ) {
+            return creature == &c;
+        };
+        if( g->get_creature_if( is_same_creature_predicate ) == nullptr )  {
+            g->displaying_visibility_creature = nullptr;
+        }
+    }
+
     for( int row = min_row; row < max_row; row ++ ) {
         std::vector<tile_render_info> draw_points;
         draw_points.reserve( max_col );
@@ -1072,9 +1086,54 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                 const int scent_value = g->scent.get( {x, y, center.z} );
                 if( scent_value > 0 ) {
                     overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 2, 0 ),
-                                             formatted_text( std::to_string( scent_value ), 11,
+                                             formatted_text( std::to_string( scent_value ), 8 + catacurses::yellow,
                                                      NORTH ) );
                 }
+            }
+
+            // Add temperature value to the overlay_strings list for every visible tile when displaying temperature
+            if( g->displaying_temperature ) {
+                int temp_value = g->weather.get_temperature( {x, y, center.z} );
+                int ctemp = temp_to_celsius( temp_value );
+                short col;
+                const short bold = 8;
+                if( ctemp > 40 ) {
+                    col = catacurses::red;
+                } else if( ctemp > 25 ) {
+                    col = catacurses::yellow + bold;
+                } else if( ctemp > 10 ) {
+                    col = catacurses::green + bold;
+                } else if( ctemp > 0 ) {
+                    col = catacurses::white + bold;
+                } else if( ctemp > -10 ) {
+                    col = catacurses::cyan + bold;
+                } else {
+                    col = catacurses::blue + bold;
+                }
+                if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
+                    temp_value = temp_to_celsius( temp_value );
+                } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
+                    temp_value = temp_to_kelvin( temp_value );
+
+                }
+                overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 2, 0 ),
+                                         formatted_text( std::to_string( temp_value ), col,
+                                                 NORTH ) );
+            }
+
+            if( g->displaying_visibility && ( g->displaying_visibility_creature != nullptr ) ) {
+                const bool visibility = g->displaying_visibility_creature->sees( { x, y, center.z } );
+
+                // color overlay.
+                auto block_color = visibility ? windowsPalette[catacurses::green] : SDL_Color{ 192, 192, 192, 255 };
+                block_color.a = 100;
+                color_blocks.first = SDL_BLENDMODE_BLEND;
+                color_blocks.second.emplace( player_to_screen( x, y ), block_color );
+
+                // overlay string
+                std::string visibility_str = visibility ? "+" : "-";
+                overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 4, tile_height / 4 ),
+                                         formatted_text( visibility_str, catacurses::black, NORTH ) );
             }
 
             if( apply_vision_effects( temp, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
@@ -1437,9 +1496,9 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
             }
         } else if( category == C_FIELD ) {
             const field_id fid = field_from_ident( id );
-            sym = fieldlist[fid].sym;
+            sym = all_field_types_enum_list[fid].sym;
             // TODO: field density?
-            col = fieldlist[fid].color[0];
+            col = all_field_types_enum_list[fid].color[0];
         } else if( category == C_TRAP ) {
             const trap_str_id tmp( id );
             if( tmp.is_valid() ) {
@@ -2012,7 +2071,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &heigh
 {
     // check for field
     const field &f = g->m.field_at( p );
-    field_id f_id = f.fieldSymbol();
+    field_id f_id = f.field_symbol();
     bool is_draw_field;
     bool do_item;
     switch( f_id ) {
@@ -2056,19 +2115,19 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &heigh
     bool ret_draw_field = true;
     bool ret_draw_item = true;
     if( is_draw_field ) {
-        const std::string fd_name = fieldlist[f.fieldSymbol()].id;
+        const std::string fd_name = all_field_types_enum_list[f.field_symbol()].id;
 
         // for rotation information
         const int neighborhood[4] = {
-            static_cast<int>( g->m.field_at( tripoint( p.x, p.y + 1, p.z ) ).fieldSymbol() ), // south
-            static_cast<int>( g->m.field_at( tripoint( p.x + 1, p.y, p.z ) ).fieldSymbol() ), // east
-            static_cast<int>( g->m.field_at( tripoint( p.x - 1, p.y, p.z ) ).fieldSymbol() ), // west
-            static_cast<int>( g->m.field_at( tripoint( p.x, p.y - 1, p.z ) ).fieldSymbol() ) // north
+            static_cast<int>( g->m.field_at( tripoint( p.x, p.y + 1, p.z ) ).field_symbol() ), // south
+            static_cast<int>( g->m.field_at( tripoint( p.x + 1, p.y, p.z ) ).field_symbol() ), // east
+            static_cast<int>( g->m.field_at( tripoint( p.x - 1, p.y, p.z ) ).field_symbol() ), // west
+            static_cast<int>( g->m.field_at( tripoint( p.x, p.y - 1, p.z ) ).field_symbol() ) // north
         };
 
         int subtile = 0;
         int rotation = 0;
-        get_tile_values( f.fieldSymbol(), neighborhood, subtile, rotation );
+        get_tile_values( f.field_symbol(), neighborhood, subtile, rotation );
 
         ret_draw_field = draw_from_id_string( fd_name, C_FIELD, empty_string, p, subtile, rotation,
                                               ll, nv_goggles_activated );
@@ -2262,6 +2321,10 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_le
         }
         if( rot_facing >= 0 ) {
             const auto ent_name = m->type->id;
+            if( m->has_effect( effect_ridden ) ) {
+                int pl_under_height = 6;
+                draw_entity_with_overlays( g->u, p, ll, pl_under_height );
+            }
             result = draw_from_id_string( ent_name.str(), ent_category, ent_subcategory, p, subtile, rot_facing,
                                           ll, false, height_3d );
             sees_player = m->sees( g->u );
@@ -2860,7 +2923,7 @@ void cata_tiles::do_tile_loading_report()
     }, "Monsters", "" );
     tile_loading_report( vpart_info::all(), "Vehicle Parts", "vp_" );
     tile_loading_report<trap>( trap::count(), "Traps", "" );
-    tile_loading_report( fieldlist, num_fields, "Fields", "" );
+    tile_loading_report( all_field_types_enum_list, num_fields, "Fields", "" );
 
     // needed until DebugLog ostream::flush bugfix lands
     DebugLog( D_INFO, DC_ALL );

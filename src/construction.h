@@ -4,11 +4,13 @@
 
 #include <cstddef>
 #include <functional>
+#include <list>
 #include <map>
 #include <set>
 #include <vector>
 #include <string>
 
+#include "item.h"
 #include "optional.h"
 #include "string_id.h"
 #include "type_id.h"
@@ -20,6 +22,18 @@ class window;
 class JsonObject;
 class nc_color;
 struct tripoint;
+
+struct partial_con {
+    int counter = 0;
+    std::list<item> components = {};
+    size_t id = 0;
+};
+
+struct build_reqs {
+    std::map<skill_id, int> skills;
+    std::map<requirement_id, int> reqs;
+    int time = 0;
+};
 
 struct construction {
         // Construction type category
@@ -70,9 +84,14 @@ struct construction {
         std::vector<std::string> get_folded_time_string( int width ) const;
         // Result of construction scaling option
         float time_scale() const;
+
+        // make the construction available for selection
+        bool on_display = true;
     private:
         std::string get_time_string() const;
 };
+
+const std::vector<construction> &get_constructions();
 
 //! Set all constructions to take the specified time.
 void standardize_construction_times( int time );
@@ -80,8 +99,11 @@ void standardize_construction_times( int time );
 void load_construction( JsonObject &jo );
 void reset_constructions();
 void construction_menu();
-void complete_construction();
+void complete_construction( player *p );
 void check_constructions();
 void finalize_constructions();
 
+void get_build_reqs_for_furn_ter_ids( const std::pair<std::map<ter_id, int>,
+                                      std::map<furn_id, int>> &changed_ids,
+                                      build_reqs &total_reqs );
 #endif

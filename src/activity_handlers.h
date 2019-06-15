@@ -75,10 +75,12 @@ void consume_food_menu_do_turn( player_activity *act, player *p );
 void consume_drink_menu_do_turn( player_activity *act, player *p );
 void consume_meds_menu_do_turn( player_activity *act, player *p );
 void move_items_do_turn( player_activity *act, player *p );
+void multiple_construction_do_turn( player_activity *act, player *p );
 void move_loot_do_turn( player_activity *act, player *p );
 void adv_inventory_do_turn( player_activity *act, player *p );
 void armor_layers_do_turn( player_activity *act, player *p );
 void atm_do_turn( player_activity *act, player *p );
+void fish_do_turn( player_activity *act, player *p );
 void cracking_do_turn( player_activity *act, player *p );
 void repair_item_do_turn( player_activity *act, player *p );
 void butcher_do_turn( player_activity *act, player *p );
@@ -86,6 +88,7 @@ void hacksaw_do_turn( player_activity *act, player *p );
 void chop_tree_do_turn( player_activity *act, player *p );
 void jackhammer_do_turn( player_activity *act, player *p );
 void dig_do_turn( player_activity *act, player *p );
+void build_do_turn( player_activity *act, player *p );
 void dig_channel_do_turn( player_activity *act, player *p );
 void fill_pit_do_turn( player_activity *act, player *p );
 void till_plot_do_turn( player_activity *act, player *p );
@@ -95,6 +98,7 @@ void harvest_plot_do_turn( player_activity *act, player *p );
 void try_sleep_do_turn( player_activity *act, player *p );
 void robot_control_do_turn( player_activity *act, player *p );
 void tree_communion_do_turn( player_activity *act, player *p );
+void spellcasting_do_turn( player_activity *act, player *p );
 void study_spell_do_turn( player_activity *act, player *p );
 
 // defined in activity_handlers.cpp
@@ -132,7 +136,6 @@ void wait_npc_finish( player_activity *act, player *p );
 void socialize_finish( player_activity *act, player *p );
 void try_sleep_finish( player_activity *act, player *p );
 void disassemble_finish( player_activity *act, player *p );
-void build_finish( player_activity *act, player *p );
 void vibe_finish( player_activity *act, player *p );
 void hand_crank_finish( player_activity *act, player *p );
 void atm_finish( player_activity *act, player *p );
@@ -151,8 +154,10 @@ void shaving_finish( player_activity *act, player *p );
 void haircut_finish( player_activity *act, player *p );
 void unload_mag_finish( player_activity *act, player *p );
 void robot_control_finish( player_activity *act, player *p );
+void mind_splicer_finish( player_activity *act, player *p );
 void hack_door_finish( player_activity *act, player *p );
 void hack_safe_finish( player_activity *act, player *p );
+void spellcasting_finish( player_activity *act, player *p );
 void study_spell_finish( player_activity *act, player *p );
 
 // defined in activity_handlers.cpp

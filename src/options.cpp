@@ -589,7 +589,7 @@ std::string options_manager::cOpt::getValueName() const
         return ( bSet ) ? _( "True" ) : _( "False" );
 
     } else if( sType == "int_map" ) {
-        const auto name = std::get<1>( *findInt( iSet ) ).c_str();
+        const std::string name = std::get<1>( *findInt( iSet ) );
         if( verbose ) {
             return string_format( _( "%d: %s" ), iSet, name );
         } else {
@@ -625,7 +625,7 @@ std::string options_manager::cOpt::getDefaultText( const bool bTranslated ) cons
         return string_format( _( "Default: %d - Min: %d, Max: %d" ), iDefault, iMin, iMax );
 
     } else if( sType == "int_map" ) {
-        const auto name = std::get<1>( *findInt( iDefault ) ).c_str();
+        const std::string name = std::get<1>( *findInt( iDefault ) );
         if( verbose ) {
             return string_format( _( "Default: %d: %s" ), iDefault, name );
         } else {
@@ -1180,7 +1180,7 @@ void options_manager::add_options_general()
 
     add( "CIRCLEDIST", "general", translate_marker( "Circular distances" ),
          translate_marker( "If true, the game will calculate range in a realistic way: light sources will be circles, diagonal movement will cover more ground and take longer.  If disabled, everything is square: moving to the northwest corner of a building takes as long as moving to the north wall." ),
-         false
+         true
        );
 
     add( "DROP_EMPTY", "general", translate_marker( "Drop empty containers" ),
@@ -1336,7 +1336,6 @@ void options_manager::add_options_interface()
 
     mOptionsSort["interface"]++;
 
-#if !defined(__ANDROID__)
     add( "DIAG_MOVE_WITH_MODIFIERS_MODE", "interface",
          translate_marker( "Diagonal movement with cursor keys and modifiers" ),
          /*
@@ -1376,7 +1375,6 @@ void options_manager::add_options_interface()
          */
     translate_marker( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", translate_marker( "None" ) }, { "mode1", translate_marker( "Mode 1: Numpad Emulation" ) }, { "mode2", translate_marker( "Mode 2: CW/CCW" ) }, { "mode3", translate_marker( "Mode 3: L/R Tilt" ) } },
     "none", COPT_CURSES_HIDE );
-#endif
 
     mOptionsSort["interface"]++;
 
@@ -1945,11 +1943,6 @@ void options_manager::add_options_world_default()
 
     add( "WANDER_SPAWNS", "world_default", translate_marker( "Wander spawns" ),
          translate_marker( "Emulation of zombie hordes.  Zombie spawn points wander around cities and may go to noise.  Must reset world directory after changing for it to take effect." ),
-         false
-       );
-
-    add( "CLASSIC_ZOMBIES", "world_default", translate_marker( "Classic zombies" ),
-         translate_marker( "Only spawn classic zombies and natural wildlife.  Requires a reset of save folder to take effect.  This disables certain buildings." ),
          false
        );
 

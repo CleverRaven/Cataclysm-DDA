@@ -462,6 +462,9 @@ void npc::set_fac( const string_id<faction> &id )
 {
     my_fac = g->faction_manager_ptr->get( id );
     fac_id = my_fac->id;
+    for( auto &e : inv_dump() ) {
+        e->set_owner( my_fac );
+    }
 }
 
 void npc::clear_fac()
@@ -543,9 +546,9 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         if( it.has_flag( "VARSIZE" ) ) {
             it.item_tags.insert( "FIT" );
         }
-
         if( who.can_wear( it ).success() ) {
             who.worn.push_back( it );
+            it.set_owner( who.my_fac );
         }
     }
 }
@@ -562,7 +565,7 @@ void starting_inv( npc &who, const npc_class_id &type )
     res.emplace_back( "lighter" );
     // If wielding a gun, get some additional ammo for it
     if( who.weapon.is_gun() ) {
-        item ammo( who.weapon.ammo_type()->default_ammotype() );
+        item ammo( who.weapon.ammo_default() );
         ammo = ammo.in_its_container();
         if( ammo.made_of( LIQUID ) ) {
             item container( "bottle_plastic" );
@@ -605,8 +608,26 @@ void starting_inv( npc &who, const npc_class_id &type )
     res.erase( std::remove_if( res.begin(), res.end(), [&]( const item & e ) {
         return e.has_flag( "TRADER_AVOID" );
     } ), res.end() );
-
+    for( auto &it : res ) {
+        it.set_owner( who.my_fac );
+    }
     who.inv += res;
+}
+
+void npc::revert_after_activity()
+{
+    mission = previous_mission;
+    attitude = previous_attitude;
+}
+
+npc_mission npc::get_previous_mission()
+{
+    return previous_mission;
+}
+
+npc_attitude npc::get_previous_attitude()
+{
+    return previous_attitude;
 }
 
 void npc::setpos( const tripoint &pos )
@@ -763,8 +784,9 @@ void npc::starting_weapon( const npc_class_id &type )
     }
 
     if( weapon.is_gun() ) {
-        weapon.ammo_set( weapon.type->gun->ammo->default_ammotype() );
+        weapon.ammo_set( weapon.ammo_default() );
     }
+    weapon.set_owner( my_fac );
 }
 
 bool npc::wear_if_wanted( const item &it )
@@ -1161,7 +1183,7 @@ void npc::decide_needs()
         elem = 20;
     }
     if( weapon.is_gun() ) {
-        needrank[need_ammo] = 5 * get_ammo( weapon.type->gun->ammo ).size();
+        needrank[need_ammo] = 5 * get_ammo( ammotype( *weapon.type->gun->ammo.begin() ) ).size();
     }
 
     needrank[need_weapon] = weapon_value( weapon );
@@ -1352,14 +1374,11 @@ int npc::value( const item &it, int market_price ) const
     }
 
     if( it.is_ammo() ) {
-        if( weapon.is_gun() && it.type->ammo->type.count( weapon.ammo_type() ) ) {
+        if( weapon.is_gun() && weapon.ammo_types().count( it.ammo_type() ) ) {
             ret += 14; // TODO: magazines - don't count ammo as usable if the weapon isn't.
         }
 
-        if( std::any_of( it.type->ammo->type.begin(), it.type->ammo->type.end(),
-        [&]( const ammotype & e ) {
-        return has_gun_for_ammo( e );
-        } ) ) {
+        if( has_gun_for_ammo( it.ammo_type() ) ) {
             ret += 14; // TODO: consider making this cumulative (once was)
         }
     }
@@ -1497,6 +1516,26 @@ void npc::set_faction_ver( int new_version )
     faction_api_version = new_version;
 }
 
+bool npc::has_faction_relationship( const player &p, const npc_factions::relationship flag ) const
+{
+    if( !my_fac ) {
+        return false;
+    }
+
+    faction_id your_fac_id;
+    if( p.is_player() ) {
+        your_fac_id = faction_id( "your_followers" );
+    } else {
+        const npc &guy = dynamic_cast<const npc &>( p );
+        if( guy.my_fac ) {
+            your_fac_id = guy.my_fac->id;
+        } else {
+            return false;
+        }
+    }
+    return my_fac->has_relationship( your_fac_id, flag );
+}
+
 bool npc::is_ally( const player &p ) const
 {
     if( p.getID() == getID() ) {
@@ -1549,7 +1588,7 @@ bool npc::is_minion() const
 
 bool npc::guaranteed_hostile() const
 {
-    return is_enemy() || ( my_fac != nullptr && my_fac->likes_u < -10 );
+    return is_enemy() || ( my_fac && my_fac->likes_u < -10 );
 }
 
 bool npc::is_walking_with() const
@@ -1622,6 +1661,16 @@ bool npc::is_travelling() const
 
 Creature::Attitude npc::attitude_to( const Creature &other ) const
 {
+    if( other.is_npc() || other.is_player() ) {
+        const player &guy = dynamic_cast<const player &>( other );
+        // check faction relationships first
+        if( has_faction_relationship( guy, npc_factions::kill_on_sight ) ) {
+            return A_HOSTILE;
+        } else if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
+            return A_FRIENDLY;
+        }
+    }
+
     if( is_player_ally() ) {
         // Friendly NPCs share player's alliances
         return g->u.attitude_to( other );
@@ -1712,7 +1761,14 @@ int npc::follow_distance() const
           g->m.has_flag( TFLAG_GOES_UP, g->u.pos() ) ) ) {
         return 1;
     }
-    // TODO: Allow player to set that
+    // Uses ally_rule follow_distance_2 to determine if should follow by 2 or 4 tiles
+    if( rules.has_flag( ally_rule::follow_distance_2 ) ) {
+        return 2;
+    }
+    // If NPC doesn't see player, change follow distance to 2
+    if( !sees( g->u ) ) {
+        return 2;
+    }
     return 4;
 }
 
@@ -2005,6 +2061,8 @@ std::string npc_attitude_name( npc_attitude att )
             return _( "Healing you" );
         case NPCATT_ACTIVITY:
             return _( "Performing a task" );
+        case NPCATT_RECOVER_GOODS:
+            return _( "Trying to recover stolen goods" );
         case NPCATT_LEGACY_1:
         case NPCATT_LEGACY_2:
         case NPCATT_LEGACY_3:
@@ -2386,6 +2444,14 @@ std::set<tripoint> npc::get_path_avoid() const
 
 mfaction_id npc::get_monster_faction() const
 {
+    if( my_fac ) {
+        string_id<monfaction> my_mon_fac = string_id<monfaction>( my_fac->mon_faction );
+        if( my_mon_fac.is_valid() ) {
+            return my_mon_fac;
+        }
+    }
+
+    // legacy checks
     // Those can't be static int_ids, because mods add factions
     static const string_id<monfaction> human_fac( "human" );
     static const string_id<monfaction> player_fac( "player" );
@@ -2538,6 +2604,22 @@ attitude_group npc::get_attitude_group( npc_attitude att ) const
     return attitude_group::neutral;
 }
 
+void npc::set_mission( npc_mission new_mission )
+{
+    if( new_mission != mission ) {
+        previous_mission = mission;
+        mission = new_mission;
+    }
+    if( mission == NPC_MISSION_ACTIVITY ) {
+        current_activity = activity.get_verb();
+    }
+}
+
+bool npc::has_activity() const
+{
+    return mission == NPC_MISSION_ACTIVITY;
+}
+
 npc_attitude npc::get_attitude() const
 {
     return attitude;
@@ -2545,12 +2627,12 @@ npc_attitude npc::get_attitude() const
 
 void npc::set_attitude( npc_attitude new_attitude )
 {
-    if( new_attitude == NPCATT_FLEE ) {
-        new_attitude = NPCATT_FLEE_TEMP;
-    }
-
     if( new_attitude == attitude ) {
         return;
+    }
+    previous_attitude = attitude;
+    if( new_attitude == NPCATT_FLEE ) {
+        new_attitude = NPCATT_FLEE_TEMP;
     }
     if( new_attitude == NPCATT_FLEE_TEMP && !has_effect( effect_npc_flee_player ) ) {
         add_effect( effect_npc_flee_player, 24_hours, num_bp );
@@ -2603,6 +2685,7 @@ npc_follower_rules::npc_follower_rules()
     clear_flag( ally_rule::hold_the_line );
     clear_flag( ally_rule::ignore_noise );
     clear_flag( ally_rule::forbid_engage );
+    set_flag( ally_rule::follow_distance_2 );
 }
 
 bool npc_follower_rules::has_flag( ally_rule test, bool check_override ) const

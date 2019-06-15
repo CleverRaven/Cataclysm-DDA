@@ -418,6 +418,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "BotanicalGarden_1a_roof",
+    "name": "botanical garden",
+    "sym": "g",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": "BotanicalGarden_1b",
     "name": "botanical garden",
     "sym": "g",
@@ -426,6 +436,16 @@
     "extras": "field",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "BotanicalGarden_1b_roof",
+    "name": "botanical garden",
+    "sym": "g",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -542,6 +562,22 @@
     "id": "golfcourse_31",
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "golf course service building",
+    "sym": "G",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_31_2ndfloor",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "golf course bar",
+    "sym": "G",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_31_roof",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "golf course service building roof",
     "sym": "G",
     "color": "light_gray"
   },
@@ -931,6 +967,38 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "gambling_hall_roof",
+    "copy-from": "generic_city_building",
+    "name": "gambling hall roof",
+    "sym": "g",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "gambling_hall_upper_roof",
+    "copy-from": "generic_city_building",
+    "name": "gambling hall roof",
+    "sym": "g",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "gambling_hall_1",
+    "copy-from": "generic_city_building",
+    "name": "gambling hall",
+    "sym": "g",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "gambling_hall_roof_1",
+    "copy-from": "generic_city_building",
+    "name": "gambling hall roof",
+    "sym": "g",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "stripclub",
     "copy-from": "generic_city_building",
     "name": "strip club",
@@ -991,8 +1059,71 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "gym_fitness_roof",
+    "name": "fitness gym roof",
+    "copy-from": "generic_city_building",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "gym_fitness_1",
+    "name": "fitness gym",
+    "copy-from": "generic_city_building",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "gym_fitness_2ndFloor_1",
+    "name": "fitness gym",
+    "copy-from": "generic_city_building",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "gym_fitness_roof_1",
+    "name": "fitness gym roof",
+    "copy-from": "generic_city_building",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "dojo",
     "name": "dojo",
+    "copy-from": "generic_city_building",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dojo_roof",
+    "name": "dojo roof",
+    "copy-from": "generic_city_building",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dojo_upper_roof",
+    "name": "dojo roof",
+    "copy-from": "generic_city_building",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dojo_1",
+    "name": "dojo",
+    "copy-from": "generic_city_building",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dojo_roof_1",
+    "name": "dojo roof",
+    "copy-from": "generic_city_building",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dojo_upper_roof_1",
+    "name": "dojo roof",
     "copy-from": "generic_city_building",
     "color": "i_light_cyan"
   },
@@ -1046,5 +1177,165 @@
     "color": "white",
     "see_cost": 1,
     "flags": [ "LAKE_SHORE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_1",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "~"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_2",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "~"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_3",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "~"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_4",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "~"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_5",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "~"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_6",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "~"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_7",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "~"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_8",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "~"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_9",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "~"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_10",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "~"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_11",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "m"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_12",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "m"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_13",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "m"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_14",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "m"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_15",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "m"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_16",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina parking",
+    "color": "cyan",
+    "sym": "m"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_17",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina parking",
+    "color": "cyan",
+    "sym": "m"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_18",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina parking",
+    "color": "cyan",
+    "sym": "M"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_19",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina parking",
+    "color": "cyan",
+    "sym": "m"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_20",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina parking",
+    "color": "cyan",
+    "sym": "m"
   }
 ]

@@ -107,7 +107,7 @@ std::vector<char> keys_bound_to( action_id act, const bool restrict_to_printable
 action_id action_from_key( char ch )
 {
     input_context ctxt = get_default_mode_input_context();
-    const input_event event( static_cast<long>( ch ), CATA_INPUT_KEYBOARD );
+    const input_event event( ch, CATA_INPUT_KEYBOARD );
     const std::string &action = ctxt.input_to_action( event );
     return look_up_action( action );
 }
@@ -239,6 +239,8 @@ std::string action_ident( action_id act )
             return "fire";
         case ACTION_FIRE_BURST:
             return "fire_burst";
+        case ACTION_CAST_SPELL:
+            return "cast_spell";
         case ACTION_SELECT_FIRE_MODE:
             return "select_fire_mode";
         case ACTION_DROP:
@@ -307,6 +309,10 @@ std::string action_ident( action_id act )
             return "debug";
         case ACTION_DISPLAY_SCENT:
             return "debug_scent";
+        case ACTION_DISPLAY_TEMPERATURE:
+            return "debug_temp";
+        case ACTION_DISPLAY_VISIBILITY:
+            return "debug_visibility";
         case ACTION_TOGGLE_DEBUG_MODE:
             return "debug_mode";
         case ACTION_ZOOM_OUT:
@@ -331,6 +337,8 @@ std::string action_ident( action_id act )
             return "toggle_auto_mining";
         case ACTION_TOGGLE_AUTO_FORAGING:
             return "toggle_auto_foraging";
+        case ACTION_TOGGLE_AUTO_PICKUP:
+            return "toggle_auto_pickup";
         case ACTION_ACTIONMENU:
             return "action_menu";
         case ACTION_ITEMACTION:
@@ -406,6 +414,8 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_TOGGLE_FULLSCREEN:
         case ACTION_DEBUG:
         case ACTION_DISPLAY_SCENT:
+        case ACTION_DISPLAY_TEMPERATURE:
+        case ACTION_DISPLAY_VISIBILITY:
         case ACTION_ZOOM_OUT:
         case ACTION_ZOOM_IN:
         case ACTION_TOGGLE_PIXEL_MINIMAP:
@@ -526,7 +536,7 @@ point get_delta_from_movement_direction( action_id act )
     }
 }
 
-long hotkey_for_action( action_id action, const bool restrict_to_printable )
+int hotkey_for_action( action_id action, const bool restrict_to_printable )
 {
     auto is_valid_key = []( char key ) {
         return key != '?';
@@ -802,6 +812,8 @@ action_id handle_action_menu()
 #endif // TILES
             REGISTER_ACTION( ACTION_TOGGLE_PANEL_ADM );
             REGISTER_ACTION( ACTION_DISPLAY_SCENT );
+            REGISTER_ACTION( ACTION_DISPLAY_TEMPERATURE );
+            REGISTER_ACTION( ACTION_DISPLAY_VISIBILITY );
             REGISTER_ACTION( ACTION_TOGGLE_DEBUG_MODE );
         } else if( category == _( "Interact" ) ) {
             REGISTER_ACTION( ACTION_EXAMINE );
@@ -826,6 +838,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_FIRE );
             REGISTER_ACTION( ACTION_RELOAD_ITEM );
             REGISTER_ACTION( ACTION_RELOAD_WEAPON );
+            REGISTER_ACTION( ACTION_CAST_SPELL );
             REGISTER_ACTION( ACTION_SELECT_FIRE_MODE );
             REGISTER_ACTION( ACTION_THROW );
             REGISTER_ACTION( ACTION_FIRE_BURST );

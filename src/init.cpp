@@ -25,6 +25,7 @@
 #include "faction.h"
 #include "fault.h"
 #include "filesystem.h"
+#include "field_type.h"
 #include "flag.h"
 #include "gates.h"
 #include "harvest.h"
@@ -180,6 +181,7 @@ void DynamicDataLoader::initialize()
     add( "EXTERNAL_OPTION", &load_external_option );
     add( "json_flag", &json_flag::load );
     add( "fault", &fault::load_fault );
+    add( "field_type", &field_types::load );
     add( "emit", &emit::load_emit );
     add( "activity_type", &activity_type::load );
     add( "vitamin", &vitamin::load_vitamin );
@@ -444,6 +446,7 @@ void DynamicDataLoader::unload_data()
     json_flag::reset();
     requirement_data::reset();
     vitamin::reset();
+    field_types::reset();
     emit::reset();
     activity_type::reset();
     fault::reset();
@@ -460,6 +463,7 @@ void DynamicDataLoader::unload_data()
     mutations_category.clear();
     mutation_category_trait::reset();
     mutation_branch::reset_all();
+    spell_type::reset_all();
     reset_bionics();
     clear_tutorial_messages();
     reset_furn_ter();
@@ -518,6 +522,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
             { _( "Body parts" ), &body_part_struct::finalize_all },
+            { _( "Field types" ), &field_types::finalize_all },
             {
                 _( "Items" ), []()
                 {
@@ -593,6 +598,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
                 }
             },
             { _( "Vitamins" ), &vitamin::check_consistency },
+            { _( "Field types" ), &field_types::check_consistency },
             { _( "Emissions" ), &emit::check_consistency },
             { _( "Activities" ), &activity_type::check_consistency },
             {

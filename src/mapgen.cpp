@@ -33,6 +33,7 @@
 #include "mapdata.h"
 #include "mapgen_functions.h"
 #include "mapgenformat.h"
+#include "messages.h"
 #include "mission.h"
 #include "mongroup.h"
 #include "mtype.h"
@@ -65,7 +66,7 @@
 #include "cata_utility.h"
 #include "int_id.h"
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define MON_RADIUS 3
 
@@ -802,6 +803,24 @@ class jmapgen_npc : public jmapgen_piece
                     p->set_mutation( trait_id( new_trait ) );
                 }
             }
+        }
+};
+/**
+* Place ownership area
+*/
+class jmapgen_faction : public jmapgen_piece
+{
+    public:
+        faction_id id;
+        jmapgen_faction( JsonObject &jsi ) : jmapgen_piece() {
+            if( jsi.has_string( "id" ) ) {
+                id = faction_id( jsi.get_string( "id" ) );
+                std::string facid = jsi.get_string( "id" );
+            }
+        }
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const float /*mdensity*/, mission * ) const override {
+            dat.m.apply_faction_ownership( x.val, y.val, x.valmax, y.valmax, id );
         }
 };
 /**
@@ -2135,7 +2154,7 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_graffiti>( jo, "graffiti", format_placings );
     new_pal.load_place_mapings<jmapgen_translate>( jo, "translate", format_placings );
     new_pal.load_place_mapings<jmapgen_zone>( jo, "zones", format_placings );
-
+    new_pal.load_place_mapings<jmapgen_faction>( jo, "faction_owner_character", format_placings );
     return new_pal;
 }
 
@@ -2320,7 +2339,8 @@ bool mapgen_function_json_base::setup_common( JsonObject jo )
     objects.load_objects<jmapgen_graffiti>( jo, "place_graffiti" );
     objects.load_objects<jmapgen_translate>( jo, "translate_ter" );
     objects.load_objects<jmapgen_zone>( jo, "place_zones" );
-
+    // Needs to be last as it affects other placed items
+    objects.load_objects<jmapgen_faction>( jo, "faction_owner" );
     if( !mapgen_defer::defer ) {
         is_ready = true; // skip setup attempts from any additional pointers
     }
@@ -6917,6 +6937,19 @@ int map::place_npc( int x, int y, const string_id<npc_template> &type, bool forc
     return temp->getID();
 }
 
+void map::apply_faction_ownership( const int x1, const int y1, const int x2, const int y2,
+                                   const faction_id id )
+{
+    faction *fac = g->faction_manager_ptr->get( id );
+    for( const tripoint &p : points_in_rectangle( tripoint( x1, y1, abs_sub.z ), tripoint( x2, y2,
+            abs_sub.z ) ) ) {
+        auto items = i_at( p.x, p.y );
+        for( item &elem : items ) {
+            elem.set_owner( fac );
+        }
+    }
+}
+
 std::vector<item *> map::place_items( const items_location &loc, const int chance,
                                       const tripoint &f,
                                       const tripoint &t, const bool ongrass, const time_point &turn,
@@ -6977,7 +7010,7 @@ std::vector<item *> map::place_items( const items_location &loc, int chance, int
                 e->contents.emplace_back( e->magazine_default(), e->birthday() );
             }
             if( rng( 0, 99 ) < ammo && e->ammo_remaining() == 0 ) {
-                e->ammo_set( e->ammo_type()->default_ammotype(), e->ammo_capacity() );
+                e->ammo_set( e->ammo_default(), e->ammo_capacity() );
             }
         }
     }
@@ -7005,13 +7038,6 @@ void map::add_spawn( const mtype_id &type, int count, int x, int y, bool friendl
         debugmsg( "centadodecamonant doesn't exist in grid; within add_spawn(%s, %d, %d, %d)",
                   type.c_str(), count, x, y );
         return;
-    }
-    if( get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
-        const mtype &mt = type.obj();
-        if( !mt.in_category( "CLASSIC" ) && !mt.in_category( "WILDLIFE" ) ) {
-            // Don't spawn non-classic monsters in classic zombie mode.
-            return;
-        }
     }
     if( MonsterGroupManager::monster_is_blacklisted( type ) ) {
         return;
@@ -8261,6 +8287,10 @@ void square( map *m, ter_id( *f )(), int x1, int y1, int x2, int y2 )
 {
     m->draw_square_ter( f, x1, y1, x2, y2 );
 }
+void square( map *m, const weighted_int_list<ter_id> &f, int x1, int y1, int x2, int y2 )
+{
+    m->draw_square_ter( f, x1, y1, x2, y2 );
+}
 void rough_circle( map *m, ter_id type, int x, int y, int rad )
 {
     m->draw_rough_circle_ter( type, x, y, rad );
@@ -8312,10 +8342,10 @@ bool update_mapgen_function_json::setup_internal( JsonObject &/*jo*/ )
 bool update_mapgen_function_json::update_map( const tripoint &omt_pos, int offset_x, int offset_y,
         mission *miss, bool verify ) const
 {
-    tinymap update_map;
+    tinymap update_tmap;
     const regional_settings &rsettings = overmap_buffer.get_settings( omt_pos.x, omt_pos.y,
                                          omt_pos.z );
-    update_map.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
+    update_tmap.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
     const std::string map_id = overmap_buffer.ter( omt_pos ).id().c_str();
     oter_id north = overmap_buffer.ter( omt_pos + tripoint( 0, -1, 0 ) );
     oter_id south = overmap_buffer.ter( omt_pos + tripoint( 0, 1, 0 ) );
@@ -8329,7 +8359,7 @@ bool update_mapgen_function_json::update_map( const tripoint &omt_pos, int offse
     oter_id below = overmap_buffer.ter( omt_pos + tripoint( 0, 0, -1 ) );
 
     mapgendata md( north, south, east, west, northeast, southeast, northwest, southwest,
-                   above, below, omt_pos.z, rsettings, update_map );
+                   above, below, omt_pos.z, rsettings, update_tmap );
 
     int rotation = 0;
     if( map_id.size() > 7 ) {
@@ -8344,7 +8374,19 @@ bool update_mapgen_function_json::update_map( const tripoint &omt_pos, int offse
             md.m.rotate( rotation );
         }
     }
+    if( update_map( md, offset_x, offset_y, miss, verify, rotation ) ) {
+        md.m.save();
+        g->load_npcs();
+        g->m.invalidate_map_cache( md.zlevel );
+        g->refresh_all();
+        return true;
+    }
+    return false;
+}
 
+bool update_mapgen_function_json::update_map( mapgendata &md, int offset_x, int offset_y,
+        mission *miss, bool verify, int rotation ) const
+{
     for( auto &elem : setmap_points ) {
         if( verify && elem.has_vehicle_collision( md, offset_x, offset_y ) ) {
             return false;
@@ -8361,10 +8403,6 @@ bool update_mapgen_function_json::update_map( const tripoint &omt_pos, int offse
         md.m.rotate( 4 - rotation );
     }
 
-    update_map.save();
-    g->load_npcs();
-    g->m.invalidate_map_cache( omt_pos.z );
-    g->refresh_all();
     return true;
 }
 
@@ -8403,6 +8441,57 @@ bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint
         return false;
     }
     return update_function->second[0]->update_map( omt_pos, 0, 0, miss, cancel_on_collision );
+}
+
+std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_update(
+            const std::string &update_mapgen_id )
+{
+    std::map<ter_id, int> terrains;
+    std::map<furn_id, int> furnitures;
+
+    const auto update_function = update_mapgen.find( update_mapgen_id );
+
+    if( update_function == update_mapgen.end() || update_function->second.empty() ) {
+        return std::make_pair( terrains, furnitures );
+    }
+
+    const tripoint omt_pos = tripoint( 0, 0, 0 );
+
+    tinymap fake_map;
+    fake_map.load( 0, 0, 0, false );
+    for( const tripoint &pos : fake_map.points_in_rectangle( omt_pos,
+            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
+        fake_map.furn_set( pos, f_null );
+        fake_map.ter_set( pos, t_dirt );
+        fake_map.trap_set( pos, tr_null );
+    }
+
+    const regional_settings &rsettings = overmap_buffer.get_settings( omt_pos.x, omt_pos.y,
+                                         omt_pos.z );
+    oter_id any = oter_id( "field" );
+
+    mapgendata fake_md( any, any, any, any, any, any, any, any,
+                        any, any, omt_pos.z, rsettings, fake_map );
+
+    if( update_function->second[0]->update_map( fake_md ) ) {
+        for( const tripoint &pos : fake_map.points_in_rectangle( { 0, 0, 0 }, { 23, 23, 0 } ) ) {
+            ter_id ter_at_pos = fake_map.ter( pos );
+            if( ter_at_pos != t_dirt ) {
+                if( terrains.find( ter_at_pos ) == terrains.end() ) {
+                    terrains[ter_at_pos] = 0;
+                }
+                terrains[ter_at_pos] += 1;
+            }
+            if( fake_map.has_furn( pos ) ) {
+                furn_id furn_at_pos = fake_map.furn( pos );
+                if( furnitures.find( furn_at_pos ) == furnitures.end() ) {
+                    furnitures[furn_at_pos] = 0;
+                }
+                furnitures[furn_at_pos] += 1;
+            }
+        }
+    }
+    return std::make_pair( terrains, furnitures );
 }
 
 bool run_mapgen_func( const std::string &mapgen_id, map *m, oter_id terrain_type, mapgendata dat,

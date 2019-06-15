@@ -142,7 +142,7 @@ Available units:
 
 Examples:
 - " +1 day -23 hours 50m " `(1*24*60 - 23*60 + 50 == 110 minutes)`
-- "1 turn 1 minutes 9 turns" (2 minutes because 10 turns are 1 minute)
+- "1 turn 1 minutes 9 turns" (1 minute and 10 seconds because 1 turn is 1 second)
 
 ### All Files
 
@@ -543,7 +543,8 @@ Mods can modify this via `add:traits` and `remove:traits`.
     [ "textbook_gaswarfare", 8, "" ] // If the name is empty, the recipe is hidden, it will not be shown in the description of the book.
 ],
 "difficulty": 3,             // Difficulty of success check
-"time": 5000,                // Time to perform recipe (where 1000 ~= 10 turns ~= 1 minute game time)
+"time": "5 m",               // Preferred time to perform recipe, can specify in minutes, hours etc.
+"time": 5000,                // Legacy time to perform recipe (where 1000 ~= 10 turns ~= 10 seconds game time).
 "reversible": false,         // Can be disassembled.
 "autolearn": true,           // Automatically learned upon gaining required skills
 "autolearn" : [              // Automatically learned upon gaining listed skills
@@ -561,6 +562,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
   "ANOTHERFLAG"
 ],
 "construction_blueprint": "camp", // an optional string containing an update_mapgen_id.  Used by faction camps to upgrade their buildings
+"on_display": false,         // this is a hidden construction item, used by faction camps to calculate construction times but not available to the player
 "qualities": [               // Generic qualities of tools needed to craft
   {"id":"CUT","level":1,"amount":1}
 ],
@@ -592,7 +594,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 "description": "Spike Pit",                                         // Description string displayed in the construction menu
 "category": "DIG",                                                  // Construction category
 "required_skills": [ [ "survival", 1 ] ],                           // Skill levels required to undertake construction
-"time": 30,                                                         // Time in minutes required to complete construction
+"time": "30 m",                                                         // Time required to complete construction. Integers will be read as minutes or a time string can be used.
 "components": [ [ [ "spear_wood", 4 ], [ "pointy_stick", 4 ] ] ],   // Items used in construction
 "pre_terrain": "t_pit",                                             // Required terrain to build on
 "post_terrain": "t_pit_spiked"                                      // Terrain type after construction is complete
@@ -865,16 +867,16 @@ See also VEHICLE_JSON.md
 ### Magazine
 
 ```C++
-"type": "MAGAZINE",   // Defines this as a MAGAZINE
-...                   // same entries as above for the generic item.
-                      // additional some magazine specific entries:
-"ammo_type": "223",   // What type of ammo this magazine can be loaded with
-"capacity" : 15,      // Capacity of magazine (in equivalent units to ammo charges)
-"count" : 0,          // Default amount of ammo contained by a magazine (set this for ammo belts)
-"default_ammo": "556",// If specified override the default ammo (optionally set this for ammo belts)
-"reliability" : 8,    // How reliable this this magazine on a range of 0 to 10? (see GAME_BALANCE.md)
-"reload_time" : 100,  // How long it takes to load each unit of ammo into the magazine
-"linkage" : "ammolink"// If set one linkage (of given type) is dropped for each unit of ammo consumed (set for disintegrating ammo belts)
+"type": "MAGAZINE",              // Defines this as a MAGAZINE
+...                              // same entries as above for the generic item.
+                                 // additional some magazine specific entries:
+"ammo_type": [ "40", "357sig" ], // What types of ammo this magazine can be loaded with
+"capacity" : 15,                 // Capacity of magazine (in equivalent units to ammo charges)
+"count" : 0,                     // Default amount of ammo contained by a magazine (set this for ammo belts)
+"default_ammo": "556",           // If specified override the default ammo (optionally set this for ammo belts)
+"reliability" : 8,               // How reliable this this magazine on a range of 0 to 10? (see GAME_BALANCE.md)
+"reload_time" : 100,             // How long it takes to load each unit of ammo into the magazine
+"linkage" : "ammolink"           // If set one linkage (of given type) is dropped for each unit of ammo consumed (set for disintegrating ammo belts)
 ```
 
 ### Armor
@@ -950,7 +952,7 @@ Books can be defined like this:
                       // additional some book specific entries:
 "max_level" : 5,      // Maximum skill level this book will train to
 "intelligence" : 11,  // Intelligence required to read this book without penalty
-"time" : 35,          // Time (in minutes) a single read session takes
+"time" : "35 m",          // Time a single read session takes. An integer will be read in minutes or a time string can be used.
 "fun" : -2,           // Morale bonus/penalty for reading
 "skill" : "computer", // Skill raised
 "chapters" : 4,       // Number of chapters (for fun only books), each reading "consumes" a chapter. Books with no chapters left are less fun (because the content is already known to the character).
@@ -1069,27 +1071,29 @@ It could also be written as a generic item ("type": "GENERIC") with "armor_data"
 Guns can be defined like this:
 
 ```C++
-"type": "GUN",        // Defines this as a GUN
-...                   // same entries as above for the generic item.
-                      // additional some gun specific entries:
-"skill": "pistol",    // Skill used for firing
-"ammo": "nail",       // Ammo type accepted for reloading
-"ranged_damage": 0,   // Ranged damage when fired
-"range": 0,           // Range when fired
-"dispersion": 32,     // Inaccuracy of gun, measured in quarter-degrees
+"type": "GUN",             // Defines this as a GUN
+...                        // same entries as above for the generic item.
+                           // additional some gun specific entries:
+"skill": "pistol",         // Skill used for firing
+"ammo": [ "357", "38" ],   // Ammo types accepted for reloading
+"ranged_damage": 0,        // Ranged damage when fired
+"range": 0,                // Range when fired
+"dispersion": 32,          // Inaccuracy of gun, measured in quarter-degrees
 // When sight_dispersion and aim_speed are present in a gun mod, the aiming system picks the "best"
 // sight to use for each aim action, which is the fastest sight with a dispersion under the current
 // aim threshold.
-"sight_dispersion": 10, // Inaccuracy of gun derived from the sight mechanism, also in quarter-degrees
-"aim_speed": 3,       // A measure of how quickly the player can aim, in moves per point of dispersion.
-"recoil": 0,          // Recoil caused when firing, in quarter-degrees of dispersion.
-"durability": 8,      // Resistance to damage/rusting, also determines misfire chance
-"burst": 5,           // Number of shots fired in burst mode
-"clip_size": 100,     // Maximum amount of ammo that can be loaded
-"ups_charges": 0,     // Additionally to the normal ammo (if any), a gun can require some charges from an UPS. This also works on mods. Attaching a mod with ups_charges will add/increase ups drain on the weapon.
-"reload": 450,         // Amount of time to reload, 100 = 6 seconds = 1 "turn"
+"sight_dispersion": 10,    // Inaccuracy of gun derived from the sight mechanism, also in quarter-degrees
+"aim_speed": 3,            // A measure of how quickly the player can aim, in moves per point of dispersion.
+"recoil": 0,               // Recoil caused when firing, in quarter-degrees of dispersion.
+"durability": 8,           // Resistance to damage/rusting, also determines misfire chance
+"blackpowder_tolerance": 8,// One in X chance to get clogged up (per shot) when firing blackpowder ammunition (higher is better). Optional, default is 8.
+"min_cycle_recoil": 0,     // Minimum ammo recoil for gun to be able to fire more than once per attack.
+"burst": 5,                // Number of shots fired in burst mode
+"clip_size": 100,          // Maximum amount of ammo that can be loaded
+"ups_charges": 0,          // Additionally to the normal ammo (if any), a gun can require some charges from an UPS. This also works on mods. Attaching a mod with ups_charges will add/increase ups drain on the weapon.
+"reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
 "built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
-"default_mods": ["m203"] //An array of mods that will be added to a weapon on spawn.
+"default_mods": ["m203"]   //An array of mods that will be added to a weapon on spawn.
 ```
 Alternately, every item (book, tool, armor, even food) can be used as gun if it has gun_data:
 ```json
@@ -1113,8 +1117,8 @@ Gun mods can be defined like this:
 "location": "stock",           // Mandatory. Where is this gunmod is installed?
 "mod_targets": [ "crossbow" ], // Mandatory. What kind of weapons can this gunmod be used with?
 "acceptable_ammo": [ "9mm" ],  // Optional filter restricting mod to guns with those base (before modifiers) ammo types
-"install_time": 100,           // Optional number of moves installation takes. Installation is instantaneous if unspecified
-"ammo_modifier": "57",         // Optional field which if specified modifies parent gun to use this ammo type
+"install_time": "30 s",        // Optional time installation takes. Installation is instantaneous if unspecified. An integer will be read as moves or a time string can be used.
+"ammo_modifier": [ "57" ],     // Optional field which if specified modifies parent gun to use these ammo types
 "burst_modifier": 3,           // Optional field increasing or decreasing base gun burst size
 "damage_modifier": -1,         // Optional field increasing or decreasing base gun damage
 "dispersion_modifier": 15,     // Optional field increasing or decreasing base gun dispersion
@@ -1151,7 +1155,7 @@ Gun mods can be defined like this:
 "charge_factor": 5,   // this tool uses charge_factor charges for every charge required in a recipe; intended for tools that have a "sub" field but use a different ammo that the original tool
 "charges_per_use": 1, // Charges consumed per tool use
 "turns_per_charge": 20, // Charges consumed over time
-"ammo": "NULL",       // Ammo type used for reloading
+"ammo": [ "NULL" ],       // Ammo types used for reloading
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "use_action": "firestarter" // Action performed when tool is used, see special definition below
 ```
@@ -1425,7 +1429,7 @@ The contents of use_action fields can either be a string indicating a built-in f
 }
 "use_action" : {
     "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age
-    "transform_age" : 600, // The minimal age of the item. Items that are younger wont transform. In turns (10 turn = 1 minute)
+    "transform_age" : 600, // The minimal age of the item. Items that are younger wont transform. In turns (60 turns = 1 minute)
     "not_ready_msg" : "The yeast has not been done The yeast isn't done culturing yet." // A message, shown when the item is not old enough
 },
 "use_action": {
@@ -1728,13 +1732,9 @@ Strength required to move the furniture around. Negative values indicate an unmo
 
 (Optional) Can craft here.  Must specify a speed multiplier, allowed mass, and allowed volume.  Mass/volume over these limits incur a speed penalty.  Must be paired with a `"workbench"` `examine_action` to function.
 
-#### `plant_transform`
+#### `plant_data`
 
-(Optional) What the furniture turns into when it is planted on or grows.
-
-#### `plant_base``
-
-(Optional) What the plant furniture turns into when it is eaten by something that eats crops - this should be what it is planted in. Requires `PLANT` flag to function.
+(Optional) This is a plant. Must specify a plant transform, and a base depending on context. You can also add a harvest or growth multiplier if it has the `GROWTH_HARVEST` flag. 
 
 ### Terrain
 
@@ -1941,6 +1941,33 @@ The terrain / furniture that will be set after the original has been deconstruct
 ### `items`
 
 (Optional) An item group (inline) or an id of an item group, see doc/ITEM_SPAWN.md. The default subtype is "collection". Upon deconstruction the object, items from that group will be spawned.
+
+### `plant_data`
+
+```JSON
+{
+  "transform": "f_planter_harvest",
+  "base": "f_planter",
+  "growth_multiplier": 1.2,
+  "harvest_multiplier": 0.8
+}
+```
+
+#### `transform`
+
+What the `PLANT` furniture turn into when it grows a stage, or what a `PLANTABLE` furniture turns into when it is planted on.
+
+#### `base`
+
+What the 'base' furniture of the `PLANT` furniture is - what it would be if there was not a plant growing there. Used when monsters 'eat' the plant to preserve what furniture it is.
+
+#### `growth_multiplier`
+
+A flat multiplier on the growth speed on the plant. For numbers greater than one, it will take longer to grow, and for numbers less than one it will take less time to grow.
+
+#### `harvest_multiplier`
+
+A flat multiplier on the harvest count of the plant. For numbers greater than one, the plant will give more produce from harvest, for numbers less than one it will give less produce from harvest.
 
 # Scenarios
 

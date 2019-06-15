@@ -37,6 +37,7 @@
       [ "backpack", 38 ],
       [ "slingpack", 19 ],
       [ "pockknife", 14 ],
+      [ "roller_shoes_off", 10 ],
       [ "knife_swissarmy", 10 ],
       [ "hairpin", 5 ],
       [ "fc_hairpin", 1 ],
@@ -60,6 +61,8 @@
       [ "slingshot", 10 ],
       [ "frisbee", 10 ],
       [ "dnd_handbook", 1 ],
+      [ "RPG_die", 1 ],
+      [ "metal_RPG_die", 1 ],
       [ "milkshake_fastfood", 3 ]
     ]
   },
@@ -100,6 +103,7 @@
       [ "pine_bough", 20 ],
       [ "acorns", 15 ],
       [ "pinecone", 5 ],
+      [ "juniper", 5 ],
       [ "hickory_root", 3 ],
       [ "hickory_nut", 5 ],
       [ "one_year_old_newspaper", 2 ],
@@ -733,6 +737,7 @@
       [ "irradiated_lemon", 25 ],
       [ "pear", 50 ],
       [ "irradiated_pear", 25 ],
+      [ "juniper", 1 ],
       [ "grapefruit", 5 ],
       [ "irradiated_grapefruit", 2 ],
       [ "cherries", 10 ],
@@ -844,6 +849,7 @@
       [ "mask_hockey", 5 ],
       [ "hockey_stick", 10 ],
       [ "roller_blades", 20 ],
+      [ "roller_shoes_off", 10 ],
       [ "jersey", 40 ],
       [ "puck", 5 ],
       [ "baseball", 5 ],
@@ -923,8 +929,8 @@
       [ "lighter", 60 ],
       [ "ref_lighter", 2 ],
       [ "matches", 60 ],
-      [ "sewing_kit", 30 ],
-      [ "tailors_kit", 20 ],
+      [ "sewing_kit", 47 ],
+      [ "tailors_kit", 3 ],
       [ "thread", 40 ],
       [ "scissors", 50 ],
       [ "soldering_iron", 70 ],
@@ -1903,8 +1909,8 @@
       [ "towel", 40 ],
       [ "bottle_plastic", 10 ],
       [ "bottle_plastic_small", 5 ],
-      [ "sewing_kit", 30 ],
-      [ "tailors_kit", 20 ],
+      [ "sewing_kit", 47 ],
+      [ "tailors_kit", 3 ],
       [ "thread", 40 ],
       [ "rag", 1 ],
       [ "scissors", 50 ],
@@ -2078,6 +2084,8 @@
       [ "misc_repairkit", 5 ],
       [ "mess_kit", 10 ],
       [ "pot", 20 ],
+      [ "inflatable_boat", 25 ],
+      [ "hand_pump", 5 ],
       [ "pot_copper", 5 ],
       [ "bowl_pewter", 25 ],
       [ "teapot", 5 ],
@@ -2125,8 +2133,8 @@
       [ "lighter", 60 ],
       [ "ref_lighter", 10 ],
       [ "matches", 60 ],
-      [ "sewing_kit", 30 ],
-      [ "tailors_kit", 20 ],
+      [ "sewing_kit", 47 ],
+      [ "tailors_kit", 3 ],
       [ "thread", 40 ],
       [ "hammer", 35 ],
       [ "flashlight", 40 ],
@@ -2214,7 +2222,13 @@
       [ "l-stick", 1 ],
       [ "tourist_table", 30 ],
       [ "trailmap", 5 ],
-      [ "chem_hexamine", 5 ]
+      [ "chem_hexamine", 5 ],
+      [ "flint_steel", 10 ],
+      [ "bottle_metal", 5 ],
+      [ "tarp", 10 ],
+      [ "esbit_stove", 10 ],
+      [ "bottle_folding", 10 ],
+      [ "mess_tin", 10 ]
     ]
   },
   {
@@ -2228,6 +2242,8 @@
       [ "bat", 60 ],
       [ "bat_metal", 60 ],
       [ "boxing_gloves", 40 ],
+      [ "inflatable_boat", 35 ],
+      [ "hand_pump", 10 ],
       [ "baseball", 60 ],
       [ "football_armor", 10 ],
       [ "helmet_football", 10 ],
@@ -2334,8 +2350,8 @@
       [ "lighter", 60 ],
       [ "ref_lighter", 2 ],
       [ "matches", 60 ],
-      [ "sewing_kit", 30 ],
-      [ "tailors_kit", 20 ],
+      [ "sewing_kit", 47 ],
+      [ "tailors_kit", 3 ],
       [ "thread", 40 ],
       [ "hammer", 35 ],
       [ "flashlight", 40 ],
@@ -2429,7 +2445,13 @@
       [ "powered_earmuffs", 80 ],
       [ "bandolier_wrist", 100 ],
       [ "tourist_table", 20 ],
-      [ "chem_hexamine", 5 ]
+      [ "chem_hexamine", 5 ],
+      [ "flint_steel", 10 ],
+      [ "bottle_metal", 5 ],
+      [ "tarp", 10 ],
+      [ "esbit_stove", 10 ],
+      [ "bottle_folding", 5 ],
+      [ "mess_tin", 10 ]
     ]
   },
   {
@@ -2538,6 +2560,7 @@
       [ "seed_wheat", 5 ],
       [ "seed_tomato", 5 ],
       [ "seed_weed", 5 ],
+      [ "seed_flower", 5 ],
       [ "seed_tobacco", 1 ],
       [ "joint_roach", 5 ],
       [ "pipe", 20 ],
@@ -2580,6 +2603,8 @@
       [ "razor_blade", 10 ],
       [ "survnote", 5 ],
       [ "eclipse_glasses", 1 ],
+      [ "plastic_sheet", 5 ],
+      [ "box_medium", 5 ],
       [ "thermos", 30 ]
     ]
   },
@@ -2596,7 +2621,8 @@
       [ "wrapper", 30 ],
       [ "flyer", 15 ],
       [ "scorecard", 10 ],
-      [ "eclipse_glasses", 1 ]
+      [ "eclipse_glasses", 1 ],
+      [ "plastic_sheet", 5 ]
     ]
   },
   {
@@ -2623,6 +2649,7 @@
       [ "leathersandals", 10 ],
       [ "rollerskates", 1 ],
       [ "roller_blades", 5 ],
+      [ "roller_shoes_off", 1 ],
       [ "mocassins", 20 ]
     ]
   },
@@ -2834,6 +2861,7 @@
       [ "leathersandals", 100 ],
       [ "rollerskates", 10 ],
       [ "roller_blades", 20 ],
+      [ "roller_shoes_off", 10 ],
       [ "boots_rubber", 20 ],
       [ "clownshoes", 10 ],
       [ "mocassins", 40 ]
@@ -3105,7 +3133,9 @@
       [ "elec_hairtrimmer", 15 ],
       [ "razor_blade", 5 ],
       [ "kilt", 5 ],
-      [ "l-stick", 1 ]
+      [ "l-stick", 1 ],
+      [ "flint_steel", 5 ],
+      [ "bottle_metal", 5 ]
     ]
   },
   {
@@ -3835,6 +3865,7 @@
       [ "roller_blades", 20 ],
       [ "rollerskates", 10 ],
       [ "rollerskates", 10 ],
+      [ "roller_shoes_off", 10 ],
       [ "survnote", 3 ],
       [ "radio_car_box", 3 ],
       [ "radiocontrol", 10 ],
@@ -4061,6 +4092,8 @@
       [ "mag_fieldrepair", 50 ],
       [ "oxylamp", 50 ],
       [ "polisher", 6 ],
+      [ "inflatable_boat", 10 ],
+      [ "hand_pump", 10 ],
       [ "wakizashi_inferior", 30 ],
       [ "katana_inferior", 30 ],
       [ "zweihander_inferior", 30 ],
@@ -4316,6 +4349,7 @@
       [ "boots_hiking", 10 ],
       [ "roller_blades", 20 ],
       [ "rollerskates", 10 ],
+      [ "roller_shoes_off", 10 ],
       [ "runner_bag", 5 ],
       [ "gloves_tactical", 1 ],
       [ "glasses_bal", 5 ],
@@ -4453,6 +4487,8 @@
       [ "kukri", 2 ],
       [ "knife_hunting", 4 ],
       [ "knife_rambo", 20 ],
+      [ "inflatable_boat", 40 ],
+      [ "hand_pump", 40 ],
       [ "throwing_knife", 14 ],
       [ "throwing_axe", 4 ],
       [ "duffelbag", 25 ],
@@ -4527,7 +4563,10 @@
       [ "bootsheath", 10 ],
       [ "survnote", 1 ],
       [ "solarpack", 1 ],
-      [ "tourist_table", 5 ]
+      [ "tourist_table", 5 ],
+      [ "chem_hexamine", 5 ],
+      [ "esbit_stove", 10 ],
+      [ "mess_tin", 10 ]
     ]
   },
   {
@@ -4540,6 +4579,8 @@
       [ "soup_meat", 15 ],
       [ "soup_chicken", 15 ],
       [ "soup_mushroom", 15 ],
+      [ "inflatable_boat", 5 ],
+      [ "hand_pump", 5 ],
       [ "soup_tomato", 15 ],
       [ "soup_dumplings", 15 ],
       [ "curry_veggy", 15 ],
@@ -4621,8 +4662,8 @@
       [ "lighter", 60 ],
       [ "ref_lighter", 5 ],
       [ "matches", 60 ],
-      [ "sewing_kit", 30 ],
-      [ "tailors_kit", 20 ],
+      [ "sewing_kit", 47 ],
+      [ "tailors_kit", 3 ],
       [ "thread", 40 ],
       [ "hammer", 35 ],
       [ "extinguisher", 20 ],
@@ -4674,7 +4715,14 @@
       [ "holster", 4 ],
       [ "bandolier_shotgun", 3 ],
       [ "survnote", 2 ],
-      [ "bodypillow", 1 ]
+      [ "bodypillow", 1 ],
+      [ "flint_steel", 6 ],
+      [ "bottle_metal", 2 ],
+      [ "tarp", 15 ],
+      [ "chem_hexamine", 4 ],
+      [ "esbit_stove", 8 ],
+      [ "bottle_folding", 6 ],
+      [ "mess_tin", 8 ]
     ]
   },
   {
@@ -5056,6 +5104,8 @@
       [ "seed_carrot", 1 ],
       [ "seed_pumpkin", 1 ],
       [ "seed_sunflower", 1 ],
+      [ "seed_flower", 1 ],
+      [ "seed_cactus", 1 ],
       [ "seed_corn", 1 ],
       [ "soybean_seed", 1 ],
       [ "raw_edamame", 1 ],
@@ -5228,8 +5278,8 @@
       [ "lighter", 50 ],
       [ "ref_lighter", 4 ],
       [ "matches", 60 ],
-      [ "sewing_kit", 30 ],
-      [ "tailors_kit", 20 ],
+      [ "sewing_kit", 47 ],
+      [ "tailors_kit", 3 ],
       [ "thread", 40 ],
       [ "scissors", 50 ],
       [ "soldering_iron", 70 ],
@@ -5330,7 +5380,6 @@
       [ "bio_torsionratchet", 10 ],
       [ "bio_tools", 10 ],
       [ "bio_ups", 10 ],
-      [ "bio_storage", 10 ],
       [ "bio_flashlight", 10 ],
       [ "bio_tattoo_led", 10 ],
       [ "bio_lighter", 10 ],
@@ -5423,7 +5472,6 @@
     "items": [
       [ "bio_power_storage", 10 ],
       [ "bio_tools", 10 ],
-      [ "bio_storage", 10 ],
       [ "bio_flashlight", 10 ],
       [ "bio_tattoo_led", 10 ],
       [ "bio_lighter", 10 ],
@@ -5596,7 +5644,10 @@
       [ "holster", 15 ],
       [ "sholster", 10 ],
       [ "bandolier_shotgun", 8 ],
-      [ "solarpack", 5 ]
+      [ "solarpack", 5 ],
+      [ "chem_hexamine", 3 ],
+      [ "esbit_stove", 6 ],
+      [ "mess_tin", 4 ]
     ]
   },
   {
@@ -5995,6 +6046,8 @@
       [ "hose", 15 ],
       [ "water_faucet", 20 ],
       [ "screwdriver", 40 ],
+      [ "inflatable_boat", 10 ],
+      [ "hand_pump", 10 ],
       [ "wrench", 30 ],
       [ "pipe", 20 ],
       [ "boots", 70 ],
@@ -6012,7 +6065,6 @@
       [ "flashlight", 40 ],
       [ "water_purifier", 5 ],
       [ "bio_tools", 10 ],
-      [ "bio_storage", 10 ],
       [ "bio_flashlight", 10 ],
       [ "bio_lighter", 10 ],
       [ "bio_magnet", 10 ],
@@ -7010,7 +7062,10 @@
       [ "bot_manhack", 1 ],
       [ "bot_grenade_hack", 1 ],
       [ "l-stick", 1 ],
-      [ "solarpack", 2 ]
+      [ "solarpack", 2 ],
+      [ "chem_hexamine", 5 ],
+      [ "esbit_stove", 8 ],
+      [ "mess_tin", 4 ]
     ]
   },
   {
@@ -7991,6 +8046,9 @@
       [ "can_drink_unsealed", 2 ],
       [ "can_food_unsealed", 1 ],
       [ "box_small", 2 ],
+      [ "box_medium", 1 ],
+      [ "box_large", 1 ],
+      [ "plastic_sheet", 1 ],
       [ "jug_plastic", 1 ],
       [ "jar_glass", 2 ],
       [ "jar_3l_glass", 1 ],
@@ -8027,6 +8085,8 @@
       [ "game_watch", 15 ],
       [ "atomic_light", 1 ],
       [ "manual_dodge_kid", 5 ],
+      [ "inflatable_boat", 10 ],
+      [ "hand_pump", 15 ],
       [ "chocolate", 30 ],
       [ "candy", 45 ],
       [ "candy2", 45 ],
@@ -8288,6 +8348,8 @@
       [ "seed_zucchini", 60 ],
       [ "seed_cotton_boll", 10 ],
       [ "seed_tobacco", 10 ],
+      [ "seed_cactus", 10 ],
+      [ "seed_flower", 60 ],
       [ "seed_beans", 60 ],
       [ "seed_chili_pepper", 60 ],
       [ "seed_tomato", 60 ]
@@ -8344,7 +8406,9 @@
       [ "pointy_stick", 50 ],
       [ "copper_knife", 10 ],
       [ "copper_ax", 10 ],
-      [ "bone_flute", 10 ]
+      [ "bone_flute", 10 ],
+      [ "spear_stone", 50 ],
+      [ "hand_axe", 50 ]
     ]
   },
   {
@@ -8957,6 +9021,9 @@
       { "item": "paper", "prob": 50, "charges-min": 1, "charges-max": 15 },
       [ "wrapper", 35 ],
       [ "phonebook", 55 ],
+      [ "box_small", 55 ],
+      [ "box_medium", 35 ],
+      [ "box_large", 15 ],
       [ "one_year_old_newspaper", 45 ],
       [ "months_old_newspaper", 50 ],
       [ "weeks_old_newspaper", 50 ],
@@ -9516,8 +9583,8 @@
     "id": "sewing_group",
     "type": "item_group",
     "items": [
-      [ "sewing_kit", 5 ],
-      [ "tailors_kit", 5 ],
+      [ "sewing_kit", 1 ],
+      [ "tailors_kit", 9 ],
       [ "knitting_needles", 15 ],
       [ "kevlar_plate", 10 ],
       [ "leather", 10 ],

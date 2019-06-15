@@ -10,6 +10,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "creature_tracker.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
@@ -36,10 +37,15 @@
 const species_id ZOMBIE( "ZOMBIE" );
 
 const efftype_id effect_controlled( "controlled" );
+const efftype_id effect_harnessed( "harnessed" );
 const efftype_id effect_has_bag( "has_bag" );
 const efftype_id effect_milked( "milked" );
 const efftype_id effect_monster_armor( "monster_armor" );
 const efftype_id effect_tied( "tied" );
+const efftype_id effect_riding( "riding" );
+const efftype_id effect_ridden( "ridden" );
+const efftype_id effect_saddled( "monster_saddled" );
+const skill_id skill_survival( "survival" );
 
 bool monexamine::pet_menu( monster &z )
 {
@@ -51,10 +57,14 @@ bool monexamine::pet_menu( monster &z )
         drop_all,
         give_items,
         mon_armor_add,
+        mon_harness_remove,
         mon_armor_remove,
         play_with_pet,
         pheromone,
         milk,
+        attach_saddle,
+        remove_saddle,
+        mount,
         rope
     };
 
@@ -77,6 +87,9 @@ bool monexamine::pet_menu( monster &z )
     if( !z.has_effect( effect_has_bag ) ) {
         amenu.addentry( attach_bag, true, 'b', _( "Attach bag" ) );
     }
+    if( z.has_effect( effect_harnessed ) ) {
+        amenu.addentry( mon_harness_remove, true, 'H', _( "Remove vehicle harness from %s" ), pet_name );
+    }
     if( z.has_effect( effect_monster_armor ) ) {
         amenu.addentry( mon_armor_remove, true, 'a', _( "Remove armor from %s" ), pet_name );
     } else {
@@ -86,23 +99,49 @@ bool monexamine::pet_menu( monster &z )
         amenu.addentry( play_with_pet, true, 'y', _( "Play with %s" ), pet_name );
     }
     if( z.has_effect( effect_tied ) ) {
-        amenu.addentry( rope, true, 'r', _( "Untie" ) );
+        amenu.addentry( rope, true, 't', _( "Untie" ) );
     } else {
         if( g->u.has_amount( "rope_6", 1 ) ) {
-            amenu.addentry( rope, true, 'r', _( "Tie" ) );
+            amenu.addentry( rope, true, 't', _( "Tie" ) );
         } else {
-            amenu.addentry( rope, false, 'r', _( "You need a short rope to tie %s in place" ),
+            amenu.addentry( rope, false, 't', _( "You need a short rope to tie %s in place" ),
                             pet_name );
         }
     }
     if( is_zombie ) {
-        amenu.addentry( pheromone, true, 't', _( "Tear out pheromone ball" ) );
+        amenu.addentry( pheromone, true, 'z', _( "Tear out pheromone ball" ) );
     }
 
     if( z.has_flag( MF_MILKABLE ) ) {
         amenu.addentry( milk, true, 'm', _( "Milk %s" ), pet_name );
     }
-
+    if( z.has_flag( MF_PET_MOUNTABLE ) && !z.has_effect( effect_saddled ) &&
+        g->u.has_amount( "riding_saddle", 1 ) && g->u.get_skill_level( skill_survival ) >= 1 ) {
+        amenu.addentry( attach_saddle, true, 'h', _( "Attach a saddle to %s" ), pet_name );
+    } else if( z.has_flag( MF_PET_MOUNTABLE ) && z.has_effect( effect_saddled ) ) {
+        amenu.addentry( remove_saddle, true, 'h', _( "Remove the saddle from %s" ), pet_name );
+    } else if( z.has_flag( MF_PET_MOUNTABLE ) && !z.has_effect( effect_saddled ) &&
+               g->u.has_amount( "riding_saddle", 1 ) && g->u.get_skill_level( skill_survival ) < 1 ) {
+        amenu.addentry( remove_saddle, false, 'h', _( "You don't know how to saddle %s" ), pet_name );
+    }
+    if( z.has_flag( MF_PET_MOUNTABLE ) && ( ( z.has_effect( effect_saddled ) &&
+                                            g->u.get_skill_level( skill_survival ) >= 1 ) || g->u.get_skill_level( skill_survival ) >= 4 ) &&
+        z.get_size() >= ( g->u.get_size() + 1 ) && g->u.get_weight() <= z.get_weight() / 5 ) {
+        amenu.addentry( mount, true, 'r', _( "Mount %s" ), pet_name );
+    } else if( !z.has_flag( MF_PET_MOUNTABLE ) ) {
+        amenu.addentry( mount, false, 'r', _( "%s cannot be mounted" ), pet_name );
+    } else if( z.get_size() <= g->u.get_size() ) {
+        amenu.addentry( mount, false, 'r', _( "%s is too small to carry your weight" ), pet_name );
+    } else if( g->u.get_skill_level( skill_survival ) < 1 ) {
+        amenu.addentry( mount, false, 'r', _( "You have no knowledge of riding at all" ) );
+    } else if( g->u.get_weight() >= z.get_weight() / 5 ) {
+        amenu.addentry( mount, false, 'r', _( "You are too heavy to mount %s" ), pet_name );
+    } else if( !z.has_effect( effect_saddled ) && g->u.get_skill_level( skill_survival ) < 4 ) {
+        amenu.addentry( mount, false, 'r', _( "You are not skilled enough to ride without a saddle" ) );
+    } else if( z.has_effect( effect_saddled ) && g->u.get_skill_level( skill_survival ) < 1 ) {
+        amenu.addentry( mount, false, 'r', _( "Despite the saddle, you still don't know how to ride %s" ),
+                        pet_name );
+    }
     amenu.query();
     int choice = amenu.ret;
 
@@ -126,6 +165,9 @@ bool monexamine::pet_menu( monster &z )
             return give_items_to( z );
         case mon_armor_add:
             return add_armor( z );
+        case mon_harness_remove:
+            remove_harness( z );
+            break;
         case mon_armor_remove:
             remove_armor( z );
             break;
@@ -141,6 +183,13 @@ bool monexamine::pet_menu( monster &z )
             break;
         case rope:
             tie_or_untie( z );
+            break;
+        case attach_saddle:
+        case remove_saddle:
+            attach_or_remove_saddle( z );
+            break;
+        case mount:
+            mount_pet( z );
             break;
         case milk:
             milk_source( z );
@@ -159,6 +208,51 @@ int monexamine::pet_armor_pos( monster &z )
                z.get_volume() <= it.get_pet_armor_max_vol();
     } );
     return pos;
+}
+
+void monexamine::attach_or_remove_saddle( monster &z )
+{
+    if( z.has_effect( effect_saddled ) ) {
+        z.remove_effect( effect_saddled );
+        item riding_saddle( "riding_saddle", 0 );
+        g->u.i_add( riding_saddle );
+    } else {
+        z.add_effect( effect_saddled, 1_turns, num_bp, true );
+        g->u.use_amount( "riding_saddle", 1 );
+    }
+}
+
+void monexamine::mount_pet( monster &z )
+{
+    g->u.add_effect( effect_riding, 1_turns, num_bp, true );
+    z.add_effect( effect_ridden, 1_turns, num_bp, true );
+    if( z.has_effect( effect_tied ) ) {
+        z.remove_effect( effect_tied );
+        item rope_6( "rope_6", 0 );
+        g->u.i_add( rope_6 );
+    }
+    if( z.has_effect( effect_harnessed ) ) {
+        z.remove_effect( effect_harnessed );
+        add_msg( m_info, _( "You remove the %s's harness." ), z.get_name() );
+    }
+    tripoint pnt = z.pos();
+    auto mons = g->critter_tracker->find( pnt );
+    if( mons == nullptr ) {
+        add_msg( m_debug, "mount_pet() : monster not found in critter_tracker" );
+        return;
+    }
+    g->u.mounted_creature = mons;
+    if( g->u.is_hauling() ) {
+        g->u.stop_hauling();
+    }
+    if( g->u.get_grab_type() != OBJECT_NONE ) {
+        add_msg( m_warning, _( "You let go of the grabbed object." ) );
+        g->u.grab( OBJECT_NONE );
+    }
+    g->place_player( pnt );
+    z.facing = g->u.facing;
+    add_msg( m_good, _( "You mount your steed." ) );
+    g->u.mod_moves( -100 );
 }
 
 void monexamine::swap( monster &z )
@@ -350,6 +444,12 @@ bool monexamine::add_armor( monster &z )
     z.add_effect( effect_monster_armor, 1_turns, num_bp, true );
     g->u.moves -= 200;
     return true;
+}
+
+void monexamine::remove_harness( monster &z )
+{
+    z.remove_effect( effect_harnessed );
+    add_msg( m_info, _( "You unhitch %s from the vehicle." ), z.get_name() );
 }
 
 void monexamine::remove_armor( monster &z )

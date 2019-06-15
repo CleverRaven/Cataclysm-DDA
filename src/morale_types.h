@@ -14,11 +14,11 @@ struct itype;
 class morale_type_data
 {
     private:
-        bool permanent;
+        bool permanent = false;
         // Translated, may contain '%s' format string
         std::string text;
         // If true, this morale type needs an item paired with every instance
-        bool needs_item;
+        bool needs_item = false;
     public:
         morale_type id;
         bool was_loaded = false;

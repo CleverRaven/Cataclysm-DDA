@@ -74,7 +74,7 @@ static const trait_id trait_BURROW( "BURROW" );
 static bool crafting_allowed( const player &p, const recipe &rec )
 {
     if( p.morale_crafting_speed_multiplier( rec ) <= 0.0f ) {
-        add_msg( m_info, _( "Your morale is too low to craft..." ) );
+        add_msg( m_info, _( "Your morale is too low to craft such a difficult thing..." ) );
         return false;
     }
 
@@ -570,6 +570,9 @@ static void finalize_crafted_item( item &newit )
     if( newit.is_food() ) {
         set_item_food( newit );
     }
+    // TODO for now this assumes player is doing the crafting
+    // this will need to be updated when NPCs do crafting
+    newit.set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
 }
 
 static cata::optional<item_location> wield_craft( player &p, item &craft )
@@ -991,13 +994,13 @@ void item::handle_craft_failure( player &crafter )
     }
 }
 
-requirement_data item::get_continue_reqs()
+requirement_data item::get_continue_reqs() const
 {
     if( !is_craft() ) {
         debugmsg( "get_continue_reqs() called on non-craft '%s.'  Aborting.", tname() );
         return requirement_data();
     }
-    return making->requirements().continue_requirements( *this );
+    return requirement_data::continue_requirements( comps_used, components );
 }
 
 void player::complete_craft( item &craft, const tripoint &loc )
@@ -1162,15 +1165,6 @@ bool player::can_continue_craft( item &craft )
     }
 
     const recipe &rec = craft.get_making();
-    if( has_recipe( &rec, crafting_inventory(), get_crafting_helpers() ) == -1 ) {
-        add_msg_player_or_npc(
-            string_format( _( "You don't know the recipe for the %s and can't continue crafting." ),
-                           rec.result_name() ),
-            string_format( _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
-                           rec.result_name() )
-        );
-        return false;
-    }
 
     const requirement_data continue_reqs = craft.get_continue_reqs();
 
@@ -1178,7 +1172,8 @@ bool player::can_continue_craft( item &craft )
     if( !continue_reqs.is_empty() ) {
 
         const std::function<bool( const item & )> filter = rec.get_component_filter();
-        const int batch_size = craft.charges;
+        // continue_reqs are for all batches at once
+        const int batch_size = 1;
 
         if( !continue_reqs.can_make_with_inventory( crafting_inventory(), filter, batch_size ) ) {
             std::ostringstream buffer;
@@ -1938,7 +1933,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
 
             // If the recipe has a `FULL_MAGAZINE` flag, spawn any magazines full of ammo
             if( newit.is_magazine() && dis.has_flag( "FULL_MAGAZINE" ) ) {
-                newit.ammo_set( newit.type->magazine->type.obj().default_ammotype(), newit.ammo_capacity() );
+                newit.ammo_set( newit.ammo_default(), newit.ammo_capacity() );
             }
 
             for( ; compcount > 0; compcount-- ) {
@@ -2053,10 +2048,10 @@ void remove_ammo( item &dis_item, player &p )
         drop_or_handle( ammodrop, p );
         dis_item.charges = 0;
     }
-    if( dis_item.is_tool() && dis_item.charges > 0 && dis_item.ammo_type() ) {
-        item ammodrop( dis_item.ammo_type()->default_ammotype(), calendar::turn );
+    if( dis_item.is_tool() && dis_item.charges > 0 && dis_item.ammo_current() != "null" ) {
+        item ammodrop( dis_item.ammo_current(), calendar::turn );
         ammodrop.charges = dis_item.charges;
-        if( dis_item.ammo_type() == ammotype( "plutonium" ) ) {
+        if( dis_item.ammo_current() == "plutonium" ) {
             ammodrop.charges /= PLUTONIUM_CHARGES;
         }
         drop_or_handle( ammodrop, p );

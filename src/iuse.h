@@ -133,6 +133,7 @@ class iuse
         int shocktonfa_on( player *, item *, bool, const tripoint & );
         int mp3( player *, item *, bool, const tripoint & );
         int mp3_on( player *, item *, bool, const tripoint & );
+        int rpgdie( player *, item *, bool, const tripoint & );
         int dive_tank( player *, item *, bool, const tripoint & );
         int gasmask( player *, item *, bool, const tripoint & );
         int portable_game( player *, item *, bool, const tripoint & );
@@ -141,6 +142,7 @@ class iuse
         int vortex( player *, item *, bool, const tripoint & );
         int dog_whistle( player *, item *, bool, const tripoint & );
         int blood_draw( player *, item *, bool, const tripoint & );
+        int mind_splicer( player *, item *, bool, const tripoint & );
         static void cut_log_into_planks( player & );
         int lumber( player *, item *, bool, const tripoint & );
         int chop_tree( player *, item *, bool, const tripoint & );

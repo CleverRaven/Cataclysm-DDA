@@ -9,6 +9,7 @@
 #include <tuple>
 #include <type_traits>
 
+#include "action.h"
 #include "activity_handlers.h"
 #include "avatar.h"
 #include "debug.h"
@@ -56,7 +57,8 @@ static const fault_id fault_glowplug( "fault_engine_glow_plug" );
 static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
 static const fault_id fault_pump( "fault_engine_pump_fuel" );
 static const fault_id fault_starter( "fault_engine_starter" );
-
+const efftype_id effect_harnessed( "harnessed" );
+const efftype_id effect_tied( "tied" );
 const skill_id skill_mechanics( "mechanics" );
 
 enum change_types : int {
@@ -227,6 +229,7 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
     add_toggle( _( "fridge" ), keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
     add_toggle( _( "freezer" ), keybind( "TOGGLE_FREEZER" ), "FREEZER" );
     add_toggle( _( "space heater" ), keybind( "TOGGLE_SPACE_HEATER" ), "SPACE_HEATER" );
+    add_toggle( _( "cooler" ), keybind( "TOGGLE_COOLER" ), "COOLER" );
     add_toggle( _( "recharger" ), keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
     add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
     add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
@@ -819,17 +822,17 @@ bool vehicle::start_engine( const int e )
             if( einfo.has_flag( "MUSCLE_ARMS" ) && ( g->u.hp_cur[hp_arm_l] == 0 ||
                     g->u.hp_cur[hp_arm_r] == 0 ) ) {
                 add_msg( _( "You cannot use %s with a broken arm." ), eng.name() );
+                return false;
             } else if( einfo.has_flag( "MUSCLE_LEGS" ) && ( g->u.hp_cur[hp_leg_l] == 0 ||
                        g->u.hp_cur[hp_leg_r] == 0 ) ) {
                 add_msg( _( "You cannot use %s with a broken leg." ), eng.name() );
-            } else {
-                add_msg( _( "The %s's mechanism is out of reach!" ), name );
+                return false;
             }
         } else {
             add_msg( _( "Looks like the %1$s is out of %2$s." ), eng.name(),
                      item::nname( einfo.fuel_type ) );
+            return false;
         }
-        return false;
     }
 
     const double dmg = parts[engines[e]].damage_percent();
@@ -1394,6 +1397,41 @@ void vehicle::use_monster_capture( int part, const tripoint &pos )
     invalidate_mass();
 }
 
+void vehicle::use_harness( int part, const tripoint &pos )
+{
+    if( parts[part].is_unavailable() || parts[part].removed ) {
+        add_msg( "is unavailable" );
+        return;
+    }
+    const cata::optional<tripoint> target_ = choose_adjacent(
+                _( "Where is the creature to harness?" ) );
+    const tripoint target = *target_;
+    if( monster *mon_ptr = g->critter_at<monster>( target ) ) {
+        if( mon_ptr != nullptr ) {
+            monster &f = *mon_ptr;
+            if( f.friendly != 0 && f.has_flag( MF_PET_MOUNTABLE ) && g->is_empty( pos ) ) {
+                f.add_effect( effect_harnessed, 1_turns, num_bp, true );
+                f.setpos( pos );
+                add_msg( m_info, _( "You harness your %s to the %s." ), f.get_name(), name );
+                if( f.has_effect( effect_tied ) ) {
+                    add_msg( m_info, _( "You untie your %s." ), f.get_name() );
+                    f.remove_effect( effect_tied );
+                    item rope_6( "rope_6", 0 );
+                    g->u.i_add( rope_6 );
+                }
+            } else if( f.friendly == 0 ) {
+                add_msg( m_info, _( "This creature is not friendly!" ) );
+            } else if( !f.has_flag( MF_PET_MOUNTABLE ) ) {
+                add_msg( m_info, _( "This creature cannot be harnessed." ) );
+            } else if( !g->is_empty( pos ) ) {
+                add_msg( m_info, _( "The harness is blocked." ) );
+            }
+        } else {
+            add_msg( m_info, _( "No creature there." ) );
+        }
+    }
+}
+
 void vehicle::use_bike_rack( int part )
 {
     if( parts[part].is_unavailable() || parts[part].removed ) {
@@ -1483,6 +1521,8 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
                                      true );
     const bool has_monster_capture = monster_capture_part >= 0;
     const int bike_rack_part = avail_part_with_feature( interact_part, "BIKE_RACK_VEH", true );
+    const int harness_part = avail_part_with_feature( interact_part, "ANIMAL_CTRL", true );
+    const bool has_harness = harness_part >= 0;
     const bool has_bike_rack = bike_rack_part >= 0;
     const bool has_planter = avail_part_with_feature( interact_part, "PLANTER", true ) >= 0 ||
                              avail_part_with_feature( interact_part, "ADVANCED_PLANTER", true ) >= 0;
@@ -1492,7 +1532,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     enum {
         EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
         USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE, USE_MONSTER_CAPTURE,
-        USE_BIKE_RACK, RELOAD_PLANTER, WORKBENCH
+        USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, WORKBENCH
     };
     uilist selectmenu;
 
@@ -1548,6 +1588,9 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     if( has_bike_rack ) {
         selectmenu.addentry( USE_BIKE_RACK, true, 'R', _( "Load or unload a vehicle" ) );
     }
+    if( has_harness ) {
+        selectmenu.addentry( USE_HARNESS, true, 'H', _( "Harness an animal" ) );
+    }
     if( has_planter ) {
         selectmenu.addentry( RELOAD_PLANTER, true, 's', _( "Reload seed drill with seeds" ) );
     }
@@ -1581,6 +1624,10 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     switch( choice ) {
         case USE_BIKE_RACK: {
             use_bike_rack( bike_rack_part );
+            return;
+        }
+        case USE_HARNESS: {
+            use_harness( harness_part, pos );
             return;
         }
         case USE_MONSTER_CAPTURE: {

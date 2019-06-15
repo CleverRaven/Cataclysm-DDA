@@ -3,7 +3,9 @@
 #define MAGIC_H
 
 #include <map>
+#include <set>
 
+#include "bodypart.h"
 #include "damage.h"
 #include "enum_bitset.h"
 #include "type_id.h"
@@ -112,6 +114,10 @@ class spell_type
 
         // base energy cost of spell
         int base_energy_cost;
+        // increment of energy cost per spell level
+        float energy_increment;
+        // max or min energy cost, based on sign of energy_increment
+        int final_energy_cost;
 
         // spell is restricted to being cast by only this class
         // if spell_class is empty, spell is unrestricted
@@ -125,6 +131,10 @@ class spell_type
 
         // base amount of time to cast the spell in moves
         int base_casting_time;
+        // increment of casting time per level
+        float casting_time_increment;
+        // max or min casting time
+        int final_casting_time;
 
         // what energy do you use to cast this spell
         energy_type energy_source;
@@ -133,6 +143,9 @@ class spell_type
 
         // list of valid targets enum
         enum_bitset<valid_target> valid_targets;
+
+        // lits of bodyparts this spell applies its effect to
+        enum_bitset<body_part> affected_bps;
 
         static void load_spell( JsonObject &jo, const std::string &src );
         void load( JsonObject &jo, const std::string & );
@@ -206,6 +219,8 @@ class spell
         bool can_learn( const player &p ) const;
         // is this spell valid
         bool is_valid() const;
+        // is the bodypart affected by the effect
+        bool bp_is_affected( body_part bp ) const;
 
         // get spell id (from type)
         spell_id id() const;
@@ -223,10 +238,13 @@ class spell
         std::string energy_cost_string( const player &p ) const;
         // current energy the player has available as a string
         std::string energy_cur_string( const player &p ) const;
+        // prints out a list of valid targets separated by commas
+        std::string enumerate_targets() const;
         // energy source enum
         energy_type energy_source() const;
         // the color that's representative of the damage type
         nc_color damage_type_color() const;
+        std::string damage_type_string() const;
         // your level in this spell
         int get_level() const;
         // difficulty of the level
@@ -245,28 +263,36 @@ class known_magic
     private:
         // list of spells known
         std::map<spell_id, spell> spellbook;
+        // invlets assigned to spell_id
+        std::map<spell_id, int> invlets;
         // the base mana a player would start with
         int mana_base;
         // current mana
         int mana;
     public:
+        // ignores all distractions when casting a spell when true
+        bool casting_ignore = false;
+
         known_magic();
 
         void learn_spell( const std::string &sp, player &p, bool force = false );
-        void learn_spell( spell_id sp, player &p, bool force = false );
+        void learn_spell( const spell_id &sp, player &p, bool force = false );
         void learn_spell( const spell_type *sp, player &p, bool force = false );
         void forget_spell( const std::string &sp );
-        void forget_spell( spell_id sp );
+        void forget_spell( const spell_id &sp );
         // time in moves for the player to memorize the spell
-        int time_to_learn_spell( const player &p, spell_id sp ) const;
+        int time_to_learn_spell( const player &p, const spell_id &sp ) const;
         int time_to_learn_spell( const player &p, const std::string &str ) const;
-        bool can_learn_spell( const player &p, spell_id sp ) const;
+        bool can_learn_spell( const player &p, const spell_id &sp ) const;
         bool knows_spell( const std::string &sp ) const;
-        bool knows_spell( spell_id sp ) const;
+        bool knows_spell( const spell_id &sp ) const;
         // spells known by player
         std::vector<spell_id> spells() const;
         // gets the spell associated with the spell_id to be edited
-        spell &get_spell( spell_id sp );
+        spell &get_spell( const spell_id &sp );
+        // opens up a ui that the player can choose a spell from
+        // returns the index of the spell in the vector of spells
+        int select_spell( const player &p );
         // get all known spells
         std::vector<spell *> get_spells();
         // how much mana is available to use to cast spells
@@ -282,18 +308,34 @@ class known_magic
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
+    private:
+        // gets length of longest spell name
+        size_t get_spellname_max_width();
+        // gets invlet if assigned, or -1 if not
+        int get_invlet( const spell_id &sp, std::set<int> &used_invlets );
 };
 
 namespace spell_effect
 {
 void teleport( int min_distance, int max_distance );
 void pain_split(); // only does g->u
-void shallow_pit( const tripoint &target );
-void target_attack( spell &sp, const tripoint &source, const tripoint &target );
-void projectile_attack( spell &sp, const tripoint &source, const tripoint &target );
-void cone_attack( spell &sp, const tripoint &source, const tripoint &target );
-void line_attack( spell &sp, const tripoint &source, const tripoint &target );
+void move_earth( const tripoint &target );
+void target_attack( const spell &sp, const tripoint &source, const tripoint &target );
+void projectile_attack( const spell &sp, const tripoint &source, const tripoint &target );
+void cone_attack( const spell &sp, const tripoint &source, const tripoint &target );
+void line_attack( const spell &sp, const tripoint &source, const tripoint &target );
+
+std::set<tripoint> spell_effect_blast( const spell &, const tripoint &, const tripoint &target,
+                                       const int aoe_radius, const bool ignore_walls );
+std::set<tripoint> spell_effect_cone( const spell &sp, const tripoint &source,
+                                      const tripoint &target,
+                                      const int aoe_radius, const bool ignore_walls );
+std::set<tripoint> spell_effect_line( const spell &, const tripoint &source,
+                                      const tripoint &target,
+                                      const int aoe_radius, const bool ignore_walls );
+
 void spawn_ethereal_item( spell &sp );
+void recover_energy( spell &sp, const tripoint &target );
 }
 
 #endif

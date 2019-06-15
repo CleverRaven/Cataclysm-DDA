@@ -63,13 +63,14 @@
 #include "vpart_position.h"
 #include "rng.h"
 #include "signal.h"
+#include "magic.h"
 
 #if defined(TILES)
 #include "sdl_wrappers.h"
 #endif
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
+#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+const efftype_id effect_riding( "riding" );
 namespace debug_menu
 {
 
@@ -116,6 +117,11 @@ enum debug_menu_index {
     DEBUG_TEST_WEATHER,
     DEBUG_SAVE_SCREENSHOT,
     DEBUG_GAME_REPORT,
+    DEBUG_DISPLAY_SCENTS_LOCAL,
+    DEBUG_DISPLAY_TEMP,
+    DEBUG_DISPLAY_VISIBILITY,
+    DEBUG_LEARN_SPELLS,
+    DEBUG_LEVEL_SPELLS
 };
 
 class mission_debug
@@ -133,7 +139,7 @@ class mission_debug
 
 static int player_uilist()
 {
-    const std::vector<uilist_entry> uilist_initializer = {
+    std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( DEBUG_MUTATE, true, 'M', _( "Mutate" ) ) },
         { uilist_entry( DEBUG_CHANGE_SKILLS, true, 's', _( "Change all skills" ) ) },
         { uilist_entry( DEBUG_LEARN_MA, true, 'l', _( "Learn all melee styles" ) ) },
@@ -142,6 +148,12 @@ static int player_uilist()
         { uilist_entry( DEBUG_DAMAGE_SELF, true, 'd', _( "Damage self" ) ) },
         { uilist_entry( DEBUG_SET_AUTOMOVE, true, 'a', _( "Set automove route" ) ) },
     };
+    if( !spell_type::get_all().empty() ) {
+        uilist_initializer.emplace_back( uilist_entry( DEBUG_LEARN_SPELLS, true, 'S',
+                                         _( "Learn all spells" ) ) );
+        uilist_initializer.emplace_back( uilist_entry( DEBUG_LEVEL_SPELLS, true, 'L',
+                                         _( "Level a spell" ) ) );
+    }
 
     return uilist( _( "Player..." ), uilist_initializer );
 }
@@ -159,9 +171,12 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_GAME_STATE, true, 'g', _( "Check game state" ) ) },
             { uilist_entry( DEBUG_DISPLAY_HORDES, true, 'h', _( "Display hordes" ) ) },
             { uilist_entry( DEBUG_TEST_IT_GROUP, true, 'i', _( "Test item group" ) ) },
-            { uilist_entry( DEBUG_SHOW_SOUND, true, 's', _( "Show sound clustering" ) ) },
+            { uilist_entry( DEBUG_SHOW_SOUND, true, 'c', _( "Show sound clustering" ) ) },
             { uilist_entry( DEBUG_DISPLAY_WEATHER, true, 'w', _( "Display weather" ) ) },
             { uilist_entry( DEBUG_DISPLAY_SCENTS, true, 'S', _( "Display overmap scents" ) ) },
+            { uilist_entry( DEBUG_DISPLAY_SCENTS_LOCAL, true, 's', _( "Toggle display local scents" ) ) },
+            { uilist_entry( DEBUG_DISPLAY_TEMP, true, 'T', _( "Toggle display temperature" ) ) },
+            { uilist_entry( DEBUG_DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
             { uilist_entry( DEBUG_SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ) },
             { uilist_entry( DEBUG_BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ) },
             { uilist_entry( DEBUG_TRAIT_GROUP, true, 't', _( "Test trait group" ) ) },
@@ -354,6 +369,7 @@ void character_edit_menu()
         data << np->myclass.obj().get_name() << "; " <<
              npc_attitude_name( np->get_attitude() ) << "; " <<
              ( np->my_fac ? np->my_fac->name : _( "no faction" ) ) << "; " <<
+             ( np->my_fac ? np->my_fac->currency : _( "no currency" ) ) << "; " <<
              "api: " << np->get_faction_ver() << std::endl;
         if( np->has_destination() ) {
             data << string_format( _( "Destination: %d:%d:%d (%s)" ),
@@ -671,6 +687,9 @@ void character_edit_menu()
             if( const cata::optional<tripoint> newpos = g->look_around() ) {
                 p.setpos( *newpos );
                 if( p.is_player() ) {
+                    if( p.has_effect( effect_riding ) && p.mounted_creature ) {
+                        p.mounted_creature.get()->setpos( *newpos );
+                    }
                     g->update_map( g->u );
                 }
             }
@@ -968,6 +987,7 @@ void debug()
             temp->mission = NPC_MISSION_NULL;
             temp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, temp->global_omt_location(),
                                    temp->getID() ) );
+            temp->set_fac( faction_id( "wasteland_scavengers" ) );
             g->load_npcs();
         }
         break;
@@ -1107,7 +1127,7 @@ void debug()
                                    _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
             for( int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++ ) {
                 weather_menu.addentry( weather_id, true, MENU_AUTOASSIGN,
-                                       weather_data( static_cast<weather_type>( weather_id ) ).name );
+                                       weather::name( static_cast<weather_type>( weather_id ) ) );
             }
 
             weather_menu.query();
@@ -1219,6 +1239,48 @@ void debug()
             case DEBUG_DISPLAY_SCENTS:
                 ui::omap::display_scents();
                 break;
+            case DEBUG_DISPLAY_SCENTS_LOCAL:
+                g->displaying_temperature = false;
+                g->displaying_visibility = false;
+                g->displaying_scent = !g->displaying_scent;
+                break;
+            case DEBUG_DISPLAY_TEMP:
+                g->displaying_scent = false;
+                g->displaying_visibility = false;
+                g->displaying_temperature = !g->displaying_temperature;
+                break;
+            case DEBUG_DISPLAY_VISIBILITY: {
+                g->displaying_scent = false;
+                g->displaying_temperature = false;
+                g->displaying_visibility = !g->displaying_visibility;
+                if( g->displaying_visibility ) {
+                    std::vector< tripoint > locations;
+                    uilist creature_menu;
+                    int num_creatures = 0;
+                    creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
+                    locations.emplace_back( g->u.pos() ); // add player first.
+                    for( const Creature &critter : g->all_creatures() ) {
+                        if( critter.is_player() ) {
+                            continue;
+                        }
+                        creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, critter.disp_name() );
+                        locations.emplace_back( critter.pos() );
+                    }
+
+                    pointmenu_cb callback( locations );
+                    creature_menu.callback = &callback;
+                    creature_menu.w_y = 0;
+                    creature_menu.query();
+                    if( ( creature_menu.ret >= 0 ) &&
+                        ( static_cast<size_t>( creature_menu.ret ) < locations.size() ) ) {
+                        Creature *creature = g->critter_at<Creature>( locations[creature_menu.ret] );
+                        g->displaying_visibility_creature = creature;
+                    }
+                } else {
+                    g->displaying_visibility_creature = nullptr;
+                }
+            }
+            break;
             case DEBUG_CHANGE_TIME: {
                 auto set_turn = [&]( const int initial, const int factor, const char *const msg ) {
                     const auto text = string_input_popup()
@@ -1324,16 +1386,14 @@ void debug()
                 raise( SIGSEGV );
                 break;
             case DEBUG_MAP_EXTRA: {
-                oter_id terrain_type = overmap_buffer.ter( g->u.global_omt_location() );
-
-                map_extras ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
+                std::unordered_map<std::string, map_special_pointer> FM = MapExtras::all_functions();
                 uilist mx_menu;
                 std::vector<std::string> mx_str;
-                for( auto &extra : ex.values ) {
-                    mx_menu.addentry( -1, true, -1, extra.obj );
-                    mx_str.push_back( extra.obj );
+                for( auto &extra : FM ) {
+                    mx_menu.addentry( -1, true, -1, extra.first );
+                    mx_str.push_back( extra.first );
                 }
-                mx_menu.query( false );
+                mx_menu.query();
                 int mx_choice = mx_menu.ret;
                 if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
                     auto func = MapExtras::get_function( mx_str[mx_choice] );
@@ -1410,7 +1470,55 @@ void debug()
 #endif
                 popup( popup_msg );
             }
+                                    break;
+            case DEBUG_LEARN_SPELLS:
+                if ( spell_type::get_all().empty() ) {
+                    add_msg( m_bad, _( "There are no spells to learn.  You must install a mod that adds some." ) );
+                }
+                else {
+                    for ( const spell_type &learn : spell_type::get_all() ) {
+                        g->u.magic.learn_spell( &learn, g->u, true );
+                    }
+                    add_msg( m_good, _( "You have become an Archwizardpriest!  What will you do with your newfound power?" ) );
+                }
                 break;
+            case DEBUG_LEVEL_SPELLS: {
+                std::vector<spell *> spells = g->u.magic.get_spells();
+                if( spells.empty() ) {
+                    add_msg( m_bad, _( "Try learning some spells first." ) );
+                    return;
+                }
+                std::vector<uilist_entry> uiles;
+                {
+                    uilist_entry uile( _( "Spell" ) );
+                    uile.ctxt = string_format( "%3s %3s", _( "LVL" ), _( "MAX" ) );
+                    uile.enabled = false;
+                    uile.force_color = c_light_blue;
+                    uiles.emplace_back( uile );
+                }
+                int retval = 0;
+                for( spell *sp : spells ) {
+                    uilist_entry uile( sp->name() );
+                    uile.ctxt = string_format( "%3d %3d", sp->get_level(), sp->get_max_level() );
+                    uile.retval = retval++;
+                    uile.enabled = !sp->is_max_level();
+                    uiles.emplace_back( uile );
+                }
+                int action = uilist( _( "Debug level spell:" ), uiles );
+                if( action < 0 ) {
+                    return;
+                }
+                int desired_level = 0;
+                int cur_level = spells[action]->get_level();
+                query_int( desired_level, _( "Desired Spell Level: (Current %d)" ), cur_level );
+                desired_level = std::min( desired_level, spells[action]->get_max_level() );
+                while( cur_level < desired_level ) {
+                    spells[action]->gain_level();
+                    cur_level = spells[action]->get_level();
+                }
+                add_msg( m_good, _( "%s is now level %d!" ), spells[action]->name(), spells[action]->get_level() );
+                break;
+            }
         }
         catacurses::erase();
         m.invalidate_map_cache( g->get_levz() );

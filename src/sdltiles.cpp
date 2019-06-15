@@ -78,7 +78,7 @@
 #include "inventory.h"
 #endif
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 //***********************************
 //Globals                           *
@@ -175,7 +175,7 @@ class BitmapFont : public Font
         ~BitmapFont() override = default;
 
         void OutputChar( const std::string &ch, int x, int y, unsigned char color ) override;
-        void OutputChar( long t, int x, int y, unsigned char color );
+        void OutputChar( int t, int x, int y, unsigned char color );
         void draw_ascii_lines( unsigned char line_id, int drawx, int drawy, int FG ) const override;
     protected:
         std::array<SDL_Texture_Ptr, color_loader<SDL_Color>::COLOR_NAMES_COUNT> ascii;
@@ -540,16 +540,21 @@ static void WinDestroy()
     ::window.reset();
 }
 
-inline void FillRectDIB( SDL_Rect &rect, unsigned char color )
+inline void FillRectDIB_SDLColor( const SDL_Rect &rect, const SDL_Color &color )
 {
     if( alt_rect_tex_enabled ) {
-        draw_alt_rect( renderer, rect, windowsPalette[color].r, windowsPalette[color].g,
-                       windowsPalette[color].b );
+        draw_alt_rect( renderer, rect, color.r, color.g, color.b );
     } else {
-        SetRenderDrawColor( renderer, windowsPalette[color].r, windowsPalette[color].g,
-                            windowsPalette[color].b, 255 );
+        SetRenderDrawColor( renderer, color.r, color.g, color.b, color.a );
         RenderFillRect( renderer, &rect );
     }
+}
+
+inline void FillRectDIB( const SDL_Rect &rect, const unsigned char color,
+                         const unsigned char alpha = 255 )
+{
+    const SDL_Color sdl_color = { windowsPalette[color].r, windowsPalette[color].g, windowsPalette[color].b, alpha };
+    FillRectDIB_SDLColor( rect, sdl_color );
 }
 
 //The following 3 methods use mem functions for fast drawing
@@ -579,6 +584,13 @@ inline void FillRectDIB( int x, int y, int width, int height, unsigned char colo
     rect.w = width;
     rect.h = height;
     FillRectDIB( rect, color );
+}
+
+inline void fill_rect_xywh_color( const int x, const int y, const int width, const int height,
+                                  const SDL_Color &color )
+{
+    const SDL_Rect rect = { x, y, width, height };
+    FillRectDIB_SDLColor( rect, color );
 }
 
 SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int color )
@@ -667,11 +679,11 @@ void CachedTTFFont::OutputChar( const std::string &ch, const int x, const int y,
 
 void BitmapFont::OutputChar( const std::string &ch, int x, int y, unsigned char color )
 {
-    const long t = UTF8_getch( ch );
+    const int t = UTF8_getch( ch );
     BitmapFont::OutputChar( t, x, y, color );
 }
 
-void BitmapFont::OutputChar( long t, int x, int y, unsigned char color )
+void BitmapFont::OutputChar( int t, int x, int y, unsigned char color )
 {
     if( t > 256 ) {
         return;
@@ -1004,6 +1016,9 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
     WINDOW *const win = w.get<WINDOW>();
     bool update = false;
     if( g && w == g->w_terrain && use_tiles ) {
+        // color blocks overlay; drawn on top of tiles and on top of overlay strings (if any).
+        color_block_overlay_container color_blocks;
+
         // Strings with colors do be drawn with map_font on top of tiles.
         std::multimap<point, formatted_text> overlay_strings;
 
@@ -1015,8 +1030,22 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             tripoint( g->ter_view_x, g->ter_view_y, g->ter_view_z ),
             TERRAIN_WINDOW_TERM_WIDTH * font->fontwidth,
             TERRAIN_WINDOW_TERM_HEIGHT * font->fontheight,
-            overlay_strings );
+            overlay_strings,
+            color_blocks );
 
+        // color blocks overlay
+        if( !color_blocks.second.empty() ) {
+            SDL_BlendMode blend_mode;
+            GetRenderDrawBlendMode( renderer, blend_mode ); // save the current blend mode
+            SetRenderDrawBlendMode( renderer, color_blocks.first ); // set the new blend mode
+            for( const auto &e : color_blocks.second ) {
+                fill_rect_xywh_color( e.first.x, e.first.y, tilecontext->get_tile_width(),
+                                      tilecontext->get_tile_height(), e.second );
+            }
+            SetRenderDrawBlendMode( renderer, blend_mode ); // set the old blend mode
+        }
+
+        // overlay strings
         point prev_coord;
         int x_offset = 0;
         int alignment_offset = 0;
@@ -1114,6 +1143,11 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         FillRectDIB( offsetx, offsety, wwidth, wheight, catacurses::black );
         update = true;
     } else if( g && w == g->w_pixel_minimap && g->pixel_minimap_option ) {
+        // ensure the space the minimap covers is "dirtied".
+        // this is necessary when it's the only part of the sidebar being drawn
+        // TODO: Figure out how to properly make the minimap code do whatever it is this does
+        font->draw_window( w );
+
         // Make sure the entire minimap window is black before drawing.
         clear_window_area( w );
         tilecontext->draw_minimap(
@@ -1313,7 +1347,7 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
     return update;
 }
 
-static long alt_buffer = 0;
+static int alt_buffer = 0;
 static bool alt_down = false;
 
 static void begin_alt_code()
@@ -1331,7 +1365,7 @@ static bool add_alt_code( char c )
     return false;
 }
 
-static long end_alt_code()
+static int end_alt_code()
 {
     alt_down = false;
     return alt_buffer;
@@ -1429,7 +1463,7 @@ static bool sdl_keycode_is_arrow( SDL_Keycode key )
     return static_cast<bool>( sdl_keycode_opposite_arrow( key ) );
 }
 
-static long arrow_combo_to_numpad( SDL_Keycode mod, SDL_Keycode key )
+static int arrow_combo_to_numpad( SDL_Keycode mod, SDL_Keycode key )
 {
     if( ( mod == SDLK_UP    && key == SDLK_RIGHT ) ||
         ( mod == SDLK_RIGHT && key == SDLK_UP ) ) {
@@ -1465,10 +1499,9 @@ static long arrow_combo_to_numpad( SDL_Keycode mod, SDL_Keycode key )
     return 0;
 }
 
-#if !defined(__ANDROID__)
-static long arrow_combo_modifier = 0;
+static int arrow_combo_modifier = 0;
 
-static long handle_arrow_combo( SDL_Keycode key )
+static int handle_arrow_combo( SDL_Keycode key )
 {
     if( !arrow_combo_modifier ) {
         arrow_combo_modifier = key;
@@ -1481,7 +1514,7 @@ static void end_arrow_combo()
 {
     arrow_combo_modifier = 0;
 }
-#endif
+
 /**
  * Translate SDL key codes to key identifiers used by ncurses, this
  * allows the input_manager to only consider those.
@@ -1489,10 +1522,9 @@ static void end_arrow_combo()
  * -1 when a ALT+number sequence has been started,
  * or something that a call to ncurses getch would return.
  */
-static long sdl_keysym_to_curses( const SDL_Keysym &keysym )
+static int sdl_keysym_to_curses( const SDL_Keysym &keysym )
 {
 
-#if !defined(__ANDROID__)
     const std::string diag_mode = get_option<std::string>( "DIAG_MOVE_WITH_MODIFIERS_MODE" );
 
     if( diag_mode == "mode1" ) {
@@ -1552,7 +1584,7 @@ static long sdl_keysym_to_curses( const SDL_Keysym &keysym )
             }
         }
     }
-#endif
+
     if( keysym.mod & KMOD_CTRL && keysym.sym >= 'a' && keysym.sym <= 'z' ) {
         // ASCII ctrl codes, ^A through ^Z.
         return keysym.sym - 'a' + '\1';
@@ -1836,7 +1868,7 @@ void add_quick_shortcut( quick_shortcuts_t &qsl, input_event &event, bool back,
 }
 
 // Given a quick shortcut list and a specific key, move that key to the front or back of the list.
-void reorder_quick_shortcut( quick_shortcuts_t &qsl, long key, bool back )
+void reorder_quick_shortcut( quick_shortcuts_t &qsl, int key, bool back )
 {
     for( const auto &event : qsl ) {
         if( event.get_first_input() == key ) {
@@ -1872,10 +1904,10 @@ void reorder_quick_shortcuts( quick_shortcuts_t &qsl )
     }
 }
 
-long choose_best_key_for_action( const std::string &action, const std::string &category )
+int choose_best_key_for_action( const std::string &action, const std::string &category )
 {
     const std::vector<input_event> &events = inp_mngr.get_input_for_action( action, category );
-    long best_key = -1;
+    int best_key = -1;
     for( const auto &events_event : events ) {
         if( events_event.type == CATA_INPUT_KEYBOARD && events_event.sequence.size() == 1 ) {
             bool is_ascii_char = isprint( events_event.sequence.front() ) &&
@@ -1889,7 +1921,7 @@ long choose_best_key_for_action( const std::string &action, const std::string &c
     return best_key;
 }
 
-bool add_key_to_quick_shortcuts( long key, const std::string &category, bool back )
+bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back )
 {
     if( key > 0 ) {
         quick_shortcuts_t &qsl = quick_shortcuts_map[get_quick_shortcut_name( category )];
@@ -1909,7 +1941,7 @@ bool add_key_to_quick_shortcuts( long key, const std::string &category, bool bac
 bool add_best_key_for_action_to_quick_shortcuts( std::string action_str,
         const std::string &category, bool back )
 {
-    long best_key = choose_best_key_for_action( action_str, category );
+    int best_key = choose_best_key_for_action( action_str, category );
     return add_key_to_quick_shortcuts( best_key, category, back );
 }
 
@@ -1966,7 +1998,7 @@ void remove_stale_inventory_quick_shortcuts()
         quick_shortcuts_t &qsl = quick_shortcuts_map["INVENTORY"];
         quick_shortcuts_t::iterator it = qsl.begin();
         bool in_inventory;
-        long key;
+        int key;
         bool valid;
         while( it != qsl.end() ) {
             key = ( *it ).get_first_input();
@@ -2026,8 +2058,8 @@ void draw_quick_shortcuts()
     if( !quick_shortcuts_enabled ||
         SDL_IsTextInputActive() ||
         ( get_option<bool>( "ANDROID_HIDE_HOLDS" ) && !is_quick_shortcut_touch && finger_down_time > 0 &&
-          SDL_GetTicks() - finger_down_time >= ( unsigned long )
-          get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) { // player is swipe + holding in a direction
+          SDL_GetTicks() - finger_down_time >= static_cast<unsigned long>(
+              get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) ) { // player is swipe + holding in a direction
         return;
     }
 
@@ -2090,7 +2122,7 @@ void draw_quick_shortcuts()
         }
         input_event &event = *it;
         std::string text = event.text;
-        long key = event.get_first_input();
+        int key = event.get_first_input();
         float default_text_scale = std::floor( 0.75f * ( height /
                                                font->fontheight ) ); // default for single character strings
         float text_scale = default_text_scale;
@@ -2100,7 +2132,8 @@ void draw_quick_shortcuts()
         }
         hovered = is_quick_shortcut_touch && hovered_quick_shortcut == &event;
         show_hint = hovered &&
-                    SDL_GetTicks() - finger_down_time > ( unsigned long )get_option<int>( "ANDROID_INITIAL_DELAY" );
+                    SDL_GetTicks() - finger_down_time > static_cast< unsigned long >
+                    ( get_option<int>( "ANDROID_INITIAL_DELAY" ) );
         std::string hint_text;
         if( show_hint ) {
             if( touch_input_context.get_category() == "INVENTORY" && inv_chars.valid( key ) ) {
@@ -2215,7 +2248,8 @@ void draw_virtual_joystick()
     // Bail out if we don't need to draw the joystick
     if( !get_option<bool>( "ANDROID_SHOW_VIRTUAL_JOYSTICK" ) ||
         finger_down_time <= 0 ||
-        SDL_GetTicks() - finger_down_time <= ( unsigned long )get_option<int>( "ANDROID_INITIAL_DELAY" ) ||
+        SDL_GetTicks() - finger_down_time <= static_cast<unsigned long>
+        ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ||
         is_quick_shortcut_touch ||
         is_two_finger_touch ) {
         return;
@@ -2268,10 +2302,10 @@ void update_finger_repeat_delay()
                     std::max( 0.01f, ( get_option<float>( "ANDROID_REPEAT_DELAY_RANGE" ) ) * longest_window_edge ),
                     0.0f, 1.0f );
     finger_repeat_delay = lerp( std::pow( t, get_option<float>( "ANDROID_SENSITIVITY_POWER" ) ),
-                                ( unsigned long )std::max( get_option<int>( "ANDROID_REPEAT_DELAY_MIN" ),
-                                        get_option<int>( "ANDROID_REPEAT_DELAY_MAX" ) ),
-                                ( unsigned long )std::min( get_option<int>( "ANDROID_REPEAT_DELAY_MIN" ),
-                                        get_option<int>( "ANDROID_REPEAT_DELAY_MAX" ) ) );
+                                static_cast<unsigned long>( std::max( get_option<int>( "ANDROID_REPEAT_DELAY_MIN" ),
+                                        get_option<int>( "ANDROID_REPEAT_DELAY_MAX" ) ) ),
+                                static_cast<unsigned long>( std::min( get_option<int>( "ANDROID_REPEAT_DELAY_MIN" ),
+                                        get_option<int>( "ANDROID_REPEAT_DELAY_MAX" ) ) ) );
 }
 
 // TODO: Is there a better way to detect when string entry is allowed?
@@ -2286,7 +2320,7 @@ bool is_string_input( input_context &ctx )
            || category == "WORLDGEN_CONFIRM_DIALOG";
 }
 
-long get_key_event_from_string( const std::string &str )
+int get_key_event_from_string( const std::string &str )
 {
     if( str.length() ) {
         return ( long )str[0];
@@ -2361,7 +2395,8 @@ void handle_finger_input( unsigned long ticks )
             }
         }
     } else {
-        if( ticks - finger_down_time >= ( unsigned long )get_option<int>( "ANDROID_INITIAL_DELAY" ) ) {
+        if( ticks - finger_down_time >= static_cast<unsigned long>
+            ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
             // Single tap (repeat) - held, so always treat this as a tap
             // We only allow repeats for waiting, not confirming in menus as that's a bit silly
             if( is_default_mode ) {
@@ -2370,7 +2405,7 @@ void handle_finger_input( unsigned long ticks )
             }
         } else {
             if( last_tap_time > 0 &&
-                ticks - last_tap_time < ( unsigned long )get_option<int>( "ANDROID_INITIAL_DELAY" ) ) {
+                ticks - last_tap_time < static_cast<unsigned long>( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
                 // Double tap
                 last_input = input_event( is_default_mode ? KEY_ESCAPE : KEY_ESCAPE, CATA_INPUT_KEYBOARD );
                 last_tap_time = 0;
@@ -2647,7 +2682,8 @@ static void CheckMessages()
 
         // Toggle quick shortcuts on/off
         if( ac_back_down_time > 0 &&
-            ticks - ac_back_down_time > ( unsigned long )get_option<int>( "ANDROID_INITIAL_DELAY" ) ) {
+            ticks - ac_back_down_time > static_cast<unsigned long>
+            ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
             if( !quick_shortcuts_toggle_handled ) {
                 quick_shortcuts_enabled = !quick_shortcuts_enabled;
                 quick_shortcuts_toggle_handled = true;
@@ -2670,7 +2706,8 @@ static void CheckMessages()
 
         // Handle repeating inputs from touch + holds
         if( !is_quick_shortcut_touch && !is_two_finger_touch && finger_down_time > 0 &&
-            ticks - finger_down_time > ( unsigned long )get_option<int>( "ANDROID_INITIAL_DELAY" ) ) {
+            ticks - finger_down_time > static_cast<unsigned long>
+            ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
             if( ticks - finger_repeat_time > finger_repeat_delay ) {
                 handle_finger_input( ticks );
                 finger_repeat_time = ticks;
@@ -2680,7 +2717,8 @@ static void CheckMessages()
 
         // If we received a first tap and not another one within a certain period, this was a single tap, so trigger the input event
         if( !is_quick_shortcut_touch && !is_two_finger_touch && last_tap_time > 0 &&
-            ticks - last_tap_time >= ( unsigned long )get_option<int>( "ANDROID_INITIAL_DELAY" ) ) {
+            ticks - last_tap_time >= static_cast<unsigned long>
+            ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
             // Single tap
             last_tap_time = ticks;
             last_input = input_event( is_default_mode ? get_key_event_from_string(
@@ -2691,7 +2729,8 @@ static void CheckMessages()
 
         // ensure hint text pops up even if player doesn't move finger to trigger a FINGERMOTION event
         if( is_quick_shortcut_touch && finger_down_time > 0 &&
-            ticks - finger_down_time > ( unsigned long )get_option<int>( "ANDROID_INITIAL_DELAY" ) ) {
+            ticks - finger_down_time > static_cast<unsigned long>
+            ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
             needupdate = true;
         }
     }
@@ -2759,7 +2798,7 @@ static void CheckMessages()
                 if( get_option<std::string>( "HIDE_CURSOR" ) != "show" && SDL_ShowCursor( -1 ) ) {
                     SDL_ShowCursor( SDL_DISABLE );
                 }
-                const long lc = sdl_keysym_to_curses( ev.key.keysym );
+                const int lc = sdl_keysym_to_curses( ev.key.keysym );
                 if( lc <= 0 ) {
                     // a key we don't know in curses and won't handle.
                     break;
@@ -2794,7 +2833,8 @@ static void CheckMessages()
 #if defined(__ANDROID__)
                 // Toggle virtual keyboard with Android back button
                 if( ev.key.keysym.sym == SDLK_AC_BACK ) {
-                    if( ticks - ac_back_down_time <= ( unsigned long )get_option<int>( "ANDROID_INITIAL_DELAY" ) ) {
+                    if( ticks - ac_back_down_time <= static_cast<unsigned long>
+                        ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
                         if( SDL_IsTextInputActive() ) {
                             SDL_StopTextInput();
                         } else {
@@ -2964,7 +3004,8 @@ static void CheckMessages()
                             // Get the quick shortcut that was originally touched
                             quick_shortcut = get_quick_shortcut_under_finger( true );
                             if( quick_shortcut &&
-                                ticks - finger_down_time <= ( unsigned long )get_option<int>( "ANDROID_INITIAL_DELAY" ) &&
+                                ticks - finger_down_time <= static_cast<unsigned long>( get_option<int>( "ANDROID_INITIAL_DELAY" ) )
+                                &&
                                 finger_curr_y < finger_down_y &&
                                 finger_down_y - finger_curr_y > std::abs( finger_down_x - finger_curr_x ) ) {
                                 // a flick up was detected, remove the quick shortcut!
@@ -3035,8 +3076,8 @@ static void CheckMessages()
                                     }
                                 }
                             }
-                        } else if( ticks - finger_down_time <= ( unsigned long )
-                                   get_option<int>( "ANDROID_INITIAL_DELAY" ) ) {
+                        } else if( ticks - finger_down_time <= static_cast<unsigned long>(
+                                       get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
                             handle_finger_input( ticks );
                         }
                     }
@@ -3476,7 +3517,7 @@ SDL_Color color_loader<SDL_Color>::from_rgb( const int r, const int g, const int
     //Red
     result.r = r;
     //The Alpha, is not used, so just set it to 0
-    //result.a = 0;
+    result.a = 0;
     return result;
 }
 
@@ -3800,10 +3841,20 @@ static int overmap_font_height()
     return ( overmap_font ? overmap_font : font )->fontheight;
 }
 
-void to_map_font_dimension( int &w, int &h )
+void to_map_font_dim_width( int &w )
 {
     w = ( w * fontwidth ) / map_font_width();
+}
+
+void to_map_font_dim_height( int &h )
+{
     h = ( h * fontheight ) / map_font_height();
+}
+
+void to_map_font_dimension( int &w, int &h )
+{
+    to_map_font_dim_width( w );
+    to_map_font_dim_height( h );
 }
 
 void from_map_font_dimension( int &w, int &h )

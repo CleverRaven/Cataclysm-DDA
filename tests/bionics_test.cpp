@@ -80,7 +80,7 @@ static void test_consumable_ammo( player &p, std::string &itemname, bool when_em
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
     REQUIRE( p.can_consume( it ) == when_empty );
 
-    it.ammo_set( it.ammo_type()->default_ammotype(), -1 ); // -1 -> full
+    it.ammo_set( it.ammo_default(), -1 ); // -1 -> full
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
     REQUIRE( p.can_consume( it ) == when_full );
 }
