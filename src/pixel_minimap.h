@@ -9,7 +9,6 @@
 #include <map>
 #include <memory>
 
-
 enum class pixel_minimap_mode {
     solid,
     squares,
@@ -22,7 +21,6 @@ struct pixel_minimap_settings {
     int blink_interval = 0;
     bool square_pixels = true;
 };
-
 
 class pixel_minimap
 {

@@ -453,5 +453,17 @@
     "autolearn": true,
     "components": [ [ [ "raw_lentils", 1 ] ] ],
     "flags": [ "ALLOW_ROTTEN" ]
+  },
+  {
+    "result": "seed_chamomile",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SEEDS",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "time": "5 m",
+    "autolearn": true,
+    "components": [ [ [ "chamomile", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   }
 ]

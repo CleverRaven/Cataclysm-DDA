@@ -361,5 +361,11 @@
     "ident": "apartments_con_tower_004",
     "name": "Apartment Rooftop",
     "target": "apartments_con_tower_004"
+  },
+  {
+    "type": "start_location",
+    "ident": "horse_farm_13",
+    "name": "Horse Ranch",
+    "target": "horse_farm_13"
   }
 ]

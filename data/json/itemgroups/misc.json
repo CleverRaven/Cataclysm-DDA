@@ -75,7 +75,7 @@
       { "group": "elecsto_stor", "count": [ 1, 2 ], "prob": 30 },
       { "item": "money_bundle", "count": [ 1, 10 ], "prob": 20 },
       { "item": "scorecard", "count": [ 1, 10 ], "prob": 10 },
-      { "item": "survnote", "count": [ 1, 10 ], "prob": 10 },
+      { "item": "survnote", "prob": 10 },
       { "item": "flyer", "count": [ 1, 10 ], "prob": 30 },
       { "item": "character_sheet", "count": [ 1, 2 ], "prob": 5 },
       { "item": "phonebook", "prob": 10 },
@@ -83,6 +83,8 @@
       { "item": "family_photo", "prob": 5 },
       { "item": "coin_quarter", "prob": 5 },
       { "item": "mobile_memory_card_used", "count": [ 1, 4 ], "prob": 15 },
+      { "item": "RPG_die", "prob": 5 },
+      { "item": "metal_RPG_die", "prob": 1 },
       { "item": "mobile_memory_card_encrypted", "count": [ 1, 2 ], "prob": 15 }
     ]
   },

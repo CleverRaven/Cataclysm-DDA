@@ -767,6 +767,38 @@
     ]
   },
   {
+    "result": "xlhsurvivor_suit",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 8,
+    "skills_required": [ "fabrication", 8 ],
+    "time": "540 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 200 ] ],
+    "tools": [ [ [ "welder", 112 ], [ "welder_crude", 168 ], [ "soldering_iron", 168 ], [ "toolset", 168 ] ] ],
+    "components": [
+      [ [ "rag", 30 ] ],
+      [ [ "leather", 40 ], [ "tanned_hide", 7 ] ],
+      [ [ "steel_chunk", 8 ], [ "scrap", 24 ] ],
+      [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
+      [
+        [ "chestrig", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 6 ],
+        [ "leather_pouch", 4 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ],
+      [ [ "duct_tape", 400 ] ],
+      [ [ "kevlar", 2 ], [ "modularvest", 2 ], [ "swat_armor", 2 ], [ "kevlar_plate", 48 ] ]
+    ]
+  },
+  {
     "result": "xlsurvivor_suit",
     "type": "recipe",
     "category": "CC_ARMOR",

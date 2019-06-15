@@ -770,15 +770,15 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
 
     input_context ctxt( "MODMANAGER_DIALOG" );
     ctxt.register_updown();
-    ctxt.register_action( "LEFT", _( "Switch to other list" ) );
-    ctxt.register_action( "RIGHT", _( "Switch to other list" ) );
+    ctxt.register_action( "LEFT", translate_marker( "Switch to other list" ) );
+    ctxt.register_action( "RIGHT", translate_marker( "Switch to other list" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "NEXT_CATEGORY_TAB" );
     ctxt.register_action( "PREV_CATEGORY_TAB" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
-    ctxt.register_action( "CONFIRM", _( "Activate / deactivate mod" ) );
+    ctxt.register_action( "CONFIRM", translate_marker( "Activate / deactivate mod" ) );
     ctxt.register_action( "ADD_MOD" );
     ctxt.register_action( "REMOVE_MOD" );
     ctxt.register_action( "SAVE_DEFAULT_MODS" );
@@ -1178,7 +1178,7 @@ to continue, or <color_yellow>%s</color> to go back and review your world." ),
             return -999;
         } else if( action == "ANY_INPUT" ) {
             const input_event ev = ctxt.get_raw_input();
-            const long ch = ev.get_first_input();
+            const int ch = ev.get_first_input();
             utf8_wrapper wrap( worldname );
             utf8_wrapper newtext( ev.text );
             if( ch == KEY_BACKSPACE ) {

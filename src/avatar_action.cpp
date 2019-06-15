@@ -17,6 +17,7 @@
 #include "options.h"
 #include "output.h"
 #include "player.h"
+#include "projectile.h"
 #include "ranged.h"
 #include "translations.h"
 #include "type_id.h"
@@ -25,15 +26,21 @@
 #include "vpart_position.h"
 #include "vpart_reference.h"
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_SHELL2( "SHELL2" );
 
 static const efftype_id effect_amigara( "amigara" );
+static const efftype_id effect_glowing( "glowing" );
+static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_harnessed( "harnessed" );
+
+static const fault_id fault_gun_clogged( "fault_gun_clogged" );
 
 bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
 {
@@ -65,7 +72,8 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
 
     if( m.has_flag( TFLAG_MINEABLE, dest_loc ) && g->mostseen == 0 &&
         get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
-        !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) ) {
+        !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
+        !you.has_effect( effect_riding ) ) {
         if( you.weapon.has_flag( "DIG_TOOL" ) ) {
             if( you.weapon.type->can_use( "JACKHAMMER" ) && you.weapon.ammo_sufficient() ) {
                 you.invoke_item( &you.weapon, "JACKHAMMER", dest_loc );
@@ -98,8 +106,16 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     const int new_dx = dest_loc.x - you.posx();
     if( new_dx > 0 ) {
         you.facing = FD_RIGHT;
+        if( you.has_effect( effect_riding ) && you.mounted_creature ) {
+            auto mons = you.mounted_creature.get();
+            mons->facing = FD_RIGHT;
+        }
     } else if( new_dx < 0 ) {
         you.facing = FD_LEFT;
+        if( you.has_effect( effect_riding ) && you.mounted_creature ) {
+            auto mons = you.mounted_creature.get();
+            mons->facing = FD_LEFT;
+        }
     }
 
     if( dz == 0 && ramp_move( you, m, dest_loc ) ) {
@@ -179,7 +195,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
             }
             g->draw_hit_mon( dest_loc, critter, critter.is_dead() );
             return false;
-        } else if( critter.has_flag( MF_IMMOBILE ) ) {
+        } else if( critter.has_flag( MF_IMMOBILE ) || critter.has_effect( effect_harnessed ) ) {
             add_msg( m_info, _( "You can't displace your %s." ), critter.name() );
             return false;
         }
@@ -245,13 +261,20 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
 
     if( toSwimmable && toDeepWater && !toBoat ) {  // Dive into water!
         // Requires confirmation if we were on dry land previously
+        if( you.has_effect( effect_riding ) && you.mounted_creature != nullptr ) {
+            auto mon = you.mounted_creature.get();
+            if( !mon->has_flag( MF_SWIMS ) || mon->get_size() < you.get_size() + 2 ) {
+                add_msg( m_warning, _( "Your mount shies away from the water!" ) );
+                return false;
+            }
+        }
         if( ( fromSwimmable && fromDeepWater && !fromBoat ) || query_yn( _( "Dive into the water?" ) ) ) {
             if( ( !fromDeepWater || fromBoat ) && you.swim_speed() < 500 ) {
                 add_msg( _( "You start swimming." ) );
                 add_msg( m_info, _( "%s to dive underwater." ),
                          press_x( ACTION_MOVE_DOWN ) );
             }
-            g->plswim( dest_loc );
+            avatar_action::swim( g->m, g->u, dest_loc );
         }
 
         g->on_move_effects();
@@ -377,6 +400,79 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
     return true;
 }
 
+void avatar_action::swim( map &m, avatar &you, const tripoint &p )
+{
+    if( !m.has_flag( "SWIMMABLE", p ) ) {
+        dbg( D_ERROR ) << "game:plswim: Tried to swim in "
+                       << m.tername( p ) << "!";
+        debugmsg( "Tried to swim in %s!", m.tername( p ) );
+        return;
+    }
+    if( you.has_effect( effect_onfire ) ) {
+        add_msg( _( "The water puts out the flames!" ) );
+        you.remove_effect( effect_onfire );
+        if( you.has_effect( effect_riding ) && you.mounted_creature != nullptr ) {
+            monster *mon = you.mounted_creature.get();
+            if( mon->has_effect( effect_onfire ) ) {
+                mon->remove_effect( effect_onfire );
+            }
+        }
+    }
+    if( you.has_effect( effect_glowing ) ) {
+        add_msg( _( "The water washes off the glowing goo!" ) );
+        you.remove_effect( effect_glowing );
+    }
+    int movecost = you.swim_speed();
+    you.practice( skill_id( "swimming" ), you.is_underwater() ? 2 : 1 );
+    if( movecost >= 500 ) {
+        if( !you.is_underwater() && !( you.shoe_type_count( "swim_fins" ) == 2 ||
+                                       ( you.shoe_type_count( "swim_fins" ) == 1 && one_in( 2 ) ) ) ) {
+            add_msg( m_bad, _( "You sink like a rock!" ) );
+            you.set_underwater( true );
+            ///\EFFECT_STR increases breath-holding capacity while sinking
+            you.oxygen = 30 + 2 * you.str_cur;
+        }
+    }
+    if( you.oxygen <= 5 && you.is_underwater() ) {
+        if( movecost < 500 ) {
+            popup( _( "You need to breathe! (%s to surface.)" ), press_x( ACTION_MOVE_UP ) );
+        } else {
+            popup( _( "You need to breathe but you can't swim!  Get to dry land, quick!" ) );
+        }
+    }
+    bool diagonal = ( p.x != you.posx() && p.y != you.posy() );
+    if( you.in_vehicle ) {
+        m.unboard_vehicle( you.pos() );
+    }
+    if( you.has_effect( effect_riding ) &&
+        m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+        add_msg( m_warning, _( "You cannot board a vehicle while mounted." ) );
+        return;
+    }
+    you.setpos( p );
+    g->update_map( you );
+    if( m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+        m.board_vehicle( you.pos(), &you );
+    }
+    you.moves -= ( movecost > 200 ? 200 : movecost ) * ( trigdist && diagonal ? 1.41 : 1 );
+    you.inv.rust_iron_items();
+
+    if( !you.has_effect( effect_riding ) ) {
+        you.burn_move_stamina( movecost );
+    }
+
+    body_part_set drenchFlags{ {
+            bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
+            bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r
+        }
+    };
+
+    if( you.is_underwater() ) {
+        drenchFlags |= { { bp_head, bp_eyes, bp_mouth, bp_hand_l, bp_hand_r } };
+    }
+    you.drench( 100, drenchFlags, true );
+}
+
 static float rate_critter( const Creature &c )
 {
     const npc *np = dynamic_cast<const npc *>( &c );
@@ -461,6 +557,11 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
 
     if( !weapon.is_gun() ) {
         // The weapon itself isn't a gun, this weapon is not fireable.
+        return false;
+    }
+
+    if( weapon.faults.count( fault_gun_clogged ) ) {
+        add_msg( m_info, _( "Your %s is too clogged with blackpowder fouling to fire." ), gun->tname() );
         return false;
     }
 
@@ -612,6 +713,11 @@ bool avatar_action::fire( avatar &you, map &m, item &weapon, int bp_cost )
     if( !gun ) {
         add_msg( m_info, _( "The %s can't be fired in its current state." ), weapon.tname() );
         return false;
+    } else if( !weapon.has_flag( "RELOAD_AND_SHOOT" ) &&
+               !weapon.ammo_types().count( weapon.ammo_data()->ammo->type ) ) {
+        add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
+                 weapon.tname(), weapon.ammo_current() );
+        return false;
     }
 
     targeting_data args = {
@@ -622,4 +728,98 @@ bool avatar_action::fire( avatar &you, map &m, item &weapon, int bp_cost )
     };
     you.set_targeting_data( args );
     return avatar_action::fire( you, m );
+}
+
+void avatar_action::plthrow( avatar &you, int pos,
+                             const cata::optional<tripoint> &blind_throw_from_pos )
+{
+    if( you.has_active_mutation( trait_SHELL2 ) ) {
+        add_msg( m_info, _( "You can't effectively throw while you're in your shell." ) );
+        return;
+    }
+
+    if( pos == INT_MIN ) {
+        pos = g->inv_for_all( _( "Throw item" ), _( "You don't have any items to throw." ) );
+        g->refresh_all();
+    }
+
+    if( pos == INT_MIN ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+
+    item thrown = you.i_at( pos );
+    int range = you.throw_range( thrown );
+    if( range < 0 ) {
+        add_msg( m_info, _( "You don't have that item." ) );
+        return;
+    } else if( range == 0 ) {
+        add_msg( m_info, _( "That is too heavy to throw." ) );
+        return;
+    }
+
+    if( pos == -1 && thrown.has_flag( "NO_UNWIELD" ) ) {
+        // pos == -1 is the weapon, NO_UNWIELD is used for bio_claws_weapon
+        add_msg( m_info, _( "That's part of your body, you can't throw that!" ) );
+        return;
+    }
+
+    if( you.has_effect( effect_relax_gas ) ) {
+        if( one_in( 5 ) ) {
+            add_msg( m_good, _( "You concentrate mightily, and your body obeys!" ) );
+        } else {
+            you.moves -= rng( 2, 5 ) * 10;
+            add_msg( m_bad, _( "You can't muster up the effort to throw anything..." ) );
+            return;
+        }
+    }
+
+    // you must wield the item to throw it
+    if( pos != -1 ) {
+        you.i_rem( pos );
+        if( !you.wield( thrown ) ) {
+            // We have to remove the item before checking for wield because it
+            // can invalidate our pos index.  Which means we have to add it
+            // back if the player changed their mind about unwielding their
+            // current item
+            you.i_add( thrown );
+            return;
+        }
+    }
+
+    // Shift our position to our "peeking" position, so that the UI
+    // for picking a throw point lets us target the location we couldn't
+    // otherwise see.
+    const tripoint original_player_position = you.pos();
+    if( blind_throw_from_pos ) {
+        you.setpos( *blind_throw_from_pos );
+        g->draw_ter();
+    }
+
+    g->temp_exit_fullscreen();
+    g->m.draw( g->w_terrain, you.pos() );
+
+    const target_mode throwing_target_mode = blind_throw_from_pos ? TARGET_MODE_THROW_BLIND :
+            TARGET_MODE_THROW;
+    // target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
+    std::vector<tripoint> trajectory = target_handler().target_ui( you, throwing_target_mode, &thrown,
+                                       range );
+
+    // If we previously shifted our position, put ourselves back now that we've picked our target.
+    if( blind_throw_from_pos ) {
+        you.setpos( original_player_position );
+    }
+
+    if( trajectory.empty() ) {
+        return;
+    }
+
+    if( thrown.count_by_charges() && thrown.charges > 1 ) {
+        you.i_at( -1 ).charges--;
+        thrown.charges = 1;
+    } else {
+        you.i_rem( -1 );
+    }
+    you.throw_item( trajectory.back(), thrown, blind_throw_from_pos );
+    g->reenter_fullscreen();
 }

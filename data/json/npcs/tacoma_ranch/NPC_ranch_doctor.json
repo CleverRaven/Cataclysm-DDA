@@ -1,0 +1,35 @@
+[
+  {
+    "type": "npc",
+    "id": "ranch_doctor",
+    "//": "Provides advanced medical attention.",
+    "name_suffix": "Doctor",
+    "class": "NC_DOCTOR",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_RANCH_DOCTOR",
+    "faction": "tacoma_commune"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_DOCTOR",
+    "dynamic_line": "I'm sorry, I don't have time to see you at the moment.",
+    "responses": [
+      { "text": "For the right price could I borrow your services?", "topic": "TALK_RANCH_DOCTOR_BIONICS" },
+      { "text": "...", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_RANCH_DOCTOR_BIONICS",
+    "type": "talk_topic",
+    "dynamic_line": "I imagine we might be able to work something out.",
+    "responses": [
+      {
+        "text": "I was wondering if you could install a cybernetic implant...",
+        "topic": "TALK_DONE",
+        "effect": "bionic_install"
+      },
+      { "text": "I need help removing an implant...", "topic": "TALK_DONE", "effect": "bionic_remove" }
+    ]
+  }
+]

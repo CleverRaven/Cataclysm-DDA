@@ -5,11 +5,11 @@
     "name": "anesthetic",
     "category": "chems",
     "description": "A variety of powerful hypnotic, analgetic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.  You can reload an anesthesia kit with it.",
-    "weight": 100,
-    "volume": 12,
-    "price": 50000,
+    "weight": "714 mg",
+    "volume": "540 ml",
+    "price": 8333,
     "ammo_type": "anesthetic",
-    "count": 3,
+    "count": 540,
     "phase": "liquid",
     "container": "jar_3l_glass",
     "symbol": "!",
@@ -528,7 +528,7 @@
     "volume": 1,
     "weight": 16.625,
     "bashing": 1,
-    "ammo_type": "components",
+    "ammo_type": "esbit",
     "container": "box_small",
     "count": 20
   },
@@ -1216,5 +1216,20 @@
     "color": "brown",
     "ammo_type": "components",
     "looks_like": "bag_canvas"
+  },
+  {
+    "id": "rosin",
+    "type": "AMMO",
+    "category": "chems",
+    "name": "rosin",
+    "description": "This is a chunk of yellowish rosin, usable as a flux for soldering.",
+    "weight": 1,
+    "volume": "10 ml",
+    "count": 10,
+    "price": 0,
+    "material": "wood",
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": "components"
   }
 ]

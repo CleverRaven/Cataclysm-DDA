@@ -474,7 +474,7 @@ void player::deactivate_mutation( const trait_id &mut )
     recalc_sight_limits();
 }
 
-trait_id Character::trait_by_invlet( const long ch ) const
+trait_id Character::trait_by_invlet( const int ch ) const
 {
     for( auto &mut : my_mutations ) {
         if( mut.second.key == ch ) {

@@ -13,7 +13,7 @@
   {
     "id": "bicycle_dirt",
     "type": "vehicle",
-    "name": "Dirt bike",
+    "name": "Mountain bike",
     "blueprint": [ "o#o" ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "saddle", "horn_bicycle", "foot_pedals" ] },
@@ -32,6 +32,52 @@
       { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "wheel_bicycle", "basketsm" ] },
       { "x": 0, "y": 0, "parts": [ "controls", "controls_electronic", "alternator_bicycle" ] },
       { "x": -1, "y": 0, "parts": [ "small_storage_battery", "engine_electric_tiny" ] }
+    ]
+  },
+  {
+    "id": "motorcycle_cross",
+    "type": "vehicle",
+    "name": "Motocross Bike",
+    "blueprint": [ "o#o" ],
+    "parts": [
+      { "x": 1, "y": 0, "parts": [ "frame_vertical_2", "wheel_motorbike_or_steerable" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "frame_vertical",
+          { "part": "tank_small", "fuel": "gasoline" },
+          "saddle",
+          "controls",
+          "battery_motorbike_small",
+          "engine_1cyl_large"
+        ]
+      },
+      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "muffler", "wheel_motorbike_or" ] }
+    ]
+  },
+  {
+    "id": "motorcycle_enduro",
+    "type": "vehicle",
+    "name": "Street-Legal Dirt Bike",
+    "blueprint": [ "o#o" ],
+    "parts": [
+      { "x": 1, "y": 0, "parts": [ "frame_vertical_2", "motorcycle_headlight", "wheel_motorbike_or_steerable" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "frame_vertical",
+          { "part": "tank_small", "fuel": "gasoline" },
+          "horn_car",
+          "controls",
+          "saddle",
+          "controls_electronic",
+          "battery_motorbike_small",
+          "engine_1cyl_large"
+        ]
+      },
+      { "x": -1, "y": 0, "parts": [ "frame_handle", "muffler", "wheel_motorbike_or" ] }
     ]
   },
   {

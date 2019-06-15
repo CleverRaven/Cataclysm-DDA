@@ -114,6 +114,25 @@
     "extend": { "flags": [ "FOLDABLE" ] }
   },
   {
+    "id": "engine_1cyl_large",
+    "copy-from": "gasoline_engine",
+    "type": "vehicle_part",
+    "item": "1cyl_combustion_large",
+    "//": "55 HP high-performance water-cooled single-cylinder engine",
+    "difficulty": 3,
+    "durability": 150,
+    "epower": 0,
+    "power": 41000,
+    "energy_consumption": 124500,
+    "folded_volume": 8,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 6, 12 ] },
+      { "item": "steel_chunk", "count": [ 6, 12 ] },
+      { "item": "scrap", "count": [ 6, 12 ] }
+    ],
+    "extend": { "flags": [ "FOLDABLE" ] }
+  },
+  {
     "id": "engine_1cyl_small",
     "copy-from": "gasoline_engine",
     "type": "vehicle_part",

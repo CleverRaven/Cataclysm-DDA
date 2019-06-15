@@ -435,6 +435,9 @@ class overmapbuffer
         city_reference closest_known_city( const tripoint &center );
 
         std::string get_description_at( const tripoint &where );
+        inline std::string get_description_at( const point &where, const int z ) {
+            return get_description_at( tripoint( where, z ) );
+        }
 
         /**
          * Place the specified overmap special directly on the map using the provided location and rotation.

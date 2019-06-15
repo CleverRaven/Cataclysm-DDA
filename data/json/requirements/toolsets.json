@@ -6,6 +6,12 @@
     "tools": [ [ [ "press", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
   },
   {
+    "id": "earthenware_firing",
+    "type": "requirement",
+    "//": "Firing various clay shapes to make earthenware",
+    "tools": [ [ [ "brick_kiln", -1 ], [ "kiln", -1 ] ], [ [ "fire", -1 ], [ "brick_kiln", 1 ], [ "kiln", 1 ] ] ]
+  },
+  {
     "id": "forging_standard",
     "type": "requirement",
     "//": "Forging of steel items (per steel chunk), charcoal forge is already a substitute for forge",

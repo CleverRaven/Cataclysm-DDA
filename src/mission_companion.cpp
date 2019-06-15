@@ -191,8 +191,7 @@ void talk_function::commune_menial( mission_data &mission_key, npc &p )
         std::string entry = _( "Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
                                "Assigning one of your allies to menial labor is a safe way to teach "
                                "them basic skills and build reputation with the outpost.  Don't expect "
-                               "much of a reward though." );
-        entry = _( "Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n" );
+                               "much of a reward though.\n \nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
                     elem->companion_mission_time ) ) + _( " hours] \n" );
@@ -401,8 +400,8 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
                                 part_y + TITLE_TAB_HEIGHT + 1, part_x + MAX_FAC_NAME_SIZE );
 
     input_context ctxt( "FACTIONS" );
-    ctxt.register_action( "UP", _( "Move cursor up" ) );
-    ctxt.register_action( "DOWN", _( "Move cursor down" ) );
+    ctxt.register_action( "UP", translate_marker( "Move cursor up" ) );
+    ctxt.register_action( "DOWN", translate_marker( "Move cursor down" ) );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "PAGE_UP" );
@@ -429,6 +428,11 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
     };
 
     reset_cur_key_list();
+
+    if( cur_key_list.empty() ) {
+        popup( _( "There are no missions at this colony.  Press Spacebar..." ) );
+        return false;
+    }
 
     g->draw_ter();
     wrefresh( g->w_terrain );
@@ -988,7 +992,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
         limiting_number = empty_plots;
     }
 
-    unsigned int a = limiting_number * 300;
+    signed int a = limiting_number * 300;
     if( a > g->u.cash ) {
         popup( _( "I'm sorry, you don't have enough money to plant those seeds..." ) );
         return;
@@ -1106,7 +1110,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     int money = ( number_plants * tmp.price( true ) - number_plots * 2 ) / 100;
     bool liquidate = false;
 
-    unsigned int a = number_plots * 2;
+    signed int a = number_plots * 2;
     if( a > g->u.cash ) {
         liquidate = true;
         popup( _( "You don't have enough to pay the workers to harvest the crop so you are forced "

@@ -46,6 +46,7 @@ class field;
 class field_entry;
 class vehicle;
 struct fragment_cloud;
+struct partial_con;
 class submap;
 class item_location;
 class map_cursor;
@@ -467,7 +468,6 @@ class map
         bool clear_path( const tripoint &f, const tripoint &t, const int range,
                          const int cost_min, const int cost_max ) const;
 
-
         /**
          * Populates a vector of points that are reachable within a number of steps from a
          * point. It could be generalized to take advantage of z levels, but would need some
@@ -532,7 +532,7 @@ class map
         // Vehicle movement
         void vehmove();
         // Selects a vehicle to move, returns false if no moving vehicles
-        bool vehproceed();
+        bool vehproceed( VehicleList &vehs );
 
         // 3D vehicles
         VehicleList get_vehicles( const tripoint &start, const tripoint &end );
@@ -573,7 +573,7 @@ class map
 
         // Actually moves the vehicle
         // Unlike displace_vehicle, this one handles collisions
-        void move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing );
+        vehicle *move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing );
 
         // Furniture: 2D overloads
         void set( const int x, const int y, const ter_id &new_terrain, const furn_id &new_furniture );
@@ -767,6 +767,13 @@ class map
          *  all terrain is floor and the last terrain is a wall */
         bool is_last_ter_wall( const bool no_furn, const int x, const int y,
                                const int xmax, const int ymax, const direction dir ) const;
+
+        /**
+         * Checks if there are any tinder flagged items on the tile.
+         * @param p tile to check
+         */
+        bool tinder_at( const tripoint &p );
+
         /**
          * Checks if there are any flammable items on the tile.
          * @param p tile to check
@@ -1028,11 +1035,15 @@ class map
          * Fetch an item from this vehicle, with sanity checks to ensure it still exists.
          */
         item *item_from( vehicle *veh, const int cargo_part, const size_t index );
-
+        // Partial construction functions
+        void partial_con_set( const tripoint &p, const partial_con &con );
+        void partial_con_remove( const tripoint &p );
+        partial_con *partial_con_at( const tripoint &p );
         // Traps: 3D
         void trap_set( const tripoint &p, const trap_id &type );
 
         const trap &tr_at( const tripoint &p ) const;
+
         void disarm_trap( const tripoint &p );
         void remove_trap( const tripoint &p );
         const std::vector<tripoint> &trap_locations( const trap_id &type ) const;
@@ -1233,6 +1244,7 @@ class map
                               const int init_veh_fuel = -1, const int init_veh_status = -1,
                               const bool merge_wrecks = true );
 
+        void do_vehicle_caching( int z );
         // Note: in 3D mode, will actually build caches on ALL z-levels
         void build_map_cache( int zlev, bool skip_lightmap = false );
         // Unlike the other caches, this populates a supplied cache instead of an internal cache.
@@ -1451,11 +1463,15 @@ class map
         void draw_connections( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
                                const float density );
 
-        void build_transparency_cache( int zlev );
+        // Builds a transparency cache and returns true if the cache was invalidated.
+        // Used to determine if seen cache should be rebuilt.
+        bool build_transparency_cache( int zlev );
         void build_sunlight_cache( int zlev );
     public:
         void build_outside_cache( int zlev );
-        void build_floor_cache( int zlev );
+        // Builds a floor cache and returns true if the cache was invalidated.
+        // Used to determine if seen cache should be rebuilt.
+        bool build_floor_cache( int zlev );
         // We want this visible in `game`, because we want it built earlier in the turn than the rest
         void build_floor_caches();
 
@@ -1552,7 +1568,7 @@ class map
                               const tripoint &view_center,
                               bool low_light, bool bright_light, bool inorder ) const;
 
-        long determine_wall_corner( const tripoint &p ) const;
+        int determine_wall_corner( const tripoint &p ) const;
         // apply a circular light pattern immediately, however it's best to use...
         void apply_light_source( const tripoint &p, float luminance );
         // ...this, which will apply the light after at the end of generate_lightmap, and prevent redundant
@@ -1644,6 +1660,10 @@ class map
         std::array< std::unique_ptr<level_cache>, OVERMAP_LAYERS > caches;
 
         mutable std::array< std::unique_ptr<pathfinding_cache>, OVERMAP_LAYERS > pathfinding_caches;
+        /**
+         * Set of submaps that contain active items in absolute coordinates.
+         */
+        std::set<tripoint> submaps_with_active_items;
 
         // Note: no bounds check
         level_cache &get_cache( int zlev ) const {

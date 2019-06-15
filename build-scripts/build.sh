@@ -103,7 +103,6 @@ then
 else
     make -j "$num_jobs" RELEASE=1 CCACHE=1 BACKTRACE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
 
-    run_tests ./tests/cata_test
     if [ "$TRAVIS_OS_NAME" == "osx" ]
     then
         run_tests ./tests/cata_test
