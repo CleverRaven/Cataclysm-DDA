@@ -165,7 +165,6 @@ bool monexamine::pet_menu( monster &z )
             return give_items_to( z );
         case mon_armor_add:
             return add_armor( z );
-            break;
         case mon_harness_remove:
             remove_harness( z );
             break;
@@ -519,10 +518,10 @@ void monexamine::milk_source( monster &source_mon )
                   source_mon.get_name() );
         return;
     }
-    const long milk_per_day = milked_item->second;
+    const int milk_per_day = milked_item->second;
     const time_duration milking_freq = 1_days / milk_per_day;
 
-    long remaining_milk = milk_per_day;
+    int remaining_milk = milk_per_day;
     if( source_mon.has_effect( effect_milked ) ) {
         remaining_milk -= source_mon.get_effect_dur( effect_milked ) / milking_freq;
     }
@@ -538,7 +537,7 @@ void monexamine::milk_source( monster &source_mon )
         milk.set_item_temperature( 311.75 );
         if( liquid_handler::handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, &source_mon ) ) {
             add_msg( _( "You milk the %s." ), source_mon.get_name() );
-            long transferred_milk = remaining_milk - milk.charges;
+            int transferred_milk = remaining_milk - milk.charges;
             source_mon.add_effect( effect_milked, milking_freq * transferred_milk );
             g->u.mod_moves( -to_moves<int>( transferred_milk * 1_minutes / 5 ) );
         }

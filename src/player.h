@@ -191,7 +191,6 @@ class player : public Character
 
         void normalize() override;
 
-
         bool is_player() const override {
             return true;
         }
@@ -578,7 +577,7 @@ class player : public Character
         dispersion_sources get_weapon_dispersion( const item &obj ) const;
 
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
-        bool handle_gun_damage( item &firing );
+        bool handle_gun_damage( item &firing, int shots_fired );
 
         /** Get maximum recoil penalty due to vehicle motion */
         double recoil_vehicle() const;
@@ -1547,7 +1546,7 @@ class player : public Character
         int blocks_left;
         int stim;
         int radiation;
-        unsigned long cash;
+        signed long cash;
         int movecounter;
         std::shared_ptr<monster> mounted_creature;
         bool death_drops;// Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight

@@ -867,16 +867,16 @@ See also VEHICLE_JSON.md
 ### Magazine
 
 ```C++
-"type": "MAGAZINE",   // Defines this as a MAGAZINE
-...                   // same entries as above for the generic item.
-                      // additional some magazine specific entries:
-"ammo_type": "223",   // What type of ammo this magazine can be loaded with
-"capacity" : 15,      // Capacity of magazine (in equivalent units to ammo charges)
-"count" : 0,          // Default amount of ammo contained by a magazine (set this for ammo belts)
-"default_ammo": "556",// If specified override the default ammo (optionally set this for ammo belts)
-"reliability" : 8,    // How reliable this this magazine on a range of 0 to 10? (see GAME_BALANCE.md)
-"reload_time" : 100,  // How long it takes to load each unit of ammo into the magazine
-"linkage" : "ammolink"// If set one linkage (of given type) is dropped for each unit of ammo consumed (set for disintegrating ammo belts)
+"type": "MAGAZINE",              // Defines this as a MAGAZINE
+...                              // same entries as above for the generic item.
+                                 // additional some magazine specific entries:
+"ammo_type": [ "40", "357sig" ], // What types of ammo this magazine can be loaded with
+"capacity" : 15,                 // Capacity of magazine (in equivalent units to ammo charges)
+"count" : 0,                     // Default amount of ammo contained by a magazine (set this for ammo belts)
+"default_ammo": "556",           // If specified override the default ammo (optionally set this for ammo belts)
+"reliability" : 8,               // How reliable this this magazine on a range of 0 to 10? (see GAME_BALANCE.md)
+"reload_time" : 100,             // How long it takes to load each unit of ammo into the magazine
+"linkage" : "ammolink"           // If set one linkage (of given type) is dropped for each unit of ammo consumed (set for disintegrating ammo belts)
 ```
 
 ### Armor
@@ -1071,27 +1071,29 @@ It could also be written as a generic item ("type": "GENERIC") with "armor_data"
 Guns can be defined like this:
 
 ```C++
-"type": "GUN",        // Defines this as a GUN
-...                   // same entries as above for the generic item.
-                      // additional some gun specific entries:
-"skill": "pistol",    // Skill used for firing
-"ammo": "nail",       // Ammo type accepted for reloading
-"ranged_damage": 0,   // Ranged damage when fired
-"range": 0,           // Range when fired
-"dispersion": 32,     // Inaccuracy of gun, measured in quarter-degrees
+"type": "GUN",             // Defines this as a GUN
+...                        // same entries as above for the generic item.
+                           // additional some gun specific entries:
+"skill": "pistol",         // Skill used for firing
+"ammo": [ "357", "38" ],   // Ammo types accepted for reloading
+"ranged_damage": 0,        // Ranged damage when fired
+"range": 0,                // Range when fired
+"dispersion": 32,          // Inaccuracy of gun, measured in quarter-degrees
 // When sight_dispersion and aim_speed are present in a gun mod, the aiming system picks the "best"
 // sight to use for each aim action, which is the fastest sight with a dispersion under the current
 // aim threshold.
-"sight_dispersion": 10, // Inaccuracy of gun derived from the sight mechanism, also in quarter-degrees
-"aim_speed": 3,       // A measure of how quickly the player can aim, in moves per point of dispersion.
-"recoil": 0,          // Recoil caused when firing, in quarter-degrees of dispersion.
-"durability": 8,      // Resistance to damage/rusting, also determines misfire chance
-"burst": 5,           // Number of shots fired in burst mode
-"clip_size": 100,     // Maximum amount of ammo that can be loaded
-"ups_charges": 0,     // Additionally to the normal ammo (if any), a gun can require some charges from an UPS. This also works on mods. Attaching a mod with ups_charges will add/increase ups drain on the weapon.
-"reload": 450,         // Amount of time to reload, 100 = 1 second = 1 "turn"
+"sight_dispersion": 10,    // Inaccuracy of gun derived from the sight mechanism, also in quarter-degrees
+"aim_speed": 3,            // A measure of how quickly the player can aim, in moves per point of dispersion.
+"recoil": 0,               // Recoil caused when firing, in quarter-degrees of dispersion.
+"durability": 8,           // Resistance to damage/rusting, also determines misfire chance
+"blackpowder_tolerance": 8,// One in X chance to get clogged up (per shot) when firing blackpowder ammunition (higher is better). Optional, default is 8.
+"min_cycle_recoil": 0,     // Minimum ammo recoil for gun to be able to fire more than once per attack.
+"burst": 5,                // Number of shots fired in burst mode
+"clip_size": 100,          // Maximum amount of ammo that can be loaded
+"ups_charges": 0,          // Additionally to the normal ammo (if any), a gun can require some charges from an UPS. This also works on mods. Attaching a mod with ups_charges will add/increase ups drain on the weapon.
+"reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
 "built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
-"default_mods": ["m203"] //An array of mods that will be added to a weapon on spawn.
+"default_mods": ["m203"]   //An array of mods that will be added to a weapon on spawn.
 ```
 Alternately, every item (book, tool, armor, even food) can be used as gun if it has gun_data:
 ```json
@@ -1116,7 +1118,7 @@ Gun mods can be defined like this:
 "mod_targets": [ "crossbow" ], // Mandatory. What kind of weapons can this gunmod be used with?
 "acceptable_ammo": [ "9mm" ],  // Optional filter restricting mod to guns with those base (before modifiers) ammo types
 "install_time": "30 s",        // Optional time installation takes. Installation is instantaneous if unspecified. An integer will be read as moves or a time string can be used.
-"ammo_modifier": "57",         // Optional field which if specified modifies parent gun to use this ammo type
+"ammo_modifier": [ "57" ],     // Optional field which if specified modifies parent gun to use these ammo types
 "burst_modifier": 3,           // Optional field increasing or decreasing base gun burst size
 "damage_modifier": -1,         // Optional field increasing or decreasing base gun damage
 "dispersion_modifier": 15,     // Optional field increasing or decreasing base gun dispersion
@@ -1153,7 +1155,7 @@ Gun mods can be defined like this:
 "charge_factor": 5,   // this tool uses charge_factor charges for every charge required in a recipe; intended for tools that have a "sub" field but use a different ammo that the original tool
 "charges_per_use": 1, // Charges consumed per tool use
 "turns_per_charge": 20, // Charges consumed over time
-"ammo": "NULL",       // Ammo type used for reloading
+"ammo": [ "NULL" ],       // Ammo types used for reloading
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "use_action": "firestarter" // Action performed when tool is used, see special definition below
 ```

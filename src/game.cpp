@@ -164,7 +164,7 @@
 #   include <tchar.h>
 #endif
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 const int core_version = 6;
 static constexpr int DANGEROUS_PROXIMITY = 5;
@@ -232,7 +232,6 @@ static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
-static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 
@@ -246,7 +245,7 @@ void intro();
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
 extern bool add_best_key_for_action_to_quick_shortcuts( action_id action,
         const std::string &category, bool back );
-extern bool add_key_to_quick_shortcuts( long key, const std::string &category, bool back );
+extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back );
 #endif
 
 //The one and only game instance
@@ -1452,7 +1451,15 @@ bool game::do_turn()
             // We only want this to happen if the player had a chance to examine the sounds.
             sounds::reset_markers();
         } else {
-            handle_key_blocking_activity();
+            // Rate limit polling to 10 times a second.
+            static auto start = std::chrono::time_point_cast<std::chrono::milliseconds>(
+                                    std::chrono::system_clock::now() );
+            const auto now = std::chrono::time_point_cast<std::chrono::milliseconds>(
+                                 std::chrono::system_clock::now() );
+            if( ( now - start ).count() > 100 ) {
+                handle_key_blocking_activity();
+                start = now;
+            }
         }
     }
 
@@ -1501,7 +1508,6 @@ bool game::do_turn()
     sounds::process_sounds();
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
-    m.invalidate_map_cache( get_levz() );
     m.build_map_cache( get_levz(), true );
     monmove();
     if( calendar::once_every( 3_minutes ) ) {
@@ -1700,6 +1706,9 @@ int get_heat_radiation( const tripoint &location, bool direct )
     fires.reserve( 13 * 13 );
     int best_fire = 0;
     for( const tripoint &dest : g->m.points_in_radius( location, 6 ) ) {
+        if( !g->m.sees( location, dest, -1 ) ) {
+            continue;
+        }
         int heat_intensity = 0;
 
         int ffire = g->m.get_field_strength( dest, fd_fire );
@@ -1708,7 +1717,7 @@ int get_heat_radiation( const tripoint &location, bool direct )
         } else if( g->m.tr_at( dest ).loadid == tr_lava ) {
             heat_intensity = 3;
         }
-        if( heat_intensity == 0 || !g->m.sees( location, dest, -1 ) ) {
+        if( heat_intensity == 0 ) {
             // No heat source here
             continue;
         }
@@ -2197,17 +2206,18 @@ input_context get_default_mode_input_context()
     input_context ctxt( "DEFAULTMODE" );
     // Because those keys move the character, they don't pan, as their original name says
     ctxt.set_iso( true );
-    ctxt.register_action( "UP", _( "Move North" ) );
-    ctxt.register_action( "RIGHTUP", _( "Move Northeast" ) );
-    ctxt.register_action( "RIGHT", _( "Move East" ) );
-    ctxt.register_action( "RIGHTDOWN", _( "Move Southeast" ) );
-    ctxt.register_action( "DOWN", _( "Move South" ) );
-    ctxt.register_action( "LEFTDOWN", _( "Move Southwest" ) );
-    ctxt.register_action( "LEFT", _( "Move West" ) );
-    ctxt.register_action( "LEFTUP", _( "Move Northwest" ) );
+    ctxt.register_action( "UP", translate_marker( "Move North" ) );
+    ctxt.register_action( "RIGHTUP", translate_marker( "Move Northeast" ) );
+    ctxt.register_action( "RIGHT", translate_marker( "Move East" ) );
+    ctxt.register_action( "RIGHTDOWN", translate_marker( "Move Southeast" ) );
+    ctxt.register_action( "DOWN", translate_marker( "Move South" ) );
+    ctxt.register_action( "LEFTDOWN", translate_marker( "Move Southwest" ) );
+    ctxt.register_action( "LEFTDOWN", translate_marker( "Move Southwest" ) );
+    ctxt.register_action( "LEFT", translate_marker( "Move West" ) );
+    ctxt.register_action( "LEFTUP", translate_marker( "Move Northwest" ) );
     ctxt.register_action( "pause" );
-    ctxt.register_action( "LEVEL_DOWN", _( "Descend Stairs" ) );
-    ctxt.register_action( "LEVEL_UP", _( "Ascend Stairs" ) );
+    ctxt.register_action( "LEVEL_DOWN", translate_marker( "Descend Stairs" ) );
+    ctxt.register_action( "LEVEL_UP", translate_marker( "Ascend Stairs" ) );
     ctxt.register_action( "toggle_map_memory" );
     ctxt.register_action( "center" );
     ctxt.register_action( "shift_n" );
@@ -3148,7 +3158,6 @@ void game::draw()
 
     //temporary fix for updating visibility for minimap
     ter_view_z = ( u.pos() + u.view_offset ).z;
-    m.invalidate_map_cache( ter_view_z );
     m.build_map_cache( ter_view_z );
     m.update_visibility_cache( ter_view_z );
 
@@ -5356,11 +5365,11 @@ static const std::string get_fire_fuel_string( const tripoint &examp )
         if( fire ) {
             std::stringstream ss;
             ss << string_format( _( "There is a fire here." ) ) << " ";
-            if( fire->getFieldDensity() > 1 ) {
+            if( fire->get_field_intensity() > 1 ) {
                 ss << string_format( _( "It's too big and unpredictable to evaluate how long it will last." ) );
                 return ss.str();
             }
-            time_duration fire_age = fire->getFieldAge();
+            time_duration fire_age = fire->get_field_age();
             // half-life inclusion
             int mod = 5 - g->u.get_skill_level( skill_survival );
             mod = std::max( mod, 0 );
@@ -5607,6 +5616,7 @@ void game::peek( const tripoint &p )
     if( result.peek_action && *result.peek_action == PA_BLIND_THROW ) {
         avatar_action::plthrow( u, INT_MIN, p );
     }
+    m.invalidate_map_cache( p.z );
 
     draw_ter();
     wrefresh( w_terrain );
@@ -7113,10 +7123,10 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
 
     std::string action;
     input_context ctxt( "LIST_ITEMS" );
-    ctxt.register_action( "UP", _( "Move cursor up" ) );
-    ctxt.register_action( "DOWN", _( "Move cursor down" ) );
-    ctxt.register_action( "LEFT", _( "Previous item" ) );
-    ctxt.register_action( "RIGHT", _( "Next item" ) );
+    ctxt.register_action( "UP", translate_marker( "Move cursor up" ) );
+    ctxt.register_action( "DOWN", translate_marker( "Move cursor down" ) );
+    ctxt.register_action( "LEFT", translate_marker( "Previous item" ) );
+    ctxt.register_action( "RIGHT", translate_marker( "Next item" ) );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "NEXT_TAB" );
@@ -7265,7 +7275,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         }
 
         reset_item_list_state( w_items_border, iInfoHeight, sort_radius );
-        iScrollPos = 0;
 
         if( action == "HELP_KEYBINDINGS" ) {
             draw_ter();
@@ -7474,8 +7483,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
     std::string action;
     input_context ctxt( "LIST_MONSTERS" );
-    ctxt.register_action( "UP", _( "Move cursor up" ) );
-    ctxt.register_action( "DOWN", _( "Move cursor down" ) );
+    ctxt.register_action( "UP", translate_marker( "Move cursor up" ) );
+    ctxt.register_action( "DOWN", translate_marker( "Move cursor down" ) );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "SAFEMODE_BLACKLIST_ADD" );
@@ -7733,7 +7742,7 @@ static int get_initial_hotkey( const size_t menu_index )
 {
     int hotkey = -1;
     if( menu_index == 0 ) {
-        const long butcher_key = inp_mngr.get_previously_pressed_key();
+        const int butcher_key = inp_mngr.get_previously_pressed_key();
         if( butcher_key != 0 ) {
             hotkey = butcher_key;
         }
@@ -8716,7 +8725,7 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
     const auto fields_here = m.field_at( u.pos() );
     for( const auto &e : m.field_at( dest_loc ) ) {
         // warn before moving into a dangerous field except when already standing within a similar field
-        if( u.is_dangerous_field( e.second ) && fields_here.findField( e.first ) == nullptr ) {
+        if( u.is_dangerous_field( e.second ) && fields_here.find_field( e.first ) == nullptr ) {
             harmful_stuff.push_back( e.second.name() );
         }
     }

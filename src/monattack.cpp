@@ -376,8 +376,7 @@ bool mattack::shriek_alert( monster *z )
 
     Creature *target = z->attack_target();
 
-    int dist;
-    if( target == nullptr || ( dist = rl_dist( z->pos(), target->pos() ) ) > 15 ||
+    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 15 ||
         !z->sees( *target ) ) {
         return false;
     }
@@ -2831,7 +2830,6 @@ bool mattack::nurse_operate( monster *z )
         add_msg( m_info, _( "The %s is scanning its surroundings." ), z->name() );
     }
 
-
     if( ( ( g->u.is_wearing( "badge_doctor" ) ||
             z->attitude_to( g->u ) == Creature::Attitude::A_FRIENDLY ) && u_see ) && one_in( 100 ) ) {
 
@@ -3035,8 +3033,13 @@ bool mattack::photograph( monster *z )
     } else if( g->u.is_armed() ) {
         sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "\"Drop your weapon!  Now!\"" ) );
     }
-    const SpeechBubble &speech = get_speech( z->type->id.str() );
-    sounds::sound( z->pos(), speech.volume, sounds::sound_t::alert, speech.text );
+    if( cname == g->u.name && g->u.cash < 0 && g->u.has_trait( trait_id( "DEBT" ) ) ) {
+        sounds::sound( z->pos(), 15, sounds::sound_t::alert,
+                       _( "\"Wanted debtor in sight! Commencing debt enforcement proceedings!\"" ) );
+    } else {
+        const SpeechBubble &speech = get_speech( z->type->id.str() );
+        sounds::sound( z->pos(), speech.volume, sounds::sound_t::alert, speech.text );
+    }
     g->events.add( EVENT_ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ), 0,
                    g->u.global_sm_location() );
 

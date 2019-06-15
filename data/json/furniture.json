@@ -692,13 +692,15 @@
     "id": "f_bathtub",
     "name": "bathtub",
     "symbol": "~",
-    "description": "You could lay in and take a soothing bath.  Only if water was running.",
+    "description": "You could lay in and take a soothing bath, if there were running water. The plug is intact, so you could use it to store liquids.",
     "color": "white",
     "move_cost_mod": 2,
     "coverage": 30,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
     "max_volume": 800,
+    "examine_action": "keg",
+    "keg_capacity": 600,
     "bash": {
       "str_min": 12,
       "str_max": 50,
@@ -2114,7 +2116,11 @@
       "str_max": 200,
       "sound": "screeching metal!",
       "sound_fail": "whump!",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 5 ] }, { "item": "scrap", "count": [ 1, 5 ] } ]
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -2135,7 +2141,11 @@
       "str_max": 200,
       "sound": "screeching metal!",
       "sound_fail": "whump!",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 5 ] }, { "item": "scrap", "count": [ 1, 5 ] } ]
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -2156,7 +2166,11 @@
       "str_max": 200,
       "sound": "screeching metal!",
       "sound_fail": "whump!",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 5 ] }, { "item": "scrap", "count": [ 1, 5 ] } ]
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -2176,7 +2190,11 @@
       "str_max": 200,
       "sound": "screeching metal!",
       "sound_fail": "whump!",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 5 ] }, { "item": "scrap", "count": [ 1, 5 ] } ]
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -2197,7 +2215,11 @@
       "str_max": 200,
       "sound": "screeching metal!",
       "sound_fail": "whump!",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 5 ] }, { "item": "scrap", "count": [ 1, 5 ] } ]
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -2218,7 +2240,11 @@
       "str_max": 200,
       "sound": "screeching metal!",
       "sound_fail": "whump!",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 5 ] }, { "item": "scrap", "count": [ 1, 5 ] } ]
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -6553,5 +6579,24 @@
       ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC" ]
+  },
+  {
+    "id": "f_bitts",
+    "type": "furniture",
+    "name": "bitts",
+    "description": "Paired vertical iron posts mounted on a wharf, pier or quay.  They are used to secure mooring lines, ropes, hawsers, or cables.",
+    "symbol": "B",
+    "color": [ "light_gray" ],
+    "move_cost_mod": 2,
+    "coverage": 30,
+    "required_str": 0,
+    "bash": {
+      "str_min": 80,
+      "str_max": 200,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "steel_chunk", "count": [ 5, 10 ] } ]
+    },
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT" ]
   }
 ]

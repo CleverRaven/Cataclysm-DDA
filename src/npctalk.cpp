@@ -101,7 +101,7 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 // Every OWED_VAL that the NPC owes you counts as +1 towards convincing
 #define OWED_VAL 1000
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 int topic_category( const talk_topic &the_topic );
 
@@ -1352,7 +1352,7 @@ void parse_tags( std::string &phrase, const player &u, const player &me, const i
             if( !me.weapon.is_gun() ) {
                 phrase.replace( fa, l, _( "BADAMMO" ) );
             } else {
-                phrase.replace( fa, l, me.weapon.ammo_type()->name() );
+                phrase.replace( fa, l, me.weapon.ammo_current() );
             }
         } else if( tag == "<current_activity>" ) {
             std::string activity_name;
@@ -1520,7 +1520,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
         response_lines.push_back( responses[i].create_option_line( *this, 'a' + i ) );
     }
 
-    long ch = text_only ? 'a' + responses.size() - 1 : ' ';
+    int ch = text_only ? 'a' + responses.size() - 1 : ' ';
     bool okay;
     do {
         d_win.refresh_response_display();
@@ -1544,7 +1544,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
                     ch -= 'a';
                     break;
             }
-        } while( ( ch < 0 || ch >= static_cast<long>( responses.size() ) ) );
+        } while( ( ch < 0 || ch >= static_cast<int>( responses.size() ) ) );
         okay = true;
         std::set<dialogue_consequence> consequences = responses[ch].get_consequences( *this );
         if( consequences.count( dialogue_consequence::hostile ) > 0 ) {
@@ -2784,7 +2784,7 @@ void conditional_t::set_npc_allies( JsonObject &jo )
 
 void conditional_t::set_npc_service( JsonObject &jo )
 {
-    const unsigned long service_price = jo.get_int( "npc_service" );
+    const signed long service_price = jo.get_int( "npc_service" );
     condition = [service_price]( const dialogue & d ) {
         return !d.beta->has_effect( effect_currently_busy ) && d.alpha->cash >= service_price;
     };
@@ -2792,7 +2792,7 @@ void conditional_t::set_npc_service( JsonObject &jo )
 
 void conditional_t::set_u_has_cash( JsonObject &jo )
 {
-    const unsigned long min_cash = jo.get_int( "u_has_cash" );
+    const signed long min_cash = jo.get_int( "u_has_cash" );
     condition = [min_cash]( const dialogue & d ) {
         return d.alpha->cash >= min_cash;
     };
@@ -3847,8 +3847,8 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
     }
 
     bool taken = false;
-    long our_ammo = p.ammo_count_for( p.weapon );
-    long new_ammo = p.ammo_count_for( given );
+    int our_ammo = p.ammo_count_for( p.weapon );
+    int new_ammo = p.ammo_count_for( given );
     const double new_weapon_value = p.weapon_value( given, new_ammo );
     const double cur_weapon_value = p.weapon_value( p.weapon, our_ammo );
     if( allow_use ) {

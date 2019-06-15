@@ -100,9 +100,8 @@ void fungal_effects::marlossify( const tripoint &p )
         m.ter_set( p, t_marloss );
         return;
     }
-    bool is_fungi;
     for( int i = 0; i < 25; i++ ) {
-        is_fungi = m.has_flag_ter( "FUNGUS", p );
+        bool is_fungi = m.has_flag_ter( "FUNGUS", p );
         spread_fungus( p );
         if( is_fungi ) {
             return;

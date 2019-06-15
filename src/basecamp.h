@@ -112,7 +112,9 @@ class basecamp
         void set_name( const std::string &new_name );
         void query_new_name();
         void add_expansion( const std::string &terrain, const tripoint &new_pos );
-        void define_camp( npc &p );
+        void add_expansion( const std::string &bldg, const tripoint &new_pos,
+                            const std::string &dir );
+        void define_camp( npc &p, const std::string &camp_type = "default" );
 
         std::string expansion_tab( const std::string &dir ) const;
 
@@ -198,8 +200,6 @@ class basecamp
         /// and ground that needs tilling
         std::string farm_description( const tripoint &omt_pos, size_t &plots_count,
                                       farm_ops operation );
-        /// Returns the description for the recipe of the next building @ref bldg
-        std::string upgrade_description( const std::string &bldg );
         /// Returns the description of a camp crafting options. converts fire charges to charcoal,
         /// allows dark crafting
         std::string craft_description( const std::string &itm );

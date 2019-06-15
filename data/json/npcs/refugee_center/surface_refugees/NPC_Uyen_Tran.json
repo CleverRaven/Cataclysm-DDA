@@ -103,7 +103,7 @@
     "id": "TALK_REFUGEE_Uyen_1_firstmeet",
     "dynamic_line": "What brings you around here?  We don't see a lot of new faces.",
     "responses": [
-      { "text": "Just a traveller.  Can I ask you a few things?", "topic": "TALK_REFUGEE_Uyen_2" },
+      { "text": "Just a traveler.  Can I ask you a few things?", "topic": "TALK_REFUGEE_Uyen_2" },
       { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
     ]
   },
@@ -154,7 +154,7 @@
   {
     "id": "MISSION_REFUGEE_Uyen_2",
     "type": "mission_definition",
-    "name": "Find 6 bottles of prozac for Uyen",
+    "name": "Find 6 bottles of Prozac",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 0,

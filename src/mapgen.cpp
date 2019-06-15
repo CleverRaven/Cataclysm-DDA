@@ -66,7 +66,7 @@
 #include "cata_utility.h"
 #include "int_id.h"
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define MON_RADIUS 3
 
@@ -975,7 +975,7 @@ class jmapgen_toilet : public jmapgen_piece
                     const float /*mon_density*/, mission * /*miss*/ ) const override {
             const int rx = x.get();
             const int ry = y.get();
-            const long charges = amount.get();
+            const int charges = amount.get();
             dat.m.furn_set( rx, ry, f_null );
             if( charges == 0 ) {
                 dat.m.place_toilet( rx, ry ); // Use the default charges supplied as default values
@@ -1014,7 +1014,7 @@ class jmapgen_gaspump : public jmapgen_piece
                     const float /*mon_density*/, mission * /*miss*/ ) const override {
             const int rx = x.get();
             const int ry = y.get();
-            long charges = amount.get();
+            int charges = amount.get();
             dat.m.furn_set( rx, ry, f_null );
             if( charges == 0 ) {
                 charges = rng( 10000, 50000 );
@@ -7010,7 +7010,7 @@ std::vector<item *> map::place_items( const items_location &loc, int chance, int
                 e->contents.emplace_back( e->magazine_default(), e->birthday() );
             }
             if( rng( 0, 99 ) < ammo && e->ammo_remaining() == 0 ) {
-                e->ammo_set( e->ammo_type()->default_ammotype(), e->ammo_capacity() );
+                e->ammo_set( e->ammo_default(), e->ammo_capacity() );
             }
         }
     }
@@ -8493,7 +8493,6 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
     }
     return std::make_pair( terrains, furnitures );
 }
-
 
 bool run_mapgen_func( const std::string &mapgen_id, map *m, oter_id terrain_type, mapgendata dat,
                       const time_point &turn, float density )

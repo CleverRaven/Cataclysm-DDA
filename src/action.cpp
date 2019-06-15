@@ -107,7 +107,7 @@ std::vector<char> keys_bound_to( action_id act, const bool restrict_to_printable
 action_id action_from_key( char ch )
 {
     input_context ctxt = get_default_mode_input_context();
-    const input_event event( static_cast<long>( ch ), CATA_INPUT_KEYBOARD );
+    const input_event event( ch, CATA_INPUT_KEYBOARD );
     const std::string &action = ctxt.input_to_action( event );
     return look_up_action( action );
 }
@@ -536,7 +536,7 @@ point get_delta_from_movement_direction( action_id act )
     }
 }
 
-long hotkey_for_action( action_id action, const bool restrict_to_printable )
+int hotkey_for_action( action_id action, const bool restrict_to_printable )
 {
     auto is_valid_key = []( char key ) {
         return key != '?';

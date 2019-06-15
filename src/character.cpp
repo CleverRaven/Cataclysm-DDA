@@ -837,9 +837,9 @@ std::vector<item_location> Character::nearby( const
     return res;
 }
 
-long int Character::i_add_to_container( const item &it, const bool unloading )
+int Character::i_add_to_container( const item &it, const bool unloading )
 {
-    long int charges = it.charges;
+    int charges = it.charges;
     if( !it.is_ammo() || unloading ) {
         return charges;
     }
@@ -848,11 +848,11 @@ long int Character::i_add_to_container( const item &it, const bool unloading )
     auto add_to_container = [&it, &charges]( item & container ) {
         auto &contained_ammo = container.contents.front();
         if( contained_ammo.charges < container.ammo_capacity() ) {
-            const long int diff = container.ammo_capacity() - contained_ammo.charges;
+            const int diff = container.ammo_capacity() - contained_ammo.charges;
             add_msg( _( "You put the %s in your %s." ), it.tname(), container.tname() );
             if( diff > charges ) {
                 contained_ammo.charges += charges;
-                return 0L;
+                return 0;
             } else {
                 contained_ammo.charges = container.ammo_capacity();
                 return charges - diff;
@@ -1045,7 +1045,7 @@ void Character::remove_mission_items( int mission_id )
 std::vector<const item *> Character::get_ammo( const ammotype &at ) const
 {
     return items_with( [at]( const item & it ) {
-        return it.is_ammo() && it.type->ammo->type.count( at );
+        return it.ammo_type() == at;
     } );
 }
 
@@ -1081,7 +1081,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
     }
     if( obj.magazine_integral() ) {
         // find suitable ammo excluding that already loaded in magazines
-        ammotype ammo = obj.ammo_type();
+        std::set<ammotype> ammo = obj.ammo_types();
         const auto mags = obj.magazine_compatible();
 
         src.visit_items( [&src, &nested, &out, &mags, ammo]( item * node ) {
@@ -1095,13 +1095,18 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             }
             if( node->is_ammo_container() && !node->contents.empty() &&
                 !node->contents_made_of( SOLID ) ) {
-                if( node->contents.front().type->ammo->type.count( ammo ) ) {
-                    out = item_location( src, node );
+                for( const ammotype &at : ammo ) {
+                    if( node->contents.front().ammo_type() == at ) {
+                        out = item_location( src, node );
+                    }
                 }
                 return VisitResponse::SKIP;
             }
-            if( node->is_ammo() && node->type->ammo->type.count( ammo ) ) {
-                out = item_location( src, node );
+
+            for( const ammotype &at : ammo ) {
+                if( node->ammo_type() == at ) {
+                    out = item_location( src, node );
+                }
             }
             if( node->is_magazine() && node->has_flag( "SPEEDLOADER" ) ) {
                 if( mags.count( node->typeId() ) && node->ammo_remaining() ) {
@@ -1649,7 +1654,7 @@ units::mass Character::get_weight() const
         return sum + itm.weight();
     } );
 
-    ret += CHARACTER_WEIGHT;       // The base weight of the player's body
+    ret += bodyweight();       // The base weight of the player's body
     ret += inv.weight();           // Weight of the stored inventory
     ret += wornWeight;             // Weight of worn items
     ret += weapon.weight();        // Weight of wielded item
@@ -2803,7 +2808,7 @@ bool Character::is_blind() const
 bool Character::pour_into( item &container, item &liquid )
 {
     std::string err;
-    const long amount = container.get_remaining_capacity_for_liquid( liquid, *this, &err );
+    const int amount = container.get_remaining_capacity_for_liquid( liquid, *this, &err );
 
     if( !err.empty() ) {
         add_msg_if_player( m_bad, err );
@@ -2871,23 +2876,23 @@ float Character::mutation_armor( body_part bp, const damage_unit &du ) const
     return mutation_armor( bp ).get_effective_resist( du );
 }
 
-long Character::ammo_count_for( const item &gun )
+int Character::ammo_count_for( const item &gun )
 {
-    long ret = item::INFINITE_CHARGES;
+    int ret = item::INFINITE_CHARGES;
     if( !gun.is_gun() ) {
         return ret;
     }
 
-    long required = gun.ammo_required();
+    int required = gun.ammo_required();
 
     if( required > 0 ) {
-        long total_ammo = 0;
+        int total_ammo = 0;
         total_ammo += gun.ammo_remaining();
 
         bool has_mag = gun.magazine_integral();
 
         const auto found_ammo = find_ammo( gun, true, -1 );
-        long loose_ammo = 0;
+        int loose_ammo = 0;
         for( const auto &ammo : found_ammo ) {
             if( ammo->is_magazine() ) {
                 has_mag = true;
@@ -2901,12 +2906,12 @@ long Character::ammo_count_for( const item &gun )
             total_ammo += loose_ammo;
         }
 
-        ret = std::min<long>( ret, total_ammo / required );
+        ret = std::min( ret, total_ammo / required );
     }
 
-    long ups_drain = gun.get_gun_ups_drain();
+    int ups_drain = gun.get_gun_ups_drain();
     if( ups_drain > 0 ) {
-        ret = std::min<long>( ret, charges_of( "UPS" ) / ups_drain );
+        ret = std::min( ret, charges_of( "UPS" ) / ups_drain );
     }
 
     return ret;
@@ -3323,8 +3328,28 @@ units::mass Character::bodyweight() const
 
 int Character::height() const
 {
+    int height = init_height;
+    int height_pos = 15;
+
+    const static std::array<int, 5> v = {{ 290, 240, 190, 140, 90 }};
+    for( const int up_bound : v ) {
+        if( up_bound >= init_height && up_bound - init_height < 40 ) {
+            height_pos = up_bound - init_height;
+        }
+    }
+
+    if( get_size() == MS_TINY ) {
+        height = 90 - height_pos;
+    } else if( get_size() == MS_SMALL ) {
+        height = 140 - height_pos;
+    } else if( get_size() == MS_LARGE ) {
+        height = 240 - height_pos;
+    } else if( get_size() == MS_HUGE ) {
+        height = 290 - height_pos;
+    }
+
     // TODO: Make this a player creation option
-    return 175;
+    return height;
 }
 
 int Character::get_bmr() const

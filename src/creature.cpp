@@ -168,7 +168,7 @@ bool Creature::is_dangerous_fields( const field &fld ) const
 bool Creature::is_dangerous_field( const field_entry &entry ) const
 {
     // If it's dangerous and we're not immune return true, else return false
-    return entry.is_dangerous() && !is_immune_field( entry.getFieldType() );
+    return entry.is_dangerous() && !is_immune_field( entry.get_field_type() );
 }
 
 bool Creature::sees( const Creature &critter ) const

@@ -24,7 +24,7 @@ std::string itype::nname( unsigned int quantity ) const
     return ngettext( name.c_str(), name_plural.c_str(), quantity );
 }
 
-long itype::charges_per_volume( const units::volume &vol ) const
+int itype::charges_per_volume( const units::volume &vol ) const
 {
     if( volume == 0_ml ) {
         return item::INFINITE_CHARGES; // TODO: items should not have 0 volume at all!
@@ -49,7 +49,7 @@ const use_function *itype::get_use( const std::string &iuse_name ) const
     return iter != use_methods.end() ? &iter->second : nullptr;
 }
 
-long itype::tick( player &p, item &it, const tripoint &pos ) const
+int itype::tick( player &p, item &it, const tripoint &pos ) const
 {
     // Note: can go higher than current charge count
     // Maybe should move charge decrementing here?
@@ -66,7 +66,7 @@ long itype::tick( player &p, item &it, const tripoint &pos ) const
     return charges_to_use;
 }
 
-long itype::invoke( player &p, item &it, const tripoint &pos ) const
+int itype::invoke( player &p, item &it, const tripoint &pos ) const
 {
     if( !has_use() ) {
         return 0;
@@ -74,7 +74,7 @@ long itype::invoke( player &p, item &it, const tripoint &pos ) const
     return invoke( p, it, pos, use_methods.begin()->first );
 }
 
-long itype::invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const
+int itype::invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const
 {
     const use_function *use = get_use( iuse_name );
     if( use == nullptr ) {

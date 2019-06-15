@@ -1010,7 +1010,7 @@ void create_note( const tripoint &curs )
 
     do {
         new_note = input_popup.query_string( false );
-        const long first_input = input_popup.context().get_raw_input().get_first_input();
+        const int first_input = input_popup.context().get_raw_input().get_first_input();
         if( first_input == KEY_ESCAPE ) {
             new_note = old_note;
             esc_pressed = true;
@@ -1091,8 +1091,8 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
 
     input_context ctxt( "OVERMAP_SEARCH" );
     ctxt.register_leftright();
-    ctxt.register_action( "NEXT_TAB", _( "Next target" ) );
-    ctxt.register_action( "PREV_TAB", _( "Previous target" ) );
+    ctxt.register_action( "NEXT_TAB", translate_marker( "Next target" ) );
+    ctxt.register_action( "PREV_TAB", translate_marker( "Previous target" ) );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
