@@ -1412,7 +1412,7 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
     if( guy ) {
         for( const body_part bp : all_body_parts ) {
             if( sp.bp_is_affected( bp ) ) {
-                guy->add_effect( spell_effect, dur_td, bp );
+                guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( "PERMANENT" ) );
                 bodypart_effected = true;
             }
         }
@@ -1478,7 +1478,7 @@ void line_attack( const spell &sp, const tripoint &source, const tripoint &targe
 void spawn_ethereal_item( spell &sp )
 {
     item granted( sp.effect_data(), calendar::turn );
-    if( !granted.is_comestible() ) {
+    if( !granted.is_comestible() && !sp.has_flag( "PERMANENT" ) ) {
         granted.set_var( "ethereal", to_turns<int>( sp.duration_turns() ) );
         granted.set_flag( "ETHEREAL_ITEM" );
     }
