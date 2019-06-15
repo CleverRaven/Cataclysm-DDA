@@ -198,8 +198,9 @@ void map::build_sunlight_cache( int zlev )
     auto &lm = map_cache.lm;
     // Grab illumination at ground level.
     const float outside_light_level = g->natural_light_level( 0 );
-    const float inside_light_level = ( outside_light_level > LIGHT_SOURCE_BRIGHT ) ?
-                                     LIGHT_AMBIENT_LOW + 1.0 : LIGHT_AMBIENT_MINIMAL;
+    // TODO: if zlev < 0 is open to sunlight, this won't calculate correct light, but neither does g->natural_light_level()
+    const float inside_light_level = ( zlev >= 0 && outside_light_level > LIGHT_SOURCE_BRIGHT ) ?
+                                     LIGHT_AMBIENT_DIM * 0.8 : LIGHT_AMBIENT_LOW;
     // Handling when z-levels are disabled is based on whether a tile is considered "outside".
     if( !zlevels ) {
         const auto &outside_cache = map_cache.outside_cache;
@@ -236,15 +237,9 @@ void map::build_sunlight_cache( int zlev )
     const auto &outside_cache = map_cache.outside_cache;
     const float sight_penalty = weather::sight_penalty( g->weather.weather );
     for( int x = 0, prev_x = offset.x; x < MAPSIZE_X; x++, prev_x++ ) {
-        bool x_inbounds = true;
-        if( prev_x < 0 || prev_x >= MAPSIZE_X ) {
-            x_inbounds = false;
-        }
+        bool x_inbounds = ( prev_x < 0 || prev_x >= MAPSIZE_X ) ? false : true;
         for( int y = 0, prev_y = offset.y; y < MAPSIZE_Y; y++, prev_y++ ) {
-            bool inbounds = true;
-            if( !x_inbounds || prev_y < 0 || prev_y >= MAPSIZE_Y ) {
-                inbounds = false;
-            }
+            bool inbounds = ( !x_inbounds || prev_y < 0 || prev_y >= MAPSIZE_Y ) ? false : true;
             four_quadrants prev_light( outside_light_level );
             float prev_transparency = static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR );
             if( inbounds ) {
@@ -259,8 +254,10 @@ void map::build_sunlight_cache( int zlev )
             // The formula to apply transparency to the light rays doesn't handle full opacity,
             // so handle that seperately.
             if( prev_transparency > LIGHT_TRANSPARENCY_SOLID &&
-                !prev_floor_cache[x][y] && prev_light.max() > 0.0 ) {
-                lm[x][y].fill( prev_light.max() * LIGHT_TRANSPARENCY_OPEN_AIR / prev_transparency );
+                !prev_floor_cache[x][y] && prev_light.max() > 0.0 && outside_cache[x][y] ) {
+                lm[x][y].fill( std::max( inside_light_level,
+                                         prev_light.max() * static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR )
+                                         / prev_transparency ) );
             } else {
                 lm[x][y].fill( inside_light_level );
             }
