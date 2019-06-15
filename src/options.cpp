@@ -853,13 +853,13 @@ static std::vector<options_manager::id_and_option> build_resource_list(
 
     resource_option.clear();
 
-    Path *path = Path::getInstance();
+    Path path = Path::get_instance();
 
-    const auto resource_dirs = get_directories_with( path->getPathForValueKey(filename_label),
-                                                     path->getPathForValueKey(dirname_label), true );
+    const auto resource_dirs = get_directories_with( path.getPathForValueKey(filename_label),
+                                                     path.getPathForValueKey(dirname_label), true );
 
     for( auto &resource_dir : resource_dirs ) {
-        read_from_file( resource_dir + "/" + path->getPathForValueKey(filename_label), [&]( std::istream & fin ) {
+        read_from_file( resource_dir + "/" + path.getPathForValueKey(filename_label), [&]( std::istream & fin ) {
             std::string resource_name;
             std::string view_name;
             // should only have 2 values inside it, otherwise is going to only load the last 2 values
@@ -2757,9 +2757,9 @@ std::string options_manager::migrateOptionValue( const std::string &name,
 
 bool options_manager::save()
 {
-    Path *path = Path::getInstance( );
+    Path path = Path::get_instance( );
 
-    const auto savefile = path->getPathForValueKey("OPTIONS_USER");
+    const auto savefile = path.getPathForValueKey("OPTIONS_USER");
 
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
@@ -2779,9 +2779,9 @@ bool options_manager::save()
 
 void options_manager::load()
 {
-    Path *path = Path::getInstance( );
+    Path path = Path::get_instance( );
 
-    const auto file = path->getPathForValueKey("OPTIONS_USER");
+    const auto file = path.getPathForValueKey("OPTIONS_USER");
     if( !read_from_file_optional_json( file, [&]( JsonIn & jsin ) {
     deserialize( jsin );
     } ) )

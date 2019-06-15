@@ -352,10 +352,10 @@ void main_menu::load_char_templates()
 {
     templates.clear();
 
-    Path *appPath = Path::getInstance( );
+    Path appPath = Path::get_instance( );
 
     for( std::string path : get_files_from_path( ".template",
-            appPath->getPathForValueKey("TEMP_DIRE"), false,
+            appPath.getPathForValueKey("TEMP_DIRE"), false,
             true ) ) {
         path = native_to_utf8( path );
         path.erase( path.find( ".template" ), std::string::npos );
@@ -378,24 +378,24 @@ bool main_menu::opening_screen()
     init_strings();
     print_menu( w_open, 0, iMenuOffsetX, iMenuOffsetY );
 
-    Path *path = Path::getInstance( );
+    Path path = Path::get_instance( );
 
-    if( !assure_dir_exist( path->getPathForValueKey("CONFIG_DIR") ) ) {
+    if( !assure_dir_exist( path.getPathForValueKey("CONFIG_DIR") ) ) {
         popup( _( "Unable to make config directory. Check permissions." ) );
         return false;
     }
 
-    if( !assure_dir_exist( path->getPathForValueKey("SAVE_DIRE") ) ) {
+    if( !assure_dir_exist( path.getPathForValueKey("SAVE_DIRE") ) ) {
         popup( _( "Unable to make save directory. Check permissions." ) );
         return false;
     }
 
-    if( !assure_dir_exist( path->getPathForValueKey("TEMP_DIRE") ) ) {
+    if( !assure_dir_exist( path.getPathForValueKey("TEMP_DIRE") ) ) {
         popup( _( "Unable to make templates directory. Check permissions." ) );
         return false;
     }
 
-    if( !assure_dir_exist( path->getPathForValueKey("USER_SND") ) ) {
+    if( !assure_dir_exist( path.getPathForValueKey("USER_SND") ) ) {
         popup( _( "Unable to make sound directory. Check permissions." ) );
         return false;
     }
@@ -793,8 +793,8 @@ bool main_menu::new_character_tab()
             } else if( !templates.empty() && action == "DELETE_TEMPLATE" ) {
                 if( query_yn( _( "Are you sure you want to delete %s?" ),
                               templates[sel3].c_str() ) ) {
-                    Path *appPath = Path::getInstance( );
-                    const auto path = appPath->getPathForValueKey("TEMP_DIRE") + utf8_to_native( templates[sel3] ) + ".template";
+                    Path appPath = Path::get_instance( );
+                    const auto path = appPath.getPathForValueKey("TEMP_DIRE") + utf8_to_native( templates[sel3] ) + ".template";
                     if( std::remove( path.c_str() ) != 0 ) {
                         popup( _( "Sorry, something went wrong." ) );
                     } else {

@@ -229,13 +229,13 @@ extern "C" {
 
     static void log_crash( const char *type, const char *msg )
     {
-        Path *path = Path::getInstance( );
+        Path path = Path::get_instance( );
 
         // This implementation is not technically async-signal-safe for many
         // reasons, including the memory allocations and the SDL message box.
         // But it should usually work in practice, unless for example the
         // program segfaults inside malloc.
-        std::string crash_log_file = path->getPathForValueKey("CRASH_FILE");
+        std::string crash_log_file = path.getPathForValueKey("CRASH_FILE");
 
         std::ostringstream log_text;
         log_text << "The program has crashed."

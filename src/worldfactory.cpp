@@ -88,9 +88,9 @@ void WORLD::COPY_WORLD( const WORLD *world_to_copy )
 
 std::string WORLD::folder_path() const
 {
-    Path *path = Path::getInstance( );
+    Path path = Path::get_instance( );
 
-    return path->getPathForValueKey("SAVE_DIRE") + utf8_to_native( world_name );
+    return path.getPathForValueKey("SAVE_DIRE") + utf8_to_native( world_name );
 }
 
 bool WORLD::save_exists( const save_t &name ) const
@@ -219,9 +219,9 @@ bool WORLD::save( const bool is_conversion ) const
 
     if( !is_conversion ) {
 
-        Path *path = Path::getInstance( );
+        Path path = Path::get_instance( );
 
-        const auto savefile = folder_path() + "/" + path->getPathForValueKey("WORLD_OPTION");
+        const auto savefile = folder_path() + "/" + path.getPathForValueKey("WORLD_OPTION");
         const bool saved = write_to_file( savefile, [&]( std::ostream & fout ) {
             JsonOut jout( fout );
 
@@ -258,9 +258,9 @@ void worldfactory::init()
 
     std::vector<std::string> qualifiers;
 
-    Path *path = Path::getInstance( );
+    Path path = Path::get_instance( );
 
-    qualifiers.push_back( path->getPathForValueKey("WORLD_OPTION") );
+    qualifiers.push_back( path.getPathForValueKey("WORLD_OPTION") );
     qualifiers.push_back( SAVE_MASTER );
 
     all_worlds.clear();
@@ -269,7 +269,7 @@ void worldfactory::init()
     // worlds exist by having an option file
     // create worlds
     for( const auto &world_dir : get_directories_with( qualifiers,
-            path->getPathForValueKey("SAVE_DIRE"), true ) ) {
+            path.getPathForValueKey("SAVE_DIRE"), true ) ) {
         // get the save files
         auto world_sav_files = get_files_from_path( SAVE_EXTENSION, world_dir, false );
         // split the save file names between the directory and the extension
@@ -551,9 +551,9 @@ void worldfactory::remove_world( const std::string &worldname )
 
 void worldfactory::load_last_world_info()
 {
-    Path *path = Path::getInstance( );
+    Path path = Path::get_instance( );
 
-    std::ifstream file( path->getPathForValueKey("LAST_WORLD"),
+    std::ifstream file( path.getPathForValueKey("LAST_WORLD"),
             std::ifstream::in | std::ifstream::binary );
     if( !file.good() ) {
         return;
@@ -567,9 +567,9 @@ void worldfactory::load_last_world_info()
 
 void worldfactory::save_last_world_info()
 {
-    Path *path = Path::getInstance( );
+    Path path = Path::get_instance( );
 
-    write_to_file( path->getPathForValueKey("LAST_WORLD"), [&]( std::ostream & file ) {
+    write_to_file( path.getPathForValueKey("LAST_WORLD"), [&]( std::ostream & file ) {
         JsonOut jsout( file, true );
         jsout.start_object();
         jsout.member( "world_name", last_world_name );
@@ -1394,16 +1394,14 @@ bool WORLD::load_options()
 
     using namespace std::placeholders;
 
-    Path *appPath = Path::getInstance( );
+    Path appPath = Path::get_instance( );
 
-    const auto path = folder_path() + "/" + appPath->getPathForValueKey("WORLD_OPTION");
-    if( read_from_file_optional_json( path, [&]( JsonIn & jsin ) {
-    load_options( jsin );
-    } ) ) {
-        return true;
-    }
+    const auto path = folder_path() + "/" + appPath.getPathForValueKey("WORLD_OPTION");
+    return read_from_file_optional_json( path, [ & ]( JsonIn &jsin )
+    {
+        load_options( jsin );
+    } );
 
-    return false;
 }
 
 void load_world_option( JsonObject &jo )
@@ -1463,13 +1461,10 @@ WORLDPTR worldfactory::get_world( const std::string &name )
 // Helper predicate to exclude files from deletion when resetting a world directory.
 static bool isForbidden( const std::string &candidate )
 {
-    Path *path = Path::getInstance( );
+    Path path = Path::get_instance( );
 
-    if( candidate.find( path->getPathForValueKey("WORLD_OPTION") ) != std::string::npos ||
-        candidate.find( "mods.json" ) != std::string::npos ) {
-        return true;
-    }
-    return false;
+    return candidate.find( path.getPathForValueKey( "WORLD_OPTION" )) != std::string::npos ||
+           candidate.find( "mods.json" ) != std::string::npos;
 }
 
 void worldfactory::delete_world( const std::string &worldname, const bool delete_folder )

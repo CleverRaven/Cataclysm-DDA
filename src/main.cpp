@@ -155,7 +155,7 @@ int main( int argc, char *argv[] )
         external_storage_path += '/';
     }
 
-    Path *applicationPath = Path::getInstance(external_storage_path, external_storage_path);
+    Path applicationPath = Path::get_instance(external_storage_path, external_storage_path);
 
 #endif
 
@@ -165,18 +165,18 @@ int main( int argc, char *argv[] )
 #define Q(STR) #STR
 #define QUOTE(STR) Q(STR)
 
-    Path *applicationPath = Path::getInstance(std::string( QUOTE( PREFIX ) ), "");
+    Path applicationPath = Path::get_instance(std::string( QUOTE( PREFIX ) ), "");
 
 #endif
 
     //TODO: If we define USER_HOME_DIR, we cannot define PREFIX.
 #if defined(USE_HOME_DIR)
 
-    Path *applicationPath = Path::getInstance("", "");
+    Path applicationPath = Path::get_instance("", "");
 
 #else
 
-    Path *applicationPath = Path::getInstance("", "./");
+    Path applicationPath = Path::get_instance("", "./");
 
 #endif
 
@@ -408,17 +408,15 @@ int main( int argc, char *argv[] )
         }
     }
 
-    applicationPath->toString();
-
-    if( !dir_exist( applicationPath->getPathForValueKey("DATA_DIRE") ) ) {
+    if( !dir_exist( applicationPath.getPathForValueKey("DATA_DIRE") ) ) {
         printf( "Fatal: Can't find directory \"%s\"\nPlease ensure the current working directory is correct. Perhaps you meant to start \"cataclysm-launcher\"?\n",
-                applicationPath->getPathForValueKey("DATA_DIRE").c_str() );
+                applicationPath.getPathForValueKey("DATA_DIRE").c_str() );
         exit( 1 );
     }
 
-    if( !assure_dir_exist( applicationPath->getPathForValueKey("USER_DIRE") ) ) {
+    if( !assure_dir_exist( applicationPath.getPathForValueKey("USER_DIRE") ) ) {
         printf( "Can't open or create %s. Check permissions.\n",
-                applicationPath->getPathForValueKey("USER_DIRE").c_str() );
+                applicationPath.getPathForValueKey("USER_DIRE").c_str() );
         exit( 1 );
     }
 

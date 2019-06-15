@@ -243,9 +243,9 @@ int sokoban_game::start_game()
 
     using namespace std::placeholders;
 
-    Path *path = Path::getInstance( );
+    Path path = Path::get_instance( );
 
-    read_from_file( path->getPathForValueKey("SOKOBAN"), std::bind( &sokoban_game::parse_level, this, _1 ) );
+    read_from_file( path.getPathForValueKey("SOKOBAN"), std::bind( &sokoban_game::parse_level, this, _1 ) );
 
     const catacurses::window w_sokoban = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                          iOffsetY, iOffsetX );

@@ -4,17 +4,21 @@
 
 #include <map>
 #include <string>
+#include <clocale>
+#include <cstdlib>
+#include <iostream>
+#include <utility>
+#include <memory>
+
+#include "filesystem.h"
+#include "options.h"
 
 class Path
 {
+
 private:
 
-    std::map<std::string, std::string> pathname;
-
-    /*
-     * Here will be the instace stored.
-     */
-    static Path* instance;
+    std::map <std::string, std::string> pathname;
 
     /*
      * Private constructor to prevent instancing.
@@ -57,7 +61,7 @@ private:
      * @param path Path to apply the format.
      * @return Formatted path.
      */
-    static std::string formatPath(std::string path);
+    static std::string formatPath( std::string path );
 
 public:
 
@@ -86,23 +90,21 @@ public:
      *
      * Static access method.
      */
-    static Path *getInstance( std::string basePath, std::string userDirectoryPath );
+    static Path &get_instance( std::string basePath, std::string userDirectoryPath );
 
     /*
      * Static access method.
      *
      * Precondition:
-     *      The method { getInstance( string, string ) } has been called.
+     *      The method { get_instance( string, string ) } has been called.
      */
-    static Path *getInstance();
+    static Path &get_instance( );
 
     /*
      * TODO: Make safe method, launch an error in case the key does not exist.
      * Returns the path according to the value of the key.
      */
     std::string getPathForValueKey( std::string valueKey );
-
-    void toString();
 };
 
 namespace PATH_INFO
@@ -120,8 +122,8 @@ namespace PATH_INFO
  * the key into the @ref FILENAMES map. It is used if no translated file can be
  * found.
  */
-std::string find_translated_file( const std::string &pathid,
-        const std::string &extension, const std::string &fallbackid );
+    std::string find_translated_file( const std::string &pathid,
+                                      const std::string &extension, const std::string &fallbackid );
 }
 
 #endif

@@ -1,13 +1,5 @@
 #include "path_info.h"
 
-#include <clocale>
-#include <cstdlib>
-#include <iostream>
-#include <utility>
-
-#include "filesystem.h"
-#include "options.h"
-
 #if defined(_WIN32)
 #include <windows.h>
 #endif
@@ -85,41 +77,17 @@ std::string Path::getPathForValueKey( const std::string valueKey )
     return pathname[valueKey];
 }
 
-Path * Path::getInstance( std::string basePath, std::string userDirectoryPath )
+Path &Path::get_instance( std::string basePath, std::string userDirectoryPath )
 {
-    if (instance == 0)
-    {
-        instance = new Path( basePath, userDirectoryPath );
-    }
-
+    // Here will be the instace stored.
+    static Path instance( basePath, userDirectoryPath );
     return instance;
 }
 
-Path* Path::getInstance( )
+Path &Path::get_instance( )
 {
-    if (instance == 0)
-    {
-        // TODO: Raise error, the object hasn't been created.
-    }
-
-    return instance;
+    return get_instance("", "");
 }
-
-void Path::toString( )
-{
-    for( auto const& x : pathname)
-    {
-        std::cout << x.first
-        << ':'
-        << x.second
-        << std::endl;
-    }
-}
-
-/*
- * Null, because instance will be initialized on demand.
- */
-Path* Path::instance = 0;
 
 // Private Construct
 
@@ -228,9 +196,9 @@ std::string Path::formatPath(std::string path)
 std::string PATH_INFO::find_translated_file( const std::string &pathid,
         const std::string &extension, const std::string &fallbackid )
 {
-    Path *path = Path::getInstance();
+    Path path = Path::get_instance();
 
-    const std::string base_path = path->getPathForValueKey(pathid);
+    const std::string base_path = path.getPathForValueKey(pathid);
 
 #if defined(LOCALIZE) && !defined(__CYGWIN__)
     std::string loc_name;
@@ -276,5 +244,5 @@ std::string PATH_INFO::find_translated_file( const std::string &pathid,
     }
 #endif
     ( void ) extension;
-    return path->getPathForValueKey(fallbackid);
+    return path.getPathForValueKey(fallbackid);
 }

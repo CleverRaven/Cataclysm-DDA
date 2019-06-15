@@ -106,9 +106,9 @@ void mod_manager::load_replacement_mods( const std::string &path )
 
 mod_manager::mod_manager()
 {
-    Path *path = Path::getInstance( );
+    Path path = Path::get_instance( );
 
-    load_replacement_mods( path->getPathForValueKey("MODS_REPLACEM") );
+    load_replacement_mods( path.getPathForValueKey("MODS_REPLACEM") );
     refresh_mod_list();
     set_usable_mods();
 }
@@ -143,16 +143,16 @@ void mod_manager::refresh_mod_list()
 
     std::map<mod_id, std::vector<mod_id>> mod_dependency_map;
 
-    Path *path = Path::getInstance( );
+    Path path = Path::get_instance( );
 
-    load_mods_from( path->getPathForValueKey("MOD_DIRE") );
-    load_mods_from( path->getPathForValueKey("USER_MOD_DIR") );
+    load_mods_from( path.getPathForValueKey("MOD_DIRE") );
+    load_mods_from( path.getPathForValueKey("USER_MOD_DIR") );
 
-    if( file_exist( path->getPathForValueKey("DF_MODS_DEV") ) ) {
-        load_mod_info( path->getPathForValueKey("DF_MODS_DEV") );
+    if( file_exist( path.getPathForValueKey("DF_MODS_DEV") ) ) {
+        load_mod_info( path.getPathForValueKey("DF_MODS_DEV") );
     }
-    if( file_exist( path->getPathForValueKey("DF_MODS_USER") ) ) {
-        load_mod_info( path->getPathForValueKey("DF_MODS_USER") );
+    if( file_exist( path.getPathForValueKey("DF_MODS_USER") ) ) {
+        load_mod_info( path.getPathForValueKey("DF_MODS_USER") );
     }
 
     if( set_default_mods( mod_id( "user:default" ) ) ) {
@@ -276,9 +276,9 @@ bool mod_manager::set_default_mods( const t_mod_list &mods )
 {
     default_mods = mods;
 
-    Path *path = Path::getInstance( );
+    Path path = Path::get_instance( );
 
-    return write_to_file( path->getPathForValueKey("DF_MODS_USER"), [&]( std::ostream & fout ) {
+    return write_to_file( path.getPathForValueKey("DF_MODS_USER"), [&]( std::ostream & fout ) {
         JsonOut json( fout, true ); // pretty-print
         json.start_object();
         json.member( "type", "MOD_INFO" );

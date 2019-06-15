@@ -29,9 +29,9 @@ help &get_help()
 
 void help::load()
 {
-    Path *path = Path::getInstance( );
+    Path path = Path::get_instance( );
 
-    read_from_file_optional_json( path->getPathForValueKey("HELP_FILE"), [&]( JsonIn & jsin ) {
+    read_from_file_optional_json( path.getPathForValueKey("HELP_FILE"), [&]( JsonIn & jsin ) {
         deserialize( jsin );
     } );
 }

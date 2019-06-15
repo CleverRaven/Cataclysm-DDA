@@ -114,22 +114,22 @@ void input_manager::init()
     init_keycode_mapping();
     reset_timeout();
 
-    Path *path = Path::getInstance( );
+    Path path = Path::get_instance( );
 
     try {
-        load( path->getPathForValueKey("KEYBINDINGS"), false );
+        load( path.getPathForValueKey("KEYBINDINGS"), false );
     } catch( const JsonError &err ) {
-        throw std::runtime_error( path->getPathForValueKey("KEYBINDINGS") + ": " + err.what() );
+        throw std::runtime_error( path.getPathForValueKey("KEYBINDINGS") + ": " + err.what() );
     }
     try {
-        load( path->getPathForValueKey("KEYBIND_VEHIC"), false );
+        load( path.getPathForValueKey("KEYBIND_VEHIC"), false );
     } catch( const JsonError &err ) {
-        throw std::runtime_error( path->getPathForValueKey("KEYBIND_VEHIC") + ": " + err.what() );
+        throw std::runtime_error( path.getPathForValueKey("KEYBIND_VEHIC") + ": " + err.what() );
     }
     try {
-        load( path->getPathForValueKey("KEYBIND_USER"), true );
+        load( path.getPathForValueKey("KEYBIND_USER"), true );
     } catch( const JsonError &err ) {
-        throw std::runtime_error( path->getPathForValueKey("KEYBIND_USER") + ": " + err.what() );
+        throw std::runtime_error( path.getPathForValueKey("KEYBIND_USER") + ": " + err.what() );
     }
 
     if( keymap_file_loaded_from.empty() || ( keymap.empty() && unbound_keymap.empty() ) ) {
@@ -269,9 +269,9 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
 
 void input_manager::save()
 {
-    Path *path = Path::getInstance( );
+    Path path = Path::get_instance( );
 
-    write_to_file( path->getPathForValueKey("KEYBIND_USER"), [&]( std::ostream & data_file ) {
+    write_to_file( path.getPathForValueKey("KEYBIND_USER"), [&]( std::ostream & data_file ) {
         JsonOut jsout( data_file, true );
 
         jsout.start_array();

@@ -630,9 +630,9 @@ bool safemode::save( const bool is_character_in )
 {
     is_character = is_character_in;
 
-    Path *path = Path::getInstance( );
+    Path path = Path::get_instance( );
 
-    auto file = path->getPathForValueKey("SAFE_MODE");
+    auto file = path.getPathForValueKey("SAFE_MODE");
 
     if( is_character ) {
         file = g->get_player_base_save_path() + ".sfm.json";
@@ -665,10 +665,10 @@ void safemode::load( const bool is_character_in )
 {
     is_character = is_character_in;
 
-    Path *path = Path::getInstance( );
+    Path path = Path::get_instance( );
 
     std::ifstream fin;
-    std::string file = path->getPathForValueKey("SAFE_MODE");
+    std::string file = path.getPathForValueKey("SAFE_MODE");
     if( is_character ) {
         file = g->get_player_base_save_path() + ".sfm.json";
     }
