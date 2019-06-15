@@ -855,11 +855,11 @@ static std::vector<options_manager::id_and_option> build_resource_list(
 
     Path path = Path::get_instance();
 
-    const auto resource_dirs = get_directories_with( path.getPathForValueKey(filename_label),
-                                                     path.getPathForValueKey(dirname_label), true );
+    const auto resource_dirs = get_directories_with( path.get_path_for_value_key( filename_label ),
+                                                     path.get_path_for_value_key( dirname_label ), true );
 
     for( auto &resource_dir : resource_dirs ) {
-        read_from_file( resource_dir + "/" + path.getPathForValueKey(filename_label), [&]( std::istream & fin ) {
+        read_from_file( resource_dir + "/" + path.get_path_for_value_key( filename_label ), [&]( std::istream & fin ) {
             std::string resource_name;
             std::string view_name;
             // should only have 2 values inside it, otherwise is going to only load the last 2 values
@@ -2759,7 +2759,7 @@ bool options_manager::save()
 {
     Path path = Path::get_instance( );
 
-    const auto savefile = path.getPathForValueKey("OPTIONS_USER");
+    const auto savefile = path.get_path_for_value_key( "OPTIONS_USER" );
 
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
@@ -2781,7 +2781,7 @@ void options_manager::load()
 {
     Path path = Path::get_instance( );
 
-    const auto file = path.getPathForValueKey("OPTIONS_USER");
+    const auto file = path.get_path_for_value_key( "OPTIONS_USER" );
     if( !read_from_file_optional_json( file, [&]( JsonIn & jsin ) {
     deserialize( jsin );
     } ) )

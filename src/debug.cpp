@@ -139,7 +139,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     std::string backtrace_instructions =
         string_format(
             _( "See %s for a full stack backtrace" ),
-            path.getPathForValueKey("DEBUG_FILE")
+            path.get_path_for_value_key( "DEBUG_FILE" )
         );
 #endif
 
@@ -421,7 +421,7 @@ void setupDebug( DebugOutput output_mode )
 
     Path path = Path::get_instance( );
 
-    debugFile.init( output_mode, path.getPathForValueKey("DEBUG_FILE") );
+    debugFile.init( output_mode, path.get_path_for_value_key( "DEBUG_FILE" ) );
 }
 
 void deinitDebug()

@@ -848,7 +848,7 @@ void color_manager::show_gui()
 
             Path path = Path::get_instance( );
 
-            auto vFiles = get_files_from_path( ".json", path.getPathForValueKey("COLOR_TEM"), false, true );
+            auto vFiles = get_files_from_path( ".json", path.get_path_for_value_key( "COLOR_TEM" ), false, true );
 
             if( !vFiles.empty() ) {
                 uilist ui_templates;
@@ -962,7 +962,7 @@ bool color_manager::save_custom()
 {
     Path path = Path::get_instance( );
 
-    const auto savefile = path.getPathForValueKey("CUST_COLORS");
+    const auto savefile = path.get_path_for_value_key( "CUST_COLORS" );
 
     return write_to_file_exclusive( savefile, [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
@@ -974,7 +974,7 @@ void color_manager::load_custom( const std::string &sPath )
 {
     Path path = Path::get_instance( );
 
-    const auto file = ( sPath.empty() ) ? path.getPathForValueKey("CUST_COLORS") : sPath;
+    const auto file = ( sPath.empty() ) ? path.get_path_for_value_key( "CUST_COLORS" ) : sPath;
 
     read_from_file_optional_json( file, [this]( JsonIn & jsonin ) {
         deserialize( jsonin );

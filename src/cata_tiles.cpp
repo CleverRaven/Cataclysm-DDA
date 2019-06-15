@@ -265,8 +265,8 @@ static void get_tile_information( const std::string &config_path, std::string &j
 {
     Path path = Path::get_instance();
 
-    const std::string default_json = path.getPathForValueKey("DF_TITLE_JSON");
-    const std::string default_tileset = path.getPathForValueKey("DF_TITLE_PNG");
+    const std::string default_json = path.get_path_for_value_key( "DF_TITLE_JSON" );
+    const std::string default_tileset = path.get_path_for_value_key( "DF_TITLE_PNG" );
 
     // Get JSON and TILESET vars from config
     const auto reader = [&]( std::istream & fin ) {
@@ -507,13 +507,13 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
     if( tset_iter != TILESETS.end() ) {
         tileset_root = tset_iter->second;
         dbg( D_INFO ) << '"' << tileset_id << '"' << " tileset: found config file path: " << tileset_root;
-        get_tile_information( tileset_root + '/' + path.getPathForValueKey("TILESET_CONF"),
+        get_tile_information( tileset_root + '/' + path.get_path_for_value_key( "TILESET_CONF" ),
                               json_conf, tileset_path );
         dbg( D_INFO ) << "Current tileset is: " << tileset_id;
     } else {
         dbg( D_ERROR ) << "Tileset \"" << tileset_id << "\" from options is invalid";
-        json_conf = path.getPathForValueKey("DF_TITLE_JSON");
-        tileset_path = path.getPathForValueKey("DF_TITLE_PNG");
+        json_conf = path.get_path_for_value_key( "DF_TITLE_JSON" );
+        tileset_path = path.get_path_for_value_key( "DF_TITLE_PNG" );
     }
 
     std::string json_path = tileset_root + '/' + json_conf;

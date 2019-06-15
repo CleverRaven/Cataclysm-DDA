@@ -386,7 +386,7 @@ void game::load_core_data( loading_ui &ui )
 
     Path path = Path::get_instance();
 
-    load_data_from_dir( path.getPathForValueKey("JSON_DIRE"), "core", ui );
+    load_data_from_dir( path.get_path_for_value_key( "JSON_DIRE" ), "core", ui );
 }
 
 void game::load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui )
@@ -2511,7 +2511,7 @@ void game::move_save_to_graveyard()
     Path path = Path::get_instance();
 
     const std::string &save_dir      = get_world_base_save_path();
-    const std::string &graveyard_dir = path.getPathForValueKey("GRAVEY_DIR");
+    const std::string &graveyard_dir = path.get_path_for_value_key( "GRAVEY_DIR" );
     const std::string &prefix        = base64_encode( u.name ) + ".";
 
     if( !assure_dir_exist( graveyard_dir ) ) {
@@ -2858,7 +2858,7 @@ void game::write_memorial_file( std::string sLastWords )
 {
     Path path = Path::get_instance();
 
-    const std::string &memorial_dir = path.getPathForValueKey("MEMO_DIRE");
+    const std::string &memorial_dir = path.get_path_for_value_key( "MEMO_DIRE" );
     const std::string &memorial_active_world_dir = memorial_dir + utf8_to_native(
                 world_generator->active_world->world_name ) + "/";
 

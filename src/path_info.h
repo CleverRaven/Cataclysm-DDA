@@ -23,7 +23,7 @@ private:
     /*
      * Private constructor to prevent instancing.
      */
-    Path( std::string basePath, std::string userDirectoryPath );
+    Path( std::string base_path, std::string user_directory_path );
 
     /*
      * Configure the path to the 'data' and 'gfx' directory, which contains
@@ -39,7 +39,7 @@ private:
      *      pathname["DATA_DIRE"] has been initialized.
      *      pathname["GFX_DIRE"] has been initialized.
      */
-    void initDataDirectory( );
+    void init_data_directory( );
 
     /*
      * To use the route it is necessary that the route has the appropriate
@@ -61,7 +61,7 @@ private:
      * @param path Path to apply the format.
      * @return Formatted path.
      */
-    static std::string formatPath( std::string path );
+    static std::string format_path( std::string path );
 
 public:
 
@@ -81,7 +81,7 @@ public:
      * Poscondition:
      *      pathname["USER_DIRE"] has been initialized.
      */
-    void initUserDirectory( );
+    void init_user_directory( );
 
     /*
      * Notes: This method needs to be called first
@@ -104,7 +104,7 @@ public:
      * TODO: Make safe method, launch an error in case the key does not exist.
      * Returns the path according to the value of the key.
      */
-    std::string getPathForValueKey( std::string valueKey );
+    std::string get_path_for_value_key( std::string valueKey );
 };
 
 namespace PATH_INFO

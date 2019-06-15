@@ -235,7 +235,7 @@ extern "C" {
         // reasons, including the memory allocations and the SDL message box.
         // But it should usually work in practice, unless for example the
         // program segfaults inside malloc.
-        std::string crash_log_file = path.getPathForValueKey("CRASH_FILE");
+        std::string crash_log_file = path.get_path_for_value_key( "CRASH_FILE" );
 
         std::ostringstream log_text;
         log_text << "The program has crashed."

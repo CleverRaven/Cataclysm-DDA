@@ -63,7 +63,7 @@ class font_loader
 
             Path path = Path::get_instance( );
 
-            const std::string fontdata = path.getPathForValueKey("FONTS_DATA");
+            const std::string fontdata = path.get_path_for_value_key( "FONTS_DATA" );
 
             if( file_exist( fontdata ) ) {
                 load_throws( fontdata );

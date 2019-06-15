@@ -64,8 +64,8 @@ class color_loader
 
             Path path = Path::get_instance( );
 
-            const std::string default_path = path.getPathForValueKey("COLORS_FILE");
-            const std::string custom_path = path.getPathForValueKey("BASE_COLORS");
+            const std::string default_path = path.get_path_for_value_key( "COLORS_FILE" );
+            const std::string custom_path = path.get_path_for_value_key( "BASE_COLORS" );
 
             if( !file_exist( custom_path ) ) {
                 copy_file( default_path, custom_path );

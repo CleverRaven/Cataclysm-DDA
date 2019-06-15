@@ -408,15 +408,15 @@ int main( int argc, char *argv[] )
         }
     }
 
-    if( !dir_exist( applicationPath.getPathForValueKey("DATA_DIRE") ) ) {
+    if( !dir_exist( applicationPath.get_path_for_value_key( "DATA_DIRE" ) ) ) {
         printf( "Fatal: Can't find directory \"%s\"\nPlease ensure the current working directory is correct. Perhaps you meant to start \"cataclysm-launcher\"?\n",
-                applicationPath.getPathForValueKey("DATA_DIRE").c_str() );
+                applicationPath.get_path_for_value_key( "DATA_DIRE" ).c_str() );
         exit( 1 );
     }
 
-    if( !assure_dir_exist( applicationPath.getPathForValueKey("USER_DIRE") ) ) {
+    if( !assure_dir_exist( applicationPath.get_path_for_value_key( "USER_DIRE" ) ) ) {
         printf( "Can't open or create %s. Check permissions.\n",
-                applicationPath.getPathForValueKey("USER_DIRE").c_str() );
+                applicationPath.get_path_for_value_key( "USER_DIRE" ).c_str() );
         exit( 1 );
     }
 

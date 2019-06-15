@@ -541,7 +541,7 @@ void load_soundset()
 {
     Path path = Path::get_instance();
 
-    const std::string default_path = path.getPathForValueKey("DAT_SOUND");
+    const std::string default_path = path.get_path_for_value_key( "DAT_SOUND" );
     const std::string default_soundpack = "basic";
     std::string current_soundpack = get_option<std::string>( "SOUNDPACKS" );
     std::string soundpack_path;

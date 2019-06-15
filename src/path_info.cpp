@@ -4,53 +4,53 @@
 #include <windows.h>
 #endif
 
-void Path::initUserDirectory( )
+void Path::init_user_directory( )
 {
     // If the path to the user directory is empty
     // it means that it was not set previously
     // and therefore we must set it.
     if( pathname["USER_DIRE"].empty() ) {
 
-        const char *pathUserDirectory;
+        const char *path_user_directory;
 
         // Path to the directory that stores the
         // Cataclysm DDA configuration files.
         // This path is built from the path of
         // the user directory.
-        std::string pathDirectoryCataclysm;
+        std::string path_directory_cataclysm;
 
 #if defined(_WIN32)
 
-        pathUserDirectory = getenv( "LOCALAPPDATA" );
+        path_user_directory = getenv( "LOCALAPPDATA" );
         // On Windows userdir without dot
-        pathDirectoryCataclysm = std::string( pathUserDirectory ) + "/cataclysm-dda/";
+        path_directory_cataclysm = std::string( path_user_directory ) + "/cataclysm-dda/";
 
 #elif defined(MACOSX)
 
-        pathUserDirectory = getenv( "HOME" );
-        pathDirectoryCataclysm = std::string( pathUserDirectory ) + "/Library/Application Support/Cataclysm/";
+        path_user_directory = getenv( "HOME" );
+        path_directory_cataclysm = std::string( path_user_directory ) + "/Library/Application Support/Cataclysm/";
 
 #elif defined(USE_XDG_DIR)
 
-        if( ( pathUserDirectory = getenv( "XDG_DATA_HOME" ) ) ) {
-            pathDirectoryCataclysm = std::string( pathUserDirectory ) + "/cataclysm-dda/";
+        if( ( path_user_directory = getenv( "XDG_DATA_HOME" ) ) ) {
+            path_directory_cataclysm = std::string( path_user_directory ) + "/cataclysm-dda/";
         } else {
-            pathUserDirectory = getenv( "HOME" );
-            pathDirectoryCataclysm = std::string( pathUserDirectory ) + "/.local/share/cataclysm-dda/";
+            path_user_directory = getenv( "HOME" );
+            path_directory_cataclysm = std::string( path_user_directory ) + "/.local/share/cataclysm-dda/";
         }
 
 #else
 
-        pathUserDirectory = getenv( "HOME" );
-        pathDirectoryCataclysm = std::string( pathUserDirectory ) + "/.cataclysm-dda/";
+        path_user_directory = getenv( "HOME" );
+        path_directory_cataclysm = std::string( path_user_directory ) + "/.cataclysm-dda/";
 
 #endif
 
-        pathname["USER_DIRE"] = pathDirectoryCataclysm;
+        pathname["USER_DIRE"] = path_directory_cataclysm;
     }
 }
 
-void Path::initDataDirectory( )
+void Path::init_data_directory( )
 {
     // If the base path is empty (see: ""), it means that the 'data'
     // directory is at the same level where the application is executed.
@@ -72,7 +72,7 @@ void Path::initDataDirectory( )
     }
 }
 
-std::string Path::getPathForValueKey( const std::string valueKey )
+std::string Path::get_path_for_value_key( std::string valueKey )
 {
     return pathname[valueKey];
 }
@@ -91,15 +91,15 @@ Path &Path::get_instance( )
 
 // Private Construct
 
-Path::Path( std::string basePath, std::string userDirectoryPath )
+Path::Path( std::string base_path, std::string user_directory_path )
 {
-    pathname["BASE_PATH"] = formatPath(basePath);
-    pathname["USER_DIRE"] = formatPath(userDirectoryPath);
+    pathname["BASE_PATH"] = format_path( base_path );
+    pathname["USER_DIRE"] = format_path( user_directory_path );
 
-    // We set the user directory in case that {userDirectoryPath} is empty.
-    initUserDirectory( );
+    // We set the user directory in case that {user_directory_path} is empty.
+    init_user_directory( );
     // We set the directory 'data' and 'gfx' determined by the base path.
-    initDataDirectory( );
+    init_data_directory( );
 
     // Shared Directories
     pathname["FONT_DIRE"] = pathname["DATA_DIRE"] + "font/";
@@ -168,7 +168,7 @@ Path::Path( std::string basePath, std::string userDirectoryPath )
 
 // Functions private
 
-std::string Path::formatPath(std::string path)
+std::string Path::format_path( std::string path)
 {
     if( path.empty() )
     {
@@ -198,7 +198,7 @@ std::string PATH_INFO::find_translated_file( const std::string &pathid,
 {
     Path path = Path::get_instance();
 
-    const std::string base_path = path.getPathForValueKey(pathid);
+    const std::string base_path = path.get_path_for_value_key( pathid );
 
 #if defined(LOCALIZE) && !defined(__CYGWIN__)
     std::string loc_name;
@@ -244,5 +244,5 @@ std::string PATH_INFO::find_translated_file( const std::string &pathid,
     }
 #endif
     ( void ) extension;
-    return path.getPathForValueKey(fallbackid);
+    return path.get_path_for_value_key( fallbackid );
 }

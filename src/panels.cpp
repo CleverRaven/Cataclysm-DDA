@@ -1874,7 +1874,7 @@ bool panel_manager::save()
 {
     Path path = Path::get_instance( );
 
-    return write_to_file( path.getPathForValueKey("OPTINS_PANEL"), [&]( std::ostream & fout ) {
+    return write_to_file( path.get_path_for_value_key( "OPTINS_PANEL" ), [&]( std::ostream & fout ) {
         JsonOut jout( fout, true );
         serialize( jout );
     }, _( "panel options" ) );
@@ -1884,7 +1884,7 @@ bool panel_manager::load()
 {
     Path path = Path::get_instance( );
 
-    return read_from_file_optional_json( path.getPathForValueKey("OPTINS_PANEL"), [&]( JsonIn & jsin ) {
+    return read_from_file_optional_json( path.get_path_for_value_key( "OPTINS_PANEL" ), [&]( JsonIn & jsin ) {
         deserialize( jsin );
     } );
 }

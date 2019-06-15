@@ -210,8 +210,8 @@ void set_language()
 
     Path path = Path::get_instance();
 
-    if( !path.getPathForValueKey("BASE_PATH").empty() ) {
-        locale_dir = path.getPathForValueKey("BASE_PATH") + "share/locale";
+    if( !path.get_path_for_value_key( "BASE_PATH" ).empty() ) {
+        locale_dir = path.get_path_for_value_key( "BASE_PATH" ) + "share/locale";
     } else {
         locale_dir = "lang/mo";
     }

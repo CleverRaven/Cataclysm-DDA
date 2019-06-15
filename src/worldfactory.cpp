@@ -90,7 +90,7 @@ std::string WORLD::folder_path() const
 {
     Path path = Path::get_instance( );
 
-    return path.getPathForValueKey("SAVE_DIRE") + utf8_to_native( world_name );
+    return path.get_path_for_value_key( "SAVE_DIRE" ) + utf8_to_native( world_name );
 }
 
 bool WORLD::save_exists( const save_t &name ) const
@@ -221,7 +221,7 @@ bool WORLD::save( const bool is_conversion ) const
 
         Path path = Path::get_instance( );
 
-        const auto savefile = folder_path() + "/" + path.getPathForValueKey("WORLD_OPTION");
+        const auto savefile = folder_path() + "/" + path.get_path_for_value_key( "WORLD_OPTION" );
         const bool saved = write_to_file( savefile, [&]( std::ostream & fout ) {
             JsonOut jout( fout );
 
@@ -260,7 +260,7 @@ void worldfactory::init()
 
     Path path = Path::get_instance( );
 
-    qualifiers.push_back( path.getPathForValueKey("WORLD_OPTION") );
+    qualifiers.push_back( path.get_path_for_value_key( "WORLD_OPTION" ) );
     qualifiers.push_back( SAVE_MASTER );
 
     all_worlds.clear();
@@ -269,7 +269,7 @@ void worldfactory::init()
     // worlds exist by having an option file
     // create worlds
     for( const auto &world_dir : get_directories_with( qualifiers,
-            path.getPathForValueKey("SAVE_DIRE"), true ) ) {
+                                                       path.get_path_for_value_key( "SAVE_DIRE" ), true ) ) {
         // get the save files
         auto world_sav_files = get_files_from_path( SAVE_EXTENSION, world_dir, false );
         // split the save file names between the directory and the extension
@@ -553,7 +553,7 @@ void worldfactory::load_last_world_info()
 {
     Path path = Path::get_instance( );
 
-    std::ifstream file( path.getPathForValueKey("LAST_WORLD"),
+    std::ifstream file( path.get_path_for_value_key( "LAST_WORLD" ),
             std::ifstream::in | std::ifstream::binary );
     if( !file.good() ) {
         return;
@@ -569,7 +569,7 @@ void worldfactory::save_last_world_info()
 {
     Path path = Path::get_instance( );
 
-    write_to_file( path.getPathForValueKey("LAST_WORLD"), [&]( std::ostream & file ) {
+    write_to_file( path.get_path_for_value_key( "LAST_WORLD" ), [&]( std::ostream & file ) {
         JsonOut jsout( file, true );
         jsout.start_object();
         jsout.member( "world_name", last_world_name );
@@ -1396,7 +1396,7 @@ bool WORLD::load_options()
 
     Path appPath = Path::get_instance( );
 
-    const auto path = folder_path() + "/" + appPath.getPathForValueKey("WORLD_OPTION");
+    const auto path = folder_path() + "/" + appPath.get_path_for_value_key( "WORLD_OPTION" );
     return read_from_file_optional_json( path, [ & ]( JsonIn &jsin )
     {
         load_options( jsin );
@@ -1463,7 +1463,7 @@ static bool isForbidden( const std::string &candidate )
 {
     Path path = Path::get_instance( );
 
-    return candidate.find( path.getPathForValueKey( "WORLD_OPTION" )) != std::string::npos ||
+    return candidate.find( path.get_path_for_value_key( "WORLD_OPTION" )) != std::string::npos ||
            candidate.find( "mods.json" ) != std::string::npos;
 }
 

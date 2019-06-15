@@ -3195,9 +3195,9 @@ static void save_font_list()
     Path path = Path::get_instance();
 
     std::set<std::string> bitmap_fonts;
-    std::ofstream fout( path.getPathForValueKey("FONTS_LIST").c_str(), std::ios_base::trunc );
+    std::ofstream fout( path.get_path_for_value_key( "FONTS_LIST" ).c_str(), std::ios_base::trunc );
 
-    font_folder_list( fout, path.getPathForValueKey("FONT_DIRE"), bitmap_fonts );
+    font_folder_list( fout, path.get_path_for_value_key( "FONT_DIRE" ), bitmap_fonts );
 
 #if defined(_WIN32)
     char buf[256];
@@ -3230,7 +3230,7 @@ static cata::optional<std::string> find_system_font( const std::string &name, in
 {
     Path path = Path::get_instance();
 
-    const std::string fontlist_path = path.getPathForValueKey("FONTS_LIST");
+    const std::string fontlist_path = path.get_path_for_value_key( "FONTS_LIST" );
     std::ifstream fin( fontlist_path.c_str() );
 
     if( !fin.is_open() ) {
@@ -3475,7 +3475,7 @@ std::unique_ptr<Font> Font::load_font( const std::string &typeface, int fontsize
         // Try to load as bitmap font.
         try {
             return std::unique_ptr<Font>( std::make_unique<BitmapFont>( fontwidth, fontheight,
-                                          path.getPathForValueKey("FONT_DIRE") + typeface ) );
+                                                                        path.get_path_for_value_key( "FONT_DIRE" ) + typeface ) );
         } catch( std::exception &err ) {
             dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
             // Continue to load as truetype font
@@ -3787,13 +3787,13 @@ CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, in
     //make fontdata compatible with wincurse
     if( !file_exist( typeface ) ) {
         faceIndex = 0;
-        typeface = path.getPathForValueKey("FONT_DIRE") + typeface + ".ttf";
+        typeface = path.get_path_for_value_key( "FONT_DIRE" ) + typeface + ".ttf";
         dbg( D_INFO ) << "Using compatible font [" + typeface + "]." ;
     }
     //different default font with wincurse
     if( !file_exist( typeface ) ) {
         faceIndex = 0;
-        typeface = path.getPathForValueKey("FONT_DIRE") + "fixedsys.ttf";
+        typeface = path.get_path_for_value_key( "FONT_DIRE" ) + "fixedsys.ttf";
         dbg( D_INFO ) << "Using fallback font [" + typeface + "]." ;
     }
     dbg( D_INFO ) << "Loading truetype font [" + typeface + "]." ;
