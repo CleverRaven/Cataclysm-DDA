@@ -1,53 +1,42 @@
- [
-    {
-        "type" : "mapgen",
-        "om_terrain" : ["mil_outpost_3c"],
-        "comment" : "third floor top corner",
-        "method": "json",
-        "weight": 250,
-        "object": {
-            "fill_ter": "t_concrete_floor",
-            "rows": [
-                "########################",
-                "########################",
-                "########################",
-                "###ffffffffffffffffff###",
-                "###F  c   c@     c  F###",
-                "###F              c F###",
-                "###F  -----GG-----  F###",
-                "###F  |----TT----|  F###",
-                "###F  ||s..TT..b||  F###",
-                "###F  ||s.......||  F###",
-                "###F  ||........||  F###",
-                "###F  G....>>....!  F###",
-                "###F  G....>>....!  F###",
-                "###F  ||........||  F###",
-                "###F  ||d.....BB||  F###",
-                "###F  ||d....WBB||  F###",
-                "###F  |----..----|  F###",
-                "###F  -----GG-----  F###",
-                "###F           v    F###",
-                "###F                F###",
-                "###ffffffffffffffffff###",
-                "########################",
-                "########################",
-                "########################"
-            ],
-            "palettes":[
-               "mil_outpost_bandit"
-            ],
-            "terrain":{
-                " ": "t_flat_roof",
-                ",": "t_open_air",
-                "f": "t_railing_h",
-                "F": "t_railing_v"
-            },
-            "npcs": {
-                "@": { "class": "raider" }
-            },
-            "vehicles": {
-                "v": { "vehicle": "water_cart", "chance": 90, "fuel": 50, "status": 3 }
-            }
-        }
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "mil_outpost_3c" ],
+    "comment": "third floor top corner",
+    "method": "json",
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_concrete_floor",
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "###ffffffffffffffffff###",
+        "###F  c   c@     c  F###",
+        "###F              c F###",
+        "###F  -----GG-----  F###",
+        "###F  |----TT----|  F###",
+        "###F  ||s..TT..b||  F###",
+        "###F  ||s.......||  F###",
+        "###F  ||........||  F###",
+        "###F  G....>>....!  F###",
+        "###F  G....>>....!  F###",
+        "###F  ||........||  F###",
+        "###F  ||d.....BB||  F###",
+        "###F  ||d....WBB||  F###",
+        "###F  |----..----|  F###",
+        "###F  -----GG-----  F###",
+        "###F           v    F###",
+        "###F                F###",
+        "###ffffffffffffffffff###",
+        "########################",
+        "########################",
+        "########################"
+      ],
+      "palettes": [ "mil_outpost_bandit" ],
+      "terrain": { " ": "t_flat_roof", ",": "t_open_air", "f": "t_railing_h", "F": "t_railing_v" },
+      "npcs": { "@": { "class": "raider" } },
+      "vehicles": { "v": { "vehicle": "water_cart", "chance": 90, "fuel": 50, "status": 3 } }
     }
+  }
 ]

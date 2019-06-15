@@ -1,0 +1,8 @@
+[
+  {
+    "type": "palette",
+    "id": "lab_hydrop_palette",
+    "terrain": { "H": "t_floor" },
+    "sealed_item": { "H": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_hydroponics_harvest" } }
+  }
+]

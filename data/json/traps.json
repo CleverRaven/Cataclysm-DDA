@@ -25,6 +25,18 @@
   },
   {
     "type": "trap",
+    "id": "tr_glass",
+    "name": "glass shards",
+    "color": "light_cyan",
+    "symbol": "_",
+    "visibility": 6,
+    "avoidance": 8,
+    "difficulty": 0,
+    "action": "glass",
+    "drops": [ "glass_shard" ]
+  },
+  {
+    "type": "trap",
     "id": "tr_cot",
     "name": "cot",
     "color": "green",
@@ -139,6 +151,18 @@
     "difficulty": 0,
     "action": "caltrops",
     "drops": [ "caltrops" ]
+  },
+  {
+    "type": "trap",
+    "id": "tr_caltrops_glass",
+    "name": "glass caltrops",
+    "color": "dark_gray",
+    "symbol": "_",
+    "visibility": 6,
+    "avoidance": 6,
+    "difficulty": 0,
+    "action": "caltrops_glass",
+    "drops": [ "caltrops_glass" ]
   },
   {
     "type": "trap",
@@ -375,7 +399,8 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "temple_toggle"
+    "action": "temple_toggle",
+    "always_invisible": true
   },
   {
     "type": "trap",
@@ -386,7 +411,8 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "glow"
+    "action": "glow",
+    "always_invisible": true
   },
   {
     "type": "trap",
@@ -397,7 +423,8 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "hum"
+    "action": "hum",
+    "always_invisible": true
   },
   {
     "type": "trap",
@@ -408,7 +435,8 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "shadow"
+    "action": "shadow",
+    "always_invisible": true
   },
   {
     "type": "trap",
@@ -419,7 +447,8 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "drain"
+    "action": "drain",
+    "always_invisible": true
   },
   {
     "type": "trap",
@@ -430,7 +459,8 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "snake"
+    "action": "snake",
+    "always_invisible": true
   },
   {
     "type": "trap",
@@ -494,5 +524,31 @@
     "difficulty": 0,
     "action": "none",
     "benign": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_unfinished_construction",
+    "name": "unfinished construction",
+    "color": "white",
+    "symbol": "U",
+    "visibility": -1,
+    "avoidance": 0,
+    "difficulty": 0,
+    "action": "none",
+    "benign": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_raincatcher",
+    "name": "raincatcher",
+    "color": "blue",
+    "symbol": "V",
+    "visibility": -1,
+    "avoidance": 0,
+    "difficulty": 99,
+    "action": "none",
+    "drops": [ "tarp_raincatcher" ],
+    "benign": true,
+    "funnel_radius": 342
   }
 ]

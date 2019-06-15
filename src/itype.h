@@ -18,53 +18,21 @@
 #include "iuse.h" // use_function
 #include "optional.h"
 #include "pldata.h" // add_type
-#include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 #include "units.h"
 
 // see item.h
 class item_category;
-class gun_mode;
-
-using gun_mode_id = string_id<gun_mode>;
 class Item_factory;
-class emit;
-
-using emit_id = string_id<emit>;
-class Skill;
-
-using skill_id = string_id<Skill>;
-struct bionic_data;
-
-using bionic_id = string_id<bionic_data>;
 class player;
 class item;
-class vitamin;
 
-using vitamin_id = string_id<vitamin>;
-class ma_technique;
-
-using matec_id = string_id<ma_technique>;
 enum art_effect_active : int;
 enum art_charge : int;
 enum art_charge_req : int;
 enum art_effect_passive : int;
-class material_type;
-
-using material_id = string_id<material_type>;
-typedef std::string itype_id;
-class ammunition_type;
-
-using ammotype = string_id<ammunition_type>;
-class fault;
-
-using fault_id = string_id<fault>;
-struct quality;
-
-using quality_id = string_id<quality>;
-struct MonsterGroup;
-
-using mongroup_id = string_id<MonsterGroup>;
+using itype_id = std::string;
 
 enum field_id : int;
 
@@ -81,8 +49,11 @@ class gun_modifier_data
          */
         gun_modifier_data( const std::string &n, const int q, const std::set<std::string> &f ) : name_( n ),
             qty_( q ), flags_( f ) { }
-        /// @returns The translated name of the gun mode.
         std::string name() const {
+            return name_;
+        }
+        /// @returns The translated name of the gun mode.
+        std::string tname() const {
             return _( name_ );
         }
         int qty() const {
@@ -118,18 +89,21 @@ class gunmod_location
 };
 
 struct islot_tool {
-    ammotype ammo_id = ammotype::NULL_ID();
+    std::set<ammotype> ammo_id = {};
 
     cata::optional<itype_id> revert_to;
     std::string revert_msg;
 
     std::string subtype;
 
-    long max_charges = 0;
-    long def_charges = 0;
-    std::vector<long> rand_charges;
-    unsigned char charges_per_use = 0;
-    unsigned char turns_per_charge = 0;
+    int max_charges = 0;
+    int def_charges = 0;
+    int charge_factor = 1;
+    int charges_per_use = 0;
+    int turns_per_charge = 0;
+    int power_draw = 0;
+
+    std::vector<int> rand_charges;
 };
 
 struct islot_comestible {
@@ -337,7 +311,7 @@ struct islot_book {
      */
     int intel = 0;
     /**
-     * How long, in 10-turns (aka minutes), it takes to read.
+     * How long in minutes it takes to read.
      * "To read" means getting 1 skill point, not all of them.
      */
     int time = 0;
@@ -372,7 +346,7 @@ struct islot_book {
             return hidden;
         }
     };
-    typedef std::set<recipe_with_description_t> recipe_list_t;
+    using recipe_list_t = std::set<recipe_with_description_t>;
     recipe_list_t recipes;
 };
 
@@ -381,7 +355,7 @@ struct islot_mod {
     std::set<ammotype> acceptable_ammo;
 
     /** If set modifies parent ammo to this type */
-    ammotype ammo_modifier = ammotype::NULL_ID();
+    std::set<ammotype> ammo_modifier = {};
 
     /** If non-empty replaces the compatible magazines for the parent item */
     std::map< ammotype, std::set<itype_id> > magazine_adaptor;
@@ -466,7 +440,7 @@ struct islot_gun : common_ranged_data {
     /**
      * What type of ammo this gun uses.
      */
-    ammotype ammo = ammotype::NULL_ID();
+    std::set<ammotype> ammo = {};
     /**
      * Gun durability, affects gun being damaged during shooting.
      */
@@ -610,7 +584,7 @@ struct islot_gunmod : common_ranged_data {
 
 struct islot_magazine {
     /** What type of ammo this magazine can be loaded with */
-    ammotype type = ammotype::NULL_ID();
+    std::set<ammotype> type = {};
 
     /** Capacity of magazine (in equivalent units to ammo charges) */
     int capacity = 0;
@@ -641,14 +615,11 @@ struct islot_ammo : common_ranged_data {
     /**
      * Ammo type, basically the "form" of the ammo that fits into the gun/tool.
      */
-    std::set<ammotype> type;
+    ammotype type;
     /**
      * Type id of casings, if any.
      */
     cata::optional<itype_id> casing;
-    /**
-     * Default charges.
-     */
 
     /**
      * Control chance for and state of any items dropped at ranged target
@@ -660,7 +631,11 @@ struct islot_ammo : common_ranged_data {
     bool drop_active = true;
     /*@}*/
 
+    /**
+     * Default charges.
+     */
     long def_charges = 1;
+
     /**
      * TODO: document me.
      */
@@ -693,6 +668,12 @@ struct islot_ammo : common_ranged_data {
      * damage of the gun by this value.
      */
     cata::optional<float> prop_damage;
+
+    /**
+     * Some combat ammo might not have a damage or prop_damage value
+     * Set this to make it show as combat ammo anyway
+     */
+    cata::optional<bool> force_stat_display;
 };
 
 struct islot_bionic {
@@ -859,6 +840,8 @@ struct itype {
 
         /** Weight of item ( or each stack member ) */
         units::mass weight = 0_gram;
+        /** Weight difference with the part it replaces for mods */
+        units::mass integral_weight = units::from_gram( -1 );
 
         /**
          * Space occupied by items of this type
@@ -971,9 +954,14 @@ struct itype {
 
         int charges_to_use() const {
             if( tool ) {
-                return tool->charges_per_use;
+                return static_cast<int>( tool->charges_per_use );
             }
             return 1;
+        }
+
+        // for tools that sub another tool, but use a different ratio of charges
+        int charge_factor() const {
+            return tool ? tool->charge_factor : 1;
         }
 
         int maximum_charges() const {

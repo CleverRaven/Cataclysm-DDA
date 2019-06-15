@@ -7,6 +7,7 @@
 #include <memory>
 #include <set>
 
+#include "avatar.h"
 #include "game.h" // TODO: This is a circular dependency
 #include "generic_factory.h"
 #include "iexamine.h"
@@ -29,6 +30,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
+#include "type_id.h"
 
 // Gates namespace
 

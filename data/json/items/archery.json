@@ -133,6 +133,7 @@
     "dispersion": 180,
     "loudness": 0,
     "count": 10,
+    "show_stats": true,
     "effects": [ "RECOVER_8" ]
   },
   {
@@ -152,6 +153,7 @@
     "dispersion": 100,
     "loudness": 0,
     "count": 10,
+    "show_stats": true,
     "effects": [ "RECOVER_20" ]
   },
   {
@@ -317,7 +319,7 @@
     "bashing": 6,
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 20 },
     "ranged_damage": 5,
-    "range": 5,
+    "range": 8,
     "dispersion": 250,
     "durability": 6,
     "clip_size": 1,
@@ -343,7 +345,7 @@
     "reload_noise_volume": 3,
     "loudness": 6,
     "ranged_damage": 4,
-    "range": 4,
+    "range": 10,
     "dispersion": 210,
     "durability": 6,
     "clip_size": 1,
@@ -446,7 +448,7 @@
     "reload_noise_volume": 3,
     "loudness": 6,
     "ranged_damage": 5,
-    "range": 5,
+    "range": 12,
     "dispersion": 150,
     "durability": 6,
     "clip_size": 1,
@@ -500,7 +502,7 @@
     "reload_noise_volume": 3,
     "loudness": 6,
     "ranged_damage": 6,
-    "range": 6,
+    "range": 12,
     "dispersion": 120,
     "durability": 6,
     "clip_size": 1,
@@ -527,7 +529,7 @@
     "reload_noise_volume": 3,
     "loudness": 8,
     "ranged_damage": 12,
-    "range": 10,
+    "range": 14,
     "dispersion": 140,
     "durability": 6,
     "clip_size": 1,
@@ -554,7 +556,7 @@
     "reload_noise_volume": 3,
     "loudness": 8,
     "ranged_damage": 10,
-    "range": 10,
+    "range": 18,
     "dispersion": 210,
     "durability": 6,
     "clip_size": 1,
@@ -578,7 +580,7 @@
     "reload": 100,
     "loudness": 16,
     "ranged_damage": 20,
-    "range": 12
+    "range": 20
   },
   {
     "id": "compgreatbow",
@@ -626,7 +628,7 @@
     "reload_noise_volume": 3,
     "loudness": 8,
     "ranged_damage": 8,
-    "range": 8,
+    "range": 18,
     "dispersion": 120,
     "durability": 6,
     "clip_size": 1,

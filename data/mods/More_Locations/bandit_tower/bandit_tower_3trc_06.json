@@ -1,51 +1,42 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "bandit_tower_3trc",
-        "comment" : "top right corner, third and odd level floors.",
-        "weight": 250,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_floor",
-            "rows": [
-                "########################",
-                "########################",
-                "########################",
-                "#######==ww=====ww==ww==",
-                "#######=B.B.B.B.B.B|dd==",
-                "#####===B.B.B.B.B.B|..==",
-                "#####===...........|d..d",
-                "###=====+------+----dd.d",
-                "###=l..............+...d",
-                "###=l.n...-------+----.d",
-                "###wl.n...|S|0|S|....|dd",
-                "###wl.n...+.....|B.B.|--",
-                "###wl.n...|S|0|S|B.B.+.d",
-                "###=l.n...--------------",
-                "###=l.....+.............",
-                "###=--....---|..........",
-                "###yTn....|RR|..===..==.",
-                "###yT......*R|..===..Mee",
-                "###yTn......R|..==>>>Mee",
-                "###yT........|..==>>>Mee",
-                "###yTn......s|..==>>>Mee",
-                "###yT.......o|..=MMMMMMM",
-                "###yTn...UCCW|..=eeeeM==",
-                "###===-------|...eeeeM=="
-            ],
-            "rotation": 1,
-            "palettes": [
-                "tri_tower",
-                "upper_level",
-                "bandit_tower_stuff"
-            ],
-            "terrain":{
-                "y": "t_wall_wood"
-            },
-            "items":{
-                "l": { "item": "mil_armor", "chance": 75 },
-                "R": { "item": "fridge", "chance": 85 }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "bandit_tower_3trc",
+    "comment": "top right corner, third and odd level floors.",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "#######==ww=====ww==ww==",
+        "#######=B.B.B.B.B.B|dd==",
+        "#####===B.B.B.B.B.B|..==",
+        "#####===...........|d..d",
+        "###=====+------+----dd.d",
+        "###=l..............+...d",
+        "###=l.n...-------+----.d",
+        "###wl.n...|S|0|S|....|dd",
+        "###wl.n...+.....|B.B.|--",
+        "###wl.n...|S|0|S|B.B.+.d",
+        "###=l.n...--------------",
+        "###=l.....+.............",
+        "###=--....---|..........",
+        "###yTn....|RR|..===..==.",
+        "###yT......*R|..===..Mee",
+        "###yTn......R|..==>>>Mee",
+        "###yT........|..==>>>Mee",
+        "###yTn......s|..==>>>Mee",
+        "###yT.......o|..=MMMMMMM",
+        "###yTn...UCCW|..=eeeeM==",
+        "###===-------|...eeeeM=="
+      ],
+      "rotation": 1,
+      "palettes": [ "tri_tower", "upper_level", "bandit_tower_stuff" ],
+      "terrain": { "y": "t_wall_wood" },
+      "items": { "l": { "item": "mil_armor", "chance": 75 }, "R": { "item": "fridge", "chance": 85 } }
     }
+  }
 ]

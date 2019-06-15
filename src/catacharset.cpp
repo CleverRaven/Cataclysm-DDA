@@ -573,7 +573,7 @@ utf8_wrapper utf8_wrapper::substr_byte( size_t bytestart, size_t length,
     return utf8_wrapper( _data.substr( bytestart, bend - bytestart ) );
 }
 
-long utf8_wrapper::at( size_t start ) const
+uint32_t utf8_wrapper::at( size_t start ) const
 {
     const size_t bstart = byte_start( 0, start );
     const char *utf8str = _data.c_str() + bstart;

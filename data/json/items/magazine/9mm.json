@@ -240,7 +240,7 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "capacity": 20,
-    "reliability": 5,
+    "reliability": 1,
     "reload_time": 160,
     "flags": [ "MAG_COMPACT" ]
   },

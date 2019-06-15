@@ -2,7 +2,7 @@
 #ifndef WORLDFACTORY_H
 #define WORLDFACTORY_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <functional>
 #include <iosfwd>
 #include <map>
@@ -12,7 +12,7 @@
 
 #include "options.h"
 #include "pimpl.h"
-#include "string_id.h"
+#include "type_id.h"
 
 class JsonIn;
 class JsonObject;
@@ -22,9 +22,6 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
-struct MOD_INFORMATION;
-
-using mod_id = string_id<MOD_INFORMATION>;
 
 class save_t
 {
@@ -84,7 +81,7 @@ class mod_manager;
 class mod_ui;
 class input_context;
 
-typedef WORLD *WORLDPTR;
+using WORLDPTR = WORLD *;
 
 class worldfactory
 {
@@ -151,7 +148,7 @@ class worldfactory
         pimpl<mod_manager> mman;
         pimpl<mod_ui> mman_ui;
 
-        typedef std::function<int( const catacurses::window &, WORLDPTR )> worldgen_display;
+        using worldgen_display = std::function<int ( const catacurses::window &, WORLDPTR )>;
 
         std::vector<worldgen_display> tabs;
 };

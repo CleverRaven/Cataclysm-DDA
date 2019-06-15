@@ -1,7 +1,7 @@
 #include "cata_utility.h"
 
-#include <ctype.h>
-#include <stdio.h>
+#include <cctype>
+#include <cstdio>
 #include <algorithm>
 #include <cmath>
 #include <string>
@@ -265,6 +265,11 @@ double temp_to_celsius( double fahrenheit )
 double temp_to_kelvin( double fahrenheit )
 {
     return temp_to_celsius( fahrenheit ) + 273.15;
+}
+
+double kelvin_to_fahrenheit( double kelvin )
+{
+    return 1.8 * ( kelvin - 273.15 ) + 32;
 }
 
 double clamp_to_width( double value, int width, int &scale )

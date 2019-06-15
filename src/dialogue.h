@@ -12,11 +12,10 @@
 
 #include "dialogue_win.h"
 #include "npc.h"
-#include "npc_class.h"
 #include "json.h"
-#include "pldata.h"
 #include "string_id.h"
 #include "material.h"
+#include "type_id.h"
 
 class mission;
 struct dialogue;
@@ -115,8 +114,11 @@ struct talk_effect_fun_t {
         void set_clear_npc_rule( const std::string &rule );
         void set_npc_engagement_rule( const std::string &setting );
         void set_npc_aim_rule( const std::string &setting );
+        void set_npc_cbm_reserve_rule( const std::string &setting );
+        void set_npc_cbm_recharge_rule( const std::string &setting );
         void set_mapgen_update( JsonObject jo, const std::string &member );
         void set_bulk_trade_accept( bool is_trade, bool is_npc = false );
+        void set_npc_gets_item( bool to_use );
 
         void operator()( const dialogue &d ) const {
             if( !function ) {
@@ -234,6 +236,7 @@ struct dialogue {
         dialogue() = default;
 
         mutable itype_id cur_item;
+        mutable std::string reason;
 
         std::string dynamic_line( const talk_topic &topic ) const;
         void apply_speaker_effects( const talk_topic &the_topic );
@@ -339,10 +342,10 @@ const std::unordered_set<std::string> simple_string_conds = { {
         "mission_complete", "mission_incomplete",
         "npc_available", "npc_following", "npc_friend", "npc_hostile",
         "npc_train_skills", "npc_train_styles",
-        "at_safe_space", "is_day", "is_outside", "u_has_camp",
+        "at_safe_space", "is_day", "npc_has_activity", "is_outside", "u_has_camp",
         "u_can_stow_weapon", "npc_can_stow_weapon", "u_has_weapon", "npc_has_weapon",
         "u_driving", "npc_driving",
-        "has_pickup_list", "is_by_radio",
+        "has_pickup_list", "is_by_radio", "has_reason"
     }
 };
 const std::unordered_set<std::string> complex_conds = { {
@@ -355,10 +358,11 @@ const std::unordered_set<std::string> complex_conds = { {
         "u_has_bionics", "npc_has_bionics", "u_has_effect", "npc_has_effect", "u_need", "npc_need",
         "u_at_om_location", "npc_at_om_location", "npc_role_nearby", "npc_allies", "npc_service",
         "u_has_cash", "npc_aim_rule", "npc_engagement_rule", "npc_rule", "npc_override",
+        "npc_cbm_reserve_rule", "npc_cbm_recharge_rule",
         "days_since_cataclysm", "is_season", "mission_goal", "u_has_var", "npc_has_var"
     }
 };
-};
+}
 
 // the truly awful declaration for the conditional_t loading helper_function
 void read_dialogue_condition( JsonObject &jo, std::function<bool( const dialogue & )> &condition,
@@ -383,6 +387,7 @@ struct conditional_t {
         void set_has_trait( JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_trait_flag( JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_var( JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_activity( bool is_npc = false );
         void set_npc_has_class( JsonObject &jo );
         void set_u_has_mission( JsonObject &jo );
         void set_has_strength( JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -404,6 +409,8 @@ struct conditional_t {
         void set_u_has_cash( JsonObject &jo );
         void set_npc_aim_rule( JsonObject &jo );
         void set_npc_engagement_rule( JsonObject &jo );
+        void set_npc_cbm_reserve_rule( JsonObject &jo );
+        void set_npc_cbm_recharge_rule( JsonObject &jo );
         void set_npc_rule( JsonObject &jo );
         void set_npc_override( JsonObject &jo );
         void set_days_since( JsonObject &jo );
@@ -428,10 +435,12 @@ struct conditional_t {
         void set_has_weapon( bool is_npc = false );
         void set_is_driving( bool is_npc = false );
         void set_is_day();
+        void set_has_stolen_item( bool is_npc = false );
         void set_is_outside();
         void set_is_by_radio();
         void set_u_has_camp();
         void set_has_pickup_list();
+        void set_has_reason();
         void set_is_gender( bool is_male, bool is_npc = false );
 
         bool operator()( const dialogue &d ) const {
@@ -528,7 +537,6 @@ class json_talk_topic
          * responses will be added (behind those added here).
          */
         bool gen_responses( dialogue &d ) const;
-        bool gen_repeat_response( dialogue &d, const std::string &item_id );
 };
 
 void unload_talk_topics();

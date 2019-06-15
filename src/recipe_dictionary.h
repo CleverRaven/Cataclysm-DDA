@@ -2,7 +2,7 @@
 #ifndef RECIPE_DICTIONARY_H
 #define RECIPE_DICTIONARY_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <functional>
 #include <map>
@@ -11,14 +11,13 @@
 #include <vector>
 
 #include "recipe.h"
-#include "string_id.h"
+#include "type_id.h"
 
 class JsonIn;
 class JsonOut;
 class JsonObject;
 
-typedef std::string itype_id;
-using recipe_id = string_id<recipe>;
+using itype_id = std::string;
 
 class recipe_dictionary
 {
@@ -29,6 +28,11 @@ class recipe_dictionary
         /** Returns all recipes that can be automatically learned */
         const std::set<const recipe *> &all_autolearn() const {
             return autolearn;
+        }
+
+        /** Returns all blueprints */
+        const std::set<const recipe *> &all_blueprints() const {
+            return blueprints;
         }
 
         size_t size() const;
@@ -58,6 +62,7 @@ class recipe_dictionary
         std::map<recipe_id, recipe> recipes;
         std::map<recipe_id, recipe> uncraft;
         std::set<const recipe *> autolearn;
+        std::set<const recipe *> blueprints;
 
         static void finalize_internal( std::map<recipe_id, recipe> &obj );
 };

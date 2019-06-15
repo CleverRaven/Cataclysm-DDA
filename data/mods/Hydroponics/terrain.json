@@ -1,0 +1,161 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_hydrop_generic",
+    "name": "LEGACY hydroponics unit",
+    "description": "This is a deprecated hydroponics unit. Deconstruct it to recieve your materials back.",
+    "symbol": "^",
+    "color": "light_blue",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "NOITEM", "SHORT", "PERMEABLE", "REDUCE_SCENT" ],
+    "deconstruct": { "ter_set": "t_floor", "items": [ { "group": "hydrop_deconstruct_results" } ] },
+    "bash": {
+      "str_min": 12,
+      "str_max": 30,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_floor",
+      "items": [ { "group": "hydrop_bash_results" } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_hydrop_bean",
+    "symbol": "^",
+    "color": "light_blue",
+    "copy-from": "t_hydrop_generic"
+  },
+  {
+    "type": "terrain",
+    "id": "t_hydrop_bean_harvested",
+    "symbol": "^",
+    "color": "light_blue",
+    "copy-from": "t_hydrop_generic"
+  },
+  {
+    "type": "terrain",
+    "id": "t_hydrop_cabbage",
+    "symbol": "^",
+    "color": "light_blue",
+    "copy-from": "t_hydrop_generic"
+  },
+  {
+    "type": "terrain",
+    "id": "t_hydrop_cabbage_harvested",
+    "symbol": "^",
+    "color": "light_blue",
+    "copy-from": "t_hydrop_generic"
+  },
+  {
+    "type": "terrain",
+    "id": "t_hydrop_carrot",
+    "symbol": "^",
+    "color": "light_blue",
+    "copy-from": "t_hydrop_generic"
+  },
+  {
+    "type": "terrain",
+    "id": "t_hydrop_carrot_harvested",
+    "symbol": "^",
+    "color": "light_blue",
+    "copy-from": "t_hydrop_generic"
+  },
+  {
+    "type": "terrain",
+    "id": "t_hydrop_celery",
+    "symbol": "^",
+    "color": "light_blue",
+    "copy-from": "t_hydrop_generic"
+  },
+  {
+    "type": "terrain",
+    "id": "t_hydrop_celery_harvested",
+    "symbol": "^",
+    "color": "light_blue",
+    "copy-from": "t_hydrop_generic"
+  },
+  {
+    "type": "terrain",
+    "id": "t_hydrop_corn",
+    "symbol": "^",
+    "color": "light_blue",
+    "copy-from": "t_hydrop_generic"
+  },
+  {
+    "type": "terrain",
+    "id": "t_hydrop_corn_harvested",
+    "symbol": "^",
+    "color": "light_blue",
+    "copy-from": "t_hydrop_generic"
+  },
+  {
+    "type": "terrain",
+    "id": "t_hydrop_cucumber",
+    "symbol": "^",
+    "color": "light_blue",
+    "copy-from": "t_hydrop_generic"
+  },
+  {
+    "type": "terrain",
+    "id": "t_hydrop_cucumber_harvested",
+    "symbol": "^",
+    "color": "light_blue",
+    "copy-from": "t_hydrop_generic"
+  },
+  {
+    "type": "terrain",
+    "id": "t_hydrop_onion",
+    "symbol": "^",
+    "color": "light_blue",
+    "copy-from": "t_hydrop_generic"
+  },
+  {
+    "type": "terrain",
+    "id": "t_hydrop_onion_harvested",
+    "symbol": "^",
+    "color": "light_blue",
+    "copy-from": "t_hydrop_generic"
+  },
+  {
+    "type": "terrain",
+    "id": "t_hydrop_potato",
+    "symbol": "^",
+    "color": "light_blue",
+    "copy-from": "t_hydrop_generic"
+  },
+  {
+    "type": "terrain",
+    "id": "t_hydrop_potato_harvested",
+    "symbol": "^",
+    "color": "light_blue",
+    "copy-from": "t_hydrop_generic"
+  },
+  {
+    "type": "terrain",
+    "id": "t_hydrop_tomato",
+    "symbol": "^",
+    "color": "light_blue",
+    "copy-from": "t_hydrop_generic"
+  },
+  {
+    "type": "terrain",
+    "id": "t_hydrop_tomato_harvested",
+    "symbol": "^",
+    "color": "light_blue",
+    "copy-from": "t_hydrop_generic"
+  },
+  {
+    "type": "terrain",
+    "id": "t_hydrop_weed",
+    "symbol": "^",
+    "color": "light_blue",
+    "copy-from": "t_hydrop_generic"
+  },
+  {
+    "type": "terrain",
+    "id": "t_hydrop_weed_harvested",
+    "symbol": "^",
+    "color": "light_blue",
+    "copy-from": "t_hydrop_generic"
+  }
+]

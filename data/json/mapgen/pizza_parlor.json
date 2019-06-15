@@ -45,7 +45,7 @@
         " ": "t_sidewalk",
         "#": "t_linoleum_white",
         "+": "t_door_c",
-        "-": "t_wall",
+        "-": "t_wall_r",
         ".": "t_floor",
         "@": "t_console_broken",
         "F": "t_linoleum_white",
@@ -64,7 +64,7 @@
         "{": "t_linoleum_white",
         "4": "t_gutter_downspout",
         "<": "t_ladder_up",
-        "|": "t_wall"
+        "|": "t_wall_r"
       },
       "furniture": {
         "#": "f_counter",
@@ -243,7 +243,7 @@
         "{": "t_linoleum_white",
         "x": "t_sidewalk",
         "<": "t_ladder_up",
-        "|": "t_wall"
+        "|": "t_wall_w"
       },
       "furniture": {
         "#": "f_counter",

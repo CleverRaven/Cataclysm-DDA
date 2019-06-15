@@ -7,21 +7,14 @@
 #include <string>
 
 #include "string_id.h"
+#include "type_id.h"
 
 class profession;
 class JsonObject;
 
 enum add_type : int;
-class start_location;
-
-using start_location_id = string_id<start_location>;
 template<typename T>
 class generic_factory;
-struct mutation_branch;
-
-using trait_id = string_id<mutation_branch>;
-struct mission_type;
-using mission_type_id = string_id<mission_type>;
 
 class scenario
 {

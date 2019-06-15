@@ -60,7 +60,7 @@ struct field_t {
     bool accelerated_decay;
 };
 
-//The master list of id's for a field, corresponding to the fieldlist array.
+//The master list of id's for a field, corresponding to the all_field_types_enum_list array.
 enum field_id : int {
     fd_null = 0,
     fd_blood,
@@ -103,6 +103,10 @@ enum field_id : int {
     fd_incendiary,
     fd_relax_gas,
     fd_fungal_haze,
+    fd_cold_air1,
+    fd_cold_air2,
+    fd_cold_air3,
+    fd_cold_air4,
     fd_hot_air1,
     fd_hot_air2,
     fd_hot_air3,
@@ -115,7 +119,7 @@ enum field_id : int {
 /*
 Controls the master listing of all possible field effects, indexed by a field_id. Does not store active fields, just metadata.
 */
-extern const std::array<field_t, num_fields> fieldlist;
+extern const std::array<field_t, num_fields> all_field_types_enum_list;
 /**
  * Returns the field_id of the field whose ident (field::id) matches the given ident.
  * Returns fd_null (and prints a debug message!) if the field ident is unknown.
@@ -127,15 +131,6 @@ extern field_id field_from_ident( const std::string &field_ident );
  * Returns if the field has at least one intensity for which dangerous[intensity] is true.
  */
 bool field_type_dangerous( field_id id );
-
-/**
- * converts wind direction to list of co-ords to block neighbours to spread to.
- */
-std::tuple<maptile, maptile, maptile> get_wind_blockers( const int &winddirection,
-        const tripoint &pos );
-/**
- * converts xy of disallowed wind directions to map tiles.
- */
 
 /**
  * An active or passive effect existing on a tile.
@@ -156,48 +151,48 @@ class field_entry
         int move_cost() const;
 
         //Returns the field_id of the current field entry.
-        field_id getFieldType() const;
+        field_id get_field_type() const;
 
         //Returns the current density (aka intensity) of the current field entry.
-        int getFieldDensity() const;
+        int get_field_intensity() const;
 
         //Allows you to modify the field_id of the current field entry.
         //This probably shouldn't be called outside of field::replaceField, as it
         //breaks the field drawing code and field lookup
-        field_id setFieldType( const field_id new_field_id );
+        field_id set_field_type( const field_id new_field_id );
 
         //Allows you to modify the density of the current field entry.
-        int setFieldDensity( const int new_density );
+        int set_field_density( const int new_density );
 
         /// @returns @ref age.
-        time_duration getFieldAge() const;
+        time_duration get_field_age() const;
         /// Sets @ref age to the given value.
         /// @returns New value of @ref age.
-        time_duration setFieldAge( const time_duration &new_age );
+        time_duration set_field_age( const time_duration &new_age );
         /// Adds given value to @ref age.
         /// @returns New value of @ref age.
         time_duration mod_age( const time_duration &mod ) {
-            return setFieldAge( getFieldAge() + mod );
+            return set_field_age( get_field_age() + mod );
         }
 
         //Returns if the current field is dangerous or not.
         bool is_dangerous() const {
-            return fieldlist[type].dangerous[density - 1];
+            return all_field_types_enum_list[type].dangerous[density - 1];
         }
 
         //Returns the display name of the current field given its current density.
         //IE: light smoke, smoke, heavy smoke
         std::string name() const {
-            return fieldlist[type].name( density - 1 );
+            return all_field_types_enum_list[type].name( density - 1 );
         }
 
         //Returns true if this is an active field, false if it should be removed.
-        bool isAlive() {
+        bool is_field_alive() {
             return is_alive;
         }
 
         bool decays_on_actualize() const {
-            return fieldlist[type].accelerated_decay;
+            return all_field_types_enum_list[type].accelerated_decay;
         }
 
     private:
@@ -211,9 +206,9 @@ class field_entry
  * A variable sized collection of field entries on a given map square.
  * It contains one (at most) entry of each field type (e. g. one smoke entry and one
  * fire entry, but not two fire entries).
- * Use @ref findField to get the field entry of a specific type, or iterate over
+ * Use @ref find_field to get the field entry of a specific type, or iterate over
  * all entries via @ref begin and @ref end (allows range based iteration).
- * There is @ref fieldSymbol to specific which field should be drawn on the map.
+ * There is @ref field_symbol to specific which field should be drawn on the map.
 */
 class field
 {
@@ -224,26 +219,27 @@ class field
          * Returns a field entry corresponding to the field_id parameter passed in.
          * If no fields are found then nullptr is returned.
          */
-        field_entry *findField( const field_id field_to_find );
+        field_entry *find_field( const field_id field_to_find );
         /**
          * Returns a field entry corresponding to the field_id parameter passed in.
          * If no fields are found then nullptr is returned.
          */
-        const field_entry *findFieldc( const field_id field_to_find ) const;
+        const field_entry *find_field_c( const field_id field_to_find ) const;
         /**
          * Returns a field entry corresponding to the field_id parameter passed in.
          * If no fields are found then nullptr is returned.
          */
-        const field_entry *findField( const field_id field_to_find ) const;
+        const field_entry *find_field( const field_id field_to_find ) const;
 
         /**
          * Inserts the given field_id into the field list for a given tile if it does not already exist.
-         * If you wish to modify an already existing field use findField and modify the result.
+         * If you wish to modify an already existing field use find_field and modify the result.
          * Density defaults to 1, and age to 0 (permanent) if not specified.
          * The density is added to an existing field entry, but the age is only used for newly added entries.
          * @return false if the field_id already exists, true otherwise.
          */
-        bool addField( field_id field_to_add, int new_density = 1, const time_duration &new_age = 0_turns );
+        bool add_field( field_id field_to_add, int new_density = 1,
+                        const time_duration &new_age = 0_turns );
 
         /**
          * Removes the field entry with a type equal to the field_id parameter.
@@ -251,20 +247,20 @@ class field
          * function returns true.
          * @return True if the field was removed, false if it did not exist in the first place.
          */
-        bool removeField( field_id field_to_remove );
+        bool remove_field( field_id field_to_remove );
         /**
          * Make sure to decrement the field counter in the submap.
          * Removes the field entry, the iterator must point into @ref field_list and must be valid.
          */
-        void removeField( std::map<field_id, field_entry>::iterator );
+        void remove_field( std::map<field_id, field_entry>::iterator );
 
         //Returns the number of fields existing on the current tile.
-        unsigned int fieldCount() const;
+        unsigned int field_count() const;
 
         /**
          * Returns the id of the field that should be drawn.
          */
-        field_id fieldSymbol() const;
+        field_id field_symbol() const;
 
         //Returns the vector iterator to begin searching through the list.
         std::map<field_id, field_entry>::iterator begin();

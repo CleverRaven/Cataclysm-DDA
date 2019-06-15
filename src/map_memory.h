@@ -2,12 +2,7 @@
 #ifndef MAP_MEMORY_H
 #define MAP_MEMORY_H
 
-#include <list>
-#include <string>
-#include <unordered_map>
-#include <utility>
-
-#include "enums.h" // IWYU pragma: keep
+#include "lru_cache.h"
 
 class JsonOut;
 class JsonObject;
@@ -18,27 +13,6 @@ struct memorized_terrain_tile {
     int subtile;
     int rotation;
 };
-
-template<typename T>
-class lru_cache
-{
-    public:
-        using Pair = std::pair<tripoint, T>;
-
-        void insert( int limit, const tripoint &, const T & );
-        T get( const tripoint &, const T &default_ ) const;
-        void remove( const tripoint & );
-
-        void clear();
-        const std::list<Pair> &list() const;
-    private:
-        void trim( int limit );
-        std::list<Pair> ordered_list;
-        std::unordered_map<tripoint, typename std::list<Pair>::iterator> map;
-};
-
-extern template class lru_cache<memorized_terrain_tile>;
-extern template class lru_cache<long>;
 
 class map_memory
 {
@@ -53,13 +27,13 @@ class map_memory
         /** Returns last stored map tile in given location */
         memorized_terrain_tile get_tile( const tripoint &pos ) const;
 
-        void memorize_symbol( int limit, const tripoint &pos, const long symbol );
-        long get_symbol( const tripoint &pos ) const;
+        void memorize_symbol( int limit, const tripoint &pos, const int symbol );
+        int get_symbol( const tripoint &pos ) const;
 
         void clear_memorized_tile( const tripoint &pos );
     private:
-        lru_cache<memorized_terrain_tile> tile_cache;
-        lru_cache<long> symbol_cache;
+        lru_cache<tripoint, memorized_terrain_tile> tile_cache;
+        lru_cache<tripoint, int> symbol_cache;
 };
 
 #endif

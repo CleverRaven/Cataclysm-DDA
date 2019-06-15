@@ -1,6 +1,6 @@
 #include "scenario.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 
 #include "debug.h"
@@ -9,7 +9,6 @@
 #include "map_extras.h"
 #include "mission.h"
 #include "mutation.h"
-#include "player.h"
 #include "profession.h"
 #include "translations.h"
 #include "rng.h"
@@ -127,7 +126,7 @@ void scenario::check_definitions()
     }
 }
 
-void check_traits( const std::set<trait_id> &traits, const string_id<scenario> &ident )
+static void check_traits( const std::set<trait_id> &traits, const string_id<scenario> &ident )
 {
     for( auto &t : traits ) {
         if( !t.is_valid() ) {

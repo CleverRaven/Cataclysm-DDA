@@ -14,7 +14,7 @@
     "skill": "dodge",
     "max_level": 1,
     "intelligence": 2,
-    "time": 8,
+    "time": "8 m",
     "fun": 1
   },
   {
@@ -32,7 +32,7 @@
     "skill": "dodge",
     "max_level": 3,
     "intelligence": 7,
-    "time": 20
+    "time": "20 m"
   },
   {
     "id": "manual_dodge_kid",
@@ -49,7 +49,7 @@
     "skill": "dodge",
     "max_level": 1,
     "intelligence": 1,
-    "time": 6,
+    "time": "6 m",
     "fun": 1
   }
 ]

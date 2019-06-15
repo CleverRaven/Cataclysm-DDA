@@ -14,8 +14,9 @@ void load( JsonObject &jo, const std::string &src );
 void check();
 void reset();
 
-std::map<std::string, std::string> get_recipes( std::string id );
-
+std::map<std::string, std::string> get_recipes_by_bldg( const std::string &id );
+std::map<std::string, std::string> get_recipes_by_id( const std::string &id,
+        const std::string &om_terrain_id = "ANY" );
 }
 
 #endif

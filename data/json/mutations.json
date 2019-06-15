@@ -24,6 +24,19 @@
   },
   {
     "type": "mutation",
+    "id": "FEYHEARING",
+    "name": "Fey Hearing",
+    "points": 2,
+    "description": "Your not sure the shape of your ears are helping, but regardless you have become very sensitive to sounds.",
+    "prereqs": [ "GOODHEARING" ],
+    "prereqs2": [ "ELFA_EARS" ],
+    "threshreq": [ "THRESH_ELFA" ],
+    "category": [ "ELFA" ],
+    "cancels": [ "BADHEARING" ],
+    "hearing_modifier": 1.75
+  },
+  {
+    "type": "mutation",
     "id": "OUTDOORSMAN",
     "name": "Outdoorsman",
     "points": 1,
@@ -587,9 +600,9 @@
     "id": "MARTIAL_ARTS",
     "name": "Martial Arts Training",
     "points": 2,
-    "description": "You have received some martial arts training at a local dojo.  You start with your choice of Karate, Judo, Aikido, Tai Chi, or Taekwondo.",
+    "description": "You have received some martial arts training at a local dojo.  You start with your choice of Karate, Judo, Aikido, Tai Chi, Taekwondo, or Pankration.",
     "starting_trait": true,
-    "initial_ma_styles": [ "style_karate", "style_judo", "style_aikido", "style_tai_chi", "style_taekwondo" ],
+    "initial_ma_styles": [ "style_karate", "style_judo", "style_aikido", "style_tai_chi", "style_taekwondo", "style_pankration" ],
     "valid": false
   },
   {
@@ -641,6 +654,39 @@
     "starting_trait": true,
     "cancels": [ "TRUTHTELLER" ],
     "social_modifiers": { "lie": 40 }
+  },
+  {
+    "type": "mutation",
+    "id": "SAVINGS",
+    "name": "Savings",
+    "points": 1,
+    "description": "You had some money stashed at the bank for a rainy day. Now that the storm is raging, it's a last call to use it maybe?",
+    "starting_trait": true,
+    "purifiable": false,
+    "valid": false,
+    "cancels": [ "DEBT", "MILLIONAIRE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "DEBT",
+    "name": "Debt",
+    "points": -1,
+    "description": "You needed money and had a big loan in a bank. Good thing nobody will come to collect it now, right?  Right?",
+    "starting_trait": true,
+    "purifiable": false,
+    "valid": false,
+    "cancels": [ "SAVINGS", "MILLIONAIRE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MILLIONAIRE",
+    "name": "Millionaire",
+    "points": 3,
+    "description": "At the time of Cataclysm you were an owner of a fortune stashed in a bank.  Does that have any meaning now?",
+    "valid": false,
+    "purifiable": false,
+    "starting_trait": true,
+    "cancels": [ "DEBT", "SAVINGS" ]
   },
   {
     "type": "mutation",
@@ -2175,13 +2221,58 @@
     "type": "mutation",
     "id": "LEAVES",
     "name": "Leaves",
-    "points": 6,
+    "points": 3,
     "visibility": 8,
     "ugliness": 3,
-    "description": "All the hair on your body has turned to long, grass-like leaves.  Apart from being physically striking, these provide you with a minor amount of nutrition while in sunlight.  Slightly reduces wet effects.",
+    "description": "All the hair on your body has turned to long, grass-like leaves.  Apart from being physically striking, these provide you with a minor amount of nutrition while in sunlight when your head is uncovered.  Slightly reduces wet effects.",
     "prereqs": [ "PLANTSKIN", "BARK" ],
+    "changes_to": [ "LEAVES2" ],
     "category": [ "PLANT", "ELFA" ],
     "wet_protection": [ { "part": "HEAD", "ignored": 1 } ]
+  },
+  {
+    "type": "mutation",
+    "id": "LEAVES2",
+    "name": "Lush Leaves",
+    "points": 6,
+    "visibility": 10,
+    "ugliness": 5,
+    "description": "Your leaves have grown in size and prominence, with additional leaves sprouting along your arms. While your arms and head are uncovered, you will photosynthesize additional nutrients while in sunlight. Reduces wet effects.",
+    "prereqs": [ "LEAVES" ],
+    "prereqs2": [ "TRANSPIRATION" ],
+    "threshreq": [ "THRESH_PLANT" ],
+    "changes_to": [ "LEAVES3" ],
+    "category": [ "PLANT" ],
+    "wet_protection": [ { "part": "HEAD", "ignored": 4 }, { "part": "ARM_L", "ignored": 5 }, { "part": "ARM_R", "ignored": 5 } ],
+    "encumbrance_covered": [ [ "ARM_L", 5 ], [ "ARM_R", 5 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "LEAVES3",
+    "name": "Verdant Leaves",
+    "points": 9,
+    "visibility": 12,
+    "ugliness": 6,
+    "description": "You leaves are vibrant, large, and green, and have become a major source of nutrition for your body. Whenever your arms and head are uncovered you will gain a large amount of nutrition by standing in the sunlight. Reduces wet effects.",
+    "prereqs": [ "LEAVES2" ],
+    "prereqs2": [ "TRANSPIRATION" ],
+    "threshreq": [ "THRESH_PLANT" ],
+    "category": [ "PLANT" ],
+    "wet_protection": [ { "part": "HEAD", "ignored": 5 }, { "part": "ARM_L", "ignored": 8 }, { "part": "ARM_R", "ignored": 8 } ],
+    "encumbrance_covered": [ [ "ARM_L", 10 ], [ "ARM_R", 10 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "TRANSPIRATION",
+    "name": "Transpiration",
+    "points": -5,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You body has begun moving nutrients via the evaporation of water. This increases your thrist when it's hot, but reduces it when it's cold.",
+    "prereqs": [ "PLANTSKIN", "BARK" ],
+    "prereqs2": [ "LEAVES" ],
+    "threshreq": [ "THRESH_PLANT" ],
+    "category": [ "PLANT" ]
   },
   {
     "type": "mutation",
@@ -2192,11 +2283,26 @@
     "ugliness": -4,
     "description": "You've started blooming where your scalp used to be.  Your blossoms have a pleasant aroma, are visually striking, and are quite sensitive.",
     "prereqs": [ "PLANTSKIN", "BARK" ],
-    "prereqs2": [ "LEAVES" ],
+    "prereqs2": [ "HAIRROOTS" ],
     "cancels": [ "SMELLY", "SMELLY2" ],
     "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
     "category": [ "PLANT", "ELFA" ],
+    "changes_to": [ "ROSEBUDS" ],
     "social_modifiers": { "lie": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "ROSEBUDS",
+    "name": "Rosebuds",
+    "points": 3,
+    "visibility": 10,
+    "ugliness": -6,
+    "description": "The top of your head is blooming with rosebuds.  They're eye catching, and have a strong fragrance that makes you pleasant to be around.",
+    "prereqs": [ "FLOWERS" ],
+    "cancels": [ "SMELLY", "SMELLY2" ],
+    "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
+    "category": [ "PLANT", "ELFA" ],
+    "social_modifiers": { "lie": 15, "persuade": 10 }
   },
   {
     "type": "mutation",
@@ -2404,7 +2510,8 @@
     "description": "Ever since you ate that Marloss berry, you can't get its scent out of your nose, and you have a strong desire to try some seeds and...sap?",
     "purifiable": false,
     "valid": false,
-    "category": [ "MARLOSS" ]
+    "category": [ "MARLOSS" ],
+    "flags": [ "mycus" ]
   },
   {
     "type": "mutation",
@@ -2414,7 +2521,8 @@
     "description": "Ever since you ate that Marloss seed, you can't get its taste off of your tongue, and you have a strong desire to try some berries and...sap?",
     "purifiable": false,
     "valid": false,
-    "category": [ "MARLOSS" ]
+    "category": [ "MARLOSS" ],
+    "flags": [ "mycus" ]
   },
   {
     "type": "mutation",
@@ -2424,7 +2532,8 @@
     "description": "Ever since you ate that Marloss jelly, you can't stop thinking of it, and you have a strong desire to eat some seeds and berries.",
     "purifiable": false,
     "valid": false,
-    "category": [ "MARLOSS" ]
+    "category": [ "MARLOSS" ],
+    "flags": [ "mycus" ]
   },
   {
     "type": "mutation",
@@ -5052,6 +5161,17 @@
   },
   {
     "type": "mutation",
+    "id": "HAIRROOTS",
+    "name": "Hair Roots",
+    "points": 0,
+    "visibility": 4,
+    "ugliness": 2,
+    "description": "Roots have started growing from your leaf like hair, they don't seem to do much.",
+    "prereqs": [ "LEAVES" ],
+    "category": [ "PLANT", "ELFA" ]
+  },
+  {
+    "type": "mutation",
     "id": "ROOTS1",
     "name": "Toe Roots",
     "points": -2,
@@ -5118,11 +5238,11 @@
     "type": "mutation",
     "id": "TREE_COMMUNION",
     "name": "Mycorrhizal Communion",
-    "points": 1,
+    "points": 2,
     "description": "You have gained the ability to commune with trees and comprehend their ancient wisdom. Activate next to a tree to gradually gain overmap vision through connected forests.",
-    "prereqs": [ "ROOTS2", "ROOTS3" ],
-    "threshreq": [ "THRESH_PLANT" ],
-    "category": [ "PLANT" ],
+    "prereqs": [ "HAIRROOTS", "ROOTS2", "ROOTS3" ],
+    "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
+    "category": [ "PLANT", "ELFA" ],
     "active": true,
     "cost": 0
   },
@@ -5148,7 +5268,7 @@
     "prereqs": [ "COLDBLOOD" ],
     "changes_to": [ "COLDBLOOD3" ],
     "types": [ "METABOLISM" ],
-    "category": [ "RAPTOR" ],
+    "category": [ "RAPTOR", "PLANT" ],
     "metabolism_modifier": -0.5
   },
   {
@@ -5172,10 +5292,10 @@
     "mixed_effect": true,
     "description": "Your body has become permanently cold-blooded.  Your speed lowers--or raises--for every 2 (1.1) degrees below or above 65 F (18.3 C).  You only need to eat half as much as an average human.",
     "prereqs": [ "COLDBLOOD3" ],
-    "threshreq": [ "THRESH_LIZARD" ],
+    "threshreq": [ "THRESH_LIZARD", "THRESH_PLANT" ],
     "purifiable": false,
     "types": [ "METABOLISM" ],
-    "category": [ "LIZARD" ],
+    "category": [ "LIZARD", "PLANT" ],
     "metabolism_modifier": -0.5
   },
   {
@@ -5735,7 +5855,8 @@
     "valid": false,
     "purifiable": false,
     "threshold": true,
-    "category": [ "MARLOSS" ]
+    "category": [ "MARLOSS" ],
+    "flags": [ "mycus" ]
   },
   {
     "type": "mutation",
@@ -5745,7 +5866,8 @@
     "description": "We are the Mycus.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "flags": [ "mycus" ]
   },
   {
     "type": "mutation",
@@ -6084,6 +6206,16 @@
   },
   {
     "type": "mutation",
+    "id": "HALLUCINATION",
+    "name": "Hallucination",
+    "points": 0,
+    "valid": false,
+    "description": "NPC trait that makes them be hallucination.  It is a bug if you have it.",
+    "player_display": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_NIGHTVISION",
     "name": "Debug Vision",
     "points": 99,
@@ -6208,6 +6340,15 @@
     "description": "NPC trait that makes monsters see it as a bee.  It is a bug (heh) if you have it.",
     "player_display": false,
     "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "MYCUS_FRIEND",
+    "name": "mycus friend",
+    "points": 0,
+    "valid": false,
+    "description": "NPC trait that makes fungaloid monsters see this NPC as a friend.",
+    "player_display": false
   },
   {
     "type": "mutation",

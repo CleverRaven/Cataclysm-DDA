@@ -3,6 +3,7 @@
 
 import json
 import os
+import itertools
 import subprocess
 from optparse import OptionParser
 from sys import platform
@@ -61,11 +62,13 @@ ignore_files = {os.path.normpath(i) for i in {
 
 # these objects have no translatable strings
 ignorable = {
+    "behavior",
     "BULLET_PULLING",
     "city_building",
     "colordef",
     "emit",
     "EXTERNAL_OPTION",
+    "field_type",
     "GAME_OPTION",
     "ITEM_BLACKLIST",
     "item_group",
@@ -142,6 +145,7 @@ automatically_convertible = {
     "skill",
     "snippet",
     "speech",
+    "SPELL",
     "start_location",
     "STATIONARY_ITEM",
     "terrain",
@@ -180,6 +184,12 @@ needs_plural = {
 use_format_strings = {
     "technique",
 }
+
+# For handling grammatical gender
+all_genders = ["f", "m", "n"]
+
+def gender_options(subject):
+    return [subject + ":" + g for g in all_genders]
 
 ##
 ##  SPECIALIZED EXTRACTION FUNCTIONS
@@ -492,6 +502,14 @@ def extract_recipe_group(item):
         for i in item.get("recipes"):
             writestr(outfile, i.get("description"))
 
+def extract_gendered_dynamic_line_optional(line, outfile):
+    if "gendered_line" in line:
+        msg = line["gendered_line"]
+        subjects = line["relevant_genders"]
+        options = [gender_options(subject) for subject in subjects]
+        for context_list in itertools.product(*options):
+            context = " ".join(context_list)
+            writestr(outfile, msg, context=context)
 
 def extract_dynamic_line_optional(line, member, outfile):
     if member in line:
@@ -502,6 +520,7 @@ def extract_dynamic_line(line, outfile):
         for l in line:
             extract_dynamic_line(l, outfile)
     elif type(line) == dict:
+        extract_gendered_dynamic_line_optional(line, outfile)
         extract_dynamic_line_optional(line, "u_male", outfile)
         extract_dynamic_line_optional(line, "u_female", outfile)
         extract_dynamic_line_optional(line, "npc_male", outfile)
@@ -523,8 +542,9 @@ def extract_talk_topic(item):
     outfile = get_outfile("talk_topic")
     if "dynamic_line" in item:
         extract_dynamic_line(item["dynamic_line"], outfile)
-    for r in item["responses"]:
-        extract_talk_response(r, outfile)
+    if "responses" in item:
+        for r in item["responses"]:
+            extract_talk_response(r, outfile)
 
 
 def extract_missiondef(item):
@@ -907,8 +927,8 @@ def extract(item, infilename):
        c = "Please leave anything in <angle brackets> unchanged."
        writestr(outfile, item["info"], comment=c, **kwargs)
        wrote = True
-    if "stop_phrase" in item:
-       writestr(outfile, item["stop_phrase"], **kwargs)
+    if "verb" in item:
+       writestr(outfile, item["verb"], **kwargs)
        wrote = True
     if "special_attacks" in item:
         special_attacks = item["special_attacks"]

@@ -2,7 +2,7 @@
 #ifndef STRING_FORMATTER_H
 #define STRING_FORMATTER_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <string>
 #include <type_traits>
 #include <typeinfo>

@@ -12,6 +12,18 @@
   },
   {
     "type": "effect_type",
+    "id": "ridden",
+    "name": [ "Ridden" ],
+    "desc": [ "AI tag for when critter is being ridden. This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "harnessed",
+    "name": [ "Harnessed" ],
+    "desc": [ "AI tag for when critter is being harnessed by a vehicle. This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "docile",
     "name": [ "Docile Monster" ],
     "desc": [ "AI tag for when monsters are tamed.  This is a bug if you have it." ]
@@ -27,6 +39,18 @@
     "id": "run",
     "name": [ "Hit-and-run Running" ],
     "desc": [ "AI tag for when hit-and-run monsters run away.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "dragging",
+    "name": [ "Dragging" ],
+    "desc": [ "AI tag for when a monster is dragging you behind it.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "operating",
+    "name": [ "Operating" ],
+    "desc": [ "AI tag for when a monster is operating on you.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
@@ -173,6 +197,12 @@
   },
   {
     "type": "effect_type",
+    "id": "monster_saddled",
+    "name": [ "Has Saddle" ],
+    "desc": [ "AI tag used for critters wearing a saddle.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "tied",
     "name": [ "Tied Up" ],
     "desc": [ "AI tag used for tied up critters.  This is a bug if you have it." ]
@@ -211,6 +241,18 @@
     "apply_message": "You're knocked to the floor!",
     "rating": "bad",
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "assisted",
+    "name": [ "Assisted" ],
+    "desc": [ "You're receiving assistance to practice a surgery." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "got_checked",
+    "name": [ "Got a check-up" ],
+    "desc": [ "Your received a complete check-up and are now aware of the state of your health." ]
   },
   {
     "type": "effect_type",
@@ -263,6 +305,14 @@
     "base_mods": { "per_mod": [ -5 ], "dex_mod": [ -2 ] },
     "scaling_mods": { "speed_mod": [ -3 ] },
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "riding",
+    "name": [ "Riding" ],
+    "desc": [ "You are riding an animal." ],
+    "apply_message": "You mount your steed.",
+    "rating": "good"
   },
   {
     "type": "effect_type",
@@ -699,10 +749,10 @@
     "desc": [ "Your wounds are bandaged." ],
     "main_parts_only": true,
     "rating": "good",
-    "int_dur_factor": 3600,
+    "int_dur_factor": 21600,
     "max_intensity": 16,
     "max_effective_intensity": 8,
-    "max_duration": 57600,
+    "max_duration": 345600,
     "base_mods": { "healing_rate": [ 2 ], "healing_head": [ 50 ], "healing_torso": [ 150 ] },
     "scaling_mods": { "healing_rate": [ 2 ] }
   },
@@ -713,10 +763,10 @@
     "desc": [ "Your wounds are disinfected." ],
     "main_parts_only": true,
     "rating": "good",
-    "int_dur_factor": 3600,
+    "int_dur_factor": 21600,
     "max_intensity": 16,
     "max_effective_intensity": 8,
-    "max_duration": 57600,
+    "max_duration": 345600,
     "base_mods": { "healing_rate": [ 2 ], "healing_head": [ 50 ], "healing_torso": [ 150 ] },
     "scaling_mods": { "healing_rate": [ 2 ] }
   },
@@ -1073,7 +1123,14 @@
       "per_mod": [ -1 ],
       "stamina_min": [ -2 ]
     },
-    "scaling_mods": { "speed_mod": [ 30 ], "str_mod": [ 5 ], "dex_mod": [ 4 ], "int_mod": [ -7 ], "per_mod": [ 2 ], "stamina_min": [ 4 ] }
+    "scaling_mods": {
+      "speed_mod": [ 20 ],
+      "str_mod": [ 1.5 ],
+      "dex_mod": [ 1.5 ],
+      "int_mod": [ -2 ],
+      "per_mod": [ 0.5 ],
+      "stamina_min": [ 4 ]
+    }
   },
   {
     "type": "effect_type",
@@ -1114,11 +1171,11 @@
       "stamina_min": [ -4 ]
     },
     "scaling_mods": {
-      "speed_mod": [ 30 ],
-      "str_mod": [ 4 ],
-      "dex_mod": [ 4 ],
-      "int_mod": [ 3 ],
-      "per_mod": [ 5 ],
+      "speed_mod": [ 15 ],
+      "str_mod": [ 1.5 ],
+      "dex_mod": [ 1 ],
+      "int_mod": [ 0.5 ],
+      "per_mod": [ 1 ],
       "fatigue_min": [ 1 ],
       "stamina_min": [ 8 ]
     }
@@ -1130,8 +1187,7 @@
     "desc": [ "You had a puff or two.", "You smoked too much." ],
     "max_intensity": 2,
     "int_dur_factor": 600,
-    "base_mods": { "int_mod": [ 1 ], "per_mod": [ 1 ] },
-    "scaling_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "int_mod": [ -1 ], "per_mod": [ -1 ], "vomit_chance": [ 500 ] }
+    "scaling_mods": { "vomit_chance": [ 500 ] }
   },
   {
     "type": "effect_type",
@@ -1150,7 +1206,7 @@
     "id": "weed_high",
     "apply_message": "You feel lightheaded.",
     "miss_messages": [ [ "That critter's jumping around like a jitterbug!  It needs to mellow out.", 1 ] ],
-    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "per_mod": [ -1 ] }
+    "base_mods": { "per_mod": [ -1 ] }
   },
   {
     "type": "effect_type",
@@ -1175,15 +1231,8 @@
     "apply_message": "You feel lightheaded.",
     "int_dur_factor": 1000,
     "miss_messages": [ [ "You feel woozy.", 1 ] ],
-    "base_mods": { "str_mod": [ 1 ], "vomit_chance": [ -43 ], "sleep_chance": [ -1003 ], "sleep_min": [ 2500 ], "sleep_max": [ 3500 ] },
-    "scaling_mods": {
-      "str_mod": [ -0.67 ],
-      "per_mod": [ -1 ],
-      "dex_mod": [ -1 ],
-      "int_mod": [ -1.42 ],
-      "vomit_chance": [ 21 ],
-      "sleep_chance": [ 501 ]
-    }
+    "base_mods": { "vomit_chance": [ -43 ], "sleep_chance": [ -1003 ], "sleep_min": [ 2500 ], "sleep_max": [ 3500 ] },
+    "scaling_mods": { "per_mod": [ -0.5 ], "dex_mod": [ -0.5 ], "int_mod": [ -0.75 ], "vomit_chance": [ 21 ], "sleep_chance": [ 501 ] }
   },
   {
     "type": "effect_type",
@@ -1481,8 +1530,8 @@
     "name": [ "Started recovery", "Recovering", "Mostly recovered" ],
     "desc": [ "This damaged limb is slowly regaining its functions." ],
     "//": "Duration is 10 days, but the actual time taken is probabilistic.",
-    "max_duration": 144000,
-    "int_dur_factor": 36000,
+    "max_duration": 864000,
+    "int_dur_factor": 216000,
     "max_intensity": 3,
     "rating": "good"
   },
@@ -1573,7 +1622,7 @@
     "desc": [ "You're very jittery and pumped up, probably from some stimulants." ],
     "max_intensity": 1000,
     "int_dur_factor": 1,
-    "scaling_mods": { "speed_mod": [ 0.33 ], "dex_mod": [ 0.1 ], "int_mod": [ 0.16 ], "per_mod": [ 0.14 ] }
+    "scaling_mods": { "speed_mod": [ 0.08 ], "per_mod": [ 0.04 ] }
   },
   {
     "type": "effect_type",
@@ -1582,19 +1631,8 @@
     "desc": [ "You are under the influence of depressants, and in a bit of a daze." ],
     "max_intensity": 1000,
     "int_dur_factor": 1,
-    "scaling_mods": { "speed_mod": [ -0.25 ], "dex_mod": [ -0.1 ], "int_mod": [ -0.16 ], "per_mod": [ -0.14 ] },
+    "scaling_mods": { "speed_mod": [ -0.1 ], "dex_mod": [ -0.05 ] },
     "miss_messages": [ [ "You feel woozy.", 1 ] ]
-  },
-  {
-    "type": "effect_type",
-    "id": "stim_overdose",
-    "name": [ "Stimulant Overdose" ],
-    "desc": [ "You can't sit still as you feel your heart pounding out of your chest.  You probably overdosed on those stims." ],
-    "max_intensity": 1000,
-    "int_dur_factor": 1,
-    "base_mods": { "dex_mod": [ -1.88 ], "int_mod": [ -1.1 ], "per_mod": [ -1.25 ] },
-    "scaling_mods": { "speed_mod": [ -0.25 ], "dex_mod": [ -0.125 ], "int_mod": [ -0.0833 ], "per_mod": [ -0.071 ] },
-    "miss_messages": [ [ "You shake with the excess stimulation.", 1 ] ]
   },
   {
     "type": "effect_type",

@@ -12,9 +12,9 @@
 #include <list>
 #include <memory>
 #include <set>
-#include <type_traits>
 #include <utility>
 
+#include "avatar.h"
 #include "calendar.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "computer.h"
@@ -68,7 +68,7 @@ static const ter_id undefined_ter_id( -1 );
 static const furn_id undefined_furn_id( -1 );
 static const trap_id undefined_trap_id( -1 );
 
-std::vector<std::string> fld_string( const std::string &str, int width )
+static std::vector<std::string> fld_string( const std::string &str, int width )
 {
     std::vector<std::string> lines;
     if( width < 1 ) {
@@ -260,9 +260,9 @@ void editmap_hilight::draw( editmap &em, bool update )
                     t_col = furniture_type.color();
                 }
                 const field &t_field = g->m.field_at( p );
-                if( t_field.fieldCount() > 0 ) {
-                    field_id t_ftype = t_field.fieldSymbol();
-                    const field_entry *t_fld = t_field.findField( t_ftype );
+                if( t_field.field_count() > 0 ) {
+                    field_id t_ftype = t_field.field_symbol();
+                    const field_entry *t_fld = t_field.find_field( t_ftype );
                     if( t_fld != nullptr ) {
                         t_col = t_fld->color();
                         t_sym = t_fld->symbol();
@@ -467,7 +467,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
     for( int x = start.x, sx = 0; x <= end.x; x++, sx++ ) {
         for( int y = start.y, sy = 0; y <= end.y; y++, sy++ ) {
             tripoint p{ x, y, target.z };
-            long sym = ( game_map ? '%' : ' ' );
+            int sym = ( game_map ? '%' : ' ' );
             if( x >= 0 && x < msize && y >= 0 && y < msize ) {
                 if( game_map ) {
                     Creature *critter = g->critter_at( p );
@@ -550,9 +550,9 @@ void editmap::update_view( bool update_info )
                     t_col = furniture_type.color();
                 }
                 const field &t_field = g->m.field_at( p );
-                if( t_field.fieldCount() > 0 ) {
-                    field_id t_ftype = t_field.fieldSymbol();
-                    const field_entry *t_fld = t_field.findField( t_ftype );
+                if( t_field.field_count() > 0 ) {
+                    field_id t_ftype = t_field.field_symbol();
+                    const field_entry *t_fld = t_field.find_field( t_ftype );
                     if( t_fld != nullptr ) {
                         t_col = t_fld->color();
                         t_sym = t_fld->symbol();
@@ -642,14 +642,15 @@ void editmap::update_view( bool update_info )
         }
 
         mvwprintw( w_info, off, 1, "%s %s", g->m.features( target ).c_str(), extras );
-        off++;  // 9
+        // 9
+        off++;
 
         for( auto &fld : *cur_field ) {
             const field_entry &cur = fld.second;
             mvwprintz( w_info, off, 1, cur.color(),
                        _( "field: %s (%d) density %d age %d" ),
-                       cur.name(), cur.getFieldType(),
-                       cur.getFieldDensity(), to_turns<int>( cur.getFieldAge() )
+                       cur.name(), cur.get_field_type(),
+                       cur.get_field_intensity(), to_turns<int>( cur.get_field_age() )
                      );
             off++; // 10ish
         }
@@ -684,7 +685,9 @@ void editmap::update_view( bool update_info )
         }
 
         if( g->m.has_graffiti_at( target ) ) {
-            mvwprintw( w_info, off, 1, _( "Graffiti: %s" ), g->m.graffiti_at( target ) );
+            mvwprintw( w_info, off, 1,
+                       g->m.ter( target ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Incription: %s" ),
+                       g->m.graffiti_at( target ) );
         }
 
         wrefresh( w_info );
@@ -694,7 +697,7 @@ void editmap::update_view( bool update_info )
 
 }
 
-ter_id get_alt_ter( bool isvert, ter_id sel_ter )
+static ter_id get_alt_ter( bool isvert, ter_id sel_ter )
 {
     std::map<std::string, std::string> alts;
     alts["_v"] = "_h";
@@ -1057,10 +1060,10 @@ int editmap::edit_ter()
 void editmap::update_fmenu_entry( uilist &fmenu, field &field, const field_id idx )
 {
     int fdens = 1;
-    const field_t &ftype = fieldlist[idx];
-    field_entry *fld = field.findField( idx );
+    const field_t &ftype = all_field_types_enum_list[idx];
+    field_entry *fld = field.find_field( idx );
     if( fld != nullptr ) {
-        fdens = fld->getFieldDensity();
+        fdens = fld->get_field_intensity();
     }
     fmenu.entries[idx].txt = ftype.name( fdens - 1 );
     if( fld != nullptr ) {
@@ -1075,7 +1078,7 @@ void editmap::setup_fmenu( uilist &fmenu )
     fmenu.entries.clear();
     for( int i = 0; i < num_fields; i++ ) {
         const field_id fid = static_cast<field_id>( i );
-        const field_t &ftype = fieldlist[fid];
+        const field_t &ftype = all_field_types_enum_list[fid];
         int fdens = 1;
         std::string fname = ftype.name( fdens - 1 );
         fmenu.addentry( fid, true, -2, fname );
@@ -1111,9 +1114,9 @@ int editmap::edit_fld()
           ) {
             int fdens = 0;
             const field_id idx = static_cast<field_id>( fmenu.selected );
-            field_entry *fld = cur_field->findField( idx );
+            field_entry *fld = cur_field->find_field( idx );
             if( fld != nullptr ) {
-                fdens = fld->getFieldDensity();
+                fdens = fld->get_field_intensity();
             }
             int fsel_dens = fdens;
             if( fmenu.ret > 0 ) {
@@ -1123,7 +1126,7 @@ int editmap::edit_fld()
                 femenu.w_y = fmenu.w_height;
                 femenu.w_x = offsetX;
 
-                const field_t &ftype = fieldlist[idx];
+                const field_t &ftype = all_field_types_enum_list[idx];
                 femenu.text = ftype.name( fdens == 0 ? 0 : fdens - 1 );
                 femenu.addentry( pgettext( "map editor: used to describe a clean field (e.g. without blood)",
                                            "-clear-" ) );
@@ -1147,10 +1150,10 @@ int editmap::edit_fld()
                 for( auto &elem : target_list ) {
                     const auto fid = static_cast<field_id>( idx );
                     field &t_field = g->m.get_field( elem );
-                    field_entry *t_fld = t_field.findField( fid );
+                    field_entry *t_fld = t_field.find_field( fid );
                     int t_dens = 0;
                     if( t_fld != nullptr ) {
-                        t_dens = t_fld->getFieldDensity();
+                        t_dens = t_fld->get_field_intensity();
                     }
                     if( fsel_dens != 0 ) {
                         if( t_dens != 0 ) {
@@ -1172,7 +1175,7 @@ int editmap::edit_fld()
         } else if( fmenu.ret == 0 ) {
             for( auto &elem : target_list ) {
                 field &t_field = g->m.get_field( elem );
-                while( t_field.fieldCount() > 0 ) {
+                while( t_field.field_count() > 0 ) {
                     const auto rmid = t_field.begin()->first;
                     g->m.remove_field( elem, rmid );
                     if( elem == target ) {
@@ -1480,7 +1483,7 @@ tripoint editmap::recalc_target( shapetype shape )
  * If the result is not >= min and < 'max', constrain the result and adjust 'shift',
  * so it can adjust subsequent points of a set consistently.
  */
-int limited_shift( int var, int &shift, int min, int max )
+static int limited_shift( int var, int &shift, int min, int max )
 {
     if( var + shift < min ) {
         shift = min - var;
@@ -1721,83 +1724,41 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             } else if( gpmenu.ret == 2 ) {
 
                 point target_sub( target.x / SEEX, target.y / SEEY );
-                g->m.clear_vehicle_cache( target.z );
 
-                std::string s;
+                g->m.set_transparency_cache_dirty( target.z );
+                g->m.set_outside_cache_dirty( target.z );
+                g->m.set_floor_cache_dirty( target.z );
+                g->m.set_pathfinding_cache_dirty( target.z );
+
+                g->m.clear_vehicle_cache( target.z );
+                g->m.clear_vehicle_list( target.z );
+
                 for( int x = 0; x < 2; x++ ) {
                     for( int y = 0; y < 2; y++ ) {
                         // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
                         // functions that would alter the results
-                        submap *destsm = g->m.get_submap_at_grid( { target_sub.x + x, target_sub.y + y, target.z } );
-                        submap *srcsm = tmpmap.get_submap_at_grid( { x, y, target.z } );
-                        destsm->is_uniform = false;
-                        srcsm->is_uniform = false;
+                        const auto dest_pos = tripoint{ target_sub.x + x, target_sub.y + y, target.z };
+                        const auto src_pos = tripoint{ x, y, target.z };
 
-                        for( auto &v : destsm->vehicles ) {
-                            auto &ch = g->m.access_cache( v->smz );
-                            ch.vehicle_list.erase( v.get() );
-                            ch.zone_vehicles.erase( v.get() );
+                        submap *destsm = g->m.get_submap_at_grid( dest_pos );
+                        submap *srcsm = tmpmap.get_submap_at_grid( src_pos );
+
+                        std::swap( *destsm, *srcsm );
+
+                        for( auto &veh : destsm->vehicles ) {
+                            veh->smx = dest_pos.x;
+                            veh->smy = dest_pos.y;
+                            veh->smz = dest_pos.z;
                         }
-                        destsm->vehicles.clear();
-                        for( size_t i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
-                            s += string_format( "  copying vehicle %d/%d", i, srcsm->vehicles.size() );
-                            std::unique_ptr<vehicle> veh = std::move( srcsm->vehicles[i] );
-                            veh->smx = target_sub.x + x;
-                            veh->smy = target_sub.y + y;
-                            veh->smz = target.z;
-                            vehicle *veh_p = veh.get();
-                            destsm->vehicles.push_back( std::move( veh ) );
-                            g->m.update_vehicle_cache( veh_p, target.z );
-                        }
-                        srcsm->vehicles.clear();
+
                         g->m.update_vehicle_list( destsm, target.z ); // update real map's vcaches
 
-                        int spawns_todo = 0;
-                        for( size_t i = 0; i < srcsm->spawns.size(); i++ ) { // copy spawns
-                            int mx = srcsm->spawns[i].pos.x;
-                            int my = srcsm->spawns[i].pos.y;
-                            s += string_format( "  copying monster %d/%d pos %d,%d\n", i, srcsm->spawns.size(), mx, my );
-                            destsm->spawns.push_back( srcsm->spawns[i] );
-                            spawns_todo++;
-                        }
-
-                        for( int sx = 0; sx < SEEX; sx++ ) {  // copy fields
-                            for( int sy = 0; sy < SEEY; sy++ ) {
-                                destsm->fld[sx][sy] = srcsm->fld[sx][sy];
-                            }
-                        }
-                        destsm->field_count = srcsm->field_count; // and count
-
-                        std::memcpy( destsm->ter, srcsm->ter, sizeof( srcsm->ter ) ); // terrain
-                        std::memcpy( destsm->frn, srcsm->frn, sizeof( srcsm->frn ) ); // furniture
-                        std::memcpy( destsm->trp, srcsm->trp, sizeof( srcsm->trp ) ); // traps
-                        std::memcpy( destsm->rad, srcsm->rad, sizeof( srcsm->rad ) ); // radiation
-                        std::memcpy( destsm->lum, srcsm->lum, sizeof( srcsm->lum ) ); // emissive items
-                        for( int x = 0; x < SEEX; ++x ) {
-                            for( int y = 0; y < SEEY; ++y ) {
-                                destsm->itm[x][y].swap( srcsm->itm[x][y] );
-                            }
-                        }
-                        // Swap cosmetics vectors
-                        destsm->cosmetics.swap( srcsm->cosmetics );
-
-                        // various misc variables
-                        destsm->active_items = srcsm->active_items;
-
-                        destsm->temperature = srcsm->temperature;
-                        destsm->last_touched = calendar::turn;
-                        destsm->comp = std::move( srcsm->comp );
-                        destsm->camp = srcsm->camp;
-
-                        if( spawns_todo > 0 ) {                               // trigger spawnpoints
+                        if( !destsm->spawns.empty() ) {                              // trigger spawnpoints
                             g->m.spawn_monsters( true );
                         }
                     }
                 }
                 g->m.reset_vehicle_cache( target.z );
-
-                //~ message when applying the map generator
-                popup( _( "Changed 4 submaps\n%s" ), s );
 
             } else if( gpmenu.ret == 3 ) {
                 popup( _( "Changed oter_id from '%s' (%s) to '%s' (%s)" ),
@@ -1850,6 +1811,7 @@ vehicle *editmap::mapgen_veh_query( const tripoint &omt_tgt )
     }
 
     std::vector<std::string> car_titles;
+    car_titles.reserve( possible_vehicles.size() );
     for( auto &elem : possible_vehicles ) {
         car_titles.push_back( elem->name );
     }
@@ -1973,7 +1935,7 @@ int editmap::edit_mapgen()
         gmenu.addentry( -1, !id.id().is_null(), 0, "[%3d] %s", static_cast<int>( id ), id.id().c_str() );
         gmenu.entries[i].extratxt.left = 1;
         gmenu.entries[i].extratxt.color = id->get_color();
-        gmenu.entries[i].extratxt.txt = string_format( "%c", id->get_symbol() );
+        gmenu.entries[i].extratxt.txt = id->get_symbol();
     }
     real_coords tc;
     do {

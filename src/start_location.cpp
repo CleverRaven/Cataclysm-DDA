@@ -1,10 +1,11 @@
 #include "start_location.h"
 
-#include <limits.h>
+#include <climits>
 #include <algorithm>
 #include <random>
 #include <memory>
 
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "enums.h"
@@ -21,12 +22,9 @@
 #include "calendar.h"
 #include "game_constants.h"
 #include "int_id.h"
-#include "mapgen.h"
 #include "pldata.h"
 #include "rng.h"
 #include "translations.h"
-#include "mongroup.h"
-#include "mtype.h"
 
 class item;
 
@@ -99,7 +97,7 @@ void start_location::reset()
 }
 
 // check if tile at p should be boarded with some kind of furniture.
-void add_boardable( const map &m, const tripoint &p, std::vector<tripoint> &vec )
+static void add_boardable( const map &m, const tripoint &p, std::vector<tripoint> &vec )
 {
     if( m.has_furn( p ) ) {
         // Don't need to board this up, is already occupied
@@ -120,7 +118,7 @@ void add_boardable( const map &m, const tripoint &p, std::vector<tripoint> &vec 
     vec.push_back( p );
 }
 
-void board_up( map &m, const tripoint &start, const tripoint &end )
+static void board_up( map &m, const tripoint &start, const tripoint &end )
 {
     std::vector<tripoint> furnitures1;
     std::vector<tripoint> furnitures2;
@@ -246,9 +244,9 @@ void start_location::prepare_map( const tripoint &omtstart ) const
  * Maybe TODO: Allow "picking up" items or parts of bashable furniture
  *             and using them to help with bash attempts.
  */
-int rate_location( map &m, const tripoint &p, const bool must_be_inside,
-                   const int bash_str, const int attempt,
-                   int ( &checked )[MAPSIZE_X][MAPSIZE_Y] )
+static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
+                          const int bash_str, const int attempt,
+                          int ( &checked )[MAPSIZE_X][MAPSIZE_Y] )
 {
     if( ( must_be_inside && m.is_outside( p ) ) ||
         m.impassable( p ) ||
@@ -310,6 +308,7 @@ void start_location::place_player( player &u ) const
     u.setx( HALF_MAPSIZE_X );
     u.sety( HALF_MAPSIZE_Y );
     u.setz( g->get_levz() );
+    m.invalidate_map_cache( m.get_abs_sub().z );
     m.build_map_cache( m.get_abs_sub().z );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
     ///\EFFECT_STR allows player to start behind less-bashable furniture and terrain

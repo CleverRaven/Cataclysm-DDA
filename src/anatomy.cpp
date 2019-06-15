@@ -1,6 +1,6 @@
 #include "anatomy.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <array>
 #include <cmath>
 #include <numeric>

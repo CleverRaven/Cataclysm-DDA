@@ -2,7 +2,7 @@
 #ifndef VEH_INTERACT_H
 #define VEH_INTERACT_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <sstream>
 #include <vector>
@@ -14,15 +14,12 @@
 #include "input.h"
 #include "inventory.h"
 #include "player_activity.h"
-#include "string_id.h"
-#include "item.h"
 #include "item_location.h"
+#include "type_id.h"
 
-class vpart_info;
 struct requirement_data;
 struct tripoint;
-
-using vpart_id = string_id<vpart_info>;
+class vpart_info;
 
 /** Represents possible return values from the cant_do function. */
 enum task_reason {
@@ -33,7 +30,8 @@ enum task_reason {
     NOT_FREE, //Part is attached to something else and can't be unmounted
     LACK_SKILL, //Player doesn't have high enough mechanics skill
     MOVING_VEHICLE, // vehicle is moving, no modifications allowed
-    LOW_MORALE // Player has too low morale (for operations that require it)
+    LOW_MORALE, // Player has too low morale (for operations that require it)
+    LOW_LIGHT // Player cannot see enough to work (for operations that require it)
 };
 
 class vehicle;
@@ -169,9 +167,6 @@ class veh_interact
         void move_overview_line( int );
 
         void count_durability();
-
-        /** Show durability symbol/name as prefix */
-        std::string name_with_durability() const;
 
         std::string total_durability_text;
         nc_color total_durability_color;

@@ -1,0 +1,52 @@
+[
+  {
+    "type": "palette",
+    "id": "roof_palette",
+    "terrain": {
+      ".": "t_flat_roof",
+      " ": "t_open_air",
+      "o": "t_glass_roof",
+      "_": "t_floor",
+      "2": "t_gutter_north",
+      "-": "t_gutter_south",
+      "3": "t_gutter_east",
+      "4": "t_gutter_downspout",
+      "|": "t_gutter_west",
+      "5": "t_gutter_drop",
+      "#": "t_grate",
+      "&": "t_null",
+      ":": "t_null",
+      "X": "t_null",
+      "=": "t_null",
+      "A": "t_null",
+      "b": "t_null",
+      "c": "t_null",
+      "t": "t_null",
+      "r": "t_null",
+      "L": "t_null",
+      "C": "t_null",
+      "Y": "t_null",
+      "y": "t_null"
+    },
+    "furniture": {
+      "&": "f_roof_turbine_vent",
+      ":": "f_cellphone_booster",
+      "X": "f_small_satelitte_dish",
+      "=": "f_vent_pipe",
+      "A": "f_air_conditioner",
+      "b": "f_bench",
+      "c": "f_counter",
+      "t": "f_table",
+      "r": "f_rack",
+      "L": "f_locker",
+      "C": [ "f_crate_c", "f_cardboard_box" ],
+      "Y": "f_stool",
+      "s": "f_sofa",
+      "S": "f_sink",
+      "e": "f_oven",
+      "F": "f_fridge",
+      "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
+    },
+    "toilets": { "T": {  } }
+  }
+]

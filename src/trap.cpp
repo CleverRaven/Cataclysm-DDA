@@ -15,11 +15,11 @@
 #include "translations.h"
 #include "assign.h"
 #include "bodypart.h"
-#include "creature.h"
 #include "enums.h"
 #include "item.h"
 #include "itype.h"
 #include "mapdata.h"
+#include "messages.h"
 #include "pldata.h"
 #include "rng.h"
 
@@ -114,6 +114,7 @@ void trap::load( JsonObject &jo, const std::string & )
     act = trap_function_from_string( jo.get_string( "action" ) );
 
     optional( jo, was_loaded, "benign", benign, false );
+    optional( jo, was_loaded, "always_invisible", always_invisible, false );
     optional( jo, was_loaded, "funnel_radius", funnel_radius_mm, 0 );
     assign( jo, "trigger_weight", trigger_weight );
     optional( jo, was_loaded, "drops", components );
@@ -121,8 +122,7 @@ void trap::load( JsonObject &jo, const std::string & )
 
 std::string trap::name() const
 {
-    // trap names can be empty, those are special always invisible traps. See player::search_surroundings
-    return name_.empty() ? name_ : _( name_ );
+    return _( name_ );
 }
 
 void trap::reset()
@@ -219,6 +219,7 @@ void trap::on_disarmed( map &m, const tripoint &p ) const
 trap_id
 tr_null,
 tr_bubblewrap,
+tr_glass,
 tr_cot,
 tr_funnel,
 tr_metal_funnel,
@@ -230,6 +231,7 @@ tr_beartrap,
 tr_beartrap_buried,
 tr_nailboard,
 tr_caltrops,
+tr_caltrops_glass,
 tr_tripwire,
 tr_crossbow,
 tr_shotgun_2,
@@ -283,6 +285,7 @@ void trap::finalize()
     };
     tr_null = trap_str_id::NULL_ID().id();
     tr_bubblewrap = trapfind( "tr_bubblewrap" );
+    tr_glass = trapfind( "tr_glass" );
     tr_cot = trapfind( "tr_cot" );
     tr_funnel = trapfind( "tr_funnel" );
     tr_metal_funnel = trapfind( "tr_metal_funnel" );
@@ -294,6 +297,7 @@ void trap::finalize()
     tr_beartrap_buried = trapfind( "tr_beartrap_buried" );
     tr_nailboard = trapfind( "tr_nailboard" );
     tr_caltrops = trapfind( "tr_caltrops" );
+    tr_caltrops_glass = trapfind( "tr_caltrops_glass" );
     tr_tripwire = trapfind( "tr_tripwire" );
     tr_crossbow = trapfind( "tr_crossbow" );
     tr_shotgun_2 = trapfind( "tr_shotgun_2" );

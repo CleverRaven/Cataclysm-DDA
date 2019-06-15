@@ -1,6 +1,6 @@
 #include "name.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <string>
 #include <utility>

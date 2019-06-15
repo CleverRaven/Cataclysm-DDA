@@ -17,7 +17,7 @@
 #   endif
 #endif // TILES
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 bool printErrorIf( const bool condition, const char *const message )
 {
@@ -78,6 +78,11 @@ void SetRenderDrawColor( const SDL_Renderer_Ptr &renderer, const Uint8 r, const 
                   "SDL_SetRenderDrawColor failed" );
 }
 
+void RenderDrawPoint( const SDL_Renderer_Ptr &renderer, int x, int y )
+{
+    printErrorIf( SDL_RenderDrawPoint( renderer.get(), x, y ) != 0, "SDL_RenderDrawPoint failed" );
+}
+
 void RenderFillRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *const rect )
 {
     if( !renderer ) {
@@ -114,6 +119,16 @@ void SetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, const SDL_BlendMo
     }
     printErrorIf( SDL_SetRenderDrawBlendMode( renderer.get(), blendMode ) != 0,
                   "SDL_SetRenderDrawBlendMode failed" );
+}
+
+void GetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, SDL_BlendMode &blend_mode )
+{
+    if( !renderer ) {
+        dbg( D_ERROR ) << "Tried to use a null renderer";
+        return;
+    }
+    printErrorIf( SDL_GetRenderDrawBlendMode( renderer.get(), &blend_mode ) != 0,
+                  "SDL_GetRenderDrawBlendMode failed" );
 }
 
 SDL_Surface_Ptr load_image( const char *const path )

@@ -264,11 +264,18 @@ double convert_volume( int volume, int *out_scale );
 double temp_to_celsius( double fahrenheit );
 
 /**
- * Convert a temperature from degrees Fahrenheit to degrees Kelvin.
+ * Convert a temperature from degrees Fahrenheit to Kelvin.
  *
  * @return Temperature in degrees K.
  */
 double temp_to_kelvin( double fahrenheit );
+
+/**
+ * Convert a temperature from Kelvin to degrees Fahrenheit.
+ *
+ * @return Temperature in degrees C.
+ */
+double kelvin_to_fahrenheit( double kelvin );
 
 /**
  * Clamp (number and space wise) value to with,

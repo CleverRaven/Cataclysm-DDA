@@ -41,7 +41,6 @@ enum computer_action {
     COMPACT_BLOOD_ANAL,
     COMPACT_DATA_ANAL,
     COMPACT_DISCONNECT,
-    COMPACT_BONESETTING,
     COMPACT_EMERG_MESS,
     COMPACT_EMERG_REF_CENTER,   //Points to the refugee center
     COMPACT_TOWER_UNRESPONSIVE,
@@ -64,6 +63,7 @@ enum computer_action {
     COMPACT_SHUTTERS,
     COMPACT_EXTRACT_RAD_SOURCE,
     COMPACT_DEACTIVATE_SHOCK_VENT,
+    COMPACT_RADIO_ARCHIVE,
     NUM_COMPUTER_ACTIONS
 };
 
@@ -94,7 +94,7 @@ struct computer_option {
     int security;
 
     computer_option();
-    computer_option( std::string N, computer_action A, int S );
+    computer_option( const std::string &N, computer_action A, int S );
 
     static computer_option from_json( JsonObject &jo );
 };
