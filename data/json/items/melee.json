@@ -1,4 +1,4 @@
- [
+[
   {
     "type": "GENERIC",
     "id": "mjolnir",
@@ -2321,3 +2321,4 @@
     "flags": [ "REACH_ATTACK", "NONCONDUCTIVE" ]
   }
 ]
+
