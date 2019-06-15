@@ -554,6 +554,6 @@
     "dispersion": 480,
     "durability": 6,
     "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "p320mag_17rd" ] ] ]
+    "magazines": [ [ "9mm", [ "p320mag_17rd_9x19mm" ] ] ]
   }
 ]
