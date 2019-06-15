@@ -837,9 +837,9 @@ std::vector<item_location> Character::nearby( const
     return res;
 }
 
-long int Character::i_add_to_container( const item &it, const bool unloading )
+int Character::i_add_to_container( const item &it, const bool unloading )
 {
-    long int charges = it.charges;
+    int charges = it.charges;
     if( !it.is_ammo() || unloading ) {
         return charges;
     }
@@ -848,11 +848,11 @@ long int Character::i_add_to_container( const item &it, const bool unloading )
     auto add_to_container = [&it, &charges]( item & container ) {
         auto &contained_ammo = container.contents.front();
         if( contained_ammo.charges < container.ammo_capacity() ) {
-            const long int diff = container.ammo_capacity() - contained_ammo.charges;
+            const int diff = container.ammo_capacity() - contained_ammo.charges;
             add_msg( _( "You put the %s in your %s." ), it.tname(), container.tname() );
             if( diff > charges ) {
                 contained_ammo.charges += charges;
-                return 0L;
+                return 0;
             } else {
                 contained_ammo.charges = container.ammo_capacity();
                 return charges - diff;
@@ -2808,7 +2808,7 @@ bool Character::is_blind() const
 bool Character::pour_into( item &container, item &liquid )
 {
     std::string err;
-    const long amount = container.get_remaining_capacity_for_liquid( liquid, *this, &err );
+    const int amount = container.get_remaining_capacity_for_liquid( liquid, *this, &err );
 
     if( !err.empty() ) {
         add_msg_if_player( m_bad, err );
@@ -2876,23 +2876,23 @@ float Character::mutation_armor( body_part bp, const damage_unit &du ) const
     return mutation_armor( bp ).get_effective_resist( du );
 }
 
-long Character::ammo_count_for( const item &gun )
+int Character::ammo_count_for( const item &gun )
 {
-    long ret = item::INFINITE_CHARGES;
+    int ret = item::INFINITE_CHARGES;
     if( !gun.is_gun() ) {
         return ret;
     }
 
-    long required = gun.ammo_required();
+    int required = gun.ammo_required();
 
     if( required > 0 ) {
-        long total_ammo = 0;
+        int total_ammo = 0;
         total_ammo += gun.ammo_remaining();
 
         bool has_mag = gun.magazine_integral();
 
         const auto found_ammo = find_ammo( gun, true, -1 );
-        long loose_ammo = 0;
+        int loose_ammo = 0;
         for( const auto &ammo : found_ammo ) {
             if( ammo->is_magazine() ) {
                 has_mag = true;
@@ -2906,12 +2906,12 @@ long Character::ammo_count_for( const item &gun )
             total_ammo += loose_ammo;
         }
 
-        ret = std::min<long>( ret, total_ammo / required );
+        ret = std::min( ret, total_ammo / required );
     }
 
-    long ups_drain = gun.get_gun_ups_drain();
+    int ups_drain = gun.get_gun_ups_drain();
     if( ups_drain > 0 ) {
-        ret = std::min<long>( ret, charges_of( "UPS" ) / ups_drain );
+        ret = std::min( ret, charges_of( "UPS" ) / ups_drain );
     }
 
     return ret;

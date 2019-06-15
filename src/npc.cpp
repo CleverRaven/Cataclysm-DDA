@@ -575,8 +575,8 @@ void starting_inv( npc &who, const npc_class_id &type )
 
         // TODO: Move to npc_class
         // NC_COWBOY and NC_BOUNTY_HUNTER get 5-15 whilst all others get 3-6
-        long qty = 1 + ( type == NC_COWBOY ||
-                         type == NC_BOUNTY_HUNTER );
+        int qty = 1 + ( type == NC_COWBOY ||
+                        type == NC_BOUNTY_HUNTER );
         qty = rng( qty, qty * 2 );
 
         while( qty-- != 0 && who.can_pickVolume( ammo ) ) {
@@ -589,8 +589,8 @@ void starting_inv( npc &who, const npc_class_id &type )
         res.emplace_back( "molotov" );
     }
 
-    long qty = ( type == NC_EVAC_SHOPKEEP ||
-                 type == NC_TRADER ) ? 5 : 2;
+    int qty = ( type == NC_EVAC_SHOPKEEP ||
+                type == NC_TRADER ) ? 5 : 2;
     qty = rng( qty, qty * 3 );
 
     while( qty-- != 0 ) {

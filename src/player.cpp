@@ -2955,7 +2955,7 @@ int player::read_speed( bool return_stat_effect ) const
     // Stat window shows stat effects on based on current stat
     const int intel = get_int();
     /** @EFFECT_INT increases reading speed */
-    int ret = 1000 - 50 * ( intel - 8 );
+    int ret = to_moves<int>( 1_minutes ) - to_moves<int>( 30_seconds ) * ( intel - 8 );
 
     if( has_bionic( afs_bio_linguistic_coprocessor ) ) { // Aftershock
         ret *= .85;
@@ -2973,11 +2973,11 @@ int player::read_speed( bool return_stat_effect ) const
         ret *= 1.3;
     }
 
-    if( ret < 100 ) {
-        ret = 100;
+    if( ret < to_moves<int>( 1_seconds ) ) {
+        ret = to_moves<int>( 1_seconds );
     }
     // return_stat_effect actually matters here
-    return 6 * ( return_stat_effect ? ret : ret / 10 );
+    return return_stat_effect ? ret : ret / 10;
 }
 
 int player::rust_rate( bool return_stat_effect ) const
@@ -6992,10 +6992,10 @@ item player::reduce_charges( item *it, int quantity )
     return result;
 }
 
-int player::invlet_to_position( const long linvlet ) const
+int player::invlet_to_position( const int linvlet ) const
 {
     // Invlets may come from curses, which may also return any kind of key codes, those being
-    // of type long and they can become valid, but different characters when casted to char.
+    // of type int and they can become valid, but different characters when casted to char.
     // Example: KEY_NPAGE (returned when the player presses the page-down key) is 0x152,
     // casted to char would yield 0x52, which happens to be 'R', a valid invlet.
     if( linvlet > std::numeric_limits<char>::max() || linvlet < std::numeric_limits<char>::min() ) {
@@ -9174,7 +9174,7 @@ bool player::invoke_item( item *used, const std::string &method, const tripoint 
     return false;
 }
 
-void player::reassign_item( item &it, long invlet )
+void player::reassign_item( item &it, int invlet )
 {
     bool remove_old = true;
     if( invlet ) {

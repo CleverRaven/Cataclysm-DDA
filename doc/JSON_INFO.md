@@ -1086,6 +1086,8 @@ Guns can be defined like this:
 "aim_speed": 3,            // A measure of how quickly the player can aim, in moves per point of dispersion.
 "recoil": 0,               // Recoil caused when firing, in quarter-degrees of dispersion.
 "durability": 8,           // Resistance to damage/rusting, also determines misfire chance
+"blackpowder_tolerance": 8,// One in X chance to get clogged up (per shot) when firing blackpowder ammunition (higher is better). Optional, default is 8.
+"min_cycle_recoil": 0,     // Minimum ammo recoil for gun to be able to fire more than once per attack.
 "burst": 5,                // Number of shots fired in burst mode
 "clip_size": 100,          // Maximum amount of ammo that can be loaded
 "ups_charges": 0,          // Additionally to the normal ammo (if any), a gun can require some charges from an UPS. This also works on mods. Attaching a mod with ups_charges will add/increase ups drain on the weapon.

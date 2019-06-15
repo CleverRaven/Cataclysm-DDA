@@ -1461,6 +1461,18 @@
     "volume": 1
   },
   {
+    "id": "pipe_cleaner",
+    "type": "GENERIC",
+    "name": "pipe cleaner",
+    "description": "This is a tool designed to clean interior surface of pipes, bottles, and similar objects.  This one is thin enough to be used for cleaning firearm barrels from dirt and fouling.",
+    "weight": 50,
+    "volume": 1,
+    "price": 500,
+    "material": [ "steel", "cotton" ],
+    "symbol": ";",
+    "color": "light_gray"
+  },
+  {
     "type": "GENERIC",
     "id": "clock",
     "symbol": ";",

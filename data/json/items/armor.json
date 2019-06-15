@@ -5674,6 +5674,14 @@
     "flags": [ "VARSIZE", "POCKETS" ]
   },
   {
+    "id": "robofac_jumpsuit",
+    "type": "ARMOR",
+    "copy-from": "jumpsuit",
+    "name": "Hub 01 jumpsuit",
+    "description": "A brown jumpsuit worn by the staff of Hub 01.",
+    "color": "brown"
+  },
+  {
     "id": "jumpsuit_xl",
     "type": "ARMOR",
     "name": "XL jumpsuit",

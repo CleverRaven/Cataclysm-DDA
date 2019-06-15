@@ -1712,8 +1712,11 @@ static void draw_mana( const player &u, const catacurses::window &w )
     werase( w );
 
     auto mana_pair = mana_stat( u );
-    mvwprintz( w, 0, getmaxx( w ) - 10, c_light_gray, "Mana" );
-    mvwprintz( w, 0, getmaxx( w ) - 5, mana_pair.first, mana_pair.second );
+    const std::string mana_string = string_format( "%6s %5s %10s %5s", _( "Mana" ),
+                                    colorize( mana_pair.second, mana_pair.first ), _( "Max Mana" ),
+                                    colorize( to_string( u.magic.max_mana( u ) ), c_light_blue ) );
+    nc_color gray = c_light_gray;
+    print_colored_text( w, 0, getmaxx( w ) - mana_string.size(), gray, gray, mana_string );
 
     wrefresh( w );
 }
