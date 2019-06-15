@@ -36,7 +36,7 @@
     "id": "38_speedloader",
     "type": "MAGAZINE",
     "name": ".38/.357 7-round speedloader",
-    "description": "This speedloader can hold 7 rounds of .357 Magnum .38 Special and quickly reload a compatible revolver.",
+    "description": "This speedloader can hold 7 rounds of .357 Magnum or .38 Special and quickly reload a compatible revolver.",
     "weight": 80,
     "volume": 1,
     "price": 1000,
