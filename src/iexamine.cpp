@@ -4072,35 +4072,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             const itype *itemtype = it->type;
             const bionic_id &bid = itemtype->bionic->id;
 
-            if( patient.is_npc() && !bid->npc_usable ) {
-                //~ %1$s is the bionic CBM display name, %2$s is the patient name
-                popup( _( "%1$s cannot be installed on %2$s." ), it->display_name(), patient.name );
-                return;
-            }
-
-            if( patient.has_bionic( bid ) ) {
-                //~ %1$s is patient name
-                popup_player_or_npc( patient, _( "You have already installed this bionic." ),
-                                     _( "%1$s has already installed this bionic." ) );
-                return;
-            } else if( bid->upgraded_bionic && !patient.has_bionic( bid->upgraded_bionic ) &&
-                       it->is_upgrade() ) {
-                //~ %1$s is patient name
-                popup_player_or_npc( patient, _( "You have no base version of this bionic to upgrade." ),
-                                     _( "%1$s has no base version of this bionic to upgrade." ) );
-                return;
-            } else {
-                const bool downgrade = std::any_of( bid->available_upgrades.begin(),
-                                                    bid->available_upgrades.end(),
-                                                    std::bind( &player::has_bionic, &patient,
-                                                            std::placeholders::_1 ) );
-                if( downgrade ) {
-                    //~ %1$s is patient name
-                    popup_player_or_npc( patient, _( "You have already installed a superior version of this bionic." ),
-                                         _( "%1$s has installed a superior version of this bionic." ) );
-                    return;
-                }
-            }
             player &installer = best_installer( p, null_player, itemtype->bionic->difficulty );
             if( &installer == &null_player ) {
                 return;
@@ -4108,10 +4079,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
             const float volume_anesth = itemtype->bionic->difficulty * 20 * 2; // 2ml/min
-            if( needs_anesthesia && volume_anesth > drug_count && acomps.empty() ) {
-                add_msg( m_bad, "You don't have enough anesthetic for this operation." );
-                return;
-            }
 
             if( patient.install_bionics( ( *itemtype ), installer, true ) ) {
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
