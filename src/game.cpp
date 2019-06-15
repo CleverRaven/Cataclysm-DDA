@@ -5379,10 +5379,17 @@ static const std::string get_fire_fuel_string( const tripoint &examp )
                     return ss.str();
                 } else {
                     fire_age = 30_minutes - fire_age;
-                    fire_age = rng( fire_age - fire_age * mod / 5, fire_age + fire_age * mod / 5 );
-                    ss << string_format(
-                           _( "Without extra fuel it might burn yet for %s, but might also go out sooner." ),
-                           to_string_approx( fire_age ) );
+                    if( to_string_approx( fire_age - fire_age * mod / 5 ) == to_string_approx(
+                            fire_age + fire_age * mod / 5 ) ) {
+                        ss << string_format(
+                               _( "Without extra fuel it might burn yet for maybe %s, but might also go out sooner." ),
+                               to_string_approx( fire_age - fire_age * mod / 5 ) );
+                    } else {
+                        ss << string_format(
+                               _( "Without extra fuel it might burn yet for between %s to %s, but might also go out sooner." ),
+                               to_string_approx( fire_age - fire_age * mod / 5 ),
+                               to_string_approx( fire_age + fire_age * mod / 5 ) );
+                    }
                     return ss.str();
                 }
             } else {
@@ -5401,8 +5408,15 @@ static const std::string get_fire_fuel_string( const tripoint &examp )
                         return ss.str();
                     }
                 } else {
-                    fire_age = rng( fire_age - fire_age * mod / 5, fire_age + fire_age * mod / 5 );
-                    ss << string_format( _( "Without extra fuel it will burn for %s." ), to_string_approx( fire_age ) );
+                    if( to_string_approx( fire_age - fire_age * mod / 5 ) == to_string_approx(
+                            fire_age + fire_age * mod / 5 ) ) {
+                        ss << string_format( _( "Without extra fuel it will burn for about %s." ),
+                                             to_string_approx( fire_age - fire_age * mod / 5 ) );
+                    } else {
+                        ss << string_format( _( "Without extra fuel it will burn for between %s to %s." ),
+                                             to_string_approx( fire_age - fire_age * mod / 5 ),
+                                             to_string_approx( fire_age + fire_age * mod / 5 ) );
+                    }
                     return ss.str();
                 }
             }
