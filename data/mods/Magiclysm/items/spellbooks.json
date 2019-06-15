@@ -178,7 +178,7 @@
     "volume": 3,
     "symbol": "?",
     "color": "light_grey",
-    "use_action": { "type": "learn_spell", "spells": [ "magus_mana_beam", "magus_mana_bolt", "magus_eldritch_blast" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "magus_mana_beam", "magus_mana_bolt", "magus_mana_blast" ] }
   },
   {
     "id": "eshaper_spellbook",
