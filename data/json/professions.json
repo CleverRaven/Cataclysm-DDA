@@ -554,6 +554,33 @@
   },
   {
     "type": "profession",
+    "ident": "true_foodperson",
+    "name": "True Foodperson",
+    "description": "You are the true Foodperson, some might think Foodperson is just a mascot, but you know better.  You are Foodperson, the mask has become your face, you are real and the only thing standing between this world and oblivion is you.",
+    "points": -1,
+    "traits": [ "PROF_FOODP" ],
+    "skills": [ { "level": 2, "name": "dodge" }, { "level": 2, "name": "bashing" }, { "level": 2, "name": "speech" } ],
+    "items": {
+      "both": {
+        "items": [
+          "foodperson_mask",
+          "pants_cargo",
+          "briefs",
+          "cape_fp",
+          "dress_shirt",
+          "armguard_hard",
+          "legguard_hard",
+          "gloves_rubber",
+          "socks",
+          "chestguard_hard",
+          "boots_rubber"
+        ],
+        "entries": [ { "item": "medium_disposable_cell" }, { "group": "snacks_fancy" }, { "group": "snacks" }, { "item": "bat" } ]
+      }
+    }
+  },
+  {
+    "type": "profession",
     "ident": "cyclist",
     "name": "Professional Cyclist",
     "description": "You were a promising young cyclist with a bright career in front of you before this all happened.  Perhaps you'll never get to participate in the grand tours now, but as the saying goes: Life is like riding a bicycle, you got to keep moving.",

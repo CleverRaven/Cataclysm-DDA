@@ -92,6 +92,7 @@ const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
+static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 
 const zone_type_id zone_no_investigate( "NPC_NO_INVESTIGATE" );
 const zone_type_id zone_investigate_only( "NPC_INVESTIGATE_ONLY" );
@@ -328,6 +329,12 @@ void game::chat()
                guy.can_hear( u.pos(), volume );
     } );
     const int guard_count = guards.size();
+
+    if( g->u.has_trait( trait_PROF_FOODP ) && !( g->u.is_wearing( itype_id( "foodperson_mask" ) ) ||
+            g->u.is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
+        g->u.add_msg_if_player( m_warning, _( "You can't speak without your face!" ) );
+        return;
+    }
 
     uilist nmenu;
     nmenu.text = std::string( _( "What do you want to do?" ) );
@@ -674,6 +681,16 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
         }
     }
 
+    if( g->u.has_trait( trait_PROF_FOODP ) && !( g->u.is_wearing( itype_id( "foodperson_mask" ) ) ||
+            g->u.is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
+        d.add_topic( "TALK_NOFACE" );
+    }
+
+    if( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_id( "foodperson_mask" ) ) ||
+                                            is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
+        d.add_topic( "TALK_NPC_NOFACE" );
+    }
+
     decide_needs();
 
     dialogue_window d_win;
@@ -726,7 +743,13 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         }
     }
 
-    if( topic == "TALK_DEAF" ) {
+    if( topic == "TALK_NPC_NOFACE" ) {
+        return string_format( _( "&%s stays silent." ), beta->name );
+    }
+
+    if( topic == "TALK_NOFACE" ) {
+        return _( "&You can't talk without your face." );
+    } else if( topic == "TALK_DEAF" ) {
         return _( "&You are deaf and can't talk." );
 
     } else if( topic == "TALK_DEAF_ANGRY" ) {
@@ -3852,7 +3875,8 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
         return _( "Changed your mind?" );
     }
 
-    if( &given == &g->u.weapon && given.has_flag( "NO_UNWIELD" ) ) {
+    if( ( &given == &g->u.weapon && given.has_flag( "NO_UNWIELD" ) ) || ( g->u.is_worn( given ) &&
+            given.has_flag( "NO_TAKEOFF" ) ) ) {
         // Bionic weapon or shackles
         return _( "How?" );
     }
