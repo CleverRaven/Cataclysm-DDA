@@ -8455,23 +8455,16 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
         return std::make_pair( terrains, furnitures );
     }
 
-    const tripoint omt_pos = tripoint( 0, 0, 0 );
-
     tinymap fake_map;
-    fake_map.load( 0, 0, 0, false );
-    for( const tripoint &pos : fake_map.points_in_rectangle( omt_pos,
-            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
-        fake_map.furn_set( pos, f_null );
-        fake_map.ter_set( pos, t_dirt );
-        fake_map.trap_set( pos, tr_null );
+    if( !fake_map.fake_load( f_null, t_dirt, tr_null ) ) {
+        return std::make_pair( terrains, furnitures );
     }
-
-    const regional_settings &rsettings = overmap_buffer.get_settings( omt_pos.x, omt_pos.y,
-                                         omt_pos.z );
     oter_id any = oter_id( "field" );
+    // just need a variable here, it doesn't need to be valid
+    const regional_settings dummy_settings;
 
     mapgendata fake_md( any, any, any, any, any, any, any, any,
-                        any, any, omt_pos.z, rsettings, fake_map );
+                        any, any, 0, dummy_settings, fake_map );
 
     if( update_function->second[0]->update_map( fake_md ) ) {
         for( const tripoint &pos : fake_map.points_in_rectangle( { 0, 0, 0 }, { 23, 23, 0 } ) ) {
