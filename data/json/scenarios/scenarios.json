@@ -495,5 +495,15 @@
     "points": 0,
     "start_name": "Apartment Rooftop",
     "allowed_locs": [ "apartments_con_tower_114", "apartments_con_tower_014", "apartments_con_tower_104", "apartments_con_tower_004" ]
+  },
+  {
+    "type": "scenario",
+    "ident": "rancher",
+    "name": "Rancher",
+    "points": 4,
+    "description": "You've lived on your ranch for most of your life, through hard times and easy times. One heck of a hard time is ahead..",
+    "allowed_locs": [ "horse_farm_13" ],
+    "start_name": "Horse Farm",
+    "professions": [ "rancher" ]
   }
 ]
