@@ -786,7 +786,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( entry.drop == "pheromone" ) {
                     if( one_in( 3 ) ) {
                         p.add_msg_if_player( m_bad,
-                                             _( "You notice some strange organs, pehraps harvestable via careful dissection." ) );
+                                             _( "You notice some strange organs, perhaps harvestable via careful dissection." ) );
                     }
                     continue;
                 }
