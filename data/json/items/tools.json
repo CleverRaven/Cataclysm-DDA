@@ -8156,7 +8156,8 @@
       [ "SCREW_FINE", 1 ],
       [ "BUTCHER", 11 ],
       [ "FILE", 2 ],
-      [ "REAM", 1 ]
+      [ "REAM", 1 ],
+      [ "VICE", 1 ]
     ],
     "use_action": [ "HAMMER" ]
   },
@@ -9178,7 +9179,7 @@
     "description": "Handheld pin reamers of this kind are used to enlarge existing holes, or remove any burs and such from them.",
     "weight": 76,
     "volume": 1,
-    "price": 0,
+    "price": 300,
     "to_hit": -2,
     "bashing": 1,
     "cutting": 1,
@@ -9194,7 +9195,7 @@
     "description": "These tools are commonly used to remove small amounts of materials from the surface of metal objects.",
     "weight": 76,
     "volume": 1,
-    "price": 0,
+    "price": 300,
     "to_hit": -2,
     "bashing": 1,
     "cutting": 1,
@@ -9229,5 +9230,21 @@
       ]
     ],
     "magazine_well": 2
+  },
+  {
+    "id": "hand_vice",
+    "type": "TOOL",
+    "name": "hand vice",
+    "description": "This small handheld metal vice is useful for keeping things still.",
+    "weight": 320,
+    "volume": 2,
+    "price": 500,
+    "to_hit": -2,
+    "bashing": 1,
+    "cutting": 1,
+    "material": "steel",
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "VICE", 1 ] ]
   }
 ]
