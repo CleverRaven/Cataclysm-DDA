@@ -3880,6 +3880,9 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
             if( !trajectory.empty() ) {
                 target = trajectory.back();
                 target_is_valid = casting.is_valid_target( target );
+                if( !( casting.is_valid_target( target_ground ) || p->sees( target ) ) ) {
+                    target_is_valid = false;
+                }
             } else {
                 target_is_valid = false;
             }

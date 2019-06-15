@@ -977,5 +977,37 @@
       "spear_survivor",
       "spear_wood"
     ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_wingchun",
+    "name": "Wing Chun",
+    "description": "Wing Chun is a Chinese martial art that began by selecting the easiest-to-learn effective techniques from the various Shaolin animal forms.  It has a high stance, with weight entirely on the rear leg.  Wing Chun focuses on sensitivity to the opponent's direction of force, and flowing around it to get back to hitting.",
+    "initiate": [
+      "You take your stance and prepare to receive the gift of violence.",
+      "%s patiently assumes a curiously pigeon-toed stance."
+    ],
+    "arm_block": 99,
+    "leg_block": 99,
+    "static_buffs": [
+      {
+        "id": "wingchun_static",
+        "name": "Chi-Sao Sensitivity",
+        "description": "Perception increases dodging ability, +1 dodges per turn",
+        "unarmed_allowed": true,
+        "strictly_unarmed": true,
+        "flat_bonuses": [ [ "dodge", "per", 0.12 ] ],
+        "bonus_dodges": 1
+      }
+    ],
+    "techniques": [
+      "tec_wingchun_chainpunch",
+      "tec_wingchun_break",
+      "tec_wingchun_feint",
+      "tec_wingchun_stumble",
+      "tec_wingchun_counter",
+      "tec_wingchun_disarm"
+    ],
+    "weapons": [ "butterfly_swords", "long_pole" ]
   }
 ]

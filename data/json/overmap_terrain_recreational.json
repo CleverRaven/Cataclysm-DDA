@@ -1059,6 +1059,34 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "gym_fitness_roof",
+    "name": "fitness gym roof",
+    "copy-from": "generic_city_building",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "gym_fitness_1",
+    "name": "fitness gym",
+    "copy-from": "generic_city_building",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "gym_fitness_2ndFloor_1",
+    "name": "fitness gym",
+    "copy-from": "generic_city_building",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "gym_fitness_roof_1",
+    "name": "fitness gym roof",
+    "copy-from": "generic_city_building",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "dojo",
     "name": "dojo",
     "copy-from": "generic_city_building",

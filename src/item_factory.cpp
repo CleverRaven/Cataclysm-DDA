@@ -162,8 +162,8 @@ void Item_factory::finalize_pre( itype &obj )
         obj.use_methods.emplace( func, usage_from_string( func ) );
     }
 
-    if( obj.engine && get_option<bool>( "NO_FAULTS" ) ) {
-        obj.engine->faults.clear();
+    if( get_option<bool>( "NO_FAULTS" ) ) {
+        obj.faults.clear();
     }
 
     // If no category was forced via JSON automatically calculate one now
@@ -884,11 +884,9 @@ void Item_factory::check_definitions() const
             }
         }
 
-        if( type->engine ) {
-            for( const auto &f : type->engine->faults ) {
-                if( !f.is_valid() ) {
-                    msg << string_format( "invalid item fault %s", f.c_str() ) << "\n";
-                }
+        for( const auto &f : type->faults ) {
+            if( !f.is_valid() ) {
+                msg << string_format( "invalid item fault %s", f.c_str() ) << "\n";
             }
         }
 
@@ -1328,7 +1326,6 @@ void Item_factory::load_ammo( JsonObject &jo, const std::string &src )
 void Item_factory::load( islot_engine &slot, JsonObject &jo, const std::string & )
 {
     assign( jo, "displacement", slot.displacement );
-    assign( jo, "faults", slot.faults );
 }
 
 void Item_factory::load_engine( JsonObject &jo, const std::string &src )
@@ -1425,6 +1422,8 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
     assign( jo, "built_in_mods", slot.built_in_mods, strict );
     assign( jo, "default_mods", slot.default_mods, strict );
     assign( jo, "ups_charges", slot.ups_charges, strict, 0 );
+    assign( jo, "blackpowder_tolerance", slot.blackpowder_tolerance, strict, 0 );
+    assign( jo, "min_cycle_recoil", slot.blackpowder_tolerance, strict, 0 );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
 
     if( jo.has_array( "valid_mod_locations" ) ) {
@@ -2085,6 +2084,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     }
 
     assign( jo, "flags", def.item_tags );
+    assign( jo, "faults", def.faults );
 
     if( jo.has_member( "qualities" ) ) {
         set_qualities_from_json( jo, "qualities", def );
