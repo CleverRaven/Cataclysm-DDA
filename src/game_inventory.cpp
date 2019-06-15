@@ -1516,6 +1516,8 @@ class bionic_install_preset: public inventory_selector_preset
                 return _( "Superior version installed" );
             } else if( pa.is_npc() && !bid->npc_usable ) {
                 return _( "CBM not compatible with patient" );
+            } else if( p.has_enough_anesth( itemtype ) ) {
+                return _( "Not enough anesthetic" );
             }
 
             return std::string();
