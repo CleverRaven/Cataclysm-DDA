@@ -831,7 +831,7 @@ void iexamine::cardreader_foodplace( player &p, const tripoint &examp )
         if( open ) {
             add_msg( _( "You press your face on the reader." ) );
             add_msg( m_good, _( "The nearby doors are unlocked." ) );
-            sounds::sound( examp, 6, sounds::sound_t::speech, "\"Hello Foodperson.  Welcome home.\"", true,
+            sounds::sound( examp, 6, sounds::sound_t::speech, _( "\"Hello Foodperson.  Welcome home.\"" ), true,
                            "speech", "welcome" );
         } else {
             add_msg( _( "The nearby doors are already unlocked." ) );
