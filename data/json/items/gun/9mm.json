@@ -539,7 +539,7 @@
   },
   {
     "id": "m17",
-    "copy-from": "pistol-base",
+    "copy-from": "pistol_base",
     "type": "GUN",
     "name": "M17",
     "description": "The M17 is a semi automatic, short recoil operated pistol derived from the SIG Sauer P320.",
