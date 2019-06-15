@@ -191,7 +191,6 @@ class player : public Character
 
         void normalize() override;
 
-
         bool is_player() const override {
             return true;
         }
@@ -1547,7 +1546,7 @@ class player : public Character
         int blocks_left;
         int stim;
         int radiation;
-        unsigned long cash;
+        signed long cash;
         int movecounter;
         std::shared_ptr<monster> mounted_creature;
         bool death_drops;// Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight

@@ -1513,6 +1513,7 @@ void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &sr
     assign( jo, "charges_per_use", slot.charges_per_use, strict, 0 );
     assign( jo, "charge_factor", slot.charge_factor, strict, 1 );
     assign( jo, "turns_per_charge", slot.turns_per_charge, strict, 0 );
+    assign( jo, "power_draw", slot.power_draw, strict, 0 );
     assign( jo, "revert_to", slot.revert_to, strict );
     assign( jo, "revert_msg", slot.revert_msg, strict );
     assign( jo, "sub", slot.subtype, strict );
@@ -2674,8 +2675,7 @@ const std::string calc_category( const itype &obj )
 std::vector<Group_tag> Item_factory::get_all_group_names()
 {
     std::vector<std::string> rval;
-    GroupMap::iterator it;
-    for( it = m_template_groups.begin(); it != m_template_groups.end(); it++ ) {
+    for( GroupMap::iterator it = m_template_groups.begin(); it != m_template_groups.end(); it++ ) {
         rval.push_back( it->first );
     }
     return rval;

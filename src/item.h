@@ -1586,7 +1586,7 @@ class item : public visitable<item>
         /** Set of ammo types (@ref ammunition_type) used by item
          *  @param conversion whether to include the effect of any flags or mods which convert the type
          *  @return empty set if item does not use a specific ammo type (and is consequently not reloadable) */
-        std::set<ammotype> ammo_types( bool conversion = true ) const;
+        const std::set<ammotype> &ammo_types( bool conversion = true ) const;
 
         /** Ammo type of an ammo item
          *  @return ammotype of ammo item or a null id if the item is not ammo */
@@ -1917,7 +1917,6 @@ class item : public visitable<item>
          */
         requirement_data get_continue_reqs() const;
 
-
     private:
         /**
          * Calculate the thermal energy and temperature change of the item
@@ -1999,7 +1998,7 @@ class item : public visitable<item>
         int poison = 0;          // How badly poisoned is it?
         int frequency = 0;       // Radio frequency
         int note = 0;            // Associated dynamic text snippet.
-        int irridation = 0;      // Tracks radiation dosage.
+        int irradiation = 0;      // Tracks radiation dosage.
         int item_counter = 0; // generic counter to be used with item flags
         int specific_energy = -10; // Specific energy (0.00001 J/g). Negative value for unprocessed.
         int temperature = 0; // Temperature of the item (in 0.00001 K).

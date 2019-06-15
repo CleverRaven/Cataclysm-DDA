@@ -232,7 +232,6 @@ static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
-static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 
@@ -246,7 +245,7 @@ void intro();
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
 extern bool add_best_key_for_action_to_quick_shortcuts( action_id action,
         const std::string &category, bool back );
-extern bool add_key_to_quick_shortcuts( long key, const std::string &category, bool back );
+extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back );
 #endif
 
 //The one and only game instance
@@ -5358,11 +5357,11 @@ static const std::string get_fire_fuel_string( const tripoint &examp )
         if( fire ) {
             std::stringstream ss;
             ss << string_format( _( "There is a fire here." ) ) << " ";
-            if( fire->getFieldDensity() > 1 ) {
+            if( fire->get_field_intensity() > 1 ) {
                 ss << string_format( _( "It's too big and unpredictable to evaluate how long it will last." ) );
                 return ss.str();
             }
-            time_duration fire_age = fire->getFieldAge();
+            time_duration fire_age = fire->get_field_age();
             // half-life inclusion
             int mod = 5 - g->u.get_skill_level( skill_survival );
             mod = std::max( mod, 0 );
@@ -5609,6 +5608,7 @@ void game::peek( const tripoint &p )
     if( result.peek_action && *result.peek_action == PA_BLIND_THROW ) {
         avatar_action::plthrow( u, INT_MIN, p );
     }
+    m.invalidate_map_cache( p.z );
 
     draw_ter();
     wrefresh( w_terrain );
@@ -7734,7 +7734,7 @@ static int get_initial_hotkey( const size_t menu_index )
 {
     int hotkey = -1;
     if( menu_index == 0 ) {
-        const long butcher_key = inp_mngr.get_previously_pressed_key();
+        const int butcher_key = inp_mngr.get_previously_pressed_key();
         if( butcher_key != 0 ) {
             hotkey = butcher_key;
         }
@@ -8717,7 +8717,7 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
     const auto fields_here = m.field_at( u.pos() );
     for( const auto &e : m.field_at( dest_loc ) ) {
         // warn before moving into a dangerous field except when already standing within a similar field
-        if( u.is_dangerous_field( e.second ) && fields_here.findField( e.first ) == nullptr ) {
+        if( u.is_dangerous_field( e.second ) && fields_here.find_field( e.first ) == nullptr ) {
             harmful_stuff.push_back( e.second.name() );
         }
     }

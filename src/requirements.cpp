@@ -240,8 +240,7 @@ void requirement_data::load_requirement( JsonObject &jsobj, const requirement_id
 {
     requirement_data req;
 
-    JsonArray jsarr;
-    jsarr = jsobj.get_array( "components" );
+    JsonArray jsarr = jsobj.get_array( "components" );
     req.load_obj_list( jsarr, req.components );
     jsarr = jsobj.get_array( "qualities" );
     req.load_obj_list( jsarr, req.qualities );

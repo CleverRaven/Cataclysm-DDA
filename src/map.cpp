@@ -1378,17 +1378,21 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group ) const
         ch.transparency_cache[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
     uint8_t val = 0;
     std::function<bool( const tripoint & )> is_memorized;
+#ifdef TILES
     if( use_tiles ) {
         is_memorized =
         [&]( const tripoint & q ) {
             return !g->u.get_memorized_tile( getabs( q ) ).tile.empty();
         };
     } else {
+#endif
         is_memorized =
         [&]( const tripoint & q ) {
             return g->u.get_memorized_symbol( getabs( q ) );
         };
+#ifdef TILES
     }
+#endif
 
     // populate connection information
     for( int i = 0; i < 4; ++i ) {
@@ -2111,7 +2115,7 @@ void map::drop_vehicle( const tripoint &p )
 void map::drop_fields( const tripoint &p )
 {
     field &fld = field_at( p );
-    if( fld.fieldCount() == 0 ) {
+    if( fld.field_count() == 0 ) {
         return;
     }
 
@@ -2122,13 +2126,13 @@ void map::drop_fields( const tripoint &p )
         // For now only drop cosmetic fields, which don't warrant per-turn check
         // Active fields "drop themselves"
         if( entry.decays_on_actualize() ) {
-            add_field( below, entry.getFieldType(), entry.getFieldDensity(), entry.getFieldAge() );
-            dropped.push_back( entry.getFieldType() );
+            add_field( below, entry.get_field_type(), entry.get_field_intensity(), entry.get_field_age() );
+            dropped.push_back( entry.get_field_type() );
         }
     }
 
     for( const auto &entry : dropped ) {
-        fld.removeField( entry );
+        fld.remove_field( entry );
     }
 }
 
@@ -2714,17 +2718,17 @@ void map::decay_fields_and_scent( const time_duration &amount )
 
                     field &fields = cur_submap->fld[sx][sy];
                     if( !outside_cache[x][y] ) {
-                        to_proc -= fields.fieldCount();
+                        to_proc -= fields.field_count();
                         continue;
                     }
 
                     for( auto &fp : fields ) {
                         to_proc--;
                         field_entry &cur = fp.second;
-                        const field_id type = cur.getFieldType();
+                        const field_id type = cur.get_field_type();
                         switch( type ) {
                             case fd_fire:
-                                cur.setFieldAge( cur.getFieldAge() + amount_fire );
+                                cur.set_field_age( cur.get_field_age() + amount_fire );
                                 break;
                             case fd_blood:
                             case fd_bile:
@@ -2736,7 +2740,7 @@ void map::decay_fields_and_scent( const time_duration &amount )
                             case fd_blood_invertebrate:
                             case fd_gibs_insect:
                             case fd_gibs_invertebrate:
-                                cur.setFieldAge( cur.getFieldAge() + amount_liquid );
+                                cur.set_field_age( cur.get_field_age() + amount_liquid );
                                 break;
                             case fd_smoke:
                             case fd_toxic_gas:
@@ -2757,7 +2761,7 @@ void map::decay_fields_and_scent( const time_duration &amount )
                             case fd_hot_air2:
                             case fd_hot_air3:
                             case fd_hot_air4:
-                                cur.setFieldAge( cur.getFieldAge() + amount_gas );
+                                cur.set_field_age( cur.get_field_age() + amount_gas );
                                 break;
                             default:
                                 break;
@@ -2845,7 +2849,7 @@ bool map::mop_spills( const tripoint &p )
         fd_sludge
     };
     for( field_id fid : to_check ) {
-        retval |= fld.removeField( fid );
+        retval |= fld.remove_field( fid );
     }
 
     if( const optional_vpart_position vp = veh_at( p ) ) {
@@ -3730,10 +3734,10 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     const field_entry *fieldhit = get_field( p, fd_web );
     if( fieldhit != nullptr ) {
         if( inc ) {
-            add_field( p, fd_fire, fieldhit->getFieldDensity() - 1 );
-        } else if( dam > 5 + fieldhit->getFieldDensity() * 5 &&
-                   one_in( 5 - fieldhit->getFieldDensity() ) ) {
-            dam -= rng( 1, 2 + fieldhit->getFieldDensity() * 2 );
+            add_field( p, fd_fire, fieldhit->get_field_intensity() - 1 );
+        } else if( dam > 5 + fieldhit->get_field_intensity() * 5 &&
+                   one_in( 5 - fieldhit->get_field_intensity() ) ) {
+            dam -= rng( 1, 2 + fieldhit->get_field_intensity() * 2 );
             remove_field( p, fd_web );
         }
     }
@@ -4125,6 +4129,9 @@ std::list<item>::iterator map::i_rem( const tripoint &p, std::list<item>::iterat
 
     if( current_submap->active_items.has( it, l ) ) {
         current_submap->active_items.remove( it, l );
+        if( current_submap->active_items.empty() ) {
+            submaps_with_active_items.erase( abs_sub + tripoint( p.x / SEEX, p.y / SEEY, p.z ) );
+        }
     }
 
     current_submap->update_lum_rem( l, *it );
@@ -4172,6 +4179,10 @@ void map::i_clear( const tripoint &p )
          item_it != current_submap->itm[l.x][l.y].end(); ++item_it ) {
         if( current_submap->active_items.has( item_it, l ) ) {
             current_submap->active_items.remove( item_it, l );
+            if( current_submap->active_items.empty() ) {
+                submaps_with_active_items.erase(
+                    abs_sub + tripoint( p.x / SEEX, p.y / SEEY, p.z ) );
+            }
         }
     }
 
@@ -4398,6 +4409,9 @@ item &map::add_item_at( const tripoint &p,
     current_submap->update_lum_add( l, new_item );
     const auto new_pos = current_submap->itm[l.x][l.y].insert( index, new_item );
     if( new_item.needs_processing() ) {
+        if( current_submap->active_items.empty() ) {
+            submaps_with_active_items.insert( abs_sub + tripoint( p.x / SEEX, p.y / SEEY, p.z ) );
+        }
         current_submap->active_items.add( new_pos, l );
     }
 
@@ -4461,6 +4475,10 @@ void map::make_active( item_location &loc )
         return &i == target;
     } );
 
+    if( current_submap->active_items.empty() ) {
+        submaps_with_active_items.insert( abs_sub + tripoint( loc.position().x / SEEX,
+                                          loc.position().y / SEEY, loc.position().z ) );
+    }
     current_submap->active_items.add( iter, l );
 }
 
@@ -4560,13 +4578,12 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
     if( cur_veh.part_with_feature( part, VPFLAG_RECHARGE, true ) >= 0 &&
         cur_veh.has_part( "RECHARGE", true ) ) {
         for( auto &n : cur_veh.get_items( part ) ) {
-            static const std::string recharge_s( "RECHARGE" );
-            static const std::string ups_s( "USE_UPS" );
-            if( !n.has_flag( recharge_s ) && !n.has_flag( ups_s ) ) {
+            if( !n.has_flag( "RECHARGE" ) && !n.has_flag( "USE_UPS" ) ) {
                 continue;
             }
             if( n.ammo_capacity() > n.ammo_remaining() ) {
-                constexpr int per_charge = 10;
+                // Around 85% efficient, so double discharge once every 7 seconds
+                const int per_charge = one_in( 7 ) ? 2 : 1;
                 const int missing = cur_veh.discharge_battery( per_charge, false );
                 if( missing < per_charge &&
                     ( missing == 0 || x_in_y( per_charge - missing, per_charge ) ) ) {
@@ -4592,29 +4609,24 @@ void map::process_items( const bool active, map::map_process_func processor,
 {
     const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
-    tripoint gp( 0, 0, 0 );
-    int &gx = gp.x;
-    int &gy = gp.y;
-    int &gz = gp.z;
-    for( gz = minz; gz <= maxz; ++gz ) {
-        for( gx = 0; gx < my_MAPSIZE; ++gx ) {
-            for( gy = 0; gy < my_MAPSIZE; ++gy ) {
-                submap *const current_submap = get_submap_at_grid( gp );
-                // Vehicles first in case they get blown up and drop active items on the map.
-                if( !current_submap->vehicles.empty() ) {
-                    process_items_in_vehicles( *current_submap, gz, processor, signal );
-                }
-            }
+    for( int gz = minz; gz <= maxz; ++gz ) {
+        level_cache &cache = access_cache( gz );
+        std::set<tripoint> submaps_with_vehicles;
+        for( vehicle *this_vehicle : cache.vehicle_list ) {
+            tripoint pos = this_vehicle->global_pos3();
+            submaps_with_vehicles.emplace( pos.x / SEEX, pos.y / SEEY, pos.z );
+        }
+        for( const tripoint &pos : submaps_with_vehicles ) {
+            submap *const current_submap = get_submap_at_grid( pos );
+            // Vehicles first in case they get blown up and drop active items on the map.
+            process_items_in_vehicles( *current_submap, pos.z, processor, signal );
         }
     }
-    for( gz = minz; gz <= maxz; ++gz ) {
-        for( gx = 0; gx < my_MAPSIZE; ++gx ) {
-            for( gy = 0; gy < my_MAPSIZE; ++gy ) {
-                submap *const current_submap = get_submap_at_grid( gp );
-                if( !active || !current_submap->active_items.empty() ) {
-                    process_items_in_submap( *current_submap, gp, processor, signal );
-                }
-            }
+    for( const tripoint &abs_pos : submaps_with_active_items ) {
+        const tripoint local_pos = abs_pos - abs_sub;
+        submap *const current_submap = get_submap_at_grid( local_pos );
+        if( !active || !current_submap->active_items.empty() ) {
+            process_items_in_submap( *current_submap, local_pos, processor, signal );
         }
     }
 }
@@ -5396,7 +5408,7 @@ time_duration map::set_field_age( const tripoint &p, const field_id type, const 
                                   const bool isoffset )
 {
     if( field_entry *const field_ptr = get_field( p, type ) ) {
-        return field_ptr->setFieldAge( ( isoffset ? field_ptr->getFieldAge() : 0_turns ) + age );
+        return field_ptr->set_field_age( ( isoffset ? field_ptr->get_field_age() : 0_turns ) + age );
     }
     return -1_turns;
 }
@@ -5409,9 +5421,9 @@ int map::set_field_strength( const tripoint &p, const field_id type, const int s
 {
     field_entry *field_ptr = get_field( p, type );
     if( field_ptr != nullptr ) {
-        int adj = ( isoffset ? field_ptr->getFieldDensity() : 0 ) + str;
+        int adj = ( isoffset ? field_ptr->get_field_intensity() : 0 ) + str;
         if( adj > 0 ) {
-            field_ptr->setFieldDensity( adj );
+            field_ptr->set_field_density( adj );
             return adj;
         } else {
             remove_field( p, type );
@@ -5426,14 +5438,14 @@ int map::set_field_strength( const tripoint &p, const field_id type, const int s
 
 time_duration map::get_field_age( const tripoint &p, const field_id type ) const
 {
-    auto field_ptr = field_at( p ).findField( type );
-    return field_ptr == nullptr ? -1_turns : field_ptr->getFieldAge();
+    auto field_ptr = field_at( p ).find_field( type );
+    return field_ptr == nullptr ? -1_turns : field_ptr->get_field_age();
 }
 
 int map::get_field_strength( const tripoint &p, const field_id type ) const
 {
-    auto field_ptr = field_at( p ).findField( type );
-    return ( field_ptr == nullptr ? 0 : field_ptr->getFieldDensity() );
+    auto field_ptr = field_at( p ).find_field( type );
+    return ( field_ptr == nullptr ? 0 : field_ptr->get_field_intensity() );
 }
 
 field_entry *map::get_field( const tripoint &p, const field_id type )
@@ -5445,7 +5457,7 @@ field_entry *map::get_field( const tripoint &p, const field_id type )
     point l;
     submap *const current_submap = get_submap_at( p, l );
 
-    return current_submap->fld[l.x][l.y].findField( type );
+    return current_submap->fld[l.x][l.y].find_field( type );
 }
 
 bool map::add_field( const tripoint &p, const field_id type, int density, const time_duration &age )
@@ -5467,7 +5479,7 @@ bool map::add_field( const tripoint &p, const field_id type, int density, const 
     submap *const current_submap = get_submap_at( p, l );
     current_submap->is_uniform = false;
 
-    if( current_submap->fld[l.x][l.y].addField( type, density, age ) ) {
+    if( current_submap->fld[l.x][l.y].add_field( type, density, age ) ) {
         //Only adding it to the count if it doesn't exist.
         current_submap->field_count++;
     }
@@ -5480,7 +5492,7 @@ bool map::add_field( const tripoint &p, const field_id type, int density, const 
     // TODO: Make it skip transparent fields
     set_transparency_cache_dirty( p.z );
 
-    const field_t &ft = fieldlist[type];
+    const field_t &ft = all_field_types_enum_list[type];
     if( field_type_dangerous( type ) ) {
         set_pathfinding_cache_dirty( p.z );
     }
@@ -5502,10 +5514,10 @@ void map::remove_field( const tripoint &p, const field_id field_to_remove )
     point l;
     submap *const current_submap = get_submap_at( p, l );
 
-    if( current_submap->fld[l.x][l.y].removeField( field_to_remove ) ) {
+    if( current_submap->fld[l.x][l.y].remove_field( field_to_remove ) ) {
         // Only adjust the count if the field actually existed.
         current_submap->field_count--;
-        const auto &fdata = fieldlist[ field_to_remove ];
+        const auto &fdata = all_field_types_enum_list[ field_to_remove ];
         for( bool i : fdata.transparent ) {
             if( !i ) {
                 set_transparency_cache_dirty( p.z );
@@ -5674,7 +5686,7 @@ visibility_type map::get_visibility( const lit_level ll, const visibility_variab
 
 bool map::apply_vision_effects( const catacurses::window &w, const visibility_type vis ) const
 {
-    long symbol = ' ';
+    int symbol = ' ';
     nc_color color = c_black;
 
     switch( vis ) {
@@ -5706,7 +5718,7 @@ bool map::apply_vision_effects( const catacurses::window &w, const visibility_ty
 bool map::draw_maptile_from_memory( const catacurses::window &w, const tripoint &p,
                                     const tripoint &view_center, bool move_cursor ) const
 {
-    long sym = g->u.get_memorized_symbol( getabs( p ) );
+    int sym = g->u.get_memorized_symbol( getabs( p ) );
     if( sym == 0 ) {
         return false;
     }
@@ -5858,12 +5870,12 @@ bool map::draw_maptile( const catacurses::window &w, const player &u, const trip
     const furn_t &curr_furn = curr_maptile.get_furn_t();
     const trap &curr_trap = curr_maptile.get_trap().obj();
     const field &curr_field = curr_maptile.get_field();
-    long sym;
+    int sym;
     bool hi = false;
     bool graf = false;
     bool draw_item_sym = false;
 
-    long terrain_sym;
+    int terrain_sym;
     if( curr_ter.has_flag( TFLAG_AUTO_WALL_SYMBOL ) ) {
         terrain_sym = determine_wall_corner( p );
     } else {
@@ -5906,10 +5918,10 @@ bool map::draw_maptile( const catacurses::window &w, const player &u, const trip
             sym = curr_trap.sym;
         }
     }
-    if( curr_field.fieldCount() > 0 ) {
-        const field_id &fid = curr_field.fieldSymbol();
-        const field_entry *fe = curr_field.findField( fid );
-        const field_t &f = fieldlist[fid];
+    if( curr_field.field_count() > 0 ) {
+        const field_id &fid = curr_field.field_symbol();
+        const field_entry *fe = curr_field.find_field( fid );
+        const field_t &f = all_field_types_enum_list[fid];
         if( f.sym == '&' || fe == nullptr ) {
             // Do nothing, a '&' indicates invisible fields.
         } else if( f.sym == '*' ) {
@@ -5955,7 +5967,7 @@ bool map::draw_maptile( const catacurses::window &w, const player &u, const trip
     }
 
     // TODO: change the local variable sym to std::string and use it instead of this hack.
-    // Currently this are different variables because terrain/... uses long as symbol type and
+    // Currently this are different variables because terrain/... uses int as symbol type and
     // item now use string. Ideally they should all be strings.
     std::string item_sym;
 
@@ -5977,7 +5989,7 @@ bool map::draw_maptile( const catacurses::window &w, const player &u, const trip
         }
     }
 
-    long memory_sym = sym;
+    int memory_sym = sym;
     int veh_part = 0;
     const vehicle *veh = veh_at_internal( p, veh_part );
     if( veh != nullptr ) {
@@ -6046,10 +6058,10 @@ void map::draw_from_above( const catacurses::window &w, const player &u, const t
                            const tripoint &view_center,
                            bool low_light, bool bright_light, bool inorder ) const
 {
-    static const long AUTO_WALL_PLACEHOLDER = 2; // this should never appear as a real symbol!
+    static const int AUTO_WALL_PLACEHOLDER = 2; // this should never appear as a real symbol!
 
     nc_color tercol = c_dark_gray;
-    long sym = ' ';
+    int sym = ' ';
 
     const ter_t &curr_ter = curr_tile.get_ter_t();
     const furn_t &curr_furn = curr_tile.get_furn_t();
@@ -6368,7 +6380,6 @@ void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tri
     }
 }
 
-
 bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
                       const int cost_min, const int cost_max ) const
 {
@@ -6508,6 +6519,7 @@ void map::load( const int wx, const int wy, const int wz, const bool update_vehi
     for( auto &traps : traplocs ) {
         traps.clear();
     }
+    submaps_with_active_items.clear();
     set_abs_sub( wx, wy, wz );
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
@@ -6603,6 +6615,9 @@ void map::shift( const int sx, const int sy )
             for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
                 if( sy >= 0 ) {
                     for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+                        if( gridx == 0 || gridy == 0 ) {
+                            submaps_with_active_items.erase( { absx + gridx, absy + gridy, gridz } );
+                        }
                         if( gridx + sx < my_MAPSIZE && gridy + sy < my_MAPSIZE ) {
                             copy_grid( tripoint( gridx, gridy, gridz ),
                                        tripoint( gridx + sx, gridy + sy, gridz ) );
@@ -6613,6 +6628,9 @@ void map::shift( const int sx, const int sy )
                     }
                 } else { // sy < 0; work through it backwards
                     for( int gridy = my_MAPSIZE - 1; gridy >= 0; gridy-- ) {
+                        if( gridx == 0 || gridy == my_MAPSIZE - 1 ) {
+                            submaps_with_active_items.erase( { absx + gridx, absy + gridy, gridz } );
+                        }
                         if( gridx + sx < my_MAPSIZE && gridy + sy >= 0 ) {
                             copy_grid( tripoint( gridx, gridy, gridz ),
                                        tripoint( gridx + sx, gridy + sy, gridz ) );
@@ -6627,6 +6645,9 @@ void map::shift( const int sx, const int sy )
             for( int gridx = my_MAPSIZE - 1; gridx >= 0; gridx-- ) {
                 if( sy >= 0 ) {
                     for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+                        if( gridx == my_MAPSIZE - 1 || gridy == 0 ) {
+                            submaps_with_active_items.erase( { absx + gridx, absy + gridy, gridz } );
+                        }
                         if( gridx + sx >= 0 && gridy + sy < my_MAPSIZE ) {
                             copy_grid( tripoint( gridx, gridy, gridz ),
                                        tripoint( gridx + sx, gridy + sy, gridz ) );
@@ -6637,6 +6658,9 @@ void map::shift( const int sx, const int sy )
                     }
                 } else { // sy < 0; work through it backwards
                     for( int gridy = my_MAPSIZE - 1; gridy >= 0; gridy-- ) {
+                        if( gridx == my_MAPSIZE - 1 || gridy == my_MAPSIZE - 1 ) {
+                            submaps_with_active_items.erase( { absx + gridx, absy + gridy, gridz } );
+                        }
                         if( gridx + sx >= 0 && gridy + sy >= 0 ) {
                             copy_grid( tripoint( gridx, gridy, gridz ),
                                        tripoint( gridx + sx, gridy + sy, gridz ) );
@@ -6824,7 +6848,9 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     set_floor_cache_dirty( gridz );
     set_pathfinding_cache_dirty( gridz );
     setsubmap( gridn, tmpsub );
-
+    if( !tmpsub->active_items.empty() ) {
+        submaps_with_active_items.emplace( absx, absy, gridz );
+    }
     // Destroy bugged no-part vehicles
     auto &veh_vec = tmpsub->vehicles;
     for( auto iter = veh_vec.begin(); iter != veh_vec.end(); ) {
@@ -7189,10 +7215,10 @@ void map::decay_cosmetic_fields( const tripoint &p, const time_duration &time_si
 
         const time_duration added_age = 2 * time_since_last_actualize / rng( 2, 4 );
         fd.mod_age( added_age );
-        const time_duration hl = fieldlist[ fd.getFieldType() ].halflife;
-        const int density_drop = fd.getFieldAge() / hl;
+        const time_duration hl = all_field_types_enum_list[ fd.get_field_type() ].halflife;
+        const int density_drop = fd.get_field_age() / hl;
         if( density_drop > 0 ) {
-            fd.setFieldDensity( fd.getFieldDensity() - density_drop );
+            fd.set_field_density( fd.get_field_intensity() - density_drop );
             fd.mod_age( -hl * density_drop );
         }
     }
@@ -7605,7 +7631,7 @@ bool map::has_graffiti_at( const tripoint &p ) const
     return current_submap->has_graffiti( l );
 }
 
-long map::determine_wall_corner( const tripoint &p ) const
+int map::determine_wall_corner( const tripoint &p ) const
 {
     int test_connect_group = ter( tripoint( p.x, p.y, p.z ) ).obj().connect_group;
     uint8_t connections = get_known_connections( p, test_connect_group );
@@ -8541,9 +8567,9 @@ void map::update_pathfinding_cache( int zlev ) const
 
                     for( const auto &fld : tile.get_field() ) {
                         const field_entry &cur = fld.second;
-                        const field_id type = cur.getFieldType();
-                        const int density = cur.getFieldDensity();
-                        if( fieldlist[type].dangerous[density - 1] ) {
+                        const field_id type = cur.get_field_type();
+                        const int density = cur.get_field_intensity();
+                        if( all_field_types_enum_list[type].dangerous[density - 1] ) {
                             cur_value |= PF_FIELD;
                         }
                     }

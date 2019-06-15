@@ -567,6 +567,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "golfcourse_31_2ndfloor",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "golf course bar",
+    "sym": "G",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_31_roof",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "golf course service building roof",
+    "sym": "G",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "golfcourse_32",
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "golf course",

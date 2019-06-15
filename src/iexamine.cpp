@@ -360,6 +360,9 @@ class atm_menu
                 add_choice( withdraw_money, _( "Withdraw Money" ) );
             } else if( u.cash > 0 ) {
                 add_info( withdraw_money, _( "You need a cash card before you can withdraw money!" ) );
+            } else if( u.cash < 0 ) {
+                add_info( withdraw_money,
+                          _( "You need to pay down your debt first!" ) );
             } else {
                 add_info( withdraw_money,
                           _( "You need money in your account before you can withdraw money!" ) );
@@ -380,7 +383,11 @@ class atm_menu
         //! print a bank statement for @p print = true;
         void finish_interaction( const bool print = true ) {
             if( print ) {
-                add_msg( m_info, _( "Your account now holds %s." ), format_money( u.cash ) );
+                if( u.cash < 0 ) {
+                    add_msg( m_info, _( "Your debt is now %s." ), format_money( u.cash ) );
+                } else {
+                    add_msg( m_info, _( "Your account now holds %s." ), format_money( u.cash ) );
+                }
             }
 
             u.moves -= to_turns<int>( 5_seconds );
@@ -819,7 +826,6 @@ void iexamine::intercom( player &p, const tripoint &examp )
         intercom_npcs.front()->talk_to_u( false, false );
     }
 }
-
 
 /**
  * Prompt removal of rubble. Select best shovel and invoke "CLEAR_RUBBLE" on tile.
@@ -4318,7 +4324,7 @@ static void mill_activate( player &p, const tripoint &examp )
     }
     g->m.furn_set( examp, next_mill_type );
     item result( "fake_milling_item", calendar::turn );
-    result.item_counter = 3600; // = 6 hours
+    result.item_counter = to_turns<int>( 6_hours );
     result.activate();
     g->m.add_item( examp, result );
     add_msg( _( "You remove the brake on the millstone and it slowly starts to turn." ) );
@@ -4424,7 +4430,7 @@ static void smoker_activate( player &p, const tripoint &examp )
         charcoal->charges -= char_charges;
     }
     item result( "fake_smoke_plume", calendar::turn );
-    result.item_counter = 3600; // = 6 hours
+    result.item_counter = to_turns<int>( 6_hours );
     result.activate();
     g->m.add_item( examp, result );
     add_msg( _( "You light a small fire under the rack and it starts to smoke." ) );

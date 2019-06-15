@@ -857,7 +857,7 @@ void complete_construction( player *p )
         g->m.remove_trap( terp );
         if( p->is_npc() ) {
             npc *guy = dynamic_cast<npc *>( p );
-            guy->current_activity = "";
+            guy->current_activity.clear();
             guy->revert_after_activity();
             guy->set_moves( 0 );
         }

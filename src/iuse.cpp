@@ -376,24 +376,24 @@ int iuse::smoking( player *p, item *it, bool, const tripoint & )
     item cig;
     if( it->typeId() == "cig" ) {
         cig = item( "cig_lit", calendar::turn );
-        cig.item_counter = 40;
+        cig.item_counter = to_turns<int>( 4_minutes );
         p->mod_hunger( -3 );
         p->mod_thirst( 2 );
     } else if( it->typeId() == "handrolled_cig" ) {
         // This transforms the hand-rolled into a normal cig, which isn't exactly
         // what I want, but leaving it for now.
         cig = item( "cig_lit", calendar::turn );
-        cig.item_counter = 40;
+        cig.item_counter = to_turns<int>( 4_minutes );
         p->mod_thirst( 2 );
         p->mod_hunger( -3 );
     } else if( it->typeId() == "cigar" ) {
         cig = item( "cigar_lit", calendar::turn );
-        cig.item_counter = 120;
+        cig.item_counter = to_turns<int>( 12_minutes );
         p->mod_thirst( 3 );
         p->mod_hunger( -4 );
     } else if( it->typeId() == "joint" ) {
         cig = item( "joint_lit", calendar::turn );
-        cig.item_counter = 40;
+        cig.item_counter = to_turns<int>( 4_minutes );
         p->mod_hunger( 4 );
         p->mod_thirst( 6 );
         if( p->get_painkiller() < 5 ) {
@@ -3142,7 +3142,6 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-
     int turns = 100;
     if( g->m.move_cost( pnt ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier
@@ -4168,7 +4167,7 @@ int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
             const field &gasfield = g->m.field_at( pos );
             for( auto &dfield : gasfield ) {
                 const field_entry &entry = dfield.second;
-                const field_id fid = entry.getFieldType();
+                const field_id fid = entry.get_field_type();
                 switch( fid ) {
                     case fd_smoke:
                         it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + 12 );
@@ -5336,7 +5335,7 @@ int iuse::towel( player *p, item *it, bool t, const tripoint & )
                               it->tname() );
 
         towelUsed = true;
-        it->item_counter = 300;
+        it->item_counter = to_turns<int>( 30_minutes );
 
         // default message
     } else {

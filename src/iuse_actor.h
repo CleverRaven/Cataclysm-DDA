@@ -689,7 +689,6 @@ class cast_spell_actor : public iuse_actor
         spell_id item_spell;
         int spell_level;
 
-
         cast_spell_actor( const std::string &type = "cast_spell" ) : iuse_actor( type ) {}
 
         ~cast_spell_actor() override = default;

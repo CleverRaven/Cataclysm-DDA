@@ -2607,8 +2607,8 @@ int basecamp::recipe_batch_max( const recipe &making ) const
     const int max_checks = 9;
     for( size_t batch_size = 1000; batch_size > 0; batch_size /= 10 ) {
         for( int iter = 0; iter < max_checks; iter++ ) {
-            time_duration work_days;
-            work_days = base_camps::to_workdays( making.batch_duration( max_batch + batch_size ) );
+            time_duration work_days = base_camps::to_workdays( making.batch_duration(
+                                          max_batch + batch_size ) );
             int food_req = time_to_food( work_days );
             bool can_make = making.requirements().can_make_with_inventory( _inv,
                             making.get_component_filter(), max_batch + batch_size );

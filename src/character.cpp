@@ -1654,7 +1654,7 @@ units::mass Character::get_weight() const
         return sum + itm.weight();
     } );
 
-    ret += CHARACTER_WEIGHT;       // The base weight of the player's body
+    ret += bodyweight();       // The base weight of the player's body
     ret += inv.weight();           // Weight of the stored inventory
     ret += wornWeight;             // Weight of worn items
     ret += weapon.weight();        // Weight of wielded item
@@ -3328,8 +3328,28 @@ units::mass Character::bodyweight() const
 
 int Character::height() const
 {
+    int height = init_height;
+    int height_pos = 15;
+
+    const static std::array<int, 5> v = {{ 290, 240, 190, 140, 90 }};
+    for( const int up_bound : v ) {
+        if( up_bound >= init_height && up_bound - init_height < 40 ) {
+            height_pos = up_bound - init_height;
+        }
+    }
+
+    if( get_size() == MS_TINY ) {
+        height = 90 - height_pos;
+    } else if( get_size() == MS_SMALL ) {
+        height = 140 - height_pos;
+    } else if( get_size() == MS_LARGE ) {
+        height = 240 - height_pos;
+    } else if( get_size() == MS_HUGE ) {
+        height = 290 - height_pos;
+    }
+
     // TODO: Make this a player creation option
-    return 175;
+    return height;
 }
 
 int Character::get_bmr() const

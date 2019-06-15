@@ -117,7 +117,6 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "flags": [ "RECHARGE" ],
     "magazines": [
       [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
     ],
@@ -172,7 +171,7 @@
     "color": "white",
     "ammo": "battery",
     "charges_per_use": 1,
-    "turns_per_charge": 1,
+    "power_draw": 7500,
     "use_action": "ECIG",
     "magazines": [
       [
@@ -1782,7 +1781,7 @@
     "name_plural": "electric carvers (on)",
     "description": "This carver is on and the blades are buzzing.  Use it to turn it off.",
     "cutting": 30,
-    "turns_per_charge": 1,
+    "power_draw": 150000,
     "revert_to": "carver_off",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
     "use_action": "CARVER_ON",
@@ -1923,8 +1922,9 @@
     "id": "smart_phone_flashlight",
     "copy-from": "smart_phone",
     "type": "TOOL",
-    "name": "smartphone - flashlight",
-    "name_plural": "smartphones - flashlight",
+    "name": "smartphone - Flashlight",
+    "name_plural": "smartphones - Flashlight",
+    "power_draw": 3000,
     "turns_per_charge": 50,
     "revert_to": "smart_phone",
     "use_action": {
@@ -2130,7 +2130,7 @@
     "//": "Circular saw would be very fast but imprecise butchering tool - alas the qualities are not separate and so speed is sacrificed.",
     "description": "A lightweight handheld cordless circular saw.  It is currently on and the blade is spinning; use this item to turn it off.",
     "cutting": 50,
-    "turns_per_charge": 1,
+    "power_draw": 1200000,
     "revert_to": "circsaw_off",
     "qualities": [ [ "CUT", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -40 ] ],
     "use_action": "CIRCSAW_ON",
@@ -2311,7 +2311,7 @@
     "description": "This electric combat chainsaw is on, and is continuously draining power.  Use it to turn it off.",
     "to_hit": -4,
     "cutting": 82,
-    "turns_per_charge": 1,
+    "power_draw": 2000000,
     "revert_to": "e_combatsaw_off",
     "qualities": [ [ "AXE", 3 ] ],
     "use_action": "E_COMBATSAW_ON",
@@ -2357,7 +2357,6 @@
     "ammo": "battery",
     "charges_per_use": 2,
     "use_action": "ROBOTCONTROL",
-    "flags": [ "RECHARGE" ],
     "magazines": [
       [
         "battery",
@@ -2673,7 +2672,7 @@
     "symbol": "/",
     "color": "red",
     "ammo": "battery",
-    "turns_per_charge": 1,
+    "power_draw": 4000000,
     "revert_to": "elec_chainsaw_off",
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "use_action": "ECS_LAJATANG_OFF",
@@ -3015,7 +3014,7 @@
     "to_hit": -5,
     "bashing": 4,
     "cutting": 70,
-    "turns_per_charge": 1,
+    "power_draw": 2000000,
     "revert_to": "elec_chainsaw_off",
     "qualities": [ [ "AXE", 4 ], [ "BUTCHER", -100 ] ],
     "use_action": "ELEC_CHAINSAW_ON",
@@ -3045,8 +3044,8 @@
     "id": "elec_jackhammer",
     "type": "TOOL",
     "name": "electric jackhammer",
-    "description": "This is a construction tool for drilling through hard rock or other surfaces.  It runs on batteries.  Use it (if loaded) to blast a hole in adjacent solid terrain.",
-    "weight": 15875,
+    "description": "This is a construction tool for drilling through hard rock or other surfaces.  It runs on a cell compatible with UPS.  Use it to blast a hole in adjacent solid terrain.",
+    "weight": 40000,
     "volume": 20,
     "price": 40000,
     "to_hit": -8,
@@ -3056,13 +3055,11 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "charges_per_use": 25,
+    "initial_charges": 3500,
+    "max_charges": 7000,
+    "charges_per_use": 3500,
     "use_action": "JACKHAMMER",
-    "flags": [ "STAB", "DIG_TOOL", "POWERED" ],
-    "magazines": [
-      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ],
-    "magazine_well": 4
+    "flags": [ "STAB", "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "electrohack",
@@ -4833,7 +4830,7 @@
     "description": "This is a light-emitting circuit that has been wired directly to a battery.  It provides some weak light and can't be turned off until the battery dies.",
     "symbol": ";",
     "color": "green",
-    "turns_per_charge": 1080,
+    "power_draw": 1000,
     "revert_to": "lightstrip_inactive",
     "revert_msg": "The lightstrip dies.",
     "flags": [ "LIGHT_4", "NO_UNLOAD", "NO_RELOAD" ]
@@ -5430,6 +5427,7 @@
     "color": "dark_gray",
     "ammo": "battery",
     "use_action": "MP3",
+    "charges_per_use": 1,
     "magazines": [
       [
         "battery",
@@ -5453,7 +5451,7 @@
     "name": "mp3 player (on)",
     "name_plural": "mp3 players (on)",
     "description": "This mp3 player is turned on and playing some great tunes, raising your morale steadily while on your person.  It runs through batteries quickly; you can turn it off by using it.  It also obscures your hearing.",
-    "turns_per_charge": 150,
+    "power_draw": 1000,
     "revert_to": "mp3",
     "use_action": "MP3_ON",
     "flags": [ "TRADER_AVOID" ],
@@ -5472,7 +5470,7 @@
     "symbol": ";",
     "color": "red",
     "ammo": "battery",
-    "turns_per_charge": 10,
+    "power_draw": 1500000,
     "revert_to": "multi_cooker",
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": "MULTICOOKER",
@@ -5618,6 +5616,7 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": "battery",
+    "charges_per_use": 1,
     "use_action": "NOISE_EMITTER_OFF",
     "flags": [ "RADIO_MODABLE" ],
     "magazines": [
@@ -5642,7 +5641,7 @@
     "name": "noise emitter (on)",
     "name_plural": "noise emitters (on)",
     "description": "This device has been turned on and is emitting horrible crackles, pops and other static sounds.  Quick, get away from it before it draws zombies to you!",
-    "turns_per_charge": 1,
+    "turns_per_charge": 5,
     "revert_to": "noise_emitter",
     "use_action": "NOISE_EMITTER_ON",
     "flags": [ "RADIO_MODABLE", "TRADER_AVOID" ]
@@ -6364,7 +6363,7 @@
     "name": "reading light (active)",
     "name_plural": "reading lights (active)",
     "description": "A little clip-on LED light, meant for reading books in the dark.  This one is turned on.",
-    "turns_per_charge": 120,
+    "power_draw": 6000,
     "revert_to": "reading_light",
     "use_action": { "target": "reading_light", "msg": "You switch off the reading light.", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "LIGHT_8", "CHARGEDIM" ]
@@ -6836,7 +6835,7 @@
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "use_action": "TAZER",
-    "flags": [ "DURABLE_MELEE", "RECHARGE", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "magazines": [
       [
         "battery",
@@ -6864,7 +6863,7 @@
     "charges_per_use": 1,
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "use_action": "SHOCKTONFA_OFF",
-    "flags": [ "DURABLE_MELEE", "RECHARGE", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
     "magazines": [
       [
         "battery",
@@ -6880,7 +6879,7 @@
     "name": "tactical tonfa (on)",
     "name_plural": "tactical tonfas (on)",
     "description": "This is a reinforced plastic tonfa; the core is hollowed out and is filled with capacitors and a high-yield rechargeable storage battery.  When a switch on the handle is pressed, a high-voltage current is transmitted to the two electrodes mounted in the end of the weapon, and by extension to anyone unfortunate enough to be in contact with them.  The integral flashlight is turned on, continually draining power and lighting the surrounding area.",
-    "turns_per_charge": 15,
+    "power_draw": 15000,
     "revert_to": "shocktonfa_off",
     "use_action": "SHOCKTONFA_ON",
     "flags": [ "LIGHT_450", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "BELT_CLIP" ],
@@ -7047,7 +7046,7 @@
     "name": "smart lamp (on)",
     "name_plural": "smart lamps (on)",
     "description": "This is a smart lamp, this smart lamp is turned on.  It can be deactivated remotely.",
-    "turns_per_charge": 25,
+    "power_draw": 10000,
     "revert_to": "smart_lamp",
     "use_action": { "target": "smart_lamp", "msg": "Your smart lamp turned off", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ],
@@ -7523,7 +7522,6 @@
     "ammo": "battery",
     "charges_per_use": 100,
     "use_action": "TAZER",
-    "flags": [ "RECHARGE" ],
     "magazines": [
       [
         "battery",
@@ -7707,7 +7705,7 @@
     "symbol": ";",
     "color": "brown",
     "ammo": "battery",
-    "flags": [ "ALLOWS_REMOTE_USE", "RECHARGE" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": {
       "target": "small_space_heater_on",
       "msg": "You turn on the heater.",
@@ -7732,9 +7730,9 @@
     "name": "small space heater (on)",
     "name_plural": "small space heaters (on)",
     "description": "A portable electric heater that steadily emits warm air.  Raises temperature about 10 degrees C.",
-    "turns_per_charge": 30,
+    "power_draw": 500000,
     "emits": [ "emit_hot_air2_stream" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "LIGHT_2", "RECHARGE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "LIGHT_2" ],
     "revert_to": "small_space_heater",
     "use_action": { "target": "small_space_heater", "msg": "You turn off the heater.", "menu_text": "Turn off", "type": "transform" },
     "magazine_well": 2
@@ -7753,7 +7751,7 @@
     "symbol": ";",
     "color": "brown",
     "ammo": "battery",
-    "flags": [ "ALLOWS_REMOTE_USE", "RECHARGE" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": {
       "target": "large_space_heater_on",
       "msg": "You turn on the heater.",
@@ -7775,9 +7773,9 @@
     "name": "large space heater (on)",
     "name_plural": "large space heaters (on)",
     "description": "A portable electric heater that steadily emits warm air.  Raises temperature about 10 degrees C and fills a larger volume of air than the smaller version.",
-    "turns_per_charge": 20,
+    "power_draw": 1000000,
     "emits": [ "emit_hot_air2_blast" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "LIGHT_2", "RECHARGE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "LIGHT_2" ],
     "revert_to": "large_space_heater",
     "use_action": { "target": "large_space_heater", "msg": "You turn off the heater.", "menu_text": "Turn off", "type": "transform" },
     "magazine_well": 4
@@ -8289,7 +8287,7 @@
     "name_plural": "hedge trimmers (on)",
     "description": "A cordless, double-sided, gasoline-powered hedge trimmer.  It is currently on, ready to do some zombie topiary; use this item to turn it off.",
     "cutting": 40,
-    "turns_per_charge": 1,
+    "power_draw": 500000,
     "revert_to": "trimmer_off",
     "use_action": "TRIMMER_ON",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -60 ] ],
@@ -8481,6 +8479,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "battery",
+    "charges_per_use": 10,
     "use_action": "VIBE",
     "magazines": [
       [

@@ -398,7 +398,7 @@ void map_data_common_t::load_symbol( JsonObject &jo )
     }
 }
 
-long map_data_common_t::symbol() const
+int map_data_common_t::symbol() const
 {
     return symbol_[season_of_year( calendar::turn )];
 }

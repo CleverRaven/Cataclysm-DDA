@@ -992,7 +992,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
         limiting_number = empty_plots;
     }
 
-    unsigned int a = limiting_number * 300;
+    signed int a = limiting_number * 300;
     if( a > g->u.cash ) {
         popup( _( "I'm sorry, you don't have enough money to plant those seeds..." ) );
         return;
@@ -1110,7 +1110,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     int money = ( number_plants * tmp.price( true ) - number_plots * 2 ) / 100;
     bool liquidate = false;
 
-    unsigned int a = number_plots * 2;
+    signed int a = number_plots * 2;
     if( a > g->u.cash ) {
         liquidate = true;
         popup( _( "You don't have enough to pay the workers to harvest the crop so you are forced "
