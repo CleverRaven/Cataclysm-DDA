@@ -3367,7 +3367,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ]
+      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 }, { "item": "hinge", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -3388,7 +3388,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_lab_frame",
-      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ]
+      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 }, { "item": "hinge", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -3408,7 +3408,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ]
+      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 }, { "item": "hinge", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -3428,7 +3428,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_lab_frame",
-      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ]
+      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 }, { "item": "hinge", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -3450,7 +3450,12 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "peephole", "prob": 75 }, { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ]
+      "items": [
+        { "item": "peephole", "prob": 75 },
+        { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "steel_plate", "prob": 75 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -3470,7 +3475,12 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "peephole", "prob": 75 }, { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ]
+      "items": [
+        { "item": "peephole", "prob": 75 },
+        { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "steel_plate", "prob": 75 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -3491,7 +3501,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ]
+      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 }, { "item": "hinge", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -3513,7 +3523,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ]
+      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 }, { "item": "hinge", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -3537,7 +3547,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 12 ] }, { "item": "hinge", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -3559,7 +3569,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 12 ] }, { "item": "hinge", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -3581,7 +3591,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 12 ] }, { "item": "hinge", "count": [ 1, 2 ] } ]
     }
   },
   {
