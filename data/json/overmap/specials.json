@@ -114,7 +114,11 @@
   {
     "type": "overmap_special",
     "id": "LMOE Shelter",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "lmoe" }, { "point": [ 0, 0, -1 ], "overmap": "lmoe_under" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "lmoe" },
+      { "point": [ 0, 0, 1 ], "overmap": "lmoe_roof" },
+      { "point": [ 0, 0, -1 ], "overmap": "lmoe_under_empty" }
+    ],
     "locations": [ "land" ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 12 ],

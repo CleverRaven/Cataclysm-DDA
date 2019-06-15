@@ -171,6 +171,12 @@
   },
   {
     "type": "start_location",
+    "ident": "lmoe_empty",
+    "name": "LMOE shelter",
+    "target": "lmoe_under_empty"
+  },
+  {
+    "type": "start_location",
     "ident": "forest",
     "name": "Middle of Nowhere",
     "target": "forest",
