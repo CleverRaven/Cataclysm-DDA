@@ -8665,7 +8665,7 @@ void player::drop( const std::list<std::pair<item_location &, int>> &what, const
     assign_activity( type );
     activity.placement = target - pos();
 
-    for( std::pair<item_location &, int> item_pair : what ) {
+    for( const std::pair<item_location &, int> &item_pair : what ) {
         if( can_unwield( *item_pair.first ).success() ) {
             // item_location ACT
             activity.targets.push_back( item_pair.first.clone() );
