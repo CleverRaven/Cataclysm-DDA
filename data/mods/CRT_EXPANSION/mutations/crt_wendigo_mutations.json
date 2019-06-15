@@ -11,6 +11,19 @@
   },
   {
     "type": "mutation",
+    "id": "NMELD",
+    "name": "Nature's Boon",
+    "points": 3,
+    "description": "Your very prescence is masked by nature itself. You are slightly harder to detect.",
+    "valid": false,
+    "purifiable": false,
+    "prereqs": [ "WEAKSCENT" ],
+    "threshreq": [ "THRESH_WENDIGO" ],
+    "category": [ "WENDIGO" ],
+    "stealth_modifier": 15
+  },
+  {
+    "type": "mutation",
     "id": "KILLER",
     "name": "Killer Drive",
     "points": 2,
@@ -64,20 +77,7 @@
     "prereqs": [ "SMELLY2" ],
     "types": [ "SCENT" ],
     "category": [ "BEAST", "CATTLE", "WENDIGO" ]
-  },
-  {
-    "type": "mutation",
-    "id": "NMELD",
-    "name": "Nature's Boon",
-    "points": 3,
-    "description": "Your very prescence is masked by nature itself. You are slightly harder to detect.",
-    "valid": false,
-    "purifiable": false,
-    "prereqs": [ "WEAKSCENT" ],
-    "threshreq": [ "THRESH_WENDIGO" ],
-    "category": [ "WENDIGO" ],
-    "stealth_modifier": 15
-  },
+  },  
   {
     "type": "mutation",
     "id": "SLASHERS",
@@ -98,7 +98,7 @@
         "body_part": "TORSO",
         "chance": 33,
         "base_damage": { "damage_type": "cut", "amount": 10 },
-        "strength_damage": { "damage_type": "acid", "amount": 0.25 }
+        "strength_damage": { "damage_type": "biological", "amount": 0.25 }
       }
     ]
   }
