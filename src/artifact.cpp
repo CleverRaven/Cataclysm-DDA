@@ -1160,8 +1160,8 @@ void it_artifact_tool::deserialize( JsonObject &jo )
     m_to_hit = jo.get_int( "m_to_hit" );
     item_tags = jo.get_tags( "item_flags" );
 
-    tool->max_charges = jo.get_long( "max_charges" );
-    tool->def_charges = jo.get_long( "def_charges" );
+    tool->max_charges = jo.get_int( "max_charges" );
+    tool->def_charges = jo.get_int( "def_charges" );
 
     tool->charges_per_use = jo.get_int( "charges_per_use" );
     tool->turns_per_charge = jo.get_int( "turns_per_charge" );

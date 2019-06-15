@@ -2828,7 +2828,7 @@ void conditional_t::set_npc_role_nearby( JsonObject &jo )
 
 void conditional_t::set_npc_allies( JsonObject &jo )
 {
-    const unsigned long min_allies = jo.get_int( "npc_allies" );
+    const unsigned int min_allies = jo.get_int( "npc_allies" );
     condition = [min_allies]( const dialogue & ) {
         return g->allies().size() >= min_allies;
     };
@@ -2836,7 +2836,7 @@ void conditional_t::set_npc_allies( JsonObject &jo )
 
 void conditional_t::set_u_has_cash( JsonObject &jo )
 {
-    const signed long min_cash = jo.get_int( "u_has_cash" );
+    const int min_cash = jo.get_int( "u_has_cash" );
     condition = [min_cash]( const dialogue & d ) {
         return d.alpha->cash >= min_cash;
     };
@@ -2924,7 +2924,7 @@ void conditional_t::set_npc_override( JsonObject &jo )
 
 void conditional_t::set_days_since( JsonObject &jo )
 {
-    const unsigned long days = jo.get_int( "days_since_cataclysm" );
+    const unsigned int days = jo.get_int( "days_since_cataclysm" );
     condition = [days]( const dialogue & ) {
         return to_turn<int>( calendar::turn ) >= DAYS( days );
     };
