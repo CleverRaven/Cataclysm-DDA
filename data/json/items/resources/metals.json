@@ -204,7 +204,7 @@
     "id": "hinge",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": "hinge",
+    "name": "door hinge",
     "description": "A small metal hinge with two metal plates with screw holes. Useful for making doors.",
     "weight": 300,
     "volume": 1,
