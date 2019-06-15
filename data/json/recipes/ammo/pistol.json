@@ -128,6 +128,38 @@
     "components": [ [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 2 ] ] ]
   },
   {
+    "result": "reloaded_357mag_fmj",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 4 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_357mag", 1 ] ],
+    "components": [ [ [ "gunpowder", 5 ] ] ]
+  },
+  {
+    "result": "reloaded_357mag_jhp",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 4 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_357mag", 1 ] ],
+    "components": [ [ [ "gunpowder", 5 ] ] ]
+  },
+  {
     "result": "bp_38_special",
     "type": "recipe",
     "category": "CC_AMMO",

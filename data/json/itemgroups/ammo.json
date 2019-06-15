@@ -70,6 +70,8 @@
       [ "reloaded_38_fmj", 30 ],
       [ "reloaded_38_special", 80 ],
       [ "reloaded_38_super", 40 ],
+      [ "reloaded_357mag_fmj", 30 ],
+      [ "reloaded_357mag_jhp", 30 ],
       [ "reloaded_380_JHP", 10 ],
       [ "reloaded_380_FMJ", 15 ],
       [ "reloaded_380_p", 5 ],
