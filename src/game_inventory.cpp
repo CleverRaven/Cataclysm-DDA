@@ -1434,8 +1434,13 @@ static item_location autodoc_internal( player &u, player &patient,
                 drug_count += anesthesia_item->ammo_remaining();
             }
         }
-        drug_count += b_filter.size(); // legacy
-        hint = string_format( _( "<color_yellow>Available anesthesia: %i</color>" ), drug_count );
+
+        if( b_filter.size() > 0 ) {
+            hint = string_format( _( "<color_yellow>Available kit: %i</color>" ), b_filter.size() );// legacy
+        } else {
+            hint = string_format( _( "<color_yellow>Available anesthetic: %i mL</color>" ), drug_count );
+        }
+
     }
 
     inv_s.set_title( string_format( _( "Bionic installation patient: %s" ), patient.get_name() ) );
@@ -1516,8 +1521,8 @@ class bionic_install_preset: public inventory_selector_preset
                 return _( "Superior version installed" );
             } else if( pa.is_npc() && !bid->npc_usable ) {
                 return _( "CBM not compatible with patient" );
-            } else if( p.has_enough_anesth( itemtype ) ) {
-                return _( "Not enough anesthetic" );
+            } else if( !p.has_enough_anesth( itemtype ) ) {
+                return string_format( _( "%i mL" ), itemtype->bionic->difficulty * 40 );
             }
 
             return std::string();
@@ -1588,7 +1593,15 @@ class bionic_install_preset: public inventory_selector_preset
             const int difficulty = itemtype->bionic->difficulty;
             int amount = difficulty * 40;
 
-            return string_format( _( "%i mL" ), amount );
+            std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
+                return it.has_flag( "ANESTHESIA" ); // legacy
+            } );
+
+            if( b_filter.size() > 0 ) {
+                return string_format( _( "kit available" ) );// legacy
+            } else {
+                return string_format( _( "%i mL" ), amount );
+            }
         }
 };
 
