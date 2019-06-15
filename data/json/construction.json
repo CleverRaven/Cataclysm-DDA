@@ -135,7 +135,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail", 12 ] ] ],
+    "components": [ [ [ "2x4", 2 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail", 12 ] ], [ [ "hinge", 2 ] ] ],
     "pre_terrain": "t_door_frame",
     "post_terrain": "t_door_c"
   },
@@ -290,7 +290,7 @@
     "required_skills": [ [ "fabrication", 7 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ], [ { "id": "WRENCH", "level": 1 } ] ],
-    "components": [ [ [ "steel_lump", 4 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ], [ [ "steel_plate", 2 ], [ "sheet_metal", 8 ] ] ],
+    "components": [ [ [ "steel_lump", 4 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ], [ [ "steel_plate", 2 ], [ "sheet_metal", 8 ] ], [ [ "hinge", 2 ] ] ],
     "pre_terrain": "t_mdoor_frame",
     "post_terrain": "t_door_metal_c"
   },
@@ -1804,7 +1804,7 @@
     "time": "180 m",
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "welding_standard", 8 ] ],
-    "components": [ [ [ "rebar", 16 ] ], [ [ "sheet_metal_small", 12 ] ] ],
+    "components": [ [ [ "rebar", 16 ] ], [ [ "sheet_metal_small", 12 ] ], [ [ "hinge", 2 ] ] ],
     "pre_terrain": "t_mdoor_frame",
     "post_terrain": "t_door_bar_c"
   },
