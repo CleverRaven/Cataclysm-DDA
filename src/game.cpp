@@ -1451,7 +1451,15 @@ bool game::do_turn()
             // We only want this to happen if the player had a chance to examine the sounds.
             sounds::reset_markers();
         } else {
-            handle_key_blocking_activity();
+            // Rate limit polling to 10 times a second.
+            static auto start = std::chrono::time_point_cast<std::chrono::milliseconds>(
+                                    std::chrono::system_clock::now() );
+            const auto now = std::chrono::time_point_cast<std::chrono::milliseconds>(
+                                 std::chrono::system_clock::now() );
+            if( ( now - start ).count() > 100 ) {
+                handle_key_blocking_activity();
+                start = now;
+            }
         }
     }
 
