@@ -335,14 +335,13 @@ bool mattack::antqueen( monster *z )
         if( g->u.sees( *z ) ) {
             add_msg( m_warning, _( "The %s tends nearby eggs, and they hatch!" ), z->name() );
         }
-        for( auto &i : egg_points ) {
-            auto eggs = g->m.i_at( i );
-            for( size_t j = 0; j < eggs.size(); j++ ) {
-                if( eggs[j].typeId() != "ant_egg" ) {
+        for( const tripoint &egg_pos : egg_points ) {
+            for( const item &it : g->m.i_at( egg_pos ) ) {
+                if( it.typeId() != "ant_egg" ) {
                     continue;
                 }
-                g->m.i_rem( i, j );
-                monster tmp( z->type->id == mon_ant_acid_queen ? mon_ant_acid_larva : mon_ant_larva, i );
+                g->m.i_rem( egg_pos, &it );
+                monster tmp( z->type->id == mon_ant_acid_queen ? mon_ant_acid_larva : mon_ant_larva, egg_pos );
                 tmp.make_ally( *z );
                 g->add_zombie( tmp );
                 break; // Max one hatch per tile

@@ -31,12 +31,10 @@ class item_stack
 
         size_t size() const;
         bool empty() const;
-        // TODO: This should be made to return an iterator
         virtual void insert( const item &newitem ) = 0;
         virtual iterator erase( const_iterator it ) = 0;
         virtual void clear();
         item &front();
-        item &operator[]( size_t index );
 
         // While iterators to colonies are stable, indexes are not.
         // These functions should only be used for serialization/deserialization

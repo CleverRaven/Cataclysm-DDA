@@ -1252,12 +1252,13 @@ class vehicle
         /**
          * Try to add an item to part's cargo.
          *
-         * @returns False if it can't be put here (not a cargo part, adding this would violate
+         * @returns cata::nullopt if it can't be put here (not a cargo part, adding this would violate
          * the volume limit or item count limit, not all charges can fit, etc.)
+         * Otherwise, returns an iterator to the added item in the vehicle stack
          */
-        bool add_item( int part, const item &obj );
+        cata::optional<vehicle_stack::iterator> add_item( int part, const item &obj );
         /** Like the above */
-        bool add_item( vehicle_part &pt, const item &obj );
+        cata::optional<vehicle_stack::iterator> add_item( vehicle_part &pt, const item &obj );
         /**
          * Add an item counted by charges to the part's cargo.
          *

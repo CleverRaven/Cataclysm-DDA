@@ -588,8 +588,7 @@ class JsonOut
             write_as_array( container );
         }
 
-        // special case for colony as it uses `insert()` instead of `push_back()`
-        // and therefore doesn't fit with vector/deque/list
+        // special case for colony, since it doesn't fit in other categories
         template <typename T>
         void write( const colony<T> &container ) {
             write_as_array( container );

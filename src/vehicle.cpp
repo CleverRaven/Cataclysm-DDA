@@ -4382,41 +4382,45 @@ int vehicle::add_charges( int part, const item &itm )
     return add_item( part, itm_copy ) ? ret : 0;
 }
 
-bool vehicle::add_item( vehicle_part &pt, const item &obj )
+cata::optional<vehicle_stack::iterator> vehicle::add_item( vehicle_part &pt, const item &obj )
 {
     int idx = index_of_part( &pt );
     if( idx < 0 ) {
         debugmsg( "Tried to add item to invalid part" );
-        return false;
+        return cata::nullopt;
     }
     return add_item( idx, obj );
 }
 
-bool vehicle::add_item( int part, const item &itm )
+cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item &itm )
 {
     if( part < 0 || part >= static_cast<int>( parts.size() ) ) {
         debugmsg( "int part (%d) is out of range", part );
-        return false;
+        return cata::nullopt;
     }
     // const int max_weight = ?! // TODO: weight limit, calculation per vpart & vehicle stats, not a hard user limit.
     // add creaking sounds and damage to overloaded vpart, outright break it past a certain point, or when hitting bumps etc
 
     if( parts[ part ].base.is_gun() ) {
         if( !itm.is_ammo() || !parts[ part ].base.ammo_types().count( itm.ammo_type() ) ) {
-            return false;
+            return cata::nullopt;
         }
     }
     bool charge = itm.count_by_charges();
     vehicle_stack istack = get_items( part );
     const int to_move = istack.amount_can_fit( itm );
     if( to_move == 0 || ( charge && to_move < itm.charges ) ) {
-        return false; // @add_charges should be used in the latter case
+        return cata::nullopt; // @add_charges should be used in the latter case
     }
     if( charge ) {
         item *here = istack.stacks_with( itm );
         if( here ) {
             invalidate_mass();
-            return here->merge_charges( itm );
+            if( !here->merge_charges( itm ) ) {
+                return cata::nullopt;
+            } else {
+                return cata::optional<vehicle_stack::iterator>( istack.get_iterator_from_pointer( here ) );
+            }
         }
     }
 
@@ -4436,7 +4440,7 @@ bool vehicle::add_item( int part, const item &itm )
     }
 
     invalidate_mass();
-    return true;
+    return cata::optional<vehicle_stack::iterator>( new_pos );
 }
 
 bool vehicle::remove_item( int part, int itemdex )

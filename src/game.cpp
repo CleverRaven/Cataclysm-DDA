@@ -5121,20 +5121,20 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     if( m.has_flag( "NOITEM", x, y ) ) {
         auto items = m.i_at( x, y );
         while( !items.empty() ) {
-            if( items[0].made_of( LIQUID ) ) {
+            if( items.front().made_of( LIQUID ) ) {
                 m.i_rem( x, y, 0 );
                 continue;
             }
-            if( items[0].made_of( material_id( "glass" ) ) && one_in( 2 ) ) {
+            if( items.front().made_of( material_id( "glass" ) ) && one_in( 2 ) ) {
                 if( can_see ) {
-                    add_msg( m_warning, _( "A %s shatters!" ), items[0].tname() );
+                    add_msg( m_warning, _( "A %s shatters!" ), items.front().tname() );
                 } else {
                     add_msg( m_warning, _( "Something shatters!" ) );
                 }
                 m.i_rem( x, y, 0 );
                 continue;
             }
-            m.add_item_or_charges( kbx, kby, items[0] );
+            m.add_item_or_charges( kbx, kby, items.front() );
             m.i_rem( x, y, 0 );
         }
     }

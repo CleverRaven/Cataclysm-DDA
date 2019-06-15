@@ -232,17 +232,19 @@ static void pick_up_from_feet( player &p, int pos )
 
 static void wear_from_feet( player &p, int pos )
 {
-    auto size_before = g->m.i_at( p.pos() ).size();
+    int size_before = static_cast<int>( g->m.i_at( p.pos() ).size() );
     REQUIRE( size_before > pos );
-    p.wear_item( g->m.i_at( p.pos() )[pos], false );
+    // This is a temporary hack to get this (currently broken) test to compile
+    p.wear_item( *g->m.i_at( p.pos() ).get_iterator_from_index( pos ), false );
     g->m.i_rem( p.pos(), pos );
 }
 
 static void wield_from_feet( player &p, int pos )
 {
-    auto size_before = g->m.i_at( p.pos() ).size();
+    int size_before = static_cast<int>( g->m.i_at( p.pos() ).size() );
     REQUIRE( size_before > pos );
-    p.wield( g->m.i_at( p.pos() )[pos] );
+    // This is a temporary hack to get this (currently broken) test to compile
+    p.wield( *g->m.i_at( p.pos() ).get_iterator_from_index( pos ) );
     g->m.i_rem( p.pos(), pos );
 }
 
@@ -276,7 +278,8 @@ static item &item_at( player &p, const int pos, const inventory_location loc )
 {
     switch( loc ) {
         case GROUND:
-            return g->m.i_at( p.pos() )[pos];
+            // This is a temporary hack to get this (currently broken) test to compile
+            return *g->m.i_at( p.pos() ).get_iterator_from_index( pos );
         case INVENTORY:
             return p.i_at( pos );
         case WORN:

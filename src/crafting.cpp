@@ -640,19 +640,15 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
     if( const cata::optional<vpart_reference> vp = g->m.veh_at( loc ).part_with_feature( "CARGO",
             false ) ) {
 
-        if( vp->vehicle().add_item( vp->part_index(), newit ) ) {
-
-            // Since add succeded, we know that the craft is the last item in the vehicle_stack
-            auto items_at_part = vp->vehicle().get_items( vp->part_index() );
-            item *newit_in_vehicle = &items_at_part[items_at_part.size() - 1];
-
+        if( const cata::optional<vehicle_stack::iterator> it = vp->vehicle().add_item( vp->part_index(),
+                newit ) ) {
             p.add_msg_player_or_npc(
                 string_format( pgettext( "item, furniture", "You put the %s on the %s." ),
-                               newit.tname(), vp->part().name() ),
+                               ( *it )->tname(), vp->part().name() ),
                 string_format( pgettext( "item, furniture", "<npcname> puts the %s on the %s." ),
-                               newit.tname(), vp->part().name() ) );
+                               ( *it )->tname(), vp->part().name() ) );
 
-            return item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), newit_in_vehicle );
+            return item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), & **it );
         }
 
         // Couldn't add the in progress craft to the target part, so drop it to the map.

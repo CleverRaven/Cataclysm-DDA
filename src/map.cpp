@@ -5160,7 +5160,8 @@ item *map::item_from( const tripoint &pos, size_t index )
     if( index >= items.size() ) {
         return nullptr;
     } else {
-        return &items[index];
+        // This is a hack until this function is deleted
+        return &*items.get_iterator_from_index( index );
     }
 }
 
@@ -5171,7 +5172,8 @@ item *map::item_from( vehicle *veh, int cargo_part, size_t index )
     if( index >= items.size() ) {
         return nullptr;
     } else {
-        return &items[index];
+        // This is a hack until this function is deleted
+        return &*items.get_iterator_from_index( index );
     }
 }
 

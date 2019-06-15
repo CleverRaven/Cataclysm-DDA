@@ -201,7 +201,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
         } else if( m.has_flag( "PLANT", p ) ) {
             // Replace the (already existing) seed
             if( !m.i_at( p ).empty() ) {
-                m.i_at( p )[0] = item( "fungal_seeds", calendar::turn );
+                m.i_at( p ).front() = item( "fungal_seeds", calendar::turn );
             } else {
                 DebugLog( D_ERROR, DC_ALL ) << "No seed item in the PLANT terrain at position " <<
                                             string_format( "%d,%d,%d.", p.x, p.y, p.z );

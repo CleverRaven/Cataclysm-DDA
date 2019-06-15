@@ -1315,7 +1315,7 @@ int editmap::edit_itm()
     do {
         ilmenu.query();
         if( ilmenu.ret >= 0 && ilmenu.ret < static_cast<int>( items.size() ) ) {
-            item &it = items[ilmenu.ret];
+            item &it = *items.get_iterator_from_index( ilmenu.ret );
             uilist imenu;
             imenu.w_x = ilmenu.w_x;
             imenu.w_y = ilmenu.w_height;

@@ -1343,7 +1343,7 @@ void iexamine::pedestal_temple( player &p, const tripoint &examp )
 {
 
     if( g->m.i_at( examp ).size() == 1 &&
-        g->m.i_at( examp )[0].typeId() == "petrified_eye" ) {
+        g->m.i_at( examp ).front().typeId() == "petrified_eye" ) {
         add_msg( _( "The pedestal sinks into the ground..." ) );
         g->m.ter_set( examp, t_dirt );
         g->m.i_clear( examp );
@@ -2273,7 +2273,7 @@ void iexamine::kiln_full( player &, const tripoint &examp )
     auto char_type = item::find_type( "charcoal" );
     add_msg( _( "There's a charcoal kiln there." ) );
     const time_duration firing_time = 6_hours; // 5 days in real life
-    const time_duration time_left = firing_time - items[0].age();
+    const time_duration time_left = firing_time - items.front().age();
     if( time_left > 0_turns ) {
         int hours = to_hours<int>( time_left );
         int minutes = to_minutes<int>( time_left ) + 1;
@@ -2530,20 +2530,18 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
 
 void iexamine::fvat_full( player &p, const tripoint &examp )
 {
-    auto items_here = g->m.i_at( examp );
+    map_stack items_here = g->m.i_at( examp );
     if( items_here.empty() ) {
         debugmsg( "fvat_full was empty!" );
         g->m.furn_set( examp, f_fvat_empty );
         return;
     }
 
-    for( size_t i = 0; i < items_here.size(); i++ ) {
-        auto &it = items_here[i];
+    for( const item &it : items_here ) {
         if( !it.made_of_from_type( LIQUID ) ) {
             add_msg( _( "You remove %s from the vat." ), it.tname() );
             g->m.add_item_or_charges( p.pos(), it );
-            g->m.i_rem( examp, i );
-            i--;
+            g->m.i_rem( examp, &it );
         }
     }
 
@@ -2621,17 +2619,12 @@ void iexamine::keg( player &p, const tripoint &examp )
     none( p, examp );
     const auto keg_name = g->m.name( examp );
     units::volume keg_cap = get_keg_capacity( examp );
-    bool liquid_present = false;
-    for( int i = 0; i < static_cast<int>( g->m.i_at( examp ).size() ); i++ ) {
-        if( !g->m.i_at( examp )[i].made_of_from_type( LIQUID ) || liquid_present ) {
-            g->m.add_item_or_charges( examp, g->m.i_at( examp )[i] );
-            g->m.i_rem( examp, i );
-            i--;
-        } else {
-            liquid_present = true;
-        }
-    }
-    if( !liquid_present ) {
+    map_stack items = g->m.i_at( examp );
+    map_stack::iterator drink = std::find_if( items.begin(), items.end(), []( const item & it ) {
+        return it.made_of_from_type( LIQUID );
+    } );
+
+    if( drink != items.end() ) {
         add_msg( m_info, _( "It is empty." ) );
         // Get list of all drinks
         auto drinks_inv = p.items_with( []( const item & it ) {
@@ -2697,7 +2690,6 @@ void iexamine::keg( player &p, const tripoint &examp )
         g->m.add_item( examp, drink );
         return;
     } else {
-        auto drink = g->m.i_at( examp ).begin();
         const auto drink_tname = drink->tname();
         const auto drink_nname = item::nname( drink->typeId() );
         enum options {
@@ -4282,11 +4274,10 @@ static void mill_activate( player &p, const tripoint &examp )
         return;
     }
     bool food_present = false;
-    auto items = g->m.i_at( examp );
+    map_stack items = g->m.i_at( examp );
     units::volume food_volume = 0_ml;
 
-    for( size_t i = 0; i < items.size(); i++ ) {
-        auto &it = items[i];
+    for( const item &it : items ) {
         if( it.typeId() == "flour" ) {
             add_msg( _( "This mill already contains flour." ) );
             add_msg( _( "Remove it before starting the mill again." ) );
@@ -4302,7 +4293,7 @@ static void mill_activate( player &p, const tripoint &examp )
                      false ) );
             add_msg( _( "You remove the %s from the mill." ), it.tname() );
             g->m.add_item_or_charges( p.pos(), it );
-            g->m.i_rem( examp, i );
+            g->m.i_rem( examp, &it );
             p.mod_moves( -p.item_handling_cost( it ) );
             return;
         }
@@ -4351,12 +4342,11 @@ static void smoker_activate( player &p, const tripoint &examp )
     }
     bool food_present = false;
     bool charcoal_present = false;
-    auto items = g->m.i_at( examp );
+    map_stack items = g->m.i_at( examp );
     units::volume food_volume = 0_ml;
     item *charcoal = nullptr;
 
-    for( size_t i = 0; i < items.size(); i++ ) {
-        auto &it = items[i];
+    for( item &it : items ) {
         if( it.has_flag( "SMOKED" ) && !it.has_flag( "SMOKABLE" ) ) {
             add_msg( _( "This rack already contains smoked food." ) );
             add_msg( _( "Remove it before firing the smoking rack again." ) );
@@ -4376,7 +4366,7 @@ static void smoker_activate( player &p, const tripoint &examp )
                      false ) );
             add_msg( _( "You remove %s from the rack." ), it.tname() );
             g->m.add_item_or_charges( p.pos(), it );
-            g->m.i_rem( examp, i );
+            g->m.i_rem( examp, &it );
             p.mod_moves( -p.item_handling_cost( it ) );
             return;
         }
@@ -4454,26 +4444,21 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
         return;
     }
 
-    auto items = g->m.i_at( examp );
+    map_stack items = g->m.i_at( examp );
     if( items.empty() ) {
         g->m.furn_set( examp, next_mill_type );
         return;
     }
 
-    for( auto &it : items ) {
-        if( it.has_flag( "MILLABLE" ) ) {
+    for( item &it : items ) {
+        if( it.has_flag( "MILLABLE" ) && it.get_comestible() ) {
             it.calc_rot_while_processing( 6_hours );
-        }
-    }
-    for( size_t i = 0; i < items.size(); i++ ) {
-        auto &item_it = items[i];
-        if( item_it.get_comestible() ) {
-            item result( "flour", start_time + 6_hours, item_it.charges * 15 );
+            item result( "flour", start_time + 6_hours, it.charges * 15 );
             // Set flag to tell set_relative_rot() to calc from bday not now
             result.set_flag( "PROCESSING_RESULT" );
-            result.set_relative_rot( item_it.get_relative_rot() );
+            result.set_relative_rot( it.get_relative_rot() );
             result.unset_flag( "PROCESSING_RESULT" );
-            item_it = result;
+            it = result;
         }
     }
     g->m.furn_set( examp, next_mill_type );
@@ -4493,31 +4478,26 @@ static void smoker_finalize( player &, const tripoint &examp, const time_point &
         return;
     }
 
-    auto items = g->m.i_at( examp );
+    map_stack items = g->m.i_at( examp );
     if( items.empty() ) {
         g->m.furn_set( examp, next_smoker_type );
         return;
     }
 
-    for( auto &it : items ) {
-        if( it.has_flag( "SMOKABLE" ) ) { // Don't check charcoal
-            it.calc_rot_while_processing( 6_hours );
-        }
-    }
-
-    for( size_t i = 0; i < items.size(); i++ ) {
-        auto &item_it = items[i];
-        if( item_it.get_comestible() ) {
-            if( item_it.get_comestible()->smoking_result.empty() ) {
-                item_it.unset_flag( "PROCESSING" );
+    for( item &it : items ) {
+        if( it.has_flag( "SMOKABLE" ) && it.get_comestible() ) {
+            if( it.get_comestible()->smoking_result.empty() ) {
+                it.unset_flag( "PROCESSING" );
             } else {
-                item result( item_it.get_comestible()->smoking_result, start_time + 6_hours, item_it.charges );
+                it.calc_rot_while_processing( 6_hours );
+
+                item result( it.get_comestible()->smoking_result, start_time + 6_hours, it.charges );
 
                 // Set flag to tell set_relative_rot() to calc from bday not now
                 result.set_flag( "SMOKING_RESULT" );
-                result.set_relative_rot( item_it.get_relative_rot() );
+                result.set_relative_rot( it.get_relative_rot() );
                 result.unset_flag( "SMOKING_RESULT" );
-                item_it = result;
+                it = result;
             }
         }
     }
@@ -4765,7 +4745,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
 
     const bool active = g->m.furn( examp ) == furn_str_id( "f_water_mill_active" ) ||
                         g->m.furn( examp ) == furn_str_id( "f_wind_mill_active" );
-    auto items_here = g->m.i_at( examp );
+    map_stack items_here = g->m.i_at( examp );
 
     if( items_here.empty() && active ) {
         debugmsg( "active mill was empty!" );
@@ -4795,8 +4775,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
     units::volume f_volume = 0_ml;
     bool f_check = false;
 
-    for( size_t i = 0; i < items_here.size(); i++ ) {
-        auto &it = items_here[i];
+    for( const item &it : items_here ) {
         if( it.is_food() ) {
             f_check = true;
             f_volume += it.volume();
@@ -4865,8 +4844,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
             if( items_here.empty() ) {
                 pop << _( "... that it is empty." );
             } else {
-                for( size_t i = 0; i < items_here.size(); i++ ) {
-                    auto &it = items_here[i];
+                for( const item &it : items_here ) {
                     if( it.typeId() == "fake_milling_item" ) {
                         pop << "\n " << "<color_red>" << _( "You see some grains that are not yet milled to fine flour." )
                             << "</color>" <<
@@ -4891,17 +4869,15 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
             mill_load_food( p, examp, remaining_capacity );
             break;
         case 3: // remove food
-            for( size_t i = 0; i < items_here.size(); i++ ) {
-                auto &it = items_here[i];
+            for( const item &it : items_here ) {
                 if( it.is_food() ) {
                     // get handling cost before the item reference is invalidated
                     const int handling_cost = -p.item_handling_cost( it );
 
                     add_msg( _( "You remove %s from the mill." ), it.tname() );
                     g->m.add_item_or_charges( p.pos(), it );
-                    g->m.i_rem( examp, i );
+                    g->m.i_rem( examp, &it );
                     p.mod_moves( handling_cost );
-                    i--;
                 }
             }
             if( active ) {
@@ -4933,7 +4909,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                         g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" );
     const bool portable = g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack" ) ||
                           g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" );
-    auto items_here = g->m.i_at( examp );
+    map_stack items_here = g->m.i_at( examp );
 
     if( portable && items_here.empty() && active ) {
         debugmsg( "f_metal_smoking_rack_active was empty!" );
@@ -4964,8 +4940,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
     units::volume f_volume = 0_ml;
     bool f_check = false;
 
-    for( size_t i = 0; i < items_here.size(); i++ ) {
-        auto &it = items_here[i];
+    for( const item &it : items_here ) {
         if( it.is_food() ) {
             f_check = true;
             f_volume += it.volume();
@@ -5072,8 +5047,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
             if( items_here.empty() ) {
                 pop << _( "... that it is empty." );
             } else {
-                for( size_t i = 0; i < items_here.size(); i++ ) {
-                    auto &it = items_here[i];
+                for( const item &it : items_here ) {
                     if( it.typeId() == "fake_smoke_plume" ) {
                         pop << "\n " << "<color_red>" << _( "You see some smoldering embers there." ) << "</color>" <<
                             "\n ";
@@ -5107,17 +5081,15 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
             rem_f_opt = true;
         /* fallthrough */
         case 5: { //remove charcoal
-            for( size_t i = 0; i < items_here.size(); i++ ) {
-                auto &it = items_here[i];
+            for( const item &it : items_here ) {
                 if( ( rem_f_opt && it.is_food() ) || ( !rem_f_opt && ( it.typeId() == "charcoal" ) ) ) {
                     // get handling cost before the item reference is invalidated
                     const int handling_cost = -p.item_handling_cost( it );
 
                     add_msg( _( "You remove %s from the rack." ), it.tname() );
                     g->m.add_item_or_charges( p.pos(), it );
-                    g->m.i_rem( examp, i );
+                    g->m.i_rem( examp, &it );
                     p.mod_moves( handling_cost );
-                    i--;
                 }
             }
             if( portable && active && rem_f_opt ) {

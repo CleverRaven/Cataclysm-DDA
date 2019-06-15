@@ -85,11 +85,6 @@ item &item_stack::front()
     return *items->begin();
 }
 
-item &item_stack::operator[]( size_t index )
-{
-    return *( std::next( items->begin(), index ) );
-}
-
 units::volume item_stack::stored_volume() const
 {
     units::volume ret = 0_ml;

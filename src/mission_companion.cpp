@@ -1039,7 +1039,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     for( int x = 0; x < SEEX * 2 - 1; x++ ) {
         for( int y = 0; y < SEEY * 2 - 1; y++ ) {
             if( bay.furn( x, y ) == furn_str_id( "f_plant_harvest" ) && !bay.i_at( x, y ).empty() ) {
-                const item &seed = bay.i_at( x, y )[0];
+                const item &seed = bay.i_at( x, y ).front();
                 if( seed.is_seed() ) {
                     const islot_seed &seed_data = *seed.type->seed;
                     tmp = item( seed_data.fruit_id, calendar::turn );
@@ -1083,7 +1083,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
         for( int y = 0; y < SEEY * 2 - 1; y++ ) {
             if( bay.furn( x, y ) == furn_str_id( "f_plant_harvest" ) &&
                 !bay.i_at( x, y ).empty() ) {
-                const item &seed = bay.i_at( x, y )[0];
+                const item &seed = bay.i_at( x, y ).front();
                 if( seed.is_seed() ) {
                     const islot_seed &seed_data = *seed.type->seed;
                     tmp = item( seed_data.fruit_id, calendar::turn );
@@ -2006,10 +2006,9 @@ npc_ptr talk_function::companion_choose_return( const tripoint &omt_pos,
 }
 
 //Smash stuff, steal valuables, and change map maker
-std::vector<item *> talk_function::loot_building( const tripoint &site )
+void talk_function::loot_building( const tripoint &site )
 {
     tinymap bay;
-    std::vector<item *> items_found;
     tripoint p;
     bay.load( site.x * 2, site.y * 2, site.z, false );
     for( int x = 0; x < SEEX * 2 - 1; x++ ) {
@@ -2067,22 +2066,17 @@ std::vector<item *> talk_function::loot_building( const tripoint &site )
                 critter->die( nullptr );
             }
             //Hoover up tasty items!
-            for( unsigned int i = 0; i < bay.i_at( p ).size(); i++ ) {
-                if( ( ( bay.i_at( p )[i].is_food() || bay.i_at( p )[i].is_food_container() ) &&
-                      !one_in( 8 ) ) ||
-                    ( bay.i_at( p )[i].made_of( LIQUID ) && !one_in( 8 ) ) ||
-                    ( bay.i_at( p )[i].price( true ) > 1000 && !one_in( 4 ) ) ||
-                    one_in( 5 ) ) {
-                    item *it = &bay.i_at( p )[i];
-                    items_found.push_back( it );
-                    bay.i_rem( p, i );
+            for( const item &it : bay.i_at( p ) ) {
+                if( ( ( it.is_food() || it.is_food_container() ) && !one_in( 8 ) ) ||
+                    ( it.made_of( LIQUID ) && !one_in( 8 ) ) ||
+                    ( it.price( true ) > 1000 && !one_in( 4 ) ) || one_in( 5 ) ) {
+                    bay.i_rem( p, &it );
                 }
             }
         }
     }
     bay.save();
     overmap_buffer.ter( site.x, site.y, site.z ) = oter_id( "looted_building" );
-    return items_found;
 }
 
 void mission_data::add( const std::string &id, const std::string &name_display,
