@@ -28,7 +28,7 @@
     "type": "faction",
     "id": "robofac",
     "name": "Hub 01",
-    "likes_u": 0,
+    "likes_u": -200,
     "respects_u": 0,
     "known_by_u": false,
     "size": 100,

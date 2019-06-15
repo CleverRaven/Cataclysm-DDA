@@ -26,7 +26,7 @@
 #include "vpart_position.h"
 #include "vpart_reference.h"
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_SHELL2( "SHELL2" );
@@ -39,6 +39,8 @@ static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_harnessed( "harnessed" );
+
+static const fault_id fault_gun_clogged( "fault_gun_clogged" );
 
 bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
 {
@@ -558,6 +560,11 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
         return false;
     }
 
+    if( weapon.faults.count( fault_gun_clogged ) ) {
+        add_msg( m_info, _( "Your %s is too clogged with blackpowder fouling to fire." ), gun->tname() );
+        return false;
+    }
+
     if( gun->has_flag( "FIRE_TWOHAND" ) && ( !you.has_two_arms() ||
             you.worn_with_flag( "RESTRICT_HANDS" ) ) ) {
         add_msg( m_info, _( "You need two free hands to fire your %s." ), gun->tname() );
@@ -705,6 +712,11 @@ bool avatar_action::fire( avatar &you, map &m, item &weapon, int bp_cost )
     // gun can be null if the item is an unattached gunmod
     if( !gun ) {
         add_msg( m_info, _( "The %s can't be fired in its current state." ), weapon.tname() );
+        return false;
+    } else if( !weapon.has_flag( "RELOAD_AND_SHOOT" ) &&
+               !weapon.ammo_types().count( weapon.ammo_data()->ammo->type ) ) {
+        add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
+                 weapon.tname(), weapon.ammo_current() );
         return false;
     }
 

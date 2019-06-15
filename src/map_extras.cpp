@@ -1731,12 +1731,11 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     const ter_t &tr = tid.obj();
 
     VehicleList vehs = m.get_vehicles();
-    std::set<tripoint> occupied;
     std::vector<vehicle *> vehicles;
     std::vector<tripoint> points;
     for( wrapped_vehicle vehicle : vehs ) {
         vehicles.push_back( vehicle.v );
-        occupied = vehicle.v->get_points();
+        std::set<tripoint> occupied = vehicle.v->get_points();
         for( tripoint t : occupied ) {
             points.push_back( t );
         }
@@ -1747,7 +1746,6 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     for( tripoint tri : points ) {
         m.furn_set( tri, f_wreckage );
     }
-
 
     // grass is converted separately
     // this method is deliberate to allow adding new post-terrains
@@ -1866,12 +1864,11 @@ static void mx_burned_ground( map &m, const tripoint &abs_sub )
         }
     }
     VehicleList vehs = m.get_vehicles();
-    std::set<tripoint> occupied;
     std::vector<vehicle *> vehicles;
     std::vector<tripoint> points;
     for( wrapped_vehicle vehicle : vehs ) {
         vehicles.push_back( vehicle.v );
-        occupied = vehicle.v->get_points();
+        std::set<tripoint> occupied = vehicle.v->get_points();
         for( tripoint t : occupied ) {
             points.push_back( t );
         }

@@ -70,7 +70,7 @@ class safemode
         void load( const bool is_character_in );
         bool save( const bool is_character_in );
 
-        bool is_character;
+        bool is_character = false;
 
         void create_rules();
         void add_rules( const std::vector<rules_class> &rules_in );

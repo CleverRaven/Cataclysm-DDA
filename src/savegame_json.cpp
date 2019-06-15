@@ -188,7 +188,7 @@ std::vector<item> item::magazine_convert()
         // limit ammo to base capacity and return any excess as a new item
         charges = std::min( charges, type->gun->clip );
         if( qty > 0 ) {
-            res.emplace_back( ammo_current() != "null" ? ammo_current() : ammo_type()->default_ammotype(),
+            res.emplace_back( ammo_current() != "null" ? ammo_current() : ammo_default(),
                               calendar::turn, qty );
         }
 
@@ -201,7 +201,7 @@ std::vector<item> item::magazine_convert()
 
     // now handle items using the new detachable magazines that haven't yet been converted
     item mag( magazine_default(), calendar::turn );
-    item ammo( ammo_current() != "null" ? ammo_current() : ammo_type()->default_ammotype(),
+    item ammo( ammo_current() != "null" ? ammo_current() : ammo_default(),
                calendar::turn );
 
     // give base item an appropriate magazine and add to that any ammo originally stored in base item
@@ -1963,7 +1963,8 @@ void item::io( Archive &archive )
     archive.io( "poison", poison, 0 );
     archive.io( "frequency", frequency, 0 );
     archive.io( "note", note, 0 );
-    archive.io( "irridation", irridation, 0 );
+    // NB! field is named `irridation` in legacy files
+    archive.io( "irridation", irradiation, 0 );
     archive.io( "bday", bday, calendar::time_of_cataclysm );
     archive.io( "mission_id", mission_id, -1 );
     archive.io( "player_id", player_id, -1 );
@@ -2030,8 +2031,8 @@ void item::io( Archive &archive )
     if( poison != 0 && frequency == 0 && ( typeId() == "radio_on" || typeId() == "radio" ) ) {
         std::swap( frequency, poison );
     }
-    if( poison != 0 && irridation == 0 && typeId() == "rad_badge" ) {
-        std::swap( irridation, poison );
+    if( poison != 0 && irradiation == 0 && typeId() == "rad_badge" ) {
+        std::swap( irradiation, poison );
     }
 
     // Compatibility for item type changes: for example soap changed from being a generic item
@@ -3288,16 +3289,16 @@ void submap::store( JsonOut &jsout ) const
     for( int j = 0; j < SEEY; j++ ) {
         for( int i = 0; i < SEEX; i++ ) {
             // Save fields
-            if( fld[i][j].fieldCount() > 0 ) {
+            if( fld[i][j].field_count() > 0 ) {
                 jsout.write( i );
                 jsout.write( j );
                 jsout.start_array();
                 for( auto &elem : fld[i][j] ) {
                     const field_entry &cur = elem.second;
                     // We don't seem to have a string identifier for fields anywhere.
-                    jsout.write( cur.getFieldType() );
-                    jsout.write( cur.getFieldDensity() );
-                    jsout.write( cur.getFieldAge() );
+                    jsout.write( cur.get_field_type() );
+                    jsout.write( cur.get_field_intensity() );
+                    jsout.write( cur.get_field_age() );
                 }
                 jsout.end_array();
             }
@@ -3517,10 +3518,10 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
                 int type = jsin.get_int();
                 int density = jsin.get_int();
                 int age = jsin.get_int();
-                if( fld[i][j].findField( field_id( type ) ) == nullptr ) {
+                if( fld[i][j].find_field( field_id( type ) ) == nullptr ) {
                     field_count++;
                 }
-                fld[i][j].addField( field_id( type ), density, time_duration::from_turns( age ) );
+                fld[i][j].add_field( field_id( type ), density, time_duration::from_turns( age ) );
             }
         }
     } else if( member_name == "graffiti" ) {

@@ -3274,8 +3274,10 @@ void vehicle::noise_and_smoke( int load, time_duration time )
 {
     const std::array<int, 8> sound_levels = {{ 0, 15, 30, 60, 100, 140, 180, INT_MAX }};
     const std::array<std::string, 8> sound_msgs = {{
-            _( "hmm" ), _( "hummm!" ), _( "whirrr!" ), _( "vroom!" ), _( "roarrr!" ),
-            _( "ROARRR!" ), _( "BRRROARRR!" ), _( "BRUMBRUMBRUMBRUM!" )
+            translate_marker( "hmm" ), translate_marker( "hummm!" ),
+            translate_marker( "whirrr!" ), translate_marker( "vroom!" ),
+            translate_marker( "roarrr!" ), translate_marker( "ROARRR!" ),
+            translate_marker( "BRRROARRR!" ), translate_marker( "BRUMBRUMBRUMBRUM!" )
         }
     };
     double noise = 0.0;
@@ -3348,7 +3350,9 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     }
     add_msg( m_debug, "VEH NOISE final: %d", static_cast<int>( noise ) );
     vehicle_noise = static_cast<unsigned char>( noise );
-    sounds::sound( global_pos3(), noise, sounds::sound_t::movement, sound_msgs[lvl], true );
+    if( has_engine_type_not( fuel_type_muscle, true ) ) {
+        sounds::sound( global_pos3(), noise, sounds::sound_t::movement, _( sound_msgs[lvl] ), true );
+    }
 }
 
 int vehicle::wheel_area() const
@@ -4393,7 +4397,7 @@ bool vehicle::add_item( int part, const item &itm )
     // add creaking sounds and damage to overloaded vpart, outright break it past a certain point, or when hitting bumps etc
 
     if( parts[ part ].base.is_gun() ) {
-        if( !itm.is_ammo() || itm.ammo_type() != parts[ part ].base.ammo_type() ) {
+        if( !itm.is_ammo() || !parts[ part ].base.ammo_types().count( itm.ammo_type() ) ) {
             return false;
         }
     }
@@ -4549,7 +4553,7 @@ void vehicle::place_spawn_items()
                             e.contents.emplace_back( e.magazine_default(), e.birthday() );
                         }
                         if( spawn_ammo ) {
-                            e.ammo_set( e.ammo_type()->default_ammotype() );
+                            e.ammo_set( e.ammo_default() );
                         }
                     }
                     add_item( part, e );
@@ -4680,7 +4684,6 @@ void vehicle::refresh()
             return veh->part_info( p1 ).list_order < veh->part_info( p2 ).list_order;
         }
     } svpv = { this };
-    std::vector<int>::iterator vii;
 
     mount_min.x = 123;
     mount_min.y = 123;
@@ -4708,8 +4711,9 @@ void vehicle::refresh()
         mount_max.y = std::max( mount_max.y, pt.y );
 
         // This will keep the parts at point pt sorted
-        vii = std::lower_bound( relative_parts[pt].begin(), relative_parts[pt].end(),
-                                static_cast<int>( p ), svpv );
+        std::vector<int>::iterator vii = std::lower_bound( relative_parts[pt].begin(),
+                                         relative_parts[pt].end(),
+                                         static_cast<int>( p ), svpv );
         relative_parts[pt].insert( vii, p );
 
         if( vpi.has_flag( VPFLAG_FLOATS ) ) {

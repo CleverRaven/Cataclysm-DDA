@@ -191,7 +191,6 @@ class player : public Character
 
         void normalize() override;
 
-
         bool is_player() const override {
             return true;
         }
@@ -374,7 +373,7 @@ class player : public Character
         /** Returns the bionic at a given index in my_bionics[] */
         bionic &bionic_at_index( int i );
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
-        bionic *bionic_by_invlet( long ch );
+        bionic *bionic_by_invlet( int ch );
         /** Returns player luminosity based on the brightest active item they are carrying */
         float active_light() const;
 
@@ -578,7 +577,7 @@ class player : public Character
         dispersion_sources get_weapon_dispersion( const item &obj ) const;
 
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
-        bool handle_gun_damage( item &firing );
+        bool handle_gun_damage( item &firing, int shots_fired );
 
         /** Get maximum recoil penalty due to vehicle motion */
         double recoil_vehicle() const;
@@ -1100,7 +1099,7 @@ class player : public Character
         bool invoke_item( item * );
         bool invoke_item( item *, const std::string & );
         /** Reassign letter. */
-        void reassign_item( item &it, long invlet );
+        void reassign_item( item &it, int invlet );
 
         /** Consume charges of a tool or comestible item, potentially destroying it in the process
          *  @param used item consuming the charges
@@ -1269,7 +1268,7 @@ class player : public Character
         /** Return the item position of the item with given invlet, return INT_MIN if
          * the player does not have such an item with that invlet. Don't use this on npcs.
          * Only use the invlet in the user interface, otherwise always use the item position. */
-        int invlet_to_position( long invlet ) const;
+        int invlet_to_position( int invlet ) const;
 
         /**
         * Check whether player has a bionic power armor interface.
@@ -1547,7 +1546,7 @@ class player : public Character
         int blocks_left;
         int stim;
         int radiation;
-        unsigned long cash;
+        signed long cash;
         int movecounter;
         std::shared_ptr<monster> mounted_creature;
         bool death_drops;// Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight

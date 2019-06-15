@@ -378,7 +378,7 @@ void talk_function::bionic_install( npc &p )
 
     const item tmp = item( bionic_types[bionic_index], 0 );
     const itype &it = *tmp.type;
-    unsigned int price = tmp.price( true ) * 2;
+    signed int price = tmp.price( true ) * 2;
 
     if( price > g->u.cash ) {
         popup( _( "You can't afford the procedure..." ) );
@@ -429,7 +429,7 @@ void talk_function::bionic_remove( npc &p )
         return;
     }
 
-    unsigned int price;
+    signed int price;
     if( item::type_is_defined( bionic_types[bionic_index] ) ) {
         price = 50000 + ( item( bionic_types[bionic_index], 0 ).price( true ) / 4 );
     } else {

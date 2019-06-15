@@ -565,7 +565,7 @@ void starting_inv( npc &who, const npc_class_id &type )
     res.emplace_back( "lighter" );
     // If wielding a gun, get some additional ammo for it
     if( who.weapon.is_gun() ) {
-        item ammo( who.weapon.ammo_type()->default_ammotype() );
+        item ammo( who.weapon.ammo_default() );
         ammo = ammo.in_its_container();
         if( ammo.made_of( LIQUID ) ) {
             item container( "bottle_plastic" );
@@ -575,8 +575,8 @@ void starting_inv( npc &who, const npc_class_id &type )
 
         // TODO: Move to npc_class
         // NC_COWBOY and NC_BOUNTY_HUNTER get 5-15 whilst all others get 3-6
-        long qty = 1 + ( type == NC_COWBOY ||
-                         type == NC_BOUNTY_HUNTER );
+        int qty = 1 + ( type == NC_COWBOY ||
+                        type == NC_BOUNTY_HUNTER );
         qty = rng( qty, qty * 2 );
 
         while( qty-- != 0 && who.can_pickVolume( ammo ) ) {
@@ -589,8 +589,8 @@ void starting_inv( npc &who, const npc_class_id &type )
         res.emplace_back( "molotov" );
     }
 
-    long qty = ( type == NC_EVAC_SHOPKEEP ||
-                 type == NC_TRADER ) ? 5 : 2;
+    int qty = ( type == NC_EVAC_SHOPKEEP ||
+                type == NC_TRADER ) ? 5 : 2;
     qty = rng( qty, qty * 3 );
 
     while( qty-- != 0 ) {
@@ -784,7 +784,7 @@ void npc::starting_weapon( const npc_class_id &type )
     }
 
     if( weapon.is_gun() ) {
-        weapon.ammo_set( weapon.type->gun->ammo->default_ammotype() );
+        weapon.ammo_set( weapon.ammo_default() );
     }
     weapon.set_owner( my_fac );
 }
@@ -1183,7 +1183,7 @@ void npc::decide_needs()
         elem = 20;
     }
     if( weapon.is_gun() ) {
-        needrank[need_ammo] = 5 * get_ammo( weapon.type->gun->ammo ).size();
+        needrank[need_ammo] = 5 * get_ammo( ammotype( *weapon.type->gun->ammo.begin() ) ).size();
     }
 
     needrank[need_weapon] = weapon_value( weapon );
@@ -1374,14 +1374,11 @@ int npc::value( const item &it, int market_price ) const
     }
 
     if( it.is_ammo() ) {
-        if( weapon.is_gun() && it.type->ammo->type.count( weapon.ammo_type() ) ) {
+        if( weapon.is_gun() && weapon.ammo_types().count( it.ammo_type() ) ) {
             ret += 14; // TODO: magazines - don't count ammo as usable if the weapon isn't.
         }
 
-        if( std::any_of( it.type->ammo->type.begin(), it.type->ammo->type.end(),
-        [&]( const ammotype & e ) {
-        return has_gun_for_ammo( e );
-        } ) ) {
+        if( has_gun_for_ammo( it.ammo_type() ) ) {
             ret += 14; // TODO: consider making this cumulative (once was)
         }
     }
@@ -1764,7 +1761,14 @@ int npc::follow_distance() const
           g->m.has_flag( TFLAG_GOES_UP, g->u.pos() ) ) ) {
         return 1;
     }
-    // TODO: Allow player to set that
+    // Uses ally_rule follow_distance_2 to determine if should follow by 2 or 4 tiles
+    if( rules.has_flag( ally_rule::follow_distance_2 ) ) {
+        return 2;
+    }
+    // If NPC doesn't see player, change follow distance to 2
+    if( !sees( g->u ) ) {
+        return 2;
+    }
     return 4;
 }
 
@@ -2681,6 +2685,7 @@ npc_follower_rules::npc_follower_rules()
     clear_flag( ally_rule::hold_the_line );
     clear_flag( ally_rule::ignore_noise );
     clear_flag( ally_rule::forbid_engage );
+    set_flag( ally_rule::follow_distance_2 );
 }
 
 bool npc_follower_rules::has_flag( ally_rule test, bool check_override ) const

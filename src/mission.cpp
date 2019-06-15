@@ -29,7 +29,7 @@
 #include "monster.h"
 #include "player.h"
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 mission mission_type::create( const int npc_id ) const
 {

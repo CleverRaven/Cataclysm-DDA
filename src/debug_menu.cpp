@@ -69,7 +69,7 @@
 #include "sdl_wrappers.h"
 #endif
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 const efftype_id effect_riding( "riding" );
 namespace debug_menu
 {

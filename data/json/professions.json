@@ -1003,8 +1003,8 @@
         ],
         "entries": [
           { "group": "charged_cell_phone" },
-          { "item": "l_enforcer_45", "ammo-item": "45_acp", "charges": 6, "container-item": "sholster" },
-          { "item": "45_acp", "charges": 24 }
+          { "item": "l_enforcer_45", "ammo-item": "460_rowland", "charges": 6, "container-item": "sholster" },
+          { "item": "460_rowland", "charges": 24 }
         ]
       },
       "male": [ "briefs" ],
@@ -2164,7 +2164,11 @@
     "description": "The cataclysm gave you a chance to escape, but freedom comes with a steep price.",
     "points": 0,
     "skills": [ { "level": 1, "name": "melee" } ],
-    "items": { "both": [ "striped_shirt", "striped_pants", "glass_shiv" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] }
+    "items": {
+      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "glass_shiv" ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
   },
   {
     "type": "profession",
@@ -2174,7 +2178,11 @@
     "points": 0,
     "skills": [ { "level": 1, "name": "melee" } ],
     "traits": [ "KILLER" ],
-    "items": { "both": [ "striped_shirt", "striped_pants", "glass_shiv" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] }
+    "items": {
+      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "glass_shiv" ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
   },
   {
     "type": "profession",
@@ -2323,6 +2331,39 @@
         "money_bundle",
         "file"
       ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "millionaire",
+    "name": "Millionaire",
+    "description": "You had a fortune, whether inherited, built by hard work, or gained by pure luck.  You invested in trade and nothing was beyond your reach.  Now it's not worth a dime and no money in the world can guarantee your safety and well being.  Hard times are ahead, so it's time to undust your skills and try to sell some ice to the Innuit.  What currency do they accept?",
+    "points": 3,
+    "traits": [ "MILLIONAIRE" ],
+    "skills": [ { "level": 3, "name": "barter" }, { "level": 2, "name": "speech" } ],
+    "items": {
+      "both": {
+        "items": [
+          "suit",
+          "skinny_tie",
+          "tieclip",
+          "socks",
+          "dress_shoes",
+          "smart_phone",
+          "money_bundle",
+          "gold_watch",
+          "gold_ear",
+          "gold_bracelet",
+          "gasdiscount_platinum",
+          "diamond_ring",
+          "gold_small",
+          "silver_small",
+          "platinum_small"
+        ],
+        "entries": [ { "item": "cash_card", "charges": 1000000 }, { "item": "diamond", "count": 5 } ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -3579,7 +3620,7 @@
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "survival" } ],
     "items": {
       "both": {
-        "items": [ "jeans", "tshirt", "socks", "sneakers", "mbag", "pizza_cheese", "cola", "dnd_handbook", "wristwatch" ],
+        "items": [ "jeans", "tshirt", "socks", "sneakers", "mbag", "pizza_cheese", "cola", "dnd_handbook", "wristwatch", "RPG_die" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "briefs" ],
@@ -3708,6 +3749,58 @@
         "entries": [ { "item": "bokken_inferior", "container-item": "scabbard" } ]
       },
       "female": [ "chestwrap" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "politician",
+    "name": "Career Politician",
+    "description": "You've spent your life appealing to the people, persuading many and promising much throughout your time in office.  Now that your voting base wants to eat you alive, winning hearts and minds just got that much harder.",
+    "points": 4,
+    "skills": [ { "level": 4, "name": "barter" }, { "level": 6, "name": "speech" } ],
+    "traits": [ "LIAR" ],
+    "items": {
+      "both": [
+        "suit",
+        "tieclip",
+        "socks_wool",
+        "dress_shoes",
+        "smart_phone",
+        "gold_watch",
+        "briefcase",
+        "skinny_tie",
+        "file",
+        "ref_lighter",
+        "cigar"
+      ],
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "rancher",
+    "name": "Rancher",
+    "description": "You've raised cows or horses most of your life, now we'll see what happens next.",
+    "points": 2,
+    "skills": { "level": 2, "name": "survival" },
+    "items": {
+      "both": [
+        "jeans",
+        "dress_shirt",
+        "jacket_leather",
+        "socks",
+        "cowboy_hat",
+        "boots_western",
+        "wristwatch",
+        "riding_saddle",
+        "pockknife",
+        "cattlefodder",
+        "cattlefodder",
+        "cig"
+      ],
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
     }
   }
 ]

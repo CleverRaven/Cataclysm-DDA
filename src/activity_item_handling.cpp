@@ -1205,7 +1205,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
     add_msg( m_info, string_format( _( "%s sorted out every item possible." ), p.disp_name() ) );
     if( p.is_npc() ) {
         npc *guy = dynamic_cast<npc *>( &p );
-        guy->current_activity = "";
+        guy->current_activity.clear();
     }
     mgr.end_sort();
 }
@@ -1217,11 +1217,11 @@ static cata::optional<tripoint> find_best_fire(
     time_duration best_fire_age = 1_days;
     for( const tripoint &pt : from ) {
         field_entry *fire = g->m.get_field( pt, fd_fire );
-        if( fire == nullptr || fire->getFieldDensity() > 1 ||
+        if( fire == nullptr || fire->get_field_intensity() > 1 ||
             !g->m.clear_path( center, pt, PICKUP_RANGE, 1, 100 ) ) {
             continue;
         }
-        time_duration fire_age = fire->getFieldAge();
+        time_duration fire_age = fire->get_field_age();
         // Refuel only the best fueled fire (if it needs it)
         if( fire_age < best_fire_age ) {
             best_fire = pt;

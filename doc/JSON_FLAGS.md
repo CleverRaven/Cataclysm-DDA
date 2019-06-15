@@ -159,6 +159,7 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 
 - ```ACIDBOMB``` Leaves a pool of acid on detonation.
 - ```BEANBAG``` Stuns the target.
+- ```BLACKPOWDER``` May clog up the gun with blackpowder fouling, which will also cause rust.
 - ```BLINDS_EYES``` Blinds the target if it hits the head (ranged projectiles can't actually hit the eyes at the moment).
 - ```BOUNCE``` Inflicts target with `bounced` effect and rebounds to a nearby target without this effect.
 - ```COOKOFF``` Explodes when lit on fire.

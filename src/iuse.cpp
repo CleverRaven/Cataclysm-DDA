@@ -376,24 +376,24 @@ int iuse::smoking( player *p, item *it, bool, const tripoint & )
     item cig;
     if( it->typeId() == "cig" ) {
         cig = item( "cig_lit", calendar::turn );
-        cig.item_counter = 40;
+        cig.item_counter = to_turns<int>( 4_minutes );
         p->mod_hunger( -3 );
         p->mod_thirst( 2 );
     } else if( it->typeId() == "handrolled_cig" ) {
         // This transforms the hand-rolled into a normal cig, which isn't exactly
         // what I want, but leaving it for now.
         cig = item( "cig_lit", calendar::turn );
-        cig.item_counter = 40;
+        cig.item_counter = to_turns<int>( 4_minutes );
         p->mod_thirst( 2 );
         p->mod_hunger( -3 );
     } else if( it->typeId() == "cigar" ) {
         cig = item( "cigar_lit", calendar::turn );
-        cig.item_counter = 120;
+        cig.item_counter = to_turns<int>( 12_minutes );
         p->mod_thirst( 3 );
         p->mod_hunger( -4 );
     } else if( it->typeId() == "joint" ) {
         cig = item( "joint_lit", calendar::turn );
-        cig.item_counter = 40;
+        cig.item_counter = to_turns<int>( 4_minutes );
         p->mod_hunger( 4 );
         p->mod_thirst( 6 );
         if( p->get_painkiller() < 5 ) {
@@ -3142,7 +3142,6 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-
     int turns = 100;
     if( g->m.move_cost( pnt ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier
@@ -4051,6 +4050,23 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
+int iuse::rpgdie( player *you, item *die, bool, const tripoint & )
+{
+    const std::vector<int> sides_options = { 4, 6, 8, 10, 12, 20, 50 };
+    int num_sides = die->get_var( "die_num_sides", 0 );
+    if( num_sides == 0 ) {
+        const int sides = sides_options[ rng( 0, sides_options.size() - 1 ) ];
+        num_sides = sides;
+        die->set_var( "die_num_sides", sides );
+    }
+    const int roll = rng( 1, num_sides );
+    you->add_msg_if_player( _( "You roll a %d on your %d sided %s" ), roll, num_sides, die->tname() );
+    if( roll == num_sides ) {
+        add_msg( m_good, _( "Critical!" ) );
+    }
+    return roll;
+}
+
 int iuse::dive_tank( player *p, item *it, bool t, const tripoint & )
 {
     if( t ) { // Normal use
@@ -4151,7 +4167,7 @@ int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
             const field &gasfield = g->m.field_at( pos );
             for( auto &dfield : gasfield ) {
                 const field_entry &entry = dfield.second;
-                const field_id fid = entry.getFieldType();
+                const field_id fid = entry.get_field_type();
                 switch( fid ) {
                     case fd_smoke:
                         it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + 12 );
@@ -5319,7 +5335,7 @@ int iuse::towel( player *p, item *it, bool t, const tripoint & )
                               it->tname() );
 
         towelUsed = true;
-        it->item_counter = 300;
+        it->item_counter = to_turns<int>( 30_minutes );
 
         // default message
     } else {
@@ -5651,7 +5667,10 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint & )
 
         // can only attach to unmodified tools that use compatible ammo
         return e.is_tool() && e.toolmods().empty() && !e.magazine_current() &&
-               it->type->mod->acceptable_ammo.count( e.ammo_type( false ) );
+               std::any_of( it->type->mod->acceptable_ammo.begin(),
+        it->type->mod->acceptable_ammo.end(), [&]( const ammotype & at ) {
+            return e.ammo_types( false ).count( at );
+        } );
     };
 
     auto loc = g->inv_map_splice( filter, _( "Select tool to modify" ), 1,
@@ -8304,7 +8323,16 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
     if( !p->can_continue_craft( p->weapon ) ) {
         return 0;
     }
-
+    const recipe &rec = it->get_making();
+    if( p->has_recipe( &rec, p->crafting_inventory(), p->get_crafting_helpers() ) == -1 ) {
+        p->add_msg_player_or_npc(
+            string_format( _( "You don't know the recipe for the %s and can't continue crafting." ),
+                           rec.result_name() ),
+            string_format( _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
+                           rec.result_name() )
+        );
+        return 0;
+    }
     p->add_msg_player_or_npc(
         string_format( pgettext( "in progress craft", "You start working on the %s." ), craft_name ),
         string_format( pgettext( "in progress craft", "<npcname> starts working on the %s." ),

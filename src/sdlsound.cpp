@@ -32,7 +32,7 @@
 #include "sdl_wrappers.h"
 #include "sounds.h"
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 using id_and_variant = std::pair<std::string, std::string>;
 struct sound_effect_resource {
@@ -67,6 +67,7 @@ struct music_playlist {
 };
 /** The music we're currently playing. */
 static Mix_Music *current_music = nullptr;
+static int current_music_track_volume = 0;
 static std::string current_playlist;
 static size_t current_playlist_at = 0;
 static size_t absolute_playlist_at = 0;
@@ -208,18 +209,38 @@ void play_music( const std::string &playlist )
     current_playlist_at = playlist_indexes.at( absolute_playlist_at );
 
     const auto &next = list.entries[current_playlist_at];
+    current_music_track_volume = next.volume;
     play_music_file( next.file, next.volume );
+}
+
+void stop_music()
+{
+    Mix_FreeMusic( current_music );
+    Mix_HaltMusic();
+    current_music = nullptr;
+
+    current_playlist.clear();
+    current_playlist_at = 0;
+    absolute_playlist_at = 0;
 }
 
 void update_music_volume()
 {
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 
-    if( !check_sound() ) {
+    if( !sounds::sound_enabled ) {
+        stop_music();
         return;
     }
 
-    Mix_VolumeMusic( get_option<int>( "MUSIC_VOLUME" ) );
+    Mix_VolumeMusic( current_music_track_volume * get_option<int>( "MUSIC_VOLUME" ) / 100 );
+    // Start playing music, if we aren't already doing so (if
+    // SOUND_ENABLED was toggled.)
+
+    // needs to be changed to something other than a static string when
+    // #28018 is resolved, as this function may be called from places
+    // other than the main menu.
+    play_music( "title" );
 }
 
 // Allocate new Mix_Chunk as a null-chunk. Results in a valid, but empty chunk
