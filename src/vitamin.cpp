@@ -56,7 +56,7 @@ void vitamin::load_vitamin( JsonObject &jo )
     vit.excess_ = efftype_id( jo.get_string( "excess", "null" ) );
     vit.min_ = jo.get_int( "min" );
     vit.max_ = jo.get_int( "max", 0 );
-    assign( jo, "rate", vit.rate_, false, 1_turns );
+    vit.rate_ = time_duration::read_from_json_string( *jo.get_raw( "rate" ) );
 
     if( vit.rate_ < 0_turns ) {
         jo.throw_error( "vitamin consumption rate cannot be negative", "rate" );
