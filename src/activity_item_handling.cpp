@@ -399,11 +399,23 @@ static std::list<act_item> convert_to_items( const player &p, const drop_indexes
 // Prepares items for dropping by reordering them so that the drop
 // cost is minimal and "dependent" items get taken off first.
 // Implements the "backpack" logic.
-static std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &drop )
+static std::list<act_item> reorder_for_dropping( const player &p, const player_activity &act )
 {
-    auto res  = convert_to_items( p, drop, -1, -1 );
-    auto inv  = convert_to_items( p, drop, 0, INT_MAX );
-    auto worn = convert_to_items( p, drop, INT_MIN, -2 );
+    std::list<act_item> res;
+    std::list<act_item> inv;
+    std::list<act_item> worn;
+
+    for( const item_location &loc : act.targets ) {
+        const int qty = loc->count_by_charges() ? std::min<int>( loc->charges, loc->count() ) : 1;
+        act_item it( const_cast<item_location &>( loc ), qty, loc.obtain_cost( p ) );
+        if( p.is_wielding( *loc ) ) {
+        res.emplace_back( it );
+        } else if( p.is_worn( *loc ) ) {
+        worn.emplace_back( it );
+        } else {
+            inv.emplace_back( it );
+        }
+    }
 
     // Sort inventory items by volume in ascending order
     inv.sort( []( const act_item & first, const act_item & second ) {
@@ -479,7 +491,7 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
 {
     std::list<item> res;
 
-    std::list<act_item> items = reorder_for_dropping( p, convert_to_indexes( act ) );
+    std::list<act_item> items = reorder_for_dropping( p, act );
 
     debug_drop_list( items );
 
@@ -621,7 +633,7 @@ void activity_on_turn_wear()
 
 void activity_handlers::washing_finish( player_activity *act, player *p )
 {
-    auto items = reorder_for_dropping( *p, convert_to_indexes( *act ) );
+    auto items = reorder_for_dropping( *p, *act );
 
     // Check again that we have enough water and soap incase the amount in our inventory changed somehow
     // Consume the water and soap

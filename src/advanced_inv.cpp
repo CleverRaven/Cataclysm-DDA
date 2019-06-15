@@ -1345,7 +1345,8 @@ bool advanced_inventory::move_all_items( bool nested_call )
                 const item &it = stack.front();
 
                 if( !spane.is_filtered( it ) ) {
-                    ( it.is_favorite ? dropped_favorite : dropped ).emplace_back( item_location( g->u, &g->u.i_at( index ) ),
+                    ( it.is_favorite ? dropped_favorite : dropped ).emplace_back( item_location( g->u,
+                            &g->u.i_at( index ) ),
                             it.count_by_charges() ? static_cast<int>( it.charges ) : static_cast<int>( stack.size() ) );
                 }
             }
@@ -1360,7 +1361,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
             auto iter = g->u.worn.rbegin();
             for( size_t idx = 0; idx < g->u.worn.size(); ++idx, ++iter ) {
                 item &it = *iter;
-                
+
                 if( !spane.is_filtered( it ) ) {
                     dropped.emplace_back( item_location( g->u, &it ), it.count() );
                 }
