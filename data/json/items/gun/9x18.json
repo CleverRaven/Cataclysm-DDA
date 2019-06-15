@@ -41,6 +41,7 @@
     "description": "A version of the Skorpion submachine gun chambered in 9x18mm Makarov, with a slightly longer barrel than the original design.",
     "weight": 1251,
     "ammo": "9x18",
+    "min_cycle_recoil": 270,
     "burst": 15,
     "magazines": [ [ "9x18", [ "skorpion82mag" ] ] ]
   }

@@ -17,6 +17,7 @@
     "skill": "smg",
     "dispersion": 280,
     "durability": 7,
+    "min_cycle_recoil": 540,
     "burst": 20,
     "valid_mod_locations": [
       [ "accessories", 3 ],
@@ -54,6 +55,7 @@
     "ranged_damage": 1,
     "dispersion": 240,
     "durability": 8,
+    "min_cycle_recoil": 540,
     "burst": 10,
     "valid_mod_locations": [
       [ "accessories", 3 ],
@@ -89,6 +91,7 @@
     "ammo": "45",
     "dispersion": 480,
     "durability": 7,
+    "blackpowder_tolerance": 48,
     "magazine_well": 1,
     "magazines": [ [ "45", [ "m1911mag", "m1911bigmag" ] ] ]
   },
@@ -110,6 +113,7 @@
     "skill": "smg",
     "dispersion": 520,
     "durability": 7,
+    "min_cycle_recoil": 540,
     "burst": 18,
     "built_in_mods": [ "wire_stock" ],
     "valid_mod_locations": [
@@ -149,6 +153,7 @@
     "ranged_damage": 1,
     "dispersion": 550,
     "durability": 6,
+    "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
@@ -175,6 +180,8 @@
     "ranged_damage": -4,
     "dispersion": 590,
     "durability": 4,
+    "blackpowder_tolerance": 24,
+    "min_cycle_recoil": 390,
     "modes": [ [ "DEFAULT", "auto", 10 ] ],
     "loudness": 25,
     "barrel_length": 1,
@@ -212,6 +219,7 @@
     "ranged_damage": 2,
     "dispersion": 620,
     "durability": 7,
+    "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 5
   },
@@ -234,6 +242,7 @@
     "ranged_damage": 2,
     "dispersion": 360,
     "durability": 7,
+    "min_cycle_recoil": 540,
     "burst": 10,
     "barrel_length": 2,
     "valid_mod_locations": [

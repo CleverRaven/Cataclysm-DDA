@@ -19,6 +19,7 @@
     "ranged_damage": -1,
     "dispersion": 620,
     "durability": 3,
+    "blackpowder_tolerance": 60,
     "clip_size": 2,
     "reload": 200,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
@@ -41,6 +42,7 @@
     "range": 3,
     "dispersion": 520,
     "durability": 6,
+    "blackpowder_tolerance": 96,
     "clip_size": 4,
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
@@ -63,6 +65,7 @@
     "ranged_damage": 1,
     "dispersion": 550,
     "durability": 6,
+    "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
@@ -89,6 +92,7 @@
     "ranged_damage": -2,
     "dispersion": 480,
     "durability": 10,
+    "blackpowder_tolerance": 56,
     "clip_size": 5,
     "magazines": [ [ "38", [ "38_speedloader5" ] ] ],
     "valid_mod_locations": [
@@ -121,6 +125,8 @@
     "ammo": "38",
     "ranged_damage": -3,
     "dispersion": 590,
+    "blackpowder_tolerance": 24,
+    "min_cycle_recoil": 162,
     "durability": 4,
     "modes": [ [ "DEFAULT", "auto", 10 ] ],
     "loudness": 25,
@@ -158,6 +164,7 @@
     "ammo": [ "357mag", "38" ],
     "dispersion": 320,
     "durability": 10,
+    "blackpowder_tolerance": 56,
     "clip_size": 7,
     "magazines": [ [ "38", [ "38_speedloader" ] ] ],
     "valid_mod_locations": [

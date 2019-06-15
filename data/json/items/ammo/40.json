@@ -40,6 +40,33 @@
     "effects": [ "COOKOFF" ]
   },
   {
+    "id": "bp_10mm",
+    "copy-from": "10mm",
+    "type": "AMMO",
+    "name": "10mm Auto blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.65, "recoil": 0.65, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "bp_40fmj",
+    "copy-from": "40fmj",
+    "type": "AMMO",
+    "name": ".40 S&W FMJ blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.65, "recoil": 0.65, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "bp_40sw",
+    "copy-from": "40sw",
+    "type": "AMMO",
+    "name": ".40 S&W JHP blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.65, "recoil": 0.65, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
     "id": "reloaded_10mm",
     "copy-from": "10mm",
     "type": "AMMO",
