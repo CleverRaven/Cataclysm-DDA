@@ -175,6 +175,8 @@ void spell_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "final_energy_cost", final_energy_cost, base_energy_cost );
     optional( jo, was_loaded, "energy_increment", energy_increment, 0.0f );
 
+    optional( jo, was_loaded, "flags", spell_tags );
+
     std::string temp_string;
     optional( jo, was_loaded, "spell_class", temp_string, "NONE" );
     spell_class = trait_id( temp_string );
@@ -316,6 +318,11 @@ int spell::energy_cost() const
     } else {
         return type->base_energy_cost;
     }
+}
+
+bool spell::has_flag( const std::string &flag ) const
+{
+    return type->spell_tags.count( flag );
 }
 
 bool spell::can_cast( const player &p ) const
