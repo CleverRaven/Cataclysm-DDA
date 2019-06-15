@@ -62,7 +62,7 @@ std::string four_quadrants::to_string() const
                           ( *this )[quadrant::SW], ( *this )[quadrant::NW] );
 }
 
-void map::add_light_from_items( const tripoint &p, map_stack::iterator begin,
+void map::add_light_from_items( const tripoint &p, item_stack::iterator begin,
                                 map_stack::iterator end )
 {
     for( auto itm_it = begin; itm_it != end; ++itm_it ) {

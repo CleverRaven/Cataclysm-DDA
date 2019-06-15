@@ -546,28 +546,30 @@ void activity_on_turn_wear( player_activity &act, player &p )
         act.targets.pop_back();
         act.values.pop_back();
 
-        item *temp_item = target.get_item();
-
-        if( temp_item == nullptr ) {
-            continue; // No such item.
+        if( !target ) {
+            debugmsg( "Lost target item of ACT_WEAR" );
+            continue;
         }
 
-        item leftovers = *temp_item;
+        // Make copies so the original remains untouched if wearing fails
+        item newit = *target;
+        item leftovers = newit;
 
-        if( quantity != 0 && temp_item->count_by_charges() ) {
-            // Reinserting leftovers happens after item removal to avoid stacking issues.
-            leftovers.charges = temp_item->charges - quantity;
+        // Handle charges, quantity == 0 means move all
+        if( quantity != 0 && newit.count_by_charges() ) {
+            leftovers.charges = newit.charges - quantity;
             if( leftovers.charges > 0 ) {
-                temp_item->charges = quantity;
+                newit.charges = quantity;
             }
         } else {
             leftovers.charges = 0;
         }
 
-        // On successful wear remove from map or vehicle, replacing with leftovers if any.
-        if( p.wear_item( *temp_item ) ) {
+        if( p.wear_item( newit ) ) {
+            // If we wore up a whole stack, remove the original item
+            // Otherwise, replace the item with the leftovers
             if( leftovers.charges > 0 ) {
-                *temp_item = std::move( leftovers );
+                *target = std::move( leftovers );
             } else {
                 target.remove_item();
             }
@@ -688,41 +690,38 @@ static void move_items( player &p, const tripoint &relative_dest, bool to_vehicl
         targets.pop_back();
         quantities.pop_back();
 
-        item *temp_item = target.get_item();
-
-        if( temp_item == nullptr ) {
-            continue; // No such item.
+        if( !target ) {
+            debugmsg( "Lost target item of ACT_MOVE_ITEMS" );
+            continue;
         }
 
-        item leftovers = *temp_item;
+        // Don't need to make a copy here since movement can't be canceled
+        item &leftovers = *target;
+        // Make a copy to be put in the destination location
+        item newit = leftovers;
 
-        if( quantity != 0 && temp_item->count_by_charges() ) {
-            // Reinserting leftovers happens after item removal to avoid stacking issues.
-            leftovers.charges = temp_item->charges - quantity;
-            if( leftovers.charges > 0 ) {
-                temp_item->charges = quantity;
-            }
+        // Handle charges, quantity == 0 means move all
+        if( quantity != 0 && newit.count_by_charges() ) {
+            newit.charges = std::min( newit.charges, quantity );
+            leftovers.charges -= quantity;
         } else {
             leftovers.charges = 0;
         }
 
         // Check that we can pick it up.
-        if( !temp_item->made_of_from_type( LIQUID ) ) {
+        if( !newit.made_of_from_type( LIQUID ) ) {
             // This is for hauling across zlevels, remove when going up and down stairs
             // is no longer teleportation
             const tripoint src = target.position();
             int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;
-            p.mod_moves( -Pickup::cost_to_move_item( p, *temp_item ) * distance );
+            p.mod_moves( -Pickup::cost_to_move_item( p, newit ) * distance );
             if( to_vehicle ) {
-                put_into_vehicle_or_drop( p, item_drop_reason::deliberate, { *temp_item }, dest );
+                put_into_vehicle_or_drop( p, item_drop_reason::deliberate, { newit }, dest );
             } else {
-                drop_on_map( p, item_drop_reason::deliberate, { *temp_item }, dest );
+                drop_on_map( p, item_drop_reason::deliberate, { newit }, dest );
             }
-            // Remove from map or vehicle.
-            // If we didn't pick up a whole stack, put the remainder back where it came from.
-            if( leftovers.charges > 0 ) {
-                *target.get_item() = std::move( leftovers );
-            } else {
+            // If we picked up a whole stack, remove the leftover item
+            if( leftovers.charges <= 0 ) {
                 target.remove_item();
             }
         }

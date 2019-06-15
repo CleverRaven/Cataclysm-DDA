@@ -4499,15 +4499,14 @@ static bool process_item( item_stack &items, item_stack::iterator &n, const trip
     std::swap( temp, *n );
 
     // Store a pointer to the target item so we can check if processing destroyed it.
-    const item *const target = &*n;
+    item *const target = &*n;
 
     if( temp.process( nullptr, location, activate, insulation, flag ) ) {
         // Item is to be destroyed so erase the null item in the map stack
         // unless it was already destroyed by processing.
-        if( std::find_if( items.begin(), items.end(), [target]( const item & it ) {
-        return &it == target;
-    } ) != items.end() ) {
-            items.erase( n );
+        item_stack::iterator it = items.get_iterator_from_pointer( target );
+        if( it != items.end() ) {
+            items.erase( it );
         }
         return true;
     } else {

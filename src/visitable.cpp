@@ -659,7 +659,7 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
             sub->update_lum_rem( offset, *iter );
 
             // finally remove the item
-            res.insert( res.end(), *iter );
+            res.push_back( *iter );
             iter = sub->itm[ offset.x ][ offset.y ].erase( iter );
 
             if( --count == 0 ) {
@@ -717,7 +717,7 @@ std::list<item> visitable<vehicle_cursor>::remove_items_with( const
                 cur->veh.active_items.remove( iter, part.mount );
             }
 
-            res.insert( res.end(), *iter );
+            res.push_back( *iter );
             iter = part.items.erase( iter );
 
             if( --count == 0 ) {

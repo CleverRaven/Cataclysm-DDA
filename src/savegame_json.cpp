@@ -3489,10 +3489,9 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
                     return VisitResponse::NEXT;
                 } );
 
+                colony<item>::iterator it = itm[p.x][p.y].insert( tmp );
                 if( tmp.needs_processing() ) {
-                    active_items.add( itm[p.x][p.y].insert( tmp ), p );
-                } else {
-                    itm[p.x][p.y].insert( tmp );
+                    active_items.add( it, p );
                 }
             }
         }
