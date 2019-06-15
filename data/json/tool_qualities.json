@@ -226,5 +226,10 @@
     "type": "tool_quality",
     "id": "FILE",
     "name": "filing"
+  },
+  {
+    "type": "tool_quality",
+    "id": "VICE",
+    "name": "vicing"
   }
 ]
