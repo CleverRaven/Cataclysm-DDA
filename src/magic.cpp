@@ -1462,17 +1462,20 @@ void projectile_attack( const spell &sp, const tripoint &source, const tripoint 
 
 void target_attack( const spell &sp, const tripoint &source, const tripoint &epicenter )
 {
-    damage_targets( sp, spell_effect_area( sp, source, epicenter, spell_effect_blast ) );
+    damage_targets( sp, spell_effect_area( sp, source, epicenter, spell_effect_blast,
+                                           sp.has_flag( "IGNORE_WALLS" ) ) );
 }
 
 void cone_attack( const spell &sp, const tripoint &source, const tripoint &target )
 {
-    damage_targets( sp, spell_effect_area( sp, source, target, spell_effect_cone ) );
+    damage_targets( sp, spell_effect_area( sp, source, target, spell_effect_cone,
+                                           sp.has_flag( "IGNORE_WALLS" ) ) );
 }
 
 void line_attack( const spell &sp, const tripoint &source, const tripoint &target )
 {
-    damage_targets( sp, spell_effect_area( sp, source, target, spell_effect_line ) );
+    damage_targets( sp, spell_effect_area( sp, source, target, spell_effect_line,
+                                           sp.has_flag( "IGNORE_WALLS" ) ) );
 }
 
 void spawn_ethereal_item( spell &sp )
