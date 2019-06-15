@@ -76,7 +76,8 @@
       { "item": "pipe", "prob": 40, "count": [ 5, 10 ] },
       { "item": "wire", "prob": 40, "count": [ 5, 10 ] },
       { "item": "spike", "prob": 40, "count": [ 5, 10 ] },
-      { "item": "nail", "prob": 60, "count": [ 5, 20 ] }
+      { "item": "nail", "prob": 60, "count": [ 5, 20 ] },
+      { "item": "hinge", "prob": 60, "count": [ 5, 10 ] }
     ]
   },
   {
