@@ -538,7 +538,7 @@ class Character : public Creature, public visitable<Character>
          * @param unloading Do not try to add to a container when the item was intentionally unloaded.
          * @return Remaining charges which could not be stored in a container.
          */
-        long int i_add_to_container( const item &it, const bool unloading );
+        int i_add_to_container( const item &it, const bool unloading );
         item &i_add( item it, bool should_stack = true );
 
         /**
@@ -606,7 +606,7 @@ class Character : public Creature, public visitable<Character>
         /**
          * Counts ammo and UPS charges (lower of) for a given gun on the character.
          */
-        long ammo_count_for( const item &gun );
+        int ammo_count_for( const item &gun );
 
         /** Maximum thrown range with a given item, taking all active effects into account. */
         int throw_range( const item & ) const;

@@ -354,7 +354,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         if( it.ammo_types().count( ammotype( "money" ) ) ) {
             //Count charges
             // TODO: transition to the item_location system used for the normal inventory
-            unsigned long charges_total = 0;
+            unsigned int charges_total = 0;
             for( const auto item : sitem.items ) {
                 charges_total += item->charges;
             }
@@ -1683,7 +1683,7 @@ void advanced_inventory::display()
             }
             assert( !sitem->items.empty() );
             const bool by_charges = sitem->items.front()->count_by_charges();
-            long amount_to_move = 0;
+            int amount_to_move = 0;
             if( !query_charges( destarea, *sitem, action, amount_to_move ) ) {
                 continue;
             }
@@ -2125,7 +2125,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
 
     std::string err;
     // TODO: Allow buckets here, but require them to be on the ground or wielded
-    const long amount = dest_container.get_remaining_capacity_for_liquid( src_contents, false, &err );
+    const int amount = dest_container.get_remaining_capacity_for_liquid( src_contents, false, &err );
     if( !err.empty() ) {
         popup( err );
         return false;
@@ -2157,7 +2157,7 @@ units::volume advanced_inv_area::free_volume( bool in_vehicle ) const
 }
 
 bool advanced_inventory::query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
-                                        const std::string &action, long &amount )
+                                        const std::string &action, int &amount )
 {
     assert( destarea != AIM_ALL ); // should be a specific location instead
     assert( !sitem.items.empty() ); // valid item is obviously required
@@ -2166,8 +2166,8 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     const bool by_charges = it.count_by_charges();
     const units::volume free_volume = p.free_volume( panes[dest].in_vehicle() );
     // default to move all, unless if being equipped
-    const long input_amount = by_charges ? it.charges :
-                              ( action == "MOVE_SINGLE_ITEM" ) ? 1 : sitem.stacks;
+    const int input_amount = by_charges ? it.charges :
+                             ( action == "MOVE_SINGLE_ITEM" ) ? 1 : sitem.stacks;
     assert( input_amount > 0 ); // there has to be something to begin with
     amount = input_amount;
 
@@ -2179,7 +2179,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     }
 
     // Check volume, this should work the same for inventory, map and vehicles, but not for worn
-    const long room_for = it.charges_per_volume( free_volume );
+    const int room_for = it.charges_per_volume( free_volume );
     if( amount > room_for && squares[destarea].id != AIM_WORN ) {
         if( room_for <= 0 ) {
             popup( _( "Destination area is full.  Remove some items first." ) );
@@ -2192,7 +2192,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     if( destarea != AIM_INVENTORY &&
         destarea != AIM_WORN &&
         destarea != AIM_CONTAINER ) {
-        const long cntmax = p.max_size - p.get_item_count();
+        const int cntmax = p.max_size - p.get_item_count();
         // For items counted by charges, adding it adds 0 items if something there stacks with it.
         const bool adds0 = by_charges && std::any_of( panes[dest].items.begin(), panes[dest].items.end(),
         [&it]( const advanced_inv_listitem & li ) {
@@ -2215,7 +2215,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         const units::mass max_weight = g->u.has_trait( trait_id( "DEBUG_STORAGE" ) ) ?
                                        units::mass_max : g->u.weight_capacity() * 4 - g->u.weight_carried();
         if( unitweight > 0_gram && ( unitweight * amount > max_weight ) ) {
-            const long weightmax = max_weight / unitweight;
+            const int weightmax = max_weight / unitweight;
             if( weightmax <= 0 ) {
                 popup( _( "This is too heavy!" ) );
                 redraw = true;
@@ -2228,7 +2228,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     if( destarea == AIM_WORN ) {
         const auto &id = sitem.items.front()->typeId();
         // how many slots are available for the item?
-        const long slots_available = MAX_WORN_PER_TYPE - g->u.amount_worn( id );
+        const int slots_available = MAX_WORN_PER_TYPE - g->u.amount_worn( id );
         // base the amount to equip on amount of slots available
         amount = std::min( slots_available, input_amount );
     }
@@ -2245,7 +2245,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
             popupmsg = string_format( msg, amount, count );
         }
         // At this point amount contains the maximal amount that the destination can hold.
-        const long possible_max = std::min( input_amount, amount );
+        const int possible_max = std::min( input_amount, amount );
         if( amount <= 0 ) {
             popup( _( "The destination is already full!" ) );
         } else {
@@ -2253,7 +2253,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
                      .title( popupmsg )
                      .width( 20 )
                      .only_digits( true )
-                     .query_long();
+                     .query_int();
         }
         if( amount <= 0 ) {
             redraw = true;

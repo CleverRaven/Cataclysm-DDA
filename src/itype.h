@@ -982,16 +982,16 @@ struct itype {
          * Number of (charges of) this type of item that fit into the given volume.
          * May return 0 if not even one charge fits into the volume.
          */
-        long charges_per_volume( const units::volume &vol ) const;
+        int charges_per_volume( const units::volume &vol ) const;
 
         bool has_use() const;
         bool can_use( const std::string &iuse_name ) const;
         const use_function *get_use( const std::string &iuse_name ) const;
 
         // Here "invoke" means "actively use". "Tick" means "active item working"
-        long invoke( player &p, item &it, const tripoint &pos ) const; // Picks first method or returns 0
-        long invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const;
-        long tick( player &p, item &it, const tripoint &pos ) const;
+        int invoke( player &p, item &it, const tripoint &pos ) const; // Picks first method or returns 0
+        int invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const;
+        int tick( player &p, item &it, const tripoint &pos ) const;
 
         virtual ~itype() = default;
 };
