@@ -633,9 +633,7 @@ void mutation_branch::load_trait_group( JsonArray &entries, const trait_group::T
             JsonArray subarr = entries.next_array();
 
             trait_id id( subarr.get_string( 0 ) );
-            std::unique_ptr<Trait_creation_data> ptr(
-                new Single_trait_creator( id, subarr.get_int( 1 ) ) );
-            tg.add_entry( ptr );
+            tg.add_entry( std::make_unique<Single_trait_creator>( id, subarr.get_int( 1 ) ) );
             // Otherwise load new format {"trait": ... } or {"group": ...}
         } else {
             JsonObject subobj = entries.next_object();
@@ -721,7 +719,7 @@ void mutation_branch::add_entry( Trait_group &tg, JsonObject &obj )
             JsonObject job2 = jarr.next_object();
             add_entry( tg2, job2 );
         }
-        tg.add_entry( ptr );
+        tg.add_entry( std::move( ptr ) );
         return;
     }
 
@@ -737,7 +735,7 @@ void mutation_branch::add_entry( Trait_group &tg, JsonObject &obj )
         return;
     }
 
-    tg.add_entry( ptr );
+    tg.add_entry( std::move( ptr ) );
 }
 
 std::shared_ptr<Trait_group> mutation_branch::get_group( const trait_group::Trait_group_tag &gid )

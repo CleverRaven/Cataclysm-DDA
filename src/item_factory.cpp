@@ -53,7 +53,7 @@ static std::set<std::string> repair_actions;
 
 static DynamicDataLoader::deferred_json deferred;
 
-std::unique_ptr<Item_factory> item_controller( new Item_factory() );
+std::unique_ptr<Item_factory> item_controller = std::make_unique<Item_factory>();
 
 static const std::string calc_category( const itype &obj );
 static void set_allergy_flags( itype &item_template );
