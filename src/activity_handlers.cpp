@@ -2561,9 +2561,9 @@ void activity_handlers::pickup_do_turn( player_activity *, player * )
     activity_on_turn_pickup();
 }
 
-void activity_handlers::wear_do_turn( player_activity *, player * )
+void activity_handlers::wear_do_turn( player_activity *act, player *p )
 {
-    activity_on_turn_wear();
+    activity_on_turn_wear( *act, *p );
 }
 
 // This activity opens the menu (it's not meant to queue consumption of items)
@@ -2587,9 +2587,9 @@ void activity_handlers::consume_meds_menu_do_turn( player_activity *, player * )
     g->eat( game_menus::inv::consume_meds );
 }
 
-void activity_handlers::move_items_do_turn( player_activity *, player * )
+void activity_handlers::move_items_do_turn( player_activity *act, player *p )
 {
-    activity_on_turn_move_items();
+    activity_on_turn_move_items( *act, *p );
 }
 
 void activity_handlers::move_loot_do_turn( player_activity *act, player *p )

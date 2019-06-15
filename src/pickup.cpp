@@ -17,6 +17,7 @@
 #include "game.h"
 #include "input.h"
 #include "item_search.h"
+#include "item_location.h"
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
@@ -28,6 +29,7 @@
 #include "translations.h"
 #include "ui.h"
 #include "vehicle.h"
+#include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
 #include "character.h"
@@ -48,13 +50,9 @@ using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
 
 // Pickup helper functions
-static bool pick_one_up( const tripoint &pickup_target, item &newit,
-                         vehicle *veh, int cargo_part, int index, int quantity,
-                         bool &got_water, bool &offered_swap,
+static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offered_swap,
                          PickupMap &mapPickup, bool autopickup );
 
-static void remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int cargo_part,
-                                        int moves_taken, int curmit );
 static void show_pickup_message( const PickupMap &mapPickup );
 
 struct pickup_count {
@@ -171,15 +169,18 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
 }
 
 // Returns false if pickup caused a prompt and the player selected to cancel pickup
-bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
-                  int cargo_part, int index, int quantity, bool &got_water,
-                  bool &offered_swap, PickupMap &mapPickup, bool autopickup )
+bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offered_swap,
+                  PickupMap &mapPickup, bool autopickup )
 {
     player &u = g->u;
     int moves_taken = 100;
     bool picked_up = false;
     pickup_answer option = CANCEL;
+
+    // We already checked in do_pickup if this was a nullptr
+    item &newit = *loc.get_item();
     item leftovers = newit;
+
     const auto wield_check = u.can_wield( newit );
     if( newit.has_owner() &&
         newit.get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ) {
@@ -285,72 +286,44 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
     }
 
     if( picked_up ) {
-        remove_from_map_or_vehicle( pickup_target, veh, cargo_part, moves_taken, index );
-    }
-    if( leftovers.charges > 0 ) {
-        bool to_map = veh == nullptr;
-        if( !to_map ) {
-            to_map = !veh->add_item( cargo_part, leftovers );
+        if( leftovers.charges > 0 ) {
+            *loc.get_item() = std::move( leftovers );
+        } else {
+            loc.remove_item();
         }
-        if( to_map ) {
-            g->m.add_item_or_charges( pickup_target, leftovers );
-        }
+        g->u.moves -= moves_taken;
     }
 
     return picked_up || !did_prompt;
 }
 
-bool Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
-                        std::list<int> &indices, std::list<int> &quantities, bool autopickup )
+bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &quantities,
+                        bool autopickup )
 {
     bool got_water = false;
-    int cargo_part = -1;
-    vehicle *veh = nullptr;
     bool weight_is_okay = ( g->u.weight_carried() <= g->u.weight_capacity() );
     bool volume_is_okay = ( g->u.volume_carried() <= g->u.volume_capacity() );
     bool offered_swap = false;
-    // Convert from player-relative to map-relative.
-    tripoint pickup_target = pickup_target_arg + g->u.pos();
+
     // Map of items picked up so we can output them all at the end and
     // merge dropping items with the same name.
     PickupMap mapPickup;
 
-    if( from_vehicle ) {
-        const cata::optional<vpart_reference> vp = g->m.veh_at( pickup_target ).part_with_feature( "CARGO",
-                false );
-        if( !vp ) {
-            // Can't find the vehicle! bail out.
-            add_msg( m_info, _( "Lost track of vehicle." ) );
-            return false;
-        }
-        veh = &vp->vehicle();
-        cargo_part = vp->part_index();
-    }
-
     bool problem = false;
-    while( !problem && g->u.moves >= 0 && !indices.empty() ) {
-        // Pulling from the back of the (in-order) list of indices insures
-        // that we pull from the end of the vector.
-        int index = indices.back();
+    while( !problem && g->u.moves >= 0 && !targets.empty() ) {
+        item_location target = std::move( targets.back() );
         int quantity = quantities.back();
         // Whether we pick the item up or not, we're done trying to do so,
         // so remove it from the list.
-        indices.pop_back();
+        targets.pop_back();
         quantities.pop_back();
 
-        item *target = nullptr;
-        if( from_vehicle ) {
-            target = g->m.item_from( veh, cargo_part, index );
-        } else {
-            target = g->m.item_from( pickup_target, index );
+        if( target.get_item() == nullptr ) {
+            // This should probably never happen, but let's try and be safe
+            continue;
         }
 
-        if( target == nullptr ) {
-            continue; // No such item.
-        }
-
-        problem = !pick_one_up( pickup_target, *target, veh, cargo_part, index, quantity,
-                                got_water, offered_swap, mapPickup, autopickup );
+        problem = !pick_one_up( target, quantity, got_water, offered_swap, mapPickup, autopickup );
     }
 
     if( !mapPickup.empty() ) {
@@ -463,10 +436,13 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     // Not many items, just grab them
     if( static_cast<int>( here.size() ) <= min && min != -1 ) {
         g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
-        g->u.activity.placement = p - g->u.pos();
-        g->u.activity.values.push_back( from_vehicle );
-        // Only one item means index is 0.
-        g->u.activity.values.push_back( 0 );
+        if( from_vehicle ) {
+            item *target = &veh->get_items( cargo_part ).front();
+            g->u.activity.targets.emplace_back( vehicle_cursor( *veh, cargo_part ), target );
+        } else {
+            item *target = &g->m.i_at( p ).front();
+            g->u.activity.targets.emplace_back( map_cursor( p ), target );
+        }
         // auto-pickup means pick up all.
         g->u.activity.values.push_back( 0 );
         return;
@@ -940,8 +916,6 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
     // At this point we've selected our items, register an activity to pick them up.
     g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
-    g->u.activity.placement = p - g->u.pos();
-    g->u.activity.values.push_back( from_vehicle );
     if( min == -1 ) {
         // Auto pickup will need to auto resume since there can be several of them on the stack.
         g->u.activity.auto_resume = true;
@@ -977,24 +951,34 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     // The pickup activity picks up items last-to-first from its values list, so make sure the
     // higher indices are at the end.
     std::sort( pick_values.begin(), pick_values.end() );
-    for( auto &it : pick_values ) {
-        g->u.activity.values.push_back( it.first );
-        g->u.activity.values.push_back( it.second );
+
+    item_stack::iterator stack_it;
+    if( from_vehicle ) {
+        stack_it = veh->get_items( cargo_part ).begin();
+    } else {
+        stack_it = g->m.i_at( p ).begin();
+    }
+
+    int sum_of_indexes = 0;
+    for( auto &idx_qty : pick_values ) {
+        // It is only ok to index a colony like this because we know it hasn't been modified since
+        // the creation of these indexes and the indexes are therefore still valid
+        std::advance( stack_it, idx_qty.first - sum_of_indexes );
+        sum_of_indexes += idx_qty.first;
+
+        item *target = &*stack_it;
+
+        if( from_vehicle ) {
+            g->u.activity.targets.emplace_back( vehicle_cursor( *veh, cargo_part ), target );
+        } else {
+            item *target = &g->m.i_at( p ).front();
+            g->u.activity.targets.emplace_back( map_cursor( p ), target );
+        }
+
+        g->u.activity.values.push_back( idx_qty.second );
     }
 
     g->reenter_fullscreen();
-}
-
-//helper function for Pickup::pick_up (singular item)
-void remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int cargo_part,
-                                 int moves_taken, int curmit )
-{
-    if( veh != nullptr ) {
-        veh->remove_item( cargo_part, curmit );
-    } else {
-        g->m.i_rem( pos, curmit );
-    }
-    g->u.moves -= moves_taken;
 }
 
 //helper function for Pickup::pick_up

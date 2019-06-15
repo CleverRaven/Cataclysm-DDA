@@ -65,6 +65,21 @@ item_stack::const_reverse_iterator item_stack::rend() const
     return items->crend();
 }
 
+item_stack::iterator item_stack::get_iterator_from_pointer( item *it )
+{
+    return items->get_iterator_from_pointer( it );
+}
+
+item_stack::iterator item_stack::get_iterator_from_index( size_t idx )
+{
+    return items->get_iterator_from_index( idx );
+}
+
+size_t item_stack::get_index_from_iterator( const const_iterator &it )
+{
+    return items->get_index_from_iterator( it );
+}
+
 item &item_stack::front()
 {
     return *items->begin();

@@ -2993,9 +2993,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
 
         case REMOVE_CONTAINER: {
             g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
-            g->u.activity.placement = examp - p.pos();
-            g->u.activity.values.push_back( false );
-            g->u.activity.values.push_back( 0 );
+            g->u.activity.targets.emplace_back( map_cursor( examp ), &g->m.i_at( examp ).front() );
             g->u.activity.values.push_back( 0 );
             return;
         }
@@ -3276,9 +3274,7 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
         if( p.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name(), amount_in_furn,
                         ammo->nname( amount_in_furn ) ) ) {
             p.assign_activity( activity_id( "ACT_PICKUP" ) );
-            p.activity.placement = examp - p.pos();
-            p.activity.values.push_back( false );
-            p.activity.values.push_back( 0 );
+            p.activity.targets.emplace_back( map_cursor( examp ), &g->m.i_at( examp ).front() );
             p.activity.values.push_back( 0 );
             return;
         }

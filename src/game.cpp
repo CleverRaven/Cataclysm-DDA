@@ -8967,27 +8967,7 @@ bool game::walk_move( const tripoint &dest_loc )
                            "misc", "rattling" );
         }
     }
-    if( u.is_hauling() ) {
-        u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
-        // Whether the source is inside a vehicle (not supported)
-        u.activity.values.push_back( 0 );
-        // Whether the destination is inside a vehicle (not supported)
-        u.activity.values.push_back( 0 );
-        // Source relative to the player
-        u.activity.placement = u.pos() - dest_loc;
-        // Destination relative to the player
-        u.activity.coords.push_back( tripoint_zero );
-        map_stack items = m.i_at( u.pos() );
-        if( items.empty() ) {
-            u.stop_hauling();
-        }
-        int index = 0;
-        for( auto it = items.begin(); it != items.end(); ++index, ++it ) {
-            int amount = it->count();
-            u.activity.values.push_back( index );
-            u.activity.values.push_back( amount );
-        }
-    }
+
     if( m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, dest_loc ) ) {
         add_msg( m_good, _( "You are hiding in the %s." ), m.name( dest_loc ) );
     }
@@ -8996,7 +8976,9 @@ bool game::walk_move( const tripoint &dest_loc )
         u.lifetime_stats.squares_walked++;
     }
 
+    tripoint oldpos = u.pos();
     point submap_shift = place_player( dest_loc );
+    oldpos = tripoint( oldpos.x - submap_shift.x * SEEX, oldpos.y - submap_shift.y * SEEX, oldpos.z );
 
     if( pulling ) {
         const tripoint shifted_furn_pos = tripoint( furn_pos.x - submap_shift.x * SEEX,
@@ -9008,6 +8990,23 @@ bool game::walk_move( const tripoint &dest_loc )
         m.remove_field( shifted_furn_pos, fd_fire );
         m.set_field_strength( shifted_furn_dest, fd_fire, fire_str );
         m.set_field_age( shifted_furn_dest, fd_fire, fire_age );
+    }
+
+    if( u.is_hauling() ) {
+        u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
+        // Whether the destination is inside a vehicle (not supported)
+        u.activity.values.push_back( 0 );
+        // Destination relative to the player
+        u.activity.coords.push_back( tripoint_zero );
+        map_stack items = m.i_at( oldpos );
+        if( items.empty() ) {
+            u.stop_hauling();
+        }
+        for( item &it : items ) {
+            u.activity.targets.emplace_back( map_cursor( oldpos ), &it );
+            // Quantity of 0 means move all
+            u.activity.values.push_back( 0 );
+        }
     }
 
     on_move_effects();
@@ -10108,23 +10107,18 @@ void game::vertical_move( int movez, bool force )
 
     if( u.is_hauling() ) {
         u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
-        // Whether the source is inside a vehicle (not supported)
-        u.activity.values.push_back( 0 );
         // Whether the destination is inside a vehicle (not supported)
         u.activity.values.push_back( 0 );
-        // Source relative to the player
-        u.activity.placement = adjusted_pos - u.pos();
         // Destination relative to the player
         u.activity.coords.push_back( tripoint_zero );
         map_stack items = m.i_at( adjusted_pos );
         if( items.empty() ) {
             u.stop_hauling();
         }
-        int index = 0;
-        for( auto it = items.begin(); it != items.end(); ++index, ++it ) {
-            int amount = it->count();
-            u.activity.values.push_back( index );
-            u.activity.values.push_back( amount );
+        for( item &it : items ) {
+            u.activity.targets.emplace_back( map_cursor( adjusted_pos ), &it );
+            // Quantitu of 0 means move all
+            u.activity.values.push_back( 0 );
         }
     }
 

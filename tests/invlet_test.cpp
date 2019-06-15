@@ -217,13 +217,14 @@ static void drop_at_feet( player &p, const int pos )
 
 static void pick_up_from_feet( player &p, int pos )
 {
-    auto size_before = g->m.i_at( p.pos() ).size();
+    map_stack items = g->m.i_at( p.pos() );
+    size_t size_before = items.size();
     REQUIRE( size_before > pos );
     p.moves = 100;
     p.assign_activity( activity_id( "ACT_PICKUP" ) );
-    p.activity.placement = tripoint( 0, 0, 0 );
-    p.activity.values.push_back( false );   // not from vehicle
-    p.activity.values.push_back( pos );     // index of item to pick up
+    // This is a hack to avoid rewriting this test case after changes to how items are stored
+    // TODO: Refactor this to use item_locations instead of indexes (which are unstable)
+    p.activity.targets.emplace_back( map_cursor( p.pos() ), &*items.get_iterator_from_index( pos ) );
     p.activity.values.push_back( 0 );
     p.activity.do_turn( p );
     REQUIRE( g->m.i_at( p.pos() ).size() == size_before - 1 );
