@@ -32,22 +32,6 @@
     "components": [ [ [ "chem_black_powder", 3 ] ], [ [ "copper", 1 ] ] ]
   },
   {
-    "result": "bp_10mm",
-    "type": "recipe",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_PISTOL",
-    "skill_used": "fabrication",
-    "difficulty": 5,
-    "skills_required": [ "gun", 5 ],
-    "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 4 ] ],
-    "charges": 1,
-    "reversible": true,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [ [ [ "40_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "chem_black_powder", 5 ] ] ]
-  },
-  {
     "result": "bp_40fmj",
     "type": "recipe",
     "category": "CC_AMMO",
