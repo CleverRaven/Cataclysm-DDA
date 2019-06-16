@@ -302,7 +302,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_380", 1 ] ],
     "components": [ [ [ "chem_black_powder", 2 ] ], [ [ "copper", 1 ] ] ]
-  }
+  },
   {
     "result": "36navy",
     "type": "recipe",

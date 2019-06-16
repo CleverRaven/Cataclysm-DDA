@@ -33,6 +33,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "magazine_well": 2,
     "magazines": [ [ "45", [ "tdi_mag" ] ] ]
   },
@@ -71,6 +72,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "magazines": [ [ "45", [ "ump45mag" ] ] ]
   },
   {
@@ -130,6 +132,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "magazine_well": 1,
     "magazines": [ [ "45", [ "mac10mag" ] ] ]
   },
@@ -159,6 +162,7 @@
     "reload": 200,
     "barrel_length": 3,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "flags": [ "RELOAD_EJECT" ]
   },
   {
@@ -259,6 +263,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "magazines": [ [ "45", [ "thompson_mag", "thompson_bigmag", "thompson_drum" ] ] ]
   },
   {

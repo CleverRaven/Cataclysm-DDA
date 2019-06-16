@@ -23,6 +23,7 @@
     "clip_size": 2,
     "reload": 200,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ]
   },
   {
@@ -211,6 +212,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "magazine_well": 1,
     "magazines": [ [ "38", [ "taurus38mag" ] ] ]
   }

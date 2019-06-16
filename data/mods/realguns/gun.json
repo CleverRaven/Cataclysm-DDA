@@ -16,6 +16,7 @@
     "ammo": "38",
     "dispersion": 360,
     "durability": 8,
+    "blackpowder_tolerance": 56,
     "clip_size": 6,
     "magazines": [ [ "38", [ "38_speedloader" ] ] ]
   },

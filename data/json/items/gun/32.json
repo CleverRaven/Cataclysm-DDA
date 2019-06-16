@@ -31,6 +31,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "magazine_well": 1,
     "magazines": [ [ "32", [ "sigp230mag" ] ] ]
   },
@@ -70,6 +71,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "magazines": [ [ "32", [ "skorpion61mag" ] ] ]
   },
   {
@@ -104,6 +106,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "magazine_well": 1,
     "magazines": [ [ "32", [ "ppkmag" ] ] ]
   },

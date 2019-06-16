@@ -32,6 +32,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "magazine_well": 1,
     "magazines": [ [ "44", [ "deaglemag" ] ] ]
   },

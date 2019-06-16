@@ -34,6 +34,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "magazines": [ [ "762x25", [ "ppshmag", "ppshdrum" ] ] ]
   },
   {

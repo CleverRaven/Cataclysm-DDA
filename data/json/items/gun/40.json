@@ -33,6 +33,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "magazine_well": 1,
     "magazines": [ [ "40", [ "glock40mag", "glock40bigmag" ] ] ]
   },
@@ -95,6 +96,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "magazine_well": 1,
     "magazines": [ [ "40", [ "sig40mag" ] ] ]
   },
@@ -169,6 +171,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
