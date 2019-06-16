@@ -4109,7 +4109,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-            item bionic_to_uninstall;
+
             std::vector<itype_id> bionic_types;
             std::vector<std::string> bionic_names;
 
@@ -4120,20 +4120,32 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                         const auto &bio_data = bio.info();
                         bionic_names.push_back( bio_data.name );
                         bionic_types.push_back( bio.id.str() );
-                        if( item::type_is_defined( bio.id.str() ) ) {
-                            bionic_to_uninstall = item( bio.id.str(), 0 );
+
+                        if( item::type_is_defined( bio.id.str() ) ) {// put cbm items in your inventory
+                            item bionic_to_uninstall( bio.id.str(), calendar::turn );
+                            bionic_to_uninstall.set_flag( "IN_CBM" );
+                            g->u.i_add( bionic_to_uninstall );
                         }
                     }
                 }
             }
 
-            int bionic_index = uilist( _( "Choose bionic to uninstall" ), bionic_names );
-            if( bionic_index < 0 ) {
+            const item_location bionic = game_menus::inv::uninstall_bionic( p, patient );
+            if( !bionic ) {
+                g->u.remove_items_with( []( const item & it ) {// remove cbm items from inventory
+                    return it.has_flag( "IN_CBM" );
+                } );
                 return;
             }
+            const item *it = bionic.get_item();
+            const itype *itemtype = it->type;
+            const bionic_id &bid = itemtype->bionic->id;
 
-            const itype *itemtype = bionic_to_uninstall.type;
-            // Malfunctioning bionics don't have associated items and get a difficulty of 12
+            g->u.remove_items_with( []( const item & it ) {// remove cbm items from inventory
+                return it.has_flag( "IN_CBM" );
+            } );
+
+            // Malfunctioning bionics that don't have associated items and get a difficulty of 12
             const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
             const time_duration duration = difficulty * 20_minutes;
             const float volume_anesth = difficulty * 20 * 2; // 2ml/min
@@ -4147,7 +4159,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-            if( patient.can_uninstall_bionic( bionic_id( bionic_types[bionic_index] ), installer, true ) ) {
+            if( patient.can_uninstall_bionic( bid, installer, true ) ) {
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 if( needs_anesthesia ) {
                     if( acomps.empty() ) { // consume obsolete anesthesia first
@@ -4157,7 +4169,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     }
 
                 }
-                patient.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), installer, true );
+                patient.uninstall_bionic( bid, installer, true );
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
             }
             break;
