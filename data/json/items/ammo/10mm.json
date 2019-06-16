@@ -3,7 +3,7 @@
     "id": "10mm_fmj",
     "type": "AMMO",
     "name": "10mm Auto FMJ",
-    "description": "A jacketed 10mm Auto round.  While the 10mm Auto cartridge never achieved the popularity of its smaller relative it remains relatively common in revolvers.",
+    "description": "A jacketed 10mm Auto round.  The 10mm Auto cartridge is a rather powerful handgun round and the progenitor to the more popular .40 S&W.",
     "weight": 9,
     "volume": 1,
     "price": 2800,
