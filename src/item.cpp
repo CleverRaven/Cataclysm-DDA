@@ -1441,6 +1441,12 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                        at->name() );
                         info.emplace_back( "GUN", _( "<bold>Capacity:</bold> " ), fmt, iteminfo::no_flags,
                                            mod->ammo_capacity() );
+                    } else {
+                        auto fmt = string_format(
+                                       ngettext( "<num> round of %s", "<num> rounds of %s", mod->ammo_capacity() ),
+                                       at->name() );
+                        info.emplace_back( "GUN", _( "<bold>Capacity:</bold> " ), fmt, iteminfo::no_flags,
+                                           mod->ammo_capacity() );
                     }
                 }
             }
