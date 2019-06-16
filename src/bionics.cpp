@@ -1169,10 +1169,10 @@ int bionic_manip_cos( float adjusted_skill, bool autodoc, int bionic_difficulty 
     return chance_of_success;
 }
 
-bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc,
-                               int skill_level )
+bool player::can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc,
+                                   int skill_level )
 {
-    // malfunctioning bionics don't have associated items and get a difficulty of 12
+    // if malfunctioning bionics doesn't have associated item it gets a difficulty of 12
     int difficulty = 12;
     if( item::type_is_defined( b_id.c_str() ) ) {
         auto type = item::find_type( b_id.c_str() );
@@ -1235,6 +1235,31 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
             return false;
         }
     }
+
+    return true;
+}
+
+bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc,
+                               int skill_level )
+{
+    // if malfunctioning bionics doesn't have associated item it gets a difficulty of 12
+    int difficulty = 12;
+    if( item::type_is_defined( b_id.c_str() ) ) {
+        auto type = item::find_type( b_id.c_str() );
+        if( type->bionic ) {
+            difficulty = type->bionic->difficulty;
+        }
+    }
+
+    int assist_bonus = installer.get_effect_int( effect_assisted );
+
+    // removal of bionics adds +2 difficulty over installation
+    float adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
+                           skilll_computer,
+                           skilll_electronics,
+                           skill_level );
+    int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, autodoc, difficulty + 2 );
+
     // Surgery is imminent, retract claws or blade if active
     for( size_t i = 0; i < installer.my_bionics->size(); i++ ) {
         const auto &bio = ( *installer.my_bionics )[ i ];

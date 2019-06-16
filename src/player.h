@@ -342,6 +342,9 @@ class player : public Character
                               int skill_level = -1 );
         void bionics_install_failure( player &installer, int difficulty, int success,
                                       float adjusted_skill );
+        /**Is The uninstallation possible*/
+        bool can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
+                                   int skill_level = -1 );
         /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
         bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                int skill_level = -1 );
