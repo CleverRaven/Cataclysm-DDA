@@ -44,6 +44,8 @@
 #include "units.h"
 #include "type_id.h"
 
+const efftype_id effect_assisted( "assisted" );
+
 const skill_id skill_computer( "computer" );
 const skill_id skill_electronics( "electronics" );
 const skill_id skill_firstaid( "firstaid" );
@@ -1573,6 +1575,7 @@ class bionic_install_preset: public inventory_selector_preset
             const int difficulty = itemtype->bionic->difficulty;
             int chance_of_failure = 100;
             player &installer = p;
+            const int assist_bonus = installer.get_effect_int( effect_assisted );
 
             const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
                                        skill_computer,
@@ -1583,7 +1586,7 @@ class bionic_install_preset: public inventory_selector_preset
                 g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
                 chance_of_failure = 0;
             } else {
-                float skill_difficulty_parameter = static_cast<float>( adjusted_skill /
+                float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /
                                                    ( 4.0 * difficulty ) );
                 chance_of_failure = 100 - static_cast<int>( ( 100 * skill_difficulty_parameter ) /
                                     ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
@@ -1687,9 +1690,11 @@ class bionic_uninstall_preset : public inventory_selector_preset
         std::string get_failure_chance( const item_location &loc ) {
             const item *it = loc.get_item();
             const itype *itemtype = it->type;
-            const int difficulty = itemtype->bionic->difficulty;
+            // Uninstall difficulty gets a +2
+            const int difficulty = itemtype->bionic->difficulty + 2;
             int chance_of_failure = 100;
             player &installer = p;
+            const int assist_bonus = installer.get_effect_int( effect_assisted );
 
             const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
                                        skill_computer,
@@ -1700,7 +1705,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
                 g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
                 chance_of_failure = 0;
             } else {
-                float skill_difficulty_parameter = static_cast<float>( adjusted_skill /
+                float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /
                                                    ( 4.0 * difficulty ) );
                 chance_of_failure = 100 - static_cast<int>( ( 100 * skill_difficulty_parameter ) /
                                     ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
