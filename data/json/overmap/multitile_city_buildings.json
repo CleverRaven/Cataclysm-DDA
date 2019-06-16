@@ -1232,6 +1232,16 @@
   },
   {
     "type": "city_building",
+    "id": "headshop",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "headshop_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "headshop_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "headshop_upper_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "abandonedwarehouse",
     "locations": [ "land" ],
     "overmaps": [

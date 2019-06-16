@@ -2007,6 +2007,30 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "headshop",
+    "copy-from": "generic_city_building",
+    "name": "Head Shop",
+    "sym": "0",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "headshop_roof",
+    "copy-from": "generic_city_building",
+    "name": "head shop roof",
+    "sym": "0",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "headshop_upper_roof",
+    "copy-from": "generic_city_building",
+    "name": "head shop roof",
+    "sym": "0",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "abstorefront",
     "name": "abandoned storefront",
     "copy-from": "generic_city_building",
