@@ -2184,7 +2184,7 @@ static void mx_roadworks( map &m, const tripoint &abs_sub )
 
 static void mx_mayhem( map &m, const tripoint &abs_sub )
 {
-    switch( rng( 3, 3 ) ) {
+    switch( rng( 1, 3 ) ) {
         //Car accident resulted in a shootout with two victims
         case 1: {
             m.add_vehicle( vproto_id( "car" ), 18, 9, 270 );
@@ -2202,7 +2202,6 @@ static void mx_mayhem( map &m, const tripoint &abs_sub )
 
             m.add_splatter_trail( fd_blood, { 16, 3, abs_sub.z }, { 23, 1, abs_sub.z } );
             m.add_corpse( { 23, 1, abs_sub.z } );
-
             break;
         }
         //Some cocky moron with friends got dragged out of limo and shooted down by a military
