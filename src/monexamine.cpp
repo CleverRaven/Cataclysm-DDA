@@ -134,7 +134,7 @@ bool monexamine::pet_menu( monster &z )
         amenu.addentry( mount, false, 'r', _( "%s is too small to carry your weight" ), pet_name );
     } else if( g->u.get_skill_level( skill_survival ) < 1 ) {
         amenu.addentry( mount, false, 'r', _( "You have no knowledge of riding at all" ) );
-    } else if( g->u.get_weight() >= z.get_weight() / 4 ) {
+    } else if( g->u.get_weight() >= z.get_weight() / 5 ) {
         amenu.addentry( mount, false, 'r', _( "You are too heavy to mount %s" ), pet_name );
     } else if( !z.has_effect( effect_saddled ) && g->u.get_skill_level( skill_survival ) < 4 ) {
         amenu.addentry( mount, false, 'r', _( "You are not skilled enough to ride without a saddle" ) );
@@ -410,7 +410,7 @@ bool monexamine::give_items_to( monster &z )
     const auto items_to_stash = game_menus::inv::multidrop( g->u );
     if( !items_to_stash.empty() ) {
         g->u.drop( items_to_stash, z.pos(), true );
-        z.add_effect( effect_controlled, 40_turns );
+        z.add_effect( effect_controlled, 5_turns );
         return true;
     }
     return false;
