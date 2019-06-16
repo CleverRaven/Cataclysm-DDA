@@ -2975,7 +2975,7 @@ int player::read_speed( bool return_stat_effect ) const
     // Stat window shows stat effects on based on current stat
     const int intel = get_int();
     /** @EFFECT_INT increases reading speed */
-    int ret = to_moves<int>( 1_minutes ) - to_moves<int>( 30_seconds ) * ( intel - 8 );
+    int ret = to_moves<int>( 1_minutes ) - to_moves<int>( 3_seconds ) * ( intel - 8 );
 
     if( has_bionic( afs_bio_linguistic_coprocessor ) ) { // Aftershock
         ret *= .85;
