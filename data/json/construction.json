@@ -1187,7 +1187,7 @@
     "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 5 ] ], [ [ "nail", 12 ] ] ],
+    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 5 ] ], [ [ "nail", 12 ] ], [ [ "hinge", 2 ] ] ],
     "pre_flags": "DIGGABLE",
     "post_terrain": "t_fencegate_c"
   },
@@ -1284,7 +1284,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "45 m",
-    "components": [ [ [ "wire", 10 ] ], [ [ "2x4", 5 ] ], [ [ "nail", 20 ] ] ],
+    "components": [ [ [ "wire", 10 ] ], [ [ "2x4", 5 ] ], [ [ "nail", 20 ] ], [ [ "hinge", 2 ] ] ],
     "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
     "pre_special": "check_support",
     "post_terrain": "t_chickenwire_gate_c"
@@ -2728,7 +2728,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 6 ] ], [ [ "nail", 10 ] ] ],
+    "components": [ [ [ "2x4", 6 ] ], [ [ "nail", 10 ] ], [ [ "hinge", 2 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_counter_gate_c"
   },
@@ -2739,7 +2739,7 @@
     "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 5 ] ], [ [ "nail", 12 ] ] ],
+    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 5 ] ], [ [ "nail", 12 ] ], [ [ "hinge", 2 ] ] ],
     "pre_flags": "DIGGABLE",
     "post_terrain": "t_splitrail_fencegate_c"
   },
@@ -2750,7 +2750,7 @@
     "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 8 ] ], [ [ "nail", 20 ] ] ],
+    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 8 ] ], [ [ "nail", 20 ] ], [ [ "hinge", 2 ] ] ],
     "pre_flags": "DIGGABLE",
     "post_terrain": "t_privacy_fencegate_c"
   },

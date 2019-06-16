@@ -3046,7 +3046,12 @@
     "open": "t_fencegate_o",
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [ { "item": "2x4", "count": 5 }, { "item": "pointy_stick", "count": 2 }, { "item": "nail", "charges": 12 } ]
+      "items": [
+        { "item": "2x4", "count": 5 },
+        { "item": "pointy_stick", "count": 2 },
+        { "item": "nail", "charges": 12 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     },
     "bash": {
       "str_min": 4,
@@ -3059,7 +3064,8 @@
       "items": [
         { "item": "2x4", "count": [ 1, 4 ] },
         { "item": "nail", "charges": [ 2, 8 ] },
-        { "item": "splinter", "count": [ 1, 2 ] }
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
       ]
     }
   },
@@ -3076,7 +3082,12 @@
     "close": "t_fencegate_c",
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [ { "item": "2x4", "count": 5 }, { "item": "pointy_stick", "count": 2 }, { "item": "nail", "charges": 12 } ]
+      "items": [
+        { "item": "2x4", "count": 5 },
+        { "item": "pointy_stick", "count": 2 },
+        { "item": "nail", "charges": 12 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     },
     "bash": {
       "str_min": 4,
@@ -3084,7 +3095,12 @@
       "sound": "crash!",
       "sound_fail": "wham!",
       "ter_set": "t_null",
-      "items": [ { "item": "2x4", "count": [ 1, 4 ] }, { "item": "nail", "charges": [ 2, 8 ] }, { "item": "splinter", "count": 1 } ]
+      "items": [
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "nail", "charges": [ 2, 8 ] },
+        { "item": "splinter", "count": 1 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -3151,7 +3167,12 @@
     "open": "t_chickenwire_gate_o",
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [ { "item": "2x4", "count": 5 }, { "item": "wire", "count": 10 }, { "item": "nail", "charges": 20 } ]
+      "items": [
+        { "item": "2x4", "count": 5 },
+        { "item": "wire", "count": 10 },
+        { "item": "nail", "charges": 20 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     },
     "bash": {
       "str_min": 5,
@@ -3161,7 +3182,7 @@
       "sound": "rattle!",
       "sound_fail": "thump!",
       "ter_set": "t_null",
-      "items": [ { "item": "wire", "count": [ 4, 6 ] }, { "item": "2x4", "count": [ 2, 4 ] } ]
+      "items": [ { "item": "wire", "count": [ 4, 6 ] }, { "item": "2x4", "count": [ 2, 4 ] }, { "item": "hinge", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -3178,7 +3199,12 @@
     "close": "t_chickenwire_gate_c",
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [ { "item": "2x4", "count": 5 }, { "item": "wire", "count": 10 }, { "item": "nail", "charges": 20 } ]
+      "items": [
+        { "item": "2x4", "count": 5 },
+        { "item": "wire", "count": 10 },
+        { "item": "nail", "charges": 20 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     },
     "bash": {
       "str_min": 5,
@@ -3186,7 +3212,7 @@
       "sound": "rattle!",
       "sound_fail": "thump!",
       "ter_set": "t_null",
-      "items": [ { "item": "wire", "count": [ 4, 6 ] }, { "item": "2x4", "count": [ 2, 4 ] } ]
+      "items": [ { "item": "wire", "count": [ 4, 6 ] }, { "item": "2x4", "count": [ 2, 4 ] }, { "item": "hinge", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -10920,7 +10946,12 @@
     "open": "t_splitrail_fencegate_o",
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [ { "item": "2x4", "count": 5 }, { "item": "pointy_stick", "count": 2 }, { "item": "nail", "charges": 12 } ]
+      "items": [
+        { "item": "2x4", "count": 5 },
+        { "item": "pointy_stick", "count": 2 },
+        { "item": "nail", "charges": 12 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     },
     "bash": {
       "str_min": 4,
@@ -10933,7 +10964,8 @@
       "items": [
         { "item": "2x4", "count": [ 1, 4 ] },
         { "item": "nail", "charges": [ 2, 8 ] },
-        { "item": "splinter", "count": [ 1, 2 ] }
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
       ]
     }
   },
@@ -10951,7 +10983,12 @@
     "close": "t_splitrail_fencegate_c",
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [ { "item": "2x4", "count": 5 }, { "item": "pointy_stick", "count": 2 }, { "item": "nail", "charges": 12 } ]
+      "items": [
+        { "item": "2x4", "count": 5 },
+        { "item": "pointy_stick", "count": 2 },
+        { "item": "nail", "charges": 12 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -10967,14 +11004,17 @@
     "examine_action": "chainfence",
     "flags": [ "NOITEM", "CLIMBABLE", "PERMEABLE", "AUTO_WALL_SYMBOL", "FLAMMABLE_ASH", "THIN_OBSTACLE" ],
     "connects_to": "WOODFENCE",
-    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "charges": 20 } ] },
+    "deconstruct": {
+      "ter_set": "t_fence_post",
+      "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "charges": 20 }, { "item": "hinge", "count": [ 1, 2 ] } ]
+    },
     "bash": {
       "str_min": 5,
       "str_max": 12,
       "sound": "whump!",
       "sound_fail": "whack!",
       "ter_set": "t_fence_post",
-      "items": [ { "item": "2x4", "count": [ 4, 10 ] } ]
+      "items": [ { "item": "2x4", "count": [ 4, 10 ] }, { "item": "hinge", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -10992,7 +11032,12 @@
     "open": "t_privacy_fencegate_o",
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [ { "item": "2x4", "count": 8 }, { "item": "pointy_stick", "count": 2 }, { "item": "nail", "charges": 20 } ]
+      "items": [
+        { "item": "2x4", "count": 8 },
+        { "item": "pointy_stick", "count": 2 },
+        { "item": "nail", "charges": 20 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     },
     "bash": {
       "str_min": 4,
@@ -11005,7 +11050,8 @@
       "items": [
         { "item": "2x4", "count": [ 4, 8 ] },
         { "item": "nail", "charges": [ 10, 20 ] },
-        { "item": "splinter", "count": [ 4, 6 ] }
+        { "item": "splinter", "count": [ 4, 6 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
       ]
     }
   },
@@ -11023,7 +11069,12 @@
     "close": "t_privacy_fencegate_c",
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [ { "item": "2x4", "count": 8 }, { "item": "pointy_stick", "count": 2 }, { "item": "nail", "charges": 20 } ]
+      "items": [
+        { "item": "2x4", "count": 8 },
+        { "item": "pointy_stick", "count": 2 },
+        { "item": "nail", "charges": 20 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
