@@ -11775,6 +11775,10 @@ std::vector<std::string> player::get_overlay_ids() const
     if( is_armed() ) {
         rval.push_back( "wielded_" + weapon.typeId() );
     }
+
+    if( move_mode != "walk" ) {
+        rval.push_back( move_mode );
+    }
     return rval;
 }
 

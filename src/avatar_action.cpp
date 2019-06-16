@@ -103,18 +103,67 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     }
 
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
-    const int new_dx = dest_loc.x - you.posx();
-    if( new_dx > 0 ) {
-        you.facing = FD_RIGHT;
-        if( you.has_effect( effect_riding ) && you.mounted_creature ) {
-            auto mons = you.mounted_creature.get();
-            mons->facing = FD_RIGHT;
+    int new_dx = dest_loc.x - you.posx();
+    int new_dy = dest_loc.y - you.posy();
+
+    if( ! tile_iso ) {
+        if( new_dx > 0 ) {
+            you.facing = FD_RIGHT;
+            if( you.has_effect( effect_riding ) && you.mounted_creature ) {
+                auto mons = you.mounted_creature.get();
+                mons->facing = FD_RIGHT;
+            }
+        } else if( new_dx < 0 ) {
+            you.facing = FD_LEFT;
+            if( you.has_effect( effect_riding ) && you.mounted_creature ) {
+                auto mons = you.mounted_creature.get();
+                mons->facing = FD_LEFT;
+            }
         }
-    } else if( new_dx < 0 ) {
-        you.facing = FD_LEFT;
-        if( you.has_effect( effect_riding ) && you.mounted_creature ) {
-            auto mons = you.mounted_creature.get();
-            mons->facing = FD_LEFT;
+    } else {
+        //
+        // iso:
+        //
+        // right key            =>  +x -y       FD_RIGHT
+        // left key             =>  -x +y       FD_LEFT
+        // up key               =>  +x +y       ______
+        // down key             =>  -x -y       ______
+        // y: left-up key       =>  __ +y       FD_LEFT
+        // u: right-up key      =>  +x __       FD_RIGHT
+        // b: left-down key     =>  -x __       FD_LEFT
+        // n: right-down key    =>  __ -y       FD_RIGHT
+        //
+        // right key            =>  +x -y       FD_RIGHT
+        // u: right-up key      =>  +x __       FD_RIGHT
+        // n: right-down key    =>  __ -y       FD_RIGHT
+        // up key               =>  +x +y       ______
+        // down key             =>  -x -y       ______
+        // left key             =>  -x +y       FD_LEFT
+        // y: left-up key       =>  __ +y       FD_LEFT
+        // b: left-down key     =>  -x __       FD_LEFT
+        //
+        // right key            =>  +x +y       FD_RIGHT
+        // u: right-up key      =>  +x __       FD_RIGHT
+        // n: right-down key    =>  __ +y       FD_RIGHT
+        // up key               =>  +x -y       ______
+        // left key             =>  -x -y       FD_LEFT
+        // b: left-down key     =>  -x __       FD_LEFT
+        // y: left-up key       =>  __ -y       FD_LEFT
+        // down key             =>  -x +y       ______
+        //
+        if( new_dx >= 0 && new_dy >= 0 ) {
+            you.facing = FD_RIGHT;
+            if( you.has_effect( effect_riding ) && you.mounted_creature ) {
+                auto mons = you.mounted_creature.get();
+                mons->facing = FD_RIGHT;
+            }
+        }
+        if( new_dy <= 0 && new_dx <= 0 ) {
+            you.facing = FD_LEFT;
+            if( you.has_effect( effect_riding ) && you.mounted_creature ) {
+                auto mons = you.mounted_creature.get();
+                mons->facing = FD_LEFT;
+            }
         }
     }
 
