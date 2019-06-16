@@ -157,7 +157,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "410",
+    "ammo": [ "45lc", "410" ],
     "skill": "pistol",
     "dispersion": 520,
     "durability": 6,

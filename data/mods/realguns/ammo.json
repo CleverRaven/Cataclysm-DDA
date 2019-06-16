@@ -55,50 +55,42 @@
     "copy-from": "38_fmj",
     "type": "AMMO",
     "name": ".38 Special FMJ",
-    "name_plural": ".38 Special FMJ",
-    "extend": { "ammo_type": [ "357_mag" ] }
+    "name_plural": ".38 Special FMJ"
   },
   {
     "id": "38_special",
     "copy-from": "38_special",
     "type": "AMMO",
     "name": ".38 Special",
-    "name_plural": ".38 Special",
-    "extend": { "ammo_type": [ "357_mag" ] }
+    "name_plural": ".38 Special"
   },
   {
     "id": "38_super",
     "copy-from": "38_super",
     "type": "AMMO",
     "name": ".38 Super",
-    "name_plural": ".38 Super",
-    "extend": { "ammo_type": [ "357_mag", "38_super" ] },
-    "delete": { "ammo_type": [ "38" ] }
+    "name_plural": ".38 Super"
   },
   {
     "id": "reloaded_38_fmj",
     "copy-from": "reloaded_38_fmj",
     "type": "AMMO",
     "name": "reloaded .38 Special FMJ",
-    "name_plural": "reloaded .38 Special FMJ",
-    "extend": { "ammo_type": [ "357_mag" ] }
+    "name_plural": "reloaded .38 Special FMJ"
   },
   {
     "id": "reloaded_38_special",
     "copy-from": "reloaded_38_special",
     "type": "AMMO",
     "name": "reloaded .38 Special",
-    "name_plural": "reloaded .38 Special",
-    "extend": { "ammo_type": [ "357_mag" ] }
+    "name_plural": "reloaded .38 Special"
   },
   {
     "id": "reloaded_38_super",
     "copy-from": "reloaded_38_super",
     "type": "AMMO",
     "name": "reloaded .38 Super",
-    "name_plural": "reloaded .38 Super",
-    "extend": { "ammo_type": [ "357_mag", "38_super" ] },
-    "delete": { "ammo_type": [ "38" ] }
+    "name_plural": "reloaded .38 Super"
   },
   {
     "id": "40sw",
@@ -106,8 +98,7 @@
     "type": "AMMO",
     "name": ".40 S&W",
     "name_plural": ".40 S&W JHP",
-    "description": ".40 S&W ammunition with 135gr JHP bullets.  The .40 S&W round is descended from the 10mm Auto light loading and maintains most of its predecessor's strengths while reducing recoil.",
-    "extend": { "ammo_type": [ "10mm_auto" ] }
+    "description": ".40 S&W ammunition with 135gr JHP bullets.  The .40 S&W round is descended from the 10mm Auto light loading and maintains most of its predecessor's strengths while reducing recoil."
   },
   {
     "id": "40fmj",
@@ -115,8 +106,7 @@
     "type": "AMMO",
     "name": ".40 S&W FMJ",
     "name_plural": ".40 S&W FMJ",
-    "description": ".40 S&W ammunition with 180gr FMJ bullets.  Designed to retain the 10mm Auto cartridge's power with lower recoil, the .40 S&W round became popular for law enforcement and personal defense.",
-    "extend": { "ammo_type": [ "10mm_auto" ] }
+    "description": ".40 S&W ammunition with 180gr FMJ bullets.  Designed to retain the 10mm Auto cartridge's power with lower recoil, the .40 S&W round became popular for law enforcement and personal defense."
   },
   {
     "id": "reloaded_40sw",
@@ -124,16 +114,14 @@
     "type": "AMMO",
     "name": "reloaded .40 S&W",
     "name_plural": "reloaded .40 S&W JHP",
-    "description": ".40 S&W ammunition with 135gr JHP bullets.  The .40 S&W round is descended from the 10mm Auto light loading and maintains most of its predecessor's strengths while reducing recoil.",
-    "extend": { "ammo_type": [ "10mm_auto" ] }
+    "description": ".40 S&W ammunition with 135gr JHP bullets.  The .40 S&W round is descended from the 10mm Auto light loading and maintains most of its predecessor's strengths while reducing recoil."
   },
   {
     "id": "reloaded_40fmj",
     "copy-from": "reloaded_40fmj",
     "type": "AMMO",
     "name": "reloaded .40 S&W FMJ",
-    "description": ".40 S&W ammunition with 180gr FMJ bullets.  Designed to retain the 10mm Auto cartridge's power with lower recoil, the .40 S&W round became popular for law enforcement and personal defense.",
-    "extend": { "ammo_type": [ "10mm_auto" ] }
+    "description": ".40 S&W ammunition with 180gr FMJ bullets.  Designed to retain the 10mm Auto cartridge's power with lower recoil, the .40 S&W round became popular for law enforcement and personal defense."
   },
   {
     "id": "10mm",
@@ -142,8 +130,7 @@
     "name": "10mm Auto",
     "name_plural": "10mm Auto",
     "description": "10mm Auto ammunition with 155gr bullets.  The 10mm Auto round is one of the most powerful pistol cartridges available, although its usefulness is limited by high recoil.",
-    "relative": { "range": 2, "damage": 2, "pierce": -4, "recoil": 335 },
-    "delete": { "ammo_type": [ "40" ] }
+    "relative": { "range": 2, "damage": 2, "pierce": -4, "recoil": 335 }
   },
   {
     "id": "reloaded_10mm",
@@ -153,8 +140,7 @@
     "name_plural": "reloaded 10mm Auto",
     "description": "10mm Auto ammunition with 155gr bullets.  The 10mm Auto round is one of the most powerful pistol cartridges available, although its usefulness is limited by high recoil.",
     "range": 16,
-    "recoil": 915,
-    "delete": { "ammo_type": [ "40" ] }
+    "recoil": 915
   },
   {
     "id": "357_mag_casing",
@@ -251,7 +237,7 @@
     "color": "yellow",
     "count": 30,
     "stack_size": 30,
-    "ammo_type": [ "454", "410", "45lc" ],
+    "ammo_type": "45lc",
     "casing": "45lc_casing",
     "range": 16,
     "damage": 23,
@@ -314,7 +300,7 @@
     "color": "red",
     "count": 20,
     "stack_size": 20,
-    "ammo_type": [ "454", "410" ],
+    "ammo_type": "410",
     "casing": "410_hull",
     "range": 10,
     "damage": 32,
