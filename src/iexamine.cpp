@@ -1341,9 +1341,8 @@ void iexamine::pedestal_wyrm( player &p, const tripoint &examp )
  */
 void iexamine::pedestal_temple( player &p, const tripoint &examp )
 {
-
-    if( g->m.i_at( examp ).size() == 1 &&
-        g->m.i_at( examp ).front().typeId() == "petrified_eye" ) {
+    map_stack items = g->m.i_at( examp );
+    if( !items.empty() && items.only_item().typeId() == "petrified_eye" ) {
         add_msg( _( "The pedestal sinks into the ground..." ) );
         g->m.ter_set( examp, t_dirt );
         g->m.i_clear( examp );
@@ -2005,19 +2004,20 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
  */
 void iexamine::harvest_plant( player &p, const tripoint &examp )
 {
-    if( g->m.i_at( examp ).empty() ) {
+    // Can't use item_stack::only_item() since there might be fertilizer
+    map_stack items = g->m.i_at( examp );
+    const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
+        return it.is_seed();
+    } );
+
+    if( seed == items.end() ) {
+        debugmsg( "Missing seed for plant at (%d, %d, %d)", examp.x, examp.y, examp.z );
         g->m.i_clear( examp );
         g->m.furn_set( examp, f_null );
-        debugmsg( "Missing seed in plant furniture!" );
-        return;
-    }
-    const item &seed = g->m.i_at( examp ).front();
-    if( !seed.is_seed() ) {
-        debugmsg( "The seed item %s is not a seed!", seed.tname() );
         return;
     }
 
-    const std::string &seedType = seed.typeId();
+    const std::string &seedType = seed->typeId();
     if( seedType == "fungal_seeds" ) {
         fungus( p, examp );
         g->m.i_clear( examp );
@@ -2041,7 +2041,7 @@ void iexamine::harvest_plant( player &p, const tripoint &examp )
             add_msg( m_info, _( "The seed blossoms into a flower-looking fungus." ) );
         }
     } else { // Generic seed, use the seed item data
-        const itype &type = *seed.type;
+        const itype &type = *seed->type;
         g->m.i_clear( examp );
 
         int skillLevel = p.get_skill_level( skill_survival );
@@ -2095,9 +2095,20 @@ void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id 
     // 20% of a seasons length. (default 2.8 days).
     const time_duration fertilizerEpoch = calendar::season_length() * 0.2;
 
-    item &seed = g->m.i_at( tile ).front();
+    // Can't use item_stack::only_item() since there might be fertilizer
+    map_stack items = g->m.i_at( tile );
+    const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
+        return it.is_seed();
+    } );
+    if( seed == items.end() ) {
+        debugmsg( "Missing seed for plant at (%d, %d, %d)", tile.x, tile.y, tile.z );
+        g->m.i_clear( tile );
+        g->m.furn_set( tile, f_null );
+        return;
+    }
+
     // TODO: item should probably clamp the value on its own
-    seed.set_birthday( std::max( calendar::time_of_cataclysm, seed.birthday() - fertilizerEpoch ) );
+    seed->set_birthday( std::max( calendar::time_of_cataclysm, seed->birthday() - fertilizerEpoch ) );
     // The plant furniture has the NOITEM token which prevents adding items on that square,
     // spawned items are moved to an adjacent field instead, but the fertilizer token
     // must be on the square of the plant, therefore this hack:
@@ -2107,7 +2118,7 @@ void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id 
     g->m.furn_set( tile, old_furn );
     p.mod_moves( -to_moves<int>( 10_seconds ) );
 
-    add_msg( m_info, _( "You fertilize the %s with the %s." ), seed.get_plant_name(),
+    add_msg( m_info, _( "You fertilize the %s with the %s." ), seed->get_plant_name(),
              planted.front().tname() );
 }
 
@@ -2146,19 +2157,20 @@ itype_id iexamine::choose_fertilizer( player &p, const std::string &pname, bool 
 }
 void iexamine::aggie_plant( player &p, const tripoint &examp )
 {
-    if( g->m.i_at( examp ).empty() ) {
+    // Can't use item_stack::only_item() since there might be fertilizer
+    map_stack items = g->m.i_at( examp );
+    const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
+        return it.is_seed();
+    } );
+
+    if( seed == items.end() ) {
+        debugmsg( "Missing seed for plant at (%d, %d, %d)", examp.x, examp.y, examp.z );
         g->m.i_clear( examp );
         g->m.furn_set( examp, f_null );
-        debugmsg( "Missing seed in plant furniture!" );
-        return;
-    }
-    const item &seed = g->m.i_at( examp ).front();
-    if( !seed.is_seed() ) {
-        debugmsg( "The seed item %s is not a seed!", seed.tname() );
         return;
     }
 
-    const std::string pname = seed.get_plant_name();
+    const std::string pname = seed->get_plant_name();
 
     if( g->m.has_flag_furn( "GROWTH_HARVEST", examp ) && query_yn( _( "Harvest the %s?" ), pname ) ) {
         harvest_plant( p, examp );
@@ -2264,7 +2276,7 @@ void iexamine::kiln_full( player &, const tripoint &examp )
         return;
     }
 
-    auto items = g->m.i_at( examp );
+    map_stack items = g->m.i_at( examp );
     if( items.empty() ) {
         add_msg( _( "This kiln is empty..." ) );
         g->m.furn_set( examp, next_kiln_type );
@@ -2273,7 +2285,7 @@ void iexamine::kiln_full( player &, const tripoint &examp )
     auto char_type = item::find_type( "charcoal" );
     add_msg( _( "There's a charcoal kiln there." ) );
     const time_duration firing_time = 6_hours; // 5 days in real life
-    const time_duration time_left = firing_time - items.front().age();
+    const time_duration time_left = firing_time - items.only_item().age();
     if( time_left > 0_turns ) {
         int hours = to_hours<int>( time_left );
         int minutes = to_minutes<int>( time_left ) + 1;
@@ -2462,7 +2474,7 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
         brew_type = b_types[b_index];
         brew_nname = item::nname( brew_type );
     } else {
-        item &brew = g->m.i_at( examp ).front();
+        item &brew = g->m.i_at( examp ).only_item();
         brew_type = brew.typeId();
         brew_nname = item::nname( brew_type );
         charges_on_ground = brew.charges;
@@ -2518,7 +2530,7 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
         }
     }
     if( vat_full || ferment ) {
-        g->m.i_at( examp ).front().set_age( 0_turns );
+        g->m.i_at( examp ).only_item().set_age( 0_turns );
         g->m.furn_set( examp, f_fvat_full );
         if( vat_full ) {
             add_msg( _( "The vat is full, so you close the lid and start the fermenting cycle." ) );
@@ -2550,7 +2562,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
         return;
     }
 
-    item &brew_i = items_here.front();
+    item &brew_i = items_here.only_item();
     // Does the vat contain unfermented brew, or already fermented booze?
     // TODO: Allow "recursive brewing" to continue without player having to check on it
     if( brew_i.is_brewable() ) {
@@ -2593,7 +2605,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
         add_msg( _( "There's a vat of fermented %s there." ), brew_i.tname() );
     }
 
-    const std::string booze_name = items_here.front().tname();
+    const std::string booze_name = brew_i.tname();
     if( liquid_handler::handle_liquid_from_ground( items_here.begin(), examp ) ) {
         g->m.furn_set( examp, f_fvat_empty );
         add_msg( _( "You squeeze the last drops of %s from the vat." ), booze_name );
@@ -2620,11 +2632,22 @@ void iexamine::keg( player &p, const tripoint &examp )
     const auto keg_name = g->m.name( examp );
     units::volume keg_cap = get_keg_capacity( examp );
     map_stack items = g->m.i_at( examp );
-    map_stack::iterator drink = std::find_if( items.begin(), items.end(), []( const item & it ) {
-        return it.made_of_from_type( LIQUID );
-    } );
 
-    if( drink != items.end() ) {
+    bool liquid_present = false;
+    for( map_stack::iterator it = items.begin(); it != items.end(); ) {
+        if( !it->made_of_from_type( LIQUID ) || liquid_present ) {
+            // This isn't a liquid or there was already another kind of liquid inside,
+            // so this has to be moved.
+            // This will add items to a space near the vat, because it's flagged as NOITEM.
+            items.insert( *it );
+            it = items.erase( it );
+        } else {
+            it++;
+            liquid_present = true;
+        }
+    }
+
+    if( !liquid_present ) {
         add_msg( m_info, _( "It is empty." ) );
         // Get list of all drinks
         auto drinks_inv = p.items_with( []( const item & it ) {
@@ -2690,8 +2713,9 @@ void iexamine::keg( player &p, const tripoint &examp )
         g->m.add_item( examp, drink );
         return;
     } else {
-        const auto drink_tname = drink->tname();
-        const auto drink_nname = item::nname( drink->typeId() );
+        item &drink = items.only_item();
+        const std::string drink_tname = drink.tname();
+        const std::string drink_nname = item::nname( drink.typeId() );
         enum options {
             DISPENSE,
             HAVE_A_DRINK,
@@ -2699,9 +2723,9 @@ void iexamine::keg( player &p, const tripoint &examp )
             EXAMINE,
         };
         uilist selectmenu;
-        selectmenu.addentry( DISPENSE, drink->made_of( LIQUID ), MENU_AUTOASSIGN,
+        selectmenu.addentry( DISPENSE, drink.made_of( LIQUID ), MENU_AUTOASSIGN,
                              _( "Dispense or dump %s" ), drink_tname );
-        selectmenu.addentry( HAVE_A_DRINK, drink->is_food() && drink->made_of( LIQUID ),
+        selectmenu.addentry( HAVE_A_DRINK, drink.is_food() && drink.made_of( LIQUID ),
                              MENU_AUTOASSIGN, _( "Have a drink" ) );
         selectmenu.addentry( REFILL, true, MENU_AUTOASSIGN, _( "Refill" ) );
         selectmenu.addentry( EXAMINE, true, MENU_AUTOASSIGN, _( "Examine" ) );
@@ -2711,18 +2735,18 @@ void iexamine::keg( player &p, const tripoint &examp )
 
         switch( selectmenu.ret ) {
             case DISPENSE:
-                if( liquid_handler::handle_liquid_from_ground( drink, examp ) ) {
+                if( liquid_handler::handle_liquid_from_ground( items.begin(), examp ) ) {
                     add_msg( _( "You squeeze the last drops of %1$s from the %2$s." ),
                              drink_tname, keg_name );
                 }
                 return;
 
             case HAVE_A_DRINK:
-                if( !p.eat( *drink ) ) {
+                if( !p.eat( drink ) ) {
                     return; // They didn't actually drink
                 }
 
-                if( drink->charges == 0 ) {
+                if( drink.charges == 0 ) {
                     add_msg( _( "You squeeze the last drops of %1$s from the %2$s." ),
                              drink_tname, keg_name );
                     g->m.i_clear( examp );
@@ -2731,19 +2755,19 @@ void iexamine::keg( player &p, const tripoint &examp )
                 return;
 
             case REFILL: {
-                if( drink->volume() >= keg_cap ) {
+                if( drink.volume() >= keg_cap ) {
                     add_msg( _( "The %s is completely full." ), keg_name );
                     return;
                 }
-                int charges_held = p.charges_of( drink->typeId() );
+                int charges_held = p.charges_of( drink.typeId() );
                 if( charges_held < 1 ) {
                     add_msg( m_info, _( "You don't have any %1$s to fill the %2$s with." ),
                              drink_nname, keg_name );
                     return;
                 }
-                item tmp( drink->typeId(), calendar::turn, charges_held );
+                item tmp( drink.typeId(), calendar::turn, charges_held );
                 pour_into_keg( examp, tmp );
-                p.use_charges( drink->typeId(), charges_held - tmp.charges );
+                p.use_charges( drink.typeId(), charges_held - tmp.charges );
                 add_msg( _( "You fill the %1$s with %2$s." ), keg_name, drink_nname );
                 p.moves -= to_moves<int>( 10_seconds );
                 return;
@@ -2751,7 +2775,7 @@ void iexamine::keg( player &p, const tripoint &examp )
 
             case EXAMINE: {
                 add_msg( m_info, _( "It contains %s (%d), %0.f%% full." ),
-                         drink_tname, drink->charges, drink->volume() * 100.0 / keg_cap );
+                         drink_tname, drink.charges, drink.volume() * 100.0 / keg_cap );
                 return;
             }
 
@@ -2777,14 +2801,14 @@ bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
     map_stack stack = g->m.i_at( pos );
     if( stack.empty() ) {
         g->m.add_item( pos, liquid );
-        g->m.i_at( pos ).front().charges = 0; // Will be set later
-    } else if( stack.front().typeId() != liquid.typeId() ) {
+        g->m.i_at( pos ).only_item().charges = 0; // Will be set later
+    } else if( stack.only_item().typeId() != liquid.typeId() ) {
         add_msg( _( "The %s already contains some %s, you can't add a different liquid to it." ),
-                 keg_name, item::nname( stack.front().typeId() ) );
+                 keg_name, item::nname( stack.only_item().typeId() ) );
         return false;
     }
 
-    item &drink = stack.front();
+    item &drink = stack.only_item();
     if( drink.volume() >= keg_cap ) {
         add_msg( _( "The %s is full." ), keg_name );
         return false;
@@ -2900,15 +2924,16 @@ void iexamine::tree_maple( player &p, const tripoint &examp )
 void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
 {
     bool has_sap = false;
-    bool has_container = false;
+    item *container = nullptr;
     int charges = 0;
 
     const std::string maple_sap_name = item::nname( "maple_sap" );
 
-    auto items = g->m.i_at( examp );
-    for( auto &it : items ) {
+    map_stack items = g->m.i_at( examp );
+    if( !items.empty() ) {
+        item &it = items.only_item();
         if( it.is_bucket() || it.is_watertight_container() ) {
-            has_container = true;
+            container = &it;
 
             if( !it.is_container_empty() && it.contents.front().typeId() == "maple_sap" ) {
                 has_sap = true;
@@ -2925,11 +2950,11 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
     };
     uilist selectmenu;
     selectmenu.addentry( REMOVE_TAP, true, MENU_AUTOASSIGN, _( "Remove tap" ) );
-    selectmenu.addentry( ADD_CONTAINER, !has_container, MENU_AUTOASSIGN,
+    selectmenu.addentry( ADD_CONTAINER, !container, MENU_AUTOASSIGN,
                          _( "Add a container to receive the %s" ), maple_sap_name );
     selectmenu.addentry( HARVEST_SAP, has_sap, MENU_AUTOASSIGN, _( "Harvest current %s (%d)" ),
                          maple_sap_name, charges );
-    selectmenu.addentry( REMOVE_CONTAINER, has_container, MENU_AUTOASSIGN, _( "Remove container" ) );
+    selectmenu.addentry( REMOVE_CONTAINER, container, MENU_AUTOASSIGN, _( "Remove container" ) );
 
     selectmenu.text = _( "Select an action" );
     selectmenu.query();
@@ -2945,8 +2970,8 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
             add_msg( _( "You remove the %s." ), tree_spile.tname( 1 ) );
             g->m.add_item_or_charges( p.pos(), tree_spile );
 
-            for( auto &it : items ) {
-                g->m.add_item_or_charges( p.pos(), it );
+            if( container ) {
+                g->m.add_item_or_charges( p.pos(), *container );
             }
             g->m.i_clear( examp );
 
@@ -2959,7 +2984,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
         case ADD_CONTAINER: {
             auto cont_loc = maple_tree_sap_container();
 
-            item *container = cont_loc.get_item();
+            container = cont_loc.get_item();
             if( container ) {
                 g->m.add_item_or_charges( examp, *container, false );
 
@@ -2971,21 +2996,14 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
             return;
         }
 
-        case HARVEST_SAP:
-            for( auto &it : items ) {
-                if( ( it.is_bucket() || it.is_watertight_container() ) && !it.is_container_empty() ) {
-                    auto &liquid = it.contents.front();
-                    if( liquid.typeId() == "maple_sap" ) {
-                        liquid_handler::handle_liquid_from_container( it, PICKUP_RANGE );
-                    }
-                }
-            }
-
+        case HARVEST_SAP: {
+            liquid_handler::handle_liquid_from_container( *container, PICKUP_RANGE );
             return;
+        }
 
         case REMOVE_CONTAINER: {
             g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
-            g->u.activity.targets.emplace_back( map_cursor( examp ), &g->m.i_at( examp ).front() );
+            g->u.activity.targets.emplace_back( map_cursor( examp ), container );
             g->u.activity.values.push_back( 0 );
             return;
         }
@@ -3266,7 +3284,7 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
         if( p.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name(), amount_in_furn,
                         ammo->nname( amount_in_furn ) ) ) {
             p.assign_activity( activity_id( "ACT_PICKUP" ) );
-            p.activity.targets.emplace_back( map_cursor( examp ), &g->m.i_at( examp ).front() );
+            p.activity.targets.emplace_back( map_cursor( examp ), &g->m.i_at( examp ).only_item() );
             p.activity.values.push_back( 0 );
             return;
         }
@@ -4869,15 +4887,17 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
             mill_load_food( p, examp, remaining_capacity );
             break;
         case 3: // remove food
-            for( item &it : items_here ) {
-                if( it.is_food() ) {
+            for( map_stack::iterator it = items_here.begin(); it != items_here.end(); ) {
+                if( it->is_food() ) {
                     // get handling cost before the item reference is invalidated
-                    const int handling_cost = -p.item_handling_cost( it );
+                    const int handling_cost = -p.item_handling_cost( *it );
 
-                    add_msg( _( "You remove %s from the mill." ), it.tname() );
-                    g->m.add_item_or_charges( p.pos(), it );
-                    g->m.i_rem( examp, &it );
+                    add_msg( _( "You remove %s from the mill." ), it->tname() );
+                    g->m.add_item_or_charges( p.pos(), *it );
+                    it = items_here.erase( it );
                     p.mod_moves( handling_cost );
+                } else {
+                    ++it;
                 }
             }
             if( active ) {
@@ -5081,15 +5101,17 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
             rem_f_opt = true;
         /* fallthrough */
         case 5: { //remove charcoal
-            for( item &it : items_here ) {
-                if( ( rem_f_opt && it.is_food() ) || ( !rem_f_opt && ( it.typeId() == "charcoal" ) ) ) {
+            for( map_stack::iterator it = items_here.begin(); it != items_here.end(); ) {
+                if( ( rem_f_opt && it->is_food() ) || ( !rem_f_opt && ( it->typeId() == "charcoal" ) ) ) {
                     // get handling cost before the item reference is invalidated
-                    const int handling_cost = -p.item_handling_cost( it );
+                    const int handling_cost = -p.item_handling_cost( *it );
 
-                    add_msg( _( "You remove %s from the rack." ), it.tname() );
-                    g->m.add_item_or_charges( p.pos(), it );
-                    g->m.i_rem( examp, &it );
+                    add_msg( _( "You remove %s from the rack." ), it->tname() );
+                    g->m.add_item_or_charges( p.pos(), *it );
+                    it = items_here.erase( it );
                     p.mod_moves( handling_cost );
+                } else {
+                    ++it;
                 }
             }
             if( portable && active && rem_f_opt ) {

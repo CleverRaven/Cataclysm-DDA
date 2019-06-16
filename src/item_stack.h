@@ -34,7 +34,8 @@ class item_stack
         virtual void insert( const item &newitem ) = 0;
         virtual iterator erase( const_iterator it ) = 0;
         virtual void clear();
-        item &front();
+        // Will cause a debugmsg if there is not exactly one item at the location
+        item &only_item();
 
         // While iterators to colonies are stable, indexes are not.
         // These functions should only be used for serialization/deserialization

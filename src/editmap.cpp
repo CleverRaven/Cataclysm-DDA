@@ -673,7 +673,7 @@ void editmap::update_view( bool update_info )
         const int target_stack_size = target_stack.size();
         if( !g->m.has_flag( "CONTAINER", target ) && target_stack_size > 0 ) {
             trim_and_print( w_info, off, 1, getmaxx( w_info ), c_light_gray, _( "There is a %s there." ),
-                            target_stack.front().tname() );
+                            target_stack.begin()->tname() );
             off++;
             if( target_stack_size > 1 ) {
                 mvwprintw( w_info, off, 1, ngettext( "There is %d other item there as well.",

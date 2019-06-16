@@ -1306,9 +1306,17 @@ bool map::can_move_furniture( const tripoint &pos, player *p )
 std::string map::furnname( const tripoint &p )
 {
     const furn_t &f = furn( p ).obj();
-    if( f.has_flag( "PLANT" ) && !i_at( p ).empty() ) {
-        const item &seed = i_at( p ).front();
-        const std::string &plant = seed.get_plant_name();
+    if( f.has_flag( "PLANT" ) ) {
+        // Can't use item_stack::only_item() since there might be fertilizer
+        map_stack items = i_at( p );
+        const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
+            return it.is_seed();
+        } );
+        if( seed == items.end() ) {
+            debugmsg( "Missing seed for plant at (%d, %d, %d)", p.x, p.y, p.z );
+            return "null";
+        }
+        const std::string &plant = seed->get_plant_name();
         return string_format( "%s (%s)", f.name(), plant );
     } else {
         return f.name();
@@ -4430,11 +4438,8 @@ void map::make_active( item_location &loc )
     }
     point l;
     submap *const current_submap = get_submap_at( loc.position(), l );
-    auto &item_stack = current_submap->itm[l.x][l.y];
-    auto iter = std::find_if( item_stack.begin(), item_stack.end(),
-    [&target]( const item & i ) {
-        return &i == target;
-    } );
+    colony<item> &item_stack = current_submap->itm[l.x][l.y];
+    colony<item>::iterator iter = item_stack.get_iterator_from_pointer( target );
 
     if( current_submap->active_items.empty() ) {
         submaps_with_active_items.insert( abs_sub + tripoint( loc.position().x / SEEX,
@@ -6917,55 +6922,69 @@ void map::grow_plant( const tripoint &p )
     if( !furn.has_flag( "PLANT" ) ) {
         return;
     }
+    // Can't use item_stack::only_item() since there might be fertilizer
     map_stack items = i_at( p );
-    if( items.empty() ) {
-        // No seed there anymore, we don't know what kind of plant it was.
-        dbg( D_ERROR ) << "a seed item has vanished at " << p.x << "," << p.y << "," << p.z;
-        furn_set( p, f_null );
-        return;
-    }
+    map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item &it ) {
+        return it.is_seed();
+    } );
 
-    item &seed = items.front();
-    if( !seed.is_seed() ) {
+    if( seed == items.end() ) {
         // No seed there anymore, we don't know what kind of plant it was.
         dbg( D_ERROR ) << "a planted item at " << p.x << "," << p.y << "," << p.z << " has no seed data";
+        i_clear( p );
         furn_set( p, f_null );
         return;
     }
-    const time_duration plantEpoch = seed.get_plant_epoch();
-    if( seed.age() >= plantEpoch * furn.plant->growth_multiplier &&
+    const time_duration plantEpoch = seed->get_plant_epoch();
+    if( seed->age() >= plantEpoch * furn.plant->growth_multiplier &&
         !furn.has_flag( "GROWTH_HARVEST" ) ) {
-        if( seed.age() < plantEpoch * 2 ) {
+        if( seed->age() < plantEpoch * 2 ) {
             if( has_flag_furn( "GROWTH_SEEDLING", p ) ) {
                 return;
             }
-            i_rem( p, &seed );
-            rotten_item_spawn( seed, p );
+
+            // Remove fertilizer if any
+            map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item &it ) {
+                return it.has_flag( "FERTILIZER" );
+            } );
+            if( fertilizer != items.end() ) {
+                items.erase( fertilizer );
+            }
+
+            rotten_item_spawn( *seed, p );
             furn_set( p, furn_str_id( furn.plant->transform ) );
-        } else if( seed.age() < plantEpoch * 3 * furn.plant->growth_multiplier ) {
+        } else if( seed->age() < plantEpoch * 3 * furn.plant->growth_multiplier ) {
             if( has_flag_furn( "GROWTH_MATURE", p ) ) {
                 return;
             }
-            i_rem( p, &seed );
-            rotten_item_spawn( seed, p );
+
+            // Remove fertilizer if any
+            map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item &it ) {
+                return it.has_flag( "FERTILIZER" );
+            } );
+            if( fertilizer != items.end() ) {
+                items.erase( fertilizer );
+            }
+
+            rotten_item_spawn( *seed, p );
             //You've skipped the seedling stage so roll monsters twice
             if( !has_flag_furn( "GROWTH_SEEDLING", p ) ) {
-                rotten_item_spawn( seed, p );
+                rotten_item_spawn( *seed, p );
             }
             furn_set( p, furn_str_id( furn.plant->transform ) );
         } else {
             //You've skipped two stages so roll monsters two times
             if( has_flag_furn( "GROWTH_SEEDLING", p ) ) {
-                rotten_item_spawn( seed, p );
-                rotten_item_spawn( seed, p );
+                rotten_item_spawn( *seed, p );
+                rotten_item_spawn( *seed, p );
                 //One stage change
             } else if( has_flag_furn( "GROWTH_MATURE", p ) ) {
-                rotten_item_spawn( seed, p );
+                rotten_item_spawn( *seed, p );
                 //Goes from seed to harvest in one check
             } else {
-                rotten_item_spawn( seed, p );
-                rotten_item_spawn( seed, p );
-                rotten_item_spawn( seed, p );
+                rotten_item_spawn( *seed, p );
+                rotten_item_spawn( *seed, p );
+                rotten_item_spawn( *seed, p );
             }
             furn_set( p, furn_str_id( furn.plant->transform ) );
         }

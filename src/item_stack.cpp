@@ -5,6 +5,7 @@
 #include <iterator>
 
 #include "item.h"
+#include "output.h"
 #include "units.h"
 
 size_t item_stack::size() const
@@ -80,8 +81,18 @@ size_t item_stack::get_index_from_iterator( const const_iterator &it )
     return items->get_index_from_iterator( it );
 }
 
-item &item_stack::front()
+item &item_stack::only_item()
 {
+    if( empty() ) {
+        debugmsg( "Missing item at target location" );
+        return null_item_reference();
+    } else if( size() > 1 ) {
+        debugmsg( "More than one item at target location: %s", enumerate_as_string( begin(),
+        end(), []( const item & it ) {
+            return it.typeId();
+        } ) );
+        return null_item_reference();
+    }
     return *items->begin();
 }
 
