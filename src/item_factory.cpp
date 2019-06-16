@@ -1341,11 +1341,7 @@ void Item_factory::load( islot_ammo &slot, JsonObject &jo, const std::string &sr
 
 void Item_factory::load( islot_battery &slot, JsonObject &jo, const std::string & )
 {
-    if( jo.has_string( "max_energy" ) ) {
-        slot.energy = energy_quantity::read_from_json_string( *jo.get_raw( "max_energy" ) );
-    } else {
-        slot.energy = energy_quantity::from_kilojoules( jo.get_int( "max_energy" ) );
-    }
+    slot.energy = energy_quantity::read_from_json_string( *jo.get_raw( "max_energy" ) );
 }
 
 void Item_factory::load_ammo( JsonObject &jo, const std::string &src )
