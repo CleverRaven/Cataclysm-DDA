@@ -386,13 +386,14 @@ void talk_function::bionic_install( npc &p )
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if( g->u.install_bionics( it, p, false, 20 ) ) {
+    if( g->u.can_install_bionics( it, p, false, 20 ) ) {
         g->u.cash -= price;
         p.cash += price;
         g->u.amount_of( bionic_types[bionic_index] );
         std::vector<item_comp> comps;
         comps.push_back( item_comp( tmp.typeId(), 1 ) );
         g->u.consume_items( comps, 1 );
+        g->u.install_bionics( it, p, false, 20 );
     }
 }
 
