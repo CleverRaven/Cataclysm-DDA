@@ -762,8 +762,7 @@ bool avatar_action::fire( avatar &you, map &m, item &weapon, int bp_cost )
     if( !gun ) {
         add_msg( m_info, _( "The %s can't be fired in its current state." ), weapon.tname() );
         return false;
-    } else if( !weapon.has_flag( "RELOAD_AND_SHOOT" ) &&
-               !weapon.ammo_types().count( weapon.ammo_data()->ammo->type ) ) {
+    } else if( weapon.ammo_data() && !weapon.ammo_types().count( weapon.ammo_data()->ammo->type ) ) {
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
                  weapon.tname(), weapon.ammo_current() );
         return false;
