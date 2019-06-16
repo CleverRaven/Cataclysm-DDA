@@ -296,6 +296,9 @@ void trading_window::update_win( npc &p, const std::string &deal, const int adju
 
         mvwprintz( w_them, 0, 2, adjusted_u_get < 0 ?  c_green : c_red, p.name );
         mvwprintz( w_you,  0, 2, adjusted_u_get > 0 ?  c_green : c_red, _( "You" ) );
+#if defined(__ANDROID__)
+        input_context ctxt( "NPC_TRADE" );
+#endif
         // Draw lists of items, starting from offset
         for( size_t whose = 0; whose <= 1; whose++ ) {
             const bool they = whose == 0;
