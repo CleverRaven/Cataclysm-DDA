@@ -1542,9 +1542,8 @@ class bionic_install_preset: public inventory_selector_preset
     private:
         // Returns a formatted string of how long the operation will take.
         std::string get_operation_duration( const item_location &loc ) {
-            const item *it = loc.get_item();
-            const itype *itemtype = it->type;
-            const int difficulty = itemtype->bionic->difficulty;
+
+            const int difficulty = loc.get_item()->type->bionic->difficulty;
 
             // 20 minutes per bionic difficulty.
             int hours = difficulty / 3;
@@ -1570,9 +1569,8 @@ class bionic_install_preset: public inventory_selector_preset
 
         // Failure chance for bionic install. Combines multiple other functions together.
         std::string get_failure_chance( const item_location &loc ) {
-            const item *it = loc.get_item();
-            const itype *itemtype = it->type;
-            const int difficulty = itemtype->bionic->difficulty;
+
+            const int difficulty = loc.get_item()->type->bionic->difficulty;
             int chance_of_failure = 100;
             player &installer = p;
             const int assist_bonus = installer.get_effect_int( effect_assisted );
@@ -1596,10 +1594,8 @@ class bionic_install_preset: public inventory_selector_preset
         }
 
         std::string get_anesth_amount( const item_location &loc ) {
-            const item *it = loc.get_item();
-            const itype *itemtype = it->type;
-            const int difficulty = itemtype->bionic->difficulty;
-            int amount = difficulty * 40;
+
+            const int amount = loc.get_item()->type->bionic->difficulty * 40;
 
             std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
                 return it.has_flag( "ANESTHESIA" ); // legacy
@@ -1642,9 +1638,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            const item *it = loc.get_item();
-            const itype *itemtype = it->type;
-            const bionic_id &bid = itemtype->bionic->id;
+            const itype *itemtype = loc.get_item()->type;
 
             if( !p.has_enough_anesth( itemtype ) ) {
                 return string_format( _( "%i mL" ), itemtype->bionic->difficulty * 40 );
@@ -1660,9 +1654,8 @@ class bionic_uninstall_preset : public inventory_selector_preset
     private:
         // Returns a formatted string of how long the operation will take.
         std::string get_operation_duration( const item_location &loc ) {
-            const item *it = loc.get_item();
-            const itype *itemtype = it->type;
-            const int difficulty = itemtype->bionic->difficulty;
+
+            const int difficulty = loc.get_item()->type->bionic->difficulty;
 
             // 20 minutes per bionic difficulty.
             int hours = difficulty / 3;
@@ -1688,10 +1681,9 @@ class bionic_uninstall_preset : public inventory_selector_preset
 
         // Failure chance for bionic uninstall. Combines multiple other functions together.
         std::string get_failure_chance( const item_location &loc ) {
-            const item *it = loc.get_item();
-            const itype *itemtype = it->type;
+
             // Uninstall difficulty gets a +2
-            const int difficulty = itemtype->bionic->difficulty + 2;
+            const int difficulty = loc.get_item()->type->bionic->difficulty + 2;
             int chance_of_failure = 100;
             player &installer = p;
             const int assist_bonus = installer.get_effect_int( effect_assisted );
@@ -1715,10 +1707,8 @@ class bionic_uninstall_preset : public inventory_selector_preset
         }
 
         std::string get_anesth_amount( const item_location &loc ) {
-            const item *it = loc.get_item();
-            const itype *itemtype = it->type;
-            const int difficulty = itemtype->bionic->difficulty;
-            int amount = difficulty * 40;
+
+            const int amount = loc.get_item()->type->bionic->difficulty * 40;
 
             std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
                 return it.has_flag( "ANESTHESIA" ); // legacy
