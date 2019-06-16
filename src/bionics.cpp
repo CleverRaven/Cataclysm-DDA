@@ -1082,7 +1082,8 @@ bool player::has_enough_anesth( const itype *cbm )
         return false;
     }
 
-    if( has_bionic( bionic_id( "bio_painkiller" ) ) || has_trait( trait_NOPAIN ) ) {
+    if( has_bionic( bionic_id( "bio_painkiller" ) ) || has_trait( trait_NOPAIN ) ||
+        has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
         return true;
     }
 
@@ -1936,6 +1937,9 @@ void check_bionics()
                 debugmsg( "Bionic %s upgrades undefined bionic %s",
                           bio.first.c_str(), bio.second.upgraded_bionic.c_str() );
             }
+        }
+        if( !item::type_is_defined( bio.first.c_str() ) ) {
+            debugmsg( "Bionic %s has no defined item version", bio.first.c_str() );
         }
     }
 }
