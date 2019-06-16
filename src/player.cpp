@@ -11852,11 +11852,13 @@ bool player::has_item_with_flag( const std::string &flag, bool need_charges ) co
 void player::on_mutation_gain( const trait_id &mid )
 {
     morale->on_mutation_gain( mid );
+    magic.on_mutation_gain( mid, *this );
 }
 
 void player::on_mutation_loss( const trait_id &mid )
 {
     morale->on_mutation_loss( mid );
+    magic.on_mutation_loss( mid );
 }
 
 void player::on_stat_change( const std::string &stat, int value )

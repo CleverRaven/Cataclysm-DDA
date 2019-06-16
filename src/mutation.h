@@ -166,6 +166,8 @@ struct mutation_branch {
         float mana_modifier;
         float mana_multiplier;
         float mana_regen_multiplier;
+        // spells learned and their associated level when gaining the mutation
+        std::map<spell_id, int> spells_learned;
     private:
         std::string raw_spawn_item_message;
     public:
