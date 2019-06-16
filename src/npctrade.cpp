@@ -519,6 +519,7 @@ void trading_window::update_npc_owed( npc &np )
 // cost is positive when the player owes the NPC money for a service to be performed
 bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 {
+    np.shop_restock();
     trading_window trade_win;
     trade_win.setup_win( np );
     trade_win.setup_trade( cost, np );
