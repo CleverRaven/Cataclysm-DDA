@@ -1557,7 +1557,7 @@ static bool add_summoned_mon( const mtype_id &id, const tripoint &pos, const tim
                               const spell &sp )
 {
     const bool permanent = sp.has_flag( "PERMANENT" );
-    monster &spawned_mon = monster( id, pos );
+    monster spawned_mon( id, pos );
     if( is_summon_friendly( sp ) ) {
         spawned_mon.friendly = INT_MAX;
     } else {
