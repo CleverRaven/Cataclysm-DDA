@@ -1882,6 +1882,7 @@ void load_bionic( JsonObject &jsobj )
 
     jsobj.read( "canceled_mutations", new_bionic.canceled_mutations );
     jsobj.read( "included_bionics", new_bionic.included_bionics );
+    jsobj.read( "included", new_bionic.included );
     jsobj.read( "upgraded_bionic", new_bionic.upgraded_bionic );
 
     JsonArray jsarr = jsobj.get_array( "occupied_bodyparts" );
@@ -1938,7 +1939,7 @@ void check_bionics()
                           bio.first.c_str(), bio.second.upgraded_bionic.c_str() );
             }
         }
-        if( !item::type_is_defined( bio.first.c_str() ) ) {
+        if( !item::type_is_defined( bio.first.c_str() ) && !bio.second.included ) {
             debugmsg( "Bionic %s has no defined item version", bio.first.c_str() );
         }
     }
