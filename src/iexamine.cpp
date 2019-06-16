@@ -4079,7 +4079,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
             const float volume_anesth = itemtype->bionic->difficulty * 20 * 2; // 2ml/min
 
-            if( patient.install_bionics( ( *itemtype ), installer, true ) ) {
+            if( patient.can_install_bionics( ( *itemtype ), installer, true ) ) {
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 std::vector<item_comp> comps;
                 comps.push_back( item_comp( it->typeId(), 1 ) );
@@ -4094,6 +4094,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     }
 
                 }
+                patient.install_bionics( ( *itemtype ), installer, true );
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
             }
             break;
