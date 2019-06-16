@@ -4147,7 +4147,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-            if( patient.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), installer, true ) ) {
+            if( patient.can_uninstall_bionic( bionic_id( bionic_types[bionic_index] ), installer, true ) ) {
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 if( needs_anesthesia ) {
                     if( acomps.empty() ) { // consume obsolete anesthesia first
@@ -4157,6 +4157,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     }
 
                 }
+                patient.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), installer, true );
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
             }
             break;
