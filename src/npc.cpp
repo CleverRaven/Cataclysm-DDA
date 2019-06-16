@@ -1257,6 +1257,9 @@ void npc::say( const std::string &line, const int priority ) const
 
 bool npc::wants_to_sell( const item &it ) const
 {
+    if( my_fac != it.get_owner() ) {
+        return false;
+    }
     const int market_price = it.price( true );
     return wants_to_sell( it, value( it, market_price ), market_price );
 }

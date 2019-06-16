@@ -128,7 +128,7 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
 
     double adjust = net_price_adjustment( buyer, seller );
 
-    const auto check_item = [fac, adjust, &np, &result]( item_location && loc, int count = 1 ) {
+    const auto check_item = [fac, adjust, is_npc, &np, &result]( item_location && loc, int count = 1 ) {
         item *it_ptr = loc.get_item();
         if( it_ptr == nullptr || it_ptr->is_null() ) {
             return;
@@ -137,7 +137,8 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         item &it = *it_ptr;
         const int market_price = it.price( true );
         int val = np.value( it, market_price );
-        if( np.wants_to_buy( it, val, market_price ) ) {
+        if( ( is_npc && np.wants_to_sell( it, val, market_price ) ) ||
+            np.wants_to_buy( it, val, market_price ) ) {
             result.emplace_back( std::move( loc ), val, count );
             result.back().adjust_values( adjust, fac );
         }
