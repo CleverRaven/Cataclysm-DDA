@@ -1996,7 +1996,7 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
                                         bool anesthetic ) //used by the Autodoc
 {
     installer.add_msg_player_or_npc( m_info,
-                                     _( "You set up the operation step-by-step, configuring the Autodoc to manipulate a CBM" ),
+                                     _( "You set up the operation step-by-step, configuring the Autodoc to manipulate a CBM." ),
                                      _( "<npcname> sets up the operation, configuring the Autodoc to manipulate a CBM." ) );
 
     add_msg_player_or_npc( m_info,
