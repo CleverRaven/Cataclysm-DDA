@@ -805,7 +805,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     if( stacked_here[true_it].begin()->_item.ammo_current() == "money" ) {
                         //Count charges
                         // TODO: transition to the item_location system used for the inventory
-                        unsigned long charges_total = 0;
+                        unsigned int charges_total = 0;
                         for( const auto &item : stacked_here[true_it] ) {
                             charges_total += item._item.charges;
                         }
@@ -814,7 +814,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                             item_name = stacked_here[true_it].begin()->_item.display_money( stacked_here[true_it].size(),
                                         charges_total );
                         } else {
-                            unsigned long charges = 0;
+                            unsigned int charges = 0;
                             int c = getitem[true_it].count;
                             for( auto it = stacked_here[true_it].begin(); it != stacked_here[true_it].end() &&
                                  c > 0; ++it, --c ) {

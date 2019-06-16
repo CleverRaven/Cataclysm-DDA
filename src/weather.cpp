@@ -201,20 +201,20 @@ void item::add_rain_to_container( bool acid, int charges )
         return;
     }
     item ret( acid ? "water_acid" : "water", calendar::turn );
-    const long capa = get_remaining_capacity_for_liquid( ret, true );
+    const int capa = get_remaining_capacity_for_liquid( ret, true );
     if( contents.empty() ) {
         // This is easy. Just add 1 charge of the rain liquid to the container.
         if( !acid ) {
             // Funnels aren't always clean enough for water. // TODO: disinfectant squeegie->funnel
             ret.poison = one_in( 10 ) ? 1 : 0;
         }
-        ret.charges = std::min<long>( charges, capa );
+        ret.charges = std::min( charges, capa );
         put_in( ret );
     } else {
         // The container already has a liquid.
         item &liq = contents.front();
-        long orig = liq.charges;
-        long added = std::min<long>( charges, capa );
+        int orig = liq.charges;
+        int added = std::min( charges, capa );
         if( capa > 0 ) {
             liq.charges += added;
         }
@@ -240,9 +240,9 @@ void item::add_rain_to_container( bool acid, int charges )
                 // The container has water, and the acid rain didn't turn it
                 // into weak acid. Poison the water instead, assuming 1
                 // charge of acid would act like a charge of water with poison 5.
-                long total_poison = liq.poison * ( orig ) + ( 5 * added );
+                int total_poison = liq.poison * ( orig ) + ( 5 * added );
                 liq.poison = total_poison / liq.charges;
-                long leftover_poison = total_poison - liq.poison * liq.charges;
+                int leftover_poison = total_poison - liq.poison * liq.charges;
                 if( leftover_poison > rng( 0, liq.charges ) ) {
                     liq.poison++;
                 }

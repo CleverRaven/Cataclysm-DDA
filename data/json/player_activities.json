@@ -609,6 +609,7 @@
     "activity_level": "NO_EXERCISE",
     "verb": "studying",
     "suspendable": false,
+    "refuel_fires": true,
     "rooted": true,
     "based_on": "time",
     "no_resume": true

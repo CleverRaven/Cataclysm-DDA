@@ -147,6 +147,8 @@ class spell_type
         // lits of bodyparts this spell applies its effect to
         enum_bitset<body_part> affected_bps;
 
+        std::set<std::string> spell_tags;
+
         static void load_spell( JsonObject &jo, const std::string &src );
         void load( JsonObject &jo, const std::string & );
         /**
@@ -221,6 +223,8 @@ class spell
         bool is_valid() const;
         // is the bodypart affected by the effect
         bool bp_is_affected( body_part bp ) const;
+        // check if the spell has a particular flag
+        bool has_flag( const std::string &flag ) const;
 
         // get spell id (from type)
         spell_id id() const;

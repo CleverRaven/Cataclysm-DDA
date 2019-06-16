@@ -149,7 +149,8 @@
         "__ox"
       ],
       "terrain": { "_": "t_concrete", "x": "t_sewage_pipe" },
-      "furniture": { "o": "f_water_heater", "a": "f_air_conditioner" }
+      "furniture": { "o": "f_water_heater", "a": "f_air_conditioner" },
+      "liquids": { "o": { "liquid": "water_clean", "amount": [ 0, 100 ] } }
     }
   },
   {
@@ -166,7 +167,8 @@
         "UUUU"
       ],
       "terrain": { "_": "t_null", "c": "t_chaingate_l", "U": "t_chainfence" },
-      "furniture": { "o": "f_water_heater", "a": "f_water_purifier", "A": "f_standing_tank" }
+      "furniture": { "o": "f_water_heater", "a": "f_water_purifier", "A": "f_standing_tank" },
+      "liquids": { "o": { "liquid": "water_clean", "amount": [ 0, 100 ] } }
     }
   },
   {
@@ -185,7 +187,8 @@
         "xxxxxx"
       ],
       "terrain": { "_": "t_null", "x": "t_sewage_pipe" },
-      "furniture": { "o": "f_water_heater", "a": "f_water_purifier", "A": "f_standing_tank" }
+      "furniture": { "o": "f_water_heater", "a": "f_water_purifier", "A": "f_standing_tank" },
+      "liquids": { "o": { "liquid": "water_clean", "amount": [ 0, 100 ] } }
     }
   },
   {
@@ -396,6 +399,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "roof_6x6_garden_3",
+    "//": "herb garden",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rotation": [ 0, 3 ],

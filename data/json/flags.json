@@ -547,5 +547,17 @@
     "type": "json_flag",
     "context": [ "BIONIC" ],
     "description": "This bionic can provide power to powered armor."
+  },
+  {
+    "id": "PERMANENT",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "This makes the spell's effects permanent."
+  },
+  {
+    "id": "IGNORE_WALLS",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "This makes the spell's Area of Effect ignore walls."
   }
 ]

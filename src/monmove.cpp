@@ -738,11 +738,24 @@ void monster::move()
         // Otherwise weird things happen
         destination.z = posz();
     }
+
+    int new_dx = destination.x - pos().x;
+    int new_dy = destination.y - pos().y;
+
     // toggle facing direction for sdl flip
-    if( destination.x < pos().x ) {
-        facing = FD_LEFT;
+    if( ! tile_iso ) {
+        if( new_dx < 0 ) {
+            facing = FD_LEFT;
+        } else if( new_dx > 0 ) {
+            facing = FD_RIGHT;
+        }
     } else {
-        facing = FD_RIGHT;
+        if( new_dy <= 0 && new_dx <= 0 ) {
+            facing = FD_LEFT;
+        }
+        if( new_dx >= 0 && new_dy >= 0 ) {
+            facing = FD_RIGHT;
+        }
     }
 
     tripoint next_step;

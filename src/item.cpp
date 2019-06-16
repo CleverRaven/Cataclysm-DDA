@@ -1441,6 +1441,12 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                        at->name() );
                         info.emplace_back( "GUN", _( "<bold>Capacity:</bold> " ), fmt, iteminfo::no_flags,
                                            mod->ammo_capacity() );
+                    } else {
+                        auto fmt = string_format(
+                                       ngettext( "<num> round of %s", "<num> rounds of %s", mod->ammo_capacity() ),
+                                       at->name() );
+                        info.emplace_back( "GUN", _( "<bold>Capacity:</bold> " ), fmt, iteminfo::no_flags,
+                                           mod->ammo_capacity() );
                     }
                 }
             }
@@ -3356,7 +3362,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
 }
 
-std::string item::display_money( unsigned int quantity, unsigned long amount ) const
+std::string item::display_money( unsigned int quantity, unsigned int amount ) const
 {
     //~ This is a string to display the total amount of money in a stack of cash cards. The strings are: %s is the display name of cash cards. The following bracketed $%.2f is the amount of money on the stack of cards in dollars, to two decimal points. (e.g. "cash cards ($15.35)")
     return string_format( "%s %s", tname( quantity ), format_money( amount ) );

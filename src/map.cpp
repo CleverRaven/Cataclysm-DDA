@@ -7590,6 +7590,42 @@ bool tinymap::inbounds( const tripoint &p ) const
     return generic_inbounds( p, map_boundaries, map_clearance );
 }
 
+// set up a map just long enough scribble on it
+// this tinymap should never, ever get saved
+bool tinymap::fake_load( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type )
+{
+    bool do_terset = true;
+    set_abs_sub( 0, 0, 0 );
+    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+            submap *tmpsub = MAPBUFFER.lookup_submap( gridx, gridy, 0 );
+            if( tmpsub == nullptr ) {
+                generate_uniform( gridx, gridy, 0, ter_type );
+                do_terset = false;
+                tmpsub = MAPBUFFER.lookup_submap( gridx, gridy, 0 );
+                if( tmpsub == nullptr ) {
+                    dbg( D_ERROR ) << "failed to generate a fake submap at 0, 0, 0 ";
+                    debugmsg( "failed to generate a fake submap at 0,0,0" );
+                    return false;
+                }
+            }
+            const size_t gridn = get_nonant( { gridx, gridy, 0 } );
+
+            setsubmap( gridn, tmpsub );
+        }
+    }
+
+    for( const tripoint &pos : points_in_rectangle( { 0, 0, 0 },
+           tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
+        if( do_terset ) {
+            ter_set( pos, ter_type );
+        }
+        furn_set( pos, fur_type );
+        trap_set( pos, trap_type );
+    }
+    return true;
+}
+
 void map::set_graffiti( const tripoint &p, const std::string &contents )
 {
     if( !inbounds( p ) ) {
@@ -7850,30 +7886,17 @@ void map::build_floor_caches()
     }
 }
 
-void map::build_map_cache( const int zlev, bool skip_lightmap )
+void map::do_vehicle_caching( int z )
 {
-    const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
-    const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
-    bool seen_cache_dirty = false;
-    for( int z = minz; z <= maxz; z++ ) {
-        build_outside_cache( z );
-        seen_cache_dirty |= build_transparency_cache( z );
-        seen_cache_dirty |= build_floor_cache( z );
-    }
-
-    tripoint start( 0, 0, minz );
-    tripoint end( SEEX * my_MAPSIZE, SEEY * my_MAPSIZE, maxz );
-    VehicleList vehs = get_vehicles( start, end );
-    // Cache all the vehicle stuff in one loop
-    for( auto &v : vehs ) {
-        auto &ch = get_cache( v.z );
-        auto &outside_cache = ch.outside_cache;
-        auto &transparency_cache = ch.transparency_cache;
-        auto &floor_cache = ch.floor_cache;
-        for( const vpart_reference &vp : v.v->get_all_parts() ) {
+    auto &ch = get_cache( z );
+    auto &outside_cache = ch.outside_cache;
+    auto &transparency_cache = ch.transparency_cache;
+    auto &floor_cache = ch.floor_cache;
+    for( vehicle *v : ch.vehicle_list ) {
+        for( const vpart_reference &vp : v->get_all_parts() ) {
             const size_t part = vp.part_index();
-            int px = v.x + vp.part().precalc[0].x;
-            int py = v.y + vp.part().precalc[0].y;
+            int px = v->global_pos3().x + vp.part().precalc[0].x;
+            int py = v->global_pos3().y + vp.part().precalc[0].y;
             const point p( px, py );
             if( !inbounds( p ) ) {
                 continue;
@@ -7883,8 +7906,8 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
                 vp.has_feature( VPFLAG_OPAQUE ) && !vp.part().is_broken();
 
             if( vehicle_is_opaque ) {
-                int dpart = v.v->part_with_feature( part, VPFLAG_OPENABLE, true );
-                if( dpart < 0 || !v.v->parts[dpart].open ) {
+                int dpart = v->part_with_feature( part, VPFLAG_OPENABLE, true );
+                if( dpart < 0 || !v->parts[dpart].open ) {
                     transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
                 } else {
                     vehicle_is_opaque = false;
@@ -7899,6 +7922,19 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
                 floor_cache[px][py] = true;
             }
         }
+    }
+}
+
+void map::build_map_cache( const int zlev, bool skip_lightmap )
+{
+    const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
+    const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
+    bool seen_cache_dirty = false;
+    for( int z = minz; z <= maxz; z++ ) {
+        build_outside_cache( z );
+        seen_cache_dirty |= build_transparency_cache( z );
+        seen_cache_dirty |= build_floor_cache( z );
+        do_vehicle_caching( z );
     }
 
     // The tile player is standing on should always be transparent
