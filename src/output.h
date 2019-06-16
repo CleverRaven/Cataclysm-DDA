@@ -803,7 +803,7 @@ std::string format_volume( const units::volume &volume );
 std::string format_volume( const units::volume &volume, int width, bool *out_truncated,
                            double *out_value );
 
-inline const std::string format_money( signed long cents )
+inline const std::string format_money( int cents )
 {
     return string_format( _( "$%.2f" ), cents / 100.0 );
 }
