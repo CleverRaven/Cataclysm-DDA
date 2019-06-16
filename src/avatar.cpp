@@ -827,12 +827,12 @@ void avatar::do_read( item &book )
             recipe_list.push_back( elem.name );
         }
         if( !recipe_list.empty() ) {
-            std::string recipe_line = string_format(
-                                          ngettext( "This book contains %1$u crafting recipe: %2$s",
-                                                    "This book contains %1$u crafting recipes: %2$s",
-                                                    static_cast<unsigned long>( recipe_list.size() ) ),
-                                          static_cast<unsigned long>( recipe_list.size() ),
-                                          enumerate_as_string( recipe_list ) );
+            std::string recipe_line =
+                string_format( ngettext( "This book contains %1$zu crafting recipe: %2$s",
+                                         "This book contains %1$zu crafting recipes: %2$s",
+                                         recipe_list.size() ),
+                               recipe_list.size(),
+                               enumerate_as_string( recipe_list ) );
             add_msg( m_info, recipe_line );
         }
         if( recipe_list.size() != reading->recipes.size() ) {
