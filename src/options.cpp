@@ -1393,6 +1393,11 @@ void options_manager::add_options_interface()
          true
        );
 
+    add( "REVERSE_STEERING", "interface", translate_marker( "Reverse steering direction in reverse" ),
+         translate_marker( "If true, when driving a vehicle in reverse, steering should also reverse like real life." ),
+         false
+       );
+
     mOptionsSort["interface"]++;
 
     add( "SIDEBAR_POSITION", "interface", translate_marker( "Sidebar position" ),

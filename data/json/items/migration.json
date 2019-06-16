@@ -581,5 +581,10 @@
     "id": "cooked_burrito",
     "type": "MIGRATION",
     "replace": "junk_burrito"
+  },
+  {
+    "id": "10mm",
+    "type": "MIGRATION",
+    "replace": "10mm_fmj"
   }
 ]

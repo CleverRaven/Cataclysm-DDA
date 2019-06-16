@@ -1095,20 +1095,20 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             if( g->displaying_temperature ) {
                 int temp_value = g->weather.get_temperature( {x, y, center.z} );
                 int ctemp = temp_to_celsius( temp_value );
-                short col;
+                short color;
                 const short bold = 8;
                 if( ctemp > 40 ) {
-                    col = catacurses::red;
+                    color = catacurses::red;
                 } else if( ctemp > 25 ) {
-                    col = catacurses::yellow + bold;
+                    color = catacurses::yellow + bold;
                 } else if( ctemp > 10 ) {
-                    col = catacurses::green + bold;
+                    color = catacurses::green + bold;
                 } else if( ctemp > 0 ) {
-                    col = catacurses::white + bold;
+                    color = catacurses::white + bold;
                 } else if( ctemp > -10 ) {
-                    col = catacurses::cyan + bold;
+                    color = catacurses::cyan + bold;
                 } else {
-                    col = catacurses::blue + bold;
+                    color = catacurses::blue + bold;
                 }
                 if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
                     temp_value = temp_to_celsius( temp_value );
@@ -1117,7 +1117,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
                 }
                 overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 2, 0 ),
-                                         formatted_text( std::to_string( temp_value ), col,
+                                         formatted_text( std::to_string( temp_value ), color,
                                                  NORTH ) );
             }
 
@@ -1176,24 +1176,24 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     }
 
     //Memorize everything the character just saw even if it wasn't displayed.
-    for( int y = 0; y < MAPSIZE_Y; y++ ) {
-        for( int x = 0; x < MAPSIZE_X; x++ ) {
+    for( int mem_y = 0; mem_y < MAPSIZE_Y; mem_y++ ) {
+        for( int mem_x = 0; mem_x < MAPSIZE_X; mem_x++ ) {
             //just finished o_x,o_y through sx+o_x,sy+o_y so skip them
-            if( x >= o_x && x < sx + o_x &&
-                y >= o_y && y < sy + o_y ) {
+            if( mem_x >= o_x && mem_x < sx + o_x &&
+                mem_y >= o_y && mem_y < sy + o_y ) {
                 continue;
             }
-            tripoint p( x, y, center.z );
+            tripoint p( mem_x, mem_y, center.z );
             int height_3d = 0;
             if( iso_mode ) {
                 //Iso_mode skips in a checkerboard
-                if( ( y ) % 2 != ( x ) % 2 ) {
+                if( ( mem_y ) % 2 != ( mem_x ) % 2 ) {
                     continue;
                 }
                 //iso_mode does weird things to x and y... replicate that
                 //The MAPSIZE_X/2 offset is to keep the rectangle in the upper right quadrant.
-                p.x = ( x - y - MAPSIZE_X / 2 + MAPSIZE_Y / 2 ) / 2 + MAPSIZE_X / 2;
-                p.y = ( y + x - MAPSIZE_Y / 2 - MAPSIZE_X / 2 ) / 2 + MAPSIZE_Y / 2;
+                p.x = ( mem_x - mem_y - MAPSIZE_X / 2 + MAPSIZE_Y / 2 ) / 2 + MAPSIZE_X / 2;
+                p.y = ( mem_y + mem_x - MAPSIZE_Y / 2 - MAPSIZE_X / 2 ) / 2 + MAPSIZE_Y / 2;
                 //Check if we're in previously done iso_mode space
                 if( p.x >= ( 0 - sy - sx / 2 + sy / 2 ) / 2 + o_x && p.x < ( sx - 0 - sx / 2 + sy / 2 ) / 2 + o_x &&
                     p.y >= ( 0 + 0 - sy / 2 - sx / 2 ) / 2 + o_y && p.y < ( sy + sx - sy / 2 - sx / 2 ) / 2 + o_y ) {
@@ -1750,7 +1750,7 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile,
         sprite_num = 0;
     } else if( spritelist.size() == 1 ) {
         // just one tile, apply SDL sprite rotation if not in isometric mode
-        rotate_sprite = !tile_iso;
+        rotate_sprite = true;
         sprite_num = 0;
     } else {
         // multiple rotated tiles defined, don't apply sprite rotation after picking one
@@ -1805,19 +1805,31 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile,
 #if defined(_WIN32)
                 destination.y -= 1;
 #endif
-                ret = sprite_tex->render_copy_ex( renderer, &destination, -90, NULL, SDL_FLIP_NONE );
+                if( ! tile_iso ) { // never rotate isometric tiles
+                    ret = sprite_tex->render_copy_ex( renderer, &destination, -90, NULL, SDL_FLIP_NONE );
+                } else {
+                    ret = sprite_tex->render_copy_ex( renderer, &destination, 0, NULL, SDL_FLIP_NONE );
+                }
                 break;
             case 2: // 180 degrees, implemented with flips instead of rotation
-                ret = sprite_tex->render_copy_ex( renderer, &destination, 0, NULL,
-                                                  static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ) );
+                if( ! tile_iso ) { // never flip isometric tiles vertically
+                    ret = sprite_tex->render_copy_ex( renderer, &destination, 0, NULL,
+                                                      static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ) );
+                } else {
+                    ret = sprite_tex->render_copy_ex( renderer, &destination, 0, NULL, SDL_FLIP_NONE );
+                }
                 break;
             case 3: // 270 degrees
 #if defined(_WIN32)
                 destination.x -= 1;
 #endif
-                ret = sprite_tex->render_copy_ex( renderer, &destination, 90, NULL, SDL_FLIP_NONE );
+                if( ! tile_iso ) { // never rotate isometric tiles
+                    ret = sprite_tex->render_copy_ex( renderer, &destination, 90, NULL, SDL_FLIP_NONE );
+                } else {
+                    ret = sprite_tex->render_copy_ex( renderer, &destination, 0, NULL, SDL_FLIP_NONE );
+                }
                 break;
-            case 4: // flip horizontaly
+            case 4: // flip horizontally
                 ret = sprite_tex->render_copy_ex( renderer, &destination, 0, NULL,
                                                   static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL ) );
         }
@@ -1837,8 +1849,9 @@ bool cata_tiles::draw_tile_at( const tile_type &tile, int x, int y, unsigned int
                                int rota,
                                lit_level ll, bool apply_night_vision_goggles, int &height_3d )
 {
-    draw_sprite_at( tile, tile.bg, x, y, loc_rand, false, rota, ll, apply_night_vision_goggles );
-    draw_sprite_at( tile, tile.fg, x, y, loc_rand, true, rota, ll, apply_night_vision_goggles,
+    draw_sprite_at( tile, tile.bg, x, y, loc_rand, /*fg:*/ false, rota, ll,
+                    apply_night_vision_goggles );
+    draw_sprite_at( tile, tile.fg, x, y, loc_rand, /*fg:*/ true, rota, ll, apply_night_vision_goggles,
                     height_3d );
     return true;
 }
@@ -2314,10 +2327,10 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_le
         const int subtile = corner;
         // depending on the toggle flip sprite left or right
         int rot_facing = -1;
-        if( m->facing == FD_LEFT ) {
-            rot_facing = 4;
-        } else if( m->facing == FD_RIGHT ) {
+        if( m->facing == FD_RIGHT ) {
             rot_facing = 0;
+        } else if( m->facing == FD_LEFT ) {
+            rot_facing = 4;
         }
         if( rot_facing >= 0 ) {
             const auto ent_name = m->type->id;
@@ -2372,10 +2385,10 @@ void cata_tiles::draw_entity_with_overlays( const player &pl, const tripoint &p,
     int prev_height_3d = height_3d;
 
     // depending on the toggle flip sprite left or right
-    if( pl.facing == FD_LEFT ) {
-        draw_from_id_string( ent_name, C_NONE, "", p, corner, 4, ll, false, height_3d );
-    } else if( pl.facing == FD_RIGHT ) {
+    if( pl.facing == FD_RIGHT ) {
         draw_from_id_string( ent_name, C_NONE, "", p, corner, 0, ll, false, height_3d );
+    } else if( pl.facing == FD_LEFT ) {
+        draw_from_id_string( ent_name, C_NONE, "", p, corner, 4, ll, false, height_3d );
     }
 
     // next up, draw all the overlays
@@ -2384,10 +2397,10 @@ void cata_tiles::draw_entity_with_overlays( const player &pl, const tripoint &p,
         std::string draw_id = overlay;
         if( find_overlay_looks_like( pl.male, overlay, draw_id ) ) {
             int overlay_height_3d = prev_height_3d;
-            if( pl.facing == FD_LEFT ) {
-                draw_from_id_string( draw_id, C_NONE, "", p, corner, 4, ll, false, overlay_height_3d );
-            } else if( pl.facing == FD_RIGHT ) {
-                draw_from_id_string( draw_id, C_NONE, "", p, corner, 0, ll, false, overlay_height_3d );
+            if( pl.facing == FD_RIGHT ) {
+                draw_from_id_string( draw_id, C_NONE, "", p, corner, /*rota:*/ 0, ll, false, overlay_height_3d );
+            } else if( pl.facing == FD_LEFT ) {
+                draw_from_id_string( draw_id, C_NONE, "", p, corner, /*rota:*/ 4, ll, false, overlay_height_3d );
             }
             // the tallest height-having overlay is the one that counts
             height_3d = std::max( height_3d, overlay_height_3d );

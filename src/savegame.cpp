@@ -323,7 +323,7 @@ void game::load_shortcuts( std::istream &fin )
                 std::list<input_event> &qslist = quick_shortcuts_map[ *it ];
                 qslist.clear();
                 while( ja.has_more() ) {
-                    qslist.push_back( input_event( ja.next_long(), CATA_INPUT_KEYBOARD ) );
+                    qslist.push_back( input_event( ja.next_int(), CATA_INPUT_KEYBOARD ) );
                 }
             }
         }

@@ -121,6 +121,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "10mm",
+    "name": "10mm Auto",
+    "default": "10mm_fmj"
+  },
+  {
+    "type": "ammunition_type",
     "id": "44",
     "name": ".44",
     "default": "44magnum"
