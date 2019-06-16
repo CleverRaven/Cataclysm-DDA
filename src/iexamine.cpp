@@ -4054,10 +4054,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         for( const item *anesthesia_item : b_filter ) {
             acomps.push_back( item_comp( anesthesia_item->typeId(), 1 ) ); // legacy
         }
-        if( anesth_kit.empty() && acomps.empty() ) {
-            popup( _( "You need an anesthesia kit with at least one charge for autodoc to perform any bionic manipulation." ) );
-            return;
-        }
     }
 
     switch( amenu.ret ) {
