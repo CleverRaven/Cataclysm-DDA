@@ -1216,10 +1216,18 @@ bool player::can_uninstall_bionic( const bionic_id &b_id, player &installer, boo
     int assist_bonus = installer.get_effect_int( effect_assisted );
 
     // removal of bionics adds +2 difficulty over installation
-    float adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
-                           skilll_computer,
-                           skilll_electronics,
-                           skill_level );
+    float adjusted_skill;
+    if( autodoc ) {
+        adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
+                         skilll_computer,
+                         skilll_electronics,
+                         skill_level );
+    } else {
+        adjusted_skill = installer.bionics_adjusted_skill( skilll_electronics,
+                         skilll_firstaid,
+                         skilll_mechanics,
+                         skill_level );
+    }
     int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, autodoc, difficulty + 2 );
 
     if( chance_of_success >= 100 ) {
@@ -1254,10 +1262,19 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     int assist_bonus = installer.get_effect_int( effect_assisted );
 
     // removal of bionics adds +2 difficulty over installation
-    float adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
-                           skilll_computer,
-                           skilll_electronics,
-                           skill_level );
+    float adjusted_skill;
+    if( autodoc ) {
+        adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
+                         skilll_computer,
+                         skilll_electronics,
+                         skill_level );
+    } else {
+        adjusted_skill = installer.bionics_adjusted_skill( skilll_electronics,
+                         skilll_firstaid,
+                         skilll_mechanics,
+                         skill_level );
+    }
+
     int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, autodoc, difficulty + 2 );
 
     // Surgery is imminent, retract claws or blade if active
