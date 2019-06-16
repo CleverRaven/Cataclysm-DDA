@@ -12,7 +12,7 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "max_energy": 50,
+    "max_energy": "50 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "RECHARGE" ]
   },
@@ -29,7 +29,7 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "green",
-    "max_energy": 500,
+    "max_energy": "500 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "LEAK_DAM", "RADIOACTIVE" ]
   },
@@ -46,7 +46,7 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "max_energy": 100,
+    "max_energy": "100 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
   },
@@ -63,7 +63,7 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "max_energy": 100,
+    "max_energy": "100 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "RECHARGE" ]
   },
@@ -80,7 +80,7 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "max_energy": 150,
+    "max_energy": "150 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "RECHARGE" ]
   },
@@ -97,7 +97,7 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "green",
-    "max_energy": 1000,
+    "max_energy": "1000 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "LEAK_DAM", "RADIOACTIVE" ]
   },
@@ -114,7 +114,7 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "max_energy": 300,
+    "max_energy": "300 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
   },
@@ -131,7 +131,7 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "max_energy": 500,
+    "max_energy": "500 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "RECHARGE" ]
   },
@@ -148,7 +148,7 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "max_energy": 600,
+    "max_energy": "600 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "RECHARGE" ]
   },
@@ -165,7 +165,7 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "green",
-    "max_energy": 5000,
+    "max_energy": "5000 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "LEAK_DAM", "RADIOACTIVE" ]
   },
@@ -182,7 +182,7 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "max_energy": 1200,
+    "max_energy": "1200 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
   },
@@ -199,7 +199,7 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "max_energy": 1000,
+    "max_energy": "1000 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "RECHARGE" ]
   },
@@ -216,7 +216,7 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "max_energy": 1250,
+    "max_energy": "1250 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "RECHARGE" ]
   },
@@ -233,7 +233,7 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "green",
-    "max_energy": 10000,
+    "max_energy": "10000 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "LEAK_DAM", "RADIOACTIVE" ]
   },
@@ -250,7 +250,7 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "max_energy": 2500,
+    "max_energy": "2500 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
   }
