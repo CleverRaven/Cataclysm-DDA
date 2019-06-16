@@ -1047,17 +1047,6 @@
   },
   {
     "type": "recipe",
-    "result": "cooked_burrito",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_SNACK",
-    "skill_used": "cooking",
-    "time": "2 m",
-    "autolearn": true,
-    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "frozen_burrito", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "cooked_dinner",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
