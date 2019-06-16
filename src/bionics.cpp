@@ -107,8 +107,8 @@ static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
-static const trait_id
-trait_AFS_BIONIC_REJECTION( "AFS_BIONIC_REJECTION" ); // Aftershock-unique trait; makes installing bionics adversely affect you
+// Aftershock-unique trait; makes installing bionics adversely affect you
+static const trait_id trait_AFS_BIONIC_REJECTION( "AFS_BIONIC_REJECTION" );
 
 static const bionic_id bionic_TOOLS_EXTEND( "bio_tools_extend" );
 
