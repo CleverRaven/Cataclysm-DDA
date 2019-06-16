@@ -1347,18 +1347,19 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, pla
     return false;
 }
 
-bool player::install_bionics( const itype &type, player &installer, bool autodoc, int skill_level )
+bool player::can_install_bionics( const itype &type, player &installer, bool autodoc,
+                                  int skill_level )
 {
     if( !type.bionic ) {
         debugmsg( "Tried to install NULL bionic" );
         return false;
     }
-
     int assist_bonus = installer.get_effect_int( effect_assisted );
 
     const bionic_id &bioid = type.bionic->id;
     const int difficult = type.bionic->difficulty;
     float adjusted_skill;
+
     if( autodoc ) {
         adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
                          skilll_computer,
@@ -1399,6 +1400,35 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
             return false;
         }
     }
+
+    return true;
+}
+
+bool player::install_bionics( const itype &type, player &installer, bool autodoc, int skill_level )
+{
+    if( !type.bionic ) {
+        debugmsg( "Tried to install NULL bionic" );
+        return false;
+    }
+
+    int assist_bonus = installer.get_effect_int( effect_assisted );
+
+    const bionic_id &bioid = type.bionic->id;
+    const int difficult = type.bionic->difficulty;
+    float adjusted_skill;
+
+    if( autodoc ) {
+        adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
+                         skilll_computer,
+                         skilll_electronics,
+                         skill_level );
+    } else {
+        adjusted_skill = installer.bionics_adjusted_skill( skilll_electronics,
+                         skilll_firstaid,
+                         skilll_mechanics,
+                         skill_level );
+    }
+    int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, autodoc, difficult );
 
     // Practice skills only if conducting manual installation
     if( !autodoc ) {

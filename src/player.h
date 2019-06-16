@@ -334,6 +334,9 @@ class player : public Character
                                       const skill_id &important_skill,
                                       const skill_id &least_important_skill,
                                       int skill_level = -1 );
+        /**Is the installation possible*/
+        bool can_install_bionics( const itype &type, player &installer, bool autodoc = false,
+                                  int skill_level = -1 );
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
         bool install_bionics( const itype &type, player &installer, bool autodoc = false,
                               int skill_level = -1 );
