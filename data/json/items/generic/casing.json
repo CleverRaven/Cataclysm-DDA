@@ -298,5 +298,19 @@
     "symbol": "=",
     "color": "red",
     "damage_states": [ 0, 0 ]
+  },
+  {
+    "id": "410_hull",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": ".410 hull",
+    "description": "An empty hull from a .410 bore shotgun shell.",
+    "weight": 6,
+    "volume": "8ml",
+    "stackable": true,
+    "material": "plastic",
+    "symbol": "=",
+    "color": "red",
+    "damage_states": [ 0, 0 ]
   }
 ]
