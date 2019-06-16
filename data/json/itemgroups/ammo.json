@@ -26,7 +26,7 @@
     "id": "ammo_pistol_rare",
     "//": "Less common pistol ammo including that only used by police/paramilitary forces.",
     "items": [
-      [ "10mm", 15 ],
+      [ "10mm_fmj", 15 ],
       [ "38_super", 20 ],
       [ "44fmj", 15 ],
       [ "44magnum", 35 ],
@@ -65,7 +65,7 @@
     "id": "ammo_pistol_reloaded",
     "//": "Reloaded pistol ammo balanced according to rarity.",
     "items": [
-      [ "reloaded_10mm", 10 ],
+      [ "reloaded_10mm_fmj", 10 ],
       [ "reloaded_32_acp", 50 ],
       [ "reloaded_38_fmj", 30 ],
       [ "reloaded_38_special", 80 ],
@@ -221,7 +221,7 @@
     "type": "item_group",
     "id": "ammo_shotgun_common",
     "//": "Shotgun ammo commonly owned by citizens and found in many locations.",
-    "items": [ [ "shot_00", 100 ], [ "shot_bird", 70 ] ]
+    "items": [ [ "shot_00", 100 ], [ "shot_bird", 70 ], [ "shot_dragon", 10 ] ]
   },
   {
     "type": "item_group",
@@ -255,6 +255,7 @@
     "items": [
       [ "reloaded_shot_00", 200 ],
       [ "reloaded_shot_bird", 30 ],
+      [ "reloaded_shot_dragon", 20 ],
       [ "reloaded_shot_flechette", 5 ],
       [ "reloaded_shot_slug", 30 ],
       [ "shot_scrap", 80 ]

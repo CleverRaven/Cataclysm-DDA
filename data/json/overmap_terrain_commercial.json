@@ -279,6 +279,69 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_gun_roof",
+    "name": "gun store roof",
+    "copy-from": "generic_city_building",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gun_1",
+    "name": "gun store",
+    "copy-from": "generic_city_building",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gun_roof_1",
+    "name": "gun store roof",
+    "copy-from": "generic_city_building",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gun_2",
+    "name": "gun store",
+    "copy-from": "generic_city_building",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gun_3",
+    "name": "gun store",
+    "copy-from": "generic_city_building",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gun_roof_3",
+    "name": "gun store roof",
+    "copy-from": "generic_city_building",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gun_4",
+    "name": "gun store",
+    "copy-from": "generic_city_building",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gun_2ndfloor_4",
+    "name": "gun store 2nd floor",
+    "copy-from": "generic_city_building",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gun_roof_4",
+    "name": "gun store roof",
+    "copy-from": "generic_city_building",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_clothes",
     "name": "clothing store",
     "copy-from": "generic_city_building",
@@ -437,6 +500,27 @@
     "name": "bookstore roof",
     "copy-from": "generic_city_building",
     "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restaurant_foodplace",
+    "name": "restaurant",
+    "copy-from": "generic_city_building",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restaurant_foodplace_roof",
+    "name": "restaurant roof",
+    "copy-from": "generic_city_building",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restaurant_foodplace_upper_roof",
+    "name": "restaurant roof",
+    "copy-from": "generic_city_building",
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",

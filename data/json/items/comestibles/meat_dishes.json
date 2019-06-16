@@ -465,7 +465,7 @@
     "name": "hamburger helper",
     "weight": 170,
     "color": "red",
-    "spoils_in": "10 hours",
+    "spoils_in": "1 day",
     "container": "box_small",
     "comestible_type": "FOOD",
     "symbol": "%",

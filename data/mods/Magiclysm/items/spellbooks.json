@@ -168,5 +168,41 @@
       "type": "learn_spell",
       "spells": [ "recover_mana", "recover_bionic_power", "recover_pain", "recover_fatigue", "recover_stamina" ]
     }
+  },
+  {
+    "id": "magus_spellbook",
+    "type": "GENERIC",
+    "name": "The Tome of The Battle Mage",
+    "description": "Your standard wizardy looking spellbook, filled with Magus combat spells.  You sure lucked out!",
+    "weight": 434,
+    "volume": 3,
+    "symbol": "?",
+    "color": "light_grey",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_mana_beam", "magus_mana_bolt", "magus_mana_blast" ] }
+  },
+  {
+    "id": "eshaper_spellbook",
+    "type": "GENERIC",
+    "name": "The Tome of the Hollow Earth",
+    "description": "This large dusty spellbook seems perpetually, well, dusty.  It contains the power of the earth.",
+    "weight": 483,
+    "volume": 3.3,
+    "symbol": "?",
+    "color": "light_brown",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "eshaper_rockbolt", "eshaper_shardspray", "eshaper_piercing_bolt", "eshaper_shardstorm" ]
+    }
+  },
+  {
+    "id": "magus_spellbook_move",
+    "type": "GENERIC",
+    "name": "The Tome of Magical Movement",
+    "description": "This small lightweight book seems to almost not entirely exist, let's say it 97% does.  It contains Magus spells focused on movement.",
+    "weight": 231,
+    "volume": 2,
+    "symbol": "?",
+    "color": "light_grey",
+    "use_action": { "type": "learn_spell", "spells": [ "phase_door", "magus_escape", "magus_haste" ] }
   }
 ]

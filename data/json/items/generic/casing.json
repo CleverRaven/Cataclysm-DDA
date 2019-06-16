@@ -92,6 +92,15 @@
     "volume": "5ml"
   },
   {
+    "id": "10mm_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": "10mm Auto casing",
+    "description": "An empty casing from a 10mm Auto round.",
+    "weight": 3,
+    "volume": "5ml"
+  },
+  {
     "id": "40mm_casing",
     "type": "GENERIC",
     "category": "spare_parts",

@@ -7737,6 +7737,7 @@ void game::drop_in_direction()
     }
 }
 
+
 // Used to set up the first Hotkey in the display set
 static int get_initial_hotkey( const size_t menu_index )
 {
@@ -8544,6 +8545,11 @@ void game::wield( item_location &loc )
     tripoint pos = loc.position();
     int worn_index = INT_MIN;
     if( u.is_worn( *loc.get_item() ) ) {
+        auto ret = u.can_takeoff( *loc.get_item() );
+        if( !ret.success() ) {
+            add_msg( m_info, "%s", ret.c_str() );
+            return;
+        }
         int item_pos = u.get_item_position( loc.get_item() );
         if( item_pos != INT_MIN ) {
             worn_index = Character::worn_position_to_index( item_pos );

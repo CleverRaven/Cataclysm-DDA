@@ -1527,7 +1527,7 @@ void npc::store( JsonOut &json ) const
     json.member( "previous_mission", previous_mission );
     json.member( "faction_api_ver", faction_api_version );
     if( !fac_id.str().empty() ) { // set in constructor
-        json.member( "my_fac", my_fac->id.c_str() );
+        json.member( "my_fac", fac_id.c_str() );
     }
     json.member( "attitude", static_cast<int>( attitude ) );
     json.member( "previous_attitude", static_cast<int>( attitude ) );
@@ -2925,7 +2925,7 @@ void map_memory::load( JsonIn &jsin )
             p.x = jsin.get_int();
             p.y = jsin.get_int();
             p.z = jsin.get_int();
-            const long symbol = jsin.get_long();
+            const int symbol = jsin.get_int();
             memorize_symbol( std::numeric_limits<int>::max(), p, symbol );
             jsin.end_array();
         }
@@ -2950,7 +2950,7 @@ void map_memory::load( JsonObject &jsin )
     while( map_memory_curses.has_more() ) {
         JsonObject pmap = map_memory_curses.next_object();
         const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
-        memorize_symbol( std::numeric_limits<int>::max(), p, pmap.get_long( "symbol" ) );
+        memorize_symbol( std::numeric_limits<int>::max(), p, pmap.get_int( "symbol" ) );
     }
 }
 
@@ -3581,7 +3581,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
     } else if( member_name == "vehicles" ) {
         jsin.start_array();
         while( !jsin.end_array() ) {
-            std::unique_ptr<vehicle> tmp( new vehicle() );
+            std::unique_ptr<vehicle> tmp = std::make_unique<vehicle>();
             jsin.read( *tmp );
             vehicles.push_back( std::move( tmp ) );
         }
@@ -3605,7 +3605,8 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
         }
     } else if( member_name == "computers" ) {
         std::string computer_data = jsin.get_string();
-        std::unique_ptr<computer> new_comp( new computer( "BUGGED_COMPUTER", -100 ) );
+        std::unique_ptr<computer> new_comp =
+            std::make_unique<computer>( "BUGGED_COMPUTER", -100 );
         new_comp->load_data( computer_data );
         comp = std::move( new_comp );
     } else if( member_name == "camp" ) {

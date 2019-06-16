@@ -30,10 +30,13 @@
       [ "priest_advanced", 5 ],
       [ "pyro", 6 ],
       [ "winter_grasp", 6 ],
-      [ "tome_of_storms", 3 ],
+      [ "tome_of_storms", 6 ],
       [ "biomancer_spellbook", 6 ],
       [ "druid_spellbook", 6 ],
-      [ "recovery_spellbook", 3 ]
+      [ "recovery_spellbook", 3 ],
+      [ "magus_spellbook", 6 ],
+      [ "eshaper_spellbook", 6 ],
+      [ "magus_spellbook_move", 3 ]
     ]
   },
   {
@@ -48,7 +51,10 @@
       [ "tome_of_storms", 3 ],
       [ "biomancer_spellbook", 2 ],
       [ "druid_spellbook", 2 ],
-      [ "recovery_spellbook", 3 ]
+      [ "recovery_spellbook", 3 ],
+      [ "magus_spellbook", 3 ],
+      [ "eshaper_spellbook", 3 ],
+      [ "magus_spellbook_move", 2 ]
     ]
   },
   {
@@ -62,7 +68,10 @@
       [ "priest_advanced", 6 ],
       [ "biomancer_spellbook", 1 ],
       [ "druid_spellbook", 1 ],
-      [ "recovery_spellbook", 3 ]
+      [ "recovery_spellbook", 3 ],
+      [ "magus_spellbook", 3 ],
+      [ "eshaper_spellbook", 3 ],
+      [ "magus_spellbook_move", 2 ]
     ]
   },
   {

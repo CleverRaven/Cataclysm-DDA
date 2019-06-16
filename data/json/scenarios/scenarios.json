@@ -443,7 +443,7 @@
     "name": "Sheltered",
     "points": 2,
     "description": "When the apocalypse broke out, you were funneled into a nearby shelter.  Here you have lived, never leaving, lest the unknowns of the outside world hurt you.  Supplies are running low, and for the first time since the cataclysm, you will be forced to face the outside world.",
-    "allowed_locs": [ "lmoe", "shelter" ],
+    "allowed_locs": [ "lmoe_empty", "shelter" ],
     "start_name": "Enclosed Shelter",
     "flags": [ "WIN_START", "LONE_START" ],
     "add_professions": true,
@@ -599,6 +599,17 @@
       "ELECTRORECEPTORS"
     ],
     "flags": [ "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "ident": "foodplace",
+    "name": "The Mascot Rises",
+    "points": 0,
+    "description": "You just finished your shift and got back in the break room when you heard the alarms and the security door shutting down behind you.  There's a lot of customers out there and you're not sure Foodplace delicious food is going to be enough for them.",
+    "allowed_locs": [ "fp_break_room" ],
+    "professions": [ "true_foodperson", "unemployed" ],
+    "start_name": "Foodplace Break Room",
+    "flags": [ "CITY_START" ]
   },
   {
     "type": "scenario",

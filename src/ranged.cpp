@@ -1648,13 +1648,24 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             }
         }
 
-        // Make player's sprite flip to face the current target
-        if( dst.x > src.x ) {
-            g->u.facing = FD_RIGHT;
-        } else if( dst.x < src.x ) {
-            g->u.facing = FD_LEFT;
-        }
+        int new_dx = dst.x - src.x;
+        int new_dy = dst.y - src.y;
 
+        // Make player's sprite flip to face the current target
+        if( ! tile_iso ) {
+            if( new_dx > 0 ) {
+                g->u.facing = FD_RIGHT;
+            } else if( new_dx < 0 ) {
+                g->u.facing = FD_LEFT;
+            }
+        } else {
+            if( new_dx >= 0 && new_dy >= 0 ) {
+                g->u.facing = FD_RIGHT;
+            }
+            if( new_dy <= 0 && new_dx <= 0 ) {
+                g->u.facing = FD_LEFT;
+            }
+        }
     } while( true );
 
     pc.view_offset = old_offset;

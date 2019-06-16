@@ -698,7 +698,7 @@ static void draw_skills_tab( const catacurses::window &w_skills, const catacurse
 
     werase( w_info );
 
-    if( line < skillslist.size() ) {
+    if( selectedSkill ) {
         fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, selectedSkill->description() );
     }
     wrefresh( w_info );
@@ -755,7 +755,9 @@ static void draw_skills_tab( const catacurses::window &w_skills, const catacurse
         line = 0;
         curtab = action == "NEXT_TAB" ? curtab + 1 : curtab - 1;
     } else if( action == "CONFIRM" ) {
-        you.get_skill_level_object( selectedSkill->ident() ).toggleTraining();
+        if( selectedSkill ) {
+            you.get_skill_level_object( selectedSkill->ident() ).toggleTraining();
+        }
     } else if( action == "QUIT" ) {
         done = true;
     }
