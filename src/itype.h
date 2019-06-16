@@ -909,6 +909,9 @@ struct itype {
         /** Magazine types (if any) for each ammo type that can be used to reload this item */
         std::map< ammotype, std::set<itype_id> > magazines;
 
+        /** Batteries that can be used in this item */
+        std::set<itype_id> batteries;
+
         /** Default magazine for each ammo type that can be used to reload this item */
         std::map< ammotype, itype_id > magazine_default;
 

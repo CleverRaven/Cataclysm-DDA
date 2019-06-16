@@ -2086,6 +2086,15 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
         def.phase = jo.get_enum_value<phase_id>( "phase" );
     }
 
+    if( jo.has_array( "batteries" ) ) {
+        def.batteries.clear();
+
+        JsonArray bats = jo.get_array( "batteries" );
+        for( size_t i = 0; i < bats.size(); ++i ) {
+            def.batteries.insert( bats.get_string( i ) );
+        }
+    }
+
     if( jo.has_array( "magazines" ) ) {
         def.magazine_default.clear();
         def.magazines.clear();
