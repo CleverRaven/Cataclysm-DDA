@@ -4109,23 +4109,13 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-
-            std::vector<itype_id> bionic_types;
-            std::vector<std::string> bionic_names;
-
             for( auto &bio : installed_bionics ) {
-                if( std::find( bionic_types.begin(), bionic_types.end(), bio.id.str() ) == bionic_types.end() ) {
-                    if( bio.id != bionic_id( "bio_power_storage" ) ||
-                        bio.id != bionic_id( "bio_power_storage_mkII" ) ) {
-                        const auto &bio_data = bio.info();
-                        bionic_names.push_back( bio_data.name );
-                        bionic_types.push_back( bio.id.str() );
-
-                        if( item::type_is_defined( bio.id.str() ) ) {// put cbm items in your inventory
-                            item bionic_to_uninstall( bio.id.str(), calendar::turn );
-                            bionic_to_uninstall.set_flag( "IN_CBM" );
-                            g->u.i_add( bionic_to_uninstall );
-                        }
+                if( bio.id != bionic_id( "bio_power_storage" ) ||
+                    bio.id != bionic_id( "bio_power_storage_mkII" ) ) {
+                    if( item::type_is_defined( bio.id.str() ) ) {// put cbm items in your inventory
+                        item bionic_to_uninstall( bio.id.str(), calendar::turn );
+                        bionic_to_uninstall.set_flag( "IN_CBM" );
+                        g->u.i_add( bionic_to_uninstall );
                     }
                 }
             }
