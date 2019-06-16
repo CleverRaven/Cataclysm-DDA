@@ -1100,8 +1100,8 @@ int reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( _( "It's too dark to read." ) );
         return 0;
     }
-    const tripoint &center = omt_to_sm_copy( it.get_var( "reveal_map_center_omt",
-                             p.global_omt_location() ) );
+    const tripoint &center = it.get_var( "reveal_map_center_omt",
+                                         p.global_omt_location() );
     for( auto &omt : omt_types ) {
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
             reveal_targets( tripoint( center.x, center.y, z ), omt, 0 );
