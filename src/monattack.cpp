@@ -336,7 +336,7 @@ bool mattack::antqueen( monster *z )
             add_msg( m_warning, _( "The %s tends nearby eggs, and they hatch!" ), z->name() );
         }
         for( const tripoint &egg_pos : egg_points ) {
-            for( const item &it : g->m.i_at( egg_pos ) ) {
+            for( item &it : g->m.i_at( egg_pos ) ) {
                 if( it.typeId() != "ant_egg" ) {
                     continue;
                 }

@@ -2066,7 +2066,7 @@ void talk_function::loot_building( const tripoint &site )
                 critter->die( nullptr );
             }
             //Hoover up tasty items!
-            for( const item &it : bay.i_at( p ) ) {
+            for( item &it : bay.i_at( p ) ) {
                 if( ( ( it.is_food() || it.is_food_container() ) && !one_in( 8 ) ) ||
                     ( it.made_of( LIQUID ) && !one_in( 8 ) ) ||
                     ( it.price( true ) > 1000 && !one_in( 4 ) ) || one_in( 5 ) ) {

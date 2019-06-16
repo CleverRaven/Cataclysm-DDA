@@ -4443,30 +4443,15 @@ cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item 
     return cata::optional<vehicle_stack::iterator>( new_pos );
 }
 
-bool vehicle::remove_item( int part, int itemdex )
+bool vehicle::remove_item( int part, item *it )
 {
-    if( itemdex < 0 || itemdex >= static_cast<int>( parts[part].items.size() ) ) {
+    const colony<item> &veh_items = parts[part].items;
+    const colony<item>::const_iterator iter = veh_items.get_iterator_from_pointer( it );
+    if( iter == veh_items.end() ) {
         return false;
     }
-
-    remove_item( part, std::next( parts[part].items.begin(), itemdex ) );
+    remove_item( part, iter );
     return true;
-}
-
-bool vehicle::remove_item( int part, const item *it )
-{
-    bool rc = false;
-    colony<item> &veh_items = parts[part].items;
-
-    for( auto iter = veh_items.begin(); iter != veh_items.end(); ++iter ) {
-        //delete the item if the pointer memory addresses are the same
-        if( it == &*iter ) {
-            remove_item( part, iter );
-            rc = true;
-            break;
-        }
-    }
-    return rc;
 }
 
 vehicle_stack::iterator vehicle::remove_item( int part, vehicle_stack::const_iterator it )

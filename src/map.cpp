@@ -4058,12 +4058,7 @@ map_stack::iterator map::i_rem( const point &location, map_stack::const_iterator
     return i_rem( tripoint( location, abs_sub.z ), it );
 }
 
-int map::i_rem( const int x, const int y, const int index )
-{
-    return i_rem( tripoint( x, y, abs_sub.z ), index );
-}
-
-void map::i_rem( const int x, const int y, const item *it )
+void map::i_rem( const int x, const int y, item *it )
 {
     i_rem( tripoint( x, y, abs_sub.z ), it );
 }
@@ -4134,34 +4129,12 @@ map_stack::iterator map::i_rem( const tripoint &p, map_stack::const_iterator it 
     return current_submap->itm[l.x][l.y].erase( it );
 }
 
-int map::i_rem( const tripoint &p, const int index )
+void map::i_rem( const tripoint &p, item *it )
 {
-    if( index < 0 ) {
-        debugmsg( "i_rem called with negative index %d", index );
-        return index;
-    }
-
-    if( index >= static_cast<int>( i_at( p ).size() ) ) {
-        return index;
-    }
-
-    auto map_items = i_at( p );
-    auto iter = map_items.begin();
-    std::advance( iter, index );
-    map_items.erase( iter );
-    return index;
-}
-
-void map::i_rem( const tripoint &p, const item *it )
-{
-    auto map_items = i_at( p );
-
-    for( auto iter = map_items.begin(); iter != map_items.end(); iter++ ) {
-        //delete the item if the pointer memory addresses are the same
-        if( it == &*iter ) {
-            map_items.erase( iter );
-            break;
-        }
+    map_stack map_items = i_at( p );
+    map_stack::const_iterator iter = map_items.get_iterator_from_pointer( it );
+    if( iter != map_items.end() ) {
+        i_rem( p, iter );
     }
 }
 
@@ -5151,30 +5124,6 @@ static bool trigger_radio_item( item_stack &items, item_stack::iterator &n,
 void map::trigger_rc_items( const std::string &signal )
 {
     process_items( false, trigger_radio_item, signal );
-}
-
-item *map::item_from( const tripoint &pos, size_t index )
-{
-    auto items = i_at( pos );
-
-    if( index >= items.size() ) {
-        return nullptr;
-    } else {
-        // This is a hack until this function is deleted
-        return &*items.get_iterator_from_index( index );
-    }
-}
-
-item *map::item_from( vehicle *veh, int cargo_part, size_t index )
-{
-    auto items = veh->get_items( cargo_part );
-
-    if( index >= items.size() ) {
-        return nullptr;
-    } else {
-        // This is a hack until this function is deleted
-        return &*items.get_iterator_from_index( index );
-    }
 }
 
 const trap &map::tr_at( const tripoint &p ) const
@@ -6968,7 +6917,7 @@ void map::grow_plant( const tripoint &p )
     if( !furn.has_flag( "PLANT" ) ) {
         return;
     }
-    auto items = i_at( p );
+    map_stack items = i_at( p );
     if( items.empty() ) {
         // No seed there anymore, we don't know what kind of plant it was.
         dbg( D_ERROR ) << "a seed item has vanished at " << p.x << "," << p.y << "," << p.z;
@@ -6976,7 +6925,7 @@ void map::grow_plant( const tripoint &p )
         return;
     }
 
-    auto seed = items.front();
+    item &seed = items.front();
     if( !seed.is_seed() ) {
         // No seed there anymore, we don't know what kind of plant it was.
         dbg( D_ERROR ) << "a planted item at " << p.x << "," << p.y << "," << p.z << " has no seed data";
@@ -6990,14 +6939,14 @@ void map::grow_plant( const tripoint &p )
             if( has_flag_furn( "GROWTH_SEEDLING", p ) ) {
                 return;
             }
-            i_rem( p, 1 );
+            i_rem( p, &seed );
             rotten_item_spawn( seed, p );
             furn_set( p, furn_str_id( furn.plant->transform ) );
         } else if( seed.age() < plantEpoch * 3 * furn.plant->growth_multiplier ) {
             if( has_flag_furn( "GROWTH_MATURE", p ) ) {
                 return;
             }
-            i_rem( p, 1 );
+            i_rem( p, &seed );
             rotten_item_spawn( seed, p );
             //You've skipped the seedling stage so roll monsters twice
             if( !has_flag_furn( "GROWTH_SEEDLING", p ) ) {

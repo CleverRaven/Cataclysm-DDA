@@ -236,7 +236,7 @@ static void wear_from_feet( player &p, int pos )
     REQUIRE( size_before > pos );
     // This is a temporary hack to get this (currently broken) test to compile
     p.wear_item( *g->m.i_at( p.pos() ).get_iterator_from_index( pos ), false );
-    g->m.i_rem( p.pos(), pos );
+    g->m.i_rem( p.pos(), &*g->m.i_at( p.pos() ).get_iterator_from_index( pos ) );
 }
 
 static void wield_from_feet( player &p, int pos )
@@ -245,7 +245,7 @@ static void wield_from_feet( player &p, int pos )
     REQUIRE( size_before > pos );
     // This is a temporary hack to get this (currently broken) test to compile
     p.wield( *g->m.i_at( p.pos() ).get_iterator_from_index( pos ) );
-    g->m.i_rem( p.pos(), pos );
+    g->m.i_rem( p.pos(), &*g->m.i_at( p.pos() ).get_iterator_from_index( pos ) );
 }
 
 static void add_item( player &p, item &it, const inventory_location loc )

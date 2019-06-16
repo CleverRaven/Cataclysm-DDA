@@ -2537,7 +2537,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
         return;
     }
 
-    for( const item &it : items_here ) {
+    for( item &it : items_here ) {
         if( !it.made_of_from_type( LIQUID ) ) {
             add_msg( _( "You remove %s from the vat." ), it.tname() );
             g->m.add_item_or_charges( p.pos(), it );
@@ -4277,7 +4277,7 @@ static void mill_activate( player &p, const tripoint &examp )
     map_stack items = g->m.i_at( examp );
     units::volume food_volume = 0_ml;
 
-    for( const item &it : items ) {
+    for( item &it : items ) {
         if( it.typeId() == "flour" ) {
             add_msg( _( "This mill already contains flour." ) );
             add_msg( _( "Remove it before starting the mill again." ) );
@@ -4869,7 +4869,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
             mill_load_food( p, examp, remaining_capacity );
             break;
         case 3: // remove food
-            for( const item &it : items_here ) {
+            for( item &it : items_here ) {
                 if( it.is_food() ) {
                     // get handling cost before the item reference is invalidated
                     const int handling_cost = -p.item_handling_cost( it );
@@ -5081,7 +5081,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
             rem_f_opt = true;
         /* fallthrough */
         case 5: { //remove charcoal
-            for( const item &it : items_here ) {
+            for( item &it : items_here ) {
                 if( ( rem_f_opt && it.is_food() ) || ( !rem_f_opt && ( it.typeId() == "charcoal" ) ) ) {
                     // get handling cost before the item reference is invalidated
                     const int handling_cost = -p.item_handling_cost( it );

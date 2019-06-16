@@ -897,8 +897,7 @@ class map
         map_stack i_at( int x, int y );
         void i_clear( const int x, const int y );
         map_stack::iterator i_rem( const point &location, map_stack::const_iterator it );
-        int i_rem( const int x, const int y, const int index );
-        void i_rem( const int x, const int y, const item *it );
+        void i_rem( const int x, const int y, item *it );
         void spawn_item( const int x, const int y, const std::string &itype_id,
                          const unsigned quantity = 1, const int charges = 0,
                          const time_point &birthday = calendar::time_of_cataclysm, const int damlevel = 0 );
@@ -922,8 +921,7 @@ class map
         // i_rem() methods that return values act like container::erase(),
         // returning an iterator to the next item after removal.
         map_stack::iterator i_rem( const tripoint &p, map_stack::const_iterator it );
-        int i_rem( const tripoint &p, const int index );
-        void i_rem( const tripoint &p, const item *it );
+        void i_rem( const tripoint &p, item *it );
         void spawn_artifact( const tripoint &p );
         void spawn_natural_artifact( const tripoint &p, const artifact_natural_property prop );
         void spawn_item( const tripoint &p, const std::string &itype_id,
@@ -1024,15 +1022,6 @@ class map
 
         void create_anomaly( const tripoint &p, artifact_natural_property prop, bool create_rubble = true );
 
-        /**
-         * Fetch an item from this map location, with sanity checks to ensure it still exists.
-         */
-        item *item_from( const tripoint &pos, const size_t index );
-
-        /**
-         * Fetch an item from this vehicle, with sanity checks to ensure it still exists.
-         */
-        item *item_from( vehicle *veh, const int cargo_part, const size_t index );
         // Partial construction functions
         void partial_con_set( const tripoint &p, const partial_con &con );
         void partial_con_remove( const tripoint &p );
@@ -1578,7 +1567,8 @@ class map
         void apply_light_arc( const tripoint &p, int angle, float luminance, int wideangle = 30 );
         void apply_light_ray( bool lit[MAPSIZE_X][MAPSIZE_Y],
                               const tripoint &s, const tripoint &e, float luminance );
-        void add_light_from_items( const tripoint &p, item_stack::iterator begin, map_stack::iterator end );
+        void add_light_from_items( const tripoint &p, item_stack::iterator begin,
+                                   item_stack::iterator end );
         std::unique_ptr<vehicle> add_vehicle_to_map( std::unique_ptr<vehicle> veh, bool merge_wrecks );
 
         // Internal methods used to bash just the selected features

@@ -600,7 +600,7 @@ void mdeath::explode( monster &z )
 void mdeath::focused_beam( monster &z )
 {
 
-    for( const item &it : g->m.i_at( z.pos() ) ) {
+    for( item &it : g->m.i_at( z.pos() ) ) {
         if( it.typeId() == "processor" ) {
             g->m.i_rem( z.pos(), &it );
         }

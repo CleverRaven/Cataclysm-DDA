@@ -1209,18 +1209,16 @@ void vehicle::operate_scoop()
                 continue;
             }
             item *that_item_there = nullptr;
-            const map_stack q = g->m.i_at( position );
+            map_stack items = g->m.i_at( position );
             if( g->m.has_flag( "SEALED", position ) ) {
                 // Ignore it. Street sweepers are not known for their ability to harvest crops.
                 continue;
             }
-            size_t itemdex = 0;
-            for( const item &it : q ) {
+            for( item &it : items ) {
                 if( it.volume() < max_pickup_volume ) {
-                    that_item_there = g->m.item_from( position, itemdex );
+                    that_item_there = &it;
                     break;
                 }
-                itemdex++;
             }
             if( !that_item_there ) {
                 continue;
@@ -1235,7 +1233,7 @@ void vehicle::operate_scoop()
             }
             //This attempts to add the item to the scoop inventory and if successful, removes it from the map.
             if( add_item( scoop, *that_item_there ) ) {
-                g->m.i_rem( position, itemdex );
+                g->m.i_rem( position, that_item_there );
             } else {
                 break;
             }

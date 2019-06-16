@@ -1267,8 +1267,7 @@ class vehicle
         int add_charges( int part, const item &itm );
 
         // remove item from part's cargo
-        bool remove_item( int part, int itemdex );
-        bool remove_item( int part, const item *it );
+        bool remove_item( int part, item *it );
         vehicle_stack::iterator remove_item( int part, vehicle_stack::const_iterator it );
 
         vehicle_stack get_items( int part ) const;
