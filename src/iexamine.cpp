@@ -4070,7 +4070,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
             const item *it = bionic.get_item();
             const itype *itemtype = it->type;
-            const bionic_id &bid = itemtype->bionic->id;
 
             player &installer = best_installer( p, null_player, itemtype->bionic->difficulty );
             if( &installer == &null_player ) {
