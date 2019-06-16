@@ -571,5 +571,10 @@
     "id": "hd_battery",
     "type": "MIGRATION",
     "replace": "heavy_plus_battery_cell"
+  },
+  {
+    "id": "10mm",
+    "type": "MIGRATION",
+    "replace": "10mm_fmj"
   }
 ]
