@@ -72,6 +72,7 @@ static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_wasp( "mon_wasp" );
 static const mtype_id mon_jabberwock( "mon_jabberwock" );
+static const mtype_id mon_wolf( "mon_wolf" );
 
 static void mx_null( map &, const tripoint & )
 {
@@ -564,7 +565,6 @@ static void mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
                                        where.y ) : m.add_spawn( mon_marloss_zealot_m, 1, where.x, where.y );
         }
     }
-
 }
 
 static void mx_bandits_block( map &m, const tripoint &abs_sub )
@@ -2182,6 +2182,93 @@ static void mx_roadworks( map &m, const tripoint &abs_sub )
     }
 }
 
+static void mx_mayhem( map &m, const tripoint &abs_sub )
+{
+    switch( rng( 1, 3 ) ) {
+        //Car accident resulted in a shootout with two victims
+        case 1: {
+            m.add_vehicle( vproto_id( "car" ), 18, 9, 270 );
+            m.add_vehicle( vproto_id( "4x4_car" ), 20, 5, 0 );
+
+            m.spawn_item( { 16, 10, abs_sub.z }, "shot_hull" );
+            m.add_corpse( { 16, 9, abs_sub.z } );
+            m.add_field( { 16, 9, abs_sub.z }, fd_blood, rng( 1, 3 ) );
+
+            for( const auto &loc : g->m.points_in_radius( { 16, 3, abs_sub.z }, 1 ) ) {
+                if( one_in( 2 ) ) {
+                    m.spawn_item( loc, "9mm_casing" );
+                }
+            }
+
+            m.add_splatter_trail( fd_blood, { 16, 3, abs_sub.z }, { 23, 1, abs_sub.z } );
+            m.add_corpse( { 23, 1, abs_sub.z } );
+            break;
+        }
+        //Some cocky moron with friends got dragged out of limo and shooted down by a military
+        case 2: {
+            m.add_vehicle( vproto_id( "limousine" ), 18, 9, 270 );
+
+            m.add_corpse( { 16, 9, abs_sub.z } );
+            m.add_corpse( { 16, 11, abs_sub.z } );
+            m.add_corpse( { 16, 12, abs_sub.z } );
+
+            m.add_splatter_trail( fd_blood, { 16, 8, abs_sub.z }, { 16, 12, abs_sub.z } );
+
+            for( const auto &loc : g->m.points_in_radius( { 12, 11, abs_sub.z }, 2 ) ) {
+                if( one_in( 3 ) ) {
+                    m.spawn_item( loc, "223_casing" );
+                }
+            }
+            break;
+        }
+        //Some unfortunate stopped at the roadside to change tire, but was ambushed and killed
+        case 3: {
+            m.add_vehicle( vproto_id( "car" ), 18, 12, 270 );
+
+            m.add_field( { 16, 15, abs_sub.z }, fd_blood, rng( 1, 3 ) );
+
+            m.spawn_item( { 16, 16, abs_sub.z }, "wheel", 1, 0, calendar::time_of_cataclysm, 4 );
+            m.spawn_item( { 16, 16, abs_sub.z }, "wrench" );
+
+            if( one_in( 2 ) ) { //Unknown people killed and robbed the poor guy
+                item body = item::make_corpse();
+                m.put_items_from_loc( "default_zombie_clothes", { 16, 15, abs_sub.z } );
+                m.add_item_or_charges( { 16, 15, abs_sub.z }, body );
+                m.spawn_item( { 21, 15, abs_sub.z }, "shot_hull" );
+            } else { //Wolves charged to the poor guy...
+                m.add_corpse( { 16, 15, abs_sub.z } );
+                m.add_splatter_trail( fd_gibs_flesh, { 16, 13, abs_sub.z }, { 16, 16, abs_sub.z } );
+                m.add_field( { 15, 15, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
+
+                for( const auto &loc : g->m.points_in_radius( { 16, 15, abs_sub.z }, 1 ) ) {
+                    if( one_in( 2 ) ) {
+                        m.spawn_item( loc, "9mm_casing" );
+                    }
+                }
+
+                const int max_wolves = rng( 1, 3 );
+                item body = item::make_corpse( mon_wolf );
+                if( one_in( 2 ) ) { //...from the north
+                    for( int i = 0; i < max_wolves; i++ ) {
+                        const auto &loc = g->m.points_in_radius( { 12, 12, abs_sub.z }, 3 );
+                        const tripoint where = random_entry( loc );
+                        m.add_item_or_charges( where, body );
+                        m.add_field( where, fd_blood, rng( 1, 3 ) );
+                    }
+                } else { //...from the south
+                    for( int i = 0; i < max_wolves; i++ ) {
+                        const auto &loc = g->m.points_in_radius( { 12, 18, abs_sub.z }, 3 );
+                        const tripoint where = random_entry( loc );
+                        m.add_item_or_charges( where, body );
+                        m.add_field( where, fd_blood, rng( 1, 3 ) );
+                    }
+                }
+            }
+            break;
+        }
+    }
+}
+
 FunctionMap builtin_functions = {
     { "mx_null", mx_null },
     { "mx_house_wasp", mx_house_wasp },
@@ -2214,6 +2301,7 @@ FunctionMap builtin_functions = {
     { "mx_bandits_block", mx_bandits_block },
     { "mx_roadworks", mx_roadworks },
     { "mx_marloss_pilgrimage", mx_marloss_pilgrimage },
+    { "mx_mayhem", mx_mayhem }
 };
 
 map_special_pointer get_function( const std::string &name )

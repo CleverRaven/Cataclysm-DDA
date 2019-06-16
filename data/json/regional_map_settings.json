@@ -513,7 +513,8 @@
           "mx_fumarole": 8,
           "mx_portal_in": 2,
           "mx_anomaly": 3,
-          "mx_roadworks": 100
+          "mx_roadworks": 100,
+          "mx_mayhem": 50
         }
       },
       "build": {
