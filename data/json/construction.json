@@ -293,7 +293,7 @@
     "components": [
       [ [ "steel_lump", 4 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ],
       [ [ "steel_plate", 2 ], [ "sheet_metal", 8 ] ],
-      [ [ "hinge", 2 ] ]
+      [ [ "hinge", 3 ] ]
     ],
     "pre_terrain": "t_mdoor_frame",
     "post_terrain": "t_door_metal_c"
