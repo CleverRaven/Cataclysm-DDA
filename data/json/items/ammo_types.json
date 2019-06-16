@@ -67,6 +67,12 @@
   },
   {
     "type": "ammunition_type",
+	"id": "shot_410",
+    "name": ".410 shot",
+    "default": "410_birdshot"
+  },
+  {
+    "type": "ammunition_type",
     "id": "blunderbuss",
     "name": "blunderbuss",
     "default": "blun_shot"
