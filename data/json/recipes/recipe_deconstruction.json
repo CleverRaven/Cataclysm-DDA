@@ -1868,6 +1868,14 @@
     "flags": [ "BLIND_HARD" ]
   },
   {
+    "result": "tshirt_tour",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": "0 m",
+    "components": [ [ [ "rag", 5 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
     "result": "usb_drive",
     "type": "uncraft",
     "time": "0 m",
@@ -2322,5 +2330,21 @@
     "difficulty": 1,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "adobe_brick", 20 ] ], [ [ "frame_wood_light", 1 ] ] ]
+  },
+  {
+    "result": "guitar_electric",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "7 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "shoulder_strap", 1 ] ],
+      [ [ "2x4", 1 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "e_scrap", 2 ] ]
+    ]
   }
 ]

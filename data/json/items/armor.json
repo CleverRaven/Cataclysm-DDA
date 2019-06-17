@@ -9556,18 +9556,12 @@
   {
     "id": "tshirt_tour",
     "type": "ARMOR",
+    "copy-from": "tshirt",
     "name": "tour t-shirt",
     "description": "A short-sleeved cotton shirt.",
-    "weight": 110,
-    "volume": 2,
-    "price": 800,
-    "material": [ "cotton" ],
-    "symbol": "[",
+    "price": 1000,
+    "price_postapoc": 1200,
     "color": "dark_gray",
-    "covers": [ "TORSO" ],
-    "coverage": 90,
-    "warmth": 5,
-    "material_thickness": 1,
     "snippet_category": [
       {
         "id": "death",
@@ -9585,8 +9579,7 @@
         "id": "prog",
         "text": "A short-sleeved cotton shirt with a pattern of complex geometric shapes and transcendental imagery printed on the front."
       }
-    ],
-    "flags": [ "VARSIZE" ]
+    ]
   },
   {
     "id": "tunic",

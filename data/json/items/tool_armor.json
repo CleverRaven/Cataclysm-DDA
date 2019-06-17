@@ -2067,6 +2067,8 @@
     "symbol": "-",
     "description": "A standard factory-made electric guitar.  It's probably better at smashing heads than melting faces, these days.  Has a strap.",
     "price": 1000,
+    "price_postapoc": 500,
+    "//": "Electric guitar less awesome when there's no electricity.",
     "material": [ "wood", "iron" ],
     "volume": 27,
     "warmth": 2,
