@@ -697,14 +697,10 @@ void player_morale::on_item_takeoff( const item &it )
     set_worn( it, false );
 }
 
-void player_morale::on_worn_item_transform( const item &it )
+void player_morale::on_worn_item_transform( const item &old_it, const item &new_it )
 {
-    item dummy = it;
-    dummy.convert( dynamic_cast<iuse_transform *>( item::find_type(
-                       it.typeId() )->get_use( "transform" )->get_actor_ptr() )->target );
-
-    set_worn( dummy, false );
-    set_worn( it, true );
+    set_worn( old_it, false );
+    set_worn( new_it, true );
 }
 
 void player_morale::on_worn_item_washed( const item &it )

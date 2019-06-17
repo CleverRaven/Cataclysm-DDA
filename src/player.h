@@ -1233,7 +1233,7 @@ class player : public Character
         bool has_morale_to_read() const;
         /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
         void check_and_recover_morale();
-        void on_worn_item_transform( const item &it );
+        void on_worn_item_transform( const item &old_it, const item &new_it );
 
         /** Get the formatted name of the currently wielded item (if any)
          *  truncated to a number of characters. 0 means it is not truncated
