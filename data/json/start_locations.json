@@ -171,6 +171,12 @@
   },
   {
     "type": "start_location",
+    "ident": "lmoe_empty",
+    "name": "LMOE shelter",
+    "target": "lmoe_under_empty"
+  },
+  {
+    "type": "start_location",
     "ident": "forest",
     "name": "Middle of Nowhere",
     "target": "forest",
@@ -229,6 +235,12 @@
     "ident": "police",
     "name": "Police Station",
     "target": "police"
+  },
+  {
+    "type": "start_location",
+    "ident": "fp_break_room",
+    "name": "Foodplace Break Room",
+    "target": "s_restaurant_foodplace_roof"
   },
   {
     "type": "start_location",
@@ -361,5 +373,11 @@
     "ident": "apartments_con_tower_004",
     "name": "Apartment Rooftop",
     "target": "apartments_con_tower_004"
+  },
+  {
+    "type": "start_location",
+    "ident": "horse_farm_13",
+    "name": "Horse Ranch",
+    "target": "horse_farm_13"
   }
 ]

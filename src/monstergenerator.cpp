@@ -137,6 +137,7 @@ const std::map<std::string, m_flag> flag_map = {
     { "CATFOOD", MF_CATFOOD },
     { "CATTLEFODDER", MF_CATTLEFODDER },
     { "BIRDFOOD", MF_BIRDFOOD },
+    { "PET_MOUNTABLE", MF_PET_MOUNTABLE },
     { "DOGFOOD", MF_DOGFOOD },
     { "MILKABLE", MF_MILKABLE },
     { "NO_BREED", MF_NO_BREED },
@@ -789,6 +790,8 @@ void MonsterGenerator::load_species( JsonObject &jo, const std::string &src )
 
 void species_type::load( JsonObject &jo, const std::string & )
 {
+    optional( jo, was_loaded, "footsteps", footsteps, "footsteps." );
+    footsteps = _( footsteps );
     const auto flag_reader = enum_flags_reader<m_flag> { "monster flag" };
     optional( jo, was_loaded, "flags", flags, flag_reader );
 

@@ -15,7 +15,7 @@
     "primary_material": "dried_vegetable",
     "symbol": ".",
     "color": "brown",
-    "flags": "NUTRIENT_OVERRIDE"
+    "flags": [ "NUTRIENT_OVERRIDE", "PLANTABLE_SEED" ]
   },
   {
     "abstract": "seed_fruit",
@@ -31,7 +31,7 @@
     "copy-from": "seed",
     "name": "mushroom spores",
     "name_plural": "mushroom spores",
-    "description": "Some mushroom spores.  You could probably plant these.",
+    "description": "Some mushroom spores.",
     "charges": 2,
     "color": "green"
   },
@@ -259,6 +259,46 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "seed_cattail",
+    "copy-from": "seed",
+    "name": "cattail seeds",
+    "name_plural": "cattail seeds",
+    "color": "green",
+    "description": "Some cattail seeds.",
+    "seed_data": { "plant_name": "cattail", "fruit": "cattail_stalk", "byproducts": [ "cattail_rhizome" ], "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_dahlia",
+    "copy-from": "seed",
+    "name": "dahlia seeds",
+    "name_plural": "dahlia seeds",
+    "color": "green",
+    "description": "Some dahlia seeds.",
+    "seed_data": { "plant_name": "dahlia", "fruit": "dahlia_root", "byproducts": [ "withered" ], "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_flower",
+    "copy-from": "seed",
+    "name": "decorative plant seeds",
+    "name_plural": "decorative plant seeds",
+    "color": "green",
+    "description": "Some small decorative plant seeds, likely grass or flower.  Don't expect them to be useful for anything other than dry plant material.",
+    "seed_data": { "plant_name": "decorative plant", "fruit": "withered", "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_cactus",
+    "copy-from": "seed",
+    "name": "cactus seeds",
+    "name_plural": "cactus seeds",
+    "color": "green",
+    "description": "Some cactus seeds.",
+    "seed_data": { "plant_name": "cactus", "fruit": "cactus_pad", "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "garlic_clove",
     "name": "garlic clove",
     "name_plural": "garlic cloves",
@@ -378,7 +418,7 @@
     "healthy": -10,
     "addiction_potential": 5,
     "calories": 174,
-    "description": "This looks like a sunflower seed the size of your palm.  It has a strong but delicious aroma, but is clearly either mutated or of alien origin.",
+    "description": "This looks like a sunflower seed the size of your palm.  It has a strong but delicious aroma, but is clearly either mutated or of alien origin.  You could probably plant it.",
     "price": 0,
     "material": "fruit",
     "primary_material": "dried_vegetable",
@@ -404,11 +444,12 @@
     "type": "COMESTIBLE",
     "id": "soybean_seed",
     "copy-from": "seed",
-    "name": "soybean seed",
+    "name": "soybean seeds",
+    "name_plural": "soybean seeds",
     "weight": 160,
     "symbol": ".",
     "color": "yellow",
-    "description": "Some soybean seeds.  You could probably plant these.",
+    "description": "Some soybean seeds.",
     "price": 90,
     "seed_data": { "plant_name": "soybean", "fruit": "soybean", "byproducts": [ "withered", "raw_edamame" ], "grow": "91 days" }
   },
@@ -433,7 +474,7 @@
     "name": "thyme seeds",
     "name_plural": "thyme seeds",
     "color": "green",
-    "description": "Some thyme seeds.  You could probably plant these.",
+    "description": "Some thyme seeds.",
     "charges": 2,
     "seed_data": { "plant_name": "thyme", "fruit": "thyme", "grow": "91 days" }
   },
@@ -444,7 +485,7 @@
     "name": "canola seeds",
     "name_plural": "canola seeds",
     "color": "green",
-    "description": "Some canola seeds.  You could probably plant these, or press them into oil.",
+    "description": "Some canola seeds.  You could press them into oil.",
     "charges": 2,
     "seed_data": { "plant_name": "canola", "fruit": "seed_canola", "byproducts": [ "withered" ], "grow": "91 days" }
   },
@@ -458,7 +499,7 @@
     "color": "green",
     "use_action": "SEED",
     "calories": 17,
-    "description": "Some raw pumpkin seeds.  Could be fried and eaten or planted.",
+    "description": "Some raw pumpkin seeds.  Could be fried and eaten.",
     "price": 100,
     "charges": 2,
     "seed_data": { "plant_name": "pumpkin", "fruit": "pumpkin", "fruit_div": 3, "byproducts": [ "withered" ], "grow": "91 days" }
@@ -485,7 +526,7 @@
     "name": "dogbane seeds",
     "name_plural": "dogbane seeds",
     "color": "green",
-    "description": "Some dogbane seeds.  You could probably plant these.",
+    "description": "Some dogbane seeds.",
     "charges": 2,
     "seed_data": { "plant_name": "dogbane", "fruit": "dogbane", "byproducts": [ "withered" ], "grow": "91 days" }
   },
@@ -496,7 +537,7 @@
     "name": "bee balm seeds",
     "name_plural": "bee balm seeds",
     "color": "green",
-    "description": "Some bee balm seeds.  You could probably plant these.",
+    "description": "Some bee balm seeds.",
     "charges": 2,
     "seed_data": { "plant_name": "bee balm", "fruit": "bee_balm", "byproducts": [ "withered" ], "grow": "91 days" }
   },
@@ -507,7 +548,7 @@
     "name": "mugwort seeds",
     "name_plural": "mugwort seeds",
     "color": "green",
-    "description": "Some mugwort seeds.  You could probably plant these.",
+    "description": "Some mugwort seeds.",
     "charges": 2,
     "seed_data": { "plant_name": "mugwort", "fruit": "mugwort", "grow": "91 days" }
   },
@@ -518,7 +559,7 @@
     "name": "buckwheat seeds",
     "name_plural": "buckwheat seeds",
     "color": "green",
-    "description": "Some buckwheat seeds.  You could probably plant these.",
+    "description": "Some buckwheat seeds.",
     "charges": 2,
     "seed_data": { "plant_name": "buckwheat", "fruit": "buckwheat", "byproducts": [ "withered" ], "grow": "91 days" }
   },
@@ -529,7 +570,7 @@
     "name": "wild herb seeds",
     "name_plural": "wild herb seeds",
     "color": "green",
-    "description": "Some seeds harvested from wild herbs.  You could probably plant these.",
+    "description": "Some seeds harvested from wild herbs.",
     "charges": 2,
     "seed_data": { "plant_name": "wild herb", "fruit": "wild_herbs", "grow": "91 days" }
   },
@@ -540,7 +581,7 @@
     "name": "wild vegetable stems",
     "name_plural": "wild vegetable stems",
     "color": "green",
-    "description": "Some wild vegetable stems.  You could probably plant these.",
+    "description": "Some wild vegetable stems.",
     "charges": 2,
     "seed_data": { "plant_name": "wild vegetable", "fruit": "veggy_wild", "byproducts": [ "withered" ], "grow": "91 days" }
   },
@@ -551,7 +592,7 @@
     "name": "dandelion seeds",
     "name_plural": "dandelion seeds",
     "color": "green",
-    "description": "Some dandelion seeds.  You could probably plant these.",
+    "description": "Some dandelion seeds.",
     "charges": 2,
     "seed_data": { "plant_name": "dandelion", "fruit": "raw_dandelion", "grow": "91 days" }
   },
@@ -562,7 +603,7 @@
     "name": "rhubarb stems",
     "name_plural": "rhubarb stems",
     "color": "green",
-    "description": "Some rhubarb stems.  You could probably plant these.",
+    "description": "Some rhubarb stems.",
     "charges": 2,
     "seed_data": { "plant_name": "rhubarb", "fruit": "rhubarb", "byproducts": [ "withered" ], "grow": "91 days" }
   },
@@ -580,7 +621,7 @@
     "copy-from": "seed_mushroom_base",
     "name": "morel mushroom spores",
     "name_plural": "morel mushroom spores",
-    "description": "Some morel mushroom spores.  You could probably plant these.",
+    "description": "Some morel mushroom spores.",
     "seed_data": { "plant_name": "morel mushroom", "fruit": "mushroom_morel", "grow": "91 days" }
   },
   {
@@ -590,7 +631,7 @@
     "comestible_type": "MED",
     "name": "datura seeds",
     "name_plural": "datura seeds",
-    "description": "Small, dark seeds from the spiny pods of a datura plant.  Full of powerful psychoactive chemicals, these tiny seeds are a potent analgesic and deliriant, and can be deadly in cases of overdose.  You could probably plant these.",
+    "description": "Small, dark seeds from the spiny pods of a datura plant.  Full of powerful psychoactive chemicals, these tiny seeds are a potent analgesic and deliriant, and can be deadly in cases of overdose.",
     "weight": 2,
     "price": 0,
     "stim": 6,
@@ -716,5 +757,15 @@
     "description": "Some roasted coffee beans, can be ground into powder.",
     "addiction_type": "caffeine",
     "flags": [ "EDIBLE_FROZEN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_chamomile",
+    "copy-from": "seed",
+    "looks_like": "seed_raw_dandelion",
+    "name": "chamomile seeds",
+    "name_plural": "chamomile seeds",
+    "description": "Some chamomile seeds.",
+    "seed_data": { "plant_name": "chamomile", "fruit": "chamomile", "byproducts": [ "withered" ], "grow": "91 days" }
   }
 ]

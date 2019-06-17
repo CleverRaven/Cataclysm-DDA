@@ -203,7 +203,7 @@
     "name": "Sheltered",
     "points": -3,
     "description": "When the apocalypse broke out, you were funneled into a nearby shelter.  Here you have lived, never leaving, lest the unknowns of the outside world hurt you.  Supplies are running low, and for the first time since the cataclysm, you will be forced to face the outside world.",
-    "allowed_locs": [ "lmoe", "shelter" ],
+    "allowed_locs": [ "lmoe_empty", "shelter" ],
     "start_name": "Enclosed Shelter",
     "flags": [ "WIN_START", "LONE_START" ],
     "professions": [ "sheltered_militia", "sheltered_survivor", "bionic_prepper", "unemployed" ]
@@ -337,6 +337,17 @@
     "professions": [ "cop", "sniper_police", "riot_police", "bionic_cop", "detective", "swat", "swat_heavy" ],
     "start_name": "Police Station",
     "flags": [ "SUR_START", "CITY_START" ]
+  },
+  {
+    "type": "scenario",
+    "ident": "foodplace",
+    "name": "The Mascot Rises",
+    "points": 0,
+    "description": "You just finished your shift and got back in the break room when you heard the alarms and the security door shutting down behind you.  There's a lot of customers out there and you're not sure Foodplace delicious food is going to be enough for them.",
+    "allowed_locs": [ "fp_break_room" ],
+    "professions": [ "true_foodperson", "unemployed" ],
+    "start_name": "Foodplace Break Room",
+    "flags": [ "CITY_START" ]
   },
   {
     "type": "scenario",
@@ -495,5 +506,15 @@
     "points": 0,
     "start_name": "Apartment Rooftop",
     "allowed_locs": [ "apartments_con_tower_114", "apartments_con_tower_014", "apartments_con_tower_104", "apartments_con_tower_004" ]
+  },
+  {
+    "type": "scenario",
+    "ident": "rancher",
+    "name": "Rancher",
+    "points": 4,
+    "description": "You've lived on your ranch for most of your life, through hard times and easy times. One heck of a hard time is ahead..",
+    "allowed_locs": [ "horse_farm_13" ],
+    "start_name": "Horse Farm",
+    "professions": [ "rancher" ]
   }
 ]

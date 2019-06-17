@@ -30,6 +30,7 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -48,6 +49,10 @@
 #include "player.h"
 #include "int_id.h"
 #include "string_id.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_reference.h" // IWYU pragma: keep
 
 struct pathfinding_settings;
 
@@ -122,6 +127,7 @@ const efftype_id effect_docile( "docile" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_emp( "emp" );
 const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_harnessed( "harnessed" );
 const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_in_pit( "in_pit" );
@@ -132,6 +138,9 @@ const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_paralyzepoison( "paralyzepoison" );
 const efftype_id effect_poison( "poison" );
+const efftype_id effect_riding( "riding" );
+const efftype_id effect_ridden( "ridden" );
+const efftype_id effect_saddled( "saddled" );
 const efftype_id effect_run( "run" );
 const efftype_id effect_shrieking( "shrieking" );
 const efftype_id effect_stunned( "stunned" );
@@ -213,6 +222,9 @@ monster::monster( const mtype_id &id ) : monster()
     upgrades = type->upgrades && ( type->half_life || type->age_grow );
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( MF_NO_BREED );
     biosignatures = type->biosignatures;
+    if( monster::has_flag( MF_AQUATIC ) ) {
+        fish_population = dice( 1, 20 );
+    }
 }
 
 monster::monster( const mtype_id &id, const tripoint &p ) : monster( id )
@@ -236,6 +248,10 @@ void monster::setpos( const tripoint &p )
     bool wandering = wander();
     g->update_zombie_pos( *this, p );
     position = p;
+    if( has_effect( effect_ridden ) && position != g->u.pos() ) {
+        add_msg( m_debug, "Ridden monster %s moved independently and dumped player", get_name() );
+        g->u.forced_dismount();
+    }
     if( wandering ) {
         unset_dest();
     }
@@ -1610,7 +1626,6 @@ int monster::get_armor_type( damage_type dt, body_part bp ) const
 
     switch( dt ) {
         case DT_TRUE:
-            return 0;
         case DT_BIOLOGICAL:
             return 0;
         case DT_BASH:
@@ -1624,7 +1639,6 @@ int monster::get_armor_type( damage_type dt, body_part bp ) const
         case DT_HEAT:
             return worn_armor + static_cast<int>( type->armor_fire );
         case DT_COLD:
-            return worn_armor;
         case DT_ELECTRIC:
             return worn_armor;
         case DT_NULL:
@@ -1825,8 +1839,26 @@ void monster::explode()
     hp = INT_MIN + 1;
 }
 
+void monster::set_summon_time( const time_duration &length )
+{
+    summon_time_limit = length;
+}
+
+void monster::decrement_summon_timer()
+{
+    if( !summon_time_limit ) {
+        return;
+    }
+    if( *summon_time_limit <= 0_turns ) {
+        die( nullptr );
+    } else {
+        *summon_time_limit -= 1_turns;
+    }
+}
+
 void monster::process_turn()
 {
+    decrement_summon_timer();
     if( !is_hallucination() ) {
         for( const auto &e : type->emit_fields ) {
             if( e == emit_id( "emit_shock_cloud" ) ) {
@@ -1925,6 +1957,14 @@ void monster::die( Creature *nkiller )
         // *only* set to true in this function!
         return;
     }
+    // We were carrying a creature, deposit the rider
+    if( has_effect( effect_ridden ) ) {
+        if( has_effect( effect_saddled ) ) {
+            item riding_saddle( "riding_saddle", 0 );
+            g->m.add_item_or_charges( pos(), riding_saddle );
+        }
+        g->u.forced_dismount();
+    }
     g->set_critter_died();
     dead = true;
     set_killer( nkiller );
@@ -2005,7 +2045,7 @@ void monster::die( Creature *nkiller )
     }
     mission::on_creature_death( *this );
     // Also, perform our death function
-    if( is_hallucination() ) {
+    if( is_hallucination() || summon_time_limit ) {
         //Hallucinations always just disappear
         mdeath::disappear( *this );
         return;

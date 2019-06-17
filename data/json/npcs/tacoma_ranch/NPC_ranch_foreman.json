@@ -1,0 +1,920 @@
+[
+  {
+    "type": "npc",
+    "id": "ranch_foreman",
+    "//": "Appears at the ranch after you progress in the refugee center quests.  Faction critical.",
+    "name_suffix": "Foreman",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_RANCH_FOREMAN",
+    "mission_offered": "MISSION_RANCH_FOREMAN_1",
+    "faction": "tacoma_commune"
+  },
+  {
+    "id": "TALK_RANCH_FOREMAN",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": "Can I help you, marshal?",
+      "no": { "u_male": true, "yes": "Morning sir, how can I help you?", "no": "Morning ma'am, how can I help you?" }
+    },
+    "responses": [
+      {
+        "text": "[MISSION] The merchant at the Refugee Center sent me to get a prospectus from you.",
+        "topic": "TALK_RANCH_FOREMAN_PROSPECTUS",
+        "condition": { "and": [ { "u_has_mission": "MISSION_FREE_MERCHANTS_EVAC_3" }, { "not": { "u_has_effect": "has_prospectus" } } ] }
+      },
+      { "text": "I heard you were setting up an outpost out here.", "topic": "TALK_RANCH_FOREMAN_OUTPOST" },
+      { "text": "What's your job here?", "topic": "TALK_RANCH_FOREMAN_JOB" },
+      { "text": "What do you need done?", "topic": "TALK_MISSION_LIST" },
+      {
+        "text": "I figured you might be looking for some help...",
+        "topic": "TALK_RANCH_FOREMAN",
+        "effect": { "companion_mission": "FOREMAN" }
+      },
+      {
+        "text": "Hey, are you looking for workers here?  I know a couple people back at the refugee center that might be willing to come.",
+        "topic": "TALK_RANCH_FOREMAN_Nunez",
+        "condition": { "u_has_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_1" }
+      },
+      { "text": "I've got to go...", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_RANCH_FOREMAN_PROSPECTUS",
+    "type": "talk_topic",
+    "dynamic_line": "I was starting to wonder if they were really interested in the project or were just trying to get rid of me.",
+    "responses": [
+      {
+        "text": "Thanks.",
+        "topic": "TALK_RANCH_FOREMAN",
+        "effect": [ { "u_buy_item": "commune_prospectus" }, { "u_add_effect": "has_prospectus", "duration": "PERMANENT" } ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_FOREMAN_OUTPOST",
+    "dynamic_line": "Ya, that representative from the Old Guard asked the two of us to come out here and begin fortifying this place as a refugee camp.  I'm not sure how fast he expects the two of us to get setup but we were assured additional men were coming out here to assist us. ",
+    "responses": [ { "text": "How many refugees are you expecting?", "topic": "TALK_RANCH_FOREMAN_REFUGEES" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_FOREMAN_REFUGEES",
+    "dynamic_line": "Could easily be hundreds as far as I know.  They chose this ranch because of its rather remote location, decent fence, and huge cleared field.  With as much land as we have fenced off we could build a village if we had the materials.  We would have tried to secure a small town or something but the lack of good farmland and number of undead makes it more practical for us to build from scratch.  The refugee center I came from is constantly facing starvation and undead assaults.",
+    "responses": [ { "text": "Hopefully moving out here was worth it...", "topic": "TALK_RANCH_FOREMAN" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_FOREMAN_JOB",
+    "dynamic_line": "I'm the engineer in charge of turning this place into a working camp.  This is going to be an uphill battle, we used most of our initial supplies getting here and boarding up the windows.  I've got a huge list of tasks that need to get done so if you could help us keep supplied I'd appreciate it.  If you have material to drop off you can just back your vehicle into here and dump it on the ground, we'll sort it.",
+    "responses": [ { "text": "I'll keep that in mind.", "topic": "TALK_RANCH_FOREMAN" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_FOREMAN_Nunez",
+    "dynamic_line": "we're still in early stages of getting set up, but we're not overly flush for hands, that's for sure.  If they're willing to put in a hard day's work, we can get them busy.",
+    "speaker_effect": { "u_add_var": { "u_add_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_2" } },
+    "responses": [ { "text": "I'll tell them that, but they seemed good for a bit of hard labor.", "topic": "TALK_RANCH_FOREMAN" } ]
+  },
+  {
+    "id": "MISSION_RANCH_FOREMAN_1",
+    "type": "mission_definition",
+    "name": "Cut 200 2x4's",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "2x4",
+    "count": 200,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_FOREMAN_2",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "Our first project is to enclose the barn so that new refugees have a safe place to sleep.  Before we can begin serious improvements we need lumber to work with.  Enclosing the four barn entrances will take nearly 400 2x4's... if you could provide half of that we should be able to take care of the other half and construction.  If you don't have a truck, I'd make finding one your first priority.  ",
+      "accepted": "The more men we can bring to the camp the quicker improvements can be made.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "Avoid destroying the furniture, we'll be needing it.",
+      "inquire": "Do you have them?",
+      "success": "Great, I'll send word that we could use another set of hands or two to help out here.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_65",
+          "om_special": "ranch_camp",
+          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_nested": [ { "chunks": [ "tacoma_commune_west_wall_door" ], "x": 22, "y": 0 } ]
+        },
+        {
+          "om_terrain": "ranch_camp_66",
+          "om_special": "ranch_camp",
+          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_nested": [
+            { "chunks": [ "tacoma_commune_east_wall_door" ], "x": 0, "y": 0 },
+            { "chunks": [ "tacoma_commune_west_wall_door" ], "x": 13, "y": 0 },
+            { "chunks": [ "tacoma_commune_east_wall_door" ], "x": 15, "y": 0 }
+          ]
+        },
+        {
+          "om_terrain": "ranch_camp_74",
+          "om_special": "ranch_camp",
+          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_nested": [ { "chunks": [ "tacoma_commune_west_wall_door" ], "x": 22, "y": 0 } ]
+        },
+        {
+          "om_terrain": "ranch_camp_66",
+          "om_special": "ranch_camp",
+          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_nested": [
+            { "chunks": [ "tacoma_commune_east_wall_door" ], "x": 0, "y": 0 },
+            { "chunks": [ "tacoma_commune_west_wall_door" ], "x": 13, "y": 0 },
+            { "chunks": [ "tacoma_commune_east_wall_door" ], "x": 15, "y": 0 }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_RANCH_FOREMAN_2",
+    "type": "mission_definition",
+    "name": "Find 25 Blankets",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "blanket",
+    "count": 25,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_FOREMAN_3",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "With the barn entrances enclosed the refugees moving into there should feel safer but the weather can be bitter here.  We're going to need to build makeshift beds in the stalls to ward off disease and frostbite.  We can take care of the frames but will need your help looting blankets.  We'd need 25 blankets to provide the most basic sleeping accommodations.",
+      "accepted": "I'd start with looting hotels or you could sew them together... but that would be a last resort.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "Avoid destroying the furniture here, we'll be needing it.",
+      "inquire": "Do you have them?",
+      "success": "Your assistance is always appreciated.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_65",
+          "om_special": "ranch_camp",
+          "//": "Beds in the barn",
+          "place_nested": [
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 1 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 5 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 7 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 11 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 13 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 17 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 19 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 23 }
+          ]
+        },
+        {
+          "om_terrain": "ranch_camp_66",
+          "om_special": "ranch_camp",
+          "//": "Beds in the barn",
+          "place_nested": [
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 1 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 5 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 7 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 11 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 13 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 17 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 19 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 23 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 9, "y": 1 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 9, "y": 5 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 9, "y": 19 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 9, "y": 23 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 4, "y": 1 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 4, "y": 5 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 4, "y": 19 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 4, "y": 23 }
+          ],
+          "place_npcs": [ { "class": "ranch_construction_2", "x": 19, "y": 8 } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_RANCH_FOREMAN_3",
+    "type": "mission_definition",
+    "name": "Gather 2500 Nails",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "nail",
+    "count": 2500,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_FOREMAN_4",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "Our supply of nails has been depleted.  I'm going to have to ask you to get us a few more boxes.  Hardware stores should have a few if they haven't been looted.  I suppose you may be able to find handfuls of them in building rubble.  We'd need 2500 to have enough that we won't be sending you back out too soon.",
+      "accepted": "Deconstructing furniture isn't going to be efficient, try looking for boxes or grabbing any sitting on top of rubble piles.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "Avoid destroying the furniture here, we'll be needing it.",
+      "inquire": "Do you have them?",
+      "success": "Your assistance is always appreciated.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_46",
+          "om_special": "ranch_camp",
+          "//": "tilled soil in the fields",
+          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "set": [
+            { "square": "terrain", "id": "t_dirt", "x": 7, "y": 4, "x2": 22, "y2": 23 },
+            { "square": "terrain", "id": "t_dirtmound", "x": 8, "y": 5, "x2": 9, "y2": 22 },
+            { "square": "terrain", "id": "t_dirtmound", "x": 11, "y": 5, "x2": 12, "y2": 22 }
+          ]
+        },
+        {
+          "om_terrain": "ranch_camp_55",
+          "om_special": "ranch_camp",
+          "//": "tilled soil in the fields",
+          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "set": [
+            { "square": "terrain", "id": "t_dirt", "x": 7, "y": 0, "x2": 22, "y2": 18 },
+            { "square": "terrain", "id": "t_dirtmound", "x": 8, "y": 2, "x2": 9, "y2": 17 },
+            { "square": "terrain", "id": "t_dirtmound", "x": 11, "y": 2, "x2": 12, "y2": 17 }
+          ]
+        },
+        {
+          "om_terrain": "ranch_camp_56",
+          "om_special": "ranch_camp",
+          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_vehicles": [ { "vehicle": "hippie_van", "x": 10, "y": 10, "rotation": 270, "chance": 100 } ]
+        },
+        {
+          "om_terrain": "ranch_camp_65",
+          "om_special": "ranch_camp",
+          "place_furniture": [ { "furn": "f_bookcase", "x": 17, "y": 11 } ],
+          "place_npcs": [ { "class": "ranch_farmer_1", "x": 19, "y": 20 } ]
+        },
+        {
+          "om_terrain": "ranch_camp_66",
+          "om_special": "ranch_camp",
+          "place_npcs": [ { "class": "ranch_woodcutter_1", "x": 4, "y": 11 } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_RANCH_FOREMAN_4",
+    "type": "mission_definition",
+    "name": "Gather 300 Salt",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "salt",
+    "count": 300,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_FOREMAN_5",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "I'm sure you've noticed the new workers that have started trickling in.  The Free Merchant counsel is demanding that we immediately begin projects to become self-sufficient due to limited supplies.  We are going to need to rapidly setup an agricultural industry before winter and starvation catches us unprepared and unsupported.  In order to get a half dozen shovels and a couple of bags of seeds, we are going to have to trade for it.  I've already got the deal lined up but the only thing they are willing to trade it for is salt.  I negotiated them down from 500 units to 300... we were hoping you might have access to a source.",
+      "accepted": "Salt is key to preserving meat and other perishables... without any excess food it wouldn't do us much good now but I imagine we'll need to send you out to get more in the future.  ",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "If you can find a source of salt water you should be able to boil it down.",
+      "inquire": "Do you have the salt?",
+      "success": "We are going to begin preparing our fields immediately.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_46",
+          "om_special": "ranch_camp",
+          "//": "tilled soil in the fields",
+          "set": [
+            { "square": "terrain", "id": "t_dirtmound", "x": 14, "y": 5, "x2": 15, "y2": 22 },
+            { "square": "terrain", "id": "t_dirtmound", "x": 17, "y": 5, "x2": 18, "y2": 22 },
+            { "square": "terrain", "id": "t_dirtmound", "x": 20, "y": 5, "x2": 21, "y2": 22 }
+          ]
+        },
+        {
+          "om_terrain": "ranch_camp_55",
+          "om_special": "ranch_camp",
+          "//": "tilled soil in the fields",
+          "set": [
+            { "square": "terrain", "id": "t_dirtmound", "x": 14, "y": 2, "x2": 15, "y2": 17 },
+            { "square": "terrain", "id": "t_dirtmound", "x": 17, "y": 2, "x2": 18, "y2": 17 },
+            { "square": "terrain", "id": "t_dirtmound", "x": 20, "y": 2, "x2": 21, "y2": 17 }
+          ]
+        },
+        {
+          "om_terrain": "ranch_camp_56",
+          "om_special": "ranch_camp",
+          "place_vehicles": [ { "vehicle": "flatbed_truck", "x": 18, "y": 3, "rotation": 0, "chance": 100 } ]
+        },
+        {
+          "om_terrain": "ranch_camp_57",
+          "om_special": "ranch_camp",
+          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_npcs": [ { "class": "ranch_crop_overseer", "x": 12, "y": 7 } ]
+        },
+        {
+          "om_terrain": "ranch_camp_58",
+          "om_special": "ranch_camp",
+          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_nested": [ { "chunks": [ "tacoma_commune_lumbermill_4" ], "x": 0, "y": 2 } ]
+        },
+        {
+          "om_terrain": "ranch_camp_67",
+          "om_special": "ranch_camp",
+          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "set": [ { "square": "terrain", "id": "t_palisade", "x": 21, "y": 19, "x2": 23, "y2": 19 } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_RANCH_FOREMAN_5",
+    "type": "mission_definition",
+    "name": "30 Liquid Fertilizer",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "fertilizer_liquid",
+    "count": 30,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_FOREMAN_6",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "Well, our first crop will be planted shortly but I'm starting to suspect that our profit margin is going to be much smaller than we expect.  With limited seed for our original crop our next course of action is to increase the soil's fertility.  Is there any way you could find or produce a basic liquid fertilizer for us?  We'd need at least 30 units to make a significant improvement in our output. ",
+      "accepted": "I don't know the exact recipe but I'm sure you could make it from a commercial fertilizer or produce it from bonemeal.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "I'd look through a few basic chemistry books to find a simple recipe.",
+      "inquire": "Do you have the liquid fertilizer?",
+      "success": "This really should make the first winter easier to survive.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_56",
+          "om_special": "ranch_camp",
+          "place_vehicles": [ { "vehicle": "car_chassis", "x": 17, "y": 11, "rotation": 90, "chance": 100 } ]
+        },
+        {
+          "om_terrain": "ranch_camp_58",
+          "om_special": "ranch_camp",
+          "place_nested": [ { "chunks": [ "tacoma_commune_lumbermill_5" ], "x": 0, "y": 2 } ],
+          "set": [ { "point": "terrain", "id": "t_pit", "x": 6, "y": 18 } ]
+        },
+        {
+          "om_terrain": "ranch_camp_66",
+          "om_special": "ranch_camp",
+          "set": [ { "point": "terrain", "id": "t_palisade", "x": 23, "y": 22 } ],
+          "place_npcs": [ { "class": "ranch_farmer_2", "x": 9, "y": 22 } ]
+        },
+        {
+          "om_terrain": "ranch_camp_67",
+          "om_special": "ranch_camp",
+          "set": [ { "square": "terrain", "id": "t_palisade", "x": 0, "y": 22, "x2": 5, "y2": 22 } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_RANCH_FOREMAN_6",
+    "type": "mission_definition",
+    "name": "Gather 75 Stones",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "rock",
+    "count": 75,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_FOREMAN_7",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "Our current assessment for survivability has increased significantly thanks to your efforts.  The next priority issue is securing a cleaner water source.  Drinking from the pond on the back end of the ranch has led to an outbreak of dysentery.  As quickly as possible we need to improve the sanitary conditions in the camp.  To do so the first step is to dig a well and construct stone fireplaces in the barn for the migrants to boil water.  We are going to need at least 75 large rocks from you if we hope to accomplish the task before we all get sick.  After we have them installed you will have free access to them, guaranteed. ",
+      "accepted": "If you take a shovel to a pile of rubble you should be able to pull out structural grade stone.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "Mining would always be an option if you had the resources.",
+      "inquire": "Do you have the stone?",
+      "success": "I appreciate the work you do.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_58",
+          "om_special": "ranch_camp",
+          "place_nested": [ { "chunks": [ "tacoma_commune_lumbermill_6" ], "x": 0, "y": 2 } ],
+          "set": [ { "point": "terrain", "id": "t_covered_well", "x": 6, "y": 18 } ]
+        },
+        {
+          "om_terrain": "ranch_camp_66",
+          "om_special": "ranch_camp",
+          "set": [
+            { "point": "furniture", "id": "f_fireplace", "x": 6, "y": 12 },
+            { "point": "furniture", "id": "f_fireplace", "x": 8, "y": 12 }
+          ],
+          "place_item": [
+            { "item": "log", "x": 3, "y": 11 },
+            { "item": "log", "x": 3, "y": 12 },
+            { "item": "log", "x": 3, "y": 13 },
+            { "item": "log", "x": 11, "y": 11 },
+            { "item": "log", "x": 11, "y": 12 },
+            { "item": "log", "x": 11, "y": 13 }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_RANCH_FOREMAN_7",
+    "type": "mission_definition",
+    "name": "Gather 50 Pipes",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "pipe",
+    "count": 50,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_FOREMAN_8",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "To fabricate the well's hand pump and construct components for several other projects we are going to need to find or fabricate a number of steel pipes.  Plumbing is a distant possibility for now but some form of irrigation will eventually become desirable.  You could assist us with procuring 50 steel pipes, if you so have the chance.",
+      "accepted": "Hopefully we will be able to assign new migrants to help fulfill our needs in the future.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "Pipes are used in numerous metal constructions.  Smashing abandoned furniture may provide the material we need.",
+      "inquire": "Do you have the pipes?",
+      "success": "I appreciate the work you do.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_56",
+          "om_special": "ranch_camp",
+          "//": "western palisade",
+          "set": [
+            { "square": "terrain", "id": "t_palisade", "x": 16, "y": 16, "x2": 16, "y2": 23 },
+            { "square": "terrain", "id": "t_palisade", "x": 16, "y": 14, "x2": 19, "y2": 14 },
+            { "square": "terrain", "id": "t_palisade", "x": 19, "y": 11, "x2": 19, "y2": 13 }
+          ]
+        },
+        {
+          "om_terrain": "ranch_camp_58",
+          "om_special": "ranch_camp",
+          "place_nested": [ { "chunks": [ "tacoma_commune_lumbermill_7" ], "x": 0, "y": 2 } ],
+          "//": "finish the well",
+          "set": [
+            { "square": "terrain", "id": "t_sidewalk", "x": 5, "y": 17, "x2": 7, "y2": 19 },
+            { "point": "terrain", "id": "t_water_pump", "x": 6, "y": 18 }
+          ]
+        },
+        {
+          "om_terrain": "ranch_camp_65",
+          "om_special": "ranch_camp",
+          "//": "untilled soil in the fields",
+          "set": [ { "square": "terrain", "id": "t_dirt", "x": 0, "y": 4, "x2": 12, "y2": 18 } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_RANCH_FOREMAN_8",
+    "type": "mission_definition",
+    "name": "Gather 2 Motors",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "motor",
+    "count": 2,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_FOREMAN_9",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "With the well's completion we are rapidly closing the sustainability gap.  In order to expand from here we will need massive quantities of lumber to construct fortifications and new buildings.  We have already begun work on a manually operated sawmill but we will need two motors to control the actual blades.  We were hoping you might be able to secure the motors for us.",
+      "accepted": "Power for the motors will be provided by a salvaged truck battery, you need not bring additional mechanical components.  ",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "Mining would always be an option if you had the resources.",
+      "inquire": "Do you have the motors?",
+      "success": "I appreciate the work you do.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_56",
+          "om_special": "ranch_camp",
+          "//": "finish western palisade",
+          "set": [
+            { "square": "terrain", "id": "t_palisade", "x": 23, "y": 7, "x2": 23, "y2": 10 },
+            { "square": "terrain", "id": "t_palisade", "x": 20, "y": 11, "x2": 23, "y2": 11 }
+          ]
+        },
+        {
+          "om_terrain": "ranch_camp_58",
+          "om_special": "ranch_camp",
+          "place_nested": [ { "chunks": [ "tacoma_commune_lumbermill_8_done" ], "x": 0, "y": 2 } ]
+        },
+        {
+          "om_terrain": "ranch_camp_59",
+          "om_special": "ranch_camp",
+          "place_nested": [
+            { "chunks": [ "tacoma_commune_toolshed_8" ], "x": 13, "y": 17 },
+            { "chunks": [ "tacoma_commune_clinic_8" ], "x": 0, "y": 2 }
+          ]
+        },
+        {
+          "om_terrain": "ranch_camp_65",
+          "om_special": "ranch_camp",
+          "//": "tilled soil in the fields",
+          "set": [
+            { "square": "terrain", "id": "t_dirtmound", "x": 1, "y": 5, "x2": 2, "y2": 17 },
+            { "square": "terrain", "id": "t_dirtmound", "x": 4, "y": 5, "x2": 5, "y2": 17 },
+            { "square": "terrain", "id": "t_dirtmound", "x": 7, "y": 5, "x2": 8, "y2": 17 },
+            { "square": "terrain", "id": "t_dirtmound", "x": 10, "y": 5, "x2": 11, "y2": 17 }
+          ]
+        },
+        {
+          "om_terrain": "ranch_camp_68",
+          "om_special": "ranch_camp",
+          "place_nested": [ { "chunks": [ "tacoma_commune_outhouse_8" ], "x": 16, "y": 1 } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_RANCH_FOREMAN_9",
+    "type": "mission_definition",
+    "name": "Gather 150 Bleach",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "bleach",
+    "count": 150,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_FOREMAN_10",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "Disease and infection remains a persistent problem among the refugees.  Without dedicated medical personnel and facilities I doubt everyone will be willing to stick around when the next outbreak happens.  Until we can get a former medic or nurse I'm just going to have to improvise.  Sterilization would be the first step I imagine.  Bring me 5 gallon jugs of bleach so we can get started.",
+      "accepted": "I'm sure you can find bleach in most homes...",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "If you can't find a large supply I'd recommend checking hospitals or research labs.",
+      "inquire": "Do you have the bleach?",
+      "success": "I appreciate it.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_59",
+          "om_special": "ranch_camp",
+          "place_nested": [
+            { "chunks": [ "tacoma_commune_toolshed_9_done" ], "x": 13, "y": 17 },
+            { "chunks": [ "tacoma_commune_clinic_9" ], "x": 0, "y": 2 }
+          ]
+        },
+        {
+          "om_terrain": "ranch_camp_68",
+          "om_special": "ranch_camp",
+          "place_nested": [ { "chunks": [ "tacoma_commune_outhouse_9_done" ], "x": 16, "y": 1 } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_RANCH_FOREMAN_10",
+    "type": "mission_definition",
+    "name": "Gather 6 First Aid Kits",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "1st_aid",
+    "count": 6,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_FOREMAN_11",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "We've started planning a medical clinic but we are going to need a lot more supplies if we hope to warrant sending one of the few people with medical experience from the refugee center to our outpost.  I know first aid kits are rare but they have all the basic supplies that I'm uncertain of.  If you could bring in 6 full kits I'm sure we could supplement them to make them last a bit longer.",
+      "accepted": "We'll do our best to make them last...",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "Homes, hospitals, labs, and doctor offices would be where I'd check.",
+      "inquire": "Do you have the first aid kits?",
+      "success": "I appreciate it.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_59",
+          "om_special": "ranch_camp",
+          "place_nested": [ { "chunks": [ "tacoma_commune_clinic_10" ], "x": 0, "y": 2 } ]
+        },
+        {
+          "om_terrain": "ranch_camp_60",
+          "om_special": "ranch_camp",
+          "place_nested": [ { "chunks": [ "tacoma_commune_chopshop_10" ], "x": 0, "y": 4 } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_RANCH_FOREMAN_11",
+    "type": "mission_definition",
+    "name": "Find 2 Electric Welders",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "welder",
+    "count": 2,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_FOREMAN_12",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "The work you have done has swayed the leaders at the refugee center to send someone out to assist with our medical needs.  The next step is for us to get a sort of chop-shop setup so that we can begin using scrap metal to build fortifications and equipment.  We are going to need a pair of electric welders for our mechanics to use.",
+      "accepted": "With two, we should be able to repair one if it breaks.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "The only place I've seen them is garages but I imagine you could find them in some stores.",
+      "inquire": "Do you have the welders?",
+      "success": "I appreciate it.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_59",
+          "om_special": "ranch_camp",
+          "place_nested": [ { "chunks": [ "tacoma_commune_clinic_11" ], "x": 0, "y": 2 } ]
+        },
+        {
+          "om_terrain": "ranch_camp_60",
+          "om_special": "ranch_camp",
+          "place_nested": [ { "chunks": [ "tacoma_commune_chopshop_11" ], "x": 0, "y": 4 } ]
+        },
+        {
+          "om_terrain": "ranch_camp_61",
+          "om_special": "ranch_camp",
+          "place_vehicles": [
+            { "vehicle": "car", "chance": 100, "rotation": 270, "x": 1, "y": 20 },
+            { "vehicle": "cube_van_cheap", "chance": 100, "rotation": 90, "x": 10, "y": 10 },
+            { "vehicle": "car_sports", "chance": 100, "rotation": 90, "x": 3, "y": 9 },
+            { "vehicle": "flatbed_truck", "chance": 100, "rotation": 270, "x": 10, "y": 23 }
+          ]
+        },
+        {
+          "om_terrain": "ranch_camp_69",
+          "om_special": "ranch_camp",
+          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_vehicles": [
+            { "vehicle": "car_chassis", "chance": 100, "rotation": 0, "x": 3, "y": 14 },
+            { "vehicle": "pickup", "chance": 100, "rotation": 0, "x": 8, "y": 15 },
+            { "vehicle": "schoolbus", "chance": 100, "rotation": 135, "x": 22, "y": 13 }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_RANCH_FOREMAN_12",
+    "type": "mission_definition",
+    "name": "Find 12 Car Batteries",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "battery_car",
+    "count": 12,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_FOREMAN_13",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "We have the basic equipment that we need but without a functioning power grid we are forced to rely on the readily available vehicle batteries.  This is going to be a chore but I'll need twelve car batteries to swap between charging and powering our equipment.  The good news is that they don't need to be charged, we can take care of that.",
+      "accepted": "I'm counting on you.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "Cars can be found in traffic jams along roads or in parking lots...  I'm sure you can find a few.",
+      "inquire": "Do you have the car batteries?",
+      "success": "I'm impressed with your abilities.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_49",
+          "om_special": "ranch_camp",
+          "place_nested": [ { "chunks": [ "tacoma_commune_junk_shop_12" ], "x": 0, "y": 9 } ]
+        },
+        {
+          "om_terrain": "ranch_camp_60",
+          "om_special": "ranch_camp",
+          "place_nested": [ { "chunks": [ "tacoma_commune_chopshop_12_done" ], "x": 0, "y": 4 } ]
+        },
+        {
+          "om_terrain": "ranch_camp_69",
+          "om_special": "ranch_camp",
+          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_vehicles": [ { "vehicle": "cube_van", "chance": 100, "rotation": 180, "x": 13, "y": 15 } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_RANCH_FOREMAN_13",
+    "type": "mission_definition",
+    "name": "Find 2 Two-Way Radios",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "two_way_radio",
+    "count": 2,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_FOREMAN_14",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "Check with the nurse when you get a chance, I know she will need help setting up our clinic.  On the construction front, we are going to need to get dedicated scavenger teams setup to bring in the miscellaneous supplies that we use in small quantities.  We are going to start setting up a junk shop for them in the North end of the outpost so we could use your help with that.  Communication is the biggest obstacle for the teams... could you bring in a pair of two-way radios?",
+      "accepted": "Organizing the scavenging missions is difficult enough without communication.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "You should be able to find them in electronics stores or at a police station.",
+      "inquire": "Do you have the two-way radios?",
+      "success": "I'm sure the scavengers will find these useful.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_49",
+          "om_special": "ranch_camp",
+          "place_nested": [ { "chunks": [ "tacoma_commune_junk_shop_13" ], "x": 0, "y": 9 } ]
+        },
+        {
+          "om_terrain": "ranch_camp_66",
+          "om_special": "ranch_camp",
+          "place_npcs": [ { "class": "ranch_barber", "x": 5, "y": 3 } ]
+        },
+        {
+          "om_terrain": "ranch_camp_70",
+          "om_special": "ranch_camp",
+          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_vehicles": [ { "vehicle": "car_mini", "chance": 100, "rotation": 45, "x": 8, "y": 3 } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_RANCH_FOREMAN_14",
+    "type": "mission_definition",
+    "name": "Gather 5 Backpacks",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "backpack",
+    "count": 5,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_FOREMAN_15",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "The volunteers for the scavenging teams will need to be issued some basic equipment.  When the boss sets up shop in the junk shed you should ask him what else he needs for his teams.  In the meantime we can provide a few backpacks to get them started.  Could you find five backpacks to give to the initial team?",
+      "accepted": "I'm counting on you.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "It may be easier to make them if you can't find a school or something.",
+      "inquire": "Do you have the backpacks?",
+      "success": "Having at least basic equipment greatly increases survivability.  Thanks.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_49",
+          "om_special": "ranch_camp",
+          "place_nested": [ { "chunks": [ "tacoma_commune_junk_shop_14_done" ], "x": 0, "y": 9 } ]
+        },
+        {
+          "om_terrain": "ranch_camp_51",
+          "om_special": "ranch_camp",
+          "place_nested": [ { "chunks": [ "tacoma_commune_bar_14" ], "x": 0, "y": 0 } ]
+        },
+        {
+          "om_terrain": "ranch_camp_61",
+          "om_special": "ranch_camp",
+          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_vehicles": [ { "vehicle": "ambulance", "chance": 100, "rotation": 90, "x": 14, "y": 4 } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_RANCH_FOREMAN_15",
+    "type": "mission_definition",
+    "name": "Find Homebrewer's Bible",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "brewing_cookbook",
+    "count": 1,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_FOREMAN_16",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "Growth has lately begun to stall, we have individuals passing through the outpost but the prospect of hard labor just to eke out an existence is driving them away.  We've asked around and decided that, despite our pressing needs, building a bar ought to draw some of the less committed individuals to the outpost.  Unlike other settlements, the more hands we have to more food we can produce... at least in the long term.  Unfortunately, no one here has brewed alcoholic drinks before so we are going to need you to find a book called the 'Homebrewer's Bible' or something along those lines.",
+      "accepted": "I'm counting on you.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "I guess you should search homes or libraries?",
+      "inquire": "Do you have the book?",
+      "success": "I guarantee we will toast to your name when the bar is finished.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "update_mapgen": {
+        "om_terrain": "ranch_camp_51",
+        "om_special": "ranch_camp",
+        "place_nested": [ { "chunks": [ "tacoma_commune_bar_15" ], "x": 0, "y": 0 } ]
+      }
+    }
+  },
+  {
+    "id": "MISSION_RANCH_FOREMAN_16",
+    "type": "mission_definition",
+    "name": "Gather 80 Sugar",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "sugar",
+    "count": 80,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_FOREMAN_17",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "Just flipping through the book I can tell that one ingredient in most of the alcoholic drinks that we don't have a large supply of is sugar.  What alcohol we have been able to loot isn't going to last us long so starting our first large batch is a priority.  Could you bring in 80 units of sugar?  That should last us until we can start producing our own supply.",
+      "accepted": "I'm counting on you.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "You might get lucky finding it but you could always boil it out of fruit if you are familiar with the process.",
+      "inquire": "Do you have the sugar?",
+      "success": "There is a large group of thirsty individuals in our outpost that are truly thankful for your work.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_51",
+          "om_special": "ranch_camp",
+          "place_nested": [ { "chunks": [ "tacoma_commune_bar_16_done" ], "x": 0, "y": 0 } ]
+        },
+        {
+          "om_terrain": "ranch_camp_52",
+          "om_special": "ranch_camp",
+          "place_nested": [ { "chunks": [ "tacoma_commune_greenhouse_16" ], "x": 2, "y": 10 } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_RANCH_FOREMAN_17",
+    "type": "mission_definition",
+    "name": "Collect 30 Glass Sheets",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "glass_sheet",
+    "count": 30,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_NULL",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "Although we are an agricultural outpost, we are restricted to growing plants that are compatible with the New England climate during the warmer months.  The easiest way to work around that is to build green houses to supplement our external fields.  There isn't going to be an easy way to build these, we are going to need a massive number of glass sheets to enclose the frames.  The first house will need 30 sheets of glass if you are still interested.",
+      "accepted": "I'm counting on you.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "Deconstructing existing windows is the only way I know of to keep the sheets intact.",
+      "inquire": "Do you have the glass sheets?",
+      "success": "We'll begin planting our first seeds as soon as we can get these installed.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_52",
+          "om_special": "ranch_camp",
+          "place_nested": [ { "chunks": [ "tacoma_commune_greenhouse_17_done" ], "x": 2, "y": 10 } ]
+        }
+      ]
+    }
+  }
+]

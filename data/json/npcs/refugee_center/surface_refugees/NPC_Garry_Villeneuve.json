@@ -123,7 +123,7 @@
     "id": "TALK_REFUGEE_Garry_1_firstmeet",
     "dynamic_line": "Nice to meet you too.  Are you staying here, or something?",
     "responses": [
-      { "text": "No, I'm a traveller.  What's your story?", "topic": "TALK_REFUGEE_Garry_2_stub" },
+      { "text": "No, I'm a traveler.  What's your story?", "topic": "TALK_REFUGEE_Garry_2_stub" },
       { "text": "Nope, in fact I'm leaving right now.", "topic": "TALK_DONE" }
     ]
   },

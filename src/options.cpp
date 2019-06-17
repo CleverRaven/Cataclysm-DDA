@@ -589,7 +589,7 @@ std::string options_manager::cOpt::getValueName() const
         return ( bSet ) ? _( "True" ) : _( "False" );
 
     } else if( sType == "int_map" ) {
-        const auto name = std::get<1>( *findInt( iSet ) ).c_str();
+        const std::string name = std::get<1>( *findInt( iSet ) );
         if( verbose ) {
             return string_format( _( "%d: %s" ), iSet, name );
         } else {
@@ -625,7 +625,7 @@ std::string options_manager::cOpt::getDefaultText( const bool bTranslated ) cons
         return string_format( _( "Default: %d - Min: %d, Max: %d" ), iDefault, iMin, iMax );
 
     } else if( sType == "int_map" ) {
-        const auto name = std::get<1>( *findInt( iDefault ) ).c_str();
+        const std::string name = std::get<1>( *findInt( iDefault ) );
         if( verbose ) {
             return string_format( _( "Default: %d: %s" ), iDefault, name );
         } else {
@@ -1336,7 +1336,6 @@ void options_manager::add_options_interface()
 
     mOptionsSort["interface"]++;
 
-#if !defined(__ANDROID__)
     add( "DIAG_MOVE_WITH_MODIFIERS_MODE", "interface",
          translate_marker( "Diagonal movement with cursor keys and modifiers" ),
          /*
@@ -1376,7 +1375,6 @@ void options_manager::add_options_interface()
          */
     translate_marker( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", translate_marker( "None" ) }, { "mode1", translate_marker( "Mode 1: Numpad Emulation" ) }, { "mode2", translate_marker( "Mode 2: CW/CCW" ) }, { "mode3", translate_marker( "Mode 3: L/R Tilt" ) } },
     "none", COPT_CURSES_HIDE );
-#endif
 
     mOptionsSort["interface"]++;
 
@@ -1393,6 +1391,11 @@ void options_manager::add_options_interface()
     add( "VEHICLE_DIR_INDICATOR", "interface", translate_marker( "Draw vehicle facing indicator" ),
          translate_marker( "If true, when controlling a vehicle, a white 'X' ( in curses version ) or a crosshair ( in tiles version ) at distance 10 from the center will display its current facing." ),
          true
+       );
+
+    add( "REVERSE_STEERING", "interface", translate_marker( "Reverse steering direction in reverse" ),
+         translate_marker( "If true, when driving a vehicle in reverse, steering should also reverse like real life." ),
+         false
        );
 
     mOptionsSort["interface"]++;

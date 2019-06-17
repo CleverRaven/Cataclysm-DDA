@@ -17,7 +17,8 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "defensive": true,
-    "grab_break": true
+    "grab_break": true,
+    "messages": [ "The %s tries to grab you, but you break its grab!", "The %s tries to grab <npcname>, but they break its grab!" ]
   },
   {
     "type": "technique",

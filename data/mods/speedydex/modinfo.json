@@ -1,0 +1,26 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "speedydex",
+    "name": "SpeedyDex",
+    "authors": [ "KorGgenT" ],
+    "maintainers": [ "KorGgenT" ],
+    "description": "Higher dex increases your speed.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SPEEDYDEX_MIN_DEX",
+    "info": "The minimum dex required for speedydex mod to add speed",
+    "stype": "int",
+    "value": 12
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SPEEDYDEX_DEX_SPEED",
+    "info": "The amount of moves gained per dex above SPEEDYDEX_MIN_DEX",
+    "stype": "int",
+    "value": 2
+  }
+]

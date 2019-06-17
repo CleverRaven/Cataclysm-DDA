@@ -69,8 +69,8 @@
 #include "sdl_wrappers.h"
 #endif
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
+#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+const efftype_id effect_riding( "riding" );
 namespace debug_menu
 {
 
@@ -119,6 +119,7 @@ enum debug_menu_index {
     DEBUG_GAME_REPORT,
     DEBUG_DISPLAY_SCENTS_LOCAL,
     DEBUG_DISPLAY_TEMP,
+    DEBUG_DISPLAY_VISIBILITY,
     DEBUG_LEARN_SPELLS,
     DEBUG_LEVEL_SPELLS
 };
@@ -175,6 +176,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_DISPLAY_SCENTS, true, 'S', _( "Display overmap scents" ) ) },
             { uilist_entry( DEBUG_DISPLAY_SCENTS_LOCAL, true, 's', _( "Toggle display local scents" ) ) },
             { uilist_entry( DEBUG_DISPLAY_TEMP, true, 'T', _( "Toggle display temperature" ) ) },
+            { uilist_entry( DEBUG_DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
             { uilist_entry( DEBUG_SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ) },
             { uilist_entry( DEBUG_BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ) },
             { uilist_entry( DEBUG_TRAIT_GROUP, true, 't', _( "Test trait group" ) ) },
@@ -367,6 +369,7 @@ void character_edit_menu()
         data << np->myclass.obj().get_name() << "; " <<
              npc_attitude_name( np->get_attitude() ) << "; " <<
              ( np->my_fac ? np->my_fac->name : _( "no faction" ) ) << "; " <<
+             ( np->my_fac ? np->my_fac->currency : _( "no currency" ) ) << "; " <<
              "api: " << np->get_faction_ver() << std::endl;
         if( np->has_destination() ) {
             data << string_format( _( "Destination: %d:%d:%d (%s)" ),
@@ -401,7 +404,7 @@ void character_edit_menu()
     enum {
         D_NAME, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE
+        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION
     };
     nmenu.addentry( D_NAME, true, 'N', "%s", _( "Edit [N]ame" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
@@ -423,6 +426,7 @@ void character_edit_menu()
         nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add [m]ission" ) );
         nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with [c]lass" ) );
         nmenu.addentry( D_ATTITUDE, true, 'A', "%s", _( "Set [A]ttitude" ) );
+        nmenu.addentry( D_OPINION, true, 'O', "%s", _( "Set [O]pinion" ) );
     }
     nmenu.query();
     switch( nmenu.ret ) {
@@ -537,6 +541,48 @@ void character_edit_menu()
                 int morale_level_delta = value - current_morale_level;
                 p.add_morale( MORALE_PERM_DEBUG, morale_level_delta );
                 p.apply_persistent_morale();
+            }
+        }
+        break;
+        case D_OPINION: {
+            uilist smenu;
+            smenu.addentry( 0, true, 'h', "%s: %d", _( "trust" ), np->op_of_u.trust );
+            smenu.addentry( 1, true, 's', "%s: %d", _( "fear" ), np->op_of_u.fear );
+            smenu.addentry( 2, true, 't', "%s: %d", _( "value" ), np->op_of_u.value );
+            smenu.addentry( 3, true, 'f', "%s: %d", _( "anger" ), np->op_of_u.anger );
+            smenu.addentry( 4, true, 'd', "%s: %d", _( "owed" ), np->op_of_u.owed );
+
+            smenu.query();
+            int value;
+            switch( smenu.ret ) {
+                case 0:
+                    if( query_int( value, _( "Set trust to? Currently: %d" ),
+                                   np->op_of_u.trust ) ) {
+                        np->op_of_u.trust = value;
+                    }
+                    break;
+                case 1:
+                    if( query_int( value, _( "Set fear to? Currently: %d" ), np->op_of_u.fear ) ) {
+                        np->op_of_u.fear = value;
+                    }
+                    break;
+                case 2:
+                    if( query_int( value, _( "Set value to? Currently: %d" ),
+                                   np->op_of_u.value ) ) {
+                        np->op_of_u.value = value;
+                    }
+                    break;
+                case 3:
+                    if( query_int( value, _( "Set anger to? Currently: %d" ),
+                                   np->op_of_u.anger ) ) {
+                        np->op_of_u.anger = value;
+                    }
+                    break;
+                case 4:
+                    if( query_int( value, _( "Set owed to? Currently: %d" ), np->op_of_u.owed ) ) {
+                        np->op_of_u.owed = value;
+                    }
+                    break;
             }
         }
         break;
@@ -684,6 +730,9 @@ void character_edit_menu()
             if( const cata::optional<tripoint> newpos = g->look_around() ) {
                 p.setpos( *newpos );
                 if( p.is_player() ) {
+                    if( p.has_effect( effect_riding ) && p.mounted_creature ) {
+                        p.mounted_creature.get()->setpos( *newpos );
+                    }
                     g->update_map( g->u );
                 }
             }
@@ -1121,7 +1170,7 @@ void debug()
                                    _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
             for( int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++ ) {
                 weather_menu.addentry( weather_id, true, MENU_AUTOASSIGN,
-                                       weather_data( static_cast<weather_type>( weather_id ) ).name );
+                                       weather::name( static_cast<weather_type>( weather_id ) ) );
             }
 
             weather_menu.query();
@@ -1235,12 +1284,46 @@ void debug()
                 break;
             case DEBUG_DISPLAY_SCENTS_LOCAL:
                 g->displaying_temperature = false;
+                g->displaying_visibility = false;
                 g->displaying_scent = !g->displaying_scent;
                 break;
             case DEBUG_DISPLAY_TEMP:
                 g->displaying_scent = false;
+                g->displaying_visibility = false;
                 g->displaying_temperature = !g->displaying_temperature;
                 break;
+            case DEBUG_DISPLAY_VISIBILITY: {
+                g->displaying_scent = false;
+                g->displaying_temperature = false;
+                g->displaying_visibility = !g->displaying_visibility;
+                if( g->displaying_visibility ) {
+                    std::vector< tripoint > locations;
+                    uilist creature_menu;
+                    int num_creatures = 0;
+                    creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
+                    locations.emplace_back( g->u.pos() ); // add player first.
+                    for( const Creature &critter : g->all_creatures() ) {
+                        if( critter.is_player() ) {
+                            continue;
+                        }
+                        creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, critter.disp_name() );
+                        locations.emplace_back( critter.pos() );
+                    }
+
+                    pointmenu_cb callback( locations );
+                    creature_menu.callback = &callback;
+                    creature_menu.w_y = 0;
+                    creature_menu.query();
+                    if( ( creature_menu.ret >= 0 ) &&
+                        ( static_cast<size_t>( creature_menu.ret ) < locations.size() ) ) {
+                        Creature *creature = g->critter_at<Creature>( locations[creature_menu.ret] );
+                        g->displaying_visibility_creature = creature;
+                    }
+                } else {
+                    g->displaying_visibility_creature = nullptr;
+                }
+            }
+            break;
             case DEBUG_CHANGE_TIME: {
                 auto set_turn = [&]( const int initial, const int factor, const char *const msg ) {
                     const auto text = string_input_popup()

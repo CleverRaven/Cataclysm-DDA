@@ -291,7 +291,7 @@
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "armguard_metal",
@@ -695,7 +695,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "scrap suit",
-    "description": "A suit of armor made from scraps of metal secured by simple strings; provides decent protection, but the loose collection of plates doesn't make for the most convenient protection.",
+    "description": "A suit of armor made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
     "weight": 9534,
     "volume": 62,
     "price": 70000,
@@ -869,6 +869,15 @@
     "description": "A plastic name tag marking the wearer as a real doctor of the medical kind."
   },
   {
+    "id": "badge_foodkid",
+    "copy-from": "badge_abstract",
+    "type": "ARMOR",
+    "name": "Foodkid badge",
+    "material": [ "plastic" ],
+    "weight": 10,
+    "description": "A star shaped badge, on it you can read \"Foodkid\" in bold letters.  This is Foodperson's trusty sidekick's badge."
+  },
+  {
     "id": "balclava",
     "type": "ARMOR",
     "name": "balaclava",
@@ -962,7 +971,7 @@
     "encumbrance": 50,
     "storage": 100,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "RESTRICT_HANDS", "NOSALVAGE" ]
+    "flags": [ "OVERSIZE", "RESTRICT_HANDS", "NO_SALVAGE" ]
   },
   {
     "id": "beekeeping_gloves",
@@ -1611,6 +1620,25 @@
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
+    "id": "cape_fp",
+    "type": "ARMOR",
+    "name": "Foodperson's cape",
+    "description": "A brightly-colored cape emblazoned with the \"Fp\" symbol.",
+    "weight": 900,
+    "volume": 12,
+    "price": 5000,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "]",
+    "color": "pink",
+    "covers": [ "TORSO" ],
+    "coverage": 50,
+    "encumbrance": 4,
+    "warmth": 10,
+    "material_thickness": 1,
+    "flags": [ "OVERSIZE", "BELTED" ]
+  },
+  {
     "id": "cassock",
     "type": "ARMOR",
     "name": "cassock",
@@ -1767,6 +1795,27 @@
     "warmth": 10,
     "material_thickness": 3,
     "flags": [ "OUTER" ]
+  },
+  {
+    "id": "chestguard_hard",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "hard chest guard",
+    "description": "A plastron of interlocking plastic plate protecting your torso.",
+    "weight": 1000,
+    "volume": 28,
+    "price": 60000,
+    "to_hit": -2,
+    "material": [ "plastic", "neoprene" ],
+    "symbol": "H",
+    "color": "dark_gray",
+    "covers": [ "TORSO" ],
+    "coverage": 90,
+    "encumbrance": 20,
+    "warmth": 20,
+    "material_thickness": 3,
+    "environmental_protection": 1,
+    "flags": [ "WATER_FRIENDLY", "STURDY", "OUTER" ]
   },
   {
     "id": "chestwrap",
@@ -5674,6 +5723,14 @@
     "flags": [ "VARSIZE", "POCKETS" ]
   },
   {
+    "id": "robofac_jumpsuit",
+    "type": "ARMOR",
+    "copy-from": "jumpsuit",
+    "name": "Hub 01 jumpsuit",
+    "description": "A brown jumpsuit worn by the staff of Hub 01.",
+    "color": "brown"
+  },
+  {
     "id": "jumpsuit_xl",
     "type": "ARMOR",
     "name": "XL jumpsuit",
@@ -5857,7 +5914,7 @@
     "id": "yukata",
     "type": "ARMOR",
     "name": "yukata",
-    "description": "An easy to wear, breezy robe secured with a sash. Essentially Japanese pajamas. Great for summer nights.",
+    "description": "An easy to wear, breezy robe secured with a sash.  Essentially Japanese pajamas.  Great for summer nights.",
     "weight": 900,
     "volume": 12,
     "price": 5000,
@@ -5877,7 +5934,7 @@
     "id": "haori",
     "type": "ARMOR",
     "name": "haori",
-    "description": "A loose coat with wide sleeves that is worn unfastened over a kimono. It is jet black with sparse, tasteful golden embroidery.",
+    "description": "A loose coat with wide sleeves that is worn unfastened over a kimono.  It is jet black with sparse, tasteful golden embroidery.",
     "weight": 800,
     "volume": 8,
     "price": 30000,
@@ -6979,7 +7036,7 @@
       "activate_msg": "Your optical cloak flickers as it becomes transparent.",
       "deactive_msg": "Your optical cloak flickers for a moment as it becomes opaque."
     },
-    "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "VARSIZE" ]
+    "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "VARSIZE", "ACTIVE_CLOAKING" ]
   },
   {
     "id": "panties",
@@ -10022,7 +10079,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "XL survivor suit",
-    "description": "A massive home-built combination armor made from a bulletproof vest and a reinforced leather jumpsuit.  Protects from the elements as well as from harm.",
+    "description": "A massive hand-built combination armor made from a bulletproof vest and a reinforced leather jumpsuit.  Protects from the elements as well as from harm.",
     "weight": 12400,
     "volume": 72,
     "price": 150000,
@@ -10036,7 +10093,31 @@
     "encumbrance": 35,
     "storage": 34,
     "warmth": 15,
-    "material_thickness": 3,
+    "material_thickness": 4,
+    "environmental_protection": 3,
+    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+  },
+  {
+    "id": "xlhsurvivor_suit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "XL heavy survivor suit",
+    "description": "A massive, heavy, hand-built combination armor made from a reinforced bulletproof vest and a metal-plated leather jumpsuit.  Protects from the elements as well as from harm.",
+    "looks_like": "hsurvivor_suit",
+    "weight": 16500,
+    "volume": 75,
+    "price": 200000,
+    "to_hit": -3,
+    "bashing": 6,
+    "material": [ "kevlar", "steel", "leather" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "covers": [ "LEGS", "TORSO", "ARMS" ],
+    "coverage": 100,
+    "encumbrance": 45,
+    "storage": 30,
+    "warmth": 15,
+    "material_thickness": 6,
     "environmental_protection": 3,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
@@ -10271,5 +10352,25 @@
     "material_thickness": 2,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "OVERSIZE" ]
+  },
+  {
+    "id": "tarp",
+    "type": "ARMOR",
+    "name": "tarpaulin",
+    "description": "A plastic sheet with several grommets for securing it with rope or cord.  Useful for improvised rain protection.",
+    "weight": 1244,
+    "volume": 8,
+    "price": 5000,
+    "to_hit": -1,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "color": "light_blue",
+    "covers": [ "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
+    "coverage": 90,
+    "encumbrance": 30,
+    "warmth": 10,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "OVERSIZE", "OUTER", "WATERPROOF", "ALLOWS_NATURAL_ATTACKS" ]
   }
 ]

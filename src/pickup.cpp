@@ -534,19 +534,19 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                                          pickupW,  pickupH,  0 );
 
         std::string action;
-        long raw_input_char = ' ';
+        int raw_input_char = ' ';
         input_context ctxt( "PICKUP" );
         ctxt.register_action( "UP" );
         ctxt.register_action( "DOWN" );
         ctxt.register_action( "RIGHT" );
         ctxt.register_action( "LEFT" );
-        ctxt.register_action( "NEXT_TAB", _( "Next page" ) );
-        ctxt.register_action( "PREV_TAB", _( "Previous page" ) );
+        ctxt.register_action( "NEXT_TAB", translate_marker( "Next page" ) );
+        ctxt.register_action( "PREV_TAB", translate_marker( "Previous page" ) );
         ctxt.register_action( "SCROLL_UP" );
         ctxt.register_action( "SCROLL_DOWN" );
         ctxt.register_action( "CONFIRM" );
         ctxt.register_action( "SELECT_ALL" );
-        ctxt.register_action( "QUIT", _( "Cancel" ) );
+        ctxt.register_action( "QUIT", translate_marker( "Cancel" ) );
         ctxt.register_action( "ANY_INPUT" );
         ctxt.register_action( "HELP_KEYBINDINGS" );
         ctxt.register_action( "FILTER" );
@@ -802,10 +802,10 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                             stealing = true;
                         }
                     }
-                    if( stacked_here[true_it].begin()->_item.ammo_type() == "money" ) {
+                    if( stacked_here[true_it].begin()->_item.ammo_current() == "money" ) {
                         //Count charges
                         // TODO: transition to the item_location system used for the inventory
-                        unsigned long charges_total = 0;
+                        unsigned int charges_total = 0;
                         for( const auto &item : stacked_here[true_it] ) {
                             charges_total += item._item.charges;
                         }
@@ -814,7 +814,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                             item_name = stacked_here[true_it].begin()->_item.display_money( stacked_here[true_it].size(),
                                         charges_total );
                         } else {
-                            unsigned long charges = 0;
+                            unsigned int charges = 0;
                             int c = getitem[true_it].count;
                             for( auto it = stacked_here[true_it].begin(); it != stacked_here[true_it].end() &&
                                  c > 0; ++it, --c ) {

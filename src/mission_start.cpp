@@ -584,7 +584,7 @@ void mission_start::place_book( mission * )
 void mission_start::reveal_refugee_center( mission *miss )
 {
     mission_target_params t;
-    t.overmap_terrain_subtype = "evac_center_18";
+    t.overmap_terrain_subtype = "refctr_S3e";
     t.overmap_special = overmap_special_id( "evac_center" );
     t.mission_pointer = miss;
     t.search_range = 0;

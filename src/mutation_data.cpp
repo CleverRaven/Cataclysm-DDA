@@ -351,6 +351,10 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "overmap_sight", overmap_sight, 0.0f );
     optional( jo, was_loaded, "overmap_multiplier", overmap_multiplier, 1.0f );
 
+    optional( jo, was_loaded, "mana_modifier", mana_modifier, 0 );
+    optional( jo, was_loaded, "mana_multiplier", mana_multiplier, 1.0f );
+    optional( jo, was_loaded, "mana_regen_multiplier", mana_regen_multiplier, 1.0f );
+
     if( jo.has_object( "social_modifiers" ) ) {
         JsonObject sm = jo.get_object( "social_modifiers" );
         social_mods = load_mutation_social_mods( sm );
@@ -629,9 +633,7 @@ void mutation_branch::load_trait_group( JsonArray &entries, const trait_group::T
             JsonArray subarr = entries.next_array();
 
             trait_id id( subarr.get_string( 0 ) );
-            std::unique_ptr<Trait_creation_data> ptr(
-                new Single_trait_creator( id, subarr.get_int( 1 ) ) );
-            tg.add_entry( ptr );
+            tg.add_entry( std::make_unique<Single_trait_creator>( id, subarr.get_int( 1 ) ) );
             // Otherwise load new format {"trait": ... } or {"group": ...}
         } else {
             JsonObject subobj = entries.next_object();
@@ -717,7 +719,7 @@ void mutation_branch::add_entry( Trait_group &tg, JsonObject &obj )
             JsonObject job2 = jarr.next_object();
             add_entry( tg2, job2 );
         }
-        tg.add_entry( ptr );
+        tg.add_entry( std::move( ptr ) );
         return;
     }
 
@@ -733,7 +735,7 @@ void mutation_branch::add_entry( Trait_group &tg, JsonObject &obj )
         return;
     }
 
-    tg.add_entry( ptr );
+    tg.add_entry( std::move( ptr ) );
 }
 
 std::shared_ptr<Trait_group> mutation_branch::get_group( const trait_group::Trait_group_tag &gid )

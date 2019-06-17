@@ -9,7 +9,7 @@
     "id": "ammo_bullet",
     "type": "requirement",
     "//": "Materials used when forming bullets",
-    "components": [ [ [ "lead", 1 ], [ "bismuth", 1 ], [ "silver_small", 1 ], [ "gold_small", 1 ], [ "platinum_small", 1 ] ] ]
+    "components": [ [ [ "lead", 1 ] ] ]
   },
   {
     "id": "cordage",

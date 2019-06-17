@@ -1,0 +1,35 @@
+[
+  {
+    "type": "npc",
+    "id": "ranch_farmer_2",
+    "//": "Flavor",
+    "name_suffix": "Farmer",
+    "class": "NC_HUNTER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_RANCH_FARMER_2",
+    "faction": "tacoma_commune"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_FARMER_2",
+    "dynamic_line": "You mind?",
+    "responses": [
+      { "text": "What are you doing here?", "topic": "TALK_RANCH_FARMER_2_JOB" },
+      { "text": "I'd like to hire your services.", "topic": "TALK_RANCH_FARMER_2_HIRE" },
+      { "text": "I've got to go...", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_FARMER_2_JOB",
+    "dynamic_line": "I'm just a lucky guy that went from being chased by the undead to the noble life of a dirt farmer.  We get room and board but won't see a share of our labor unless the crop is a success.",
+    "responses": [ { "text": "It could be worse...", "topic": "TALK_RANCH_FARMER_2" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_FARMER_2_HIRE",
+    "dynamic_line": "I've got no time for you.  If you want to make a trade or need a job look for the foreman or crop overseer.",
+    "responses": [ { "text": "I'll talk with them then...", "topic": "TALK_RANCH_FARMER_2" } ]
+  }
+]

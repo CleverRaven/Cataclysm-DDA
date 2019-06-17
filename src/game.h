@@ -412,8 +412,6 @@ class game
         bool revive_corpse( const tripoint &location, item &corpse );
         /**Turns Broken Cyborg monster into Cyborg NPC via surgery*/
         void save_cyborg( item *cyborg, const tripoint couch_pos, player &installer );
-        /** Redirects to player::cancel_activity(). */
-        void cancel_activity();
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
         bool cancel_activity_query( const std::string &message );
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
@@ -468,10 +466,8 @@ class game
 
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport( player *p = nullptr, bool add_teleglow = true );
-        /** Handles swimming by the player. Called by avatar_action::move(). */
-        void plswim( const tripoint &p );
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
-        void catch_a_monster( std::vector<monster *> &catchables, const tripoint &pos, player *p,
+        void catch_a_monster( monster *fish, const tripoint &pos, player *p,
                               const time_duration &catch_duration );
         /**
          * Get the fishable monsters within the contiguous fishable terrain starting at fish_pos,
@@ -719,12 +715,10 @@ class game
 
         /** Check for dangerous stuff at dest_loc, return false if the player decides
         not to step there */
-        bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
         // Handle pushing during move, returns true if it handled the move
         bool grabbed_move( const tripoint &dp );
         bool grabbed_veh_move( const tripoint &dp );
         bool grabbed_furn_move( const tripoint &dp );
-
 
         void control_vehicle(); // Use vehicle controls  '^'
         void examine( const tripoint &p ); // Examine nearby terrain  'e'
@@ -768,14 +762,13 @@ class game
         void mon_info( const catacurses::window &,
                        int hor_padding = 0 ); // Prints a list of nearby monsters
         void cleanup_dead();     // Delete any dead NPCs/monsters
+        bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
     private:
         void wield();
         void wield( int pos ); // Wield a weapon  'w'
         void wield( item_location &loc );
 
         void chat(); // Talk to a nearby NPC  'C'
-        void plthrow( int pos = INT_MIN,
-                      const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt ); // Throw an item  't'
 
         // Internal methods to show "look around" info
         void print_fields_info( const tripoint &lp, const catacurses::window &w_look, int column,
@@ -881,6 +874,7 @@ class game
         // Debug functions
         void display_scent();   // Displays the scent map
         void display_temperature();    // Displays temperature map
+        void display_visibility(); // Displays visibility map
 
         Creature *is_hostile_within( int distance );
 
@@ -939,6 +933,9 @@ class game
         bool debug_pathfinding = false; // show NPC pathfinding on overmap ui
         bool displaying_scent;
         bool displaying_temperature;
+        bool displaying_visibility;
+        /** Creature for which to display the visibility map */
+        Creature *displaying_visibility_creature;
 
         bool show_panel_adm;
         bool right_sidebar;

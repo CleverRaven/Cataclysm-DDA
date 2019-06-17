@@ -38,7 +38,7 @@
 
 class npc_template;
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 const mtype_id mon_ant_larva( "mon_ant_larva" );
 const mtype_id mon_ant_queen( "mon_ant_queen" );
@@ -105,7 +105,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "null",             &mapgen_null },
             { "crater",           &mapgen_crater },
             { "field",            &mapgen_field },
-            { "dirtlot",          &mapgen_dirtlot },
             { "forest",           &mapgen_forest },
             { "forest_trail_straight",    &mapgen_forest_trail_straight },
             { "forest_trail_curved",      &mapgen_forest_trail_curved },
@@ -417,28 +416,6 @@ void mapgen_field( map *m, oter_id, mapgendata dat, const time_point &turn, floa
 
     m->place_items( "field", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true,
                     turn ); // FIXME: take 'rock' out and add as regional biome setting
-}
-
-void mapgen_dirtlot( map *m, oter_id, mapgendata, const time_point &, float )
-{
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            m->ter_set( i, j, t_dirt );
-            if( one_in( 120 ) ) {
-                m->ter_set( i, j, t_pit_shallow );
-            } else if( one_in( 50 ) ) {
-                m->ter_set( i, j, t_grass );
-            }
-        }
-    }
-    int num_v = rng( 0, 1 ) * rng( 0, 2 ); // (0, 0, 0, 0, 1, 2) vehicles
-    for( int v = 0; v < num_v; v++ ) {
-        const tripoint vp( rng( 0, 16 ) + 4, rng( 0, 16 ) + 4, m->get_abs_sub().z );
-        int theta = rng( 0, 3 ) * 180 + one_in( 3 ) * rng( 0, 89 );
-        if( !m->veh_at( vp ) ) {
-            m->add_vehicle( vgroup_id( "dirtlot" ), vp, theta, -1, -1 );
-        }
-    }
 }
 
 void mapgen_hive( map *m, oter_id, mapgendata dat, const time_point &turn, float )
@@ -4442,7 +4419,6 @@ void mapgen_lake_shore( map *m, oter_id, mapgendata dat, const time_point &turn,
             line_segments.push_back( { s, e } );
         }
     }
-
 
     // Ok, all of the fiddling with the polygon corners is done.
     // At this point we've got four points that make up four line segments that started out

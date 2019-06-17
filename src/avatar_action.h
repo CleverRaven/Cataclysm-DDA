@@ -3,6 +3,7 @@
 #define AVATAR_ACTION_H
 
 #include "enums.h"
+#include "optional.h"
 
 class avatar;
 class item;
@@ -28,8 +29,10 @@ inline bool move( avatar &you, map &m, const point &d )
 // Handle moving from a ramp
 bool ramp_move( avatar &you, map &m, const tripoint &dest );
 
-void autoattack( avatar &you, map &m );
+/** Handles swimming by the player. Called by avatar_action::move(). */
+void swim( map &m, avatar &you, const tripoint &p );
 
+void autoattack( avatar &you, map &m );
 
 /**
  * Returns true if the player is allowed to fire a given item, or false if otherwise.
@@ -52,7 +55,9 @@ bool fire( avatar &you, map &m );
  * @return Whether an attack was actually performed.
  */
 bool fire( avatar &you, map &m, item &weapon, int bp_cost = 0 );
+// Throw an item  't'
+void plthrow( avatar &you, int pos = INT_MIN,
+              const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
 }
-
 
 #endif // !AVATAR_MOVE_H

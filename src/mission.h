@@ -285,7 +285,7 @@ class mission
         std::string description;
         mission_status status;
         // Cash/Favor value of completing this
-        unsigned long value;
+        unsigned int value;
         // If there's a special reward for completing it
         npc_favor reward;
         // Unique ID number, used for referencing elsewhere

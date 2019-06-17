@@ -17,7 +17,7 @@
 #   endif
 #endif // TILES
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 bool printErrorIf( const bool condition, const char *const message )
 {
@@ -119,6 +119,16 @@ void SetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, const SDL_BlendMo
     }
     printErrorIf( SDL_SetRenderDrawBlendMode( renderer.get(), blendMode ) != 0,
                   "SDL_SetRenderDrawBlendMode failed" );
+}
+
+void GetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, SDL_BlendMode &blend_mode )
+{
+    if( !renderer ) {
+        dbg( D_ERROR ) << "Tried to use a null renderer";
+        return;
+    }
+    printErrorIf( SDL_GetRenderDrawBlendMode( renderer.get(), &blend_mode ) != 0,
+                  "SDL_GetRenderDrawBlendMode failed" );
 }
 
 SDL_Surface_Ptr load_image( const char *const path )

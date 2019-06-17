@@ -163,6 +163,8 @@ const morale_type MORALE_BOOK( "morale_book" );
 const morale_type MORALE_COMFY( "morale_comfy" );
 const morale_type MORALE_SCREAM( "morale_scream" );
 const morale_type MORALE_PERM_MASOCHIST( "morale_perm_masochist" );
+const morale_type MORALE_PERM_NOFACE( "morale_perm_noface" );
+const morale_type MORALE_PERM_FPMODE_ON( "morale_perm_fpmode_on" );
 const morale_type MORALE_PERM_HOARDER( "morale_perm_hoarder" );
 const morale_type MORALE_PERM_FANCY( "morale_perm_fancy" );
 const morale_type MORALE_PERM_OPTIMIST( "morale_perm_optimist" );

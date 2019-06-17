@@ -227,7 +227,7 @@ void player::power_mutations()
         wrefresh( wBio );
         show_mutations_titlebar( w_title, menu_mode, ctxt );
         const std::string action = ctxt.handle_input();
-        const long ch = ctxt.get_raw_input().get_first_input();
+        const int ch = ctxt.get_raw_input().get_first_input();
         if( menu_mode == "reassigning" ) {
             menu_mode = "activating";
             const auto mut_id = trait_by_invlet( ch );
@@ -236,8 +236,8 @@ void player::power_mutations()
                 continue;
             }
             redraw = true;
-            const long newch = popup_getkey( _( "%s; enter new letter." ),
-                                             mutation_branch::get_name( mut_id ) );
+            const int newch = popup_getkey( _( "%s; enter new letter." ),
+                                            mutation_branch::get_name( mut_id ) );
             wrefresh( wBio );
             if( newch == ch || newch == ' ' || newch == KEY_ESCAPE ) {
                 continue;

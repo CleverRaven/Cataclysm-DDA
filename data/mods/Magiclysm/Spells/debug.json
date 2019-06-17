@@ -36,6 +36,27 @@
     "pierce_increment": 0.1
   },
   {
+    "id": "spawn_debug_monster",
+    "type": "SPELL",
+    "name": "Spawn Debug Monsters",
+    "description": "Set level to number of monsters spawned.",
+    "valid_targets": [ "ground" ],
+    "effect": "summon",
+    "effect_str": "debug_mon",
+    "base_casting_time": 100,
+    "max_level": 30,
+    "min_aoe": 10,
+    "max_aoe": 10,
+    "min_damage": 1,
+    "max_damage": 30,
+    "damage_increment": 1,
+    "min_range": 20,
+    "max_range": 20,
+    "min_duration": 1000,
+    "max_duration": 1000,
+    "energy_source": "NONE"
+  },
+  {
     "id": "debug_stamina",
     "type": "SPELL",
     "name": "Debug Stamina Spell",
