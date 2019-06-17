@@ -29,8 +29,28 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "farm_2_roof",
+    "name": "farm house roof",
+    "sym": "^",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": "farm_3",
-    "name": "farm field",
+    "name": "farm barn",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_3_roof",
+    "name": "farm barn roof",
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
