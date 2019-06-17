@@ -34,7 +34,7 @@
   {
     "id": "museum_melee",
     "type": "item_group",
-    "items": [ [ "ji", 2 ], [ "dao", 3 ], [ "sword_xiphos", 4 ], [ "sword_forged", 3 ], [ "khopesh", 4 ], [ "spear_dory", 3 ] ]
+    "items": [ [ "ji", 2 ], [ "dao", 3 ], [ "sword_xiphos", 4 ], [ "khopesh", 4 ], [ "spear_dory", 3 ] ]
   },
   {
     "id": "museum_guns",
