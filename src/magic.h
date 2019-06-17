@@ -343,7 +343,7 @@ void recover_energy( spell &sp, const tripoint &target );
 void spawn_summoned_monster( spell &sp, const tripoint &source, const tripoint &target );
 }
 
-class spellbook_callback {
+class spellbook_callback : public uilist_callback {
 private:
     std::vector<spell_type> spells;
 public:

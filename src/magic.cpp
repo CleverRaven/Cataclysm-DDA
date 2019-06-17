@@ -1146,3 +1146,8 @@ int known_magic::select_spell( const player &p )
 
     return spell_menu.ret;
 }
+
+void spellbook_callback::add_spell( const spell_id &sp )
+{
+    spells.emplace_back( sp.obj() );
+}

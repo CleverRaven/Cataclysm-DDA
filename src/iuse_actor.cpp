@@ -2199,6 +2199,7 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     bool know_it_all = true;
     for( const std::string sp_id_str : spells ) {
         const spell_id sp_id( sp_id_str );
+        sp_cb.add_spell( sp_id );
         const std::string sp_nm = sp_id.obj().name;
         uilist_entry entry( sp_nm );
         if( p.magic.knows_spell( sp_id ) ) {
@@ -2228,6 +2229,11 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     }
 
     spellbook_uilist.entries = uilist_initializer;
+    spellbook_uilist.w_height = 24;
+    spellbook_uilist.w_width = 80;
+    spellbook_uilist.w_x = ( TERMX - spellbook_uilist.w_width ) / 2;
+    spellbook_uilist.w_y = ( TERMY - spellbook_uilist.w_height ) / 2;
+    spellbook_uilist.callback = &sp_cb;
     const int action = uilist( _( "Study a spell:" ), uilist_initializer );
     if( action < 0 ) {
         return 0;
