@@ -50,9 +50,8 @@
       "l": "f_locker",
       "m": "f_makeshift_bed",
       "o": "f_oven",
-      "P": "f_mailbox"
+      "P": "f_mailbox",
       "r": "f_rack",
-      "R": "f_armchair",
       "s": "f_rack",
       "S": "f_sink",
       "T": "f_toilet",
