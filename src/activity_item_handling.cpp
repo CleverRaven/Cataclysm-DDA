@@ -1093,7 +1093,7 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
         // PICKUP_RANGE -1 because we will be adjacent to the spot when arriving.
         bool found_any_pre = false;
 
-        for( const auto &zone : zones ) {
+        for( const zone_data &zone : zones ) {
             const auto options = dynamic_cast<const blueprint_options &>( zone.get_options() );
             const int index = options.get_index();
             const std::vector<construction> &list_constructions = get_constructions();
