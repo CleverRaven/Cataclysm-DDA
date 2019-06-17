@@ -532,9 +532,9 @@ void player::mutate()
     std::vector<trait_id> downgrades;
 
     // For each mutation...
-    for( auto &traits_iter : mutation_branch::get_all() ) {
-        const auto &base_mutation = traits_iter.id;
-        const auto &base_mdata = traits_iter;
+    for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
+        const trait_id &base_mutation = traits_iter.id;
+        const mutation_branch &base_mdata = traits_iter;
         bool thresh_save = base_mdata.threshold;
         bool prof_save = base_mdata.profession;
         bool purify_save = base_mdata.purifiable;
@@ -542,7 +542,7 @@ void player::mutate()
         // ...that we have...
         if( has_trait( base_mutation ) ) {
             // ...consider the mutations that replace it.
-            for( auto &mutation : base_mdata.replacements ) {
+            for( const trait_id &mutation : base_mdata.replacements ) {
                 bool valid_ok = mutation->valid;
 
                 if( ( mutation_ok( mutation, force_good, force_bad ) ) &&
@@ -552,7 +552,7 @@ void player::mutate()
             }
 
             // ...consider the mutations that add to it.
-            for( auto &mutation : base_mdata.additions ) {
+            for( const trait_id &mutation : base_mdata.additions ) {
                 bool valid_ok = mutation->valid;
 
                 if( ( mutation_ok( mutation, force_good, force_bad ) ) &&
@@ -566,7 +566,7 @@ void player::mutate()
                 // Starting traits don't count toward categories
                 std::vector<trait_id> group = mutations_category[cat];
                 bool in_cat = false;
-                for( auto &elem : group ) {
+                for( const trait_id &elem : group ) {
                     if( elem == base_mutation ) {
                         in_cat = true;
                         break;
@@ -575,11 +575,9 @@ void player::mutate()
 
                 // mark for removal
                 // no removing Thresholds/Professions this way!
-                if( !in_cat && !thresh_save && !prof_save ) {
-                    // non-purifiable stuff should be pretty tenacious
-                    // category-enforcement only targets it 25% of the time
-                    // (purify_save defaults true, = false for non-purifiable)
-                    if( purify_save || one_in( 4 ) ) {
+                // unpurifiable traits also cannot be purified
+                if( !in_cat && !thresh_save && !prof_save && !purify_save ) {
+                    if( one_in( 4 ) ) {
                         downgrades.push_back( base_mutation );
                     }
                 }
@@ -622,7 +620,7 @@ void player::mutate()
 
         if( cat.empty() ) {
             // Pull the full list
-            for( auto &traits_iter : mutation_branch::get_all() ) {
+            for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
                 if( traits_iter.valid ) {
                     valid.push_back( traits_iter.id );
                 }
