@@ -790,6 +790,8 @@ void MonsterGenerator::load_species( JsonObject &jo, const std::string &src )
 
 void species_type::load( JsonObject &jo, const std::string & )
 {
+    optional( jo, was_loaded, "footsteps", footsteps, "footsteps." );
+    footsteps = _( footsteps );
     const auto flag_reader = enum_flags_reader<m_flag> { "monster flag" };
     optional( jo, was_loaded, "flags", flags, flag_reader );
 

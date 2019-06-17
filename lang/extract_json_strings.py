@@ -936,6 +936,9 @@ def extract(item, infilename):
             if "description" in special_attack:
                 writestr(outfile, special_attack["description"], **kwargs)
                 wrote = True
+    if "footsteps" in item:
+       writestr(outfile, item["footsteps"], **kwargs)
+       wrote = True
     if not wrote:
         if not warning_supressed(infilename):
             print("WARNING: {}: nothing translatable found in item: {}".format(infilename, item))
