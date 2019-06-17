@@ -3859,5 +3859,31 @@
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
     }
+  },
+    {
+    "type": "profession",
+    "ident": "musician",
+    "name": "Musician",
+    "description": "You were just about to hit the stage when the Cataclysm struck.  You weren't able to grab much during the panic, but at least you have your loaded six string on your back.",
+    "points": -1,
+    "skills": [ { "level": 1, "name": "barter" }, { "level": 2, "name": "speech" } ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "magazine": 100,
+        "items": [
+          "tshirt_tour",
+          "shorts_cargo",
+          "socks",
+          "sneakers",
+          "wristwatch",
+		  "water_clean",
+		  "guitar_electric"
+        ],
+        "entries": [ { "item": "towel", "custom-flags": [ "no_auto_equip" ] }, { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
+    }
   }
 ]
