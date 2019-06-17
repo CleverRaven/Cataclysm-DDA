@@ -232,6 +232,20 @@
   },
   {
     "type": "recipe",
+    "result": "flint_steel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "skills_required": [ "fabrication", 3 ],
+    "difficulty": 4,
+    "time": "10 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_survival", 2 ], [ "mag_survival", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "sharp_rock", 1 ] ], [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "pot_makeshift",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
