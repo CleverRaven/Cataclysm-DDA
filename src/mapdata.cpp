@@ -263,6 +263,7 @@ bool map_deconstruct_info::load( JsonObject &jsobj, const std::string &member, b
         ter_set = ter_str_id( j.get_string( "ter_set" ) );
     }
     can_do = true;
+    deconstruct_above = j.get_bool( "deconstruct_above", false );
 
     JsonIn &stream = *j.get_raw( "items" );
     drop_group = item_group::load_item_group( stream, "collection" );
