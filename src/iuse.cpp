@@ -253,19 +253,24 @@ static const quality_id DIG( "DIG" );
 struct extended_photo_def;
 struct object_names_collection;
 
-static void item_save_monsters( player *p, item *it, const std::vector<monster *> &monster_vec,
+static void item_save_monsters( player &p, item &it, const std::vector<monster *> &monster_vec,
                                 const int photo_quality );
-static bool show_photo_selection( player *p, item *it, const std::string &var_name );
+static bool show_photo_selection( player &p, item &it, const std::string &var_name );
 
-static bool item_read_extended_photos( item *, std::vector<extended_photo_def> &, std::string,
+static bool item_read_extended_photos( item &, std::vector<extended_photo_def> &, std::string,
                                        bool = false );
-static void item_write_extended_photos( item *, const std::vector<extended_photo_def> &,
+static void item_write_extended_photos( item &, const std::vector<extended_photo_def> &,
                                         std::string );
+
+static std::string format_object_pair( const std::pair<std::string, int> &pair,
+                                       const std::string &article );
+static std::string format_object_pair_article( const std::pair<std::string, int> &pair );
+static std::string format_object_pair_no_article( const std::pair<std::string, int> &pair );
 
 static std::string colorized_field_description_at( const tripoint &point );
 static std::string colorized_trap_name_at( const tripoint &point );
 static std::string colorized_ter_name_flags_at( const tripoint &point,
-        const std::vector<std::string> &flags = {}, const std::vector<std::string> &ter_whitelist = {} );
+        const std::vector<std::string> &flags = {}, const std::vector<ter_str_id> &ter_whitelist = {} );
 static std::string colorized_feature_description_at( const tripoint center_point, bool &item_found,
         const units::volume &min_visible_volume );
 
@@ -274,15 +279,14 @@ static std::string colorized_item_description( const item &item );
 static const item get_top_item_at_point( const tripoint &point,
         const units::volume &min_visible_volume );
 
-static std::string get_vehicle_hash( const vehicle &veh );
-
 static std::string effects_description_for_creature( Creature *const creature, std::string &pose,
         const std::string &pronoun_sex );
 
 static object_names_collection enumerate_objects_around_point( const tripoint point,
         const int radius, const tripoint bounds_center_point, const int bounds_radius,
         const tripoint camera_pos, const units::volume &min_visible_volume, bool create_figure_desc,
-        std::unordered_set<tripoint> &ignored_points, std::unordered_set<std::string> &vehicles_recorded );
+        std::unordered_set<tripoint> &ignored_points,
+        std::unordered_set<const vehicle *> &vehicles_recorded );
 static extended_photo_def photo_def_for_camera_point( const tripoint aim_point,
         const tripoint camera_pos,
         std::vector<monster *> &monster_vec, std::vector<player *> &player_vec );
@@ -292,10 +296,10 @@ static const std::vector<std::string> camera_ter_whitelist_flags = {
     "PLACE_ITEM", "GROWTH_HARVEST", "GROWTH_MATURE", "GOES_UP",
     "GOES_DOWN", "RAMP", "SHARP", "SIGN", "CLIMBABLE"
 };
-static const std::vector<std::string> camera_ter_whitelist_types = {
-    "t_pit_covered", "t_grave_new", "t_grave", "t_pit", "t_pit_shallow",
-    "t_pit_corpsed", "t_pit_spiked", "t_pit_spiked_covered", "t_pit_glass",
-    "t_pit_glass", "t_utility_light"
+static const std::vector<ter_str_id> camera_ter_whitelist_types = {
+    ter_str_id( "t_pit_covered" ), ter_str_id( "t_grave_new" ), ter_str_id( "t_grave" ), ter_str_id( "t_pit" ),
+    ter_str_id( "t_pit_shallow" ), ter_str_id( "t_pit_corpsed" ), ter_str_id( "t_pit_spiked" ),
+    ter_str_id( "t_pit_spiked_covered" ), ter_str_id( "t_pit_glass" ), ter_str_id( "t_pit_glass" ), ter_str_id( "t_utility_light" )
 };
 
 void remove_radio_mod( item &it, player &p )
@@ -6139,9 +6143,9 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
     if( mc.has_var( "MC_EXTENDED_PHOTOS" ) ) {
         std::vector<extended_photo_def> extended_photos;
         try {
-            item_read_extended_photos( &mc, extended_photos, "MC_EXTENDED_PHOTOS" );
-            item_read_extended_photos( &eink, extended_photos, "EIPC_EXTENDED_PHOTOS", true );
-            item_write_extended_photos( &eink, extended_photos, "EIPC_EXTENDED_PHOTOS" );
+            item_read_extended_photos( mc, extended_photos, "MC_EXTENDED_PHOTOS" );
+            item_read_extended_photos( eink, extended_photos, "EIPC_EXTENDED_PHOTOS", true );
+            item_write_extended_photos( eink, extended_photos, "EIPC_EXTENDED_PHOTOS" );
             something_downloaded = true;
             p.add_msg_if_player( m_good, _( "You have downloaded your photos." ) );
         } catch( const JsonError &e ) {
@@ -6408,7 +6412,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
         }
 
         if( ei_uploaded_photos == choice ) {
-            show_photo_selection( p, it, "EIPC_EXTENDED_PHOTOS" );
+            show_photo_selection( *p, *it, "EIPC_EXTENDED_PHOTOS" );
             return it->type->charges_to_use();
         }
 
@@ -6587,10 +6591,10 @@ static std::string colorized_field_description_at( const tripoint &point )
     };
     static const std::vector<std::pair<std::unordered_set<field_id, std::hash<int>>, std::string>>
     affixes_vec = {
-        { covered_in_affix_ids, _( " covered in " ) },
-        { on_affix_ids, _( " on " ) },
-        { under_affix_ids, _( " under " ) },
-        { illuminated_by_affix_ids, _( " illuminated by " ) }
+        { covered_in_affix_ids, _( " covered in %s" ) },
+        { on_affix_ids, _( " on %s" ) },
+        { under_affix_ids, _( " under %s" ) },
+        { illuminated_by_affix_ids, _( " illuminated by %s" ) }
     }; // anything else is "in %s cloud"
 
     std::string field_text;
@@ -6604,9 +6608,9 @@ static std::string colorized_field_description_at( const tripoint &point )
             }
         }
         if( affix.empty() ) {
-            field_text = _( " in " ) + colorize( entry->name(), entry->color() ) + _( " cloud" );
+            field_text = string_format( " in %s cloud", colorize( entry->name(), entry->color() ) );
         } else {
-            field_text = affix + colorize( entry->name(), entry->color() );
+            field_text = string_format( affix, colorize( entry->name(), entry->color() ) );
         }
     }
     return field_text;
@@ -6646,7 +6650,7 @@ static const item get_top_item_at_point( const tripoint &point,
 }
 
 static std::string colorized_ter_name_flags_at( const tripoint &point,
-        const std::vector<std::string> &flags, const std::vector<std::string> &ter_whitelist )
+        const std::vector<std::string> &flags, const std::vector<ter_str_id> &ter_whitelist )
 {
     const ter_id ter = g->m.ter( point );
     std::string name = colorize( ter->name(), ter->color() );
@@ -6654,7 +6658,7 @@ static std::string colorized_ter_name_flags_at( const tripoint &point,
     const std::string trap_name = colorized_trap_name_at( point );
 
     if( !graffiti_message.empty() ) {
-        name += _( " with graffiti \"" ) + graffiti_message + "\"";
+        name +=  string_format( _( " with graffiti \"%s\"" ), graffiti_message );
         return name;
     }
     if( ter_whitelist.empty() && flags.empty() ) {
@@ -6666,8 +6670,8 @@ static std::string colorized_ter_name_flags_at( const tripoint &point,
                                   ter->examine != iexamine::dirtmound ) ) {
         return name;
     }
-    for( const std::string &ter_good : ter_whitelist ) {
-        if( ter->id.c_str() == ter_good ) {
+    for( const ter_str_id &ter_good : ter_whitelist ) {
+        if( ter->id == ter_good ) {
             return name;
         }
     }
@@ -6686,15 +6690,15 @@ static std::string colorized_feature_description_at( const tripoint center_point
     item_found = false;
     const furn_id furn = g->m.furn( center_point );
     if( furn != f_null && furn.is_valid() ) {
-        std::string furn_str = "<color_yellow>" + furn->name() + "</color>";
+        std::string furn_str = colorize( furn->name(), c_yellow );
         std::string sign_message = g->m.get_signage( center_point );
         if( !sign_message.empty() ) {
-            furn_str += _( " with message \"" ) + sign_message + "\"";
+            furn_str += string_format( _( " with message \"%s\"" ), sign_message );
         }
         if( !furn->has_flag( "CONTAINER" ) && !furn->has_flag( "SEALED" ) ) {
             const item item = get_top_item_at_point( center_point, min_visible_volume );
             if( !item.is_null() ) {
-                furn_str += _( " with " ) + colorized_item_name( item );
+                furn_str += string_format( _( " with %s on it" ), colorized_item_name( item ) );
                 item_found = true;
             }
         }
@@ -6703,14 +6707,8 @@ static std::string colorized_feature_description_at( const tripoint center_point
     return std::string();
 }
 
-static std::string get_vehicle_hash( const vehicle &veh )
-{
-    const tripoint veh_coord = veh.global_pos3();
-    return string_format( "%s %i %i %i", veh.disp_name(), veh_coord.x, veh_coord.y, veh_coord.z );
-}
-
-static const auto format_object_pair = []( const std::pair<std::string, int> &pair,
-                                       const std::string &article = "" )
+static std::string format_object_pair( const std::pair<std::string, int> &pair,
+                                       const std::string &article )
 {
     if( pair.second == 1 ) {
         return string_format( "%s%s", article, pair.first );
@@ -6718,11 +6716,16 @@ static const auto format_object_pair = []( const std::pair<std::string, int> &pa
         return string_format( "%s%i %s", article, pair.second, pair.first );
     }
     return std::string();
-};
-static const auto format_object_pair_article = []( const std::pair<std::string, int> &pair )
+}
+static std::string format_object_pair_article( const std::pair<std::string, int> &pair )
 {
-    return format_object_pair( pair, "a " );
-};
+    return format_object_pair( pair, pgettext( "Article 'a', replace it with empty "
+                               "string if it is not used in language", "a " ) );
+}
+static std::string format_object_pair_no_article( const std::pair<std::string, int> &pair )
+{
+    return format_object_pair( pair, "" );
+}
 
 static std::string effects_description_for_creature( Creature *const creature, std::string &pose,
         const std::string &pronoun_sex )
@@ -6732,13 +6735,13 @@ static std::string effects_description_for_creature( Creature *const creature, s
         std::string pose;
         int intensity_lower_limit;
         ef_con( std::string status, std::string pose, int intensity_lower_limit ) :
-            status( status ), pose( pose ), intensity_lower_limit( intensity_lower_limit ) {};
+            status( status ), pose( pose ), intensity_lower_limit( intensity_lower_limit ) {}
         ef_con( std::string status, std::string pose ) :
-            status( status ), pose( pose ), intensity_lower_limit( 0 ) {};
+            status( status ), pose( pose ), intensity_lower_limit( 0 ) {}
         ef_con( std::string status, int intensity_lower_limit ) :
-            status( status ), pose( "" ), intensity_lower_limit( intensity_lower_limit ) {};
+            status( status ), pose(), intensity_lower_limit( intensity_lower_limit ) {}
         ef_con( std::string status ) :
-            status( status ), pose( "" ), intensity_lower_limit( 0 ) {};
+            status( status ), pose(), intensity_lower_limit( 0 ) {}
     };
     static const std::unordered_map<efftype_id, ef_con> vec_effect_status = {
         { effect_onfire, ef_con( _( " is on <color_red>fire</color>. " ) ) },
@@ -6797,7 +6800,8 @@ static std::string effects_description_for_creature( Creature *const creature, s
         if( creature->has_effect( effect_riding ) ) {
             pose = _( "rides" );
             monster *const mon = g->critter_at<monster>( creature->pos(), false );
-            figure_effects += pronoun_sex + _( " is riding <color_light_blue>" ) + mon->name() + "</color>. ";
+            figure_effects += pronoun_sex + string_format( _( " is riding %s. " ),
+                              colorize( mon->name(), c_light_blue ) );
         }
         if( creature->has_effect( effect_glowing_led ) ) {
             figure_effects += _( "A bionic LED is <color_yellow>glowing</color> softly. " );
@@ -6823,15 +6827,15 @@ struct object_names_collection {
 static object_names_collection enumerate_objects_around_point( const tripoint point,
         const int radius, const tripoint bounds_center_point, const int bounds_radius,
         const tripoint camera_pos, const units::volume &min_visible_volume, bool create_figure_desc,
-        std::unordered_set<tripoint> &ignored_points, std::unordered_set<std::string> &vehicles_recorded )
+        std::unordered_set<tripoint> &ignored_points,
+        std::unordered_set<const vehicle *> &vehicles_recorded )
 {
     const tripoint_range bounds = g->m.points_in_radius( bounds_center_point, bounds_radius );
     const tripoint_range points_in_radius = g->m.points_in_radius( point, radius );
     int dist = rl_dist( camera_pos, point );
 
     bool item_found = false;
-    std::unordered_set<std::string> local_vehicles_recorded = std::unordered_set<std::string>
-            ( vehicles_recorded );
+    std::unordered_set<const vehicle *> local_vehicles_recorded( vehicles_recorded );
     object_names_collection ret_obj;
 
     std::string description_part_on_figure;
@@ -6873,25 +6877,32 @@ static object_names_collection enumerate_objects_around_point( const tripoint po
             }
         } else if( veh_part_pos.has_value() ) {
             const vehicle veh = veh_part_pos->vehicle();
-            const std::string veh_name = "<color_light_blue>" + veh.disp_name() + "</color>";
-            const std::string veh_hash = get_vehicle_hash( veh );
+            const std::string veh_name = colorize( veh.disp_name(), c_light_blue );
+            const vehicle *veh_hash = &veh_part_pos->vehicle();
 
             if( local_vehicles_recorded.find( veh_hash ) == local_vehicles_recorded.end() &&
                 point != point_around_figure ) {
+                // new vehicle, point is not center
                 ret_obj.vehicles[ veh_name ] ++;
-                vehicles_recorded.insert( veh_hash );
             } else if( point == point_around_figure ) {
-                description_part_on_figure = veh_part_pos.part_displayed()->part().name() +
-                                             string_format( _( " from %s" ), veh_name );
-                if( ret_obj.vehicles.find( veh_name ) != ret_obj.vehicles.end() ) {
-                    ret_obj.vehicles.erase( veh_name );
+                // point is center
+                description_part_on_figure = string_format( _( "%1$s from %2$s" ),
+                                             veh_part_pos.part_displayed()->part().name(), veh_name );
+                if( ret_obj.vehicles.find( veh_name ) != ret_obj.vehicles.end() &&
+                    local_vehicles_recorded.find( veh_hash ) != local_vehicles_recorded.end() ) {
+                    // remove vehicle name only if we previously added THIS vehicle name (in case of same name)
+                    ret_obj.vehicles[ veh_name ] --;
+                    if( ret_obj.vehicles[ veh_name ] <= 0 ) {
+                        ret_obj.vehicles.erase( veh_name );
+                    }
                 }
             }
+            vehicles_recorded.insert( veh_hash );
             local_vehicles_recorded.insert( veh_hash );
         } else if( !item.is_null() ) {
             item_name = trap_name + item_name + field_desc;
             if( point == point_around_figure && create_figure_desc ) {
-                description_terrain_on_figure = ter_desc + _( " with a " ) + item_name;
+                description_terrain_on_figure = string_format( _( "%1$s with a %2$s" ), ter_desc, item_name );
             } else {
                 ret_obj.items[ item_name ] ++;
             }
@@ -6926,8 +6937,8 @@ static object_names_collection enumerate_objects_around_point( const tripoint po
 
         for( int i = 0; i < 4; i++ ) {
             for( const auto &p : vecs_to_retrieve[ i ] ) {
-                objects_combined_desc.push_back( i == 1 ? // vehicle name already includes "the"
-                                                 format_object_pair( p ) : format_object_pair_article( p ) );
+                objects_combined_desc.push_back( i == 1 ?  // vehicle name already includes "the"
+                                                 format_object_pair_no_article( p ) : format_object_pair_article( p ) );
             }
         }
 
@@ -6944,8 +6955,8 @@ static object_names_collection enumerate_objects_around_point( const tripoint po
         if( !objects_combined_desc.empty() ) {
             // store objects to description_figures_status
             std::string objects_text = enumerate_as_string( objects_combined_desc );
-            ret_obj.obj_nearby_text = string_format( _( "%s %s." ),
-                                      objects_combined_desc.size() == 1 ? _( "Nearby is" ) : _( "Nearby are" ), objects_text );
+            ret_obj.obj_nearby_text = string_format( ngettext( "Nearby is %s.", "Nearby are %s.",
+                                      objects_combined_desc.size() ), objects_text );
         }
     }
     return ret_obj;
@@ -6959,7 +6970,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint aim_point,
     const units::volume min_visible_volume = 490_ml;
 
     std::unordered_set<tripoint> ignored_points;
-    std::unordered_set<std::string> vehicles_recorded;
+    std::unordered_set<const vehicle *> vehicles_recorded;
 
     std::unordered_map<std::string, std::string> description_figures_appearance;
     std::vector<std::pair<std::string, std::string>> description_figures_status;
@@ -7081,19 +7092,19 @@ static extended_photo_def photo_def_for_camera_point( const tripoint aim_point,
         std::string names = enumerate_as_string( description_figures_status.begin(),
                             description_figures_status.end(),
         []( const std::pair<std::string, std::string> &it ) {
-            return "<color_light_blue>" + it.first + "</color>";
+            return colorize( it.first, c_light_blue );
         } );
 
         photo.name = names;
         photo_text += names + ".";
 
         for( const auto &figure_status : description_figures_status ) {
-            photo_text += "\n\n<color_light_blue>" + figure_status.first + "</color> " + figure_status.second;
+            photo_text += "\n\n" + colorize( figure_status.first, c_light_blue )
+                          + " " + figure_status.second;
         }
     } else if( found_vehicle_aim_point ) {
         const optional_vpart_position veh_part_pos = g->m.veh_at( aim_point );
-        const std::string veh_name = "<color_light_blue>" + veh_part_pos->vehicle().disp_name() +
-                                     "</color>";
+        const std::string veh_name = colorize( veh_part_pos->vehicle().disp_name(), c_light_blue );
         photo.name = veh_name;
         photo_text += veh_name + ".";
         map_deincrement_or_erase( obj_coll.vehicles, veh_name );
@@ -7112,7 +7123,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint aim_point,
             map_deincrement_or_erase( obj_coll.items, item_name );
         }
         if( found_furniture_aim_point && !furn_aim->description.empty() ) {
-            photo_text += "\n\n<color_yellow>" + furn_aim->name() + "</color>:\n" + furn_aim->description;
+            photo_text += "\n\n" + colorize( furn_aim->name(), c_yellow ) + ":\n" + furn_aim->description;
         }
         if( found_item_aim_point ) {
             photo_text += "\n\n" + item_name + ":\n" + colorized_item_description( item );
@@ -7132,31 +7143,30 @@ static extended_photo_def photo_def_for_camera_point( const tripoint aim_point,
     if( !obj_coll.items.empty() ) {
         std::string obj_list = enumerate_as_string( obj_coll.items.begin(), obj_coll.items.end(),
                                format_object_pair_article );
-        photo_text += "\n\n" + string_format( _( "%s: %s." ),
-                                              obj_coll.items.size() == 1 ?
-                                              "There is something lying on the ground" :
-                                              "There are some things lying on the ground",
+        photo_text += "\n\n" + string_format( ngettext( "There is something lying on the ground: %s.",
+                                              "There are some things lying on the ground: %s.", obj_coll.items.size() ),
                                               obj_list );
     }
     if( !obj_coll.furniture.empty() ) {
         std::string obj_list = enumerate_as_string( obj_coll.furniture.begin(), obj_coll.furniture.end(),
                                format_object_pair_article );
-        photo_text += "\n\n" + string_format( _( "Some objects are visible in the background: %s." ),
+        photo_text += "\n\n" + string_format( ngettext( "Something is visible in the background: %s.",
+                                              "Some objects are visible in the background: %s.", obj_coll.furniture.size() ),
                                               obj_list );
     }
     if( !obj_coll.vehicles.empty() ) {
         std::string obj_list = enumerate_as_string( obj_coll.vehicles.begin(), obj_coll.vehicles.end(),
-                               format_object_pair );
-        photo_text += "\n\n" + ( obj_coll.vehicles.size() == 1 ?
-                                 string_format( _( "There is %s parked in the background." ), obj_list ) :
-                                 string_format( _( "There are %s parked in the background." ), obj_list ) );
+                               format_object_pair_no_article );
+        photo_text += "\n\n" + string_format( ngettext( "There is %s parked in the background.",
+                                              "There are %s parked in the background.", obj_coll.vehicles.size() ),
+                                              obj_list );
     }
     if( !obj_coll.terrain.empty() ) {
         std::string obj_list = enumerate_as_string( obj_coll.terrain.begin(), obj_coll.terrain.end(),
                                format_object_pair_article );
-        photo_text += "\n\n" + ( obj_coll.terrain.size() == 1 ?
-                                 string_format( _( "There is %s in the background." ), obj_list ) :
-                                 string_format( _( "There are %s in the background." ), obj_list ) );
+        photo_text += "\n\n" + string_format( ngettext( "There is %s in the background.",
+                                              "There are %s in the background.", obj_coll.terrain.size() ),
+                                              obj_list );
     }
 
     const oter_id &cur_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( aim_point ) ) );
@@ -7194,22 +7204,22 @@ static extended_photo_def photo_def_for_camera_point( const tripoint aim_point,
     }
 
     for( const auto &figure : description_figures_appearance ) {
-        photo_text += "\n\n<color_light_blue>" + figure.first + "</color>" + _( " appearance:" ) + "\n" +
-                      figure.second;
+        photo_text += "\n\n" + string_format( _( "%s appearance:" ),
+                                              colorize( figure.first, c_light_blue ) ) + "\n" + figure.second;
     }
 
-    photo_text += "\n\n" + string_format( _( "The photo was taken on %s." ),
-                                          "<color_light_blue>" + timestamp + "</color>" );
+    photo_text += "\n\n" + string_format( pgettext( "Date", "The photo was taken on %s." ),
+                                          colorize( timestamp, c_light_blue ) );
 
     photo.description = photo_text;
 
     return photo;
 }
 
-static void item_save_monsters( player *p, item *it, const std::vector<monster *> &monster_vec,
+static void item_save_monsters( player &p, item &it, const std::vector<monster *> &monster_vec,
                                 const int photo_quality )
 {
-    std::string monster_photos = it->get_var( "CAMERA_MONSTER_PHOTOS" );
+    std::string monster_photos = it.get_var( "CAMERA_MONSTER_PHOTOS" );
     if( monster_photos.empty() ) {
         monster_photos = ",";
     }
@@ -7231,31 +7241,29 @@ static void item_save_monsters( player *p, item *it, const std::vector<monster *
             if( photo_quality > old_quality ) {
                 monster_photos[ quality_num_pos ] = string_format( "%d", photo_quality )[ 0 ];
             }
-            if( p && !p->is_blind() ) {
+            if( !p.is_blind() ) {
                 if( photo_quality > old_quality ) {
-                    p->add_msg_if_player( m_good, string_format(
-                                              _( "The quality of <color_light_blue>%s</color> image is better than the previous one." ), name ) );
+                    p.add_msg_if_player( m_good, _( "The quality of %s image is better than the previous one." ),
+                                         colorize( name, c_light_blue ) );
                 } else if( old_quality == 5 ) {
-                    p->add_msg_if_player( string_format(
-                                              _( "The quality of stored <color_light_blue>%s</color> image is already maximally detailed." ),
-                                              name ) );
+                    p.add_msg_if_player( _( "The quality of stored %s image is already maximally detailed." ),
+                                         colorize( name, c_light_blue ) );
                 } else {
-                    p->add_msg_if_player( m_bad, string_format(
-                                              _( "But the quality of <color_light_blue>%s</color> image is worse than the previous one." ),
-                                              name ) );
+                    p.add_msg_if_player( m_bad, _( "But the quality of %s image is worse than the previous one." ),
+                                         colorize( name, c_light_blue ) );
                 }
             }
         }
     }
-    it->set_var( "CAMERA_MONSTER_PHOTOS", monster_photos );
+    it.set_var( "CAMERA_MONSTER_PHOTOS", monster_photos );
 }
 
 // throws exception
-static bool item_read_extended_photos( item *it, std::vector<extended_photo_def> &extended_photos,
+static bool item_read_extended_photos( item &it, std::vector<extended_photo_def> &extended_photos,
                                        std::string var_name, bool insert_at_begin )
 {
     bool result = false;
-    std::istringstream extended_photos_data( it->get_var( var_name ) );
+    std::istringstream extended_photos_data( it.get_var( var_name ) );
     JsonIn json( extended_photos_data );
     if( insert_at_begin ) {
         std::vector<extended_photo_def> temp_vec;
@@ -7269,20 +7277,20 @@ static bool item_read_extended_photos( item *it, std::vector<extended_photo_def>
 }
 
 // throws exception
-static void item_write_extended_photos( item *it,
+static void item_write_extended_photos( item &it,
                                         const std::vector<extended_photo_def> &extended_photos,
                                         std::string var_name )
 {
     std::ostringstream extended_photos_data;
     JsonOut json( extended_photos_data );
     json.write( extended_photos );
-    it->set_var( var_name, extended_photos_data.str() );
+    it.set_var( var_name, extended_photos_data.str() );
 }
 
-static bool show_photo_selection( player *p, item *it, const std::string &var_name )
+static bool show_photo_selection( player &p, item &it, const std::string &var_name )
 {
-    if( p->is_blind() ) {
-        p->add_msg_if_player( _( "You can't see the camera screen, you're blind." ) );
+    if( p.is_blind() ) {
+        p.add_msg_if_player( _( "You can't see the camera screen, you're blind." ) );
         return false;
     }
 
@@ -7299,17 +7307,23 @@ static bool show_photo_selection( player *p, item *it, const std::string &var_na
     }
     try { // if there is old photos format, append them; delete old and save new
         if( item_read_extended_photos( it, extended_photos, "CAMERA_NPC_PHOTOS", true ) ) {
-            it->erase_var( "CAMERA_NPC_PHOTOS" );
+            it.erase_var( "CAMERA_NPC_PHOTOS" );
             item_write_extended_photos( it, extended_photos, var_name );
         }
     } catch( const JsonError &e ) {
         debugmsg( "Error migrating old photo format (read success = %i): %s",
-                  ( int )!it->has_var( "CAMERA_NPC_PHOTOS" ), e.c_str() );
+                  ( int )!it.has_var( "CAMERA_NPC_PHOTOS" ), e.c_str() );
     }
 
     int k = 0;
     for( const extended_photo_def &extended_photo : extended_photos ) {
-        std::string menu_str = std::regex_replace( extended_photo.name, std::regex( p->name ), _( "You" ) );
+        std::string menu_str = extended_photo.name;
+
+        size_t index = menu_str.find( p.name );
+        if( index != std::string::npos ) {
+            menu_str.replace( index, p.name.length(), "You" );
+        }
+
         descriptions.push_back( extended_photo.description );
         menu_str += " [" + photo_quality_name( extended_photo.quality ) + "]";
 
@@ -7452,9 +7466,9 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                 photo.quality = photo_quality;
 
                 try {
-                    item_read_extended_photos( it, extended_photos, "CAMERA_EXTENDED_PHOTOS" );
+                    item_read_extended_photos( *it, extended_photos, "CAMERA_EXTENDED_PHOTOS" );
                     extended_photos.push_back( photo );
-                    item_write_extended_photos( it, extended_photos, "CAMERA_EXTENDED_PHOTOS" );
+                    item_write_extended_photos( *it, extended_photos, "CAMERA_EXTENDED_PHOTOS" );
                 } catch( const JsonError &e ) {
                     debugmsg( "Error when adding new photo (loaded photos = %i): %s", extended_photos.size(),
                               e.c_str() );
@@ -7487,12 +7501,12 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                     if( blinded_names.size() > 0 ) {
                         p->add_msg_if_player( _( "%s looks blinded." ), enumerate_as_string( blinded_names.begin(),
                         blinded_names.end(), []( const std::string & it ) {
-                            return "<color_light_blue>" + it + "</color>";
+                            return colorize( it, c_light_blue );
                         } ) );
                     }
                 }
                 if( monster_vec.size() > 0 ) {
-                    item_save_monsters( p, it, monster_vec, photo_quality );
+                    item_save_monsters( *p, *it, monster_vec, photo_quality );
                 }
                 return it->type->charges_to_use();
             }
@@ -7501,7 +7515,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
     }
 
     if( c_photos == choice ) {
-        show_photo_selection( p, it, "CAMERA_EXTENDED_PHOTOS" );
+        show_photo_selection( *p, *it, "CAMERA_EXTENDED_PHOTOS" );
         return it->type->charges_to_use();
     }
 
