@@ -1241,7 +1241,7 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
         // Set the trap that has the examine function
         g->m.trap_set( src_loc, tr_unfinished_construction );
         // Use up the components
-        for( const auto &it : built_chosen.requirements->get_components() ) {
+        for( const std::vector<item_comp> &it : built_chosen.requirements->get_components() ) {
             std::list<item> tmp = p.consume_items( it, 1, is_crafting_component );
             used.splice( used.end(), tmp );
         }
