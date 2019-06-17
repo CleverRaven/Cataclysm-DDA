@@ -1134,7 +1134,7 @@
     "unarmed_allowed": true,
     "disarms": true,
     "messages": [ "You disarm %s", "<npcname> disarms %s" ]
-},
+  },
 {
     "id": "tec_swordsmanship_grab",
     "name": "grab and pommel strike",
