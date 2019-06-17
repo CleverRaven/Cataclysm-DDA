@@ -9108,6 +9108,56 @@
     "flags": [ "LIGHT_3", "ALLOWS_REMOTE_USE" ]
   },
   {
+    "id": "tinderbox",
+    "type": "TOOL",
+    "name": "ember carrier",
+    "description": "This is a small container for holding tinder, with holes punched in it to provide a controlled airflow.  It can nurture a smoldering ember for a long time, to start fires without modern tools.",
+    "weight": 500,
+    "volume": 2,
+    "price": 1000,
+    "material": "steel",
+    "symbol": ",",
+    "color": "light_gray",
+    "ammo": "tinder",
+    "max_charges": 100,
+    "use_action": {
+      "target": "tinderbox_on",
+      "msg": "You light the tinder.",
+      "active": true,
+      "need_fire": 1,
+      "need_fire_msg": "You need a lighter or fire to light this.",
+      "type": "transform"
+    }
+  },
+  {
+    "id": "tinderbox_on",
+    "type": "TOOL",
+    "name": "ember carrier (lit)",
+    "name_plural": "ember carriers (lit)",
+    "description": "This is a small container for holding tinder, with holes punched in it to provide a controlled airflow.  An ember is smoldering inside it, and can be used to start a campfire.",
+    "weight": 500,
+    "volume": 2,
+    "price": 1000,
+    "material": "steel",
+    "symbol": ",",
+    "color": "light_gray",
+    "ammo": "tinder",
+    "max_charges": 100,
+    "turns_per_charge": 600,
+    "revert_to": "tinderbox",
+    "use_action": [
+      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
+      {
+        "target": "tinderbox",
+        "msg": "The ember is extinguished.",
+        "active": false,
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
+    "flags": [ "FIRESTARTER" ]
+  },
+  {
     "id": "adobe_pallet_full",
     "type": "TOOL",
     "name": "pallet of wet adobe bricks",
