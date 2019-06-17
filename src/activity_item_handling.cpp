@@ -1024,7 +1024,7 @@ static construction check_build_pre( const construction &con )
     const std::string pre_con_str = con.pre_terrain;
     construction pre_con = con;
     const std::vector<construction> &list_constructions = get_constructions();
-    for( const auto elem : list_constructions ) {
+    for( const construction elem : list_constructions ) {
         if( !elem.post_terrain.empty() && elem.post_terrain == pre_con_str && elem.category != "REPAIR" &&
             elem.category != "REINFORCE" ) {
             //we found the construction that could build the required terrain
