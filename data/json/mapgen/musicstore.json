@@ -19,6 +19,7 @@
           { "item": "tuba", "prob": 25 },
           { "item": "ukulele", "prob": 50 },
           { "item": "violin", "prob": 90 },
+		  { "item": "guitar_electric", "prob": 90 },
           {
             "collection": [ { "item": "case_violin" }, { "item": "tommygun" }, { "item": "grip" }, { "item": "thompson_drum" } ],
             "prob": 15
@@ -45,7 +46,7 @@
   {
     "id": "mussto_stringinst",
     "type": "item_group",
-    "items": [ [ "acoustic_guitar", 100 ], [ "violin", 80 ], [ "ukulele", 90 ], [ "banjo", 100 ] ]
+    "items": [ [ "acoustic_guitar", 100 ], [ "violin", 80 ], [ "ukulele", 90 ], [ "banjo", 100 ], [ "guitar_electric", 100 ] ]
   },
   {
     "id": "light_reading",

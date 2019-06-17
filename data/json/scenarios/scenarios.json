@@ -440,7 +440,8 @@
       "hospital_2",
       "mall_a_30",
       "religous_church",
-      "religous_cemetery"
+      "religous_cemetery",
+	  "music_venue"
     ],
     "flags": [ "SUR_START", "CITY_START" ]
   },
