@@ -1009,7 +1009,7 @@
       "tec_wingchun_disarm"
     ],
     "weapons": [ "butterfly_swords", "long_pole" ]
-},
+  },
 {
     "id": "style_swordsmanship",
     "name": "Medieval Swordsmanship",
