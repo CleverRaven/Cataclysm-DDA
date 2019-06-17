@@ -575,11 +575,9 @@ void player::mutate()
 
                 // mark for removal
                 // no removing Thresholds/Professions this way!
-                if( !in_cat && !thresh_save && !prof_save ) {
-                    // non-purifiable stuff should be pretty tenacious
-                    // category-enforcement only targets it 25% of the time
-                    // (purify_save defaults true, = false for non-purifiable)
-                    if( purify_save || one_in( 4 ) ) {
+                // unpurifiable traits also cannot be purified
+                if( !in_cat && !thresh_save && !prof_save && !purify_save ) {
+                    if( one_in( 4 ) ) {
                         downgrades.push_back( base_mutation );
                     }
                 }
