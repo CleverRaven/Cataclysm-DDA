@@ -315,6 +315,8 @@
   {
     "type": "item_group",
     "id": "npc_misc",
+    "ammo": 75,
+    "magazine": 50,
     "items": [
       [ "101_carpentry", 1 ],
       [ "1st_aid", 20 ],

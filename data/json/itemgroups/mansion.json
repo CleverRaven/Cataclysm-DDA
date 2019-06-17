@@ -507,6 +507,8 @@
   {
     "id": "toy_box",
     "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
     "subtype": "distribution",
     "items": [
       [ "marble", 60 ],
@@ -992,6 +994,8 @@
   {
     "id": "table_livingroom",
     "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
     "subtype": "distribution",
     "items": [
       { "group": "beer_selection", "prob": 30 },
