@@ -996,30 +996,32 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     line++;
 
     print_colored_text( w_menu, line, h_col1, gray, gray,
-                        _( string_format( "Spell Level: %d %s", sp.get_level(), sp.is_max_level() ? "(MAX)" : "" ) ) );
+                        string_format( "%s: %d %s", _( "Spell Level" ), sp.get_level(),
+                                       sp.is_max_level() ? _( "(MAX)" ) : "" ) );
     print_colored_text( w_menu, line++, h_col2, gray, gray,
-                        _( string_format( "Max Level: %d", sp.get_max_level() ) ) );
+                        string_format( "%s: %d", _( "Max Level" ), sp.get_max_level() ) );
 
     print_colored_text( w_menu, line, h_col1, gray, gray,
                         sp.colorized_fail_percent( g->u ) );
     print_colored_text( w_menu, line++, h_col2, gray, gray,
-                        _( string_format( "Difficulty: %d", sp.get_difficulty() ) ) );
+                        string_format( "%s: %d", _( "Difficulty" ), sp.get_difficulty() ) );
 
     print_colored_text( w_menu, line, h_col1, gray, gray,
-                        _( string_format( "Current Exp: %s", colorize( to_string( sp.xp() ), light_green ) ) ) );
+                        string_format( "%s: %s", _( "to Next Level" ), colorize( to_string( sp.xp() ), light_green ) ) );
     print_colored_text( w_menu, line++, h_col2, gray, gray,
-                        _( string_format( "to Next Level: %s", colorize( to_string( sp.exp_to_next_level() ),
-                                          light_green ) ) ) );
+                        string_format( "%s: %s", _( "to Next Level" ), colorize( to_string( sp.exp_to_next_level() ),
+                                       light_green ) ) );
 
     line++;
 
     print_colored_text( w_menu, line++, h_col1, gray, gray,
-                        _( string_format( "Casting Cost: %s %s%s", sp.energy_cost_string( g->u ), sp.energy_string(),
-                                          sp.energy_source() == hp_energy ? "" :  string_format( " ( % s current )",
-                                                  sp.energy_cur_string( g->u ) ) ) ) );
+                        string_format( "%s: %s %s%s", _( "Casting Cost" ), sp.energy_cost_string( g->u ),
+                                       sp.energy_string(),
+                                       sp.energy_source() == hp_energy ? "" :  string_format( " ( % s current )",
+                                               sp.energy_cur_string( g->u ) ) ) );
 
     print_colored_text( w_menu, line++, h_col1, gray, gray,
-                        _( string_format( "Casting Time: %s", moves_to_string( sp.casting_time() ) ) ) );
+                        string_format( "%s: %s", _( "Casting Time" ), moves_to_string( sp.casting_time() ) ) );
 
     line++;
 
@@ -1030,7 +1032,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         targets = sp.enumerate_targets();
     }
     print_colored_text( w_menu, line++, h_col1, gray, gray,
-                        _( string_format( "Valid Targets: %s", targets ) ) );
+                        string_format( "%s: %s", _( "Valid Targets" ), _( targets ) ) );
 
     line++;
 
@@ -1041,12 +1043,12 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     if( fx == "target_attack" || fx == "projectile_attack" || fx == "cone_attack" ||
         fx == "line_attack" ) {
         if( damage >= 0 ) {
-            damage_string = _( string_format( "Damage: %s %s", colorize( to_string( damage ),
-                                              sp.damage_type_color() ),
-                                              colorize( sp.damage_type_string(), sp.damage_type_color() ) ) );
+            damage_string =  string_format( "%s: %s %s", _( "Damage" ), colorize( to_string( damage ),
+                                            sp.damage_type_color() ),
+                                            colorize( sp.damage_type_string(), sp.damage_type_color() ) );
         } else {
-            damage_string = _( string_format( "Healing: %s", colorize( "+" + to_string( -damage ),
-                                              light_green ) ) );
+            damage_string = string_format( "%s: %s", _( "Healing" ), colorize( "+" + to_string( -damage ),
+                                           light_green ) );
         }
         if( sp.aoe() > 0 ) {
             std::string aoe_string_temp = "Spell Radius";
@@ -1057,27 +1059,31 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
             } else if( fx == "line_attack" ) {
                 aoe_string_temp = "Line Width";
             }
-            aoe_string = _( string_format( "%s: %d %s", aoe_string_temp, sp.aoe(), degree_string ) );
+            aoe_string = string_format( "%s: %d %s", _( aoe_string_temp ), sp.aoe(), degree_string );
         }
     } else if( fx == "teleport_random" ) {
         if( sp.aoe() > 0 ) {
-            aoe_string = _( string_format( "Variance: %d", sp.aoe() ) );
+            aoe_string = string_format( "%s: %d", _( "Variance" ), sp.aoe() );
         }
     } else if( fx == "spawn_item" ) {
-        damage_string = _( string_format( "Spawn %d %s", sp.damage(), item::nname( sp.effect_data(),
-                                          sp.damage() ) ) );
+        damage_string = string_format( "%s %d %s", _( "Spawn" ), sp.damage(), item::nname( sp.effect_data(),
+                                       sp.damage() ) );
+    } else if( fx == "summon" ) {
+        damage_string = string_format( "%s %d %s", _( "Summon" ), sp.damage(),
+                                       _( monster( mtype_id( sp.effect_data() ) ).get_name( ) ) );
+        aoe_string =  string_format( "%s: %d", _( "Spell Radius" ), sp.aoe() );
     }
 
     print_colored_text( w_menu, line, h_col1, gray, gray, damage_string );
     print_colored_text( w_menu, line++, h_col2, gray, gray, aoe_string );
 
     print_colored_text( w_menu, line++, h_col1, gray, gray,
-                        _( string_format( "Range: %s", sp.range() <= 0 ? "self" : to_string( sp.range() ) ) ) );
+                        string_format( "%s: %s", _( "Range" ), sp.range() <= 0 ? _( "self" ) : to_string( sp.range() ) ) );
 
     // todo: damage over time here, when it gets implemeted
 
     print_colored_text( w_menu, line++, h_col2, gray, gray, sp.duration() <= 0 ? "" :
-                        _( string_format( "Duration: %s", moves_to_string( sp.duration() ) ) ) );
+                        string_format( "%s: %s", _( "Duration" ), moves_to_string( sp.duration() ) ) );
 }
 
 int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
@@ -1536,6 +1542,53 @@ void recover_energy( spell &sp, const tripoint &target )
         p->mod_healthy( healing );
     } else {
         debugmsg( "Invalid effect_str %s for spell %s", energy_source, sp.name() );
+    }
+}
+
+static bool is_summon_friendly( const spell &sp )
+{
+    const bool hostile = sp.has_flag( "HOSTILE_SUMMON" );
+    bool friendly = !hostile;
+    if( sp.has_flag( "HOSTILE_50" ) ) {
+        friendly = friendly && rng( 0, 1000 ) < 500;
+    }
+    return friendly;
+}
+
+static bool add_summoned_mon( const mtype_id &id, const tripoint &pos, const time_duration &time,
+                              const spell &sp )
+{
+    const bool permanent = sp.has_flag( "PERMANENT" );
+    monster spawned_mon( id, pos );
+    if( is_summon_friendly( sp ) ) {
+        spawned_mon.friendly = INT_MAX;
+    } else {
+        spawned_mon.friendly = 0;
+    }
+    if( !permanent ) {
+        spawned_mon.set_summon_time( time );
+    }
+    return g->add_zombie( spawned_mon );
+}
+
+void spawn_summoned_monster( spell &sp, const tripoint &source, const tripoint &target )
+{
+    const mtype_id mon_id( sp.effect_data() );
+    std::set<tripoint> area = spell_effect_area( sp, source, target, spell_effect_blast );
+    // this should never be negative, but this'll keep problems from happening
+    size_t num_mons = abs( sp.damage() );
+    const time_duration summon_time = sp.duration_turns();
+    while( num_mons > 0 && area.size() > 0 ) {
+        const size_t mon_spot = rng( 0, area.size() - 1 );
+        auto iter = area.begin();
+        std::advance( iter, mon_spot );
+        if( add_summoned_mon( mon_id, *iter, summon_time, sp ) ) {
+            num_mons--;
+        } else {
+            add_msg( m_bad, "failed to place monster" );
+        }
+        // whether or not we succeed in spawning a monster, we don't want to try this tripoint again
+        area.erase( iter );
     }
 }
 

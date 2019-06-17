@@ -33,7 +33,7 @@ MESSAGE("   \\     \\____ / __ \\_ |  |   / __ \\_\\  \\___ |  |__ \\___  | \\__
 MESSAGE("    \\______  /\(____  / |__|  \(____  / \\___  >|____/ / ____|/____  >|__|_|  /    ")
 MESSAGE("           \\/      \\/             \\/      \\/        \\/          \\/       \\/     ")
 MESSAGE("                               --= Dark Days Ahead =--")
-MESSAGE("\n * http://en.cataclysmdda.com/\n")
+MESSAGE("\n * https://cataclysmdda.org/\n")
 
 MESSAGE(STATUS "${PROJECT} build environment -- \n")
 

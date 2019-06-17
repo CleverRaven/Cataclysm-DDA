@@ -3180,7 +3180,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
         params.did_bash = true;
         if( !params.silent ) {
-            sound = bash->sound_fail.empty() ? _( "Thnk!" ) : _( bash->sound_fail );
+            sound = bash->sound_fail;
             sounds::sound( p, sound_volume, sounds::sound_t::combat, sound, false,
                            "smash_fail", soundfxvariant );
         }
@@ -3341,7 +3341,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     params.success |= success; // Not always true, so that we can tell when to stop destroying
     params.bashed_solid = true;
     if( !sound.empty() && !params.silent ) {
-        sounds::sound( p, sound_volume, sounds::sound_t::combat, _( sound ), false,
+        sounds::sound( p, sound_volume, sounds::sound_t::combat, sound, false,
                        soundfxid, soundfxvariant );
     }
 }
