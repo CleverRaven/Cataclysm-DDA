@@ -1039,7 +1039,7 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
 {
     zone_manager &mgr = zone_manager::get_manager();
 
-    const auto abspos = g->m.getabs( p.pos() );
+    const tripoint abspos = g->m.getabs( p.pos() );
     const auto &src_set = mgr.get_near( zone_type_id( "CONSTRUCTION_BLUEPRINT" ), abspos );
 
     const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
