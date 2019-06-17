@@ -1247,7 +1247,7 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
         }
         pc.components = used;
         g->m.partial_con_set( src_loc, pc );
-        for( const auto &it : built_chosen.requirements->get_tools() ) {
+        for( const std::vector<tool_comp> &it : built_chosen.requirements->get_tools() ) {
             p.consume_tools( it );
         }
         p.backlog.push_front( act_multiple_construction );
