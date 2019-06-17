@@ -2,16 +2,21 @@
 
 #include <set>
 
+#include "avatar.h"
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
 #include "creature.h"
 #include "enums.h"
+#include "game.h"
 #include "item.h"
+#include "line.h"
+#include "map.h"
 #include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
 #include "player.h"
+#include "projectile.h"
 #include "type_id.h"
 
 namespace spell_effect
