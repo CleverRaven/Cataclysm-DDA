@@ -1037,7 +1037,7 @@ static construction check_build_pre( const construction &con )
 
 void activity_on_turn_blueprint_move( player_activity &, player &p )
 {
-    auto &mgr = zone_manager::get_manager();
+    zone_manager &mgr = zone_manager::get_manager();
 
     const auto abspos = g->m.getabs( p.pos() );
     const auto &src_set = mgr.get_near( zone_type_id( "CONSTRUCTION_BLUEPRINT" ), abspos );
