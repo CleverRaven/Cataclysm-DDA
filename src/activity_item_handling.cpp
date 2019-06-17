@@ -1146,7 +1146,7 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
             continue;
         }
         bool adjacent = false;
-        for( auto elem : g->m.points_in_radius( src_loc, 1 ) ) {
+        for( const tripoint &elem : g->m.points_in_radius( src_loc, 1 ) ) {
             if( p.pos() == elem ) {
                 adjacent = true;
                 break;
