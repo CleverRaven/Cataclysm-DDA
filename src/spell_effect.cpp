@@ -19,9 +19,6 @@
 #include "projectile.h"
 #include "type_id.h"
 
-namespace spell_effect
-{
-
 static tripoint random_point( int min_distance, int max_distance, const tripoint &player_pos )
 {
     const int angle = rng( 0, 360 );
@@ -31,7 +28,7 @@ static tripoint random_point( int min_distance, int max_distance, const tripoint
     return tripoint( x + player_pos.x, y + player_pos.y, player_pos.z );
 }
 
-void teleport( int min_distance, int max_distance )
+void spell_effect::teleport( int min_distance, int max_distance )
 {
     if( min_distance > max_distance || min_distance < 0 || max_distance < 0 ) {
         debugmsg( "ERROR: Teleport argument(s) invalid" );
@@ -52,7 +49,7 @@ void teleport( int min_distance, int max_distance )
     g->place_player( target );
 }
 
-void pain_split()
+void spell_effect::pain_split()
 {
     player &p = g->u;
     add_msg( m_info, _( "Your injuries even out." ) );
@@ -73,7 +70,7 @@ void pain_split()
     }
 }
 
-void move_earth( const tripoint &target )
+void spell_effect::move_earth( const tripoint &target )
 {
     ter_id ter_here = g->m.ter( target );
 
@@ -118,8 +115,8 @@ static bool in_spell_aoe( const tripoint &target, const tripoint &epicenter, con
     return rl_dist( epicenter, target ) <= radius;
 }
 
-std::set<tripoint> spell_effect_blast( const spell &, const tripoint &, const tripoint &target,
-                                       const int aoe_radius, const bool ignore_walls )
+std::set<tripoint> spell_effect::spell_effect_blast( const spell &, const tripoint &,
+        const tripoint &target, const int aoe_radius, const bool ignore_walls )
 {
     std::set<tripoint> targets;
     // TODO: Make this breadth-first
@@ -136,9 +133,8 @@ std::set<tripoint> spell_effect_blast( const spell &, const tripoint &, const tr
     return targets;
 }
 
-std::set<tripoint> spell_effect_cone( const spell &sp, const tripoint &source,
-                                      const tripoint &target,
-                                      const int aoe_radius, const bool ignore_walls )
+std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripoint &source,
+        const tripoint &target, const int aoe_radius, const bool ignore_walls )
 {
     std::set<tripoint> targets;
     // cones go all the way to end (if they don't hit an obstacle)
@@ -166,9 +162,8 @@ std::set<tripoint> spell_effect_cone( const spell &sp, const tripoint &source,
     return targets;
 }
 
-std::set<tripoint> spell_effect_line( const spell &, const tripoint &source,
-                                      const tripoint &target,
-                                      const int aoe_radius, const bool ignore_walls )
+std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoint &source,
+        const tripoint &target, const int aoe_radius, const bool ignore_walls )
 {
     std::set<tripoint> targets;
     const int initial_angle = coord_to_angle( source, target );
@@ -326,7 +321,8 @@ static void damage_targets( const spell &sp, std::set<tripoint> targets )
     }
 }
 
-void projectile_attack( const spell &sp, const tripoint &source, const tripoint &target )
+void spell_effect::projectile_attack( const spell &sp, const tripoint &source,
+                                      const tripoint &target )
 {
     std::vector<tripoint> trajectory = line_to( source, target );
     for( const tripoint &pt : trajectory ) {
@@ -336,25 +332,26 @@ void projectile_attack( const spell &sp, const tripoint &source, const tripoint 
     }
 }
 
-void target_attack( const spell &sp, const tripoint &source, const tripoint &epicenter )
+void spell_effect::target_attack( const spell &sp, const tripoint &source,
+                                  const tripoint &epicenter )
 {
     damage_targets( sp, spell_effect_area( sp, source, epicenter, spell_effect_blast,
                                            sp.has_flag( "IGNORE_WALLS" ) ) );
 }
 
-void cone_attack( const spell &sp, const tripoint &source, const tripoint &target )
+void spell_effect::cone_attack( const spell &sp, const tripoint &source, const tripoint &target )
 {
     damage_targets( sp, spell_effect_area( sp, source, target, spell_effect_cone,
                                            sp.has_flag( "IGNORE_WALLS" ) ) );
 }
 
-void line_attack( const spell &sp, const tripoint &source, const tripoint &target )
+void spell_effect::line_attack( const spell &sp, const tripoint &source, const tripoint &target )
 {
     damage_targets( sp, spell_effect_area( sp, source, target, spell_effect_line,
                                            sp.has_flag( "IGNORE_WALLS" ) ) );
 }
 
-void spawn_ethereal_item( spell &sp )
+void spell_effect::spawn_ethereal_item( spell &sp )
 {
     item granted( sp.effect_data(), calendar::turn );
     if( !granted.is_comestible() && !( sp.has_flag( "PERMANENT" ) && sp.is_max_level() ) ) {
@@ -379,7 +376,7 @@ void spawn_ethereal_item( spell &sp )
     }
 }
 
-void recover_energy( spell &sp, const tripoint &target )
+void spell_effect::recover_energy( spell &sp, const tripoint &target )
 {
     // this spell is not appropriate for healing
     const int healing = sp.damage();
@@ -441,7 +438,8 @@ static bool add_summoned_mon( const mtype_id &id, const tripoint &pos, const tim
     return g->add_zombie( spawned_mon );
 }
 
-void spawn_summoned_monster( spell &sp, const tripoint &source, const tripoint &target )
+void spell_effect::spawn_summoned_monster( spell &sp, const tripoint &source,
+        const tripoint &target )
 {
     const mtype_id mon_id( sp.effect_data() );
     std::set<tripoint> area = spell_effect_area( sp, source, target, spell_effect_blast );
@@ -460,6 +458,4 @@ void spawn_summoned_monster( spell &sp, const tripoint &source, const tripoint &
         // whether or not we succeed in spawning a monster, we don't want to try this tripoint again
         area.erase( iter );
     }
-}
-
 }
