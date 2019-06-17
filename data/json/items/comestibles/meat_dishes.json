@@ -1111,7 +1111,7 @@
     "calories": 292,
     "description": "A traditional Mexican dish of meat and vegetable stuffing put on a corn tortilla and rolled into a tube shape, like those you find in gas stations but homemade and delicious!",
     "price": 700,
-    "material": [ "flesh" ],
+    "material": [ "flesh", "veggy" ],
     "volume": 1,
     "charges": 3,
     "flags": [ "EATEN_HOT" ],
