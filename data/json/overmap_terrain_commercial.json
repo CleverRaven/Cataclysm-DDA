@@ -1749,6 +1749,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "home_improvement_roof",
+    "name": "home improvement store roof",
+    "copy-from": "generic_city_building",
+    "color": "c_yellow_green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "loffice_tower_1",
     "copy-from": "generic_large_office_tower"
   },

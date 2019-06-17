@@ -1695,6 +1695,15 @@
   },
   {
     "type": "city_building",
+    "id": "home_improvement",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "home_improvement_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "home_improvement_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "cs_car_showroom",
     "locations": [ "land" ],
     "overmaps": [
