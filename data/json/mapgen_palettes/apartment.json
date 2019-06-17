@@ -156,32 +156,32 @@
       "3": "f_sink",
       "^": "f_indoor_plant"
     },
-      "toilets": { "T": {  } },
-      "items": {
-        "B": { "item": "bed", "chance": 60 },
-        "O": { "item": "oven", "chance": 70 },
-        "S": [ { "item": "softdrugs", "chance": 70 }, { "item": "cleaning", "chance": 50 } ],
-        "d": { "item": "dresser", "chance": 70 },
-        "e": { "item": "fridge", "chance": 70 },
-        "f": [ { "item": "magazines", "chance": 70 }, { "item": "novels", "chance": 50 } ],
-        "o": [
-          { "item": "magazines", "chance": 30 },
-          { "item": "novels", "chance": 40 },
-          { "item": "alcohol", "chance": 30 },
-          { "item": "manuals", "chance": 20 }
-        ],
-        "r": [ { "item": "dresser", "chance": 30 }, { "item": "jackets", "chance": 60 } ],
-        "u": [
-          { "item": "cleaning", "chance": 50 },
-          { "item": "home_hw", "chance": 30 },
-          { "item": "cannedfood", "chance": 50 },
-          { "item": "pasta", "chance": 50 }
-        ],
-        "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
-        "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
-        "1": [ { "item": "SUS_dishes" }, { "item": "SUS_silverware" }, { "item": "SUS_knife_drawer" } ],
-        "2": [ { "item": "SUS_cookware" }, { "item": "SUS_utensils" } ],
-        "3": [ { "item": "SUS_junk_drawer" }, { "item": "SUS_kitchen_sink" } ]
-      },
+    "toilets": { "T": {  } },
+    "items": {
+      "B": { "item": "bed", "chance": 60 },
+      "O": { "item": "oven", "chance": 70 },
+      "S": [ { "item": "softdrugs", "chance": 70 }, { "item": "cleaning", "chance": 50 } ],
+      "d": { "item": "dresser", "chance": 70 },
+      "e": { "item": "fridge", "chance": 70 },
+      "f": [ { "item": "magazines", "chance": 70 }, { "item": "novels", "chance": 50 } ],
+      "o": [
+        { "item": "magazines", "chance": 30 },
+        { "item": "novels", "chance": 40 },
+        { "item": "alcohol", "chance": 30 },
+        { "item": "manuals", "chance": 20 }
+      ],
+      "r": [ { "item": "dresser", "chance": 30 }, { "item": "jackets", "chance": 60 } ],
+      "u": [
+        { "item": "cleaning", "chance": 50 },
+        { "item": "home_hw", "chance": 30 },
+        { "item": "cannedfood", "chance": 50 },
+        { "item": "pasta", "chance": 50 }
+      ],
+      "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
+      "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
+      "1": [ { "item": "SUS_dishes" }, { "item": "SUS_silverware" }, { "item": "SUS_knife_drawer" } ],
+      "2": [ { "item": "SUS_cookware" }, { "item": "SUS_utensils" } ],
+      "3": [ { "item": "SUS_junk_drawer" }, { "item": "SUS_kitchen_sink" } ]
+    }
   }
 ]
