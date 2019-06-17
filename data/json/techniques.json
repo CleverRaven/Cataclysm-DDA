@@ -1135,7 +1135,8 @@
     "disarms": true,
     "messages": [ "You disarm %s", "<npcname> disarms %s" ]
   },
-{
+  {
+    "type": "technique",
     "id": "tec_swordsmanship_grab",
     "name": "grab and pommel strike",
     "min_melee": 3,
