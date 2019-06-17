@@ -18,6 +18,7 @@
 #include "mapdata.h"
 #include "material.h"
 #include "messages.h"
+#include "options.h"
 #include "sounds.h"
 #include "translations.h"
 #include "trap.h"
@@ -290,7 +291,7 @@ void vehicle::turn( int deg )
     if( deg == 0 ) {
         return;
     }
-    if( velocity < 0 ) {
+    if( velocity < 0 && !::get_option<bool>( "REVERSE_STEERING" ) ) {
         deg = -deg;
     }
     last_turn = deg;

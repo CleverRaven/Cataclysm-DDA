@@ -2975,7 +2975,7 @@ int player::read_speed( bool return_stat_effect ) const
     // Stat window shows stat effects on based on current stat
     const int intel = get_int();
     /** @EFFECT_INT increases reading speed */
-    int ret = to_moves<int>( 1_minutes ) - to_moves<int>( 30_seconds ) * ( intel - 8 );
+    int ret = to_moves<int>( 1_minutes ) - to_moves<int>( 3_seconds ) * ( intel - 8 );
 
     if( has_bionic( afs_bio_linguistic_coprocessor ) ) { // Aftershock
         ret *= .85;
@@ -11774,6 +11774,10 @@ std::vector<std::string> player::get_overlay_ids() const
     // TODO: might there be clothing that covers the weapon?
     if( is_armed() ) {
         rval.push_back( "wielded_" + weapon.typeId() );
+    }
+
+    if( move_mode != "walk" ) {
+        rval.push_back( move_mode );
     }
     return rval;
 }

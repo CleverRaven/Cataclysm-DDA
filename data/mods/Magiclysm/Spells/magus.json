@@ -145,6 +145,7 @@
     "damage_increment": 3,
     "damage_type": "none",
     "min_aoe": 1,
+    "max_aoe": 1,
     "min_range": 5,
     "max_range": 20,
     "range_increment": 1
