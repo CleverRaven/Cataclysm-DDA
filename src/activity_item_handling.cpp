@@ -1050,7 +1050,7 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
 
     // sort source tiles by distance
     for( const tripoint &src : src_sorted ) {
-        const auto &src_loc = g->m.getlocal( src );
+        const tripoint &src_loc = g->m.getlocal( src );
         // check if somebodies already started it
         partial_con *nc = g->m.partial_con_at( src_loc );
         if( nc ) {
