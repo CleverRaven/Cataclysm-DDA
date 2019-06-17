@@ -83,6 +83,15 @@
     "volume": "4ml"
   },
   {
+    "id": "38super_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".38 Super casing",
+    "description": "An empty casing from a .38 Super round.",
+    "weight": 3,
+    "volume": "4ml"
+  },
+  {
     "id": "40_casing",
     "copy-from": "casing",
     "type": "GENERIC",
