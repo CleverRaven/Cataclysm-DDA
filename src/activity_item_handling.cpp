@@ -1066,7 +1066,7 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
                 g->reload_npcs();
                 return;
             }
-            std::vector<tripoint> route = route_adjacent( p, src_loc );
+            const std::vector<tripoint> route = route_adjacent( p, src_loc );
             if( route.empty() ) {
                 // can't get there, can't do anything, skip it
                 continue;
