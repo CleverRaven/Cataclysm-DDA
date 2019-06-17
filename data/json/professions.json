@@ -3830,13 +3830,19 @@
       "female": [ "bra", "panties" ]
     }
   },
-    {
+  {
     "type": "profession",
     "ident": "roadie",
     "name": "Roadie",
     "description": "You worked just outside of the limelight, ensuring that the performers got what they needed and that everything ran smoothly.  The stakes are higher these days, but the show must go on.",
     "points": 3,
-    "skills": [ { "level": 2, "name": "fabrication" }, { "level": 1, "name": "driving" }, { "level": 2, "name": "electronics" }, {"level": 1, "name": "dodge" }, { "level": 1, "name": "mechanics" }	],
+    "skills": [
+      { "level": 2, "name": "fabrication" },
+      { "level": 1, "name": "driving" },
+      { "level": 2, "name": "electronics" },
+      { "level": 1, "name": "dodge" },
+      { "level": 1, "name": "mechanics" }
+    ],
     "items": {
       "both": {
         "ammo": 100,
@@ -3848,10 +3854,10 @@
           "boots_steel",
           "multitool",
           "wristwatch",
-		  "gloves_work",
-		  "mbag",
-		  "soldering_iron",
-		  "matches"
+          "gloves_work",
+          "mbag",
+          "soldering_iron",
+          "matches"
         ],
         "entries": [ { "group": "charged_cell_phone" }, { "item": "jacket_jean", "snippet_category": "patched" } ]
       },
@@ -3859,7 +3865,7 @@
       "female": [ "bra", "boy_shorts" ]
     }
   },
-    {
+  {
     "type": "profession",
     "ident": "musician",
     "name": "Musician",
@@ -3870,15 +3876,7 @@
       "both": {
         "ammo": 100,
         "magazine": 100,
-        "items": [
-          "tshirt_tour",
-          "shorts_cargo",
-          "socks",
-          "sneakers",
-          "wristwatch",
-		  "water_clean",
-		  "guitar_electric"
-        ],
+        "items": [ "tshirt_tour", "shorts_cargo", "socks", "sneakers", "wristwatch", "water_clean", "guitar_electric" ],
         "entries": [ { "item": "towel", "custom-flags": [ "no_auto_equip" ] }, { "group": "charged_cell_phone" } ]
       },
       "male": [ "boxer_shorts" ],

@@ -2034,7 +2034,7 @@
     "coverage": 10,
     "material_thickness": 2
   },
-    {
+  {
     "type": "TOOL_ARMOR",
     "id": "guitar_electric",
     "name": "electric guitar",
@@ -2054,16 +2054,16 @@
       "fun_bonus": 2,
       "description_frequency": 20,
       "player_descriptions": [
-	    "You plink out a shredding solo on your guitar.",
-		"You play an epic classic rock riff on your guitar.",
-		"You play a furious, muted riff on your guitar.",
-		"You play a crunchy stoner tune on your guitar.",
+        "You plink out a shredding solo on your guitar.",
+        "You play an epic classic rock riff on your guitar.",
+        "You play a furious, muted riff on your guitar.",
+        "You play a crunchy stoner tune on your guitar.",
         "You play an old Britpop song on your guitar.",
-		"You play a tasteful classical piece on your guitar.",
-		"You play a jangly folk ditty on your guitar.",
-		"You play a melancholy melody on your guitar."
+        "You play a tasteful classical piece on your guitar.",
+        "You play a jangly folk ditty on your guitar.",
+        "You play a melancholy melody on your guitar."
       ]
-	  },
+    },
     "symbol": "-",
     "description": "A standard factory-made electric guitar.  It's probably better at smashing heads than melting faces, these days.  Has a strap.",
     "price": 1000,

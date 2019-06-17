@@ -19,7 +19,7 @@
           { "item": "tuba", "prob": 25 },
           { "item": "ukulele", "prob": 50 },
           { "item": "violin", "prob": 90 },
-		  { "item": "guitar_electric", "prob": 90 },
+          { "item": "guitar_electric", "prob": 90 },
           {
             "collection": [ { "item": "case_violin" }, { "item": "tommygun" }, { "item": "grip" }, { "item": "thompson_drum" } ],
             "prob": 15
