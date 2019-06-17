@@ -1010,7 +1010,8 @@
     ],
     "weapons": [ "butterfly_swords", "long_pole" ]
   },
-{
+  {
+    "type": "martial_art",
     "id": "style_swordsmanship",
     "name": "Medieval Swordsmanship",
     "description": "The art of the longsword and sword & shield, preceding the later development of fencing.  Designed for combat both unarmored and in armor, it includes grappling as well as defensive and offensive sword techniques.  This treatise compares the Italian and German traditions of medieval combat with detailed step-by-step pictures.",
