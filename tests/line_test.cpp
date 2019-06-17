@@ -1,3 +1,4 @@
+#include <inttypes.h>
 #include <time.h>
 #include <chrono>
 #include <cstdio>
@@ -332,14 +333,14 @@ static void line_to_comparison( const int iterations )
         const auto end2 = std::chrono::high_resolution_clock::now();
 
         if( iterations > 1 ) {
-            const int64_t diff1 =
+            const long long diff1 =
                 std::chrono::duration_cast<std::chrono::microseconds>( end1 - start1 ).count();
-            const int64_t diff2 =
+            const long long diff2 =
                 std::chrono::duration_cast<std::chrono::microseconds>( end2 - start2 ).count();
 
-            printf( "line_to() executed %d times in %ld microseconds.\n",
+            printf( "line_to() executed %d times in %lld microseconds.\n",
                     iterations, diff1 );
-            printf( "canonical_line_to() executed %d times in %ld microseconds.\n",
+            printf( "canonical_line_to() executed %d times in %lld microseconds.\n",
                     iterations, diff2 );
         }
     }

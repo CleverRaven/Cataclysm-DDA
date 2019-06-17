@@ -256,13 +256,13 @@ static void shadowcasting_runoff( const int iterations, const bool test_bresenha
     const auto end2 = std::chrono::high_resolution_clock::now();
 
     if( iterations > 1 ) {
-        const int64_t diff1 = std::chrono::duration_cast<std::chrono::microseconds>
-                              ( end1 - start1 ).count();
-        const int64_t diff2 = std::chrono::duration_cast<std::chrono::microseconds>
-                              ( end2 - start2 ).count();
-        printf( "oldCastLight() executed %d times in %ld microseconds.\n",
+        const long long diff1 = std::chrono::duration_cast<std::chrono::microseconds>
+                                ( end1 - start1 ).count();
+        const long long diff2 = std::chrono::duration_cast<std::chrono::microseconds>
+                                ( end2 - start2 ).count();
+        printf( "oldCastLight() executed %d times in %lld microseconds.\n",
                 iterations, diff1 );
-        printf( "castLight() executed %d times in %ld microseconds.\n",
+        printf( "castLight() executed %d times in %lld microseconds.\n",
                 iterations, diff2 );
     }
 
@@ -318,15 +318,15 @@ static void shadowcasting_float_quad(
     const auto end2 = std::chrono::high_resolution_clock::now();
 
     if( iterations > 1 ) {
-        const int64_t diff1 = std::chrono::duration_cast<std::chrono::microseconds>
-                              ( end1 - start1 ).count();
-        const int64_t diff2 = std::chrono::duration_cast<std::chrono::microseconds>
-                              ( end2 - start2 ).count();
+        const long long diff1 = std::chrono::duration_cast<std::chrono::microseconds>
+                                ( end1 - start1 ).count();
+        const long long diff2 = std::chrono::duration_cast<std::chrono::microseconds>
+                                ( end2 - start2 ).count();
         printf( "castLight on four_quadrants (denominator %u) "
-                "executed %d times in %ld microseconds.\n",
+                "executed %d times in %lld microseconds.\n",
                 denominator, iterations, diff1 );
         printf( "castLight on floats (denominator %u) "
-                "executed %d times in %ld microseconds.\n",
+                "executed %d times in %lld microseconds.\n",
                 denominator, iterations, diff2 );
     }
 
@@ -383,13 +383,13 @@ static void shadowcasting_3d_2d( const int iterations )
     const auto end2 = std::chrono::high_resolution_clock::now();
 
     if( iterations > 1 ) {
-        const int64_t diff1 =
+        const long long diff1 =
             std::chrono::duration_cast<std::chrono::microseconds>( end1 - start1 ).count();
-        const int64_t diff2 =
+        const long long diff2 =
             std::chrono::duration_cast<std::chrono::microseconds>( end2 - start2 ).count();
-        printf( "castLight() executed %d times in %ld microseconds.\n",
+        printf( "castLight() executed %d times in %lld microseconds.\n",
                 iterations, diff1 );
-        printf( "cast_zlight() executed %d times in %ld microseconds.\n",
+        printf( "cast_zlight() executed %d times in %lld microseconds.\n",
                 iterations, diff2 );
         printf( "new/old execution time ratio: %.02f.\n", static_cast<double>( diff2 ) / diff1 );
     }
