@@ -3846,7 +3846,6 @@
           "jeans",
           "socks",
           "boots_steel",
-          [ "jacket_jean", "patched" ],
           "multitool",
           "wristwatch",
 		  "gloves_work",
@@ -3854,7 +3853,7 @@
 		  "soldering_iron",
 		  "matches"
         ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "jacket_jean", "snippet_category": "patched" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]

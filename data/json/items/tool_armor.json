@@ -2062,7 +2062,8 @@
 		"You play a tasteful classical piece on your guitar.",
 		"You play a jangly folk ditty on your guitar.",
 		"You play a melancholy melody on your guitar."
-      ],
+      ]
+	  },
     "symbol": "-",
     "description": "A standard factory-made electric guitar.  It's probably better at smashing heads than melting faces, these days.  Has a strap.",
     "price": 1000,
