@@ -2572,7 +2572,7 @@
     "type": "terrain",
     "id": "t_rdoor_c",
     "name": "closed reinforced wood door",
-    "description": "Just like other wooden doors, except this one has layers of nailed in two by fours for reinforcement.  It might be barricaded, but still susceptible to fire.",
+    "description": "Just like other wooden doors, except this one has layers of nailed in two by fours and additional hinge for reinforcement.  It might be barricaded, but still susceptible to fire.",
     "symbol": "+",
     "color": "red",
     "move_cost": 0,
@@ -2582,7 +2582,12 @@
     "open": "t_rdoor_o",
     "deconstruct": {
       "ter_set": "t_door_c",
-      "items": [ { "item": "2x4", "count": 24 }, { "item": "wood_panel", "count": 2 }, { "item": "nail", "charges": [ 36, 48 ] } ]
+      "items": [
+        { "item": "2x4", "count": 24 },
+        { "item": "wood_panel", "count": 2 },
+        { "item": "nail", "charges": [ 36, 48 ] },
+        { "item": "hinge", "count": 1 }
+      ]
     },
     "bash": {
       "str_min": 18,
@@ -2629,7 +2634,8 @@
       "items": [
         { "item": "2x4", "count": [ 1, 4 ] },
         { "item": "nail", "charges": [ 4, 18 ] },
-        { "item": "splinter", "count": [ 2, 4 ] }
+        { "item": "splinter", "count": [ 2, 4 ] },
+        { "item": "hinge", "count": [ 0, 1 ] }
       ]
     }
   },
@@ -2645,7 +2651,12 @@
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR_REINFORCED", "CONNECT_TO_WALL", "ROAD" ],
     "deconstruct": {
       "ter_set": "t_door_c",
-      "items": [ { "item": "2x4", "count": 24 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 36, 48 ] } ]
+      "items": [
+        { "item": "2x4", "count": 24 },
+        { "item": "wood_panel", "count": 1 },
+        { "item": "nail", "charges": [ 36, 48 ] },
+        { "item": "hinge", "count": 1 }
+      ]
     },
     "close": "t_rdoor_c",
     "bash": {
@@ -2659,7 +2670,8 @@
       "items": [
         { "item": "2x4", "count": [ 2, 8 ] },
         { "item": "nail", "charges": [ 8, 30 ] },
-        { "item": "splinter", "count": [ 4, 8 ] }
+        { "item": "splinter", "count": [ 4, 8 ] },
+        { "item": "hinge", "count": [ 0, 1 ] }
       ]
     }
   },
@@ -3351,7 +3363,12 @@
       "sound": "crash!",
       "sound_fail": "wham!",
       "ter_set": "t_door_b",
-      "items": [ { "item": "2x4", "count": [ 2, 16 ] }, { "item": "nail", "charges": [ 6, 54 ] }, { "item": "splinter", "count": 1 } ]
+      "items": [
+        { "item": "2x4", "count": [ 2, 16 ] },
+        { "item": "nail", "charges": [ 6, 54 ] },
+        { "item": "splinter", "count": 1 },
+        { "item": "hinge", "count": [ 0, 1 ] }
+      ]
     }
   },
   {

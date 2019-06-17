@@ -266,7 +266,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "90 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 6 ], [ "wood_panel", 1 ] ], [ [ "2x4", 6 ] ], [ [ "nail", 48 ] ] ],
+    "components": [ [ [ "2x4", 6 ], [ "wood_panel", 1 ] ], [ [ "2x4", 6 ] ], [ [ "nail", 48 ] ], [ [ "hinge", 1 ] ] ],
     "pre_flags": "BARRICADABLE_DOOR",
     "post_terrain": "t_rdoor_c"
   },
