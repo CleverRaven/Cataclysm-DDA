@@ -1960,6 +1960,20 @@
     "components": [ [ [ "paper", 35 ] ] ]
   },
   {
+    "result": "box_medium",
+    "type": "uncraft",
+    "time": "4 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "paper", 70 ] ] ]
+  },
+  {
+    "result": "box_large",
+    "type": "uncraft",
+    "time": "6 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "paper", 105 ] ] ]
+  },
+  {
     "result": "washing_machine",
     "type": "uncraft",
     "skill_used": "electronics",
