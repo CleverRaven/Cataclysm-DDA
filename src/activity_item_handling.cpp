@@ -1021,7 +1021,7 @@ std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest )
 
 static construction check_build_pre( const construction &con )
 {
-    std::string pre_con_str = con.pre_terrain;
+    const std::string pre_con_str = con.pre_terrain;
     construction pre_con = con;
     const std::vector<construction> &list_constructions = get_constructions();
     for( const auto elem : list_constructions ) {
