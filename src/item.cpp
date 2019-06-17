@@ -5344,15 +5344,9 @@ bool item::is_tool() const
     return type->tool.has_value();
 }
 
-bool item::is_tool_reversible() const
+bool item::is_transformable() const
 {
-    if( is_tool() && type->tool->revert_to ) {
-        item revert( *type->tool->revert_to );
-        npc n;
-        revert.type->invoke( n, revert, tripoint( -999, -999, -999 ) );
-        return revert.is_tool() && typeId() == revert.typeId();
-    }
-    return false;
+    return type->use_methods.find( "transform" ) != type->use_methods.end();
 }
 
 bool item::is_artifact() const
