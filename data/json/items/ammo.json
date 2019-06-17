@@ -1372,7 +1372,7 @@
     "count": 7,
     "effects": [ "NEVER_MISFIRES" ],
     "use_action": "RPGDIE"
-},
+  },
 {
     "id": "scrap_bronze",
     "type": "AMMO",
