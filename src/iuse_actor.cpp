@@ -2194,6 +2194,8 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
         return 0;
     }
     std::vector<uilist_entry> uilist_initializer;
+    uilist spellbook_uilist;
+    spellbook_callback sp_cb;
     bool know_it_all = true;
     for( const std::string sp_id_str : spells ) {
         const spell_id sp_id( sp_id_str );
@@ -2225,6 +2227,7 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
         return 0;
     }
 
+    spellbook_uilist.entries = uilist_initializer;
     const int action = uilist( _( "Study a spell:" ), uilist_initializer );
     if( action < 0 ) {
         return 0;
