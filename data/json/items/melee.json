@@ -2356,5 +2356,23 @@
     "price": 4000,
     "price_postapoc": 8000,
     "qualities": [ [ "HAMMER", 1 ] ]
+  },
+  {
+    "id": "lucern_hammer",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "lucern hammer",
+    "description": "This is a versatile polearm with an spiked hammer head, a spike, and a hook attached to a long stick.",
+    "price": 50000,
+    "material": [ "wood", "steel" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "SPEAR" ],
+    "techniques": [ "WBLOCK_1", "WIDE", "SWEEP" ],
+    "weight": 3200,
+    "volume": 15,
+    "bashing": 24,
+    "cutting": 28,
+    "to_hit": 2,
+    "qualities": [ [ "COOK", 1 ] ]
   }
 ]

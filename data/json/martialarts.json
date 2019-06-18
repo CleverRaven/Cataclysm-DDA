@@ -1009,5 +1009,49 @@
       "tec_wingchun_disarm"
     ],
     "weapons": [ "butterfly_swords", "long_pole" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_medievalpole",
+    "name": "Medieval Polearm Fighting",
+    "description": "Medieval Europe's martial techniques for fighting with polearms, great focus is given in countering one's opponent and knocking them down before landing a killing blow",
+    "initiate": [ "You set your feet apart and turn your torso slightly.", "%s sets their feet apart and turns their torso slightly." ],
+    "arm_block": 99,
+    "leg_block": 99,
+    "static_buffs": [
+      {
+        "id": "medievalpole_static",
+        "name": "Stand Your Ground",
+        "description": "Stand your ground and counter, your dodge is cut in half and half of your dodge is added to melee",
+        "strictly_melee": true,
+        "mult_bonuses": [ [ "melee", "dodge", 0.5 ], [ "dodge", 0.5 ] ],
+        "bonus_dodges": -1,
+        "bonus_blocks": 2
+      }
+    ],
+    "onmiss_buffs": [
+      {
+        "id": "medievalpole_setup",
+        "name": "Setup",
+        "description": "They fell for your feint!",
+        "unarmed_allowed": false,
+        "min_melee": 0,
+        "buff_duration": 2,
+        "max_stacks": 1
+      }
+    ],
+    "techniques": [ "tec_medievalpole_counter", "tec_medievalpole_highround", "tec_medievalpole_feint", "tec_medievalpole_highstab" ],
+    "weapons": [
+      "halberd",
+      "halberd_fake",
+      "lucern_hammer",
+      "glaive",
+      "battleaxe_fake",
+      "battleaxe_inferior",
+      "battleaxe",
+      "fire_ax",
+      "lobotomizer",
+      "pickaxe"
+    ]
   }
 ]

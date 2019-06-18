@@ -222,5 +222,13 @@
     "name": "Beautiful Springtime",
     "name_plural": "Beautiful Springtime",
     "description": "A complete guide to Wing Chun Kung-fu.  Includes a section on butterfly swords and the use of long poles at the end."
+  },
+  {
+    "id": "manual_medievalpole",
+    "copy-from": "book_martial",
+    "type": "GENERIC",
+    "name": "Historical Polearm Treatise",
+    "name_plural": "Historical Polearm Treatise",
+    "description": "A completely translated medieval guide to polearm fighting, there is a chapter about many variations of common polearms... there are even pictures!"
   }
 ]
