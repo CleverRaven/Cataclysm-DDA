@@ -1252,7 +1252,7 @@
     "time": "150 m",
     "components": [ [ [ "wire", 20 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 12 ] ], [ [ "pipe", 20 ] ] ],
     "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
-    "pre_special": "check_support",
+    "pre_special": "check_empty",
     "post_terrain": "t_chaingate_c"
   },
   {
@@ -1286,7 +1286,7 @@
     "time": "45 m",
     "components": [ [ [ "wire", 10 ] ], [ [ "2x4", 5 ] ], [ [ "nail", 20 ] ], [ [ "hinge", 2 ] ] ],
     "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
-    "pre_special": "check_support",
+    "pre_special": "check_empty",
     "post_terrain": "t_chickenwire_gate_c"
   },
   {

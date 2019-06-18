@@ -47,7 +47,7 @@ const std::map<std::string, body_part> bp_map = {
     { "FOOT_L", body_part::bp_foot_l },
     { "FOOT_R", body_part::bp_foot_r }
 };
-}
+} // namespace
 
 namespace io
 {
@@ -61,7 +61,7 @@ body_part string_to_enum<body_part>( const std::string &trigger )
 {
     return string_to_enum_look_up( bp_map, trigger );
 }
-}
+} // namespace io
 
 // LOADING
 // spell_type
@@ -69,7 +69,7 @@ body_part string_to_enum<body_part>( const std::string &trigger )
 namespace
 {
 generic_factory<spell_type> spell_factory( "spell" );
-}
+} // namespace
 
 template<>
 const spell_type &string_id<spell_type>::obj() const
@@ -1145,4 +1145,126 @@ int known_magic::select_spell( const player &p )
     casting_ignore = static_cast<spellcasting_callback *>( spell_menu.callback )->casting_ignore;
 
     return spell_menu.ret;
+}
+
+void spellbook_callback::add_spell( const spell_id &sp )
+{
+    spells.emplace_back( sp.obj() );
+}
+
+static std::string color_number( const int num )
+{
+    if( num > 0 ) {
+        return colorize( to_string( num ), c_light_green );
+    } else if( num < 0 ) {
+        return colorize( to_string( num ), c_light_red );
+    } else {
+        return colorize( to_string( num ), c_white );
+    }
+}
+
+static std::string color_number( const float num )
+{
+    if( num > 100 ) {
+        return colorize( string_format( "+%.0f", num ), c_light_green );
+    } else if( num < -100 ) {
+        return colorize( string_format( "%.0f", num ), c_light_red );
+    } else if( num > 0 ) {
+        return colorize( string_format( "+%.2f", num ), c_light_green );
+    } else if( num < 0 ) {
+        return colorize( string_format( "%.2f", num ), c_light_red );
+    } else {
+        return colorize( "0", c_white );
+    }
+}
+
+static void draw_spellbook_info( const spell_type &sp, uilist *menu )
+{
+    const int width = menu->pad_left - 4;
+    const int start_x = 2;
+    int line = 1;
+    const catacurses::window w = menu->window;
+    nc_color gray = c_light_gray;
+    const spell fake_spell( &sp );
+
+    const std::string spell_name = colorize( _( sp.name ), c_light_green );
+    const std::string spell_class = colorize( sp.spell_class->name(), c_yellow );
+    print_colored_text( w, line, start_x, gray, gray, spell_name );
+    print_colored_text( w, line++, menu->pad_left - sp.spell_class->name().length() - 1, gray, gray,
+                        spell_class );
+    line++;
+    line += fold_and_print( w, line, start_x, width, gray, _( sp.description ) );
+    line++;
+
+    mvwprintz( w, line, start_x, c_light_gray, string_format( "%s: %d", _( "Difficulty" ),
+               sp.difficulty ) );
+    mvwprintz( w, line++, start_x + width / 2, c_light_gray, string_format( "%s: %d", _( "Max Level" ),
+               sp.max_level ) );
+
+    const std::string fx = sp.effect;
+    std::string damage_string;
+    std::string aoe_string;
+    bool has_damage_type = false;
+    if( fx == "target_attack" || fx == "projectile_attack" || fx == "cone_attack" ||
+        fx == "line_attack" ) {
+        damage_string = _( "Damage" );
+        aoe_string = _( "AoE" );
+        has_damage_type = sp.min_damage > 0 && sp.max_damage > 0;
+    } else if( fx == "spawn_item" || fx == "summon_monster" ) {
+        damage_string = _( "Spawned" );
+    } else if( fx == "recover_energy" ) {
+        damage_string = _( "Recover" );
+    } else if( fx == "teleport_random" ) {
+        aoe_string = _( "Variance" );
+    }
+
+    if( has_damage_type ) {
+        print_colored_text( w, line++, start_x, gray, gray, string_format( "%s: %s", _( "Damage Type" ),
+                            colorize( fake_spell.damage_type_string(), fake_spell.damage_type_color() ) ) );
+    }
+    line++;
+
+    print_colored_text( w, line++, start_x, gray, gray,
+                        string_format( "%-10s %-7s %-7s %-7s", _( "Stat Gain" ), _( "lvl 0" ), _( "per lvl" ),
+                                       _( "max lvl" ) ) );
+    std::vector<std::tuple<std::string, int, float, int>> rows;
+
+    if( sp.max_damage != 0 && sp.min_damage != 0 && !damage_string.empty() ) {
+        rows.emplace_back( damage_string, sp.min_damage, sp.damage_increment, sp.max_damage );
+    }
+
+    if( sp.max_range != 0 && sp.min_range != 0 ) {
+        rows.emplace_back( _( "Range" ), sp.min_range, sp.range_increment, sp.max_range );
+    }
+
+    if( sp.min_aoe != 0 && sp.max_aoe != 0 && !aoe_string.empty() ) {
+        rows.emplace_back( aoe_string, sp.min_aoe, sp.range_increment, sp.max_aoe );
+    }
+
+    if( sp.min_duration != 0 && sp.max_duration != 0 ) {
+        rows.emplace_back( _( "Duration" ), sp.min_duration, sp.duration_increment, sp.max_duration );
+    }
+
+    rows.emplace_back( _( "Cast Cost" ), sp.base_energy_cost, sp.energy_increment,
+                       sp.final_energy_cost );
+    rows.emplace_back( _( "Cast Time" ), sp.base_casting_time, sp.casting_time_increment,
+                       sp.final_casting_time );
+
+    for( std::tuple<std::string, int, float, int> &row : rows ) {
+        mvwprintz( w, line, start_x, c_light_gray, std::get<0>( row ) );
+        print_colored_text( w, line, start_x + 11, gray, gray, color_number( std::get<1>( row ) ) );
+        print_colored_text( w, line, start_x + 19, gray, gray, color_number( std::get<2>( row ) ) );
+        print_colored_text( w, line, start_x + 27, gray, gray, color_number( std::get<3>( row ) ) );
+        line++;
+    }
+}
+
+void spellbook_callback::select( int entnum, uilist *menu )
+{
+    mvwputch( menu->window, 0, menu->pad_left, c_magenta, LINE_OXXX );
+    mvwputch( menu->window, menu->w_height - 1, menu->pad_left, c_magenta, LINE_XXOX );
+    for( int i = 1; i < menu->w_height - 1; i++ ) {
+        mvwputch( menu->window, i, menu->pad_left, c_magenta, LINE_XOXO );
+    }
+    draw_spellbook_info( spells[entnum], menu );
 }

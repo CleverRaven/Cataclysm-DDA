@@ -29,6 +29,6 @@ void draw_benchmark( const int max_difference );
 
 void debug();
 
-}
+} // namespace debug_menu
 
 #endif // DEBUG_MENU_H

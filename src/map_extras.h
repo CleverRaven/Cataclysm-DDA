@@ -41,6 +41,6 @@ void apply_function( const std::string &id, map &m, const tripoint &abs_sub );
 
 void load( JsonObject &jo, const std::string &src );
 
-}
+} // namespace MapExtras
 
 #endif

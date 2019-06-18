@@ -80,7 +80,7 @@ const std::map<itype_id, int> plut_charges = {
     { "plut_slurry",       PLUTONIUM_CHARGES / 2 }
 };
 
-}
+} // namespace
 
 int player::stomach_capacity() const
 {

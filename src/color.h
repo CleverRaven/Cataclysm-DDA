@@ -385,7 +385,7 @@ struct hash<nc_color> {
         return hash<int>()( v.operator int() );
     }
 };
-}
+} // namespace std
 
 class color_manager
 {

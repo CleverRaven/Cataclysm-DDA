@@ -9,6 +9,7 @@ bugprone-*,\
 cert-*,\
 -cert-err58-cpp,\
 clang-diagnostic-*,\
+llvm-namespace-comment,\
 misc-*,\
 modernize-*,\
 performance-*,\

@@ -38,7 +38,7 @@ namespace
 generic_factory<ma_technique> ma_techniques( "martial art technique" );
 generic_factory<martialart> martialarts( "martial art style" );
 generic_factory<ma_buff> ma_buffs( "martial art buff" );
-}
+} // namespace
 
 matype_id martial_art_learned_from( const itype &type )
 {

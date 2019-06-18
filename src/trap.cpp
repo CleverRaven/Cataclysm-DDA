@@ -28,7 +28,7 @@ namespace
 
 generic_factory<trap> trap_factory( "trap" );
 
-}
+} // namespace
 
 /** @relates string_id */
 template<>

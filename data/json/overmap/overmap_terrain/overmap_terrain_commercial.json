@@ -1502,6 +1502,30 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "lancenter_roof",
+    "name": "LAN center roof",
+    "copy-from": "generic_city_building",
+    "sym": "L",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lancenter_1",
+    "name": "LAN center",
+    "copy-from": "generic_city_building",
+    "sym": "L",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lancenter_roof_1",
+    "name": "LAN center roof",
+    "copy-from": "generic_city_building",
+    "sym": "L",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "landscapingsupplyco_1a",
     "copy-from": "generic_city_building",
     "name": "landscaping supply co",

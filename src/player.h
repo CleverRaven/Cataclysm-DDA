@@ -83,7 +83,7 @@ struct targeting_data;
 namespace debug_menu
 {
 class mission_debug;
-}
+} // namespace debug_menu
 
 // This tries to represent both rating and
 // player's decision to respect said rating

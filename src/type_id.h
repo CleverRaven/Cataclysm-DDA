@@ -98,7 +98,7 @@ class Trait_group;
 namespace trait_group
 {
 using Trait_group_tag = string_id<Trait_group>;
-}
+} // namespace trait_group
 
 struct trap;
 using trap_id = int_id<trap>;

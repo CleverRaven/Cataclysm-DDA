@@ -29,7 +29,7 @@ std::string generate( bool is_male );
 
 /// Clear names used for generation
 void clear();
-}
+} // namespace Name
 
 inline nameFlags operator|( nameFlags l, nameFlags r )
 {
