@@ -1697,7 +1697,7 @@
     "to_hit": -2
   },
   {
-    "type": "GENERIC",
+    "type": "TOOL",
     "id": "glass_shard",
     "symbol": ",",
     "color": "light_cyan",
@@ -1713,7 +1713,7 @@
       "trap": "tr_glass",
       "moves": 150,
       "practice": 2,
-      "done_message": "You carefuly place the shards on the ground, ready to be cracked by something passing by."
+      "done_message": "You carefully place the shards on the ground, ready to be cracked by something passing by."
     },
     "flags": [ "HURT_WHEN_WIELDED", "HURT_WHEN_PULLED", "TRADER_AVOID" ],
     "to_hit": -1
