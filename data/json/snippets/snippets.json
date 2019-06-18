@@ -925,6 +925,16 @@
   {
     "type": "snippet",
     "category": "note",
+    "text": [ "\"Don't let the ember go out please don't go out I need you precious fire.\"" ]
+  },
+  {
+    "type": "snippet",
+    "category": "note",
+    "text": [ "\"ITS A TRAP NO WAIT ITS A TARP\"" ]
+  },
+  {
+    "type": "snippet",
+    "category": "note",
     "text": [ "\"What's with these pits... with, like, sli\"" ]
   },
   {
@@ -2355,5 +2365,10 @@
     "text": [
       "MINE OPERATIONS SUSPENDED; CONTROL TRANSFERRED TO AMIGARA PROJECT UNDER IMPERATIVE 2:07B.\nFAULTLINE SOUNDING HAS PLACED DEPTH AT 30.09 KM.\nDAMAGE TO FAULTLINE DISCOVERED; NEPOWER MINE CREW PLACED UNDER ARREST FOR VIOLATION OF REGULATION 87.08 AND TRANSFERRED TO LAB 89-C FOR USE AS SUBJECTS.\nQUALITY OF FAULTLINE NOT COMPROMISED.\nINITIATING STANDARD TREMOR TEST..."
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "headshop_graffiti",
+    "text": [ "(~);}", "<given_name> + <given_name> forever", "Be Kind", "Save the whales!" ]
   }
 ]
