@@ -76,7 +76,7 @@ void set_npc_pickup( npc &p );
 void npc_die( npc &p );
 void npc_thankful( npc &p );
 void clear_overrides( npc &p );
-}
+} // namespace talk_function
 
 time_duration calc_skill_training_time( const npc &p, const skill_id &skill );
 int calc_skill_training_cost( const npc &p, const skill_id &skill );

@@ -1499,6 +1499,12 @@
   },
   {
     "type": "city_building",
+    "id": "s_jewelry_shop",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_jewelry_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_jewelry_roof_north" } ]
+  },
+  {
+    "type": "city_building",
     "id": "cs_gardening_allotment",
     "locations": [ "land" ],
     "overmaps": [
@@ -1532,6 +1538,21 @@
     "id": "bar_1",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "bar_1_north" }, { "point": [ 0, 0, 1 ], "overmap": "bar_roof_1_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "lancenter",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "lancenter_north" }, { "point": [ 0, 0, 1 ], "overmap": "lancenter_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "lancenter_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "lancenter_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "lancenter_roof_1_north" }
+    ]
   },
   {
     "type": "city_building",

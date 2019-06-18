@@ -6872,9 +6872,9 @@ void player::check_and_recover_morale()
     }
 }
 
-void player::on_worn_item_transform( const item &it )
+void player::on_worn_item_transform( const item &old_it, const item &new_it )
 {
-    morale->on_worn_item_transform( it );
+    morale->on_worn_item_transform( old_it, new_it );
 }
 
 void player::process_active_items()

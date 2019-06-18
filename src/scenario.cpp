@@ -17,7 +17,7 @@ namespace
 {
 generic_factory<scenario> all_scenarios( "scenario", "ident" );
 const string_id<scenario> generic_scenario_id( "evacuee" );
-}
+} // namespace
 
 /** @relates string_id */
 template<>

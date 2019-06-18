@@ -25,7 +25,7 @@ TraitGroupMap trait_groups;
 namespace
 {
 generic_factory<mutation_branch> trait_factory( "trait" );
-}
+} // namespace
 
 std::vector<dream> dreams;
 std::map<std::string, std::vector<trait_id> > mutations_category;

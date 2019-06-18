@@ -2,6 +2,8 @@
   {
     "id": "football_items",
     "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
     "items": [
       [ "whistle", 10 ],
       [ "sports_drink", 60 ],

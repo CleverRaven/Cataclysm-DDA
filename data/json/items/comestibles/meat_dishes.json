@@ -1097,5 +1097,25 @@
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "iron", 15 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "homemade_burrito",
+    "name": "homemade burrito",
+    "weight": 142,
+    "color": "brown",
+    "spoils_in": "1 days 4 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -8,
+    "calories": 292,
+    "description": "A traditional Mexican dish of meat and vegetable stuffing put on a corn tortilla and rolled into a tube shape, like those you find in gas stations but homemade and delicious!",
+    "price": 700,
+    "material": [ "flesh", "veggy" ],
+    "volume": 1,
+    "charges": 3,
+    "flags": [ "EATEN_HOT" ],
+    "fun": 7,
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 19 ], [ "iron", 12 ] ]
   }
 ]

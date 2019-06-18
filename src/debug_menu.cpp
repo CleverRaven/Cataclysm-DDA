@@ -1568,4 +1568,4 @@ void debug()
         g->refresh_all();
     }
 
-}
+} // namespace debug_menu

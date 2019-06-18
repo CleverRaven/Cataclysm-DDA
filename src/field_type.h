@@ -89,7 +89,7 @@ const std::vector<field_type> &get_all();
 void set_field_type_ids();
 field_type get_field_type_by_legacy_enum( int legacy_enum_id );
 
-}
+} // namespace field_types
 
 extern field_type_id x_fd_null,
        x_fd_blood,

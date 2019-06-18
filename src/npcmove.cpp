@@ -184,7 +184,7 @@ const std::vector<bionic_id> weapon_cbms = { {
 
 const int avoidance_vehicles_radius = 5;
 
-}
+} // namespace
 
 std::string npc_action_name( npc_action action );
 
