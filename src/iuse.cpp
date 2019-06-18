@@ -7311,8 +7311,7 @@ static bool show_photo_selection( player &p, item &it, const std::string &var_na
             item_write_extended_photos( it, extended_photos, var_name );
         }
     } catch( const JsonError &e ) {
-        debugmsg( "Error migrating old photo format (read success = %i): %s",
-                  ( int )!it.has_var( "CAMERA_NPC_PHOTOS" ), e.c_str() );
+        debugmsg( "Error migrating old photo format: %s", e.c_str() );
     }
 
     int k = 0;
