@@ -545,7 +545,9 @@ nc_color cyan_background( const nc_color &c )
  */
 nc_color color_from_string( const std::string &color )
 {
-
+    if( color.empty() ) {
+        return c_unset;
+    }
     std::string new_color = color;
     if( new_color.substr( 1, 1 ) != "_" ) { //c_  //i_  //h_
         new_color = "c_" + new_color;
