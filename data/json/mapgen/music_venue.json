@@ -61,14 +61,14 @@
         { "chance": 75, "item": "mussto_stringinst", "x": 5, "y": 6 }
       ],
       "place_loot": [
-        { "chance": 10, "item": "tshirt_tour", "x": [ 8, 19 ], "y": [ 6, 12 ], "repeat": [ 1, 5 ] },
+        { "chance": 20, "item": "tshirt_tour", "x": [ 8, 19 ], "y": [ 6, 12 ], "repeat": [ 1, 5 ] },
         { "item": "amplifier_head", "x": 3, "y": 10 },
-        { "chance": 80, "item": "amplifier_head", "x": 2, "y": [ 5, 12 ], "repeat": [ 1, 2 ] },
-        { "chance": 80, "item": "amplifier_head", "x": [ 3, 4 ], "y": [ 5, 12 ], "repeat": [ 1, 4 ] }
+        { "chance": 10, "item": "amplifier_head", "x": 2, "y": [ 5, 12 ], "repeat": [ 1, 2 ] },
+        { "chance": 5, "item": "amplifier_head", "x": [ 3, 4 ], "y": [ 5, 12 ], "repeat": [ 1, 4 ] }
       ],
       "place_furniture": [
-        { "chance": 80, "furn": "f_speaker_cabinet", "x": 2, "y": [ 5, 12 ], "repeat": [ 1, 2 ] },
-        { "chance": 80, "furn": "f_speaker_cabinet", "x": [ 3, 4 ], "y": [ 5, 12 ], "repeat": [ 1, 4 ] }
+        { "chance": 20, "furn": "f_speaker_cabinet", "x": 2, "y": [ 5, 12 ], "repeat": [ 1, 2 ] },
+        { "chance": 10, "furn": "f_speaker_cabinet", "x": [ 3, 4 ], "y": [ 5, 12 ], "repeat": [ 1, 4 ] }
       ],
       "place_toilets": [ { "x": 2, "y": 14 }, { "x": 4, "y": 14 }, { "x": 6, "y": 14 } ],
       "rows": [
@@ -91,7 +91,7 @@
         "d|.....+..a.....a.....|_",
         "_|SaSah|.....{{{a....^|d",
         "_||||||||www|www||+||||_",
-        "_____uu|bCCCTCCCCCCCbb|_",
+        "_____u<|bCCCTCCCCCCCbb|_",
         "____d_urTCCCCCCCCCCCCCr_",
         "d______rbCCCCCCCCCCCCCr_",
         "_______----------------_",
@@ -126,10 +126,64 @@
         "w": "t_wall_glass",
         "{": "t_floor",
         "|": "t_wall",
+        "<": "t_gutter_downspout",
         "7": "t_carpet_red"
       }
     },
-    "om_terrain": "music_venue",
+    "om_terrain": "music_venue_0",
+    "type": "mapgen",
+    "weight": 100
+  },
+  {
+    "method": "json",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "               wnnnne   ",
+        "               w....e   ",
+        "               w....e   ",
+        " wnnnnnnnnnnnnnw....ene ",
+        " w....................e ",
+        " w....................e ",
+        " w.&..................e ",
+        " w....................e ",
+        " w....................e ",
+        " w....................e ",
+        " w....................e ",
+        " w....................e ",
+        " w....................e ",
+        " w....................e ",
+        " w....................e ",
+        " w....................e ",
+        " w....................e ",
+        " wsssssw..............e ",
+        "       d              e ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        " ": "t_open_air",
+        ".": "t_flat_roof",
+        "n": "t_gutter_north",
+        "e": "t_gutter_east",
+        "s": "t_gutter_south",
+        "w": "t_gutter_west",
+        "d": "t_gutter_downspout"
+      },
+      "furniture": { "&": "f_roof_turbine_vent" },
+      "place_items": [ { "item": "roof_trash", "x": [ 2, 21 ], "y": [ 5, 17 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_nested": [
+        {
+          "chunks": [ [ "null", 5 ], [ "roof_2x2_utilities_d", 30 ], [ "roof_2x2_utilities", 50 ], [ "roof_6x6_survivor", 5 ] ],
+          "x": [ 4, 19 ],
+          "y": [ 7, 15 ]
+        }
+      ]
+    },
+    "om_terrain": "music_venue_0_roof",
     "type": "mapgen",
     "weight": 100
   },
@@ -196,9 +250,9 @@
       "place_loot": [
         { "chance": 20, "item": "tshirt_tour", "x": [ 10, 18 ], "y": [ 5, 15 ], "repeat": [ 1, 5 ] },
         { "item": "amplifier_head", "x": 6, "y": 9 },
-        { "chance": 80, "item": "amplifier_head", "x": 5, "y": [ 7, 12 ], "repeat": [ 1, 2 ] }
+        { "chance": 5, "item": "amplifier_head", "x": 5, "y": [ 7, 12 ], "repeat": [ 1, 2 ] }
       ],
-      "place_furniture": [ { "chance": 80, "furn": "f_speaker_cabinet", "x": 5, "y": [ 7, 12 ], "repeat": [ 1, 2 ] } ],
+      "place_furniture": [ { "chance": 10, "furn": "f_speaker_cabinet", "x": 5, "y": [ 7, 12 ], "repeat": [ 1, 2 ] } ],
       "place_toilets": [ { "x": 4, "y": 2 }, { "x": 6, "y": 2 }, { "x": 8, "y": 2 } ],
       "rows": [
         ".......d.......sss..d...",
@@ -218,10 +272,10 @@
         "...|_______#t#______H|..",
         "d..|________#_______H|..",
         "...|CCCC||__________t|..",
-        "...|_____h___________|..",
-        "...|rr{{{|___HHH_____|..",
+        "...|_____h_________|+|..",
+        "...|rr{{{|___HHH___|<|..",
         "...|||||||||||||||+|||..",
-        "..........d..eeps|_|....",
+        ".....!....d..eeps|_|....",
         "......d......ppps+_|d...",
         ".............ppps|||....",
         "..d.....d.......d......d"
@@ -254,10 +308,101 @@
         "v": "t_floor",
         "{": "t_floor",
         "|": "t_wall",
+        "<": "t_stairs_up",
+        "!": "t_gutter_downspout",
         "7": "t_carpet_green"
       }
     },
-    "om_terrain": "music_venue",
+    "om_terrain": "music_venue_1",
+    "type": "mapgen",
+    "weight": 100
+  },
+  {
+    "method": "json",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "   wnnnnnnnnnnn...nnne  ",
+        "   w.................e  ",
+        "   w.................e  ",
+        "   w.................e  ",
+        "   w.&...............e  ",
+        "   w.................e  ",
+        "   w.&...............e  ",
+        "   w.................e  ",
+        "   w.................e  ",
+        "   w.................e  ",
+        "   w.................e  ",
+        "   w.................e  ",
+        "   w.................e  ",
+        "   w.................e  ",
+        "   w.................e  ",
+        "   w.................e  ",
+        "   w...............|+|  ",
+        "   w...............|>|  ",
+        "   wsdsssssssssssw.|||  ",
+        "                 w.e    ",
+        "                 w.e    ",
+        "                 wse    ",
+        "                        "
+      ],
+      "terrain": {
+        " ": "t_open_air",
+        ".": "t_flat_roof",
+        "n": "t_gutter_north",
+        "e": "t_gutter_east",
+        "s": "t_gutter_south",
+        "w": "t_gutter_west",
+        "|": "t_wall",
+        "+": "t_door_c",
+        ">": "t_stairs_down",
+        "d": "t_gutter_downspout"
+      },
+      "furniture": { "&": "f_roof_turbine_vent" },
+      "place_items": [ { "item": "roof_trash", "x": [ 4, 18 ], "y": [ 2, 17 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_nested": [
+        { "chunks": [ [ "roof_2x2_utilities", 50 ] ], "x": 17, "y": 3 },
+        { "chunks": [ [ "null", 70 ], [ "roof_6x6_survivor", 5 ] ], "x": [ 6, 17 ], "y": 8 }
+      ]
+    },
+    "om_terrain": "music_venue_1_roof",
+    "type": "mapgen",
+    "weight": 100
+  },
+  {
+    "method": "json",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                   ...  ",
+        "                   ...  ",
+        "                   ...  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { " ": "t_open_air", ".": "t_flat_roof" }
+    },
+    "om_terrain": "music_venue_1_roof_top",
     "type": "mapgen",
     "weight": 100
   }

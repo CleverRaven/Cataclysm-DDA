@@ -1833,5 +1833,24 @@
     "id": "s_music",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_music_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_music_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "music_venue_0",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "music_venue_0_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "music_venue_0_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "music_venue_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "music_venue_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "music_venue_1_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "music_venue_1_roof_top_north" }
+    ]
   }
 ]
