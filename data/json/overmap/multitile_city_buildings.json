@@ -1541,6 +1541,21 @@
   },
   {
     "type": "city_building",
+    "id": "lancenter",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "lancenter_north" }, { "point": [ 0, 0, 1 ], "overmap": "lancenter_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "lancenter_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "lancenter_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "lancenter_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "office_doctor",
     "locations": [ "land" ],
     "overmaps": [
