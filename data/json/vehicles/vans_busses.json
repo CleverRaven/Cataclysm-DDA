@@ -1986,6 +1986,7 @@
       { "x": -2, "y": 0, "chance": 15, "item_groups": [ "car_kit" ] },
       { "x": -2, "y": 0, "chance": 15, "items": [ "jack", "wheel_wide" ] },
       { "x": -3, "y": 0, "chance": 25, "item_groups": [ "tools_home", "tools_electronics" ] },
+      { "x": -3, "y": 0, "chance": 25, "items": [ "amplifier_head" ] },
       { "x": -3, "y": 2, "chance": 35, "item_groups": [ "bus_common" ] },
       { "x": -4, "y": 0, "chance": 50, "item_groups": [ "stash_drugs", "mussto_windinst", "mussto_stringinst" ] },
       { "x": -4, "y": 2, "chance": 50, "item_groups": [ "clothing_outdoor_set" ] },

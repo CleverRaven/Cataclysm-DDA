@@ -30,7 +30,8 @@
         "u": "f_null",
         "w": "f_null",
         "{": "f_glass_fridge",
-        "|": "f_null"
+        "|": "f_null",
+        "7": "f_speaker_cabinet"
       },
       "place_items": [
         { "chance": 45, "item": "bar_table", "x": 15, "y": 15 },
@@ -58,8 +59,17 @@
         { "chance": 75, "item": "music_shop", "x": 4, "y": 12 },
         { "chance": 75, "item": "music_shop", "x": 6, "y": 8 },
         { "chance": 75, "item": "mussto_stringinst", "x": 5, "y": 6 }
-       ],
-      "place_loot": [ { "chance": 10, "item": "tshirt_tour", "x": [ 8, 19 ], "y": [ 6, 12 ], "repeat": [ 1, 5 ] } ],
+      ],
+      "place_loot": [
+        { "chance": 10, "item": "tshirt_tour", "x": [ 8, 19 ], "y": [ 6, 12 ], "repeat": [ 1, 5 ] },
+        { "item": "amplifier_head", "x": 3, "y": 10 },
+        { "chance": 80, "item": "amplifier_head", "x": 2, "y": [ 5, 12 ], "repeat": [ 1, 2 ] },
+        { "chance": 80, "item": "amplifier_head", "x": [ 3, 4 ], "y": [ 5, 12 ], "repeat": [ 1, 4 ] }
+      ],
+      "place_furniture": [
+        { "chance": 80, "furn": "f_speaker_cabinet", "x": 2, "y": [ 5, 12 ], "repeat": [ 1, 2 ] },
+        { "chance": 80, "furn": "f_speaker_cabinet", "x": [ 3, 4 ], "y": [ 5, 12 ], "repeat": [ 1, 4 ] }
+      ],
       "place_toilets": [ { "x": 2, "y": 14 }, { "x": 4, "y": 14 }, { "x": 6, "y": 14 } ],
       "rows": [
         "____d___ss________d_____",
@@ -67,14 +77,14 @@
         "_d____ursssssssW...#|d__",
         "____dufrsssssss+....|___",
         "_||||||||||||||||..||||_",
-        "_|cccccc.............^|_",
+        "_|ccccc7.............^|_",
         "_|cecccc...#...#......|_",
         "d|cccccc..#t#.#t#....#|_",
         "_|cccccc...#...#.....t|d",
         "_|cccccc.....#.......#|_",
-        "_|cccccc..#.#t#.......|_",
+        "_|c7cccc..#.#t#.......|_",
         "_|cccccc..t..#..#t#..H|_",
-        "_|cceccc..#..........H|u",
+        "_|ccecc7..#..........H|u",
         "_|||||||.............H|_",
         "_|&|&|&|...#####......|_",
         "_|g|D|D|..aaaaaaa.....|_",
@@ -115,7 +125,8 @@
         "u": "t_underbrush",
         "w": "t_wall_glass",
         "{": "t_floor",
-        "|": "t_wall"
+        "|": "t_wall",
+        "7": "t_carpet_red"
       }
     },
     "om_terrain": "music_venue",
@@ -152,7 +163,8 @@
         "t": "f_table",
         "v": "f_vending_c",
         "{": "f_glass_fridge",
-        "|": "f_null"
+        "|": "f_null",
+        "7": "f_speaker_cabinet"
       },
       "place_items": [
         { "chance": 65, "item": "bar_trash", "x": [ 13, 14 ], "y": 20 },
@@ -180,8 +192,13 @@
         { "chance": 25, "item": "hatstore_hats", "x": 20, "y": 14 },
         { "chance": 25, "item": "hatstore_hats", "x": 11, "y": 10 },
         { "chance": 75, "item": "bar_alcohol", "x": [ 6, 8 ], "y": 18 }
-       ],
-      "place_loot": [ { "chance": 10, "item": "tshirt_tour", "x": [ 10, 18 ], "y": [ 5, 15 ], "repeat": [ 1, 5 ] } ],
+      ],
+      "place_loot": [
+        { "chance": 20, "item": "tshirt_tour", "x": [ 10, 18 ], "y": [ 5, 15 ], "repeat": [ 1, 5 ] },
+        { "item": "amplifier_head", "x": 6, "y": 9 },
+        { "chance": 80, "item": "amplifier_head", "x": 5, "y": [ 7, 12 ], "repeat": [ 1, 2 ] }
+      ],
+      "place_furniture": [ { "chance": 80, "furn": "f_speaker_cabinet", "x": 5, "y": [ 7, 12 ], "repeat": [ 1, 2 ] } ],
       "place_toilets": [ { "x": 4, "y": 2 }, { "x": 6, "y": 2 }, { "x": 8, "y": 2 } ],
       "rows": [
         ".......d.......sss..d...",
@@ -191,12 +208,12 @@
         "...|_____+___________|..",
         "...|SCSCg|___________|..",
         "...|||||||___________|..",
-        "..d|cccccc_____#_____|..",
+        "..d|ccccc7_____#_____|..",
         "...|ccbccc____#t#___t|..",
-        "...|cccccc__#__#____H|.d",
+        "...|cc7ccc__#__#____H|.d",
         "..d|bccccc_#t#______H|..",
         "...|cccccc__#__#____H|..",
-        "...|cccccc____#t#___t|..",
+        "...|ccccc7____#t#___t|..",
         "...|________#__#____H|d.",
         "...|_______#t#______H|..",
         "d..|________#_______H|..",
@@ -236,7 +253,8 @@
         "t": "t_floor",
         "v": "t_floor",
         "{": "t_floor",
-        "|": "t_wall"
+        "|": "t_wall",
+        "7": "t_carpet_green"
       }
     },
     "om_terrain": "music_venue",

@@ -2346,5 +2346,25 @@
       [ [ "scrap", 1 ] ],
       [ [ "e_scrap", 2 ] ]
     ]
+  },
+  {
+    "result": "amplifier_head",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "80 m",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "circuit", 1 ] ],
+      [ [ "cable", 4 ] ],
+      [ [ "amplifier", 4 ] ],
+      [ [ "power_supply", 2 ] ],
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "splinter", 1 ] ],
+      [ [ "solder_wire", 5 ] ],
+      [ [ "e_scrap", 3 ] ],
+      [ [ "RAM", 1 ] ]
+    ]
   }
 ]
