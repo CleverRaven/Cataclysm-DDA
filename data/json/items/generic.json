@@ -3150,7 +3150,6 @@
     "symbol": ";",
     "color": "blue",
     "name": "amplifier head",
-    "name_plural": "amplifier heads",
     "description": "An amplifier head.  Typically paired with a speaker cabinet for amplifying musical instruments.  Basically only good for spare parts now.",
     "price": 25000,
     "price_postapoc": 2000,

@@ -2038,7 +2038,6 @@
     "type": "TOOL_ARMOR",
     "id": "guitar_electric",
     "name": "electric guitar",
-    "name_plural": "electric guitars",
     "category": "tools",
     "weight": 2250,
     "color": "red",
