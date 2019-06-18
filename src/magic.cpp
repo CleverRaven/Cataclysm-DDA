@@ -787,12 +787,16 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
         if( can_learn_spell( p, sp->id ) && !p.has_trait( sp->spell_class ) ) {
             std::string trait_cancel;
             for( const trait_id &cancel : sp->spell_class->cancels ) {
-                if( cancel == sp->spell_class->cancels.back() && sp->spell_class->cancels.back() != sp->spell_class->cancels.front() ) {
-                    trait_cancel = string_format( "%s and %s.", trait_cancel, cancel->name() );
+                if( cancel == sp->spell_class->cancels.back() &&
+                    sp->spell_class->cancels.back() != sp->spell_class->cancels.front() ) {
+                    trait_cancel = string_format( "%s and %s", trait_cancel, cancel->name() );
                 } else if( cancel == sp->spell_class->cancels.front() ) {
                     trait_cancel = cancel->name();
                 } else {
                     trait_cancel = string_format( "%s, %s", trait_cancel, cancel->name() );
+                }
+                if( cancel == sp->spell_class->cancels.back() ) {
+                    trait_cancel += ".";
                 }
             }
             if( query_yn(
