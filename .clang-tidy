@@ -1,6 +1,7 @@
 Checks: "\
 bugprone-*,\
 clang-diagnostic-*,\
+llvm-namespace-comment,\
 misc-*,\
 modernize-*,\
 performance-*,\
