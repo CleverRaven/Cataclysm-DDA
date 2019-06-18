@@ -62,81 +62,53 @@
   },
   {
     "type": "effect_type",
-    "id": "u_met_Draco_Dune",
-    "//": "Use this flag to indicate if the player has met this NPC before."
-  },
-  {
-    "type": "effect_type",
-    "id": "u_got_to_Draco_3_Draco_Dune",
-    "//": "Use this flag to indicate if the player has gotten to conversation part 3."
-  },
-  {
-    "type": "effect_type",
-    "id": "u_got_to_Draco_7_Draco_Dune",
-    "//": "Use this flag to indicate if the player has gotten to conversation part 7."
-  },
-  {
-    "type": "effect_type",
-    "id": "NC_REFUGEE_Draco_offered_weed_deal",
-    "//": "Use this flag to indicate if the player has been offered to sell weed to Draco."
-  },
-  {
-    "type": "effect_type",
     "id": "u_sold_to_Draco",
     "//": "Use this flag to indicate if the player sold weed recently to Draco."
-  },
-  {
-    "type": "effect_type",
-    "id": "NC_REFUGEE_Draco_has_guitar",
-    "//": "Use this flag to indicate if the player got Draco a guitar."
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_1",
     "dynamic_line": {
-      "u_has_effect": "u_met_Draco_Dune",
+      "u_has_var": "u_met_Draco_Dune",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
       "yes": "Always good to see you, friend.",
       "no": "Well now, good to see another new face!  Welcome to the center, friend, I'm Draco."
     },
     "responses": [
       {
         "text": "Nice to meet you, Draco.",
-        "condition": { "not": { "u_has_effect": "u_met_Draco_Dune" } },
-        "effect": { "u_add_effect": "u_met_Draco_Dune", "duration": "PERMANENT" },
+        "condition": { "not": { "u_has_var": "u_met_Draco_Dune", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": { "u_add_var": "u_met_Draco_Dune", "type": "general", "context": "meeting", "value": "yes" },
         "topic": "TALK_REFUGEE_Draco_1_firstmeet",
         "switch": true
       },
       {
         "text": "Hi, Draco, how are you doing?",
         "condition": {
-          "and": [
-            { "not": { "u_has_effect": "u_got_to_Draco_3_Draco_Dune" } },
-            { "not": { "u_has_effect": "u_got_to_Draco_7_Draco_Dune" } }
-          ]
+          "and": [ { "not": { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3"  } }, { "not": { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7"  } } ]
         },
         "topic": "TALK_REFUGEE_Draco_2"
       },
       {
         "text": "Hi again, Draco, nice to see you too.",
-        "condition": {
-          "and": [ { "u_has_effect": "u_got_to_Draco_3_Draco_Dune" }, { "not": { "u_has_effect": "u_got_to_Draco_7_Draco_Dune" } } ]
-        },
+        "condition": { "and": [ { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" }, { "not": { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7"  } } ] },
         "topic": "TALK_REFUGEE_Draco_5a"
       },
       {
         "text": "Hi again, Draco, nice to see you too.",
-        "condition": { "u_has_effect": "u_got_to_Draco_7_Draco_Dune" },
+        "condition": { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7"  },
         "topic": "TALK_REFUGEE_Draco_7"
       },
       {
         "text": "Hi Draco, nice to meet you.  I gotta go though.",
-        "effect": { "u_add_effect": "u_met_Draco_Dune", "duration": "PERMANENT" },
-        "condition": { "not": { "u_has_effect": "u_met_Draco_Dune" } },
+        "condition": { "not": { "u_has_var": "u_met_Draco_Dune", "type": "general", "context": "meeting", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
         "text": "Hi Draco, nice to see you too.  I gotta go though.",
-        "condition": { "u_has_effect": "u_met_Draco_Dune" },
+        "condition": { "u_has_var": "u_met_Draco_Dune", "type": "general", "context": "meeting", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]
@@ -158,7 +130,7 @@
       {
         "text": "What about you, what's your story?",
         "topic": "TALK_REFUGEE_Draco_3",
-        "effect": { "u_add_effect": "u_got_to_Draco_3_Draco_Dune", "duration": "PERMANENT" }
+        "effect": { "u_add_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" }
       },
       { "text": "No more indeed.", "topic": "TALK_DONE" }
     ]
@@ -223,8 +195,7 @@
     "responses": [
       {
         "text": "I could be persuaded.",
-        "topic": "TALK_REFUGEE_Draco_7",
-        "effect": { "u_add_effect": "u_got_to_Draco_7_Draco_Dune", "duration": "PERMANENT" }
+        "topic": "TALK_REFUGEE_Draco_7"
       },
       { "text": "It's called dub-step and I like it.  Goodbye, old man.", "topic": "TALK_DONE" }
     ]
@@ -236,8 +207,7 @@
     "responses": [
       {
         "text": "Couldn't hurt.",
-        "topic": "TALK_REFUGEE_Draco_7",
-        "effect": { "u_add_effect": "u_got_to_Draco_7_Draco_Dune", "duration": "PERMANENT" }
+        "topic": "TALK_REFUGEE_Draco_7"
       },
       { "text": "I don't need to hear amateur-hour karaoke around here.  Goodbye.", "topic": "TALK_DONE" }
     ]
@@ -249,8 +219,7 @@
     "responses": [
       {
         "text": "That'd be awesome.",
-        "topic": "TALK_REFUGEE_Draco_7",
-        "effect": { "u_add_effect": "u_got_to_Draco_7_Draco_Dune", "duration": "PERMANENT" }
+        "topic": "TALK_REFUGEE_Draco_7"
       },
       {
         "text": "Yeah, wouldn't be so funny when Zed heard all the sound and broke in.  Be responsible.",
@@ -265,8 +234,7 @@
     "responses": [
       {
         "text": "Can you play heavy metal on an acoustic guitar?",
-        "topic": "TALK_REFUGEE_Draco_7",
-        "effect": { "u_add_effect": "u_got_to_Draco_7_Draco_Dune", "duration": "PERMANENT" }
+        "topic": "TALK_REFUGEE_Draco_7"
       },
       { "text": "Boring.  I'm going to go destroy something.", "topic": "TALK_DONE" }
     ]
@@ -278,8 +246,7 @@
     "responses": [
       {
         "text": "Maybe I could help with something?",
-        "topic": "TALK_REFUGEE_Draco_7",
-        "effect": { "u_add_effect": "u_got_to_Draco_7_Draco_Dune", "duration": "PERMANENT" }
+        "topic": "TALK_REFUGEE_Draco_7"
       },
       { "text": "Well then, I'll leave you here where it's safe.", "topic": "TALK_DONE" }
     ]
@@ -288,25 +255,26 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_7",
     "dynamic_line": {
-      "u_has_effect": "NC_REFUGEE_Draco_has_guitar",
+      "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes",
       "yes": "My savior!  My patron of the arts!  You're always welcome here, friend.",
-      "no": "Man, just imagine what I could do with a new guitar."
+      "no": "Man, just imagine what I could do with a new guitar.",
+      "speaker_effect": { "u_add_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7" }
     },
     "responses": [
       {
         "text": "Let's talk about getting you that guitar.",
         "topic": "TALK_MISSION_LIST",
-        "condition": { "not": { "u_has_effect": "NC_REFUGEE_Draco_has_guitar" } }
+        "condition": { "not": { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" } }
       },
       {
         "text": "I've been thinking about that deal you mentioned.",
-        "condition": { "u_has_effect": "NC_REFUGEE_Draco_offered_weed_deal" },
+        "condition": { "u_has_var": "NC_REFUGEE_Draco_offered_weed_deal", "type": "general", "context": "barter", "value": "yes" },
         "topic": "TALK_REFUGEE_Draco_10_approve"
       },
       {
         "text": "Anything you buying or selling, by chance?",
-        "condition": { "not": { "u_has_effect": "NC_REFUGEE_Draco_offered_weed_deal" } },
-        "effect": { "u_add_effect": "NC_REFUGEE_Draco_offered_weed_deal", "duration": "PERMANENT" },
+        "condition": { "not": { "u_has_var": "NC_REFUGEE_Draco_offered_weed_deal", "type": "general", "context": "barter", "value": "yes" } },
+        "effect": { "u_add_var": "NC_REFUGEE_Draco_offered_weed_deal", "type": "general", "context": "barter", "value": "yes" },
         "topic": "TALK_REFUGEE_Draco_8"
       },
       { "text": "See you around, Draco.", "topic": "TALK_DONE" }
@@ -351,7 +319,6 @@
     "id": "TALK_REFUGEE_Draco_10_disapprove",
     "dynamic_line": "Hey, don't get all serious on me all of a sudden.  It helps me relax.  Lubricates my joints.  Eases the pain, ya know?  Makes every day a bit more bearable.",
     "responses": [
-      { "text": "I feel ya.", "topic": "TALK_REFUGEE_Draco_10_approve" },
       { "text": "I can help.", "topic": "TALK_REFUGEE_Draco_10_approve" },
       { "text": "Find somebody else, dude.", "topic": "TALK_DONE" }
     ]
@@ -362,16 +329,16 @@
     "dynamic_line": {
       "npc_has_effect": "u_sold_to_Draco",
       "yes": "Yeah, no worries, though.  I'm good at the moment.  Ask me again later and maybe I'll have scrounged up some more cash for you.",
-      "no": "Amazing!  My lucky day.  Let's see here.  What can I offer... I can scrounge up maybe four Merch bucks for, say, five joints or joints-worth of the good stuff."
+      "no": "Amazing!  My lucky day.  Let's see here.  What can I offer... I can scrounge up some Merch bucks for, say, five joints or joints-worth of the good stuff."
     },
     "//": "I'm not sure how to set the conditional to pay 4 Merch if no guitar, 6 Merch if has guitar.",
     "responses": [
       {
-        "text": "You have yourself a deal.  Here you go.",
+        "text": "You have yourself a deal.  Here's the marijuana.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "marijuana", "count": 5 } },
-            { "not": { "u_has_effect": "NC_REFUGEE_Draco_has_guitar" } },
+            { "not": { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" } },
             { "not": { "npc_has_effect": "u_sold_to_Draco" } }
           ]
         },
@@ -383,11 +350,11 @@
         "topic": "TALK_REFUGEE_Draco_10_sold"
       },
       {
-        "text": "You have yourself a deal.  Here you go.",
+        "text": "You have yourself a deal.  Here's the marijuana.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "marijuana", "count": 5 } },
-            { "u_has_effect": "NC_REFUGEE_Draco_has_guitar" },
+            { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" },
             { "not": { "npc_has_effect": "u_sold_to_Draco" } }
           ]
         },
@@ -399,11 +366,11 @@
         "topic": "TALK_REFUGEE_Draco_10_sold"
       },
       {
-        "text": "You have yourself a deal.  Here you go.",
+        "text": "You have yourself a deal.  Here's some joints.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "joint", "count": 5 } },
-            { "not": { "u_has_effect": "NC_REFUGEE_Draco_has_guitar" } },
+            { "not": { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" } },
             { "not": { "npc_has_effect": "u_sold_to_Draco" } }
           ]
         },
@@ -415,11 +382,11 @@
         "topic": "TALK_REFUGEE_Draco_10_sold"
       },
       {
-        "text": "You have yourself a deal.  Here you go.",
+        "text": "You have yourself a deal.  Here's some joints.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "joint", "count": 5 } },
-            { "u_has_effect": "NC_REFUGEE_Draco_has_guitar" },
+            { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" },
             { "not": { "npc_has_effect": "u_sold_to_Draco" } }
           ]
         },
@@ -459,13 +426,13 @@
   {
     "id": "MISSION_REFUGEE_Draco_GET_GUITAR",
     "type": "mission_definition",
-    "name": "Bring Draco an acoustic guitar.",
+    "name": "Bring an acoustic guitar",
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
     "item": "acoustic_guitar",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "end": { "effect": { "u_add_effect": "NC_REFUGEE_Draco_has_guitar", "duration": "PERMANENT" } },
+    "end": { "effect": { "u_add_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" } },
     "dialogue": {
       "describe": "Yeah, sure, imagine how things would be if we had some live music around here?  I don't know how much I could thank you, though, if you're looking for payment.  You'd sure be improving the mood, though.",
       "offer": "I just want a functional acoustic guitar.  Preferably one that hasn't been used to cave in any zombie skulls.",
