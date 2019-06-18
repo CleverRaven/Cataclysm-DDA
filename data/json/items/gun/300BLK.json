@@ -47,7 +47,7 @@
     "copy-from": "rifle_semi",
     "type": "GUN",
     "name": "IWI Tavor X95 .300BLK",
-    "description": "",
+    "description": "The IWI Tavor X95 (also called Micro-Tavor or MTAR) is an Israeli bullpup assault rifle designed and produced by Israel Weapon Industries.  This is the civilian version chambered for .300 AAC Blackout.",
     "weight": 3400,
     "volume": 6,
     "price": 490000,
