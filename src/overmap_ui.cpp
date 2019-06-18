@@ -59,7 +59,7 @@
 static constexpr int UILIST_MAP_NOTE_DELETED = -2047;
 static constexpr int UILIST_MAP_NOTE_EDITED = -2048;
 
-static constexpr int max_note_length = 45;
+static constexpr int max_note_length = 450;
 static constexpr int max_note_display_length = 45;
 
 /** Note preview map width without borders. Odd number. */
