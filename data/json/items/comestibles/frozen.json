@@ -96,7 +96,7 @@
     "name_plural": "candy ice cream scoops",
     "description": "Ice cream with bits of chocolate, caramel, or other flavoring mixed in.",
     "fun": 20,
-    "healthy": -3,
+    "healthy": -1,
     "price": 300,
     "calories": 150,
     "primary_material": "ice_cream",
