@@ -58,6 +58,8 @@ bool fire( avatar &you, map &m, item &weapon, int bp_cost = 0 );
 // Throw an item  't'
 void plthrow( avatar &you, int pos = INT_MIN,
               const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
+
+void butcher( avatar &you, map &m );
 }
 
 #endif // !AVATAR_MOVE_H

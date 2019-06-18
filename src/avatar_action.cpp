@@ -1059,22 +1059,22 @@ static void butcher_submenu( map_stack &items, const std::vector<int> &corpses, 
     }
 }
 
-void game::butcher()
+void avatar_action::butcher( avatar &you, map &m )
 {
     static const std::string salvage_string = "salvage";
-    if( u.controlling_vehicle ) {
+    if( you.controlling_vehicle ) {
         add_msg( m_info, _( "You can't butcher while driving!" ) );
         return;
     }
 
-    const int factor = u.max_quality( quality_id( "BUTCHER" ) );
-    const int factorD = u.max_quality( quality_id( "CUT_FINE" ) );
+    const int factor = you.max_quality( quality_id( "BUTCHER" ) );
+    const int factorD = you.max_quality( quality_id( "CUT_FINE" ) );
     static const char *no_knife_msg = _( "You don't have a butchering tool." );
     static const char *no_corpse_msg = _( "There are no corpses here to butcher." );
 
     //You can't butcher on sealed terrain- you have to smash/shovel/etc it open first
-    if( m.has_flag( "SEALED", u.pos() ) ) {
-        if( m.sees_some_items( u.pos(), u ) ) {
+    if( m.has_flag( "SEALED", you.pos() ) ) {
+        if( m.sees_some_items( you.pos(), you ) ) {
             add_msg( m_info, _( "You can't access the items here." ) );
         } else if( factor > INT_MIN || factorD > INT_MIN ) {
             add_msg( m_info, no_corpse_msg );
@@ -1089,8 +1089,8 @@ void game::butcher()
     std::vector<int> corpses;
     std::vector<int> disassembles;
     std::vector<int> salvageables;
-    auto items = m.i_at( u.pos() );
-    const inventory &crafting_inv = u.crafting_inventory();
+    auto items = m.i_at( you.pos() );
+    const inventory &crafting_inv = you.crafting_inventory();
 
     // TODO: Properly handle different material whitelists
     // TODO: Improve quality of this section
@@ -1099,13 +1099,13 @@ void game::butcher()
         return usable != nullptr;
     };
 
-    std::vector< item * > salvage_tools = u.items_with( salvage_filter );
+    std::vector< item * > salvage_tools = you.items_with( salvage_filter );
     int salvage_tool_index = INT_MIN;
     item *salvage_tool = nullptr;
     const salvage_actor *salvage_iuse = nullptr;
     if( !salvage_tools.empty() ) {
         salvage_tool = salvage_tools.front();
-        salvage_tool_index = u.get_item_position( salvage_tool );
+        salvage_tool_index = you.get_item_position( salvage_tool );
         item *usable = salvage_tool->get_usable_item( salvage_string );
         salvage_iuse = dynamic_cast<const salvage_actor *>(
                            usable->get_use( salvage_string )->get_actor_ptr() );
@@ -1127,7 +1127,7 @@ void game::butcher()
             if( ( salvage_tool_index != INT_MIN ) && salvage_iuse->valid_to_cut_up( items[i] ) ) {
                 salvageables.push_back( i );
             }
-            if( u.can_disassemble( items[i], crafting_inv ).success() ) {
+            if( you.can_disassemble( items[i], crafting_inv ).success() ) {
                 disassembles.push_back( i );
             } else if( first_item_without_tools == nullptr ) {
                 first_item_without_tools = &items[i];
@@ -1150,7 +1150,7 @@ void game::butcher()
         if( first_item_without_tools != nullptr ) {
             add_msg( m_info, _( "You don't have the necessary tools to disassemble any items here." ) );
             // Just for the "You need x to disassemble y" messages
-            const auto ret = u.can_disassemble( *first_item_without_tools, crafting_inv );
+            const auto ret = you.can_disassemble( *first_item_without_tools, crafting_inv );
             if( !ret.success() ) {
                 add_msg( m_info, "%s", ret.c_str() );
             }
@@ -1158,7 +1158,7 @@ void game::butcher()
         return;
     }
 
-    Creature *hostile_critter = is_hostile_very_close();
+    Creature *hostile_critter = g->is_hostile_very_close();
     if( hostile_critter != nullptr ) {
         if( !query_yn( _( "You see %s nearby! Start butchering anyway?" ),
                        hostile_critter->disp_name() ) ) {
@@ -1257,7 +1257,7 @@ void game::butcher()
         }
     }
 
-    if( !u.has_morale_to_craft() ) {
+    if( !you.has_morale_to_craft() ) {
         if( butcher_select == BUTCHER_CORPSE || indexer_index == MULTIBUTCHER ) {
             add_msg( m_info,
                      _( "You are not in the mood and the prospect of guts and blood on your hands convinces you to turn away." ) );
@@ -1267,7 +1267,7 @@ void game::butcher()
         }
         return;
     }
-    const auto helpers = u.get_crafting_helpers();
+    const auto helpers = you.get_crafting_helpers();
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task..." ), np->name );
         break;
@@ -1276,19 +1276,19 @@ void game::butcher()
         case BUTCHER_OTHER:
             switch( indexer_index ) {
                 case MULTISALVAGE:
-                    u.assign_activity( activity_id( "ACT_LONGSALVAGE" ), 0, salvage_tool_index );
+                    you.assign_activity( activity_id( "ACT_LONGSALVAGE" ), 0, salvage_tool_index );
                     break;
                 case MULTIBUTCHER:
                     butcher_submenu( items, corpses );
                     for( int i : corpses ) {
-                        u.activity.values.push_back( i );
+                        you.activity.values.push_back( i );
                     }
                     break;
                 case MULTIDISASSEMBLE_ONE:
-                    u.disassemble_all( true );
+                    you.disassemble_all( true );
                     break;
                 case MULTIDISASSEMBLE_ALL:
-                    u.disassemble_all( false );
+                    you.disassemble_all( false );
                     break;
                 default:
                     debugmsg( "Invalid butchery type: %d", indexer_index );
@@ -1297,23 +1297,23 @@ void game::butcher()
             break;
         case BUTCHER_CORPSE: {
             butcher_submenu( items, corpses, indexer_index );
-            draw_ter();
-            wrefresh( w_terrain );
-            draw_panels( true );
-            u.activity.values.push_back( corpses[indexer_index] );
+            g->draw_ter();
+            wrefresh( g->w_terrain );
+            g->draw_panels( true );
+            you.activity.values.push_back( corpses[indexer_index] );
         }
         break;
         case BUTCHER_DISASSEMBLE: {
             // Pick index of first item in the disassembly stack
             size_t index = disassembly_stacks[indexer_index].first;
-            u.disassemble( items[index], index, true );
+            you.disassemble( items[index], index, true );
         }
         break;
         case BUTCHER_SALVAGE: {
             // Pick index of first item in the salvage stack
             size_t index = salvage_stacks[indexer_index].first;
-            item_location item_loc( map_cursor( u.pos() ), &items[index] );
-            salvage_iuse->cut_up( u, *salvage_tool, item_loc );
+            item_location item_loc( map_cursor( you.pos() ), &items[index] );
+            salvage_iuse->cut_up( you, *salvage_tool, item_loc );
         }
         break;
     }
