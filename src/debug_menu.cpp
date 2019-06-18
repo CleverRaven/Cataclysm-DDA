@@ -958,7 +958,7 @@ void draw_benchmark( const int max_difference )
     // call the draw procedure as many times as possible in max_difference milliseconds
     auto start_tick = std::chrono::steady_clock::now();
     auto end_tick = std::chrono::steady_clock::now();
-    long difference = 0;
+    int64_t difference = 0;
     int draw_counter = 0;
     while( true ) {
         end_tick = std::chrono::steady_clock::now();

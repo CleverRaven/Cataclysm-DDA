@@ -599,7 +599,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     }
 
     std::string effects = get_effect_status();
-    long long used_space = att.first.length() + name().length() + 3;
+    size_t used_space = att.first.length() + name().length() + 3;
     trim_and_print( w, vStart++, used_space, getmaxx( w ) - used_space - 2,
                     h_white, effects );
 
@@ -2447,7 +2447,7 @@ void monster::on_hit( Creature *source, body_part,
         return;
     }
 
-    if( rng( 0, 100 ) <= static_cast<long>( type->def_chance ) ) {
+    if( rng( 0, 100 ) <= static_cast<int>( type->def_chance ) ) {
         type->sp_defense( *this, source, proj );
     }
 

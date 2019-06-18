@@ -55,7 +55,7 @@ class item_location
         bool operator==( const item_location &rhs ) const;
         bool operator!=( const item_location &rhs ) const;
 
-        operator bool() const;
+        explicit operator bool() const;
 
         item &operator*();
         const item &operator*() const;
@@ -106,12 +106,6 @@ class item_location
         class impl;
 
         std::shared_ptr<impl> ptr;
-
-        /* Not implemented on purpose. This triggers a compiler / linker
-         * error when used in any implicit conversion. It prevents the
-         * implicit conversion to int. */
-        template<typename T>
-        operator T() const;
 };
 
 #endif

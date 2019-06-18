@@ -665,7 +665,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
                     if( w_shift ) {
                         // get shift information for the active item
                         std::string shift_display;
-                        const long iPos = std::distance( mods.begin(), iter );
+                        const size_t iPos = std::distance( mods.begin(), iter );
 
                         if( mman_ui->can_shift_up( iPos, mods ) ) {
                             shift_display += "<color_blue>+</color> ";
