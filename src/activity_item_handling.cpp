@@ -1088,7 +1088,7 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
         }
         // work out if we can build it before we move there.
         const std::vector<zone_data> &zones = mgr.get_zones( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
-                                           g->m.getabs( src_loc ) );
+                                              g->m.getabs( src_loc ) );
         construction built_chosen;
         const inventory pre_inv = p.crafting_inventory( src_loc, PICKUP_RANGE - 1 );
         // PICKUP_RANGE -1 because we will be adjacent to the spot when arriving.
