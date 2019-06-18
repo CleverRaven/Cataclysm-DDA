@@ -1177,7 +1177,7 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
         }
         // check if can do the construction now we are actually there
         const std::vector<zone_data> &post_zones = mgr.get_zones( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
-                                                g->m.getabs( src_loc ) );
+                g->m.getabs( src_loc ) );
         construction post_built_chosen;
         p.invalidate_crafting_inventory();
         const inventory &total_inv = p.crafting_inventory();
