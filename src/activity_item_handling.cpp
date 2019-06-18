@@ -1040,7 +1040,8 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
     zone_manager &mgr = zone_manager::get_manager();
 
     const tripoint abspos = g->m.getabs( p.pos() );
-    const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_id( "CONSTRUCTION_BLUEPRINT" ), abspos );
+    const std::unordered_set<tripoint> &src_set = mgr.get_near(
+                zone_type_id( "CONSTRUCTION_BLUEPRINT" ), abspos );
 
     const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
     const activity_id act_multiple_construction = activity_id( "ACT_BLUEPRINT_CONSTRUCTION" );
