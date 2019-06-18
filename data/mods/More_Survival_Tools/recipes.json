@@ -1,6 +1,21 @@
 [
   {
     "type": "recipe",
+    "result": "flint_steel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "skills_required": [ "fabrication", 3 ],
+    "difficulty": 4,
+    "time": 10000,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_survival", 2 ], [ "mag_survival", 3 ] ],
+    "using": [ [ "forging_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "components": [ [ [ "sharp_rock", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "cured_hide",
     "id_suffix": "drying",
     "category": "CC_OTHER",
