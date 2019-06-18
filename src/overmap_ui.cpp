@@ -1010,7 +1010,7 @@ void create_note( const tripoint &curs )
 
     do {
         new_note = input_popup.query_string( false );
-        const long first_input = input_popup.context().get_raw_input().get_first_input();
+        const int first_input = input_popup.context().get_raw_input().get_first_input();
         if( first_input == KEY_ESCAPE ) {
             new_note = old_note;
             esc_pressed = true;

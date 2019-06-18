@@ -296,7 +296,6 @@ class mapgen_function_json_base
         void setup_common();
         bool setup_common( JsonObject jo );
         void setup_setmap( JsonArray &parray );
-        void set_faction_owner( JsonObject jo );
         // Returns true if the mapgen qualifies at this point already
         virtual bool setup_internal( JsonObject &jo ) = 0;
         virtual void setup_setmap_internal() { }

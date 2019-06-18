@@ -50,6 +50,7 @@
 #include "tileray.h"
 #include "type_id.h"
 
+static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
@@ -60,7 +61,7 @@ const efftype_id effect_got_checked( "got_checked" );
 // constructor
 window_panel::window_panel( std::function<void( avatar &, const catacurses::window & )>
                             draw_func, const std::string &nm, int ht, int wd, bool def_toggle,
-                            std::function<bool( void )> render_func,  bool force_draw )
+                            std::function<bool()> render_func,  bool force_draw )
 {
     draw = draw_func;
     name = nm;
@@ -579,7 +580,7 @@ static std::string temp_delta_string( const avatar &u )
     } else if( delta == 1 ) {
         temp_message = _( " (Rising)" );
     } else if( delta == 0 ) {
-        temp_message = "";
+        temp_message.clear();
     } else if( delta == -1 ) {
         temp_message = _( " (Falling)" );
     } else if( delta == -2 ) {
@@ -861,7 +862,8 @@ static int get_int_digits( const int &digits )
 
 static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_index )
 {
-    const bool is_self_aware = u.has_trait( trait_SELFAWARE );
+    const bool no_feeling = u.has_trait( trait_NOPAIN );
+    const bool is_self_aware = u.has_trait( trait_SELFAWARE ) && !no_feeling;
     static auto print_symbol_num = []( const catacurses::window & w, int num, const std::string & sym,
     const nc_color & color ) {
         while( num-- > 0 ) {
@@ -882,11 +884,13 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
             if( is_self_aware || u.has_effect( effect_got_checked ) ) {
                 limb = string_format( "=%2d%%=", mend_perc );
                 color = c_blue;
-            } else {
+            } else if( !no_feeling ) {
                 const int num = mend_perc / 20;
                 print_symbol_num( w, num, "#", c_blue );
                 print_symbol_num( w, 5 - num, "=", c_blue );
                 return;
+            } else {
+                color = c_blue;
             }
         }
 
@@ -894,10 +898,17 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
         return;
     }
 
-    const auto &hp = get_hp_bar( u.hp_cur[limb_index], u.hp_max[limb_index] );
+    std::pair<std::string, nc_color> hp = get_hp_bar( u.hp_cur[limb_index], u.hp_max[limb_index] );
 
     if( is_self_aware || u.has_effect( effect_got_checked ) ) {
         wprintz( w, hp.second, "%3d  ", u.hp_cur[limb_index] );
+    } else if( no_feeling ) {
+        if( u.hp_cur[limb_index] < u.hp_max[limb_index] / 2 ) {
+            hp = std::make_pair( string_format( " %s", _( "Bad" ) ), c_red );
+        } else {
+            hp = std::make_pair( string_format( " %s", _( "Good" ) ), c_green );
+        }
+        wprintz( w, hp.second, hp.first );
     } else {
         wprintz( w, hp.second, hp.first );
 
@@ -1701,8 +1712,11 @@ static void draw_mana( const player &u, const catacurses::window &w )
     werase( w );
 
     auto mana_pair = mana_stat( u );
-    mvwprintz( w, 0, getmaxx( w ) - 10, c_light_gray, "Mana" );
-    mvwprintz( w, 0, getmaxx( w ) - 5, mana_pair.first, mana_pair.second );
+    const std::string mana_string = string_format( "%6s %5s %10s %5s", _( "Mana" ),
+                                    colorize( mana_pair.second, mana_pair.first ), _( "Max Mana" ),
+                                    colorize( to_string( u.magic.max_mana( u ) ), c_light_blue ) );
+    nc_color gray = c_light_gray;
+    print_colored_text( w, 0, getmaxx( w ) - mana_string.size(), gray, gray, mana_string );
 
     wrefresh( w );
 }
@@ -1968,7 +1982,6 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
     bool selected = false;
     size_t source_index = 0;
     size_t target_index = 0;
-    std::string saved_name;
 
     bool redraw = true;
     bool exit = false;
@@ -2072,7 +2085,6 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
                 // saving win1 index
                 source_index = row_indices[index - 1];
                 selected = true;
-                saved_name = panels[source_index].get_name();
             }
             // dest window for the swap
             if( counter == 2 ) {

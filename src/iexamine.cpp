@@ -360,6 +360,9 @@ class atm_menu
                 add_choice( withdraw_money, _( "Withdraw Money" ) );
             } else if( u.cash > 0 ) {
                 add_info( withdraw_money, _( "You need a cash card before you can withdraw money!" ) );
+            } else if( u.cash < 0 ) {
+                add_info( withdraw_money,
+                          _( "You need to pay down your debt first!" ) );
             } else {
                 add_info( withdraw_money,
                           _( "You need money in your account before you can withdraw money!" ) );
@@ -380,7 +383,11 @@ class atm_menu
         //! print a bank statement for @p print = true;
         void finish_interaction( const bool print = true ) {
             if( print ) {
-                add_msg( m_info, _( "Your account now holds %s." ), format_money( u.cash ) );
+                if( u.cash < 0 ) {
+                    add_msg( m_info, _( "Your debt is now %s." ), format_money( u.cash ) );
+                } else {
+                    add_msg( m_info, _( "Your account now holds %s." ), format_money( u.cash ) );
+                }
             }
 
             u.moves -= to_turns<int>( 5_seconds );
@@ -808,6 +815,52 @@ void iexamine::cardreader_robofac( player &p, const tripoint &examp )
     }
 }
 
+void iexamine::cardreader_foodplace( player &p, const tripoint &examp )
+{
+    bool open = false;
+    if( ( p.is_wearing( itype_id( "foodperson_mask" ) ) ||
+          p.is_wearing( itype_id( "foodperson_mask_on" ) ) ) &&
+        query_yn( _( "Press mask on the reader?" ) ) ) {
+        p.mod_moves( -100 );
+        for( const tripoint &tmp : g->m.points_in_radius( examp, 3 ) ) {
+            if( g->m.ter( tmp ) == t_door_metal_locked ) {
+                g->m.ter_set( tmp, t_door_metal_c );
+                open = true;
+            }
+        }
+        if( open ) {
+            add_msg( _( "You press your face on the reader." ) );
+            add_msg( m_good, _( "The nearby doors are unlocked." ) );
+            sounds::sound( examp, 6, sounds::sound_t::speech, _( "\"Hello Foodperson.  Welcome home.\"" ), true,
+                           "speech", "welcome" );
+        } else {
+            add_msg( _( "The nearby doors are already unlocked." ) );
+            if( query_yn( _( "Lock doors?" ) ) ) {
+                for( const tripoint &tmp : g->m.points_in_radius( examp, 3 ) ) {
+                    if( g->m.ter( tmp ) == t_door_metal_o || g->m.ter( tmp ) == t_door_metal_c ) {
+                        if( p.pos() == tmp ) {
+                            p.add_msg_if_player( m_bad, _( "You are in the way of the door, move before trying again." ) );
+                        } else {
+                            g->m.ter_set( tmp, t_door_metal_locked );
+                        }
+                    }
+                }
+            }
+        }
+    } else if( p.has_amount( itype_id( "foodperson_mask" ), 1 ) ||
+               p.has_amount( itype_id( "foodperson_mask_on" ), 1 ) ) {
+        sounds::sound( examp, 6, sounds::sound_t::speech,
+                       _( "\"FOODPERSON DETECTED.  Please make yourself presentable.\"" ), true,
+                       "speech", "welcome" );
+    } else {
+        sounds::sound( examp, 6, sounds::sound_t::speech,
+                       _( "\"Your face is inadequate.  Please go away.\"" ), true,
+                       "speech", "welcome" );
+        p.assign_activity( activity_id( "ACT_HACK_DOOR" ), to_moves<int>( 5_minutes ) );
+        p.activity.placement = examp;
+    }
+}
+
 void iexamine::intercom( player &p, const tripoint &examp )
 {
     const std::vector<npc *> intercom_npcs = g->get_npcs_if( [examp]( const npc & guy ) {
@@ -819,7 +872,6 @@ void iexamine::intercom( player &p, const tripoint &examp )
         intercom_npcs.front()->talk_to_u( false, false );
     }
 }
-
 
 /**
  * Prompt removal of rubble. Select best shovel and invoke "CLEAR_RUBBLE" on tile.
@@ -5293,6 +5345,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "controls_gate", &iexamine::controls_gate },
             { "cardreader", &iexamine::cardreader },
             { "cardreader_robofac", &iexamine::cardreader_robofac },
+            { "cardreader_fp", &iexamine::cardreader_foodplace },
             { "intercom", &iexamine::intercom },
             { "rubble", &iexamine::rubble },
             { "chainfence", &iexamine::chainfence },

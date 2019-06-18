@@ -168,6 +168,8 @@ void iuse_transform::load( JsonObject &obj )
     need_fire_msg = obj.has_string( "need_fire_msg" ) ? _( obj.get_string( "need_fire_msg" ) ) :
                     _( "You need a source of fire!" );
 
+    obj.read( "need_worn", need_worn );
+
     obj.read( "qualities_needed", qualities_needed );
 
     obj.read( "menu_text", menu_text );
@@ -185,6 +187,10 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     const bool possess = p.has_item( it ) ||
                          ( it.has_flag( "ALLOWS_REMOTE_USE" ) && square_dist( p.pos(), pos ) == 1 );
 
+    if( possess && need_worn && !p.is_worn( it ) ) {
+        p.add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
+        return 0;
+    }
     if( need_charges && it.ammo_remaining() < need_charges ) {
         if( possess ) {
             p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
@@ -211,6 +217,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         p.moves -= moves;
     }
 
+    item obj_copy( it );
     item *obj;
     if( container.empty() ) {
         obj = &it.convert( target );
@@ -237,7 +244,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     if( p.is_worn( *obj ) ) {
         p.reset_encumbrance();
         p.update_bodytemp();
-        p.on_worn_item_transform( *obj );
+        p.on_worn_item_transform( obj_copy, *obj );
     }
     obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
     obj->active = active || obj->item_counter;
@@ -1094,8 +1101,8 @@ int reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( _( "It's too dark to read." ) );
         return 0;
     }
-    const tripoint &center = omt_to_sm_copy( it.get_var( "reveal_map_center_omt",
-                             p.global_omt_location() ) );
+    const tripoint &center = it.get_var( "reveal_map_center_omt",
+                                         p.global_omt_location() );
     for( auto &omt : omt_types ) {
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
             reveal_targets( tripoint( center.x, center.y, z ), omt, 0 );

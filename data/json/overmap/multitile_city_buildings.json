@@ -33,6 +33,25 @@
   },
   {
     "type": "city_building",
+    "id": "gym_fitness",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "gym_fitness_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "gym_fitness_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "gym_fitness_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "gym_fitness_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "gym_fitness_2ndFloor_1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "gym_fitness_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "s_gardening",
     "locations": [ "land" ],
     "overmaps": [
@@ -90,6 +109,40 @@
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "cs_tire_shop_north" },
       { "point": [ 0, 0, 1 ], "overmap": "cs_tire_shop_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_gun",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_gun_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_gun_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_gun_1",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_gun_1_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_gun_roof_1_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_gun_2",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_gun_2_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_gun_roof_1_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_gun_3",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_gun_3_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_gun_roof_3_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_gun_4",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_gun_4_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_gun_2ndfloor_4_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "s_gun_roof_4_north" }
     ]
   },
   {
@@ -1232,6 +1285,16 @@
   },
   {
     "type": "city_building",
+    "id": "headshop",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "headshop_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "headshop_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "headshop_upper_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "abandonedwarehouse",
     "locations": [ "land" ],
     "overmaps": [
@@ -1324,6 +1387,16 @@
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "cs_car_dealership_north" },
       { "point": [ 0, 0, 1 ], "overmap": "cs_car_dealership_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_restaurant_foodplace",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_restaurant_foodplace_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_restaurant_foodplace_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "s_restaurant_foodplace_upper_roof_north" }
     ]
   },
   {
@@ -1423,6 +1496,12 @@
       { "point": [ 0, 0, 1 ], "overmap": "bakery_roof_north" },
       { "point": [ 0, 0, 2 ], "overmap": "bakery_upper_roof_north" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_jewelry_shop",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_jewelry_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_jewelry_roof_north" } ]
   },
   {
     "type": "city_building",
@@ -1618,6 +1697,15 @@
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "s_bike_shop_1_north" },
       { "point": [ 0, 0, 1 ], "overmap": "s_bike_shop_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "home_improvement",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "home_improvement_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "home_improvement_roof_north" }
     ]
   },
   {

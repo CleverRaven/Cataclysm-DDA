@@ -583,7 +583,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 smoke += static_cast<int>( windpower / 5 );
                                 if( cur.get_field_intensity() > 1 &&
                                     one_in( 200 - cur.get_field_intensity() * 50 ) ) {
-                                    ter_set( p, t_dirt );
+                                    if( p.z > 0 ) {
+                                        // we're in the air
+                                        ter_set( p, t_open_air );
+                                    } else {
+                                        ter_set( p, t_dirt );
+                                    }
                                 }
 
                             } else if( frn.has_flag( TFLAG_FLAMMABLE_ASH ) ) {

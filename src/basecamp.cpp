@@ -163,7 +163,8 @@ void basecamp::define_camp( npc &p, const std::string &camp_type )
         e.pos = omt_pos;
         expansions[ base_camps::base_dir ] = e;
         omt_ref = oter_id( "faction_base_camp_0" );
-        update_provides( e.type, expansions[ base_camps::base_dir ] );
+        update_provides( base_camps::faction_encode_abs( e, 0 ),
+                         expansions[ base_camps::base_dir ] );
     } else {
         expansions[ base_camps::base_dir ] = parse_expansion( om_cur, omt_pos );
     }
@@ -261,7 +262,7 @@ const std::vector<basecamp_upgrade> basecamp::available_upgrades( const std::str
         expansion_data &e_data = e->second;
         for( const recipe *recp_p : recipe_dict.all_blueprints() ) {
             const recipe &recp = *recp_p;
-            const std::string &bldg = recp.result().c_str();
+            const std::string &bldg = recp.result();
             // skip buildings that are completed
             if( e_data.provides.find( bldg ) != e_data.provides.end() ) {
                 continue;
@@ -381,7 +382,6 @@ void basecamp::update_provides( const std::string &bldg, expansion_data &e_data 
         e_data.provides[bp_provides.first] += bp_provides.second;
     }
 }
-
 
 void basecamp::update_in_progress( const std::string &bldg, const std::string &dir )
 {

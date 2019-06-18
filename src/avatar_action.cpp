@@ -40,6 +40,8 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_harnessed( "harnessed" );
 
+static const fault_id fault_gun_clogged( "fault_gun_clogged" );
+
 bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
 {
     if( ( !g->check_safe_mode_allowed() ) || you.has_active_mutation( trait_SHELL2 ) ) {
@@ -101,18 +103,67 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     }
 
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
-    const int new_dx = dest_loc.x - you.posx();
-    if( new_dx > 0 ) {
-        you.facing = FD_RIGHT;
-        if( you.has_effect( effect_riding ) && you.mounted_creature ) {
-            auto mons = you.mounted_creature.get();
-            mons->facing = FD_RIGHT;
+    int new_dx = dest_loc.x - you.posx();
+    int new_dy = dest_loc.y - you.posy();
+
+    if( ! tile_iso ) {
+        if( new_dx > 0 ) {
+            you.facing = FD_RIGHT;
+            if( you.has_effect( effect_riding ) && you.mounted_creature ) {
+                auto mons = you.mounted_creature.get();
+                mons->facing = FD_RIGHT;
+            }
+        } else if( new_dx < 0 ) {
+            you.facing = FD_LEFT;
+            if( you.has_effect( effect_riding ) && you.mounted_creature ) {
+                auto mons = you.mounted_creature.get();
+                mons->facing = FD_LEFT;
+            }
         }
-    } else if( new_dx < 0 ) {
-        you.facing = FD_LEFT;
-        if( you.has_effect( effect_riding ) && you.mounted_creature ) {
-            auto mons = you.mounted_creature.get();
-            mons->facing = FD_LEFT;
+    } else {
+        //
+        // iso:
+        //
+        // right key            =>  +x -y       FD_RIGHT
+        // left key             =>  -x +y       FD_LEFT
+        // up key               =>  +x +y       ______
+        // down key             =>  -x -y       ______
+        // y: left-up key       =>  __ +y       FD_LEFT
+        // u: right-up key      =>  +x __       FD_RIGHT
+        // b: left-down key     =>  -x __       FD_LEFT
+        // n: right-down key    =>  __ -y       FD_RIGHT
+        //
+        // right key            =>  +x -y       FD_RIGHT
+        // u: right-up key      =>  +x __       FD_RIGHT
+        // n: right-down key    =>  __ -y       FD_RIGHT
+        // up key               =>  +x +y       ______
+        // down key             =>  -x -y       ______
+        // left key             =>  -x +y       FD_LEFT
+        // y: left-up key       =>  __ +y       FD_LEFT
+        // b: left-down key     =>  -x __       FD_LEFT
+        //
+        // right key            =>  +x +y       FD_RIGHT
+        // u: right-up key      =>  +x __       FD_RIGHT
+        // n: right-down key    =>  __ +y       FD_RIGHT
+        // up key               =>  +x -y       ______
+        // left key             =>  -x -y       FD_LEFT
+        // b: left-down key     =>  -x __       FD_LEFT
+        // y: left-up key       =>  __ -y       FD_LEFT
+        // down key             =>  -x +y       ______
+        //
+        if( new_dx >= 0 && new_dy >= 0 ) {
+            you.facing = FD_RIGHT;
+            if( you.has_effect( effect_riding ) && you.mounted_creature ) {
+                auto mons = you.mounted_creature.get();
+                mons->facing = FD_RIGHT;
+            }
+        }
+        if( new_dy <= 0 && new_dx <= 0 ) {
+            you.facing = FD_LEFT;
+            if( you.has_effect( effect_riding ) && you.mounted_creature ) {
+                auto mons = you.mounted_creature.get();
+                mons->facing = FD_LEFT;
+            }
         }
     }
 
@@ -558,6 +609,11 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
         return false;
     }
 
+    if( weapon.faults.count( fault_gun_clogged ) ) {
+        add_msg( m_info, _( "Your %s is too clogged with blackpowder fouling to fire." ), gun->tname() );
+        return false;
+    }
+
     if( gun->has_flag( "FIRE_TWOHAND" ) && ( !you.has_two_arms() ||
             you.worn_with_flag( "RESTRICT_HANDS" ) ) ) {
         add_msg( m_info, _( "You need two free hands to fire your %s." ), gun->tname() );
@@ -706,7 +762,7 @@ bool avatar_action::fire( avatar &you, map &m, item &weapon, int bp_cost )
     if( !gun ) {
         add_msg( m_info, _( "The %s can't be fired in its current state." ), weapon.tname() );
         return false;
-    } else if( !weapon.ammo_types().count( weapon.ammo_data()->ammo->type ) ) {
+    } else if( weapon.ammo_data() && !weapon.ammo_types().count( weapon.ammo_data()->ammo->type ) ) {
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
                  weapon.tname(), weapon.ammo_current() );
         return false;
@@ -765,7 +821,14 @@ void avatar_action::plthrow( avatar &you, int pos,
             return;
         }
     }
-
+    // if you're wearing the item you need to be able to take it off
+    if( pos < -1 ) {
+        auto ret = you.can_takeoff( you.i_at( pos ) );
+        if( !ret.success() ) {
+            add_msg( m_info, "%s", ret.c_str() );
+            return;
+        }
+    }
     // you must wield the item to throw it
     if( pos != -1 ) {
         you.i_rem( pos );

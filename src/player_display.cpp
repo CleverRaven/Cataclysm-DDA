@@ -406,12 +406,15 @@ static void draw_encumbrance_tab( const catacurses::window &w_encumb,
 static void draw_traits_tab( const catacurses::window &w_traits, const catacurses::window &w_info,
                              unsigned int &line, int &curtab, input_context &ctxt, bool &done,
                              std::string &action, std::vector<trait_id> &traitslist,
-                             size_t &min, size_t &max )
+                             const size_t trait_win_size_y )
 {
     werase( w_traits );
     mvwprintz( w_traits, 0, 0, h_light_gray, header_spaces );
     center_print( w_traits, 0, h_light_gray, title_TRAITS );
-    const unsigned int trait_win_size_y = 1 + static_cast<unsigned>( traitslist.size() );
+
+    size_t min = 0;
+    size_t max = 0;
+
     if( line <= ( trait_win_size_y - 1 ) / 2 ) {
         min = 0;
         max = trait_win_size_y;
@@ -475,7 +478,7 @@ static void draw_traits_tab( const catacurses::window &w_traits, const catacurse
 static void draw_bionics_tab( const catacurses::window &w_bionics, const catacurses::window &w_info,
                               player &you, unsigned int &line, int &curtab, input_context &ctxt, bool &done,
                               std::string &action, std::vector<bionic> &bionicslist,
-                              size_t &min, size_t &max, const size_t bionics_useful_size_y, const size_t bionics_win_size_y )
+                              const size_t bionics_win_size_y )
 {
     werase( w_bionics );
     mvwprintz( w_bionics, 0, 0, h_light_gray, header_spaces );
@@ -483,16 +486,21 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
     trim_and_print( w_bionics, 1, 1, getmaxx( w_bionics ) - 1, c_white,
                     string_format( _( "Bionic Power: <color_light_blue>%1$d</color>" ), you.max_power_level ) );
 
-    if( line <= ( ( bionics_useful_size_y - 1 ) / 2 ) ) {
+    const size_t useful_y = bionics_win_size_y - 1;
+    const size_t half_y = useful_y / 2;
+
+    size_t min = 0;
+    size_t max = 0;
+
+    if( line <= half_y ) { // near the top
         min = 0;
-        max = std::min( bionicslist.size(), bionics_useful_size_y );
-    } else if( line >= ( bionicslist.size() - ( bionics_useful_size_y + 1 ) / 2 ) ) {
-        min = ( bionicslist.size() < bionics_useful_size_y ? 0 : bionicslist.size() - bionics_useful_size_y
-                + 1 );
+        max = std::min( bionicslist.size(), useful_y );
+    } else if( line >= bionicslist.size() - half_y ) { // near the bottom
+        min = ( bionicslist.size() <= useful_y ? 0 : bionicslist.size() - useful_y );
         max = bionicslist.size();
-    } else {
-        min = line - ( bionics_useful_size_y - 1 ) / 2;
-        max = std::min( bionicslist.size(), static_cast<size_t>( 1 + line + bionics_useful_size_y / 2 ) );
+    } else { // scrolling
+        min = line - half_y;
+        max = std::min( bionicslist.size(), line + useful_y - half_y );
     }
 
     for( size_t i = min; i < max; i++ ) {
@@ -521,7 +529,7 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
         center_print( w_bionics, 0, c_light_gray, title_BIONICS );
         trim_and_print( w_bionics, 1, 1, getmaxx( w_bionics ) - 1, c_white,
                         string_format( _( "Bionic Power: <color_light_blue>%1$d</color>" ), you.max_power_level ) );
-        for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y; i++ ) {
+        for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y - 1; i++ ) {
             mvwprintz( w_bionics, static_cast<int>( i + 2 ), 1, c_black, "                         " );
             trim_and_print( w_bionics, static_cast<int>( i + 2 ), 1, getmaxx( w_bionics ) - 1,
                             c_white, bionicslist[i].info().name );
@@ -537,12 +545,17 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
 static void draw_effects_tab( const catacurses::window &w_effects, const catacurses::window &w_info,
                               unsigned int &line, int &curtab, input_context &ctxt, bool &done,
                               std::string &action, std::vector<std::string> &effect_name,
-                              size_t &min, size_t &max, const size_t effect_win_size_y,
-                              const std::vector<std::string> &effect_text, size_t &half_y )
+                              const size_t effect_win_size_y,
+                              const std::vector<std::string> &effect_text )
 {
     mvwprintz( w_effects, 0, 0, h_light_gray, header_spaces );
     center_print( w_effects, 0, h_light_gray, title_EFFECTS );
-    half_y = effect_win_size_y / 2;
+
+    const size_t half_y = effect_win_size_y / 2;
+
+    size_t min = 0;
+    size_t max = 0;
+
     if( line <= half_y ) {
         min = 0;
         max = effect_win_size_y;
@@ -598,12 +611,15 @@ static void draw_effects_tab( const catacurses::window &w_effects, const catacur
 static void draw_skills_tab( const catacurses::window &w_skills, const catacurses::window &w_info,
                              player &you, unsigned int &line, int &curtab, input_context &ctxt, bool &done,
                              std::string &action, const std::vector<const Skill *> &skillslist,
-                             size_t &min, size_t &max, const size_t skill_win_size_y, size_t &half_y )
+                             const size_t skill_win_size_y )
 {
-    assert( line >= min && line <= max );
     mvwprintz( w_skills, 0, 0, h_light_gray, header_spaces );
     center_print( w_skills, 0, h_light_gray, title_SKILLS );
-    half_y = skill_win_size_y / 2;
+
+    size_t min = 0;
+    size_t max = 0;
+
+    const size_t half_y = skill_win_size_y / 2;
     if( line <= half_y ) {
         min = 0;
         max = skill_win_size_y;
@@ -682,7 +698,7 @@ static void draw_skills_tab( const catacurses::window &w_skills, const catacurse
 
     werase( w_info );
 
-    if( line < skillslist.size() ) {
+    if( selectedSkill ) {
         fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, selectedSkill->description() );
     }
     wrefresh( w_info );
@@ -739,7 +755,9 @@ static void draw_skills_tab( const catacurses::window &w_skills, const catacurse
         line = 0;
         curtab = action == "NEXT_TAB" ? curtab + 1 : curtab - 1;
     } else if( action == "CONFIRM" ) {
-        you.get_skill_level_object( selectedSkill->ident() ).toggleTraining();
+        if( selectedSkill ) {
+            you.get_skill_level_object( selectedSkill->ident() ).toggleTraining();
+        }
     } else if( action == "QUIT" ) {
         done = true;
     }
@@ -919,7 +937,7 @@ static void draw_initial_windows( const catacurses::window &w_stats,
     trim_and_print( w_bionics, 1, 1, getmaxx( w_bionics ) - 1, c_white,
                     string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
                                    you.power_level, you.max_power_level ) );
-    for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y; i++ ) {
+    for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y - 1; i++ ) {
         trim_and_print( w_bionics, static_cast<int>( i ) + 2, 1, getmaxx( w_bionics ) - 1, c_white,
                         bionicslist[i].info().name );
     }
@@ -1191,6 +1209,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
         }
         // fall through if bionics is smaller
         trait_win_size_y = maxy - infooffsetybottom - bionics_win_size_y;
+
+        bionics_win_size_y--;
     }
 
     if( skill_win_size_y + infooffsetybottom > maxy ) {
@@ -1301,12 +1321,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     catacurses::refresh();
 
     int curtab = 1;
-    size_t min = 0;
-    size_t max = 0;
     line = 0;
     bool done = false;
-    size_t half_y = 0;
-    size_t bionics_useful_size_y = bionics_win_size_y - 1;
 
     // Initial printing is DONE.  Now we give the player a chance to scroll around
     // and "hover" over different items for more info.
@@ -1316,28 +1332,28 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
             case 1: // Stats tab
                 draw_stats_tab( w_stats, w_info, *this, line, curtab, ctxt, done, action );
                 break;
-            case 2: { // Encumbrance tab
+            case 2: // Encumbrance tab
                 draw_encumbrance_tab( w_encumb, w_info, *this, line, curtab, ctxt, done, action );
                 break;
-            }
+
             case 4: // Traits tab
-                draw_traits_tab( w_traits, w_info, line, curtab, ctxt, done, action, traitslist,
-                                 min, max );
+                draw_traits_tab( w_traits, w_info, line, curtab, ctxt, done, action,
+                                 traitslist, trait_win_size_y );
                 break;
 
             case 5: // Bionics tab
                 draw_bionics_tab( w_bionics, w_info, *this, line, curtab, ctxt, done, action,
-                                  bionicslist, min, max, bionics_useful_size_y, bionics_win_size_y );
+                                  bionicslist, bionics_win_size_y );
                 break;
 
             case 6: // Effects tab
                 draw_effects_tab( w_effects, w_info, line, curtab, ctxt, done, action,
-                                  effect_name, min, max, effect_win_size_y, effect_text, half_y );
+                                  effect_name, effect_win_size_y, effect_text );
                 break;
 
             case 3: // Skills tab
                 draw_skills_tab( w_skills, w_info, *this, line, curtab, ctxt, done, action,
-                                 skillslist, min, max, skill_win_size_y, half_y );
+                                 skillslist, skill_win_size_y );
 
         }
     } while( !done );

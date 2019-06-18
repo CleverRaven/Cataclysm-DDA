@@ -175,7 +175,7 @@ class BitmapFont : public Font
         ~BitmapFont() override = default;
 
         void OutputChar( const std::string &ch, int x, int y, unsigned char color ) override;
-        void OutputChar( long t, int x, int y, unsigned char color );
+        void OutputChar( int t, int x, int y, unsigned char color );
         void draw_ascii_lines( unsigned char line_id, int drawx, int drawy, int FG ) const override;
     protected:
         std::array<SDL_Texture_Ptr, color_loader<SDL_Color>::COLOR_NAMES_COUNT> ascii;
@@ -679,11 +679,11 @@ void CachedTTFFont::OutputChar( const std::string &ch, const int x, const int y,
 
 void BitmapFont::OutputChar( const std::string &ch, int x, int y, unsigned char color )
 {
-    const long t = UTF8_getch( ch );
+    const int t = UTF8_getch( ch );
     BitmapFont::OutputChar( t, x, y, color );
 }
 
-void BitmapFont::OutputChar( long t, int x, int y, unsigned char color )
+void BitmapFont::OutputChar( int t, int x, int y, unsigned char color )
 {
     if( t > 256 ) {
         return;
@@ -1347,7 +1347,7 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
     return update;
 }
 
-static long alt_buffer = 0;
+static int alt_buffer = 0;
 static bool alt_down = false;
 
 static void begin_alt_code()
@@ -1365,7 +1365,7 @@ static bool add_alt_code( char c )
     return false;
 }
 
-static long end_alt_code()
+static int end_alt_code()
 {
     alt_down = false;
     return alt_buffer;
@@ -1463,7 +1463,7 @@ static bool sdl_keycode_is_arrow( SDL_Keycode key )
     return static_cast<bool>( sdl_keycode_opposite_arrow( key ) );
 }
 
-static long arrow_combo_to_numpad( SDL_Keycode mod, SDL_Keycode key )
+static int arrow_combo_to_numpad( SDL_Keycode mod, SDL_Keycode key )
 {
     if( ( mod == SDLK_UP    && key == SDLK_RIGHT ) ||
         ( mod == SDLK_RIGHT && key == SDLK_UP ) ) {
@@ -1499,9 +1499,9 @@ static long arrow_combo_to_numpad( SDL_Keycode mod, SDL_Keycode key )
     return 0;
 }
 
-static long arrow_combo_modifier = 0;
+static int arrow_combo_modifier = 0;
 
-static long handle_arrow_combo( SDL_Keycode key )
+static int handle_arrow_combo( SDL_Keycode key )
 {
     if( !arrow_combo_modifier ) {
         arrow_combo_modifier = key;
@@ -1522,7 +1522,7 @@ static void end_arrow_combo()
  * -1 when a ALT+number sequence has been started,
  * or something that a call to ncurses getch would return.
  */
-static long sdl_keysym_to_curses( const SDL_Keysym &keysym )
+static int sdl_keysym_to_curses( const SDL_Keysym &keysym )
 {
 
     const std::string diag_mode = get_option<std::string>( "DIAG_MOVE_WITH_MODIFIERS_MODE" );
@@ -1868,7 +1868,7 @@ void add_quick_shortcut( quick_shortcuts_t &qsl, input_event &event, bool back,
 }
 
 // Given a quick shortcut list and a specific key, move that key to the front or back of the list.
-void reorder_quick_shortcut( quick_shortcuts_t &qsl, long key, bool back )
+void reorder_quick_shortcut( quick_shortcuts_t &qsl, int key, bool back )
 {
     for( const auto &event : qsl ) {
         if( event.get_first_input() == key ) {
@@ -1904,10 +1904,10 @@ void reorder_quick_shortcuts( quick_shortcuts_t &qsl )
     }
 }
 
-long choose_best_key_for_action( const std::string &action, const std::string &category )
+int choose_best_key_for_action( const std::string &action, const std::string &category )
 {
     const std::vector<input_event> &events = inp_mngr.get_input_for_action( action, category );
-    long best_key = -1;
+    int best_key = -1;
     for( const auto &events_event : events ) {
         if( events_event.type == CATA_INPUT_KEYBOARD && events_event.sequence.size() == 1 ) {
             bool is_ascii_char = isprint( events_event.sequence.front() ) &&
@@ -1921,7 +1921,7 @@ long choose_best_key_for_action( const std::string &action, const std::string &c
     return best_key;
 }
 
-bool add_key_to_quick_shortcuts( long key, const std::string &category, bool back )
+bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back )
 {
     if( key > 0 ) {
         quick_shortcuts_t &qsl = quick_shortcuts_map[get_quick_shortcut_name( category )];
@@ -1941,7 +1941,7 @@ bool add_key_to_quick_shortcuts( long key, const std::string &category, bool bac
 bool add_best_key_for_action_to_quick_shortcuts( std::string action_str,
         const std::string &category, bool back )
 {
-    long best_key = choose_best_key_for_action( action_str, category );
+    int best_key = choose_best_key_for_action( action_str, category );
     return add_key_to_quick_shortcuts( best_key, category, back );
 }
 
@@ -1998,7 +1998,7 @@ void remove_stale_inventory_quick_shortcuts()
         quick_shortcuts_t &qsl = quick_shortcuts_map["INVENTORY"];
         quick_shortcuts_t::iterator it = qsl.begin();
         bool in_inventory;
-        long key;
+        int key;
         bool valid;
         while( it != qsl.end() ) {
             key = ( *it ).get_first_input();
@@ -2122,7 +2122,7 @@ void draw_quick_shortcuts()
         }
         input_event &event = *it;
         std::string text = event.text;
-        long key = event.get_first_input();
+        int key = event.get_first_input();
         float default_text_scale = std::floor( 0.75f * ( height /
                                                font->fontheight ) ); // default for single character strings
         float text_scale = default_text_scale;
@@ -2320,7 +2320,7 @@ bool is_string_input( input_context &ctx )
            || category == "WORLDGEN_CONFIRM_DIALOG";
 }
 
-long get_key_event_from_string( const std::string &str )
+int get_key_event_from_string( const std::string &str )
 {
     if( str.length() ) {
         return ( long )str[0];
@@ -2798,7 +2798,7 @@ static void CheckMessages()
                 if( get_option<std::string>( "HIDE_CURSOR" ) != "show" && SDL_ShowCursor( -1 ) ) {
                     SDL_ShowCursor( SDL_DISABLE );
                 }
-                const long lc = sdl_keysym_to_curses( ev.key.keysym );
+                const int lc = sdl_keysym_to_curses( ev.key.keysym );
                 if( lc <= 0 ) {
                     // a key we don't know in curses and won't handle.
                     break;
@@ -3517,7 +3517,7 @@ SDL_Color color_loader<SDL_Color>::from_rgb( const int r, const int g, const int
     //Red
     result.r = r;
     //The Alpha, is not used, so just set it to 0
-    //result.a = 0;
+    result.a = 0;
     return result;
 }
 
@@ -3850,7 +3850,6 @@ void to_map_font_dim_height( int &h )
 {
     h = ( h * fontheight ) / map_font_height();
 }
-
 
 void to_map_font_dimension( int &w, int &h )
 {

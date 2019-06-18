@@ -467,7 +467,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
     for( int x = start.x, sx = 0; x <= end.x; x++, sx++ ) {
         for( int y = start.y, sy = 0; y <= end.y; y++, sy++ ) {
             tripoint p{ x, y, target.z };
-            long sym = ( game_map ? '%' : ' ' );
+            int sym = ( game_map ? '%' : ' ' );
             if( x >= 0 && x < msize && y >= 0 && y < msize ) {
                 if( game_map ) {
                     Creature *critter = g->critter_at( p );

@@ -468,7 +468,6 @@ class map
         bool clear_path( const tripoint &f, const tripoint &t, const int range,
                          const int cost_min, const int cost_max ) const;
 
-
         /**
          * Populates a vector of points that are reachable within a number of steps from a
          * point. It could be generalized to take advantage of z levels, but would need some
@@ -1245,6 +1244,7 @@ class map
                               const int init_veh_fuel = -1, const int init_veh_status = -1,
                               const bool merge_wrecks = true );
 
+        void do_vehicle_caching( int z );
         // Note: in 3D mode, will actually build caches on ALL z-levels
         void build_map_cache( int zlev, bool skip_lightmap = false );
         // Unlike the other caches, this populates a supplied cache instead of an internal cache.
@@ -1524,6 +1524,7 @@ class map
          */
         submap *get_submap_at_grid( const point &gridp ) const;
         submap *get_submap_at_grid( const tripoint &gridp ) const;
+    protected:
         /**
          * Get the index of a submap pointer in the grid given by grid coordinates. The grid
          * coordinates must be valid: 0 <= x < my_MAPSIZE, same for y.
@@ -1537,7 +1538,7 @@ class map
          * The given submap pointer must not be null.
          */
         void setsubmap( size_t grididx, submap *smap );
-
+    private:
         /**
          * Internal versions of public functions to avoid checking same variables multiple times.
          * They lack safety checks, because their callers already do those.
@@ -1568,7 +1569,7 @@ class map
                               const tripoint &view_center,
                               bool low_light, bool bright_light, bool inorder ) const;
 
-        long determine_wall_corner( const tripoint &p ) const;
+        int determine_wall_corner( const tripoint &p ) const;
         // apply a circular light pattern immediately, however it's best to use...
         void apply_light_source( const tripoint &p, float luminance );
         // ...this, which will apply the light after at the end of generate_lightmap, and prevent redundant
@@ -1660,6 +1661,10 @@ class map
         std::array< std::unique_ptr<level_cache>, OVERMAP_LAYERS > caches;
 
         mutable std::array< std::unique_ptr<pathfinding_cache>, OVERMAP_LAYERS > pathfinding_caches;
+        /**
+         * Set of submaps that contain active items in absolute coordinates.
+         */
+        std::set<tripoint> submaps_with_active_items;
 
         // Note: no bounds check
         level_cache &get_cache( int zlev ) const {
@@ -1716,6 +1721,7 @@ class tinymap : public map
     public:
         tinymap( int mapsize = 2, bool zlevels = false );
         bool inbounds( const tripoint &p ) const override;
+        bool fake_load( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type );
 };
 
 #endif

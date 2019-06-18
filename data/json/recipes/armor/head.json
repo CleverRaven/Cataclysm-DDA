@@ -487,6 +487,20 @@
     ]
   },
   {
+    "result": "helmet_scrap",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "20 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_melee", 2 ] ],
+    "using": [ [ "cordage", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 30 ] ] ]
+  },
+  {
     "result": "helmet_survivor",
     "type": "recipe",
     "category": "CC_ARMOR",

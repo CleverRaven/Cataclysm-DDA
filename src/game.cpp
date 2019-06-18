@@ -232,7 +232,6 @@ static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
-static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 
@@ -246,7 +245,7 @@ void intro();
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
 extern bool add_best_key_for_action_to_quick_shortcuts( action_id action,
         const std::string &category, bool back );
-extern bool add_key_to_quick_shortcuts( long key, const std::string &category, bool back );
+extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back );
 #endif
 
 //The one and only game instance
@@ -1452,7 +1451,15 @@ bool game::do_turn()
             // We only want this to happen if the player had a chance to examine the sounds.
             sounds::reset_markers();
         } else {
-            handle_key_blocking_activity();
+            // Rate limit polling to 10 times a second.
+            static auto start = std::chrono::time_point_cast<std::chrono::milliseconds>(
+                                    std::chrono::system_clock::now() );
+            const auto now = std::chrono::time_point_cast<std::chrono::milliseconds>(
+                                 std::chrono::system_clock::now() );
+            if( ( now - start ).count() > 100 ) {
+                handle_key_blocking_activity();
+                start = now;
+            }
         }
     }
 
@@ -5372,10 +5379,17 @@ static const std::string get_fire_fuel_string( const tripoint &examp )
                     return ss.str();
                 } else {
                     fire_age = 30_minutes - fire_age;
-                    fire_age = rng( fire_age - fire_age * mod / 5, fire_age + fire_age * mod / 5 );
-                    ss << string_format(
-                           _( "Without extra fuel it might burn yet for %s, but might also go out sooner." ),
-                           to_string_approx( fire_age ) );
+                    if( to_string_approx( fire_age - fire_age * mod / 5 ) == to_string_approx(
+                            fire_age + fire_age * mod / 5 ) ) {
+                        ss << string_format(
+                               _( "Without extra fuel it might burn yet for maybe %s, but might also go out sooner." ),
+                               to_string_approx( fire_age - fire_age * mod / 5 ) );
+                    } else {
+                        ss << string_format(
+                               _( "Without extra fuel it might burn yet for between %s to %s, but might also go out sooner." ),
+                               to_string_approx( fire_age - fire_age * mod / 5 ),
+                               to_string_approx( fire_age + fire_age * mod / 5 ) );
+                    }
                     return ss.str();
                 }
             } else {
@@ -5394,8 +5408,15 @@ static const std::string get_fire_fuel_string( const tripoint &examp )
                         return ss.str();
                     }
                 } else {
-                    fire_age = rng( fire_age - fire_age * mod / 5, fire_age + fire_age * mod / 5 );
-                    ss << string_format( _( "Without extra fuel it will burn for %s." ), to_string_approx( fire_age ) );
+                    if( to_string_approx( fire_age - fire_age * mod / 5 ) == to_string_approx(
+                            fire_age + fire_age * mod / 5 ) ) {
+                        ss << string_format( _( "Without extra fuel it will burn for about %s." ),
+                                             to_string_approx( fire_age - fire_age * mod / 5 ) );
+                    } else {
+                        ss << string_format( _( "Without extra fuel it will burn for between %s to %s." ),
+                                             to_string_approx( fire_age - fire_age * mod / 5 ),
+                                             to_string_approx( fire_age + fire_age * mod / 5 ) );
+                    }
                     return ss.str();
                 }
             }
@@ -5609,6 +5630,7 @@ void game::peek( const tripoint &p )
     if( result.peek_action && *result.peek_action == PA_BLIND_THROW ) {
         avatar_action::plthrow( u, INT_MIN, p );
     }
+    m.invalidate_map_cache( p.z );
 
     draw_ter();
     wrefresh( w_terrain );
@@ -7729,12 +7751,13 @@ void game::drop_in_direction()
     }
 }
 
+
 // Used to set up the first Hotkey in the display set
 static int get_initial_hotkey( const size_t menu_index )
 {
     int hotkey = -1;
     if( menu_index == 0 ) {
-        const long butcher_key = inp_mngr.get_previously_pressed_key();
+        const int butcher_key = inp_mngr.get_previously_pressed_key();
         if( butcher_key != 0 ) {
             hotkey = butcher_key;
         }
@@ -8536,6 +8559,11 @@ void game::wield( item_location &loc )
     tripoint pos = loc.position();
     int worn_index = INT_MIN;
     if( u.is_worn( *loc.get_item() ) ) {
+        auto ret = u.can_takeoff( *loc.get_item() );
+        if( !ret.success() ) {
+            add_msg( m_info, "%s", ret.c_str() );
+            return;
+        }
         int item_pos = u.get_item_position( loc.get_item() );
         if( item_pos != INT_MIN ) {
             worn_index = Character::worn_position_to_index( item_pos );

@@ -59,13 +59,12 @@ class player_morale
         int get_total_positive_value() const;
         int get_total_negative_value() const;
 
-
         void on_mutation_gain( const trait_id &mid );
         void on_mutation_loss( const trait_id &mid );
         void on_stat_change( const std::string &stat, int value );
         void on_item_wear( const item &it );
         void on_item_takeoff( const item &it );
-        void on_worn_item_transform( const item &it );
+        void on_worn_item_transform( const item &old_it, const item &new_it );
         void on_worn_item_washed( const item &it );
         void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp );
 
