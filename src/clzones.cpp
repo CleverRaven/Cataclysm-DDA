@@ -291,7 +291,8 @@ std::string plot_options::get_zone_name_suggestion() const
 
 std::vector<std::pair<std::string, std::string>> blueprint_options::get_descriptions() const
 {
-    std::vector<std::pair<std::string, std::string>> options = std::vector<std::pair<std::string, std::string>>();
+    std::vector<std::pair<std::string, std::string>> options =
+                std::vector<std::pair<std::string, std::string>>();
     options.emplace_back( std::make_pair( _( "Construct: " ),
                                           !con.empty() ? con : _( "No Construction" ) ) );
 
