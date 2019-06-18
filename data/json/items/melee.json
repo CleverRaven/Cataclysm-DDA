@@ -2370,8 +2370,8 @@
     "techniques": [ "WBLOCK_1", "WIDE", "SWEEP" ],
     "weight": 3200,
     "volume": 15,
-    "bashing": 24,
-    "cutting": 28,
+    "bashing": 30,
+    "cutting": 22,
     "to_hit": 2,
     "qualities": [ [ "COOK", 1 ] ]
   }
