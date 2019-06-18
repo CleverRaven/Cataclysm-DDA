@@ -86,7 +86,7 @@
     "copy-from": "holster",
     "type": "ARMOR",
     "name": "deep concealment holster",
-    "description": "An elastic band with numerous provisions for concealing a very small pistol close to the body. It is awkward to use without practice.  Activate to holster/draw a gun.",
+    "description": "An elastic band with numerous provisions for concealing a very small pistol close to the body.  It is awkward to use without practice.  Activate to holster/draw a gun.",
     "weight": 120,
     "volume": 1,
     "price": 3000,

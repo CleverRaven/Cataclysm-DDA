@@ -44,6 +44,7 @@
 #include "mtype.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "optional.h"
 #include "options.h"
 #include "player.h"
 #include "player_activity.h"
@@ -1718,6 +1719,8 @@ void monster::load( JsonObject &data )
         goal = plans.back();
     }
 
+    data.read( "summon_time_limit", summon_time_limit );
+
     // This is relative to the monster so it isn't invalidated by map shifting.
     tripoint destination;
     data.read( "destination", destination );
@@ -1801,6 +1804,9 @@ void monster::store( JsonOut &json ) const
     json.member( "biosignatures", biosignatures );
     json.member( "biosig_timer", biosig_timer );
     json.member( "last_biosig", last_biosig );
+
+    json.member( "summon_time_limit", summon_time_limit );
+
     if( horde_attraction > MHA_NULL && horde_attraction < NUM_MONSTER_HORDE_ATTRACTION ) {
         json.member( "horde_attraction", horde_attraction );
     }

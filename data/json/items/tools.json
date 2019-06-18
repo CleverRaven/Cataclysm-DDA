@@ -4822,13 +4822,24 @@
     "flags": [ "FIRESTARTER" ]
   },
   {
+    "abstract": "lightstrip_base",
+    "type": "TOOL",
+    "name": "lightstrip_base",
+    "weight": 27,
+    "volume": 1,
+    "price": 500,
+    "to_hit": 2,
+    "bashing": 1,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";"
+  },
+  {
     "id": "lightstrip",
     "type": "TOOL",
     "name": "lightstrip",
-    "copy-from": "lightstrip_inactive",
     "name_plural": "lightstrips",
+    "copy-from": "lightstrip_base",
     "description": "This is a light-emitting circuit that has been wired directly to a battery.  It provides some weak light and can't be turned off until the battery dies.",
-    "symbol": ";",
     "color": "green",
     "power_draw": 1000,
     "revert_to": "lightstrip_inactive",
@@ -4841,17 +4852,17 @@
     "type": "TOOL",
     "name": "lightstrip (inactive)",
     "name_plural": "lightstrips (inactive)",
+    "copy-from": "lightstrip_base",
     "description": "This is a light-emitting circuit that can be wired directly to a battery.  It provides some weak light and can't be turned off until the battery dies.",
-    "weight": 27,
-    "volume": 1,
-    "price": 500,
-    "to_hit": 2,
-    "bashing": 1,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ";",
     "color": "white",
     "ammo": "battery",
-    "use_action": { "target": "lightstrip", "msg": "You irreversibly activate the lightstrip.", "active": true, "type": "transform" },
+    "use_action": {
+      "target": "lightstrip",
+      "msg": "You irreversibly activate the lightstrip.",
+      "active": true,
+      "need_charges": 1,
+      "type": "transform"
+    },
     "magazines": [
       [
         "battery",

@@ -930,20 +930,8 @@ void monster::footsteps( const tripoint &p )
     if( volume == 0 ) {
         return;
     }
-    std::string footstep;
-    if( type->in_species( BLOB ) ) {
-        footstep = translate_marker( "plop." );
-    } else if( type->in_species( ZOMBIE ) ) {
-        footstep = translate_marker( "shuffling." );
-    } else if( type->in_species( ROBOT ) ) {
-        footstep = translate_marker( "mechanical whirring." );
-    } else if( type->in_species( WORM ) ) {
-        footstep = translate_marker( "rustle." );
-    } else {
-        footstep = translate_marker( "footsteps" );
-    }
     int dist = rl_dist( p, g->u.pos() );
-    sounds::add_footstep( p, volume, dist, this, _( footstep ) );
+    sounds::add_footstep( p, volume, dist, this, type->get_footsteps() );
     return;
 }
 

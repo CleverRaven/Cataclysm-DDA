@@ -253,6 +253,7 @@
         "effect": { "companion_mission": "REFUGEE_MERCHANT" },
         "condition": { "u_has_any_trait": [ "NPC_MISSION_LEV_1" ] }
       },
+      { "text": "What's your story?", "topic": "TALK_EVAC_MERCHANT_BACKGROUND" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
     ]
