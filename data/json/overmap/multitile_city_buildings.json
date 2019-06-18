@@ -1499,6 +1499,12 @@
   },
   {
     "type": "city_building",
+    "id": "s_jewelry_shop",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_jewelry_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_jewelry_roof_north" } ]
+  },
+  {
+    "type": "city_building",
     "id": "cs_gardening_allotment",
     "locations": [ "land" ],
     "overmaps": [

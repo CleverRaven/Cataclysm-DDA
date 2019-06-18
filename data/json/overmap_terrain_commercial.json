@@ -1671,6 +1671,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_jewelry_roof",
+    "name": "jewelry store roof",
+    "copy-from": "generic_city_building",
+    "sym": "J",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "generic_motel",
     "name": "2-story motel",
     "copy-from": "generic_city_building",
