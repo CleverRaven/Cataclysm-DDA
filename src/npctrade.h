@@ -42,6 +42,8 @@ class item_pricing
         int npc_has = 0;
         int u_charges = 0;
         int npc_charges = 0;
+        units::mass weight = units::from_gram( 0 );
+        units::volume vol = units::from_milliliter( 0 );
 };
 
 class trading_window
@@ -88,8 +90,6 @@ bool pay_npc( npc &np, int cost );
 
 int cash_to_favor( const npc &, int cash );
 
-inventory inventory_exchange( inventory &inv,
-                              const std::set<item *> &without, const std::vector<item *> &added );
 void transfer_items( std::vector<item_pricing> &stuff, player &giver, player &receiver,
                      faction *fac, std::list<item_location *> &from_map, bool npc_gives );
 double net_price_adjustment( const player &buyer, const player &seller );
