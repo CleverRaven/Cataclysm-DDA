@@ -283,7 +283,7 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
     if( guy ) {
         for( const body_part bp : all_body_parts ) {
             if( sp.bp_is_affected( bp ) ) {
-                guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( "PERMANENT" ) );
+                guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ) );
                 bodypart_effected = true;
             }
         }
@@ -336,25 +336,25 @@ void spell_effect::target_attack( const spell &sp, const tripoint &source,
                                   const tripoint &epicenter )
 {
     damage_targets( sp, spell_effect_area( sp, source, epicenter, spell_effect_blast,
-                                           sp.has_flag( "IGNORE_WALLS" ) ) );
+                                           sp.has_flag( spell_flag::IGNORE_WALLS ) ) );
 }
 
 void spell_effect::cone_attack( const spell &sp, const tripoint &source, const tripoint &target )
 {
     damage_targets( sp, spell_effect_area( sp, source, target, spell_effect_cone,
-                                           sp.has_flag( "IGNORE_WALLS" ) ) );
+                                           sp.has_flag( spell_flag::IGNORE_WALLS ) ) );
 }
 
 void spell_effect::line_attack( const spell &sp, const tripoint &source, const tripoint &target )
 {
     damage_targets( sp, spell_effect_area( sp, source, target, spell_effect_line,
-                                           sp.has_flag( "IGNORE_WALLS" ) ) );
+                                           sp.has_flag( spell_flag::IGNORE_WALLS ) ) );
 }
 
 void spell_effect::spawn_ethereal_item( spell &sp )
 {
     item granted( sp.effect_data(), calendar::turn );
-    if( !granted.is_comestible() && !( sp.has_flag( "PERMANENT" ) && sp.is_max_level() ) ) {
+    if( !granted.is_comestible() && !( sp.has_flag( spell_flag::PERMANENT ) && sp.is_max_level() ) ) {
         granted.set_var( "ethereal", to_turns<int>( sp.duration_turns() ) );
         granted.set_flag( "ETHEREAL_ITEM" );
     }
@@ -414,9 +414,9 @@ void spell_effect::recover_energy( spell &sp, const tripoint &target )
 
 static bool is_summon_friendly( const spell &sp )
 {
-    const bool hostile = sp.has_flag( "HOSTILE_SUMMON" );
+    const bool hostile = sp.has_flag( spell_flag::HOSTILE_SUMMON );
     bool friendly = !hostile;
-    if( sp.has_flag( "HOSTILE_50" ) ) {
+    if( sp.has_flag( spell_flag::HOSTILE_50 ) ) {
         friendly = friendly && rng( 0, 1000 ) < 500;
     }
     return friendly;
@@ -425,7 +425,7 @@ static bool is_summon_friendly( const spell &sp )
 static bool add_summoned_mon( const mtype_id &id, const tripoint &pos, const time_duration &time,
                               const spell &sp )
 {
-    const bool permanent = sp.has_flag( "PERMANENT" );
+    const bool permanent = sp.has_flag( spell_flag::PERMANENT );
     monster spawned_mon( id, pos );
     if( is_summon_friendly( sp ) ) {
         spawned_mon.friendly = INT_MAX;
