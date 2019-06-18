@@ -474,10 +474,10 @@ void reset_mapgens()
 size_t mapgen_function_json_base::calc_index( const size_t x, const size_t y ) const
 {
     if( x >= mapgensize_x ) {
-        debugmsg( "invalid value %lu for x in calc_index", static_cast<unsigned long>( x ) );
+        debugmsg( "invalid value %zu for x in calc_index", x );
     }
     if( y >= mapgensize_y ) {
-        debugmsg( "invalid value %lu for y in calc_index", static_cast<unsigned long>( y ) );
+        debugmsg( "invalid value %zu for y in calc_index", y );
     }
     return y * mapgensize_y + x;
 }

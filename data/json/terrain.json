@@ -1553,7 +1553,12 @@
     "open": "t_door_o",
     "deconstruct": {
       "ter_set": "t_door_frame",
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+      "items": [
+        { "item": "2x4", "count": 4 },
+        { "item": "wood_panel", "count": 1 },
+        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "hinge", "count": 2 }
+      ]
     },
     "bash": {
       "str_min": 8,
@@ -1585,7 +1590,12 @@
     "open": "t_door_lab_o",
     "deconstruct": {
       "ter_set": "t_door_lab_frame",
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+      "items": [
+        { "item": "2x4", "count": 4 },
+        { "item": "wood_panel", "count": 1 },
+        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "hinge", "count": 2 }
+      ]
     },
     "bash": {
       "str_min": 8,
@@ -1617,7 +1627,12 @@
     "open": "t_door_white_o",
     "deconstruct": {
       "ter_set": "t_door_white_frame",
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+      "items": [
+        { "item": "2x4", "count": 4 },
+        { "item": "wood_panel", "count": 1 },
+        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "hinge", "count": 2 }
+      ]
     },
     "bash": {
       "str_min": 8,
@@ -1649,7 +1664,12 @@
     "open": "t_door_gray_o",
     "deconstruct": {
       "ter_set": "t_door_gray_frame",
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+      "items": [
+        { "item": "2x4", "count": 4 },
+        { "item": "wood_panel", "count": 1 },
+        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "hinge", "count": 2 }
+      ]
     },
     "bash": {
       "str_min": 8,
@@ -1681,7 +1701,12 @@
     "open": "t_door_red_o",
     "deconstruct": {
       "ter_set": "t_door_red_frame",
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+      "items": [
+        { "item": "2x4", "count": 4 },
+        { "item": "wood_panel", "count": 1 },
+        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "hinge", "count": 2 }
+      ]
     },
     "bash": {
       "str_min": 8,
@@ -1713,7 +1738,12 @@
     "open": "t_door_green_o",
     "deconstruct": {
       "ter_set": "t_door_green_frame",
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+      "items": [
+        { "item": "2x4", "count": 4 },
+        { "item": "wood_panel", "count": 1 },
+        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "hinge", "count": 2 }
+      ]
     },
     "bash": {
       "str_min": 8,
@@ -1743,7 +1773,12 @@
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "ROAD" ],
     "deconstruct": {
       "ter_set": "t_door_white_frame",
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+      "items": [
+        { "item": "2x4", "count": 4 },
+        { "item": "wood_panel", "count": 1 },
+        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "hinge", "count": 2 }
+      ]
     },
     "close": "t_door_white_c",
     "bash": {
@@ -1757,7 +1792,8 @@
       "items": [
         { "item": "2x4", "count": [ 1, 3 ] },
         { "item": "nail", "charges": [ 1, 6 ] },
-        { "item": "splinter", "count": [ 2, 6 ] }
+        { "item": "splinter", "count": [ 2, 6 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
       ]
     }
   },
@@ -1773,7 +1809,12 @@
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "ROAD" ],
     "deconstruct": {
       "ter_set": "t_door_gray_frame",
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+      "items": [
+        { "item": "2x4", "count": 4 },
+        { "item": "wood_panel", "count": 1 },
+        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "hinge", "count": 2 }
+      ]
     },
     "close": "t_door_gray_c",
     "bash": {
@@ -1787,7 +1828,8 @@
       "items": [
         { "item": "2x4", "count": [ 1, 3 ] },
         { "item": "nail", "charges": [ 1, 6 ] },
-        { "item": "splinter", "count": [ 2, 6 ] }
+        { "item": "splinter", "count": [ 2, 6 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
       ]
     }
   },
@@ -1803,7 +1845,12 @@
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "ROAD" ],
     "deconstruct": {
       "ter_set": "t_door_red_frame",
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+      "items": [
+        { "item": "2x4", "count": 4 },
+        { "item": "wood_panel", "count": 1 },
+        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "hinge", "count": 2 }
+      ]
     },
     "close": "t_door_red_c",
     "bash": {
@@ -1817,7 +1864,8 @@
       "items": [
         { "item": "2x4", "count": [ 1, 3 ] },
         { "item": "nail", "charges": [ 1, 6 ] },
-        { "item": "splinter", "count": [ 2, 6 ] }
+        { "item": "splinter", "count": [ 2, 6 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
       ]
     }
   },
@@ -1833,7 +1881,12 @@
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "ROAD" ],
     "deconstruct": {
       "ter_set": "t_door_green_frame",
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+      "items": [
+        { "item": "2x4", "count": 4 },
+        { "item": "wood_panel", "count": 1 },
+        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "hinge", "count": 2 }
+      ]
     },
     "close": "t_door_green_c",
     "bash": {
@@ -1847,7 +1900,8 @@
       "items": [
         { "item": "2x4", "count": [ 1, 3 ] },
         { "item": "nail", "charges": [ 1, 6 ] },
-        { "item": "splinter", "count": [ 2, 6 ] }
+        { "item": "splinter", "count": [ 2, 6 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
       ]
     }
   },
@@ -1881,7 +1935,8 @@
       "items": [
         { "item": "2x4", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 1, 4 ] },
-        { "item": "splinter", "count": [ 1, 4 ] }
+        { "item": "splinter", "count": [ 1, 4 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
       ]
     }
   },
@@ -1915,7 +1970,8 @@
       "items": [
         { "item": "2x4", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 1, 4 ] },
-        { "item": "splinter", "count": [ 1, 4 ] }
+        { "item": "splinter", "count": [ 1, 4 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
       ]
     }
   },
@@ -1949,7 +2005,8 @@
       "items": [
         { "item": "2x4", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 1, 4 ] },
-        { "item": "splinter", "count": [ 1, 4 ] }
+        { "item": "splinter", "count": [ 1, 4 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
       ]
     }
   },
@@ -1983,7 +2040,8 @@
       "items": [
         { "item": "2x4", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 1, 4 ] },
-        { "item": "splinter", "count": [ 1, 4 ] }
+        { "item": "splinter", "count": [ 1, 4 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
       ]
     }
   },
@@ -2282,7 +2340,12 @@
     "open": "t_door_o_peep",
     "deconstruct": {
       "ter_set": "t_door_frame",
-      "items": [ { "item": "peephole", "count": 1 }, { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+      "items": [
+        { "item": "peephole", "count": 1 },
+        { "item": "2x4", "count": 4 },
+        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "hinge", "count": 2 }
+      ]
     },
     "bash": {
       "str_min": 8,
@@ -2330,7 +2393,8 @@
       "items": [
         { "item": "2x4", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 1, 4 ] },
-        { "item": "splinter", "count": [ 1, 4 ] }
+        { "item": "splinter", "count": [ 1, 4 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
       ]
     }
   },
@@ -2364,7 +2428,8 @@
       "items": [
         { "item": "2x4", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 1, 4 ] },
-        { "item": "splinter", "count": [ 1, 4 ] }
+        { "item": "splinter", "count": [ 1, 4 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
       ]
     }
   },
@@ -2400,7 +2465,8 @@
         { "item": "2x4", "prob": 50 },
         { "item": "2x4", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 1, 4 ] },
-        { "item": "splinter", "count": [ 1, 4 ] }
+        { "item": "splinter", "count": [ 1, 4 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
       ]
     }
   },
@@ -2416,7 +2482,12 @@
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "ROAD" ],
     "deconstruct": {
       "ter_set": "t_door_frame",
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+      "items": [
+        { "item": "2x4", "count": 4 },
+        { "item": "wood_panel", "count": 1 },
+        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "hinge", "count": 2 }
+      ]
     },
     "close": "t_door_c",
     "bash": {
@@ -2430,7 +2501,8 @@
       "items": [
         { "item": "2x4", "count": [ 1, 3 ] },
         { "item": "nail", "charges": [ 1, 6 ] },
-        { "item": "splinter", "count": [ 2, 6 ] }
+        { "item": "splinter", "count": [ 2, 6 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
       ]
     }
   },
@@ -2446,7 +2518,12 @@
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "ROAD" ],
     "deconstruct": {
       "ter_set": "t_door_lab_frame",
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+      "items": [
+        { "item": "2x4", "count": 4 },
+        { "item": "wood_panel", "count": 1 },
+        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "hinge", "count": 2 }
+      ]
     },
     "close": "t_door_lab_c",
     "bash": {
@@ -2480,7 +2557,8 @@
         { "item": "peephole", "count": 1 },
         { "item": "2x4", "count": 4 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] }
+        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
       ]
     },
     "close": "t_door_c_peep",
@@ -2496,7 +2574,8 @@
         { "item": "peephole", "prob": 50 },
         { "item": "2x4", "count": [ 1, 3 ] },
         { "item": "nail", "charges": [ 1, 6 ] },
-        { "item": "splinter", "count": [ 2, 6 ] }
+        { "item": "splinter", "count": [ 2, 6 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
       ]
     }
   },
@@ -2504,7 +2583,7 @@
     "type": "terrain",
     "id": "t_rdoor_c",
     "name": "closed reinforced wood door",
-    "description": "Just like other wooden doors, except this one has layers of nailed in two by fours for reinforcement.  It might be barricaded, but still susceptible to fire.",
+    "description": "Just like other wooden doors, except this one has layers of nailed in two by fours and additional hinge for reinforcement.  It might be barricaded, but still susceptible to fire.",
     "symbol": "+",
     "color": "red",
     "move_cost": 0,
@@ -2514,7 +2593,12 @@
     "open": "t_rdoor_o",
     "deconstruct": {
       "ter_set": "t_door_c",
-      "items": [ { "item": "2x4", "count": 24 }, { "item": "wood_panel", "count": 2 }, { "item": "nail", "charges": [ 36, 48 ] } ]
+      "items": [
+        { "item": "2x4", "count": 24 },
+        { "item": "wood_panel", "count": 2 },
+        { "item": "nail", "charges": [ 36, 48 ] },
+        { "item": "hinge", "count": 1 }
+      ]
     },
     "bash": {
       "str_min": 18,
@@ -2561,7 +2645,8 @@
       "items": [
         { "item": "2x4", "count": [ 1, 4 ] },
         { "item": "nail", "charges": [ 4, 18 ] },
-        { "item": "splinter", "count": [ 2, 4 ] }
+        { "item": "splinter", "count": [ 2, 4 ] },
+        { "item": "hinge", "count": [ 0, 1 ] }
       ]
     }
   },
@@ -2577,7 +2662,12 @@
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR_REINFORCED", "CONNECT_TO_WALL", "ROAD" ],
     "deconstruct": {
       "ter_set": "t_door_c",
-      "items": [ { "item": "2x4", "count": 24 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 36, 48 ] } ]
+      "items": [
+        { "item": "2x4", "count": 24 },
+        { "item": "wood_panel", "count": 1 },
+        { "item": "nail", "charges": [ 36, 48 ] },
+        { "item": "hinge", "count": 1 }
+      ]
     },
     "close": "t_rdoor_c",
     "bash": {
@@ -2591,7 +2681,8 @@
       "items": [
         { "item": "2x4", "count": [ 2, 8 ] },
         { "item": "nail", "charges": [ 8, 30 ] },
-        { "item": "splinter", "count": [ 4, 8 ] }
+        { "item": "splinter", "count": [ 4, 8 ] },
+        { "item": "hinge", "count": [ 0, 1 ] }
       ]
     }
   },
@@ -2987,7 +3078,12 @@
     "open": "t_fencegate_o",
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [ { "item": "2x4", "count": 5 }, { "item": "pointy_stick", "count": 2 }, { "item": "nail", "charges": 12 } ]
+      "items": [
+        { "item": "2x4", "count": 5 },
+        { "item": "pointy_stick", "count": 2 },
+        { "item": "nail", "charges": 12 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     },
     "bash": {
       "str_min": 4,
@@ -3000,7 +3096,8 @@
       "items": [
         { "item": "2x4", "count": [ 1, 4 ] },
         { "item": "nail", "charges": [ 2, 8 ] },
-        { "item": "splinter", "count": [ 1, 2 ] }
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
       ]
     }
   },
@@ -3017,7 +3114,12 @@
     "close": "t_fencegate_c",
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [ { "item": "2x4", "count": 5 }, { "item": "pointy_stick", "count": 2 }, { "item": "nail", "charges": 12 } ]
+      "items": [
+        { "item": "2x4", "count": 5 },
+        { "item": "pointy_stick", "count": 2 },
+        { "item": "nail", "charges": 12 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     },
     "bash": {
       "str_min": 4,
@@ -3025,7 +3127,12 @@
       "sound": "crash!",
       "sound_fail": "wham!",
       "ter_set": "t_null",
-      "items": [ { "item": "2x4", "count": [ 1, 4 ] }, { "item": "nail", "charges": [ 2, 8 ] }, { "item": "splinter", "count": 1 } ]
+      "items": [
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "nail", "charges": [ 2, 8 ] },
+        { "item": "splinter", "count": 1 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -3092,7 +3199,12 @@
     "open": "t_chickenwire_gate_o",
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [ { "item": "2x4", "count": 5 }, { "item": "wire", "count": 10 }, { "item": "nail", "charges": 20 } ]
+      "items": [
+        { "item": "2x4", "count": 5 },
+        { "item": "wire", "count": 10 },
+        { "item": "nail", "charges": 20 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     },
     "bash": {
       "str_min": 5,
@@ -3102,7 +3214,7 @@
       "sound": "rattle!",
       "sound_fail": "thump!",
       "ter_set": "t_null",
-      "items": [ { "item": "wire", "count": [ 4, 6 ] }, { "item": "2x4", "count": [ 2, 4 ] } ]
+      "items": [ { "item": "wire", "count": [ 4, 6 ] }, { "item": "2x4", "count": [ 2, 4 ] }, { "item": "hinge", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -3119,7 +3231,12 @@
     "close": "t_chickenwire_gate_c",
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [ { "item": "2x4", "count": 5 }, { "item": "wire", "count": 10 }, { "item": "nail", "charges": 20 } ]
+      "items": [
+        { "item": "2x4", "count": 5 },
+        { "item": "wire", "count": 10 },
+        { "item": "nail", "charges": 20 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     },
     "bash": {
       "str_min": 5,
@@ -3127,7 +3244,7 @@
       "sound": "rattle!",
       "sound_fail": "thump!",
       "ter_set": "t_null",
-      "items": [ { "item": "wire", "count": [ 4, 6 ] }, { "item": "2x4", "count": [ 2, 4 ] } ]
+      "items": [ { "item": "wire", "count": [ 4, 6 ] }, { "item": "2x4", "count": [ 2, 4 ] }, { "item": "hinge", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -3176,7 +3293,12 @@
       "sound": "crash!",
       "sound_fail": "wham!",
       "ter_set": "t_door_frame",
-      "items": [ { "item": "2x4", "count": [ 1, 8 ] }, { "item": "nail", "charges": [ 2, 20 ] }, { "item": "splinter", "count": 1 } ]
+      "items": [
+        { "item": "2x4", "count": [ 1, 8 ] },
+        { "item": "nail", "charges": [ 2, 20 ] },
+        { "item": "splinter", "count": 1 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -3252,7 +3374,12 @@
       "sound": "crash!",
       "sound_fail": "wham!",
       "ter_set": "t_door_b",
-      "items": [ { "item": "2x4", "count": [ 2, 16 ] }, { "item": "nail", "charges": [ 6, 54 ] }, { "item": "splinter", "count": 1 } ]
+      "items": [
+        { "item": "2x4", "count": [ 2, 16 ] },
+        { "item": "nail", "charges": [ 6, 54 ] },
+        { "item": "splinter", "count": 1 },
+        { "item": "hinge", "count": [ 0, 1 ] }
+      ]
     }
   },
   {
@@ -3279,7 +3406,8 @@
         { "item": "peephole", "prob": 75 },
         { "item": "2x4", "count": [ 1, 8 ] },
         { "item": "nail", "charges": [ 2, 20 ] },
-        { "item": "splinter", "count": 1 }
+        { "item": "splinter", "count": 1 },
+        { "item": "hinge", "count": [ 1, 2 ] }
       ]
     }
   },
@@ -3301,7 +3429,11 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ]
+      "items": [
+        { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "steel_plate", "prob": 75 },
+        { "item": "hinge", "count": [ 1, 3 ] }
+      ]
     }
   },
   {
@@ -3364,7 +3496,11 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_lab_frame",
-      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ]
+      "items": [
+        { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "steel_plate", "prob": 75 },
+        { "item": "hinge", "count": [ 1, 3 ] }
+      ]
     }
   },
   {
@@ -3384,7 +3520,11 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ]
+      "items": [
+        { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "steel_plate", "prob": 75 },
+        { "item": "hinge", "count": [ 1, 3 ] }
+      ]
     }
   },
   {
@@ -3404,7 +3544,11 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_lab_frame",
-      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ]
+      "items": [
+        { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "steel_plate", "prob": 75 },
+        { "item": "hinge", "count": [ 1, 3 ] }
+      ]
     }
   },
   {
@@ -3426,7 +3570,12 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "peephole", "prob": 75 }, { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ]
+      "items": [
+        { "item": "peephole", "prob": 75 },
+        { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "steel_plate", "prob": 75 },
+        { "item": "hinge", "count": [ 1, 3 ] }
+      ]
     }
   },
   {
@@ -3446,7 +3595,12 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "peephole", "prob": 75 }, { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ]
+      "items": [
+        { "item": "peephole", "prob": 75 },
+        { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "steel_plate", "prob": 75 },
+        { "item": "hinge", "count": [ 1, 3 ] }
+      ]
     }
   },
   {
@@ -3467,7 +3621,11 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ]
+      "items": [
+        { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "steel_plate", "prob": 75 },
+        { "item": "hinge", "count": [ 1, 3 ] }
+      ]
     }
   },
   {
@@ -3489,7 +3647,11 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ]
+      "items": [
+        { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "steel_plate", "prob": 75 },
+        { "item": "hinge", "count": [ 1, 3 ] }
+      ]
     }
   },
   {
@@ -3513,7 +3675,11 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -3535,7 +3701,11 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -3557,7 +3727,11 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -6823,7 +6997,7 @@
     "type": "terrain",
     "id": "t_fungus_floor_in",
     "name": "fungal floor",
-    "description": "Greyish mold coats both the floor and the roof here, silent and still.  Stray spores waft through the air.",
+    "description": "Grayish mold coats both the floor and the roof here, silent and still.  Stray spores waft through the air.",
     "//": "roofed",
     "symbol": ".",
     "color": "light_gray",
@@ -6835,7 +7009,7 @@
     "type": "terrain",
     "id": "t_fungus_floor_sup",
     "name": "fungal floor",
-    "description": "Greyish mold coats the floor here, silent and still.",
+    "description": "Grayish mold coats the floor here, silent and still.",
     "//": "supports",
     "symbol": ".",
     "color": "light_gray",
@@ -6847,7 +7021,7 @@
     "type": "terrain",
     "id": "t_fungus_floor_out",
     "name": "fungal floor",
-    "description": "Greyish mold coats the ground here, silent and still.",
+    "description": "Grayish mold coats the ground here, silent and still.",
     "//": "outside",
     "symbol": ".",
     "color": "light_gray",
@@ -6895,7 +7069,7 @@
     "type": "terrain",
     "id": "t_shrub_fungal",
     "name": "fungal shrub",
-    "description": "This shrub has been completely absorbed by the mushrooms.  Its branches droop and have lost much of their structure, and its leaves have vanished, replaced by fleshy grey sacks that visibly expand and contract.",
+    "description": "This shrub has been completely absorbed by the mushrooms.  Its branches droop and have lost much of their structure, and its leaves have vanished, replaced by fleshy gray sacks that visibly expand and contract.",
     "symbol": "#",
     "color": "dark_gray",
     "move_cost": 8,
@@ -7960,6 +8134,111 @@
   },
   {
     "type": "terrain",
+    "id": "t_wood_stairs_down",
+    "name": "wooden stairs",
+    "description": "A wooden staircase leading down.",
+    "symbol": ">",
+    "color": "light_red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "GOES_DOWN", "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 70,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_open_air",
+      "items": [
+        { "item": "2x4", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 0, 5 ] },
+        { "item": "splinter", "count": [ 2, 8 ] }
+      ]
+    },
+    "deconstruct": { "ter_set": "t_open_air", "items": [ { "item": "nail", "charges": [ 4, 8 ] }, { "item": "2x4", "count": [ 0, 4 ] } ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wood_stairs_up_half",
+    "name": "half-built wooden stairs",
+    "description": "Half of a wooden staircase.  Some work still needs to be done before this staircase is complete.",
+    "symbol": "<",
+    "color": "light_red",
+    "move_cost": 4,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM" ],
+    "deconstruct": {
+      "deconstruct_above": true,
+      "ter_set": "t_floor",
+      "items": [ { "item": "nail", "charges": [ 12, 20 ] }, { "item": "2x4", "count": [ 2, 6 ] } ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 70,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "2x4", "count": [ 0, 5 ] },
+        { "item": "nail", "charges": [ 0, 5 ] },
+        { "item": "splinter", "count": [ 5, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wood_stairs_up_broken",
+    "name": "broken wooden stairs",
+    "description": "A number of planks are missing and the structure is beginning to sag and fall apart.  It's going to need quite a bit of work to repair this staircase.",
+    "symbol": "<",
+    "color": "light_red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 110,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "2x4", "count": [ 0, 2 ] },
+        { "item": "wood_panel", "count": [ 0, 1 ] },
+        { "item": "nail", "charges": [ 0, 5 ] },
+        { "item": "splinter", "count": [ 2, 8 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wood_stairs_up",
+    "name": "wooden stairs",
+    "description": "A wooden staircase leading up",
+    "symbol": "<",
+    "color": "light_red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "GOES_UP", "PLACE_ITEM" ],
+    "deconstruct": {
+      "deconstruct_above": true,
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "nail", "charges": [ 12, 20 ] },
+        { "item": "2x4", "count": [ 8, 12 ] },
+        { "item": "wood_panel", "count": [ 1, 3 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_wood_stairs_up_broken",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "wood_panel", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 1, 5 ] },
+        { "item": "splinter", "count": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_stairs_down",
     "name": "stairs",
     "description": "A flight of stairs leading down.",
@@ -8479,7 +8758,7 @@
     "type": "terrain",
     "id": "t_carpet_concrete",
     "name": "industrial carpet",
-    "description": "Firm, low-pile, high-durability carpet in a neutral grey color, for laying down on bare concrete.",
+    "description": "Firm, low-pile, high-durability carpet in a neutral gray color, for laying down on bare concrete.",
     "symbol": ".",
     "color": "light_gray",
     "looks_like": "t_carpet_red",
@@ -8601,7 +8880,7 @@
     "type": "terrain",
     "id": "t_linoleum_white",
     "name": "linoleum tile",
-    "description": "A section of flooring made out of a tough, rubbery material.  Coloured a simple white.",
+    "description": "A section of flooring made out of a tough, rubbery material.  Colored a simple white.",
     "symbol": ".",
     "color": "white",
     "move_cost": 2,
@@ -10938,7 +11217,12 @@
     "open": "t_splitrail_fencegate_o",
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [ { "item": "2x4", "count": 5 }, { "item": "pointy_stick", "count": 2 }, { "item": "nail", "charges": 12 } ]
+      "items": [
+        { "item": "2x4", "count": 5 },
+        { "item": "pointy_stick", "count": 2 },
+        { "item": "nail", "charges": 12 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     },
     "bash": {
       "str_min": 4,
@@ -10951,7 +11235,8 @@
       "items": [
         { "item": "2x4", "count": [ 1, 4 ] },
         { "item": "nail", "charges": [ 2, 8 ] },
-        { "item": "splinter", "count": [ 1, 2 ] }
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
       ]
     }
   },
@@ -10969,7 +11254,12 @@
     "close": "t_splitrail_fencegate_c",
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [ { "item": "2x4", "count": 5 }, { "item": "pointy_stick", "count": 2 }, { "item": "nail", "charges": 12 } ]
+      "items": [
+        { "item": "2x4", "count": 5 },
+        { "item": "pointy_stick", "count": 2 },
+        { "item": "nail", "charges": 12 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -10985,14 +11275,17 @@
     "examine_action": "chainfence",
     "flags": [ "NOITEM", "CLIMBABLE", "PERMEABLE", "AUTO_WALL_SYMBOL", "FLAMMABLE_ASH", "THIN_OBSTACLE" ],
     "connects_to": "WOODFENCE",
-    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "charges": 20 } ] },
+    "deconstruct": {
+      "ter_set": "t_fence_post",
+      "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "charges": 20 }, { "item": "hinge", "count": [ 1, 2 ] } ]
+    },
     "bash": {
       "str_min": 5,
       "str_max": 12,
       "sound": "whump!",
       "sound_fail": "whack!",
       "ter_set": "t_fence_post",
-      "items": [ { "item": "2x4", "count": [ 4, 10 ] } ]
+      "items": [ { "item": "2x4", "count": [ 4, 10 ] }, { "item": "hinge", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -11010,7 +11303,12 @@
     "open": "t_privacy_fencegate_o",
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [ { "item": "2x4", "count": 8 }, { "item": "pointy_stick", "count": 2 }, { "item": "nail", "charges": 20 } ]
+      "items": [
+        { "item": "2x4", "count": 8 },
+        { "item": "pointy_stick", "count": 2 },
+        { "item": "nail", "charges": 20 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     },
     "bash": {
       "str_min": 4,
@@ -11023,7 +11321,8 @@
       "items": [
         { "item": "2x4", "count": [ 4, 8 ] },
         { "item": "nail", "charges": [ 10, 20 ] },
-        { "item": "splinter", "count": [ 4, 6 ] }
+        { "item": "splinter", "count": [ 4, 6 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
       ]
     }
   },
@@ -11041,7 +11340,12 @@
     "close": "t_privacy_fencegate_c",
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [ { "item": "2x4", "count": 8 }, { "item": "pointy_stick", "count": 2 }, { "item": "nail", "charges": 20 } ]
+      "items": [
+        { "item": "2x4", "count": 8 },
+        { "item": "pointy_stick", "count": 2 },
+        { "item": "nail", "charges": 20 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     }
   },
   {

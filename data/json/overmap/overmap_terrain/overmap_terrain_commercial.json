@@ -1671,6 +1671,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_jewelry_roof",
+    "name": "jewelry store roof",
+    "copy-from": "generic_city_building",
+    "sym": "J",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "generic_motel",
     "name": "2-story motel",
     "copy-from": "generic_city_building",
@@ -1744,6 +1752,13 @@
     "type": "overmap_terrain",
     "id": "home_improvement",
     "name": "home improvement store",
+    "copy-from": "generic_city_building",
+    "color": "c_yellow_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "home_improvement_roof",
+    "name": "home improvement store roof",
     "copy-from": "generic_city_building",
     "color": "c_yellow_green"
   },
@@ -2086,6 +2101,30 @@
     "id": "headshop",
     "copy-from": "generic_city_building",
     "name": "Head Shop",
+    "sym": "0",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "headshop",
+    "copy-from": "generic_city_building",
+    "name": "Head Shop",
+    "sym": "0",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "headshop_roof",
+    "copy-from": "generic_city_building",
+    "name": "head shop roof",
+    "sym": "0",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "headshop_upper_roof",
+    "copy-from": "generic_city_building",
+    "name": "head shop roof",
     "sym": "0",
     "color": "i_white"
   },

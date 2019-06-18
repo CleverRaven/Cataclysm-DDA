@@ -42,6 +42,8 @@
   {
     "id": "NC_CITY_COP_misc",
     "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
     "items": [
       [ "ring", 30 ],
       [ "gold_ear", 30 ],
