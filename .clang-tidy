@@ -9,12 +9,12 @@ bugprone-*,\
 cert-*,\
 -cert-err58-cpp,\
 clang-diagnostic-*,\
+cppcoreguidelines-slicing,\
 llvm-namespace-comment,\
 misc-*,\
 modernize-*,\
 performance-*,\
 readability-*,\
--bugprone-forwarding-reference-overload,\
 -bugprone-inaccurate-erase,\
 -bugprone-incorrect-roundings,\
 -bugprone-integer-division,\
