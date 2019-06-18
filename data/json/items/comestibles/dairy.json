@@ -9,7 +9,7 @@
     "price": 19,
     "calories": 150,
     "parasites": 11,
-    "description": "This is raw, unhomogenized and unpasteurized milk from a cow.  It couldn't be any fresher unless you drank it straight from the cow, which might upset it.  You might want to pasteurize or even boil this before drinking."
+    "description": "This is raw, unhomogenized and unpasteurized milk from a cow.  It couldn't be any fresher unless you drank it straight from the cow, which might upset it.  Depending on your dietary sensibilities, you might want to pasteurize or even boil this before drinking."
   },
   {
     "type": "COMESTIBLE",
@@ -18,7 +18,7 @@
     "name_plural": "shelf stable milk",
     "spoils_in": "2 d",
     "copy-from": "milk",
-    "container": "carton",
+    "container": "carton_sealed",
     "description": "This is milk that has been pasteurized at much higher temperatures than normal.  It tastes slightly different, but, unopened, will last far longer than regular milk.",
     "price": 50
   },
@@ -96,6 +96,7 @@
     "spoils_in": "14 days",
     "comestible_type": "FOOD",
     "symbol": "%",
+    "container": "wrapper",
     "quench": -5,
     "healthy": -3,
     "calories": 101,
@@ -118,6 +119,7 @@
     "symbol": "%",
     "quench": -5,
     "healthy": -3,
+    "container": "jar_glass_sealed",
     "calories": 101,
     "description": "Clarified butter, free from milk solids and water. Will last a very long time. .",
     "price": 500,
