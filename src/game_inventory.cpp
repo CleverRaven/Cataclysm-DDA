@@ -78,7 +78,7 @@ std::string highlight_good_bad_none( int value )
     return string_format( "<color_yellow>%d</color>", value );
 }
 
-}
+} // namespace
 
 inventory_filter_preset::inventory_filter_preset( const item_location_filter &filter )
     : filter( filter )

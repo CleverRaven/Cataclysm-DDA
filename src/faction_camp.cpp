@@ -275,7 +275,7 @@ std::map<std::string, miss_data> miss_info = {{
         }
     }
 };
-}
+} // namespace base_camps
 
 /**** Forward declaration of utility functions */
 /**

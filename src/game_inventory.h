@@ -100,8 +100,8 @@ item_location repair( player &p, const repair_item_actor *actor, const item *mai
 item_location install_bionic( player &p, player &patient );
 /*@}*/
 
-}
+} // namespace inv
 
-}
+} // namespace game_menus
 
 #endif // GAME_INVENTORY_H

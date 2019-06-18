@@ -43,7 +43,7 @@ using itype_id = std::string;
 namespace catacurses
 {
 class window;
-}
+} // namespace catacurses
 
 namespace base_camps
 {
@@ -56,7 +56,7 @@ const std::string faction_encode_abs( const expansion_data &e, int number );
 const std::string faction_decode( const std::string &full_type );
 const time_duration to_workdays( const time_duration &work_time );
 int max_upgrade_by_type( const std::string &type );
-}
+} // namespace base_camps
 
 // camp resource structures
 struct basecamp_resource {

@@ -283,7 +283,7 @@ static void builtin_parkinglot( map &m, const std::string & )
     }
 }
 
-}// end of VehicleSpawnFunction namespace
+} // namespace VehicleSpawnFunction
 
 VehicleSpawn::FunctionMap VehicleSpawn::builtin_functions = {
     { "no_vehicles", VehicleSpawnFunction::builtin_no_vehicles },

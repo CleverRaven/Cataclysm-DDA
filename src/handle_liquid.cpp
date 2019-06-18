@@ -381,4 +381,4 @@ bool handle_liquid( item &liquid, item *const source, const int radius,
     }
     return false;
 }
-}
+} // namespace liquid_handler

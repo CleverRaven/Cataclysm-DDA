@@ -96,7 +96,7 @@ void done_mark_practice_target( const tripoint & );
 
 void failure_standard( const tripoint & );
 void failure_deconstruct( const tripoint & );
-}
+} // namespace construct
 
 // Helper functions, nobody but us needs to call these.
 static bool can_construct( const std::string &desc );
