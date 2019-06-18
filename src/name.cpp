@@ -150,5 +150,5 @@ void clear()
 {
     names.clear();
 }
-}
+} // namespace Name
 

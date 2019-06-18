@@ -19,7 +19,7 @@
 namespace
 {
 std::map<efftype_id, effect_type> effect_types;
-}
+} // namespace
 
 /** @relates string_id */
 template<>

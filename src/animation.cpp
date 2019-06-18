@@ -423,7 +423,7 @@ void draw_bullet_curses( map &m, const tripoint &t, const char bullet, const tri
     bullet_animation().progress();
 }
 
-} ///namespace
+} // namespace
 
 #if defined(TILES)
 /* Bullet Animation -- Maybe change this to animate the ammo itself flying through the air?*/

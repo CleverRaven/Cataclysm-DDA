@@ -23,7 +23,7 @@ namespace trait_group
 
 using Trait_group_tag = string_id<Trait_group>;
 
-}
+} // namespace trait_group
 
 // TODO: Move to better suited file (rng.h/.cpp?)
 class distribution

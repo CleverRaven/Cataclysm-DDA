@@ -47,7 +47,7 @@ const std::map<std::string, body_part> bp_map = {
     { "FOOT_L", body_part::bp_foot_l },
     { "FOOT_R", body_part::bp_foot_r }
 };
-}
+} // namespace
 
 namespace io
 {
@@ -61,7 +61,7 @@ body_part string_to_enum<body_part>( const std::string &trigger )
 {
     return string_to_enum_look_up( bp_map, trigger );
 }
-}
+} // namespace io
 
 // LOADING
 // spell_type
@@ -69,7 +69,7 @@ body_part string_to_enum<body_part>( const std::string &trigger )
 namespace
 {
 generic_factory<spell_type> spell_factory( "spell" );
-}
+} // namespace
 
 template<>
 const spell_type &string_id<spell_type>::obj() const

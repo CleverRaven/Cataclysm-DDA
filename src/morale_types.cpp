@@ -196,7 +196,7 @@ namespace
 
 generic_factory<morale_type_data> morale_data( "morale type" );
 
-}
+} // namespace
 
 template<>
 const morale_type_data &morale_type::obj() const

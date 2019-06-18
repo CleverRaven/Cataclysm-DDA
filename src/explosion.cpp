@@ -841,7 +841,7 @@ void nuke( const tripoint &p )
     }
 }
 
-}
+} // namespace explosion_handler
 
 // This is only ever used to zero the cloud values, which is what makes it work.
 fragment_cloud &fragment_cloud::operator=( const float &value )

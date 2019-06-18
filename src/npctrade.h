@@ -96,6 +96,6 @@ double net_price_adjustment( const player &buyer, const player &seller );
 bool trade( npc &p, int cost, const std::string &deal );
 std::vector<item_pricing> init_selling( npc &p );
 std::vector<item_pricing> init_buying( player &buyer, player &seller, bool is_npc );
-}
+} // namespace npc_trading
 
 #endif

@@ -1427,7 +1427,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
     return ret;
 }
 
-} // overmap_ui
+} // namespace overmap_ui
 
 void ui::omap::display()
 {

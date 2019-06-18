@@ -164,6 +164,6 @@ void study_spell_finish( player_activity *act, player *p );
 extern const std::map< activity_id, std::function<void( player_activity *, player * )> >
 finish_functions;
 
-}
+} // namespace activity_handlers
 
 #endif

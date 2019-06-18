@@ -104,7 +104,7 @@ void commune_farmfield( mission_data &mission_key, npc &p );
 void commune_forage( mission_data &mission_key, npc &p );
 void commune_refuge_caravan( mission_data &mission_key, npc &p );
 bool handle_outpost_mission( const mission_entry &cur_key, npc &p );
-}
+} // namespace talk_function
 
 void talk_function::companion_mission( npc &p )
 {

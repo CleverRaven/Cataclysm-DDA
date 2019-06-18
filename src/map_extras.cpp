@@ -2319,4 +2319,4 @@ FunctionMap all_functions()
     return builtin_functions;
 }
 
-}
+} // namespace MapExtras
