@@ -1993,7 +1993,7 @@
       { "x": -5, "y": 2, "chance": 35, "item_groups": [ "bed" ] },
       { "x": -6, "y": 0, "chance": 35, "item_groups": [ "bed" ] },
       { "x": -6, "y": 2, "chance": 35, "item_groups": [ "bed" ] },
-      { "x": -8, "y": 2, "chance": 35, "item_groups": [ "fridgesnacks" ] },
+      { "x": -8, "y": 2, "chance": 40, "item_groups": [ "fridgesnacks", "bar_alcohol" ] },
       { "x": -9, "y": 0, "chance": 35, "item_groups": [ "bus_common" ] },
       { "x": -9, "y": 1, "chance": 60, "items": [ "tshirt_tour" ] },
       { "x": -9, "y": 2, "chance": 35, "item_groups": [ "bus_common" ] },
