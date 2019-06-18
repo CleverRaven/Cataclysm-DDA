@@ -557,7 +557,7 @@
     "ident": "true_foodperson",
     "name": "True Foodperson",
     "description": "You are the true Foodperson, some might think Foodperson is just a mascot, but you know better.  You are Foodperson, the mask has become your face, you are real and the only thing standing between this world and oblivion is you.",
-    "points": -1,
+    "points": 0,
     "traits": [ "PROF_FOODP" ],
     "skills": [ { "level": 2, "name": "speech" } ],
     "items": {
