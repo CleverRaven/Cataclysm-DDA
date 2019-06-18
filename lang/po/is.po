@@ -75101,7 +75101,7 @@ msgid ""
 "Air drag, water drag, rolling drag, and static drag are all values that "
 "influence your vehicle's safe and maximum speed.  The interaction of drag "
 "and engine power is complicated, but generally speaking, more powerful "
-"engines will make your vehicle go faster but also consume fuel faster."
+"engines will make your vehicle go faster but aslo consume fuel faster."
 msgstr ""
 
 #: lang/json/help_from_json.py
