@@ -630,11 +630,7 @@
     "id": "MARTIAL_ARTS5",
     "name": "Melee Weapon Training",
     "points": 3,
-<<<<<<< Updated upstream:data/json/mutations.json
-    "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Pentjak Silat, Niten Ichi-Ryu, Sōjutsu or Medieval Polearm Fighting",
-=======
     "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Pentjak Silat, Niten Ichi-Ryu, Sōjutsu or Medieval Polearm Fighting.",
->>>>>>> Stashed changes:data/json/mutations/mutations.json
     "starting_trait": true,
     "initial_ma_styles": [ "style_eskrima", "style_fencing", "style_silat", "style_niten", "style_sojutsu", "style_medievalpole" ],
     "valid": false
