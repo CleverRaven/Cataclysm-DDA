@@ -2546,6 +2546,8 @@
   {
     "type": "item_group",
     "id": "trash",
+    "ammo": 20,
+    "magazine": 50,
     "items": [
       [ "plastic_shopping_bag", 35 ],
       [ "iodine", 5 ],
@@ -8090,6 +8092,8 @@
   {
     "type": "item_group",
     "id": "arcade_prizes",
+    "ammo": 75,
+    "magazine": 100,
     "items": [
       [ "bbgun", 30 ],
       [ "bb", 30 ],
@@ -8237,6 +8241,8 @@
   {
     "type": "item_group",
     "id": "antique",
+    "ammo": 75,
+    "magazine": 100,
     "items": [
       [ "oxylamp", 50 ],
       [ "cow_bell", 15 ],
@@ -9693,6 +9699,8 @@
   {
     "type": "item_group",
     "id": "roof_trash",
+    "ammo": 20,
+    "magazine": 50,
     "items": [
       [ "plastic_shopping_bag", 15 ],
       [ "bum_wine", 15 ],
