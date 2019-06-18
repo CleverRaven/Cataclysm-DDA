@@ -45,6 +45,7 @@
     "durability": 6,
     "blackpowder_tolerance": 96,
     "clip_size": 4,
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -71,6 +72,7 @@
     "clip_size": 1,
     "reload": 200,
     "barrel_length": 3,
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
     "flags": [ "RELOAD_EJECT" ]
   },
@@ -127,7 +129,7 @@
     "ranged_damage": -3,
     "dispersion": 590,
     "blackpowder_tolerance": 24,
-    "min_cycle_recoil": 162,
+    "min_cycle_recoil": 190,
     "durability": 4,
     "modes": [ [ "DEFAULT", "auto", 10 ] ],
     "loudness": 25,
@@ -199,6 +201,7 @@
     "skill": "pistol",
     "dispersion": 480,
     "durability": 7,
+    "min_cycle_recoil": 225,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -212,7 +215,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "38", [ "taurus38mag" ] ] ]
   }

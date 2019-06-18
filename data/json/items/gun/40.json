@@ -20,6 +20,7 @@
     "dispersion": 480,
     "durability": 6,
     "blackpowder_tolerance": 48,
+    "min_cycle_recoil": 425,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -83,6 +84,7 @@
     "skill": "pistol",
     "dispersion": 480,
     "durability": 7,
+    "min_cycle_recoil": 504,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -120,7 +122,7 @@
     "dispersion": 590,
     "durability": 4,
     "blackpowder_tolerance": 24,
-    "min_cycle_recoil": 364,
+    "min_cycle_recoil": 425,
     "modes": [ [ "DEFAULT", "auto", 10 ] ],
     "loudness": 25,
     "barrel_length": 1,

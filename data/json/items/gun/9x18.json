@@ -16,6 +16,7 @@
     "ammo": "9x18",
     "dispersion": 480,
     "durability": 6,
+    "min_cycle_recoil": 270,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],

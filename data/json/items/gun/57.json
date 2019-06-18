@@ -18,6 +18,7 @@
     "ranged_damage": -2,
     "dispersion": 440,
     "durability": 8,
+    "min_cycle_recoil": 81,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],

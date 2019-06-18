@@ -84,6 +84,7 @@
     "ranged_damage": 2,
     "dispersion": 180,
     "durability": 10,
+    "min_cycle_recoil": 450,
     "barrel_length": 1,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -122,6 +123,7 @@
     "dispersion": 480,
     "durability": 6,
     "blackpowder_tolerance": 48,
+    "min_cycle_recoil": 380,
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ]
   },
@@ -209,6 +211,7 @@
     "ranged_damage": 3,
     "dispersion": 180,
     "durability": 7,
+    "min_cycle_recoil": 450,
     "barrel_length": 1,
     "built_in_mods": [ "folding_stock" ],
     "valid_mod_locations": [
@@ -269,6 +272,7 @@
     "range": 1,
     "dispersion": 340,
     "durability": 9,
+    "min_cycle_recoil": 450,
     "built_in_mods": [ "lead_red_dot_sight", "lead_laser_sight" ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
@@ -293,6 +297,7 @@
     "range": 1,
     "dispersion": 480,
     "durability": 6,
+    "min_cycle_recoil": 450,
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "m9mag", "m9bigmag" ] ] ]
   },
@@ -346,7 +351,7 @@
     "dispersion": 590,
     "durability": 4,
     "blackpowder_tolerance": 24,
-    "min_cycle_recoil": 325,
+    "min_cycle_recoil": 380,
     "modes": [ [ "DEFAULT", "auto", 10 ] ],
     "loudness": 25,
     "barrel_length": 1,
@@ -449,6 +454,7 @@
     "dispersion": 400,
     "durability": 9,
     "blackpowder_tolerance": 48,
+    "min_cycle_recoil": 450,
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "usp9mag" ] ] ]
   },
@@ -509,6 +515,7 @@
     "dispersion": 480,
     "durability": 6,
     "blackpowder_tolerance": 48,
+    "min_cycle_recoil": 380,
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ] ] ]
   },
@@ -521,7 +528,7 @@
     "price": 100000,
     "burst": 20,
     "built_in_mods": [ "barrel_ported" ],
-    "min_cycle_recoil": 325
+    "min_cycle_recoil": 380
   },
   {
     "id": "kpf9",
@@ -535,6 +542,7 @@
     "price": 18000,
     "bashing": 2,
     "ammo": "9mm",
+    "min_cycle_recoil": 450,
     "magazines": [ [ "9mm", [ "kpf9mag" ] ] ]
   },
   {
@@ -553,6 +561,7 @@
     "ammo": "9mm",
     "dispersion": 480,
     "durability": 6,
+    "min_cycle_recoil": 450,
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "p320mag_17rd_9x19mm" ] ] ]
   }

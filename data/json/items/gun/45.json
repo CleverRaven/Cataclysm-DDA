@@ -93,6 +93,7 @@
     "ammo": "45",
     "dispersion": 480,
     "durability": 7,
+    "min_cycle_recoil": 540,
     "blackpowder_tolerance": 48,
     "magazine_well": 1,
     "magazines": [ [ "45", [ "m1911mag", "m1911bigmag" ] ] ]
@@ -132,7 +133,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "45", [ "mac10mag" ] ] ]
   },
@@ -185,7 +186,7 @@
     "dispersion": 590,
     "durability": 4,
     "blackpowder_tolerance": 24,
-    "min_cycle_recoil": 390,
+    "min_cycle_recoil": 456,
     "modes": [ [ "DEFAULT", "auto", 10 ] ],
     "loudness": 25,
     "barrel_length": 1,
