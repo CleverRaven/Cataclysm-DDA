@@ -52,13 +52,6 @@ static const mongroup_id GROUP_TRIFFID = mongroup_id( "GROUP_TRIFFID" );
 static const mongroup_id GROUP_VANILLA = mongroup_id( "GROUP_VANILLA" );
 static const mongroup_id GROUP_ZOMBIE = mongroup_id( "GROUP_ZOMBIE" );
 
-extern int initial_difficulty;
-extern int wave_difficulty;
-extern int caravan_visits;
-extern float caravan_tech_level;
-
-float caravan_tech_level = 1;
-
 std::string caravan_category_name( caravan_category cat );
 std::vector<itype_id> caravan_items( caravan_category cat );
 std::set<m_flag> monflags_to_add;
@@ -129,24 +122,16 @@ bool defense_game::init()
     return true;
 }
 
-static void calculate_tech_level( int initial_difficulty, int wave_difficulty, int current_wave, float &caravan_tech_level ) {
+void defense_game::wave_data( int current_wave, int inital_difficulty, int wave_difficulty, float caravan_tech_level ){
+    wave_difficulty;
+    initial_difficulty;
+    caravan_visits;
+}
+
+void defense_game::calculate_tech_level() {
+    wave_data();
     caravan_tech_level = ( current_wave );
     add_msg( m_info, _( "Caravan Tech Level in calculate_tech_level: %f." ), caravan_tech_level );
-}
-
-static void calculate_tech_level_2( int initial_difficulty, int wave_difficulty, int current_wave, float &caravan_tech_level ) {
-    caravan_tech_level = ( current_wave );
-    add_msg( m_info, _( "Caravan Tech Level in calculate_tech_level_2: %f." ), caravan_tech_level );
-}
-
-static void calculate_tech_level_3( int initial_difficulty, int wave_difficulty, int current_wave, float &caravan_tech_level ) {
-    caravan_tech_level = ( current_wave );
-    add_msg( m_info, _( "Caravan Tech Level in calculate_tech_level_3: %f." ), caravan_tech_level );
-}
-
-static void calculate_tech_level_4( int initial_difficulty, int wave_difficulty, int current_wave, float &caravan_tech_level ) {
-    caravan_tech_level = ( current_wave );
-    add_msg( m_info, _( "Caravan Tech Level in calculate_tech_level_4: %f." ), caravan_tech_level );
 }
 
 void defense_game::per_turn()
@@ -170,15 +155,7 @@ void defense_game::per_turn()
             add_msg( m_info, _( "Initial Game Difficulty: %i." ), initial_difficulty );
             add_msg( m_info, _( "Wave Difficulty: %i." ), wave_difficulty );
             add_msg( m_info, _( "Caravan Visits: %i." ), caravan_visits );
-            if( caravan_tech_level >= 1 && caravan_tech_level <= 2 ) {
-                calculate_tech_level( initial_difficulty, wave_difficulty, caravan_visits, caravan_tech_level );
-            } else if( caravan_tech_level >= 3 && caravan_tech_level <= 4 ) {
-                calculate_tech_level_2( initial_difficulty, wave_difficulty, caravan_visits, caravan_tech_level );
-            } else if ( caravan_tech_level >= 4 && caravan_tech_level <= 5 ) {
-                calculate_tech_level_3( initial_difficulty, wave_difficulty, caravan_visits, caravan_tech_level );
-            } else if ( caravan_tech_level >= 5 && caravan_tech_level <= 6 ) {
-                calculate_tech_level_4( initial_difficulty, wave_difficulty, caravan_visits, caravan_tech_level );
-            }
+            defense_game::calculate_tech_level();
         }
         spawn_wave();
     }
@@ -1226,6 +1203,9 @@ std::vector<itype_id> caravan_items( caravan_category cat )
 {
     std::vector<itype_id> ret;
     item_group::ItemList item_list;
+    defense_game uwu;
+    uwu.wave_data();
+    uwu.calculate_tech_level();
     switch( cat ) {
     case CARAVAN_CART:
         return ret;
