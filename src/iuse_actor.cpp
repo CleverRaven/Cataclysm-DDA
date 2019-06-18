@@ -2234,7 +2234,10 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     spellbook_uilist.w_x = ( TERMX - spellbook_uilist.w_width ) / 2;
     spellbook_uilist.w_y = ( TERMY - spellbook_uilist.w_height ) / 2;
     spellbook_uilist.callback = &sp_cb;
-    const int action = uilist( _( "Study a spell:" ), uilist_initializer );
+    spellbook_uilist.title = _( "Study a spell:" );
+    spellbook_uilist.pad_left = 38;
+    spellbook_uilist.query();
+    const int action = spellbook_uilist.ret;
     if( action < 0 ) {
         return 0;
     }
