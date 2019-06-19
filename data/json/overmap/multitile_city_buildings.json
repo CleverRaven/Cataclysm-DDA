@@ -1042,7 +1042,8 @@
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "landscapingsupplyco_1a_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "landscapingsupplyco_1b_north" }
+      { "point": [ 1, 0, 0 ], "overmap": "landscapingsupplyco_1b_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "landscapingsupplyco_1b_roof_north" }
     ]
   },
   {
