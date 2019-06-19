@@ -28,6 +28,7 @@ enum energy_type {
     mana_energy,
     stamina_energy,
     bionic_energy,
+    fatigue_energy,
     none_energy
 };
 

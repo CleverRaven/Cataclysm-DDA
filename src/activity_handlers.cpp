@@ -3955,6 +3955,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                 break;
             case hp_energy:
                 blood_magic( p, cost );
+            case fatigue_energy:
+                p->mod_fatigue( cost );
             case none_energy:
             default:
                 break;
