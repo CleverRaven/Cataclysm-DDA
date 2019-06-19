@@ -831,7 +831,7 @@ void Item_factory::check_definitions() const
 {
     for( const auto &elem : m_templates ) {
         std::ostringstream msg;
-        const itype *type = &elem.second; // avoid huge number of line changes
+        const itype *type = &elem.second;
 
         if( !type->category ) {
             msg << "undefined category " << type->category_force << "\n";
@@ -938,6 +938,16 @@ void Item_factory::check_definitions() const
             if( type->book->skill && !type->book->skill.is_valid() ) {
                 msg << string_format( "uses invalid book skill." ) << "\n";
             }
+            if( type->book->martial_art && !type->book->martial_art.is_valid() ) {
+                msg << string_format( "trains invalid martial art '%s'.",
+                                      type->book->martial_art.str() ) << "\n";
+            }
+            if( type->can_use( "MA_MANUAL" ) && !type->book->martial_art ) {
+                msg << "has use_action MA_MANUAL but does not specify a martial art\n";
+            }
+        }
+        if( type->can_use( "MA_MANUAL" ) && !type->book ) {
+            msg << "has use_action MA_MANUAL but is not a book\n";
         }
         if( type->ammo ) {
             if( !type->ammo->type && type->ammo->type != ammotype( "NULL" ) ) {
