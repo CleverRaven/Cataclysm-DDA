@@ -145,7 +145,7 @@ Character::Character() :
     healthy_calories = 55000;
     stored_calories = healthy_calories;
     initialize_stomach_contents();
-    healed_total = { 0, 0, 0, 0, 0, 0 };
+    healed_total = { { 0, 0, 0, 0, 0, 0 } };
 
     name.clear();
 
