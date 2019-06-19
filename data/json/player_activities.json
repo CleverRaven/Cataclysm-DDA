@@ -26,10 +26,46 @@
     "no_resume": true
   },
   {
-    "id": "ACT_BLUEPRINT_CONSTRUCTION",
+    "id": "ACT_MULTIPLE_CHOP_PLANKS",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
-    "verb": "constructing",
+    "activity_level": "EXTRA_EXERCISE",
+    "verb": "chopping logs",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_MULTIPLE_BUTCHER",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "butchering",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_MULTIPLE_CHOP_TREES",
+    "type": "activity_type",
+    "activity_level": "EXTRA_EXERCISE",
+    "verb": "chopping trees",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_MULTIPLE_FISH",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "fishing",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_TIDY_UP",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "tidying up",
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true
@@ -307,6 +343,24 @@
     "no_resume": true
   },
   {
+    "id": "ACT_FETCH_REQUIRED",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "fetching components",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_MULTIPLE_FARM",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": "farming",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
     "id": "ACT_PLANT_PLOT",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
@@ -532,6 +586,13 @@
     "activity_level": "ACTIVE_EXERCISE",
     "verb": "drilling",
     "based_on": "speed"
+  },
+  {
+    "id": "ACT_CHURN",
+    "type": "activity_type",
+    "activity_level": "EXTRA_EXERCISE",
+    "verb": "churning earth",
+    "based_on": "time"
   },
   {
     "id": "ACT_DIG",
