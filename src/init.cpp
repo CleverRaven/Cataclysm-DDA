@@ -308,6 +308,7 @@ void DynamicDataLoader::initialize()
     add( "effect_type", &load_effect_type );
     add( "tutorial_messages", &load_tutorial_messages );
     add( "overmap_terrain", &overmap_terrains::load );
+    add( "construction_category", &construction_categories::load );
     add( "construction", &load_construction );
     add( "mapgen", &load_mapgen );
     add( "overmap_land_use_code", &overmap_land_use_codes::load );
@@ -478,6 +479,7 @@ void DynamicDataLoader::unload_data()
     faction_template::reset();
     quality::reset();
     trap::reset();
+    construction_categories::reset();
     reset_constructions();
     overmap_terrains::reset();
     reset_region_settings();

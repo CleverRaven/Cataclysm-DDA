@@ -47,6 +47,7 @@
 #include "player_activity.h"
 #include "pldata.h"
 #include "morale_types.h"
+#include "ui.h"
 
 class inventory;
 
@@ -129,7 +130,7 @@ static std::vector<construction *> constructions_by_desc( const std::string &des
 }
 
 static void load_available_constructions( std::vector<std::string> &available,
-        std::map<std::string, std::vector<std::string>> &cat_available,
+        std::map<construction_category_id, std::vector<std::string>> &cat_available,
         bool hide_unconstructable )
 {
     cat_available.clear();
@@ -207,7 +208,7 @@ int construction_menu( bool blueprint )
     static bool hide_unconstructable = false;
     // only display constructions the player can theoretically perform
     std::vector<std::string> available;
-    std::map<std::string, std::vector<std::string>> cat_available;
+    std::map<construction_category_id, std::vector<std::string>> cat_available;
     load_available_constructions( available, cat_available, hide_unconstructable );
 
     if( available.empty() ) {
@@ -236,15 +237,10 @@ int construction_menu( bool blueprint )
 
     draw_grid( w_con, w_list_width + w_list_x0 );
 
-    //tabcount needs to be increased to add more categories
-    const int tabcount = 10;
-    std::array<std::string, tabcount> construct_cat = {{
-            _( "All" ), _( "Constructions" ), _( "Furniture" ), _( "Digging and Mining" ),
-            _( "Repairing" ), _( "Reinforcing" ), _( "Decorative" ), _( "Farming and Woodcutting" ),
-            _( "Others" ), _( "Filter" )
-        }
-    };
     int ret = -1;
+    std::vector<construction_category> construct_cat;
+    construct_cat = construction_categories::get_all();
+
     bool update_info = true;
     bool update_cat = true;
     bool isnew = true;
@@ -252,7 +248,7 @@ int construction_menu( bool blueprint )
     int select = 0;
     int offset = 0;
     bool exit = false;
-    std::string category_name;
+    construction_category_id category_id;
     std::vector<std::string> constructs;
     //storage for the color text so it can be scrolled
     std::vector< std::vector < std::string > > construct_buffers;
@@ -280,48 +276,18 @@ int construction_menu( bool blueprint )
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
 
+    static const int tabcount = static_cast<int>( construction_category::count() );
+
     std::string filter;
     int previous_index = 0;
     do {
         if( update_cat ) {
             update_cat = false;
-            switch( tabindex ) {
-                case 0:
-                    category_name = "ALL";
-                    break;
-                case 1:
-                    category_name = "CONSTRUCT";
-                    break;
-                case 2:
-                    category_name = "FURN";
-                    break;
-                case 3:
-                    category_name = "DIG";
-                    break;
-                case 4:
-                    category_name = "REPAIR";
-                    break;
-                case 5:
-                    category_name = "REINFORCE";
-                    break;
-                case 6:
-                    category_name = "DECORATE";
-                    break;
-                case 7:
-                    category_name = "FARM_WOOD";
-                    break;
-                case 8:
-                    category_name = "OTHER";
-                    break;
-                case 9:
-                    category_name = "FILTER";
-                    break;
-            }
-
-            if( category_name == "ALL" ) {
+            category_id = construction_categories::get_all()[tabindex].id;
+            if( category_id == "ALL" ) {
                 constructs = available;
                 previous_index = tabindex;
-            } else if( category_name == "FILTER" ) {
+            } else if( category_id == "FILTER" ) {
                 constructs.clear();
                 previous_select = -1;
                 std::copy_if( available.begin(), available.end(),
@@ -330,7 +296,7 @@ int construction_menu( bool blueprint )
                     return lcmatch( _( a ), filter );
                 } );
             } else {
-                constructs = cat_available[category_name];
+                constructs = cat_available[category_id];
                 previous_index = tabindex;
             }
             if( isnew ) {
@@ -348,7 +314,7 @@ int construction_menu( bool blueprint )
         mvwhline( w_con, 1, 1, ' ', w_list_width );
         werase( w_list );
         // Print new tab listing
-        mvwprintz( w_con, 1, 1, c_yellow, "<< %s >>", construct_cat[tabindex] );
+        mvwprintz( w_con, 1, 1, c_yellow, "<< %s >>", _( construct_cat[tabindex].name ) );
         // Determine where in the master list to start printing
         calcStartPos( offset, select, w_list_height, constructs.size() );
         // Print the constructions between offset and max (or how many will fit)
@@ -623,9 +589,9 @@ int construction_menu( bool blueprint )
             if( !filter.empty() ) {
                 update_info = true;
                 update_cat = true;
-                tabindex = 9;
+                tabindex = tabcount - 1;
                 select = 0;
-            } else if( previous_index != 9 ) {
+            } else if( previous_index != tabcount - 1 ) {
                 tabindex = previous_index;
                 update_info = true;
                 update_cat = true;
@@ -1354,7 +1320,7 @@ void load_construction( JsonObject &jo )
         con.required_skills[ legacy_skill ] = legacy_diff;
     }
 
-    con.category = jo.get_string( "category", "OTHER" );
+    con.category = construction_category_id( jo.get_string( "category", "OTHER" ) );
     if( jo.has_int( "time" ) ) {
         con.time = to_moves<int>( time_duration::from_minutes( jo.get_int( "time" ) ) );
     } else if( jo.has_string( "time" ) ) {
@@ -1558,6 +1524,17 @@ void finalize_constructions()
     for( construction &con : constructions ) {
         if( con.vehicle_start ) {
             const_cast<requirement_data &>( con.requirements.obj() ).get_components().push_back( frame_items );
+        }
+        bool is_valid_construction_category = false;
+        for( const construction_category &cc : construction_categories::get_all() ) {
+            if( con.category == cc.id ) {
+                is_valid_construction_category = true;
+                break;
+            }
+        }
+        if( !is_valid_construction_category ) {
+            debugmsg( "Invalid construction category (%s) defined for construction (%s)", con.category.str(),
+                      con.description );
         }
     }
 
