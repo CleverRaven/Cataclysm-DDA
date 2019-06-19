@@ -1542,6 +1542,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "landscapingsupplyco_1b_roof",
+    "copy-from": "generic_city_building",
+    "name": "landscaping supply co roof",
+    "sym": "L",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_vfw",
     "copy-from": "generic_city_building",
     "name": "veterans of foreign wars",
