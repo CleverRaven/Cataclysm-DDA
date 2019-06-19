@@ -123,6 +123,9 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "LOOT_ARTIFACTS" ),
                    zone_type( translate_marker( "Loot: Artifacts" ),
                               translate_marker( "Destination for artifacts" ) ) );
+    types.emplace( zone_type_id( "LOOT_CORPSE" ),
+                   zone_type( translate_marker( "Loot: Corpses" ),
+                              translate_marker( "Destination for corpses" ) ) );
     types.emplace( zone_type_id( "LOOT_ARMOR" ),
                    zone_type( translate_marker( "Loot: Armor" ),
                               translate_marker( "Destination for armor. Does include filthy armor if such zone is not specified." ) ) );
@@ -148,6 +151,12 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "FARM_PLOT" ),
                    zone_type( translate_marker( "Farm: Plot" ),
                               translate_marker( "Designate a farm plot for tilling and planting." ) ) );
+    types.emplace( zone_type_id( "CHOP_TREES" ),
+                   zone_type( translate_marker( "Chop Trees" ),
+                              translate_marker( "Designate an area to chop down trees." ) ) );
+    types.emplace( zone_type_id( "FISHING_SPOT" ),
+                   zone_type( translate_marker( "Fishing Spot" ),
+                              translate_marker( "Designate an area to fish from." ) ) );
     types.emplace( zone_type_id( "CAMP_FOOD" ),
                    zone_type( translate_marker( "Basecamp: Food" ),
                               translate_marker( "Items in this zone will be added to a basecamp's food supply in the Distribute Food mission." ) ) );
@@ -831,6 +840,11 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
     if( it.has_flag( "FIREWOOD" ) ) {
         if( has_near( zone_type_id( "LOOT_WOOD" ), where, range ) ) {
             return zone_type_id( "LOOT_WOOD" );
+        }
+    }
+    if( it.is_corpse() ) {
+        if( has_near( zone_type_id( "LOOT_CORPSE" ), where, range ) ) {
+            return zone_type_id( "LOOT_CORPSE" );
         }
     }
 

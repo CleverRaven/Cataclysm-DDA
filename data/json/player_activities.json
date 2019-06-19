@@ -24,11 +24,57 @@
     "based_on": "neither"
   },
   {
+<<<<<<< HEAD
     "id": "ACT_TIDY_UP",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
     "verb": "tidying up",
     "based_on": "neither"
+=======
+    "id": "ACT_MULTIPLE_CHOP_PLANKS",
+    "type": "activity_type",
+    "activity_level": "EXTRA_EXERCISE",
+    "verb": "chopping logs",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_MULTIPLE_BUTCHER",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "butchering",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_MULTIPLE_CHOP_TREES",
+    "type": "activity_type",
+    "activity_level": "EXTRA_EXERCISE",
+    "verb": "chopping trees",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_MULTIPLE_FISH",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "fishing",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_TIDY_UP",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "tidying up",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+>>>>>>> 2c691add2d... initial attempt
   },
   {
     "id": "ACT_GAME",
