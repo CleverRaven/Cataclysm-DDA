@@ -712,11 +712,7 @@
     "time": "60 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "DRILL", "level": 1 } ],
-    "components": [
-      [ [ "stick", 1 ], [ "2x4", 1 ] ],
-      [ [ "sheet_metal", 1 ] ],
-      [ [ "nail", 6 ], [ "wire", 4 ] ]
-    ]
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "sheet_metal", 1 ] ], [ [ "nail", 6 ], [ "wire", 4 ] ] ]
   },
   {
     "type": "recipe",
