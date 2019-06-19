@@ -119,6 +119,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_PICKUP" ), pickup_do_turn },
     { activity_id( "ACT_WEAR" ), wear_do_turn },
     { activity_id( "ACT_MULTIPLE_CONSTRUCTION" ), multiple_construction_do_turn },
+    { activity_id( "ACT_BLUEPRINT_CONSTRUCTION" ), blueprint_construction_do_turn },
     { activity_id( "ACT_BUILD" ), build_do_turn },
     { activity_id( "ACT_EAT_MENU" ), eat_menu_do_turn },
     { activity_id( "ACT_CONSUME_FOOD_MENU" ), consume_food_menu_do_turn },
@@ -2921,6 +2922,11 @@ void activity_handlers::multiple_construction_do_turn( player_activity *act, pla
         guy->current_activity.clear();
         guy->revert_after_activity();
     }
+}
+
+void activity_handlers::blueprint_construction_do_turn( player_activity *act, player *p )
+{
+    activity_on_turn_blueprint_move( *act, *p );
 }
 
 void activity_handlers::craft_do_turn( player_activity *act, player *p )

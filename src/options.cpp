@@ -719,7 +719,7 @@ void options_manager::cOpt::setNext()
         }
 
     } else if( sType == "int_map" ) {
-        long unsigned int iNext = getIntPos( iSet ) + 1;
+        unsigned int iNext = getIntPos( iSet ) + 1;
         if( iNext >= mIntValues.size() ) {
             iNext = 0;
         }

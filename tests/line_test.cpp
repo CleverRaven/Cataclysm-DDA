@@ -1,3 +1,4 @@
+#include <inttypes.h>
 #include <time.h>
 #include <chrono>
 #include <cstdio>
@@ -316,14 +317,14 @@ static void line_to_comparison( const int iterations )
         const int y2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
         const int t1 = 0;
         const int t2 = 0;
-        long count1 = 0;
+        int count1 = 0;
         const auto start1 = std::chrono::high_resolution_clock::now();
         while( count1 < iterations ) {
             line_to( x1, y1, x2, y2, t1 );
             count1++;
         }
         const auto end1 = std::chrono::high_resolution_clock::now();
-        long count2 = 0;
+        int count2 = 0;
         const auto start2 = std::chrono::high_resolution_clock::now();
         while( count2 < iterations ) {
             canonical_line_to( x1, y1, x2, y2, t2 );
@@ -332,12 +333,14 @@ static void line_to_comparison( const int iterations )
         const auto end2 = std::chrono::high_resolution_clock::now();
 
         if( iterations > 1 ) {
-            const long diff1 = std::chrono::duration_cast<std::chrono::microseconds>( end1 - start1 ).count();
-            const long diff2 = std::chrono::duration_cast<std::chrono::microseconds>( end2 - start2 ).count();
+            const long long diff1 =
+                std::chrono::duration_cast<std::chrono::microseconds>( end1 - start1 ).count();
+            const long long diff2 =
+                std::chrono::duration_cast<std::chrono::microseconds>( end2 - start2 ).count();
 
-            printf( "line_to() executed %d times in %ld microseconds.\n",
+            printf( "line_to() executed %d times in %lld microseconds.\n",
                     iterations, diff1 );
-            printf( "canonical_line_to() executed %d times in %ld microseconds.\n",
+            printf( "canonical_line_to() executed %d times in %lld microseconds.\n",
                     iterations, diff2 );
         }
     }

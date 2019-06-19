@@ -907,6 +907,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_music_roof",
+    "copy-from": "generic_city_building",
+    "name": "music store roof",
+    "sym": "m",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "megastore_entrance",
     "name": "megastore",
     "sym": "+",
@@ -1542,6 +1550,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "landscapingsupplyco_1b_roof",
+    "copy-from": "generic_city_building",
+    "name": "landscaping supply co roof",
+    "sym": "L",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_vfw",
     "copy-from": "generic_city_building",
     "name": "veterans of foreign wars",
@@ -1682,6 +1698,27 @@
     "type": "overmap_terrain",
     "id": "s_laundromat",
     "name": "laundromat",
+    "copy-from": "generic_city_building",
+    "color": "white_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_laundromat_roof",
+    "name": "laundromat roof",
+    "copy-from": "generic_city_building",
+    "color": "white_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_laundromat_1",
+    "name": "laundromat",
+    "copy-from": "generic_city_building",
+    "color": "white_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_laundromat_roof_1",
+    "name": "laundromat roof",
     "copy-from": "generic_city_building",
     "color": "white_white"
   },

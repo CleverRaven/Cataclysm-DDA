@@ -340,7 +340,7 @@ class mission
         const mission_type &get_type() const;
         bool has_follow_up() const;
         mission_type_id get_follow_up() const;
-        long get_value() const;
+        int get_value() const;
         int get_id() const;
         const std::string &get_item_id() const;
         int get_npc_id() const;

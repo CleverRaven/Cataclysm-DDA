@@ -785,9 +785,23 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
     }
     if( !force && sp->spell_class != trait_id( "NONE" ) ) {
         if( can_learn_spell( p, sp->id ) && !p.has_trait( sp->spell_class ) ) {
+            std::string trait_cancel;
+            for( const trait_id &cancel : sp->spell_class->cancels ) {
+                if( cancel == sp->spell_class->cancels.back() &&
+                    sp->spell_class->cancels.back() != sp->spell_class->cancels.front() ) {
+                    trait_cancel = string_format( "%s and %s", trait_cancel, cancel->name() );
+                } else if( cancel == sp->spell_class->cancels.front() ) {
+                    trait_cancel = cancel->name();
+                } else {
+                    trait_cancel = string_format( "%s, %s", trait_cancel, cancel->name() );
+                }
+                if( cancel == sp->spell_class->cancels.back() ) {
+                    trait_cancel += ".";
+                }
+            }
             if( query_yn(
-                    _( "Learning this spell will make you a %s and lock you out of other unique spells.\nContinue?" ),
-                    sp->spell_class.obj().name() ) ) {
+                    _( "Learning this spell will make you a %s and lock you out of %s\nContinue?" ),
+                    sp->spell_class.obj().name(), trait_cancel ) ) {
                 p.set_mutation( sp->spell_class );
                 p.add_msg_if_player( sp->spell_class.obj().desc() );
             } else {

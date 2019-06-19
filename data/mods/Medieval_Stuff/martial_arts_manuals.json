@@ -5,7 +5,8 @@
     "type": "GENERIC",
     "name": "The Medieval Warrior",
     "name_plural": "The Medieval Warrior",
-    "description": "A complete guide to Medieval Swordsmanship."
+    "description": "A complete guide to Medieval Swordsmanship.",
+    "book_data": { "martial_art": "style_swordsmanship" }
   },
   {
     "id": "book_martial",
