@@ -35,7 +35,7 @@
         "    |.b.b.b....c...|    ",
         "    |||.b.b....c...|    ",
         "    |*=........c..x|    ",
-        "    |----:----:----|    "
+        "    |----:--+-:----|    "
       ],
       "palettes": [ "shelter" ],
       "items": { "l": { "item": "shelter_supplies", "chance": 20, "repeat": [ 0, 1 ] } },
@@ -127,7 +127,7 @@
         "    |.b.b.b...c|..l|    ",
         "    |.b.b.b...c|>.l|    ",
         "    |..........|>.l|    ",
-        "    |----:----:----|    "
+        "    |----:--+-:----|    "
       ],
       "palettes": [ "shelter" ],
       "items": { "l": { "item": "shelter_supplies", "chance": 20, "repeat": [ 0, 1 ] } },
@@ -219,7 +219,7 @@
         "    |..c..b..b..c..|    ",
         "    |6....b..b....x|    ",
         "    |--|........|--|    ",
-        "       |-:----:-|       "
+        "       |-:--+-:-|       "
       ],
       "palettes": [ "shelter" ],
       "items": { "l": { "item": "shelter_supplies", "chance": 20, "repeat": [ 0, 1 ] } },
