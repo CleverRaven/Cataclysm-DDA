@@ -3673,6 +3673,7 @@ void player::healall( int dam )
 {
     for( int healed_part = 0; healed_part < num_hp_parts; healed_part++ ) {
         heal( static_cast<hp_part>( healed_part ), dam );
+        healed_bp( healed_part, dam );
     }
 }
 
