@@ -5477,8 +5477,7 @@ void player::suffer()
 
                     std::string i_talk_w;
                     bool does_talk = false;
-                    if( !mons.empty() &&
-                        one_turn_in( 12_minutes ) ) {
+                    if( !mons.empty() && one_turn_in( 12_minutes ) ) {
                         std::vector<std::string> mon_near{ _( "Hey, let's go kill that %1$s!" ),
                                                            _( "Did you see that %1$s!?" ),
                                                            _( "I want to kill that %1$s!" ),
@@ -5500,8 +5499,7 @@ void player::suffer()
                             i_talk_w = string_format( talk_w, random_entry_ref( seen_mons ) );
                             does_talk = true;
                         }
-                    } else if( has_effect( effect_bleed ) &&
-                               one_turn_in( 5_minutes ) ) {
+                    } else if( has_effect( effect_bleed ) && one_turn_in( 5_minutes ) ) {
                         std::vector<std::string> bleeding{ _( "Hey, you're bleeding." ),
                                                            _( "Your wound looks pretty bad." ),
                                                            _( "Shouldn't you put a bandage on that?" ),
@@ -5512,8 +5510,7 @@ void player::suffer()
                                                            _( "Kill a few more before you bleed out!" ) };
                         i_talk_w = random_entry_ref( bleeding );
                         does_talk = true;
-                    } else if( weapon.damage() >= weapon.max_damage() / 3 &&
-                               one_turn_in( 1_hours ) ) {
+                    } else if( weapon.damage() >= weapon.max_damage() / 3 && one_turn_in( 1_hours ) ) {
                         std::vector<std::string> damaged{ _( "Hey fix me up." ),
                                                           _( "I need healing!" ),
                                                           _( "I hurt all over..." ),
@@ -5897,12 +5894,10 @@ void player::suffer()
         g->m.add_field( pos(), fd_web, 1 ); //this adds density to if its not already there.
     }
 
-    if( has_trait( trait_UNSTABLE ) && !has_trait( trait_CHAOTIC_BAD ) &&
-        one_turn_in( 48_hours ) ) {
+    if( has_trait( trait_UNSTABLE ) && !has_trait( trait_CHAOTIC_BAD ) && one_turn_in( 48_hours ) ) {
         mutate();
     }
-    if( ( has_trait( trait_CHAOTIC ) || has_trait( trait_CHAOTIC_BAD ) ) &&
-        one_turn_in( 12_hours ) ) {
+    if( ( has_trait( trait_CHAOTIC ) || has_trait( trait_CHAOTIC_BAD ) ) && one_turn_in( 12_hours ) ) {
         mutate();
     }
     if( has_artifact_with( AEP_MUTAGENIC ) && one_turn_in( 48_hours ) ) {
@@ -6100,8 +6095,7 @@ void player::suffer()
     }
 
     // Negative bionics effects
-    if( has_bionic( bio_dis_shock ) && one_turn_in( 2_hours ) &&
-        !has_effect( effect_narcosis ) ) {
+    if( has_bionic( bio_dis_shock ) && one_turn_in( 2_hours ) && !has_effect( effect_narcosis ) ) {
         add_msg_if_player( m_bad, _( "You suffer a painful electrical discharge!" ) );
         mod_pain( 1 );
         moves -= 150;
@@ -6172,15 +6166,13 @@ void player::suffer()
     if( has_bionic( bio_sleepy ) && one_turn_in( 50_minutes ) && !in_sleep_state() ) {
         mod_fatigue( 1 );
     }
-    if( has_bionic( bio_itchy ) && one_turn_in( 50_minutes ) &&
-        !has_effect( effect_formication ) &&
+    if( has_bionic( bio_itchy ) && one_turn_in( 50_minutes ) && !has_effect( effect_formication ) &&
         !has_effect( effect_narcosis ) ) {
         add_msg_if_player( m_bad, _( "Your malfunctioning bionic itches!" ) );
         body_part bp = random_body_part( true );
         add_effect( effect_formication, 10_minutes, bp );
     }
-    if( has_bionic( bio_glowy ) && !has_effect( effect_glowy_led ) &&
-        one_turn_in( 50_minutes ) &&
+    if( has_bionic( bio_glowy ) && !has_effect( effect_glowy_led ) && one_turn_in( 50_minutes ) &&
         power_level > 1 ) {
         add_msg_if_player( m_bad, _( "Your malfunctioning bionic starts to glow!" ) );
         add_effect( effect_glowy_led, 5_minutes );
