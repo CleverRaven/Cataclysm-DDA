@@ -73,8 +73,9 @@ static bool check_nothing( const tripoint & )
 bool check_empty( const tripoint & ); // tile is empty
 bool check_support( const tripoint & ); // at least two orthogonal supports
 bool check_deconstruct( const tripoint & ); // either terrain or furniture must be deconstructible
-bool check_up_OK( const tripoint & ); // tile is empty and you're not on the surface
-bool check_down_OK( const tripoint & ); // tile is empty and you're not on z-10 already
+bool check_empty_up_OK( const tripoint & ); // tile is empty and below OVERMAP_HEIGHT
+bool check_up_OK( const tripoint & ); // tile is below OVERMAP_HEIGHT
+bool check_down_OK( const tripoint & ); // tile is above OVERMAP_DEPTH
 bool check_no_trap( const tripoint & );
 
 // Special actions to be run post-terrain-mod
@@ -87,6 +88,7 @@ void done_digormine_stair( const tripoint &, bool );
 void done_dig_stair( const tripoint & );
 void done_mine_downstair( const tripoint & );
 void done_mine_upstair( const tripoint & );
+void done_wood_stairs( const tripoint & );
 void done_window_curtains( const tripoint & );
 void done_extract_maybe_revert_to_dirt( const tripoint & );
 void done_mark_firewood( const tripoint & );
@@ -94,16 +96,15 @@ void done_mark_practice_target( const tripoint & );
 
 void failure_standard( const tripoint & );
 void failure_deconstruct( const tripoint & );
-}
+} // namespace construct
+
+std::vector<construction> constructions;
 
 // Helper functions, nobody but us needs to call these.
 static bool can_construct( const std::string &desc );
 static bool can_construct( const construction &con );
-static bool player_can_build( player &p, const inventory &inv, const construction &con );
 static bool player_can_build( player &p, const inventory &inv, const std::string &desc );
 static void place_construction( const std::string &desc );
-
-std::vector<construction> constructions;
 
 // Color standardization for string streams
 static const deferred_color color_title = def_c_light_red; //color for titles
@@ -201,7 +202,7 @@ const std::vector<construction> &get_constructions()
     return constructions;
 }
 
-void construction_menu()
+int construction_menu( bool blueprint )
 {
     static bool hide_unconstructable = false;
     // only display constructions the player can theoretically perform
@@ -211,7 +212,7 @@ void construction_menu()
 
     if( available.empty() ) {
         popup( _( "You can not construct anything here." ) );
-        return;
+        return -1;
     }
 
     int w_height = TERMY;
@@ -243,7 +244,7 @@ void construction_menu()
             _( "Others" ), _( "Filter" )
         }
     };
-
+    int ret = -1;
     bool update_info = true;
     bool update_cat = true;
     bool isnew = true;
@@ -690,14 +691,28 @@ void construction_menu()
                 // Nothing to be done here
                 continue;
             }
-            if( player_can_build( g->u, total_inv, constructs[select] ) ) {
-                place_construction( constructs[select] );
-                uistate.last_construction = constructs[select];
-                exit = true;
+            if( !blueprint ) {
+                if( player_can_build( g->u, total_inv, constructs[select] ) ) {
+                    place_construction( constructs[select] );
+                    uistate.last_construction = constructs[select];
+                    exit = true;
+                } else {
+                    popup( _( "You can't build that!" ) );
+                    draw_grid( w_con, w_list_width + w_list_x0 );
+                    update_info = true;
+                }
             } else {
-                popup( _( "You can't build that!" ) );
-                draw_grid( w_con, w_list_width + w_list_x0 );
-                update_info = true;
+                // get the index of the overall constructions list from current_desc
+                const std::vector<construction> &list_constructions = get_constructions();
+                for( int i = 0; i < static_cast<int>( list_constructions.size() ); ++i ) {
+                    if( constructs[select] == list_constructions[i].description ) {
+                        ret = i;
+                        break;
+                    }
+                }
+                exit = true;
+
+
             }
         }
     } while( !exit );
@@ -705,6 +720,7 @@ void construction_menu()
     w_list = catacurses::window();
     w_con = catacurses::window();
     g->refresh_all();
+    return ret;
 }
 
 bool player_can_build( player &p, const inventory &inv, const std::string &desc )
@@ -751,7 +767,7 @@ bool can_construct( const std::string &desc )
     return false;
 }
 
-static bool can_construct( const construction &con, const tripoint &p )
+bool can_construct( const construction &con, const tripoint &p )
 {
     // see if the special pre-function checks out
     bool place_okay = con.pre_special( p );
@@ -970,6 +986,11 @@ bool construct::check_deconstruct( const tripoint &p )
     return g->m.ter( p.x, p.y ).obj().deconstruct.can_do;
 }
 
+bool construct::check_empty_up_OK( const tripoint &p )
+{
+    return check_empty( p ) && check_up_OK( p );
+}
+
 bool construct::check_up_OK( const tripoint & )
 {
     // You're not going above +OVERMAP_HEIGHT.
@@ -1102,7 +1123,7 @@ void construct::done_deconstruct( const tripoint &p )
         } else {
             g->m.furn_set( p, f.deconstruct.furn_set );
         }
-        add_msg( _( "You disassemble the %s." ), f.name() );
+        add_msg( _( "The %s is disassembled." ), f.name() );
         g->m.spawn_items( p, item_group::items_from( f.deconstruct.drop_group, calendar::turn ) );
         // Hack alert.
         // Signs have cosmetics associated with them on the submap since
@@ -1116,6 +1137,14 @@ void construct::done_deconstruct( const tripoint &p )
             add_msg( _( "That %s can not be disassembled!" ), t.name() );
             return;
         }
+        if( t.deconstruct.deconstruct_above ) {
+            const tripoint top = p + tripoint( 0, 0, 1 );
+            if( g->m.has_furn( top ) ) {
+                add_msg( _( "That %s can not be dissasembled, since there is furniture above it." ), t.name() );
+                return;
+            }
+            done_deconstruct( top );
+        }
         if( t.id == "t_console_broken" )  {
             if( g->u.get_skill_level( skill_electronics ) >= 1 ) {
                 g->u.practice( skill_electronics, 20, 4 );
@@ -1127,7 +1156,7 @@ void construct::done_deconstruct( const tripoint &p )
             }
         }
         g->m.ter_set( p, t.deconstruct.ter_set );
-        add_msg( _( "You disassemble the %s." ), t.name() );
+        add_msg( _( "The %s is disassembled." ), t.name() );
         g->m.spawn_items( p, item_group::items_from( t.deconstruct.drop_group, calendar::turn ) );
     }
 }
@@ -1235,6 +1264,12 @@ void construct::done_mine_upstair( const tripoint &p )
     // We need to write to submap-local coordinates.
     tmpmap.ter_set( local_tmp, t_stairs_down ); // and there's the top half.
     tmpmap.save();
+}
+
+void construct::done_wood_stairs( const tripoint &p )
+{
+    const tripoint top = p + tripoint( 0, 0, 1 );
+    g->m.ter_set( top, ter_id( "t_wood_stairs_down" ) );
 }
 
 void construct::done_window_curtains( const tripoint & )
@@ -1365,6 +1400,7 @@ void load_construction( JsonObject &jo )
             { "check_empty", construct::check_empty },
             { "check_support", construct::check_support },
             { "check_deconstruct", construct::check_deconstruct },
+            { "check_empty_up_OK", construct::check_empty_up_OK },
             { "check_up_OK", construct::check_up_OK },
             { "check_down_OK", construct::check_down_OK },
             { "check_no_trap", construct::check_no_trap }
@@ -1379,6 +1415,7 @@ void load_construction( JsonObject &jo )
             { "done_dig_stair", construct::done_dig_stair },
             { "done_mine_downstair", construct::done_mine_downstair },
             { "done_mine_upstair", construct::done_mine_upstair },
+            { "done_wood_stairs", construct::done_wood_stairs },
             { "done_window_curtains", construct::done_window_curtains },
             { "done_extract_maybe_revert_to_dirt", construct::done_extract_maybe_revert_to_dirt },
             { "done_mark_firewood", construct::done_mark_firewood },

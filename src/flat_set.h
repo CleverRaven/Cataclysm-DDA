@@ -214,6 +214,6 @@ class flat_set : private Compare, Data
         }
 };
 
-}
+} // namespace cata
 
 #endif // CATA_FLAT_SET

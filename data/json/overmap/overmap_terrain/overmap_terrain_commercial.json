@@ -1510,6 +1510,30 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "lancenter_roof",
+    "name": "LAN center roof",
+    "copy-from": "generic_city_building",
+    "sym": "L",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lancenter_1",
+    "name": "LAN center",
+    "copy-from": "generic_city_building",
+    "sym": "L",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lancenter_roof_1",
+    "name": "LAN center roof",
+    "copy-from": "generic_city_building",
+    "sym": "L",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "landscapingsupplyco_1a",
     "copy-from": "generic_city_building",
     "name": "landscaping supply co",
@@ -1679,6 +1703,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_jewelry_roof",
+    "name": "jewelry store roof",
+    "copy-from": "generic_city_building",
+    "sym": "J",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "generic_motel",
     "name": "2-story motel",
     "copy-from": "generic_city_building",
@@ -1752,6 +1784,13 @@
     "type": "overmap_terrain",
     "id": "home_improvement",
     "name": "home improvement store",
+    "copy-from": "generic_city_building",
+    "color": "c_yellow_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "home_improvement_roof",
+    "name": "home improvement store roof",
     "copy-from": "generic_city_building",
     "color": "c_yellow_green"
   },

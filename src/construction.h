@@ -98,8 +98,10 @@ void standardize_construction_times( int time );
 
 void load_construction( JsonObject &jo );
 void reset_constructions();
-void construction_menu();
+int construction_menu( bool blueprint );
 void complete_construction( player *p );
+bool can_construct( const construction &con, const tripoint &p );
+bool player_can_build( player &p, const inventory &inv, const construction &con );
 void check_constructions();
 void finalize_constructions();
 

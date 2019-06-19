@@ -1,11 +1,20 @@
+# Enable some categories of checks and then disable individual ones.
+# The disabled checks that appear as part of the initial alphabetical section
+# enabling categories (e.g. cert-err58-cpp) are ones that do not make sense for
+# this codebase and we do not intend to fix.  The disabled checks appearing
+# thereafter in a separate alphabetical list have yet to be triaged.  We may
+# fix their errors or recategorise them as checks we don't care about.
 Checks: "\
 bugprone-*,\
+cert-*,\
+-cert-err58-cpp,\
 clang-diagnostic-*,\
+cppcoreguidelines-slicing,\
+llvm-namespace-comment,\
 misc-*,\
 modernize-*,\
 performance-*,\
 readability-*,\
--bugprone-forwarding-reference-overload,\
 -bugprone-inaccurate-erase,\
 -bugprone-incorrect-roundings,\
 -bugprone-integer-division,\
@@ -17,6 +26,19 @@ readability-*,\
 -bugprone-undefined-memory-manipulation,\
 -bugprone-unused-return-value,\
 -bugprone-use-after-move,\
+-cert-dcl03-c,\
+-cert-dcl16-c,\
+-cert-dcl21-cpp,\
+-cert-dcl50-cpp,\
+-cert-dcl58-cpp,\
+-cert-dcl59-cpp,\
+-cert-env33-c,\
+-cert-err34-c,\
+-cert-flp30-c,\
+-cert-msc30-c,\
+-cert-msc32-c,\
+-cert-msc50-cpp,\
+-cert-msc51-cpp,\
 -misc-definitions-in-headers,\
 -misc-non-private-member-variables-in-classes,\
 -misc-redundant-expression,\

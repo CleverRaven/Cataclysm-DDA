@@ -217,6 +217,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         p.moves -= moves;
     }
 
+    item obj_copy( it );
     item *obj;
     if( container.empty() ) {
         obj = &it.convert( target );
@@ -243,7 +244,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     if( p.is_worn( *obj ) ) {
         p.reset_encumbrance();
         p.update_bodytemp();
-        p.on_worn_item_transform( *obj );
+        p.on_worn_item_transform( obj_copy, *obj );
     }
     obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
     obj->active = active || obj->item_counter;
@@ -2193,9 +2194,12 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
         return 0;
     }
     std::vector<uilist_entry> uilist_initializer;
+    uilist spellbook_uilist;
+    spellbook_callback sp_cb;
     bool know_it_all = true;
     for( const std::string sp_id_str : spells ) {
         const spell_id sp_id( sp_id_str );
+        sp_cb.add_spell( sp_id );
         const std::string sp_nm = sp_id.obj().name;
         uilist_entry entry( sp_nm );
         if( p.magic.knows_spell( sp_id ) ) {
@@ -2224,7 +2228,16 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
         return 0;
     }
 
-    const int action = uilist( _( "Study a spell:" ), uilist_initializer );
+    spellbook_uilist.entries = uilist_initializer;
+    spellbook_uilist.w_height = 24;
+    spellbook_uilist.w_width = 80;
+    spellbook_uilist.w_x = ( TERMX - spellbook_uilist.w_width ) / 2;
+    spellbook_uilist.w_y = ( TERMY - spellbook_uilist.w_height ) / 2;
+    spellbook_uilist.callback = &sp_cb;
+    spellbook_uilist.title = _( "Study a spell:" );
+    spellbook_uilist.pad_left = 38;
+    spellbook_uilist.query();
+    const int action = spellbook_uilist.ret;
     if( action < 0 ) {
         return 0;
     }

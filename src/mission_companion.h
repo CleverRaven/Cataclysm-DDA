@@ -144,5 +144,5 @@ npc_ptr companion_choose_return( const tripoint &omt_pos, const std::string &rol
 void companion_return( npc &comp );
 //Smash stuff, steal valuables, and change map maker
 std::vector<item *> loot_building( const tripoint &site );
-}
+} // namespace talk_function
 #endif

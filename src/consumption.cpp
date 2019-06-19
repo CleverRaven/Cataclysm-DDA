@@ -80,7 +80,7 @@ const std::map<itype_id, int> plut_charges = {
     { "plut_slurry",       PLUTONIUM_CHARGES / 2 }
 };
 
-}
+} // namespace
 
 int player::stomach_capacity() const
 {
@@ -1089,7 +1089,7 @@ bool player::consume_effects( item &food )
     // Moved here and changed a bit - it was too complex
     // Incredibly minor stuff like this shouldn't require complexity
     if( !is_npc() && has_trait( trait_id( "SLIMESPAWNER" ) ) &&
-        ( get_healthy_kcal() < get_stored_kcal() + 4000 ||
+        ( get_healthy_kcal() < get_stored_kcal() + 4000 &&
           get_thirst() - stomach.get_water() / 5_ml < 40 ) ) {
         add_msg_if_player( m_mixed,
                            _( "You feel as though you're going to split open!  In a good way?" ) );

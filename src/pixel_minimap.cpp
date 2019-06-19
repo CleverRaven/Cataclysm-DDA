@@ -79,7 +79,7 @@ SDL_Color get_critter_color( Creature *critter, int flicker, int mixture )
     return result;
 }
 
-}
+} // namespace
 
 // a texture pool to avoid recreating textures every time player changes their view
 // at most 142 out of 144 textures can be in use due to regular player movement

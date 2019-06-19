@@ -77,6 +77,6 @@ class om_noise_layer_lake : public om_noise_layer
         float noise_at( const point &local_omt_pos ) const override;
 };
 
-}
+} // namespace om_noise
 
 #endif
