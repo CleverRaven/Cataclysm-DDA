@@ -1013,7 +1013,7 @@
   {
     "type": "martial_art",
     "id": "style_medievalpole",
-    "name": "Medieval Polearm Fighting",
+    "name": "Fior Di Battaglia",
     "description": "Medieval Europe's martial techniques for fighting with polearms, great focus is given in countering one's opponent and knocking them down before landing a killing blow",
     "initiate": [ "You set your feet apart and turn your torso slightly.", "%s sets their feet apart and turns their torso slightly." ],
     "arm_block": 99,

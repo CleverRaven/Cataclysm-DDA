@@ -227,8 +227,8 @@
     "id": "manual_medievalpole",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "Historical Polearm Treatise",
+    "name": "Fior Di Battaglia",
     "name_plural": "Historical Polearm Treatise",
-    "description": "A completely translated medieval guide to polearm fighting, there is a chapter about many variations of common polearms... there are even pictures!"
+    "description": "A completely translated medieval guide teaching various techniques with polearms, there is a chapter about many variations of common polearms... there are even pictures!"
   }
 ]
