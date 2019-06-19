@@ -907,6 +907,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_music_roof",
+    "copy-from": "generic_city_building",
+    "name": "music store roof",
+    "sym": "m",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "megastore_entrance",
     "name": "megastore",
     "sym": "+",

@@ -5436,6 +5436,12 @@
     "storage": 3,
     "warmth": 30,
     "material_thickness": 3,
+    "snippet_category": [
+      {
+        "id": "patched",
+        "text": "A jacket made from denim.  Provides decent protection from cuts.  This one is haphazardly covered with patches featuring metal band logos."
+      }
+    ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
@@ -9637,6 +9643,34 @@
       }
     ],
     "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "tshirt_tour",
+    "type": "ARMOR",
+    "copy-from": "tshirt",
+    "name": "tour t-shirt",
+    "description": "A short-sleeved cotton shirt.",
+    "price": 1000,
+    "price_postapoc": 1200,
+    "color": "dark_gray",
+    "snippet_category": [
+      {
+        "id": "death",
+        "text": "A short-sleeved cotton shirt with a death metal band's spidery, indecipherable logo printed on the front."
+      },
+      {
+        "id": "power",
+        "text": "A short-sleeved cotton shirt with a muscle-bound, long-haired man printed on the front.  He is riding a red dragon and wielding a flaming sword with malicious glee."
+      },
+      {
+        "id": "thrash",
+        "text": "A short-sleeved cotton shirt with a gore-spattered, guitar-playing zombie printed on the front.  It's rather tasteless in light of current events."
+      },
+      {
+        "id": "prog",
+        "text": "A short-sleeved cotton shirt with a pattern of complex geometric shapes and transcendental imagery printed on the front."
+      }
+    ]
   },
   {
     "id": "tunic",
