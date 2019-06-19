@@ -486,13 +486,13 @@ void Character::load( JsonObject &data )
     data.read( "power_level", power_level );
     data.read( "max_power_level", max_power_level );
     // Bionic power scale has been changed, savegame version 21 has the new scale
-    if ( savegame_loading_version <= 20 ) {
+    if( savegame_loading_version <= 20 ) {
         power_level *= 25;
         max_power_level *= 25;
     }
 
     // Bionic power should not be negative!
-    if ( power_level < 0 ) {
+    if( power_level < 0 ) {
         power_level = 0;
     }
 }
