@@ -7,7 +7,7 @@ long i1;
 // CHECK-MESSAGES: warning: Variable 'i1' declared as 'long'. Prefer int or int64_t to long. [cata-no-long]
 
 unsigned long i2;
-// CHECK-MESSAGES: warning: Variable 'i2' declared as 'unsigned long'. Prefer unsigned int or uint64_t to unsigned long. [cata-no-long]
+// CHECK-MESSAGES: warning: Variable 'i2' declared as 'unsigned long'. Prefer unsigned int, size_t, or uint64_t to unsigned long. [cata-no-long]
 
 const long i3 = 0;
 // CHECK-MESSAGES: warning: Variable 'i3' declared as 'const long'. Prefer int or int64_t to long. [cata-no-long]

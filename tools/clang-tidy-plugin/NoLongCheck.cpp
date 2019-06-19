@@ -57,7 +57,7 @@ static std::string AlternativesFor( QualType Type )
     if( name == "long" ) {
         return "Prefer int or int64_t to long";
     } else if( name == "unsigned long" ) {
-        return "Prefer unsigned int or uint64_t to unsigned long";
+        return "Prefer unsigned int, size_t, or uint64_t to unsigned long";
     } else {
         return {};
     }
