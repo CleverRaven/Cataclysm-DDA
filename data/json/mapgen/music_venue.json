@@ -130,7 +130,7 @@
         "7": "t_carpet_red"
       }
     },
-    "om_terrain": "music_venue_0",
+    "om_terrain": "music_venue",
     "type": "mapgen",
     "weight": 100
   },
@@ -183,7 +183,7 @@
         }
       ]
     },
-    "om_terrain": "music_venue_0_roof",
+    "om_terrain": "music_venue_roof",
     "type": "mapgen",
     "weight": 100
   },
