@@ -1,0 +1,16 @@
+[
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "flash",
+    "cooldown": 5,
+    "move_cost": 20,
+    "damage_max_instance": [ { "damage_type": "true", "amount": 3 } ],
+    "effects": [ { "id": "blind", "duration": 2 }, { "id": "darkness", "duration": 10 } ],
+    "body_parts": [ [ "EYES", 4 ] ],
+    "hit_dmg_u": "The %1$s flashes you!",
+    "hit_dmg_npc": "The %1$s flashes at <npcname>!",
+    "no_dmg_msg_u": "The %1$s tries to flash you, but fails to.",
+    "no_dmg_msg_npc": "The %1$s tries to flash <npcname>, but fails to."
+  }
+]

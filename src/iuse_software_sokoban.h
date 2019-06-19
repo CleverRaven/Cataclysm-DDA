@@ -2,10 +2,12 @@
 #ifndef SOFTWARE_SOKOBAN_H
 #define SOFTWARE_SOKOBAN_H
 
+#include <cstddef>
+#include <iosfwd>
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
-#include <iosfwd>
+#include <utility>
 
 namespace catacurses
 {
@@ -29,7 +31,7 @@ class sokoban_game
                     sTileOld = " ";
                 }
 
-                cUndo( const int arg_y, const int arg_x, const std::string arg_tile ) {
+                cUndo( const int arg_y, const int arg_x, const std::string &arg_tile ) {
                     iOldY = arg_y;
                     iOldX = arg_x;
                     sTileOld = arg_tile;

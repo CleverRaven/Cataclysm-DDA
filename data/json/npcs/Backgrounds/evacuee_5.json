@@ -1,0 +1,41 @@
+[
+  {
+    "id": "BGSS_EVACUEE_5_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "My Evac shelter got swarmed by some of those bees, the ones the size of dogs.  I took out a few with a two-by-four, but pretty quick I realized it was either head for the hills or get stuck like a pig.  The rest is history.",
+    "//": "TK: In a future iteration, this evacuee might give you directions to a hive.",
+    "responses": [
+      { "text": "Giant bees?  Tell me more.", "topic": "BGSS_EVACUEE_5_BEES" },
+      {
+        "text": "But bees aren't usually aggressive...",
+        "topic": "BGSS_EVACUEE_5_WASPS",
+        "condition": { "u_has_perception": 8 }
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_EVACUEE_5_BEES",
+    "type": "talk_topic",
+    "dynamic_line": "Yeah, I'm sure you've seen them, they're everywhere.  Like something out of an old sci-fi movie.  Some of the others in the evac shelter got stung, it was no joke.  I didn't stick around to see what the lasting effect was though.  I'm not ashamed to admit I ran like a <swear> chicken.",
+    "responses": [
+      {
+        "text": "But bees aren't usually aggressive...  Do you mean wasps?",
+        "topic": "BGSS_EVACUEE_5_WASPS",
+        "condition": { "u_has_perception": 8 }
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_EVACUEE_5_WASPS",
+    "type": "talk_topic",
+    "dynamic_line": "Well, excuse me if I didn't stop to <swear> ask what kind of killer bugs they were.",
+    "responses": [
+      { "text": "Sorry.  Could you tell me more about them?", "topic": "BGSS_EVACUEE_5_BEES" },
+      { "text": "Right.  Sorry.", "topic": "TALK_FRIEND" }
+    ]
+  }
+]

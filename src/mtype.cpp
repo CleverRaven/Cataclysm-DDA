@@ -1,11 +1,18 @@
 #include "mtype.h"
-#include "creature.h"
-#include "translations.h"
-#include "monstergenerator.h"
-#include "mondeath.h"
-#include "field.h"
 
 #include <algorithm>
+#include <cmath>
+
+#include "creature.h"
+#include "field.h"
+#include "item.h"
+#include "itype.h"
+#include "mondeath.h"
+#include "monstergenerator.h"
+#include "translations.h"
+#include "mapdata.h"
+
+struct species_type;
 
 const species_id MOLLUSK( "MOLLUSK" );
 
@@ -17,6 +24,8 @@ mtype::mtype()
     sym = " ";
     color = c_white;
     size = MS_MEDIUM;
+    volume = 62499_ml;
+    weight = 81499_gram;
     mat = { material_id( "flesh" ) };
     phase = SOLID;
     def_chance = 0;
@@ -42,9 +51,11 @@ mtype::mtype()
     harvest = harvest_id::NULL_ID();
     luminance = 0;
     bash_skill = 0;
-    flags.insert( MF_HUMAN );
-    flags.insert( MF_BONES );
-    flags.insert( MF_LEATHER );
+
+    flags
+    .set( MF_HUMAN )
+    .set( MF_BONES )
+    .set( MF_LEATHER );
 }
 
 std::string mtype::nname( unsigned int quantity ) const
@@ -59,21 +70,12 @@ bool mtype::has_special_attack( const std::string &attack_name ) const
 
 bool mtype::has_flag( m_flag flag ) const
 {
-    return bitflags[flag];
+    return flags[flag];
 }
 
-bool mtype::has_flag( const std::string &flag ) const
+void mtype::set_flag( m_flag flag, bool state )
 {
-    return has_flag( MonsterGenerator::generator().m_flag_from_string( flag ) );
-}
-
-void mtype::set_flag( const std::string &flag, bool state )
-{
-    if( state ) {
-        flags.insert( MonsterGenerator::generator().m_flag_from_string( flag ) );
-    } else {
-        flags.erase( MonsterGenerator::generator().m_flag_from_string( flag ) );
-    }
+    flags.set( flag, state );
 }
 
 bool mtype::made_of( const material_id &material ) const
@@ -81,24 +83,35 @@ bool mtype::made_of( const material_id &material ) const
     return std::find( mat.begin(), mat.end(),  material ) != mat.end();
 }
 
-bool mtype::has_anger_trigger( monster_trigger trig ) const
+bool mtype::made_of_any( const std::set<material_id> &materials ) const
 {
-    return bitanger[trig];
+    if( mat.empty() ) {
+        return false;
+    }
+
+    return std::any_of( mat.begin(), mat.end(), [&materials]( const material_id & e ) {
+        return materials.count( e );
+    } );
 }
 
-bool mtype::has_fear_trigger( monster_trigger trig ) const
+bool mtype::has_anger_trigger( mon_trigger trigger ) const
 {
-    return bitfear[trig];
+    return anger[trigger];
 }
 
-bool mtype::has_placate_trigger( monster_trigger trig ) const
+bool mtype::has_fear_trigger( mon_trigger trigger ) const
 {
-    return bitplacate[trig];
+    return fear[trigger];
+}
+
+bool mtype::has_placate_trigger( mon_trigger trigger ) const
+{
+    return placate[trigger];
 }
 
 bool mtype::in_category( const std::string &category ) const
 {
-    return ( categories.find( category ) != categories.end() );
+    return categories.find( category ) != categories.end();
 }
 
 bool mtype::in_species( const species_id &spec ) const
@@ -200,22 +213,20 @@ itype_id mtype::get_meat_itype() const
 
 int mtype::get_meat_chunks_count() const
 {
-    switch( size ) {
-        case MS_TINY:
-            return 1;
-        case MS_SMALL:
-            return 2;
-        case MS_MEDIUM:
-            return 4;
-        case MS_LARGE:
-            return 8;
-        case MS_HUGE:
-            return 16;
-    }
-    return 0;
+    const float ch = to_gram( weight ) * ( 0.40f - 0.02f * log10f( to_gram( weight ) ) );
+    const itype *chunk = item::find_type( get_meat_itype() );
+    return static_cast<int>( ch / to_gram( chunk->weight ) );
 }
 
 std::string mtype::get_description() const
 {
-    return _( description.c_str() );
+    return _( description );
+}
+
+std::string mtype::get_footsteps() const
+{
+    for( const species_id &s : species ) {
+        return s.obj().get_footsteps();
+    }
+    return "footsteps.";
 }

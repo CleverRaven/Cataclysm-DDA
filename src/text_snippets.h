@@ -1,10 +1,10 @@
 #pragma once
-#ifndef TEXT_SNIPPET_H
-#define TEXT_SNIPPET_H
+#ifndef TEXT_SNIPPETS_H
+#define TEXT_SNIPPETS_H
 
 #include <map>
-#include <unordered_map>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 class JsonObject;
@@ -27,7 +27,7 @@ class snippet_library
          * Like @ref assign, but with an explicit seed to the RNG. The seed decides which
          * snippet out of the category is returned (same seed yields same snippet).
          */
-        int assign( const std::string &category, int seed ) const;
+        int assign( const std::string &category, unsigned seed ) const;
         const std::string &get( const int index ) const;
         bool has_category( const std::string &category ) const;
         int get_snippet_by_id( const std::string &id ) const;

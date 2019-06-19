@@ -1,11 +1,16 @@
 #include "bodypart.h"
-#include "anatomy.h"
-#include "translations.h"
-#include "rng.h"
-#include "debug.h"
-#include "generic_factory.h"
+
 #include <map>
 #include <unordered_map>
+#include <set>
+#include <utility>
+#include <vector>
+
+#include "anatomy.h"
+#include "debug.h"
+#include "generic_factory.h"
+#include "translations.h"
+#include "json.h"
 
 side opposite_side( side s )
 {
@@ -37,7 +42,7 @@ side string_to_enum<side>( const std::string &data )
     return string_to_enum_look_up( side_map, data );
 }
 
-}
+} // namespace io
 
 namespace
 {
@@ -46,7 +51,7 @@ generic_factory<body_part_struct> body_part_factory( "body part" );
 
 } // namespace
 
-body_part legacy_id_to_enum( const std::string &legacy_id )
+static body_part legacy_id_to_enum( const std::string &legacy_id )
 {
     static const std::unordered_map<std::string, body_part> body_parts = {
         { "TORSO", bp_torso },
@@ -113,7 +118,7 @@ body_part get_body_part_token( const std::string &id )
     return legacy_id_to_enum( id );
 }
 
-const bodypart_ids &convert_bp( body_part token )
+const bodypart_ids &convert_bp( body_part bp )
 {
     static const std::vector<bodypart_ids> body_parts = {
         bodypart_ids( "torso" ),
@@ -130,15 +135,15 @@ const bodypart_ids &convert_bp( body_part token )
         bodypart_ids( "foot_r" ),
         bodypart_ids( "num_bp" ),
     };
-    if( token > num_bp || token < bp_torso ) {
-        debugmsg( "Invalid body part token %d", token );
+    if( bp > num_bp || bp < bp_torso ) {
+        debugmsg( "Invalid body part token %d", bp );
         return body_parts[ num_bp ];
     }
 
-    return body_parts[( size_t )token];
+    return body_parts[static_cast<size_t>( bp )];
 }
 
-const body_part_struct &get_bp( body_part bp )
+static const body_part_struct &get_bp( body_part bp )
 {
     return convert_bp( bp ).obj();
 }
@@ -153,6 +158,7 @@ void body_part_struct::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "id", id );
 
     mandatory( jo, was_loaded, "name", name );
+    optional( jo, was_loaded, "name_plural", name_multiple );
     mandatory( jo, was_loaded, "heading_singular", name_as_heading_singular );
     mandatory( jo, was_loaded, "heading_plural", name_as_heading_multiple );
     optional( jo, was_loaded, "hp_bar_ui_text", hp_bar_ui_text );
@@ -221,14 +227,19 @@ void body_part_struct::check() const
     }
 }
 
-std::string body_part_name( body_part bp )
+std::string body_part_name( body_part bp, int number )
 {
-    return _( get_bp( bp ).name.c_str() );
+    const auto &bdy = get_bp( bp );
+    return ngettext( bdy.name.c_str(),
+                     bdy.name_multiple.c_str(), number );
 }
 
-std::string body_part_name_accusative( body_part bp )
+std::string body_part_name_accusative( body_part bp, int number )
 {
-    return pgettext( "bodypart_accusative", get_bp( bp ).name.c_str() );
+    const auto &bdy = get_bp( bp );
+    return npgettext( "bodypart_accusative",
+                      bdy.name.c_str(),
+                      bdy.name_multiple.c_str(), number );
 }
 
 std::string body_part_name_as_heading( body_part bp, int number )
@@ -240,13 +251,13 @@ std::string body_part_name_as_heading( body_part bp, int number )
 
 std::string body_part_hp_bar_ui_text( body_part bp )
 {
-    return _( get_bp( bp ).hp_bar_ui_text.c_str() );
+    return _( get_bp( bp ).hp_bar_ui_text );
 }
 
 std::string encumb_text( body_part bp )
 {
     const std::string &txt = get_bp( bp ).encumb_text;
-    return !txt.empty() ? _( txt.c_str() ) : txt;
+    return !txt.empty() ? _( txt ) : txt;
 }
 
 body_part random_body_part( bool main_parts_only )

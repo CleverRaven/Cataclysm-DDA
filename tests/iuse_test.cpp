@@ -1,13 +1,22 @@
-#include "catch/catch.hpp"
+#include <limits.h>
+#include <list>
+#include <memory>
 
+#include "avatar.h"
+#include "catch/catch.hpp"
 #include "game.h"
-#include "iuse.h"
 #include "monster.h"
 #include "mtype.h"
 #include "player.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "enums.h"
+#include "inventory.h"
+#include "item.h"
+#include "string_id.h"
+#include "type_id.h"
 
-
-player &get_sanitized_player( )
+static player &get_sanitized_player( )
 {
     player &dummy = g->u;
 
@@ -49,7 +58,7 @@ TEST_CASE( "use_eyedrops" )
     REQUIRE( test_item_pos == INT_MIN );
 }
 
-monster *find_adjacent_monster( const tripoint &pos )
+static monster *find_adjacent_monster( const tripoint &pos )
 {
     tripoint target = pos;
     for( target.x = pos.x - 1; target.x <= pos.x + 1; target.x++ ) {
@@ -70,7 +79,7 @@ TEST_CASE( "use_manhack" )
     player &dummy = get_sanitized_player();
 
     g->clear_zombies();
-    item &test_item = dummy.i_add( item( "bot_manhack", 0, false ) );
+    item &test_item = dummy.i_add( item( "bot_manhack", 0, item::default_charges_tag{} ) );
 
     int test_item_pos = dummy.inv.position_by_item( &test_item );
     REQUIRE( test_item_pos != INT_MIN );

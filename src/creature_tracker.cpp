@@ -1,19 +1,20 @@
 #include "creature_tracker.h"
-#include "pathfinding.h"
-#include "monster.h"
-#include "mongroup.h"
-#include "string_formatter.h"
-#include "debug.h"
-#include "mtype.h"
-#include "item.h"
 
 #include <algorithm>
+#include <ostream>
+#include <string>
+#include <utility>
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#include "debug.h"
+#include "mongroup.h"
+#include "monster.h"
+#include "mtype.h"
+#include "string_formatter.h"
+#include "type_id.h"
 
-Creature_tracker::Creature_tracker()
-{
-}
+#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+
+Creature_tracker::Creature_tracker() = default;
 
 Creature_tracker::~Creature_tracker() = default;
 
@@ -104,8 +105,8 @@ bool Creature_tracker::update_pos( const monster &critter, const tripoint &new_p
             othermon.die( nullptr );
         } else {
             debugmsg( "update_zombie_pos: wanted to move %s to %d,%d,%d, but new location already has %s",
-                      critter.disp_name().c_str(),
-                      new_pos.x, new_pos.y, new_pos.z, othermon.disp_name().c_str() );
+                      critter.disp_name(),
+                      new_pos.x, new_pos.y, new_pos.z, othermon.disp_name() );
             return false;
         }
     }
@@ -123,14 +124,12 @@ bool Creature_tracker::update_pos( const monster &critter, const tripoint &new_p
         // We're changing the x/y/z coordinates of a zombie that hasn't been added
         // to the game yet. add_zombie() will update monsters_by_location for us.
         debugmsg( "update_zombie_pos: no %s at %d,%d,%d (moving to %d,%d,%d)",
-                  critter.disp_name().c_str(),
+                  critter.disp_name(),
                   old_pos.x, old_pos.y, old_pos.z, new_pos.x, new_pos.y, new_pos.z );
         // Rebuild cache in case the monster actually IS in the game, just bugged
         rebuild_cache();
         return false;
     }
-
-    return false;
 }
 
 void Creature_tracker::remove_from_location_map( const monster &critter )
@@ -151,7 +150,7 @@ void Creature_tracker::remove( const monster &critter )
         return ptr.get() == &critter;
     } );
     if( iter == monsters_list.end() ) {
-        debugmsg( "Tried to remove invalid monster %s", critter.name().c_str() );
+        debugmsg( "Tried to remove invalid monster %s", critter.name() );
         return;
     }
 
@@ -216,13 +215,15 @@ bool Creature_tracker::kill_marked_for_death()
     // been removed, the dying creature could still have a pointer (the killer) to another creature.
     bool monster_is_dead = false;
     for( const auto &mon_ptr : monsters_list ) {
-        monster &critter = *mon_ptr;
-        if( critter.is_dead() ) {
-            dbg( D_INFO ) << string_format( "cleanup_dead: critter %d,%d,%d hp:%d %s",
-                                            critter.posx(), critter.posy(), critter.posz(),
-                                            critter.get_hp(), critter.name().c_str() );
-            critter.die( nullptr );
-            monster_is_dead = true;
+        if( mon_ptr != nullptr ) {
+            monster &critter = *mon_ptr;
+            if( critter.is_dead() ) {
+                dbg( D_INFO ) << string_format( "cleanup_dead: critter %d,%d,%d hp:%d %s",
+                                                critter.posx(), critter.posy(), critter.posz(),
+                                                critter.get_hp(), critter.name() );
+                critter.die( nullptr );
+                monster_is_dead = true;
+            }
         }
     }
 

@@ -1,6 +1,6 @@
-# This message may be 21 lines long at maximum, but ideally will be less.
-# Max length of a line is 72 characters; the following line is for reference
-########################################################################
+# Max length of a line is 78 characters; the following line is for reference
+# Longer lines will be automatically folded
+##############################################################################
 版本 v0.C Cooper 的主要特點:
 * 怪物互鬥。
 * 瞄準系統修正。
@@ -14,6 +14,6 @@
 
 需要烏日到站最新的新聞與討論，請拜訪:
 首頁: https://cataclysmdda.org
-維基: http://tools.cataclysmdda.com/wiki
+維基: https://cddawiki.chezzo.com/cdda_wiki
 
 在遊戲中你能夠透過說明選單來存取選項(?2)。

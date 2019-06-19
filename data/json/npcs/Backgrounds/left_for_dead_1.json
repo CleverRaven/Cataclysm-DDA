@@ -1,0 +1,8 @@
+[
+  {
+    "id": "BGSS_LEFT_FOR_DEAD_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I was late to evacuate when the shit hit the fan.  Got stuck in town for a few days, survived by hiding in basements eating girl scout cookies and drinking warm root beer.  Eventually I managed to weasel my way out without getting caught by the <zombies>.  I spent a few days holed up in an abandoned mall, but I needed food so I headed out to fend for myself in the woods.  I wasn't doing a great job of it, so I'm kinda glad you showed up.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

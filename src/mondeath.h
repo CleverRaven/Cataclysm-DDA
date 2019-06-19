@@ -7,6 +7,7 @@ class monster;
 namespace mdeath
 {
 void normal( monster &z );        // Drop a body
+void splatter( monster &z );      // Overkill splatter (also part of normal under conditions)
 void acid( monster &z );          // Acid instead of a body
 void boomer( monster &z );        // Explodes in vomit :3
 void boomer_glow( monster &z );   // Explodes in vomit :3
@@ -40,6 +41,7 @@ void detonate( monster &z );      // Take the enemy with you
 void broken_ammo( monster &z );   // Breaks ammo and then itself
 void preg_roach( monster &z );    // Spawns 1-3 roach nymphs
 void fireball( monster &z );      // Explodes in fire
+void conflagration( monster &z ); // Similar to above but bigger and guaranteed.
 
 void gameover( monster &z );      // Game over!  Defense mode
 } //namespace mdeath

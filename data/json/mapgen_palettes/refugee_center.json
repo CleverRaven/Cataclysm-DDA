@@ -1,0 +1,82 @@
+[
+  {
+    "type": "palette",
+    "id": "evac_center",
+    "terrain": {
+      " ": "t_floor",
+      "'": "t_thconc_floor",
+      "#": "t_brick_wall",
+      "%": "t_shrub",
+      "+": "t_rdoor_c",
+      ",": "t_pavement_y",
+      ".": [ [ "t_grass", 30 ], [ "t_dirt", 10 ], [ "t_grass_dead", 2 ], "t_shrub" ],
+      "0": "t_door_locked_interior",
+      "1": "t_reinforced_glass_shutter",
+      "2": "t_utility_light",
+      "6": "t_console_broken",
+      "!": "t_fence_barbed",
+      "=": "t_door_metal_locked",
+      ">": "t_stairs_down",
+      "E": "t_elevator",
+      "U": "t_sidewalk",
+      "V": "t_reinforced_glass",
+      "_": "t_pavement",
+      "n": "t_sidewalk",
+      "s": "t_sidewalk",
+      "{": "t_dirt",
+      "}": "t_sidewalk"
+    },
+    "furniture": {
+      ")": "f_wreckage",
+      "@": "f_bed",
+      "D": "f_trashcan",
+      "F": "f_fridge",
+      "H": "f_sofa",
+      "L": "f_locker",
+      "O": "f_oven",
+      "P": "f_indoor_plant",
+      "S": "f_sink",
+      "T": "f_table",
+      "U": "f_statue",
+      "b": "f_bench",
+      "c": "f_counter",
+      "d": "f_dishwasher",
+      "h": "f_chair",
+      "i": "f_filing_cabinet",
+      "k": "f_desk",
+      "l": "f_vending_c",
+      "n": "f_slab",
+      "o": "f_bookcase",
+      "p": "f_cardboard_fort",
+      "r": "f_rack",
+      "t": "f_toilet",
+      "u": "f_utility_shelf",
+      "v": "f_utility_shelf",
+      "z": "f_crate_c",
+      "}": "f_rubble",
+      "~": "f_shower"
+    },
+    "toilets": { "t": {  } }
+  },
+  {
+    "type": "palette",
+    "id": "rc_grounds",
+    "terrain": {
+      "'": [ [ "t_grass", 30 ], [ "t_dirt", 10 ], [ "t_grass_dead", 3 ] ],
+      ",": [ [ "t_pavement_y", 300 ], [ "t_dirt", 2 ], "t_grass_dead" ],
+      ".": [
+        [ "t_grass", 600 ],
+        [ "t_dirt", 200 ],
+        [ "t_grass_dead", 60 ],
+        [ "t_shrub", 15 ],
+        [ "t_tree_young", 10 ],
+        [ "t_tree", 3 ],
+        [ "t_tree_dead", 2 ],
+        "t_water_sh",
+        "t_tree_pine"
+      ],
+      "|": [ [ "t_chainfence", 30 ], [ "t_chainfence_posts", 4 ], [ "t_grass", 2 ], "t_shrub" ],
+      "_": [ [ "t_pavement", 300 ], [ "t_dirt", 2 ], "t_grass_dead" ]
+    }
+  }
+]

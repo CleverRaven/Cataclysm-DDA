@@ -1,40 +1,38 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "3storyD_third",
-        "weight": 250,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_floor",
-            "rows": [
-                "########################",
-                "########################",
-                "#=====##################",
-                "#=<<<=##################",
-                "#=   ========w==w==#####",
-                "#=>>    |dd|      =#####",
-                "#===    |  |  BB  w#####",
-                "###=    |  +  BB  w#####",
-                "###=    |dd|      =#####",
-                "###=    -----+----=#####",
-                "###=            T =#####",
-                "###=         AAAa =#####",
-                "###=L  C          88####",
-                "###=L  Cc         N8####",
-                "###=L  C      a   88####",
-                "###=======w==w==w==rrrr#",
-                "########rrrrrrrrrrrrrrr#",
-                "########rrrrrrrrrrrrrrr#",
-                "########rrrrrrrrrrrrrrr#",
-                "########rrrrrrrrrrrrrrr#",
-                "########rrrrrrrrrrrrrrr#",
-                "########rrrrrrrrrrrrrrr#",
-                "########rrrrrrrrrrrrrrr#",
-                "########################"
-            ],
-            "palettes": [
-               "multistory_house"
-            ]
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "3storyD_third",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "########################",
+        "########################",
+        "#=====##################",
+        "#=<<<=##################",
+        "#=   ========w==w==#####",
+        "#=>>    |dd|      =#####",
+        "#===    |  |  BB  w#####",
+        "###=    |  +  BB  w#####",
+        "###=    |dd|      =#####",
+        "###=    -----+----=#####",
+        "###=            T =#####",
+        "###=         AAAa =#####",
+        "###=L  C          88####",
+        "###=L  Cc         N8####",
+        "###=L  C      a   88####",
+        "###=======w==w==w==rrrr#",
+        "########rrrrrrrrrrrrrrr#",
+        "########rrrrrrrrrrrrrrr#",
+        "########rrrrrrrrrrrrrrr#",
+        "########rrrrrrrrrrrrrrr#",
+        "########rrrrrrrrrrrrrrr#",
+        "########rrrrrrrrrrrrrrr#",
+        "########rrrrrrrrrrrrrrr#",
+        "########################"
+      ],
+      "palettes": [ "multistory_house" ]
     }
+  }
 ]

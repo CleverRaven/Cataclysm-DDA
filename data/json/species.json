@@ -1,81 +1,105 @@
 [
-    {
-        "type" : "SPECIES",
-        "id" : "MAMMAL",
-        "fear_triggers" : ["HURT", "FIRE", "FRIEND_DIED"]
-    },{
-        "type" : "SPECIES",
-        "id" : "AMPHIBIAN",
-        "fear_triggers" : ["HURT", "FIRE"]
-    },{
-        "type" : "SPECIES",
-        "id" : "BIRD",
-        "fear_triggers" : ["HURT", "SOUND"]
-    },{
-        "type" : "SPECIES",
-        "id" : "REPTILE",
-        "fear_triggers" : ["HURT", "FIRE"]
-    },{
-        "type" : "SPECIES",
-        "id" : "FISH",
-        "fear_triggers" : ["HURT", "FRIEND_ATTACKED"]
-    },{
-        "type" : "SPECIES",
-        "id" : "MUTANT",
-        "fear_triggers" : ["FIRE"]
-    },{
-        "type" : "SPECIES",
-        "id" : "NETHER",
-        "fear_triggers" : ["HURT"]
-    },{
-        "type" : "SPECIES",
-        "id" : "BLOB"
-    },{
-        "type" : "SPECIES",
-        "id" : "FUNGUS",
-        "fear_triggers" : ["HURT", "FIRE"]
-    },{
-        "type" : "SPECIES",
-        "id" : "INSECT",
-        "anger_triggers" : ["FRIEND_DIED"],
-        "fear_triggers" : ["HURT", "FIRE"]
-    },{
-        "type" : "SPECIES",
-        "id" : "SPIDER",
-        "anger_triggers" : ["FRIEND_DIED"],
-        "fear_triggers" : ["HURT", "FIRE"]
-    },{
-        "type" : "SPECIES",
-        "id" : "PLANT",
-        "fear_triggers" : ["HURT", "FIRE"]
-    },{
-        "type" : "SPECIES",
-        "id" : "MOLLUSK",
-        "fear_triggers" : ["HURT", "FIRE"]
-    },{
-        "type" : "SPECIES",
-        "id" : "WORM",
-        "fear_triggers" : ["HURT"]
-    },{
-        "type" : "SPECIES",
-        "id" : "ZOMBIE"
-    },{
-        "type" : "SPECIES",
-        "id" : "ROBOT"
-    },{
-        "type" : "SPECIES",
-        "id" : "HORROR"
-    },{
-        "type" : "SPECIES",
-        "id" : "ABERRATION"
-    },{
-        "type" : "SPECIES",
-        "id" : "HALLUCINATION"
-    },{
-        "type" : "SPECIES",
-        "id" : "HUMAN"
-    },{
-        "type" : "SPECIES",
-        "id" : "UNKNOWN"
-    }
+  {
+    "type": "SPECIES",
+    "id": "MAMMAL",
+    "fear_triggers": [ "HURT", "FIRE", "FRIEND_DIED" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "AMPHIBIAN",
+    "fear_triggers": [ "HURT", "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "BIRD",
+    "fear_triggers": [ "HURT", "SOUND" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "REPTILE",
+    "fear_triggers": [ "HURT", "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "FISH",
+    "fear_triggers": [ "HURT", "FRIEND_ATTACKED" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "MUTANT",
+    "fear_triggers": [ "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "NETHER",
+    "fear_triggers": [ "HURT" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "BLOB",
+    "footsteps": "plop."
+  },
+  {
+    "type": "SPECIES",
+    "id": "FUNGUS",
+    "fear_triggers": [ "HURT", "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "INSECT",
+    "anger_triggers": [ "FRIEND_DIED" ],
+    "fear_triggers": [ "HURT", "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "SPIDER",
+    "anger_triggers": [ "FRIEND_DIED" ],
+    "fear_triggers": [ "HURT", "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "PLANT",
+    "fear_triggers": [ "HURT", "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "MOLLUSK",
+    "fear_triggers": [ "HURT", "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "WORM",
+    "footsteps": "rustle.",
+    "fear_triggers": [ "HURT" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "ZOMBIE",
+    "footsteps": "shuffling."
+  },
+  {
+    "type": "SPECIES",
+    "id": "ROBOT",
+    "footsteps": "mechanical whirring."
+  },
+  {
+    "type": "SPECIES",
+    "id": "HORROR"
+  },
+  {
+    "type": "SPECIES",
+    "id": "ABERRATION"
+  },
+  {
+    "type": "SPECIES",
+    "id": "HALLUCINATION"
+  },
+  {
+    "type": "SPECIES",
+    "id": "HUMAN"
+  },
+  {
+    "type": "SPECIES",
+    "id": "UNKNOWN"
+  }
 ]

@@ -3,7 +3,6 @@
 #define CATA_ALGO_H
 
 #include <algorithm>
-#include <functional>
 #include <vector>
 
 namespace algo
@@ -42,6 +41,6 @@ void sort_by_rating( Iterator begin, Iterator end, RatingFunction rating_func )
     } );
 }
 
-}
+} // namespace algo
 
 #endif // CATA_ALGO_H

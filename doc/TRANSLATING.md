@@ -78,6 +78,34 @@ Click on the "Save" button when you are satisfied with your translation.
 
 See [Transifex's documentation][3] for more information.
 
+### Grammatical gender
+
+For NPC dialogue (and potentially other strings) some languages may wish to
+have alternate translations depending on the gender of the conversation
+participants.  This two pieces of initial configuration.
+
+1. The dialogue must have the relevant genders listed in the json file defining
+   it.  See [the NPC docs](NPCs.md).
+2. Each language must specify the genders it wishes to use via the translation
+   of `grammatical gender list`.  This should be a space-separated list of
+   genders used in this language for such translations.  Don't add genders here
+   until you're sure you will need them, because it will make more work for
+   you.  If you need different genders than are currently supported you must
+   add them to the `all_genders` lists in `lang/extract_json_strings.py` and
+   `src/translations.cpp`.
+
+Having done this, the relevant dialogue lines will appear multiple times for
+translation, with different genders specified in the message context.  For
+example, a context of `npc:m` would indicate that the NPC participant in the
+conversation is male.
+
+Because of technical limitations, all supported genders will appear as
+contexts, but you only need to provide translations for the genders listed in
+`grammatical gender list` for your language.
+
+Other parts of the game have various ad hoc solutions to grammatical gender, so
+don't be surprised to see other contexts appearing for other strings.
+
 ### Tips
 
 There are issues specific to Cataclysm: DDA which translators should be aware of.
@@ -116,7 +144,7 @@ string.
 ### Translation Functions
 
 In order to mark a string for translation and to obtain its translation at
-runtime, you should use one of the following three functions.
+runtime, you should use one of the following functions and classes.
 
 String *literals* that are used in any of these functions are automatically
 extracted. Non-literal strings are still translated at run time, but they won't
@@ -137,7 +165,9 @@ add_msg( _( "You drop the %s." ), the_item_name );
 ```
 
 Strings from the JSON files are extracted by the `lang/extract_json_strings.py`
-script, and can be translated at run time using `_()`.
+script, and can be translated at run time using `_()`. If translation context
+is desired for a JSON string, `class translation` can be used instead, which is
+documented below.
 
 #### `pgettext()`
 
@@ -164,6 +194,40 @@ should be used at run time:
 
 ```c++
 const char *translated = ngettext("one zombie", "many zombies", num_of_zombies)
+```
+
+### `translation`
+
+There are times when you want to store a string for translation, maybe with
+translation context; Sometimes you may also want to store a string that needs no
+translation. `class translation` in `translations.h|cpp` offers the above
+functionality in a single wrapper.
+
+```c++
+const translation text = translation( "Context", "Text" );
+```
+
+```c++
+const translation text = translation( "Text without context" );
+```
+
+```c++
+const translation text = no_translation( "This string will not be translated" );
+```
+
+The string can then be translated/retrieved with
+
+```c++
+const std::string translated = text.translated();
+```
+
+`class translation` can also be read from JSON. The method `translation::deserialize()`
+handles deserialization from a `JsonIn` object, so it can be read from JSON
+using the appropriate JSON functions. The corresponding JSON syntax for strings
+with context is as follows:
+
+```JSON
+"name": { "ctxt": "foo", "str": "bar" }
 ```
 
 ### Recommendations
@@ -193,7 +257,7 @@ There are scripts available for these, so usually the process will be as follows
 1. Download the translations in `.po` format.
 2. Put them in `lang/incoming/`, ensuring they are named consistently with the files in `lang/po/`.
 3. Run `lang/update_pot.sh` to update `lang/po/cataclysm-dda.pot`.
-4. Run `lang/merge_po.sh` to update `lang/po/*.po`.
+4. Run `lang/merge_po.sh` to update `lang/po/*.po`. (This is only used to test translations locally as the project now uses Transifex for translation)
 
     This will also merge the translations from `lang/incoming/`.
 

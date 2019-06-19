@@ -1,25 +1,34 @@
 #include "trap.h"
-#include "string_id.h"
-#include "int_id.h"
-#include "generic_factory.h"
-#include "debug.h"
-#include "line.h"
-#include "json.h"
-#include "map_iterator.h"
-#include "map.h"
-#include "debug.h"
-#include "translations.h"
-#include "player.h"
 
 #include <vector>
-#include <memory>
+#include <set>
+
+#include "debug.h"
+#include "generic_factory.h"
+#include "int_id.h"
+#include "json.h"
+#include "line.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "player.h"
+#include "string_id.h"
+#include "translations.h"
+#include "assign.h"
+#include "bodypart.h"
+#include "enums.h"
+#include "item.h"
+#include "itype.h"
+#include "mapdata.h"
+#include "messages.h"
+#include "pldata.h"
+#include "rng.h"
 
 namespace
 {
 
 generic_factory<trap> trap_factory( "trap" );
 
-}
+} // namespace
 
 /** @relates string_id */
 template<>
@@ -101,10 +110,11 @@ void trap::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "visibility", visibility );
     mandatory( jo, was_loaded, "avoidance", avoidance );
     mandatory( jo, was_loaded, "difficulty", difficulty );
-    // @todo: Is there a generic_factory version of this?
+    // TODO: Is there a generic_factory version of this?
     act = trap_function_from_string( jo.get_string( "action" ) );
 
     optional( jo, was_loaded, "benign", benign, false );
+    optional( jo, was_loaded, "always_invisible", always_invisible, false );
     optional( jo, was_loaded, "funnel_radius", funnel_radius_mm, 0 );
     assign( jo, "trigger_weight", trigger_weight );
     optional( jo, was_loaded, "drops", components );
@@ -112,8 +122,7 @@ void trap::load( JsonObject &jo, const std::string & )
 
 std::string trap::name() const
 {
-    // trap names can be empty, those are special always invisible traps. See player::search_surroundings
-    return name_.empty() ? name_ : _( name_.c_str() );
+    return _( name_ );
 }
 
 void trap::reset()
@@ -183,7 +192,7 @@ bool trap::is_funnel() const
 
 bool trap::is_3x3_trap() const
 {
-    // TODO make this a json flag, implement more 3x3 traps.
+    // TODO: make this a json flag, implement more 3x3 traps.
     return id == trap_str_id( "tr_engine" );
 }
 
@@ -210,6 +219,7 @@ void trap::on_disarmed( map &m, const tripoint &p ) const
 trap_id
 tr_null,
 tr_bubblewrap,
+tr_glass,
 tr_cot,
 tr_funnel,
 tr_metal_funnel,
@@ -221,6 +231,7 @@ tr_beartrap,
 tr_beartrap_buried,
 tr_nailboard,
 tr_caltrops,
+tr_caltrops_glass,
 tr_tripwire,
 tr_crossbow,
 tr_shotgun_2,
@@ -274,6 +285,7 @@ void trap::finalize()
     };
     tr_null = trap_str_id::NULL_ID().id();
     tr_bubblewrap = trapfind( "tr_bubblewrap" );
+    tr_glass = trapfind( "tr_glass" );
     tr_cot = trapfind( "tr_cot" );
     tr_funnel = trapfind( "tr_funnel" );
     tr_metal_funnel = trapfind( "tr_metal_funnel" );
@@ -285,6 +297,7 @@ void trap::finalize()
     tr_beartrap_buried = trapfind( "tr_beartrap_buried" );
     tr_nailboard = trapfind( "tr_nailboard" );
     tr_caltrops = trapfind( "tr_caltrops" );
+    tr_caltrops_glass = trapfind( "tr_caltrops_glass" );
     tr_tripwire = trapfind( "tr_tripwire" );
     tr_crossbow = trapfind( "tr_crossbow" );
     tr_shotgun_2 = trapfind( "tr_shotgun_2" );

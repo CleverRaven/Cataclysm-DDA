@@ -92,12 +92,21 @@ http://www.stack.nl/~dimitri/doxygen/manual/faq.html
         $ git clone https://github.com/YOUR_USERNAME/Cataclysm-DDA.git
         # Clones your fork of the repository into the current directory in terminal
 
-3. Add this repository as a remote.
+3. Set commit message template.
+
+        $ git config --local commit.template .gitmessage
+
+4. Add this repository as a remote.
 
         $ cd Cataclysm-DDA
         # Changes the active directory in the prompt to the newly cloned "Cataclysm-DDA" directory
         $ git remote add -f upstream https://github.com/CleverRaven/Cataclysm-DDA.git
         # Assigns the original repository to a remote called "upstream"
+
+For further details about commit message guidelines please visit:
+- [codeinthehole.com](https://codeinthehole.com/tips/a-useful-template-for-commit-messages/)
+- [chris.beams.io](https://chris.beams.io/posts/git-commit/)
+- [help.github.com](https://help.github.com/articles/closing-issues-using-keywords/)
 
 #### Update your `master` branch
 
@@ -140,6 +149,21 @@ If you are also looking for suggestions then mark it with [CR] — "comments req
 
 This can help speed up our review process by allowing us to only review the things that are ready for it, and will prevent anything that isn't completely ready from being merged in.
 
+### All PRs should have a "Summary" line
+Summary is a one-line description of your change that will be extracted and added to the project changelog at https://github.com/CleverRaven/Cataclysm-DDA/blob/master/data/changelog.txt
+
+The format is: ```SUMMARY: Category "description"```
+
+The categories to choose from are: Features, Content, Interface, Mods, Balance, Bugfixes, Performance, Infrastructure, Build, I18N.
+
+Example: ```SUMMARY: Content "Adds new mutation category 'Mouse'"```
+Or, if you want it treated as a minor tweak that doesn't appear in the changelog:
+```SUMMARY: None```
+
+See the Changelog Guidelines at https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/CHANGELOG_GUIDELINES.md for explanations of the categories.
+
+### Closing issues using keywords
+
 One more thing: when marking your PR as closing, fixing, or resolving issues, please include "XXXX #???" somewhere in the description, where XXX is on this list:
 * close
 * closes
@@ -152,6 +176,12 @@ One more thing: when marking your PR as closing, fixing, or resolving issues, pl
 * resolved
 
 The "???" is the issue number. This automatically closes the issue when the PR is pulled in, and allows merges to work slightly faster. To close multiple issues format it as "XXXX #???, XXXX#???".
+
+See https://help.github.com/articles/closing-issues-using-keywords/ for more.
+
+## Tooling support
+
+Various tools are available to help you keep your contributions conforming to the appropriate style.  See [the relevant docs](../doc/DEVELOPER_TOOLING.md) for more details.
 
 ## Advanced Techniques
 
@@ -195,6 +225,25 @@ You can also set the tracking information at the same time as creating the branc
         ....
         To https://github.com/YOUR_USERNAME/Cataclysm-DDA.git
         xxxx..xxxx  new_feature -> new_feature
+
+## Unit tests
+
+There is a suite of tests built into the source tree at tests/  
+You should run the test suite after ANY change to the game source.  
+An ordinary invocation of ``make`` will build the test executable at tests/cata_test, and it can be invoked like any ordinary executable.  
+With no arguments it will run the entire test suite.  
+With ``--help`` it will print a number of invocation options you can use to adjust its operation.
+
+    $ make
+    ... compilation details ...
+    $ tests/cata_test
+    Starting the actual test at Fri Nov  9 04:37:03 2018
+    ===============================================================================
+    All tests passed (1324684 assertions in 94 test cases)
+    Ended test at Fri Nov  9 04:37:45 2018
+    The test took 41.772 seconds
+
+I recommend habitually invoking make like ``make YOUR BUILD OPTIONS && tests/cata_test``.
 
 ## In-game testing, test environment and the debug menu
 

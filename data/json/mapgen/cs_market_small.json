@@ -1,0 +1,231 @@
+[
+  {
+    "type": "item_group",
+    "id": "m_merch_1",
+    "items": [
+      [ "curry_meat", 20 ],
+      [ "curry_veggy", 20 ],
+      [ "currywurst", 20 ],
+      [ "curry_powder", 20 ],
+      [ "spoon", 20 ],
+      [ "glass", 20 ],
+      [ "chilly-p", 20 ],
+      [ "chili", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "m_merch_2",
+    "items": [
+      [ "technician_pants_gray", 60 ],
+      [ "technician_shirt_gray", 60 ],
+      [ "gloves_work", 20 ],
+      [ "chisel", 20 ],
+      [ "duct_tape", 20 ],
+      [ "hand_drill", 20 ],
+      [ "hammer", 20 ],
+      [ "screwdriver", 20 ],
+      [ "boots_steel", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "m_merch_3",
+    "items": [
+      [ "pot", 20 ],
+      [ "pot_copper", 20 ],
+      [ "pan", 20 ],
+      [ "teapot", 20 ],
+      [ "coffeemaker", 20 ],
+      [ "fork", 20 ],
+      [ "spoon", 20 ],
+      [ "glass", 20 ],
+      [ "ceramic_cup", 20 ],
+      [ "toaster", 20 ],
+      [ "waffleiron", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "m_merch_4",
+    "items": [
+      [ "many_years_old_newspaper", 20 ],
+      [ "years_old_newspaper", 20 ],
+      [ "one_year_old_newspaper", 20 ],
+      [ "months_old_newspaper", 20 ],
+      [ "weeks_old_newspaper", 20 ],
+      [ "newest_newspaper", 20 ],
+      [ "mag_news", 20 ],
+      [ "hat_newsboy", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "m_merch_5",
+    "items": [
+      [ "chilidogs", 20 ],
+      [ "hotdogs_cooked", 20 ],
+      [ "hotdogs_frozen", 20 ],
+      [ "corndogs_cooked", 20 ],
+      [ "corndogs_frozen", 20 ],
+      [ "glass", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "m_merch_6",
+    "items": [
+      [ "fur_cat_ears", 10 ],
+      [ "fur_cat_tail", 10 ],
+      [ "mag_animecon", 20 ],
+      [ "toastem", 20 ],
+      [ "toastem2", 20 ],
+      [ "toastem3", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "m_merch_7",
+    "items": [
+      [ "mag_news", 20 ],
+      [ "mag_electronics", 20 ],
+      [ "mag_tailor", 20 ],
+      [ "mag_porn", 20 ],
+      [ "mag_dude", 20 ],
+      [ "mag_swimming", 20 ],
+      [ "mag_traps", 20 ],
+      [ "mag_fabrication", 20 ],
+      [ "mag_carpentry", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "m_litter",
+    "items": [
+      [ "glass", 20 ],
+      [ "spoon", 20 ],
+      [ "ceramic_plate", 20 ],
+      [ "fork", 20 ],
+      [ "wrapper", 30 ],
+      [ "foon", 10 ],
+      [ "spork", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "m_merch_vending",
+    "items": [
+      [ "water_clean", 100 ],
+      [ "water_mineral", 100 ],
+      [ "coffee", 100 ],
+      [ "atomic_coffee", 100 ],
+      [ "chips", 100 ],
+      [ "chips2", 100 ],
+      [ "chips3", 100 ]
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "cs_market_small" ],
+    "weight": 1000,
+    "object": {
+      "rows": [
+        "........................",
+        ".cc11h.............cccc.",
+        "gc,,1h....bTTb.....4,,cg",
+        ".C,,1h....bTTb.....4,,C.",
+        ".c,,1h....bTTb.....4,,c.",
+        ".ccO1h.............cccc.",
+        "........................",
+        ".ccccA.....YY.....h5Occ.",
+        ".c,,2......DD.....h5,,cg",
+        ".C,,2.............h5,,C.",
+        "gc,,2......DD.....h5,,c.",
+        ".ccccB.....YY.....h55cc.",
+        "........................",
+        ".cccc..............cccc.",
+        "gc,,3.....bTTb.....6,,c.",
+        ".C,,3.....bTTb.....6,,C.",
+        ".c,,3.....bTTb.....6,,c.",
+        ".cccc..............ccccg",
+        "..............gAMM......",
+        "....ccc77777cCccccccc...",
+        "..DDcG,,,,,,,,cV,V,Vc...",
+        "..DDcG,,,,,,,,C,,,V,c...",
+        "%.DDcG,,,,,,,,c,V,,Vc..%",
+        "%%..ccccccccccccccccc.%%"
+      ],
+      "terrain": {
+        "Y": "t_tree",
+        ".": "t_sidewalk",
+        "c": "t_sidewalk",
+        "C": "t_sidewalk",
+        ",": "t_sidewalk",
+        "D": "t_sidewalk",
+        "h": "t_sidewalk",
+        "T": "t_sidewalk",
+        "b": "t_sidewalk",
+        "g": "t_sidewalk",
+        "V": "t_sidewalk",
+        "t": "t_sidewalk",
+        "G": "t_sidewalk",
+        "M": "t_sidewalk",
+        "B": "t_sidewalk",
+        "A": "t_atm",
+        "%": "t_grass",
+        "1": "t_sidewalk",
+        "2": "t_sidewalk",
+        "3": "t_sidewalk",
+        "4": "t_sidewalk",
+        "5": "t_sidewalk",
+        "6": "t_sidewalk",
+        "7": "t_sidewalk",
+        "O": "t_sidewalk"
+      },
+      "furniture": {
+        "c": "f_large_canvas_wall",
+        "C": "f_large_canvas_door",
+        ",": "f_large_groundsheet",
+        "D": "f_dumpster",
+        "h": "f_chair",
+        "T": "f_table",
+        "b": "f_bench",
+        "t": "f_counter",
+        "V": "f_crate_c",
+        "g": "f_trashcan",
+        "G": "f_glass_fridge",
+        "M": "f_vending_c",
+        "B": "f_bulletin",
+        "1": "f_table",
+        "2": "f_displaycase",
+        "3": "f_displaycase",
+        "4": "f_displaycase",
+        "5": "f_table",
+        "6": "f_displaycase",
+        "7": "f_displaycase",
+        "O": "f_oven"
+      },
+      "items": {
+        "D": { "item": "trash", "chance": 50 },
+        "g": { "item": "trash", "chance": 50 },
+        "V": { "item": "behindcounter", "chance": 30 },
+        "1": { "item": "m_merch_1", "chance": 30 },
+        "2": { "item": "m_merch_2", "chance": 30 },
+        "3": { "item": "m_merch_3", "chance": 30 },
+        "4": { "item": "m_merch_4", "chance": 30 },
+        "5": { "item": "m_merch_5", "chance": 30 },
+        "6": { "item": "m_merch_6", "chance": 30 },
+        "7": { "item": "m_merch_7", "chance": 30 },
+        "T": { "item": "m_litter", "chance": 30 },
+        "G": { "item": "behindcounter", "chance": 30 },
+        "M": { "item": "m_merch_vending", "chance": 80 }
+      },
+      "place_items": [
+        { "item": "m_merch_vending", "x": 16, "y": 18, "chance": 80, "repeat": [ 3, 7 ] },
+        { "item": "m_merch_vending", "x": 17, "y": 18, "chance": 80, "repeat": [ 3, 7 ] }
+      ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 15, 19 ], "y": [ 19, 22 ], "repeat": [ 1, 2 ], "chance": 30 } ]
+    }
+  }
+]

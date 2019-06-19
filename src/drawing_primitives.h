@@ -14,5 +14,4 @@ void draw_circle( std::function<void( const int, const int )>set, double x, doub
 
 void draw_circle( std::function<void( const int, const int )>set, int x, int y, int rad );
 
-
 #endif

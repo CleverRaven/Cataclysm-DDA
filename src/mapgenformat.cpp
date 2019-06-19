@@ -1,21 +1,17 @@
 #include "mapgenformat.h"
-#include <iostream>
 
+#include <cctype>
+#include <algorithm>
 #include <string>
 
-#include <cassert>
-#include <stdarg.h>
-#include <algorithm>
-
-#include "output.h"
-#include "mapdata.h"
 #include "map.h"
+#include "mapdata.h"
 
 namespace mapf
 {
 
 void formatted_set_simple( map *m, const int startx, const int starty, const char *cstr,
-                           format_effect<ter_id> ter_b, format_effect<furn_id> furn_b )
+                           const format_effect<ter_id> &ter_b, const format_effect<furn_id> &furn_b )
 {
     const char *p = cstr;
     int x = startx;
@@ -44,7 +40,7 @@ void formatted_set_simple( map *m, const int startx, const int starty, const cha
 }
 
 template<typename ID>
-format_effect<ID>::format_effect( std::string chars, std::vector<ID> dets )
+format_effect<ID>::format_effect( const std::string &chars, std::vector<ID> dets )
     : characters( chars ), determiners( dets )
 {
     characters.erase( std::remove_if( characters.begin(), characters.end(), isspace ),

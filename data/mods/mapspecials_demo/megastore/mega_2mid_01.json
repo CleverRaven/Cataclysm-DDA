@@ -1,0 +1,40 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "mega_2mid",
+    "comment": "second floor. middle area",
+    "weight": 10,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     I            I     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "         ######         ",
+        "         ######         ",
+        "         ######         ",
+        "         ######         ",
+        "         ######         ",
+        "         ######         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     I            I     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "rotation": [ 0, 3 ],
+      "palettes": [ "megastore" ]
+    }
+  }
+]

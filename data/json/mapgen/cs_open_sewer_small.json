@@ -1,0 +1,133 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_SEWER",
+    "default": "mon_zombie_technician",
+    "monsters": [
+      { "monster": "mon_zombie_technician", "freq": 250, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_electric", "freq": 150, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "vehicle",
+    "id": "oa_work_light",
+    "name": "work light",
+    "blueprint": [ "^" ],
+    "parts": [
+      { "x": 0, "y": 0, "part": "xlframe_vertical_2" },
+      { "x": 0, "y": 0, "part": "wheel_caster" },
+      { "x": 0, "y": 0, "part": "small_storage_battery" },
+      { "x": 0, "y": 0, "part": "floodlight" },
+      { "x": 0, "y": 0, "part": "controls_electronic" }
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "os_work_vehicles",
+    "vehicles": [ [ "wheelbarrow", 60 ], [ "portable_generator", 40 ], [ "oa_work_light", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "os_items",
+    "items": [
+      [ "flashlight", 50 ],
+      [ "heavy_flashlight", 40 ],
+      [ "gloves_work", 30 ],
+      [ "gloves_rubber", 60 ],
+      [ "boots_rubber", 60 ],
+      [ "hat_hard", 60 ],
+      [ "shovel", 40 ],
+      [ "jackhammer", 5 ],
+      [ "elec_jackhammer", 5 ],
+      [ "folding_poncho", 40 ],
+      [ "radio", 40 ],
+      [ "well_pump", 10 ],
+      [ "toolbox", 5 ],
+      [ "wrench", 15 ],
+      [ "bag_canvas", 40 ],
+      [ "jumper_cable", 40 ],
+      [ "jumper_cable_heavy", 20 ],
+      [ "glasses_safety", 30 ],
+      [ "crowbar", 15 ],
+      [ "mask_filter", 30 ],
+      [ "electric_lantern", 30 ]
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "cs_open_sewer" ],
+    "weight": 1000,
+    "object": {
+      "rows": [
+        ",,.,,..,.,,.,,..,,.,..,.",
+        ".,bbbb..bbb.,.bbbb,..,b,",
+        ".,...,.,rr,r.,,..,.,.,b.",
+        "b..,.r,r,r,rr,r,,,,,,,b,",
+        "b.,o,,r,rrr,rr,,,,,,,,,,",
+        "b,oo.,r,rrrrr,r,,,w,ww,,",
+        ",b.o,,,,r,r,,r,,,ww,w,,b",
+        ".ooo,,,,,ssssss,wwww,w,b",
+        "..,o,,,,sswwwwwwww,w,w,.",
+        ",b.o,,,sswwwwwwwwwww,,b,",
+        ".b,o,,oooopooowwoopooo,b",
+        ".b.,,,sswwwwwwwwwwsw,o,,",
+        ",,oo,ooooopowwwooopowob.",
+        ".b,.,,,sswwwwwwwwwwo,ob,",
+        "..,oo,oooopoowwoopsosob.",
+        ",ooo,,,,,ssswwwwwoso,ob,",
+        ".b,..,,,,,,sssssso,owooo",
+        ",b,,-DOD-,,,.,,,,o,o,o.,",
+        ".,.,|fff|,.,,,,.oo,ooo,b",
+        ",b.,|fff|,.,.,.,o.,.,o.b",
+        ".b.,|LBB|.,.,,.,o,.,.o.b",
+        ",b,,-----,.,.,.,o.,.,.,.",
+        ",.,,.,.,bbbbb,..,.,..,b.",
+        ",.bbb,.,..,.,..,bbb,bb.,"
+      ],
+      "terrain": {
+        ",": "t_dirt",
+        ".": "t_grass",
+        "o": "t_sewage_pipe",
+        "p": "t_sewage_pump",
+        "w": "t_sewage",
+        "b": "t_dirt",
+        "r": "t_dirt",
+        "s": "t_dirt",
+        "S": "t_dirt",
+        "-": "t_dirt",
+        "|": "t_dirt",
+        "D": "t_dirt",
+        "O": "t_dirt",
+        "f": "t_dirt",
+        "L": "t_dirt",
+        "B": "t_dirt"
+      },
+      "furniture": {
+        "b": "f_barricade_road",
+        "r": "f_rubble",
+        "s": "f_sandbag_half",
+        "S": "f_sandbag_wall",
+        "-": "f_large_canvas_wall",
+        "|": "f_large_canvas_wall",
+        "D": "f_large_canvas_door",
+        "O": "f_large_canvas_door_o",
+        "f": "f_large_groundsheet",
+        "L": "f_locker",
+        "B": "f_bench"
+      },
+      "items": {
+        "r": { "item": "os_items", "chance": 5 },
+        "L": { "item": "os_items", "chance": 60 },
+        "w": { "item": "os_items", "chance": 1 }
+      },
+      "place_vehicles": [
+        { "vehicle": "os_work_vehicles", "chance": 30, "x": 5, "y": 19 },
+        { "vehicle": "os_work_vehicles", "chance": 30, "x": 13, "y": 17 },
+        { "vehicle": "os_work_vehicles", "chance": 30, "x": 6, "y": 7 }
+      ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE_SEWER", "x": 13, "y": 12 } ],
+      "place_signs": [ { "signage": "Caution: Work in Progress", "x": 11, "y": 1 } ]
+    }
+  }
+]

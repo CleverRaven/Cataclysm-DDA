@@ -34,6 +34,13 @@
     "description": "A forge rig made to run off a vehicle's storage battery with integrated tool storage for metalworking equipment."
   },
   {
+    "id": "kilnrig",
+    "copy-from": "vehicle_rig",
+    "type": "GENERIC",
+    "name": "vehicle kiln",
+    "description": "An electric kiln made to run off a vehicle's storage battery."
+  },
+  {
     "id": "kitchen_unit",
     "copy-from": "vehicle_rig",
     "type": "GENERIC",

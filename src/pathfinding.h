@@ -4,8 +4,6 @@
 
 #include "game_constants.h"
 
-class JsonObject;
-
 enum pf_special : char {
     PF_NORMAL = 0x00,    // Plain boring tile (grass, dirt, floor etc.)
     PF_SLOW = 0x01,      // Tile with move cost >2
@@ -45,7 +43,7 @@ struct pathfinding_cache {
 
     bool dirty;
 
-    pf_special special[MAPSIZE * SEEX][MAPSIZE * SEEY];
+    pf_special special[MAPSIZE_X][MAPSIZE_Y];
 };
 
 struct pathfinding_settings {
@@ -60,14 +58,14 @@ struct pathfinding_settings {
 
     bool allow_open_doors = false;
     bool avoid_traps = false;
-
     bool allow_climb_stairs = true;
+    bool avoid_rough_terrain = false;
 
     pathfinding_settings() = default;
     pathfinding_settings( const pathfinding_settings & ) = default;
-    pathfinding_settings( int bs, int md, int ml, int cc, bool aod, bool at, bool acs )
+    pathfinding_settings( int bs, int md, int ml, int cc, bool aod, bool at, bool acs, bool art )
         : bash_strength( bs ), max_dist( md ), max_length( ml ), climb_cost( cc ),
-          allow_open_doors( aod ), avoid_traps( at ), allow_climb_stairs( acs ) {}
+          allow_open_doors( aod ), avoid_traps( at ), allow_climb_stairs( acs ), avoid_rough_terrain( art ) {}
 };
 
 #endif

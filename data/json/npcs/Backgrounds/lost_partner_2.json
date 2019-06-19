@@ -1,0 +1,141 @@
+[
+  {
+    "id": "BGSS_LOST_PARTNER_2_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "npc_has_effect": "player_BGSS_SAIDNO",
+      "yes": "I said, I don't wanna talk about it.  How are you not understanding this?",
+      "no": {
+        "npc_has_effect": "player_BGSS_SAIDYES",
+        "yes": "Like I said, it's a <shitty> story, but I guess it won't kill me to tell it one more time.",
+        "no": "Just another <shitty> tale of love and loss.  Not one I like to tell."
+      }
+    },
+    "responses": [
+      {
+        "text": "It might help to get it off your chest.",
+        "condition": {
+          "and": [ { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } } ]
+        },
+        "trial": { "type": "PERSUADE", "difficulty": 50, "mod": [ [ "TRUST", 2 ], [ "VALUE", 3 ] ] },
+        "success": { "topic": "BGSS_LOST_PARTNER_2_STORY2" },
+        "failure": { "topic": "BGSS_LOST_PARTNER_2_NOTYET" }
+      },
+      {
+        "text": "Suck it up.  If we're going to work together I need to know you.",
+        "condition": {
+          "and": [ { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } } ]
+        },
+        "trial": { "type": "INTIMIDATE", "difficulty": 50, "mod": [ [ "BRAVERY", 2 ], [ "TRUST", 1 ], [ "ANGER", -2 ] ] },
+        "success": { "topic": "BGSS_LOST_PARTNER_2_STORY2" },
+        "failure": { "topic": "BGSS_LOST_PARTNER_2_FUCKOFF" }
+      },
+      {
+        "text": "You said you lost someone.",
+        "condition": { "npc_has_effect": "player_BGSS_SAIDYES" },
+        "topic": "BGSS_LOST_PARTNER_2_STORY3"
+      },
+      { "text": "Never mind.  Sorry I brought it up.", "topic": "TALK_FRIEND" }
+    ]
+  },
+  {
+    "id": "BGSS_LOST_PARTNER_2_NOTYET",
+    "type": "talk_topic",
+    "dynamic_line": "I appreciate the sentiment, but I don't think it would.  Drop it.",
+    "responses": [
+      { "text": "OK.", "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 7000 }, "topic": "TALK_FRIEND" },
+      {
+        "text": "<end_talking>",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 7000 },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "BGSS_LOST_PARTNER_2_FUCKOFF",
+    "type": "talk_topic",
+    "dynamic_line": "Oh, <fuck_you>.  This doesn't have anything to do with you, or with us.",
+    "responses": [ { "text": "...", "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 14000 }, "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BGSS_LOST_PARTNER_2_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": [
+      {
+        "npc_female": true,
+        "yes": "All right, fine.  I had someone.  I lost him.",
+        "no": "All right, fine.  I had someone.  I lost her."
+      }
+    ],
+    "responses": [
+      {
+        "text": "What happened?",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" },
+        "topic": "BGSS_LOST_PARTNER_2_STORY3"
+      },
+      {
+        "text": "Never mind.  Sorry I brought it up.",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" },
+        "topic": "TALK_FRIEND"
+      },
+      {
+        "text": "<end_talking>",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "BGSS_LOST_PARTNER_2_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": [
+      {
+        "npc_female": true,
+        "yes": "He was at home when the bombs started dropping and the world went to hell.  I was at work.  I tried to make it to our house, but the city was a war zone.  Things I can't describe lurching through the streets, crushing people and cars.  Soldiers trying to stop them, but hitting people in the crossfire as much as anything.  And then the collateral damage would get right back up and join the enemy.  If it hadn't been for my husband, I would have just left, but I did what I could and I slipped through.  I actually <swear> made it alive.",
+        "no": "She was at home when the bombs started dropping and the world went to hell.  I was at work.  I tried to make it to our house, but the city was a war zone.  Things I can't describe lurching through the streets, crushing people and cars.  Soldiers trying to stop them, but hitting people in the crossfire as much as anything.  And then the collateral damage would get right back up and join the enemy.  If it hadn't been for my wife, I would have just left, but I did what I could and I slipped through.  I actually <swear> made it alive."
+      }
+    ],
+    "responses": [
+      { "text": "You must have seen some shit.", "topic": "BGSS_LOST_PARTNER_2_SOMESHIT" },
+      { "text": "I take it home was bad.", "topic": "BGSS_LOST_PARTNER_2_HOME1" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_LOST_PARTNER_2_SOMESHIT",
+    "type": "talk_topic",
+    "dynamic_line": "Yeah.  I really did.  It took me two days to make it across the city on foot, camping out in dumpsters and places like that.  I started moving more by night, and I learned right away to avoid the military.  They were a magnet for the <zombies>, and they were usually stationed where the monsters were coming.  Some parts of the city were pretty tame at first.  There were a few chunks where people had been evacuated or cleared out, and the <zombies> didn't really go there.  Later on, others like me started moving into those neighborhoods, so I switched and started running through the blasted out downtown.  I had to anyway, to get home.  By the time I made the switch though, the fighting was starting to die off, and I was mostly just avoiding attention from zombies and other things.",
+    "responses": [
+      { "text": "I take it home was bad.", "topic": "BGSS_LOST_PARTNER_2_HOME1" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_LOST_PARTNER_2_HOME1",
+    "type": "talk_topic",
+    "dynamic_line": "The first warning was that I had to move from the preserved parts of the city to the burnt out ones to get home.  It only got worse.  There was a police barricade right outside my house, with a totally useless pair of automated turrets sitting in front just idly watching the zombies lurch by.  That was before someone switched them to kill everybody, back when it only killed trespassing humans.  Good times, you can always trust bureaucracy to fuck things up in the most spectacular way possible.  Anyway, the house itself was half collapsed, a SWAT van had plowed into it.  I think I knew what I was going to see in there, but I had made it that far and I wasn't going to turn back.",
+    "responses": [
+      { "text": "You must have seen some shit on the way there.", "topic": "BGSS_LOST_PARTNER_2_SOMESHIT" },
+      { "text": "Did you make it into the house?", "topic": "BGSS_LOST_PARTNER_2_HOME2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_LOST_PARTNER_2_HOME2",
+    "type": "talk_topic",
+    "dynamic_line": [
+      {
+        "npc_female": true,
+        "yes": "I did.  Took a few hours to get an opening.  And you wanna know the fucked up part?  Like, out of all this?  My husband was still alive.  He'd been in the basement the whole time, pinned under a collapsed piece of floor.  And he'd lost a ton of blood, he was delirious by the time I found him.  I couldn't get him out, so I gave him food and water and just stayed with him and held his hand until he passed.  And then...  well, then I did what you have to do to the dead now.  And then I packed up the last few fragments of my life, and I try to never look back.",
+        "no": "I did.  Took a few hours to get an opening.  And you wanna know the fucked up part?  Like, out of all this?  My wife was still alive.  She'd been in the basement the whole time, pinned under a collapsed piece of floor.  And she'd lost a ton of blood, she was delirious by the time I found her.  I couldn't get her out, so I gave her food and water and just stayed with her and held her hand until she passed.  And then...  well, then I did what you have to do to the dead now.  And then I packed up the last few fragments of my life, and I try to never look back."
+      }
+    ],
+    "responses": [
+      { "text": "Thanks for telling me that.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

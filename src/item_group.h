@@ -2,16 +2,16 @@
 #ifndef ITEM_GROUP_H
 #define ITEM_GROUP_H
 
-#include "optional.h"
-
-#include <vector>
-#include <set>
-#include <string>
 #include <memory>
+#include <string>
+#include <vector>
+#include <utility>
 
-typedef std::string Item_tag;
-typedef std::string Group_tag;
-class item;
+#include "optional.h"
+#include "item.h"
+
+using Item_tag = std::string;
+using Group_tag = std::string;
 class JsonObject;
 class JsonIn;
 class time_point;
@@ -30,7 +30,7 @@ item item_from( const Group_tag &group_id, const time_point &birthday );
  */
 item item_from( const Group_tag &group_id );
 
-typedef std::vector<item> ItemList;
+using ItemList = std::vector<item>;
 /**
  * Create items from the given group. It creates as many items as the group definition requests.
  * For example if the group is a distribution that only contains item ids it will create
@@ -54,6 +54,10 @@ ItemList items_from( const Group_tag &group_id );
  * Check whether a specific item group contains a specific item type.
  */
 bool group_contains_item( const Group_tag &group_id, const Item_tag &type_id );
+/**
+ * Return every item type that can possibly be spawned by the item group
+ */
+std::set<const itype *> every_possible_item_from( const Group_tag &group_id );
 /**
  * Check whether an item group of the given id exists. You may use this to either choose an
  * alternative group or check the json definitions for consistency (spawn data in json that
@@ -88,7 +92,7 @@ void load_item_group( JsonObject &jsobj, const Group_tag &group_id, const std::s
  * @throw std::string as usual for JSON errors, including invalid input values.
  */
 Group_tag load_item_group( JsonIn &stream, const std::string &default_subtype );
-}
+} // namespace item_group
 
 /**
  * Base interface for item spawn.
@@ -97,8 +101,8 @@ Group_tag load_item_group( JsonIn &stream, const std::string &default_subtype );
 class Item_spawn_data
 {
     public:
-        typedef std::vector<item> ItemList;
-        typedef std::vector<Item_tag> RecursionList;
+        using ItemList = std::vector<item>;
+        using RecursionList = std::vector<Item_tag>;
 
         Item_spawn_data( int _probability ) : probability( _probability ) { }
         virtual ~Item_spawn_data() = default;
@@ -128,12 +132,10 @@ class Item_spawn_data
         virtual bool remove_item( const Item_tag &itemid ) = 0;
         virtual bool has_item( const Item_tag &itemid ) const = 0;
 
+        virtual std::set<const itype *> every_item() const = 0;
+
         /** probability, used by the parent object. */
         int probability;
-    private:
-        // not implemented
-        Item_spawn_data( const Item_spawn_data & );
-        Item_spawn_data &operator=( const Item_spawn_data & );
 };
 /**
  * Creates a single item, but can change various aspects
@@ -150,7 +152,7 @@ class Item_modifier
          * Charges to spawn the item with, if this turns out to
          * be negative, the default charges are used.
          */
-        std::pair<long, long> charges;
+        std::pair<int, int> charges;
         /**
          * Ammo for guns. If NULL the gun spawns without ammo.
          * This takes @ref charges and @ref with_ammo into account.
@@ -207,11 +209,11 @@ class Item_modifier
 class Single_item_creator : public Item_spawn_data
 {
     public:
-        typedef enum {
+        enum Type {
             S_ITEM_GROUP,
             S_ITEM,
             S_NONE,
-        } Type;
+        };
 
         Single_item_creator( const std::string &id, Type type, int probability );
         ~Single_item_creator() override = default;
@@ -225,11 +227,12 @@ class Single_item_creator : public Item_spawn_data
 
         void inherit_ammo_mag_chances( const int ammo, const int mag );
 
-        virtual ItemList create( const time_point &birthday, RecursionList &rec ) const override;
+        ItemList create( const time_point &birthday, RecursionList &rec ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency() const override;
         bool remove_item( const Item_tag &itemid ) override;
         bool has_item( const Item_tag &itemid ) const override;
+        std::set<const itype *> every_item() const override;
 };
 
 /**
@@ -239,11 +242,11 @@ class Single_item_creator : public Item_spawn_data
 class Item_group : public Item_spawn_data
 {
     public:
-        typedef std::vector<item> ItemList;
-        typedef enum {
+        using ItemList = std::vector<item>;
+        enum Type {
             G_COLLECTION,
             G_DISTRIBUTION
-        } Type;
+        };
 
         Item_group( Type type, int probability, int ammo_chance, int magazine_chance );
         ~Item_group() override = default;
@@ -257,7 +260,7 @@ class Item_group : public Item_spawn_data
          * If type is G_DISTRIBUTION, probability is relative,
          * the sum probability is sum_prob.
          */
-        typedef std::vector<std::unique_ptr<Item_spawn_data>> prop_list;
+        using prop_list = std::vector<std::unique_ptr<Item_spawn_data> >;
 
         void add_item_entry( const Item_tag &itemid, int probability );
         void add_group_entry( const Group_tag &groupid, int probability );
@@ -268,11 +271,12 @@ class Item_group : public Item_spawn_data
          */
         void add_entry( std::unique_ptr<Item_spawn_data> ptr );
 
-        virtual ItemList create( const time_point &birthday, RecursionList &rec ) const override;
+        ItemList create( const time_point &birthday, RecursionList &rec ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency() const override;
         bool remove_item( const Item_tag &itemid ) override;
         bool has_item( const Item_tag &itemid ) const override;
+        std::set<const itype *> every_item() const override;
 
         /**
          * These aren't directly used. Instead, the values (both with a default value of 0) "trickle down"

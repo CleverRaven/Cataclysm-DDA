@@ -16,7 +16,7 @@
     "required_level": 1,
     "max_level": 8,
     "intelligence": 10,
-    "time": 55,
+    "time": "55 m",
     "fun": -3
   },
   {
@@ -35,7 +35,7 @@
     "required_level": 1,
     "max_level": 3,
     "intelligence": 5,
-    "time": 8,
+    "time": "8 m",
     "fun": 3
   },
   {
@@ -53,7 +53,7 @@
     "skill": "survival",
     "max_level": 1,
     "intelligence": 5,
-    "time": 24,
+    "time": "24 m",
     "fun": 1
   },
   {
@@ -71,13 +71,14 @@
     "skill": "survival",
     "max_level": 1,
     "intelligence": 5,
-    "time": 8,
+    "time": "8 m",
     "fun": 2
   },
   {
     "id": "manual_survival",
     "type": "BOOK",
     "name": "Pitching a Tent",
+    "name_plural": "copies of Pitching a Tent",
     "description": "A guide detailing the basics of woodsmanship and outdoor survival.",
     "weight": 454,
     "volume": 3,
@@ -88,7 +89,7 @@
     "skill": "survival",
     "max_level": 3,
     "intelligence": 4,
-    "time": 18
+    "time": "18 m"
   },
   {
     "id": "pocket_survival",
@@ -104,7 +105,7 @@
     "skill": "survival",
     "max_level": 2,
     "intelligence": 6,
-    "time": 20
+    "time": "20 m"
   },
   {
     "id": "survival_book",
@@ -124,7 +125,7 @@
     "required_level": 5,
     "max_level": 8,
     "intelligence": 10,
-    "time": 55,
+    "time": "55 m",
     "fun": 1
   },
   {
@@ -143,6 +144,6 @@
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
-    "time": 30
+    "time": "30 m"
   }
 ]

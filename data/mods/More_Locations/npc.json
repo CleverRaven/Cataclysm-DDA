@@ -1,13 +1,13 @@
 [
   {
-    "type" : "npc",
-    "id" : "raider",
-    "name_suffix" : "Raider",
-    "comment" : "Better equipped soldier/raider.",
-    "class" : 14,
-    "attitude" : 0,
-    "mission" : 7,
-    "chat" : "TALK_DONE",
-    "faction" : "hells_raiders"
+    "type": "npc",
+    "id": "raider",
+    "name_suffix": "Raider",
+    "comment": "Better equipped soldier/raider.",
+    "class": 14,
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_DONE",
+    "faction": "hells_raiders"
   }
 ]

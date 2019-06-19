@@ -1,0 +1,47 @@
+[
+  {
+    "id": "BGSS_GUNG_HO_3_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "Well y'see, I'm not from these parts at all.  I was driving up from the South to visit my son when it all happened.  I was staying at a motel when a military convoy passed through and told us to evacuate to a FEMA shelter.",
+    "responses": [
+      { "text": "Tell me about your son.", "topic": "BGSS_GUNG_HO_3_SON1" },
+      { "text": "So, you went to one of the FEMA camps?", "topic": "BGSS_GUNG_HO_3_FEMA1" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_GUNG_HO_3_SON1",
+    "type": "talk_topic",
+    "dynamic_line": "He lives up in Northern Canada, way in the middle of nowhere, with his crazy wife and my three grandkids.  He's an environmental engineer for some oil and gas company out there.  She's a bit of a hippy-dippy headcase.  I love em both though, and as far as I'm concerned they all made it out of this fucked up mess safe, out there in the boondocks.  I guess they think I'm dead, so they'll steer clear of this hellhole, and that's the best as could be.",
+    "responses": [
+      { "text": "What was it you said before?", "topic": "BGSS_GUNG_HO_3_STORY1" },
+      { "text": "So, you went to one of the FEMA camps?", "topic": "BGSS_GUNG_HO_3_FEMA1" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_GUNG_HO_3_FEMA1",
+    "type": "talk_topic",
+    "dynamic_line": "Lord no.  I'll be fucked if I let a kid in a too-big uniform tell me what the hell to do.  I had my Hummer loaded out and ready to go offroading, I had a ton of gas, and I even had as many rifles as the border was gonna let me bring over.  I didn't know what I was supposed to be running from, but I sure as shit didn't run.  ",
+    "responses": [
+      { "text": "Where did you go then?", "topic": "BGSS_GUNG_HO_3_STORY2" },
+      { "text": "Tell me about your son.", "topic": "BGSS_GUNG_HO_3_SON1" },
+      { "text": "What was it you said before?", "topic": "BGSS_GUNG_HO_3_STORY1" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_GUNG_HO_3_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "At first, I just kept going North, but I ran into a huge military blockade.  They even had those giant walking robots like on TV.  I started going up to check it out, and before I knew it they were opening fire!  I coulda died, but I still have pretty good reactions.  I turned tail and rolled out of there.  My Hummer had taken some bad hits though, and I found out the hard way I was leaking gas all down the freeway.  Made it a few miles before I wound up stuck in the ass-end of nowhere.  I settled in to wander.  I guess I'm still kinda heading North, just by a pretty round-about way, you know?",
+    "responses": [
+      { "text": "Tell me about your son.", "topic": "BGSS_GUNG_HO_3_SON1" },
+      { "text": "What was it you said before?", "topic": "BGSS_GUNG_HO_3_STORY1" },
+      { "text": "That's quite a story.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "That's quite a story.  <end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

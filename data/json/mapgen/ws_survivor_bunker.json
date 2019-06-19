@@ -1,0 +1,251 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_BUNKER",
+    "default": "mon_zombie_survivor",
+    "monsters": [
+      { "monster": "mon_zombie_survivor", "freq": 250, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_child", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_dog", "freq": 150, "cost_multiplier": 0 },
+      { "monster": "mon_dog_zombie_rot", "freq": 150, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "oa_ig_sb_food",
+    "items": [
+      { "item": "veggy_pickled", "prob": 30, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "fish_pickled", "prob": 26, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "meat_pickled", "prob": 20, "charges": 2, "container-item": "jar_glass_sealed" },
+      [ "dry_meat", 20 ],
+      [ "dry_veggy", 20 ],
+      [ "carrot", 20 ],
+      [ "water_clean", 80 ],
+      [ "water_mineral", 5 ],
+      [ "cola", 70 ],
+      [ "creamsoda", 60 ],
+      [ "lemonlime", 60 ],
+      [ "orangesoda", 60 ],
+      [ "crispycran", 40 ],
+      [ "colamdew", 60 ],
+      [ "choc_drink", 30 ],
+      [ "jerky", 55 ],
+      [ "salted_fish", 35 ],
+      [ "porkstick", 55 ],
+      [ "cheese_hard", 15 ],
+      [ "can_beans", 40 ],
+      [ "can_corn", 35 ],
+      [ "can_spam", 30 ],
+      [ "salt", 10 ],
+      [ "seasoning_salt", 5 ],
+      [ "jar_sauerkraut_pickled", 20 ],
+      [ "lutefisk", 20 ],
+      [ "pemmican", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "oa_ig_sb_equipment",
+    "items": [
+      [ "flask_hip", 20 ],
+      [ "shortbow", 20 ],
+      [ "arrow_wood_heavy", 20 ],
+      [ "arrow_fire_hardened_fletched", 20 ],
+      [ "quiver_birchbark", 30 ],
+      [ "fire_drill", 30 ],
+      [ "lighter", 30 ],
+      [ "matches", 30 ],
+      [ "sunglasses", 30 ],
+      [ "fitover_sunglasses", 20 ],
+      [ "ax", 10 ],
+      [ "saw", 10 ],
+      [ "backpack", 30 ],
+      [ "backpack_leather", 30 ],
+      [ "quiver", 20 ],
+      [ "canteen", 20 ],
+      [ "knife_hunting", 30 ],
+      [ "shovel", 30 ],
+      { "group": "ammo_pocket_batteries_full", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "oa_ig_sb_rare",
+    "items": [
+      { "item": "gasoline", "prob": 5, "charges-min": 450, "charges-max": 2000, "container-item": "jug_plastic" },
+      { "item": "gasoline", "prob": 5, "charges-min": 450, "charges-max": 4000, "container-item": "jerrycan" },
+      { "item": "gasoline", "prob": 5, "charges-min": 450, "charges-max": 10000, "container-item": "jerrycan_big" },
+      [ "gasoline_lantern", 15 ],
+      [ "electric_lantern", 15 ],
+      [ "oil_lamp", 15 ],
+      [ "lamp_oil", 15 ],
+      [ "compositebow", 20 ],
+      [ "binoculars", 20 ],
+      [ "ref_lighter", 30 ],
+      [ "e_tool", 30 ],
+      [ "jackhammer", 5 ],
+      [ "elec_jackhammer", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "oa_ig_sb_books",
+    "items": [ [ "book_archery", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "oa_ig_sb_wood",
+    "items": [ [ "2x4", 20 ], [ "stick", 20 ], [ "pointy_stick", 10 ], [ "log", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "oa_ig_sb_rubble",
+    "items": [ [ "rock", 20 ], [ "sharp_rock", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "oa_ig_sb_water",
+    "items": [ { "item": "water", "prob": 30, "charges-min": 0, "charges-max": 200, "container-item": "keg" } ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "ws_survivor_bunker_f0" ],
+    "weight": 1000,
+    "object": {
+      "rows": [
+        ".b.,..,..,.b..,.,T....b.",
+        ".,..T,w.T..,.,.Y..,.b.,.",
+        ".b.,..b,.pbppTp...Y,.T..",
+        "...T..Y.,ppTpYp.b.,T.,..",
+        "..b..b.,.Tpw>Tpw.T.,.b..",
+        ".Y.Y..T..pT.Tppb.,..Y.,.",
+        ".,.T..w..Tpp,pT..T.Y.b,.",
+        ".b.,,.T..b..Y.,w,T.,.,..",
+        ".,.Y.,b.YwY..,.T...T..Y.",
+        ".,,..T...T..b.,T,.b.,...",
+        ".,Y.,.b,...T,T,.b.,..Y.b",
+        "...T..Y,T.T,T,.T.T.Y.,..",
+        ".,..T.,.b,.T,T,bTY.,..b.",
+        "..T.,.Y,..T.T.Y.T.,.Y...",
+        "..b.T.Y..,.T.,,b.Y..,.,.",
+        ".T.,..T....T.,....,.b...",
+        ".,T.b.,.T.....Y..b..Y,..",
+        ".,..Y,Y,b.,....,.Y,..,b.",
+        ",Y.,.,.Y.,..b.,.Y..T..,.",
+        ",.b..Y.Y..T..Y...b...Tb.",
+        "T.,T.,.Y...,.T..b.T...,,",
+        ".b.,.Y..,YT...b.T.,,...,",
+        ".,.T.,..T...,T..,..Y.T..",
+        ",.,...T.,.b.,..,,.,,..,."
+      ],
+      "terrain": {
+        ".": "t_grass",
+        ",": "t_dirt",
+        "O": "t_pit_shallow",
+        "T": "t_tree",
+        "Y": "t_tree_young",
+        "b": "t_underbrush",
+        ">": "t_ladder_down",
+        "p": "t_dirt",
+        "w": "t_dirt"
+      },
+      "furniture": {  },
+      "traps": { "p": { "trap": "tr_spike_pit", "chance": 40 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "ws_survivor_bunker_f-1" ],
+    "weight": 1000,
+    "object": {
+      "rows": [
+        "####R#####R########RRR##",
+        "###RRR#########R####R###",
+        "########RRR#r##R########",
+        "####R####R#rrrRRR###R###",
+        "##RRR####Rrr<rR#####R###",
+        "####R######r2r####RRRR##",
+        "###RRRR####r1r#R####R###",
+        "#####R####r1.r#RRR######",
+        "#R###R####SsSRRR#####R##",
+        "#R###RRR##.1.##RRR###RR#",
+        "#R###R###--D--##R#####R#",
+        "###RRR###|b.t|RRRRR###R#",
+        "####R##R#|..h|###R###RR#",
+        "####RR#RR|k.W|#R#R####RR",
+        "####R##R#|C.B|RRR#####R#",
+        "#########|C.B|#R########",
+        "########R--D--#R#R######",
+        "###RRR####r.ssrr#RR#R###",
+        "####R######rr.rrr###R###",
+        "####RR#R####rr.rrr##R###",
+        "####R##RR#####rr####RR##",
+        "#######R######RR########",
+        "#####RRRR####RRRRR######",
+        "######R#########R#######"
+      ],
+      "terrain": {
+        "#": "t_rock",
+        "<": "t_ladder_up",
+        "-": "t_wall_wood",
+        "|": "t_wall_wood",
+        ".": "t_rock_floor",
+        "D": "t_door_locked_interior",
+        "R": "t_root_wall",
+        "S": "t_rock_floor",
+        "s": "t_rock_floor",
+        "r": "t_rock_floor",
+        "1": "t_rock_floor",
+        "2": "t_rock_floor",
+        "k": "t_rock_floor",
+        "b": "t_rock_floor",
+        "t": "t_rock_floor",
+        "C": "t_rock_floor",
+        "B": "t_rock_floor",
+        "W": "t_rock_floor",
+        "h": "t_rock_floor"
+      },
+      "furniture": {
+        "r": "f_rubble_rock",
+        "s": "f_sandbag_half",
+        "S": "f_sandbag_wall",
+        "B": "f_makeshift_bed",
+        "b": "f_bookcase",
+        "t": "f_table",
+        "h": "f_chair",
+        "W": "f_woodstove",
+        "C": "f_crate_c"
+      },
+      "items": {
+        "b": { "item": "homebooks", "chance": 40 },
+        "C": { "item": "oa_ig_sb_rare", "chance": 40 },
+        "B": { "item": "bed", "chance": 80 },
+        "k": { "item": "oa_ig_sb_water", "chance": 60 },
+        "r": { "item": "oa_ig_sb_rubble", "chance": 80 },
+        "W": { "item": "oa_ig_sb_wood", "chance": 70 }
+      },
+      "add": [
+        { "item": "ash", "chance": 2, "x": 12, "y": 13, "repeat": 2 },
+        { "item": "charcoal", "chance": 3, "x": 12, "y": 13 },
+        { "item": "survnote", "chance": 2, "x": 12, "y": 11 }
+      ],
+      "traps": { "1": { "trap": "tr_beartrap", "chance": 90 }, "2": { "trap": "tr_tripwire", "chance": 90 } },
+      "place_items": [
+        { "item": "oa_ig_sb_food", "x": 10, "y": 14, "chance": 50, "repeat": 3 },
+        { "item": "oa_ig_sb_food", "x": 10, "y": 15, "chance": 50, "repeat": 3 },
+        { "item": "oa_ig_sb_equipment", "x": 10, "y": 14, "chance": 40, "repeat": 2 },
+        { "item": "oa_ig_sb_equipment", "x": 10, "y": 15, "chance": 40, "repeat": 2 },
+        { "item": "homebooks", "x": 10, "y": 11, "chance": 40, "repeat": 2 },
+        { "item": "oa_ig_sb_wood", "x": 12, "y": 13, "chance": 40, "repeat": 2 },
+        { "item": "oa_ig_sb_wood", "x": 11, "y": 17, "chance": 40, "repeat": 2 }
+      ],
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE_BUNKER", "x": 14, "y": 19 },
+        { "monster": "GROUP_ZOMBIE_BUNKER", "x": 15, "y": 20 },
+        { "monster": "GROUP_ZOMBIE_BUNKER", "x": 16, "y": 19 }
+      ]
+    }
+  }
+]

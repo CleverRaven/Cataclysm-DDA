@@ -1,6 +1,6 @@
 # JSON Style Guide
 
-Like in `doc/CODE_STYLE.md`, the JSON styling policy is to update JSON as it is added or edited, and in relatively small chunks otherwise in order to prevent undue distruption to development.
+Like in `doc/CODE_STYLE.md`, the JSON styling policy is to update JSON as it is added or edited, and in relatively small chunks otherwise in order to prevent undue disruption to development.
 
 We haven't been able to find a decent JSON styling tool, so we wrote our own.  It lives in tools/format/format.cpp and it leverages src/json.cpp to parse and emit JSON.
 
@@ -38,10 +38,10 @@ This example outlines most of the styling features:
 Indention is two spaces.
 All JSON delimiters except comma and colon are surrounded by whitespace (either a space or a newline).
 Comma and colon are followed by whitespace.
-Object entries are always newline-seperated.
-Array entries are newline-seperated if the resulting array would exceed 120 characters otherwise (inluding indention).
+Object entries are always newline-separated.
+Array entries are newline-separated if the resulting array would exceed 120 characters otherwise (including indention).
 Line breaks occur after open brackets, close brackets, or entries.
 
 ## Formatting tool
 
-The formatting tool can be invoked via the Makefile, directly as tools/format/json_formatter.cgi, or via cgi at http://dev.narc.ro/cataclysm/format.html
+The formatting tool can be invoked via the Makefile, directly as `tools/format/json_formatter.cgi` (built via (`make json_formatter`), or via cgi at http://dev.narc.ro/cataclysm/format.html

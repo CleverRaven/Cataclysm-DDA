@@ -1,12 +1,13 @@
+#pragma once
 #ifndef JSON_H
 #define JSON_H
 
+#include <cstddef>
 #include <type_traits>
 #include <iostream>
 #include <string>
 #include <vector>
 #include <bitset>
-#include <utility>
 #include <array>
 #include <map>
 #include <set>
@@ -25,20 +26,23 @@
  *
  * Further documentation can be found below.
  */
-class JsonIn;
-class JsonOut;
+
 class JsonObject;
 class JsonArray;
 class JsonSerializer;
 class JsonDeserializer;
 
-class JsonError : public std::runtime_error {
-public:
-    JsonError( const std::string &msg );
-    const char *c_str() const noexcept { return what(); }
+class JsonError : public std::runtime_error
+{
+    public:
+        JsonError( const std::string &msg );
+        const char *c_str() const noexcept {
+            return what();
+        }
 };
 
-namespace io {
+namespace io
+{
 /**
  * @name Enumeration (de)serialization to/from string.
  *
@@ -55,10 +59,11 @@ namespace io {
  * The functions need to be implemented somewhere for each enumeration type they are used on.
  */
 /*@{*/
-class InvalidEnumString : public std::runtime_error {
-public:
-    InvalidEnumString() : std::runtime_error( "invalid enum string" ) { }
-    InvalidEnumString( const std::string &msg ) : std::runtime_error( msg ) { }
+class InvalidEnumString : public std::runtime_error
+{
+    public:
+        InvalidEnumString() : std::runtime_error( "invalid enum string" ) { }
+        InvalidEnumString( const std::string &msg ) : std::runtime_error( msg ) { }
 };
 template<typename E>
 E string_to_enum( const std::string &data );
@@ -76,7 +81,7 @@ inline E string_to_enum_look_up( const C &container, const std::string &data )
     return iter->second;
 }
 /*@}*/
-}
+} // namespace io
 
 /* JsonIn
  * ======
@@ -127,9 +132,9 @@ inline E string_to_enum_look_up( const C &container, const std::string &data )
  *             if (name == "id") {
  *                 myobject.id = jsin.get_string();
  *             } else if (name == "name") {
- *                 myobject.name = _(jsin.get_string().c_str());
+ *                 myobject.name = _(jsin.get_string());
  *             } else if (name == "description") {
- *                 myobject.description = _(jsin.get_string().c_str());
+ *                 myobject.description = _(jsin.get_string());
  *             } else if (name == "points") {
  *                 myobject.points = jsin.get_int();
  *             } else if (name == "flags") {
@@ -170,18 +175,18 @@ class JsonIn
 
     public:
         JsonIn( std::istream &s ) : stream( &s ) {}
+        JsonIn( const JsonIn & ) = delete;
+        JsonIn &operator=( const JsonIn & ) = delete;
 
-        bool get_ate_separator()
-        {
+        bool get_ate_separator() {
             return ate_separator;
         }
-        void set_ate_separator(bool s)
-        {
+        void set_ate_separator( bool s ) {
             ate_separator = s;
         }
 
         int tell(); // get current stream position
-        void seek(int pos); // seek to specified stream position
+        void seek( int pos ); // seek to specified stream position
         char peek(); // what's the next char gonna be?
         bool good(); // whether stream is ok
 
@@ -204,7 +209,6 @@ class JsonIn
         // data parsing
         std::string get_string(); // get the next value as a string
         int get_int(); // get the next value as an int
-        long get_long(); // get the next value as an long
         bool get_bool(); // get the next value as a bool
         double get_float(); // get the next value as a double
         std::string get_member_name(); // also strips the ':'
@@ -212,8 +216,7 @@ class JsonIn
         JsonArray get_array();
 
         template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
-        E get_enum_value()
-        {
+        E get_enum_value() {
             const auto old_offset = tell();
             try {
                 return io::string_to_enum<E>( get_string() );
@@ -234,14 +237,12 @@ class JsonIn
         bool test_null();
         bool test_bool();
         bool test_number();
-        bool test_int()
-        {
+        bool test_int() {
             return test_number();
-        };
-        bool test_float()
-        {
+        }
+        bool test_float() {
             return test_number();
-        };
+        }
         bool test_string();
         bool test_bitset();
         bool test_array();
@@ -249,26 +250,23 @@ class JsonIn
 
         // non-fatal reading into values by reference
         // returns true if the data was read successfully, false otherwise
-        bool read(bool &b);
-        bool read(char &c);
-        bool read(signed char &c);
+        bool read( bool &b );
+        bool read( char &c );
+        bool read( signed char &c );
         bool read( unsigned char &c );
-        bool read(short unsigned int &s);
-        bool read(short int &s);
-        bool read(int &i);
-        bool read(unsigned int &u);
-        bool read(long &l);
-        bool read(unsigned long &ul);
-        bool read(float &f);
-        bool read(double &d);
-        bool read(std::string &s);
+        bool read( short unsigned int &s );
+        bool read( short int &s );
+        bool read( int &i );
+        bool read( unsigned int &u );
+        bool read( float &f );
+        bool read( double &d );
+        bool read( std::string &s );
         template<size_t N>
-        bool read(std::bitset<N> &b);
-        bool read(JsonDeserializer &j);
+        bool read( std::bitset<N> &b );
+        bool read( JsonDeserializer &j );
         // This is for the string_id type
         template <typename T>
-        auto read(T &thing) -> decltype(thing.str(), true)
-        {
+        auto read( T &thing ) -> decltype( thing.str(), true ) {
             std::string tmp;
             if( !read( tmp ) ) {
                 return false;
@@ -279,8 +277,7 @@ class JsonIn
 
         /// Overload that calls a global function `deserialize(T&,JsonIn&)`, if available.
         template<typename T>
-        auto read( T &v ) -> decltype( deserialize( v, *this ), true )
-        {
+        auto read( T &v ) -> decltype( deserialize( v, *this ), true ) {
             try {
                 deserialize( v, *this );
                 return true;
@@ -291,8 +288,7 @@ class JsonIn
 
         /// Overload that calls a member function `T::deserialize(JsonIn&)`, if available.
         template<typename T>
-        auto read( T &v ) -> decltype( v.deserialize( *this ), true )
-        {
+        auto read( T &v ) -> decltype( v.deserialize( *this ), true ) {
             try {
                 v.deserialize( *this );
                 return true;
@@ -302,20 +298,20 @@ class JsonIn
         }
 
         // array ~> vector, deque, list
-        template <typename T, typename std::enable_if<
-            !std::is_same<void, typename T::value_type>::value>::type* = nullptr
-        >
-        auto read(T &v) -> decltype(v.front(), true) {
+        template < typename T, typename std::enable_if <
+                       !std::is_same<void, typename T::value_type>::value >::type * = nullptr
+                   >
+        auto read( T &v ) -> decltype( v.front(), true ) {
             if( !test_array() ) {
                 return false;
             }
             try {
                 start_array();
                 v.clear();
-                while (!end_array()) {
+                while( !end_array() ) {
                     typename T::value_type element;
-                    if (read(element)) {
-                        v.push_back(std::move(element));
+                    if( read( element ) ) {
+                        v.push_back( std::move( element ) );
                     } else {
                         skip_value();
                     }
@@ -328,8 +324,7 @@ class JsonIn
         }
 
         // array ~> array
-        template <typename T, size_t N> bool read( std::array<T, N> &v )
-        {
+        template <typename T, size_t N> bool read( std::array<T, N> &v ) {
             if( !test_array() ) {
                 return false;
             }
@@ -352,19 +347,19 @@ class JsonIn
         // object ~> containers with matching key_type and value_type
         // set, unordered_set ~> object
         template <typename T, typename std::enable_if<
-            std::is_same<typename T::key_type, typename T::value_type>::value>::type* = nullptr
-        >
-        bool read(T &v) {
-            if (!test_array()) {
+                      std::is_same<typename T::key_type, typename T::value_type>::value>::type * = nullptr
+                  >
+        bool read( T &v ) {
+            if( !test_array() ) {
                 return false;
             }
             try {
                 start_array();
                 v.clear();
-                while (!end_array()) {
+                while( !end_array() ) {
                     typename T::value_type element;
-                    if (read(element)) {
-                        v.insert(std::move(element));
+                    if( read( element ) ) {
+                        v.insert( std::move( element ) );
                     } else {
                         skip_value();
                     }
@@ -376,24 +371,23 @@ class JsonIn
             return true;
         }
 
-
         // object ~> containers with unmatching key_type and value_type
         // map, unordered_map ~> object
-        template <typename T, typename std::enable_if<
-            !std::is_same<typename T::key_type, typename T::value_type>::value>::type* = nullptr
-        >
-        bool read(T &m) {
-            if (!test_object()) {
+        template < typename T, typename std::enable_if <
+                       !std::is_same<typename T::key_type, typename T::value_type>::value >::type * = nullptr
+                   >
+        bool read( T &m ) {
+            if( !test_object() ) {
                 return false;
             }
             try {
                 start_object();
                 m.clear();
-                while (!end_object()) {
+                while( !end_object() ) {
                     typename T::key_type name( get_member_name() );
                     typename T::mapped_type element;
-                    if (read(element)) {
-                        m[std::move(name)] = std::move(element);
+                    if( read( element ) ) {
+                        m[std::move( name )] = std::move( element );
                     } else {
                         skip_value();
                     }
@@ -406,12 +400,11 @@ class JsonIn
         }
 
         // error messages
-        std::string line_number(int offset_modifier = 0); // for occasional use only
-        void error(std::string message, int offset = 0); // ditto
-        void rewind(int max_lines = -1, int max_chars = -1);
-        std::string substr(size_t pos, size_t len = std::string::npos);
+        std::string line_number( int offset_modifier = 0 ); // for occasional use only
+        [[noreturn]] void error( const std::string &message, int offset = 0 ); // ditto
+        void rewind( int max_lines = -1, int max_chars = -1 );
+        std::string substr( size_t pos, size_t len = std::string::npos );
 };
-
 
 /* JsonOut
  * =======
@@ -452,15 +445,23 @@ class JsonOut
         bool need_separator = false;
 
     public:
-        JsonOut(std::ostream &stream, bool pretty_print = false, int depth = 0);
+        JsonOut( std::ostream &stream, bool pretty_print = false, int depth = 0 );
+        JsonOut( const JsonOut & ) = delete;
+        JsonOut &operator=( const JsonOut & ) = delete;
 
         // punctuation
         void write_indent();
         void write_separator();
         void write_member_separator();
-        bool get_need_separator() { return need_separator; }
-        void set_need_separator() { need_separator = true; }
-        std::ostream *get_stream() { return stream; }
+        bool get_need_separator() {
+            return need_separator;
+        }
+        void set_need_separator() {
+            need_separator = true;
+        }
+        std::ostream *get_stream() {
+            return stream;
+        }
         int tell();
         void seek( int pos );
         void start_pretty();
@@ -485,15 +486,13 @@ class JsonOut
 
         /// Overload that calls a global function `serialize(const T&,JsonOut&)`, if available.
         template<typename T>
-        auto write( const T &v ) -> decltype( serialize( v, *this ), void() )
-        {
+        auto write( const T &v ) -> decltype( serialize( v, *this ), void() ) {
             serialize( v, *this );
         }
 
         /// Overload that calls a member function `T::serialize(JsonOut&) const`, if available.
         template<typename T>
-        auto write( const T &v ) -> decltype( v.serialize( *this ), void() )
-        {
+        auto write( const T &v ) -> decltype( v.serialize( *this ), void() ) {
             v.serialize( *this );
         }
 
@@ -504,85 +503,87 @@ class JsonOut
 
         // strings need escaping and quoting
         void write( const std::string &val );
-        void write( const char *val ) { write( std::string( val ) ); }
+        void write( const char *val ) {
+            write( std::string( val ) );
+        }
 
         // char should always be written as an unquoted numeral
-        void write(          char val ) { write( static_cast<int>( val ) ); }
-        void write(   signed char val ) { write( static_cast<int>( val ) ); }
-        void write( unsigned char val ) { write( static_cast<int>( val ) ); }
+        void write( char val ) {
+            write( static_cast<int>( val ) );
+        }
+        void write( signed char val ) {
+            write( static_cast<int>( val ) );
+        }
+        void write( unsigned char val ) {
+            write( static_cast<int>( val ) );
+        }
 
         template<size_t N>
-        void write(const std::bitset<N> &b);
+        void write( const std::bitset<N> &b );
 
-        void write(const JsonSerializer &thing);
+        void write( const JsonSerializer &thing );
         // This is for the string_id type
         template <typename T>
-        auto write(const T &thing) -> decltype(thing.str(), (void)0)
-        {
+        auto write( const T &thing ) -> decltype( thing.str(), ( void )0 ) {
             write( thing.str() );
         }
 
         // enum ~> string
-        template <typename E, typename std::enable_if<std::is_enum<E>::value>::type* = nullptr>
-        void write_as_string(const E value)
-        {
+        template <typename E, typename std::enable_if<std::is_enum<E>::value>::type * = nullptr>
+        void write_as_string( const E value ) {
             write( io::enum_to_string<E>( value ) );
         }
 
         template <typename T>
-        void write_as_array(T const &container) {
+        void write_as_array( const T &container ) {
             start_array();
-            for (auto const &e : container) {
-                write(e);
+            for( const auto &e : container ) {
+                write( e );
             }
             end_array();
         }
 
         // containers with front() ~> array
         // vector, deque, forward_list, list
-        template <typename T, typename std::enable_if<
-            !std::is_same<void, typename T::value_type>::value>::type* = nullptr
-        >
-        auto write(T const &container) -> decltype(container.front(), (void)0)
-        {
-            write_as_array(container);
+        template < typename T, typename std::enable_if <
+                       !std::is_same<void, typename T::value_type>::value >::type * = nullptr
+                   >
+        auto write( const T &container ) -> decltype( container.front(), ( void )0 ) {
+            write_as_array( container );
         }
 
         // containers with matching key_type and value_type ~> array
         // set, unordered_set
         template <typename T, typename std::enable_if<
-            std::is_same<typename T::key_type, typename T::value_type>::value>::type* = nullptr
-        >
-        void write(T const &container)
-        {
-            write_as_array(container);
+                      std::is_same<typename T::key_type, typename T::value_type>::value>::type * = nullptr
+                  >
+        void write( const T &container ) {
+            write_as_array( container );
         }
 
         // containers with unmatching key_type and value_type ~> object
         // map, unordered_map ~> object
-        template <typename T, typename std::enable_if<
-            !std::is_same<typename T::key_type, typename T::value_type>::value>::type* = nullptr
-        >
-        void write(T const &map) {
+        template < typename T, typename std::enable_if <
+                       !std::is_same<typename T::key_type, typename T::value_type>::value >::type * = nullptr
+                   >
+        void write( const T &map ) {
             start_object();
-            for (auto const &it : map) {
-                write(it.first);
+            for( const auto &it : map ) {
+                write( it.first );
                 write_member_separator();
-                write(it.second);
+                write( it.second );
             }
             end_object();
         }
 
         // convenience methods for writing named object members
-        void member(const std::string &name); // TODO: enforce value after
-        void null_member(const std::string &name);
-        template <typename T> void member(const std::string &name, const T &value)
-        {
-            member(name);
-            write(value);
+        void member( const std::string &name ); // TODO: enforce value after
+        void null_member( const std::string &name );
+        template <typename T> void member( const std::string &name, const T &value ) {
+            member( name );
+            write( value );
         }
 };
-
 
 /* JsonObject
  * ==========
@@ -601,8 +602,8 @@ class JsonOut
  *
  *     JsonObject jo(jsin);
  *     std::string id = jo.get_string("id");
- *     std::string name = _(jo.get_string("name").c_str());
- *     std::string description = _(jo.get_string("description").c_str());
+ *     std::string name = _(jo.get_string("name"));
+ *     std::string description = _(jo.get_string("description"));
  *     int points = jo.get_int("points", 0);
  *     std::set<std::string> tags = jo.get_tags("flags");
  *     my_object_type myobject(id, name, description, points, tags);
@@ -651,47 +652,44 @@ class JsonObject
         int end;
         bool final_separator;
         JsonIn *jsin;
-        int verify_position(const std::string &name,
-                            const bool throw_exception = true);
+        int verify_position( const std::string &name,
+                             const bool throw_exception = true );
 
     public:
-        JsonObject(JsonIn &jsin);
-        JsonObject(const JsonObject &jsobj);
-        JsonObject() : positions(), start(0), end(0), jsin(NULL) {}
-        ~JsonObject()
-        {
+        JsonObject( JsonIn &jsin );
+        JsonObject( const JsonObject &jsobj );
+        JsonObject() : start( 0 ), end( 0 ), jsin( NULL ) {}
+        ~JsonObject() {
             finish();
         }
+        JsonObject &operator=( const JsonObject & );
 
         void finish(); // moves the stream to the end of the object
         size_t size();
         bool empty();
 
-        bool has_member(const std::string &name); // true iff named member exists
+        bool has_member( const std::string &name ); // true iff named member exists
         std::set<std::string> get_member_names();
         std::string str(); // copy object json as string
-        void throw_error(std::string err);
-        void throw_error(std::string err, const std::string &name);
+        [[noreturn]] void throw_error( std::string err );
+        [[noreturn]] void throw_error( std::string err, const std::string &name );
         // seek to a value and return a pointer to the JsonIn (member must exist)
-        JsonIn *get_raw(const std::string &name);
+        JsonIn *get_raw( const std::string &name );
 
         // values by name
         // variants with no fallback throw an error if the name is not found.
         // variants with a fallback return the fallback value in stead.
-        bool get_bool(const std::string &name);
-        bool get_bool(const std::string &name, const bool fallback);
-        int get_int(const std::string &name);
-        int get_int(const std::string &name, const int fallback);
-        long get_long(const std::string &name);
-        long get_long(const std::string &name, const long fallback);
-        double get_float(const std::string &name);
-        double get_float(const std::string &name, const double fallback);
-        std::string get_string(const std::string &name);
-        std::string get_string(const std::string &name, const std::string &fallback);
+        bool get_bool( const std::string &name );
+        bool get_bool( const std::string &name, const bool fallback );
+        int get_int( const std::string &name );
+        int get_int( const std::string &name, const int fallback );
+        double get_float( const std::string &name );
+        double get_float( const std::string &name, const double fallback );
+        std::string get_string( const std::string &name );
+        std::string get_string( const std::string &name, const std::string &fallback );
 
         template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
-        E get_enum_value( const std::string &name, const E fallback )
-        {
+        E get_enum_value( const std::string &name, const E fallback ) {
             if( !has_member( name ) ) {
                 return fallback;
             }
@@ -699,19 +697,18 @@ class JsonObject
             return jsin->get_enum_value<E>();
         }
         template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
-        E get_enum_value( const std::string &name )
-        {
+        E get_enum_value( const std::string &name ) {
             jsin->seek( verify_position( name ) );
             return jsin->get_enum_value<E>();
         }
 
         // containers by name
         // get_array returns empty array if the member is not found
-        JsonArray get_array(const std::string &name);
-        std::vector<int> get_int_array(const std::string &name);
-        std::vector<std::string> get_string_array(const std::string &name);
+        JsonArray get_array( const std::string &name );
+        std::vector<int> get_int_array( const std::string &name );
+        std::vector<std::string> get_string_array( const std::string &name );
         // get_object returns empty object if not found
-        JsonObject get_object(const std::string &name);
+        JsonObject get_object( const std::string &name );
 
         // get_tags returns empty set if none found
         template <typename T = std::string>
@@ -720,38 +717,34 @@ class JsonObject
         // TODO: some sort of get_map(), maybe
 
         // type checking
-        bool has_null(const std::string &name);
-        bool has_bool(const std::string &name);
-        bool has_number(const std::string &name);
-        bool has_int(const std::string &name)
-        {
-            return has_number(name);
-        };
-        bool has_float(const std::string &name)
-        {
-            return has_number(name);
-        };
-        bool has_string(const std::string &name);
-        bool has_array(const std::string &name);
-        bool has_object(const std::string &name);
+        bool has_null( const std::string &name );
+        bool has_bool( const std::string &name );
+        bool has_number( const std::string &name );
+        bool has_int( const std::string &name ) {
+            return has_number( name );
+        }
+        bool has_float( const std::string &name ) {
+            return has_number( name );
+        }
+        bool has_string( const std::string &name );
+        bool has_array( const std::string &name );
+        bool has_object( const std::string &name );
 
         // non-fatally read values by reference
         // return true if the value was set, false otherwise.
         // return false if the member is not found.
-        template <typename T> bool read(const std::string &name, T &t)
-        {
+        template <typename T> bool read( const std::string &name, T &t ) {
             int pos = positions[name];
-            if (pos <= start) {
+            if( pos <= start ) {
                 return false;
             }
-            jsin->seek(pos);
-            return jsin->read(t);
+            jsin->seek( pos );
+            return jsin->read( t );
         }
 
         // useful debug info
         std::string line_number(); // for occasional use only
 };
-
 
 /* JsonArray
  * =========
@@ -832,16 +825,16 @@ class JsonArray
         int end;
         bool final_separator;
         JsonIn *jsin;
-        void verify_index(int i);
+        void verify_index( int i );
 
     public:
-        JsonArray(JsonIn &jsin);
-        JsonArray(const JsonArray &jsarr);
-        JsonArray() : positions(), start(0), index(0), end(0), jsin(NULL) {};
-        ~JsonArray()
-        {
+        JsonArray( JsonIn &jsin );
+        JsonArray( const JsonArray &jsarr );
+        JsonArray() : start( 0 ), index( 0 ), end( 0 ), jsin( NULL ) {}
+        ~JsonArray() {
             finish();
         }
+        JsonArray &operator=( const JsonArray & );
 
         void finish(); // move the stream position to the end of the array
 
@@ -849,13 +842,12 @@ class JsonArray
         size_t size() const;
         bool empty();
         std::string str(); // copy array json as string
-        void throw_error(std::string err);
-        void throw_error(std::string err, int idx );
+        void throw_error( std::string err );
+        void throw_error( std::string err, int idx );
 
         // iterative access
         bool next_bool();
         int next_int();
-        long next_long();
         double next_float();
         std::string next_string();
         JsonArray next_array();
@@ -863,13 +855,12 @@ class JsonArray
         void skip_value(); // ignore whatever is next
 
         // static access
-        bool get_bool(int index);
-        int get_int(int index);
-        long get_long(int index);
-        double get_float(int index);
-        std::string get_string(int index);
-        JsonArray get_array(int index);
-        JsonObject get_object(int index);
+        bool get_bool( int index );
+        int get_int( int index );
+        double get_float( int index );
+        std::string get_string( int index );
+        JsonArray get_array( int index );
+        JsonObject get_object( int index );
 
         // get_tags returns empty set if none found
         template <typename T = std::string>
@@ -879,48 +870,42 @@ class JsonArray
         bool test_null();
         bool test_bool();
         bool test_number();
-        bool test_int()
-        {
+        bool test_int() {
             return test_number();
-        };
-        bool test_float()
-        {
+        }
+        bool test_float() {
             return test_number();
-        };
+        }
         bool test_string();
         bool test_bitset();
         bool test_array();
         bool test_object();
 
         // random-access type checking
-        bool has_null(int index);
-        bool has_bool(int index);
-        bool has_number(int index);
-        bool has_int(int index)
-        {
-            return has_number(index);
-        };
-        bool has_float(int index)
-        {
-            return has_number(index);
-        };
-        bool has_string(int index);
-        bool has_array(int index);
-        bool has_object(int index);
+        bool has_null( int index );
+        bool has_bool( int index );
+        bool has_number( int index );
+        bool has_int( int index ) {
+            return has_number( index );
+        }
+        bool has_float( int index ) {
+            return has_number( index );
+        }
+        bool has_string( int index );
+        bool has_array( int index );
+        bool has_object( int index );
 
         // iteratively read values by reference
-        template <typename T> bool read_next(T &t)
-        {
-            verify_index(index);
-            jsin->seek(positions[index++]);
-            return jsin->read(t);
+        template <typename T> bool read_next( T &t ) {
+            verify_index( index );
+            jsin->seek( positions[index++] );
+            return jsin->read( t );
         }
         // random-access read values by reference
-        template <typename T> bool read(int i, T &t)
-        {
-            verify_index(i);
-            jsin->seek(positions[i]);
-            return jsin->read(t);
+        template <typename T> bool read( int i, T &t ) {
+            verify_index( i );
+            jsin->seek( positions[i] );
+            return jsin->read( t );
         }
 };
 
@@ -930,7 +915,7 @@ std::set<T> JsonArray::get_tags( int index )
     std::set<T> res;
 
     verify_index( index );
-    jsin->seek(positions[ index ]);
+    jsin->seek( positions[ index ] );
 
     // allow single string as tag
     if( jsin->test_string() ) {
@@ -951,7 +936,7 @@ std::set<T> JsonObject::get_tags( const std::string &name )
 {
     std::set<T> res;
     int pos = positions[ name ];
-    if ( pos <= start ) {
+    if( pos <= start ) {
         return res;
     }
     jsin->seek( pos );
@@ -971,6 +956,11 @@ std::set<T> JsonObject::get_tags( const std::string &name )
     return res;
 }
 
+/**
+ * Get an array member from json with name name.  For each element of that
+ * array (which should be a string) add it to the given set.
+ */
+void add_array_to_set( std::set<std::string> &, JsonObject &json, const std::string &name );
 
 /* JsonSerializer
  * ==============
@@ -996,13 +986,13 @@ std::set<T> JsonObject::get_tags( const std::string &name )
 class JsonSerializer
 {
     public:
-        virtual ~JsonSerializer() {}
-        virtual void serialize(JsonOut &jsout) const = 0;
-        JsonSerializer() { }
-        JsonSerializer(JsonSerializer &&) = default;
-        JsonSerializer(const JsonSerializer &) = default;
-        JsonSerializer &operator=(JsonSerializer &&) = default;
-        JsonSerializer &operator=(const JsonSerializer &) = default;
+        virtual ~JsonSerializer() = default;
+        virtual void serialize( JsonOut &jsout ) const = 0;
+        JsonSerializer() = default;
+        JsonSerializer( JsonSerializer && ) = default;
+        JsonSerializer( const JsonSerializer & ) = default;
+        JsonSerializer &operator=( JsonSerializer && ) = default;
+        JsonSerializer &operator=( const JsonSerializer & ) = default;
 };
 
 /* JsonDeserializer
@@ -1030,12 +1020,12 @@ class JsonDeserializer
 {
     public:
         virtual ~JsonDeserializer() {}
-        virtual void deserialize(JsonIn &jsin) = 0;
+        virtual void deserialize( JsonIn &jsin ) = 0;
         JsonDeserializer() { }
-        JsonDeserializer(JsonDeserializer &&) = default;
-        JsonDeserializer(const JsonDeserializer &) = default;
-        JsonDeserializer &operator=(JsonDeserializer &&) = default;
-        JsonDeserializer &operator=(const JsonDeserializer &) = default;
+        JsonDeserializer( JsonDeserializer && ) = default;
+        JsonDeserializer( const JsonDeserializer & ) = default;
+        JsonDeserializer &operator=( JsonDeserializer && ) = default;
+        JsonDeserializer &operator=( const JsonDeserializer & ) = default;
 };
 
 std::ostream &operator<<( std::ostream &stream, const JsonError &err );

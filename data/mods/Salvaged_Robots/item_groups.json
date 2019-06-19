@@ -1,0 +1,12 @@
+[
+  {
+    "type": "item_group",
+    "id": "mine_storage",
+    "items": [ [ "broken_craftbuddy", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "mine_equipment",
+    "items": [ [ "broken_craftbuddy", 5 ] ]
+  }
+]

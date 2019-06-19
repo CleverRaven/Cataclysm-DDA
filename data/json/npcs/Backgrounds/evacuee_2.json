@@ -1,0 +1,31 @@
+[
+  {
+    "id": "BGSS_EVACUEE_2_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "Same as most people who didn't get killed straight up during the riots.  I went to one of those <dumb> <swear> evacuation death traps.  I actually lived there for a while with three others.  One guy who I guess had watched a lot of movies kinda ran the show, because he seemed to really know what was going on.  Spoiler alert: he <swear> didn't.",
+    "responses": [
+      {
+        "text": "What happened to your original crew?",
+        "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } },
+        "trial": { "type": "PERSUADE", "difficulty": 30, "mod": [ [ "BRAVERY", 1 ], [ "TRUST", 1 ] ] },
+        "success": { "topic": "BGSS_EVACUEE_2_STORY2" },
+        "failure": { "topic": "BGSS_EVACUEE_2_NOTYET" }
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_EVACUEE_2_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Things went south when our fearless leader decided we had to put down one of the other survivors that had been bitten.  Her husband felt a bit strongly against that, and I wasn't too keen on it either; by this point, he'd already been wrong about a lot.  Well, he took matters into his own hands and killed her.  Then her husband decided one good turn deserves another, and killed the idiot.  And then she got back up and I killed her again, and pulped our former leader.  Unfortunately she'd given her husband a hell of a nip during the struggle, when he couldn't get his shit together enough to fight back.  Not that I fucking blame him.  We made it out of there together, but it was too much for him, he clearly wasn't in it anymore...  The bite got infected, but it was another <zombie> that finally killed him.  And then I was alone.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BGSS_EVACUEE_2_NOTYET",
+    "type": "talk_topic",
+    "dynamic_line": "What do you think happened?  You see them around anywhere?",
+    "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": "14000" },
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

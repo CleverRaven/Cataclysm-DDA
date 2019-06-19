@@ -1,17 +1,23 @@
-#include "game.h"
-#include "player.h"
-#include "output.h"
-#include "input.h"
-#include "mission.h"
-#include "weather.h"
-#include "calendar.h"
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
-#include "string_formatter.h"
+#include "game.h" // IWYU pragma: associated
 
-#include <vector>
-#include <string>
 #include <map>
+#include <string>
+#include <vector>
+#include <algorithm>
 
+#include "avatar.h"
+#include "mission.h"
+#include "calendar.h"
+// needed for the workaround for the std::to_string bug in some compilers
+#include "compatibility.h" // IWYU pragma: keep
+#include "input.h"
+#include "output.h"
+#include "player.h"
+#include "npc.h"
+#include "color.h"
+#include "debug.h"
+#include "string_formatter.h"
+#include "translations.h"
 
 void game::list_missions()
 {
@@ -40,7 +46,7 @@ void game::list_missions()
         werase( w_missions );
         std::vector<mission *> umissions;
         if( tab < tab_mode::FIRST_TAB || tab >= tab_mode::NUM_TABS ) {
-            debugmsg( "The sanity check failed because tab=%d", ( int )tab );
+            debugmsg( "The sanity check failed because tab=%d", static_cast<int>( tab ) );
             tab = tab_mode::FIRST_TAB;
         }
         switch( tab ) {
@@ -58,13 +64,14 @@ void game::list_missions()
         }
         if( ( !umissions.empty() && selection >= umissions.size() ) ||
             ( umissions.empty() && selection != 0 ) ) {
-            debugmsg( "Sanity check failed: selection=%d, size=%d", ( int )selection, ( int )umissions.size() );
+            debugmsg( "Sanity check failed: selection=%d, size=%d", static_cast<int>( selection ),
+                      static_cast<int>( umissions.size() ) );
             selection = 0;
         }
         // entries_per_page * page number
         const int top_of_page = entries_per_page * ( selection / entries_per_page );
         const int bottom_of_page =
-            std::min( top_of_page + entries_per_page - 1, ( int )umissions.size() - 1 );
+            std::min( top_of_page + entries_per_page - 1, static_cast<int>( umissions.size() ) - 1 );
 
         for( int i = 1; i < FULL_SCREEN_WIDTH - 1; i++ ) {
             mvwputch( w_missions, 2, i, BORDER_COLOR, LINE_OXOX );
@@ -97,15 +104,23 @@ void game::list_missions()
             const auto miss = umissions[i];
             const nc_color col = u.get_active_mission() == miss ? c_light_green : c_white;
             const int y = i - top_of_page + 3;
-            trim_and_print( w_missions, y, 1, 28, ( int )selection == i ? hilite( col ) : col,
+            trim_and_print( w_missions, y, 1, 28, static_cast<int>( selection ) == i ? hilite( col ) : col,
                             miss->name() );
         }
 
         if( selection < umissions.size() ) {
-            int lines;
             const auto miss = umissions[selection];
             const nc_color col = u.get_active_mission() == miss ? c_light_green : c_white;
-            lines = fold_and_print( w_missions, 3, 31, getmaxx( w_missions ) - 33, col, miss->name() );
+            std::string for_npc;
+            if( miss->get_npc_id() >= 0 ) {
+                npc *guy = g->find_npc( miss->get_npc_id() );
+                if( guy ) {
+                    for_npc = string_format( _( " for %s" ), guy->disp_name() );
+                }
+            }
+
+            int lines = fold_and_print( w_missions, 3, 31, getmaxx( w_missions ) - 33, col,
+                                        miss->name() + for_npc );
 
             int y = 3 + lines;
             if( !miss->get_description().empty() ) {
@@ -117,7 +132,7 @@ void game::list_missions()
 
                 if( tab != tab_mode::TAB_COMPLETED ) {
                     // There's no point in displaying this for a completed mission.
-                    // @TODO: But displaying when you completed it would be useful.
+                    // @ TODO: But displaying when you completed it would be useful.
                     const time_duration remaining = deadline - calendar::turn;
                     std::string remaining_time;
 
@@ -129,7 +144,7 @@ void game::list_missions()
                         remaining_time = to_string_approx( remaining );
                     }
 
-                    mvwprintz( w_missions, ++y, 31, c_white, _( "Time remaining: %s" ), remaining_time.c_str() );
+                    mvwprintz( w_missions, ++y, 31, c_white, _( "Time remaining: %s" ), remaining_time );
                 }
             }
             if( miss->has_target() ) {
@@ -150,13 +165,13 @@ void game::list_missions()
         wrefresh( w_missions );
         const std::string action = ctxt.handle_input();
         if( action == "RIGHT" ) {
-            tab = ( tab_mode )( ( int )tab + 1 );
+            tab = static_cast<tab_mode>( static_cast<int>( tab ) + 1 );
             if( tab >= tab_mode::NUM_TABS ) {
                 tab = tab_mode::FIRST_TAB;
             }
             selection = 0;
         } else if( action == "LEFT" ) {
-            tab = ( tab_mode )( ( int )tab - 1 );
+            tab = static_cast<tab_mode>( static_cast<int>( tab ) - 1 );
             if( tab < tab_mode::FIRST_TAB ) {
                 tab = tab_mode::LAST_TAB;
             }

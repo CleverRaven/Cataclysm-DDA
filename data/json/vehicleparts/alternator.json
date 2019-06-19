@@ -9,6 +9,27 @@
     "flags": [ "ALTERNATOR" ]
   },
   {
+    "id": "alternator_bicycle",
+    "copy-from": "vehicle_alternator",
+    "type": "vehicle_part",
+    "name": "bicycle alternator",
+    "//": "3.0A @12VDC ~ 0.1HP drain @ 48% effficiency",
+    "item": "alternator_bicycle",
+    "looks_like": "alternator_motorbike",
+    "difficulty": 2,
+    "durability": 250,
+    "power": -75,
+    "epower": 36,
+    "damage_modifier": 80,
+    "folded_volume": 5,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 5 ] },
+      { "item": "steel_chunk", "count": [ 2, 5 ] },
+      { "item": "scrap", "count": [ 2, 5 ] }
+    ],
+    "extend": { "flags": [ "FOLDABLE", "TOOL_SCREWDRIVER" ] }
+  },
+  {
     "id": "alternator_motorbike",
     "copy-from": "vehicle_alternator",
     "type": "vehicle_part",
@@ -17,7 +38,7 @@
     "item": "alternator_motorbike",
     "difficulty": 2,
     "durability": 250,
-    "power": -2,
+    "power": -746,
     "epower": 360,
     "damage_modifier": 80,
     "folded_volume": 5,
@@ -37,7 +58,7 @@
     "item": "alternator_car",
     "difficulty": 2,
     "durability": 275,
-    "power": -4,
+    "power": -1492,
     "epower": 780,
     "damage_modifier": 80,
     "breaks_into": [
@@ -56,7 +77,7 @@
     "item": "alternator_truck",
     "difficulty": 2,
     "durability": 325,
-    "power": -6,
+    "power": -2238,
     "epower": 1320,
     "damage_modifier": 80,
     "breaks_into": [
@@ -75,7 +96,7 @@
     "item": "generator_7500w",
     "difficulty": 3,
     "durability": 400,
-    "power": -28,
+    "power": -10444,
     "epower": 7500,
     "damage_modifier": 80,
     "breaks_into": [

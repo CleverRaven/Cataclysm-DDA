@@ -10,8 +10,7 @@
     "reversible": true,
     "decomp_learn": 4,
     "autolearn": true,
-    "using": [ [ "filament", 30 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 30 ] ],
     "components": [ [ [ "kevlar_plate", 24 ] ] ]
   },
   {
@@ -49,10 +48,7 @@
     "difficulty": 5,
     "time": 320000,
     "book_learn": [ [ "recipe_melee", 4 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 3 },
-      { "id": "CHISEL", "level": 3 }
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
@@ -60,10 +56,7 @@
       [ [ "forge", 250 ], [ "oxy_torch", 50 ] ],
       [ [ "mold_plastic", -1 ] ]
     ],
-    "components": [
-      [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
-      [ [ "plastic_chunk", 1 ] ]
-    ]
+    "components": [ [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "result": "sword_bayonet",
@@ -74,10 +67,7 @@
     "difficulty": 7,
     "time": 400000,
     "book_learn": [ [ "recipe_melee", 6 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 3 },
-      { "id": "CHISEL", "level": 3 }
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
@@ -85,9 +75,6 @@
       [ [ "forge", 400 ], [ "oxy_torch", 80 ] ],
       [ [ "mold_plastic", -1 ] ]
     ],
-    "components": [
-      [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 24 ] ],
-      [ [ "plastic_chunk", 2 ] ]
-    ]
+    "components": [ [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 24 ] ], [ [ "plastic_chunk", 2 ] ] ]
   }
 ]

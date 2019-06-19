@@ -1,0 +1,30 @@
+[
+  {
+    "type": "scenario",
+    "ident": "robot_dispatch",
+    "name": "Robots",
+    "points": 1,
+    "description": "During the riots and chaos, you hid in a robot dispatch center hoping the robots would protect you, but they may prove more dangerous than the zombies.",
+    "allowed_locs": [ "robot_dispatch" ],
+    "flags": [ "CITY_START" ],
+    "start_name": "In Town"
+  },
+  {
+    "type": "scenario",
+    "ident": "prisonbreak",
+    "copy-from": "prisonbreak",
+    "extend": { "professions": [ "robo_hacker" ] }
+  },
+  {
+    "type": "scenario",
+    "ident": "lab_chal",
+    "copy-from": "lab_chal",
+    "extend": { "professions": [ "robo_hacker", "robo_expert", "robo_prodigy" ] }
+  },
+  {
+    "type": "scenario",
+    "ident": "wilderness",
+    "copy-from": "wilderness",
+    "extend": { "professions": [ "robo_hunter" ] }
+  }
+]

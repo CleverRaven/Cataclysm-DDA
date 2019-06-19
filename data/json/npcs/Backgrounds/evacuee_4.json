@@ -1,0 +1,8 @@
+[
+  {
+    "id": "BGSS_EVACUEE_4_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "They were shipping me with a bunch of evacuees over to a refugee center, when the bus got smashed in by the biggest zombie you ever saw.  It was busy with the other passengers, so I did what anyone would do and fucked right out of there.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

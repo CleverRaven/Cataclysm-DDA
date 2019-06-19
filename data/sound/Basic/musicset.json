@@ -1,22 +1,6 @@
 [
-    {
-        "type": "playlist",
-        "playlists":
-        [
-            {
-                "id" : "title",
-                "shuffle" : false,
-                "files" : [
-                    {
-                        "file": "Dark_Days_Ahead_demo_2.wav",
-                        "volume": 128
-                    },
-                    {
-                        "file": "cataclysmthemeREV6.wav",
-                        "volume": 90
-                    }
-                ]
-            }
-        ]
-    }
+  {
+    "type": "playlist",
+    "playlists": [  ]
+  }
 ]

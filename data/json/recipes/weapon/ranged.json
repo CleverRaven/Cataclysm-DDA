@@ -1,95 +1,159 @@
 [
   {
+    "type": "recipe",
+    "result": "chemical_thrower",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "launcher", 2 ],
+    "difficulty": 6,
+    "time": "30 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
+    "using": [ [ "welding_standard", 40 ] ],
+    "components": [ [ [ "pipe", 2 ] ], [ [ "hose", 2 ] ], [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ]
+  },
+  {
     "result": "nailrifle",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",
     "difficulty": 1,
     "skills_required": [ "gun", 2 ],
-    "time": 12000,
+    "time": "12 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 }
-    ],
-    "components": [
-      [ ["nailgun", 1] ],
-      [ ["pipe", 1] ],
-      [ ["2x4", 2], [ "stick", 3 ] ]
-    ]
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "nailgun", 1 ] ], [ [ "pipe", 1 ] ], [ [ "2x4", 2 ], [ "stick", 3 ] ] ]
   },
   {
-    "type" : "recipe",
+    "type": "recipe",
+    "result": "rifle_223",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 3,
+    "time": "14 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "rifle_38",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 3,
+    "time": "14 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "rifle_40",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 3,
+    "time": "14 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "rifle_44",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 3,
+    "time": "14 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "rifle_45",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 3,
+    "time": "14 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "rifle_flintlock",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",
     "skills_required": [ "rifle", 4 ],
     "difficulty": 8,
-    "time": 240000,
+    "time": "240 m",
     "autolearn": true,
-    "book_learn": [[ "manual_rifle", 5 ] , [ "mag_rifle", 6 ]],
+    "book_learn": [ [ "manual_rifle", 5 ], [ "mag_rifle", 6 ] ],
     "qualities": [
       { "id": "ANVIL", "level": 3 },
-      { "id":"CUT","level":1 },
-      { "id":"HAMMER","level":3 },
-      { "id":"SCREW_FINE","level":1 },
+      { "id": "CUT", "level": 1 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "SCREW_FINE", "level": 1 },
       { "id": "CHISEL", "level": 3 }
     ],
     "using": [ [ "forging_standard", 4 ], [ "steel_standard", 3 ] ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "swage", -1 ] ]
-    ],
-    "components": [
-      [ [ "2x4", 2 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "sharp_rock", 1 ] ]
-    ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
   },
   {
-    "type" : "recipe",
+    "type": "recipe",
     "result": "carbine_flintlock",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",
     "skills_required": [ "rifle", 4 ],
     "difficulty": 7,
-    "time": 240000,
+    "time": "240 m",
     "autolearn": true,
-    "book_learn": [[ "manual_rifle", 5 ] , [ "mag_rifle", 6 ]],
+    "book_learn": [ [ "manual_rifle", 5 ], [ "mag_rifle", 6 ] ],
     "qualities": [
       { "id": "ANVIL", "level": 3 },
-      { "id":"CUT","level":1 },
-      { "id":"HAMMER","level":3 },
-      { "id":"SCREW_FINE","level":1 },
+      { "id": "CUT", "level": 1 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "SCREW_FINE", "level": 1 },
       { "id": "CHISEL", "level": 3 }
     ],
     "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ] ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "swage", -1 ] ]
-    ],
-    "components": [
-      [ [ "2x4", 2 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "sharp_rock", 1 ] ]
-    ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
   },
   {
-    "type" : "recipe",
+    "type": "recipe",
     "result": "pistol_flintlock",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",
     "skills_required": [ "pistol", 4 ],
     "difficulty": 8,
-    "time": 80000,
+    "time": "80 m",
     "autolearn": true,
-    "book_learn": [[ "manual_pistol", 5 ] , [ "mag_pistol", 6 ]],
-    "qualities":[
+    "book_learn": [ [ "manual_pistol", 5 ], [ "mag_pistol", 6 ] ],
+    "qualities": [
       { "id": "ANVIL", "level": 3 },
       { "id": "CUT", "level": 1 },
       { "id": "HAMMER", "level": 3 },
@@ -97,15 +161,8 @@
       { "id": "CHISEL", "level": 3 }
     ],
     "using": [ [ "forging_standard", 2 ], [ "steel_standard", 3 ] ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "swage", -1 ] ]
-    ],
-    "components": [
-      [ [ "2x4", 1 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "sharp_rock", 1 ] ]
-    ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "2x4", 1 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
   },
   {
     "result": "carbine_flintlock_double",
@@ -115,20 +172,12 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "skills_required": [ "rifle", 3 ],
-    "time": 30000,
+    "time": "30 m",
     "autolearn": true,
-    "book_learn": [[ "manual_rifle", 3 ] , [ "mag_rifle", 4 ]],
-    "qualities":[
-      { "id":"HAMMER","level":2 },
-      { "id":"SAW_M_FINE","level":1 },
-      { "id":"SCREW","level":1}
-    ],
+    "book_learn": [ [ "manual_rifle", 3 ], [ "mag_rifle", 4 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "using": [ [ "forging_standard", 2 ], [ "steel_standard", 1 ] ],
-    "components": [
-      [ [ "2x4", 2 ] ],
-      [ [ "pipe", 2 ] ],
-      [ [ "sharp_rock", 2 ] ]
-    ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 2 ] ], [ [ "sharp_rock", 2 ] ] ]
   },
   {
     "result": "carbine_flintlock_double",
@@ -139,13 +188,49 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "skills_required": [ "rifle", 1 ],
-    "time": 30000,
+    "time": "30 m",
     "autolearn": true,
-    "book_learn": [[ "manual_rifle", 2 ] , [ "mag_rifle", 3 ]],
-    "qualities":[
-      { "id":"SAW_M_FINE","level":1 },
-      { "id":"SCREW_FINE","level":1 }
-    ],
+    "book_learn": [ [ "manual_rifle", 2 ], [ "mag_rifle", 3 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "rifle_flintlock", 2 ], [ "carbine_flintlock", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "speargun",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 3,
+    "time": "60 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "2x4", 2 ], [ "stick", 2 ] ], [ [ "hose", 4 ] ], [ [ "scrap", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "doublespeargun",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 4,
+    "time": "90 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "2x4", 3 ], [ "stick", 3 ] ], [ [ "hose", 8 ] ], [ [ "scrap", 6 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "minispeargun",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 4,
+    "time": "45 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "hose", 2 ] ], [ [ "scrap", 3 ] ] ]
   }
 ]

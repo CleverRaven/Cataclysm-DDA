@@ -1,40 +1,42 @@
 #include "iuse_software_sokoban.h"
 
-#include "output.h"
-#include "input.h"
-#include "cursesdef.h"
-#include "catacharset.h"
-#include "string_formatter.h"
-#include "debug.h"
-#include "path_info.h"
-#include "translations.h"
-#include "cata_utility.h"
-
-#include <iostream>
-#include <iterator>
 #include <sstream>
+#include <algorithm>
+#include <functional>
+#include <memory>
+#include <stdexcept>
 
-sokoban_game::sokoban_game()
-{
-}
+#include "cata_utility.h"
+#include "catacharset.h"
+#include "cursesdef.h"
+#include "input.h"
+#include "output.h"
+#include "path_info.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "color.h"
+#include "enums.h"
+#include "optional.h"
+
+sokoban_game::sokoban_game() = default;
 
 void sokoban_game::print_score( const catacurses::window &w_sokoban, int iScore, int iMoves )
 {
     std::stringstream ssTemp;
     ssTemp << string_format( _( "Level: %d/%d" ), iCurrentLevel + 1, iNumLevel ) << "    ";
-    mvwprintz( w_sokoban, 1, 3, c_white, ssTemp.str().c_str() );
+    mvwprintz( w_sokoban, 1, 3, c_white, ssTemp.str() );
 
     ssTemp.str( "" );
     ssTemp << string_format( _( "Score: %d" ), iScore );
-    mvwprintz( w_sokoban, 2, 3, c_white, ssTemp.str().c_str() );
+    mvwprintz( w_sokoban, 2, 3, c_white, ssTemp.str() );
 
     ssTemp.str( "" );
     ssTemp << string_format( _( "Moves: %d" ), iMoves ) << "    ";
-    mvwprintz( w_sokoban, 3, 3, c_white, ssTemp.str().c_str() );
+    mvwprintz( w_sokoban, 3, 3, c_white, ssTemp.str() );
 
     ssTemp.str( "" );
     ssTemp << string_format( _( "Total moves: %d" ), iTotalMoves );
-    mvwprintz( w_sokoban, 4, 3, c_white, ssTemp.str().c_str() );
+    mvwprintz( w_sokoban, 4, 3, c_white, ssTemp.str() );
 
 }
 
@@ -211,8 +213,7 @@ void sokoban_game::draw_level( const catacurses::window &w_sokoban )
                     sTile = "@";
                 }
 
-                mvwprintz( w_sokoban, iOffsetY + ( elem.first ), iOffsetX + ( iterX->first ), cCol,
-                           sTile.c_str() );
+                mvwprintz( w_sokoban, iOffsetY + ( elem.first ), iOffsetX + ( iterX->first ), cCol, sTile );
             }
         }
     }
@@ -243,8 +244,8 @@ int sokoban_game::start_game()
     using namespace std::placeholders;
     read_from_file( FILENAMES["sokoban"], std::bind( &sokoban_game::parse_level, this, _1 ) );
 
-    catacurses::window w_sokoban = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY,
-                                   iOffsetX );
+    const catacurses::window w_sokoban = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                         iOffsetY, iOffsetX );
     draw_border( w_sokoban, BORDER_COLOR, _( "Sokoban" ), hilite( c_white ) );
     input_context ctxt( "SOKOBAN" );
     ctxt.register_cardinal();
@@ -310,7 +311,9 @@ int sokoban_game::start_game()
         }
 
         bMoved = false;
-        if( ctxt.get_direction( iDirX, iDirY, action ) ) {
+        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+            iDirX = vec->x;
+            iDirY = vec->y;
             bMoved = true;
         } else if( action == "QUIT" ) {
             return iScore;

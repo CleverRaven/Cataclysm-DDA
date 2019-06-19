@@ -58,7 +58,14 @@
       "-": "t_wall",
       ".": "t_open_air",
       "0": "t_grate",
-      "1": [ "t_door_c", "t_door_o", "t_door_locked_interior", "t_door_locked_interior", "t_door_locked_interior", "t_door_locked_interior" ],
+      "1": [
+        "t_door_c",
+        "t_door_o",
+        "t_door_locked_interior",
+        "t_door_locked_interior",
+        "t_door_locked_interior",
+        "t_door_locked_interior"
+      ],
       "2": "t_linoleum_white",
       "3": "t_carpet_red",
       "4": "t_linoleum_white",
@@ -125,7 +132,15 @@
       "t": "t_linoleum_white",
       "u": "t_linoleum_white",
       "v": "t_wall_glass",
-      "w": [ "t_window_domestic", "t_window_domestic", "t_window_domestic", "t_window_domestic", "t_curtains", "t_curtains", "t_window_open" ],
+      "w": [
+        "t_window_domestic",
+        "t_window_domestic",
+        "t_window_domestic",
+        "t_window_domestic",
+        "t_curtains",
+        "t_curtains",
+        "t_window_open"
+      ],
       "x": "t_linoleum_white",
       "y": "t_sai_box",
       "z": "t_sewage",
@@ -135,4 +150,3 @@
     }
   }
 ]
-

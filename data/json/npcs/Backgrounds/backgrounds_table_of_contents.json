@@ -1,0 +1,350 @@
+[
+  {
+    "id": "TALK_FRIEND_CONVERSATION",
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_CONFUSED_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Confused_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_NO_PAST_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_No_Past_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_NO_PAST_2_STORY1",
+        "condition": { "npc_has_trait": "BGSS_No_Past_2" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_NO_PAST_3_STORY1",
+        "condition": { "npc_has_trait": "BGSS_No_Past_3" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_NO_PAST_4_STORY1",
+        "condition": { "npc_has_trait": "BGSS_No_Past_4" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_NO_PAST_5_STORY1",
+        "condition": { "npc_has_trait": "BGSS_No_Past_5" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_RELIGIOUS_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Religious_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_RELIGIOUS_2_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Religious_2" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_DREAMER_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Dreamer" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_WEDDING_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Wedding_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_EVACUEE_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Evacuee_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_EVACUEE_2_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Evacuee_2" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_EVACUEE_3_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Evacuee_3" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_EVACUEE_4_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Evacuee_4" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_EVACUEE_5_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Evacuee_5" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_EVACUEE_6_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Evacuee_6" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_FEMA_EVACUEE_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_FEMA_Evacuee_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_LEFT_FOR_DEAD_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Left_for_Dead_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_LEFT_FOR_DEAD_2_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Left_for_Dead_2" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_GUNG_HO_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Gung_Ho_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_GUNG_HO_2_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Gung_Ho_2" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_GUNG_HO_3_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Gung_Ho_3" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_PREPPER_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Prepper_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_PREPPER_2_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Prepper_2" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_OUT_OF_TOWN_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Out_of_Town_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_OUT_OF_TOWN_2_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Out_of_Town_2" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_LOST_PARTNER_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Lost_Partner_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_LOST_PARTNER_2_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Lost_Partner_2" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_RURAL_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Rural_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_RURAL_2_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Rural_2" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_CODGER_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Codger" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_HOSPITAL_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Hospital_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_HOSPITAL_2_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Hospital_2" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_HOSPITAL_3_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Hospital_3" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_COP_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Cop_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_COP_2_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Cop_2" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_COP_3_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Cop_3" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_HUNTER_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Hunter_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_HUNTER_2_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Hunter_2" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_SOLDIER_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Soldier_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_SOLDIER_2_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Soldier_2" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_CRIMINAL_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Criminal_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_CRIMINAL_2_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Criminal_2" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_PRISONER_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Prisoner_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_HIGH_SCHOOL_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_High_School_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_BURGER_FLIPPER_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Burger_Flipper_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_NERD_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Nerd_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_SCIENTIST_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Scientist_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_SCIENTIST_2_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Scientist_2" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_PROFESSOR_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Professor_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_GRAD_STUDENT_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Grad_Student_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_LAB_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Lab_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_CYBORG_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Cyborg_1" },
+        "switch": true
+      },
+      {
+        "text": "How did you come to be a merc working for the Free Merchants, anyway?",
+        "//": "This is a unique background story that should not be given out randomly.",
+        "topic": "BGSS_SCAVENGER_MERC_1_STORY1",
+        "condition": { "and": [ { "npc_has_trait": "BGSS_Scavenger_Merc_1" }, { "not": { "npc_has_effect": "BGSS_Merc_haswhisky" } } ] },
+        "switch": true
+      },
+      {
+        "text": "So, you got your whisky.  Tell me that story.",
+        "//": "This is a unique background story that should not be given out randomly.",
+        "topic": "BGSS_SCAVENGER_MERC_1_STORY3",
+        "condition": { "and": [ { "npc_has_trait": "BGSS_Scavenger_Merc_1" }, { "npc_has_effect": "BGSS_Merc_haswhisky" } ] },
+        "switch": true
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "player_BGSS_SAIDNO",
+    "//": "Defined here because this should be the only time this effect is referenced."
+  },
+  {
+    "type": "effect_type",
+    "id": "player_BGSS_SAIDYES",
+    "//": "Defined here because this should be the only time this effect is referenced."
+  }
+]

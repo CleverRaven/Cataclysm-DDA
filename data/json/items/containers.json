@@ -2,7 +2,7 @@
   {
     "id": "2lcanteen",
     "type": "CONTAINER",
-    "category": "other",
+    "category": "clothing",
     "name": "2.5L canteen",
     "description": "A large plastic water canteen, with a 2.5 liter capacity and carrying strap.",
     "weight": 155,
@@ -16,12 +16,7 @@
     "contains": 10,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "TORSO" ],
-      "coverage": 10,
-      "encumbrance": 4,
-      "material_thickness": 2
-    },
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -40,7 +35,8 @@
     "color": "light_blue",
     "contains": 450,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "30gal_drum",
@@ -60,7 +56,7 @@
     "contains": 400,
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "55gal_drum",
@@ -80,7 +76,7 @@
     "contains": 800,
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "bag_canvas",
@@ -131,6 +127,42 @@
     "symbol": ")",
     "color": "light_gray",
     "contains": 24,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "bag_zipper",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "zipper bag",
+    "looks_like": "bag_plastic",
+    "description": "An inexpensive flexible rectangular storage bag on its typical small size.  Transparent and made of plastic, it can be sealed and opened by a slider which works in a similar way to a zip fastener.",
+    "weight": 2,
+    "volume": 0,
+    "price": 0,
+    "rigid": false,
+    "material": "plastic",
+    "symbol": ")",
+    "color": "light_gray",
+    "contains": 1,
+    "seals": true,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "bag_body_bag",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "body bag",
+    "looks_like": "bag_canvas",
+    "description": "A large, human size, rectangular bag made of strong plastic, with a zipper in the middle.  Used to hold a dead body.",
+    "weight": 500,
+    "volume": 4,
+    "price": 0,
+    "to_hit": -5,
+    "rigid": false,
+    "material": "plastic",
+    "symbol": ")",
+    "color": "dark_gray",
+    "contains": 100,
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -187,6 +219,23 @@
     "watertight": true
   },
   {
+    "id": "bottle_twoliter",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "large plastic bottle",
+    "description": "It's a two-liter plastic bottle that can hold a lot of soda, or, nowadays, boiled water.",
+    "weight": 13,
+    "volume": 8,
+    "price": 25,
+    "price_postapoc": 500,
+    "material": "plastic",
+    "symbol": ")",
+    "color": "cyan",
+    "contains": 8,
+    "seals": true,
+    "watertight": true
+  },
+  {
     "id": "bowl_clay",
     "type": "CONTAINER",
     "category": "other",
@@ -203,40 +252,6 @@
     "seals": true,
     "watertight": true,
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
-  },
-  {
-    "id": "bowl_pewter",
-    "type": "CONTAINER",
-    "category": "other",
-    "name": "pewter bowl",
-    "description": "A pewter bowl without a lid.  Can be used as a container or as a tool.  Holds 250 ml of liquid.",
-    "weight": 50,
-    "volume": 1,
-    "price": 400,
-    "to_hit": -1,
-    "material": "steel",
-    "symbol": ")",
-    "color": "light_cyan",
-    "contains": 1,
-    "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ] ]
-  },
-  {
-    "id": "bowl_plastic",
-    "type": "CONTAINER",
-    "category": "other",
-    "name": "plastic bowl",
-    "description": "A plastic bowl.  Can be used as a container or as a tool.  Holds 250 ml of liquid.",
-    "weight": 80,
-    "volume": 1,
-    "price": 100,
-    "to_hit": 1,
-    "material": "plastic",
-    "symbol": ")",
-    "color": "light_cyan",
-    "contains": 1,
-    "seals": true,
-    "watertight": true
   },
   {
     "id": "box_cigarette",
@@ -257,8 +272,8 @@
     "id": "box_small",
     "type": "CONTAINER",
     "category": "other",
-    "name": "cardboard box",
-    "name_plural": "cardboard boxes",
+    "name": "small cardboard box",
+    "name_plural": "small cardboard boxes",
     "description": "A small cardboard box.  No bigger than a foot in dimension.",
     "weight": 151,
     "volume": 4,
@@ -267,6 +282,39 @@
     "symbol": ")",
     "color": "brown",
     "contains": 4
+  },
+  {
+    "id": "box_medium",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "cardboard box",
+    "name_plural": "cardboard boxes",
+    "description": "A sturdy cardboard box, about the size of a banana box.  Great for packing.",
+    "weight": 850,
+    "volume": 8,
+    "//": "Volume is much lower than the actual volume of a box this size because presumably if it's in your pack, it isn't empty and full of air; and if it's in your hands, it's irrelevant what the volume is.",
+    "price": 0,
+    "material": "paper",
+    "symbol": ")",
+    "color": "brown",
+    "contains": 12
+  },
+  {
+    "id": "box_large",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "large cardboard box",
+    "name_plural": "large cardboard boxes",
+    "description": "A very large cardboard box, the sort children would have loved to hide in, when there were still children.",
+    "weight": 1250,
+    "volume": 12,
+    "//": "Volume is much lower than the actual volume of a box this size because presumably if it's in your pack, it isn't empty and full of air; and if it's in your hands, it's irrelevant what the volume is.",
+    "price": 0,
+    "material": "paper",
+    "symbol": ")",
+    "color": "brown",
+    "contains": 20,
+    "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box" }
   },
   {
     "id": "bucket",
@@ -283,7 +331,7 @@
     "color": "light_gray",
     "contains": 20,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "camelbak",
@@ -302,12 +350,7 @@
     "contains": 8,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "TORSO" ],
-      "coverage": 15,
-      "storage": 4,
-      "material_thickness": 1
-    },
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 15, "storage": 4, "material_thickness": 1 },
     "flags": [ "BELTED" ]
   },
   {
@@ -327,8 +370,7 @@
     "contains": 1,
     "watertight": true,
     "preserves": true,
-    "unseals_into": "can_drink_unsealed",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
+    "unseals_into": "can_drink_unsealed"
   },
   {
     "id": "can_drink_unsealed",
@@ -339,7 +381,26 @@
     "symbol": ")",
     "color": "light_blue",
     "preserves": false,
-    "unseals_into": "null"
+    "unseals_into": "null",
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
+  },
+  {
+    "id": "plastic_bag_vac",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "vacuum-packed bag",
+    "description": "This is a bag of vacuum-packed food.",
+    "weight": 2,
+    "volume": 0,
+    "contains": 2,
+    "price": 0,
+    "material": "plastic",
+    "symbol": "%",
+    "color": "red",
+    "watertight": false,
+    "preserves": true,
+    "rigid": false,
+    "unseals_into": "bag_plastic"
   },
   {
     "id": "can_food",
@@ -356,8 +417,7 @@
     "contains": 1,
     "watertight": true,
     "preserves": true,
-    "unseals_into": "can_food_unsealed",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
+    "unseals_into": "can_food_unsealed"
   },
   {
     "id": "can_food_unsealed",
@@ -368,12 +428,13 @@
     "symbol": ")",
     "color": "blue",
     "preserves": false,
-    "unseals_into": "null"
+    "unseals_into": "null",
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
   {
     "id": "canteen",
     "type": "CONTAINER",
-    "category": "other",
+    "category": "clothing",
     "name": "plastic canteen",
     "description": "A military-style water canteen with a 1.5 liter capacity.  Commonly worn at the hip.",
     "weight": 155,
@@ -386,47 +447,26 @@
     "contains": 6,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "LEG_EITHER" ],
-      "coverage": 5,
-      "encumbrance": 2,
-      "material_thickness": 2
-    },
+    "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 5, "encumbrance": 2, "material_thickness": 2 },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
-    "id": "ceramic_bowl",
+    "id": "thermos",
     "type": "CONTAINER",
-    "name": "ceramic bowl",
-    "description": "A shallow dessert bowl, not a lot of use for it really.",
-    "weight": 400,
-    "volume": 1,
-    "price": 1000,
-    "price_postapoc": 0,
-    "bashing": 1,
-    "material": "ceramic",
-    "symbol": ",",
-    "color": "yellow",
-    "contains": 1,
+    "category": "other",
+    "name": "thermos",
+    "name_plural": "thermoses",
+    "description": "A Thermos brand vacuum flask.  Built for temperature retention, helps keep things hot or cold.  Contains 1L of liquid.",
+    "weight": 530,
+    "price": 1595,
+    "volume": 5,
+    "contains": 4,
+    "material": "steel",
+    "symbol": "I",
+    "color": "green",
+    "seals": true,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ] ]
-  },
-  {
-    "id": "ceramic_cup",
-    "type": "CONTAINER",
-    "name": "ceramic cup",
-    "description": "A ceramic teacup, pinky out!",
-    "weight": 300,
-    "volume": 1,
-    "price": 1000,
-    "price_postapoc": 0,
-    "bashing": 1,
-    "material": "ceramic",
-    "symbol": ",",
-    "color": "yellow",
-    "contains": 1,
-    "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "insulation": 10
   },
   {
     "id": "clay_canister",
@@ -444,7 +484,7 @@
     "contains": 1,
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "clay_hydria",
@@ -462,7 +502,8 @@
     "color": "brown",
     "contains": 60,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "clay_watercont",
@@ -479,7 +520,8 @@
     "color": "brown",
     "contains": 150,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "cup_plastic",
@@ -506,7 +548,8 @@
     "description": "A small, vacuum formed cup, essentially trash.",
     "symbol": ")",
     "color": "light_cyan",
-    "unseals_into": "null"
+    "unseals_into": "null",
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "flask_glass",
@@ -528,9 +571,82 @@
     "qualities": [ [ "BOIL", 1 ] ]
   },
   {
-    "id": "flask_hip",
+    "id": "test_tube",
     "type": "CONTAINER",
     "category": "other",
+    "name": "test tube",
+    "description": "A 10ml laboratory cylindrical test tube, with a rubber stopper.",
+    "weight": 36,
+    "volume": "10ml",
+    "price": 300,
+    "to_hit": -1,
+    "bashing": 1,
+    "material": "glass",
+    "symbol": ")",
+    "color": "light_cyan",
+    "contains": "10ml",
+    "seals": true,
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "beaker",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "beaker",
+    "description": "A 250ml laboratory beaker.  Basically a cup with delusions of grandeur.",
+    "weight": 150,
+    "volume": "250ml",
+    "price": 500,
+    "to_hit": -1,
+    "material": "glass",
+    "symbol": ")",
+    "color": "light_cyan",
+    "contains": "250ml",
+    "seals": false,
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "gradcylinder",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "graduated cylinder",
+    "description": "A tall, narrow glass cylinder with precise markings for measuring fluid quantities.  An important science tool, it is also useful for anal retentive chefs.",
+    "weight": 150,
+    "volume": "100ml",
+    "price": 500,
+    "to_hit": -1,
+    "material": "glass",
+    "symbol": "|",
+    "color": "light_cyan",
+    "contains": "100ml",
+    "seals": false,
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "test_tube_micro",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "microcentrifuge tube",
+    "description": "These plastic tubes, with little built in snap-caps, are a great way to store a tiny amount of liquid.  Great for jello shooters if 1mL is enough for a shot for you.  Cool people call these \"eppies\".",
+    "weight": 1,
+    "volume": "1ml",
+    "price": 10,
+    "to_hit": -1,
+    "material": "plastic",
+    "symbol": "v",
+    "color": "light_cyan",
+    "contains": "1ml",
+    "seals": true,
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "flask_hip",
+    "type": "CONTAINER",
+    "category": "clothing",
     "name": "hip flask",
     "description": "A 250 ml metal flask with a hinged screw-on lid, commonly used to discreetly transport alcohol.",
     "weight": 120,
@@ -544,48 +660,9 @@
     "contains": 1,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "LEG_EITHER" ],
-      "coverage": 2,
-      "material_thickness": 1
-    },
+    "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 2, "material_thickness": 1 },
     "qualities": [ [ "BOIL", 1 ] ],
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
-  },
-  {
-    "id": "glass",
-    "type": "CONTAINER",
-    "name": "glass cup",
-    "name_plural": "glasses",
-    "description": "A tall glass, just begging for a frosty one!",
-    "weight": 375,
-    "volume": 2,
-    "price": 400,
-    "price_postapoc": 0,
-    "bashing": 1,
-    "material": "glass",
-    "symbol": ",",
-    "color": "cyan",
-    "contains": 2,
-    "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ] ]
-  },
-  {
-    "id": "glass_bowl",
-    "type": "CONTAINER",
-    "name": "glass bowl",
-    "description": "A glass dessert bowl, not a lot of use for it really.",
-    "weight": 500,
-    "volume": 1,
-    "price": 800,
-    "price_postapoc": 0,
-    "bashing": 1,
-    "material": "glass",
-    "symbol": ",",
-    "color": "cyan",
-    "contains": 1,
-    "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "jar_3l_glass",
@@ -700,7 +777,8 @@
     "color": "brown",
     "contains": 4,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
   {
     "id": "jug_plastic",
@@ -736,7 +814,7 @@
     "contains": 200,
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "keg_steel",
@@ -755,7 +833,7 @@
     "contains": 200,
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "large_stomach_sealed",
@@ -794,12 +872,12 @@
     "contains": "60L",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "metal_tank_little",
     "type": "CONTAINER",
-    "category": "other",
+    "category": "spare_parts",
     "name": "metal tank (2L)",
     "name_plural": "metal tanks (2L)",
     "description": "A small metal tank for gas or liquids.  Useful for crafting.",
@@ -814,7 +892,7 @@
     "contains": "2L",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "stomach_sealed",
@@ -838,7 +916,7 @@
   {
     "id": "waterskin",
     "type": "CONTAINER",
-    "category": "other",
+    "category": "clothing",
     "name": "small waterskin",
     "description": "A small watertight leather bag with a carrying strap, can hold 1.5 liters of water.",
     "weight": 453,
@@ -853,17 +931,13 @@
     "contains": 6,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "LEG_EITHER" ],
-      "coverage": 5,
-      "material_thickness": 2
-    },
+    "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 5, "material_thickness": 2 },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
     "id": "waterskin2",
     "type": "CONTAINER",
-    "category": "other",
+    "category": "clothing",
     "name": "waterskin",
     "description": "A watertight leather bag with a carrying strap, can hold 3 liters of water.",
     "weight": 783,
@@ -878,17 +952,13 @@
     "contains": 12,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "TORSO" ],
-      "coverage": 10,
-      "material_thickness": 2
-    },
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 10, "material_thickness": 2 },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
     "id": "waterskin3",
     "type": "CONTAINER",
-    "category": "other",
+    "category": "clothing",
     "name": "large waterskin",
     "description": "A large watertight leather bag with a carrying strap, can hold 5 liters of water.",
     "weight": 990,
@@ -903,11 +973,7 @@
     "contains": 20,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "TORSO" ],
-      "coverage": 15,
-      "material_thickness": 2
-    },
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 15, "material_thickness": 2 },
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -926,7 +992,8 @@
     "color": "brown",
     "contains": 400,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "wrapper",
@@ -944,5 +1011,57 @@
     "color": "light_gray",
     "contains": 10,
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "styrofoam_cup",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "styrofoam cup",
+    "description": "A cheap, disposable cup with a plastic lid and straw.",
+    "weight": 50,
+    "volume": 2,
+    "price": 0,
+    "material": "plastic",
+    "symbol": ")",
+    "color": "white",
+    "contains": 2,
+    "seals": true,
+    "watertight": true
+  },
+  {
+    "id": "plastic_bucket",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "plastic tub",
+    "description": "A big, square plastic bucket usually used for carrying ice cream.",
+    "weight": 1360,
+    "volume": 16,
+    "price": 10,
+    "price_postapoc": 100,
+    "material": "plastic",
+    "symbol": ")",
+    "color": "white",
+    "contains": 17,
+    "seals": true,
+    "watertight": true
+  },
+  {
+    "id": "condom",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "condom",
+    "description": "A gentleman's balloon.  A single use life preventer.  A thumbless latex mitten.  This could be used as a makeshift water container, but otherwise it's anyone's guess what it's for.",
+    "weight": 5,
+    "volume": 0,
+    "price": 0,
+    "to_hit": -5,
+    "rigid": false,
+    "material": "plastic",
+    "symbol": ")",
+    "color": "white",
+    "contains": 15,
+    "watertight": true,
+    "seals": true,
+    "properties": [ [ "burst_when_filled", "75" ] ]
   }
 ]

@@ -3,6 +3,8 @@
 #define CALENDAR_H
 
 #include <string>
+#include <iosfwd>
+#include <utility>
 
 class time_duration;
 class time_point;
@@ -10,22 +12,22 @@ class JsonOut;
 class JsonIn;
 
 /**
- * Convert minutes to six-second turns
+ * Convert minutes to one-second turns
  *
  * @param n Time in minutes
- * @returns Time in six-second turns
+ * @returns Time in one-second turns
  *
  */
 constexpr int MINUTES( int n )
 {
-    return n * 10;
+    return n * 60;
 }
 
 /**
- * Convert hours to six-second turns
+ * Convert hours to one-second turns
  *
  * @param n Time in hours
- * @returns Time in six-second turns
+ * @returns Time in one-second turns
  */
 constexpr int HOURS( int n )
 {
@@ -33,10 +35,10 @@ constexpr int HOURS( int n )
 }
 
 /**
- * Convert days to six-second turns
+ * Convert days to one-second turns
  *
  * @param n Time in days
- * @returns Time in six-second turns
+ * @returns Time in one-second turns
  */
 constexpr int DAYS( int n )
 {
@@ -51,7 +53,7 @@ constexpr int DAYS( int n )
  */
 constexpr int TICKS_TO_SECONDS( int ticks )
 {
-    return static_cast<int>( static_cast<float>( ticks ) / 16.67 );
+    return static_cast<int>( static_cast<float>( ticks ) / 100 );
 }
 
 /** How much light moon provides per lit-up quarter (Full-moon light is four times this value) */
@@ -100,8 +102,7 @@ class calendar
 {
     private:
         /**
-         *  This is the basic "quantum" unit of world time.  It is a six second interval,
-         *  so "seconds" value on the clock will always be a multiple of 6.
+         *  This is the basic "quantum" unit of world time.  It is a one second interval.
          */
         int turn_number;
 
@@ -149,13 +150,11 @@ class calendar
         calendar( int turn );
 
         /**
-         * Alternative accessor for current turn_number.
+         * Accessor for current turn_number.
          *
-         * @deprecated Use get_turn() instead
-         *
-         * @returns same value as @ref get_turn()
+         * @returns Current turn number.
          */
-        operator int() const; // Returns get_turn() for backwards compatibility
+        operator int() const;
 
         // Basic calendar operators. Usually modifies or checks the turn_number of the calendar
         calendar &operator = ( const calendar &rhs ) = default;
@@ -171,7 +170,7 @@ class calendar
         bool      operator ==( int rhs ) const;
         bool      operator ==( const calendar &rhs ) const;
 
-        /** Increases turn_number by 1. (6 seconds) */
+        /** Increases turn_number by 1. (1 second) */
         void increment();
 
         // Sunlight and day/night calculations
@@ -181,6 +180,10 @@ class calendar
         calendar sunset() const;
         /** Returns true if it's currently after sunset + TWILIGHT_SECONDS or before sunrise - TWILIGHT_SECONDS. */
         bool is_night() const;
+        /** Returns true if it's currently after sunset and before sunset + TWILIGHT_SECONDS. */
+        bool is_sunset_now() const;
+        /** Returns true if it's currently after sunrise and before sunrise + TWILIGHT_SECONDS. */
+        bool is_sunrise_now() const;
         /** Returns the current seasonally-adjusted maximum daylight level */
         double current_daylight_level() const;
         /** Returns the current sunlight or moonlight level through the preceding functions. */
@@ -200,8 +203,7 @@ class calendar
         /**
          * The expected duration of the cataclysm
          *
-         * Large number that can be used to approximate infinite amounts of time.  Represents
-         * approximately 60 billion years (in six-second increments).
+         * Large number that can be used to approximate infinite amounts of time.
          *
          * This number should be regarded as a number of turns, and can safely be converted to a
          * number of seconds or moves (movement points) without integer overflow.  If used to
@@ -246,32 +248,36 @@ class calendar
         /**
          * Represents time point 0.
          */
-        //@todo: flesh out the documentation
+        // TODO: flesh out the documentation
         static const time_point time_of_cataclysm;
 };
 
 template<typename T>
-constexpr T to_turns( const time_duration duration );
+constexpr T to_turns( const time_duration &duration );
 template<typename T>
-constexpr T to_minutes( const time_duration duration );
+constexpr T to_seconds( const time_duration &duration );
 template<typename T>
-constexpr T to_hours( const time_duration duration );
+constexpr T to_minutes( const time_duration &duration );
 template<typename T>
-constexpr T to_days( const time_duration duration );
+constexpr T to_hours( const time_duration &duration );
 template<typename T>
-constexpr T to_moves( const time_duration duration );
+constexpr T to_days( const time_duration &duration );
+template<typename T>
+constexpr T to_weeks( const time_duration &duration );
+template<typename T>
+constexpr T to_moves( const time_duration &duration );
 
 template<typename T>
-constexpr T to_turn( const time_point point );
+constexpr T to_turn( const time_point &point );
 
 template<typename T>
-constexpr time_duration operator/( const time_duration lhs, const T rhs );
+constexpr time_duration operator/( const time_duration &lhs, const T rhs );
 template<typename T>
 inline time_duration &operator/=( time_duration &lhs, const T rhs );
 template<typename T>
-constexpr time_duration operator*( const time_duration lhs, const T rhs );
+constexpr time_duration operator*( const time_duration &lhs, const T rhs );
 template<typename T>
-constexpr time_duration operator*( const T lhs, const time_duration rhs );
+constexpr time_duration operator*( const T lhs, const time_duration &rhs );
 template<typename T>
 inline time_duration &operator*=( time_duration &lhs, const T rhs );
 
@@ -306,8 +312,12 @@ class time_duration
         explicit constexpr time_duration( const int t ) : turns_( t ) { }
 
     public:
+        time_duration() = default;
+
         /// Allows writing `time_duration d = 0;`
         time_duration( const std::nullptr_t ) : turns_( 0 ) { }
+
+        static time_duration read_from_json_string( JsonIn &jsin );
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
@@ -317,7 +327,7 @@ class time_duration
          * units. Note that a duration is stored as integer number of turns, so
          * `from_minutes( 0.0001 )` will be stored as "0 turns".
          * The template type is used for the conversion from given time unit to turns, so
-         * `from_hours( 0.5 )` will yield "300 turns".
+         * `from_hours( 0.5 )` will yield "1800 turns".
          * Conversion of units greater than days (seasons) is not supported because they
          * depend on option settings ("season length").
          */
@@ -327,8 +337,12 @@ class time_duration
             return time_duration( t );
         }
         template<typename T>
+        static constexpr time_duration from_seconds( const T t ) {
+            return time_duration( t );
+        }
+        template<typename T>
         static constexpr time_duration from_minutes( const T m ) {
-            return from_turns( m * 10 );
+            return from_turns( m * 60 );
         }
         template<typename T>
         static constexpr time_duration from_hours( const T h ) {
@@ -352,67 +366,75 @@ class time_duration
          */
         /**@{*/
         template<typename T>
-        friend constexpr T to_turns( const time_duration duration ) {
+        friend constexpr T to_turns( const time_duration &duration ) {
             return duration.turns_;
         }
         template<typename T>
-        friend constexpr T to_minutes( const time_duration duration ) {
-            return static_cast<T>( duration.turns_ ) / static_cast<T>( 10 );
+        friend constexpr T to_seconds( const time_duration &duration ) {
+            return duration.turns_;
         }
         template<typename T>
-        friend constexpr T to_hours( const time_duration duration ) {
-            return static_cast<T>( duration.turns_ ) / static_cast<T>( 10 * 60 );
+        friend constexpr T to_minutes( const time_duration &duration ) {
+            return static_cast<T>( duration.turns_ ) / static_cast<T>( 60 );
         }
         template<typename T>
-        friend constexpr T to_days( const time_duration duration ) {
-            return static_cast<T>( duration.turns_ ) / static_cast<T>( 10 * 60 * 24 );
+        friend constexpr T to_hours( const time_duration &duration ) {
+            return static_cast<T>( duration.turns_ ) / static_cast<T>( 60 * 60 );
         }
         template<typename T>
-        friend constexpr T to_moves( const time_duration duration ) {
+        friend constexpr T to_days( const time_duration &duration ) {
+            return static_cast<T>( duration.turns_ ) / static_cast<T>( 60 * 60 * 24 );
+        }
+        template<typename T>
+        friend constexpr T to_weeks( const time_duration &duration ) {
+            return static_cast<T>( duration.turns_ ) / static_cast<T>( 60 * 60 * 24 * 7 );
+        }
+        template<typename T>
+        friend constexpr T to_moves( const time_duration &duration ) {
             return to_turns<int>( duration ) * 100;
         }
         /**@{*/
 
-        constexpr bool operator<( const time_duration rhs ) const {
+        constexpr bool operator<( const time_duration &rhs ) const {
             return turns_ < rhs.turns_;
         }
-        constexpr bool operator<=( const time_duration rhs ) const {
+        constexpr bool operator<=( const time_duration &rhs ) const {
             return turns_ <= rhs.turns_;
         }
-        constexpr bool operator>( const time_duration rhs ) const {
+        constexpr bool operator>( const time_duration &rhs ) const {
             return turns_ > rhs.turns_;
         }
-        constexpr bool operator>=( const time_duration rhs ) const {
+        constexpr bool operator>=( const time_duration &rhs ) const {
             return turns_ >= rhs.turns_;
         }
-        constexpr bool operator==( const time_duration rhs ) const {
+        constexpr bool operator==( const time_duration &rhs ) const {
             return turns_ == rhs.turns_;
         }
-        constexpr bool operator!=( const time_duration rhs ) const {
+        constexpr bool operator!=( const time_duration &rhs ) const {
             return turns_ != rhs.turns_;
         }
 
-        friend constexpr time_duration operator-( const time_duration duration ) {
+        friend constexpr time_duration operator-( const time_duration &duration ) {
             return time_duration( -duration.turns_ );
         }
-        friend constexpr time_duration operator+( const time_duration lhs, const time_duration rhs ) {
+        friend constexpr time_duration operator+( const time_duration &lhs, const time_duration &rhs ) {
             return time_duration( lhs.turns_ + rhs.turns_ );
         }
-        friend time_duration &operator+=( time_duration &lhs, const time_duration rhs ) {
+        friend time_duration &operator+=( time_duration &lhs, const time_duration &rhs ) {
             return lhs = time_duration( lhs.turns_ + rhs.turns_ );
         }
-        friend constexpr time_duration operator-( const time_duration lhs, const time_duration rhs ) {
+        friend constexpr time_duration operator-( const time_duration &lhs, const time_duration &rhs ) {
             return time_duration( lhs.turns_ - rhs.turns_ );
         }
-        friend time_duration &operator-=( time_duration &lhs, const time_duration rhs ) {
+        friend time_duration &operator-=( time_duration &lhs, const time_duration &rhs ) {
             return lhs = time_duration( lhs.turns_ - rhs.turns_ );
         }
         // Using double here because it has the highest precision. Callers can cast it to whatever they want.
-        friend double operator/( const time_duration lhs, const time_duration rhs ) {
+        friend double operator/( const time_duration &lhs, const time_duration &rhs ) {
             return static_cast<double>( lhs.turns_ ) / static_cast<double>( rhs.turns_ );
         }
         template<typename T>
-        friend constexpr time_duration operator/( const time_duration lhs, const T rhs ) {
+        friend constexpr time_duration operator/( const time_duration &lhs, const T rhs ) {
             return time_duration( lhs.turns_ / rhs );
         }
         template<typename T>
@@ -420,11 +442,11 @@ class time_duration
             return lhs = time_duration( lhs.turns_ / rhs );
         }
         template<typename T>
-        friend constexpr time_duration operator*( const time_duration lhs, const T rhs ) {
+        friend constexpr time_duration operator*( const time_duration &lhs, const T rhs ) {
             return time_duration( lhs.turns_ * rhs );
         }
         template<typename T>
-        friend constexpr time_duration operator*( const T lhs, const time_duration rhs ) {
+        friend constexpr time_duration operator*( const T lhs, const time_duration &rhs ) {
             return time_duration( lhs * rhs.turns_ );
         }
         template<typename T>
@@ -451,6 +473,10 @@ constexpr time_duration operator"" _turns( const unsigned long long int v )
 {
     return time_duration::from_turns( v );
 }
+constexpr time_duration operator"" _seconds( const unsigned long long int v )
+{
+    return time_duration::from_seconds( v );
+}
 constexpr time_duration operator"" _minutes( const unsigned long long int v )
 {
     return time_duration::from_minutes( v );
@@ -473,19 +499,46 @@ constexpr time_duration operator"" _days( const unsigned long long int v )
  * 0 so it's skipped).
  */
 std::string to_string( const time_duration &d );
+
+enum class clipped_align {
+    none,
+    right,
+};
+
+enum class clipped_unit {
+    forever,
+    second,
+    minute,
+    hour,
+    day,
+    week,
+    season,
+    year,
+};
+
 /**
- * Returns a string showing a duration as whole number of appropriate units, e.g.
+ * Returns a value representing the passed in duration truncated to an appropriate unit
+ * along with the unit in question.
  * "10 days" or "1 minute".
- * The chosen unit will be the largest unit, that is as least as much as the
+ * The chosen unit will be the smallest unit, that is at least as much as the
  * given duration. E.g. an input of 60 minutes will return "1 hour", an input of
  * 59 minutes will return "59 minutes".
  */
-std::string to_string_clipped( const time_duration &d );
+std::pair<int, clipped_unit> clipped_time( const time_duration &d );
+
+/**
+ * Returns a string showing a duration as whole number of appropriate units, e.g.
+ * "10 days" or "1 minute".
+ * The chosen unit will be the smallest unit, that is at least as much as the
+ * given duration. E.g. an input of 60 minutes will return "1 hour", an input of
+ * 59 minutes will return "59 minutes".
+ */
+std::string to_string_clipped( const time_duration &d, clipped_align align = clipped_align::none );
 /**
  * Returns approximate duration.
  * @param verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.
  */
-std::string to_string_approx( const time_duration &d, bool verbose = true );
+std::string to_string_approx( const time_duration &dur, bool verbose = true );
 
 /**
  * A point in the game time. Use `calendar::turn` to get the current point.
@@ -503,16 +556,17 @@ class time_point
         int turn_;
 
     public:
-        //@todo: make private
-        //@todo: make explicit
+        time_point();
+        // TODO: make private
+        // TODO: make explicit
         constexpr time_point( const int t ) : turn_( t ) { }
 
     public:
-        //@todo: replace usage of `calendar` with `time_point`, remove this constructor
+        // TODO: replace usage of `calendar` with `time_point`, remove this constructor
         time_point( const calendar &c ) : turn_( c ) { }
         /// Allows writing `time_point p = 0;`
         constexpr time_point( const std::nullptr_t ) : turn_( 0 ) { }
-        //@todo: remove this, nobody should need it, one should use a constant `time_point`
+        // TODO: remove this, nobody should need it, one should use a constant `time_point`
         // (representing turn 0) and a `time_duration` instead.
         static constexpr time_point from_turn( const int t ) {
             return time_point( t );
@@ -521,57 +575,57 @@ class time_point
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
 
-        //@todo: try to get rid of this
+        // TODO: try to get rid of this
         template<typename T>
-        friend constexpr T to_turn( const time_point point ) {
+        friend constexpr T to_turn( const time_point &point ) {
             return point.turn_;
         }
 
-        //@todo: implement minutes_of_hour and so on and use it.
+        // TODO: implement minutes_of_hour and so on and use it.
 };
 
-constexpr inline bool operator<( const time_point lhs, const time_point rhs )
+constexpr inline bool operator<( const time_point &lhs, const time_point &rhs )
 {
     return to_turn<int>( lhs ) < to_turn<int>( rhs );
 }
-constexpr inline bool operator<=( const time_point lhs, const time_point rhs )
+constexpr inline bool operator<=( const time_point &lhs, const time_point &rhs )
 {
     return to_turn<int>( lhs ) <= to_turn<int>( rhs );
 }
-constexpr inline bool operator>( const time_point lhs, const time_point rhs )
+constexpr inline bool operator>( const time_point &lhs, const time_point &rhs )
 {
     return to_turn<int>( lhs ) > to_turn<int>( rhs );
 }
-constexpr inline bool operator>=( const time_point lhs, const time_point rhs )
+constexpr inline bool operator>=( const time_point &lhs, const time_point &rhs )
 {
     return to_turn<int>( lhs ) >= to_turn<int>( rhs );
 }
-constexpr inline bool operator==( const time_point lhs, const time_point rhs )
+constexpr inline bool operator==( const time_point &lhs, const time_point &rhs )
 {
     return to_turn<int>( lhs ) == to_turn<int>( rhs );
 }
-constexpr inline bool operator!=( const time_point lhs, const time_point rhs )
+constexpr inline bool operator!=( const time_point &lhs, const time_point &rhs )
 {
     return to_turn<int>( lhs ) != to_turn<int>( rhs );
 }
 
-constexpr inline time_duration operator-( const time_point lhs, const time_point rhs )
+constexpr inline time_duration operator-( const time_point &lhs, const time_point &rhs )
 {
     return time_duration::from_turns( to_turn<int>( lhs ) - to_turn<int>( rhs ) );
 }
-constexpr inline time_point operator+( const time_point lhs, const time_duration rhs )
+constexpr inline time_point operator+( const time_point &lhs, const time_duration &rhs )
 {
     return time_point::from_turn( to_turn<int>( lhs ) + to_turns<int>( rhs ) );
 }
-time_point inline &operator+=( time_point &lhs, const time_duration rhs )
+time_point inline &operator+=( time_point &lhs, const time_duration &rhs )
 {
     return lhs = time_point::from_turn( to_turn<int>( lhs ) + to_turns<int>( rhs ) );
 }
-constexpr inline time_point operator-( const time_point lhs, const time_duration rhs )
+constexpr inline time_point operator-( const time_point &lhs, const time_duration &rhs )
 {
     return time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
 }
-time_point inline &operator-=( time_point &lhs, const time_duration rhs )
+time_point inline &operator-=( time_point &lhs, const time_duration &rhs )
 {
     return lhs = time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
 }

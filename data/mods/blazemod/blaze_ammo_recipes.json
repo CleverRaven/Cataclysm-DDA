@@ -8,12 +8,26 @@
     "difficulty": 3,
     "time": 5000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
-    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ], [ "duct_tape", 5 ] ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "adhesive", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ] ],
-      [ [ "gunpowder", 216 ], [ "gasoline", 600 ], [ "diesel", 600 ], [ "chem_rdx", 1 ], [ "chem_hmtd", 2 ], [ "chem_anfo", 5 ], [ "matchbomb", 3 ] ],
-      [ [ "smpistol_primer", 1 ], [ "lgpistol_primer", 1 ], [ "smrifle_primer", 1 ], [ "lgrifle_primer", 1 ], [ "shotgun_primer", 1 ] ]
+      [
+        [ "gunpowder", 216 ],
+        [ "gasoline", 600 ],
+        [ "diesel", 600 ],
+        [ "chem_rdx", 1 ],
+        [ "chem_hmtd", 2 ],
+        [ "chem_anfo", 5 ],
+        [ "matchbomb", 3 ]
+      ],
+      [
+        [ "smpistol_primer", 1 ],
+        [ "lgpistol_primer", 1 ],
+        [ "smrifle_primer", 1 ],
+        [ "lgrifle_primer", 1 ],
+        [ "shotgun_primer", 1 ]
+      ]
     ]
   },
   {
@@ -25,12 +39,25 @@
     "difficulty": 3,
     "time": 5000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
-    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ], [ "duct_tape", 5 ] ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "adhesive", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "can_food_unsealed", 5 ], [ "can_drink_unsealed", 5 ], [ "canister_empty", 5 ], [ "clay_canister", 5 ] ],
-      [ [ "dynamite", 1 ], [ "c4", 1 ], [ "fertilizer_bomb", 1 ], [ "chem_rdx", 5 ], [ "chem_hmtd", 10 ], [ "chem_anfo", 50 ] ],
-      [ [ "smpistol_primer", 1 ], [ "lgpistol_primer", 1 ], [ "smrifle_primer", 1 ], [ "lgrifle_primer", 1 ], [ "shotgun_primer", 1 ] ]
+      [
+        [ "dynamite", 1 ],
+        [ "c4", 1 ],
+        [ "fertilizer_bomb", 1 ],
+        [ "chem_rdx", 5 ],
+        [ "chem_hmtd", 10 ],
+        [ "chem_anfo", 50 ]
+      ],
+      [
+        [ "smpistol_primer", 1 ],
+        [ "lgpistol_primer", 1 ],
+        [ "smrifle_primer", 1 ],
+        [ "lgrifle_primer", 1 ],
+        [ "shotgun_primer", 1 ]
+      ]
     ]
   },
   {
@@ -43,12 +70,24 @@
     "skills_required": [ "mechanics", 1 ],
     "time": 5000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
-    "tools": [ [ [ "soldering_iron", 5 ], [ "toolset", 5 ], [ "duct_tape", 2 ] ] ],
+    "using": [ [ "soldering_standard", 5 ], [ "adhesive", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ] ],
-      [ [ "hard_liquor_chem", 7, "LIST" ], [ "lamp_oil", 150 ], [ "gasoline", 200 ], [ "diesel", 200 ], [ "napalm", 100 ] ],
-      [ [ "smpistol_primer", 1 ], [ "lgpistol_primer", 1 ], [ "smrifle_primer", 1 ], [ "lgrifle_primer", 1 ], [ "shotgun_primer", 1 ] ]
+      [
+        [ "hard_liquor_chem", 7, "LIST" ],
+        [ "lamp_oil", 150 ],
+        [ "gasoline", 200 ],
+        [ "diesel", 200 ],
+        [ "napalm", 100 ]
+      ],
+      [
+        [ "smpistol_primer", 1 ],
+        [ "lgpistol_primer", 1 ],
+        [ "smrifle_primer", 1 ],
+        [ "lgrifle_primer", 1 ],
+        [ "shotgun_primer", 1 ]
+      ]
     ]
   },
   {
@@ -61,18 +100,25 @@
     "skills_required": [ "cooking", 2 ],
     "time": 5000,
     "autolearn": true,
-    "qualities": [
-      { "id": "CUT", "level": 1, "amount": 1 },
-      { "id": "BOIL", "level": 1, "amount": 1 }
-    ],
-    "tools": [
-      [ [ "soldering_iron", 5 ], [ "toolset", 5 ], [ "duct_tape", 2 ] ],
-      [ [ "surface_heat", 3, "LIST" ] ]
-    ],
+    "using": [ [ "soldering_standard", 5 ], [ "adhesive", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
     "components": [
       [ [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ] ],
-      [ [ "hard_liquor_chem", 21, "LIST" ], [ "lamp_oil", 600 ], [ "gasoline", 1000 ], [ "diesel", 1000 ], [ "napalm", 400 ] ],
-      [ [ "smpistol_primer", 1 ], [ "lgpistol_primer", 1 ], [ "smrifle_primer", 1 ], [ "lgrifle_primer", 1 ], [ "shotgun_primer", 1 ] ]
+      [
+        [ "hard_liquor_chem", 21, "LIST" ],
+        [ "lamp_oil", 600 ],
+        [ "gasoline", 1000 ],
+        [ "diesel", 1000 ],
+        [ "napalm", 400 ]
+      ],
+      [
+        [ "smpistol_primer", 1 ],
+        [ "lgpistol_primer", 1 ],
+        [ "smrifle_primer", 1 ],
+        [ "lgrifle_primer", 1 ],
+        [ "shotgun_primer", 1 ]
+      ]
     ]
   },
   {
@@ -84,13 +130,26 @@
     "difficulty": 3,
     "time": 5000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
-    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ], [ "duct_tape", 5 ] ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "adhesive", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ] ],
-      [ [ "gunpowder", 72 ], [ "gasoline", 200 ], [ "diesel", 200 ], [ "chem_rdx", 1 ], [ "chem_hmtd", 2 ], [ "chem_anfo", 5 ] ],
+      [
+        [ "gunpowder", 72 ],
+        [ "gasoline", 200 ],
+        [ "diesel", 200 ],
+        [ "chem_rdx", 1 ],
+        [ "chem_hmtd", 2 ],
+        [ "chem_anfo", 5 ]
+      ],
       [ [ "lead", 120 ], [ "nail", 30 ], [ "bb", 100 ], [ "shards", 50 ], [ "material_sand", 200 ] ],
-      [ [ "smpistol_primer", 1 ], [ "lgpistol_primer", 1 ], [ "smrifle_primer", 1 ], [ "lgrifle_primer", 1 ], [ "shotgun_primer", 1 ] ]
+      [
+        [ "smpistol_primer", 1 ],
+        [ "lgpistol_primer", 1 ],
+        [ "smrifle_primer", 1 ],
+        [ "lgrifle_primer", 1 ],
+        [ "shotgun_primer", 1 ]
+      ]
     ]
   },
   {
@@ -102,7 +161,7 @@
     "difficulty": 3,
     "time": 20000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick", 10 ], [ "2x4", 5 ], [ "log", 1 ] ] ]
   },
   {
@@ -114,7 +173,7 @@
     "difficulty": 0,
     "time": 2000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "hbolt_wood", 1 ], [ "hbolt_metal", 1 ] ],
       [ [ "canbomb", 1 ] ],
@@ -130,7 +189,7 @@
     "difficulty": 0,
     "time": 2000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "hbolt_wood", 1 ], [ "hbolt_metal", 1 ] ],
       [ [ "canbomb2", 1 ] ],
@@ -146,7 +205,7 @@
     "difficulty": 0,
     "time": 2000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "hbolt_wood", 1 ], [ "hbolt_metal", 1 ] ],
       [ [ "canbombfire", 1 ], [ "molotov", 1 ] ],
@@ -162,7 +221,7 @@
     "difficulty": 0,
     "time": 2000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "hbolt_wood", 1 ], [ "hbolt_metal", 1 ] ],
       [ [ "canbombfire2", 1 ], [ "40mm_incendiary", 1 ], [ "grenade_inc", 1 ] ],
@@ -178,7 +237,7 @@
     "difficulty": 0,
     "time": 2000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "hbolt_wood", 1 ], [ "hbolt_metal", 1 ] ],
       [ [ "canbombfrag", 1 ], [ "grenade", 1 ], [ "landmine", 1 ], [ "40mm_frag", 1 ], [ "pipebomb", 1 ] ],
@@ -195,12 +254,9 @@
     "skills_required": [ "archery", 2 ],
     "time": 15000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
-    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ] ],
-    "components": [
-      [ [ "stick", 5 ], [ "broom", 5 ], [ "mop", 5 ], [ "2x4", 5 ], [ "log", 1 ] ],
-      [ [ "scrap", 10 ], [ "rebar", 2 ] ]
-    ]
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "stick", 5 ], [ "broom", 5 ], [ "mop", 5 ], [ "2x4", 5 ], [ "log", 1 ] ], [ [ "scrap", 10 ], [ "rebar", 2 ] ] ]
   },
   {
     "result": "hbolt_nuke",
@@ -211,7 +267,7 @@
     "difficulty": 0,
     "time": 2000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "hbolt_wood", 1 ], [ "hbolt_metal", 1 ] ],
       [ [ "mininuke", 1 ] ],
@@ -228,7 +284,7 @@
     "skills_required": [ "archery", 2 ],
     "time": 15000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick", 5 ], [ "broom", 5 ], [ "mop", 5 ], [ "2x4", 5 ], [ "log", 1 ] ] ]
   },
   {
@@ -242,11 +298,7 @@
     "reversible": true,
     "decomp_learn": 1,
     "autolearn": true,
-    "tools": [
-      [ [ "crucible", -1 ] ],
-      [ [ "surface_heat", 20, "LIST" ] ],
-      [ [ "mold_plastic", -1 ] ]
-    ],
+    "tools": [ [ [ "crucible", -1 ] ], [ [ "surface_heat", 20, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
     "components": [ [ [ "lead", 100 ] ] ]
   },
   {
@@ -259,16 +311,8 @@
     "time": 20000,
     "autolearn": true,
     "using": [ [ "forging_standard", 1 ], [ "steel_standard", 1 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 1, "amount": 1 },
-      { "id": "CUT", "level": 1, "amount": 1 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
-      [ [ "swage", -1 ] ]
-    ]
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ]
   },
   {
     "result": "shards",
@@ -279,10 +323,7 @@
     "difficulty": 0,
     "time": 5000,
     "autolearn": true,
-    "qualities": [
-      { "id": "CUT", "level": 1, "amount": 1 },
-      { "id": "HAMMER", "level": 1, "amount": 1 }
-    ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 9 ], [ "steel_chunk", 3 ], [ "steel_lump", 1 ] ] ]
   }
 ]

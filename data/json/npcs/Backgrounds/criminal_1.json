@@ -1,0 +1,43 @@
+[
+  {
+    "id": "BGSS_CRIMINAL_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I was just sittin' in lockup.  They took me in the night before, for a bullshit parole violation.  Assholes.  I was stuck in my cell when the cops all started yelling about an emergency, geared up, and left me in there with just this <dumb> robot for a guard.  I was stuck in there for two god-damn days, with no food and only a little water.  Then this big-ass zombie busted in, and started fighting the robot.  I didn't know what the fuck to think, but in the fighting they smashed open my cell door, and I managed to slip out.",
+    "responses": [
+      { "text": "Lucky you.  How did you get away?", "topic": "BGSS_CRIMINAL_1_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_CRIMINAL_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "It was just <swear> chaos on the streets, man.  But I'm used to chaos.  You don't live as long as I've lived and not know how to keep away from a fight you can't win.  Biggest worry wasn't the zombies and the monsters, honestly.  It was the fuckin' police robots.  They knew I was in violation, and they kept trying to arrest me.",
+    "responses": [
+      { "text": "How did you keep from getting arrested?", "topic": "BGSS_CRIMINAL_1_STORY3" },
+      { "text": "What were you in for in the first place?", "topic": "BGSS_CRIMINAL_1_PAROLE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_CRIMINAL_1_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "Kept outta their line of sight, is a big part of it.  Don't let those <swear> flyin' cameras get you, you know?  If they do, they call for backup from the big guns, and then, well, I hope you like gettin' tazed and shoved in the back of a van.  I kept my head down until I got past the worst of it, but then one of the <swear> eyebots recognized me and I had to book it.  I was just lucky the bots it called had blown their wad on some giant-ass slime beast and were tryin' to get me with their short range shit.  I wound up on the edge of town layin' low under an abandoned RV for a few hours, then slipped out in the night.",
+    "responses": [
+      { "text": "What were you in for in the first place?", "topic": "BGSS_CRIMINAL_1_PAROLE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_CRIMINAL_1_PAROLE",
+    "type": "talk_topic",
+    "dynamic_line": "Bullshit, that's what.  The assholes busted me on possession, wasn't even my fuckin' stash.  I don't do crack, man, that shit's nasty, I was just carryin' it for my buddy Johnny.  Y'know, this might be a <swear> hellhole now, but if I've seen the last power-trippin' asshole cop, it might all be worth it.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

@@ -13,6 +13,6 @@ struct SpeechBubble {
 
 void load_speech( JsonObject &jo );
 void reset_speech();
-const SpeechBubble &get_speech( const std::string label );
+const SpeechBubble &get_speech( const std::string &label );
 
 #endif

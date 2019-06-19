@@ -5,7 +5,7 @@
     "terrain": {
       "#": "t_floor",
       "+": "t_door_c",
-      "-": "t_wall",
+      "-": "t_wall_w",
       ".": "t_floor",
       "6": "t_console",
       "=": "t_door_locked_alarm",
@@ -24,7 +24,7 @@
       "s": "t_sidewalk",
       "t": "t_floor",
       "w": "t_window",
-      "|": "t_wall"
+      "|": "t_wall_w"
     },
     "furniture": {
       "#": "f_bench",
@@ -37,7 +37,8 @@
       "l": "f_locker",
       "o": "f_bookcase",
       "t": "f_table",
-      "C": "f_crate_c"
+      "C": "f_crate_c",
+      "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
     }
   }
 ]

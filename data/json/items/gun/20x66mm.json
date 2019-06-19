@@ -18,7 +18,7 @@
     "skill": "shotgun",
     "range": 6,
     "ranged_damage": 4,
-    "dispersion": 45,
+    "dispersion": 285,
     "durability": 9,
     "clip_size": 5,
     "barrel_length": 3,
@@ -28,6 +28,7 @@
       [ "mechanism", 4 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
+      [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
@@ -50,7 +51,7 @@
     "color": "dark_gray",
     "ammo": "20x66mm",
     "skill": "shotgun",
-    "dispersion": 390,
+    "dispersion": 335,
     "durability": 9,
     "burst": 4,
     "valid_mod_locations": [
@@ -59,6 +60,7 @@
       [ "mechanism", 4 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
+      [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
@@ -83,7 +85,7 @@
     "color": "dark_gray",
     "ammo": "20x66mm",
     "skill": "pistol",
-    "dispersion": 250,
+    "dispersion": 400,
     "durability": 9,
     "default_mods": [ "pistol_stock" ],
     "valid_mod_locations": [ [ "accessories", 3 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],

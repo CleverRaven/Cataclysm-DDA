@@ -1,0 +1,222 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "id": "dry_hflesh",
+    "copy-from": "dry_meat",
+    "name": "dehydrated human flesh",
+    "name_plural": "dehydrated human flesh",
+    "description": "Dehydrated human flesh flakes.  With proper storage, this dried food will remain edible for an incredibly long time.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "rehydrated_hflesh",
+    "copy-from": "rehydrated_meat",
+    "name": "rehydrated human flesh",
+    "name_plural": "rehydrated human flesh",
+    "description": "Reconstituted human flesh flakes, which are much more enjoyable to eat now that they have been rehydrated.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "human_haggis",
+    "copy-from": "haggis",
+    "name": "human haggis",
+    "name_plural": "human haggii",
+    "description": "This traditional Scottish savory pudding is made of human meat and offal mixed with oatmeal, which is sewn into a human's stomach and boiled.  Surprisingly tasty if you enjoy that kind of thing and quite filling, it is best served with boiled root vegetables and strong whisky.",
+    "material": [ "veggy", "hflesh" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "hfleshbologna",
+    "copy-from": "bologna",
+    "name": "brat bologna",
+    "description": "Preserved and sliced human flesh.  His first name may have been Oscar.  You can eat it cold, like the cold-blooded people-eater you are.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "h_currywurst",
+    "copy-from": "currywurst",
+    "name": "cheapskate currywurst",
+    "description": "Mannwurst covered in a curry ketchup sauce.  Fairly spicy and impressive at the same time!",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mannwurstgravy",
+    "copy-from": "sausagegravy",
+    "name": "Mannwurst gravy",
+    "name_plural": "Mannwurst gravies",
+    "description": "Biscuits, human flesh, and delicious mushroom soup all crammed together into a wonderfully greasy and tasteful mush.",
+    "material": [ "hflesh", "wheat", "mushroom" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "hflesh_aspic",
+    "copy-from": "meat_aspic",
+    "name": "amoral aspic",
+    "//": "See also: ableist, alogical, antihero, annoying, alliterate (made from illiterate person), antagonist, adversary, arrogant, asocial, the list goes on and on out from the chat where it began...",
+    "description": "A dish in which human meat has been set into a gelatin made from human bones.  Murderously delicious - if you're into that sort of thing.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "hflesh_pemmican",
+    "name": "prepper pemmican",
+    "copy-from": "pemmican",
+    "description": "A concentrated mixture of fat and protein used as a nutritious high-energy food.  Composed of tallow, edible plants, and an unfortunate prepper.",
+    "material": [ "hflesh", "veggy" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "sandwich_human",
+    "copy-from": "sandwich_t",
+    "name": "slob sandwich",
+    "name_plural": "slob sandwiches",
+    "description": "Bread and human flesh, surprise!",
+    "material": [ "hflesh", "wheat" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "sandwich_dudeluxe",
+    "copy-from": "sandwich_deluxe",
+    "name": "dudeluxe sandwich",
+    "name_plural": "dudeluxe sandwiches",
+    "description": "A sandwich of human flesh, vegetables, and cheese with condiments.  Feast upon the souls of your enemies and tasty garden greens!",
+    "material": [ "hflesh", "veggy", "wheat", "milk" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "hobo_helper",
+    "copy-from": "macaroni_helper",
+    "name": "hobo helper",
+    "description": "Some mac and cheese with ground human flesh added.  So good it's like murder.",
+    "material": [ "wheat", "hflesh", "milk" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "chili_human",
+    "copy-from": "chili",
+    "name": "chili con cabron",
+    "name_plural": "chilis con cabrones",
+    "description": "A spicy stew containing chili peppers, human flesh, tomatoes and beans.",
+    "material": [ "hflesh", "veggy", "bean", "tomato" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "pie_human",
+    "copy-from": "pie_meat",
+    "name": "prick pie",
+    "description": "A meat pie with a little soldier, or maybe scientist, who knows.  God, that's good!",
+    "material": [ "wheat", "hflesh" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "pizza_human",
+    "copy-from": "pizza_meat",
+    "name": "poser pizza",
+    "description": "A meat pizza, for all the cannibals out there.  Chock full of minced human flesh and heavily seasoned.",
+    "material": [ "wheat", "hflesh" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "human_canned",
+    "copy-from": "meat_canned",
+    "name": "soylent slice",
+    "name_plural": "soylent slices",
+    "description": "Low-sodium preserved human meat.  It was boiled and canned.  Contains most of the nutrition, but little of the savor of cooked meat.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "hflesh_salted",
+    "copy-from": "meat_salted",
+    "name": "salted simpleton slices",
+    "description": "Human flesh slices cured in brine and vacuum-packed.  Salty but tasty in a pinch.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "spaghetti_human",
+    "copy-from": "spaghetti_bolognese",
+    "name": "scoundrel spaghetti",
+    "name_plural": "scoundrel spaghetti",
+    "description": "Spaghetti covered with a thick human flesh sauce.  Tastes great if you enjoy that kind of thing.",
+    "material": [ "wheat", "hflesh" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "luigilasagne",
+    "copy-from": "lasagne",
+    "name": "Luigi lasagne",
+    "description": "A very old type of pasta made with several layers of lasagne sheets alternated with cheese, sauces and meats.  Made better with human flesh.",
+    "material": [ "hflesh", "wheat", "milk" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "cheeseburgerhuman",
+    "copy-from": "cheeseburger",
+    "name": "chump cheeseburger",
+    "description": "A sandwich of minced human flesh and cheese with condiments.  The apex of post-cataclysm cannibalistic culinary achievement.",
+    "material": [ "hflesh", "wheat", "milk" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "bobburger",
+    "copy-from": "hamburger",
+    "name": "bobburger",
+    "description": "This hamburger contains more than the FDA allowable 4% human flesh content.",
+    "material": [ "hflesh", "wheat" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "manwich",
+    "copy-from": "sloppyjoe",
+    "name": "manwich",
+    "name_plural": "manwiches",
+    "description": "A sandwich is a sandwich, but this is made with people!",
+    "material": [ "hflesh", "tomato", "wheat" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "tiotaco",
+    "copy-from": "taco",
+    "name": "tio taco",
+    "description": "A taco made with ground human flesh instead of ground beef.  For some reason you can hear a bell dinging in the distance.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mannwurst_raw",
+    "copy-from": "sausage_raw",
+    "name": "raw Mannwurst",
+    "description": "A hefty raw 'long-pork' sausage that has been prepared for smoking or cooking.",
+    "material": "hflesh",
+    "smoking_result": "mannwurst"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mannwurst_cooked",
+    "copy-from": "sausage_cooked",
+    "name": "cooked Mannwurst",
+    "description": "A hefty raw 'long-pork' sausage that has been cooked.  It smells as delicious as humanly possible.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mann_bratwurst",
+    "copy-from": "bratwurst_sausage",
+    "name": "Mannbrat",
+    "description": "A type of German sausage made of finely chopped humans and meant to be pan fried or roasted.  Better eat it hot and fresh.  By the way, use any human available.  Germans are not mandatory.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "human_pickled",
+    "copy-from": "meat_pickled",
+    "name": "pickled punk",
+    "description": "This is a serving of crisply brined and canned human flesh.  Tasty and nutritious if you're into that sort of thing.",
+    "material": "hflesh"
+  }
+]

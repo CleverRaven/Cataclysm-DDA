@@ -2,36 +2,46 @@
 #ifndef MONSTER_H
 #define MONSTER_H
 
-#include "creature.h"
-#include "enums.h"
-#include "int_id.h"
-#include "calendar.h"
-
-#include <vector>
+#include <climits>
+#include <cstddef>
+#include <bitset>
+#include <functional>
 #include <map>
 #include <set>
-#include <utility>
-#include <bitset>
 #include <string>
+#include <utility>
+#include <vector>
+
+#include "calendar.h"
+#include "creature.h"
+#include "enums.h"
+#include "bodypart.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "damage.h"
+#include "item.h"
+#include "mtype.h"
+#include "optional.h"
+#include "pldata.h"
+#include "type_id.h"
+#include "units.h"
 
 class JsonObject;
 class JsonIn;
 class JsonOut;
-class map;
-class game;
-class item;
-class monfaction;
 class player;
 class Character;
-struct mtype;
-enum monster_trigger : int;
+class effect;
+struct dealt_projectile_attack;
+struct pathfinding_settings;
+struct trap;
+
+enum class mon_trigger;
 enum field_id : int;
 
-using mfaction_id = int_id<monfaction>;
-using mtype_id = string_id<mtype>;
-
 class monster;
-typedef std::map< mfaction_id, std::set< monster * > > mfactions;
+
+using mfactions = std::map< mfaction_id, std::set< monster * > >;
 
 class mon_special_attack
 {
@@ -61,6 +71,16 @@ enum monster_effect_cache_fields {
     NUM_MEFF
 };
 
+enum monster_horde_attraction {
+    MHA_NULL = 0,
+    MHA_ALWAYS,
+    MHA_LARGE,
+    MHA_OUTDOORS,
+    MHA_OUTDOORS_AND_LARGE,
+    MHA_NEVER,
+    NUM_MONSTER_HORDE_ATTRACTION
+};
+
 class monster : public Creature
 {
         friend class editmap;
@@ -86,6 +106,8 @@ class monster : public Creature
         void try_biosignature();
         void spawn( const tripoint &p );
         m_size get_size() const override;
+        units::mass get_weight() const;
+        units::volume get_volume() const;
         int get_hp( hp_part ) const override;
         int get_hp() const override;
         int get_hp_max( hp_part ) const override;
@@ -123,6 +145,7 @@ class monster : public Creature
         bool can_act() const;
         int sight_range( int light_level ) const override;
         bool made_of( const material_id &m ) const override; // Returns true if it's made of m
+        bool made_of_any( const std::set<material_id> &ms ) const override;
         bool made_of( phase_id p ) const; // Returns true if its phase is p
 
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
@@ -174,6 +197,8 @@ class monster : public Creature
         void plan( const mfactions &factions );
         void move(); // Actual movement
         void footsteps( const tripoint &p ); // noise made by movement
+        void shove_vehicle( const tripoint &remote_destination,
+                            const tripoint &nearby_destination ); // shove vehicles out of the way
 
         tripoint scent_move();
         int calc_movecost( const tripoint &f, const tripoint &t ) const;
@@ -242,8 +267,6 @@ class monster : public Creature
         monster_attitude attitude( const Character *u = nullptr ) const; // See the enum above
         Attitude attitude_to( const Creature &other ) const override;
         void process_triggers(); // Process things that anger/scare us
-        void process_trigger( monster_trigger trig, int amount ); // Single trigger
-        int trigger_sum( const std::set<monster_trigger> &triggers ) const;
 
         bool is_underwater() const override;
         bool is_on_ground() const override;
@@ -259,10 +282,12 @@ class monster : public Creature
         void melee_attack( Creature &p );
         void melee_attack( Creature &p, float accuracy );
         void melee_attack( Creature &p, bool ) = delete;
-        void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) override;
+        void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
+                                     bool print_messages = true ) override;
         void deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
                                       int &pain ) override;
-        void apply_damage( Creature *source, body_part bp, int amount ) override;
+        void apply_damage( Creature *source, body_part bp, int amount,
+                           const bool bypass_med = false ) override;
         // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
         void explode();
         // Let the monster die and let its body explode into gibs
@@ -286,13 +311,14 @@ class monster : public Creature
         /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
         void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
                          bool permanent = false,
-                         int intensity = 0, bool force = false, bool defererd = false ) override;
+                         int intensity = 0, bool force = false, bool deferred = false ) override;
         /** Returns a std::string containing effects for descriptions */
         std::string get_effect_status() const;
 
         float power_rating() const override;
         float speed_rating() const override;
 
+        int get_worn_armor_val( damage_type dt ) const;
         int  get_armor_cut( body_part bp ) const override; // Natural armor, plus any worn armor
         int  get_armor_bash( body_part bp ) const override; // Natural armor, plus any worn armor
         int  get_armor_type( damage_type dt, body_part bp ) const override;
@@ -304,6 +330,12 @@ class monster : public Creature
         float  get_melee() const override; // For determining attack skill when awarding dodge practice.
         float  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
         float  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
+
+        int get_grab_strength() const; // intensity of grabbed effect
+
+        monster_horde_attraction get_horde_attraction();
+        void set_horde_attraction( monster_horde_attraction mha );
+        bool will_join_horde( int size );
 
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
         float fall_damage_mod() const override;
@@ -321,7 +353,7 @@ class monster : public Creature
         // Get torso - monsters don't have body parts (yet?)
         body_part get_random_body_part( bool main ) const override;
         /** Returns vector containing all body parts this monster has. That is, { bp_torso } */
-        std::vector<body_part> get_all_body_parts( bool main = false ) const override;
+        std::vector<body_part> get_all_body_parts( bool only_main = false ) const override;
 
         /** Resets a given special to its monster type cooldown value */
         void reset_special( const std::string &special_name );
@@ -350,7 +382,8 @@ class monster : public Creature
         void make_friendly();
         /** Makes this monster an ally of the given monster. */
         void make_ally( const monster &z );
-        void add_item( item it );   // Add an item to inventory
+        // Add an item to inventory
+        void add_item( const item &it );
 
         /**
          * Makes monster react to heard sound
@@ -379,20 +412,30 @@ class monster : public Creature
         tripoint wander_pos; // Wander destination - Just try to move in that direction
         int wandf;           // Urge to wander - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
+        player *dragged_foe; // player being dragged by the monster
 
         // DEFINING VALUES
         int friendly;
         int anger = 0;
         int morale = 0;
-        mfaction_id faction; // Our faction (species, for most monsters)
-        int mission_id; // If we're related to a mission
+        // Our faction (species, for most monsters)
+        mfaction_id faction;
+        // If we're related to a mission
+        int mission_id;
         const mtype *type;
-        bool no_extra_death_drops;    // if true, don't spawn loot items as part of death
-        bool no_corpse_quiet = false; //if true, monster dies quietly and leaves no corpse
+        // If true, don't spawn loot items as part of death.
+        bool no_extra_death_drops;
+        // If true, monster dies quietly and leaves no corpse.
+        bool no_corpse_quiet = false;
+        // Turned to false for simulating monsters during distant missions so they don't drop in sight.
+        bool death_drops = true;
         bool is_dead() const;
         bool made_footstep;
-        std::string unique_name; // If we're unique
+        // If we're unique
+        std::string unique_name;
         bool hallucination;
+        // abstract for a fish monster representing a hidden stock of population in that area.
+        int fish_population = 1;
 
         void setpos( const tripoint &p ) override;
         const tripoint &pos() const override;
@@ -407,6 +450,7 @@ class monster : public Creature
         }
 
         short ignoring;
+        cata::optional<time_point> lastseen_turn;
 
         // Stair data.
         int staircount;
@@ -442,6 +486,13 @@ class monster : public Creature
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::set<tripoint> get_path_avoid() const override;
+        // summoned monsters via spells
+        void set_summon_time( const time_duration &length );
+        // handles removing the monster if the timer runs out
+        void decrement_summon_timer();
+    private:
+        void process_trigger( mon_trigger trig, int amount );
+        void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
 
     private:
         int hp;
@@ -459,9 +510,11 @@ class monster : public Creature
         int baby_timer;
         bool biosignatures;
         int biosig_timer;
+        monster_horde_attraction horde_attraction;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
         std::bitset<NUM_MEFF> effect_cache;
+        cata::optional<time_duration> summon_time_limit = cata::nullopt;
 
     protected:
         void store( JsonOut &jsout ) const;

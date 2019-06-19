@@ -2,19 +2,16 @@
 #ifndef VITAMIN_H
 #define VITAMIN_H
 
-#include "string_id.h"
-#include "calendar.h"
-
-#include <string>
 #include <map>
 #include <utility>
 #include <vector>
+#include <string>
+
+#include "calendar.h"
+#include "string_id.h"
+#include "type_id.h"
 
 class JsonObject;
-class vitamin;
-using vitamin_id = string_id<vitamin>;
-class effect_type;
-using efftype_id = string_id<effect_type>;
 
 class vitamin
 {

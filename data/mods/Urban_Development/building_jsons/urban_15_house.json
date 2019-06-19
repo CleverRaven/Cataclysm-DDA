@@ -32,12 +32,8 @@
         ",,,,,,,,,,,,,^,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [
-        "acidia_residential_commercial_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_residential_commercial_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "livingroom", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 10 },
@@ -52,9 +48,7 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "jackets", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.09 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.09 } ]
     }
   },
   {
@@ -82,7 +76,7 @@
         "  22CC2C|''''''''''|,,,,",
         "  22CC2o|''''''''''|,,,,",
         "  22222C|''''''''''|,,,,",
-        "  CCCSSC|''''''''''|,,,,",
+        "  CCCSSC|'''''''''/|,,,,",
         "1---www-|!-=======-|,,,,",
         "'',#####;;;_______,,,,,,",
         "'',,,,,,;;;_______,,,,,,",
@@ -90,12 +84,8 @@
         ",,,,,,,,,,,_______,,,,,,",
         ",,,,,,,,,,,_______,qq,,,"
       ],
-      "palettes": [
-        "acidia_residential_commercial_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_residential_commercial_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "livingroom", "chance": 2 },
         "'": { "item": "mechanics", "chance": 1 },
@@ -109,12 +99,8 @@
         "t": { "item": "dining", "chance": 25 },
         "u": { "item": "cannedfood", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.09 }
-      ],
-      "place_vehicles": [
-        { "vehicle": "suburban_home", "x": 13, "y": 13, "chance": 100, "rotation": 270 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.09 } ],
+      "place_vehicles": [ { "vehicle": "suburban_home", "x": 13, "y": 13, "chance": 100, "rotation": 270 } ]
     }
   },
   {
@@ -150,12 +136,8 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_residential_commercial_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_residential_commercial_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "livingroom", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 10 },
@@ -163,9 +145,7 @@
         "e": { "item": "dresser", "chance": 60 },
         "r": { "item": "bedroom", "chance": 60 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 16, 22 ], "y": [ 10, 13 ], "density": 0.09 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 16, 22 ], "y": [ 10, 13 ], "density": 0.09 } ]
     }
   },
   {
@@ -201,18 +181,14 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_residential_commercial_palette"
-      ],
+      "palettes": [ "acidia_residential_commercial_palette" ],
       "items": {
         " ": { "item": "livingroom", "chance": 2 },
         "O": { "item": "homebooks", "chance": 60 },
         "b": { "item": "bed", "chance": 60 },
         "e": { "item": "dresser", "chance": 60 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 3 ], "y": [ 10, 13 ], "density": 0.09 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 3 ], "y": [ 10, 13 ], "density": 0.09 } ]
     }
   },
   {
@@ -248,9 +224,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_residential_commercial_palette"
-      ]
+      "palettes": [ "acidia_residential_commercial_palette" ]
     }
   },
   {
@@ -286,10 +260,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_residential_commercial_palette"
-      ]
+      "palettes": [ "acidia_residential_commercial_palette" ]
     }
   }
 ]
-

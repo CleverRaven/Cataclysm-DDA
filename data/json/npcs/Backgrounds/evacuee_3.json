@@ -1,0 +1,73 @@
+[
+  {
+    "id": "BGSS_EVACUEE_3_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "There's nothing too special about me, I'm not sure why I survived.  I got evacuated with a handful of others, but we were too late to make the second trip to a FEMA center.  We got attacked by the dead...  I was the only one to make it out.  I never looked back.",
+    "responses": [
+      {
+        "text": "How did you survive after that?",
+        "condition": { "not": { "days_since_cataclysm": 90 } },
+        "effect": { "npc_add_effect": "BGSS_EVACUEE_3_earlymeeting", "duration": "PERMANENT" },
+        "//": "If you talk to this NPC any time before day 90, the game flags him as an NPC you met 'early' and never gives you the 'late' convo options",
+        "topic": "BGSS_EVACUEE_3_STORY2"
+      },
+      {
+        "text": "How did you survive after that?",
+        "condition": { "days_since_cataclysm": 90 },
+        "topic": "BGSS_EVACUEE_3_STORY2"
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "BGSS_EVACUEE_3_earlymeeting",
+    "//": "Defined here because this should be the only time this effect is referenced."
+  },
+  {
+    "id": "BGSS_EVACUEE_3_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Sheer luck I guess.  I went the absolute wrong way, into town, and wound up stuck in the subway system.  I spent a few days living off vending machine food.  Not the best eating, but I pulled through.  At least there weren't so many zombies down there.",
+    "responses": [
+      {
+        "text": "What got you out of the subway?",
+        "condition": { "not": { "npc_has_effect": "BGSS_EVACUEE_3_earlymeeting" } },
+        "topic": "BGSS_EVACUEE_3_STORY3_LATE"
+      },
+      {
+        "text": "What got you out of the subway?",
+        "condition": { "npc_has_effect": "BGSS_EVACUEE_3_earlymeeting" },
+        "topic": "BGSS_EVACUEE_3_STORY3_EARLY"
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_EVACUEE_3_STORY3_EARLY",
+    "type": "talk_topic",
+    "dynamic_line": "Straight up hunger.  I didn't have any great light source down there, and I didn't have much food.  I was slipping up and down to the station to buy from the vending machines, but once I ran out of cash I had to make a break for it.  I waited until dark and then skipped out.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BGSS_EVACUEE_3_STORY3_LATE",
+    "type": "talk_topic",
+    "dynamic_line": "Straight up hunger.  I didn't have any great light source down there, and I didn't have much food.  I was slipping up and down to the station to buy from the vending machines, but once I ran out of cash I had to think of something else.  I started raiding the surrounding area by night, and built a decent little base under there.",
+    "responses": [
+      { "text": "I didn't meet you in the subway though.  You left.", "topic": "BGSS_EVACUEE_3_STORY4" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_EVACUEE_3_STORY4",
+    "type": "talk_topic",
+    "dynamic_line": "Yeah.  I had it pretty good there, but eventually I just started going a bit nuts.  Always dark, a bit cold, living off scavenged junk food... a soul can only live like that for so long.  When the weather above ground got warmer and the daylight hours got longer I decided to get a bit braver.  I'd learned enough about the <zombies> that I was able to live pretty well after that.  I've camped a few places, scavenged berries and whatnot, lived a pretty good life compared to those first few months.",
+    "responses": [
+      { "text": "I didn't meet you in the subway though.  You left.", "topic": "BGSS_EVACUEE_3_STORY4" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

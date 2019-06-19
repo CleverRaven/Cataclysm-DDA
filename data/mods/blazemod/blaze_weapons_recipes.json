@@ -9,16 +9,9 @@
     "skills_required": [ "fabrication", 5 ],
     "time": 30000,
     "autolearn": true,
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
-    ],
-    "tools": [ [ [ "soldering_iron", 30 ], [ "toolset", 30 ] ] ],
-    "components": [
-      [ [ "foot_crank", 1 ] ],
-      [ [ "scrap", 9 ], [ "steel_chunk", 3 ] ],
-      [ [ "helsing", 1 ] ]
-    ]
+    "using": [ [ "soldering_standard", 30 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "foot_crank", 1 ] ], [ [ "scrap", 9 ], [ "steel_chunk", 3 ] ], [ [ "helsing", 1 ] ] ]
   },
   {
     "result": "cangun",
@@ -30,11 +23,8 @@
     "skills_required": [ "fabrication", 3 ],
     "time": 24000,
     "autolearn": true,
-    "qualities": [
-      { "id": "SAW_W", "level": 1 },
-      { "id": "CUT", "level": 1 }
-    ],
-    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "hose", 6 ], [ "string_36", 6 ] ],
       [ [ "adhesive", 3, "LIST" ], [ "nail", 100 ] ],
@@ -54,19 +44,9 @@
     "time": 60000,
     "autolearn": true,
     "using": [ [ "forging_standard", 4 ], [ "steel_tiny", 4 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 3 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ]
-    ],
-    "components": [
-      [ [ "wire", 6 ] ],
-      [ [ "rebar", 2 ], [ "pipe", 4 ] ],
-      [ [ "metal_tank_little", 1 ] ]
-    ]
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ] ],
+    "components": [ [ [ "wire", 6 ] ], [ [ "rebar", 2 ], [ "pipe", 4 ] ], [ [ "metal_tank_little", 1 ] ] ]
   },
   {
     "result": "gattler",
@@ -78,12 +58,8 @@
     "skills_required": [ "fabrication", 4 ],
     "time": 40000,
     "autolearn": true,
-    "using": [ [ "adhesive", 2 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
-    ],
-    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 100 ], [ "oxy_torch", 10 ] ] ],
+    "using": [ [ "adhesive", 2 ], [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "pipe", 3 ] ],
       [ [ "foot_crank", 1 ] ],
@@ -102,12 +78,8 @@
     "skills_required": [ "mechanics", 3 ],
     "time": 50000,
     "autolearn": true,
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "GLARE", "level": 2 }
-    ],
-    "tools": [ [ [ "welder", 25 ], [ "welder_crude", 50 ], [ "toolset", 50 ], [ "oxy_torch", 2 ] ] ],
+    "using": [ [ "welding_standard", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "lens", 2 ] ],
       [ [ "scrap", 9 ], [ "steel_chunk", 3 ] ],
@@ -128,11 +100,8 @@
     "skills_required": [ "mechanics", 3 ],
     "time": 30000,
     "autolearn": true,
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
-    ],
-    "tools": [ [ [ "soldering_iron", 40 ], [ "toolset", 40 ] ] ],
+    "using": [ [ "soldering_standard", 40 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "v29", 1 ], [ "laser_rifle", 1 ] ],
       [ [ "lens", 2 ] ],
@@ -155,12 +124,8 @@
     "skills_required": [ "mechanics", 3 ],
     "time": 60000,
     "autolearn": true,
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "GLARE", "level": 2 }
-    ],
-    "tools": [ [ [ "welder", 25 ], [ "welder_crude", 50 ], [ "toolset", 50 ], [ "oxy_torch", 2 ] ] ],
+    "using": [ [ "welding_standard", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "UPS_off", 2 ], [ "small_storage_battery", 2 ] ],
       [ [ "lens", 4 ] ],
@@ -182,11 +147,8 @@
     "skills_required": [ "mechanics", 3 ],
     "time": 120000,
     "autolearn": true,
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
-    ],
-    "tools": [ [ [ "soldering_iron", 30 ], [ "toolset", 30 ] ] ],
+    "using": [ [ "soldering_standard", 30 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "UPS_off", 1 ], [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 8 ], [ "steel_chunk", 3 ] ],
@@ -207,16 +169,9 @@
     "skills_required": [ "gun", 3 ],
     "time": 30000,
     "autolearn": true,
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
-    ],
-    "tools": [ [ [ "soldering_iron", 40 ], [ "toolset", 40 ] ] ],
-    "components": [
-      [ [ "foot_crank", 1 ] ],
-      [ [ "scrap", 12 ], [ "steel_chunk", 4 ] ],
-      [ [ "nailrifle", 1 ] ]
-    ]
+    "using": [ [ "soldering_standard", 40 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "foot_crank", 1 ] ], [ [ "scrap", 12 ], [ "steel_chunk", 4 ] ], [ [ "nailrifle", 1 ] ] ]
   },
   {
     "result": "railturret",
@@ -228,11 +183,8 @@
     "skills_required": [ "mechanics", 4 ],
     "time": 240000,
     "autolearn": true,
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
-    ],
-    "tools": [ [ [ "soldering_iron", 30 ], [ "toolset", 30 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "using": [ [ "soldering_standard", 30 ] ],
     "components": [
       [ [ "UPS_off", 2 ], [ "small_storage_battery", 2 ] ],
       [ [ "scrap", 12 ], [ "steel_chunk", 3 ] ],
@@ -255,18 +207,9 @@
     "time": 120000,
     "autolearn": true,
     "using": [ [ "forging_standard", 2 ], [ "steel_standard", 2 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 3 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ]
-    ],
-    "components": [
-      [ [ "wire", 10 ] ],
-      [ [ "rebar", 4 ], [ "pipe", 8 ] ]
-    ]
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ] ],
+    "components": [ [ [ "wire", 10 ] ], [ [ "rebar", 4 ], [ "pipe", 8 ] ] ]
   },
   {
     "result": "rslauncher",
@@ -278,13 +221,8 @@
     "skills_required": [ "gun", 3 ],
     "time": 180000,
     "autolearn": true,
-    "qualities": [
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "GLARE", "level": 2 }
-    ],
-    "tools": [ [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ] ],
+    "using": [ [ "welding_standard", 30 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "components": [
       [ [ "pipe", 12 ] ],
       [ [ "nail", 100 ], [ "adhesive", 2, "LIST" ] ],
@@ -304,12 +242,8 @@
     "skills_required": [ "archery", 5 ],
     "time": 60000,
     "autolearn": true,
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_W", "level": 1 },
-      { "id": "CUT", "level": 1 }
-    ],
-    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "using": [ [ "soldering_standard", 20 ] ],
     "components": [
       [ [ "2x4", 12 ], [ "stick", 12 ] ],
       [ [ "string_36", 12 ] ],
@@ -328,11 +262,8 @@
     "skills_required": [ "mechanics", 3 ],
     "time": 120000,
     "autolearn": true,
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
-    ],
-    "tools": [ [ [ "soldering_iron", 30 ], [ "toolset", 30 ] ] ],
+    "using": [ [ "soldering_standard", 30 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "UPS_off", 1 ], [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 8 ], [ "steel_chunk", 3 ] ],
@@ -353,11 +284,8 @@
     "skills_required": [ "mechanics", 4 ],
     "time": 60000,
     "autolearn": true,
-    "qualities": [
-      { "id": "HAMMER", "level": 1 },
-      { "id": "SAW_M", "level": 1 }
-    ],
-    "tools": [ [ [ "soldering_iron", 75 ], [ "toolset", 75 ] ] ],
+    "using": [ [ "soldering_standard", 75 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "2x4", 1 ], [ "stick", 1 ] ],
       [ [ "string_36", 6 ] ],
@@ -377,11 +305,8 @@
     "skills_required": [ "mechanics", 3 ],
     "time": 240000,
     "autolearn": true,
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
-    ],
-    "tools": [ [ [ "soldering_iron", 30 ], [ "toolset", 30 ] ] ],
+    "using": [ [ "soldering_standard", 30 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "UPS_off", 1 ], [ "small_storage_battery", 1 ] ],
       [ [ "tazer", 2 ] ],
@@ -404,15 +329,8 @@
     "skills_required": [ "gun", 3 ],
     "time": 24000,
     "autolearn": true,
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
-    ],
-    "tools": [ [ [ "soldering_iron", 30 ], [ "toolset", 30 ] ] ],
-    "components": [
-      [ [ "foot_crank", 1 ] ],
-      [ [ "scrap", 12 ], [ "steel_chunk", 4 ] ],
-      [ [ "tihar", 1 ] ]
-    ]
+    "using": [ [ "soldering_standard", 30 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "foot_crank", 1 ] ], [ [ "scrap", 12 ], [ "steel_chunk", 4 ] ], [ [ "tihar", 1 ] ] ]
   }
 ]

@@ -2,9 +2,9 @@
 #ifndef INT_ID_H
 #define INT_ID_H
 
+#include <functional>
 #include <string>
 #include <type_traits>
-#include <functional>
 
 template<typename T>
 class string_id;
@@ -19,13 +19,13 @@ template<typename T>
 class int_id
 {
     public:
-        typedef int_id<T> This;
+        using This = int_id<T>;
 
         /**
          * Explicit constructor to make it stand out in the code, so one can easily search for all
          * places that use it.
          */
-        explicit int_id( int const id )
+        explicit int_id( const int id )
             : _id( id ) {
         }
         /**
@@ -115,6 +115,6 @@ struct hash< int_id<T> > {
         return hash<int>()( v.to_i() );
     }
 };
-}
+} // namespace std
 
 #endif

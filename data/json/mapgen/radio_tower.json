@@ -33,11 +33,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        " ": [ "t_dirt", "t_dirt", "t_grass" ],
-        "&": "t_radio_tower",
-        "6": "t_radio_controls"
-      }
+      "terrain": { " ": [ "t_dirt", "t_dirt", "t_grass" ], "&": "t_radio_tower", "6": "t_radio_controls" }
     }
   },
   {
@@ -84,12 +80,8 @@
         "C": "t_floor",
         "w": "t_window"
       },
-      "furniture": {
-        "C": "f_counter"
-      },
-      "place_items": [
-        { "item": "radio", "x": [ 13, 15 ], "y": 12, "chance": 60, "repeat": [ 1, 3 ] }
-      ]
+      "furniture": { "C": "f_counter" },
+      "place_items": [ { "item": "radio", "x": [ 13, 15 ], "y": 12, "chance": 60, "repeat": [ 1, 3 ] } ]
     }
   }
 ]

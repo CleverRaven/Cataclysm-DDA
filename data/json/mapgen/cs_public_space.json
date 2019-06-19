@@ -1,0 +1,50 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "cs_public_space" ],
+    "method": "json",
+    "weight": 1000,
+    "object": {
+      "rows": [
+        "...,......,'',..,...,,..",
+        "..,...,..,,'',..,..,...,",
+        "..,...,...,'',,......,..",
+        "...,fsfsfs,'',sfsfsf,.,.",
+        ".,.f,,,,,,,'',,,,,,,f...",
+        "...s,,'''''''''''',,s..,",
+        "..,f,'''bb''''bb'D',f...",
+        "...s,''''''NN'''''',s,..",
+        "...f,'b''''ww''''b',f...",
+        ".,.s,'b''''ww''''b',s..,",
+        "...f,'''''wwww''''',f...",
+        "..,s,,''wwwSSwww'',,s...",
+        "...f,,''wwwSSwww'',,f.,.",
+        "...s,'''''wwww''''',s...",
+        ".,.f,'b''''ww''''b',f,..",
+        "...s,'b''''ww''''b',s...",
+        ".,.f,'''''''''''''',f..,",
+        "...s,'D'bb''''bb''',s...",
+        "...f,,''''',,''''',,f.,.",
+        ",..s,,,,,,,,,,,,,,,,s..,",
+        "...,fsfsfsf,,fsfsfsf,...",
+        "..,...,.....,......,...,",
+        "....,...,.....,.....,...",
+        ".........,...,....,...,."
+      ],
+      "terrain": {
+        ".": "t_grass",
+        ",": "t_dirt",
+        "'": "t_sidewalk",
+        "w": "t_water_sh",
+        "s": "t_underbrush",
+        "S": "t_water_sh",
+        "b": "t_sidewalk",
+        "D": "t_sidewalk",
+        "N": "t_sidewalk",
+        "f": "t_dirtmound"
+      },
+      "furniture": { "S": "f_statue", "b": "f_bench", "D": "f_dumpster", "N": "f_bulletin", "f": "f_bluebell" },
+      "items": { "D": { "item": "oa_custom_trash", "chance": 70 }, "b": { "item": "oa_discarded_news", "chance": 5 } }
+    }
+  }
+]

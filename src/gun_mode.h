@@ -2,8 +2,10 @@
 #ifndef GUN_MODE_H
 #define GUN_MODE_H
 
-#include <string>
 #include <set>
+#include <string>
+
+#include "translations.h"
 
 class item;
 
@@ -52,6 +54,10 @@ class gun_mode
 
         std::string name() const {
             return name_;
+        }
+
+        std::string tname() const {
+            return _( name_ );
         }
 };
 

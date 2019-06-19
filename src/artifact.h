@@ -2,14 +2,14 @@
 #ifndef ARTIFACT_H
 #define ARTIFACT_H
 
-#include "itype.h"
-#include "enums.h"
-
 #include <string>
-#include <vector>
+
+#include "enums.h"
+#include "itype.h"
 
 class JsonObject;
 class JsonOut;
+class item;
 
 enum art_effect_active : int {
     AEA_NULL = 0,
@@ -59,6 +59,7 @@ enum art_charge : int {
     ARTC_PAIN,    // Creates pain to recharge
     ARTC_HP,      // Drains HP to recharge
     ARTC_FATIGUE, // Creates fatigue to recharge
+    ARTC_PORTAL,  // Consumes portals
     NUM_ARTCS
 };
 
@@ -83,7 +84,7 @@ class it_artifact_tool : public itype
 
         it_artifact_tool();
         it_artifact_tool( JsonObject &jo );
-        it_artifact_tool( const itype &base ) : itype( base ) {};
+        it_artifact_tool( const itype &base ) : itype( base ) {}
 
         void create_name( const std::string &type );
         void create_name( const std::string &property_name, const std::string &shape_name );
@@ -97,11 +98,10 @@ class it_artifact_armor : public itype
 
         it_artifact_armor();
         it_artifact_armor( JsonObject &jo );
-        it_artifact_armor( const itype &base ) : itype( base ) {};
+        it_artifact_armor( const itype &base ) : itype( base ) {}
 
         void create_name( const std::string &type );
 };
-
 
 /* FUNCTIONS */
 
@@ -110,8 +110,10 @@ std::string new_natural_artifact( artifact_natural_property prop );
 std::string architects_cube();
 
 // note: needs to be called by main() before MAPBUFFER.load
-void load_artifacts( const std::string &filename );
+void load_artifacts( const std::string &path );
 // save artifact definitions to json, path must be the same as for loading.
 bool save_artifacts( const std::string &path );
+
+bool check_art_charge_req( item &it );
 
 #endif

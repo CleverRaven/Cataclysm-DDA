@@ -2,24 +2,23 @@
 #ifndef BIONICS_H
 #define BIONICS_H
 
-#include "bodypart.h"
-#include "string_id.h"
-
-#include <set>
-#include <string>
-#include <vector>
+#include <cstddef>
 #include <map>
+#include <set>
+#include <vector>
+#include <string>
+#include <utility>
+
+#include "bodypart.h"
+#include "calendar.h"
+#include "string_id.h"
+#include "type_id.h"
 
 class player;
 class JsonObject;
 class JsonIn;
 class JsonOut;
-struct quality;
-using quality_id = string_id<quality>;
-struct mutation_branch;
-using trait_id = string_id<mutation_branch>;
-struct bionic_data;
-using bionic_id = string_id<bionic_data>;
+using itype_id = std::string;
 
 struct bionic_data {
     bionic_data();
@@ -36,6 +35,9 @@ struct bionic_data {
     int charge_time = 0;
     /** Power bank size **/
     int capacity = 0;
+
+    /** True if a bionic can be used by an NPC and installed on them */
+    bool npc_usable = false;
     /** True if a bionic is a "faulty" bionic */
     bool faulty = false;
     bool power_source = false;
@@ -60,6 +62,18 @@ struct bionic_data {
      * If true, this bionic can provide power to powered armor.
      */
     bool armor_interface = false;
+    /**
+    * If true, this bionic won't provide a warning if the player tries to sleep while it's active.
+    */
+    bool sleep_friendly = false;
+    /**
+    * If true, this bionic can't be incapacitated by electrical attacks.
+    */
+    bool shockproof = false;
+    /**
+    * If true, this bionic is included with another.
+    */
+    bool included = false;
     /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */
@@ -99,13 +113,20 @@ struct bionic {
     int         charge  = 0;
     char        invlet  = 'a';
     bool        powered = false;
+    /* Ammunition actually loaded in this bionic gun in deactivated state */
+    itype_id    ammo_loaded = "null";
+    /* Ammount of ammo actually held inside by this bionic gun in deactivated state */
+    unsigned int         ammo_count = 0;
+    /* An amount of time during which this bionic has been rendered inoperative. */
+    time_duration        incapacitated_time;
 
     bionic()
-        : id( "bio_batteries" ) { }
+        : id( "bio_batteries" ), incapacitated_time( 0_turns ) {
+    }
     bionic( bionic_id pid, char pinvlet )
-        : id( std::move( pid ) ), invlet( pinvlet ) { }
+        : id( std::move( pid ) ), invlet( pinvlet ), incapacitated_time( 0_turns ) { }
 
-    bionic_data const &info() const {
+    const bionic_data &info() const {
         return *id;
     }
 
@@ -128,5 +149,7 @@ void load_bionic( JsonObject &jsobj ); // load a bionic from JSON
 char get_free_invlet( player &p );
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
                                const bool each_bp_on_new_line = true );
+
+int bionic_manip_cos( float adjusted_skill, bool autodoc, int bionic_difficulty );
 
 #endif

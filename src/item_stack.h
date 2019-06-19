@@ -2,17 +2,11 @@
 #ifndef ITEM_STACK_H
 #define ITEM_STACK_H
 
-#include <list>
 #include <cstddef>
+#include <list>
 
-class item;
-namespace units
-{
-template<typename V, typename U>
-class quantity;
-class volume_in_milliliter_tag;
-using volume = quantity<int, volume_in_milliliter_tag>;
-} // namespace units
+#include "units.h"
+#include "item.h"
 
 // A wrapper class to bundle up the references needed for a caller to safely manipulate
 // items and obtain information about items at a particular map x/y location.
@@ -35,6 +29,7 @@ class item_stack
         virtual std::list<item>::iterator erase( std::list<item>::iterator it ) = 0;
         virtual void push_back( const item &newitem ) = 0;
         virtual void insert_at( std::list<item>::iterator, const item &newitem ) = 0;
+        virtual void clear();
         item &front();
         item &operator[]( size_t index );
 
@@ -61,7 +56,7 @@ class item_stack
          * @returns Value of zero or greater for all items. For items counted by charges, it is always at
          * most it.charges.
          */
-        long amount_can_fit( const item &it ) const;
+        int amount_can_fit( const item &it ) const;
         /** Return the item (or nullptr) that stacks with the argument */
         item *stacks_with( const item &it );
         const item *stacks_with( const item &it ) const;

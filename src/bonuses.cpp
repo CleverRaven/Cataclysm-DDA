@@ -1,17 +1,18 @@
 #include "bonuses.h"
-#include "damage.h"
-#include "json.h"
-#include "character.h"
-#include "debug.h"
-#include <map>
+
+#include <sstream>
 #include <string>
 #include <utility>
-#include <sstream>
-#include <vector>
+#include <algorithm>
+#include <type_traits>
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_MAIN) << __FILE__ << ":" << __LINE__ << ": "
+#include "character.h"
+#include "damage.h"
+#include "json.h"
+#include "translations.h"
+#include "string_formatter.h"
 
-bool needs_damage_type( affected_stat as )
+static bool needs_damage_type( affected_stat as )
 {
     return as == AFFECTED_DAMAGE || as == AFFECTED_ARMOR ||
            as == AFFECTED_ARMOR_PENETRATION;
@@ -38,7 +39,7 @@ static const std::map<std::string, scaling_stat> scaling_stat_map = {{
     }
 };
 
-scaling_stat scaling_stat_from_string( const std::string &s )
+static scaling_stat scaling_stat_from_string( const std::string &s )
 {
     const auto &iter = scaling_stat_map.find( s );
     if( iter == scaling_stat_map.end() ) {
@@ -48,7 +49,7 @@ scaling_stat scaling_stat_from_string( const std::string &s )
     return iter->second;
 }
 
-affected_stat affected_stat_from_string( const std::string &s )
+static affected_stat affected_stat_from_string( const std::string &s )
 {
     const auto &iter = affected_stat_map.find( s );
     if( iter != affected_stat_map.end() ) {
@@ -58,9 +59,40 @@ affected_stat affected_stat_from_string( const std::string &s )
     return AFFECTED_NULL;
 }
 
-bonus_container::bonus_container()
+static const std::map<affected_stat, std::string> affected_stat_map_translation = {{
+        std::make_pair( AFFECTED_HIT, translate_marker( "Accuracy" ) ),
+        std::make_pair( AFFECTED_DODGE, translate_marker( "Dodge" ) ),
+        std::make_pair( AFFECTED_BLOCK, translate_marker( "Block" ) ),
+        std::make_pair( AFFECTED_SPEED, translate_marker( "Speed" ) ),
+        std::make_pair( AFFECTED_MOVE_COST, translate_marker( "Move cost" ) ),
+        std::make_pair( AFFECTED_DAMAGE, translate_marker( "damage" ) ),
+        std::make_pair( AFFECTED_ARMOR, translate_marker( "Armor" ) ),
+        std::make_pair( AFFECTED_ARMOR_PENETRATION, translate_marker( "Armor pen" ) ),
+        std::make_pair( AFFECTED_TARGET_ARMOR_MULTIPLIER, translate_marker( "Target armor multiplier" ) ),
+    }
+};
+
+static std::string string_from_affected_stat( const affected_stat &s )
 {
+    const auto &iter = affected_stat_map_translation.find( s );
+    return iter != affected_stat_map_translation.end() ? _( iter->second ) : "";
 }
+
+static const std::map<scaling_stat, std::string> scaling_stat_map_translation = {{
+        std::make_pair( STAT_STR, translate_marker( "strength" ) ),
+        std::make_pair( STAT_DEX, translate_marker( "dexterity" ) ),
+        std::make_pair( STAT_INT, translate_marker( "intelligence" ) ),
+        std::make_pair( STAT_PER, translate_marker( "perception" ) ),
+    }
+};
+
+static std::string string_from_scaling_stat( const scaling_stat &s )
+{
+    const auto &iter = scaling_stat_map_translation.find( s );
+    return iter != scaling_stat_map_translation.end() ? _( iter->second ) : "";
+}
+
+bonus_container::bonus_container() = default;
 
 void effect_scaling::load( JsonArray &jarr )
 {
@@ -91,11 +123,10 @@ void bonus_container::load( JsonArray &jarr, bool mult )
     while( jarr.has_more() ) {
         JsonArray qualifiers = jarr.next_array();
 
-        affected_stat as;
         damage_type dt = DT_NULL;
 
         const std::string affected_stat_string = qualifiers.next_string();
-        as = affected_stat_from_string( affected_stat_string );
+        const affected_stat as = affected_stat_from_string( affected_stat_string );
         if( as == AFFECTED_NULL ) {
             jarr.throw_error( "Invalid affected stat" );
         }
@@ -144,7 +175,7 @@ bool affected_type::operator==( const affected_type &other ) const
 
 float bonus_container::get_flat( const Character &u, affected_stat stat, damage_type dt ) const
 {
-    affected_type type( stat, dt );
+    const affected_type type( stat, dt );
     const auto &iter = bonuses_flat.find( type );
     if( iter == bonuses_flat.end() ) {
         return 0.0f;
@@ -164,7 +195,7 @@ float bonus_container::get_flat( const Character &u, affected_stat stat ) const
 
 float bonus_container::get_mult( const Character &u, affected_stat stat, damage_type dt ) const
 {
-    affected_type type( stat, dt );
+    const affected_type type( stat, dt );
     const auto &iter = bonuses_mult.find( type );
     if( iter == bonuses_mult.end() ) {
         return 1.0f;
@@ -181,6 +212,53 @@ float bonus_container::get_mult( const Character &u, affected_stat stat, damage_
 float bonus_container::get_mult( const Character &u, affected_stat stat ) const
 {
     return get_mult( u, stat, DT_NULL );
+}
+
+std::string bonus_container::get_description() const
+{
+    std::stringstream dump;
+    for( const auto &boni : bonuses_mult ) {
+        std::string type = string_from_affected_stat( boni.first.get_stat() );
+
+        if( needs_damage_type( boni.first.get_stat() ) ) {
+            type = name_by_dt( boni.first.get_damage_type() ) + " " + type;
+        }
+
+        for( const auto &sf : boni.second ) {
+            dump << string_format( "%s: <stat>%d%%</stat>", type, static_cast<int>( sf.scale * 100 ) );
+
+            if( sf.stat ) {
+                //~ bash damage +80% of strength
+                dump << _( " of " ) << string_from_scaling_stat( sf.stat );
+            }
+
+            dump << "  ";
+        }
+    }
+
+    for( const auto &boni : bonuses_flat ) {
+        std::string type = string_from_affected_stat( boni.first.get_stat() );
+
+        if( needs_damage_type( boni.first.get_stat() ) ) {
+            type = name_by_dt( boni.first.get_damage_type() ) + " " + type;
+        }
+
+        for( const auto &sf : boni.second ) {
+            if( sf.stat ) {
+                dump << string_format( "%s: <stat>%s%d%%</stat>", type, sf.scale < 0 ? "" : "+",
+                                       static_cast<int>( sf.scale * 100 ) );
+                //~ bash damage +80% of strength
+                dump << _( " of " ) << string_from_scaling_stat( sf.stat );
+            } else {
+                dump << string_format( "%s: <stat>%s%d</stat>", type, sf.scale < 0 ? "" : "+",
+                                       static_cast<int>( sf.scale ) );
+            }
+
+            dump << "  ";
+        }
+    }
+
+    return dump.str();
 }
 
 float effect_scaling::get( const Character &u ) const

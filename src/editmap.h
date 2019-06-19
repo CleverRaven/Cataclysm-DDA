@@ -2,17 +2,24 @@
 #ifndef EDITMAP_H
 #define EDITMAP_H
 
-#include "map.h"
-#include "line.h"
-#include "omdata.h"
-#include "ui.h"
-#include "trap.h"
-#include <vector>
 #include <map>
-#include <list>
-#include <stdarg.h>
+#include <vector>
+#include <string>
+
+#include "optional.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "type_id.h"
 
 struct real_coords;
+class Creature;
+class field;
+class uilist;
+class vehicle;
+class map;
+class tinymap;
+
 enum field_id : int;
 
 enum shapetype {
@@ -20,12 +27,13 @@ enum shapetype {
 };
 
 class editmap;
+
 struct editmap_hilight {
     std::vector<bool> blink_interval;
     int cur_blink;
     nc_color color;
     std::map<tripoint, char> points;
-    nc_color( *getbg )( nc_color );
+    nc_color( *getbg )( const nc_color & );
     void setup() {
         getbg = ( color == c_red ? &red_background :
                   ( color == c_magenta ? &magenta_background :
@@ -34,7 +42,7 @@ struct editmap_hilight {
                     )
                   )
                 );
-    };
+    }
     void draw( editmap &em, bool update = false );
 };
 
@@ -46,7 +54,7 @@ class editmap
         tripoint pos2screen( const tripoint &p );
         tripoint screen2pos( const tripoint &p );
         bool eget_direction( tripoint &p, const std::string &action ) const;
-        tripoint edit();
+        cata::optional<tripoint> edit();
         void uber_draw_ter( const catacurses::window &w, map *m );
         void update_view( bool update_info = false );
         int edit_ter();
@@ -58,13 +66,14 @@ class editmap
         int edit_veh();
         int edit_mapgen();
         void cleartmpmap( tinymap &tmpmap );
-        int mapgen_preview( real_coords &tc, uimenu &gmenu );
+        int mapgen_preview( const real_coords &tc, uilist &gmenu );
+        vehicle *mapgen_veh_query( const tripoint &omt_tgt );
+        bool mapgen_veh_destroy( const tripoint &omt_tgt, vehicle *car_target );
         int mapgen_retarget();
         int select_shape( shapetype shape, int mode = -1 );
 
-        void update_fmenu_entry( uimenu &fmenu, field &field, field_id idx );
-        void setup_fmenu( uimenu &fmenu );
-        bool change_fld( std::vector<tripoint> coords, field_id fid, int density );
+        void update_fmenu_entry( uilist &fmenu, field &field, field_id idx );
+        void setup_fmenu( uilist &fmenu );
         catacurses::window w_info;
         catacurses::window w_help;
         int width;
@@ -88,7 +97,6 @@ class editmap
         int sel_fdensity;
 
         trap_id sel_trap;
-
 
         furn_id fsel;
         furn_id fset;

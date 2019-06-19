@@ -2,23 +2,20 @@
 #ifndef START_LOCATION_H
 #define START_LOCATION_H
 
-#include "string_id.h"
-
+#include <cstddef>
+#include <set>
 #include <vector>
 #include <string>
-#include <map>
-#include <set>
 
-class overmap;
+#include "string_id.h"
+#include "type_id.h"
+
 class tinymap;
 class player;
 class JsonObject;
 struct tripoint;
-class start_location;
 template<typename T>
 class generic_factory;
-struct MonsterGroup;
-using mongroup_id = string_id<MonsterGroup>;
 
 class start_location
 {
@@ -69,7 +66,7 @@ class start_location
 
         /**
          * Adds surround start monsters.
-         * @param expected_count Expected value of "monster points" (map tiles times density from @ref map::place_spawns).
+         * @param expected_points Expected value of "monster points" (map tiles times density from @ref map::place_spawns).
          */
         void surround_with_monsters( const tripoint &omtstart, const mongroup_id &type,
                                      float expected_points ) const;

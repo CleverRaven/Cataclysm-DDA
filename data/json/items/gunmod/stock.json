@@ -7,6 +7,7 @@
     "weight": 350,
     "volume": 2,
     "integral_volume": 0,
+    "integral_weight": 0,
     "price": 38000,
     "to_hit": 1,
     "bashing": 6,
@@ -15,7 +16,7 @@
     "color": "dark_gray",
     "location": "stock",
     "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "launcher" ],
-    "dispersion_modifier": -30,
+    "dispersion_modifier": -1,
     "handling_modifier": 1
   },
   {
@@ -26,6 +27,7 @@
     "weight": 200,
     "volume": 2,
     "integral_volume": 0,
+    "integral_weight": 0,
     "price": 42000,
     "material": [ "plastic", "steel" ],
     "symbol": ":",
@@ -34,6 +36,25 @@
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher" ],
     "min_skills": [ [ "weapon", 3 ] ],
     "flags": [ "NEEDS_UNFOLD", "COLLAPSIBLE_STOCK" ]
+  },
+  {
+    "id": "wire_stock",
+    "type": "GUNMOD",
+    "name": "folding wire stock",
+    "description": "A folding wire stock which folds up very compactly but needs unfolding before use.  It's somewhat wobbly but is better than nothing at all.  Increases the time needed to wield the weapon.",
+    "weight": 170,
+    "volume": 1,
+    "integral_volume": 0,
+    "integral_weight": 0,
+    "price": 30000,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "location": "stock",
+    "handling_modifier": 2,
+    "mod_targets": [ "pistol", "smg", "rifle" ],
+    "min_skills": [ [ "weapon", 3 ] ],
+    "flags": [ "NEEDS_UNFOLD" ]
   },
   {
     "id": "pistol_stock",
@@ -59,6 +80,7 @@
     "weight": 960,
     "volume": 2,
     "integral_volume": 0,
+    "integral_weight": 0,
     "price": 400,
     "to_hit": 1,
     "bashing": 6,
@@ -68,6 +90,26 @@
     "location": "stock",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher" ],
     "handling_modifier": 4,
+    "min_skills": [ [ "weapon", 2 ] ]
+  },
+  {
+    "id": "cheek_pad",
+    "type": "GUNMOD",
+    "name": "cheek pad",
+    "description": "A stock accessory for sniper rifles and even DMRs considerably improving eye relief efficiency, prevents slipping, and reduces recoil to the neck and cheek.",
+    "weight": 300,
+    "volume": 1,
+    "integral_volume": 0,
+    "price": 4500,
+    "to_hit": 1,
+    "bashing": 2,
+    "material": [ "plastic", "steel" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "location": "stock",
+    "mod_targets": [ "rifle" ],
+    "dispersion_modifier": -1,
+    "handling_modifier": 2,
     "min_skills": [ [ "weapon", 2 ] ]
   }
 ]

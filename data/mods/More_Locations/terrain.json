@@ -1,251 +1,271 @@
 [
-    {
-        "type" : "terrain",
-        "id" : "t_border_rock",
-        "comment" : "placed at border of underground specials to prevent double wall look",
-        "name": "solid rock",
-        "symbol": "#",
-        "color": "white",
-        "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF"],
-        "roof": "t_rock_floor",
-        "bash": {
-            "str_min": 100, "str_max": 400,
-            "sound": "crash!",
-            "sound_fail": "whump!",
-            "ter_set": "t_rock_floor",
-            "items": [
-                { "item": "rock", "count": [3, 7] },
-                { "item": "coal_lump", "charges": [250, 500], "prob": 10 },
-                { "item": "material_limestone", "charges": [10, 25], "prob": 80 },
-                { "item": "material_rocksalt", "count": [0, 1], "prob": 20 }
-            ]
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_concrete_floor",
-        "name": "concrete floor",
-        "symbol": ".",
-        "color": "light_gray",
-        "move_cost": 2,
-        "flags": [
-            "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
-        ],
-        "bash": {
-            "sound": "SMASH!",
-            "ter_set": "t_null",
-            "str_min": 100,
-            "str_max": 400,
-            "str_min_supported": 150,
-            "items": [
-                { "item": "rock", "count": [5, 10] },
-                { "item": "scrap", "count": [5, 8] },
-                { "item": "rebar", "count": [0, 2] }
-            ]
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_ind_furnace",
-        "name": "electro furnace",
-        "symbol": "0",
-        "color": "white_red",
-        "move_cost": 0,
-        "flags": [ "WALL", "BASHABLE", "PERMEABLE", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM" ],
-        "bash": {
-            "str_min": 20, "str_max": 150,
-            "ter_set": "t_concrete_floor",
-            "sound_fail": "clang!",
-            "items": [
-                { "item": "cable", "charges": [0, 4] },
-                { "item": "scrap", "count": [8, 12] },
-                { "item": "steel_chunk", "count": [2, 4] },
-                { "item": "steel_plate", "count": [1, 2] }
-            ]
-        },
-        "deconstruct": {
-            "ter_set": "t_concrete_floor",
-            "items": [
-                { "item": "cable", "charges": [4, 8] },
-                { "item": "steel_chunk", "count": [4, 6] },
-                { "item": "steel_plate", "count": [2, 4] },
-                { "item": "scrap", "count": [12, 16] }
-            ]
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_ind_drill",
-        "name": "industrial drill",
-        "symbol": "7",
-        "color": "yellow_red",
-        "move_cost": 0,
-        "flags": [ "WALL", "PERMEABLE", "NOITEM", "BASHABLE", "DECONSTRUCT" ],
-        "bash": {
-            "str_min": 20, "str_max": 150,
-            "explosive" : 1,
-            "ter_set": "t_concrete_floor",
-            "sound_fail": "clang!",
-            "items": [
-                { "item": "cable", "charges": [0, 4] },
-                { "item": "scrap", "count": [8, 12] },
-                { "item": "steel_chunk", "count": [2, 4] },
-                { "item": "steel_plate", "count": [2, 4] }
-            ]
-        },
-        "deconstruct": {
-            "ter_set": "t_concrete_floor",
-            "items": [
-                { "item": "cable", "charges": [4, 8] },
-                { "item": "steel_chunk", "count": [4, 6] },
-                { "item": "scrap", "count": [12, 16] },
-                { "item": "steel_plate", "count": [2, 4] }
-            ]
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_ind_press",
-        "name": "hydraulic press",
-        "symbol": "9",
-        "color": "black_light_red",
-        "move_cost": 0,
-        "flags": [ "WALL", "PERMEABLE", "NOITEM", "BASHABLE", "DECONSTRUCT" ],
-        "bash": {
-            "str_min": 20, "str_max": 150,
-            "ter_set": "t_concrete_floor",
-            "sound_fail": "clang!",
-            "items": [
-                { "item": "cable", "charges": [0, 4] },
-                { "item": "scrap", "count": [8, 12] },
-                { "item": "steel_chunk", "count": [2, 4] },
-                { "item": "steel_plate", "count": [1, 2] }
-            ]
-        },
-        "deconstruct": {
-            "ter_set": "t_concrete_floor",
-            "items": [
-                { "item": "cable", "charges": [4, 8] },
-                { "item": "steel_chunk", "count": [4, 6] },
-                { "item": "scrap", "count": [12, 16] },
-                { "item": "steel_plate", "count": [2, 4] }
-            ]
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_ind_lathe",
-        "name": "power lathe",
-        "symbol": "4",
-        "color": "cyan_red",
-        "move_cost": 0,
-        "flags": [ "WALL", "PERMEABLE", "NOITEM", "BASHABLE", "DECONSTRUCT" ],
-        "bash": {
-            "str_min": 20, "str_max": 150,
-            "ter_set": "t_concrete_floor",
-            "sound_fail": "clang!",
-            "items": [
-                { "item": "cable", "charges": [0, 4] },
-                { "item": "scrap", "count": [8, 12] },
-                { "item": "steel_chunk", "count": [2, 4] },
-                { "item": "circsaw_blade", "count": [4, 6] }
-            ]
-        },
-        "deconstruct": {
-            "ter_set": "t_concrete_floor",
-            "items": [
-                { "item": "cable", "charges": [4, 8] },
-                { "item": "steel_chunk", "count": [4, 6] },
-                { "item": "scrap", "count": [12, 16] },
-                { "item": "circsaw_blade", "count": [2, 3] }
-            ]
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_ind_assembler",
-        "name": "robotic assembler",
-        "symbol": "3",
-        "color": "magenta_light_cyan",
-        "move_cost": 0,
-        "flags": [ "WALL", "TRANSPARENT", "PERMEABLE", "NOITEM", "BASHABLE", "DECONSTRUCT" ],
-        "bash": {
-            "str_min": 20, "str_max": 150,
-            "ter_set": "t_concrete_floor",
-            "sound_fail": "clang!",
-            "items": [
-                { "item": "processor", "count": [1, 2] },
-                { "item": "RAM", "count": [4, 8] },
-                { "item": "cable", "charges": [4, 6] },
-                { "item": "small_lcd_screen", "count": [1, 2] },
-                { "item": "e_scrap", "count": [5, 8] },
-                { "item": "circuit", "count": [3, 5] },
-                { "item": "power_supply", "count": [1, 2] },
-                { "item": "amplifier", "count": [1, 2] },
-                { "item": "plastic_chunk", "count": [10, 12] },
-                { "item": "scrap", "count": [6, 8] }
-            ]
-        },
-        "deconstruct": {
-            "ter_set": "t_concrete_floor",
-            "items": [
-                { "item": "processor", "count": [2, 4] },
-                { "item": "RAM", "count": [8, 16] },
-                { "item": "cable", "charges": [8, 12] },
-                { "item": "small_lcd_screen", "count": [2, 4] },
-                { "item": "e_scrap", "count": [10, 16] },
-                { "item": "circuit", "count": [6, 10] },
-                { "item": "power_supply", "count": [2, 4] },
-                { "item": "amplifier", "count": [2, 4] },
-                { "item": "plastic_chunk", "count": [10, 12] },
-                { "item": "scrap", "count": [6, 8] }
-            ]
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_ind_mixer",
-        "name": "chemical mixer",
-        "symbol": "0",
-        "color": "red_green",
-        "move_cost": 0,
-        "flags": [ "WALL", "PERMEABLE", "NOITEM", "BASHABLE", "DECONSTRUCT", "CONTAINER", "LIQUIDCONT", "SEALED" ],
-        "bash": {
-            "str_min": 20, "str_max": 150,
-            "explosive" : 1,
-            "ter_set": "t_concrete_floor",
-            "sound_fail": "clang!",
-            "items": [
-                { "item": "cable", "charges": [0, 4] },
-                { "item": "scrap", "count": [8, 12] },
-                { "item": "steel_chunk", "count": [2, 4] },
-                { "item": "metal_tank_little", "count": [0, 2] },
-                { "item": "jerrycan", "count": [0, 2] },
-                { "item": "metal_tank", "count": [0, 2] }
-            ]
-        },
-        "deconstruct": {
-            "ter_set": "t_concrete_floor",
-            "items": [
-                { "item": "cable", "charges": [4, 8] },
-                { "item": "steel_chunk", "count": [4, 6] },
-                { "item": "scrap", "count": [12, 16] },
-                { "item": "metal_tank_little", "count": [2, 4] },
-                { "item": "jerrycan", "count": [2, 4] },
-                { "item": "metal_tank", "count": [2, 4] }
-            ]
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_ind_pipe",
-        "name": "heavy pipe",
-        "symbol": "LINE_OXOX",
-        "color": "yellow",
-        "move_cost": 0,
-        "flags": ["TRANSPARENT", "MOUNTABLE", "PERMEABLE", "AUTO_WALL_SYMBOL" ],
-        "bash": {
-            "str_min": 30, "str_max": 210,
-            "sound": "metal screeching!",
-            "sound_fail": "clang!",
-            "ter_set": "t_concrete_floor",
-            "items": [
-                { "item": "scrap", "count": [4, 8] },
-                { "item": "steel_plate", "count": [0, 2] }
-            ]
-        }
+  {
+    "type": "terrain",
+    "id": "t_border_rock",
+    "comment": "placed at border of underground specials to prevent double wall look",
+    "name": "solid rock",
+    "description": "",
+    "symbol": "#",
+    "color": "white",
+    "move_cost": 0,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF" ],
+    "roof": "t_rock_floor",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "rock", "count": [ 3, 7 ] },
+        { "item": "coal_lump", "charges": [ 250, 500 ], "prob": 10 },
+        { "item": "material_limestone", "charges": [ 10, 25 ], "prob": 80 },
+        { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 20 }
+      ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_concrete_floor",
+    "name": "concrete floor",
+    "description": "",
+    "symbol": ".",
+    "color": "light_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 100,
+      "str_max": 400,
+      "str_min_supported": 150,
+      "items": [
+        { "item": "rock", "count": [ 5, 10 ] },
+        { "item": "scrap", "count": [ 5, 8 ] },
+        { "item": "rebar", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_ind_furnace",
+    "name": "electro furnace",
+    "description": "",
+    "symbol": "0",
+    "color": "white_red",
+    "move_cost": 0,
+    "flags": [ "WALL", "BASHABLE", "PERMEABLE", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "ter_set": "t_concrete_floor",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "steel_plate", "count": [ 1, 2 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_concrete_floor",
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "scrap", "count": [ 12, 16 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_ind_drill",
+    "name": "industrial drill",
+    "description": "",
+    "symbol": "7",
+    "color": "yellow_red",
+    "move_cost": 0,
+    "flags": [ "WALL", "PERMEABLE", "NOITEM", "BASHABLE", "DECONSTRUCT" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "explosive": 1,
+      "ter_set": "t_concrete_floor",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_concrete_floor",
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_ind_press",
+    "name": "hydraulic press",
+    "description": "",
+    "symbol": "9",
+    "color": "black_red",
+    "move_cost": 0,
+    "flags": [ "WALL", "PERMEABLE", "NOITEM", "BASHABLE", "DECONSTRUCT" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "ter_set": "t_concrete_floor",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "steel_plate", "count": [ 1, 2 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_concrete_floor",
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_ind_lathe",
+    "name": "power lathe",
+    "description": "",
+    "symbol": "4",
+    "color": "cyan_red",
+    "move_cost": 0,
+    "flags": [ "WALL", "PERMEABLE", "NOITEM", "BASHABLE", "DECONSTRUCT" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "ter_set": "t_concrete_floor",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "circsaw_blade", "count": [ 4, 6 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_concrete_floor",
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "circsaw_blade", "count": [ 2, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_ind_assembler",
+    "name": "robotic assembler",
+    "description": "",
+    "symbol": "3",
+    "color": "magenta_cyan",
+    "move_cost": 0,
+    "flags": [ "WALL", "TRANSPARENT", "PERMEABLE", "NOITEM", "BASHABLE", "DECONSTRUCT" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "ter_set": "t_concrete_floor",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "processor", "count": [ 1, 2 ] },
+        { "item": "RAM", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
+        { "item": "e_scrap", "count": [ 5, 8 ] },
+        { "item": "circuit", "count": [ 3, 5 ] },
+        { "item": "power_supply", "count": [ 1, 2 ] },
+        { "item": "amplifier", "count": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "scrap", "count": [ 6, 8 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_concrete_floor",
+      "items": [
+        { "item": "processor", "count": [ 2, 4 ] },
+        { "item": "RAM", "count": [ 8, 16 ] },
+        { "item": "cable", "charges": [ 8, 12 ] },
+        { "item": "small_lcd_screen", "count": [ 2, 4 ] },
+        { "item": "e_scrap", "count": [ 10, 16 ] },
+        { "item": "circuit", "count": [ 6, 10 ] },
+        { "item": "power_supply", "count": [ 2, 4 ] },
+        { "item": "amplifier", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "scrap", "count": [ 6, 8 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_ind_mixer",
+    "name": "chemical mixer",
+    "description": "",
+    "symbol": "0",
+    "color": "red_green",
+    "move_cost": 0,
+    "flags": [ "WALL", "PERMEABLE", "NOITEM", "BASHABLE", "DECONSTRUCT", "CONTAINER", "LIQUIDCONT", "SEALED" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "explosive": 1,
+      "ter_set": "t_concrete_floor",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "metal_tank_little", "count": [ 0, 2 ] },
+        { "item": "jerrycan", "count": [ 0, 2 ] },
+        { "item": "metal_tank", "count": [ 0, 2 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_concrete_floor",
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "metal_tank_little", "count": [ 2, 4 ] },
+        { "item": "jerrycan", "count": [ 2, 4 ] },
+        { "item": "metal_tank", "count": [ 2, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_ind_pipe",
+    "name": "heavy pipe",
+    "description": "",
+    "symbol": "LINE_OXOX",
+    "color": "yellow",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "AUTO_WALL_SYMBOL" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_concrete_floor",
+      "items": [ { "item": "scrap", "count": [ 4, 8 ] }, { "item": "steel_plate", "count": [ 0, 2 ] } ]
+    }
+  }
 ]

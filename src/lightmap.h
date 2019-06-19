@@ -2,6 +2,8 @@
 #ifndef LIGHTMAP_H
 #define LIGHTMAP_H
 
+#include <cmath>
+
 #define LIGHT_SOURCE_LOCAL  0.1f
 #define LIGHT_SOURCE_BRIGHT 10
 
@@ -21,8 +23,7 @@
 #define LIGHT_TRANSPARENCY_OPEN_AIR 0.038376418216
 #define LIGHT_TRANSPARENCY_CLEAR 1
 
-#define LIGHT_RANGE(b) static_cast<int>( -log(LIGHT_AMBIENT_LOW / (float)b) * (1.0 / LIGHT_TRANSPARENCY_OPEN_AIR) )
-
+#define LIGHT_RANGE(b) static_cast<int>( -log(LIGHT_AMBIENT_LOW / static_cast<float>(b)) * (1.0 / LIGHT_TRANSPARENCY_OPEN_AIR) )
 
 enum lit_level {
     LL_DARK = 0,
@@ -30,6 +31,7 @@ enum lit_level {
     LL_BRIGHT_ONLY, // bright but indistinct
     LL_LIT,
     LL_BRIGHT, // Probably only for light sources
+    LL_MEMORIZED, // Not a light level but behaves similarly
     LL_BLANK // blank space, not an actual light level
 };
 

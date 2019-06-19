@@ -1,31 +1,26 @@
 [
-    {
-        "type" : "furniture",
-        "id" : "f_flower_fungal",
-        "name": "fungal flower",
-        "symbol": "f",
-        "color": "dark_gray",
-        "move_cost_mod": 1,
-        "required_str": -1,
-        "flags": ["TRANSPARENT", "FLOWER", "FUNGUS", "TINY", "FLAMMABLE_ASH"],
-        "bash": {
-            "str_min": 2, "str_max": 6,
-            "sound": "poof.",
-            "sound_fail": "poof."
-        }
-    },{
-        "type" : "furniture",
-        "id" : "f_flower_marloss",
-        "name": "marloss flower",
-        "symbol": "f",
-        "color": "cyan",
-        "move_cost_mod": 1,
-        "required_str": -1,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "FUNGUS", "TINY"],
-        "bash": {
-            "str_min": 2, "str_max": 6,
-            "sound": "poof.",
-            "sound_fail": "poof."
-        }
-}
+  {
+    "type": "furniture",
+    "id": "f_flower_fungal",
+    "name": "fungal flower",
+    "description": "",
+    "symbol": "f",
+    "color": "dark_gray",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLOWER", "FUNGUS", "TINY", "FLAMMABLE_ASH" ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "poof.", "sound_fail": "poof." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_flower_marloss",
+    "name": "marloss flower",
+    "description": "",
+    "symbol": "f",
+    "color": "cyan",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FUNGUS", "TINY" ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "poof.", "sound_fail": "poof." }
+  }
 ]

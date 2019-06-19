@@ -1,9 +1,11 @@
 #include "fault.h"
 
+#include <utility>
+
 #include "debug.h"
 #include "json.h"
-#include "translations.h"
 #include "requirements.h"
+#include "translations.h"
 
 static std::map<fault_id, fault> faults_all;
 
@@ -32,8 +34,8 @@ void fault::load_fault( JsonObject &jo )
     fault f;
 
     f.id_ = fault_id( jo.get_string( "id" ) );
-    f.name_ = _( jo.get_string( "name" ).c_str() );
-    f.description_ = _( jo.get_string( "description" ).c_str() );
+    f.name_ = _( jo.get_string( "name" ) );
+    f.description_ = _( jo.get_string( "description" ) );
 
     f.time_ = jo.get_int( "time" );
 
@@ -48,9 +50,9 @@ void fault::load_fault( JsonObject &jo )
 
     } else {
         auto req = jo.get_object( "requirements" );
-        auto req_id = std::string( "inline_fault_" ) += f.id_.str();
+        const requirement_id req_id( std::string( "inline_fault_" ) + f.id_.str() );
         requirement_data::load_requirement( req, req_id );
-        f.requirements_ = requirement_id( req_id );
+        f.requirements_ = req_id;
     }
 
     if( faults_all.find( f.id_ ) != faults_all.end() ) {

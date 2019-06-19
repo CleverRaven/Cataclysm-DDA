@@ -107,7 +107,7 @@ The container is checked and the item is put inside the container, and the charg
 Here are some ways to make items spawn with/without ammo/magazines (note that `ammo-item` can
 be specified for guns and magazines in the entries array to use a non-default ammo type):
 
-* Secify an ammo/magazine chance (introduced in Section 2) for the entire item group.
+* Specify an ammo/magazine chance (introduced in Section 2) for the entire item group.
   `ammo` specifies the percent chance that the entries will spawn fully loaded (if it needs a magazine, it will be added for you).
   `magazine` specifies the percent chance that the entries will spawn with a magazine.
   Both of these default to 0 if unspecified.

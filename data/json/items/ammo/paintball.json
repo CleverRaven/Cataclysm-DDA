@@ -1,0 +1,21 @@
+[
+  {
+    "type": "AMMO",
+    "id": "paintball",
+    "price": 500,
+    "name": "paintball",
+    "symbol": "=",
+    "color": "red",
+    "description": "A tube of small paintballs.  They deal virtually no damage.",
+    "material": "plastic",
+    "volume": 1,
+    "weight": 1,
+    "ammo_type": "paintball",
+    "damage": 2,
+    "dispersion": 100,
+    "count": 100,
+    "stack_size": 100,
+    "loudness": 9,
+    "effects": [ "NOGIB", "NEVER_MISFIRES" ]
+  }
+]

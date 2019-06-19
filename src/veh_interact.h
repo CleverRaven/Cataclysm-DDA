@@ -2,22 +2,24 @@
 #ifndef VEH_INTERACT_H
 #define VEH_INTERACT_H
 
-#include "inventory.h"
-#include "input.h"
-#include "cursesdef.h"
-#include "string_id.h"
-#include "color.h"
-#include "int_id.h"
-#include "requirements.h"
-#include "player_activity.h"
-
-#include <string>
-#include <vector>
+#include <cstddef>
 #include <map>
 #include <sstream>
+#include <vector>
+#include <functional>
+#include <string>
 
+#include "color.h"
+#include "cursesdef.h"
+#include "input.h"
+#include "inventory.h"
+#include "player_activity.h"
+#include "item_location.h"
+#include "type_id.h"
+
+struct requirement_data;
+struct tripoint;
 class vpart_info;
-using vpart_id = string_id<vpart_info>;
 
 /** Represents possible return values from the cant_do function. */
 enum task_reason {
@@ -28,11 +30,15 @@ enum task_reason {
     NOT_FREE, //Part is attached to something else and can't be unmounted
     LACK_SKILL, //Player doesn't have high enough mechanics skill
     MOVING_VEHICLE, // vehicle is moving, no modifications allowed
-    LOW_MORALE // Player has too low morale (for operations that require it)
+    LOW_MORALE, // Player has too low morale (for operations that require it)
+    LOW_LIGHT // Player cannot see enough to work (for operations that require it)
 };
 
 class vehicle;
 struct vehicle_part;
+
+// For marking 'leaking' tanks/reactors/batteries
+const std::string leak_marker = "<color_red>*</color>";
 
 class veh_interact
 {
@@ -55,6 +61,13 @@ class veh_interact
 
         int ddx = 0;
         int ddy = 0;
+        /* starting offset for vehicle parts description display and max offset for scrolling */
+        int start_at = 0;
+        int start_limit = 0;
+        /* starting offset for the overview and the max offset for scrolling */
+        int overview_offset = 0;
+        int overview_limit = 0;
+
         const vpart_info *sel_vpart_info = nullptr;
         char sel_cmd = ' '; //Command currently being run by the player
 
@@ -63,6 +76,8 @@ class veh_interact
         int cpart = -1;
         int page_size;
         int fuel_index = 0; /** Starting index of where to start printing fuels from */
+        // height of the stats window
+        const int stats_h = 8;
         catacurses::window w_grid;
         catacurses::window w_mode;
         catacurses::window w_msg;
@@ -92,7 +107,7 @@ class veh_interact
                           const std::map<skill_id, int> &skills, int moves ) const;
 
         int part_at( int dx, int dy );
-        void move_cursor( int dx, int dy );
+        void move_cursor( int dx, int dy, int dstart_at = 0 );
         task_reason cant_do( char mode );
         bool can_potentially_install( const vpart_info &vpart );
         /** Move index (parameter pos) according to input action:
@@ -123,6 +138,7 @@ class veh_interact
         bool do_remove( std::string &msg );
         bool do_rename( std::string &msg );
         bool do_siphon( std::string &msg );
+        bool do_unload( std::string &msg );
         bool do_tirechange( std::string &msg );
         bool do_assign_crew( std::string &msg );
         bool do_relabel( std::string &msg );
@@ -130,12 +146,12 @@ class veh_interact
 
         void display_grid();
         void display_veh();
-        void display_stats();
+        void display_stats() const;
         void display_name();
         void display_mode();
         void display_list( size_t pos, const std::vector<const vpart_info *> &list, const int header = 0 );
         void display_details( const vpart_info *part );
-        size_t display_esc( const catacurses::window &w );
+        size_t display_esc( const catacurses::window &win );
 
         /**
          * Display overview of parts, optionally with interactive selection of one part
@@ -148,11 +164,12 @@ class veh_interact
          */
         bool overview( std::function<bool( const vehicle_part &pt )> enable = {},
                        std::function<bool( vehicle_part &pt )> action = {} );
+        void move_overview_line( int );
 
-        void countDurability();
+        void count_durability();
 
-        std::string totalDurabilityText;
-        nc_color totalDurabilityColor;
+        std::string total_durability_text;
+        nc_color total_durability_color;
 
         /** Returns the most damaged part's index, or -1 if they're all healthy. */
         vehicle_part *get_most_damaged_part() const;
@@ -202,6 +219,11 @@ class veh_interact
         void cache_tool_availability();
         void allocate_windows();
         void do_main_loop();
+
+        void cache_tool_availability_update_lifting( const tripoint &world_cursor_pos );
+
+        /** Returns true if the vehicle has a jack powerful enough to lift itself installed */
+        bool can_self_jack();
 };
 
 #endif

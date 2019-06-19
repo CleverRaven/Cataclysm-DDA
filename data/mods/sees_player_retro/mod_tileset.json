@@ -1,0 +1,18 @@
+[
+  {
+    "type": "mod_tileset",
+    "compatibility": [ "retrodays" ],
+    "tile_info": [ { "height": 10, "width": 10, "pixelscale": 2 } ],
+    "tiles-new": [
+      {
+        "file": "sees_player_retro.png",
+        "tiles": [
+          { "id": "overlay_hostile_sees_player", "fg": 0 },
+          { "id": "overlay_friendly_sees_player", "fg": 0 },
+          { "id": "overlay_neutral_sees_player", "fg": 0 },
+          { "id": "overlay_other_sees_player", "fg": 0 }
+        ]
+      }
+    ]
+  }
+]

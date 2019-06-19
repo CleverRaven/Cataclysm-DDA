@@ -24,7 +24,6 @@
     "description": "An escaping noisy blob, catch it before it brings in every zombie for miles!",
     "default_faction": "blob",
     "species": [ "BLOB" ],
-    "diff": 0,
     "size": "SMALL",
     "hp": 1,
     "speed": 60,
@@ -44,6 +43,7 @@
     "revert_to_itype": "gloople",
     "special_attacks": [ [ "PARROT", 0 ] ],
     "death_function": [ "MELT" ],
+    "harvest": "exempt",
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
   },
   {
@@ -53,7 +53,6 @@
     "description": "An escaping noisy blob, catch it before it brings in every zombie for miles!",
     "default_faction": "blob",
     "species": [ "BLOB" ],
-    "diff": 0,
     "size": "HUGE",
     "hp": 1,
     "speed": 60,
@@ -73,6 +72,7 @@
     "revert_to_itype": "gray",
     "special_attacks": [ [ "PARROT", 0 ] ],
     "death_function": [ "MELT" ],
+    "harvest": "exempt",
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
   },
   {
@@ -82,7 +82,6 @@
     "description": "An escaping noisy blob, catch it before it brings in every zombie for miles!",
     "default_faction": "blob",
     "species": [ "BLOB" ],
-    "diff": 0,
     "size": "LARGE",
     "hp": 1,
     "speed": 60,
@@ -102,6 +101,7 @@
     "revert_to_itype": "oozle",
     "special_attacks": [ [ "PARROT", 0 ] ],
     "death_function": [ "MELT" ],
+    "harvest": "exempt",
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
   }
 ]

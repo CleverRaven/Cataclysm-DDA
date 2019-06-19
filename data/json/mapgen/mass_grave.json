@@ -1,0 +1,59 @@
+[
+  {
+    "id": "mass_grave_casings",
+    "type": "item_group",
+    "items": [ [ "223_casing", 60 ], [ "308_casing", 20 ], [ "shot_hull", 20 ] ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "mass_grave" ],
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        "                        ",
+        " cccccccccccccccccccccc ",
+        " c                    c ",
+        " c aaaaaaaaaaaaaaaaaa c ",
+        " c aaaaaaaaaaaaaaaaaa c ",
+        " c aaaaaaaaaaaaaaaaaa c ",
+        " c aaaaaaaaaaaaaaaaaa c ",
+        "      aaaaaaaaaaaaaaa c ",
+        "     baaaaaaaaaaaaaaa c ",
+        "      aaaaaaaaaaaaaaa c ",
+        "     baaaaaaaaaaaaaaa c ",
+        "      aaaaaaaaaaaaaaa c ",
+        "      aaaaaaaaaaaaaaa c ",
+        "     baaaaaaaaaaaaaaa c ",
+        "      aaaaaaaaaaaaaaa c ",
+        "     baaaaaaaaaaaaaaa c ",
+        "      aaaaaaaaaaaaaaa c ",
+        " c aaaaaaaaaaaaaaaaaa c ",
+        " c aaaaaaaaaaaaaaaaaa c ",
+        " c aaaaaaaaaaaaaaaaaa c ",
+        " c aaaaaaaaaaaaaaaaaa c ",
+        " c                    c ",
+        " cccccccccccccccccccccc ",
+        "                        "
+      ],
+      "terrain": { "a": "t_pit_corpsed", "b": "t_fence_post", "c": "t_fence_barbed" },
+      "furniture": {  },
+      "place_loot": [
+        { "group": "everyday_corpse", "x": [ 4, 4 ], "y": [ 8, 8 ] },
+        { "group": "everyday_corpse", "chance": 100, "repeat": [ 1 ], "x": [ 4, 4 ], "y": [ 10, 10 ] },
+        { "group": "everyday_corpse", "chance": 100, "repeat": [ 1 ], "x": [ 4, 4 ], "y": [ 13, 13 ] },
+        { "group": "everyday_corpse", "chance": 100, "repeat": [ 1 ], "x": [ 4, 4 ], "y": [ 15, 15 ] },
+        { "group": "mass_grave_casings", "repeat": [ 10, 15 ], "x": [ 1, 2 ], "y": [ 8, 15 ] }
+      ],
+      "place_monsters": [
+        { "monster": "GROUP_VANILLA", "density": 1, "x": [ 1, 22 ], "y": [ 1, 22 ] },
+        { "monster": "GROUP_SCHOOL", "chance": 35, "density": 1, "x": [ 1, 22 ], "y": [ 1, 22 ] }
+      ],
+      "place_fields": [
+        { "field": "fd_blood", "x": [ 3, 4 ], "y": [ 7, 15 ], "repeat": [ 8, 12 ] },
+        { "field": "fd_gibs_flesh", "x": [ 3, 4 ], "y": [ 7, 15 ], "repeat": [ 1, 5 ] },
+        { "field": "fd_blood", "x": [ 3, 4 ], "y": [ 7, 15 ], "repeat": [ 4, 8 ] }
+      ]
+    }
+  }
+]

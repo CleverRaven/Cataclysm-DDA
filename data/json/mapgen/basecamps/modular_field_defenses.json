@@ -1,0 +1,82 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_trench_north",
+    "method": "json",
+    "object": {
+      "set": [ { "line": "terrain", "id": "t_pit", "x": 3, "x2": 20, "y": 0, "y2": 0 } ],
+      "place_items": [ { "x": [ 3, 20 ], "y": 1, "item": "digging_soil_loam_50L", "chance": 99, "repeat": 720 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_trench_south",
+    "method": "json",
+    "object": {
+      "set": [ { "line": "terrain", "id": "t_pit", "x": 3, "x2": 20, "y": 23, "y2": 23 } ],
+      "place_items": [ { "x": [ 3, 20 ], "y": 22, "item": "digging_soil_loam_50L", "chance": 99, "repeat": 720 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_trench_corner_northeast",
+    "method": "json",
+    "object": {
+      "set": [ { "line": "terrain", "id": "t_pit", "x": 21, "x2": 21, "y": 0, "y2": 4 } ],
+      "place_items": [ { "x": 20, "y": [ 0, 4 ], "item": "digging_soil_loam_50L", "chance": 99, "repeat": 200 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_trench_corner_northwest",
+    "method": "json",
+    "object": {
+      "set": [ { "line": "terrain", "id": "t_pit", "x": 2, "x2": 2, "y": 0, "y2": 4 } ],
+      "place_items": [ { "x": 3, "y": [ 0, 4 ], "item": "digging_soil_loam_50L", "chance": 99, "repeat": 200 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_trench_corner_southeast",
+    "method": "json",
+    "object": {
+      "set": [ { "line": "terrain", "id": "t_pit", "x": 21, "x2": 21, "y": 19, "y2": 23 } ],
+      "place_items": [ { "x": 20, "y": [ 19, 23 ], "item": "digging_soil_loam_50L", "chance": 99, "repeat": 200 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_trench_corner_southwest",
+    "method": "json",
+    "object": {
+      "set": [ { "line": "terrain", "id": "t_pit", "x": 2, "x2": 2, "y": 19, "y2": 23 } ],
+      "place_items": [ { "x": 2, "y": [ 19, 23 ], "item": "digging_soil_loam_50L", "chance": 99, "repeat": 200 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_trench_east",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_pit", "x": 21, "x2": 22, "y": 0, "y2": 0 },
+        { "line": "terrain", "id": "t_pit", "x": 21, "x2": 22, "y": 23, "y2": 23 },
+        { "line": "terrain", "id": "t_pit", "x": 23, "x2": 23, "y": 0, "y2": 23 }
+      ],
+      "place_items": [ { "x": 22, "y": [ 0, 23 ], "item": "digging_soil_loam_50L", "chance": 99, "repeat": 900 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_trench_west",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_pit", "x": 1, "x2": 2, "y": 0, "y2": 0 },
+        { "line": "terrain", "id": "t_pit", "x": 1, "x2": 2, "y": 23, "y2": 23 },
+        { "line": "terrain", "id": "t_pit", "x": 0, "x2": 0, "y": 0, "y2": 23 }
+      ],
+      "place_items": [ { "x": 0, "y": [ 0, 23 ], "item": "digging_soil_loam_50L", "chance": 99, "repeat": 900 } ]
+    }
+  }
+]

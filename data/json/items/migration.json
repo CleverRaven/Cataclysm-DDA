@@ -168,24 +168,24 @@
     "flags": [ "DIAMOND" ]
   },
   {
-      "id": "fish_bait_bread",
-      "type": "MIGRATION",
-      "replace": "fish_bait"
+    "id": "fish_bait_bread",
+    "type": "MIGRATION",
+    "replace": "fish_bait"
   },
   {
-      "id": "fish_bait_fish",
-      "type": "MIGRATION",
-      "replace": "fish_bait"
+    "id": "fish_bait_fish",
+    "type": "MIGRATION",
+    "replace": "fish_bait"
   },
   {
-      "id": "fish_bait_meat",
-      "type": "MIGRATION",
-      "replace": "fish_bait"
+    "id": "fish_bait_meat",
+    "type": "MIGRATION",
+    "replace": "fish_bait"
   },
   {
-      "id": "fish_bait_veggy",
-      "type": "MIGRATION",
-      "replace": "fish_bait"
+    "id": "fish_bait_veggy",
+    "type": "MIGRATION",
+    "replace": "fish_bait"
   },
   {
     "id": "gold",
@@ -420,5 +420,171 @@
     "id": "acidbomb_act",
     "type": "MIGRATION",
     "replace": "acidbomb"
+  },
+  {
+    "id": "technician_pants_blue",
+    "type": "MIGRATION",
+    "replace": "technician_pants_gray"
+  },
+  {
+    "id": "technician_pants_ltblue",
+    "type": "MIGRATION",
+    "replace": "technician_pants_gray"
+  },
+  {
+    "id": "technician_shirt_blue",
+    "type": "MIGRATION",
+    "replace": "technician_shirt_gray"
+  },
+  {
+    "id": "technician_shirt_ltblue",
+    "type": "MIGRATION",
+    "replace": "technician_shirt_gray"
+  },
+  {
+    "id": "1st_aid_survivor",
+    "type": "MIGRATION",
+    "replace": "1st_aid"
+  },
+  {
+    "id": "mushroom_poison",
+    "type": "MIGRATION",
+    "replace": "mushroom"
+  },
+  {
+    "id": "mushroom_magic",
+    "type": "MIGRATION",
+    "replace": "mushroom"
+  },
+  {
+    "id": "seed_mushroom_poison",
+    "type": "MIGRATION",
+    "replace": "seed_mushroom"
+  },
+  {
+    "id": "seed_mushroom_magic",
+    "type": "MIGRATION",
+    "replace": "seed_mushroom"
+  },
+  {
+    "id": "lasagne_cooked",
+    "type": "MIGRATION",
+    "replace": "spaghetti_cooked"
+  },
+  {
+    "id": "fish_vac",
+    "type": "MIGRATION",
+    "replace": "salted_fish"
+  },
+  {
+    "id": "apple_vac",
+    "type": "MIGRATION",
+    "replace": "apple_sugar"
+  },
+  {
+    "id": "hflesh_vac",
+    "type": "MIGRATION",
+    "replace": "hflesh_salted"
+  },
+  {
+    "id": "meat_vac",
+    "type": "MIGRATION",
+    "replace": "meat_salted"
+  },
+  {
+    "id": "veggy_vac",
+    "type": "MIGRATION",
+    "replace": "veggy_salted"
+  },
+  {
+    "id": "bag_fish_vac",
+    "type": "MIGRATION",
+    "replace": "salted_fish"
+  },
+  {
+    "id": "bag_apple_vac",
+    "type": "MIGRATION",
+    "replace": "apple_sugar"
+  },
+  {
+    "id": "bag_hflesh_vac",
+    "type": "MIGRATION",
+    "replace": "hflesh_salted"
+  },
+  {
+    "id": "bag_meat_vac",
+    "type": "MIGRATION",
+    "replace": "meat_salted"
+  },
+  {
+    "id": "bag_veggy_vac",
+    "type": "MIGRATION",
+    "replace": "veggy_salted"
+  },
+  {
+    "id": "potato_irradiated",
+    "type": "MIGRATION",
+    "replace": "irradiated_potato"
+  },
+  {
+    "id": "potato_raw",
+    "type": "MIGRATION",
+    "replace": "potato"
+  },
+  {
+    "id": "lightstrip_dead",
+    "type": "MIGRATION",
+    "replace": "lightstrip_inactive"
+  },
+  {
+    "id": "smg_9mm_mag",
+    "type": "MIGRATION",
+    "replace": "survivor9mm_mag"
+  },
+  {
+    "id": "battery_atomic",
+    "type": "MIGRATION",
+    "replace": "light_atomic_battery_cell"
+  },
+  {
+    "id": "battery_compartment",
+    "type": "MIGRATION",
+    "replace": "magazine_battery_heavy_mod"
+  },
+  {
+    "id": "dry_mushroom_magic",
+    "type": "MIGRATION",
+    "replace": "dry_mushroom",
+    "flags": [ "HIDDEN_HALLU" ]
+  },
+  {
+    "id": "hk_ucp",
+    "type": "MIGRATION",
+    "replace": "hk_mp7"
+  },
+  {
+    "id": "rechargable_battery",
+    "type": "MIGRATION",
+    "replace": "heavy_battery_cell"
+  },
+  {
+    "id": "hd_battery",
+    "type": "MIGRATION",
+    "replace": "heavy_plus_battery_cell"
+  },
+  {
+    "id": "frozen_burrito",
+    "type": "MIGRATION",
+    "replace": "junk_burrito"
+  },
+  {
+    "id": "cooked_burrito",
+    "type": "MIGRATION",
+    "replace": "junk_burrito"
+  },
+  {
+    "id": "10mm",
+    "type": "MIGRATION",
+    "replace": "10mm_fmj"
   }
 ]

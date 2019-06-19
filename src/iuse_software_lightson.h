@@ -2,16 +2,10 @@
 #ifndef SOFTWARE_LIGHTSON_H
 #define SOFTWARE_LIGHTSON_H
 
-#include "cursesdef.h"
-
-#include <string>
 #include <vector>
-#include <map>
+#include <utility>
 
-namespace catacurses
-{
-class window;
-} // namespace catacurses
+#include "cursesdef.h"
 
 class lightson_game
 {

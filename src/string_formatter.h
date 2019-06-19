@@ -2,14 +2,16 @@
 #ifndef STRING_FORMATTER_H
 #define STRING_FORMATTER_H
 
-//@todo: replace with std::optional
-#include "optional.h"
-#include "compatibility.h"
-
+#include <cstddef>
 #include <string>
-#include <typeinfo>
 #include <type_traits>
+#include <typeinfo>
 #include <utility>
+
+// needed for the workaround for the std::to_string bug in some compilers
+#include "compatibility.h" // IWYU pragma: keep
+// TODO: replace with std::optional
+#include "optional.h"
 
 namespace cata
 {
@@ -20,7 +22,7 @@ class string_formatter;
 [[noreturn]]
 void throw_error( const string_formatter &, const std::string & );
 // wrapper to access string_formatter::temp_buffer before the definition of string_formatter
-const char *string_formatter_set_temp_buffer( const string_formatter &, std::string );
+const char *string_formatter_set_temp_buffer( const string_formatter &, const std::string & );
 // Handle currently active exception from string_formatter and return it as string
 std::string handle_string_format_error();
 
@@ -210,7 +212,7 @@ class string_formatter
         /// for printing non-strings through "%s". It *only* works because this prints each format
         /// specifier separately, so the content of @ref temp_buffer is only used once.
         friend const char *string_formatter_set_temp_buffer( const string_formatter &sf,
-                std::string text ) {
+                const std::string &text ) {
             sf.temp_buffer = text;
             return sf.temp_buffer.c_str();
         }
@@ -241,7 +243,8 @@ class string_formatter
 
         template<typename ...Args>
         void read_conversion( const int format_arg_index, Args &&... args ) {
-            // Removes the prefix "ll", "l", "h" and "hh", we later add "ll" again and that
+            // Removes the prefix "ll", "l", "h" and "hh", "z", and "t".
+            // We later add "ll" again and that
             // would interfere with the existing prefix. We convert *all* input to (un)signed
             // long long int and use the "ll" modifier all the time. This will print the
             // expected value all the time, even when the original modifier did not match.
@@ -252,6 +255,7 @@ class string_formatter
                 if( consume_next_input_if( 'h' ) ) {
                 }
             } else if( consume_next_input_if( 'z' ) ) {
+            } else if( consume_next_input_if( 't' ) ) {
             }
             const char c = consume_next_input();
             current_format.push_back( c );
@@ -287,7 +291,6 @@ class string_formatter
                                          std::forward<Args>( args )... ) );
                 default:
                     throw_error( "Unsupported format conversion: " + std::string( 1, c ) );
-                    break;
             }
         }
 

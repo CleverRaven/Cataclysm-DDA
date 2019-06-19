@@ -1,0 +1,48 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_air_atc_3" ],
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "        hhhhhhhh        ",
+        "        habbgbah        ",
+        "        hbcdccbh        ",
+        "        hbfcccbh        ",
+        "        hbfccebh        ",
+        "        hbcceebh        ",
+        "        habbbbah        ",
+        "        hhhhhhhh        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        "a": "t_wall",
+        "b": "t_wall_glass",
+        "c": "t_floor",
+        "d": "t_stairs_down",
+        "e": "t_floor",
+        "f": "t_console_broken",
+        "g": "t_door_glass_c",
+        "h": "t_metal_floor"
+      },
+      "furniture": { "e": "f_table" },
+      "place_loot": [ { "group": "office_mess", "chance": 80, "repeat": [ 5 ], "x": [ 10, 13 ], "y": [ 2, 5 ] } ]
+    }
+  }
+]

@@ -29,5 +29,11 @@
       "mon_fungal_blossom",
       "mon_fungaloid_seeder"
     ]
+  },
+  {
+    "type": "region_overlay",
+    "id": "No_Fungi_region_overlay",
+    "regions": [ "all" ],
+    "overmap_feature_flag_settings": { "blacklist": [ "FUNGAL" ] }
   }
 ]
