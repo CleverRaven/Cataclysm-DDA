@@ -355,6 +355,7 @@ class zone_manager
         zone_type_id get_near_zone_type_for_item( const item &it, const tripoint &where ) const;
         std::vector<zone_data> get_zones( const zone_type_id &type, const tripoint &where,
                                           const faction_id &fac = your_fac ) const;
+        const zone_data *get_zone_at( const tripoint &where ) const;
         const zone_data *get_bottom_zone( const tripoint &where,
                                           const faction_id &fac = your_fac ) const;
         cata::optional<std::string> query_name( const std::string &default_name = "" ) const;

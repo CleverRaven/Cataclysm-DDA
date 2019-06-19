@@ -760,6 +760,18 @@ std::vector<zone_data> zone_manager::get_zones( const zone_type_id &type,
     return zones;
 }
 
+const zone_data *zone_manager::get_zone_at( const tripoint &where ) const
+{
+    for( auto it = zones.rbegin(); it != zones.rend(); ++it ) {
+        const auto &zone = *it;
+
+        if( zone.has_inside( where ) ) {
+            return &zone;
+        }
+    }
+    return nullptr;
+}
+
 const zone_data *zone_manager::get_bottom_zone( const tripoint &where,
         const faction_id &fac ) const
 {

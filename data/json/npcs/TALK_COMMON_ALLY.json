@@ -751,6 +751,12 @@
         "topic": "TALK_DONE",
         "condition": { "not": "npc_has_activity" },
         "effect": "do_blueprint_construction"
+      },
+      {
+        "text": "Please do some farming work.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_farming"
       }
     ]
   },

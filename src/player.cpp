@@ -10487,6 +10487,10 @@ void player::assign_activity( const player_activity &act, bool allow_resume )
     if( activity.rooted() ) {
         rooted_message();
     }
+    if( is_npc() ) {
+        npc *guy = dynamic_cast<npc *>( this );
+        guy->current_activity = activity.get_verb();
+    }
 }
 
 bool player::has_activity( const activity_id &type ) const

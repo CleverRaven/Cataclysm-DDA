@@ -1531,6 +1531,7 @@ class player : public Character
         player_activity activity;
         std::list<player_activity> backlog;
         int volume;
+        cata::optional<tripoint> destination_point;
         const profession *prof;
 
         start_location_id start_location;
@@ -1828,7 +1829,6 @@ class player : public Character
 
         std::vector<tripoint> auto_move_route;
         player_activity destination_activity;
-        cata::optional<tripoint> destination_point;
         // Used to make sure auto move is canceled if we stumble off course
         cata::optional<tripoint> next_expected_position;
         /** warnings from a faction about bad behaviour */

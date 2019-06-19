@@ -125,7 +125,10 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_PICKUP" ), pickup_do_turn },
     { activity_id( "ACT_WEAR" ), wear_do_turn },
     { activity_id( "ACT_MULTIPLE_CONSTRUCTION" ), multiple_construction_do_turn },
+    { activity_id( "ACT_MULTIPLE_FARM" ), multiple_farm_do_turn },
     { activity_id( "ACT_BLUEPRINT_CONSTRUCTION" ), blueprint_construction_do_turn },
+    { activity_id( "ACT_FETCH_REQUIRED_TOOLS" ), fetch_tools_do_turn },
+    { activity_id( "ACT_FETCH_SEEDS" ), fetch_seeds_do_turn },
     { activity_id( "ACT_BUILD" ), build_do_turn },
     { activity_id( "ACT_EAT_MENU" ), eat_menu_do_turn },
     { activity_id( "ACT_CONSUME_FOOD_MENU" ), consume_food_menu_do_turn },
@@ -143,6 +146,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_BUTCHER_FULL" ), butcher_do_turn },
     { activity_id( "ACT_TRAVELLING" ), travel_do_turn },
     { activity_id( "ACT_AUTODRIVE" ), drive_do_turn },
+    { activity_id( "ACT_CHURN" ), churn_do_turn },
     { activity_id( "ACT_FIELD_DRESS" ), butcher_do_turn },
     { activity_id( "ACT_SKIN" ), butcher_do_turn },
     { activity_id( "ACT_QUARTER" ), butcher_do_turn },
@@ -187,6 +191,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_RELOAD" ), reload_finish },
     { activity_id( "ACT_START_FIRE" ), start_fire_finish },
     { activity_id( "ACT_TRAIN" ), train_finish },
+    { activity_id( "ACT_CHURN" ), churn_finish },
     { activity_id( "ACT_VEHICLE" ), vehicle_finish },
     { activity_id( "ACT_START_ENGINES" ), start_engines_finish },
     { activity_id( "ACT_OXYTORCH" ), oxytorch_finish },
@@ -2908,6 +2913,24 @@ static bool character_has_skill_for( const player *p, const construction &con )
     } );
 }
 
+void activity_handlers::churn_do_turn( player_activity *act, player *p )
+{
+    ( void )act;
+    ( void )p;
+    p->set_moves( 0 );
+}
+
+void activity_handlers::churn_finish( player_activity *act, player *p )
+{
+    p->add_msg_if_player( _( "You finish churning up the earth here." ) );
+    g->m.ter_set( act->placement, t_dirtmound );
+    // Go back to what we were doing before
+    // could be player zone activity, or could be NPC multi-farming
+    act->set_to_null();
+    p->activity = p->backlog.front();
+    p->backlog.pop_front();
+}
+
 void activity_handlers::build_do_turn( player_activity *act, player *p )
 {
     const std::vector<construction> &list_constructions = get_constructions();
@@ -3051,7 +3074,24 @@ void activity_handlers::multiple_construction_do_turn( player_activity *act, pla
         npc *guy = dynamic_cast<npc *>( p );
         guy->current_activity.clear();
         guy->revert_after_activity();
+    } else {
+        act->set_to_null();
     }
+}
+
+void activity_handlers::multiple_farm_do_turn( player_activity *act, player *p )
+{
+    activity_on_turn_farm_move( *act, *p );
+}
+
+void activity_handlers::fetch_seeds_do_turn( player_activity *act, player *p )
+{
+    activity_on_turn_fetch_seeds( *act, p );
+}
+
+void activity_handlers::fetch_tools_do_turn( player_activity *act, player *p )
+{
+    activity_on_turn_fetch_tools( *act, p );
 }
 
 void activity_handlers::blueprint_construction_do_turn( player_activity *act, player *p )
@@ -3589,21 +3629,19 @@ static void perform_zone_activity_turn( player *p,
         } else { // we are at destination already
             /* Perform action */
             tile_action( *p, tile_loc );
-
             if( p->moves <= 0 ) {
                 return;
             }
         }
     }
-
     add_msg( m_info, finished_msg );
     p->activity.set_to_null();
 }
 
 void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
 {
-    const auto reject_tile = [p]( const tripoint & tile ) {
-        return !p->sees( tile ) || !g->m.has_flag_furn( "GROWTH_HARVEST", tile );
+    const auto reject_tile = []( const tripoint & tile ) {
+        return !g->m.has_flag_furn( "GROWTH_HARVEST", tile );
     };
     perform_zone_activity_turn( p,
                                 zone_type_id( "FARM_PLOT" ),
@@ -3615,14 +3653,13 @@ void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
 
 void activity_handlers::till_plot_do_turn( player_activity *, player *p )
 {
-    const auto reject_tile = [p]( const tripoint & tile ) {
-        return !p->sees( tile ) || !g->m.has_flag( "PLOWABLE", tile ) || g->m.has_furn( tile );
+    const auto reject_tile = []( const tripoint & tile ) {
+        return !g->m.has_flag( "PLOWABLE", tile ) || g->m.has_furn( tile );
     };
 
     const auto dig = []( player & p, const tripoint & tile_loc ) {
-        p.add_msg_if_player( _( "You churn up the earth here." ) );
-        p.mod_moves( -300 );
-        g->m.ter_set( tile_loc, t_dirtmound );
+        p.assign_activity( activity_id( "ACT_CHURN" ), 18000, -1 );
+        p.activity.placement = tile_loc;
     };
 
     perform_zone_activity_turn( p,
@@ -3658,7 +3695,7 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p 
     const auto reject_tile = [&]( const tripoint & tile ) {
         check_fertilizer();
         ret_val<bool> can_fert = iexamine::can_fertilize( *p, tile, fertilizer );
-        return !p->sees( tile ) || !can_fert.success();
+        return !can_fert.success();
     };
 
     const auto fertilize = [&]( player & p, const tripoint & tile ) {
@@ -3709,7 +3746,7 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
 
     // cleanup unwanted tiles (local coords)
     const auto reject_tiles = [&]( const tripoint & tile ) {
-        if( !p->sees( tile ) || !g->m.has_flag_ter_or_furn( "PLANTABLE", tile ) ||
+        if( !g->m.has_flag_ter_or_furn( "PLANTABLE", tile ) ||
             g->m.has_items( tile ) ) {
             return true;
         }

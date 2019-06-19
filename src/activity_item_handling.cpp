@@ -19,6 +19,7 @@
 #include "game.h"
 #include "item.h"
 #include "iuse.h"
+#include "iexamine.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -938,7 +939,7 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
 
     const tripoint abspos = g->m.getabs( p.pos() );
     const std::unordered_set<tripoint> &src_set = mgr.get_near(
-                zone_type_id( "CONSTRUCTION_BLUEPRINT" ), abspos );
+                zone_type_id( "CONSTRUCTION_BLUEPRINT" ), abspos, 60 );
 
     const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
     const activity_id act_multiple_construction = activity_id( "ACT_BLUEPRINT_CONSTRUCTION" );
@@ -973,14 +974,7 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
             return;
         }
         // dont go there if it's dangerous.
-        bool dangerous_field = false;
-        for( const std::pair<const field_type_id, field_entry> &e : g->m.field_at( src_loc ) ) {
-            if( p.is_dangerous_field( e.second ) ) {
-                dangerous_field = true;
-                break;
-            }
-        }
-        if( dangerous_field ) {
+        if( g->m.dangerous_field_at( src_loc ) ) {
             continue;
         }
         // work out if we can build it before we move there.
@@ -1159,12 +1153,559 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
         p.assign_activity( act_multiple_construction );
         return;
     }
+}
 
-    // If we got here without restarting the activity, it means we're done.
-    if( p.is_npc() ) {
-        npc *guy = dynamic_cast<npc *>( &p );
-        guy->current_activity = "";
-        guy->revert_after_activity();
+static bool is_dig_tool_nearby( player &p )
+{
+    const tripoint abspos = g->m.getabs( p.pos() );
+    const zone_manager &mgr = zone_manager::get_manager();
+    const std::unordered_set<tripoint> &src_set = mgr.get_near(
+                zone_type_id( "LOOT_TOOLS" ), abspos );
+    const zone_type_id no_pickup( "NO_NPC_PICKUP" );
+    const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+    for( const tripoint &pabs : src_sorted ) {
+        tripoint p_loc = g->m.getlocal( pabs );
+        // dont pickup from this spot, even if its got what we need.
+        if( g->check_zone( no_pickup, p_loc ) ) {
+            continue;
+        }
+        // otherwise find the right tool
+        const auto items_at = g->m.i_at( p_loc );
+        for( const item &elem : items_at ) {
+            if( elem.has_quality( quality_id( "DIG" ), 1 ) ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+static bool required_seeds_available( player *p, const itype_id &seed_type )
+{
+    zone_manager &mgr = zone_manager::get_manager();
+
+    const tripoint abspos = g->m.getabs( p->pos() );
+    const zone_type_id no_pickup( "NO_NPC_PICKUP" );
+
+    const std::unordered_set<tripoint> &src_set = mgr.get_near(
+                zone_type_id( "LOOT_SEEDS" ), abspos );
+    std::vector<item *> seed_inv = p->items_with( [seed_type]( const item & itm ) {
+        return itm.typeId() == seed_type;
+    } );
+    // we arent interested in comparing numbers to get the exact amounts to fetch
+    // we just check here incase itd be pointless to even start.
+    if( !seed_inv.empty() ) {
+        return true;
+    }
+
+    const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+    for( const tripoint &pabs : src_sorted ) {
+        tripoint p_loc = g->m.getlocal( pabs );
+        // dont pickup from this spot, even if its got what we need.
+        if( g->check_zone( no_pickup, p_loc ) ) {
+            continue;
+        }
+        // otherwise find the right seed
+        const auto items_at = g->m.i_at( p_loc );
+        for( const item &elem : items_at ) {
+            if( elem.typeId() == seed_type ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+void activity_on_turn_fetch_tools( player_activity &act, player *p )
+{
+    ( void )act;
+    const activity_id act_multiple_fetch = activity_id( "ACT_FETCH_REQUIRED_TOOLS" );
+    const tripoint abspos = g->m.getabs( p->pos() );
+    const zone_manager &mgr = zone_manager::get_manager();
+    tripoint src_loc;
+    std::string act_string = p->backlog.front().str_values[0];
+    quality_id qual = quality_id( "DIG" );
+    // Nuke the current activity, leaving the backlog alone.
+    p->activity = player_activity();
+    // search in a radius to find the required item.
+    const std::unordered_set<tripoint> &src_set = mgr.get_near(
+                zone_type_id( "LOOT_TOOLS" ), abspos, 60 );
+    const zone_type_id no_pickup( "NO_NPC_PICKUP" );
+
+    const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+
+    // its a shovel/hoe we need
+    bool found_required = false;
+    for( const tripoint &pabs : src_sorted ) {
+        tripoint p_loc = g->m.getlocal( pabs );
+        // dont pickup from this spot, even if its got what we need.
+        if( g->check_zone( no_pickup, p_loc ) ) {
+            continue;
+        } else {
+            // otherwise find the right tool
+            const auto items_at = g->m.i_at( p_loc );
+            for( const item &elem : items_at ) {
+                if( elem.has_quality( qual ) ) {
+                    units::volume volume_allowed = p->volume_capacity() - p->volume_carried();
+                    units::mass weight_allowed = p->weight_capacity() - p->weight_carried();
+                    if( elem.type->volume > volume_allowed || elem.type->weight > weight_allowed ) {
+                        // this item is too heavy / big to pick up, discount it.
+                        continue;
+                    }
+                    found_required = true;
+                    src_loc = p_loc;
+                    break;
+                }
+            }
+            if( found_required ) {
+                break;
+            }
+        }
+    }
+    if( !found_required ) {
+        // didnt find the required item anywhere, cancel the whole thing
+        return;
+    }
+    if( !g->m.inbounds( src_loc ) ) {
+        if( !g->m.inbounds( p->pos() ) ) {
+            // p is implicitly an NPC that has been moved off the map, so reset the activity
+            // and unload them
+            p->assign_activity( act_multiple_fetch );
+            p->set_moves( 0 );
+            g->reload_npcs();
+            return;
+        }
+        std::vector<tripoint> route = route_adjacent( *p, src_loc );
+        if( route.empty() ) {
+            // can't get there, can't do anything, skip it
+            return;
+        }
+        p->set_destination( route, player_activity( act_multiple_fetch ) );
+        return;
+    }
+
+    // dont go there if it's dangerous.
+    if( g->m.dangerous_field_at( src_loc ) ) {
+        return;
+    }
+
+    if( square_dist( p->pos(), src_loc ) > 1 ) { // not adjacent
+        std::vector<tripoint> route = route_adjacent( *p, src_loc );
+
+        // check if we found path to source / adjacent tile
+        if( route.empty() ) {
+            add_msg( m_info, _( "%s can't reach the source tile to fetch required items" ),
+                     p->disp_name() );
+            return;
+        }
+        if( p->moves <= 0 ) {
+            // Restart activity and break from cycle.
+            p->assign_activity( act_multiple_fetch );
+            return;
+        }
+        // set the destination and restart activity after player arrives there
+        // we don't need to check for safe mode,
+        // activity will be restarted only if
+        // player arrives on destination tile
+        p->set_destination( route, player_activity( act_multiple_fetch ) );
+        return;
+    }
+
+    // find the tool we spotted earlier, now we are nearby.
+    // Maybe its moved in the meantime.
+    auto items_at_post = g->m.i_at( src_loc );
+    bool found_post = false;
+    for( map_stack::iterator it = items_at_post.begin(); it != items_at_post.end(); ) {
+        if( it->has_quality( qual ) ) {
+            units::volume volume_allowed = p->volume_capacity() - p->volume_carried();
+            units::mass weight_allowed = p->weight_capacity() - p->weight_carried();
+            if( it->type->volume > volume_allowed || it->type->weight > weight_allowed ) {
+                // this item is too heavy / big to pick up, discount it.
+                add_msg( m_info, _( "%s cannot pick up the %s, it's too big." ), p->disp_name(), it->tname() );
+                break;
+            }
+            p->add_msg_if_npc( m_info, _( "<npcname> picks up the %s." ), it->tname() );
+            found_post = true;
+            p->i_add( *it );
+            // calls map::i_rem() internally, but is more readable in this context imo
+            it = items_at_post.erase( it );
+            break;
+        }
+    }
+    // guess it's gone missing, try again, maybe its nearby. restart activity.
+    if( !found_post ) {
+        p->assign_activity( act_multiple_fetch );
+        return;
+    }
+}
+
+void activity_on_turn_fetch_seeds( player_activity &act, player *p )
+{
+    ( void )act;
+    const activity_id act_multiple_fetch = activity_id( "ACT_FETCH_SEEDS" );
+    const tripoint abspos = g->m.getabs( p->pos() );
+    const zone_manager &mgr = zone_manager::get_manager();
+    const std::unordered_set<tripoint> &src_set = mgr.get_near(
+                zone_type_id( "FARM_PLOT" ), abspos );
+    const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+    const activity_id act_multiple_farm = activity_id( "ACT_MULTIPLE_FARM" );
+
+    using seed_map_t = std::map<std::string, int>;
+    seed_map_t seed_names;
+    // check how many seeds we may require
+    for( const tripoint &src : src_sorted ) {
+        const zone_data *zone = mgr.get_zone_at( src );
+        if( !zone ) {
+            continue;
+        }
+        tripoint src_loc = g->m.getlocal( src );
+        if( g->m.has_flag_ter_or_furn( "PLANTABLE", src_loc ) && !g->m.has_items( src_loc ) &&
+            !g->m.has_furn( src_loc ) ) {
+            const auto options = dynamic_cast<const plot_options &>( zone->get_options() );
+            const std::string seed = options.get_seed();
+            seed_names[seed]++;
+        }
+    }
+    // what do we have in our inventory? compared to what we need?
+    std::vector<item *> seed_inv = p->items_with( []( const item & itm ) {
+        return itm.is_seed();
+    } );
+    for( const item *elem : seed_inv ) {
+        std::map<std::string, int>::iterator map_it;
+        map_it = seed_names.find( elem->typeId() );
+        if( map_it != seed_names.end() ) {
+            // if we have some in our inventory already, remove it from the wanted list.
+            seed_names.find( elem->typeId() )->second -= elem->count();
+            if( seed_names.find( elem->typeId() )->second <= 0 ) {
+                seed_names.erase( map_it );
+            }
+        }
+    }
+    // Nuke the current activity, leaving the backlog alone.
+    p->activity = player_activity();
+    // search in a radius to find the required seeds.
+    const std::unordered_set<tripoint> &src_set_loot_seeds = mgr.get_near(
+                zone_type_id( "LOOT_SEEDS" ), abspos, 60 );
+    const zone_type_id no_pickup( "NO_NPC_PICKUP" );
+
+    const std::vector<tripoint> &src_set_loot_seeds_sorted = get_sorted_tiles_by_distance( abspos,
+            src_set_loot_seeds );
+
+    std::vector<tripoint> wanted_seed_points;
+    for( const tripoint &pabs : src_set_loot_seeds_sorted ) {
+        bool found_one = false;
+        tripoint p_loc = g->m.getlocal( pabs );
+        // dont pickup from this spot, even if its got what we need.
+        if( g->check_zone( no_pickup, p_loc ) ) {
+            continue;
+        }
+        // otherwise find the right seed
+        const map_stack items_at = g->m.i_at( p_loc );
+        for( const item &elem : items_at ) {
+            if( elem.is_seed() ) {
+                std::map<std::string, int>::iterator map_it;
+                map_it = seed_names.find( elem.typeId() );
+                if( map_it != seed_names.end() ) {
+                    found_one = true;
+                    break;
+                }
+            }
+        }
+        if( found_one ) {
+            wanted_seed_points.push_back( p_loc );
+        }
+    }
+    if( wanted_seed_points.empty() ) {
+        // didnt find the required item anywhere, cancel the whole thing
+        return;
+    }
+    for( const tripoint src_loc : wanted_seed_points ) {
+        if( !g->m.inbounds( src_loc ) ) {
+            if( !g->m.inbounds( p->pos() ) ) {
+                // p is implicitly an NPC that has been moved off the map, so reset the activity
+                // and unload them
+                p->assign_activity( act_multiple_fetch );
+                p->set_moves( 0 );
+                g->reload_npcs();
+                return;
+            }
+            std::vector<tripoint> route = route_adjacent( *p, src_loc );
+            if( route.empty() ) {
+                // can't get there, can't do anything, skip it
+                return;
+            }
+            p->set_destination( route, player_activity( act_multiple_fetch ) );
+            return;
+        }
+
+        // dont go there if it's dangerous.
+        if( g->m.dangerous_field_at( src_loc ) ) {
+            continue;
+        }
+        bool adjacent = false;
+        for( tripoint elem : g->m.points_in_radius( src_loc, 1 ) ) {
+            if( p->pos() == elem ) {
+                adjacent = true;
+                break;
+            }
+        }
+        if( !adjacent ) {
+            std::vector<tripoint> route = route_adjacent( *p, src_loc );
+
+            // check if we found path to source / adjacent tile
+            if( route.empty() ) {
+                add_msg( m_info, _( "%s can't reach the source tile to fetch required items" ),
+                         p->disp_name() );
+                return;
+            }
+            if( p->moves <= 0 ) {
+                // Restart activity and break from cycle.
+                p->assign_activity( act_multiple_fetch );
+                return;
+            }
+            // set the destination and restart activity after player arrives there
+            // we don't need to check for safe mode,
+            // activity will be restarted only if
+            // player arrives on destination tile
+            p->set_destination( route, player_activity( act_multiple_fetch ) );
+            return;
+        }
+
+        // find the seed we spotted earlier, now we are nearby.
+        // Maybe its moved in the meantime.
+        auto items_at_post = g->m.i_at( src_loc );
+        bool found_post = false;
+        std::list<item> picked_up;
+        for( map_stack::iterator it = items_at_post.begin(); it != items_at_post.end(); ) {
+            std::map<std::string, int>::iterator map_it;
+            map_it = seed_names.find( it->typeId() );
+            if( map_it != seed_names.end() ) {
+                units::volume volume_allowed = p->volume_capacity() - p->volume_carried();
+                units::mass weight_allowed = p->weight_capacity() - p->weight_carried();
+                if( volume_allowed <= 0_ml || weight_allowed <= 0_gram ) {
+                    add_msg( m_info, _( "%s cannot pick up the %s, it's too big." ), p->disp_name(), it->tname() );
+                    break;
+                }
+                found_post = true;
+                picked_up.push_back( *it );
+                it = items_at_post.erase(
+                         it ); // calls map::i_rem() internally, but is more readable in this context imo
+            }
+        }
+        if( p->is_npc() && !picked_up.empty() ) {
+            if( picked_up.size() == 1 ) {
+                add_msg( _( "%1$s picks up a %2$s." ), p->disp_name(), picked_up.front().tname() );
+            } else {
+                add_msg( _( "%s picks up several items." ), p->disp_name() );
+            }
+        }
+        for( item &it : picked_up ) {
+            p->i_add( it );
+        }
+        // guess it's gone missing, try again, maybe its nearby. restart activity.
+        if( !found_post ) {
+            p->assign_activity( act_multiple_fetch );
+            return;
+        }
+        if( p->moves <= 0 ) {
+            // Restart activity and break from cycle.
+            p->assign_activity( act_multiple_fetch );
+            return;
+        }
+    }
+
+    if( p->moves <= 0 ) {
+        // Restart activity and break from cycle.
+        p->assign_activity( act_multiple_fetch );
+        return;
+    }
+}
+
+void activity_on_turn_farm_move( player_activity &, player &p )
+{
+    zone_manager &mgr = zone_manager::get_manager();
+
+    const tripoint abspos = g->m.getabs( p.pos() );
+    const std::unordered_set<tripoint> &src_set = mgr.get_near(
+                zone_type_id( "FARM_PLOT" ), abspos, 60 );
+    const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+    const activity_id act_multiple_farm = activity_id( "ACT_MULTIPLE_FARM" );
+    // check if required tools are nearby beforehand
+    bool dig_tool_nearby = is_dig_tool_nearby( p );
+    using seed_map_t = std::map<itype_id, int>;
+    seed_map_t seed_names;
+    // check how many seeds we may require
+    for( const tripoint &src : src_sorted ) {
+        const zone_data *zone = mgr.get_zone_at( src );
+        if( !zone ) {
+            continue;
+        }
+        tripoint src_loc = g->m.getlocal( src );
+        if( g->m.has_flag_ter_or_furn( "PLANTABLE", src_loc ) && !g->m.has_items( src_loc ) &&
+            !g->m.has_furn( src_loc ) ) {
+            const auto options = dynamic_cast<const plot_options &>( zone->get_options() );
+            const itype_id seed = itype_id( options.get_seed() );
+            std::pair<seed_map_t::iterator, bool> has_insert = seed_names.insert( std::make_pair( seed, 1 ) );
+            if( !has_insert.second ) {
+                seed_names[seed]++;
+            }
+        }
+    }
+    bool some_seeds_available = false;
+    // if there are zero of the required seeds available anywhere, can bail out later.
+    for( const auto elem : seed_names ) {
+        if( required_seeds_available( &p, elem.first ) ) {
+            some_seeds_available = true;
+            break;
+        }
+    }
+    // Nuke the current activity, leaving the backlog alone
+    p.activity = player_activity();
+
+    // sort source tiles by distance
+    for( const tripoint &src : src_sorted ) {
+        const tripoint &src_loc = g->m.getlocal( src );
+
+        if( !g->m.inbounds( src_loc ) ) {
+            if( !g->m.inbounds( p.pos() ) ) {
+                // p is implicitly an NPC that has been moved off the map, so reset the activity
+                // and unload them
+                p.assign_activity( act_multiple_farm );
+                p.set_moves( 0 );
+                g->reload_npcs();
+                return;
+            }
+            const std::vector<tripoint> route = route_adjacent( p, src_loc );
+            if( route.empty() ) {
+                // can't get there, can't do anything, skip it
+                continue;
+            }
+            p.set_destination( route, player_activity( act_multiple_farm ) );
+            return;
+        }
+        bool needs_tilling = false;
+        bool needs_planting = false;
+        bool needs_harvesting = false;
+
+        // check that the tiles need farming
+        if( g->m.has_flag_furn( "GROWTH_HARVEST", src_loc ) ) {
+            needs_harvesting = true;
+        } else if( g->m.has_flag( "PLOWABLE", src_loc ) && !g->m.has_furn( src_loc ) ) {
+            needs_tilling = true;
+        } else if( g->m.has_flag_ter_or_furn( "PLANTABLE", src_loc ) && !g->m.has_items( src_loc ) &&
+                   !seed_names.empty() && some_seeds_available ) {
+            needs_planting = true;
+        }
+        if( !needs_tilling && !needs_planting && !needs_harvesting ) {
+            // nothing needs to be done on this tile.
+            continue;
+        }
+        // we do tilling before planting so that planting later can catch all the newly tilled plots.
+        // maybe we already got the tool, or dont need to go fetch one.
+        if( needs_tilling && !p.has_quality( quality_id( "DIG" ), 1 ) && dig_tool_nearby ) {
+            // need a hoe/shovel
+            p.backlog.push_front( act_multiple_farm );
+            p.assign_activity( activity_id( "ACT_FETCH_REQUIRED_TOOLS" ) );
+            // let it be known we need a hoe/shovel for this reason
+            // TODO passing a std::function or requirements for future crafting/construction
+            p.backlog.front().str_values.push_back( "Tilling" );
+            // come back here after succesfully fetching your hoe/shovel
+            p.backlog.front().placement = src;
+            return;
+            // we dont have the tool, there isnt one nearby, forget about this tile.
+        } else if( needs_tilling && !p.has_quality( quality_id( "DIG" ) ) && !dig_tool_nearby ) {
+            continue;
+        }
+        std::string current_seed_type;
+        if( needs_planting ) {
+            const zone_data *zone = mgr.get_zone_at( src );
+            if( !zone ) {
+                continue;
+            }
+            tripoint src_loc = g->m.getlocal( src );
+            if( g->m.has_flag_ter_or_furn( "PLANTABLE", src_loc ) && !g->m.has_items( src_loc ) &&
+                !g->m.has_furn( src_loc ) ) {
+                const auto options = dynamic_cast<const plot_options &>( zone->get_options() );
+                current_seed_type = options.get_seed();
+                std::vector<item *> seed_inv = p.items_with( [current_seed_type]( const item & itm ) {
+                    return itm.typeId() == itype_id( current_seed_type );
+                } );
+                // we dont have the required seed, we better go fetch it( and some more, if need be )
+                if( seed_inv.empty() ) {
+                    p.backlog.push_front( act_multiple_farm );
+                    p.assign_activity( activity_id( "ACT_FETCH_SEEDS" ) );
+                    // come back here after succesfully fetching your stuff
+                    p.backlog.front().placement = src;
+                }
+            } else {
+                continue;
+            }
+        }
+        // dont go there if it's dangerous.
+        if( g->m.dangerous_field_at( src_loc ) ) {
+            continue;
+        }
+
+        bool adjacent = false;
+        for( const tripoint &elem : g->m.points_in_radius( src_loc, 1 ) ) {
+            if( p.pos() == elem ) {
+                adjacent = true;
+                break;
+            }
+        }
+        if( !adjacent ) {
+            std::vector<tripoint> route = route_adjacent( p, src_loc );
+
+            // check if we found path to source / adjacent tile
+            if( route.empty() ) {
+                add_msg( m_info, _( "%s can't reach the source tile to farm." ),
+                         p.disp_name() );
+                return;
+            }
+
+            // set the destination and restart activity after player arrives there
+            // we don't need to check for safe mode,
+            // activity will be restarted only if
+            // player arrives on destination tile
+            p.set_destination( route, player_activity( act_multiple_farm ) );
+            return;
+        }
+
+        // something needs to be done, now we are there.
+        if( needs_harvesting ) {
+            iexamine::harvest_plant( p, src_loc );
+        } else if( needs_tilling ) {
+            p.backlog.push_front( act_multiple_farm );
+            p.assign_activity( activity_id( "ACT_CHURN" ), 18000, -1 );
+            p.activity.placement = src_loc;
+            return;
+            // maybe for some reaosn we dont have the required seed anymore
+            // check again.
+        } else if( needs_planting && !current_seed_type.empty() ) {
+            std::vector<item *> seed_inv = p.items_with( [current_seed_type]( const item & itm ) {
+                return itm.typeId() == itype_id( current_seed_type );
+            } );
+            // we dont have the required seed, we better go fetch it( and some more, if need be )
+            if( seed_inv.empty() ) {
+                p.backlog.push_front( act_multiple_farm );
+                p.assign_activity( activity_id( "ACT_FETCH_SEEDS" ) );
+                // come back here after succesfully fetching your stuff
+                p.backlog.front().placement = src;
+            }
+            iexamine::plant_seed( p, src_loc, itype_id( current_seed_type ) );
+        }
+
+        if( p.moves <= 0 ) {
+            // Restart activity and break from cycle.
+            p.assign_activity( act_multiple_farm );
+            return;
+        }
+    }
+
+    if( p.moves <= 0 ) {
+        // Restart activity and break from cycle.
+        p.assign_activity( act_multiple_farm );
+        return;
     }
 }
 
@@ -1354,10 +1895,6 @@ void activity_on_turn_move_loot( player_activity &, player &p )
 
     // If we got here without restarting the activity, it means we're done
     add_msg( m_info, string_format( _( "%s sorted out every item possible." ), p.disp_name() ) );
-    if( p.is_npc() ) {
-        npc *guy = dynamic_cast<npc *>( &p );
-        guy->current_activity.clear();
-    }
     mgr.end_sort();
 }
 

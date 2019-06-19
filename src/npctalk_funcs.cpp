@@ -213,6 +213,13 @@ void talk_function::do_blueprint_construction( npc &p )
     p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
+void talk_function::do_farming( npc &p )
+{
+    p.set_attitude( NPCATT_ACTIVITY );
+    p.assign_activity( activity_id( "ACT_MULTIPLE_FARM" ) );
+    p.set_mission( NPC_MISSION_ACTIVITY );
+}
+
 void talk_function::revert_activity( npc &p )
 {
     p.revert_after_activity();
