@@ -52,7 +52,7 @@ namespace
 
 generic_factory<map_extra> extras( "map extra" );
 
-}
+} // namespace
 
 /** @relates string_id */
 template<>
@@ -2364,7 +2364,7 @@ void load( JsonObject &jo, const std::string &src )
     extras.load( jo, src );
 }
 
-}
+} // namespace MapExtras
 
 void map_extra::load( JsonObject &jo, const std::string & )
 {
@@ -2378,4 +2378,4 @@ void map_extra::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader, NULL_UNICODE );
     color = jo.has_member( "color" ) ? color_from_string( jo.get_string( "color" ) ) : c_white;
     optional( jo, was_loaded, "autonote", autonote, false );
-} // namespace MapExtras
+}
