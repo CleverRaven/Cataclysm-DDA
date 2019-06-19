@@ -2374,5 +2374,24 @@
     "cutting": 22,
     "to_hit": 2,
     "qualities": [ [ "COOK", 1 ] ]
+  },
+  {
+    "id": "lucern_hammerfake",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "lucern hammer",
+    "description": "This is a cheap piece of crap imitation of a versatile polearm with a spiked hammer head, probably used for LARPing",
+    "price": 4000,
+    "price_postapoc": 0,
+    "material": [ "wood", "aluminum" ],
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "SPEAR" ],
+    "techniques": [ "WBLOCK_1", "SWEEP" ],
+    "weight": 2700,
+    "volume": 15,
+    "bashing": 14,
+    "cutting": 3,
+    "to_hit": 2,
+    "qualities": [ [ "COOK", 1 ] ]
   }
 ]
