@@ -951,7 +951,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "music_venue_0",
+    "id": "music_venue",
     "copy-from": "generic_city_building",
     "name": "music venue",
     "sym": "M",
@@ -959,7 +959,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "music_venue_0_roof",
+    "id": "music_venue_roof",
     "copy-from": "generic_city_building",
     "name": "music venue roof",
     "sym": "M",

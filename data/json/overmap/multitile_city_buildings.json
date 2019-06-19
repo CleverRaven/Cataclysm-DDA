@@ -1867,11 +1867,11 @@
   },
   {
     "type": "city_building",
-    "id": "music_venue_0",
+    "id": "music_venue",
     "locations": [ "land" ],
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "music_venue_0_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "music_venue_0_roof_north" }
+      { "point": [ 0, 0, 0 ], "overmap": "music_venue_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "music_venue_roof_north" }
     ]
   },
   {
