@@ -361,6 +361,13 @@ void Item_factory::finalize_pre( itype &obj )
     } else {
         obj.layer = REGULAR_LAYER;
     }
+
+    if( obj.can_use( "MA_MANUAL" ) && obj.book && obj.book->martial_art.is_null() &&
+        string_starts_with( obj.get_id(), "manual_" ) ) {
+        // Legacy martial arts books rely on a hack whereby the name of the
+        // martial art is derived from the item id
+        obj.book->martial_art = matype_id( "style_" + obj.get_id().substr( 7 ) );
+    }
 }
 
 void Item_factory::register_cached_uses( const itype &obj )
@@ -1612,6 +1619,7 @@ void Item_factory::load( islot_book &slot, JsonObject &jo, const std::string &sr
         slot.time = to_minutes<int>( time_duration::read_from_json_string( *jo.get_raw( "time" ) ) );
     }
     assign( jo, "skill", slot.skill, strict );
+    assign( jo, "martial_art", slot.martial_art, strict );
     assign( jo, "chapters", slot.chapters, strict, 0 );
 }
 
