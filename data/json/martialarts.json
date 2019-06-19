@@ -1046,11 +1046,16 @@
       "halberd_fake",
       "lucern_hammer",
       "glaive",
+      "makeshift_halberd",
       "battleaxe_fake",
       "battleaxe_inferior",
       "battleaxe",
       "fire_ax",
-      "pickaxe"
+      "pickaxe",
+      "ax",
+      "lobotomizer",
+      "primitive_axe",
+      "copper_ax"
     ]
   }
 ]
