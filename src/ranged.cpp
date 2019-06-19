@@ -357,9 +357,9 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     int hits = 0; // total shots on target
     int delay = 0; // delayed recoil that has yet to be applied
     while( curshot != shots ) {
-        if( it.faults.count( fault_gun_chamber_spent ) && curshot == 0 ) {
+        if( gun.faults.count( fault_gun_chamber_spent ) && curshot == 0 ) {
             moves -= 50;
-            it.faults.remove( fault_gun_chamber_spent );
+            gun.faults.remove( fault_gun_chamber_spent );
             add_msg_if_player( _( "You cycle your %s manually." ), gun.tname() );
         }
 
