@@ -98,14 +98,13 @@ void failure_standard( const tripoint & );
 void failure_deconstruct( const tripoint & );
 } // namespace construct
 
+std::vector<construction> constructions;
+
 // Helper functions, nobody but us needs to call these.
 static bool can_construct( const std::string &desc );
 static bool can_construct( const construction &con );
-static bool player_can_build( player &p, const inventory &inv, const construction &con );
 static bool player_can_build( player &p, const inventory &inv, const std::string &desc );
 static void place_construction( const std::string &desc );
-
-std::vector<construction> constructions;
 
 // Color standardization for string streams
 static const deferred_color color_title = def_c_light_red; //color for titles
@@ -203,7 +202,7 @@ const std::vector<construction> &get_constructions()
     return constructions;
 }
 
-void construction_menu()
+int construction_menu( bool blueprint )
 {
     static bool hide_unconstructable = false;
     // only display constructions the player can theoretically perform
@@ -213,7 +212,7 @@ void construction_menu()
 
     if( available.empty() ) {
         popup( _( "You can not construct anything here." ) );
-        return;
+        return -1;
     }
 
     int w_height = TERMY;
@@ -245,7 +244,7 @@ void construction_menu()
             _( "Others" ), _( "Filter" )
         }
     };
-
+    int ret = -1;
     bool update_info = true;
     bool update_cat = true;
     bool isnew = true;
@@ -692,14 +691,28 @@ void construction_menu()
                 // Nothing to be done here
                 continue;
             }
-            if( player_can_build( g->u, total_inv, constructs[select] ) ) {
-                place_construction( constructs[select] );
-                uistate.last_construction = constructs[select];
-                exit = true;
+            if( !blueprint ) {
+                if( player_can_build( g->u, total_inv, constructs[select] ) ) {
+                    place_construction( constructs[select] );
+                    uistate.last_construction = constructs[select];
+                    exit = true;
+                } else {
+                    popup( _( "You can't build that!" ) );
+                    draw_grid( w_con, w_list_width + w_list_x0 );
+                    update_info = true;
+                }
             } else {
-                popup( _( "You can't build that!" ) );
-                draw_grid( w_con, w_list_width + w_list_x0 );
-                update_info = true;
+                // get the index of the overall constructions list from current_desc
+                const std::vector<construction> &list_constructions = get_constructions();
+                for( int i = 0; i < static_cast<int>( list_constructions.size() ); ++i ) {
+                    if( constructs[select] == list_constructions[i].description ) {
+                        ret = i;
+                        break;
+                    }
+                }
+                exit = true;
+
+
             }
         }
     } while( !exit );
@@ -707,6 +720,7 @@ void construction_menu()
     w_list = catacurses::window();
     w_con = catacurses::window();
     g->refresh_all();
+    return ret;
 }
 
 bool player_can_build( player &p, const inventory &inv, const std::string &desc )
@@ -753,7 +767,7 @@ bool can_construct( const std::string &desc )
     return false;
 }
 
-static bool can_construct( const construction &con, const tripoint &p )
+bool can_construct( const construction &con, const tripoint &p )
 {
     // see if the special pre-function checks out
     bool place_okay = con.pre_special( p );
@@ -1109,7 +1123,7 @@ void construct::done_deconstruct( const tripoint &p )
         } else {
             g->m.furn_set( p, f.deconstruct.furn_set );
         }
-        add_msg( _( "You disassemble the %s." ), f.name() );
+        add_msg( _( "The %s is disassembled." ), f.name() );
         g->m.spawn_items( p, item_group::items_from( f.deconstruct.drop_group, calendar::turn ) );
         // Hack alert.
         // Signs have cosmetics associated with them on the submap since
@@ -1142,7 +1156,7 @@ void construct::done_deconstruct( const tripoint &p )
             }
         }
         g->m.ter_set( p, t.deconstruct.ter_set );
-        add_msg( _( "You disassemble the %s." ), t.name() );
+        add_msg( _( "The %s is disassembled." ), t.name() );
         g->m.spawn_items( p, item_group::items_from( t.deconstruct.drop_group, calendar::turn ) );
     }
 }

@@ -9,6 +9,7 @@
 
 #include "avatar.h"
 #include "cata_utility.h"
+#include "construction.h"
 #include "debug.h"
 #include "game.h"
 #include "iexamine.h"
@@ -17,6 +18,7 @@
 #include "json.h"
 #include "line.h"
 #include "map.h"
+#include "messages.h"
 #include "output.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -128,6 +130,9 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "LOOT_IGNORE" ),
                    zone_type( translate_marker( "Loot: Ignore" ),
                               translate_marker( "Items inside of this zone are ignored by \"sort out loot\" zone-action." ) ) );
+    types.emplace( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
+                   zone_type( translate_marker( "Construction: Blueprint" ),
+                              translate_marker( "Designate a blueprint zone for construction." ) ) );
     types.emplace( zone_type_id( "FARM_PLOT" ),
                    zone_type( translate_marker( "Farm: Plot" ),
                               translate_marker( "Designate a farm plot for tilling and planting." ) ) );
@@ -151,6 +156,8 @@ std::shared_ptr<zone_options> zone_options::create( const zone_type_id &type )
 {
     if( type == zone_type_id( "FARM_PLOT" ) ) {
         return std::make_shared<plot_options>();
+    } else if( type == zone_type_id( "CONSTRUCTION_BLUEPRINT" ) ) {
+        return std::make_shared<blueprint_options>();
     }
 
     return std::make_shared<zone_options>();
@@ -160,10 +167,37 @@ bool zone_options::is_valid( const zone_type_id &type, const zone_options &optio
 {
     if( type == zone_type_id( "FARM_PLOT" ) ) {
         return dynamic_cast<const plot_options *>( &options ) != nullptr ;
+    } else if( type == zone_type_id( "CONSTRUCTION_BLUEPRINT" ) ) {
+        return dynamic_cast<const blueprint_options *>( &options ) != nullptr ;
     }
 
     // ensure options is not derived class for the rest of zone types
     return !options.has_options();
+}
+
+blueprint_options::query_con_result blueprint_options::query_con()
+{
+    int con_index = construction_menu( true );
+    if( con_index > -1 ) {
+        const std::vector<construction> &list_constructions = get_constructions();
+        std::string chosen_desc = list_constructions[con_index].description;
+        std::string chosen_mark;
+        if( !list_constructions[con_index].post_terrain.empty() ) {
+            chosen_mark = list_constructions[con_index].post_terrain;
+        } else {
+            chosen_mark = con;
+        }
+        if( chosen_desc != con || chosen_mark != mark || con_index != index ) {
+            con = chosen_desc;
+            mark = chosen_mark;
+            index = con_index;
+            return changed;
+        } else {
+            return successful;
+        }
+    } else {
+        return canceled;
+    }
 }
 
 plot_options::query_seed_result plot_options::query_seed()
@@ -174,7 +208,7 @@ plot_options::query_seed_result plot_options::query_seed()
         return itm.is_seed();
     } );
 
-    auto seed_entries = iexamine::get_seed_entries( seed_inv );
+    std::vector<seed_tuple> seed_entries = iexamine::get_seed_entries( seed_inv );
     seed_entries.emplace( seed_entries.begin(), seed_tuple( itype_id( "null" ), _( "No seed" ), 0 ) );
 
     int seed_index = iexamine::query_seed( seed_entries );
@@ -211,14 +245,33 @@ plot_options::query_seed_result plot_options::query_seed()
     }
 }
 
+bool blueprint_options::query_at_creation()
+{
+    return query_con() != canceled;
+}
+
 bool plot_options::query_at_creation()
 {
     return query_seed() != canceled;
 }
 
+bool blueprint_options::query()
+{
+    return query_con() == changed;
+}
+
 bool plot_options::query()
 {
     return query_seed() == changed;
+}
+
+std::string blueprint_options::get_zone_name_suggestion() const
+{
+    if( !con.empty() ) {
+        return con;
+    }
+
+    return _( "No construction" );
 }
 
 std::string plot_options::get_zone_name_suggestion() const
@@ -236,6 +289,16 @@ std::string plot_options::get_zone_name_suggestion() const
     return _( "No seed" );
 }
 
+std::vector<std::pair<std::string, std::string>> blueprint_options::get_descriptions() const
+{
+    std::vector<std::pair<std::string, std::string>> options =
+                std::vector<std::pair<std::string, std::string>>();
+    options.emplace_back( std::make_pair( _( "Construct: " ),
+                                          !con.empty() ? con : _( "No Construction" ) ) );
+
+    return options;
+}
+
 std::vector<std::pair<std::string, std::string>> plot_options::get_descriptions() const
 {
     auto options = std::vector<std::pair<std::string, std::string>>();
@@ -243,6 +306,20 @@ std::vector<std::pair<std::string, std::string>> plot_options::get_descriptions(
                                           !seed.empty() ? item::nname( itype_id( seed ) ) : _( "No seed" ) ) );
 
     return options;
+}
+
+void blueprint_options::serialize( JsonOut &json ) const
+{
+    json.member( "mark", mark );
+    json.member( "con", con );
+    json.member( "index", index );
+}
+
+void blueprint_options::deserialize( JsonObject &jo_zone )
+{
+    jo_zone.read( "mark", mark );
+    jo_zone.read( "con", con );
+    jo_zone.read( "index", index );
 }
 
 void plot_options::serialize( JsonOut &json ) const
@@ -495,6 +572,7 @@ bool zone_manager::has_loot_dest_near( const tripoint &where ) const
         const zone_type_id &type = ztype.first;
         if( type == zone_type_id( "CAMP_FOOD" ) || type == zone_type_id( "FARM_PLOT" ) ||
             type == zone_type_id( "LOOT_UNSORTED" ) || type == zone_type_id( "LOOT_IGNORE" ) ||
+            type == zone_type_id( "CONSTRUCTION_BLUEPRINT" ) ||
             type == zone_type_id( "NO_AUTO_PICKUP" ) || type == zone_type_id( "NO_NPC_PICKUP" ) ) {
             continue;
         }
@@ -738,7 +816,7 @@ void zone_manager::add( const std::string &name, const zone_type_id &type, const
         // TODO:Allow for loot zones on vehicles to be larger than 1x1
         if( start == end && query_yn( _( "Bind this zone to the cargo part here?" ) ) ) {
             // TODO: refactor zone options for proper validation code
-            if( type == zone_type_id( "FARM_PLOT" ) ) {
+            if( type == zone_type_id( "FARM_PLOT" ) || type == zone_type_id( "CONSTRUCTION_BLUEPRINT" ) ) {
                 popup( _( "You cannot add that type of zone to a vehicle." ), PF_NONE );
                 return;
             }

@@ -474,14 +474,18 @@ bool player::can_make( const recipe *r, int batch_size )
             batch_size );
 }
 
-const inventory &player::crafting_inventory()
+const inventory &player::crafting_inventory( tripoint src_pos, int radius )
 {
+    tripoint inv_pos = src_pos;
+    if( src_pos == tripoint_zero ) {
+        inv_pos = pos();
+    }
     if( cached_moves == moves
         && cached_time == calendar::turn
-        && cached_position == pos() ) {
+        && cached_position == inv_pos ) {
         return cached_crafting_inventory;
     }
-    cached_crafting_inventory.form_from_map( pos(), PICKUP_RANGE, false );
+    cached_crafting_inventory.form_from_map( inv_pos, radius, false );
     cached_crafting_inventory += inv;
     cached_crafting_inventory += weapon;
     cached_crafting_inventory += worn;
@@ -500,7 +504,7 @@ const inventory &player::crafting_inventory()
 
     cached_moves = moves;
     cached_time = calendar::turn;
-    cached_position = pos();
+    cached_position = inv_pos;
     return cached_crafting_inventory;
 }
 

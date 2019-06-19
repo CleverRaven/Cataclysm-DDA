@@ -5294,7 +5294,7 @@ void map::disarm_trap( const tripoint &p )
 
     // Some traps are not actual traps. Skip the rolls, different message and give the option to grab it right away.
     if( tr.get_avoidance() ==  0 && tr.get_difficulty() == 0 ) {
-        add_msg( _( "You take down the %s." ), tr.name() );
+        add_msg( _( "The %s is taken down." ), tr.name() );
         tr.on_disarmed( *this, p );
         return;
     }

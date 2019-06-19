@@ -1428,7 +1428,8 @@ class player : public Character
                                    bool from_ground, const recipe &dis );
 
         // yet more crafting.cpp
-        const inventory &crafting_inventory(); // includes nearby items
+        const inventory &crafting_inventory( tripoint src_pos = tripoint_zero,
+                                             int radius = PICKUP_RANGE ); // includes nearby items
         void invalidate_crafting_inventory();
         comp_selection<item_comp>
         select_item_component( const std::vector<item_comp> &components,
