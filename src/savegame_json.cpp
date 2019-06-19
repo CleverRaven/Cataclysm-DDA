@@ -549,12 +549,11 @@ void Character::store( JsonOut &json ) const
     for( const auto &pair : *_skills ) {
         json.member( pair.first.str(), pair.second );
     }
+    json.end_object();
 
     // npc; unimplemented
     json.member( "power_level", power_level );
     json.member( "max_power_level", max_power_level );
-
-    json.end_object();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
