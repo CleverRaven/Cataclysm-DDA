@@ -17,8 +17,8 @@
     "name": "spent casing in chamber",
     "description": "This gun currently has an empty casing chambered.  It will have to be removed before firing.",
     "time": 50,
-    "skills": [ ],
-    "requirements": { }
+    "skills": [  ],
+    "requirements": {  }
   },
   {
     "id": "fault_gun_clogged",
