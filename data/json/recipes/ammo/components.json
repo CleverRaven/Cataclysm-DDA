@@ -55,6 +55,6 @@
     "book_learn": [ [ "manual_rifle", 5 ], [ "recipe_bullets", 3 ] ],
     "qualities": { "id": "SAW_M", "level": 1 },
     "tools": [ [ "press", -1 ] ],
-    "components": [ [ "223_casing", 1 ] ]
+    "components": [ [ [ "223_casing", 1 ] ] ]
   }
 ]
