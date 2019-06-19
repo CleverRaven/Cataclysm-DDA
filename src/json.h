@@ -81,7 +81,7 @@ inline E string_to_enum_look_up( const C &container, const std::string &data )
     return iter->second;
 }
 /*@}*/
-}
+} // namespace io
 
 /* JsonIn
  * ======

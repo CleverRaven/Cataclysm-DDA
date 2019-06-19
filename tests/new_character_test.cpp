@@ -91,7 +91,7 @@ struct less<failure> {
         return lhs.prof < rhs.prof;
     }
 };
-}
+} // namespace std
 
 // TODO: According to profiling (interrupt, backtrace, wait a few seconds, repeat) with a sample
 // size of 20, 70% of the time is due to the call to Character::set_mutation in try_set_traits.

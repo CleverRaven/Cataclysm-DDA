@@ -3956,10 +3956,10 @@ static player &best_installer( player &p, player &null_player, int difficulty )
                          skill_computer,
                          skill_electronics );
 
-    std::vector< std::pair<float, long>> ally_skills;
+    std::vector< std::pair<float, int>> ally_skills;
     ally_skills.reserve( g->allies().size() );
     for( size_t i = 0; i < g->allies().size() ; i ++ ) {
-        std::pair<float, long> ally_skill;
+        std::pair<float, int> ally_skill;
         const npc *e = g->allies()[ i ];
 
         player &ally = *g->critter_by_id<player>( e->getID() );
@@ -3969,8 +3969,8 @@ static player &best_installer( player &p, player &null_player, int difficulty )
                            skill_electronics );
         ally_skills.push_back( ally_skill );
     }
-    std::sort( ally_skills.begin(), ally_skills.end(), [&]( const std::pair<float, long> &lhs,
-    const std::pair<float, long> &rhs ) {
+    std::sort( ally_skills.begin(), ally_skills.end(), [&]( const std::pair<float, int> &lhs,
+    const std::pair<float, int> &rhs ) {
         return rhs.first < lhs.first;
     } );
     int player_cos = bionic_manip_cos( player_skill, true, difficulty );
@@ -4296,7 +4296,7 @@ const int MIN_CHARCOAL = 100;
 const int CHARCOAL_PER_LITER = 25;
 const units::volume MAX_FOOD_VOLUME = units::from_liter( 20 );
 const units::volume MAX_FOOD_VOLUME_PORTABLE = units::from_liter( 15 );
-}
+} // namespace sm_rack
 
 static int get_charcoal_charges( units::volume food )
 {

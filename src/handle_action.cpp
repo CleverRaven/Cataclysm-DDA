@@ -673,7 +673,7 @@ static void smash()
             if( vol > 20 ) {
                 // Hurt left arm too, if it was big
                 u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0,
-                               static_cast<long>( vol * .5 ) ) ) );
+                               static_cast<int>( vol * .5 ) ) ) );
             }
             u.remove_weapon();
             u.check_dead_state();

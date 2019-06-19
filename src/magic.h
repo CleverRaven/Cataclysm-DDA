@@ -9,6 +9,7 @@
 #include "damage.h"
 #include "enum_bitset.h"
 #include "type_id.h"
+#include "ui.h"
 
 struct mutation_branch;
 struct tripoint;
@@ -341,6 +342,15 @@ std::set<tripoint> spell_effect_line( const spell &, const tripoint &source,
 void spawn_ethereal_item( spell &sp );
 void recover_energy( spell &sp, const tripoint &target );
 void spawn_summoned_monster( spell &sp, const tripoint &source, const tripoint &target );
-}
+} // namespace spell_effect
+
+class spellbook_callback : public uilist_callback
+{
+    private:
+        std::vector<spell_type> spells;
+    public:
+        void add_spell( const spell_id &sp );
+        void select( int entnum, uilist *menu ) override;
+};
 
 #endif

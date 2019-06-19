@@ -2546,6 +2546,8 @@
   {
     "type": "item_group",
     "id": "trash",
+    "ammo": 20,
+    "magazine": 50,
     "items": [
       [ "plastic_shopping_bag", 35 ],
       [ "iodine", 5 ],
@@ -7823,7 +7825,8 @@
       [ "football_armor", 18 ],
       [ "jacket_leather", 12 ],
       [ "jacket_jean", 8 ],
-      [ "jacket_flannel", 6 ]
+      [ "jacket_flannel", 6 ],
+      [ "cuirass_scrap", 12 ]
     ]
   },
   {
@@ -7837,6 +7840,7 @@
       [ "winter_pants_army", 10 ],
       [ "bunker_pants", 14 ],
       [ "pants_leather", 18 ],
+      [ "legguard_scrap", 12 ],
       [ "skirt", 6 ],
       [ "kilt", 1 ]
     ]
@@ -7861,6 +7865,7 @@
       [ "vambrace_larmor", 6 ],
       [ "armguard_chitin", 1 ],
       [ "armguard_bone", 6 ],
+      [ "armguard_scrap", 12 ],
       [ "gloves_fur", 4 ],
       [ "gloves_leather", 22 ],
       [ "gloves_work", 22 ],
@@ -7879,6 +7884,7 @@
       [ "boots_fsurvivor", 2 ],
       [ "boots_h20survivor", 1 ],
       [ "boots", 20 ],
+      [ "boots_scrap", 12 ],
       [ "boots_steel", 28 ],
       [ "boots_hiking", 24 ],
       [ "knee_high_boots", 8 ],
@@ -7914,6 +7920,7 @@
       [ "firehelmet", 2 ],
       [ "helmet_barbute", 1 ],
       [ "helmet_plate", 1 ],
+      [ "helmet_scrap", 12 ],
       [ "bondage_mask", 1 ],
       [ "survivor_goggles", 10 ],
       [ "hood_rain", 14 ]
@@ -8090,6 +8097,8 @@
   {
     "type": "item_group",
     "id": "arcade_prizes",
+    "ammo": 75,
+    "magazine": 100,
     "items": [
       [ "bbgun", 30 ],
       [ "bb", 30 ],
@@ -8237,6 +8246,8 @@
   {
     "type": "item_group",
     "id": "antique",
+    "ammo": 75,
+    "magazine": 100,
     "items": [
       [ "oxylamp", 50 ],
       [ "cow_bell", 15 ],
@@ -9693,6 +9704,8 @@
   {
     "type": "item_group",
     "id": "roof_trash",
+    "ammo": 20,
+    "magazine": 50,
     "items": [
       [ "plastic_shopping_bag", 15 ],
       [ "bum_wine", 15 ],

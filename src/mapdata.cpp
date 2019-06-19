@@ -28,7 +28,7 @@ const units::volume DEFAULT_MAX_VOLUME_IN_SQUARE = units::from_liter( 1000 );
 generic_factory<ter_t> terrain_data( "terrain", "id", "aliases" );
 generic_factory<furn_t> furniture_data( "furniture", "id", "aliases" );
 
-}
+} // namespace
 
 /** @relates int_id */
 template<>
@@ -1082,7 +1082,7 @@ season_type string_to_enum<season_type>( const std::string &data )
 {
     return string_to_enum_look_up( season_map, data );
 }
-}
+} // namespace io
 
 void map_data_common_t::load( JsonObject &jo, const std::string &src )
 {

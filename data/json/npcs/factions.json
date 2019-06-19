@@ -232,7 +232,7 @@
     "size": 100,
     "power": 100,
     "food_supply": 172800,
-    "wealth": 250000,
+    "wealth": 25000,
     "relations": {
       "marloss": {
         "kill on sight": false,
@@ -256,7 +256,7 @@
     "size": 100,
     "power": 100,
     "food_supply": 172800,
-    "wealth": 25000000,
+    "wealth": 2500000,
     "relations": {
       "lobby_beggars": { "knows your voice": true },
       "free_merchants": { "knows your voice": true },

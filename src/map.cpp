@@ -7271,13 +7271,6 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
         }
     }
 
-    //Check for Merchants to restock
-    for( npc &guy : g->all_npcs() ) {
-        if( guy.restock != calendar::before_time_starts && calendar::turn > guy.restock ) {
-            guy.shop_restock();
-        }
-    }
-
     // the last time we touched the submap, is right now.
     tmpsub->last_touched = calendar::turn;
 }
