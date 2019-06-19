@@ -328,7 +328,7 @@ TEST_CASE( "insert and erase", "[colony]" )
     } while( count < 15000 );
 
     // Erase randomly till half-empty
-    CHECK( test_colony.size() == static_cast<unsigned long>( 30000 - count ) );
+    CHECK( test_colony.size() == static_cast<size_t>( 30000 - count ) );
 
     for( int i = 0; i < count; ++i ) {
         test_colony.insert( 1 );
@@ -497,7 +497,7 @@ TEST_CASE( "insert and erase", "[colony]" )
     }
 
     // Multiple sequential small insert/erase commands
-    CHECK( test_colony.size() == static_cast<unsigned long>( count ) );
+    CHECK( test_colony.size() == static_cast<size_t>( count ) );
 }
 
 TEST_CASE( "range erase", "[colony]" )
