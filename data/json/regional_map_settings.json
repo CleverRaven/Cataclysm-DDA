@@ -712,6 +712,7 @@
         "museum": 100,
         "s_music": 200,
         "s_laundromat": 100,
+        "s_laundromat_1": 100,
         "veterinarian": 200,
         "animalpound": 200,
         "animalshelter": 100,

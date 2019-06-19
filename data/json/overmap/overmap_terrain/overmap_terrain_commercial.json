@@ -1695,6 +1695,27 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_laundromat_roof",
+    "name": "laundromat roof",
+    "copy-from": "generic_city_building",
+    "color": "white_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_laundromat_1",
+    "name": "laundromat",
+    "copy-from": "generic_city_building",
+    "color": "white_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_laundromat_roof_1",
+    "name": "laundromat roof",
+    "copy-from": "generic_city_building",
+    "color": "white_white"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_jewelry",
     "name": "jewelry store",
     "copy-from": "generic_city_building",
