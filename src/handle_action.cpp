@@ -970,6 +970,7 @@ static void loot()
         FertilizePlots = 16,
         HarvestPlots = 32,
         ConstructPlots = 64,
+        MultiFarmPlots = 128,
     };
 
     auto just_one = []( int flags ) {
@@ -996,6 +997,7 @@ static void loot()
         flags |= PlantPlots;
         flags |= FertilizePlots;
         flags |= HarvestPlots;
+        flags |= MultiFarmPlots;
     }
     flags |= g->check_near_zone( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
                                  u.pos() ) ? ConstructPlots : 0;
@@ -1044,6 +1046,10 @@ static void loot()
             menu.addentry_desc( ConstructPlots, true, 'c', _( "Construct Plots" ),
                                 _( "Work on any nearby Blueprint: construction zones" ) );
         }
+        if( flags & MultiFarmPlots ) {
+            menu.addentry_desc( MultiFarmPlots, true, 'm', _( "Farm Plots" ),
+                                _( "till and plant on any nearby farm plots - auto-fetch seeds and tools" ) );
+        }
 
         menu.query();
         flags = ( menu.ret >= 0 ) ? menu.ret : None;
@@ -1079,7 +1085,10 @@ static void loot()
             u.assign_activity( activity_id( "ACT_HARVEST_PLOT" ) );
             break;
         case ConstructPlots:
-            u.assign_activity( activity_id( "ACT_BLUEPRINT_CONSTRUCTION" ) );
+            u.assign_activity( activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) );
+            break;
+        case MultiFarmPlots:
+            u.assign_activity( activity_id( "ACT_MULTIPLE_FARM" ) );
             break;
         default:
             debugmsg( "Unsupported flag" );

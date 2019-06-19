@@ -775,9 +775,9 @@ void npc::move()
         if( !activity_route.empty() && !has_destination_activity() ) {
             tripoint final_destination;
             if( destination_point ) {
-                final_destination = g->m.getlocal( *destination_point );
+              final_destination = g->m.getlocal( *destination_point );
             } else {
-                final_destination = activity_route.back();
+              final_destination = activity_route.back();
             }
             update_path( final_destination );
             if( !path.empty() ) {
@@ -827,7 +827,8 @@ void npc::move()
             // No items, so follow the player?
             action = npc_follow_player;
         }
-
+        // Friendly NPCs who are followers/ doing tasks for the player should never get here.
+        // This will revert them to a dynamic NPC state.
         if( action == npc_undecided ) {
             // Do our long-term action
             action = long_term_goal_action();
@@ -852,7 +853,6 @@ void npc::move()
     }
 
     add_msg( m_debug, "%s chose action %s.", name, npc_action_name( action ) );
-
     execute_action( action );
 }
 
@@ -3020,12 +3020,12 @@ bool npc::do_player_activity()
     }
     /* if the activity is finished, grab any backlog or change the mission */
     if( !has_destination() && !activity ) {
-        add_msg( m_info, string_format( "%s completed the assigned task.", disp_name() ) );
         if( !backlog.empty() ) {
             activity = backlog.front();
             backlog.pop_front();
             current_activity = activity.get_verb();
         } else {
+            add_msg( m_info, string_format( "%s completed the assigned task.", disp_name() ) );
             current_activity.clear();
             revert_after_activity();
             // if we loaded after being out of the bubble for a while, we might have more

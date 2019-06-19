@@ -5,6 +5,7 @@
 #include <iterator>
 #include <list>
 #include <tuple>
+#include <string>
 #include <algorithm>
 
 #include "avatar.h"
@@ -18,6 +19,9 @@
 #include "json.h"
 #include "line.h"
 #include "map.h"
+#include "messages.h"
+#include "map_iterator.h"
+#include "map_selector.h"
 #include "output.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -521,6 +525,29 @@ std::unordered_set<tripoint> zone_manager::get_point_set( const zone_type_id &ty
     return type_iter->second;
 }
 
+std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint &where, const int radius, const faction_id &fac ) const
+{
+    return get_point_set_loot( where, radius, false, fac );
+}
+
+std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint &where, const int radius, const bool npc_search, const faction_id &fac ) const
+{
+    (void)fac;
+    std::unordered_set<tripoint> res;
+    for( const tripoint elem : g->m.points_in_radius( g->m.getlocal( where ), radius ) ){
+        const zone_data *zone = get_zone_at( g->m.getabs( elem ) );
+        // if not a LOOT zone
+        if( ( !zone ) || ( zone->get_type().str().substr( 0, 4 ) != "LOOT" ) ){
+            continue;
+        }
+        if( npc_search && ( has( zone_type_id( "NO_NPC_PICKUP" ), elem ) ) ){
+            continue;
+        }
+        res.insert( elem );
+    }
+    return res;
+}
+
 std::unordered_set<tripoint> zone_manager::get_vzone_set( const zone_type_id &type,
         const faction_id &fac ) const
 {
@@ -583,7 +610,7 @@ bool zone_manager::has_loot_dest_near( const tripoint &where ) const
 }
 
 std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
-        const tripoint &where, int range, const faction_id &fac ) const
+        const tripoint &where, int range, bool npc_search, const faction_id &fac ) const
 {
     const auto &point_set = get_point_set( type, fac );
     auto near_point_set = std::unordered_set<tripoint>();
@@ -591,6 +618,9 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     for( auto &point : point_set ) {
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
+                if( npc_search && ( has( zone_type_id( "NO_NPC_PICKUP" ), point ) ) ){
+                    continue;
+                }
                 near_point_set.insert( point );
             }
         }
@@ -600,6 +630,9 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     for( auto &point : vzone_set ) {
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
+                if( npc_search && ( has( zone_type_id( "NO_NPC_PICKUP" ), point ) ) ){
+                    continue;
+                }
                 near_point_set.insert( point );
             }
         }
@@ -647,12 +680,12 @@ cata::optional<tripoint> zone_manager::get_nearest( const zone_type_id &type, co
 }
 
 zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
-        const tripoint &where ) const
+        const tripoint &where, int range ) const
 {
     auto cat = it.get_category();
 
     if( it.has_flag( "FIREWOOD" ) ) {
-        if( has_near( zone_type_id( "LOOT_WOOD" ), where ) ) {
+        if( has_near( zone_type_id( "LOOT_WOOD" ), where, range ) ) {
             return zone_type_id( "LOOT_WOOD" );
         }
     }
@@ -663,14 +696,14 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
 
         if( it_food.is_food() ) { // skip food without comestible, like MREs
             if( it_food.get_comestible()->comesttype == "DRINK" ) {
-                if( !preserves && it_food.goes_bad() && has_near( zone_type_id( "LOOT_PDRINK" ), where ) ) {
+                if( !preserves && it_food.goes_bad() && has_near( zone_type_id( "LOOT_PDRINK" ), where, range ) ) {
                     return zone_type_id( "LOOT_PDRINK" );
-                } else if( has_near( zone_type_id( "LOOT_DRINK" ), where ) ) {
+                } else if( has_near( zone_type_id( "LOOT_DRINK" ), where, range ) ) {
                     return zone_type_id( "LOOT_DRINK" );
                 }
             }
 
-            if( !preserves && it_food.goes_bad() && has_near( zone_type_id( "LOOT_PFOOD" ), where ) ) {
+            if( !preserves && it_food.goes_bad() && has_near( zone_type_id( "LOOT_PFOOD" ), where, range ) ) {
                 return zone_type_id( "LOOT_PFOOD" );
             }
         }
@@ -693,7 +726,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         return zone_type_id( "LOOT_TOOLS" );
     }
     if( cat.id() == "clothing" ) {
-        if( it.is_filthy() && has_near( zone_type_id( "LOOT_FCLOTHING" ), where ) ) {
+        if( it.is_filthy() && has_near( zone_type_id( "LOOT_FCLOTHING" ), where, range ) ) {
             return zone_type_id( "LOOT_FCLOTHING" );
         }
         return zone_type_id( "LOOT_CLOTHING" );
@@ -735,7 +768,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         return zone_type_id( "LOOT_ARTIFACTS" );
     }
     if( cat.id() == "armor" ) {
-        if( it.is_filthy() && has_near( zone_type_id( "LOOT_FARMOR" ), where ) ) {
+        if( it.is_filthy() && has_near( zone_type_id( "LOOT_FARMOR" ), where, range ) ) {
             return zone_type_id( "LOOT_FARMOR" );
         }
         return zone_type_id( "LOOT_ARMOR" );
@@ -758,6 +791,18 @@ std::vector<zone_data> zone_manager::get_zones( const zone_type_id &type,
     }
 
     return zones;
+}
+
+const zone_data *zone_manager::get_zone_at( const tripoint &where ) const
+{
+    for( auto it = zones.rbegin(); it != zones.rend(); ++it ) {
+        const auto &zone = *it;
+
+        if( zone.has_inside( where ) ) {
+            return &zone;
+        }
+    }
+    return nullptr;
 }
 
 const zone_data *zone_manager::get_bottom_zone( const tripoint &where,
