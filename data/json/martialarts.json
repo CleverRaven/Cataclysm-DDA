@@ -1022,9 +1022,9 @@
       {
         "id": "medievalpole_static",
         "name": "Stand Your Ground",
-        "description": "Stand your ground and counter, halve your dodge increase you strength by 20% of your dexterity",
+        "description": "Stand your ground and counter, halves your dodge and increases your armor againts bash and cut by 50% of your strength while you are standing still.",
         "strictly_melee": true,
-        "mult_bonuses": [ [ "str", "dex", 0.5 ], [ "dodge", 0.5 ] ],
+        "flat_bonuses": [ [ "armor", "bash", "str", 0.5 ], [ "armor", "cut", "str", 0.5 ], [ "dodge", 0.5 ] ],
         "bonus_dodges": -1,
         "bonus_blocks": 2
       }
