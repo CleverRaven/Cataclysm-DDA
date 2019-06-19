@@ -3979,6 +3979,9 @@ void player::update_body( const time_point &from, const time_point &to )
         // Note: mend ticks once per 5 minutes, but wants rate in TURNS, not 5 minute intervals
         mend( five_mins * MINUTES( 5 ) );
     }
+    if( ticks_between( from, to, 24_hours ) > 0 ) {
+        enforce_minimum_healing();
+    }
 
     const int thirty_mins = ticks_between( from, to, 30_minutes );
     if( thirty_mins > 0 ) {
@@ -4580,6 +4583,7 @@ void player::regen( int rate_multiplier )
         float healing = healing_rate_medicine( rest, bp ) * MINUTES( 5 ) ;
 
         int healing_apply = roll_remainder( healing );
+        healed_bp( i, healing_apply );
         heal( bp, healing_apply );
         if( damage_bandaged[i] > 0 ) {
             damage_bandaged[i] -= healing_apply;
@@ -12049,4 +12053,14 @@ std::pair<std::string, nc_color> player::get_hunger_description() const
     }
 
     return std::make_pair( hunger_string, hunger_color );
+}
+
+void player::enforce_minimum_healing()
+{
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        if( healed_total[i] <= 0 ) {
+            heal( static_cast<hp_part>( i ), 1 );
+        }
+        healed_total[i] = 0;
+    }
 }
