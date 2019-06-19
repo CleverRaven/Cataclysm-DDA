@@ -798,6 +798,12 @@ class Character : public Creature, public visitable<Character>
         stomach_contents stomach;
         stomach_contents guts;
 
+        int power_level;
+        int max_power_level;
+        int oxygen;
+        int stamina;
+        int radiation;
+
         void initialize_stomach_contents();
 
         /** Stable base metabolic rate due to traits */

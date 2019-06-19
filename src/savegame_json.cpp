@@ -381,6 +381,8 @@ void Character::load( JsonObject &data )
     data.read( "fatigue", fatigue );
     data.read( "sleep_deprivation", sleep_deprivation );
     data.read( "stored_calories", stored_calories );
+    data.read( "radiation", radiation );
+    data.read( "oxygen", oxygen );
 
     // health
     data.read( "healthy", healthy );
@@ -480,6 +482,19 @@ void Character::load( JsonObject &data )
     on_stat_change( "hunger", hunger );
     on_stat_change( "fatigue", fatigue );
     on_stat_change( "sleep_deprivation", sleep_deprivation );
+
+    data.read( "power_level", power_level );
+    data.read( "max_power_level", max_power_level );
+    // Bionic power scale has been changed, savegame version 21 has the new scale
+    if ( savegame_loading_version <= 20 ) {
+        power_level *= 25;
+        max_power_level *= 25;
+    }
+
+    // Bionic power should not be negative!
+    if ( power_level < 0 ) {
+        power_level = 0;
+    }
 }
 
 /**
@@ -514,9 +529,12 @@ void Character::store( JsonOut &json ) const
     json.member( "fatigue", fatigue );
     json.member( "sleep_deprivation", sleep_deprivation );
     json.member( "stored_calories", stored_calories );
+    json.member( "radiation", radiation );
+    json.member( "stamina", stamina );
 
     // breathing
     json.member( "underwater", underwater );
+    json.member( "oxygen", oxygen );
 
     // traits: permanent 'mutations' more or less
     json.member( "traits", my_traits );
@@ -531,6 +549,11 @@ void Character::store( JsonOut &json ) const
     for( const auto &pair : *_skills ) {
         json.member( pair.first.str(), pair.second );
     }
+
+    // npc; unimplemented
+    json.member( "power_level", power_level );
+    json.member( "max_power_level", max_power_level );
+
     json.end_object();
 }
 
@@ -556,15 +579,11 @@ void player::store( JsonOut &json ) const
     // pain
     json.member( "pkill", pkill );
     // misc levels
-    json.member( "radiation", radiation );
     json.member( "tank_plut", tank_plut );
     json.member( "reactor_plut", reactor_plut );
     json.member( "slow_rad", slow_rad );
     json.member( "scent", static_cast<int>( scent ) );
     json.member( "body_wetness", body_wetness );
-
-    // breathing
-    json.member( "oxygen", oxygen );
 
     // gender
     json.member( "male", male );
@@ -580,10 +599,6 @@ void player::store( JsonOut &json ) const
     json.member( "hp_max", hp_max );
     json.member( "damage_bandaged", damage_bandaged );
     json.member( "damage_disinfected", damage_disinfected );
-
-    // npc; unimplemented
-    json.member( "power_level", power_level );
-    json.member( "max_power_level", max_power_level );
 
     json.member( "ma_styles", ma_styles );
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
@@ -667,12 +682,10 @@ void player::load( JsonObject &data )
     }
     data.read( "stim", stim );
     data.read( "pkill", pkill );
-    data.read( "radiation", radiation );
     data.read( "tank_plut", tank_plut );
     data.read( "reactor_plut", reactor_plut );
     data.read( "slow_rad", slow_rad );
     data.read( "scent", scent );
-    data.read( "oxygen", oxygen );
     data.read( "male", male );
     data.read( "cash", cash );
     data.read( "recoil", recoil );
@@ -680,19 +693,6 @@ void player::load( JsonObject &data )
     data.read( "last_sleep_check", last_sleep_check );
     if( data.read( "id", tmpid ) ) {
         setID( tmpid );
-    }
-
-    data.read( "power_level", power_level );
-    data.read( "max_power_level", max_power_level );
-    // Bionic power scale has been changed, savegame version 21 has the new scale
-    if( savegame_loading_version <= 20 ) {
-        power_level *= 25;
-        max_power_level *= 25;
-    }
-
-    // Bionic power should not be negative!
-    if( power_level < 0 ) {
-        power_level = 0;
     }
 
     data.read( "ma_styles", ma_styles );
@@ -821,7 +821,6 @@ void avatar::store( JsonOut &json ) const
     json.member( "style_selected", style_selected );
     json.member( "keep_hands_free", keep_hands_free );
 
-    json.member( "stamina", stamina );
     json.member( "move_mode", move_mode );
     json.member( "magic", magic );
 

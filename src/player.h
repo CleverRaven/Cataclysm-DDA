@@ -1529,13 +1529,9 @@ class player : public Character
 
         time_point next_climate_control_check;
         bool last_climate_control_ret;
-        int power_level;
-        int max_power_level;
         int tank_plut;
         int reactor_plut;
         int slow_rad;
-        int oxygen;
-        int stamina;
         double recoil = MAX_RECOIL;
         std::weak_ptr<Creature> last_target;
         cata::optional<tripoint> last_target_pos;
@@ -1545,7 +1541,6 @@ class player : public Character
         int dodges_left;
         int blocks_left;
         int stim;
-        int radiation;
         int cash;
         int movecounter;
         std::shared_ptr<monster> mounted_creature;
