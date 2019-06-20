@@ -124,5 +124,43 @@
     "id": "trash",
     "type": "item_group",
     "items": [ [ "summon_scroll_smudged", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_shop_books",
+    "items": [
+      [ "wizard_beginner", 3 ],
+      [ "wizard_advanced", 5 ],
+      [ "priest_beginner", 3 ],
+      [ "wizard_utility", 5 ],
+      [ "priest_advanced", 5 ],
+      [ "pyro", 6 ],
+      [ "winter_grasp", 6 ],
+      [ "tome_of_storms", 6 ],
+      [ "biomancer_spellbook", 6 ],
+      [ "druid_spellbook", 6 ],
+      [ "recovery_spellbook", 3 ],
+      [ "magus_spellbook", 6 ],
+      [ "eshaper_spellbook", 6 ],
+      [ "magus_spellbook_move", 3 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_shop_wands",
+    "items": [
+      { "item": "wand_magic_missile", "prob": 35, "charges-min": 12, "charges-max": 34 },
+      { "item": "wand_fireball", "prob": 25, "charges-min": 3, "charges-max": 24 }
+    ]
+  },
+  {
+    "id": "magic_shop_potions",
+    "type": "item_group",
+    "items": [ [ "mana_potion_lesser", 15 ], [ "crystallized_mana", 15 ], [ "small_mana_crystal", 15 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_shop_clothes",
+    "items": [ [ "cloak", 3 ], [ "cloak_wool", 5 ], [ "jedi_cloak", 3 ], [ "robe", 5 ], [ "tophat", 5 ], [ "leathersandals", 6 ] ]
   }
 ]
