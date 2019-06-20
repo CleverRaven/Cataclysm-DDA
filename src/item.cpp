@@ -7381,7 +7381,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
         return;
     }
 
-    int temp = g->weather.get_temperature( pos );
+    int temp = std::max( g->weather.get_temperature( pos ), -459 );
 
     switch( flag ) {
         case TEMP_NORMAL:
