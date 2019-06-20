@@ -15,7 +15,6 @@
     "to_hit": -3,
     "flags": [ "IS_PET_ARMOR", "NO_SALVAGE" ],
     "material_thickness": 2,
-    "storage": 0,
     "max_pet_vol": "1000000 ml",
     "min_pet_vol": "380000 ml",
     "pet_bodytype": "horse"
