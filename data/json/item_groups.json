@@ -3552,6 +3552,8 @@
   {
     "type": "item_group",
     "id": "office",
+    "ammo": 75,
+    "magazine": 100,
     "items": [
       [ "cola", 70 ],
       [ "creamsoda", 60 ],
@@ -7097,6 +7099,8 @@
   {
     "type": "item_group",
     "id": "science",
+    "ammo": 50,
+    "magazine": 100,
     "items": [
       { "group": "tools_science", "prob": 50 },
       [ "ether", 5 ],
