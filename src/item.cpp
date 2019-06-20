@@ -7381,7 +7381,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
         return;
     }
 
-    int temp = std::max( g->weather.get_temperature( pos ), -459 );
+    int temp = std::max( g->weather.get_temperature( pos ), temperatures::lowest_temperature );
 
     switch( flag ) {
         case TEMP_NORMAL:
@@ -7448,9 +7448,9 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
             double env_temperature = 0;
             if( pos.z >= 0 ) {
                 w_point weather = wgen.get_weather( pos, time, seed );
-                env_temperature = std::max( weather.temperature + enviroment_mod + local_mod, static_cast<double>(-459) );
+                env_temperature = std::max( weather.temperature + enviroment_mod + local_mod, static_cast<double>( temperatures::lowest_temperature ) );
             } else {
-                env_temperature = std::max( AVERAGE_ANNUAL_TEMPERATURE + enviroment_mod + local_mod, -459 );
+                env_temperature = std::max( AVERAGE_ANNUAL_TEMPERATURE + enviroment_mod + local_mod, temperatures::lowest_temperature );
             }
 
             switch( flag ) {
