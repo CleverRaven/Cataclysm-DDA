@@ -77,16 +77,7 @@
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "barter" } ],
     "items": {
       "both": {
-        "items": [ 
-          "pants", 
-          "tshirt", 
-          "socks", 
-          "kufi", 
-          "thawb", 
-          "lowtops", 
-          "holybook_quran", 
-          "priest_beginner",
-          "pyro" ],
+        "items": [ "pants", "tshirt", "socks", "kufi", "thawb", "lowtops", "holybook_quran", "priest_beginner", "pyro" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "briefs" ],
@@ -112,7 +103,7 @@
           "dress_shoes",
           "holy_symbol",
           "holybook_talmud",
-          "holybook_tanakh", 
+          "holybook_tanakh",
           "priest_beginner",
           "pyro"
         ],
@@ -143,7 +134,7 @@
           "mbag",
           "leathersandals",
           "holy_symbol",
-          "wristwatch", 
+          "wristwatch",
           "priest_beginner",
           "pyro"
         ],
@@ -174,7 +165,7 @@
           "flyer",
           "flyer",
           "flyer",
-          "holy_symbol", 
+          "holy_symbol",
           "priest_beginner",
           "pyro"
         ],
