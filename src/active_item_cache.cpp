@@ -3,10 +3,12 @@
 #include <algorithm>
 #include <utility>
 
+#include "colony.h"
 #include "debug.h"
 #include "item.h"
+#include "item_stack.h"
 
-void active_item_cache::remove( std::list<item>::iterator it, point location )
+void active_item_cache::remove( item_stack::iterator it, point location )
 {
     const auto predicate = [&]( const item_reference & active_item ) {
         return location == active_item.location && active_item.item_iterator == it;
@@ -29,7 +31,7 @@ void active_item_cache::remove( std::list<item>::iterator it, point location )
     }
 }
 
-void active_item_cache::add( std::list<item>::iterator it, point location )
+void active_item_cache::add( item_stack::iterator it, point location )
 {
     if( has( it, location ) ) {
         return;
@@ -38,7 +40,7 @@ void active_item_cache::add( std::list<item>::iterator it, point location )
     active_item_set[ &*it ] = false;
 }
 
-bool active_item_cache::has( std::list<item>::iterator it, point ) const
+bool active_item_cache::has( item_stack::iterator it, point ) const
 {
     return active_item_set.find( &*it ) != active_item_set.end();
 }

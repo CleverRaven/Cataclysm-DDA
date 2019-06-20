@@ -2312,7 +2312,7 @@ void vehicle_part::deserialize( JsonIn &jsin )
         const int qty = std::accumulate( items.begin(), items.end(), 0, []( int lhs, const item & rhs ) {
             return lhs + rhs.charges;
         } );
-        ammo_set( items.front().ammo_current(), qty );
+        ammo_set( items.begin()->ammo_current(), qty );
         items.clear();
     }
 }
@@ -3400,13 +3400,13 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
                     if( tid == "t_rubble" ) {
                         ter[i][j] = ter_id( "t_dirt" );
                         frn[i][j] = furn_id( "f_rubble" );
-                        itm[i][j].push_back( rock );
-                        itm[i][j].push_back( rock );
+                        itm[i][j].insert( rock );
+                        itm[i][j].insert( rock );
                     } else if( tid == "t_wreckage" ) {
                         ter[i][j] = ter_id( "t_dirt" );
                         frn[i][j] = furn_id( "f_wreckage" );
-                        itm[i][j].push_back( chunk );
-                        itm[i][j].push_back( chunk );
+                        itm[i][j].insert( chunk );
+                        itm[i][j].insert( chunk );
                     } else if( tid == "t_ash" ) {
                         ter[i][j] = ter_id( "t_dirt" );
                         frn[i][j] = furn_id( "f_ash" );
@@ -3488,14 +3488,14 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
 
                 tmp.visit_items( [ this, &p ]( item * it ) {
                     for( auto &e : it->magazine_convert() ) {
-                        itm[p.x][p.y].push_back( e );
+                        itm[p.x][p.y].insert( e );
                     }
                     return VisitResponse::NEXT;
                 } );
 
-                itm[p.x][p.y].push_back( tmp );
+                const colony<item>::iterator it = itm[p.x][p.y].insert( tmp );
                 if( tmp.needs_processing() ) {
-                    active_items.add( std::prev( itm[p.x][p.y].end() ), p );
+                    active_items.add( it, p );
                 }
             }
         }

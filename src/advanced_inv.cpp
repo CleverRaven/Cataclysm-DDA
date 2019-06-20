@@ -10,6 +10,7 @@
 #include "input.h"
 #include "item_category.h"
 #include "item_search.h"
+#include "item_stack.h"
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
@@ -24,6 +25,7 @@
 #include "ui.h"
 #include "uistate.h"
 #include "vehicle.h"
+#include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
 #include "calendar.h"
@@ -1373,10 +1375,6 @@ bool advanced_inventory::move_all_items( bool nested_call )
     } else {
         if( dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ) {
             g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
-            g->u.activity.values.push_back( spane.in_vehicle() );
-            if( dpane.get_area() == AIM_WORN ) {
-                g->u.activity.str_values.push_back( "equip" );
-            }
         } else { // Vehicle and map destinations are handled the same.
 
             // Check first if the destination area still have enough room for moving all.
@@ -1386,22 +1384,21 @@ bool advanced_inventory::move_all_items( bool nested_call )
             }
 
             g->u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
-            // store whether the source is from a vehicle (first entry)
-            g->u.activity.values.push_back( spane.in_vehicle() );
             // store whether the destination is a vehicle
             g->u.activity.values.push_back( dpane.in_vehicle() );
             // Stash the destination
             g->u.activity.coords.push_back( darea.off );
         }
-        g->u.activity.placement = sarea.off;
 
-        std::list<item>::iterator begin, end;
+        item_stack::iterator stack_begin, stack_end;
         if( panes[src].in_vehicle() ) {
-            begin = sarea.veh->get_items( sarea.vstor ).begin();
-            end = sarea.veh->get_items( sarea.vstor ).end();
+            vehicle_stack targets = sarea.veh->get_items( sarea.vstor );
+            stack_begin = targets.begin();
+            stack_end = targets.end();
         } else {
-            begin = g->m.i_at( sarea.pos ).begin();
-            end = g->m.i_at( sarea.pos ).end();
+            map_stack targets = g->m.i_at( sarea.pos );
+            stack_begin = targets.begin();
+            stack_end = targets.end();
         }
 
         // If moving to inventory, worn, or vehicle, silently filter buckets
@@ -1410,19 +1407,22 @@ bool advanced_inventory::move_all_items( bool nested_call )
                               dpane.get_area() == AIM_WORN ||
                               dpane.in_vehicle();
         bool filtered_any_bucket = false;
-        // push back indices and item count[s] for [begin => end)
-        int index = 0;
-        for( auto item_it = begin; item_it != end; ++item_it, ++index ) {
-            if( spane.is_filtered( *item_it ) ) {
+        // Push item_locations and item counts for all items at placement
+        for( item_stack::iterator it = stack_begin; it != stack_end; ++it ) {
+            if( spane.is_filtered( *it ) ) {
                 continue;
             }
-            if( filter_buckets && item_it->is_bucket_nonempty() ) {
+            if( filter_buckets && it->is_bucket_nonempty() ) {
                 filtered_any_bucket = true;
                 continue;
             }
-            int amount = item_it->count();
-            g->u.activity.values.push_back( index );
-            g->u.activity.values.push_back( amount );
+            if( spane.in_vehicle() ) {
+                g->u.activity.targets.emplace_back( vehicle_cursor( *sarea.veh, sarea.vstor ), &*it );
+            } else {
+                g->u.activity.targets.emplace_back( map_cursor( sarea.pos ), &*it );
+            }
+            // quantity of 0 means move all
+            g->u.activity.values.push_back( 0 );
         }
 
         if( filtered_any_bucket ) {
@@ -1705,13 +1705,8 @@ void advanced_inventory::display()
                 do_return_entry();
 
                 g->u.assign_activity( activity_id( "ACT_WEAR" ) );
-                g->u.activity.placement = tripoint_zero;
-                // Wearing from inventory
-                g->u.activity.values.push_back( true );
-                // Not from vehicle
-                g->u.activity.values.push_back( false );
 
-                g->u.activity.values.push_back( sitem->idx );
+                g->u.activity.targets.emplace_back( g->u, sitem->items.front() );
                 g->u.activity.values.push_back( amount_to_move );
 
                 // exit so that the activity can be carried out
@@ -1756,59 +1751,43 @@ void advanced_inventory::display()
 
                 if( destarea == AIM_INVENTORY ) {
                     g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
-                    g->u.activity.values.push_back( from_vehicle );
                 } else if( destarea == AIM_WORN ) {
                     g->u.assign_activity( activity_id( "ACT_WEAR" ) );
-                    // Wearing from map/vehicle not inventory
-                    g->u.activity.values.push_back( false );
-                    g->u.activity.values.push_back( from_vehicle );
                 } else { // Vehicle and map destinations are handled similarly.
 
                     g->u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
-                    // store whether the source is from a vehicle (first entry)
-                    g->u.activity.values.push_back( from_vehicle );
                     // store whether the destination is a vehicle
                     g->u.activity.values.push_back( to_vehicle );
                     // Stash the destination
                     g->u.activity.coords.push_back( squares[destarea].off );
                 }
-                g->u.activity.placement = squares[srcarea].off;
 
-                std::list<item>::iterator begin, end;
-                if( from_vehicle ) {
-                    begin = squares[srcarea].veh->get_items( squares[srcarea].vstor ).begin();
-                    end = squares[srcarea].veh->get_items( squares[srcarea].vstor ).end();
-                } else {
-                    begin = g->m.i_at( squares[srcarea].pos ).begin();
-                    end = g->m.i_at( squares[srcarea].pos ).end();
-                }
-
-                int index = 0;
                 if( by_charges ) {
-                    for( auto item_it = begin; amount_to_move > 0 && item_it != end; ++item_it, ++index ) {
-                        if( item_it->stacks_with( *sitem->items.front() ) ) {
-                            g->u.activity.values.push_back( index );
-                            g->u.activity.values.push_back( amount_to_move );
-                            break;
-                        }
+                    if( from_vehicle ) {
+                        g->u.activity.targets.emplace_back( vehicle_cursor( *squares[srcarea].veh, squares[srcarea].vstor ),
+                                                            sitem->items.front() );
+                    } else {
+                        g->u.activity.targets.emplace_back( map_cursor( squares[srcarea].pos ), sitem->items.front() );
                     }
+                    g->u.activity.values.push_back( amount_to_move );
                 } else {
-                    for( auto item_it = begin; amount_to_move > 0 && item_it != end; ++item_it, ++index ) {
-
-                        if( item_it->stacks_with( *sitem->items.front() ) ) {
-                            g->u.activity.values.push_back( index );
-                            g->u.activity.values.push_back( 1 );
-
-                            --amount_to_move;
+                    for( std::list<item *>::iterator it = sitem->items.begin(); amount_to_move > 0 &&
+                         it != sitem->items.end(); ++it ) {
+                        if( from_vehicle ) {
+                            g->u.activity.targets.emplace_back( vehicle_cursor( *squares[srcarea].veh, squares[srcarea].vstor ),
+                                                                *it );
+                        } else {
+                            g->u.activity.targets.emplace_back( map_cursor( squares[srcarea].pos ), *it );
                         }
+                        g->u.activity.values.push_back( 0 );
+                        --amount_to_move;
                     }
                 }
 
                 // exit so that the activity can be carried out
                 exit = true;
             }
-            // Just in case the items have moved from/to the inventory
-            g->u.inv.restack( g->u );
+
             // if dest was AIM_ALL then we used query_destination and should undo that
             if( restore_area ) {
                 dpane.restore_area();

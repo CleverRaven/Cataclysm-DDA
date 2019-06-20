@@ -2,9 +2,10 @@
 #ifndef HANDLE_LIQUID_H
 #define HANDLE_LIQUID_H
 
-#include "item_location.h"
-
 #include <list>
+
+#include "item_location.h"
+#include "map.h"
 
 class item;
 class monster;
@@ -68,7 +69,7 @@ bool consume_liquid( item &liquid, int radius = 0 );
  * The iterator is invalidated in that case. Otherwise the item remains but may have
  * fewer charges.
  */
-bool handle_liquid_from_ground( std::list<item>::iterator on_ground, const tripoint &pos,
+bool handle_liquid_from_ground( map_stack::iterator on_ground, const tripoint &pos,
                                 int radius = 0 );
 
 /**
