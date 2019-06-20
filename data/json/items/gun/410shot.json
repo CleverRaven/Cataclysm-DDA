@@ -15,6 +15,7 @@
         "durability": 7,
         "barrel_length": 3,
         "magazine_well": 1,
+        "ammo": "410shot",
         "magazines": [ [ "410shot", [ "saiga410mag_10rd", "saiga410mag_30rd" ] ] ],
         "flags": [ "NEVER_JAMS" ]
       }
