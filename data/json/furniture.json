@@ -6561,6 +6561,18 @@
     "workbench": { "multiplier": 1.2, "mass": 500000, "volume": "200L" }
   },
   {
+    "id": "f_hanging_meathook",
+    "type": "furniture",
+    "name": "hanging meathook",
+    "description": "A hefty hook suspended from a chain for stringing up corpses.",
+    "symbol": "g",
+    "required_str": -1,
+    "move_cost_mod": 2,
+    "color": "light_gray",
+    "deconstruct": { "items": [ { "item": "grip_hook", "count": 1 }, { "item": "chain", "count": 1 } ] },
+    "flags": [ "TRANSPARENT", "BUTCHER_EQ" ]
+  },
+  {
     "type": "furniture",
     "id": "f_fake_bench_hands",
     "name": "fake workbench hands",

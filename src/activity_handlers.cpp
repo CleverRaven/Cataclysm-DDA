@@ -412,8 +412,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
             }
             if( !has_rope && !b_rack_present ) {
                 u.add_msg_if_player( m_info,
-                                     _( "To perform a full butchery on a corpse this big, you need either a butchering rack or both a long rope in your inventory and a nearby tree to hang the corpse from." ) );
-                act.targets.pop_back();
+                                     _( "To perform a full butchery on a corpse this big, you need either a butchering rack, a nearby hanging meathook, or both a long rope in your inventory and a nearby tree to hang the corpse from." ) );
                 return;
             }
             if( !has_table_nearby ) {
