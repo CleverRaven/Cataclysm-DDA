@@ -6564,6 +6564,7 @@
     "id": "f_hanging_meathook",
     "type": "furniture",
     "name": "hanging meathook",
+    "description": "A hefty hook suspended from a chain for stringing up corpses.",
     "symbol": "g",
     "required_str": -1,
     "move_cost_mod": 2,
