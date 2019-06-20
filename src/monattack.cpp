@@ -335,14 +335,15 @@ bool mattack::antqueen( monster *z )
         if( g->u.sees( *z ) ) {
             add_msg( m_warning, _( "The %s tends nearby eggs, and they hatch!" ), z->name() );
         }
-        for( auto &i : egg_points ) {
-            auto eggs = g->m.i_at( i );
-            for( size_t j = 0; j < eggs.size(); j++ ) {
-                if( eggs[j].typeId() != "ant_egg" ) {
+        for( const tripoint &egg_pos : egg_points ) {
+            map_stack items = g->m.i_at( egg_pos );
+            for( map_stack::iterator it = items.begin(); it != items.end(); ) {
+                if( it->typeId() != "ant_egg" ) {
+                    ++it;
                     continue;
                 }
-                g->m.i_rem( i, j );
-                monster tmp( z->type->id == mon_ant_acid_queen ? mon_ant_acid_larva : mon_ant_larva, i );
+                it = items.erase( it );
+                monster tmp( z->type->id == mon_ant_acid_queen ? mon_ant_acid_larva : mon_ant_larva, egg_pos );
                 tmp.make_ally( *z );
                 g->add_zombie( tmp );
                 break; // Max one hatch per tile
@@ -1053,7 +1054,7 @@ find_empty_neighbors( const Creature &c )
   */
 static size_t get_random_index( const size_t size )
 {
-    return static_cast<size_t>( rng( 0, static_cast<long>( size - 1 ) ) );
+    return static_cast<size_t>( rng( 0, static_cast<int>( size - 1 ) ) );
 }
 
 //--------------------------------------------------------------------------------------------------

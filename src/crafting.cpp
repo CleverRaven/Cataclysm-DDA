@@ -474,14 +474,18 @@ bool player::can_make( const recipe *r, int batch_size )
             batch_size );
 }
 
-const inventory &player::crafting_inventory()
+const inventory &player::crafting_inventory( tripoint src_pos, int radius )
 {
+    tripoint inv_pos = src_pos;
+    if( src_pos == tripoint_zero ) {
+        inv_pos = pos();
+    }
     if( cached_moves == moves
         && cached_time == calendar::turn
-        && cached_position == pos() ) {
+        && cached_position == inv_pos ) {
         return cached_crafting_inventory;
     }
-    cached_crafting_inventory.form_from_map( pos(), PICKUP_RANGE, false );
+    cached_crafting_inventory.form_from_map( inv_pos, radius, false );
     cached_crafting_inventory += inv;
     cached_crafting_inventory += weapon;
     cached_crafting_inventory += worn;
@@ -500,7 +504,7 @@ const inventory &player::crafting_inventory()
 
     cached_moves = moves;
     cached_time = calendar::turn;
-    cached_position = pos();
+    cached_position = inv_pos;
     return cached_crafting_inventory;
 }
 
@@ -636,19 +640,15 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
     if( const cata::optional<vpart_reference> vp = g->m.veh_at( loc ).part_with_feature( "CARGO",
             false ) ) {
 
-        if( vp->vehicle().add_item( vp->part_index(), newit ) ) {
-
-            // Since add succeded, we know that the craft is the last item in the vehicle_stack
-            auto items_at_part = vp->vehicle().get_items( vp->part_index() );
-            item *newit_in_vehicle = &items_at_part[items_at_part.size() - 1];
-
+        if( const cata::optional<vehicle_stack::iterator> it = vp->vehicle().add_item( vp->part_index(),
+                newit ) ) {
             p.add_msg_player_or_npc(
                 string_format( pgettext( "item, furniture", "You put the %s on the %s." ),
-                               newit.tname(), vp->part().name() ),
+                               ( *it )->tname(), vp->part().name() ),
                 string_format( pgettext( "item, furniture", "<npcname> puts the %s on the %s." ),
-                               newit.tname(), vp->part().name() ) );
+                               ( *it )->tname(), vp->part().name() ) );
 
-            return item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), newit_in_vehicle );
+            return item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), & **it );
         }
 
         // Couldn't add the in progress craft to the target part, so drop it to the map.
@@ -1660,25 +1660,17 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
 
 bool player::disassemble()
 {
-    auto loc = game_menus::inv::disassemble( *this );
+    return disassemble( game_menus::inv::disassemble( *this ), false );
+}
 
-    if( !loc ) {
+bool player::disassemble( item_location target, bool interactive )
+{
+    if( !target ) {
         add_msg( _( "Never mind." ) );
         return false;
     }
 
-    loc.set_should_stack( false );
-
-    return disassemble( loc.obtain( *this ) );
-}
-
-bool player::disassemble( int dis_pos )
-{
-    return disassemble( i_at( dis_pos ), dis_pos, false );
-}
-
-bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
-{
+    const item &obj = *target;
     const auto ret = can_disassemble( obj, crafting_inventory() );
 
     if( !ret.success() ) {
@@ -1717,8 +1709,9 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
         activity.moves_left = r.time;
     }
 
-    activity.values.push_back( pos );
-    activity.coords.push_back( ground ? this->pos() : tripoint_min );
+    // index is used as a bool that indicates if we want recursive uncraft.
+    activity.index = false;
+    activity.targets.emplace_back( std::move( target ) );
     activity.str_values.push_back( r.result() );
 
     return true;
@@ -1728,23 +1721,18 @@ void player::disassemble_all( bool one_pass )
 {
     // Reset all the activity values
     assign_activity( activity_id( "ACT_DISASSEMBLE" ), 0 );
-    auto items = g->m.i_at( pos() );
-    bool found_any = false;
-    if( !one_pass ) {
-        // Kinda hacky
-        // That INT_MIN notes we want infinite uncraft
-        // If INT_MIN is reached in complete_disassemble,
-        // we will call this function again.
-        activity.values.push_back( INT_MIN );
-        activity.str_values.push_back( "" );
-        activity.coords.push_back( tripoint_min );
-    }
 
-    for( size_t i = 0; i < items.size(); i++ ) {
-        if( disassemble( items[i], i, true, false ) ) {
+    bool found_any = false;
+    for( item &it : g->m.i_at( pos() ) ) {
+        if( disassemble( item_location( map_cursor( pos() ), &it ), false ) ) {
             found_any = true;
         }
     }
+
+    // index is used as a bool that indicates if we want recursive uncraft.
+    // Upon calling complete_disassemble, if we have no targets left,
+    // we will call this function again.
+    activity.index = !one_pass;
 
     if( !found_any ) {
         // Reset the activity - don't loop if there is nothing to do
@@ -1752,77 +1740,49 @@ void player::disassemble_all( bool one_pass )
     }
 }
 
-static item &get_item_for_uncraft( player &p, int item_pos,
-                                   const tripoint &loc, bool from_ground )
-{
-    item *org_item;
-    if( from_ground ) {
-        auto items_on_ground = g->m.i_at( loc );
-        if( static_cast<size_t>( item_pos ) >= items_on_ground.size() ) {
-            return null_item_reference();
-        }
-        org_item = &items_on_ground[item_pos];
-    } else {
-        org_item = &p.i_at( item_pos );
-    }
-
-    return *org_item;
-}
-
 void player::complete_disassemble()
 {
-    // Clean up old settings
-    // Warning: Breaks old saves with disassembly in progress!
-    // But so would adding a new recipe...
-    if( activity.values.empty() ||
-        activity.values.size() != activity.str_values.size() ||
-        activity.values.size() != activity.coords.size() ) {
+    // Cancel the activity if we have bad (possibly legacy) values
+    if( activity.targets.empty() || !activity.targets.back() ||
+        activity.targets.size() != activity.str_values.size() ) {
         debugmsg( "bad disassembly activity values" );
         activity.set_to_null();
         return;
     }
 
-    // Disassembly activity is now saved in 3 parallel vectors:
-    // item position, tripoint location (tripoint_min for inventory) and recipe
+    // Disassembly has 2 parallel vectors:
+    // item location, and recipe id
+    const recipe &rec = recipe_dictionary::get_uncraft( activity.str_values.back() );
 
-    // Note: we're reading from the back (in inverse order)
-    // This is to avoid having to maintain indices
-    const int item_pos = activity.values.back();
-    const tripoint loc = activity.coords.back();
-    const auto recipe_name = activity.str_values.back();
-
-    activity.values.pop_back();
-    activity.str_values.pop_back();
-    activity.coords.pop_back();
-
-    if( item_pos == INT_MIN ) {
-        disassemble_all( false );
-        return;
-    }
-
-    const bool from_ground = loc != tripoint_min;
-
-    complete_disassemble( item_pos, loc, from_ground, recipe_dictionary::get_uncraft( recipe_name ) );
-
-    if( !activity ) {
-        // Something above went wrong, don't continue
-        return;
-    }
-
-    // Try to get another disassembly target from the activity
-    if( activity.values.empty() ) {
-        // No more targets
+    if( rec ) {
+        complete_disassemble( activity.targets.back(), rec );
+    } else {
+        debugmsg( "bad disassembly recipe: %d", activity.str_values.back() );
         activity.set_to_null();
         return;
     }
 
-    if( activity.values.back() == INT_MIN ) {
-        disassemble_all( false );
-        return;
+    activity.targets.pop_back();
+    activity.str_values.pop_back();
+
+    // If we have no more targets end the activity or start a second round
+    if( activity.targets.empty() ) {
+        // index is used as a bool that indicates if we want recursive uncraft.
+        if( activity.index ) {
+            disassemble_all( false );
+            return;
+        } else {
+            // No more targets
+            activity.set_to_null();
+            return;
+        }
     }
 
-    const auto &next_recipe = recipe_dictionary::get_uncraft( activity.str_values.back() );
+    // Set get and set duration of next uncraft
+    const recipe &next_recipe = recipe_dictionary::get_uncraft( activity.str_values.back() );
+
     if( !next_recipe ) {
+        debugmsg( "bad disassembly recipe: %d", activity.str_values.back() );
         activity.set_to_null();
         return;
     }
@@ -1830,24 +1790,14 @@ void player::complete_disassemble()
     activity.moves_left = next_recipe.time;
 }
 
-void player::complete_disassemble( int item_pos, const tripoint &loc,
-                                   bool from_ground, const recipe &dis )
+void player::complete_disassemble( item_location &target, const recipe &dis )
 {
     // Get the proper recipe - the one for disassembly, not assembly
     const auto dis_requirements = dis.disassembly_requirements();
-    item &org_item = get_item_for_uncraft( *this, item_pos, loc, from_ground );
-    bool filthy = org_item.is_filthy();
-    if( org_item.is_null() ) {
-        add_msg( _( "The item has vanished." ) );
-        activity.set_to_null();
-        return;
-    }
+    item &org_item = *target;
+    const bool filthy = org_item.is_filthy();
+    const tripoint loc = target.position();
 
-    if( org_item.typeId() != dis.result() ) {
-        add_msg( _( "The item might be gone, at least it is not at the expected position anymore." ) );
-        activity.set_to_null();
-        return;
-    }
     // Make a copy to keep its data (damage/components) even after it
     // has been removed.
     item dis_item = org_item;
@@ -1865,11 +1815,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
     }
     // remove the item, except when it's counted by charges and still has some
     if( !org_item.count_by_charges() || org_item.charges <= 0 ) {
-        if( from_ground ) {
-            g->m.i_rem( loc, item_pos );
-        } else {
-            i_rem( item_pos );
-        }
+        target.remove_item();
     }
 
     // Consume tool charges
@@ -2051,7 +1997,7 @@ void remove_ammo( item &dis_item, player &p )
     if( dis_item.is_tool() && dis_item.charges > 0 && dis_item.ammo_current() != "null" ) {
         item ammodrop( dis_item.ammo_current(), calendar::turn );
         ammodrop.charges = dis_item.charges;
-        if( dis_item.ammo_current() == "plutonium" ) {
+        if( dis_item.ammo_current() == "plut_cell" ) {
             ammodrop.charges /= PLUTONIUM_CHARGES;
         }
         drop_or_handle( ammodrop, p );

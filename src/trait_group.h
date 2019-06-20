@@ -61,7 +61,7 @@ Trait_group_tag load_trait_group( JsonIn &stream, const std::string &default_sub
  */
 void debug_spawn();
 
-}
+} // namespace trait_group
 
 /**
  * Base interface for trait generation.

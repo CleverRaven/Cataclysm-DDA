@@ -157,10 +157,7 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
         if( extra == nullptr ) {
             debugmsg( "failed to pick extra for type %s", terrain_type->get_extras() );
         } else {
-            auto func = MapExtras::get_function( *( ex.values.pick() ) );
-            if( func != nullptr ) {
-                func( *this, abs_sub );
-            }
+            MapExtras::apply_function( *( ex.values.pick() ), *this, abs_sub );
         }
     }
 
@@ -308,7 +305,7 @@ std::string member;
 std::string message;
 bool defer;
 JsonObject jsi;
-}
+} // namespace mapgen_defer
 
 static void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
                               const std::string &message )

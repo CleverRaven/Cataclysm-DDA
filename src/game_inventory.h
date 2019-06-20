@@ -98,10 +98,12 @@ item_location salvage( player &p, const salvage_actor *actor );
 item_location repair( player &p, const repair_item_actor *actor, const item *main_tool );
 /** Bionic install menu. */
 item_location install_bionic( player &p, player &patient );
+/** Bionic uninstall menu. */
+item_location uninstall_bionic( player &p, player &patient );
 /*@}*/
 
-}
+} // namespace inv
 
-}
+} // namespace game_menus
 
 #endif // GAME_INVENTORY_H

@@ -2016,7 +2016,7 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
                 }
             }
 
-            column == 0 ? max_index = row_indices.size() : max_index = layouts.size();
+            max_index = column == 0 ? row_indices.size() : layouts.size();
             int vertical_offset = 0;
             int selected_offset = 0;
             size_t modified_index = row_indices[index - 1];

@@ -48,5 +48,5 @@ class character_oracle_t : public oracle_t
 
 extern std::unordered_map<std::string, std::function<status_t( const oracle_t * )>> predicate_map;
 
-}
+} // namespace behavior
 #endif

@@ -148,7 +148,7 @@ const std::map<std::string, m_flag> flag_map = {
     { "LOUDMOVES", MF_LOUDMOVES }
 };
 
-}
+} // namespace
 
 namespace io
 {
@@ -165,7 +165,7 @@ m_flag string_to_enum<m_flag>( const std::string &flag )
     return string_to_enum_look_up( flag_map, flag );
 }
 
-}
+} // namespace io
 
 /** @relates string_id */
 template<>

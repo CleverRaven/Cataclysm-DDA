@@ -38,7 +38,7 @@ namespace
 generic_factory<ma_technique> ma_techniques( "martial art technique" );
 generic_factory<martialart> martialarts( "martial art style" );
 generic_factory<ma_buff> ma_buffs( "martial art buff" );
-}
+} // namespace
 
 matype_id martial_art_learned_from( const itype &type )
 {
@@ -46,9 +46,13 @@ matype_id martial_art_learned_from( const itype &type )
         return {};
     }
 
-    // strip "manual_" from the start of the item id, add the rest to "style_"
-    // TODO: replace this terrible hack to rely on the item name matching the style name, it's terrible.
-    return matype_id( "style_" + type.get_id().substr( 7 ) );
+    if( !type.book || type.book->martial_art.is_null() ) {
+        debugmsg( "Item '%s' which claims to teach a martial art is missing martial_art",
+                  type.get_id() );
+        return {};
+    }
+
+    return type.book->martial_art;
 }
 
 void load_technique( JsonObject &jo, const std::string &src )

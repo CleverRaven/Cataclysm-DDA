@@ -573,6 +573,16 @@
     "replace": "heavy_plus_battery_cell"
   },
   {
+    "id": "frozen_burrito",
+    "type": "MIGRATION",
+    "replace": "junk_burrito"
+  },
+  {
+    "id": "cooked_burrito",
+    "type": "MIGRATION",
+    "replace": "junk_burrito"
+  },
+  {
     "id": "10mm",
     "type": "MIGRATION",
     "replace": "10mm_fmj"
