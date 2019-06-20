@@ -3037,6 +3037,7 @@
   {
     "type": "recipe",
     "result": "peanut_unshelled",
+    "obsolete": true,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "survival",
@@ -3051,6 +3052,7 @@
   {
     "type": "recipe",
     "result": "walnut_unshelled",
+    "obsolete": true,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "survival",
@@ -3110,6 +3112,7 @@
   {
     "type": "recipe",
     "result": "pecan_unshelled",
+    "obsolete": true,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "survival",
@@ -3139,6 +3142,7 @@
   {
     "type": "recipe",
     "result": "pistachio_unshelled",
+    "obsolete": true,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "survival",
@@ -3168,6 +3172,7 @@
   {
     "type": "recipe",
     "result": "almond_unshelled",
+    "obsolete": true,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "survival",
@@ -3197,6 +3202,7 @@
   {
     "type": "recipe",
     "result": "chestnut_unshelled",
+    "obsolete": true,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "survival",
@@ -3226,6 +3232,7 @@
   {
     "type": "recipe",
     "result": "hazelnut_unshelled",
+    "obsolete": true,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "survival",
@@ -3270,6 +3277,7 @@
   {
     "type": "recipe",
     "result": "hickory_nut_unshelled",
+    "obsolete": true,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "survival",
