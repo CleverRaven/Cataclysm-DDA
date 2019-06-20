@@ -44,7 +44,7 @@
   },
   {
     "type": "recipe",
-    "result": "300BLK_casing",
+    "result": "300blk_casing",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",
     "skill_used": "fabrication",

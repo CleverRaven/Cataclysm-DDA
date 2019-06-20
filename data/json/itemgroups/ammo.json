@@ -164,8 +164,8 @@
       [ "4570_low", 40 ],
       [ "762_m87", 25 ],
       [ "8mm_civilian", 15 ],
-      [ "300BLK_supersonic", 15 ],
-      [ "300BLK_subsonic", 10 ]
+      [ "300blk_supersonic", 15 ],
+      [ "300blk_ss", 10 ]
     ]
   },
   {
@@ -188,8 +188,8 @@
       [ "8mm_hvp", 10 ],
       [ "8mm_inc", 20 ],
       [ "8mm_jhp", 10 ],
-      [ "300BLK_supersonic", 15 ],
-      [ "300BLK_subsonic", 10 ]
+      [ "300blk_supersonic", 15 ],
+      [ "300blk_ss", 10 ]
     ]
   },
   {
@@ -222,7 +222,7 @@
       [ "reloaded_762_51_incendiary", 5 ],
       [ "reloaded_762_54R", 40 ],
       [ "reloaded_762_m43", 20 ],
-      [ "reloaded_300BLK", 10 ]
+      [ "reloaded_300blk", 10 ]
     ]
   },
   {

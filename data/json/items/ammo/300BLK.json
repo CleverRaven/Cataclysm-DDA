@@ -1,6 +1,6 @@
 [
   {
-    "id": "300BLK_supersonic",
+    "id": "300blk_supersonic",
     "type": "AMMO",
     "name": ".300 AAC Blackout",
     "description": ".300 AAC Blackout is an intermediate cartridge that achieves ballistics similar to the 7.62x39 but allows use on the AR-15 platform.  The round is necked-up from the 5.56mm NATO, but feeds from a STANAG magazine.  It requires a specific barrel, so will not work in a standard M4 or similar carbine.  This loading is supersonic.",
@@ -12,8 +12,8 @@
     "color": "yellow",
     "count": 30,
     "stack_size": 47,
-    "ammo_type": "300BLK",
-    "casing": "300BLK_casing",
+    "ammo_type": "300blk",
+    "casing": "300blk_casing",
     "range": 45,
     "damage": 43,
     "pierce": 5,
@@ -22,8 +22,8 @@
     "effects": [ "COOKOFF" ]
   },
   {
-    "id": "300BLK_subsonic",
-    "copy-from": "300BLK_supersonic",
+    "id": "300blk_ss",
+    "copy-from": "300blk_supersonic",
     "type": "AMMO",
     "name": ".300 AAC Blackout",
     "description": ".300 AAC Blackout is an intermediate cartridge that achieves ballistics similar to the 7.62x39 but allows use on the AR-15 platform.  The round is necked-up from the 5.56mm NATO, but feeds from a STANAG magazine.  It requires a specific barrel, so will not work in a standard M4 or similar carbine.  This loading is subsonic.",
@@ -33,8 +33,8 @@
     "recoil": 1700
   },
   {
-    "id": "reloaded_300BLK",
-    "copy-from": "300BLK_supersonic",
+    "id": "reloaded_300blk",
+    "copy-from": "300blk_supersonic",
     "type": "AMMO",
     "name": "reloaded .300 AAC Blackout",
     "description": ".300 AAC Blackout is an intermediate cartridge that achieves ballistics similar to the 7.62x39 but allows use on the AR-15 platform.  The round is necked-up from the 5.56mm NATO, but feeds from a STANAG magazine.  It requires a specific barrel, so will not work in a standard M4 or similar carbine.  This one has been hand-reloaded.",

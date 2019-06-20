@@ -574,5 +574,9 @@
     "name": "oxygen",
     "default": "oxygen",
     "type": "ammunition_type"
+    "type": "ammunition_type",
+    "id": "300blk",
+    "name": ".308 AAC Blackout",
+    "default": "300blk_supersonic"
   }
 ]

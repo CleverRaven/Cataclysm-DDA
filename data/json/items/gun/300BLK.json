@@ -1,6 +1,6 @@
 [
   {
-    "id": "acr_300BLK",
+    "id": "acr_300blk",
     "copy-from": "rifle_auto",
     "type": "GUN",
     "name": "Remington ACR .300BLK",
@@ -13,17 +13,17 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "300BLK",
+    "ammo": "300blk",
     "ranged_damage": -1,
     "dispersion": 150,
     "durability": 8,
     "burst": 11,
     "barrel_length": 1,
     "built_in_mods": [ "folding_stock" ],
-    "magazines": [ [ "300BLK", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [ [ "300blk", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
-    "id": "ar15_300BLK",
+    "id": "ar15_300blk",
     "copy-from": "rifle_semi",
     "type": "GUN",
     "name": "AR-15 .300BLK",
@@ -37,13 +37,13 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "300BLK",
+    "ammo": "300blk",
     "dispersion": 150,
     "durability": 7,
-    "magazines": [ [ "300BLK", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [ [ "300blk", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
-    "id": "iwi_tavor_x95_300BLK",
+    "id": "iwi_tavor_x95_300blk",
     "copy-from": "rifle_semi",
     "type": "GUN",
     "name": "IWI Tavor X95 .300BLK",
@@ -56,7 +56,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
-    "ammo": "300BLK",
+    "ammo": "300blk",
     "dispersion": 140,
     "durability": 8,
     "built_in_mods": [ "grip" ],
@@ -74,6 +74,6 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "300BLK", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [ [ "300blk", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   }
 ]

@@ -361,7 +361,7 @@
     "damage_states": [ 0, 0 ]
   },
   {
-    "id": "300BLK_casing",
+    "id": "300blk_casing",
     "copy-from": "casing",
     "type": "GENERIC",
     "name": ".300BLK casing",

@@ -193,8 +193,8 @@
       { "item": "sharps", "prob": 15, "charges-min": 0, "charges-max": 1 },
       { "item": "weatherby_5", "prob": 15, "charges-min": 0, "charges-max": 3 },
       { "item": "hk417_13", "prob": 40, "charges-min": 0, "charges-max": 20 },
-      { "item": "ar-15_300BLK", "prob": 15, "charges-min": 0, "charges-max": 30 },
-      { "item": "iwi_tavor_x95_300BLK", "prob": 10, "charges-min": 0, "charges-max": 30 }
+      { "item": "ar-15_300blk", "prob": 15, "charges-min": 0, "charges-max": 30 },
+      { "item": "iwi_tavor_x95_300blk", "prob": 10, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {
@@ -220,7 +220,7 @@
       { "item": "scar_l", "prob": 50, "charges-min": 0, "charges-max": 30 },
       { "item": "scar_h", "prob": 50, "charges-min": 0, "charges-max": 20 },
       { "item": "m110a1", "prob": 50, "charges-min": 0, "charges-max": 20 },
-      { "item": "acr_300BLK", "prob": 15, "charges-min": 0, "charges-max": 30 }
+      { "item": "acr_300blk", "prob": 15, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {
@@ -248,8 +248,8 @@
       { "item": "steyr_aug", "prob": 40, "charges-min": 0, "charges-max": 30 },
       { "item": "trex_gun", "prob": 60 },
       { "item": "arx160", "prob": 40, "charges-min": 0, "charges-max": 30 },
-      { "item": "iwi_tavor_x95_300BLK", "prob": 10, "charges-min": 0, "charges-max": 30 },
-      { "item": "acr_300BLK", "prob": 15, "charges-min": 0, "charges-max": 30 }
+      { "item": "iwi_tavor_x95_300blk", "prob": 10, "charges-min": 0, "charges-max": 30 },
+      { "item": "acr_300blk", "prob": 15, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {
