@@ -577,6 +577,6 @@
     "type": "ammunition_type",
     "id": "300blk",
     "name": ".308 AAC Blackout",
-    "default": "300blk_supersonic"
+    "default": "300blk"
   }
 ]
