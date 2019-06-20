@@ -237,7 +237,7 @@ struct map_data_common_t {
         * as to which possible object/field/entity in a single square gets drawn and that some symbols
         * are "reserved" such as * and % to do programmatic behavior.
         */
-        std::array<long, SEASONS_PER_YEAR> symbol_;
+        std::array<int, SEASONS_PER_YEAR> symbol_;
 
         int movecost;   // The amount of movement points required to pass this terrain by default.
         int coverage; // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
@@ -283,7 +283,7 @@ struct map_data_common_t {
             return ( connect_group != TERCONN_NONE ) && ( connect_group == test_connect_group );
         }
 
-        long symbol() const;
+        int symbol() const;
         nc_color color() const;
 
         const harvest_id &get_harvest() const;
@@ -294,6 +294,8 @@ struct map_data_common_t {
         const std::set<std::string> &get_harvest_names() const;
 
         std::string extended_description() const;
+
+        bool was_loaded = false;
 
         virtual void load( JsonObject &jo, const std::string &src );
         virtual void check() const;
@@ -317,8 +319,6 @@ struct ter_t : map_data_common_t {
     ter_t();
 
     static size_t count();
-
-    bool was_loaded = false;
 
     void load( JsonObject &jo, const std::string &src ) override;
     void check() const override;
@@ -357,8 +357,6 @@ struct furn_t : map_data_common_t {
     furn_t();
 
     static size_t count();
-
-    bool was_loaded = false;
 
     void load( JsonObject &jo, const std::string &src ) override;
     void check() const override;

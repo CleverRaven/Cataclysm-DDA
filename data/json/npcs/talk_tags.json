@@ -1167,6 +1167,16 @@
   },
   {
     "type": "snippet",
+    "category": "<ally_rule_follow_distance_2_true_text>",
+    "text": "<mypronoun> will follow you at about two paces."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_follow_distance_2_false_text>",
+    "text": "<mypronoun> will follow you at about four paces."
+  },
+  {
+    "type": "snippet",
     "category": "<ally_rule_avoid_doors_true_text>",
     "text": "<mypronoun> will not go places that require opening a door."
   },

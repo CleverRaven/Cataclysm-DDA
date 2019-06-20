@@ -550,6 +550,20 @@ bool avatar::create( character_type type, const std::string &tempname )
         mod_skill_level( e.first, e.second );
     }
 
+    // setup staring bank money
+
+    cash = rng( -200000, 200000 );
+
+    if( has_trait( trait_id( "MILLIONAIRE" ) ) ) {
+        cash = rng( 500000000, 1000000000 );
+    }
+    if( has_trait( trait_id( "DEBT" ) ) ) {
+        cash = rng( -1500000, -3000000 );
+    }
+    if( has_trait( trait_id( "SAVINGS" ) ) ) {
+        cash = rng( 1500000, 2000000 );
+    }
+
     // Learn recipes
     for( const auto &e : recipe_dict ) {
         const auto &r = e.second;
@@ -2405,7 +2419,7 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             redraw = true;
         } else if( action == "ANY_INPUT" &&
                    !MAP_SHARING::isSharing() ) { // Don't edit names when sharing maps
-            const long ch = ctxt.get_raw_input().get_first_input();
+            const int ch = ctxt.get_raw_input().get_first_input();
             utf8_wrapper wrap( you.name );
             if( ch == KEY_BACKSPACE ) {
                 if( !wrap.empty() ) {
@@ -2505,7 +2519,7 @@ trait_id Character::random_bad_trait()
 
 cata::optional<std::string> query_for_template_name()
 {
-    static const std::set<long> fname_char_blacklist = {
+    static const std::set<int> fname_char_blacklist = {
 #if defined(_WIN32)
         '\"', '*', '/', ':', '<', '>', '?', '\\', '|',
         '\x01', '\x02', '\x03', '\x04', '\x05', '\x06', '\x07',         '\x09',
@@ -2523,7 +2537,7 @@ cata::optional<std::string> query_for_template_name()
     spop.title( title );
     spop.description( desc );
     spop.width( FULL_SCREEN_WIDTH - utf8_width( title ) - 8 );
-    for( long character : fname_char_blacklist ) {
+    for( int character : fname_char_blacklist ) {
         spop.callbacks[ character ] = []() {
             return true;
         };

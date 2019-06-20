@@ -166,6 +166,8 @@ struct mutation_branch {
         float mana_modifier;
         float mana_multiplier;
         float mana_regen_multiplier;
+        // spells learned and their associated level when gaining the mutation
+        std::map<spell_id, int> spells_learned;
     private:
         std::string raw_spawn_item_message;
     public:
@@ -409,9 +411,9 @@ enum class mutagen_rejection {
 };
 
 struct mutagen_attempt {
-    mutagen_attempt( bool a, long c ) : allowed( a ), charges_used( c ) {}
+    mutagen_attempt( bool a, int c ) : allowed( a ), charges_used( c ) {}
     bool allowed;
-    long charges_used;
+    int charges_used;
 };
 
 mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,

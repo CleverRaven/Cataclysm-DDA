@@ -37,6 +37,20 @@
     ]
   },
   {
+    "id": "battery_motorbike_small",
+    "copy-from": "battery_car",
+    "type": "vehicle_part",
+    "name": "motorbike battery, small",
+    "item": "battery_motorbike_small",
+    "durability": 30,
+    "folded_volume": 3,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 7 ] },
+      { "item": "steel_chunk", "count": [ 4, 7 ] },
+      { "item": "scrap", "count": [ 4, 7 ] }
+    ]
+  },
+  {
     "id": "medium_storage_battery",
     "copy-from": "storage_battery",
     "type": "vehicle_part",

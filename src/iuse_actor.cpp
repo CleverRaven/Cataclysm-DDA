@@ -168,6 +168,8 @@ void iuse_transform::load( JsonObject &obj )
     need_fire_msg = obj.has_string( "need_fire_msg" ) ? _( obj.get_string( "need_fire_msg" ) ) :
                     _( "You need a source of fire!" );
 
+    obj.read( "need_worn", need_worn );
+
     obj.read( "qualities_needed", qualities_needed );
 
     obj.read( "menu_text", menu_text );
@@ -185,6 +187,10 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     const bool possess = p.has_item( it ) ||
                          ( it.has_flag( "ALLOWS_REMOTE_USE" ) && square_dist( p.pos(), pos ) == 1 );
 
+    if( possess && need_worn && !p.is_worn( it ) ) {
+        p.add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
+        return 0;
+    }
     if( need_charges && it.ammo_remaining() < need_charges ) {
         if( possess ) {
             p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
@@ -211,6 +217,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         p.moves -= moves;
     }
 
+    item obj_copy( it );
     item *obj;
     if( container.empty() ) {
         obj = &it.convert( target );
@@ -237,7 +244,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     if( p.is_worn( *obj ) ) {
         p.reset_encumbrance();
         p.update_bodytemp();
-        p.on_worn_item_transform( *obj );
+        p.on_worn_item_transform( obj_copy, *obj );
     }
     obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
     obj->active = active || obj->item_counter;
@@ -962,15 +969,15 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     p.practice( skill_mechanics, 1 );
-    /** @EFFECT_DEX speeds up door lock picking */
 
+    /** @EFFECT_DEX speeds up door lock picking */
     /** @EFFECT_MECHANICS speeds up door lock picking */
-    p.moves -= std::max( 0, ( 1000 - ( pick_quality * 100 ) ) - ( p.dex_cur + p.get_skill_level(
-                             skill_mechanics ) ) * 5 );
-    /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
+    p.moves -= std::max( 0, to_turns<int>( 10_minutes - time_duration::from_minutes( pick_quality ) )
+                         - ( p.dex_cur + p.get_skill_level( skill_mechanics ) ) * 5 );
 
     bool destroy = false;
 
+    /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
     /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
     int pick_roll = ( dice( 2, p.get_skill_level( skill_mechanics ) ) + dice( 2,
                       p.dex_cur ) - it.damage_level( 4 ) / 2 ) * pick_quality;
@@ -1053,7 +1060,7 @@ int deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) con
     }
 
     g->m.furn_set( pnt, furn_type );
-    p.mod_moves( -200 );
+    p.mod_moves( to_turns<int>( 2_seconds ) );
     return 1;
 }
 
@@ -1094,8 +1101,8 @@ int reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( _( "It's too dark to read." ) );
         return 0;
     }
-    const tripoint &center = omt_to_sm_copy( it.get_var( "reveal_map_center_omt",
-                             p.global_omt_location() ) );
+    const tripoint &center = it.get_var( "reveal_map_center_omt",
+                                         p.global_omt_location() );
     for( auto &omt : omt_types ) {
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
             reveal_targets( tripoint( center.x, center.y, z ), omt, 0 );
@@ -1122,6 +1129,7 @@ iuse_actor *firestarter_actor::clone() const
 
 bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
 {
+    // checks for fuel are handled by use and the activity, not here
     if( pos == p.pos() ) {
         if( const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Light where?" ) ) ) {
             pos = *pnt_;
@@ -1129,10 +1137,6 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
             g->refresh_all();
             return false;
         }
-    }
-    if( !g->m.is_flammable( pos ) ) {
-        p.add_msg_if_player( m_info, _( "There's nothing to light there." ) );
-        return false;
     }
     if( pos == p.pos() ) {
         p.add_msg_if_player( m_info, _( "You would set yourself on fire." ) );
@@ -1256,12 +1260,16 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
         p.mod_moves( -moves );
         return it.type->charges_to_use();
     }
-    p.assign_activity( activity_id( "ACT_START_FIRE" ), moves, -1, p.get_item_position( &it ),
+
+    // skill gains are handled by the activity, but stored here in the index field
+    const int potential_skill_gain = moves_modifier + moves_cost_fast / 100 + 2;
+    p.assign_activity( activity_id( "ACT_START_FIRE" ), moves, potential_skill_gain,
+                       p.get_item_position( &it ),
                        it.tname() );
     p.activity.values.push_back( g->natural_light_level( pos.z ) );
     p.activity.placement = pos;
-    p.practice( skill_survival, moves_modifier + moves_cost_fast / 100 + 2, 5 );
-    return it.type->charges_to_use();
+    // charges to use are handled by the activity
+    return 0;
 }
 
 void salvage_actor::load( JsonObject &obj )
@@ -1836,7 +1844,7 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
     int success = rng( 0, skills ) - rng( 0, difficulty );
 
     /** @EFFECT_FIRSTAID speeds up enzlavement */
-    const int moves = difficulty * 1200 / p.get_skill_level( skill_firstaid );
+    const int moves = difficulty * to_turns<int>( 12_seconds ) / p.get_skill_level( skill_firstaid );
 
     p.assign_activity( activity_id( "ACT_MAKE_ZLAVE" ), moves );
     p.activity.values.push_back( success );
@@ -2113,7 +2121,7 @@ int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint &
             desc = string_format( _( "%1$s %2$s" ), p.disp_name( false ),
                                   random_entry( npc_descriptions ) );
         }
-    } else if( morale_effect < 0 && calendar::once_every( 10_turns ) ) {
+    } else if( morale_effect < 0 && calendar::once_every( 1_minutes ) ) {
         // No musical skills = possible morale penalty
         if( p.is_player() ) {
             desc = _( "You produce an annoying sound" );
@@ -2186,9 +2194,12 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
         return 0;
     }
     std::vector<uilist_entry> uilist_initializer;
+    uilist spellbook_uilist;
+    spellbook_callback sp_cb;
     bool know_it_all = true;
     for( const std::string sp_id_str : spells ) {
         const spell_id sp_id( sp_id_str );
+        sp_cb.add_spell( sp_id );
         const std::string sp_nm = sp_id.obj().name;
         uilist_entry entry( sp_nm );
         if( p.magic.knows_spell( sp_id ) ) {
@@ -2217,7 +2228,16 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
         return 0;
     }
 
-    const int action = uilist( _( "Study a spell:" ), uilist_initializer );
+    spellbook_uilist.entries = uilist_initializer;
+    spellbook_uilist.w_height = 24;
+    spellbook_uilist.w_width = 80;
+    spellbook_uilist.w_x = ( TERMX - spellbook_uilist.w_width ) / 2;
+    spellbook_uilist.w_y = ( TERMY - spellbook_uilist.w_height ) / 2;
+    spellbook_uilist.callback = &sp_cb;
+    spellbook_uilist.title = _( "Study a spell:" );
+    spellbook_uilist.pad_left = 38;
+    spellbook_uilist.query();
+    const int action = spellbook_uilist.ret;
     if( action < 0 ) {
         return 0;
     }
@@ -2232,11 +2252,11 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     if( knows_spell ) {
         study_spell.str_values[1] = "study";
         const int study_time = uilist( _( "Spend how long studying?" ), {
-            { 30000, true, -1, _( "30 minutes" ) },
-            { 60000, true, -1, _( "1 hour" ) },
-            { 120000, true, -1, _( "2 hours" ) },
-            { 240000, true, -1, _( "4 hours" ) },
-            { 480000, true, -1, _( "8 hours" ) },
+            { to_moves<int>( 30_minutes ), true, -1, _( "30 minutes" ) },
+            { to_moves<int>( 1_hours ), true, -1, _( "1 hour" ) },
+            { to_moves<int>( 2_hours ), true, -1, _( "2 hours" ) },
+            { to_moves<int>( 4_hours ), true, -1, _( "4 hours" ) },
+            { to_moves<int>( 8_hours ), true, -1, _( "8 hours" ) },
             { 10100, true, -1, _( "Until you gain a spell level" ) }
         } );
         if( study_time <= 0 ) {
@@ -2521,10 +2541,7 @@ bool bandolier_actor::is_valid_ammo_type( const itype &t ) const
     if( !t.ammo ) {
         return false;
     }
-    return std::any_of( t.ammo->type.begin(), t.ammo->type.end(),
-    [&]( const ammotype & e ) {
-        return ammo.count( e );
-    } );
+    return ammo.count( t.ammo->type );
 }
 
 bool bandolier_actor::can_store( const item &bandolier, const item &obj ) const
@@ -2672,8 +2689,7 @@ int ammobelt_actor::use( player &p, item &, bool, const tripoint & ) const
     mag.ammo_unset();
 
     if( p.rate_action_reload( mag ) != HINT_GOOD ) {
-        p.add_msg_if_player( _( "Insufficient %s to assemble %s" ),
-                             mag.ammo_type()->name(), mag.tname() );
+        p.add_msg_if_player( _( "Insufficient ammunition to assemble %s" ), mag.tname() );
         return 0;
     }
 
@@ -3544,9 +3560,9 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
             if( !patient.has_effect( effect_bandaged, i_bp ) ) {
                 damage += patient.hp_max[i] - patient.hp_cur[i];
             }
-            damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 50_turns;
-            damage += bite * patient.get_effect_dur( effect_bite, i_bp ) / 100_turns;
-            damage += infect * patient.get_effect_dur( effect_infected, i_bp ) / 100_turns;
+            damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 5_minutes;
+            damage += bite * patient.get_effect_dur( effect_bite, i_bp ) / 10_minutes;
+            damage += infect * patient.get_effect_dur( effect_infected, i_bp ) / 10_minutes;
             if( damage > highest_damage ) {
                 highest_damage = damage;
                 healed = hp_part( i );

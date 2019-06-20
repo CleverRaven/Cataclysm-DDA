@@ -18,7 +18,7 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
 	"spell_class": "NONE"                                     // 
 	"base_casting_time": 100,                                 // this is the casting time (in moves)
 	"base_energy_cost": 10,                                   // the amount of energy (of the requisite type) to cast the spell
-	"energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, NONE (none will not use mana)
+	"energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, FATIGUE, NONE (none will not use mana)
 	"difficulty": 12,                                         // the difficulty to learn/cast the spell
 	"max_level": 10,                                          // maximum level you can achieve in the spell
 	"min_damage": 0,                                          // minimum damage (or "starting" damage)
@@ -73,6 +73,13 @@ Any aoe will manifest as a circular area centered on the target, and will only d
 * "spawn_item" - spawns an item that will disappear at the end of its duration.  Default duration is 0.
 
 * "teleport_random" - teleports the player randomly range spaces with aoe variation
+
+* "recover_energy" - recovers an energy source (defined in the effect_str, shown below) equal to damage of the spell
+- "MANA"
+- "STAMINA"
+- "FATIGUE"
+- "PAIN"
+- "BIONIC"
 
 ##### For Spells that have an attack type, these are the available damage types:
 * "fire"

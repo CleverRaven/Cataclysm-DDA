@@ -240,8 +240,7 @@ void requirement_data::load_requirement( JsonObject &jsobj, const requirement_id
 {
     requirement_data req;
 
-    JsonArray jsarr;
-    jsarr = jsobj.get_array( "components" );
+    JsonArray jsarr = jsobj.get_array( "components" );
     req.load_obj_list( jsarr, req.components );
     jsarr = jsobj.get_array( "qualities" );
     req.load_obj_list( jsarr, req.qualities );
@@ -1019,4 +1018,93 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
     } ), ret.components.end() );
 
     return ret;
+}
+
+void requirement_data::consolidate()
+{
+    std::map<quality_id, quality_requirement> all_quals;
+    for( const std::vector<quality_requirement> &qual_vector : qualities ) {
+        for( const quality_requirement &qual_data : qual_vector ) {
+            if( all_quals.find( qual_data.type ) == all_quals.end() ) {
+                all_quals[qual_data.type] = qual_data;
+            } else {
+                all_quals[qual_data.type].count = std::max( all_quals[qual_data.type].count,
+                                                  qual_data.count );
+                all_quals[qual_data.type].level = std::max( all_quals[qual_data.type].level,
+                                                  qual_data.level );
+            }
+        }
+    }
+    qualities.clear();
+    std::transform( all_quals.begin(), all_quals.end(), std::back_inserter( qualities ),
+    []( auto & qual_data ) {
+        return std::vector<quality_requirement>( { qual_data.second } );
+    } );
+
+    // elegance?  I've heard of it
+    std::vector<std::vector<tool_comp>> all_tools;
+    for( const std::vector<tool_comp> &old_tool_vector : tools ) {
+        bool match = false;
+        for( std::vector<tool_comp> &con_tool_vector : all_tools ) {
+            size_t need_matches = con_tool_vector.size();
+            size_t has_matches = 0;
+            for( const tool_comp &old_tool : old_tool_vector ) {
+                for( const tool_comp &con_tool : con_tool_vector ) {
+                    if( old_tool.type == con_tool.type ) {
+                        has_matches += 1;
+                        break;
+                    }
+                }
+            }
+            if( has_matches == need_matches ) {
+                match = true;
+                for( const tool_comp &old_tool : old_tool_vector ) {
+                    for( tool_comp &con_tool : con_tool_vector ) {
+                        if( old_tool.type == con_tool.type ) {
+                            con_tool.count += old_tool.count;
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
+        }
+        if( !match ) {
+            all_tools.emplace_back( old_tool_vector );
+        }
+    }
+    tools = std::move( all_tools );
+
+    std::vector<std::vector<item_comp>> all_comps;
+    for( const std::vector<item_comp> &old_item_vector : components ) {
+        bool match = false;
+        for( auto &con_item_vector : all_comps ) {
+            size_t need_matches = con_item_vector.size();
+            size_t has_matches = 0;
+            for( const item_comp &old_item : old_item_vector ) {
+                for( const item_comp &con_item : con_item_vector ) {
+                    if( old_item.type == con_item.type ) {
+                        has_matches += 1;
+                        break;
+                    }
+                }
+            }
+            if( has_matches == need_matches ) {
+                match = true;
+                for( const item_comp &old_item : old_item_vector ) {
+                    for( item_comp &con_item : con_item_vector ) {
+                        if( old_item.type == con_item.type ) {
+                            con_item.count += old_item.count;
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
+        }
+        if( !match ) {
+            all_comps.emplace_back( old_item_vector );
+        }
+    }
+    components = std::move( all_comps );
 }

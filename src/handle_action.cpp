@@ -66,7 +66,7 @@
 #include "units.h"
 #include "string_id.h"
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_laserlocked( "laserlocked" );
@@ -77,6 +77,7 @@ static const bionic_id bio_remote( "bio_remote" );
 
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 const skill_id skill_driving( "driving" );
 const skill_id skill_melee( "melee" );
@@ -85,7 +86,7 @@ const skill_id skill_melee( "melee" );
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
 extern bool add_best_key_for_action_to_quick_shortcuts( action_id action,
         const std::string &category, bool back );
-extern bool add_key_to_quick_shortcuts( long key, const std::string &category, bool back );
+extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back );
 #endif
 
 class user_turn
@@ -672,7 +673,7 @@ static void smash()
             if( vol > 20 ) {
                 // Hurt left arm too, if it was big
                 u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0,
-                               static_cast<long>( vol * .5 ) ) ) );
+                               static_cast<int>( vol * .5 ) ) ) );
             }
             u.remove_weapon();
             u.check_dead_state();
@@ -834,7 +835,8 @@ static void sleep()
     // List all active items, bionics or mutations so player can deactivate them
     std::vector<std::string> active;
     for( auto &it : u.inv_dump() ) {
-        if( it->active && it->charges > 0 && it->is_tool_reversible() ) {
+        if( it->active && ( it->charges > 0 || it->ammo_remaining() > 0 ) &&
+            it->is_transformable() ) {
             active.push_back( it->tname() );
         }
     }
@@ -935,6 +937,7 @@ static void loot()
         PlantPlots = 8,
         FertilizePlots = 16,
         HarvestPlots = 32,
+        ConstructPlots = 64,
     };
 
     auto just_one = []( int flags ) {
@@ -962,6 +965,9 @@ static void loot()
         flags |= FertilizePlots;
         flags |= HarvestPlots;
     }
+    flags |= g->check_near_zone( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
+                                 u.pos() ) ? ConstructPlots : 0;
+
 
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
@@ -1003,6 +1009,10 @@ static void loot()
             menu.addentry_desc( HarvestPlots, true, 'h', _( "Harvest plots" ),
                                 _( "Harvest any full-grown plants from nearby Farm: Plot zones" ) );
         }
+        if( flags & ConstructPlots ) {
+            menu.addentry_desc( ConstructPlots, true, 'c', _( "Construct Plots" ),
+                                _( "Work on any nearby Blueprint: construction zones" ) );
+        }
 
         menu.query();
         flags = ( menu.ret >= 0 ) ? menu.ret : None;
@@ -1036,6 +1046,9 @@ static void loot()
             break;
         case HarvestPlots:
             u.assign_activity( activity_id( "ACT_HARVEST_PLOT" ) );
+            break;
+        case ConstructPlots:
+            u.assign_activity( activity_id( "ACT_BLUEPRINT_CONSTRUCTION" ) );
             break;
         default:
             debugmsg( "Unsupported flag" );
@@ -1277,67 +1290,23 @@ static void cast_spell()
     }
 
     bool can_cast_spells = false;
-    std::vector<uilist_entry> spell_names;
-    {
-        uilist_entry dummy( _( "Spell" ) );
-        dummy.ctxt = string_format( "%3s  %3s  %3s %5s %10s %4s %3s", _( "LVL" ), _( "XP%" ), _( "RNG" ),
-                                    _( "FAIL%" ), _( "Cast Time" ), _( "Cost" ), _( "DMG" ) );
-        dummy.enabled = false;
-        dummy.text_color = c_light_blue;
-        dummy.force_color = true;
-        spell_names.emplace_back( dummy );
-    }
     for( spell_id sp : spells ) {
         spell temp_spell = u.magic.get_spell( sp );
-        std::string nm = temp_spell.name();
-        uilist_entry entry( nm );
         if( temp_spell.can_cast( u ) ) {
             can_cast_spells = true;
-        } else {
-            entry.enabled = false;
         }
-        std::string turns = temp_spell.casting_time() >= 100 ? string_format( _( "%i turns" ),
-                            temp_spell.casting_time() / 100 ) : string_format( _( "%i moves" ), temp_spell.casting_time() );
-        std::string cost = string_format( "%4i", temp_spell.energy_cost() );
-        switch( temp_spell.energy_source() ) {
-            case mana_energy:
-                cost = colorize( cost, c_light_blue );
-                break;
-            case stamina_energy:
-                cost = colorize( cost, c_green );
-                break;
-            case hp_energy:
-                cost = colorize( cost, c_red );
-                break;
-            case bionic_energy:
-                cost = colorize( cost, c_yellow );
-                break;
-            case none_energy:
-                cost = colorize( _( "none" ), c_light_gray );
-                break;
-            default:
-                debugmsg( "ERROR: %s has invalid energy_type", temp_spell.id().c_str() );
-                break;
-        }
-        entry.ctxt = string_format( "%3i (%3s) %3i %3i %% %10s %4s %3i", temp_spell.get_level(),
-                                    temp_spell.is_max_level() ? _( "MAX" ) : temp_spell.exp_progress(), temp_spell.range(),
-                                    static_cast<int>( round( 100.0f * temp_spell.spell_fail( u ) ) ), turns, cost,
-                                    temp_spell.damage() );
-        spell_names.emplace_back( entry );
     }
 
     if( !can_cast_spells ) {
         add_msg( m_bad, _( "You can't cast any of the spells you know!" ) );
     }
 
-    // if there's only one spell we know, we still want to see its information
-    // the 0th "spell" is a header
-    int action = uilist( _( "Choose your spell:" ), spell_names ) - 1;
-    if( action < 0 ) {
+    const int spell_index = u.magic.select_spell( u );
+    if( spell_index < 0 ) {
         return;
     }
 
-    spell sp = u.magic.get_spell( spells[action] );
+    spell &sp = *u.magic.get_spells()[spell_index];
 
     if( !u.magic.has_enough_energy( u, sp ) ) {
         add_msg( m_bad, _( "You don't have enough %s to cast the spell." ), sp.energy_string() );
@@ -1357,6 +1326,21 @@ static void cast_spell()
     // [2] this value overrides the mana cost if set to 0
     cast_spell.values.emplace_back( 1 );
     cast_spell.name = sp.id().c_str();
+    if( u.magic.casting_ignore ) {
+        const std::vector<distraction_type> ignored_distractions = {
+            distraction_type::noise,
+            distraction_type::pain,
+            distraction_type::attacked,
+            distraction_type::hostile_spotted,
+            distraction_type::talked_to,
+            distraction_type::asthma,
+            distraction_type::motion_alarm,
+            distraction_type::weather_change
+        };
+        for( const distraction_type ignored : ignored_distractions ) {
+            cast_spell.ignore_distraction( ignored );
+        }
+    }
     u.assign_activity( cast_spell, false );
 }
 
@@ -1503,10 +1487,13 @@ bool game::handle_action()
     if( act == ACTION_NULL ) {
         const input_event &&evt = ctxt.get_raw_input();
         if( !evt.sequence.empty() ) {
-            const long ch = evt.get_first_input();
+            const int ch = evt.get_first_input();
             const std::string &&name = inp_mngr.get_keyname( ch, evt.type, true );
             if( !get_option<bool>( "NO_UNKNOWN_COMMAND_MSG" ) ) {
                 add_msg( m_info, _( "Unknown command: \"%s\" (%ld)" ), name, ch );
+                add_msg( m_info, _( "%s at any time to see and edit keybindings relevant to "
+                                    "the current context." ),
+                         press_x( ACTION_KEYBINDINGS ) );
             }
         }
         return false;
@@ -1950,7 +1937,6 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't disassemble items while you're riding." ) );
                 } else {
                     u.disassemble();
-                    g->m.invalidate_map_cache( g->get_levz() );
                     refresh_all();
                 }
                 break;
@@ -1962,8 +1948,10 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't construct while you're in your shell." ) );
                 } else if( u.has_effect( effect_riding ) ) {
                     add_msg( m_info, _( "You can't construct while you're riding." ) );
+                } else if( g->u.fine_detail_vision_mod() > 4 && !g->u.has_trait( trait_DEBUG_HS ) ) {
+                    add_msg( m_info, _( "It is too dark to construct right now." ) );
                 } else {
-                    construction_menu();
+                    construction_menu( false );
                 }
                 break;
 

@@ -72,6 +72,9 @@ class iuse_transform : public iuse_actor
         /** used to set the active property of the transformed @ref target */
         bool active = false;
 
+        /**does the item requires to be worn to be activable*/
+        bool need_worn = false;
+
         /** subtracted from @ref Creature::moves when transformation is successful */
         int moves = 0;
 
@@ -688,7 +691,6 @@ class cast_spell_actor : public iuse_actor
         // the spell this item casts when used.
         spell_id item_spell;
         int spell_level;
-
 
         cast_spell_actor( const std::string &type = "cast_spell" ) : iuse_actor( type ) {}
 

@@ -58,7 +58,7 @@ void hum( Creature *creature, const tripoint &p );
 void shadow( Creature *creature, const tripoint &p );
 void drain( Creature *creature, const tripoint &p );
 void snake( Creature *creature, const tripoint &p );
-}
+} // namespace trapfunc
 
 using trap_function = std::function<void( Creature *, const tripoint & )>;
 
@@ -69,13 +69,14 @@ struct trap {
 
         bool was_loaded = false;
 
-        long sym;
+        int sym;
         nc_color color;
     private:
-        int visibility; // 1 to ??, affects detection
-        int avoidance;  // 0 to ??, affects avoidance
-        int difficulty; // 0 to ??, difficulty of assembly & disassembly
+        int visibility = 1; // 1 to ??, affects detection
+        int avoidance = 0;  // 0 to ??, affects avoidance
+        int difficulty = 0; // 0 to ??, difficulty of assembly & disassembly
         bool benign = false;
+        bool always_invisible = false;
         trap_function act;
         std::string name_;
         /**
@@ -86,6 +87,12 @@ struct trap {
         std::vector<itype_id> components; // For disassembly?
     public:
         std::string name() const;
+        /**
+         * There are special always invisible traps. See player::search_surroundings
+         */
+        bool is_always_invisible() const {
+            return always_invisible;
+        }
         /**
          * How easy it is to spot the trap. Smaller values means it's easier to spot.
          */

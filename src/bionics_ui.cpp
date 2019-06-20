@@ -30,7 +30,7 @@ enum bionic_menu_mode {
 };
 } // namespace
 
-bionic *player::bionic_by_invlet( const long ch )
+bionic *player::bionic_by_invlet( const int ch )
 {
     if( ch == ' ' ) {  // space is a special case for unassigned
         return nullptr;
@@ -202,7 +202,7 @@ static void draw_connectors( const catacurses::window &win, const int start_y, c
 
         // symbol is defined incorrectly for case ( y == start_y ) but
         // that's okay because it's overlapped by bionic_chr anyway
-        long bp_chr = ( y > start_y ) ? LINE_XXOO : LINE_OXXO;
+        int bp_chr = ( y > start_y ) ? LINE_XXOO : LINE_OXXO;
         if( ( max_y > y && y > start_y ) || ( min_y < y && y < start_y ) ) {
             bp_chr = LINE_XXXO;
         }
@@ -220,7 +220,7 @@ static void draw_connectors( const catacurses::window &win, const int start_y, c
     }
 
     // define and draw a proper intersection character
-    long bionic_chr = LINE_OXOX; // '-'                // 001
+    int bionic_chr = LINE_OXOX; // '-'                // 001
     if( move_up && !move_down && !move_same ) {        // 100
         bionic_chr = LINE_XOOX;  // '_|'
     } else if( move_up && move_down && !move_same ) {  // 110
@@ -478,7 +478,7 @@ void player::power_bionics()
         }
 
         const std::string action = ctxt.handle_input();
-        const long ch = ctxt.get_raw_input().get_first_input();
+        const int ch = ctxt.get_raw_input().get_first_input();
         bionic *tmp = nullptr;
         bool confirmCheck = false;
 
@@ -527,8 +527,8 @@ void player::power_bionics()
                 continue;
             }
             redraw = true;
-            const long newch = popup_getkey( _( "%s; enter new letter. Space to clear. Esc to cancel." ),
-                                             tmp->id->name );
+            const int newch = popup_getkey( _( "%s; enter new letter. Space to clear. Esc to cancel." ),
+                                            tmp->id->name );
             wrefresh( wBio );
             if( newch == ch || newch == KEY_ESCAPE ) {
                 continue;

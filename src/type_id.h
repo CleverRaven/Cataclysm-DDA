@@ -11,6 +11,9 @@ using ammotype = string_id<ammunition_type>;
 struct bionic_data;
 using bionic_id = string_id<bionic_data>;
 
+struct construction_category;
+using construction_category_id = string_id<construction_category>;
+
 class effect_type;
 using efftype_id = string_id<effect_type>;
 
@@ -19,6 +22,10 @@ using emit_id = string_id<emit>;
 
 class fault;
 using fault_id = string_id<fault>;
+
+struct field_type;
+using field_type_id = int_id<field_type>;
+using field_type_str_id = string_id<field_type>;
 
 struct furn_t;
 using furn_id = int_id<furn_t>;
@@ -94,7 +101,7 @@ class Trait_group;
 namespace trait_group
 {
 using Trait_group_tag = string_id<Trait_group>;
-}
+} // namespace trait_group
 
 struct trap;
 using trap_id = int_id<trap>;

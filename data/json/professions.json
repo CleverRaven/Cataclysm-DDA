@@ -554,6 +554,33 @@
   },
   {
     "type": "profession",
+    "ident": "true_foodperson",
+    "name": "True Foodperson",
+    "description": "You are the true Foodperson, some might think Foodperson is just a mascot, but you know better.  You are Foodperson, the mask has become your face, you are real and the only thing standing between this world and oblivion is you.",
+    "points": 0,
+    "traits": [ "PROF_FOODP" ],
+    "skills": [ { "level": 2, "name": "speech" } ],
+    "items": {
+      "both": {
+        "items": [
+          "foodperson_mask",
+          "pants_cargo",
+          "briefs",
+          "cape_fp",
+          "dress_shirt",
+          "armguard_hard",
+          "legguard_hard",
+          "gloves_rubber",
+          "socks",
+          "chestguard_hard",
+          "boots_rubber"
+        ],
+        "entries": [ { "item": "medium_disposable_cell" }, { "group": "snacks_fancy" }, { "group": "snacks" }, { "item": "bat" } ]
+      }
+    }
+  },
+  {
+    "type": "profession",
     "ident": "cyclist",
     "name": "Professional Cyclist",
     "description": "You were a promising young cyclist with a bright career in front of you before this all happened.  Perhaps you'll never get to participate in the grand tours now, but as the saying goes: Life is like riding a bicycle, you got to keep moving.",
@@ -1003,8 +1030,8 @@
         ],
         "entries": [
           { "group": "charged_cell_phone" },
-          { "item": "l_enforcer_45", "ammo-item": "45_acp", "charges": 6, "container-item": "sholster" },
-          { "item": "45_acp", "charges": 24 }
+          { "item": "l_enforcer_45", "ammo-item": "460_rowland", "charges": 6, "container-item": "sholster" },
+          { "item": "460_rowland", "charges": 24 }
         ]
       },
       "male": [ "briefs" ],
@@ -2164,7 +2191,11 @@
     "description": "The cataclysm gave you a chance to escape, but freedom comes with a steep price.",
     "points": 0,
     "skills": [ { "level": 1, "name": "melee" } ],
-    "items": { "both": [ "striped_shirt", "striped_pants", "glass_shiv" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] }
+    "items": {
+      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "glass_shiv" ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
   },
   {
     "type": "profession",
@@ -2174,7 +2205,11 @@
     "points": 0,
     "skills": [ { "level": 1, "name": "melee" } ],
     "traits": [ "KILLER" ],
-    "items": { "both": [ "striped_shirt", "striped_pants", "glass_shiv" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] }
+    "items": {
+      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "glass_shiv" ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
   },
   {
     "type": "profession",
@@ -2323,6 +2358,39 @@
         "money_bundle",
         "file"
       ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "millionaire",
+    "name": "Millionaire",
+    "description": "You had a fortune, whether inherited, built by hard work, or gained by pure luck.  You invested in trade and nothing was beyond your reach.  Now it's not worth a dime and no money in the world can guarantee your safety and well being.  Hard times are ahead, so it's time to undust your skills and try to sell some ice to the Innuit.  What currency do they accept?",
+    "points": 3,
+    "traits": [ "MILLIONAIRE" ],
+    "skills": [ { "level": 3, "name": "barter" }, { "level": 2, "name": "speech" } ],
+    "items": {
+      "both": {
+        "items": [
+          "suit",
+          "skinny_tie",
+          "tieclip",
+          "socks",
+          "dress_shoes",
+          "smart_phone",
+          "money_bundle",
+          "gold_watch",
+          "gold_ear",
+          "gold_bracelet",
+          "gasdiscount_platinum",
+          "diamond_ring",
+          "gold_small",
+          "silver_small",
+          "platinum_small"
+        ],
+        "entries": [ { "item": "cash_card", "charges": 1000000 }, { "item": "diamond", "count": 5 } ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -3579,7 +3647,7 @@
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "survival" } ],
     "items": {
       "both": {
-        "items": [ "jeans", "tshirt", "socks", "sneakers", "mbag", "pizza_cheese", "cola", "dnd_handbook", "wristwatch" ],
+        "items": [ "jeans", "tshirt", "socks", "sneakers", "mbag", "pizza_cheese", "cola", "dnd_handbook", "wristwatch", "RPG_die" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "briefs" ],
@@ -3708,6 +3776,111 @@
         "entries": [ { "item": "bokken_inferior", "container-item": "scabbard" } ]
       },
       "female": [ "chestwrap" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "politician",
+    "name": "Career Politician",
+    "description": "You've spent your life appealing to the people, persuading many and promising much throughout your time in office.  Now that your voting base wants to eat you alive, winning hearts and minds just got that much harder.",
+    "points": 4,
+    "skills": [ { "level": 4, "name": "barter" }, { "level": 6, "name": "speech" } ],
+    "traits": [ "LIAR" ],
+    "items": {
+      "both": [
+        "suit",
+        "tieclip",
+        "socks_wool",
+        "dress_shoes",
+        "smart_phone",
+        "gold_watch",
+        "briefcase",
+        "skinny_tie",
+        "file",
+        "ref_lighter",
+        "cigar"
+      ],
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "rancher",
+    "name": "Rancher",
+    "description": "You've raised cows or horses most of your life, now we'll see what happens next.",
+    "points": 2,
+    "skills": { "level": 2, "name": "survival" },
+    "items": {
+      "both": [
+        "jeans",
+        "dress_shirt",
+        "jacket_leather",
+        "socks",
+        "cowboy_hat",
+        "boots_western",
+        "wristwatch",
+        "riding_saddle",
+        "pockknife",
+        "cattlefodder",
+        "cattlefodder",
+        "cig"
+      ],
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "roadie",
+    "name": "Roadie",
+    "description": "You worked just outside of the limelight, ensuring that the performers got what they needed and that everything ran smoothly.  The stakes are higher these days, but the show must go on.",
+    "points": 3,
+    "skills": [
+      { "level": 2, "name": "fabrication" },
+      { "level": 1, "name": "driving" },
+      { "level": 2, "name": "electronics" },
+      { "level": 1, "name": "dodge" },
+      { "level": 1, "name": "mechanics" }
+    ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "magazine": 100,
+        "items": [
+          "tshirt_tour",
+          "jeans",
+          "socks",
+          "boots_steel",
+          "multitool",
+          "wristwatch",
+          "gloves_work",
+          "mbag",
+          "soldering_iron",
+          "matches"
+        ],
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "jacket_jean", "snippet_category": "patched" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "musician",
+    "name": "Musician",
+    "description": "You were just about to hit the stage when the Cataclysm struck.  You weren't able to grab much during the panic, but at least you have your loaded six string on your back.",
+    "points": -1,
+    "skills": [ { "level": 1, "name": "barter" }, { "level": 2, "name": "speech" } ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "magazine": 100,
+        "items": [ "tshirt_tour", "shorts_cargo", "socks", "sneakers", "wristwatch", "water_clean", "guitar_electric" ],
+        "entries": [ { "item": "towel", "custom-flags": [ "no_auto_equip" ] }, { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
     }
   }
 ]
