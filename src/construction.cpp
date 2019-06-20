@@ -879,11 +879,10 @@ void complete_construction( player *p )
     }
     if( !dump_spots.empty() ) {
         tripoint dump_spot = random_entry( dump_spots );
-        auto items_at = g->m.i_at( terp );
-        for( auto it = items_at.rbegin(); it != items_at.rend(); it++ ) {
+        map_stack items = g->m.i_at( terp );
+        for( map_stack::iterator it = items.begin(); it != items.end(); ) {
             g->m.add_item_or_charges( dump_spot, *it );
-            item *item_ptr = &*it;
-            g->m.i_rem( terp, item_ptr );
+            it = items.erase( it );
         }
     } else {
         debugmsg( "No space to displace items from construction finishing" );
