@@ -15,6 +15,8 @@
 #include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
+#include "debug.h"
+#include "enums.h"
 
 enum game_message_type : int;
 class nc_color;
@@ -505,11 +507,17 @@ class Creature
         template<typename ...Args>
         void add_msg_if_player( const game_message_type type, const char *const msg,
                                 Args &&... args ) const {
+            if( type == m_debug && !debug_mode ) {
+                return;
+            }
             return add_msg_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
         void add_msg_if_player( const game_message_type type, const std::string &msg,
                                 Args &&... args ) const {
+            if( type == m_debug && !debug_mode ) {
+                return;
+            }
             return add_msg_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
         }
 
@@ -526,10 +534,16 @@ class Creature
         virtual void add_msg_if_npc( game_message_type /*type*/, const std::string &/*msg*/ ) const {}
         template<typename ...Args>
         void add_msg_if_npc( const game_message_type type, const char *const msg, Args &&... args ) const {
+            if( type == m_debug && !debug_mode ) {
+                return;
+            }
             return add_msg_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
         void add_msg_if_npc( const game_message_type type, const std::string &msg, Args &&... args ) const {
+            if( type == m_debug && !debug_mode ) {
+                return;
+            }
             return add_msg_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
         }
 
@@ -553,12 +567,18 @@ class Creature
         template<typename ...Args>
         void add_msg_player_or_npc( const game_message_type type, const char *const player_msg,
                                     const char *const npc_msg, Args &&... args ) const {
+            if( type == m_debug && !debug_mode ) {
+                return;
+            }
             return add_msg_player_or_npc( type, string_format( player_msg, std::forward<Args>( args )... ),
                                           string_format( npc_msg, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
         void add_msg_player_or_npc( const game_message_type type, const std::string &player_msg,
                                     const std::string &npc_msg, Args &&... args ) const {
+            if( type == m_debug && !debug_mode ) {
+                return;
+            }
             return add_msg_player_or_npc( type, string_format( player_msg, std::forward<Args>( args )... ),
                                           string_format( npc_msg, std::forward<Args>( args )... ) );
         }
@@ -583,12 +603,18 @@ class Creature
         template<typename ...Args>
         void add_msg_player_or_say( const game_message_type type, const char *const player_msg,
                                     const char *const npc_speech, Args &&... args ) const {
+            if( type == m_debug && !debug_mode ) {
+                return;
+            }
             return add_msg_player_or_say( type, string_format( player_msg, std::forward<Args>( args )... ),
                                           string_format( npc_speech, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
         void add_msg_player_or_say( const game_message_type type, const std::string &player_msg,
                                     const std::string &npc_speech, Args &&... args ) const {
+            if( type == m_debug && !debug_mode ) {
+                return;
+            }
             return add_msg_player_or_say( type, string_format( player_msg, std::forward<Args>( args )... ),
                                           string_format( npc_speech, std::forward<Args>( args )... ) );
         }
