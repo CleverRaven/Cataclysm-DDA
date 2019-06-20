@@ -726,7 +726,7 @@
       "offer": "I left the only photo I have from my family in the armory. I don't have the code, can you get in?",
       "accepted": "Thanks, it's great to see someone willing to help a out.",
       "rejected": "Well, I'll find someone else to do it for me, real shame with all those guns locked up too...",
-      "advice": "You look like a resourcful sort, maybe you can hack it or something.",
+      "advice": "You look like a resourceful sort, maybe you can hack it or something.",
       "inquire": "Got the photo?  Should've been in my gun safe.",
       "success": "Thanks!  I'll be sure to put in a good word for you around town.",
       "success_lie": "OK, then hand it over.",
@@ -742,5 +742,33 @@
     "value": 0,
     "origins": [ "ORIGIN_GAME_START" ],
     "item": "antibiotics"
+  },
+  {
+    "id": "MISSION_PROVE_YOUR_WORTH",
+    "type": "mission_definition",
+    "name": "Prove your worth to Foodperson",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "fp_loyalty_card",
+    "count": 10,
+    "difficulty": 1,
+    "value": 0,
+    "end": {
+      "effect": [
+        { "npc_add_var": "npc_foodperson_impressed", "type": "dialogue", "context": "foodperson", "value": "yes" },
+        { "u_buy_item": "badge_foodkid" }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Prove your dedication to Foodplace.",
+      "offer": "Show me the proof of your loyalty to the great Foodplace, and I'll consider you worthy of my friendship.  Ten loyalty cards should be enough, I'm sure you already have much more than that waiting for you at home, right?",
+      "accepted": "That's the spirit!  Good luck kid.",
+      "rejected": "That's alright not everyone is cutout for this.",
+      "advice": "Those are very precious, people would probably keep them on their person or in bank vaults.  And definitely not throw them in the trash!",
+      "inquire": "How is it going?  Do you have them?",
+      "success": "YES!  I knew you could do it!  You proved your worth and I'm proud to call you a friend.",
+      "success_lie": "Well...  where are they?",
+      "failure": "I'm so disappointed in you kid..."
+    }
   }
 ]

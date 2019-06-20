@@ -39,7 +39,7 @@ struct mvwzstr {
     int left = 0;
     nc_color color = c_unset;
     std::string txt;
-    long sym = 0;
+    int sym = 0;
 };
 
 /**
@@ -232,8 +232,8 @@ class uilist: public ui_container
         void redraw( bool redraw_callback = true );
         void addentry( const std::string &str );
         void addentry( int r, bool e, int k, const std::string &str );
-        // K is templated so it matches a `char` literal and a `long` value.
-        // Using a fixed type (either `char` or `long`) will lead to ambiguity with the
+        // K is templated so it matches a `char` literal and a `int` value.
+        // Using a fixed type (either `char` or `int`) will lead to ambiguity with the
         // other overload when called with the wrong type.
         template<typename K, typename ...Args>
         void addentry( const int r, const bool e, K k, const char *const format, Args &&... args ) {

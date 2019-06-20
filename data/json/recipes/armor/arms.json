@@ -116,6 +116,20 @@
     "flags": [ "BLIND_HARD" ]
   },
   {
+    "result": "armguard_scrap",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_melee", 2 ] ],
+    "using": [ [ "cordage", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 50 ] ] ]
+  },
+  {
     "result": "armguard_soft",
     "type": "recipe",
     "category": "CC_ARMOR",

@@ -142,7 +142,7 @@ Exotic damage types (currently only fire) do not scale with skills or crits.
 
 # RANGE WEAPONS
 ## Automatic Fire
-Guns with automatic fire are balanced around 1-second of cyclic fire, unless the cyclic or practical fire rate is less than 1 every six seconds.  Rates of fire less than 1 shot every six seconds are increased to 2.
+Guns with automatic fire are balanced around 1-second of cyclic fire, unless the cyclic or practical fire rate is less than 1 every second.  Rates of fire less than 1 shot every second are increased to 2.
 
 ## Magazines
 ### Reload times
@@ -208,7 +208,7 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 .38 Special        | 130gr FMJ bullet            | 256       | 16  | 4in      |                              |
 .38 FMJ            | 130gr FMJ bullet            | 256       | 16  | 4in      |                              |
 .38 Super          | 90gr JHP bullet             | 658       | 26  | 4in      |                              |
-10mm Auto          | 180gr FMJ bullet            | 575       | 24  | 4in      |                              |
+10mm Auto          | 180gr FMJ bullet            | 960       | 31  | 4in      |                              |
 .40 S&W            | 135gr JHP bullet            | 575       | 24  | 4in      |                              |
 .40 FMJ            | 180gr FMJ bullet            | 598       | 24  | 4in      |                              |
 .44 Magnum         | 240gr JHP bullet            | 1570      | 40  | 7.5in    |                              |
@@ -234,6 +234,7 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 .30-06 Springfield | 165gr soft point bullet     | 3894      | 62  | 24in     |        damage increased by 4 |
 .30-06 M2          | 165.7gr AP bullet           | 3676      | 60  | 24in     |         damage reduced by 10 |
 .30-06 M14A1       | Incendiary ammunition       | 3894      | 62  | 24in     |         damage reduced by 10 |
+.45-70 Govt.       | 300gr soft point bullet     | 3867      | 66  | 24in     |        damage increased by 4 |
 .300 Winchester Magnum | 220gr JHP bullet        | 5299      | 73  | 24in     |        damage increased by 5 |
 .700 NX            | 1000gr JSP bullet           | 12100     | 110 | 28in     |                              |
 .50 BMG Ball       | 750gr FMJ-BT bullet         | 17083     | 131 | 45in     |                              |

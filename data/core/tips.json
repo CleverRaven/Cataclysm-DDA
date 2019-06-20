@@ -383,5 +383,10 @@
     "type": "snippet",
     "category": "tip",
     "text": [ "Don't be too greedy.  Loot doesn't matter if you're dead." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "The floor is too hard to sleep on?  Try gathering a pile of leaves." ]
   }
 ]

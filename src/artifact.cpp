@@ -1160,12 +1160,24 @@ void it_artifact_tool::deserialize( JsonObject &jo )
     m_to_hit = jo.get_int( "m_to_hit" );
     item_tags = jo.get_tags( "item_flags" );
 
-    tool->max_charges = jo.get_long( "max_charges" );
-    tool->def_charges = jo.get_long( "def_charges" );
+    tool->max_charges = jo.get_int( "max_charges" );
+    tool->def_charges = jo.get_int( "def_charges" );
 
     tool->charges_per_use = jo.get_int( "charges_per_use" );
     tool->turns_per_charge = jo.get_int( "turns_per_charge" );
-    tool->ammo_id = ammotype( jo.get_string( "ammo" ) );
+
+    // Artifacts in older saves store ammo as string.
+    if( jo.has_array( "ammo" ) ) {
+        JsonArray atypes = jo.get_array( "ammo" );
+        for( size_t i = 0; i < atypes.size(); ++i ) {
+            tool->ammo_id.insert( ammotype( atypes.get_string( i ) ) );
+        }
+    } else if( jo.has_string( "ammo" ) ) {
+        tool->ammo_id.insert( ammotype( jo.get_string( "ammo" ) ) );
+    } else {
+        jo.throw_error( "\"ammo\" node is neither array, not string" );
+    }
+
     tool->revert_to.emplace( jo.get_string( "revert_to", "null" ) );
     if( *tool->revert_to == "null" ) {
         tool->revert_to.reset();

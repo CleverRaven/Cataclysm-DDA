@@ -128,7 +128,7 @@ static bool is_nonzero( const float x )
     return x != 0;
 }
 
-static bool is_nonzero( four_quadrants x )
+static bool is_nonzero( const four_quadrants &x )
 {
     return is_nonzero( x.max() );
 }
@@ -256,11 +256,13 @@ static void shadowcasting_runoff( const int iterations, const bool test_bresenha
     const auto end2 = std::chrono::high_resolution_clock::now();
 
     if( iterations > 1 ) {
-        const long diff1 = std::chrono::duration_cast<std::chrono::microseconds>( end1 - start1 ).count();
-        const long diff2 = std::chrono::duration_cast<std::chrono::microseconds>( end2 - start2 ).count();
-        printf( "oldCastLight() executed %d times in %ld microseconds.\n",
+        const long long diff1 = std::chrono::duration_cast<std::chrono::microseconds>
+                                ( end1 - start1 ).count();
+        const long long diff2 = std::chrono::duration_cast<std::chrono::microseconds>
+                                ( end2 - start2 ).count();
+        printf( "oldCastLight() executed %d times in %lld microseconds.\n",
                 iterations, diff1 );
-        printf( "castLight() executed %d times in %ld microseconds.\n",
+        printf( "castLight() executed %d times in %lld microseconds.\n",
                 iterations, diff2 );
     }
 
@@ -316,13 +318,15 @@ static void shadowcasting_float_quad(
     const auto end2 = std::chrono::high_resolution_clock::now();
 
     if( iterations > 1 ) {
-        const long diff1 = std::chrono::duration_cast<std::chrono::microseconds>( end1 - start1 ).count();
-        const long diff2 = std::chrono::duration_cast<std::chrono::microseconds>( end2 - start2 ).count();
+        const long long diff1 = std::chrono::duration_cast<std::chrono::microseconds>
+                                ( end1 - start1 ).count();
+        const long long diff2 = std::chrono::duration_cast<std::chrono::microseconds>
+                                ( end2 - start2 ).count();
         printf( "castLight on four_quadrants (denominator %u) "
-                "executed %d times in %ld microseconds.\n",
+                "executed %d times in %lld microseconds.\n",
                 denominator, iterations, diff1 );
         printf( "castLight on floats (denominator %u) "
-                "executed %d times in %ld microseconds.\n",
+                "executed %d times in %lld microseconds.\n",
                 denominator, iterations, diff2 );
     }
 
@@ -379,11 +383,13 @@ static void shadowcasting_3d_2d( const int iterations )
     const auto end2 = std::chrono::high_resolution_clock::now();
 
     if( iterations > 1 ) {
-        const long diff1 = std::chrono::duration_cast<std::chrono::microseconds>( end1 - start1 ).count();
-        const long diff2 = std::chrono::duration_cast<std::chrono::microseconds>( end2 - start2 ).count();
-        printf( "castLight() executed %d times in %ld microseconds.\n",
+        const long long diff1 =
+            std::chrono::duration_cast<std::chrono::microseconds>( end1 - start1 ).count();
+        const long long diff2 =
+            std::chrono::duration_cast<std::chrono::microseconds>( end2 - start2 ).count();
+        printf( "castLight() executed %d times in %lld microseconds.\n",
                 iterations, diff1 );
-        printf( "cast_zlight() executed %d times in %ld microseconds.\n",
+        printf( "cast_zlight() executed %d times in %lld microseconds.\n",
                 iterations, diff2 );
         printf( "new/old execution time ratio: %.02f.\n", static_cast<double>( diff2 ) / diff1 );
     }
@@ -414,7 +420,7 @@ struct grid_overlay {
     float default_value;
 
     // origin_offset is specified as the coordinates of the "camera" within the overlay.
-    grid_overlay( const point origin_offset, const float default_value ) {
+    grid_overlay( const point &origin_offset, const float default_value ) {
         this->offset = ORIGIN - origin_offset;
         this->default_value = default_value;
     }

@@ -57,7 +57,7 @@
 #   endif
 #endif
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 weather_type previous_weather;
 int prev_hostiles = 0;
@@ -211,7 +211,7 @@ static int get_signal_for_hordes( const centroid &centr )
 {
     //Volume in  tiles. Signal for hordes in submaps
     //modify vol using weather vol.Weather can reduce monster hearing
-    const int vol = centr.volume - weather_data( g->weather.weather ).sound_attn;
+    const int vol = centr.volume - weather::sound_attn( g->weather.weather );
     const int min_vol_cap = 60; //Hordes can't hear volume lower than this
     const int underground_div = 2; //Coefficient for volume reduction underground
     const int hordes_sig_div = SEEX; //Divider coefficient for hordes
@@ -235,7 +235,7 @@ static int get_signal_for_hordes( const centroid &centr )
 void sounds::process_sounds()
 {
     std::vector<centroid> sound_clusters = cluster_sounds( recent_sounds );
-    const int weather_vol = weather_data( g->weather.weather ).sound_attn;
+    const int weather_vol = weather::sound_attn( g->weather.weather );
     for( const auto &this_centroid : sound_clusters ) {
         // Since monsters don't go deaf ATM we can just use the weather modified volume
         // If they later get physical effects from loud noises we'll have to change this
@@ -279,7 +279,7 @@ void sounds::process_sound_markers( player *p )
 {
     bool is_deaf = p->is_deaf();
     const float volume_multiplier = p->hearing_ability();
-    const int weather_vol = weather_data( g->weather.weather ).sound_attn;
+    const int weather_vol = weather::sound_attn( g->weather.weather );
     for( const auto &sound_event_pair : sounds_since_last_turn ) {
         const tripoint &pos = sound_event_pair.first;
         const sound_event &sound = sound_event_pair.second;
@@ -369,13 +369,17 @@ void sounds::process_sound_markers( player *p )
         }
 
         // skip most movement sounds and our own sounds
-        if( pos != p->pos() && describe_sound( sound.category ) ) {
+        // unless our own sound is an alarm
+        if( ( pos != p->pos() || ( pos == p->pos() && sound.category == sound_t::alarm ) ) &&
+            describe_sound( sound.category ) ) {
             game_message_type severity = m_info;
             if( sound.category == sound_t::combat || sound.category == sound_t::alarm ) {
                 severity = m_warning;
             }
             // if we can see it, don't print a direction
-            if( p->sees( pos ) ) {
+            if( pos == p->pos() ) {
+                add_msg( severity, _( "From yourself you hear %1$s." ), description );
+            } else if( p->sees( pos ) ) {
                 add_msg( severity, _( "You hear %1$s" ), description );
             } else {
                 std::string direction = direction_name( direction_from( p->pos(), pos ) );

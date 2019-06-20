@@ -720,7 +720,7 @@ void emp_blast( const tripoint &p )
     }
     // Drain any items of their battery charge
     for( auto &it : g->m.i_at( x, y ) ) {
-        if( it.is_tool() && it.ammo_type() == ammotype( "battery" ) ) {
+        if( it.is_tool() && it.ammo_current() == "battery" ) {
             it.charges = 0;
         }
     }
@@ -841,7 +841,7 @@ void nuke( const tripoint &p )
     }
 }
 
-}
+} // namespace explosion_handler
 
 // This is only ever used to zero the cloud values, which is what makes it work.
 fragment_cloud &fragment_cloud::operator=( const float &value )

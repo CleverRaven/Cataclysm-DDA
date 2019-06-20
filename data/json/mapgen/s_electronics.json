@@ -2,26 +2,36 @@
   {
     "id": "elecsto_cameras",
     "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
     "items": [ [ "camera", 75 ], [ "camera_pro", 25 ] ]
   },
   {
     "id": "elecsto_lights",
     "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
     "items": [ [ "flashlight", 95 ], [ "wearable_light", 65 ], [ "floodlight", 10 ], [ "atomic_light", 1 ] ]
   },
   {
     "id": "elecsto_pcs",
     "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
     "items": [ [ "eink_tablet_pc", 60 ], [ "laptop", 75 ] ]
   },
   {
     "id": "elecsto_entapl",
     "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
     "items": [ [ "television", 50 ], [ "radio", 20 ], [ "stereo", 40 ] ]
   },
   {
     "id": "elecsto_persele",
     "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
     "items": [
       [ "portable_game", 65 ],
       [ "cell_phone", 30 ],
@@ -34,6 +44,8 @@
   {
     "id": "elecsto_homapl",
     "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
     "items": [
       [ "microwave", 65 ],
       [ "toaster", 65 ],
@@ -74,6 +86,8 @@
   {
     "id": "elecsto_displ",
     "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
     "items": [ [ "television", 50 ], [ "eink_tablet_pc", 50 ], [ "stereo", 30 ], [ "microwave", 40 ] ]
   },
   {

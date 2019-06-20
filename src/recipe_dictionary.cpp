@@ -38,7 +38,7 @@ void delete_if( std::map<recipe_id, recipe> &data,
     }
 }
 
-}
+} // namespace
 
 static recipe null_recipe;
 static std::set<const recipe *> null_match;
@@ -375,16 +375,20 @@ void recipe_dictionary::finalize()
         }
     }
 
-    // Cache auto-learn recipes
+    // Cache auto-learn recipes and blueprints
     for( const auto &e : recipe_dict.recipes ) {
         if( e.second.autolearn ) {
             recipe_dict.autolearn.insert( &e.second );
+        }
+        if( e.second.is_blueprint() ) {
+            recipe_dict.blueprints.insert( &e.second );
         }
     }
 }
 
 void recipe_dictionary::reset()
 {
+    recipe_dict.blueprints.clear();
     recipe_dict.autolearn.clear();
     recipe_dict.recipes.clear();
     recipe_dict.uncraft.clear();

@@ -5,7 +5,6 @@
 #include <climits>
 #include <cstddef>
 #include <array>
-#include <list>
 #include <map>
 #include <stack>
 #include <vector>
@@ -17,6 +16,7 @@
 
 #include "active_item_cache.h"
 #include "calendar.h"
+#include "colony.h"
 #include "clzones.h"
 #include "damage.h"
 #include "game_constants.h"
@@ -61,7 +61,7 @@ extern point cardinal_d[5];
 // ratio of constant rolling resistance to the part that varies with velocity
 constexpr double rolling_constant_to_variable = 33.33;
 constexpr float vmiph_per_tile = 400.0f;
-}
+} // namespace vehicles
 struct rider_data {
     Creature *psg = nullptr;
     int prt = -1;
@@ -118,11 +118,10 @@ class vehicle_stack : public item_stack
         vehicle *myorigin;
         int part_num;
     public:
-        vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int part ) :
+        vehicle_stack( colony<item> *newstack, point newloc, vehicle *neworigin, int part ) :
             item_stack( newstack ), location( newloc ), myorigin( neworigin ), part_num( part ) {}
-        std::list<item>::iterator erase( std::list<item>::iterator it ) override;
-        void push_back( const item &newitem ) override;
-        void insert_at( std::list<item>::iterator index, const item &newitem ) override;
+        iterator erase( const_iterator it ) override;
+        void insert( const item &newitem ) override;
         int count_limit() const override {
             return MAX_ITEM_IN_VEHICLE_STORAGE;
         }
@@ -384,7 +383,7 @@ struct vehicle_part {
         mutable const vpart_info *info_cache = nullptr;
 
         item base;
-        std::list<item> items; // inventory
+        colony<item> items; // inventory
 
         /** Preferred ammo type when multiple are available */
         itype_id ammo_pref = "null";
@@ -618,7 +617,6 @@ class vehicle
         int part_epower_w( int index ) const;
 
         // convert watts over time to battery energy
-        // time duration can't resolve less than 6 seconds so specify time in seconds
         int power_to_energy_bat( const int power_w, const int t_seconds ) const;
 
         // convert vhp to watts.
@@ -1254,28 +1252,23 @@ class vehicle
         /**
          * Try to add an item to part's cargo.
          *
-         * @returns False if it can't be put here (not a cargo part, adding this would violate
+         * @returns cata::nullopt if it can't be put here (not a cargo part, adding this would violate
          * the volume limit or item count limit, not all charges can fit, etc.)
+         * Otherwise, returns an iterator to the added item in the vehicle stack
          */
-        bool add_item( int part, const item &obj );
+        cata::optional<vehicle_stack::iterator> add_item( int part, const item &obj );
         /** Like the above */
-        bool add_item( vehicle_part &pt, const item &obj );
+        cata::optional<vehicle_stack::iterator> add_item( vehicle_part &pt, const item &obj );
         /**
          * Add an item counted by charges to the part's cargo.
          *
          * @returns The number of charges added.
          */
         int add_charges( int part, const item &itm );
-        /**
-         * Position specific item insertion that skips a bunch of safety checks
-         * since it should only ever be used by item processing code.
-         */
-        bool add_item_at( int part, std::list<item>::iterator index, item itm );
 
         // remove item from part's cargo
-        bool remove_item( int part, int itemdex );
-        bool remove_item( int part, const item *it );
-        std::list<item>::iterator remove_item( int part, std::list<item>::iterator it );
+        bool remove_item( int part, item *it );
+        vehicle_stack::iterator remove_item( int part, vehicle_stack::const_iterator it );
 
         vehicle_stack get_items( int part ) const;
         vehicle_stack get_items( int part );
@@ -1455,8 +1448,8 @@ class vehicle
         rl_vec2d dir_vec() const;
         // update vehicle parts as the vehicle moves
         void on_move();
-        // move the vehicle on the map
-        bool act_on_map();
+        // move the vehicle on the map. Returns updated pointer to self.
+        vehicle *act_on_map();
         // check if the vehicle should be falling or is in water
         void check_falling_or_floating();
 
@@ -1486,6 +1479,7 @@ class vehicle
         void use_washing_machine( int p );
         void use_monster_capture( int part, const tripoint &pos );
         void use_bike_rack( int part );
+        void use_harness( int part, const tripoint &pos );
 
         void interact_with( const tripoint &pos, int interact_part );
 

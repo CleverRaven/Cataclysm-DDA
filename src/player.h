@@ -83,7 +83,7 @@ struct targeting_data;
 namespace debug_menu
 {
 class mission_debug;
-}
+} // namespace debug_menu
 
 // This tries to represent both rating and
 // player's decision to respect said rating
@@ -190,7 +190,6 @@ class player : public Character
          */
 
         void normalize() override;
-
 
         bool is_player() const override {
             return true;
@@ -335,11 +334,17 @@ class player : public Character
                                       const skill_id &important_skill,
                                       const skill_id &least_important_skill,
                                       int skill_level = -1 );
+        /**Is the installation possible*/
+        bool can_install_bionics( const itype &type, player &installer, bool autodoc = false,
+                                  int skill_level = -1 );
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
         bool install_bionics( const itype &type, player &installer, bool autodoc = false,
                               int skill_level = -1 );
         void bionics_install_failure( player &installer, int difficulty, int success,
                                       float adjusted_skill );
+        /**Is The uninstallation possible*/
+        bool can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
+                                   int skill_level = -1 );
         /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
         bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                int skill_level = -1 );
@@ -352,6 +357,8 @@ class player : public Character
         /**When a monster fails the surgery*/
         void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
                                         float adjusted_skill );
+        /**Has enough anesthetic for surgery*/
+        bool has_enough_anesth( const itype *cbm );
         /** Adds the entered amount to the player's bionic power_level */
         void charge_power( int amount );
         /** Generates and handles the UI for player interaction with installed bionics */
@@ -374,7 +381,7 @@ class player : public Character
         /** Returns the bionic at a given index in my_bionics[] */
         bionic &bionic_at_index( int i );
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
-        bionic *bionic_by_invlet( long ch );
+        bionic *bionic_by_invlet( int ch );
         /** Returns player luminosity based on the brightest active item they are carrying */
         float active_light() const;
 
@@ -387,7 +394,7 @@ class player : public Character
         /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
         bool mutate_towards( const trait_id &mut );
         /** Removes a mutation, downgrading to the previous level if possible */
-        void remove_mutation( const trait_id &mut );
+        void remove_mutation( const trait_id &mut, bool silent = false );
         /** Returns true if the player has the entered mutation child flag */
         bool has_child_flag( const trait_id &mut ) const;
         /** Removes the mutation's child flag from the player's list */
@@ -461,9 +468,6 @@ class player : public Character
         void toggle_run_mode(); // Toggles running on/off.
         void toggle_crouch_mode(); // Toggles crouching on/off.
 
-        int get_shout_volume() const;
-        void shout( std::string text = "", bool order = false );
-
         // martialarts.cpp
         /** Fires all non-triggered martial arts events */
         void ma_static_effects();
@@ -494,6 +498,8 @@ class player : public Character
         void add_martialart( const matype_id &ma_id );
         /** Returns true if the player can learn the entered martial art */
         bool can_autolearn( const matype_id &ma_id ) const;
+        /** Displays a message if the player can or cannot use the martial art */
+        void martialart_use_message() const;
 
         /** Returns the to hit bonus from martial arts buffs */
         float mabuff_tohit_bonus() const;
@@ -538,14 +544,20 @@ class player : public Character
 
         /** Returns true if the player has technique-based miss recovery */
         bool has_miss_recovery_tec( const item &weap ) const;
+        /** Returns the technique used for miss recovery */
+        ma_technique get_miss_recovery_tec( const item &weap ) const;
         /** Returns true if the player has a grab breaking technique available */
         bool has_grab_break_tec() const override;
+        /** Returns the grab breaking technique if available */
+        ma_technique get_grab_break_tec() const;
         /** Returns true if the player has the leg block technique available */
         bool can_leg_block() const;
         /** Returns true if the player has the arm block technique available */
         bool can_arm_block() const;
         /** Returns true if either can_leg_block() or can_arm_block() returns true */
         bool can_limb_block() const;
+        /** Returns true if the current style forces unarmed attack techniques */
+        bool is_force_unarmed() const;
 
         // melee.cpp
         /** Returns the best item for blocking with */
@@ -573,7 +585,7 @@ class player : public Character
         dispersion_sources get_weapon_dispersion( const item &obj ) const;
 
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
-        bool handle_gun_damage( item &firing );
+        bool handle_gun_damage( item &firing, int shots_fired );
 
         /** Get maximum recoil penalty due to vehicle motion */
         double recoil_vehicle() const;
@@ -706,8 +718,6 @@ class player : public Character
 
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
         bool uncanny_dodge() override;
-        /** Returns an unoccupied, safe adjacent point. If none exists, returns player position. */
-        tripoint adjacent_tile() const;
 
         /**
          * Checks both the neighborhoods of from and to for climbable surfaces,
@@ -816,8 +826,6 @@ class player : public Character
         bool irradiate( float rads, bool bypass = false );
         /** Handles the chance for broken limbs to spontaneously heal to 1 HP */
         void mend( int rate_multiplier );
-        /** Handles player vomiting effects */
-        void vomit();
 
         /** Creates an auditory hallucination */
         void sound_hallu();
@@ -1023,27 +1031,6 @@ class player : public Character
         void mend_item( item_location &&obj, bool interactive = true );
 
         /**
-         * Calculate (but do not deduct) the number of moves required when handling (e.g. storing, drawing etc.) an item
-         * @param it Item to calculate handling cost for
-         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
-         * @param base_cost Cost due to storage type.
-         * @return cost in moves ranging from 0 to MAX_HANDLING_COST
-         */
-        int item_handling_cost( const item &it, bool penalties = true,
-                                int base_cost = INVENTORY_HANDLING_PENALTY ) const;
-
-        /**
-         * Calculate (but do not deduct) the number of moves required when storing an item in a container
-         * @param it Item to calculate storage cost for
-         * @param container Container to store item in
-         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
-         * @param base_cost Cost due to storage type.
-         * @return cost in moves ranging from 0 to MAX_HANDLING_COST
-         */
-        int item_store_cost( const item &it, const item &container, bool penalties = true,
-                             int base_cost = INVENTORY_HANDLING_PENALTY ) const;
-
-        /**
          * Calculate (but do not deduct) the number of moves required to reload an item with specified quantity of ammo
          * @param it Item to calculate reload cost for
          * @param ammo either ammo or magazine to use when reloading the item
@@ -1120,7 +1107,7 @@ class player : public Character
         bool invoke_item( item * );
         bool invoke_item( item *, const std::string & );
         /** Reassign letter. */
-        void reassign_item( item &it, long invlet );
+        void reassign_item( item &it, int invlet );
 
         /** Consume charges of a tool or comestible item, potentially destroying it in the process
          *  @param used item consuming the charges
@@ -1155,8 +1142,6 @@ class player : public Character
         /** Adds "sleep" to the player */
         void fall_asleep();
         void fall_asleep( const time_duration &duration );
-        /** Removes "sleep" and "lying_down" from the player */
-        void wake_up();
         /** Checks to see if the player is using floor items to keep warm, and return the name of one such item if so */
         std::string is_snuggling() const;
 
@@ -1215,6 +1200,8 @@ class player : public Character
         int head_cloth_encumbrance() const;
         /** Returns 1 if the player is wearing something on both feet, .5 if on one, and 0 if on neither */
         double footwear_factor() const;
+        /** Same as footwear factor, but for arms */
+        double armwear_factor() const;
         /** Returns 1 if the player is wearing an item of that count on one foot, 2 if on both, and zero if on neither */
         int shoe_type_count( const itype_id &it ) const;
         /** Returns true if the player is wearing power armor */
@@ -1254,7 +1241,7 @@ class player : public Character
         bool has_morale_to_read() const;
         /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
         void check_and_recover_morale();
-        void on_worn_item_transform( const item &it );
+        void on_worn_item_transform( const item &old_it, const item &new_it );
 
         /** Get the formatted name of the currently wielded item (if any)
          *  truncated to a number of characters. 0 means it is not truncated
@@ -1289,7 +1276,7 @@ class player : public Character
         /** Return the item position of the item with given invlet, return INT_MIN if
          * the player does not have such an item with that invlet. Don't use this on npcs.
          * Only use the invlet in the user interface, otherwise always use the item position. */
-        int invlet_to_position( long invlet ) const;
+        int invlet_to_position( int invlet ) const;
 
         /**
         * Check whether player has a bionic power armor interface.
@@ -1441,15 +1428,14 @@ class player : public Character
         ret_val<bool> can_disassemble( const item &obj, const inventory &inv ) const;
 
         bool disassemble();
-        bool disassemble( int pos );
-        bool disassemble( item &obj, int pos, bool ground, bool interactive = true );
+        bool disassemble( item_location target, bool interactive = true );
         void disassemble_all( bool one_pass ); // Disassemble all items on the tile
         void complete_disassemble();
-        void complete_disassemble( int item_pos, const tripoint &loc,
-                                   bool from_ground, const recipe &dis );
+        void complete_disassemble( item_location &target, const recipe &dis );
 
         // yet more crafting.cpp
-        const inventory &crafting_inventory(); // includes nearby items
+        const inventory &crafting_inventory( tripoint src_pos = tripoint_zero,
+                                             int radius = PICKUP_RANGE ); // includes nearby items
         void invalidate_crafting_inventory();
         comp_selection<item_comp>
         select_item_component( const std::vector<item_comp> &components,
@@ -1486,10 +1472,8 @@ class player : public Character
         action_id get_next_auto_move_direction();
         bool defer_move( const tripoint &next );
         void shift_destination( int shiftx, int shifty );
-
-        // Grab furniture / vehicle
-        void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
-        object_type get_grab_type() const;
+        void forced_dismount();
+        void dismount();
 
         // Hauling items on the ground
         void start_hauling();
@@ -1552,13 +1536,9 @@ class player : public Character
 
         time_point next_climate_control_check;
         bool last_climate_control_ret;
-        int power_level;
-        int max_power_level;
         int tank_plut;
         int reactor_plut;
         int slow_rad;
-        int oxygen;
-        int stamina;
         double recoil = MAX_RECOIL;
         std::weak_ptr<Creature> last_target;
         cata::optional<tripoint> last_target_pos;
@@ -1568,11 +1548,10 @@ class player : public Character
         int dodges_left;
         int blocks_left;
         int stim;
-        int radiation;
-        unsigned long cash;
+        int cash;
         int movecounter;
-        // Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
-        bool death_drops;
+        std::shared_ptr<monster> mounted_creature;
+        bool death_drops;// Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
         std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
         // Equalizes heat between body parts
         void temp_equalizer( body_part bp1, body_part bp2 );
@@ -1597,7 +1576,7 @@ class player : public Character
         bool manual_examine = false;
 
         std::vector <addiction> addictions;
-        cata::optional<mtype_id> starting_pet;
+        std::vector<mtype_id> starting_pets;
 
         void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false,
                                       const tripoint &loc = tripoint_zero );
@@ -1745,13 +1724,6 @@ class player : public Character
         void disarm( npc &target );
 
         /**
-         * Try to steal an item from the NPC's inventory. May result in fail attempt, when NPC not notices you,
-         * notices your steal attempt and getting angry with you, and you successfully stealing the item.
-         * @param target Target NPC to steal from
-         */
-        void steal( npc &target );
-
-        /**
          * Accessor method for weapon targeting data, used for interactive weapon aiming.
          * @return a reference to the data pointed by player's tdata member.
          */
@@ -1863,9 +1835,6 @@ class player : public Character
         time_point cached_time;
         tripoint cached_position;
 
-    protected:
-        // TODO: move this to avatar
-        object_type grab_type;
     private:
 
         struct weighted_int_list<std::string> melee_miss_reasons;
@@ -1895,15 +1864,6 @@ class player : public Character
 
         /** Amount of time the player has spent in each overmap tile. */
         std::unordered_map<point, time_duration> overmap_time;
-
-        // magic mod
-
-        // list of spells known by player
-        std::map<spell_id, spell> spellbook;
-        // the base mana a player would start with
-        int mana_base;
-        // current mana
-        int mana;
 };
 
 #endif

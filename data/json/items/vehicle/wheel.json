@@ -165,6 +165,7 @@
     "copy-from": "wheel_motorbike",
     "type": "WHEEL",
     "name": "off-road motorbike wheel",
+    "diameter": 20,
     "description": "A motorbike wheel, studded for improved off-road performance."
   },
   {

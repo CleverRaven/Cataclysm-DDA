@@ -161,6 +161,13 @@ struct mutation_branch {
 
         /** The item, if any, spawned by the mutation */
         itype_id spawn_item;
+
+        // amount of mana added or subtracted from max
+        float mana_modifier;
+        float mana_multiplier;
+        float mana_regen_multiplier;
+        // spells learned and their associated level when gaining the mutation
+        std::map<spell_id, int> spells_learned;
     private:
         std::string raw_spawn_item_message;
     public:
@@ -394,7 +401,7 @@ void load_mutation_type( JsonObject &jsobj );
 bool mutation_category_is_valid( const std::string &cat );
 bool mutation_type_exists( const std::string &id );
 std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids );
-
+std::vector<trait_id> get_mutations_in_type( const std::string &id );
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
 
 enum class mutagen_rejection {
@@ -404,9 +411,9 @@ enum class mutagen_rejection {
 };
 
 struct mutagen_attempt {
-    mutagen_attempt( bool a, long c ) : allowed( a ), charges_used( c ) {}
+    mutagen_attempt( bool a, int c ) : allowed( a ), charges_used( c ) {}
     bool allowed;
-    long charges_used;
+    int charges_used;
 };
 
 mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,

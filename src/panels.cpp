@@ -50,6 +50,7 @@
 #include "tileray.h"
 #include "type_id.h"
 
+static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
@@ -60,7 +61,7 @@ const efftype_id effect_got_checked( "got_checked" );
 // constructor
 window_panel::window_panel( std::function<void( avatar &, const catacurses::window & )>
                             draw_func, const std::string &nm, int ht, int wd, bool def_toggle,
-                            std::function<bool( void )> render_func,  bool force_draw )
+                            std::function<bool()> render_func,  bool force_draw )
 {
     draw = draw_func;
     name = nm;
@@ -579,7 +580,7 @@ static std::string temp_delta_string( const avatar &u )
     } else if( delta == 1 ) {
         temp_message = _( " (Rising)" );
     } else if( delta == 0 ) {
-        temp_message = "";
+        temp_message.clear();
     } else if( delta == -1 ) {
         temp_message = _( " (Falling)" );
     } else if( delta == -2 ) {
@@ -861,7 +862,8 @@ static int get_int_digits( const int &digits )
 
 static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_index )
 {
-    const bool is_self_aware = u.has_trait( trait_SELFAWARE );
+    const bool no_feeling = u.has_trait( trait_NOPAIN );
+    const bool is_self_aware = u.has_trait( trait_SELFAWARE ) && !no_feeling;
     static auto print_symbol_num = []( const catacurses::window & w, int num, const std::string & sym,
     const nc_color & color ) {
         while( num-- > 0 ) {
@@ -882,11 +884,13 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
             if( is_self_aware || u.has_effect( effect_got_checked ) ) {
                 limb = string_format( "=%2d%%=", mend_perc );
                 color = c_blue;
-            } else {
+            } else if( !no_feeling ) {
                 const int num = mend_perc / 20;
                 print_symbol_num( w, num, "#", c_blue );
                 print_symbol_num( w, 5 - num, "=", c_blue );
                 return;
+            } else {
+                color = c_blue;
             }
         }
 
@@ -894,10 +898,17 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
         return;
     }
 
-    const auto &hp = get_hp_bar( u.hp_cur[limb_index], u.hp_max[limb_index] );
+    std::pair<std::string, nc_color> hp = get_hp_bar( u.hp_cur[limb_index], u.hp_max[limb_index] );
 
     if( is_self_aware || u.has_effect( effect_got_checked ) ) {
         wprintz( w, hp.second, "%3d  ", u.hp_cur[limb_index] );
+    } else if( no_feeling ) {
+        if( u.hp_cur[limb_index] < u.hp_max[limb_index] / 2 ) {
+            hp = std::make_pair( string_format( " %s", _( "Bad" ) ), c_red );
+        } else {
+            hp = std::make_pair( string_format( " %s", _( "Good" ) ), c_green );
+        }
+        wprintz( w, hp.second, hp.first );
     } else {
         wprintz( w, hp.second, hp.first );
 
@@ -1126,13 +1137,12 @@ static void draw_limb( avatar &u, const catacurses::window &w )
             nx = 19;
         }
 
-        const std::string str = body_part_hp_bar_ui_text( part[i] );
+        std::string str = body_part_hp_bar_ui_text( part[i] );
         wmove( w, ny, nx );
-        if( i == 0 ) {
-            wprintz( w, u.limb_color( part[i], true, true, true ), str + " :" );
-        } else {
-            wprintz( w, u.limb_color( part[i], true, true, true ), str + ":" );
+        while( str.length() < 5 ) {
+            str = str + " ";
         }
+        wprintz( w, u.limb_color( part[i], true, true, true ), str + ":" );
     }
     wrefresh( w );
 }
@@ -1212,8 +1222,8 @@ static void draw_env1( const avatar &u, const catacurses::window &w )
         mvwprintz( w, 1, 1, c_light_gray, _( "Sky  : Underground" ) );
     } else {
         mvwprintz( w, 1, 1, c_light_gray, _( "Sky  :" ) );
-        wprintz( w, weather_data( g->weather.weather ).color, " %s",
-                 weather_data( g->weather.weather ).name );
+        const weather_datum wdata = weather_data( g->weather.weather );
+        wprintz( w, wdata.color, " %s", wdata.name );
     }
     // display lighting
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
@@ -1294,8 +1304,8 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     if( g->get_levz() < 0 ) {
         mvwprintz( w, 3, 8, c_light_gray, _( "Underground" ) );
     } else {
-        mvwprintz( w, 3, 8, weather_data( g->weather.weather ).color,
-                   weather_data( g->weather.weather ).name );
+        const weather_datum wdata = weather_data( g->weather.weather );
+        mvwprintz( w, 3, 8, wdata.color, wdata.name );
     }
     // display lighting
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
@@ -1603,9 +1613,9 @@ static void draw_weather_classic( avatar &, const catacurses::window &w )
     if( g->get_levz() < 0 ) {
         mvwprintz( w, 0, 0, c_light_gray, _( "Underground" ) );
     } else {
+        const weather_datum wdata = weather_data( g->weather.weather );
         mvwprintz( w, 0, 0, c_light_gray, _( "Weather :" ) );
-        mvwprintz( w, 0, 10, weather_data( g->weather.weather ).color,
-                   weather_data( g->weather.weather ).name );
+        mvwprintz( w, 0, 10, wdata.color, wdata.name );
     }
     mvwprintz( w, 0, 31, c_light_gray, _( "Moon :" ) );
     nc_color clr = c_white;
@@ -1702,8 +1712,11 @@ static void draw_mana( const player &u, const catacurses::window &w )
     werase( w );
 
     auto mana_pair = mana_stat( u );
-    mvwprintz( w, 0, getmaxx( w ) - 10, c_light_gray, "Mana" );
-    mvwprintz( w, 0, getmaxx( w ) - 5, mana_pair.first, mana_pair.second );
+    const std::string mana_string = string_format( "%6s %5s %10s %5s", _( "Mana" ),
+                                    colorize( mana_pair.second, mana_pair.first ), _( "Max Mana" ),
+                                    colorize( to_string( u.magic.max_mana( u ) ), c_light_blue ) );
+    nc_color gray = c_light_gray;
+    print_colored_text( w, 0, getmaxx( w ) - mana_string.size(), gray, gray, mana_string );
 
     wrefresh( w );
 }
@@ -1964,32 +1977,73 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
     ctxt.register_action( "TOGGLE_PANEL" );
 
     const int column_width = 43; // how far apart the columns are
-    size_t max_index;
+    size_t max_index = 0;
     int counter = 0;
     bool selected = false;
     size_t source_index = 0;
     size_t target_index = 0;
-    std::string saved_name;
 
     bool redraw = true;
     bool exit = false;
+    // map of row the panel is on vs index
+    // panels not renderable due to game configuration will not be in this map
+    std::map<size_t, size_t> row_indices;
     while( !exit ) {
         auto &panels = layouts[current_layout_id];
-        column == 0 ? max_index = panels.size() : max_index = layouts.size();
 
         if( redraw ) {
             redraw = false;
             werase( w );
             static const std::string title = _( "SIDEBAR OPTIONS" );
             decorate_panel( title, w );
+            // clear the panel list
+            for( int i = 1; i <= 13; i++ ) {
+                for( int j = 1; j <= 12; j++ ) {
+                    mvwputch( w, i, j, c_black, ' ' );
+                }
+            }
+            // the row that the panel name is printed on
+            int row = 1;
+            row_indices.clear();
             for( size_t i = 0; i < panels.size(); i++ ) {
+                if( panels[i].render() ) {
+                    row_indices.emplace( row - 1, i );
+                    row++;
+                } else if( !panels[i].render && column == 0 ) {
+                    if( selected && index == i ) {
+                        row++;
+                    }
+                }
+            }
 
-                mvwprintz( w, i + 1, 4,
-                           panels[i].toggle ?
-                           source_index == i && selected ? c_yellow : c_white : c_dark_gray,
-                           selected && index - 1 == i ? " %s" : "%s",
-                           selected && index - 1 == i ? _( saved_name ) : _( panels[i].get_name() ) );
+            max_index = column == 0 ? row_indices.size() : layouts.size();
+            int vertical_offset = 0;
+            int selected_offset = 0;
+            size_t modified_index = row_indices[index - 1];
 
+            for( std::pair<size_t, size_t> row_indx : row_indices ) {
+                nc_color toggle_color = panels[row_indx.second].toggle ? c_white : c_dark_gray;
+                std::string name = _( panels[row_indx.second].get_name() );
+                if( !selected ) {
+                    mvwprintz( w, row_indx.first + 1, 4, toggle_color, name );
+                } else {
+                    if( modified_index < row_indx.first ) {
+                        vertical_offset = 2;
+                    } else if( modified_index == row_indx.first && row_indx.first < source_index ) {
+                        vertical_offset = 2;
+                    } else {
+                        vertical_offset = 1;
+                    }
+                    mvwprintz( w, row_indx.first + vertical_offset, 4, toggle_color, name );
+                    if( source_index == row_indx.first ) {
+                        if( modified_index < source_index ) {
+                            selected_offset = 0;
+                        } else {
+                            selected_offset = 1;
+                        }
+                        mvwprintz( w, index + selected_offset, 5, c_yellow, name );
+                    }
+                }
             }
             int i = 1;
             for( const auto &layout : layouts ) {
@@ -1997,7 +2051,7 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
                            _( layout.first ) );
                 i++;
             }
-            mvwprintz( w, index, 1 + ( column_width * column ), c_yellow, ">>" );
+            mvwprintz( w, index + selected_offset, 1 + ( column_width * column ), c_yellow, ">>" );
             mvwvline( w, 1, 13, 0, 13 );
             mvwvline( w, 1, 43, 0, 13 );
             mvwprintz( w, 1, 15, c_light_green, trunc_ellipse( ctxt.press_x( "TOGGLE_PANEL" ), 27 ) + ":" );
@@ -2029,14 +2083,13 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
             // source window from the swap
             if( counter == 1 ) {
                 // saving win1 index
-                source_index = index - 1;
+                source_index = row_indices[index - 1];
                 selected = true;
-                saved_name = panels[source_index].get_name();
             }
             // dest window for the swap
             if( counter == 2 ) {
                 // saving win2 index
-                target_index = index - 1;
+                target_index = row_indices[index - 1];
 
                 int distance = target_index - source_index;
                 size_t step_dir = distance > 0 ? 1 : -1;
@@ -2081,7 +2134,7 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
             redraw = true;
         }
         if( action == "TOGGLE_PANEL" && column == 0 ) {
-            panels[index - 1].toggle = !panels[index - 1].toggle;
+            panels[row_indices[index - 1]].toggle = !panels[row_indices[index - 1]].toggle;
             wrefresh( g->w_terrain );
             g->draw_panels( column, index, true );
             return;

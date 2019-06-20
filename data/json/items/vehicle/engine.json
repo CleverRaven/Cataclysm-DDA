@@ -60,6 +60,18 @@
     "faults": [ "fault_engine_starter" ]
   },
   {
+    "id": "1cyl_combustion_large",
+    "copy-from": "engine_gasoline",
+    "type": "ENGINE",
+    "name": "large 1-cylinder engine",
+    "description": "A powerful high-compression single-cylinder 4-stroke combustion engine.",
+    "weight": 40000,
+    "volume": 8,
+    "price": 10000,
+    "displacement": 55,
+    "faults": [ "fault_engine_starter" ]
+  },
+  {
     "id": "1cyl_combustion_small",
     "copy-from": "engine_gasoline",
     "type": "ENGINE",

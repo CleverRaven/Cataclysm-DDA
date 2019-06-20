@@ -389,11 +389,9 @@
     "comfort": 5,
     "floor_bedding_warmth": 1000,
     "required_str": -1,
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 12 }, { "item": "blanket", "count": 2 }, { "item": "nail", "charges": [ 8, 10 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "mattress", "count": 1 } ], "furn_set": "f_bed_frame" },
     "max_volume": 4000,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -403,8 +401,58 @@
         { "item": "2x4", "count": [ 5, 8 ] },
         { "item": "nail", "charges": [ 6, 8 ] },
         { "item": "splinter", "count": [ 3, 6 ] },
-        { "item": "rag", "count": [ 40, 55 ] }
+        { "item": "rag", "count": [ 40, 55 ] },
+        { "item": "scrap", "count": [ 10, 20 ] }
       ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bed_frame",
+    "name": "bed frame",
+    "symbol": "#",
+    "description": "This is an empty bed frame.  With a mattress on it, it would be a nice place to sleep.  Sleeping on it right now wouldn't be great.",
+    "color": "brown",
+    "move_cost_mod": 4,
+    "coverage": 40,
+    "required_str": 5,
+    "deconstruct": { "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 8, 10 ] } ] },
+    "max_volume": 4000,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "whack.",
+      "items": [
+        { "item": "2x4", "count": [ 5, 8 ] },
+        { "item": "nail", "charges": [ 6, 8 ] },
+        { "item": "splinter", "count": [ 3, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_floor_mattress",
+    "name": "mattress",
+    "description": "A comfortable mattress has been tossed on the floor for sleeping here.  It's not quite as comfy as a real bed, but it's pretty close.",
+    "symbol": "0",
+    "color": "magenta",
+    "move_cost_mod": 3,
+    "coverage": 40,
+    "comfort": 4,
+    "floor_bedding_warmth": 800,
+    "required_str": 7,
+    "deployed_item": "mattress",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "SHORT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE" ],
+    "deconstruct": { "items": [ { "item": "mattress", "count": 1 } ] },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "rrrrip!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "rag", "count": [ 40, 55 ] } ]
     }
   },
   {
@@ -482,6 +530,29 @@
         { "item": "straw_pile", "count": [ 7, 8 ] },
         { "item": "splinter", "count": [ 1, 2 ] }
       ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_leaves_pile",
+    "name": "pile of leaves",
+    "symbol": "#",
+    "description": "A sizable pile of leaves.  You could sleep on it if you don't care about comfort or warmth.",
+    "color": "brown",
+    "move_cost_mod": 3,
+    "coverage": 35,
+    "comfort": 1,
+    "floor_bedding_warmth": 50,
+    "required_str": -1,
+    "deconstruct": { "items": [ { "item": "withered", "count": 50 } ] },
+    "max_volume": 4000,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "withered", "count": [ 45, 50 ] } ]
     }
   },
   {
@@ -621,13 +692,15 @@
     "id": "f_bathtub",
     "name": "bathtub",
     "symbol": "~",
-    "description": "You could lay in and take a soothing bath.  Only if water was running.",
+    "description": "You could lay in and take a soothing bath, if there were running water.  The plug is intact, so you could use it to store liquids.",
     "color": "white",
     "move_cost_mod": 2,
     "coverage": 30,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
     "max_volume": 800,
+    "examine_action": "keg",
+    "keg_capacity": 600,
     "bash": {
       "str_min": 12,
       "str_max": 50,
@@ -1071,7 +1144,14 @@
     "required_str": -1,
     "max_volume": 4000,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
-    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "rag", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": 4 },
+        { "item": "rag", "count": 4 },
+        { "item": "wood_panel", "count": 1 },
+        { "item": "nail", "charges": [ 6, 10 ] }
+      ]
+    },
     "bash": {
       "str_min": 12,
       "str_max": 50,
@@ -1096,7 +1176,9 @@
     "coverage": 60,
     "required_str": 10,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
-    "deconstruct": { "items": [ { "item": "2x4", "count": 6 }, { "item": "nail", "charges": [ 6, 8 ] } ] },
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 10 ] } ]
+    },
     "max_volume": 4000,
     "bash": {
       "str_min": 12,
@@ -1112,7 +1194,7 @@
     "type": "furniture",
     "id": "f_counter_gate_c",
     "name": "closed counter gate",
-    "description": "A commercial quality swining door made of wood that allows passage behind counters.",
+    "description": "A commercial quality swinging door made of wood that allows passage behind counters.",
     "symbol": "+",
     "color": "blue",
     "move_cost": 3,
@@ -1122,7 +1204,7 @@
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DOOR", "ORGANIC" ],
     "connects_to": "COUNTER",
     "open": "f_counter_gate_o",
-    "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "2x4", "count": 6 }, { "item": "nail", "charges": 10 } ] },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": 10 } ] },
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -1144,7 +1226,7 @@
     "connects_to": "COUNTER",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "ROAD", "ORGANIC" ],
     "close": "f_counter_gate_c",
-    "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "2x4", "count": 6 }, { "item": "nail", "charges": 10 } ] },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": 10 } ] },
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -1256,7 +1338,9 @@
     "coverage": 70,
     "required_str": 8,
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
-    "deconstruct": { "items": [ { "item": "2x4", "count": 6 }, { "item": "nail", "charges": [ 6, 8 ] } ] },
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 6 }, { "item": "wood_panel", "count": [ 0, 1 ] }, { "item": "nail", "charges": [ 6, 8 ] } ]
+    },
     "max_volume": 8000,
     "bash": {
       "str_min": 12,
@@ -1342,7 +1426,13 @@
     "coverage": 80,
     "required_str": 9,
     "flags": [ "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR" ],
-    "deconstruct": { "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 12, 16 ] } ] },
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": 12 },
+        { "item": "wood_panel", "count": [ 0, 1 ] },
+        { "item": "nail", "charges": [ 12, 16 ] }
+      ]
+    },
     "max_volume": 8000,
     "bash": {
       "str_min": 6,
@@ -1585,7 +1675,12 @@
       "FLAT_SURF"
     ],
     "deconstruct": {
-      "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 12, 24 ] }, { "item": "rag", "count": [ 15, 20 ] } ]
+      "items": [
+        { "item": "2x4", "count": 12 },
+        { "item": "nail", "charges": [ 12, 24 ] },
+        { "item": "wood_panel", "count": [ 0, 1 ] },
+        { "item": "rag", "count": [ 15, 20 ] }
+      ]
     },
     "max_volume": 3500,
     "bash": {
@@ -1613,7 +1708,12 @@
     "required_str": 12,
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "SHORT" ],
     "deconstruct": {
-      "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 12, 24 ] }, { "item": "rag", "count": [ 15, 20 ] } ]
+      "items": [
+        { "item": "2x4", "count": 12 },
+        { "item": "nail", "charges": [ 12, 24 ] },
+        { "item": "wood_panel", "count": [ 0, 1 ] },
+        { "item": "rag", "count": [ 15, 20 ] }
+      ]
     },
     "max_volume": 3500,
     "bash": {
@@ -1651,7 +1751,9 @@
       "SHORT"
     ],
     "examine_action": "locked_object",
-    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 6, 10 ] } ]
+    },
     "max_volume": 4000,
     "bash": {
       "str_min": 12,
@@ -1672,7 +1774,9 @@
     "coverage": 60,
     "required_str": 10,
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "SHORT" ],
-    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": [ 0, 1 ] }, { "item": "nail", "charges": [ 6, 10 ] } ]
+    },
     "max_volume": 4000,
     "bash": {
       "str_min": 12,
@@ -1686,6 +1790,7 @@
     "type": "furniture",
     "id": "f_canvas_wall",
     "name": "canvas wall",
+    "description": "A wall made of stretched, waterproof cloth.",
     "symbol": "#",
     "color": "blue",
     "move_cost_mod": -1,
@@ -1705,6 +1810,7 @@
     "type": "furniture",
     "id": "f_large_canvas_wall",
     "name": "canvas wall",
+    "description": "A wall made of stretched, heavy-duty, waterproof cloth.",
     "symbol": "#",
     "color": "blue",
     "move_cost_mod": -1,
@@ -1989,7 +2095,7 @@
     "type": "furniture",
     "id": "f_flower_fungal",
     "name": "fungal flower",
-    "description": "This flower has been overgrown by grey, sinewy tendrils of fungus, and the color has leached from its petals and stem.  It gently sways of its own volition.",
+    "description": "This flower has been overgrown by gray, sinewy tendrils of fungus, and the color has leached from its petals and stem.  It gently sways of its own volition.",
     "symbol": "f",
     "color": "dark_gray",
     "move_cost_mod": 1,
@@ -2041,7 +2147,11 @@
       "str_max": 200,
       "sound": "screeching metal!",
       "sound_fail": "whump!",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 5 ] }, { "item": "scrap", "count": [ 1, 5 ] } ]
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -2062,7 +2172,11 @@
       "str_max": 200,
       "sound": "screeching metal!",
       "sound_fail": "whump!",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 5 ] }, { "item": "scrap", "count": [ 1, 5 ] } ]
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -2083,7 +2197,11 @@
       "str_max": 200,
       "sound": "screeching metal!",
       "sound_fail": "whump!",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 5 ] }, { "item": "scrap", "count": [ 1, 5 ] } ]
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -2103,7 +2221,11 @@
       "str_max": 200,
       "sound": "screeching metal!",
       "sound_fail": "whump!",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 5 ] }, { "item": "scrap", "count": [ 1, 5 ] } ]
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -2124,7 +2246,11 @@
       "str_max": 200,
       "sound": "screeching metal!",
       "sound_fail": "whump!",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 5 ] }, { "item": "scrap", "count": [ 1, 5 ] } ]
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -2145,7 +2271,11 @@
       "str_max": 200,
       "sound": "screeching metal!",
       "sound_fail": "whump!",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 5 ] }, { "item": "scrap", "count": [ 1, 5 ] } ]
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -2160,8 +2290,7 @@
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEED" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 1, "str_max": 5, "sound": "crunch.", "sound_fail": "whish." },
-    "plant_transform": "f_plant_seedling",
-    "plant_base": "f_null"
+    "plant_data": { "transform": "f_plant_seedling", "base": "f_null" }
   },
   {
     "type": "furniture",
@@ -2175,8 +2304,7 @@
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEEDLING" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." },
-    "plant_transform": "f_plant_mature",
-    "plant_base": "f_null"
+    "plant_data": { "transform": "f_plant_mature", "base": "f_null" }
   },
   {
     "type": "furniture",
@@ -2190,8 +2318,7 @@
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 3, "str_max": 8, "sound": "crunch.", "sound_fail": "whish." },
-    "plant_transform": "f_plant_harvest",
-    "plant_base": "f_null"
+    "plant_data": { "transform": "f_plant_harvest", "base": "f_null" }
   },
   {
     "type": "furniture",
@@ -2205,20 +2332,18 @@
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 4, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." },
-    "plant_transform": "f_null",
-    "plant_base": "f_null"
+    "plant_data": { "transform": "f_null", "base": "f_null" }
   },
   {
     "type": "furniture",
     "id": "f_planter",
     "name": "planter",
-    "description": "A garden planter full of soil and slatted to allow adequate drainage. Can be used for planting crops.",
+    "description": "A garden planter full of soil and slatted to allow adequate drainage.  Can be used for planting crops.",
     "symbol": "^",
     "color": "green",
     "move_cost_mod": 1,
     "required_str": 10,
     "looks_like": "t_dirtmound",
-    "plant_transform": "f_planter_seed",
     "flags": [ "TRANSPARENT", "PLANTABLE", "FLAT", "MOUNTABLE" ],
     "deconstruct": {
       "items": [
@@ -2240,13 +2365,14 @@
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
+    "plant_data": { "transform": "f_planter_seed" },
     "examine_action": "dirtmound"
   },
   {
     "type": "furniture",
     "id": "f_planter_seed",
     "name": "planter with seed",
-    "description": "A garden planter full of soil and slatted to allow adequate drainage. Can be used for planting crops. This one contains a planted seed",
+    "description": "A garden planter full of soil and slatted to allow adequate drainage.  Can be used for planting crops.  This one contains a planted seed",
     "symbol": "^",
     "color": "brown",
     "looks_like": "f_plant_seed",
@@ -2274,14 +2400,13 @@
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
-    "plant_transform": "f_planter_seedling",
-    "plant_base": "f_planter"
+    "plant_data": { "transform": "f_planter_seedling", "base": "f_planter" }
   },
   {
     "type": "furniture",
     "id": "f_planter_seedling",
     "name": "planter with seedling",
-    "description": "A garden planter full of soil and slatted to allow adequate drainage. Can be used for planting crops. This one contains a planted seedling",
+    "description": "A garden planter full of soil and slatted to allow adequate drainage.  Can be used for planting crops.  This one contains a planted seedling",
     "symbol": "^",
     "color": "green",
     "looks_like": "f_plant_seedling",
@@ -2309,14 +2434,13 @@
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
-    "plant_transform": "f_planter_mature",
-    "plant_base": "f_planter"
+    "plant_data": { "transform": "f_planter_mature", "base": "f_planter" }
   },
   {
     "type": "furniture",
     "id": "f_planter_mature",
     "name": "planter with mature plant",
-    "description": "A garden planter full of soil and slatted to allow adequate drainage. Can be used for planting crops. This one contains a planted seed",
+    "description": "A garden planter full of soil and slatted to allow adequate drainage.  Can be used for planting crops.  This one contains a planted seed",
     "symbol": "#",
     "color": "green",
     "looks_like": "f_plant_mature",
@@ -2344,14 +2468,13 @@
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
-    "plant_transform": "f_planter_harvest",
-    "plant_base": "f_planter"
+    "plant_data": { "transform": "f_planter_harvest", "base": "f_planter" }
   },
   {
     "type": "furniture",
     "id": "f_planter_harvest",
     "name": "planter with harvestable plant",
-    "description": "A garden planter full of soil and slatted to allow adequate drainage. Can be used for planting crops. This one contains a planted seed",
+    "description": "A garden planter full of soil and slatted to allow adequate drainage.  Can be used for planting crops.  This one contains a planted seed",
     "symbol": "#",
     "color": "light_green",
     "looks_like": "f_plant_harvest",
@@ -2379,8 +2502,7 @@
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
-    "plant_transform": "f_planter",
-    "plant_base": "f_planter"
+    "plant_data": { "transform": "f_planter", "base": "f_planter" }
   },
   {
     "type": "furniture",
@@ -2603,8 +2725,8 @@
   {
     "type": "furniture",
     "id": "f_small_satelitte_dish",
-    "name": "satelitte dish",
-    "description": "A small satelitte dish for home entertainment.",
+    "name": "satellite dish",
+    "description": "A small satellite dish for home entertainment.",
     "symbol": "(",
     "color": "light_gray",
     "move_cost_mod": -2,
@@ -2762,18 +2884,26 @@
     "type": "furniture",
     "id": "f_bluebell",
     "name": "bluebell",
+    "description": "A common bluebell flower.  Pretty.",
     "symbol": "f",
     "color": "blue",
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
-    "examine_action": "flower_bluebell",
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "seed_flower", "base_num": [ 1, 2 ] } ]
+      }
+    ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
     "type": "furniture",
     "id": "f_dahlia",
     "name": "dahlia",
+    "description": "A puffy flower with many tightly layered petals.",
     "symbol": "f",
     "color": "magenta",
     "move_cost_mod": 0,
@@ -2793,7 +2923,12 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "datura_seed", "base_num": [ 2, 6 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "datura_seed", "base_num": [ 2, 6 ] }, { "drop": "withered", "base_num": [ 1, 2 ] } ]
+      }
+    ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -2813,6 +2948,7 @@
     "type": "furniture",
     "id": "f_dandelion",
     "name": "dandelion",
+    "description": "A common weed with a yellow flower.  Produces seeds that get carried on the wind by thin, gray filaments.",
     "symbol": "f",
     "color": "yellow",
     "move_cost_mod": 0,
@@ -2826,38 +2962,54 @@
     "type": "furniture",
     "id": "f_chamomile",
     "name": "chamomile",
-    "description": "Ahh, soothing chamomile tea.  These particular plants doesn't seem very healthy, though.",
+    "description": "Ahh, soothing chamomile tea.",
     "symbol": "f",
     "color": "white",
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn",
+    "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "entries": [ { "drop": "chamomile", "base_num": [ 1, 2 ] } ] } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
     "type": "furniture",
     "id": "f_flower_tulip",
     "name": "tulip",
+    "description": "A bright, colorful flower with petals forming a small cup at its top.",
     "symbol": "f",
     "looks_like": "f_mutpoppy",
     "color": "magenta",
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
-    "examine_action": "flower_tulip",
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "seed_flower", "base_num": [ 1, 2 ] } ]
+      }
+    ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
     "type": "furniture",
     "id": "f_flower_spurge",
     "name": "spurge flower",
+    "description": "A yellow-green flower that grows in densely packed bushes.",
     "symbol": "f",
     "looks_like": "f_dandelion",
     "color": "light_green",
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
-    "examine_action": "flower_spurge",
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "seed_flower", "base_num": [ 1, 2 ] } ]
+      }
+    ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -2884,6 +3036,7 @@
     "type": "furniture",
     "id": "f_black_eyed_susan",
     "name": "black eyed susan",
+    "description": "A yellow flower that has a dark ball in the middle.  Sometimes known as an oxe-eye daisy.",
     "looks_like": "f_dandelion",
     "symbol": "f",
     "color": "yellow",
@@ -2891,6 +3044,12 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "seed_flower", "base_num": [ 1, 2 ] } ]
+      }
+    ],
     "//": "Add flower and bud spawns once useful.",
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
@@ -2898,6 +3057,7 @@
     "type": "furniture",
     "id": "f_lily",
     "name": "lily",
+    "description": "A pretty flower that comes in a variety of colors.",
     "looks_like": "f_flower_tulip",
     "symbol": "f",
     "color": "magenta",
@@ -2905,6 +3065,12 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
     "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "seed_flower", "base_num": [ 1, 2 ] } ]
+      }
+    ],
     "//": "Add flower and bud spawns once useful.",
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
@@ -2912,6 +3078,7 @@
     "type": "furniture",
     "id": "f_lotus",
     "name": "lotus",
+    "description": "A lovely flower that grows on the surface of bodies of freshwater.  Traditionally connected with many Eastern cultures.",
     "looks_like": "f_lily",
     "symbol": "f",
     "color": "yellow",
@@ -2919,6 +3086,12 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "ORGANIC" ],
     "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "seed_flower", "base_num": [ 1, 2 ] } ]
+      }
+    ],
     "//": "Add flower and bud spawns once useful.",
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
@@ -2926,6 +3099,7 @@
     "type": "furniture",
     "id": "f_sunflower",
     "name": "sunflower",
+    "description": "A tall, wide-headed flower with a large dark center.  Produces many nutritious seeds.",
     "looks_like": "f_dandelion",
     "symbol": "f",
     "color": "yellow",
@@ -2946,6 +3120,8 @@
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn",
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] } ] } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -3167,6 +3343,7 @@
     "type": "furniture",
     "id": "f_ergometer",
     "name": "ergometer",
+    "description": "An rowing exercise machine.  Without power, it can no longer help you with your workout.  Might have useful electronic parts in it.",
     "symbol": "5",
     "color": "dark_gray",
     "move_cost_mod": 2,
@@ -3307,7 +3484,9 @@
   },
   {
     "type": "furniture",
-    "id": "f_floor_canvas",
+    "id": "f_punching_bag",
+    "aliases": "f_floor_canvas",
+    "looks_like": "f_floor_canvas",
     "name": "heavy punching bag",
     "description": "Punch Punch!  Exercise those arms!  Main selling point: it doesn't fight back!",
     "symbol": "0",
@@ -3332,6 +3511,7 @@
     "type": "furniture",
     "id": "f_canvas_floor",
     "name": "canvas floor",
+    "description": "Flooring made out of stretched, waterproof cloth.  Helps keep the dirt out of the tent.",
     "symbol": "#",
     "color": "white",
     "move_cost_mod": 0,
@@ -3648,6 +3828,7 @@
     "type": "furniture",
     "id": "f_ladder",
     "name": "stepladder",
+    "description": "A short, foldable ladder.  Can help you climb to a rooftop, or maybe slow something down.",
     "symbol": "H",
     "color": "brown",
     "move_cost_mod": 3,
@@ -3734,6 +3915,7 @@
     "type": "furniture",
     "id": "f_slab",
     "name": "stone slab",
+    "description": "A flat slab of heavy stone.",
     "symbol": "n",
     "color": "dark_gray",
     "move_cost_mod": 2,
@@ -4028,7 +4210,7 @@
     "name": "camp chair",
     "symbol": "#",
     "looks_like": "f_chair",
-    "description": "Sit down, have a drink. It can folded for easy transportation.",
+    "description": "Sit down, have a drink.  It can folded for easy transportation.",
     "color": "brown",
     "move_cost_mod": 1,
     "coverage": 35,
@@ -4582,10 +4764,11 @@
     "symbol": "0",
     "bgcolor": "white",
     "move_cost_mod": -1,
-    "coverage": 40,
+    "coverage": 60,
     "required_str": -1,
     "max_volume": 4000,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "BLOCKSDOOR" ],
+    "examine_action": "fireplace",
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
@@ -5427,7 +5610,7 @@
     "type": "furniture",
     "id": "f_sample_freezer",
     "name": "sample freezer",
-    "description": "When cold just isn't cold enough, you have this extreme deep freeze.  This will store stuff at -80 degrees celsius.  Don't lick the metal on the inside.",
+    "description": "When cold just isn't cold enough, you have this extreme deep freeze.  This will store stuff at -80 degrees Celsius.  Don't lick the metal on the inside.",
     "symbol": "[",
     "bgcolor": "white",
     "move_cost_mod": 2,
@@ -6415,5 +6598,88 @@
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "EASY_DECONSTRUCT" ],
     "examine_action": "workbench",
     "workbench": { "multiplier": 0.7, "mass": 1000000, "volume": "1000L" }
+  },
+  {
+    "id": "f_tatami",
+    "type": "furniture",
+    "name": "tatami mat",
+    "description": "A tatami is a type of mat used as a flooring material in traditional Japanese-style rooms.",
+    "symbol": "#",
+    "color": [ "brown" ],
+    "move_cost_mod": 0,
+    "comfort": 2,
+    "floor_bedding_warmth": -1500,
+    "max_volume": 4000,
+    "required_str": 7,
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "crunch.",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "straw_pile", "count": [ 5, 8 ] },
+        { "item": "rag", "count": [ 2, 4 ] },
+        { "item": "string_36", "count": [ 1, 2 ] }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC" ]
+  },
+  {
+    "id": "f_bitts",
+    "type": "furniture",
+    "name": "bitts",
+    "description": "Paired vertical iron posts mounted on a wharf, pier or quay.  They are used to secure mooring lines, ropes, hawsers, or cables.",
+    "symbol": "B",
+    "color": [ "light_gray" ],
+    "move_cost_mod": 2,
+    "coverage": 30,
+    "required_str": 0,
+    "bash": {
+      "str_min": 80,
+      "str_max": 200,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "steel_chunk", "count": [ 5, 10 ] } ]
+    },
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_speaker_cabinet",
+    "name": "speaker cabinet",
+    "description": "A cabinet loaded with 12-inch speakers, intended to help make various things loud.  It can't serve its original purpose these days, but it could be disassembled for various electronic parts.",
+    "symbol": "7",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "max_volume": 15,
+    "required_str": 7,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "e_scrap", "count": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] },
+        { "item": "wood_panel", "count": 1 },
+        { "item": "2x4", "count": 4 },
+        { "item": "nail", "charges": [ 8, 10 ] },
+        { "item": "cable", "charges": [ 3, 4 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 20,
+      "sound": "smash!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "splinter", "count": [ 0, 6 ] },
+        { "item": "scrap", "count": [ 0, 3 ] },
+        { "item": "2x4", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 1, 3 ] },
+        { "item": "e_scrap", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 0, 1 ] }
+      ]
+    }
   }
 ]

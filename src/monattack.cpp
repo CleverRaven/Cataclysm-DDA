@@ -30,6 +30,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "martialarts.h"
 #include "messages.h"
 #include "mondefense.h"
 #include "monster.h"
@@ -251,7 +252,7 @@ bool mattack::eat_crop( monster *z )
 {
     for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
         if( g->m.has_flag( "PLANT", p ) && one_in( 4 ) ) {
-            g->m.furn_set( p, furn_str_id( g->m.furn( p )->plant_base ) );
+            g->m.furn_set( p, furn_str_id( g->m.furn( p )->plant->base ) );
             g->m.i_clear( p );
             return true;
         }
@@ -334,14 +335,15 @@ bool mattack::antqueen( monster *z )
         if( g->u.sees( *z ) ) {
             add_msg( m_warning, _( "The %s tends nearby eggs, and they hatch!" ), z->name() );
         }
-        for( auto &i : egg_points ) {
-            auto eggs = g->m.i_at( i );
-            for( size_t j = 0; j < eggs.size(); j++ ) {
-                if( eggs[j].typeId() != "ant_egg" ) {
+        for( const tripoint &egg_pos : egg_points ) {
+            map_stack items = g->m.i_at( egg_pos );
+            for( map_stack::iterator it = items.begin(); it != items.end(); ) {
+                if( it->typeId() != "ant_egg" ) {
+                    ++it;
                     continue;
                 }
-                g->m.i_rem( i, j );
-                monster tmp( z->type->id == mon_ant_acid_queen ? mon_ant_acid_larva : mon_ant_larva, i );
+                it = items.erase( it );
+                monster tmp( z->type->id == mon_ant_acid_queen ? mon_ant_acid_larva : mon_ant_larva, egg_pos );
                 tmp.make_ally( *z );
                 g->add_zombie( tmp );
                 break; // Max one hatch per tile
@@ -375,8 +377,7 @@ bool mattack::shriek_alert( monster *z )
 
     Creature *target = z->attack_target();
 
-    int dist;
-    if( target == nullptr || ( dist = rl_dist( z->pos(), target->pos() ) ) > 15 ||
+    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 15 ||
         !z->sees( *target ) ) {
         return false;
     }
@@ -1053,7 +1054,7 @@ find_empty_neighbors( const Creature &c )
   */
 static size_t get_random_index( const size_t size )
 {
-    return static_cast<size_t>( rng( 0, static_cast<long>( size - 1 ) ) );
+    return static_cast<size_t>( rng( 0, static_cast<int>( size - 1 ) ) );
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2118,8 +2119,11 @@ bool mattack::dermatik_growth( monster *z )
 bool mattack::plant( monster *z )
 {
     fungal_effects fe( *g, g->m );
+    const tripoint monster_position = z->pos();
+    const bool is_fungi = g->m.has_flag_ter( "FUNGUS", monster_position );
     // Spores taking seed and growing into a fungaloid
-    if( !fe.spread_fungus( z->pos() ) && one_in( 10 + g->num_creatures() / 5 ) ) {
+    fe.spread_fungus( monster_position );
+    if( is_fungi && one_in( 10 + g->num_creatures() / 5 ) ) {
         if( g->u.sees( *z ) ) {
             add_msg( m_warning, _( "The %s takes seed and becomes a young fungaloid!" ),
                      z->name() );
@@ -2135,7 +2139,7 @@ bool mattack::plant( monster *z )
         }
         z->set_hp( 0 );
         // Try fungifying once again
-        fe.spread_fungus( z->pos() );
+        fe.spread_fungus( monster_position );
         return true;
     }
 }
@@ -2571,6 +2575,9 @@ bool mattack::grab( monster *z )
         if( target->has_effect( effect_grabbed ) ) {
             target->add_msg_if_player( m_info, _( "The %s tries to grab you as well, but you bat it away!" ),
                                        z->name() );
+        } else if( pl->has_grab_break_tec() ) {
+            ma_technique tech = pl->get_grab_break_tec();
+            target->add_msg_player_or_npc( m_info, _( tech.player_message ), _( tech.npc_message ), z->name() );
         } else {
             target->add_msg_player_or_npc( m_info, _( "The %s tries to grab you, but you break its grab!" ),
                                            _( "The %s tries to grab <npcname>, but they break its grab!" ),
@@ -2824,7 +2831,6 @@ bool mattack::nurse_operate( monster *z )
         add_msg( m_info, _( "The %s is scanning its surroundings." ), z->name() );
     }
 
-
     if( ( ( g->u.is_wearing( "badge_doctor" ) ||
             z->attitude_to( g->u ) == Creature::Attitude::A_FRIENDLY ) && u_see ) && one_in( 100 ) ) {
 
@@ -3028,8 +3034,13 @@ bool mattack::photograph( monster *z )
     } else if( g->u.is_armed() ) {
         sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "\"Drop your weapon!  Now!\"" ) );
     }
-    const SpeechBubble &speech = get_speech( z->type->id.str() );
-    sounds::sound( z->pos(), speech.volume, sounds::sound_t::alert, speech.text );
+    if( cname == g->u.name && g->u.cash < 0 && g->u.has_trait( trait_id( "DEBT" ) ) ) {
+        sounds::sound( z->pos(), 15, sounds::sound_t::alert,
+                       _( "\"Wanted debtor in sight! Commencing debt enforcement proceedings!\"" ) );
+    } else {
+        const SpeechBubble &speech = get_speech( z->type->id.str() );
+        sounds::sound( z->pos(), speech.volume, sounds::sound_t::alert, speech.text );
+    }
     g->events.add( EVENT_ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ), 0,
                    g->u.global_sm_location() );
 

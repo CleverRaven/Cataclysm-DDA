@@ -21,6 +21,8 @@ if just_json; then
     export CODE_COVERAGE=""
 fi
 
+set -x
+
 if [ -n "${CODE_COVERAGE}" ]; then
   travis_retry pip install --user pyyaml cpp-coveralls
   export CXXFLAGS="$CXXFLAGS --coverage"

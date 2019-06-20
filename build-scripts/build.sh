@@ -19,6 +19,7 @@ then
     build-scripts/lint-json.sh
     make -j "$num_jobs" style-json
 
+    tools/dialogue_validator.py data/json/npcs/* data/json/npcs/*/* data/json/npcs/*/*/*
     # Also build chkjson (even though we're not using it), to catch any
     # compile errors there
     make -j "$num_jobs" chkjson
@@ -103,7 +104,6 @@ then
 else
     make -j "$num_jobs" RELEASE=1 CCACHE=1 BACKTRACE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
 
-    run_tests ./tests/cata_test
     if [ "$TRAVIS_OS_NAME" == "osx" ]
     then
         run_tests ./tests/cata_test
@@ -118,3 +118,5 @@ else
     fi
 fi
 ccache --show-stats
+
+# vim:tw=0

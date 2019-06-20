@@ -54,7 +54,7 @@
     "id": "mon_zombie_labsecurity",
     "type": "MONSTER",
     "name": "zombie security guard",
-    "description": "A shambling human corpse wearing a grey uniform and bulletproof vest with \"SECURITY\" emblazoned across the front.  It looks like the guard was quite physically fit before its death; it moves quickly and powerfully, albeit clumsily.",
+    "description": "A shambling human corpse wearing a gray uniform and bulletproof vest with \"SECURITY\" emblazoned across the front.  It looks like the guard was quite physically fit before its death; it moves quickly and powerfully, albeit clumsily.",
     "default_faction": "science",
     "//": "guards are recognised as friendly by the lab's defense system",
     "categories": [ "CLASSIC" ],

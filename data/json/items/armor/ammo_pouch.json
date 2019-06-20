@@ -356,5 +356,38 @@
       "flags": [ "MAG_COMPACT" ]
     },
     "flags": [ "STURDY", "OUTER" ]
+  },
+  {
+    "id": "xlkevlar",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "XL kevlar vest",
+    "description": "A massive, hand-built kevlar vest based on the design of existing bullet resistant vests.  It has four pouches capable of carrying magazines.",
+    "looks_like": "modularvest",
+    "weight": 5148,
+    "volume": 43,
+    "price": 200000,
+    "to_hit": -3,
+    "bashing": 6,
+    "material": [ "kevlar" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "TORSO" ],
+    "coverage": 85,
+    "encumbrance": 17,
+    "storage": 10,
+    "warmth": 15,
+    "material_thickness": 4,
+    "use_action": {
+      "type": "holster",
+      "holster_prompt": "Stash ammo",
+      "holster_msg": "You stash your %s.",
+      "multi": 4,
+      "min_volume": 1,
+      "max_volume": 4,
+      "draw_cost": 60,
+      "flags": [ "MAG_COMPACT" ]
+    },
+    "flags": [ "OVERSIZE", "STURDY", "OUTER" ]
   }
 ]

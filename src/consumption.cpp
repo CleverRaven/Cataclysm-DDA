@@ -80,7 +80,7 @@ const std::map<itype_id, int> plut_charges = {
     { "plut_slurry",       PLUTONIUM_CHARGES / 2 }
 };
 
-}
+} // namespace
 
 int player::stomach_capacity() const
 {
@@ -1089,7 +1089,7 @@ bool player::consume_effects( item &food )
     // Moved here and changed a bit - it was too complex
     // Incredibly minor stuff like this shouldn't require complexity
     if( !is_npc() && has_trait( trait_id( "SLIMESPAWNER" ) ) &&
-        ( get_healthy_kcal() < get_stored_kcal() + 4000 ||
+        ( get_healthy_kcal() < get_stored_kcal() + 4000 &&
           get_thirst() - stomach.get_water() / 5_ml < 40 ) ) {
         add_msg_if_player( m_mixed,
                            _( "You feel as though you're going to split open!  In a good way?" ) );
@@ -1158,7 +1158,7 @@ bool player::can_feed_battery_with( const item &it ) const
         return false;
     }
 
-    return it.type->ammo->type.count( ammotype( "battery" ) );
+    return it.ammo_type() == ammotype( "battery" );
 }
 
 bool player::feed_battery_with( item &it )
@@ -1205,7 +1205,7 @@ bool player::can_feed_reactor_with( const item &it ) const
     }
 
     return std::any_of( acceptable.begin(), acceptable.end(), [ &it ]( const ammotype & elem ) {
-        return it.type->ammo->type.count( elem );
+        return it.ammo_type() == elem;
     } );
 }
 
@@ -1261,7 +1261,7 @@ bool player::feed_furnace_with( item &it )
         return false;
     }
 
-    const long consumed_charges = std::min( it.charges, it.charges_per_volume( furnace_max_volume ) );
+    const int consumed_charges = std::min( it.charges, it.charges_per_volume( furnace_max_volume ) );
     const int energy = get_acquirable_energy( it, rechargeable_cbm::furnace );
 
     if( energy == 0 ) {
@@ -1333,7 +1333,7 @@ int player::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
             break;
 
         case rechargeable_cbm::battery:
-            return std::min<long>( it.charges, std::numeric_limits<int>::max() );
+            return std::min( it.charges, std::numeric_limits<int>::max() );
 
         case rechargeable_cbm::reactor:
             if( it.charges > 0 ) {
