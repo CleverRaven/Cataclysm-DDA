@@ -11,7 +11,7 @@
 // A wrapper class to bundle up the references needed for a caller to safely manipulate
 // items and obtain information about items at a particular map x/y location.
 // Note this does not expose the container itself,
-// which means you cannot call e.g. colony::erase() directly.
+// which means you cannot call e.g. cata::colony::erase() directly.
 
 // Pure virtual base class for a collection of items with origin information.
 // Only a subset of the functionality is callable without casting to the specific
@@ -19,15 +19,15 @@
 class item_stack
 {
     protected:
-        colony<item> *items;
+        cata::colony<item> *items;
 
     public:
-        using iterator = colony<item>::iterator;
-        using const_iterator = colony<item>::const_iterator;
-        using reverse_iterator = colony<item>::reverse_iterator;
-        using const_reverse_iterator = colony<item>::const_reverse_iterator;
+        using iterator = cata::colony<item>::iterator;
+        using const_iterator = cata::colony<item>::const_iterator;
+        using reverse_iterator = cata::colony<item>::reverse_iterator;
+        using const_reverse_iterator = cata::colony<item>::const_reverse_iterator;
 
-        item_stack( colony<item> *items ) : items( items ) { }
+        item_stack( cata::colony<item> *items ) : items( items ) { }
 
         size_t size() const;
         bool empty() const;

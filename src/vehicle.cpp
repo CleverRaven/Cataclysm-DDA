@@ -4445,8 +4445,8 @@ cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item 
 
 bool vehicle::remove_item( int part, item *it )
 {
-    const colony<item> &veh_items = parts[part].items;
-    const colony<item>::const_iterator iter = veh_items.get_iterator_from_pointer( it );
+    const cata::colony<item> &veh_items = parts[part].items;
+    const cata::colony<item>::const_iterator iter = veh_items.get_iterator_from_pointer( it );
     if( iter == veh_items.end() ) {
         return false;
     }
@@ -4456,7 +4456,7 @@ bool vehicle::remove_item( int part, item *it )
 
 vehicle_stack::iterator vehicle::remove_item( int part, vehicle_stack::const_iterator it )
 {
-    colony<item> &veh_items = parts[part].items;
+    cata::colony<item> &veh_items = parts[part].items;
 
     if( active_items.has( it, parts[part].mount ) ) {
         active_items.remove( it, parts[part].mount );

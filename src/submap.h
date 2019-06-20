@@ -48,13 +48,13 @@ struct spawn_point {
 
 template<int sx, int sy>
 struct maptile_soa {
-    ter_id          ter[sx][sy];  // Terrain on each square
-    furn_id         frn[sx][sy];  // Furniture on each square
-    std::uint8_t    lum[sx][sy];  // Number of items emitting light on each square
-    colony<item>    itm[sx][sy];  // Items on each square
-    field           fld[sx][sy];  // Field on each square
-    trap_id         trp[sx][sy];  // Trap on each square
-    int             rad[sx][sy];  // Irradiation of each square
+    ter_id             ter[sx][sy];  // Terrain on each square
+    furn_id            frn[sx][sy];  // Furniture on each square
+    std::uint8_t       lum[sx][sy];  // Number of items emitting light on each square
+    cata::colony<item> itm[sx][sy];  // Items on each square
+    field              fld[sx][sy];  // Field on each square
+    trap_id            trp[sx][sy];  // Trap on each square
+    int                rad[sx][sy];  // Irradiation of each square
 
     void swap_soa_tile( const point &p1, const point &p2 );
     void swap_soa_tile( const point &p, maptile_soa<1, 1> &other );
