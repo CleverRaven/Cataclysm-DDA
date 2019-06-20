@@ -10,7 +10,7 @@
 namespace
 {
 generic_factory<skill_boost> all_skill_boosts( "skill boost", "stat" );
-}
+} // namespace
 
 const std::vector<skill_boost> &skill_boost::get_all()
 {

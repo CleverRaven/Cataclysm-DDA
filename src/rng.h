@@ -12,6 +12,8 @@
 
 #include "optional.h"
 
+class time_duration;
+
 // All PRNG functions use an engine, see the C++11 <random> header
 // By default, that engine is seeded by time on first call to such a function.
 // If this function is called with a non-zero seed then the engine will be
@@ -25,6 +27,7 @@ unsigned int rng_bits();
 int rng( int val1, int val2 );
 double rng_float( double val1, double val2 );
 bool one_in( int chance );
+bool one_turn_in( const time_duration &duration );
 bool x_in_y( double x, double y );
 int dice( int number, int sides );
 

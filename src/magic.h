@@ -9,6 +9,7 @@
 #include "damage.h"
 #include "enum_bitset.h"
 #include "type_id.h"
+#include "ui.h"
 
 struct mutation_branch;
 struct tripoint;
@@ -22,11 +23,20 @@ class JsonIn;
 class time_duration;
 class nc_color;
 
+enum spell_flag {
+    PERMANENT,
+    IGNORE_WALLS,
+    HOSTILE_SUMMON,
+    HOSTILE_50,
+    LAST
+};
+
 enum energy_type {
     hp_energy,
     mana_energy,
     stamina_energy,
     bionic_energy,
+    fatigue_energy,
     none_energy
 };
 
@@ -44,9 +54,15 @@ struct enum_traits<valid_target> {
     static constexpr auto last = valid_target::_LAST;
 };
 
+template<>
+struct enum_traits<spell_flag> {
+    static constexpr auto last = spell_flag::LAST;
+};
+
 class spell_type
 {
     public:
+
         spell_type() = default;
 
         bool was_loaded = false;
@@ -147,7 +163,7 @@ class spell_type
         // lits of bodyparts this spell applies its effect to
         enum_bitset<body_part> affected_bps;
 
-        std::set<std::string> spell_tags;
+        enum_bitset<spell_flag> spell_tags;
 
         static void load_spell( JsonObject &jo, const std::string &src );
         void load( JsonObject &jo, const std::string & );
@@ -224,7 +240,9 @@ class spell
         // is the bodypart affected by the effect
         bool bp_is_affected( body_part bp ) const;
         // check if the spell has a particular flag
-        bool has_flag( const std::string &flag ) const;
+        bool has_flag( const spell_flag &flag ) const;
+        // check if the spell's class is the same as input
+        bool is_spell_class( const trait_id &mid ) const;
 
         // get spell id (from type)
         spell_id id() const;
@@ -310,6 +328,9 @@ class known_magic
         // not specific to mana
         bool has_enough_energy( const player &p, spell &sp ) const;
 
+        void on_mutation_gain( const trait_id &mid, player &p );
+        void on_mutation_loss( const trait_id &mid );
+
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
     private:
@@ -340,6 +361,16 @@ std::set<tripoint> spell_effect_line( const spell &, const tripoint &source,
 
 void spawn_ethereal_item( spell &sp );
 void recover_energy( spell &sp, const tripoint &target );
-}
+void spawn_summoned_monster( spell &sp, const tripoint &source, const tripoint &target );
+} // namespace spell_effect
+
+class spellbook_callback : public uilist_callback
+{
+    private:
+        std::vector<spell_type> spells;
+    public:
+        void add_spell( const spell_id &sp );
+        void select( int entnum, uilist *menu ) override;
+};
 
 #endif

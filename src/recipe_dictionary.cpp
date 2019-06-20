@@ -38,7 +38,7 @@ void delete_if( std::map<recipe_id, recipe> &data,
     }
 }
 
-}
+} // namespace
 
 static recipe null_recipe;
 static std::set<const recipe *> null_match;

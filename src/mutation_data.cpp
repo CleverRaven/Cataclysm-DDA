@@ -25,7 +25,7 @@ TraitGroupMap trait_groups;
 namespace
 {
 generic_factory<mutation_branch> trait_factory( "trait" );
-}
+} // namespace
 
 std::vector<dream> dreams;
 std::map<std::string, std::vector<trait_id> > mutations_category;
@@ -378,6 +378,13 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
         std::string s = jsarr.next_string();
         category.push_back( s );
         mutations_category[s].push_back( trait_id( id ) );
+    }
+
+    jsarr = jo.get_array( "spells_learned" );
+    while( jsarr.has_more() ) {
+        JsonArray ja = jsarr.next_array();
+        const spell_id sp( ja.next_string() );
+        spells_learned.emplace( sp, ja.next_int() );
     }
 
     jsarr = jo.get_array( "wet_protection" );

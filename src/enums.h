@@ -237,7 +237,7 @@ struct hash<point> {
         return result;
     }
 };
-}
+} // namespace std
 
 inline constexpr bool operator<( const point &a, const point &b )
 {
@@ -333,7 +333,7 @@ struct hash<tripoint> {
         return result;
     }
 };
-}
+} // namespace std
 
 inline constexpr bool operator==( const tripoint &a, const tripoint &b )
 {

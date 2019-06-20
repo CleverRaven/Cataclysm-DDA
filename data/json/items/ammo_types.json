@@ -67,6 +67,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "410shot",
+    "name": ".410 shot",
+    "default": "410shot_000"
+  },
+  {
+    "type": "ammunition_type",
     "id": "blunderbuss",
     "name": "blunderbuss",
     "default": "blun_shot"
@@ -112,6 +118,12 @@
     "id": "38",
     "name": ".38",
     "default": "38_special"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "38super",
+    "name": ".38 Super",
+    "default": "38super_fmj"
   },
   {
     "type": "ammunition_type",

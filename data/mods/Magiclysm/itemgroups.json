@@ -2,7 +2,7 @@
   {
     "type": "item_group",
     "id": "religious_books",
-    "items": [ [ "priest_beginner", 1 ], [ "priest_advanced", 1 ], [ "druid_spellbook", 1 ] ]
+    "items": [ [ "priest_beginner", 1 ], [ "priest_advanced", 1 ], [ "druid_spellbook", 1 ], [ "summon_undead_spellbook", 1 ] ]
   },
   {
     "type": "item_group",
@@ -36,7 +36,8 @@
       [ "recovery_spellbook", 3 ],
       [ "magus_spellbook", 6 ],
       [ "eshaper_spellbook", 6 ],
-      [ "magus_spellbook_move", 3 ]
+      [ "magus_spellbook_move", 3 ],
+      [ "summon_undead_spellbook", 2 ]
     ]
   },
   {
@@ -54,7 +55,8 @@
       [ "recovery_spellbook", 3 ],
       [ "magus_spellbook", 3 ],
       [ "eshaper_spellbook", 3 ],
-      [ "magus_spellbook_move", 2 ]
+      [ "magus_spellbook_move", 2 ],
+      [ "summon_undead_spellbook", 1 ]
     ]
   },
   {
@@ -71,7 +73,8 @@
       [ "recovery_spellbook", 3 ],
       [ "magus_spellbook", 3 ],
       [ "eshaper_spellbook", 3 ],
-      [ "magus_spellbook_move", 2 ]
+      [ "magus_spellbook_move", 2 ],
+      [ "summon_undead_spellbook", 3 ]
     ]
   },
   {
@@ -116,5 +119,10 @@
     "id": "groce_softdrink",
     "type": "item_group",
     "items": [ [ "mana_potion_lesser", 15 ] ]
+  },
+  {
+    "id": "trash",
+    "type": "item_group",
+    "items": [ [ "summon_scroll_smudged", 5 ] ]
   }
 ]

@@ -68,6 +68,8 @@
   {
     "id": "music_shop",
     "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
     "items": [ { "group": "ammo_any_batteries_full", "prob": 50 }, [ "radio", 30 ], [ "mp3", 30 ] ]
   },
   {
@@ -91,6 +93,8 @@
   {
     "id": "toy_store",
     "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
     "items": [
       [ "portable_game", 60 ],
       [ "bat", 60 ],
@@ -210,6 +214,8 @@
   {
     "id": "key_shop",
     "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
     "items": [
       [ "screwdriver", 40 ],
       [ "hammer", 35 ],
@@ -252,6 +258,8 @@
   {
     "id": "cell_shop",
     "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
     "items": [
       [ "portable_game", 20 ],
       [ "antenna", 25 ],
@@ -269,6 +277,8 @@
   {
     "id": "beauty",
     "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
     "items": [
       [ "mag_glam", 40 ],
       [ "mag_beauty", 30 ],

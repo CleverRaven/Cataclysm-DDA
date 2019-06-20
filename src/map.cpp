@@ -17,6 +17,7 @@
 #include "artifact.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "colony.h"
 #include "coordinate_conversions.h"
 #include "clzones.h"
 #include "debug.h"
@@ -97,25 +98,19 @@ const efftype_id effect_stunned( "stunned" );
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
-static std::list<item>  nulitems;          // Returned when &i_at() is asked for an OOB value
+static colony<item>     nulitems;          // Returned when &i_at() is asked for an OOB value
 static field            nulfield;          // Returned when &field_at() is asked for an OOB value
 static level_cache      nullcache;         // Dummy cache for z-levels outside bounds
 
 // Map stack methods.
-std::list<item>::iterator map_stack::erase( std::list<item>::iterator it )
+map_stack::iterator map_stack::erase( map_stack::const_iterator it )
 {
     return myorigin->i_rem( location, it );
 }
 
-void map_stack::push_back( const item &newitem )
+void map_stack::insert( const item &newitem )
 {
     myorigin->add_item_or_charges( location, newitem );
-}
-
-void map_stack::insert_at( std::list<item>::iterator index,
-                           const item &newitem )
-{
-    myorigin->add_item_at( location, index, newitem );
 }
 
 units::volume map_stack::max_volume() const
@@ -1311,9 +1306,17 @@ bool map::can_move_furniture( const tripoint &pos, player *p )
 std::string map::furnname( const tripoint &p )
 {
     const furn_t &f = furn( p ).obj();
-    if( f.has_flag( "PLANT" ) && !i_at( p ).empty() ) {
-        const item &seed = i_at( p ).front();
-        const std::string &plant = seed.get_plant_name();
+    if( f.has_flag( "PLANT" ) ) {
+        // Can't use item_stack::only_item() since there might be fertilizer
+        map_stack items = i_at( p );
+        const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
+            return it.is_seed();
+        } );
+        if( seed == items.end() ) {
+            debugmsg( "Missing seed for plant at (%d, %d, %d)", p.x, p.y, p.z );
+            return "null";
+        }
+        const std::string &plant = seed->get_plant_name();
         return string_format( "%s (%s)", f.name(), plant );
     } else {
         return f.name();
@@ -2009,7 +2012,7 @@ void map::drop_furniture( const tripoint &p )
         auto old_items = i_at( p );
         auto new_items = i_at( current );
         for( const auto &it : old_items ) {
-            new_items.push_back( it );
+            new_items.insert( it );
         }
 
         i_clear( p );
@@ -3180,7 +3183,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
         params.did_bash = true;
         if( !params.silent ) {
-            sound = bash->sound_fail.empty() ? _( "Thnk!" ) : _( bash->sound_fail );
+            sound = bash->sound_fail;
             sounds::sound( p, sound_volume, sounds::sound_t::combat, sound, false,
                            "smash_fail", soundfxvariant );
         }
@@ -3341,7 +3344,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     params.success |= success; // Not always true, so that we can tell when to stop destroying
     params.bashed_solid = true;
     if( !sound.empty() && !params.silent ) {
-        sounds::sound( p, sound_volume, sounds::sound_t::combat, _( sound ), false,
+        sounds::sound( p, sound_volume, sounds::sound_t::combat, sound, false,
                        soundfxid, soundfxvariant );
     }
 }
@@ -4058,14 +4061,9 @@ map_stack map::i_at( const int x, const int y )
     return map_stack{ &current_submap->itm[l.x][l.y], tripoint( p, abs_sub.z ), this };
 }
 
-std::list<item>::iterator map::i_rem( const point &location, std::list<item>::iterator it )
+map_stack::iterator map::i_rem( const point &location, map_stack::const_iterator it )
 {
     return i_rem( tripoint( location, abs_sub.z ), it );
-}
-
-int map::i_rem( const int x, const int y, const int index )
-{
-    return i_rem( tripoint( x, y, abs_sub.z ), index );
 }
 
 void map::i_rem( const int x, const int y, item *it )
@@ -4122,7 +4120,7 @@ map_stack map::i_at( const tripoint &p )
     return map_stack{ &current_submap->itm[l.x][l.y], p, this };
 }
 
-std::list<item>::iterator map::i_rem( const tripoint &p, std::list<item>::iterator it )
+map_stack::iterator map::i_rem( const tripoint &p, map_stack::const_iterator it )
 {
     point l;
     submap *const current_submap = get_submap_at( p, l );
@@ -4139,34 +4137,12 @@ std::list<item>::iterator map::i_rem( const tripoint &p, std::list<item>::iterat
     return current_submap->itm[l.x][l.y].erase( it );
 }
 
-int map::i_rem( const tripoint &p, const int index )
+void map::i_rem( const tripoint &p, item *it )
 {
-    if( index < 0 ) {
-        debugmsg( "i_rem called with negative index %d", index );
-        return index;
-    }
-
-    if( index >= static_cast<int>( i_at( p ).size() ) ) {
-        return index;
-    }
-
-    auto map_items = i_at( p );
-    auto iter = map_items.begin();
-    std::advance( iter, index );
-    map_items.erase( iter );
-    return index;
-}
-
-void map::i_rem( const tripoint &p, const item *it )
-{
-    auto map_items = i_at( p );
-
-    for( auto iter = map_items.begin(); iter != map_items.end(); iter++ ) {
-        //delete the item if the pointer memory addresses are the same
-        if( it == &*iter ) {
-            map_items.erase( iter );
-            break;
-        }
+    map_stack map_items = i_at( p );
+    map_stack::const_iterator iter = map_items.get_iterator_from_pointer( it );
+    if( iter != map_items.end() ) {
+        i_rem( p, iter );
     }
 }
 
@@ -4380,12 +4356,7 @@ item &map::add_item( const tripoint &p, item new_item )
     if( new_item.is_food() || new_item.has_temperature() ) {
         new_item.process( nullptr, p, false );
     }
-    return add_item_at( p, current_submap->itm[l.x][l.y].end(), new_item );
-}
 
-item &map::add_item_at( const tripoint &p,
-                        std::list<item>::iterator index, item new_item )
-{
     if( new_item.made_of( LIQUID ) && has_flag( "SWIMMABLE", p ) ) {
         return null_item_reference();
     }
@@ -4398,16 +4369,14 @@ item &map::add_item_at( const tripoint &p,
         new_item.active = true;
     }
 
-    point l;
-    submap *const current_submap = get_submap_at( p, l );
-    current_submap->is_uniform = false;
-
     if( new_item.is_map() && !new_item.has_var( "reveal_map_center_omt" ) ) {
         new_item.set_var( "reveal_map_center_omt", ms_to_omt_copy( g->m.getabs( p ) ) );
     }
 
+    current_submap->is_uniform = false;
     current_submap->update_lum_add( l, new_item );
-    const auto new_pos = current_submap->itm[l.x][l.y].insert( index, new_item );
+
+    const map_stack::iterator new_pos = current_submap->itm[l.x][l.y].insert( new_item );
     if( new_item.needs_processing() ) {
         if( current_submap->active_items.empty() ) {
             submaps_with_active_items.insert( abs_sub + tripoint( p.x / SEEX, p.y / SEEY, p.z ) );
@@ -4469,11 +4438,8 @@ void map::make_active( item_location &loc )
     }
     point l;
     submap *const current_submap = get_submap_at( loc.position(), l );
-    auto &item_stack = current_submap->itm[l.x][l.y];
-    auto iter = std::find_if( item_stack.begin(), item_stack.end(),
-    [&target]( const item & i ) {
-        return &i == target;
-    } );
+    colony<item> &item_stack = current_submap->itm[l.x][l.y];
+    colony<item>::iterator iter = item_stack.get_iterator_from_pointer( target );
 
     if( current_submap->active_items.empty() ) {
         submaps_with_active_items.insert( abs_sub + tripoint( loc.position().x / SEEX,
@@ -4501,49 +4467,34 @@ void map::update_lum( item_location &loc, bool add )
     }
 }
 
-// This is an ugly and dirty hack to prevent invalidating the item_location
-// references the player is using for an activity.  What needs to happen is
-// activity targets gets refactored in some way that it can reference items
-// between turns that doesn't rely on a pointer to the item.  A really nice
-// solution would be something like UUIDs but that requires special
-// considerations.
-static bool item_is_in_activity( const item *it )
-{
-    const auto targs = &g->u.activity.targets;
-    return !targs->empty() &&
-    std::find_if( targs->begin(), targs->end(), [it]( const item_location & it_loc ) {
-        return it_loc.get_item() == it;
-    } ) != targs->end();
-}
-
-static bool process_item( item_stack &items, std::list<item>::iterator &n, const tripoint &location,
+static bool process_item( item_stack &items, item_stack::iterator &n, const tripoint &location,
                           const bool activate, const float insulation, const temperature_flag flag )
 {
-    if( !item_is_in_activity( &*n ) ) {
-        // make a temporary copy, remove the item (in advance)
-        // and use that copy to process it
-        item temp_item = *n;
-        auto insertion_point = items.erase( n );
-        if( !temp_item.process( nullptr, location, activate, insulation, flag ) ) {
-            // Not destroyed, must be inserted again.
-            // If the item lost its active flag in processing,
-            // it won't be re-added to the active list, tidy!
-            // Re-insert at the item's previous position.
-            // This assumes that the item didn't invalidate any iterators
-            // As a result of activation, because everything that does that
-            // destroys itself.
-            items.insert_at( insertion_point, temp_item );
-            return false;
+    // Process the item out of the map in case it destroys other items
+    // (for example because it is a grenade) since it might destroy itself
+    // and that would be bad.
+    item temp;
+    std::swap( temp, *n );
+
+    // Store a pointer to the target item so we can check if processing destroyed it.
+    item *const target = &*n;
+
+    if( temp.process( nullptr, location, activate, insulation, flag ) ) {
+        // Item is to be destroyed so erase the null item in the map stack
+        // unless it was already destroyed by processing.
+        item_stack::iterator it = items.get_iterator_from_pointer( target );
+        if( it != items.end() ) {
+            items.erase( it );
         }
         return true;
-    } else if( n->process( nullptr, location, activate, insulation, flag ) ) {
-        items.erase( n );
-        return true;
+    } else {
+        // Item survived processing so replace it in the map stack
+        *n = std::move( temp );
+        return false;
     }
-    return false;
 }
 
-static bool process_map_items( item_stack &items, std::list<item>::iterator &n,
+static bool process_map_items( item_stack &items, item_stack::iterator &n,
                                const tripoint &location, const std::string &,
                                const float insulation, const temperature_flag flag )
 {
@@ -4704,7 +4655,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
         if( it == end( cargo_parts ) ) {
             continue; // Can't find a cargo part matching the active item.
         }
-        auto &item_iter = active_item.item_iterator;
+        item_stack::iterator &item_iter = active_item.item_iterator;
         // Find the cargo part and coordinates corresponding to the current active item.
         const vehicle_part &pt = it->part();
         const tripoint item_loc = it->pos();
@@ -5134,7 +5085,7 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( int x, int y, int z )
     return rc_pairs;
 }
 
-static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
+static bool trigger_radio_item( item_stack &items, item_stack::iterator &n,
                                 const tripoint &pos, const std::string &signal,
                                 const float, const temperature_flag flag )
 {
@@ -5178,28 +5129,6 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
 void map::trigger_rc_items( const std::string &signal )
 {
     process_items( false, trigger_radio_item, signal );
-}
-
-item *map::item_from( const tripoint &pos, size_t index )
-{
-    auto items = i_at( pos );
-
-    if( index >= items.size() ) {
-        return nullptr;
-    } else {
-        return &items[index];
-    }
-}
-
-item *map::item_from( vehicle *veh, int cargo_part, size_t index )
-{
-    auto items = veh->get_items( cargo_part );
-
-    if( index >= items.size() ) {
-        return nullptr;
-    } else {
-        return &items[index];
-    }
 }
 
 const trap &map::tr_at( const tripoint &p ) const
@@ -5294,7 +5223,7 @@ void map::disarm_trap( const tripoint &p )
 
     // Some traps are not actual traps. Skip the rolls, different message and give the option to grab it right away.
     if( tr.get_avoidance() ==  0 && tr.get_difficulty() == 0 ) {
-        add_msg( _( "You take down the %s." ), tr.name() );
+        add_msg( _( "The %s is taken down." ), tr.name() );
         tr.on_disarmed( *this, p );
         return;
     }
@@ -6993,55 +6922,69 @@ void map::grow_plant( const tripoint &p )
     if( !furn.has_flag( "PLANT" ) ) {
         return;
     }
-    auto items = i_at( p );
-    if( items.empty() ) {
-        // No seed there anymore, we don't know what kind of plant it was.
-        dbg( D_ERROR ) << "a seed item has vanished at " << p.x << "," << p.y << "," << p.z;
-        furn_set( p, f_null );
-        return;
-    }
+    // Can't use item_stack::only_item() since there might be fertilizer
+    map_stack items = i_at( p );
+    map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item &it ) {
+        return it.is_seed();
+    } );
 
-    auto seed = items.front();
-    if( !seed.is_seed() ) {
+    if( seed == items.end() ) {
         // No seed there anymore, we don't know what kind of plant it was.
         dbg( D_ERROR ) << "a planted item at " << p.x << "," << p.y << "," << p.z << " has no seed data";
+        i_clear( p );
         furn_set( p, f_null );
         return;
     }
-    const time_duration plantEpoch = seed.get_plant_epoch();
-    if( seed.age() >= plantEpoch * furn.plant->growth_multiplier &&
+    const time_duration plantEpoch = seed->get_plant_epoch();
+    if( seed->age() >= plantEpoch * furn.plant->growth_multiplier &&
         !furn.has_flag( "GROWTH_HARVEST" ) ) {
-        if( seed.age() < plantEpoch * 2 ) {
+        if( seed->age() < plantEpoch * 2 ) {
             if( has_flag_furn( "GROWTH_SEEDLING", p ) ) {
                 return;
             }
-            i_rem( p, 1 );
-            rotten_item_spawn( seed, p );
+
+            // Remove fertilizer if any
+            map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item &it ) {
+                return it.has_flag( "FERTILIZER" );
+            } );
+            if( fertilizer != items.end() ) {
+                items.erase( fertilizer );
+            }
+
+            rotten_item_spawn( *seed, p );
             furn_set( p, furn_str_id( furn.plant->transform ) );
-        } else if( seed.age() < plantEpoch * 3 * furn.plant->growth_multiplier ) {
+        } else if( seed->age() < plantEpoch * 3 * furn.plant->growth_multiplier ) {
             if( has_flag_furn( "GROWTH_MATURE", p ) ) {
                 return;
             }
-            i_rem( p, 1 );
-            rotten_item_spawn( seed, p );
+
+            // Remove fertilizer if any
+            map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item &it ) {
+                return it.has_flag( "FERTILIZER" );
+            } );
+            if( fertilizer != items.end() ) {
+                items.erase( fertilizer );
+            }
+
+            rotten_item_spawn( *seed, p );
             //You've skipped the seedling stage so roll monsters twice
             if( !has_flag_furn( "GROWTH_SEEDLING", p ) ) {
-                rotten_item_spawn( seed, p );
+                rotten_item_spawn( *seed, p );
             }
             furn_set( p, furn_str_id( furn.plant->transform ) );
         } else {
             //You've skipped two stages so roll monsters two times
             if( has_flag_furn( "GROWTH_SEEDLING", p ) ) {
-                rotten_item_spawn( seed, p );
-                rotten_item_spawn( seed, p );
+                rotten_item_spawn( *seed, p );
+                rotten_item_spawn( *seed, p );
                 //One stage change
             } else if( has_flag_furn( "GROWTH_MATURE", p ) ) {
-                rotten_item_spawn( seed, p );
+                rotten_item_spawn( *seed, p );
                 //Goes from seed to harvest in one check
             } else {
-                rotten_item_spawn( seed, p );
-                rotten_item_spawn( seed, p );
-                rotten_item_spawn( seed, p );
+                rotten_item_spawn( *seed, p );
+                rotten_item_spawn( *seed, p );
+                rotten_item_spawn( *seed, p );
             }
             furn_set( p, furn_str_id( furn.plant->transform ) );
         }
@@ -7268,13 +7211,6 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
             rad_scorch( pnt, time_since_last_actualize );
 
             decay_cosmetic_fields( pnt, time_since_last_actualize );
-        }
-    }
-
-    //Check for Merchants to restock
-    for( npc &guy : g->all_npcs() ) {
-        if( guy.restock != calendar::before_time_starts && calendar::turn > guy.restock ) {
-            guy.shop_restock();
         }
     }
 

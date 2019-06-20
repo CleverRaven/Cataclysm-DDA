@@ -673,7 +673,7 @@ void editmap::update_view( bool update_info )
         const int target_stack_size = target_stack.size();
         if( !g->m.has_flag( "CONTAINER", target ) && target_stack_size > 0 ) {
             trim_and_print( w_info, off, 1, getmaxx( w_info ), c_light_gray, _( "There is a %s there." ),
-                            target_stack.front().tname() );
+                            target_stack.begin()->tname() );
             off++;
             if( target_stack_size > 1 ) {
                 mvwprintw( w_info, off, 1, ngettext( "There is %d other item there as well.",
@@ -1315,7 +1315,7 @@ int editmap::edit_itm()
     do {
         ilmenu.query();
         if( ilmenu.ret >= 0 && ilmenu.ret < static_cast<int>( items.size() ) ) {
-            item &it = items[ilmenu.ret];
+            item &it = *items.get_iterator_from_index( ilmenu.ret );
             uilist imenu;
             imenu.w_x = ilmenu.w_x;
             imenu.w_y = ilmenu.w_height;

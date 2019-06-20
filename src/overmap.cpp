@@ -160,7 +160,7 @@ static size_t from_dir( om_direction::type dir )
     return 0;
 }
 
-}
+} // namespace om_lines
 
 //const regional_settings default_region_settings;
 t_regional_settings_map region_settings_map;
@@ -173,7 +173,7 @@ generic_factory<oter_type_t> terrain_types( "overmap terrain type" );
 generic_factory<oter_t> terrains( "overmap terrain" );
 generic_factory<overmap_special> specials( "overmap special" );
 
-}
+} // namespace
 
 static const std::map<std::string, oter_flags> oter_flags_map = {
     { "KNOWN_DOWN",     known_down     },

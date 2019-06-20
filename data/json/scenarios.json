@@ -409,7 +409,7 @@
     "start_name": "Crash site",
     "professions": [ "soldier", "national_guard", "specops", "bio_soldier", "bio_sniper" ],
     "allowed_locs": [ "field", "forest" ],
-    "map_special": "mx_helicopter",
+    "map_extra": "mx_helicopter",
     "flags": [ "HELI_CRASH", "LONE_START" ]
   },
   {

@@ -13,6 +13,8 @@
 #include <set>
 #include <stdexcept>
 
+#include "colony.h"
+
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
  *
@@ -81,7 +83,7 @@ inline E string_to_enum_look_up( const C &container, const std::string &data )
     return iter->second;
 }
 /*@}*/
-}
+} // namespace io
 
 /* JsonIn
  * ======
@@ -371,6 +373,31 @@ class JsonIn
             return true;
         }
 
+        // special case for colony as it uses `insert()` instead of `push_back()`
+        // and therefore doesn't fit with vector/deque/list
+        template <typename T>
+        bool read( colony<T> &v ) {
+            if( !test_array() ) {
+                return false;
+            }
+            try {
+                start_array();
+                v.clear();
+                while( !end_array() ) {
+                    T element;
+                    if( read( element ) ) {
+                        v.insert( std::move( element ) );
+                    } else {
+                        skip_value();
+                    }
+                }
+            } catch( const JsonError & ) {
+                return false;
+            }
+
+            return true;
+        }
+
         // object ~> containers with unmatching key_type and value_type
         // map, unordered_map ~> object
         template < typename T, typename std::enable_if <
@@ -558,6 +585,12 @@ class JsonOut
                       std::is_same<typename T::key_type, typename T::value_type>::value>::type * = nullptr
                   >
         void write( const T &container ) {
+            write_as_array( container );
+        }
+
+        // special case for colony, since it doesn't fit in other categories
+        template <typename T>
+        void write( const colony<T> &container ) {
             write_as_array( container );
         }
 

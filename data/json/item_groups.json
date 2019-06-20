@@ -525,6 +525,7 @@
       [ "can_tomato", 40 ],
       [ "cooked_pumpkin", 20 ],
       [ "con_milk", 20 ],
+      [ "milk_evap", 20 ],
       [ "can_corn", 35 ],
       [ "can_spam", 30 ],
       [ "can_pineapple", 30 ],
@@ -581,6 +582,7 @@
       [ "jar_sauerkraut_pickled", 5 ],
       { "item": "meat_pickled", "prob": 4, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "fish_pickled", "prob": 6, "charges": 2, "container-item": "jar_glass_sealed" },
+      [ "ghee", 5 ],
       [ "lutefisk", 1 ],
       [ "tongs", 25 ],
       [ "char_smoker", 25 ],
@@ -653,8 +655,12 @@
       { "item": "colamdew", "prob": 15, "container-item": "bottle_twoliter" },
       { "item": "rootbeer", "prob": 15, "container-item": "bottle_twoliter" },
       [ "milk", 50 ],
+      [ "milk_UHT", 5 ],
+      [ "milk_raw", 2 ],
       [ "almond_milk", 50 ],
       [ "soy_milk", 50 ],
+      { "item": "butter", "prob": 45, "charges-min": 1, "charges-max": 32, "container-item": "wrapper" },
+      { "item": "ghee", "prob": 5, "charges-min": 1, "charges-max": 32, "container-item": "jar_glass" },
       { "item": "egg_bird", "prob": 65, "count-min": 1, "count-max": 12 },
       [ "yoghurt", 50 ],
       [ "pudding", 60 ],
@@ -697,7 +703,7 @@
       [ "carrot", 3 ],
       [ "irradiated_carrot", 1 ],
       [ "frozen_dinner", 50 ],
-      [ "frozen_burrito", 50 ],
+      [ "junk_burrito", 50 ],
       [ "chili", 10 ],
       [ "syrup", 10 ],
       [ "coffee_syrup", 10 ],
@@ -891,6 +897,7 @@
       [ "harmonica_holder", 10 ],
       [ "banjo", 5 ],
       [ "ukulele", 15 ],
+      [ "guitar_electric", 20 ],
       [ "gobag", 5 ],
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "bb", 8 ],
@@ -1333,7 +1340,7 @@
       [ "sandwich_pbh", 30 ],
       [ "sandwich_pbm", 30 ],
       [ "frozen_dinner", 50 ],
-      [ "frozen_burrito", 60 ],
+      [ "junk_burrito", 60 ],
       [ "dried_salad", 6 ],
       [ "pizza_veggy", 8 ],
       [ "pizza_cheese", 8 ],
@@ -1718,6 +1725,7 @@
       [ "offal_canned", 1 ],
       [ "can_coconut", 1 ],
       [ "con_milk", 1 ],
+      [ "milk_evap", 1 ],
       [ "sauce_red", 1 ],
       [ "can_peach", 1 ],
       [ "apple_canned", 1 ],
@@ -2546,6 +2554,8 @@
   {
     "type": "item_group",
     "id": "trash",
+    "ammo": 20,
+    "magazine": 50,
     "items": [
       [ "plastic_shopping_bag", 35 ],
       [ "iodine", 5 ],
@@ -3563,7 +3573,7 @@
       [ "recipe_augs", 8 ],
       [ "choc_drink", 20 ],
       [ "aspirin", 85 ],
-      [ "frozen_burrito", 25 ],
+      [ "junk_burrito", 25 ],
       [ "cigar", 5 ],
       [ "ecig", 10 ],
       [ "advanced_ecig", 8 ],
@@ -4599,6 +4609,8 @@
       [ "can_tomato", 40 ],
       [ "cooked_pumpkin", 20 ],
       [ "con_milk", 20 ],
+      [ "milk_evap", 15 ],
+      [ "milk_UHT", 10 ],
       [ "can_spam", 30 ],
       [ "can_tuna", 35 ],
       [ "can_salmon", 25 ],
@@ -5738,6 +5750,8 @@
       [ "1st_aid", 35 ],
       [ "saline", 15 ],
       [ "con_milk", 5 ],
+      [ "milk_UHT", 35 ],
+      [ "cereal", 35 ],
       [ "codeine", 15 ],
       [ "antibiotics", 25 ],
       [ "water_clean", 90 ],
@@ -5789,6 +5803,8 @@
       [ "1st_aid", 35 ],
       [ "saline", 10 ],
       [ "con_milk", 10 ],
+      [ "milk_UHT", 25 ],
+      [ "cereal", 20 ],
       [ "sports_drink", 40 ],
       [ "water_clean", 90 ]
     ]
@@ -7228,7 +7244,8 @@
       [ "vinegar", 10 ],
       { "item": "veggy_pickled", "prob": 30, "charges": 2, "container-item": "jar_glass_sealed" },
       [ "jar_sauerkraut_pickled", 20 ],
-      [ "con_milk", 20 ],
+      [ "con_milk", 10 ],
+      [ "milk_evap", 10 ],
       { "item": "fish_pickled", "prob": 26, "charges": 2, "container-item": "jar_glass_sealed" },
       [ "lutefisk", 1 ],
       [ "pemmican", 10 ],
@@ -7823,7 +7840,8 @@
       [ "football_armor", 18 ],
       [ "jacket_leather", 12 ],
       [ "jacket_jean", 8 ],
-      [ "jacket_flannel", 6 ]
+      [ "jacket_flannel", 6 ],
+      [ "cuirass_scrap", 12 ]
     ]
   },
   {
@@ -7837,6 +7855,7 @@
       [ "winter_pants_army", 10 ],
       [ "bunker_pants", 14 ],
       [ "pants_leather", 18 ],
+      [ "legguard_scrap", 12 ],
       [ "skirt", 6 ],
       [ "kilt", 1 ]
     ]
@@ -7861,6 +7880,7 @@
       [ "vambrace_larmor", 6 ],
       [ "armguard_chitin", 1 ],
       [ "armguard_bone", 6 ],
+      [ "armguard_scrap", 12 ],
       [ "gloves_fur", 4 ],
       [ "gloves_leather", 22 ],
       [ "gloves_work", 22 ],
@@ -7879,6 +7899,7 @@
       [ "boots_fsurvivor", 2 ],
       [ "boots_h20survivor", 1 ],
       [ "boots", 20 ],
+      [ "boots_scrap", 12 ],
       [ "boots_steel", 28 ],
       [ "boots_hiking", 24 ],
       [ "knee_high_boots", 8 ],
@@ -7914,6 +7935,7 @@
       [ "firehelmet", 2 ],
       [ "helmet_barbute", 1 ],
       [ "helmet_plate", 1 ],
+      [ "helmet_scrap", 12 ],
       [ "bondage_mask", 1 ],
       [ "survivor_goggles", 10 ],
       [ "hood_rain", 14 ]
@@ -8090,6 +8112,8 @@
   {
     "type": "item_group",
     "id": "arcade_prizes",
+    "ammo": 75,
+    "magazine": 100,
     "items": [
       [ "bbgun", 30 ],
       [ "bb", 30 ],
@@ -8237,6 +8261,8 @@
   {
     "type": "item_group",
     "id": "antique",
+    "ammo": 75,
+    "magazine": 100,
     "items": [
       [ "oxylamp", 50 ],
       [ "cow_bell", 15 ],
@@ -8934,6 +8960,7 @@
       [ "water_mineral", 15 ],
       [ "cola", 30 ],
       [ "choc_drink", 30 ],
+      [ "milk_UHT", 10 ],
       [ "rootbeer", 33 ],
       [ "creamsoda", 28 ],
       [ "juice", 31 ],
@@ -9693,6 +9720,8 @@
   {
     "type": "item_group",
     "id": "roof_trash",
+    "ammo": 20,
+    "magazine": 50,
     "items": [
       [ "plastic_shopping_bag", 15 ],
       [ "bum_wine", 15 ],

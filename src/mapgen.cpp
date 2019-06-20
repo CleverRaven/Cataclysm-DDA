@@ -157,10 +157,7 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
         if( extra == nullptr ) {
             debugmsg( "failed to pick extra for type %s", terrain_type->get_extras() );
         } else {
-            auto func = MapExtras::get_function( *( ex.values.pick() ) );
-            if( func != nullptr ) {
-                func( *this, abs_sub );
-            }
+            MapExtras::apply_function( *( ex.values.pick() ), *this, abs_sub );
         }
     }
 
@@ -308,7 +305,7 @@ std::string member;
 std::string message;
 bool defer;
 JsonObject jsi;
-}
+} // namespace mapgen_defer
 
 static void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
                               const std::string &message )
@@ -474,10 +471,10 @@ void reset_mapgens()
 size_t mapgen_function_json_base::calc_index( const size_t x, const size_t y ) const
 {
     if( x >= mapgensize_x ) {
-        debugmsg( "invalid value %lu for x in calc_index", static_cast<unsigned long>( x ) );
+        debugmsg( "invalid value %zu for x in calc_index", x );
     }
     if( y >= mapgensize_y ) {
-        debugmsg( "invalid value %lu for y in calc_index", static_cast<unsigned long>( y ) );
+        debugmsg( "invalid value %zu for y in calc_index", y );
     }
     return y * mapgensize_y + x;
 }

@@ -11,7 +11,7 @@ namespace
 
 generic_factory<field_type> all_field_types( "field types" );
 
-}
+} // namespace
 
 /** @relates int_id */
 template<>

@@ -200,11 +200,16 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             }
         } else if( m.has_flag( "PLANT", p ) ) {
             // Replace the (already existing) seed
-            if( !m.i_at( p ).empty() ) {
-                m.i_at( p )[0] = item( "fungal_seeds", calendar::turn );
-            } else {
+            // Can't use item_stack::only_item() since there might be fertilizer
+            map_stack items = m.i_at( p );
+            const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
+                return it.is_seed();
+            } );
+            if( seed == items.end() || !seed->is_seed() ) {
                 DebugLog( D_ERROR, DC_ALL ) << "No seed item in the PLANT terrain at position " <<
                                             string_format( "%d,%d,%d.", p.x, p.y, p.z );
+            } else {
+                *seed = item( "fungal_seeds", calendar::turn );
             }
         }
     }

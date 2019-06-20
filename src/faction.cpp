@@ -34,7 +34,7 @@
 namespace npc_factions
 {
 std::vector<faction_template> all_templates;
-}
+} // namespace npc_factions
 
 const faction_id your_faction = faction_id( "your_followers" );
 

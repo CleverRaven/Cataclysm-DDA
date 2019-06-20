@@ -29,28 +29,9 @@
 
 const skill_id skill_barter( "barter" );
 
-inventory npc_trading::inventory_exchange( inventory &inv,
-        const std::set<item *> &without,
-        const std::vector<item *> &added )
-{
-    std::vector<item *> item_dump;
-    inv.dump( item_dump );
-    item_dump.insert( item_dump.end(), added.begin(), added.end() );
-    inventory new_inv;
-    new_inv.copy_invlet_of( inv );
-
-    for( item *it : item_dump ) {
-        if( without.count( it ) == 0 ) {
-            new_inv.add_item( *it, true, false );
-        }
-    }
-
-    return new_inv;
-}
-
-void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver, player &receiver,
-                                  faction *fac, std::list<item_location *> &from_map,
-                                  bool npc_gives )
+void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver,
+                                  player &receiver, faction *fac,
+                                  std::list<item_location *> &from_map, bool npc_gives )
 {
     for( item_pricing &ip : stuff ) {
         if( !ip.selected ) {
@@ -147,7 +128,7 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
 
     double adjust = net_price_adjustment( buyer, seller );
 
-    const auto check_item = [fac, adjust, &np, &result]( item_location && loc, int count = 1 ) {
+    const auto check_item = [fac, adjust, is_npc, &np, &result]( item_location && loc, int count = 1 ) {
         item *it_ptr = loc.get_item();
         if( it_ptr == nullptr || it_ptr->is_null() ) {
             return;
@@ -156,7 +137,8 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         item &it = *it_ptr;
         const int market_price = it.price( true );
         int val = np.value( it, market_price );
-        if( np.wants_to_buy( it, val, market_price ) ) {
+        if( ( is_npc && np.wants_to_sell( it, val, market_price ) ) ||
+            np.wants_to_buy( it, val, market_price ) ) {
             result.emplace_back( std::move( loc ), val, count );
             result.back().adjust_values( adjust, fac );
         }
@@ -185,11 +167,15 @@ void item_pricing::set_values( int ip_count )
 {
     item *i_p = loc.get_item();
     is_container = i_p->is_container() || i_p->is_ammo_container();
+    vol = i_p->volume();
+    weight = i_p->weight();
     if( is_container || i_p->count() == 1 ) {
         count = ip_count;
     } else {
         charges = i_p->count();
         price /= charges;
+        vol /= charges;
+        weight /= charges;
     }
 }
 
@@ -268,10 +254,6 @@ void trading_window::update_win( npc &p, const std::string &deal, const int adju
             }
         }
 
-        temp = npc_trading::inventory_exchange( p.inv, without, added );
-
-        volume_left = p.volume_capacity() - p.volume_carried_with_tweaks( { temp } );
-        weight_left = p.weight_capacity() - p.weight_carried_with_tweaks( { temp } );
         bool npc_has_space = volume_left < 0_ml || weight_left < 0_gram;
         mvwprintz( w_head, 3, 2,  npc_has_space ?  c_red : c_green,
                    _( "Volume: %s %s, Weight: %.1f %s" ),
@@ -410,10 +392,12 @@ bool trading_window::perform_trade( npc &p, const std::string &deal )
     size_t ch;
     int adjusted_u_get = u_get - npc_requires;
 
-    // Make a temporary copy of the NPC inventory to make sure volume calculations are correct
-    temp = p.inv;
     volume_left = p.volume_capacity() - p.volume_carried();
     weight_left = p.weight_capacity() - p.weight_carried();
+    if( p.mission == NPC_MISSION_SHOPKEEP ) {
+        volume_left = units::from_liter( 5000 );
+        weight_left = units::from_kilogram( 5000 );
+    }
 
     do {
         update_win( p, deal, adjusted_u_get );
@@ -504,17 +488,17 @@ bool trading_window::perform_trade( npc &p, const std::string &deal )
                         }
                         owner_sells = change_amount;
                     }
-                    int delta_price = ip.price * change_amount;
                     update = true;
                     ip.selected = !ip.selected;
+                    if( ip.selected != focus_them ) {
+                        change_amount *= -1;
+                    }
+                    int delta_price = ip.price * change_amount;
                     if( !exchange ) {
-                        if( ip.selected == focus_them ) {
-                            u_get += delta_price;
-                            adjusted_u_get += delta_price;
-                        } else {
-                            u_get -= delta_price;
-                            adjusted_u_get -= delta_price;
-                        }
+                        u_get += delta_price;
+                        adjusted_u_get += delta_price;
+                        volume_left -= ip.vol * change_amount;
+                        weight_left -= ip.weight * change_amount;
                     }
                 }
                 ch = 0;
@@ -535,6 +519,7 @@ void trading_window::update_npc_owed( npc &np )
 // cost is positive when the player owes the NPC money for a service to be performed
 bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 {
+    np.shop_restock();
     trading_window trade_win;
     trade_win.setup_win( np );
     trade_win.setup_trade( cost, np );

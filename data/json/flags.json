@@ -559,5 +559,17 @@
     "type": "json_flag",
     "context": [ "SPELL" ],
     "description": "This makes the spell's Area of Effect ignore walls."
+  },
+  {
+    "id": "HOSTILE_SUMMON",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "This makes the spell's summoned monster always hostile.  Note that the spell needs to be a summon spell for this to do anything."
+  },
+  {
+    "id": "HOSTILE_50",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "This makes the spell's summoned monster hostile 50% of the time.  Note that the spell needs to be a summon spell for this to do anything."
   }
 ]
