@@ -117,7 +117,7 @@
     "type": "profession",
     "ident": "guru_magic2",
     "name": "Guru",
-    "description": "You spent many years traveling through the world, becoming wise and learned.  Normally, you can answer any question, but even you are not quite sure what to do about the ravenous undead.",
+    "description": "You spent many years traveling the world, becoming wise and learned.  Normally, you can answer any question, but even you are not quite sure what to do about the ravenous undead.",
     "points": 2,
     "//": "1.5 pts skills, cutting implement, and plenty of storage, so lack of fire only goes so far.",
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "survival" } ],
