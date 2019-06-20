@@ -109,6 +109,8 @@ static energy_type energy_source_from_string( const std::string &str )
         return bionic_energy;
     } else if( str == "STAMINA" ) {
         return stamina_energy;
+    } else if( str == "FATIGUE" ) {
+        return fatigue_energy;
     } else if( str == "NONE" ) {
         return none_energy;
     } else {
@@ -336,6 +338,11 @@ bool spell::has_flag( const spell_flag &flag ) const
     return type->spell_tags[flag];
 }
 
+bool spell::is_spell_class( const trait_id &mid ) const
+{
+    return mid == type->spell_class;
+}
+
 bool spell::can_cast( const player &p ) const
 {
     if( !p.magic.knows_spell( type->id ) ) {
@@ -358,6 +365,8 @@ bool spell::can_cast( const player &p ) const
         }
         case bionic_energy:
             return p.power_level >= energy_cost();
+        case fatigue_energy:
+            return p.get_fatigue() < EXHAUSTED;
         case none_energy:
         default:
             return true;
@@ -450,6 +459,8 @@ std::string spell::energy_string() const
             return _( "stamina" );
         case bionic_energy:
             return _( "bionic power" );
+        case fatigue_energy:
+            return _( "fatigue" );
         default:
             return "";
     }
@@ -470,6 +481,9 @@ std::string spell::energy_cost_string( const player &p ) const
     if( energy_source() == stamina_energy ) {
         auto pair = get_hp_bar( energy_cost(), p.get_stamina_max() );
         return colorize( pair.first, pair.second );
+    }
+    if( energy_source() == fatigue_energy ) {
+        return colorize( to_string( energy_cost() ), c_cyan );
     }
     debugmsg( "ERROR: Spell %s has invalid energy source.", id().c_str() );
     return _( "error: energy_type" );
@@ -492,6 +506,10 @@ std::string spell::energy_cur_string( const player &p ) const
     }
     if( energy_source() == hp_energy ) {
         return "";
+    }
+    if( energy_source() == fatigue_energy ) {
+        const std::pair<std::string, nc_color> pair = p.get_fatigue_description();
+        return colorize( pair.first, pair.second );
     }
     debugmsg( "ERROR: Spell %s has invalid energy source.", id().c_str() );
     return _( "error: energy_type" );
@@ -839,6 +857,7 @@ void known_magic::forget_spell( const spell_id &sp )
         debugmsg( "Can't forget a spell you don't know!" );
         return;
     }
+    add_msg( m_bad, _( "All knowledge of %s leaves you." ), sp->name );
     spellbook.erase( sp );
 }
 
@@ -926,6 +945,8 @@ bool known_magic::has_enough_energy( const player &p, spell &sp ) const
                 }
             }
             return false;
+        case fatigue_energy:
+            return p.get_fatigue() < EXHAUSTED;
         case none_energy:
             return true;
         default:
@@ -1042,7 +1063,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     print_colored_text( w_menu, line++, h_col1, gray, gray,
                         string_format( "%s: %s %s%s", _( "Casting Cost" ), sp.energy_cost_string( g->u ),
                                        sp.energy_string(),
-                                       sp.energy_source() == hp_energy ? "" :  string_format( " ( % s current )",
+                                       sp.energy_source() == hp_energy ? "" :  string_format( " ( %s current )",
                                                sp.energy_cur_string( g->u ) ) ) );
 
     print_colored_text( w_menu, line++, h_col1, gray, gray,
@@ -1170,6 +1191,30 @@ int known_magic::select_spell( const player &p )
     casting_ignore = static_cast<spellcasting_callback *>( spell_menu.callback )->casting_ignore;
 
     return spell_menu.ret;
+}
+
+void known_magic::on_mutation_gain( const trait_id &mid, player &p )
+{
+    for( const std::pair<spell_id, int> &sp : mid->spells_learned ) {
+        learn_spell( sp.first, p, true );
+        spell &temp_sp = get_spell( sp.first );
+        for( int level = 0; level <= sp.second; level++ ) {
+            temp_sp.gain_level();
+        }
+    }
+}
+
+void known_magic::on_mutation_loss( const trait_id &mid )
+{
+    std::vector<spell_id> spells_to_forget;
+    for( const spell *sp : get_spells() ) {
+        if( sp->is_spell_class( mid ) ) {
+            spells_to_forget.emplace_back( sp->id() );
+        }
+    }
+    for( const spell_id &sp_id : spells_to_forget ) {
+        forget_spell( sp_id );
+    }
 }
 
 void spellbook_callback::add_spell( const spell_id &sp )

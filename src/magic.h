@@ -36,6 +36,7 @@ enum energy_type {
     mana_energy,
     stamina_energy,
     bionic_energy,
+    fatigue_energy,
     none_energy
 };
 
@@ -240,6 +241,8 @@ class spell
         bool bp_is_affected( body_part bp ) const;
         // check if the spell has a particular flag
         bool has_flag( const spell_flag &flag ) const;
+        // check if the spell's class is the same as input
+        bool is_spell_class( const trait_id &mid ) const;
 
         // get spell id (from type)
         spell_id id() const;
@@ -324,6 +327,9 @@ class known_magic
         // does the player have enough energy to cast this spell?
         // not specific to mana
         bool has_enough_energy( const player &p, spell &sp ) const;
+
+        void on_mutation_gain( const trait_id &mid, player &p );
+        void on_mutation_loss( const trait_id &mid );
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );

@@ -10,6 +10,7 @@
 #include <vector>
 #include <string>
 
+#include "construction_category.h"
 #include "item.h"
 #include "optional.h"
 #include "string_id.h"
@@ -37,7 +38,7 @@ struct build_reqs {
 
 struct construction {
         // Construction type category
-        std::string category;
+        construction_category_id category;
         // How the action is displayed to the player
         std::string description;
         // Additional note displayed along with construction requirements.

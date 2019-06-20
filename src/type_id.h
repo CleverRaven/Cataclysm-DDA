@@ -11,6 +11,9 @@ using ammotype = string_id<ammunition_type>;
 struct bionic_data;
 using bionic_id = string_id<bionic_data>;
 
+struct construction_category;
+using construction_category_id = string_id<construction_category>;
+
 class effect_type;
 using efftype_id = string_id<effect_type>;
 
