@@ -291,7 +291,7 @@
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY", "BLOCK_WHILE_WORN" ]
+    "flags": [ "VARSIZE", "BELTED", "STURDY", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "armguard_metal",
@@ -357,7 +357,7 @@
     "encumbrance": 18,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "OUTER", "BLOCK_WHILE_WORN" ]
+    "flags": [ "BELTED", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "armguard_soft",
@@ -6356,7 +6356,7 @@
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+    "flags": [ "VARSIZE", "BELTED", "STURDY" ]
   },
   {
     "id": "legguard_metal",
@@ -6420,7 +6420,7 @@
     "encumbrance": 18,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "OUTER" ]
+    "flags": [ "BELTED" ]
   },
   {
     "id": "legrig",
