@@ -22,7 +22,7 @@
     "effects": [ "COOKOFF" ]
   },
   {
-    "id": "reloaded_45_colt_jhp",
+    "id": "reloaded_45colt_jhp",
     "copy-from": "45colt_jhp",
     "type": "AMMO",
     "name": "reloaded .45 Colt JHP",
