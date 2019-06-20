@@ -359,7 +359,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     while( curshot != shots ) {
         if( gun.faults.count( fault_gun_chamber_spent ) && curshot == 0 ) {
             moves -= 50;
-            gun.faults.remove( fault_gun_chamber_spent );
+            gun.faults.erase( fault_gun_chamber_spent );
             add_msg_if_player( _( "You cycle your %s manually." ), gun.tname() );
         }
 
