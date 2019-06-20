@@ -21,7 +21,7 @@
     "effects": [ "COOKOFF" ]
   },
   {
-    "id": "reloaded_38_super_fmj",
+    "id": "reloaded_38super_fmj",
     "copy-from": "38super_fmj",
     "type": "AMMO",
     "name": "reloaded .38 Super FMJ",
