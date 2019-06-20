@@ -6670,5 +6670,17 @@
         { "item": "plastic_chunk", "count": [ 0, 1 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_no_item",
+    "//": "This is used in a hack to clear furniture with the keg iexamine of all items execept the stored liquid before usage.",
+    "name": "seeing this is a bug",
+    "description": "Seeing this is a bug.  If seen, please report and destroy.",
+    "symbol": "#",
+    "color": "black",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [ "NOITEM" ]
   }
 ]

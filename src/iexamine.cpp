@@ -2626,14 +2626,14 @@ bool iexamine::has_keg( const tripoint &pos )
     return get_keg_capacity( pos ) > 0_ml;
 }
 
-void iexamine::keg( player &p, const tripoint &examp )
+static void displace_items_except_one_liquid( const tripoint &examp )
 {
-    none( p, examp );
-    const auto keg_name = g->m.name( examp );
-    units::volume keg_cap = get_keg_capacity( examp );
-    map_stack items = g->m.i_at( examp );
+    // Temporarily replace the real furniture with a fake furniture with NOITEM
+    const furn_id previous_furn = g->m.furn( examp );
+    g->m.furn_set( examp, furn_id( "f_no_item" ) );
 
     bool liquid_present = false;
+    map_stack items = g->m.i_at( examp );
     for( map_stack::iterator it = items.begin(); it != items.end(); ) {
         if( !it->made_of_from_type( LIQUID ) || liquid_present ) {
             // This isn't a liquid or there was already another kind of liquid inside,
@@ -2646,6 +2646,20 @@ void iexamine::keg( player &p, const tripoint &examp )
             liquid_present = true;
         }
     }
+
+    // Replace the real furniture
+    g->m.furn_set( examp, previous_furn );
+}
+
+void iexamine::keg( player &p, const tripoint &examp )
+{
+    none( p, examp );
+    const auto keg_name = g->m.name( examp );
+    units::volume keg_cap = get_keg_capacity( examp );
+
+    const bool liquid_present = map_cursor( examp ).has_item_with( []( const item & it ) {
+        return it.made_of_from_type( LIQUID );
+    } );
 
     if( !liquid_present ) {
         add_msg( m_info, _( "It is empty." ) );
@@ -2689,6 +2703,10 @@ void iexamine::keg( player &p, const tripoint &examp )
         if( drink_index < 0 ) {
             return;
         }
+
+        // First empty the keg of foreign objects
+        displace_items_except_one_liquid( examp );
+
         //Store liquid chosen in the keg
         itype_id drink_type = drink_types[ drink_index ];
         int charges_held = p.charges_of( drink_type );
@@ -2713,6 +2731,10 @@ void iexamine::keg( player &p, const tripoint &examp )
         g->m.add_item( examp, drink );
         return;
     } else {
+        // First empty the keg of foreign objects
+        displace_items_except_one_liquid( examp );
+
+        map_stack items = g->m.i_at( examp );
         item &drink = items.only_item();
         const std::string drink_tname = drink.tname();
         const std::string drink_nname = item::nname( drink.typeId() );
