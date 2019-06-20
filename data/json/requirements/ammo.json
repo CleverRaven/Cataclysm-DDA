@@ -41,6 +41,12 @@
     "components": [ [ [ "10mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
   },
   {
+    "id": "ammo_45colt",
+    "type": "requirement",
+    "//": "Components required for .45 Colt ammo",
+    "components": [ [ [ "45colt_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ] ]
+  },
+  {
     "id": "ammo_38super",
     "type": "requirement",
     "//": "Components required for .38 Super ammo",

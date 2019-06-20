@@ -27,6 +27,8 @@
     "//": "Less common pistol ammo including that only used by police/paramilitary forces.",
     "items": [
       [ "10mm_fmj", 15 ],
+      [ "45colt_jhp", 10 ],
+      [ "38_super", 20 ],
       [ "38super_fmj", 20 ],
       [ "44fmj", 15 ],
       [ "44magnum", 35 ],
@@ -86,6 +88,7 @@
       [ "reloaded_45_super", 40 ],
       [ "reloaded_46mm", 20 ],
       [ "reloaded_454_Casull", 5 ],
+      [ "reloaded_45colt_jhp", 10 ],
       [ "reloaded_460_fmj", 5 ],
       [ "reloaded_460_rowland", 5 ],
       [ "reloaded_500_Magnum", 5 ],

@@ -163,6 +163,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "45colt",
+    "name": ".45 Colt",
+    "default": "45colt_jhp"
+  },
+  {
+    "type": "ammunition_type",
     "id": "500",
     "name": ".500",
     "default": "500_Magnum"

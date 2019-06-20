@@ -149,6 +149,15 @@
     "volume": "6ml"
   },
   {
+    "id": "45colt_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".45 Colt casing",
+    "description": "An empty casing from a .45 Colt round.",
+    "weight": 4,
+    "volume": "6ml"
+  },
+  {
     "id": "4570_casing",
     "copy-from": "casing",
     "type": "GENERIC",
