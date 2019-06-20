@@ -61,7 +61,7 @@ const efftype_id effect_got_checked( "got_checked" );
 // constructor
 window_panel::window_panel( std::function<void( avatar &, const catacurses::window & )>
                             draw_func, const std::string &nm, int ht, int wd, bool def_toggle,
-                            std::function<bool( void )> render_func,  bool force_draw )
+                            std::function<bool()> render_func,  bool force_draw )
 {
     draw = draw_func;
     name = nm;
@@ -580,7 +580,7 @@ static std::string temp_delta_string( const avatar &u )
     } else if( delta == 1 ) {
         temp_message = _( " (Rising)" );
     } else if( delta == 0 ) {
-        temp_message = "";
+        temp_message.clear();
     } else if( delta == -1 ) {
         temp_message = _( " (Falling)" );
     } else if( delta == -2 ) {
@@ -1712,8 +1712,11 @@ static void draw_mana( const player &u, const catacurses::window &w )
     werase( w );
 
     auto mana_pair = mana_stat( u );
-    mvwprintz( w, 0, getmaxx( w ) - 10, c_light_gray, "Mana" );
-    mvwprintz( w, 0, getmaxx( w ) - 5, mana_pair.first, mana_pair.second );
+    const std::string mana_string = string_format( "%6s %5s %10s %5s", _( "Mana" ),
+                                    colorize( mana_pair.second, mana_pair.first ), _( "Max Mana" ),
+                                    colorize( to_string( u.magic.max_mana( u ) ), c_light_blue ) );
+    nc_color gray = c_light_gray;
+    print_colored_text( w, 0, getmaxx( w ) - mana_string.size(), gray, gray, mana_string );
 
     wrefresh( w );
 }
@@ -1979,7 +1982,6 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
     bool selected = false;
     size_t source_index = 0;
     size_t target_index = 0;
-    std::string saved_name;
 
     bool redraw = true;
     bool exit = false;
@@ -2014,7 +2016,7 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
                 }
             }
 
-            column == 0 ? max_index = row_indices.size() : max_index = layouts.size();
+            max_index = column == 0 ? row_indices.size() : layouts.size();
             int vertical_offset = 0;
             int selected_offset = 0;
             size_t modified_index = row_indices[index - 1];
@@ -2083,7 +2085,6 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
                 // saving win1 index
                 source_index = row_indices[index - 1];
                 selected = true;
-                saved_name = panels[source_index].get_name();
             }
             // dest window for the swap
             if( counter == 2 ) {

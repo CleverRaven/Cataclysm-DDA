@@ -95,7 +95,7 @@ namespace
 
 std::set<std::string> ignored_messages;
 
-}
+} // namespace
 
 void realDebugmsg( const char *filename, const char *line, const char *funcname,
                    const std::string &text )
@@ -1020,7 +1020,7 @@ static std::string windows_version()
 #if defined (__MINGW32__) || defined (__MINGW64__) || defined (__CYGWIN__) || defined (MSYS2)
         output = "MINGW/CYGWIN/MSYS2 on unknown Windows version";
 #else
-        output = "";
+        output.clear();
         using RtlGetVersion = LONG( WINAPI * )( PRTL_OSVERSIONINFOW );
         const HMODULE handle_ntdll = GetModuleHandleA( "ntdll" );
         if( handle_ntdll != nullptr ) {

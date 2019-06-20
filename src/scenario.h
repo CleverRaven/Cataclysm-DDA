@@ -45,7 +45,7 @@ class scenario
         std::vector<start_location_id> _allowed_locs;
         int _point_cost;
         std::set<std::string> flags; // flags for some special properties of the scenario
-        std::string _map_special;
+        std::string _map_extra;
         std::vector<mission_type_id> _missions;
 
         void load( JsonObject &jo, const std::string &src );
@@ -85,8 +85,8 @@ class scenario
 
         bool allowed_start( const start_location_id &loc ) const;
         signed int point_cost() const;
-        bool has_map_special() const;
-        const std::string &get_map_special() const;
+        bool has_map_extra() const;
+        const std::string &get_map_extra() const;
 
         /**
          * Returns "All", "Limited", or "Almost all" (translated)

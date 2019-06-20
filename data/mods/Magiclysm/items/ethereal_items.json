@@ -226,6 +226,7 @@
     "flags": [
       "UNBREAKABLE_MELEE",
       "REACH_ATTACK",
+      "SPEAR",
       "REACH2",
       "NONCONDUCTIVE",
       "SHEATH_SPEAR",

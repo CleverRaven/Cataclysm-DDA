@@ -611,6 +611,38 @@
     "items": [ [ "oj", 35 ], [ "cooked_pumpkin", 25 ], [ "bread", 10 ], [ "fruit_waffles", 5 ], [ "grahmcrackers", 5 ] ]
   },
   {
+    "id": "gym",
+    "type": "item_group",
+    "items": [
+      [ "water_clean", 12 ],
+      [ "lemonade", 12 ],
+      [ "sports_drink", 12 ],
+      [ "V8", 12 ],
+      [ "tank_top", 30 ],
+      [ "towel", 40 ],
+      [ "under_armor_shorts", 20 ],
+      [ "under_armor", 20 ],
+      [ "protein_shake", 8 ],
+      [ "tshirt", 30 ],
+      [ "sneakers", 30 ],
+      [ "hot_pants", 14 ],
+      [ "undershirt", 30 ],
+      [ "hoodie", 20 ],
+      [ "shorts", 30 ],
+      [ "coke", 3 ],
+      [ "longshirt", 30 ],
+      [ "bandages", 10 ],
+      [ "heatpack", 10 ],
+      [ "gum", 12 ],
+      [ "soap", 10 ],
+      [ "sports_bra", 30 ],
+      [ "briefs", 30 ],
+      [ "yoghurt", 12 ],
+      [ "vitamins", 10 ],
+      [ "aspirin", 10 ]
+    ]
+  },
+  {
     "type": "item_group",
     "id": "ss_merch_1",
     "//": "for cs_sex_shop",
@@ -663,5 +695,15 @@
       [ "candle", 20 ],
       [ "pillow", 20 ]
     ]
+  },
+  {
+    "id": "laundromat_bleach",
+    "type": "item_group",
+    "items": [ [ "bleach", 50 ] ]
+  },
+  {
+    "id": "laundromat_containers",
+    "type": "item_group",
+    "items": [ [ "duffelbag", 5 ], [ "backpack", 5 ], [ "bag_plastic", 30 ], [ "basket_laundry", 30 ] ]
   }
 ]

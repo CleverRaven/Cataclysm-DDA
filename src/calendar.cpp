@@ -236,6 +236,22 @@ bool calendar::is_night() const
     return now > sunset + twilight_duration || now < sunrise;
 }
 
+bool calendar::is_sunset_now() const
+{
+    const time_duration now = time_past_midnight( *this );
+    const time_duration sunset = time_past_midnight( this->sunset() );
+
+    return now > sunset && now < sunset + twilight_duration;
+}
+
+bool calendar::is_sunrise_now() const
+{
+    const time_duration now = time_past_midnight( *this );
+    const time_duration sunrise = time_past_midnight( this->sunrise() );
+
+    return now > sunrise && now < sunrise + twilight_duration;
+}
+
 double calendar::current_daylight_level() const
 {
     const double percent = static_cast<double>( static_cast<double>( day ) / to_days<int>

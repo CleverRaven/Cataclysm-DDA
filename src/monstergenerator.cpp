@@ -148,7 +148,7 @@ const std::map<std::string, m_flag> flag_map = {
     { "LOUDMOVES", MF_LOUDMOVES }
 };
 
-}
+} // namespace
 
 namespace io
 {
@@ -165,7 +165,7 @@ m_flag string_to_enum<m_flag>( const std::string &flag )
     return string_to_enum_look_up( flag_map, flag );
 }
 
-}
+} // namespace io
 
 /** @relates string_id */
 template<>
@@ -790,6 +790,8 @@ void MonsterGenerator::load_species( JsonObject &jo, const std::string &src )
 
 void species_type::load( JsonObject &jo, const std::string & )
 {
+    optional( jo, was_loaded, "footsteps", footsteps, "footsteps." );
+    footsteps = _( footsteps );
     const auto flag_reader = enum_flags_reader<m_flag> { "monster flag" };
     optional( jo, was_loaded, "flags", flags, flag_reader );
 

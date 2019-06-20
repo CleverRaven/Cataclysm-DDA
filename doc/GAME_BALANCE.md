@@ -208,7 +208,7 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 .38 Special        | 130gr FMJ bullet            | 256       | 16  | 4in      |                              |
 .38 FMJ            | 130gr FMJ bullet            | 256       | 16  | 4in      |                              |
 .38 Super          | 90gr JHP bullet             | 658       | 26  | 4in      |                              |
-10mm Auto          | 180gr FMJ bullet            | 575       | 24  | 4in      |                              |
+10mm Auto          | 180gr FMJ bullet            | 960       | 31  | 4in      |                              |
 .40 S&W            | 135gr JHP bullet            | 575       | 24  | 4in      |                              |
 .40 FMJ            | 180gr FMJ bullet            | 598       | 24  | 4in      |                              |
 .44 Magnum         | 240gr JHP bullet            | 1570      | 40  | 7.5in    |                              |

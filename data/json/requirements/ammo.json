@@ -27,5 +27,17 @@
     "type": "requirement",
     "//": "Components required for shotgun and signal flare ammo",
     "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ] ]
+  },
+  {
+    "id": "ammo_357mag",
+    "type": "requirement",
+    "//": "Components required for .357 Magnum ammo",
+    "components": [ [ [ "357mag_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ] ]
+  },
+  {
+    "id": "ammo_10mm",
+    "type": "requirement",
+    "//": "Components required for 10mm Auto ammo",
+    "components": [ [ [ "10mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
   }
 ]

@@ -564,7 +564,7 @@ void catacurses::wattroff( const window &win_, int )
 
 void catacurses::waddch( const window &win, const chtype ch )
 {
-    return printstring( win.get<cata_cursesport::WINDOW>(), string_from_long( ch ) );
+    return printstring( win.get<cata_cursesport::WINDOW>(), string_from_int( ch ) );
 }
 
 static constexpr int A_BLINK = 0x00000800; /* Added characters are blinking. */

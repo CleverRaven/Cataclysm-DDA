@@ -202,6 +202,6 @@ inline path straight_path( const point &source,
     return res;
 }
 
-}
+} // namespace pf
 
 #endif

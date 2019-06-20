@@ -75,6 +75,10 @@ struct bionic_data {
     */
     bool storage_only = false;
     /**
+    * If true, this bionic is included with another.
+    */
+    bool included = false;
+    /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */
     std::map<body_part, size_t> occupied_bodyparts;

@@ -505,7 +505,7 @@ mission_type_id mission::get_follow_up() const
     return follow_up;
 }
 
-long mission::get_value() const
+int mission::get_value() const
 {
     return value;
 }

@@ -575,8 +575,8 @@ void starting_inv( npc &who, const npc_class_id &type )
 
         // TODO: Move to npc_class
         // NC_COWBOY and NC_BOUNTY_HUNTER get 5-15 whilst all others get 3-6
-        long qty = 1 + ( type == NC_COWBOY ||
-                         type == NC_BOUNTY_HUNTER );
+        int qty = 1 + ( type == NC_COWBOY ||
+                        type == NC_BOUNTY_HUNTER );
         qty = rng( qty, qty * 2 );
 
         while( qty-- != 0 && who.can_pickVolume( ammo ) ) {
@@ -589,8 +589,8 @@ void starting_inv( npc &who, const npc_class_id &type )
         res.emplace_back( "molotov" );
     }
 
-    long qty = ( type == NC_EVAC_SHOPKEEP ||
-                 type == NC_TRADER ) ? 5 : 2;
+    int qty = ( type == NC_EVAC_SHOPKEEP ||
+                type == NC_TRADER ) ? 5 : 2;
     qty = rng( qty, qty * 3 );
 
     while( qty-- != 0 ) {
@@ -1257,6 +1257,9 @@ void npc::say( const std::string &line, const int priority ) const
 
 bool npc::wants_to_sell( const item &it ) const
 {
+    if( my_fac != it.get_owner() ) {
+        return false;
+    }
     const int market_price = it.price( true );
     return wants_to_sell( it, value( it, market_price ), market_price );
 }
@@ -1293,24 +1296,51 @@ bool npc::wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ )
 
 void npc::shop_restock()
 {
+    if( calendar::turn - restock < 3_days ) {
+        return;
+    }
+
     restock = calendar::turn + 3_days;
     if( is_player_ally() ) {
         return;
     }
-
     const Group_tag &from = myclass->get_shopkeeper_items();
     if( from == "EMPTY_GROUP" ) {
         return;
     }
 
     units::volume total_space = volume_capacity();
-    std::list<item> ret;
+    if( mission == NPC_MISSION_SHOPKEEP ) {
+        total_space = units::from_liter( 5000 );
+    }
 
-    while( total_space > 0_ml && !one_in( 50 ) ) {
+    std::list<item> ret;
+    int shop_value = 75000;
+    if( my_fac ) {
+        shop_value = my_fac->wealth * 0.0075;
+        if( mission == NPC_MISSION_SHOPKEEP && !my_fac->currency.empty() ) {
+            item my_currency( my_fac->currency );
+            if( !my_currency.is_null() ) {
+                my_currency.set_owner( my_fac );
+                int my_amount = rng( 5, 15 ) * shop_value / 100 / my_currency.price( true );
+                for( int lcv = 0; lcv < my_amount; lcv++ ) {
+                    ret.push_back( my_currency );
+                }
+            }
+        }
+    }
+
+    int count = 0;
+    bool last_item = false;
+    while( shop_value > 0 && total_space > 0_ml && !last_item ) {
         item tmpit = item_group::item_from( from, 0 );
         if( !tmpit.is_null() && total_space >= tmpit.volume() ) {
+            tmpit.set_owner( my_fac );
             ret.push_back( tmpit );
+            shop_value -= tmpit.price( true );
             total_space -= tmpit.volume();
+            count += 1;
+            last_item = count > 10 && one_in( 100 );
         }
     }
 
@@ -1348,6 +1378,11 @@ int npc::value( const item &it, int market_price ) const
     if( it.is_dangerous() || ( it.has_flag( "BOMB" ) && it.active ) || it.made_of( LIQUID ) ) {
         // NPCs won't be interested in buying active explosives or spilled liquids
         return -1000;
+    }
+
+    // faction currency trades at market price
+    if( my_fac && my_fac->currency == it.typeId() ) {
+        return market_price;
     }
 
     int ret = 0;
@@ -1807,7 +1842,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         size_t split;
         do {
             split = ( str_in.length() <= iWidth ) ? std::string::npos : str_in.find_last_of( ' ',
-                    static_cast<long>( iWidth ) );
+                    static_cast<int>( iWidth ) );
             if( split == std::string::npos ) {
                 mvwprintz( w, line, column, color, str_in );
             } else {

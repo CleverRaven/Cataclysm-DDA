@@ -59,7 +59,7 @@ int caravan_price( player &u, int price );
 
 void draw_caravan_borders( const catacurses::window &w, int current_window );
 void draw_caravan_categories( const catacurses::window &w, int category_selected,
-                              signed total_price, signed long cash );
+                              int total_price, int cash );
 void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *items,
                          std::vector<int> *counts, int offset, int item_selected );
 
@@ -1107,7 +1107,7 @@ Press %s to buy everything in your cart, %s to buy nothing." ),
                                              "Buy %d items, leaving you with %s?",
                                              items[0].size() ),
                                    items[0].size(),
-                                   format_money( static_cast<long>( g->u.cash ) - static_cast<long>( total_price ) ) ) ) ) {
+                                   format_money( static_cast<int>( g->u.cash ) - static_cast<int>( total_price ) ) ) ) ) {
                 done = true;
             }
             if( !done ) { // We canceled, so redraw everything
@@ -1280,7 +1280,7 @@ void draw_caravan_borders( const catacurses::window &w, int current_window )
 }
 
 void draw_caravan_categories( const catacurses::window &w, int category_selected,
-                              signed total_price, signed long cash )
+                              int total_price, int cash )
 {
     // Clear the window
     for( int i = 1; i <= 10; i++ ) {
@@ -1289,7 +1289,7 @@ void draw_caravan_categories( const catacurses::window &w, int category_selected
     mvwprintz( w, 1, 1, c_white, _( "Your Cash: %s" ), format_money( cash ) );
     wprintz( w, c_light_gray, " -> " );
     wprintz( w, ( total_price > cash ? c_red : c_green ), "%s",
-             format_money( static_cast<long>( cash ) - static_cast<long>( total_price ) ) );
+             format_money( static_cast<int>( cash ) - static_cast<int>( total_price ) ) );
 
     for( int i = 0; i < NUM_CARAVAN_CATEGORIES; i++ ) {
         mvwprintz( w, i + 3, 1, ( i == category_selected ? h_white : c_white ),
@@ -1324,8 +1324,8 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
                    item::nname( ( *items )[i], ( *counts )[i] ) );
         wprintz( w, c_white, " x %2d", ( *counts )[i] );
         if( ( *counts )[i] > 0 ) {
-            signed long price = caravan_price( g->u, item( ( *items )[i],
-                                               0 ).price( false ) * ( *counts )[i] );
+            int price = caravan_price( g->u, item( ( *items )[i],
+                                                   0 ).price( false ) * ( *counts )[i] );
             wprintz( w, ( price > g->u.cash ? c_red : c_green ), " (%s)", format_money( price ) );
         }
     }

@@ -91,7 +91,7 @@ bool consume_liquid( item &liquid, const int radius )
     return original_charges != liquid.charges;
 }
 
-bool handle_liquid_from_ground( std::list<item>::iterator on_ground,
+bool handle_liquid_from_ground( map_stack::iterator on_ground,
                                 const tripoint &pos,
                                 const int radius )
 {
@@ -109,7 +109,7 @@ bool handle_liquid_from_container( std::list<item>::iterator in_container,
                                    int radius )
 {
     // TODO: not all code paths on handle_liquid consume move points, fix that.
-    const long old_charges = in_container->charges;
+    const int old_charges = in_container->charges;
     handle_liquid( *in_container, &container, radius );
     if( in_container->charges != old_charges ) {
         container.on_contents_changed();
@@ -381,4 +381,4 @@ bool handle_liquid( item &liquid, item *const source, const int radius,
     }
     return false;
 }
-}
+} // namespace liquid_handler

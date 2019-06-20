@@ -877,16 +877,17 @@ PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
             g->u.moves -= 70;
             for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 2 ) ) {
                 if( g->m.ter( dest ) == t_centrifuge ) {
-                    if( g->m.i_at( dest ).empty() ) {
+                    map_stack items = g->m.i_at( dest );
+                    if( items.empty() ) {
                         print_error( _( "ERROR: Please place sample in centrifuge." ) );
-                    } else if( g->m.i_at( dest ).size() > 1 ) {
+                    } else if( items.size() > 1 ) {
                         print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
-                    } else if( g->m.i_at( dest )[0].contents.empty() ) {
+                    } else if( items.only_item().contents.empty() ) {
                         print_error( _( "ERROR: Please only use container with blood sample." ) );
-                    } else if( g->m.i_at( dest )[0].contents.front().typeId() != "blood" ) {
+                    } else if( items.only_item().contents.front().typeId() != "blood" ) {
                         print_error( _( "ERROR: Please only use blood samples." ) );
                     } else { // Success!
-                        const item &blood = g->m.i_at( dest ).front().contents.front();
+                        const item &blood = items.only_item().contents.front();
                         const mtype *mt = blood.get_mtype();
                         if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
                             print_line( _( "Result:  Human blood, no pathogens found." ) );
@@ -921,17 +922,18 @@ PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
             for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 2 ) ) {
                 if( g->m.ter( dest ) == t_floor_blue ) {
                     print_error( _( "PROCESSING DATA" ) );
-                    if( g->m.i_at( dest ).empty() ) {
+                    map_stack items = g->m.i_at( dest );
+                    if( items.empty() ) {
                         print_error( _( "ERROR: Please place memory bank in scan area." ) );
-                    } else if( g->m.i_at( dest ).size() > 1 ) {
+                    } else if( items.size() > 1 ) {
                         print_error( _( "ERROR: Please only scan one item at a time." ) );
-                    } else if( g->m.i_at( dest )[0].typeId() != "usb_drive" &&
-                               g->m.i_at( dest )[0].typeId() != "black_box" ) {
+                    } else if( items.only_item().typeId() != "usb_drive" &&
+                               items.only_item().typeId() != "black_box" ) {
                         print_error( _( "ERROR: Memory bank destroyed or not present." ) );
-                    } else if( g->m.i_at( dest )[0].typeId() == "usb_drive" && g->m.i_at( dest )[0].contents.empty() ) {
+                    } else if( items.only_item().typeId() == "usb_drive" && items.only_item().contents.empty() ) {
                         print_error( _( "ERROR: Memory bank is empty." ) );
                     } else { // Success!
-                        if( g->m.i_at( dest )[0].typeId() == "black_box" ) {
+                        if( items.only_item().typeId() == "black_box" ) {
                             print_line( _( "Memory Bank:  Military Hexron Encryption\nPrinting Transcript\n" ) );
                             item transcript( "black_box_transcript", calendar::turn );
                             g->m.add_item_or_charges( g->u.posx(), g->u.posy(), transcript );
@@ -1617,15 +1619,16 @@ void computer::activate_failure( computer_failure_type fail )
             print_error( _( "ERROR: Disruptive Spin" ) );
             for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 2 ) ) {
                 if( g->m.ter( dest ) == t_centrifuge ) {
-                    if( g->m.i_at( dest ).empty() ) {
+                    map_stack items = g->m.i_at( dest );
+                    if( items.empty() ) {
                         print_error( _( "ERROR: Please place sample in centrifuge." ) );
-                    } else if( g->m.i_at( dest ).size() > 1 ) {
+                    } else if( items.size() > 1 ) {
                         print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
-                    } else if( g->m.i_at( dest )[0].typeId() != "vacutainer" ) {
+                    } else if( items.only_item().typeId() != "vacutainer" ) {
                         print_error( _( "ERROR: Please use blood-contained samples." ) );
-                    } else if( g->m.i_at( dest )[0].contents.empty() ) {
+                    } else if( items.only_item().contents.empty() ) {
                         print_error( _( "ERROR: Blood draw kit, empty." ) );
-                    } else if( g->m.i_at( dest )[0].contents.front().typeId() != "blood" ) {
+                    } else if( items.only_item().contents.front().typeId() != "blood" ) {
                         print_error( _( "ERROR: Please only use blood samples." ) );
                     } else {
                         print_error( _( "ERROR: Blood sample destroyed." ) );
@@ -1641,13 +1644,14 @@ void computer::activate_failure( computer_failure_type fail )
             for( int x = 0; x < SEEX * 2; x++ ) {
                 for( int y = 0; y < SEEY * 2; y++ ) {
                     if( g->m.ter( x, y ) == t_floor_blue ) {
-                        if( g->m.i_at( x, y ).empty() ) {
+                        map_stack items = g->m.i_at( x, y );
+                        if( items.empty() ) {
                             print_error( _( "ERROR: Please place memory bank in scan area." ) );
-                        } else if( g->m.i_at( x, y ).size() > 1 ) {
+                        } else if( items.size() > 1 ) {
                             print_error( _( "ERROR: Please only scan one item at a time." ) );
-                        } else if( g->m.i_at( x, y )[0].typeId() != "usb_drive" ) {
+                        } else if( items.only_item().typeId() != "usb_drive" ) {
                             print_error( _( "ERROR: Memory bank destroyed or not present." ) );
-                        } else if( g->m.i_at( x, y )[0].contents.empty() ) {
+                        } else if( items.only_item().contents.empty() ) {
                             print_error( _( "ERROR: Memory bank is empty." ) );
                         } else {
                             print_error( _( "ERROR: Data bank destroyed." ) );

@@ -157,10 +157,7 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
         if( extra == nullptr ) {
             debugmsg( "failed to pick extra for type %s", terrain_type->get_extras() );
         } else {
-            auto func = MapExtras::get_function( *( ex.values.pick() ) );
-            if( func != nullptr ) {
-                func( *this, abs_sub );
-            }
+            MapExtras::apply_function( *( ex.values.pick() ), *this, abs_sub );
         }
     }
 
@@ -308,7 +305,7 @@ std::string member;
 std::string message;
 bool defer;
 JsonObject jsi;
-}
+} // namespace mapgen_defer
 
 static void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
                               const std::string &message )
@@ -381,7 +378,7 @@ static void load_nested_mapgen( JsonObject &jio, const std::string &id_base )
             JsonObject jo = jio.get_object( "object" );
             std::string jstr = jo.str();
             nested_mapgen[id_base].push_back(
-                cata::make_unique<mapgen_function_json_nested>( jstr ) );
+                std::make_unique<mapgen_function_json_nested>( jstr ) );
         } else {
             debugmsg( "Nested mapgen: Invalid mapgen function (missing \"object\" object)", id_base.c_str() );
         }
@@ -399,7 +396,7 @@ static void load_update_mapgen( JsonObject &jio, const std::string &id_base )
             JsonObject jo = jio.get_object( "object" );
             std::string jstr = jo.str();
             update_mapgen[id_base].push_back(
-                cata::make_unique<update_mapgen_function_json>( jstr ) );
+                std::make_unique<update_mapgen_function_json>( jstr ) );
         } else {
             debugmsg( "Update mapgen: Invalid mapgen function (missing \"object\" object)",
                       id_base.c_str() );
@@ -474,10 +471,10 @@ void reset_mapgens()
 size_t mapgen_function_json_base::calc_index( const size_t x, const size_t y ) const
 {
     if( x >= mapgensize_x ) {
-        debugmsg( "invalid value %lu for x in calc_index", static_cast<unsigned long>( x ) );
+        debugmsg( "invalid value %zu for x in calc_index", x );
     }
     if( y >= mapgensize_y ) {
-        debugmsg( "invalid value %lu for y in calc_index", static_cast<unsigned long>( y ) );
+        debugmsg( "invalid value %zu for y in calc_index", y );
     }
     return y * mapgensize_y + x;
 }
@@ -975,7 +972,7 @@ class jmapgen_toilet : public jmapgen_piece
                     const float /*mon_density*/, mission * /*miss*/ ) const override {
             const int rx = x.get();
             const int ry = y.get();
-            const long charges = amount.get();
+            const int charges = amount.get();
             dat.m.furn_set( rx, ry, f_null );
             if( charges == 0 ) {
                 dat.m.place_toilet( rx, ry ); // Use the default charges supplied as default values
@@ -1014,7 +1011,7 @@ class jmapgen_gaspump : public jmapgen_piece
                     const float /*mon_density*/, mission * /*miss*/ ) const override {
             const int rx = x.get();
             const int ry = y.get();
-            long charges = amount.get();
+            int charges = amount.get();
             dat.m.furn_set( rx, ry, f_null );
             if( charges == 0 ) {
                 charges = rng( 10000, 50000 );
@@ -8455,23 +8452,16 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
         return std::make_pair( terrains, furnitures );
     }
 
-    const tripoint omt_pos = tripoint( 0, 0, 0 );
-
     tinymap fake_map;
-    fake_map.load( 0, 0, 0, false );
-    for( const tripoint &pos : fake_map.points_in_rectangle( omt_pos,
-            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
-        fake_map.furn_set( pos, f_null );
-        fake_map.ter_set( pos, t_dirt );
-        fake_map.trap_set( pos, tr_null );
+    if( !fake_map.fake_load( f_null, t_dirt, tr_null ) ) {
+        return std::make_pair( terrains, furnitures );
     }
-
-    const regional_settings &rsettings = overmap_buffer.get_settings( omt_pos.x, omt_pos.y,
-                                         omt_pos.z );
     oter_id any = oter_id( "field" );
+    // just need a variable here, it doesn't need to be valid
+    const regional_settings dummy_settings;
 
     mapgendata fake_md( any, any, any, any, any, any, any, any,
-                        any, any, omt_pos.z, rsettings, fake_map );
+                        any, any, 0, dummy_settings, fake_map );
 
     if( update_function->second[0]->update_map( fake_md ) ) {
         for( const tripoint &pos : fake_map.points_in_rectangle( { 0, 0, 0 }, { 23, 23, 0 } ) ) {
@@ -8493,7 +8483,6 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
     }
     return std::make_pair( terrains, furnitures );
 }
-
 
 bool run_mapgen_func( const std::string &mapgen_id, map *m, oter_id terrain_type, mapgendata dat,
                       const time_point &turn, float density )

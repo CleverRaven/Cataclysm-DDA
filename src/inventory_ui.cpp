@@ -72,7 +72,7 @@ struct navigation_mode_data {
 
 struct inventory_input {
     std::string action;
-    long ch;
+    int ch;
     inventory_entry *entry;
 };
 
@@ -132,9 +132,9 @@ size_t inventory_entry::get_available_count() const
     }
 }
 
-long inventory_entry::get_invlet() const
+int inventory_entry::get_invlet() const
 {
-    if( custom_invlet != LONG_MIN ) {
+    if( custom_invlet != INT_MIN ) {
         return custom_invlet;
     }
     return location ? location->invlet : '\0';
@@ -171,7 +171,7 @@ bool inventory_column::activatable() const
     } );
 }
 
-inventory_entry *inventory_column::find_by_invlet( long invlet ) const
+inventory_entry *inventory_column::find_by_invlet( int invlet ) const
 {
     for( const auto &elem : entries ) {
         if( elem.is_item() && elem.get_invlet() == invlet ) {
@@ -794,9 +794,9 @@ size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const
     return res;
 }
 
-long inventory_column::reassign_custom_invlets( const player &p, long min_invlet, long max_invlet )
+int inventory_column::reassign_custom_invlets( const player &p, int min_invlet, int max_invlet )
 {
-    long cur_invlet = min_invlet;
+    int cur_invlet = min_invlet;
     for( auto &elem : entries ) {
         // Only items on map/in vehicles: those that the player does not possess.
         if( elem.is_selectable() && !p.has_item( *elem.location ) ) {
@@ -1003,6 +1003,28 @@ static std::vector<std::list<item *>> restack_items( const std::list<item>::cons
     return res;
 }
 
+// TODO: Move it into some 'item_stack' class.
+static std::vector<std::list<item *>> restack_items( const item_stack::const_iterator &from,
+                                   const item_stack::const_iterator &to, bool check_components = false )
+{
+    std::vector<std::list<item *>> res;
+
+    for( auto it = from; it != to; ++it ) {
+        auto match = std::find_if( res.begin(), res.end(),
+        [ &it, check_components ]( const std::list<item *> &e ) {
+            return it->stacks_with( *const_cast<item *>( e.back() ), check_components );
+        } );
+
+        if( match != res.end() ) {
+            match->push_back( const_cast<item *>( &*it ) );
+        } else {
+            res.emplace_back( 1, const_cast<item *>( &*it ) );
+        }
+    }
+
+    return res;
+}
+
 const item_category *inventory_selector::naturalize_category( const item_category &category,
         const tripoint &pos )
 {
@@ -1179,7 +1201,7 @@ bool inventory_selector::select( const item_location &loc )
     return res;
 }
 
-inventory_entry *inventory_selector::find_entry_by_invlet( long invlet ) const
+inventory_entry *inventory_selector::find_entry_by_invlet( int invlet ) const
 {
     for( const auto elem : columns ) {
         const auto res = elem->find_by_invlet( invlet );
@@ -1219,7 +1241,7 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
         visible_columns.front()->set_width( client_width );
     }
 
-    long custom_invlet = '0';
+    int custom_invlet = '0';
     for( auto &elem : columns ) {
         elem->prepare_paging();
         custom_invlet = elem->reassign_custom_invlets( u, custom_invlet, '9' );

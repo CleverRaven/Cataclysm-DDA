@@ -53,7 +53,7 @@ static std::set<std::string> repair_actions;
 
 static DynamicDataLoader::deferred_json deferred;
 
-std::unique_ptr<Item_factory> item_controller( new Item_factory() );
+std::unique_ptr<Item_factory> item_controller = std::make_unique<Item_factory>();
 
 static const std::string calc_category( const itype &obj );
 static void set_allergy_flags( itype &item_template );
@@ -162,8 +162,8 @@ void Item_factory::finalize_pre( itype &obj )
         obj.use_methods.emplace( func, usage_from_string( func ) );
     }
 
-    if( obj.engine && get_option<bool>( "NO_FAULTS" ) ) {
-        obj.engine->faults.clear();
+    if( get_option<bool>( "NO_FAULTS" ) ) {
+        obj.faults.clear();
     }
 
     // If no category was forced via JSON automatically calculate one now
@@ -360,6 +360,13 @@ void Item_factory::finalize_pre( itype &obj )
         obj.layer = BELTED_LAYER;
     } else {
         obj.layer = REGULAR_LAYER;
+    }
+
+    if( obj.can_use( "MA_MANUAL" ) && obj.book && obj.book->martial_art.is_null() &&
+        string_starts_with( obj.get_id(), "manual_" ) ) {
+        // Legacy martial arts books rely on a hack whereby the name of the
+        // martial art is derived from the item id
+        obj.book->martial_art = matype_id( "style_" + obj.get_id().substr( 7 ) );
     }
 }
 
@@ -648,6 +655,7 @@ void Item_factory::init()
     add_iuse( "FLUMED", &iuse::flumed );
     add_iuse( "FLUSLEEP", &iuse::flusleep );
     add_iuse( "FLU_VACCINE", &iuse::flu_vaccine );
+    add_iuse( "FOODPERSON", &iuse::foodperson );
     add_iuse( "FUNGICIDE", &iuse::fungicide );
     add_iuse( "GASMASK", &iuse::gasmask,
               translate_marker( "Can be activated to <good>increase environmental "
@@ -823,7 +831,7 @@ void Item_factory::check_definitions() const
 {
     for( const auto &elem : m_templates ) {
         std::ostringstream msg;
-        const itype *type = &elem.second; // avoid huge number of line changes
+        const itype *type = &elem.second;
 
         if( !type->category ) {
             msg << "undefined category " << type->category_force << "\n";
@@ -884,11 +892,9 @@ void Item_factory::check_definitions() const
             }
         }
 
-        if( type->engine ) {
-            for( const auto &f : type->engine->faults ) {
-                if( !f.is_valid() ) {
-                    msg << string_format( "invalid item fault %s", f.c_str() ) << "\n";
-                }
+        for( const auto &f : type->faults ) {
+            if( !f.is_valid() ) {
+                msg << string_format( "invalid item fault %s", f.c_str() ) << "\n";
             }
         }
 
@@ -932,6 +938,16 @@ void Item_factory::check_definitions() const
             if( type->book->skill && !type->book->skill.is_valid() ) {
                 msg << string_format( "uses invalid book skill." ) << "\n";
             }
+            if( type->book->martial_art && !type->book->martial_art.is_valid() ) {
+                msg << string_format( "trains invalid martial art '%s'.",
+                                      type->book->martial_art.str() ) << "\n";
+            }
+            if( type->can_use( "MA_MANUAL" ) && !type->book->martial_art ) {
+                msg << "has use_action MA_MANUAL but does not specify a martial art\n";
+            }
+        }
+        if( type->can_use( "MA_MANUAL" ) && !type->book ) {
+            msg << "has use_action MA_MANUAL but is not a book\n";
         }
         if( type->ammo ) {
             if( !type->ammo->type && type->ammo->type != ammotype( "NULL" ) ) {
@@ -1308,7 +1324,7 @@ void Item_factory::load( islot_ammo &slot, JsonObject &jo, const std::string &sr
     assign( jo, "range", slot.range, strict, 0 );
     assign( jo, "dispersion", slot.dispersion, strict, 0 );
     assign( jo, "recoil", slot.recoil, strict, 0 );
-    assign( jo, "count", slot.def_charges, strict, 1L );
+    assign( jo, "count", slot.def_charges, strict, 1 );
     assign( jo, "loudness", slot.loudness, strict, 0 );
     assign( jo, "effects", slot.ammo_effects, strict );
     assign( jo, "prop_damage", slot.prop_damage, strict );
@@ -1328,7 +1344,6 @@ void Item_factory::load_ammo( JsonObject &jo, const std::string &src )
 void Item_factory::load( islot_engine &slot, JsonObject &jo, const std::string & )
 {
     assign( jo, "displacement", slot.displacement );
-    assign( jo, "faults", slot.faults );
 }
 
 void Item_factory::load_engine( JsonObject &jo, const std::string &src )
@@ -1425,6 +1440,8 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
     assign( jo, "built_in_mods", slot.built_in_mods, strict );
     assign( jo, "default_mods", slot.default_mods, strict );
     assign( jo, "ups_charges", slot.ups_charges, strict, 0 );
+    assign( jo, "blackpowder_tolerance", slot.blackpowder_tolerance, strict, 0 );
+    assign( jo, "min_cycle_recoil", slot.blackpowder_tolerance, strict, 0 );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
 
     if( jo.has_array( "valid_mod_locations" ) ) {
@@ -1612,6 +1629,7 @@ void Item_factory::load( islot_book &slot, JsonObject &jo, const std::string &sr
         slot.time = to_minutes<int>( time_duration::read_from_json_string( *jo.get_raw( "time" ) ) );
     }
     assign( jo, "skill", slot.skill, strict );
+    assign( jo, "martial_art", slot.martial_art, strict );
     assign( jo, "chapters", slot.chapters, strict, 0 );
 }
 
@@ -1630,7 +1648,7 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
 
     assign( jo, "comestible_type", slot.comesttype, strict );
     assign( jo, "tool", slot.tool, strict );
-    assign( jo, "charges", slot.def_charges, strict, 1L );
+    assign( jo, "charges", slot.def_charges, strict, 1 );
     assign( jo, "quench", slot.quench, strict );
     assign( jo, "fun", slot.fun, strict );
     assign( jo, "stim", slot.stim, strict );
@@ -2085,6 +2103,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     }
 
     assign( jo, "flags", def.item_tags );
+    assign( jo, "faults", def.faults );
 
     if( jo.has_member( "qualities" ) ) {
         set_qualities_from_json( jo, "qualities", def );
@@ -2675,8 +2694,7 @@ const std::string calc_category( const itype &obj )
 std::vector<Group_tag> Item_factory::get_all_group_names()
 {
     std::vector<std::string> rval;
-    GroupMap::iterator it;
-    for( it = m_template_groups.begin(); it != m_template_groups.end(); it++ ) {
+    for( GroupMap::iterator it = m_template_groups.begin(); it != m_template_groups.end(); it++ ) {
         rval.push_back( it->first );
     }
     return rval;
