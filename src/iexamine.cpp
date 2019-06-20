@@ -2731,7 +2731,6 @@ void iexamine::keg( player &p, const tripoint &examp )
         g->m.add_item( examp, drink );
         return;
     } else {
-
         // First empty the keg of foreign objects
         displace_items_except_one_liquid( examp );
 
