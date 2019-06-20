@@ -8830,7 +8830,7 @@ bool player::unload( item &it )
     } else if( target->ammo_remaining() ) {
         int qty = target->ammo_remaining();
 
-        if( target->ammo_current() == "plutonium" ) {
+        if( target->ammo_current() == "plut_cell" ) {
             qty = target->ammo_remaining() / PLUTONIUM_CHARGES;
             if( qty > 0 ) {
                 add_msg( _( "You recover %i unused plutonium." ), qty );
@@ -8858,7 +8858,7 @@ bool player::unload( item &it )
         // If successful remove appropriate qty of ammo consuming half as much time as required to load it
         this->moves -= this->item_reload_cost( *target, ammo, qty ) / 2;
 
-        if( target->ammo_current() == "plutonium" ) {
+        if( target->ammo_current() == "plut_cell" ) {
             qty *= PLUTONIUM_CHARGES;
         }
 

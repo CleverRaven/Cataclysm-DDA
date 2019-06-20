@@ -1997,7 +1997,7 @@ void remove_ammo( item &dis_item, player &p )
     if( dis_item.is_tool() && dis_item.charges > 0 && dis_item.ammo_current() != "null" ) {
         item ammodrop( dis_item.ammo_current(), calendar::turn );
         ammodrop.charges = dis_item.charges;
-        if( dis_item.ammo_current() == "plutonium" ) {
+        if( dis_item.ammo_current() == "plut_cell" ) {
             ammodrop.charges /= PLUTONIUM_CHARGES;
         }
         drop_or_handle( ammodrop, p );
