@@ -380,6 +380,13 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
         mutations_category[s].push_back( trait_id( id ) );
     }
 
+    jsarr = jo.get_array( "spells_learned" );
+    while( jsarr.has_more() ) {
+        JsonArray ja = jsarr.next_array();
+        const spell_id sp( ja.next_string() );
+        spells_learned.emplace( sp, ja.next_int() );
+    }
+
     jsarr = jo.get_array( "wet_protection" );
     while( jsarr.has_more() ) {
         JsonObject jo = jsarr.next_object();

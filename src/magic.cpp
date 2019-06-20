@@ -327,6 +327,11 @@ bool spell::has_flag( const std::string &flag ) const
     return type->spell_tags.count( flag );
 }
 
+bool spell::is_spell_class( const trait_id &mid ) const
+{
+    return mid == type->spell_class;
+}
+
 bool spell::can_cast( const player &p ) const
 {
     if( !p.magic.knows_spell( type->id ) ) {
@@ -841,6 +846,7 @@ void known_magic::forget_spell( const spell_id &sp )
         debugmsg( "Can't forget a spell you don't know!" );
         return;
     }
+    add_msg( m_bad, _( "All knowledge of %s leaves you." ), sp->name );
     spellbook.erase( sp );
 }
 
@@ -1174,6 +1180,30 @@ int known_magic::select_spell( const player &p )
     casting_ignore = static_cast<spellcasting_callback *>( spell_menu.callback )->casting_ignore;
 
     return spell_menu.ret;
+}
+
+void known_magic::on_mutation_gain( const trait_id &mid, player &p )
+{
+    for( const std::pair<spell_id, int> &sp : mid->spells_learned ) {
+        learn_spell( sp.first, p, true );
+        spell &temp_sp = get_spell( sp.first );
+        for( int level = 0; level <= sp.second; level++ ) {
+            temp_sp.gain_level();
+        }
+    }
+}
+
+void known_magic::on_mutation_loss( const trait_id &mid )
+{
+    std::vector<spell_id> spells_to_forget;
+    for( const spell *sp : get_spells() ) {
+        if( sp->is_spell_class( mid ) ) {
+            spells_to_forget.emplace_back( sp->id() );
+        }
+    }
+    for( const spell_id &sp_id : spells_to_forget ) {
+        forget_spell( sp_id );
+    }
 }
 
 void spellbook_callback::add_spell( const spell_id &sp )
