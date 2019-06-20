@@ -34,6 +34,7 @@
 #include "json.h"
 #include "loading_ui.h"
 #include "mapdata.h"
+#include "map_extras.h"
 #include "mapgen.h"
 #include "martialarts.h"
 #include "material.h"
@@ -316,6 +317,7 @@ void DynamicDataLoader::initialize()
     add( "overmap_location", &overmap_locations::load );
     add( "overmap_special", &overmap_specials::load );
     add( "city_building", &city_buildings::load );
+    add( "map_extra", &MapExtras::load );
 
     add( "region_settings", &load_region_settings );
     add( "region_overlay", &load_region_overlay );

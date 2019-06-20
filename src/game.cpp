@@ -698,10 +698,10 @@ bool game::start_game()
     }
     start_loc.prepare_map( omtstart );
 
-    if( scen->has_map_special() ) {
-        // Specials can add monster spawn points and similar and should be done before the main
+    if( scen->has_map_extra() ) {
+        // Map extras can add monster spawn points and similar and should be done before the main
         // map is loaded.
-        start_loc.add_map_special( omtstart, scen->get_map_special() );
+        start_loc.add_map_extra( omtstart, scen->get_map_extra() );
     }
 
     tripoint lev = omt_to_sm_copy( omtstart );
@@ -10296,7 +10296,8 @@ void game::vertical_shift( const int z_after )
 
 void game::vertical_notes( int z_before, int z_after )
 {
-    if( z_before == z_after || !get_option<bool>( "AUTO_NOTES" ) ) {
+    if( z_before == z_after || !get_option<bool>( "AUTO_NOTES" ) ||
+        !get_option<bool>( "AUTO_NOTES_STAIRS" ) ) {
         return;
     }
 
