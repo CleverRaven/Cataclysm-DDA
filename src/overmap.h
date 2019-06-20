@@ -22,6 +22,7 @@
 #include "overmap_types.h" // IWYU pragma: keep
 #include "regional_settings.h"
 #include "enums.h"
+#include "map_extras.h"
 #include "mongroup.h"
 #include "optional.h"
 #include "type_id.h"
@@ -56,6 +57,12 @@ struct om_note {
     std::string text;
     int         x;
     int         y;
+};
+
+struct om_map_extra {
+    string_id<map_extra> id;
+    int                  x;
+    int                  y;
 };
 
 struct om_vehicle {
@@ -94,6 +101,7 @@ struct map_layer {
     bool visible[OMAPX][OMAPY];
     bool explored[OMAPX][OMAPY];
     std::vector<om_note> notes;
+    std::vector<om_map_extra> extras;
 };
 
 struct om_special_sectors {
@@ -194,6 +202,11 @@ class overmap
         void add_note( int x, int y, int z, std::string message );
         void delete_note( int x, int y, int z );
 
+        bool has_extra( int x, int y, int z ) const;
+        const string_id<map_extra> &extra( int x, int y, int z ) const;
+        void add_extra( int x, int y, int z, string_id<map_extra> id );
+        void delete_extra( int x, int y, int z );
+
         /**
          * Getter for overmap scents.
          * @returns a reference to a scent_trace from the requested location.
@@ -223,6 +236,13 @@ class overmap
          * coordinates), or empty vector if no matching notes are found.
          */
         std::vector<point> find_notes( const int z, const std::string &text );
+        /**
+         * Return a vector containing the absolute coordinates of
+         * every matching map extra on the current z level of the current overmap.
+         * @returns A vector of map extra coordinates (absolute overmap terrain
+         * coordinates), or empty vector if no matching map extras are found.
+         */
+        std::vector<point> find_extras( const int z, const std::string &text );
 
         /**
          * Returns whether or not the location has been generated (e.g. mapgen has run).

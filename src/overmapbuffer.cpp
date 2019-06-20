@@ -19,6 +19,7 @@
 #include "game.h"
 #include "line.h"
 #include "map.h"
+#include "map_extras.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "npc.h"
@@ -236,6 +237,20 @@ void overmapbuffer::delete_note( int x, int y, int z )
     }
 }
 
+void overmapbuffer::add_extra( int x, int y, int z, const string_id<map_extra> &id )
+{
+    overmap &om = get_om_global( x, y );
+    om.add_extra( x, y, z, id );
+}
+
+void overmapbuffer::delete_extra( int x, int y, int z )
+{
+    if( has_extra( x, y, z ) ) {
+        overmap &om = get_om_global( x, y );
+        om.delete_extra( x, y, z );
+    }
+}
+
 overmap *overmapbuffer::get_existing( int x, int y )
 {
     const point p {x, y};
@@ -359,6 +374,22 @@ const std::string &overmapbuffer::note( int x, int y, int z )
         return empty_string;
     }
     return om->note( x, y, z );
+}
+
+bool overmapbuffer::has_extra( int x, int y, int z )
+{
+    const overmap *om = get_existing_om_global( x, y );
+    return ( om != nullptr ) && om->has_extra( x, y, z );
+}
+
+const string_id<map_extra> &overmapbuffer::extra( int x, int y, int z )
+{
+    const overmap *om = get_existing_om_global( x, y );
+    if( om == nullptr ) {
+        static string_id<map_extra> id;
+        return id;
+    }
+    return om->extra( x, y, z );
 }
 
 bool overmapbuffer::is_explored( int x, int y, int z )
@@ -1409,6 +1440,34 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string
                 result.push_back( t_point_with_note(
                                       point( offset_x + i, offset_y + j ),
                                       om.note( i, j, z )
+                                  ) );
+            }
+        }
+    }
+    return result;
+}
+
+overmapbuffer::t_extras_vector overmapbuffer::get_extras( int z, const std::string *pattern )
+{
+    overmapbuffer::t_extras_vector result;
+    for( auto &it : overmaps ) {
+        const overmap &om = *it.second;
+        const int offset_x = om.pos().x * OMAPX;
+        const int offset_y = om.pos().y * OMAPY;
+        for( int i = 0; i < OMAPX; i++ ) {
+            for( int j = 0; j < OMAPY; j++ ) {
+                const string_id<map_extra> &extra = om.extra( i, j, z );
+                if( extra.is_null() ) {
+                    continue;
+                }
+                const std::string &extra_text = extra.c_str();
+                if( pattern != nullptr && lcmatch( extra_text, *pattern ) ) {
+                    // pattern not found in note text
+                    continue;
+                }
+                result.push_back( t_point_with_extra(
+                                      point( offset_x + i, offset_y + j ),
+                                      om.extra( i, j, z )
                                   ) );
             }
         }

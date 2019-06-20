@@ -2343,6 +2343,7 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
                        extra.description );
     if( mx_func != nullptr ) {
         mx_func( m, abs_sub );
+        overmap_buffer.add_extra( sm_to_omt_copy( abs_sub ), id );
         if( get_option<bool>( "AUTO_NOTES" ) && get_option<bool>( "AUTO_NOTES_MAP_EXTRAS" ) &&
             !mx_note.empty() ) {
             overmap_buffer.add_note( sm_to_omt_copy( abs_sub ), mx_note );

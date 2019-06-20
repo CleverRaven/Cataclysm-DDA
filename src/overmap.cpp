@@ -28,6 +28,7 @@
 #include "mapbuffer.h"
 #include "mapgen.h"
 #include "mapgen_functions.h"
+#include "map_extras.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "mtype.h"
@@ -1303,6 +1304,77 @@ std::vector<point> overmap::find_notes( const int z, const std::string &text )
         }
     }
     return note_locations;
+}
+
+bool overmap::has_extra( const int x, const int y, const int z ) const
+{
+    if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
+        return false;
+    }
+
+    for( auto &i : layer[z + OVERMAP_DEPTH].extras ) {
+        if( i.x == x && i.y == y ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+const string_id<map_extra> &overmap::extra( const int x, const int y, const int z ) const
+{
+    static const string_id<map_extra> fallback{};
+
+    if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
+        return fallback;
+    }
+
+    const auto &extras = layer[z + OVERMAP_DEPTH].extras;
+    const auto it = std::find_if( begin( extras ),
+    end( extras ), [&]( const om_map_extra & n ) {
+        return n.x == x && n.y == y;
+    } );
+
+    return ( it != std::end( extras ) ) ? it->id : fallback;
+}
+
+void overmap::add_extra( const int x, const int y, const int z, const string_id<map_extra> id )
+{
+    if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
+        debugmsg( "Attempting to add not to overmap for blank layer %d", z );
+        return;
+    }
+
+    auto &extras = layer[z + OVERMAP_DEPTH].extras;
+    const auto it = std::find_if( begin( extras ),
+    end( extras ), [&]( const om_map_extra & n ) {
+        return n.x == x && n.y == y;
+    } );
+
+    if( it == std::end( extras ) ) {
+        extras.emplace_back( om_map_extra{ std::move( id ), x, y } );
+    } else if( !id.is_null() ) {
+        it->id = std::move( id );
+    } else {
+        extras.erase( it );
+    }
+}
+
+void overmap::delete_extra( const int x, const int y, const int z )
+{
+    add_extra( x, y, z, string_id<map_extra>::NULL_ID() );
+}
+
+std::vector<point> overmap::find_extras( const int z, const std::string &text )
+{
+    std::vector<point> extra_locations;
+    map_layer &this_layer = layer[z + OVERMAP_DEPTH];
+    for( const auto &extra : this_layer.extras ) {
+        const std::string extra_text = extra.id.c_str();
+        if( match_include_exclude( extra_text, text ) ) {
+            extra_locations.push_back( global_base_point() + point( extra.x, extra.y ) );
+        }
+    }
+    return extra_locations;
 }
 
 bool overmap::inbounds( const tripoint &p, int clearance )
