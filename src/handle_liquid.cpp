@@ -91,7 +91,7 @@ bool consume_liquid( item &liquid, const int radius )
     return original_charges != liquid.charges;
 }
 
-bool handle_liquid_from_ground( std::list<item>::iterator on_ground,
+bool handle_liquid_from_ground( map_stack::iterator on_ground,
                                 const tripoint &pos,
                                 const int radius )
 {
@@ -381,4 +381,4 @@ bool handle_liquid( item &liquid, item *const source, const int radius,
     }
     return false;
 }
-}
+} // namespace liquid_handler

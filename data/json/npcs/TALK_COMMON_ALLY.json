@@ -741,10 +741,16 @@
         "effect": "sort_loot"
       },
       {
-        "text": "Please work on any construction taks that you know how to finish.",
+        "text": "Please work on any unfinished construction task that you know how to finish.",
         "topic": "TALK_DONE",
         "condition": { "not": "npc_has_activity" },
         "effect": "do_construction"
+      },
+      {
+        "text": "Please work on any contruction blueprint zones nearby.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_blueprint_construction"
       }
     ]
   },

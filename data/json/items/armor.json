@@ -337,6 +337,29 @@
     "flags": [ "BELTED", "BLOCK_WHILE_WORN" ]
   },
   {
+    "id": "armguard_scrap",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "pair of scrap arm guards",
+    "name_plural": "pairs of scrap arm guards",
+    "description": "A pair of arm guards made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "weight": 3064,
+    "volume": 19,
+    "price": 20000,
+    "to_hit": 1,
+    "bashing": 1,
+    "cutting": 1,
+    "material": [ "steel", "iron" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "ARMS" ],
+    "coverage": 80,
+    "encumbrance": 18,
+    "warmth": 20,
+    "material_thickness": 2,
+    "flags": [ "OUTER", "BLOCK_WHILE_WORN" ]
+  },
+  {
     "id": "armguard_soft",
     "type": "ARMOR",
     "category": "armor",
@@ -698,7 +721,7 @@
     "description": "A suit of armor made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
     "weight": 9534,
     "volume": 62,
-    "price": 70000,
+    "price": 60000,
     "to_hit": -5,
     "bashing": 6,
     "cutting": 8,
@@ -706,7 +729,7 @@
     "symbol": "[",
     "color": "light_gray",
     "covers": [ "TORSO", "LEGS", "ARMS" ],
-    "coverage": 90,
+    "coverage": 80,
     "encumbrance": 18,
     "warmth": 20,
     "material_thickness": 2,
@@ -2320,6 +2343,29 @@
     "flags": [ "VARSIZE", "OUTER", "STURDY" ]
   },
   {
+    "id": "cuirass_scrap",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "scrap cuirass",
+    "name_plural": "scrap cuirasses",
+    "description": "A cuirass made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "weight": 3366,
+    "volume": 23,
+    "price": 20000,
+    "to_hit": -1,
+    "bashing": 2,
+    "cutting": 3,
+    "material": [ "steel", "iron" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "TORSO" ],
+    "coverage": 80,
+    "encumbrance": 18,
+    "warmth": 20,
+    "material_thickness": 2,
+    "flags": [ "OUTER" ]
+  },
+  {
     "id": "depowered_armor",
     "type": "ARMOR",
     "category": "armor",
@@ -3806,6 +3852,28 @@
     "flags": [ "WATERPROOF", "STURDY" ]
   },
   {
+    "id": "gloves_cut_resistant",
+    "type": "ARMOR",
+    "name": "pair of cut resistant gloves",
+    "name_plural": "pairs of cut resistant gloves",
+    "description": "A pair of cut resistant gloves, useful when rapidly breaking down carcasses.",
+    "weight": 240,
+    "volume": 1,
+    "price": 9000,
+    "to_hit": 2,
+    "material": [ "steel", "cotton" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "looks_like": "gloves_work",
+    "covers": [ "HANDS" ],
+    "coverage": 95,
+    "encumbrance": 40,
+    "warmth": 10,
+    "material_thickness": 4,
+    "environmental_protection": 1,
+    "flags": [ "STURDY" ]
+  },
+  {
     "id": "gloves_wraps",
     "type": "ARMOR",
     "name": "pair of hand wraps",
@@ -4857,6 +4925,28 @@
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "SUN_GLASSES" ]
   },
   {
+    "id": "helmet_scrap",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "scrap helmet",
+    "description": "A helmet made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "weight": 1692,
+    "volume": 11,
+    "price": 35000,
+    "to_hit": -1,
+    "bashing": 1,
+    "cutting": 2,
+    "material": [ "steel", "iron" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "HEAD", "EYES", "MOUTH" ],
+    "coverage": 80,
+    "encumbrance": 35,
+    "warmth": 20,
+    "material_thickness": 2,
+    "flags": [ "OUTER" ]
+  },
+  {
     "id": "helmet_skid",
     "type": "ARMOR",
     "category": "armor",
@@ -5368,6 +5458,12 @@
     "storage": 3,
     "warmth": 30,
     "material_thickness": 3,
+    "snippet_category": [
+      {
+        "id": "patched",
+        "text": "A jacket made from denim.  Provides decent protection from cuts.  This one is haphazardly covered with patches featuring metal band logos."
+      }
+    ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
@@ -5914,7 +6010,7 @@
     "id": "yukata",
     "type": "ARMOR",
     "name": "yukata",
-    "description": "An easy to wear, breezy robe secured with a sash. Essentially Japanese pajamas. Great for summer nights.",
+    "description": "An easy to wear, breezy robe secured with a sash.  Essentially Japanese pajamas.  Great for summer nights.",
     "weight": 900,
     "volume": 12,
     "price": 5000,
@@ -5934,7 +6030,7 @@
     "id": "haori",
     "type": "ARMOR",
     "name": "haori",
-    "description": "A loose coat with wide sleeves that is worn unfastened over a kimono. It is jet black with sparse, tasteful golden embroidery.",
+    "description": "A loose coat with wide sleeves that is worn unfastened over a kimono.  It is jet black with sparse, tasteful golden embroidery.",
     "weight": 800,
     "volume": 8,
     "price": 30000,
@@ -6302,6 +6398,29 @@
     "warmth": 5,
     "material_thickness": 3,
     "flags": [ "BELTED" ]
+  },
+  {
+    "id": "legguard_scrap",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "pair of scrap leg guards",
+    "name_plural": "pairs of scrap leg guards",
+    "description": "A pair of leg guards made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "weight": 3104,
+    "volume": 20,
+    "price": 20000,
+    "to_hit": -1,
+    "bashing": 1,
+    "cutting": 1,
+    "material": [ "steel", "iron" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "LEGS" ],
+    "coverage": 80,
+    "encumbrance": 18,
+    "warmth": 20,
+    "material_thickness": 2,
+    "flags": [ "OUTER" ]
   },
   {
     "id": "legrig",
@@ -9546,6 +9665,34 @@
       }
     ],
     "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "tshirt_tour",
+    "type": "ARMOR",
+    "copy-from": "tshirt",
+    "name": "tour t-shirt",
+    "description": "A short-sleeved cotton shirt.",
+    "price": 1000,
+    "price_postapoc": 1200,
+    "color": "dark_gray",
+    "snippet_category": [
+      {
+        "id": "death",
+        "text": "A short-sleeved cotton shirt with a death metal band's spidery, indecipherable logo printed on the front."
+      },
+      {
+        "id": "power",
+        "text": "A short-sleeved cotton shirt with a muscle-bound, long-haired man printed on the front.  He is riding a red dragon and wielding a flaming sword with malicious glee."
+      },
+      {
+        "id": "thrash",
+        "text": "A short-sleeved cotton shirt with a gore-spattered, guitar-playing zombie printed on the front.  It's rather tasteless in light of current events."
+      },
+      {
+        "id": "prog",
+        "text": "A short-sleeved cotton shirt with a pattern of complex geometric shapes and transcendental imagery printed on the front."
+      }
+    ]
   },
   {
     "id": "tunic",

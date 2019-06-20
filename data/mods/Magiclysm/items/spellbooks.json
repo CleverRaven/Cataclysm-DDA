@@ -204,5 +204,27 @@
     "symbol": "?",
     "color": "light_grey",
     "use_action": { "type": "learn_spell", "spells": [ "phase_door", "magus_escape", "magus_haste" ] }
+  },
+  {
+    "id": "summon_scroll_smudged",
+    "type": "GENERIC",
+    "name": "Smudged Scroll",
+    "description": "This looks like someone was designing a new spell, but spilled a mug of coffee on it and crumpled it up in anger.  You can tell that it will definitely cast something, but you can't be sure that it will work very well.",
+    "weight": 129,
+    "volume": "100 ml",
+    "symbol": "?",
+    "color": "light_grey",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_bear" ] }
+  },
+  {
+    "id": "summon_undead_spellbook",
+    "type": "GENERIC",
+    "name": "Necromantic Minions for Dummies",
+    "description": "This book details various ways of summoning an undead minion to fight for you.  They all appear to disappear after a short time, crumbling to dust.",
+    "weight": 788,
+    "volume": 9,
+    "symbol": "?",
+    "color": "light_grey",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_zombie", "summon_skeleton", "summon_decayed_pouncer" ] }
   }
 ]

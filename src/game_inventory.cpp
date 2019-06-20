@@ -44,6 +44,8 @@
 #include "units.h"
 #include "type_id.h"
 
+const efftype_id effect_assisted( "assisted" );
+
 const skill_id skill_computer( "computer" );
 const skill_id skill_electronics( "electronics" );
 const skill_id skill_firstaid( "firstaid" );
@@ -78,7 +80,7 @@ std::string highlight_good_bad_none( int value )
     return string_format( "<color_yellow>%d</color>", value );
 }
 
-}
+} // namespace
 
 inventory_filter_preset::inventory_filter_preset( const item_location_filter &filter )
     : filter( filter )
@@ -1412,7 +1414,7 @@ void game_menus::inv::swap_letters( player &p )
 
 static item_location autodoc_internal( player &u, player &patient,
                                        const inventory_selector_preset &preset,
-                                       int radius )
+                                       int radius, bool uninstall = false )
 {
     inventory_pick_selector inv_s( u, preset );
     std::string hint;
@@ -1434,11 +1436,21 @@ static item_location autodoc_internal( player &u, player &patient,
                 drug_count += anesthesia_item->ammo_remaining();
             }
         }
-        drug_count += b_filter.size(); // legacy
-        hint = string_format( _( "<color_yellow>Available anesthesia: %i</color>" ), drug_count );
+
+        if( b_filter.size() > 0 ) {
+            hint = string_format( _( "<color_yellow>Available kit: %i</color>" ), b_filter.size() );// legacy
+        } else {
+            hint = string_format( _( "<color_yellow>Available anesthetic: %i mL</color>" ), drug_count );
+        }
+
     }
 
-    inv_s.set_title( string_format( _( "Bionic installation patient: %s" ), patient.get_name() ) );
+    if( uninstall ) {
+        inv_s.set_title( string_format( _( "Bionic removal patient: %s" ), patient.get_name() ) );
+    } else {
+        inv_s.set_title( string_format( _( "Bionic installation patient: %s" ), patient.get_name() ) );
+    }
+
     inv_s.set_hint( hint );
     inv_s.set_display_stats( false );
 
@@ -1516,6 +1528,8 @@ class bionic_install_preset: public inventory_selector_preset
                 return _( "Superior version installed" );
             } else if( pa.is_npc() && !bid->npc_usable ) {
                 return _( "CBM not compatible with patient" );
+            } else if( !p.has_enough_anesth( itemtype ) ) {
+                return string_format( _( "%i mL" ), itemtype->bionic->difficulty * 40 );
             }
 
             return std::string();
@@ -1528,9 +1542,8 @@ class bionic_install_preset: public inventory_selector_preset
     private:
         // Returns a formatted string of how long the operation will take.
         std::string get_operation_duration( const item_location &loc ) {
-            const item *it = loc.get_item();
-            const itype *itemtype = it->type;
-            const int difficulty = itemtype->bionic->difficulty;
+
+            const int difficulty = loc.get_item()->type->bionic->difficulty;
 
             // 20 minutes per bionic difficulty.
             int hours = difficulty / 3;
@@ -1556,11 +1569,11 @@ class bionic_install_preset: public inventory_selector_preset
 
         // Failure chance for bionic install. Combines multiple other functions together.
         std::string get_failure_chance( const item_location &loc ) {
-            const item *it = loc.get_item();
-            const itype *itemtype = it->type;
-            const int difficulty = itemtype->bionic->difficulty;
+
+            const int difficulty = loc.get_item()->type->bionic->difficulty;
             int chance_of_failure = 100;
             player &installer = p;
+            const int assist_bonus = installer.get_effect_int( effect_assisted );
 
             const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
                                        skill_computer,
@@ -1571,7 +1584,7 @@ class bionic_install_preset: public inventory_selector_preset
                 g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
                 chance_of_failure = 0;
             } else {
-                float skill_difficulty_parameter = static_cast<float>( adjusted_skill /
+                float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /
                                                    ( 4.0 * difficulty ) );
                 chance_of_failure = 100 - static_cast<int>( ( 100 * skill_difficulty_parameter ) /
                                     ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
@@ -1581,12 +1594,18 @@ class bionic_install_preset: public inventory_selector_preset
         }
 
         std::string get_anesth_amount( const item_location &loc ) {
-            const item *it = loc.get_item();
-            const itype *itemtype = it->type;
-            const int difficulty = itemtype->bionic->difficulty;
-            int amount = difficulty * 40;
 
-            return string_format( _( "%i mL" ), amount );
+            const int amount = loc.get_item()->type->bionic->difficulty * 40;
+
+            std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
+                return it.has_flag( "ANESTHESIA" ); // legacy
+            } );
+
+            if( b_filter.size() > 0 ) {
+                return string_format( _( "kit available" ) );// legacy
+            } else {
+                return string_format( _( "%i mL" ), amount );
+            }
         }
 };
 
@@ -1594,3 +1613,117 @@ item_location game_menus::inv::install_bionic( player &p, player &patient )
 {
     return autodoc_internal( p, patient, bionic_install_preset( p, patient ), 5 );
 }
+
+// Menu used by autodoc when uninstalling a bionic
+class bionic_uninstall_preset : public inventory_selector_preset
+{
+    public:
+        bionic_uninstall_preset( player &pl, player &patient ) :
+            p( pl ), pa( patient ) {
+            append_cell( [this]( const item_location & loc ) {
+                return get_failure_chance( loc );
+            }, _( "FAILURE CHANCE" ) );
+
+            append_cell( [this]( const item_location & loc ) {
+                return get_operation_duration( loc );
+            }, _( "OPERATION DURATION" ) );
+
+            append_cell( [this]( const item_location & loc ) {
+                return get_anesth_amount( loc );
+            }, _( "ANESTHETIC REQUIRED" ) );
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->has_flag( "IN_CBM" );
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            const itype *itemtype = loc.get_item()->type;
+
+            if( !p.has_enough_anesth( itemtype ) ) {
+                return string_format( _( "%i mL" ), itemtype->bionic->difficulty * 40 );
+            }
+
+            return std::string();
+        }
+
+    protected:
+        player &p;
+        player &pa;
+
+    private:
+        // Returns a formatted string of how long the operation will take.
+        std::string get_operation_duration( const item_location &loc ) {
+
+            const int difficulty = loc.get_item()->type->bionic->difficulty;
+
+            // 20 minutes per bionic difficulty.
+            int hours = difficulty / 3;
+            int minutes = ( difficulty % 3 ) * 20;
+            std::string minutes_string = minutes > 0
+                                         ? string_format( _( "%i minutes" ), minutes )
+                                         : std::string();
+
+            if( hours > 0 ) {
+                std::string hours_string = hours >= 2
+                                           ? string_format( _( "%i hours" ), hours )
+                                           : string_format( _( "%i hour" ), hours );
+
+                if( minutes > 0 ) {
+                    return string_format( _( "%s, %s" ), hours_string, minutes_string );
+                } else {
+                    return hours_string;
+                }
+            } else {
+                return minutes_string;
+            }
+        }
+
+        // Failure chance for bionic uninstall. Combines multiple other functions together.
+        std::string get_failure_chance( const item_location &loc ) {
+
+            // Uninstall difficulty gets a +2
+            const int difficulty = loc.get_item()->type->bionic->difficulty + 2;
+            int chance_of_failure = 100;
+            player &installer = p;
+            const int assist_bonus = installer.get_effect_int( effect_assisted );
+
+            const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
+                                       skill_computer,
+                                       skill_electronics,
+                                       -1 );
+
+            if( ( get_option < bool >( "SAFE_AUTODOC" ) ) ||
+                g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+                chance_of_failure = 0;
+            } else {
+                float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /
+                                                   ( 4.0 * difficulty ) );
+                chance_of_failure = 100 - static_cast<int>( ( 100 * skill_difficulty_parameter ) /
+                                    ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
+            }
+
+            return string_format( _( "%i%%" ), chance_of_failure );
+        }
+
+        std::string get_anesth_amount( const item_location &loc ) {
+
+            const int amount = loc.get_item()->type->bionic->difficulty * 40;
+
+            std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
+                return it.has_flag( "ANESTHESIA" ); // legacy
+            } );
+
+            if( b_filter.size() > 0 ) {
+                return string_format( _( "kit available" ) ); // legacy
+            } else {
+                return string_format( _( "%i mL" ), amount );
+            }
+        }
+};
+
+item_location game_menus::inv::uninstall_bionic( player &p, player &patient )
+{
+    return autodoc_internal( p, patient, bionic_uninstall_preset( p, patient ), 0, true );
+}
+

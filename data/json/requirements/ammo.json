@@ -45,5 +45,11 @@
     "type": "requirement",
     "//": "Components required for .38 Super ammo",
     "components": [ [ [ "38super_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
+  },
+  {
+    "id": "ammo_410shot",
+    "type": "requirement",
+    "//": "Components required for .410 ammo",
+    "components": [ [ [ "410shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ] ]
   }
 ]

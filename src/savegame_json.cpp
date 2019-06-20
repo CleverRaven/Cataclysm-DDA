@@ -44,6 +44,7 @@
 #include "mtype.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "optional.h"
 #include "options.h"
 #include "player.h"
 #include "player_activity.h"
@@ -380,6 +381,8 @@ void Character::load( JsonObject &data )
     data.read( "fatigue", fatigue );
     data.read( "sleep_deprivation", sleep_deprivation );
     data.read( "stored_calories", stored_calories );
+    data.read( "radiation", radiation );
+    data.read( "oxygen", oxygen );
 
     // health
     data.read( "healthy", healthy );
@@ -465,6 +468,10 @@ void Character::load( JsonObject &data )
     _skills->clear();
     JsonObject pmap = data.get_object( "skills" );
     for( const std::string &member : pmap.get_member_names() ) {
+        // FIXME: Fix corrupted bionic power data loading (see #31627). Temporary.
+        if( member == "power_level" || member == "max_power_level" ) {
+            continue;
+        }
         pmap.read( member, ( *_skills )[skill_id( member )] );
     }
 
@@ -479,6 +486,20 @@ void Character::load( JsonObject &data )
     on_stat_change( "hunger", hunger );
     on_stat_change( "fatigue", fatigue );
     on_stat_change( "sleep_deprivation", sleep_deprivation );
+
+    // FIXME: Fix corrupted bionic power data loading (see #31627). Temporary.
+    power_level = pmap.get_int( "power_level", data.get_int( "power_level", 0 ) );
+    max_power_level = pmap.get_int( "max_power_level", data.get_int( "max_power_level", 0 ) );
+    // Bionic power scale has been changed, savegame version 21 has the new scale
+    if( savegame_loading_version <= 20 ) {
+        power_level *= 25;
+        max_power_level *= 25;
+    }
+
+    // Bionic power should not be negative!
+    if( power_level < 0 ) {
+        power_level = 0;
+    }
 }
 
 /**
@@ -513,9 +534,12 @@ void Character::store( JsonOut &json ) const
     json.member( "fatigue", fatigue );
     json.member( "sleep_deprivation", sleep_deprivation );
     json.member( "stored_calories", stored_calories );
+    json.member( "radiation", radiation );
+    json.member( "stamina", stamina );
 
     // breathing
     json.member( "underwater", underwater );
+    json.member( "oxygen", oxygen );
 
     // traits: permanent 'mutations' more or less
     json.member( "traits", my_traits );
@@ -531,6 +555,10 @@ void Character::store( JsonOut &json ) const
         json.member( pair.first.str(), pair.second );
     }
     json.end_object();
+
+    // npc; unimplemented
+    json.member( "power_level", power_level );
+    json.member( "max_power_level", max_power_level );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -555,15 +583,11 @@ void player::store( JsonOut &json ) const
     // pain
     json.member( "pkill", pkill );
     // misc levels
-    json.member( "radiation", radiation );
     json.member( "tank_plut", tank_plut );
     json.member( "reactor_plut", reactor_plut );
     json.member( "slow_rad", slow_rad );
     json.member( "scent", static_cast<int>( scent ) );
     json.member( "body_wetness", body_wetness );
-
-    // breathing
-    json.member( "oxygen", oxygen );
 
     // gender
     json.member( "male", male );
@@ -579,10 +603,6 @@ void player::store( JsonOut &json ) const
     json.member( "hp_max", hp_max );
     json.member( "damage_bandaged", damage_bandaged );
     json.member( "damage_disinfected", damage_disinfected );
-
-    // npc; unimplemented
-    json.member( "power_level", power_level );
-    json.member( "max_power_level", max_power_level );
 
     json.member( "ma_styles", ma_styles );
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
@@ -666,12 +686,10 @@ void player::load( JsonObject &data )
     }
     data.read( "stim", stim );
     data.read( "pkill", pkill );
-    data.read( "radiation", radiation );
     data.read( "tank_plut", tank_plut );
     data.read( "reactor_plut", reactor_plut );
     data.read( "slow_rad", slow_rad );
     data.read( "scent", scent );
-    data.read( "oxygen", oxygen );
     data.read( "male", male );
     data.read( "cash", cash );
     data.read( "recoil", recoil );
@@ -679,19 +697,6 @@ void player::load( JsonObject &data )
     data.read( "last_sleep_check", last_sleep_check );
     if( data.read( "id", tmpid ) ) {
         setID( tmpid );
-    }
-
-    data.read( "power_level", power_level );
-    data.read( "max_power_level", max_power_level );
-    // Bionic power scale has been changed, savegame version 21 has the new scale
-    if( savegame_loading_version <= 20 ) {
-        power_level *= 25;
-        max_power_level *= 25;
-    }
-
-    // Bionic power should not be negative!
-    if( power_level < 0 ) {
-        power_level = 0;
     }
 
     data.read( "ma_styles", ma_styles );
@@ -820,7 +825,6 @@ void avatar::store( JsonOut &json ) const
     json.member( "style_selected", style_selected );
     json.member( "keep_hands_free", keep_hands_free );
 
-    json.member( "stamina", stamina );
     json.member( "move_mode", move_mode );
     json.member( "magic", magic );
 
@@ -1718,6 +1722,8 @@ void monster::load( JsonObject &data )
         goal = plans.back();
     }
 
+    data.read( "summon_time_limit", summon_time_limit );
+
     // This is relative to the monster so it isn't invalidated by map shifting.
     tripoint destination;
     data.read( "destination", destination );
@@ -1801,6 +1807,9 @@ void monster::store( JsonOut &json ) const
     json.member( "biosignatures", biosignatures );
     json.member( "biosig_timer", biosig_timer );
     json.member( "last_biosig", last_biosig );
+
+    json.member( "summon_time_limit", summon_time_limit );
+
     if( horde_attraction > MHA_NULL && horde_attraction < NUM_MONSTER_HORDE_ATTRACTION ) {
         json.member( "horde_attraction", horde_attraction );
     }
@@ -2303,7 +2312,7 @@ void vehicle_part::deserialize( JsonIn &jsin )
         const int qty = std::accumulate( items.begin(), items.end(), 0, []( int lhs, const item & rhs ) {
             return lhs + rhs.charges;
         } );
-        ammo_set( items.front().ammo_current(), qty );
+        ammo_set( items.begin()->ammo_current(), qty );
         items.clear();
     }
 }
@@ -3391,13 +3400,13 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
                     if( tid == "t_rubble" ) {
                         ter[i][j] = ter_id( "t_dirt" );
                         frn[i][j] = furn_id( "f_rubble" );
-                        itm[i][j].push_back( rock );
-                        itm[i][j].push_back( rock );
+                        itm[i][j].insert( rock );
+                        itm[i][j].insert( rock );
                     } else if( tid == "t_wreckage" ) {
                         ter[i][j] = ter_id( "t_dirt" );
                         frn[i][j] = furn_id( "f_wreckage" );
-                        itm[i][j].push_back( chunk );
-                        itm[i][j].push_back( chunk );
+                        itm[i][j].insert( chunk );
+                        itm[i][j].insert( chunk );
                     } else if( tid == "t_ash" ) {
                         ter[i][j] = ter_id( "t_dirt" );
                         frn[i][j] = furn_id( "f_ash" );
@@ -3479,14 +3488,14 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
 
                 tmp.visit_items( [ this, &p ]( item * it ) {
                     for( auto &e : it->magazine_convert() ) {
-                        itm[p.x][p.y].push_back( e );
+                        itm[p.x][p.y].insert( e );
                     }
                     return VisitResponse::NEXT;
                 } );
 
-                itm[p.x][p.y].push_back( tmp );
+                const colony<item>::iterator it = itm[p.x][p.y].insert( tmp );
                 if( tmp.needs_processing() ) {
-                    active_items.add( std::prev( itm[p.x][p.y].end() ), p );
+                    active_items.add( it, p );
                 }
             }
         }

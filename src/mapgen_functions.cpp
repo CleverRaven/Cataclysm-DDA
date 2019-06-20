@@ -2855,7 +2855,7 @@ static point best_expand( const map &m, const tripoint &from, int maxx, int maxy
 
     return best;
 }
-}
+} // namespace furn_space
 
 void mapgen_basement_junk( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn,
                            float density )

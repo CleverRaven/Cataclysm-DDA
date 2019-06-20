@@ -17,6 +17,7 @@
 #include <tuple>
 
 #include "calendar.h"
+#include "colony.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item.h"
@@ -96,11 +97,10 @@ class map_stack : public item_stack
         tripoint location;
         map *myorigin;
     public:
-        map_stack( std::list<item> *newstack, tripoint newloc, map *neworigin ) :
+        map_stack( colony<item> *newstack, tripoint newloc, map *neworigin ) :
             item_stack( newstack ), location( newloc ), myorigin( neworigin ) {}
-        std::list<item>::iterator erase( std::list<item>::iterator it ) override;
-        void push_back( const item &newitem ) override;
-        void insert_at( std::list<item>::iterator index, const item &newitem ) override;
+        void insert( const item &newitem ) override;
+        iterator erase( const_iterator it ) override;
         int count_limit() const override {
             return MAX_ITEM_IN_SQUARE;
         }
@@ -896,8 +896,7 @@ class map
         // Items: 2D
         map_stack i_at( int x, int y );
         void i_clear( const int x, const int y );
-        std::list<item>::iterator i_rem( const point &location, std::list<item>::iterator it );
-        int i_rem( const int x, const int y, const int index );
+        map_stack::iterator i_rem( const point &location, map_stack::const_iterator it );
         void i_rem( const int x, const int y, item *it );
         void spawn_item( const int x, const int y, const std::string &itype_id,
                          const unsigned quantity = 1, const int charges = 0,
@@ -921,9 +920,8 @@ class map
         void i_clear( const tripoint &p );
         // i_rem() methods that return values act like container::erase(),
         // returning an iterator to the next item after removal.
-        std::list<item>::iterator i_rem( const tripoint &p, std::list<item>::iterator it );
-        int i_rem( const tripoint &p, const int index );
-        void i_rem( const tripoint &p, const item *it );
+        map_stack::iterator i_rem( const tripoint &p, map_stack::const_iterator it );
+        void i_rem( const tripoint &p, item *it );
         void spawn_artifact( const tripoint &p );
         void spawn_natural_artifact( const tripoint &p, const artifact_natural_property prop );
         void spawn_item( const tripoint &p, const std::string &itype_id,
@@ -943,8 +941,6 @@ class map
          */
         item &add_item_or_charges( const tripoint &pos, item obj, bool overflow = true );
 
-        /** Helper for map::add_item */
-        item &add_item_at( const tripoint &p, std::list<item>::iterator index, item new_item );
         /**
          * Place an item on the map, despite the parameter name, this is not necessarily a new item.
          * WARNING: does -not- check volume or stack charges. player functions (drop etc) should use
@@ -1026,15 +1022,6 @@ class map
 
         void create_anomaly( const tripoint &p, artifact_natural_property prop, bool create_rubble = true );
 
-        /**
-         * Fetch an item from this map location, with sanity checks to ensure it still exists.
-         */
-        item *item_from( const tripoint &pos, const size_t index );
-
-        /**
-         * Fetch an item from this vehicle, with sanity checks to ensure it still exists.
-         */
-        item *item_from( vehicle *veh, const int cargo_part, const size_t index );
         // Partial construction functions
         void partial_con_set( const tripoint &p, const partial_con &con );
         void partial_con_remove( const tripoint &p );
@@ -1580,10 +1567,9 @@ class map
         void apply_light_arc( const tripoint &p, int angle, float luminance, int wideangle = 30 );
         void apply_light_ray( bool lit[MAPSIZE_X][MAPSIZE_Y],
                               const tripoint &s, const tripoint &e, float luminance );
-        void add_light_from_items( const tripoint &p, std::list<item>::iterator begin,
-                                   std::list<item>::iterator end );
-        std::unique_ptr<vehicle> add_vehicle_to_map( std::unique_ptr<vehicle> veh,
-                bool merge_wrecks );
+        void add_light_from_items( const tripoint &p, item_stack::iterator begin,
+                                   item_stack::iterator end );
+        std::unique_ptr<vehicle> add_vehicle_to_map( std::unique_ptr<vehicle> veh, bool merge_wrecks );
 
         // Internal methods used to bash just the selected features
         // Information on what to bash/what was bashed is read from/written to the bash_params struct
@@ -1606,7 +1592,7 @@ class map
          * It's a really heinous function pointer so a typedef is the best
          * solution in this instance.
          */
-        using map_process_func = bool ( * )( item_stack &, std::list<item>::iterator &, const tripoint &,
+        using map_process_func = bool ( * )( item_stack &, item_stack::iterator &, const tripoint &,
                                              const std::string &, float, temperature_flag );
     private:
 
