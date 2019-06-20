@@ -33,7 +33,7 @@ MESSAGE("   \\     \\____ / __ \\_ |  |   / __ \\_\\  \\___ |  |__ \\___  | \\__
 MESSAGE("    \\______  /\(____  / |__|  \(____  / \\___  >|____/ / ____|/____  >|__|_|  /    ")
 MESSAGE("           \\/      \\/             \\/      \\/        \\/          \\/       \\/     ")
 MESSAGE("                               --= Dark Days Ahead =--")
-MESSAGE("\n * http://en.cataclysmdda.com/\n")
+MESSAGE("\n * https://cataclysmdda.org/\n")
 
 MESSAGE(STATUS "${PROJECT} build environment -- \n")
 
@@ -213,7 +213,13 @@ IF(MSVC)
 	endif()
 ELSE()
 	SET(CATA_WARNINGS
-		"-Werror -Wall -Wextra -Woverloaded-virtual -Wpedantic -Wmissing-declarations")
+		"-Werror -Wall -Wextra \
+		-Wmissing-declarations \
+		-Wold-style-cast \
+		-Woverloaded-virtual \
+		-Wpedantic")
+	# Compact the whitespace in the warning string
+	string(REGEX REPLACE "[\t ]+" " " CATA_WARNINGS "${CATA_WARNINGS}")
 	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CATA_WARNINGS} -std=c++14")
 	SET(CMAKE_CXX_FLAGS_DEBUG "-Og -g")
 ENDIF()

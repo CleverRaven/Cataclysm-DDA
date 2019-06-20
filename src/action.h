@@ -354,7 +354,7 @@ std::vector<char> keys_bound_to( action_id act, bool restrict_to_printable = tru
  * @returns the key code for the hotkey or -1 if no key is associated with the given action.
  * @note We ignore bindings to '?' because that will already do something else in this menu (open the menu keybindings).
  */
-long hotkey_for_action( action_id action, bool restrict_to_printable = true );
+int hotkey_for_action( action_id action, bool restrict_to_printable = true );
 
 /**
  * Lookup an action ID by its unique string identifier

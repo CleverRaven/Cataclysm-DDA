@@ -26,6 +26,15 @@
     "no_resume": true
   },
   {
+    "id": "ACT_BLUEPRINT_CONSTRUCTION",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": "constructing",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
     "id": "ACT_GAME",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -40,7 +49,8 @@
     "verb": "waiting",
     "rooted": true,
     "based_on": "time",
-    "no_resume": true
+    "no_resume": true,
+    "refuel_fires": true
   },
   {
     "id": "ACT_CRAFT",
@@ -608,6 +618,7 @@
     "activity_level": "NO_EXERCISE",
     "verb": "studying",
     "suspendable": false,
+    "refuel_fires": true,
     "rooted": true,
     "based_on": "time",
     "no_resume": true

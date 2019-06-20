@@ -35,7 +35,7 @@ class monster;
 namespace pf
 {
 struct path;
-}
+} // namespace pf
 
 struct city {
     // location of the city (in overmap terrain coordinates)

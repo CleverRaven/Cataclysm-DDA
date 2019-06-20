@@ -184,7 +184,7 @@ const std::vector<bionic_id> weapon_cbms = { {
 
 const int avoidance_vehicles_radius = 5;
 
-}
+} // namespace
 
 std::string npc_action_name( npc_action action );
 
@@ -251,7 +251,7 @@ tripoint npc::good_escape_direction( bool include_pos )
         for( const auto &e : g->m.field_at( pt ) ) {
             if( is_dangerous_field( e.second ) ) {
                 // @todo: Rate fire higher than smoke
-                rating += e.second.getFieldDensity();
+                rating += e.second.get_field_intensity();
             }
         }
         return rating;
@@ -298,8 +298,8 @@ bool npc::could_move_onto( const tripoint &p ) const
             continue;
         }
 
-        const auto *entry_here = fields_here.findField( e.first );
-        if( entry_here == nullptr || entry_here->getFieldDensity() < e.second.getFieldDensity() ) {
+        const auto *entry_here = fields_here.find_field( e.first );
+        if( entry_here == nullptr || entry_here->get_field_intensity() < e.second.get_field_intensity() ) {
             return false;
         }
     }
@@ -1455,7 +1455,7 @@ bool npc::can_reload_current()
         return false;
     }
 
-    return find_usable_ammo( weapon );
+    return static_cast<bool>( find_usable_ammo( weapon ) );
 }
 
 item_location npc::find_usable_ammo( const item &weap )
@@ -1636,8 +1636,8 @@ bool npc::recharge_cbm()
 
     if( use_bionic_by_id( bio_reactor ) || use_bionic_by_id( bio_advreactor ) ) {
         const std::function<bool( const item & )> reactor_filter = []( const item & it ) {
-            return it.is_ammo() && ( it.type->ammo->type.count( plutonium ) > 0 ||
-                                     it.type->ammo->type.count( reactor_slurry ) > 0 );
+            return it.is_ammo() && ( it.ammo_type() == plutonium ||
+                                     it.ammo_type() == reactor_slurry );
         };
         if( consume_cbm_items( reactor_filter ) ) {
             return true;
@@ -1943,7 +1943,7 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
 
 bool npc::enough_time_to_reload( const item &gun ) const
 {
-    int rltime = item_reload_cost( gun, item( gun.ammo_type()->default_ammotype() ),
+    int rltime = item_reload_cost( gun, item( gun.ammo_default() ),
                                    gun.ammo_capacity() );
     const float turns_til_reloaded = static_cast<float>( rltime ) / get_speed();
 

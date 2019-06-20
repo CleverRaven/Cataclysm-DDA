@@ -54,8 +54,6 @@
 #include "item.h"
 #include "string_id.h"
 
-static const itype_id fuel_type_animal( "animal" );
-
 static inline const std::string status_color( bool status )
 {
     return status ? "<color_green>" : "<color_red>";
@@ -1949,7 +1947,7 @@ void veh_interact::move_cursor( int dx, int dy, int dstart_at )
         obstruct = true;
     }
     nc_color col = cpart >= 0 ? veh->part_color( cpart ) : c_black;
-    long sym = cpart >= 0 ? veh->part_sym( cpart ) : ' ';
+    int sym = cpart >= 0 ? veh->part_sym( cpart ) : ' ';
     mvwputch( w_disp, hh, hw, obstruct ? red_background( col ) : hilite( col ),
               special_symbol( sym ) );
     wrefresh( w_disp );
@@ -2100,7 +2098,7 @@ void veh_interact::display_veh()
     std::vector<int> structural_parts = veh->all_parts_at_location( "structure" );
     for( auto &structural_part : structural_parts ) {
         const int p = structural_part;
-        long sym = veh->part_sym( p );
+        int sym = veh->part_sym( p );
         nc_color col = veh->part_color( p );
 
         int x =   veh->parts[p].mount.y + ddy;

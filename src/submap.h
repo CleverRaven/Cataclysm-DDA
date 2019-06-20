@@ -12,6 +12,7 @@
 #include "active_item_cache.h"
 #include "basecamp.h"
 #include "calendar.h"
+#include "colony.h"
 #include "computer.h"
 #include "construction.h"
 #include "field.h"
@@ -50,7 +51,7 @@ struct maptile_soa {
     ter_id          ter[sx][sy];  // Terrain on each square
     furn_id         frn[sx][sy];  // Furniture on each square
     std::uint8_t    lum[sx][sy];  // Number of items emitting light on each square
-    std::list<item> itm[sx][sy];  // Items on each square
+    colony<item>    itm[sx][sy];  // Items on each square
     field           fld[sx][sy];  // Field on each square
     trap_id         trp[sx][sy];  // Trap on each square
     int             rad[sx][sy];  // Irradiation of each square
@@ -251,11 +252,11 @@ struct maptile {
         }
 
         field_entry *find_field( const field_id field_to_find ) {
-            return sm->fld[x][y].findField( field_to_find );
+            return sm->fld[x][y].find_field( field_to_find );
         }
 
         bool add_field( const field_id field_to_add, const int new_density, const time_duration &new_age ) {
-            const bool ret = sm->fld[x][y].addField( field_to_add, new_density, new_age );
+            const bool ret = sm->fld[x][y].add_field( field_to_add, new_density, new_age );
             if( ret ) {
                 sm->field_count++;
             }
@@ -288,8 +289,9 @@ struct maptile {
             return sm->itm[x][y].size();
         }
 
+        // Assumes there is at least one item
         const item &get_uppermost_item() const {
-            return sm->itm[x][y].back();
+            return *std::prev( sm->itm[x][y].cend() );
         }
 };
 

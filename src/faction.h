@@ -50,7 +50,7 @@ const std::unordered_map<std::string, relationship> relation_strs = { {
         { "knows your voice", knows_your_voice }
     }
 };
-}
+} // namespace npc_factions
 
 class faction_template
 {

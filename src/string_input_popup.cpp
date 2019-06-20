@@ -280,9 +280,9 @@ int string_input_popup::query_int( const bool loop, const bool draw_only )
     return std::atoi( query_string( loop, draw_only ).c_str() );
 }
 
-long string_input_popup::query_long( const bool loop, const bool draw_only )
+int64_t string_input_popup::query_int64_t( const bool loop, const bool draw_only )
 {
-    return std::atol( query_string( loop, draw_only ).c_str() );
+    return std::atoll( query_string( loop, draw_only ).c_str() );
 }
 
 const std::string &string_input_popup::query_string( const bool loop, const bool draw_only )
@@ -496,6 +496,7 @@ void string_input_popup::edit( std::string &value )
     }
 }
 
+// NOLINTNEXTLINE(cata-no-long)
 void string_input_popup::edit( long &value )
 {
     only_digits( true );

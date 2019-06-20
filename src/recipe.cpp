@@ -44,7 +44,7 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
 
     // if recipe does not benefit from batching and we have no assistants, don't do unnecessary additional calculations
     if( batch_rscale == 0.0 && assistants == 0 ) {
-        return local_time * batch;
+        return static_cast<int>( local_time ) * batch;
     }
 
     float total_time = 0.0;
@@ -309,11 +309,14 @@ void recipe::add_requirements( const std::vector<std::pair<requirement_id, int>>
 
 std::string recipe::get_consistency_error() const
 {
-    if( !item::type_is_defined( result_ )  && category != "CC_BUILDING" ) {
+    if( category == "CC_BUILDING" ) {
+        if( is_blueprint() || oter_str_id( result_.c_str() ).is_valid() ) {
+            return std::string();
+        }
         return "defines invalid result";
     }
 
-    if( category == "CC_BUILDING" && !oter_str_id( result_.c_str() ).is_valid() ) {
+    if( !item::type_is_defined( result_ ) ) {
         return "defines invalid result";
     }
 

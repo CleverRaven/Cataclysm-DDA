@@ -715,12 +715,10 @@ class game
 
         /** Check for dangerous stuff at dest_loc, return false if the player decides
         not to step there */
-        bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
         // Handle pushing during move, returns true if it handled the move
         bool grabbed_move( const tripoint &dp );
         bool grabbed_veh_move( const tripoint &dp );
         bool grabbed_furn_move( const tripoint &dp );
-
 
         void control_vehicle(); // Use vehicle controls  '^'
         void examine( const tripoint &p ); // Examine nearby terrain  'e'
@@ -764,6 +762,7 @@ class game
         void mon_info( const catacurses::window &,
                        int hor_padding = 0 ); // Prints a list of nearby monsters
         void cleanup_dead();     // Delete any dead NPCs/monsters
+        bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
     private:
         void wield();
         void wield( int pos ); // Wield a weapon  'w'

@@ -55,6 +55,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "shotcanister",
+    "name": "shotcanisters",
+    "default": "shotcanister_scrap"
+  },
+  {
+    "type": "ammunition_type",
     "id": "shot",
     "name": "shot",
     "default": "shot_00"
@@ -85,6 +91,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "357mag",
+    "name": ".357 magnum",
+    "default": "357mag_jhp"
+  },
+  {
+    "type": "ammunition_type",
     "id": "9x18",
     "name": "9x18mm",
     "default": "9x18mm"
@@ -109,6 +121,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "10mm",
+    "name": "10mm Auto",
+    "default": "10mm_fmj"
+  },
+  {
+    "type": "ammunition_type",
     "id": "44",
     "name": ".44",
     "default": "44magnum"
@@ -123,7 +141,7 @@
     "type": "ammunition_type",
     "id": "460",
     "name": ".460",
-    "default": "45_acp"
+    "default": "460_rowland"
   },
   {
     "type": "ammunition_type",

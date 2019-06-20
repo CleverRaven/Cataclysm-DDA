@@ -99,7 +99,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_FREE_MERCHANT_STOCKS_JAR",
+    "id": "TALK_FREE_MERCHANT_STOCKS_JARS",
     "dynamic_line": "Yes, I can buy 500 mL or 3 L glass jars at the moment.",
     "repeat_responses": {
       "for_item": [ "jar_glass", "jar_3l_glass" ],

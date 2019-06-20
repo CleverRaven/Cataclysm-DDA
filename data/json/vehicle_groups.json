@@ -43,6 +43,7 @@
       [ "security_van", 500 ],
       [ "schoolbus", 100 ],
       [ "bus", 500 ],
+      [ "bus_tour", 50 ],
       [ "rv", 500 ],
       [ "limousine", 200 ],
       [ "lux_rv", 100 ],
@@ -119,6 +120,7 @@
       [ "aapc-gl", 50 ],
       [ "schoolbus", 50 ],
       [ "bus", 350 ],
+      [ "bus_tour", 25 ],
       [ "rv", 800 ],
       [ "limousine", 200 ],
       [ "lux_rv", 100 ],
@@ -180,6 +182,7 @@
       [ "rv", 200 ],
       [ "limousine", 100 ],
       [ "schoolbus", 200 ],
+      [ "bus_tour", 50 ],
       [ "fire_truck", 200 ],
       [ "policecar", 100 ],
       [ "policecar_k9", 1 ],
@@ -483,7 +486,7 @@
   {
     "type": "vehicle_group",
     "id": "buses",
-    "vehicles": [ [ "bus", 1000 ], [ "schoolbus", 100 ] ]
+    "vehicles": [ [ "bus", 1000 ], [ "schoolbus", 100 ], [ "bus_tour", 50 ] ]
   },
   {
     "type": "vehicle_group",

@@ -1123,7 +1123,14 @@
       "per_mod": [ -1 ],
       "stamina_min": [ -2 ]
     },
-    "scaling_mods": { "speed_mod": [ 30 ], "str_mod": [ 5 ], "dex_mod": [ 4 ], "int_mod": [ -7 ], "per_mod": [ 2 ], "stamina_min": [ 4 ] }
+    "scaling_mods": {
+      "speed_mod": [ 20 ],
+      "str_mod": [ 1.5 ],
+      "dex_mod": [ 1.5 ],
+      "int_mod": [ -2 ],
+      "per_mod": [ 0.5 ],
+      "stamina_min": [ 4 ]
+    }
   },
   {
     "type": "effect_type",
@@ -1164,11 +1171,11 @@
       "stamina_min": [ -4 ]
     },
     "scaling_mods": {
-      "speed_mod": [ 30 ],
-      "str_mod": [ 4 ],
-      "dex_mod": [ 4 ],
-      "int_mod": [ 3 ],
-      "per_mod": [ 5 ],
+      "speed_mod": [ 15 ],
+      "str_mod": [ 1.5 ],
+      "dex_mod": [ 1 ],
+      "int_mod": [ 0.5 ],
+      "per_mod": [ 1 ],
       "fatigue_min": [ 1 ],
       "stamina_min": [ 8 ]
     }
@@ -1180,8 +1187,7 @@
     "desc": [ "You had a puff or two.", "You smoked too much." ],
     "max_intensity": 2,
     "int_dur_factor": 600,
-    "base_mods": { "int_mod": [ 1 ], "per_mod": [ 1 ] },
-    "scaling_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "int_mod": [ -1 ], "per_mod": [ -1 ], "vomit_chance": [ 500 ] }
+    "scaling_mods": { "vomit_chance": [ 500 ] }
   },
   {
     "type": "effect_type",
@@ -1200,7 +1206,7 @@
     "id": "weed_high",
     "apply_message": "You feel lightheaded.",
     "miss_messages": [ [ "That critter's jumping around like a jitterbug!  It needs to mellow out.", 1 ] ],
-    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "per_mod": [ -1 ] }
+    "base_mods": { "per_mod": [ -1 ] }
   },
   {
     "type": "effect_type",
@@ -1223,17 +1229,10 @@
     ],
     "max_intensity": 4,
     "apply_message": "You feel lightheaded.",
-    "int_dur_factor": 1000,
+    "int_dur_factor": 6000,
     "miss_messages": [ [ "You feel woozy.", 1 ] ],
-    "base_mods": { "str_mod": [ 1 ], "vomit_chance": [ -43 ], "sleep_chance": [ -1003 ], "sleep_min": [ 2500 ], "sleep_max": [ 3500 ] },
-    "scaling_mods": {
-      "str_mod": [ -0.67 ],
-      "per_mod": [ -1 ],
-      "dex_mod": [ -1 ],
-      "int_mod": [ -1.42 ],
-      "vomit_chance": [ 21 ],
-      "sleep_chance": [ 501 ]
-    }
+    "base_mods": { "vomit_chance": [ -43 ], "sleep_chance": [ -1003 ], "sleep_min": [ 2500 ], "sleep_max": [ 3500 ] },
+    "scaling_mods": { "per_mod": [ -0.5 ], "dex_mod": [ -0.5 ], "int_mod": [ -0.75 ], "vomit_chance": [ 21 ], "sleep_chance": [ 501 ] }
   },
   {
     "type": "effect_type",
@@ -1623,7 +1622,7 @@
     "desc": [ "You're very jittery and pumped up, probably from some stimulants." ],
     "max_intensity": 1000,
     "int_dur_factor": 1,
-    "scaling_mods": { "speed_mod": [ 0.33 ], "dex_mod": [ 0.1 ], "int_mod": [ 0.16 ], "per_mod": [ 0.14 ] }
+    "scaling_mods": { "speed_mod": [ 0.08 ], "per_mod": [ 0.04 ] }
   },
   {
     "type": "effect_type",
@@ -1632,19 +1631,8 @@
     "desc": [ "You are under the influence of depressants, and in a bit of a daze." ],
     "max_intensity": 1000,
     "int_dur_factor": 1,
-    "scaling_mods": { "speed_mod": [ -0.25 ], "dex_mod": [ -0.1 ], "int_mod": [ -0.16 ], "per_mod": [ -0.14 ] },
+    "scaling_mods": { "speed_mod": [ -0.1 ], "dex_mod": [ -0.05 ] },
     "miss_messages": [ [ "You feel woozy.", 1 ] ]
-  },
-  {
-    "type": "effect_type",
-    "id": "stim_overdose",
-    "name": [ "Stimulant Overdose" ],
-    "desc": [ "You can't sit still as you feel your heart pounding out of your chest.  You probably overdosed on those stims." ],
-    "max_intensity": 1000,
-    "int_dur_factor": 1,
-    "base_mods": { "dex_mod": [ -1.88 ], "int_mod": [ -1.1 ], "per_mod": [ -1.25 ] },
-    "scaling_mods": { "speed_mod": [ -0.25 ], "dex_mod": [ -0.125 ], "int_mod": [ -0.0833 ], "per_mod": [ -0.071 ] },
-    "miss_messages": [ [ "You shake with the excess stimulation.", 1 ] ]
   },
   {
     "type": "effect_type",

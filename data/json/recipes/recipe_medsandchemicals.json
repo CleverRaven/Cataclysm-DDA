@@ -857,11 +857,11 @@
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "cooking",
     "difficulty": 4,
-    "time": "4 m",
+    "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "BOIL", "level": 2 } ],
+    "qualities": [ { "id": "FINE_DISTILL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "vinegar", 10 ] ] ]
+    "components": [ [ [ "vinegar", 160 ] ] ]
   },
   {
     "type": "recipe",

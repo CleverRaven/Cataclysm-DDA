@@ -2015,7 +2015,14 @@
     ],
     "using": [ [ "welding_standard", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "motor_small", 1 ] ], [ [ "cable", 12 ] ], [ [ "rebar", 2 ], [ "steel_chunk", 4 ] ], [ [ "scrap", 3 ] ] ]
+    "components": [
+      [ [ "motor_small", 1 ] ],
+      [ [ "UPS_off", 1 ] ],
+      [ [ "medium_storage_battery", 1 ] ],
+      [ [ "cable", 12 ] ],
+      [ [ "rebar", 2 ], [ "steel_chunk", 4 ] ],
+      [ [ "scrap", 3 ] ]
+    ]
   },
   {
     "type": "recipe",
