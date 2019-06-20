@@ -87,18 +87,30 @@
       {
         "text": "Hi, Draco, how are you doing?",
         "condition": {
-          "and": [ { "not": { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3"  } }, { "not": { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7"  } } ]
+          "and": [
+            { "not": { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" } },
+            {
+              "not": { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7" }
+            }
+          ]
         },
         "topic": "TALK_REFUGEE_Draco_2"
       },
       {
         "text": "Hi again, Draco, nice to see you too.",
-        "condition": { "and": [ { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" }, { "not": { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7"  } } ] },
+        "condition": {
+          "and": [
+            { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" },
+            {
+              "not": { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7" }
+            }
+          ]
+        },
         "topic": "TALK_REFUGEE_Draco_5a"
       },
       {
         "text": "Hi again, Draco, nice to see you too.",
-        "condition": { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7"  },
+        "condition": { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7" },
         "topic": "TALK_REFUGEE_Draco_7"
       },
       {
@@ -193,10 +205,7 @@
     "id": "TALK_REFUGEE_Draco_6a",
     "dynamic_line": "Me too!  You can understand how folks be wantin' some liveliness in these times.  Some music sure would help with that.  Damn, I miss it.  All I hear is those MP3 players with their tin-can drum machines and whiny vocals.  Help me find a guitar and we'll really get this place smokin'!",
     "responses": [
-      {
-        "text": "I could be persuaded.",
-        "topic": "TALK_REFUGEE_Draco_7"
-      },
+      { "text": "I could be persuaded.", "topic": "TALK_REFUGEE_Draco_7" },
       { "text": "It's called dub-step and I like it.  Goodbye, old man.", "topic": "TALK_DONE" }
     ]
   },
@@ -205,10 +214,7 @@
     "id": "TALK_REFUGEE_Draco_6b",
     "dynamic_line": "Me too!  Times are hard for folks and that's no laughing matter.  People need some normality in these times.  Some reminders of how things used to be.  I think a sing-along or two could do folks good.",
     "responses": [
-      {
-        "text": "Couldn't hurt.",
-        "topic": "TALK_REFUGEE_Draco_7"
-      },
+      { "text": "Couldn't hurt.", "topic": "TALK_REFUGEE_Draco_7" },
       { "text": "I don't need to hear amateur-hour karaoke around here.  Goodbye.", "topic": "TALK_DONE" }
     ]
   },
@@ -217,10 +223,7 @@
     "id": "TALK_REFUGEE_Draco_6c",
     "dynamic_line": "Me too!  I did stand-up comedy at a club once.  Well, outside a club anyway.  You know what'd be funny?  Next time one of those stupid ferals starts running around chasing after a squirrel or something, if I had me a guitar I could play the Benny Hill tune and get everybody crackin' up.  Places needs some laughter badly.",
     "responses": [
-      {
-        "text": "That'd be awesome.",
-        "topic": "TALK_REFUGEE_Draco_7"
-      },
+      { "text": "That'd be awesome.", "topic": "TALK_REFUGEE_Draco_7" },
       {
         "text": "Yeah, wouldn't be so funny when Zed heard all the sound and broke in.  Be responsible.",
         "topic": "TALK_DONE"
@@ -232,10 +235,7 @@
     "id": "TALK_REFUGEE_Draco_6d",
     "dynamic_line": "Me too.  It's fight a stay afloat in these times.  Some music would lift all spirits, though, don't you think?",
     "responses": [
-      {
-        "text": "Can you play heavy metal on an acoustic guitar?",
-        "topic": "TALK_REFUGEE_Draco_7"
-      },
+      { "text": "Can you play heavy metal on an acoustic guitar?", "topic": "TALK_REFUGEE_Draco_7" },
       { "text": "Boring.  I'm going to go destroy something.", "topic": "TALK_DONE" }
     ]
   },
@@ -244,10 +244,7 @@
     "id": "TALK_REFUGEE_Draco_6e",
     "dynamic_line": "Me too!  For now, anyway, that's not really possible for me.  I mean, I guess you know better than me about that.  Man, I used to travel all around.  Saw halfa the States with my guitar on my back.  Now, though, well, I think I'll stay inside til this all flies over.",
     "responses": [
-      {
-        "text": "Maybe I could help with something?",
-        "topic": "TALK_REFUGEE_Draco_7"
-      },
+      { "text": "Maybe I could help with something?", "topic": "TALK_REFUGEE_Draco_7" },
       { "text": "Well then, I'll leave you here where it's safe.", "topic": "TALK_DONE" }
     ]
   },
@@ -255,7 +252,10 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_7",
     "dynamic_line": {
-      "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes",
+      "u_has_var": "NC_REFUGEE_Draco_has_guitar",
+      "type": "general",
+      "context": "mission",
+      "value": "yes",
       "yes": "My savior!  My patron of the arts!  You're always welcome here, friend.",
       "no": "Man, just imagine what I could do with a new guitar.",
       "speaker_effect": { "u_add_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7" }
@@ -338,7 +338,9 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "marijuana", "count": 5 } },
-            { "not": { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" } },
+            {
+              "not": { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" }
+            },
             { "not": { "npc_has_effect": "u_sold_to_Draco" } }
           ]
         },
@@ -370,7 +372,9 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "joint", "count": 5 } },
-            { "not": { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" } },
+            {
+              "not": { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" }
+            },
             { "not": { "npc_has_effect": "u_sold_to_Draco" } }
           ]
         },
