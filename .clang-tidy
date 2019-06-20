@@ -6,6 +6,7 @@
 # fix their errors or recategorise them as checks we don't care about.
 Checks: "\
 bugprone-*,\
+cata-*,\
 cert-*,\
 -cert-err58-cpp,\
 clang-diagnostic-*,\
