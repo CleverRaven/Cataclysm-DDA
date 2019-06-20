@@ -1831,6 +1831,86 @@
     "components": [ [ [ "wild_herbs", 10 ] ] ]
   },
   {
+    "result": "hickory_nut",
+    "type": "uncraft",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "6 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "hickory_nut_unshelled", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "hazelnut",
+    "type": "uncraft",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "6 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "hazelnut_unshelled", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "chestnut",
+    "type": "uncraft",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "6 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "chestnut_unshelled", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "almond",
+    "type": "uncraft",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "6 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "almond_unshelled", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "pistachio",
+    "type": "uncraft",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "6 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "pistachio_unshelled", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "pecan",
+    "type": "uncraft",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "6 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "pecan_unshelled", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "walnut",
+    "type": "uncraft",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "6 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "walnut_unshelled", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "peanut",
+    "type": "uncraft",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "6 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "peanut_unshelled", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "tieclip",
     "type": "uncraft",
     "time": "0 m",
