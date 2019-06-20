@@ -47,6 +47,12 @@ const std::map<std::string, body_part> bp_map = {
     { "FOOT_L", body_part::bp_foot_l },
     { "FOOT_R", body_part::bp_foot_r }
 };
+const std::map<std::string, spell_flag> flag_map = {
+    { "PERMANENT", spell_flag::PERMANENT },
+    { "IGNORE_WALLS", spell_flag::IGNORE_WALLS },
+    { "HOSTILE_SUMMON", spell_flag::HOSTILE_SUMMON },
+    { "HOSTILE_50", spell_flag::HOSTILE_50 }
+};
 } // namespace
 
 namespace io
@@ -60,6 +66,11 @@ template<>
 body_part string_to_enum<body_part>( const std::string &trigger )
 {
     return string_to_enum_look_up( bp_map, trigger );
+}
+template<>
+spell_flag string_to_enum<spell_flag>( const std::string &trigger )
+{
+    return string_to_enum_look_up( flag_map, trigger );
 }
 } // namespace io
 
@@ -146,6 +157,8 @@ void spell_type::load( JsonObject &jo, const std::string & )
 
     const auto bp_reader = enum_flags_reader<body_part> { "affected_bps" };
     optional( jo, was_loaded, "affected_body_parts", affected_bps, bp_reader );
+    const auto flag_reader = enum_flags_reader<spell_flag> { "flags" };
+    optional( jo, was_loaded, "flags", spell_tags, flag_reader );
 
     optional( jo, was_loaded, "effect_str", effect_str, "" );
 
@@ -176,8 +189,6 @@ void spell_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "base_energy_cost", base_energy_cost, 0 );
     optional( jo, was_loaded, "final_energy_cost", final_energy_cost, base_energy_cost );
     optional( jo, was_loaded, "energy_increment", energy_increment, 0.0f );
-
-    optional( jo, was_loaded, "flags", spell_tags );
 
     std::string temp_string;
     optional( jo, was_loaded, "spell_class", temp_string, "NONE" );
@@ -322,9 +333,9 @@ int spell::energy_cost() const
     }
 }
 
-bool spell::has_flag( const std::string &flag ) const
+bool spell::has_flag( const spell_flag &flag ) const
 {
-    return type->spell_tags.count( flag );
+    return type->spell_tags[flag];
 }
 
 bool spell::is_spell_class( const trait_id &mid ) const

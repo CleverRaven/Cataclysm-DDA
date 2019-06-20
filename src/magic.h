@@ -23,6 +23,14 @@ class JsonIn;
 class time_duration;
 class nc_color;
 
+enum spell_flag {
+    PERMANENT,
+    IGNORE_WALLS,
+    HOSTILE_SUMMON,
+    HOSTILE_50,
+    LAST
+};
+
 enum energy_type {
     hp_energy,
     mana_energy,
@@ -46,9 +54,15 @@ struct enum_traits<valid_target> {
     static constexpr auto last = valid_target::_LAST;
 };
 
+template<>
+struct enum_traits<spell_flag> {
+    static constexpr auto last = spell_flag::LAST;
+};
+
 class spell_type
 {
     public:
+
         spell_type() = default;
 
         bool was_loaded = false;
@@ -149,7 +163,7 @@ class spell_type
         // lits of bodyparts this spell applies its effect to
         enum_bitset<body_part> affected_bps;
 
-        std::set<std::string> spell_tags;
+        enum_bitset<spell_flag> spell_tags;
 
         static void load_spell( JsonObject &jo, const std::string &src );
         void load( JsonObject &jo, const std::string & );
@@ -226,7 +240,7 @@ class spell
         // is the bodypart affected by the effect
         bool bp_is_affected( body_part bp ) const;
         // check if the spell has a particular flag
-        bool has_flag( const std::string &flag ) const;
+        bool has_flag( const spell_flag &flag ) const;
         // check if the spell's class is the same as input
         bool is_spell_class( const trait_id &mid ) const;
 
