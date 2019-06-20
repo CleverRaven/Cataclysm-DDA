@@ -148,7 +148,7 @@
     "type": "profession",
     "ident": "preacher_magic2",
     "name": "Preacher",
-    "description": "You devoted your life to spreading the good word, always on the road, traveling from town to town.  Now, everything has gone to hell, you can't host your daily podcast and the undead listening to your sermons don't seem particularly moved.",
+    "description": "You devoted your life to spreading the good word; always on the road, traveling from town to town.  Now everything has gone to hell, you can't host your daily podcast, and the undead listening to your sermons don't seem particularly moved.",
     "points": 2,
     "//": "Storage + 2 points in skills, - no knife or fire.",
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "driving" }, { "level": 1, "name": "computer" } ],
