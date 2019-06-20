@@ -96,6 +96,9 @@ constexpr int freezer = 23; // -5 Celsius
 
 /** Temperature in which water freezes in Fahrenheit  */
 constexpr int freezing = 32; // 0 Celsius
+
+/** Lowest allowed temperature for item processing  */
+constexpr int lowest_temperature = -459; // 0.37 K
 } // namespace temperatures
 
 // Shelf life of corpse. This should be kept same as raw flesh.
