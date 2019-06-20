@@ -2269,11 +2269,6 @@ int iuse::ma_manual( player *p, item *it, bool, const tripoint & )
 
     const matype_id style_to_learn = martial_art_learned_from( *it->type );
 
-    if( p->has_martialart( style_to_learn ) ) {
-        p->add_msg_if_player( m_info, _( "You already know all this book has to teach." ) );
-        return 0;
-    }
-
     p->ma_styles.push_back( style_to_learn );
 
     const martialart &ma = style_to_learn.obj();

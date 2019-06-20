@@ -2,6 +2,7 @@
 
 #include "action.h"
 #include "bionics.h"
+#include "calendar.h"
 #include "character.h"
 #include "creature.h"
 #include "effect.h"
@@ -13,6 +14,7 @@
 #include "item.h"
 #include "itype.h"
 #include "map.h"
+#include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
 #include "monstergenerator.h"
@@ -43,6 +45,8 @@ static const trait_id trait_GOODMEMORY( "GOODMEMORY" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
+
+const skill_id skill_unarmed( "unarmed" );
 
 avatar::avatar() : player()
 {
@@ -750,6 +754,18 @@ bool avatar::read( int inventory_position, const bool continuous )
                  complex_player->disp_name() );
     }
 
+
+    // push an indentifier of martial art book to the action handling
+    if( it.type->use_methods.find( "MA_MANUAL" ) != it.type->use_methods.end() ) {
+
+        if( g->u.stamina < g->u.get_stamina_max() * 0.2 ) {
+            add_msg( m_info, _( "You are too exhausted to train martial arts." ) );
+            return false;
+        }
+        act.str_values.clear();
+        act.str_values.emplace_back( "martial_art" );
+    }
+
     assign_activity( act );
 
     // Reinforce any existing morale bonus/penalty, so it doesn't decay
@@ -965,18 +981,49 @@ void avatar::do_read( item &book )
         }
     }
 
+    // NPCs can't learn martial arts from manuals (yet).
+    auto m = book.type->use_methods.find( "MA_MANUAL" );
+    if( m != book.type->use_methods.end() ) {
+
+        const matype_id style_to_learn = martial_art_learned_from( *book.type );
+
+        if( g->u.has_martialart( style_to_learn ) ) {
+            g->u.add_msg_if_player( m_info, _( "You already know all this book has to teach." ) );
+            activity.set_to_null();
+            return;
+        }
+
+        skill_id skill_used = style_to_learn->primary_skill;
+        int difficulty = style_to_learn->learn_difficulty;
+
+        if( one_in( 10 + difficulty - g->u.get_skill_level( skill_used ) ) ) {
+            m->second.call( *this, book, false, pos() );
+            continuous = false;
+        } else {
+            switch ( rng( 1, 5 ) )
+            {
+            case 1:
+                add_msg( m_info, _( "You train the moves according to the book, but can't get a grasp of the style, so you start from the begining." ) );
+                break;
+            case 2:
+                add_msg( m_info, _( "This martial art is not easy to grasp.  You start training the moves from the begining." ) );
+                break;
+            case 3:
+                add_msg( m_info, _( "You decide to read the manual and train even more.  In martial arts patience leads to mastery." ) );
+            case 4:
+            case 5:
+                add_msg( m_info, _( "You try again.  This training will finally pay off." ) );
+            }
+            continuous = true;
+        }
+    }
+
     if( continuous ) {
         activity.set_to_null();
         read( get_item_position( &book ), true );
         if( activity ) {
             return;
         }
-    }
-
-    // NPCs can't learn martial arts from manuals (yet).
-    auto m = book.type->use_methods.find( "MA_MANUAL" );
-    if( m != book.type->use_methods.end() ) {
-        m->second.call( *this, book, false, pos() );
     }
 
     activity.set_to_null();
