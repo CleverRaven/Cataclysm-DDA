@@ -118,7 +118,7 @@ class vehicle_stack : public item_stack
         vehicle *myorigin;
         int part_num;
     public:
-        vehicle_stack( colony<item> *newstack, point newloc, vehicle *neworigin, int part ) :
+        vehicle_stack( cata::colony<item> *newstack, point newloc, vehicle *neworigin, int part ) :
             item_stack( newstack ), location( newloc ), myorigin( neworigin ), part_num( part ) {}
         iterator erase( const_iterator it ) override;
         void insert( const item &newitem ) override;
@@ -383,7 +383,7 @@ struct vehicle_part {
         mutable const vpart_info *info_cache = nullptr;
 
         item base;
-        colony<item> items; // inventory
+        cata::colony<item> items; // inventory
 
         /** Preferred ammo type when multiple are available */
         itype_id ammo_pref = "null";

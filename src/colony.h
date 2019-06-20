@@ -59,6 +59,9 @@
 #include <type_traits> // std::is_trivially_destructible, etc
 #include <utility> // std::move
 
+namespace cata
+{
+
 template <class element_type, class element_allocator_type = std::allocator<element_type>, typename element_skipfield_type = unsigned short >
 // Empty base class optimization - inheriting allocator functions
 class colony : private element_allocator_type
@@ -3237,6 +3240,8 @@ inline void swap( colony<element_type, element_allocator_type, element_skipfield
 {
     a.swap( b );
 }
+
+} // namespace cata
 
 #undef COLONY_FORCE_INLINE
 

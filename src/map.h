@@ -97,7 +97,7 @@ class map_stack : public item_stack
         tripoint location;
         map *myorigin;
     public:
-        map_stack( colony<item> *newstack, tripoint newloc, map *neworigin ) :
+        map_stack( cata::colony<item> *newstack, tripoint newloc, map *neworigin ) :
             item_stack( newstack ), location( newloc ), myorigin( neworigin ) {}
         void insert( const item &newitem ) override;
         iterator erase( const_iterator it ) override;

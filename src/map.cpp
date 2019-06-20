@@ -98,9 +98,9 @@ const efftype_id effect_stunned( "stunned" );
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
-static colony<item>     nulitems;          // Returned when &i_at() is asked for an OOB value
-static field            nulfield;          // Returned when &field_at() is asked for an OOB value
-static level_cache      nullcache;         // Dummy cache for z-levels outside bounds
+static cata::colony<item> nulitems;          // Returned when &i_at() is asked for an OOB value
+static field              nulfield;          // Returned when &field_at() is asked for an OOB value
+static level_cache        nullcache;         // Dummy cache for z-levels outside bounds
 
 // Map stack methods.
 map_stack::iterator map_stack::erase( map_stack::const_iterator it )
@@ -4438,8 +4438,8 @@ void map::make_active( item_location &loc )
     }
     point l;
     submap *const current_submap = get_submap_at( loc.position(), l );
-    colony<item> &item_stack = current_submap->itm[l.x][l.y];
-    colony<item>::iterator iter = item_stack.get_iterator_from_pointer( target );
+    cata::colony<item> &item_stack = current_submap->itm[l.x][l.y];
+    cata::colony<item>::iterator iter = item_stack.get_iterator_from_pointer( target );
 
     if( current_submap->active_items.empty() ) {
         submaps_with_active_items.insert( abs_sub + tripoint( loc.position().x / SEEX,
