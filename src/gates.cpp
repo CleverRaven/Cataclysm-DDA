@@ -316,7 +316,7 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
                 m.close_door( closep, inside, false );
                 didit = true;
                 who.add_msg_if_player( m_info, _( "You push the %s out of the way." ),
-                                       items_in_way.size() == 1 ?  items_in_way[0].tname() : _( "stuff" ) );
+                                       items_in_way.size() == 1 ? items_in_way.only_item().tname() : _( "stuff" ) );
                 who.mod_moves( -std::min( items_in_way.stored_volume() / ( max_nudge / 50 ), 100 ) );
 
                 if( m.has_flag( "NOITEM", closep ) ) {

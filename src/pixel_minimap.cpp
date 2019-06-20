@@ -16,9 +16,7 @@
 #include <set>
 #include <vector>
 
-
 extern void set_displaybuffer_rendertarget();
-
 
 namespace
 {
@@ -81,7 +79,7 @@ SDL_Color get_critter_color( Creature *critter, int flicker, int mixture )
     return result;
 }
 
-}
+} // namespace
 
 // a texture pool to avoid recreating textures every time player changes their view
 // at most 142 out of 144 textures can be in use due to regular player movement
@@ -148,7 +146,6 @@ struct pixel_minimap::submap_cache {
     //handle the release of the borrowed texture
     ~submap_cache();
 };
-
 
 pixel_minimap::pixel_minimap( const SDL_Renderer_Ptr &renderer ) :
     renderer( renderer ),

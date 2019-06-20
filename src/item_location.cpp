@@ -89,11 +89,11 @@ class item_location::impl
             return "";
         }
 
-        virtual int obtain( Character &, long ) {
+        virtual int obtain( Character &, int ) {
             return INT_MIN;
         }
 
-        virtual int obtain_cost( const Character &, long ) const {
+        virtual int obtain_cost( const Character &, int ) const {
             return 0;
         }
 
@@ -106,16 +106,15 @@ class item_location::impl
         }
 
         item *target() const {
-            if( idx >= 0 ) {
+            if( what == nullptr ) {
                 what = unpack( idx );
-                idx = -1;
             }
             return what;
         }
 
         // Add up the total charges of a stack of items
-        long charges_in_stack( unsigned int countOnly ) const {
-            long sum = 0L;
+        int charges_in_stack( unsigned int countOnly ) const {
+            int sum = 0;
             unsigned int c = countOnly;
             // If the list points to a nullpointer, then the target pointer must still be valid
             if( whatstart == nullptr ) {
@@ -191,7 +190,7 @@ class item_location::impl::item_on_map : public item_location::impl
             return res;
         }
 
-        int obtain( Character &ch, long qty ) override {
+        int obtain( Character &ch, int qty ) override {
             ch.moves -= obtain_cost( ch, qty );
 
             item obj = target()->split( qty );
@@ -204,7 +203,7 @@ class item_location::impl::item_on_map : public item_location::impl
             }
         }
 
-        int obtain_cost( const Character &ch, long qty ) const override {
+        int obtain_cost( const Character &ch, int qty ) const override {
             if( !target() ) {
                 return 0;
             }
@@ -300,7 +299,7 @@ class item_location::impl::item_on_person : public item_location::impl
             }
         }
 
-        int obtain( Character &ch, long qty ) override {
+        int obtain( Character &ch, int qty ) override {
             ch.mod_moves( -obtain_cost( ch, qty ) );
 
             if( &ch.i_at( ch.get_item_position( target() ) ) == target() ) {
@@ -318,7 +317,7 @@ class item_location::impl::item_on_person : public item_location::impl
             }
         }
 
-        int obtain_cost( const Character &ch, long qty ) const override {
+        int obtain_cost( const Character &ch, int qty ) const override {
             if( !target() ) {
                 return 0;
             }
@@ -432,7 +431,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             return res;
         }
 
-        int obtain( Character &ch, long qty ) override {
+        int obtain( Character &ch, int qty ) override {
             ch.moves -= obtain_cost( ch, qty );
 
             item obj = target()->split( qty );
@@ -445,7 +444,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             }
         }
 
-        int obtain_cost( const Character &ch, long qty ) const override {
+        int obtain_cost( const Character &ch, int qty ) const override {
             if( !target() ) {
                 return 0;
             }
@@ -569,7 +568,7 @@ void item_location::deserialize( JsonIn &js )
     }
 }
 
-long item_location::charges_in_stack( unsigned int countOnly ) const
+int item_location::charges_in_stack( unsigned int countOnly ) const
 {
     return ptr->charges_in_stack( countOnly );
 }
@@ -589,7 +588,7 @@ std::string item_location::describe( const Character *ch ) const
     return ptr->describe( ch );
 }
 
-int item_location::obtain( Character &ch, long qty )
+int item_location::obtain( Character &ch, int qty )
 {
     if( !ptr->valid() ) {
         debugmsg( "item location does not point to valid item" );
@@ -598,7 +597,7 @@ int item_location::obtain( Character &ch, long qty )
     return ptr->obtain( ch, qty );
 }
 
-int item_location::obtain_cost( const Character &ch, long qty ) const
+int item_location::obtain_cost( const Character &ch, int qty ) const
 {
     return ptr->obtain_cost( ch, qty );
 }

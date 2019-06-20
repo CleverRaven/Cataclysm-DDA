@@ -9,6 +9,8 @@
       [ "380_JHP", 20 ],
       [ "38_fmj", 25 ],
       [ "38_special", 25 ],
+      [ "357mag_fmj", 15 ],
+      [ "357mag_jhp", 15 ],
       [ "357sig_jhp", 25 ],
       [ "357sig_fmj", 25 ],
       [ "40sw", 40 ],
@@ -24,8 +26,10 @@
     "id": "ammo_pistol_rare",
     "//": "Less common pistol ammo including that only used by police/paramilitary forces.",
     "items": [
-      [ "10mm", 15 ],
+      [ "10mm_fmj", 15 ],
+      [ "45colt_jhp", 10 ],
       [ "38_super", 20 ],
+      [ "38super_fmj", 20 ],
       [ "44fmj", 15 ],
       [ "44magnum", 35 ],
       [ "45_super", 30 ],
@@ -63,11 +67,13 @@
     "id": "ammo_pistol_reloaded",
     "//": "Reloaded pistol ammo balanced according to rarity.",
     "items": [
-      [ "reloaded_10mm", 10 ],
+      [ "reloaded_10mm_fmj", 10 ],
       [ "reloaded_32_acp", 50 ],
       [ "reloaded_38_fmj", 30 ],
       [ "reloaded_38_special", 80 ],
-      [ "reloaded_38_super", 40 ],
+      [ "reloaded_38super_fmj", 40 ],
+      [ "reloaded_357mag_fmj", 30 ],
+      [ "reloaded_357mag_jhp", 30 ],
       [ "reloaded_380_JHP", 10 ],
       [ "reloaded_380_FMJ", 15 ],
       [ "reloaded_380_p", 5 ],
@@ -82,6 +88,7 @@
       [ "reloaded_45_super", 40 ],
       [ "reloaded_46mm", 20 ],
       [ "reloaded_454_Casull", 5 ],
+      [ "reloaded_45colt_jhp", 10 ],
       [ "reloaded_460_fmj", 5 ],
       [ "reloaded_460_rowland", 5 ],
       [ "reloaded_500_Magnum", 5 ],
@@ -217,7 +224,7 @@
     "type": "item_group",
     "id": "ammo_shotgun_common",
     "//": "Shotgun ammo commonly owned by citizens and found in many locations.",
-    "items": [ [ "shot_00", 100 ], [ "shot_bird", 70 ] ]
+    "items": [ [ "shot_00", 100 ], [ "shot_bird", 70 ], [ "shot_dragon", 10 ], [ "410shot_000", 50 ] ]
   },
   {
     "type": "item_group",
@@ -251,6 +258,7 @@
     "items": [
       [ "reloaded_shot_00", 200 ],
       [ "reloaded_shot_bird", 30 ],
+      [ "reloaded_shot_dragon", 20 ],
       [ "reloaded_shot_flechette", 5 ],
       [ "reloaded_shot_slug", 30 ],
       [ "shot_scrap", 80 ]

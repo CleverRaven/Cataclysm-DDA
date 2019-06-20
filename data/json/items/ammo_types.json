@@ -55,9 +55,21 @@
   },
   {
     "type": "ammunition_type",
+    "id": "shotcanister",
+    "name": "shotcanisters",
+    "default": "shotcanister_scrap"
+  },
+  {
+    "type": "ammunition_type",
     "id": "shot",
     "name": "shot",
     "default": "shot_00"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "410shot",
+    "name": ".410 shot",
+    "default": "410shot_000"
   },
   {
     "type": "ammunition_type",
@@ -85,6 +97,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "357mag",
+    "name": ".357 magnum",
+    "default": "357mag_jhp"
+  },
+  {
+    "type": "ammunition_type",
     "id": "9x18",
     "name": "9x18mm",
     "default": "9x18mm"
@@ -103,9 +121,21 @@
   },
   {
     "type": "ammunition_type",
+    "id": "38super",
+    "name": ".38 Super",
+    "default": "38super_fmj"
+  },
+  {
+    "type": "ammunition_type",
     "id": "40",
     "name": ".40",
     "default": "40sw"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "10mm",
+    "name": "10mm Auto",
+    "default": "10mm_fmj"
   },
   {
     "type": "ammunition_type",
@@ -123,13 +153,19 @@
     "type": "ammunition_type",
     "id": "460",
     "name": ".460",
-    "default": "45_acp"
+    "default": "460_rowland"
   },
   {
     "type": "ammunition_type",
     "id": "454",
     "name": ".454",
     "default": "454_Casull"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "45colt",
+    "name": ".45 Colt",
+    "default": "45colt_jhp"
   },
   {
     "type": "ammunition_type",

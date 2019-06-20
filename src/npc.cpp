@@ -565,7 +565,7 @@ void starting_inv( npc &who, const npc_class_id &type )
     res.emplace_back( "lighter" );
     // If wielding a gun, get some additional ammo for it
     if( who.weapon.is_gun() ) {
-        item ammo( who.weapon.ammo_type()->default_ammotype() );
+        item ammo( who.weapon.ammo_default() );
         ammo = ammo.in_its_container();
         if( ammo.made_of( LIQUID ) ) {
             item container( "bottle_plastic" );
@@ -575,8 +575,8 @@ void starting_inv( npc &who, const npc_class_id &type )
 
         // TODO: Move to npc_class
         // NC_COWBOY and NC_BOUNTY_HUNTER get 5-15 whilst all others get 3-6
-        long qty = 1 + ( type == NC_COWBOY ||
-                         type == NC_BOUNTY_HUNTER );
+        int qty = 1 + ( type == NC_COWBOY ||
+                        type == NC_BOUNTY_HUNTER );
         qty = rng( qty, qty * 2 );
 
         while( qty-- != 0 && who.can_pickVolume( ammo ) ) {
@@ -589,8 +589,8 @@ void starting_inv( npc &who, const npc_class_id &type )
         res.emplace_back( "molotov" );
     }
 
-    long qty = ( type == NC_EVAC_SHOPKEEP ||
-                 type == NC_TRADER ) ? 5 : 2;
+    int qty = ( type == NC_EVAC_SHOPKEEP ||
+                type == NC_TRADER ) ? 5 : 2;
     qty = rng( qty, qty * 3 );
 
     while( qty-- != 0 ) {
@@ -784,7 +784,7 @@ void npc::starting_weapon( const npc_class_id &type )
     }
 
     if( weapon.is_gun() ) {
-        weapon.ammo_set( weapon.type->gun->ammo->default_ammotype() );
+        weapon.ammo_set( weapon.ammo_default() );
     }
     weapon.set_owner( my_fac );
 }
@@ -1183,7 +1183,7 @@ void npc::decide_needs()
         elem = 20;
     }
     if( weapon.is_gun() ) {
-        needrank[need_ammo] = 5 * get_ammo( weapon.type->gun->ammo ).size();
+        needrank[need_ammo] = 5 * get_ammo( ammotype( *weapon.type->gun->ammo.begin() ) ).size();
     }
 
     needrank[need_weapon] = weapon_value( weapon );
@@ -1257,6 +1257,9 @@ void npc::say( const std::string &line, const int priority ) const
 
 bool npc::wants_to_sell( const item &it ) const
 {
+    if( my_fac != it.get_owner() ) {
+        return false;
+    }
     const int market_price = it.price( true );
     return wants_to_sell( it, value( it, market_price ), market_price );
 }
@@ -1293,24 +1296,51 @@ bool npc::wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ )
 
 void npc::shop_restock()
 {
+    if( calendar::turn - restock < 3_days ) {
+        return;
+    }
+
     restock = calendar::turn + 3_days;
     if( is_player_ally() ) {
         return;
     }
-
     const Group_tag &from = myclass->get_shopkeeper_items();
     if( from == "EMPTY_GROUP" ) {
         return;
     }
 
     units::volume total_space = volume_capacity();
-    std::list<item> ret;
+    if( mission == NPC_MISSION_SHOPKEEP ) {
+        total_space = units::from_liter( 5000 );
+    }
 
-    while( total_space > 0_ml && !one_in( 50 ) ) {
+    std::list<item> ret;
+    int shop_value = 75000;
+    if( my_fac ) {
+        shop_value = my_fac->wealth * 0.0075;
+        if( mission == NPC_MISSION_SHOPKEEP && !my_fac->currency.empty() ) {
+            item my_currency( my_fac->currency );
+            if( !my_currency.is_null() ) {
+                my_currency.set_owner( my_fac );
+                int my_amount = rng( 5, 15 ) * shop_value / 100 / my_currency.price( true );
+                for( int lcv = 0; lcv < my_amount; lcv++ ) {
+                    ret.push_back( my_currency );
+                }
+            }
+        }
+    }
+
+    int count = 0;
+    bool last_item = false;
+    while( shop_value > 0 && total_space > 0_ml && !last_item ) {
         item tmpit = item_group::item_from( from, 0 );
         if( !tmpit.is_null() && total_space >= tmpit.volume() ) {
+            tmpit.set_owner( my_fac );
             ret.push_back( tmpit );
+            shop_value -= tmpit.price( true );
             total_space -= tmpit.volume();
+            count += 1;
+            last_item = count > 10 && one_in( 100 );
         }
     }
 
@@ -1350,6 +1380,11 @@ int npc::value( const item &it, int market_price ) const
         return -1000;
     }
 
+    // faction currency trades at market price
+    if( my_fac && my_fac->currency == it.typeId() ) {
+        return market_price;
+    }
+
     int ret = 0;
     // TODO: Cache own weapon value (it can be a bit expensive to compute 50 times/turn)
     double weapon_val = weapon_value( it ) - weapon_value( weapon );
@@ -1374,14 +1409,11 @@ int npc::value( const item &it, int market_price ) const
     }
 
     if( it.is_ammo() ) {
-        if( weapon.is_gun() && it.type->ammo->type.count( weapon.ammo_type() ) ) {
+        if( weapon.is_gun() && weapon.ammo_types().count( it.ammo_type() ) ) {
             ret += 14; // TODO: magazines - don't count ammo as usable if the weapon isn't.
         }
 
-        if( std::any_of( it.type->ammo->type.begin(), it.type->ammo->type.end(),
-        [&]( const ammotype & e ) {
-        return has_gun_for_ammo( e );
-        } ) ) {
+        if( has_gun_for_ammo( it.ammo_type() ) ) {
             ret += 14; // TODO: consider making this cumulative (once was)
         }
     }
@@ -1764,7 +1796,14 @@ int npc::follow_distance() const
           g->m.has_flag( TFLAG_GOES_UP, g->u.pos() ) ) ) {
         return 1;
     }
-    // TODO: Allow player to set that
+    // Uses ally_rule follow_distance_2 to determine if should follow by 2 or 4 tiles
+    if( rules.has_flag( ally_rule::follow_distance_2 ) ) {
+        return 2;
+    }
+    // If NPC doesn't see player, change follow distance to 2
+    if( !sees( g->u ) ) {
+        return 2;
+    }
     return 4;
 }
 
@@ -1803,7 +1842,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         size_t split;
         do {
             split = ( str_in.length() <= iWidth ) ? std::string::npos : str_in.find_last_of( ' ',
-                    static_cast<long>( iWidth ) );
+                    static_cast<int>( iWidth ) );
             if( split == std::string::npos ) {
                 mvwprintz( w, line, column, color, str_in );
             } else {
@@ -2681,6 +2720,7 @@ npc_follower_rules::npc_follower_rules()
     clear_flag( ally_rule::hold_the_line );
     clear_flag( ally_rule::ignore_noise );
     clear_flag( ally_rule::forbid_engage );
+    set_flag( ally_rule::follow_distance_2 );
 }
 
 bool npc_follower_rules::has_flag( ally_rule test, bool check_override ) const

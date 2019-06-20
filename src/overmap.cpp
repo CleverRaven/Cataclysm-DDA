@@ -51,7 +51,7 @@
 #include "monster.h"
 #include "string_formatter.h"
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define BUILDINGCHANCE 4
 #define MIN_ANT_SIZE 8
@@ -160,7 +160,7 @@ static size_t from_dir( om_direction::type dir )
     return 0;
 }
 
-}
+} // namespace om_lines
 
 //const regional_settings default_region_settings;
 t_regional_settings_map region_settings_map;
@@ -173,7 +173,7 @@ generic_factory<oter_type_t> terrain_types( "overmap terrain type" );
 generic_factory<oter_t> terrains( "overmap terrain" );
 generic_factory<overmap_special> specials( "overmap special" );
 
-}
+} // namespace
 
 static const std::map<std::string, oter_flags> oter_flags_map = {
     { "KNOWN_DOWN",     known_down     },
@@ -4027,7 +4027,6 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     // occurrences, this will only contain those which have not yet met their
     // maximum.
     std::map<overmap_special_id, int> processed_specials;
-    std::map<overmap_special_id, int>::iterator iter;
     for( auto &elem : custom_overmap_specials ) {
         processed_specials[elem.special_details->id] = elem.instances_placed;
     }
@@ -4035,7 +4034,8 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     // Loop through the specials we started with.
     for( auto it = enabled_specials.begin(); it != enabled_specials.end(); ) {
         // Determine if this special is still in our callee's list of specials...
-        iter = processed_specials.find( it->special_details->id );
+        std::map<overmap_special_id, int>::iterator iter = processed_specials.find(
+                    it->special_details->id );
         if( iter != processed_specials.end() ) {
             // ... and if so, increment the placement count to reflect the callee's.
             it->instances_placed += ( iter->second - it->instances_placed );

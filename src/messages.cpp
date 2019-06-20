@@ -454,7 +454,7 @@ class dialog
         bool canceled;
         bool errored;
 };
-}
+} // namespace Messages
 
 Messages::dialog::dialog()
     : border_color( BORDER_COLOR ), filter_color( c_white ),
@@ -474,8 +474,8 @@ void Messages::dialog::init()
     w = catacurses::newwin( w_height, w_width, w_y, w_x );
 
     ctxt = input_context( "MESSAGE_LOG" );
-    ctxt.register_action( "UP", _( "Scroll up" ) );
-    ctxt.register_action( "DOWN", _( "Scroll down" ) );
+    ctxt.register_action( "UP", translate_marker( "Scroll up" ) );
+    ctxt.register_action( "DOWN", translate_marker( "Scroll down" ) );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "FILTER" );

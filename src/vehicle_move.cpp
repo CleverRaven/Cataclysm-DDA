@@ -18,6 +18,7 @@
 #include "mapdata.h"
 #include "material.h"
 #include "messages.h"
+#include "options.h"
 #include "sounds.h"
 #include "translations.h"
 #include "trap.h"
@@ -39,7 +40,7 @@ const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_harnessed( "harnessed" );
 const skill_id skill_driving( "driving" );
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
 // tile height in meters
 static const float tile_height = 4;
@@ -290,7 +291,7 @@ void vehicle::turn( int deg )
     if( deg == 0 ) {
         return;
     }
-    if( velocity < 0 ) {
+    if( velocity < 0 && !::get_option<bool>( "REVERSE_STEERING" ) ) {
         deg = -deg;
     }
     last_turn = deg;
@@ -1247,7 +1248,7 @@ bool vehicle::is_wheel_state_correct_to_turn_on_rails( int wheels_on_rail, int w
     // allow turn for vehicles with wheel distance < 4 when moving backwards
 }
 
-bool vehicle::act_on_map()
+vehicle *vehicle::act_on_map()
 {
     const tripoint pt = global_pos3();
     if( !g->m.inbounds( pt ) ) {
@@ -1256,7 +1257,7 @@ bool vehicle::act_on_map()
         stop( false );
         of_turn = 0;
         is_falling = false;
-        return true;
+        return this;
     }
 
     const bool pl_ctrl = player_in_control( g->u );
@@ -1273,7 +1274,7 @@ bool vehicle::act_on_map()
         g->m.on_vehicle_moved( smz );
         // Destroy vehicle (sank to nowhere)
         g->m.destroy_vehicle( this );
-        return true;
+        return nullptr;
     }
 
     // It needs to fall when it has no support OR was falling before
@@ -1301,7 +1302,7 @@ bool vehicle::act_on_map()
     if( !should_fall && abs( velocity ) < 20 ) {
         stop();
         of_turn -= .321f;
-        return true;
+        return this;
     }
 
     const float wheel_traction_area = g->m.vehicle_wheel_traction( *this );
@@ -1315,7 +1316,7 @@ bool vehicle::act_on_map()
             } else {
                 add_msg( m_info, _( "Your %s is beached." ), name );
             }
-            return true;
+            return this;
         }
     }
     const float turn_cost = vehicles::vmiph_per_tile / std::max<float>( 0.0001f, abs( velocity ) );
@@ -1327,7 +1328,7 @@ bool vehicle::act_on_map()
         if( !should_fall ) {
             of_turn_carry = of_turn;
             of_turn = 0;
-            return true;
+            return this;
         }
         falling_only = true;
     }
@@ -1404,17 +1405,18 @@ bool vehicle::act_on_map()
         dp.z = -1;
     }
 
+    vehicle *new_pointer = this;
     // Split the movement into horizontal and vertical for easier processing
     if( dp.x != 0 || dp.y != 0 ) {
-        g->m.move_vehicle( *this, tripoint( dp.x, dp.y, 0 ), mdir );
+        new_pointer = g->m.move_vehicle( *new_pointer, tripoint( dp.x, dp.y, 0 ), mdir );
     }
 
-    if( dp.z != 0 ) {
-        g->m.move_vehicle( *this, tripoint( 0, 0, dp.z ), mdir );
+    if( new_pointer != nullptr && dp.z != 0 ) {
+        new_pointer = g->m.move_vehicle( *new_pointer, tripoint( 0, 0, dp.z ), mdir );
         is_falling = false;
     }
 
-    return true;
+    return new_pointer;
 }
 
 void vehicle::check_falling_or_floating()

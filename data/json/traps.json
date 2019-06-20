@@ -399,7 +399,8 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "temple_toggle"
+    "action": "temple_toggle",
+    "always_invisible": true
   },
   {
     "type": "trap",
@@ -410,7 +411,8 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "glow"
+    "action": "glow",
+    "always_invisible": true
   },
   {
     "type": "trap",
@@ -421,7 +423,8 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "hum"
+    "action": "hum",
+    "always_invisible": true
   },
   {
     "type": "trap",
@@ -432,7 +435,8 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "shadow"
+    "action": "shadow",
+    "always_invisible": true
   },
   {
     "type": "trap",
@@ -443,7 +447,8 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "drain"
+    "action": "drain",
+    "always_invisible": true
   },
   {
     "type": "trap",
@@ -454,7 +459,8 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "snake"
+    "action": "snake",
+    "always_invisible": true
   },
   {
     "type": "trap",

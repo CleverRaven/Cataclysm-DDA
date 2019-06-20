@@ -38,7 +38,7 @@
 
 class npc_template;
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 const mtype_id mon_ant_larva( "mon_ant_larva" );
 const mtype_id mon_ant_queen( "mon_ant_queen" );
@@ -2855,7 +2855,7 @@ static point best_expand( const map &m, const tripoint &from, int maxx, int maxy
 
     return best;
 }
-}
+} // namespace furn_space
 
 void mapgen_basement_junk( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn,
                            float density )
@@ -4419,7 +4419,6 @@ void mapgen_lake_shore( map *m, oter_id, mapgendata dat, const time_point &turn,
             line_segments.push_back( { s, e } );
         }
     }
-
 
     // Ok, all of the fiddling with the polygon corners is done.
     // At this point we've got four points that make up four line segments that started out

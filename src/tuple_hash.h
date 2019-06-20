@@ -39,7 +39,7 @@ struct HashValueImpl<Tuple, 0> {
         hash_combine( seed, get<0>( tuple ) );
     }
 };
-}
+} // namespace
 
 template <typename ... TT>
 struct hash<std::tuple<TT...>> {
@@ -61,6 +61,6 @@ struct hash<std::pair<A, B>> {
         return seed;
     }
 };
-}
+} // namespace std
 
 #endif

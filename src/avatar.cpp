@@ -44,7 +44,6 @@ static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 
-
 avatar::avatar() : player()
 {
     show_map_memory = true;
@@ -304,12 +303,12 @@ void avatar::memorize_tile( const tripoint &pos, const std::string &ter, const i
     player_map_memory.memorize_tile( max_memorized_tiles(), pos, ter, subtile, rotation );
 }
 
-void avatar::memorize_symbol( const tripoint &pos, const long symbol )
+void avatar::memorize_symbol( const tripoint &pos, const int symbol )
 {
     player_map_memory.memorize_symbol( max_memorized_tiles(), pos, symbol );
 }
 
-long avatar::get_memorized_symbol( const tripoint &p ) const
+int avatar::get_memorized_symbol( const tripoint &p ) const
 {
     return player_map_memory.get_symbol( p );
 }
@@ -828,12 +827,12 @@ void avatar::do_read( item &book )
             recipe_list.push_back( elem.name );
         }
         if( !recipe_list.empty() ) {
-            std::string recipe_line = string_format(
-                                          ngettext( "This book contains %1$u crafting recipe: %2$s",
-                                                    "This book contains %1$u crafting recipes: %2$s",
-                                                    static_cast<unsigned long>( recipe_list.size() ) ),
-                                          static_cast<unsigned long>( recipe_list.size() ),
-                                          enumerate_as_string( recipe_list ) );
+            std::string recipe_line =
+                string_format( ngettext( "This book contains %1$zu crafting recipe: %2$s",
+                                         "This book contains %1$zu crafting recipes: %2$s",
+                                         recipe_list.size() ),
+                               recipe_list.size(),
+                               enumerate_as_string( recipe_list ) );
             add_msg( m_info, recipe_line );
         }
         if( recipe_list.size() != reading->recipes.size() ) {

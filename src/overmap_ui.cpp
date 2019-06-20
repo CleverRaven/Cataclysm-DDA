@@ -59,6 +59,9 @@
 static constexpr int UILIST_MAP_NOTE_DELETED = -2047;
 static constexpr int UILIST_MAP_NOTE_EDITED = -2048;
 
+static constexpr int max_note_length = 450;
+static constexpr int max_note_display_length = 45;
+
 /** Note preview map width without borders. Odd number. */
 static const int npm_width = 3;
 /** Note preview map height without borders. Odd number. */
@@ -149,7 +152,8 @@ static void update_note_preview( const std::string &note,
     wrefresh( *w_preview );
 
     werase( *w_preview_title );
-    mvwprintz( *w_preview_title, 0, 0, note_color, note_text );
+    nc_color default_color = c_unset;
+    print_colored_text( *w_preview_title, 0, 0, default_color, note_color, note_text );
     mvwputch( *w_preview_title, 0, note_text.length(), c_white, LINE_XOXO );
     for( size_t i = 0; i < note_text.length(); i++ ) {
         mvwputch( *w_preview_title, 1, i, c_white, LINE_OXOX );
@@ -335,10 +339,10 @@ class map_notes_callback : public uilist_callback
         void select( int, uilist *menu ) override {
             _selected = menu->selected;
             const auto map_around = get_overmap_neighbors( note_location() );
-            const int max_note_length = 45;
-            catacurses::window w_preview = catacurses::newwin( npm_height + 2, max_note_length - npm_width - 1,
+            catacurses::window w_preview = catacurses::newwin( npm_height + 2,
+                                           max_note_display_length - npm_width - 1,
                                            2, npm_width + 2 );
-            catacurses::window w_preview_title = catacurses::newwin( 2, max_note_length + 1, 0, 0 );
+            catacurses::window w_preview_title = catacurses::newwin( 2, max_note_display_length + 1, 0, 0 );
             catacurses::window w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2, 2, 0 );
             const std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows =
                 std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
@@ -811,7 +815,8 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             const auto &pr = corner_text[ i ];
             // clear line, print line, print vertical line at the right side.
             mvwprintz( w, i, 0, c_yellow, spacer );
-            mvwprintz( w, i, 0, pr.first, pr.second );
+            nc_color default_color = c_unset;
+            print_colored_text( w, i, 0, default_color, pr.first, pr.second );
             mvwputch( w, i, maxlen, c_white, LINE_XOXO );
         }
         for( int i = 0; i <= maxlen; i++ ) {
@@ -980,10 +985,10 @@ void create_note( const tripoint &curs )
     std::string new_note = old_note;
     auto map_around = get_overmap_neighbors( curs );
 
-    const int max_note_length = 45;
-    catacurses::window w_preview = catacurses::newwin( npm_height + 2, max_note_length - npm_width - 1,
+    catacurses::window w_preview = catacurses::newwin( npm_height + 2,
+                                   max_note_display_length - npm_width - 1,
                                    2, npm_width + 2 );
-    catacurses::window w_preview_title = catacurses::newwin( 2, max_note_length + 1, 0, 0 );
+    catacurses::window w_preview_title = catacurses::newwin( 2, max_note_display_length + 1, 0, 0 );
     catacurses::window w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2, 2, 0 );
     std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows =
         std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
@@ -1010,7 +1015,7 @@ void create_note( const tripoint &curs )
 
     do {
         new_note = input_popup.query_string( false );
-        const long first_input = input_popup.context().get_raw_input().get_first_input();
+        const int first_input = input_popup.context().get_raw_input().get_first_input();
         if( first_input == KEY_ESCAPE ) {
             new_note = old_note;
             esc_pressed = true;
@@ -1091,8 +1096,8 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
 
     input_context ctxt( "OVERMAP_SEARCH" );
     ctxt.register_leftright();
-    ctxt.register_action( "NEXT_TAB", _( "Next target" ) );
-    ctxt.register_action( "PREV_TAB", _( "Previous target" ) );
+    ctxt.register_action( "NEXT_TAB", translate_marker( "Next target" ) );
+    ctxt.register_action( "PREV_TAB", translate_marker( "Previous target" ) );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -1427,7 +1432,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
     return ret;
 }
 
-} // overmap_ui
+} // namespace overmap_ui
 
 void ui::omap::display()
 {

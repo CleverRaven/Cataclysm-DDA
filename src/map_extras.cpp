@@ -15,6 +15,7 @@
 #include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
+#include "generic_factory.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -41,8 +42,24 @@
 #include "vpart_reference.h"
 #include "type_id.h"
 #include "messages.h"
+#include "coordinate_conversions.h"
+#include "options.h"
 
 class npc_template;
+
+namespace
+{
+
+generic_factory<map_extra> extras( "map extra" );
+
+} // namespace
+
+/** @relates string_id */
+template<>
+const map_extra &string_id<map_extra>::obj() const
+{
+    return extras.obj( *this );
+}
 
 namespace MapExtras
 {
@@ -72,6 +89,7 @@ static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_wasp( "mon_wasp" );
 static const mtype_id mon_jabberwock( "mon_jabberwock" );
+static const mtype_id mon_wolf( "mon_wolf" );
 
 static void mx_null( map &, const tripoint & )
 {
@@ -564,7 +582,6 @@ static void mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
                                        where.y ) : m.add_spawn( mon_marloss_zealot_m, 1, where.x, where.y );
         }
     }
-
 }
 
 static void mx_bandits_block( map &m, const tripoint &abs_sub )
@@ -1731,12 +1748,11 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     const ter_t &tr = tid.obj();
 
     VehicleList vehs = m.get_vehicles();
-    std::set<tripoint> occupied;
     std::vector<vehicle *> vehicles;
     std::vector<tripoint> points;
     for( wrapped_vehicle vehicle : vehs ) {
         vehicles.push_back( vehicle.v );
-        occupied = vehicle.v->get_points();
+        std::set<tripoint> occupied = vehicle.v->get_points();
         for( tripoint t : occupied ) {
             points.push_back( t );
         }
@@ -1747,7 +1763,6 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     for( tripoint tri : points ) {
         m.furn_set( tri, f_wreckage );
     }
-
 
     // grass is converted separately
     // this method is deliberate to allow adding new post-terrains
@@ -1866,12 +1881,11 @@ static void mx_burned_ground( map &m, const tripoint &abs_sub )
         }
     }
     VehicleList vehs = m.get_vehicles();
-    std::set<tripoint> occupied;
     std::vector<vehicle *> vehicles;
     std::vector<tripoint> points;
     for( wrapped_vehicle vehicle : vehs ) {
         vehicles.push_back( vehicle.v );
-        occupied = vehicle.v->get_points();
+        std::set<tripoint> occupied = vehicle.v->get_points();
         for( tripoint t : occupied ) {
             points.push_back( t );
         }
@@ -2185,25 +2199,115 @@ static void mx_roadworks( map &m, const tripoint &abs_sub )
     }
 }
 
+static void mx_mayhem( map &m, const tripoint &abs_sub )
+{
+    switch( rng( 1, 3 ) ) {
+        //Car accident resulted in a shootout with two victims
+        case 1: {
+            m.add_vehicle( vproto_id( "car" ), 18, 9, 270 );
+            m.add_vehicle( vproto_id( "4x4_car" ), 20, 5, 0 );
+
+            m.spawn_item( { 16, 10, abs_sub.z }, "shot_hull" );
+            m.add_corpse( { 16, 9, abs_sub.z } );
+            m.add_field( { 16, 9, abs_sub.z }, fd_blood, rng( 1, 3 ) );
+
+            for( const auto &loc : g->m.points_in_radius( { 16, 3, abs_sub.z }, 1 ) ) {
+                if( one_in( 2 ) ) {
+                    m.spawn_item( loc, "9mm_casing" );
+                }
+            }
+
+            m.add_splatter_trail( fd_blood, { 16, 3, abs_sub.z }, { 23, 1, abs_sub.z } );
+            m.add_corpse( { 23, 1, abs_sub.z } );
+            break;
+        }
+        //Some cocky moron with friends got dragged out of limo and shooted down by a military
+        case 2: {
+            m.add_vehicle( vproto_id( "limousine" ), 18, 9, 270 );
+
+            m.add_corpse( { 16, 9, abs_sub.z } );
+            m.add_corpse( { 16, 11, abs_sub.z } );
+            m.add_corpse( { 16, 12, abs_sub.z } );
+
+            m.add_splatter_trail( fd_blood, { 16, 8, abs_sub.z }, { 16, 12, abs_sub.z } );
+
+            for( const auto &loc : g->m.points_in_radius( { 12, 11, abs_sub.z }, 2 ) ) {
+                if( one_in( 3 ) ) {
+                    m.spawn_item( loc, "223_casing" );
+                }
+            }
+            break;
+        }
+        //Some unfortunate stopped at the roadside to change tire, but was ambushed and killed
+        case 3: {
+            m.add_vehicle( vproto_id( "car" ), 18, 12, 270 );
+
+            m.add_field( { 16, 15, abs_sub.z }, fd_blood, rng( 1, 3 ) );
+
+            m.spawn_item( { 16, 16, abs_sub.z }, "wheel", 1, 0, calendar::time_of_cataclysm, 4 );
+            m.spawn_item( { 16, 16, abs_sub.z }, "wrench" );
+
+            if( one_in( 2 ) ) { //Unknown people killed and robbed the poor guy
+                item body = item::make_corpse();
+                m.put_items_from_loc( "default_zombie_clothes", { 16, 15, abs_sub.z } );
+                m.add_item_or_charges( { 16, 15, abs_sub.z }, body );
+                m.spawn_item( { 21, 15, abs_sub.z }, "shot_hull" );
+            } else { //Wolves charged to the poor guy...
+                m.add_corpse( { 16, 15, abs_sub.z } );
+                m.add_splatter_trail( fd_gibs_flesh, { 16, 13, abs_sub.z }, { 16, 16, abs_sub.z } );
+                m.add_field( { 15, 15, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
+
+                for( const auto &loc : g->m.points_in_radius( { 16, 15, abs_sub.z }, 1 ) ) {
+                    if( one_in( 2 ) ) {
+                        m.spawn_item( loc, "9mm_casing" );
+                    }
+                }
+
+                const int max_wolves = rng( 1, 3 );
+                item body = item::make_corpse( mon_wolf );
+                if( one_in( 2 ) ) { //...from the north
+                    for( int i = 0; i < max_wolves; i++ ) {
+                        const auto &loc = g->m.points_in_radius( { 12, 12, abs_sub.z }, 3 );
+                        const tripoint where = random_entry( loc );
+                        m.add_item_or_charges( where, body );
+                        m.add_field( where, fd_blood, rng( 1, 3 ) );
+                    }
+                } else { //...from the south
+                    for( int i = 0; i < max_wolves; i++ ) {
+                        const auto &loc = g->m.points_in_radius( { 12, 18, abs_sub.z }, 3 );
+                        const tripoint where = random_entry( loc );
+                        m.add_item_or_charges( where, body );
+                        m.add_field( where, fd_blood, rng( 1, 3 ) );
+                    }
+                }
+            }
+            break;
+        }
+    }
+}
+
 FunctionMap builtin_functions = {
     { "mx_null", mx_null },
-    { "mx_house_wasp", mx_house_wasp },
-    { "mx_house_spider", mx_house_spider },
-    { "mx_helicopter", mx_helicopter },
-    { "mx_military", mx_military },
-    { "mx_science", mx_science },
-    { "mx_collegekids", mx_collegekids },
-    { "mx_roadblock", mx_roadblock },
-    { "mx_drugdeal", mx_drugdeal },
-    { "mx_supplydrop", mx_supplydrop },
-    { "mx_portal", mx_portal },
-    { "mx_minefield", mx_minefield },
     { "mx_crater", mx_crater },
     { "mx_fumarole", mx_fumarole },
+    { "mx_collegekids", mx_collegekids },
+    { "mx_drugdeal", mx_drugdeal },
+    { "mx_roadworks", mx_roadworks },
+    { "mx_mayhem", mx_mayhem },
+    { "mx_roadblock", mx_roadblock },
+    { "mx_bandits_block", mx_bandits_block },
+    { "mx_minefield", mx_minefield },
+    { "mx_supplydrop", mx_supplydrop },
+    { "mx_military", mx_military },
+    { "mx_helicopter", mx_helicopter },
+    { "mx_science", mx_science },
+    { "mx_portal", mx_portal },
     { "mx_portal_in", mx_portal_in },
     { "mx_anomaly", mx_anomaly },
-    { "mx_shia", mx_shia },
+    { "mx_house_spider", mx_house_spider },
+    { "mx_house_wasp", mx_house_wasp },
     { "mx_spider", mx_spider },
+    { "mx_shia", mx_shia },
     { "mx_jabberwock", mx_jabberwock },
     { "mx_grove", mx_grove },
     { "mx_shrubbery", mx_shrubbery },
@@ -2214,19 +2318,40 @@ FunctionMap builtin_functions = {
     { "mx_point_dead_vegetation", mx_point_dead_vegetation },
     { "mx_burned_ground", mx_burned_ground },
     { "mx_point_burned_ground", mx_point_burned_ground },
-    { "mx_bandits_block", mx_bandits_block },
-    { "mx_roadworks", mx_roadworks },
     { "mx_marloss_pilgrimage", mx_marloss_pilgrimage },
 };
 
-map_special_pointer get_function( const std::string &name )
+map_extra_pointer get_function( const std::string &name )
 {
     const auto iter = builtin_functions.find( name );
     if( iter == builtin_functions.end() ) {
-        debugmsg( "no map special with name %s", name );
+        debugmsg( "no map extra function with name %s", name );
         return nullptr;
     }
     return iter->second;
+}
+
+void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs_sub )
+{
+    const map_extra &extra = id.obj();
+    const map_extra_pointer mx_func = extra.function_pointer;
+    const std::string mx_note =
+        string_format( "%s:%s;<color_yellow>%s</color>: <color_white>%s</color>",
+                       extra.get_symbol(),
+                       get_note_string_from_color( extra.color ),
+                       extra.name,
+                       extra.description );
+    if( mx_func != nullptr ) {
+        mx_func( m, abs_sub );
+        if( get_option<bool>( "AUTO_NOTES" ) && get_option<bool>( "AUTO_NOTES_MAP_EXTRAS" ) &&
+            !mx_note.empty() ) {
+            overmap_buffer.add_note( sm_to_omt_copy( abs_sub ), mx_note );
+        }
+    }
+}
+void apply_function( const std::string &id, map &m, const tripoint &abs_sub )
+{
+    apply_function( string_id<map_extra>( id ), m, abs_sub );
 }
 
 FunctionMap all_functions()
@@ -2234,4 +2359,23 @@ FunctionMap all_functions()
     return builtin_functions;
 }
 
+void load( JsonObject &jo, const std::string &src )
+{
+    extras.load( jo, src );
+}
+
+} // namespace MapExtras
+
+void map_extra::load( JsonObject &jo, const std::string & )
+{
+    mandatory( jo, was_loaded, "name", name );
+    mandatory( jo, was_loaded, "description", description );
+    mandatory( jo, was_loaded, "function", function );
+    function_pointer = MapExtras::get_function( function );
+    if( function_pointer == nullptr ) {
+        debugmsg( "invalid map extra function (%s) defined for map extra (%s)", function, id.str() );
+    }
+    optional( jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader, NULL_UNICODE );
+    color = jo.has_member( "color" ) ? color_from_string( jo.get_string( "color" ) ) : c_white;
+    optional( jo, was_loaded, "autonote", autonote, false );
 }

@@ -54,8 +54,6 @@
 #include "item.h"
 #include "string_id.h"
 
-static const itype_id fuel_type_animal( "animal" );
-
 static inline const std::string status_color( bool status )
 {
     return status ? "<color_green>" : "<color_red>";
@@ -920,6 +918,10 @@ bool veh_interact::do_install( std::string &msg )
         }
         if( action == "INSTALL" || action == "CONFIRM" ) {
             if( can_install ) {
+                if( veh->is_foldable() && !sel_vpart_info->has_flag( "FOLDABLE" ) &&
+                    !query_yn( _( "Installing this part will make the vehicle unfoldable. Continue?" ) ) ) {
+                    return true;
+                }
                 const auto &shapes = vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->item ];
                 int selected_shape = -1;
                 if( shapes.size() > 1 ) {  // more than one shape available, display selection
@@ -1949,7 +1951,7 @@ void veh_interact::move_cursor( int dx, int dy, int dstart_at )
         obstruct = true;
     }
     nc_color col = cpart >= 0 ? veh->part_color( cpart ) : c_black;
-    long sym = cpart >= 0 ? veh->part_sym( cpart ) : ' ';
+    int sym = cpart >= 0 ? veh->part_sym( cpart ) : ' ';
     mvwputch( w_disp, hh, hw, obstruct ? red_background( col ) : hilite( col ),
               special_symbol( sym ) );
     wrefresh( w_disp );
@@ -2100,7 +2102,7 @@ void veh_interact::display_veh()
     std::vector<int> structural_parts = veh->all_parts_at_location( "structure" );
     for( auto &structural_part : structural_parts ) {
         const int p = structural_part;
-        long sym = veh->part_sym( p );
+        int sym = veh->part_sym( p );
         nc_color col = veh->part_color( p );
 
         int x =   veh->parts[p].mount.y + ddy;

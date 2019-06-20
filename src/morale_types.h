@@ -14,11 +14,11 @@ struct itype;
 class morale_type_data
 {
     private:
-        bool permanent;
+        bool permanent = false;
         // Translated, may contain '%s' format string
         std::string text;
         // If true, this morale type needs an item paired with every instance
-        bool needs_item;
+        bool needs_item = false;
     public:
         morale_type id;
         bool was_loaded = false;
@@ -90,6 +90,8 @@ extern const morale_type MORALE_BOOK;
 extern const morale_type MORALE_COMFY;
 extern const morale_type MORALE_SCREAM;
 extern const morale_type MORALE_PERM_MASOCHIST;
+extern const morale_type MORALE_PERM_NOFACE;
+extern const morale_type MORALE_PERM_FPMODE_ON;
 extern const morale_type MORALE_PERM_HOARDER;
 extern const morale_type MORALE_PERM_FANCY;
 extern const morale_type MORALE_PERM_OPTIMIST;

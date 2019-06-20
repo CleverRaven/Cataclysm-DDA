@@ -1,13 +1,22 @@
 [
   {
     "type": "recipe_group",
+    "name": "all_faction_base_types",
+    "building_type": "NONE",
+    "recipes": [
+      { "id": "faction_base_modular_hub_field_0", "description": "Field Camp", "om_terrains": [ "field" ] },
+      { "id": "faction_base_camp_0", "description": "Old Camp", "om_terrains": [ "field" ] }
+    ]
+  },
+  {
+    "type": "recipe_group",
     "name": "all_faction_base_expansions",
     "building_type": "NONE",
     "recipes": [
-      { "id": "faction_base_farm_0", "description": "Farm" },
-      { "id": "faction_base_garage_0", "description": "Garage" },
-      { "id": "faction_base_kitchen_0", "description": "Kitchen" },
-      { "id": "faction_base_blacksmith_0", "description": "Blacksmith Shop" }
+      { "id": "faction_base_farm_0", "description": "Farm", "om_terrains": [ "field" ] },
+      { "id": "faction_base_garage_0", "description": "Garage", "om_terrains": [ "field" ] },
+      { "id": "faction_base_kitchen_0", "description": "Kitchen", "om_terrains": [ "field" ] },
+      { "id": "faction_base_blacksmith_0", "description": "Blacksmith Shop", "om_terrains": [ "field" ] }
     ]
   },
   {
@@ -108,6 +117,11 @@
       { "id": "pot_copper", "description": " Craft: Pot, Copper" },
       { "id": "bolt_metal", "description": " Craft: Crossbow Bolt, Steel" },
       { "id": "armor_scrapsuit", "description": " Craft: Armor, Scrap Suit" },
+      { "id": "helmet_scrap", "description": " Craft: Armor, Scrap Helmet" },
+      { "id": "cuirass_scrap", "description": " Craft: Armor, Scrap Cuirass" },
+      { "id": "armguard_scrap", "description": " Craft: Armor, Scrap Arm Guards" },
+      { "id": "legguard_scrap", "description": " Craft: Armor, Scrap Leg Guards" },
+      { "id": "boots_scrap", "description": " Craft: Armor, Scrap Boots" },
       { "id": "copper_ax", "description": " Craft: Axe, Copper" },
       { "id": "spear_copper", "description": " Craft: Spear, Copper" }
     ]

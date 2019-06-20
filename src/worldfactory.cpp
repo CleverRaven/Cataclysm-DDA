@@ -125,7 +125,7 @@ WORLDPTR worldfactory::add_world( std::unique_ptr<WORLD> retworld )
 
 WORLDPTR worldfactory::make_new_world( const std::vector<mod_id> &mods )
 {
-    std::unique_ptr<WORLD> retworld( new WORLD() );
+    std::unique_ptr<WORLD> retworld = std::make_unique<WORLD>();
     retworld->active_mod_order = mods;
     return add_world( std::move( retworld ) );
 }
@@ -133,7 +133,7 @@ WORLDPTR worldfactory::make_new_world( const std::vector<mod_id> &mods )
 WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &world_to_copy )
 {
     // World to return after generating
-    std::unique_ptr<WORLD> retworld( new WORLD() );
+    std::unique_ptr<WORLD> retworld = std::make_unique<WORLD>();
 
     if( !world_to_copy.empty() ) {
         retworld->COPY_WORLD( world_generator->get_world( world_to_copy ) );
@@ -190,7 +190,7 @@ WORLDPTR worldfactory::make_new_world( special_game_id special_type )
         return all_worlds[worldname].get();
     }
 
-    std::unique_ptr<WORLD> special_world( new WORLD() );
+    std::unique_ptr<WORLD> special_world = std::make_unique<WORLD>();
     special_world->world_name = worldname;
 
     special_world->WORLD_OPTIONS["WORLD_END"].setValue( "delete" );
@@ -298,7 +298,7 @@ void worldfactory::init()
     if( has_world( "save" ) ) {
         const WORLD &old_world = *all_worlds["save"];
 
-        std::unique_ptr<WORLD> newworld( new WORLD() );
+        std::unique_ptr<WORLD> newworld = std::make_unique<WORLD>();
         newworld->world_name = get_next_valid_worldname();
 
         // save world as conversion world
@@ -665,7 +665,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
                     if( w_shift ) {
                         // get shift information for the active item
                         std::string shift_display;
-                        const long iPos = std::distance( mods.begin(), iter );
+                        const size_t iPos = std::distance( mods.begin(), iter );
 
                         if( mman_ui->can_shift_up( iPos, mods ) ) {
                             shift_display += "<color_blue>+</color> ";
@@ -770,15 +770,15 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
 
     input_context ctxt( "MODMANAGER_DIALOG" );
     ctxt.register_updown();
-    ctxt.register_action( "LEFT", _( "Switch to other list" ) );
-    ctxt.register_action( "RIGHT", _( "Switch to other list" ) );
+    ctxt.register_action( "LEFT", translate_marker( "Switch to other list" ) );
+    ctxt.register_action( "RIGHT", translate_marker( "Switch to other list" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "NEXT_CATEGORY_TAB" );
     ctxt.register_action( "PREV_CATEGORY_TAB" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
-    ctxt.register_action( "CONFIRM", _( "Activate / deactivate mod" ) );
+    ctxt.register_action( "CONFIRM", translate_marker( "Activate / deactivate mod" ) );
     ctxt.register_action( "ADD_MOD" );
     ctxt.register_action( "REMOVE_MOD" );
     ctxt.register_action( "SAVE_DEFAULT_MODS" );
@@ -1178,7 +1178,7 @@ to continue, or <color_yellow>%s</color> to go back and review your world." ),
             return -999;
         } else if( action == "ANY_INPUT" ) {
             const input_event ev = ctxt.get_raw_input();
-            const long ch = ev.get_first_input();
+            const int ch = ev.get_first_input();
             utf8_wrapper wrap( worldname );
             utf8_wrapper newtext( ev.text );
             if( ch == KEY_BACKSPACE ) {

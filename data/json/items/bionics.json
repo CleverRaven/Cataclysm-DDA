@@ -142,7 +142,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Shotgun Arm CBM",
-    "description": "Concealed in your left arm is a surgically integrated one-shot sawn-off shotgun barrel, that pops-up upon activation. Perfect in a pinch.",
+    "description": "Concealed in your left arm is a surgically integrated one-shot sawn-off shotgun barrel, that pops-up upon activation.  Perfect in a pinch.",
     "price": 220000,
     "difficulty": 3
   },

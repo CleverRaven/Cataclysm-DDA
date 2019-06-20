@@ -25,6 +25,7 @@
 #include "faction.h"
 #include "fault.h"
 #include "filesystem.h"
+#include "field_type.h"
 #include "flag.h"
 #include "gates.h"
 #include "harvest.h"
@@ -33,6 +34,7 @@
 #include "json.h"
 #include "loading_ui.h"
 #include "mapdata.h"
+#include "map_extras.h"
 #include "mapgen.h"
 #include "martialarts.h"
 #include "material.h"
@@ -180,6 +182,7 @@ void DynamicDataLoader::initialize()
     add( "EXTERNAL_OPTION", &load_external_option );
     add( "json_flag", &json_flag::load );
     add( "fault", &fault::load_fault );
+    add( "field_type", &field_types::load );
     add( "emit", &emit::load_emit );
     add( "activity_type", &activity_type::load );
     add( "vitamin", &vitamin::load_vitamin );
@@ -306,6 +309,7 @@ void DynamicDataLoader::initialize()
     add( "effect_type", &load_effect_type );
     add( "tutorial_messages", &load_tutorial_messages );
     add( "overmap_terrain", &overmap_terrains::load );
+    add( "construction_category", &construction_categories::load );
     add( "construction", &load_construction );
     add( "mapgen", &load_mapgen );
     add( "overmap_land_use_code", &overmap_land_use_codes::load );
@@ -313,6 +317,7 @@ void DynamicDataLoader::initialize()
     add( "overmap_location", &overmap_locations::load );
     add( "overmap_special", &overmap_specials::load );
     add( "city_building", &city_buildings::load );
+    add( "map_extra", &MapExtras::load );
 
     add( "region_settings", &load_region_settings );
     add( "region_overlay", &load_region_overlay );
@@ -444,6 +449,7 @@ void DynamicDataLoader::unload_data()
     json_flag::reset();
     requirement_data::reset();
     vitamin::reset();
+    field_types::reset();
     emit::reset();
     activity_type::reset();
     fault::reset();
@@ -475,6 +481,7 @@ void DynamicDataLoader::unload_data()
     faction_template::reset();
     quality::reset();
     trap::reset();
+    construction_categories::reset();
     reset_constructions();
     overmap_terrains::reset();
     reset_region_settings();
@@ -519,6 +526,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
             { _( "Body parts" ), &body_part_struct::finalize_all },
+            { _( "Field types" ), &field_types::finalize_all },
             {
                 _( "Items" ), []()
                 {
@@ -594,6 +602,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
                 }
             },
             { _( "Vitamins" ), &vitamin::check_consistency },
+            { _( "Field types" ), &field_types::check_consistency },
             { _( "Emissions" ), &emit::check_consistency },
             { _( "Activities" ), &activity_type::check_consistency },
             {

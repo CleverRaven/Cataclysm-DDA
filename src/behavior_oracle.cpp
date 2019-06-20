@@ -135,4 +135,4 @@ std::unordered_map<std::string, std::function<status_t( const oracle_t * )>> pre
         { "npc_has_food", make_function( &character_oracle_t::has_food ) }
     }
 };
-}
+} // namespace behavior

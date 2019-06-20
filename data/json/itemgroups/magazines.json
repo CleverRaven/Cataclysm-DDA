@@ -30,7 +30,8 @@
       [ "stanag30", 20 ],
       [ "stanag50", 5 ],
       [ "hk417mag_20rd", 30 ],
-      [ "hk417mag_10rd", 20 ]
+      [ "hk417mag_10rd", 20 ],
+      [ "p320mag_17rd_9x19mm", 60 ]
     ]
   },
   {
@@ -108,7 +109,8 @@
       [ "kp3atmag", 4 ],
       [ "rugerlcpmag", 10 ],
       [ "sw22mag", 10 ],
-      [ "p226mag_15rd_357sig", 25 ]
+      [ "p226mag_15rd_357sig", 25 ],
+      [ "p320mag_14rd_357sig", 10 ]
     ]
   },
   {
@@ -137,6 +139,7 @@
       [ "glockbigmag", 60 ],
       [ "glock40bigmag", 30 ],
       [ "m1911bigmag", 40 ],
+      [ "m1911mag_10rd_38super", 10 ],
       [ "m9bigmag", 20 ],
       [ "sig40mag", 40 ],
       [ "sigp230mag", 40 ],
@@ -237,8 +240,8 @@
   {
     "type": "item_group",
     "id": "mags_shotgun_rare",
-    "//": "Aftermarket or otherwise uncommon pistol magazines excluding milspec.",
-    "items": [ [ "saiga10mag", 50 ], [ "saiga30mag", 10 ] ]
+    "//": "Aftermarket or otherwise uncommon shotgun magazines excluding milspec.",
+    "items": [ [ "saiga10mag", 50 ], [ "saiga30mag", 10 ], [ "saiga410mag_10rd", 30 ], [ "saiga410mag_30rd", 10 ] ]
   },
   {
     "type": "item_group",

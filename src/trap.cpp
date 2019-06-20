@@ -28,7 +28,7 @@ namespace
 
 generic_factory<trap> trap_factory( "trap" );
 
-}
+} // namespace
 
 /** @relates string_id */
 template<>
@@ -114,6 +114,7 @@ void trap::load( JsonObject &jo, const std::string & )
     act = trap_function_from_string( jo.get_string( "action" ) );
 
     optional( jo, was_loaded, "benign", benign, false );
+    optional( jo, was_loaded, "always_invisible", always_invisible, false );
     optional( jo, was_loaded, "funnel_radius", funnel_radius_mm, 0 );
     assign( jo, "trigger_weight", trigger_weight );
     optional( jo, was_loaded, "drops", components );
@@ -121,8 +122,7 @@ void trap::load( JsonObject &jo, const std::string & )
 
 std::string trap::name() const
 {
-    // trap names can be empty, those are special always invisible traps. See player::search_surroundings
-    return name_.empty() ? name_ : _( name_ );
+    return _( name_ );
 }
 
 void trap::reset()

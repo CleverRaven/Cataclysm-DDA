@@ -24,7 +24,7 @@ namespace
 {
 generic_factory<profession> all_profs( "profession", "ident" );
 const string_id<profession> generic_profession_id( "unemployed" );
-}
+} // namespace
 
 static class json_item_substitution
 {
@@ -600,13 +600,13 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
         return ret;
     }
 
-    const long old_amt = it.count();
+    const int old_amt = it.count();
     for( const substitution::info &inf : sub->infos ) {
         item result( inf.new_item );
-        const long new_amt = std::max( 1l, static_cast<long>( std::round( inf.ratio * old_amt ) ) );
+        const int new_amt = std::max( 1, static_cast<int>( std::round( inf.ratio * old_amt ) ) );
 
         if( !result.count_by_charges() ) {
-            for( long i = 0; i < new_amt; i++ ) {
+            for( int i = 0; i < new_amt; i++ ) {
                 ret.push_back( result.in_its_container() );
             }
         } else {
