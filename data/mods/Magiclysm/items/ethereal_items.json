@@ -282,12 +282,37 @@
     "volume": 10,
     "bashing": 16,
     "to_hit": 1,
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 10 },
     "reload_noise_volume": 2,
     "loudness": 2,
     "ranged_damage": 17,
     "range": 15,
     "dispersion": 120,
     "durability": 8
+  },
+  {
+    "id": "empulse",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "EM Pulse",
+    "description": "This crackling ball of electromagnetic energy will detonate in a few seconds, creating a moderately sized EMP field that damages robots and the like.  Dispose of it soon!",
+    "weight": 400,
+    "volume": 1,
+    "price": 0,
+    "to_hit": 2,
+    "symbol": "*",
+    "color": "cyan",
+    "initial_charges": 3,
+    "max_charges": 3,
+    "turns_per_charge": 1,
+    "use_action": {
+      "type": "explosion",
+      "draw_explosion_radius": 3,
+      "draw_explosion_color": "light_blue",
+      "emp_blast_radius": 3,
+      "sound_volume": 0,
+      "sound_msg": "Agitated Pulsing.",
+      "no_deactivate_msg": "Quit screwing around and throw it."
+    },
+    "flags": [ "TRADER_AVOID" ]
   }
 ]
