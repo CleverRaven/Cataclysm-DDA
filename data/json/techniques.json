@@ -1139,12 +1139,10 @@
     "type": "technique",
     "id": "tec_medievalpole_counter",
     "name": "Displace and Hook",
-    "unarmed_allowed": false,
-    "melee_allowed": false,
+    "melee_allowed": true,
     "min_melee": 3,
     "down_dur": 2,
     "block_counter": true,
-    "defensive": true,
     "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ],
     "messages": [ "You parry %s attack and hook them down", "<npcname> parries %s attack and hooks them down" ]
   },
@@ -1152,8 +1150,7 @@
     "type": "technique",
     "id": "tec_medievalpole_highround",
     "name": "High Round Strike",
-    "unarmed_allowed": false,
-    "melee_allowed": false,
+    "melee_allowed": true,
     "min_melee": 3,
     "mult_bonuses": [ [ "damage", "bash", 1.2 ], [ "damage", "cut", 1.2 ], [ "damage", "stab", 1.2 ] ],
     "messages": [ "You swing high and strike at %s", "<npcname> swings high and strikes %s" ]
@@ -1174,8 +1171,7 @@
     "id": "tec_medievalpole_highstab",
     "name": "High Round Stab",
     "req_buffs": "medievalpole_setup",
-    "unarmed_allowed": false,
-    "melee_allowed": false,
+    "melee_allowed": true,
     "min_melee": 3,
     "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.75 ] ],
     "messages": [ "You quickly stab %s", "<npcname> quickly stabs %s" ]
