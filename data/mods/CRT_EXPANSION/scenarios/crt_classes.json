@@ -234,7 +234,7 @@
           { "item": "sleeping_bag", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "ds_pulse_rifle", "ammo-item": "pulsesb", "contents-item": [ "shoulder_strap", "bipod" ] },
-          { "item": "belt308", "ammo-item": "308", "count": 2 },
+          { "item": "pulsesb", "count": 2 },
           { "item": "m9", "ammo-item": "9mm", "container-item": "holster" },
           { "item": "m9mag", "ammo-item": "9mm", "count": 2 }
         ]
@@ -348,7 +348,7 @@
     "type": "profession",
     "ident": "crt_juggernaught",
     "name": "C.R.I.T Lone Wolf",
-    "description": "STR 14 recommended. You are fully armored badass granted the full authority of a U.S Marshal. Sent in as the one man army capable of handling anything, you stalked into a warzone and laid out entire battalions by yourself, be it through cunning strategy or brute force. Time to hang them all.",
+    "description": "STR 14 recommended. You are fully armored badass granted the full authority of a U.S Marshal. Sent in as the one man army capable of handling anything. Dropped into warzones, you singlehandedly laid out entire battalions by yourself. Time to hang them all.",
     "traits": [ "MARTIAL_CRT", "PROF_FED" ],
     "CBMs": [
       "bio_weight",
@@ -476,6 +476,7 @@
           "mre_veggy_box",
           "crt_mess_kit",
           "lighter",
+          "badge_marshal",
           "crt_etool"
         ],
         "entries": [
