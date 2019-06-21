@@ -985,9 +985,9 @@
     "resist_effects": [ "took_flumed" ],
     "miss_messages": [ [ "You're too stuffed up to fight effectively.", 1 ] ],
     "base_mods": {
-      "thirst_tick": [ 300 ],
+      "thirst_tick": [ 1800 ],
       "thirst_min": [ 1 ],
-      "fatigue_tick": [ 50 ],
+      "fatigue_tick": [ 300 ],
       "fatigue_min": [ 1 ],
       "str_mod": [ -3, -1 ],
       "dex_mod": [ -1, 0 ],
@@ -1009,9 +1009,9 @@
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
     "base_mods": {
-      "thirst_tick": [ 300 ],
+      "thirst_tick": [ 1800 ],
       "thirst_min": [ 1 ],
-      "fatigue_tick": [ 50 ],
+      "fatigue_tick": [ 300 ],
       "fatigue_min": [ 1 ],
       "str_mod": [ -4, -2 ],
       "dex_mod": [ -2, 0 ],
