@@ -331,7 +331,8 @@ void spell_effect::projectile_attack( const spell &sp, const tripoint &source,
     std::vector<tripoint> trajectory = line_to( source, target );
     for( const tripoint &pt : trajectory ) {
         if( g->m.impassable( pt ) || pt == trajectory.back() ) {
-            target_attack( sp, source, target );
+            target_attack( sp, source, pt );
+            return;
         }
     }
 }
