@@ -20,8 +20,9 @@
 #include "item_location.h"
 #include "player.h"
 #include "material.h"
+#include "type_id.h"
 
-typedef statistics<bool> firing_statistics;
+using firing_statistics = statistics<bool>;
 
 template < class T >
 std::ostream &operator <<( std::ostream &os, const std::vector<T> &v )
@@ -80,6 +81,7 @@ static void arm_shooter( npc &shooter, const std::string &gun_type,
 static void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )
 {
     const tripoint shooter_pos( 60, 60, 0 );
+    CHECK( !shooter.in_vehicle );
     shooter.setpos( shooter_pos );
     shooter.worn.clear();
     shooter.inv.clear();
@@ -206,7 +208,7 @@ static void test_fast_shooting( npc &shooter, const int moves, float hit_rate )
     CHECK( fast_stats_upper[1].avg() < hit_rate_cap );
 }
 
-void assert_encumbrance( npc &shooter, int encumbrance )
+static void assert_encumbrance( npc &shooter, int encumbrance )
 {
     for( const body_part bp : all_body_parts ) {
         INFO( "Body Part: " << body_part_name( bp ) );

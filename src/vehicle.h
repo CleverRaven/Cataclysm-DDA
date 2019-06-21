@@ -2,10 +2,9 @@
 #ifndef VEHICLE_H
 #define VEHICLE_H
 
-#include <limits.h>
-#include <stddef.h>
+#include <climits>
+#include <cstddef>
 #include <array>
-#include <list>
 #include <map>
 #include <stack>
 #include <vector>
@@ -17,6 +16,7 @@
 
 #include "active_item_cache.h"
 #include "calendar.h"
+#include "colony.h"
 #include "clzones.h"
 #include "damage.h"
 #include "game_constants.h"
@@ -29,12 +29,13 @@
 #include "units.h"
 #include "enums.h"
 #include "item_location.h"
+#include "type_id.h"
 
+class Creature;
 class nc_color;
 class player;
 class npc;
 class vehicle;
-class vpart_info;
 class vehicle_part_range;
 class JsonIn;
 class JsonOut;
@@ -43,12 +44,10 @@ class zone_data;
 struct itype;
 struct uilist_entry;
 template <typename T> class visitable;
+class vpart_info;
 
 enum vpart_bitflags : int;
-using vpart_id = string_id<vpart_info>;
-struct vehicle_prototype;
-
-using vproto_id = string_id<vehicle_prototype>;
+enum ter_bitflags : int;
 template<typename feature_type>
 class vehicle_part_with_feature_range;
 
@@ -62,7 +61,12 @@ extern point cardinal_d[5];
 // ratio of constant rolling resistance to the part that varies with velocity
 constexpr double rolling_constant_to_variable = 33.33;
 constexpr float vmiph_per_tile = 400.0f;
-}
+} // namespace vehicles
+struct rider_data {
+    Creature *psg = nullptr;
+    int prt = -1;
+    bool moved = false;
+};
 //collision factor for vehicle-vehicle collision; delta_v in mph
 float get_collision_factor( float delta_v );
 
@@ -114,11 +118,10 @@ class vehicle_stack : public item_stack
         vehicle *myorigin;
         int part_num;
     public:
-        vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int part ) :
+        vehicle_stack( cata::colony<item> *newstack, point newloc, vehicle *neworigin, int part ) :
             item_stack( newstack ), location( newloc ), myorigin( neworigin ), part_num( part ) {}
-        std::list<item>::iterator erase( std::list<item>::iterator it ) override;
-        void push_back( const item &newitem ) override;
-        void insert_at( std::list<item>::iterator index, const item &newitem ) override;
+        iterator erase( const_iterator it ) override;
+        void insert( const item &newitem ) override;
         int count_limit() const override {
             return MAX_ITEM_IN_VEHICLE_STORAGE;
         }
@@ -171,8 +174,11 @@ struct vehicle_part {
             return flags &= ~flag;
         }
 
-        /** Translated name of a part inclusive of any current status effects */
-        std::string name() const;
+        /**
+         * Translated name of a part inclusive of any current status effects
+         * with_prefix as true indicates the durability symbol should be prepended
+         */
+        std::string name( bool with_prefix = true ) const;
 
         static constexpr int name_offset = 7;
         /** Stack of the containing vehicle's name, when it it stored as part of another vehicle */
@@ -182,10 +188,10 @@ struct vehicle_part {
         itype_id ammo_current() const;
 
         /** Maximum amount of fuel, charges or ammunition that can be contained by a part */
-        long ammo_capacity() const;
+        int ammo_capacity() const;
 
         /** Amount of fuel, charges or ammunition currently contained by a part */
-        long ammo_remaining() const;
+        int ammo_remaining() const;
 
         /** Type of fuel used by an engine */
         itype_id fuel_current() const;
@@ -197,7 +203,7 @@ struct vehicle_part {
          * @param qty maximum ammo (capped by part capacity) or negative to fill to capacity
          * @return amount of ammo actually set or negative on failure
          */
-        int ammo_set( const itype_id &ammo, long qty = -1 );
+        int ammo_set( const itype_id &ammo, int qty = -1 );
 
         /** Remove all fuel, charges or ammunition (if any) from this part */
         void ammo_unset();
@@ -208,7 +214,7 @@ struct vehicle_part {
          * @param pos current global location of part from which ammo is being consumed
          * @return amount consumed which will be between 0 and specified qty
          */
-        long ammo_consume( long qty, const tripoint &pos );
+        int ammo_consume( int qty, const tripoint &pos );
 
         /**
          * Consume fuel by energy content.
@@ -233,7 +239,7 @@ struct vehicle_part {
          *  Try adding @param liquid to tank optionally limited by @param qty
          *  @return whether any of the liquid was consumed (which may be less than qty)
          */
-        bool fill_with( item &liquid, long qty = LONG_MAX );
+        bool fill_with( item &liquid, int qty = INT_MAX );
 
         /** Current faults affecting this part (if any) */
         const std::set<fault_id> &faults() const;
@@ -377,7 +383,7 @@ struct vehicle_part {
         mutable const vpart_info *info_cache = nullptr;
 
         item base;
-        std::list<item> items; // inventory
+        cata::colony<item> items; // inventory
 
         /** Preferred ammo type when multiple are available */
         itype_id ammo_pref = "null";
@@ -432,10 +438,10 @@ class turret_data
         const item_location base() const;
 
         /** Quantity of ammunition available for use */
-        long ammo_remaining() const;
+        int ammo_remaining() const;
 
         /** Maximum quantity of ammunition turret can itself contain */
-        long ammo_capacity() const;
+        int ammo_capacity() const;
 
         /** Specific ammo data or returns nullptr if no ammo available */
         const itype *ammo_data() const;
@@ -611,7 +617,6 @@ class vehicle
         int part_epower_w( int index ) const;
 
         // convert watts over time to battery energy
-        // time duration can't resolve less than 6 seconds so specify time in seconds
         int power_to_energy_bat( const int power_w, const int t_seconds ) const;
 
         // convert vhp to watts.
@@ -704,7 +709,7 @@ class vehicle
         void deserialize( JsonIn &jsin );
         // Vehicle parts list - all the parts on a single tile
         int print_part_list( const catacurses::window &win, int y1, int max_y, int width, int p,
-                             int hl = -1 ) const;
+                             int hl = -1, bool detail = false ) const;
 
         // Vehicle parts descriptions - descriptions for all the parts on a single tile
         void print_vparts_descs( const catacurses::window &win, int max_y, int width, int &p,
@@ -897,7 +902,7 @@ class vehicle
         // returns indices of all parts in the given location slot
         std::vector<int> all_parts_at_location( const std::string &location ) const;
 
-        // Given a part and a flag, returns the indices of all continiguously adjacent parts
+        // Given a part and a flag, returns the indices of all contiguously adjacent parts
         // with the same flag on the X and Y Axis
         std::vector<std::vector<int>> find_lines_of_parts( int part, const std::string &flag );
 
@@ -948,8 +953,13 @@ class vehicle
         // get a list of part indices where is a passenger inside
         std::vector<int> boarded_parts() const;
 
+        // get a list of part indices and Creature pointers with a rider
+        std::vector<rider_data> get_riders() const;
+
         // get passenger at part p
         player *get_passenger( int p ) const;
+        // get monster on a boardable part at p
+        monster *get_pet( int p ) const;
 
         /**
          * Get the coordinates (in map squares) of this vehicle, it's the same
@@ -969,7 +979,7 @@ class vehicle
          * Note that empty tanks don't count at all. The value is the amount as it would be
          * reported by @ref fuel_left, it is always greater than 0. The key is the fuel item type.
          */
-        std::map<itype_id, long> fuels_left() const;
+        std::map<itype_id, int> fuels_left() const;
 
         // Checks how much certain fuel left in tanks.
         int fuel_left( const itype_id &ftype, bool recurse = false ) const;
@@ -1076,6 +1086,10 @@ class vehicle
 
         // is the vehicle currently moving?
         bool is_moving() const;
+
+        // can the vehicle use rails?
+        bool can_use_rails() const;
+
         // Get maximum ground velocity gained by combined power of all engines.
         // If fueled == true, then only the engines which the vehicle has fuel for are included
         int max_ground_velocity( bool fueled = true ) const;
@@ -1238,28 +1252,23 @@ class vehicle
         /**
          * Try to add an item to part's cargo.
          *
-         * @returns False if it can't be put here (not a cargo part, adding this would violate
+         * @returns cata::nullopt if it can't be put here (not a cargo part, adding this would violate
          * the volume limit or item count limit, not all charges can fit, etc.)
+         * Otherwise, returns an iterator to the added item in the vehicle stack
          */
-        bool add_item( int part, const item &obj );
+        cata::optional<vehicle_stack::iterator> add_item( int part, const item &obj );
         /** Like the above */
-        bool add_item( vehicle_part &pt, const item &obj );
+        cata::optional<vehicle_stack::iterator> add_item( vehicle_part &pt, const item &obj );
         /**
          * Add an item counted by charges to the part's cargo.
          *
          * @returns The number of charges added.
          */
-        long add_charges( int part, const item &itm );
-        /**
-         * Position specific item insertion that skips a bunch of safety checks
-         * since it should only ever be used by item processing code.
-         */
-        bool add_item_at( int part, std::list<item>::iterator index, item itm );
+        int add_charges( int part, const item &itm );
 
         // remove item from part's cargo
-        bool remove_item( int part, int itemdex );
-        bool remove_item( int part, const item *it );
-        std::list<item>::iterator remove_item( int part, std::list<item>::iterator it );
+        bool remove_item( int part, item *it );
+        vehicle_stack::iterator remove_item( int part, vehicle_stack::const_iterator it );
 
         vehicle_stack get_items( int part ) const;
         vehicle_stack get_items( int part );
@@ -1439,11 +1448,27 @@ class vehicle
         rl_vec2d dir_vec() const;
         // update vehicle parts as the vehicle moves
         void on_move();
-        // move the vehicle on the map
-        bool act_on_map();
+        // move the vehicle on the map. Returns updated pointer to self.
+        vehicle *act_on_map();
         // check if the vehicle should be falling or is in water
         void check_falling_or_floating();
 
+        /** Precalculate vehicle turn. Counts wheels that will land on ter_flag_to_check
+         * new_turn_dir             - turn direction to calculate
+         * falling_only             - is vehicle falling
+         * check_rail_direction     - check if vehicle should land on diagonal/not rail tile (use for trucks only)
+         * ter_flag_to_check        - terrain flag vehicle wheel should land on
+         ** Results:
+         * &wheels_on_rail          - resulting wheels that land on ter_flag_to_check
+         * &turning_wheels_that_are_one_axis_counter - number of wheels that are on one axis and will land on rail
+         */
+        void precalculate_vehicle_turning( int new_turn_dir, bool check_rail_direction,
+                                           const ter_bitflags ter_flag_to_check, int &wheels_on_rail,
+                                           int &turning_wheels_that_are_one_axis_counter ) const;
+        bool allow_auto_turn_on_rails( int &corrected_turn_dir ) const;
+        bool allow_manual_turn_on_rails( int &corrected_turn_dir ) const;
+        bool is_wheel_state_correct_to_turn_on_rails( int wheels_on_rail, int wheel_count,
+                int turning_wheels_that_are_one_axis ) const;
         /**
          * Update the submap coordinates smx, smy, and update the tracker info in the overmap
          * (if enabled).
@@ -1454,6 +1479,7 @@ class vehicle
         void use_washing_machine( int p );
         void use_monster_capture( int part, const tripoint &pos );
         void use_bike_rack( int part );
+        void use_harness( int part, const tripoint &pos );
 
         void interact_with( const tripoint &pos, int interact_part );
 
@@ -1489,8 +1515,10 @@ class vehicle
         std::vector<int> sails;            // List of sail indices
         std::vector<int> funnels;          // List of funnel indices
         std::vector<int> heaters;          // List of heater parts
+        std::vector<int> coolers;          // List of cooler parts
         std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
         std::vector<int> wheelcache;       // List of wheels
+        std::vector<int> rail_wheelcache;  // List of rail wheels
         std::vector<int> steering;         // List of STEERABLE parts
         std::vector<int>
         speciality;       // List of parts that will not be on a vehicle very often, or which only one will be present
@@ -1500,6 +1528,7 @@ class vehicle
         std::map<itype_id, float> fuel_remainder;
         active_item_cache active_items;
 
+        bounding_box rail_wheel_bounding_box;
         bounding_box get_bounding_box();
 
         /**
@@ -1568,6 +1597,7 @@ class vehicle
         float of_turn_carry;
 
         int extra_drag          = 0;
+        bool all_wheels_on_one_axis;
         // TODO: change these to a bitset + enum?
         // cruise control on/off
         bool cruise_on                  = true;
@@ -1588,10 +1618,12 @@ class vehicle
         bool insides_dirty              = true;
         // Is the vehicle hanging in the air and expected to fall down in the next turn?
         bool is_falling                 = false;
-        // last time point the fluid was inside tanks was checked for processing
-        time_point last_fluid_check = calendar::time_of_cataclysm;
         // zone_data positions are outdated and need refreshing
         bool zones_dirty = true;
+        // current noise of vehicle (engine working, etc.)
+        unsigned char vehicle_noise = 0;
+        // last time point the fluid was inside tanks was checked for processing
+        time_point last_fluid_check = calendar::time_of_cataclysm;
 
     private:
         // refresh pivot_cache, clear pivot_dirty
@@ -1622,13 +1654,13 @@ class vehicle
          */
         int automatic_fire_turret( vehicle_part &pt );
 
+        mutable point mass_center_precalc;
+        mutable point mass_center_no_precalc;
+        mutable units::mass mass_cache;
+
         mutable bool mass_dirty                     = true;
         mutable bool mass_center_precalc_dirty      = true;
         mutable bool mass_center_no_precalc_dirty   = true;
-
-        mutable units::mass mass_cache;
-        mutable point mass_center_precalc;
-        mutable point mass_center_no_precalc;
 
         // cached values for air, water, and  rolling resistance;
         mutable bool coeff_rolling_dirty = true;
@@ -1640,13 +1672,14 @@ class vehicle
         // the coeffs once per turn, even if multiple parts are destroyed in a collision
         mutable bool coeff_air_changed = true;
 
+        // is the vehicle currently mostly in water
+        mutable bool is_floating = false;
+
         mutable double coefficient_air_resistance = 1;
         mutable double coefficient_rolling_resistance = 1;
         mutable double coefficient_water_resistance = 1;
         mutable double draft_m = 1;
         mutable double hull_height = 0.3;
-        // is the vehicle currently mostly in water
-        mutable bool is_floating = false;
 };
 
 #endif

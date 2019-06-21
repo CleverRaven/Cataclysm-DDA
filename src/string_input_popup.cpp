@@ -1,6 +1,6 @@
 #include "string_input_popup.h"
 
-#include <ctype.h>
+#include <cctype>
 
 #include "catacharset.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
@@ -238,14 +238,14 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
         }
         const size_t left_over = ret.substr( 0, a ).display_width() - shift;
         mvwprintz( w, _starty, _startx + left_over, _cursor_color, "%s", cursor.c_str() );
-        start_x_edit = _startx + left_over;
+        start_x_edit += left_over;
     } else if( _position == _max_length && _max_length > 0 ) {
         mvwprintz( w, _starty, _startx + sx, _cursor_color, " " );
-        start_x_edit = _startx + sx;
+        start_x_edit += sx;
         sx++; // don't override trailing ' '
     } else {
         mvwprintz( w, _starty, _startx + sx, _cursor_color, "_" );
-        start_x_edit = _startx + sx;
+        start_x_edit += sx;
         sx++; // don't override trailing '_'
     }
     if( static_cast<int>( sx ) < scrmax ) {
@@ -280,9 +280,9 @@ int string_input_popup::query_int( const bool loop, const bool draw_only )
     return std::atoi( query_string( loop, draw_only ).c_str() );
 }
 
-long string_input_popup::query_long( const bool loop, const bool draw_only )
+int64_t string_input_popup::query_int64_t( const bool loop, const bool draw_only )
 {
-    return std::atol( query_string( loop, draw_only ).c_str() );
+    return std::atoll( query_string( loop, draw_only ).c_str() );
 }
 
 const std::string &string_input_popup::query_string( const bool loop, const bool draw_only )
@@ -496,6 +496,7 @@ void string_input_popup::edit( std::string &value )
     }
 }
 
+// NOLINTNEXTLINE(cata-no-long)
 void string_input_popup::edit( long &value )
 {
     only_digits( true );

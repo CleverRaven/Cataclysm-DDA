@@ -2,6 +2,8 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
+#include <array>
+#include <cassert>
 #include <climits>
 #include <ostream>
 #include <cstdint>
@@ -15,6 +17,14 @@ constexpr inline int sgn( const T x )
 {
     return x < 0 ? -1 : ( x > 0 ? 1 : 0 );
 }
+
+enum temperature_flag : int {
+    TEMP_NORMAL = 0,
+    TEMP_HEATER,
+    TEMP_FRIDGE,
+    TEMP_FREEZER,
+    TEMP_ROOT_CELLAR
+};
 
 //Used for autopickup and safemode rules
 enum rule_state : int {
@@ -131,6 +141,10 @@ enum object_type {
     NUM_OBJECTS,
 };
 
+enum liquid_source_type { LST_INFINITE_MAP = 1, LST_MAP_ITEM = 2, LST_VEHICLE = 3, LST_MONSTER = 4};
+
+enum liquid_target_type { LTT_CONTAINER = 1, LTT_VEHICLE = 2, LTT_MAP = 3, LTT_MONSTER = 4 };
+
 /**
  *  Possible layers that a piece of clothing/armor can occupy
  *
@@ -183,6 +197,27 @@ struct point {
         y -= rhs.y;
         return *this;
     }
+
+    /**
+     * Rotate point clockwise @param turns times, 90 degrees per turn,
+     * around the center of a rectangle with the dimensions specified
+     * by @param dim. By default rotates around the origin (0, 0).
+     */
+    point rotate( int turns, const point &dim = { 1, 1 } ) const {
+        assert( turns >= 0 );
+        assert( turns <= 4 );
+
+        switch( turns ) {
+            case 1:
+                return { dim.y - y - 1, x };
+            case 2:
+                return { dim.x - x - 1, dim.y - y - 1 };
+            case 3:
+                return { y, dim.x - x - 1 };
+        }
+
+        return *this;
+    }
 };
 
 void serialize( const point &p, JsonOut &jsout );
@@ -202,7 +237,7 @@ struct hash<point> {
         return result;
     }
 };
-}
+} // namespace std
 
 inline constexpr bool operator<( const point &a, const point &b )
 {
@@ -239,6 +274,15 @@ struct tripoint {
     }
     constexpr tripoint operator-() const {
         return tripoint( -x, -y, -z );
+    }
+    constexpr tripoint operator*( const int rhs ) const {
+        return tripoint( x * rhs, y * rhs, z * rhs );
+    }
+    tripoint &operator*=( const int rhs ) {
+        x *= rhs;
+        y *= rhs;
+        z *= rhs;
+        return *this;
     }
     /*** some point operators and functions ***/
     constexpr tripoint operator+( const point &rhs ) const {
@@ -289,7 +333,7 @@ struct hash<tripoint> {
         return result;
     }
 };
-}
+} // namespace std
 
 inline constexpr bool operator==( const tripoint &a, const tripoint &b )
 {
@@ -312,6 +356,18 @@ inline bool operator<( const tripoint &a, const tripoint &b )
     }
     return false;
 }
+
+static const std::array<tripoint, 8> eight_horizontal_neighbors = { {
+        { -1, -1, 0 },
+        {  0, -1, 0 },
+        { +1, -1, 0 },
+        { -1,  0, 0 },
+        { +1,  0, 0 },
+        { -1, +1, 0 },
+        {  0, +1, 0 },
+        { +1, +1, 0 },
+    }
+};
 
 struct rectangle {
     point p_min;
@@ -336,6 +392,15 @@ static constexpr tripoint tripoint_max{ INT_MAX, INT_MAX, INT_MAX };
 static constexpr point point_min{ tripoint_min.x, tripoint_min.y };
 static constexpr point point_zero{ tripoint_zero.x, tripoint_zero.y };
 static constexpr point point_max{ tripoint_max.x, tripoint_max.y };
+
+static constexpr point point_north{ 0, -1 };
+static constexpr point point_north_east{ 1, -1 };
+static constexpr point point_east{ 1, 0 };
+static constexpr point point_south_east{ 1, 1 };
+static constexpr point point_south{ 0, 1 };
+static constexpr point point_south_west{ -1, 1 };
+static constexpr point point_west{ -1, 0 };
+static constexpr point point_north_west{ -1, -1 };
 
 static constexpr box box_zero( tripoint_zero, tripoint_zero );
 static constexpr rectangle rectangle_zero( point_zero, point_zero );
@@ -400,7 +465,28 @@ enum game_message_type : int {
     /* custom SCT colors */
     m_headshot,
     m_critical,
-    m_grazing
+    m_grazing,
+};
+
+enum game_message_flags {
+    /* No specific game message flags */
+    gmf_none = 0,
+    /* Allow the message to bypass message cooldown. */
+    gmf_bypass_cooldown = 1,
+};
+
+/** Structure allowing a combination of `game_message_type` and `game_message_flags`.
+ */
+struct game_message_params {
+    game_message_params( const game_message_type message_type ) : type( message_type ),
+        flags( gmf_none ) {}
+    game_message_params( const game_message_type message_type,
+                         const game_message_flags message_flags ) : type( message_type ), flags( message_flags ) {}
+
+    /* Type of the message */
+    game_message_type type;
+    /* Flags pertaining to the message */
+    game_message_flags flags;
 };
 
 #endif

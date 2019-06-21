@@ -535,5 +535,56 @@
     "id": "lightstrip_dead",
     "type": "MIGRATION",
     "replace": "lightstrip_inactive"
+  },
+  {
+    "id": "smg_9mm_mag",
+    "type": "MIGRATION",
+    "replace": "survivor9mm_mag"
+  },
+  {
+    "id": "battery_atomic",
+    "type": "MIGRATION",
+    "replace": "light_atomic_battery_cell"
+  },
+  {
+    "id": "battery_compartment",
+    "type": "MIGRATION",
+    "replace": "magazine_battery_heavy_mod"
+  },
+  {
+    "id": "dry_mushroom_magic",
+    "type": "MIGRATION",
+    "replace": "dry_mushroom",
+    "flags": [ "HIDDEN_HALLU" ]
+  },
+  {
+    "id": "hk_ucp",
+    "type": "MIGRATION",
+    "replace": "hk_mp7"
+  },
+  {
+    "id": "rechargable_battery",
+    "type": "MIGRATION",
+    "replace": "heavy_battery_cell"
+  },
+  {
+    "id": "hd_battery",
+    "type": "MIGRATION",
+    "replace": "heavy_plus_battery_cell"
+  },
+  {
+    "id": "frozen_burrito",
+    "type": "MIGRATION",
+    "replace": "junk_burrito"
+  },
+  {
+    "id": "cooked_burrito",
+    "type": "MIGRATION",
+    "replace": "junk_burrito"
+  },
+  {
+    "id": "10mm",
+    "type": "MIGRATION",
+    "replace": "10mm_fmj"
   }
 ]

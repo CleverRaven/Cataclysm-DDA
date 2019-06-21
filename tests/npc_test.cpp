@@ -5,6 +5,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "common_types.h"
 #include "faction.h"
@@ -26,13 +27,12 @@
 #include "enums.h"
 #include "game_constants.h"
 #include "line.h"
-#include "mapdata.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "string_id.h"
-#include "mtype.h"
+#include "type_id.h"
 
-void on_load_test( npc &who, const time_duration &from, const time_duration &to )
+static void on_load_test( npc &who, const time_duration &from, const time_duration &to )
 {
     calendar::turn = to_turn<int>( calendar::time_of_cataclysm + from );
     who.on_unload();
@@ -40,9 +40,9 @@ void on_load_test( npc &who, const time_duration &from, const time_duration &to 
     who.on_load();
 }
 
-void test_needs( const npc &who, const numeric_interval<int> &hunger,
-                 const numeric_interval<int> &thirst,
-                 const numeric_interval<int> &fatigue )
+static void test_needs( const npc &who, const numeric_interval<int> &hunger,
+                        const numeric_interval<int> &thirst,
+                        const numeric_interval<int> &fatigue )
 {
     CHECK( who.get_hunger() <= hunger.max );
     CHECK( who.get_hunger() >= hunger.min );
@@ -52,7 +52,7 @@ void test_needs( const npc &who, const numeric_interval<int> &hunger,
     CHECK( who.get_fatigue() >= fatigue.min );
 }
 
-npc create_model()
+static npc create_model()
 {
     npc model_npc;
     model_npc.normalize();
@@ -70,7 +70,7 @@ npc create_model()
     return model_npc;
 }
 
-std::string get_list_of_npcs( const std::string &title )
+static std::string get_list_of_npcs( const std::string &title )
 {
 
     std::ostringstream npc_list;
@@ -316,14 +316,8 @@ TEST_CASE( "npc-movement" )
 
     g->place_player( tripoint( 60, 60, 0 ) );
 
-    // kill npcs before removing vehicles so they are correctly unboarded
-    clear_npcs();
-    clear_creatures();
-    // remove existing vehicles
-    VehicleList vehs = g->m.get_vehicles( g->u.pos(), g->u.pos() + point( width - 1, height - 1 ) );
-    for( auto &veh : vehs ) {
-        g->m.detach_vehicle( veh.v );
-    }
+    clear_map();
+
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const char type = setup[y][x];
@@ -364,8 +358,11 @@ TEST_CASE( "npc-movement" )
                 || type == 'B' || type == 'C' ) {
 
                 std::shared_ptr<npc> guy = std::make_shared<npc>();
-                guy->normalize();
-                guy->randomize();
+                do {
+                    guy->normalize();
+                    guy->randomize();
+                    // Repeat until we get an NPC vulnerable to acid
+                } while( guy->is_immune_field( fd_acid ) );
                 guy->spawn_at_precise( {g->get_levx(), g->get_levy()}, p );
                 // Set the shopkeep mission; this means that
                 // the NPC deems themselves to be guarding and stops them
@@ -449,6 +446,7 @@ TEST_CASE( "npc_can_target_player" )
 
         npc *guy = g->find_npc( model_id );
         REQUIRE( guy != nullptr );
+        CHECK( !guy->in_vehicle );
         guy->setpos( g->u.pos() + point( x, y ) );
         return guy;
     };

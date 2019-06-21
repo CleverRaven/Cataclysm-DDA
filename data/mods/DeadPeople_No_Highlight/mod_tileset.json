@@ -1,0 +1,7 @@
+[
+  {
+    "type": "mod_tileset",
+    "compatibility": [ "MSX++DEAD_PEOPLE", "UNDEAD_PEOPLE" ],
+    "tiles-new": [ { "file": "no_highlight.png", "tiles": [ { "id": "highlight", "fg": 0 } ] } ]
+  }
+]

@@ -14,15 +14,7 @@
             to giant insects to killer robots and things far stranger and deadlier, and against the others like
             yourself, that want what you have...</p>
     </description>
-    <screenshots>
-        <screenshot type="default">
-            <image>http://www.cataclysmdda.com/assets/drive.png</image>
-        </screenshot>
-        <screenshot>
-            <image>http://www.cataclysmdda.com/assets/status.png</image>
-        </screenshot>
-    </screenshots>
-    <url type="homepage">http://www.cataclysmdda.com/</url>
+    <url type="homepage">https://www.cataclysmdda.org/</url>
     <url type="bugtracker">https://github.com/CleverRaven/Cataclysm-DDA/issues</url>
     <url type="translate">https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/</url>
     <launchable type="desktop-id">cataclysm-dda.desktop</launchable>

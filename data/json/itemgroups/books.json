@@ -50,8 +50,10 @@
       [ "manual_eskrima", 100 ],
       [ "manual_krav_maga", 100 ],
       [ "manual_ninjutsu", 100 ],
+      [ "manual_pankration", 5 ],
       [ "manual_silat", 100 ],
-      [ "manual_taekwondo", 100 ]
+      [ "manual_taekwondo", 100 ],
+      [ "manual_wingchun", 100 ]
     ]
   },
   {
@@ -65,6 +67,7 @@
       [ "manual_knives", 40 ],
       [ "manual_launcher", 20 ],
       [ "manual_melee", 70 ],
+      [ "manual_pankration", 1 ],
       [ "manual_pistol", 30 ],
       [ "manual_rifle", 50 ],
       [ "manual_shotgun", 10 ],
@@ -97,9 +100,8 @@
     "//": "Books found in school library",
     "items": [
       { "group": "novels", "prob": 50 },
-      { "group": "manuals", "prob": 40 },
-      { "group": "textbooks", "prob": 30 },
-      [ "dnd_handbook", 3 ]
+      { "group": "manuals_school", "prob": 40 },
+      { "group": "textbooks_school", "prob": 30 }
     ]
   },
   {
@@ -329,6 +331,34 @@
   },
   {
     "type": "item_group",
+    "id": "manuals_school",
+    "//": "Same as manuals, but without inappropriate books, like weapons or traps.",
+    "items": [
+      [ "manual_brawl", 30 ],
+      [ "manual_dodge", 1 ],
+      [ "manual_throw", 12 ],
+      [ "manual_mechanics", 35 ],
+      [ "manual_speech", 50 ],
+      [ "manual_business", 40 ],
+      [ "manual_first_aid", 40 ],
+      [ "manual_computers", 20 ],
+      [ "recipe_augs", 5 ],
+      [ "howto_computer", 10 ],
+      [ "cookbook", 35 ],
+      [ "cookbook_italian", 25 ],
+      [ "manual_electronics", 20 ],
+      [ "manual_tailor", 15 ],
+      [ "manual_carpentry", 10 ],
+      [ "101_carpentry", 6 ],
+      [ "manual_fabrication", 20 ],
+      [ "manual_driving", 15 ],
+      [ "manual_survival", 20 ],
+      [ "dnd_handbook", 2 ],
+      [ "survnote", 3 ]
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "textbooks",
     "items": [
       [ "textbook_computer", 4 ],
@@ -366,6 +396,54 @@
       [ "textbook_survival", 8 ],
       [ "modern_tanner", 4 ],
       [ "textbook_traps", 4 ],
+      [ "manual_survival", 3 ],
+      [ "manual_swimming", 5 ],
+      [ "textbook_speech", 12 ],
+      [ "textbook_fireman", 10 ],
+      [ "textbook_armschina", 3 ],
+      [ "textbook_weapwest", 3 ],
+      [ "textbook_weapeast", 3 ],
+      [ "textbook_armwest", 3 ],
+      [ "textbook_armeast", 3 ],
+      [ "survnote", 2 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "textbooks_school",
+    "//": "Same as textbooks, but without inappropriate books, like weapons or traps. Contains archery and armors/melee weapons as sport and historical information sources.",
+    "items": [
+      [ "textbook_computer", 4 ],
+      [ "computer_science", 8 ],
+      [ "book_icef", 8 ],
+      [ "textbook_electronics", 6 ],
+      [ "advanced_electronics", 6 ],
+      [ "textbook_business", 12 ],
+      [ "adv_chemistry", 4 ],
+      [ "tailor_portfolio", 3 ],
+      [ "textbook_chemistry", 11 ],
+      [ "brewing_cookbook", 3 ],
+      [ "textbook_carpentry", 6 ],
+      [ "SICP", 3 ],
+      [ "survival_book", 8 ],
+      [ "emergency_book", 3 ],
+      [ "carpentry_book", 4 ],
+      [ "textbook_robots", 1 ],
+      [ "textbook_mechanics", 12 ],
+      [ "textbook_biodiesel", 12 ],
+      [ "textbook_fabrication", 12 ],
+      [ "welding_book", 2 ],
+      [ "glassblowing_book", 2 ],
+      [ "textbook_tailor", 12 ],
+      [ "recipe_fauxfur", 4 ],
+      [ "recipe_bows", 4 ],
+      [ "recipe_arrows", 4 ],
+      [ "textbook_firstaid", 8 ],
+      [ "pocket_firstaid", 4 ],
+      [ "pocket_survival", 2 ],
+      [ "textbook_anarch", 1 ],
+      [ "textbook_survival", 8 ],
+      [ "modern_tanner", 4 ],
       [ "manual_survival", 3 ],
       [ "manual_swimming", 5 ],
       [ "textbook_speech", 12 ],
@@ -492,6 +570,7 @@
       [ "manual_niten", 1 ],
       [ "manual_sojutsu", 1 ],
       [ "manual_capoeira", 1 ],
+      [ "manual_wingchun", 3 ],
       { "group": "rare_martial_arts_books", "prob": 6 }
     ]
   },
@@ -504,6 +583,7 @@
       [ "manual_aikido", 12 ],
       [ "manual_taekwondo", 12 ],
       [ "manual_tai_chi", 12 ],
+      [ "manual_pankration", 5 ],
       [ "manual_fencing", 4 ],
       [ "manual_eskrima", 3 ],
       [ "manual_krav_maga", 3 ],
@@ -522,7 +602,8 @@
       [ "mag_unarmed", 20 ],
       [ "manual_brawl", 10 ],
       [ "mag_cutting", 5 ],
-      [ "textbook_weapeast", 1 ]
+      [ "textbook_weapeast", 1 ],
+      [ "manual_wingchun", 3 ]
     ]
   },
   {
@@ -561,5 +642,22 @@
     "id": "record_patient",
     "type": "item_group",
     "items": [ [ "record_patient", 100 ] ]
+  },
+  {
+    "id": "fireman_doc",
+    "type": "item_group",
+    "items": [
+      [ "textbook_fireman", 100 ],
+      [ "emergency_book", 100 ],
+      [ "manual_first_aid", 50 ],
+      [ "manual_swimming", 50 ],
+      [ "textbook_firstaid", 10 ],
+      [ "mag_computer", 50 ]
+    ]
+  },
+  {
+    "id": "tailorbooks",
+    "type": "item_group",
+    "items": [ [ "tailor_portfolio", 30 ], [ "mag_tailor", 50 ], [ "manual_tailor", 30 ], [ "textbook_tailor", 30 ] ]
   }
 ]

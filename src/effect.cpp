@@ -14,14 +14,12 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "color.h"
-#include "creature.h"
 #include "enums.h"
-#include "pldata.h"
 
 namespace
 {
 std::map<efftype_id, effect_type> effect_types;
-}
+} // namespace
 
 /** @relates string_id */
 template<>
@@ -50,7 +48,7 @@ void weed_msg( player &p )
     const time_duration howhigh = p.get_effect_dur( effect_weed_high );
     ///\EFFECT_INT changes messages when smoking weed
     int smarts = p.get_int();
-    if( howhigh > 125_turns && one_in( 7 ) ) {
+    if( howhigh > 12_minutes && one_in( 7 ) ) {
         int msg = rng( 0, 5 );
         switch( msg ) {
             case 0: // Freakazoid
@@ -103,7 +101,7 @@ void weed_msg( player &p )
             default:
                 return;
         }
-    } else if( howhigh > 100_turns && one_in( 5 ) ) {
+    } else if( howhigh > 10_minutes && one_in( 5 ) ) {
         int msg = rng( 0, 5 );
         switch( msg ) {
             case 0: // Bob Marley
@@ -147,7 +145,7 @@ void weed_msg( player &p )
             default:
                 return;
         }
-    } else if( howhigh > 50_turns && one_in( 3 ) ) {
+    } else if( howhigh > 5_minutes && one_in( 3 ) ) {
         int msg = rng( 0, 5 );
         switch( msg ) {
             case 0: // Cheech and Chong
@@ -381,7 +379,8 @@ game_message_type effect_type::gain_game_message_type() const
         case e_mixed:
             return m_mixed;
         default:
-            return m_neutral;  // Should never happen
+            // Should never happen
+            return m_neutral;
     }
 }
 game_message_type effect_type::lose_game_message_type() const
@@ -396,7 +395,8 @@ game_message_type effect_type::lose_game_message_type() const
         case e_mixed:
             return m_mixed;
         default:
-            return m_neutral;  // Should never happen
+            // Should never happen
+            return m_neutral;
     }
 }
 std::string effect_type::get_apply_message() const

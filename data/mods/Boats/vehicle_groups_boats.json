@@ -1,7 +1,0 @@
-[
-  {
-    "type": "vehicle_group",
-    "id": "boatrent",
-    "vehicles": [ [ "canoe", 2000 ], [ "kayak", 1500 ], [ "kayak_racing", 500 ], [ "DUKW", 250 ], [ "raft", 2000 ] ]
-  }
-]

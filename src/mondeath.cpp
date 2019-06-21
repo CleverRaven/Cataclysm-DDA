@@ -1,6 +1,6 @@
 #include "mondeath.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <cmath>
 #include <vector>
@@ -11,6 +11,8 @@
 #include <type_traits>
 #include <utility>
 
+#include "avatar.h"
+#include "explosion.h"
 #include "event.h"
 #include "field.h"
 #include "fungal_effects.h"
@@ -40,6 +42,7 @@
 #include "pldata.h"
 #include "units.h"
 #include "weighted_list.h"
+#include "type_id.h"
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_blob_brain( "mon_blob_brain" );
@@ -113,8 +116,8 @@ void mdeath::normal( monster &z )
     }
 }
 
-void scatter_chunks( const std::string &chunk_name, int chunk_amt, monster &z, int distance,
-                     int pile_size = 1 )
+static void scatter_chunks( const std::string &chunk_name, int chunk_amt, monster &z, int distance,
+                            int pile_size = 1 )
 {
     // can't have less than one item in a pile or it would cause an infinite loop
     pile_size = std::max( pile_size, 1 );
@@ -207,9 +210,9 @@ void mdeath::splatter( monster &z )
             }
         }
         if( gibbed_weight > 0 ) {
-            scatter_chunks( "ruined_chunks",
-                            gibbed_weight / to_gram( ( item::find_type( "ruined_chunks" ) ) ->weight ), z, gib_distance,
-                            gibbed_weight / to_gram( ( item::find_type( "ruined_chunks" ) )->weight ) / ( gib_distance + 1 ) );
+            const int chunk_amount = gibbed_weight / to_gram( ( item::find_type( "ruined_chunks" ) )->weight );
+            scatter_chunks( "ruined_chunks", chunk_amount, z, gib_distance,
+                            chunk_amount / ( gib_distance + 1 ) );
         }
         // add corpse with gib flag
         item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name );
@@ -239,7 +242,7 @@ void mdeath::acid( monster &z )
 void mdeath::boomer( monster &z )
 {
     std::string explode = string_format( _( "a %s explode!" ), z.name() );
-    sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode );
+    sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );
     for( auto &&dest : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         g->m.bash( dest, 10 );
         if( monster *const z = g->critter_at<monster>( dest ) ) {
@@ -258,7 +261,7 @@ void mdeath::boomer( monster &z )
 void mdeath::boomer_glow( monster &z )
 {
     std::string explode = string_format( _( "a %s explode!" ), z.name() );
-    sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode );
+    sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );
 
     for( auto &&dest : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         g->m.bash( dest, 10 );
@@ -359,7 +362,7 @@ void mdeath::fungus( monster &z )
     }
 
     //~ the sound of a fungus dying
-    sounds::sound( z.pos(), 10, sounds::sound_t::combat, _( "Pouf!" ) );
+    sounds::sound( z.pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
 
     fungal_effects fe( *g, g->m );
     for( auto &&sporep : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
@@ -591,15 +594,17 @@ void mdeath::explode( monster &z )
             size = 26;
             break;
     }
-    g->explosion( z.pos(), size );
+    explosion_handler::explosion( z.pos(), size );
 }
 
 void mdeath::focused_beam( monster &z )
 {
-
-    for( int k = g->m.i_at( z.pos() ).size() - 1; k >= 0; k-- ) {
-        if( g->m.i_at( z.pos() )[k].typeId() == "processor" ) {
-            g->m.i_rem( z.pos(), k );
+    map_stack items = g->m.i_at( z.pos() );
+    for( map_stack::iterator it = items.begin(); it != items.end(); ) {
+        if( it->typeId() == "processor" ) {
+            it = items.erase( it );
+        } else {
+            ++it;
         }
     }
 
@@ -626,7 +631,7 @@ void mdeath::focused_beam( monster &z )
 
     z.inv.clear();
 
-    g->explosion( z.pos(), 8 );
+    explosion_handler::explosion( z.pos(), 8 );
 }
 
 void mdeath::broken( monster &z )
@@ -641,8 +646,19 @@ void mdeath::broken( monster &z )
     }
     // make "broken_manhack", or "broken_eyebot", ...
     item_id.insert( 0, "broken_" );
-    g->m.spawn_item( z.pos(), item_id, 1, 0, calendar::turn );
-    if( g->u.sees( z.pos() ) ) {
+
+    item broken_mon( item_id, calendar::turn );
+    const int max_hp = std::max( z.get_hp_max(), 1 );
+    const float overflow_damage = std::max( -z.get_hp(), 0 );
+    const float corpse_damage = 2.5 * overflow_damage / max_hp;
+    broken_mon.set_damage( static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
+
+    g->m.add_item_or_charges( z.pos(), broken_mon );
+
+    //TODO: make mdeath::splatter work for robots
+    if( ( broken_mon.damage() >= broken_mon.max_damage() ) && g->u.sees( z.pos() ) ) {
+        add_msg( m_good, _( "The %s is destroyed!" ), z.name() );
+    } else if( g->u.sees( z.pos() ) ) {
         add_msg( m_good, _( "The %s collapses!" ), z.name() );
     }
 }
@@ -676,14 +692,14 @@ void mdeath::darkman( monster &z )
 void mdeath::gas( monster &z )
 {
     std::string explode = string_format( _( "a %s explode!" ), z.name() );
-    sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode );
+    sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );
     g->m.emit_field( z.pos(), emit_id( "emit_toxic_blast" ) );
 }
 
 void mdeath::smokeburst( monster &z )
 {
     std::string explode = string_format( _( "a %s explode!" ), z.name() );
-    sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode );
+    sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );
     g->m.emit_field( z.pos(), emit_id( "emit_smoke_blast" ) );
 }
 
@@ -858,13 +874,12 @@ void mdeath::fireball( monster &z )
         g->m.propagate_field( z.pos(), fd_fire, 15, 3 );
         std::string explode = string_format( _( "an explosion of tank of the %s's flamethrower!" ),
                                              z.name() );
-        sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode );
+        sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "default" );
         add_msg( m_good, _( "I love the smell of burning zed in the morning." ) );
     } else {
         normal( z );
     }
 }
-
 
 void mdeath::conflagration( monster &z )
 {
@@ -872,6 +887,6 @@ void mdeath::conflagration( monster &z )
         g->m.propagate_field( dest, fd_fire, 18, 3 );
     }
     const std::string explode = string_format( _( "a %s explode!" ), z.name() );
-    sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode );
+    sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );
 
 }

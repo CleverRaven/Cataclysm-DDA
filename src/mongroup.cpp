@@ -261,13 +261,10 @@ const MonsterGroup &MonsterGroupManager::GetMonsterGroup( const mongroup_id &gro
     }
 }
 
-// see item_factory.cpp
-extern void add_to_set( std::set<std::string> &s, JsonObject &json, const std::string &name );
-
 void MonsterGroupManager::LoadMonsterBlacklist( JsonObject &jo )
 {
-    add_to_set( monster_blacklist, jo, "monsters" );
-    add_to_set( monster_categories_blacklist, jo, "categories" );
+    add_array_to_set( monster_blacklist, jo, "monsters" );
+    add_array_to_set( monster_categories_blacklist, jo, "categories" );
 }
 
 void MonsterGroupManager::LoadMonsterWhitelist( JsonObject &jo )
@@ -275,8 +272,8 @@ void MonsterGroupManager::LoadMonsterWhitelist( JsonObject &jo )
     if( jo.has_string( "mode" ) && jo.get_string( "mode" ) == "EXCLUSIVE" ) {
         monster_whitelist_is_exclusive = true;
     }
-    add_to_set( monster_whitelist, jo, "monsters" );
-    add_to_set( monster_categories_whitelist, jo, "categories" );
+    add_array_to_set( monster_whitelist, jo, "monsters" );
+    add_array_to_set( monster_categories_whitelist, jo, "categories" );
 }
 
 bool MonsterGroupManager::monster_is_blacklisted( const mtype_id &m )
@@ -313,26 +310,6 @@ void MonsterGroupManager::FinalizeMonsterGroups()
     for( auto &mtid : monster_blacklist ) {
         if( !mtype_id( mtid ).is_valid() ) {
             debugmsg( "monster on blacklist %s does not exist", mtid.c_str() );
-        }
-    }
-    // If we have the classic zombies option, remove non-conforming monsters
-    if( get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
-        for( auto &elem : monsterGroupMap ) {
-            MonsterGroup &mg = elem.second;
-            for( FreqDef::iterator c = mg.monsters.begin(); c != mg.monsters.end(); ) {
-                // Test mon
-                const mtype &mt = c->name.obj();
-
-                if( !( mt.in_category( "CLASSIC" ) || mt.in_category( "WILDLIFE" ) ) ) {
-                    c = mg.monsters.erase( c );
-                } else {
-                    ++c;
-                }
-            }
-            const mtype &mt = mg.defaultMonster.obj();
-            if( !( mt.in_category( "CLASSIC" ) || mt.in_category( "WILDLIFE" ) ) ) {
-                mg.defaultMonster = mtype_id::NULL_ID();
-            }
         }
     }
     // Further, remove all blacklisted monsters

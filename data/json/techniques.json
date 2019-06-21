@@ -183,7 +183,8 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "defensive": true,
-    "miss_recovery": true
+    "miss_recovery": true,
+    "messages": [ "You feint at %s.", "<npcname> feints at %s." ]
   },
   {
     "type": "technique",
@@ -192,7 +193,8 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "defensive": true,
-    "grab_break": true
+    "grab_break": true,
+    "messages": [ "The %s tries to grab you, but you break its grab!", "The %s tries to grab <npcname>, but they break its grab!" ]
   },
   {
     "type": "technique",
@@ -309,6 +311,76 @@
     "unarmed_allowed": true,
     "disarms": true,
     "messages": [ "You disarm %s", "<npcname> disarms %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_pankration_kick",
+    "name": "kick",
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "messages": [ "You kick %s", "<npcname> kicks %s" ],
+    "stun_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "tec_pankration_break",
+    "name": "grab break",
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "defensive": true,
+    "grab_break": true,
+    "messages": [ "The %s tries to grab you, but you break its grab!", "The %s tries to grab <npcname>, but they break its grab!" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_pankration_counter",
+    "name": "counter-grab",
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "req_buffs": [ "pankration_counter" ],
+    "messages": [ "You counter and grab %s", "<npcname> counters and grabs %s" ],
+    "mult_bonuses": [ [ "movecost", 0.5 ] ],
+    "stun_dur": 2,
+    "down_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "tec_pankration_disarm",
+    "name": "arm lock",
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "disarms": true,
+    "down_dur": 1,
+    "req_buffs": [ "pankration_grappling" ],
+    "messages": [ "You put %s in an arm lock", "<npcname> puts %s in an arm lock" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_pankration_throw",
+    "name": "throw",
+    "min_unarmed": 6,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "down_dur": 1,
+    "knockback_dist": 2,
+    "knockback_spread": 2,
+    "req_buffs": [ "pankration_grappling" ],
+    "messages": [ "You throw %s", "<npcname> throws %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_pankration_chokehold",
+    "name": "chokehold",
+    "min_unarmed": 7,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 3,
+    "mult_bonuses": [ [ "damage", "bash", 1.35 ] ],
+    "req_buffs": [ "pankration_grappling" ],
+    "messages": [ "You put %s in a chokehold", "<npcname> puts %s in a chokehold" ]
   },
   {
     "type": "technique",
@@ -443,7 +515,8 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "defensive": true,
-    "grab_break": true
+    "grab_break": true,
+    "messages": [ "The %s tries to grab you, but you break its grab!", "The %s tries to grab <npcname>, but they break its grab!" ]
   },
   {
     "type": "technique",
@@ -638,7 +711,7 @@
     "name": "puño strike",
     "min_melee": 3,
     "min_bashing_damage": 2,
-    "mult_bonuses": [ [ "damage", "bash", 4.0 ], [ "damage", "cut", 0.0 ], [ "damage", "stab", 0.0 ] ],
+    "mult_bonuses": [ [ "movecost", 0.6 ], [ "damage", "bash", 0.7 ], [ "damage", "cut", 0.0 ], [ "damage", "stab", 0.0 ] ],
     "crit_tec": true,
     "stun_dur": 1,
     "messages": [ "You deliver a puño to %s", "<npcname> haftstrikes %s" ]
@@ -788,7 +861,7 @@
     "unarmed_allowed": true,
     "defensive": true,
     "miss_recovery": true,
-    "messages": [ "You raise your arms intimidatingly", "<npcname> performs the Crane Wing" ]
+    "messages": [ "You raise your arms intimidatingly at %s.", "<npcname> performs the Crane Wing at %s." ]
   },
   {
     "type": "technique",
@@ -798,7 +871,10 @@
     "unarmed_allowed": true,
     "defensive": true,
     "grab_break": true,
-    "messages": [ "You swing your arms and break free", "<npcname> flaps free" ]
+    "messages": [
+      "The %s tries to grab you, but you swing your arms and break free!",
+      "The %s tries to grab <npcname>, but they flap free!"
+    ]
   },
   {
     "type": "technique",
@@ -809,6 +885,45 @@
     "crit_tec": true,
     "messages": [ "You hand-peck %s", "<npcname> hand-pecks %s" ],
     "stun_dur": 3
+  },
+  {
+    "type": "technique",
+    "id": "tec_snake_rapid",
+    "name": "Snake Snap",
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ],
+    "messages": [ "You swiftly jab %s", "<npcname> swiftly jabs %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_snake_feint",
+    "name": "Snake Slide",
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "miss_recovery": true,
+    "messages": [ "You make serpentine hand motions at %s", "<npcname> makes serpentine hand motions at %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_snake_break",
+    "name": "Snake Slither",
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "grab_break": true,
+    "messages": [ "The %s tries to grab you, but you slither free!", "The %s tries to grab <npcname>, but they slither free!" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_snake_precise",
+    "name": "Snake Strike",
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "messages": [ "You strike out at %s", "<npcname> strikes out at %s" ],
+    "stun_dur": 2
   },
   {
     "type": "technique",
@@ -955,5 +1070,69 @@
     "knockback_dist": 1,
     "stun_dur": 2,
     "messages": [ "You brutally skewer %s", "<npcname> brutally skewers %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_wingchun_chainpunch",
+    "name": "Chain Punch",
+    "min_unarmed": 1,
+    "unarmed_allowed": true,
+    "strictly_unarmed": true,
+    "knockback_dist": 1,
+    "knockback_spread": 1,
+    "knockback_follow": 1,
+    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ],
+    "messages": [ "You chain strike %s", "<npcname> chain strikes %s" ],
+    "description": "50% moves, 66% damage, knockback and follow"
+  },
+  {
+    "type": "technique",
+    "id": "tec_wingchun_break",
+    "name": "Grab Break",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "defensive": true,
+    "grab_break": true,
+    "messages": [ "You position yourself well and slip out of a grab", "<npcname> slips out of a grab" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_wingchun_feint",
+    "name": "keep punching at",
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "strictly_unarmed": true,
+    "defensive": true,
+    "miss_recovery": true,
+    "messages": [ "You miss but keep striking at %s", "<npcname> misses but keeps striking at %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_wingchun_stumble",
+    "name": "stumble",
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "down_dur": 1,
+    "messages": [ "You stumble %s with your onslaught", "<npcname> stumbles %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_wingchun_counter",
+    "name": "Receive and Counter",
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "dodge_counter": true,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ],
+    "messages": [ "You receive %s's gift of violence, and return it in kind", "<npcname> receives %s's attack, and counters" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_wingchun_disarm",
+    "name": "disarm",
+    "min_unarmed": 6,
+    "unarmed_allowed": true,
+    "disarms": true,
+    "messages": [ "You disarm %s", "<npcname> disarms %s" ]
   }
 ]

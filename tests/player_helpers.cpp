@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 
+#include "avatar.h"
 #include "enums.h"
 #include "game.h"
 #include "item.h"
@@ -11,7 +12,7 @@
 #include "player.h"
 #include "inventory.h"
 #include "player_activity.h"
-#include "pldata.h"
+#include "type_id.h"
 
 int get_remaining_charges( const std::string &tool_id )
 {
@@ -67,7 +68,7 @@ void clear_player()
     dummy.per_cur = 8;
 
     const tripoint spot( 60, 60, 0 );
-    dummy.setpos( spot );
+    g->place_player( spot );
 }
 
 void process_activity( player &dummy )

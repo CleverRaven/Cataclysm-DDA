@@ -9,7 +9,7 @@
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "game.h"
+#include "string_id.h"
 
 mod_ui::mod_ui( mod_manager &mman )
     : active_manager( mman )
@@ -27,12 +27,18 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
 
     if( !mod->authors.empty() ) {
         info << "<color_light_blue>" << ngettext( "Author", "Authors", mod->authors.size() )
-             << "</color>: " << enumerate_as_string( mod->authors ) << "\n";
+             << "</color>: " << enumerate_as_string( mod->authors );
+        if( mod->maintainers.empty() ) {
+            info << "\n";
+        } else {
+            info << "  ";
+        }
     }
 
     if( !mod->maintainers.empty() ) {
         info << "<color_light_blue>" << ngettext( "Maintainer", "Maintainers", mod->maintainers.size() )
-             << "</color>: " << enumerate_as_string( mod->maintainers ) << "\n";
+             << u8"</color>:\u00a0"/*non-breaking space*/
+             << enumerate_as_string( mod->maintainers ) << "\n";
     }
 
     if( !mod->dependencies.empty() ) {
@@ -98,9 +104,8 @@ void mod_ui::try_add( const mod_id &mod_to_add,
 
     // check to see if mod is a core, and if so check to see if there is already a core in the mod list
     if( mod.core ) {
-        //  (more than 0 active elements) && (active[0] is a CORE)                            &&    active[0] is not the add candidate
-        if( !active_list.empty() && active_list[0]->core &&
-            ( active_list[0] != mod_to_add ) ) {
+        //  (more than 0 active elements) && (active[0] is a CORE) && active[0] is not the add candidate
+        if( !active_list.empty() && active_list[0]->core && active_list[0] != mod_to_add ) {
             // remove existing core
             try_rem( 0, active_list );
         }
@@ -204,10 +209,10 @@ void mod_ui::try_shift( char direction, size_t &selection, std::vector<mod_id> &
     selection += selshift;
 }
 
-bool mod_ui::can_shift_up( long selection, const std::vector<mod_id> &active_list )
+bool mod_ui::can_shift_up( size_t selection, const std::vector<mod_id> &active_list )
 {
     // error catch for out of bounds
-    if( selection < 0 || selection >= static_cast<int>( active_list.size() ) ) {
+    if( selection >= active_list.size() ) {
         return false;
     }
     // dependencies of this active element
@@ -234,17 +239,17 @@ bool mod_ui::can_shift_up( long selection, const std::vector<mod_id> &active_lis
     }
 }
 
-bool mod_ui::can_shift_down( long selection, const std::vector<mod_id> &active_list )
+bool mod_ui::can_shift_down( size_t selection, const std::vector<mod_id> &active_list )
 {
     // error catch for out of bounds
-    if( selection < 0 || selection >= static_cast<int>( active_list.size() ) ) {
+    if( selection >= active_list.size() ) {
         return false;
     }
     std::vector<mod_id> dependents = mm_tree.get_dependents_of_X_as_strings(
                                          active_list[selection] );
 
     // figure out if we can move down!
-    if( selection == static_cast<int>( active_list.size() ) - 1 ) {
+    if( selection == active_list.size() - 1 ) {
         // can't move down, don't bother trying
         return false;
     }

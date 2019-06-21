@@ -2,9 +2,9 @@
 #ifndef OMDATA_H
 #define OMDATA_H
 
-#include <limits.h>
-#include <stddef.h>
-#include <stdint.h>
+#include <climits>
+#include <cstddef>
+#include <cstdint>
 #include <bitset>
 #include <list>
 #include <set>
@@ -19,13 +19,12 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 #include "optional.h"
 
-struct MonsterGroup;
-
-using mongroup_id = string_id<MonsterGroup>;
 struct city;
 class overmap_land_use_code;
+struct MonsterGroup;
 
 using overmap_land_use_code_id = string_id<overmap_land_use_code>;
 struct oter_t;
@@ -98,14 +97,14 @@ type random();
 /** Whether these directions are parallel. */
 bool are_parallel( type dir1, type dir2 );
 
-}
+} // namespace om_direction
 
 class overmap_land_use_code
 {
     public:
         overmap_land_use_code_id id = overmap_land_use_code_id::NULL_ID();
 
-        int land_use_code;
+        int land_use_code = 0;
         std::string name;
         std::string detailed_definition;
         uint32_t symbol;
@@ -162,11 +161,10 @@ enum oter_flags {
     has_sidewalk,
     line_drawing, // does this tile have 8 versions, including straights, bends, tees, and a fourway?
     subway_connection,
+    lake,
+    lake_shore,
     num_oter_flags
 };
-
-using oter_id = int_id<oter_t>;
-using oter_str_id = string_id<oter_t>;
 
 struct oter_type_t {
     public:
@@ -313,6 +311,14 @@ struct oter_t {
                    type->land_use_code == land_use_code_wetland_saltwater;
         }
 
+        bool is_lake() const {
+            return type->has_flag( lake );
+        }
+
+        bool is_lake_shore() const {
+            return type->has_flag( lake_shore );
+        }
+
     private:
         om_direction::type dir = om_direction::type::none;
         uint32_t symbol;
@@ -357,6 +363,7 @@ struct overmap_special_terrain {
     tripoint p;
     oter_str_id terrain;
     std::set<std::string> flags;
+    std::set<string_id<overmap_location>> locations;
 
     template<typename JsonStream>
     void deserialize( JsonStream &jsin ) {
@@ -364,7 +371,14 @@ struct overmap_special_terrain {
         om.read( "point", p );
         om.read( "overmap", terrain );
         om.read( "flags", flags );
+        om.read( "locations", locations );
     }
+
+    /**
+     * Returns whether this terrain of the special can be placed on the specified terrain.
+     * It's true if oter meets any of locations.
+     */
+    bool can_be_placed_on( const oter_id &oter ) const;
 };
 
 struct overmap_special_connection {
@@ -391,11 +405,6 @@ class overmap_special
     public:
         /** Returns terrain at the given point. */
         const overmap_special_terrain &get_terrain_at( const tripoint &p ) const;
-        /**
-         * Returns whether the special can be placed on the specified terrain.
-         * It's true if oter meets any of locations.
-         */
-        bool can_be_placed_on( const oter_id &oter ) const;
         /** @returns true if this special requires a city */
         bool requires_city() const;
         /** @returns whether the special at specified tripoint can belong to the specified city. */
@@ -411,7 +420,6 @@ class overmap_special
 
         bool rotatable = true;
         overmap_special_spawns spawns;
-        std::set<string_id<overmap_location>> locations;
         std::set<std::string> flags;
 
         // Used by generic_factory
@@ -419,6 +427,9 @@ class overmap_special
         void load( JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
+    private:
+        // These locations are the default values if ones are not specified for the individual OMTs.
+        std::set<string_id<overmap_location>> default_locations;
 };
 
 namespace overmap_terrains
@@ -431,7 +442,7 @@ void reset();
 
 const std::vector<oter_t> &get_all();
 
-}
+} // namespace overmap_terrains
 
 namespace overmap_land_use_codes
 {
@@ -443,7 +454,7 @@ void reset();
 
 const std::vector<overmap_land_use_code> &get_all();
 
-}
+} // namespace overmap_land_use_codes
 
 namespace overmap_specials
 {
@@ -461,13 +472,13 @@ overmap_special_batch get_default_batch( const point &origin );
  */
 overmap_special_id create_building_from( const string_id<oter_type_t> &base );
 
-}
+} // namespace overmap_specials
 
 namespace city_buildings
 {
 
 void load( JsonObject &jo, const std::string &src );
 
-}
+} // namespace city_buildings
 
 #endif

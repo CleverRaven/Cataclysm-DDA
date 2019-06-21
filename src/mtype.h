@@ -11,19 +11,14 @@
 #include "damage.h"
 #include "enum_bitset.h"
 #include "enums.h"
-#include "int_id.h"
 #include "mattack_common.h"
 #include "pathfinding.h"
-#include "string_id.h"
+#include "type_id.h"
 #include "units.h"
 
 class Creature;
 class monster;
-class monfaction;
-class emit;
 template <typename E> struct enum_traits;
-
-using emit_id = string_id<emit>;
 struct dealt_projectile_attack;
 struct species_type;
 
@@ -34,31 +29,11 @@ enum m_size : int;
 using mon_action_death  = void ( * )( monster & );
 using mon_action_attack = bool ( * )( monster * );
 using mon_action_defend = void ( * )( monster &, Creature *, dealt_projectile_attack const * );
-struct MonsterGroup;
-
-using mongroup_id = string_id<MonsterGroup>;
-struct mtype;
-
-using mtype_id = string_id<mtype>;
-using mfaction_id = int_id<monfaction>;
-using species_id = string_id<species_type>;
 using bodytype_id = std::string;
-class effect_type;
-
-using efftype_id = string_id<effect_type>;
 class JsonArray;
 class JsonObject;
-class material_type;
 
-using material_id = string_id<material_type>;
-
-typedef std::string itype_id;
-
-using emit_id = string_id<emit>;
-
-class harvest_list;
-
-using harvest_id = string_id<harvest_list>;
+using itype_id = std::string;
 
 // These are triggers which may affect the monster's anger or morale.
 // They are handled in monster::check_triggers(), in monster.cpp
@@ -139,6 +114,7 @@ enum m_flag : int {
     MF_NO_BREATHE,          // Creature can't drown and is unharmed by gas, smoke, or poison
     MF_REGENERATES_50,      // Monster regenerates very quickly over time
     MF_REGENERATES_10,      // Monster regenerates quickly over time
+    MF_REGENERATES_1,       // Monster regenerates slowly over time
     MF_REGENERATES_IN_DARK, // Monster regenerates very quickly in poorly lit tiles
     MF_FLAMMABLE,           // Monster catches fire, burns, and spreads fire to nearby objects
     MF_REVIVES,             // Monster corpse will revive after a short period of time
@@ -165,6 +141,7 @@ enum m_flag : int {
     MF_GROUP_MORALE,        // Monsters that are more courageous when near friends
     MF_INTERIOR_AMMO,       // Monster contain's its ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
     MF_CLIMBS,              // Monsters that can climb certain terrain and furniture
+    MF_PACIFIST,            // Monsters that will never use melee attack, useful for having them use grab without attacking the player
     MF_PUSH_MON,            // Monsters that can push creatures out of their way
     MF_PUSH_VEH,            // Monsters that can push vehicles out of their way
     MF_NIGHT_INVISIBILITY,  // Monsters that are invisible in poor light conditions
@@ -177,6 +154,7 @@ enum m_flag : int {
     MF_CATFOOD,             // This monster will become friendly when fed cat food.
     MF_CATTLEFODDER,        // This monster will become friendly when fed cattle fodder.
     MF_BIRDFOOD,            // This monster will become friendly when fed bird food.
+    MF_PET_MOUNTABLE,       // This monster can be mounted and ridden when tamed.
     MF_DOGFOOD,             // This monster will become friendly when fed dog food.
     MF_MILKABLE,            // This monster is milkable.
     MF_NO_BREED,            // This monster doesn't breed, even though it has breed data
@@ -268,6 +246,8 @@ struct mtype {
         int melee_skill = 0;    /** melee hit skill, 20 is superhuman hitting abilities */
         int melee_dice = 0;     /** number of dice of bonus bashing damage on melee hit */
         int melee_sides = 0;    /** number of sides those dice have */
+
+        int grab_strength = 1;    /**intensity of the effect_grabbed applied*/
 
         int sk_dodge = 0;       /** dodge skill */
 
@@ -366,6 +346,7 @@ struct mtype {
         itype_id get_meat_itype() const;
         int get_meat_chunks_count() const;
         std::string get_description() const;
+        std::string get_footsteps() const;
 
         // Historically located in monstergenerator.cpp
         void load( JsonObject &jo, const std::string &src );

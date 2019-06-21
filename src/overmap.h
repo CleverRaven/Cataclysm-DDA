@@ -2,9 +2,10 @@
 #ifndef OVERMAP_H
 #define OVERMAP_H
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <array>
+#include <climits>
 #include <functional>
 #include <iosfwd>
 #include <map>
@@ -23,6 +24,7 @@
 #include "enums.h"
 #include "mongroup.h"
 #include "optional.h"
+#include "type_id.h"
 
 class npc;
 class overmap_connection;
@@ -33,7 +35,7 @@ class monster;
 namespace pf
 {
 struct path;
-}
+} // namespace pf
 
 struct city {
     // location of the city (in overmap terrain coordinates)
@@ -41,7 +43,7 @@ struct city {
     int size;
     std::string name;
     city( const point &P = point_zero, const int S = -1 );
-    city( const int X, const int Y, const int S ) : city( point( X, Y ), S ) {};
+    city( const int X, const int Y, const int S ) : city( point( X, Y ), S ) {}
 
     operator bool() const {
         return size >= 0;
@@ -80,10 +82,10 @@ struct radio_tower {
     radio_type type;
     std::string message;
     int frequency;
-    radio_tower( int X = -1, int Y = -1, int S = -1, std::string M = "",
+    radio_tower( int X = -1, int Y = -1, int S = -1, const std::string &M = "",
                  radio_type T = MESSAGE_BROADCAST ) :
         x( X ), y( Y ), strength( S ), type( T ), message( M ) {
-        frequency = rand();
+        frequency = rng( 0, INT_MAX );
     }
 };
 
@@ -331,9 +333,15 @@ class overmap
         // Overall terrain
         void place_river( point pa, point pb );
         void place_forests();
+        void place_lakes();
+        void place_rivers( const overmap *north, const overmap *east, const overmap *south,
+                           const overmap *west );
         void place_swamps();
         void place_forest_trails();
         void place_forest_trailheads();
+
+        void place_roads( const overmap *north, const overmap *east, const overmap *south,
+                          const overmap *west );
 
         // City Building
         overmap_special_id pick_random_building_to_place( int town_dist ) const;
@@ -417,7 +425,9 @@ class overmap
 };
 
 bool is_river( const oter_id &ter );
+bool is_river_or_lake( const oter_id &ter );
 bool is_ot_type( const std::string &otype, const oter_id &oter );
+bool is_ot_prefix( const std::string &otype, const oter_id &oter );
 // Matches any oter_id that contains the substring passed in, useful when oter can be a suffix, not just a prefix.
 bool is_ot_subtype( const char *otype, const oter_id &oter );
 

@@ -11,23 +11,12 @@
     "acceptable_ammo": [ "battery" ]
   },
   {
-    "id": "battery_atomic",
-    "copy-from": "mod_battery",
-    "type": "TOOLMOD",
-    "category": "spare_parts",
-    "name": "atomic battery mod",
-    "description": "This plutonium cell has been adapted to fit conventional battery connections.  You can attach it to any battery-operated equipment, converting it to use power off the plutonium cell instead.",
-    "ammo_modifier": "plutonium",
-    "capacity_multiplier": 100,
-    "flags": [ "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
-  },
-  {
     "id": "battery_ups",
     "copy-from": "mod_battery",
     "type": "TOOLMOD",
     "category": "spare_parts",
     "name": "UPS conversion mod",
-    "description": "This device replaces conventional battery connections with a rechargeable power cell that runs off of a Unified Power System.  Having the UPS on or placing a tool in a special recharging station will slowly charge it.",
+    "description": "This device replaces conventional battery connections with a connector port that can plug into a UPS.  Any device modified with this can be used without a battery as long as you have a charged UPS with you.",
     "ammo_modifier": "battery",
     "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
@@ -66,7 +55,20 @@
     "description": "A battery compartment mod that allows the use of light batteries in tools that otherwise could not.",
     "color": "light_green",
     "acceptable_ammo": [ "battery" ],
-    "magazine_adaptor": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazine_adaptor": [
+      [
+        "battery",
+        [
+          "light_minus_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "magazine_battery_medium_mod",
@@ -77,7 +79,12 @@
     "description": "A battery compartment mod that allows the use of medium batteries in tools that otherwise could not.",
     "color": "light_green",
     "acceptable_ammo": [ "battery" ],
-    "magazine_adaptor": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazine_adaptor": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ]
   },
   {
     "id": "magazine_battery_heavy_mod",
@@ -88,6 +95,8 @@
     "description": "A battery compartment mod that allows the use of heavy batteries in tools that otherwise could not.",
     "color": "light_green",
     "acceptable_ammo": [ "battery" ],
-    "magazine_adaptor": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell" ] ] ]
+    "magazine_adaptor": [
+      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+    ]
   }
 ]

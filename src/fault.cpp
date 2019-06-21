@@ -6,7 +6,6 @@
 #include "json.h"
 #include "requirements.h"
 #include "translations.h"
-#include "item.h"
 
 static std::map<fault_id, fault> faults_all;
 

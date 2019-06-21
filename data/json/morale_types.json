@@ -250,6 +250,16 @@
     "text": "Masochism"
   },
   {
+    "id": "morale_perm_noface",
+    "type": "morale_type",
+    "text": "You have no face!"
+  },
+  {
+    "id": "morale_perm_fpmode_on",
+    "type": "morale_type",
+    "text": "You feel pumped!"
+  },
+  {
     "id": "morale_perm_hoarder",
     "type": "morale_type",
     "text": "Hoarder"
@@ -345,9 +355,24 @@
     "text": "Dug out a grave"
   },
   {
+    "id": "morale_funeral",
+    "type": "morale_type",
+    "text": "Conducted a funeral"
+  },
+  {
     "id": "morale_tree_communion",
     "type": "morale_type",
     "text": "Communed with the trees"
+  },
+  {
+    "id": "morale_accomplishment",
+    "type": "morale_type",
+    "text": "Accomplishment"
+  },
+  {
+    "id": "morale_failure",
+    "type": "morale_type",
+    "text": "Failure"
   },
   {
     "id": "morale_perm_debug",

@@ -10,7 +10,6 @@
 #include "item.h"
 #include "rng.h"
 #include "debug.h"
-#include "game.h"
 #include "json.h"
 
 enum legacy_mission_type_id {

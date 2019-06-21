@@ -1,0 +1,28 @@
+[
+  {
+    "result": "44fmj",
+    "type": "uncraft",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": 500,
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "lead", 7 ] ],
+      [ [ "44_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "gunpowder", 10 ] ],
+      [ [ "copper", 7 ] ]
+    ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
+    "result": "44magnum",
+    "type": "uncraft",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": 500,
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "lead", 10 ] ], [ [ "44_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder", 10 ] ] ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  }
+]

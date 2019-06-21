@@ -110,8 +110,8 @@
         ".": [
           { "monster": "mon_zombie_soldier", "chance": 1 },
           { "monster": "mon_zombie_bio_op", "chance": 1 },
-          { "monster": "mon_zombie_grenadier", "chance": 1 },
-          { "monster": "mon_zombie_grenadier_elite", "chance": 1 },
+          { "monster": "mon_dispatch", "chance": 1 },
+          { "monster": "mon_dispatch_military", "chance": 1 },
           { "monster": "mon_zombie_flamer", "chance": 1 }
         ]
       }
@@ -234,8 +234,8 @@
         ".": [
           { "monster": "mon_zombie_soldier", "chance": 1 },
           { "monster": "mon_zombie_bio_op", "chance": 1 },
-          { "monster": "mon_zombie_grenadier", "chance": 1 },
-          { "monster": "mon_zombie_grenadier_elite", "chance": 1 },
+          { "monster": "mon_dispatch", "chance": 1 },
+          { "monster": "mon_dispatch_military", "chance": 1 },
           { "monster": "mon_zombie_flamer", "chance": 1 }
         ]
       }

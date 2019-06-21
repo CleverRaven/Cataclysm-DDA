@@ -1,21 +1,16 @@
 #include "mission.h" // IWYU pragma: associated
 
 #include <vector>
-#include <algorithm>
 #include <memory>
 
+#include "avatar.h"
 #include "computer.h"
-#include "coordinate_conversions.h"
 #include "debug.h"
-#include "dialogue.h"
 #include "game.h"
-#include "json.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
-// TODO: Remove this include once 2D wrappers are no longer needed
-#include "mapgen_functions.h"
 #include "messages.h"
 #include "name.h"
 #include "npc.h"
@@ -95,8 +90,9 @@ void mission_start::kill_horde_master( mission *miss )
         debugmsg( "could not find mission NPC %d", miss->npc_id );
         return;
     }
-    p->set_attitude( NPCATT_FOLLOW );//npc joins you
-    //pick one of the below locations for the horde to haunt
+    // Npc joins you
+    p->set_attitude( NPCATT_FOLLOW );
+    // Pick one of the below locations for the horde to haunt
     const auto center = p->global_omt_location();
     tripoint site = overmap_buffer.find_closest( center, "office_tower_1", 0, false );
     if( site == overmap::invalid_tripoint ) {
@@ -210,7 +206,7 @@ void mission_start::place_npc_software( mission *miss )
     tripoint comppoint;
 
     oter_id oter = overmap_buffer.ter( place.x, place.y, place.z );
-    if( is_ot_type( "house", oter ) || is_ot_type( "s_pharm", oter ) || oter == "" ) {
+    if( is_ot_prefix( "house", oter ) || is_ot_type( "s_pharm", oter ) || oter == "" ) {
         comppoint = find_potential_computer_point( compmap, place.z );
     }
 
@@ -252,7 +248,8 @@ void mission_start::place_deposit_box( mission *miss )
         debugmsg( "could not find mission NPC %d", miss->npc_id );
         return;
     }
-    p->set_attitude( NPCATT_FOLLOW );//npc joins you
+    // Npc joins you
+    p->set_attitude( NPCATT_FOLLOW );
     tripoint site = overmap_buffer.find_closest( p->global_omt_location(), "bank", 0, false );
     if( site == overmap::invalid_tripoint ) {
         site = overmap_buffer.find_closest( p->global_omt_location(), "office_tower_1", 0, false );
@@ -587,7 +584,7 @@ void mission_start::place_book( mission * )
 void mission_start::reveal_refugee_center( mission *miss )
 {
     mission_target_params t;
-    t.overmap_terrain_subtype = "evac_center_18";
+    t.overmap_terrain_subtype = "refctr_S3e";
     t.overmap_special = overmap_special_id( "evac_center" );
     t.mission_pointer = miss;
     t.search_range = 0;

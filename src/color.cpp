@@ -1,6 +1,6 @@
 #include "color.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm> // for std::count
 #include <iterator>
 #include <map>
@@ -14,6 +14,7 @@
 #include "json.h"
 #include "output.h"
 #include "path_info.h"
+#include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui.h"
@@ -132,8 +133,7 @@ color_id color_manager::color_to_id( const nc_color &color ) const
 nc_color color_manager::get( const color_id id ) const
 {
     if( id >= num_colors ) {
-        debugmsg( "Invalid color index: %d. Color array size: %ld", id,
-                  static_cast<unsigned long>( color_array.size() ) );
+        debugmsg( "Invalid color index: %d. Color array size: %zd", id, color_array.size() );
         return nc_color();
     }
 
@@ -158,10 +158,7 @@ nc_color color_manager::get_invert( const nc_color &color ) const
 
 nc_color color_manager::get_random() const
 {
-    auto item = color_array.begin();
-    std::advance( item, rand() % num_colors );
-
-    return item->color;
+    return random_entry( color_array ).color;
 }
 
 void color_manager::add_color( const color_id col, const std::string &name,
@@ -548,7 +545,9 @@ nc_color cyan_background( const nc_color &c )
  */
 nc_color color_from_string( const std::string &color )
 {
-
+    if( color.empty() ) {
+        return c_unset;
+    }
     std::string new_color = color;
     if( new_color.substr( 1, 1 ) != "_" ) { //c_  //i_  //h_
         new_color = "c_" + new_color;
@@ -647,6 +646,17 @@ std::string colorize( const std::string &text, const nc_color &color )
     return get_tag_from_color( color ) + text + "</color>";
 }
 
+std::string get_note_string_from_color( const nc_color &color )
+{
+    for( auto i : color_by_string_map ) {
+        if( i.second.color == color ) {
+            return i.first;
+        }
+    }
+    // The default note string.
+    return "Y";
+}
+
 nc_color get_note_color( const std::string &note_id )
 {
     const auto candidate_color = color_by_string_map.find( note_id );
@@ -677,7 +687,7 @@ void color_manager::clear()
     }
 }
 
-void draw_header( const catacurses::window &w )
+static void draw_header( const catacurses::window &w )
 {
     int tmpx = 0;
     tmpx += shortcut_print( w, 0, tmpx, c_white, c_light_green,

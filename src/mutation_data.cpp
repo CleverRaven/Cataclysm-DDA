@@ -15,11 +15,9 @@
 #include "trait_group.h"
 #include "translations.h"
 #include "generic_factory.h"
-#include "itype.h"
-#include "player.h"
 
-typedef std::map<trait_group::Trait_group_tag, std::shared_ptr<Trait_group>> TraitGroupMap;
-typedef std::set<trait_id> TraitSet;
+using TraitGroupMap = std::map<trait_group::Trait_group_tag, std::shared_ptr<Trait_group>>;
+using TraitSet = std::set<trait_id>;
 
 TraitSet trait_blacklist;
 TraitGroupMap trait_groups;
@@ -27,7 +25,7 @@ TraitGroupMap trait_groups;
 namespace
 {
 generic_factory<mutation_branch> trait_factory( "trait" );
-}
+} // namespace
 
 std::vector<dream> dreams;
 std::map<std::string, std::vector<trait_id> > mutations_category;
@@ -52,7 +50,7 @@ bool string_id<Trait_group>::is_valid() const
 }
 
 static void extract_mod( JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int> &data,
-                         const std::string &mod_type, bool active, std::string type_key )
+                         const std::string &mod_type, bool active, const std::string &type_key )
 {
     int val = j.get_int( mod_type, 0 );
     if( val != 0 ) {
@@ -103,6 +101,8 @@ void mutation_category_trait::load( JsonObject &jsobj )
     new_category.iv_sound = jsobj.get_bool( "iv_sound", false );
     new_category.raw_iv_sound_message = jsobj.get_string( "iv_sound_message",
                                         translate_marker( "You inject yoursel-arRGH!" ) );
+    new_category.raw_iv_sound_id = jsobj.get_string( "iv_sound_id", "shout" );
+    new_category.raw_iv_sound_variant = jsobj.get_string( "iv_sound_variant", "default" );
     new_category.iv_noise = jsobj.get_int( "iv_noise", 0 );
     new_category.iv_sleep = jsobj.get_bool( "iv_sleep", false );
     new_category.raw_iv_sleep_message = jsobj.get_string( "iv_sleep_message",
@@ -136,6 +136,16 @@ std::string mutation_category_trait::iv_message() const
 std::string mutation_category_trait::iv_sound_message() const
 {
     return _( raw_iv_sound_message );
+}
+
+std::string mutation_category_trait::iv_sound_id() const
+{
+    return _( raw_iv_sound_id );
+}
+
+std::string mutation_category_trait::iv_sound_variant() const
+{
+    return _( raw_iv_sound_variant );
 }
 
 std::string mutation_category_trait::iv_sleep_message() const
@@ -341,6 +351,10 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "overmap_sight", overmap_sight, 0.0f );
     optional( jo, was_loaded, "overmap_multiplier", overmap_multiplier, 1.0f );
 
+    optional( jo, was_loaded, "mana_modifier", mana_modifier, 0 );
+    optional( jo, was_loaded, "mana_multiplier", mana_multiplier, 1.0f );
+    optional( jo, was_loaded, "mana_regen_multiplier", mana_regen_multiplier, 1.0f );
+
     if( jo.has_object( "social_modifiers" ) ) {
         JsonObject sm = jo.get_object( "social_modifiers" );
         social_mods = load_mutation_social_mods( sm );
@@ -364,6 +378,13 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
         std::string s = jsarr.next_string();
         category.push_back( s );
         mutations_category[s].push_back( trait_id( id ) );
+    }
+
+    jsarr = jo.get_array( "spells_learned" );
+    while( jsarr.has_more() ) {
+        JsonArray ja = jsarr.next_array();
+        const spell_id sp( ja.next_string() );
+        spells_learned.emplace( sp, ja.next_int() );
     }
 
     jsarr = jo.get_array( "wet_protection" );
@@ -584,7 +605,8 @@ void mutation_branch::load_trait_group( JsonObject &jsobj )
     load_trait_group( jsobj, group_id, subtype );
 }
 
-Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid, bool is_collection )
+static Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid,
+        bool is_collection )
 {
     // NOTE: If the gid is already in the map, emplace will just return an iterator to it
     auto found = ( is_collection
@@ -618,9 +640,7 @@ void mutation_branch::load_trait_group( JsonArray &entries, const trait_group::T
             JsonArray subarr = entries.next_array();
 
             trait_id id( subarr.get_string( 0 ) );
-            std::unique_ptr<Trait_creation_data> ptr(
-                new Single_trait_creator( id, subarr.get_int( 1 ) ) );
-            tg.add_entry( ptr );
+            tg.add_entry( std::make_unique<Single_trait_creator>( id, subarr.get_int( 1 ) ) );
             // Otherwise load new format {"trait": ... } or {"group": ...}
         } else {
             JsonObject subobj = entries.next_object();
@@ -706,7 +726,7 @@ void mutation_branch::add_entry( Trait_group &tg, JsonObject &obj )
             JsonObject job2 = jarr.next_object();
             add_entry( tg2, job2 );
         }
-        tg.add_entry( ptr );
+        tg.add_entry( std::move( ptr ) );
         return;
     }
 
@@ -722,7 +742,7 @@ void mutation_branch::add_entry( Trait_group &tg, JsonObject &obj )
         return;
     }
 
-    tg.add_entry( ptr );
+    tg.add_entry( std::move( ptr ) );
 }
 
 std::shared_ptr<Trait_group> mutation_branch::get_group( const trait_group::Trait_group_tag &gid )

@@ -13,8 +13,10 @@
 #include "bodypart.h"
 #include "pimpl.h"
 #include "string_formatter.h"
-#include "string_id.h"
+#include "type_id.h"
 #include "units.h"
+#include "debug.h"
+#include "enums.h"
 
 enum game_message_type : int;
 class nc_color;
@@ -31,7 +33,6 @@ class JsonObject;
 class JsonOut;
 struct tripoint;
 class time_duration;
-class material_type;
 
 enum damage_type : int;
 enum field_id : int;
@@ -43,16 +44,6 @@ struct dealt_damage_instance;
 struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct trap;
-class effect_type;
-
-using efftype_id = string_id<effect_type>;
-using material_id = string_id<material_type>;
-struct mutation_branch;
-
-using trait_id = string_id<mutation_branch>;
-class ma_technique;
-
-using matec_id = string_id<ma_technique>;
 
 enum m_size : int {
     MS_TINY = 0,    // Squirrel
@@ -79,6 +70,8 @@ class Creature
         virtual std::string get_name() const = 0;
         virtual std::string disp_name( bool possessive = false ) const = 0; // displayname for Creature
         virtual std::string skin_name() const = 0; // name of outer layer, e.g. "armor plates"
+
+        virtual std::vector<std::string> get_grammatical_genders() const;
 
         virtual bool is_player() const {
             return false;
@@ -129,6 +122,11 @@ class Creature
             A_FRIENDLY,
             A_ANY
         };
+
+        /**
+         * Simplified attitude string for unlocalized needs.
+         */
+        static const std::string attitude_raw_string( Attitude att );
 
         /**
          * Creature Attitude as String and color
@@ -479,7 +477,6 @@ class Creature
 
         int moves;
         bool underwater;
-
         void draw( const catacurses::window &w, int origin_x, int origin_y, bool inverted ) const;
         void draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const;
         /**
@@ -510,11 +507,17 @@ class Creature
         template<typename ...Args>
         void add_msg_if_player( const game_message_type type, const char *const msg,
                                 Args &&... args ) const {
+            if( type == m_debug && !debug_mode ) {
+                return;
+            }
             return add_msg_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
         void add_msg_if_player( const game_message_type type, const std::string &msg,
                                 Args &&... args ) const {
+            if( type == m_debug && !debug_mode ) {
+                return;
+            }
             return add_msg_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
         }
 
@@ -531,10 +534,16 @@ class Creature
         virtual void add_msg_if_npc( game_message_type /*type*/, const std::string &/*msg*/ ) const {}
         template<typename ...Args>
         void add_msg_if_npc( const game_message_type type, const char *const msg, Args &&... args ) const {
+            if( type == m_debug && !debug_mode ) {
+                return;
+            }
             return add_msg_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
         void add_msg_if_npc( const game_message_type type, const std::string &msg, Args &&... args ) const {
+            if( type == m_debug && !debug_mode ) {
+                return;
+            }
             return add_msg_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
         }
 
@@ -558,12 +567,18 @@ class Creature
         template<typename ...Args>
         void add_msg_player_or_npc( const game_message_type type, const char *const player_msg,
                                     const char *const npc_msg, Args &&... args ) const {
+            if( type == m_debug && !debug_mode ) {
+                return;
+            }
             return add_msg_player_or_npc( type, string_format( player_msg, std::forward<Args>( args )... ),
                                           string_format( npc_msg, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
         void add_msg_player_or_npc( const game_message_type type, const std::string &player_msg,
                                     const std::string &npc_msg, Args &&... args ) const {
+            if( type == m_debug && !debug_mode ) {
+                return;
+            }
             return add_msg_player_or_npc( type, string_format( player_msg, std::forward<Args>( args )... ),
                                           string_format( npc_msg, std::forward<Args>( args )... ) );
         }
@@ -588,12 +603,18 @@ class Creature
         template<typename ...Args>
         void add_msg_player_or_say( const game_message_type type, const char *const player_msg,
                                     const char *const npc_speech, Args &&... args ) const {
+            if( type == m_debug && !debug_mode ) {
+                return;
+            }
             return add_msg_player_or_say( type, string_format( player_msg, std::forward<Args>( args )... ),
                                           string_format( npc_speech, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
         void add_msg_player_or_say( const game_message_type type, const std::string &player_msg,
                                     const std::string &npc_speech, Args &&... args ) const {
+            if( type == m_debug && !debug_mode ) {
+                return;
+            }
             return add_msg_player_or_say( type, string_format( player_msg, std::forward<Args>( args )... ),
                                           string_format( npc_speech, std::forward<Args>( args )... ) );
         }
@@ -661,7 +682,6 @@ class Creature
         int throw_resist;
 
         bool fake;
-
         Creature();
         Creature( const Creature & ) = default;
         Creature( Creature && ) = default;
@@ -671,6 +691,7 @@ class Creature
     protected:
         virtual void on_stat_change( const std::string &, int ) {}
         virtual void on_effect_int_change( const efftype_id &, int, body_part ) {}
+        virtual void on_damage_of_type( int, damage_type, body_part ) {}
 
     public:
         body_part select_body_part( Creature *source, int hit_roll ) const;

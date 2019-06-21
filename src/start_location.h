@@ -2,12 +2,13 @@
 #ifndef START_LOCATION_H
 #define START_LOCATION_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <set>
 #include <vector>
 #include <string>
 
 #include "string_id.h"
+#include "type_id.h"
 
 class tinymap;
 class player;
@@ -15,9 +16,6 @@ class JsonObject;
 struct tripoint;
 template<typename T>
 class generic_factory;
-struct MonsterGroup;
-
-using mongroup_id = string_id<MonsterGroup>;
 
 class start_location
 {
@@ -60,9 +58,9 @@ class start_location
         void burn( const tripoint &omtstart,
                    const size_t count, const int rad ) const;
         /**
-         * Adds a map special, see mapgen.h and mapgen.cpp. Look at the namespace MapExtras.
+         * Adds a map extra, see map_extras.h and map_extras.cpp. Look at the namespace MapExtras and class map_extras.
          */
-        void add_map_special( const tripoint &omtstart, const std::string &map_special ) const;
+        void add_map_extra( const tripoint &omtstart, const std::string &map_extra ) const;
 
         void handle_heli_crash( player &u ) const;
 

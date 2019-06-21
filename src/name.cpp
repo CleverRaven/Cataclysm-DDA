@@ -1,6 +1,6 @@
 #include "name.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <string>
 #include <utility>
@@ -150,5 +150,5 @@ void clear()
 {
     names.clear();
 }
-}
+} // namespace Name
 

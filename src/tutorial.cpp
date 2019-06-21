@@ -1,12 +1,13 @@
 #include "tutorial.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <array>
 #include <memory>
 #include <string>
 #include <vector>
 
 #include "action.h"
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "game.h"
 #include "gamemode.h"
@@ -29,10 +30,9 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_stack.h"
-#include "omdata.h"
 #include "pldata.h"
 #include "units.h"
-#include "mongroup.h"
+#include "type_id.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 
@@ -47,7 +47,7 @@ bool tutorial_game::init()
         elem = false;
     }
     g->scent.reset();
-    g->temperature = 65;
+    g->weather.temperature = 65;
     // We use a Z-factor of 10 so that we don't plop down tutorial rooms in the
     // middle of the "real" game world
     g->u.normalize();
@@ -118,10 +118,10 @@ void tutorial_game::per_turn()
     }
 
     if( !tutorials_seen[LESSON_BUTCHER] ) {
-        for( size_t i = 0; i < g->m.i_at( g->u.posx(), g->u.posy() ).size(); i++ ) {
-            if( g->m.i_at( g->u.posx(), g->u.posy() )[i].is_corpse() ) {
+        for( const item &it : g->m.i_at( g->u.posx(), g->u.posy() ) ) {
+            if( it.is_corpse() ) {
                 add_message( LESSON_BUTCHER );
-                i = g->m.i_at( g->u.posx(), g->u.posy() ).size();
+                break;
             }
         }
     }

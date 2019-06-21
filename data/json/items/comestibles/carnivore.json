@@ -342,7 +342,7 @@
     "looks_like": "offal",
     "name": "piece of raw lung",
     "name_plural": "pieces of raw lung",
-    "description": "A portion of lung from an animal.  It's spongy and pink, and spoils very quickly.  It can be a delicacy if properly prepared - but if improperly prepared, it's a chewy lump of flavourless connective tissue.",
+    "description": "A portion of lung from an animal.  It's spongy and pink, and spoils very quickly.  It can be a delicacy if properly prepared - but if improperly prepared, it's a chewy lump of flavorless connective tissue.",
     "weight": 56,
     "volume": 1,
     "color": "pink",
@@ -361,7 +361,7 @@
     "looks_like": "offal_cooked",
     "name": "cooked piece of lung",
     "name_plural": "cooked pieces of lung",
-    "description": " Prepared in this way, it's a chewy grayish lump of flavourless connective tissue.  It doesn't look any tastier than it did raw, but the parasites are all cooked out.",
+    "description": " Prepared in this way, it's a chewy grayish lump of flavorless connective tissue.  It doesn't look any tastier than it did raw, but the parasites are all cooked out.",
     "parasites": 0
   },
   {
@@ -754,6 +754,24 @@
     "description": "A carefully folded raw skin harvested from a fur-bearing unnatural creature.  It still has the fur attached and is poisonous.  You can cure it for storage and tanning.",
     "price": 0,
     "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "flesh_golem_heart",
+    "name": "seeping heart",
+    "weight": 2035,
+    "color": "black_red",
+    "symbol": "%",
+    "healthy": -10,
+    "calories": 200,
+    "quench": 10,
+    "description": "A thick mass of flesh superficially resembling a mammalian heart, covered in dimpled grooves and the size of your fist.",
+    "price": 3000,
+    "material": [ "flesh" ],
+    "volume": 2,
+    "fun": -25,
+    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": false }
   },
   {
     "type": "COMESTIBLE",

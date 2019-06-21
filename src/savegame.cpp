@@ -10,6 +10,7 @@
 #include <unordered_set>
 #include <utility>
 
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -24,7 +25,6 @@
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
-#include "overmapbuffer.h"
 #include "scent_map.h"
 #include "translations.h"
 #include "tuple_hash.h"
@@ -34,7 +34,8 @@
 #include "overmap_types.h"
 #include "player.h"
 #include "regional_settings.h"
-#include "itype.h"
+#include "int_id.h"
+#include "string_id.h"
 
 #if defined(__ANDROID__)
 #include "input.h"
@@ -74,6 +75,7 @@ void game::serialize( std::ostream &fout )
     json.member( "turn", static_cast<int>( calendar::turn ) );
     json.member( "calendar_start", static_cast<int>( calendar::start ) );
     json.member( "initial_season", static_cast<int>( calendar::initial_season ) );
+    json.member( "auto_travel_mode", auto_travel_mode );
     json.member( "run_mode", static_cast<int>( safe_mode ) );
     json.member( "mostseen", mostseen );
     // current map coordinates
@@ -135,7 +137,7 @@ std::string scent_map::serialize() const
     return rle_out.str();
 }
 
-void chkversion( std::istream &fin )
+static void chkversion( std::istream &fin )
 {
     if( fin.peek() == '#' ) {
         std::string vline;
@@ -186,6 +188,7 @@ void game::unserialize( std::istream &fin )
         data.read( "calendar_start", tmpcalstart );
         calendar::initial_season = static_cast<season_type>( data.get_int( "initial_season",
                                    static_cast<int>( SPRING ) ) );
+        data.read( "auto_travel_mode", auto_travel_mode );
         data.read( "run_mode", tmprun );
         data.read( "mostseen", mostseen );
         data.read( "levx", levx );
@@ -279,9 +282,9 @@ void game::load_weather( std::istream &fin )
     if( fin.peek() == 'l' ) {
         std::string line;
         getline( fin, line );
-        lightning_active = ( line.compare( "lightning: 1" ) == 0 );
+        weather.lightning_active = ( line.compare( "lightning: 1" ) == 0 );
     } else {
-        lightning_active = false;
+        weather.lightning_active = false;
     }
     if( fin.peek() == 's' ) {
         std::string line;
@@ -295,7 +298,7 @@ void game::load_weather( std::istream &fin )
 void game::save_weather( std::ostream &fout )
 {
     fout << "# version " << savegame_version << std::endl;
-    fout << "lightning: " << ( lightning_active ? "1" : "0" ) << std::endl;
+    fout << "lightning: " << ( weather.lightning_active ? "1" : "0" ) << std::endl;
     fout << "seed: " << seed;
 }
 
@@ -320,7 +323,7 @@ void game::load_shortcuts( std::istream &fin )
                 std::list<input_event> &qslist = quick_shortcuts_map[ *it ];
                 qslist.clear();
                 while( ja.has_more() ) {
-                    qslist.push_back( input_event( ja.next_long(), CATA_INPUT_KEYBOARD ) );
+                    qslist.push_back( input_event( ja.next_int(), CATA_INPUT_KEYBOARD ) );
                 }
             }
         }
@@ -382,7 +385,8 @@ bool overmap::obsolete_terrain( const std::string &ter )
         "hotel_tower_1_5", "hotel_tower_1_6", "hotel_tower_1_7", "hotel_tower_1_8",
         "hotel_tower_1_9", "hotel_tower_b_1", "hotel_tower_b_2", "hotel_tower_b_3",
         "bunker", "farm", "farm_field", "subway_station",
-        "mansion", "mansion_entrance"
+        "mansion", "mansion_entrance",
+        "pool"
     };
 
     return obsolete.find( ter ) != obsolete.end();
@@ -756,6 +760,8 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                 nearby.push_back( {  0, "mansion",          -2, "mansion_entrance", "mansion_t2_north" } );
                 nearby.push_back( {  2, "mansion",          -2, "mansion",          "mansion_c2_west" } );
             }
+        } else if( old == "pool" ) {
+            new_id = oter_id( "pool_1_north" );
         }
 
         for( const auto &conv : nearby ) {
@@ -1579,7 +1585,19 @@ void faction_manager::serialize( JsonOut &jsout ) const
 
 void faction_manager::deserialize( JsonIn &jsin )
 {
-    jsin.read( factions );
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        faction add_fac;
+        jsin.read( add_fac );
+        faction *old_fac = get( add_fac.id );
+        if( old_fac ) {
+            *old_fac = add_fac;
+            // force a revalidation of add_fac
+            get( add_fac.id );
+        } else {
+            factions.emplace_back( add_fac );
+        }
+    }
 }
 
 void Creature_tracker::deserialize( JsonIn &jsin )

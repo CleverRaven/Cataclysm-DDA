@@ -1,6 +1,6 @@
 #include "veh_interact.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <cmath>
 #include <functional>
@@ -15,12 +15,14 @@
 #include <utility>
 
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "crafting.h"
 #include "debug.h"
 #include "fault.h"
 #include "game.h"
+#include "handle_liquid.h"
 #include "itype.h"
 #include "map.h"
 #include "map_selector.h"
@@ -49,7 +51,8 @@
 #include "tileray.h"
 #include "units.h"
 #include "material.h"
-#include "pldata.h"
+#include "item.h"
+#include "string_id.h"
 
 static inline const std::string status_color( bool status )
 {
@@ -434,18 +437,21 @@ task_reason veh_interact::cant_do( char mode )
     bool has_tools = false;
     bool part_free = true;
     bool has_skill = true;
+    bool enough_light = true;
 
     switch( mode ) {
         case 'i': // install mode
             enough_morale = g->u.has_morale_to_craft();
             valid_target = !can_mount.empty() && 0 == veh->tags.count( "convertible" );
             //tool checks processed later
+            enough_light = g->u.fine_detail_vision_mod() <= 4;
             has_tools = true;
             break;
         case 'r': // repair mode
             enough_morale = g->u.has_morale_to_craft();
             valid_target = !need_repair.empty() && cpart >= 0;
             has_tools = true; // checked later
+            enough_light = g->u.fine_detail_vision_mod() <= 4;
             break;
 
         case 'm': { // mend mode
@@ -459,6 +465,7 @@ task_reason veh_interact::cant_do( char mode )
                     return !pt.faults().empty();
                 }
             } );
+            enough_light = g->u.fine_detail_vision_mod() <= 4;
             has_tools = true; // checked later
         }
         break;
@@ -473,6 +480,7 @@ task_reason veh_interact::cant_do( char mode )
             //tool and skill checks processed later
             has_tools = true;
             has_skill = true;
+            enough_light = g->u.fine_detail_vision_mod() <= 4;
             break;
         case 's': // siphon mode
             valid_target = false;
@@ -498,6 +506,7 @@ task_reason veh_interact::cant_do( char mode )
             valid_target = wheel != nullptr;
             ///\EFFECT_STR allows changing tires on heavier vehicles without a jack
             has_tools = has_wrench && has_wheel && ( g->u.can_lift( *veh ) || has_jack );
+            enough_light = g->u.fine_detail_vision_mod() <= 4;
             break;
 
         case 'w': // assign crew
@@ -521,6 +530,9 @@ task_reason veh_interact::cant_do( char mode )
     }
     if( !enough_morale ) {
         return LOW_MORALE;
+    }
+    if( !enough_light ) {
+        return LOW_LIGHT;
     }
     if( !valid_target ) {
         return INVALID_TARGET;
@@ -576,7 +588,6 @@ bool veh_interact::can_install_part()
     if( is_drive_conflict() ) {
         return false;
     }
-
     if( sel_vpart_info->has_flag( "FUNNEL" ) ) {
         if( std::none_of( parts_here.begin(), parts_here.end(), [&]( const int e ) {
         return veh->parts[e].is_tank();
@@ -735,7 +746,9 @@ bool veh_interact::do_install( std::string &msg )
         case LOW_MORALE:
             msg = _( "Your morale is too low to construct..." );
             return false;
-
+        case LOW_LIGHT:
+            msg = _( "It's too dark to see what you are doing..." );
+            return false;
         case INVALID_TARGET:
             msg = _( "Cannot install any part here." );
             return false;
@@ -822,6 +835,7 @@ bool veh_interact::do_install( std::string &msg )
                part.has_flag( "SEAT" ) ||
                part.has_flag( "BED" ) ||
                part.has_flag( "SPACE_HEATER" ) ||
+               part.has_flag( "COOLER" ) ||
                part.has_flag( "DOOR_MOTOR" ) ||
                part.has_flag( "WATER_PURIFIER" ) ||
                part.has_flag( "WORKBENCH" );
@@ -904,6 +918,10 @@ bool veh_interact::do_install( std::string &msg )
         }
         if( action == "INSTALL" || action == "CONFIRM" ) {
             if( can_install ) {
+                if( veh->is_foldable() && !sel_vpart_info->has_flag( "FOLDABLE" ) &&
+                    !query_yn( _( "Installing this part will make the vehicle unfoldable. Continue?" ) ) ) {
+                    return true;
+                }
                 const auto &shapes = vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->item ];
                 int selected_shape = -1;
                 if( shapes.size() > 1 ) {  // more than one shape available, display selection
@@ -991,7 +1009,9 @@ bool veh_interact::do_repair( std::string &msg )
         case LOW_MORALE:
             msg = _( "Your morale is too low to repair..." );
             return false;
-
+        case LOW_LIGHT:
+            msg = _( "It's too dark to see what you are doing..." );
+            return false;
         case INVALID_TARGET: {
             vehicle_part *most_repairable = get_most_repariable_part();
             if( most_repairable ) {
@@ -1043,7 +1063,7 @@ bool veh_interact::do_repair( std::string &msg )
 
         werase( w_parts );
         veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart,
-                              need_repair[pos] );
+                              need_repair[pos], true );
         wrefresh( w_parts );
 
         const std::string action = main_context.handle_input();
@@ -1059,7 +1079,7 @@ bool veh_interact::do_repair( std::string &msg )
 
         } else if( action == "QUIT" ) {
             werase( w_parts );
-            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1 );
+            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1, true );
             wrefresh( w_parts );
             werase( w_msg );
             wrefresh( w_msg );
@@ -1079,7 +1099,9 @@ bool veh_interact::do_mend( std::string &msg )
         case LOW_MORALE:
             msg = _( "Your morale is too low to mend..." );
             return false;
-
+        case LOW_LIGHT:
+            msg = _( "It's too dark to see what you are doing..." );
+            return false;
         case INVALID_TARGET:
             msg = _( "No faulty parts require mending." );
             return false;
@@ -1604,7 +1626,9 @@ bool veh_interact::do_remove( std::string &msg )
         case LOW_MORALE:
             msg = _( "Your morale is too low to construct..." );
             return false;
-
+        case LOW_LIGHT:
+            msg = _( "It's too dark to see what you are doing..." );
+            return false;
         case INVALID_TARGET:
             msg = _( "No parts here." );
             return false;
@@ -1633,7 +1657,7 @@ bool veh_interact::do_remove( std::string &msg )
     while( true ) {
         //redraw list of parts
         werase( w_parts );
-        veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, pos );
+        veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, pos, true );
         wrefresh( w_parts );
         int part = parts_here[ pos ];
 
@@ -1655,7 +1679,7 @@ bool veh_interact::do_remove( std::string &msg )
             break;
         } else if( action == "QUIT" ) {
             werase( w_parts );
-            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1 );
+            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1, true );
             wrefresh( w_parts );
             werase( w_msg );
             wrefresh( w_msg );
@@ -1698,7 +1722,7 @@ bool veh_interact::do_siphon( std::string &msg )
         const int idx = veh->find_part( base );
         item liquid( base.contents.back() );
         const int liq_charges = liquid.charges;
-        if( g->handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
+        if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
             veh->drain( idx, liq_charges - liquid.charges );
         }
         return true;
@@ -1927,12 +1951,12 @@ void veh_interact::move_cursor( int dx, int dy, int dstart_at )
         obstruct = true;
     }
     nc_color col = cpart >= 0 ? veh->part_color( cpart ) : c_black;
-    long sym = cpart >= 0 ? veh->part_sym( cpart ) : ' ';
+    int sym = cpart >= 0 ? veh->part_sym( cpart ) : ' ';
     mvwputch( w_disp, hh, hw, obstruct ? red_background( col ) : hilite( col ),
               special_symbol( sym ) );
     wrefresh( w_disp );
     werase( w_parts );
-    veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1 );
+    veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1, true );
     wrefresh( w_parts );
 
     werase( w_msg );
@@ -2078,7 +2102,7 @@ void veh_interact::display_veh()
     std::vector<int> structural_parts = veh->all_parts_at_location( "structure" );
     for( auto &structural_part : structural_parts ) {
         const int p = structural_part;
-        long sym = veh->part_sym( p );
+        int sym = veh->part_sym( p );
         nc_color col = veh->part_color( p );
 
         int x =   veh->parts[p].mount.y + ddy;
@@ -2594,7 +2618,7 @@ void veh_interact::count_durability()
         return lhs + rhs.base.max_damage();
     } );
 
-    int pct = 100 * qty / total;
+    int pct = total ? 100 * qty / total : 0;
 
     if( pct < 5 ) {
         total_durability_text = _( "like new" );
@@ -2626,7 +2650,7 @@ void veh_interact::count_durability()
  * @param vpid The id of the vpart type to look for.
  * @return The item that was consumed.
  */
-item consume_vpart_item( const vpart_id &vpid )
+static item consume_vpart_item( const vpart_id &vpid )
 {
     std::vector<bool> candidates;
     const itype_id itid = vpid.obj().item;
@@ -2678,7 +2702,7 @@ item consume_vpart_item( const vpart_id &vpid )
     if( candidates[selection] ) {
         item_used = g->u.use_amount( itid, 1 );
     } else {
-        long quantity = 1;
+        int quantity = 1;
         item_used = g->m.use_amount( g->u.pos(), PICKUP_RANGE, itid, quantity );
     }
     remove_ammo( item_used, g->u );
@@ -2711,7 +2735,7 @@ void act_vehicle_siphon( vehicle *veh )
         const int idx = veh->find_part( base );
         item liquid( base.contents.back() );
         const int liq_charges = liquid.charges;
-        if( g->handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
+        if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
             veh->drain( idx, liq_charges - liquid.charges );
             veh->invalidate_mass();
         }

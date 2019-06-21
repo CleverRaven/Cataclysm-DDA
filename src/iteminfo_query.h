@@ -2,7 +2,7 @@
 #ifndef ITEMINFO_QUERY_H
 #define ITEMINFO_QUERY_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <bitset>
 #include <string>
 #include <vector>
@@ -51,6 +51,7 @@ enum class iteminfo_parts : size_t {
     AMMO_DAMAGE_DISPERSION,
     AMMO_DAMAGE_RECOIL,
     AMMO_FX_RECYCLED,
+    AMMO_FX_BLACKPOWDER,
     AMMO_FX_CANTMISSFIRE,
     AMMO_FX_INDENDIARY,
 
@@ -165,7 +166,7 @@ enum class iteminfo_parts : size_t {
     DESCRIPTION_FLAGS_SIDED,
     DESCRIPTION_FLAGS_POWERARMOR,
     DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT,
-    DESCRIPTION_IRRIDATION,
+    DESCRIPTION_IRRADIATION,
 
     DESCRIPTION_RECHARGE_UPSMODDED,
     DESCRIPTION_RECHARGE_NORELOAD,

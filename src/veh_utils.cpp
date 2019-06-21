@@ -9,6 +9,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "calendar.h"
 #include "craft_command.h"
 #include "game.h"
@@ -54,10 +55,10 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who
                       2 ) ) );
 }
 
-vehicle_part &most_repairable_part( vehicle &veh, const Character &who_arg, bool only_repairable )
+vehicle_part &most_repairable_part( vehicle &veh, Character &who_arg, bool only_repairable )
 {
     // TODO: Get rid of this cast after moving relevant functions down to Character
-    player &who = ( player & )who_arg;
+    player &who = static_cast<player &>( who_arg );
     const auto &inv = who.crafting_inventory();
 
     enum repairable_status {
@@ -111,7 +112,7 @@ vehicle_part &most_repairable_part( vehicle &veh, const Character &who_arg, bool
 bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
 {
     // TODO: Get rid of this cast after moving relevant functions down to Character
-    player &who = ( player & )who_c;
+    player &who = static_cast<player &>( who_c );
     int part_index = veh.index_of_part( &pt );
     auto &vp = pt.info();
 
@@ -150,8 +151,11 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     }
 
     // If part is broken, it will be destroyed and references invalidated
-    std::string partname = pt.name();
-    if( pt.is_broken() ) {
+    std::string partname = pt.name( false );
+    const std::string startdurability = "<color_" + string_from_color( pt.get_base().damage_color() ) +
+                                        ">" + pt.get_base(). damage_symbol() + " </color>";
+    bool wasbroken = pt.is_broken();
+    if( wasbroken ) {
         const int dir = pt.direction;
         point loc = pt.mount;
         auto replacement_id = pt.info().get_id();
@@ -165,8 +169,11 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     }
 
     // TODO: NPC doing that
-    who.add_msg_if_player( m_good, _( "You repair the %1$s's %2$s." ), veh.name, partname );
+    who.add_msg_if_player( m_good,
+                           wasbroken ? _( "You replace the %1$s's %2$s. (was %3$s)" ) :
+                           _( "You repair the %1$s's %2$s. (was %3$s)" ), veh.name,
+                           partname, startdurability );
     return true;
 }
 
-}
+} // namespace veh_utils

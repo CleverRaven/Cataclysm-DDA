@@ -2,8 +2,8 @@
 #ifndef INVENTORY_UI_H
 #define INVENTORY_UI_H
 
-#include <limits.h>
-#include <stddef.h>
+#include <climits>
+#include <cstddef>
 #include <functional>
 #include <limits>
 #include <memory>
@@ -46,7 +46,7 @@ class inventory_entry
         item_location location;
 
         size_t chosen_count = 0;
-        long custom_invlet = LONG_MIN;
+        int custom_invlet = INT_MIN;
         std::string cached_name;
 
         inventory_entry( const item_location &location, size_t stack_size,
@@ -122,7 +122,7 @@ class inventory_entry
 
         size_t get_available_count() const;
         const item_category *get_category_ptr() const;
-        long get_invlet() const;
+        int get_invlet() const;
         nc_color get_invlet_color() const;
         void update_cache();
 
@@ -264,7 +264,7 @@ class inventory_column
         std::vector<inventory_entry *> get_entries(
             const std::function<bool( const inventory_entry &entry )> &filter_func ) const;
 
-        inventory_entry *find_by_invlet( long invlet ) const;
+        inventory_entry *find_by_invlet( int invlet ) const;
 
         void draw( const catacurses::window &win, size_t x, size_t y ) const;
 
@@ -304,7 +304,7 @@ class inventory_column
         /** Resets width to original (unchanged). */
         void reset_width();
         /** Returns next custom inventory letter. */
-        long reassign_custom_invlets( const player &p, long min_invlet, long max_invlet );
+        int reassign_custom_invlets( const player &p, int min_invlet, int max_invlet );
         /** Reorder entries, repopulate titles, adjust to the new height. */
         virtual void prepare_paging( const std::string &filter = "" );
         /**
@@ -527,7 +527,7 @@ class inventory_selector
         void draw_frame( const catacurses::window &w ) const;
 
         /** @return an entry from all entries by its invlet */
-        inventory_entry *find_entry_by_invlet( long invlet ) const;
+        inventory_entry *find_entry_by_invlet( int invlet ) const;
 
         const std::vector<inventory_column *> &get_all_columns() const {
             return columns;

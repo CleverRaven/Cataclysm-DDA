@@ -2,8 +2,8 @@
 #ifndef OUTPUT_H
 #define OUTPUT_H
 
-#include <stddef.h>
-#include <stdint.h>
+#include <cstddef>
+#include <cstdint>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -82,9 +82,9 @@ using chtype = int;
 #define LINE_XXXX_UNICODE 0x253C
 
 // Supports line drawing
-inline std::string string_from_long( const catacurses::chtype ch )
+inline std::string string_from_int( const catacurses::chtype ch )
 {
-    char charcode = ch;
+    catacurses::chtype charcode = ch;
     // LINE_NESW  - X for on, O for off
     switch( ch ) {
         case LINE_XOXO:
@@ -121,10 +121,10 @@ inline std::string string_from_long( const catacurses::chtype ch )
             charcode = LINE_XXXX_C;
             break;
         default:
-            charcode = static_cast<char>( ch );
+            charcode = ch;
             break;
     }
-    char buffer[2] = { charcode, '\0' };
+    char buffer[2] = { static_cast<char>( charcode ), '\0' };
     return buffer;
 }
 
@@ -210,7 +210,7 @@ std::string remove_color_tags( const std::string &text );
  * @return A vector of lines, it may contain empty strings. Each entry is at most `width`
  * console cells width.
  */
-std::vector<std::string> foldstring( std::string str, int width, const char split = ' ' );
+std::vector<std::string> foldstring( const std::string &str, int width, const char split = ' ' );
 
 /**
  * Print text with embedded @ref color_tags, x, y are in curses system.
@@ -332,15 +332,15 @@ void multipage( const catacurses::window &w, const std::vector<std::string> &tex
 std::string name_and_value( const std::string &name, int value, int field_width );
 std::string name_and_value( const std::string &name, const std::string &value, int field_width );
 
-void wputch( const catacurses::window &w, nc_color FG, long ch );
-// Using long ch is deprecated, use an UTF-8 encoded string instead
-void mvwputch( const catacurses::window &w, int y, int x, nc_color FG, long ch );
+void wputch( const catacurses::window &w, nc_color FG, int ch );
+// Using int ch is deprecated, use an UTF-8 encoded string instead
+void mvwputch( const catacurses::window &w, int y, int x, nc_color FG, int ch );
 void mvwputch( const catacurses::window &w, int y, int x, nc_color FG, const std::string &ch );
-// Using long ch is deprecated, use an UTF-8 encoded string instead
-void mvwputch_inv( const catacurses::window &w, int y, int x, nc_color FG, long ch );
+// Using int ch is deprecated, use an UTF-8 encoded string instead
+void mvwputch_inv( const catacurses::window &w, int y, int x, nc_color FG, int ch );
 void mvwputch_inv( const catacurses::window &w, int y, int x, nc_color FG, const std::string &ch );
-// Using long ch is deprecated, use an UTF-8 encoded string instead
-void mvwputch_hi( const catacurses::window &w, int y, int x, nc_color FG, long ch );
+// Using int ch is deprecated, use an UTF-8 encoded string instead
+void mvwputch_hi( const catacurses::window &w, int y, int x, nc_color FG, int ch );
 void mvwputch_hi( const catacurses::window &w, int y, int x, nc_color FG, const std::string &ch );
 
 void mvwprintz( const catacurses::window &w, int y, int x, const nc_color &FG,
@@ -416,17 +416,17 @@ std::vector<std::string> get_hotkeys( const std::string &s );
  *
  */
 /*@{*/
-typedef enum {
+enum PopupFlags {
     PF_NONE        = 0,
     PF_GET_KEY     = 1 << 0,
     PF_NO_WAIT     = 1 << 1,
     PF_ON_TOP      = 1 << 2,
     PF_FULLSCREEN  = 1 << 3,
     PF_NO_WAIT_ON_TOP = PF_NO_WAIT | PF_ON_TOP,
-} PopupFlags;
+};
 
 template<typename ...Args>
-inline long popup_getkey( const char *const mes, Args &&... args )
+inline int popup_getkey( const char *const mes, Args &&... args )
 {
     return popup( string_format( mes, std::forward<Args>( args )... ), PF_GET_KEY );
 }
@@ -451,7 +451,7 @@ inline void popup( const char *mes, Args &&... args )
 {
     popup( string_format( mes, std::forward<Args>( args )... ), PF_NONE );
 }
-long popup( const std::string &text, PopupFlags flags = PF_NONE );
+int popup( const std::string &text, PopupFlags flags = PF_NONE );
 template<typename ...Args>
 inline void full_screen_popup( const char *mes, Args &&... args )
 {
@@ -504,7 +504,7 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
                              item_filter_type type );
 
 char rand_char();
-long special_symbol( long sym );
+int special_symbol( int sym );
 
 // Remove spaces from the start and the end of a string.
 std::string trim( const std::string &s );
@@ -512,6 +512,8 @@ std::string trim( const std::string &s );
 std::string trim_punctuation_marks( const std::string &s );
 // Converts the string to upper case.
 std::string to_upper_case( const std::string &s );
+
+std::string rewrite_vsnprintf( const char *msg );
 
 // TODO: move these elsewhere
 // string manipulations.
@@ -801,7 +803,7 @@ std::string format_volume( const units::volume &volume );
 std::string format_volume( const units::volume &volume, int width, bool *out_truncated,
                            double *out_value );
 
-inline const std::string format_money( unsigned long cents )
+inline const std::string format_money( int cents )
 {
     return string_format( _( "$%.2f" ), cents / 100.0 );
 }

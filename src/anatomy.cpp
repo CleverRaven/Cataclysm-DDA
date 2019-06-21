@@ -1,6 +1,6 @@
 #include "anatomy.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <array>
 #include <cmath>
 #include <numeric>
@@ -23,7 +23,7 @@ namespace
 
 generic_factory<anatomy> anatomy_factory( "anatomy" );
 
-}
+} // namespace
 
 template<>
 bool anatomy_id::is_valid() const

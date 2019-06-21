@@ -2,7 +2,7 @@
 #ifndef STRING_FORMATTER_H
 #define STRING_FORMATTER_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <string>
 #include <type_traits>
 #include <typeinfo>
@@ -243,7 +243,8 @@ class string_formatter
 
         template<typename ...Args>
         void read_conversion( const int format_arg_index, Args &&... args ) {
-            // Removes the prefix "ll", "l", "h" and "hh", we later add "ll" again and that
+            // Removes the prefix "ll", "l", "h" and "hh", "z", and "t".
+            // We later add "ll" again and that
             // would interfere with the existing prefix. We convert *all* input to (un)signed
             // long long int and use the "ll" modifier all the time. This will print the
             // expected value all the time, even when the original modifier did not match.
@@ -254,6 +255,7 @@ class string_formatter
                 if( consume_next_input_if( 'h' ) ) {
                 }
             } else if( consume_next_input_if( 'z' ) ) {
+            } else if( consume_next_input_if( 't' ) ) {
             }
             const char c = consume_next_input();
             current_format.push_back( c );
