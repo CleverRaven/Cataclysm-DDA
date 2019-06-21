@@ -1754,7 +1754,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( mod.reload_modifier != 1 && parts->test( iteminfo_parts::GUNMOD_RELOAD ) ) {
             info.emplace_back( "GUNMOD", _( "Reload modifier: " ), "",
                                iteminfo::no_newline | iteminfo::is_decimal | iteminfo::lower_is_better,
-                               *mod.reload_modifier );
+                               mod.reload_modifier );
         }
         if( mod.min_str_required_mod != 1 && parts->test( iteminfo_parts::GUNMOD_STRENGTH ) ) {
             info.emplace_back( "GUNMOD", _( "Minimum strength required modifier: " ), "",
