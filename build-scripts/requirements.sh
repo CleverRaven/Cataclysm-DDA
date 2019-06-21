@@ -21,6 +21,8 @@ if just_json; then
     export CODE_COVERAGE=""
 fi
 
+set -x
+
 if [ -n "${CODE_COVERAGE}" ]; then
   travis_retry pip install --user pyyaml cpp-coveralls
   export CXXFLAGS="$CXXFLAGS --coverage"
@@ -28,7 +30,7 @@ if [ -n "${CODE_COVERAGE}" ]; then
 fi
 
 if [ -n "$CATA_CLANG_TIDY" ]; then
-    travis_retry pip install --user compiledb
+    travis_retry pip install --user compiledb lit
 fi
 
 # Influenced by https://github.com/zer0main/battleship/blob/master/build/windows/requirements.sh

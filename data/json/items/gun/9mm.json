@@ -536,5 +536,24 @@
     "bashing": 2,
     "ammo": "9mm",
     "magazines": [ [ "9mm", [ "kpf9mag" ] ] ]
+  },
+  {
+    "id": "m17",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": "M17",
+    "description": "The M17 is a semi automatic, short recoil operated pistol derived from the SIG Sauer P320.",
+    "weight": 800,
+    "volume": 2,
+    "price": 69000,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "plastic", "steel" ],
+    "color": "dark_gray",
+    "ammo": "9mm",
+    "dispersion": 480,
+    "durability": 6,
+    "magazine_well": 1,
+    "magazines": [ [ "9mm", [ "p320mag_17rd_9x19mm" ] ] ]
   }
 ]

@@ -30,6 +30,7 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -598,7 +599,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     }
 
     std::string effects = get_effect_status();
-    long long used_space = att.first.length() + name().length() + 3;
+    size_t used_space = att.first.length() + name().length() + 3;
     trim_and_print( w, vStart++, used_space, getmaxx( w ) - used_space - 2,
                     h_white, effects );
 
@@ -1838,8 +1839,26 @@ void monster::explode()
     hp = INT_MIN + 1;
 }
 
+void monster::set_summon_time( const time_duration &length )
+{
+    summon_time_limit = length;
+}
+
+void monster::decrement_summon_timer()
+{
+    if( !summon_time_limit ) {
+        return;
+    }
+    if( *summon_time_limit <= 0_turns ) {
+        die( nullptr );
+    } else {
+        *summon_time_limit -= 1_turns;
+    }
+}
+
 void monster::process_turn()
 {
+    decrement_summon_timer();
     if( !is_hallucination() ) {
         for( const auto &e : type->emit_fields ) {
             if( e == emit_id( "emit_shock_cloud" ) ) {
@@ -2026,7 +2045,7 @@ void monster::die( Creature *nkiller )
     }
     mission::on_creature_death( *this );
     // Also, perform our death function
-    if( is_hallucination() ) {
+    if( is_hallucination() || summon_time_limit ) {
         //Hallucinations always just disappear
         mdeath::disappear( *this );
         return;
@@ -2428,7 +2447,7 @@ void monster::on_hit( Creature *source, body_part,
         return;
     }
 
-    if( rng( 0, 100 ) <= static_cast<long>( type->def_chance ) ) {
+    if( rng( 0, 100 ) <= static_cast<int>( type->def_chance ) ) {
         type->sp_defense( *this, source, proj );
     }
 

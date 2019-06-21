@@ -72,6 +72,9 @@ class iuse_transform : public iuse_actor
         /** used to set the active property of the transformed @ref target */
         bool active = false;
 
+        /**does the item requires to be worn to be activable*/
+        bool need_worn = false;
+
         /** subtracted from @ref Creature::moves when transformation is successful */
         int moves = 0;
 

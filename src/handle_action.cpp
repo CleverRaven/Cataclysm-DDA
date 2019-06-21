@@ -673,7 +673,7 @@ static void smash()
             if( vol > 20 ) {
                 // Hurt left arm too, if it was big
                 u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0,
-                               static_cast<long>( vol * .5 ) ) ) );
+                               static_cast<int>( vol * .5 ) ) ) );
             }
             u.remove_weapon();
             u.check_dead_state();
@@ -835,7 +835,8 @@ static void sleep()
     // List all active items, bionics or mutations so player can deactivate them
     std::vector<std::string> active;
     for( auto &it : u.inv_dump() ) {
-        if( it->active && it->charges > 0 && it->is_tool_reversible() ) {
+        if( it->active && ( it->charges > 0 || it->ammo_remaining() > 0 ) &&
+            it->is_transformable() ) {
             active.push_back( it->tname() );
         }
     }
@@ -936,6 +937,7 @@ static void loot()
         PlantPlots = 8,
         FertilizePlots = 16,
         HarvestPlots = 32,
+        ConstructPlots = 64,
     };
 
     auto just_one = []( int flags ) {
@@ -963,6 +965,9 @@ static void loot()
         flags |= FertilizePlots;
         flags |= HarvestPlots;
     }
+    flags |= g->check_near_zone( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
+                                 u.pos() ) ? ConstructPlots : 0;
+
 
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
@@ -1004,6 +1009,10 @@ static void loot()
             menu.addentry_desc( HarvestPlots, true, 'h', _( "Harvest plots" ),
                                 _( "Harvest any full-grown plants from nearby Farm: Plot zones" ) );
         }
+        if( flags & ConstructPlots ) {
+            menu.addentry_desc( ConstructPlots, true, 'c', _( "Construct Plots" ),
+                                _( "Work on any nearby Blueprint: construction zones" ) );
+        }
 
         menu.query();
         flags = ( menu.ret >= 0 ) ? menu.ret : None;
@@ -1037,6 +1046,9 @@ static void loot()
             break;
         case HarvestPlots:
             u.assign_activity( activity_id( "ACT_HARVEST_PLOT" ) );
+            break;
+        case ConstructPlots:
+            u.assign_activity( activity_id( "ACT_BLUEPRINT_CONSTRUCTION" ) );
             break;
         default:
             debugmsg( "Unsupported flag" );
@@ -1479,6 +1491,9 @@ bool game::handle_action()
             const std::string &&name = inp_mngr.get_keyname( ch, evt.type, true );
             if( !get_option<bool>( "NO_UNKNOWN_COMMAND_MSG" ) ) {
                 add_msg( m_info, _( "Unknown command: \"%s\" (%ld)" ), name, ch );
+                add_msg( m_info, _( "%s at any time to see and edit keybindings relevant to "
+                                    "the current context." ),
+                         press_x( ACTION_KEYBINDINGS ) );
             }
         }
         return false;
@@ -1936,7 +1951,7 @@ bool game::handle_action()
                 } else if( g->u.fine_detail_vision_mod() > 4 && !g->u.has_trait( trait_DEBUG_HS ) ) {
                     add_msg( m_info, _( "It is too dark to construct right now." ) );
                 } else {
-                    construction_menu();
+                    construction_menu( false );
                 }
                 break;
 

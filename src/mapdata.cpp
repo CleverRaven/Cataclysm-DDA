@@ -28,7 +28,7 @@ const units::volume DEFAULT_MAX_VOLUME_IN_SQUARE = units::from_liter( 1000 );
 generic_factory<ter_t> terrain_data( "terrain", "id", "aliases" );
 generic_factory<furn_t> furniture_data( "furniture", "id", "aliases" );
 
-}
+} // namespace
 
 /** @relates int_id */
 template<>
@@ -222,8 +222,8 @@ bool map_bash_info::load( JsonObject &jsobj, const std::string &member, bool is_
 
     bash_below = j.get_bool( "bash_below", false );
 
-    sound = j.get_string( "sound", _( "smash!" ) );
-    sound_fail = j.get_string( "sound_fail", _( "thump!" ) );
+    sound = _( j.get_string( "sound", "smash!" ) );
+    sound_fail = _( j.get_string( "sound_fail", "thump!" ) );
 
     if( is_furniture ) {
         furn_set = furn_str_id( j.get_string( "furn_set", "f_null" ) );
@@ -263,6 +263,7 @@ bool map_deconstruct_info::load( JsonObject &jsobj, const std::string &member, b
         ter_set = ter_str_id( j.get_string( "ter_set" ) );
     }
     can_do = true;
+    deconstruct_above = j.get_bool( "deconstruct_above", false );
 
     JsonIn &stream = *j.get_raw( "items" );
     drop_group = item_group::load_item_group( stream, "collection" );
@@ -1081,7 +1082,7 @@ season_type string_to_enum<season_type>( const std::string &data )
 {
     return string_to_enum_look_up( season_map, data );
 }
-}
+} // namespace io
 
 void map_data_common_t::load( JsonObject &jo, const std::string &src )
 {

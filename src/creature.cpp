@@ -969,13 +969,13 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
         }
         ( *effects )[eff_id][bp] = e;
         if( is_player() ) {
-            // Only print the message if we didn't already have it
             if( !type.get_apply_message().empty() ) {
-                add_msg( type.gain_game_message_type(),
-                         _( type.get_apply_message() ) );
+                add_msg( type.gain_game_message_type(), _( type.get_apply_message() ) );
             }
-            add_memorial_log( pgettext( "memorial_male", type.get_apply_memorial_log().c_str() ),
-                              pgettext( "memorial_female", type.get_apply_memorial_log().c_str() ) );
+            if( !type.get_apply_memorial_log().empty() ) {
+                add_memorial_log( pgettext( "memorial_male", type.get_apply_memorial_log().c_str() ),
+                                  pgettext( "memorial_female", type.get_apply_memorial_log().c_str() ) );
+            }
         }
         on_effect_int_change( eff_id, e.get_intensity(), bp );
         // Perform any effect addition effects.
@@ -1020,13 +1020,13 @@ bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
     const effect_type &type = eff_id.obj();
 
     if( is_player() ) {
-        // Print the removal message and add the memorial log if needed
         if( !type.get_remove_message().empty() ) {
-            add_msg( type.lose_game_message_type(),
-                     _( type.get_remove_message() ) );
+            add_msg( type.lose_game_message_type(), _( type.get_remove_message() ) );
         }
-        add_memorial_log( pgettext( "memorial_male", type.get_remove_memorial_log().c_str() ),
-                          pgettext( "memorial_female", type.get_remove_memorial_log().c_str() ) );
+        if( !type.get_remove_memorial_log().empty() ) {
+            add_memorial_log( pgettext( "memorial_male", type.get_remove_memorial_log().c_str() ),
+                              pgettext( "memorial_female", type.get_remove_memorial_log().c_str() ) );
+        }
     }
 
     // num_bp means remove all of a given effect id

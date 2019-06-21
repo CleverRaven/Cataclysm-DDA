@@ -36,20 +36,6 @@ struct null_deleter {
     void operator()( T * ) const {}
 };
 
-namespace cata
-{
-
-/**
- * Until we can use std::make_unique, have our own
- */
-template<typename T, typename... Args>
-std::unique_ptr<T> make_unique( Args &&... args )
-{
-    return std::unique_ptr<T>( new T( std::forward<Args>( args )... ) );
-}
-
-}
-
 /**
  * Type of object that a measurement is taken on.  Used, for example, to display wind speed in m/s
  * while displaying vehicle speed in km/h.

@@ -114,7 +114,7 @@ struct islot_comestible {
     std::string tool = "null";
 
     /** Defaults # of charges (drugs, loaf of bread? etc) */
-    long def_charges = 1;
+    int def_charges = 1;
 
     /** effect on character thirst (may be negative) */
     int quench = 0;
@@ -294,6 +294,10 @@ struct islot_book {
      * Which skill it upgrades, if any. Can be @ref skill_id::NULL_ID.
      */
     skill_id skill = skill_id::NULL_ID();
+    /**
+     * Which martial art it teaches.  Can be @ref matype_id::NULL_ID.
+     */
+    matype_id martial_art = matype_id::NULL_ID();
     /**
      * The skill level the book provides.
      */
@@ -638,7 +642,7 @@ struct islot_ammo : common_ranged_data {
     /**
      * Default charges.
      */
-    long def_charges = 1;
+    int def_charges = 1;
 
     /**
      * TODO: document me.

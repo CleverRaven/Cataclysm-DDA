@@ -30,7 +30,7 @@ enum bionic_menu_mode {
 };
 } // namespace
 
-bionic *player::bionic_by_invlet( const long ch )
+bionic *player::bionic_by_invlet( const int ch )
 {
     if( ch == ' ' ) {  // space is a special case for unassigned
         return nullptr;

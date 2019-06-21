@@ -59,6 +59,9 @@
 #include <type_traits> // std::is_trivially_destructible, etc
 #include <utility> // std::move
 
+namespace cata
+{
+
 template <class element_type, class element_allocator_type = std::allocator<element_type>, typename element_skipfield_type = unsigned short >
 // Empty base class optimization - inheriting allocator functions
 class colony : private element_allocator_type
@@ -604,7 +607,13 @@ class colony : private element_allocator_type
 
     public:
 
-        // Default constuctor:
+        /**
+         * Default constructor:
+         * default minimum group size is 8, default maximum group size is
+         * std::numeric_limits<Skipfield_type>::max() (typically 65535). You cannot set the group
+         * sizes from the constructor in this scenario, but you can call the change_group_sizes()
+         * member function after construction has occurred.
+         */
         colony() noexcept:
             element_allocator_type( element_allocator_type() ),
             groups_with_erasures_list_head( NULL ),
@@ -619,7 +628,10 @@ class colony : private element_allocator_type
                     !std::numeric_limits<skipfield_type>::is_signed );
         }
 
-        // Default constuctor (allocator-extended):
+        /**
+         * Default constructor, but using a custom memory allocator eg. something other than
+         * std::allocator.
+         */
         explicit colony( const element_allocator_type &alloc ):
             element_allocator_type( alloc ),
             groups_with_erasures_list_head( NULL ),
@@ -633,7 +645,12 @@ class colony : private element_allocator_type
                     !std::numeric_limits<skipfield_type>::is_signed );
         }
 
-        // Copy constructor:
+        /**
+         * Copy constructor:
+         * Copy all contents from source colony, removes any empty (erased) element locations in the
+         * process. Size of groups created is either the total size of the source colony, or the
+         * maximum group size of the source colony, whichever is the smaller.
+         */
         colony( const colony &source ):
             element_allocator_type( source ),
             groups_with_erasures_list_head( NULL ),
@@ -693,7 +710,12 @@ class colony : private element_allocator_type
 
     public:
 
-        // Move constructor:
+        /**
+         * Move constructor:
+         * Move all contents from source colony, does not remove any erased element locations or
+         * alter any of the source group sizes. Source colony is now empty and can be safely
+         * destructed or otherwise used.
+         */
         colony( colony &&source ) noexcept:
             element_allocator_type( source ),
             end_iterator( std::move( source.end_iterator ) ),
@@ -719,7 +741,18 @@ class colony : private element_allocator_type
             source.blank();
         }
 
-        // Fill constructor:
+        /**
+         * Fill constructor with value_type unspecified, so the value_type's default constructor is
+         * used. n specifies the number of elements to create upon construction. If n is larger than
+         * min_group_size, the size of the groups created will either be n and max_group_size,
+         * depending on which is smaller. min_group_size (ie. the smallest possible number of
+         * elements which can be stored in a colony group) can be defined, as can the max_group_size.
+         * Setting the group sizes can be a performance advantage if you know in advance roughly how
+         * many objects are likely to be stored in your colony long-term - or at least the rough
+         * scale of storage. If that case, using this can stop many small initial groups being
+         * allocated (reserve() will achieve a similar result, but structurally at the moment is
+         * limited to allocating one group).
+         */
         colony( const size_type fill_number, const element_type &element,
                 const skipfield_type min_allocation_amount = 0,
                 const skipfield_type max_allocation_amount = std::numeric_limits<skipfield_type>::max(),
@@ -896,6 +929,11 @@ class colony : private element_allocator_type
 
     public:
 
+        /**
+         * Inserts the element supplied to the colony, using the object's copy-constructor. Will
+         * insert the element into a previously erased element slot if one exists, otherwise will
+         * insert to back of colony. Returns iterator to location of inserted element.
+         */
         iterator insert( const element_type &element ) {
             if( end_iterator.element_pointer != NULL ) {
                 switch( ( ( groups_with_erasures_list_head != NULL ) << 1 ) | ( end_iterator.element_pointer ==
@@ -1047,7 +1085,14 @@ class colony : private element_allocator_type
             }
         }
 
-        // The move-insert function is near-identical to the regular insert function, with the exception of the element construction method and is_nothrow tests.
+        /**
+         * Moves the element supplied to the colony, using the object's move-constructor. Will
+         * insert the element in a previously erased element slot if one exists, otherwise will
+         * insert to back of colony. Returns iterator to location of inserted element.
+         *
+         * The move-insert function is near-identical to the regular insert function, with the
+         * exception of the element construction method and is_nothrow tests.
+         */
         iterator insert( element_type &&element ) {
             if( end_iterator.element_pointer != NULL ) {
                 switch( ( ( groups_with_erasures_list_head != NULL ) << 1 ) | ( end_iterator.element_pointer ==
@@ -1186,8 +1231,16 @@ class colony : private element_allocator_type
             }
         }
 
+        /**
+         * Constructs new element directly within colony. Will insert the element in a previously
+         * erased element slot if one exists, otherwise will insert to back of colony. Returns
+         * iterator to location of inserted element. "...parameters" are whatever parameters are
+         * required by the object's constructor.
+         *
+         * The emplace function is near-identical to the regular insert function, with the exception
+         * of the element construction method and change to is_nothrow tests.
+         */
         template<typename... arguments>
-        // The emplace function is near-identical to the regular insert function, with the exception of the element construction method, removal of internal VARIADICS support checks, and change to is_nothrow tests.
         iterator emplace( arguments &&... parameters ) {
             if( end_iterator.element_pointer != NULL ) {
                 switch( ( ( groups_with_erasures_list_head != NULL ) << 1 ) | ( end_iterator.element_pointer ==
@@ -1455,7 +1508,11 @@ class colony : private element_allocator_type
 
     public:
 
-        // Fill insert
+        /**
+         * Fill insert:
+         * Inserts n copies of val into the colony. Will insert the element into a previously erased
+         * element slot if one exists, otherwise will insert to back of colony.
+         */
         void insert( size_type number_of_elements, const element_type &element ) {
             if( number_of_elements == 0 ) {
                 return;
@@ -1589,7 +1646,12 @@ class colony : private element_allocator_type
                                              ( end_iterator.element_pointer - end_iterator.group_pointer->elements );
         }
 
-        // Range insert
+        /**
+         * Range insert:
+         * Inserts a series of value_type elements from an external source into a colony holding the
+         * same value_type (eg. int, float, a particular class, etcetera). Stops inserting once it
+         * reaches last.
+         */
         template <class iterator_type>
         inline void insert( typename enable_if_c < !std::numeric_limits<iterator_type>::is_integer,
                             iterator_type >::type first, const iterator_type last ) {
@@ -1598,7 +1660,11 @@ class colony : private element_allocator_type
             }
         }
 
-        // Initializer-list insert
+        /**
+         * Initializer-list insert:
+         * Copies elements from an initializer list into the colony. Will insert the element in a
+         * previously erased element slot if one exists, otherwise will insert to back of colony.
+         */
         inline void insert( const std::initializer_list<element_type> &element_list ) {
             // use range insert:
             insert( element_list.begin(), element_list.end() );
@@ -1656,8 +1722,21 @@ class colony : private element_allocator_type
 
     public:
 
-        // must return iterator to subsequent non-erased element (or end()), in case the group containing the element which the iterator points to becomes empty after the erasure, and is thereafter removed from the colony chain, making the current iterator invalid and unusable in a ++ operation:
-        // if uninitialized/invalid iterator supplied, function could generate an exception
+        /**
+         * Removes the element pointed to by the supplied iterator, from the colony. Returns an
+         * iterator pointing to the next non-erased element in the colony (or to end() if no more
+         * elements are available). This must return an iterator because if a colony group becomes
+         * entirely empty, it will be removed from the colony, invalidating the existing iterator.
+         * Attempting to erase a previously-erased element results in undefined behaviour (this is
+         * checked for via an assert in debug mode).
+         *
+         * must return iterator to subsequent non-erased element (or end()), in case the group
+         * containing the element which the iterator points to becomes empty after the erasure, and
+         * is thereafter removed from the colony chain, making the current iterator invalid and
+         * unusable in a ++ operation:
+         *
+         * if uninitialized/invalid iterator supplied, function could generate an exception
+         */
         iterator erase( const const_iterator &it ) {
             assert( !empty() );
             const group_pointer_type group_pointer = it.group_pointer;
@@ -1881,7 +1960,12 @@ class colony : private element_allocator_type
             }
         }
 
-        // Range erase:
+        /**
+         * Range erase:
+         * Erases all elements of a given colony from first to the element before the last iterator.
+         * This function is optimized for multiple consecutive erasures and will always be faster
+         * than sequential single-element erase calls in that scenario.
+         */
         void erase( const const_iterator &iterator1, const const_iterator &iterator2 ) {
             // if uninitialized/invalid iterators supplied, function could generate an exception. If iterator1 > iterator2, behaviour is undefined.
             assert( iterator1 <= iterator2 );
@@ -2194,22 +2278,31 @@ class colony : private element_allocator_type
             }
         }
 
+        /** Returns a boolean indicating whether the colony is currently empty of elements. */
         inline COLONY_FORCE_INLINE bool empty() const noexcept {
             return total_number_of_elements == 0;
         }
 
+        /** Returns total number of elements currently stored in container. */
         inline size_type size() const noexcept {
             return total_number_of_elements;
         }
 
+        /** Returns the maximum number of elements that the allocator can store in the container. */
         inline size_type max_size() const noexcept {
             return std::allocator_traits<element_allocator_type>::max_size( *this );
         }
 
+        /** Returns total number of elements currently able to be stored in container without expansion. */
         inline size_type capacity() const noexcept {
             return total_capacity;
         }
 
+        /**
+         * Returns the approximate memory use of the container plus it's elements. Will be
+         * inaccurate if the elements themselves dynamically-allocate data. Utility function
+         * primarily for benchmarking.
+         */
         inline size_type approximate_memory_use() const noexcept {
             return
                 sizeof( *this ) + // sizeof colony basic structure
@@ -2220,6 +2313,15 @@ class colony : private element_allocator_type
                                 skipfield_type ) ) ) ); // if colony not empty, add the memory usage of the group structures themselves, adding the extra skipfield node
         }
 
+        /**
+         * Changes the minimum and maximum internal group sizes, in terms of number of elements
+         * stored per group. If the colony is not empty and either min_group_size is larger than the
+         * smallest group in the colony, or max_group_size is smaller than the largest group in the
+         * colony, the colony will be internally copy-constructed into a new colony which uses the
+         * new group sizes, invalidating all pointers/iterators/references. If trying to change
+         * group sizes with a colony storing a non-copyable/movable type, please use the
+         * reinitialize function instead.
+         */
         void change_group_sizes( const skipfield_type min_allocation_amount,
                                  const skipfield_type max_allocation_amount ) {
             assert( ( min_allocation_amount > 2 ) & ( min_allocation_amount <= max_allocation_amount ) );
@@ -2234,20 +2336,48 @@ class colony : private element_allocator_type
             }
         }
 
+        /**
+         * Changes the minimum internal group size only, in terms of minimum number of elements
+         * stored per group. If the colony is not empty and min_group_size is larger than the
+         * smallest group in the colony, the colony will be internally move-constructed (if possible)
+         * or copy-constructed into a new colony which uses the new minimum group size, invalidating
+         * all pointers/iterators/references. If trying to change group sizes with a colony storing
+         * a non-copyable/movable type, please use the reinitialize function instead.
+         */
         inline void change_minimum_group_size( const skipfield_type min_allocation_amount ) {
             change_group_sizes( min_allocation_amount, group_allocator_pair.max_elements_per_group );
         }
 
+        /**
+         * Changes the maximum internal group size only, in terms of maximum number of elements
+         * stored per group. If the colony is not empty and either max_group_size is smaller than
+         * the largest group in the colony, the colony will be internally move-constructed (if
+         * possible) or copy-constructed into a new colony which uses the new maximum group size,
+         * invalidating all pointers/iterators/references. If trying to change group sizes with a
+         * colony storing a non-copyable/movable type, please use the reinitialize function instead.
+         */
         inline void change_maximum_group_size( const skipfield_type max_allocation_amount ) {
             change_group_sizes( pointer_allocator_pair.min_elements_per_group, max_allocation_amount );
         }
 
+        /**
+         * Sets @param minimum_group_size and @param maximum_group_size to the minimum and maximum
+         * group size respectively
+         */
         inline void get_group_sizes( skipfield_type &minimum_group_size,
                                      skipfield_type &maximum_group_size ) const noexcept {
             minimum_group_size = pointer_allocator_pair.min_elements_per_group;
             maximum_group_size = group_allocator_pair.max_elements_per_group;
         }
 
+        /**
+         * Semantics of this function are the same as
+         *     clear();
+         *     change_group_sizes(min_group_size, max_group_size);
+         * but without the move/copy-construction code of the change_group_sizes() function - this
+         * means it can be used with element types which are non-copy-constructible and
+         * non-move-constructible, unlike change_group_sizes().
+         */
         inline void reinitialize( const skipfield_type min_allocation_amount,
                                   const skipfield_type max_allocation_amount ) noexcept {
             assert( ( min_allocation_amount > 2 ) & ( min_allocation_amount <= max_allocation_amount ) );
@@ -2256,11 +2386,19 @@ class colony : private element_allocator_type
             group_allocator_pair.max_elements_per_group = max_allocation_amount;
         }
 
+        /**
+         * Empties the colony and removes all elements and groups.
+         */
         inline COLONY_FORCE_INLINE void clear() noexcept {
             destroy_all_data();
             blank();
         }
 
+        /**
+         * Copy assignment:
+         * Copy the elements from another colony to this colony, clearing this colony of existing
+         * elements first.
+         */
         inline colony &operator=( const colony &source ) {
             assert( &source != this );
 
@@ -2272,7 +2410,13 @@ class colony : private element_allocator_type
             return *this;
         }
 
-        // Move assignment
+        /**
+         * Move assignment:
+         * Move the elements from another colony to this colony, clearing this colony of existing
+         * elements first. Source colony is now empty and in a valid state (same as a new colony
+         * without any insertions), can be safely destructed or used in any regular way without
+         * problems.
+         */
         colony &operator=( colony &&source ) COLONY_NOEXCEPT_MOVE_ASSIGNMENT( allocator_type ) {
             assert( &source != this );
             destroy_all_data();
@@ -2295,6 +2439,7 @@ class colony : private element_allocator_type
             return *this;
         }
 
+        /** Compare contents of another colony to this colony. Returns true if they are equal. */
         bool operator==( const colony &rh ) const noexcept {
             assert( this != &rh );
 
@@ -2312,10 +2457,18 @@ class colony : private element_allocator_type
             return true;
         }
 
+        /** Compare contents of another colony to this colony. Returns true if they are unequal. */
         inline bool operator!=( const colony &rh ) const noexcept {
             return !( *this == rh );
         }
 
+        /**
+         * Reduces container capacity to the amount necessary to store all currently stored
+         * elements, consolidates elements and removes any erased locations. If the total number of
+         * elements is larger than the maximum group size, the resultant capacity will be equal to
+         * ((total_elements / max_group_size) + 1) * max_group_size (rounding down at division).
+         * Invalidates all pointers, iterators and references to elements within the container.
+         */
         void shrink_to_fit() {
             if( total_number_of_elements == total_capacity ) {
                 return;
@@ -2327,6 +2480,18 @@ class colony : private element_allocator_type
             consolidate();
         }
 
+        /**
+         * Preallocates memory space sufficient to store the number of elements indicated by
+         * reserve_amount. The maximum size for this number is currently limited to the maximum
+         * group size of the colony and will be rounded down if necessary. The default maximum group
+         * size is 65535 on the majority of platforms. The default minimum reserve amount is the
+         * same as the current minimum group size, and will be rounded up silently if necessary.
+         * This function is useful from a performance perspective when the user is inserting
+         * elements singly, but the overall number of insertions is known in advance. By reserving,
+         * colony can forgo creating many smaller memory block allocations (due to colony's growth
+         * factor) and reserve a single memory block instead. Alternatively one could simply change
+         * the default group sizes.
+         */
         void reserve( const size_type original_reserve_amount ) {
             if( original_reserve_amount == 0 || original_reserve_amount <= total_capacity ) {
                 // Already have enough space allocated
@@ -2367,6 +2532,13 @@ class colony : private element_allocator_type
             }
         }
 
+        /**
+         * Increments/decrements the iterator supplied by the positive or negative amount indicated
+         * by distance. Speed of incrementation will almost always be faster than using the ++
+         * operator on the iterator for increments greater than 1. In some cases it may approximate
+         * O(1). The iterator_type can be an iterator, const_iterator, reverse_iterator or
+         * const_reverse_iterator.
+         */
         // Advance implementation for iterator and const_iterator:
         // Cannot be noexcept due to the possibility of an uninitialized iterator
         template <bool is_const>
@@ -2765,7 +2937,10 @@ class colony : private element_allocator_type
             }
         }
 
-        // Next implementations:
+        /**
+         * Creates a copy of the iterator supplied, then increments/decrements this iterator by
+         * the positive or negative amount indicated by distance.
+         */
         template <bool is_const>
         inline colony_iterator<is_const> next( const colony_iterator<is_const> &it,
                                                const typename colony_iterator<is_const>::difference_type distance = 1 ) const {
@@ -2774,6 +2949,10 @@ class colony : private element_allocator_type
             return return_iterator;
         }
 
+        /**
+         * Creates a copy of the iterator supplied, then increments/decrements this iterator by
+         * the positive or negative amount indicated by distance.
+         */
         template <bool is_const>
         inline colony_reverse_iterator<is_const> next( const colony_reverse_iterator<is_const> &it,
                 const typename colony_reverse_iterator<is_const>::difference_type distance = 1 ) const {
@@ -2782,7 +2961,10 @@ class colony : private element_allocator_type
             return return_iterator;
         }
 
-        // Prev implementations:
+        /**
+         * Creates a copy of the iterator supplied, then decrements/increments this iterator by the
+         * positive or negative amount indicated by distance.
+         */
         template <bool is_const>
         inline colony_iterator<is_const> prev( const colony_iterator<is_const> &it,
                                                const typename colony_iterator<is_const>::difference_type distance = 1 ) const {
@@ -2791,6 +2973,10 @@ class colony : private element_allocator_type
             return return_iterator;
         }
 
+        /**
+         * Creates a copy of the iterator supplied, then decrements/increments this iterator by the
+         * positive or negative amount indicated by distance.
+         */
         template <bool is_const>
         inline colony_reverse_iterator<is_const> prev( const colony_reverse_iterator<is_const> &it,
                 const typename colony_reverse_iterator<is_const>::difference_type distance = 1 ) const {
@@ -2799,7 +2985,11 @@ class colony : private element_allocator_type
             return return_iterator;
         }
 
-        // distance implementation:
+        /**
+         * Measures the distance between two iterators, returning the result, which will be negative
+         * if the second iterator supplied is before the first iterator supplied in terms of its
+         * location in the colony.
+         */
         template <bool is_const>
         typename colony_iterator<is_const>::difference_type distance( const colony_iterator<is_const>
                 &first, const colony_iterator<is_const> &last ) const {
@@ -2892,7 +3082,22 @@ class colony : private element_allocator_type
 
         // Type-changing functions:
 
-        // Cannot be noexcept as colony could be empty or pointer invalid
+        /**
+         * Getting a pointer from an iterator is simple - simply dereference it then grab the
+         * address ie. "&(*the_iterator);". Getting an iterator from a pointer is typically not so
+         * simple. This function enables the user to do exactly that. This is expected to be useful
+         * in the use-case where external containers are storing pointers to colony elements instead
+         * of iterators (as iterators for colonies have 3 times the size of an element pointer) and
+         * the program wants to erase the element being pointed to or possibly change the element
+         * being pointed to. Converting a pointer to an iterator using this method and then erasing,
+         * is about 20% slower on average than erasing when you already have the iterator. This is
+         * less dramatic than it sounds, as it is still faster than all std:: container erasure
+         * times which it is roughly equal to. However this is generally a slower, lookup-based
+         * operation. If the lookup doesn't find a non-erased element based on that pointer, it
+         * returns end(). Otherwise it returns an iterator pointing to the element in question.
+         *
+         * Cannot be noexcept as colony could be empty or pointer invalid
+         */
         iterator get_iterator_from_pointer( const pointer element_pointer ) const {
             assert( !empty() );
             assert( element_pointer != NULL );
@@ -2917,8 +3122,16 @@ class colony : private element_allocator_type
             return end_iterator;
         }
 
+        /**
+         * While colony is a container with unordered insertion (and is therefore unordered), it
+         * still has a (transitory) order which changes upon any erasure or insertion. Temporary
+         * index numbers are therefore obtainable. These can be useful, for example, when creating
+         * a save file in a computer game, where certain elements in a container may need to be
+         * re-linked to other elements in other container upon reloading the save file.
+         *
+         * may throw exception if iterator is invalid/uninitialized
+         */
         template <bool is_const>
-        // may throw exception if iterator is invalid/uninitialized
         size_type get_index_from_iterator( const colony_iterator<is_const> &it ) const {
             assert( !empty() );
             assert( it.group_pointer != NULL );
@@ -2950,14 +3163,26 @@ class colony : private element_allocator_type
             return index;
         }
 
+        /**
+         * The same as get_index_from_iterator, but for reverse_iterators and const_reverse_iterators.
+         * Index is from front of colony (same as iterator), not back of colony.
+         */
         template <bool is_const>
         inline size_type get_index_from_reverse_iterator( const colony_reverse_iterator<is_const>
                 &rev_iterator ) const {
             return get_index_from_iterator( rev_iterator.it );
         }
 
+        /**
+         * As described above, there may be situations where obtaining iterators to specific
+         * elements based on an index can be useful, for example, when reloading save files. This
+         * function is basically a shorthand to avoid typing
+         *     iterator it = colony.begin();
+         *     colony.advance(it, index);
+         *
+         *  Cannot be noexcept as colony could be empty
+         */
         template <typename index_type>
-        // Cannot be noexcept as colony could be empty
         iterator get_iterator_from_index( const index_type index ) const {
             assert( !empty() );
             assert( std::numeric_limits<index_type>::is_integer );
@@ -2967,6 +3192,7 @@ class colony : private element_allocator_type
             return it;
         }
 
+        /** Returns a copy of the allocator used by the colony instance. */
         inline allocator_type get_allocator() const noexcept {
             return element_allocator_type();
         }
@@ -2997,6 +3223,13 @@ class colony : private element_allocator_type
 
     public:
 
+        /**
+         * Sort the content of the colony. By default this compares the colony content using a
+         * less-than operator, unless the user supplies a comparison function (ie. same conditions
+         * as std::list's sort function).
+         *
+         * Uses std::sort internally.
+         */
         template <class comparison_function>
         void sort( comparison_function compare ) {
             if( total_number_of_elements < 2 ) {
@@ -3070,6 +3303,19 @@ class colony : private element_allocator_type
             sort( less() );
         }
 
+        /**
+         * Transfer all elements from source colony into destination colony without invalidating
+         * pointers/iterators to either colony's elements (in other words the destination takes
+         * ownership of the source's memory blocks). After the splice, the source colony is empty.
+         * Splicing is much faster than range-moving or copying all elements from one colony to
+         * another. Colony does not guarantee a particular order of elements after splicing, for
+         * performance reasons; the insertion location of source elements in the destination colony
+         * is chosen based on the most positive performance outcome for subsequent iterations/
+         * insertions. For example if the destination colony is {1, 2, 3, 4} and the source colony
+         * is {5, 6, 7, 8} the destination colony post-splice could be {1, 2, 3, 4, 5, 6, 7, 8} or
+         * {5, 6, 7, 8, 1, 2, 3, 4}, depending on internal state of both colonies and prior
+         * insertions/erasures.
+         */
         void splice( colony &source ) COLONY_NOEXCEPT_SWAP( allocator_type ) {
             // Process: if there are unused memory spaces at the end of the current back group of the chain, convert them
             // to skipped elements and add the locations to the group's free list.
@@ -3178,6 +3424,7 @@ class colony : private element_allocator_type
             source.blank();
         }
 
+        /** Swaps the colony's contents with that of source. */
         void swap( colony &source ) COLONY_NOEXCEPT_SWAP( allocator_type ) {
             assert( &source != this );
 
@@ -3230,6 +3477,10 @@ class colony : private element_allocator_type
 
 };  // colony
 
+/**
+ * Swaps colony A's contents with that of colony B.
+ * Assumes both colonies have same element type, allocator type, etc.
+ */
 template <class element_type, class element_allocator_type, typename element_skipfield_type>
 inline void swap( colony<element_type, element_allocator_type, element_skipfield_type> &a,
                   colony<element_type, element_allocator_type, element_skipfield_type> &b ) COLONY_NOEXCEPT_SWAP(
@@ -3237,6 +3488,8 @@ inline void swap( colony<element_type, element_allocator_type, element_skipfield
 {
     a.swap( b );
 }
+
+} // namespace cata
 
 #undef COLONY_FORCE_INLINE
 

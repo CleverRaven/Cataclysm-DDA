@@ -13,6 +13,8 @@
 #include <set>
 #include <stdexcept>
 
+#include "colony.h"
+
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
  *
@@ -81,7 +83,7 @@ inline E string_to_enum_look_up( const C &container, const std::string &data )
     return iter->second;
 }
 /*@}*/
-}
+} // namespace io
 
 /* JsonIn
  * ======
@@ -209,7 +211,6 @@ class JsonIn
         // data parsing
         std::string get_string(); // get the next value as a string
         int get_int(); // get the next value as an int
-        long get_long(); // get the next value as an long
         bool get_bool(); // get the next value as a bool
         double get_float(); // get the next value as a double
         std::string get_member_name(); // also strips the ':'
@@ -259,8 +260,6 @@ class JsonIn
         bool read( short int &s );
         bool read( int &i );
         bool read( unsigned int &u );
-        bool read( long &l );
-        bool read( unsigned long &ul );
         bool read( float &f );
         bool read( double &d );
         bool read( std::string &s );
@@ -361,6 +360,31 @@ class JsonIn
                 v.clear();
                 while( !end_array() ) {
                     typename T::value_type element;
+                    if( read( element ) ) {
+                        v.insert( std::move( element ) );
+                    } else {
+                        skip_value();
+                    }
+                }
+            } catch( const JsonError & ) {
+                return false;
+            }
+
+            return true;
+        }
+
+        // special case for colony as it uses `insert()` instead of `push_back()`
+        // and therefore doesn't fit with vector/deque/list
+        template <typename T>
+        bool read( cata::colony<T> &v ) {
+            if( !test_array() ) {
+                return false;
+            }
+            try {
+                start_array();
+                v.clear();
+                while( !end_array() ) {
+                    T element;
                     if( read( element ) ) {
                         v.insert( std::move( element ) );
                     } else {
@@ -564,6 +588,12 @@ class JsonOut
             write_as_array( container );
         }
 
+        // special case for colony, since it doesn't fit in other categories
+        template <typename T>
+        void write( const cata::colony<T> &container ) {
+            write_as_array( container );
+        }
+
         // containers with unmatching key_type and value_type ~> object
         // map, unordered_map ~> object
         template < typename T, typename std::enable_if <
@@ -686,8 +716,6 @@ class JsonObject
         bool get_bool( const std::string &name, const bool fallback );
         int get_int( const std::string &name );
         int get_int( const std::string &name, const int fallback );
-        long get_long( const std::string &name );
-        long get_long( const std::string &name, const long fallback );
         double get_float( const std::string &name );
         double get_float( const std::string &name, const double fallback );
         std::string get_string( const std::string &name );
@@ -853,7 +881,6 @@ class JsonArray
         // iterative access
         bool next_bool();
         int next_int();
-        long next_long();
         double next_float();
         std::string next_string();
         JsonArray next_array();
@@ -863,7 +890,6 @@ class JsonArray
         // static access
         bool get_bool( int index );
         int get_int( int index );
-        long get_long( int index );
         double get_float( int index );
         std::string get_string( int index );
         JsonArray get_array( int index );

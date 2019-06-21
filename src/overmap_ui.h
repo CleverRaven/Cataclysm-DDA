@@ -7,7 +7,7 @@
 namespace catacurses
 {
 class window;
-}
+} // namespace catacurses
 
 class input_context;
 
@@ -94,5 +94,5 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
            const tripoint &orig, bool blink, bool show_explored, bool fast_scroll, input_context *inp_ctxt,
            const draw_data_t &data );
 void create_note( const tripoint &curs );
-}
+} // namespace overmap_ui
 #endif /* OVERMAP_UI_H */

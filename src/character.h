@@ -366,7 +366,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if player has a trait with a flag */
         bool has_trait_flag( const std::string &flag ) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
-        trait_id trait_by_invlet( long ch ) const;
+        trait_id trait_by_invlet( int ch ) const;
 
         /** Toggles a trait on the player and in their mutation list */
         void toggle_trait( const trait_id &flag );
@@ -797,6 +797,12 @@ class Character : public Creature, public visitable<Character>
 
         stomach_contents stomach;
         stomach_contents guts;
+
+        int power_level;
+        int max_power_level;
+        int oxygen;
+        int stamina;
+        int radiation;
 
         void initialize_stomach_contents();
 
