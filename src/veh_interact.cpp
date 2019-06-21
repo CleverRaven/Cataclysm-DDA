@@ -918,6 +918,10 @@ bool veh_interact::do_install( std::string &msg )
         }
         if( action == "INSTALL" || action == "CONFIRM" ) {
             if( can_install ) {
+                if( veh->is_foldable() && !sel_vpart_info->has_flag( "FOLDABLE" ) &&
+                    !query_yn( _( "Installing this part will make the vehicle unfoldable. Continue?" ) ) ) {
+                    return true;
+                }
                 const auto &shapes = vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->item ];
                 int selected_shape = -1;
                 if( shapes.size() > 1 ) {  // more than one shape available, display selection

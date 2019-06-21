@@ -361,6 +361,13 @@ void Item_factory::finalize_pre( itype &obj )
     } else {
         obj.layer = REGULAR_LAYER;
     }
+
+    if( obj.can_use( "MA_MANUAL" ) && obj.book && obj.book->martial_art.is_null() &&
+        string_starts_with( obj.get_id(), "manual_" ) ) {
+        // Legacy martial arts books rely on a hack whereby the name of the
+        // martial art is derived from the item id
+        obj.book->martial_art = matype_id( "style_" + obj.get_id().substr( 7 ) );
+    }
 }
 
 void Item_factory::register_cached_uses( const itype &obj )
@@ -824,7 +831,7 @@ void Item_factory::check_definitions() const
 {
     for( const auto &elem : m_templates ) {
         std::ostringstream msg;
-        const itype *type = &elem.second; // avoid huge number of line changes
+        const itype *type = &elem.second;
 
         if( !type->category ) {
             msg << "undefined category " << type->category_force << "\n";
@@ -931,6 +938,16 @@ void Item_factory::check_definitions() const
             if( type->book->skill && !type->book->skill.is_valid() ) {
                 msg << string_format( "uses invalid book skill." ) << "\n";
             }
+            if( type->book->martial_art && !type->book->martial_art.is_valid() ) {
+                msg << string_format( "trains invalid martial art '%s'.",
+                                      type->book->martial_art.str() ) << "\n";
+            }
+            if( type->can_use( "MA_MANUAL" ) && !type->book->martial_art ) {
+                msg << "has use_action MA_MANUAL but does not specify a martial art\n";
+            }
+        }
+        if( type->can_use( "MA_MANUAL" ) && !type->book ) {
+            msg << "has use_action MA_MANUAL but is not a book\n";
         }
         if( type->ammo ) {
             if( !type->ammo->type && type->ammo->type != ammotype( "NULL" ) ) {
@@ -1612,6 +1629,7 @@ void Item_factory::load( islot_book &slot, JsonObject &jo, const std::string &sr
         slot.time = to_minutes<int>( time_duration::read_from_json_string( *jo.get_raw( "time" ) ) );
     }
     assign( jo, "skill", slot.skill, strict );
+    assign( jo, "martial_art", slot.martial_art, strict );
     assign( jo, "chapters", slot.chapters, strict, 0 );
 }
 

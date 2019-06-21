@@ -4,6 +4,9 @@
     "id": "shelter",
     "terrain": {
       " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+      "!": "t_pavement",
+      "`": "t_pavement_y",
+      "&": "t_sidewalk",
       "#": "t_rock",
       "+": "t_door_c",
       "-": "t_wall_w",

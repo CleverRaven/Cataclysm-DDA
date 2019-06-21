@@ -346,6 +346,28 @@
     "flags": [ "WATERPROOF" ]
   },
   {
+    "id": "boots_scrap",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "pair of scrap boots",
+    "name_plural": "pairs of scrap boots",
+    "description": "Boots made of random scraps.",
+    "weight": 1845,
+    "volume": 12,
+    "price": 12000,
+    "to_hit": -1,
+    "bashing": 4,
+    "material": [ "steel", "iron" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "FEET" ],
+    "coverage": 80,
+    "encumbrance": 20,
+    "warmth": 20,
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "WATERPROOF" ]
+  },
+  {
     "id": "boots_steel",
     "type": "ARMOR",
     "category": "armor",

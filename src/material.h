@@ -127,6 +127,6 @@ material_list get_all();
 material_list get_compactable();
 std::set<material_id> get_rotting();
 
-}
+} // namespace materials
 
 #endif

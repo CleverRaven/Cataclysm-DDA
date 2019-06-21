@@ -96,7 +96,7 @@ constexpr int freezer = 23; // -5 Celsius
 
 /** Temperature in which water freezes in Fahrenheit  */
 constexpr int freezing = 32; // 0 Celsius
-}
+} // namespace temperatures
 
 // Shelf life of corpse. This should be kept same as raw flesh.
 constexpr time_duration CORPSE_ROT_TIME = 24_hours;

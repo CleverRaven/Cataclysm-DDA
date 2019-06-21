@@ -46,7 +46,7 @@ not guaranteed as features may be introduced in an underdeveloped
 state, in parts; and may introduce bugs, including severe ones that may
 crash the game or corrupt savegames. It's rare, but due to the complexity
 of the game, the initial quality control before merging with experimental
-build may be not be adequate, and there is always room for human error.
+build may be inadequate, and there is always room for human error.
 This is why experimental builds exist in the first place.
 
 Q: Should I play experimental builds then, or stick to stable build?

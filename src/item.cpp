@@ -405,7 +405,12 @@ item &item::ammo_set( const itype_id &ammo, int qty )
             // if default magazine too small fetch instead closest available match
             if( mag->magazine->capacity < qty ) {
                 // as above call to magazine_default successful can infer minimum one option exists
-                auto iter = type->magazines.find( ammotype( ammo ) );
+                auto iter = type->magazines.find( atype->ammo->type );
+                if( iter == type->magazines.end() ) {
+                    debugmsg( "%s doesn't have a magazine for %s",
+                              tname(), ammo );
+                    return *this;
+                }
                 std::vector<itype_id> opts( iter->second.begin(), iter->second.end() );
                 std::sort( opts.begin(), opts.end(), []( const itype_id & lhs, const itype_id & rhs ) {
                     return find_type( lhs )->magazine->capacity < find_type( rhs )->magazine->capacity;
@@ -737,6 +742,7 @@ void item::set_var( const std::string &name, const int value )
     item_vars[name] = tmpstream.str();
 }
 
+// NOLINTNEXTLINE(cata-no-long)
 void item::set_var( const std::string &name, const long value )
 {
     std::ostringstream tmpstream;
@@ -3531,7 +3537,7 @@ units::mass item::weight( bool include_contents, bool integral ) const
         }
 
     } else if( magazine_integral() && !is_magazine() ) {
-        if( ammo_current() == "plutonium" ) {
+        if( ammo_current() == "plut_cell" ) {
             ret += ammo_remaining() * find_type( ammotype(
                     *ammo_types().begin() )->default_ammotype() )->weight / PLUTONIUM_CHARGES;
         } else if( ammo_data() ) {
@@ -3864,12 +3870,12 @@ std::string item::get_property_string( const std::string &prop, const std::strin
     return it != type->properties.end() ? it->second : def;
 }
 
-long item::get_property_long( const std::string &prop, long def ) const
+int64_t item::get_property_int64_t( const std::string &prop, int64_t def ) const
 {
     const auto it = type->properties.find( prop );
     if( it != type->properties.end() ) {
         char *e = nullptr;
-        long  r = std::strtol( it->second.c_str(), &e, 10 );
+        int64_t r = std::strtoll( it->second.c_str(), &e, 10 );
         if( !it->second.empty() && *e == '\0' ) {
             return r;
         }

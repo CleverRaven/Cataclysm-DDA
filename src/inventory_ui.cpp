@@ -1003,6 +1003,28 @@ static std::vector<std::list<item *>> restack_items( const std::list<item>::cons
     return res;
 }
 
+// TODO: Move it into some 'item_stack' class.
+static std::vector<std::list<item *>> restack_items( const item_stack::const_iterator &from,
+                                   const item_stack::const_iterator &to, bool check_components = false )
+{
+    std::vector<std::list<item *>> res;
+
+    for( auto it = from; it != to; ++it ) {
+        auto match = std::find_if( res.begin(), res.end(),
+        [ &it, check_components ]( const std::list<item *> &e ) {
+            return it->stacks_with( *const_cast<item *>( e.back() ), check_components );
+        } );
+
+        if( match != res.end() ) {
+            match->push_back( const_cast<item *>( &*it ) );
+        } else {
+            res.emplace_back( 1, const_cast<item *>( &*it ) );
+        }
+    }
+
+    return res;
+}
+
 const item_category *inventory_selector::naturalize_category( const item_category &category,
         const tripoint &pos )
 {
