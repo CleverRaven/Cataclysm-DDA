@@ -199,7 +199,7 @@ int get_hourly_rotpoints_at_temp( const int temp );
 /**
  * Is it warm enough to plant seeds?
  */
-bool warm_enough_to_plant();
+bool warm_enough_to_plant( const tripoint &pos );
 
 bool is_wind_blocker( const tripoint &location );
 
