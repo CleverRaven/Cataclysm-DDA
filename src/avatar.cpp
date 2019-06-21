@@ -692,8 +692,15 @@ bool avatar::read( int inventory_position, const bool continuous )
             act.index = menu.ret;
         }
         if( it.type->use_methods.find( "MA_MANUAL" ) != it.type->use_methods.end() ) {
+            
+            if( g->u.has_martialart( martial_art_learned_from( *it.type ) ) ) {
+                g->u.add_msg_if_player( m_info, _( "You already know all this book has to teach." ) );
+                activity.set_to_null();
+                return false;
+            }
+            
             uilist menu;
-            menu.title = string_format( _( "Train %s from manual:" ), martial_art_learned_from( *it.type )->primary_skill->name() );
+            menu.title = string_format( _( "Train %s from manual:" ), martial_art_learned_from( *it.type )->name );
             menu.addentry( -1, true, 1, _( "Train once." ) );
             menu.addentry( getID(), true, 2, _( "Train untill tired or success." ) );
             menu.query( true );
@@ -1020,15 +1027,9 @@ void avatar::do_read( item &book )
 
         const matype_id style_to_learn = martial_art_learned_from( *book.type );
 
-        if( g->u.has_martialart( style_to_learn ) ) {
-            g->u.add_msg_if_player( m_info, _( "You already know all this book has to teach." ) );
-            activity.set_to_null();
-            return;
-        }
-
         skill_id skill_used = style_to_learn->primary_skill;
         int difficulty = style_to_learn->learn_difficulty;
-        difficulty = 10 + difficulty * 2 - g->u.get_skill_level( skill_used ) * 2;
+        difficulty = 20 + difficulty * 2 - g->u.get_skill_level( skill_used ) * 2;
         add_msg( m_debug, _( "Chance to learn one in: %d" ), difficulty );
 
         if( one_in( difficulty ) ) {
