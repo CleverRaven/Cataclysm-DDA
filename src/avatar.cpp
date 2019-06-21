@@ -703,7 +703,7 @@ bool avatar::read( int inventory_position, const bool continuous )
             menu.title = string_format( _( "Train %s from manual:" ),
                                         martial_art_learned_from( *it.type )->name );
             menu.addentry( -1, true, 1, _( "Train once." ) );
-            menu.addentry( getID(), true, 2, _( "Train untill tired or success." ) );
+            menu.addentry( getID(), true, 2, _( "Train until tired or success." ) );
             menu.query( true );
             if( menu.ret == UILIST_CANCEL ) {
                 add_msg( m_info, _( "Never mind." ) );
