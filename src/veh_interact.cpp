@@ -1021,7 +1021,7 @@ bool veh_interact::do_repair( std::string &msg )
 
     int pos = 0;
     while( true ) {
-        vehicle_part &pt = veh->parts.at(parts_here.at(need_repair[pos]));
+        vehicle_part &pt = veh->parts[parts_here[need_repair[pos]]];
         const vpart_info &vp = pt.info();
 
         std::ostringstream nmsg;
