@@ -16,7 +16,7 @@
       "mon_boomer",
       "mon_boomer_fungus",
       "mon_boomer_huge",
-	  "mon_zombie_flamer",
+      "mon_zombie_flamer",
       "mon_zombie_flamer",
       "mon_flesh_angel",
       "mon_homunculus",
@@ -62,11 +62,11 @@
       "mon_zombie_waif",
       "mon_zombie_grenadier",
       "mon_zombie_grenadier_elite",
-	  "mon_zombie_soldier_blackops_2",
-	  "mon_zombie_soldier_acid_1",
-	  "mon_zombie_soldier_acid_2",
-	  "mon_zombie_kevlar_1",
-	  "mon_zombie_kevlar_2"
+      "mon_zombie_soldier_blackops_2",
+      "mon_zombie_soldier_acid_1",
+      "mon_zombie_soldier_acid_2",
+      "mon_zombie_kevlar_1",
+      "mon_zombie_kevlar_2"
     ]
   }
 ]
