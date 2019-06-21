@@ -6477,30 +6477,33 @@ void map::shift_traps( const tripoint &shift )
     }
 }
 
-void shift_map_memory_seen_cache(
-    std::bitset<MAPSIZE_X *MAPSIZE_Y> &map_memory_seen_cache,
-    const int sx, const int sy )
+template<int SIZE, int MULTIPLIER>
+void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const int sx, const int sy )
 {
-    // sx shifts by SEEX rows, sy shifts by SEEX columns.
-    int shift_amount = ( sx * SEEX ) + ( sy * MAPSIZE_Y * SEEX );
+    // sx shifts by MULTIPLIER rows, sy shifts by MULTIPLIER columns.
+    int shift_amount = ( sx * MULTIPLIER ) + ( sy * SIZE * MULTIPLIER );
     if( shift_amount > 0 ) {
-        map_memory_seen_cache >>= static_cast<size_t>( shift_amount );
+        cache >>= static_cast<size_t>( shift_amount );
     } else if( shift_amount < 0 ) {
-        map_memory_seen_cache <<= static_cast<size_t>( -shift_amount );
+        cache <<= static_cast<size_t>( -shift_amount );
     }
     // Shifting in the y direction shifted in 0 values, no no additional clearing is necessary, but
     // a shift in the x direction makes values "wrap" to the next row, and they need to be zeroed.
     if( sx == 0 ) {
         return;
     }
-    const size_t x_offset = ( sx > 0 ) ? MAPSIZE_X - SEEX : 0;
-    for( size_t y = 0; y < MAPSIZE_X; ++y ) {
-        size_t y_offset = y * MAPSIZE_X;
-        for( size_t x = 0; x < SEEX; ++x ) {
-            map_memory_seen_cache.reset( y_offset + x_offset + x );
+    const size_t x_offset = ( sx > 0 ) ? SIZE - MULTIPLIER : 0;
+    for( size_t y = 0; y < SIZE; ++y ) {
+        size_t y_offset = y * SIZE;
+        for( size_t x = 0; x < MULTIPLIER; ++x ) {
+            cache.reset( y_offset + x_offset + x );
         }
     }
 }
+
+template void
+shift_bitset_cache<MAPSIZE_X, SEEX>( std::bitset<MAPSIZE_X *MAPSIZE_X> &cache,
+				     const int sx, const int sy );
 
 void map::shift( const int sx, const int sy )
 {
@@ -6539,7 +6542,7 @@ void map::shift( const int sx, const int sy )
         // Clear vehicle list and rebuild after shift
         clear_vehicle_cache( gridz );
         clear_vehicle_list( gridz );
-        shift_map_memory_seen_cache( get_cache( gridz ).map_memory_seen_cache, sx, sy );
+        shift_bitset_cache<MAPSIZE_X, SEEX>( get_cache( gridz ).map_memory_seen_cache, sx, sy );
         if( sx >= 0 ) {
             for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
                 if( sy >= 0 ) {
