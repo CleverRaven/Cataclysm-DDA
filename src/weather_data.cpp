@@ -169,6 +169,6 @@ weather_effect_fn effect( weather_type const type )
 {
     return weather_data_internal( type ).datum.effect;
 }
-}
+} // namespace weather
 
 ///@}

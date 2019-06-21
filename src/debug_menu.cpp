@@ -20,6 +20,7 @@
 #include "coordinate_conversions.h"
 #include "filesystem.h"
 #include "game.h"
+#include "map_extras.h"
 #include "messages.h"
 #include "mission.h"
 #include "morale_types.h"
@@ -58,7 +59,6 @@
 #include "item.h"
 #include "sounds.h"
 #include "trait_group.h"
-#include "map_extras.h"
 #include "artifact.h"
 #include "vpart_position.h"
 #include "rng.h"
@@ -958,7 +958,7 @@ void draw_benchmark( const int max_difference )
     // call the draw procedure as many times as possible in max_difference milliseconds
     auto start_tick = std::chrono::steady_clock::now();
     auto end_tick = std::chrono::steady_clock::now();
-    long difference = 0;
+    int64_t difference = 0;
     int draw_counter = 0;
     while( true ) {
         end_tick = std::chrono::steady_clock::now();
@@ -1429,7 +1429,7 @@ void debug()
                 raise( SIGSEGV );
                 break;
             case DEBUG_MAP_EXTRA: {
-                std::unordered_map<std::string, map_special_pointer> FM = MapExtras::all_functions();
+                std::unordered_map<std::string, map_extra_pointer> FM = MapExtras::all_functions();
                 uilist mx_menu;
                 std::vector<std::string> mx_str;
                 for( auto &extra : FM ) {
@@ -1439,14 +1439,11 @@ void debug()
                 mx_menu.query();
                 int mx_choice = mx_menu.ret;
                 if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
-                    auto func = MapExtras::get_function( mx_str[mx_choice] );
-                    if( func != nullptr ) {
-                        const tripoint where( ui::omap::choose_point() );
-                        if( where != overmap::invalid_tripoint ) {
-                            tinymap mx_map;
-                            mx_map.load( where.x * 2, where.y * 2, where.z, false );
-                            func( mx_map, where );
-                        }
+                    const tripoint where( ui::omap::choose_point() );
+                    if( where != overmap::invalid_tripoint ) {
+                        tinymap mx_map;
+                        mx_map.load( where.x * 2, where.y * 2, where.z, false );
+                        MapExtras::apply_function( mx_str[mx_choice], mx_map, where );
                     }
                 }
                 break;
@@ -1568,4 +1565,4 @@ void debug()
         g->refresh_all();
     }
 
-}
+} // namespace debug_menu

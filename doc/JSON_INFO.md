@@ -172,6 +172,7 @@ Currently, only effect names, item action names, and item category names support
 | description        | In-game description.
 | canceled_mutations | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
 | included_bionics   | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
+| included           | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
 
 ```C++
 {
@@ -189,6 +190,7 @@ Currently, only effect names, item action names, and item category names support
 ```
 
 Bionics effects are defined in the code and new effects cannot be created through JSON alone.
+When adding a new bionic, if it's not included with another one, you must also add the corresponding CBM item in `data/json/items/bionics.json`. Even for a faulty bionic.
 
 ### Dreams
 

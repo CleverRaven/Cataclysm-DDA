@@ -907,6 +907,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_music_roof",
+    "copy-from": "generic_city_building",
+    "name": "music store roof",
+    "sym": "m",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "megastore_entrance",
     "name": "megastore",
     "sym": "+",
@@ -1502,6 +1510,30 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "lancenter_roof",
+    "name": "LAN center roof",
+    "copy-from": "generic_city_building",
+    "sym": "L",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lancenter_1",
+    "name": "LAN center",
+    "copy-from": "generic_city_building",
+    "sym": "L",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lancenter_roof_1",
+    "name": "LAN center roof",
+    "copy-from": "generic_city_building",
+    "sym": "L",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "landscapingsupplyco_1a",
     "copy-from": "generic_city_building",
     "name": "landscaping supply co",
@@ -1513,6 +1545,14 @@
     "id": "landscapingsupplyco_1b",
     "copy-from": "generic_city_building",
     "name": "landscaping supply co",
+    "sym": "L",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "landscapingsupplyco_1b_roof",
+    "copy-from": "generic_city_building",
+    "name": "landscaping supply co roof",
     "sym": "L",
     "color": "i_green"
   },
@@ -1658,6 +1698,27 @@
     "type": "overmap_terrain",
     "id": "s_laundromat",
     "name": "laundromat",
+    "copy-from": "generic_city_building",
+    "color": "white_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_laundromat_roof",
+    "name": "laundromat roof",
+    "copy-from": "generic_city_building",
+    "color": "white_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_laundromat_1",
+    "name": "laundromat",
+    "copy-from": "generic_city_building",
+    "color": "white_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_laundromat_roof_1",
+    "name": "laundromat roof",
     "copy-from": "generic_city_building",
     "color": "white_white"
   },

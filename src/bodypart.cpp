@@ -42,7 +42,7 @@ side string_to_enum<side>( const std::string &data )
     return string_to_enum_look_up( side_map, data );
 }
 
-}
+} // namespace io
 
 namespace
 {

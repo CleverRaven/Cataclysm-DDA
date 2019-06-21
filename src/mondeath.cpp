@@ -599,10 +599,12 @@ void mdeath::explode( monster &z )
 
 void mdeath::focused_beam( monster &z )
 {
-
-    for( int k = g->m.i_at( z.pos() ).size() - 1; k >= 0; k-- ) {
-        if( g->m.i_at( z.pos() )[k].typeId() == "processor" ) {
-            g->m.i_rem( z.pos(), k );
+    map_stack items = g->m.i_at( z.pos() );
+    for( map_stack::iterator it = items.begin(); it != items.end(); ) {
+        if( it->typeId() == "processor" ) {
+            it = items.erase( it );
+        } else {
+            ++it;
         }
     }
 

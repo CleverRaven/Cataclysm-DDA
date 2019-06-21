@@ -139,6 +139,7 @@
       [ "glockbigmag", 60 ],
       [ "glock40bigmag", 30 ],
       [ "m1911bigmag", 40 ],
+      [ "m1911mag_10rd_38super", 10 ],
       [ "m9bigmag", 20 ],
       [ "sig40mag", 40 ],
       [ "sigp230mag", 40 ],
@@ -239,8 +240,8 @@
   {
     "type": "item_group",
     "id": "mags_shotgun_rare",
-    "//": "Aftermarket or otherwise uncommon pistol magazines excluding milspec.",
-    "items": [ [ "saiga10mag", 50 ], [ "saiga30mag", 10 ] ]
+    "//": "Aftermarket or otherwise uncommon shotgun magazines excluding milspec.",
+    "items": [ [ "saiga10mag", 50 ], [ "saiga30mag", 10 ], [ "saiga410mag_10rd", 30 ], [ "saiga410mag_30rd", 10 ] ]
   },
   {
     "type": "item_group",

@@ -2181,4 +2181,4 @@ float melee_hit_range( float accuracy )
     return normal_roll( accuracy * 5, 25.0f );
 }
 
-}
+} // namespace melee

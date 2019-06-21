@@ -291,7 +291,7 @@
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY", "BLOCK_WHILE_WORN" ]
+    "flags": [ "VARSIZE", "BELTED", "STURDY", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "armguard_metal",
@@ -357,7 +357,7 @@
     "encumbrance": 18,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "OUTER", "BLOCK_WHILE_WORN" ]
+    "flags": [ "BELTED", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "armguard_soft",
@@ -3852,6 +3852,28 @@
     "flags": [ "WATERPROOF", "STURDY" ]
   },
   {
+    "id": "gloves_cut_resistant",
+    "type": "ARMOR",
+    "name": "pair of cut resistant gloves",
+    "name_plural": "pairs of cut resistant gloves",
+    "description": "A pair of cut resistant gloves, useful when rapidly breaking down carcasses.",
+    "weight": 240,
+    "volume": 1,
+    "price": 9000,
+    "to_hit": 2,
+    "material": [ "steel", "cotton" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "looks_like": "gloves_work",
+    "covers": [ "HANDS" ],
+    "coverage": 95,
+    "encumbrance": 40,
+    "warmth": 10,
+    "material_thickness": 4,
+    "environmental_protection": 1,
+    "flags": [ "STURDY" ]
+  },
+  {
     "id": "gloves_wraps",
     "type": "ARMOR",
     "name": "pair of hand wraps",
@@ -5436,6 +5458,12 @@
     "storage": 3,
     "warmth": 30,
     "material_thickness": 3,
+    "snippet_category": [
+      {
+        "id": "patched",
+        "text": "A jacket made from denim.  Provides decent protection from cuts.  This one is haphazardly covered with patches featuring metal band logos."
+      }
+    ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
@@ -6328,7 +6356,7 @@
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+    "flags": [ "VARSIZE", "BELTED", "STURDY" ]
   },
   {
     "id": "legguard_metal",
@@ -6392,7 +6420,7 @@
     "encumbrance": 18,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "OUTER" ]
+    "flags": [ "BELTED" ]
   },
   {
     "id": "legrig",
@@ -9637,6 +9665,34 @@
       }
     ],
     "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "tshirt_tour",
+    "type": "ARMOR",
+    "copy-from": "tshirt",
+    "name": "tour t-shirt",
+    "description": "A short-sleeved cotton shirt.",
+    "price": 1000,
+    "price_postapoc": 1200,
+    "color": "dark_gray",
+    "snippet_category": [
+      {
+        "id": "death",
+        "text": "A short-sleeved cotton shirt with a death metal band's spidery, indecipherable logo printed on the front."
+      },
+      {
+        "id": "power",
+        "text": "A short-sleeved cotton shirt with a muscle-bound, long-haired man printed on the front.  He is riding a red dragon and wielding a flaming sword with malicious glee."
+      },
+      {
+        "id": "thrash",
+        "text": "A short-sleeved cotton shirt with a gore-spattered, guitar-playing zombie printed on the front.  It's rather tasteless in light of current events."
+      },
+      {
+        "id": "prog",
+        "text": "A short-sleeved cotton shirt with a pattern of complex geometric shapes and transcendental imagery printed on the front."
+      }
+    ]
   },
   {
     "id": "tunic",

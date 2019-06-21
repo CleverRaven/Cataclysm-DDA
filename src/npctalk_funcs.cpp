@@ -205,6 +205,13 @@ void talk_function::do_construction( npc &p )
     p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
+void talk_function::do_blueprint_construction( npc &p )
+{
+    p.set_attitude( NPCATT_ACTIVITY );
+    p.assign_activity( activity_id( "ACT_BLUEPRINT_CONSTRUCTION" ) );
+    p.set_mission( NPC_MISSION_ACTIVITY );
+}
+
 void talk_function::revert_activity( npc &p )
 {
     p.revert_after_activity();
@@ -386,13 +393,14 @@ void talk_function::bionic_install( npc &p )
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if( g->u.install_bionics( it, p, false, 20 ) ) {
+    if( g->u.can_install_bionics( it, p, false, 20 ) ) {
         g->u.cash -= price;
         p.cash += price;
         g->u.amount_of( bionic_types[bionic_index] );
         std::vector<item_comp> comps;
         comps.push_back( item_comp( tmp.typeId(), 1 ) );
         g->u.consume_items( comps, 1 );
+        g->u.install_bionics( it, p, false, 20 );
     }
 }
 
@@ -441,10 +449,11 @@ void talk_function::bionic_remove( npc &p )
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if( g->u.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), p, false ) ) {
+    if( g->u.can_uninstall_bionic( bionic_id( bionic_types[bionic_index] ), p, false ) ) {
         g->u.cash -= price;
         p.cash += price;
         g->u.amount_of( bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
+        g->u.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), p, false );
     }
 
 }

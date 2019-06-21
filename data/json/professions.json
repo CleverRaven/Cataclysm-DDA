@@ -557,9 +557,9 @@
     "ident": "true_foodperson",
     "name": "True Foodperson",
     "description": "You are the true Foodperson, some might think Foodperson is just a mascot, but you know better.  You are Foodperson, the mask has become your face, you are real and the only thing standing between this world and oblivion is you.",
-    "points": -1,
+    "points": 0,
     "traits": [ "PROF_FOODP" ],
-    "skills": [ { "level": 2, "name": "dodge" }, { "level": 2, "name": "bashing" }, { "level": 2, "name": "speech" } ],
+    "skills": [ { "level": 2, "name": "speech" } ],
     "items": {
       "both": {
         "items": [
@@ -3828,6 +3828,59 @@
       ],
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "roadie",
+    "name": "Roadie",
+    "description": "You worked just outside of the limelight, ensuring that the performers got what they needed and that everything ran smoothly.  The stakes are higher these days, but the show must go on.",
+    "points": 3,
+    "skills": [
+      { "level": 2, "name": "fabrication" },
+      { "level": 1, "name": "driving" },
+      { "level": 2, "name": "electronics" },
+      { "level": 1, "name": "dodge" },
+      { "level": 1, "name": "mechanics" }
+    ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "magazine": 100,
+        "items": [
+          "tshirt_tour",
+          "jeans",
+          "socks",
+          "boots_steel",
+          "multitool",
+          "wristwatch",
+          "gloves_work",
+          "mbag",
+          "soldering_iron",
+          "matches"
+        ],
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "jacket_jean", "snippet_category": "patched" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "musician",
+    "name": "Musician",
+    "description": "You were just about to hit the stage when the Cataclysm struck.  You weren't able to grab much during the panic, but at least you have your loaded six string on your back.",
+    "points": -1,
+    "skills": [ { "level": 1, "name": "barter" }, { "level": 2, "name": "speech" } ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "magazine": 100,
+        "items": [ "tshirt_tour", "shorts_cargo", "socks", "sneakers", "wristwatch", "water_clean", "guitar_electric" ],
+        "entries": [ { "item": "towel", "custom-flags": [ "no_auto_equip" ] }, { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
     }
   }
 ]

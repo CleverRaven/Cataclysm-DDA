@@ -2285,6 +2285,25 @@
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
+    "type": "TOOL",
+    "category": "weapons",
+    "id": "grip_hook",
+    "name": "grip hook",
+    "description": "A simple steel meathook with a circular steel handle. Makes a passable melee weapon.",
+    "weight": 900,
+    "to_hit": 1,
+    "color": "light_gray",
+    "symbol": "?",
+    "material": [ "steel" ],
+    "techniques": [ "DEF_DISARM", "SWEEP" ],
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "STAB" ],
+    "volume": 3,
+    "bashing": 2,
+    "cutting": 6,
+    "price": 2000,
+    "qualities": [ [ "HAMMER", 1 ], [ "BUTCHER", -5 ] ]
+  },
+  {
     "id": "2h_flail_steel",
     "type": "GENERIC",
     "category": "weapons",
