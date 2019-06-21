@@ -2705,6 +2705,7 @@ void map::decay_fields_and_scent( const time_duration &amount )
                                    << abs_sub.x + smx << "," << abs_sub.y + smy << "," << abs_sub.z
                                    << "has " << to_proc << " field_count";
                 }
+                get_cache( smz ).field_cache.reset( smx + ( smy * MAPSIZE ) );
                 // This submap has no fields
                 continue;
             }
@@ -5410,7 +5411,10 @@ bool map::add_field( const tripoint &p, const field_id type, int density, const 
 
     if( current_submap->fld[l.x][l.y].add_field( type, density, age ) ) {
         //Only adding it to the count if it doesn't exist.
-        current_submap->field_count++;
+        if( ! current_submap->field_count++ ) {
+            get_cache( p.z ).field_cache.set( static_cast<size_t>( p.x / SEEX + ( (
+                                                  p.y / SEEX ) * MAPSIZE ) ) );
+        }
     }
 
     if( g != nullptr && this == &g->m && p == g->u.pos() ) {
@@ -5445,7 +5449,10 @@ void map::remove_field( const tripoint &p, const field_id field_to_remove )
 
     if( current_submap->fld[l.x][l.y].remove_field( field_to_remove ) ) {
         // Only adjust the count if the field actually existed.
-        current_submap->field_count--;
+        if( ! --current_submap->field_count ) {
+            get_cache( p.z ).field_cache.reset( static_cast<size_t>( p.x / SEEX + ( (
+                                                    p.y / SEEX ) * MAPSIZE ) ) );
+        }
         const auto &fdata = all_field_types_enum_list[ field_to_remove ];
         for( bool i : fdata.transparent ) {
             if( !i ) {
@@ -6504,6 +6511,8 @@ void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const int sx, const int
 template void
 shift_bitset_cache<MAPSIZE_X, SEEX>( std::bitset<MAPSIZE_X *MAPSIZE_X> &cache,
 				     const int sx, const int sy );
+template void
+shift_bitset_cache<MAPSIZE, 1>( std::bitset<MAPSIZE *MAPSIZE> &cache, const int sx, const int sy );
 
 void map::shift( const int sx, const int sy )
 {
@@ -6543,6 +6552,7 @@ void map::shift( const int sx, const int sy )
         clear_vehicle_cache( gridz );
         clear_vehicle_list( gridz );
         shift_bitset_cache<MAPSIZE_X, SEEX>( get_cache( gridz ).map_memory_seen_cache, sx, sy );
+        shift_bitset_cache<MAPSIZE, 1>( get_cache( gridz ).field_cache, sx, sy );
         if( sx >= 0 ) {
             for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
                 if( sy >= 0 ) {
@@ -6782,6 +6792,9 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     setsubmap( gridn, tmpsub );
     if( !tmpsub->active_items.empty() ) {
         submaps_with_active_items.emplace( absx, absy, gridz );
+    }
+    if( tmpsub->field_count > 0 ) {
+        get_cache( gridz ).field_cache.set( gridx + ( gridy * MAPSIZE ) );
     }
     // Destroy bugged no-part vehicles
     auto &veh_vec = tmpsub->vehicles;

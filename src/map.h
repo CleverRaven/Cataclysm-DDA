@@ -163,6 +163,7 @@ struct level_cache {
     float camera_cache[MAPSIZE_X][MAPSIZE_Y];
     lit_level visibility_cache[MAPSIZE_X][MAPSIZE_Y];
     std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_seen_cache;
+    std::bitset<MAPSIZE *MAPSIZE> field_cache;
 
     bool veh_in_active_range;
     bool veh_exists_at[MAPSIZE_X][MAPSIZE_Y];
