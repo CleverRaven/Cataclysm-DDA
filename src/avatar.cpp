@@ -777,8 +777,8 @@ bool avatar::read( int inventory_position, const bool continuous )
     // push an indentifier of martial art book to the action handling
     if( it.type->use_methods.find( "MA_MANUAL" ) != it.type->use_methods.end() ) {
 
-        if( g->u.stamina < g->u.get_stamina_max() * 0.2 ) {
-            add_msg( m_info, _( "You are too exhausted to train martial arts any longer." ) );
+        if( g->u.stamina < g->u.get_stamina_max() * 0.1 ) {
+            add_msg( m_info, _( "You are too exhausted to train martial arts." ) );
             return false;
         }
         act.str_values.clear();
