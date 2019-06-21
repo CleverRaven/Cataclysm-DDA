@@ -24,26 +24,12 @@
   },
   {
     "type": "mutation",
-    "id": "KILLER",
-    "name": "Killer Drive",
-    "points": 2,
-    "description": "You derive enjoyment from killing things.  Putting end to life seem to spark some dark satisfaction and thrill, and you crave it every moment.",
-    "category": [ "ELFA", "VAMP" ],
-    "starting_trait": true,
-    "valid": false,
-    "social_modifiers": { "intimidate": 10 },
-    "prereqs": [ "PSYCHOPATH" ],
-    "cancels": [ "PACIFIST" ],
-    "flags": [ "CANNIBAL" ]
-  },
-  {
-    "type": "mutation",
     "id": "ANIMALEMPATH",
     "name": "Animal Empathy",
     "points": 1,
     "description": "Peaceful animals will not run away from you, and even aggressive animals are less likely to attack.  This only applies to natural animals such as woodland creatures.",
     "starting_trait": true,
-    "category": [ "BEAST", "ELFA", "VAMP" ],
+    "category": [ "BEAST", "ELFA", "VAMP", "WENDIGO" ],
     "changes_to": [ "ANIMALEMPATH2" ],
     "cancels": [ "ANIMALDISCORD" ]
   },
