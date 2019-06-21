@@ -58,15 +58,7 @@
     "ups_charges": 10,
     "reload": 220,
     "modes": [ [ "DEFAULT", "burst", 12 ] ],
-    "valid_mod_locations": [
-      [ "accessories", 1 ],
-      [ "emitter", 1 ],
-      [ "grip", 1 ],
-      [ "lens", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ]
-    ],
+    "valid_mod_locations": [ [ "accessories", 1 ], [ "emitter", 1 ], [ "grip", 1 ], [ "lens", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
   },
