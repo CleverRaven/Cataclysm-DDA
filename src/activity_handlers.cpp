@@ -2720,15 +2720,14 @@ void activity_handlers::butcher_do_turn( player_activity *, player *p )
 
 void activity_handlers::read_do_turn( player_activity *act, player *p )
 {
-    if( act->str_values[0] == "martial_art" && one_in( 20 ) ) {
+    if( !act->str_values.empty() && act->str_values[0] == "martial_art" && one_in( 3 ) ) {
         if( act->values.size() == 0 ) {
             act->values.push_back( p->stamina );
         }
-        p->stamina = act->values[0] - 10; 
+        p->stamina = act->values[0] - 1; 
         act->values[0] = p->stamina;
-        add_msg( m_info, _( "Stored stamina: %d"), act->values[0] );
     }
-    if( p->stamina < p->get_stamina_max() * 0.2 ) {
+    if( p->stamina < p->get_stamina_max() * 0.1 ) {
         add_msg( m_info, _( "This training is exhausting.  Time to rest." ) );
         act->set_to_null();
     }
