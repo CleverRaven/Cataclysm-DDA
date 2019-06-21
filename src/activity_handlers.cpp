@@ -2724,7 +2724,7 @@ void activity_handlers::read_do_turn( player_activity *act, player *p )
         if( act->values.size() == 0 ) {
             act->values.push_back( p->stamina );
         }
-        p->stamina = act->values[0] - 1; 
+        p->stamina = act->values[0] - 1;
         act->values[0] = p->stamina;
     }
     if( p->stamina < p->get_stamina_max() * 0.1 ) {
