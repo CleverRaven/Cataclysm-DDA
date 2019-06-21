@@ -39,7 +39,7 @@
     "id": "crt_laser_gatling",
     "type": "GUN",
     "name": "C.R.I.T Chain Laser",
-    "description": "A tried and true favorite from the bowels of R&D hell. Based off of a researcher's video on three taped-together .5 LPs on a hand held power drill, this gun is a relatively light weapon for the amount of UPS and destruction it can cause.",
+    "description": "A tried and true favorite from the bowels of R&D hell. Based off of a researcher's video on three taped-together .5 LPs on a hand held power drill, this gun is a relatively light weapon for the amount of UPS it eats and destruction it can cause.",
     "weight": 2650,
     "volume": 10,
     "price": 1000000,
@@ -50,7 +50,7 @@
     "color": "cyan",
     "skill": "launcher",
     "range": 25,
-    "ranged_damage": { "damage_type": "heat", "amount": 8 },
+    "ranged_damage": { "damage_type": "heat", "amount": 9 },
     "pierce": 8,
     "dispersion": 150,
     "durability": 9,
@@ -65,8 +65,7 @@
       [ "lens", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      [ "stock", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
@@ -139,7 +138,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "ammo_effects": [ "STREAM", "INCENDIARY", "EXPLODE" ],
+    "ammo_effects": [ "STREAM", "INCENDIARY" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "UNARMED_WEAPON", "DURABLE_MELEE" ]
   },
   {
@@ -149,14 +148,14 @@
     "symbol": "(",
     "color": "ltgray",
     "name": "pellet gun",
-    "description": "A surprisingly powerful airgun that can reliably hunt small game. The small lead or alloy pellets that can be chambered provide it decent powet in every shot. It's fairly accurate and can be somewhat as damaging as a .22 short, but the break action charging system requires some arm strength to load a pellet.",
+    "description": "A surprisingly powerful airgun that can reliably hunt small game. The small lead or alloy pellets that can be chambered provide it decent power in every shot. It's fairly accurate and can be somewhat as damaging as a .22 short, but the break action charging system requires some arm strength to load a pellet.",
     "price": 9900,
     "//": "You can get a decent Ruger .177 at walmart for $99",
     "material": [ "steel", "plastic" ],
     "flags": [ "STR_RELOAD" ],
     "skill": "rifle",
     "ammo": "pellets",
-    "weight": 4023,
+    "weight": 5023,
     "volume": 8,
     "bashing": 10,
     "to_hit": -1,
