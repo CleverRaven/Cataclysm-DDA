@@ -16,9 +16,9 @@
       "sound_fail": "krick!",
       "ter_set": "t_null",
       "items": [
-        { "item": "stick", "count": [ 0, 2 ] },
+        { "item": "stick", "count": [ 0, 1 ] },
         { "item": "pebble", "charges": [ 1, 5 ] },
-        { "item": "splinter", "count": [ 1, 4 ] }
+        { "item": "splinter", "count": [ 1, 6 ] }
       ]
     }
   }
