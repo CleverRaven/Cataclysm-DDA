@@ -279,6 +279,8 @@ class spell
         // difficulty of the level
         int get_difficulty() const;
 
+        // makes a spell sound at the location
+        void make_sound( const tripoint &target ) const;
         // heals the critter at the location, returns amount healed (player heals each body part)
         int heal( const tripoint &target ) const;
 
