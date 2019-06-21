@@ -230,7 +230,7 @@ class martialart
         std::string description;
         std::vector<std::string> initiate;
         std::vector<std::vector<std::string>> autolearn_skills;
-        skill_id primary_skill = skill_id( "unarmed" );
+        skill_id primary_skill;
         int learn_difficulty = 0;
         int arm_block;
         int leg_block;

@@ -206,7 +206,7 @@ void martialart::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "description", description );
     mandatory( jo, was_loaded, "initiate", initiate );
     optional( jo, was_loaded, "autolearn", autolearn_skills );
-    optional( jo, was_loaded, "primary_skill", primary_skill);
+    optional( jo, was_loaded, "primary_skill", primary_skill, skill_id( "unarmed" ) );
     optional( jo, was_loaded, "learn_difficulty", learn_difficulty);
 
     optional( jo, was_loaded, "static_buffs", static_buffs, ma_buff_reader{} );
