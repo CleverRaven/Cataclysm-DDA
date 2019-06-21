@@ -46,7 +46,7 @@
     "id": "mon_slasher_weak",
     "type": "MONSTER",
     "name": "Weak Slasher Necromorph",
-    "description": "A horrifically mutilated human body. Two scrawny blades have freshly bursted through its hand to deal with prey and the haunting visage of a jawless maw sends chills down your spine. The awkward steps it steadily takes slows it down greatly.",
+    "description": "A horrifically mutilated human body. Two scrawny blades have freshly bursted through its hand to deal with prey and the haunting visage of a jawless maw and a gaping wound in its forehead sends chills down your spine. The awkward steps it takes slows it down greatly.",
     "default_faction": "zombie",
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
@@ -84,7 +84,7 @@
       "PUSH_MON",
       "FILTHY"
     ]
-  },  
+  },
   {
     "id": "mon_waster",
     "type": "MONSTER",
