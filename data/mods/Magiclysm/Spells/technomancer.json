@@ -15,7 +15,7 @@
     "difficulty": 1,
     "max_level": 1,
     "min_damage": 0,
-    "max_damage": -20,
+    "max_damage": -2,
     "damage_increment": -1,
     "min_aoe": 0,
     "max_aoe": 5,
