@@ -691,6 +691,18 @@ bool avatar::read( int inventory_position, const bool continuous )
             }
             act.index = menu.ret;
         }
+        if( it.type->use_methods.find( "MA_MANUAL" ) != it.type->use_methods.end() ) {
+            uilist menu;
+            menu.title = string_format( _( "Train %s from manual:" ), martial_art_learned_from( *it.type )->primary_skill->name() );
+            menu.addentry( -1, true, 1, _( "Train once." ) );
+            menu.addentry( getID(), true, 2, _( "Train untill tired or success." ) );
+            menu.query( true );
+            if( menu.ret == UILIST_CANCEL ) {
+                add_msg( m_info, _( "Never mind." ) );
+                return false;
+            }
+            act.index = menu.ret;
+        }
         add_msg( m_info, _( "Now reading %s, %s to stop early." ),
                  it.type_name(), press_x( ACTION_PAUSE ) );
     }
@@ -759,7 +771,7 @@ bool avatar::read( int inventory_position, const bool continuous )
     if( it.type->use_methods.find( "MA_MANUAL" ) != it.type->use_methods.end() ) {
 
         if( g->u.stamina < g->u.get_stamina_max() * 0.2 ) {
-            add_msg( m_info, _( "You are too exhausted to train martial arts." ) );
+            add_msg( m_info, _( "You are too exhausted to train martial arts any longer." ) );
             return false;
         }
         act.str_values.clear();
@@ -833,6 +845,27 @@ void avatar::do_read( item &book )
         add_msg( m_info, ngettext( "A chapter of this book takes %d minute to read.",
                                    "A chapter of this book takes %d minutes to read.", reading->time ),
                  reading->time );
+
+        if( book.type->use_methods.find( "MA_MANUAL" ) != book.type->use_methods.end() ) {
+
+                const matype_id style_to_learn = martial_art_learned_from( *book.type );
+                std::string diff;
+                if( style_to_learn->learn_difficulty <= 2 ) {
+                    diff = _( "easy" );
+                } else if( style_to_learn->learn_difficulty <= 4 ) {
+                    diff = _( "moderately hard" );
+                } else if( style_to_learn->learn_difficulty <= 6 ) {
+                    diff = _( "hard" );
+                } else if( style_to_learn->learn_difficulty <= 8 ) { 
+                    diff = _( "very hard" );
+                } else {
+                    diff = _( "extremaly hard" );
+                }
+
+                add_msg( m_info, _( "You can learn %s style from it." ), style_to_learn->name );
+                add_msg( m_info, _( "This fighting style is %s to learn." ), diff );
+                add_msg( m_info, _( "It'd be easier to master if you'd have skill expertise in %s." ), style_to_learn->primary_skill->name() );
+        }
 
         std::vector<std::string> recipe_list;
         for( const auto &elem : reading->recipes ) {
@@ -995,26 +1028,32 @@ void avatar::do_read( item &book )
 
         skill_id skill_used = style_to_learn->primary_skill;
         int difficulty = style_to_learn->learn_difficulty;
+        difficulty = 10 + difficulty * 2 - g->u.get_skill_level( skill_used ) * 2;
+        add_msg( m_debug, _( "Chance to learn one in: %d" ), difficulty );
 
-        if( one_in( 10 + difficulty - g->u.get_skill_level( skill_used ) ) ) {
+        if( one_in( difficulty ) ) {
             m->second.call( *this, book, false, pos() );
             continuous = false;
         } else {
-            switch ( rng( 1, 5 ) )
-            {
-            case 1:
-                add_msg( m_info, _( "You train the moves according to the book, but can't get a grasp of the style, so you start from the begining." ) );
-                break;
-            case 2:
-                add_msg( m_info, _( "This martial art is not easy to grasp.  You start training the moves from the begining." ) );
-                break;
-            case 3:
-                add_msg( m_info, _( "You decide to read the manual and train even more.  In martial arts patience leads to mastery." ) );
-            case 4:
-            case 5:
-                add_msg( m_info, _( "You try again.  This training will finally pay off." ) );
+            if( activity.index == g->u.getID() ) {
+                continuous = true;
+                switch ( rng( 1, 5 ) )
+                {
+                case 1:
+                    add_msg( m_info, _( "You train the moves according to the book, but can't get a grasp of the style, so you start from the begining." ) );
+                    break;
+                case 2:
+                    add_msg( m_info, _( "This martial art is not easy to grasp.  You start training the moves from the begining." ) );
+                    break;
+                case 3:
+                    add_msg( m_info, _( "You decide to read the manual and train even more.  In martial arts patience leads to mastery." ) );
+                case 4:
+                case 5:
+                    add_msg( m_info, _( "You try again.  This training will finally pay off." ) );
+                }
+            } else {
+                add_msg( m_info, _( "You train for a while." ) );
             }
-            continuous = true;
         }
     }
 
