@@ -17,14 +17,14 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "knockback_dist": 1,
-    "mult_bonuses": [ [ "movecost", 0.8 ], [ "damage", "bash", 0.6 ], [ "damage", "cut", 0.6 ], [ "damage", "stab", 0.6 ] ],
+    "mult_bonuses": [ [ "movecost", 0.6 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ],
     "flat_bonuses": [
       [ "movecost", "str", -1.0 ],
       [ "damage", "bash", "str", 0.1 ],
       [ "damage", "stab", "str", 0.1 ],
       [ "damage", "cut", "str", 0.1 ]
     ],
-    "messages": [ "Your momentum causes your weapon to strike %s", "<npcname> inertially strikes %s" ],
+    "messages": [ "Your momentum causes your weapon to glance off of %s", "<npcname> inertially strikes %s" ],
     "aoe": "wide",
     "description": "75% moves, 60% damage, wide arc, STR (S) dramatically reduces action cost, and adds a (C) damage bonus, min 4 melee"
   },
@@ -45,7 +45,7 @@
       [ "damage", "stab", "per", 0.15 ]
     ],
     "messages": [ "You draw back your arm and release a well placed chop %s", "<npcname> chops %s" ],
-    "description": "Crit only, 115% move cost, 105% Bash, 105% Stab, 125% Cut, DEX (D) and PER (E) reduces action cost and increases overall (B) damage, min 2 melee"
+    "description": "Crit only, 118% move cost, 105% Bash and Stab, 125% Cut, DEX (D) and PER (E) reduces action cost and increases overall (B) damage, min 2 melee"
   },
   {
     "type": "technique",
