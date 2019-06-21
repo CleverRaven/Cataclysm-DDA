@@ -135,7 +135,7 @@
     "min_duration": 1,
     "max_duration": 2,
     "duration_increment": 1,
-    "difficulty": 5,
+    "difficulty": 7,
     "max_level": 1,
     "energy_source": "MANA",
     "flags": [ "PERMANENT" ]
