@@ -32,6 +32,8 @@ static const std::string title_SKILLS = _( "SKILLS" );
 static const std::string title_BIONICS = _( "BIONICS" );
 static const std::string title_TRAITS = _( "TRAITS" );
 
+static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
+
 // use this instead of having to type out 26 spaces like before
 static const std::string header_spaces( 26, ' ' );
 
@@ -1037,27 +1039,25 @@ static void draw_initial_windows( const catacurses::window &w_stats,
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
-    /* Cache result of calculation, possibly used multiple times later. */
-    const auto player_local_temp = g->weather.get_temperature( you.pos() );
-    if( you.has_trait( trait_id( "COLDBLOOD4" ) ) && player_local_temp > 65 ) {
-        pen = ( player_local_temp - 65 ) / 2;
-        mvwprintz( w_speed, line, 1, c_green, _( "Cold-Blooded        +%s%d%%" ),
-                   ( pen < 10 ? " " : "" ), pen );
-        line++;
-    }
-    if( ( you.has_trait( trait_id( "COLDBLOOD" ) ) || you.has_trait( trait_id( "COLDBLOOD2" ) ) ||
-          you.has_trait( trait_id( "COLDBLOOD3" ) ) || you.has_trait( trait_id( "COLDBLOOD4" ) ) ) &&
-        player_local_temp < 65 ) {
-        if( you.has_trait( trait_id( "COLDBLOOD3" ) ) || you.has_trait( trait_id( "COLDBLOOD4" ) ) ) {
-            pen = ( 65 - player_local_temp ) / 2;
-        } else if( you.has_trait( trait_id( "COLDBLOOD2" ) ) ) {
-            pen = ( 65 - player_local_temp ) / 3;
-        } else {
-            pen = ( 65 - player_local_temp ) / 5;
+
+    const float temperature_speed_modifier = you.mutation_value( "temperature_speed_modifier" );
+    if( temperature_speed_modifier != 0 ) {
+        nc_color pen_color;
+        std::string pen_sign;
+        const auto player_local_temp = g->weather.get_temperature( you.pos() );
+        if( you.has_trait( trait_COLDBLOOD4 ) && player_local_temp > 65 ) {
+            pen_color = c_green;
+            pen_sign = "+";
+        } else if( player_local_temp < 65 ) {
+            pen_color = c_red;
+            pen_sign = "-";
         }
-        mvwprintz( w_speed, line, 1, c_red, _( "Cold-Blooded        -%s%d%%" ),
-                   ( pen < 10 ? " " : "" ), pen );
-        line++;
+        if( !pen_sign.empty() ) {
+            pen = ( player_local_temp - 65 ) * temperature_speed_modifier;
+            mvwprintz( w_speed, line, 1, pen_color, _( "Cold-Blooded        %s%s%d%%" ), pen_sign,
+                       ( pen < 10 ? " " : "" ), pen );
+            line++;
+        }
     }
 
     int quick_bonus = static_cast<int>( newmoves - ( newmoves / 1.1 ) );
