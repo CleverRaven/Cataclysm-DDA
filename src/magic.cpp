@@ -51,7 +51,14 @@ const std::map<std::string, spell_flag> flag_map = {
     { "PERMANENT", spell_flag::PERMANENT },
     { "IGNORE_WALLS", spell_flag::IGNORE_WALLS },
     { "HOSTILE_SUMMON", spell_flag::HOSTILE_SUMMON },
-    { "HOSTILE_50", spell_flag::HOSTILE_50 }
+    { "HOSTILE_50", spell_flag::HOSTILE_50 },
+    { "SILENT", spell_flag::SILENT },
+    { "LOUD", spell_flag::LOUD },
+    { "VERBAL", spell_flag::VERBAL },
+    { "SOMATIC", spell_flag::SOMATIC },
+    { "NO_HANDS", spell_flag::NO_HANDS },
+    { "NO_LEGS", spell_flag::NO_LEGS },
+    { "CONCENTRATE", spell_flag::CONCENTRATE }
 };
 } // namespace
 
