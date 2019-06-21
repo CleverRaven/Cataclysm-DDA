@@ -2562,7 +2562,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
         return;
     }
 
-    item &brew_i = items_here.only_item();
+    item &brew_i = *items_here.begin();
     // Does the vat contain unfermented brew, or already fermented booze?
     // TODO: Allow "recursive brewing" to continue without player having to check on it
     if( brew_i.is_brewable() ) {
