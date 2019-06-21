@@ -2673,7 +2673,7 @@ bool map::is_flammable( const tripoint &p )
         return true;
     }
 
-    if( get_field_strength( p, fd_web ) > 0 ) {
+    if( get_field_intensity( p, fd_web ) > 0 ) {
         return true;
     }
 
@@ -5328,9 +5328,9 @@ time_duration map::adjust_field_age( const tripoint &p, const field_id type,
     return set_field_age( p, type, offset, true );
 }
 
-int map::adjust_field_strength( const tripoint &p, const field_id type, const int offset )
+int map::adjust_field_intensity( const tripoint &p, const field_id type, const int offset )
 {
-    return set_field_strength( p, type, offset, true );
+    return set_field_intensity( p, type, offset, true );
 }
 
 time_duration map::set_field_age( const tripoint &p, const field_id type, const time_duration &age,
@@ -5346,13 +5346,13 @@ time_duration map::set_field_age( const tripoint &p, const field_id type, const 
  * set strength of field type at point, creating if not present, removing if strength is 0
  * returns resulting strength, or 0 for not present
  */
-int map::set_field_strength( const tripoint &p, const field_id type, const int str, bool isoffset )
+int map::set_field_intensity( const tripoint &p, const field_id type, const int str, bool isoffset )
 {
     field_entry *field_ptr = get_field( p, type );
     if( field_ptr != nullptr ) {
         int adj = ( isoffset ? field_ptr->get_field_intensity() : 0 ) + str;
         if( adj > 0 ) {
-            field_ptr->set_field_density( adj );
+            field_ptr->set_field_intensity( adj );
             return adj;
         } else {
             remove_field( p, type );
@@ -5371,7 +5371,7 @@ time_duration map::get_field_age( const tripoint &p, const field_id type ) const
     return field_ptr == nullptr ? -1_turns : field_ptr->get_field_age();
 }
 
-int map::get_field_strength( const tripoint &p, const field_id type ) const
+int map::get_field_intensity( const tripoint &p, const field_id type ) const
 {
     auto field_ptr = field_at( p ).find_field( type );
     return ( field_ptr == nullptr ? 0 : field_ptr->get_field_intensity() );
@@ -5389,14 +5389,15 @@ field_entry *map::get_field( const tripoint &p, const field_id type )
     return current_submap->fld[l.x][l.y].find_field( type );
 }
 
-bool map::add_field( const tripoint &p, const field_id type, int density, const time_duration &age )
+bool map::add_field( const tripoint &p, const field_id type, int intensity,
+                     const time_duration &age )
 {
     if( !inbounds( p ) ) {
         return false;
     }
 
-    density = std::min( density, MAX_FIELD_DENSITY );
-    if( density <= 0 ) {
+    intensity = std::min( intensity, MAX_FIELD_INTENSITY );
+    if( intensity <= 0 ) {
         return false;
     }
 
@@ -5408,7 +5409,7 @@ bool map::add_field( const tripoint &p, const field_id type, int density, const 
     submap *const current_submap = get_submap_at( p, l );
     current_submap->is_uniform = false;
 
-    if( current_submap->fld[l.x][l.y].add_field( type, density, age ) ) {
+    if( current_submap->fld[l.x][l.y].add_field( type, intensity, age ) ) {
         //Only adding it to the count if it doesn't exist.
         current_submap->field_count++;
     }
@@ -5479,7 +5480,7 @@ void map::add_splatter( const field_id type, const tripoint &where, int intensit
             }
         }
     }
-    adjust_field_strength( where, type, intensity );
+    adjust_field_intensity( where, type, intensity );
 }
 
 void map::add_splatter_trail( const field_id type, const tripoint &from, const tripoint &to )
@@ -5499,14 +5500,14 @@ void map::add_splatter_trail( const field_id type, const tripoint &from, const t
     }
 }
 
-void map::add_splash( const field_id type, const tripoint &center, int radius, int density )
+void map::add_splash( const field_id type, const tripoint &center, int radius, int intensity )
 {
     if( type == fd_null ) {
         return;
     }
     // TODO: use Bresenham here and take obstacles into account
     for( const tripoint &pnt : points_in_radius( center, radius ) ) {
-        if( trig_dist( pnt, center ) <= radius && !one_in( density ) ) {
+        if( trig_dist( pnt, center ) <= radius && !one_in( intensity ) ) {
             add_splatter( type, pnt );
         }
     }
@@ -7159,10 +7160,10 @@ void map::decay_cosmetic_fields( const tripoint &p, const time_duration &time_si
         const time_duration added_age = 2 * time_since_last_actualize / rng( 2, 4 );
         fd.mod_age( added_age );
         const time_duration hl = all_field_types_enum_list[ fd.get_field_type() ].halflife;
-        const int density_drop = fd.get_field_age() / hl;
-        if( density_drop > 0 ) {
-            fd.set_field_density( fd.get_field_intensity() - density_drop );
-            fd.mod_age( -hl * density_drop );
+        const int intensity_drop = fd.get_field_age() / hl;
+        if( intensity_drop > 0 ) {
+            fd.set_field_intensity( fd.get_field_intensity() - intensity_drop );
+            fd.mod_age( -hl * intensity_drop );
         }
     }
 }
@@ -8540,8 +8541,8 @@ void map::update_pathfinding_cache( int zlev ) const
                     for( const auto &fld : tile.get_field() ) {
                         const field_entry &cur = fld.second;
                         const field_id type = cur.get_field_type();
-                        const int density = cur.get_field_intensity();
-                        if( all_field_types_enum_list[type].dangerous[density - 1] ) {
+                        const int intensity = cur.get_field_intensity();
+                        if( all_field_types_enum_list[type].dangerous[intensity - 1] ) {
                             cur_value |= PF_FIELD;
                         }
                     }

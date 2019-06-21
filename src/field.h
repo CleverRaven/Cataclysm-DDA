@@ -26,32 +26,32 @@ struct field_t {
     // should be the same as the entry in field_id below (e.g. "fd_fire").
     std::string id;
 
-    /** Display name for field at given density (e.g. light smoke, smoke, heavy smoke) */
-    std::string untranslated_name[ MAX_FIELD_DENSITY ];
-    /// Can be empty! \p density must be in the range [0, MAX_FIELD_DENSITY - 1].
-    std::string name( int density ) const;
+    /** Display name for field at given intensity (e.g. light smoke, smoke, heavy smoke) */
+    std::string untranslated_name[ MAX_FIELD_INTENSITY ];
+    /// Can be empty! \p intensity must be in the range [0, MAX_FIELD_INTENSITY - 1].
+    std::string name( int intensity ) const;
 
     char sym; //The symbol to draw for this field. Note that some are reserved like * and %. You will have to check the draw function for specifics.
     int priority; //Inferior numbers have lower priority. 0 is "ground" (splatter), 2 is "on the ground", 4 is "above the ground" (fire), 6 is reserved for furniture, and 8 is "in the air" (smoke).
 
-    /** Color the field will be drawn as on the screen at a given density */
-    deferred_color color[ MAX_FIELD_DENSITY ];
+    /** Color the field will be drawn as on the screen at a given intensity */
+    deferred_color color[ MAX_FIELD_INTENSITY ];
 
     /**
      * If false this field may block line of sight.
      * @warning this does nothing by itself. You must go to the code block in lightmap.cpp and modify
      * transparancy code there with a case statement as well!
     **/
-    bool transparent[ MAX_FIELD_DENSITY ];
+    bool transparent[ MAX_FIELD_INTENSITY ];
 
-    /** Where tile is dangerous (prompt before moving into) at given density */
-    bool dangerous[ MAX_FIELD_DENSITY ];
+    /** Where tile is dangerous (prompt before moving into) at given intensity */
+    bool dangerous[ MAX_FIELD_INTENSITY ];
 
-    //Controls, albeit randomly, how long a field of a given type will last before going down in density.
+    //Controls, albeit randomly, how long a field of a given type will last before going down in intensity.
     time_duration halflife;
 
-    /** cost of moving into and out of this field at given density */
-    int move_cost[ MAX_FIELD_DENSITY ];
+    /** cost of moving into and out of this field at given intensity */
+    int move_cost[ MAX_FIELD_INTENSITY ];
 
     /** Does it penetrate obstacles like gas, spread like liquid or just lie there like solid? */
     phase_id phase;
@@ -134,13 +134,13 @@ bool field_type_dangerous( field_id id );
 
 /**
  * An active or passive effect existing on a tile.
- * Each effect can vary in intensity (density) and age (usually used as a time to live).
+ * Each effect can vary in intensity and age (usually used as a time to live).
  */
 class field_entry
 {
     public:
-        field_entry() : type( fd_null ), density( 1 ), age( 0_turns ), is_alive( false ) { }
-        field_entry( const field_id t, const int d, const time_duration &a ) : type( t ), density( d ),
+        field_entry() : type( fd_null ), intensity( 1 ), age( 0_turns ), is_alive( false ) { }
+        field_entry( const field_id t, const int i, const time_duration &a ) : type( t ), intensity( i ),
             age( a ), is_alive( true ) { }
 
         nc_color color() const;
@@ -153,7 +153,7 @@ class field_entry
         //Returns the field_id of the current field entry.
         field_id get_field_type() const;
 
-        //Returns the current density (aka intensity) of the current field entry.
+        //Returns the current intensity of the current field entry.
         int get_field_intensity() const;
 
         //Allows you to modify the field_id of the current field entry.
@@ -161,8 +161,8 @@ class field_entry
         //breaks the field drawing code and field lookup
         field_id set_field_type( const field_id new_field_id );
 
-        //Allows you to modify the density of the current field entry.
-        int set_field_density( const int new_density );
+        //Allows you to modify the intensity of the current field entry.
+        int set_field_intensity( const int new_intensity );
 
         /// @returns @ref age.
         time_duration get_field_age() const;
@@ -177,13 +177,13 @@ class field_entry
 
         //Returns if the current field is dangerous or not.
         bool is_dangerous() const {
-            return all_field_types_enum_list[type].dangerous[density - 1];
+            return all_field_types_enum_list[type].dangerous[intensity - 1];
         }
 
-        //Returns the display name of the current field given its current density.
+        //Returns the display name of the current field given its current intensity.
         //IE: light smoke, smoke, heavy smoke
         std::string name() const {
-            return all_field_types_enum_list[type].name( density - 1 );
+            return all_field_types_enum_list[type].name( intensity - 1 );
         }
 
         //Returns true if this is an active field, false if it should be removed.
@@ -197,7 +197,7 @@ class field_entry
 
     private:
         field_id type; //The field identifier.
-        int density; //The density, or intensity (higher is stronger), of the field entry.
+        int intensity; //The intensity (higher is stronger), of the field entry.
         time_duration age; //The age, of the field effect. 0 is permanent.
         bool is_alive; //True if this is an active field, false if it should be destroyed next check.
 };
@@ -234,11 +234,11 @@ class field
         /**
          * Inserts the given field_id into the field list for a given tile if it does not already exist.
          * If you wish to modify an already existing field use find_field and modify the result.
-         * Density defaults to 1, and age to 0 (permanent) if not specified.
-         * The density is added to an existing field entry, but the age is only used for newly added entries.
+         * Intensity defaults to 1, and age to 0 (permanent) if not specified.
+         * The intensity is added to an existing field entry, but the age is only used for newly added entries.
          * @return false if the field_id already exists, true otherwise.
          */
-        bool add_field( field_id field_to_add, int new_density = 1,
+        bool add_field( field_id field_to_add, int new_intensity = 1,
                         const time_duration &new_age = 0_turns );
 
         /**

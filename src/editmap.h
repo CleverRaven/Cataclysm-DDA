@@ -94,7 +94,7 @@ class editmap
         trap_id cur_trap;
 
         int sel_field;
-        int sel_fdensity;
+        int sel_field_intensity;
 
         trap_id sel_trap;
 

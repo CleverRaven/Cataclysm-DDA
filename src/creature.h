@@ -268,7 +268,7 @@ class Creature
         /** Returns true if the given field entry is dangerous to us. */
         bool is_dangerous_field( const field_entry &entry ) const;
         /** Returns true if we are immune to the field type with the given fid. Does not
-         *  handle density, so this function should only be called through is_dangerous_field().
+         *  handle intensity, so this function should only be called through is_dangerous_field().
          */
         virtual bool is_immune_field( const field_id ) const {
             return false;

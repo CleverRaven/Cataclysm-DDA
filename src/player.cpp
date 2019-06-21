@@ -5867,7 +5867,8 @@ void player::suffer()
     }
     //Web Weavers...weave web
     if( has_active_mutation( trait_WEB_WEAVER ) && !in_vehicle ) {
-        g->m.add_field( pos(), fd_web, 1 ); //this adds density to if its not already there.
+        // this adds intensity to if its not already there.
+        g->m.add_field( pos(), fd_web, 1 );
 
     }
 
@@ -5891,7 +5892,8 @@ void player::suffer()
     }
 
     if( has_trait( trait_WEB_SPINNER ) && !in_vehicle && one_in( 3 ) ) {
-        g->m.add_field( pos(), fd_web, 1 ); //this adds density to if its not already there.
+        // this adds intensity to if its not already there.
+        g->m.add_field( pos(), fd_web, 1 );
     }
 
     if( has_trait( trait_UNSTABLE ) && !has_trait( trait_CHAOTIC_BAD ) && one_turn_in( 48_hours ) ) {
@@ -9577,7 +9579,7 @@ void player::try_to_sleep( const time_duration &dur )
         webforce = true;
     }
     if( websleep || webforce ) {
-        int web = g->m.get_field_strength( pos(), fd_web );
+        int web = g->m.get_field_intensity( pos(), fd_web );
         if( !webforce ) {
             // At this point, it's kinda weird, but surprisingly comfy...
             if( web >= 3 ) {
@@ -9664,7 +9666,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
     const ter_id ter_at_pos = tile.get_ter();
     const furn_id furn_at_pos = tile.get_furn();
 
-    int web = g->m.get_field_strength( p, fd_web );
+    int web = g->m.get_field_intensity( p, fd_web );
 
     // Some mutants have different comfort needs
     if( !plantsleep && !webforce ) {

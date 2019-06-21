@@ -2036,7 +2036,7 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
     p->moves -= to_moves<int>( 2_seconds );
 
     // Reduce the strength of fire (if any) in the target tile.
-    g->m.adjust_field_strength( dest, fd_fire, 0 - rng( 2, 3 ) );
+    g->m.adjust_field_intensity( dest, fd_fire, 0 - rng( 2, 3 ) );
 
     // Also spray monsters in that tile.
     if( monster *const mon_ptr = g->critter_at<monster>( dest, true ) ) {
@@ -2067,7 +2067,7 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
         dest.x += ( dest.x - p->posx() );
         dest.y += ( dest.y - p->posy() );
 
-        g->m.adjust_field_strength( dest, fd_fire, std::min( 0 - rng( 0, 1 ) + rng( 0, 1 ), 0 ) );
+        g->m.adjust_field_intensity( dest, fd_fire, std::min( 0 - rng( 0, 1 ) + rng( 0, 1 ), 0 ) );
     }
 
     return it->type->charges_to_use();
@@ -3483,11 +3483,11 @@ int iuse::throwable_extinguisher_act( player *, item *it, bool, const tripoint &
     }
     if( g->m.get_field( pos, fd_fire ) != nullptr ) {
         // Reduce the strength of fire (if any) in the target tile.
-        g->m.adjust_field_strength( pos, fd_fire, 0 - 1 );
+        g->m.adjust_field_intensity( pos, fd_fire, 0 - 1 );
         // Slightly reduce the strength of fire around and in the target tile.
         for( const tripoint &dest : g->m.points_in_radius( pos, 1 ) ) {
             if( g->m.passable( dest ) && dest != pos ) {
-                g->m.adjust_field_strength( dest, fd_fire, 0 - rng( 0, 1 ) );
+                g->m.adjust_field_intensity( dest, fd_fire, 0 - rng( 0, 1 ) );
             }
         }
         return 1;
@@ -3737,8 +3737,8 @@ int iuse::molotov_lit( player *p, item *it, bool t, const tripoint &pos )
     } else {
         if( !t ) {
             for( auto &pt : g->m.points_in_radius( pos, 1, 0 ) ) {
-                const int density = 1 + one_in( 3 ) + one_in( 5 );
-                g->m.add_field( pt, fd_fire, density );
+                const int intensity = 1 + one_in( 3 ) + one_in( 5 );
+                g->m.add_field( pt, fd_fire, intensity );
             }
         }
     }
