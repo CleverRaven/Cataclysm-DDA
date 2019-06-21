@@ -2004,7 +2004,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 } else if( style_to_learn->learn_difficulty <= 8 ) {
                     diff = _( "very hard" );
                 } else {
-                    diff = _( "extremaly hard" );
+                    diff = _( "extremely hard" );
                 }
 
                 info.push_back( iteminfo( "BOOK",

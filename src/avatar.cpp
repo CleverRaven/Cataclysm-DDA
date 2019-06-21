@@ -867,7 +867,7 @@ void avatar::do_read( item &book )
             } else if( style_to_learn->learn_difficulty <= 8 ) {
                 diff = _( "very hard" );
             } else {
-                diff = _( "extremaly hard" );
+                diff = _( "extremely hard" );
             }
 
             add_msg( m_info, _( "You can learn %s style from it." ), style_to_learn->name );
@@ -1043,15 +1043,15 @@ void avatar::do_read( item &book )
                 switch( rng( 1, 5 ) ) {
                     case 1:
                         add_msg( m_info,
-                                 _( "You train the moves according to the book, but can't get a grasp of the style, so you start from the begining." ) );
+                                 _( "You train the moves according to the book, but can't get a grasp of the style, so you start from the beginning." ) );
                         break;
                     case 2:
                         add_msg( m_info,
-                                 _( "This martial art is not easy to grasp.  You start training the moves from the begining." ) );
+                                 _( "This martial art is not easy to grasp.  You start training the moves from the beginning." ) );
                         break;
                     case 3:
                         add_msg( m_info,
-                                 _( "You decide to read the manual and train even more.  In martial arts patience leads to mastery." ) );
+                                 _( "You decide to read the manual and train even more.  In martial arts, patience leads to mastery." ) );
                     case 4:
                     case 5:
                         add_msg( m_info, _( "You try again.  This training will finally pay off." ) );
