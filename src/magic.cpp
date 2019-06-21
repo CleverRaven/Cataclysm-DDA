@@ -550,11 +550,13 @@ bool spell::is_valid_target( const tripoint &p ) const
         Creature::Attitude cr_att = cr->attitude_to( g->u );
         valid = valid || ( cr_att != Creature::A_FRIENDLY && is_valid_target( target_hostile ) ) ||
                 ( cr_att == Creature::A_FRIENDLY && is_valid_target( target_ally ) );
+    } else {
+        valid = is_valid_target( target_ground );
     }
     if( p == g->u.pos() ) {
         valid = valid || is_valid_target( target_self );
     }
-    return valid || is_valid_target( target_ground );
+    return valid;
 }
 
 std::string spell::description() const

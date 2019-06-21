@@ -100,19 +100,22 @@ void spell_effect::move_earth( const tripoint &target )
     }
 }
 
-static bool in_spell_aoe( const tripoint &target, const tripoint &epicenter, const int &radius,
+static bool in_spell_aoe( const tripoint &start, const tripoint &end, const int &radius,
                           const bool ignore_walls )
 {
-    if( ignore_walls ) {
-        return rl_dist( epicenter, target ) <= radius;
+    if( rl_dist( start, end ) > radius ) {
+        return false;
     }
-    std::vector<tripoint> trajectory = line_to( epicenter, target );
+    if( ignore_walls ) {
+        return true;
+    }
+    const std::vector<tripoint> trajectory = line_to( start, end );
     for( const tripoint &pt : trajectory ) {
         if( g->m.impassable( pt ) ) {
             return false;
         }
     }
-    return rl_dist( epicenter, target ) <= radius;
+    return true;
 }
 
 std::set<tripoint> spell_effect::spell_effect_blast( const spell &, const tripoint &,
@@ -122,11 +125,9 @@ std::set<tripoint> spell_effect::spell_effect_blast( const spell &, const tripoi
     // TODO: Make this breadth-first
     for( int x = target.x - aoe_radius; x <= target.x + aoe_radius; x++ ) {
         for( int y = target.y - aoe_radius; y <= target.y + aoe_radius; y++ ) {
-            for( int z = target.z - aoe_radius; z <= target.z + aoe_radius; z++ ) {
-                const tripoint potential_target( x, y, z );
-                if( in_spell_aoe( potential_target, target, aoe_radius, ignore_walls ) ) {
-                    targets.emplace( potential_target );
-                }
+            const tripoint potential_target( x, y, target.z );
+            if( in_spell_aoe( target, potential_target, aoe_radius, ignore_walls ) ) {
+                targets.emplace( potential_target );
             }
         }
     }
@@ -148,7 +149,7 @@ std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripo
         end_points.emplace( potential );
     }
     for( const tripoint &ep : end_points ) {
-        std::vector<tripoint> trajectory = line_to( ep, source );
+        std::vector<tripoint> trajectory = line_to( source, ep );
         for( const tripoint &tp : trajectory ) {
             if( ignore_walls || g->m.passable( tp ) ) {
                 targets.emplace( tp );
@@ -296,6 +297,9 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
 static void damage_targets( const spell &sp, std::set<tripoint> targets )
 {
     for( const tripoint target : targets ) {
+        if( !sp.is_valid_target( target ) ) {
+            continue;
+        }
         Creature *const cr = g->critter_at<Creature>( target );
         if( !cr ) {
             continue;
