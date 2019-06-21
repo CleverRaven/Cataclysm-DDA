@@ -63,7 +63,7 @@
     "prereqs": [ "SMELLY2" ],
     "types": [ "SCENT" ],
     "category": [ "BEAST", "CATTLE", "WENDIGO" ]
-  },  
+  },
   {
     "type": "mutation",
     "id": "SLASHERS",
