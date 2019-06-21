@@ -14,7 +14,7 @@
     "range_increment": 0.75,
     "effect": "target_attack",
     "base_casting_time": 300,
-    "base_energy_cost": 300,
+    "base_energy_cost": 800,
     "spell_class": "BIOMANCER",
     "difficulty": 2,
     "energy_source": "MANA"
@@ -68,7 +68,7 @@
     "difficulty": 6,
     "max_level": 20,
     "min_damage": 0,
-    "max_damage": -20,
+    "max_damage": -8,
     "damage_increment": -1,
     "//": "duration is in moves",
     "min_duration": 6000,

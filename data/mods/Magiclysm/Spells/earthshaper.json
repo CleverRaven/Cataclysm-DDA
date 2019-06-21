@@ -61,6 +61,8 @@
     "max_level": 12,
     "spell_class": "EARTHSHAPER",
     "base_casting_time": 500,
+    "final_casting_time": 300,
+    "casting_time_increment": -17,
     "energy_source": "MANA",
     "base_energy_cost": 150,
     "energy_increment": 75,
