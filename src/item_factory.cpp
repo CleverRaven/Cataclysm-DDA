@@ -2458,6 +2458,7 @@ void Item_factory::add_entry( Item_group &ig, JsonObject &obj )
                                              probability ) );
     }
     if( !sptr ) {
+        debugmsg( "Failed to load an entry in an item group." );
         return;
     }
 
