@@ -1022,11 +1022,26 @@
       {
         "id": "medievalpole_static",
         "name": "Stand Your Ground",
-        "description": "Stand your ground and counter, halves your dodge and increases your armor against bash and cut by 20% of your strength while you are standing still.",
+        "description": "+2 blocks -1 dodge, halves your dodge and damage is reduced by your strength when blocking",
         "strictly_melee": true,
-        "mult_bonuses": [ [ "armor", "bash", "str", 0.2 ], [ "armor", "cut", "str", 0.2 ], [ "dodge", 0.5 ] ],
+        "flat_bonuses": [ [ "block", "str", 1.0 ] ],
+        "mult_bonuses": [ [ "dodge", -0.5 ] ],
         "bonus_dodges": -1,
         "bonus_blocks": 2
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "medievalpole_static",
+        "name": "You moved",
+        "description": "Nulifies Stand Your Ground, don't move, stand there and counter!",
+        "strictly_melee": true,
+        "flat_bonuses": [ [ "block", "str", -1.0 ] ],
+        "mult_bonuses": [ [ "dodge", 0.5 ] ],
+        "buff_duration": 2,
+        "max_stacks": 1,
+        "bonus_dodges": 1,
+        "bonus_blocks": -2
       }
     ],
     "onmiss_buffs": [
