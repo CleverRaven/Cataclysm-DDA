@@ -8621,12 +8621,16 @@
           "fg": 2505
         },
         {
-          "id": ["cape_fp"],
+          "id": ["overlay_worn_foodperson_mask_on"],
           "fg": 2506
         },
         {
-          "id": ["overlay_worn_cape_fp"],
+          "id": ["cape_fp"],
           "fg": 2507
+        },
+        {
+          "id": ["overlay_worn_cape_fp"],
+          "fg": 2508
         },
         {
           "id": ["highlight_item" ],
