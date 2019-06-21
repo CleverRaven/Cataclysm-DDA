@@ -1004,8 +1004,6 @@ bool veh_interact::move_in_list( int &pos, const std::string &action, const int 
     return true;
 }
 
-#include <iostream>
-
 bool veh_interact::do_repair( std::string &msg )
 {
     task_reason reason = cant_do( 'r' );
