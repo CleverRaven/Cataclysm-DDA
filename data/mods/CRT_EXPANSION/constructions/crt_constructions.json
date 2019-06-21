@@ -4,7 +4,7 @@
     "description": "Cut Grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
-    "time": 5 m,
+    "time": "6 m",
     "byproducts": [ { "item": "withered", "charges": [ 1, 3 ] } ],
     "pre_terrain": "t_grass_long",
     "post_terrain": "t_grass",
