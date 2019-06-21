@@ -994,8 +994,8 @@ static void loot()
         }
 
         if( flags & PlantPlots ) {
-            menu.addentry_desc( PlantPlots, warm_enough_to_plant() && has_seeds, 'p',
-                                !warm_enough_to_plant() ? _( "Plant seeds... it is too cold for planting" ) :
+            menu.addentry_desc( PlantPlots, warm_enough_to_plant( g->u.pos() ) && has_seeds, 'p',
+                                !warm_enough_to_plant( g->u.pos() ) ? _( "Plant seeds... it is too cold for planting" ) :
                                 !has_seeds ? _( "Plant seeds... you don't have any" ) : _( "Plant seeds" ),
                                 _( "Plant seeds into nearby Farm: Plot zones. Farm plot has to be set to specific plant seed and you must have seeds in your inventory." ) );
         }
@@ -1033,7 +1033,7 @@ static void loot()
             }
             break;
         case PlantPlots:
-            if( !warm_enough_to_plant() ) {
+            if( !warm_enough_to_plant( g->u.pos() ) ) {
                 add_msg( m_info, _( "It is too cold to plant anything now." ) );
             } else if( !has_seeds ) {
                 add_msg( m_info, _( "You don't have any seeds." ) );
