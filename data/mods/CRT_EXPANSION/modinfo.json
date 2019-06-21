@@ -5,7 +5,7 @@
     "name": "C.R.I.T Expansion Mod",
     "authors": [ "Soupster89" ],
     "maintainers": [ "Soupster89" ],
-    "description": "Adds new professions, guns, gunmods, enemies, materials, martial arts, melees/tools and weapon techniques.",
+    "description": "Adds a plethora of content including new professions, gun related things, enemies, martial arts, melee related things, and some QOL changes.",
     "category": "content",
     "dependencies": [ "dda" ]
   }
