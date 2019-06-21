@@ -169,5 +169,26 @@
     "base_casting_time": 100,
     "energy_source": "MANA",
     "base_energy_cost": 250
+  },
+  {
+    "id": "create_rune_magus",
+    "type": "SPELL",
+    "name": "Magus Rune",
+    "description": "This ritual creates a small pebble attuned to Magi. You can use the rune as a catalyst for recipes.",
+    "valid_targets": [ "self" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "rune_magus",
+    "base_casting_time": 5000,
+    "base_energy_cost": 5,
+    "min_duration": 1,
+    "max_duration": 2,
+    "duration_increment": 1,
+    "difficulty": 0,
+    "max_level": 1,
+    "spell_class": "MAGUS",
+    "energy_source": "MANA",
+    "flags": [ "PERMANENT" ]
   }
 ]

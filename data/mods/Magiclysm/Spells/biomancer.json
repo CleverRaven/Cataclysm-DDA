@@ -139,5 +139,26 @@
     "max_level": 20,
     "spell_class": "BIOMANCER",
     "energy_source": "MANA"
+  },
+  {
+    "id": "create_rune_biomancer",
+    "type": "SPELL",
+    "name": "Biomancer Rune",
+    "description": "This ritual creates a small pebble attuned to Biomancers. You can use the rune as a catalyst for recipes.",
+    "valid_targets": [ "self" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "rune_biomancer",
+    "base_casting_time": 5000,
+    "base_energy_cost": 5,
+    "min_duration": 1,
+    "max_duration": 2,
+    "duration_increment": 1,
+    "difficulty": 0,
+    "max_level": 1,
+    "spell_class": "BIOMANCER",
+    "energy_source": "MANA",
+    "flags": [ "PERMANENT" ]
   }
 ]
