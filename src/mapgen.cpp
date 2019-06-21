@@ -2708,32 +2708,32 @@ void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const o
     const bool generated = run_mapgen_func( function_key, this, terrain_type, dat, when, density );
 
     if( !generated ) {
-        if( is_ot_type( "megastore", terrain_type ) ) {
+        if( is_ot_prefix( "megastore", terrain_type ) ) {
             draw_megastore( terrain_type, dat, when, density );
-        } else if( is_ot_type( "slimepit", terrain_type ) ||
-                   is_ot_type( "slime_pit", terrain_type ) ) {
+        } else if( is_ot_prefix( "slimepit", terrain_type ) ||
+                   is_ot_prefix( "slime_pit", terrain_type ) ) {
             draw_slimepit( terrain_type, dat, when, density );
-        } else if( is_ot_type( "haz_sar", terrain_type ) ) {
+        } else if( is_ot_prefix( "haz_sar", terrain_type ) ) {
             draw_sarcophagus( terrain_type, dat, when, density );
-        } else if( is_ot_type( "triffid", terrain_type ) ) {
+        } else if( is_ot_prefix( "triffid", terrain_type ) ) {
             draw_triffid( terrain_type, dat, when, density );
-        } else if( is_ot_type( "office", terrain_type ) ) {
+        } else if( is_ot_prefix( "office", terrain_type ) ) {
             draw_office_tower( terrain_type, dat, when, density );
-        } else if( is_ot_type( "sewage", terrain_type ) ) {
+        } else if( is_ot_prefix( "sewage", terrain_type ) ) {
             draw_sewer( terrain_type, dat, when, density );
-        } else if( is_ot_type( "spider", terrain_type ) ) {
+        } else if( is_ot_prefix( "spider", terrain_type ) ) {
             draw_spider_pit( terrain_type, dat, when, density );
-        } else if( is_ot_type( "spiral", terrain_type ) ) {
+        } else if( is_ot_prefix( "spiral", terrain_type ) ) {
             draw_spiral( terrain_type, dat, when, density );
-        } else if( is_ot_type( "temple", terrain_type ) ) {
+        } else if( is_ot_prefix( "temple", terrain_type ) ) {
             draw_temple( terrain_type, dat, when, density );
-        } else if( is_ot_type( "toxic", terrain_type ) ) {
+        } else if( is_ot_prefix( "toxic", terrain_type ) ) {
             draw_toxic_dump( terrain_type, dat, when, density );
-        } else if( is_ot_type( "fema", terrain_type ) ) {
+        } else if( is_ot_prefix( "fema", terrain_type ) ) {
             draw_fema( terrain_type, dat, when, density );
-        } else if( is_ot_type( "mine", terrain_type ) ) {
+        } else if( is_ot_prefix( "mine", terrain_type ) ) {
             draw_mine( terrain_type, dat, when, density );
-        } else if( is_ot_type( "silo", terrain_type ) ) {
+        } else if( is_ot_prefix( "silo", terrain_type ) ) {
             draw_silo( terrain_type, dat, when, density );
         } else if( is_ot_subtype( "anthill", terrain_type ) ) {
             draw_anthill( terrain_type, dat, when, density );
@@ -3342,9 +3342,9 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
         terrain_type == "central_lab_core" ||
         terrain_type == "tower_lab" || terrain_type == "tower_lab_stairs" ) {
 
-        ice_lab = is_ot_type( "ice_lab", terrain_type );
-        central_lab = is_ot_type( "central_lab", terrain_type );
-        tower_lab = is_ot_type( "tower_lab", terrain_type );
+        ice_lab = is_ot_prefix( "ice_lab", terrain_type );
+        central_lab = is_ot_prefix( "central_lab", terrain_type );
+        tower_lab = is_ot_prefix( "tower_lab", terrain_type );
 
         if( ice_lab ) {
             int temperature = -20 + 30 * ( dat.zlevel );
@@ -4040,9 +4040,9 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
     } else if( terrain_type == "lab_finale" || terrain_type == "ice_lab_finale" ||
                terrain_type == "central_lab_finale" || terrain_type == "tower_lab_finale" ) {
 
-        ice_lab = is_ot_type( "ice_lab", terrain_type );
-        central_lab = is_ot_type( "central_lab", terrain_type );
-        tower_lab = is_ot_type( "tower_lab", terrain_type );
+        ice_lab = is_ot_prefix( "ice_lab", terrain_type );
+        central_lab = is_ot_prefix( "central_lab", terrain_type );
+        tower_lab = is_ot_prefix( "tower_lab", terrain_type );
 
         if( ice_lab ) {
             int temperature = -20 + 30 * dat.zlevel;
@@ -4991,22 +4991,22 @@ void map::draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_po
         rotate( rng( 0, 3 ) );
     } else if( terrain_type == "mine" ||
                terrain_type == "mine_down" ) {
-        if( is_ot_type( "mine", dat.north() ) ) {
+        if( is_ot_prefix( "mine", dat.north() ) ) {
             dat.n_fac = ( one_in( 10 ) ? 0 : -2 );
         } else {
             dat.n_fac = 4;
         }
-        if( is_ot_type( "mine", dat.east() ) ) {
+        if( is_ot_prefix( "mine", dat.east() ) ) {
             dat.e_fac = ( one_in( 10 ) ? 0 : -2 );
         } else {
             dat.e_fac = 4;
         }
-        if( is_ot_type( "mine", dat.south() ) ) {
+        if( is_ot_prefix( "mine", dat.south() ) ) {
             dat.s_fac = ( one_in( 10 ) ? 0 : -2 );
         } else {
             dat.s_fac = 4;
         }
-        if( is_ot_type( "mine", dat.west() ) ) {
+        if( is_ot_prefix( "mine", dat.west() ) ) {
             dat.w_fac = ( one_in( 10 ) ? 0 : -2 );
         } else {
             dat.w_fac = 4;
@@ -6491,7 +6491,7 @@ void map::draw_anthill( const oter_id &terrain_type, mapgendata &dat, const time
 void map::draw_slimepit( const oter_id &terrain_type, mapgendata &dat, const time_point &/*when*/,
                          const float /*density*/ )
 {
-    if( is_ot_type( "slimepit", terrain_type ) ) {
+    if( is_ot_prefix( "slimepit", terrain_type ) ) {
         for( int i = 0; i < SEEX * 2; i++ ) {
             for( int j = 0; j < SEEY * 2; j++ ) {
                 if( !one_in( 10 ) && ( j < dat.n_fac * SEEX ||
