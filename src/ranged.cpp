@@ -2308,7 +2308,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
 
     // Range is effectively four times longer when shooting unflagged/flagged guns underwater/out of water.
     if( is_underwater() != obj.has_flag( "UNDERWATER_GUN" ) ) {
-        // Adding dispersion for additonal debuff
+        // Adding dispersion for additional debuff
         dispersion.add_range( 150 );
         dispersion.add_multiplier( 4 );
     }
