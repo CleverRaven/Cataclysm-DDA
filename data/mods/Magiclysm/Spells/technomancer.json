@@ -144,7 +144,7 @@
     "valid_targets": [ "hostile", "ground", "ally" ],
     "effect": "projectile_attack",
     "spell_class": "TECHNOMANCER",
-    "energy_source": "MANA",
+    "energy_source": "BIONIC",
     "difficulty": 1,
     "base_casting_time": 100,
     "casting_time_increment": -1,
@@ -217,7 +217,7 @@
     "valid_targets": [ "hostile", "ground", "ally" ],
     "effect": "target_attack",
     "spell_class": "TECHNOMANCER",
-    "energy_source": "MANA",
+    "energy_source": "BIONIC",
     "difficulty": 3,
     "max_level": 20,
     "base_casting_time": 100,
@@ -283,9 +283,9 @@
     "range_increment": 0.25,
     "min_aoe": 3,
     "max_aoe": 3,
-    "min_duration": 6000,
-    "max_duration": 60000,
-    "duration_increment": 3000
+    "min_duration": 3000,
+    "max_duration": 6000,
+    "duration_increment": 200
   },
   {
     "id": "mirror_image",
@@ -313,8 +313,8 @@
     "range_increment": 0.5,
     "min_aoe": 3,
     "max_aoe": 3,
-    "min_duration": 6000,
-    "max_duration": 60000,
-    "duration_increment": 3000
+    "min_duration": 3000,
+    "max_duration": 6000,
+    "duration_increment": 200
   }
 ]
