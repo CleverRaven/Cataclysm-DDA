@@ -337,7 +337,7 @@ TEST_CASE( "npc-movement" )
             if( type == 'A' || type == 'R' || type == 'W' || type == 'M'
                 || type == 'B' || type == 'C' ) {
 
-                g->m.add_field( p, fd_acid, MAX_FIELD_DENSITY );
+                g->m.add_field( p, fd_acid, MAX_FIELD_INTENSITY );
             }
             // spawn rubbles
             if( type == 'R' ) {

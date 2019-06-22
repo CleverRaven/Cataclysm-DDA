@@ -484,7 +484,7 @@ int field_entry::move_cost() const
 
 nc_color field_entry::color() const
 {
-    return all_field_types_enum_list[type].color[density - 1];
+    return all_field_types_enum_list[type].color[intensity - 1];
 }
 
 char field_entry::symbol() const
@@ -499,7 +499,7 @@ field_id field_entry::get_field_type() const
 
 int field_entry::get_field_intensity() const
 {
-    return density;
+    return intensity;
 }
 
 time_duration field_entry::get_field_age() const
@@ -521,10 +521,10 @@ field_id field_entry::set_field_type( const field_id new_field_id )
 
 }
 
-int field_entry::set_field_density( const int new_density )
+int field_entry::set_field_intensity( const int new_intensity )
 {
-    is_alive = new_density > 0;
-    return density = std::max( std::min( new_density, MAX_FIELD_DENSITY ), 1 );
+    is_alive = new_intensity > 0;
+    return intensity = std::max( std::min( new_intensity, MAX_FIELD_INTENSITY ), 1 );
 }
 
 time_duration field_entry::set_field_age( const time_duration &new_age )
@@ -569,11 +569,11 @@ const field_entry *field::find_field( const field_id field_to_find ) const
 Function: addfield
 Inserts the given field_id into the field list for a given tile if it does not already exist.
 Returns false if the field_id already exists, true otherwise.
-If the field already exists, it will return false BUT it will add the density/age to the current values for upkeep.
+If the field already exists, it will return false BUT it will add the intensity/age to the current values for upkeep.
 If you wish to modify an already existing field use find_field and modify the result.
-Density defaults to 1, and age to 0 (permanent) if not specified.
+Intensity defaults to 1, and age to 0 (permanent) if not specified.
 */
-bool field::add_field( const field_id field_to_add, const int new_density,
+bool field::add_field( const field_id field_to_add, const int new_intensity,
                        const time_duration &new_age )
 {
     auto it = field_list.find( field_to_add );
@@ -583,10 +583,10 @@ bool field::add_field( const field_id field_to_add, const int new_density,
     }
     if( it != field_list.end() ) {
         //Already exists, but lets update it. This is tentative.
-        it->second.set_field_density( it->second.get_field_intensity() + new_density );
+        it->second.set_field_intensity( it->second.get_field_intensity() + new_intensity );
         return false;
     }
-    field_list[field_to_add] = field_entry( field_to_add, new_density, new_age );
+    field_list[field_to_add] = field_entry( field_to_add, new_intensity, new_age );
     return true;
 }
 
@@ -645,9 +645,10 @@ std::map<field_id, field_entry>::const_iterator field::end() const
     return field_list.end();
 }
 
-std::string field_t::name( const int density ) const
+std::string field_t::name( const int intensity ) const
 {
-    const std::string &n = untranslated_name[std::min( std::max( 0, density ), MAX_FIELD_DENSITY - 1 )];
+    const std::string &n = untranslated_name[std::min( std::max( 0, intensity ),
+                                     MAX_FIELD_INTENSITY - 1 )];
     return n.empty() ? n : _( n );
 }
 

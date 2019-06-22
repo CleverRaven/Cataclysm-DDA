@@ -202,15 +202,15 @@ bool map::process_fields_in_submap( submap *const current_submap,
             g->scent.set( tmp, 0 );
         }
 
-        const int current_density = cur.get_field_intensity();
+        const int current_intensity = cur.get_field_intensity();
         const time_duration current_age = cur.get_field_age();
         // Dissipate faster outdoors.
         if( is_outside( p ) ) {
             cur.set_field_age( current_age + outdoor_age_speedup );
         }
 
-        // Bail out if we don't meet the spread chance or required density.
-        if( current_density <= 1 || rng( 1, ( 100 - windpower ) ) > percent_spread ) {
+        // Bail out if we don't meet the spread chance or required intensity.
+        if( current_intensity <= 1 || rng( 1, ( 100 - windpower ) ) > percent_spread ) {
             return;
         }
 
@@ -226,16 +226,16 @@ bool map::process_fields_in_submap( submap *const current_submap,
         const auto spread_to = [&]( maptile & dst ) {
             field_entry *candidate_field = dst.find_field( curtype );
             // Nearby gas grows thicker, and ages are shared.
-            const time_duration age_fraction = current_age / current_density ;
+            const time_duration age_fraction = current_age / current_intensity ;
             if( candidate_field != nullptr ) {
-                candidate_field->set_field_density( candidate_field->get_field_intensity() + 1 );
-                cur.set_field_density( current_density - 1 );
+                candidate_field->set_field_intensity( candidate_field->get_field_intensity() + 1 );
+                cur.set_field_intensity( current_intensity - 1 );
                 candidate_field->set_field_age( candidate_field->get_field_age() + age_fraction );
                 cur.set_field_age( current_age - age_fraction );
                 // Or, just create a new field.
             } else if( dst.add_field( curtype, 1, 0_turns ) ) {
                 dst.find_field( curtype )->set_field_age( age_fraction );
-                cur.set_field_density( current_density - 1 );
+                cur.set_field_intensity( current_intensity - 1 );
                 cur.set_field_age( current_age - age_fraction );
             }
         };
@@ -308,9 +308,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
     Function: create_hot_air
     Helper function that encapsulates the logic involved in creating hot air.
     */
-    const auto create_hot_air = [this]( const tripoint & p, int density ) {
+    const auto create_hot_air = [this]( const tripoint & p, int intensity ) {
         field_id hot_air;
-        switch( density ) {
+        switch( intensity ) {
             case 1:
                 hot_air = fd_hot_air1;
                 break;
@@ -324,7 +324,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 hot_air = fd_hot_air4;
                 break;
             default:
-                debugmsg( "Tried to spread hot air with density %d", density );
+                debugmsg( "Tried to spread hot air with intensity %d", intensity );
                 return;
         }
 
@@ -376,9 +376,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                 //Holds cur.get_field_type() as that is what the old system used before rewrite.
                 field_id curtype = cur.get_field_type();
-                // Again, legacy support in the event someone Mods set_field_density to allow more values.
+                // Again, legacy support in the event someone Mods set_field_intensity to allow more values.
                 if( cur.get_field_intensity() > 3 || cur.get_field_intensity() < 1 ) {
-                    debugmsg( "Whoooooa density of %d", cur.get_field_intensity() );
+                    debugmsg( "Whoooooa intensity of %d", cur.get_field_intensity() );
                 }
 
                 // Don't process "newborn" fields. This gives the player time to run if they need to.
@@ -428,20 +428,20 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // Math can be a bit off,
                                 // but "boiling" falling acid can be allowed to be stronger
                                 // than acid that just lies there
-                                const int sum_density = cur.get_field_intensity() + acid_there->get_field_intensity();
-                                const int new_density = std::min( 3, sum_density );
+                                const int sum_intensity = cur.get_field_intensity() + acid_there->get_field_intensity();
+                                const int new_intensity = std::min( 3, sum_intensity );
                                 // No way to get precise elapsed time, let's always reset
                                 // Allow falling acid to last longer than regular acid to show it off
-                                const time_duration new_age = -1_minutes * ( sum_density - new_density );
-                                acid_there->set_field_density( new_density );
+                                const time_duration new_age = -1_minutes * ( sum_intensity - new_intensity );
+                                acid_there->set_field_intensity( new_intensity );
                                 acid_there->set_field_age( new_age );
                             }
 
                             // Set ourselves up for removal
-                            cur.set_field_density( 0 );
+                            cur.set_field_intensity( 0 );
                         }
 
-                        // TODO: Allow spreading to the sides if age < 0 && density == 3
+                        // TODO: Allow spreading to the sides if age < 0 && intensity == 3
                     }
                     break;
 
@@ -556,7 +556,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             // Consume the terrain we're on
                             if( ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE ) ) {
-                                // The fire feeds on the ground itself until max density.
+                                // The fire feeds on the ground itself until max intensity.
                                 time_added += 1_turns * ( 5 - cur.get_field_intensity() );
                                 smoke += 2;
                                 smoke += static_cast<int>( windpower / 5 );
@@ -567,7 +567,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             } else if( ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE_HARD ) &&
                                        one_in( 3 ) ) {
-                                // The fire feeds on the ground itself until max density.
+                                // The fire feeds on the ground itself until max intensity.
                                 time_added += 1_turns * ( 4 - cur.get_field_intensity() );
                                 smoke += 2;
                                 smoke += static_cast<int>( windpower / 5 );
@@ -577,7 +577,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
 
                             } else if( ter.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
-                                // The fire feeds on the ground itself until max density.
+                                // The fire feeds on the ground itself until max intensity.
                                 time_added += 1_turns * ( 5 - cur.get_field_intensity() );
                                 smoke += 2;
                                 smoke += static_cast<int>( windpower / 5 );
@@ -592,7 +592,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
 
                             } else if( frn.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
-                                // The fire feeds on the ground itself until max density.
+                                // The fire feeds on the ground itself until max intensity.
                                 time_added += 1_turns * ( 5 - cur.get_field_intensity() );
                                 smoke += 2;
                                 smoke += static_cast<int>( windpower / 5 );
@@ -610,22 +610,22 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     field_entry *fire_there = dst_tile.find_field( fd_fire );
                                     if( fire_there == nullptr ) {
                                         dst_tile.add_field( fd_fire, 1, 0_turns );
-                                        cur.set_field_density( cur.get_field_intensity() - 1 );
+                                        cur.set_field_intensity( cur.get_field_intensity() - 1 );
                                     } else {
                                         // Don't fuel raging fires or they'll burn forever
                                         // as they can produce small fires above themselves
-                                        int new_density = std::max( cur.get_field_intensity(),
-                                                                    fire_there->get_field_intensity() );
+                                        int new_intensity = std::max( cur.get_field_intensity(),
+                                                                      fire_there->get_field_intensity() );
                                         // Allow smaller fires to combine
-                                        if( new_density < 3 &&
+                                        if( new_intensity < 3 &&
                                             cur.get_field_intensity() == fire_there->get_field_intensity() ) {
-                                            new_density++;
+                                            new_intensity++;
                                         }
-                                        fire_there->set_field_density( new_density );
+                                        fire_there->set_field_intensity( new_intensity );
                                         // A raging fire below us can support us for a while
                                         // Otherwise decay and decay fast
-                                        if( new_density < 3 || one_in( 10 ) ) {
-                                            cur.set_field_density( cur.get_field_intensity() - 1 );
+                                        if( new_intensity < 3 || one_in( 10 ) ) {
+                                            cur.set_field_intensity( cur.get_field_intensity() - 1 );
                                         }
                                     }
 
@@ -692,7 +692,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                               dstfld->get_field_age() > cur.get_field_age() ) &&
                                             ( in_pit == ( dst.get_ter() == t_pit ) ) ) {
                                             if( dstfld->get_field_intensity() < 2 ) {
-                                                dstfld->set_field_density( dstfld->get_field_intensity() + 1 );
+                                                dstfld->set_field_intensity( dstfld->get_field_intensity() + 1 );
                                             }
 
                                             dstfld->set_field_age( dstfld->get_field_age() - 5_minutes );
@@ -716,7 +716,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                               dstfld->get_field_age() > cur.get_field_age() ) &&
                                             ( in_pit == ( dst.get_ter() == t_pit ) ) ) {
                                             if( dstfld->get_field_intensity() < 2 ) {
-                                                dstfld->set_field_density( dstfld->get_field_intensity() + 1 );
+                                                dstfld->set_field_intensity( dstfld->get_field_intensity() + 1 );
                                             }
 
                                             dstfld->set_field_age( dstfld->get_field_age() - 5_minutes );
@@ -733,34 +733,34 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // burning neighbors are necessary in addition to
                                 // field age < 0, or alternatively, a LOT of fuel.
 
-                                // The maximum fire density is 1 for a lone fire, 2 for at least 1 neighbor,
+                                // The maximum fire intensity is 1 for a lone fire, 2 for at least 1 neighbor,
                                 // 3 for at least 2 neighbors.
-                                int maximum_density =  1;
+                                int maximum_intensity =  1;
 
                                 // The following logic looks a bit complex due to optimization concerns, so here are the semantics:
-                                // 1. Calculate maximum field density based on fuel, -50 minutes is 2(medium), -500 minutes is 3(raging)
-                                // 2. Calculate maximum field density based on neighbors, 3 neighbors is 2(medium), 7 or more neighbors is 3(raging)
+                                // 1. Calculate maximum field intensity based on fuel, -50 minutes is 2(medium), -500 minutes is 3(raging)
+                                // 2. Calculate maximum field intensity based on neighbors, 3 neighbors is 2(medium), 7 or more neighbors is 3(raging)
                                 // 3. Pick the higher maximum between 1. and 2.
                                 if( cur.get_field_age() < -500_minutes ) {
-                                    maximum_density = 3;
+                                    maximum_intensity = 3;
                                 } else {
                                     for( auto &neigh : neighs ) {
                                         if( neigh.get_field().find_field( fd_fire ) != nullptr ) {
                                             adjacent_fires++;
                                         }
                                     }
-                                    maximum_density = 1 + ( adjacent_fires >= 3 ) + ( adjacent_fires >= 7 );
+                                    maximum_intensity = 1 + ( adjacent_fires >= 3 ) + ( adjacent_fires >= 7 );
 
-                                    if( maximum_density < 2 && cur.get_field_age() < -50_minutes ) {
-                                        maximum_density = 2;
+                                    if( maximum_intensity < 2 && cur.get_field_age() < -50_minutes ) {
+                                        maximum_intensity = 2;
                                     }
                                 }
 
                                 // If we consumed a lot, the flames grow higher
-                                if( cur.get_field_intensity() < maximum_density && cur.get_field_age() < 0_turns ) {
+                                if( cur.get_field_intensity() < maximum_intensity && cur.get_field_age() < 0_turns ) {
                                     // Fires under 0 age grow in size. Level 3 fires under 0 spread later on.
                                     // Weaken the newly-grown fire
-                                    cur.set_field_density( cur.get_field_intensity() + 1 );
+                                    cur.set_field_intensity( cur.get_field_intensity() + 1 );
                                     cur.set_field_age( cur.get_field_age() + 10_minutes * cur.get_field_intensity() );
                                 }
                             }
@@ -839,7 +839,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         cur.set_field_age( cur.get_field_age() + 1_minutes );
                                     }
                                     if( nearwebfld ) {
-                                        nearwebfld->set_field_density( 0 );
+                                        nearwebfld->set_field_intensity( 0 );
                                     }
                                 }
                             }
@@ -899,7 +899,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         cur.set_field_age( cur.get_field_age() + 1_minutes );
                                     }
                                     if( nearwebfld ) {
-                                        nearwebfld->set_field_density( 0 );
+                                        nearwebfld->set_field_intensity( 0 );
                                     }
                                 }
                             }
@@ -1031,7 +1031,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             field &wandering_field = get_field( pnt );
                             tmpfld = wandering_field.find_field( fd_toxic_gas );
                             if( tmpfld && tmpfld->get_field_intensity() < cur.get_field_intensity() ) {
-                                tmpfld->set_field_density( tmpfld->get_field_intensity() + 1 );
+                                tmpfld->set_field_intensity( tmpfld->get_field_intensity() + 1 );
                             } else {
                                 add_field( pnt, fd_toxic_gas, cur.get_field_intensity() );
                             }
@@ -1045,7 +1045,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             field &wandering_field = get_field( pnt );
                             tmpfld = wandering_field.find_field( fd_smoke );
                             if( tmpfld && tmpfld->get_field_intensity() < cur.get_field_intensity() ) {
-                                tmpfld->set_field_density( tmpfld->get_field_intensity() + 1 );
+                                tmpfld->set_field_intensity( tmpfld->get_field_intensity() + 1 );
                             } else {
                                 add_field( pnt, fd_smoke, cur.get_field_intensity() );
                             }
@@ -1056,24 +1056,24 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_fire_vent:
                         if( cur.get_field_intensity() > 1 ) {
                             if( one_in( 3 ) ) {
-                                cur.set_field_density( cur.get_field_intensity() - 1 );
+                                cur.set_field_intensity( cur.get_field_intensity() - 1 );
                             }
                             create_hot_air( p, cur.get_field_intensity() );
                         } else {
                             dirty_transparency_cache = true;
                             add_field( p, fd_flame_burst, 3, cur.get_field_age() );
-                            cur.set_field_density( 0 );
+                            cur.set_field_intensity( 0 );
                         }
                         break;
 
                     case fd_flame_burst:
                         if( cur.get_field_intensity() > 1 ) {
-                            cur.set_field_density( cur.get_field_intensity() - 1 );
+                            cur.set_field_intensity( cur.get_field_intensity() - 1 );
                             create_hot_air( p, cur.get_field_intensity() );
                         } else {
                             dirty_transparency_cache = true;
                             add_field( p, fd_fire_vent, 3, cur.get_field_age() );
-                            cur.set_field_density( 0 );
+                            cur.set_field_intensity( 0 );
                         }
                         break;
 
@@ -1089,7 +1089,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     pnt.y = p.y + rng( -1, 1 );
                                     if( passable( pnt ) ) {
                                         add_field( pnt, fd_electricity, 1, cur.get_field_age() + 1_turns );
-                                        cur.set_field_density( cur.get_field_intensity() - 1 );
+                                        cur.set_field_intensity( cur.get_field_intensity() - 1 );
                                         tries = 0;
                                     } else {
                                         tries++;
@@ -1106,17 +1106,17 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     field_entry *elec = get_field( dst ).find_field( fd_electricity );
                                     if( passable( dst ) && elec != nullptr &&
                                         elec->get_field_intensity() < 3 ) {
-                                        elec->set_field_density( elec->get_field_intensity() + 1 );
-                                        cur.set_field_density( cur.get_field_intensity() - 1 );
+                                        elec->set_field_intensity( elec->get_field_intensity() + 1 );
+                                        cur.set_field_intensity( cur.get_field_intensity() - 1 );
                                     } else if( passable( dst ) ) {
                                         add_field( dst, fd_electricity, 1, cur.get_field_age() + 1_turns );
                                     }
-                                    cur.set_field_density( cur.get_field_intensity() - 1 );
+                                    cur.set_field_intensity( cur.get_field_intensity() - 1 );
                                 }
                                 while( !valid.empty() && cur.get_field_intensity() > 1 ) {
                                     const tripoint target = random_entry_removed( valid );
                                     add_field( target, fd_electricity, 1, cur.get_field_age() + 1_turns );
-                                    cur.set_field_density( cur.get_field_intensity() - 1 );
+                                    cur.set_field_intensity( cur.get_field_intensity() - 1 );
                                 }
                             }
                         }
@@ -1131,7 +1131,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             }
                         };
                         if( cur.get_field_intensity() < 3 && calendar::once_every( 6_hours ) && one_in( 10 ) ) {
-                            cur.set_field_density( cur.get_field_intensity() + 1 );
+                            cur.set_field_intensity( cur.get_field_intensity() + 1 );
                         } else if( cur.get_field_intensity() == 3 && one_in( 600 ) ) { // Spawn nether creature!
                             g->summon_mon( random_entry( monids ), p );
                         }
@@ -1188,10 +1188,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_shock_vent:
                         if( cur.get_field_intensity() > 1 ) {
                             if( one_in( 5 ) ) {
-                                cur.set_field_density( cur.get_field_intensity() - 1 );
+                                cur.set_field_intensity( cur.get_field_intensity() - 1 );
                             }
                         } else {
-                            cur.set_field_density( 3 );
+                            cur.set_field_intensity( 3 );
                             int num_bolts = rng( 3, 6 );
                             for( int i = 0; i < num_bolts; i++ ) {
                                 int xdir = 0;
@@ -1229,20 +1229,20 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_acid_vent:
                         if( cur.get_field_intensity() > 1 ) {
                             if( cur.get_field_age() >= 1_minutes ) {
-                                cur.set_field_density( cur.get_field_intensity() - 1 );
+                                cur.set_field_intensity( cur.get_field_intensity() - 1 );
                                 cur.set_field_age( 0_turns );
                             }
                         } else {
-                            cur.set_field_density( 3 );
+                            cur.set_field_intensity( 3 );
                             for( const tripoint &t : points_in_radius( p, 5 ) ) {
                                 const field_entry *acid = get_field( t, fd_acid );
                                 if( acid != nullptr && acid->get_field_intensity() == 0 ) {
-                                    int newdens = 3 - ( rl_dist( p, t ) / 2 ) + ( one_in( 3 ) ? 1 : 0 );
-                                    if( newdens > 3 ) {
-                                        newdens = 3;
+                                    int new_intensity = 3 - ( rl_dist( p, t ) / 2 ) + ( one_in( 3 ) ? 1 : 0 );
+                                    if( new_intensity > 3 ) {
+                                        new_intensity = 3;
                                     }
-                                    if( newdens > 0 ) {
-                                        add_field( t, fd_acid, newdens );
+                                    if( new_intensity > 0 ) {
+                                        add_field( t, fd_acid, new_intensity );
                                     }
                                 }
                             }
@@ -1274,7 +1274,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             curfield.find_field( fd_electricity ) ||
                             curfield.find_field( fd_incendiary ) ) {
                             // Kill them at the end of processing.
-                            cur.set_field_density( 0 );
+                            cur.set_field_intensity( 0 );
                         } else {
                             // Bees chase the player if in range, wander randomly otherwise.
                             if( !g->u.is_underwater() &&
@@ -1293,7 +1293,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     if( !target_field.find_field( fd_bees ) ) {
                                         add_field( tripoint( candidate_position, p.z ), fd_bees,
                                                    cur.get_field_intensity(), cur.get_field_age() );
-                                        cur.set_field_density( 0 );
+                                        cur.set_field_intensity( 0 );
                                         break;
                                     }
                                 }
@@ -1334,11 +1334,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         //check the terrain and replace it accordingly to simulate the fungus dieing off
                         const auto &ter = map_tile.get_ter_t();
                         const auto &frn = map_tile.get_furn_t();
-                        const int density = cur.get_field_intensity();
-                        if( ter.has_flag( "FUNGUS" ) && one_in( 10 / density ) ) {
+                        const int intensity = cur.get_field_intensity();
+                        if( ter.has_flag( "FUNGUS" ) && one_in( 10 / intensity ) ) {
                             ter_set( p, t_dirt );
                         }
-                        if( frn.has_flag( "FUNGUS" ) && one_in( 10 / density ) ) {
+                        if( frn.has_flag( "FUNGUS" ) && one_in( 10 / intensity ) ) {
                             furn_set( p, f_null );
                         }
                     }
@@ -1355,7 +1355,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 if( fdata.halflife > 0_turns && cur.get_field_age() > 0_turns &&
                     dice( 2, to_turns<int>( cur.get_field_age() ) ) > to_turns<int>( fdata.halflife ) ) {
                     cur.set_field_age( 0_turns );
-                    cur.set_field_density( cur.get_field_intensity() - 1 );
+                    cur.set_field_intensity( cur.get_field_intensity() - 1 );
                 }
                 if( !cur.is_field_alive() ) {
                     current_submap->field_count--;
@@ -1394,7 +1394,7 @@ void map::player_in_field( player &u )
     }
 
     // Iterate through all field effects on this tile.
-    // Do not remove the field with remove_field, instead set it's density to 0. It will be removed
+    // Do not remove the field with remove_field, instead set it's intensity to 0. It will be removed
     // later by the field processing, which will also adjust field_count accordingly.
     for( auto &field_list_it : curfield ) {
         field_entry &cur = field_list_it.second;
@@ -1421,12 +1421,12 @@ void map::player_in_field( player &u )
                 if( !u.has_trait( trait_id( "WEB_WALKER" ) ) && !u.in_vehicle ) {
                     //between 5 and 15 minus your current web level.
                     u.add_effect( effect_webbed, 1_turns, num_bp, true, cur.get_field_intensity() );
-                    cur.set_field_density( 0 ); //Its spent.
+                    cur.set_field_intensity( 0 ); //Its spent.
                     continue;
                     //If you are in a vehicle destroy the web.
                     //It should of been destroyed when you ran over it anyway.
                 } else if( u.in_vehicle ) {
-                    cur.set_field_density( 0 );
+                    cur.set_field_intensity( 0 );
                     continue;
                 }
             }
@@ -1444,27 +1444,27 @@ void map::player_in_field( player &u )
                     break;
                 }
 
-                const int density = cur.get_field_intensity();
+                const int intensity = cur.get_field_intensity();
                 int total_damage = 0;
                 // Use a helper for a bit less boilerplate
                 const auto burn_part = [&]( body_part bp, const int scale ) {
-                    const int damage = rng( 1, scale + density );
+                    const int damage = rng( 1, scale + intensity );
                     // A bit ugly, but better than being annoyed by acid when in hazmat
                     if( u.get_armor_type( DT_ACID, bp ) < damage ) {
                         auto ddi = u.deal_damage( nullptr, bp, damage_instance( DT_ACID, damage ) );
                         total_damage += ddi.total_damage();
                     }
                     // Represents acid seeping in rather than being splashed on
-                    u.add_env_effect( effect_corroding, bp, 2 + density, time_duration::from_turns( rng( 2,
-                                      1 + density ) ), bp, false, 0 );
+                    u.add_env_effect( effect_corroding, bp, 2 + intensity, time_duration::from_turns( rng( 2,
+                                      1 + intensity ) ), bp, false, 0 );
                 };
 
-                // 1-3 at density, 1-4 at 2, 1-5 at 3
+                // 1-3 at intensity, 1-4 at 2, 1-5 at 3
                 burn_part( bp_foot_l, 2 );
                 burn_part( bp_foot_r, 2 );
-                // 1 dmg at 1 density, 1-3 at 2, 1-5 at 3
-                burn_part( bp_leg_l,  density - 1 );
-                burn_part( bp_leg_r,  density - 1 );
+                // 1 dmg at 1 intensity, 1-3 at 2, 1-5 at 3
+                burn_part( bp_leg_l,  intensity - 1 );
+                burn_part( bp_leg_r,  intensity - 1 );
                 const bool on_ground = u.is_on_ground();
                 if( on_ground ) {
                     // Before, it would just break the legs and leave the survivor alone
@@ -1503,7 +1503,7 @@ void map::player_in_field( player &u )
                 u.add_msg_player_or_npc( m_bad, _( "The sap sticks to you!" ),
                                          _( "The sap sticks to <npcname>!" ) );
                 u.add_effect( effect_sap, cur.get_field_intensity() * 2_turns );
-                cur.set_field_density( cur.get_field_intensity() - 1 ); //Use up sap.
+                cur.set_field_intensity( cur.get_field_intensity() - 1 ); //Use up sap.
                 break;
 
             case fd_sludge:
@@ -1511,7 +1511,7 @@ void map::player_in_field( player &u )
                 if( !u.in_vehicle ) {
                     u.add_msg_if_player( m_bad, _( "The sludge is thick and sticky. You struggle to pull free." ) );
                     u.moves -= cur.get_field_intensity() * 300;
-                    cur.set_field_density( 0 );
+                    cur.set_field_intensity( 0 );
                 }
                 break;
 
@@ -1602,16 +1602,16 @@ void map::player_in_field( player &u )
             case fd_smoke: {
                 if( !inside ) {
                     //Get smoke disease from standing in smoke.
-                    int density = cur.get_field_intensity();
+                    int intensity = cur.get_field_intensity();
                     int coughStr;
                     time_duration coughDur = 0_turns;
-                    if( density >= 3 ) {  // thick smoke
+                    if( intensity >= 3 ) {  // thick smoke
                         coughStr = 4;
                         coughDur = 15_turns;
-                    } else if( density == 2 ) { // smoke
+                    } else if( intensity == 2 ) { // smoke
                         coughStr = 2;
                         coughDur = 7_turns;
-                    } else {    // density 1, thin smoke
+                    } else {    // intensity 1, thin smoke
                         coughStr = 1;
                         coughDur = 2_turns;
                     }
@@ -1673,7 +1673,7 @@ void map::player_in_field( player &u )
 
             case fd_nuke_gas: {
                 // Get irradiated by the nuclear fallout.
-                // Changed to min of density, not 0.
+                // Changed to min of intensity, not 0.
                 float rads = rng( cur.get_field_intensity(),
                                   cur.get_field_intensity() * ( cur.get_field_intensity() + 1 ) );
                 bool rad_proof = !u.irradiate( rads );
@@ -1705,7 +1705,7 @@ void map::player_in_field( player &u )
                 break;
 
             case fd_electricity: {
-                // Small universal damage based on density, only if not electroproofed.
+                // Small universal damage based on intensity, only if not electroproofed.
                 if( u.is_elec_immune() ) {
                     break;
                 }
@@ -1747,32 +1747,32 @@ void map::player_in_field( player &u )
             case fd_shock_vent:
             // Stepping on an acid vent shuts it down.
             case fd_acid_vent:
-                cur.set_field_density( 0 );
+                cur.set_field_intensity( 0 );
                 continue;
 
             case fd_bees:
                 // Player is immune to bees while underwater.
                 if( !u.is_underwater() ) {
                     int times_stung = 0;
-                    int density = cur.get_field_intensity();
+                    int intensity = cur.get_field_intensity();
                     // If the bees can get at you, they cause steadily increasing pain.
                     // TODO: Specific stinging messages.
                     times_stung += one_in( 4 ) &&
-                                   u.add_env_effect( effect_stung, bp_torso, density, 9_minutes );
+                                   u.add_env_effect( effect_stung, bp_torso, intensity, 9_minutes );
                     times_stung += one_in( 4 ) &&
-                                   u.add_env_effect( effect_stung, bp_torso, density, 9_minutes );
+                                   u.add_env_effect( effect_stung, bp_torso, intensity, 9_minutes );
                     times_stung += one_in( 4 ) &&
-                                   u.add_env_effect( effect_stung, bp_torso, density, 9_minutes );
+                                   u.add_env_effect( effect_stung, bp_torso, intensity, 9_minutes );
                     times_stung += one_in( 4 ) &&
-                                   u.add_env_effect( effect_stung, bp_torso, density, 9_minutes );
+                                   u.add_env_effect( effect_stung, bp_torso, intensity, 9_minutes );
                     times_stung += one_in( 4 ) &&
-                                   u.add_env_effect( effect_stung, bp_torso, density, 9_minutes );
+                                   u.add_env_effect( effect_stung, bp_torso, intensity, 9_minutes );
                     times_stung += one_in( 4 ) &&
-                                   u.add_env_effect( effect_stung, bp_torso, density, 9_minutes );
+                                   u.add_env_effect( effect_stung, bp_torso, intensity, 9_minutes );
                     times_stung += one_in( 4 ) &&
-                                   u.add_env_effect( effect_stung, bp_torso, density, 9_minutes );
+                                   u.add_env_effect( effect_stung, bp_torso, intensity, 9_minutes );
                     times_stung += one_in( 4 ) &&
-                                   u.add_env_effect( effect_stung, bp_torso, density, 9_minutes );
+                                   u.add_env_effect( effect_stung, bp_torso, intensity, 9_minutes );
                     switch( times_stung ) {
                         case 0:
                             // Woo, unscathed!
@@ -1827,11 +1827,11 @@ void map::player_in_field( player &u )
                     break;
                 }
                 bool inhaled = false;
-                const int density = cur.get_field_intensity();
-                inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, density * 1_minutes );
+                const int intensity = cur.get_field_intensity();
+                inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, intensity * 1_minutes );
                 if( u.has_trait( trait_id( "THRESH_MYCUS" ) ) || u.has_trait( trait_id( "THRESH_MARLOSS" ) ) ) {
-                    inhaled |= u.add_env_effect( effect_badpoison, bp_mouth, 5, density * 1_minutes );
-                    u.hurtall( rng( density, density * 2 ), nullptr );
+                    inhaled |= u.add_env_effect( effect_badpoison, bp_mouth, 5, intensity * 1_minutes );
+                    u.hurtall( rng( intensity, intensity * 2 ), nullptr );
                     u.add_msg_if_player( m_bad, _( "The %s burns your skin." ), cur.name() );
                 }
 
@@ -1869,7 +1869,7 @@ void map::monster_in_field( monster &z )
 
     int dam = 0;
     // Iterate through all field effects on this tile.
-    // Do not remove the field with remove_field, instead set it's density to 0. It will be removed
+    // Do not remove the field with remove_field, instead set it's intensity to 0. It will be removed
     // later by the field processing, which will also adjust field_count accordingly.
     for( auto &field_list_it : curfield ) {
         field_entry &cur = field_list_it.second;
@@ -1886,7 +1886,7 @@ void map::monster_in_field( monster &z )
             case fd_web:
                 if( !z.has_flag( MF_WEBWALK ) ) {
                     z.add_effect( effect_webbed, 1_turns, num_bp, true, cur.get_field_intensity() );
-                    cur.set_field_density( 0 );
+                    cur.set_field_intensity( 0 );
                 }
                 break;
 
@@ -1900,14 +1900,14 @@ void map::monster_in_field( monster &z )
 
             case fd_sap:
                 z.moves -= cur.get_field_intensity() * 5;
-                cur.set_field_density( cur.get_field_intensity() - 1 );
+                cur.set_field_intensity( cur.get_field_intensity() - 1 );
                 break;
 
             case fd_sludge:
                 if( !z.has_flag( MF_DIGS ) && !z.has_flag( MF_FLIES ) &&
                     !z.has_flag( MF_SLUDGEPROOF ) ) {
                     z.moves -= cur.get_field_intensity() * 300;
-                    cur.set_field_density( 0 );
+                    cur.set_field_intensity( 0 );
                 }
                 break;
 
@@ -2121,17 +2121,17 @@ void map::monster_in_field( monster &z )
                     !z.type->has_flag( MF_NO_BREATHE ) &&
                     !z.make_fungus() ) {
                     // Don't insta-kill jabberwocks, that's silly
-                    const int density = cur.get_field_intensity();
-                    z.moves -= rng( 10 * density, 30 * density );
-                    dam += rng( 0, 10 * density );
+                    const int intensity = cur.get_field_intensity();
+                    z.moves -= rng( 10 * intensity, 30 * intensity );
+                    dam += rng( 0, 10 * intensity );
                 }
                 break;
 
             case fd_fungicidal_gas:
                 if( z.type->in_species( FUNGUS ) ) {
-                    const int density = cur.get_field_intensity();
-                    z.moves -= rng( 10 * density, 30 * density );
-                    dam += rng( 4, 7 * density );
+                    const int intensity = cur.get_field_intensity();
+                    z.moves -= rng( 10 * intensity, 30 * intensity );
+                    dam += rng( 4, 7 * intensity );
                 }
                 break;
 
@@ -2206,12 +2206,12 @@ void map::emit_field( const tripoint &pos, const emit_id &src, float mul )
     float chance = src->chance() * mul;
     if( src.is_valid() &&  x_in_y( chance, 100 ) ) {
         int qty = chance > 100.0f ? roll_remainder( src->qty() * chance / 100.0f ) : src->qty();
-        propagate_field( pos, src->field(), qty, src->density() );
+        propagate_field( pos, src->field(), qty, src->intensity() );
     }
 }
 
 void map::propagate_field( const tripoint &center, const field_id type, int amount,
-                           int max_density )
+                           int max_intensity )
 {
     using gas_blast = std::pair<float, tripoint>;
     std::priority_queue<gas_blast, std::vector<gas_blast>, pair_greater_cmp_first> open;
@@ -2226,12 +2226,12 @@ void map::propagate_field( const tripoint &center, const field_id type, int amou
             continue;
         }
 
-        // All points with equal gas density should propagate at the same time
+        // All points with equal gas intensity should propagate at the same time
         std::list<gas_blast> gas_front;
         gas_front.push_back( open.top() );
-        int cur_intensity = get_field_strength( open.top().second, type );
+        int cur_intensity = get_field_intensity( open.top().second, type );
         open.pop();
-        while( !open.empty() && get_field_strength( open.top().second, type ) == cur_intensity ) {
+        while( !open.empty() && get_field_intensity( open.top().second, type ) == cur_intensity ) {
             if( closed.count( open.top().second ) == 0 ) {
                 gas_front.push_back( open.top() );
             }
@@ -2244,10 +2244,10 @@ void map::propagate_field( const tripoint &center, const field_id type, int amou
         while( amount > 0 && !gas_front.empty() ) {
             auto gp = random_entry_removed( gas_front );
             closed.insert( gp.second );
-            int cur_strength = get_field_strength( gp.second, type );
-            if( cur_strength < max_density ) {
-                int bonus = std::min( max_density - cur_strength, increment );
-                adjust_field_strength( gp.second, type, bonus );
+            int cur_intensity = get_field_intensity( gp.second, type );
+            if( cur_intensity < max_intensity ) {
+                int bonus = std::min( max_intensity - cur_intensity, increment );
+                adjust_field_intensity( gp.second, type, bonus );
                 amount -= bonus;
             } else {
                 amount--;

@@ -125,9 +125,9 @@ bool map::build_transparency_cache( const int zlev )
                     for( const auto &fld : cur_submap->fld[sx][sy] ) {
                         const field_entry &cur = fld.second;
                         const field_id type = cur.get_field_type();
-                        const int density = cur.get_field_intensity();
+                        const int intensity = cur.get_field_intensity();
 
-                        if( all_field_types_enum_list[type].transparent[density - 1] ) {
+                        if( all_field_types_enum_list[type].transparent[intensity - 1] ) {
                             continue;
                         }
 
@@ -144,9 +144,9 @@ bool map::build_transparency_cache( const int zlev )
                             case fd_incendiary:
                             case fd_toxic_gas:
                             case fd_tear_gas:
-                                if( density == 3 ) {
+                                if( intensity == 3 ) {
                                     value = LIGHT_TRANSPARENCY_SOLID;
-                                } else if( density == 2 ) {
+                                } else if( intensity == 2 ) {
                                     value *= 10;
                                 }
                                 break;
@@ -154,7 +154,7 @@ bool map::build_transparency_cache( const int zlev )
                                 value *= 10;
                                 break;
                             case fd_fire:
-                                value *= 1.0 - ( density * 0.3 );
+                                value *= 1.0 - ( intensity * 0.3 );
                                 break;
                             default:
                                 value = LIGHT_TRANSPARENCY_SOLID;
@@ -1440,7 +1440,7 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
         return;
     }
 
-    // attempt to determine beam density required to cover all squares
+    // attempt to determine beam intensity required to cover all squares
     const double wstep = ( wangle / ( wdist * SQRT_2 ) );
 
     // NOLINTNEXTLINE(clang-analyzer-security.FloatLoopCounter)

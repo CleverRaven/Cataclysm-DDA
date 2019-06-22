@@ -424,8 +424,8 @@ void explosion_iuse::load( JsonObject &obj )
     if( obj.has_member( "fields_type" ) || fields_radius > 0 ) {
         fields_type = field_from_ident( obj.get_string( "fields_type" ) );
     }
-    obj.read( "fields_min_density", fields_min_density );
-    obj.read( "fields_max_density", fields_max_density );
+    obj.read( "fields_min_intensity", fields_min_intensity );
+    obj.read( "fields_max_intensity", fields_max_intensity );
     obj.read( "emp_blast_radius", emp_blast_radius );
     obj.read( "scrambler_blast_radius", scrambler_blast_radius );
     obj.read( "sound_volume", sound_volume );
@@ -467,8 +467,8 @@ int explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) cons
     if( fields_radius >= 0 && fields_type != fd_null ) {
         std::vector<tripoint> gas_sources = points_for_gas_cloud( pos, fields_radius );
         for( auto &gas_source : gas_sources ) {
-            const int dens = rng( fields_min_density, fields_max_density );
-            g->m.add_field( gas_source, fields_type, dens, 1_turns );
+            const int intens = rng( fields_min_intensity, fields_max_intensity );
+            g->m.add_field( gas_source, fields_type, intens, 1_turns );
         }
     }
     if( scrambler_blast_radius >= 0 ) {

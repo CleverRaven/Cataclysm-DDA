@@ -255,8 +255,9 @@ struct maptile {
             return sm->fld[x][y].find_field( field_to_find );
         }
 
-        bool add_field( const field_id field_to_add, const int new_density, const time_duration &new_age ) {
-            const bool ret = sm->fld[x][y].add_field( field_to_add, new_density, new_age );
+        bool add_field( const field_id field_to_add, const int new_intensity,
+                        const time_duration &new_age ) {
+            const bool ret = sm->fld[x][y].add_field( field_to_add, new_intensity, new_age );
             if( ret ) {
                 sm->field_count++;
             }

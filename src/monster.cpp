@@ -1047,7 +1047,7 @@ void monster::process_triggers()
     process_trigger( mon_trigger::FIRE, [this]() {
         int ret = 0;
         for( const auto &p : g->m.points_in_radius( pos(), 3 ) ) {
-            ret += 5 * g->m.get_field_strength( p, fd_fire );
+            ret += 5 * g->m.get_field_intensity( p, fd_fire );
         }
         return ret;
     } );

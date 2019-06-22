@@ -1711,7 +1711,7 @@ int get_heat_radiation( const tripoint &location, bool direct )
         }
         int heat_intensity = 0;
 
-        int ffire = g->m.get_field_strength( dest, fd_fire );
+        int ffire = g->m.get_field_intensity( dest, fd_fire );
         if( ffire > 0 ) {
             heat_intensity = ffire;
         } else if( g->m.tr_at( dest ).loadid == tr_lava ) {
@@ -1747,26 +1747,26 @@ int get_convection_temperature( const tripoint &location )
     int temp_mod = 0;
     const trap &trap_at_pos = g->m.tr_at( location );
     // directly on fire/lava tiles
-    int tile_strength = g->m.get_field_strength( location, fd_fire );
-    if( tile_strength > 0 || trap_at_pos.loadid == tr_lava ) {
+    int tile_intensity = g->m.get_field_intensity( location, fd_fire );
+    if( tile_intensity > 0 || trap_at_pos.loadid == tr_lava ) {
         temp_mod += 300;
     }
     // hot air of a fire/lava
-    auto tile_strength_mod = []( const tripoint & loc, field_id fld, int case_1, int case_2,
+    auto tile_intensity_mod = []( const tripoint & loc, field_id fld, int case_1, int case_2,
     int case_3 ) {
-        int strength = g->m.get_field_strength( loc, fld );
+        int intensity = g->m.get_field_intensity( loc, fld );
         int cases[3] = { case_1, case_2, case_3 };
-        return ( strength > 0 && strength < 4 ) ? cases[ strength - 1 ] : 0;
+        return ( intensity > 0 && intensity < 4 ) ? cases[ intensity - 1 ] : 0;
     };
 
-    temp_mod += tile_strength_mod( location, fd_hot_air1,  2,   6,  10 );
-    temp_mod += tile_strength_mod( location, fd_hot_air2,  6,  16,  20 );
-    temp_mod += tile_strength_mod( location, fd_hot_air3, 16,  40,  70 );
-    temp_mod += tile_strength_mod( location, fd_hot_air4, 70, 100, 160 );
-    temp_mod -= tile_strength_mod( location, fd_cold_air1,  2,   6,  10 );
-    temp_mod -= tile_strength_mod( location, fd_cold_air2,  6,  16,  20 );
-    temp_mod -= tile_strength_mod( location, fd_cold_air3, 16,  40,  70 );
-    temp_mod -= tile_strength_mod( location, fd_cold_air4, 70, 100, 160 );
+    temp_mod += tile_intensity_mod( location, fd_hot_air1,  2,   6,  10 );
+    temp_mod += tile_intensity_mod( location, fd_hot_air2,  6,  16,  20 );
+    temp_mod += tile_intensity_mod( location, fd_hot_air3, 16,  40,  70 );
+    temp_mod += tile_intensity_mod( location, fd_hot_air4, 70, 100, 160 );
+    temp_mod -= tile_intensity_mod( location, fd_cold_air1,  2,   6,  10 );
+    temp_mod -= tile_intensity_mod( location, fd_cold_air2,  6,  16,  20 );
+    temp_mod -= tile_intensity_mod( location, fd_cold_air3, 16,  40,  70 );
+    temp_mod -= tile_intensity_mod( location, fd_cold_air4, 70, 100, 160 );
 
     return temp_mod;
 }
@@ -8981,9 +8981,9 @@ bool game::walk_move( const tripoint &dest_loc )
         const tripoint shifted_furn_dest = tripoint( furn_dest.x - submap_shift.x * SEEX,
                                            furn_dest.y - submap_shift.y * SEEY, furn_dest.z );
         const time_duration fire_age = m.get_field_age( shifted_furn_pos, fd_fire );
-        const int fire_str = m.get_field_strength( shifted_furn_pos, fd_fire );
+        const int fire_intensity = m.get_field_intensity( shifted_furn_pos, fd_fire );
         m.remove_field( shifted_furn_pos, fd_fire );
-        m.set_field_strength( shifted_furn_dest, fd_fire, fire_str );
+        m.set_field_intensity( shifted_furn_dest, fd_fire, fire_intensity );
         m.set_field_age( shifted_furn_dest, fd_fire, fire_age );
     }
 
@@ -9478,7 +9478,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
                              m.furn( fpos ).obj().has_flag( "FIRE_CONTAINER" ) ||
                              m.furn( fpos ).obj().has_flag( "SEALED" );
 
-    const int fire_str = m.get_field_strength( fpos, fd_fire );
+    const int fire_intensity = m.get_field_intensity( fpos, fd_fire );
     time_duration fire_age = m.get_field_age( fpos, fd_fire );
 
     int str_req = furntype.move_str_req;
@@ -9538,9 +9538,9 @@ bool game::grabbed_furn_move( const tripoint &dp )
     m.furn_set( fdest, m.furn( fpos ) );
     m.furn_set( fpos, f_null );
 
-    if( fire_str == 1 && !pulling_furniture ) {
+    if( fire_intensity == 1 && !pulling_furniture ) {
         m.remove_field( fpos, fd_fire );
-        m.set_field_strength( fdest, fd_fire, fire_str );
+        m.set_field_intensity( fdest, fd_fire, fire_intensity );
         m.set_field_age( fdest, fd_fire, fire_age );
     }
 
