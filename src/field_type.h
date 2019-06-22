@@ -45,8 +45,8 @@ struct field_type {
         time_duration half_life = 0_days;
         phase_id phase = phase_id::PNULL;
         bool accelerated_decay = false;
-        bool do_item = true;
-        bool is_draw_field = false;
+        bool display_items = true;
+        bool display_field = false;
 
     public:
         std::string get_name( int level = 0 ) const {
