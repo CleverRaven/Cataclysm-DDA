@@ -1191,7 +1191,7 @@
     "name": "death blow",
     "min_melee": 6,
     "crit_tec": true,
-    "mult_bonuses": [ [ "damage", "bash", 2.5 ], [ "damage", "cut", 2.5 ], [ "damage", "stab", 2.5 ], [ "movecost", 2.5 ] ],
+    "mult_bonuses": [ [ "damage", "bash", 3 ], [ "damage", "cut", 0 ], [ "damage", "stab", 0 ], [ "movecost", 2 ] ],
     "stun_dur": 2,
     "messages": [
       "You flip your weapon around and deliver a mordhau to %s",
