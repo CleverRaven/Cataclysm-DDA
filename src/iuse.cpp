@@ -6590,7 +6590,7 @@ static std::string colorized_field_description_at( const tripoint &point )
         fd_gas_vent, fd_fire_vent, fd_fatigue
     };
     static const std::unordered_set<field_id, std::hash<int>> illuminated_by_affix_ids = {
-        fd_spotlight, fd_laser, fd_dazzling, fd_spotlight, fd_electricity
+        fd_spotlight, fd_laser, fd_dazzling, fd_electricity
     };
     static const std::vector<std::pair<std::unordered_set<field_id, std::hash<int>>, std::string>>
     affixes_vec = {
