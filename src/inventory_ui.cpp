@@ -1072,7 +1072,7 @@ void inventory_selector::add_item( inventory_column &target_column,
         return;
     }
 
-    items.push_back( location.clone() );
+    items.push_back( location );
     inventory_entry entry( items.back(), stack_size, custom_category,
                            preset.get_denial( location ).empty() );
 
@@ -1782,11 +1782,11 @@ item_location inventory_pick_selector::execute()
             if( select( input.entry->location ) ) {
                 refresh_window();
             }
-            return input.entry->location.clone();
+            return input.entry->location;
         } else if( input.action == "QUIT" ) {
             return item_location();
         } else if( input.action == "CONFIRM" ) {
-            return get_active_column().get_selected().location.clone();
+            return get_active_column().get_selected().location;
         } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
         } else {

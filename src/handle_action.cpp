@@ -1864,7 +1864,7 @@ bool game::handle_action()
                         } else if( u.ammo_location && opt.ammo == u.ammo_location ) {
                             u.ammo_location = item_location();
                         } else {
-                            u.ammo_location = opt.ammo.clone();
+                            u.ammo_location = opt.ammo;
                         }
                     }
                 }

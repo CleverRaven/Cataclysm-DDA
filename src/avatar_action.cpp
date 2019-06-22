@@ -687,9 +687,11 @@ bool avatar_action::fire( avatar &you, map &m )
     // TODO: move handling "RELOAD_AND_SHOOT" flagged guns to a separate function.
     if( gun->has_flag( "RELOAD_AND_SHOOT" ) ) {
         if( !gun->ammo_remaining() ) {
-            item::reload_option opt = you.ammo_location &&
-                                      gun->can_reload_with( you.ammo_location->typeId() ) ? item::reload_option( &you, args.relevant,
-                                              args.relevant, you.ammo_location.clone() ) : you.select_ammo( *gun );
+            item::reload_option opt =
+                you.ammo_location &&
+                gun->can_reload_with( you.ammo_location->typeId() ) ?
+                item::reload_option( &you, args.relevant, args.relevant, you.ammo_location ) :
+                you.select_ammo( *gun );
             if( !opt ) {
                 // Menu canceled
                 return false;

@@ -9065,7 +9065,7 @@ void player::use( int inventory_position )
     item &used = i_at( inventory_position );
     auto loc = item_location( *this, &used );
 
-    use( loc.clone() );
+    use( loc );
 }
 
 void player::use( item_location loc )

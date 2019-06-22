@@ -375,7 +375,8 @@ class item : public visitable<item>
                 reload_option( const reload_option & );
                 reload_option &operator=( const reload_option & );
 
-                reload_option( const player *who, const item *target, const item *parent, item_location &&ammo );
+                reload_option( const player *who, const item *target, const item *parent,
+                               const item_location &ammo );
 
                 const player *who = nullptr;
                 const item *target = nullptr;
