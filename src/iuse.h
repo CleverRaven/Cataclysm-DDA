@@ -200,6 +200,7 @@ class iuse
         int magnesium_tablet( player *, item *, bool, const tripoint & );
         int coin_flip( player *, item *, bool, const tripoint & );
         int magic_8_ball( player *, item *, bool, const tripoint & );
+        int gobag( player *, item *, bool, const tripoint & );
 
         // MACGUFFINS
 

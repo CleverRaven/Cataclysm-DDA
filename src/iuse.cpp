@@ -9187,6 +9187,79 @@ int iuse::disassemble( player *p, item *it, bool, const tripoint & )
     return 0;
 }
 
+int iuse::gobag( player *p, item *it, bool, const tripoint & )
+{
+    std::map<std::string, int> gobag_contents = {
+        { "helmet_army", 1 },
+        { "jacket_army", 1 },
+        { "pants_army", 1 },
+        { "tshirt", 3 },
+        { "under_armor", 1 },
+        { "chestrig", 1 },
+        { "coat_rain", 1 },
+        { "hood_rain", 1 },
+        { "long_underpants", 1 },
+        { "towel", 1 },
+        { "boots_combat", 1 },
+        { "socks", 3 },
+        { "gloves_tactical", 1 },
+        { "light_plus_battery_cell", 1 },
+        { "flashlight", 1 },
+        { "radio", 1 },
+        { "lighter", 1 },
+        { "pockknife", 1 },
+        { "multitool", 1 },
+        { "1st_aid", 1 },
+        { "rollmat", 1 },
+        { "sleeping_bag_roll", 1 },
+        { "ear_plugs", 1 },
+        { "mre_hashbrownbacon_box", 1 },
+        { "mre_macaronimarinara_box", 1 },
+        { "mre_meatball_box", 1 },
+        { "bottle_plastic", 2 }
+    };
+
+    p->add_msg_if_player( _( "You empty the contents of the go bag onto the floor." ) );
+
+    item duffelbag = item( "duffelbag" );
+    item backpack = item( "backpack" );
+    if( it->has_flag( "FILTHY" ) ) {
+        duffelbag.set_flag( "FILTHY" );
+        backpack.set_flag( "FILTHY" );
+    }
+    g->m.add_item_or_charges( p->posx(), p->posy(), duffelbag );
+    g->m.add_item_or_charges( p->posx(), p->posy(), backpack );
+
+
+    for( const auto &content_pair : gobag_contents ) {
+        for( int i = 0; i < content_pair.second; i++ ) {
+            item content = item( content_pair.first );
+
+            if( content.is_armor() && !content.has_flag( "FIT" ) &&
+                ( it->typeId() == "personal_gobag" || one_in( 3 ) ) ) {
+                content.set_flag( "FIT" );
+            } else if( content_pair.first == "bottle_plastic" ) {
+                item water = item( "water_clean" );
+                water.charges = 2;
+                content.put_in( water );
+            } else if( content_pair.first == "light_plus_battery_cell" ||
+                       content_pair.first == "flashlight" ||
+                       content_pair.first == "radio" ) {
+                content.ammo_set( "battery", 150 );
+            } else if( content_pair.first == "lighter" ) {
+                content.charges = 100;
+            }
+
+            g->m.add_item_or_charges( p->posx(), p->posy(), content );
+        }
+    }
+
+    p->i_rem( it );
+
+    return 0;
+}
+
+
 int iuse::magnesium_tablet( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You pop a %s." ), it->tname() );

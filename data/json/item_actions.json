@@ -1068,5 +1068,10 @@
     "type": "item_action",
     "id": "CRAFT",
     "name": "Work on craft"
+  },
+  {
+    "type": "item_action",
+    "id": "GOBAG",
+    "name": "Get contents"
   }
 ]
