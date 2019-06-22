@@ -4652,8 +4652,8 @@ void player::update_stamina( int turns )
             stamina_recovery += bonus;
         }
     }
-    //  recover ratio was balanced for legacy 6s/turn, hence the division by 6
-    stamina += roll_remainder( stamina_recovery * turns / 6.0f );
+
+    stamina = roll_remainder( stamina + stamina_recovery * turns );
 
     // Cap at max
     stamina = std::min( std::max( stamina, 0 ), max_stam );
