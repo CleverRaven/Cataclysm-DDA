@@ -959,6 +959,38 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "music_venue_roof",
+    "copy-from": "generic_city_building",
+    "name": "music venue roof",
+    "sym": "M",
+    "color": "i_light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "music_venue_1",
+    "copy-from": "generic_city_building",
+    "name": "music venue",
+    "sym": "M",
+    "color": "i_light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "music_venue_1_roof",
+    "copy-from": "generic_city_building",
+    "name": "music venue roof",
+    "sym": "M",
+    "color": "i_light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "music_venue_1_roof_top",
+    "copy-from": "generic_city_building",
+    "name": "music venue roof",
+    "sym": "M",
+    "color": "i_light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "gambling_hall",
     "copy-from": "generic_city_building",
     "name": "gambling hall",

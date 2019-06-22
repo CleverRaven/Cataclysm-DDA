@@ -6,15 +6,16 @@
 # fix their errors or recategorise them as checks we don't care about.
 Checks: "\
 bugprone-*,\
+cata-*,\
 cert-*,\
 -cert-err58-cpp,\
 clang-diagnostic-*,\
+cppcoreguidelines-slicing,\
 llvm-namespace-comment,\
 misc-*,\
 modernize-*,\
 performance-*,\
 readability-*,\
--bugprone-forwarding-reference-overload,\
 -bugprone-inaccurate-erase,\
 -bugprone-incorrect-roundings,\
 -bugprone-integer-division,\

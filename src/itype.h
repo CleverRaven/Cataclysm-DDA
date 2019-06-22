@@ -295,6 +295,10 @@ struct islot_book {
      */
     skill_id skill = skill_id::NULL_ID();
     /**
+     * Which martial art it teaches.  Can be @ref matype_id::NULL_ID.
+     */
+    matype_id martial_art = matype_id::NULL_ID();
+    /**
      * The skill level the book provides.
      */
     int level = 0;

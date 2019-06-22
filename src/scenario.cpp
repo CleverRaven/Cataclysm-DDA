@@ -80,7 +80,7 @@ void scenario::load( JsonObject &jo, const std::string & )
         jo.throw_error( "at least one starting location (member \"allowed_locs\") must be defined" );
     }
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
-    optional( jo, was_loaded, "map_special", _map_special, "mx_null" );
+    optional( jo, was_loaded, "map_extra", _map_extra, "mx_null" );
     optional( jo, was_loaded, "missions", _missions, auto_flags_reader<mission_type_id> {} );
 }
 
@@ -165,7 +165,7 @@ void scenario::check_definition() const
     check_traits( _allowed_traits, id );
     check_traits( _forced_traits, id );
     check_traits( _forbidden_traits, id );
-    MapExtras::get_function( _map_special ); // triggers a debug message upon invalid input
+    MapExtras::get_function( _map_extra ); // triggers a debug message upon invalid input
 
     for( auto &m : _missions ) {
         if( !m.is_valid() ) {
@@ -310,13 +310,13 @@ bool scenario::can_pick( const scenario &current_scenario, const int points ) co
 {
     return point_cost() - current_scenario.point_cost() <= points;
 }
-bool scenario::has_map_special() const
+bool scenario::has_map_extra() const
 {
-    return _map_special != "mx_null";
+    return _map_extra != "mx_null";
 }
-const std::string &scenario::get_map_special() const
+const std::string &scenario::get_map_extra() const
 {
-    return _map_special;
+    return _map_extra;
 }
 const std::vector<mission_type_id> &scenario::missions() const
 {

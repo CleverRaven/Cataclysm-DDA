@@ -160,12 +160,12 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
     }
     if( effects.count( "SMOKE" ) > 0 ) {
         for( auto &pt : g->m.points_in_radius( p, 1, 0 ) ) {
-            g->m.add_field( pt, fd_smoke, MAX_FIELD_DENSITY );
+            g->m.add_field( pt, fd_smoke, MAX_FIELD_INTENSITY );
         }
     }
     if( effects.count( "SMOKE_BIG" ) > 0 ) {
         for( auto &pt : g->m.points_in_radius( p, 6, 0 ) ) {
-            g->m.add_field( pt, fd_smoke, MAX_FIELD_DENSITY );
+            g->m.add_field( pt, fd_smoke, MAX_FIELD_INTENSITY );
         }
     }
 

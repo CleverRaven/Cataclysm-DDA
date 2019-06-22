@@ -47,7 +47,7 @@ void emit::load_emit( JsonObject &jo )
     et.id_ = emit_id( jo.get_string( "id" ) );
     et.field_name = jo.get_string( "field" );
 
-    jo.read( "density", et.density_ );
+    jo.read( "intensity", et.intensity_ );
     jo.read( "qty", et.qty_ );
     jo.read( "chance", et.chance_ );
 
@@ -64,15 +64,15 @@ void emit::check_consistency()
     for( auto &e : emits_all ) {
         e.second.field_ = field_from_ident( e.second.field_name );
 
-        if( e.second.density_ > MAX_FIELD_DENSITY || e.second.density_ < 1 ) {
-            debugmsg( "emission density of %s out of range", e.second.id_.c_str() );
-            e.second.density_ = std::max( std::min( e.second.density_, MAX_FIELD_DENSITY ), 1 );
+        if( e.second.intensity_ > MAX_FIELD_INTENSITY || e.second.intensity_ < 1 ) {
+            debugmsg( "emission intensity of %s out of range", e.second.id_.c_str() );
+            e.second.intensity_ = std::max( std::min( e.second.intensity_, MAX_FIELD_INTENSITY ), 1 );
         }
         if( e.second.qty_ <= 0 ) {
             debugmsg( "emission qty of %s out of range", e.second.id_.c_str() );
         }
         if( e.second.chance_ > 100 || e.second.chance_ <= 0 ) {
-            e.second.density_ = std::max( std::min( e.second.chance_, 100 ), 1 );
+            e.second.intensity_ = std::max( std::min( e.second.chance_, 100 ), 1 );
             debugmsg( "emission chance of %s out of range", e.second.id_.c_str() );
         }
     }

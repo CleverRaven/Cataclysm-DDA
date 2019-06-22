@@ -698,10 +698,10 @@ bool game::start_game()
     }
     start_loc.prepare_map( omtstart );
 
-    if( scen->has_map_special() ) {
-        // Specials can add monster spawn points and similar and should be done before the main
+    if( scen->has_map_extra() ) {
+        // Map extras can add monster spawn points and similar and should be done before the main
         // map is loaded.
-        start_loc.add_map_special( omtstart, scen->get_map_special() );
+        start_loc.add_map_extra( omtstart, scen->get_map_extra() );
     }
 
     tripoint lev = omt_to_sm_copy( omtstart );
@@ -1711,7 +1711,7 @@ int get_heat_radiation( const tripoint &location, bool direct )
         }
         int heat_intensity = 0;
 
-        int ffire = g->m.get_field_strength( dest, fd_fire );
+        int ffire = g->m.get_field_intensity( dest, fd_fire );
         if( ffire > 0 ) {
             heat_intensity = ffire;
         } else if( g->m.tr_at( dest ).loadid == tr_lava ) {
@@ -1747,26 +1747,26 @@ int get_convection_temperature( const tripoint &location )
     int temp_mod = 0;
     const trap &trap_at_pos = g->m.tr_at( location );
     // directly on fire/lava tiles
-    int tile_strength = g->m.get_field_strength( location, fd_fire );
-    if( tile_strength > 0 || trap_at_pos.loadid == tr_lava ) {
+    int tile_intensity = g->m.get_field_intensity( location, fd_fire );
+    if( tile_intensity > 0 || trap_at_pos.loadid == tr_lava ) {
         temp_mod += 300;
     }
     // hot air of a fire/lava
-    auto tile_strength_mod = []( const tripoint & loc, field_id fld, int case_1, int case_2,
+    auto tile_intensity_mod = []( const tripoint & loc, field_id fld, int case_1, int case_2,
     int case_3 ) {
-        int strength = g->m.get_field_strength( loc, fld );
+        int intensity = g->m.get_field_intensity( loc, fld );
         int cases[3] = { case_1, case_2, case_3 };
-        return ( strength > 0 && strength < 4 ) ? cases[ strength - 1 ] : 0;
+        return ( intensity > 0 && intensity < 4 ) ? cases[ intensity - 1 ] : 0;
     };
 
-    temp_mod += tile_strength_mod( location, fd_hot_air1,  2,   6,  10 );
-    temp_mod += tile_strength_mod( location, fd_hot_air2,  6,  16,  20 );
-    temp_mod += tile_strength_mod( location, fd_hot_air3, 16,  40,  70 );
-    temp_mod += tile_strength_mod( location, fd_hot_air4, 70, 100, 160 );
-    temp_mod -= tile_strength_mod( location, fd_cold_air1,  2,   6,  10 );
-    temp_mod -= tile_strength_mod( location, fd_cold_air2,  6,  16,  20 );
-    temp_mod -= tile_strength_mod( location, fd_cold_air3, 16,  40,  70 );
-    temp_mod -= tile_strength_mod( location, fd_cold_air4, 70, 100, 160 );
+    temp_mod += tile_intensity_mod( location, fd_hot_air1,  2,   6,  10 );
+    temp_mod += tile_intensity_mod( location, fd_hot_air2,  6,  16,  20 );
+    temp_mod += tile_intensity_mod( location, fd_hot_air3, 16,  40,  70 );
+    temp_mod += tile_intensity_mod( location, fd_hot_air4, 70, 100, 160 );
+    temp_mod -= tile_intensity_mod( location, fd_cold_air1,  2,   6,  10 );
+    temp_mod -= tile_intensity_mod( location, fd_cold_air2,  6,  16,  20 );
+    temp_mod -= tile_intensity_mod( location, fd_cold_air3, 16,  40,  70 );
+    temp_mod -= tile_intensity_mod( location, fd_cold_air4, 70, 100, 160 );
 
     return temp_mod;
 }
@@ -2086,7 +2086,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     u.read( pos );
                     break;
                 case 'D':
-                    u.disassemble( pos );
+                    u.disassemble( item_location( u, &u.i_at( pos ) ), false );
                     break;
                 case 'f':
                     oThisItem.is_favorite = !oThisItem.is_favorite;
@@ -2211,7 +2211,6 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "RIGHT", translate_marker( "Move East" ) );
     ctxt.register_action( "RIGHTDOWN", translate_marker( "Move Southeast" ) );
     ctxt.register_action( "DOWN", translate_marker( "Move South" ) );
-    ctxt.register_action( "LEFTDOWN", translate_marker( "Move Southwest" ) );
     ctxt.register_action( "LEFTDOWN", translate_marker( "Move Southwest" ) );
     ctxt.register_action( "LEFT", translate_marker( "Move West" ) );
     ctxt.register_action( "LEFTUP", translate_marker( "Move Northwest" ) );
@@ -5119,23 +5118,23 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
 
     m.ter_set( x, y, door_type );
     if( m.has_flag( "NOITEM", x, y ) ) {
-        auto items = m.i_at( x, y );
-        while( !items.empty() ) {
-            if( items[0].made_of( LIQUID ) ) {
-                m.i_rem( x, y, 0 );
+        map_stack items = m.i_at( x, y );
+        for( map_stack::iterator it = items.begin(); it != items.end(); ) {
+            if( it->made_of( LIQUID ) ) {
+                it = items.erase( it );
                 continue;
             }
-            if( items[0].made_of( material_id( "glass" ) ) && one_in( 2 ) ) {
+            if( it->made_of( material_id( "glass" ) ) && one_in( 2 ) ) {
                 if( can_see ) {
-                    add_msg( m_warning, _( "A %s shatters!" ), items[0].tname() );
+                    add_msg( m_warning, _( "A %s shatters!" ), it->tname() );
                 } else {
                     add_msg( m_warning, _( "Something shatters!" ) );
                 }
-                m.i_rem( x, y, 0 );
+                it = items.erase( it );
                 continue;
             }
-            m.add_item_or_charges( kbx, kby, items[0] );
-            m.i_rem( x, y, 0 );
+            m.add_item_or_charges( kbx, kby, *it );
+            it = items.erase( it );
         }
     }
     return true;
@@ -7766,22 +7765,20 @@ static int get_initial_hotkey( const size_t menu_index )
 }
 
 // Returns a vector of pairs.
-//    Pair.first is the first items index with a unique tname.
+//    Pair.first is the iterator to the first item with a unique tname.
 //    Pair.second is the number of equivalent items per unique tname
 // There are options for optimization here, but the function is hit infrequently
 // enough that optimizing now is not a useful time expenditure.
-static const std::vector<std::pair<int, int>> generate_butcher_stack_display(
-            map_stack &items, const std::vector<int> &indices )
+static std::vector<std::pair<map_stack::iterator, int>> generate_butcher_stack_display(
+            std::vector<map_stack::iterator> &its )
 {
-    std::vector<std::pair<int, int>> result;
+    std::vector<std::pair<map_stack::iterator, int>> result;
     std::vector<std::string> result_strings;
-    result.reserve( indices.size() );
-    result_strings.reserve( indices.size() );
+    result.reserve( its.size() );
+    result_strings.reserve( its.size() );
 
-    for( const size_t ndx : indices ) {
-        const item &it = items[ ndx ];
-
-        const std::string tname = it.tname();
+    for( map_stack::iterator &it : its ) {
+        const std::string tname = it->tname();
         size_t s = 0;
         // Search for the index with a string equivalent to tname
         for( ; s < result_strings.size(); ++s ) {
@@ -7794,7 +7791,7 @@ static const std::vector<std::pair<int, int>> generate_butcher_stack_display(
         // Has the side effect of making 's' a valid index
         if( s == result_strings.size() ) {
             // make a new entry
-            result.push_back( std::make_pair<int, int>( static_cast<int>( ndx ), 0 ) );
+            result.emplace_back( it, 0 );
             // Also push new entry string
             result_strings.push_back( tname );
         }
@@ -7807,28 +7804,27 @@ static const std::vector<std::pair<int, int>> generate_butcher_stack_display(
 
 // Corpses are always individual items
 // Just add them individually to the menu
-static void add_corpses( uilist &menu, map_stack &items,
-                         const std::vector<int> &indices, size_t &menu_index )
+static void add_corpses( uilist &menu, const std::vector<map_stack::iterator> &its,
+                         size_t &menu_index )
 {
     int hotkey = get_initial_hotkey( menu_index );
 
-    for( const auto index : indices ) {
-        const item &it = items[index];
-        menu.addentry( menu_index++, true, hotkey, it.get_mtype()->nname() );
+    for( const map_stack::iterator &it : its ) {
+        menu.addentry( menu_index++, true, hotkey, it->get_mtype()->nname() );
         hotkey = -1;
     }
 }
 
 // Salvagables stack so we need to pass in a stack vector rather than an item index vector
-static void add_salvagables( uilist &menu, map_stack &items,
-                             const std::vector<std::pair<int, int>> &stacks, size_t &menu_index,
-                             const salvage_actor &salvage_iuse )
+static void add_salvagables( uilist &menu,
+                             const std::vector<std::pair<map_stack::iterator, int>> &stacks,
+                             size_t &menu_index, const salvage_actor &salvage_iuse )
 {
     if( !stacks.empty() ) {
         int hotkey = get_initial_hotkey( menu_index );
 
         for( const auto &stack : stacks ) {
-            const item &it = items[ stack.first ];
+            const item &it = *stack.first;
 
             //~ Name and number of items listed for cutting up
             const auto &msg = string_format( pgettext( "butchery menu", "Cut up %s (%d)" ),
@@ -7841,14 +7837,14 @@ static void add_salvagables( uilist &menu, map_stack &items,
 }
 
 // Disassemblables stack so we need to pass in a stack vector rather than an item index vector
-static void add_disassemblables( uilist &menu, map_stack &items,
-                                 const std::vector<std::pair<int, int>> &stacks, size_t &menu_index )
+static void add_disassemblables( uilist &menu,
+                                 const std::vector<std::pair<map_stack::iterator, int>> &stacks, size_t &menu_index )
 {
     if( !stacks.empty() ) {
         int hotkey = get_initial_hotkey( menu_index );
 
         for( const auto &stack : stacks ) {
-            const item &it = items[ stack.first ];
+            const item &it = *stack.first;
 
             //~ Name, number of items and time to complete disassembling
             const auto &msg = string_format( pgettext( "butchery menu", "%s (%d)" ),
@@ -7862,15 +7858,15 @@ static void add_disassemblables( uilist &menu, map_stack &items,
 }
 
 // Butchery sub-menu and time calculation
-static void butcher_submenu( map_stack &items, const std::vector<int> &corpses, int corpse = -1 )
+static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, int corpse = -1 )
 {
     auto cut_time = [&]( enum butcher_type bt ) {
         int time_to_cut = 0;
         if( corpse != -1 ) {
-            time_to_cut = butcher_time_to_cut( g->u, items[corpses[corpse]], bt );
+            time_to_cut = butcher_time_to_cut( g->u, *corpses[corpse], bt );
         } else {
-            for( int i : corpses ) {
-                time_to_cut += butcher_time_to_cut( g->u, items[i], bt );
+            for( const map_stack::iterator &it : corpses ) {
+                time_to_cut += butcher_time_to_cut( g->u, *it, bt );
             }
         }
         return to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) );
@@ -7903,25 +7899,25 @@ static void butcher_submenu( map_stack &items, const std::vector<int> &corpses, 
     smenu.query();
     switch( smenu.ret ) {
         case BUTCHER:
-            g->u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
+            g->u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, true );
             break;
         case BUTCHER_FULL:
-            g->u.assign_activity( activity_id( "ACT_BUTCHER_FULL" ), 0, -1 );
+            g->u.assign_activity( activity_id( "ACT_BUTCHER_FULL" ), 0, true );
             break;
         case F_DRESS:
-            g->u.assign_activity( activity_id( "ACT_FIELD_DRESS" ), 0, -1 );
+            g->u.assign_activity( activity_id( "ACT_FIELD_DRESS" ), 0, true );
             break;
         case SKIN:
-            g->u.assign_activity( activity_id( "ACT_SKIN" ), 0, -1 );
+            g->u.assign_activity( activity_id( "ACT_SKIN" ), 0, true );
             break;
         case QUARTER:
-            g->u.assign_activity( activity_id( "ACT_QUARTER" ), 0, -1 );
+            g->u.assign_activity( activity_id( "ACT_QUARTER" ), 0, true );
             break;
         case DISMEMBER:
-            g->u.assign_activity( activity_id( "ACT_DISMEMBER" ), 0, -1 );
+            g->u.assign_activity( activity_id( "ACT_DISMEMBER" ), 0, true );
             break;
         case DISSECT:
-            g->u.assign_activity( activity_id( "ACT_DISSECT" ), 0, -1 );
+            g->u.assign_activity( activity_id( "ACT_DISSECT" ), 0, true );
             break;
         default:
             return;
@@ -7955,10 +7951,10 @@ void game::butcher()
 
     const item *first_item_without_tools = nullptr;
     // Indices of relevant items
-    std::vector<int> corpses;
-    std::vector<int> disassembles;
-    std::vector<int> salvageables;
-    auto items = m.i_at( u.pos() );
+    std::vector<map_stack::iterator> corpses;
+    std::vector<map_stack::iterator> disassembles;
+    std::vector<map_stack::iterator> salvageables;
+    map_stack items = m.i_at( u.pos() );
     const inventory &crafting_inv = u.crafting_inventory();
 
     // TODO: Properly handle different material whitelists
@@ -7989,17 +7985,17 @@ void game::butcher()
     // Split into corpses, disassemble-able, and salvageable items
     // It's not much additional work to just generate a corpse list and
     // clear it later, but does make the splitting process nicer.
-    for( size_t i = 0; i < items.size(); ++i ) {
-        if( items[i].is_corpse() ) {
-            corpses.push_back( i );
+    for( map_stack::iterator it = items.begin(); it != items.end(); ++it ) {
+        if( it->is_corpse() ) {
+            corpses.push_back( it );
         } else {
-            if( ( salvage_tool_index != INT_MIN ) && salvage_iuse->valid_to_cut_up( items[i] ) ) {
-                salvageables.push_back( i );
+            if( ( salvage_tool_index != INT_MIN ) && salvage_iuse->valid_to_cut_up( *it ) ) {
+                salvageables.push_back( it );
             }
-            if( u.can_disassemble( items[i], crafting_inv ).success() ) {
-                disassembles.push_back( i );
-            } else if( first_item_without_tools == nullptr ) {
-                first_item_without_tools = &items[i];
+            if( u.can_disassemble( *it, crafting_inv ).success() ) {
+                disassembles.push_back( it );
+            } else if( !first_item_without_tools ) {
+                first_item_without_tools = &*it;
             }
         }
     }
@@ -8016,7 +8012,7 @@ void game::butcher()
             add_msg( m_info, no_knife_msg );
         }
 
-        if( first_item_without_tools != nullptr ) {
+        if( first_item_without_tools ) {
             add_msg( m_info, _( "You don't have the necessary tools to disassemble any items here." ) );
             // Just for the "You need x to disassemble y" messages
             const auto ret = u.can_disassemble( *first_item_without_tools, crafting_inv );
@@ -8050,25 +8046,25 @@ void game::butcher()
         BUTCHER_SALVAGE,
         BUTCHER_OTHER // For multisalvage etc.
     } butcher_select = BUTCHER_CORPSE;
-    // Index to std::vector of indices...
+    // Index to std::vector of iterators...
     int indexer_index = 0;
 
     // Generate the indexed stacks so we can display them nicely
-    const auto disassembly_stacks = generate_butcher_stack_display( items, disassembles );
-    const auto salvage_stacks = generate_butcher_stack_display( items, salvageables );
+    const auto disassembly_stacks = generate_butcher_stack_display( disassembles );
+    const auto salvage_stacks = generate_butcher_stack_display( salvageables );
     // Always ask before cutting up/disassembly, but not before butchery
     size_t ret = 0;
-    if( corpses.size() > 1 || !disassembles.empty() || !salvageables.empty() ) {
+    if( !corpses.empty() || !disassembles.empty() || !salvageables.empty() ) {
         uilist kmenu;
         kmenu.text = _( "Choose corpse to butcher / item to disassemble" );
 
         size_t i = 0;
         // Add corpses, disassembleables, and salvagables to the UI
-        add_corpses( kmenu, items, corpses, i );
-        add_disassemblables( kmenu, items, disassembly_stacks, i );
+        add_corpses( kmenu, corpses, i );
+        add_disassemblables( kmenu, disassembly_stacks, i );
         if( !salvageables.empty() ) {
             assert( salvage_iuse ); // To appease static analysis
-            add_salvagables( kmenu, items, salvage_stacks, i, *salvage_iuse );
+            add_salvagables( kmenu, salvage_stacks, i, *salvage_iuse );
         }
 
         if( corpses.size() > 1 ) {
@@ -8078,8 +8074,7 @@ void game::butcher()
             int time_to_disassemble = 0;
             int time_to_disassemble_all = 0;
             for( const auto &stack : disassembly_stacks ) {
-                const item &it = items[ stack.first ];
-                const int time = recipe_dictionary::get_uncraft( it.typeId() ).time;
+                const int time = recipe_dictionary::get_uncraft( stack.first->typeId() ).time;
                 time_to_disassemble += time;
                 time_to_disassemble_all += time * stack.second;
             }
@@ -8093,8 +8088,7 @@ void game::butcher()
             assert( salvage_iuse ); // To appease static analysis
             int time_to_salvage = 0;
             for( const auto &stack : salvage_stacks ) {
-                const item &it = items[ stack.first ];
-                time_to_salvage += salvage_iuse->time_to_cut_up( it ) * stack.second;
+                time_to_salvage += salvage_iuse->time_to_cut_up( *stack.first ) * stack.second;
             }
 
             kmenu.addentry_col( MULTISALVAGE, true, 'z', _( "Cut up everything" ),
@@ -8148,9 +8142,9 @@ void game::butcher()
                     u.assign_activity( activity_id( "ACT_LONGSALVAGE" ), 0, salvage_tool_index );
                     break;
                 case MULTIBUTCHER:
-                    butcher_submenu( items, corpses );
-                    for( int i : corpses ) {
-                        u.activity.values.push_back( i );
+                    butcher_submenu( corpses );
+                    for( map_stack::iterator &it : corpses ) {
+                        u.activity.targets.emplace_back( map_cursor( u.pos() ), &*it );
                     }
                     break;
                 case MULTIDISASSEMBLE_ONE:
@@ -8165,23 +8159,23 @@ void game::butcher()
             }
             break;
         case BUTCHER_CORPSE: {
-            butcher_submenu( items, corpses, indexer_index );
+            butcher_submenu( corpses, indexer_index );
             draw_ter();
             wrefresh( w_terrain );
             draw_panels( true );
-            u.activity.values.push_back( corpses[indexer_index] );
+            u.activity.targets.emplace_back( map_cursor( u.pos() ), &*corpses[indexer_index] );
         }
         break;
         case BUTCHER_DISASSEMBLE: {
             // Pick index of first item in the disassembly stack
-            size_t index = disassembly_stacks[indexer_index].first;
-            u.disassemble( items[index], index, true );
+            item *const target = &*disassembly_stacks[indexer_index].first;
+            u.disassemble( item_location( map_cursor( u.pos() ), target ), true );
         }
         break;
         case BUTCHER_SALVAGE: {
             // Pick index of first item in the salvage stack
-            size_t index = salvage_stacks[indexer_index].first;
-            item_location item_loc( map_cursor( u.pos() ), &items[index] );
+            item *const target = &*salvage_stacks[indexer_index].first;
+            item_location item_loc( map_cursor( u.pos() ), target );
             salvage_iuse->cut_up( u, *salvage_tool, item_loc );
         }
         break;
@@ -8967,27 +8961,7 @@ bool game::walk_move( const tripoint &dest_loc )
                            "misc", "rattling" );
         }
     }
-    if( u.is_hauling() ) {
-        u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
-        // Whether the source is inside a vehicle (not supported)
-        u.activity.values.push_back( 0 );
-        // Whether the destination is inside a vehicle (not supported)
-        u.activity.values.push_back( 0 );
-        // Source relative to the player
-        u.activity.placement = u.pos() - dest_loc;
-        // Destination relative to the player
-        u.activity.coords.push_back( tripoint_zero );
-        map_stack items = m.i_at( u.pos() );
-        if( items.empty() ) {
-            u.stop_hauling();
-        }
-        int index = 0;
-        for( auto it = items.begin(); it != items.end(); ++index, ++it ) {
-            int amount = it->count();
-            u.activity.values.push_back( index );
-            u.activity.values.push_back( amount );
-        }
-    }
+
     if( m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, dest_loc ) ) {
         add_msg( m_good, _( "You are hiding in the %s." ), m.name( dest_loc ) );
     }
@@ -8996,7 +8970,9 @@ bool game::walk_move( const tripoint &dest_loc )
         u.lifetime_stats.squares_walked++;
     }
 
+    tripoint oldpos = u.pos();
     point submap_shift = place_player( dest_loc );
+    oldpos = tripoint( oldpos.x - submap_shift.x * SEEX, oldpos.y - submap_shift.y * SEEX, oldpos.z );
 
     if( pulling ) {
         const tripoint shifted_furn_pos = tripoint( furn_pos.x - submap_shift.x * SEEX,
@@ -9004,10 +8980,27 @@ bool game::walk_move( const tripoint &dest_loc )
         const tripoint shifted_furn_dest = tripoint( furn_dest.x - submap_shift.x * SEEX,
                                            furn_dest.y - submap_shift.y * SEEY, furn_dest.z );
         const time_duration fire_age = m.get_field_age( shifted_furn_pos, fd_fire );
-        const int fire_str = m.get_field_strength( shifted_furn_pos, fd_fire );
+        const int fire_intensity = m.get_field_intensity( shifted_furn_pos, fd_fire );
         m.remove_field( shifted_furn_pos, fd_fire );
-        m.set_field_strength( shifted_furn_dest, fd_fire, fire_str );
+        m.set_field_intensity( shifted_furn_dest, fd_fire, fire_intensity );
         m.set_field_age( shifted_furn_dest, fd_fire, fire_age );
+    }
+
+    if( u.is_hauling() ) {
+        u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
+        // Whether the destination is inside a vehicle (not supported)
+        u.activity.values.push_back( 0 );
+        // Destination relative to the player
+        u.activity.coords.push_back( tripoint_zero );
+        map_stack items = m.i_at( oldpos );
+        if( items.empty() ) {
+            u.stop_hauling();
+        }
+        for( item &it : items ) {
+            u.activity.targets.emplace_back( map_cursor( oldpos ), &it );
+            // Quantity of 0 means move all
+            u.activity.values.push_back( 0 );
+        }
     }
 
     on_move_effects();
@@ -9189,19 +9182,16 @@ point game::place_player( const tripoint &dest_loc )
 
         const std::string pulp_butcher = get_option<std::string>( "AUTO_PULP_BUTCHER" );
         if( pulp_butcher == "butcher" && u.max_quality( quality_id( "BUTCHER" ) ) > INT_MIN ) {
-            std::vector<int> corpses;
-            auto items = m.i_at( u.pos() );
+            std::vector<item *> corpses;
 
-            for( size_t i = 0; i < items.size(); i++ ) {
-                if( items[i].is_corpse() ) {
-                    corpses.push_back( i );
-                }
+            for( item &it : m.i_at( u.pos() ) ) {
+                corpses.push_back( &it );
             }
 
             if( !corpses.empty() ) {
-                u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
-                for( int i : corpses ) {
-                    u.activity.values.push_back( i );
+                u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, true );
+                for( item *it : corpses ) {
+                    u.activity.targets.emplace_back( map_cursor( u.pos() ), it );
                 }
             }
         } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ) {
@@ -9487,7 +9477,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
                              m.furn( fpos ).obj().has_flag( "FIRE_CONTAINER" ) ||
                              m.furn( fpos ).obj().has_flag( "SEALED" );
 
-    const int fire_str = m.get_field_strength( fpos, fd_fire );
+    const int fire_intensity = m.get_field_intensity( fpos, fd_fire );
     time_duration fire_age = m.get_field_age( fpos, fd_fire );
 
     int str_req = furntype.move_str_req;
@@ -9547,9 +9537,9 @@ bool game::grabbed_furn_move( const tripoint &dp )
     m.furn_set( fdest, m.furn( fpos ) );
     m.furn_set( fpos, f_null );
 
-    if( fire_str == 1 && !pulling_furniture ) {
+    if( fire_intensity == 1 && !pulling_furniture ) {
         m.remove_field( fpos, fd_fire );
-        m.set_field_strength( fdest, fd_fire, fire_str );
+        m.set_field_intensity( fdest, fd_fire, fire_intensity );
         m.set_field_age( fdest, fd_fire, fire_age );
     }
 
@@ -9567,11 +9557,11 @@ bool game::grabbed_furn_move( const tripoint &dp )
             m.i_clear( fpos );
             for( auto item_iter = m.i_at( fdest ).begin();
                  item_iter != m.i_at( fdest ).end(); ++item_iter ) {
-                m.i_at( fpos ).push_back( *item_iter );
+                m.i_at( fpos ).insert( *item_iter );
             }
             m.i_clear( fdest );
             for( auto &cur_item : temp ) {
-                m.i_at( fdest ).push_back( cur_item );
+                m.i_at( fdest ).insert( cur_item );
             }
         } else {
             add_msg( _( "Stuff spills from the %s!" ), furntype.name() );
@@ -10108,23 +10098,18 @@ void game::vertical_move( int movez, bool force )
 
     if( u.is_hauling() ) {
         u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
-        // Whether the source is inside a vehicle (not supported)
-        u.activity.values.push_back( 0 );
         // Whether the destination is inside a vehicle (not supported)
         u.activity.values.push_back( 0 );
-        // Source relative to the player
-        u.activity.placement = adjusted_pos - u.pos();
         // Destination relative to the player
         u.activity.coords.push_back( tripoint_zero );
         map_stack items = m.i_at( adjusted_pos );
         if( items.empty() ) {
             u.stop_hauling();
         }
-        int index = 0;
-        for( auto it = items.begin(); it != items.end(); ++index, ++it ) {
-            int amount = it->count();
-            u.activity.values.push_back( index );
-            u.activity.values.push_back( amount );
+        for( item &it : items ) {
+            u.activity.targets.emplace_back( map_cursor( adjusted_pos ), &it );
+            // Quantitu of 0 means move all
+            u.activity.values.push_back( 0 );
         }
     }
 
@@ -10296,7 +10281,8 @@ void game::vertical_shift( const int z_after )
 
 void game::vertical_notes( int z_before, int z_after )
 {
-    if( z_before == z_after || !get_option<bool>( "AUTO_NOTES" ) ) {
+    if( z_before == z_after || !get_option<bool>( "AUTO_NOTES" ) ||
+        !get_option<bool>( "AUTO_NOTES_STAIRS" ) ) {
         return;
     }
 

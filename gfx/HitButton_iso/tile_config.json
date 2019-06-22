@@ -8613,6 +8613,26 @@
           "fg": [ 2496, 2497 ]
         },
         {
+          "id": ["foodperson_mask"],
+          "fg": 2504
+        },
+        {
+          "id": ["overlay_worn_foodperson_mask"],
+          "fg": 2505
+        },
+        {
+          "id": ["overlay_worn_foodperson_mask_on"],
+          "fg": 2506
+        },
+        {
+          "id": ["cape_fp"],
+          "fg": 2507
+        },
+        {
+          "id": ["overlay_worn_cape_fp"],
+          "fg": 2508
+        },
+        {
           "id": ["highlight_item" ],
           "fg": 9
         }

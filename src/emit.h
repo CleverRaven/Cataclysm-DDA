@@ -32,9 +32,9 @@ class emit
             return field_;
         }
 
-        /** Density of output fields, range [1..MAX_FIELD_DENSITY] */
-        int density() const {
-            return density_;
+        /** Intensity of output fields, range [1..MAX_FIELD_INTENSITY] */
+        int intensity() const {
+            return intensity_;
         }
 
         /** Units of field to generate per turn subject to @ref chance */
@@ -62,7 +62,7 @@ class emit
     private:
         emit_id id_;
         field_id field_ = fd_null;
-        int density_ = MAX_FIELD_DENSITY;
+        int intensity_ = MAX_FIELD_INTENSITY;
         int qty_ = 1;
         int chance_ = 100;
 
