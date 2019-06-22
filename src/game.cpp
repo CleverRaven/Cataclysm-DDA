@@ -10038,8 +10038,6 @@ void game::vertical_move( int movez, bool force )
     if( !force ) {
         submap_shift = update_map( stairs.x, stairs.y );
     }
-    const tripoint adjusted_pos( old_pos.x - submap_shift.x * SEEX, old_pos.y - submap_shift.y * SEEY,
-                                 old_pos.z );
 
     if( !npcs_to_bring.empty() ) {
         // Would look nicer randomly scrambled
@@ -10094,6 +10092,8 @@ void game::vertical_move( int movez, bool force )
     }
 
     if( u.is_hauling() ) {
+        const tripoint adjusted_pos( old_pos.x - submap_shift.x * SEEX, old_pos.y - submap_shift.y * SEEY,
+                                     old_pos.z );
         u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
         // Whether the destination is inside a vehicle (not supported)
         u.activity.values.push_back( 0 );

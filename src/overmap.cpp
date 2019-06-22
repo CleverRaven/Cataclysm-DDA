@@ -4244,11 +4244,11 @@ void overmap::place_radios()
 
 void overmap::open( overmap_special_batch &enabled_specials )
 {
-    const std::string plrfilename = overmapbuffer::player_filename( loc.x, loc.y );
     const std::string terfilename = overmapbuffer::terrain_filename( loc.x, loc.y );
 
     using namespace std::placeholders;
     if( read_from_file_optional( terfilename, std::bind( &overmap::unserialize, this, _1 ) ) ) {
+        const std::string plrfilename = overmapbuffer::player_filename( loc.x, loc.y );
         read_from_file_optional( plrfilename, std::bind( &overmap::unserialize_view, this, _1 ) );
     } else { // No map exists!  Prepare neighbors, and generate one.
         std::vector<const overmap *> pointers;

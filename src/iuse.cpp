@@ -4136,9 +4136,9 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
 
 int iuse::rpgdie( player *you, item *die, bool, const tripoint & )
 {
-    const std::vector<int> sides_options = { 4, 6, 8, 10, 12, 20, 50 };
     int num_sides = die->get_var( "die_num_sides", 0 );
     if( num_sides == 0 ) {
+        const std::vector<int> sides_options = { 4, 6, 8, 10, 12, 20, 50 };
         const int sides = sides_options[ rng( 0, sides_options.size() - 1 ) ];
         num_sides = sides;
         die->set_var( "die_num_sides", sides );
@@ -6859,7 +6859,6 @@ static object_names_collection enumerate_objects_around_point( const tripoint po
                                 volume_to_search );
 
         const item item = get_top_item_at_point( point_around_figure, volume_to_search );
-        std::string item_name = colorized_item_name( item );
 
         const optional_vpart_position veh_part_pos = g->m.veh_at( point_around_figure );
         std::string unusual_ter_desc = colorized_ter_name_flags_at( point_around_figure,
@@ -6902,6 +6901,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint po
             vehicles_recorded.insert( veh_hash );
             local_vehicles_recorded.insert( veh_hash );
         } else if( !item.is_null() ) {
+            std::string item_name = colorized_item_name( item );
             item_name = trap_name + item_name + field_desc;
             if( point == point_around_figure && create_figure_desc ) {
                 description_terrain_on_figure = string_format( _( "%1$s with a %2$s" ), ter_desc, item_name );
