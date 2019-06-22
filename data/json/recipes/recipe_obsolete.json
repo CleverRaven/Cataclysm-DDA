@@ -1,0 +1,134 @@
+[
+  {
+    "type": "recipe",
+    "result": "spear_stone",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cooked_burrito",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bolt_steel_bodkin",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_metal_bodkin",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_metal_target",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_metal",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bolt_steel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bolt_steel_target",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lightstrip_inactive",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lightstrip_dead",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "milk",
+    "id_suffix": "from_powder",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "milk",
+    "id_suffix": "from_condensed",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "offal_cooked",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "30gal_drum",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "55gal_drum",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "anesthesia",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_10mm",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "scythe_war",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "laser_sight",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rail_laser_sight",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "goggles_nv",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "goggles_ir",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "diesel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "battery_compartment",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "battery_atomic",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "grenade",
+    "obsolete": true
+  }
+]
