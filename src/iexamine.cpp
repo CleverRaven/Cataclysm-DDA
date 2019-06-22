@@ -107,6 +107,7 @@ const efftype_id effect_mending( "mending" );
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_sleep( "sleep" );
+const efftype_id effect_under_op( "under_operation" );
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -4093,6 +4094,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
             return;
         }
+    } else if( patient.has_effect( effect_under_op ) ) {
+        popup( _( "Operation underway.  Please wait the end of the current procedure.  Estimated time remaining: %s." ),
+               to_string( patient.get_effect_dur( effect_under_op ) ) );
+        p.add_msg_if_player( m_info, _( "The autodoc is working on %s" ), patient.disp_name() );
+        return;
     }
 
     uilist amenu;
@@ -4164,6 +4170,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     }
 
                 }
+                patient.add_effect( effect_under_op, duration, num_bp );
                 patient.install_bionics( ( *itemtype ), installer, true );
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
             }
@@ -4225,6 +4232,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     }
 
                 }
+                patient.add_effect( effect_under_op, duration, num_bp );
                 patient.uninstall_bionic( bid, installer, true );
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
             }

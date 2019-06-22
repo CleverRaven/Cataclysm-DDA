@@ -1385,6 +1385,12 @@
   },
   {
     "type": "effect_type",
+    "id": "under_operation",
+    "name": "under operation",
+    "description": "You are being operated on.  Try to stay still."
+  },
+  {
+    "type": "effect_type",
     "id": "alarm_clock"
   },
   {
