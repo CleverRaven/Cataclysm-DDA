@@ -366,7 +366,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
     }
 
     // handle reloadable tools and guns with no specific ammo type as special case
-    if( ( ammo == "null" && ammo_types().empty() ) || ammo_types().count( ammotype( "money" ) ) ) {
+    if( ( ammo == "null" && ammo_types().empty() ) || is_money() ) {
         if( ( is_tool() || is_gun() ) && magazine_integral() ) {
             curammo = nullptr;
             charges = std::min( qty, ammo_capacity() );
@@ -633,7 +633,7 @@ bool item::stacks_with( const item &rhs, bool check_components ) const
     if( type != rhs.type ) {
         return false;
     }
-    if( charges != 0 && rhs.charges != 0 && ammo_current() == "money" ) {
+    if( charges != 0 && rhs.charges != 0 && is_money() ) {
         // Dealing with nonempty cash cards
         return true;
     }
@@ -3416,7 +3416,7 @@ std::string item::display_name( unsigned int quantity ) const
     }
 
     if( amount || show_amt ) {
-        if( ammo_current() == "money" ) {
+        if( is_money() ) {
             amt = string_format( " $%.2f", amount / 100.0 );
         } else {
             if( max_amount != 0 ) {
@@ -4414,6 +4414,11 @@ bool item::ready_to_revive( const tripoint &pos ) const
         return true;
     }
     return false;
+}
+
+bool item::is_money() const
+{
+    return ammo_types().count( ammotype( "money" ) );
 }
 
 bool item::count_by_charges() const
@@ -5516,7 +5521,7 @@ bool item::operator<( const item &other ) const
                           !other.contents.empty() ? &other.contents.front() : &other;
 
         if( me->typeId() == rhs->typeId() ) {
-            if( me->ammo_current() == "money" ) {
+            if( me->is_money() ) {
                 return me->charges > rhs->charges;
             }
             return me->charges < rhs->charges;

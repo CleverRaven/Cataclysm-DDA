@@ -280,6 +280,8 @@ class item : public visitable<item>
          */
         bool ready_to_revive( const tripoint &pos ) const;
 
+        bool is_money() const;
+
         /**
          * Returns the default color of the item (e.g. @ref itype::color).
          */
