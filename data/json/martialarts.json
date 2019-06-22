@@ -1055,7 +1055,13 @@
         "max_stacks": 1
       }
     ],
-    "techniques": [ "tec_medievalpole_counter", "tec_medievalpole_highround", "tec_medievalpole_feint", "tec_medievalpole_highstab" ],
+    "techniques": [
+      "tec_medievalpole_counter",
+      "tec_medievalpole_highround",
+      "tec_medievalpole_feint",
+      "tec_medievalpole_highstab",
+      "tec_medievalpole_break"
+    ],
     "weapons": [
       "halberd",
       "halberd_fake",
