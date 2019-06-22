@@ -3060,7 +3060,7 @@ bool vehicle::can_use_rails() const
             break;
         }
     }
-    return can_use && is_wheel_on_rail;
+    return is_wheel_on_rail;
 }
 
 int vehicle::ground_acceleration( const bool fueled, int at_vel_in_vmi ) const
