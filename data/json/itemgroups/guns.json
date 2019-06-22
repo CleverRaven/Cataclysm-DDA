@@ -287,7 +287,8 @@
     "//": "Military specification shotguns only ever found at military sites.",
     "items": [
       { "item": "l_def_12", "prob": 100, "charges-min": 0, "charges-max": 8 },
-      { "item": "rm20", "prob": 20, "charges-min": 0, "charges-max": 20 }
+      { "item": "rm20", "prob": 20, "charges-min": 0, "charges-max": 20 },
+      { "item": "m1014", "prob": 100, "charges-min": 0, "charges-max": 8 }
     ]
   },
   {
