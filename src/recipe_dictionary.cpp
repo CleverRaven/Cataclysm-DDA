@@ -134,7 +134,7 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
     std::vector<const recipe *> res;
 
     std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
-        if( !*r ) {
+        if( !*r || r->obsolete ) {
             return false;
         }
         switch( key ) {
@@ -316,8 +316,12 @@ void recipe_dictionary::finalize_internal( std::map<recipe_id, recipe> &obj )
     }
     // remove any blacklisted or invalid recipes...
     delete_if( []( const recipe & elem ) {
-        if( elem.is_blacklisted() || elem.obsolete ) {
+        if( elem.is_blacklisted() ) {
             return true;
+        }
+
+        if( elem.obsolete ) {
+            return false;
         }
 
         const std::string error = elem.get_consistency_error();
@@ -344,6 +348,10 @@ void recipe_dictionary::finalize()
 
     for( auto &e : recipe_dict.recipes ) {
         auto &r = e.second;
+
+        if( r.obsolete ) {
+            continue;
+        }
 
         for( const auto &bk : r.booksets ) {
             const itype *booktype = item::find_type( bk.first );
