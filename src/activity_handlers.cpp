@@ -1386,9 +1386,9 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                     } else if( g->m.furn( source_pos ).obj().examine == &iexamine::fvat_full ) {
                         add_msg( _( "You squeeze the last drops of %s from the vat." ),
                                  liquid.type_name( 1 ) );
-                        map_stack items_here = g->m.i_at(source_pos);
-                        if (items_here.empty()) {
-                            g->m.furn_set(source_pos, f_fvat_empty);
+                        map_stack items_here = g->m.i_at( source_pos );
+                        if( items_here.empty() ) {
+                            g->m.furn_set( source_pos, f_fvat_empty );
                         }
                     }
                     act_ref.set_to_null();
