@@ -282,9 +282,6 @@ static const trait_id trait_CHITIN_FUR2( "CHITIN_FUR2" );
 static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
-static const trait_id trait_COLDBLOOD( "COLDBLOOD" );
-static const trait_id trait_COLDBLOOD2( "COLDBLOOD2" );
-static const trait_id trait_COLDBLOOD3( "COLDBLOOD3" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
 static const trait_id trait_DEAF( "DEAF" );
@@ -1809,14 +1806,12 @@ void player::recalc_speed_bonus()
         if( has_trait( trait_SUNLIGHT_DEPENDENT ) && !g->is_in_sunlight( pos() ) ) {
             mod_speed_bonus( -( g->light_level( posz() ) >= 12 ? 5 : 10 ) );
         }
-        /* Cache call to game::get_temperature( player position ) since it can be used several times here */
-        const auto player_local_temp = g->weather.get_temperature( pos() );
-        if( has_trait( trait_COLDBLOOD4 ) || ( has_trait( trait_COLDBLOOD3 ) && player_local_temp < 65 ) ) {
-            mod_speed_bonus( ( player_local_temp - 65 ) / 2 );
-        } else if( has_trait( trait_COLDBLOOD2 ) && player_local_temp < 65 ) {
-            mod_speed_bonus( ( player_local_temp - 65 ) / 3 );
-        } else if( has_trait( trait_COLDBLOOD ) && player_local_temp < 65 ) {
-            mod_speed_bonus( ( player_local_temp - 65 ) / 5 );
+        const float temperature_speed_modifier = mutation_value( "temperature_speed_modifier" );
+        if( temperature_speed_modifier != 0 ) {
+            const auto player_local_temp = g->weather.get_temperature( pos() );
+            if( has_trait( trait_COLDBLOOD4 ) || player_local_temp < 65 ) {
+                mod_speed_bonus( ( player_local_temp - 65 ) * temperature_speed_modifier );
+            }
         }
     }
 
@@ -4657,8 +4652,8 @@ void player::update_stamina( int turns )
             stamina_recovery += bonus;
         }
     }
-
-    stamina = roll_remainder( stamina + stamina_recovery * turns );
+    //  recover ratio was balanced for legacy 6s/turn, hence the division by 6
+    stamina += roll_remainder( stamina_recovery * turns / 6.0f );
 
     // Cap at max
     stamina = std::min( std::max( stamina, 0 ), max_stam );
@@ -8830,7 +8825,7 @@ bool player::unload( item &it )
     } else if( target->ammo_remaining() ) {
         int qty = target->ammo_remaining();
 
-        if( target->ammo_current() == "plutonium" ) {
+        if( target->ammo_current() == "plut_cell" ) {
             qty = target->ammo_remaining() / PLUTONIUM_CHARGES;
             if( qty > 0 ) {
                 add_msg( _( "You recover %i unused plutonium." ), qty );
@@ -8858,7 +8853,7 @@ bool player::unload( item &it )
         // If successful remove appropriate qty of ammo consuming half as much time as required to load it
         this->moves -= this->item_reload_cost( *target, ammo, qty ) / 2;
 
-        if( target->ammo_current() == "plutonium" ) {
+        if( target->ammo_current() == "plut_cell" ) {
             qty *= PLUTONIUM_CHARGES;
         }
 
@@ -9745,13 +9740,13 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
         }
     }
 
-    if( comfort >= static_cast<int>( comfort_level::very_comfortable ) ) {
+    if( comfort > static_cast<int>( comfort_level::comfortable ) ) {
         return comfort_level::very_comfortable;
-    } else if( comfort >= static_cast<int>( comfort_level::comfortable ) ) {
+    } else if( comfort > static_cast<int>( comfort_level::slightly_comfortable ) ) {
         return comfort_level::comfortable;
-    } else if( comfort >= static_cast<int>( comfort_level::slightly_comfortable ) ) {
+    } else if( comfort > static_cast<int>( comfort_level::neutral ) ) {
         return comfort_level::slightly_comfortable;
-    } else if( comfort >= static_cast<int>( comfort_level::neutral ) ) {
+    } else if( comfort == static_cast<int>( comfort_level::neutral ) ) {
         return comfort_level::neutral;
     } else {
         return comfort_level::uncomfortable;
@@ -11852,11 +11847,13 @@ bool player::has_item_with_flag( const std::string &flag, bool need_charges ) co
 void player::on_mutation_gain( const trait_id &mid )
 {
     morale->on_mutation_gain( mid );
+    magic.on_mutation_gain( mid, *this );
 }
 
 void player::on_mutation_loss( const trait_id &mid )
 {
     morale->on_mutation_loss( mid );
+    magic.on_mutation_loss( mid );
 }
 
 void player::on_stat_change( const std::string &stat, int value )

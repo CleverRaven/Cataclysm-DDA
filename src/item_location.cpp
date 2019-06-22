@@ -106,9 +106,8 @@ class item_location::impl
         }
 
         item *target() const {
-            if( idx >= 0 ) {
+            if( what == nullptr ) {
                 what = unpack( idx );
-                idx = -1;
             }
             return what;
         }

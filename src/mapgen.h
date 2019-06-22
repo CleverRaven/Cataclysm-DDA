@@ -446,6 +446,4 @@ void circle( map *m, ter_id type, int x, int y, int rad );
 void circle_furn( map *m, furn_id type, int x, int y, int rad );
 void add_corpse( map *m, int x, int y );
 
-using map_special_pointer = void ( * )( map &, const tripoint & );
-
 #endif

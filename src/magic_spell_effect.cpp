@@ -100,19 +100,22 @@ void spell_effect::move_earth( const tripoint &target )
     }
 }
 
-static bool in_spell_aoe( const tripoint &target, const tripoint &epicenter, const int &radius,
+static bool in_spell_aoe( const tripoint &start, const tripoint &end, const int &radius,
                           const bool ignore_walls )
 {
-    if( ignore_walls ) {
-        return rl_dist( epicenter, target ) <= radius;
+    if( rl_dist( start, end ) > radius ) {
+        return false;
     }
-    std::vector<tripoint> trajectory = line_to( epicenter, target );
+    if( ignore_walls ) {
+        return true;
+    }
+    const std::vector<tripoint> trajectory = line_to( start, end );
     for( const tripoint &pt : trajectory ) {
         if( g->m.impassable( pt ) ) {
             return false;
         }
     }
-    return rl_dist( epicenter, target ) <= radius;
+    return true;
 }
 
 std::set<tripoint> spell_effect::spell_effect_blast( const spell &, const tripoint &,
@@ -122,11 +125,9 @@ std::set<tripoint> spell_effect::spell_effect_blast( const spell &, const tripoi
     // TODO: Make this breadth-first
     for( int x = target.x - aoe_radius; x <= target.x + aoe_radius; x++ ) {
         for( int y = target.y - aoe_radius; y <= target.y + aoe_radius; y++ ) {
-            for( int z = target.z - aoe_radius; z <= target.z + aoe_radius; z++ ) {
-                const tripoint potential_target( x, y, z );
-                if( in_spell_aoe( potential_target, target, aoe_radius, ignore_walls ) ) {
-                    targets.emplace( potential_target );
-                }
+            const tripoint potential_target( x, y, target.z );
+            if( in_spell_aoe( target, potential_target, aoe_radius, ignore_walls ) ) {
+                targets.emplace( potential_target );
             }
         }
     }
@@ -148,7 +149,7 @@ std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripo
         end_points.emplace( potential );
     }
     for( const tripoint &ep : end_points ) {
-        std::vector<tripoint> trajectory = line_to( ep, source );
+        std::vector<tripoint> trajectory = line_to( source, ep );
         for( const tripoint &tp : trajectory ) {
             if( ignore_walls || g->m.passable( tp ) ) {
                 targets.emplace( tp );
@@ -283,7 +284,7 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
     if( guy ) {
         for( const body_part bp : all_body_parts ) {
             if( sp.bp_is_affected( bp ) ) {
-                guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( "PERMANENT" ) );
+                guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ) );
                 bodypart_effected = true;
             }
         }
@@ -296,6 +297,9 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
 static void damage_targets( const spell &sp, std::set<tripoint> targets )
 {
     for( const tripoint target : targets ) {
+        if( !sp.is_valid_target( target ) ) {
+            continue;
+        }
         Creature *const cr = g->critter_at<Creature>( target );
         if( !cr ) {
             continue;
@@ -325,36 +329,42 @@ void spell_effect::projectile_attack( const spell &sp, const tripoint &source,
                                       const tripoint &target )
 {
     std::vector<tripoint> trajectory = line_to( source, target );
-    for( const tripoint &pt : trajectory ) {
-        if( g->m.impassable( pt ) || pt == trajectory.back() ) {
-            target_attack( sp, source, target );
+    for( std::vector<tripoint>::iterator iter = trajectory.begin(); iter != trajectory.end(); iter++ ) {
+        if( g->m.impassable( *iter ) ) {
+            if( iter != trajectory.begin() ) {
+                target_attack( sp, source, *( iter - 1 ) );
+            } else {
+                target_attack( sp, source, *iter );
+            }
+            return;
         }
     }
+    target_attack( sp, source, trajectory.back() );
 }
 
 void spell_effect::target_attack( const spell &sp, const tripoint &source,
                                   const tripoint &epicenter )
 {
     damage_targets( sp, spell_effect_area( sp, source, epicenter, spell_effect_blast,
-                                           sp.has_flag( "IGNORE_WALLS" ) ) );
+                                           sp.has_flag( spell_flag::IGNORE_WALLS ) ) );
 }
 
 void spell_effect::cone_attack( const spell &sp, const tripoint &source, const tripoint &target )
 {
     damage_targets( sp, spell_effect_area( sp, source, target, spell_effect_cone,
-                                           sp.has_flag( "IGNORE_WALLS" ) ) );
+                                           sp.has_flag( spell_flag::IGNORE_WALLS ) ) );
 }
 
 void spell_effect::line_attack( const spell &sp, const tripoint &source, const tripoint &target )
 {
     damage_targets( sp, spell_effect_area( sp, source, target, spell_effect_line,
-                                           sp.has_flag( "IGNORE_WALLS" ) ) );
+                                           sp.has_flag( spell_flag::IGNORE_WALLS ) ) );
 }
 
 void spell_effect::spawn_ethereal_item( spell &sp )
 {
     item granted( sp.effect_data(), calendar::turn );
-    if( !granted.is_comestible() && !( sp.has_flag( "PERMANENT" ) && sp.is_max_level() ) ) {
+    if( !granted.is_comestible() && !( sp.has_flag( spell_flag::PERMANENT ) && sp.is_max_level() ) ) {
         granted.set_var( "ethereal", to_turns<int>( sp.duration_turns() ) );
         granted.set_flag( "ETHEREAL_ITEM" );
     }
@@ -414,9 +424,9 @@ void spell_effect::recover_energy( spell &sp, const tripoint &target )
 
 static bool is_summon_friendly( const spell &sp )
 {
-    const bool hostile = sp.has_flag( "HOSTILE_SUMMON" );
+    const bool hostile = sp.has_flag( spell_flag::HOSTILE_SUMMON );
     bool friendly = !hostile;
-    if( sp.has_flag( "HOSTILE_50" ) ) {
+    if( sp.has_flag( spell_flag::HOSTILE_50 ) ) {
         friendly = friendly && rng( 0, 1000 ) < 500;
     }
     return friendly;
@@ -425,7 +435,7 @@ static bool is_summon_friendly( const spell &sp )
 static bool add_summoned_mon( const mtype_id &id, const tripoint &pos, const time_duration &time,
                               const spell &sp )
 {
-    const bool permanent = sp.has_flag( "PERMANENT" );
+    const bool permanent = sp.has_flag( spell_flag::PERMANENT );
     monster spawned_mon( id, pos );
     if( is_summon_friendly( sp ) ) {
         spawned_mon.friendly = INT_MAX;

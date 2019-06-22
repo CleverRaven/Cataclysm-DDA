@@ -1948,8 +1948,6 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't construct while you're in your shell." ) );
                 } else if( u.has_effect( effect_riding ) ) {
                     add_msg( m_info, _( "You can't construct while you're riding." ) );
-                } else if( g->u.fine_detail_vision_mod() > 4 && !g->u.has_trait( trait_DEBUG_HS ) ) {
-                    add_msg( m_info, _( "It is too dark to construct right now." ) );
                 } else {
                     construction_menu( false );
                 }

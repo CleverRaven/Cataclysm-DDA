@@ -47,6 +47,12 @@ const std::map<std::string, body_part> bp_map = {
     { "FOOT_L", body_part::bp_foot_l },
     { "FOOT_R", body_part::bp_foot_r }
 };
+const std::map<std::string, spell_flag> flag_map = {
+    { "PERMANENT", spell_flag::PERMANENT },
+    { "IGNORE_WALLS", spell_flag::IGNORE_WALLS },
+    { "HOSTILE_SUMMON", spell_flag::HOSTILE_SUMMON },
+    { "HOSTILE_50", spell_flag::HOSTILE_50 }
+};
 } // namespace
 
 namespace io
@@ -60,6 +66,11 @@ template<>
 body_part string_to_enum<body_part>( const std::string &trigger )
 {
     return string_to_enum_look_up( bp_map, trigger );
+}
+template<>
+spell_flag string_to_enum<spell_flag>( const std::string &trigger )
+{
+    return string_to_enum_look_up( flag_map, trigger );
 }
 } // namespace io
 
@@ -98,6 +109,8 @@ static energy_type energy_source_from_string( const std::string &str )
         return bionic_energy;
     } else if( str == "STAMINA" ) {
         return stamina_energy;
+    } else if( str == "FATIGUE" ) {
+        return fatigue_energy;
     } else if( str == "NONE" ) {
         return none_energy;
     } else {
@@ -144,6 +157,8 @@ void spell_type::load( JsonObject &jo, const std::string & )
 
     const auto bp_reader = enum_flags_reader<body_part> { "affected_bps" };
     optional( jo, was_loaded, "affected_body_parts", affected_bps, bp_reader );
+    const auto flag_reader = enum_flags_reader<spell_flag> { "flags" };
+    optional( jo, was_loaded, "flags", spell_tags, flag_reader );
 
     optional( jo, was_loaded, "effect_str", effect_str, "" );
 
@@ -174,8 +189,6 @@ void spell_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "base_energy_cost", base_energy_cost, 0 );
     optional( jo, was_loaded, "final_energy_cost", final_energy_cost, base_energy_cost );
     optional( jo, was_loaded, "energy_increment", energy_increment, 0.0f );
-
-    optional( jo, was_loaded, "flags", spell_tags );
 
     std::string temp_string;
     optional( jo, was_loaded, "spell_class", temp_string, "NONE" );
@@ -320,9 +333,14 @@ int spell::energy_cost() const
     }
 }
 
-bool spell::has_flag( const std::string &flag ) const
+bool spell::has_flag( const spell_flag &flag ) const
 {
-    return type->spell_tags.count( flag );
+    return type->spell_tags[flag];
+}
+
+bool spell::is_spell_class( const trait_id &mid ) const
+{
+    return mid == type->spell_class;
 }
 
 bool spell::can_cast( const player &p ) const
@@ -347,6 +365,8 @@ bool spell::can_cast( const player &p ) const
         }
         case bionic_energy:
             return p.power_level >= energy_cost();
+        case fatigue_energy:
+            return p.get_fatigue() < EXHAUSTED;
         case none_energy:
         default:
             return true;
@@ -439,6 +459,8 @@ std::string spell::energy_string() const
             return _( "stamina" );
         case bionic_energy:
             return _( "bionic power" );
+        case fatigue_energy:
+            return _( "fatigue" );
         default:
             return "";
     }
@@ -459,6 +481,9 @@ std::string spell::energy_cost_string( const player &p ) const
     if( energy_source() == stamina_energy ) {
         auto pair = get_hp_bar( energy_cost(), p.get_stamina_max() );
         return colorize( pair.first, pair.second );
+    }
+    if( energy_source() == fatigue_energy ) {
+        return colorize( to_string( energy_cost() ), c_cyan );
     }
     debugmsg( "ERROR: Spell %s has invalid energy source.", id().c_str() );
     return _( "error: energy_type" );
@@ -481,6 +506,10 @@ std::string spell::energy_cur_string( const player &p ) const
     }
     if( energy_source() == hp_energy ) {
         return "";
+    }
+    if( energy_source() == fatigue_energy ) {
+        const std::pair<std::string, nc_color> pair = p.get_fatigue_description();
+        return colorize( pair.first, pair.second );
     }
     debugmsg( "ERROR: Spell %s has invalid energy source.", id().c_str() );
     return _( "error: energy_type" );
@@ -521,11 +550,13 @@ bool spell::is_valid_target( const tripoint &p ) const
         Creature::Attitude cr_att = cr->attitude_to( g->u );
         valid = valid || ( cr_att != Creature::A_FRIENDLY && is_valid_target( target_hostile ) ) ||
                 ( cr_att == Creature::A_FRIENDLY && is_valid_target( target_ally ) );
+    } else {
+        valid = is_valid_target( target_ground );
     }
     if( p == g->u.pos() ) {
         valid = valid || is_valid_target( target_self );
     }
-    return valid || is_valid_target( target_ground );
+    return valid;
 }
 
 std::string spell::description() const
@@ -828,6 +859,7 @@ void known_magic::forget_spell( const spell_id &sp )
         debugmsg( "Can't forget a spell you don't know!" );
         return;
     }
+    add_msg( m_bad, _( "All knowledge of %s leaves you." ), sp->name );
     spellbook.erase( sp );
 }
 
@@ -915,6 +947,8 @@ bool known_magic::has_enough_energy( const player &p, spell &sp ) const
                 }
             }
             return false;
+        case fatigue_energy:
+            return p.get_fatigue() < EXHAUSTED;
         case none_energy:
             return true;
         default:
@@ -1031,7 +1065,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     print_colored_text( w_menu, line++, h_col1, gray, gray,
                         string_format( "%s: %s %s%s", _( "Casting Cost" ), sp.energy_cost_string( g->u ),
                                        sp.energy_string(),
-                                       sp.energy_source() == hp_energy ? "" :  string_format( " ( % s current )",
+                                       sp.energy_source() == hp_energy ? "" :  string_format( " ( %s current )",
                                                sp.energy_cur_string( g->u ) ) ) );
 
     print_colored_text( w_menu, line++, h_col1, gray, gray,
@@ -1161,6 +1195,30 @@ int known_magic::select_spell( const player &p )
     return spell_menu.ret;
 }
 
+void known_magic::on_mutation_gain( const trait_id &mid, player &p )
+{
+    for( const std::pair<spell_id, int> &sp : mid->spells_learned ) {
+        learn_spell( sp.first, p, true );
+        spell &temp_sp = get_spell( sp.first );
+        for( int level = 0; level <= sp.second; level++ ) {
+            temp_sp.gain_level();
+        }
+    }
+}
+
+void known_magic::on_mutation_loss( const trait_id &mid )
+{
+    std::vector<spell_id> spells_to_forget;
+    for( const spell *sp : get_spells() ) {
+        if( sp->is_spell_class( mid ) ) {
+            spells_to_forget.emplace_back( sp->id() );
+        }
+    }
+    for( const spell_id &sp_id : spells_to_forget ) {
+        forget_spell( sp_id );
+    }
+}
+
 void spellbook_callback::add_spell( const spell_id &sp )
 {
     spells.emplace_back( sp.obj() );
@@ -1199,12 +1257,14 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     int line = 1;
     const catacurses::window w = menu->window;
     nc_color gray = c_light_gray;
+    nc_color yellow = c_yellow;
     const spell fake_spell( &sp );
 
     const std::string spell_name = colorize( _( sp.name ), c_light_green );
-    const std::string spell_class = colorize( sp.spell_class->name(), c_yellow );
+    const std::string spell_class = sp.spell_class == trait_id( "NONE" ) ? _( "Classless" ) :
+                                    sp.spell_class->name();
     print_colored_text( w, line, start_x, gray, gray, spell_name );
-    print_colored_text( w, line++, menu->pad_left - sp.spell_class->name().length() - 1, gray, gray,
+    print_colored_text( w, line++, menu->pad_left - spell_class.length() - 1, yellow, yellow,
                         spell_class );
     line++;
     line += fold_and_print( w, line, start_x, width, gray, _( sp.description ) );

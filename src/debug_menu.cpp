@@ -20,6 +20,7 @@
 #include "coordinate_conversions.h"
 #include "filesystem.h"
 #include "game.h"
+#include "map_extras.h"
 #include "messages.h"
 #include "mission.h"
 #include "morale_types.h"
@@ -58,7 +59,6 @@
 #include "item.h"
 #include "sounds.h"
 #include "trait_group.h"
-#include "map_extras.h"
 #include "artifact.h"
 #include "vpart_position.h"
 #include "rng.h"
@@ -403,7 +403,7 @@ void character_edit_menu()
 
     enum {
         D_NAME, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
-        D_HP, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
+        D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION
     };
     nmenu.addentry( D_NAME, true, 'N', "%s", _( "Edit [N]ame" ) );
@@ -414,6 +414,7 @@ void character_edit_menu()
     nmenu.addentry( D_ITEM_WORN, true, 'w', "%s",
                     _( "[w]ear/[w]ield an item from player's inventory" ) );
     nmenu.addentry( D_HP, true, 'h', "%s", _( "Set [h]it points" ) );
+    nmenu.addentry( D_STAMINA, true, 'S', "%s", _( "Set [S]tamina" ) );
     nmenu.addentry( D_MORALE, true, 'o', "%s", _( "Set m[o]rale" ) );
     nmenu.addentry( D_PAIN, true, 'p', "%s", _( "Cause [p]ain" ) );
     nmenu.addentry( D_HEALTHY, true, 'a', "%s", _( "Set he[a]lth" ) );
@@ -534,6 +535,17 @@ void character_edit_menu()
             }
         }
         break;
+        case D_STAMINA:
+            int value;
+            if( query_int( value, _( "Set stamina to? Current: %d. Max: %d." ), p.stamina,
+                           p.get_stamina_max() ) ) {
+                if( value > 0 && value <= p.get_stamina_max() ) {
+                    p.stamina = value;
+                } else {
+                    add_msg( m_bad, _( "Target stamina value out of bounds!" ) );
+                }
+            }
+            break;
         case D_MORALE: {
             int current_morale_level = p.get_morale_level();
             int value;
@@ -1429,7 +1441,7 @@ void debug()
                 raise( SIGSEGV );
                 break;
             case DEBUG_MAP_EXTRA: {
-                std::unordered_map<std::string, map_special_pointer> FM = MapExtras::all_functions();
+                std::unordered_map<std::string, map_extra_pointer> FM = MapExtras::all_functions();
                 uilist mx_menu;
                 std::vector<std::string> mx_str;
                 for( auto &extra : FM ) {
@@ -1439,14 +1451,11 @@ void debug()
                 mx_menu.query();
                 int mx_choice = mx_menu.ret;
                 if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
-                    auto func = MapExtras::get_function( mx_str[mx_choice] );
-                    if( func != nullptr ) {
-                        const tripoint where( ui::omap::choose_point() );
-                        if( where != overmap::invalid_tripoint ) {
-                            tinymap mx_map;
-                            mx_map.load( where.x * 2, where.y * 2, where.z, false );
-                            func( mx_map, where );
-                        }
+                    const tripoint where( ui::omap::choose_point() );
+                    if( where != overmap::invalid_tripoint ) {
+                        tinymap mx_map;
+                        mx_map.load( where.x * 2, where.y * 2, where.z, false );
+                        MapExtras::apply_function( mx_str[mx_choice], mx_map, where );
                     }
                 }
                 break;

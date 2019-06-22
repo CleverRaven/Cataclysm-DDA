@@ -54,7 +54,8 @@
       [ "manual_silat", 100 ],
       [ "manual_taekwondo", 100 ],
       [ "manual_wingchun", 100 ],
-      [ "manual_medievalpole", 10 ]
+      [ "manual_medievalpole", 10 ],
+      [ "manual_swordsmanship", 10 ]
     ]
   },
   {
@@ -573,6 +574,7 @@
       [ "manual_capoeira", 1 ],
       [ "manual_wingchun", 3 ],
       [ "manual_medievalpole", 3 ],
+      [ "manual_swordsmanship", 3 ],
       { "group": "rare_martial_arts_books", "prob": 6 }
     ]
   },
@@ -606,7 +608,7 @@
       [ "mag_cutting", 5 ],
       [ "textbook_weapeast", 1 ],
       [ "manual_wingchun", 3 ],
-      [ "manual_medievalpole", 2 ]
+      [ "manual_medievalpole", 1 ]
     ]
   },
   {
@@ -664,3 +666,4 @@
     "items": [ [ "tailor_portfolio", 30 ], [ "mag_tailor", 50 ], [ "manual_tailor", 30 ], [ "textbook_tailor", 30 ] ]
   }
 ]
+

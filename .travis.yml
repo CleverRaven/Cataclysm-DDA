@@ -105,12 +105,12 @@ jobs:
       osx_image: xcode10.1
       compiler: clang
 
-    - env: CLANG=clang++-8 TILES=1 SOUND=1 CXXFLAGS=-Wno-unused-command-line-argument CMAKE=1 CATA_CLANG_TIDY=clang-tidy-8
+    - env: CLANG=clang++-8 TILES=1 SOUND=1 CXXFLAGS=-Wno-unused-command-line-argument CMAKE=1 CATA_CLANG_TIDY=plugin
       name: "Clang-tidy CMake build with Tiles and Sound"
       compiler: clang
       addons: &clang8
         apt:
-          packages: ["clang-8", "clang-tidy-8", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
+          packages: ["clang-8", "libclang-8-dev", "llvm-8-dev", "llvm-8-tools", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
           sources: [*apt_sources, llvm-toolchain-xenial-8]
 
     # Finally check the compiler variants

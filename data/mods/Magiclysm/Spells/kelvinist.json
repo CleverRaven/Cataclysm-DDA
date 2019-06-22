@@ -21,6 +21,28 @@
     "energy_source": "MANA"
   },
   {
+    "id": "create_lighter",
+    "type": "SPELL",
+    "name": "Finger Firelighter",
+    "description": "Summons a small flame that does not burn you, but you can use it to light things on fire.  It seems to need you to have some intent to light things on fire, because you are able to put it in your pocket with no issue.",
+    "valid_targets": [ "none" ],
+    "effect": "spawn_item",
+    "effect_str": "finger_firelighter",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 6000,
+    "max_duration": 60000,
+    "duration_increment": 5400,
+    "max_level": 10,
+    "spell_class": "KELVINIST",
+    "energy_source": "MANA",
+    "base_casting_time": 250,
+    "final_casting_time": 50,
+    "casting_time_increment": -20,
+    "base_energy_cost": 65,
+    "difficulty": 0
+  },
+  {
     "id": "ice_spike",
     "type": "SPELL",
     "name": "Ice Spike",
@@ -269,5 +291,26 @@
     "min_duration": 10000,
     "max_duration": 50000,
     "duration_increment": 3000
+  },
+  {
+    "id": "create_rune_kelvinist",
+    "type": "SPELL",
+    "name": "Kelvinist Rune",
+    "description": "This ritual creates a small pebble attuned to Kelvinists. You can use the rune as a catalyst for recipes.",
+    "valid_targets": [ "self" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "rune_kelvinist",
+    "base_casting_time": 5000,
+    "base_energy_cost": 5,
+    "min_duration": 1,
+    "max_duration": 2,
+    "duration_increment": 1,
+    "difficulty": 0,
+    "max_level": 1,
+    "spell_class": "KELVINIST",
+    "energy_source": "MANA",
+    "flags": [ "PERMANENT" ]
   }
 ]

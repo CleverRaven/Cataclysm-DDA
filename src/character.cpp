@@ -3119,6 +3119,7 @@ mutation_value_map = {
     { "hp_modifier", calc_mutation_value<&mutation_branch::hp_modifier> },
     { "hp_modifier_secondary", calc_mutation_value<&mutation_branch::hp_modifier_secondary> },
     { "hp_adjustment", calc_mutation_value<&mutation_branch::hp_adjustment> },
+    { "temperature_speed_modifier", calc_mutation_value<&mutation_branch::temperature_speed_modifier> },
     { "metabolism_modifier", calc_mutation_value<&mutation_branch::metabolism_modifier> },
     { "thirst_modifier", calc_mutation_value<&mutation_branch::thirst_modifier> },
     { "fatigue_regen_modifier", calc_mutation_value<&mutation_branch::fatigue_regen_modifier> },

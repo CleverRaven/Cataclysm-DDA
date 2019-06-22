@@ -61,6 +61,8 @@
     "max_level": 12,
     "spell_class": "EARTHSHAPER",
     "base_casting_time": 500,
+    "final_casting_time": 300,
+    "casting_time_increment": -17,
     "energy_source": "MANA",
     "base_energy_cost": 150,
     "energy_increment": 75,
@@ -153,5 +155,26 @@
     "base_casting_time": 100,
     "energy_source": "MANA",
     "effect": "projectile_attack"
+  },
+  {
+    "id": "create_rune_earthshaper",
+    "type": "SPELL",
+    "name": "Earthshaper Rune",
+    "description": "This ritual creates a small pebble attuned to Earthshapers. You can use the rune as a catalyst for recipes.",
+    "valid_targets": [ "self" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "rune_earthshaper",
+    "base_casting_time": 5000,
+    "base_energy_cost": 5,
+    "min_duration": 1,
+    "max_duration": 2,
+    "duration_increment": 1,
+    "difficulty": 0,
+    "max_level": 1,
+    "spell_class": "EARTHSHAPER",
+    "energy_source": "MANA",
+    "flags": [ "PERMANENT" ]
   }
 ]

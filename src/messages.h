@@ -9,6 +9,7 @@
 
 #include "string_formatter.h"
 #include "enums.h"
+#include "debug.h"
 
 class JsonOut;
 class JsonObject;
@@ -50,11 +51,17 @@ void add_msg( const game_message_params &params, std::string msg );
 template<typename ...Args>
 inline void add_msg( const game_message_params &params, const std::string &msg, Args &&... args )
 {
+    if( params.type == m_debug && !debug_mode ) {
+        return;
+    }
     return add_msg( params, string_format( msg, std::forward<Args>( args )... ) );
 }
 template<typename ...Args>
 inline void add_msg( const game_message_params &params, const char *const msg, Args &&... args )
 {
+    if( params.type == m_debug && !debug_mode ) {
+        return;
+    }
     return add_msg( params, string_format( msg, std::forward<Args>( args )... ) );
 }
 

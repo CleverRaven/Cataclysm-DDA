@@ -630,9 +630,17 @@
     "id": "MARTIAL_ARTS5",
     "name": "Melee Weapon Training",
     "points": 3,
-    "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Fior Di Battaglia, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
+    "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Fior Di Battaglia,  Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
     "starting_trait": true,
-    "initial_ma_styles": [ "style_eskrima", "style_fencing", "style_silat", "style_niten", "style_sojutsu", "style_medievalpole" ],
+    "initial_ma_styles": [
+      "style_eskrima",
+      "style_fencing",
+      "style_silat",
+      "style_niten",
+      "style_sojutsu",
+      "style_swordsmanship",
+      "style_medievalpole"
+    ],
     "valid": false
   },
   {
@@ -5256,6 +5264,7 @@
     "changes_to": [ "COLDBLOOD2" ],
     "types": [ "METABOLISM" ],
     "category": [ "FISH", "CEPHALOPOD", "SPIDER" ],
+    "temperature_speed_modifier": 1,
     "metabolism_modifier": -0.333
   },
   {
@@ -5269,6 +5278,7 @@
     "changes_to": [ "COLDBLOOD3" ],
     "types": [ "METABOLISM" ],
     "category": [ "RAPTOR", "PLANT" ],
+    "temperature_speed_modifier": 0.333,
     "metabolism_modifier": -0.5
   },
   {
@@ -5282,6 +5292,7 @@
     "changes_to": [ "COLDBLOOD4" ],
     "types": [ "METABOLISM" ],
     "category": [ "INSECT", "LIZARD" ],
+    "temperature_speed_modifier": 0.5,
     "metabolism_modifier": -0.5
   },
   {
@@ -5296,6 +5307,7 @@
     "purifiable": false,
     "types": [ "METABOLISM" ],
     "category": [ "LIZARD", "PLANT" ],
+    "temperature_speed_modifier": 0.5,
     "metabolism_modifier": -0.5
   },
   {
@@ -6400,3 +6412,4 @@
     "category": [ "CHIMERA" ]
   }
 ]
+
