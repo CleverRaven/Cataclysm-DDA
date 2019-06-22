@@ -130,5 +130,70 @@
     "type": "recipe",
     "result": "grenade",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "peanut_unshelled",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "walnut_unshelled",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pecan_unshelled",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pistachio_unshelled",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "almond_unshelled",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chestnut_unshelled",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hazelnut_unshelled",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hickory_nut_unshelled",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bag_meat_vac",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bag_fish_vac",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bag_hflesh_vac",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bag_veggy_vac",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bag_apple_vac",
+    "obsolete": true
   }
 ]
