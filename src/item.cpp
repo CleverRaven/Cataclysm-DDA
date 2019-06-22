@@ -22,6 +22,7 @@
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
+#include "craft_command.h"
 #include "damage.h"
 #include "debug.h"
 #include "dispersion.h"
@@ -8599,6 +8600,26 @@ const recipe &item::get_making() const
         return recipe().ident().obj();
     }
     return *making;
+}
+
+void item::set_tools_to_continue( bool value )
+{
+    tools_to_continue = value;
+}
+
+bool item::has_tools_to_continue() const
+{
+    return tools_to_continue;
+}
+
+void item::set_cached_tool_selections( const std::vector<comp_selection<tool_comp>> &selections )
+{
+    cached_tool_selections = selections;
+}
+
+const std::vector<comp_selection<tool_comp>> &item::get_cached_tool_selections() const
+{
+    return cached_tool_selections;
 }
 
 const cata::optional<islot_comestible> &item::get_comestible() const
