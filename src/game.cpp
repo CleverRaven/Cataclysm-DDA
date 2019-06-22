@@ -2212,7 +2212,6 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "RIGHTDOWN", translate_marker( "Move Southeast" ) );
     ctxt.register_action( "DOWN", translate_marker( "Move South" ) );
     ctxt.register_action( "LEFTDOWN", translate_marker( "Move Southwest" ) );
-    ctxt.register_action( "LEFTDOWN", translate_marker( "Move Southwest" ) );
     ctxt.register_action( "LEFT", translate_marker( "Move West" ) );
     ctxt.register_action( "LEFTUP", translate_marker( "Move Northwest" ) );
     ctxt.register_action( "pause" );
