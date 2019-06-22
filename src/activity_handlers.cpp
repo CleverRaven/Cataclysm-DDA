@@ -152,6 +152,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn },
     { activity_id( "ACT_FERTILIZE_PLOT" ), fertilize_plot_do_turn },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn },
+    { activity_id( "ACT_UNDER_OPERATION" ), under_operation_do_turn },
     { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_do_turn },
     { activity_id( "ACT_TREE_COMMUNION" ), tree_communion_do_turn },
     { activity_id( "ACT_STUDY_SPELL" ), study_spell_do_turn}
@@ -2765,6 +2766,42 @@ void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
             p->fall_asleep();
         } else if( one_in( 1000 ) ) {
             p->add_msg_if_player( _( "You toss and turn..." ) );
+        }
+    }
+}
+
+void activity_handlers::under_operation_do_turn( player_activity *act, player *p )
+{
+    time_duration op_duration = 0;
+    int difficulty = 0;
+    if( act->targets.front().get_item() ) {
+        difficulty = act->targets.front().get_item()->type->bionic->difficulty;
+        op_duration = difficulty * 20_minutes;
+    } else {
+        add_msg( "No CBM is being installed." );
+        act->set_to_null();
+        return;
+    }
+
+    if( time_duration::from_turns( act->moves_left ) <= op_duration / 2 ) {
+        if( p->get_hp() > p->get_hp_max()*difficulty * 0.04 ) {
+            // Difficulty 13 operation takes patient down to half MAX_HP
+            // Other difficulty scale linearly from there
+            // The damage is applied during the first half of the operation
+            //dmg=[ Diff*0.04*Hp_max ] / [ [Diff*20_min]/2 ] = Hp_max*0.004 hp/min
+            if( calendar::once_every( 1_minutes ) ) {
+                p->hurtall( floorf( p->get_hp_max() * 0.0004 ), p );
+                p->add_msg_player_or_npc( m_info,
+                                          _( "The Autodoc is meticulously cutting you open." ),
+                                          _( "The Autodoc is meticulously cutting <npcname> open." ) );
+            }
+        }
+    } else {
+        if( calendar::once_every( 1_minutes ) ) {
+            p->healall( floorf( p->get_hp_max() * 0.0004 ) );
+            p->add_msg_player_or_npc( m_info,
+                                      _( "The Autodoc is stitching you back up." ),
+                                      _( "The Autodoc is stitching <npcname> back up." ) );
         }
     }
 }
