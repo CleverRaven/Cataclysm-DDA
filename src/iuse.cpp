@@ -6658,7 +6658,6 @@ static std::string colorized_ter_name_flags_at( const tripoint &point,
     const ter_id ter = g->m.ter( point );
     std::string name = colorize( ter->name(), ter->color() );
     const std::string &graffiti_message = g->m.graffiti_at( point );
-    const std::string trap_name = colorized_trap_name_at( point );
 
     if( !graffiti_message.empty() ) {
         name +=  string_format( _( " with graffiti \"%s\"" ), graffiti_message );
