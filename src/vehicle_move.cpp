@@ -803,93 +803,13 @@ void vehicle::handle_trap( const tripoint &p, int part )
     }
     const trap &tr = g->m.tr_at( p );
     const trap_id t = tr.loadid;
-    int noise = 0;
-    int chance = 100;
-    int expl = 0;
-    int shrap = 0;
-    int part_damage = 0;
-    std::string snd;
-    std::string stype;
-    std::string variant;
-    // TODO: make trapfuncv?
 
-    if( t == tr_bubblewrap ) {
-        noise = 18;
-        snd = _( "Pop!" );
-    } else if( t == tr_glass ) {
-        noise = 10;
-        snd = _( "Crunch!" );
-    } else if( t == tr_beartrap || t == tr_beartrap_buried ) {
-        noise = 8;
-        snd = _( "SNAP!" );
-        stype = "trap";
-        variant = "bear_trap";
-        part_damage = 300;
-        g->m.remove_trap( p );
-        g->m.spawn_item( p, "beartrap" );
-    } else if( t == tr_nailboard || t == tr_caltrops || t == tr_caltrops_glass ) {
-        part_damage = 300;
-    } else if( t == tr_blade ) {
-        noise = 1;
-        snd = _( "Swinnng!" );
-        stype = "smash_success";
-        variant = "hit_vehicle";
-        part_damage = 300;
-    } else if( t == tr_crossbow ) {
-        chance = 30;
-        noise = 1;
-        snd = _( "Clank!" );
-        stype = "fire_gun";
-        variant = "crossbow";
-        part_damage = 300;
-        g->m.remove_trap( p );
-        g->m.spawn_item( p, "crossbow" );
-        g->m.spawn_item( p, "string_6" );
-        if( !one_in( 10 ) ) {
-            g->m.spawn_item( p, "bolt_steel" );
-        }
-    } else if( t == tr_shotgun_2 || t == tr_shotgun_1 ) {
-        noise = 60;
-        snd = _( "Bang!" );
-        stype = "fire_gun";
-        chance = 70;
-        part_damage = 300;
-        if( t == tr_shotgun_2 ) {
-            g->m.trap_set( p, tr_shotgun_1 );
-            variant = "shotgun_d";
-        } else {
-            g->m.remove_trap( p );
-            g->m.spawn_item( p, "shotgun_s" );
-            g->m.spawn_item( p, "string_6" );
-            variant = "shotgun_s";
-        }
-    } else if( t == tr_landmine_buried || t == tr_landmine ) {
-        expl = 10;
-        shrap = 8;
-        g->m.remove_trap( p );
-        part_damage = 1000;
-    } else if( t == tr_boobytrap ) {
-        expl = 18;
-        shrap = 12;
-        part_damage = 1000;
-    } else if( t == tr_dissector ) {
-        noise = 10;
-        snd = _( "BRZZZAP!" );
-        stype = "trap";
-        variant = "dissector";
-        part_damage = 500;
-    } else if( t == tr_sinkhole || t == tr_pit || t == tr_spike_pit || t == tr_glass_pit ) {
-        part_damage = 500;
-    } else if( t == tr_ledge ) {
-        is_falling = true;
-        // Don't print message
-        return;
-    } else if( t == tr_lava ) {
-        part_damage = 500;
-        // TODO: Make this damage not only wheels, but other parts too, especially tanks with flammable fuel
-    } else {
+    vehicle_handle_trap_data veh_data = tr.vehicle_data;
+
+    if( veh_data.is_falling ) {
         return;
     }
+
     if( g->u.sees( p ) ) {
         if( g->u.knows_trap( p ) ) {
             //~ %1$s: name of the vehicle; %2$s: name of the related vehicle part; %3$s: trap name
@@ -898,15 +818,36 @@ void vehicle::handle_trap( const tripoint &p, int part )
             add_msg( m_bad, _( "The %1$s's %2$s runs over something." ), name, parts[ part ].name() );
         }
     }
-    if( noise > 0 ) {
-        sounds::sound( p, noise, sounds::sound_t::combat, snd, false, stype, variant );
+
+    if( t == tr_beartrap || t == tr_beartrap_buried ) {
+        g->m.spawn_item( p, "beartrap" );
+    } else if( t == tr_crossbow ) {
+        g->m.spawn_item( p, "crossbow" );
+        g->m.spawn_item( p, "string_6" );
+        if( !one_in( 10 ) ) {
+            g->m.spawn_item( p, "bolt_steel" );
+        }
+    } else if( t == tr_shotgun_2 ) {
+        g->m.trap_set( p, tr_shotgun_1 );
+    } else if( t == tr_shotgun_1 ) {
+        g->m.spawn_item( p, "shotgun_s" );
+        g->m.spawn_item( p, "string_6" );
     }
-    if( part_damage && chance >= rng( 1, 100 ) ) {
-        // Hit the wheel directly since it ran right over the trap.
-        damage_direct( pwh, part_damage );
-    }
-    if( expl > 0 ) {
-        explosion_handler::explosion( p, expl, 0.5f, false, shrap );
+
+    if( veh_data.chance >= rng( 1, 100 ) ) {
+        if( veh_data.sound_volume > 0 ) {
+            sounds::sound( p, veh_data.sound_volume, sounds::sound_t::combat, veh_data.sound, false,
+                           veh_data.sound_type, veh_data.sound_variant );
+        }
+        if( veh_data.do_explosion ) {
+            explosion_handler::explosion( p, veh_data.damage, 0.5f, false, veh_data.shrapnel );
+        } else {
+            // Hit the wheel directly since it ran right over the trap.
+            damage_direct( pwh, veh_data.damage );
+        }
+        if( veh_data.remove_trap || veh_data.do_explosion ) {
+            g->m.remove_trap( p );
+        }
     }
 }
 

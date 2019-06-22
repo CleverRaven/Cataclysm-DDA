@@ -3761,7 +3761,6 @@ static void place_and_add_as_known( player &p, const tripoint &pos, const trap_s
 
 int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    const bool is_3x3_trap = !outer_layer_trap.is_null();
     const bool could_bury = !bury_question.empty();
     if( !allow_underwater && p.is_underwater() ) {
         p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
@@ -3777,13 +3776,19 @@ int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( !is_allowed( p, pos, it.tname() ) ) {
         return 0;
     }
-    if( is_3x3_trap ) {
-        pos.x = ( pos.x - p.posx() ) * 2 + p.posx(); //math correction for blade trap
-        pos.y = ( pos.y - p.posy() ) * 2 + p.posy();
-        for( const tripoint &t : g->m.points_in_radius( pos, 1, 0 ) ) {
+
+    int distance_to_trap_center = unburied_data.trap.obj().get_trap_radius() +
+                                  outer_layer_trap.obj().get_trap_radius() + 1;
+    if( unburied_data.trap.obj().get_trap_radius() > 0 ) {
+        // Math correction for multi-tile traps
+        pos.x = ( pos.x - p.posx() ) * distance_to_trap_center + p.posx();
+        pos.y = ( pos.y - p.posy() ) * distance_to_trap_center + p.posy();
+        for( const tripoint &t : g->m.points_in_radius( pos, outer_layer_trap.obj().get_trap_radius(),
+                0 ) ) {
             if( !is_allowed( p, t, it.tname() ) ) {
                 p.add_msg_if_player( m_info,
-                                     _( "That trap needs a 3x3 space to be clear, centered two tiles from you." ) );
+                                     _( "That trap needs a space in %d tiles radius to be clear, centered %d tiles from you." ),
+                                     outer_layer_trap.obj().get_trap_radius(), distance_to_trap_center );
                 return 0;
             }
         }
@@ -3797,16 +3802,14 @@ int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
     const auto &data = bury ? buried_data : unburied_data;
 
-    p.add_msg_if_player( m_info, _( data.done_message ), g->m.name( pos ) );
+    p.add_msg_if_player( m_info, _( data.done_message ), distance_to_trap_center );
     p.practice( skill_id( "traps" ), data.practice );
     p.mod_moves( -data.moves );
 
     place_and_add_as_known( p, pos, data.trap );
-    if( is_3x3_trap ) {
-        for( const tripoint &t : g->m.points_in_radius( pos, 1, 0 ) ) {
-            if( t != pos ) {
-                place_and_add_as_known( p, t, outer_layer_trap );
-            }
+    for( const tripoint &t : g->m.points_in_radius( pos, data.trap.obj().get_trap_radius(), 0 ) ) {
+        if( t != pos ) {
+            place_and_add_as_known( p, t, outer_layer_trap );
         }
     }
     return 1;

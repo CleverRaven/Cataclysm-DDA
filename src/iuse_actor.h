@@ -968,7 +968,7 @@ class place_trap_actor : public iuse_actor
         /** Data that applies to buried traps. */
         data buried_data;
         /**
-         * The trap that makes up the outer layer of a 3x3 trap. This is not supported for buried traps!
+         * The trap that makes up the outer layer of a multi-tile trap. This is not supported for buried traps!
          */
         trap_str_id outer_layer_trap;
         bool is_allowed( player &p, const tripoint &pos, const std::string &name ) const;
