@@ -101,10 +101,24 @@ std::vector<const recipe *> recipe_subset::favorite() const
     std::vector<const recipe *> res;
 
     std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
-        if( !*r ) {
+        if( !*r || r->obsolete ) {
             return false;
         }
         return uistate.favorite_recipes.find( r->ident() ) != uistate.favorite_recipes.end();
+    } );
+
+    return res;
+}
+
+std::vector<const recipe *> recipe_subset::hidden() const
+{
+    std::vector<const recipe *> res;
+
+    std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
+        if( !*r || r->obsolete ) {
+            return false;
+        }
+        return uistate.hidden_recipes.find( r->ident() ) != uistate.hidden_recipes.end();
     } );
 
     return res;
@@ -117,7 +131,7 @@ std::vector<const recipe *> recipe_subset::recent() const
     for( auto rec_id = uistate.recent_recipes.rbegin(); rec_id != uistate.recent_recipes.rend();
          ++rec_id ) {
         std::find_if( recipes.begin(), recipes.end(), [&rec_id, &res]( const recipe * r ) {
-            if( !*r || *rec_id != r->ident() ) {
+            if( !*r || *rec_id != r->ident() || r->obsolete ) {
                 return false;
             }
 
@@ -208,6 +222,9 @@ std::vector<const recipe *> recipe_subset::search_result( const itype_id &item )
     std::vector<const recipe *> res;
 
     std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
+        if( r->obsolete ) {
+            return false;
+        }
         return item == r->result() ||
                ( r->has_byproducts() && r->byproducts.find( item ) != r->byproducts.end() );
     } );
@@ -247,10 +264,16 @@ std::vector<const recipe *> recipe_subset::in_category( const std::string &cat,
     auto iter = category.find( cat );
     if( iter != category.end() ) {
         if( subcat.empty() ) {
-            res.insert( res.begin(), iter->second.begin(), iter->second.end() );
+            std::copy_if( iter->second.begin(), iter->second.end(),
+            std::back_inserter( res ), [&]( const recipe * e ) {
+                return !e->obsolete;
+            } );
         } else {
             std::copy_if( iter->second.begin(), iter->second.end(),
             std::back_inserter( res ), [&subcat]( const recipe * e ) {
+                if( e->obsolete ) {
+                    return false;
+                }
                 return e->subcategory == subcat;
             } );
         }
