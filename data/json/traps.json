@@ -222,7 +222,7 @@
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
-    "drops": [ "string_36", "shotgun_d", { "shot_00": "shot", "quantity": 2, "charges": 1 } ],
+    "drops": [ "string_36", "shotgun_d", { "item": "shot_00", "quantity": 2, "charges": 1 } ],
     "vehicle_data": {
       "remove_trap": true,
       "chance": 70,
@@ -244,7 +244,7 @@
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
-    "drops": [ "string_36", "shotgun_s", { "shot_00": "shot", "quantity": 1, "charges": 1 } ],
+    "drops": [ "string_36", "shotgun_s", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
     "vehicle_data": {
       "chance": 70,
       "damage": 300,
