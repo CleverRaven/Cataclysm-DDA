@@ -1257,12 +1257,14 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     int line = 1;
     const catacurses::window w = menu->window;
     nc_color gray = c_light_gray;
+    nc_color yellow = c_yellow;
     const spell fake_spell( &sp );
 
     const std::string spell_name = colorize( _( sp.name ), c_light_green );
-    const std::string spell_class = colorize( sp.spell_class->name(), c_yellow );
+    const std::string spell_class = sp.spell_class == trait_id( "NONE" ) ? _( "Classless" ) :
+                                    sp.spell_class->name();
     print_colored_text( w, line, start_x, gray, gray, spell_name );
-    print_colored_text( w, line++, menu->pad_left - sp.spell_class->name().length() - 1, gray, gray,
+    print_colored_text( w, line++, menu->pad_left - spell_class.length() - 1, yellow, yellow,
                         spell_class );
     line++;
     line += fold_and_print( w, line, start_x, width, gray, _( sp.description ) );
