@@ -671,7 +671,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             int dam = obj_dmg * dmg_mod / 100;
 
             // No blood from hallucinations
-            if( !critter->is_hallucination() ) {
+            if( critter == nullptr && !critter->is_hallucination() ) {
                 if( part_flag( ret.part, "SHARP" ) ) {
                     parts[ret.part].blood += ( 20 + dam ) * 5;
                 } else if( dam > rng( 10, 30 ) ) {
@@ -719,9 +719,9 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
                 if( critter->is_dead_state() ) {
                     smashed = true;
-                } else {
+                } else if( critter != nullptr ) {
                     // Only count critter as pushed away if it actually changed position
-                    smashed = ( critter->pos() != p );
+                    smashed = critter->pos() != p;
                 }
             }
         }
@@ -1528,8 +1528,11 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
             ///\EFFECT_STR reduces chance of being thrown from your seat when not wearing a seatbelt
             move_resist = psg->str_cur * 150 + 500;
         } else {
-            move_resist = std::max( 100,
-                                    static_cast<int>( to_kilogram( pet->get_weight() ) * 200 ) );
+            int pet_resist = 0;
+            if( pet != nullptr ) {
+                pet_resist = static_cast<int>( to_kilogram( pet->get_weight() ) * 200 );
+            }
+            move_resist = std::max( 100, pet_resist );
         }
         if( veh.part_with_feature( ps, VPFLAG_SEATBELT, true ) == -1 ) {
             ///\EFFECT_STR reduces chance of being thrown from your seat when not wearing a seatbelt
