@@ -1183,6 +1183,7 @@
     "messages": [ "You quickly stab %s", "<npcname> quickly stabs %s" ]
   },
   {
+    "type": "technique",
     "id": "tec_swordsmanship_grab",
     "name": "grab and pommel strike",
     "min_melee": 3,
