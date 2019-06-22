@@ -1002,19 +1002,18 @@ matec_id player::pick_technique( Creature &t, const item &weap,
         }
 
         // skip dodge counter techniques
-        if( ( dodge_counter && !tec.dodge_counter ) || ( !dodge_counter && tec.dodge_counter ) ) {
+        if( dodge_counter != tec.dodge_counter ) {
             continue;
         }
 
         // skip block counter techniques
-        if( ( block_counter && !tec.block_counter ) || ( !block_counter && tec.block_counter ) ) {
+        if( block_counter != tec.block_counter ) {
             continue;
         }
 
         // if critical then select only from critical tecs
         // dodge and blocks roll again for their attack, so ignore critical state
-        if( !dodge_counter && !block_counter && ( ( crit && !tec.crit_tec ) || ( !crit &&
-                tec.crit_tec ) ) ) {
+        if( !dodge_counter && !block_counter && ( crit != tec.crit_tec ) ) {
             continue;
         }
 
