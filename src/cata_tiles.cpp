@@ -2084,7 +2084,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &heigh
 {
     // check for field
     const field &f = g->m.field_at( p );
-    field_id f_id = f.field_symbol();
+    field_id f_id = f.displayed_field_type();
     bool display_field;
     bool display_items;
     switch( f_id ) {
@@ -2128,19 +2128,19 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &heigh
     bool ret_draw_field = true;
     bool ret_draw_items = true;
     if( display_field ) {
-        const std::string fd_name = all_field_types_enum_list[f.field_symbol()].id;
+        const std::string fd_name = all_field_types_enum_list[f.displayed_field_type()].id;
 
         // for rotation information
         const int neighborhood[4] = {
-            static_cast<int>( g->m.field_at( tripoint( p.x, p.y + 1, p.z ) ).field_symbol() ), // south
-            static_cast<int>( g->m.field_at( tripoint( p.x + 1, p.y, p.z ) ).field_symbol() ), // east
-            static_cast<int>( g->m.field_at( tripoint( p.x - 1, p.y, p.z ) ).field_symbol() ), // west
-            static_cast<int>( g->m.field_at( tripoint( p.x, p.y - 1, p.z ) ).field_symbol() ) // north
+            static_cast<int>( g->m.field_at( tripoint( p.x, p.y + 1, p.z ) ).displayed_field_type() ), // south
+            static_cast<int>( g->m.field_at( tripoint( p.x + 1, p.y, p.z ) ).displayed_field_type() ), // east
+            static_cast<int>( g->m.field_at( tripoint( p.x - 1, p.y, p.z ) ).displayed_field_type() ), // west
+            static_cast<int>( g->m.field_at( tripoint( p.x, p.y - 1, p.z ) ).displayed_field_type() ) // north
         };
 
         int subtile = 0;
         int rotation = 0;
-        get_tile_values( f.field_symbol(), neighborhood, subtile, rotation );
+        get_tile_values( f.displayed_field_type(), neighborhood, subtile, rotation );
 
         ret_draw_field = draw_from_id_string( fd_name, C_FIELD, empty_string, p, subtile, rotation,
                                               ll, nv_goggles_activated );

@@ -5849,7 +5849,7 @@ bool map::draw_maptile( const catacurses::window &w, const player &u, const trip
         }
     }
     if( curr_field.field_count() > 0 ) {
-        const field_id &fid = curr_field.field_symbol();
+        const field_id &fid = curr_field.displayed_field_type();
         const field_entry *fe = curr_field.find_field( fid );
         const field_t &f = all_field_types_enum_list[fid];
         if( f.sym == '&' || fe == nullptr ) {

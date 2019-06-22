@@ -533,7 +533,7 @@ time_duration field_entry::set_field_age( const time_duration &new_age )
 }
 
 field::field()
-    : draw_symbol( fd_null )
+    : _displayed_field_type( fd_null )
 {
 }
 
@@ -578,8 +578,8 @@ bool field::add_field( const field_id field_to_add, const int new_intensity,
 {
     auto it = field_list.find( field_to_add );
     if( all_field_types_enum_list[field_to_add].priority >=
-        all_field_types_enum_list[draw_symbol].priority ) {
-        draw_symbol = field_to_add;
+        all_field_types_enum_list[_displayed_field_type].priority ) {
+        _displayed_field_type = field_to_add;
     }
     if( it != field_list.end() ) {
         //Already exists, but lets update it. This is tentative.
@@ -604,13 +604,13 @@ void field::remove_field( std::map<field_id, field_entry>::iterator const it )
 {
     field_list.erase( it );
     if( field_list.empty() ) {
-        draw_symbol = fd_null;
+        _displayed_field_type = fd_null;
     } else {
-        draw_symbol = fd_null;
+        _displayed_field_type = fd_null;
         for( auto &fld : field_list ) {
             if( all_field_types_enum_list[fld.first].priority >=
-                all_field_types_enum_list[draw_symbol].priority ) {
-                draw_symbol = fld.first;
+                all_field_types_enum_list[_displayed_field_type].priority ) {
+                _displayed_field_type = fld.first;
             }
         }
     }
@@ -653,12 +653,12 @@ std::string field_t::name( const int intensity ) const
 }
 
 /*
-Function: field_symbol
+Function: displayed_field_type
 Returns the last added field from the tile for drawing purposes.
 */
-field_id field::field_symbol() const
+field_id field::displayed_field_type() const
 {
-    return draw_symbol;
+    return _displayed_field_type;
 }
 
 int field::move_cost() const
