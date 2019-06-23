@@ -4021,6 +4021,7 @@
     "type": "ARMOR",
     "name": "personal go bag",
     "description": "A huge duffel bag with backpack attached, both packed to the gills.  You have packed this to be ready for deployment.  Activate to unpack and enjoy.",
+    "volume": 144,
     "copy-from": "gobag"
   },
   {

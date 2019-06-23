@@ -9190,7 +9190,7 @@ int iuse::disassemble( player *p, item *it, bool, const tripoint & )
 int iuse::gobag( player *p, item *it, bool, const tripoint & )
 {
     auto items = item_group::items_from( "gobag_contents", calendar::turn );
-    bool content_fits = it->typeId() == "personal_gobag";
+    bool content_fits = units::to_liter( it->volume() ) >= 36; // personal go bag is bigger
     std::string last_armor;
 
     p->add_msg_if_player( _( "You empty the contents of the go bag onto the floor." ) );
@@ -9198,14 +9198,19 @@ int iuse::gobag( player *p, item *it, bool, const tripoint & )
     for( auto &content : items ) {
         if( content.is_armor() ) {
             if( content.typeId() != last_armor ) {
-                content_fits = it->typeId() == "personal_gobag" || content.has_flag( "FIT" ) ;
+                content_fits = units::to_liter(it->volume()) >= 36 || content.has_flag( "FIT" );
                 last_armor = content.typeId();
             }
-            content_fits ? content.set_flag( "FIT" ) : content.unset_flag( "FIT" );
+
+            if( content_fits && !content.has_flag( "FIT" ) ) {
+                content.set_flag( "FIT" );
+            }
+            else if( !content_fits && content.has_flag( "FIT" ) ) {
+                content.unset_flag( "FIT" );
+            }
         }
 
-        if( ( content.typeId() == "duffelbag" || content.typeId() == "backpack" ) &&
-            it->has_flag( "FILTHY" ) ) {
+        if( units::to_liter( content.get_storage() ) >= 10.0 && it->has_flag( "FILTHY" ) ) {
             content.set_flag( "FILTHY" );
         }
         g->m.add_item_or_charges( p->pos(), content );
