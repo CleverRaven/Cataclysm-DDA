@@ -9230,26 +9230,25 @@ int iuse::gobag( player *p, item *it, bool, const tripoint & )
     g->m.add_item_or_charges( p->posx(), p->posy(), duffelbag );
     g->m.add_item_or_charges( p->posx(), p->posy(), backpack );
 
-
     for( const auto &content_pair : gobag_contents ) {
+        bool content_fits = it->typeId() == "personal_gobag" || one_in( 3 );
+        item content = item( content_pair.first );
+
+        if( content.is_armor() && !content.has_flag( "FIT" ) && content_fits ) {
+            content.set_flag( "FIT" );
+        } else if( content_pair.first == "bottle_plastic" ) {
+            item water = item( "water_clean" );
+            water.charges = 2;
+            content.put_in( water );
+        } else if( content_pair.first == "light_plus_battery_cell" ||
+                   content_pair.first == "flashlight" ||
+                   content_pair.first == "radio" ) {
+            content.ammo_set( "battery", 150 );
+        } else if( content_pair.first == "lighter" ) {
+            content.charges = 100;
+        }
+
         for( int i = 0; i < content_pair.second; i++ ) {
-            item content = item( content_pair.first );
-
-            if( content.is_armor() && !content.has_flag( "FIT" ) &&
-                ( it->typeId() == "personal_gobag" || one_in( 3 ) ) ) {
-                content.set_flag( "FIT" );
-            } else if( content_pair.first == "bottle_plastic" ) {
-                item water = item( "water_clean" );
-                water.charges = 2;
-                content.put_in( water );
-            } else if( content_pair.first == "light_plus_battery_cell" ||
-                       content_pair.first == "flashlight" ||
-                       content_pair.first == "radio" ) {
-                content.ammo_set( "battery", 150 );
-            } else if( content_pair.first == "lighter" ) {
-                content.charges = 100;
-            }
-
             g->m.add_item_or_charges( p->posx(), p->posy(), content );
         }
     }
@@ -9258,7 +9257,6 @@ int iuse::gobag( player *p, item *it, bool, const tripoint & )
 
     return 0;
 }
-
 
 int iuse::magnesium_tablet( player *p, item *it, bool, const tripoint & )
 {

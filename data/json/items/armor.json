@@ -4021,20 +4021,7 @@
     "type": "ARMOR",
     "name": "personal go bag",
     "description": "A huge duffel bag with backpack attached, both packed to the gills.  You have packed this to be ready for deployment.  Activate to unpack and enjoy.",
-    "weight": 18043,
-    "volume": 143,
-    "price": 100000,
-    "to_hit": -5,
-    "material": [ "cotton", "plastic" ],
-    "symbol": "[",
-    "color": "green",
-    "covers": [ "TORSO", "ARMS" ],
-    "coverage": 50,
-    "encumbrance": 35,
-    "warmth": 10,
-    "material_thickness": 3,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "use_action": "GOBAG"
+    "copy-from": "gobag"
   },
   {
     "id": "goggles_ski",
