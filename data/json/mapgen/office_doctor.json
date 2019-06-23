@@ -415,7 +415,8 @@
           { "item": "drugs_rare", "chance": 50 },
           { "item": "surgery", "chance": 50 }
         ]
-      }
+      },
+      "place_nested": [ { "chunks": [ [ "null", 90 ], [ "roof_4x4_mil_observe", 10 ] ], "x": 18, "y": 3 } ]
     }
   },
   {
