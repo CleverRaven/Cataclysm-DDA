@@ -497,7 +497,7 @@
         { "group": "military", "x": 2, "y": 2, "chance": 60, "repeat": [ 2, 4 ] }
       ],
       "place_monster": [
-        { "monster": "mon_zombie_soldier", "x": [ 0, 2 ], "y": [ 2, 3 ], "repeat": [ 1, 2 ], "chance": 90 },
+        { "monster": "mon_zombie_soldier", "x": [ 0, 2 ], "y": [ 2, 3 ], "repeat": 2, "chance": 90 },
         { "monster": "mon_zombie_soldier_blackops_1", "x": [ 0, 2 ], "y": [ 2, 3 ], "repeat": [ 1, 2 ], "chance": 10 }
       ]
     }
