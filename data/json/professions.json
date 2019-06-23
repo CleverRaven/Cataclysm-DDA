@@ -1280,8 +1280,8 @@
         "entries": [
           { "group": "charged_cell_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "remington_700", "ammo-item": "270", "charges": 4, "contents-item": "shoulder_strap" },
-          { "item": "270", "charges": 16, "container-item": "bandolier_rifle" },
+          { "item": "remington700_270", "ammo-item": "270win_jsp", "charges": 4, "contents-item": "shoulder_strap" },
+          { "item": "270win_jsp", "charges": 16, "container-item": "bandolier_rifle" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
       },
