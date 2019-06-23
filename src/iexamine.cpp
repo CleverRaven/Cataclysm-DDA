@@ -4094,13 +4094,18 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
             return;
         }
-    } else if( patient.has_effect( effect_under_op ) ) {
+    } else if( patient.activity.id() == "ACT_OPERATION_REMOVE" ) {
         popup( _( "Operation underway.  Please wait until the end of the current procedure.  Estimated time remaining: %s." ),
                to_string( patient.get_effect_dur( effect_under_op ) ) );
         p.add_msg_if_player( m_info, _( "The autodoc is working on %s." ), patient.disp_name() );
         return;
     }
-
+    if( patient.backlog.front().id() == "ACT_OPERATION_REMOVE" ) {
+        if( query_yn( "Resume operation?" ) ) {
+            patient.assign_activity( patient.backlog.front(), true );
+        }
+        return;
+    }
     uilist amenu;
     amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation" );
     amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install" ) );
