@@ -2068,7 +2068,7 @@
     "price": 1000,
     "price_postapoc": 500,
     "//": "Electric guitar less awesome when there's no electricity.",
-    "material": [ "wood", "iron" ],
+    "material": [ "wood", "steel" ],
     "volume": 27,
     "warmth": 2,
     "encumbrance": 27,
@@ -2076,6 +2076,36 @@
     "flags": [ "BELTED" ],
     "coverage": 10,
     "material_thickness": 2
+  },
+  {
+    "type": "TOOL_ARMOR",
+    "id": "guitar_amplifier",
+    "name": "amplifier electric guitar",
+    "copy-from": "guitar_electric",
+    "description": "An electric guitar with a crude, built-in amplifier and speaker.  Now you can melt faces, figuratively speaking.  Unless you do something absurd like strap a flamethrower to it, which would make the melting literal.",
+    "category": "tools",
+    "weight": 3000,
+    "use_action": {
+      "type": "musical_instrument",
+      "speed_penalty": 15,
+      "volume": 40,
+      "fun": 4,
+      "fun_bonus": 2,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You shred a sick solo on your guitar.",
+        "You play an epic classic rock riff on your guitar.",
+        "You play a furious, muted riff on your guitar.",
+        "You play a crunchy stoner tune on your guitar.",
+        "You play an old Britpop song on your guitar.",
+        "You play a tasteful classical piece on your guitar.",
+        "You play a jangly folk ditty on your guitar.",
+        "You play a melancholy melody on your guitar."
+      ]
+    },
+    "description": "A standard factory-made electric guitar.  It's probably better at smashing heads than melting faces, these days.  Has a strap.",
+    "price_postapoc": 1250,
+    "flags": [ "BELTED", "TRADER_AVOID" ]
   },
   {
     "type": "TOOL_ARMOR",

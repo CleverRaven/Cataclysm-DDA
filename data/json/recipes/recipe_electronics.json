@@ -385,6 +385,19 @@
   },
   {
     "type": "recipe",
+    "result": "guitar_amplifier",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "30 m",
+    "reversible": false,
+    "using": [ [ "soldering_standard", 7 ], [ "cordless_drill", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "amplifier", 2 ] ], [ [ "power_supply", 1 ] ], [ [ "scrap", 2 ] ], [ [ "cable", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "radio",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",

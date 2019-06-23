@@ -3051,5 +3051,24 @@
       [ [ "log", 1 ] ],
       [ [ "tallow", 4 ], [ "tallow_tainted", 4 ], [ "cooking_oil", 32 ], [ "cooking_oil2", 32 ], [ "lamp_oil", 500 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "flamethrower_guitar",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 2 ],
+    "difficulty": 3,
+    "time": "15 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "scrap", 6, false ] ],
+      [ [ "duct_tape", 10, false ] ],
+      [ [ "guitar_amplifier", 1 ] ],
+      [ [ "flamethrower_simple", 1 ] ]
+    ]
   }
 ]
