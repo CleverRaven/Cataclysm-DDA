@@ -4095,7 +4095,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             return;
         }
     } else if( patient.has_effect( effect_under_op ) ) {
-        popup( _( "Operation underway.  Please wait the end of the current procedure.  Estimated time remaining: %s." ),
+        popup( _( "Operation underway.  Please wait until the end of the current procedure.  Estimated time remaining: %s." ),
                to_string( patient.get_effect_dur( effect_under_op ) ) );
         p.add_msg_if_player( m_info, _( "The autodoc is working on %s" ), patient.disp_name() );
         return;
