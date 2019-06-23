@@ -26,7 +26,7 @@
   {
     "id": "create_atomic_light",
     "type": "SPELL",
-    "name": "Light",
+    "name": "Magical Light",
     "description": "Creates a magical light.",
     "valid_targets": [ "none" ],
     "min_range": 0,
