@@ -7881,20 +7881,17 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
 
     smenu.addentry_col( BUTCHER, enough_light, 'B', _( "Quick butchery" ), cut_time( BUTCHER ),
                         _( "This technique is used when you are in a hurry, but still want to harvest something from the corpse.  Yields are lower as you don't try to be precise, but it's useful if you don't want to set up a workshop.  Prevents zombies from raising." ) );
-    smenu.addentry_col( BUTCHER_FULL, enough_light, 'b', _( "Full butchery" ),
-                        cut_time( BUTCHER_FULL ),
+    smenu.addentry_col( BUTCHER_FULL, enough_light, 'b', _( "Full butchery" ), cut_time( BUTCHER_FULL ),
                         _( "This technique is used to properly butcher a corpse, and requires a rope & a tree or a butchering rack, a flat surface (for ex. a table, a leather tarp, etc.) and good tools.  Yields are plentiful and varied, but it is time consuming." ) );
-    smenu.addentry_col( F_DRESS, enough_light, 'f', _( "Field dress corpse" ),
-                        cut_time( F_DRESS ),
+    smenu.addentry_col( F_DRESS, enough_light, 'f', _( "Field dress corpse" ), cut_time( F_DRESS ),
                         _( "Technique that involves removing internal organs and viscera to protect the corpse from rotting from inside. Yields internal organs. Carcass will be lighter and will stay fresh longer.  Can be combined with other methods for better effects." ) );
-    smenu.addentry_col( SKIN, enough_light, 's', ( "Skin corpse" ), cut_time( SKIN ),
+    smenu.addentry_col( SKIN, enough_light, 's', _( "Skin corpse" ), cut_time( SKIN ),
                         _( "Skinning a corpse is an involved and careful process that usually takes some time.  You need skill and an appropriately sharp and precise knife to do a good job.  Some corpses are too small to yield a full-sized hide and will instead produce scraps that can be used in other ways." ) );
     smenu.addentry_col( QUARTER, enough_light, 'k', _( "Quarter corpse" ), cut_time( QUARTER ),
                         _( "By quartering a previously field dressed corpse you will acquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
     smenu.addentry_col( DISMEMBER, true, 'm', _( "Dismember corpse" ), cut_time( DISMEMBER ),
                         _( "If you're aiming to just destroy a body outright, and don't care about harvesting it, dismembering it will hack it apart in a very short amount of time, but yield little to no usable flesh." ) );
-    smenu.addentry_col( DISSECT, enough_light, 'd', _( "Dissect corpse" ),
-                        cut_time( DISSECT ),
+    smenu.addentry_col( DISSECT, enough_light, 'd', _( "Dissect corpse" ), cut_time( DISSECT ),
                         _( "By careful dissection of the corpse, you will examine it for possible bionic implants, or discrete organs and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes a lot of time.  Your medical knowledge is most useful here." ) );
     smenu.query();
     switch( smenu.ret ) {
