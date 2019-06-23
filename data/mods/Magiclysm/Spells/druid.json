@@ -5,6 +5,7 @@
     "name": "Vegetative Grasp",
     "description": "This spell causes roots and vines to burst forth from the ground and grab your foes, slowing them and doing a small amount of damage as they dig in.",
     "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "LOUD", "SOMATIC", "VERBAL", "NO_LEGS" ],
     "effect": "target_attack",
     "effect_str": "entangled",
     "spell_class": "DRUID",
@@ -39,6 +40,7 @@
     "name": "Root Strike",
     "description": "This spell causes roots to spear out the ground and stab into your foes in an arc, impaling them.",
     "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "LOUD", "SOMATIC", "VERBAL", "NO_LEGS" ],
     "effect": "cone_attack",
     "effect_str": "root_impale",
     "spell_class": "DRUID",
@@ -73,6 +75,7 @@
     "name": "Wooden Shaft",
     "description": "This spell creates a projectile of hardwood that shoots forth from the caster's hand at high speed to stab into an enemy.",
     "valid_targets": [ "hostile" ],
+    "flags": [ "LOUD", "SOMATIC", "VERBAL", "NO_LEGS" ],
     "effect": "projectile_attack",
     "spell_class": "DRUID",
     "base_casting_time": 100,
@@ -97,6 +100,7 @@
     "name": "Nature's Bow",
     "description": "This spell conjures a magical wooden recurve bow that fires endless arrows for as long as it lasts.",
     "valid_targets": [ "none" ],
+    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS" ],
     "min_damage": 1,
     "max_damage": 1,
     "effect": "spawn_item",
@@ -117,6 +121,7 @@
     "name": "Nature's Trance",
     "description": "Your connection to living things allows you to go into a magical trance.  This allows you to recover fatige quickly in exchange for mana.",
     "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS" ],
     "spell_class": "DRUID",
     "energy_source": "MANA",
     "effect": "recover_energy",
@@ -137,6 +142,7 @@
     "name": "Bag of Cats",
     "description": "Are you the crazy cat lady?",
     "valid_targets": [ "ground" ],
+    "flags": [ "LOUD", "SOMATIC" ],
     "min_damage": 1,
     "max_damage": 12,
     "damage_increment": 1,
@@ -177,7 +183,7 @@
     "base_energy_cost": 675,
     "final_energy_cost": 475,
     "energy_cost_increment": -5,
-    "flags": [ "HOSTILE_50" ],
+    "flags": [ "HOSTILE_50", "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS" ],
     "effect": "summon",
     "effect_str": "mon_bear"
   },
@@ -200,6 +206,6 @@
     "max_level": 1,
     "spell_class": "DRUID",
     "energy_source": "MANA",
-    "flags": [ "PERMANENT" ]
+    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
   }
 ]
