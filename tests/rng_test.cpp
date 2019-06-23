@@ -62,3 +62,16 @@ TEST_CASE( "x_in_y_distribution" )
         }
     }
 }
+
+TEST_CASE( "random_entry_preserves_constness" )
+{
+    const std::vector<int> v0{ 4321 };
+    int i0 = *random_entry_opt( v0 );
+    CHECK( i0 == 4321 );
+
+    std::vector<int> v1{ 1234 };
+    int &i1 = *random_entry_opt( v1 );
+    CHECK( i1 == 1234 );
+    i1 = 5678;
+    CHECK( v1[0] == 5678 );
+}

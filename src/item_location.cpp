@@ -67,7 +67,6 @@ class item_location::impl
         class item_on_vehicle;
 
         impl() = default;
-        impl( std::list<item> *what ) :  what( &what->front() ), whatstart( what ) {}
         impl( item *what ) : what( what ) {}
         impl( int idx ) : idx( idx ) {}
 
@@ -112,25 +111,10 @@ class item_location::impl
             return what;
         }
 
-        // Add up the total charges of a stack of items
-        int charges_in_stack( unsigned int countOnly ) const {
-            int sum = 0;
-            unsigned int c = countOnly;
-            // If the list points to a nullpointer, then the target pointer must still be valid
-            if( whatstart == nullptr ) {
-                return target()->charges;
-            }
-            for( std::list<item>::iterator it = whatstart->begin(); it != whatstart->end() && c; ++it, --c ) {
-                sum += it->charges;
-            }
-            return sum;
-        }
-
     private:
         mutable item *what = nullptr;
         mutable int idx = -1;
         //Only used for stacked cash card currently, needed to be able to process a stack of different items
-        mutable std::list<item> *whatstart = nullptr;
 
     public:
         //Flag that controls whether functions like obtain() should stack the obtained item
@@ -155,7 +139,6 @@ class item_location::impl::item_on_map : public item_location::impl
 
     public:
         item_on_map( const map_cursor &cur, item *which ) : impl( which ), cur( cur ) {}
-        item_on_map( const map_cursor &cur, std::list<item> *which ) : impl( which ), cur( cur ) {}
         item_on_map( const map_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
 
         bool valid() const override {
@@ -247,7 +230,6 @@ class item_location::impl::item_on_person : public item_location::impl
         Character &who;
 
     public:
-        item_on_person( Character &who, std::list<item> *which ) : impl( which ), who( who ) {}
         item_on_person( Character &who, item *which ) : impl( which ), who( who ) {}
         item_on_person( Character &who, int idx ) : impl( idx ), who( who ) {}
 
@@ -375,7 +357,6 @@ class item_location::impl::item_on_vehicle : public item_location::impl
 
     public:
         item_on_vehicle( const vehicle_cursor &cur, item *which ) : impl( which ), cur( cur ) {}
-        item_on_vehicle( const vehicle_cursor &cur, std::list<item> *which ) : impl( which ), cur( cur ) {}
         item_on_vehicle( const vehicle_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
 
         bool valid() const override {
@@ -479,20 +460,11 @@ const item_location item_location::nowhere;
 item_location::item_location()
     : ptr( new impl::nowhere() ) {}
 
-item_location::item_location( const map_cursor &mc, std::list<item> *which )
-    : ptr( new impl::item_on_map( mc, which ) ) {}
-
 item_location::item_location( const map_cursor &mc, item *which )
     : ptr( new impl::item_on_map( mc, which ) ) {}
 
-item_location::item_location( Character &ch, std::list<item> *which )
-    : ptr( new impl::item_on_person( ch, which ) ) {}
-
 item_location::item_location( Character &ch, item *which )
     : ptr( new impl::item_on_person( ch, which ) ) {}
-
-item_location::item_location( const vehicle_cursor &vc, std::list<item> *which )
-    : ptr( new impl::item_on_vehicle( vc, which ) ) {}
 
 item_location::item_location( const vehicle_cursor &vc, item *which )
     : ptr( new impl::item_on_vehicle( vc, which ) ) {}
@@ -561,11 +533,6 @@ void item_location::deserialize( JsonIn &js )
             ptr.reset( new impl::item_on_vehicle( vehicle_cursor( *veh, part ), idx ) );
         }
     }
-}
-
-int item_location::charges_in_stack( unsigned int countOnly ) const
-{
-    return ptr->charges_in_stack( countOnly );
 }
 
 item_location::type item_location::where() const

@@ -5,6 +5,7 @@
     "name": "Bless",
     "description": "A spell of blessing that gives you energy and boosts your abilities.",
     "valid_targets": [ "self", "ally" ],
+    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS" ],
     "effect": "target_attack",
     "effect_str": "bless",
     "affected_body_parts": [ "TORSO" ],
@@ -35,6 +36,7 @@
     "name": "Holy Blade",
     "description": "This blade of light will cut through any evil it makes contact with!",
     "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "NO_LEGS", "CONCENTRATE" ],
     "min_range": 0,
     "max_range": 0,
     "min_damage": 1,
@@ -57,6 +59,7 @@
     "name": "Spiritual Armor",
     "description": "Evil will not make it through your defenses if your faith is strong enough!",
     "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "NO_LEGS", "CONCENTRATE", "SOMATIC" ],
     "min_range": 0,
     "max_range": 0,
     "min_damage": 1,
@@ -79,6 +82,7 @@
     "name": "Lamp",
     "description": "Creates a magical lamp.",
     "valid_targets": [ "none" ],
+    "flags": [ "VERBAL", "NO_LEGS", "CONCENTRATE" ],
     "min_range": 0,
     "max_range": 0,
     "min_damage": 1,
@@ -101,6 +105,7 @@
     "name": "Manatricity",
     "description": "You have found a way to convert your spiritual energy into power you can use for your bionics.",
     "valid_targets": [ "self" ],
+    "flags": [ "NO_LEGS", "NO_HANDS", "SOMATIC", "VERBAL", "SILENT" ],
     "min_damage": 250,
     "damage_increment": 50,
     "max_damage": 15000,
@@ -134,6 +139,6 @@
     "max_level": 1,
     "spell_class": "TECHNOMANCER",
     "energy_source": "MANA",
-    "flags": [ "PERMANENT" ]
+    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
   }
 ]

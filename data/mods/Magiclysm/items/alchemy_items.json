@@ -1,0 +1,35 @@
+[
+  {
+    "id": "owlbear_stone",
+    "type": "TOOL",
+    "name": "owlbear gastrolith",
+    "description": "This strangely shaped rock was once a part of an owlbear's complex digestive system, creating a link between owl throat and bear stomach.  It is possible that it could serve a similar purpose in alchemy, helping to bind together two disparate halves.",
+    "weight": 2000,
+    "volume": 3,
+    "price": 0,
+    "bashing": 9,
+    "to_hit": -1,
+    "material": "stone",
+    "symbol": ";",
+    "color": "gray",
+    "qualities": [ [ "HAMMER", 2 ] ],
+    "use_action": "HAMMER",
+    "//": "In terms of alchemy the gastrolith could serve to combie different effects, such as safely mixing together potions, or it could be used as an element of change, such as for shapechanging potions."
+  },
+  {
+    "id": "stone_shell",
+    "type": "GENERIC",
+    "symbol": "*",
+    "color": "gray",
+    "name": "stone shell",
+    "description": "The broken fragment of an owlbear egg.  With luck it might still contain some of its former power, though if nothing else it's still a bit sharp.",
+    "material": "stone",
+    "weight": 250,
+    "volume": "150 ml",
+    "bashing": 5,
+    "cutting": 3,
+    "to_hit": -2,
+    "qualities": [ [ "BUTCHER", -50 ] ],
+    "//": "Potion recipes that require a full owlbear egg could also instead require larger amounts of stone shell. Since 1 egg gives 3 shells, you could perhaps have 1 egg be equivalent to 5 or more shells when making potions."
+  }
+]

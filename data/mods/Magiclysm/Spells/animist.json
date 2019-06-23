@@ -16,6 +16,7 @@
     "spell_class": "ANIMIST",
     "difficulty": 8,
     "max_level": 15,
+    "flags": [ "VERBAL", "SOMATIC", "LOUD" ],
     "energy_source": "MANA"
   },
   {
@@ -36,6 +37,7 @@
     "base_energy_cost": 5,
     "energy_increment": 1,
     "final_energy_cost": 40,
+    "flags": [ "SOMATIC", "VERBAL", "SILENT", "NO_LEGS" ],
     "difficulty": 3
   },
   {
@@ -55,6 +57,7 @@
     "base_casting_time": 50000,
     "base_energy_cost": 500,
     "energy_increment": 50,
+    "flags": [ "SOMATIC", "VERBAL" ],
     "final_energy_cost": 1000
   },
   {
@@ -80,6 +83,7 @@
     "max_range": 3,
     "min_aoe": 2,
     "max_aoe": 2,
+    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
     "min_duration": 30000,
     "max_duration": 150000,
     "duration_increment": 4000
@@ -107,6 +111,7 @@
     "max_range": 3,
     "min_aoe": 2,
     "max_aoe": 2,
+    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
     "min_duration": 30000,
     "max_duration": 150000,
     "duration_increment": 4000
@@ -134,6 +139,7 @@
     "max_range": 3,
     "min_aoe": 2,
     "max_aoe": 2,
+    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
     "min_duration": 30000,
     "max_duration": 150000,
     "duration_increment": 4000
@@ -157,6 +163,6 @@
     "max_level": 1,
     "spell_class": "ANIMIST",
     "energy_source": "MANA",
-    "flags": [ "PERMANENT" ]
+    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
   }
 ]

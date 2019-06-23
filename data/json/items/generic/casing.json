@@ -38,6 +38,15 @@
     "volume": "10ml"
   },
   {
+    "id": "270win_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".270 Winchester casing",
+    "description": "An empty casing from a .270 Winchester round.",
+    "weight": 7,
+    "volume": "10ml"
+  },
+  {
     "id": "300_casing",
     "copy-from": "casing",
     "type": "GENERIC",

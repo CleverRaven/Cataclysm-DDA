@@ -9691,6 +9691,22 @@
       {
         "id": "prog",
         "text": "A short-sleeved cotton shirt with a pattern of complex geometric shapes and transcendental imagery printed on the front."
+      },
+      {
+        "id": "mohawk",
+        "text": "A short-sleeved cotton shirt with an image of a woman's face in portrait printed on the front.  She is wearing a large blue mohawk, her face is set in a snarl."
+      },
+      {
+        "id": "nuwave",
+        "text": "A short-sleeved black cotton shirt with a stylised representation of a radio wave printed on the front."
+      },
+      {
+        "id": "an_punk",
+        "text": "A short-sleeved cotton shirt, it's front showing an image of an upside-down American flag covered in anarchist graffiti, its edges frayed and burned."
+      },
+      {
+        "id": "mil_punk",
+        "text": "A short-sleeved cotton shirt with an AK-47 on the front.  It is held up by a clenched fist around its forestock, the fingers covered in crude looking tattoos."
       }
     ]
   },

@@ -678,6 +678,8 @@
         "s_electronics": 500,
         "pawn": 300,
         "mil_surplus": 200,
+        "mil_surplus_1": 200,
+        "mil_surplus_2": 200,
         "s_garage": 300,
         "s_garage_1": 300,
         "s_garage_2": 300,

@@ -300,6 +300,7 @@ static void damage_targets( const spell &sp, std::set<tripoint> targets )
         if( !sp.is_valid_target( target ) ) {
             continue;
         }
+        sp.make_sound( target );
         Creature *const cr = g->critter_at<Creature>( target );
         if( !cr ) {
             continue;
@@ -462,6 +463,7 @@ void spell_effect::spawn_summoned_monster( spell &sp, const tripoint &source,
         std::advance( iter, mon_spot );
         if( add_summoned_mon( mon_id, *iter, summon_time, sp ) ) {
             num_mons--;
+            sp.make_sound( *iter );
         } else {
             add_msg( m_bad, "failed to place monster" );
         }

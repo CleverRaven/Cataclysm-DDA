@@ -2198,7 +2198,7 @@ int iuse::water_purifier( player *p, item *it, bool, const tripoint & )
 
 int iuse::radio_off( player *p, item *it, bool, const tripoint & )
 {
-    if( !it->ammo_sufficient() ) {
+    if( !it->units_sufficient( *p ) ) {
         p->add_msg_if_player( _( "It's dead." ) );
     } else {
         p->add_msg_if_player( _( "You turn the radio on." ) );
@@ -2321,7 +2321,7 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
 
 int iuse::noise_emitter_off( player *p, item *it, bool, const tripoint & )
 {
-    if( !it->ammo_sufficient() ) {
+    if( !it->units_sufficient( *p ) ) {
         p->add_msg_if_player( _( "It's dead." ) );
     } else {
         p->add_msg_if_player( _( "You turn the noise emitter on." ) );
@@ -3895,7 +3895,7 @@ int iuse::portal( player *p, item *it, bool, const tripoint & )
 
 int iuse::tazer( player *p, item *it, bool, const tripoint &pos )
 {
-    if( !it->ammo_sufficient() ) {
+    if( !it->units_sufficient( *p ) ) {
         return 0;
     }
 
@@ -3988,7 +3988,7 @@ int iuse::shocktonfa_off( player *p, item *it, bool t, const tripoint &pos )
             return iuse::tazer2( p, it, t, pos );
         }
         case 1: {
-            if( !it->ammo_sufficient() ) {
+            if( !it->units_sufficient( *p ) ) {
                 p->add_msg_if_player( m_info, _( "The batteries are dead." ) );
                 return 0;
             } else {
@@ -4006,7 +4006,7 @@ int iuse::shocktonfa_on( player *p, item *it, bool t, const tripoint &pos )
     if( t ) { // Effects while simply on
 
     } else {
-        if( !it->ammo_sufficient() ) {
+        if( !it->units_sufficient( *p ) ) {
             p->add_msg_if_player( m_info, _( "Your tactical tonfa is out of power." ) );
             it->convert( "shocktonfa_off" ).active = false;
         } else {
@@ -4030,7 +4030,7 @@ int iuse::shocktonfa_on( player *p, item *it, bool t, const tripoint &pos )
 
 int iuse::mp3( player *p, item *it, bool, const tripoint & )
 {
-    if( !it->ammo_sufficient() ) {
+    if( !it->units_sufficient( *p ) ) {
         p->add_msg_if_player( m_info, _( "The device's batteries are dead." ) );
     } else if( p->has_active_item( "mp3_on" ) || p->has_active_item( "smartphone_music" ) ) {
         p->add_msg_if_player( m_info, _( "You are already listening to music!" ) );
@@ -4425,7 +4425,7 @@ int iuse::vibe( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "It's waterproof, but oxygen maybe?" ) );
         return 0;
     }
-    if( !it->ammo_sufficient() ) {
+    if( !it->units_sufficient( *p ) ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return 0;
     }
@@ -5356,7 +5356,7 @@ int iuse::heat_food( player *p, item *it, bool, const tripoint & )
 
 int iuse::hotplate( player *p, item *it, bool, const tripoint & )
 {
-    if( it->typeId() != "atomic_coffeepot" && ( !it->ammo_sufficient() ) ) {
+    if( it->typeId() != "atomic_coffeepot" && ( !it->units_sufficient( *p )) ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return 0;
     }
@@ -5566,7 +5566,7 @@ int iuse::radglove( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info,
                               _( "You must wear the radiation biomonitor before you can activate it." ) );
         return 0;
-    } else if( !it->ammo_sufficient() ) {
+    } else if( !it->units_sufficient( *p ) ) {
         p->add_msg_if_player( m_info, _( "The radiation biomonitor needs batteries to function." ) );
         return 0;
     } else {
@@ -5620,7 +5620,7 @@ int iuse::contacts( player *p, item *it, bool, const tripoint & )
 
 int iuse::talking_doll( player *p, item *it, bool, const tripoint & )
 {
-    if( !it->ammo_sufficient() ) {
+    if( !it->units_sufficient( *p ) ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return 0;
     }
@@ -5887,7 +5887,7 @@ bool iuse::robotcontrol_can_target( player *p, const monster &m )
 
 int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
 {
-    if( !it->ammo_sufficient() ) {
+    if( !it->units_sufficient( *p ) ) {
         p->add_msg_if_player( _( "The %s's batteries are dead." ), it->tname() );
         return 0;
 
@@ -7864,7 +7864,7 @@ static void sendRadioSignal( player &p, const std::string &signal )
 int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
 {
     if( t ) {
-        if( !it->ammo_sufficient() ) {
+        if( !it->units_sufficient( *p ) ) {
             it->active = false;
             p->remove_value( "remote_controlling" );
         } else if( p->get_value( "remote_controlling" ).empty() ) {
@@ -8043,7 +8043,7 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
     vehicle *remote = g->remoteveh();
     if( t ) {
         bool stop = false;
-        if( !it->ammo_sufficient() ) {
+        if( !it->units_sufficient( *p ) ) {
             p->add_msg_if_player( m_bad, _( "The remote control's battery goes dead." ) );
             stop = true;
         } else if( remote == nullptr ) {
@@ -8178,7 +8178,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
     static const int charges_to_start = 50;
 
     if( t ) {
-        if( !it->ammo_sufficient() ) {
+        if( !it->units_sufficient( *p ) ) {
             it->active = false;
             return 0;
         }
