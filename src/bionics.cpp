@@ -1269,17 +1269,19 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
 
     if( is_npc() ) {
         static_cast<npc *>( this )->set_attitude( NPCATT_ACTIVITY );
-        assign_activity( activity_id( "ACT_OPERATION_REMOVE" ), to_moves<int>( difficulty * 20_minutes ) );
+        assign_activity( activity_id( "ACT_OPERATION_REMOVE" ), to_moves<int>( difficulty * 20_minutes ),
+                         true );
         static_cast<npc *>( this )->set_mission( NPC_MISSION_ACTIVITY );
     } else {
-        assign_activity( activity_id( "ACT_OPERATION_REMOVE" ), to_moves<int>( difficulty * 20_minutes ) );
+        assign_activity( activity_id( "ACT_OPERATION_REMOVE" ), to_moves<int>( difficulty * 20_minutes ),
+                         true );
     }
 
-    activity.bionic_id = b_id;
     activity.values.push_back( difficulty );
     activity.values.push_back( success );
     activity.values.push_back( bionics[b_id].capacity );
     activity.str_values.push_back( bionics[b_id].name );
+    activity.str_values.push_back( b_id.c_str() );
     activity.f_values.push_back( adjusted_skill );
 
     return true;
@@ -2002,15 +2004,17 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
                            _( "As your conciousness slips away, you feel regret that you won't be able to enjoy the operation." ) );
     }
 
-    if( has_effect( effect_narcosis ) ) {
-        const time_duration remaining_time = get_effect_dur( effect_narcosis );
-        if( remaining_time <= duration ) {
-            const time_duration top_off_time = duration - remaining_time;
-            add_effect( effect_narcosis, top_off_time );
-            fall_asleep( top_off_time );
+    if( anesthetic ) {
+        if( has_effect( effect_narcosis ) ) {
+            const time_duration remaining_time = get_effect_dur( effect_narcosis );
+            if( remaining_time <= duration ) {
+                const time_duration top_off_time = duration - remaining_time;
+                add_effect( effect_narcosis, top_off_time );
+                fall_asleep( top_off_time );
+            }
+        } else {
+            add_effect( effect_narcosis, duration );
+            fall_asleep( duration );
         }
-    } else {
-        add_effect( effect_narcosis, duration );
-        fall_asleep( duration );
     }
 }

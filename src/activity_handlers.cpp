@@ -2817,8 +2817,8 @@ void activity_handlers::try_sleep_finish( player_activity *act, player *p )
 
 void activity_handlers::uninstall_operation_finish( player_activity *act, player *p )
 {
-    if( act->bionic_id ) {
-        const bionic_id bid = act->bionic_id;
+    if( act->str_values.size()>1 ) {
+        const bionic_id bid = bionic_id( act->str_values[1] );
 
         if( act->values[1] > 0 ) {
 
