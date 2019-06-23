@@ -1267,11 +1267,6 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
 
     int success = chance_of_success - rng( 1, 100 );
 
-    if( success > 0 ) {
-        // remove power bank provided by bionic
-        max_power_level -= bionics[b_id].capacity;
-    }
-
     if( is_npc() ) {
         static_cast<npc *>( this )->set_attitude( NPCATT_ACTIVITY );
         assign_activity( activity_id( "ACT_OPERATION_REMOVE" ), to_moves<int>( difficulty * 20_minutes ) );
@@ -1283,6 +1278,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     activity.bionic_id = b_id;
     activity.values.push_back( difficulty );
     activity.values.push_back( success );
+    activity.values.push_back( bionics[b_id].capacity );
     activity.str_values.push_back( bionics[b_id].name );
     activity.f_values.push_back( adjusted_skill );
 

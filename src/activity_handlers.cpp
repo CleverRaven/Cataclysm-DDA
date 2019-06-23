@@ -2831,6 +2831,9 @@ void activity_handlers::uninstall_operation_finish( player_activity *act, player
             add_msg( m_good, _( "Successfully removed %s." ), act->str_values.front() );
             p->remove_bionic( bid );
 
+            // remove power bank provided by bionic
+            p->max_power_level -= act->values[2];
+
             if( item::type_is_defined( bid.c_str() ) ) {
                 g->m.spawn_item( p->pos(), bid.c_str(), 1 );
             } else {
