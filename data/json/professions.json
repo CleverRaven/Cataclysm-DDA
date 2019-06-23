@@ -1779,11 +1779,7 @@
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "sheath", "contents-item": "knife_combat" },
-          {
-            "item": "h&k416a5",
-            "ammo-item": "556",
-            "contents-item": [ "shoulder_strap", "acog_scope" ]
-          },
+          { "item": "h&k416a5", "ammo-item": "556", "contents-item": [ "shoulder_strap", "acog_scope" ] },
           { "item": "modularvestceramic", "contents-group": "army_mags_m4" }
         ]
       },
@@ -1842,7 +1838,11 @@
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "hat_boonie", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "m2010", "ammo-item": "300_winmag", "contents-item": [ "shoulder_strap", "rifle_scope", "bipod" ] },
+          {
+            "item": "m2010",
+            "ammo-item": "300_winmag",
+            "contents-item": [ "shoulder_strap", "rifle_scope", "bipod" ]
+          },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
           { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
