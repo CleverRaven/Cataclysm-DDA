@@ -157,6 +157,7 @@
       { "item": "marlin_9a", "prob": 80, "charges-min": 0, "charges-max": 19 },
       { "item": "mosin44", "prob": 15, "charges-min": 0, "charges-max": 5 },
       { "item": "mosin91_30", "prob": 25, "charges-min": 0, "charges-max": 5 },
+      { "item": "remington700_270", "prob": 50, "charges-min": 0, "charges-max": 4 },
       { "item": "ruger_1022", "prob": 70, "charges-min": 0, "charges-max": 10 },
       { "item": "ruger_mini", "prob": 60, "charges-min": 0, "charges-max": 5 },
       { "item": "sks", "prob": 40, "charges-min": 0, "charges-max": 10 },
