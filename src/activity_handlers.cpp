@@ -2786,8 +2786,16 @@ void activity_handlers::uninstall_operation_do_turn( player_activity *act, playe
     const int max_hurt = p->get_hp_max() * difficulty * 0.04;
 
     if( time_left >  op_duration ) {
-        if( p->get_hp() > max_hurt ) {
-            p->hurtall( 1, nullptr );
+        if( act->values.size() > 4 ) {
+            for( size_t i = 4; i < act->values.size(); i++ ) {
+                if( p->get_hp( p->bp_to_hp( body_part( act->values[i] ) ) ) > max_hurt ) {
+                    p->apply_damage( nullptr, body_part( act->values[i] ), 1 );
+                }
+            }
+        } else {
+            if( p->get_hp( p->bp_to_hp( num_bp ) ) > max_hurt )  {
+                p->apply_damage( nullptr, num_bp, 1 );
+            }
         }
         if( one_in( 4 ) && u_see ) {
             p->add_msg_player_or_npc( m_info,
@@ -2797,7 +2805,13 @@ void activity_handlers::uninstall_operation_do_turn( player_activity *act, playe
     } else if( time_left == op_duration && u_see ) {
         add_msg( m_info, _( "The Autodoc attempts to carefully extract the bionic." ) );
     } else {
-        p->healall( 1 );
+        if( act->values.size() > 4 ) {
+            for( size_t i = 4; i < act->values.size(); i++ ) {
+                p->heal( body_part( act->values[i] ), 1 );
+            }
+        } else {
+            p->heal( num_bp, 1 );
+        }
         if( one_in( 4 ) && u_see ) {
             p->add_msg_player_or_npc( m_info,
                                       _( "The Autodoc is stitching you back up." ),
