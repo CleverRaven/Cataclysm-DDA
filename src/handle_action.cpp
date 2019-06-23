@@ -655,7 +655,8 @@ static void smash()
         u.increase_activity_level( MODERATE_EXERCISE );
         u.handle_melee_wear( u.weapon );
         u.moves -= move_cost;
-        const int mod_sta = ( ( u.weapon.weight() / 100_gram ) + 20 ) * -1;
+        const int mod_sta = ( ( u.weapon.weight() / 10_gram ) + 200 + static_cast<int>
+                              ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) ) * -1;
         u.mod_stat( "stamina", mod_sta );
 
         if( u.get_skill_level( skill_melee ) == 0 ) {
