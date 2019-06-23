@@ -45,7 +45,7 @@ class player_activity
         std::vector<tripoint> coords;
         std::vector<std::weak_ptr<monster>> monsters;
         tripoint placement;
-        bionic_id bionic_to_rem;
+        bionic_id bionic_id;
         /** If true, the activity will be auto-resumed next time the player attempts
          *  an identical activity. This value is set dynamically.
          */

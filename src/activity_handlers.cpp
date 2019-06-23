@@ -2813,8 +2813,8 @@ void activity_handlers::try_sleep_finish( player_activity *act, player *p )
 
 void activity_handlers::uninstall_operation_finish( player_activity *act, player *p )
 {
-    if( act->bionic_to_rem ) {
-        const bionic_id bid = act->bionic_to_rem;
+    if( act->bionic_id ) {
+        const bionic_id bid = act->bionic_id;
 
         if( act->values[1] > 0 ) {
 

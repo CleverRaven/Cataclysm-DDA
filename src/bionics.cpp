@@ -1273,7 +1273,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     }
 
     assign_activity( activity_id( "ACT_OPERATION_REMOVE" ), to_moves<int>( difficulty * 20_minutes ) );
-    activity.bionic_to_rem = b_id;
+    activity.bionic_id = b_id;
     activity.values.push_back( difficulty );
     activity.values.push_back( success );
     activity.str_values.push_back( bionics[b_id].name );
