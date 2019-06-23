@@ -40,10 +40,12 @@ class player_activity
         std::string name;
         std::vector<item_location> targets;
         std::vector<int> values;
+        std::vector<float> f_values;
         std::vector<std::string> str_values;
         std::vector<tripoint> coords;
         std::vector<std::weak_ptr<monster>> monsters;
         tripoint placement;
+        bionic_id bionic_to_rem;
         /** If true, the activity will be auto-resumed next time the player attempts
          *  an identical activity. This value is set dynamically.
          */

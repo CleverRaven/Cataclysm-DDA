@@ -941,7 +941,7 @@ void player::process_bionic( int b )
     }
 }
 
-void player::bionics_uninstall_failure( player &installer, int difficulty, int success,
+void player::bionics_uninstall_failure( int difficulty, int success,
                                         float adjusted_skill )
 {
     // "success" should be passed in as a negative integer representing how far off we
@@ -959,29 +959,8 @@ void player::bionics_uninstall_failure( player &installer, int difficulty, int s
         add_msg( m_neutral, _( "The removal fails without incident." ) );
         return;
     }
-    switch( rng( 1, 5 ) ) {
-        case 1:
-            installer.add_msg_player_or_npc( m_neutral,
-                                             _( "You flub the removal." ),
-                                             _( "<npcname> flubs the removal." ) );
-            break;
-        case 2:
-            installer.add_msg_player_or_npc( m_neutral,
-                                             _( "You mess up the removal." ),
-                                             _( "<npcname> messes up the removal." ) );
-            break;
-        case 3:
-            add_msg( m_neutral, _( "The removal fails." ) );
-            break;
-        case 4:
-            add_msg( m_neutral, _( "The removal is a failure." ) );
-            break;
-        case 5:
-            installer.add_msg_player_or_npc( m_neutral,
-                                             _( "You screw up the removal." ),
-                                             _( "<npcname> screws up the removal." ) );
-            break;
-    }
+
+    add_msg( m_neutral, _( "The removal is a failure." ) );
 
     switch( fail_type ) {
         case 1:
@@ -1289,33 +1268,17 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     int success = chance_of_success - rng( 1, 100 );
 
     if( success > 0 ) {
-        if( is_player() ) {
-            add_memorial_log( pgettext( "memorial_male", "Removed bionic: %s." ),
-                              pgettext( "memorial_female", "Removed bionic: %s." ),
-                              bionics[b_id].name );
-        }
-        // until bionics can be flagged as non-removable
-        add_msg_player_or_npc( m_neutral, _( "Your parts are jiggled back into their familiar places." ),
-                               _( "<npcname>'s parts are jiggled back into their familiar places." ) );
-        add_msg( m_good, _( "Successfully removed %s." ), bionics[b_id].name );
         // remove power bank provided by bionic
         max_power_level -= bionics[b_id].capacity;
-        remove_bionic( b_id );
-        if( item::type_is_defined( b_id.c_str() ) ) {
-            g->m.spawn_item( pos(), b_id.c_str(), 1 );
-        } else {
-            g->m.spawn_item( pos(), "burnt_out_bionic", 1 );
-        }
-    } else {
-        if( is_player() ) {
-            add_memorial_log( pgettext( "memorial_male", "Failed to remove bionic: %s." ),
-                              pgettext( "memorial_female", "Failed to remove bionic: %s." ),
-                              bionics[b_id].name );
-        }
-        bionics_uninstall_failure( installer, difficulty, success, adjusted_skill );
     }
-    g->m.invalidate_map_cache( g->get_levz() );
-    g->refresh_all();
+
+    assign_activity( activity_id( "ACT_OPERATION_REMOVE" ), to_moves<int>( difficulty * 20_minutes ) );
+    activity.bionic_to_rem = b_id;
+    activity.values.push_back( difficulty );
+    activity.values.push_back( success );
+    activity.str_values.push_back( bionics[b_id].name );
+    activity.f_values.push_back( adjusted_skill );
+
     return true;
 }
 
