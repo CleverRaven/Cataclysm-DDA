@@ -67,12 +67,11 @@ class item_location::impl
         class item_on_vehicle;
 
         impl() = default;
-        impl( item *what ) : what( what ) {}
-        impl( int idx ) : idx( idx ) {}
+        impl( item *i ) : what( i->get_safe_reference() ), needs_unpacking( false ) {}
+        impl( int idx ) : idx( idx ), needs_unpacking( true ) {}
 
         virtual ~impl() = default;
 
-        virtual bool valid() const = 0;
         virtual type where() const = 0;
         virtual tripoint position() const = 0;
         virtual std::string describe( const Character * ) const = 0;
@@ -83,15 +82,24 @@ class item_location::impl
         virtual item *unpack( int ) const = 0;
 
         item *target() const {
-            if( what == nullptr ) {
-                what = unpack( idx );
-            }
-            return what;
+            ensure_unpacked();
+            return what.get();
         }
 
+        bool valid() const {
+            ensure_unpacked();
+            return !!what;
+        }
     private:
-        mutable item *what = nullptr;
+        void ensure_unpacked() const {
+            if( needs_unpacking ) {
+                what = unpack( idx )->get_safe_reference();
+                needs_unpacking = false;
+            }
+        }
+        mutable safe_reference<item> what;
         mutable int idx = -1;
+        mutable bool needs_unpacking;
 
     public:
         //Flag that controls whether functions like obtain() should stack the obtained item
@@ -153,10 +161,6 @@ class item_location::impl::item_on_map : public item_location::impl
     public:
         item_on_map( const map_cursor &cur, item *which ) : impl( which ), cur( cur ) {}
         item_on_map( const map_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
-
-        bool valid() const override {
-            return target() && cur.has_item( *target() );
-        }
 
         void serialize( JsonOut &js ) const override {
             js.start_object();
@@ -223,20 +227,6 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 };
 
-static bool gun_has_item( const item &gun, const item *it )
-{
-    if( !gun.is_gun() ) {
-        return false;
-    }
-
-    if( gun.magazine_current() == it ) {
-        return true;
-    }
-
-    auto gms = gun.gunmods();
-    return !gms.empty() && std::find( gms.begin(), gms.end(), it ) != gms.end();
-}
-
 class item_location::impl::item_on_person : public item_location::impl
 {
     private:
@@ -245,13 +235,6 @@ class item_location::impl::item_on_person : public item_location::impl
     public:
         item_on_person( Character &who, item *which ) : impl( which ), who( who ) {}
         item_on_person( Character &who, int idx ) : impl( idx ), who( who ) {}
-
-        bool valid() const override {
-            const item *targ = target();
-            return targ && who.has_item_with( [targ]( const item & it ) {
-                return &it == targ || gun_has_item( it, targ );
-            } );
-        }
 
         void serialize( JsonOut &js ) const override {
             js.start_object();
@@ -371,19 +354,6 @@ class item_location::impl::item_on_vehicle : public item_location::impl
     public:
         item_on_vehicle( const vehicle_cursor &cur, item *which ) : impl( which ), cur( cur ) {}
         item_on_vehicle( const vehicle_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
-
-        bool valid() const override {
-            if( !target() ) {
-                return false;
-            }
-            if( &cur.veh.parts[ cur.part ].base == target() ) {
-                return true; // vehicle_part::base
-            }
-            if( cur.has_item( *target() ) ) {
-                return true; // item within CARGO
-            }
-            return false;
-        }
 
         void serialize( JsonOut &js ) const override {
             js.start_object();
