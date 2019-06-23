@@ -9189,68 +9189,26 @@ int iuse::disassemble( player *p, item *it, bool, const tripoint & )
 
 int iuse::gobag( player *p, item *it, bool, const tripoint & )
 {
-    std::map<std::string, int> gobag_contents = {
-        { "helmet_army", 1 },
-        { "jacket_army", 1 },
-        { "pants_army", 1 },
-        { "tshirt", 3 },
-        { "under_armor", 1 },
-        { "chestrig", 1 },
-        { "coat_rain", 1 },
-        { "hood_rain", 1 },
-        { "long_underpants", 1 },
-        { "towel", 1 },
-        { "boots_combat", 1 },
-        { "socks", 3 },
-        { "gloves_tactical", 1 },
-        { "light_plus_battery_cell", 1 },
-        { "flashlight", 1 },
-        { "radio", 1 },
-        { "lighter", 1 },
-        { "pockknife", 1 },
-        { "multitool", 1 },
-        { "1st_aid", 1 },
-        { "rollmat", 1 },
-        { "sleeping_bag_roll", 1 },
-        { "ear_plugs", 1 },
-        { "mre_hashbrownbacon_box", 1 },
-        { "mre_macaronimarinara_box", 1 },
-        { "mre_meatball_box", 1 },
-        { "bottle_plastic", 2 }
-    };
+    auto items = item_group::items_from( "gobag_contents", calendar::turn );
+    bool content_fits = it->typeId() == "personal_gobag";
+    std::string last_armor;
 
     p->add_msg_if_player( _( "You empty the contents of the go bag onto the floor." ) );
 
-    item duffelbag = item( "duffelbag" );
-    item backpack = item( "backpack" );
-    if( it->has_flag( "FILTHY" ) ) {
-        duffelbag.set_flag( "FILTHY" );
-        backpack.set_flag( "FILTHY" );
-    }
-    g->m.add_item_or_charges( p->posx(), p->posy(), duffelbag );
-    g->m.add_item_or_charges( p->posx(), p->posy(), backpack );
-
-    for( const auto &content_pair : gobag_contents ) {
-        bool content_fits = it->typeId() == "personal_gobag" || one_in( 3 );
-        item content = item( content_pair.first );
-
-        if( content.is_armor() && !content.has_flag( "FIT" ) && content_fits ) {
-            content.set_flag( "FIT" );
-        } else if( content_pair.first == "bottle_plastic" ) {
-            item water = item( "water_clean" );
-            water.charges = 2;
-            content.put_in( water );
-        } else if( content_pair.first == "light_plus_battery_cell" ||
-                   content_pair.first == "flashlight" ||
-                   content_pair.first == "radio" ) {
-            content.ammo_set( "battery", 150 );
-        } else if( content_pair.first == "lighter" ) {
-            content.charges = 100;
+    for( auto &content : items ) {
+        if( content.is_armor() ) {
+            if( content.typeId() != last_armor ) {
+                content_fits = it->typeId() == "personal_gobag" || content.has_flag( "FIT" ) ;
+                last_armor = content.typeId();
+            }
+            content_fits ? content.set_flag( "FIT" ) : content.unset_flag( "FIT" );
         }
 
-        for( int i = 0; i < content_pair.second; i++ ) {
-            g->m.add_item_or_charges( p->posx(), p->posy(), content );
+        if( ( content.typeId() == "duffelbag" || content.typeId() == "backpack" ) &&
+            it->has_flag( "FILTHY" ) ) {
+            content.set_flag( "FILTHY" );
         }
+        g->m.add_item_or_charges( p->pos(), content );
     }
 
     p->i_rem( it );
