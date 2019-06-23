@@ -2801,6 +2801,7 @@ void activity_handlers::uninstall_operation_do_turn( player_activity *act, playe
                                       _( "The Autodoc is stitching <npcname> back up." ) );
         }
     }
+    p->set_moves( 0 );
 }
 
 void activity_handlers::try_sleep_finish( player_activity *act, player *p )
