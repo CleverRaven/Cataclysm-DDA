@@ -260,7 +260,7 @@ class monster : public Creature
         int group_bash_skill( const tripoint &target );
 
         void stumble();
-        void knock_back_from( const tripoint &p ) override;
+        void knock_back_to( const tripoint &p ) override;
 
         // Combat
         bool is_fleeing( player &u ) const; // True if we're fleeing

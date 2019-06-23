@@ -203,7 +203,8 @@ class Creature
         virtual void absorb_hit( body_part bp, damage_instance &dam ) = 0;
 
         // TODO: this is just a shim so knockbacks work
-        virtual void knock_back_from( const tripoint &p ) = 0;
+        void knock_back_from( const tripoint &p );
+        virtual void knock_back_to( const tripoint &to ) = 0;
 
         // begins a melee attack against the creature
         // returns hit - dodge (>=0 = hit, <0 = miss)

@@ -19,7 +19,10 @@
         "fireball",
         "gravity_well",
         "cone_cold",
-        "megablast"
+        "megablast",
+        "test_area_push",
+        "test_area_pull_field",
+        "test_area_pull_all"
       ]
     }
   },
