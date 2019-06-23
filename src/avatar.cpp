@@ -1052,7 +1052,7 @@ void avatar::do_read( item &book )
                     case 3:
                         add_msg( m_info,
                                  _( "You decide to read the manual and train even more.  In martial arts, patience leads to mastery." ) );
-                                 break;
+                        break;
                     case 4:
                     case 5:
                         add_msg( m_info, _( "You try again.  This training will finally pay off." ) );
