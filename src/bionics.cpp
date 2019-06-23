@@ -1095,11 +1095,23 @@ float player::bionics_adjusted_skill( const skill_id &most_important_skill,
                                       const skill_id &least_important_skill,
                                       int skill_level )
 {
+    int pl_skill = bionics_pl_skill( most_important_skill, important_skill, least_important_skill,
+                                     skill_level );
+
+    // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
+    float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
+                           static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>( 10.0 ) );
+    return adjusted_skill;
+}
+
+int player::bionics_pl_skill( const skill_id &most_important_skill, const skill_id &important_skill,
+                              const skill_id &least_important_skill, int skill_level )
+{
     int pl_skill;
     if( skill_level == -1 ) {
-        pl_skill = int_cur                                  * 4 +
-                   get_skill_level( most_important_skill )  * 4 +
-                   get_skill_level( important_skill )       * 3 +
+        pl_skill = int_cur * 4 +
+                   get_skill_level( most_important_skill ) * 4 +
+                   get_skill_level( important_skill ) * 3 +
                    get_skill_level( least_important_skill ) * 1;
     } else {
         // override chance as though all values were skill_level if it is provided
@@ -1119,11 +1131,7 @@ float player::bionics_adjusted_skill( const skill_id &most_important_skill,
         add_msg( m_neutral, _( "A lifetime of augmentation has taught %s a thing or two..." ),
                  disp_name() );
     }
-
-    // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
-    float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
-                           static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>( 10.0 ) );
-    return adjusted_skill;
+    return pl_skill;
 }
 
 // bionic manipulation chance of success
