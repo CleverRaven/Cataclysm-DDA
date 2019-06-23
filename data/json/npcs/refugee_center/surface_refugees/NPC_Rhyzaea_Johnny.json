@@ -1,0 +1,161 @@
+[
+  {
+    "type": "npc",
+    "id": "refugee_RhyzaeaJohnny",
+    "name_unique": "Rhyzaea Johnny",
+    "gender": "female",
+    "name_suffix": "refugee",
+    "class": "NC_REFUGEE_Rhyzaea",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_Rhyzaea_1",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_REFUGEE_Rhyzaea",
+    "name": "Refugee",
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "A counselor from far away, Rhy can offer a lot of supports to player and survivors if she can get herself sorted a little",
+    "bonus_str": { "rng": [ -1, 1 ] },
+    "bonus_dex": { "rng": [ -2, 2 ] },
+    "bonus_int": { "rng": [ 0, 3 ] },
+    "bonus_per": { "rng": [ -1, 3 ] },
+    "worn_override": "REFUGEE_Rhyzaea_worn",
+    "carry_override": "office",
+    "weapon_override": "REFUGEE_Rhyzaea_wield",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_Mixed" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ -2, 1 ] } ] } ] } },
+      { "skill": "speech", "bonus": { "rng": [ 3, 7 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Rhyzaea_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bra" },
+      { "item": "panties" },
+      { "item": "socks" },
+      { "item": "skirt" },
+      { "item": "leggings" },
+      { "item": "sweater" },
+      { "item": "boots_hiking" },
+      { "item": "purse" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Rhyzaea_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "stick" } ]
+  },
+  {
+    "type": "talk_topic",
+    "//": "common talk responses",
+    "id": [
+      "TALK_REFUGEE_Rhyzaea_1_firstmeet",
+      "TALK_REFUGEE_Rhyzaea_2",
+      "TALK_REFUGEE_Rhyzaea_Background",
+      "TALK_REFUGEE_Rhyzaea_Situation"
+    ],
+    "dynamic_line": "What brings you around here?  We don't see a lot of new faces.",
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_REFUGEE_Rhyzaea_Background" },
+      { "text": "How are things here?", "topic": "TALK_REFUGEE_Rhyzaea_Situation" },
+      { "text": "Is there anything I can do to help you out?", "topic": "TALK_MISSION_LIST" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Rhyzaea_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_Rhyzaea_Johnny",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": [ "Hello again.", "Good to see you're still around.", "Oh, hi.", "Need to talk?" ],
+      "no": "Hi there.  I don't think we've met before.  I'm Rhyzaea, people call me Rhy."
+    },
+    "speaker_effect": { "effect": { "u_add_var": "u_met_Rhyzaea_Johnny", "type": "general", "context": "meeting", "value": "yes" } },
+    "responses": [
+      {
+        "text": "Nice to meet you, Rhy.",
+        "condition": { "not": { "u_has_var": "u_met_Rhyzaea_Johnny", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_REFUGEE_Rhyzaea_1_firstmeet"
+      },
+      {
+        "text": "Hi, Rhy.  How's it going?",
+        "condition": { "u_has_var": "u_met_Rhyzaea_Johnny", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_REFUGEE_Rhyzaea_2"
+      },
+      { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Rhyzaea_1_firstmeet",
+    "dynamic_line": "So, what's your story?  We don't see a lot of new people back here.",
+    "responses": [
+      { "text": "Just a curious traveler.  What's up with you?", "topic": "TALK_REFUGEE_Rhyzaea_2" },
+      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Rhyzaea_2",
+    "dynamic_line": "I'm doing as well as can be expected, I suppose.  Nice of you to ask."
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Rhyzaea_Background",
+    "dynamic_line": "It's a long, long story.  I'm not from around here, I'm actually from way out in Western Canada. I'd always wanted to see New England, and I was down here on vacation when, well, you know.  I got evacuated, but because I'm not a US citizen they weren't willing to take me downstairs.  I can understand that, even if I don't like it much.  To tell you the truth I'm still coming to terms with the fact that I'll probably never know how my family and my band are doing.",
+    "responses": [
+      { "text": "Tell me about yourself.", "topic": "TALK_REFUGEE_Rhyzaea_Background2" },
+      { "text": "Tell me about your family.", "topic": "TALK_REFUGEE_Rhyzaea_Family" },
+      { "text": "Tell me about your band.", "topic": "TALK_REFUGEE_Rhyzaea_Band" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Rhyzaea_Background2",
+    "dynamic_line": "I was a counselor actually, I worked for my band, Gitxsan.  Did a lot of mental health and addictions for people that had been through some really tough stuff.  Maybe not zombies eating your child level tough, but surprisingly not far off.  My people have gone through some real messy crap.",
+    "responses": [
+      { "text": "Tell me about your family.", "topic": "TALK_REFUGEE_Rhyzaea_Family" },
+      { "text": "Tell me about your band.", "topic": "TALK_REFUGEE_Rhyzaea_Band" },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Rhyzaea_Band",
+    "dynamic_line": "My band is Gitxsan, we're from Northwestern British Columbia, around the Skeena River.  I'm from Hazelton, myself.  It's a beautiful place.  Tall mountains, temperate rainforests... I partly came here because I love those wet coastal forests, and I love exploring them in other countries.  I've been to Korea and Slovakia for the same reason.  I guess I'm a bit of a forest tourist?  I don't know if I'll ever see my own forest again, and the thought breaks my heart.",
+    "responses": [
+      { "text": "Tell me about yourself.", "topic": "TALK_REFUGEE_Rhyzaea_Background2" },
+      { "text": "Tell me about your family.", "topic": "TALK_REFUGEE_Rhyzaea_Family" },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Rhyzaea_Family",
+    "dynamic_line": "My mom and dad are back in Hazelton, they live with my grandma and my older brother; he took a hard knock to the head doing dumb things as a kid, and he can't really take care of himself now.  I have a daughter, Angel, she's sixteen and didn't want to come with me on this trip.  God help me, I can't bear to think of her, she must think I'm dead.",
+    "responses": [
+      { "text": "Tell me about yourself.", "topic": "TALK_REFUGEE_Rhyzaea_Background2" },
+      { "text": "Tell me about your band.", "topic": "TALK_REFUGEE_Rhyzaea_Band" },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Rhyzaea_Situation",
+    "dynamic_line": "People up here are barely hanging on.  I've seen trauma before, a lot, but this is pretty much the worst imaginable.  Everyone has lost everything, with a huge dose of nightmare on top of it all.  We're putting on a brave face, but without help, things are going to break, really soon."
+  }
+]

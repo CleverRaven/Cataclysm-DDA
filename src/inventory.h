@@ -27,18 +27,18 @@ class JsonOut;
 class player;
 struct tripoint;
 
-typedef std::list< std::list<item> > invstack;
-typedef std::vector< std::list<item>* > invslice;
-typedef std::vector< const std::list<item>* > const_invslice;
-typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
-typedef std::unordered_map< itype_id, std::list<const item *> > itype_bin;
-typedef std::bitset<std::numeric_limits<char>::max()> invlets_bitset;
+using invstack = std::list<std::list<item> >;
+using invslice = std::vector<std::list<item> *>;
+using const_invslice = std::vector<const std::list<item> *>;
+using indexed_invslice = std::vector< std::pair<std::list<item>*, int> >;
+using itype_bin = std::unordered_map< itype_id, std::list<const item *> >;
+using invlets_bitset = std::bitset<std::numeric_limits<char>::max()>;
 
 /**
  * Wrapper to handled a set of valid "inventory" letters. "inventory" can be any set of
  * objects that the player can access via a single character (e.g. bionics).
  * The class is (currently) derived from std::string for compatibility and because it's
- * simpler. But it may be changed to derive from `std::set<long>` or similar to get the full
+ * simpler. But it may be changed to derive from `std::set<int>` or similar to get the full
  * range of possible characters.
  */
 class invlet_wrapper : private std::string
@@ -46,7 +46,7 @@ class invlet_wrapper : private std::string
     public:
         invlet_wrapper( const char *chars ) : std::string( chars ) { }
 
-        bool valid( long invlet ) const;
+        bool valid( int invlet ) const;
         std::string get_allowed_chars() const {
             return *this;
         }

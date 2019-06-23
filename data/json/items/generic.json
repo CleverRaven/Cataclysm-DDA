@@ -13,6 +13,21 @@
   },
   {
     "type": "GENERIC",
+    "//": "pseudo item, used as fuel type for engines that are animal-powered",
+    "id": "animal",
+    "symbol": "?",
+    "color": "white",
+    "name": "animal",
+    "name_plural": "none",
+    "description": "seeing this is a bug",
+    "stackable": true,
+    "price": 0,
+    "volume": 0,
+    "flags": [ "PSEUDO", "PERPETUAL" ],
+    "fuel": { "energy": 1 }
+  },
+  {
+    "type": "GENERIC",
     "//": "pseudo item, only used for crafting as a required tool",
     "id": "fire",
     "symbol": "$",
@@ -96,11 +111,25 @@
   },
   {
     "type": "GENERIC",
+    "id": "fp_loyalty_card",
+    "category": "other",
+    "symbol": "-",
+    "color": "pink",
+    "name": "foodplace loyalty card",
+    "description": "A bright pink loyalty card, all the points are stamped.  This would definitely prove your fidelity to Foodplace, if it still meant anything...",
+    "price": 0,
+    "material": "paper",
+    "flags": "TRADER_AVOID",
+    "weight": 3,
+    "volume": 0
+  },
+  {
+    "type": "GENERIC",
     "id": "withered",
     "symbol": "%",
     "color": "light_gray",
     "name": "withered plant",
-    "description": "A dead plant.  Good for starting fires.",
+    "description": "A dead plant.  Good for starting fires or making a pile of leaves to sleep on.",
     "material": "paper",
     "weight": 20,
     "volume": 1,
@@ -377,6 +406,20 @@
     "to_hit": -3
   },
   {
+    "type": "GENERIC",
+    "id": "data_card",
+    "symbol": ",",
+    "color": "white",
+    "name": "data card",
+    "description": "Some type of advanced data storage device.  Useful for storing very large amounts of information.",
+    "price": 10000,
+    "price_postapoc": 100,
+    "material": "plastic",
+    "weight": 18,
+    "volume": 0,
+    "to_hit": -3
+  },
+  {
     "id": "golf_tee",
     "type": "GENERIC",
     "category": "other",
@@ -578,40 +621,6 @@
     "weight": 2340,
     "volume": 4,
     "bashing": 4
-  },
-  {
-    "type": "GENERIC",
-    "id": "log",
-    "symbol": "/",
-    "color": "brown",
-    "name": "log",
-    "description": "A large log, cut from a tree.  (a)ctivate a wood axe or wood saw to cut it into planks.",
-    "category": "other",
-    "price": 10000,
-    "price_postapoc": 100,
-    "material": "wood",
-    "weight": 9071,
-    "volume": 40,
-    "bashing": 10,
-    "to_hit": -10,
-    "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "FIREWOOD" ]
-  },
-  {
-    "type": "GENERIC",
-    "id": "splinter",
-    "symbol": "/",
-    "color": "brown",
-    "name": "splintered wood",
-    "description": "A splintered piece of wood, could be used as a skewer or for kindling.",
-    "category": "other",
-    "material": "wood",
-    "weight": 453,
-    "volume": 1,
-    "bashing": 4,
-    "to_hit": 1,
-    "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "NO_SALVAGE", "TRADER_AVOID", "FIREWOOD" ]
   },
   {
     "type": "GENERIC",
@@ -840,7 +849,7 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -857,7 +866,7 @@
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -874,7 +883,7 @@
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -892,7 +901,7 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -910,7 +919,7 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -934,7 +943,7 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -970,7 +979,7 @@
     "bashing": 6,
     "cutting": 10,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -987,7 +996,7 @@
     "bashing": 10,
     "cutting": 6,
     "to_hit": -2,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1004,7 +1013,7 @@
     "bashing": 20,
     "cutting": 15,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1021,7 +1030,7 @@
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1038,7 +1047,7 @@
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1055,7 +1064,7 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1073,7 +1082,7 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1091,7 +1100,7 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1109,7 +1118,7 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1127,7 +1136,7 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1145,7 +1154,7 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1163,7 +1172,7 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1466,6 +1475,18 @@
     "volume": 1
   },
   {
+    "id": "pipe_cleaner",
+    "type": "GENERIC",
+    "name": "pipe cleaner",
+    "description": "This is a tool designed to clean interior surface of pipes, bottles, and similar objects.  This one is thin enough to be used for cleaning firearm barrels from dirt and fouling.",
+    "weight": 50,
+    "volume": 1,
+    "price": 500,
+    "material": [ "steel", "cotton" ],
+    "symbol": ";",
+    "color": "light_gray"
+  },
+  {
     "type": "GENERIC",
     "id": "clock",
     "symbol": ";",
@@ -1676,7 +1697,7 @@
     "to_hit": -2
   },
   {
-    "type": "GENERIC",
+    "type": "TOOL",
     "id": "glass_shard",
     "symbol": ",",
     "color": "light_cyan",
@@ -1692,7 +1713,7 @@
       "trap": "tr_glass",
       "moves": 150,
       "practice": 2,
-      "done_message": "You carefuly place the shards on the ground, ready to be cracked by something passing by."
+      "done_message": "You carefully place the shards on the ground, ready to be cracked by something passing by."
     },
     "flags": [ "HURT_WHEN_WIELDED", "HURT_WHEN_PULLED", "TRADER_AVOID" ],
     "to_hit": -1
@@ -2108,6 +2129,19 @@
   },
   {
     "type": "GENERIC",
+    "id": "chamomile",
+    "name": "handful of chamomile flowers",
+    "name_plural": "handfuls of chamomile flowers",
+    "description": "White chamomile flowers, used as a herbal remedy since the ancient times.",
+    "weight": 50,
+    "color": "white",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": 1,
+    "price": 0
+  },
+  {
+    "type": "GENERIC",
     "id": "clay_lump",
     "symbol": ",",
     "color": "brown",
@@ -2149,6 +2183,65 @@
     "container": "bag_canvas",
     "price": 5000,
     "material": "powder",
+    "weight": 2340,
+    "volume": 4,
+    "bashing": 4
+  },
+  {
+    "type": "GENERIC",
+    "id": "soft_adobe_brick",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "brown",
+    "name": "soft adobe brick",
+    "name_plural": "soft adobe bricks",
+    "description": "A compacted mass of soil and natural fibers, still too wet to build with.  Load it onto a pallet and leave it to dry.",
+    "price": 0,
+    "material": "soil",
+    "weight": 1750,
+    "volume": 3,
+    "bashing": 2,
+    "to_hit": -3,
+    "use_action": {
+      "target": "adobe_brick",
+      "msg": "You test the brick, and it seems solid enough to use.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 100800,
+      "not_ready_msg": "The brick is still too damp to bear weight.",
+      "//": "Should be about a week. Irl it's ten days, so make big batches."
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "adobe_brick",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "yellow",
+    "looks_like": "brick",
+    "name": "adobe brick",
+    "description": "A compacted mass of soil and natural fibers, baked dry enough to harden into a brick.",
+    "material": "soil",
+    "flags": "NONCONDUCTIVE",
+    "weight": 1500,
+    "volume": 3,
+    "bashing": 10,
+    "to_hit": -2,
+    "price": 2000,
+    "qualities": [ [ "HAMMER", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "mortar_adobe",
+    "symbol": "%",
+    "color": "brown",
+    "name": "adobe mortar",
+    "name_plural": "adobe mortar",
+    "description": "A thick, pasty mud, low in sand content to reduce crumbling once dry.  Used to glue larger, heavier pieces of mud and clay together.",
+    "category": "spare_parts",
+    "container": "bag_canvas",
+    "price": 200,
+    "material": "soil",
     "weight": 2340,
     "volume": 4,
     "bashing": 4
@@ -2729,6 +2822,19 @@
     "to_hit": -3
   },
   {
+    "type": "GENERIC",
+    "id": "rmi2_corpse",
+    "symbol": "%",
+    "color": "white",
+    "name": "desiccated corpse",
+    "description": "A badly mangled and desiccated partial corpse.  It seems whatever thing killed him did so with a single swipe of a gigantic claw.",
+    "category": "other",
+    "material": "hflesh",
+    "price": 0,
+    "volume": 30,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
     "id": "gasdiscount_silver",
     "type": "TOOL",
     "symbol": ",",
@@ -3037,5 +3143,18 @@
     "weight": 4500,
     "volume": 12,
     "bashing": 8
+  },
+  {
+    "type": "GENERIC",
+    "id": "amplifier_head",
+    "symbol": ";",
+    "color": "blue",
+    "name": "amplifier head",
+    "description": "An amplifier head.  Typically paired with a speaker cabinet for amplifying musical instruments.  Basically only good for spare parts now.",
+    "price": 25000,
+    "price_postapoc": 2000,
+    "material": [ "steel", "plastic", "wood" ],
+    "weight": 11339,
+    "volume": 12
   }
 ]

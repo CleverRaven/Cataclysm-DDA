@@ -14,6 +14,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -250,18 +251,18 @@ static void do_blast( const tripoint &p, const float power,
         g->m.smash_items( pt, force );
 
         if( fire ) {
-            int density = ( force > 50.0f ) + ( force > 100.0f );
+            int intensity = ( force > 50.0f ) + ( force > 100.0f );
             if( force > 10.0f || x_in_y( force, 10.0f ) ) {
-                density++;
+                intensity++;
             }
 
-            if( !g->m.has_zlevels() && g->m.is_outside( pt ) && density == 2 ) {
+            if( !g->m.has_zlevels() && g->m.is_outside( pt ) && intensity == 2 ) {
                 // In 3D mode, it would have fire fields above, which would then fall
                 // and fuel the fire on this tile
-                density++;
+                intensity++;
             }
 
-            g->m.add_field( pt, fd_fire, density );
+            g->m.add_field( pt, fd_fire, intensity );
         }
 
         if( const optional_vpart_position vp = g->m.veh_at( pt ) ) {
@@ -719,7 +720,7 @@ void emp_blast( const tripoint &p )
     }
     // Drain any items of their battery charge
     for( auto &it : g->m.i_at( x, y ) ) {
-        if( it.is_tool() && it.ammo_type() == ammotype( "battery" ) ) {
+        if( it.is_tool() && it.ammo_current() == "battery" ) {
             it.charges = 0;
         }
     }
@@ -840,7 +841,7 @@ void nuke( const tripoint &p )
     }
 }
 
-}
+} // namespace explosion_handler
 
 // This is only ever used to zero the cloud values, which is what makes it work.
 fragment_cloud &fragment_cloud::operator=( const float &value )

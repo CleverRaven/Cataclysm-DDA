@@ -15,7 +15,7 @@
 
 struct WORLD;
 
-typedef WORLD *WORLDPTR;
+using WORLDPTR = WORLD *;
 class dependency_tree;
 class JsonObject;
 class mod_manager;
@@ -67,7 +67,7 @@ struct MOD_INFORMATION {
 class mod_manager
 {
     public:
-        typedef std::vector<mod_id> t_mod_list;
+        using t_mod_list = std::vector<mod_id>;
 
         mod_manager();
         ~mod_manager();
@@ -180,8 +180,8 @@ class mod_ui
         void try_rem( size_t selection, std::vector<mod_id> &active_list );
         void try_shift( char direction, size_t &selection, std::vector<mod_id> &active_list );
 
-        bool can_shift_up( long selection, const std::vector<mod_id> &active_list );
-        bool can_shift_down( long selection, const std::vector<mod_id> &active_list );
+        bool can_shift_up( size_t selection, const std::vector<mod_id> &active_list );
+        bool can_shift_down( size_t selection, const std::vector<mod_id> &active_list );
 };
 
 #endif

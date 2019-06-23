@@ -15,7 +15,7 @@
 const invlet_wrapper
 mutation_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}" );
 
-void draw_exam_window( const catacurses::window &win, const int border_y )
+static void draw_exam_window( const catacurses::window &win, const int border_y )
 {
     const int width = getmaxx( win );
     mvwputch( win, border_y, 0, BORDER_COLOR, LINE_XXXO );
@@ -28,8 +28,8 @@ const auto shortcut_desc = []( const std::string &comment, const std::string &ke
     return string_format( comment, string_format( "<color_yellow>%s</color>", keys ) );
 };
 
-void show_mutations_titlebar( const catacurses::window &window, const std::string &menu_mode,
-                              const input_context &ctxt )
+static void show_mutations_titlebar( const catacurses::window &window,
+                                     const std::string &menu_mode, const input_context &ctxt )
 {
     werase( window );
     std::ostringstream desc;
@@ -227,7 +227,7 @@ void player::power_mutations()
         wrefresh( wBio );
         show_mutations_titlebar( w_title, menu_mode, ctxt );
         const std::string action = ctxt.handle_input();
-        const long ch = ctxt.get_raw_input().get_first_input();
+        const int ch = ctxt.get_raw_input().get_first_input();
         if( menu_mode == "reassigning" ) {
             menu_mode = "activating";
             const auto mut_id = trait_by_invlet( ch );
@@ -236,8 +236,8 @@ void player::power_mutations()
                 continue;
             }
             redraw = true;
-            const long newch = popup_getkey( _( "%s; enter new letter." ),
-                                             mutation_branch::get_name( mut_id ) );
+            const int newch = popup_getkey( _( "%s; enter new letter." ),
+                                            mutation_branch::get_name( mut_id ) );
             wrefresh( wBio );
             if( newch == ch || newch == ' ' || newch == KEY_ESCAPE ) {
                 continue;

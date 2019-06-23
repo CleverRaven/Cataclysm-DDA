@@ -4,11 +4,14 @@
 
 #include <cstddef>
 #include <functional>
+#include <list>
 #include <map>
 #include <set>
 #include <vector>
 #include <string>
 
+#include "construction_category.h"
+#include "item.h"
 #include "optional.h"
 #include "string_id.h"
 #include "type_id.h"
@@ -21,9 +24,21 @@ class JsonObject;
 class nc_color;
 struct tripoint;
 
+struct partial_con {
+    int counter = 0;
+    std::list<item> components = {};
+    size_t id = 0;
+};
+
+struct build_reqs {
+    std::map<skill_id, int> skills;
+    std::map<requirement_id, int> reqs;
+    int time = 0;
+};
+
 struct construction {
         // Construction type category
-        std::string category;
+        construction_category_id category;
         // How the action is displayed to the player
         std::string description;
         // Additional note displayed along with construction requirements.
@@ -45,6 +60,8 @@ struct construction {
 
         // Index in construction vector
         size_t id;
+
+        // Time in moves
         int time;
 
         // If true, the requirements are generated during finalization
@@ -68,18 +85,28 @@ struct construction {
         std::vector<std::string> get_folded_time_string( int width ) const;
         // Result of construction scaling option
         float time_scale() const;
+
+        // make the construction available for selection
+        bool on_display = true;
     private:
         std::string get_time_string() const;
 };
+
+const std::vector<construction> &get_constructions();
 
 //! Set all constructions to take the specified time.
 void standardize_construction_times( int time );
 
 void load_construction( JsonObject &jo );
 void reset_constructions();
-void construction_menu();
-void complete_construction();
+int construction_menu( bool blueprint );
+void complete_construction( player *p );
+bool can_construct( const construction &con, const tripoint &p );
+bool player_can_build( player &p, const inventory &inv, const construction &con );
 void check_constructions();
 void finalize_constructions();
 
+void get_build_reqs_for_furn_ter_ids( const std::pair<std::map<ter_id, int>,
+                                      std::map<furn_id, int>> &changed_ids,
+                                      build_reqs &total_reqs );
 #endif

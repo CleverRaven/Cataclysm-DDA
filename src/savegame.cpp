@@ -10,6 +10,7 @@
 #include <unordered_set>
 #include <utility>
 
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -136,7 +137,7 @@ std::string scent_map::serialize() const
     return rle_out.str();
 }
 
-void chkversion( std::istream &fin )
+static void chkversion( std::istream &fin )
 {
     if( fin.peek() == '#' ) {
         std::string vline;
@@ -322,7 +323,7 @@ void game::load_shortcuts( std::istream &fin )
                 std::list<input_event> &qslist = quick_shortcuts_map[ *it ];
                 qslist.clear();
                 while( ja.has_more() ) {
-                    qslist.push_back( input_event( ja.next_long(), CATA_INPUT_KEYBOARD ) );
+                    qslist.push_back( input_event( ja.next_int(), CATA_INPUT_KEYBOARD ) );
                 }
             }
         }
@@ -1120,6 +1121,22 @@ void overmap::unserialize_view( std::istream &fin )
                 }
             }
             jsin.end_array();
+        } else if( name == "extras" ) {
+            jsin.start_array();
+            for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+                jsin.start_array();
+                while( !jsin.end_array() ) {
+                    om_map_extra tmp;
+                    jsin.start_array();
+                    jsin.read( tmp.x );
+                    jsin.read( tmp.y );
+                    jsin.read( tmp.id );
+                    jsin.end_array();
+
+                    layer[z].extras.push_back( tmp );
+                }
+            }
+            jsin.end_array();
         }
     }
 }
@@ -1187,6 +1204,22 @@ void overmap::serialize_view( std::ostream &fout ) const
             json.write( i.x );
             json.write( i.y );
             json.write( i.text );
+            json.end_array();
+            fout << std::endl;
+        }
+        json.end_array();
+    }
+    json.end_array();
+
+    json.member( "extras" );
+    json.start_array();
+    for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+        json.start_array();
+        for( auto &i : layer[z].extras ) {
+            json.start_array();
+            json.write( i.x );
+            json.write( i.y );
+            json.write( i.id );
             json.end_array();
             fout << std::endl;
         }
@@ -1584,7 +1617,19 @@ void faction_manager::serialize( JsonOut &jsout ) const
 
 void faction_manager::deserialize( JsonIn &jsin )
 {
-    jsin.read( factions );
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        faction add_fac;
+        jsin.read( add_fac );
+        faction *old_fac = get( add_fac.id );
+        if( old_fac ) {
+            *old_fac = add_fac;
+            // force a revalidation of add_fac
+            get( add_fac.id );
+        } else {
+            factions.emplace_back( add_fac );
+        }
+    }
 }
 
 void Creature_tracker::deserialize( JsonIn &jsin )

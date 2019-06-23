@@ -38,7 +38,7 @@ namespace
 generic_factory<ma_technique> ma_techniques( "martial art technique" );
 generic_factory<martialart> martialarts( "martial art style" );
 generic_factory<ma_buff> ma_buffs( "martial art buff" );
-}
+} // namespace
 
 matype_id martial_art_learned_from( const itype &type )
 {
@@ -46,9 +46,13 @@ matype_id martial_art_learned_from( const itype &type )
         return {};
     }
 
-    // strip "manual_" from the start of the item id, add the rest to "style_"
-    // TODO: replace this terrible hack to rely on the item name matching the style name, it's terrible.
-    return matype_id( "style_" + type.get_id().substr( 7 ) );
+    if( !type.book || type.book->martial_art.is_null() ) {
+        debugmsg( "Item '%s' which claims to teach a martial art is missing martial_art",
+                  type.get_id() );
+        return {};
+    }
+
+    return type.book->martial_art;
 }
 
 void load_technique( JsonObject &jo, const std::string &src )
@@ -75,6 +79,7 @@ void ma_requirements::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<> {} );
 
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
+    optional( jo, was_loaded, "strictly_melee", strictly_melee, false );
 
     // TODO: De-hardcode the skills and damage types here
     add_if_exists( jo, min_skill, was_loaded, "min_melee", skill_melee );
@@ -114,6 +119,7 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "stun_dur", stun_dur, 0 );
     optional( jo, was_loaded, "knockback_dist", knockback_dist, 0 );
     optional( jo, was_loaded, "knockback_spread", knockback_spread, 0 );
+    optional( jo, was_loaded, "knockback_follow", knockback_follow, 0 );
 
     optional( jo, was_loaded, "aoe", aoe, "" );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
@@ -199,6 +205,7 @@ void martialart::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
     mandatory( jo, was_loaded, "initiate", initiate );
+    optional( jo, was_loaded, "autolearn", autolearn_skills );
 
     optional( jo, was_loaded, "static_buffs", static_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onmove_buffs", onmove_buffs, ma_buff_reader{} );
@@ -207,11 +214,16 @@ void martialart::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "ondodge_buffs", ondodge_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onblock_buffs", onblock_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "ongethit_buffs", ongethit_buffs, ma_buff_reader{} );
+    optional( jo, was_loaded, "onmiss_buffs", onmiss_buffs, ma_buff_reader{} );
+    optional( jo, was_loaded, "oncrit_buffs", oncrit_buffs, ma_buff_reader{} );
+    optional( jo, was_loaded, "onkill_buffs", onkill_buffs, ma_buff_reader{} );
 
     optional( jo, was_loaded, "techniques", techniques, auto_flags_reader<matec_id> {} );
     optional( jo, was_loaded, "weapons", weapons, auto_flags_reader<itype_id> {} );
 
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
+    optional( jo, was_loaded, "strictly_melee", strictly_melee, false );
+    optional( jo, was_loaded, "allow_melee", allow_melee, false );
     optional( jo, was_loaded, "force_unarmed", force_unarmed, false );
 
     optional( jo, was_loaded, "leg_block", leg_block, 99 );
@@ -247,7 +259,7 @@ std::vector<matype_id> all_martialart_types()
     return result;
 }
 
-void check( const ma_requirements &req, const std::string &display_text )
+static void check( const ma_requirements &req, const std::string &display_text )
 {
     for( auto &r : req.req_buffs ) {
         if( !r.is_valid() ) {
@@ -428,6 +440,7 @@ ma_technique::ma_technique()
     stun_dur = 0;
     knockback_dist = 0;
     knockback_spread = 0; // adding randomness to knockback, like tec_throw
+    knockback_follow = 0; // player follows the knocked-back party into their former tile
 
     // offensive
     disarms = false; // like tec_disarm
@@ -583,7 +596,7 @@ martialart::martialart()
 
 // simultaneously check and add all buffs. this is so that buffs that have
 // buff dependencies added by the same event trigger correctly
-void simultaneous_add( player &u, const std::vector<mabuff_id> &buffs )
+static void simultaneous_add( player &u, const std::vector<mabuff_id> &buffs )
 {
     std::vector<const ma_buff *> buffer; // hey get it because it's for buffs????
     for( auto &buffid : buffs ) {
@@ -632,6 +645,21 @@ void martialart::apply_ongethit_buffs( player &u ) const
     simultaneous_add( u, ongethit_buffs );
 }
 
+void martialart::apply_onmiss_buffs( player &u ) const
+{
+    simultaneous_add( u, onmiss_buffs );
+}
+
+void martialart::apply_oncrit_buffs( player &u ) const
+{
+    simultaneous_add( u, oncrit_buffs );
+}
+
+void martialart::apply_onkill_buffs( player &u ) const
+{
+    simultaneous_add( u, onkill_buffs );
+}
+
 bool martialart::has_technique( const player &u, const matec_id &tec_id ) const
 {
     for( const auto &elem : techniques ) {
@@ -650,7 +678,11 @@ bool martialart::has_weapon( const itype_id &itt ) const
 
 bool martialart::weapon_valid( const item &it ) const
 {
-    if( it.is_null() ) {
+    if( allow_melee ) {
+        return true;
+    }
+
+    if( it.is_null() && !strictly_melee ) {
         return true;
     }
 
@@ -658,7 +690,11 @@ bool martialart::weapon_valid( const item &it ) const
         return true;
     }
 
-    return !strictly_unarmed && it.has_flag( "UNARMED_WEAPON" );
+    if( !strictly_unarmed && it.has_flag( "UNARMED_WEAPON" ) ) {
+        return true;
+    }
+
+    return false;
 }
 
 std::string martialart::get_initiate_player_message() const
@@ -697,6 +733,19 @@ bool player::has_miss_recovery_tec( const item &weap ) const
     return false;
 }
 
+ma_technique player::get_miss_recovery_tec( const item &weap ) const
+{
+    ma_technique tech;
+    for( auto &technique : get_all_techniques( weap ) ) {
+        if( technique.obj().miss_recovery ) {
+            tech = technique.obj();
+            break;
+        }
+    }
+
+    return tech;
+}
+
 // This one isn't used with a weapon
 bool player::has_grab_break_tec() const
 {
@@ -706,6 +755,18 @@ bool player::has_grab_break_tec() const
         }
     }
     return false;
+}
+
+ma_technique player::get_grab_break_tec() const
+{
+    ma_technique tec;
+    for( auto &technique : get_all_techniques( item() ) ) {
+        if( technique.obj().grab_break ) {
+            tec = technique.obj();
+            break;
+        }
+    }
+    return tec;
 }
 
 bool player::can_leg_block() const
@@ -751,6 +812,11 @@ bool player::can_limb_block() const
     return can_arm_block() || can_leg_block();
 }
 
+bool player::is_force_unarmed() const
+{
+    return style_selected.obj().force_unarmed;
+}
+
 // event handlers
 void player::ma_static_effects()
 {
@@ -779,6 +845,18 @@ void player::ma_onblock_effects()
 void player::ma_ongethit_effects()
 {
     style_selected.obj().apply_ongethit_buffs( *this );
+}
+void player::ma_onmiss_effects()
+{
+    style_selected.obj().apply_onmiss_buffs( *this );
+}
+void player::ma_oncrit_effects()
+{
+    style_selected.obj().apply_oncrit_buffs( *this );
+}
+void player::ma_onkill_effects()
+{
+    style_selected.obj().apply_onkill_buffs( *this );
 }
 
 template<typename C, typename F>
@@ -926,6 +1004,41 @@ void player::add_martialart( const matype_id &ma_id )
     ma_styles.push_back( ma_id );
 }
 
+bool player::can_autolearn( const matype_id &ma_id ) const
+{
+    if( ma_id.obj().autolearn_skills.empty() ) {
+        return false;
+    }
+
+    const std::vector<std::vector<std::string>> skills = ma_id.obj().autolearn_skills;
+    for( auto &elem : skills ) {
+        const skill_id skill_req( elem[0] );
+        const int required_level = std::stoi( elem[1] );
+
+        if( required_level > get_skill_level( skill_req ) ) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void player::martialart_use_message() const
+{
+    martialart ma = style_selected.obj();
+    if( !ma.force_unarmed && !ma.weapon_valid( weapon ) ) {
+        if( !has_weapon() && ma.strictly_melee ) {
+            add_msg_if_player( m_bad, _( "%s cannot be used unarmed." ), ma.name );
+        } else if( has_weapon() && ma.strictly_unarmed ) {
+            add_msg_if_player( m_bad, _( "%s cannot be used with weapons." ), ma.name );
+        } else {
+            add_msg_if_player( m_bad, _( "The %s is not a valid %s weapon." ), weapname(), ma.name );
+        }
+    } else {
+        add_msg_if_player( m_info, _( ma.get_initiate_player_message() ) );
+    }
+}
+
 float ma_technique::damage_bonus( const player &u, damage_type type ) const
 {
     return bonuses.get_flat( u, AFFECTED_DAMAGE, type );
@@ -1001,6 +1114,10 @@ std::string ma_technique::get_description() const
                                knockback_dist, ngettext( "tile", "tiles", knockback_dist ) ) << std::endl;
     }
 
+    if( knockback_follow ) {
+        dump <<  _( "* Will <info>follow</info> enemies after knockback." ) << std::endl;
+    }
+
     if( down_dur ) {
         dump << string_format( _( "* Will <info>down</info> enemies for <stat>%d %s</stat>" ),
                                down_dur, ngettext( "turn", "turns", down_dur ) ) << std::endl;
@@ -1040,6 +1157,28 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             buffer << std::endl << "--" << std::endl;
         }
 
+        if( ma.arm_block_with_bio_armor_arms || ma.arm_block != 99 ||
+            ma.leg_block_with_bio_armor_legs || ma.leg_block != 99 ) {
+            if( ma.arm_block_with_bio_armor_arms ) {
+                buffer << _( "You can <info>arm block</info> by installing the <info>Arms Alloy Plating CBM</info>" );
+                buffer << std::endl;
+            } else if( ma.arm_block != 99 ) {
+                buffer << string_format(
+                           _( "You can <info>arm block</info> at <info>unarmed combat:</info> <stat>%s</stat>" ),
+                           ma.arm_block ) << std::endl;
+            }
+
+            if( ma.leg_block_with_bio_armor_legs ) {
+                buffer << _( "You can <info>leg block</info> by installing the <info>Legs Alloy Plating CBM</info>" );
+                buffer << std::endl;
+            } else if( ma.leg_block != 99 ) {
+                buffer << string_format(
+                           _( "You can <info>leg block</info> at <info>unarmed combat:</info> <stat>%s</stat>" ),
+                           ma.leg_block ) << std::endl;
+            }
+            buffer << "--" << std::endl;
+        }
+
         auto buff_desc = [&]( const std::string & title, const std::vector<mabuff_id> &buffs,
         bool passive = false ) {
             if( !buffs.empty() ) {
@@ -1054,7 +1193,10 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         buff_desc( _( "Passive" ), ma.static_buffs, true );
         buff_desc( _( "Move" ), ma.onmove_buffs );
         buff_desc( _( "Hit" ), ma.onhit_buffs );
+        buff_desc( _( "Miss" ), ma.onmiss_buffs );
         buff_desc( _( "Attack" ), ma.onattack_buffs );
+        buff_desc( _( "Crit" ), ma.oncrit_buffs );
+        buff_desc( _( "Kill" ), ma.onkill_buffs );
         buff_desc( _( "Dodge" ), ma.ondodge_buffs );
         buff_desc( _( "Block" ), ma.onblock_buffs );
         buff_desc( _( "Get hit" ), ma.ongethit_buffs );

@@ -5,7 +5,7 @@
     "name": "Calcium",
     "deficiency": "hypocalcemia",
     "min": -12000,
-    "rate": 144,
+    "rate": "15 m",
     "disease": [ [ -4800, -5600 ], [ -5601, -6400 ], [ -6401, -12000 ] ]
   },
   {
@@ -16,7 +16,7 @@
     "deficiency": "anemia",
     "min": -12000,
     "max": 3600,
-    "rate": 144,
+    "rate": "15 m",
     "disease": [ [ -4800, -5600 ], [ -5601, -6400 ], [ -6401, -12000 ] ]
   },
   {
@@ -27,7 +27,7 @@
     "deficiency": "hypovitA",
     "min": -8400,
     "max": 3600,
-    "rate": 144,
+    "rate": "15 m",
     "disease": [ [ -2000, -4800 ], [ -4801, -5600 ], [ -5601, -8400 ] ]
   },
   {
@@ -36,7 +36,7 @@
     "name": "Vitamin B12",
     "deficiency": "hypovitB",
     "min": -5600,
-    "rate": 144,
+    "rate": "15 m",
     "disease": [ [ -2800, -3600, 1 ], [ -3601, -4400, 2 ], [ -4401, -5600, 3 ] ]
   },
   {
@@ -45,7 +45,7 @@
     "name": "Vitamin C",
     "deficiency": "scurvy",
     "min": -5600,
-    "rate": 144,
+    "rate": "15 m",
     "disease": [ [ -2800, -3600, 1 ], [ -3601, -4400, 2 ], [ -4401, -5600, 3 ] ]
   }
 ]

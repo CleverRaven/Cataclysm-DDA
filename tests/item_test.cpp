@@ -23,7 +23,7 @@ TEST_CASE( "item_volume", "[item]" )
              0_ml, 1_ml, i.volume(), big_volume
          } ) {
         INFO( "checking batteries that fit in " << v );
-        const long charges_that_should_fit = i.charges_per_volume( v );
+        const int charges_that_should_fit = i.charges_per_volume( v );
         i.charges = charges_that_should_fit;
         CHECK( i.volume() <= v ); // this many charges should fit
         i.charges++;
@@ -47,6 +47,16 @@ TEST_CASE( "gun_layer", "[item]" )
     CHECK( gun.is_gunmod_compatible( mod ).success() );
     gun.contents.push_back( mod );
     CHECK( gun.get_layer() == BELTED_LAYER );
+}
+
+TEST_CASE( "stacking_cash_cards", "[item]" )
+{
+    // Differently-charged cash cards should stack if neither is zero.
+    item cash0( "cash_card", calendar::time_of_cataclysm, 0 );
+    item cash1( "cash_card", calendar::time_of_cataclysm, 1 );
+    item cash2( "cash_card", calendar::time_of_cataclysm, 2 );
+    CHECK( !cash0.stacks_with( cash1 ) );
+    CHECK( cash1.stacks_with( cash2 ) );
 }
 
 // second minute hour day week season year
@@ -140,22 +150,6 @@ TEST_CASE( "stacking_over_time", "[item]" )
         WHEN( "the items are aged a few seconds different but different seasons" ) {
             A.mod_rot( A.type->comestible->spoils - calendar::season_length() );
             B.mod_rot( B.type->comestible->spoils - calendar::season_length() );
-            B.mod_rot( 5_turns );
-            THEN( "they don't stack" ) {
-                CHECK( !A.stacks_with( B ) );
-            }
-        }
-        WHEN( "the items are aged the same to the year but different numbers of seconds" ) {
-            A.mod_rot( A.type->comestible->spoils - calendar::year_length() );
-            B.mod_rot( B.type->comestible->spoils - calendar::year_length() );
-            B.mod_rot( -5_turns );
-            THEN( "they stack" ) {
-                CHECK( A.stacks_with( B ) );
-            }
-        }
-        WHEN( "the items are aged a few seconds different but different years" ) {
-            A.mod_rot( A.type->comestible->spoils - calendar::year_length() );
-            B.mod_rot( B.type->comestible->spoils - calendar::year_length() );
             B.mod_rot( 5_turns );
             THEN( "they don't stack" ) {
                 CHECK( !A.stacks_with( B ) );

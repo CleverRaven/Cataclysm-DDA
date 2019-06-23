@@ -30,6 +30,7 @@ struct ma_requirements {
     bool unarmed_allowed; // does this bonus work when unarmed?
     bool melee_allowed; // what about with a melee weapon?
     bool strictly_unarmed; // If unarmed, what about unarmed weapons?
+    bool strictly_melee; // Does it only work with weapons?
 
     /** Minimum amount of given skill to trigger this bonus */
     std::map<skill_id, int> min_skill;
@@ -46,6 +47,7 @@ struct ma_requirements {
         unarmed_allowed = false;
         melee_allowed = false;
         strictly_unarmed = false;
+        strictly_melee = false;
     }
 
     std::string get_description( bool buff = false ) const;
@@ -92,6 +94,7 @@ class ma_technique
         int knockback_dist;
         float knockback_spread; // adding randomness to knockback, like tec_throw
         std::string aoe; // corresponds to an aoe shape, defaults to just the target
+        int knockback_follow; // player follows the knocked-back party into their former tile
 
         // offensive
         bool disarms; // like tec_disarm
@@ -177,6 +180,7 @@ class ma_buff
         bool melee_allowed;
         bool throw_immune; // are we immune to throws/grabs?
         bool strictly_unarmed; // can we use unarmed weapons?
+        bool strictly_melee; // can we use it without weapons?
 
         void load( JsonObject &jo, const std::string &src );
 };
@@ -203,6 +207,12 @@ class martialart
 
         void apply_ongethit_buffs( player &u ) const;
 
+        void apply_onmiss_buffs( player &u ) const;
+
+        void apply_oncrit_buffs( player &u ) const;
+
+        void apply_onkill_buffs( player &u ) const;
+
         // determines if a technique is valid or not for this style
         bool has_technique( const player &u, const matec_id &tech ) const;
         // determines if a weapon is valid for this style
@@ -219,6 +229,7 @@ class martialart
         std::string name;
         std::string description;
         std::vector<std::string> initiate;
+        std::vector<std::vector<std::string>> autolearn_skills;
         int arm_block;
         int leg_block;
         bool arm_block_with_bio_armor_arms;
@@ -226,6 +237,8 @@ class martialart
         std::set<matec_id> techniques; // all available techniques
         std::set<std::string> weapons; // all style weapons
         bool strictly_unarmed; // Punch daggers etc.
+        bool strictly_melee; // Must have a weapon.
+        bool allow_melee; // Can use unarmed or with ANY weapon
         bool force_unarmed; // Don't use ANY weapon - punch or kick if needed
         std::vector<mabuff_id> static_buffs; // all buffs triggered by each condition
         std::vector<mabuff_id> onmove_buffs;
@@ -234,6 +247,9 @@ class martialart
         std::vector<mabuff_id> ondodge_buffs;
         std::vector<mabuff_id> onblock_buffs;
         std::vector<mabuff_id> ongethit_buffs;
+        std::vector<mabuff_id> onmiss_buffs;
+        std::vector<mabuff_id> oncrit_buffs;
+        std::vector<mabuff_id> onkill_buffs;
 };
 
 class ma_style_callback : public uilist_callback

@@ -5,6 +5,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "common_types.h"
 #include "faction.h"
@@ -31,7 +32,7 @@
 #include "string_id.h"
 #include "type_id.h"
 
-void on_load_test( npc &who, const time_duration &from, const time_duration &to )
+static void on_load_test( npc &who, const time_duration &from, const time_duration &to )
 {
     calendar::turn = to_turn<int>( calendar::time_of_cataclysm + from );
     who.on_unload();
@@ -39,9 +40,9 @@ void on_load_test( npc &who, const time_duration &from, const time_duration &to 
     who.on_load();
 }
 
-void test_needs( const npc &who, const numeric_interval<int> &hunger,
-                 const numeric_interval<int> &thirst,
-                 const numeric_interval<int> &fatigue )
+static void test_needs( const npc &who, const numeric_interval<int> &hunger,
+                        const numeric_interval<int> &thirst,
+                        const numeric_interval<int> &fatigue )
 {
     CHECK( who.get_hunger() <= hunger.max );
     CHECK( who.get_hunger() >= hunger.min );
@@ -51,7 +52,7 @@ void test_needs( const npc &who, const numeric_interval<int> &hunger,
     CHECK( who.get_fatigue() >= fatigue.min );
 }
 
-npc create_model()
+static npc create_model()
 {
     npc model_npc;
     model_npc.normalize();
@@ -69,7 +70,7 @@ npc create_model()
     return model_npc;
 }
 
-std::string get_list_of_npcs( const std::string &title )
+static std::string get_list_of_npcs( const std::string &title )
 {
 
     std::ostringstream npc_list;
@@ -336,7 +337,7 @@ TEST_CASE( "npc-movement" )
             if( type == 'A' || type == 'R' || type == 'W' || type == 'M'
                 || type == 'B' || type == 'C' ) {
 
-                g->m.add_field( p, fd_acid, MAX_FIELD_DENSITY );
+                g->m.add_field( p, fd_acid, MAX_FIELD_INTENSITY );
             }
             // spawn rubbles
             if( type == 'R' ) {
@@ -357,8 +358,11 @@ TEST_CASE( "npc-movement" )
                 || type == 'B' || type == 'C' ) {
 
                 std::shared_ptr<npc> guy = std::make_shared<npc>();
-                guy->normalize();
-                guy->randomize();
+                do {
+                    guy->normalize();
+                    guy->randomize();
+                    // Repeat until we get an NPC vulnerable to acid
+                } while( guy->is_immune_field( fd_acid ) );
                 guy->spawn_at_precise( {g->get_levx(), g->get_levy()}, p );
                 // Set the shopkeep mission; this means that
                 // the NPC deems themselves to be guarding and stops them

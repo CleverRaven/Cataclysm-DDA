@@ -12,6 +12,7 @@
 #include <utility>
 
 #include "enums.h"
+#include "map_extras.h"
 #include "omdata.h"
 #include "overmap_types.h"
 #include "optional.h"
@@ -146,6 +147,22 @@ class overmapbuffer
         void delete_note( int x, int y, int z );
         void delete_note( const tripoint &p ) {
             delete_note( p.x, p.y, p.z );
+        }
+        bool has_extra( int x, int y, int z );
+        bool has_extra( const tripoint &p ) {
+            return has_extra( p.x, p.y, p.z );
+        }
+        const string_id<map_extra> &extra( int x, int y, int z );
+        const string_id<map_extra> &extra( const tripoint &p ) {
+            return extra( p.x, p.y, p.z );
+        }
+        void add_extra( int x, int y, int z, const string_id<map_extra> &id );
+        void add_extra( const tripoint &p, const string_id<map_extra> &id ) {
+            add_extra( p.x, p.y, p.z, id );
+        }
+        void delete_extra( int x, int y, int z );
+        void delete_extra( const tripoint &p ) {
+            delete_extra( p.x, p.y, p.z );
         }
         bool is_explored( int x, int y, int z );
         void toggle_explored( int x, int y, int z );
@@ -365,13 +382,21 @@ class overmapbuffer
          */
         bool is_omt_generated( const tripoint &loc );
 
-        typedef std::pair<point, std::string> t_point_with_note;
-        typedef std::vector<t_point_with_note> t_notes_vector;
+        using t_point_with_note = std::pair<point, std::string>;
+        using t_notes_vector = std::vector<t_point_with_note>;
         t_notes_vector get_all_notes( int z ) {
             return get_notes( z, nullptr ); // NULL => don't filter notes
         }
         t_notes_vector find_notes( int z, const std::string &pattern ) {
             return get_notes( z, &pattern ); // filter with pattern
+        }
+        using t_point_with_extra = std::pair<point, string_id<map_extra>>;
+        using t_extras_vector = std::vector<t_point_with_extra>;
+        t_extras_vector get_all_extras( int z ) {
+            return get_extras( z, nullptr ); // NULL => don't filter extras
+        }
+        t_extras_vector find_extras( int z, const std::string &pattern ) {
+            return get_extras( z, &pattern ); // filter with pattern
         }
         /**
          * Signal nearby hordes to move to given location.
@@ -435,6 +460,9 @@ class overmapbuffer
         city_reference closest_known_city( const tripoint &center );
 
         std::string get_description_at( const tripoint &where );
+        inline std::string get_description_at( const point &where, const int z ) {
+            return get_description_at( tripoint( where, z ) );
+        }
 
         /**
          * Place the specified overmap special directly on the map using the provided location and rotation.
@@ -488,6 +516,13 @@ class overmapbuffer
          * If the pattern is NULL, every note matches.
          */
         t_notes_vector get_notes( int z, const std::string *pattern );
+        /**
+         * Get a list of map extras in the (loaded) overmaps.
+         * @param z only this specific z-level is search for map extras.
+         * @param pattern only map extras that contain this pattern are returned.
+         * If the pattern is NULL, every map extra matches.
+         */
+        t_extras_vector get_extras( int z, const std::string *pattern );
     public:
         /**
          * See overmap::check_ot_type, this uses global

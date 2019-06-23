@@ -19,14 +19,14 @@
 // JSON parsing and serialization tools for Cataclysm-DDA.
 // For documentation, see the included header, json.h.
 
-bool is_whitespace( char ch )
+static bool is_whitespace( char ch )
 {
     // These are all the valid whitespace characters allowed by RFC 4627.
     return ( ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r' );
 }
 
 // for parsing \uxxxx escapes
-std::string utf16_to_utf8( uint32_t ch )
+static std::string utf16_to_utf8( uint32_t ch )
 {
     char out[5];
     char *buf = out;
@@ -80,7 +80,9 @@ JsonObject::JsonObject( JsonIn &j )
     while( !jsin->end_object() ) {
         std::string n = jsin->get_member_name();
         int p = jsin->tell();
-        if( n != "//" && n != "comment" && positions.count( n ) > 0 ) {
+        // FIXME: Fix corrupted bionic power data loading (see #31627). Temporary.
+        if( n != "//" && n != "comment" && n != "power_level" && n != "max_power_level" &&
+            positions.count( n ) > 0 ) {
             // members with name "//" or "comment" are used for comments and
             // should be ignored anyway.
             j.error( "duplicate entry in json object" );
@@ -240,23 +242,6 @@ int JsonObject::get_int( const std::string &name, const int fallback )
     }
     jsin->seek( pos );
     return jsin->get_int();
-}
-
-long JsonObject::get_long( const std::string &name )
-{
-    int pos = verify_position( name );
-    jsin->seek( pos );
-    return jsin->get_long();
-}
-
-long JsonObject::get_long( const std::string &name, const long fallback )
-{
-    long pos = positions[name];
-    if( pos <= start ) {
-        return fallback;
-    }
-    jsin->seek( pos );
-    return jsin->get_long();
 }
 
 double JsonObject::get_float( const std::string &name )
@@ -514,13 +499,6 @@ int JsonArray::next_int()
     return jsin->get_int();
 }
 
-long JsonArray::next_long()
-{
-    verify_index( index );
-    jsin->seek( positions[index++] );
-    return jsin->get_long();
-}
-
 double JsonArray::next_float()
 {
     verify_index( index );
@@ -569,13 +547,6 @@ int JsonArray::get_int( int i )
     verify_index( i );
     jsin->seek( positions[i] );
     return jsin->get_int();
-}
-
-long JsonArray::get_long( int i )
-{
-    verify_index( i );
-    jsin->seek( positions[i] );
-    return jsin->get_long();
 }
 
 double JsonArray::get_float( int i )
@@ -713,6 +684,14 @@ bool JsonArray::has_object( int i )
     verify_index( i );
     jsin->seek( positions[i] );
     return jsin->test_object();
+}
+
+void add_array_to_set( std::set<std::string> &s, JsonObject &json, const std::string &name )
+{
+    JsonArray jarr = json.get_array( name );
+    while( jarr.has_more() ) {
+        s.insert( jarr.next_string() );
+    }
 }
 
 int JsonIn::tell()
@@ -1038,13 +1017,6 @@ int JsonIn::get_int()
     return static_cast<int>( get_float() );
 }
 
-long JsonIn::get_long()
-{
-    // get float value and then convert to int,
-    // because "1.359e3" is technically a valid integer.
-    return static_cast<long>( get_float() );
-}
-
 double JsonIn::get_float()
 {
     // this could maybe be prettier?
@@ -1361,24 +1333,6 @@ bool JsonIn::read( unsigned int &u )
         return false;
     }
     u = get_int();
-    return true;
-}
-
-bool JsonIn::read( long &l )
-{
-    if( !test_number() ) {
-        return false;
-    }
-    l = get_long();
-    return true;
-}
-
-bool JsonIn::read( unsigned long &ul )
-{
-    if( !test_number() ) {
-        return false;
-    }
-    ul = get_long();
     return true;
 }
 

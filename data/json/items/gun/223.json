@@ -20,11 +20,7 @@
     "burst": 11,
     "barrel_length": 1,
     "built_in_mods": [ "folding_stock" ],
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "ar15",
@@ -44,17 +40,13 @@
     "ammo": "223",
     "dispersion": 150,
     "durability": 7,
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "h&k416a5",
     "copy-from": "rifle_auto",
     "type": "GUN",
-    "name": "H&K 416A5",
+    "name": "HK416 A5",
     "//": "*Current* milspec gear is now ridiculously overpriced, as seen with the M2010 IRL.",
     "description": "Designed to replace the M4A1, the Heckler and Koch 416A5 features most of the former's strengths, while being considerably more durable.",
     "weight": 1920,
@@ -70,11 +62,7 @@
     "dispersion": 180,
     "durability": 8,
     "burst": 14,
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "hk_g36",
@@ -94,11 +82,7 @@
     "dispersion": 150,
     "durability": 8,
     "burst": 13,
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "l_bak_223",
@@ -145,7 +129,7 @@
     "dispersion": 140,
     "durability": 3,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "sling", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "muzzle", 1 ], [ "sling", 1 ] ],
     "magazines": [ [ "223", [ "lw223mag", "lw223bigmag" ] ] ],
     "flags": [ "DISABLE_SIGHTS" ]
   },
@@ -163,6 +147,7 @@
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "brass catcher", 1 ],
+      [ "muzzle", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "barrel", 1 ],
@@ -186,6 +171,7 @@
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "brass catcher", 1 ],
+      [ "muzzle", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "barrel", 1 ],
@@ -208,6 +194,7 @@
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "brass catcher", 1 ],
+      [ "muzzle", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "barrel", 1 ],
@@ -225,7 +212,15 @@
     "durability": 9,
     "relative": { "weight": 1200, "volume": 2 },
     "built_in_mods": [ "lead_acog_scope", "lead_red_dot_sight", "lead_grip", "lead_glm", "lead_stabilizer" ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "sights", 2 ], [ "sling", 1 ], [ "underbarrel", 2 ], [ "rail", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "brass catcher", 1 ],
+      [ "muzzle", 1 ],
+      [ "sights", 2 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 2 ],
+      [ "rail", 1 ]
+    ]
   },
   {
     "id": "m249",
@@ -260,7 +255,7 @@
       [ "sling", 1 ],
       [ "stock", 1 ]
     ],
-    "magazines": [ [ "223", [ "belt223", "stanag30", "stanag50", "survivor223mag" ] ], [ "308", [ "belt308" ] ] ]
+    "magazines": [ [ "223", [ "belt223", "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "m27iar",
@@ -270,11 +265,7 @@
     "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
     "weight": 3495,
     "burst": 13,
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ],
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ],
     "relative": { "ranged_damage": 1, "durability": 1 }
   },
   {
@@ -296,11 +287,7 @@
     "dispersion": 180,
     "durability": 6,
     "burst": 14,
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "rifle_223",
@@ -326,7 +313,16 @@
     "clip_size": 1,
     "reload": 200,
     "barrel_length": 4,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "muzzle", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "flags": [ "RELOAD_EJECT" ]
   },
   {
@@ -356,7 +352,11 @@
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
       [ "sights", 1 ],
-      [ "sling", 1 ]
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "magazines": [ [ "223", [ "ruger5", "stanag10", "ruger30" ] ] ]
   },
@@ -379,11 +379,7 @@
     "dispersion": 150,
     "durability": 8,
     "burst": 10,
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "scarhmag", "scarhbigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "sig552",
@@ -402,11 +398,7 @@
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 12 ] ],
     "built_in_mods": [ "folding_stock" ],
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "steyr_aug",
@@ -441,11 +433,7 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "surv_carbine_223",
@@ -453,7 +441,7 @@
     "type": "GUN",
     "name": "handmade carbine",
     "//": "It's smaller than an M4A1, plus it's a homemade firearm.",
-    "description": "A well-designed improvised carbine with a shortened barrel.  Accepting crude detachable magazines, this is one of the better homemade weapons.",
+    "description": "A well-designed improvised carbine with a shortened barrel.  Accepting crude detachable magazines or STANAG magazines, this is one of the better homemade weapons.",
     "weight": 1950,
     "volume": 6,
     "price": 10000,
@@ -475,8 +463,11 @@
       [ "muzzle", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      [ "underbarrel", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ]
     ],
-    "magazines": [ [ "223", [ "survivor223mag" ] ] ]
+    "magazines": [ [ "223", [ "survivor223mag", "stanag30", "stanag50" ] ] ]
   }
 ]

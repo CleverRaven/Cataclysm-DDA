@@ -25,6 +25,8 @@ void buy_chicken( npc & );
 void bionic_install( npc & );
 void bionic_remove( npc & );
 
+void barber_beard( npc & );
+void barber_hair( npc & );
 void buy_haircut( npc & );
 void buy_shave( npc & );
 void morale_chat( npc & );
@@ -32,6 +34,10 @@ void morale_chat_activity( npc & );
 void buy_10_logs( npc & );
 void buy_100_logs( npc & );
 void start_trade( npc & );
+void sort_loot( npc & );
+void do_construction( npc & );
+void do_blueprint_construction( npc & );
+void revert_activity( npc & );
 void goto_location( npc & );
 void assign_base( npc & );
 void assign_guard( npc & );
@@ -55,9 +61,12 @@ void stranger_neutral( npc & );      // p is now neutral towards you
 void start_mugging( npc & );
 void player_leaving( npc & );
 
+void remove_stolen_status( npc & );
+
 void drop_weapon( npc & );
 void player_weapon_away( npc & );
 void player_weapon_drop( npc & );
+void drop_stolen_item( npc & );
 
 void lead_to_safety( npc & );
 void start_training( npc & );
@@ -68,7 +77,7 @@ void set_npc_pickup( npc &p );
 void npc_die( npc &p );
 void npc_thankful( npc &p );
 void clear_overrides( npc &p );
-}
+} // namespace talk_function
 
 time_duration calc_skill_training_time( const npc &p, const skill_id &skill );
 int calc_skill_training_cost( const npc &p, const skill_id &skill );

@@ -72,6 +72,9 @@ class iuse_transform : public iuse_actor
         /** used to set the active property of the transformed @ref target */
         bool active = false;
 
+        /**does the item requires to be worn to be activable*/
+        bool need_worn = false;
+
         /** subtracted from @ref Creature::moves when transformation is successful */
         int moves = 0;
 
@@ -149,8 +152,8 @@ class explosion_iuse : public iuse_actor
         /** Create fields of this type around the center of the explosion */
         int fields_radius = -1;
         field_id fields_type;
-        int fields_min_density = 1;
-        int fields_max_density = MAX_FIELD_DENSITY;
+        int fields_min_intensity = 1;
+        int fields_max_intensity = MAX_FIELD_INTENSITY;
         /** Calls game::emp_blast if >= 0 */
         int emp_blast_radius = -1;
         /** Calls game::scrambler_blast if >= 0 */
@@ -657,6 +660,45 @@ class musical_instrument_actor : public iuse_actor
         int use( player &, item &, bool, const tripoint & ) const override;
         ret_val<bool> can_use( const player &, const item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
+};
+
+/**
+ * Learn a spell
+ */
+class learn_spell_actor : public iuse_actor
+{
+    public:
+        // list of spell ids that can be learned from this item
+        std::vector<std::string> spells;
+
+        learn_spell_actor( const std::string &type = "learn_spell" ) : iuse_actor( type ) {}
+
+        ~learn_spell_actor() override = default;
+        void load( JsonObject &jo ) override;
+        int use( player &p, item &, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
+};
+
+/**
+ * Cast a spell. The item's spell level is fixed, and the casting action uses up a charge from the item.
+ */
+class cast_spell_actor : public iuse_actor
+{
+    public:
+        // this item's spell fail % is 0
+        bool no_fail;
+        // the spell this item casts when used.
+        spell_id item_spell;
+        int spell_level;
+
+        cast_spell_actor( const std::string &type = "cast_spell" ) : iuse_actor( type ) {}
+
+        ~cast_spell_actor() override = default;
+        void load( JsonObject &jo ) override;
+        int use( player &p, item &itm, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 /**

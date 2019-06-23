@@ -17,9 +17,11 @@
 #include "cata_utility.h"
 #include "debug.h"
 #include "enums.h"
+#include "faction.h"
 #include "flat_set.h"
 #include "io_tags.h"
 #include "item_location.h"
+#include "requirements.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
@@ -66,7 +68,6 @@ struct fire_data;
 struct damage_instance;
 struct damage_unit;
 class map;
-struct item_comp;
 
 enum damage_type : int;
 
@@ -181,7 +182,7 @@ class item : public visitable<item>
         item( const itype *type, time_point turn, solitary_tag );
 
         /** For constructing in-progress crafts */
-        item( const recipe *rec, int qty, std::list<item> items );
+        item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections );
 
         /**
          * Filter converting this instance to another type preserving all other aspects
@@ -279,6 +280,8 @@ class item : public visitable<item>
          */
         bool ready_to_revive( const tripoint &pos ) const;
 
+        bool is_money() const;
+
         /**
          * Returns the default color of the item (e.g. @ref itype::color).
          */
@@ -299,7 +302,7 @@ class item : public visitable<item>
          */
         std::string tname( unsigned int quantity = 1, bool with_prefix = true,
                            unsigned int truncate = 0 ) const;
-        std::string display_money( unsigned int quantity, unsigned long charge ) const;
+        std::string display_money( unsigned int quantity, unsigned int charge ) const;
         /**
          * Returns the item name and the charges or contained charges (if the item can have
          * charges at all). Calls @ref tname with given quantity and with_prefix being true.
@@ -374,7 +377,8 @@ class item : public visitable<item>
                 reload_option( const reload_option & );
                 reload_option &operator=( const reload_option & );
 
-                reload_option( const player *who, const item *target, const item *parent, item_location &&ammo );
+                reload_option( const player *who, const item *target, const item *parent,
+                               const item_location &ammo );
 
                 const player *who = nullptr;
                 const item *target = nullptr;
@@ -431,7 +435,7 @@ class item : public visitable<item>
          */
         bool merge_charges( const item &rhs );
 
-        units::mass weight( bool include_contents = true ) const;
+        units::mass weight( bool include_contents = true, bool integral = false ) const;
 
         /**
          * Total volume of an item accounting for all contained/integrated items
@@ -479,7 +483,7 @@ class item : public visitable<item>
         /**
          * Whether the character needs both hands to wield this item.
          */
-        bool is_two_handed( const player &u ) const;
+        bool is_two_handed( const Character &guy ) const;
 
         /** Is this item an effective melee weapon for the given damage type? */
         bool is_melee( damage_type dt ) const;
@@ -1034,8 +1038,9 @@ class item : public visitable<item>
         bool is_salvageable() const;
         bool is_craft() const;
 
+        bool is_deployable() const;
         bool is_tool() const;
-        bool is_tool_reversible() const;
+        bool is_transformable() const;
         bool is_artifact() const;
         bool is_bucket() const;
         bool is_bucket_nonempty() const;
@@ -1181,8 +1186,6 @@ class item : public visitable<item>
          * Callback when contents of the item are affected in any way other than just processing.
          */
         void on_contents_changed();
-        /**Called when charges are changed in tool or a gun*/
-        void on_charges_changed();
 
         /**
          * Callback immediately **before** an item is damaged
@@ -1226,7 +1229,6 @@ class item : public visitable<item>
          * All numeric values are returned as doubles and may be cast to the desired type.
          * <code>
          * int v = itm.get_var("v", 0); // v will be an int
-         * long l = itm.get_var("v", 0l); // l will be a long
          * double d = itm.get_var("v", 0.0); // d will be a double
          * std::string s = itm.get_var("v", ""); // s will be a std::string
          * // no default means empty string as default:
@@ -1235,6 +1237,8 @@ class item : public visitable<item>
          */
         /*@{*/
         void set_var( const std::string &name, int value );
+        // Acceptable to use long as part of overload set
+        // NOLINTNEXTLINE(cata-no-long)
         void set_var( const std::string &name, long value );
         void set_var( const std::string &name, double value );
         double get_var( const std::string &name, double default_value ) const;
@@ -1292,7 +1296,7 @@ class item : public visitable<item>
           * Return same type as the passed default value, or string where no default provided
           */
         std::string get_property_string( const std::string &prop, const std::string &def = "" ) const;
-        long get_property_long( const std::string &prop, long def = 0 ) const;
+        int64_t get_property_int64_t( const std::string &prop, int64_t def = 0 ) const;
         /*@}*/
 
         /**
@@ -1583,15 +1587,24 @@ class item : public visitable<item>
         const itype *ammo_data() const;
         /** Specific ammo type, returns "null" if item is neither ammo nor loaded with any */
         itype_id ammo_current() const;
-        /** Ammo type (@ref ammunition_type) used by item
+        /** Set of ammo types (@ref ammunition_type) used by item
          *  @param conversion whether to include the effect of any flags or mods which convert the type
-         *  @return NULL if item does not use a specific ammo type (and is consequently not reloadable) */
-        ammotype ammo_type( bool conversion = true ) const;
+         *  @return empty set if item does not use a specific ammo type (and is consequently not reloadable) */
+        const std::set<ammotype> &ammo_types( bool conversion = true ) const;
+
+        /** Ammo type of an ammo item
+         *  @return ammotype of ammo item or a null id if the item is not ammo */
+        ammotype ammo_type() const;
 
         /** Get default ammo used by item or "NULL" if item does not have a default ammo type
          *  @param conversion whether to include the effect of any flags or mods which convert the type
          *  @return NULL if item does not use a specific ammo type (and is consequently not reloadable) */
         itype_id ammo_default( bool conversion = true ) const;
+
+        /** Get default ammo for the first ammotype common to an item and its current magazine or "NULL" if none exists
+         * @param conversion whether to include the effect of any flags or mods which convert the type
+         * @return itype_id of default ammo for the first ammotype common to an item and its current magazine or "NULL" if none exists */
+        itype_id common_ammo_default( bool conversion = true ) const;
 
         /** Get ammo effects for item optionally inclusive of any resulting from the loaded ammo */
         std::set<std::string> ammo_effects( bool with_ammo = true ) const;
@@ -1838,9 +1851,35 @@ class item : public visitable<item>
         void set_age( const time_duration &age );
         time_point birthday() const;
         void set_birthday( const time_point &bday );
-
+        void handle_pickup_ownership( Character &p );
         int get_gun_ups_drain() const;
-
+        inline void set_old_owner( const faction *temp_owner ) {
+            old_owner = temp_owner;
+        }
+        inline void remove_old_owner() {
+            old_owner = nullptr;
+        }
+        inline void set_owner( faction *new_owner ) {
+            owner = new_owner;
+        }
+        inline void remove_owner() {
+            owner = nullptr;
+        }
+        inline const faction *get_owner() const {
+            if( owner ) {
+                return owner;
+            }
+            return nullptr;
+        }
+        inline const faction *get_old_owner() const {
+            if( old_owner ) {
+                return old_owner;
+            }
+            return nullptr;
+        }
+        inline bool has_owner() const {
+            return owner;
+        }
         int get_min_str() const;
 
         const cata::optional<islot_comestible> &get_comestible() const;
@@ -1880,8 +1919,7 @@ class item : public visitable<item>
          * Causes a debugmsg and returns empty requirement data if called on a non-craft
          * @return what is needed to continue craft, may be empty requirement data
          */
-        requirement_data get_continue_reqs();
-
+        requirement_data get_continue_reqs() const;
 
     private:
         /**
@@ -1903,6 +1941,7 @@ class item : public visitable<item>
         /** Helper for checking reloadability. **/
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
 
+    public:
         enum class sizing {
             human_sized_human_char = 0,
             big_sized_human_char,
@@ -1930,6 +1969,7 @@ class item : public visitable<item>
         bool process_fake_smoke( player *carrier, const tripoint &pos );
         bool process_fake_mill( player *carrier, const tripoint &pos );
         bool process_cable( player *carrier, const tripoint &pos );
+        bool process_blackpowder_fouling( player *carrier );
         bool process_tool( player *carrier, const tripoint &pos );
 
     public:
@@ -1952,6 +1992,7 @@ class item : public visitable<item>
         // Only for in-progress crafts
         const recipe *making = nullptr;
         int next_failure_point = -1;
+        std::vector<item_comp> comps_used;
 
     public:
         int charges;
@@ -1962,7 +2003,7 @@ class item : public visitable<item>
         int poison = 0;          // How badly poisoned is it?
         int frequency = 0;       // Radio frequency
         int note = 0;            // Associated dynamic text snippet.
-        int irridation = 0;      // Tracks radiation dosage.
+        int irradiation = 0;      // Tracks radiation dosage.
         int item_counter = 0; // generic counter to be used with item flags
         int specific_energy = -10; // Specific energy (0.00001 J/g). Negative value for unprocessed.
         int temperature = 0; // Temperature of the item (in 0.00001 K).
@@ -1989,7 +2030,10 @@ class item : public visitable<item>
          * PNULL.
          */
         phase_id current_phase = static_cast<phase_id>( 0 );
-
+        // The faction that owns this item.
+        const faction *owner = nullptr;
+        // The faction that previously owned this item
+        const faction *old_owner = nullptr;
         int damage_ = 0;
         light_emission light = nolight;
 

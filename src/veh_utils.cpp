@@ -9,6 +9,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "calendar.h"
 #include "craft_command.h"
 #include "game.h"
@@ -175,4 +176,4 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     return true;
 }
 
-}
+} // namespace veh_utils

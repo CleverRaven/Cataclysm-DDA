@@ -46,6 +46,7 @@ enum vpart_bitflags : int {
     VPFLAG_OPENABLE,
     VPFLAG_SEATBELT,
     VPFLAG_SPACE_HEATER,
+    VPFLAG_COOLER,
     VPFLAG_WHEEL,
     VPFLAG_MOUNTABLE,
     VPFLAG_FLOATS,
@@ -151,7 +152,7 @@ class vpart_info
          * y, u, n, b to NW, NE, SE, SW lines correspondingly
          * h, j, c to horizontal, vertical, cross correspondingly
          */
-        long sym = 0;
+        int sym = 0;
         char sym_broken = '#';
 
         /** hint to tilesets for what tile to use if this part doesn't have one */

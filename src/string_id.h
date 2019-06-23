@@ -44,7 +44,7 @@ template<typename T>
 class string_id
 {
     public:
-        typedef string_id<T> This;
+        using This = string_id<T>;
 
         /**
          * Forwarding constructor, forwards any parameter to the std::string
@@ -206,6 +206,6 @@ struct hash< string_id<T> > {
         return hash<std::string>()( v.str() );
     }
 };
-}
+} // namespace std
 
 #endif

@@ -15,6 +15,7 @@
 #include <tuple>
 #include <utility>
 
+#include "avatar.h"
 #include "ballistics.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -25,6 +26,7 @@
 #include "item.h"
 #include "itype.h"
 #include "line.h"
+#include "magic.h"
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
@@ -72,11 +74,13 @@ static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 const trap_str_id tr_practice_target( "tr_practice_target" );
 
+static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
+static const fault_id fault_gun_clogged( "fault_gun_clogged" );
+
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire( const Character &p, const itype &firing );
 static void cycle_action( item &weap, const tripoint &pos );
 void make_gun_sound_effect( const player &p, bool burst, item *weapon );
-extern bool is_valid_in_w_terrain( int, int );
 
 static double occupied_tile_fraction( m_size target_size )
 {
@@ -101,7 +105,6 @@ double Creature::ranged_target_size() const
     if( has_flag( MF_HARDTOSHOOT ) ) {
         switch( get_size() ) {
             case MS_TINY:
-                return occupied_tile_fraction( MS_TINY );
             case MS_SMALL:
                 return occupied_tile_fraction( MS_TINY );
             case MS_MEDIUM:
@@ -153,7 +156,7 @@ int player::gun_engagement_moves( const item &gun, int target, int start ) const
     return mv;
 }
 
-bool player::handle_gun_damage( item &it )
+bool player::handle_gun_damage( item &it, int shots_fired )
 {
     if( !it.is_gun() ) {
         debugmsg( "Tried to handle_gun_damage of a non-gun %s", it.tname() );
@@ -166,7 +169,11 @@ bool player::handle_gun_damage( item &it )
     // As a result this causes no damage to the firearm, note that some guns are waterproof
     // and so are immune to this effect, note also that WATERPROOF_GUN status does not
     // mean the gun will actually be accurate underwater.
-    if( is_underwater() && !it.has_flag( "WATERPROOF_GUN" ) && one_in( firing->durability ) ) {
+    int effective_durability = firing->durability;
+    if( it.faults.count( fault_gun_blackpowder ) && effective_durability > 2 ) {
+        effective_durability -= 1;
+    }
+    if( is_underwater() && !it.has_flag( "WATERPROOF_GUN" ) && one_in( effective_durability ) ) {
         add_msg_player_or_npc( _( "Your %s misfires with a wet click!" ),
                                _( "<npcname>'s %s misfires with a wet click!" ),
                                it.tname() );
@@ -176,11 +183,11 @@ bool player::handle_gun_damage( item &it )
         // effect as current guns have a durability between 5 and 9 this results in
         // a chance of mechanical failure between 1/64 and 1/1024 on any given shot.
         // the malfunction may cause damage, but never enough to push the weapon beyond 'shattered'
-    } else if( ( one_in( 2 << firing->durability ) ) && !it.has_flag( "NEVER_JAMS" ) ) {
+    } else if( ( one_in( 2 << effective_durability ) ) && !it.has_flag( "NEVER_JAMS" ) ) {
         add_msg_player_or_npc( _( "Your %s malfunctions!" ),
                                _( "<npcname>'s %s malfunctions!" ),
                                it.tname() );
-        if( it.damage() < it.max_damage() && one_in( 4 * firing->durability ) ) {
+        if( it.damage() < it.max_damage() && one_in( 4 * effective_durability ) ) {
             add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the mechanical malfunction!" ),
                                    _( "<npcname>'s %s is damaged by the mechanical malfunction!" ),
                                    it.tname() );
@@ -204,7 +211,7 @@ bool player::handle_gun_damage( item &it )
         add_msg_player_or_npc( _( "Your %s misfires with a muffled click!" ),
                                _( "<npcname>'s %s misfires with a muffled click!" ),
                                it.tname() );
-        if( it.damage() < it.max_damage() && one_in( firing->durability ) ) {
+        if( it.damage() < it.max_damage() && one_in( effective_durability ) ) {
             add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the misfired round!" ),
                                    _( "<npcname>'s %s is damaged by the misfired round!" ),
                                    it.tname() );
@@ -248,6 +255,26 @@ bool player::handle_gun_damage( item &it )
                     }
                 }
             }
+        }
+    }
+    if( curammo_effects.count( "BLACKPOWDER" ) ) {
+        if( !it.faults.count( fault_gun_blackpowder ) &&
+            it.faults_potential().count( fault_gun_blackpowder ) ) {
+            it.faults.insert( fault_gun_blackpowder );
+        }
+        if( one_in( firing->blackpowder_tolerance ) &&
+            it.faults_potential().count( fault_gun_clogged ) ) {
+            add_msg_player_or_npc( m_bad, _( "Your %s is clogged up with blackpowder fouling!" ),
+                                   _( "<npcname>'s %s is clogged up with blackpowder fouling!" ),
+                                   it.tname() );
+            it.faults.insert( fault_gun_clogged );
+            return false;
+        }
+        if( it.ammo_data()->ammo->recoil < firing->min_cycle_recoil && shots_fired > 0 ) {
+            add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
+                                   _( "<npcname>'s %s fails to cycle!" ),
+                                   it.tname() );
+            return false;
         }
     }
     return true;
@@ -322,7 +349,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     int hits = 0; // total shots on target
     int delay = 0; // delayed recoil that has yet to be applied
     while( curshot != shots ) {
-        if( !handle_gun_damage( gun ) ) {
+        if( !handle_gun_damage( gun, curshot ) ) {
             break;
         }
 
@@ -347,8 +374,8 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         cycle_action( gun, pos() );
 
         if( has_trait( trait_PYROMANIA ) && !has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
-            if( gun.ammo_type() == ammotype( "flammable" ) || gun.ammo_type() == ammotype( "66mm" ) ||
-                gun.ammo_type() == ammotype( "84x246mm" ) || gun.ammo_type() == ammotype( "m235" ) ) {
+            if( gun.ammo_current() == "flammable" || gun.ammo_current() == "66mm" ||
+                gun.ammo_current() == "84x246mm" || gun.ammo_current() == "m235" ) {
                 add_msg_if_player( m_good, _( "You feel a surge of euphoria as flames roar out of the %s!" ),
                                    gun.tname() );
                 add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
@@ -403,7 +430,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
 }
 
 // TODO: Method
-int throw_cost( const player &c, const item &to_throw )
+static int throw_cost( const player &c, const item &to_throw )
 {
     // Very similar to player::attack_speed
     // TODO: Extract into a function?
@@ -543,7 +570,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     // Item will burst upon landing, destroying the item, and spilling its contents
     const bool burst = thrown.has_property( "burst_when_filled" ) && thrown.is_container() &&
-                       thrown.get_property_long( "burst_when_filled" ) <= static_cast<double>
+                       thrown.get_property_int64_t( "burst_when_filled" ) <= static_cast<double>
                        ( thrown.get_contained().volume().value() ) / thrown.get_container_capacity().value() * 100;
 
     // Add some flags to the projectile
@@ -809,9 +836,9 @@ static std::vector<aim_type> get_default_aim_type()
     return aim_types;
 }
 
-typedef std::vector<std::tuple<double, char, std::string>> RatingVector;
-std::string get_colored_bar( const double val, const int width, const std::string &label,
-                             RatingVector::iterator begin, RatingVector::iterator end )
+using RatingVector = std::vector<std::tuple<double, char, std::string>>;
+static std::string get_colored_bar( const double val, const int width, const std::string &label,
+                                    RatingVector::iterator begin, RatingVector::iterator end )
 {
     std::string result;
 
@@ -1042,9 +1069,9 @@ std::vector<aim_type> Character::get_aim_types( const item &gun ) const
         static_cast<int>( ( ( MAX_RECOIL - sight_dispersion ) / 20.0 ) + sight_dispersion ),
         static_cast<int>( sight_dispersion )
     };
-    std::vector<int>::iterator thresholds_it;
     // Remove duplicate thresholds.
-    thresholds_it = std::adjacent_find( thresholds.begin(), thresholds.end() );
+    std::vector<int>::iterator thresholds_it = std::adjacent_find( thresholds.begin(),
+            thresholds.end() );
     while( thresholds_it != thresholds.end() ) {
         thresholds.erase( thresholds_it );
         thresholds_it = std::adjacent_find( thresholds.begin(), thresholds.end() );
@@ -1065,6 +1092,70 @@ std::vector<aim_type> Character::get_aim_types( const item &gun ) const
                                         *thresholds_it } );
     }
     return aim_types;
+}
+
+static void update_targets( player &pc, int range, std::vector<Creature *> &targets, int &idx,
+                            const tripoint &src, tripoint &dst )
+{
+    targets = pc.get_targetable_creatures( range );
+
+    // Convert and check last_target_pos is a valid aim point
+    cata::optional<tripoint> local_last_tgt_pos = cata::nullopt;
+    if( pc.last_target_pos ) {
+        local_last_tgt_pos = g->m.getlocal( *pc.last_target_pos );
+        if( rl_dist( src, *local_last_tgt_pos ) > range ) {
+            local_last_tgt_pos = cata::nullopt;
+        }
+    }
+
+    targets.erase( std::remove_if( targets.begin(), targets.end(), [&]( const Creature * e ) {
+        return pc.attitude_to( *e ) == Creature::Attitude::A_FRIENDLY;
+    } ), targets.end() );
+
+    if( targets.empty() ) {
+        idx = -1;
+
+        if( pc.last_target_pos ) {
+
+            if( local_last_tgt_pos ) {
+                dst = *local_last_tgt_pos;
+            }
+            if( ( pc.last_target.expired() || !pc.sees( *pc.last_target.lock().get() ) ) &&
+                pc.has_activity( activity_id( "ACT_AIM" ) ) ) {
+                //We lost our target. Stop auto aiming.
+                pc.cancel_activity();
+            }
+
+        } else {
+            auto adjacent = closest_tripoints_first( range, dst );
+            const auto target_spot = std::find_if( adjacent.begin(), adjacent.end(),
+            [&pc]( const tripoint & pt ) {
+                return g->m.tr_at( pt ).id == tr_practice_target && pc.sees( pt );
+            } );
+
+            if( target_spot != adjacent.end() ) {
+                dst = *target_spot;
+            }
+        }
+        return;
+    }
+
+    std::sort( targets.begin(), targets.end(), [&]( const Creature * lhs, const Creature * rhs ) {
+        return rl_dist( lhs->pos(), pc.pos() ) < rl_dist( rhs->pos(), pc.pos() );
+    } );
+
+    // TODO: last_target should be member of target_handler
+    const auto iter = std::find( targets.begin(), targets.end(), pc.last_target.lock().get() );
+
+    if( iter != targets.end() ) {
+        idx = std::distance( targets.begin(), iter );
+        dst = targets[idx]->pos();
+        pc.last_target_pos = cata::nullopt;
+    } else {
+        idx = 0;
+        dst = local_last_tgt_pos ? *local_last_tgt_pos : targets[0]->pos();
+        pc.last_target.reset();
+    }
 }
 
 // TODO: Shunt redundant drawing code elsewhere
@@ -1090,69 +1181,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     std::vector<Creature *> t;
     int target = 0;
 
-    auto update_targets = [&]( int range, std::vector<Creature *> &targets, int &idx, tripoint & dst ) {
-        targets = pc.get_targetable_creatures( range );
-
-        // Convert and check last_target_pos is a valid aim point
-        cata::optional<tripoint> local_last_tgt_pos = cata::nullopt;
-        if( pc.last_target_pos ) {
-            local_last_tgt_pos = g->m.getlocal( *pc.last_target_pos );
-            if( rl_dist( src, *local_last_tgt_pos ) > range ) {
-                local_last_tgt_pos = cata::nullopt;
-            }
-        }
-
-        targets.erase( std::remove_if( targets.begin(), targets.end(), [&]( const Creature * e ) {
-            return pc.attitude_to( *e ) == Creature::Attitude::A_FRIENDLY;
-        } ), targets.end() );
-
-        if( targets.empty() ) {
-            idx = -1;
-
-            if( pc.last_target_pos ) {
-
-                if( local_last_tgt_pos ) {
-                    dst = *local_last_tgt_pos;
-                }
-                if( ( pc.last_target.expired() || !pc.sees( *pc.last_target.lock().get() ) ) &&
-                    pc.has_activity( activity_id( "ACT_AIM" ) ) ) {
-                    //We lost our target. Stop auto aiming.
-                    pc.cancel_activity();
-                }
-
-            } else {
-                auto adjacent = closest_tripoints_first( range, dst );
-                const auto target_spot = std::find_if( adjacent.begin(), adjacent.end(),
-                [&pc]( const tripoint & pt ) {
-                    return g->m.tr_at( pt ).id == tr_practice_target && pc.sees( pt );
-                } );
-
-                if( target_spot != adjacent.end() ) {
-                    dst = *target_spot;
-                }
-            }
-            return;
-        }
-
-        std::sort( targets.begin(), targets.end(), [&]( const Creature * lhs, const Creature * rhs ) {
-            return rl_dist( lhs->pos(), pc.pos() ) < rl_dist( rhs->pos(), pc.pos() );
-        } );
-
-        // TODO: last_target should be member of target_handler
-        const auto iter = std::find( targets.begin(), targets.end(), pc.last_target.lock().get() );
-
-        if( iter != targets.end() ) {
-            idx = std::distance( targets.begin(), iter );
-            dst = targets[ idx ]->pos();
-            pc.last_target_pos = cata::nullopt;
-        } else {
-            idx = 0;
-            dst = local_last_tgt_pos ? *local_last_tgt_pos : targets[ 0 ]->pos();
-            pc.last_target.reset();
-        }
-    };
-
-    update_targets( range, t, target, dst );
+    update_targets( pc, range, t, target, src, dst );
 
     double recoil_pc = pc.recoil;
     tripoint recoil_pos = dst;
@@ -1619,13 +1648,24 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             }
         }
 
-        // Make player's sprite flip to face the current target
-        if( dst.x > src.x ) {
-            g->u.facing = FD_RIGHT;
-        } else if( dst.x < src.x ) {
-            g->u.facing = FD_LEFT;
-        }
+        int new_dx = dst.x - src.x;
+        int new_dy = dst.y - src.y;
 
+        // Make player's sprite flip to face the current target
+        if( ! tile_iso ) {
+            if( new_dx > 0 ) {
+                g->u.facing = FD_RIGHT;
+            } else if( new_dx < 0 ) {
+                g->u.facing = FD_LEFT;
+            }
+        } else {
+            if( new_dx >= 0 && new_dy >= 0 ) {
+                g->u.facing = FD_RIGHT;
+            }
+            if( new_dy <= 0 && new_dx <= 0 ) {
+                g->u.facing = FD_LEFT;
+            }
+        }
     } while( true );
 
     pc.view_offset = old_offset;
@@ -1645,6 +1685,352 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         // TODO: should probably go into the on-hit code?
         guy->make_angry();
 
+    } else if( monster *const mon = dynamic_cast<monster *>( lt_ptr.get() ) ) {
+        // TODO: get rid of this. Or move into the on-hit code?
+        mon->add_effect( effect_hit_by_player, 10_minutes );
+    }
+    wrefresh( w_target );
+    return ret;
+}
+
+// magic mod
+std::vector<tripoint> target_handler::target_ui( spell_id sp, const bool no_fail,
+        const bool no_mana )
+{
+    return target_ui( g->u.magic.get_spell( sp ), no_fail, no_mana );
+}
+// does not have a targeting mode because we know this is the spellcasting version of this function
+std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_fail,
+        const bool no_mana )
+{
+    player &pc = g->u;
+    if( !casting.can_cast( pc ) ) {
+        pc.add_msg_if_player( m_bad, _( "You don't have enough %s to cast this spell" ),
+                              casting.energy_string() );
+    }
+    bool compact = TERMY < 41;
+    bool tiny = TERMY < 31;
+
+    // Default to the maximum window size we can use.
+    int height = 31;
+    catacurses::window w_target = catacurses::newwin( height, 45, 0, TERMX - 45 );
+
+    // TODO: this should return a reference to a static vector which is cleared on each call.
+    static const std::vector<tripoint> empty_result{};
+    std::vector<tripoint> ret;
+    std::set<tripoint> spell_aoe;
+
+    tripoint src = pc.pos();
+    tripoint dst = pc.pos();
+
+    std::vector<Creature *> t;
+    int target = 0;
+    int range = static_cast<int>( casting.range() );
+
+    update_targets( pc, range, t, target, src, dst );
+
+    input_context ctxt( "TARGET" );
+    ctxt.set_iso( true );
+    // "ANY_INPUT" should be added before any real help strings
+    // Or strings will be written on window border.
+    ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_directions();
+    ctxt.register_action( "COORDINATE" );
+    ctxt.register_action( "SELECT" );
+    ctxt.register_action( "FIRE" );
+    ctxt.register_action( "NEXT_TARGET" );
+    ctxt.register_action( "PREV_TARGET" );
+    ctxt.register_action( "LEVEL_UP" );
+    ctxt.register_action( "LEVEL_DOWN" );
+    ctxt.register_action( "CENTER" );
+    ctxt.register_action( "TOGGLE_SNAP_TO_TARGET" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "QUIT" );
+
+    std::vector<aim_type> aim_types;
+
+    int num_instruction_lines = draw_targeting_window( w_target, casting.name(),
+                                TARGET_MODE_SPELL, ctxt, aim_types, tiny );
+
+    bool snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
+
+    const auto set_last_target = [&pc]( const tripoint & dst ) {
+        pc.last_target_pos = g->m.getabs( dst );
+        if( const Creature *const critter_ptr = g->critter_at( dst, true ) ) {
+            pc.last_target = g->shared_from( *critter_ptr );
+        } else {
+            pc.last_target.reset();
+        }
+    };
+
+    const auto confirm_non_enemy_target = [&pc]( const tripoint & dst ) {
+        if( dst == pc.pos() ) {
+            return true;
+        }
+        if( npc *const who_ = g->critter_at<npc>( dst ) ) {
+            const npc &who = *who_;
+            if( who.guaranteed_hostile() ) {
+                return true;
+            }
+            return query_yn( _( "Really attack %s?" ), who.name.c_str() );
+        }
+        return true;
+    };
+    const std::string fx = casting.effect();
+    const tripoint old_offset = pc.view_offset;
+    do {
+        ret = g->m.find_clear_path( src, dst );
+
+        if( fx == "target_attack" || fx == "projectile_attack" ) {
+            spell_aoe = spell_effect::spell_effect_blast( casting, src, ret.back(), casting.aoe(), true );
+        } else if( fx == "cone_attack" ) {
+            spell_aoe = spell_effect::spell_effect_cone( casting, src, ret.back(), casting.aoe(), true );
+        } else if( fx == "line_attack" ) {
+            spell_aoe = spell_effect::spell_effect_line( casting, src, ret.back(), casting.aoe(), true );
+        } else {
+            spell_aoe.clear();
+        }
+
+        // This chunk of code handles shifting the aim point around
+        // at maximum range when using circular distance.
+        // The range > 1 check ensures that you can always at least hit adjacent squares.
+        if( trigdist && range > 1 && round( trig_dist( src, dst ) ) > range ) {
+            bool cont = true;
+            tripoint cp = dst;
+            for( size_t i = 0; i < ret.size() && cont; i++ ) {
+                if( round( trig_dist( src, ret[i] ) ) > range ) {
+                    ret.resize( i );
+                    cont = false;
+                } else {
+                    cp = ret[i];
+                }
+            }
+            dst = cp;
+        }
+        tripoint center;
+        if( snap_to_target ) {
+            center = dst;
+        } else {
+            center = pc.pos() + pc.view_offset;
+        }
+        // Clear the target window.
+        for( int i = 1; i <= getmaxy( w_target ) - num_instruction_lines - 2; i++ ) {
+            // Clear width excluding borders.
+            for( int j = 1; j <= getmaxx( w_target ) - 2; j++ ) {
+                mvwputch( w_target, i, j, c_white, ' ' );
+            }
+        }
+        g->draw_ter( center, true );
+        int line_number = 1;
+        Creature *critter = g->critter_at( dst, true );
+        const int relative_elevation = dst.z - pc.pos().z;
+        mvwprintz( w_target, line_number++, 1, c_light_green, _( "Casting: %s (Level %u)" ), casting.name(),
+                   casting.get_level() );
+        if( !no_mana || casting.energy_source() == none_energy ) {
+            if( casting.energy_source() == hp_energy ) {
+                line_number += fold_and_print( w_target, line_number, 1, getmaxx( w_target ) - 2, c_light_gray,
+                                               _( "Cost: %s %s" ), casting.energy_cost_string( pc ), casting.energy_string() );
+            } else {
+                line_number += fold_and_print( w_target, line_number, 1, getmaxx( w_target ) - 2, c_light_gray,
+                                               _( "Cost: %s %s (Current: %s)" ), casting.energy_cost_string( pc ), casting.energy_string(),
+                                               casting.energy_cur_string( pc ) );
+            }
+        }
+        nc_color clr = c_light_gray;
+        if( !no_fail ) {
+            print_colored_text( w_target, line_number++, 1, clr, clr,
+                                casting.colorized_fail_percent( pc ) );
+        } else {
+            print_colored_text( w_target, line_number++, 1, clr, clr, colorize( _( "0.0 % Failure Chance" ),
+                                c_light_green ) );
+        }
+        if( dst != src ) {
+            // Only draw those tiles which are on current z-level
+            auto ret_this_zlevel = ret;
+            ret_this_zlevel.erase( std::remove_if( ret_this_zlevel.begin(), ret_this_zlevel.end(),
+            [&center]( const tripoint & pt ) {
+                return pt.z != center.z;
+            } ), ret_this_zlevel.end() );
+            // Only draw a highlighted trajectory if we can see the endpoint.
+            // Provides feedback to the player, and avoids leaking information
+            // about tiles they can't see.
+            g->draw_line( dst, center, ret_this_zlevel );
+
+            // Print to target window
+            mvwprintw( w_target, line_number++, 1, _( "Range: %d/%d Elevation: %d Targets: %d" ),
+                       rl_dist( src, dst ), range, relative_elevation, t.size() );
+
+        } else {
+            mvwprintw( w_target, line_number++, 1, _( "Range: %d Elevation: %d Targets: %d" ), range,
+                       relative_elevation, t.size() );
+        }
+
+        g->draw_cursor( dst );
+        for( const tripoint &area : spell_aoe ) {
+            g->m.drawsq( g->w_terrain, pc, area, true, true, center );
+        }
+
+        if( casting.aoe() > 0 ) {
+            nc_color color = c_light_gray;
+            if( casting.effect() == "projectile_attack" || casting.effect() == "target_attack" ) {
+                line_number += fold_and_print( w_target, line_number, 1, getmaxx( w_target ) - 2, color,
+                                               _( "Effective Spell Radius: %i%s" ), casting.aoe(), rl_dist( src,
+                                                       dst ) <= casting.aoe() ? colorize( _( " WARNING! IN RANGE" ), c_red ) : "" );
+            } else if( casting.effect() == "cone_attack" ) {
+                line_number += fold_and_print( w_target, line_number, 1, getmaxx( w_target ) - 2, color,
+                                               _( "Cone Arc: %i degrees" ), casting.aoe() );
+            } else if( casting.effect() == "line_attack" ) {
+                line_number += fold_and_print( w_target, line_number, 1, getmaxx( w_target ) - 2, color,
+                                               _( "Line width: %i" ), casting.aoe() );
+            }
+        }
+        mvwprintz( w_target, line_number++, 1, c_light_red, _( "Damage: %i" ), casting.damage() );
+        line_number += fold_and_print( w_target, line_number, 1, getmaxx( w_target ) - 2, clr,
+                                       casting.description() );
+        // Skip blank lines if we're short on space.
+        if( !compact ) {
+            line_number++;
+        }
+
+        if( critter && critter != &pc && pc.sees( *critter ) ) {
+            // The 12 is 2 for the border and 10 for aim bars.
+            // Just print the monster name if we're short on space.
+            int available_lines = compact ? 1 : ( height - num_instruction_lines - line_number - 12 );
+            critter->print_info( w_target, line_number, available_lines, 1 );
+        }
+
+        wrefresh( g->w_terrain );
+        draw_targeting_window( w_target, casting.name(),
+                               TARGET_MODE_SPELL, ctxt, aim_types, tiny );
+        wrefresh( w_target );
+
+        catacurses::refresh();
+
+        std::string action;
+        if( pc.activity.id() == activity_id( "ACT_AIM" ) && pc.activity.str_values[0] != "AIM" ) {
+            // If we're in 'aim and shoot' mode,
+            // skip retrieving input and go straight to the action.
+            action = pc.activity.str_values[0];
+        } else {
+            action = ctxt.handle_input();
+        }
+        // Clear the activity if any, we'll re-set it later if we need to.
+        pc.cancel_activity();
+
+        tripoint targ( 0, 0, 0 );
+        cata::optional<tripoint> mouse_pos;
+        // Our coordinates will either be determined by coordinate input(mouse),
+        // by a direction key, or by the previous value.
+        if( action == "SELECT" && ( mouse_pos = ctxt.get_coordinates( g->w_terrain ) ) ) {
+            targ = *mouse_pos;
+            targ.x -= dst.x;
+            targ.y -= dst.y;
+            targ.z -= dst.z;
+        } else if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+            targ.x = vec->x;
+            targ.y = vec->y;
+        } else {
+            targ.x = 0;
+            targ.y = 0;
+        }
+
+        if( g->m.has_zlevels() && ( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) ) {
+            // Just determine our delta-z.
+            const int dz = action == "LEVEL_UP" ? 1 : -1;
+
+            // Shift the view up or down accordingly.
+            // We need to clamp the offset, but it needs to be clamped such that
+            // the player position plus the offset is still in range, since the player
+            // might be at Z+10 and looking down to Z-10, which is an offset greater than
+            // OVERMAP_DEPTH or OVERMAP_HEIGHT
+            const int potential_result = pc.pos().z + pc.view_offset.z + dz;
+            if( potential_result <= OVERMAP_HEIGHT && potential_result >= -OVERMAP_DEPTH ) {
+                pc.view_offset.z += dz;
+            }
+
+            // Set our cursor z to our view z. This accounts for cases where
+            // our view and our target are on different z-levels (e.g. when
+            // we cycle targets on different z-levels but do not have SNAP_TO_TARGET
+            // enabled). This will ensure that we don't just chase the cursor up or
+            // down, never catching up.
+            dst.z = clamp( pc.pos().z + pc.view_offset.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
+
+            // We need to do a bunch of redrawing and cache updates since we're
+            // looking at a different z-level.
+            g->refresh_all();
+        }
+
+        /* More drawing to terrain */
+        if( targ != tripoint_zero ) {
+            const Creature *critter = g->critter_at( dst, true );
+            if( critter != nullptr ) {
+                g->draw_critter( *critter, center );
+            } else if( g->m.pl_sees( dst, -1 ) ) {
+                g->m.drawsq( g->w_terrain, pc, dst, false, true, center );
+            }
+
+            // constrain by range
+            dst.x = std::min( std::max( dst.x + targ.x, src.x - range ), src.x + range );
+            dst.y = std::min( std::max( dst.y + targ.y, src.y - range ), src.y + range );
+            dst.z = std::min( std::max( dst.z + targ.z, src.z - range ), src.z + range );
+
+        } else if( ( action == "PREV_TARGET" ) && ( target != -1 ) ) {
+            int newtarget = find_target( t, dst ) - 1;
+            if( newtarget < 0 ) {
+                newtarget = t.size() - 1;
+            }
+            dst = t[newtarget]->pos();
+        } else if( ( action == "NEXT_TARGET" ) && ( target != -1 ) ) {
+            int newtarget = find_target( t, dst ) + 1;
+            if( newtarget == static_cast<int>( t.size() ) ) {
+                newtarget = 0;
+            }
+            dst = t[newtarget]->pos();
+        } else if( action == "FIRE" ) {
+            if( casting.damage() > 0 && !confirm_non_enemy_target( dst ) ) {
+                continue;
+            }
+            find_target( t, dst );
+            break;
+        } else if( action == "CENTER" ) {
+            dst = src;
+            set_last_target( dst );
+            ret.clear();
+        } else if( action == "TOGGLE_SNAP_TO_TARGET" ) {
+            snap_to_target = !snap_to_target;
+        } else if( action == "QUIT" ) { // return empty vector (cancel)
+            ret.clear();
+            pc.last_target_pos = cata::nullopt;
+            break;
+        }
+
+        // Make player's sprite flip to face the current target
+        if( dst.x > src.x ) {
+            g->u.facing = FD_RIGHT;
+        } else if( dst.x < src.x ) {
+            g->u.facing = FD_LEFT;
+        }
+
+    } while( true );
+
+    pc.view_offset = old_offset;
+
+    if( ret.empty() || ret.back() == pc.pos() ) {
+        return ret;
+    }
+
+    set_last_target( ret.back() );
+
+    const auto lt_ptr = pc.last_target.lock();
+    if( npc *const guy = dynamic_cast<npc *>( lt_ptr.get() ) ) {
+        if( casting.damage() > 0 ) {
+            if( !guy->guaranteed_hostile() ) {
+                // TODO: get rid of this. Or combine it with effect_hit_by_player
+                guy->hit_by_player = true; // used for morale penalty
+            }
+            // TODO: should probably go into the on-hit code?
+            guy->make_angry();
+        }
     } else if( monster *const mon = dynamic_cast<monster *>( lt_ptr.get() ) ) {
         // TODO: get rid of this. Or move into the on-hit code?
         mon->add_effect( effect_hit_by_player, 10_minutes );
@@ -1799,21 +2185,21 @@ item::sound_data item::gun_noise( const bool burst ) const
 
     noise = std::max( noise, 0 );
 
-    if( ammo_type() == ammotype( "40mm" ) ) {
+    if( ammo_current() == "40mm" ) {
         // Grenade launchers
         return { 8, _( "Thunk!" ) };
 
-    } else if( ammo_type() == ammotype( "12mm" ) || ammo_type() == ammotype( "metal_rail" ) ) {
+    } else if( ammo_current() == "12mm" || ammo_current() == "metal_rail" ) {
         // Railguns
         return { 24, _( "tz-CRACKck!" ) };
 
-    } else if( ammo_type() == ammotype( "flammable" ) || ammo_type() == ammotype( "66mm" ) ||
-               ammo_type() == ammotype( "84x246mm" ) || ammo_type() == ammotype( "m235" ) ) {
+    } else if( ammo_current() == "flammable" || ammo_current() == "66mm" ||
+               ammo_current() == "84x246mm" || ammo_current() == "m235" ) {
         // Rocket launchers and flamethrowers
         return { 4, _( "Fwoosh!" ) };
-    } else if( ammo_type() == ammotype( "arrow" ) ) {
+    } else if( ammo_current() == "arrow" ) {
         return { noise, _( "whizz!" ) };
-    } else if( ammo_type() == ammotype( "bolt" ) ) {
+    } else if( ammo_current() == "bolt" ) {
         return { noise, _( "thonk!" ) };
     }
 
@@ -1934,7 +2320,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
 double player::gun_value( const item &weap, int ammo ) const
 {
     // TODO: Mods
-    // TODO: Allow using a specified type of ammo rather than default
+    // TODO: Allow using a specified type of ammo rather than default or current
     if( !weap.type->gun ) {
         return 0.0;
     }
@@ -1944,14 +2330,21 @@ double player::gun_value( const item &weap, int ammo ) const
     }
 
     const islot_gun &gun = *weap.type->gun;
-    const itype_id ammo_type = weap.ammo_default( true );
+    itype_id ammo_type;
+    if( weap.ammo_current() != "null" ) {
+        ammo_type = weap.ammo_current();
+    } else if( weap.magazine_current() ) {
+        ammo_type = weap.common_ammo_default();
+    } else {
+        ammo_type = weap.ammo_default();
+    }
     const itype *def_ammo_i = ammo_type != "NULL" ?
                               item::find_type( ammo_type ) :
                               nullptr;
 
     damage_instance gun_damage = weap.gun_damage();
     item tmp = weap;
-    tmp.ammo_set( weap.ammo_default() );
+    tmp.ammo_set( ammo_type );
     int total_dispersion = get_weapon_dispersion( tmp ).max() +
                            effective_dispersion( tmp.sight_dispersion() );
 

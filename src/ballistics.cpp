@@ -8,6 +8,7 @@
 #include <set>
 #include <vector>
 
+#include "avatar.h"
 #include "creature.h"
 #include "dispersion.h"
 #include "explosion.h"

@@ -62,11 +62,13 @@ ignore_files = {os.path.normpath(i) for i in {
 
 # these objects have no translatable strings
 ignorable = {
+    "behavior",
     "BULLET_PULLING",
     "city_building",
     "colordef",
     "emit",
     "EXTERNAL_OPTION",
+    "field_type",
     "GAME_OPTION",
     "ITEM_BLACKLIST",
     "item_group",
@@ -118,6 +120,7 @@ automatically_convertible = {
     "BIONIC_ITEM",
     "BOOK",
     "COMESTIBLE",
+    "construction_category",
     "CONTAINER",
     "dream",
     "ENGINE",
@@ -131,6 +134,7 @@ automatically_convertible = {
     "json_flag",
     "keybinding",
     "MAGAZINE",
+    "map_extra",
     "MOD_INFO",
     "MONSTER",
     "morale_type",
@@ -525,6 +529,9 @@ def extract_dynamic_line(line, outfile):
         extract_dynamic_line_optional(line, "npc_female", outfile)
         extract_dynamic_line_optional(line, "yes", outfile)
         extract_dynamic_line_optional(line, "no", outfile)
+        extract_dynamic_line_optional(line, "has_no_available_mission", outfile)
+        extract_dynamic_line_optional(line, "has_many_assigned_missions", outfile)
+        extract_dynamic_line_optional(line, "has_no_assigned_mission", outfile)
     elif type(line) == str:
         writestr(outfile, line)
 
@@ -540,8 +547,9 @@ def extract_talk_topic(item):
     outfile = get_outfile("talk_topic")
     if "dynamic_line" in item:
         extract_dynamic_line(item["dynamic_line"], outfile)
-    for r in item["responses"]:
-        extract_talk_response(r, outfile)
+    if "responses" in item:
+        for r in item["responses"]:
+            extract_talk_response(r, outfile)
 
 
 def extract_missiondef(item):
@@ -924,8 +932,8 @@ def extract(item, infilename):
        c = "Please leave anything in <angle brackets> unchanged."
        writestr(outfile, item["info"], comment=c, **kwargs)
        wrote = True
-    if "stop_phrase" in item:
-       writestr(outfile, item["stop_phrase"], **kwargs)
+    if "verb" in item:
+       writestr(outfile, item["verb"], **kwargs)
        wrote = True
     if "special_attacks" in item:
         special_attacks = item["special_attacks"]
@@ -933,6 +941,9 @@ def extract(item, infilename):
             if "description" in special_attack:
                 writestr(outfile, special_attack["description"], **kwargs)
                 wrote = True
+    if "footsteps" in item:
+       writestr(outfile, item["footsteps"], **kwargs)
+       wrote = True
     if not wrote:
         if not warning_supressed(infilename):
             print("WARNING: {}: nothing translatable found in item: {}".format(infilename, item))

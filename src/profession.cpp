@@ -24,7 +24,7 @@ namespace
 {
 generic_factory<profession> all_profs( "profession", "ident" );
 const string_id<profession> generic_profession_id( "unemployed" );
-}
+} // namespace
 
 static class json_item_substitution
 {
@@ -161,11 +161,19 @@ void profession::load( JsonObject &jo, const std::string & )
         _description_male = pgettext( "prof_desc_male", desc.c_str() );
         _description_female = pgettext( "prof_desc_female", desc.c_str() );
     }
-
-    mandatory( jo, was_loaded, "points", _point_cost );
-    if( jo.has_string( "pet" ) ) {
-        _starting_pet = mtype_id( jo.get_string( "pet" ) );
+    if( jo.has_array( "pets" ) ) {
+        JsonArray array = jo.get_array( "pets" );
+        while( array.has_more() ) {
+            JsonObject subobj = array.next_object();
+            int count = subobj.get_int( "amount" );
+            mtype_id mon = mtype_id( subobj.get_string( "name" ) );
+            for( int start = 0; start < count; ++start ) {
+                _starting_pets.push_back( mon );
+            }
+        }
     }
+    mandatory( jo, was_loaded, "points", _point_cost );
+
     if( !was_loaded || jo.has_member( "items" ) ) {
         JsonObject items_obj = jo.get_object( "items" );
 
@@ -275,10 +283,9 @@ void profession::check_definition() const
             debugmsg( "trait %s for profession %s does not exist", t.c_str(), id.c_str() );
         }
     }
-    if( _starting_pet ) {
-        mtype_id mtypemon = *_starting_pet;
-        if( !mtypemon.is_valid() ) {
-            debugmsg( "startng pet %s for profession %s does not exist", mtypemon.c_str(), id.c_str() );
+    for( const auto &elem : _starting_pets ) {
+        if( !elem.is_valid() ) {
+            debugmsg( "startng pet %s for profession %s does not exist", elem.c_str(), id.c_str() );
         }
     }
     for( const auto &elem : _starting_skills ) {
@@ -391,13 +398,9 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
     return result;
 }
 
-cata::optional<mtype_id> profession::pet() const
+std::vector<mtype_id> profession::pets() const
 {
-    if( _starting_pet ) {
-        return _starting_pet;
-    } else {
-        return cata::nullopt;
-    }
+    return _starting_pets;
 }
 
 std::vector<addiction> profession::addictions() const
@@ -597,13 +600,13 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
         return ret;
     }
 
-    const long old_amt = it.count();
+    const int old_amt = it.count();
     for( const substitution::info &inf : sub->infos ) {
         item result( inf.new_item );
-        const long new_amt = std::max( 1l, static_cast<long>( std::round( inf.ratio * old_amt ) ) );
+        const int new_amt = std::max( 1, static_cast<int>( std::round( inf.ratio * old_amt ) ) );
 
         if( !result.count_by_charges() ) {
-            for( long i = 0; i < new_amt; i++ ) {
+            for( int i = 0; i < new_amt; i++ ) {
                 ret.push_back( result.in_its_container() );
             }
         } else {

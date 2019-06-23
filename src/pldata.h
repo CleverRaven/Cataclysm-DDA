@@ -9,7 +9,7 @@
 class JsonIn;
 class JsonOut;
 
-typedef std::string dis_type;
+using dis_type = std::string;
 
 enum character_type : int {
     PLTYPE_CUSTOM,

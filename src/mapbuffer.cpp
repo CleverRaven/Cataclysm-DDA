@@ -34,7 +34,7 @@
 #include "visitable.h"
 #include "type_id.h"
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
 mapbuffer MAPBUFFER;
 

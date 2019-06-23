@@ -3,6 +3,7 @@
 #define REQUIREMENTS_H
 
 #include <functional>
+#include <list>
 #include <map>
 #include <vector>
 #include <string>
@@ -18,7 +19,7 @@ class inventory;
 class item;
 
 // Denotes the id of an item type
-typedef std::string itype_id;
+using itype_id = std::string;
 
 enum available_status {
     a_true = +1, // yes, it's available
@@ -158,9 +159,9 @@ struct requirement_data {
         // TODO: remove once all parts specify installation requirements directly
         friend class vpart_info;
 
-        typedef std::vector< std::vector<tool_comp> > alter_tool_comp_vector;
-        typedef std::vector< std::vector<quality_requirement> > alter_quali_req_vector;
-        typedef std::vector< std::vector<item_comp> > alter_item_comp_vector;
+        using alter_tool_comp_vector = std::vector<std::vector<tool_comp> >;
+        using alter_quali_req_vector = std::vector<std::vector<quality_requirement> >;
+        using alter_item_comp_vector = std::vector<std::vector<item_comp> >;
 
     private:
         alter_tool_comp_vector tools;
@@ -269,11 +270,17 @@ struct requirement_data {
         requirement_data disassembly_requirements() const;
 
         /**
-         * Returns the requirements to continue the an progress craft with this object as its
-         * requirements
+         * Returns the requirements to continue an in progress craft with the passed components.
+         * Returned requirement_data is for *all* batches at once.
          * TODO: Make this return tool and quality requirments as well
          */
-        requirement_data continue_requirements( const item &craft ) const;
+        static requirement_data continue_requirements( const std::vector<item_comp> &required_comps,
+                const std::list<item> &remaining_comps );
+
+        /**
+         * Removes duplicated qualities and tools
+         */
+        void consolidate();
 
     private:
         requirement_id id_ = requirement_id::NULL_ID();

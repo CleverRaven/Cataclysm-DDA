@@ -19,16 +19,15 @@
       [ "hk_g80mag", 40 ],
       [ "hk46mag", 15 ],
       [ "hk46bigmag", 5 ],
-      [ "lw12mag", 30 ],
-      [ "lw21mag", 60 ],
-      [ "lw223mag", 60 ],
-      [ "lw223bigmag", 20 ],
       [ "m107a1mag", 50 ],
       [ "m2010mag", 10 ],
       [ "scarhmag", 50 ],
       [ "scarhbigmag", 20 ],
       [ "stanag30", 20 ],
-      [ "stanag50", 5 ]
+      [ "stanag50", 5 ],
+      [ "hk417mag_20rd", 30 ],
+      [ "hk417mag_10rd", 20 ],
+      [ "p320mag_17rd_9x19mm", 60 ]
     ]
   },
   {
@@ -84,7 +83,8 @@
       [ "stanag30", 20 ],
       [ "ump45mag", 20 ],
       [ "usp45mag", 10 ],
-      [ "usp9mag", 10 ]
+      [ "usp9mag", 10 ],
+      [ "hk417mag_20rd", 20 ]
     ]
   },
   {
@@ -105,7 +105,8 @@
       [ "kp3atmag", 4 ],
       [ "rugerlcpmag", 10 ],
       [ "sw22mag", 10 ],
-      [ "p226mag_15rd_357sig", 25 ]
+      [ "p226mag_15rd_357sig", 25 ],
+      [ "p320mag_14rd_357sig", 10 ]
     ]
   },
   {
@@ -134,6 +135,7 @@
       [ "glockbigmag", 60 ],
       [ "glock40bigmag", 30 ],
       [ "m1911bigmag", 40 ],
+      [ "m1911mag_10rd_38super", 10 ],
       [ "m9bigmag", 20 ],
       [ "sig40mag", 40 ],
       [ "sigp230mag", 40 ],
@@ -141,7 +143,9 @@
       [ "kp32mag", 5 ],
       [ "fn1910mag", 2 ],
       [ "taurus38mag", 30 ],
-      [ "ppkmag", 15 ]
+      [ "ppkmag", 15 ],
+      [ "lw12mag", 5 ],
+      [ "lw21mag", 5 ]
     ]
   },
   {
@@ -194,7 +198,8 @@
       [ "ruger5", 50 ],
       [ "stanag10", 30 ],
       [ "ruger30", 20 ],
-      [ "stanag30", 10 ]
+      [ "stanag30", 10 ],
+      [ "ar10mag_20rd", 30 ]
     ]
   },
   {
@@ -215,7 +220,9 @@
       [ "g3mag", 80 ],
       [ "g3bigmag", 40 ],
       [ "m1918bigmag", 40 ],
-      [ "ruger1022bigmag", 70 ]
+      [ "ruger1022bigmag", 70 ],
+      [ "lw223mag", 20 ],
+      [ "lw223bigmag", 20 ]
     ]
   },
   {
@@ -233,8 +240,8 @@
   {
     "type": "item_group",
     "id": "mags_shotgun_rare",
-    "//": "Aftermarket or otherwise uncommon pistol magazines excluding milspec.",
-    "items": [ [ "saiga10mag", 50 ], [ "saiga30mag", 10 ] ]
+    "//": "Aftermarket or otherwise uncommon shotgun magazines excluding milspec.",
+    "items": [ [ "saiga10mag", 50 ], [ "saiga30mag", 10 ], [ "saiga410mag_10rd", 30 ], [ "saiga410mag_30rd", 10 ] ]
   },
   {
     "type": "item_group",

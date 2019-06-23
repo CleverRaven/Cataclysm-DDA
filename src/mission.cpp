@@ -9,6 +9,7 @@
 #include <list>
 #include <utility>
 
+#include "avatar.h"
 #include "debug.h"
 #include "game.h"
 #include "line.h"
@@ -28,7 +29,7 @@
 #include "monster.h"
 #include "player.h"
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 mission mission_type::create( const int npc_id ) const
 {
@@ -186,7 +187,7 @@ mission *mission::reserve_random( const mission_origin origin, const tripoint &p
     return mission::reserve_new( type, npc_id );
 }
 
-void mission::assign( player &u )
+void mission::assign( avatar &u )
 {
     if( player_id == u.getID() ) {
         debugmsg( "strange: player is already assigned to mission %d", uid );
@@ -400,9 +401,8 @@ bool mission::is_complete( const int _npc_id ) const
             return npc_id == _npc_id;
 
         case MGOAL_ASSASSINATE:
-            return step >= 1;
-
         case MGOAL_KILL_MONSTER:
+        case MGOAL_COMPUTER_TOGGLE:
             return step >= 1;
 
         case MGOAL_KILL_MONSTER_TYPE:
@@ -410,9 +410,6 @@ bool mission::is_complete( const int _npc_id ) const
 
         case MGOAL_KILL_MONSTER_SPEC:
             return g->kill_count( monster_species ) >= kill_count_to_reach;
-
-        case MGOAL_COMPUTER_TOGGLE:
-            return step >= 1;
 
         default:
             return false;
@@ -508,7 +505,7 @@ mission_type_id mission::get_follow_up() const
     return follow_up;
 }
 
-long mission::get_value() const
+int mission::get_value() const
 {
     return value;
 }

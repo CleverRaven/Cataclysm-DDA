@@ -15,7 +15,7 @@
 
 TEST_CASE( "set_and_get_overmap_scents" )
 {
-    std::unique_ptr<overmap> test_overmap = std::unique_ptr<overmap>( new overmap( 0, 0 ) );
+    std::unique_ptr<overmap> test_overmap = std::make_unique<overmap>( 0, 0 );
 
     // By default there are no scents set.
     for( int x = 0; x < 180; ++x ) {

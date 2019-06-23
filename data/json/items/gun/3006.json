@@ -35,7 +35,7 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": 1,
-    "magazines": [ [ "3006", [ "blrmag" ] ], [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [ [ "3006", [ "blrmag" ] ] ]
   },
   {
     "id": "garand",
@@ -70,7 +70,7 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": 1,
-    "magazines": [ [ "3006", [ "garandclip" ] ], [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [ [ "3006", [ "garandclip" ] ] ]
   },
   {
     "id": "m1903",
@@ -98,7 +98,11 @@
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
       [ "sights", 1 ],
-      [ "sling", 1 ]
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "magazines": [ [ "3006", [ "3006_clip" ] ] ],
     "flags": [ "RELOAD_ONE" ]
@@ -137,7 +141,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "3006", [ "m1918mag", "m1918bigmag" ] ], [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [ [ "3006", [ "m1918mag", "m1918bigmag" ] ] ]
   },
   {
     "id": "remington_700",
@@ -167,7 +171,7 @@
     "name": "pipe rifle: .30-06",
     "name_plural": "pipe rifles: .30-06",
     "//": "It's the same size as the others, but it's still a scrap weapon.",
-    "description": "A homemade rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.  This one is made to support more gun attachments.",
+    "description": "A homemade rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "weight": 4080,
     "volume": 12,
     "price": 110000,
@@ -185,7 +189,16 @@
     "clip_size": 1,
     "reload": 200,
     "barrel_length": 4,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "muzzle", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "flags": [ "RELOAD_EJECT" ]
   },
   {
@@ -204,7 +217,10 @@
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
       [ "sights", 1 ],
-      [ "sling", 1 ]
+      [ "sling", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "relative": { "durability": -3 },
     "proportional": { "reload": 4 }

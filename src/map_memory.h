@@ -27,13 +27,13 @@ class map_memory
         /** Returns last stored map tile in given location */
         memorized_terrain_tile get_tile( const tripoint &pos ) const;
 
-        void memorize_symbol( int limit, const tripoint &pos, const long symbol );
-        long get_symbol( const tripoint &pos ) const;
+        void memorize_symbol( int limit, const tripoint &pos, const int symbol );
+        int get_symbol( const tripoint &pos ) const;
 
         void clear_memorized_tile( const tripoint &pos );
     private:
         lru_cache<tripoint, memorized_terrain_tile> tile_cache;
-        lru_cache<tripoint, long> symbol_cache;
+        lru_cache<tripoint, int> symbol_cache;
 };
 
 #endif

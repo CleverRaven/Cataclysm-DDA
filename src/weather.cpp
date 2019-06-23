@@ -9,6 +9,7 @@
 #include <list>
 #include <memory>
 
+#include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
@@ -103,34 +104,6 @@ void weather_effect::glare( bool snowglare )
 
 ////// food vs weather
 
-time_duration get_rot_since( const time_point &start, const time_point &end,
-                             const tripoint &pos )
-{
-    time_duration ret = 0_turns;
-    const auto &wgen = g->weather.get_cur_weather_gen();
-    /* Hoisting loop invariants */
-    const auto location_temp = g->weather.get_temperature( pos );
-    const auto local = g->m.getlocal( pos );
-    const auto local_mod = g->new_game ? 0 : g->m.get_temperature( local );
-    const auto seed = g->get_seed();
-
-    const auto temp_modify = ( !g->new_game ) && ( g->m.ter( local ) == t_rootcellar );
-
-    for( time_point i = start; i < end; i += 1_hours ) {
-        w_point w = wgen.get_weather( pos, i, seed );
-
-        // Use weather if above ground, use map temp if below
-        double temperature = ( pos.z >= 0 ? w.temperature : location_temp ) + local_mod;
-        // If in a root celler: use AVERAGE_ANNUAL_TEMPERATURE
-        // If not: use calculated temperature
-        temperature = ( temp_modify * AVERAGE_ANNUAL_TEMPERATURE ) + ( !temp_modify * temperature );
-
-        ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp(
-                   temperature ) * 1_turns;
-    }
-    return ret;
-}
-
 inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
                               const time_point &t, const time_duration &tick_size )
 {
@@ -154,8 +127,8 @@ inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
     }
 
     // TODO: Change this sunlight "sampling" here into a proper interpolation
-    const float tick_sunlight = calendar( to_turn<int>( t ) ).sunlight() + weather_data(
-                                    wtype ).light_modifier;
+    const float tick_sunlight = calendar( to_turn<int>( t ) ).sunlight() + weather::light_modifier(
+                                    wtype );
     data.sunlight += std::max<float>( 0.0f, to_turns<int>( tick_size ) * tick_sunlight );
 }
 
@@ -228,20 +201,20 @@ void item::add_rain_to_container( bool acid, int charges )
         return;
     }
     item ret( acid ? "water_acid" : "water", calendar::turn );
-    const long capa = get_remaining_capacity_for_liquid( ret, true );
+    const int capa = get_remaining_capacity_for_liquid( ret, true );
     if( contents.empty() ) {
         // This is easy. Just add 1 charge of the rain liquid to the container.
         if( !acid ) {
             // Funnels aren't always clean enough for water. // TODO: disinfectant squeegie->funnel
             ret.poison = one_in( 10 ) ? 1 : 0;
         }
-        ret.charges = std::min<long>( charges, capa );
+        ret.charges = std::min( charges, capa );
         put_in( ret );
     } else {
         // The container already has a liquid.
         item &liq = contents.front();
-        long orig = liq.charges;
-        long added = std::min<long>( charges, capa );
+        int orig = liq.charges;
+        int added = std::min( charges, capa );
         if( capa > 0 ) {
             liq.charges += added;
         }
@@ -267,9 +240,9 @@ void item::add_rain_to_container( bool acid, int charges )
                 // The container has water, and the acid rain didn't turn it
                 // into weak acid. Poison the water instead, assuming 1
                 // charge of acid would act like a charge of water with poison 5.
-                long total_poison = liq.poison * ( orig ) + ( 5 * added );
+                int total_poison = liq.poison * ( orig ) + ( 5 * added );
                 liq.poison = total_poison / liq.charges;
-                long leftover_poison = total_poison - liq.poison * liq.charges;
+                int leftover_poison = total_poison - liq.poison * liq.charges;
                 if( leftover_poison > rng( 0, liq.charges ) ) {
                     liq.poison++;
                 }
@@ -329,7 +302,7 @@ double trap::funnel_turns_per_charge( double rain_depth_mm_per_hour ) const
 /**
  * Main routine for filling funnels from weather effects.
  */
-void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr )
+static void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr )
 {
     const double turns_per_charge = tr.funnel_turns_per_charge( rain_depth_mm_per_hour );
     // Give each funnel on the map a chance to collect the rain.
@@ -362,7 +335,7 @@ void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr )
  * Fill funnels and makeshift funnels from weather effects.
  * @see fill_funnels
  */
-void fill_water_collectors( int mmPerHour, bool acid )
+static void fill_water_collectors( int mmPerHour, bool acid )
 {
     for( auto &e : trap::get_funnels() ) {
         fill_funnels( mmPerHour, acid, *e );
@@ -381,7 +354,7 @@ void fill_water_collectors( int mmPerHour, bool acid )
  * @see map::decay_fields_and_scent
  * @see player::drench
  */
-void wet_player( int amount )
+static void wet_player( int amount )
 {
     if( !is_player_outside() ||
         g->u.has_trait( trait_FEATHERS ) ||
@@ -409,7 +382,7 @@ void wet_player( int amount )
 /**
  * Main routine for wet effects caused by weather.
  */
-void generic_wet( bool acid )
+static void generic_wet( bool acid )
 {
     fill_water_collectors( 4, acid );
     g->m.decay_fields_and_scent( 15_turns );
@@ -420,7 +393,7 @@ void generic_wet( bool acid )
  * Main routine for very wet effects caused by weather.
  * Similar to generic_wet() but with more aggressive numbers.
  */
-void generic_very_wet( bool acid )
+static void generic_very_wet( bool acid )
 {
     fill_water_collectors( 8, acid );
     g->m.decay_fields_and_scent( 45_turns );
@@ -623,7 +596,7 @@ std::string weather_forecast( const point &abs_sm_pos )
                        _( "The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The temperature was %s. " ),
                        to_string_time_of_day( calendar::turn ), print_time_just_hour( calendar::turn ),
                        city_name,
-                       weather_data( g->weather.weather ).name, print_temperature( g->weather.temperature )
+                       weather::name( g->weather.weather ), print_temperature( g->weather.temperature )
                    );
 
     //weather_report << ", the dewpoint ???, and the relative humidity ???.  ";
@@ -672,7 +645,7 @@ std::string weather_forecast( const point &abs_sm_pos )
         }
         weather_report << string_format(
                            _( "%s... %s. Highs of %s. Lows of %s. " ),
-                           day, weather_data( forecast ).name,
+                           day, weather::name( forecast ),
                            print_temperature( high ), print_temperature( low )
                        );
     }
@@ -757,25 +730,6 @@ int get_local_windchill( double temperature, double humidity, double windpower )
     }
 
     return windchill;
-}
-
-std::string get_wind_strength_bars( double windpower )
-{
-    std::string wind_bars;
-    if( windpower < 3 ) {
-        wind_bars.clear();
-    } else if( windpower < 12 ) {
-        wind_bars = "+";
-    } else if( windpower < 24 ) {
-        wind_bars = "++";
-    } else if( windpower < 38 ) {
-        wind_bars = "+++";
-    } else if( windpower < 54 ) {
-        wind_bars = "++++";
-    } else if( windpower >= 54 ) {
-        wind_bars = "+++++";
-    }
-    return wind_bars;
 }
 
 nc_color get_wind_color( double windpower )
@@ -1035,20 +989,21 @@ void weather_manager::update_weather()
         lightning_active = false;
         // Check weather every few turns, instead of every turn.
         // TODO: predict when the weather changes and use that time.
-        nextweather = calendar::turn + 50_turns;
-        if( weather != old_weather && weather_data( weather ).dangerous &&
+        nextweather = calendar::turn + 5_minutes;
+        const weather_datum wdata = weather_data( weather );
+        if( weather != old_weather && wdata.dangerous &&
             g->get_levz() >= 0 && g->m.is_outside( g->u.pos() )
             && !g->u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
             g->cancel_activity_or_ignore_query( distraction_type::weather_change,
-                                                string_format( _( "The weather changed to %s!" ), weather_data( weather ).name ) );
+                                                string_format( _( "The weather changed to %s!" ), wdata.name ) );
         }
 
         if( weather != old_weather && g->u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
             g->u.assign_activity( activity_id( "ACT_WAIT_WEATHER" ), 0, 0 );
         }
 
-        if( weather_data( weather ).sight_penalty !=
-            weather_data( old_weather ).sight_penalty ) {
+        if( wdata.sight_penalty !=
+            weather::sight_penalty( old_weather ) ) {
             for( int i = -OVERMAP_DEPTH; i <= OVERMAP_HEIGHT; i++ ) {
                 g->m.set_transparency_cache_dirty( i );
             }

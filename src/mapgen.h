@@ -9,6 +9,8 @@
 #include <vector>
 #include <utility>
 
+#include "faction.h"
+#include "int_id.h"
 #include "mapgen_functions.h"
 #include "regional_settings.h"
 #include "type_id.h"
@@ -21,7 +23,7 @@ class mission;
 struct tripoint;
 class map;
 
-typedef void ( *building_gen_pointer )( map *, oter_id, mapgendata, const time_point &, float );
+using building_gen_pointer = void ( * )( map *, oter_id, mapgendata, const time_point &, float );
 
 //////////////////////////////////////////////////////////////////////////
 ///// function pointer class; provides abstract referencing of
@@ -346,6 +348,9 @@ class update_mapgen_function_json : public mapgen_function_json_base
         void check( const std::string &oter_name ) const;
         bool update_map( const tripoint &omt_pos, int offset_x, int offset_y,
                          mission *miss, bool verify = false ) const;
+        bool update_map( mapgendata &md, int offset_x = 0, int offset_y = 0,
+                         mission *miss = nullptr, bool verify = false, int rotation = 0 ) const;
+
     protected:
         bool setup_internal( JsonObject &/*jo*/ ) override;
         ter_id fill_ter;
@@ -432,6 +437,7 @@ void fill_background( map *m, ter_id type );
 void fill_background( map *m, ter_id( *f )() );
 void square( map *m, ter_id type, int x1, int y1, int x2, int y2 );
 void square( map *m, ter_id( *f )(), int x1, int y1, int x2, int y2 );
+void square( map *m, const weighted_int_list<ter_id> &f, int x1, int y1, int x2, int y2 );
 void square_furn( map *m, furn_id type, int x1, int y1, int x2, int y2 );
 void rough_circle( map *m, ter_id type, int x, int y, int rad );
 void rough_circle_furn( map *m, furn_id type, int x, int y, int rad );
@@ -439,7 +445,5 @@ void circle( map *m, ter_id type, double x, double y, double rad );
 void circle( map *m, ter_id type, int x, int y, int rad );
 void circle_furn( map *m, furn_id type, int x, int y, int rad );
 void add_corpse( map *m, int x, int y );
-
-typedef void ( *map_special_pointer )( map &m, const tripoint &abs_sub );
 
 #endif

@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "calendar.h"
 #include "coordinate_conversions.h"
@@ -35,7 +36,7 @@ const efftype_id effect_infected( "infected" );
 static const trait_id trait_PROF_FED( "PROF_FED" );
 static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
 
-npc &create_test_talker()
+static npc &create_test_talker()
 {
     const string_id<npc_template> test_talker( "test_talker" );
     const int model_id = g->m.place_npc( 25, 25, test_talker, true );
@@ -57,7 +58,7 @@ npc &create_test_talker()
     return *model_npc;
 }
 
-void gen_response_lines( dialogue &d, size_t expected_count )
+static void gen_response_lines( dialogue &d, size_t expected_count )
 {
     d.gen_responses( d.topic_stack.back() );
     for( talk_response &response : d.responses ) {
@@ -72,7 +73,7 @@ void gen_response_lines( dialogue &d, size_t expected_count )
     REQUIRE( d.responses.size() == expected_count );
 }
 
-void change_om_type( const std::string &new_type )
+static void change_om_type( const std::string &new_type )
 {
     const point omt_pos = ms_to_omt_copy( g->m.getabs( g->u.posx(), g->u.posy() ) );
     oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, g->u.posz() );
@@ -457,21 +458,22 @@ TEST_CASE( "npc_talk_test" )
     effects.apply( d );
     CHECK( !talker_npc.has_trait( trait_PROF_FED ) );
     // buying and spending
+    talker_npc.op_of_u.owed = 1000;
     REQUIRE( !has_beer_bottle( g->u, 2 ) );
-    REQUIRE( g->u.cash == 1000 );
+    REQUIRE( talker_npc.op_of_u.owed == 1000 );
     effects = d.responses[9].success;
     effects.apply( d );
-    CHECK( g->u.cash == 500 );
+    CHECK( talker_npc.op_of_u.owed == 500 );
     CHECK( has_beer_bottle( g->u, 2 ) );
     REQUIRE( !has_item( g->u, "bottle_plastic", 1 ) );
     effects = d.responses[10].success;
     effects.apply( d );
     CHECK( has_item( g->u, "bottle_plastic", 1 ) );
-    CHECK( g->u.cash == 500 );
+    CHECK( talker_npc.op_of_u.owed == 500 );
     effects = d.responses[11].success;
     effects.apply( d );
-    CHECK( g->u.cash == 0 );
-    g->u.cash = 1000;
+    CHECK( talker_npc.op_of_u.owed == 0 );
+    talker_npc.op_of_u.owed = 1000;
     // effect chains
     REQUIRE( !g->u.has_effect( effect_infected ) );
     REQUIRE( !talker_npc.has_effect( effect_infected ) );
@@ -485,7 +487,7 @@ TEST_CASE( "npc_talk_test" )
     CHECK( talker_npc.get_effect( effect_infected ).is_permanent() );
     CHECK( g->u.has_trait( trait_PROF_SWAT ) );
     CHECK( talker_npc.has_trait( trait_PROF_SWAT ) );
-    CHECK( g->u.cash == 0 );
+    CHECK( talker_npc.op_of_u.owed == 0 );
     CHECK( talker_npc.get_attitude() == NPCATT_KILL );
     // opinion changes
     talker_npc.op_of_u = npc_opinion();
@@ -556,16 +558,17 @@ TEST_CASE( "npc_talk_test" )
     CHECK( !has_item( g->u, "beer", 1 ) );
 
     d.add_topic( "TALK_COMBAT_COMMANDS" );
-    gen_response_lines( d, 9 );
+    gen_response_lines( d, 10 );
     CHECK( d.responses[0].text == "Change your engagement rules..." );
     CHECK( d.responses[1].text == "Change your aiming rules..." );
     CHECK( d.responses[2].text == "Stick close to me, no matter what." );
-    CHECK( d.responses[3].text == "Don't use ranged weapons anymore." );
-    CHECK( d.responses[4].text == "Use only silent weapons." );
-    CHECK( d.responses[5].text == "Don't use grenades anymore." );
-    CHECK( d.responses[6].text == "Don't worry about shooting an ally." );
-    CHECK( d.responses[7].text == "Hold the line: don't move onto obstacles adjacent to me." );
-    CHECK( d.responses[8].text == "Never mind." );
+    CHECK( d.responses[3].text == "<ally_rule_follow_distance_2_true_text>" );
+    CHECK( d.responses[4].text == "Don't use ranged weapons anymore." );
+    CHECK( d.responses[5].text == "Use only silent weapons." );
+    CHECK( d.responses[6].text == "Don't use grenades anymore." );
+    CHECK( d.responses[7].text == "Don't worry about shooting an ally." );
+    CHECK( d.responses[8].text == "Hold the line: don't move onto obstacles adjacent to me." );
+    CHECK( d.responses[9].text == "Never mind." );
 
     d.add_topic( "TALK_TEST_VARS" );
     gen_response_lines( d, 3 );
@@ -601,56 +604,56 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[1].text == "This is a u_has_bionics bio_ads test response." );
     CHECK( d.responses[2].text == "This is a npc_has_bionics ANY response." );
 
-    // speaker effects just use cash because I don't want to do anything complicated
-    g->u.cash = 2000;
-    CHECK( g->u.cash == 2000 );
+    // speaker effects just use are owed because I don't want to do anything complicated
+    talker_npc.op_of_u.owed = 2000;
+    CHECK( talker_npc.op_of_u.owed == 2000 );
     d.add_topic( "TALK_TEST_SPEAKER_EFFECT_SIMPLE" );
     d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( g->u.cash == 1500 );
+    REQUIRE( talker_npc.op_of_u.owed == 1500 );
     d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( g->u.cash == 1000 );
+    REQUIRE( talker_npc.op_of_u.owed == 1000 );
     d.add_topic( "TALK_TEST_SPEAKER_EFFECT_SIMPLE_CONDITIONAL" );
     d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( g->u.cash == 500 );
+    REQUIRE( talker_npc.op_of_u.owed == 500 );
     d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( g->u.cash == 500 );
-    g->u.cash = 2000;
-    CHECK( g->u.cash == 2000 );
+    REQUIRE( talker_npc.op_of_u.owed == 0 );
+    talker_npc.op_of_u.owed = 2000;
+    CHECK( talker_npc.op_of_u.owed == 2000 );
     d.add_topic( "TALK_TEST_SPEAKER_EFFECT_SENTINEL" );
     d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( g->u.cash == 1500 );
+    REQUIRE( talker_npc.op_of_u.owed == 1500 );
     d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( g->u.cash == 1500 );
+    REQUIRE( talker_npc.op_of_u.owed == 1500 );
     d.add_topic( "TALK_TEST_SPEAKER_EFFECT_SENTINEL_CONDITIONAL" );
     d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( g->u.cash == 1000 );
+    REQUIRE( talker_npc.op_of_u.owed == 1000 );
     d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( g->u.cash == 1000 );
+    REQUIRE( talker_npc.op_of_u.owed == 1000 );
 
-    g->u.cash = 4500;
-    CHECK( g->u.cash == 4500 );
+    talker_npc.op_of_u.owed = 4500;
+    CHECK( talker_npc.op_of_u.owed == 4500 );
     d.add_topic( "TALK_TEST_SPEAKER_EFFECT_COMPOUND" );
     d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( g->u.cash == 3500 );
+    REQUIRE( talker_npc.op_of_u.owed == 3500 );
     d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( g->u.cash == 2500 );
+    REQUIRE( talker_npc.op_of_u.owed == 2500 );
     d.add_topic( "TALK_TEST_SPEAKER_EFFECT_COMPOUND_CONDITIONAL" );
     d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( g->u.cash == 1000 );
+    REQUIRE( talker_npc.op_of_u.owed == 1000 );
     d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( g->u.cash == 500 );
-    g->u.cash = 3500;
-    CHECK( g->u.cash == 3500 );
+    REQUIRE( talker_npc.op_of_u.owed == 500 );
+    talker_npc.op_of_u.owed = 3500;
+    CHECK( talker_npc.op_of_u.owed == 3500 );
     d.add_topic( "TALK_TEST_SPEAKER_EFFECT_COMPOUND_SENTINEL" );
     d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( g->u.cash == 2750 );
+    REQUIRE( talker_npc.op_of_u.owed == 2750 );
     d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( g->u.cash == 2250 );
+    REQUIRE( talker_npc.op_of_u.owed == 2250 );
     d.add_topic( "TALK_TEST_SPEAKER_EFFECT_COMPOUND_SENTINEL_CONDITIONAL" );
     d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( g->u.cash == 1500 );
+    REQUIRE( talker_npc.op_of_u.owed == 1500 );
     d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( g->u.cash == 1500 );
+    REQUIRE( talker_npc.op_of_u.owed == 1500 );
 
     // test change class
     REQUIRE( talker_npc.myclass == npc_class_id( "NC_TEST_CLASS" ) );

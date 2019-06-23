@@ -1423,6 +1423,126 @@
   },
   {
     "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "\"Burning...  from the inside...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "\"This smell...  Don't know...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "heavy breathing.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "a scraping noise.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "\"No...  Stop the burning!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "\"Hrgm...  Blood...  Hungry...\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "\"Hunger...  Must eat...\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "\"Run... Chase... Eat...\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "hysterical laughing.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "coughing.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "growling.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "wheezing.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "\"WHY THE FUCK are you doing this to me?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "\"LEAVE!  NOW!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "\"I TOLD YOU TO GET OUT OF HERE!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "\"WHAT THE FUCK DO YOU WANT FROM ME?!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "\"STOP!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "indistinct shouting.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "screaming.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "\"MEAT!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
     "speaker": "mon_shoggoth",
     "sound": "\"TEKELI-LI!\"",
     "volume": 40
@@ -1726,5 +1846,239 @@
     "speaker": "mon_eyebot",
     "sound": "\"Police inbound.  Stay where you are!\"",
     "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"I AM FOODPERSON. AND I BRING SUSTENANCE!\"",
+    "volume": 17
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"Come to FoodPlace today and buy food!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"FoodPlace: The best restaurant in an area!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"Our food contains up to 95% real food.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"FoodPlace: It's the Calories.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"You need food, don't you? Then come with me to FOODPLACE!!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"FoodPlace: Edible food is OUR guarantee!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "Wanna play with me?",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "Sing with me!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "I love you!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "Please take me with you!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "May I have a cookie?",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "Let's play together!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "Time to play!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "Om nom nom!  Delicious!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "Are you my mommy?",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "Oh, how fun!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "You're my best friend!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "Heehee!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "Let's have fun!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "Let's have a tea party!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "You're the best!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "You shouldn't have done that.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "Let's play... Russian roulette.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "I hate you.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "Go kill yourself!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "Big Brother is watching you...",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "Die for me!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "Why won't you die?",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "Blood... Delicious.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "See you... IN HELL!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "AAAIEEEEEEE!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "FUCK YOU!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "What did you do with my Mommy?",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "Stay with me... forever!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "Hey kids.  Want some candy?",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "Down here, they ALL float!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "Do you really need that much honey?",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "My previous owner squealed like a pig when I gutted her!",
+    "volume": 10
   }
 ]

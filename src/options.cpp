@@ -16,6 +16,7 @@
 #include "output.h"
 #include "path_info.h"
 #include "sdlsound.h"
+#include "sdltiles.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -47,10 +48,6 @@ int message_ttl;
 int message_cooldown;
 bool fov_3d;
 bool tile_iso;
-
-#if defined(TILES)
-extern std::unique_ptr<cata_tiles> tilecontext;
-#endif // TILES
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
@@ -592,7 +589,7 @@ std::string options_manager::cOpt::getValueName() const
         return ( bSet ) ? _( "True" ) : _( "False" );
 
     } else if( sType == "int_map" ) {
-        const auto name = std::get<1>( *findInt( iSet ) ).c_str();
+        const std::string name = std::get<1>( *findInt( iSet ) );
         if( verbose ) {
             return string_format( _( "%d: %s" ), iSet, name );
         } else {
@@ -628,7 +625,7 @@ std::string options_manager::cOpt::getDefaultText( const bool bTranslated ) cons
         return string_format( _( "Default: %d - Min: %d, Max: %d" ), iDefault, iMin, iMax );
 
     } else if( sType == "int_map" ) {
-        const auto name = std::get<1>( *findInt( iDefault ) ).c_str();
+        const std::string name = std::get<1>( *findInt( iDefault ) );
         if( verbose ) {
             return string_format( _( "Default: %d: %s" ), iDefault, name );
         } else {
@@ -722,7 +719,7 @@ void options_manager::cOpt::setNext()
         }
 
     } else if( sType == "int_map" ) {
-        long unsigned int iNext = getIntPos( iSet ) + 1;
+        unsigned int iNext = getIntPos( iSet ) + 1;
         if( iNext >= mIntValues.size() ) {
             iNext = 0;
         }
@@ -1181,20 +1178,36 @@ void options_manager::add_options_general()
 
     mOptionsSort["general"]++;
 
+    add( "AUTO_NOTES", "general", translate_marker( "Auto notes" ),
+         translate_marker( "If true, automatically sets notes" ),
+         false
+       );
+
+    add( "AUTO_NOTES_STAIRS", "general", translate_marker( "Auto notes (stairs)" ),
+         translate_marker( "If true, automatically sets notes on places that have stairs that go up or down" ),
+         false
+       );
+
+    get_option( "AUTO_NOTES_STAIRS" ).setPrerequisite( "AUTO_NOTES" );
+
+    add( "AUTO_NOTES_MAP_EXTRAS", "general", translate_marker( "Auto notes (map extras)" ),
+         translate_marker( "If true, automatically sets notes on places that contain various map extras" ),
+         false
+       );
+
+    get_option( "AUTO_NOTES_MAP_EXTRAS" ).setPrerequisite( "AUTO_NOTES" );
+
+    mOptionsSort["general"]++;
+
     add( "CIRCLEDIST", "general", translate_marker( "Circular distances" ),
          translate_marker( "If true, the game will calculate range in a realistic way: light sources will be circles, diagonal movement will cover more ground and take longer.  If disabled, everything is square: moving to the northwest corner of a building takes as long as moving to the north wall." ),
-         false
+         true
        );
 
     add( "DROP_EMPTY", "general", translate_marker( "Drop empty containers" ),
          translate_marker( "Set to drop empty containers after use.  No: Don't drop any. - Watertight: All except watertight containers. - All: Drop all containers." ),
     { { "no", translate_marker( "No" ) }, { "watertight", translate_marker( "Watertight" ) }, { "all", translate_marker( "All" ) } },
     "no"
-       );
-
-    add( "AUTO_NOTES", "general", translate_marker( "Auto notes" ),
-         translate_marker( "If true, automatically sets notes on places that have stairs that go up or down" ),
-         true
        );
 
     add( "DEATHCAM", "general", translate_marker( "DeathCam" ),
@@ -1339,7 +1352,6 @@ void options_manager::add_options_interface()
 
     mOptionsSort["interface"]++;
 
-#if !defined(__ANDROID__)
     add( "DIAG_MOVE_WITH_MODIFIERS_MODE", "interface",
          translate_marker( "Diagonal movement with cursor keys and modifiers" ),
          /*
@@ -1379,7 +1391,6 @@ void options_manager::add_options_interface()
          */
     translate_marker( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", translate_marker( "None" ) }, { "mode1", translate_marker( "Mode 1: Numpad Emulation" ) }, { "mode2", translate_marker( "Mode 2: CW/CCW" ) }, { "mode3", translate_marker( "Mode 3: L/R Tilt" ) } },
     "none", COPT_CURSES_HIDE );
-#endif
 
     mOptionsSort["interface"]++;
 
@@ -1396,6 +1407,11 @@ void options_manager::add_options_interface()
     add( "VEHICLE_DIR_INDICATOR", "interface", translate_marker( "Draw vehicle facing indicator" ),
          translate_marker( "If true, when controlling a vehicle, a white 'X' ( in curses version ) or a crosshair ( in tiles version ) at distance 10 from the center will display its current facing." ),
          true
+       );
+
+    add( "REVERSE_STEERING", "interface", translate_marker( "Reverse steering direction in reverse" ),
+         translate_marker( "If true, when driving a vehicle in reverse, steering should also reverse like real life." ),
+         false
        );
 
     mOptionsSort["interface"]++;
@@ -1471,9 +1487,13 @@ void options_manager::add_options_interface()
        );
 
     add( "AUTO_INV_ASSIGN", "interface", translate_marker( "Auto inventory letters" ),
-         translate_marker( "If false, new inventory items will only get letters assigned if they had one before." ),
-         true
-       );
+         translate_marker( "Enabled: automatically assign letters to any carried items that lack them. Disabled: do not auto-assign letters."
+    " Favorites: only auto-assign letters to favorited items." ), {
+        { "disabled", translate_marker( "Disabled" ) },
+        { "enabled", translate_marker( "Enabled" ) },
+        { "favorites", translate_marker( "Favorites" ) }
+    },
+    "favorites" );
 
     add( "ITEM_HEALTH_BAR", "interface", translate_marker( "Show item health bars" ),
          translate_marker( "If true, show item health bars instead of reinforced, scratched etc. text." ),
@@ -1947,11 +1967,6 @@ void options_manager::add_options_world_default()
          false
        );
 
-    add( "CLASSIC_ZOMBIES", "world_default", translate_marker( "Classic zombies" ),
-         translate_marker( "Only spawn classic zombies and natural wildlife.  Requires a reset of save folder to take effect.  This disables certain buildings." ),
-         false
-       );
-
     add( "BLACK_ROAD", "world_default", translate_marker( "Surrounded start" ),
          translate_marker( "If true, spawn zombies at shelters.  Makes the starting game a lot harder." ),
          false
@@ -2282,8 +2297,9 @@ static void refresh_tiles( bool, bool, bool )
 }
 #endif // TILES
 
-void draw_borders_external( const catacurses::window &w, int horizontal_level,
-                            const std::map<int, bool> &mapLines, const bool world_options_only )
+static void draw_borders_external(
+    const catacurses::window &w, int horizontal_level, const std::map<int, bool> &mapLines,
+    const bool world_options_only )
 {
     if( !world_options_only ) {
         draw_border( w, BORDER_COLOR, _( " OPTIONS " ) );
@@ -2297,7 +2313,7 @@ void draw_borders_external( const catacurses::window &w, int horizontal_level,
     wrefresh( w );
 }
 
-void draw_borders_internal( const catacurses::window &w, std::map<int, bool> &mapLines )
+static void draw_borders_internal( const catacurses::window &w, std::map<int, bool> &mapLines )
 {
     for( int i = 0; i < getmaxx( w ); ++i ) {
         if( mapLines[i] ) {

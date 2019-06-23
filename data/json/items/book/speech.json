@@ -14,7 +14,7 @@
     "skill": "speech",
     "max_level": 1,
     "intelligence": 3,
-    "time": 8,
+    "time": "8 m",
     "fun": 1
   },
   {
@@ -32,7 +32,7 @@
     "skill": "speech",
     "max_level": 3,
     "intelligence": 5,
-    "time": 20
+    "time": "20 m"
   },
   {
     "id": "textbook_speech",
@@ -51,7 +51,7 @@
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
-    "time": 30
+    "time": "30 m"
   },
   {
     "id": "dnd_handbook",
@@ -70,6 +70,6 @@
     "skill": "speech",
     "max_level": 5,
     "intelligence": 9,
-    "time": 30
+    "time": "30 m"
   }
 ]

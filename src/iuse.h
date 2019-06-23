@@ -15,7 +15,7 @@ class monster;
 template<typename T> class ret_val;
 struct iteminfo;
 
-typedef std::string itype_id;
+using itype_id = std::string;
 struct tripoint;
 
 // iuse methods returning a bool indicating whether to consume a charge of the item being used.
@@ -133,6 +133,7 @@ class iuse
         int shocktonfa_on( player *, item *, bool, const tripoint & );
         int mp3( player *, item *, bool, const tripoint & );
         int mp3_on( player *, item *, bool, const tripoint & );
+        int rpgdie( player *, item *, bool, const tripoint & );
         int dive_tank( player *, item *, bool, const tripoint & );
         int gasmask( player *, item *, bool, const tripoint & );
         int portable_game( player *, item *, bool, const tripoint & );
@@ -141,6 +142,7 @@ class iuse
         int vortex( player *, item *, bool, const tripoint & );
         int dog_whistle( player *, item *, bool, const tripoint & );
         int blood_draw( player *, item *, bool, const tripoint & );
+        int mind_splicer( player *, item *, bool, const tripoint & );
         static void cut_log_into_planks( player & );
         int lumber( player *, item *, bool, const tripoint & );
         int chop_tree( player *, item *, bool, const tripoint & );
@@ -182,6 +184,7 @@ class iuse
         int einktabletpc( player *, item *, bool, const tripoint & );
         int camera( player *, item *, bool, const tripoint & );
         int ehandcuffs( player *, item *, bool, const tripoint & );
+        int foodperson( player *, item *, bool, const tripoint & );
         int cable_attach( player *, item *, bool, const tripoint & );
         int shavekit( player *, item *, bool, const tripoint & );
         int hairkit( player *, item *, bool, const tripoint & );
@@ -227,6 +230,8 @@ class iuse
 
 };
 
+void remove_radio_mod( item &it, player &p );
+
 // Helper for clothes washing
 struct washing_requirements {
     int water;
@@ -235,7 +240,7 @@ struct washing_requirements {
 };
 washing_requirements washing_requirements_for_volume( units::volume );
 
-typedef int ( iuse::*use_function_pointer )( player *, item *, bool, const tripoint & );
+using use_function_pointer = int ( iuse::* )( player *, item *, bool, const tripoint & );
 
 class iuse_actor
 {

@@ -6,6 +6,7 @@
 #include <unordered_set>
 
 #include "action.h"
+#include "avatar_action.h"
 #include "field.h"
 #include "game.h"
 #include "item.h"
@@ -458,7 +459,7 @@ void player::activate_mutation( const trait_id &mut )
         mut_ranged = item( mdata.ranged_mutation );
         add_msg_if_player( mdata.ranged_mutation_message() );
         g->refresh_all();
-        g->plfire( mut_ranged );
+        avatar_action::fire( g->u, g->m, mut_ranged );
         tdata.powered = false;
         return;
     }
@@ -473,7 +474,7 @@ void player::deactivate_mutation( const trait_id &mut )
     recalc_sight_limits();
 }
 
-trait_id Character::trait_by_invlet( const long ch ) const
+trait_id Character::trait_by_invlet( const int ch ) const
 {
     for( auto &mut : my_mutations ) {
         if( mut.second.key == ch ) {
@@ -531,9 +532,9 @@ void player::mutate()
     std::vector<trait_id> downgrades;
 
     // For each mutation...
-    for( auto &traits_iter : mutation_branch::get_all() ) {
-        const auto &base_mutation = traits_iter.id;
-        const auto &base_mdata = traits_iter;
+    for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
+        const trait_id &base_mutation = traits_iter.id;
+        const mutation_branch &base_mdata = traits_iter;
         bool thresh_save = base_mdata.threshold;
         bool prof_save = base_mdata.profession;
         bool purify_save = base_mdata.purifiable;
@@ -541,7 +542,7 @@ void player::mutate()
         // ...that we have...
         if( has_trait( base_mutation ) ) {
             // ...consider the mutations that replace it.
-            for( auto &mutation : base_mdata.replacements ) {
+            for( const trait_id &mutation : base_mdata.replacements ) {
                 bool valid_ok = mutation->valid;
 
                 if( ( mutation_ok( mutation, force_good, force_bad ) ) &&
@@ -551,7 +552,7 @@ void player::mutate()
             }
 
             // ...consider the mutations that add to it.
-            for( auto &mutation : base_mdata.additions ) {
+            for( const trait_id &mutation : base_mdata.additions ) {
                 bool valid_ok = mutation->valid;
 
                 if( ( mutation_ok( mutation, force_good, force_bad ) ) &&
@@ -565,7 +566,7 @@ void player::mutate()
                 // Starting traits don't count toward categories
                 std::vector<trait_id> group = mutations_category[cat];
                 bool in_cat = false;
-                for( auto &elem : group ) {
+                for( const trait_id &elem : group ) {
                     if( elem == base_mutation ) {
                         in_cat = true;
                         break;
@@ -574,11 +575,9 @@ void player::mutate()
 
                 // mark for removal
                 // no removing Thresholds/Professions this way!
-                if( !in_cat && !thresh_save && !prof_save ) {
-                    // non-purifiable stuff should be pretty tenacious
-                    // category-enforcement only targets it 25% of the time
-                    // (purify_save defaults true, = false for non-purifiable)
-                    if( purify_save || one_in( 4 ) ) {
+                // unpurifiable traits also cannot be purified
+                if( !in_cat && !thresh_save && !prof_save && !purify_save ) {
+                    if( one_in( 4 ) ) {
                         downgrades.push_back( base_mutation );
                     }
                 }
@@ -621,7 +620,7 @@ void player::mutate()
 
         if( cat.empty() ) {
             // Pull the full list
-            for( auto &traits_iter : mutation_branch::get_all() ) {
+            for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
                 if( traits_iter.valid ) {
                     valid.push_back( traits_iter.id );
                 }
@@ -958,7 +957,7 @@ bool player::mutate_towards( const trait_id &mut )
     return true;
 }
 
-void player::remove_mutation( const trait_id &mut )
+void player::remove_mutation( const trait_id &mut, bool silent )
 {
     const auto &mdata = mut.obj();
     // Check if there's a prerequisite we should shrink back into
@@ -1054,10 +1053,12 @@ void player::remove_mutation( const trait_id &mut )
         } else {
             rating = m_neutral;
         }
-        add_msg_player_or_npc( rating,
-                               _( "Your %1$s mutation turns into %2$s." ),
-                               _( "<npcname>'s %1$s mutation turns into %2$s." ),
-                               mdata.name(), replace_mdata.name() );
+        if( !silent ) {
+            add_msg_player_or_npc( rating,
+                                   _( "Your %1$s mutation turns into %2$s." ),
+                                   _( "<npcname>'s %1$s mutation turns into %2$s." ),
+                                   mdata.name(), replace_mdata.name() );
+        }
         set_mutation( replacing );
         mutation_loss_effect( mut );
         mutation_effect( replacing );
@@ -1074,10 +1075,12 @@ void player::remove_mutation( const trait_id &mut )
         } else {
             rating = m_neutral;
         }
-        add_msg_player_or_npc( rating,
-                               _( "Your %1$s mutation turns into %2$s." ),
-                               _( "<npcname>'s %1$s mutation turns into %2$s." ),
-                               mdata.name(), replace_mdata.name() );
+        if( !silent ) {
+            add_msg_player_or_npc( rating,
+                                   _( "Your %1$s mutation turns into %2$s." ),
+                                   _( "<npcname>'s %1$s mutation turns into %2$s." ),
+                                   mdata.name(), replace_mdata.name() );
+        }
         set_mutation( replacing2 );
         mutation_loss_effect( mut );
         mutation_effect( replacing2 );
@@ -1093,10 +1096,12 @@ void player::remove_mutation( const trait_id &mut )
         } else {
             rating = m_neutral;
         }
-        add_msg_player_or_npc( rating,
-                               _( "You lose your %s mutation." ),
-                               _( "<npcname> loses their %s mutation." ),
-                               mdata.name() );
+        if( !silent ) {
+            add_msg_player_or_npc( rating,
+                                   _( "You lose your %s mutation." ),
+                                   _( "<npcname> loses their %s mutation." ),
+                                   mdata.name() );
+        }
         mutation_loss_effect( mut );
     }
 

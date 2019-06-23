@@ -31,12 +31,21 @@ class weather_generator
         // Average atmospheric pressure
         double base_pressure = 1015.0;
         double base_acid = 0.0;
-        // Average yearly windspeed of New England
+        //Average yearly windspeed of New England
         double base_wind = 5.7;
-        // How much the wind peaks above average
+        //How much the wind peaks above average
         int base_wind_distrib_peaks = 30;
-        // How much the wind folows seasonal variation ( lower means more change )
-        int base_wind_season_variation = 64;
+        int summer_temp_manual_mod = 0;
+        int spring_temp_manual_mod = 0;
+        int autumn_temp_manual_mod = 0;
+        int winter_temp_manual_mod = 0;
+        int spring_humidity_manual_mod = 0;
+        int summer_humidity_manual_mod = 0;
+        int autumn_humidity_manual_mod = 0;
+        int winter_humidity_manual_mod = 0;
+        //How much the wind folows seasonal variation ( lower means more change )
+        int base_wind_season_variation =
+            64;
         static int current_winddir;
 
         weather_generator();

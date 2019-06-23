@@ -96,7 +96,7 @@ constexpr int freezer = 23; // -5 Celsius
 
 /** Temperature in which water freezes in Fahrenheit  */
 constexpr int freezing = 32; // 0 Celsius
-}
+} // namespace temperatures
 
 // Shelf life of corpse. This should be kept same as raw flesh.
 constexpr time_duration CORPSE_ROT_TIME = 24_hours;
@@ -107,8 +107,8 @@ constexpr time_duration CORPSE_ROT_TIME = 24_hours;
 /** Cap JACK requirements to support arbitrarily large vehicles */
 #define JACK_LIMIT 8500_kilogram // 8500kg ( 8.5 metric tonnes )
 
-/** Maximum density of a map field */
-#define MAX_FIELD_DENSITY 3
+/** Maximum intensity of a map field */
+#define MAX_FIELD_INTENSITY 3
 
 /** Slowest speed at which a gun can be aimed */
 #define MAX_AIM_COST 10
@@ -145,9 +145,6 @@ constexpr double accuracy_grazing  = 1.0;
 /** Base starting spring temperature in F used for climate, weather and temperature calculation */
 /** New England base spring temperature = 65F/18C rounded to int */
 #define SPRING_TEMPERATURE 65
-
-/** Character's base weight in units::mass */
-constexpr units::mass CHARACTER_WEIGHT = 81500_gram;
 
 /** Used to limit the random seed during noise calculation. A large value flattens the noise generator to zero.
     Windows has a rand limit of 32768, other operating systems can have higher limits. */

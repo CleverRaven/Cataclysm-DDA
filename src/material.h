@@ -59,7 +59,7 @@ class material_type
 
         std::map<vitamin_id, double> _vitamins;
 
-        std::array<mat_burn_data, MAX_FIELD_DENSITY> _burn_data;
+        std::array<mat_burn_data, MAX_FIELD_INTENSITY> _burn_data;
 
         //Burn products defined in JSON as "burn_products": [ [ "X", float efficiency ], [ "Y", float efficiency ] ]
         mat_burn_products _burn_products;
@@ -127,6 +127,6 @@ material_list get_all();
 material_list get_compactable();
 std::set<material_id> get_rotting();
 
-}
+} // namespace materials
 
 #endif

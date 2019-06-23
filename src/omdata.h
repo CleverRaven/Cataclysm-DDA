@@ -97,14 +97,14 @@ type random();
 /** Whether these directions are parallel. */
 bool are_parallel( type dir1, type dir2 );
 
-}
+} // namespace om_direction
 
 class overmap_land_use_code
 {
     public:
         overmap_land_use_code_id id = overmap_land_use_code_id::NULL_ID();
 
-        int land_use_code;
+        int land_use_code = 0;
         std::string name;
         std::string detailed_definition;
         uint32_t symbol;
@@ -427,6 +427,9 @@ class overmap_special
         void load( JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
+    private:
+        // These locations are the default values if ones are not specified for the individual OMTs.
+        std::set<string_id<overmap_location>> default_locations;
 };
 
 namespace overmap_terrains
@@ -439,7 +442,7 @@ void reset();
 
 const std::vector<oter_t> &get_all();
 
-}
+} // namespace overmap_terrains
 
 namespace overmap_land_use_codes
 {
@@ -451,7 +454,7 @@ void reset();
 
 const std::vector<overmap_land_use_code> &get_all();
 
-}
+} // namespace overmap_land_use_codes
 
 namespace overmap_specials
 {
@@ -469,13 +472,13 @@ overmap_special_batch get_default_batch( const point &origin );
  */
 overmap_special_id create_building_from( const string_id<oter_type_t> &base );
 
-}
+} // namespace overmap_specials
 
 namespace city_buildings
 {
 
 void load( JsonObject &jo, const std::string &src );
 
-}
+} // namespace city_buildings
 
 #endif

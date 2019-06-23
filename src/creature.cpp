@@ -8,6 +8,7 @@
 #include <memory>
 
 #include "anatomy.h"
+#include "avatar.h"
 #include "debug.h"
 #include "effect.h"
 #include "field.h"
@@ -47,6 +48,8 @@ const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_zapped( "zapped" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_no_sight( "no_sight" );
+const efftype_id effect_riding( "riding" );
+const efftype_id effect_ridden( "ridden" );
 
 const std::map<std::string, m_size> Creature::size_map = {
     {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
@@ -165,7 +168,7 @@ bool Creature::is_dangerous_fields( const field &fld ) const
 bool Creature::is_dangerous_field( const field_entry &entry ) const
 {
     // If it's dangerous and we're not immune return true, else return false
-    return entry.is_dangerous() && !is_immune_field( entry.getFieldType() );
+    return entry.is_dangerous() && !is_immune_field( entry.get_field_type() );
 }
 
 bool Creature::sees( const Creature &critter ) const
@@ -275,7 +278,8 @@ bool Creature::sees( const tripoint &t, bool is_player, int range_mod ) const
 
 // Helper function to check if potential area of effect of a weapon overlaps vehicle
 // Maybe TODO: If this is too slow, precalculate a bounding box and clip the tested area to it
-bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint &pos, const int area )
+static bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint &pos,
+                              const int area )
 {
     tripoint tmp = pos;
     int &x = tmp.x;
@@ -434,7 +438,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
  * Damage-related functions
  */
 
-int size_melee_penalty( m_size target_size )
+static int size_melee_penalty( m_size target_size )
 {
     switch( target_size ) {
         case MS_TINY:
@@ -472,8 +476,15 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         dealt_dam.bp_hit = get_random_body_part();
         return;
     }
+    // If carrying a rider, there is a chance the hits may hit rider instead.
+    if( has_effect( effect_ridden ) ) {
+        // big mounts and small player = big shield for player.
+        if( one_in( std::max( 2, get_size() - g->u.get_size() ) ) ) {
+            g->u.deal_melee_hit( source, hit_spread, critical_hit, dam, dealt_dam );
+            return;
+        }
+    }
     damage_instance d = dam; // copy, since we will mutate in block_hit
-
     body_part bp_hit = select_body_part( source, hit_spread );
     block_hit( source, bp_hit, d );
 
@@ -520,12 +531,20 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
 void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
                                        bool print_messages )
 {
+    const bool magic = attack.proj.proj_effects.count( "magic" ) > 0;
     const double missed_by = attack.missed_by;
-    if( missed_by >= 1.0 ) {
+    if( missed_by >= 1.0 && !magic ) {
         // Total miss
         return;
     }
-
+    // If carrying a rider, there is a chance the hits may hit rider instead.
+    if( has_effect( effect_ridden ) ) {
+        // big mounts and small player = big shield for player.
+        if( one_in( std::max( 2, get_size() - g->u.get_size() ) ) ) {
+            g->u.deal_projectile_attack( source, attack, print_messages );
+            return;
+        }
+    }
     const projectile &proj = attack.proj;
     dealt_damage_instance &dealt_dam = attack.dealt_dam;
     const auto &proj_effects = proj.proj_effects;
@@ -539,7 +558,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     const double dodge_rescaled = avoid_roll / static_cast<double>( diff_roll );
     const double goodhit = missed_by + std::max( 0.0, std::min( 1.0, dodge_rescaled ) ) ;
 
-    if( goodhit >= 1.0 ) {
+    if( goodhit >= 1.0 && !magic ) {
         attack.missed_by = 1.0; // Arbitrary value
         if( !print_messages ) {
             return;
@@ -569,7 +588,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     body_part bp_hit;
     double hit_value = missed_by + rng_float( -0.5, 0.5 );
     // Headshots considered elsewhere
-    if( hit_value <= 0.4 ) {
+    if( hit_value <= 0.4 || magic ) {
         bp_hit = bp_torso;
     } else if( one_in( 4 ) ) {
         if( one_in( 2 ) ) {
@@ -589,8 +608,9 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     std::string message;
     game_message_type gmtSCTcolor = m_neutral;
-
-    if( goodhit < accuracy_headshot ) {
+    if( magic ) {
+        damage_mult *= rng_float( 0.9, 1.1 );
+    } else if( goodhit < accuracy_headshot ) {
         message = _( "Headshot!" );
         gmtSCTcolor = m_headshot;
         damage_mult *= rng_float( 1.95, 2.05 );
@@ -821,6 +841,8 @@ void Creature::deal_damage_handle_type( const damage_unit &du, body_part bp, int
             break;
     }
 
+    on_damage_of_type( adjusted_damage, du.type, bp );
+
     damage += adjusted_damage;
     pain += roll_remainder( adjusted_damage / div );
 }
@@ -850,6 +872,10 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
     // Check our innate immunity
     if( !force && is_immune_effect( eff_id ) ) {
         return;
+    }
+    if( eff_id == efftype_id( "knockdown" ) && ( has_effect( effect_ridden ) ||
+            has_effect( effect_riding ) ) ) {
+        g->u.forced_dismount();
     }
 
     if( !eff_id.is_valid() ) {
@@ -943,13 +969,13 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
         }
         ( *effects )[eff_id][bp] = e;
         if( is_player() ) {
-            // Only print the message if we didn't already have it
             if( !type.get_apply_message().empty() ) {
-                add_msg( type.gain_game_message_type(),
-                         _( type.get_apply_message() ) );
+                add_msg( type.gain_game_message_type(), _( type.get_apply_message() ) );
             }
-            add_memorial_log( pgettext( "memorial_male", type.get_apply_memorial_log().c_str() ),
-                              pgettext( "memorial_female", type.get_apply_memorial_log().c_str() ) );
+            if( !type.get_apply_memorial_log().empty() ) {
+                add_memorial_log( pgettext( "memorial_male", type.get_apply_memorial_log().c_str() ),
+                                  pgettext( "memorial_female", type.get_apply_memorial_log().c_str() ) );
+            }
         }
         on_effect_int_change( eff_id, e.get_intensity(), bp );
         // Perform any effect addition effects.
@@ -994,13 +1020,13 @@ bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
     const effect_type &type = eff_id.obj();
 
     if( is_player() ) {
-        // Print the removal message and add the memorial log if needed
         if( !type.get_remove_message().empty() ) {
-            add_msg( type.lose_game_message_type(),
-                     _( type.get_remove_message() ) );
+            add_msg( type.lose_game_message_type(), _( type.get_remove_message() ) );
         }
-        add_memorial_log( pgettext( "memorial_male", type.get_remove_memorial_log().c_str() ),
-                          pgettext( "memorial_female", type.get_remove_memorial_log().c_str() ) );
+        if( !type.get_remove_memorial_log().empty() ) {
+            add_memorial_log( pgettext( "memorial_male", type.get_remove_memorial_log().c_str() ),
+                              pgettext( "memorial_female", type.get_remove_memorial_log().c_str() ) );
+        }
     }
 
     // num_bp means remove all of a given effect id

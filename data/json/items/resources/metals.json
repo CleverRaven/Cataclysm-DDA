@@ -199,5 +199,39 @@
     "color": "light_gray",
     "ammo_type": "components",
     "qualities": [ [ "HAMMER", 1 ] ]
+  },
+  {
+    "id": "hinge",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": "door hinge",
+    "description": "A small metal hinge with two metal plates with screw holes. Useful for making doors.",
+    "weight": 300,
+    "volume": 1,
+    "price": 3000,
+    "bashing": 5,
+    "to_hit": -3,
+    "stack_size": 6,
+    "//": "Roughly in the 8cm×8cm to 10cm×10cm range. Compact and stacks well",
+    "material": "steel",
+    "symbol": "%",
+    "color": "light_cyan",
+    "ammo_type": "components"
+  },
+  {
+    "type": "material",
+    "ident": "bronze",
+    "name": "Bronze",
+    "density": 58,
+    "bash_resist": 4,
+    "cut_resist": 5,
+    "acid_resist": 1,
+    "fire_resist": 2,
+    "elec_resist": 0,
+    "chip_resist": 15,
+    "salvaged_into": "scrap_bronze",
+    "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "scratched"
   }
 ]

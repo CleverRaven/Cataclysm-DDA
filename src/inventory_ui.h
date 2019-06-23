@@ -46,35 +46,15 @@ class inventory_entry
         item_location location;
 
         size_t chosen_count = 0;
-        long custom_invlet = LONG_MIN;
+        int custom_invlet = INT_MIN;
         std::string cached_name;
 
         inventory_entry( const item_location &location, size_t stack_size,
                          const item_category *custom_category = nullptr, bool enabled = true ) :
-            location( location.clone() ),
+            location( location ),
             stack_size( stack_size ),
             custom_category( custom_category ),
             enabled( enabled ) {}
-
-        inventory_entry( const inventory_entry &entry ) :
-            location( entry.location.clone() ),
-            chosen_count( entry.chosen_count ),
-            custom_invlet( entry.custom_invlet ),
-            cached_name( entry.cached_name ),
-            stack_size( entry.stack_size ),
-            custom_category( entry.custom_category ),
-            enabled( entry.enabled ) {}
-
-        inventory_entry operator=( const inventory_entry &rhs ) {
-            location = rhs.location.clone();
-            chosen_count = rhs.chosen_count;
-            custom_invlet = rhs.custom_invlet;
-            stack_size = rhs.stack_size;
-            custom_category = rhs.custom_category;
-            enabled = rhs.enabled;
-            cached_name = rhs.cached_name;
-            return *this;
-        }
 
         inventory_entry( const item_location &location, const item_category *custom_category = nullptr,
                          bool enabled = true ) :
@@ -122,7 +102,7 @@ class inventory_entry
 
         size_t get_available_count() const;
         const item_category *get_category_ptr() const;
-        long get_invlet() const;
+        int get_invlet() const;
         nc_color get_invlet_color() const;
         void update_cache();
 
@@ -264,7 +244,7 @@ class inventory_column
         std::vector<inventory_entry *> get_entries(
             const std::function<bool( const inventory_entry &entry )> &filter_func ) const;
 
-        inventory_entry *find_by_invlet( long invlet ) const;
+        inventory_entry *find_by_invlet( int invlet ) const;
 
         void draw( const catacurses::window &win, size_t x, size_t y ) const;
 
@@ -304,7 +284,7 @@ class inventory_column
         /** Resets width to original (unchanged). */
         void reset_width();
         /** Returns next custom inventory letter. */
-        long reassign_custom_invlets( const player &p, long min_invlet, long max_invlet );
+        int reassign_custom_invlets( const player &p, int min_invlet, int max_invlet );
         /** Reorder entries, repopulate titles, adjust to the new height. */
         virtual void prepare_paging( const std::string &filter = "" );
         /**
@@ -527,7 +507,7 @@ class inventory_selector
         void draw_frame( const catacurses::window &w ) const;
 
         /** @return an entry from all entries by its invlet */
-        inventory_entry *find_entry_by_invlet( long invlet ) const;
+        inventory_entry *find_entry_by_invlet( int invlet ) const;
 
         const std::vector<inventory_column *> &get_all_columns() const {
             return columns;

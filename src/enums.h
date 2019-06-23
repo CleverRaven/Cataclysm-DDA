@@ -2,6 +2,7 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
+#include <array>
 #include <cassert>
 #include <climits>
 #include <ostream>
@@ -140,6 +141,10 @@ enum object_type {
     NUM_OBJECTS,
 };
 
+enum liquid_source_type { LST_INFINITE_MAP = 1, LST_MAP_ITEM = 2, LST_VEHICLE = 3, LST_MONSTER = 4};
+
+enum liquid_target_type { LTT_CONTAINER = 1, LTT_VEHICLE = 2, LTT_MAP = 3, LTT_MONSTER = 4 };
+
 /**
  *  Possible layers that a piece of clothing/armor can occupy
  *
@@ -232,7 +237,7 @@ struct hash<point> {
         return result;
     }
 };
-}
+} // namespace std
 
 inline constexpr bool operator<( const point &a, const point &b )
 {
@@ -328,7 +333,7 @@ struct hash<tripoint> {
         return result;
     }
 };
-}
+} // namespace std
 
 inline constexpr bool operator==( const tripoint &a, const tripoint &b )
 {
@@ -351,6 +356,18 @@ inline bool operator<( const tripoint &a, const tripoint &b )
     }
     return false;
 }
+
+static const std::array<tripoint, 8> eight_horizontal_neighbors = { {
+        { -1, -1, 0 },
+        {  0, -1, 0 },
+        { +1, -1, 0 },
+        { -1,  0, 0 },
+        { +1,  0, 0 },
+        { -1, +1, 0 },
+        {  0, +1, 0 },
+        { +1, +1, 0 },
+    }
+};
 
 struct rectangle {
     point p_min;
@@ -448,7 +465,28 @@ enum game_message_type : int {
     /* custom SCT colors */
     m_headshot,
     m_critical,
-    m_grazing
+    m_grazing,
+};
+
+enum game_message_flags {
+    /* No specific game message flags */
+    gmf_none = 0,
+    /* Allow the message to bypass message cooldown. */
+    gmf_bypass_cooldown = 1,
+};
+
+/** Structure allowing a combination of `game_message_type` and `game_message_flags`.
+ */
+struct game_message_params {
+    game_message_params( const game_message_type message_type ) : type( message_type ),
+        flags( gmf_none ) {}
+    game_message_params( const game_message_type message_type,
+                         const game_message_flags message_flags ) : type( message_type ), flags( message_flags ) {}
+
+    /* Type of the message */
+    game_message_type type;
+    /* Flags pertaining to the message */
+    game_message_flags flags;
 };
 
 #endif

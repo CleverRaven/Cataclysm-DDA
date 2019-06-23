@@ -12,6 +12,7 @@
 #include <memory>
 #include <utility>
 
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "effect.h"
@@ -66,7 +67,6 @@ const species_id ZOMBIE( "ZOMBIE" );
 const species_id HUMAN( "HUMAN" );
 
 const efftype_id effect_amigara( "amigara" );
-const efftype_id effect_mending( "mending" );
 
 int alerts = 0;
 
@@ -564,6 +564,21 @@ void computer::activate_function( computer_action action )
         }
         break;
 
+        case COMPACT_RADIO_ARCHIVE: {
+            g->u.moves -= 300;
+            sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, 21, 2000 );
+            print_text( "Accessing archive. Playing audio recording nr %d.\n%s", rng( 1, 9999 ),
+                        SNIPPET.random_from_category( "radio_archive" ) );
+            if( one_in( 3 ) ) {
+                query_any( _( "Warning: resticted data access. Attempt logged. Press any key..." ) );
+                alerts ++;
+            } else {
+                query_any( _( "Press any key..." ) );
+            }
+            sfx::fade_audio_channel( 21, 100 );
+        }
+        break;
+
         case COMPACT_MAPS: {
             g->u.moves -= 30;
             const tripoint center = g->u.global_omt_location();
@@ -581,7 +596,7 @@ void computer::activate_function( computer_action action )
             for( int i = -60; i <= 60; i++ ) {
                 for( int j = -60; j <= 60; j++ ) {
                     const oter_id &oter = overmap_buffer.ter( center.x + i, center.y + j, center.z );
-                    if( is_ot_type( "sewer", oter ) || is_ot_type( "sewage", oter ) ) {
+                    if( is_ot_type( "sewer", oter ) || is_ot_prefix( "sewage", oter ) ) {
                         overmap_buffer.set_seen( center.x + i, center.y + j, center.z, true );
                     }
                 }
@@ -736,62 +751,28 @@ void computer::activate_function( computer_action action )
             query_any( _( "Elevator activated.  Press any key..." ) );
             break;
 
-        case COMPACT_AMIGARA_LOG: // TODO: This is static, move to data file?
+        case COMPACT_AMIGARA_LOG: {
             g->u.moves -= 30;
             reset_terminal();
             print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
-            print_line( _( "\
-ENTRY 47:\n\
-Our normal mining routine has unearthed a hollow chamber.  This would not be\n\
-out of the ordinary, save for the odd, perfectly vertical faultline found.\n\
-This faultline has several odd concavities in it which have the more\n\
-superstitious crew members alarmed; they seem to be of human origin.\n\
-\n\
-ENTRY 48:\n\
-The concavities are between 10 and 20 feet tall, and run the length of the\n\
-faultline.  Each one is vaguely human in shape, but with the proportions of\n\
-the limbs, neck and head greatly distended, all twisted and curled in on\n\
-themselves.\n" ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "amigara1" ) ) );
+
             if( !query_bool( _( "Continue reading?" ) ) ) {
                 return;
             }
             g->u.moves -= 30;
             reset_terminal();
             print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
-            print_line( _( "\
-ENTRY 49:\n\
-We've stopped mining operations in this area, obviously, until archaeologists\n\
-have the chance to inspect the area.  This is going to set our schedule back\n\
-by at least a week.  This stupid artifact-preservation law has been in place\n\
-for 50 years, and hasn't even been up for termination despite the fact that\n\
-these mining operations are the backbone of our economy.\n\
-\n\
-ENTRY 52:\n\
-Still waiting on the archaeologists.  We've done a little light inspection of\n\
-the faultline; our sounding equipment is insufficient to measure the depth of\n\
-the concavities.  The equipment is rated at 15 miles depth, but it isn't made\n\
-for such narrow tunnels, so it's hard to say exactly how far back they go.\n" ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "amigara2" ) ) );
+
             if( !query_bool( _( "Continue reading?" ) ) ) {
                 return;
             }
             g->u.moves -= 30;
             reset_terminal();
             print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
-            print_line( _( "\
-ENTRY 54:\n\
-I noticed a couple of the guys down in the chamber with a chisel, breaking\n\
-off a piece of the sheer wall.  I'm looking the other way.  It's not like\n\
-the eggheads are going to notice a little piece missing.  Fuck em.\n\
-\n\
-ENTRY 55:\n\
-Well, the archaeologists are down there now with a couple of the boys as\n\
-guides.  They're hardly Indiana Jones types; I doubt they been below 20\n\
-feet.  I hate taking guys off assignment just to babysit the scientists, but\n\
-if they get hurt we'll be shut down for god knows how long.\n\
-\n\
-ENTRY 58:\n\
-They're bringing in ANOTHER CREW?  Christ, it's just some cave carvings!  I\n\
-know that's sort of a big deal, but come on, these guys can't handle it?\n" ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "amigara3" ) ) );
+
             if( !query_bool( _( "Continue reading?" ) ) ) {
                 return;
             }
@@ -814,15 +795,7 @@ know that's sort of a big deal, but come on, these guys can't handle it?\n" ) );
 SITE %d%d%d\n\
 PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
                         g->get_levx(), g->get_levy(), abs( g->get_levz() ) );
-            print_line( _( "\n\
-MINE OPERATIONS SUSPENDED; CONTROL TRANSFERRED TO AMIGARA PROJECT UNDER\n\
-   IMPERATIVE 2:07B\n\
-FAULTLINE SOUNDING HAS PLACED DEPTH AT 30.09 KM\n\
-DAMAGE TO FAULTLINE DISCOVERED; NEPOWER MINE CREW PLACED UNDER ARREST FOR\n\
-   VIOLATION OF REGULATION 87.08 AND TRANSFERRED TO LAB 89-C FOR USE AS\n\
-   SUBJECTS\n\
-QUALITY OF FAULTLINE NOT COMPROMISED\n\
-INITIATING STANDARD TREMOR TEST..." ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "amigara4" ) ) );
             print_gibberish_line();
             print_gibberish_line();
             print_newline();
@@ -830,51 +803,16 @@ INITIATING STANDARD TREMOR TEST..." ) );
             inp_mngr.wait_for_any_key();
             reset_terminal();
             break;
+        }
 
         case COMPACT_AMIGARA_START:
-            g->events.add( EVENT_AMIGARA, calendar::turn + 10_turns );
+            g->events.add( EVENT_AMIGARA, calendar::turn + 1_minutes );
             if( !g->u.has_artifact_with( AEP_PSYSHIELD ) ) {
                 g->u.add_effect( effect_amigara, 2_minutes );
             }
             // Disable this action to prevent further amigara events, which would lead to
             // further amigara monster, which would lead to further artifacts.
             remove_option( COMPACT_AMIGARA_START );
-            break;
-
-        case COMPACT_BONESETTING:
-            for( int i = 0; i < num_hp_parts; i++ ) {
-                const bool broken = g->u.get_hp( static_cast<hp_part>( i ) ) <= 0;
-                body_part part = g->u.hp_to_bp( static_cast<hp_part>( i ) );
-                effect &existing_effect = g->u.get_effect( effect_mending, part );
-                // Skip part if not broken or already healed 50%
-                if( !broken || ( !existing_effect.is_null() &&
-                                 existing_effect.get_duration() >
-                                 existing_effect.get_max_duration() - 5_days - 1_turns ) ) {
-                    continue;
-                }
-                g->u.moves -= 500;
-                print_line( _( "The machine rapidly sets and splints your broken %s." ),
-                            body_part_name( part ) );
-                // TODO: fail here if unable to perform the action, i.e. can't wear more, trait mismatch.
-                if( !g->u.worn_with_flag( "SPLINT", part ) ) {
-                    item splint;
-                    if( i == hp_arm_l || i == hp_arm_r ) {
-                        splint = item( "arm_splint", 0 );
-                    } else if( i == hp_leg_l || i == hp_leg_r ) {
-                        splint = item( "leg_splint", 0 );
-                    }
-                    item &equipped_splint = g->u.i_add( splint );
-                    cata::optional<std::list<item>::iterator> worn_item =
-                        g->u.wear( equipped_splint, false );
-                    if( worn_item && !g->u.worn_with_flag( "SPLINT", part ) ) {
-                        g->u.change_side( **worn_item, false );
-                    }
-                }
-                g->u.add_effect( effect_mending, 0_turns, part, true );
-                effect &mending_effect = g->u.get_effect( effect_mending, part );
-                mending_effect.set_duration( mending_effect.get_max_duration() - 5_days );
-            }
-            query_any( _( "Press any key..." ) );
             break;
 
         case COMPACT_COMPLETE_DISABLE_EXTERNAL_POWER:
@@ -939,16 +877,17 @@ INITIATING STANDARD TREMOR TEST..." ) );
             g->u.moves -= 70;
             for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 2 ) ) {
                 if( g->m.ter( dest ) == t_centrifuge ) {
-                    if( g->m.i_at( dest ).empty() ) {
+                    map_stack items = g->m.i_at( dest );
+                    if( items.empty() ) {
                         print_error( _( "ERROR: Please place sample in centrifuge." ) );
-                    } else if( g->m.i_at( dest ).size() > 1 ) {
+                    } else if( items.size() > 1 ) {
                         print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
-                    } else if( g->m.i_at( dest )[0].contents.empty() ) {
+                    } else if( items.only_item().contents.empty() ) {
                         print_error( _( "ERROR: Please only use container with blood sample." ) );
-                    } else if( g->m.i_at( dest )[0].contents.front().typeId() != "blood" ) {
+                    } else if( items.only_item().contents.front().typeId() != "blood" ) {
                         print_error( _( "ERROR: Please only use blood samples." ) );
                     } else { // Success!
-                        const item &blood = g->m.i_at( dest ).front().contents.front();
+                        const item &blood = items.only_item().contents.front();
                         const mtype *mt = blood.get_mtype();
                         if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
                             print_line( _( "Result:  Human blood, no pathogens found." ) );
@@ -983,17 +922,18 @@ INITIATING STANDARD TREMOR TEST..." ) );
             for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 2 ) ) {
                 if( g->m.ter( dest ) == t_floor_blue ) {
                     print_error( _( "PROCESSING DATA" ) );
-                    if( g->m.i_at( dest ).empty() ) {
+                    map_stack items = g->m.i_at( dest );
+                    if( items.empty() ) {
                         print_error( _( "ERROR: Please place memory bank in scan area." ) );
-                    } else if( g->m.i_at( dest ).size() > 1 ) {
+                    } else if( items.size() > 1 ) {
                         print_error( _( "ERROR: Please only scan one item at a time." ) );
-                    } else if( g->m.i_at( dest )[0].typeId() != "usb_drive" &&
-                               g->m.i_at( dest )[0].typeId() != "black_box" ) {
+                    } else if( items.only_item().typeId() != "usb_drive" &&
+                               items.only_item().typeId() != "black_box" ) {
                         print_error( _( "ERROR: Memory bank destroyed or not present." ) );
-                    } else if( g->m.i_at( dest )[0].typeId() == "usb_drive" && g->m.i_at( dest )[0].contents.empty() ) {
+                    } else if( items.only_item().typeId() == "usb_drive" && items.only_item().contents.empty() ) {
                         print_error( _( "ERROR: Memory bank is empty." ) );
                     } else { // Success!
-                        if( g->m.i_at( dest )[0].typeId() == "black_box" ) {
+                        if( items.only_item().typeId() == "black_box" ) {
                             print_line( _( "Memory Bank:  Military Hexron Encryption\nPrinting Transcript\n" ) );
                             item transcript( "black_box_transcript", calendar::turn );
                             g->m.add_item_or_charges( g->u.posx(), g->u.posy(), transcript );
@@ -1524,7 +1464,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
 
 void computer::activate_random_failure()
 {
-    next_attempt = calendar::turn + 450_turns;
+    next_attempt = calendar::turn + 45_minutes;
     static const computer_failure default_failure( COMPFAIL_SHUTDOWN );
     const computer_failure &fail = random_entry( failures, default_failure );
     activate_failure( fail.type );
@@ -1664,7 +1604,7 @@ void computer::activate_failure( computer_failure_type fail )
             break;
 
         case COMPFAIL_AMIGARA:
-            g->events.add( EVENT_AMIGARA, calendar::turn + 5_turns );
+            g->events.add( EVENT_AMIGARA, calendar::turn + 30_seconds );
             g->u.add_effect( effect_amigara, 2_minutes );
             explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
                                           10,
@@ -1679,15 +1619,16 @@ void computer::activate_failure( computer_failure_type fail )
             print_error( _( "ERROR: Disruptive Spin" ) );
             for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 2 ) ) {
                 if( g->m.ter( dest ) == t_centrifuge ) {
-                    if( g->m.i_at( dest ).empty() ) {
+                    map_stack items = g->m.i_at( dest );
+                    if( items.empty() ) {
                         print_error( _( "ERROR: Please place sample in centrifuge." ) );
-                    } else if( g->m.i_at( dest ).size() > 1 ) {
+                    } else if( items.size() > 1 ) {
                         print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
-                    } else if( g->m.i_at( dest )[0].typeId() != "vacutainer" ) {
+                    } else if( items.only_item().typeId() != "vacutainer" ) {
                         print_error( _( "ERROR: Please use blood-contained samples." ) );
-                    } else if( g->m.i_at( dest )[0].contents.empty() ) {
+                    } else if( items.only_item().contents.empty() ) {
                         print_error( _( "ERROR: Blood draw kit, empty." ) );
-                    } else if( g->m.i_at( dest )[0].contents.front().typeId() != "blood" ) {
+                    } else if( items.only_item().contents.front().typeId() != "blood" ) {
                         print_error( _( "ERROR: Please only use blood samples." ) );
                     } else {
                         print_error( _( "ERROR: Blood sample destroyed." ) );
@@ -1703,13 +1644,14 @@ void computer::activate_failure( computer_failure_type fail )
             for( int x = 0; x < SEEX * 2; x++ ) {
                 for( int y = 0; y < SEEY * 2; y++ ) {
                     if( g->m.ter( x, y ) == t_floor_blue ) {
-                        if( g->m.i_at( x, y ).empty() ) {
+                        map_stack items = g->m.i_at( x, y );
+                        if( items.empty() ) {
                             print_error( _( "ERROR: Please place memory bank in scan area." ) );
-                        } else if( g->m.i_at( x, y ).size() > 1 ) {
+                        } else if( items.size() > 1 ) {
                             print_error( _( "ERROR: Please only scan one item at a time." ) );
-                        } else if( g->m.i_at( x, y )[0].typeId() != "usb_drive" ) {
+                        } else if( items.only_item().typeId() != "usb_drive" ) {
                             print_error( _( "ERROR: Memory bank destroyed or not present." ) );
-                        } else if( g->m.i_at( x, y )[0].contents.empty() ) {
+                        } else if( items.only_item().contents.empty() ) {
                             print_error( _( "ERROR: Memory bank is empty." ) );
                         } else {
                             print_error( _( "ERROR: Data bank destroyed." ) );
@@ -1936,7 +1878,6 @@ computer_action computer_action_from_string( const std::string &str )
             { "blood_anal", COMPACT_BLOOD_ANAL },
             { "data_anal", COMPACT_DATA_ANAL },
             { "disconnect", COMPACT_DISCONNECT },
-            { "bonesetting", COMPACT_BONESETTING },
             { "emerg_mess", COMPACT_EMERG_MESS },
             { "emerg_ref_center", COMPACT_EMERG_REF_CENTER },
             { "tower_unresponsive", COMPACT_TOWER_UNRESPONSIVE },
@@ -1956,6 +1897,7 @@ computer_action computer_action_from_string( const std::string &str )
             { "shutters", COMPACT_SHUTTERS },
             { "extract_rad_source", COMPACT_EXTRACT_RAD_SOURCE },
             { "deactivate_shock_vent", COMPACT_DEACTIVATE_SHOCK_VENT },
+            { "radio_archive", COMPACT_RADIO_ARCHIVE }
         }
     };
 
