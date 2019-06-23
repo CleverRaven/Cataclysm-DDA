@@ -72,37 +72,15 @@ class item_location::impl
 
         virtual ~impl() = default;
 
-        virtual bool valid() const {
-            return false;
-        }
-
-        virtual type where() const {
-            return type::invalid;
-        }
-
-        virtual tripoint position() const {
-            return tripoint_min;
-        }
-
-        virtual std::string describe( const Character * ) const {
-            return "";
-        }
-
-        virtual int obtain( Character &, int ) {
-            return INT_MIN;
-        }
-
-        virtual int obtain_cost( const Character &, int ) const {
-            return 0;
-        }
-
-        virtual void remove_item() {}
-
+        virtual bool valid() const = 0;
+        virtual type where() const = 0;
+        virtual tripoint position() const = 0;
+        virtual std::string describe( const Character * ) const = 0;
+        virtual int obtain( Character &, int ) = 0;
+        virtual int obtain_cost( const Character &, int ) const = 0;
+        virtual void remove_item() = 0;
         virtual void serialize( JsonOut &js ) const = 0;
-
-        virtual item *unpack( int ) const {
-            return nullptr;
-        }
+        virtual item *unpack( int ) const = 0;
 
         item *target() const {
             if( what == nullptr ) {
@@ -114,7 +92,6 @@ class item_location::impl
     private:
         mutable item *what = nullptr;
         mutable int idx = -1;
-        //Only used for stacked cash card currently, needed to be able to process a stack of different items
 
     public:
         //Flag that controls whether functions like obtain() should stack the obtained item
@@ -125,6 +102,42 @@ class item_location::impl
 class item_location::impl::nowhere : public item_location::impl
 {
     public:
+        virtual bool valid() const {
+            return false;
+        }
+
+        virtual type where() const {
+            return type::invalid;
+        }
+
+        virtual tripoint position() const {
+            debugmsg( "invalid use of nowhere item_location" );
+            return tripoint_min;
+        }
+
+        virtual std::string describe( const Character * ) const {
+            debugmsg( "invalid use of nowhere item_location" );
+            return "";
+        }
+
+        virtual int obtain( Character &, int ) {
+            debugmsg( "invalid use of nowhere item_location" );
+            return INT_MIN;
+        }
+
+        virtual int obtain_cost( const Character &, int ) const {
+            debugmsg( "invalid use of nowhere item_location" );
+            return 0;
+        }
+
+        virtual void remove_item() {
+            debugmsg( "invalid use of nowhere item_location" );
+        }
+
+        virtual item *unpack( int ) const {
+            return nullptr;
+        }
+
         void serialize( JsonOut &js ) const override {
             js.start_object();
             js.member( "type", "null" );
