@@ -3057,7 +3057,7 @@
     "ammo": "battery",
     "initial_charges": 3500,
     "max_charges": 7000,
-    "charges_per_use": 3500,
+    "charges_per_use": 500,
     "use_action": "JACKHAMMER",
     "flags": [ "STAB", "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
