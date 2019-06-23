@@ -2740,7 +2740,7 @@ bool repair_item_actor::can_use_tool( const player &p, const item &tool, bool pr
         }
         return false;
     }
-    if ( !tool.units_sufficient( p ) ) {
+    if( !tool.units_sufficient( p ) ) {
         if( print_msg ) {
             p.add_msg_if_player( m_info, _( "Your tool does not have enough charges to do that." ) );
         }
