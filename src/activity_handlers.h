@@ -78,6 +78,7 @@ void move_items_do_turn( player_activity *act, player *p );
 void multiple_construction_do_turn( player_activity *act, player *p );
 void blueprint_construction_do_turn( player_activity *act, player *p );
 void move_loot_do_turn( player_activity *act, player *p );
+void travel_do_turn( player_activity *act, player *p );
 void adv_inventory_do_turn( player_activity *act, player *p );
 void armor_layers_do_turn( player_activity *act, player *p );
 void atm_do_turn( player_activity *act, player *p );
