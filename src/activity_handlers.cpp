@@ -2817,7 +2817,7 @@ void activity_handlers::try_sleep_finish( player_activity *act, player *p )
 
 void activity_handlers::uninstall_operation_finish( player_activity *act, player *p )
 {
-    if( act->str_values.size()>1 ) {
+    if( act->str_values.size() > 1 ) {
         const bionic_id bid = bionic_id( act->str_values[1] );
 
         if( act->values[1] > 0 ) {
@@ -2849,7 +2849,12 @@ void activity_handlers::uninstall_operation_finish( player_activity *act, player
                                      pgettext( "memorial_female", "Failed to remove bionic: %s." ),
                                      act->str_values.front() );
             }
-            p->bionics_uninstall_failure( act->values[0], act->values[1], act->f_values[0] );
+
+            // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
+            float adjusted_skill = static_cast<float>( act->values[3] ) - std::min( static_cast<float>( 40 ),
+                                   static_cast<float>( act->values[3] ) - static_cast<float>( act->values[3] ) / static_cast<float>
+                                   ( 10.0 ) );
+            p->bionics_uninstall_failure( act->values[0], act->values[1], adjusted_skill );
         }
         g->m.invalidate_map_cache( g->get_levz() );
         g->refresh_all();

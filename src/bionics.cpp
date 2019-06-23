@@ -1251,16 +1251,25 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
 
     // removal of bionics adds +2 difficulty over installation
     float adjusted_skill;
+    int pl_skill;
     if( autodoc ) {
         adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
                          skilll_computer,
                          skilll_electronics,
                          skill_level );
+        pl_skill = installer.bionics_pl_skill( skilll_firstaid,
+                                               skilll_computer,
+                                               skilll_electronics,
+                                               skill_level );
     } else {
         adjusted_skill = installer.bionics_adjusted_skill( skilll_electronics,
                          skilll_firstaid,
                          skilll_mechanics,
                          skill_level );
+        pl_skill = installer.bionics_pl_skill( skilll_electronics,
+                                               skilll_firstaid,
+                                               skilll_mechanics,
+                                               skill_level );
     }
 
     int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, autodoc, difficulty + 2 );
@@ -1286,9 +1295,9 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     activity.values.push_back( difficulty );
     activity.values.push_back( success );
     activity.values.push_back( bionics[b_id].capacity );
+    activity.values.push_back( pl_skill );
     activity.str_values.push_back( bionics[b_id].name );
     activity.str_values.push_back( b_id.c_str() );
-    activity.f_values.push_back( adjusted_skill );
 
     return true;
 }

@@ -40,7 +40,6 @@ class player_activity
         std::string name;
         std::vector<item_location> targets;
         std::vector<int> values;
-        std::vector<float> f_values;
         std::vector<std::string> str_values;
         std::vector<tripoint> coords;
         std::vector<std::weak_ptr<monster>> monsters;
