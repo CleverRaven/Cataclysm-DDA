@@ -9,8 +9,7 @@
     "ammo": "460",
     "min_cycle_recoil": 540,
     "relative": { "durability": -1 },
-    "built_in_mods": [ "lead_holo_sight", "muzzle_brake", "lead_laser_sight" ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "muzzle", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ]
+    "built_in_mods": [ "lead_holo_sight", "muzzle_brake", "lead_laser_sight" ]
   },
   {
     "id": "l_mp_45",
@@ -21,8 +20,7 @@
     "ammo": "460",
     "min_cycle_recoil": 540,
     "relative": { "durability": -1 },
-    "built_in_mods": [ "lead_holo_sight", "muzzle_brake", "lead_laser_sight" ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "muzzle", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ]
+    "built_in_mods": [ "lead_holo_sight", "muzzle_brake", "lead_laser_sight" ]
   },
   {
     "id": "l_enforcer_45",
@@ -48,7 +46,14 @@
     "clip_size": 6,
     "magazines": [ [ "460", [ "460_speedloader6" ] ] ],
     "built_in_mods": [ "lead_holo_sight", "lead_laser_sight" ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "sights", 1 ],
+      [ "underbarrel", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ]
+    ]
   },
   {
     "id": "l_long_45",
@@ -76,7 +81,17 @@
     "clip_size": 12,
     "barrel_length": 2,
     "built_in_mods": [ "lead_holo_sight", "lead_laser_sight" ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "brass catcher", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 1 ],
+      [ "muzzle", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ]
+    ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "flags": [ "RELOAD_ONE" ]
   }

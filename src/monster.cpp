@@ -599,7 +599,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     }
 
     std::string effects = get_effect_status();
-    long long used_space = att.first.length() + name().length() + 3;
+    size_t used_space = att.first.length() + name().length() + 3;
     trim_and_print( w, vStart++, used_space, getmaxx( w ) - used_space - 2,
                     h_white, effects );
 
@@ -1047,7 +1047,7 @@ void monster::process_triggers()
     process_trigger( mon_trigger::FIRE, [this]() {
         int ret = 0;
         for( const auto &p : g->m.points_in_radius( pos(), 3 ) ) {
-            ret += 5 * g->m.get_field_strength( p, fd_fire );
+            ret += 5 * g->m.get_field_intensity( p, fd_fire );
         }
         return ret;
     } );
@@ -2447,7 +2447,7 @@ void monster::on_hit( Creature *source, body_part,
         return;
     }
 
-    if( rng( 0, 100 ) <= static_cast<long>( type->def_chance ) ) {
+    if( rng( 0, 100 ) <= static_cast<int>( type->def_chance ) ) {
         type->sp_defense( *this, source, proj );
     }
 

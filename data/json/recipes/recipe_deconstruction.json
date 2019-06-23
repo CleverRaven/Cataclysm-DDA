@@ -1831,6 +1831,86 @@
     "components": [ [ [ "wild_herbs", 10 ] ] ]
   },
   {
+    "result": "hickory_nut",
+    "type": "uncraft",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "6 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "hickory_nut_unshelled", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "hazelnut",
+    "type": "uncraft",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "6 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "hazelnut_unshelled", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "chestnut",
+    "type": "uncraft",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "6 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "chestnut_unshelled", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "almond",
+    "type": "uncraft",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "6 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "almond_unshelled", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "pistachio",
+    "type": "uncraft",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "6 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "pistachio_unshelled", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "pecan",
+    "type": "uncraft",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "6 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "pecan_unshelled", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "walnut",
+    "type": "uncraft",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "6 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "walnut_unshelled", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "peanut",
+    "type": "uncraft",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "6 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "peanut_unshelled", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "tieclip",
     "type": "uncraft",
     "time": "0 m",
@@ -1861,6 +1941,14 @@
   },
   {
     "result": "tshirt",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": "0 m",
+    "components": [ [ [ "rag", 5 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "tshirt_tour",
     "type": "uncraft",
     "skill_used": "tailor",
     "time": "0 m",
@@ -1908,6 +1996,13 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "hinge",
+    "type": "uncraft",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 1 ] ] ]
+  },
+  {
     "result": "wire",
     "type": "uncraft",
     "time": "1 m",
@@ -1951,6 +2046,20 @@
     "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "paper", 35 ] ] ]
+  },
+  {
+    "result": "box_medium",
+    "type": "uncraft",
+    "time": "4 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "paper", 70 ] ] ]
+  },
+  {
+    "result": "box_large",
+    "type": "uncraft",
+    "time": "6 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "paper", 105 ] ] ]
   },
   {
     "result": "washing_machine",
@@ -2322,5 +2431,41 @@
     "difficulty": 1,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "adobe_brick", 20 ] ], [ [ "frame_wood_light", 1 ] ] ]
+  },
+  {
+    "result": "guitar_electric",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "7 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "shoulder_strap", 1 ] ],
+      [ [ "2x4", 1 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "e_scrap", 2 ] ]
+    ]
+  },
+  {
+    "result": "amplifier_head",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "80 m",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "circuit", 1 ] ],
+      [ [ "cable", 4 ] ],
+      [ [ "amplifier", 4 ] ],
+      [ [ "power_supply", 2 ] ],
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "splinter", 1 ] ],
+      [ [ "solder_wire", 5 ] ],
+      [ [ "e_scrap", 3 ] ],
+      [ [ "RAM", 1 ] ]
+    ]
   }
 ]

@@ -94,7 +94,7 @@ class selection_column_preset: public inventory_selector_preset
             } else if( available_count != 1 ) {
                 res << available_count << ' ';
             }
-            if( entry.location->ammo_types().count( ammotype( "money" ) ) ) {
+            if( entry.location->is_money() ) {
                 if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
                     //~ In the following string, the %s is the amount of money on the selected cards as passed by the display money function, out of the total amount of money on the cards, which is specified by the format_money function")
                     res << string_format( _( "%s of %s" ), entry.location->display_money( entry.chosen_count,
@@ -232,7 +232,7 @@ std::string inventory_selector_preset::get_caption( const inventory_entry &entry
 {
     const size_t count = entry.get_stack_size();
     const std::string disp_name =
-        ( entry.location->ammo_types().count( ammotype( "money" ) ) ) ?
+        ( entry.location->is_money() ) ?
         entry.location->display_money( count,
                                        entry.location.charges_in_stack( count ) ) : entry.location->display_name( count );
 
@@ -1003,6 +1003,28 @@ static std::vector<std::list<item *>> restack_items( const std::list<item>::cons
     return res;
 }
 
+// TODO: Move it into some 'item_stack' class.
+static std::vector<std::list<item *>> restack_items( const item_stack::const_iterator &from,
+                                   const item_stack::const_iterator &to, bool check_components = false )
+{
+    std::vector<std::list<item *>> res;
+
+    for( auto it = from; it != to; ++it ) {
+        auto match = std::find_if( res.begin(), res.end(),
+        [ &it, check_components ]( const std::list<item *> &e ) {
+            return it->stacks_with( *const_cast<item *>( e.back() ), check_components );
+        } );
+
+        if( match != res.end() ) {
+            match->push_back( const_cast<item *>( &*it ) );
+        } else {
+            res.emplace_back( 1, const_cast<item *>( &*it ) );
+        }
+    }
+
+    return res;
+}
+
 const item_category *inventory_selector::naturalize_category( const item_category &category,
         const tripoint &pos )
 {
@@ -1050,7 +1072,7 @@ void inventory_selector::add_item( inventory_column &target_column,
         return;
     }
 
-    items.push_back( location.clone() );
+    items.push_back( location );
     inventory_entry entry( items.back(), stack_size, custom_category,
                            preset.get_denial( location ).empty() );
 
@@ -1760,11 +1782,11 @@ item_location inventory_pick_selector::execute()
             if( select( input.entry->location ) ) {
                 refresh_window();
             }
-            return input.entry->location.clone();
+            return input.entry->location;
         } else if( input.action == "QUIT" ) {
             return item_location();
         } else if( input.action == "CONFIRM" ) {
-            return get_active_column().get_selected().location.clone();
+            return get_active_column().get_selected().location;
         } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
         } else {

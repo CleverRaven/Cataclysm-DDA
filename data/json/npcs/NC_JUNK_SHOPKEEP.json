@@ -12,6 +12,8 @@
   {
     "type": "item_group",
     "id": "NC_JUNK_SHOPKEEP_misc",
+    "ammo": 75,
+    "magazine": 100,
     "items": [
       [ "vest", 40 ],
       [ "kevlar", 15 ],

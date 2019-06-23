@@ -366,7 +366,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
     }
 
     // handle reloadable tools and guns with no specific ammo type as special case
-    if( ( ammo == "null" && ammo_types().empty() ) || ammo_types().count( ammotype( "money" ) ) ) {
+    if( ( ammo == "null" && ammo_types().empty() ) || is_money() ) {
         if( ( is_tool() || is_gun() ) && magazine_integral() ) {
             curammo = nullptr;
             charges = std::min( qty, ammo_capacity() );
@@ -405,7 +405,12 @@ item &item::ammo_set( const itype_id &ammo, int qty )
             // if default magazine too small fetch instead closest available match
             if( mag->magazine->capacity < qty ) {
                 // as above call to magazine_default successful can infer minimum one option exists
-                auto iter = type->magazines.find( ammotype( ammo ) );
+                auto iter = type->magazines.find( atype->ammo->type );
+                if( iter == type->magazines.end() ) {
+                    debugmsg( "%s doesn't have a magazine for %s",
+                              tname(), ammo );
+                    return *this;
+                }
                 std::vector<itype_id> opts( iter->second.begin(), iter->second.end() );
                 std::sort( opts.begin(), opts.end(), []( const itype_id & lhs, const itype_id & rhs ) {
                     return find_type( lhs )->magazine->capacity < find_type( rhs )->magazine->capacity;
@@ -628,7 +633,7 @@ bool item::stacks_with( const item &rhs, bool check_components ) const
     if( type != rhs.type ) {
         return false;
     }
-    if( charges != 0 && rhs.charges != 0 && ammo_current() == "money" ) {
+    if( charges != 0 && rhs.charges != 0 && is_money() ) {
         // Dealing with nonempty cash cards
         return true;
     }
@@ -737,6 +742,7 @@ void item::set_var( const std::string &name, const int value )
     item_vars[name] = tmpstream.str();
 }
 
+// NOLINTNEXTLINE(cata-no-long)
 void item::set_var( const std::string &name, const long value )
 {
     std::ostringstream tmpstream;
@@ -3410,7 +3416,7 @@ std::string item::display_name( unsigned int quantity ) const
     }
 
     if( amount || show_amt ) {
-        if( ammo_current() == "money" ) {
+        if( is_money() ) {
             amt = string_format( " $%.2f", amount / 100.0 );
         } else {
             if( max_amount != 0 ) {
@@ -3531,7 +3537,7 @@ units::mass item::weight( bool include_contents, bool integral ) const
         }
 
     } else if( magazine_integral() && !is_magazine() ) {
-        if( ammo_current() == "plutonium" ) {
+        if( ammo_current() == "plut_cell" ) {
             ret += ammo_remaining() * find_type( ammotype(
                     *ammo_types().begin() )->default_ammotype() )->weight / PLUTONIUM_CHARGES;
         } else if( ammo_data() ) {
@@ -3864,12 +3870,12 @@ std::string item::get_property_string( const std::string &prop, const std::strin
     return it != type->properties.end() ? it->second : def;
 }
 
-long item::get_property_long( const std::string &prop, long def ) const
+int64_t item::get_property_int64_t( const std::string &prop, int64_t def ) const
 {
     const auto it = type->properties.find( prop );
     if( it != type->properties.end() ) {
         char *e = nullptr;
-        long  r = std::strtol( it->second.c_str(), &e, 10 );
+        int64_t r = std::strtoll( it->second.c_str(), &e, 10 );
         if( !it->second.empty() && *e == '\0' ) {
             return r;
         }
@@ -4408,6 +4414,11 @@ bool item::ready_to_revive( const tripoint &pos ) const
         return true;
     }
     return false;
+}
+
+bool item::is_money() const
+{
+    return ammo_types().count( ammotype( "money" ) );
 }
 
 bool item::count_by_charges() const
@@ -5510,7 +5521,7 @@ bool item::operator<( const item &other ) const
                           !other.contents.empty() ? &other.contents.front() : &other;
 
         if( me->typeId() == rhs->typeId() ) {
-            if( me->ammo_current() == "money" ) {
+            if( me->is_money() ) {
                 return me->charges > rhs->charges;
             }
             return me->charges < rhs->charges;
@@ -6334,14 +6345,14 @@ bool item::units_sufficient( const Character &ch, int qty ) const
 }
 
 item::reload_option::reload_option( const reload_option &rhs ) :
-    who( rhs.who ), target( rhs.target ), ammo( rhs.ammo.clone() ),
+    who( rhs.who ), target( rhs.target ), ammo( rhs.ammo ),
     qty_( rhs.qty_ ), max_qty( rhs.max_qty ), parent( rhs.parent ) {}
 
 item::reload_option &item::reload_option::operator=( const reload_option &rhs )
 {
     who = rhs.who;
     target = rhs.target;
-    ammo = rhs.ammo.clone();
+    ammo = rhs.ammo;
     qty_ = rhs.qty_;
     max_qty = rhs.max_qty;
     parent = rhs.parent;
@@ -6350,8 +6361,8 @@ item::reload_option &item::reload_option::operator=( const reload_option &rhs )
 }
 
 item::reload_option::reload_option( const player *who, const item *target, const item *parent,
-                                    item_location &&ammo ) :
-    who( who ), target( target ), ammo( std::move( ammo ) ), parent( parent )
+                                    const item_location &ammo ) :
+    who( who ), target( target ), ammo( ammo ), parent( parent )
 {
     if( this->target->is_ammo_belt() && this->target->type->magazine->linkage ) {
         max_qty = this->who->charges_of( * this->target->type->magazine->linkage );

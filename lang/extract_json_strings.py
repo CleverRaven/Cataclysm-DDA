@@ -120,6 +120,7 @@ automatically_convertible = {
     "BIONIC_ITEM",
     "BOOK",
     "COMESTIBLE",
+    "construction_category",
     "CONTAINER",
     "dream",
     "ENGINE",
@@ -133,6 +134,7 @@ automatically_convertible = {
     "json_flag",
     "keybinding",
     "MAGAZINE",
+    "map_extra",
     "MOD_INFO",
     "MONSTER",
     "morale_type",
@@ -527,6 +529,9 @@ def extract_dynamic_line(line, outfile):
         extract_dynamic_line_optional(line, "npc_female", outfile)
         extract_dynamic_line_optional(line, "yes", outfile)
         extract_dynamic_line_optional(line, "no", outfile)
+        extract_dynamic_line_optional(line, "has_no_available_mission", outfile)
+        extract_dynamic_line_optional(line, "has_many_assigned_missions", outfile)
+        extract_dynamic_line_optional(line, "has_no_assigned_mission", outfile)
     elif type(line) == str:
         writestr(outfile, line)
 

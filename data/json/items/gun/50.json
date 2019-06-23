@@ -76,7 +76,9 @@
       [ "muzzle", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "grip", 1 ]
+      [ "grip", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "magazines": [  ],
     "relative": { "weight": -21500, "volume": -6, "price": -1210000, "ranged_damage": -4, "dispersion": 60, "barrel_length": -1 },

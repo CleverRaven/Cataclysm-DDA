@@ -1,0 +1,54 @@
+[
+  {
+    "//": "Should be first in the list",
+    "type": "construction_category",
+    "id": "ALL",
+    "name": "All"
+  },
+  {
+    "type": "construction_category",
+    "id": "CONSTRUCT",
+    "name": "Constructions"
+  },
+  {
+    "type": "construction_category",
+    "id": "FURN",
+    "name": "Furniture"
+  },
+  {
+    "type": "construction_category",
+    "id": "DIG",
+    "name": "Digging and Mining"
+  },
+  {
+    "type": "construction_category",
+    "id": "REPAIR",
+    "name": "Repairing"
+  },
+  {
+    "type": "construction_category",
+    "id": "REINFORCE",
+    "name": "Reinforcing"
+  },
+  {
+    "type": "construction_category",
+    "id": "DECORATE",
+    "name": "Decorative"
+  },
+  {
+    "type": "construction_category",
+    "id": "FARM_WOOD",
+    "name": "Farming and Woodcutting"
+  },
+  {
+    "type": "construction_category",
+    "id": "OTHER",
+    "name": "Others"
+  },
+  {
+    "//": "Should be last in the list",
+    "type": "construction_category",
+    "id": "FILTER",
+    "name": "Filter"
+  }
+]

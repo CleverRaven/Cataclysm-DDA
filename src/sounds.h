@@ -72,7 +72,7 @@ std::pair<std::vector<tripoint>, std::vector<tripoint>> get_monster_sounds();
 std::string sound_at( const tripoint &location );
 /** Tells us if sound has been enabled in options */
 extern bool sound_enabled;
-}
+} // namespace sounds
 
 namespace sfx
 {
@@ -112,6 +112,6 @@ void do_player_death_hurt( const player &target, bool death );
 void do_fatigue();
 // @param obst should be string id of obstacle terrain or vehicle part
 void do_obstacle( const std::string &obst = "" );
-}
+} // namespace sfx
 
 #endif

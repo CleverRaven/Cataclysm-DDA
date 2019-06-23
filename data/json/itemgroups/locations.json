@@ -695,5 +695,36 @@
       [ "candle", 20 ],
       [ "pillow", 20 ]
     ]
+  },
+  {
+    "id": "library_elec",
+    "type": "item_group",
+    "items": [
+      [ "superglue", 30 ],
+      [ "processor", 15 ],
+      [ "RAM", 22 ],
+      [ "power_supply", 16 ],
+      [ "amplifier", 8 ],
+      [ "transponder", 5 ],
+      [ "receiver", 10 ],
+      [ "antenna", 18 ],
+      [ "screwdriver", 40 ],
+      { "group": "ammo_pocket_batteries_full", "prob": 50 },
+      [ "manual_electronics", 20 ],
+      [ "mobile_memory_card", 20 ],
+      [ "usb_drive", 5 ],
+      [ "software_useless", 10 ],
+      [ "survnote", 1 ]
+    ]
+  },
+  {
+    "id": "laundromat_bleach",
+    "type": "item_group",
+    "items": [ [ "bleach", 50 ] ]
+  },
+  {
+    "id": "laundromat_containers",
+    "type": "item_group",
+    "items": [ [ "duffelbag", 5 ], [ "backpack", 5 ], [ "bag_plastic", 30 ], [ "basket_laundry", 30 ] ]
   }
 ]

@@ -131,6 +131,7 @@
     "type": "bionic",
     "name": "Optical Dampers",
     "description": "The lenses surgically installed over your eyes can be tinted to block out incoming light.",
+    "included": true,
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
@@ -305,6 +306,7 @@
     "type": "bionic",
     "name": "Sound Dampeners",
     "description": "When this bionic is active, you can block hearing completely (with Enhanced Hearing deactivated) or dampen sound slightly (with Enhanced Hearing activated).",
+    "included": true,
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
@@ -713,6 +715,7 @@
     "id": "bio_plutdump",
     "type": "bionic",
     "name": "Plutonium Purger",
+    "included": true,
     "description": "Emergency reactor fuel purge ejects all fuel from your reactor.",
     "act_cost": 1
   },
@@ -1033,6 +1036,7 @@
     "name": "Extended Toolset",
     "description": "Extend or withdraw your integrated toolset to cut metal, pry things, or other stuff.  This takes up your hand.",
     "fake_item": "toolset_extended",
+    "included": true,
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON" ]
   },
   {

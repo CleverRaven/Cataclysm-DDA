@@ -18,7 +18,7 @@ bool rename_file( const std::string &old_path, const std::string &new_path );
 namespace cata_files
 {
 const char *eol();
-}
+} // namespace cata_files
 
 //--------------------------------------------------------------------------------------------------
 /**

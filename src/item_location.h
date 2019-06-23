@@ -32,11 +32,6 @@ class item_location
         };
 
         item_location();
-        item_location( const item_location & ) = delete;
-        item_location &operator= ( const item_location & ) = delete;
-        item_location( item_location && );
-        item_location &operator=( item_location && );
-        ~item_location();
 
         static const item_location nowhere;
 
@@ -55,7 +50,7 @@ class item_location
         bool operator==( const item_location &rhs ) const;
         bool operator!=( const item_location &rhs ) const;
 
-        operator bool() const;
+        explicit operator bool() const;
 
         item &operator*();
         const item &operator*() const;
@@ -94,24 +89,12 @@ class item_location
         item *get_item();
         const item *get_item() const;
 
-        /**
-         * Clones this instance
-         * @warning usage should be restricted to implementing custom copy-constructors
-         */
-        item_location clone() const;
-
         void set_should_stack( bool should_stack ) const;
 
     private:
         class impl;
 
         std::shared_ptr<impl> ptr;
-
-        /* Not implemented on purpose. This triggers a compiler / linker
-         * error when used in any implicit conversion. It prevents the
-         * implicit conversion to int. */
-        template<typename T>
-        operator T() const;
 };
 
 #endif

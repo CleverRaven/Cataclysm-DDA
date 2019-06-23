@@ -1121,6 +1121,22 @@ void overmap::unserialize_view( std::istream &fin )
                 }
             }
             jsin.end_array();
+        } else if( name == "extras" ) {
+            jsin.start_array();
+            for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+                jsin.start_array();
+                while( !jsin.end_array() ) {
+                    om_map_extra tmp;
+                    jsin.start_array();
+                    jsin.read( tmp.x );
+                    jsin.read( tmp.y );
+                    jsin.read( tmp.id );
+                    jsin.end_array();
+
+                    layer[z].extras.push_back( tmp );
+                }
+            }
+            jsin.end_array();
         }
     }
 }
@@ -1188,6 +1204,22 @@ void overmap::serialize_view( std::ostream &fout ) const
             json.write( i.x );
             json.write( i.y );
             json.write( i.text );
+            json.end_array();
+            fout << std::endl;
+        }
+        json.end_array();
+    }
+    json.end_array();
+
+    json.member( "extras" );
+    json.start_array();
+    for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+        json.start_array();
+        for( auto &i : layer[z].extras ) {
+            json.start_array();
+            json.write( i.x );
+            json.write( i.y );
+            json.write( i.id );
             json.end_array();
             fout << std::endl;
         }
