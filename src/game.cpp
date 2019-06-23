@@ -190,6 +190,7 @@ const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_amigara( "amigara" );
 const efftype_id effect_assisted( "assisted" );
+const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_blind( "blind" );
 const efftype_id effect_boomered( "boomered" );
 const efftype_id effect_bouldering( "bouldering" );
@@ -215,6 +216,7 @@ const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
+const efftype_id effect_under_op( "under_operation" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_winded( "winded" );
 const efftype_id effect_ridden( "ridden" );
@@ -9074,6 +9076,12 @@ point game::place_player( const tripoint &dest_loc )
         u.add_effect( effect_no_sight, 1_turns, num_bp, true );
     } else if( u.has_effect( effect_no_sight ) ) {
         u.remove_effect( effect_no_sight );
+    }
+    if( u.has_effect( effect_under_op ) &&
+        m.furn( dest_loc ) != furn_str_id( "f_autodoc_couch" ) ) {
+        add_msg( m_bad, _( "Moving from the Autodoc mid-operation rips you open." ) );
+        u.add_effect( effect_bleed, 1_turns, bp_torso, true );
+        u.remove_effect( effect_under_op );
     }
 
     // If we moved out of the nonant, we need update our map data

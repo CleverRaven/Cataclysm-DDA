@@ -2211,6 +2211,15 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             remove_effect( effect_no_sight );
         }
 
+        if( has_effect( effect_under_op ) &&
+            g->m.furn( pos() ) != furn_str_id( "f_autodoc_couch" ) ) {
+            if( g->u.sees( pos() ) ) {
+                add_msg( m_bad, _( "Moving from the Autodoc mid-operation rips %s open." ), disp_name() );
+            }
+            add_effect( effect_bleed, 1_turns, bp_torso, true );
+            remove_effect( effect_under_op );
+        }
+
         if( in_vehicle ) {
             g->m.unboard_vehicle( old_pos );
         }
