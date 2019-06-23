@@ -3220,7 +3220,7 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
         if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
             wake_up();
         }
-        if( !is_npc() ) {
+        if( !is_npc() && !has_effect( effect_narcosis ) ) {
             if( source != nullptr ) {
                 g->cancel_activity_or_ignore_query( distraction_type::attacked,
                                                     string_format( _( "You were attacked by %s!" ),

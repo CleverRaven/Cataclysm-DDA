@@ -96,6 +96,7 @@ const skill_id skill_electronics( "electronics" );
 const species_id HUMAN( "HUMAN" );
 const species_id ZOMBIE( "ZOMBIE" );
 
+const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_milked( "milked" );
 const efftype_id effect_sleep( "sleep" );
 
@@ -2773,6 +2774,8 @@ void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
 
 void activity_handlers::uninstall_operation_do_turn( player_activity *act, player *p )
 {
+    const bool u_see = g->u.sees( p->pos() ) && !g->u.has_effect( effect_narcosis );
+
     const int difficulty = act->values.front();
 
     const time_duration op_duration = act->values.front() * 10_minutes;
@@ -2784,18 +2787,18 @@ void activity_handlers::uninstall_operation_do_turn( player_activity *act, playe
 
     if( time_left >  op_duration ) {
         if( p->get_hp() > max_hurt ) {
-            p->hurtall( 1, p );
+            p->hurtall( 1, nullptr );
         }
-        if( one_in( 4 ) ) {
+        if( one_in( 4 ) && u_see ) {
             p->add_msg_player_or_npc( m_info,
                                       _( "The Autodoc is meticulously cutting you open." ),
                                       _( "The Autodoc is meticulously cutting <npcname> open." ) );
         }
-    } else if( time_left == op_duration ) {
+    } else if( time_left == op_duration && u_see ) {
         add_msg( m_info, _( "The Autodoc attempts to carefully extract the bionic." ) );
     } else {
         p->healall( 1 );
-        if( one_in( 4 ) ) {
+        if( one_in( 4 ) && u_see ) {
             p->add_msg_player_or_npc( m_info,
                                       _( "The Autodoc is stitching you back up." ),
                                       _( "The Autodoc is stitching <npcname> back up." ) );
