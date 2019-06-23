@@ -1643,7 +1643,7 @@
     "id": "retool_ar15_300blk",
     "type": "GUNMOD",
     "name": ".300 AAC Blackout caliber conversion kit",
-    "description": "This kit is used to convert a .223/5.56mm rifle to the new .300BLK caliber.",
+    "description": "This kit is used to convert an AR-15 .223/5.56mm rifle to the new .300BLK caliber.",
     "weight": 1000,
     "volume": 2,
     "integral_volume": 0,
