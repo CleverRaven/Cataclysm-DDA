@@ -597,10 +597,25 @@
     "copy-from": "dahlia_root",
     "spoils_in": "2 days",
     "healthy": 2,
-    "description": "A healthy and delicious baked root bulb from a dahlia plant.",
+    "description": "Baking this dahlia root has broken down the starch, making it softer and sweeter.",
     "price": 110,
     "flags": [ "EATEN_HOT" ],
-    "fun": 2
+    "fun": 2,
+    "rot_spawn": "GROUP_ROTTING_PLANT"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "salsify_baked",
+    "name": "roasted salsify",
+    "copy-from": "salsify_raw",
+    "spoils_in": "2 days",
+    "healthy": 2,
+    "description": "When properly cooked, salsify tastes vaguely like oysters. Makes a great side dish.",
+    "price": 90,
+    "flags": [ "EATEN_HOT" ],
+    "fun": 2,
+    "rot_spawn": "GROUP_ROTTING_PLANT",
+    "://:": "From Oregon Trail. Be prepared to lose it as soon as your wagon tips over."
   },
   {
     "type": "COMESTIBLE",
