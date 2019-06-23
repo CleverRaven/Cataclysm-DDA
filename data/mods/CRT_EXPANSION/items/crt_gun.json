@@ -123,8 +123,8 @@
     "reload": 170,
     "built_in_mods": [ "crt_cqb_si_shotgun" ],
     "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ], [ "sights", 1 ] ],
-    "flags": [ "NEVER_JAMS", "FIRE_TWOHAND", "RELOAD_ONE"]
-  },  
+    "flags": [ "NEVER_JAMS", "FIRE_TWOHAND", "RELOAD_ONE" ]
+  },
   {
     "id": "crt_fire_glove",
     "type": "GUN",
@@ -240,7 +240,7 @@
     "clip_size": 25,
     "reload": 200,
     "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ], [ "sights", 1 ] ],
-    "ammo_effects": [ "EXPLOSIVE", "FRAG" ],
+    "ammo_effects": [ "FRAG" ],
     "flags": [ "NEVER_JAMS" ]
   },
   {
@@ -297,7 +297,7 @@
     "reload": 15,
     "modes": [ [ "BURST", "3 rd.", 3 ] ],
     "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
-    "ammo_effects": [ "NOGIB", "BEANBAG", "EXPLOSIVE" ],
+    "ammo_effects": [ "NOGIB", "BEANBAG"],
     "flags": [ "NEVER_JAMS" ]
   },
   {
