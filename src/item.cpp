@@ -6345,14 +6345,14 @@ bool item::units_sufficient( const Character &ch, int qty ) const
 }
 
 item::reload_option::reload_option( const reload_option &rhs ) :
-    who( rhs.who ), target( rhs.target ), ammo( rhs.ammo.clone() ),
+    who( rhs.who ), target( rhs.target ), ammo( rhs.ammo ),
     qty_( rhs.qty_ ), max_qty( rhs.max_qty ), parent( rhs.parent ) {}
 
 item::reload_option &item::reload_option::operator=( const reload_option &rhs )
 {
     who = rhs.who;
     target = rhs.target;
-    ammo = rhs.ammo.clone();
+    ammo = rhs.ammo;
     qty_ = rhs.qty_;
     max_qty = rhs.max_qty;
     parent = rhs.parent;
@@ -6361,8 +6361,8 @@ item::reload_option &item::reload_option::operator=( const reload_option &rhs )
 }
 
 item::reload_option::reload_option( const player *who, const item *target, const item *parent,
-                                    item_location &&ammo ) :
-    who( who ), target( target ), ammo( std::move( ammo ) ), parent( parent )
+                                    const item_location &ammo ) :
+    who( who ), target( target ), ammo( ammo ), parent( parent )
 {
     if( this->target->is_ammo_belt() && this->target->type->magazine->linkage ) {
         max_qty = this->who->charges_of( * this->target->type->magazine->linkage );

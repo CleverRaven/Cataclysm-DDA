@@ -4998,11 +4998,11 @@ void game::use_item( int pos )
     refresh_all();
 
     if( use_loc ) {
-        update_lum( loc.clone(), false );
-        u.use( loc.clone() );
-        update_lum( loc.clone(), true );
+        update_lum( loc, false );
+        u.use( loc );
+        update_lum( loc, true );
 
-        make_active( loc.clone() );
+        make_active( loc );
     } else {
         u.use( pos );
     }
@@ -8311,7 +8311,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
         } else if( u.ammo_location && opt.ammo == u.ammo_location ) {
             u.ammo_location = item_location();
         } else {
-            u.ammo_location = opt.ammo.clone();
+            u.ammo_location = opt.ammo;
         }
         return;
     }
@@ -8360,13 +8360,13 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     }
 
     item::reload_option opt = u.ammo_location && it->can_reload_with( u.ammo_location->typeId() ) ?
-                              item::reload_option( &u, it, it, u.ammo_location.clone() ) :
+                              item::reload_option( &u, it, it, u.ammo_location ) :
                               u.select_ammo( *it, prompt, empty );
 
     if( opt ) {
         u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
         if( use_loc ) {
-            u.activity.targets.emplace_back( loc.clone() );
+            u.activity.targets.emplace_back( loc );
         } else {
             u.activity.targets.emplace_back( u, const_cast<item *>( opt.target ) );
         }

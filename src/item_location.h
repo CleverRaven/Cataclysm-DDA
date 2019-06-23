@@ -32,11 +32,6 @@ class item_location
         };
 
         item_location();
-        item_location( const item_location & ) = delete;
-        item_location &operator= ( const item_location & ) = delete;
-        item_location( item_location && );
-        item_location &operator=( item_location && );
-        ~item_location();
 
         static const item_location nowhere;
 
@@ -93,12 +88,6 @@ class item_location
         /** Gets the selected item or nullptr */
         item *get_item();
         const item *get_item() const;
-
-        /**
-         * Clones this instance
-         * @warning usage should be restricted to implementing custom copy-constructors
-         */
-        item_location clone() const;
 
         void set_should_stack( bool should_stack ) const;
 
