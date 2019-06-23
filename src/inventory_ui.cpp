@@ -594,7 +594,8 @@ bool inventory_column::is_selected_by_category( const inventory_entry &entry ) c
 const inventory_entry &inventory_column::get_selected() const
 {
     if( selected_index >= entries.size() || !entries[selected_index].is_item() ) {
-        static const inventory_entry dummy;
+        // clang complains if we use the default constructor here
+        static const inventory_entry dummy( nullptr );
         return dummy;
     }
     return entries[selected_index];
