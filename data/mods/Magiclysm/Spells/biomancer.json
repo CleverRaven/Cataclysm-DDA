@@ -164,7 +164,6 @@
     "duration_increment": 1,
     "difficulty": 0,
     "max_level": 1,
-    "flags": [ "NO_LEGS", "CONCENTRATE" ],
     "spell_class": "BIOMANCER",
     "energy_source": "MANA",
     "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
