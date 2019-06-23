@@ -169,7 +169,6 @@
     "name": "Cause Bear",
     "description": "This spell appears to be very smudged.  You're fairly sure the name should be Cause Fear, but you're also fairly sure it won't have the desired effect because the instructions are hardly legible.  No time like the Cataclysm to find out, though!",
     "valid_targets": [ "ground" ],
-    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS" ],
     "min_damage": 1,
     "max_damage": 1,
     "min_range": 3,
@@ -184,7 +183,7 @@
     "base_energy_cost": 675,
     "final_energy_cost": 475,
     "energy_cost_increment": -5,
-    "flags": [ "HOSTILE_50" ],
+    "flags": [ "HOSTILE_50", "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS" ],
     "effect": "summon",
     "effect_str": "mon_bear"
   },
