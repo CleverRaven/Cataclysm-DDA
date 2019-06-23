@@ -199,6 +199,7 @@
     "autolearn": true,
     "components": [
       [ [ "rag", 1 ] ],
+      [ ["soap", 5], ["detergent", 5], ["slime_scrap", 5], ["styrofoam_cup", 5] ],
       [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "clay_canister", 1 ] ],
       [
         [ "gasoline", 500 ],
