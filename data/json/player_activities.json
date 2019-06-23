@@ -550,12 +550,11 @@
     "suspendable": false
   },
   {
-    "id": "ACT_UNDER_OPERATION",
+    "id": "ACT_OPERATION_REMOVE",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
-    "verb": "under operation",
-    "based_on": "time",
-    "suspendable": true
+    "verb": "being operated on",
+    "based_on": "time"
   },
   {
     "id": "ACT_UNLOAD_MAG",

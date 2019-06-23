@@ -152,7 +152,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn },
     { activity_id( "ACT_FERTILIZE_PLOT" ), fertilize_plot_do_turn },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn },
-    { activity_id( "ACT_UNDER_OPERATION" ), under_operation_do_turn },
+    { activity_id( "ACT_OPERATION_REMOVE" ), uninstall_operation_do_turn },
     { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_do_turn },
     { activity_id( "ACT_TREE_COMMUNION" ), tree_communion_do_turn },
     { activity_id( "ACT_STUDY_SPELL" ), study_spell_do_turn}
@@ -195,6 +195,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_WAIT_NPC" ), wait_npc_finish },
     { activity_id( "ACT_SOCIALIZE" ), socialize_finish },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_finish },
+    { activity_id( "ACT_OPERATION_REMOVE" ), uninstall_operation_finish },
     { activity_id( "ACT_DISASSEMBLE" ), disassemble_finish },
     { activity_id( "ACT_VIBE" ), vibe_finish },
     { activity_id( "ACT_ATM" ), atm_finish },
@@ -2770,35 +2771,31 @@ void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::under_operation_do_turn( player_activity *act, player *p )
+void activity_handlers::uninstall_operation_do_turn( player_activity *act, player *p )
 {
-    time_duration op_duration = 0;
-    int difficulty = 0;
-    if( act->targets.front().get_item() ) {
-        difficulty = act->targets.front().get_item()->type->bionic->difficulty;
-        op_duration = difficulty * 20_minutes;
-    } else {
-        add_msg( "No CBM is being installed." );
-        act->set_to_null();
-        return;
-    }
+    const int difficulty = act->values.front();
 
-    if( time_duration::from_turns( act->moves_left ) <= op_duration / 2 ) {
-        if( p->get_hp() > p->get_hp_max()*difficulty * 0.04 ) {
-            // Difficulty 13 operation takes patient down to half MAX_HP
-            // Other difficulty scale linearly from there
-            // The damage is applied during the first half of the operation
-            //dmg=[ Diff*0.04*Hp_max ] / [ [Diff*20_min]/2 ] = Hp_max*0.004 hp/min
-            if( calendar::once_every( 1_minutes ) ) {
-                p->hurtall( floorf( p->get_hp_max() * 0.0004 ), p );
-                p->add_msg_player_or_npc( m_info,
-                                          _( "The Autodoc is meticulously cutting you open." ),
-                                          _( "The Autodoc is meticulously cutting <npcname> open." ) );
-            }
+    const time_duration op_duration = act->values.front() * 10_minutes;
+    time_duration time_left = time_duration::from_turns( act->moves_left / 100 ) ;
+
+    // Difficulty 13 operation takes patient down to half MAX_HP: 0.5/13=0.04
+    // Other difficulty scale linearly from there
+    const int max_hurt = p->get_hp_max() * difficulty * 0.04;
+
+    if( time_left >  op_duration ) {
+        if( p->get_hp() > max_hurt ) {
+            p->hurtall( 1, p );
         }
+        if( one_in( 4 ) ) {
+            p->add_msg_player_or_npc( m_info,
+                                      _( "The Autodoc is meticulously cutting you open." ),
+                                      _( "The Autodoc is meticulously cutting <npcname> open." ) );
+        }
+    } else if( time_left == op_duration ) {
+        add_msg( m_info, _( "The Autodoc attempts to carefully extract the bionic." ) );
     } else {
-        if( calendar::once_every( 1_minutes ) ) {
-            p->healall( floorf( p->get_hp_max() * 0.0004 ) );
+        p->healall( 1 );
+        if( one_in( 4 ) ) {
             p->add_msg_player_or_npc( m_info,
                                       _( "The Autodoc is stitching you back up." ),
                                       _( "The Autodoc is stitching <npcname> back up." ) );
@@ -2810,6 +2807,48 @@ void activity_handlers::try_sleep_finish( player_activity *act, player *p )
 {
     if( !p->has_effect( effect_sleep ) ) {
         p->add_msg_if_player( _( "You try to sleep, but can't..." ) );
+    }
+    act->set_to_null();
+}
+
+void activity_handlers::uninstall_operation_finish( player_activity *act, player *p )
+{
+    if( act->bionic_to_rem ) {
+        const bionic_id bid = act->bionic_to_rem;
+
+        if( act->values[1] > 0 ) {
+
+            if( p->is_player() ) {
+                p->add_memorial_log( pgettext( "memorial_male", "Removed bionic: %s." ),
+                                     pgettext( "memorial_female", "Removed bionic: %s." ),
+                                     act->str_values.front() );
+            }
+
+            // until bionics can be flagged as non-removable
+            p->add_msg_player_or_npc( m_neutral, _( "Your parts are jiggled back into their familiar places." ),
+                                      _( "<npcname>'s parts are jiggled back into their familiar places." ) );
+            add_msg( m_good, _( "Successfully removed %s." ), act->str_values.front() );
+            p->remove_bionic( bid );
+
+            if( item::type_is_defined( bid.c_str() ) ) {
+                g->m.spawn_item( p->pos(), bid.c_str(), 1 );
+            } else {
+                g->m.spawn_item( p->pos(), "burnt_out_bionic", 1 );
+            }
+
+        } else {
+            if( p->is_player() ) {
+                p->add_memorial_log( pgettext( "memorial_male", "Failed to remove bionic: %s." ),
+                                     pgettext( "memorial_female", "Failed to remove bionic: %s." ),
+                                     act->str_values.front() );
+            }
+            p->bionics_uninstall_failure( act->values[0], act->values[1], act->f_values[0] );
+        }
+        g->m.invalidate_map_cache( g->get_levz() );
+        g->refresh_all();
+    } else {
+        add_msg( _( "You don't have this bionic installed." ) );
+        act->set_to_null();
     }
     act->set_to_null();
 }
