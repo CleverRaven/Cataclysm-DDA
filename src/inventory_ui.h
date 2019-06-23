@@ -51,30 +51,10 @@ class inventory_entry
 
         inventory_entry( const item_location &location, size_t stack_size,
                          const item_category *custom_category = nullptr, bool enabled = true ) :
-            location( location.clone() ),
+            location( location ),
             stack_size( stack_size ),
             custom_category( custom_category ),
             enabled( enabled ) {}
-
-        inventory_entry( const inventory_entry &entry ) :
-            location( entry.location.clone() ),
-            chosen_count( entry.chosen_count ),
-            custom_invlet( entry.custom_invlet ),
-            cached_name( entry.cached_name ),
-            stack_size( entry.stack_size ),
-            custom_category( entry.custom_category ),
-            enabled( entry.enabled ) {}
-
-        inventory_entry operator=( const inventory_entry &rhs ) {
-            location = rhs.location.clone();
-            chosen_count = rhs.chosen_count;
-            custom_invlet = rhs.custom_invlet;
-            stack_size = rhs.stack_size;
-            custom_category = rhs.custom_category;
-            enabled = rhs.enabled;
-            cached_name = rhs.cached_name;
-            return *this;
-        }
 
         inventory_entry( const item_location &location, const item_category *custom_category = nullptr,
                          bool enabled = true ) :

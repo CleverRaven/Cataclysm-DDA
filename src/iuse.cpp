@@ -3227,12 +3227,11 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-    int turns = 100;
+    int turns = to_moves<int>( 30_minutes );
     if( g->m.move_cost( pnt ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier
         turns /= 2;
     }
-    turns *= MINUTES( 30 );
 
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
@@ -3281,11 +3280,11 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
     }
 
     int moves = to_moves<int>( 20_minutes );
+    moves += ( ( MAX_STAT + 4 ) - std::min( p->str_cur, MAX_STAT ) ) * to_moves<int>( 5_minutes );
     if( g->m.move_cost( pnt ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier
         moves /= 2;
     }
-    moves *= ( ( MAX_STAT + 4 ) - std::min( p->str_cur, MAX_STAT ) ) * to_seconds<int>( 5_minutes );
 
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
@@ -3333,11 +3332,11 @@ int iuse::burrow( player *p, item *it, bool, const tripoint &pos )
     }
 
     int moves = to_moves<int>( 5_minutes );
+    moves += ( ( MAX_STAT + 3 ) - std::min( p->str_cur, MAX_STAT ) ) * to_moves<int>( 2_minutes );
     if( g->m.move_cost( pnt ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier
         moves /= 2;
     }
-    moves *= ( ( MAX_STAT + 3 ) - std::min( p->str_cur, MAX_STAT ) ) * to_seconds<int>( 2_minutes );
     p->assign_activity( activity_id( "ACT_BURROW" ), moves, -1, 0 );
     p->activity.placement = pnt;
     p->add_msg_if_player( _( "You start tearing into the %1$s with your %2$s." ),

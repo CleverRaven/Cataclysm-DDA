@@ -474,11 +474,6 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 };
 
-// use of std::unique_ptr<impl> forces these definitions within the implementation
-item_location::item_location( item_location && ) = default;
-item_location &item_location::operator=( item_location && ) = default;
-item_location::~item_location() = default;
-
 const item_location item_location::nowhere;
 
 item_location::item_location()
@@ -620,13 +615,6 @@ item *item_location::get_item()
 const item *item_location::get_item() const
 {
     return ptr->target();
-}
-
-item_location item_location::clone() const
-{
-    item_location res;
-    res.ptr = ptr;
-    return res;
 }
 
 void item_location::set_should_stack( bool should_stack ) const

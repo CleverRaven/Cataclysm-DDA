@@ -8,8 +8,7 @@
     "price": 90000,
     "ammo": "460",
     "relative": { "durability": -1 },
-    "built_in_mods": [ "lead_holo_sight", "muzzle_brake", "lead_laser_sight" ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "muzzle", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ]
+    "built_in_mods": [ "lead_holo_sight", "muzzle_brake", "lead_laser_sight" ]
   },
   {
     "id": "l_mp_45",
@@ -19,8 +18,7 @@
     "description": "After the success of their 9x19mm machine pistol, Leadworks LLC developed the L39B-45 from their .460 Rowland semi-autos, intending them to be used with .45ACP.  Because it shares most of its parts with the L39-460, this variant retains the ability to fire fearsome .460 Rowland, though users are strongly advised not to do so during automatic fire.  Comes with built in red dot, recoil compensator and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "ammo": "460",
     "relative": { "durability": -1 },
-    "built_in_mods": [ "lead_holo_sight", "muzzle_brake", "lead_laser_sight" ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "muzzle", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ]
+    "built_in_mods": [ "lead_holo_sight", "muzzle_brake", "lead_laser_sight" ]
   },
   {
     "id": "l_enforcer_45",
@@ -45,7 +43,14 @@
     "clip_size": 6,
     "magazines": [ [ "460", [ "460_speedloader6" ] ] ],
     "built_in_mods": [ "lead_holo_sight", "lead_laser_sight" ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "sights", 1 ],
+      [ "underbarrel", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ]
+    ]
   },
   {
     "id": "l_long_45",
@@ -72,7 +77,17 @@
     "clip_size": 12,
     "barrel_length": 2,
     "built_in_mods": [ "lead_holo_sight", "lead_laser_sight" ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "brass catcher", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 1 ],
+      [ "muzzle", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ]
+    ],
     "flags": [ "RELOAD_ONE" ]
   }
 ]

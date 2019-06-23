@@ -58,7 +58,16 @@
     "clip_size": 1,
     "reload": 200,
     "barrel_length": 3,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "muzzle", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "flags": [ "RELOAD_EJECT" ]
   },
   {
@@ -162,7 +171,8 @@
       [ "grip", 1 ],
       [ "sights", 1 ],
       [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      [ "underbarrel", 1 ],
+      [ "rail mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },

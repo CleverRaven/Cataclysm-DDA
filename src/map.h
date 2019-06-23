@@ -163,6 +163,7 @@ struct level_cache {
     float camera_cache[MAPSIZE_X][MAPSIZE_Y];
     lit_level visibility_cache[MAPSIZE_X][MAPSIZE_Y];
     std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_seen_cache;
+    std::bitset<MAPSIZE *MAPSIZE> field_cache;
 
     bool veh_in_active_range;
     bool veh_exists_at[MAPSIZE_X][MAPSIZE_Y];
@@ -1692,9 +1693,8 @@ class map
         bool need_draw_lower_floor( const tripoint &p );
 };
 
-void shift_map_memory_seen_cache(
-    std::bitset<MAPSIZE_X *MAPSIZE_Y> &map_memory_seen_cache,
-    const int sx, const int sy );
+template<int SIZE, int MULTIPLIER>
+void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const int sx, const int sy );
 
 std::vector<point> closest_points_first( int radius, point p );
 std::vector<point> closest_points_first( int radius, int x, int y );
