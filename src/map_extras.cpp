@@ -64,7 +64,8 @@ const map_extra &string_id<map_extra>::obj() const
 namespace MapExtras
 {
 
-static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
+static const mongroup_id GROUP_NETHER_CAPTURED( "GROUP_NETHER_CAPTURED" );
+static const mongroup_id GROUP_NETHER_PORTAL( "GROUP_NETHER_PORTAL" );
 static const mongroup_id GROUP_MAYBE_MIL( "GROUP_MAYBE_MIL" );
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
@@ -355,7 +356,7 @@ static void mx_military( map &m, const tripoint & )
     int num_monsters = rng( 0, 3 );
     for( int i = 0; i < num_monsters; i++ ) {
         int mx = rng( 1, SEEX * 2 - 2 ), my = rng( 1, SEEY * 2 - 2 );
-        m.place_spawns( GROUP_NETHER, 1, mx, my, mx, my, 1, true );
+        m.place_spawns( GROUP_NETHER_CAPTURED, 1, mx, my, mx, my, 1, true );
     }
     m.place_spawns( GROUP_MAYBE_MIL, 2, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1,
                     0.1f ); //0.1 = 1-5
@@ -379,7 +380,7 @@ static void mx_science( map &m, const tripoint & )
     int num_monsters = rng( 0, 3 );
     for( int i = 0; i < num_monsters; i++ ) {
         int mx = rng( 1, SEEX * 2 - 2 ), my = rng( 1, SEEY * 2 - 2 );
-        m.place_spawns( GROUP_NETHER, 1, mx, my, mx, my, 1, true );
+        m.place_spawns( GROUP_NETHER_CAPTURED, 1, mx, my, mx, my, 1, true );
     }
     m.place_items( "rare", 45, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0 );
 }
@@ -410,7 +411,7 @@ static void mx_collegekids( map &m, const tripoint & )
     int num_monsters = rng( 0, 3 );
     for( int i = 0; i < num_monsters; i++ ) {
         int mx = rng( 1, SEEX * 2 - 2 ), my = rng( 1, SEEY * 2 - 2 );
-        m.place_spawns( GROUP_NETHER, 1, mx, my, mx, my, 1, true );
+        m.place_spawns( GROUP_NETHER_CAPTURED, 1, mx, my, mx, my, 1, true );
     }
 }
 
@@ -750,7 +751,7 @@ static void mx_drugdeal( map &m, const tripoint &abs_sub )
     int num_monsters = rng( 0, 3 );
     for( int i = 0; i < num_monsters; i++ ) {
         int mx = rng( 1, SEEX * 2 - 2 ), my = rng( 1, SEEY * 2 - 2 );
-        m.place_spawns( GROUP_NETHER, 1, mx, my, mx, my, 1, true );
+        m.place_spawns( GROUP_NETHER_CAPTURED, 1, mx, my, mx, my, 1, true );
     }
 }
 
@@ -809,7 +810,7 @@ static void mx_portal( map &m, const tripoint &abs_sub )
     for( int i = 0; i < num_monsters; i++ ) {
         int mx = rng( 1, SEEX * 2 - 2 ), my = rng( 1, SEEY * 2 - 2 );
         m.make_rubble( tripoint( mx,  my, abs_sub.z ), f_rubble_rock, true );
-        m.place_spawns( GROUP_NETHER, 1, mx, my, mx, my, 1, true );
+        m.place_spawns( GROUP_NETHER_PORTAL, 1, mx, my, mx, my, 1, true );
     }
 }
 
@@ -1413,7 +1414,7 @@ static void mx_portal_in( map &m, const tripoint &abs_sub )
             if( rng( 1, 9 ) >= trig_dist( x, y, i, j ) ) {
                 fe.marlossify( tripoint( i, j, abs_sub.z ) );
                 if( one_in( 15 ) ) {
-                    m.place_spawns( GROUP_NETHER, 1, i, j, i, j, 1, true );
+                    m.place_spawns( GROUP_NETHER_PORTAL, 1, i, j, i, j, 1, true );
                 }
             }
         }
