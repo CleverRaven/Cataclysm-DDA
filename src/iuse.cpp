@@ -9189,7 +9189,7 @@ int iuse::disassemble( player *p, item *it, bool, const tripoint & )
 
 int iuse::gobag( player *p, item *it, bool, const tripoint & )
 {
-    auto items = item_group::items_from( "gobag_contents", calendar::turn );
+    std::vector<item> items = item_group::items_from( "gobag_contents", calendar::turn );
     bool content_fits = units::to_liter( it->volume() ) >= 36; // personal go bag is bigger
     std::string last_armor;
 
