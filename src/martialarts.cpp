@@ -336,6 +336,23 @@ void finialize_martial_arts()
     }
 }
 
+const std::string martialart_difficulty( matype_id mstyle )
+{
+    std::string diff;
+    if( mstyle->learn_difficulty <= 2 ) {
+        diff = _( "easy" );
+    } else if( mstyle->learn_difficulty <= 4 ) {
+        diff = _( "moderately hard" );
+    } else if( mstyle->learn_difficulty <= 6 ) {
+        diff = _( "hard" );
+    } else if( mstyle->learn_difficulty <= 8 ) {
+        diff = _( "very hard" );
+    } else {
+        diff = _( "extremely hard" );
+    }
+    return diff;
+}
+
 void clear_techniques_and_martial_arts()
 {
     martialarts.reset();
