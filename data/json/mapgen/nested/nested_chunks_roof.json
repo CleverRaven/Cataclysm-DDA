@@ -507,7 +507,7 @@
         "xx~~",
         "xo.~",
         "_..x",
-uttps://en.wikipedia.org/wiki/Orator_(Cicero)        "__xx"
+        "__xx"
       ],
       "terrain": { "_": "t_concrete", "x": "t_concrete", "o": "t_concrete", "~": "t_concrete", ".": "t_concrete" },
       "furniture": { "o": "f_tourist_table", "x": "f_sandbag_wall", "~": "f_sandbag_half", ".": "f_groundsheet" },
