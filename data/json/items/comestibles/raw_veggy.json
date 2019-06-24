@@ -308,7 +308,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": -8,
-    "vitamins": [ [ "vitC", 5 ], [ "iron", 3 ], [ "calcium", 2 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "iron", 3 ], [ "calcium", 2 ] ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {

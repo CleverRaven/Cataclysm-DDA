@@ -1010,6 +1010,7 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "time": 12000,
+    "autolearn": true,
     "book_learn": [
       [ "pocket_survival", 1 ],
       [ "survival_book", 1 ],
@@ -1335,7 +1336,7 @@
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "raw_dandelion", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
-  {
+    {
     "type": "recipe",
     "result": "chicory_coffee",
     "category": "CC_FOOD",
@@ -1344,6 +1345,7 @@
     "difficulty": 1,
     "time": 12000,
     "batch_time_factors": [ 80, 4 ],
+    "autolearn": true,
     "book_learn": [
       [ "pocket_survival", 1 ],
       [ "survival_book", 1 ],

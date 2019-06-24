@@ -2924,7 +2924,7 @@
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "chicory_raw", "base_num": [ 1, 2 ] } ] } ],
-    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." },
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
     "type": "furniture",

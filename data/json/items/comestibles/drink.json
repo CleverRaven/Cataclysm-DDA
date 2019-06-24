@@ -232,7 +232,6 @@
     "name_plural": "chicory brew",
     "weight": 252,
     "color": "brown",
-    "addiction_type": "caffeine",
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 36,
