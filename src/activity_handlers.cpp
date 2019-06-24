@@ -516,7 +516,7 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     switch( corpse.size ) {
         // Time (roughly) in turns to cut up the corpse
         case MS_TINY:
-            time_to_cut = 125;
+            time_to_cut = 150;
             break;
         case MS_SMALL:
             time_to_cut = 300;
