@@ -156,7 +156,6 @@ void teleporter_list::deserialize( JsonIn &jsin )
 class teleporter_callback : public uilist_callback
 {
     private:
-        std::map<tripoint, std::string> &known_teleporters;
         // to make it easier to get the callback from the known_teleporters
         std::map<int, tripoint> index_pairs;
     public:
