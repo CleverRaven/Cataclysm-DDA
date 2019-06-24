@@ -358,9 +358,6 @@ struct islot_mod {
     /** If non-empty restrict mod to items with those base (before modifiers) ammo types */
     std::set<ammotype> acceptable_ammo;
 
-    /** If set modifies parent ammo to this type */
-    std::set<ammotype> ammo_modifier = {};
-
     /** If non-empty replaces the compatible magazines for the parent item */
     std::map< ammotype, std::set<itype_id> > magazine_adaptor;
 

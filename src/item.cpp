@@ -1740,12 +1740,6 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.emplace_back( "GUNMOD", _( "Handling modifier: " ), "",
                                iteminfo::show_plus, mod.handling );
         }
-        if( !type->mod->ammo_modifier.empty() && parts->test( iteminfo_parts::GUNMOD_AMMO ) ) {
-            for( const ammotype &at : type->mod->ammo_modifier ) {
-                info.push_back( iteminfo( "GUNMOD", string_format( _( "Ammo: <stat>%s</stat>" ),
-                                          at->name() ) ) );
-            }
-        }
         if( mod.reload_modifier != 0 && parts->test( iteminfo_parts::GUNMOD_RELOAD ) ) {
             info.emplace_back( "GUNMOD", _( "Reload modifier: " ), _( "<num>%" ),
                                iteminfo::lower_is_better, mod.reload_modifier );
@@ -5906,14 +5900,6 @@ const itype *item::ammo_data() const
         return !contents.empty() ? contents.front().ammo_data() : nullptr;
     }
 
-    auto mods = is_gun() ? gunmods() : toolmods();
-    for( const auto e : mods ) {
-        if( !e->type->mod->ammo_modifier.empty() &&
-            item_controller->has_template( e->ammo_current() ) ) {
-            return item_controller->find_template( e->ammo_current() );
-        }
-    }
-
     return curammo;
 }
 
@@ -5923,17 +5909,8 @@ itype_id item::ammo_current() const
     return ammo ? ammo->get_id() : "null";
 }
 
-const std::set<ammotype> &item::ammo_types( bool conversion ) const
+const std::set<ammotype> &item::ammo_types() const
 {
-    if( conversion ) {
-        auto mods = is_gun() ? gunmods() : toolmods();
-        for( const auto e : mods ) {
-            if( !e->type->mod->ammo_modifier.empty() ) {
-                return e->type->mod->ammo_modifier;
-            }
-        }
-    }
-
     if( is_gun() ) {
         return type->gun->ammo;
     } else if( is_tool() ) {
@@ -5954,10 +5931,10 @@ ammotype item::ammo_type() const
     return ammotype::NULL_ID();
 }
 
-itype_id item::ammo_default( bool conversion ) const
+itype_id item::ammo_default() const
 {
-    if( !ammo_types( conversion ).empty() ) {
-        itype_id res = ammotype( *ammo_types( conversion ).begin() )->default_ammotype();
+    if( !ammo_types().empty() ) {
+        itype_id res = ammotype( *ammo_types().begin() )->default_ammotype();
         if( !res.empty() ) {
             return res;
         }
@@ -5965,10 +5942,10 @@ itype_id item::ammo_default( bool conversion ) const
     return "NULL";
 }
 
-itype_id item::common_ammo_default( bool conversion ) const
+itype_id item::common_ammo_default() const
 {
-    if( !ammo_types( conversion ).empty() ) {
-        for( const ammotype &at : ammo_types( conversion ) ) {
+    if( !ammo_types().empty() ) {
+        for( const ammotype &at : ammo_types() ) {
             const item *mag = magazine_current();
             if( mag && mag->type->magazine->type.count( at ) ) {
                 itype_id res = at->default_ammotype();
@@ -6023,10 +6000,10 @@ bool item::magazine_integral() const
     return ( is_gun() && type->gun->clip > 0 ) || type->magazines.empty();
 }
 
-itype_id item::magazine_default( bool conversion ) const
+itype_id item::magazine_default() const
 {
-    if( !ammo_types( conversion ).empty() ) {
-        auto mag = type->magazine_default.find( ammotype( *ammo_types( conversion ).begin() ) );
+    if( !ammo_types().empty() ) {
+        auto mag = type->magazine_default.find( ammotype() );
         if( mag != type->magazine_default.end() ) {
             return mag->second;
         }
@@ -6034,14 +6011,14 @@ itype_id item::magazine_default( bool conversion ) const
     return "null";
 }
 
-std::set<itype_id> item::magazine_compatible( bool conversion ) const
+std::set<itype_id> item::magazine_compatible() const
 {
     std::set<itype_id> mags = {};
     // mods that define magazine_adaptor may override the items usual magazines
     auto mods = is_gun() ? gunmods() : toolmods();
     for( const auto m : mods ) {
         if( !m->type->mod->magazine_adaptor.empty() ) {
-            for( const ammotype &atype : ammo_types( conversion ) ) {
+            for( const ammotype &atype : ammo_types() ) {
                 if( m->type->mod->magazine_adaptor.count( atype ) ) {
                     std::set<itype_id> magazines_for_atype = m->type->mod->magazine_adaptor.find( atype )->second;
                     mags.insert( magazines_for_atype.begin(), magazines_for_atype.end() );
@@ -6051,7 +6028,7 @@ std::set<itype_id> item::magazine_compatible( bool conversion ) const
         }
     }
 
-    for( const ammotype &atype : ammo_types( conversion ) ) {
+    for( const ammotype &atype : ammo_types() ) {
         if( type->magazines.count( atype ) ) {
             std::set<itype_id> magazines_for_atype = type->magazines.find( atype )->second;
             mags.insert( magazines_for_atype.begin(), magazines_for_atype.end() );
@@ -6153,7 +6130,7 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
     } else if( !mod.type->mod->acceptable_ammo.empty() ) {
         bool compat_ammo = false;
         for( const ammotype &at : mod.type->mod->acceptable_ammo ) {
-            if( ammo_types( false ).count( at ) ) {
+            if( ammo_types().count( at ) ) {
                 compat_ammo = true;
             }
         }
@@ -6170,7 +6147,7 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
     } else if( mod.typeId() == "brass_catcher" && has_flag( "RELOAD_EJECT" ) ) {
         return ret_val<bool>::make_failure( _( "cannot have a brass catcher" ) );
 
-    } else if( ( mod.type->mod->ammo_modifier.empty() || !mod.type->mod->magazine_adaptor.empty() )
+    } else if( !mod.type->mod->magazine_adaptor.empty()
                && ( ammo_remaining() > 0 || magazine_current() ) ) {
         return ret_val<bool>::make_failure( _( "must be unloaded before installing this mod" ) );
     }

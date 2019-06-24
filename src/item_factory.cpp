@@ -1015,10 +1015,6 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->mod ) {
-            for( const ammotype &at : type->mod->ammo_modifier ) {
-                check_ammo_type( msg, at );
-            }
-
             for( const auto &e : type->mod->acceptable_ammo ) {
                 check_ammo_type( msg, e );
             }
@@ -1563,14 +1559,6 @@ void Item_factory::load( islot_mod &slot, JsonObject &jo, const std::string &src
 {
     bool strict = src == "dda";
 
-    if( jo.has_array( "ammo_modifier" ) ) {
-        JsonArray atypes = jo.get_array( "ammo_modifier" );
-        for( size_t i = 0; i < atypes.size(); ++i ) {
-            slot.ammo_modifier.insert( ammotype( atypes.get_string( i ) ) );
-        }
-    } else if( jo.has_string( "ammo_modifier" ) ) {
-        slot.ammo_modifier.insert( ammotype( jo.get_string( "ammo_modifier" ) ) );
-    }
     assign( jo, "capacity_multiplier", slot.capacity_multiplier, strict );
 
     if( jo.has_member( "acceptable_ammo" ) ) {

@@ -5753,7 +5753,7 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint & )
         return e.is_tool() && e.toolmods().empty() && !e.magazine_current() &&
                std::any_of( it->type->mod->acceptable_ammo.begin(),
         it->type->mod->acceptable_ammo.end(), [&]( const ammotype & at ) {
-            return e.ammo_types( false ).count( at );
+            return e.ammo_types().count( at );
         } );
     };
 

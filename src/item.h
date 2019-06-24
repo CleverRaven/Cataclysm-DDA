@@ -1588,23 +1588,20 @@ class item : public visitable<item>
         /** Specific ammo type, returns "null" if item is neither ammo nor loaded with any */
         itype_id ammo_current() const;
         /** Set of ammo types (@ref ammunition_type) used by item
-         *  @param conversion whether to include the effect of any flags or mods which convert the type
          *  @return empty set if item does not use a specific ammo type (and is consequently not reloadable) */
-        const std::set<ammotype> &ammo_types( bool conversion = true ) const;
+        const std::set<ammotype> &ammo_types() const;
 
         /** Ammo type of an ammo item
          *  @return ammotype of ammo item or a null id if the item is not ammo */
         ammotype ammo_type() const;
 
         /** Get default ammo used by item or "NULL" if item does not have a default ammo type
-         *  @param conversion whether to include the effect of any flags or mods which convert the type
          *  @return NULL if item does not use a specific ammo type (and is consequently not reloadable) */
-        itype_id ammo_default( bool conversion = true ) const;
+        itype_id ammo_default() const;
 
         /** Get default ammo for the first ammotype common to an item and its current magazine or "NULL" if none exists
-         * @param conversion whether to include the effect of any flags or mods which convert the type
          * @return itype_id of default ammo for the first ammotype common to an item and its current magazine or "NULL" if none exists */
-        itype_id common_ammo_default( bool conversion = true ) const;
+        itype_id common_ammo_default() const;
 
         /** Get ammo effects for item optionally inclusive of any resulting from the loaded ammo */
         std::set<std::string> ammo_effects( bool with_ammo = true ) const;
@@ -1622,16 +1619,14 @@ class item : public visitable<item>
         bool magazine_integral() const;
 
         /** Get the default magazine type (if any) for the current effective ammo type
-         *  @param conversion whether to include the effect of any flags or mods which convert item's ammo type
          *  @return magazine type or "null" if item has integral magazine or no magazines for current ammo type */
-        itype_id magazine_default( bool conversion = true ) const;
+        itype_id magazine_default() const;
 
         /** Get compatible magazines (if any) for this item
-         *  @param conversion whether to include the effect of any flags or mods which convert item's ammo type
          *  @return magazine compatibility which is always empty if item has integral magazine
          *  @see item::magazine_integral
          */
-        std::set<itype_id> magazine_compatible( bool conversion = true ) const;
+        std::set<itype_id> magazine_compatible() const;
 
         /** Currently loaded magazine (if any)
          *  @return current magazine or nullptr if either no magazine loaded or item has integral magazine
