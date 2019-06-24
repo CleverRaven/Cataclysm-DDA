@@ -854,16 +854,17 @@ void avatar::do_read( item &book )
         if( book.type->use_methods.count( "MA_MANUAL" ) ) {
             const matype_id style_to_learn = martial_art_learned_from( *book.type );
             add_msg( m_info, _( "You can learn %s style from it." ), style_to_learn->name );
-            add_msg( m_info, _( "This fighting style is %s to learn." ), martialart_difficulty( style_to_learn ) );
+            add_msg( m_info, _( "This fighting style is %s to learn." ),
+                     martialart_difficulty( style_to_learn ) );
             add_msg( m_info, _( "It would be easier to master if you'd have skill expertise in %s." ),
                      style_to_learn->primary_skill->name() );
             add_msg( m_info, ngettext( "Training session with this book takes %d minute.",
-                                    "Training session with this book takes %d minutes.", reading->time ),
-                    reading->time );
+                                       "Training session with this book takes %d minutes.", reading->time ),
+                     reading->time );
         } else {
             add_msg( m_info, ngettext( "A chapter of this book takes %d minute to read.",
-                                    "A chapter of this book takes %d minutes to read.", reading->time ),
-                    reading->time );
+                                       "A chapter of this book takes %d minutes to read.", reading->time ),
+                     reading->time );
         }
 
         std::vector<std::string> recipe_list;

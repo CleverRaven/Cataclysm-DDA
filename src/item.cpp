@@ -1996,7 +1996,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 info.push_back( iteminfo( "BOOK",
                                           string_format( _( "You can learn <info>%s</info> style from it." ), style_to_learn->name ) ) );
                 info.push_back( iteminfo( "BOOK",
-                                          string_format( _( "This fighting style is <info>%s</info> to learn." ), martialart_difficulty( style_to_learn ) ) ) );
+                                          string_format( _( "This fighting style is <info>%s</info> to learn." ),
+                                                  martialart_difficulty( style_to_learn ) ) ) );
                 info.push_back( iteminfo( "BOOK",
                                           string_format( _( "It'd be easier to master if you'd have skill expertise in <info>%s</info>." ),
                                                   style_to_learn->primary_skill->name() ) ) );
@@ -2042,9 +2043,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                book.time );
                 if( type->use_methods.count( "MA_MANUAL" ) ) {
                     fmt = ngettext(
-                            "<info>Training session</info> with this book takes <num> <info>minute</info>.",
-                            "<info>Training session</info> with this book takes <num> <info>minutes</info>.",
-                            book.time );
+                              "<info>Training session</info> with this book takes <num> <info>minute</info>.",
+                              "<info>Training session</info> with this book takes <num> <info>minutes</info>.",
+                              book.time );
                 }
                 info.push_back( iteminfo( "BOOK", "", fmt,
                                           iteminfo::lower_is_better, book.time ) );
