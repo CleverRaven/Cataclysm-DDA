@@ -2727,7 +2727,7 @@ void activity_handlers::read_do_turn( player_activity *act, player *p )
         p->stamina = act->values[0] - 1;
         act->values[0] = p->stamina;
     }
-    if( p->stamina < p->get_stamina_max() * 0.1 ) {
+    if( p->stamina < p->get_stamina_max() / 10 ) {
         add_msg( m_info, _( "This training is exhausting.  Time to rest." ) );
         act->set_to_null();
     }

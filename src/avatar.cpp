@@ -691,7 +691,7 @@ bool avatar::read( int inventory_position, const bool continuous )
             }
             act.index = menu.ret;
         }
-        if( it.type->use_methods.find( "MA_MANUAL" ) != it.type->use_methods.end() ) {
+        if( it.type->use_methods.count( "MA_MANUAL" ) ) {
 
             if( g->u.has_martialart( martial_art_learned_from( *it.type ) ) ) {
                 g->u.add_msg_if_player( m_info, _( "You already know all this book has to teach." ) );
@@ -776,9 +776,9 @@ bool avatar::read( int inventory_position, const bool continuous )
 
 
     // push an indentifier of martial art book to the action handling
-    if( it.type->use_methods.find( "MA_MANUAL" ) != it.type->use_methods.end() ) {
+    if( it.type->use_methods.count( "MA_MANUAL" ) ) {
 
-        if( g->u.stamina < g->u.get_stamina_max() * 0.1 ) {
+        if( g->u.stamina < g->u.get_stamina_max() / 10 ) {
             add_msg( m_info, _( "You are too exhausted to train martial arts." ) );
             return false;
         }
@@ -872,7 +872,7 @@ void avatar::do_read( item &book )
 
             add_msg( m_info, _( "You can learn %s style from it." ), style_to_learn->name );
             add_msg( m_info, _( "This fighting style is %s to learn." ), diff );
-            add_msg( m_info, _( "It'd be easier to master if you'd have skill expertise in %s." ),
+            add_msg( m_info, _( "It would be easier to master if you'd have skill expertise in %s." ),
                      style_to_learn->primary_skill->name() );
         }
 
