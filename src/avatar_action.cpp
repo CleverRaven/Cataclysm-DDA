@@ -37,6 +37,7 @@ static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_stunned( "stunned" );
+const efftype_id effect_under_op( "under_operation" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_harnessed( "harnessed" );
 
@@ -68,6 +69,12 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     if( dest_loc == you.pos() ) {
         // Well that sure was easy
         return true;
+    }
+
+    if( you.has_effect( effect_under_op ) && m.furn( dest_loc ) != furn_str_id( "f_autodoc_couch" ) ) {
+        if( !query_yn( "Are you sure you want to move DURING the operation?  This will hurt you badly." ) ) {
+            return false;
+        }
     }
 
     if( m.has_flag( TFLAG_MINEABLE, dest_loc ) && g->mostseen == 0 &&
