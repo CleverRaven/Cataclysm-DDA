@@ -94,6 +94,7 @@ const efftype_id effect_took_flumed( "took_flumed" );
 const efftype_id effect_took_prozac( "took_prozac" );
 const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
 const efftype_id effect_took_xanax( "took_xanax" );
+const efftype_id effect_under_op( "under_operation" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 
@@ -1301,6 +1302,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     for( const auto &elem : bionics[b_id].occupied_bodyparts ) {
         activity.values.push_back( elem.first );
         activity.values.push_back( get_hp( bp_to_hp( elem.first ) ) );//stores current hp to avoid overheal
+        add_effect( effect_under_op, difficulty * 20_minutes, elem.first );
     }
     return true;
 }

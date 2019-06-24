@@ -9079,8 +9079,14 @@ point game::place_player( const tripoint &dest_loc )
     }
     if( u.has_effect( effect_under_op ) &&
         m.furn( dest_loc ) != furn_str_id( "f_autodoc_couch" ) ) {
-        add_msg( m_bad, _( "Moving from the Autodoc mid-operation rips you open." ) );
-        u.add_effect( effect_bleed, 1_turns, bp_torso, true );
+        for( body_part bp : u.get_all_body_parts() ) {
+            if( u.has_effect( effect_under_op, bp ) ) {
+                add_msg( m_bad, _( "Moving from the Autodoc mid-operation rips your %s open." ),
+                         body_part_name_accusative( bp ) );
+                u.add_effect( effect_bleed, 1_turns, bp, true );
+                u.remove_effect( effect_under_op, bp );
+            }
+        }
         u.remove_effect( effect_under_op );
     }
 
