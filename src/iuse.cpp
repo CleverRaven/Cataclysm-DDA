@@ -9195,7 +9195,7 @@ int iuse::gobag( player *p, item *it, bool, const tripoint & )
 
     p->add_msg_if_player( _( "You empty the contents of the go bag onto the floor." ) );
 
-    for( auto &content : items ) {
+    for( item &content : items ) {
         if( content.is_armor() ) {
             if( content.typeId() != last_armor ) {
                 content_fits = units::to_liter( it->volume() ) >= 36 || content.has_flag( "FIT" );
