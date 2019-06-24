@@ -14,11 +14,19 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
-    "ammo": "454",
+    "ammo": [ "454", "45colt" ],
     "dispersion": 280,
     "durability": 8,
     "clip_size": 5,
     "magazines": [ [ "454", [ "454_speedloader5" ] ] ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   }
 ]

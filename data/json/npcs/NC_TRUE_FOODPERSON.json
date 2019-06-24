@@ -28,8 +28,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "medium_disposable_cell", "prob": 90 },
-      { "item_group": "snacks_fancy", "prob": 30, "charges": 2 },
-      { "item_group": "snacks", "prob": 20, "charges": 2 }
+      { "group": "snacks_fancy", "prob": 30, "charges": 2 },
+      { "group": "snacks", "prob": 20, "charges": 2 }
     ]
   }
 ]

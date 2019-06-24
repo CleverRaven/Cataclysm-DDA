@@ -335,14 +335,15 @@ bool mattack::antqueen( monster *z )
         if( g->u.sees( *z ) ) {
             add_msg( m_warning, _( "The %s tends nearby eggs, and they hatch!" ), z->name() );
         }
-        for( auto &i : egg_points ) {
-            auto eggs = g->m.i_at( i );
-            for( size_t j = 0; j < eggs.size(); j++ ) {
-                if( eggs[j].typeId() != "ant_egg" ) {
+        for( const tripoint &egg_pos : egg_points ) {
+            map_stack items = g->m.i_at( egg_pos );
+            for( map_stack::iterator it = items.begin(); it != items.end(); ) {
+                if( it->typeId() != "ant_egg" ) {
+                    ++it;
                     continue;
                 }
-                g->m.i_rem( i, j );
-                monster tmp( z->type->id == mon_ant_acid_queen ? mon_ant_acid_larva : mon_ant_larva, i );
+                it = items.erase( it );
+                monster tmp( z->type->id == mon_ant_acid_queen ? mon_ant_acid_larva : mon_ant_larva, egg_pos );
                 tmp.make_ally( *z );
                 g->add_zombie( tmp );
                 break; // Max one hatch per tile
@@ -852,7 +853,7 @@ bool mattack::resurrect( monster *z )
     bool found_eligible_corpse = false;
     int lowest_raise_score = INT_MAX;
     for( const tripoint &p : g->m.points_in_radius( z->pos(), range ) ) {
-        if( !g->is_empty( p ) || g->m.get_field_strength( p, fd_fire ) > 1 ||
+        if( !g->is_empty( p ) || g->m.get_field_intensity( p, fd_fire ) > 1 ||
             !g->m.sees( z->pos(), p, -1 ) ) {
             continue;
         }
@@ -1053,7 +1054,7 @@ find_empty_neighbors( const Creature &c )
   */
 static size_t get_random_index( const size_t size )
 {
-    return static_cast<size_t>( rng( 0, static_cast<long>( size - 1 ) ) );
+    return static_cast<size_t>( rng( 0, static_cast<int>( size - 1 ) ) );
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1098,7 +1099,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
     constexpr int att_rad_dose_max      = 50; // max radiation
 
     // acid attack behavior
-    constexpr int att_acid_density = 3;
+    constexpr int att_acid_intensity = 3;
 
     // flavor messages
     static const std::array<const char *, 4> m_flavor = {{
@@ -1244,7 +1245,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
             // fill empty tiles with acid
             for( size_t i = 0; i < empty_neighbor_count; ++i ) {
                 const tripoint &p = empty_neighbors.first[i];
-                g->m.add_field( p, fd_acid, att_acid_density );
+                g->m.add_field( p, fd_acid, att_acid_intensity );
             }
 
             break;
@@ -1640,7 +1641,7 @@ bool mattack::fungus_big_blossom( monster *z )
     const auto u_see = g->u.sees( *z );
     // Fungal fire-suppressor! >:D
     for( const tripoint &dest : g->m.points_in_radius( z->pos(), 6 ) ) {
-        if( g->m.get_field_strength( dest, fd_fire ) != 0 ) {
+        if( g->m.get_field_intensity( dest, fd_fire ) != 0 ) {
             firealarm = true;
         }
         if( firealarm ) {

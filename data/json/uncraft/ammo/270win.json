@@ -1,6 +1,6 @@
 [
   {
-    "result": "270",
+    "result": "270win_jsp",
     "type": "uncraft",
     "skill_used": "gun",
     "difficulty": 5,
@@ -8,10 +8,10 @@
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 5 ] ],
-      [ [ "3006_casing", 1 ] ],
+      [ [ "270win_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder", 10 ] ],
-      [ [ "copper", 5 ] ]
+      [ [ "copper", 3 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   }

@@ -105,7 +105,7 @@ static const morale_mult badtemper( 0.8, 1.2 );
 static const morale_mult prozac( 1.0, 0.25 );
 // The bad prozac effect reduces good morale by 75%.
 static const morale_mult prozac_bad( 0.25, 1.0 );
-}
+} // namespace morale_mults
 
 std::string player_morale::morale_point::get_name() const
 {

@@ -9,7 +9,7 @@
     "id": "earthenware_firing",
     "type": "requirement",
     "//": "Firing various clay shapes to make earthenware",
-    "tools": [ [ [ "brick_kiln", -1 ], [ "kiln", -1 ] ], [ [ "fire", -1 ], [ "brick_kiln", 1 ], [ "kiln", 1 ] ] ]
+    "tools": [ [ [ "fire", -1 ], [ "brick_kiln", 1 ], [ "kiln", 1 ] ] ]
   },
   {
     "id": "forging_standard",
@@ -63,5 +63,12 @@
         [ "survivor_belt", -1 ]
       ]
     ]
+  },
+  {
+    "id": "bronzesmithing_tools",
+    "type": "requirement",
+    "//": "Tools for casting and work hardening items made from bronze",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "ANVIL", "level": 2 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   }
 ]

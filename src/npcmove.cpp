@@ -184,7 +184,7 @@ const std::vector<bionic_id> weapon_cbms = { {
 
 const int avoidance_vehicles_radius = 5;
 
-}
+} // namespace
 
 std::string npc_action_name( npc_action action );
 
@@ -1455,7 +1455,7 @@ bool npc::can_reload_current()
         return false;
     }
 
-    return find_usable_ammo( weapon );
+    return static_cast<bool>( find_usable_ammo( weapon ) );
 }
 
 item_location npc::find_usable_ammo( const item &weap )

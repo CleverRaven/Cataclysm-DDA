@@ -280,6 +280,8 @@ class item : public visitable<item>
          */
         bool ready_to_revive( const tripoint &pos ) const;
 
+        bool is_money() const;
+
         /**
          * Returns the default color of the item (e.g. @ref itype::color).
          */
@@ -375,7 +377,8 @@ class item : public visitable<item>
                 reload_option( const reload_option & );
                 reload_option &operator=( const reload_option & );
 
-                reload_option( const player *who, const item *target, const item *parent, item_location &&ammo );
+                reload_option( const player *who, const item *target, const item *parent,
+                               const item_location &ammo );
 
                 const player *who = nullptr;
                 const item *target = nullptr;
@@ -1226,7 +1229,6 @@ class item : public visitable<item>
          * All numeric values are returned as doubles and may be cast to the desired type.
          * <code>
          * int v = itm.get_var("v", 0); // v will be an int
-         * long l = itm.get_var("v", 0l); // l will be a long
          * double d = itm.get_var("v", 0.0); // d will be a double
          * std::string s = itm.get_var("v", ""); // s will be a std::string
          * // no default means empty string as default:
@@ -1235,6 +1237,8 @@ class item : public visitable<item>
          */
         /*@{*/
         void set_var( const std::string &name, int value );
+        // Acceptable to use long as part of overload set
+        // NOLINTNEXTLINE(cata-no-long)
         void set_var( const std::string &name, long value );
         void set_var( const std::string &name, double value );
         double get_var( const std::string &name, double default_value ) const;
@@ -1292,7 +1296,7 @@ class item : public visitable<item>
           * Return same type as the passed default value, or string where no default provided
           */
         std::string get_property_string( const std::string &prop, const std::string &def = "" ) const;
-        long get_property_long( const std::string &prop, long def = 0 ) const;
+        int64_t get_property_int64_t( const std::string &prop, int64_t def = 0 ) const;
         /*@}*/
 
         /**

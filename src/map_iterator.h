@@ -100,6 +100,15 @@ class tripoint_range
             return size() == 0;
         }
 
+        bool is_point_inside( const tripoint &point ) const {
+            for( const tripoint &current : *this ) {
+                if( current == point ) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         const tripoint &min() const {
             return minp;
         }

@@ -33,7 +33,7 @@ const efftype_id effect_bleed( "bleed" );
 namespace
 {
 generic_factory<start_location> all_starting_locations( "starting location", "ident" );
-}
+} // namespace
 
 /** @relates string_id */
 template<>
@@ -191,7 +191,7 @@ static void board_up( map &m, const tripoint &start, const tripoint &end )
         m.furn_set( fp, f_null );
         auto destination_items = m.i_at( bp );
         for( const item &moved_item : m.i_at( fp ) ) {
-            destination_items.push_back( moved_item );
+            destination_items.insert( moved_item );
         }
         m.i_clear( fp );
     }
@@ -395,15 +395,14 @@ void start_location::burn( const tripoint &omtstart,
     m.save();
 }
 
-void start_location::add_map_special( const tripoint &omtstart,
-                                      const std::string &map_special ) const
+void start_location::add_map_extra( const tripoint &omtstart,
+                                    const std::string &map_extra ) const
 {
     const tripoint player_location = omt_to_sm_copy( omtstart );
     tinymap m;
     m.load( player_location.x, player_location.y, player_location.z, false );
 
-    const auto ptr = MapExtras::get_function( map_special );
-    ptr( m, player_location );
+    MapExtras::apply_function( map_extra, m, player_location );
 
     m.save();
 }

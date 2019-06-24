@@ -1697,7 +1697,7 @@
     "to_hit": -2
   },
   {
-    "type": "GENERIC",
+    "type": "TOOL",
     "id": "glass_shard",
     "symbol": ",",
     "color": "light_cyan",
@@ -1713,7 +1713,7 @@
       "trap": "tr_glass",
       "moves": 150,
       "practice": 2,
-      "done_message": "You carefuly place the shards on the ground, ready to be cracked by something passing by."
+      "done_message": "You carefully place the shards on the ground, ready to be cracked by something passing by."
     },
     "flags": [ "HURT_WHEN_WIELDED", "HURT_WHEN_PULLED", "TRADER_AVOID" ],
     "to_hit": -1
@@ -3143,5 +3143,18 @@
     "weight": 4500,
     "volume": 12,
     "bashing": 8
+  },
+  {
+    "type": "GENERIC",
+    "id": "amplifier_head",
+    "symbol": ";",
+    "color": "blue",
+    "name": "amplifier head",
+    "description": "An amplifier head.  Typically paired with a speaker cabinet for amplifying musical instruments.  Basically only good for spare parts now.",
+    "price": 25000,
+    "price_postapoc": 2000,
+    "material": [ "steel", "plastic", "wood" ],
+    "weight": 11339,
+    "volume": 12
   }
 ]

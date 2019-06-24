@@ -92,7 +92,7 @@ void load_item_group( JsonObject &jsobj, const Group_tag &group_id, const std::s
  * @throw std::string as usual for JSON errors, including invalid input values.
  */
 Group_tag load_item_group( JsonIn &stream, const std::string &default_subtype );
-}
+} // namespace item_group
 
 /**
  * Base interface for item spawn.

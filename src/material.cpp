@@ -94,7 +94,7 @@ void material_type::load( JsonObject &jsobj, const std::string & )
     }
 
     JsonArray burn_data_array = jsobj.get_array( "burn_data" );
-    for( size_t intensity = 0; intensity < MAX_FIELD_DENSITY; intensity++ ) {
+    for( size_t intensity = 0; intensity < MAX_FIELD_INTENSITY; intensity++ ) {
         if( burn_data_array.has_more() ) {
             JsonObject brn = burn_data_array.next_object();
             _burn_data[ intensity ] = load_mat_burn_data( brn );
@@ -287,7 +287,7 @@ bool material_type::reinforces() const
 
 const mat_burn_data &material_type::burn_data( size_t intensity ) const
 {
-    return _burn_data[ std::min<size_t>( intensity, MAX_FIELD_DENSITY ) - 1 ];
+    return _burn_data[ std::min<size_t>( intensity, MAX_FIELD_INTENSITY ) - 1 ];
 }
 
 const mat_burn_products &material_type::burn_products() const

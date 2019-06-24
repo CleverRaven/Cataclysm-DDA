@@ -38,6 +38,15 @@
     "volume": "10ml"
   },
   {
+    "id": "270win_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".270 Winchester casing",
+    "description": "An empty casing from a .270 Winchester round.",
+    "weight": 7,
+    "volume": "10ml"
+  },
+  {
     "id": "300_casing",
     "copy-from": "casing",
     "type": "GENERIC",
@@ -79,6 +88,15 @@
     "type": "GENERIC",
     "name": ".38 Special casing",
     "description": "An empty casing from a .38 Special round.",
+    "weight": 3,
+    "volume": "4ml"
+  },
+  {
+    "id": "38super_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".38 Super casing",
+    "description": "An empty casing from a .38 Super round.",
     "weight": 3,
     "volume": "4ml"
   },
@@ -136,6 +154,15 @@
     "type": "GENERIC",
     "name": ".45 ACP casing",
     "description": "An empty casing from a .45 ACP round.",
+    "weight": 4,
+    "volume": "6ml"
+  },
+  {
+    "id": "45colt_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".45 Colt casing",
+    "description": "An empty casing from a .45 Colt round.",
     "weight": 4,
     "volume": "6ml"
   },
@@ -300,6 +327,20 @@
     "category": "spare_parts",
     "name": "shotgun hull",
     "description": "An empty hull from a shotgun shell.",
+    "weight": 8,
+    "volume": "12ml",
+    "stackable": true,
+    "material": "plastic",
+    "symbol": "=",
+    "color": "red",
+    "damage_states": [ 0, 0 ]
+  },
+  {
+    "id": "410shot_hull",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": ".410 hull",
+    "description": "An empty hull from a .410 shotgun shell.",
     "weight": 8,
     "volume": "12ml",
     "stackable": true,

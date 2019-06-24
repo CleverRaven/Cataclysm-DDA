@@ -563,7 +563,7 @@
     "start": { "effect": "follow" },
     "end": { "effect": "leave" },
     "origins": [ "ORIGIN_SECONDARY" ],
-    "destination": "farm",
+    "destination": "farm_2",
     "dialogue": {
       "describe": "I just need a place to start over...",
       "offer": "I've accepted that everyone I used to know is dead... one way or another.  I really wish I could have done something to save my brother but he was one of the first to go.  I'd like to start over, just rebuild at one of the farms in the countryside.  Can you help me secure one?",
