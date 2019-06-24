@@ -57,9 +57,9 @@ static cata::optional<tripoint> find_valid_teleporters_omt( const tripoint &omt_
     const int z_level = omt_pt.z;
     checker.load( sm_pt.x, sm_pt.y, sm_pt.z, true );
 
-    for ( int x = 0; x < SEEX * 2; x++ ) {
-        for ( int y = 0; y < SEEY * 2; y++ ) {
-            if ( checker.has_flag_furn( "TRANSLOCATOR", tripoint( x, y, z_level ) ) ) {
+    for( int x = 0; x < SEEX * 2; x++ ) {
+        for( int y = 0; y < SEEY * 2; y++ ) {
+            if( checker.has_flag_furn( "TRANSLOCATOR", tripoint( x, y, z_level ) ) ) {
                 return tripoint( checker.getabs( x, y ), z_level );
             }
         }
@@ -124,8 +124,7 @@ void teleporter_list::serialize( JsonOut &json ) const
 
     json.member( "known_teleporters" );
     json.start_array();
-    for ( std::pair<tripoint, std::string> pair : known_teleporters )
-    {
+    for( std::pair<tripoint, std::string> pair : known_teleporters ) {
         json.start_object();
         json.member( "position", pair.first );
         json.member( "name", pair.second );
@@ -141,7 +140,7 @@ void teleporter_list::deserialize( JsonIn &jsin )
     JsonObject data = jsin.get_object();
 
     JsonArray parray = data.get_array( "known_teleporters" );
-    while ( parray.has_more() ) {
+    while( parray.has_more() ) {
         JsonObject jo = parray.next_object();
 
         tripoint temp_pos;
@@ -159,20 +158,19 @@ class teleporter_callback : public uilist_callback
         // to make it easier to get the callback from the known_teleporters
         std::map<int, tripoint> index_pairs;
     public:
-        teleporter_callback( std::map<tripoint, std::string> &tp,
-                             std::map<int, tripoint> &ip ) : known_teleporters( tp ), index_pairs( ip ) {}
+        teleporter_callback( std::map<int, tripoint> &ip ) : index_pairs( ip ) {}
         void select( int entnum, uilist *menu ) override {
             const int start_x = menu->w_width - menu->pad_right;
             mvwputch( menu->window, 0, start_x, c_magenta, LINE_OXXX );
             mvwputch( menu->window, menu->w_height - 1, start_x, c_magenta, LINE_XXOX );
-            for ( int i = 1; i < menu->w_height - 1; i++ ) {
+            for( int i = 1; i < menu->w_height - 1; i++ ) {
                 mvwputch( menu->window, i, start_x, c_magenta, LINE_XOXO );
             }
             overmap_ui::draw_overmap_chunk( menu->window, g->u, index_pairs[entnum], -1, start_x - 1, 29, 21 );
-            mvwprintz( menu->window, 1, start_x + 2, c_white, 
-                string_format( "Distance: %d (%d, %d)",
-                    rl_dist( ms_to_omt_copy( g->m.getabs( g->u.pos() ) ), index_pairs[entnum] ), 
-                    index_pairs[entnum].x, index_pairs[entnum].y ) );
+            mvwprintz( menu->window, 1, start_x + 2, c_white,
+                       string_format( "Distance: %d (%d, %d)",
+                                      rl_dist( ms_to_omt_copy( g->m.getabs( g->u.pos() ) ), index_pairs[entnum] ),
+                                      index_pairs[entnum].x, index_pairs[entnum].y ) );
         }
 };
 
