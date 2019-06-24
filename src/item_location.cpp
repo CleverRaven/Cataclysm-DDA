@@ -110,39 +110,35 @@ class item_location::impl
 class item_location::impl::nowhere : public item_location::impl
 {
     public:
-        virtual bool valid() const {
-            return false;
-        }
-
-        virtual type where() const {
+        type where() const override {
             return type::invalid;
         }
 
-        virtual tripoint position() const {
+        tripoint position() const override {
             debugmsg( "invalid use of nowhere item_location" );
             return tripoint_min;
         }
 
-        virtual std::string describe( const Character * ) const {
+        std::string describe( const Character * ) const override {
             debugmsg( "invalid use of nowhere item_location" );
             return "";
         }
 
-        virtual int obtain( Character &, int ) {
+        int obtain( Character &, int ) override {
             debugmsg( "invalid use of nowhere item_location" );
             return INT_MIN;
         }
 
-        virtual int obtain_cost( const Character &, int ) const {
+        int obtain_cost( const Character &, int ) const override {
             debugmsg( "invalid use of nowhere item_location" );
             return 0;
         }
 
-        virtual void remove_item() {
+        void remove_item() override {
             debugmsg( "invalid use of nowhere item_location" );
         }
 
-        virtual item *unpack( int ) const {
+        item *unpack( int ) const override {
             return nullptr;
         }
 
