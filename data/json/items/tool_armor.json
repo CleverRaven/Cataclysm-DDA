@@ -2061,6 +2061,16 @@
         "You play a tasteful classical piece on your guitar.",
         "You play a jangly folk ditty on your guitar.",
         "You play a melancholy melody on your guitar."
+      ],
+      "npc_descriptions": [
+        "plink out a shredding solo on the guitar.",
+        "play an epic classic rock riff on the guitar.",
+        "play a furious, muted riff on the guitar.",
+        "play a crunchy stoner tune on the guitar.",
+        "play an old Britpop song on the guitar.",
+        "play a tasteful classical piece on the guitar.",
+        "play a jangly folk ditty on the guitar.",
+        "play a melancholy melody on the guitar."
       ]
     },
     "symbol": "-",
@@ -2083,7 +2093,6 @@
     "name": "amplifier electric guitar",
     "copy-from": "guitar_electric",
     "description": "An electric guitar with a crude, built-in amplifier and speaker.  Now you can melt faces, figuratively speaking.  Unless you do something absurd like strap a flamethrower to it, which would make the melting literal.",
-    "category": "tools",
     "weight": 3000,
     "use_action": {
       "type": "musical_instrument",
@@ -2101,9 +2110,18 @@
         "You play a tasteful classical piece on your guitar.",
         "You play a jangly folk ditty on your guitar.",
         "You play a melancholy melody on your guitar."
+      ],
+      "npc_descriptions": [
+        "shred a sick solo on the guitar.",
+        "play an epic classic rock riff on the guitar.",
+        "play a furious, muted riff on the guitar.",
+        "play a crunchy stoner tune on the guitar.",
+        "play an old Britpop song on the guitar.",
+        "play a tasteful classical piece on the guitar.",
+        "play a jangly folk ditty on the guitar.",
+        "play a melancholy melody on the guitar."
       ]
     },
-    "description": "A standard factory-made electric guitar.  It's probably better at smashing heads than melting faces, these days.  Has a strap.",
     "price_postapoc": 1250,
     "flags": [ "BELTED", "TRADER_AVOID" ]
   },
