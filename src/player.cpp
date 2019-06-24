@@ -11215,14 +11215,13 @@ void player::burn_move_stamina( int moves )
         overburden_percentage = ( current_weight - max_weight ) * 100 / max_weight;
     }
 
-    // burn to regen ratio should imply small negative balance when walking
     int burn_ratio = get_option<int>( "PLAYER_BASE_STAMINA_BURN_RATE" );
     if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
         burn_ratio = burn_ratio * 2 - 3;
     }
     burn_ratio += overburden_percentage;
     if( move_mode == "run" ) {
-        burn_ratio = burn_ratio * 3;
+        burn_ratio = burn_ratio * 7;
     }
     mod_stat( "stamina", -( ( moves * burn_ratio ) / 100 ) );
     add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
