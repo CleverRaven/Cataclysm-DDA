@@ -2,6 +2,7 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
+#include <array>
 #include <cassert>
 #include <climits>
 #include <ostream>
@@ -236,7 +237,7 @@ struct hash<point> {
         return result;
     }
 };
-}
+} // namespace std
 
 inline constexpr bool operator<( const point &a, const point &b )
 {
@@ -332,7 +333,7 @@ struct hash<tripoint> {
         return result;
     }
 };
-}
+} // namespace std
 
 inline constexpr bool operator==( const tripoint &a, const tripoint &b )
 {
@@ -355,6 +356,18 @@ inline bool operator<( const tripoint &a, const tripoint &b )
     }
     return false;
 }
+
+static const std::array<tripoint, 8> eight_horizontal_neighbors = { {
+        { -1, -1, 0 },
+        {  0, -1, 0 },
+        { +1, -1, 0 },
+        { -1,  0, 0 },
+        { +1,  0, 0 },
+        { -1, +1, 0 },
+        {  0, +1, 0 },
+        { +1, +1, 0 },
+    }
+};
 
 struct rectangle {
     point p_min;

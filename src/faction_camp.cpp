@@ -106,6 +106,9 @@ struct miss_data {
     std::string ret_desc;
 };
 
+std::string select_camp_option( const std::map<std::string, std::string> &pos_options,
+                                const std::string &option );
+
 // enventually this will move to JSON
 std::map<std::string, miss_data> miss_info = {{
         {
@@ -272,7 +275,7 @@ std::map<std::string, miss_data> miss_info = {{
         }
     }
 };
-}
+} // namespace base_camps
 
 /**** Forward declaration of utility functions */
 /**
@@ -421,7 +424,7 @@ static bool update_time_fixed( std::string &entry, const comp_list &npc_list,
     return avail;
 }
 
-static cata::optional<basecamp *> get_basecamp( npc &p )
+static cata::optional<basecamp *> get_basecamp( npc &p, const std::string &camp_type = "default" )
 {
 
     tripoint omt_pos = p.global_omt_location();
@@ -435,8 +438,30 @@ static cata::optional<basecamp *> get_basecamp( npc &p )
         return cata::nullopt;
     }
     basecamp *temp_camp = *bcp;
-    temp_camp->define_camp( p );
+    temp_camp->define_camp( p, camp_type );
     return temp_camp;
+}
+
+std::string base_camps::select_camp_option( const std::map<std::string, std::string> &pos_options,
+        const std::string &option )
+{
+    std::vector<std::string> pos_name_ids;
+    std::vector<std::string> pos_names;
+    for( const auto &it : pos_options ) {
+        pos_names.push_back( it.first );
+        pos_name_ids.push_back( it.second );
+    }
+
+    if( pos_name_ids.size() == 1 ) {
+        return pos_name_ids.front();
+    }
+
+    const int choice = uilist( _( option ), pos_names );
+    if( choice < 0 || static_cast<size_t>( choice ) >= pos_name_ids.size() ) {
+        popup( _( "You choose to wait..." ) );
+        return std::string();
+    }
+    return pos_name_ids[choice];
 }
 
 void talk_function::start_camp( npc &p )
@@ -444,19 +469,29 @@ void talk_function::start_camp( npc &p )
     const tripoint omt_pos = p.global_omt_location();
     oter_id &omt_ref = overmap_buffer.ter( omt_pos );
 
-    if( omt_ref.id() != "field" ) {
-        popup( _( "You must build your camp in an empty field." ) );
+    const auto &pos_camps = recipe_group::get_recipes_by_id( "all_faction_base_types",
+                            omt_ref.id().c_str() );
+    if( pos_camps.empty() ) {
+        popup( _( "You cannot build a camp here." ) );
+        return;
+    }
+    const std::string &camp_type = base_camps::select_camp_option( pos_camps,
+                                   _( "Select a camp type:" ) );
+    if( camp_type.empty() ) {
         return;
     }
 
     std::vector<std::pair<std::string, tripoint>> om_region = om_building_region( omt_pos, 1 );
+    int near_fields = 0;
     for( const auto &om_near : om_region ) {
-        if( om_near.first != "field" && om_near.first != "forest" &&
-            om_near.first != "forest_thick" && om_near.first != "forest_water" &&
-            om_near.first.find( "river_" ) == std::string::npos ) {
-            popup( _( "You need more room for camp expansions!" ) );
-            return;
+        const oter_id &om_type = oter_id( om_near.first );
+        if( is_ot_subtype( "field", om_type ) ) {
+            near_fields += 1;
         }
+    }
+    if( near_fields < 4 ) {
+        popup( _( "You need more at least 4 adjacent  for camp expansions!" ) );
+        return;
     }
     std::vector<std::pair<std::string, tripoint>> om_region_ext = om_building_region( omt_pos, 3 );
     int forests = 0;
@@ -464,17 +499,18 @@ void talk_function::start_camp( npc &p )
     int swamps = 0;
     int fields = 0;
     for( const auto &om_near : om_region_ext ) {
-        if( om_near.first.find( "faction_base_camp" ) != std::string::npos ) {
+        const oter_id &om_type = oter_id( om_near.first );
+        if( is_ot_subtype( "faction_base", om_type ) ) {
             popup( _( "You are too close to another camp!" ) );
             return;
         }
-        if( om_near.first == "forest" || om_near.first == "forest_thick" ) {
-            forests++;
-        } else if( om_near.first.find( "river_" ) != std::string::npos ) {
-            waters++;
-        } else if( om_near.first == "forest_water" ) {
+        if( is_ot_type( "forest_water", om_type ) ) {
             swamps++;
-        } else if( om_near.first == "field" ) {
+        } else if( is_ot_subtype( "forest", om_type ) ) {
+            forests++;
+        } else if( is_ot_subtype( "river", om_type ) ) {
+            waters++;
+        } else if( is_ot_subtype( "field", om_type ) ) {
             fields++;
         }
     }
@@ -499,10 +535,12 @@ void talk_function::start_camp( npc &p )
     if( display && !query_yn( _( "%s \nAre you sure you wish to continue? " ), buffer ) ) {
         return;
     }
-    if( !run_mapgen_update_func( "faction_base_field_camp_0", omt_pos ) ) {
+    const recipe &making = recipe_id( camp_type ).obj();
+    if( !run_mapgen_update_func( making.get_blueprint(), omt_pos ) ) {
+        popup( _( "%s failed to start the %s basecamp." ), p.disp_name(), making.get_blueprint() );
         return;
     }
-    get_basecamp( p );
+    get_basecamp( p, camp_type );
 }
 
 void talk_function::recover_camp( npc &p )
@@ -1871,9 +1909,13 @@ static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm
                 }
                 break;
             case farm_ops::harvest:
-                if( farm_map.furn( pos ) == f_plant_harvest && !farm_map.i_at( pos ).empty() ) {
-                    const item &seed = farm_map.i_at( pos ).front();
-                    if( farm_valid_seed( seed ) ) {
+                if( farm_map.furn( pos ) == f_plant_harvest ) {
+                    // Can't use item_stack::only_item() since there might be fertilizer
+                    map_stack items = farm_map.i_at( pos );
+                    const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
+                        return it.is_seed();
+                    } );
+                    if( seed != items.end() && farm_valid_seed( *seed ) ) {
                         plots_cnt += 1;
                         if( comp ) {
                             int skillLevel = comp->get_skill_level( skill_survival );
@@ -1881,7 +1923,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm
                             int plant_cnt = rng( skillLevel / 2, skillLevel );
                             plant_cnt = std::min( std::max( plant_cnt, 1 ), 9 );
                             int seed_cnt = std::max( 1, rng( plant_cnt / 4, plant_cnt / 2 ) );
-                            for( auto &i : iexamine::get_harvest_items( *seed.type, plant_cnt,
+                            for( auto &i : iexamine::get_harvest_items( *seed->type, plant_cnt,
                                     seed_cnt, true ) ) {
                                 g->m.add_item_or_charges( g->u.pos(), i );
                             }
@@ -1889,7 +1931,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm
                             farm_map.furn_set( pos, f_null );
                             farm_map.ter_set( pos, t_dirt );
                         } else {
-                            plant_names.insert( item::nname( itype_id( seed.type->seed->fruit_id ) ) );
+                            plant_names.insert( item::nname( itype_id( seed->type->seed->fruit_id ) ) );
                         }
                     }
                 }
@@ -2115,12 +2157,15 @@ bool basecamp::upgrade_return( const std::string &dir, const std::string &miss,
     const tripoint upos = e->second.pos;
     const recipe &making = recipe_id( bldg ).obj();
 
-    npc_ptr comp = companion_choose_return( miss, making.batch_duration() );
+    time_duration work_days = base_camps::to_workdays( making.batch_duration() );
+    npc_ptr comp = companion_choose_return( miss, work_days );
 
     if( comp == nullptr ) {
         return false;
     }
     if( !run_mapgen_update_func( making.get_blueprint(), upos ) ) {
+        popup( _( "%s failed to build the %s upgrade." ), comp->disp_name(),
+               making.get_blueprint() );
         return false;
     }
     update_provides( bldg, e->second );
@@ -2419,27 +2464,13 @@ bool basecamp::survey_return()
     if( comp == nullptr ) {
         return false;
     }
-    std::vector<std::string> pos_expansion_name_id;
-    std::vector<std::string> pos_expansion_name;
-    std::map<std::string, std::string> pos_expansions =
-        recipe_group::get_recipes( "all_faction_base_expansions" );
-    for( std::map<std::string, std::string>::const_iterator it = pos_expansions.begin();
-         it != pos_expansions.end(); ++it ) {
-        pos_expansion_name.push_back( it->first );
-        pos_expansion_name_id.push_back( it->second );
-    }
-
-    const int expan = uilist( _( "Select an expansion:" ), pos_expansion_name );
-    if( expan < 0 || static_cast<size_t>( expan ) >= pos_expansion_name_id.size() ) {
-        popup( _( "You choose to wait..." ) );
-        return false;
-    }
 
     popup( _( "Select a tile up to %d tiles away." ), 1 );
     const tripoint where( ui::omap::choose_point() );
     if( where == overmap::invalid_tripoint ) {
         return false;
     }
+
     int dist = rl_dist( where.x, where.y, omt_pos.x, omt_pos.y );
     if( dist != 1 ) {
         popup( _( "You must select a tile within %d range of the camp" ), 1 );
@@ -2449,18 +2480,29 @@ bool basecamp::survey_return()
         popup( _( "Expansions must be on the same level as the camp" ) );
         return false;
     }
+    const std::string dir = talk_function::om_simple_dir( omt_pos, where );
+    if( expansions.find( dir ) != expansions.end() ) {
+        popup( _( "You already have an expansion at that location" ) );
+        return false;
+    }
 
     oter_id &omt_ref = overmap_buffer.ter( where );
-    if( omt_ref.id() != "field" ) {
-        popup( _( "You must construct expansions in fields." ) );
+    const auto &pos_expansions = recipe_group::get_recipes_by_id( "all_faction_base_expansions",
+                                 omt_ref.id().c_str() );
+    if( pos_expansions.empty() ) {
+        popup( _( "You can't build any expansions in a %s." ), omt_ref.id().c_str() );
         return false;
     }
 
-    if( !run_mapgen_update_func( pos_expansion_name_id[expan], where ) ) {
+    const std::string &expansion_type = base_camps::select_camp_option( pos_expansions,
+                                        _( "Select an expansion:" ) );
+
+    if( !run_mapgen_update_func( expansion_type, where ) ) {
+        popup( _( "%s failed to add the %s expansion" ), comp->disp_name(), expansion_type );
         return false;
     }
-    omt_ref = oter_id( pos_expansion_name_id[expan] );
-    add_expansion( pos_expansion_name_id[expan], where );
+    omt_ref = oter_id( expansion_type );
+    add_expansion( expansion_type, where, dir );
     const std::string msg = _( "returns from surveying for the expansion." );
     finish_return( *comp, true, msg, "construction", 2 );
     return true;
@@ -2569,8 +2611,8 @@ int basecamp::recipe_batch_max( const recipe &making ) const
     const int max_checks = 9;
     for( size_t batch_size = 1000; batch_size > 0; batch_size /= 10 ) {
         for( int iter = 0; iter < max_checks; iter++ ) {
-            time_duration work_days;
-            work_days = base_camps::to_workdays( making.batch_duration( max_batch + batch_size ) );
+            time_duration work_days = base_camps::to_workdays( making.batch_duration(
+                                          max_batch + batch_size ) );
             int food_req = time_to_food( work_days );
             bool can_make = making.requirements().can_make_with_inventory( _inv,
                             making.get_component_filter(), max_batch + batch_size );

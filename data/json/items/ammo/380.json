@@ -12,7 +12,7 @@
     "color": "yellow",
     "count": 50,
     "stack_size": 50,
-    "ammo_type": [ "380", "9mm", "9x18" ],
+    "ammo_type": "380",
     "casing": "380_casing",
     "range": 13,
     "damage": 16,

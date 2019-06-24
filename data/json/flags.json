@@ -258,6 +258,12 @@
     "description": "forces calories and vitamins to be the ones defined in the json, instead of inheriting from ingredients"
   },
   {
+    "id": "PLANTABLE_SEED",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "info": "You could probably <color_brown>plant</color> these."
+  },
+  {
     "id": "MELTS",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
@@ -541,5 +547,29 @@
     "type": "json_flag",
     "context": [ "BIONIC" ],
     "description": "This bionic can provide power to powered armor."
+  },
+  {
+    "id": "PERMANENT",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "This makes the spell's effects permanent."
+  },
+  {
+    "id": "IGNORE_WALLS",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "This makes the spell's Area of Effect ignore walls."
+  },
+  {
+    "id": "HOSTILE_SUMMON",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "This makes the spell's summoned monster always hostile.  Note that the spell needs to be a summon spell for this to do anything."
+  },
+  {
+    "id": "HOSTILE_50",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "This makes the spell's summoned monster hostile 50% of the time.  Note that the spell needs to be a summon spell for this to do anything."
   }
 ]

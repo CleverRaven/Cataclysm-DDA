@@ -166,7 +166,8 @@
               { "item": "longshirt", "prob": 80 },
               { "item": "polo_shirt", "prob": 50 },
               { "item": "tshirt", "prob": 80 },
-              { "item": "linuxtshirt", "prob": 10 }
+              { "item": "linuxtshirt", "prob": 10 },
+              { "item": "tshirt_tour", "prob": 10 }
             ]
           },
           {

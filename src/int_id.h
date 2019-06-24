@@ -115,6 +115,6 @@ struct hash< int_id<T> > {
         return hash<int>()( v.to_i() );
     }
 };
-}
+} // namespace std
 
 #endif

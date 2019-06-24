@@ -493,8 +493,8 @@ void uilist::setup()
                 popup( "Can't display menu options, 0 %d available screen rows are occupied\nThis is probably a bug.\n",
                        TERMY );
             } else {
-                popup( "Can't display menu options, %lu %d available screen rows are occupied by\n'%s\n(snip)\n%s'\nThis is probably a bug.\n",
-                       static_cast<unsigned long>( textformatted.size() ), TERMY, textformatted[ 0 ].c_str(),
+                popup( "Can't display menu options, %zu %d available screen rows are occupied by\n'%s\n(snip)\n%s'\nThis is probably a bug.\n",
+                       textformatted.size(), TERMY, textformatted[ 0 ].c_str(),
                        textformatted[ textformatted.size() - 1 ].c_str() );
             }
         }

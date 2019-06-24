@@ -165,6 +165,16 @@
         },
         {
           "and": [
+            { "npc_override": "follow_distance_2", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "follow_distance_2",
+              "yes": "<ally_rule_follow_distance_2_true_text>",
+              "no": "<ally_rule_follow_distance_2_false_text>"
+            }
+          ]
+        },
+        {
+          "and": [
             { "npc_override": "use_guns", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "use_guns",
@@ -236,6 +246,15 @@
         },
         "topic": "TALK_COMBAT_COMMANDS",
         "effect": { "toggle_npc_rule": "follow_close" }
+      },
+      {
+        "truefalsetext": {
+          "condition": { "npc_rule": "follow_distance_2" },
+          "true": "<ally_rule_follow_distance_2_true_text>",
+          "false": "<ally_rule_follow_distance_2_false_text>"
+        },
+        "topic": "TALK_COMBAT_COMMANDS",
+        "effect": { "toggle_npc_rule": "follow_distance_2" }
       },
       {
         "truefalsetext": {
@@ -722,10 +741,16 @@
         "effect": "sort_loot"
       },
       {
-        "text": "Please work on any construction taks that you know how to finish.",
+        "text": "Please work on any unfinished construction task that you know how to finish.",
         "topic": "TALK_DONE",
         "condition": { "not": "npc_has_activity" },
         "effect": "do_construction"
+      },
+      {
+        "text": "Please work on any contruction blueprint zones nearby.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_blueprint_construction"
       }
     ]
   },

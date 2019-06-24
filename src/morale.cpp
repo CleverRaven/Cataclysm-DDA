@@ -105,7 +105,7 @@ static const morale_mult badtemper( 0.8, 1.2 );
 static const morale_mult prozac( 1.0, 0.25 );
 // The bad prozac effect reduces good morale by 75%.
 static const morale_mult prozac_bad( 0.25, 1.0 );
-}
+} // namespace morale_mults
 
 std::string player_morale::morale_point::get_name() const
 {
@@ -185,6 +185,15 @@ time_duration player_morale::morale_point::pick_time( const time_duration curren
     return ( remaining_time <= new_time && same_sign ) ? new_time : remaining_time;
 }
 
+void player_morale::morale_point::set_percent_contribution( double contribution )
+{
+    percent_contribution = contribution;
+}
+
+double player_morale::morale_point::get_percent_contribution()
+{
+    return percent_contribution;
+}
 void player_morale::morale_point::decay( const time_duration ticks )
 {
     if( ticks < 0_turns ) {
@@ -348,6 +357,59 @@ morale_mult player_morale::get_temper_mult() const
     return mult;
 }
 
+void player_morale::calculate_percentage()
+{
+    const morale_mult mult = get_temper_mult();
+
+    int sum_of_positive_squares = 0;
+    int sum_of_negative_squares = 0;
+
+    for( auto &m : points ) {
+        const int bonus = m.get_net_bonus( mult );
+        if( bonus > 0 ) {
+            sum_of_positive_squares += pow( bonus, 2 );
+        } else {
+            sum_of_negative_squares += pow( bonus, 2 );
+        }
+    }
+
+    for( auto &m : points ) {
+        const int bonus = m.get_net_bonus( mult );
+        if( bonus > 0 ) {
+            m.set_percent_contribution( ( pow( bonus, 2 ) / sum_of_positive_squares ) * 100 );
+        } else {
+            m.set_percent_contribution( ( pow( bonus, 2 ) / sum_of_negative_squares ) * 100 );
+        }
+    }
+}
+
+int player_morale::get_total_negative_value() const
+{
+    const morale_mult mult = get_temper_mult();
+    int sum = 0;
+    for( auto &m : points ) {
+        const int bonus = m.get_net_bonus( mult );
+        if( bonus < 0 ) {
+            sum += pow( bonus, 2 );
+        }
+    }
+    return sqrt( sum );
+}
+
+int player_morale::get_total_positive_value() const
+{
+    const morale_mult mult = get_temper_mult();
+    int sum = 0;
+    for( auto &m : points ) {
+        const int bonus = m.get_net_bonus( mult );
+        if( bonus > 0 ) {
+            sum += pow( bonus, 2 );
+        }
+
+    }
+    return sqrt( sum );
+}
+
 int player_morale::get_level() const
 {
     if( !level_is_valid ) {
@@ -394,11 +456,16 @@ void player_morale::decay( const time_duration ticks )
 
 void player_morale::display( double focus_gain )
 {
-    const char *morale_gain_caption = _( "Total morale gain" );
+    /*calculates the percent contributions of the morale points,
+     * must be done before anything else in this method
+     */
+    calculate_percentage();
+
+    const char *morale_gain_caption = _( "Total morale change" );
     const char *focus_gain_caption = _( "Focus gain per minute" );
     const char *points_is_empty = _( "Nothing affects your morale" );
 
-    int w_extra = 8;
+    int w_extra = 16;
 
     // Figure out how wide the source column needs to be.
     int source_column_width = std::max( utf8_width( morale_gain_caption ),
@@ -417,14 +484,24 @@ void player_morale::display( double focus_gain )
     const int win_y = ( TERMY - win_h ) / 2;
 
     catacurses::window w = catacurses::newwin( win_h, win_w, win_y, win_x );
-
-    const auto print_line = [ w ]( int y, const char *label, double value ) -> int {
+    //lambda function used to print almost everything to the window
+    const auto print_line = [ w ]( int y, const char *label, double value, bool isPercentage = false,
+    nc_color color_override = c_unset ) -> int {
         nc_color color;
         if( value != 0.0 )
         {
             const int decimals = ( value - static_cast<int>( value ) != 0.0 ) ? 2 : 0;
-            color = ( value > 0.0 ) ? c_green : c_red;
-            mvwprintz( w, y, getmaxx( w ) - 8, color, "%+6.*f", decimals, value );
+            if( color_override == c_unset ) {
+                color = ( value > 0.0 ) ? c_green : c_light_red;
+            } else {
+                color = color_override;
+            }
+            if( isPercentage ) {
+                mvwprintz( w, y, getmaxx( w ) - 8, color, "%6.*f%%", decimals, value );
+            } else {
+                mvwprintz( w, y, getmaxx( w ) - 8, color, "%+6.*f", decimals, value );
+            }
+
         } else
         {
             color = c_dark_gray;
@@ -439,6 +516,7 @@ void player_morale::display( double focus_gain )
 
     for( ;; ) {
 
+        //creates the window
         werase( w );
 
         draw_border( w );
@@ -456,6 +534,8 @@ void player_morale::display( double focus_gain )
         if( !points.empty() ) {
             const char *source_column = _( "Source" );
             const char *value_column = _( "Value" );
+            const char *total_positve_label = _( "Total positive morale" );
+            const char *total_negitive_label = _( "Total negative morale" );
 
             mvwprintz( w, 3, 2, c_light_gray, source_column );
             mvwprintz( w, 3, win_w - utf8_width( value_column ) - 2, c_light_gray, value_column );
@@ -463,11 +543,31 @@ void player_morale::display( double focus_gain )
             const morale_mult mult = get_temper_mult();
 
             int line = 0;
+            line += print_line( 4 + line, total_positve_label, get_total_positive_value(), false,
+                                c_light_green );
+            //prints out all the positive morale effects
             for( size_t i = offset; i < static_cast<size_t>( rows_total ); ++i ) {
                 const std::string name = points[i].get_name();
                 const int bonus = points[i].get_net_bonus( mult );
+                if( bonus > 0 ) {
+                    line += print_line( 4 + line, name.c_str(), points[i].get_percent_contribution(), true );
+                }
 
-                line += print_line( 4 + line, name.c_str(), bonus );
+                if( line >= rows_visible ) {
+                    break;  // This prevents overflowing (unlikely, but just in case)
+                }
+            }
+            line++; //adds a space in the GUI
+            //prints out all the negitve morale effects
+            line += print_line( 4 + line, total_negitive_label, -1 * get_total_negative_value(), false, c_red );
+
+            for( size_t i = offset; i < static_cast<size_t>( rows_total ); ++i ) {
+                const std::string name = points[i].get_name();
+                const int bonus = points[i].get_net_bonus( mult );
+                if( bonus < 0 ) {
+                    line += print_line( 4 + line, name.c_str(), points[i].get_percent_contribution(), true,
+                                        c_light_red );
+                }
                 if( line >= rows_visible ) {
                     break;  // This prevents overflowing (unlikely, but just in case)
                 }
@@ -597,14 +697,10 @@ void player_morale::on_item_takeoff( const item &it )
     set_worn( it, false );
 }
 
-void player_morale::on_worn_item_transform( const item &it )
+void player_morale::on_worn_item_transform( const item &old_it, const item &new_it )
 {
-    item dummy = it;
-    dummy.convert( dynamic_cast<iuse_transform *>( item::find_type(
-                       it.typeId() )->get_use( "transform" )->get_actor_ptr() )->target );
-
-    set_worn( dummy, false );
-    set_worn( it, true );
+    set_worn( old_it, false );
+    set_worn( new_it, true );
 }
 
 void player_morale::on_worn_item_washed( const item &it )

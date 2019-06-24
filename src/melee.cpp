@@ -1242,11 +1242,23 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
     }
 
     if( technique.knockback_dist > 0 ) {
+        const tripoint prev_pos = t.pos(); // track target startpoint for knockback_follow
         const int kb_offset_x = rng( -technique.knockback_spread, technique.knockback_spread );
         const int kb_offset_y = rng( -technique.knockback_spread, technique.knockback_spread );
         tripoint kb_point( posx() + kb_offset_x, posy() + kb_offset_y, posz() );
         for( int dist = rng( 1, technique.knockback_dist ); dist > 0; dist-- ) {
             t.knock_back_from( kb_point );
+        }
+        // This technique makes the player follow into the tile the target was knocked from
+        if( technique.knockback_follow > 0 ) {
+            // Check if terrain there is safe then if a critter's still there - if clear, move player there
+            if( !g->prompt_dangerous_tile( prev_pos ) ) {
+                return;
+            } else {
+                if( t.pos() != prev_pos ) {
+                    g->place_player( prev_pos );
+                }
+            }
         }
     }
 
@@ -2169,4 +2181,4 @@ float melee_hit_range( float accuracy )
     return normal_roll( accuracy * 5, 25.0f );
 }
 
-}
+} // namespace melee

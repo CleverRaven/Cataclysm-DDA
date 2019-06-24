@@ -152,7 +152,7 @@ class vpart_info
          * y, u, n, b to NW, NE, SE, SW lines correspondingly
          * h, j, c to horizontal, vertical, cross correspondingly
          */
-        long sym = 0;
+        int sym = 0;
         char sym_broken = '#';
 
         /** hint to tilesets for what tile to use if this part doesn't have one */

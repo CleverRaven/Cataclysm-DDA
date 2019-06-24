@@ -506,7 +506,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_DOCTORATE",
-    "dynamic_line": "Yeah, yeah, it's all very glamorous.  Sure, I trained in the great ivory tower, got my PhD in mycology.  Did my dissertation on signaling pathways in hyphae formation, and a postdoc in plant-fungus communication in rhyzomes.  Then I got the job at the bookstore because there wasn't a ton of work for a doctor of mycology, although I'd had a few nibbles before things really got crazy.  Now, people are just breaking down my door to get my sweet sweet knowledge of mold to help them fight the incoming zombie threat.",
+    "dynamic_line": "Yeah, yeah, it's all very glamorous.  Sure, I trained in the great ivory tower, got my PhD in mycology.  Did my dissertation on signaling pathways in hyphae formation, and a postdoc in plant-fungus communication in rhizomes.  Then I got the job at the bookstore because there wasn't a ton of work for a doctor of mycology, although I'd had a few nibbles before things really got crazy.  Now, people are just breaking down my door to get my sweet sweet knowledge of mold to help them fight the incoming zombie threat.",
     "responses": [
       { "text": "Do you know about the fungal zombies though?", "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS1" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
@@ -516,7 +516,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_DOCTORATE1",
-    "dynamic_line": "Heh.  Yeah, that was a great use of my time.  As you can see it really helped my employment prospects.  Yeah, I have a PhD in mycology.  Did my dissertation on signaling pathways in hyphae formation, and a postdoc in plant-fungus communication in rhyzomes.  Then I got the job at the bookstore because there wasn't a ton of work for a doctor of mycology, although I'd had a few nibbles before things really got crazy.  Now, people are just breaking down my door to get my sweet sweet knowledge of mold to help them fight the incoming zombie threat.",
+    "dynamic_line": "Heh.  Yeah, that was a great use of my time.  As you can see it really helped my employment prospects.  Yeah, I have a PhD in mycology.  Did my dissertation on signaling pathways in hyphae formation, and a postdoc in plant-fungus communication in rhizomes.  Then I got the job at the bookstore because there wasn't a ton of work for a doctor of mycology, although I'd had a few nibbles before things really got crazy.  Now, people are just breaking down my door to get my sweet sweet knowledge of mold to help them fight the incoming zombie threat.",
     "responses": [
       { "text": "Do you know about the fungal zombies though?", "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS1" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },

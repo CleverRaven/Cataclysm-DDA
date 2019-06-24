@@ -94,7 +94,7 @@ void talk_function::mission_success( npc &p )
         return;
     }
 
-    int miss_val = cash_to_favor( p, miss->get_value() );
+    int miss_val = npc_trading::cash_to_favor( p, miss->get_value() );
     npc_opinion tmp( 0, 0, 1 + miss_val / 5, -1, 0 );
     p.op_of_u += tmp;
     if( p.my_fac != nullptr ) {
@@ -152,7 +152,7 @@ void talk_function::mission_reward( npc &p )
 
     int mission_value = miss->get_value();
     p.op_of_u.owed += mission_value;
-    trade( p, 0, _( "Reward" ) );
+    npc_trading::trade( p, 0, _( "Reward" ) );
 }
 
 void talk_function::buy_chicken( npc &p )
@@ -188,7 +188,7 @@ void spawn_animal( npc &p, const mtype_id &mon )
 
 void talk_function::start_trade( npc &p )
 {
-    trade( p, 0, _( "Trade" ) );
+    npc_trading::trade( p, 0, _( "Trade" ) );
 }
 
 void talk_function::sort_loot( npc &p )
@@ -202,6 +202,13 @@ void talk_function::do_construction( npc &p )
 {
     p.set_attitude( NPCATT_ACTIVITY );
     p.assign_activity( activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) );
+    p.set_mission( NPC_MISSION_ACTIVITY );
+}
+
+void talk_function::do_blueprint_construction( npc &p )
+{
+    p.set_attitude( NPCATT_ACTIVITY );
+    p.assign_activity( activity_id( "ACT_BLUEPRINT_CONSTRUCTION" ) );
     p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
@@ -378,7 +385,7 @@ void talk_function::bionic_install( npc &p )
 
     const item tmp = item( bionic_types[bionic_index], 0 );
     const itype &it = *tmp.type;
-    unsigned int price = tmp.price( true ) * 2;
+    signed int price = tmp.price( true ) * 2;
 
     if( price > g->u.cash ) {
         popup( _( "You can't afford the procedure..." ) );
@@ -386,13 +393,14 @@ void talk_function::bionic_install( npc &p )
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if( g->u.install_bionics( it, p, false, 20 ) ) {
+    if( g->u.can_install_bionics( it, p, false, 20 ) ) {
         g->u.cash -= price;
         p.cash += price;
         g->u.amount_of( bionic_types[bionic_index] );
         std::vector<item_comp> comps;
         comps.push_back( item_comp( tmp.typeId(), 1 ) );
         g->u.consume_items( comps, 1 );
+        g->u.install_bionics( it, p, false, 20 );
     }
 }
 
@@ -429,7 +437,7 @@ void talk_function::bionic_remove( npc &p )
         return;
     }
 
-    unsigned int price;
+    signed int price;
     if( item::type_is_defined( bionic_types[bionic_index] ) ) {
         price = 50000 + ( item( bionic_types[bionic_index], 0 ).price( true ) / 4 );
     } else {
@@ -441,17 +449,18 @@ void talk_function::bionic_remove( npc &p )
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if( g->u.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), p, false ) ) {
+    if( g->u.can_uninstall_bionic( bionic_id( bionic_types[bionic_index] ), p, false ) ) {
         g->u.cash -= price;
         p.cash += price;
         g->u.amount_of( bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
+        g->u.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), p, false );
     }
 
 }
 
 void talk_function::give_equipment( npc &p )
 {
-    std::vector<item_pricing> giving = init_selling( p );
+    std::vector<item_pricing> giving = npc_trading::init_selling( p );
     int chosen = -1;
     while( chosen == -1 && giving.size() > 1 ) {
         int index = rng( 0, giving.size() - 1 );
@@ -796,21 +805,14 @@ void talk_function::lead_to_safety( npc &p )
     p.set_attitude( NPCATT_LEAD );
 }
 
-static bool pay_npc( npc &np, int cost )
+bool npc_trading::pay_npc( npc &np, int cost )
 {
     if( np.op_of_u.owed >= cost ) {
         np.op_of_u.owed -= cost;
         return true;
     }
 
-    if( g->u.cash + static_cast<unsigned long>( np.op_of_u.owed ) >= static_cast<unsigned long>
-        ( cost ) ) {
-        g->u.cash -= cost - np.op_of_u.owed;
-        np.op_of_u.owed = 0;
-        return true;
-    }
-
-    return trade( np, -cost, _( "Pay:" ) );
+    return npc_trading::trade( np, cost, _( "Pay:" ) );
 }
 
 void talk_function::start_training( npc &p )
@@ -836,7 +838,7 @@ void talk_function::start_training( npc &p )
     mission *miss = p.chatbin.mission_selected;
     if( miss != nullptr && miss->get_assigned_player_id() == g->u.getID() ) {
         clear_mission( p );
-    } else if( !pay_npc( p, cost ) ) {
+    } else if( !npc_trading::pay_npc( p, cost ) ) {
         return;
     }
     g->u.assign_activity( activity_id( "ACT_TRAIN" ), to_moves<int>( time ), p.getID(), 0, name );

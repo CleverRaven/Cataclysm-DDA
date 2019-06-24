@@ -37,7 +37,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": 1,
     "react_cost": 1,
-    "time": 100
+    "time": 600
   },
   {
     "id": "bio_ankles",
@@ -131,6 +131,7 @@
     "type": "bionic",
     "name": "Optical Dampers",
     "description": "The lenses surgically installed over your eyes can be tinted to block out incoming light.",
+    "included": true,
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
@@ -216,7 +217,7 @@
     ],
     "act_cost": 1,
     "react_cost": 1,
-    "time": 4,
+    "time": 24,
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
@@ -305,6 +306,7 @@
     "type": "bionic",
     "name": "Sound Dampeners",
     "description": "When this bionic is active, you can block hearing completely (with Enhanced Hearing deactivated) or dampen sound slightly (with Enhanced Hearing activated).",
+    "included": true,
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
@@ -418,7 +420,7 @@
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
     "act_cost": 1,
     "react_cost": 1,
-    "time": 25,
+    "time": 150,
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
@@ -428,7 +430,7 @@
     "description": "A small LED display just beneath your dermal layer can be illuminated on command to show patterns of your choice at dim or bright luminosity.  It doesn't provide enough light to comfortably read or craft, but it can suffice if you have nothing else.",
     "act_cost": 1,
     "react_cost": 1,
-    "time": 50,
+    "time": 300,
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
@@ -462,7 +464,7 @@
     "occupied_bodyparts": [ [ "FOOT_L", 3 ], [ "FOOT_R", 3 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 5,
-    "react_cost": 5,
+    "react_cost": 1,
     "time": 1
   },
   {
@@ -525,7 +527,7 @@
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 5,
-    "react_cost": 5,
+    "react_cost": 1,
     "time": 1
   },
   {
@@ -571,7 +573,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY", "BIONIC_NPC_USABLE" ],
     "act_cost": 10,
     "react_cost": 1,
-    "time": 600
+    "time": 3600
   },
   {
     "id": "bio_lighter",
@@ -615,7 +617,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": 10,
     "react_cost": 1,
-    "time": 100
+    "time": 600
   },
   {
     "id": "bio_metabolics",
@@ -661,7 +663,7 @@
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 1,
     "react_cost": 1,
-    "time": 10
+    "time": 60
   },
   {
     "id": "bio_noise",
@@ -707,12 +709,13 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": 1,
     "react_cost": 1,
-    "time": 2
+    "time": 12
   },
   {
     "id": "bio_plutdump",
     "type": "bionic",
     "name": "Plutonium Purger",
+    "included": true,
     "description": "Emergency reactor fuel purge ejects all fuel from your reactor.",
     "act_cost": 1
   },
@@ -841,7 +844,7 @@
     "occupied_bodyparts": [ [ "HEAD", 2 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "react_cost": 1,
-    "time": 4
+    "time": 24
   },
   {
     "id": "bio_resonator",
@@ -860,7 +863,7 @@
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 1,
     "react_cost": 1,
-    "time": 10
+    "time": 60
   },
   {
     "id": "bio_scent_vision",
@@ -871,7 +874,7 @@
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 1,
     "react_cost": 1,
-    "time": 1
+    "time": 6
   },
   {
     "id": "bio_shakes",
@@ -1033,6 +1036,7 @@
     "name": "Extended Toolset",
     "description": "Extend or withdraw your integrated toolset to cut metal, pry things, or other stuff.  This takes up your hand.",
     "fake_item": "toolset_extended",
+    "included": true,
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON" ]
   },
   {
