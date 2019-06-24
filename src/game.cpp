@@ -9084,6 +9084,9 @@ point game::place_player( const tripoint &dest_loc )
                 add_msg( m_bad, _( "Moving from the Autodoc mid-operation rips your %s open." ),
                          body_part_name_accusative( bp ) );
                 u.add_effect( effect_bleed, 1_turns, bp, true );
+                if( bp == bp_eyes ) {
+                    u.add_effect( effect_blind, 1_hours, num_bp );
+                }
                 u.remove_effect( effect_under_op, bp );
             }
         }

@@ -70,6 +70,7 @@ const skill_id skill_throw( "throw" );
 const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_bleed( "bleed" );
+const efftype_id effect_blind( "blind" );
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_catch_up( "catch_up" );
 const efftype_id effect_hallu( "hallu" );
@@ -2218,6 +2219,9 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
                     if( g->u.sees( pos() ) ) {
                         add_msg( m_bad, _( "Moving from the Autodoc mid-operation rips %s's %s open." ),
                                  body_part_name_accusative( bp ), disp_name() );
+                    }
+                    if( bp == bp_eyes ) {
+                        add_effect( effect_blind, 1_hours, num_bp );
                     }
                     add_effect( effect_bleed, 1_turns, bp, true );
                     remove_effect( effect_under_op, bp );
