@@ -1231,12 +1231,12 @@ class player : public Character
         void resume_backlog_activity();
 
         int get_morale_level() const; // Modified by traits, &c
-        void add_morale( morale_type type, int bonus, int max_bonus = 0,
+        void add_morale( const morale_type &type, int bonus, int max_bonus = 0,
                          const time_duration &duration = 1_hours,
                          const time_duration &decay_start = 30_minutes, bool capped = false,
                          const itype *item_type = nullptr );
-        int has_morale( morale_type type ) const;
-        void rem_morale( morale_type type, const itype *item_type = nullptr );
+        int has_morale( const morale_type &type ) const;
+        void rem_morale( const morale_type &type, const itype *item_type = nullptr );
         void clear_morale();
         bool has_morale_to_read() const;
         /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
@@ -1434,8 +1434,9 @@ class player : public Character
         void complete_disassemble( item_location &target, const recipe &dis );
 
         // yet more crafting.cpp
-        const inventory &crafting_inventory( tripoint src_pos = tripoint_zero,
-                                             int radius = PICKUP_RANGE ); // includes nearby items
+        // includes nearby items
+        const inventory &crafting_inventory( const tripoint &src_pos = tripoint_zero,
+                                             int radius = PICKUP_RANGE );
         void invalidate_crafting_inventory();
         comp_selection<item_comp>
         select_item_component( const std::vector<item_comp> &components,

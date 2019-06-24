@@ -4870,7 +4870,7 @@ bool game::revive_corpse( const tripoint &p, item &it )
     return ret;
 }
 
-void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installer )
+void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &installer )
 {
     int assist_bonus = installer.get_effect_int( effect_assisted );
 

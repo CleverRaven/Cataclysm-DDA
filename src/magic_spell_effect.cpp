@@ -294,9 +294,9 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
     }
 }
 
-static void damage_targets( const spell &sp, std::set<tripoint> targets )
+static void damage_targets( const spell &sp, const std::set<tripoint> &targets )
 {
-    for( const tripoint target : targets ) {
+    for( const tripoint &target : targets ) {
         if( !sp.is_valid_target( target ) ) {
             continue;
         }

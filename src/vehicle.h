@@ -712,7 +712,7 @@ class vehicle
                              int hl = -1, bool detail = false ) const;
 
         // Vehicle parts descriptions - descriptions for all the parts on a single tile
-        void print_vparts_descs( const catacurses::window &win, int max_y, int width, int &p,
+        void print_vparts_descs( const catacurses::window &win, int max_y, int width, int p,
                                  int &start_at, int &start_limit ) const;
 
         /**

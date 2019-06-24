@@ -204,7 +204,7 @@ class overmap
 
         bool has_extra( int x, int y, int z ) const;
         const string_id<map_extra> &extra( int x, int y, int z ) const;
-        void add_extra( int x, int y, int z, string_id<map_extra> id );
+        void add_extra( int x, int y, int z, const string_id<map_extra> &id );
         void delete_extra( int x, int y, int z );
 
         /**

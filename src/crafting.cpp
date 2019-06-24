@@ -474,7 +474,7 @@ bool player::can_make( const recipe *r, int batch_size )
             batch_size );
 }
 
-const inventory &player::crafting_inventory( tripoint src_pos, int radius )
+const inventory &player::crafting_inventory( const tripoint &src_pos, int radius )
 {
     tripoint inv_pos = src_pos;
     if( src_pos == tripoint_zero ) {

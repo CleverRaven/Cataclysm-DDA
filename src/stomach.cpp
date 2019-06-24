@@ -260,7 +260,7 @@ void stomach_contents::absorb_kcal( int amount )
     }
 }
 
-bool stomach_contents::absorb_vitamin( vitamin_id vit, int amount )
+bool stomach_contents::absorb_vitamin( const vitamin_id &vit, int amount )
 {
     if( amount <= 0 ) {
         return false;
@@ -274,7 +274,7 @@ bool stomach_contents::absorb_vitamin( vitamin_id vit, int amount )
     return true;
 }
 
-bool stomach_contents::absorb_vitamin( std::pair<vitamin_id, int> vit )
+bool stomach_contents::absorb_vitamin( const std::pair<vitamin_id, int> &vit )
 {
     return absorb_vitamin( vit.first, vit.second );
 }

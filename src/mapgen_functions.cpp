@@ -280,7 +280,7 @@ void mapgendata::fill_groundcover()
 {
     m.draw_fill_background( this->default_groundcover );
 }
-bool mapgendata::is_groundcover( const ter_id iid ) const
+bool mapgendata::is_groundcover( const ter_id &iid ) const
 {
     for( const auto &pr : default_groundcover ) {
         if( pr.obj == iid ) {
@@ -3931,7 +3931,7 @@ void mapgen_forest( map *m, oter_id terrain_type, mapgendata dat, const time_poi
     }
 
     // There is a chance of placing terrain dependent furniture, e.g. f_cattails on t_water_sh.
-    const auto set_terrain_dependent_furniture = [&current_biome_def, &m]( const ter_id tid,
+    const auto set_terrain_dependent_furniture = [&current_biome_def, &m]( const ter_id & tid,
     const int x, const int y ) {
         const auto terrain_dependent_furniture_it = current_biome_def.terrain_dependent_furniture.find(
                     tid );

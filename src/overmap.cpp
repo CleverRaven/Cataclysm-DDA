@@ -1344,7 +1344,7 @@ const string_id<map_extra> &overmap::extra( const int x, const int y, const int 
     return ( it != std::end( extras ) ) ? it->id : fallback;
 }
 
-void overmap::add_extra( const int x, const int y, const int z, const string_id<map_extra> id )
+void overmap::add_extra( const int x, const int y, const int z, const string_id<map_extra> &id )
 {
     if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
         debugmsg( "Attempting to add not to overmap for blank layer %d", z );

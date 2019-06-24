@@ -1505,7 +1505,7 @@ static bool drink_nectar( player &p )
 /**
  * Spawn an item after harvesting the plant
  */
-static void handle_harvest( player &p, std::string itemid, bool force_drop )
+static void handle_harvest( player &p, const std::string &itemid, bool force_drop )
 {
     item harvest = item( itemid );
     if( !force_drop && p.can_pickVolume( harvest, true ) &&
