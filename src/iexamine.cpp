@@ -4113,10 +4113,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         amenu.ret > 1 ) {
         needs_anesthesia = false;
     } else {
-        std::vector<const item *> a_filter = p.crafting_inventory().items_with( []( const item & it ) {
+        const inventory &crafting_inv = p.crafting_inventory();
+        std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
             return it.has_quality( quality_id( "ANESTHESIA" ) );
         } );
-        std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
+        std::vector<const item *> b_filter = crafting_inv.items_with( []( const item & it ) {
             return it.has_flag( "ANESTHESIA" ); // legacy
         } );
         for( const item *anesthesia_item : a_filter ) {
