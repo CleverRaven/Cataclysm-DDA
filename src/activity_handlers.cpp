@@ -2790,17 +2790,25 @@ void activity_handlers::uninstall_operation_do_turn( player_activity *act, playe
             for( size_t i = 4; i < act->values.size(); i++ ) {
                 if( p->get_hp( p->bp_to_hp( body_part( act->values[i] ) ) ) > max_hurt ) {
                     p->apply_damage( nullptr, body_part( act->values[i] ), 1 );
+
+                    if( one_in( 4 ) && u_see ) {
+                        p->add_msg_player_or_npc( m_info,
+                                                  _( "The Autodoc is meticulously cutting your %s open." ),
+                                                  _( "The Autodoc is meticulously cutting <npcname>'s %s open." ),
+                                                  body_part_name_accusative( body_part( act->values[i] ) ) );
+                    }
                 }
             }
         } else {
             if( p->get_hp( p->bp_to_hp( num_bp ) ) > max_hurt )  {
                 p->apply_damage( nullptr, num_bp, 1 );
+
+                if( one_in( 4 ) && u_see ) {
+                    p->add_msg_player_or_npc( m_info,
+                                              _( "The Autodoc is meticulously cutting you open." ),
+                                              _( "The Autodoc is meticulously cutting <npcname> open." ) );
+                }
             }
-        }
-        if( one_in( 4 ) && u_see ) {
-            p->add_msg_player_or_npc( m_info,
-                                      _( "The Autodoc is meticulously cutting you open." ),
-                                      _( "The Autodoc is meticulously cutting <npcname> open." ) );
         }
     } else if( time_left == op_duration && u_see ) {
         add_msg( m_info, _( "The Autodoc attempts to carefully extract the bionic." ) );
@@ -2808,14 +2816,22 @@ void activity_handlers::uninstall_operation_do_turn( player_activity *act, playe
         if( act->values.size() > 4 ) {
             for( size_t i = 4; i < act->values.size(); i++ ) {
                 p->heal( body_part( act->values[i] ), 1 );
+
+                if( one_in( 4 ) && u_see ) {
+                    p->add_msg_player_or_npc( m_info,
+                                              _( "The Autodoc is stitching your %s back up." ),
+                                              _( "The Autodoc is stitching <npcname>'s %s back up." ),
+                                              body_part_name_accusative( body_part( act->values[i] ) ) );
+                }
             }
         } else {
             p->heal( num_bp, 1 );
-        }
-        if( one_in( 4 ) && u_see ) {
-            p->add_msg_player_or_npc( m_info,
-                                      _( "The Autodoc is stitching you back up." ),
-                                      _( "The Autodoc is stitching <npcname> back up." ) );
+
+            if( one_in( 4 ) && u_see ) {
+                p->add_msg_player_or_npc( m_info,
+                                          _( "The Autodoc is stitching you back up." ),
+                                          _( "The Autodoc is stitching <npcname> back up." ) );
+            }
         }
     }
     p->set_moves( 0 );
