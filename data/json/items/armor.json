@@ -4014,14 +4014,14 @@
     "warmth": 10,
     "material_thickness": 3,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "use_action": "GOBAG"
+    "use_action": "GOBAG_NORMAL"
   },
   {
     "id": "personal_gobag",
     "type": "ARMOR",
     "name": "personal go bag",
     "description": "A huge duffel bag with backpack attached, both packed to the gills.  You have packed this to be ready for deployment.  Activate to unpack and enjoy.",
-    "volume": 144,
+    "use_action": "GOBAG_PERSONAL",
     "copy-from": "gobag"
   },
   {
