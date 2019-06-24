@@ -2855,7 +2855,7 @@ static point best_expand( const map &m, const tripoint &from, int maxx, int maxy
 
     return best;
 }
-}
+} // namespace furn_space
 
 void mapgen_basement_junk( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn,
                            float density )
@@ -4552,10 +4552,10 @@ void mtrap_set( map *m, int x, int y, trap_id type )
     m->trap_set( actual_location, type );
 }
 
-void madd_field( map *m, int x, int y, field_id type, int density )
+void madd_field( map *m, int x, int y, field_id type, int intensity )
 {
     tripoint actual_location( x, y, m->get_abs_sub().z );
-    m->add_field( actual_location, type, density, 0_turns );
+    m->add_field( actual_location, type, intensity, 0_turns );
 }
 
 static bool is_suitable_for_stairs( const map *const m, const tripoint &p )

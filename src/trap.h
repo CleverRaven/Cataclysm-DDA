@@ -58,7 +58,7 @@ void hum( Creature *creature, const tripoint &p );
 void shadow( Creature *creature, const tripoint &p );
 void drain( Creature *creature, const tripoint &p );
 void snake( Creature *creature, const tripoint &p );
-}
+} // namespace trapfunc
 
 using trap_function = std::function<void( Creature *, const tripoint & )>;
 

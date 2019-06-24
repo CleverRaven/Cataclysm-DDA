@@ -168,6 +168,8 @@ void iuse_transform::load( JsonObject &obj )
     need_fire_msg = obj.has_string( "need_fire_msg" ) ? _( obj.get_string( "need_fire_msg" ) ) :
                     _( "You need a source of fire!" );
 
+    obj.read( "need_worn", need_worn );
+
     obj.read( "qualities_needed", qualities_needed );
 
     obj.read( "menu_text", menu_text );
@@ -185,7 +187,11 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     const bool possess = p.has_item( it ) ||
                          ( it.has_flag( "ALLOWS_REMOTE_USE" ) && square_dist( p.pos(), pos ) == 1 );
 
-    if( need_charges && it.ammo_remaining() < need_charges ) {
+    if( possess && need_worn && !p.is_worn( it ) ) {
+        p.add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
+        return 0;
+    }
+    if( need_charges && it.units_remaining( p ) < need_charges ) {
         if( possess ) {
             p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
         }
@@ -211,6 +217,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         p.moves -= moves;
     }
 
+    item obj_copy( it );
     item *obj;
     if( container.empty() ) {
         obj = &it.convert( target );
@@ -237,7 +244,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     if( p.is_worn( *obj ) ) {
         p.reset_encumbrance();
         p.update_bodytemp();
-        p.on_worn_item_transform( *obj );
+        p.on_worn_item_transform( obj_copy, *obj );
     }
     obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
     obj->active = active || obj->item_counter;
@@ -417,8 +424,8 @@ void explosion_iuse::load( JsonObject &obj )
     if( obj.has_member( "fields_type" ) || fields_radius > 0 ) {
         fields_type = field_from_ident( obj.get_string( "fields_type" ) );
     }
-    obj.read( "fields_min_density", fields_min_density );
-    obj.read( "fields_max_density", fields_max_density );
+    obj.read( "fields_min_intensity", fields_min_intensity );
+    obj.read( "fields_max_intensity", fields_max_intensity );
     obj.read( "emp_blast_radius", emp_blast_radius );
     obj.read( "scrambler_blast_radius", scrambler_blast_radius );
     obj.read( "sound_volume", sound_volume );
@@ -460,8 +467,8 @@ int explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) cons
     if( fields_radius >= 0 && fields_type != fd_null ) {
         std::vector<tripoint> gas_sources = points_for_gas_cloud( pos, fields_radius );
         for( auto &gas_source : gas_sources ) {
-            const int dens = rng( fields_min_density, fields_max_density );
-            g->m.add_field( gas_source, fields_type, dens, 1_turns );
+            const int intens = rng( fields_min_intensity, fields_max_intensity );
+            g->m.add_field( gas_source, fields_type, intens, 1_turns );
         }
     }
     if( scrambler_blast_radius >= 0 ) {
@@ -1094,8 +1101,8 @@ int reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( _( "It's too dark to read." ) );
         return 0;
     }
-    const tripoint &center = omt_to_sm_copy( it.get_var( "reveal_map_center_omt",
-                             p.global_omt_location() ) );
+    const tripoint &center = it.get_var( "reveal_map_center_omt",
+                                         p.global_omt_location() );
     for( auto &omt : omt_types ) {
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
             reveal_targets( tripoint( center.x, center.y, z ), omt, 0 );
@@ -1711,7 +1718,7 @@ ret_val<bool> cauterize_actor::can_use( const player &p, const item &it, bool,
                        _( "You need a source of flame (4 charges worth) before you can cauterize yourself." ) );
         }
     } else {
-        if( !it.ammo_sufficient() ) {
+        if( !it.units_sufficient( p ) ) {
             return ret_val<bool>::make_failure( _( "You need at least %d charges to cauterize wounds." ),
                                                 it.ammo_required() );
         }
@@ -2187,9 +2194,12 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
         return 0;
     }
     std::vector<uilist_entry> uilist_initializer;
+    uilist spellbook_uilist;
+    spellbook_callback sp_cb;
     bool know_it_all = true;
     for( const std::string sp_id_str : spells ) {
         const spell_id sp_id( sp_id_str );
+        sp_cb.add_spell( sp_id );
         const std::string sp_nm = sp_id.obj().name;
         uilist_entry entry( sp_nm );
         if( p.magic.knows_spell( sp_id ) ) {
@@ -2218,7 +2228,16 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
         return 0;
     }
 
-    const int action = uilist( _( "Study a spell:" ), uilist_initializer );
+    spellbook_uilist.entries = uilist_initializer;
+    spellbook_uilist.w_height = 24;
+    spellbook_uilist.w_width = 80;
+    spellbook_uilist.w_x = ( TERMX - spellbook_uilist.w_width ) / 2;
+    spellbook_uilist.w_y = ( TERMY - spellbook_uilist.w_height ) / 2;
+    spellbook_uilist.callback = &sp_cb;
+    spellbook_uilist.title = _( "Study a spell:" );
+    spellbook_uilist.pad_left = 38;
+    spellbook_uilist.query();
+    const int action = spellbook_uilist.ret;
     if( action < 0 ) {
         return 0;
     }
@@ -2721,7 +2740,7 @@ bool repair_item_actor::can_use_tool( const player &p, const item &tool, bool pr
         }
         return false;
     }
-    if( !tool.ammo_sufficient() ) {
+    if( !tool.units_sufficient( p ) ) {
         if( print_msg ) {
             p.add_msg_if_player( m_info, _( "Your tool does not have enough charges to do that." ) );
         }

@@ -239,6 +239,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```HELMET_COMPAT``` Items that are not SKINTIGHT or OVERSIZE but can be worn with a helmet.
 - ```HOOD``` Allow this clothing to conditionally cover the head, for additional warmth or water protection., if the player's head isn't encumbered
 - ```HYGROMETER``` This gear is equipped with an accurate hygrometer (which is used to measure humidity).
+- ```NO_TAKEOFF``` Item with that flag can't be taken off.
 - ```NO_QUICKDRAW``` Don't offer to draw items from this holster when the fire key is pressed whilst the players hands are empty
 - ```ONLY_ONE``` You can wear only one.
 - ```OUTER```  Outer garment layer.
@@ -1099,8 +1100,9 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 ### Flags
 
 - ```ALLOW_ROTTEN``` Explicitly allow rotten components when crafting non-perishables.
-- ```BLIND_EASY``` Easy to craft with little to no light
-- ```BLIND_HARD``` Possible to craft with little to no light, but difficult
+- ```BLIND_EASY``` Easy to craft with little to no light.
+- ```BLIND_HARD``` Possible to craft with little to no light, but difficult.
+- ```SECRET``` Not automatically learned at character creation time based on high skill levels.
 - ```UNCRAFT_LIQUIDS_CONTAINED``` Spawn liquid items in its default container.
 - ```UNCRAFT_SINGLE_CHARGE``` Lists returned amounts for one charge of an item that is counted by charges.
 - ```FULL_MAGAZINE``` If this recipe requires magazines, it needs one that is full.  For deconstruction recipes, it will spawn a full magazine when deconstructed.

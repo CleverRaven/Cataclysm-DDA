@@ -20,6 +20,7 @@
 #include "coordinate_conversions.h"
 #include "filesystem.h"
 #include "game.h"
+#include "map_extras.h"
 #include "messages.h"
 #include "mission.h"
 #include "morale_types.h"
@@ -58,7 +59,6 @@
 #include "item.h"
 #include "sounds.h"
 #include "trait_group.h"
-#include "map_extras.h"
 #include "artifact.h"
 #include "vpart_position.h"
 #include "rng.h"
@@ -403,8 +403,8 @@ void character_edit_menu()
 
     enum {
         D_NAME, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
-        D_HP, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE
+        D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
+        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION
     };
     nmenu.addentry( D_NAME, true, 'N', "%s", _( "Edit [N]ame" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
@@ -414,6 +414,7 @@ void character_edit_menu()
     nmenu.addentry( D_ITEM_WORN, true, 'w', "%s",
                     _( "[w]ear/[w]ield an item from player's inventory" ) );
     nmenu.addentry( D_HP, true, 'h', "%s", _( "Set [h]it points" ) );
+    nmenu.addentry( D_STAMINA, true, 'S', "%s", _( "Set [S]tamina" ) );
     nmenu.addentry( D_MORALE, true, 'o', "%s", _( "Set m[o]rale" ) );
     nmenu.addentry( D_PAIN, true, 'p', "%s", _( "Cause [p]ain" ) );
     nmenu.addentry( D_HEALTHY, true, 'a', "%s", _( "Set he[a]lth" ) );
@@ -426,6 +427,7 @@ void character_edit_menu()
         nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add [m]ission" ) );
         nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with [c]lass" ) );
         nmenu.addentry( D_ATTITUDE, true, 'A', "%s", _( "Set [A]ttitude" ) );
+        nmenu.addentry( D_OPINION, true, 'O', "%s", _( "Set [O]pinion" ) );
     }
     nmenu.query();
     switch( nmenu.ret ) {
@@ -533,6 +535,17 @@ void character_edit_menu()
             }
         }
         break;
+        case D_STAMINA:
+            int value;
+            if( query_int( value, _( "Set stamina to? Current: %d. Max: %d." ), p.stamina,
+                           p.get_stamina_max() ) ) {
+                if( value > 0 && value <= p.get_stamina_max() ) {
+                    p.stamina = value;
+                } else {
+                    add_msg( m_bad, _( "Target stamina value out of bounds!" ) );
+                }
+            }
+            break;
         case D_MORALE: {
             int current_morale_level = p.get_morale_level();
             int value;
@@ -540,6 +553,48 @@ void character_edit_menu()
                 int morale_level_delta = value - current_morale_level;
                 p.add_morale( MORALE_PERM_DEBUG, morale_level_delta );
                 p.apply_persistent_morale();
+            }
+        }
+        break;
+        case D_OPINION: {
+            uilist smenu;
+            smenu.addentry( 0, true, 'h', "%s: %d", _( "trust" ), np->op_of_u.trust );
+            smenu.addentry( 1, true, 's', "%s: %d", _( "fear" ), np->op_of_u.fear );
+            smenu.addentry( 2, true, 't', "%s: %d", _( "value" ), np->op_of_u.value );
+            smenu.addentry( 3, true, 'f', "%s: %d", _( "anger" ), np->op_of_u.anger );
+            smenu.addentry( 4, true, 'd', "%s: %d", _( "owed" ), np->op_of_u.owed );
+
+            smenu.query();
+            int value;
+            switch( smenu.ret ) {
+                case 0:
+                    if( query_int( value, _( "Set trust to? Currently: %d" ),
+                                   np->op_of_u.trust ) ) {
+                        np->op_of_u.trust = value;
+                    }
+                    break;
+                case 1:
+                    if( query_int( value, _( "Set fear to? Currently: %d" ), np->op_of_u.fear ) ) {
+                        np->op_of_u.fear = value;
+                    }
+                    break;
+                case 2:
+                    if( query_int( value, _( "Set value to? Currently: %d" ),
+                                   np->op_of_u.value ) ) {
+                        np->op_of_u.value = value;
+                    }
+                    break;
+                case 3:
+                    if( query_int( value, _( "Set anger to? Currently: %d" ),
+                                   np->op_of_u.anger ) ) {
+                        np->op_of_u.anger = value;
+                    }
+                    break;
+                case 4:
+                    if( query_int( value, _( "Set owed to? Currently: %d" ), np->op_of_u.owed ) ) {
+                        np->op_of_u.owed = value;
+                    }
+                    break;
             }
         }
         break;
@@ -915,7 +970,7 @@ void draw_benchmark( const int max_difference )
     // call the draw procedure as many times as possible in max_difference milliseconds
     auto start_tick = std::chrono::steady_clock::now();
     auto end_tick = std::chrono::steady_clock::now();
-    long difference = 0;
+    int64_t difference = 0;
     int draw_counter = 0;
     while( true ) {
         end_tick = std::chrono::steady_clock::now();
@@ -1386,7 +1441,7 @@ void debug()
                 raise( SIGSEGV );
                 break;
             case DEBUG_MAP_EXTRA: {
-                std::unordered_map<std::string, map_special_pointer> FM = MapExtras::all_functions();
+                std::unordered_map<std::string, map_extra_pointer> FM = MapExtras::all_functions();
                 uilist mx_menu;
                 std::vector<std::string> mx_str;
                 for( auto &extra : FM ) {
@@ -1396,14 +1451,11 @@ void debug()
                 mx_menu.query();
                 int mx_choice = mx_menu.ret;
                 if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
-                    auto func = MapExtras::get_function( mx_str[mx_choice] );
-                    if( func != nullptr ) {
-                        const tripoint where( ui::omap::choose_point() );
-                        if( where != overmap::invalid_tripoint ) {
-                            tinymap mx_map;
-                            mx_map.load( where.x * 2, where.y * 2, where.z, false );
-                            func( mx_map, where );
-                        }
+                    const tripoint where( ui::omap::choose_point() );
+                    if( where != overmap::invalid_tripoint ) {
+                        tinymap mx_map;
+                        mx_map.load( where.x * 2, where.y * 2, where.z, false );
+                        MapExtras::apply_function( mx_str[mx_choice], mx_map, where );
                     }
                 }
                 break;
@@ -1525,4 +1577,4 @@ void debug()
         g->refresh_all();
     }
 
-}
+} // namespace debug_menu

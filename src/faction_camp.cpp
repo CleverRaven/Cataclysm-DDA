@@ -275,7 +275,7 @@ std::map<std::string, miss_data> miss_info = {{
         }
     }
 };
-}
+} // namespace base_camps
 
 /**** Forward declaration of utility functions */
 /**
@@ -1909,9 +1909,13 @@ static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm
                 }
                 break;
             case farm_ops::harvest:
-                if( farm_map.furn( pos ) == f_plant_harvest && !farm_map.i_at( pos ).empty() ) {
-                    const item &seed = farm_map.i_at( pos ).front();
-                    if( farm_valid_seed( seed ) ) {
+                if( farm_map.furn( pos ) == f_plant_harvest ) {
+                    // Can't use item_stack::only_item() since there might be fertilizer
+                    map_stack items = farm_map.i_at( pos );
+                    const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
+                        return it.is_seed();
+                    } );
+                    if( seed != items.end() && farm_valid_seed( *seed ) ) {
                         plots_cnt += 1;
                         if( comp ) {
                             int skillLevel = comp->get_skill_level( skill_survival );
@@ -1919,7 +1923,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm
                             int plant_cnt = rng( skillLevel / 2, skillLevel );
                             plant_cnt = std::min( std::max( plant_cnt, 1 ), 9 );
                             int seed_cnt = std::max( 1, rng( plant_cnt / 4, plant_cnt / 2 ) );
-                            for( auto &i : iexamine::get_harvest_items( *seed.type, plant_cnt,
+                            for( auto &i : iexamine::get_harvest_items( *seed->type, plant_cnt,
                                     seed_cnt, true ) ) {
                                 g->m.add_item_or_charges( g->u.pos(), i );
                             }
@@ -1927,7 +1931,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm
                             farm_map.furn_set( pos, f_null );
                             farm_map.ter_set( pos, t_dirt );
                         } else {
-                            plant_names.insert( item::nname( itype_id( seed.type->seed->fruit_id ) ) );
+                            plant_names.insert( item::nname( itype_id( seed->type->seed->fruit_id ) ) );
                         }
                     }
                 }

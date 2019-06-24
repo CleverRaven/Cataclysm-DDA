@@ -19,48 +19,6 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
 {
 }
 
-player_activity::player_activity( const player_activity &rhs )
-    : type( rhs.type ), ignored_distractions( rhs.ignored_distractions ),
-      moves_total( rhs.moves_total ), moves_left( rhs.moves_left ),
-      index( rhs.index ), position( rhs.position ), name( rhs.name ),
-      values( rhs.values ), str_values( rhs.str_values ),
-      coords( rhs.coords ), monsters( rhs.monsters ), placement( rhs.placement ),
-      auto_resume( rhs.auto_resume )
-{
-    targets.clear();
-    targets.reserve( rhs.targets.size() );
-    std::transform( rhs.targets.begin(), rhs.targets.end(), std::back_inserter( targets ),
-    []( const item_location & e ) {
-        return e.clone();
-    } );
-}
-
-player_activity &player_activity::operator=( const player_activity &rhs )
-{
-    type = rhs.type;
-    moves_total = rhs.moves_total;
-    moves_left = rhs.moves_left;
-    index = rhs.index;
-    position = rhs.position;
-    name = rhs.name;
-    ignored_distractions = rhs.ignored_distractions;
-    values = rhs.values;
-    str_values = rhs.str_values;
-    monsters = rhs.monsters;
-    coords = rhs.coords;
-    placement = rhs.placement;
-    auto_resume = rhs.auto_resume;
-
-    targets.clear();
-    targets.reserve( rhs.targets.size() );
-    std::transform( rhs.targets.begin(), rhs.targets.end(), std::back_inserter( targets ),
-    []( const item_location & e ) {
-        return e.clone();
-    } );
-
-    return *this;
-}
-
 void player_activity::set_to_null()
 {
     type = activity_id::NULL_ID();

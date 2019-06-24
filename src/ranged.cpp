@@ -570,7 +570,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     // Item will burst upon landing, destroying the item, and spilling its contents
     const bool burst = thrown.has_property( "burst_when_filled" ) && thrown.is_container() &&
-                       thrown.get_property_long( "burst_when_filled" ) <= static_cast<double>
+                       thrown.get_property_int64_t( "burst_when_filled" ) <= static_cast<double>
                        ( thrown.get_contained().volume().value() ) / thrown.get_container_capacity().value() * 100;
 
     // Add some flags to the projectile
@@ -1648,13 +1648,24 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             }
         }
 
-        // Make player's sprite flip to face the current target
-        if( dst.x > src.x ) {
-            g->u.facing = FD_RIGHT;
-        } else if( dst.x < src.x ) {
-            g->u.facing = FD_LEFT;
-        }
+        int new_dx = dst.x - src.x;
+        int new_dy = dst.y - src.y;
 
+        // Make player's sprite flip to face the current target
+        if( ! tile_iso ) {
+            if( new_dx > 0 ) {
+                g->u.facing = FD_RIGHT;
+            } else if( new_dx < 0 ) {
+                g->u.facing = FD_LEFT;
+            }
+        } else {
+            if( new_dx >= 0 && new_dy >= 0 ) {
+                g->u.facing = FD_RIGHT;
+            }
+            if( new_dy <= 0 && new_dx <= 0 ) {
+                g->u.facing = FD_LEFT;
+            }
+        }
     } while( true );
 
     pc.view_offset = old_offset;

@@ -454,7 +454,7 @@ class dialog
         bool canceled;
         bool errored;
 };
-}
+} // namespace Messages
 
 Messages::dialog::dialog()
     : border_color( BORDER_COLOR ), filter_color( c_white ),

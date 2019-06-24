@@ -209,7 +209,7 @@ void mapgen_lake_shore( map *m, oter_id terrain_type, mapgendata dat, const time
 // Temporary wrappers
 void mremove_trap( map *m, int x, int y );
 void mtrap_set( map *m, int x, int y, trap_id type );
-void madd_field( map *m, int x, int y, field_id type, int density );
+void madd_field( map *m, int x, int y, field_id type, int intensity );
 
 void place_stairs( map *m, oter_id terrain_type, mapgendata dat );
 
@@ -217,7 +217,7 @@ mapgen_update_func add_mapgen_update_func( JsonObject &jo, bool &defer );
 bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint &omt_pos,
                              mission *miss = nullptr, bool cancel_on_collision = true );
 bool run_mapgen_func( const std::string &mapgen_id, map *m, oter_id terrain_type, mapgendata dat,
-                      const time_point &turn, float density );
+                      const time_point &turn, float intensity );
 std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_update(
             const std::string &update_mapgen_id );
 #endif

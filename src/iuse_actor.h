@@ -72,6 +72,9 @@ class iuse_transform : public iuse_actor
         /** used to set the active property of the transformed @ref target */
         bool active = false;
 
+        /**does the item requires to be worn to be activable*/
+        bool need_worn = false;
+
         /** subtracted from @ref Creature::moves when transformation is successful */
         int moves = 0;
 
@@ -149,8 +152,8 @@ class explosion_iuse : public iuse_actor
         /** Create fields of this type around the center of the explosion */
         int fields_radius = -1;
         field_id fields_type;
-        int fields_min_density = 1;
-        int fields_max_density = MAX_FIELD_DENSITY;
+        int fields_min_intensity = 1;
+        int fields_max_intensity = MAX_FIELD_INTENSITY;
         /** Calls game::emp_blast if >= 0 */
         int emp_blast_radius = -1;
         /** Calls game::scrambler_blast if >= 0 */

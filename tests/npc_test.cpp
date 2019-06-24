@@ -337,7 +337,7 @@ TEST_CASE( "npc-movement" )
             if( type == 'A' || type == 'R' || type == 'W' || type == 'M'
                 || type == 'B' || type == 'C' ) {
 
-                g->m.add_field( p, fd_acid, MAX_FIELD_DENSITY );
+                g->m.add_field( p, fd_acid, MAX_FIELD_INTENSITY );
             }
             // spawn rubbles
             if( type == 'R' ) {
@@ -358,8 +358,11 @@ TEST_CASE( "npc-movement" )
                 || type == 'B' || type == 'C' ) {
 
                 std::shared_ptr<npc> guy = std::make_shared<npc>();
-                guy->normalize();
-                guy->randomize();
+                do {
+                    guy->normalize();
+                    guy->randomize();
+                    // Repeat until we get an NPC vulnerable to acid
+                } while( guy->is_immune_field( fd_acid ) );
                 guy->spawn_at_precise( {g->get_levx(), g->get_levy()}, p );
                 // Set the shopkeep mission; this means that
                 // the NPC deems themselves to be guarding and stops them
