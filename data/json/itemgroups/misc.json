@@ -123,7 +123,7 @@
       { "item": "light_plus_battery_cell", "charges": 150 },
       { "item": "light_plus_battery_cell", "charges": 150, "container-item": "flashlight" },
       { "item": "light_plus_battery_cell", "charges": 150, "container-item": "radio" },
-      { "item": "lighter", "charges": 100  },
+      { "item": "lighter", "charges": 100 },
       { "item": "pockknife" },
       { "item": "multitool" },
       { "item": "1st_aid" },
