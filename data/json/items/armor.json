@@ -7041,7 +7041,7 @@
     "description": "Flex on those gold-watch wearers with the rare, expensive and superior platinum watch.  This one is made from solid platinum.",
     "weight": 80,
     "volume": 1,
-   //far more expensive than gold watches, around $100,000 for most platinum watches
+    "//": "far more expensive than gold watches, around $100,000 for most platinum watches ",
     "price": 10000000,
     "to_hit": -1,
     "material": [ "platinum" ],
