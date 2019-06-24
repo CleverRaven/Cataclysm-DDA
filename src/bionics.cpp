@@ -1292,7 +1292,6 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
         assign_activity( activity_id( "ACT_OPERATION_REMOVE" ), to_moves<int>( difficulty * 20_minutes ) );
     }
 
-
     activity.values.push_back( difficulty );
     activity.values.push_back( success );
     activity.values.push_back( bionics[b_id].capacity );
@@ -1301,6 +1300,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     activity.str_values.push_back( b_id.c_str() );
     for( const auto &elem : bionics[b_id].occupied_bodyparts ) {
         activity.values.push_back( elem.first );
+        activity.values.push_back( get_hp( bp_to_hp( elem.first ) ) );//stores current hp to avoid overheal
     }
     return true;
 }
