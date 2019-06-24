@@ -507,9 +507,9 @@
         "xx~~",
         "xo.~",
         "_..x",
-        "__xx"
+uttps://en.wikipedia.org/wiki/Orator_(Cicero)        "__xx"
       ],
-      "terrain": { "_": "t_concrete", "x": "t_concrete", "~": "t_concrete", ".": "t_concrete" },
+      "terrain": { "_": "t_concrete", "x": "t_concrete", "o": "t_concrete", "~": "t_concrete", ".": "t_concrete" },
       "furniture": { "o": "f_tourist_table", "x": "f_sandbag_wall", "~": "f_sandbag_half", ".": "f_groundsheet" },
       "place_loot": [
         { "item": "m2010", "x": [ 3 ], "y": [ 0, 1 ], "chance": 30 },
