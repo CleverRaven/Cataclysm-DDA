@@ -16,9 +16,7 @@
     "damage": 2400,
     "pierce": 600,
     "range": 100,
-    "dispersion": 0,
     "recoil": 6000,
-    "count": 1,
     "effects": [ "CUSTOM_EXPLOSION", "NEVER_MISFIRES" ],
     "explode_in_fire": true,
     "explosion": { "power": 300, "distance_factor": 0.5 }
