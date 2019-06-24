@@ -3213,7 +3213,7 @@ void iexamine::trap( player &p, const tripoint &examp )
                  tr.name() );
         return;
     }
-    if( tr.loadid == tr_unfinished_construction ) {
+    if( tr.loadid == tr_unfinished_construction || g->m.partial_con_at( examp ) ) {
         partial_con *pc = g->m.partial_con_at( examp );
         if( pc ) {
             const std::vector<construction> &list_constructions = get_constructions();

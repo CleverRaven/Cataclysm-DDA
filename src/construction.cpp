@@ -819,7 +819,12 @@ void place_construction( const std::string &desc )
     pc.id = con.id;
     pc.counter = 0;
     // Set the trap that has the examine function
-    g->m.trap_set( pnt, tr_unfinished_construction );
+    // Special handling for constructions that take place on existing traps.
+    // Basically just dont add the unfinished construction trap.
+    // TODO : handle this cleaner, instead of adding a special case to pit iexamine.
+    if( g->m.tr_at( pnt ).loadid == tr_null ) {
+        g->m.trap_set( pnt, tr_unfinished_construction );
+    }
     // Use up the components
     for( const auto &it : con.requirements->get_components() ) {
         std::list<item> tmp = g->u.consume_items( it, 1, is_crafting_component );
