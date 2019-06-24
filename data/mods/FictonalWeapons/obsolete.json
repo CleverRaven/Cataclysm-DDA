@@ -1,0 +1,21 @@
+[
+  {
+    "id": "retool_flaregun",
+    "type": "GUNMOD",
+    "symbol": ":",
+    "color": "green",
+    "name": "Flaregun conversion kit",
+    "description": "Replacing several key parts flaregun to convert it to a .40 firearm.  The conversion results in reduced accuracy and increased recoil.",
+    "location": "accessories",
+    "price": 48000,
+    "material": "steel",
+    "weight": 226,
+    "volume": 1,
+    "bashing": 3,
+    "to_hit": -1,
+    "dispersion_modifier": 30,
+    "min_skills": [ [ "gun", 2 ] ],
+    "mod_targets": [ "pistol" ],
+    "acceptable_ammo": [ "signal_flare" ]
+  }
+]

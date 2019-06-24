@@ -1120,7 +1120,6 @@ Gun mods can be defined like this:
 "mod_targets": [ "crossbow" ], // Mandatory. What kind of weapons can this gunmod be used with?
 "acceptable_ammo": [ "9mm" ],  // Optional filter restricting mod to guns with those base (before modifiers) ammo types
 "install_time": "30 s",        // Optional time installation takes. Installation is instantaneous if unspecified. An integer will be read as moves or a time string can be used.
-"ammo_modifier": [ "57" ],     // Optional field which if specified modifies parent gun to use these ammo types
 "burst_modifier": 3,           // Optional field increasing or decreasing base gun burst size
 "damage_modifier": -1,         // Optional field increasing or decreasing base gun damage
 "dispersion_modifier": 15,     // Optional field increasing or decreasing base gun dispersion

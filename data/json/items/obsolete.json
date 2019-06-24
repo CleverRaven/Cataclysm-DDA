@@ -147,7 +147,6 @@
     "acceptable_ammo": [ "9mm", "38", "40", "57", "46", "762", "223" ],
     "install_time": 60000,
     "dispersion_modifier": 15,
-    "ammo_modifier": "22",
     "min_skills": [ [ "weapon", 3 ], [ "mechanics", 2 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
@@ -168,7 +167,6 @@
     "acceptable_ammo": [ "545x39", "762", "308", "3006", "shot" ],
     "install_time": 60000,
     "dispersion_modifier": 30,
-    "ammo_modifier": "223",
     "min_skills": [ [ "weapon", 3 ], [ "mechanics", 2 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
@@ -189,7 +187,6 @@
     "acceptable_ammo": [ "762", "223", "shot" ],
     "install_time": 60000,
     "dispersion_modifier": 30,
-    "ammo_modifier": "308",
     "min_skills": [ [ "weapon", 3 ], [ "mechanics", 2 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
@@ -210,7 +207,6 @@
     "acceptable_ammo": [ "9mm", "38", "40", "44" ],
     "install_time": 60000,
     "dispersion_modifier": 30,
-    "ammo_modifier": "45",
     "min_skills": [ [ "weapon", 3 ], [ "mechanics", 2 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
@@ -231,7 +227,6 @@
     "acceptable_ammo": [ "22", "9mm", "38" ],
     "install_time": 60000,
     "dispersion_modifier": 15,
-    "ammo_modifier": "46",
     "min_skills": [ [ "weapon", 3 ], [ "mechanics", 2 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
@@ -252,7 +247,6 @@
     "acceptable_ammo": [ "22", "9mm", "38" ],
     "install_time": 60000,
     "dispersion_modifier": 15,
-    "ammo_modifier": "57",
     "min_skills": [ [ "weapon", 3 ], [ "mechanics", 2 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
@@ -273,7 +267,6 @@
     "acceptable_ammo": [ "9x18", "38", "40", "44", "45" ],
     "install_time": 60000,
     "dispersion_modifier": 15,
-    "ammo_modifier": "9mm",
     "min_skills": [ [ "weapon", 3 ], [ "mechanics", 2 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },

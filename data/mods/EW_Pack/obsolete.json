@@ -14,8 +14,7 @@
     "volume": 2,
     "acceptable_ammo": [ "654" ],
     "mod_targets": [ "rifle" ],
-    "bashing": 4,
-    "ammo_modifier": "545x39"
+    "bashing": 4
   },
   {
     "type": "GUNMOD",
@@ -32,8 +31,7 @@
     "volume": 2,
     "acceptable_ammo": [ "545x39" ],
     "mod_targets": [ "rifle" ],
-    "bashing": 4,
-    "ammo_modifier": "654"
+    "bashing": 4
   },
   {
     "type": "GUNMOD",
@@ -50,7 +48,6 @@
     "volume": 2,
     "acceptable_ammo": [ "654" ],
     "mod_targets": [ "rifle" ],
-    "bashing": 4,
-    "ammo_modifier": "762"
+    "bashing": 4
   }
 ]
