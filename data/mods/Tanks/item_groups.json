@@ -48,13 +48,7 @@
   {
     "type": "item_group",
     "id": "helicopter",
-    "items": [
-      [ "electric_primer", 2 ],
-      [ "electric_primer_large", 1 ],
-      [ "30mm_hedp", 2 ],
-      [ "30mm_hei", 2 ],
-      [ "belt30mm", 3 ]
-    ]
+    "items": [ [ "electric_primer", 2 ], [ "electric_primer_large", 1 ], [ "30mm_hedp", 2 ], [ "30mm_hei", 2 ], [ "belt30mm", 3 ] ]
   },
   {
     "type": "item_group",
