@@ -2720,9 +2720,11 @@ void activity_handlers::repair_item_do_turn( player_activity *act, player *p )
 void activity_handlers::butcher_do_turn( player_activity *act, player *p )
 {
     const int drain = 1 + static_cast<int>( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) );
-    if( p->stamina <= drain ) {
+    if( p->stamina <= drain + 200 ) { // 200 to give some space and not end the activity at 0 stamina
         act->moves_left += p->moves; // wait for stamina regain, halt progress
-        p->add_msg_if_player( _( "You pause for a second to catch your breath." ) );
+        if( one_in( 5 ) ) { // reduce spam
+            p->add_msg_if_player( _( "You pause for a second to catch your breath." ) );
+        }
     } else {
         p->mod_stat( "stamina", -drain );
     }
