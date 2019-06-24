@@ -776,7 +776,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                             stealing = true;
                         }
                     }
-                    if( stacked_here[true_it].front()->ammo_current() == "money" ) {
+                    if( stacked_here[true_it].front()->is_money() ) {
                         //Count charges
                         // TODO: transition to the item_location system used for the inventory
                         unsigned int charges_total = 0;

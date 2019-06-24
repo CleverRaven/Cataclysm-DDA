@@ -596,7 +596,7 @@ void computer::activate_function( computer_action action )
             for( int i = -60; i <= 60; i++ ) {
                 for( int j = -60; j <= 60; j++ ) {
                     const oter_id &oter = overmap_buffer.ter( center.x + i, center.y + j, center.z );
-                    if( is_ot_type( "sewer", oter ) || is_ot_type( "sewage", oter ) ) {
+                    if( is_ot_type( "sewer", oter ) || is_ot_prefix( "sewage", oter ) ) {
                         overmap_buffer.set_seen( center.x + i, center.y + j, center.z, true );
                     }
                 }

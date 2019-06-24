@@ -591,10 +591,10 @@ static void mx_bandits_block( map &m, const tripoint &abs_sub )
     const oter_id &west = overmap_buffer.ter( abs_sub.x - 1, abs_sub.y, abs_sub.z );
     const oter_id &east = overmap_buffer.ter( abs_sub.x + 1, abs_sub.y, abs_sub.z );
 
-    const bool forest_at_north = is_ot_type( "forest", north );
-    const bool forest_at_south = is_ot_type( "forest", south );
-    const bool forest_at_west = is_ot_type( "forest", west );
-    const bool forest_at_east = is_ot_type( "forest", east );
+    const bool forest_at_north = is_ot_prefix( "forest", north );
+    const bool forest_at_south = is_ot_prefix( "forest", south );
+    const bool forest_at_west = is_ot_prefix( "forest", west );
+    const bool forest_at_east = is_ot_prefix( "forest", east );
 
     const bool road_at_north = is_ot_type( "road", north );
     const bool road_at_south = is_ot_type( "road", south );
@@ -2343,6 +2343,7 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
                        extra.description );
     if( mx_func != nullptr ) {
         mx_func( m, abs_sub );
+        overmap_buffer.add_extra( sm_to_omt_copy( abs_sub ), id );
         if( get_option<bool>( "AUTO_NOTES" ) && get_option<bool>( "AUTO_NOTES_MAP_EXTRAS" ) &&
             !mx_note.empty() ) {
             overmap_buffer.add_note( sm_to_omt_copy( abs_sub ), mx_note );

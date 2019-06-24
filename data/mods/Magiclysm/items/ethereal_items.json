@@ -24,6 +24,19 @@
     "techniques": [ "WBLOCK_3" ]
   },
   {
+    "id": "finger_firelighter",
+    "type": "TOOL",
+    "name": "finger firelighter",
+    "description": "This is a small flame you can hold in your hand.  With a thought, you can cause it to light something on fire.",
+    "weight": 1,
+    "volume": "1 ml",
+    "price": 0,
+    "symbol": ",",
+    "color": "yellow",
+    "use_action": [ { "type": "firestarter", "moves": 20 } ],
+    "flags": [ "TRADER_AVOID", "FIRESTARTER", "FIRE", "LIGHT_8", "FLAMING", "WATER_EXTINGUISH" ]
+  },
+  {
     "id": "armor_stonefist",
     "type": "ARMOR",
     "category": "armor",
@@ -263,7 +276,6 @@
       "NO_UNLOAD",
       "NO_AMMO"
     ],
-    "ammo": "NULL",
     "skill": "archery",
     "min_strength": 5,
     "weight": 540,

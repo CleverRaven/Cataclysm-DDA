@@ -19,6 +19,7 @@
 #include "player.h"
 #include "projectile.h"
 #include "rng.h"
+#include "sounds.h"
 #include "translations.h"
 #include "ui.h"
 
@@ -51,7 +52,14 @@ const std::map<std::string, spell_flag> flag_map = {
     { "PERMANENT", spell_flag::PERMANENT },
     { "IGNORE_WALLS", spell_flag::IGNORE_WALLS },
     { "HOSTILE_SUMMON", spell_flag::HOSTILE_SUMMON },
-    { "HOSTILE_50", spell_flag::HOSTILE_50 }
+    { "HOSTILE_50", spell_flag::HOSTILE_50 },
+    { "SILENT", spell_flag::SILENT },
+    { "LOUD", spell_flag::LOUD },
+    { "VERBAL", spell_flag::VERBAL },
+    { "SOMATIC", spell_flag::SOMATIC },
+    { "NO_HANDS", spell_flag::NO_HANDS },
+    { "NO_LEGS", spell_flag::NO_LEGS },
+    { "CONCENTRATE", spell_flag::CONCENTRATE }
 };
 } // namespace
 
@@ -528,6 +536,17 @@ bool spell::bp_is_affected( body_part bp ) const
     return type->affected_bps[bp];
 }
 
+void spell::make_sound( const tripoint &target ) const
+{
+    if( !has_flag( spell_flag::SILENT ) ) {
+        int loudness = damage() / 3;
+        if( has_flag( spell_flag::LOUD ) ) {
+            loudness += 1 + damage() / 3;
+        }
+        sounds::sound( target, loudness, sounds::sound_t::combat, _( "an explosion" ), false );
+    }
+}
+
 std::string spell::effect() const
 {
     return type->effect;
@@ -550,11 +569,13 @@ bool spell::is_valid_target( const tripoint &p ) const
         Creature::Attitude cr_att = cr->attitude_to( g->u );
         valid = valid || ( cr_att != Creature::A_FRIENDLY && is_valid_target( target_hostile ) ) ||
                 ( cr_att == Creature::A_FRIENDLY && is_valid_target( target_ally ) );
+    } else {
+        valid = is_valid_target( target_ground );
     }
     if( p == g->u.pos() ) {
         valid = valid || is_valid_target( target_self );
     }
-    return valid || is_valid_target( target_ground );
+    return valid;
 }
 
 std::string spell::description() const
@@ -1255,12 +1276,14 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     int line = 1;
     const catacurses::window w = menu->window;
     nc_color gray = c_light_gray;
+    nc_color yellow = c_yellow;
     const spell fake_spell( &sp );
 
     const std::string spell_name = colorize( _( sp.name ), c_light_green );
-    const std::string spell_class = colorize( sp.spell_class->name(), c_yellow );
+    const std::string spell_class = sp.spell_class == trait_id( "NONE" ) ? _( "Classless" ) :
+                                    sp.spell_class->name();
     print_colored_text( w, line, start_x, gray, gray, spell_name );
-    print_colored_text( w, line++, menu->pad_left - sp.spell_class->name().length() - 1, gray, gray,
+    print_colored_text( w, line++, menu->pad_left - spell_class.length() - 1, yellow, yellow,
                         spell_class );
     line++;
     line += fold_and_print( w, line, start_x, width, gray, _( sp.description ) );

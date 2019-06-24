@@ -283,7 +283,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hazelnut_unshelled",
-    "name": "handful of hazelnuts",
+    "name": "handful of shelled hazelnuts",
     "name_plural": "handfuls of shelled hazelnuts",
     "weight": 30,
     "color": "brown",

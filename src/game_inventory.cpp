@@ -552,10 +552,11 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
-            const auto &a = get_consumable_item( lhs.location );
-            const auto &b = get_consumable_item( rhs.location );
+            const auto &a = get_consumable_item( lhs.any_item() );
+            const auto &b = get_consumable_item( rhs.any_item() );
 
-            const int freshness = rate_freshness( a, *lhs.location ) - rate_freshness( b, *rhs.location );
+            const int freshness = rate_freshness( a, *lhs.any_item() ) -
+                                  rate_freshness( b, *rhs.any_item() );
             if( freshness != 0 ) {
                 return freshness > 0;
             }
@@ -823,8 +824,8 @@ class gunmod_inventory_preset : public inventory_selector_preset
         }
 
         bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
-            const auto a = get_odds( lhs.location );
-            const auto b = get_odds( rhs.location );
+            const auto a = get_odds( lhs.any_item() );
+            const auto b = get_odds( rhs.any_item() );
 
             if( a.first > b.first || ( a.first == b.first && a.second < b.second ) ) {
                 return true;
@@ -950,11 +951,11 @@ class read_inventory_preset: public pickup_inventory_preset
                     return true;
                 }
 
-                if( !is_known( e.location ) ) {
+                if( !is_known( e.any_item() ) ) {
                     return false;
                 }
 
-                const auto &book = get_book( e.location );
+                const auto &book = get_book( e.any_item() );
                 if( book.skill && p.get_skill_level_object( book.skill ).can_train() ) {
                     return lcmatch( book.skill->name(), filter );
                 }

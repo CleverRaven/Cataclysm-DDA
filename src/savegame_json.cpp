@@ -3525,12 +3525,12 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
             jsin.start_array();
             while( !jsin.end_array() ) {
                 int type = jsin.get_int();
-                int density = jsin.get_int();
+                int intensity = jsin.get_int();
                 int age = jsin.get_int();
                 if( fld[i][j].find_field( field_id( type ) ) == nullptr ) {
                     field_count++;
                 }
-                fld[i][j].add_field( field_id( type ), density, time_duration::from_turns( age ) );
+                fld[i][j].add_field( field_id( type ), intensity, time_duration::from_turns( age ) );
             }
         }
     } else if( member_name == "graffiti" ) {

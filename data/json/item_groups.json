@@ -4038,6 +4038,7 @@
       [ "rapier", 3 ],
       [ "cavalry_sabre", 3 ],
       [ "estoc", 3 ],
+      [ "estoc_inferior", 3 ],
       [ "cutlass", 3 ],
       [ "cutlass_inferior", 3 ],
       [ "scimitar", 20 ],
@@ -4430,6 +4431,7 @@
       [ "rapier", 1 ],
       [ "cavalry_sabre", 1 ],
       [ "estoc", 1 ],
+      [ "estoc_inferior", 3 ],
       [ "wakizashi", 1 ],
       [ "jian_inferior", 30 ],
       [ "scimitar_inferior", 25 ],
@@ -8359,7 +8361,12 @@
       [ "pistol_flintlock", 4 ],
       [ "carbine_flintlock", 4 ],
       [ "rifle_flintlock", 4 ],
-      [ "petrified_eye", 2 ]
+      [ "petrified_eye", 2 ],
+      [ "ji", 1 ],
+      [ "dao", 3 ],
+      [ "sword_xiphos", 4 ],
+      [ "khopesh", 4 ],
+      [ "spear_dory", 3 ]
     ]
   },
   {
@@ -8478,7 +8485,10 @@
       [ "armguard_larmor", 40 ],
       [ "vambrace_larmor", 20 ],
       [ "gambeson", 50 ],
-      [ "legguard_metal", 10 ]
+      [ "legguard_metal", 10 ],
+      [ "helmet_corinthian", 45 ],
+      [ "armor_cuirass", 25 ],
+      [ "legguard_bronze", 20 ]
     ]
   },
   {
@@ -8512,6 +8522,7 @@
       [ "cavalry_sabre", 4 ],
       [ "cavalry_sabre_fake", 8 ],
       [ "estoc", 3 ],
+      [ "estoc_inferior", 4 ],
       [ "estoc_fake", 5 ],
       [ "kris", 3 ],
       [ "kris_fake", 8 ],
@@ -8542,7 +8553,12 @@
       [ "warhammer", 2 ],
       [ "scythe_war", 2 ],
       [ "pike", 2 ],
-      [ "spear_steel", 2 ]
+      [ "spear_steel", 2 ],
+      [ "ji", 2 ],
+      [ "dao", 3 ],
+      [ "sword_xiphos", 4 ],
+      [ "khopesh", 4 ],
+      [ "spear_dory", 3 ]
     ]
   },
   {

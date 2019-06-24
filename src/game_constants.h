@@ -107,8 +107,8 @@ constexpr time_duration CORPSE_ROT_TIME = 24_hours;
 /** Cap JACK requirements to support arbitrarily large vehicles */
 #define JACK_LIMIT 8500_kilogram // 8500kg ( 8.5 metric tonnes )
 
-/** Maximum density of a map field */
-#define MAX_FIELD_DENSITY 3
+/** Maximum intensity of a map field */
+#define MAX_FIELD_INTENSITY 3
 
 /** Slowest speed at which a gun can be aimed */
 #define MAX_AIM_COST 10

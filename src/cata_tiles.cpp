@@ -1497,7 +1497,7 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
         } else if( category == C_FIELD ) {
             const field_id fid = field_from_ident( id );
             sym = all_field_types_enum_list[fid].sym;
-            // TODO: field density?
+            // TODO: field intensity?
             col = all_field_types_enum_list[fid].color[0];
         } else if( category == C_TRAP ) {
             const trap_str_id tmp( id );

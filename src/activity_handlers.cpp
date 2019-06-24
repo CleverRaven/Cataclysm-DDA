@@ -413,6 +413,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
             if( !has_rope && !b_rack_present ) {
                 u.add_msg_if_player( m_info,
                                      _( "To perform a full butchery on a corpse this big, you need either a butchering rack, a nearby hanging meathook, or both a long rope in your inventory and a nearby tree to hang the corpse from." ) );
+                act.targets.pop_back();
                 return;
             }
             if( !has_table_nearby ) {
@@ -1384,9 +1385,12 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                         add_msg( _( "With a clang and a shudder, the %s pump goes silent." ),
                                  liquid.type_name( 1 ) );
                     } else if( g->m.furn( source_pos ).obj().examine == &iexamine::fvat_full ) {
-                        g->m.furn_set( source_pos, f_fvat_empty );
                         add_msg( _( "You squeeze the last drops of %s from the vat." ),
                                  liquid.type_name( 1 ) );
+                        map_stack items_here = g->m.i_at( source_pos );
+                        if( items_here.empty() ) {
+                            g->m.furn_set( source_pos, f_fvat_empty );
+                        }
                     }
                     act_ref.set_to_null();
                 }
@@ -2370,7 +2374,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             return;
         }
         if( actor->can_repair_target( *p, *item_loc, true ) ) {
-            act->targets.emplace_back( item_loc.clone() );
+            act->targets.emplace_back( item_loc );
             repeat = REPEAT_INIT;
         }
     }
@@ -3916,14 +3920,23 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
         }
         return;
     }
+
+    if( casting.has_flag( spell_flag::VERBAL ) ) {
+        sounds::sound( p->pos(), p->get_shout_volume() / 2, sounds::sound_t::speech, _( "cast a spell" ),
+                       false );
+    }
+
     p->add_msg_if_player( _( "You cast %s!" ), casting.name() );
 
     // figure out which function is the effect (maybe change this into how iuse or activity_handlers does it)
+    // TODO: refactor these so make_sound can be called inside each of these functions
     const std::string fx = casting.effect();
     if( fx == "pain_split" ) {
         spell_effect::pain_split();
+        casting.make_sound( p->pos() );
     } else if( fx == "move_earth" ) {
         spell_effect::move_earth( target );
+        casting.make_sound( target );
     } else if( fx == "target_attack" ) {
         spell_effect::target_attack( casting, p->pos(), target );
     } else if( fx == "projectile_attack" ) {
@@ -3934,10 +3947,13 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
         spell_effect::line_attack( casting, p->pos(), target );
     } else if( fx == "teleport_random" ) {
         spell_effect::teleport( casting.range(), casting.range() + casting.aoe() );
+        casting.make_sound( p->pos() );
     } else if( fx == "spawn_item" ) {
         spell_effect::spawn_ethereal_item( casting );
+        casting.make_sound( p->pos() );
     } else if( fx == "recover_energy" ) {
         spell_effect::recover_energy( casting, target );
+        casting.make_sound( target );
     } else if( fx == "summon" ) {
         spell_effect::spawn_summoned_monster( casting, p->pos(), target );
     } else {

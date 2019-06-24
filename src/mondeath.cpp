@@ -357,7 +357,7 @@ void mdeath::triffid_heart( monster &z )
 void mdeath::fungus( monster &z )
 {
     // If the fungus died from anti-fungal poison, don't pouf
-    if( g->m.get_field_strength( z.pos(), fd_fungicidal_gas ) ) {
+    if( g->m.get_field_intensity( z.pos(), fd_fungicidal_gas ) ) {
         return;
     }
 

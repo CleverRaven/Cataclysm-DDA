@@ -163,6 +163,7 @@ struct level_cache {
     float camera_cache[MAPSIZE_X][MAPSIZE_Y];
     lit_level visibility_cache[MAPSIZE_X][MAPSIZE_Y];
     std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_seen_cache;
+    std::bitset<MAPSIZE *MAPSIZE> field_cache;
 
     bool veh_in_active_range;
     bool veh_exists_at[MAPSIZE_X][MAPSIZE_Y];
@@ -1071,10 +1072,10 @@ class map
          */
         time_duration get_field_age( const tripoint &p, const field_id type ) const;
         /**
-         * Get the density of a field entry (@ref field_entry::density),
+         * Get the intensity of a field entry (@ref field_entry::intensity),
          * if there is no field of that type, returns 0.
          */
-        int get_field_strength( const tripoint &p, const field_id type ) const;
+        int get_field_intensity( const tripoint &p, const field_id type ) const;
         /**
          * Increment/decrement age of field entry at point.
          * @return resulting age or `-1_turns` if not present (does *not* create a new field).
@@ -1082,11 +1083,11 @@ class map
         time_duration adjust_field_age( const tripoint &p, const field_id type,
                                         const time_duration &offset );
         /**
-         * Increment/decrement density of field entry at point, creating if not present,
-         * removing if density becomes 0.
-         * @return resulting density, or 0 for not present (either removed or not created at all).
+         * Increment/decrement intensity of field entry at point, creating if not present,
+         * removing if intensity becomes 0.
+         * @return resulting intensity, or 0 for not present (either removed or not created at all).
          */
-        int adjust_field_strength( const tripoint &p, const field_id type, const int offset );
+        int adjust_field_intensity( const tripoint &p, const field_id type, const int offset );
         /**
          * Set age of field entry at point.
          * @param p Location of field
@@ -1099,27 +1100,27 @@ class map
         time_duration set_field_age( const tripoint &p, const field_id type, const time_duration &age,
                                      bool isoffset = false );
         /**
-         * Set density of field entry at point, creating if not present,
-         * removing if density becomes 0.
+         * Set intensity of field entry at point, creating if not present,
+         * removing if intensity becomes 0.
          * @param p Location of field
          * @param type ID of field
          * @param str New strength of field
          * @param isoffset If true, the given str value is added to the existing value,
-         * if false, the existing density is ignored and overridden.
-         * @return resulting density, or 0 for not present (either removed or not created at all).
+         * if false, the existing intensity is ignored and overridden.
+         * @return resulting intensity, or 0 for not present (either removed or not created at all).
          */
-        int set_field_strength( const tripoint &p, const field_id type, const int str,
-                                bool isoffset = false );
+        int set_field_intensity( const tripoint &p, const field_id type, const int str,
+                                 bool isoffset = false );
         /**
          * Get field of specific type at point.
          * @return NULL if there is no such field entry at that place.
          */
         field_entry *get_field( const tripoint &p, const field_id type );
         /**
-         * Add field entry at point, or set density if present
+         * Add field entry at point, or set intensity if present
          * @return false if the field could not be created (out of bounds), otherwise true.
          */
-        bool add_field( const tripoint &p, const field_id type, int density,
+        bool add_field( const tripoint &p, const field_id type, int intensity,
                         const time_duration &age = 0_turns );
         /**
          * Remove field entry at xy, ignored if the field entry is not present.
@@ -1127,12 +1128,12 @@ class map
         void remove_field( const tripoint &p, const field_id field_to_remove );
 
         // Splatters of various kind
-        void add_splatter( const field_id type, const tripoint &where, int density = 1 );
+        void add_splatter( const field_id type, const tripoint &where, int intensity = 1 );
         void add_splatter_trail( const field_id type, const tripoint &from, const tripoint &to );
         void add_splash( const field_id type, const tripoint &center, int radius, int density );
 
         void propagate_field( const tripoint &center, const field_id type,
-                              int amount, int max_density = MAX_FIELD_DENSITY );
+                              int amount, int max_intensity = MAX_FIELD_INTENSITY );
 
         /**
          * Runs one cycle of emission @ref src which **may** result in propagation of fields
@@ -1692,9 +1693,8 @@ class map
         bool need_draw_lower_floor( const tripoint &p );
 };
 
-void shift_map_memory_seen_cache(
-    std::bitset<MAPSIZE_X *MAPSIZE_Y> &map_memory_seen_cache,
-    const int sx, const int sy );
+template<int SIZE, int MULTIPLIER>
+void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const int sx, const int sy );
 
 std::vector<point> closest_points_first( int radius, point p );
 std::vector<point> closest_points_first( int radius, int x, int y );

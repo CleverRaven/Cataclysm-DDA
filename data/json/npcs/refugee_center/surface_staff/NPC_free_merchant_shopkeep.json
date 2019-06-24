@@ -478,7 +478,7 @@
         "terrain": { "g": "t_grass", ".": "t_dirt", "a": "t_dirt", "b": "t_dirt", "R": "t_dirt", "F": "t_dirt" },
         "furniture": { "a": "f_ash" },
         "traps": { "F": "tr_fur_rollmat", "R": "tr_rollmat" },
-        "fields": { "b": { "field": "fd_blood", "density": 1 } },
+        "fields": { "b": { "field": "fd_blood", "intensity": 1 } },
         "place_loot": [
           { "group": "cannedfood", "x": [ 6, 18 ], "y": [ 3, 15 ], "chance": 100 },
           { "group": "alcohol_bottled_canned", "x": [ 6, 18 ], "y": [ 3, 15 ], "repeat": 2, "chance": 75 },

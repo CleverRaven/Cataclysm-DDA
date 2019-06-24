@@ -567,7 +567,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     // Learn recipes
     for( const auto &e : recipe_dict ) {
         const auto &r = e.second;
-        if( !knows_recipe( &r ) && has_recipe_requirements( r ) ) {
+        if( !r.has_flag( "SECRET" ) && !knows_recipe( &r ) && has_recipe_requirements( r ) ) {
             learn_recipe( &r );
         }
     }

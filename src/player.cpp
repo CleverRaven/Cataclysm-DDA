@@ -282,9 +282,6 @@ static const trait_id trait_CHITIN_FUR2( "CHITIN_FUR2" );
 static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
-static const trait_id trait_COLDBLOOD( "COLDBLOOD" );
-static const trait_id trait_COLDBLOOD2( "COLDBLOOD2" );
-static const trait_id trait_COLDBLOOD3( "COLDBLOOD3" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
 static const trait_id trait_DEAF( "DEAF" );
@@ -1809,14 +1806,12 @@ void player::recalc_speed_bonus()
         if( has_trait( trait_SUNLIGHT_DEPENDENT ) && !g->is_in_sunlight( pos() ) ) {
             mod_speed_bonus( -( g->light_level( posz() ) >= 12 ? 5 : 10 ) );
         }
-        /* Cache call to game::get_temperature( player position ) since it can be used several times here */
-        const auto player_local_temp = g->weather.get_temperature( pos() );
-        if( has_trait( trait_COLDBLOOD4 ) || ( has_trait( trait_COLDBLOOD3 ) && player_local_temp < 65 ) ) {
-            mod_speed_bonus( ( player_local_temp - 65 ) / 2 );
-        } else if( has_trait( trait_COLDBLOOD2 ) && player_local_temp < 65 ) {
-            mod_speed_bonus( ( player_local_temp - 65 ) / 3 );
-        } else if( has_trait( trait_COLDBLOOD ) && player_local_temp < 65 ) {
-            mod_speed_bonus( ( player_local_temp - 65 ) / 5 );
+        const float temperature_speed_modifier = mutation_value( "temperature_speed_modifier" );
+        if( temperature_speed_modifier != 0 ) {
+            const auto player_local_temp = g->weather.get_temperature( pos() );
+            if( has_trait( trait_COLDBLOOD4 ) || player_local_temp < 65 ) {
+                mod_speed_bonus( ( player_local_temp - 65 ) * temperature_speed_modifier );
+            }
         }
     }
 
@@ -5867,7 +5862,8 @@ void player::suffer()
     }
     //Web Weavers...weave web
     if( has_active_mutation( trait_WEB_WEAVER ) && !in_vehicle ) {
-        g->m.add_field( pos(), fd_web, 1 ); //this adds density to if its not already there.
+        // this adds intensity to if its not already there.
+        g->m.add_field( pos(), fd_web, 1 );
 
     }
 
@@ -5891,7 +5887,8 @@ void player::suffer()
     }
 
     if( has_trait( trait_WEB_SPINNER ) && !in_vehicle && one_in( 3 ) ) {
-        g->m.add_field( pos(), fd_web, 1 ); //this adds density to if its not already there.
+        // this adds intensity to if its not already there.
+        g->m.add_field( pos(), fd_web, 1 );
     }
 
     if( has_trait( trait_UNSTABLE ) && !has_trait( trait_CHAOTIC_BAD ) && one_turn_in( 48_hours ) ) {
@@ -9068,7 +9065,7 @@ void player::use( int inventory_position )
     item &used = i_at( inventory_position );
     auto loc = item_location( *this, &used );
 
-    use( loc.clone() );
+    use( loc );
 }
 
 void player::use( item_location loc )
@@ -9577,7 +9574,7 @@ void player::try_to_sleep( const time_duration &dur )
         webforce = true;
     }
     if( websleep || webforce ) {
-        int web = g->m.get_field_strength( pos(), fd_web );
+        int web = g->m.get_field_intensity( pos(), fd_web );
         if( !webforce ) {
             // At this point, it's kinda weird, but surprisingly comfy...
             if( web >= 3 ) {
@@ -9664,7 +9661,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
     const ter_id ter_at_pos = tile.get_ter();
     const furn_id furn_at_pos = tile.get_furn();
 
-    int web = g->m.get_field_strength( p, fd_web );
+    int web = g->m.get_field_intensity( p, fd_web );
 
     // Some mutants have different comfort needs
     if( !plantsleep && !webforce ) {
@@ -9745,13 +9742,13 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
         }
     }
 
-    if( comfort >= static_cast<int>( comfort_level::very_comfortable ) ) {
+    if( comfort > static_cast<int>( comfort_level::comfortable ) ) {
         return comfort_level::very_comfortable;
-    } else if( comfort >= static_cast<int>( comfort_level::comfortable ) ) {
+    } else if( comfort > static_cast<int>( comfort_level::slightly_comfortable ) ) {
         return comfort_level::comfortable;
-    } else if( comfort >= static_cast<int>( comfort_level::slightly_comfortable ) ) {
+    } else if( comfort > static_cast<int>( comfort_level::neutral ) ) {
         return comfort_level::slightly_comfortable;
-    } else if( comfort >= static_cast<int>( comfort_level::neutral ) ) {
+    } else if( comfort == static_cast<int>( comfort_level::neutral ) ) {
         return comfort_level::neutral;
     } else {
         return comfort_level::uncomfortable;

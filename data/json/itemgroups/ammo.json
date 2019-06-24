@@ -143,7 +143,7 @@
       [ "22_fmj", 50 ],
       [ "22_lr", 100 ],
       [ "22_ratshot", 30 ],
-      [ "270", 25 ],
+      [ "270win_jsp", 25 ],
       [ "3006", 25 ],
       [ "308", 25 ],
       [ "762_54R", 10 ],
@@ -202,7 +202,7 @@
       [ "reloaded_223", 60 ],
       [ "reloaded_22_fmj", 20 ],
       [ "reloaded_22_lr", 70 ],
-      [ "reloaded_270", 15 ],
+      [ "reloaded_270win_jsp", 15 ],
       [ "reloaded_300_winmag", 15 ],
       [ "reloaded_3006", 70 ],
       [ "reloaded_3006fmj", 10 ],
@@ -224,7 +224,7 @@
     "type": "item_group",
     "id": "ammo_shotgun_common",
     "//": "Shotgun ammo commonly owned by citizens and found in many locations.",
-    "items": [ [ "shot_00", 100 ], [ "shot_bird", 70 ], [ "shot_dragon", 10 ], [ "410shot_000", 50 ] ]
+    "items": [ [ "shot_00", 100 ], [ "shot_bird", 70 ], [ "shot_slug", 70 ], [ "410shot_000", 50 ] ]
   },
   {
     "type": "item_group",
@@ -235,7 +235,7 @@
       [ "20x66_flare", 10 ],
       [ "20x66_shot", 40 ],
       [ "20x66_slug", 20 ],
-      [ "shot_slug", 100 ],
+      [ "shot_dragon", 10 ],
       [ "shot_beanbag", 20 ]
     ]
   },

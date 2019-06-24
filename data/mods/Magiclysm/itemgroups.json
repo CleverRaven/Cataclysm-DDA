@@ -156,7 +156,14 @@
   {
     "id": "magic_shop_potions",
     "type": "item_group",
-    "items": [ [ "mana_potion_lesser", 15 ], [ "crystallized_mana", 15 ], [ "small_mana_crystal", 15 ] ]
+    "items": [
+      [ "mana_potion_lesser", 15 ],
+      [ "crystallized_mana", 15 ],
+      [ "small_mana_crystal", 15 ],
+      [ "owlbear_stone", 5 ],
+      { "item": "stone_shell", "prob": 10, "count-min": 1, "count-max": 3 },
+      [ "egg_owlbear_rock", 2 ]
+    ]
   },
   {
     "type": "item_group",
