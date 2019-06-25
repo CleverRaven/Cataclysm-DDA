@@ -192,7 +192,7 @@ cata::optional<tripoint> teleporter_list::choose_teleport_location()
         index++;
     }
     column_width = std::max( column_width, static_cast<size_t>( 25 ) );
-    teleporter_callback cb( known_teleporters, index_pairs );
+    teleporter_callback cb( index_pairs );
     teleport_selector.callback = &cb;
     teleport_selector.w_width = 38 + column_width;
     teleport_selector.pad_right = 33;
