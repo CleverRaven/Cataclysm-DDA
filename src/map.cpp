@@ -5329,7 +5329,7 @@ time_duration map::adjust_field_age( const tripoint &p, const field_id type,
     return set_field_age( p, type, offset, true );
 }
 
-int map::adjust_field_intensity( const tripoint &p, const field_id type, const int offset )
+int map::mod_field_intensity( const tripoint &p, const field_id type, const int offset )
 {
     return set_field_intensity( p, type, offset, true );
 }
@@ -5487,7 +5487,7 @@ void map::add_splatter( const field_id type, const tripoint &where, int intensit
             }
         }
     }
-    adjust_field_intensity( where, type, intensity );
+    mod_field_intensity( where, type, intensity );
 }
 
 void map::add_splatter_trail( const field_id type, const tripoint &from, const tripoint &to )

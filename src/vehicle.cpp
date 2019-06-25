@@ -3257,7 +3257,7 @@ void vehicle::spew_field( double joules, int part, field_id type, int intensity 
     }
     point q = coord_translate( p );
     const tripoint dest = global_pos3() + tripoint( q.x, q.y, 0 );
-    g->m.adjust_field_intensity( dest, type, intensity );
+    g->m.mod_field_intensity( dest, type, intensity );
 }
 
 /**
@@ -5515,7 +5515,7 @@ void vehicle::update_time( const time_point &update_to )
             continue;
         }
         int intensity = abs( pt.info().epower ) * 2;
-        g->m.adjust_field_intensity( global_part_pos3( pt ), fd_hot_air3, intensity );
+        g->m.mod_field_intensity( global_part_pos3( pt ), fd_hot_air3, intensity );
         discharge_battery( pt.info().epower );
     }
     // coolers emitting cold air
@@ -5525,7 +5525,7 @@ void vehicle::update_time( const time_point &update_to )
             continue;
         }
         int intensity = abs( pt.info().epower ) * 5;
-        g->m.adjust_field_intensity( global_part_pos3( pt ), fd_cold_air3, intensity );
+        g->m.mod_field_intensity( global_part_pos3( pt ), fd_cold_air3, intensity );
         discharge_battery( pt.info().epower );
     }
     // Get one weather data set per vehicle, they don't differ much across vehicle area

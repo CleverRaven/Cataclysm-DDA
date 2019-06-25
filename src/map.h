@@ -1087,7 +1087,7 @@ class map
          * removing if intensity becomes 0.
          * @return resulting intensity, or 0 for not present (either removed or not created at all).
          */
-        int adjust_field_intensity( const tripoint &p, const field_id type, const int offset );
+        int mod_field_intensity( const tripoint &p, const field_id type, const int offset );
         /**
          * Set age of field entry at point.
          * @param p Location of field
