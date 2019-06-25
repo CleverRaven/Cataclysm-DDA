@@ -158,8 +158,8 @@
     "type": "item_group",
     "items": [
       [ "mana_potion_lesser", 15 ],
-      [ "crystallized_mana", 15 ],
-      [ "small_mana_crystal", 15 ],
+      [ "crystallized_mana", 25 ],
+      { "item": "small_mana_crystal", "prob": 20, "charges-min": 5, "charges-max": 50 },
       [ "owlbear_stone", 5 ],
       { "item": "stone_shell", "prob": 10, "count-min": 1, "count-max": 3 },
       [ "egg_owlbear_rock", 2 ]
