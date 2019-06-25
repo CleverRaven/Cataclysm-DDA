@@ -31,6 +31,7 @@
 #include "item_location.h"
 #include "type_id.h"
 
+enum field_id : int;
 class Creature;
 class nc_color;
 class player;
@@ -1108,8 +1109,8 @@ class vehicle
         // Get maximum velocity for the current movement mode
         int safe_velocity( bool fueled = true ) const;
 
-        // Generate smoke from a part, either at front or back of vehicle depending on velocity.
-        void spew_smoke( double joules, int part, int intensity = 1 );
+        // Generate field from a part, either at front or back of vehicle depending on velocity.
+        void spew_field( double joules, int part, field_id type, int intensity = 1 );
 
         // Loop through engines and generate noise and smoke for each one
         void noise_and_smoke( int load, time_duration time = 1_turns );
