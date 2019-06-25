@@ -9205,13 +9205,13 @@ static int gobag( player *p, item *it, const bool is_personal )
                     content.unset_flag( "FIT" );
                 }
             }
+            last_armor = content;
         }
 
         if( units::to_liter( content.get_storage() ) >= 10.0 && it->has_flag( "FILTHY" ) ) {
             content.set_flag( "FILTHY" );
         }
 
-        last_armor = content;
         g->m.add_item_or_charges( p->pos(), content );
     }
 
