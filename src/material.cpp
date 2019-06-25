@@ -93,22 +93,21 @@ void material_type::load( JsonObject &jsobj, const std::string & )
         _dmg_adj.push_back( jsarr.next_string() );
     }
 
-    JsonArray burn_data_array = jsobj.get_array( "burn_data" );
-    for( size_t intensity = 0; intensity < 3; intensity++ ) {
-        if( burn_data_array.has_more() ) {
+    if( jsobj.has_array( "burn_data" ) ) {
+        JsonArray burn_data_array = jsobj.get_array( "burn_data" );
+        while( burn_data_array.has_more() ) {
             JsonObject brn = burn_data_array.next_object();
-            _burn_data[ intensity ] = load_mat_burn_data( brn );
-        } else {
-            // If not specified, supply default
-            bool flammable = _fire_resist <= static_cast<int>( intensity );
-            mat_burn_data mbd;
-            if( flammable ) {
-                mbd.burn = 1;
-            }
-
-            _burn_data[ intensity ] = mbd;
+            _burn_data.emplace_back( load_mat_burn_data( brn ) );
         }
+    } else {
+        // If not specified, supply default
+        mat_burn_data mbd;
+        if( _fire_resist <= 0 ) {
+            mbd.burn = 1;
+        }
+        _burn_data.emplace_back( mbd );
     }
+
     auto bp_array = jsobj.get_array( "burn_products" );
     while( bp_array.has_more( ) ) {
         auto pair = bp_array.next_array();
@@ -287,7 +286,7 @@ bool material_type::reinforces() const
 
 const mat_burn_data &material_type::burn_data( size_t intensity ) const
 {
-    return _burn_data[ std::min<size_t>( intensity, 3 ) - 1 ];
+    return _burn_data[ std::min<size_t>( intensity, _burn_data.size() ) - 1 ];
 }
 
 const mat_burn_products &material_type::burn_products() const
