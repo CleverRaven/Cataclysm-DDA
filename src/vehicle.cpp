@@ -3319,7 +3319,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
                 }
 
                 if( ( exhaust_part == -1 ) && engine_on ) {
-                    spew_smoke( j, p, bad_filter ? MAX_FIELD_INTENSITY : 1 );
+                    spew_smoke( j, p, bad_filter ? 3 : 1 );
                 } else {
                     mufflesmoke += j;
                 }
@@ -3331,7 +3331,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     }
     if( ( exhaust_part != -1 ) && engine_on &&
         has_engine_type_not( fuel_type_muscle, true ) ) { // No engine, no smoke
-        spew_smoke( mufflesmoke, exhaust_part, bad_filter ? MAX_FIELD_INTENSITY : 1 );
+        spew_smoke( mufflesmoke, exhaust_part, bad_filter ? 3 : 1 );
     }
     // Cap engine noise to avoid deafening.
     noise = std::min( noise, 100.0 );

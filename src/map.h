@@ -1133,7 +1133,7 @@ class map
         void add_splash( const field_id type, const tripoint &center, int radius, int density );
 
         void propagate_field( const tripoint &center, const field_id type,
-                              int amount, int max_intensity = MAX_FIELD_INTENSITY );
+                              int amount, int max_intensity = 3 );
 
         /**
          * Runs one cycle of emission @ref src which **may** result in propagation of fields

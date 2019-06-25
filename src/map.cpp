@@ -5397,7 +5397,7 @@ bool map::add_field( const tripoint &p, const field_id type, int intensity,
         return false;
     }
 
-    intensity = std::min( intensity, MAX_FIELD_INTENSITY );
+    intensity = std::min( intensity, 3 );
     if( intensity <= 0 ) {
         return false;
     }
