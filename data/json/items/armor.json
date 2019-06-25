@@ -360,7 +360,7 @@
     "flags": [ "BELTED", "BLOCK_WHILE_WORN" ]
   },
   {
-    "id": "armguard_soft",f
+    "id": "armguard_soft",
     "type": "ARMOR",
     "category": "armor",
     "name": "pair of neoprene arm sleeves",
