@@ -749,7 +749,7 @@ static void wait()
 
     } else {
         if( g->u.stamina < g->u.get_stamina_max() ) {
-            as_m.addentry( 12, true, 'w', _( "Wait untill you catch your breath" ) );
+            as_m.addentry( 12, true, 'w', _( "Wait until you catch your breath" ) );
             durations[12] = MINUTES( 15 ); // to hide it from showing
         }
         add_menu_item( 1, '1', !has_watch ? _( "Wait 300 heartbeats" ) : "", MINUTES( 5 ) );
