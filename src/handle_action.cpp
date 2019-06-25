@@ -562,8 +562,25 @@ static void grab()
         you.grab( OBJECT_NONE );
         return;
     }
-
+    faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
     if( const optional_vpart_position vp = m.veh_at( grabp ) ) {
+        vehicle *source_veh = veh_pointer_or_null( g->m.veh_at( grabp ) );
+        if( source_veh && source_veh->has_owner() ){
+            const faction *veh_owner = source_veh->get_owner();
+            if( veh_owner && ( veh_owner != yours ) ){
+                if( !query_yn( _( "This vehicle belongs to: %s, there may be consequences if you are observed moving it, continue grabbing?" ), source_veh->get_owner()->name ) ) {
+                    return;
+                } else {
+                    you.add_faction_warning( source_veh->get_owner()->id );
+                    add_msg( "current warnings %d", you.current_warnings_fac( source_veh->get_owner()->id ) );
+                    if( you.beyond_final_warning( source_veh->get_owner()->id )){
+                        add_msg( "beond final warning");
+                    } else {
+                        add_msg( "not beond final warning");
+                    }
+                }
+            }
+        }
         you.grab( OBJECT_VEHICLE, grabp - you.pos() );
         add_msg( _( "You grab the %s." ), vp->vehicle().name );
     } else if( m.has_furn( grabp ) ) { // If not, grab furniture if present

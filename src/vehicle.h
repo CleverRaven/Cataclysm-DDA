@@ -714,7 +714,34 @@ class vehicle
         // Vehicle parts descriptions - descriptions for all the parts on a single tile
         void print_vparts_descs( const catacurses::window &win, int max_y, int width, int &p,
                                  int &start_at, int &start_limit ) const;
-
+        // owner functions
+        inline void set_old_owner( const faction *temp_owner ) {
+            old_owner = temp_owner;
+        }
+        inline void remove_old_owner() {
+            old_owner = nullptr;
+        }
+        inline void set_owner( faction *new_owner ) {
+            owner = new_owner;
+        }
+        inline void remove_owner() {
+            owner = nullptr;
+        }
+        inline const faction *get_owner() const {
+            if( owner ) {
+                return owner;
+            }
+            return nullptr;
+        }
+        inline const faction *get_old_owner() const {
+            if( old_owner ) {
+                return old_owner;
+            }
+            return nullptr;
+        }
+        inline bool has_owner() const {
+            return owner;
+        }
         /**
          *  Operate vehicle controls
          *  @param pos location of physical controls to operate (ignored during remote operation)
@@ -1493,6 +1520,10 @@ class vehicle
 
         // config values
         std::string name;   // vehicle name
+        // The faction that owns this vehicle.
+        const faction *owner = nullptr;
+        // The faction that previously owned this vehicle
+        const faction *old_owner = nullptr;
         /**
          * Type of the vehicle as it was spawned. This will never change, but it can be an invalid
          * type (e.g. if the definition of the prototype has been removed from json or if it has been
