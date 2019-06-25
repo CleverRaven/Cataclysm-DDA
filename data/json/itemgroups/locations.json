@@ -868,7 +868,6 @@
     "items": [ [ "ash", 100 ] ]
   },
   {
-    "type": "item_group",
     "id": "library_elec",
     "type": "item_group",
     "items": [
