@@ -4243,3 +4243,32 @@ bool deploy_tent_actor::check_intact( const tripoint &center ) const
     }
     return true;
 }
+
+void weigh_self_actor::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    dump.emplace_back( "DESCRIPTION",
+                       _( "Use this item to weigh yourself.  Includes everything you are wearing." ) );
+}
+
+int weigh_self_actor::use( player &p, item &, bool, const tripoint & ) const
+{
+    // this is a weight, either in kgs or in lbs.
+    double weight = convert_weight( p.get_weight() );
+    if( weight > convert_weight( max_weight ) ) {
+        popup( "ERROR TOO HEAVY" );
+    } else {
+        popup( string_format( "%.0f %s", weight,
+                              get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "lbs" ? _( "lbs" ) : _( "kgs" ) ) );
+    }
+    return 0;
+}
+
+void weigh_self_actor::load( JsonObject &jo )
+{
+    assign( jo, "max_weight", max_weight );
+}
+
+iuse_actor *weigh_self_actor::clone() const
+{
+    return new weigh_self_actor( *this );
+}
