@@ -22,6 +22,7 @@
 #include "io_tags.h"
 #include "item_location.h"
 #include "requirements.h"
+#include "safe_reference.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
@@ -183,6 +184,10 @@ class item : public visitable<item>
 
         /** For constructing in-progress crafts */
         item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections );
+
+        /** Return a pointer-like type that's automatically invalidated if this
+         * item is destroyed or assigned-to */
+        safe_reference<item> get_safe_reference();
 
         /**
          * Filter converting this instance to another type preserving all other aspects
@@ -1983,6 +1988,7 @@ class item : public visitable<item>
         cata::flat_set<std::string> item_tags; // generic item specific flags
 
     private:
+        safe_reference_anchor anchor;
         const itype *curammo = nullptr;
         std::map<std::string, std::string> item_vars;
         const mtype *corpse = nullptr;
