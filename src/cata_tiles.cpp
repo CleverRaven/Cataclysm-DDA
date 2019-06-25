@@ -2084,14 +2084,14 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &heigh
 {
     // check for field
     const field &f = g->m.field_at( p );
-    field_id f_id = f.field_symbol();
-    bool is_draw_field;
-    bool do_item;
+    field_id f_id = f.displayed_field_type();
+    bool display_field;
+    bool display_items;
     switch( f_id ) {
         case fd_null:
             //only draw items
-            is_draw_field = false;
-            do_item = true;
+            display_field = false;
+            display_items = true;
             break;
         case fd_blood:
         case fd_blood_veggy:
@@ -2116,36 +2116,36 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &heigh
         case fd_hot_air4:
         case fd_spotlight:
             //need to draw fields and items both
-            is_draw_field = true;
-            do_item = true;
+            display_field = true;
+            display_items = true;
             break;
         default:
             //only draw fields
-            do_item = false;
-            is_draw_field = true;
+            display_items = false;
+            display_field = true;
             break;
     }
     bool ret_draw_field = true;
-    bool ret_draw_item = true;
-    if( is_draw_field ) {
-        const std::string fd_name = all_field_types_enum_list[f.field_symbol()].id;
+    bool ret_draw_items = true;
+    if( display_field ) {
+        const std::string fd_name = all_field_types_enum_list[f.displayed_field_type()].id;
 
         // for rotation information
         const int neighborhood[4] = {
-            static_cast<int>( g->m.field_at( tripoint( p.x, p.y + 1, p.z ) ).field_symbol() ), // south
-            static_cast<int>( g->m.field_at( tripoint( p.x + 1, p.y, p.z ) ).field_symbol() ), // east
-            static_cast<int>( g->m.field_at( tripoint( p.x - 1, p.y, p.z ) ).field_symbol() ), // west
-            static_cast<int>( g->m.field_at( tripoint( p.x, p.y - 1, p.z ) ).field_symbol() ) // north
+            static_cast<int>( g->m.field_at( tripoint( p.x, p.y + 1, p.z ) ).displayed_field_type() ), // south
+            static_cast<int>( g->m.field_at( tripoint( p.x + 1, p.y, p.z ) ).displayed_field_type() ), // east
+            static_cast<int>( g->m.field_at( tripoint( p.x - 1, p.y, p.z ) ).displayed_field_type() ), // west
+            static_cast<int>( g->m.field_at( tripoint( p.x, p.y - 1, p.z ) ).displayed_field_type() ) // north
         };
 
         int subtile = 0;
         int rotation = 0;
-        get_tile_values( f.field_symbol(), neighborhood, subtile, rotation );
+        get_tile_values( f.displayed_field_type(), neighborhood, subtile, rotation );
 
         ret_draw_field = draw_from_id_string( fd_name, C_FIELD, empty_string, p, subtile, rotation,
                                               ll, nv_goggles_activated );
     }
-    if( do_item ) {
+    if( display_items ) {
         if( !g->m.sees_some_items( p, g->u ) ) {
             return false;
         }
@@ -2157,13 +2157,13 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &heigh
                                     displayed_item.get_mtype()->id.str() : displayed_item.typeId();
 
         const std::string it_category = displayed_item.type->get_item_type_string();
-        ret_draw_item = draw_from_id_string( it_name, C_ITEM, it_category, p, 0, 0, ll,
-                                             nv_goggles_activated, height_3d );
-        if( ret_draw_item && cur_maptile.get_item_count() > 1 ) {
+        ret_draw_items = draw_from_id_string( it_name, C_ITEM, it_category, p, 0, 0, ll,
+                                              nv_goggles_activated, height_3d );
+        if( ret_draw_items && cur_maptile.get_item_count() > 1 ) {
             draw_item_highlight( p );
         }
     }
-    return ret_draw_field && ret_draw_item;
+    return ret_draw_field && ret_draw_items;
 }
 
 bool cata_tiles::draw_vpart_below( const tripoint &p, lit_level /*ll*/, int &/*height_3d*/ )

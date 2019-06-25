@@ -6602,7 +6602,7 @@ static std::string colorized_field_description_at( const tripoint &point )
 
     std::string field_text;
     const field &field = g->m.field_at( point );
-    const field_entry *entry = field.find_field( field.field_symbol() );
+    const field_entry *entry = field.find_field( field.displayed_field_type() );
     if( entry ) {
         std::string affix;
         for( const auto &pair : affixes_vec ) {

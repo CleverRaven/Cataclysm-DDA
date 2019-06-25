@@ -85,8 +85,8 @@ void field_type::load( JsonObject &jo, const std::string & )
         phase = jo.get_enum_value<phase_id>( "phase" );
     }
     optional( jo, was_loaded, "accelerated_decay", accelerated_decay );
-    optional( jo, was_loaded, "do_item", do_item );
-    optional( jo, was_loaded, "is_draw_field", is_draw_field );
+    optional( jo, was_loaded, "display_items", display_items );
+    optional( jo, was_loaded, "display_field", display_field );
 }
 
 void field_type::check() const
