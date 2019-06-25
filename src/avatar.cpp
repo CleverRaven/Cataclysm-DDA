@@ -858,9 +858,8 @@ void avatar::do_read( item &book )
                      martialart_difficulty( style_to_learn ) );
             add_msg( m_info, _( "It would be easier to master if you'd have skill expertise in %s." ),
                      style_to_learn->primary_skill->name() );
-            add_msg( m_info, ngettext( "Training session with this book takes %d minute.",
-                                       "Training session with this book takes %d minutes.", reading->time ),
-                     reading->time );
+            add_msg( m_info, _( "A training session with this book takes %s" ),
+                     to_string( time_duration::from_minutes( reading->time ) ) );
         } else {
             add_msg( m_info, ngettext( "A chapter of this book takes %d minute to read.",
                                        "A chapter of this book takes %d minutes to read.", reading->time ),
@@ -1020,7 +1019,7 @@ void avatar::do_read( item &book )
         const matype_id style_to_learn = martial_art_learned_from( *book.type );
         skill_id skill_used = style_to_learn->primary_skill;
         int difficulty = std::max( 1, style_to_learn->learn_difficulty );
-        difficulty = 20 + difficulty * 2 - g->u.get_skill_level( skill_used ) * 2;
+        difficulty = std::max( 1, 20 + difficulty * 2 - g->u.get_skill_level( skill_used ) * 2 );
         add_msg( m_debug, _( "Chance to learn one in: %d" ), difficulty );
 
         if( one_in( difficulty ) ) {

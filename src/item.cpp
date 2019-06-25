@@ -2048,8 +2048,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                book.time );
                 if( type->use_methods.count( "MA_MANUAL" ) ) {
                     fmt = ngettext(
-                              "<info>Training session</info> with this book takes <num> <info>minute</info>.",
-                              "<info>Training session</info> with this book takes <num> <info>minutes</info>.",
+                              "<info>A training session</info> with this book takes <num> <info>minute</info>.",
+                              "<info>A training session</info> with this book takes <num> <info>minutes</info>.",
                               book.time );
                 }
                 info.push_back( iteminfo( "BOOK", "", fmt,
