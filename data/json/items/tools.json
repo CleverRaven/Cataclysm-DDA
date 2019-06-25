@@ -6298,21 +6298,6 @@
     "qualities": [ [ "DIG", 2 ], [ "COOK", 1 ], [ "BUTCHER", -96 ] ]
   },
   {
-    "id": "makeshift_shovel",
-    "type": "TOOL",
-    "name": "makeshift shovel",
-    "description": "This is a crudely-worked piece of sheet metal, affixed to a stick.  It works passably well as a shovel but really can't compare to a real shovel.",
-    "weight": 1681,
-    "volume": 16,
-    "price": 0,
-    "bashing": 15,
-    "cutting": 1,
-    "material": [ "steel", "wood" ],
-    "symbol": "/",
-    "color": "brown",
-    "qualities": [ [ "DIG", 2 ], [ "COOK", 1 ], [ "BUTCHER", -96 ] ]
-  },
-  {
     "id": "pseuso_bio_picklock",
     "type": "TOOL",
     "name": "bio lockpick",
