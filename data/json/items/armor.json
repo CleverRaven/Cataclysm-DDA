@@ -836,6 +836,7 @@
     "weight": 60,
     "volume": 0,
     "price": 5000,
+    "price_postapoc": 700,
     "material": [ "silver" ],
     "symbol": "[",
     "color": "yellow",
@@ -865,6 +866,7 @@
     "name": "detective badge",
     "description": "A tarnished golden shield gives an air of authority to the wearer.",
     "material": [ "gold" ],
+    "price_postapoc": 2000,
     "proportional": { "weight": 2 }
   },
   {
@@ -889,6 +891,7 @@
     "name": "doctor badge",
     "material": [ "plastic" ],
     "weight": 10,
+    "price_postapoc": 30,
     "description": "A plastic name tag marking the wearer as a real doctor of the medical kind."
   },
   {
@@ -897,6 +900,7 @@
     "type": "ARMOR",
     "name": "Foodkid badge",
     "material": [ "plastic" ],
+    "price_postapoc": 30,
     "weight": 10,
     "description": "A star shaped badge, on it you can read \"Foodkid\" in bold letters.  This is Foodperson's trusty sidekick's badge."
   },
@@ -2172,6 +2176,7 @@
     "weight": 10,
     "volume": 0,
     "price": 25000,
+    "price_postapoc": 200,
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
@@ -2422,6 +2427,7 @@
     "weight": 10,
     "volume": 0,
     "price": 50000,
+    "price_postapoc": 1500,
     "bashing": 3,
     "cutting": 3,
     "material": [ "gold" ],
@@ -2439,6 +2445,7 @@
     "weight": 12,
     "volume": 0,
     "price": 190000,
+    "price_postapoc": 1700,
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
@@ -7927,6 +7934,7 @@
     "weight": 10,
     "volume": 0,
     "price": 30000,
+    "price_postapoc": 500,
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
