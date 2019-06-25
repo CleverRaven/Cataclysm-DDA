@@ -201,7 +201,7 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[2].text == "This is an npc service test response." );
     CHECK( d.responses[3].text == "This is an npc available test response." );
 
-    change_om_type( "pond_swamp" );
+    change_om_type( "pond_swamp_north" );
     d.add_topic( "TALK_TEST_LOCATION" );
     d.gen_responses( d.topic_stack.back() );
     gen_response_lines( d, 1 );
