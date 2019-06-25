@@ -1028,9 +1028,9 @@ void player::complete_craft( item &craft, const tripoint &loc )
             first = false;
             // TODO: reconsider recipe memorization
             if( knows_recipe( &making ) ) {
-                add_msg( _( "You craft %s from memory." ), newit.type_name( 1 ) );
+                add_msg( _( "You craft %s from memory." ), making.result_name() );
             } else {
-                add_msg( _( "You craft %s using a book as a reference." ), newit.type_name( 1 ) );
+                add_msg( _( "You craft %s using a book as a reference." ), making.result_name() );
                 // If we made it, but we don't know it,
                 // we're making it from a book and have a chance to learn it.
                 // Base expected time to learn is 1000*(difficulty^4)/skill/int moves.
@@ -1045,7 +1045,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
                             ( std::max( get_skill_level( making.skill_used ), 1 ) * std::max( get_int(), 1 ) ) ) ) {
                     learn_recipe( &making );
                     add_msg( m_good, _( "You memorized the recipe for %s!" ),
-                             newit.type_name( 1 ) );
+                             making.result_name() );
                 }
             }
 
