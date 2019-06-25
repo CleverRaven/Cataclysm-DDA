@@ -1100,8 +1100,9 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 ### Flags
 
 - ```ALLOW_ROTTEN``` Explicitly allow rotten components when crafting non-perishables.
-- ```BLIND_EASY``` Easy to craft with little to no light
-- ```BLIND_HARD``` Possible to craft with little to no light, but difficult
+- ```BLIND_EASY``` Easy to craft with little to no light.
+- ```BLIND_HARD``` Possible to craft with little to no light, but difficult.
+- ```SECRET``` Not automatically learned at character creation time based on high skill levels.
 - ```UNCRAFT_LIQUIDS_CONTAINED``` Spawn liquid items in its default container.
 - ```UNCRAFT_SINGLE_CHARGE``` Lists returned amounts for one charge of an item that is counted by charges.
 - ```FULL_MAGAZINE``` If this recipe requires magazines, it needs one that is full.  For deconstruction recipes, it will spawn a full magazine when deconstructed.

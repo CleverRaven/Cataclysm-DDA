@@ -659,8 +659,12 @@ int construction_menu( bool blueprint )
             }
             if( !blueprint ) {
                 if( player_can_build( g->u, total_inv, constructs[select] ) ) {
-                    place_construction( constructs[select] );
-                    uistate.last_construction = constructs[select];
+                    if( g->u.fine_detail_vision_mod() > 4 && !g->u.has_trait( trait_DEBUG_HS ) ) {
+                        add_msg( m_info, _( "It is too dark to construct right now." ) );
+                    } else {
+                        place_construction( constructs[select] );
+                        uistate.last_construction = constructs[select];
+                    }
                     exit = true;
                 } else {
                     popup( _( "You can't build that!" ) );

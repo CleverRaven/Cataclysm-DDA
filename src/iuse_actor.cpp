@@ -191,7 +191,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         p.add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
         return 0;
     }
-    if( need_charges && it.ammo_remaining() < need_charges ) {
+    if( need_charges && it.units_remaining( p ) < need_charges ) {
         if( possess ) {
             p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
         }
@@ -424,8 +424,8 @@ void explosion_iuse::load( JsonObject &obj )
     if( obj.has_member( "fields_type" ) || fields_radius > 0 ) {
         fields_type = field_from_ident( obj.get_string( "fields_type" ) );
     }
-    obj.read( "fields_min_density", fields_min_density );
-    obj.read( "fields_max_density", fields_max_density );
+    obj.read( "fields_min_intensity", fields_min_intensity );
+    obj.read( "fields_max_intensity", fields_max_intensity );
     obj.read( "emp_blast_radius", emp_blast_radius );
     obj.read( "scrambler_blast_radius", scrambler_blast_radius );
     obj.read( "sound_volume", sound_volume );
@@ -467,8 +467,8 @@ int explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) cons
     if( fields_radius >= 0 && fields_type != fd_null ) {
         std::vector<tripoint> gas_sources = points_for_gas_cloud( pos, fields_radius );
         for( auto &gas_source : gas_sources ) {
-            const int dens = rng( fields_min_density, fields_max_density );
-            g->m.add_field( gas_source, fields_type, dens, 1_turns );
+            const int intens = rng( fields_min_intensity, fields_max_intensity );
+            g->m.add_field( gas_source, fields_type, intens, 1_turns );
         }
     }
     if( scrambler_blast_radius >= 0 ) {
@@ -1082,7 +1082,7 @@ void reveal_map_actor::load( JsonObject &obj )
 void reveal_map_actor::reveal_targets( const tripoint &center, const std::string &target,
                                        int reveal_distance ) const
 {
-    const auto places = overmap_buffer.find_all( center, target, radius, false );
+    const auto places = overmap_buffer.find_all( center, target, radius, false, true );
     for( auto &place : places ) {
         overmap_buffer.reveal( place, reveal_distance );
     }
@@ -1718,7 +1718,7 @@ ret_val<bool> cauterize_actor::can_use( const player &p, const item &it, bool,
                        _( "You need a source of flame (4 charges worth) before you can cauterize yourself." ) );
         }
     } else {
-        if( !it.ammo_sufficient() ) {
+        if( !it.units_sufficient( p ) ) {
             return ret_val<bool>::make_failure( _( "You need at least %d charges to cauterize wounds." ),
                                                 it.ammo_required() );
         }
@@ -2740,7 +2740,7 @@ bool repair_item_actor::can_use_tool( const player &p, const item &tool, bool pr
         }
         return false;
     }
-    if( !tool.ammo_sufficient() ) {
+    if( !tool.units_sufficient( p ) ) {
         if( print_msg ) {
             p.add_msg_if_player( m_info, _( "Your tool does not have enough charges to do that." ) );
         }
@@ -3761,7 +3761,6 @@ static void place_and_add_as_known( player &p, const tripoint &pos, const trap_s
 
 int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    const bool is_3x3_trap = !outer_layer_trap.is_null();
     const bool could_bury = !bury_question.empty();
     if( !allow_underwater && p.is_underwater() ) {
         p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
@@ -3777,13 +3776,19 @@ int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( !is_allowed( p, pos, it.tname() ) ) {
         return 0;
     }
-    if( is_3x3_trap ) {
-        pos.x = ( pos.x - p.posx() ) * 2 + p.posx(); //math correction for blade trap
-        pos.y = ( pos.y - p.posy() ) * 2 + p.posy();
-        for( const tripoint &t : g->m.points_in_radius( pos, 1, 0 ) ) {
+
+    int distance_to_trap_center = unburied_data.trap.obj().get_trap_radius() +
+                                  outer_layer_trap.obj().get_trap_radius() + 1;
+    if( unburied_data.trap.obj().get_trap_radius() > 0 ) {
+        // Math correction for multi-tile traps
+        pos.x = ( pos.x - p.posx() ) * distance_to_trap_center + p.posx();
+        pos.y = ( pos.y - p.posy() ) * distance_to_trap_center + p.posy();
+        for( const tripoint &t : g->m.points_in_radius( pos, outer_layer_trap.obj().get_trap_radius(),
+                0 ) ) {
             if( !is_allowed( p, t, it.tname() ) ) {
                 p.add_msg_if_player( m_info,
-                                     _( "That trap needs a 3x3 space to be clear, centered two tiles from you." ) );
+                                     _( "That trap needs a space in %d tiles radius to be clear, centered %d tiles from you." ),
+                                     outer_layer_trap.obj().get_trap_radius(), distance_to_trap_center );
                 return 0;
             }
         }
@@ -3797,16 +3802,14 @@ int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
     const auto &data = bury ? buried_data : unburied_data;
 
-    p.add_msg_if_player( m_info, _( data.done_message ), g->m.name( pos ) );
+    p.add_msg_if_player( m_info, _( data.done_message ), distance_to_trap_center );
     p.practice( skill_id( "traps" ), data.practice );
     p.mod_moves( -data.moves );
 
     place_and_add_as_known( p, pos, data.trap );
-    if( is_3x3_trap ) {
-        for( const tripoint &t : g->m.points_in_radius( pos, 1, 0 ) ) {
-            if( t != pos ) {
-                place_and_add_as_known( p, t, outer_layer_trap );
-            }
+    for( const tripoint &t : g->m.points_in_radius( pos, data.trap.obj().get_trap_radius(), 0 ) ) {
+        if( t != pos ) {
+            place_and_add_as_known( p, t, outer_layer_trap );
         }
     }
     return 1;

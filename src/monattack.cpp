@@ -853,7 +853,7 @@ bool mattack::resurrect( monster *z )
     bool found_eligible_corpse = false;
     int lowest_raise_score = INT_MAX;
     for( const tripoint &p : g->m.points_in_radius( z->pos(), range ) ) {
-        if( !g->is_empty( p ) || g->m.get_field_strength( p, fd_fire ) > 1 ||
+        if( !g->is_empty( p ) || g->m.get_field_intensity( p, fd_fire ) > 1 ||
             !g->m.sees( z->pos(), p, -1 ) ) {
             continue;
         }
@@ -1099,7 +1099,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
     constexpr int att_rad_dose_max      = 50; // max radiation
 
     // acid attack behavior
-    constexpr int att_acid_density = 3;
+    constexpr int att_acid_intensity = 3;
 
     // flavor messages
     static const std::array<const char *, 4> m_flavor = {{
@@ -1245,7 +1245,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
             // fill empty tiles with acid
             for( size_t i = 0; i < empty_neighbor_count; ++i ) {
                 const tripoint &p = empty_neighbors.first[i];
-                g->m.add_field( p, fd_acid, att_acid_density );
+                g->m.add_field( p, fd_acid, att_acid_intensity );
             }
 
             break;
@@ -1641,7 +1641,7 @@ bool mattack::fungus_big_blossom( monster *z )
     const auto u_see = g->u.sees( *z );
     // Fungal fire-suppressor! >:D
     for( const tripoint &dest : g->m.points_in_radius( z->pos(), 6 ) ) {
-        if( g->m.get_field_strength( dest, fd_fire ) != 0 ) {
+        if( g->m.get_field_intensity( dest, fd_fire ) != 0 ) {
             firealarm = true;
         }
         if( firealarm ) {

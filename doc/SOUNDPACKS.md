@@ -43,6 +43,10 @@ Sound effects can be included with a format like this:
 ```
 Adding variety: If for a certain `id`'s `variant` multiple `files` are defined, they will be chosen at random when `variant` is played.
 
+The volume key may range from 0-100.
+
+Cataclysm has its own set of user-controllable volumes that will additionally affect the sound.  These range from 0-128, and the default is 100.  This means that at default volume, any sound that Cataclysm plays will default to playing at about 78% of the maximum; if you are working on sounds in an external audio editor, expect Cataclysm at default volume settings to play that sound file back more-quietly than your editor does.
+
 ### Preloading SFX
 
 Sound effects can be included for preloading with a format like this:
@@ -75,7 +79,7 @@ A playlist can be included with a format like this:
                 "files" : [
                     {
                         "file": "Dark_Days_Ahead_demo_2.wav",
-                        "volume": 128
+                        "volume": 100
                     },
                     {
                         "file": "cataclysmthemeREV6.wav",

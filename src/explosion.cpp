@@ -251,18 +251,18 @@ static void do_blast( const tripoint &p, const float power,
         g->m.smash_items( pt, force );
 
         if( fire ) {
-            int density = ( force > 50.0f ) + ( force > 100.0f );
+            int intensity = ( force > 50.0f ) + ( force > 100.0f );
             if( force > 10.0f || x_in_y( force, 10.0f ) ) {
-                density++;
+                intensity++;
             }
 
-            if( !g->m.has_zlevels() && g->m.is_outside( pt ) && density == 2 ) {
+            if( !g->m.has_zlevels() && g->m.is_outside( pt ) && intensity == 2 ) {
                 // In 3D mode, it would have fire fields above, which would then fall
                 // and fuel the fire on this tile
-                density++;
+                intensity++;
             }
 
-            g->m.add_field( pt, fd_fire, density );
+            g->m.add_field( pt, fd_fire, intensity );
         }
 
         if( const optional_vpart_position vp = g->m.veh_at( pt ) ) {

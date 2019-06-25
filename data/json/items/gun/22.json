@@ -77,7 +77,7 @@
   },
   {
     "id": "moss_brownie",
-    "copy-from": "pistol_backup",
+    "copy-from": "pistol_base",
     "type": "GUN",
     "name": "Mossberg Brownie",
     "name_plural": "Mossberg Brownie",
@@ -94,6 +94,17 @@
     "dispersion": 520,
     "durability": 6,
     "clip_size": 4,
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -120,7 +131,16 @@
     "clip_size": 1,
     "reload": 200,
     "barrel_length": 2,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "muzzle", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "flags": [ "RELOAD_EJECT" ]
   },
   {

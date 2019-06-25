@@ -403,7 +403,7 @@ void character_edit_menu()
 
     enum {
         D_NAME, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
-        D_HP, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
+        D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION
     };
     nmenu.addentry( D_NAME, true, 'N', "%s", _( "Edit [N]ame" ) );
@@ -414,6 +414,7 @@ void character_edit_menu()
     nmenu.addentry( D_ITEM_WORN, true, 'w', "%s",
                     _( "[w]ear/[w]ield an item from player's inventory" ) );
     nmenu.addentry( D_HP, true, 'h', "%s", _( "Set [h]it points" ) );
+    nmenu.addentry( D_STAMINA, true, 'S', "%s", _( "Set [S]tamina" ) );
     nmenu.addentry( D_MORALE, true, 'o', "%s", _( "Set m[o]rale" ) );
     nmenu.addentry( D_PAIN, true, 'p', "%s", _( "Cause [p]ain" ) );
     nmenu.addentry( D_HEALTHY, true, 'a', "%s", _( "Set he[a]lth" ) );
@@ -534,6 +535,17 @@ void character_edit_menu()
             }
         }
         break;
+        case D_STAMINA:
+            int value;
+            if( query_int( value, _( "Set stamina to? Current: %d. Max: %d." ), p.stamina,
+                           p.get_stamina_max() ) ) {
+                if( value > 0 && value <= p.get_stamina_max() ) {
+                    p.stamina = value;
+                } else {
+                    add_msg( m_bad, _( "Target stamina value out of bounds!" ) );
+                }
+            }
+            break;
         case D_MORALE: {
             int current_morale_level = p.get_morale_level();
             int value;

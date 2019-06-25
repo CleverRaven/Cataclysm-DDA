@@ -1,7 +1,6 @@
 #include "trap.h"
 
 #include <vector>
-#include <set>
 
 #include "debug.h"
 #include "generic_factory.h"
@@ -110,14 +109,48 @@ void trap::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "visibility", visibility );
     mandatory( jo, was_loaded, "avoidance", avoidance );
     mandatory( jo, was_loaded, "difficulty", difficulty );
+    optional( jo, was_loaded, "trap_radius", trap_radius, 0 );
     // TODO: Is there a generic_factory version of this?
     act = trap_function_from_string( jo.get_string( "action" ) );
 
     optional( jo, was_loaded, "benign", benign, false );
     optional( jo, was_loaded, "always_invisible", always_invisible, false );
     optional( jo, was_loaded, "funnel_radius", funnel_radius_mm, 0 );
+    optional( jo, was_loaded, "comfort", comfort, 0 );
+    optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
     assign( jo, "trigger_weight", trigger_weight );
-    optional( jo, was_loaded, "drops", components );
+    JsonArray ja = jo.get_array( "drops" );
+    while( ja.has_more() ) {
+        std::string item_type;
+        int quantity = 0;
+        int charges = 0;
+        if( ja.test_object() ) {
+            JsonObject jc = ja.next_object();
+            item_type = jc.get_string( "item" );
+            quantity = jc.get_int( "quantity", 1 );
+            charges = jc.get_int( "charges", 1 );
+        } else {
+            item_type = ja.next_string();
+            quantity = 1;
+            charges = 1;
+        }
+        if( !item_type.empty() && quantity > 0 && charges > 0 ) {
+            components.emplace_back( std::make_tuple( item_type, quantity, charges ) );
+        }
+    }
+    if( jo.has_object( "vehicle_data" ) ) {
+        JsonObject jv = jo.get_object( "vehicle_data" );
+        vehicle_data.remove_trap = jv.get_bool( "remove_trap", false );
+        vehicle_data.do_explosion = jv.get_bool( "do_explosion", false );
+        vehicle_data.is_falling = jv.get_bool( "is_falling", false );
+        vehicle_data.chance = jv.get_int( "chance", 100 );
+        vehicle_data.damage = jv.get_int( "damage", 0 );
+        vehicle_data.shrapnel = jv.get_int( "shrapnel", 0 );
+        vehicle_data.sound_volume = jv.get_int( "sound_volume", 0 );
+        vehicle_data.sound = jv.get_string( "sound", "" );
+        vehicle_data.sound_type = jv.get_string( "sound_type", "" );
+        vehicle_data.sound_variant = jv.get_string( "sound_variant", "" );
+    }
 }
 
 std::string trap::name() const
@@ -170,9 +203,11 @@ bool trap::can_see( const tripoint &pos, const player &p ) const
     return visibility < 0 || p.knows_trap( pos );
 }
 
-void trap::trigger( const tripoint &pos, Creature *creature ) const
+void trap::trigger( const tripoint &pos, Creature *creature, item *item ) const
 {
-    act( creature, pos );
+    if( ( creature != nullptr && !creature->is_hallucination() ) || item != nullptr ) {
+        act( pos, creature, item );
+    }
 }
 
 bool trap::is_null() const
@@ -190,27 +225,16 @@ bool trap::is_funnel() const
     return !is_null() && funnel_radius_mm > 0;
 }
 
-bool trap::is_3x3_trap() const
-{
-    // TODO: make this a json flag, implement more 3x3 traps.
-    return id == trap_str_id( "tr_engine" );
-}
-
 void trap::on_disarmed( map &m, const tripoint &p ) const
 {
     for( auto &i : components ) {
-        m.spawn_item( p.x, p.y, i, 1, 1 );
+        const std::string item_type = std::get<0>( i );
+        const int quantity = std::get<1>( i );
+        const int charges = std::get<2>( i );
+        m.spawn_item( p.x, p.y, item_type, quantity, charges );
     }
-    // TODO: make this a flag, or include it into the components.
-    if( id == trap_str_id( "tr_shotgun_1" ) || id == trap_str_id( "tr_shotgun_2" ) ) {
-        m.spawn_item( p.x, p.y, "shot_00", 1, 2 );
-    }
-    if( is_3x3_trap() ) {
-        for( const tripoint &dest : m.points_in_radius( p, 1 ) ) {
-            m.remove_trap( dest );
-        }
-    } else {
-        m.remove_trap( p );
+    for( const tripoint &dest : m.points_in_radius( p, trap_radius ) ) {
+        m.remove_trap( dest );
     }
 }
 
@@ -263,8 +287,9 @@ void trap::check_consistency()
 {
     for( const auto &t : trap_factory.get_all() ) {
         for( auto &i : t.components ) {
-            if( !item::type_is_defined( i ) ) {
-                debugmsg( "trap %s has unknown item as component %s", t.id.c_str(), i.c_str() );
+            std::string item_type = std::get<0>( i );
+            if( !item::type_is_defined( item_type ) ) {
+                debugmsg( "trap %s has unknown item as component %s", t.id.c_str(), item_type.c_str() );
             }
         }
     }

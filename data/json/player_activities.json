@@ -449,6 +449,15 @@
     "no_resume": true
   },
   {
+    "id": "ACT_WAIT_STAMINA",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "catching breath",
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
     "id": "ACT_CLEAR_RUBBLE",
     "type": "activity_type",
     "activity_level": "EXTRA_EXERCISE",

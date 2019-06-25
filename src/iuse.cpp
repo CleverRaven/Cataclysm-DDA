@@ -2036,7 +2036,7 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
     p->moves -= to_moves<int>( 2_seconds );
 
     // Reduce the strength of fire (if any) in the target tile.
-    g->m.adjust_field_strength( dest, fd_fire, 0 - rng( 2, 3 ) );
+    g->m.adjust_field_intensity( dest, fd_fire, 0 - rng( 2, 3 ) );
 
     // Also spray monsters in that tile.
     if( monster *const mon_ptr = g->critter_at<monster>( dest, true ) ) {
@@ -2067,7 +2067,7 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
         dest.x += ( dest.x - p->posx() );
         dest.y += ( dest.y - p->posy() );
 
-        g->m.adjust_field_strength( dest, fd_fire, std::min( 0 - rng( 0, 1 ) + rng( 0, 1 ), 0 ) );
+        g->m.adjust_field_intensity( dest, fd_fire, std::min( 0 - rng( 0, 1 ) + rng( 0, 1 ), 0 ) );
     }
 
     return it->type->charges_to_use();
@@ -2198,7 +2198,7 @@ int iuse::water_purifier( player *p, item *it, bool, const tripoint & )
 
 int iuse::radio_off( player *p, item *it, bool, const tripoint & )
 {
-    if( !it->ammo_sufficient() ) {
+    if( !it->units_sufficient( *p ) ) {
         p->add_msg_if_player( _( "It's dead." ) );
     } else {
         p->add_msg_if_player( _( "You turn the radio on." ) );
@@ -2321,7 +2321,7 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
 
 int iuse::noise_emitter_off( player *p, item *it, bool, const tripoint & )
 {
-    if( !it->ammo_sufficient() ) {
+    if( !it->units_sufficient( *p ) ) {
         p->add_msg_if_player( _( "It's dead." ) );
     } else {
         p->add_msg_if_player( _( "You turn the noise emitter on." ) );
@@ -3222,12 +3222,11 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-    int turns = 100;
+    int turns = to_moves<int>( 30_minutes );
     if( g->m.move_cost( pnt ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier
         turns /= 2;
     }
-    turns *= MINUTES( 30 );
 
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
@@ -3276,11 +3275,11 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
     }
 
     int moves = to_moves<int>( 20_minutes );
+    moves += ( ( MAX_STAT + 4 ) - std::min( p->str_cur, MAX_STAT ) ) * to_moves<int>( 5_minutes );
     if( g->m.move_cost( pnt ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier
         moves /= 2;
     }
-    moves *= ( ( MAX_STAT + 4 ) - std::min( p->str_cur, MAX_STAT ) ) * to_seconds<int>( 5_minutes );
 
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
@@ -3328,11 +3327,11 @@ int iuse::burrow( player *p, item *it, bool, const tripoint &pos )
     }
 
     int moves = to_moves<int>( 5_minutes );
+    moves += ( ( MAX_STAT + 3 ) - std::min( p->str_cur, MAX_STAT ) ) * to_moves<int>( 2_minutes );
     if( g->m.move_cost( pnt ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier
         moves /= 2;
     }
-    moves *= ( ( MAX_STAT + 3 ) - std::min( p->str_cur, MAX_STAT ) ) * to_seconds<int>( 2_minutes );
     p->assign_activity( activity_id( "ACT_BURROW" ), moves, -1, 0 );
     p->activity.placement = pnt;
     p->add_msg_if_player( _( "You start tearing into the %1$s with your %2$s." ),
@@ -3478,11 +3477,11 @@ int iuse::throwable_extinguisher_act( player *, item *it, bool, const tripoint &
     }
     if( g->m.get_field( pos, fd_fire ) != nullptr ) {
         // Reduce the strength of fire (if any) in the target tile.
-        g->m.adjust_field_strength( pos, fd_fire, 0 - 1 );
+        g->m.adjust_field_intensity( pos, fd_fire, 0 - 1 );
         // Slightly reduce the strength of fire around and in the target tile.
         for( const tripoint &dest : g->m.points_in_radius( pos, 1 ) ) {
             if( g->m.passable( dest ) && dest != pos ) {
-                g->m.adjust_field_strength( dest, fd_fire, 0 - rng( 0, 1 ) );
+                g->m.adjust_field_intensity( dest, fd_fire, 0 - rng( 0, 1 ) );
             }
         }
         return 1;
@@ -3732,8 +3731,8 @@ int iuse::molotov_lit( player *p, item *it, bool t, const tripoint &pos )
     } else {
         if( !t ) {
             for( auto &pt : g->m.points_in_radius( pos, 1, 0 ) ) {
-                const int density = 1 + one_in( 3 ) + one_in( 5 );
-                g->m.add_field( pt, fd_fire, density );
+                const int intensity = 1 + one_in( 3 ) + one_in( 5 );
+                g->m.add_field( pt, fd_fire, intensity );
             }
         }
     }
@@ -3891,7 +3890,7 @@ int iuse::portal( player *p, item *it, bool, const tripoint & )
 
 int iuse::tazer( player *p, item *it, bool, const tripoint &pos )
 {
-    if( !it->ammo_sufficient() ) {
+    if( !it->units_sufficient( *p ) ) {
         return 0;
     }
 
@@ -3984,7 +3983,7 @@ int iuse::shocktonfa_off( player *p, item *it, bool t, const tripoint &pos )
             return iuse::tazer2( p, it, t, pos );
         }
         case 1: {
-            if( !it->ammo_sufficient() ) {
+            if( !it->units_sufficient( *p ) ) {
                 p->add_msg_if_player( m_info, _( "The batteries are dead." ) );
                 return 0;
             } else {
@@ -4002,7 +4001,7 @@ int iuse::shocktonfa_on( player *p, item *it, bool t, const tripoint &pos )
     if( t ) { // Effects while simply on
 
     } else {
-        if( !it->ammo_sufficient() ) {
+        if( !it->units_sufficient( *p ) ) {
             p->add_msg_if_player( m_info, _( "Your tactical tonfa is out of power." ) );
             it->convert( "shocktonfa_off" ).active = false;
         } else {
@@ -4026,7 +4025,7 @@ int iuse::shocktonfa_on( player *p, item *it, bool t, const tripoint &pos )
 
 int iuse::mp3( player *p, item *it, bool, const tripoint & )
 {
-    if( !it->ammo_sufficient() ) {
+    if( !it->units_sufficient( *p ) ) {
         p->add_msg_if_player( m_info, _( "The device's batteries are dead." ) );
     } else if( p->has_active_item( "mp3_on" ) || p->has_active_item( "smartphone_music" ) ) {
         p->add_msg_if_player( m_info, _( "You are already listening to music!" ) );
@@ -4421,7 +4420,7 @@ int iuse::vibe( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "It's waterproof, but oxygen maybe?" ) );
         return 0;
     }
-    if( !it->ammo_sufficient() ) {
+    if( !it->units_sufficient( *p ) ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return 0;
     }
@@ -5352,7 +5351,7 @@ int iuse::heat_food( player *p, item *it, bool, const tripoint & )
 
 int iuse::hotplate( player *p, item *it, bool, const tripoint & )
 {
-    if( it->typeId() != "atomic_coffeepot" && ( !it->ammo_sufficient() ) ) {
+    if( it->typeId() != "atomic_coffeepot" && ( !it->units_sufficient( *p ) ) ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return 0;
     }
@@ -5562,7 +5561,7 @@ int iuse::radglove( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info,
                               _( "You must wear the radiation biomonitor before you can activate it." ) );
         return 0;
-    } else if( !it->ammo_sufficient() ) {
+    } else if( !it->units_sufficient( *p ) ) {
         p->add_msg_if_player( m_info, _( "The radiation biomonitor needs batteries to function." ) );
         return 0;
     } else {
@@ -5616,7 +5615,7 @@ int iuse::contacts( player *p, item *it, bool, const tripoint & )
 
 int iuse::talking_doll( player *p, item *it, bool, const tripoint & )
 {
-    if( !it->ammo_sufficient() ) {
+    if( !it->units_sufficient( *p ) ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return 0;
     }
@@ -5883,7 +5882,7 @@ bool iuse::robotcontrol_can_target( player *p, const monster &m )
 
 int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
 {
-    if( !it->ammo_sufficient() ) {
+    if( !it->units_sufficient( *p ) ) {
         p->add_msg_if_player( _( "The %s's batteries are dead." ), it->tname() );
         return 0;
 
@@ -6598,7 +6597,7 @@ static std::string colorized_field_description_at( const tripoint &point )
 
     std::string field_text;
     const field &field = g->m.field_at( point );
-    const field_entry *entry = field.find_field( field.field_symbol() );
+    const field_entry *entry = field.find_field( field.displayed_field_type() );
     if( entry ) {
         std::string affix;
         for( const auto &pair : affixes_vec ) {
@@ -7860,7 +7859,7 @@ static void sendRadioSignal( player &p, const std::string &signal )
 int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
 {
     if( t ) {
-        if( !it->ammo_sufficient() ) {
+        if( !it->units_sufficient( *p ) ) {
             it->active = false;
             p->remove_value( "remote_controlling" );
         } else if( p->get_value( "remote_controlling" ).empty() ) {
@@ -8039,7 +8038,7 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
     vehicle *remote = g->remoteveh();
     if( t ) {
         bool stop = false;
-        if( !it->ammo_sufficient() ) {
+        if( !it->units_sufficient( *p ) ) {
             p->add_msg_if_player( m_bad, _( "The remote control's battery goes dead." ) );
             stop = true;
         } else if( remote == nullptr ) {
@@ -8174,7 +8173,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
     static const int charges_to_start = 50;
 
     if( t ) {
-        if( !it->ammo_sufficient() ) {
+        if( !it->units_sufficient( *p ) ) {
             it->active = false;
             return 0;
         }

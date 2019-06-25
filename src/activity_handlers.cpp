@@ -155,7 +155,8 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_do_turn },
     { activity_id( "ACT_TREE_COMMUNION" ), tree_communion_do_turn },
     { activity_id( "ACT_STUDY_SPELL" ), study_spell_do_turn},
-    { activity_id( "ACT_READ" ), read_do_turn}
+    { activity_id( "ACT_READ" ), read_do_turn},
+    { activity_id( "ACT_WAIT_STAMINA" ), wait_stamina_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -193,6 +194,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_WAIT" ), wait_finish },
     { activity_id( "ACT_WAIT_WEATHER" ), wait_weather_finish },
     { activity_id( "ACT_WAIT_NPC" ), wait_npc_finish },
+    { activity_id( "ACT_WAIT_STAMINA" ), wait_stamina_finish },
     { activity_id( "ACT_SOCIALIZE" ), socialize_finish },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_finish },
     { activity_id( "ACT_DISASSEMBLE" ), disassemble_finish },
@@ -414,6 +416,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
             if( !has_rope && !b_rack_present ) {
                 u.add_msg_if_player( m_info,
                                      _( "To perform a full butchery on a corpse this big, you need either a butchering rack, a nearby hanging meathook, or both a long rope in your inventory and a nearby tree to hang the corpse from." ) );
+                act.targets.pop_back();
                 return;
             }
             if( !has_table_nearby ) {
@@ -516,26 +519,26 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     switch( corpse.size ) {
         // Time (roughly) in turns to cut up the corpse
         case MS_TINY:
-            time_to_cut = 25;
+            time_to_cut = 150;
             break;
         case MS_SMALL:
-            time_to_cut = 50;
+            time_to_cut = 300;
             break;
         case MS_MEDIUM:
-            time_to_cut = 75;
+            time_to_cut = 450;
             break;
         case MS_LARGE:
-            time_to_cut = 100;
+            time_to_cut = 600;
             break;
         case MS_HUGE:
-            time_to_cut = 300;
+            time_to_cut = 1800;
             break;
     }
 
     // At factor 0, 10 time_to_cut is 10 turns. At factor 50, it's 5 turns, at 75 it's 2.5
     time_to_cut *= std::max( 25, 100 - factor );
-    if( time_to_cut < 500 ) {
-        time_to_cut = 500;
+    if( time_to_cut < 3000 ) {
+        time_to_cut = 3000;
     }
 
     switch( action ) {
@@ -554,14 +557,14 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
             break;
         case QUARTER:
             time_to_cut /= 4;
-            if( time_to_cut < 200 ) {
-                time_to_cut = 200;
+            if( time_to_cut < 1200 ) {
+                time_to_cut = 1200;
             }
             break;
         case DISMEMBER:
             time_to_cut /= 10;
-            if( time_to_cut < 100 ) {
-                time_to_cut = 100;
+            if( time_to_cut < 600 ) {
+                time_to_cut = 600;
             }
             break;
         case DISSECT:
@@ -1385,9 +1388,12 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                         add_msg( _( "With a clang and a shudder, the %s pump goes silent." ),
                                  liquid.type_name( 1 ) );
                     } else if( g->m.furn( source_pos ).obj().examine == &iexamine::fvat_full ) {
-                        g->m.furn_set( source_pos, f_fvat_empty );
                         add_msg( _( "You squeeze the last drops of %s from the vat." ),
                                  liquid.type_name( 1 ) );
+                        map_stack items_here = g->m.i_at( source_pos );
+                        if( items_here.empty() ) {
+                            g->m.furn_set( source_pos, f_fvat_empty );
+                        }
                     }
                     act_ref.set_to_null();
                 }
@@ -2371,7 +2377,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             return;
         }
         if( actor->can_repair_target( *p, *item_loc, true ) ) {
-            act->targets.emplace_back( item_loc.clone() );
+            act->targets.emplace_back( item_loc );
             repeat = REPEAT_INIT;
         }
     }
@@ -2760,6 +2766,25 @@ void activity_handlers::wait_weather_finish( player_activity *act, player *p )
 void activity_handlers::wait_npc_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "%s finishes with you..." ), act->str_values[0] );
+    act->set_to_null();
+}
+
+void activity_handlers::wait_stamina_do_turn( player_activity *act, player *p )
+{
+    if( p->stamina == p->get_stamina_max() ) {
+        wait_stamina_finish( act, p );
+    }
+}
+
+void activity_handlers::wait_stamina_finish( player_activity *act, player *p )
+{
+    // in case it takes longer then expected
+    if( p->stamina != p->get_stamina_max() ) {
+        p->add_msg_if_player( _( "You are bored of waiting, so you stop." ) );
+        act->set_to_null();
+        return;
+    }
+    p->add_msg_if_player( _( "You finish waiting and feel refreshed." ) );
     act->set_to_null();
 }
 
@@ -3932,14 +3957,23 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
         }
         return;
     }
+
+    if( casting.has_flag( spell_flag::VERBAL ) ) {
+        sounds::sound( p->pos(), p->get_shout_volume() / 2, sounds::sound_t::speech, _( "cast a spell" ),
+                       false );
+    }
+
     p->add_msg_if_player( _( "You cast %s!" ), casting.name() );
 
     // figure out which function is the effect (maybe change this into how iuse or activity_handlers does it)
+    // TODO: refactor these so make_sound can be called inside each of these functions
     const std::string fx = casting.effect();
     if( fx == "pain_split" ) {
         spell_effect::pain_split();
+        casting.make_sound( p->pos() );
     } else if( fx == "move_earth" ) {
         spell_effect::move_earth( target );
+        casting.make_sound( target );
     } else if( fx == "target_attack" ) {
         spell_effect::target_attack( casting, p->pos(), target );
     } else if( fx == "projectile_attack" ) {
@@ -3950,10 +3984,13 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
         spell_effect::line_attack( casting, p->pos(), target );
     } else if( fx == "teleport_random" ) {
         spell_effect::teleport( casting.range(), casting.range() + casting.aoe() );
+        casting.make_sound( p->pos() );
     } else if( fx == "spawn_item" ) {
         spell_effect::spawn_ethereal_item( casting );
+        casting.make_sound( p->pos() );
     } else if( fx == "recover_energy" ) {
         spell_effect::recover_energy( casting, target );
+        casting.make_sound( target );
     } else if( fx == "summon" ) {
         spell_effect::spawn_summoned_monster( casting, p->pos(), target );
     } else {

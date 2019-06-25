@@ -571,5 +571,47 @@
     "type": "json_flag",
     "context": [ "SPELL" ],
     "description": "This makes the spell's summoned monster hostile 50% of the time.  Note that the spell needs to be a summon spell for this to do anything."
+  },
+  {
+    "id": "SILENT",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "The spell makes no sound at its point of impact."
+  },
+  {
+    "id": "LOUD",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "This spell is much louder at its point of impact."
+  },
+  {
+    "id": "VERBAL",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "The caster must speak in order to cast the spell.  More mouth encumbrannce increases failure percent, and the caster speaks when casting."
+  },
+  {
+    "id": "SOMATIC",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "The spell requires arm movement to cast.  Arm encumbrance affects failure percentage and casting time."
+  },
+  {
+    "id": "NO_HANDS",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "The spell does not require hands in order to cast it.  Encumbrance penalties on hands are nullified."
+  },
+  {
+    "id": "NO_LEGS",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "This spell does not require leg movement in order to be cast.  All encumbrance penalties for legs are nullified."
+  },
+  {
+    "id": "CONCENTRATE",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "This spell requires focus to cast.  The lower your focus, the higher failure rate to cast."
   }
 ]

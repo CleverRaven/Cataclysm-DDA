@@ -33,7 +33,7 @@
     "price": 5000,
     "symbol": "?",
     "color": "light_red",
-    "use_action": { "type": "learn_spell", "spells": [ "magic_missile", "phase_door" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "magic_missile", "phase_door", "create_atomic_light" ] }
   },
   {
     "id": "wizard_utility",
@@ -45,7 +45,7 @@
     "price": 35000,
     "symbol": "?",
     "color": "red",
-    "use_action": { "type": "learn_spell", "spells": [ "phase_door", "burning_hands", "pain_split" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "phase_door", "create_lighter", "pain_split", "protection_aura" ] }
   },
   {
     "id": "pyro",
@@ -81,7 +81,7 @@
     "price": 5000,
     "symbol": "?",
     "color": "light_green",
-    "use_action": { "type": "learn_spell", "spells": [ "light_healing" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "light_healing", "blinding_flash", "bless" ] }
   },
   {
     "id": "priest_advanced",
@@ -93,7 +93,7 @@
     "price": 30000,
     "symbol": "?",
     "color": "green",
-    "use_action": { "type": "learn_spell", "spells": [ "smite" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "smite", "holy_blade", "spirit_armor" ] }
   },
   {
     "id": "winter_grasp",
@@ -117,7 +117,7 @@
     "price": 5000,
     "symbol": "?",
     "color": "light_grey",
-    "use_action": { "type": "learn_spell", "spells": [ "jolt", "windstrike" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "jolt", "windstrike", "windrun", "storm_hammer" ] }
   },
   {
     "id": "generic_spellbook",
@@ -128,7 +128,7 @@
     "volume": 2,
     "symbol": "?",
     "color": "magenta",
-    "use_action": { "type": "learn_spell", "spells": [ "seismic_stomp" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "seismic_stomp", "create_atomic_lamp", "ethereal_grasp" ] }
   },
   {
     "id": "biomancer_spellbook",

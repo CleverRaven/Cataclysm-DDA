@@ -1,0 +1,15 @@
+[
+  {
+    "type": "recipe",
+    "result": "egg_owlbear",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "time": "2 m",
+    "autolearn": true,
+    "result_mult": 40,
+    "byproducts": [ [ "stone_shell", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "egg_owlbear_rock", 1 ] ] ]
+  }
+]

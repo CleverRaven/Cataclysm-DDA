@@ -1163,7 +1163,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                            "Time: 1 Min / Plot \n"
                            "Positions: 0/1 \n" );
                 mission_key.add_start( dir + miss_info.miss_id, dir + miss_info.desc, dir, entry,
-                                       plots > 0 && g->weather.get_temperature( omt_trg ) > 50 );
+                                       plots > 0 && warm_enough_to_plant( omt_trg ) );
             } else {
                 entry = miss_info.action;
                 bool avail = update_time_left( entry, npc_list );

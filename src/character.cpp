@@ -145,6 +145,7 @@ Character::Character() :
     healthy_calories = 55000;
     stored_calories = healthy_calories;
     initialize_stomach_contents();
+    healed_total = { { 0, 0, 0, 0, 0, 0 } };
 
     name.clear();
 
@@ -3119,6 +3120,7 @@ mutation_value_map = {
     { "hp_modifier", calc_mutation_value<&mutation_branch::hp_modifier> },
     { "hp_modifier_secondary", calc_mutation_value<&mutation_branch::hp_modifier_secondary> },
     { "hp_adjustment", calc_mutation_value<&mutation_branch::hp_adjustment> },
+    { "temperature_speed_modifier", calc_mutation_value<&mutation_branch::temperature_speed_modifier> },
     { "metabolism_modifier", calc_mutation_value<&mutation_branch::metabolism_modifier> },
     { "thirst_modifier", calc_mutation_value<&mutation_branch::thirst_modifier> },
     { "fatigue_regen_modifier", calc_mutation_value<&mutation_branch::fatigue_regen_modifier> },
@@ -3626,4 +3628,9 @@ tripoint Character::adjacent_tile() const
     }
 
     return random_entry( ret, pos() ); // player position if no valid adjacent tiles
+}
+
+void Character::healed_bp( int bp, int amount )
+{
+    healed_total[bp] += amount;
 }

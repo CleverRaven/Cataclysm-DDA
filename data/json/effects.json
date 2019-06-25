@@ -481,7 +481,7 @@
     "max_intensity": 20,
     "resist_traits": [ "POISRESIST" ],
     "int_add_val": 1,
-    "int_decay_tick": 100,
+    "int_decay_tick": 600,
     "base_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -5, -3 ] },
     "scaling_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -5, -3 ] },
     "show_in_info": true
@@ -595,7 +595,7 @@
     "type": "effect_type",
     "id": "took_xanax",
     "dur_add_perc": 22,
-    "base_mods": { "stim_tick": [ 25 ], "stim_min": [ -1 ], "stim_min_val": [ -1 ] }
+    "base_mods": { "stim_tick": [ 150 ], "stim_min": [ -1 ], "stim_min_val": [ -1 ] }
   },
   {
     "type": "effect_type",
@@ -636,25 +636,25 @@
     "type": "effect_type",
     "id": "pkill1",
     "max_duration": 240,
-    "base_mods": { "pkill_tick": [ 7 ], "pkill_min": [ 1 ], "pkill_max_val": [ 15 ] }
+    "base_mods": { "pkill_tick": [ 42 ], "pkill_min": [ 1 ], "pkill_max_val": [ 15 ] }
   },
   {
     "type": "effect_type",
     "id": "pkill2",
     "pkill_addict_reduces": true,
-    "base_mods": { "pkill_tick": [ 7 ], "pkill_min": [ 2 ] }
+    "base_mods": { "pkill_tick": [ 42 ], "pkill_min": [ 2 ] }
   },
   {
     "type": "effect_type",
     "id": "pkill3",
     "pkill_addict_reduces": true,
-    "base_mods": { "pkill_tick": [ 2 ], "pkill_min": [ 1 ] }
+    "base_mods": { "pkill_tick": [ 12 ], "pkill_min": [ 1 ] }
   },
   {
     "type": "effect_type",
     "id": "pkill_l",
     "pkill_addict_reduces": true,
-    "base_mods": { "pkill_max_val": [ 40 ], "pkill_tick": [ 20 ], "pkill_min": [ 1 ] }
+    "base_mods": { "pkill_max_val": [ 40 ], "pkill_tick": [ 120 ], "pkill_min": [ 1 ] }
   },
   {
     "type": "effect_type",
@@ -777,7 +777,7 @@
     "speed_name": "Spore covered",
     "desc": [ "You can feel the tiny spores sinking directly into your flesh." ],
     "max_intensity": 3,
-    "int_decay_tick": 120,
+    "int_decay_tick": 720,
     "int_add_val": 1,
     "main_parts_only": true,
     "base_mods": { "speed_mod": [ -7 ] },
@@ -874,7 +874,7 @@
       "dex_mod": [ -0.5 ],
       "hurt_min": [ 1 ],
       "hurt_chance": [ 200 ],
-      "pkill_tick": [ 10 ],
+      "pkill_tick": [ 60 ],
       "pkill_min": [ 1 ],
       "pkill_max_val": [ 30 ],
       "stamina_chance": [ 2 ],
@@ -891,7 +891,7 @@
     "part_descs": true,
     "base_mods": {
       "speed_mod": [ -2 ],
-      "thirst_tick": [ 400 ],
+      "thirst_tick": [ 2400 ],
       "thirst_chance": [ 2 ],
       "pain_min": [ 1 ],
       "pain_chance": [ 2 ],
@@ -903,7 +903,7 @@
     "scaling_mods": {
       "speed_mod": [ -4 ],
       "thirst_min": [ 1 ],
-      "thirst_tick": [ -100 ],
+      "thirst_tick": [ -600 ],
       "pain_max_val": [ 10 ],
       "hurt_chance": [ 200 ],
       "stamina_min": [ -1 ]
@@ -985,9 +985,9 @@
     "resist_effects": [ "took_flumed" ],
     "miss_messages": [ [ "You're too stuffed up to fight effectively.", 1 ] ],
     "base_mods": {
-      "thirst_tick": [ 300 ],
+      "thirst_tick": [ 1800 ],
       "thirst_min": [ 1 ],
-      "fatigue_tick": [ 50 ],
+      "fatigue_tick": [ 300 ],
       "fatigue_min": [ 1 ],
       "str_mod": [ -3, -1 ],
       "dex_mod": [ -1, 0 ],
@@ -1009,9 +1009,9 @@
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
     "base_mods": {
-      "thirst_tick": [ 300 ],
+      "thirst_tick": [ 1800 ],
       "thirst_min": [ 1 ],
-      "fatigue_tick": [ 50 ],
+      "fatigue_tick": [ 300 ],
       "fatigue_min": [ 1 ],
       "str_mod": [ -4, -2 ],
       "dex_mod": [ -2, 0 ],
@@ -1273,7 +1273,7 @@
     "type": "effect_type",
     "id": "valium",
     "removes_effects": [ "shakes" ],
-    "base_mods": { "stim_tick": [ 25 ], "stim_chance": [ 2 ], "stim_min": [ 1 ], "stim_min_val": [ -1 ] }
+    "base_mods": { "stim_tick": [ 150 ], "stim_chance": [ 2 ], "stim_min": [ 1 ], "stim_min_val": [ -1 ] }
   },
   {
     "type": "effect_type",
@@ -1308,7 +1308,7 @@
     "id": "bloodworms",
     "rating": "bad",
     "base_mods": {
-      "thirst_tick": [ 100 ],
+      "thirst_tick": [ 600 ],
       "thirst_min": [ 1 ],
       "h_mod_chance": [ 512 ],
       "h_mod_min": [ -10 ],
@@ -1551,7 +1551,7 @@
     "id": "milked",
     "name": [ "Milked" ],
     "desc": [ "The creature has been partially or fully milked." ],
-    "max_duration": 14400
+    "max_duration": 86400
   },
   {
     "type": "effect_type",
@@ -1685,8 +1685,8 @@
     "desc": [ "You are under the effects of a stomach soother." ],
     "int_add_val": 1,
     "max_intensity": 3,
-    "base_mods": { "vomit_tick": [ 10 ], "health_chance": [ 1500 ], "health_min": [ 1 ] },
-    "scaling_mods": { "health_min": [ -1.5 ], "health_min_val": [ -2 ], "vomit_tick": [ 20 ] }
+    "base_mods": { "vomit_tick": [ 60 ], "health_chance": [ 1500 ], "health_min": [ 1 ] },
+    "scaling_mods": { "health_min": [ -1.5 ], "health_min_val": [ -2 ], "vomit_tick": [ 120 ] }
   },
   {
     "//": "This effect is a dummy effect for disabling certain things for a few turns after an electromagnetic pulse and does nothing on its own",
