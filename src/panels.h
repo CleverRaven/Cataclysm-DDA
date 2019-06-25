@@ -31,7 +31,7 @@ namespace overmap_ui
 void draw_overmap_chunk( const catacurses::window &w_minimap, const avatar &you,
                          const tripoint &global_omt, const int start_y, const int start_x, const int width,
                          const int height );
-} // namepsace overmap_ui
+} // namespace overmap_ui
 
 bool default_render();
 
