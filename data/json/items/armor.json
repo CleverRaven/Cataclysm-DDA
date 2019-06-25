@@ -360,7 +360,7 @@
     "flags": [ "BELTED", "BLOCK_WHILE_WORN" ]
   },
   {
-    "id": "armguard_soft",
+    "id": "armguard_soft",f
     "type": "ARMOR",
     "category": "armor",
     "name": "pair of neoprene arm sleeves",
@@ -7410,7 +7410,7 @@
     "weight": 30,
     "volume": 0,
     "price": 590000,
-    "price_postapoc": 59000,
+    "price_postapoc": 2000,
     "material": [ "stone" ],
     "symbol": "[",
     "color": "white",
