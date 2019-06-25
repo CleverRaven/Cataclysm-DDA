@@ -19,6 +19,7 @@
 #include "player.h"
 #include "projectile.h"
 #include "rng.h"
+#include "sounds.h"
 #include "translations.h"
 #include "ui.h"
 
@@ -51,7 +52,14 @@ const std::map<std::string, spell_flag> flag_map = {
     { "PERMANENT", spell_flag::PERMANENT },
     { "IGNORE_WALLS", spell_flag::IGNORE_WALLS },
     { "HOSTILE_SUMMON", spell_flag::HOSTILE_SUMMON },
-    { "HOSTILE_50", spell_flag::HOSTILE_50 }
+    { "HOSTILE_50", spell_flag::HOSTILE_50 },
+    { "SILENT", spell_flag::SILENT },
+    { "LOUD", spell_flag::LOUD },
+    { "VERBAL", spell_flag::VERBAL },
+    { "SOMATIC", spell_flag::SOMATIC },
+    { "NO_HANDS", spell_flag::NO_HANDS },
+    { "NO_LEGS", spell_flag::NO_LEGS },
+    { "CONCENTRATE", spell_flag::CONCENTRATE }
 };
 } // namespace
 
@@ -526,6 +534,17 @@ bool spell::is_valid() const
 bool spell::bp_is_affected( body_part bp ) const
 {
     return type->affected_bps[bp];
+}
+
+void spell::make_sound( const tripoint &target ) const
+{
+    if( !has_flag( spell_flag::SILENT ) ) {
+        int loudness = damage() / 3;
+        if( has_flag( spell_flag::LOUD ) ) {
+            loudness += 1 + damage() / 3;
+        }
+        sounds::sound( target, loudness, sounds::sound_t::combat, _( "an explosion" ), false );
+    }
 }
 
 std::string spell::effect() const

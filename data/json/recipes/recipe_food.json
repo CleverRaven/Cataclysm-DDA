@@ -3036,36 +3036,6 @@
   },
   {
     "type": "recipe",
-    "result": "peanut_unshelled",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "charges": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "peanut", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "walnut_unshelled",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "charges": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "walnut", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "walnut_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3111,21 +3081,6 @@
   },
   {
     "type": "recipe",
-    "result": "pecan_unshelled",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "charges": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "pecan", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "pecan_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3138,21 +3093,6 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "pecan_unshelled", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "pistachio_unshelled",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "charges": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "pistachio", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3171,21 +3111,6 @@
   },
   {
     "type": "recipe",
-    "result": "almond_unshelled",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "charges": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "almond", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "almond_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3201,21 +3126,6 @@
   },
   {
     "type": "recipe",
-    "result": "chestnut_unshelled",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "charges": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "chestnut", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "chestnut_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3228,21 +3138,6 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "chestnut_unshelled", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "hazelnut_unshelled",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "charges": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "hazelnut", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3273,21 +3168,6 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "acorns", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "hickory_nut_unshelled",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "charges": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "hickory_nut", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -4710,25 +4590,6 @@
   },
   {
     "type": "recipe",
-    "result": "bag_meat_vac",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_MEAT",
-    "skill_used": "cooking",
-    "difficulty": 4,
-    "time": "20 m",
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "bag_plastic", 1 ] ],
-      [ [ "meat", 1 ] ],
-      [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 2 ], [ "chem_saltpetre", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "salted_fish",
     "id_suffix": "vacuum_packed",
     "container": "plastic_bag_vac",
@@ -4738,25 +4599,6 @@
     "difficulty": 4,
     "time": "20 m",
     "batch_time_factors": [ 83, 5 ],
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "bag_plastic", 1 ] ],
-      [ [ "fish", 1 ] ],
-      [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 1 ], [ "chem_saltpetre", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "bag_fish_vac",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_MEAT",
-    "skill_used": "cooking",
-    "difficulty": 4,
-    "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
@@ -4790,25 +4632,6 @@
   },
   {
     "type": "recipe",
-    "result": "bag_hflesh_vac",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_MEAT",
-    "skill_used": "cooking",
-    "difficulty": 4,
-    "time": "20 m",
-    "book_learn": [ [ "cookbook_human", 4 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "bag_plastic", 1 ] ],
-      [ [ "human_flesh", 1 ] ],
-      [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 2 ], [ "chem_saltpetre", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "veggy_salted",
     "id_suffix": "vacuum_packed",
     "container": "plastic_bag_vac",
@@ -4830,25 +4653,6 @@
   },
   {
     "type": "recipe",
-    "result": "bag_veggy_vac",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "cooking",
-    "difficulty": 4,
-    "time": "20 m",
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "bag_plastic", 1 ] ],
-      [ [ "mushroom", 1 ], [ "veggy_any_uncooked", 1, "LIST" ] ],
-      [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 2 ], [ "chem_saltpetre", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "apple_sugar",
     "id_suffix": "vacuum_packed",
     "container": "plastic_bag_vac",
@@ -4865,25 +4669,6 @@
       [ [ "bag_plastic", 1 ] ],
       [ [ "sweet_fruit", 2, "LIST" ] ],
       [ [ "sugar", 8 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "bag_apple_vac",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "cooking",
-    "difficulty": 4,
-    "time": "20 m",
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "vac_sealer", 5 ], [ "makeshift_sealer", 10 ] ] ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "bag_plastic", 1 ] ],
-      [ [ "sweet_fruit", 1, "LIST" ] ],
-      [ [ "sugar", 2 ] ]
     ]
   },
   {

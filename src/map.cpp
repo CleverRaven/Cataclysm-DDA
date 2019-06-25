@@ -2705,6 +2705,7 @@ void map::decay_fields_and_scent( const time_duration &amount )
                                    << abs_sub.x + smx << "," << abs_sub.y + smy << "," << abs_sub.z
                                    << "has " << to_proc << " field_count";
                 }
+                get_cache( smz ).field_cache.reset( smx + ( smy * MAPSIZE ) );
                 // This submap has no fields
                 continue;
             }
@@ -5411,7 +5412,10 @@ bool map::add_field( const tripoint &p, const field_id type, int intensity,
 
     if( current_submap->fld[l.x][l.y].add_field( type, intensity, age ) ) {
         //Only adding it to the count if it doesn't exist.
-        current_submap->field_count++;
+        if( ! current_submap->field_count++ ) {
+            get_cache( p.z ).field_cache.set( static_cast<size_t>( p.x / SEEX + ( (
+                                                  p.y / SEEX ) * MAPSIZE ) ) );
+        }
     }
 
     if( g != nullptr && this == &g->m && p == g->u.pos() ) {
@@ -5446,7 +5450,10 @@ void map::remove_field( const tripoint &p, const field_id field_to_remove )
 
     if( current_submap->fld[l.x][l.y].remove_field( field_to_remove ) ) {
         // Only adjust the count if the field actually existed.
-        current_submap->field_count--;
+        if( ! --current_submap->field_count ) {
+            get_cache( p.z ).field_cache.reset( static_cast<size_t>( p.x / SEEX + ( (
+                                                    p.y / SEEX ) * MAPSIZE ) ) );
+        }
         const auto &fdata = all_field_types_enum_list[ field_to_remove ];
         for( bool i : fdata.transparent ) {
             if( !i ) {
@@ -6478,30 +6485,35 @@ void map::shift_traps( const tripoint &shift )
     }
 }
 
-void shift_map_memory_seen_cache(
-    std::bitset<MAPSIZE_X *MAPSIZE_Y> &map_memory_seen_cache,
-    const int sx, const int sy )
+template<int SIZE, int MULTIPLIER>
+void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const int sx, const int sy )
 {
-    // sx shifts by SEEX rows, sy shifts by SEEX columns.
-    int shift_amount = ( sx * SEEX ) + ( sy * MAPSIZE_Y * SEEX );
+    // sx shifts by MULTIPLIER rows, sy shifts by MULTIPLIER columns.
+    int shift_amount = ( sx * MULTIPLIER ) + ( sy * SIZE * MULTIPLIER );
     if( shift_amount > 0 ) {
-        map_memory_seen_cache >>= static_cast<size_t>( shift_amount );
+        cache >>= static_cast<size_t>( shift_amount );
     } else if( shift_amount < 0 ) {
-        map_memory_seen_cache <<= static_cast<size_t>( -shift_amount );
+        cache <<= static_cast<size_t>( -shift_amount );
     }
     // Shifting in the y direction shifted in 0 values, no no additional clearing is necessary, but
     // a shift in the x direction makes values "wrap" to the next row, and they need to be zeroed.
     if( sx == 0 ) {
         return;
     }
-    const size_t x_offset = ( sx > 0 ) ? MAPSIZE_X - SEEX : 0;
-    for( size_t y = 0; y < MAPSIZE_X; ++y ) {
-        size_t y_offset = y * MAPSIZE_X;
-        for( size_t x = 0; x < SEEX; ++x ) {
-            map_memory_seen_cache.reset( y_offset + x_offset + x );
+    const size_t x_offset = ( sx > 0 ) ? SIZE - MULTIPLIER : 0;
+    for( size_t y = 0; y < SIZE; ++y ) {
+        size_t y_offset = y * SIZE;
+        for( size_t x = 0; x < MULTIPLIER; ++x ) {
+            cache.reset( y_offset + x_offset + x );
         }
     }
 }
+
+template void
+shift_bitset_cache<MAPSIZE_X, SEEX>( std::bitset<MAPSIZE_X *MAPSIZE_X> &cache,
+				     const int sx, const int sy );
+template void
+shift_bitset_cache<MAPSIZE, 1>( std::bitset<MAPSIZE *MAPSIZE> &cache, const int sx, const int sy );
 
 void map::shift( const int sx, const int sy )
 {
@@ -6540,7 +6552,8 @@ void map::shift( const int sx, const int sy )
         // Clear vehicle list and rebuild after shift
         clear_vehicle_cache( gridz );
         clear_vehicle_list( gridz );
-        shift_map_memory_seen_cache( get_cache( gridz ).map_memory_seen_cache, sx, sy );
+        shift_bitset_cache<MAPSIZE_X, SEEX>( get_cache( gridz ).map_memory_seen_cache, sx, sy );
+        shift_bitset_cache<MAPSIZE, 1>( get_cache( gridz ).field_cache, sx, sy );
         if( sx >= 0 ) {
             for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
                 if( sy >= 0 ) {
@@ -6780,6 +6793,9 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     setsubmap( gridn, tmpsub );
     if( !tmpsub->active_items.empty() ) {
         submaps_with_active_items.emplace( absx, absy, gridz );
+    }
+    if( tmpsub->field_count > 0 ) {
+        get_cache( gridz ).field_cache.set( gridx + ( gridy * MAPSIZE ) );
     }
     // Destroy bugged no-part vehicles
     auto &veh_vec = tmpsub->vehicles;

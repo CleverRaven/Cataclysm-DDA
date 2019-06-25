@@ -1551,7 +1551,7 @@
     "id": "milked",
     "name": [ "Milked" ],
     "desc": [ "The creature has been partially or fully milked." ],
-    "max_duration": 14400
+    "max_duration": 86400
   },
   {
     "type": "effect_type",

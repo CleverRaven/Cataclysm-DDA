@@ -107,10 +107,11 @@ bool map::process_fields()
     const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
     for( int z = minz; z <= maxz; z++ ) {
         bool zlev_dirty = false;
+        auto &field_cache = get_cache( z ).field_cache;
         for( int x = 0; x < my_MAPSIZE; x++ ) {
             for( int y = 0; y < my_MAPSIZE; y++ ) {
-                submap *const current_submap = get_submap_at_grid( { x, y, z } );
-                if( current_submap->field_count > 0 ) {
+                if( field_cache[ x + ( y * MAPSIZE ) ] ) {
+                    submap *const current_submap = get_submap_at_grid( { x, y, z } );
                     const bool cur_dirty = process_fields_in_submap( current_submap, x, y, z );
                     zlev_dirty |= cur_dirty;
                 }
@@ -369,7 +370,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     if( !all_field_types_enum_list[cur.get_field_type()].transparent[cur.get_field_intensity() - 1] ) {
                         dirty_transparency_cache = true;
                     }
-                    current_submap->field_count--;
+                    --current_submap->field_count;
                     curfield.remove_field( it++ );
                     continue;
                 }
@@ -1358,10 +1359,24 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     cur.set_field_intensity( cur.get_field_intensity() - 1 );
                 }
                 if( !cur.is_field_alive() ) {
-                    current_submap->field_count--;
+                    --current_submap->field_count;
                     curfield.remove_field( it++ );
                 } else {
                     ++it;
+                }
+            }
+        }
+    }
+    const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
+    const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
+    for( int z = std::max( submap_z - 1, minz ); z <= std::min( submap_z + 1, maxz ); ++z ) {
+        auto &field_cache = get_cache( z ).field_cache;
+        for( int y = std::max( submap_y - 1, 0 ); y <= std::min( submap_y + 1, MAPSIZE - 1 ); ++y ) {
+            for( int x = std::max( submap_x - 1, 0 ); x <= std::min( submap_x + 1, MAPSIZE - 1 ); ++x ) {
+                if( get_submap_at_grid( { x, y, z } )->field_count > 0 ) {
+                    field_cache.set( x + ( y * MAPSIZE ) );
+                } else {
+                    field_cache.reset( x + ( y * MAPSIZE ) );
                 }
             }
         }

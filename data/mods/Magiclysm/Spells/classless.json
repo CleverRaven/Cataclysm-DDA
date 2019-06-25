@@ -11,6 +11,7 @@
     "base_energy_cost": 800,
     "energy_source": "STAMINA",
     "spell_class": "NONE",
+    "flags": [ "LOUD", "SOMATIC", "VERBAL" ],
     "difficulty": 10,
     "max_level": 20,
     "min_damage": 30,
@@ -26,7 +27,7 @@
   {
     "id": "create_atomic_light",
     "type": "SPELL",
-    "name": "Light",
+    "name": "Magical Light",
     "description": "Creates a magical light.",
     "valid_targets": [ "none" ],
     "min_range": 0,
@@ -36,6 +37,7 @@
     "effect": "spawn_item",
     "effect_str": "magic_light",
     "energy_source": "MANA",
+    "flags": [ "VERBAL", "NO_LEGS" ],
     "difficulty": 1,
     "max_level": 20,
     "base_casting_time": 1000,
@@ -67,6 +69,7 @@
     "max_duration": 3000,
     "duration_increment": 100,
     "spell_class": "NONE",
+    "flags": [ "SOMATIC", "NO_LEGS" ],
     "base_casting_time": 200,
     "base_energy_cost": 150,
     "energy_source": "MANA",
@@ -96,6 +99,7 @@
     "max_duration": 5000,
     "duration_increment": 200,
     "spell_class": "NONE",
+    "flags": [ "SOMATIC" ],
     "base_casting_time": 200,
     "base_energy_cost": 400,
     "energy_source": "MANA",
@@ -114,6 +118,7 @@
     "energy_source": "MANA",
     "difficulty": 1,
     "max_level": 20,
+    "flags": [ "CONCENTRATE", "VERBAL", "NO_LEGS" ],
     "base_casting_time": 350,
     "base_energy_cost": 375,
     "min_duration": 10000,
@@ -138,6 +143,6 @@
     "difficulty": 7,
     "max_level": 1,
     "energy_source": "MANA",
-    "flags": [ "PERMANENT" ]
+    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
   }
 ]

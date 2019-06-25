@@ -724,7 +724,7 @@ void player::start_craft( craft_command &command, const tripoint &loc )
     if( target == tripoint_zero ) {
         if( !is_armed() ) {
             if( cata::optional<item_location> it_loc = wield_craft( *this, craft ) ) {
-                craft_in_world = it_loc->clone();
+                craft_in_world = *it_loc;
             }  else {
                 // This almost certianly shouldn't happen
                 put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, {craft} );
@@ -753,7 +753,7 @@ void player::start_craft( craft_command &command, const tripoint &loc )
             switch( choice ) {
                 case WIELD_CRAFT: {
                     if( cata::optional<item_location> it_loc = wield_craft( *this, craft ) ) {
-                        craft_in_world = it_loc->clone();
+                        craft_in_world = *it_loc;
                     } else {
                         // This almost certianly shouldn't happen
                         put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, {craft} );
@@ -785,7 +785,7 @@ void player::start_craft( craft_command &command, const tripoint &loc )
     }
 
     assign_activity( activity_id( "ACT_CRAFT" ) );
-    activity.targets.push_back( craft_in_world.clone() );
+    activity.targets.push_back( craft_in_world );
     activity.values.push_back( command.is_long() );
 
     add_msg_player_or_npc(
