@@ -33,8 +33,7 @@
     "name": "toxic waste dump",
     "sym": "D",
     "color": "pink",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -42,8 +41,7 @@
     "name": "hazardous waste sarcophagus",
     "sym": "X",
     "color": "pink",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -51,8 +49,7 @@
     "name": "hazardous waste sarcophagus",
     "sym": "X",
     "color": "pink",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -60,8 +57,7 @@
     "name": "hazardous waste sarcophagus",
     "sym": "X",
     "color": "pink",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -69,8 +65,7 @@
     "name": "hazardous waste sarcophagus",
     "sym": "X",
     "color": "pink",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",

@@ -4,8 +4,7 @@
     "id": "robofachq_roof_a0",
     "name": "open air",
     "sym": ".",
-    "color": "blue",
-    "flags": [ "NO_ROTATE" ]
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -13,8 +12,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -22,16 +20,14 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
     "id": "robofachq_roof_a3",
     "name": "open air",
     "sym": ".",
-    "color": "blue",
-    "flags": [ "NO_ROTATE" ]
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -39,8 +35,7 @@
     "name": "hub 01 parking space",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -48,8 +43,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -57,8 +51,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -66,8 +59,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -75,8 +67,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -84,8 +75,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -93,8 +83,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -102,8 +91,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -111,8 +99,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -120,8 +107,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -129,8 +115,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -138,8 +123,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -147,8 +131,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -156,8 +139,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -165,8 +147,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -174,8 +155,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -183,8 +163,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -192,8 +171,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -201,8 +179,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -210,8 +187,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -219,8 +195,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -228,8 +203,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -237,8 +211,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -246,8 +219,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -255,8 +227,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -264,8 +235,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -273,8 +243,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -282,8 +251,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -291,8 +259,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -300,8 +267,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -309,8 +275,7 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -318,7 +283,6 @@
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   }
 ]
