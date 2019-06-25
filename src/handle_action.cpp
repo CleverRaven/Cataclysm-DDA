@@ -846,7 +846,7 @@ static void sleep()
     // List all active items, bionics or mutations so player can deactivate them
     std::vector<std::string> active;
     for( auto &it : u.inv_dump() ) {
-        if( it->active && ( it->charges > 0 || it->ammo_remaining() > 0 ) &&
+        if( it->active && ( it->charges > 0 || it->units_remaining( u ) > 0 ) &&
             it->is_transformable() ) {
             active.push_back( it->tname() );
         }
