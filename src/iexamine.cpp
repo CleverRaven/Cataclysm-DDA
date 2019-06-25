@@ -1914,7 +1914,7 @@ void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &see
 void iexamine::dirtmound( player &p, const tripoint &examp )
 {
 
-    if( !warm_enough_to_plant() ) {
+    if( !warm_enough_to_plant( g->u.pos() ) ) {
         add_msg( m_info, _( "It is too cold to plant anything now." ) );
         return;
     }
@@ -4113,10 +4113,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         amenu.ret > 1 ) {
         needs_anesthesia = false;
     } else {
-        std::vector<const item *> a_filter = p.crafting_inventory().items_with( []( const item & it ) {
+        const inventory &crafting_inv = p.crafting_inventory();
+        std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
             return it.has_quality( quality_id( "ANESTHESIA" ) );
         } );
-        std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
+        std::vector<const item *> b_filter = crafting_inv.items_with( []( const item & it ) {
             return it.has_flag( "ANESTHESIA" ); // legacy
         } );
         for( const item *anesthesia_item : a_filter ) {

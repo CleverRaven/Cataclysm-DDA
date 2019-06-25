@@ -154,7 +154,8 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn },
     { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_do_turn },
     { activity_id( "ACT_TREE_COMMUNION" ), tree_communion_do_turn },
-    { activity_id( "ACT_STUDY_SPELL" ), study_spell_do_turn}
+    { activity_id( "ACT_STUDY_SPELL" ), study_spell_do_turn},
+    { activity_id( "ACT_WAIT_STAMINA" ), wait_stamina_do_turn },
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -192,6 +193,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_WAIT" ), wait_finish },
     { activity_id( "ACT_WAIT_WEATHER" ), wait_weather_finish },
     { activity_id( "ACT_WAIT_NPC" ), wait_npc_finish },
+    { activity_id( "ACT_WAIT_STAMINA" ), wait_stamina_finish },
     { activity_id( "ACT_SOCIALIZE" ), socialize_finish },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_finish },
     { activity_id( "ACT_DISASSEMBLE" ), disassemble_finish },
@@ -516,26 +518,26 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     switch( corpse.size ) {
         // Time (roughly) in turns to cut up the corpse
         case MS_TINY:
-            time_to_cut = 25;
+            time_to_cut = 150;
             break;
         case MS_SMALL:
-            time_to_cut = 50;
+            time_to_cut = 300;
             break;
         case MS_MEDIUM:
-            time_to_cut = 75;
+            time_to_cut = 450;
             break;
         case MS_LARGE:
-            time_to_cut = 100;
+            time_to_cut = 600;
             break;
         case MS_HUGE:
-            time_to_cut = 300;
+            time_to_cut = 1800;
             break;
     }
 
     // At factor 0, 10 time_to_cut is 10 turns. At factor 50, it's 5 turns, at 75 it's 2.5
     time_to_cut *= std::max( 25, 100 - factor );
-    if( time_to_cut < 500 ) {
-        time_to_cut = 500;
+    if( time_to_cut < 3000 ) {
+        time_to_cut = 3000;
     }
 
     switch( action ) {
@@ -554,14 +556,14 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
             break;
         case QUARTER:
             time_to_cut /= 4;
-            if( time_to_cut < 200 ) {
-                time_to_cut = 200;
+            if( time_to_cut < 1200 ) {
+                time_to_cut = 1200;
             }
             break;
         case DISMEMBER:
             time_to_cut /= 10;
-            if( time_to_cut < 100 ) {
-                time_to_cut = 100;
+            if( time_to_cut < 600 ) {
+                time_to_cut = 600;
             }
             break;
         case DISSECT:
@@ -2748,6 +2750,25 @@ void activity_handlers::wait_weather_finish( player_activity *act, player *p )
 void activity_handlers::wait_npc_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "%s finishes with you..." ), act->str_values[0] );
+    act->set_to_null();
+}
+
+void activity_handlers::wait_stamina_do_turn( player_activity *act, player *p )
+{
+    if( p->stamina == p->get_stamina_max() ) {
+        wait_stamina_finish( act, p );
+    }
+}
+
+void activity_handlers::wait_stamina_finish( player_activity *act, player *p )
+{
+    // in case it takes longer then expected
+    if( p->stamina != p->get_stamina_max() ) {
+        p->add_msg_if_player( _( "You are bored of waiting, so you stop." ) );
+        act->set_to_null();
+        return;
+    }
+    p->add_msg_if_player( _( "You finish waiting and feel refreshed." ) );
     act->set_to_null();
 }
 

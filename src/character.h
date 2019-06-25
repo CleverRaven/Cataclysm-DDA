@@ -854,6 +854,11 @@ class Character : public Creature, public visitable<Character>
         void shout( std::string text = "", bool order = false );
         /** Handles Character vomiting effects */
         void vomit();
+        // adds total healing to the bodypart. this is only a counter.
+        void healed_bp( int bp, int amount );
+
+        // the amount healed per bodypart per day
+        std::array<int, num_hp_parts> healed_total;
     protected:
         Character();
         Character( const Character & ) = delete;

@@ -5356,7 +5356,7 @@ int iuse::heat_food( player *p, item *it, bool, const tripoint & )
 
 int iuse::hotplate( player *p, item *it, bool, const tripoint & )
 {
-    if( it->typeId() != "atomic_coffeepot" && ( !it->units_sufficient( *p )) ) {
+    if( it->typeId() != "atomic_coffeepot" && ( !it->units_sufficient( *p ) ) ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return 0;
     }
@@ -6602,7 +6602,7 @@ static std::string colorized_field_description_at( const tripoint &point )
 
     std::string field_text;
     const field &field = g->m.field_at( point );
-    const field_entry *entry = field.find_field( field.field_symbol() );
+    const field_entry *entry = field.find_field( field.displayed_field_type() );
     if( entry ) {
         std::string affix;
         for( const auto &pair : affixes_vec ) {

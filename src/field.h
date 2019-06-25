@@ -208,7 +208,7 @@ class field_entry
  * fire entry, but not two fire entries).
  * Use @ref find_field to get the field entry of a specific type, or iterate over
  * all entries via @ref begin and @ref end (allows range based iteration).
- * There is @ref field_symbol to specific which field should be drawn on the map.
+ * There is @ref displayed_field_type to specific which field should be drawn on the map.
 */
 class field
 {
@@ -250,7 +250,7 @@ class field
         bool remove_field( field_id field_to_remove );
         /**
          * Make sure to decrement the field counter in the submap.
-         * Removes the field entry, the iterator must point into @ref field_list and must be valid.
+         * Removes the field entry, the iterator must point into @ref _field_type_list and must be valid.
          */
         void remove_field( std::map<field_id, field_entry>::iterator );
 
@@ -260,7 +260,7 @@ class field
         /**
          * Returns the id of the field that should be drawn.
          */
-        field_id field_symbol() const;
+        field_id displayed_field_type() const;
 
         //Returns the vector iterator to begin searching through the list.
         std::map<field_id, field_entry>::iterator begin();
@@ -276,9 +276,10 @@ class field
         int move_cost() const;
 
     private:
-        std::map<field_id, field_entry>
-        field_list; //A pointer lookup table of all field effects on the current tile.    //Draw_symbol currently is equal to the last field added to the square. You can modify this behavior in the class functions if you wish.
-        field_id draw_symbol;
+        // A pointer lookup table of all field effects on the current tile.
+        std::map<field_id, field_entry> _field_type_list;
+        // _displayed_field_type is equal to the last field added to the square. You can modify this behavior in the class functions if you wish.
+        field_id _displayed_field_type;
 };
 
 #endif

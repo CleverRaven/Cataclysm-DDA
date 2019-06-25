@@ -1224,7 +1224,7 @@ void options_manager::add_options_general()
        );
 
     add( "SOUNDPACKS", "general", translate_marker( "Choose soundpack" ),
-         translate_marker( "Choose the soundpack you want to use." ),
+         translate_marker( "Choose the soundpack you want to use.  Requires restart." ),
          build_soundpacks_list(), "basic", COPT_NO_SOUND_HIDE
        ); // populate the options dynamically
 
@@ -1232,21 +1232,21 @@ void options_manager::add_options_general()
 
     add( "MUSIC_VOLUME", "general", translate_marker( "Music volume" ),
          translate_marker( "Adjust the volume of the music being played in the background." ),
-         0, 200, 100, COPT_NO_SOUND_HIDE
+         0, 128, 100, COPT_NO_SOUND_HIDE
        );
 
     get_option( "MUSIC_VOLUME" ).setPrerequisite( "SOUND_ENABLED" );
 
     add( "SOUND_EFFECT_VOLUME", "general", translate_marker( "Sound effect volume" ),
          translate_marker( "Adjust the volume of sound effects being played by the game." ),
-         0, 200, 100, COPT_NO_SOUND_HIDE
+         0, 128, 100, COPT_NO_SOUND_HIDE
        );
 
     get_option( "SOUND_EFFECT_VOLUME" ).setPrerequisite( "SOUND_ENABLED" );
 
     add( "AMBIENT_SOUND_VOLUME", "general", translate_marker( "Ambient sound volume" ),
          translate_marker( "Adjust the volume of ambient sounds being played by the game." ),
-         0, 200, 100, COPT_NO_SOUND_HIDE
+         0, 128, 100, COPT_NO_SOUND_HIDE
        );
 
     get_option( "AMBIENT_SOUND_VOLUME" ).setPrerequisite( "SOUND_ENABLED" );

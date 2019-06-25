@@ -261,7 +261,7 @@ void editmap_hilight::draw( editmap &em, bool update )
                 }
                 const field &t_field = g->m.field_at( p );
                 if( t_field.field_count() > 0 ) {
-                    field_id t_ftype = t_field.field_symbol();
+                    field_id t_ftype = t_field.displayed_field_type();
                     const field_entry *t_fld = t_field.find_field( t_ftype );
                     if( t_fld != nullptr ) {
                         t_col = t_fld->color();
@@ -551,7 +551,7 @@ void editmap::update_view( bool update_info )
                 }
                 const field &t_field = g->m.field_at( p );
                 if( t_field.field_count() > 0 ) {
-                    field_id t_ftype = t_field.field_symbol();
+                    field_id t_ftype = t_field.displayed_field_type();
                     const field_entry *t_fld = t_field.find_field( t_ftype );
                     if( t_fld != nullptr ) {
                         t_col = t_fld->color();

@@ -4225,6 +4225,29 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_NETHER_CAPTURED",
+    "default": "mon_gracke",
+    "monsters": [
+      { "monster": "mon_gelatin", "freq": 250, "cost_multiplier": 0 },
+      { "monster": "mon_mi_go", "freq": 250, "cost_multiplier": 0 },
+      { "monster": "mon_kreck", "freq": 250, "cost_multiplier": 0 },
+      { "monster": "mon_gracke", "freq": 250, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_NETHER_PORTAL",
+    "default": "mon_gracke",
+    "monsters": [
+      { "monster": "mon_gelatin", "freq": 200, "cost_multiplier": 0 },
+      { "monster": "mon_flaming_eye", "freq": 200, "cost_multiplier": 0 },
+      { "monster": "mon_kreck", "freq": 200, "cost_multiplier": 0 },
+      { "monster": "mon_gracke", "freq": 200, "cost_multiplier": 0 },
+      { "monster": "mon_blank", "freq": 200, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_NETHER",
     "default": "mon_blank",
     "monsters": [

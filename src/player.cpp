@@ -1608,6 +1608,8 @@ int player::floor_bedding_warmth( const tripoint &pos )
     // Search the floor for bedding
     if( furn_at_pos != f_null ) {
         floor_bedding_warmth += furn_at_pos.obj().floor_bedding_warmth;
+    } else if( !trap_at_pos.is_null() ) {
+        floor_bedding_warmth += trap_at_pos.floor_bedding_warmth;
     } else if( veh_bed && veh_seat ) {
         // BED+SEAT is intentionally worse than just BED
         floor_bedding_warmth += 250;
@@ -1615,12 +1617,8 @@ int player::floor_bedding_warmth( const tripoint &pos )
         floor_bedding_warmth += 300;
     } else if( veh_seat ) {
         floor_bedding_warmth += 200;
-    } else if( trap_at_pos.loadid == tr_fur_rollmat ) {
-        floor_bedding_warmth += 0;
-    } else if( trap_at_pos.loadid == tr_cot || ter_at_pos == t_improvised_shelter ) {
+    } else if( ter_at_pos == t_improvised_shelter ) {
         floor_bedding_warmth -= 500;
-    } else if( trap_at_pos.loadid == tr_rollmat ) {
-        floor_bedding_warmth -= 1000;
     } else {
         floor_bedding_warmth -= 2000;
     }
@@ -3673,6 +3671,7 @@ void player::healall( int dam )
 {
     for( int healed_part = 0; healed_part < num_hp_parts; healed_part++ ) {
         heal( static_cast<hp_part>( healed_part ), dam );
+        healed_bp( healed_part, dam );
     }
 }
 
@@ -3978,6 +3977,9 @@ void player::update_body( const time_point &from, const time_point &to )
         regen( five_mins );
         // Note: mend ticks once per 5 minutes, but wants rate in TURNS, not 5 minute intervals
         mend( five_mins * MINUTES( 5 ) );
+    }
+    if( ticks_between( from, to, 24_hours ) > 0 ) {
+        enforce_minimum_healing();
     }
 
     const int thirty_mins = ticks_between( from, to, 30_minutes );
@@ -4580,6 +4582,7 @@ void player::regen( int rate_multiplier )
         float healing = healing_rate_medicine( rest, bp ) * MINUTES( 5 ) ;
 
         int healing_apply = roll_remainder( healing );
+        healed_bp( i, healing_apply );
         heal( bp, healing_apply );
         if( damage_bandaged[i] > 0 ) {
             damage_bandaged[i] -= healing_apply;
@@ -5747,7 +5750,6 @@ void player::suffer()
         }
     }
 
-    const int player_local_temp = g->weather.get_temperature( pos() );
     double sleeve_factor = armwear_factor();
     const bool has_hat = wearing_something_on( bp_head );
     const bool leafy = has_trait( trait_LEAVES ) || has_trait( trait_LEAVES2 ) ||
@@ -5756,6 +5758,7 @@ void player::suffer()
     const bool leafiest = has_trait( trait_LEAVES3 );
     int sunlight_nutrition = 0;
     if( leafy && g->is_in_sunlight( pos() ) ) {
+        const int player_local_temp = g->weather.get_temperature( pos() );
         int flux = ( player_local_temp - 65 ) / 2;
         if( !has_hat ) {
             sunlight_nutrition += 100 + flux;
@@ -9614,8 +9617,7 @@ void player::try_to_sleep( const time_duration &dur )
     }
     if( !plantsleep && ( furn_at_pos.obj().comfort > static_cast<int>( comfort_level::neutral ) ||
                          ter_at_pos == t_improvised_shelter ||
-                         trap_at_pos.loadid == tr_cot || trap_at_pos.loadid == tr_rollmat ||
-                         trap_at_pos.loadid == tr_fur_rollmat ||
+                         trap_at_pos.comfort > static_cast<int>( comfort_level::neutral ) ||
                          in_shell || websleeping || watersleep ||
                          vp.part_with_feature( "SEAT", true ) ||
                          vp.part_with_feature( "BED", true ) ) ) {
@@ -9681,19 +9683,18 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
         // Not in a vehicle, start checking furniture/terrain/traps at this point in decreasing order
         else if( furn_at_pos != f_null ) {
             comfort += 0 + furn_at_pos.obj().comfort;
-        } else if( trap_at_pos.loadid == tr_cot ) {
-            comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
         }
         // Web sleepers can use their webs if better furniture isn't available
         else if( websleep && web >= 3 ) {
             comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-        } else if( trap_at_pos.loadid == tr_rollmat || trap_at_pos.loadid == tr_fur_rollmat ||
-                   ter_at_pos == t_improvised_shelter ) {
+        } else if( ter_at_pos == t_improvised_shelter ) {
             comfort += 0 + static_cast<int>( comfort_level::slightly_comfortable );
         } else if( ter_at_pos == t_floor || ter_at_pos == t_floor_waxed ||
                    ter_at_pos == t_carpet_red || ter_at_pos == t_carpet_yellow ||
                    ter_at_pos == t_carpet_green || ter_at_pos == t_carpet_purple ) {
             comfort += 1 + static_cast<int>( comfort_level::neutral );
+        } else if( !trap_at_pos.is_null() ) {
+            comfort += 0 + trap_at_pos.comfort;
         } else {
             // Not a comfortable sleeping spot
             comfort -= g->m.move_cost( p );
@@ -12049,4 +12050,14 @@ std::pair<std::string, nc_color> player::get_hunger_description() const
     }
 
     return std::make_pair( hunger_string, hunger_color );
+}
+
+void player::enforce_minimum_healing()
+{
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        if( healed_total[i] <= 0 ) {
+            heal( static_cast<hp_part>( i ), 1 );
+        }
+        healed_total[i] = 0;
+    }
 }

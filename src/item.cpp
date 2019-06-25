@@ -238,6 +238,11 @@ item::item( const itype *type, time_point turn, solitary_tag )
 item::item( const itype_id &id, time_point turn, solitary_tag tag )
     : item( find_type( id ), turn, tag ) {}
 
+safe_reference<item> item::get_safe_reference()
+{
+    return anchor.reference_to( this );
+}
+
 static const item *get_most_rotten_component( const item &craft )
 {
     const item *most_rotten = nullptr;
