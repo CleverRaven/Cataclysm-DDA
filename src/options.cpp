@@ -1224,7 +1224,7 @@ void options_manager::add_options_general()
        );
 
     add( "SOUNDPACKS", "general", translate_marker( "Choose soundpack" ),
-         translate_marker( "Choose the soundpack you want to use." ),
+         translate_marker( "Choose the soundpack you want to use.  Requires restart." ),
          build_soundpacks_list(), "basic", COPT_NO_SOUND_HIDE
        ); // populate the options dynamically
 
