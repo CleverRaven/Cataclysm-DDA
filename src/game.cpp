@@ -1754,11 +1754,12 @@ int get_convection_temperature( const tripoint &location )
     // hot air of a fire/lava
     auto tile_intensity_mod = []( const tripoint & loc, field_id fld, int case_1, int case_2,
     int case_3 ) {
-        int intensity = g->m.get_field_intensity( loc, fld );
+        int field_intensity = g->m.get_field_intensity( loc, fld );
         int cases[3] = { case_1, case_2, case_3 };
-        return ( intensity > 0 && intensity < 4 ) ? cases[ intensity - 1 ] : 0;
+        return ( field_intensity > 0 && field_intensity < 4 ) ? cases[ field_intensity - 1 ] : 0;
     };
 
+    // TODO: Jsonize
     temp_mod += tile_intensity_mod( location, fd_hot_air1,  2,   6,  10 );
     temp_mod += tile_intensity_mod( location, fd_hot_air2,  6,  16,  20 );
     temp_mod += tile_intensity_mod( location, fd_hot_air3, 16,  40,  70 );

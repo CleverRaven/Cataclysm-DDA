@@ -5344,14 +5344,15 @@ time_duration map::set_field_age( const tripoint &p, const field_id type, const 
 }
 
 /*
- * set strength of field type at point, creating if not present, removing if strength is 0
- * returns resulting strength, or 0 for not present
+ * set intensity of field type at point, creating if not present, removing if intensity is 0
+ * returns resulting intensity, or 0 for not present
  */
-int map::set_field_intensity( const tripoint &p, const field_id type, const int str, bool isoffset )
+int map::set_field_intensity( const tripoint &p, const field_id type, const int new_intensity,
+                              bool isoffset )
 {
     field_entry *field_ptr = get_field( p, type );
     if( field_ptr != nullptr ) {
-        int adj = ( isoffset ? field_ptr->get_field_intensity() : 0 ) + str;
+        int adj = ( isoffset ? field_ptr->get_field_intensity() : 0 ) + new_intensity;
         if( adj > 0 ) {
             field_ptr->set_field_intensity( adj );
             return adj;
@@ -5359,8 +5360,8 @@ int map::set_field_intensity( const tripoint &p, const field_id type, const int 
             remove_field( p, type );
             return 0;
         }
-    } else if( 0 + str > 0 ) {
-        return add_field( p, type, str ) ? str : 0;
+    } else if( 0 + new_intensity > 0 ) {
+        return add_field( p, type, new_intensity ) ? new_intensity : 0;
     }
 
     return 0;
@@ -7174,12 +7175,12 @@ void map::decay_cosmetic_fields( const tripoint &p, const time_duration &time_si
         }
 
         const time_duration added_age = 2 * time_since_last_actualize / rng( 2, 4 );
-        fd.mod_age( added_age );
+        fd.mod_field_age( added_age );
         const time_duration hl = all_field_types_enum_list[ fd.get_field_type() ].halflife;
         const int intensity_drop = fd.get_field_age() / hl;
         if( intensity_drop > 0 ) {
             fd.set_field_intensity( fd.get_field_intensity() - intensity_drop );
-            fd.mod_age( -hl * intensity_drop );
+            fd.mod_field_age( -hl * intensity_drop );
         }
     }
 }
