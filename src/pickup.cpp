@@ -317,7 +317,7 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
         quantities.pop_back();
 
         if( !target ) {
-            debugmsg( "lost target item of ACT_DROP" );
+            debugmsg( "lost target item of ACT_PICKUP" );
             continue;
         }
 
