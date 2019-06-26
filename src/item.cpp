@@ -3650,9 +3650,14 @@ units::volume item::volume( bool integral ) const
 
     if( count_by_charges() || made_of( LIQUID ) ) {
         auto num = ret * static_cast<int64_t>( charges );
-        ret = num / type->stack_size;
-        if( num % type->stack_size != 0_ml ) {
-            ret += 1_ml;
+        if( type->stack_size <= 0 ) {
+            debugmsg( "Item type %s has invalid stack_size %d", typeId(), type->stack_size );
+            ret = num;
+        } else {
+            ret = num / type->stack_size;
+            if( num % type->stack_size != 0_ml ) {
+                ret += 1_ml;
+            }
         }
     }
 
