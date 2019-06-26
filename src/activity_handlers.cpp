@@ -4003,6 +4003,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
         casting.make_sound( target );
     } else if( fx == "summon" ) {
         spell_effect::spawn_summoned_monster( casting, p->pos(), target );
+    } else if( fx == "translocate" ) {
+        spell_effect::translocate( casting, p->pos(), target, g->u.translocators );
     } else {
         debugmsg( "ERROR: Spell effect not defined properly." );
     }

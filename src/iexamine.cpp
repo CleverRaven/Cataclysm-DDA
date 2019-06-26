@@ -272,6 +272,20 @@ void iexamine::gaspump( player &p, const tripoint &examp )
     add_msg( m_info, _( "Out of order." ) );
 }
 
+void iexamine::translocator( player &, const tripoint &examp )
+{
+    const tripoint omt_loc = ms_to_omt_copy( g->m.getabs( examp ) );
+    const bool activated = g->u.translocators.knows_translocator( examp );
+    if( !activated ) {
+        g->u.translocators.activate_teleporter( omt_loc, examp );
+        add_msg( m_info, _( "Translocator gate active." ) );
+    } else {
+        if( query_yn( _( "Do you want to deactivate this active Translocator?" ) ) ) {
+            g->u.translocators.deactivate_teleporter( omt_loc, examp );
+        }
+    }
+}
+
 namespace
 {
 //--------------------------------------------------------------------------------------------------
@@ -5357,6 +5371,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "harvest_ter", &iexamine::harvest_ter },
             { "harvested_plant", &iexamine::harvested_plant },
             { "shrub_marloss", &iexamine::shrub_marloss },
+            { "translocator", &iexamine::translocator },
             { "tree_marloss", &iexamine::tree_marloss },
             { "tree_hickory", &iexamine::tree_hickory },
             { "tree_maple", &iexamine::tree_maple },
