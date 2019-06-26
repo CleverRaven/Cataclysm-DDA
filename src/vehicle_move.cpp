@@ -804,6 +804,10 @@ void vehicle::handle_trap( const tripoint &p, int part )
     const trap &tr = g->m.tr_at( p );
     const trap_id t = tr.loadid;
 
+    if( t == tr_null ) {
+        // If the trap doesn't exist, we can't interact with it, so just return
+        return;
+    }
     vehicle_handle_trap_data veh_data = tr.vehicle_data;
 
     if( veh_data.is_falling ) {
