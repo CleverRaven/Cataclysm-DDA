@@ -63,7 +63,7 @@ int_id<field_type>::int_id( const string_id<field_type> &id ) : _id( id.id() )
 
 void field_type::load( JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "legacy_enum_id", legacy_enum_id, -1 );
+    optional( jo, was_loaded, "legacy_enum_id", legacy_enum_id, -1 );
     JsonArray ja = jo.get_array( "intensity_levels" );
     for( size_t i = 0; i < ja.size(); ++i ) {
         field_intensity_level intensity_level;
