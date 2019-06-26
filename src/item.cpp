@@ -6153,7 +6153,7 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
                 compat_ammo = true;
             }
         }
-        if( compat_ammo ) {
+        if( !compat_ammo ) {
             return ret_val<bool>::make_failure(
                        _( "%1$s cannot be used on item with no compatible ammo types" ), mod.tname( 1 ) );
         }
