@@ -1704,9 +1704,6 @@ int get_heat_radiation( const tripoint &location, bool direct )
     int temp_mod = 0;
     int best_fire = 0;
     for( const tripoint &dest : g->m.points_in_radius( location, 6 ) ) {
-        if( !g->m.sees( location, dest, -1 ) ) {
-            continue;
-        }
         int heat_intensity = 0;
 
         int ffire = g->m.get_field_intensity( dest, fd_fire );
@@ -1717,6 +1714,9 @@ int get_heat_radiation( const tripoint &location, bool direct )
         }
         if( heat_intensity == 0 ) {
             // No heat source here
+            continue;
+        }
+        if( !g->m.sees( location, dest, -1 ) ) {
             continue;
         }
         // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
