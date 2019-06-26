@@ -1923,14 +1923,22 @@ void activity_handlers::train_finish( player_activity *act, player *p )
     if( sk.is_valid() ) {
         const Skill &skill = sk.obj();
         std::string skill_name = skill.name();
-        int new_skill_level = p->get_skill_level( sk ) + 1;
-        p->set_skill_level( sk, new_skill_level );
-        add_msg( m_good, _( "You finish training %s to level %d." ), skill_name, new_skill_level );
-        if( new_skill_level % 4 == 0 ) {
-            //~ %d is skill level %s is skill name
-            p->add_memorial_log( pgettext( "memorial_male", "Reached skill level %1$d in %2$s." ),
-                                 pgettext( "memorial_female", "Reached skill level %1$d in %2$s." ),
-                                 new_skill_level, skill_name );
+        int old_skill_level = p->get_skill_level( sk );
+        p->practice( sk, 100, old_skill_level );
+        int new_skill_level = p->get_skill_level( sk );
+        if( old_skill_level != new_skill_level ) {
+            add_msg( m_good, _( "You finish training %s to level %d." ),
+                                skill_name, new_skill_level );
+            if( new_skill_level % 4 == 0 ) {
+                //~ %d is skill level %s is skill name
+                p->add_memorial_log( pgettext( "memorial_male",
+                                               "Reached skill level %1$d in %2$s." ),
+                                     pgettext( "memorial_female",
+                                               "Reached skill level %1$d in %2$s." ),
+                                     new_skill_level, skill_name );
+            }
+        } else {
+            add_msg( m_good, _( "You finish training %s." ), skill_name );
         }
         act->set_to_null();
         return;
