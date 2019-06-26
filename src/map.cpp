@@ -4578,7 +4578,7 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
     std::vector<item_reference> active_items = current_submap.active_items.get_for_processing();
     const point grid_offset( gridp.x * SEEX, gridp.y * SEEY );
     for( item_reference &active_item_ref : active_items ) {
-        if( !active_item_ref.item_ref.get() ) {
+        if( !active_item_ref.item_ref ) {
             // The item was destroyed, so skip it.
             continue;
         }
@@ -4632,7 +4632,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
     for( item_reference &active_item_ref : cur_veh.active_items.get_for_processing() ) {
         if( empty( cargo_parts ) ) {
             return;
-        } else if( !active_item_ref.item_ref.get() ) {
+        } else if( !active_item_ref.item_ref ) {
             // The item was destroyed, so skip it.
             continue;
         }
