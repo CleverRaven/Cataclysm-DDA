@@ -632,7 +632,7 @@ void player::hardcoded_effects( effect &it )
         }
         if( dur > 6_hours ) {
             // 12 teleports
-            if( one_in( 24000 - ( dur - 360_minutes ) / 24_seconds ) ) {
+            if( one_in( 24000 - ( dur - 360_minutes ) / 24_turns ) ) {
                 tripoint dest( 0, 0, posz() );
                 int &x = dest.x;
                 int &y = dest.y;
@@ -663,7 +663,7 @@ void player::hardcoded_effects( effect &it )
                     }
                 }
             }
-            if( one_in( 21000 - ( dur - 360_minutes ) / 24_seconds ) ) {
+            if( one_in( 21000 - ( dur - 360_minutes ) / 24_turns ) ) {
                 add_msg_if_player( m_bad, _( "You shudder suddenly." ) );
                 mutate();
                 if( one_in( 4 ) ) {
