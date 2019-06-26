@@ -65,6 +65,20 @@
     "flags": [ "FANCY" ]
   },
   {
+    "id": "locket",
+    "type": "ARMOR",
+    "name": "locket",
+    "description": "A small locket with a frame inside to store photographs or small objects.",
+    "weight": 30,
+    "volume": 0,
+    "price": 4000,
+    "price_postapoc": 200,
+    "material": [ "silver" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "flags": [ "FANCY" ]
+  },
+  {
     "id": "copper_bracelet",
     "type": "ARMOR",
     "name": "copper bracelet",
