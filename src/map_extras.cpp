@@ -2290,7 +2290,7 @@ static void mx_casings( map &m, const tripoint &abs_sub )
 {
     const auto items = item_group::items_from( "ammo_casings", calendar::turn );
 
-    switch( rng( 3, 3 ) ) {
+    switch( rng( 4, 4 ) ) {
         //Pile of random casings in random place
         case 1: {
             for( const auto &loc : g->m.points_in_radius( { rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ), abs_sub.z },
@@ -2312,8 +2312,8 @@ static void mx_casings( map &m, const tripoint &abs_sub )
             }
             break;
         }
+        //Person moved and fired in some direction
         case 3: {
-            //Person moved and fired in some direction
             std::vector<point> casings = line_to( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ),
                                                   rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) );
             for( auto &i : casings ) {
@@ -2321,6 +2321,26 @@ static void mx_casings( map &m, const tripoint &abs_sub )
                     m.spawn_items( { i.x, i.y, abs_sub.z }, items );
                 }
             }
+            break;
+        }
+        //Two persons shooted and created two piles of casings 
+        case 4: {
+            const tripoint first_loc = { rng( 1, SEEX - 2 ), rng( 1, SEEY - 2 ), abs_sub.z };
+            const tripoint second_loc = { rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ), abs_sub.z };
+            const auto first_items = item_group::items_from( "ammo_casings", calendar::turn );
+            const auto second_items = item_group::items_from( "ammo_casings", calendar::turn );
+
+            for( const auto &loc : g->m.points_in_radius( first_loc, rng( 1, 2 ) ) ) {
+                if( one_in( 2 ) ) {
+                    m.spawn_items( loc, first_items );
+                }
+            }
+            for( const auto &loc : g->m.points_in_radius( second_loc, rng( 1, 2 ) ) ) {
+                if( one_in( 2 ) ) {
+                    m.spawn_items( loc, second_items );
+                }
+            }
+            break;
         }
     }
 }
