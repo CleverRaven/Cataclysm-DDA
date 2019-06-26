@@ -2290,7 +2290,7 @@ static void mx_casings( map &m, const tripoint &abs_sub )
 {
     const auto items = item_group::items_from( "ammo_casings", calendar::turn );
 
-    switch( rng( 2, 2 ) ) {
+    switch( rng( 3, 3 ) ) {
         //Pile of random casings in random place
         case 1: {
             for( const auto &loc : g->m.points_in_radius( { rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ), abs_sub.z },
@@ -2311,6 +2311,16 @@ static void mx_casings( map &m, const tripoint &abs_sub )
                 }
             }
             break;
+        }
+        case 3: {
+            //Person moved and fired in some direction
+            std::vector<point> casings = line_to( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ),
+                                                  rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) );
+            for( auto &i : casings ) {
+                if( one_in( 2 ) ) {
+                    m.spawn_items( { i.x, i.y, abs_sub.z }, items );
+                }
+            }
         }
     }
 }
