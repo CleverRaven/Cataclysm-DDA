@@ -65,7 +65,7 @@
     "durability": 9,
     "ups_charges": 1,
     "reload": 400,
-    "valid_mod_locations": [ [ "brass catcher", 1 ], [ "sling", 1 ] ],
+    "valid_mod_locations": [ [ "brass catcher", 1 ], [ "sling", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ] ],
     "modes": [ [ "DEFAULT", "low auto", 50 ], [ "AUTO", "high auto", 100 ] ],
     "magazines": [ [ "308", [ "belt308" ] ] ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
