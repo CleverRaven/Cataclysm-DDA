@@ -1716,7 +1716,11 @@ int get_heat_radiation( const tripoint &location, bool direct )
             // No heat source here
             continue;
         }
-        if( !g->m.sees( location, dest, -1 ) ) {
+        if( g->u.pos() == location ) {
+            if( !g->m.pl_line_of_sight( dest, -1 ) ) {
+                continue;
+            }
+        } else if( !g->m.sees( location, dest, -1 ) ) {
             continue;
         }
         // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
