@@ -3208,12 +3208,8 @@ void iexamine::trap( player &p, const tripoint &examp )
     }
     const int possible = tr.get_difficulty();
     bool seen = tr.can_see( examp, p );
-    if( seen && possible >= 99 ) {
-        add_msg( m_info, _( "That %s looks too dangerous to mess with. Best leave it alone." ),
-                 tr.name() );
-        return;
-    }
-    if( tr.loadid == tr_unfinished_construction ) {
+
+    if( tr.loadid == tr_unfinished_construction || g->m.partial_con_at( examp ) ) {
         partial_con *pc = g->m.partial_con_at( examp );
         if( pc ) {
             const std::vector<construction> &list_constructions = get_constructions();
@@ -3238,6 +3234,11 @@ void iexamine::trap( player &p, const tripoint &examp )
         } else {
             return;
         }
+    }
+    if( seen && possible >= 99 ) {
+        add_msg( m_info, _( "That %s looks too dangerous to mess with. Best leave it alone." ),
+                 tr.name() );
+        return;
     }
     // Some traps are not actual traps. Those should get a different query.
     if( seen && possible == 0 &&
