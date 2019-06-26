@@ -1087,7 +1087,7 @@ class map
          * removing if intensity becomes 0.
          * @return resulting intensity, or 0 for not present (either removed or not created at all).
          */
-        int adjust_field_intensity( const tripoint &p, const field_id type, const int offset );
+        int mod_field_intensity( const tripoint &p, const field_id type, const int offset );
         /**
          * Set age of field entry at point.
          * @param p Location of field
@@ -1104,12 +1104,12 @@ class map
          * removing if intensity becomes 0.
          * @param p Location of field
          * @param type ID of field
-         * @param str New strength of field
+         * @param new_intensity New intensity of field
          * @param isoffset If true, the given str value is added to the existing value,
          * if false, the existing intensity is ignored and overridden.
          * @return resulting intensity, or 0 for not present (either removed or not created at all).
          */
-        int set_field_intensity( const tripoint &p, const field_id type, const int str,
+        int set_field_intensity( const tripoint &p, const field_id type, const int new_intensity,
                                  bool isoffset = false );
         /**
          * Get field of specific type at point.
@@ -1130,10 +1130,10 @@ class map
         // Splatters of various kind
         void add_splatter( const field_id type, const tripoint &where, int intensity = 1 );
         void add_splatter_trail( const field_id type, const tripoint &from, const tripoint &to );
-        void add_splash( const field_id type, const tripoint &center, int radius, int density );
+        void add_splash( const field_id type, const tripoint &center, int radius, int intensity );
 
         void propagate_field( const tripoint &center, const field_id type,
-                              int amount, int max_intensity = MAX_FIELD_INTENSITY );
+                              int amount, int max_intensity = 3 );
 
         /**
          * Runs one cycle of emission @ref src which **may** result in propagation of fields

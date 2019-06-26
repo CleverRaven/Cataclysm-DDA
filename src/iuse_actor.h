@@ -153,7 +153,7 @@ class explosion_iuse : public iuse_actor
         int fields_radius = -1;
         field_id fields_type;
         int fields_min_intensity = 1;
-        int fields_max_intensity = MAX_FIELD_INTENSITY;
+        int fields_max_intensity = 3;
         /** Calls game::emp_blast if >= 0 */
         int emp_blast_radius = -1;
         /** Calls game::scrambler_blast if >= 0 */
