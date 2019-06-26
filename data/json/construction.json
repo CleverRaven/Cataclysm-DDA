@@ -1337,7 +1337,8 @@
     "components": [ [ [ "nail", 6 ] ] ],
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
     "pre_terrain": "f_coffin_o",
-    "post_terrain": "f_coffin_c"
+    "post_terrain": "f_coffin_c",
+	"post_flags": [ "keep_items" ]
   },
   {
     "type": "construction",
