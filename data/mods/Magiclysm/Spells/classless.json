@@ -8,7 +8,7 @@
     "effect": "line_attack",
     "damage_type": "fire",
     "base_casting_time": 200,
-    "base_energy_cost": 800,
+    "base_energy_cost": 8000,
     "energy_source": "STAMINA",
     "spell_class": "NONE",
     "flags": [ "LOUD", "SOMATIC", "VERBAL" ],
