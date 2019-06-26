@@ -2286,6 +2286,35 @@ static void mx_mayhem( map &m, const tripoint &abs_sub )
     }
 }
 
+static void mx_casings( map &m, const tripoint &abs_sub )
+{
+    const auto items = item_group::items_from( "ammo_casings", calendar::turn );
+
+    switch( rng( 2, 2 ) ) {
+        //Pile of random casings in random place
+        case 1: {
+            for( const auto &loc : g->m.points_in_radius( { rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ), abs_sub.z },
+            rng( 1, 2 ) ) ) {
+                if( one_in( 2 ) ) {
+                    m.spawn_items( loc, items );
+                }
+            }
+            break;
+        }
+        //Entire battlefield filled with casings
+        case 2: {
+            for( int i = 0; i < SEEX * 2; i++ ) {
+                for( int j = 0; j < SEEY * 2; j++ ) {
+                    if( one_in( 10 ) ) {
+                        m.spawn_items( i, j, items );
+                    }
+                }
+            }
+            break;
+        }
+    }
+}
+
 FunctionMap builtin_functions = {
     { "mx_null", mx_null },
     { "mx_crater", mx_crater },
@@ -2319,6 +2348,7 @@ FunctionMap builtin_functions = {
     { "mx_burned_ground", mx_burned_ground },
     { "mx_point_burned_ground", mx_point_burned_ground },
     { "mx_marloss_pilgrimage", mx_marloss_pilgrimage },
+    { "mx_casings", mx_casings }
 };
 
 map_extra_pointer get_function( const std::string &name )
