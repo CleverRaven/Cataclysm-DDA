@@ -272,6 +272,20 @@ void iexamine::gaspump( player &p, const tripoint &examp )
     add_msg( m_info, _( "Out of order." ) );
 }
 
+void iexamine::translocator( player &, const tripoint &examp )
+{
+    const tripoint omt_loc = ms_to_omt_copy( g->m.getabs( examp ) );
+    const bool activated = g->u.translocators.knows_translocator( examp );
+    if( !activated ) {
+        g->u.translocators.activate_teleporter( omt_loc, examp );
+        add_msg( m_info, _( "Translocator gate active." ) );
+    } else {
+        if( query_yn( _( "Do you want to deactivate this active Translocator?" ) ) ) {
+            g->u.translocators.deactivate_teleporter( omt_loc, examp );
+        }
+    }
+}
+
 namespace
 {
 //--------------------------------------------------------------------------------------------------
@@ -3208,12 +3222,8 @@ void iexamine::trap( player &p, const tripoint &examp )
     }
     const int possible = tr.get_difficulty();
     bool seen = tr.can_see( examp, p );
-    if( seen && possible >= 99 ) {
-        add_msg( m_info, _( "That %s looks too dangerous to mess with. Best leave it alone." ),
-                 tr.name() );
-        return;
-    }
-    if( tr.loadid == tr_unfinished_construction ) {
+
+    if( tr.loadid == tr_unfinished_construction || g->m.partial_con_at( examp ) ) {
         partial_con *pc = g->m.partial_con_at( examp );
         if( pc ) {
             const std::vector<construction> &list_constructions = get_constructions();
@@ -3238,6 +3248,11 @@ void iexamine::trap( player &p, const tripoint &examp )
         } else {
             return;
         }
+    }
+    if( seen && possible >= 99 ) {
+        add_msg( m_info, _( "That %s looks too dangerous to mess with. Best leave it alone." ),
+                 tr.name() );
+        return;
     }
     // Some traps are not actual traps. Those should get a different query.
     if( seen && possible == 0 &&
@@ -5356,6 +5371,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "harvest_ter", &iexamine::harvest_ter },
             { "harvested_plant", &iexamine::harvested_plant },
             { "shrub_marloss", &iexamine::shrub_marloss },
+            { "translocator", &iexamine::translocator },
             { "tree_marloss", &iexamine::tree_marloss },
             { "tree_hickory", &iexamine::tree_hickory },
             { "tree_maple", &iexamine::tree_maple },

@@ -845,6 +845,11 @@ void Item_factory::check_definitions() const
         if( type->volume < 0_ml ) {
             msg << "negative volume" << "\n";
         }
+        if( type->count_by_charges() || type->phase == LIQUID ) {
+            if( type->stack_size <= 0 ) {
+                msg << "invalid stack_size " << type->stack_size << " on type using charges\n";
+            }
+        }
         if( type->price < 0 ) {
             msg << "negative price" << "\n";
         }

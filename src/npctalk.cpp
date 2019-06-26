@@ -1787,8 +1787,15 @@ void talk_effect_fun_t::set_u_buy_item( const std::string &item_name, int cost, 
             return;
         }
         if( container_name.empty() ) {
-            item new_item = item( item_name, calendar::turn, count );
-            u.i_add( new_item );
+            item new_item = item( item_name, calendar::turn, 1 );
+            if( new_item.count_by_charges() ) {
+                new_item.mod_charges( count - 1 );
+                u.i_add( new_item );
+            } else {
+                for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
+                    u.i_add( new_item );
+                }
+            }
             if( count == 1 ) {
                 //~ %1%s is the NPC name, %2$s is an item
                 popup( _( "%1$s gives you a %2$s." ), p.name, new_item.tname() );
@@ -1811,7 +1818,7 @@ void talk_effect_fun_t::set_u_sell_item( const std::string &item_name, int cost,
     function = [item_name, cost, count]( const dialogue & d ) {
         npc &p = *d.beta;
         player &u = *d.alpha;
-        item old_item = item( item_name, calendar::turn, count );
+        item old_item = item( item_name, calendar::turn, 1 );
         if( u.has_charges( item_name, count ) ) {
             u.use_charges( item_name, count );
         } else if( u.has_amount( item_name, count ) ) {
@@ -1821,7 +1828,14 @@ void talk_effect_fun_t::set_u_sell_item( const std::string &item_name, int cost,
             popup( _( "You don't have a %1$s!" ), old_item.tname() );
             return;
         }
-        p.i_add( old_item );
+        if( old_item.count_by_charges() ) {
+            old_item.mod_charges( count - 1 );
+            p.i_add( old_item );
+        } else {
+            for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
+                p.i_add( old_item );
+            }
+        }
 
         if( count == 1 ) {
             //~ %1%s is the NPC name, %2$s is an item

@@ -2,6 +2,7 @@
 
 #include "action.h"
 #include "bionics.h"
+#include "calendar.h"
 #include "character.h"
 #include "creature.h"
 #include "effect.h"
@@ -13,6 +14,7 @@
 #include "item.h"
 #include "itype.h"
 #include "map.h"
+#include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
 #include "monstergenerator.h"
@@ -43,6 +45,8 @@ static const trait_id trait_GOODMEMORY( "GOODMEMORY" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
+
+const skill_id skill_unarmed( "unarmed" );
 
 avatar::avatar() : player()
 {
@@ -687,6 +691,26 @@ bool avatar::read( int inventory_position, const bool continuous )
             }
             act.index = menu.ret;
         }
+        if( it.type->use_methods.count( "MA_MANUAL" ) ) {
+
+            if( g->u.has_martialart( martial_art_learned_from( *it.type ) ) ) {
+                g->u.add_msg_if_player( m_info, _( "You already know all this book has to teach." ) );
+                activity.set_to_null();
+                return false;
+            }
+
+            uilist menu;
+            menu.title = string_format( _( "Train %s from manual:" ),
+                                        martial_art_learned_from( *it.type )->name );
+            menu.addentry( -1, true, 1, _( "Train once." ) );
+            menu.addentry( getID(), true, 2, _( "Train until tired or success." ) );
+            menu.query( true );
+            if( menu.ret == UILIST_CANCEL ) {
+                add_msg( m_info, _( "Never mind." ) );
+                return false;
+            }
+            act.index = menu.ret;
+        }
         add_msg( m_info, _( "Now reading %s, %s to stop early." ),
                  it.type_name(), press_x( ACTION_PAUSE ) );
     }
@@ -748,6 +772,18 @@ bool avatar::read( int inventory_position, const bool continuous )
         add_msg( m_warning,
                  _( "This book is too complex for %s to easily understand. It will take longer to read." ),
                  complex_player->disp_name() );
+    }
+
+
+    // push an indentifier of martial art book to the action handling
+    if( it.type->use_methods.count( "MA_MANUAL" ) ) {
+
+        if( g->u.stamina < g->u.get_stamina_max() / 10 ) {
+            add_msg( m_info, _( "You are too exhausted to train martial arts." ) );
+            return false;
+        }
+        act.str_values.clear();
+        act.str_values.emplace_back( "martial_art" );
     }
 
     assign_activity( act );
@@ -814,9 +850,21 @@ void avatar::do_read( item &book )
         if( book_fun_for( book, *this ) != 0 ) {
             add_msg( m_info, _( "Reading this book affects your morale by %d" ), book_fun_for( book, *this ) );
         }
-        add_msg( m_info, ngettext( "A chapter of this book takes %d minute to read.",
-                                   "A chapter of this book takes %d minutes to read.", reading->time ),
-                 reading->time );
+
+        if( book.type->use_methods.count( "MA_MANUAL" ) ) {
+            const matype_id style_to_learn = martial_art_learned_from( *book.type );
+            add_msg( m_info, _( "You can learn %s style from it." ), style_to_learn->name );
+            add_msg( m_info, _( "This fighting style is %s to learn." ),
+                     martialart_difficulty( style_to_learn ) );
+            add_msg( m_info, _( "It would be easier to master if you'd have skill expertise in %s." ),
+                     style_to_learn->primary_skill->name() );
+            add_msg( m_info, _( "A training session with this book takes %s" ),
+                     to_string( time_duration::from_minutes( reading->time ) ) );
+        } else {
+            add_msg( m_info, ngettext( "A chapter of this book takes %d minute to read.",
+                                       "A chapter of this book takes %d minutes to read.", reading->time ),
+                     reading->time );
+        }
 
         std::vector<std::string> recipe_list;
         for( const auto &elem : reading->recipes ) {
@@ -965,18 +1013,51 @@ void avatar::do_read( item &book )
         }
     }
 
+    // NPCs can't learn martial arts from manuals (yet).
+    auto m = book.type->use_methods.find( "MA_MANUAL" );
+    if( m != book.type->use_methods.end() ) {
+        const matype_id style_to_learn = martial_art_learned_from( *book.type );
+        skill_id skill_used = style_to_learn->primary_skill;
+        int difficulty = std::max( 1, style_to_learn->learn_difficulty );
+        difficulty = std::max( 1, 20 + difficulty * 2 - g->u.get_skill_level( skill_used ) * 2 );
+        add_msg( m_debug, _( "Chance to learn one in: %d" ), difficulty );
+
+        if( one_in( difficulty ) ) {
+            m->second.call( *this, book, false, pos() );
+            continuous = false;
+        } else {
+            if( activity.index == g->u.getID() ) {
+                continuous = true;
+                switch( rng( 1, 5 ) ) {
+                    case 1:
+                        add_msg( m_info,
+                                 _( "You train the moves according to the book, but can't get a grasp of the style, so you start from the beginning." ) );
+                        break;
+                    case 2:
+                        add_msg( m_info,
+                                 _( "This martial art is not easy to grasp.  You start training the moves from the beginning." ) );
+                        break;
+                    case 3:
+                        add_msg( m_info,
+                                 _( "You decide to read the manual and train even more.  In martial arts, patience leads to mastery." ) );
+                        break;
+                    case 4:
+                    case 5:
+                        add_msg( m_info, _( "You try again.  This training will finally pay off." ) );
+                        break;
+                }
+            } else {
+                add_msg( m_info, _( "You train for a while." ) );
+            }
+        }
+    }
+
     if( continuous ) {
         activity.set_to_null();
         read( get_item_position( &book ), true );
         if( activity ) {
             return;
         }
-    }
-
-    // NPCs can't learn martial arts from manuals (yet).
-    auto m = book.type->use_methods.find( "MA_MANUAL" );
-    if( m != book.type->use_methods.end() ) {
-        m->second.call( *this, book, false, pos() );
     }
 
     activity.set_to_null();
