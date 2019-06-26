@@ -17,6 +17,7 @@
 #include "common_types.h"
 #include "enums.h"
 #include "int_id.h"
+#include "point.h"
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
