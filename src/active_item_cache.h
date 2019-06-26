@@ -14,7 +14,7 @@
 // A struct used to uniquely identify an item within a submap or vehicle.
 struct item_reference {
     point location;
-    safe_reference<item> safe_ref;
+    safe_reference<item> item_ref;
 };
 
 class active_item_cache
@@ -34,7 +34,7 @@ class active_item_cache
          * Adds the reference to the cache. Does nothing if the reference is already in the cache.
          * Relies on the fact that item::processing_speed() is a constant.
          */
-        void add( safe_reference<item> it, point location );
+        void add( item &it, point location );
 
         /**
          * Returns true if the cache is empty
@@ -51,7 +51,8 @@ class active_item_cache
          * Returns the first size() / processing_speed() elements of each list, rounded up.
          * Items returned are rotated to the back of their respective lists, otherwise only the
          * first n items will ever be processed.
-         * Broken references are removed from the cache.
+         * Broken references encountered when collecting the items to be processed are removed from
+         * the cache.
          * Relies on the fact that item::processing_speed() is a constant.
          */
         std::vector<item_reference> get_for_processing();

@@ -4379,7 +4379,7 @@ item &map::add_item( const tripoint &p, item new_item )
         if( current_submap->active_items.empty() ) {
             submaps_with_active_items.insert( abs_sub + tripoint( p.x / SEEX, p.y / SEEY, p.z ) );
         }
-        current_submap->active_items.add( new_pos->get_safe_reference(), l );
+        current_submap->active_items.add( *new_pos, l );
     }
 
     return *new_pos;
@@ -4443,7 +4443,7 @@ void map::make_active( item_location &loc )
         submaps_with_active_items.insert( abs_sub + tripoint( loc.position().x / SEEX,
                                           loc.position().y / SEEY, loc.position().z ) );
     }
-    current_submap->active_items.add( iter->get_safe_reference(), l );
+    current_submap->active_items.add( *iter, l );
 }
 
 void map::update_lum( item_location &loc, bool add )
@@ -4465,15 +4465,15 @@ void map::update_lum( item_location &loc, bool add )
     }
 }
 
-static bool process_item( item_stack &items, safe_reference<item> &safe_ref,
+static bool process_item( item_stack &items, safe_reference<item> &item_ref,
                           const tripoint &location,
                           const bool activate, const float insulation, const temperature_flag flag )
 {
-    if( safe_ref->process( nullptr, location, activate, insulation, flag ) ) {
+    if( item_ref->process( nullptr, location, activate, insulation, flag ) ) {
         // Item is to be destroyed so erase it from the map stack
         // unless it was already destroyed by processing.
-        if( safe_ref ) {
-            items.erase( items.get_iterator_from_pointer( safe_ref.get() ) );
+        if( item_ref ) {
+            items.erase( items.get_iterator_from_pointer( item_ref.get() ) );
         }
         return true;
     }
@@ -4481,11 +4481,11 @@ static bool process_item( item_stack &items, safe_reference<item> &safe_ref,
     return false;
 }
 
-static bool process_map_items( item_stack &items, safe_reference<item> &safe_ref,
+static bool process_map_items( item_stack &items, safe_reference<item> &item_ref,
                                const tripoint &location, const std::string &,
                                const float insulation, const temperature_flag flag )
 {
-    return process_item( items, safe_ref, location, false, insulation, flag );
+    return process_item( items, item_ref, location, false, insulation, flag );
 }
 
 static void process_vehicle_items( vehicle &cur_veh, int part )
@@ -4578,7 +4578,7 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
     std::vector<item_reference> active_items = current_submap.active_items.get_for_processing();
     const point grid_offset( gridp.x * SEEX, gridp.y * SEEY );
     for( item_reference &active_item_ref : active_items ) {
-        if( !active_item_ref.safe_ref.get() ) {
+        if( !active_item_ref.item_ref.get() ) {
             // The item was destroyed, so skip it.
             continue;
         }
@@ -4590,7 +4590,7 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
             flag = temperature_flag::TEMP_ROOT_CELLAR;
         }
         map_stack items = i_at( map_location );
-        processor( items, active_item_ref.safe_ref, map_location, signal, 1, flag );
+        processor( items, active_item_ref.item_ref, map_location, signal, 1, flag );
     }
 }
 
@@ -4632,7 +4632,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
     for( item_reference &active_item_ref : cur_veh.active_items.get_for_processing() ) {
         if( empty( cargo_parts ) ) {
             return;
-        } else if( !active_item_ref.safe_ref.get() ) {
+        } else if( !active_item_ref.item_ref.get() ) {
             // The item was destroyed, so skip it.
             continue;
         }
@@ -4644,7 +4644,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
         if( it == end( cargo_parts ) ) {
             continue; // Can't find a cargo part matching the active item.
         }
-        const item &target = *active_item_ref.safe_ref;
+        const item &target = *active_item_ref.item_ref;
         // Find the cargo part and coordinates corresponding to the current active item.
         const vehicle_part &pt = it->part();
         const tripoint item_loc = it->pos();
@@ -4667,7 +4667,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
                 flag = temperature_flag::TEMP_FREEZER;
             }
         }
-        if( !processor( items, active_item_ref.safe_ref, item_loc, signal, it_insulation, flag ) ) {
+        if( !processor( items, active_item_ref.item_ref, item_loc, signal, it_insulation, flag ) ) {
             // If the item was NOT destroyed, we can skip the remainder,
             // which handles fallout from the vehicle being damaged.
             continue;
@@ -5074,44 +5074,44 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( int x, int y, int z )
     return rc_pairs;
 }
 
-static bool trigger_radio_item( item_stack &items, safe_reference<item> &safe_ref,
+static bool trigger_radio_item( item_stack &items, safe_reference<item> &item_ref,
                                 const tripoint &pos, const std::string &signal,
                                 const float, const temperature_flag flag )
 {
     bool trigger_item = false;
-    if( safe_ref->has_flag( "RADIO_ACTIVATION" ) && safe_ref->has_flag( signal ) ) {
+    if( item_ref->has_flag( "RADIO_ACTIVATION" ) && item_ref->has_flag( signal ) ) {
         sounds::sound( pos, 6, sounds::sound_t::alarm, _( "beep." ), true, "misc", "beep" );
-        if( safe_ref->has_flag( "RADIO_INVOKE_PROC" ) ) {
+        if( item_ref->has_flag( "RADIO_INVOKE_PROC" ) ) {
             // Invoke twice: first to transform, then later to proc
             // Can't use process_item here - invalidates our iterator
-            safe_ref->process( nullptr, pos, true );
+            item_ref->process( nullptr, pos, true );
         }
-        if( safe_ref->has_flag( "BOMB" ) ) {
+        if( item_ref->has_flag( "BOMB" ) ) {
             // Set charges to 0 to ensure it detonates now
-            safe_ref->charges = 0;
-            safe_ref->item_counter = 0;
+            item_ref->charges = 0;
+            item_ref->item_counter = 0;
         }
         trigger_item = true;
-    } else if( safe_ref->has_flag( "RADIO_CONTAINER" ) && !safe_ref->contents.empty() ) {
-        auto it = std::find_if( safe_ref->contents.begin(),
-        safe_ref->contents.end(), [ &signal ]( const item & c ) {
+    } else if( item_ref->has_flag( "RADIO_CONTAINER" ) && !item_ref->contents.empty() ) {
+        auto it = std::find_if( item_ref->contents.begin(),
+        item_ref->contents.end(), [ &signal ]( const item & c ) {
             return c.has_flag( signal );
         } );
-        if( it != safe_ref->contents.end() ) {
-            safe_ref->convert( it->typeId() );
-            if( safe_ref->has_flag( "RADIO_INVOKE_PROC" ) ) {
-                safe_ref->process( nullptr, pos, true );
+        if( it != item_ref->contents.end() ) {
+            item_ref->convert( it->typeId() );
+            if( item_ref->has_flag( "RADIO_INVOKE_PROC" ) ) {
+                item_ref->process( nullptr, pos, true );
             }
 
             // Clear possible mods to prevent unnecessary pop-ups.
-            safe_ref->contents.clear();
+            item_ref->contents.clear();
 
-            safe_ref->charges = 0;
+            item_ref->charges = 0;
             trigger_item = true;
         }
     }
     if( trigger_item ) {
-        return process_item( items, safe_ref, pos, true, 1, flag );
+        return process_item( items, item_ref, pos, true, 1, flag );
     }
     return false;
 }
@@ -8400,7 +8400,7 @@ std::list<item_location> map::get_active_items_in_radius( const tripoint &center
                     continue;
                 }
 
-                result.emplace_back( map_cursor( pos ), elem.safe_ref.get() );
+                result.emplace_back( map_cursor( pos ), elem.item_ref.get() );
             }
         }
     }
