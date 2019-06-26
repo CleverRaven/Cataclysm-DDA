@@ -1702,13 +1702,8 @@ int get_heat_radiation( const tripoint &location, bool direct )
     // Cache fires to avoid scanning the map around us bp times
     // Stored as intensity-distance pairs
     int temp_mod = 0;
-    std::vector<std::pair<int, int>> fires;
-    fires.reserve( 13 * 13 );
     int best_fire = 0;
     for( const tripoint &dest : g->m.points_in_radius( location, 6 ) ) {
-        if( !g->m.sees( location, dest, -1 ) ) {
-            continue;
-        }
         int heat_intensity = 0;
 
         int ffire = g->m.get_field_intensity( dest, fd_fire );
@@ -1721,19 +1716,16 @@ int get_heat_radiation( const tripoint &location, bool direct )
             // No heat source here
             continue;
         }
+        if( !g->m.sees( location, dest, -1 ) ) {
+            continue;
+        }
         // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
         const int fire_dist = std::max( 1, square_dist( dest, location ) );
-        fires.emplace_back( std::make_pair( heat_intensity, fire_dist ) );
+        temp_mod += 6 * heat_intensity * heat_intensity / fire_dist;
         if( fire_dist <= 1 ) {
             // Extend limbs/lean over a single adjacent fire to warm up
             best_fire = std::max( best_fire, heat_intensity );
         }
-    }
-
-    for( const auto &intensity_dist : fires ) {
-        const int intensity = intensity_dist.first;
-        const int distance = intensity_dist.second;
-        temp_mod += 6 * intensity * intensity / distance;
     }
     if( direct ) {
         return best_fire;
