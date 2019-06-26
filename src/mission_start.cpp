@@ -206,7 +206,8 @@ void mission_start::place_npc_software( mission *miss )
     tripoint comppoint;
 
     oter_id oter = overmap_buffer.ter( place.x, place.y, place.z );
-    if( is_ot_prefix( "house", oter ) || is_ot_type( "s_pharm", oter ) || oter == "" ) {
+    if( is_ot_match( "house", oter, ot_match_type::PREFIX ) ||
+        is_ot_match( "s_pharm", oter, ot_match_type::TYPE ) || oter == "" ) {
         comppoint = find_potential_computer_point( compmap, place.z );
     }
 
@@ -584,7 +585,7 @@ void mission_start::place_book( mission * )
 void mission_start::reveal_refugee_center( mission *miss )
 {
     mission_target_params t;
-    t.overmap_terrain_subtype = "refctr_S3e";
+    t.overmap_terrain = "refctr_S3e";
     t.overmap_special = overmap_special_id( "evac_center" );
     t.mission_pointer = miss;
     t.search_range = 0;
