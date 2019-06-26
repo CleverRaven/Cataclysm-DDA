@@ -415,8 +415,12 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[0].text == "This is a basic test response." );
 
     const auto has_item = [&]( player & p, const std::string & id, int count ) {
-        return p.has_charges( itype_id( id ), count ) ||
-               p.has_amount( itype_id( id ), count );
+        item old_item = item( id );
+        if( old_item.count_by_charges() ) {
+            return p.has_charges( itype_id( id ), count );
+        } else {
+            return p.has_amount( itype_id( id ), count );
+        }
     };
     const auto has_beer_bottle = [&]( player & p, int count ) {
         return has_item( p, "bottle_glass", 1 ) && has_item( p, "beer", count );
@@ -555,6 +559,7 @@ TEST_CASE( "npc_talk_test" )
     CHECK( has_item( g->u, "beer", 1 ) );
     effects = d.responses[17].success;
     effects.apply( d );
+    CHECK( has_item( g->u, "beer", 0 ) );
     CHECK( !has_item( g->u, "beer", 1 ) );
 
     d.add_topic( "TALK_COMBAT_COMMANDS" );
