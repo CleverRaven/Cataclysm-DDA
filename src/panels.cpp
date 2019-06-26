@@ -211,8 +211,8 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
     const int cursy = global_omt.y;
     const tripoint targ = you.get_active_mission_target();
     bool drew_mission = targ == overmap::invalid_tripoint;
-    const int start_y = start_y_input + ( height / 2 );
-    const int start_x = start_x_input + ( width / 2 );
+    const int start_y = start_y_input + ( height / 2 ) - 2;
+    const int start_x = start_x_input + ( width / 2 ) - 2;
 
     for( int i = -( width / 2 ); i <= width - ( width / 2 ) - 1; i++ ) {
         for( int j = -( height / 2 ); j <= height - ( height / 2 ) - 1; j++ ) {
