@@ -228,7 +228,7 @@ void stomach_contents::ingest( player &p, item &food, int charges = 1 )
 
     last_ate = calendar::turn;
 
-    mod_calories( comest_t->get_calories() );
+    mod_calories( p.kcal_for( comest ) );
 }
 
 void stomach_contents::absorb_water( player &p, units::volume amount )
