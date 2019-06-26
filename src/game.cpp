@@ -1706,7 +1706,11 @@ int get_heat_radiation( const tripoint &location, bool direct )
     fires.reserve( 13 * 13 );
     int best_fire = 0;
     for( const tripoint &dest : g->m.points_in_radius( location, 6 ) ) {
-        if( !g->m.sees( location, dest, -1 ) ) {
+        if( g->u.pos() == location ) {
+            if( !g->m.pl_line_of_sight( dest, -1 ) ) {
+                continue;
+            }
+        } else if( !g->m.sees( location, dest, -1 ) ) {
             continue;
         }
         int heat_intensity = 0;
