@@ -529,7 +529,8 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     units::volume volume = to_throw.volume();
     units::mass weight = to_throw.weight();
 
-    const int stamina_cost = ( ( weight / 100_gram ) + 20 ) * -1;
+    const int stamina_cost = ( static_cast<int>( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) )
+                               + ( weight / 10_gram ) + 200 ) * -1;
     mod_stat( "stamina", stamina_cost );
 
     const skill_id &skill_used = skill_throw;

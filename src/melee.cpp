@@ -522,13 +522,13 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
 
     const int melee = get_skill_level( skill_melee );
     /** @EFFECT_STR reduces stamina cost for melee attack with heavier weapons */
-    const int weight_cost = cur_weapon.weight() / ( 20_gram * std::max( 1, str_cur ) );
-    const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 5.0f );
-    const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 5 : 0;
+    const int weight_cost = cur_weapon.weight() / ( 2_gram * std::max( 1, str_cur ) );
+    const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) * 2.0f );
+    const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 50 : 0;
     /** @EFFECT_MELEE reduces stamina cost of melee attacks */
-    const int mod_sta = ( weight_cost + encumbrance_cost - melee - deft_bonus + 10 ) * -1;
-    mod_stat( "stamina", std::min( -5, mod_sta ) );
-
+    const int mod_sta = ( weight_cost + encumbrance_cost - melee - deft_bonus + 50 ) * -1;
+    mod_stat( "stamina", std::min( -50, mod_sta ) );
+    add_msg( m_debug, "Stamina burn: %d", std::min( -50, mod_sta ) );
     mod_moves( -move_cost );
 
     ma_onattack_effects(); // trigger martial arts on-attack effects

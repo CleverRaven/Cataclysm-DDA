@@ -399,11 +399,7 @@ void spell_effect::recover_energy( spell &sp, const tripoint &target )
     if( energy_source == "MANA" ) {
         p->magic.mod_mana( *p, healing );
     } else if( energy_source == "STAMINA" ) {
-        if( healing > 0 ) {
-            p->stamina = std::min( p->get_stamina_max(), p->stamina + healing );
-        } else {
-            p->stamina = std::max( 0, p->stamina + healing );
-        }
+        p->mod_stat( "stamina", healing );
     } else if( energy_source == "FATIGUE" ) {
         // fatigue is backwards
         p->mod_fatigue( -healing );
@@ -411,7 +407,7 @@ void spell_effect::recover_energy( spell &sp, const tripoint &target )
         if( healing > 0 ) {
             p->power_level = std::min( p->max_power_level, p->power_level + healing );
         } else {
-            p->stamina = std::max( 0, p->stamina + healing );
+            p->mod_stat( "stamina", healing );
         }
     } else if( energy_source == "PAIN" ) {
         // pain is backwards

@@ -84,6 +84,7 @@
 #include "units.h"
 #include "type_id.h"
 #include "event.h"
+#include "options.h"
 
 class npc;
 
@@ -534,7 +535,7 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
             break;
     }
 
-    // At factor 0, 10 time_to_cut is 10 turns. At factor 50, it's 5 turns, at 75 it's 2.5
+    // At factor 0, base 100 time_to_cut remains 100. At factor 50, it's 50 , at factor 75 it's 25
     time_to_cut *= std::max( 25, 100 - factor );
     if( time_to_cut < 3000 ) {
         time_to_cut = 3000;
@@ -1764,15 +1765,16 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 g->m.add_splatter_trail( type_blood, pos, dest );
             }
 
-            float stamina_ratio = static_cast<float>( p->stamina ) / p->get_stamina_max();
-            p->mod_stat( "stamina", stamina_ratio * -40 );
+            p->mod_stat( "stamina", -pulp_power - static_cast<int>
+                         ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) );
 
-            moves += 100 / std::max( 0.25f, stamina_ratio );
             if( one_in( 4 ) ) {
                 // Smashing may not be butchery, but it involves some zombie anatomy
                 p->practice( skill_survival, 2, 2 );
             }
 
+            float stamina_ratio = static_cast<float>( p->stamina ) / p->get_stamina_max();
+            moves += 100 / std::max( 0.25f, stamina_ratio );
             if( moves >= p->moves ) {
                 // Enough for this turn;
                 p->moves -= moves;
@@ -2718,9 +2720,17 @@ void activity_handlers::repair_item_do_turn( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::butcher_do_turn( player_activity *, player *p )
+void activity_handlers::butcher_do_turn( player_activity *act, player *p )
 {
-    p->mod_stat( "stamina", -20.0f * p->stamina / p->get_stamina_max() );
+    const int drain = 1 + static_cast<int>( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) );
+    if( p->stamina <= drain + 200 ) { // 200 to give some space and not end the activity at 0 stamina
+        act->moves_left += p->moves; // wait for stamina regain, halt progress
+        if( one_in( 5 ) ) { // reduce spam
+            p->add_msg_if_player( _( "You pause for a second to catch your breath." ) );
+        }
+    } else {
+        p->mod_stat( "stamina", -drain );
+    }
 }
 
 void activity_handlers::read_finish( player_activity *act, player *p )
@@ -3988,7 +3998,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                 p->magic.mod_mana( *p, -cost );
                 break;
             case stamina_energy:
-                p->stamina -= cost;
+                p->mod_stat( "stamina", -cost );
                 break;
             case bionic_energy:
                 p->power_level -= cost;
