@@ -141,6 +141,7 @@
     "type": "item_group",
     "id": "road",
     "items": [
+      [ "ammo_casings", 80 ],
       [ "jumper_cable", 5 ],
       [ "muffler", 30 ],
       [ "pipe", 20 ],
