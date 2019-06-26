@@ -4255,10 +4255,9 @@ int weigh_self_actor::use( player &p, item &, bool, const tripoint & ) const
     // this is a weight, either in kgs or in lbs.
     double weight = convert_weight( p.get_weight() );
     if( weight > convert_weight( max_weight ) ) {
-        popup( "ERROR TOO HEAVY" );
+        popup( _( "ERROR: Max weight of %.0f %s exceeded" ), weight, weight_units() );
     } else {
-        popup( string_format( "%.0f %s", weight,
-                              get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "lbs" ? _( "lbs" ) : _( "kgs" ) ) );
+        popup( string_format( "%.0f %s", weight, weight_units() ) );
     }
     return 0;
 }
