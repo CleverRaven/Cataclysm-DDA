@@ -363,9 +363,10 @@ int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp = nu
 int om_carry_weight_to_trips( units::mass mass, units::volume volume, units::mass carry_mass,
                               units::volume carry_volume );
 /// Formats the variables into a standard looking description to be displayed in a ynquery window
-std::string camp_trip_description( time_duration total_time, time_duration working_time,
-                                   time_duration travel_time, int distance, int trips,
-                                   int need_food );
+std::string camp_trip_description( const time_duration &total_time,
+                                   const time_duration &working_time,
+                                   const time_duration &travel_time,
+                                   int distance, int trips, int need_food );
 
 /// Returns a string for display of the selected car so you don't chop shop the wrong one
 std::string camp_car_description( vehicle *car );
@@ -3233,8 +3234,9 @@ std::string talk_function::om_simple_dir( const tripoint &omt_pos, const tripoin
 }
 
 // mission descriptions
-std::string camp_trip_description( time_duration total_time, time_duration working_time,
-                                   time_duration travel_time, int distance, int trips,
+std::string camp_trip_description( const time_duration &total_time,
+                                   const time_duration &working_time,
+                                   const time_duration &travel_time, int distance, int trips,
                                    int need_food )
 {
     std::string entry = " \n";

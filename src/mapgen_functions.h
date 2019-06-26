@@ -82,7 +82,7 @@ struct mapgendata {
         void fill_groundcover();
         void square_groundcover( const int x1, const int y1, const int x2, const int y2 );
         ter_id groundcover();
-        bool is_groundcover( const ter_id iid ) const;
+        bool is_groundcover( const ter_id &iid ) const;
         bool has_basement() const;
 };
 

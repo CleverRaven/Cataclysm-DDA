@@ -365,7 +365,6 @@ static void rcdrive( int dx, int dy )
         rotate_direction_cw( dx, dy );
     }
 
-    tripoint src( cx, cy, cz );
     tripoint dest( cx + dx, cy + dy, cz );
     if( m.impassable( dest ) || !m.can_put_items_ter_furn( dest ) ||
         m.has_furn( dest ) ) {
@@ -373,6 +372,7 @@ static void rcdrive( int dx, int dy )
                        _( "sound of a collision with an obstacle." ), true, "misc", "rc_car_hits_obstacle" );
         return;
     } else if( !m.add_item_or_charges( dest, *rc_car ).is_null() ) {
+        tripoint src( cx, cy, cz );
         //~ Sound of moving a remote controlled car
         sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz..." ), true, "misc", "rc_car_drives" );
         u.moves -= 50;

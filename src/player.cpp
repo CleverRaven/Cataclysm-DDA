@@ -6803,19 +6803,19 @@ int player::get_morale_level() const
     return morale->get_level();
 }
 
-void player::add_morale( morale_type type, int bonus, int max_bonus,
+void player::add_morale( const morale_type &type, int bonus, int max_bonus,
                          const time_duration &duration, const time_duration &decay_start,
                          bool capped, const itype *item_type )
 {
     morale->add( type, bonus, max_bonus, duration, decay_start, capped, item_type );
 }
 
-int player::has_morale( morale_type type ) const
+int player::has_morale( const morale_type &type ) const
 {
     return morale->has( type );
 }
 
-void player::rem_morale( morale_type type, const itype *item_type )
+void player::rem_morale( const morale_type &type, const itype *item_type )
 {
     morale->remove( type, item_type );
 }

@@ -1505,7 +1505,7 @@ static bool drink_nectar( player &p )
 /**
  * Spawn an item after harvesting the plant
  */
-static void handle_harvest( player &p, std::string itemid, bool force_drop )
+static void handle_harvest( player &p, const std::string &itemid, bool force_drop )
 {
     item harvest = item( itemid );
     if( !force_drop && p.can_pickVolume( harvest, true ) &&
@@ -3430,9 +3430,6 @@ void iexamine::sign( player &p, const tripoint &examp )
         std::string query_message = previous_signage_exists ?
                                     _( "Overwrite the existing message on the sign?" ) :
                                     _( "Add a message to the sign?" );
-        std::string spray_painted_message = previous_signage_exists ?
-                                            _( "You overwrite the previous message on the sign with your graffiti." ) :
-                                            _( "You graffiti a message onto the sign." );
         std::string ignore_message = _( "You leave the sign alone." );
         if( query_yn( query_message ) ) {
             std::string signage = string_input_popup()
@@ -3442,6 +3439,9 @@ void iexamine::sign( player &p, const tripoint &examp )
             if( signage.empty() ) {
                 p.add_msg_if_player( m_neutral, ignore_message );
             } else {
+                std::string spray_painted_message = previous_signage_exists ?
+                                                    _( "You overwrite the previous message on the sign with your graffiti." ) :
+                                                    _( "You graffiti a message onto the sign." );
                 g->m.set_signage( examp, signage );
                 p.add_msg_if_player( m_info, spray_painted_message );
                 p.mod_moves( - 20 * signage.length() );
@@ -4147,10 +4147,10 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-            const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
             const float volume_anesth = itemtype->bionic->difficulty * 20 * 2; // 2ml/min
 
             if( patient.can_install_bionics( ( *itemtype ), installer, true ) ) {
+                const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 std::vector<item_comp> comps;
                 comps.push_back( item_comp( it->typeId(), 1 ) );
@@ -4208,7 +4208,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
             // Malfunctioning bionics that don't have associated items and get a difficulty of 12
             const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
-            const time_duration duration = difficulty * 20_minutes;
             const float volume_anesth = difficulty * 20 * 2; // 2ml/min
 
             player &installer = best_installer( p, null_player, difficulty );
@@ -4217,9 +4216,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             if( patient.can_uninstall_bionic( bid, installer, true ) ) {
+                const time_duration duration = difficulty * 20_minutes;
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 if( needs_anesthesia ) {
-                    if( acomps.empty() ) { // consume obsolete anesthesia first
+                    if( acomps.empty() ) {
+                        // consume obsolete anesthesia first
                         p.consume_tools( anesth_kit, volume_anesth );
                     } else {
                         p.consume_items( acomps, 1, is_crafting_component ); // legacy

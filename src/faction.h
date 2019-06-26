@@ -95,7 +95,7 @@ class faction : public faction_template
         std::string food_supply_text();
         nc_color food_supply_color();
 
-        bool has_relationship( const faction_id guy_id, npc_factions::relationship flag ) const;
+        bool has_relationship( const faction_id &guy_id, npc_factions::relationship flag ) const;
         std::vector<int> opinion_of;
         bool validated = false;
 };

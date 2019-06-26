@@ -812,7 +812,6 @@ class jmapgen_faction : public jmapgen_piece
         jmapgen_faction( JsonObject &jsi ) : jmapgen_piece() {
             if( jsi.has_string( "id" ) ) {
                 id = faction_id( jsi.get_string( "id" ) );
-                std::string facid = jsi.get_string( "id" );
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,

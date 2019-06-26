@@ -256,10 +256,11 @@ static void item_save_monsters( player &p, item &it, const std::vector<monster *
                                 const int photo_quality );
 static bool show_photo_selection( player &p, item &it, const std::string &var_name );
 
-static bool item_read_extended_photos( item &, std::vector<extended_photo_def> &, std::string,
+static bool item_read_extended_photos( item &, std::vector<extended_photo_def> &,
+                                       const std::string &,
                                        bool = false );
 static void item_write_extended_photos( item &, const std::vector<extended_photo_def> &,
-                                        std::string );
+                                        const std::string & );
 
 static std::string format_object_pair( const std::pair<std::string, int> &pair,
                                        const std::string &article );
@@ -270,24 +271,24 @@ static std::string colorized_field_description_at( const tripoint &point );
 static std::string colorized_trap_name_at( const tripoint &point );
 static std::string colorized_ter_name_flags_at( const tripoint &point,
         const std::vector<std::string> &flags = {}, const std::vector<ter_str_id> &ter_whitelist = {} );
-static std::string colorized_feature_description_at( const tripoint center_point, bool &item_found,
-        const units::volume &min_visible_volume );
+static std::string colorized_feature_description_at( const tripoint &center_point, bool &item_found,
+        const units::volume min_visible_volume );
 
 static std::string colorized_item_name( const item &item );
 static std::string colorized_item_description( const item &item );
 static const item get_top_item_at_point( const tripoint &point,
-        const units::volume &min_visible_volume );
+        const units::volume min_visible_volume );
 
 static std::string effects_description_for_creature( Creature *const creature, std::string &pose,
         const std::string &pronoun_sex );
 
-static object_names_collection enumerate_objects_around_point( const tripoint point,
-        const int radius, const tripoint bounds_center_point, const int bounds_radius,
-        const tripoint camera_pos, const units::volume &min_visible_volume, bool create_figure_desc,
+static object_names_collection enumerate_objects_around_point( const tripoint &point,
+        const int radius, const tripoint &bounds_center_point, const int bounds_radius,
+        const tripoint &camera_pos, const units::volume min_visible_volume, bool create_figure_desc,
         std::unordered_set<tripoint> &ignored_points,
         std::unordered_set<const vehicle *> &vehicles_recorded );
-static extended_photo_def photo_def_for_camera_point( const tripoint aim_point,
-        const tripoint camera_pos,
+static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
+        const tripoint &camera_pos,
         std::vector<monster *> &monster_vec, std::vector<player *> &player_vec );
 
 static const std::vector<std::string> camera_ter_whitelist_flags = {
@@ -4136,9 +4137,9 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
 
 int iuse::rpgdie( player *you, item *die, bool, const tripoint & )
 {
-    const std::vector<int> sides_options = { 4, 6, 8, 10, 12, 20, 50 };
     int num_sides = die->get_var( "die_num_sides", 0 );
     if( num_sides == 0 ) {
+        const std::vector<int> sides_options = { 4, 6, 8, 10, 12, 20, 50 };
         const int sides = sides_options[ rng( 0, sides_options.size() - 1 ) ];
         num_sides = sides;
         die->set_var( "die_num_sides", sides );
@@ -6590,7 +6591,7 @@ static std::string colorized_field_description_at( const tripoint &point )
         fd_gas_vent, fd_fire_vent, fd_fatigue
     };
     static const std::unordered_set<field_id, std::hash<int>> illuminated_by_affix_ids = {
-        fd_spotlight, fd_laser, fd_dazzling, fd_spotlight, fd_electricity
+        fd_spotlight, fd_laser, fd_dazzling, fd_electricity
     };
     static const std::vector<std::pair<std::unordered_set<field_id, std::hash<int>>, std::string>>
     affixes_vec = {
@@ -6639,7 +6640,7 @@ static std::string colorized_item_description( const item &item )
 }
 
 static const item get_top_item_at_point( const tripoint &point,
-        const units::volume &min_visible_volume )
+        const units::volume min_visible_volume )
 {
     map_stack items = g->m.i_at( point );
     // iterate from topmost item down to ground
@@ -6658,7 +6659,6 @@ static std::string colorized_ter_name_flags_at( const tripoint &point,
     const ter_id ter = g->m.ter( point );
     std::string name = colorize( ter->name(), ter->color() );
     const std::string &graffiti_message = g->m.graffiti_at( point );
-    const std::string trap_name = colorized_trap_name_at( point );
 
     if( !graffiti_message.empty() ) {
         name +=  string_format( _( " with graffiti \"%s\"" ), graffiti_message );
@@ -6687,8 +6687,8 @@ static std::string colorized_ter_name_flags_at( const tripoint &point,
     return std::string();
 }
 
-static std::string colorized_feature_description_at( const tripoint center_point, bool &item_found,
-        const units::volume &min_visible_volume )
+static std::string colorized_feature_description_at( const tripoint &center_point, bool &item_found,
+        const units::volume min_visible_volume )
 {
     item_found = false;
     const furn_id furn = g->m.furn( center_point );
@@ -6827,9 +6827,9 @@ struct object_names_collection {
     std::string obj_nearby_text;
 };
 
-static object_names_collection enumerate_objects_around_point( const tripoint point,
-        const int radius, const tripoint bounds_center_point, const int bounds_radius,
-        const tripoint camera_pos, const units::volume &min_visible_volume, bool create_figure_desc,
+static object_names_collection enumerate_objects_around_point( const tripoint &point,
+        const int radius, const tripoint &bounds_center_point, const int bounds_radius,
+        const tripoint &camera_pos, const units::volume min_visible_volume, bool create_figure_desc,
         std::unordered_set<tripoint> &ignored_points,
         std::unordered_set<const vehicle *> &vehicles_recorded )
 {
@@ -6860,7 +6860,6 @@ static object_names_collection enumerate_objects_around_point( const tripoint po
                                 volume_to_search );
 
         const item item = get_top_item_at_point( point_around_figure, volume_to_search );
-        std::string item_name = colorized_item_name( item );
 
         const optional_vpart_position veh_part_pos = g->m.veh_at( point_around_figure );
         std::string unusual_ter_desc = colorized_ter_name_flags_at( point_around_figure,
@@ -6903,6 +6902,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint po
             vehicles_recorded.insert( veh_hash );
             local_vehicles_recorded.insert( veh_hash );
         } else if( !item.is_null() ) {
+            std::string item_name = colorized_item_name( item );
             item_name = trap_name + item_name + field_desc;
             if( point == point_around_figure && create_figure_desc ) {
                 description_terrain_on_figure = string_format( _( "%1$s with a %2$s" ), ter_desc, item_name );
@@ -6965,8 +6965,8 @@ static object_names_collection enumerate_objects_around_point( const tripoint po
     return ret_obj;
 }
 
-static extended_photo_def photo_def_for_camera_point( const tripoint aim_point,
-        const tripoint camera_pos,
+static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
+        const tripoint &camera_pos,
         std::vector<monster *> &monster_vec, std::vector<player *> &player_vec )
 {
     // look for big items on top of stacks in the background for the selfie description
@@ -7263,7 +7263,7 @@ static void item_save_monsters( player &p, item &it, const std::vector<monster *
 
 // throws exception
 static bool item_read_extended_photos( item &it, std::vector<extended_photo_def> &extended_photos,
-                                       std::string var_name, bool insert_at_begin )
+                                       const std::string &var_name, bool insert_at_begin )
 {
     bool result = false;
     std::istringstream extended_photos_data( it.get_var( var_name ) );
@@ -7282,7 +7282,7 @@ static bool item_read_extended_photos( item &it, std::vector<extended_photo_def>
 // throws exception
 static void item_write_extended_photos( item &it,
                                         const std::vector<extended_photo_def> &extended_photos,
-                                        std::string var_name )
+                                        const std::string &var_name )
 {
     std::ostringstream extended_photos_data;
     JsonOut json( extended_photos_data );
@@ -8945,7 +8945,7 @@ int iuse::ladder( player *p, item *, bool, const tripoint & )
     return 1;
 }
 
-washing_requirements washing_requirements_for_volume( units::volume vol )
+washing_requirements washing_requirements_for_volume( const units::volume vol )
 {
     int water = divide_round_up( vol, 125_ml );
     int cleanser = divide_round_up( vol, 1000_ml );
