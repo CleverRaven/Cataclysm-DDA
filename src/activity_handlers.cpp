@@ -156,7 +156,8 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_do_turn },
     { activity_id( "ACT_TREE_COMMUNION" ), tree_communion_do_turn },
     { activity_id( "ACT_STUDY_SPELL" ), study_spell_do_turn},
-    { activity_id( "ACT_WAIT_STAMINA" ), wait_stamina_do_turn },
+    { activity_id( "ACT_READ" ), read_do_turn},
+    { activity_id( "ACT_WAIT_STAMINA" ), wait_stamina_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -2730,6 +2731,21 @@ void activity_handlers::butcher_do_turn( player_activity *act, player *p )
         }
     } else {
         p->mod_stat( "stamina", -drain );
+    }
+}
+
+void activity_handlers::read_do_turn( player_activity *act, player *p )
+{
+    if( !act->str_values.empty() && act->str_values[0] == "martial_art" && one_in( 3 ) ) {
+        if( act->values.size() == 0 ) {
+            act->values.push_back( p->stamina );
+        }
+        p->stamina = act->values[0] - 1;
+        act->values[0] = p->stamina;
+    }
+    if( p->stamina < p->get_stamina_max() / 10 ) {
+        add_msg( m_info, _( "This training is exhausting.  Time to rest." ) );
+        act->set_to_null();
     }
 }
 

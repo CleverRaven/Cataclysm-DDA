@@ -1987,6 +1987,17 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( type->can_use( "MA_MANUAL" ) && parts->test( iteminfo_parts::BOOK_SUMMARY ) ) {
             info.push_back( iteminfo( "BOOK",
                                       _( "Some sort of <info>martial arts training manual</info>." ) ) );
+            if( g->u.has_identified( typeId() ) ) {
+                const matype_id style_to_learn = martial_art_learned_from( *type );
+                info.push_back( iteminfo( "BOOK",
+                                          string_format( _( "You can learn <info>%s</info> style from it." ), style_to_learn->name ) ) );
+                info.push_back( iteminfo( "BOOK",
+                                          string_format( _( "This fighting style is <info>%s</info> to learn." ),
+                                                  martialart_difficulty( style_to_learn ) ) ) );
+                info.push_back( iteminfo( "BOOK",
+                                          string_format( _( "It'd be easier to master if you'd have skill expertise in <info>%s</info>." ),
+                                                  style_to_learn->primary_skill->name() ) ) );
+            }
         }
         if( book.req == 0 && parts->test( iteminfo_parts::BOOK_REQUIREMENTS_BEGINNER ) ) {
             info.push_back( iteminfo( "BOOK", _( "It can be <info>understood by beginners</info>." ) ) );
@@ -2026,6 +2037,12 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                "A chapter of this book takes <num> <info>minute to read</info>.",
                                "A chapter of this book takes <num> <info>minutes to read</info>.",
                                book.time );
+                if( type->use_methods.count( "MA_MANUAL" ) ) {
+                    fmt = ngettext(
+                              "<info>A training session</info> with this book takes <num> <info>minute</info>.",
+                              "<info>A training session</info> with this book takes <num> <info>minutes</info>.",
+                              book.time );
+                }
                 info.push_back( iteminfo( "BOOK", "", fmt,
                                           iteminfo::lower_is_better, book.time ) );
             }

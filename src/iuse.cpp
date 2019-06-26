@@ -2357,11 +2357,6 @@ int iuse::ma_manual( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    if( p->has_martialart( style_to_learn ) ) {
-        p->add_msg_if_player( m_info, _( "You already know all this book has to teach." ) );
-        return 0;
-    }
-
     p->ma_styles.push_back( style_to_learn );
 
     p->add_msg_if_player( m_good, _( "You learn the essential elements of %s." ),
