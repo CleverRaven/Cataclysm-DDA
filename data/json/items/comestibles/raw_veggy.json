@@ -323,8 +323,7 @@
     "//": "Also known as Queen Anne's Lace. It's that boring white flower that grows wild everywhere. Water hemlock looks almost exactly like wild carrot. The easiest way to tell them apart is by their scent. Please don't eat either of them at home, hemlock will kill you deader than Socrates.",
     "flags": [ "FORAGE_POISON" ],
     "price": 90,
-    "fun": -2,
-    "smoking_result": "dry_veggy"
+    "fun": -2
   },
   {
     "type": "COMESTIBLE",
