@@ -39,7 +39,6 @@
 #include "optional.h"
 #include "string_id.h"
 #include "translations.h"
-#include "vpart_reference.h"
 #include "type_id.h"
 #include "messages.h"
 #include "coordinate_conversions.h"

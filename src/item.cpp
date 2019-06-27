@@ -66,7 +66,6 @@
 #include "vehicle.h"
 #include "vitamin.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "weather.h"
 #include "catacharset.h"
 #include "character.h"

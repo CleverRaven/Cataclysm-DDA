@@ -49,7 +49,6 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "weather.h"
 #include "weighted_list.h"
 #include "calendar.h"

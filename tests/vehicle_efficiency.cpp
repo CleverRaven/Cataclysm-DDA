@@ -22,7 +22,6 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "enums.h"
