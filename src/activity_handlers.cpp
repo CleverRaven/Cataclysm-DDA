@@ -1734,6 +1734,15 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     // Multiplier to get the chance right + some bonus for survival skill
     pulp_power *= 40 + p->get_skill_level( skill_survival ) * 5;
 
+    // player rests at 1/3 stamina halting progress, activity takes longer
+    if( p->stamina <= p->get_stamina_max() / 3 ) {
+        p->update_stamina( 1 );
+        if( one_in( 10 ) ) { // reduce spam
+            p->add_msg_if_player( _( "You pause for a second to catch your breath." ) );
+        }
+        return;
+    }
+
     const int mess_radius = p->weapon.has_flag( "MESSY" ) ? 2 : 1;
 
     int moves = 0;
@@ -1768,7 +1777,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 g->m.add_splatter_trail( type_blood, pos, dest );
             }
 
-            p->mod_stat( "stamina", -pulp_power - static_cast<int>
+            p->mod_stat( "stamina", -( pulp_power / 2 ) - static_cast<int>
                          ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) );
 
             if( one_in( 4 ) ) {
@@ -2771,9 +2780,10 @@ void activity_handlers::repair_item_do_turn( player_activity *act, player *p )
 void activity_handlers::butcher_do_turn( player_activity *act, player *p )
 {
     const int drain = 1 + static_cast<int>( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) );
-    if( p->stamina <= drain + 200 ) { // 200 to give some space and not end the activity at 0 stamina
+    // player rests at 1/3 stamina halting progress, activity takes longer
+    if( p->stamina <= drain + p->get_stamina_max() / 3 ) {
         act->moves_left += p->moves; // wait for stamina regain, halt progress
-        if( one_in( 5 ) ) { // reduce spam
+        if( one_in( 10 ) ) { // reduce spam
             p->add_msg_if_player( _( "You pause for a second to catch your breath." ) );
         }
     } else {
