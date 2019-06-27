@@ -2355,7 +2355,7 @@ static void mx_casings( map &m, const tripoint &abs_sub )
                 if( one_in( 2 ) ) {
                     m.spawn_items( { i.x, i.y, abs_sub.z }, items );
                     if( one_in( 2 ) ) {
-                    m.add_field( { i.x, i.y, abs_sub.z }, fd_blood, rng( 1, 3 ) );
+                        m.add_field( { i.x, i.y, abs_sub.z }, fd_blood, rng( 1, 3 ) );
                     }
                 }
             }
@@ -2403,7 +2403,7 @@ static void mx_casings( map &m, const tripoint &abs_sub )
                 m.spawn_item( bloody_rag_loc, "rag_bloody" );
                 if( one_in( 2 ) ) {
                     m.add_splatter_trail( fd_blood, first_loc,
-                        random_entry( m.points_in_radius( first_loc, rng( 1, 4 ) ) ) );
+                                          random_entry( m.points_in_radius( first_loc, rng( 1, 4 ) ) ) );
                 }
             }
             //Spawn blood and bloody rag at the second location, sometimes trail of blood
@@ -2413,7 +2413,7 @@ static void mx_casings( map &m, const tripoint &abs_sub )
                 m.spawn_item( bloody_rag_loc, "rag_bloody" );
                 if( one_in( 2 ) ) {
                     m.add_splatter_trail( fd_blood, second_loc,
-                        random_entry( m.points_in_radius( second_loc, rng( 1, 4 ) ) ) );
+                                          random_entry( m.points_in_radius( second_loc, rng( 1, 4 ) ) ) );
                 }
             }
             break;
