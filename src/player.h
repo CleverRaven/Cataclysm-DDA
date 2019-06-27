@@ -1467,6 +1467,8 @@ class player : public Character
         void set_destination( const std::vector<tripoint> &route,
                               const player_activity &destination_activity = player_activity() );
         void clear_destination();
+        bool has_distant_destination() const;
+
         bool has_destination() const;
         // true if player has destination activity AND is standing on destination tile
         bool has_destination_activity() const;
@@ -1531,7 +1533,6 @@ class player : public Character
         player_activity activity;
         std::list<player_activity> backlog;
         int volume;
-
         const profession *prof;
 
         start_location_id start_location;
@@ -1607,7 +1608,6 @@ class player : public Character
         std::set<int> follower_ids;
         //Record of player stats, for posterity only
         stats lifetime_stats;
-
         void mod_stat( const std::string &stat, float modifier ) override;
 
         int getID() const;

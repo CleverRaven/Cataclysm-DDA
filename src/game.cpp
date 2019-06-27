@@ -1427,7 +1427,7 @@ bool game::do_turn()
                     }
                 }
                 sounds::process_sound_markers( &u );
-                if( !u.activity && uquit != QUIT_WATCH ) {
+                if( !u.activity && !u.has_distant_destination() && uquit != QUIT_WATCH ) {
                     draw();
                 }
 
@@ -1618,8 +1618,11 @@ void game::catch_a_monster( monster *fish, const tripoint &pos, player *p,
 
 static bool cancel_auto_move( player &p, const std::string &text )
 {
-    if( p.has_destination() ) {
+    if( p.has_destination() && query_yn( "%s, cancel Auto-move?", text ) ) {
         add_msg( m_warning, _( "%s. Auto-move canceled" ), text );
+        if( !p.omt_path.empty() ) {
+            p.omt_path.clear();
+        }
         p.clear_destination();
         return true;
     }
@@ -1628,10 +1631,17 @@ static bool cancel_auto_move( player &p, const std::string &text )
 
 bool game::cancel_activity_or_ignore_query( const distraction_type type, const std::string &text )
 {
-    if( cancel_auto_move( u, text ) || !u.activity || u.activity.is_distraction_ignored( type ) ) {
+    if( u.has_distant_destination() ) {
+        if( cancel_auto_move( u, text ) ) {
+            return true;
+        } else {
+            u.set_destination( u.get_auto_move_route(), player_activity( activity_id( "ACT_TRAVELLING" ) ) );
+            return false;
+        }
+    }
+    if( !u.activity || u.activity.is_distraction_ignored( type ) ) {
         return false;
     }
-
     bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
 
     const auto allow_key = [force_uc]( const input_event & evt ) {
@@ -1669,10 +1679,17 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
 
 bool game::cancel_activity_query( const std::string &text )
 {
-    if( cancel_auto_move( u, text ) || !u.activity ) {
+    if( u.has_distant_destination() ) {
+        if( cancel_auto_move( u, text ) ) {
+            return true;
+        } else {
+            u.set_destination( u.get_auto_move_route(), player_activity( activity_id( "ACT_TRAVELLING" ) ) );
+            return false;
+        }
+    }
+    if( !u.activity ) {
         return false;
     }
-
     if( query_yn( "%s %s", text, u.activity.get_stop_phrase() ) ) {
         u.cancel_activity();
         u.resume_backlog_activity();
@@ -1894,7 +1911,8 @@ void game::handle_key_blocking_activity()
         }
     }
 
-    if( u.activity && u.activity.moves_left > 0 ) {
+    if( ( u.activity && u.activity.moves_left > 0 ) || ( u.has_destination() &&
+            !u.omt_path.empty() ) ) {
         input_context ctxt = get_default_mode_input_context();
         const std::string action = ctxt.handle_input( 0 );
         if( action == "pause" ) {

@@ -20,6 +20,7 @@
 #include "avatar_action.h"
 #include "clzones.h"
 #include "construction.h"
+#include "coordinate_conversions.h"
 #include "craft_command.h"
 #include "debug.h"
 #include "fault.h"
@@ -136,6 +137,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_REPAIR_ITEM" ), repair_item_do_turn },
     { activity_id( "ACT_BUTCHER" ), butcher_do_turn },
     { activity_id( "ACT_BUTCHER_FULL" ), butcher_do_turn },
+    { activity_id( "ACT_TRAVELLING" ), travel_do_turn },
     { activity_id( "ACT_FIELD_DRESS" ), butcher_do_turn },
     { activity_id( "ACT_SKIN" ), butcher_do_turn },
     { activity_id( "ACT_QUARTER" ), butcher_do_turn },
@@ -2614,6 +2616,43 @@ void activity_handlers::adv_inventory_do_turn( player_activity *, player *p )
     p->cancel_activity();
     advanced_inv();
 }
+
+void activity_handlers::travel_do_turn( player_activity *act, player *p )
+{
+    const activity_id act_travel = activity_id( "ACT_TRAVELLING" );
+    if( !p->omt_path.empty() ) {
+        p->omt_path.pop_back();
+        if( p->omt_path.empty() ) {
+            p->add_msg_if_player( m_info, _( "You have reached your destination." ) );
+            g->draw();
+            act->set_to_null();
+            return;
+        }
+        tripoint sm_tri = g->m.getlocal( sm_to_ms_copy( omt_to_sm_copy( p->omt_path.back() ) ) );
+        tripoint centre_sub = tripoint( sm_tri.x + SEEX / 2, sm_tri.y + SEEY / 2, sm_tri.z );
+        if( !g->m.passable( centre_sub ) ) {
+            auto candidates = g->m.points_in_radius( centre_sub, 2 );
+            for( const auto &elem : candidates ) {
+                if( g->m.passable( elem ) ) {
+                    centre_sub = elem;
+                    break;
+                }
+            }
+        }
+        const auto route_to = g->m.route( p->pos(), centre_sub, p->get_pathfinding_settings(),
+                                          p->get_path_avoid() );
+        if( !route_to.empty() ) {
+            p->set_destination( route_to, player_activity( act_travel ) );
+        } else {
+            p->add_msg_if_player( _( "You cannot reach that destination" ) );
+        }
+    } else {
+        p->add_msg_if_player( m_info, _( "You have reached your destination." ) );
+    }
+    g->draw();
+    act->set_to_null();
+}
+
 
 void activity_handlers::armor_layers_do_turn( player_activity *, player *p )
 {

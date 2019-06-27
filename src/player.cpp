@@ -11042,6 +11042,12 @@ void player::clear_destination()
     next_expected_position = cata::nullopt;
 }
 
+bool player::has_distant_destination() const
+{
+    return has_destination() && !destination_activity.is_null() &&
+           destination_activity.id() == "ACT_TRAVELLING" && !omt_path.empty();
+}
+
 bool player::has_destination() const
 {
     return !auto_move_route.empty();
