@@ -8854,11 +8854,8 @@ bool game::walk_move( const tripoint &dest_loc )
     if( m.impassable( dest_loc ) && !pushing && !shifting_furniture ) {
         return false;
     }
-    vehicle *veh = veh_pointer_or_null( m.veh_at( dest_loc ) );
-    if( veh ) {
-        if( !veh->handle_potential_theft( &u ) ) {
-            return false;
-        }
+    if( vp_there && !vp_there->vehicle().handle_potential_theft( &u ) ) {
+        return false;
     }
     if( u.has_effect( effect_riding ) && vp_there ) {
         add_msg( m_warning, _( "You cannot board a vehicle whilst mounted." ) );

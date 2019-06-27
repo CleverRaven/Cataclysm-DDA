@@ -3699,6 +3699,9 @@ bool vehicle::sufficient_wheel_config() const
 
 bool vehicle::handle_potential_theft( player *p, bool check_only, bool prompt )
 {
+    if( p == nullptr ) {
+        return false;
+    }
     faction *yours;
     if( p->is_player() ) {
         yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );

@@ -311,10 +311,7 @@ bool veh_interact::format_reqs( std::ostringstream &msg, const requirement_data 
 void veh_interact::do_main_loop()
 {
     bool finish = false;
-    bool owned_by_player = true;
-    if( !veh->handle_potential_theft( &g->u, true ) ) {
-        owned_by_player = false;
-    }
+    const bool owned_by_player = veh->handle_potential_theft( &g->u, true );
     while( !finish ) {
         overview();
         display_mode();

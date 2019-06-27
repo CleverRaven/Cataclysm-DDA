@@ -499,12 +499,10 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         add_msg( m_warning, _( "You cannot board a vehicle while mounted." ) );
         return;
     }
-    if( m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-        vehicle *source_veh = veh_pointer_or_null( m.veh_at( p ) );
-        if( source_veh && !source_veh->handle_potential_theft( dynamic_cast<player *>( &you ) ) ) {
+    if( const auto vp = m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+        if( !vp->vehicle().handle_potential_theft( dynamic_cast<player *>( &you ) ) ) {
             return;
         }
-
     }
     you.setpos( p );
     g->update_map( you );

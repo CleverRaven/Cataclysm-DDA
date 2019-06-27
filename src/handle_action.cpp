@@ -573,8 +573,7 @@ static void grab()
         return;
     }
     if( const optional_vpart_position vp = m.veh_at( grabp ) ) {
-        vehicle *source_veh = veh_pointer_or_null( g->m.veh_at( grabp ) );
-        if( !source_veh->handle_potential_theft( &g->u ) ) {
+        if( !vp->vehicle().handle_potential_theft( &g->u ) ) {
             return;
         }
         you.grab( OBJECT_VEHICLE, grabp - you.pos() );

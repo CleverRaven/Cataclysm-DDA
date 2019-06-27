@@ -715,34 +715,28 @@ class vehicle
         void print_vparts_descs( const catacurses::window &win, int max_y, int width, int &p,
                                  int &start_at, int &start_limit ) const;
         // owner functions
-        inline void set_old_owner( const faction *temp_owner ) {
+        void set_old_owner( const faction *temp_owner ) {
             theft_time = calendar::turn;
             old_owner = temp_owner;
         }
-        inline void remove_old_owner() {
+        void remove_old_owner() {
             theft_time = cata::nullopt;
             old_owner = nullptr;
         }
-        inline void set_owner( faction *new_owner ) {
+        void set_owner( faction *new_owner ) {
             owner = new_owner;
             name = string_format( _( "%s (%s)" ), base_name.empty() ? name : base_name, new_owner->name );
         }
-        inline void remove_owner() {
+        void remove_owner() {
             owner = nullptr;
         }
-        inline const faction *get_owner() const {
-            if( owner ) {
-                return owner;
-            }
-            return nullptr;
+        const faction *get_owner() const {
+            return owner;
         }
-        inline const faction *get_old_owner() const {
-            if( old_owner ) {
-                return old_owner;
-            }
-            return nullptr;
+        const faction *get_old_owner() const {
+            return old_owner;
         }
-        inline bool has_owner() const {
+        bool has_owner() const {
             return owner;
         }
         bool handle_potential_theft( player *p, bool check_only = false, bool prompt = true );
@@ -1530,7 +1524,7 @@ class vehicle
         // The faction that previously owned this vehicle
         const faction *old_owner = nullptr;
         // the time point when it was succesfully stolen
-        cata::optional<time_point> theft_time = cata::nullopt;
+        cata::optional<time_point> theft_time;
         /**
          * Type of the vehicle as it was spawned. This will never change, but it can be an invalid
          * type (e.g. if the definition of the prototype has been removed from json or if it has been
