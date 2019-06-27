@@ -1115,7 +1115,7 @@ static bool energy_cost_encumbered( const spell &sp, const player &p )
 
 // this prints various things about the spell out in a list
 // including flags and things like "goes through walls"
-std::string enumerate_spell_data( const spell &sp )
+static std::string enumerate_spell_data( const spell &sp )
 {
     std::vector<std::string> spell_data;
     if( sp.has_flag( spell_flag::CONCENTRATE ) ) {
