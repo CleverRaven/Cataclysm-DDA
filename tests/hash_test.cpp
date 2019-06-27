@@ -7,6 +7,7 @@
 
 #include "catch/catch.hpp"
 #include "enums.h"
+#include "point.h"
 
 #ifdef RELEASE
 #include <chrono>

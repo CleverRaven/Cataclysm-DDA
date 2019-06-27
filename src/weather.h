@@ -6,6 +6,7 @@
 #include "enums.h"
 #include "optional.h"
 #include "pimpl.h"
+#include "point.h"
 #include "type_id.h"
 #include "weather_gen.h"
 

@@ -13,6 +13,7 @@
 
 #include "enums.h"
 #include "optional.h"
+#include "point.h"
 #include "string_id.h"
 #include "type_id.h"
 

@@ -6,6 +6,7 @@
 
 #include "calendar.h"
 #include "enums.h"
+#include "point.h"
 
 enum event_type : int {
     EVENT_NULL,
