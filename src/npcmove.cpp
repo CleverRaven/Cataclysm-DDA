@@ -184,7 +184,7 @@ const std::vector<bionic_id> weapon_cbms = { {
 
 const int avoidance_vehicles_radius = 5;
 
-}
+} // namespace
 
 std::string npc_action_name( npc_action action );
 
@@ -468,7 +468,7 @@ void npc::assess_danger()
 
         // don't ignore monsters that are too close or too close to an ally
         bool is_too_close = dist <= def_radius;
-        const auto test_too_close = [critter, &is_too_close]( const std::weak_ptr<Creature> guy ) {
+        const auto test_too_close = [critter, &is_too_close]( const std::weak_ptr<Creature> &guy ) {
             is_too_close |= too_close( critter.pos(), guy.lock().get()->pos() );
             return is_too_close;
         };
@@ -1455,7 +1455,7 @@ bool npc::can_reload_current()
         return false;
     }
 
-    return find_usable_ammo( weapon );
+    return static_cast<bool>( find_usable_ammo( weapon ) );
 }
 
 item_location npc::find_usable_ammo( const item &weap )

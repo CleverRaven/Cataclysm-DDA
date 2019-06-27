@@ -730,6 +730,8 @@ bool main_menu::new_character_tab()
                         load_char_templates();
                         werase( w_background );
                         wrefresh( w_background );
+                        MAPBUFFER.reset();
+                        overmap_buffer.clear();
                         continue;
                     }
 
@@ -817,6 +819,8 @@ bool main_menu::new_character_tab()
                     load_char_templates();
                     werase( w_background );
                     wrefresh( w_background );
+                    MAPBUFFER.reset();
+                    overmap_buffer.clear();
                     continue;
                 }
                 werase( w_background );

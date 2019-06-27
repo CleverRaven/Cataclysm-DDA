@@ -34,7 +34,7 @@
 namespace npc_factions
 {
 std::vector<faction_template> all_templates;
-}
+} // namespace npc_factions
 
 const faction_id your_faction = faction_id( "your_followers" );
 
@@ -269,7 +269,7 @@ nc_color faction::food_supply_color()
     }
 }
 
-bool faction::has_relationship( const faction_id guy_id, npc_factions::relationship flag ) const
+bool faction::has_relationship( const faction_id &guy_id, npc_factions::relationship flag ) const
 {
     for( const auto rel_data : relations ) {
         if( rel_data.first == guy_id.c_str() ) {

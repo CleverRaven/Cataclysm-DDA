@@ -567,7 +567,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     // Learn recipes
     for( const auto &e : recipe_dict ) {
         const auto &r = e.second;
-        if( !knows_recipe( &r ) && has_recipe_requirements( r ) ) {
+        if( !r.has_flag( "SECRET" ) && !knows_recipe( &r ) && has_recipe_requirements( r ) ) {
             learn_recipe( &r );
         }
     }
@@ -1972,11 +1972,12 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
                    sorted_scens[cur_id]->gender_appropriate_name( u.male ),
                    pointsForScen );
 
-        std::string scenUnavailable =
-            _( "This scenario is not available in this world due to city size settings. " );
-        std::string scenDesc = sorted_scens[cur_id]->description( u.male );
+
+        const std::string scenDesc = sorted_scens[cur_id]->description( u.male );
 
         if( sorted_scens[cur_id]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {
+            const std::string scenUnavailable =
+                _( "This scenario is not available in this world due to city size settings. " );
             fold_and_print( w_description, 0, 0, TERMX - 2, c_red, scenUnavailable );
             fold_and_print( w_description, 1, 0, TERMX - 2, c_green, scenDesc );
         } else {

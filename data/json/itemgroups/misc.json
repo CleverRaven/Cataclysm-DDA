@@ -98,5 +98,42 @@
       { "group": "novels", "prob": 15 },
       { "group": "bags_trip", "prob": 20 }
     ]
+  },
+  {
+    "id": "gobag_contents",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Items generated from a go bag",
+    "items": [
+      { "item": "duffelbag" },
+      { "item": "backpack" },
+      { "item": "helmet_army" },
+      { "item": "jacket_army" },
+      { "item": "pants_army" },
+      { "item": "tshirt", "count": 3 },
+      { "item": "under_armor" },
+      { "item": "chestrig" },
+      { "item": "coat_rain" },
+      { "item": "hood_rain" },
+      { "item": "long_underpants" },
+      { "item": "towel" },
+      { "item": "boots_combat" },
+      { "item": "socks", "count": 3 },
+      { "item": "gloves_tactical" },
+      { "item": "light_plus_battery_cell", "charges": 150 },
+      { "item": "light_plus_battery_cell", "charges": 150, "container-item": "flashlight" },
+      { "item": "light_plus_battery_cell", "charges": 150, "container-item": "radio" },
+      { "item": "lighter", "charges": 100 },
+      { "item": "pockknife" },
+      { "item": "multitool" },
+      { "item": "1st_aid" },
+      { "item": "rollmat" },
+      { "item": "sleeping_bag_roll" },
+      { "item": "ear_plugs" },
+      { "item": "mre_hashbrownbacon_box" },
+      { "item": "mre_macaronimarinara_box" },
+      { "item": "mre_meatball_box" },
+      { "item": "water_clean", "count": 2, "charges": 2, "container-item": "bottle_plastic" }
+    ]
   }
 ]

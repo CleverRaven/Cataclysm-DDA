@@ -43,10 +43,10 @@ struct field_type {
 
         int priority = 0;
         time_duration half_life = 0_days;
-        phase_id phase = phase_id::PNULL;
+        phase_id phase = PNULL;
         bool accelerated_decay = false;
-        bool do_item = true;
-        bool is_draw_field = false;
+        bool display_items = true;
+        bool display_field = false;
 
     public:
         std::string get_name( int level = 0 ) const {
@@ -89,7 +89,7 @@ const std::vector<field_type> &get_all();
 void set_field_type_ids();
 field_type get_field_type_by_legacy_enum( int legacy_enum_id );
 
-}
+} // namespace field_types
 
 extern field_type_id x_fd_null,
        x_fd_blood,

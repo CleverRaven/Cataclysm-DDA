@@ -38,7 +38,7 @@ enum npc_mission : int;
 namespace debug_menu
 {
 class mission_debug;
-}
+} // namespace debug_menu
 
 enum mission_origin {
     ORIGIN_NULL = 0,
@@ -144,12 +144,13 @@ struct mission_fail {
 };
 
 struct mission_target_params {
-    std::string overmap_terrain_subtype;
+    std::string overmap_terrain;
+    ot_match_type overmap_terrain_match_type = ot_match_type::TYPE;
     mission *mission_pointer;
 
     bool origin_u = true;
     cata::optional<tripoint> offset;
-    cata::optional<std::string> replaceable_overmap_terrain_subtype;
+    cata::optional<std::string> replaceable_overmap_terrain;
     cata::optional<overmap_special_id> overmap_special;
     cata::optional<int> reveal_radius;
     int min_distance = 0;
@@ -183,7 +184,7 @@ void set_assign_om_target( JsonObject &jo,
                            std::vector<std::function<void( mission *miss )>> &funcs );
 bool set_update_mapgen( JsonObject &jo, std::vector<std::function<void( mission *miss )>> &funcs );
 bool load_funcs( JsonObject jo, std::vector<std::function<void( mission *miss )>> &funcs );
-}
+} // namespace mission_util
 
 struct mission_type {
     // Matches it to a mission_type_id above
@@ -340,7 +341,7 @@ class mission
         const mission_type &get_type() const;
         bool has_follow_up() const;
         mission_type_id get_follow_up() const;
-        long get_value() const;
+        int get_value() const;
         int get_id() const;
         const std::string &get_item_id() const;
         int get_npc_id() const;

@@ -361,6 +361,13 @@ void Item_factory::finalize_pre( itype &obj )
     } else {
         obj.layer = REGULAR_LAYER;
     }
+
+    if( obj.can_use( "MA_MANUAL" ) && obj.book && obj.book->martial_art.is_null() &&
+        string_starts_with( obj.get_id(), "manual_" ) ) {
+        // Legacy martial arts books rely on a hack whereby the name of the
+        // martial art is derived from the item id
+        obj.book->martial_art = matype_id( "style_" + obj.get_id().substr( 7 ) );
+    }
 }
 
 void Item_factory::register_cached_uses( const itype &obj )
@@ -657,6 +664,8 @@ void Item_factory::init()
                                 "present</info>."
                               ) );
     add_iuse( "GEIGER", &iuse::geiger );
+    add_iuse( "GOBAG_NORMAL", &iuse::gobag_normal );
+    add_iuse( "GOBAG_PERSONAL", &iuse::gobag_personal );
     add_iuse( "GRANADE", &iuse::granade );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
     add_iuse( "GRENADE_INC_ACT", &iuse::grenade_inc_act );
@@ -794,6 +803,7 @@ void Item_factory::init()
     add_actor( new deploy_tent_actor() );
     add_actor( new learn_spell_actor() );
     add_actor( new cast_spell_actor() );
+    add_actor( new weigh_self_actor() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups["EMPTY_GROUP"].reset( new Item_group( Item_group::G_COLLECTION, 100, 0, 0 ) );
@@ -824,7 +834,7 @@ void Item_factory::check_definitions() const
 {
     for( const auto &elem : m_templates ) {
         std::ostringstream msg;
-        const itype *type = &elem.second; // avoid huge number of line changes
+        const itype *type = &elem.second;
 
         if( !type->category ) {
             msg << "undefined category " << type->category_force << "\n";
@@ -835,6 +845,11 @@ void Item_factory::check_definitions() const
         }
         if( type->volume < 0_ml ) {
             msg << "negative volume" << "\n";
+        }
+        if( type->count_by_charges() || type->phase == LIQUID ) {
+            if( type->stack_size <= 0 ) {
+                msg << "invalid stack_size " << type->stack_size << " on type using charges\n";
+            }
         }
         if( type->price < 0 ) {
             msg << "negative price" << "\n";
@@ -931,6 +946,16 @@ void Item_factory::check_definitions() const
             if( type->book->skill && !type->book->skill.is_valid() ) {
                 msg << string_format( "uses invalid book skill." ) << "\n";
             }
+            if( type->book->martial_art && !type->book->martial_art.is_valid() ) {
+                msg << string_format( "trains invalid martial art '%s'.",
+                                      type->book->martial_art.str() ) << "\n";
+            }
+            if( type->can_use( "MA_MANUAL" ) && !type->book->martial_art ) {
+                msg << "has use_action MA_MANUAL but does not specify a martial art\n";
+            }
+        }
+        if( type->can_use( "MA_MANUAL" ) && !type->book ) {
+            msg << "has use_action MA_MANUAL but is not a book\n";
         }
         if( type->ammo ) {
             if( !type->ammo->type && type->ammo->type != ammotype( "NULL" ) ) {
@@ -1612,6 +1637,7 @@ void Item_factory::load( islot_book &slot, JsonObject &jo, const std::string &sr
         slot.time = to_minutes<int>( time_duration::read_from_json_string( *jo.get_raw( "time" ) ) );
     }
     assign( jo, "skill", slot.skill, strict );
+    assign( jo, "martial_art", slot.martial_art, strict );
     assign( jo, "chapters", slot.chapters, strict, 0 );
 }
 

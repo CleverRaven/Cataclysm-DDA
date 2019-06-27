@@ -6,6 +6,7 @@
 #include "enums.h"
 #include "optional.h"
 #include "pimpl.h"
+#include "point.h"
 #include "type_id.h"
 #include "weather_gen.h"
 
@@ -146,7 +147,7 @@ int light_modifier( weather_type const type );
 int sound_attn( weather_type const type );
 bool dangerous( weather_type const type );
 weather_effect_fn effect( weather_type const type );
-}
+} // namespace weather
 
 std::string get_shortdirstring( int angle );
 
@@ -199,7 +200,7 @@ int get_hourly_rotpoints_at_temp( const int temp );
 /**
  * Is it warm enough to plant seeds?
  */
-bool warm_enough_to_plant();
+bool warm_enough_to_plant( const tripoint &pos );
 
 bool is_wind_blocker( const tripoint &location );
 

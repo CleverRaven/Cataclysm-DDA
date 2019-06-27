@@ -650,16 +650,15 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
     for( auto iter = sub->itm[ offset.x ][ offset.y ].begin();
          iter != sub->itm[ offset.x ][ offset.y ].end(); ) {
         if( filter( *iter ) ) {
-            // check for presence in the active items cache
-            if( sub->active_items.has( iter, offset ) ) {
-                sub->active_items.remove( iter, offset );
-            }
+            // remove from the active items cache (if it isn't there does nothing)
+            sub->active_items.remove( &*iter );
 
             // if necessary remove item from the luminosity map
             sub->update_lum_rem( offset, *iter );
 
             // finally remove the item
-            res.splice( res.end(), sub->itm[ offset.x ][ offset.y ], iter++ );
+            res.push_back( *iter );
+            iter = sub->itm[ offset.x ][ offset.y ].erase( iter );
 
             if( --count == 0 ) {
                 return res;
@@ -672,6 +671,7 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
             ++iter;
         }
     }
+    g->m.update_submap_active_item_status( *cur );
     return res;
 }
 
@@ -711,11 +711,12 @@ std::list<item> visitable<vehicle_cursor>::remove_items_with( const
     vehicle_part &part = cur->veh.parts[ idx ];
     for( auto iter = part.items.begin(); iter != part.items.end(); ) {
         if( filter( *iter ) ) {
-            // check for presence in the active items cache
-            if( cur->veh.active_items.has( iter, part.mount ) ) {
-                cur->veh.active_items.remove( iter, part.mount );
-            }
-            res.splice( res.end(), part.items, iter++ );
+            // remove from the active items cache (if it isn't there does nothing)
+            cur->veh.active_items.remove( &*iter );
+
+            res.push_back( *iter );
+            iter = part.items.erase( iter );
+
             if( --count == 0 ) {
                 return res;
             }

@@ -282,9 +282,6 @@ static const trait_id trait_CHITIN_FUR2( "CHITIN_FUR2" );
 static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
-static const trait_id trait_COLDBLOOD( "COLDBLOOD" );
-static const trait_id trait_COLDBLOOD2( "COLDBLOOD2" );
-static const trait_id trait_COLDBLOOD3( "COLDBLOOD3" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
 static const trait_id trait_DEAF( "DEAF" );
@@ -494,7 +491,7 @@ player::player() : Character()
     blocks_left = 1;
     power_level = 0;
     max_power_level = 0;
-    stamina = 1000; //Temporary value for stamina. It will be reset later from external json option.
+    stamina = 10000; //Temporary value for stamina. It will be reset later from external json option.
     stim = 0;
     pkill = 0;
     radiation = 0;
@@ -1611,6 +1608,8 @@ int player::floor_bedding_warmth( const tripoint &pos )
     // Search the floor for bedding
     if( furn_at_pos != f_null ) {
         floor_bedding_warmth += furn_at_pos.obj().floor_bedding_warmth;
+    } else if( !trap_at_pos.is_null() ) {
+        floor_bedding_warmth += trap_at_pos.floor_bedding_warmth;
     } else if( veh_bed && veh_seat ) {
         // BED+SEAT is intentionally worse than just BED
         floor_bedding_warmth += 250;
@@ -1618,12 +1617,8 @@ int player::floor_bedding_warmth( const tripoint &pos )
         floor_bedding_warmth += 300;
     } else if( veh_seat ) {
         floor_bedding_warmth += 200;
-    } else if( trap_at_pos.loadid == tr_fur_rollmat ) {
-        floor_bedding_warmth += 0;
-    } else if( trap_at_pos.loadid == tr_cot || ter_at_pos == t_improvised_shelter ) {
+    } else if( ter_at_pos == t_improvised_shelter ) {
         floor_bedding_warmth -= 500;
-    } else if( trap_at_pos.loadid == tr_rollmat ) {
-        floor_bedding_warmth -= 1000;
     } else {
         floor_bedding_warmth -= 2000;
     }
@@ -1809,14 +1804,12 @@ void player::recalc_speed_bonus()
         if( has_trait( trait_SUNLIGHT_DEPENDENT ) && !g->is_in_sunlight( pos() ) ) {
             mod_speed_bonus( -( g->light_level( posz() ) >= 12 ? 5 : 10 ) );
         }
-        /* Cache call to game::get_temperature( player position ) since it can be used several times here */
-        const auto player_local_temp = g->weather.get_temperature( pos() );
-        if( has_trait( trait_COLDBLOOD4 ) || ( has_trait( trait_COLDBLOOD3 ) && player_local_temp < 65 ) ) {
-            mod_speed_bonus( ( player_local_temp - 65 ) / 2 );
-        } else if( has_trait( trait_COLDBLOOD2 ) && player_local_temp < 65 ) {
-            mod_speed_bonus( ( player_local_temp - 65 ) / 3 );
-        } else if( has_trait( trait_COLDBLOOD ) && player_local_temp < 65 ) {
-            mod_speed_bonus( ( player_local_temp - 65 ) / 5 );
+        const float temperature_speed_modifier = mutation_value( "temperature_speed_modifier" );
+        if( temperature_speed_modifier != 0 ) {
+            const auto player_local_temp = g->weather.get_temperature( pos() );
+            if( has_trait( trait_COLDBLOOD4 ) || player_local_temp < 65 ) {
+                mod_speed_bonus( ( player_local_temp - 65 ) * temperature_speed_modifier );
+            }
         }
     }
 
@@ -2276,6 +2269,9 @@ void player::mod_stat( const std::string &stat, float modifier )
     } else if( stat == "oxygen" ) {
         oxygen += modifier;
     } else if( stat == "stamina" ) {
+        if( stamina + modifier < 0 ) {
+            add_effect( effect_winded, 10_turns );
+        }
         stamina += modifier;
         stamina = std::min( stamina, get_stamina_max() );
         stamina = std::max( 0, stamina );
@@ -3678,6 +3674,7 @@ void player::healall( int dam )
 {
     for( int healed_part = 0; healed_part < num_hp_parts; healed_part++ ) {
         heal( static_cast<hp_part>( healed_part ), dam );
+        healed_bp( healed_part, dam );
     }
 }
 
@@ -3983,6 +3980,9 @@ void player::update_body( const time_point &from, const time_point &to )
         regen( five_mins );
         // Note: mend ticks once per 5 minutes, but wants rate in TURNS, not 5 minute intervals
         mend( five_mins * MINUTES( 5 ) );
+    }
+    if( ticks_between( from, to, 24_hours ) > 0 ) {
+        enforce_minimum_healing();
     }
 
     const int thirty_mins = ticks_between( from, to, 30_minutes );
@@ -4585,6 +4585,7 @@ void player::regen( int rate_multiplier )
         float healing = healing_rate_medicine( rest, bp ) * MINUTES( 5 ) ;
 
         int healing_apply = roll_remainder( healing );
+        healed_bp( i, healing_apply );
         heal( bp, healing_apply );
         if( damage_bandaged[i] > 0 ) {
             damage_bandaged[i] -= healing_apply;
@@ -4630,7 +4631,8 @@ void player::update_stamina( int turns )
                                mutation_value( "stamina_regen_modifier" );
     if( stamina_multiplier > 0.0f ) {
         // But mouth encumbrance interferes, even with mutated stamina.
-        stamina_recovery += stamina_multiplier * std::max( 1.0f, 10.0f - ( encumb( bp_mouth ) / 10.0f ) );
+        stamina_recovery += stamina_multiplier * std::max( 1.0f,
+                            get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) - ( encumb( bp_mouth ) / 10.0f ) );
         // TODO: recovering stamina causes hunger/thirst/fatigue.
         // TODO: Tiredness slowing recovery
     }
@@ -4641,25 +4643,29 @@ void player::update_stamina( int turns )
         stamina_recovery += std::min( 5.0f, stim / 20.0f );
     } else if( stim < 0 ) {
         // Affect it less near 0 and more near full
-        // Stamina maxes out around 1000, stims kill at -200
-        // At -100 stim fully counters regular regeneration at 500 stamina,
-        // halves at 250 stamina, cuts by 25% at 125 stamina
-        // At -50 stim fully counters at 1000, halves at 500
-        stamina_recovery += stim * stamina / 1000.0f / 5.0f;
+        // Negative stim kill at -200
+        // At -100 stim it inflicts -20 malus to regen at 100%  stamina,
+        // effectivly countering stamina gain of default 20,
+        // at 50% stamina its -10 (50%), cuts by 25% at 25% stamina
+        stamina_recovery += stim / 5.0f * stamina / get_stamina_max() ;
     }
 
     const int max_stam = get_stamina_max();
     if( power_level >= 3 && has_active_bionic( bio_gills ) ) {
         int bonus = std::min<int>( power_level / 3, max_stam - stamina - stamina_recovery * turns );
-        bonus = std::min( bonus, 3 );
+        // so the effective recovery is up to 5x default
+        bonus = std::min( bonus, 4 * static_cast<int>
+                          ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) );
         if( bonus > 0 ) {
-            charge_power( -3 * bonus );
             stamina_recovery += bonus;
+            bonus /= 10;
+            bonus = std::max( bonus, 1 );
+            charge_power( -bonus );
         }
     }
 
-    stamina = roll_remainder( stamina + stamina_recovery * turns );
-
+    stamina += roll_remainder( stamina_recovery * turns );
+    add_msg( m_debug, "Stamina recovery: %d", roll_remainder( stamina_recovery * turns ) );
     // Cap at max
     stamina = std::min( std::max( stamina, 0 ), max_stam );
 }
@@ -4780,8 +4786,9 @@ void player::cough( bool harmful, int loudness )
 {
     if( harmful ) {
         const int stam = stamina;
-        mod_stat( "stamina", -100 );
-        if( stam < 100 && x_in_y( 100 - stam, 100 ) ) {
+        const int malus = get_stamina_max() * 0.05; // 5% max stamina
+        mod_stat( "stamina", -malus );
+        if( stam < malus && x_in_y( malus - stam, malus ) ) {
             apply_damage( nullptr, bp_torso, 1 );
         }
     }
@@ -5072,15 +5079,9 @@ void player::process_one_effect( effect &it, bool is_new )
     if( val != 0 ) {
         mod = 1;
         if( is_new || it.activated( calendar::turn, "STAMINA", val, reduced, mod ) ) {
-            stamina += bound_mod_to_vals( stamina, val,
-                                          it.get_max_val( "STAMINA", reduced ),
-                                          it.get_min_val( "STAMINA", reduced ) );
-            if( stamina < 0 ) {
-                // TODO: Make it drain fatigue and/or oxygen?
-                stamina = 0;
-            } else if( stamina > get_stamina_max() ) {
-                stamina = get_stamina_max();
-            }
+            mod_stat( "stamina", bound_mod_to_vals( stamina, val,
+                                                    it.get_max_val( "STAMINA", reduced ),
+                                                    it.get_min_val( "STAMINA", reduced ) ) );
         }
     }
 
@@ -5246,7 +5247,7 @@ void player::suffer()
         }
     }
 
-    if( has_trait( trait_SHARKTEETH ) && one_in( to_turns<int>( 24_hours ) ) ) {
+    if( has_trait( trait_SHARKTEETH ) && one_turn_in( 24_hours ) ) {
         add_msg_if_player( m_neutral, _( "You shed a tooth!" ) );
         g->m.spawn_item( pos(), "bone", 1 );
     }
@@ -5311,11 +5312,11 @@ void player::suffer()
             }
         }
         if( has_trait( trait_CHEMIMBALANCE ) ) {
-            if( one_in( to_turns<int>( 6_hours ) ) && !has_trait( trait_NOPAIN ) ) {
+            if( one_turn_in( 6_hours ) && !has_trait( trait_NOPAIN ) ) {
                 add_msg_if_player( m_bad, _( "You suddenly feel sharp pain for no reason." ) );
                 mod_pain( 3 * rng( 1, 3 ) );
             }
-            if( one_in( to_turns<int>( 6_hours ) ) ) {
+            if( one_turn_in( 6_hours ) ) {
                 int pkilladd = 5 * rng( -1, 2 );
                 if( pkilladd > 0 ) {
                     add_msg_if_player( m_bad, _( "You suddenly feel numb." ) );
@@ -5324,11 +5325,11 @@ void player::suffer()
                 }
                 mod_painkiller( pkilladd );
             }
-            if( one_in( to_turns<int>( 6_hours ) ) ) {
+            if( one_turn_in( 6_hours ) ) {
                 add_msg_if_player( m_bad, _( "You feel dizzy for a moment." ) );
                 moves -= rng( 10, 30 );
             }
-            if( one_in( to_turns<int>( 6_hours ) ) ) {
+            if( one_turn_in( 6_hours ) ) {
                 int hungadd = 5 * rng( -1, 3 );
                 if( hungadd > 0 ) {
                     add_msg_if_player( m_bad, _( "You suddenly feel hungry." ) );
@@ -5337,22 +5338,22 @@ void player::suffer()
                 }
                 mod_hunger( hungadd );
             }
-            if( one_in( to_turns<int>( 6_hours ) ) ) {
+            if( one_turn_in( 6_hours ) ) {
                 add_msg_if_player( m_bad, _( "You suddenly feel thirsty." ) );
                 mod_thirst( 5 * rng( 1, 3 ) );
             }
-            if( one_in( to_turns<int>( 6_hours ) ) ) {
+            if( one_turn_in( 6_hours ) ) {
                 add_msg_if_player( m_good, _( "You feel fatigued all of a sudden." ) );
                 mod_fatigue( 10 * rng( 2, 4 ) );
             }
-            if( one_in( to_turns<int>( 8_hours ) ) ) {
+            if( one_turn_in( 8_hours ) ) {
                 if( one_in( 3 ) ) {
                     add_morale( MORALE_FEELING_GOOD, 20, 100 );
                 } else {
                     add_morale( MORALE_FEELING_BAD, -20, -100 );
                 }
             }
-            if( one_in( to_turns<int>( 6_hours ) ) ) {
+            if( one_turn_in( 6_hours ) ) {
                 if( one_in( 3 ) ) {
                     add_msg_if_player( m_bad, _( "You suddenly feel very cold." ) );
                     temp_cur.fill( BODYTEMP_VERY_COLD );
@@ -5361,7 +5362,7 @@ void player::suffer()
                     temp_cur.fill( BODYTEMP_COLD );
                 }
             }
-            if( one_in( to_turns<int>( 6_hours ) ) ) {
+            if( one_turn_in( 6_hours ) ) {
                 if( one_in( 3 ) ) {
                     add_msg_if_player( m_bad, _( "You suddenly feel very hot." ) );
                     temp_cur.fill( BODYTEMP_VERY_HOT );
@@ -5375,12 +5376,12 @@ void player::suffer()
             if( is_player() ) {
                 bool done_effect = false;
                 // Sound
-                if( one_in( to_turns<int>( 4_hours ) ) ) {
+                if( one_turn_in( 4_hours ) ) {
                     sound_hallu();
                 }
 
                 // Follower turns hostile
-                if( !done_effect && one_in( to_turns<int>( 4_hours ) ) ) {
+                if( !done_effect && one_turn_in( 4_hours ) ) {
                     std::vector<std::shared_ptr<npc>> followers = overmap_buffer.get_npcs_near_player( 12 );
 
                     std::string who_gets_angry = name;
@@ -5392,7 +5393,7 @@ void player::suffer()
                 }
 
                 // Monster dies
-                if( !done_effect && one_in( to_turns<int>( 6_hours ) ) ) {
+                if( !done_effect && one_turn_in( 6_hours ) ) {
 
                     // TODO: move to monster group json
                     static const mtype_id mon_zombie( "mon_zombie" );
@@ -5409,13 +5410,13 @@ void player::suffer()
                 }
 
                 // Limb Breaks
-                if( !done_effect && one_in( to_turns<int>( 4_hours ) ) ) {
+                if( !done_effect && one_turn_in( 4_hours ) ) {
                     add_msg( m_bad, _( "Your limb breaks!" ) );
                     done_effect = true;
                 }
 
                 // NPC chat
-                if( !done_effect && one_in( to_turns<int>( 4_hours ) ) ) {
+                if( !done_effect && one_turn_in( 4_hours ) ) {
                     std::string i_name = Name::generate( one_in( 2 ) );
 
                     std::string i_talk = SNIPPET.random_from_category( "<lets_talk>" );
@@ -5426,7 +5427,7 @@ void player::suffer()
                 }
 
                 // Skill raise
-                if( !done_effect && one_in( to_turns<int>( 12_hours ) ) ) {
+                if( !done_effect && one_turn_in( 12_hours ) ) {
                     skill_id raised_skill = Skill::random_skill();
                     add_msg( m_good, _( "You increase %1$s to level %2$d." ), raised_skill.obj().name(),
                              get_skill_level( raised_skill ) + 1 );
@@ -5434,7 +5435,7 @@ void player::suffer()
                 }
 
                 // Talk to self
-                if( !done_effect && one_in( to_turns<int>( 4_hours ) ) ) {
+                if( !done_effect && one_turn_in( 4_hours ) ) {
                     std::vector<std::string> talk_s{ _( "Hey, can you hear me?" ),
                                                      _( "Don't touch me." ),
                                                      _( "What's your name?" ),
@@ -5477,8 +5478,7 @@ void player::suffer()
 
                     std::string i_talk_w;
                     bool does_talk = false;
-                    if( !mons.empty() &&
-                        one_in( to_turns<int>( 12_minutes ) ) ) {
+                    if( !mons.empty() && one_turn_in( 12_minutes ) ) {
                         std::vector<std::string> mon_near{ _( "Hey, let's go kill that %1$s!" ),
                                                            _( "Did you see that %1$s!?" ),
                                                            _( "I want to kill that %1$s!" ),
@@ -5500,8 +5500,7 @@ void player::suffer()
                             i_talk_w = string_format( talk_w, random_entry_ref( seen_mons ) );
                             does_talk = true;
                         }
-                    } else if( has_effect( effect_bleed ) &&
-                               one_in( to_turns<int>( 5_minutes ) ) ) {
+                    } else if( has_effect( effect_bleed ) && one_turn_in( 5_minutes ) ) {
                         std::vector<std::string> bleeding{ _( "Hey, you're bleeding." ),
                                                            _( "Your wound looks pretty bad." ),
                                                            _( "Shouldn't you put a bandage on that?" ),
@@ -5512,8 +5511,7 @@ void player::suffer()
                                                            _( "Kill a few more before you bleed out!" ) };
                         i_talk_w = random_entry_ref( bleeding );
                         does_talk = true;
-                    } else if( weapon.damage() >= weapon.max_damage() / 3 &&
-                               one_in( to_turns<int>( 1_hours ) ) ) {
+                    } else if( weapon.damage() >= weapon.max_damage() / 3 && one_turn_in( 1_hours ) ) {
                         std::vector<std::string> damaged{ _( "Hey fix me up." ),
                                                           _( "I need healing!" ),
                                                           _( "I hurt all over..." ),
@@ -5526,7 +5524,7 @@ void player::suffer()
                                                           _( "Am I gonna die?" ) };
                         i_talk_w = random_entry_ref( damaged );
                         does_talk = true;
-                    } else if( one_in( to_turns<int>( 4_hours ) ) ) {
+                    } else if( one_turn_in( 4_hours ) ) {
                         std::vector<std::string> misc{ _( "Let me kill something already!" ),
                                                        _( "I'm your best friend, right?" ),
                                                        _( "I love you!" ),
@@ -5545,41 +5543,41 @@ void player::suffer()
                     done_effect = true;
                 }
                 // Bad feeling
-                if( !done_effect && one_in( to_turns<int>( 4_hours ) ) ) {
+                if( !done_effect && one_turn_in( 4_hours ) ) {
                     add_msg( m_warning, _( "You get a bad feeling." ) );
                     add_morale( MORALE_FEELING_BAD, -50, -150 );
                     done_effect = true;
                 }
                 // Formication
-                if( !done_effect && one_in( to_turns<int>( 4_hours ) ) ) {
+                if( !done_effect && one_turn_in( 4_hours ) ) {
                     body_part bp = random_body_part( true );
                     add_effect( effect_formication, 1_hours, bp );
                     done_effect = true;
                 }
                 // Numbness
-                if( !done_effect && one_in( to_turns<int>( 4_hours ) ) ) {
+                if( !done_effect && one_turn_in( 4_hours ) ) {
                     add_msg( m_bad, _( "You suddenly feel so numb..." ) );
                     mod_painkiller( 25 );
                     done_effect = true;
                 }
                 // Hallucination
-                if( !done_effect && one_in( to_turns<int>( 6_hours ) ) ) {
+                if( !done_effect && one_turn_in( 6_hours ) ) {
                     add_effect( effect_hallu, 6_hours );
                     done_effect = true;
                 }
                 // Visuals
-                if( !done_effect && one_in( to_turns<int>( 2_hours ) ) ) {
+                if( !done_effect && one_turn_in( 2_hours ) ) {
                     add_effect( effect_visuals, rng( 15_turns, 60_turns ) );
                     done_effect = true;
                 }
                 // Shaking
-                if( !done_effect && one_in( to_turns<int>( 4_hours ) ) ) {
+                if( !done_effect && one_turn_in( 4_hours ) ) {
                     add_msg( m_bad, _( "You start to shake uncontrollably." ) );
                     add_effect( effect_shakes, rng( 2_minutes, 5_minutes ) );
                     done_effect = true;
                 }
                 // Shout
-                if( !done_effect && one_in( to_turns<int>( 4_hours ) ) ) {
+                if( !done_effect && one_turn_in( 4_hours ) ) {
                     std::vector<std::string> shouts{ _( "\"Get away from there!\"" ),
                                                      _( "\"What do you think you're doing?\"" ),
                                                      _( "\"Stop laughing at me!\"" ),
@@ -5601,7 +5599,7 @@ void player::suffer()
                     done_effect = true;
                 }
                 // Drop weapon
-                if( !done_effect && one_in( to_turns<int>( 2_days ) ) ) {
+                if( !done_effect && one_turn_in( 2_days ) ) {
                     if( !weapon.is_null() ) {
                         std::string i_name_w = weapon.has_var( "item_label" ) ?
                                                weapon.get_var( "item_label" ) :
@@ -5627,7 +5625,7 @@ void player::suffer()
         }
 
         if( ( has_trait( trait_NARCOLEPTIC ) || has_artifact_with( AEP_SCHIZO ) ) ) {
-            if( one_in( to_turns<int>( 8_hours ) ) ) {
+            if( one_turn_in( 8_hours ) ) {
                 add_msg( m_bad, _( "You're suddenly overcome with the urge to sleep and you pass out." ) );
                 add_effect( effect_lying_down, 20_minutes );
             }
@@ -5642,7 +5640,7 @@ void player::suffer()
             }
         }
 
-        if( has_trait( trait_MOODSWINGS ) && one_in( to_turns<int>( 6_hours ) ) ) {
+        if( has_trait( trait_MOODSWINGS ) && one_turn_in( 6_hours ) ) {
             if( rng( 1, 20 ) > 9 ) { // 55% chance
                 add_morale( MORALE_MOODSWING, -100, -500 );
             } else {  // 45% chance
@@ -5650,23 +5648,23 @@ void player::suffer()
             }
         }
 
-        if( has_trait( trait_VOMITOUS ) && one_in( to_turns<int>( 7_hours ) ) ) {
+        if( has_trait( trait_VOMITOUS ) && one_turn_in( 7_hours ) ) {
             vomit();
         }
 
-        if( has_trait( trait_SHOUT1 ) && one_in( to_turns<int>( 6_hours ) ) ) {
+        if( has_trait( trait_SHOUT1 ) && one_turn_in( 6_hours ) ) {
             shout();
         }
-        if( has_trait( trait_SHOUT2 ) && one_in( to_turns<int>( 4_hours ) ) ) {
+        if( has_trait( trait_SHOUT2 ) && one_turn_in( 4_hours ) ) {
             shout();
         }
-        if( has_trait( trait_SHOUT3 ) && one_in( to_turns<int>( 3_hours ) ) ) {
+        if( has_trait( trait_SHOUT3 ) && one_turn_in( 3_hours ) ) {
             shout();
         }
-        if( has_trait( trait_M_SPORES ) && one_in( to_turns<int>( 4_hours ) ) ) {
+        if( has_trait( trait_M_SPORES ) && one_turn_in( 4_hours ) ) {
             spores();
         }
-        if( has_trait( trait_M_BLOSSOMS ) && one_in( to_turns<int>( 3_hours ) ) ) {
+        if( has_trait( trait_M_BLOSSOMS ) && one_turn_in( 3_hours ) ) {
             blossoms();
         }
     } // Done with while-awake-only effects
@@ -5755,7 +5753,6 @@ void player::suffer()
         }
     }
 
-    const int player_local_temp = g->weather.get_temperature( pos() );
     double sleeve_factor = armwear_factor();
     const bool has_hat = wearing_something_on( bp_head );
     const bool leafy = has_trait( trait_LEAVES ) || has_trait( trait_LEAVES2 ) ||
@@ -5764,6 +5761,7 @@ void player::suffer()
     const bool leafiest = has_trait( trait_LEAVES3 );
     int sunlight_nutrition = 0;
     if( leafy && g->is_in_sunlight( pos() ) ) {
+        const int player_local_temp = g->weather.get_temperature( pos() );
         int flux = ( player_local_temp - 65 ) / 2;
         if( !has_hat ) {
             sunlight_nutrition += 100 + flux;
@@ -5786,26 +5784,26 @@ void player::suffer()
     }
 
     if( get_pain() > 0 ) {
-        if( has_trait( trait_PAINREC1 ) && one_in( to_turns<int>( 1_hours ) ) ) {
+        if( has_trait( trait_PAINREC1 ) && one_turn_in( 1_hours ) ) {
             mod_pain( -1 );
         }
-        if( has_trait( trait_PAINREC2 ) && one_in( to_turns<int>( 30_minutes ) ) ) {
+        if( has_trait( trait_PAINREC2 ) && one_turn_in( 30_minutes ) ) {
             mod_pain( -1 );
         }
-        if( has_trait( trait_PAINREC3 ) && one_in( to_turns<int>( 15_minutes ) ) ) {
+        if( has_trait( trait_PAINREC3 ) && one_turn_in( 15_minutes ) ) {
             mod_pain( -1 );
         }
     }
 
     if( ( has_trait( trait_ALBINO ) || has_effect( effect_datura ) ) &&
-        g->is_in_sunlight( pos() ) && one_in( to_turns<int>( 1_minutes ) ) ) {
+        g->is_in_sunlight( pos() ) && one_turn_in( 1_minutes ) ) {
         // Umbrellas can keep the sun off the skin and sunglasses - off the eyes.
         if( !weapon.has_flag( "RAIN_PROTECT" ) ) {
             add_msg_if_player( m_bad, _( "The sunlight is really irritating your skin." ) );
             if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
                 wake_up();
             }
-            if( one_in( to_turns<int>( 1_minutes ) ) ) {
+            if( one_turn_in( 1_minutes ) ) {
                 mod_pain( 1 );
             } else {
                 focus_pool --;
@@ -5815,7 +5813,7 @@ void player::suffer()
                ( wearing_something_on( bp_eyes ) ) )
             && !has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
             add_msg_if_player( m_bad, _( "The sunlight is really irritating your eyes." ) );
-            if( one_in( to_turns<int>( 1_minutes ) ) ) {
+            if( one_turn_in( 1_minutes ) ) {
                 mod_pain( 1 );
             } else {
                 focus_pool --;
@@ -5870,45 +5868,45 @@ void player::suffer()
     }
     //Web Weavers...weave web
     if( has_active_mutation( trait_WEB_WEAVER ) && !in_vehicle ) {
-        g->m.add_field( pos(), fd_web, 1 ); //this adds density to if its not already there.
+        // this adds intensity to if its not already there.
+        g->m.add_field( pos(), fd_web, 1 );
 
     }
 
     // Blind/Deaf for brief periods about once an hour,
     // and visuals about once every 30 min.
     if( has_trait( trait_PER_SLIME ) ) {
-        if( one_in( to_turns<int>( 1_hours ) ) && !has_effect( effect_deaf ) ) {
+        if( one_turn_in( 1_hours ) && !has_effect( effect_deaf ) ) {
             add_msg_if_player( m_bad, _( "Suddenly, you can't hear anything!" ) );
             add_effect( effect_deaf, rng( 20_minutes, 60_minutes ) );
         }
-        if( one_in( to_turns<int>( 1_hours ) ) && !( has_effect( effect_blind ) ) ) {
+        if( one_turn_in( 1_hours ) && !( has_effect( effect_blind ) ) ) {
             add_msg_if_player( m_bad, _( "Suddenly, your eyes stop working!" ) );
             add_effect( effect_blind, rng( 2_minutes, 6_minutes ) );
         }
         // Yes, you can be blind and hallucinate at the same time.
         // Your post-human biology is truly remarkable.
-        if( one_in( to_turns<int>( 30_minutes ) ) && !( has_effect( effect_visuals ) ) ) {
+        if( one_turn_in( 30_minutes ) && !( has_effect( effect_visuals ) ) ) {
             add_msg_if_player( m_bad, _( "Your visual centers must be acting up..." ) );
             add_effect( effect_visuals, rng( 36_minutes, 72_minutes ) );
         }
     }
 
     if( has_trait( trait_WEB_SPINNER ) && !in_vehicle && one_in( 3 ) ) {
-        g->m.add_field( pos(), fd_web, 1 ); //this adds density to if its not already there.
+        // this adds intensity to if its not already there.
+        g->m.add_field( pos(), fd_web, 1 );
     }
 
-    if( has_trait( trait_UNSTABLE ) && !has_trait( trait_CHAOTIC_BAD ) &&
-        one_in( to_turns<int>( 48_hours ) ) ) {
+    if( has_trait( trait_UNSTABLE ) && !has_trait( trait_CHAOTIC_BAD ) && one_turn_in( 48_hours ) ) {
         mutate();
     }
-    if( ( has_trait( trait_CHAOTIC ) || has_trait( trait_CHAOTIC_BAD ) ) &&
-        one_in( to_turns<int>( 12_hours ) ) ) {
+    if( ( has_trait( trait_CHAOTIC ) || has_trait( trait_CHAOTIC_BAD ) ) && one_turn_in( 12_hours ) ) {
         mutate();
     }
-    if( has_artifact_with( AEP_MUTAGENIC ) && one_in( to_turns<int>( 48_hours ) ) ) {
+    if( has_artifact_with( AEP_MUTAGENIC ) && one_turn_in( 48_hours ) ) {
         mutate();
     }
-    if( has_artifact_with( AEP_FORCE_TELEPORT ) && one_in( to_turns<int>( 1_hours ) ) ) {
+    if( has_artifact_with( AEP_FORCE_TELEPORT ) && one_turn_in( 1_hours ) ) {
         g->teleport( this );
     }
     const bool needs_fire = !has_morale( MORALE_PYROMANIA_NEARFIRE ) &&
@@ -6100,8 +6098,7 @@ void player::suffer()
     }
 
     // Negative bionics effects
-    if( has_bionic( bio_dis_shock ) && one_in( to_turns<int>( 2_hours ) ) &&
-        !has_effect( effect_narcosis ) ) {
+    if( has_bionic( bio_dis_shock ) && one_turn_in( 2_hours ) && !has_effect( effect_narcosis ) ) {
         add_msg_if_player( m_bad, _( "You suffer a painful electrical discharge!" ) );
         mod_pain( 1 );
         moves -= 150;
@@ -6117,18 +6114,18 @@ void player::suffer()
         }
         sfx::play_variant_sound( "bionics", "elec_discharge", 100 );
     }
-    if( has_bionic( bio_dis_acid ) && one_in( to_turns<int>( 150_minutes ) ) ) {
+    if( has_bionic( bio_dis_acid ) && one_turn_in( 150_minutes ) ) {
         add_msg_if_player( m_bad, _( "You suffer a burning acidic discharge!" ) );
         hurtall( 1, nullptr );
         sfx::play_variant_sound( "bionics", "acid_discharge", 100 );
         sfx::do_player_death_hurt( g->u, false );
     }
-    if( has_bionic( bio_drain ) && power_level > 24 && one_in( to_turns<int>( 1_hours ) ) ) {
+    if( has_bionic( bio_drain ) && power_level > 24 && one_turn_in( 1_hours ) ) {
         add_msg_if_player( m_bad, _( "Your batteries discharge slightly." ) );
         charge_power( -25 );
         sfx::play_variant_sound( "bionics", "elec_crackle_low", 100 );
     }
-    if( has_bionic( bio_noise ) && one_in( to_turns<int>( 50_minutes ) ) &&
+    if( has_bionic( bio_noise ) && one_turn_in( 50_minutes ) &&
         !has_effect( effect_narcosis ) ) {
         // TODO: NPCs with said bionic
         if( !is_deaf() ) {
@@ -6144,14 +6141,14 @@ void player::suffer()
         power_level >= max_power_level * .75 ) {
         mod_str_bonus( -3 );
     }
-    if( has_bionic( bio_trip ) && one_in( to_turns<int>( 50_minutes ) ) &&
+    if( has_bionic( bio_trip ) && one_turn_in( 50_minutes ) &&
         !has_effect( effect_visuals ) &&
         !has_effect( effect_narcosis ) && !in_sleep_state() ) {
         add_msg_if_player( m_bad, _( "Your vision pixelates!" ) );
         add_effect( effect_visuals, 10_minutes );
         sfx::play_variant_sound( "bionics", "pixelated", 100 );
     }
-    if( has_bionic( bio_spasm ) && one_in( to_turns<int>( 5_hours ) ) && !has_effect( effect_downed ) &&
+    if( has_bionic( bio_spasm ) && one_turn_in( 5_hours ) && !has_effect( effect_downed ) &&
         !has_effect( effect_narcosis ) ) {
         add_msg_if_player( m_bad,
                            _( "Your malfunctioning bionic causes you to spasm and fall to the floor!" ) );
@@ -6160,27 +6157,25 @@ void player::suffer()
         add_effect( effect_downed, 1_turns, num_bp, false, 0, true );
         sfx::play_variant_sound( "bionics", "elec_crackle_high", 100 );
     }
-    if( has_bionic( bio_shakes ) && power_level > 24 && one_in( to_turns<int>( 2_hours ) ) ) {
+    if( has_bionic( bio_shakes ) && power_level > 24 && one_turn_in( 2_hours ) ) {
         add_msg_if_player( m_bad, _( "Your bionics short-circuit, causing you to tremble and shiver." ) );
         charge_power( -25 );
         add_effect( effect_shakes, 5_minutes );
         sfx::play_variant_sound( "bionics", "elec_crackle_med", 100 );
     }
-    if( has_bionic( bio_leaky ) && one_in( to_turns<int>( 6_minutes ) ) ) {
+    if( has_bionic( bio_leaky ) && one_turn_in( 6_minutes ) ) {
         mod_healthy_mod( -1, -200 );
     }
-    if( has_bionic( bio_sleepy ) && one_in( to_turns<int>( 50_minutes ) ) && !in_sleep_state() ) {
+    if( has_bionic( bio_sleepy ) && one_turn_in( 50_minutes ) && !in_sleep_state() ) {
         mod_fatigue( 1 );
     }
-    if( has_bionic( bio_itchy ) && one_in( to_turns<int>( 50_minutes ) ) &&
-        !has_effect( effect_formication ) &&
+    if( has_bionic( bio_itchy ) && one_turn_in( 50_minutes ) && !has_effect( effect_formication ) &&
         !has_effect( effect_narcosis ) ) {
         add_msg_if_player( m_bad, _( "Your malfunctioning bionic itches!" ) );
         body_part bp = random_body_part( true );
         add_effect( effect_formication, 10_minutes, bp );
     }
-    if( has_bionic( bio_glowy ) && !has_effect( effect_glowy_led ) &&
-        one_in( to_turns<int>( 50_minutes ) ) &&
+    if( has_bionic( bio_glowy ) && !has_effect( effect_glowy_led ) && one_turn_in( 50_minutes ) &&
         power_level > 1 ) {
         add_msg_if_player( m_bad, _( "Your malfunctioning bionic starts to glow!" ) );
         add_effect( effect_glowy_led, 5_minutes );
@@ -6194,7 +6189,7 @@ void player::suffer()
 
     // Stim +250 kills
     if( stim > 210 ) {
-        if( one_in( to_turns<int>( 2_minutes ) ) && !has_effect( effect_downed ) ) {
+        if( one_turn_in( 2_minutes ) && !has_effect( effect_downed ) ) {
             add_msg_if_player( m_bad, _( "Your muscles spasm!" ) );
             if( !has_effect( effect_downed ) ) {
                 add_msg_if_player( m_bad, _( "You fall to the ground!" ) );
@@ -6215,7 +6210,7 @@ void player::suffer()
         }
     }
     if( stim > 75 ) {
-        if( !one_in( to_turns<int>( 2_minutes ) ) && !has_effect( effect_nausea ) ) {
+        if( !one_turn_in( 2_minutes ) && !has_effect( effect_nausea ) ) {
             add_msg( _( "You feel nauseous..." ) );
             add_effect( effect_nausea, 5_minutes );
         }
@@ -6223,7 +6218,7 @@ void player::suffer()
 
     // Stim -200 or painkillers 240 kills
     if( stim < -160 || pkill > 200 ) {
-        if( one_in( to_turns<int>( 3_minutes ) ) && !in_sleep_state() ) {
+        if( one_turn_in( 3_minutes ) && !in_sleep_state() ) {
             add_msg_if_player( m_bad, _( "You black out!" ) );
             const time_duration dur = rng( 30_minutes, 60_minutes );
             add_effect( effect_downed, dur );
@@ -6238,7 +6233,7 @@ void player::suffer()
         }
     }
     if( stim < -85 || pkill > 145 ) {
-        if( one_in( to_turns<int>( 15_seconds ) ) ) {
+        if( one_turn_in( 15_seconds ) ) {
             add_msg_if_player( m_bad, _( "You feel dizzy for a moment." ) );
             mod_moves( -rng( 10, 30 ) );
             if( one_in( 3 ) && !has_effect( effect_downed ) ) {
@@ -6266,7 +6261,7 @@ void player::suffer()
 
     // Harmless warnings
     if( sleep_deprivation >= SLEEP_DEPRIVATION_HARMLESS ) {
-        if( one_in( to_turns<int>( 50_minutes ) ) ) {
+        if( one_turn_in( 50_minutes ) ) {
             switch( dice( 1, 4 ) ) {
                 default:
                 case 1:
@@ -6290,51 +6285,51 @@ void player::suffer()
     }
     // Minor discomfort
     if( sleep_deprivation >= SLEEP_DEPRIVATION_MINOR ) {
-        if( one_in( to_turns<int>( 75_minutes ) ) ) {
+        if( one_turn_in( 75_minutes ) ) {
             add_msg_if_player( m_warning, _( "You feel lightheaded for a moment." ) );
             moves -= 10;
         }
-        if( one_in( to_turns<int>( 100_minutes ) ) ) {
+        if( one_turn_in( 100_minutes ) ) {
             add_msg_if_player( m_warning, _( "Your muscles spasm uncomfortably." ) );
             mod_pain( 2 );
         }
-        if( !has_effect( effect_visuals ) && one_in( to_turns<int>( 150_minutes ) ) ) {
+        if( !has_effect( effect_visuals ) && one_turn_in( 150_minutes ) ) {
             add_msg_if_player( m_warning, _( "Your vision blurs a little." ) );
             add_effect( effect_visuals, rng( 1_minutes, 5_minutes ) );
         }
     }
     // Slight disability
     if( sleep_deprivation >= SLEEP_DEPRIVATION_SERIOUS ) {
-        if( one_in( to_turns<int>( 75_minutes ) ) ) {
+        if( one_turn_in( 75_minutes ) ) {
             add_msg_if_player( m_bad, _( "Your mind lapses into unawareness briefly." ) );
             moves -= rng( 20, 80 );
         }
-        if( one_in( to_turns<int>( 125_minutes ) ) ) {
+        if( one_turn_in( 125_minutes ) ) {
             add_msg_if_player( m_bad, _( "Your muscles ache in stressfully unpredictable ways." ) );
             mod_pain( rng( 2, 10 ) );
         }
-        if( one_in( to_turns<int>( 5_hours ) ) ) {
+        if( one_turn_in( 5_hours ) ) {
             add_msg_if_player( m_bad, _( "You have a distractingly painful headache." ) );
             mod_pain( rng( 10, 25 ) );
         }
     }
     // Major disability, high chance of passing out also relevant
     if( sleep_deprivation >= SLEEP_DEPRIVATION_MAJOR ) {
-        if( !has_effect( effect_nausea ) && one_in( to_turns<int>( 500_minutes ) ) ) {
+        if( !has_effect( effect_nausea ) && one_turn_in( 500_minutes ) ) {
             add_msg_if_player( m_bad, _( "You feel heartburn and an acid taste in your mouth." ) );
             mod_pain( 5 );
             add_effect( effect_nausea, rng( 5_minutes, 30_minutes ) );
         }
-        if( one_in( to_turns<int>( 5_hours ) ) ) {
+        if( one_turn_in( 5_hours ) ) {
             add_msg_if_player( m_bad,
                                _( "Your mind is so tired that you feel you can't trust your eyes anymore." ) );
             add_effect( effect_hallu, rng( 5_minutes, 60_minutes ) );
         }
-        if( !has_effect( effect_shakes ) && one_in( to_turns<int>( 425_minutes ) ) ) {
+        if( !has_effect( effect_shakes ) && one_turn_in( 425_minutes ) ) {
             add_msg_if_player( m_bad,
                                _( "Your muscles spasm uncontrollably, and you have trouble keeping your balance." ) );
             add_effect( effect_shakes, 15_minutes );
-        } else if( has_effect( effect_shakes ) && one_in( to_turns<int>( 75_seconds ) ) ) {
+        } else if( has_effect( effect_shakes ) && one_turn_in( 75_seconds ) ) {
             moves -= 10;
             add_msg_player_or_npc( m_warning, _( "Your shaking legs make you stumble." ),
                                    _( "<npcname> stumbles." ) );
@@ -6811,19 +6806,19 @@ int player::get_morale_level() const
     return morale->get_level();
 }
 
-void player::add_morale( morale_type type, int bonus, int max_bonus,
+void player::add_morale( const morale_type &type, int bonus, int max_bonus,
                          const time_duration &duration, const time_duration &decay_start,
                          bool capped, const itype *item_type )
 {
     morale->add( type, bonus, max_bonus, duration, decay_start, capped, item_type );
 }
 
-int player::has_morale( morale_type type ) const
+int player::has_morale( const morale_type &type ) const
 {
     return morale->has( type );
 }
 
-void player::rem_morale( morale_type type, const itype *item_type )
+void player::rem_morale( const morale_type &type, const itype *item_type )
 {
     morale->remove( type, item_type );
 }
@@ -6872,9 +6867,9 @@ void player::check_and_recover_morale()
     }
 }
 
-void player::on_worn_item_transform( const item &it )
+void player::on_worn_item_transform( const item &old_it, const item &new_it )
 {
-    morale->on_worn_item_transform( it );
+    morale->on_worn_item_transform( old_it, new_it );
 }
 
 void player::process_active_items()
@@ -8838,7 +8833,7 @@ bool player::unload( item &it )
     } else if( target->ammo_remaining() ) {
         int qty = target->ammo_remaining();
 
-        if( target->ammo_current() == "plutonium" ) {
+        if( target->ammo_current() == "plut_cell" ) {
             qty = target->ammo_remaining() / PLUTONIUM_CHARGES;
             if( qty > 0 ) {
                 add_msg( _( "You recover %i unused plutonium." ), qty );
@@ -8866,7 +8861,7 @@ bool player::unload( item &it )
         // If successful remove appropriate qty of ammo consuming half as much time as required to load it
         this->moves -= this->item_reload_cost( *target, ammo, qty ) / 2;
 
-        if( target->ammo_current() == "plutonium" ) {
+        if( target->ammo_current() == "plut_cell" ) {
             qty *= PLUTONIUM_CHARGES;
         }
 
@@ -9076,7 +9071,7 @@ void player::use( int inventory_position )
     item &used = i_at( inventory_position );
     auto loc = item_location( *this, &used );
 
-    use( loc.clone() );
+    use( loc );
 }
 
 void player::use( item_location loc )
@@ -9585,7 +9580,7 @@ void player::try_to_sleep( const time_duration &dur )
         webforce = true;
     }
     if( websleep || webforce ) {
-        int web = g->m.get_field_strength( pos(), fd_web );
+        int web = g->m.get_field_intensity( pos(), fd_web );
         if( !webforce ) {
             // At this point, it's kinda weird, but surprisingly comfy...
             if( web >= 3 ) {
@@ -9625,8 +9620,7 @@ void player::try_to_sleep( const time_duration &dur )
     }
     if( !plantsleep && ( furn_at_pos.obj().comfort > static_cast<int>( comfort_level::neutral ) ||
                          ter_at_pos == t_improvised_shelter ||
-                         trap_at_pos.loadid == tr_cot || trap_at_pos.loadid == tr_rollmat ||
-                         trap_at_pos.loadid == tr_fur_rollmat ||
+                         trap_at_pos.comfort > static_cast<int>( comfort_level::neutral ) ||
                          in_shell || websleeping || watersleep ||
                          vp.part_with_feature( "SEAT", true ) ||
                          vp.part_with_feature( "BED", true ) ) ) {
@@ -9672,7 +9666,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
     const ter_id ter_at_pos = tile.get_ter();
     const furn_id furn_at_pos = tile.get_furn();
 
-    int web = g->m.get_field_strength( p, fd_web );
+    int web = g->m.get_field_intensity( p, fd_web );
 
     // Some mutants have different comfort needs
     if( !plantsleep && !webforce ) {
@@ -9692,19 +9686,18 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
         // Not in a vehicle, start checking furniture/terrain/traps at this point in decreasing order
         else if( furn_at_pos != f_null ) {
             comfort += 0 + furn_at_pos.obj().comfort;
-        } else if( trap_at_pos.loadid == tr_cot ) {
-            comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
         }
         // Web sleepers can use their webs if better furniture isn't available
         else if( websleep && web >= 3 ) {
             comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-        } else if( trap_at_pos.loadid == tr_rollmat || trap_at_pos.loadid == tr_fur_rollmat ||
-                   ter_at_pos == t_improvised_shelter ) {
+        } else if( ter_at_pos == t_improvised_shelter ) {
             comfort += 0 + static_cast<int>( comfort_level::slightly_comfortable );
         } else if( ter_at_pos == t_floor || ter_at_pos == t_floor_waxed ||
                    ter_at_pos == t_carpet_red || ter_at_pos == t_carpet_yellow ||
                    ter_at_pos == t_carpet_green || ter_at_pos == t_carpet_purple ) {
             comfort += 1 + static_cast<int>( comfort_level::neutral );
+        } else if( !trap_at_pos.is_null() ) {
+            comfort += 0 + trap_at_pos.comfort;
         } else {
             // Not a comfortable sleeping spot
             comfort -= g->m.move_cost( p );
@@ -9753,13 +9746,13 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
         }
     }
 
-    if( comfort >= static_cast<int>( comfort_level::very_comfortable ) ) {
+    if( comfort > static_cast<int>( comfort_level::comfortable ) ) {
         return comfort_level::very_comfortable;
-    } else if( comfort >= static_cast<int>( comfort_level::comfortable ) ) {
+    } else if( comfort > static_cast<int>( comfort_level::slightly_comfortable ) ) {
         return comfort_level::comfortable;
-    } else if( comfort >= static_cast<int>( comfort_level::slightly_comfortable ) ) {
+    } else if( comfort > static_cast<int>( comfort_level::neutral ) ) {
         return comfort_level::slightly_comfortable;
-    } else if( comfort >= static_cast<int>( comfort_level::neutral ) ) {
+    } else if( comfort == static_cast<int>( comfort_level::neutral ) ) {
         return comfort_level::neutral;
     } else {
         return comfort_level::uncomfortable;
@@ -11049,6 +11042,12 @@ void player::clear_destination()
     next_expected_position = cata::nullopt;
 }
 
+bool player::has_distant_destination() const
+{
+    return has_destination() && !destination_activity.is_null() &&
+           destination_activity.id() == "ACT_TRAVELLING" && !omt_path.empty();
+}
+
 bool player::has_destination() const
 {
     return !auto_move_route.empty();
@@ -11222,18 +11221,17 @@ void player::burn_move_stamina( int moves )
     if( current_weight > max_weight ) {
         overburden_percentage = ( current_weight - max_weight ) * 100 / max_weight;
     }
-    // Regain 10 stamina / turn
-    // 7/turn walking
-    // 20/turn running
-    int burn_ratio = 7;
+
+    int burn_ratio = get_option<int>( "PLAYER_BASE_STAMINA_BURN_RATE" );
     if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
         burn_ratio = burn_ratio * 2 - 3;
     }
     burn_ratio += overburden_percentage;
     if( move_mode == "run" ) {
-        burn_ratio = burn_ratio * 3 - 1;
+        burn_ratio = burn_ratio * 7;
     }
     mod_stat( "stamina", -( ( moves * burn_ratio ) / 100 ) );
+    add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
     // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
     // Starts at 1 in 25, goes down by 5 for every 50% more carried
     if( ( current_weight > max_weight ) && ( has_trait( trait_BADBACK ) || stamina == 0 ) &&
@@ -11860,11 +11858,13 @@ bool player::has_item_with_flag( const std::string &flag, bool need_charges ) co
 void player::on_mutation_gain( const trait_id &mid )
 {
     morale->on_mutation_gain( mid );
+    magic.on_mutation_gain( mid, *this );
 }
 
 void player::on_mutation_loss( const trait_id &mid )
 {
     morale->on_mutation_loss( mid );
+    magic.on_mutation_loss( mid );
 }
 
 void player::on_stat_change( const std::string &stat, int value )
@@ -12058,4 +12058,14 @@ std::pair<std::string, nc_color> player::get_hunger_description() const
     }
 
     return std::make_pair( hunger_string, hunger_color );
+}
+
+void player::enforce_minimum_healing()
+{
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        if( healed_total[i] <= 0 ) {
+            heal( static_cast<hp_part>( i ), 1 );
+        }
+        healed_total[i] = 0;
+    }
 }

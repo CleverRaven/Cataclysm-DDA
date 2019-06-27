@@ -330,7 +330,7 @@ bool mission::is_complete( const int _npc_id ) const
 
         case MGOAL_GO_TO_TYPE: {
             const auto cur_ter = overmap_buffer.ter( g->u.global_omt_location() );
-            return is_ot_type( type->target_id.str(), cur_ter );
+            return is_ot_match( type->target_id.str(), cur_ter, ot_match_type::TYPE );
         }
 
         case MGOAL_FIND_ITEM_GROUP: {
@@ -362,7 +362,7 @@ bool mission::is_complete( const int _npc_id ) const
             if( npc_id != -1 && npc_id != _npc_id ) {
                 return false;
             }
-            inventory tmp_inv = u.crafting_inventory();
+            const inventory &tmp_inv = u.crafting_inventory();
             // TODO: check for count_by_charges and use appropriate player::has_* function
             if( !tmp_inv.has_amount( type->item_id, item_count ) ) {
                 return tmp_inv.has_amount( type->item_id, 1 ) && tmp_inv.has_charges( type->item_id, item_count );
@@ -505,7 +505,7 @@ mission_type_id mission::get_follow_up() const
     return follow_up;
 }
 
-long mission::get_value() const
+int mission::get_value() const
 {
     return value;
 }

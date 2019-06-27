@@ -225,7 +225,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
  * @param start_at Which vehicle part to start printing at.
  * @param start_limit the part index beyond which the display is full
  */
-void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int width, int &p,
+void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int width, int p,
                                   int &start_at, int &start_limit ) const
 {
     if( p < 0 || p >= static_cast<int>( parts.size() ) ) {

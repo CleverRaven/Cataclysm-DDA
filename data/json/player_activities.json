@@ -26,6 +26,15 @@
     "no_resume": true
   },
   {
+    "id": "ACT_BLUEPRINT_CONSTRUCTION",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": "constructing",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
     "id": "ACT_GAME",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -262,6 +271,15 @@
     "no_resume": true
   },
   {
+    "id": "ACT_TRAVELLING",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "travelling",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
     "id": "ACT_MOVE_LOOT",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
@@ -435,6 +453,15 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "interacting with the NPC",
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_WAIT_STAMINA",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "catching breath",
     "rooted": true,
     "based_on": "time",
     "no_resume": true

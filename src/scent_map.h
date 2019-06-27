@@ -9,6 +9,7 @@
 #include "enums.h" // IWYU pragma: keep
 #include "game_constants.h"
 #include "optional.h"
+#include "point.h"
 
 static constexpr int SCENT_MAP_Z_REACH = 1;
 

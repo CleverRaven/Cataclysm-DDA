@@ -59,6 +59,9 @@
 static constexpr int UILIST_MAP_NOTE_DELETED = -2047;
 static constexpr int UILIST_MAP_NOTE_EDITED = -2048;
 
+static constexpr int max_note_length = 450;
+static constexpr int max_note_display_length = 45;
+
 /** Note preview map width without borders. Odd number. */
 static const int npm_width = 3;
 /** Note preview map height without borders. Odd number. */
@@ -149,7 +152,8 @@ static void update_note_preview( const std::string &note,
     wrefresh( *w_preview );
 
     werase( *w_preview_title );
-    mvwprintz( *w_preview_title, 0, 0, note_color, note_text );
+    nc_color default_color = c_unset;
+    print_colored_text( *w_preview_title, 0, 0, default_color, note_color, note_text );
     mvwputch( *w_preview_title, 0, note_text.length(), c_white, LINE_XOXO );
     for( size_t i = 0; i < note_text.length(); i++ ) {
         mvwputch( *w_preview_title, 1, i, c_white, LINE_OXOX );
@@ -335,10 +339,10 @@ class map_notes_callback : public uilist_callback
         void select( int, uilist *menu ) override {
             _selected = menu->selected;
             const auto map_around = get_overmap_neighbors( note_location() );
-            const int max_note_length = 45;
-            catacurses::window w_preview = catacurses::newwin( npm_height + 2, max_note_length - npm_width - 1,
+            catacurses::window w_preview = catacurses::newwin( npm_height + 2,
+                                           max_note_display_length - npm_width - 1,
                                            2, npm_width + 2 );
-            catacurses::window w_preview_title = catacurses::newwin( 2, max_note_length + 1, 0, 0 );
+            catacurses::window w_preview_title = catacurses::newwin( 2, max_note_display_length + 1, 0, 0 );
             catacurses::window w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2, 2, 0 );
             const std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows =
                 std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
@@ -525,6 +529,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         size_t count;
     };
     std::vector<tripoint> path_route;
+    std::vector<tripoint> player_path_route;
     std::unordered_map<tripoint, npc_coloring> npc_color;
     if( blink ) {
         const auto &npcs = overmap_buffer.get_npcs_near_player( sight_points );
@@ -556,6 +561,10 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             }
             npc *npc_to_add = npc_to_get.get();
             followers.push_back( npc_to_add );
+        }
+        for( auto &elem : g->u.omt_path ) {
+            tripoint tri_to_add = tripoint( elem.x, elem.y, g->u.posz() );
+            player_path_route.push_back( tri_to_add );
         }
         for( const auto &np : followers ) {
             if( np->posz() != z ) {
@@ -602,6 +611,12 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             const bool los = see && g->u.overmap_los( cur_pos, sight_points );
             const bool los_sky = g->u.overmap_los( cur_pos, sight_points * 2 );
             int mycount = std::count( path_route.begin(), path_route.end(), cur_pos );
+            bool player_path_count = false;
+            std::vector<tripoint>::iterator it;
+            it = std::find( player_path_route.begin(), player_path_route.end(), cur_pos );
+            if( it != player_path_route.end() ) {
+                player_path_count = true;
+            }
             if( blink && cur_pos == orig ) {
                 // Display player pos, should always be visible
                 ter_color = g->u.symbol_color();
@@ -636,6 +651,9 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             } else if( blink && mycount != 0 && g->debug_pathfinding ) {
                 ter_color = c_red;
                 ter_sym   = "!";
+            } else if( blink && player_path_count ) {
+                ter_color = c_blue;
+                ter_sym = "!";
             } else if( blink && showhordes && los &&
                        overmap_buffer.get_horde_size( omx, omy, z ) >= HORDE_VISIBILITY_SIZE ) {
                 // Display Hordes only when within player line-of-sight
@@ -649,7 +667,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                 ter_color = c_yellow;
                 ter_sym   = "Z";
             } else if( !uistate.overmap_show_forest_trails && cur_ter &&
-                       is_ot_type( "forest_trail", cur_ter ) ) {
+                       is_ot_match( "forest_trail", cur_ter, ot_match_type::TYPE ) ) {
                 // If forest trails shouldn't be displayed, and this is a forest trail, then
                 // instead render it like a forest.
                 set_color_and_symbol( forest, omx, omy, z, ter_sym, ter_color );
@@ -811,7 +829,8 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             const auto &pr = corner_text[ i ];
             // clear line, print line, print vertical line at the right side.
             mvwprintz( w, i, 0, c_yellow, spacer );
-            mvwprintz( w, i, 0, pr.first, pr.second );
+            nc_color default_color = c_unset;
+            print_colored_text( w, i, 0, default_color, pr.first, pr.second );
             mvwputch( w, i, maxlen, c_white, LINE_XOXO );
         }
         for( int i = 0; i <= maxlen; i++ ) {
@@ -903,7 +922,9 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             mvwprintz( wbar, ++lines, 1, c_white, _( "%s" ), msg );
         }
     }
-    mvwprintz( wbar, 14, 1, c_magenta, _( "Use movement keys to pan." ) );
+    mvwprintz( wbar, 12, 1, c_magenta, _( "Use movement keys to pan." ) );
+    mvwprintz( wbar, 13, 1, c_magenta, _( "Press W to preview route." ) );
+    mvwprintz( wbar, 14, 1, c_magenta, _( "Press again to confirm." ) );
     if( inp_ctxt != nullptr ) {
         int y = 16;
 
@@ -980,10 +1001,10 @@ void create_note( const tripoint &curs )
     std::string new_note = old_note;
     auto map_around = get_overmap_neighbors( curs );
 
-    const int max_note_length = 45;
-    catacurses::window w_preview = catacurses::newwin( npm_height + 2, max_note_length - npm_width - 1,
+    catacurses::window w_preview = catacurses::newwin( npm_height + 2,
+                                   max_note_display_length - npm_width - 1,
                                    2, npm_width + 2 );
-    catacurses::window w_preview_title = catacurses::newwin( 2, max_note_length + 1, 0, 0 );
+    catacurses::window w_preview_title = catacurses::newwin( 2, max_note_display_length + 1, 0, 0 );
     catacurses::window w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2, 2, 0 );
     std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows =
         std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
@@ -1286,6 +1307,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
     ictxt.register_action( "HELP_KEYBINDINGS" );
     ictxt.register_action( "MOUSE_MOVE" );
     ictxt.register_action( "SELECT" );
+    ictxt.register_action( "CHOOSE_DESTINATION" );
 
     // Actions whose keys we want to display.
     ictxt.register_action( "CENTER" );
@@ -1371,6 +1393,19 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
                 curs.x = p.x;
                 curs.y = p.y;
             }
+        } else if( action == "CHOOSE_DESTINATION" ) {
+            const tripoint player_omt_pos = g->u.global_omt_location();
+            if( !g->u.omt_path.empty() && g->u.omt_path.front() == curs ) {
+                if( query_yn( _( "Travel to this point?" ) ) ) {
+                    g->u.assign_activity( activity_id( "ACT_TRAVELLING" ) );
+                    action = "QUIT";
+                }
+            }
+            if( curs == player_omt_pos ) {
+                g->u.omt_path.clear();
+            } else {
+                g->u.omt_path = overmap_buffer.get_npc_path( player_omt_pos, curs );
+            }
         } else if( action == "TOGGLE_BLINKING" ) {
             uistate.overmap_blinking = !uistate.overmap_blinking;
             // if we turn off overmap blinking, show overlays and explored status
@@ -1427,7 +1462,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
     return ret;
 }
 
-} // overmap_ui
+} // namespace overmap_ui
 
 void ui::omap::display()
 {

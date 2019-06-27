@@ -809,6 +809,12 @@
   },
   {
     "type": "keybinding",
+    "id": "CHOOSE_DESTINATION",
+    "name": "Choose destination",
+    "bindings": [ { "input_method": "keyboard", "key": "W" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "FIRE",
     "name": "Fire Weapon",
     "bindings": [

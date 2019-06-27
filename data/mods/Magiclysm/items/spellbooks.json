@@ -33,7 +33,7 @@
     "price": 5000,
     "symbol": "?",
     "color": "light_red",
-    "use_action": { "type": "learn_spell", "spells": [ "magic_missile", "phase_door" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "magic_missile", "phase_door", "create_atomic_light" ] }
   },
   {
     "id": "wizard_utility",
@@ -45,7 +45,7 @@
     "price": 35000,
     "symbol": "?",
     "color": "red",
-    "use_action": { "type": "learn_spell", "spells": [ "phase_door", "burning_hands", "pain_split" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "phase_door", "create_lighter", "pain_split", "protection_aura" ] }
   },
   {
     "id": "pyro",
@@ -57,7 +57,7 @@
     "price": 1904,
     "symbol": "?",
     "color": "light_red",
-    "use_action": { "type": "learn_spell", "spells": [ "point_flare", "fireball", "burning_hands" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "point_flare", "fireball", "burning_hands", "create_lighter" ] }
   },
   {
     "id": "wizard_advanced",
@@ -81,7 +81,7 @@
     "price": 5000,
     "symbol": "?",
     "color": "light_green",
-    "use_action": { "type": "learn_spell", "spells": [ "light_healing" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "light_healing", "blinding_flash", "bless" ] }
   },
   {
     "id": "priest_advanced",
@@ -93,7 +93,7 @@
     "price": 30000,
     "symbol": "?",
     "color": "green",
-    "use_action": { "type": "learn_spell", "spells": [ "smite" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "smite", "holy_blade", "spirit_armor" ] }
   },
   {
     "id": "winter_grasp",
@@ -116,8 +116,8 @@
     "volume": 3,
     "price": 5000,
     "symbol": "?",
-    "color": "light_grey",
-    "use_action": { "type": "learn_spell", "spells": [ "jolt", "windstrike" ] }
+    "color": "light_gray",
+    "use_action": { "type": "learn_spell", "spells": [ "jolt", "windstrike", "windrun", "storm_hammer" ] }
   },
   {
     "id": "generic_spellbook",
@@ -128,7 +128,7 @@
     "volume": 2,
     "symbol": "?",
     "color": "magenta",
-    "use_action": { "type": "learn_spell", "spells": [ "seismic_stomp" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "seismic_stomp", "create_atomic_lamp", "ethereal_grasp" ] }
   },
   {
     "id": "biomancer_spellbook",
@@ -177,7 +177,7 @@
     "weight": 434,
     "volume": 3,
     "symbol": "?",
-    "color": "light_grey",
+    "color": "light_gray",
     "use_action": { "type": "learn_spell", "spells": [ "magus_mana_beam", "magus_mana_bolt", "magus_mana_blast" ] }
   },
   {
@@ -202,7 +202,7 @@
     "weight": 231,
     "volume": 2,
     "symbol": "?",
-    "color": "light_grey",
+    "color": "light_gray",
     "use_action": { "type": "learn_spell", "spells": [ "phase_door", "magus_escape", "magus_haste" ] }
   },
   {
@@ -213,7 +213,29 @@
     "weight": 129,
     "volume": "100 ml",
     "symbol": "?",
-    "color": "light_grey",
+    "color": "light_gray",
     "use_action": { "type": "learn_spell", "spells": [ "summon_bear" ] }
+  },
+  {
+    "id": "summon_undead_spellbook",
+    "type": "GENERIC",
+    "name": "Necromantic Minions for Dummies",
+    "description": "This book details various ways of summoning an undead minion to fight for you.  They all appear to disappear after a short time, crumbling to dust.",
+    "weight": 788,
+    "volume": 9,
+    "symbol": "?",
+    "color": "light_gray",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_zombie", "summon_skeleton", "summon_decayed_pouncer" ] }
+  },
+  {
+    "id": "translocate_spellbook",
+    "type": "GENERIC",
+    "name": "Geospatial Systems: The Lie Of Linearity",
+    "description": "This book outlines in great detail how time and space are wibbly-wobbly and non-Euclidean.  It also appears to have a dozen different coordinate systems that it uses nearly interchangeably, which makes it hard to follow.  There's lots of jargon, but with intense study you can probably learn a thing or two about portals.",
+    "weight": 1200,
+    "volume": 10,
+    "symbol": "?",
+    "color": "light_blue",
+    "use_action": { "type": "learn_spell", "spells": [ "translocate_self" ] }
   }
 ]

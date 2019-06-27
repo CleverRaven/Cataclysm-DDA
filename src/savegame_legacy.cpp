@@ -41,7 +41,7 @@ struct hash<talk_topic_enum> {
         return k; // the most trivial hash of them all
     }
 };
-}
+} // namespace std
 
 std::string convert_talk_topic( talk_topic_enum const old_value )
 {

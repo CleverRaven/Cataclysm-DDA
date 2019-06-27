@@ -96,7 +96,7 @@ constexpr int freezer = 23; // -5 Celsius
 
 /** Temperature in which water freezes in Fahrenheit  */
 constexpr int freezing = 32; // 0 Celsius
-}
+} // namespace temperatures
 
 // Shelf life of corpse. This should be kept same as raw flesh.
 constexpr time_duration CORPSE_ROT_TIME = 24_hours;
@@ -106,9 +106,6 @@ constexpr time_duration CORPSE_ROT_TIME = 24_hours;
 
 /** Cap JACK requirements to support arbitrarily large vehicles */
 #define JACK_LIMIT 8500_kilogram // 8500kg ( 8.5 metric tonnes )
-
-/** Maximum density of a map field */
-#define MAX_FIELD_DENSITY 3
 
 /** Slowest speed at which a gun can be aimed */
 #define MAX_AIM_COST 10

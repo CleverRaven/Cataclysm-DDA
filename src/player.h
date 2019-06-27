@@ -83,7 +83,7 @@ struct targeting_data;
 namespace debug_menu
 {
 class mission_debug;
-}
+} // namespace debug_menu
 
 // This tries to represent both rating and
 // player's decision to respect said rating
@@ -282,6 +282,9 @@ class player : public Character
           * Handles passive regeneration of pain and maybe hp.
           */
         void regen( int rate_multiplier );
+        // called once per 24 hours to enforce the minimum of 1 hp healed per day
+        // TODO: Move to Character once heal() is moved
+        void enforce_minimum_healing();
         /** Regenerates stamina */
         void update_stamina( int turns );
         /** Kills the player if too hungry, stimmed up etc., forces tired player to sleep and prints warnings. */
@@ -334,11 +337,17 @@ class player : public Character
                                       const skill_id &important_skill,
                                       const skill_id &least_important_skill,
                                       int skill_level = -1 );
+        /**Is the installation possible*/
+        bool can_install_bionics( const itype &type, player &installer, bool autodoc = false,
+                                  int skill_level = -1 );
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
         bool install_bionics( const itype &type, player &installer, bool autodoc = false,
                               int skill_level = -1 );
         void bionics_install_failure( player &installer, int difficulty, int success,
                                       float adjusted_skill );
+        /**Is The uninstallation possible*/
+        bool can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
+                                   int skill_level = -1 );
         /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
         bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                int skill_level = -1 );
@@ -351,6 +360,8 @@ class player : public Character
         /**When a monster fails the surgery*/
         void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
                                         float adjusted_skill );
+        /**Has enough anesthetic for surgery*/
+        bool has_enough_anesth( const itype *cbm );
         /** Adds the entered amount to the player's bionic power_level */
         void charge_power( int amount );
         /** Generates and handles the UI for player interaction with installed bionics */
@@ -1223,17 +1234,17 @@ class player : public Character
         void resume_backlog_activity();
 
         int get_morale_level() const; // Modified by traits, &c
-        void add_morale( morale_type type, int bonus, int max_bonus = 0,
+        void add_morale( const morale_type &type, int bonus, int max_bonus = 0,
                          const time_duration &duration = 1_hours,
                          const time_duration &decay_start = 30_minutes, bool capped = false,
                          const itype *item_type = nullptr );
-        int has_morale( morale_type type ) const;
-        void rem_morale( morale_type type, const itype *item_type = nullptr );
+        int has_morale( const morale_type &type ) const;
+        void rem_morale( const morale_type &type, const itype *item_type = nullptr );
         void clear_morale();
         bool has_morale_to_read() const;
         /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
         void check_and_recover_morale();
-        void on_worn_item_transform( const item &it );
+        void on_worn_item_transform( const item &old_it, const item &new_it );
 
         /** Get the formatted name of the currently wielded item (if any)
          *  truncated to a number of characters. 0 means it is not truncated
@@ -1420,15 +1431,15 @@ class player : public Character
         ret_val<bool> can_disassemble( const item &obj, const inventory &inv ) const;
 
         bool disassemble();
-        bool disassemble( int pos );
-        bool disassemble( item &obj, int pos, bool ground, bool interactive = true );
+        bool disassemble( item_location target, bool interactive = true );
         void disassemble_all( bool one_pass ); // Disassemble all items on the tile
         void complete_disassemble();
-        void complete_disassemble( int item_pos, const tripoint &loc,
-                                   bool from_ground, const recipe &dis );
+        void complete_disassemble( item_location &target, const recipe &dis );
 
         // yet more crafting.cpp
-        const inventory &crafting_inventory(); // includes nearby items
+        // includes nearby items
+        const inventory &crafting_inventory( const tripoint &src_pos = tripoint_zero,
+                                             int radius = PICKUP_RANGE );
         void invalidate_crafting_inventory();
         comp_selection<item_comp>
         select_item_component( const std::vector<item_comp> &components,
@@ -1456,6 +1467,8 @@ class player : public Character
         void set_destination( const std::vector<tripoint> &route,
                               const player_activity &destination_activity = player_activity() );
         void clear_destination();
+        bool has_distant_destination() const;
+
         bool has_destination() const;
         // true if player has destination activity AND is standing on destination tile
         bool has_destination_activity() const;
@@ -1520,7 +1533,6 @@ class player : public Character
         player_activity activity;
         std::list<player_activity> backlog;
         int volume;
-
         const profession *prof;
 
         start_location_id start_location;
@@ -1529,13 +1541,9 @@ class player : public Character
 
         time_point next_climate_control_check;
         bool last_climate_control_ret;
-        int power_level;
-        int max_power_level;
         int tank_plut;
         int reactor_plut;
         int slow_rad;
-        int oxygen;
-        int stamina;
         double recoil = MAX_RECOIL;
         std::weak_ptr<Creature> last_target;
         cata::optional<tripoint> last_target_pos;
@@ -1545,7 +1553,6 @@ class player : public Character
         int dodges_left;
         int blocks_left;
         int stim;
-        int radiation;
         int cash;
         int movecounter;
         std::shared_ptr<monster> mounted_creature;
@@ -1601,7 +1608,6 @@ class player : public Character
         std::set<int> follower_ids;
         //Record of player stats, for posterity only
         stats lifetime_stats;
-
         void mod_stat( const std::string &stat, float modifier ) override;
 
         int getID() const;

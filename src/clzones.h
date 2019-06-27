@@ -13,6 +13,7 @@
 
 #include "enums.h"
 #include "optional.h"
+#include "point.h"
 #include "string_id.h"
 #include "type_id.h"
 
@@ -110,6 +111,47 @@ class plot_options : public zone_options, public mark_option
         }
         std::string get_seed() const {
             return seed;
+        }
+
+        bool has_options() const override {
+            return true;
+        }
+
+        bool query_at_creation() override;
+        bool query() override;
+
+        std::string get_zone_name_suggestion() const override;
+
+        std::vector<std::pair<std::string, std::string>> get_descriptions() const override;
+
+        void serialize( JsonOut &json ) const override;
+        void deserialize( JsonObject &jo_zone ) override;
+};
+
+class blueprint_options : public zone_options, public mark_option
+{
+    private:
+        std::string mark; // furn/ter id as string.
+        std::string con;
+        int index;
+
+        enum query_con_result {
+            canceled,
+            successful,
+            changed,
+        };
+
+        query_con_result query_con();
+
+    public:
+        std::string get_mark() const override {
+            return mark;
+        }
+        std::string get_con() const {
+            return con;
+        }
+        int get_index() const {
+            return index;
         }
 
         bool has_options() const override {

@@ -599,7 +599,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     }
 
     std::string effects = get_effect_status();
-    long long used_space = att.first.length() + name().length() + 3;
+    size_t used_space = att.first.length() + name().length() + 3;
     trim_and_print( w, vStart++, used_space, getmaxx( w ) - used_space - 2,
                     h_white, effects );
 
@@ -1047,7 +1047,7 @@ void monster::process_triggers()
     process_trigger( mon_trigger::FIRE, [this]() {
         int ret = 0;
         for( const auto &p : g->m.points_in_radius( pos(), 3 ) ) {
-            ret += 5 * g->m.get_field_strength( p, fd_fire );
+            ret += 5 * g->m.get_field_intensity( p, fd_fire );
         }
         return ret;
     } );
@@ -1572,11 +1572,11 @@ bool monster::move_effects( bool )
     return true;
 }
 
-void monster::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
+void monster::add_effect( const efftype_id &eff_id, const time_duration dur, body_part/*bp*/,
                           bool permanent, int intensity, bool force, bool deferred )
 {
-    bp = num_bp; // Effects are not applied to specific monster body part
-    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force, deferred );
+    // Effects are not applied to specific monster body part
+    Creature::add_effect( eff_id, dur, num_bp, permanent, intensity, force, deferred );
 }
 
 std::string monster::get_effect_status() const
@@ -2447,7 +2447,7 @@ void monster::on_hit( Creature *source, body_part,
         return;
     }
 
-    if( rng( 0, 100 ) <= static_cast<long>( type->def_chance ) ) {
+    if( rng( 0, 100 ) <= static_cast<int>( type->def_chance ) ) {
         type->sp_defense( *this, source, proj );
     }
 

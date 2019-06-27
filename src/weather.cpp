@@ -946,10 +946,10 @@ rl_vec2d convert_wind_to_coord( const int angle )
     return windvec;
 }
 
-bool warm_enough_to_plant()
+bool warm_enough_to_plant( const tripoint &pos )
 {
-    return g->weather.get_temperature( g-> u.pos() ) >=
-           50; // semi-appropriate temperature for most plants
+    // semi-appropriate temperature for most plants
+    return g->weather.get_temperature( pos ) >= 50;
 }
 
 weather_manager::weather_manager()

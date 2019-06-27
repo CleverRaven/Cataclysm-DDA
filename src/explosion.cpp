@@ -251,18 +251,18 @@ static void do_blast( const tripoint &p, const float power,
         g->m.smash_items( pt, force );
 
         if( fire ) {
-            int density = ( force > 50.0f ) + ( force > 100.0f );
+            int intensity = ( force > 50.0f ) + ( force > 100.0f );
             if( force > 10.0f || x_in_y( force, 10.0f ) ) {
-                density++;
+                intensity++;
             }
 
-            if( !g->m.has_zlevels() && g->m.is_outside( pt ) && density == 2 ) {
+            if( !g->m.has_zlevels() && g->m.is_outside( pt ) && intensity == 2 ) {
                 // In 3D mode, it would have fire fields above, which would then fall
                 // and fuel the fire on this tile
-                density++;
+                intensity++;
             }
 
-            g->m.add_field( pt, fd_fire, density );
+            g->m.add_field( pt, fd_fire, intensity );
         }
 
         if( const optional_vpart_position vp = g->m.veh_at( pt ) ) {
@@ -730,11 +730,11 @@ void emp_blast( const tripoint &p )
 void resonance_cascade( const tripoint &p )
 {
     const time_duration maxglow = time_duration::from_turns( 100 - 5 * trig_dist( p, g->u.pos() ) );
-    const time_duration minglow = std::max( 0_turns, time_duration::from_turns( 60 - 5 * trig_dist( p,
-                                            g->u.pos() ) ) );
     MonsterGroupResult spawn_details;
     monster invader;
     if( maxglow > 0_turns ) {
+        const time_duration minglow = std::max( 0_turns, time_duration::from_turns( 60 - 5 * trig_dist( p,
+                                                g->u.pos() ) ) );
         g->u.add_effect( efftype_id( "teleglow" ), rng( minglow, maxglow ) * 100 );
     }
     int startx = ( p.x < 8 ? 0 : p.x - 8 ), endx = ( p.x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : p.x + 8 );
@@ -841,7 +841,7 @@ void nuke( const tripoint &p )
     }
 }
 
-}
+} // namespace explosion_handler
 
 // This is only ever used to zero the cloud values, which is what makes it work.
 fragment_cloud &fragment_cloud::operator=( const float &value )

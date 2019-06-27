@@ -529,7 +529,8 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     units::volume volume = to_throw.volume();
     units::mass weight = to_throw.weight();
 
-    const int stamina_cost = ( ( weight / 100_gram ) + 20 ) * -1;
+    const int stamina_cost = ( static_cast<int>( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) )
+                               + ( weight / 10_gram ) + 200 ) * -1;
     mod_stat( "stamina", stamina_cost );
 
     const skill_id &skill_used = skill_throw;
@@ -570,7 +571,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     // Item will burst upon landing, destroying the item, and spilling its contents
     const bool burst = thrown.has_property( "burst_when_filled" ) && thrown.is_container() &&
-                       thrown.get_property_long( "burst_when_filled" ) <= static_cast<double>
+                       thrown.get_property_int64_t( "burst_when_filled" ) <= static_cast<double>
                        ( thrown.get_contained().volume().value() ) / thrown.get_container_capacity().value() * 100;
 
     // Add some flags to the projectile
@@ -2306,11 +2307,10 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
         dispersion.add_multiplier( 0.75 );
     }
 
-    if( ( is_underwater() && !obj.has_flag( "UNDERWATER_GUN" ) ) ||
-        // Range is effectively four times longer when shooting unflagged guns underwater.
-        ( !is_underwater() && obj.has_flag( "UNDERWATER_GUN" ) ) ) {
-        // Range is effectively four times longer when shooting flagged guns out of water.
-        dispersion.add_range( 150 ); //Adding dispersion for additonal debuff
+    // Range is effectively four times longer when shooting unflagged/flagged guns underwater/out of water.
+    if( is_underwater() != obj.has_flag( "UNDERWATER_GUN" ) ) {
+        // Adding dispersion for additional debuff
+        dispersion.add_range( 150 );
         dispersion.add_multiplier( 4 );
     }
 

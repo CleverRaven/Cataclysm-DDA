@@ -11,7 +11,7 @@ namespace
 
 generic_factory<field_type> all_field_types( "field types" );
 
-}
+} // namespace
 
 /** @relates int_id */
 template<>
@@ -63,30 +63,33 @@ int_id<field_type>::int_id( const string_id<field_type> &id ) : _id( id.id() )
 
 void field_type::load( JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "legacy_enum_id", legacy_enum_id );
+    optional( jo, was_loaded, "legacy_enum_id", legacy_enum_id, -1 );
     JsonArray ja = jo.get_array( "intensity_levels" );
     for( size_t i = 0; i < ja.size(); ++i ) {
-        field_intensity_level fil;
-        field_intensity_level fallback = i > 0 ? intensity_levels[i - 1] : fil;
+        field_intensity_level intensity_level;
+        field_intensity_level fallback_intensity_level = i > 0 ? intensity_levels[i - 1] : intensity_level;
         JsonObject jao = ja.get_object( i );
-        optional( jao, was_loaded, "name", fil.name, fallback.name );
-        optional( jao, was_loaded, "sym", fil.symbol, unicode_codepoint_from_symbol_reader,
-                  fallback.symbol );
-        fil.color = jao.has_member( "color" ) ? color_from_string( jao.get_string( "color" ) ) :
-                    fallback.color;
-        optional( jao, was_loaded, "transparent", fil.transparent, fallback.transparent );
-        optional( jao, was_loaded, "dangerous", fil.dangerous, fallback.dangerous );
-        optional( jao, was_loaded, "move_cost", fil.move_cost, fallback.move_cost );
-        intensity_levels.emplace_back( fil );
+        optional( jao, was_loaded, "name", intensity_level.name, fallback_intensity_level.name );
+        optional( jao, was_loaded, "sym", intensity_level.symbol, unicode_codepoint_from_symbol_reader,
+                  fallback_intensity_level.symbol );
+        intensity_level.color = jao.has_member( "color" ) ? color_from_string( jao.get_string( "color" ) ) :
+                                fallback_intensity_level.color;
+        optional( jao, was_loaded, "transparent", intensity_level.transparent,
+                  fallback_intensity_level.transparent );
+        optional( jao, was_loaded, "dangerous", intensity_level.dangerous,
+                  fallback_intensity_level.dangerous );
+        optional( jao, was_loaded, "move_cost", intensity_level.move_cost,
+                  fallback_intensity_level.move_cost );
+        intensity_levels.emplace_back( intensity_level );
     }
-    optional( jo, was_loaded, "priority", priority );
-    optional( jo, was_loaded, "half_life", half_life );
+    optional( jo, was_loaded, "priority", priority, 0 );
+    optional( jo, was_loaded, "half_life", half_life, 0_turns );
     if( jo.has_member( "phase" ) ) {
-        phase = jo.get_enum_value<phase_id>( "phase" );
+        phase = jo.get_enum_value<phase_id>( "phase", PNULL );
     }
-    optional( jo, was_loaded, "accelerated_decay", accelerated_decay );
-    optional( jo, was_loaded, "do_item", do_item );
-    optional( jo, was_loaded, "is_draw_field", is_draw_field );
+    optional( jo, was_loaded, "accelerated_decay", accelerated_decay, false );
+    optional( jo, was_loaded, "display_items", display_items, true );
+    optional( jo, was_loaded, "display_field", display_field, false );
 }
 
 void field_type::check() const
@@ -95,9 +98,9 @@ void field_type::check() const
         debugmsg( "No intensity levels defined for field type \"%s\".", id.c_str() );
     }
     int i = 0;
-    for( auto &il : intensity_levels ) {
+    for( auto &intensity_level : intensity_levels ) {
         i++;
-        if( il.name.empty() ) {
+        if( intensity_level.name.empty() ) {
             debugmsg( "Intensity level %d defined for field type \"%s\" has empty name.", i, id.c_str() );
         }
     }

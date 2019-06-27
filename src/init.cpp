@@ -34,6 +34,7 @@
 #include "json.h"
 #include "loading_ui.h"
 #include "mapdata.h"
+#include "map_extras.h"
 #include "mapgen.h"
 #include "martialarts.h"
 #include "material.h"
@@ -307,7 +308,9 @@ void DynamicDataLoader::initialize()
     add( "martial_art", &load_martial_art );
     add( "effect_type", &load_effect_type );
     add( "tutorial_messages", &load_tutorial_messages );
+    add( "obsolete_terrain", &overmap::load_obsolete_terrains );
     add( "overmap_terrain", &overmap_terrains::load );
+    add( "construction_category", &construction_categories::load );
     add( "construction", &load_construction );
     add( "mapgen", &load_mapgen );
     add( "overmap_land_use_code", &overmap_land_use_codes::load );
@@ -315,6 +318,7 @@ void DynamicDataLoader::initialize()
     add( "overmap_location", &overmap_locations::load );
     add( "overmap_special", &overmap_specials::load );
     add( "city_building", &city_buildings::load );
+    add( "map_extra", &MapExtras::load );
 
     add( "region_settings", &load_region_settings );
     add( "region_overlay", &load_region_overlay );
@@ -478,6 +482,7 @@ void DynamicDataLoader::unload_data()
     faction_template::reset();
     quality::reset();
     trap::reset();
+    construction_categories::reset();
     reset_constructions();
     overmap_terrains::reset();
     reset_region_settings();

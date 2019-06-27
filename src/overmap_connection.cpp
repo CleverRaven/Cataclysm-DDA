@@ -16,7 +16,7 @@ namespace
 
 generic_factory<overmap_connection> connections( "overmap connection" );
 
-}
+} // namespace
 
 static const std::map<std::string, overmap_connection::subtype::flag> connection_subtype_flag_map
 = {
