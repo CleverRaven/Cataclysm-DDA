@@ -2862,7 +2862,7 @@ void player::set_movement_mode( const std::string &new_mode )
         } else {
             if( has_effect( effect_riding ) ) {
                 add_msg( m_bad, _( "Your steed is too tired to go faster." ) );
-            } else {f
+            } else {
                 add_msg( m_bad, _( "You're too tired to run." ) );
             }
         }
