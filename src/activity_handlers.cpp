@@ -196,7 +196,6 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_WAIT_NPC" ), wait_npc_finish },
     { activity_id( "ACT_SOCIALIZE" ), socialize_finish },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_finish },
-    { activity_id( "ACT_OPERATION_REMOVE" ), uninstall_operation_finish },
     { activity_id( "ACT_DISASSEMBLE" ), disassemble_finish },
     { activity_id( "ACT_VIBE" ), vibe_finish },
     { activity_id( "ACT_ATM" ), atm_finish },
@@ -2798,9 +2797,60 @@ void activity_handlers::uninstall_operation_do_turn( player_activity *act, playe
                                           _( "The Autodoc is meticulously cutting <npcname> open." ) );
             }
         }
-    } else if( time_left == op_duration && u_see ) {
-        add_msg( m_info, _( "The Autodoc attempts to carefully extract the bionic." ) );
-    } else {
+    } else if( time_left == op_duration ) {
+        if( u_see ) {
+            add_msg( m_info, _( "The Autodoc attempts to carefully extract the bionic." ) );
+        }
+
+        if( act->str_values.size() > 1 ) {
+            const bionic_id bid = bionic_id( act->str_values[1] );
+
+            if( act->values[1] > 0 ) {
+
+                if( p->is_player() ) {
+                    p->add_memorial_log( pgettext( "memorial_male", "Removed bionic: %s." ),
+                                         pgettext( "memorial_female", "Removed bionic: %s." ),
+                                         act->str_values.front() );
+                }
+
+                // until bionics can be flagged as non-removable
+                p->add_msg_player_or_npc( m_neutral, _( "Your parts are jiggled back into their familiar places." ),
+                                          _( "<npcname>'s parts are jiggled back into their familiar places." ) );
+                add_msg( m_good, _( "Successfully removed %s." ), act->str_values.front() );
+                p->remove_bionic( bid );
+
+                // remove power bank provided by bionic
+                p->max_power_level -= act->values[3];
+
+                if( item::type_is_defined( bid.c_str() ) ) {
+                    g->m.spawn_item( p->pos(), bid.c_str(), 1 );
+                } else {
+                    g->m.spawn_item( p->pos(), "burnt_out_bionic", 1 );
+                }
+
+            } else {
+                if( p->is_player() ) {
+                    p->add_memorial_log( pgettext( "memorial_male", "Failed to remove bionic: %s." ),
+                                         pgettext( "memorial_female", "Failed to remove bionic: %s." ),
+                                         act->str_values.front() );
+                }
+
+                // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
+                float adjusted_skill = static_cast<float>( act->values[4] ) - std::min( static_cast<float>( 40 ),
+                                       static_cast<float>( act->values[4] ) - static_cast<float>( act->values[4] ) / static_cast<float>
+                                       ( 10.0 ) );
+                p->bionics_uninstall_failure( act->values[0], act->values[1], adjusted_skill );
+
+            }
+            g->m.invalidate_map_cache( g->get_levz() );
+            g->refresh_all();
+        } else {
+            add_msg( _( "You don't have this bionic installed." ) );
+            act->set_to_null();
+        }
+
+
+    } else if( act->values[1] > 0 ) {
         if( act->values.size() > 5 ) {
             for( size_t i = 5; i < act->values.size() - 1; i = i + 2 ) {
                 if( one_in( 4 ) && u_see ) {
@@ -2817,6 +2867,12 @@ void activity_handlers::uninstall_operation_do_turn( player_activity *act, playe
                                           _( "The Autodoc is stitching <npcname> back up." ) );
             }
         }
+    } else {
+        if( one_in( 4 ) && u_see ) {
+            p->add_msg_player_or_npc( m_bad,
+                                      _( "The Autodoc is moving eraticly through the rest of its program, not actually stitching your wounds." ),
+                                      _( "The Autodoc is moving eraticly through the rest of its program, not actually stitching <npcname>'s wounds." ) );
+        }
     }
     p->set_moves( 0 );
 }
@@ -2825,56 +2881,6 @@ void activity_handlers::try_sleep_finish( player_activity *act, player *p )
 {
     if( !p->has_effect( effect_sleep ) ) {
         p->add_msg_if_player( _( "You try to sleep, but can't..." ) );
-    }
-    act->set_to_null();
-}
-
-void activity_handlers::uninstall_operation_finish( player_activity *act, player *p )
-{
-    if( act->str_values.size() > 1 ) {
-        const bionic_id bid = bionic_id( act->str_values[1] );
-
-        if( act->values[1] > 0 ) {
-
-            if( p->is_player() ) {
-                p->add_memorial_log( pgettext( "memorial_male", "Removed bionic: %s." ),
-                                     pgettext( "memorial_female", "Removed bionic: %s." ),
-                                     act->str_values.front() );
-            }
-
-            // until bionics can be flagged as non-removable
-            p->add_msg_player_or_npc( m_neutral, _( "Your parts are jiggled back into their familiar places." ),
-                                      _( "<npcname>'s parts are jiggled back into their familiar places." ) );
-            add_msg( m_good, _( "Successfully removed %s." ), act->str_values.front() );
-            p->remove_bionic( bid );
-
-            // remove power bank provided by bionic
-            p->max_power_level -= act->values[3];
-
-            if( item::type_is_defined( bid.c_str() ) ) {
-                g->m.spawn_item( p->pos(), bid.c_str(), 1 );
-            } else {
-                g->m.spawn_item( p->pos(), "burnt_out_bionic", 1 );
-            }
-
-        } else {
-            if( p->is_player() ) {
-                p->add_memorial_log( pgettext( "memorial_male", "Failed to remove bionic: %s." ),
-                                     pgettext( "memorial_female", "Failed to remove bionic: %s." ),
-                                     act->str_values.front() );
-            }
-
-            // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
-            float adjusted_skill = static_cast<float>( act->values[4] ) - std::min( static_cast<float>( 40 ),
-                                   static_cast<float>( act->values[4] ) - static_cast<float>( act->values[4] ) / static_cast<float>
-                                   ( 10.0 ) );
-            p->bionics_uninstall_failure( act->values[0], act->values[1], adjusted_skill );
-        }
-        g->m.invalidate_map_cache( g->get_levz() );
-        g->refresh_all();
-    } else {
-        add_msg( _( "You don't have this bionic installed." ) );
-        act->set_to_null();
     }
     act->set_to_null();
 }
