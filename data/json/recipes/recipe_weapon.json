@@ -3064,6 +3064,6 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "scrap", 6 ] ], [ [ "duct_tape", 10 ] ], [ [ "guitar_amplifier", 1 ] ], [ [ "flamethrower_simple", 1 ] ] ]
+    "components": [ [ [ "scrap", 6 ] ], [ [ "duct_tape", 10 ] ], [ [ "guitar_amplified", 1 ] ], [ [ "flamethrower_simple", 1 ] ] ]
   }
 ]

@@ -2089,8 +2089,8 @@
   },
   {
     "type": "TOOL_ARMOR",
-    "id": "guitar_amplifier",
-    "name": "amplifier electric guitar",
+    "id": "guitar_amplified",
+    "name": "amplified electric guitar",
     "copy-from": "guitar_electric",
     "description": "An electric guitar with a crude, built-in amplifier and speaker.  Now you can melt faces, figuratively speaking.  Unless you do something absurd like strap a flamethrower to it, which would make the melting literal.",
     "weight": 3000,

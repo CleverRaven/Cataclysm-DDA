@@ -385,11 +385,12 @@
   },
   {
     "type": "recipe",
-    "result": "guitar_amplifier",
+    "result": "guitar_amplified",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
     "skill_used": "electronics",
     "difficulty": 3,
+    "autolearn": true,
     "time": "30 m",
     "using": [ [ "soldering_standard", 7 ] ],
     "tools": [ [ [ "cordless_drill", 10 ] ] ],
