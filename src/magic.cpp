@@ -430,23 +430,6 @@ std::string spell::name() const
     return _( type->name );
 }
 
-static bool fail_encumb( const spell &sp, const player &p )
-{
-    float fail = 0.0f;
-    if( sp.has_flag( spell_flag::SOMATIC ) ) {
-        // the first 20 points of encumbrance combined is ignored
-        const int arms_encumb = std::max( 0, p.encumb( bp_arm_l ) + p.encumb( bp_arm_r ) - 20 );
-        // each encumbrance point beyond the "gray" color counts as half an additional fail %
-        fail += arms_encumb / 200.0f;
-    }
-    if( sp.has_flag( spell_flag::VERBAL ) ) {
-        // a little bit of mouth encumbrance is allowed, but not much
-        const int mouth_encumb = std::max( 0, p.encumb( bp_mouth ) - 5 );
-        fail += mouth_encumb / 100.0f;
-    }
-    return fail > 0.0f;
-}
-
 float spell::spell_fail( const player &p ) const
 {
     // formula is based on the following:
