@@ -359,7 +359,7 @@ void map::vehmove()
     VehicleList vehicle_list;
     int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
-    for( int zlev = minz; zlev < maxz; ++zlev ) {
+    for( int zlev = minz; zlev <= maxz; ++zlev ) {
         level_cache &cache = get_cache( zlev );
         for( vehicle *veh : cache.vehicle_list ) {
             veh->gain_moves();
