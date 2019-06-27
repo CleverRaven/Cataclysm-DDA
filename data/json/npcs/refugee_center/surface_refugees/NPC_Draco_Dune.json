@@ -295,7 +295,8 @@
       { "text": "WHAT.", "topic": "TALK_REFUGEE_Draco_10_disapprove" },
       {
         "text": "Oh yeah, some people've been growing it in their basements.",
-        "topic": "TALK_REFUGEE_Draco_10_approve"
+        "topic": "TALK_REFUGEE_Draco_10_approve",
+        "effect": { "u_add_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" }
       },
       { "text": "I'm not comfortable with where this is going.", "topic": "TALK_REFUGEE_Draco_10_disapprove" }
     ]
@@ -308,7 +309,8 @@
       { "text": "Oh.  Uh, sure.", "topic": "TALK_REFUGEE_Draco_10_approve" },
       {
         "text": "Right, of course I knew that!  There's tons of the stuff out there for the taking.",
-        "topic": "TALK_REFUGEE_Draco_10_approve"
+        "topic": "TALK_REFUGEE_Draco_10_approve",
+        "effect": { "u_add_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" }
       },
       { "text": "Nope, sorry.", "topic": "TALK_REFUGEE_Draco_10_hasnt_found_weed" },
       { "text": "I'm not doing this.", "topic": "TALK_DONE" }
@@ -319,7 +321,11 @@
     "id": "TALK_REFUGEE_Draco_10_disapprove",
     "dynamic_line": "Hey, don't get all serious on me all of a sudden.  It helps me relax.  Lubricates my joints.  Eases the pain, ya know?  Makes every day a bit more bearable.",
     "responses": [
-      { "text": "I can help.", "topic": "TALK_REFUGEE_Draco_10_approve" },
+      {
+        "text": "I can help.",
+        "topic": "TALK_REFUGEE_Draco_10_approve",
+        "effect": { "u_add_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" }
+      },
       { "text": "Find somebody else, dude.", "topic": "TALK_DONE" }
     ]
   },
@@ -331,13 +337,12 @@
       "yes": "Yeah, no worries, though.  I'm good at the moment.  Ask me again later and maybe I'll have scrounged up some more cash for you.",
       "no": "Amazing!  My lucky day.  Let's see here.  What can I offer... I can scrounge up some Merch bucks for, say, five joints or joints-worth of the good stuff."
     },
-    "//": "I'm not sure how to set the conditional to pay 4 Merch if no guitar, 6 Merch if has guitar.",
     "responses": [
       {
         "text": "You have yourself a deal.  Here's the marijuana.",
         "condition": {
           "and": [
-            { "u_has_items": { "item": "marijuana", "count": 5 } },
+            { "u_has_items": { "item": "weed", "count": 5 } },
             {
               "not": { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" }
             },
@@ -345,7 +350,7 @@
           ]
         },
         "effect": [
-          { "u_sell_item": "marijuana", "count": 5 },
+          { "u_sell_item": "weed", "count": 5 },
           { "u_buy_item": "FMCNote", "count": 4 },
           { "npc_add_effect": "u_sold_to_Draco", "duration": 240000 }
         ],
@@ -355,13 +360,13 @@
         "text": "You have yourself a deal.  Here's the marijuana.",
         "condition": {
           "and": [
-            { "u_has_items": { "item": "marijuana", "count": 5 } },
+            { "u_has_items": { "item": "weed", "count": 5 } },
             { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" },
             { "not": { "npc_has_effect": "u_sold_to_Draco" } }
           ]
         },
         "effect": [
-          { "u_sell_item": "marijuana", "count": 5 },
+          { "u_sell_item": "weed", "count": 5 },
           { "u_buy_item": "FMCNote", "count": 6 },
           { "npc_add_effect": "u_sold_to_Draco", "duration": 200000 }
         ],
@@ -401,10 +406,7 @@
         ],
         "topic": "TALK_REFUGEE_Draco_10_sold"
       },
-      {
-        "text": "Sounds a little cheap, but we can deal.  I'll be back with the goods.",
-        "topic": "TALK_REFUGEE_Draco_7"
-      },
+      { "text": "Oh, alright.  I'll be back later with the goods.", "topic": "TALK_REFUGEE_Draco_7" },
       { "text": "On second thought, maybe later.", "topic": "TALK_DONE" }
     ]
   },
