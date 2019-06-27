@@ -1330,7 +1330,7 @@ static void cast_spell()
         return;
     }
 
-    player_activity cast_spell( activity_id( "ACT_SPELLCASTING" ), sp.casting_time() );
+    player_activity cast_spell( activity_id( "ACT_SPELLCASTING" ), sp.casting_time( u ) );
     // [0] this is used as a spell level override for items casting spells
     cast_spell.values.emplace_back( -1 );
     // [1] if this value is 1, the spell never fails

@@ -319,7 +319,7 @@ static void damage_targets( const spell &sp, const std::set<tripoint> &targets )
         }
         if( sp.damage() > 0 ) {
             cr->deal_projectile_attack( &g->u, atk, true );
-        } else {
+        } else if( sp.damage() < 0 ) {
             sp.heal( target );
             add_msg( m_good, _( "%s wounds are closing up!" ), cr->disp_name( true ) );
         }

@@ -4057,7 +4057,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     }
     if( !no_mana ) {
         // pay the cost
-        int cost = casting.energy_cost();
+        int cost = casting.energy_cost( *p );
         switch( casting.energy_source() ) {
             case mana_energy:
                 p->magic.mod_mana( *p, -cost );

@@ -2304,7 +2304,7 @@ int cast_spell_actor::use( player &p, item &itm, bool, const tripoint & ) const
     spell casting = spell( spell_id( item_spell ) );
     int charges = itm.type->charges_to_use();
 
-    player_activity cast_spell( activity_id( "ACT_SPELLCASTING" ), casting.casting_time() );
+    player_activity cast_spell( activity_id( "ACT_SPELLCASTING" ), casting.casting_time( p ) );
     // [0] this is used as a spell level override for items casting spells
     cast_spell.values.emplace_back( spell_level );
     if( no_fail ) {
