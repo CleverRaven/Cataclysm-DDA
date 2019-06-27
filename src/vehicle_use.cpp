@@ -33,7 +33,6 @@
 #include "veh_type.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
 #include "string_input_popup.h"
 #include "color.h"
 #include "input.h"

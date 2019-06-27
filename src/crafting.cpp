@@ -41,7 +41,6 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "veh_type.h"
 #include "cata_utility.h"
 #include "color.h"

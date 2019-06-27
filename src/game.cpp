@@ -120,7 +120,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
 #include "weather.h"
 #include "weather_gen.h"
 #include "worldfactory.h"

@@ -52,7 +52,6 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "vpart_reference.h" // IWYU pragma: keep
 
 struct pathfinding_settings;
 

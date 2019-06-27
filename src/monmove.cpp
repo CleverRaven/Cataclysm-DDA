@@ -27,7 +27,6 @@
 #include "translations.h"
 #include "trap.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "tileray.h"
 #include "vehicle.h"
 #include "cata_utility.h"

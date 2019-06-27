@@ -45,7 +45,6 @@
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
 #include "bodypart.h"
 #include "character.h"
 #include "damage.h"

@@ -90,7 +90,6 @@
 #include "ret_val.h"
 #include "stomach.h"
 #include "string_id.h"
-#include "vpart_reference.h"
 #include "weather_gen.h"
 #include "type_id.h"
 #include "options.h"

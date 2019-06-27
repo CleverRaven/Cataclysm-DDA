@@ -58,7 +58,6 @@
 #include "vehicle.h"
 #include "vitamin.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
 #include "creature_tracker.h"
 #include "overmapbuffer.h"
 #include "active_item_cache.h"

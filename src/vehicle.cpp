@@ -1,7 +1,6 @@
 #include "vehicle.h" // IWYU pragma: associated
 #include "vpart_position.h" // IWYU pragma: associated
 #include "vpart_range.h" // IWYU pragma: associated
-#include "vpart_reference.h" // IWYU pragma: associated
 
 #include <algorithm>
 #include <array>
