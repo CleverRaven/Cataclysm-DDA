@@ -1257,7 +1257,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```E_HIGHER_SKILL``` Is an engine that is more difficult to install as more engines are installed.
 - ```E_STARTS_INSTANTLY``` Is an engine that starts instantly, like food pedals.
 - ```FAUCET```
-- ```FIELD_EMIITER``` Is a part that emits field (defined in ```emission_field_type```).
+- ```EMITTER``` Is a part has emission (defined in ```emissions```).
 - ```FLAT_SURF``` Part with a flat hard surface (e.g. table).
 - ```FOLDABLE```
 - ```FORGE``` Acts as a forge for crafting.

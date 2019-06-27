@@ -4645,7 +4645,7 @@ void vehicle::refresh()
     sails.clear();
     water_wheels.clear();
     funnels.clear();
-    field_emitters.clear();
+    emitters.clear();
     relative_parts.clear();
     loose_parts.clear();
     wheelcache.clear();
@@ -4731,8 +4731,8 @@ void vehicle::refresh()
         if( vpi.has_flag( "UNMOUNT_ON_MOVE" ) ) {
             loose_parts.push_back( p );
         }
-        if( vpi.has_flag( "FIELD_EMITTER" ) ) {
-            field_emitters.push_back( p );
+        if( vpi.has_flag( "EMITTER" ) ) {
+            emitters.push_back( p );
         }
         if( vpi.has_flag( VPFLAG_WHEEL ) ) {
             wheelcache.push_back( p );
@@ -5481,14 +5481,14 @@ static bool is_sm_tile_outside( const tripoint &real_global_pos )
 void vehicle::update_time( const time_point &update_to )
 {
     // Parts emitting fields
-    for( int idx : field_emitters ) {
+    for( int idx : emitters ) {
         const vehicle_part &pt = parts[idx];
         if( pt.is_unavailable() || !pt.enabled ) {
             continue;
         }
-        const int intensity = abs( pt.info().epower ) * 2;
-        g->m.mod_field_intensity( global_part_pos3( pt ), field_from_ident( pt.info().emission_field_type ),
-                                  intensity );
+        for( const emit_id &e : pt.info().emissions ) {
+            g->m.emit_field( global_part_pos3( pt ), e );
+        }
         discharge_battery( pt.info().epower );
     }
 

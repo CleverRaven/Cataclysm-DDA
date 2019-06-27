@@ -1515,7 +1515,7 @@ class vehicle
         std::vector<int> water_wheels;     // List of water wheel indices
         std::vector<int> sails;            // List of sail indices
         std::vector<int> funnels;          // List of funnel indices
-        std::vector<int> field_emitters;   // List of field emitter parts
+        std::vector<int> emitters;         // List of emitter parts
         std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
         std::vector<int> wheelcache;       // List of wheels
         std::vector<int> rail_wheelcache;  // List of rail wheels

@@ -117,5 +117,21 @@
     "//": "Large hot air emitter",
     "field": "fd_hot_air2",
     "qty": 100
+  },
+  {
+    "id": "emit_heater_vehicle",
+    "type": "emit",
+    "//": "Emission from vehicle heater",
+    "field": "fd_hot_air3",
+    "qty": 3,
+    "chance": 100
+  },
+  {
+    "id": "emit_cooler_vehicle",
+    "type": "emit",
+    "//": "Emission from vehicle cooler",
+    "field": "fd_cold_air3",
+    "qty": 3,
+    "chance": 100
   }
 ]
