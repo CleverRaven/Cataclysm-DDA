@@ -54,6 +54,9 @@ struct construction {
         // Flags beginning terrain must have
         std::set<std::string> pre_flags;
 
+        // Post construction flags
+        std::set<std::string> post_flags;
+
         /** Skill->skill level mapping. Can be empty. */
         std::map<skill_id, int> required_skills;
         requirement_id requirements;

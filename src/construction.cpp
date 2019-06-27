@@ -892,22 +892,25 @@ void complete_construction( player *p )
         g->m.remove_trap( terp );
     }
     g->m.partial_con_remove( terp );
-    // Move any items that have found their way onto the construction site.
-    std::vector<tripoint> dump_spots;
-    for( const auto pt : g->m.points_in_radius( terp, 1 ) ) {
-        if( g->is_empty( pt ) && pt != terp ) {
-            dump_spots.push_back( pt );
+    // Some constructions are allowed to have items left on the tile.
+    if( built.post_flags.count( "keep_items" ) == 0 ) {
+        // Move any items that have found their way onto the construction site.
+        std::vector<tripoint> dump_spots;
+        for( const tripoint &pt : g->m.points_in_radius( terp, 1 ) ) {
+            if( g->is_empty( pt ) && pt != terp ) {
+                dump_spots.push_back( pt );
+            }
         }
-    }
-    if( !dump_spots.empty() ) {
-        tripoint dump_spot = random_entry( dump_spots );
-        map_stack items = g->m.i_at( terp );
-        for( map_stack::iterator it = items.begin(); it != items.end(); ) {
-            g->m.add_item_or_charges( dump_spot, *it );
-            it = items.erase( it );
+        if( !dump_spots.empty() ) {
+            tripoint dump_spot = random_entry( dump_spots );
+            map_stack items = g->m.i_at( terp );
+            for( map_stack::iterator it = items.begin(); it != items.end(); ) {
+                g->m.add_item_or_charges( dump_spot, *it );
+                it = items.erase( it );
+            }
+        } else {
+            debugmsg( "No space to displace items from construction finishing" );
         }
-    } else {
-        debugmsg( "No space to displace items from construction finishing" );
     }
     // Make the terrain change
     if( !built.post_terrain.empty() ) {
@@ -1376,6 +1379,8 @@ void load_construction( JsonObject &jo )
     }
 
     con.pre_flags = jo.get_tags( "pre_flags" );
+
+    con.post_flags = jo.get_tags( "post_flags" );
 
     if( jo.has_member( "byproducts" ) ) {
         JsonIn &stream = *jo.get_raw( "byproducts" );
