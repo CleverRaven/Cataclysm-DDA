@@ -9420,7 +9420,7 @@
     "type": "TOOL",
     "name": "bathroom scale",
     "symbol": "■",
-    "color": "light_grey",
+    "color": "light_gray",
     "description": "This is a small bathroom scale, meant to weigh a person while naked.",
     "weight": 1200,
     "volume": 4,
