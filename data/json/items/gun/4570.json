@@ -24,7 +24,10 @@
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
       [ "sights", 1 ],
-      [ "sling", 1 ]
+      [ "sling", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE" ]
   },
@@ -47,7 +50,16 @@
     "dispersion": 180,
     "durability": 8,
     "clip_size": 5,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "sights", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "sharps",
@@ -78,7 +90,10 @@
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
       [ "sights", 1 ],
-      [ "sling", 1 ]
+      [ "sling", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   }

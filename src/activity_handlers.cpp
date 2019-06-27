@@ -84,6 +84,7 @@
 #include "units.h"
 #include "type_id.h"
 #include "event.h"
+#include "options.h"
 
 class npc;
 
@@ -154,7 +155,9 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn },
     { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_do_turn },
     { activity_id( "ACT_TREE_COMMUNION" ), tree_communion_do_turn },
-    { activity_id( "ACT_STUDY_SPELL" ), study_spell_do_turn}
+    { activity_id( "ACT_STUDY_SPELL" ), study_spell_do_turn},
+    { activity_id( "ACT_READ" ), read_do_turn},
+    { activity_id( "ACT_WAIT_STAMINA" ), wait_stamina_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -192,6 +195,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_WAIT" ), wait_finish },
     { activity_id( "ACT_WAIT_WEATHER" ), wait_weather_finish },
     { activity_id( "ACT_WAIT_NPC" ), wait_npc_finish },
+    { activity_id( "ACT_WAIT_STAMINA" ), wait_stamina_finish },
     { activity_id( "ACT_SOCIALIZE" ), socialize_finish },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_finish },
     { activity_id( "ACT_DISASSEMBLE" ), disassemble_finish },
@@ -516,26 +520,26 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     switch( corpse.size ) {
         // Time (roughly) in turns to cut up the corpse
         case MS_TINY:
-            time_to_cut = 25;
+            time_to_cut = 150;
             break;
         case MS_SMALL:
-            time_to_cut = 50;
+            time_to_cut = 300;
             break;
         case MS_MEDIUM:
-            time_to_cut = 75;
+            time_to_cut = 450;
             break;
         case MS_LARGE:
-            time_to_cut = 100;
+            time_to_cut = 600;
             break;
         case MS_HUGE:
-            time_to_cut = 300;
+            time_to_cut = 1800;
             break;
     }
 
-    // At factor 0, 10 time_to_cut is 10 turns. At factor 50, it's 5 turns, at 75 it's 2.5
+    // At factor 0, base 100 time_to_cut remains 100. At factor 50, it's 50 , at factor 75 it's 25
     time_to_cut *= std::max( 25, 100 - factor );
-    if( time_to_cut < 500 ) {
-        time_to_cut = 500;
+    if( time_to_cut < 3000 ) {
+        time_to_cut = 3000;
     }
 
     switch( action ) {
@@ -554,14 +558,14 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
             break;
         case QUARTER:
             time_to_cut /= 4;
-            if( time_to_cut < 200 ) {
-                time_to_cut = 200;
+            if( time_to_cut < 1200 ) {
+                time_to_cut = 1200;
             }
             break;
         case DISMEMBER:
             time_to_cut /= 10;
-            if( time_to_cut < 100 ) {
-                time_to_cut = 100;
+            if( time_to_cut < 600 ) {
+                time_to_cut = 600;
             }
             break;
         case DISSECT:
@@ -1762,15 +1766,16 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 g->m.add_splatter_trail( type_blood, pos, dest );
             }
 
-            float stamina_ratio = static_cast<float>( p->stamina ) / p->get_stamina_max();
-            p->mod_stat( "stamina", stamina_ratio * -40 );
+            p->mod_stat( "stamina", -pulp_power - static_cast<int>
+                         ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) );
 
-            moves += 100 / std::max( 0.25f, stamina_ratio );
             if( one_in( 4 ) ) {
                 // Smashing may not be butchery, but it involves some zombie anatomy
                 p->practice( skill_survival, 2, 2 );
             }
 
+            float stamina_ratio = static_cast<float>( p->stamina ) / p->get_stamina_max();
+            moves += 100 / std::max( 0.25f, stamina_ratio );
             if( moves >= p->moves ) {
                 // Enough for this turn;
                 p->moves -= moves;
@@ -2716,9 +2721,32 @@ void activity_handlers::repair_item_do_turn( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::butcher_do_turn( player_activity *, player *p )
+void activity_handlers::butcher_do_turn( player_activity *act, player *p )
 {
-    p->mod_stat( "stamina", -20.0f * p->stamina / p->get_stamina_max() );
+    const int drain = 1 + static_cast<int>( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) );
+    if( p->stamina <= drain + 200 ) { // 200 to give some space and not end the activity at 0 stamina
+        act->moves_left += p->moves; // wait for stamina regain, halt progress
+        if( one_in( 5 ) ) { // reduce spam
+            p->add_msg_if_player( _( "You pause for a second to catch your breath." ) );
+        }
+    } else {
+        p->mod_stat( "stamina", -drain );
+    }
+}
+
+void activity_handlers::read_do_turn( player_activity *act, player *p )
+{
+    if( !act->str_values.empty() && act->str_values[0] == "martial_art" && one_in( 3 ) ) {
+        if( act->values.size() == 0 ) {
+            act->values.push_back( p->stamina );
+        }
+        p->stamina = act->values[0] - 1;
+        act->values[0] = p->stamina;
+    }
+    if( p->stamina < p->get_stamina_max() / 10 ) {
+        add_msg( m_info, _( "This training is exhausting.  Time to rest." ) );
+        act->set_to_null();
+    }
 }
 
 void activity_handlers::read_finish( player_activity *act, player *p )
@@ -2748,6 +2776,25 @@ void activity_handlers::wait_weather_finish( player_activity *act, player *p )
 void activity_handlers::wait_npc_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "%s finishes with you..." ), act->str_values[0] );
+    act->set_to_null();
+}
+
+void activity_handlers::wait_stamina_do_turn( player_activity *act, player *p )
+{
+    if( p->stamina == p->get_stamina_max() ) {
+        wait_stamina_finish( act, p );
+    }
+}
+
+void activity_handlers::wait_stamina_finish( player_activity *act, player *p )
+{
+    // in case it takes longer then expected
+    if( p->stamina != p->get_stamina_max() ) {
+        p->add_msg_if_player( _( "You are bored of waiting, so you stop." ) );
+        act->set_to_null();
+        return;
+    }
+    p->add_msg_if_player( _( "You finish waiting and feel refreshed." ) );
     act->set_to_null();
 }
 
@@ -3956,6 +4003,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
         casting.make_sound( target );
     } else if( fx == "summon" ) {
         spell_effect::spawn_summoned_monster( casting, p->pos(), target );
+    } else if( fx == "translocate" ) {
+        spell_effect::translocate( casting, p->pos(), target, g->u.translocators );
     } else {
         debugmsg( "ERROR: Spell effect not defined properly." );
     }
@@ -3967,7 +4016,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                 p->magic.mod_mana( *p, -cost );
                 break;
             case stamina_energy:
-                p->stamina -= cost;
+                p->mod_stat( "stamina", -cost );
                 break;
             case bionic_energy:
                 p->power_level -= cost;

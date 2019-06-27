@@ -812,6 +812,15 @@ void place_construction( const std::string &desc )
         cons.front()->explain_failure( pnt );
         return;
     }
+    // Maybe there is alreayd a partial_con on an existing trap, that isnt caught by the usual trap-checking.
+    // because the pre-requisite construction is already a trap anyway.
+    // This shouldnt normally happen, unless it's a spike pit being built on a pit for example.
+    partial_con *pre_c = g->m.partial_con_at( pnt );
+    if( pre_c ) {
+        add_msg( m_info,
+                 _( "There is already an unfinished construction there, examine it to continue working on it" ) );
+        return;
+    }
     std::list<item> used;
     const construction &con = *valid.find( pnt )->second;
     // create the partial construction struct
@@ -819,7 +828,12 @@ void place_construction( const std::string &desc )
     pc.id = con.id;
     pc.counter = 0;
     // Set the trap that has the examine function
-    g->m.trap_set( pnt, tr_unfinished_construction );
+    // Special handling for constructions that take place on existing traps.
+    // Basically just dont add the unfinished construction trap.
+    // TODO : handle this cleaner, instead of adding a special case to pit iexamine.
+    if( g->m.tr_at( pnt ).loadid == tr_null ) {
+        g->m.trap_set( pnt, tr_unfinished_construction );
+    }
     // Use up the components
     for( const auto &it : con.requirements->get_components() ) {
         std::list<item> tmp = g->u.consume_items( it, 1, is_crafting_component );
@@ -840,7 +854,9 @@ void complete_construction( player *p )
     partial_con *pc = g->m.partial_con_at( terp );
     if( !pc ) {
         debugmsg( "No partial construction found at activity placement in complete_construction()" );
-        g->m.remove_trap( terp );
+        if( g->m.tr_at( terp ).loadid == tr_unfinished_construction ) {
+            g->m.remove_trap( terp );
+        }
         if( p->is_npc() ) {
             npc *guy = dynamic_cast<npc *>( p );
             guy->current_activity.clear();
@@ -872,7 +888,9 @@ void complete_construction( player *p )
             award_xp( *elem );
         }
     }
-    g->m.disarm_trap( terp );
+    if( g->m.tr_at( terp ).loadid == tr_unfinished_construction ) {
+        g->m.remove_trap( terp );
+    }
     g->m.partial_con_remove( terp );
     // Move any items that have found their way onto the construction site.
     std::vector<tripoint> dump_spots;
@@ -905,7 +923,7 @@ void complete_construction( player *p )
         g->m.spawn_items( p->pos(), item_group::items_from( *built.byproduct_item_group, calendar::turn ) );
     }
 
-    add_msg( m_info, _( "%s finishes construction : %s." ), p->disp_name(), _( built.description ) );
+    add_msg( m_info, _( "%s finished construction: %s." ), p->disp_name(), _( built.description ) );
     // clear the activity
     p->activity.set_to_null();
 

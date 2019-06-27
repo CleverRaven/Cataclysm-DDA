@@ -1426,10 +1426,11 @@ static item_location autodoc_internal( player &u, player &patient,
     } else if( patient.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
         hint = _( "<color_yellow>Patient has Sensory Dulling CBM installed.  Anesthesia unneeded.</color>" );
     } else {
-        std::vector<const item *> a_filter = u.crafting_inventory().items_with( []( const item & it ) {
+        const inventory &crafting_inv = u.crafting_inventory();
+        std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
             return it.has_quality( quality_id( "ANESTHESIA" ) );
         } );
-        std::vector<const item *> b_filter = u.crafting_inventory().items_with( []( const item & it ) {
+        std::vector<const item *> b_filter = crafting_inv.items_with( []( const item & it ) {
             return it.has_flag( "ANESTHESIA" ); // legacy
         } );
         for( const item *anesthesia_item : a_filter ) {

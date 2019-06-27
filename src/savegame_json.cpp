@@ -387,6 +387,7 @@ void Character::load( JsonObject &data )
     // health
     data.read( "healthy", healthy );
     data.read( "healthy_mod", healthy_mod );
+    data.read( "healed_24h", healed_total );
 
     data.read( "damage_bandaged", damage_bandaged );
     data.read( "damage_disinfected", damage_disinfected );
@@ -527,6 +528,7 @@ void Character::store( JsonOut &json ) const
     // health
     json.member( "healthy", healthy );
     json.member( "healthy_mod", healthy_mod );
+    json.member( "healed_24h", healed_total );
 
     // needs
     json.member( "thirst", thirst );
@@ -848,6 +850,8 @@ void avatar::store( JsonOut &json ) const
     json.member( "stomach", stomach );
     json.member( "guts", guts );
 
+    json.member( "translocators", translocators );
+
     morale->store( json );
 
     // mission stuff
@@ -965,6 +969,8 @@ void avatar::load( JsonObject &data )
 
     data.read( "stomach", stomach );
     data.read( "guts", guts );
+
+    data.read( "translocators", translocators );
 
     morale->load( data );
 

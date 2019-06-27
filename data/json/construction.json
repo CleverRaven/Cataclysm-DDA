@@ -1536,7 +1536,7 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
-    "components": [ [ [ "2x4", 4 ] ], [ [ "straw_pile", 8 ] ] ],
+    "components": [ [ [ "2x4", 4 ], [ "stick", 4 ] ], [ [ "straw_pile", 8 ], [ "withered", 8 ], [ "pine_bough", 8 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_terrain": "f_straw_bed"

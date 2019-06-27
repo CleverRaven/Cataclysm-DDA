@@ -27,31 +27,31 @@ struct field_t {
     std::string id;
 
     /** Display name for field at given intensity (e.g. light smoke, smoke, heavy smoke) */
-    std::string untranslated_name[ MAX_FIELD_INTENSITY ];
-    /// Can be empty! \p intensity must be in the range [0, MAX_FIELD_INTENSITY - 1].
+    std::string untranslated_name[ 3 ];
+    /// Can be empty! \p intensity must be in the range [0, 2].
     std::string name( int intensity ) const;
 
     char sym; //The symbol to draw for this field. Note that some are reserved like * and %. You will have to check the draw function for specifics.
     int priority; //Inferior numbers have lower priority. 0 is "ground" (splatter), 2 is "on the ground", 4 is "above the ground" (fire), 6 is reserved for furniture, and 8 is "in the air" (smoke).
 
     /** Color the field will be drawn as on the screen at a given intensity */
-    deferred_color color[ MAX_FIELD_INTENSITY ];
+    deferred_color color[ 3 ];
 
     /**
      * If false this field may block line of sight.
      * @warning this does nothing by itself. You must go to the code block in lightmap.cpp and modify
      * transparancy code there with a case statement as well!
     **/
-    bool transparent[ MAX_FIELD_INTENSITY ];
+    bool transparent[ 3 ];
 
     /** Where tile is dangerous (prompt before moving into) at given intensity */
-    bool dangerous[ MAX_FIELD_INTENSITY ];
+    bool dangerous[ 3 ];
 
     //Controls, albeit randomly, how long a field of a given type will last before going down in intensity.
     time_duration halflife;
 
     /** cost of moving into and out of this field at given intensity */
-    int move_cost[ MAX_FIELD_INTENSITY ];
+    int move_cost[ 3 ];
 
     /** Does it penetrate obstacles like gas, spread like liquid or just lie there like solid? */
     phase_id phase;
@@ -171,7 +171,7 @@ class field_entry
         time_duration set_field_age( const time_duration &new_age );
         /// Adds given value to @ref age.
         /// @returns New value of @ref age.
-        time_duration mod_age( const time_duration &mod ) {
+        time_duration mod_field_age( const time_duration &mod ) {
             return set_field_age( get_field_age() + mod );
         }
 
@@ -208,7 +208,7 @@ class field_entry
  * fire entry, but not two fire entries).
  * Use @ref find_field to get the field entry of a specific type, or iterate over
  * all entries via @ref begin and @ref end (allows range based iteration).
- * There is @ref field_symbol to specific which field should be drawn on the map.
+ * There is @ref displayed_field_type to specific which field should be drawn on the map.
 */
 class field
 {
@@ -250,7 +250,7 @@ class field
         bool remove_field( field_id field_to_remove );
         /**
          * Make sure to decrement the field counter in the submap.
-         * Removes the field entry, the iterator must point into @ref field_list and must be valid.
+         * Removes the field entry, the iterator must point into @ref _field_type_list and must be valid.
          */
         void remove_field( std::map<field_id, field_entry>::iterator );
 
@@ -260,7 +260,7 @@ class field
         /**
          * Returns the id of the field that should be drawn.
          */
-        field_id field_symbol() const;
+        field_id displayed_field_type() const;
 
         //Returns the vector iterator to begin searching through the list.
         std::map<field_id, field_entry>::iterator begin();
@@ -276,9 +276,10 @@ class field
         int move_cost() const;
 
     private:
-        std::map<field_id, field_entry>
-        field_list; //A pointer lookup table of all field effects on the current tile.    //Draw_symbol currently is equal to the last field added to the square. You can modify this behavior in the class functions if you wish.
-        field_id draw_symbol;
+        // A pointer lookup table of all field effects on the current tile.
+        std::map<field_id, field_entry> _field_type_list;
+        // _displayed_field_type is equal to the last field added to the square. You can modify this behavior in the class functions if you wish.
+        field_id _displayed_field_type;
 };
 
 #endif

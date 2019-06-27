@@ -20,6 +20,7 @@
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
+#include "magic_teleporter_list.h"
 #include "translations.h"
 #include "ui.h"
 

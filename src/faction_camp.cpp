@@ -363,9 +363,10 @@ int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp = nu
 int om_carry_weight_to_trips( units::mass mass, units::volume volume, units::mass carry_mass,
                               units::volume carry_volume );
 /// Formats the variables into a standard looking description to be displayed in a ynquery window
-std::string camp_trip_description( time_duration total_time, time_duration working_time,
-                                   time_duration travel_time, int distance, int trips,
-                                   int need_food );
+std::string camp_trip_description( const time_duration &total_time,
+                                   const time_duration &working_time,
+                                   const time_duration &travel_time,
+                                   int distance, int trips, int need_food );
 
 /// Returns a string for display of the selected car so you don't chop shop the wrong one
 std::string camp_car_description( vehicle *car );
@@ -1163,7 +1164,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                            "Time: 1 Min / Plot \n"
                            "Positions: 0/1 \n" );
                 mission_key.add_start( dir + miss_info.miss_id, dir + miss_info.desc, dir, entry,
-                                       plots > 0 && g->weather.get_temperature( omt_trg ) > 50 );
+                                       plots > 0 && warm_enough_to_plant( omt_trg ) );
             } else {
                 entry = miss_info.action;
                 bool avail = update_time_left( entry, npc_list );
@@ -3233,8 +3234,9 @@ std::string talk_function::om_simple_dir( const tripoint &omt_pos, const tripoin
 }
 
 // mission descriptions
-std::string camp_trip_description( time_duration total_time, time_duration working_time,
-                                   time_duration travel_time, int distance, int trips,
+std::string camp_trip_description( const time_duration &total_time,
+                                   const time_duration &working_time,
+                                   const time_duration &travel_time, int distance, int trips,
                                    int need_food )
 {
     std::string entry = " \n";

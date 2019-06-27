@@ -10,6 +10,8 @@
 "description": "A secret martial art used only by developers and cheaters.",    // In-game description
 "initiate": [ "You stand ready.", "%s stands ready." ],     // Message shown when player or NPC chooses this art
 "autolearn": [ [ "unarmed", "2" ] ],     // A list of skill requirements that if met, automatically teach the player the martial art
+"learn_difficulty": 5,      // Difficulty to learn a style from book based on "primary skill" 
+                            // Total chance to learn a style from a single read of the book is equal to one in (10 + learn_difficulty - primary_skill)
 "arm_block" : 99,           // Unarmed skill level at which arm blocking is unlocked
 "leg_block" : 99,           // Unarmed skill level at which arm blocking is unlocked
 "static_buffs" : [          // List of buffs that are automatically applied every turn

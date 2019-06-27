@@ -20,6 +20,7 @@ class player;
 class JsonObject;
 class JsonOut;
 class JsonIn;
+class teleporter_list;
 class time_duration;
 class nc_color;
 
@@ -371,6 +372,8 @@ std::set<tripoint> spell_effect_line( const spell &, const tripoint &source,
 void spawn_ethereal_item( spell &sp );
 void recover_energy( spell &sp, const tripoint &target );
 void spawn_summoned_monster( spell &sp, const tripoint &source, const tripoint &target );
+void translocate( spell &sp, const tripoint &source, const tripoint &target,
+                  teleporter_list &tp_list );
 } // namespace spell_effect
 
 class spellbook_callback : public uilist_callback

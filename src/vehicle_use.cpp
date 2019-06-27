@@ -1406,29 +1406,28 @@ void vehicle::use_harness( int part, const tripoint &pos )
     const cata::optional<tripoint> target_ = choose_adjacent(
                 _( "Where is the creature to harness?" ) );
     const tripoint target = *target_;
-    if( monster *mon_ptr = g->critter_at<monster>( target ) ) {
-        if( mon_ptr != nullptr ) {
-            monster &f = *mon_ptr;
-            if( f.friendly != 0 && f.has_flag( MF_PET_MOUNTABLE ) && g->is_empty( pos ) ) {
-                f.add_effect( effect_harnessed, 1_turns, num_bp, true );
-                f.setpos( pos );
-                add_msg( m_info, _( "You harness your %s to the %s." ), f.get_name(), name );
-                if( f.has_effect( effect_tied ) ) {
-                    add_msg( m_info, _( "You untie your %s." ), f.get_name() );
-                    f.remove_effect( effect_tied );
-                    item rope_6( "rope_6", 0 );
-                    g->u.i_add( rope_6 );
-                }
-            } else if( f.friendly == 0 ) {
-                add_msg( m_info, _( "This creature is not friendly!" ) );
-            } else if( !f.has_flag( MF_PET_MOUNTABLE ) ) {
-                add_msg( m_info, _( "This creature cannot be harnessed." ) );
-            } else if( !g->is_empty( pos ) ) {
-                add_msg( m_info, _( "The harness is blocked." ) );
+    monster *mon_ptr = g->critter_at<monster>( target );
+    if( mon_ptr != nullptr ) {
+        monster &f = *mon_ptr;
+        if( f.friendly != 0 && f.has_flag( MF_PET_MOUNTABLE ) && g->is_empty( pos ) ) {
+            f.add_effect( effect_harnessed, 1_turns, num_bp, true );
+            f.setpos( pos );
+            add_msg( m_info, _( "You harness your %s to the %s." ), f.get_name(), name );
+            if( f.has_effect( effect_tied ) ) {
+                add_msg( m_info, _( "You untie your %s." ), f.get_name() );
+                f.remove_effect( effect_tied );
+                item rope_6( "rope_6", 0 );
+                g->u.i_add( rope_6 );
             }
-        } else {
-            add_msg( m_info, _( "No creature there." ) );
+        } else if( f.friendly == 0 ) {
+            add_msg( m_info, _( "This creature is not friendly!" ) );
+        } else if( !f.has_flag( MF_PET_MOUNTABLE ) ) {
+            add_msg( m_info, _( "This creature cannot be harnessed." ) );
+        } else if( !g->is_empty( pos ) ) {
+            add_msg( m_info, _( "The harness is blocked." ) );
         }
+    } else {
+        add_msg( m_info, _( "No creature there." ) );
     }
 }
 

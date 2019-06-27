@@ -204,7 +204,7 @@ class overmap
 
         bool has_extra( int x, int y, int z ) const;
         const string_id<map_extra> &extra( int x, int y, int z ) const;
-        void add_extra( int x, int y, int z, string_id<map_extra> id );
+        void add_extra( int x, int y, int z, const string_id<map_extra> &id );
         void delete_extra( int x, int y, int z );
 
         /**
@@ -442,6 +442,8 @@ class overmap
         void load_monster_groups( JsonIn &jo );
         void load_legacy_monstergroups( JsonIn &jo );
         void save_monster_groups( JsonOut &jo ) const;
+    public:
+        static void load_obsolete_terrains( JsonObject &jo );
 };
 
 bool is_river( const oter_id &ter );

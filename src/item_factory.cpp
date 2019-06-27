@@ -664,6 +664,8 @@ void Item_factory::init()
                                 "present</info>."
                               ) );
     add_iuse( "GEIGER", &iuse::geiger );
+    add_iuse( "GOBAG_NORMAL", &iuse::gobag_normal );
+    add_iuse( "GOBAG_PERSONAL", &iuse::gobag_personal );
     add_iuse( "GRANADE", &iuse::granade );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
     add_iuse( "GRENADE_INC_ACT", &iuse::grenade_inc_act );
@@ -842,6 +844,11 @@ void Item_factory::check_definitions() const
         }
         if( type->volume < 0_ml ) {
             msg << "negative volume" << "\n";
+        }
+        if( type->count_by_charges() || type->phase == LIQUID ) {
+            if( type->stack_size <= 0 ) {
+                msg << "invalid stack_size " << type->stack_size << " on type using charges\n";
+            }
         }
         if( type->price < 0 ) {
             msg << "negative price" << "\n";
