@@ -208,7 +208,7 @@
     "symbol": "[",
     "color": "light_gray",
     "flags": [ "FANCY" ]
-  },  
+  },
   {
     "id": "tieclip",
     "type": "ARMOR",
@@ -222,7 +222,7 @@
     "symbol": "[",
     "color": "light_gray",
     "flags": [ "FANCY" ]
-  },  
+  },
   {
     "id": "necklace",
     "type": "ARMOR",
