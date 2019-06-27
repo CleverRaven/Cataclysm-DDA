@@ -35,6 +35,26 @@ enum visibility_type {
     VIS_BOOMER_DARK
 };
 
+// Matching rules for comparing a string to an overmap terrain id.
+enum ot_match_type {
+    // The provided string must completely match the overmap terrain id, including
+    // linear direction suffixes for linear terrain types or rotation suffixes
+    // for rotated terrain types.
+    EXACT,
+    // The provided string must completely match the base type id of the overmap
+    // terrain id, which means that suffixes for rotation and linear terrain types
+    // are ignored.
+    TYPE,
+    // The provided string must be a complete prefix (with additional parts delimited
+    // by an underscore) of the overmap terrain id. For example, "forest" will match
+    // "forest" or "forest_thick" but not "forestcabin".
+    PREFIX,
+    // The provided string must be contained within the overmap terrain id, but may
+    // occur at the beginning, end, or middle and does not have any rules about
+    // underscore delimiting.
+    CONTAINS
+};
+
 enum special_game_id : int {
     SGAME_NULL = 0,
     SGAME_TUTORIAL,

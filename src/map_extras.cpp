@@ -592,15 +592,15 @@ static void mx_bandits_block( map &m, const tripoint &abs_sub )
     const oter_id &west = overmap_buffer.ter( abs_sub.x - 1, abs_sub.y, abs_sub.z );
     const oter_id &east = overmap_buffer.ter( abs_sub.x + 1, abs_sub.y, abs_sub.z );
 
-    const bool forest_at_north = is_ot_prefix( "forest", north );
-    const bool forest_at_south = is_ot_prefix( "forest", south );
-    const bool forest_at_west = is_ot_prefix( "forest", west );
-    const bool forest_at_east = is_ot_prefix( "forest", east );
+    const bool forest_at_north = is_ot_match( "forest", north, ot_match_type::PREFIX );
+    const bool forest_at_south = is_ot_match( "forest", south, ot_match_type::PREFIX );
+    const bool forest_at_west = is_ot_match( "forest", west, ot_match_type::PREFIX );
+    const bool forest_at_east = is_ot_match( "forest", east, ot_match_type::PREFIX );
 
-    const bool road_at_north = is_ot_type( "road", north );
-    const bool road_at_south = is_ot_type( "road", south );
-    const bool road_at_west = is_ot_type( "road", west );
-    const bool road_at_east = is_ot_type( "road", east );
+    const bool road_at_north = is_ot_match( "road", north, ot_match_type::TYPE );
+    const bool road_at_south = is_ot_match( "road", south, ot_match_type::TYPE );
+    const bool road_at_west = is_ot_match( "road", west, ot_match_type::TYPE );
+    const bool road_at_east = is_ot_match( "road", east, ot_match_type::TYPE );
 
     if( forest_at_north && forest_at_south &&
         road_at_west && road_at_east ) {
@@ -822,16 +822,16 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
     const oter_id &west = overmap_buffer.ter( abs_sub.x - 1, abs_sub.y, abs_sub.z );
     const oter_id &east = overmap_buffer.ter( abs_sub.x + 1, abs_sub.y, abs_sub.z );
 
-    const bool bridge_at_center = is_ot_type( "bridge", center );
-    const bool bridge_at_north = is_ot_type( "bridge", north );
-    const bool bridge_at_south = is_ot_type( "bridge", south );
-    const bool bridge_at_west = is_ot_type( "bridge", west );
-    const bool bridge_at_east = is_ot_type( "bridge", east );
+    const bool bridge_at_center = is_ot_match( "bridge", center, ot_match_type::TYPE );
+    const bool bridge_at_north = is_ot_match( "bridge", north, ot_match_type::TYPE );
+    const bool bridge_at_south = is_ot_match( "bridge", south, ot_match_type::TYPE );
+    const bool bridge_at_west = is_ot_match( "bridge", west, ot_match_type::TYPE );
+    const bool bridge_at_east = is_ot_match( "bridge", east, ot_match_type::TYPE );
 
-    const bool road_at_north = is_ot_type( "road", north );
-    const bool road_at_south = is_ot_type( "road", south );
-    const bool road_at_west = is_ot_type( "road", west );
-    const bool road_at_east = is_ot_type( "road", east );
+    const bool road_at_north = is_ot_match( "road", north, ot_match_type::TYPE );
+    const bool road_at_south = is_ot_match( "road", south, ot_match_type::TYPE );
+    const bool road_at_west = is_ot_match( "road", west, ot_match_type::TYPE );
+    const bool road_at_east = is_ot_match( "road", east, ot_match_type::TYPE );
 
     const int num_mines = rng( 6, 20 );
     const std::string text = _( "DANGER! MINEFIELD!" );
@@ -1911,10 +1911,10 @@ static void mx_roadworks( map &m, const tripoint &abs_sub )
     const oter_id &west = overmap_buffer.ter( abs_sub.x - 1, abs_sub.y, abs_sub.z );
     const oter_id &east = overmap_buffer.ter( abs_sub.x + 1, abs_sub.y, abs_sub.z );
 
-    const bool road_at_north = is_ot_type( "road", north );
-    const bool road_at_south = is_ot_type( "road", south );
-    const bool road_at_west = is_ot_type( "road", west );
-    const bool road_at_east = is_ot_type( "road", east );
+    const bool road_at_north = is_ot_match( "road", north, ot_match_type::TYPE );
+    const bool road_at_south = is_ot_match( "road", south, ot_match_type::TYPE );
+    const bool road_at_west = is_ot_match( "road", west, ot_match_type::TYPE );
+    const bool road_at_east = is_ot_match( "road", east, ot_match_type::TYPE );
 
     // defect types
     weighted_int_list<ter_id> road_defects;
