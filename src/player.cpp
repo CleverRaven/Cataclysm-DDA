@@ -7477,7 +7477,6 @@ bool player::add_faction_warning( const faction_id id )
         fac->likes_u -= 1;
         fac->respects_u -= 1;
     }
-    add_msg( "current warnings: %d", current_warnings_fac( id ) );
     return false;
 }
 
