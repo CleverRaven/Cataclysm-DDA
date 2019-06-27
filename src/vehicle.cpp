@@ -4645,8 +4645,7 @@ void vehicle::refresh()
     sails.clear();
     water_wheels.clear();
     funnels.clear();
-    heaters.clear();
-    coolers.clear();
+    field_emitters.clear();
     relative_parts.clear();
     loose_parts.clear();
     wheelcache.clear();
@@ -4732,11 +4731,8 @@ void vehicle::refresh()
         if( vpi.has_flag( "UNMOUNT_ON_MOVE" ) ) {
             loose_parts.push_back( p );
         }
-        if( vpi.has_flag( "SPACE_HEATER" ) ) {
-            heaters.push_back( p );
-        }
-        if( vpi.has_flag( "COOLER" ) ) {
-            coolers.push_back( p );
+        if( vpi.has_flag( "FIELD_EMITTER" ) ) {
+            field_emitters.push_back( p );
         }
         if( vpi.has_flag( VPFLAG_WHEEL ) ) {
             wheelcache.push_back( p );
@@ -5484,6 +5480,18 @@ static bool is_sm_tile_outside( const tripoint &real_global_pos )
 
 void vehicle::update_time( const time_point &update_to )
 {
+    // Parts emitting fields
+    for( int idx : field_emitters ) {
+        const vehicle_part &pt = parts[idx];
+        if( pt.is_unavailable() || !pt.enabled ) {
+            continue;
+        }
+        const int intensity = abs( pt.info().epower ) * 2;
+        g->m.mod_field_intensity( global_part_pos3( pt ), field_from_ident( pt.info().emission_field_type ),
+                                  intensity );
+        discharge_battery( pt.info().epower );
+    }
+
     if( smz < 0 ) {
         return;
     }
@@ -5504,29 +5512,8 @@ void vehicle::update_time( const time_point &update_to )
 
     // Weather stuff, only for z-levels >= 0
     // TODO: Have it wash cars from blood?
-    if( funnels.empty() && solar_panels.empty() && wind_turbines.empty() && water_wheels.empty() &&
-        heaters.empty() && coolers.empty() ) {
+    if( funnels.empty() && solar_panels.empty() && wind_turbines.empty() && water_wheels.empty() ) {
         return;
-    }
-    // heaters emitting hot air
-    for( int idx : heaters ) {
-        const auto &pt = parts[idx];
-        if( pt.is_unavailable() || ( !pt.enabled ) ) {
-            continue;
-        }
-        int intensity = abs( pt.info().epower ) * 2;
-        g->m.mod_field_intensity( global_part_pos3( pt ), fd_hot_air3, intensity );
-        discharge_battery( pt.info().epower );
-    }
-    // coolers emitting cold air
-    for( int idx : coolers ) {
-        const vehicle_part &pt = parts[idx];
-        if( pt.is_unavailable() || ( !pt.enabled ) ) {
-            continue;
-        }
-        int intensity = abs( pt.info().epower ) * 5;
-        g->m.mod_field_intensity( global_part_pos3( pt ), fd_cold_air3, intensity );
-        discharge_battery( pt.info().epower );
     }
     // Get one weather data set per vehicle, they don't differ much across vehicle area
     auto accum_weather = sum_conditions( update_from, update_to, g->m.getabs( global_pos3() ) );
