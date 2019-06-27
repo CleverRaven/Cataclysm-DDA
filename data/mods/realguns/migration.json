@@ -78,5 +78,15 @@
     "id": "410_scrap",
     "type": "MIGRATION",
     "replace": "reloaded_410shot_000"
+  },
+  {
+    "id": "saiga10mag_410",
+    "type": "MIGRATION",
+    "replace": "saiga410mag_10rd"
+  },
+  {
+    "id": "saiga30mag_410",
+    "type": "MIGRATION",
+    "replace": "saiga410mag_30rd"
   }
 ]
