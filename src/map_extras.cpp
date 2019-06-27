@@ -2310,7 +2310,9 @@ static void mx_casings( map &m, const tripoint &abs_sub )
             if( one_in( 2 ) ) {
                 m.add_field( location, fd_blood, rng( 1, 3 ) );
                 const tripoint bloody_rag_loc = random_entry( m.points_in_radius( location, 3 ) );
-                m.spawn_item( bloody_rag_loc, "rag_bloody" );
+                if( one_in( 2 ) ) {
+                    m.spawn_item( bloody_rag_loc, "rag_bloody" );
+                }
                 if( one_in( 2 ) ) {
                     m.add_splatter_trail( fd_blood, location,
                                           random_entry( m.points_in_radius( location, rng( 1, 4 ) ) ) );
@@ -2341,7 +2343,9 @@ static void mx_casings( map &m, const tripoint &abs_sub )
             if( one_in( 2 ) ) {
                 m.add_field( random_place, fd_blood, rng( 1, 3 ) );
                 const tripoint bloody_rag_loc = random_entry( m.points_in_radius( random_place, 3 ) );
-                m.spawn_item( bloody_rag_loc, "rag_bloody" );
+                if( one_in( 2 ) ) {
+                    m.spawn_item( bloody_rag_loc, "rag_bloody" );
+                }
             }
             break;
         }
@@ -2369,7 +2373,9 @@ static void mx_casings( map &m, const tripoint &abs_sub )
             if( one_in( 2 ) ) {
                 m.add_field( from, fd_blood, rng( 1, 3 ) );
                 const tripoint bloody_rag_loc = random_entry( m.points_in_radius( to, 3 ) );
-                m.spawn_item( bloody_rag_loc, "rag_bloody" );
+                if( one_in( 2 ) ) {
+                    m.spawn_item( bloody_rag_loc, "rag_bloody" );
+                }
             }
             break;
         }
@@ -2400,7 +2406,9 @@ static void mx_casings( map &m, const tripoint &abs_sub )
             if( one_in( 2 ) ) {
                 m.add_field( first_loc, fd_blood, rng( 1, 3 ) );
                 const tripoint bloody_rag_loc = random_entry( m.points_in_radius( first_loc, 3 ) );
-                m.spawn_item( bloody_rag_loc, "rag_bloody" );
+                if( one_in( 2 ) ) {
+                    m.spawn_item( bloody_rag_loc, "rag_bloody" );
+                }
                 if( one_in( 2 ) ) {
                     m.add_splatter_trail( fd_blood, first_loc,
                                           random_entry( m.points_in_radius( first_loc, rng( 1, 4 ) ) ) );
@@ -2410,7 +2418,9 @@ static void mx_casings( map &m, const tripoint &abs_sub )
             if( one_in( 2 ) ) {
                 m.add_field( second_loc, fd_blood, rng( 1, 3 ) );
                 const tripoint bloody_rag_loc = random_entry( m.points_in_radius( second_loc, 3 ) );
-                m.spawn_item( bloody_rag_loc, "rag_bloody" );
+                if( one_in( 2 ) ) {
+                    m.spawn_item( bloody_rag_loc, "rag_bloody" );
+                }
                 if( one_in( 2 ) ) {
                     m.add_splatter_trail( fd_blood, second_loc,
                                           random_entry( m.points_in_radius( second_loc, rng( 1, 4 ) ) ) );
