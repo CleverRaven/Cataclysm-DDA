@@ -1336,7 +1336,7 @@
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "raw_dandelion", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
-    {
+  {
     "type": "recipe",
     "result": "chicory_coffee",
     "category": "CC_FOOD",
@@ -1571,7 +1571,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
-  {
+   {
     "type": "recipe",
     "result": "starch",
     "category": "CC_FOOD",
