@@ -4243,3 +4243,31 @@ bool deploy_tent_actor::check_intact( const tripoint &center ) const
     }
     return true;
 }
+
+void weigh_self_actor::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    dump.emplace_back( "DESCRIPTION",
+                       _( "Use this item to weigh yourself.  Includes everything you are wearing." ) );
+}
+
+int weigh_self_actor::use( player &p, item &, bool, const tripoint & ) const
+{
+    // this is a weight, either in kgs or in lbs.
+    double weight = convert_weight( p.get_weight() );
+    if( weight > convert_weight( max_weight ) ) {
+        popup( _( "ERROR: Max weight of %.0f %s exceeded" ), convert_weight( max_weight ), weight_units() );
+    } else {
+        popup( string_format( "%.0f %s", weight, weight_units() ) );
+    }
+    return 0;
+}
+
+void weigh_self_actor::load( JsonObject &jo )
+{
+    assign( jo, "max_weight", max_weight );
+}
+
+iuse_actor *weigh_self_actor::clone() const
+{
+    return new weigh_self_actor( *this );
+}
