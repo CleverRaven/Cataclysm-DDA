@@ -329,16 +329,22 @@ bool spell::can_learn( const player &p ) const
     return p.has_trait( type->spell_class );
 }
 
-int spell::energy_cost() const
+int spell::energy_cost( const player &p ) const
 {
+    int cost;
     if( type->base_energy_cost < type->final_energy_cost ) {
-        return std::min( type->final_energy_cost,
+        cost = std::min( type->final_energy_cost,
                          static_cast<int>( round( type->base_energy_cost + type->energy_increment * get_level() ) ) );
     } else if( type->base_energy_cost > type->final_energy_cost ) {
-        return std::max( type->final_energy_cost,
+        cost = std::max( type->final_energy_cost,
                          static_cast<int>( round( type->base_energy_cost + type->energy_increment * get_level() ) ) );
     } else {
-        return type->base_energy_cost;
+        cost = type->base_energy_cost;
+    }
+    if( !has_flag( spell_flag::NO_HANDS ) ) {
+        // the first 10 points of combined encumbrance is ignored, but quickly adds up
+        const int hands_encumb = std::max( 0, p.encumb( bp_hand_l ) + p.encumb( bp_hand_r ) - 10 );
+        cost += 10 * hands_encumb;
     }
 }
 
@@ -361,19 +367,19 @@ bool spell::can_cast( const player &p ) const
     }
     switch( type->energy_source ) {
         case mana_energy:
-            return p.magic.available_mana() >= energy_cost();
+            return p.magic.available_mana() >= energy_cost( p );
         case stamina_energy:
-            return p.stamina >= energy_cost();
+            return p.stamina >= energy_cost( p );
         case hp_energy: {
             for( int i = 0; i < num_hp_parts; i++ ) {
-                if( energy_cost() < p.hp_cur[i] ) {
+                if( energy_cost( p ) < p.hp_cur[i] ) {
                     return true;
                 }
             }
             return false;
         }
         case bionic_energy:
-            return p.power_level >= energy_cost();
+            return p.power_level >= energy_cost( p );
         case fatigue_energy:
             return p.get_fatigue() < EXHAUSTED;
         case none_energy:
@@ -387,22 +393,51 @@ int spell::get_difficulty() const
     return type->difficulty;
 }
 
-int spell::casting_time() const
+int spell::casting_time( const player &p ) const
 {
+    // casting time in moves
+    int casting_time = 0;
     if( type->base_casting_time < type->final_casting_time ) {
-        return std::min( type->final_casting_time,
-                         static_cast<int>( round( type->base_casting_time + type->casting_time_increment * get_level() ) ) );
+        casting_time = std::min( type->final_casting_time,
+                                 static_cast<int>( round( type->base_casting_time + type->casting_time_increment * get_level() ) ) );
     } else if( type->base_casting_time > type->final_casting_time ) {
-        return std::max( type->final_casting_time,
-                         static_cast<int>( round( type->base_casting_time + type->casting_time_increment * get_level() ) ) );
+        casting_time = std::max( type->final_casting_time,
+                                 static_cast<int>( round( type->base_casting_time + type->casting_time_increment * get_level() ) ) );
     } else {
-        return type->base_casting_time;
+        casting_time = type->base_casting_time;
+    }
+    if( !has_flag( spell_flag::NO_LEGS ) ) {
+        // the first 20 points of encumbrance combined is ignored
+        const int legs_encumb = std::max( 0, p.encumb( bp_leg_l ) + p.encumb( bp_leg_r ) - 20 );
+        casting_time += legs_encumb * 3;
+    }
+    if( has_flag( spell_flag::SOMATIC ) ) {
+        // the first 20 points of encumbrance combined is ignored
+        const int arms_encumb = std::max( 0, p.encumb( bp_arm_l ) + p.encumb( bp_arm_r ) - 20 );
+        casting_time += arms_encumb * 2;
     }
 }
 
 std::string spell::name() const
 {
     return _( type->name );
+}
+
+static bool fail_encumb( const spell &sp, const player &p )
+{
+    float fail = 0.0f;
+    if( sp.has_flag( spell_flag::SOMATIC ) ) {
+        // the first 20 points of encumbrance combined is ignored
+        const int arms_encumb = std::max( 0, p.encumb( bp_arm_l ) + p.encumb( bp_arm_r ) - 20 );
+        // each encumbrance point beyond the "gray" color counts as half an additional fail %
+        fail += arms_encumb / 200.0f;
+    }
+    if( sp.has_flag( spell_flag::VERBAL ) ) {
+        // a little bit of mouth encumbrance is allowed, but not much
+        const int mouth_encumb = std::max( 0, p.encumb( bp_mouth ) - 5 );
+        fail += mouth_encumb / 100.0f;
+    }
+    return fail > 0.0f;
 }
 
 float spell::spell_fail( const player &p ) const
@@ -420,7 +455,25 @@ float spell::spell_fail( const player &p ) const
     } else if( effective_skill < 0.0f ) {
         return 1.0f;
     }
-    const float fail_chance = pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
+    float fail_chance = pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
+    if( has_flag( spell_flag::SOMATIC ) ) {
+        // the first 20 points of encumbrance combined is ignored
+        const int arms_encumb = std::max( 0, p.encumb( bp_arm_l ) + p.encumb( bp_arm_r ) - 20 );
+        // each encumbrance point beyond the "gray" color counts as half an additional fail %
+        fail_chance += arms_encumb / 200.0f;
+    }
+    if( has_flag( spell_flag::VERBAL ) ) {
+        // a little bit of mouth encumbrance is allowed, but not much
+        const int mouth_encumb = std::max( 0, p.encumb( bp_mouth ) - 5 );
+        fail_chance += mouth_encumb / 100.0f;
+    }
+    // concentration spells work better than you'd expect with a higher focus pool
+    if( has_flag( spell_flag::CONCENTRATE ) ) {
+        if( p.focus_pool <= 0 ) {
+            return 0.0f;
+        }
+        fail_chance /= p.focus_pool / 100.0f;
+    }
     return clamp( fail_chance, 0.0f, 1.0f );
 }
 
@@ -481,18 +534,18 @@ std::string spell::energy_cost_string( const player &p ) const
         return _( "none" );
     }
     if( energy_source() == bionic_energy || energy_source() == mana_energy ) {
-        return colorize( to_string( energy_cost() ), c_light_blue );
+        return colorize( to_string( energy_cost( p ) ), c_light_blue );
     }
     if( energy_source() == hp_energy ) {
-        auto pair = get_hp_bar( energy_cost(), p.get_hp_max() / num_hp_parts );
+        auto pair = get_hp_bar( energy_cost( p ), p.get_hp_max() / num_hp_parts );
         return colorize( pair.first, pair.second );
     }
     if( energy_source() == stamina_energy ) {
-        auto pair = get_hp_bar( energy_cost(), p.get_stamina_max() );
+        auto pair = get_hp_bar( energy_cost( p ), p.get_stamina_max() );
         return colorize( pair.first, pair.second );
     }
     if( energy_source() == fatigue_energy ) {
-        return colorize( to_string( energy_cost() ), c_cyan );
+        return colorize( to_string( energy_cost( p ) ), c_cyan );
     }
     debugmsg( "ERROR: Spell %s has invalid energy source.", id().c_str() );
     return _( "error: energy_type" );
@@ -952,7 +1005,7 @@ std::vector<spell_id> known_magic::spells() const
 // does the player have enough energy (of the type of the spell) to cast the spell?
 bool known_magic::has_enough_energy( const player &p, spell &sp ) const
 {
-    int cost = sp.energy_cost();
+    int cost = sp.energy_cost( p );
     switch( sp.energy_source() ) {
         case mana_energy:
             return available_mana() >= cost;
@@ -1045,6 +1098,28 @@ static std::string moves_to_string( const int moves )
     }
 }
 
+static bool casting_time_encumbered( const spell &sp, const player &p )
+{
+    int encumb = 0;
+    if( !sp.has_flag( spell_flag::NO_LEGS ) ) {
+        // the first 20 points of encumbrance combined is ignored
+        encumb += std::max( 0, p.encumb( bp_leg_l ) + p.encumb( bp_leg_r ) - 20 );
+    }
+    if( sp.has_flag( spell_flag::SOMATIC ) ) {
+        // the first 20 points of encumbrance combined is ignored
+        encumb += std::max( 0, p.encumb( bp_arm_l ) + p.encumb( bp_arm_r ) - 20 );
+    }
+    if( encumb > 0 ) {
+        return true;
+    }
+    return false;
+}
+
+static bool energy_cost_encumbered( const spell &sp, const player &p )
+{
+    return std::max( 0, p.encumb( bp_hand_l ) + p.encumb( bp_hand_r ) - 10 ) > 0;
+}
+
 void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu )
 {
     const int h_offset = menu->w_width - menu->pad_right + 1;
@@ -1070,7 +1145,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
                         string_format( "%s: %d", _( "Max Level" ), sp.get_max_level() ) );
 
     print_colored_text( w_menu, line, h_col1, gray, gray,
-                        sp.colorized_fail_percent( g->u ) );
+                        sp.colorized_fail_percent( g->u ) + ( fail_encumb( sp, g->u ) ? _( "impeded" ) : "" ) );
     print_colored_text( w_menu, line++, h_col2, gray, gray,
                         string_format( "%s: %d", _( "Difficulty" ), sp.get_difficulty() ) );
 
@@ -1082,14 +1157,17 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
 
     line++;
 
+    const bool cost_encumb = energy_cost_encumbered( sp, g->u );
     print_colored_text( w_menu, line++, h_col1, gray, gray,
-                        string_format( "%s: %s %s%s", _( "Casting Cost" ), sp.energy_cost_string( g->u ),
-                                       sp.energy_string(),
+                        string_format( "%s: %s %s%s", cost_encumb ? _( "Casting Cost" ) : _( "Casting Cost (impeded)" ),
+                                       sp.energy_cost_string( g->u ), sp.energy_string(),
                                        sp.energy_source() == hp_energy ? "" :  string_format( " ( %s current )",
                                                sp.energy_cur_string( g->u ) ) ) );
-
-    print_colored_text( w_menu, line++, h_col1, gray, gray,
-                        string_format( "%s: %s", _( "Casting Time" ), moves_to_string( sp.casting_time() ) ) );
+    const bool c_t_encumb = casting_time_encumbered( sp, g->u );
+    print_colored_text( w_menu, line++, h_col1, gray, gray, colorize(
+                            string_format( "%s: %s", c_t_encumb ? _( "Casting Time" ) : _( "Casting Time (impeded)" ),
+                                           moves_to_string( sp.casting_time( g->u ) ) ),
+                            c_t_encumb  ? c_red : c_light_gray ) );
 
     line++;
 
