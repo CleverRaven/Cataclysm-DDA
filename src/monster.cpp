@@ -1484,9 +1484,15 @@ bool monster::move_effects( bool )
         return false;
     }
     if( has_effect( effect_downed ) ) {
-        remove_effect( effect_downed );
-        if( u_see_me ) {
-            add_msg( _( "The %s climbs to its feet!" ), name() );
+        if( rng( 0, 40 ) > type->melee_dice * type->melee_sides * 1.5 ) {
+            if( u_see_me ) {
+                add_msg( _( "The %s struggles to stand." ), name() );
+            }
+        } else {
+            if( u_see_me ) {
+                add_msg( _( "The %s climbs to its feet!" ), name() );
+            }
+            remove_effect( effect_downed );
         }
         return false;
     }
