@@ -923,7 +923,7 @@ std::string get_wind_desc( double windpower )
 
 rl_vec2d convert_wind_to_coord( const int angle )
 {
-    const std::array<std::pair<int, rl_vec2d>, 9> outputs = {{
+    static const std::array<std::pair<int, rl_vec2d>, 9> outputs = {{
             { 330, rl_vec2d( 0, -1 ) },
             { 301, rl_vec2d( -1, -1 ) },
             { 240, rl_vec2d( -1, 0 ) },
