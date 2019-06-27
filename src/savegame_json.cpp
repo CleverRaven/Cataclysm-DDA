@@ -2437,7 +2437,7 @@ void vehicle::deserialize( JsonIn &jsin )
         auto end = vp.part().items.end();
         for( ; it != end; ++it ) {
             if( it->needs_processing() ) {
-                active_items.add( it, vp.mount() );
+                active_items.add( *it, vp.mount() );
             }
         }
     }
@@ -3501,7 +3501,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
 
                 const cata::colony<item>::iterator it = itm[p.x][p.y].insert( tmp );
                 if( tmp.needs_processing() ) {
-                    active_items.add( it, p );
+                    active_items.add( *it, p );
                 }
             }
         }

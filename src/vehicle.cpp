@@ -4354,8 +4354,8 @@ units::volume vehicle::free_volume( const int part ) const
 
 void vehicle::make_active( item_location &loc )
 {
-    item *target = loc.get_item();
-    if( !target->needs_processing() ) {
+    item &target = *loc;
+    if( !target.needs_processing() ) {
         return;
     }
     auto cargo_parts = get_parts_at( loc.position(), "CARGO", part_status_flag::any );
@@ -4364,12 +4364,7 @@ void vehicle::make_active( item_location &loc )
     }
     // System insures that there is only one part in this vector.
     vehicle_part *cargo_part = cargo_parts.front();
-    auto &item_stack = cargo_part->items;
-    auto item_index = std::find_if( item_stack.begin(), item_stack.end(),
-    [&target]( const item & i ) {
-        return &i == target;
-    } );
-    active_items.add( item_index, cargo_part->mount );
+    active_items.add( target, cargo_part->mount );
 }
 
 int vehicle::add_charges( int part, const item &itm )
@@ -4442,7 +4437,7 @@ cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item 
 
     const vehicle_stack::iterator new_pos = parts[part].items.insert( itm_copy );
     if( itm_copy.needs_processing() ) {
-        active_items.add( new_pos, parts[part].mount );
+        active_items.add( *new_pos, parts[part].mount );
     }
 
     invalidate_mass();
@@ -4464,9 +4459,8 @@ vehicle_stack::iterator vehicle::remove_item( int part, vehicle_stack::const_ite
 {
     cata::colony<item> &veh_items = parts[part].items;
 
-    if( active_items.has( it, parts[part].mount ) ) {
-        active_items.remove( it, parts[part].mount );
-    }
+    // remove from the active items cache (if it isn't there does nothing)
+    active_items.remove( &*it );
 
     invalidate_mass();
     return veh_items.erase( it );
