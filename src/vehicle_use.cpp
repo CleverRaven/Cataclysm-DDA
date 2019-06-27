@@ -45,6 +45,7 @@
 #include "requirements.h"
 #include "rng.h"
 #include "string_id.h"
+#include "field.h"
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );
@@ -1076,33 +1077,36 @@ void vehicle::play_chimes()
     }
 }
 
-void vehicle::operate_plow()
+void vehicle::transform_terrain()
 {
-    for( const vpart_reference &vp : get_enabled_parts( "PLOW" ) ) {
-        const tripoint start_plow = vp.pos();
-        if( g->m.has_flag( "PLOWABLE", start_plow ) ) {
-            g->m.ter_set( start_plow, t_dirtmound );
-        } else {
-            const int speed = abs( velocity );
-            int v_damage = rng( 3, speed );
-            damage( vp.part_index(), v_damage, DT_BASH, false );
-            sounds::sound( start_plow, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false,
-                           "smash_success", "hit_vehicle" );
+    for( const vpart_reference &vp : get_enabled_parts( "TRANSFORM_TERRAIN" ) ) {
+        const tripoint start_pos = vp.pos();
+        const transform_terrain_data &ttd = vp.info().transform_terrain;
+        bool prereq_fulfilled = false;
+        for( const std::string &flag : ttd.pre_flags ) {
+            if( g->m.has_flag( flag, start_pos ) ) {
+                prereq_fulfilled = true;
+                break;
+            }
         }
-    }
-}
-
-void vehicle::operate_rockwheel()
-{
-    for( const vpart_reference &vp : get_enabled_parts( "ROCKWHEEL" ) ) {
-        const tripoint start_dig = vp.pos();
-        if( g->m.has_flag( "DIGGABLE", start_dig ) ) {
-            g->m.ter_set( start_dig, t_pit_shallow );
+        if( prereq_fulfilled ) {
+            const ter_id new_ter = ter_id( ttd.post_terrain );
+            if( new_ter != t_null ) {
+                g->m.ter_set( start_pos, new_ter );
+            }
+            const furn_id new_furn = furn_id( ttd.post_furniture );
+            if( new_furn != f_null ) {
+                g->m.furn_set( start_pos, new_furn );
+            }
+            const field_id new_field = field_from_ident( ttd.post_field );
+            if( new_field != fd_null ) {
+                g->m.add_field( start_pos, new_field, ttd.post_field_intensity, ttd.post_field_age );
+            }
         } else {
             const int speed = abs( velocity );
             int v_damage = rng( 3, speed );
             damage( vp.part_index(), v_damage, DT_BASH, false );
-            sounds::sound( start_dig, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false,
+            sounds::sound( start_pos, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false,
                            "smash_success", "hit_vehicle" );
         }
     }

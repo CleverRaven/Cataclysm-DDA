@@ -328,6 +328,28 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     assign( jo, "flags", def.flags );
     assign( jo, "description", def.description );
 
+    if( jo.has_member( "transform_terrain" ) ) {
+        JsonObject jttd = jo.get_object( "transform_terrain" );
+        JsonArray jpf = jttd.get_array( "pre_flags" );
+        while( jpf.has_more() ) {
+            std::string pre_flag = jpf.next_string();
+            def.transform_terrain.pre_flags.emplace( pre_flag );
+        }
+        def.transform_terrain.post_terrain = jttd.get_string( "post_terrain", "t_null" );
+        def.transform_terrain.post_furniture = jttd.get_string( "post_furniture", "f_null" );
+        def.transform_terrain.post_field = jttd.get_string( "post_field", "fd_null" );
+        def.transform_terrain.post_field_intensity = jttd.get_int( "post_field_intensity", 0 );
+        if( jttd.has_int( "post_field_age" ) ) {
+            def.transform_terrain.post_field_age = time_duration::from_turns(
+                    jttd.get_int( "post_field_age" ) );
+        } else if( jttd.has_string( "post_field_age" ) ) {
+            def.transform_terrain.post_field_age = time_duration::read_from_json_string(
+                    *jttd.get_raw( "post_field_age" ) );
+        } else {
+            def.transform_terrain.post_field_age = 0_turns;
+        }
+    }
+
     if( jo.has_member( "requirements" ) ) {
         auto reqs = jo.get_object( "requirements" );
 

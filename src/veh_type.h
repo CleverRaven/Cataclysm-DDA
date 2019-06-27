@@ -120,6 +120,15 @@ struct vpslot_workbench {
     units::volume allowed_volume;
 };
 
+struct transform_terrain_data {
+    std::set<std::string> pre_flags;
+    std::string post_terrain;
+    std::string post_furniture;
+    std::string post_field;
+    int post_field_intensity;
+    time_duration post_field_age;
+};
+
 class vpart_info
 {
     private:
@@ -260,6 +269,9 @@ class vpart_info
 
         /** Flat decrease of damage of a given type. */
         std::array<float, NUM_DT> damage_reduction;
+
+        /* Contains data for terrain transformer parts */
+        transform_terrain_data transform_terrain;
 
         /**
          * @name Engine specific functions

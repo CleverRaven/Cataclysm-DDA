@@ -2727,7 +2727,8 @@
     "difficulty": 4,
     "location": "under",
     "power": -300,
-    "flags": [ "PLOW", "EXTRA_DRAG" ],
+    "transform_terrain": { "pre_flags": [ "PLOWABLE" ], "post_terrain": "t_dirtmound" },
+    "flags": [ "TRANSFORM_TERRAIN", "PLOW", "EXTRA_DRAG" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ]
   },
   {

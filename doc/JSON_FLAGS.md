@@ -1307,6 +1307,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```STABLE``` Similar to `WHEEL`, but if the vehicle is only a 1x1 section, this single wheel counts as enough wheels.
 - ```STEERABLE``` This wheel is steerable.
 - ```STEREO```
+- ```TRANSFORM_TERRAIN``` Transform terrain (using rules defined in ```transform_terrain```).
 - ```TOOL_NONE``` Can be removed/installed without any tools
 - ```TOOL_SCREWDRIVER``` Attached with screws, can be removed/installed with a screwdriver
 - ```TOOL_WRENCH``` Attached with bolts, can be removed/installed with a wrench

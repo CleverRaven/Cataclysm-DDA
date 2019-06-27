@@ -4283,20 +4283,17 @@ void vehicle::idle( bool on_map )
 
 void vehicle::on_move()
 {
+    if( has_part( "TRANSFORM_TERRAIN", true ) ) {
+        transform_terrain();
+    }
     if( has_part( "SCOOP", true ) ) {
         operate_scoop();
     }
     if( has_part( "PLANTER", true ) ) {
         operate_planter();
     }
-    if( has_part( "PLOW", true ) ) {
-        operate_plow();
-    }
     if( has_part( "REAPER", true ) ) {
         operate_reaper();
-    }
-    if( has_part( "ROCKWHEEL", true ) ) {
-        operate_rockwheel();
     }
 
     occupied_cache_time = calendar::before_time_starts;

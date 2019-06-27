@@ -115,7 +115,8 @@
       { "item": "steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
     ],
-    "flags": [ "FOLDABLE", "PROTRUSION", "EXTRA_DRAG", "ROCKWHEEL" ]
+    "transform_terrain": { "pre_flags": [ "DIGGABLE" ], "post_terrain": "t_pit_shallow" },
+    "flags": [ "FOLDABLE", "PROTRUSION", "EXTRA_DRAG", "ROCKWHEEL", "TRANSFORM_TERRAIN" ]
   },
   {
     "type": "vehicle_part",
