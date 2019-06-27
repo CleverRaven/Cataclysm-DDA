@@ -62,55 +62,6 @@
     "magazines": [ [ "flammable", [ "aux_pressurized_tank", "pressurized_tank" ] ] ]
   },
   {
-    "id": "flamethrower_guitar",
-    "copy-from": "flamethrower_base",
-    "type": "GUN",
-    "name": "flamethrower guitar",
-    "description": "A simple, home-made flamethrower strapped onto an electric guitar with a built-in amp.  This impractical device of musical mayhem is likely to lead to a pyrotechnics mishap for someone.",
-    "weight": 3907,
-    "volume": 50,
-    "price": 30000,
-    "to_hit": -2,
-    "bashing": 9,
-    "material": [ "steel", "plastic", "wood" ],
-    "ranged_damage": -5,
-    "dispersion": 320,
-    "durability": 6,
-    "relative": { "reload": 3 },
-    "magazines": [ [ "flammable", [ "aux_pressurized_tank", "pressurized_tank" ] ] ],
-    "built_in_mods": [ "shoulder_strap" ],
-    "valid_mod_locations": [ [ "accessories", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ] ],
-    "flags": [ "TRADER_AVOID" ],
-    "use_action": {
-      "type": "musical_instrument",
-      "speed_penalty": 15,
-      "volume": 40,
-      "fun": 4,
-      "fun_bonus": 2,
-      "description_frequency": 20,
-      "player_descriptions": [
-        "You shred a sick solo on your guitar.",
-        "You play an epic classic rock riff on your guitar.",
-        "You play a furious, muted riff on your guitar.",
-        "You play a crunchy stoner tune on your guitar.",
-        "You play an old Britpop song on your guitar.",
-        "You play a tasteful classical piece on your guitar.",
-        "You play a jangly folk ditty on your guitar.",
-        "You play a melancholy melody on your guitar."
-      ],
-      "npc_descriptions": [
-        "shred a sick solo on the guitar.",
-        "play an epic classic rock riff on the guitar.",
-        "play a furious, muted riff on the guitar.",
-        "play a crunchy stoner tune on the guitar.",
-        "play an old Britpop song on the guitar.",
-        "play a tasteful classical piece on the guitar.",
-        "play a jangly folk ditty on the guitar.",
-        "play a melancholy melody on the guitar."
-      ]
-    }
-  },
-  {
     "id": "rm451_flamethrower",
     "copy-from": "flamethrower_base",
     "type": "GUN",

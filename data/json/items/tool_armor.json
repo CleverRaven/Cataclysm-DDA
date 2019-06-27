@@ -2126,6 +2126,35 @@
     "flags": [ "BELTED", "TRADER_AVOID" ]
   },
   {
+    "id": "flamethrower_guitar",
+    "copy-from": "guitar_amplified",
+    "type": "TOOL_ARMOR",
+    "name": "flamethrower guitar",
+    "description": "A simple, home-made flamethrower strapped onto an electric guitar with a built-in amp.  This impractical device of musical mayhem is likely to lead to a pyrotechnics mishap for someone.",
+    "weight": 3907,
+    "volume": 50,
+    "price": 30000,
+    "to_hit": -2,
+    "bashing": 9,
+    "material": [ "steel", "plastic", "wood" ],
+    "extend": { "flags": [ "TRADER_AVOID", "FIRE_100", "NEVER_JAMS", "FIRESTARTER" ] },
+    "delete": { "max_charges": 1, "initial_charges": 1 },
+    "magazines": [ [ "flammable", [ "aux_pressurized_tank", "pressurized_tank" ] ] ],
+    "gun_data": {
+      "reload_noise_volume": 10,
+      "reload_noise": "slosh.",
+      "skill": "launcher",
+      "ammo": "flammable",
+      "ammo_effects": [ "NO_BOOM", "FLARE" ],
+      "reload": 6,
+      "faults": [  ],
+      "ranged_damage": -5,
+      "dispersion": 320,
+      "durability": 6,
+      "valid_mod_locations": [ [ "accessories", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ] ]
+    }
+  },
+  {
     "type": "TOOL_ARMOR",
     "id": "bagpipes",
     "name": "bagpipes",
