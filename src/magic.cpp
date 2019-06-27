@@ -346,6 +346,7 @@ int spell::energy_cost( const player &p ) const
         const int hands_encumb = std::max( 0, p.encumb( bp_hand_l ) + p.encumb( bp_hand_r ) - 10 );
         cost += 10 * hands_encumb;
     }
+    return cost;
 }
 
 bool spell::has_flag( const spell_flag &flag ) const
@@ -416,6 +417,7 @@ int spell::casting_time( const player &p ) const
         const int arms_encumb = std::max( 0, p.encumb( bp_arm_l ) + p.encumb( bp_arm_r ) - 20 );
         casting_time += arms_encumb * 2;
     }
+    return casting_time;
 }
 
 std::string spell::name() const
