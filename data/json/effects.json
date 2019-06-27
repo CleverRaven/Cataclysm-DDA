@@ -269,7 +269,7 @@
       "speed_mod": [ -30 ],
       "pain_min": [ 1 ],
       "pain_chance": [ 1 ],
-      "pain_max_val": [ 20 ],
+      "pain_max_val": [ 20 ]
     }
   },
   {
