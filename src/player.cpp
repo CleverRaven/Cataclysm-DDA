@@ -2862,7 +2862,7 @@ void player::set_movement_mode( const std::string &new_mode )
         } else {
             if( has_effect( effect_riding ) ) {
                 add_msg( m_bad, _( "Your steed is too tired to go faster." ) );
-            } else {
+            } else {f
                 add_msg( m_bad, _( "You're too tired to run." ) );
             }
         }
@@ -4629,13 +4629,11 @@ void player::update_stamina( int turns )
     // Mutated stamina works even when winded
     float stamina_multiplier = ( !has_effect( effect_winded ) ? 1.0f : 0.1f ) +
                                mutation_value( "stamina_regen_modifier" );
-    if( stamina_multiplier > 0.0f ) {
-        // But mouth encumbrance interferes, even with mutated stamina.
-        stamina_recovery += stamina_multiplier * std::max( 1.0f,
-                            get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) - ( encumb( bp_mouth ) / 10.0f ) );
-        // TODO: recovering stamina causes hunger/thirst/fatigue.
-        // TODO: Tiredness slowing recovery
-    }
+    // But mouth encumbrance interferes, even with mutated stamina.
+    stamina_recovery += stamina_multiplier * std::max( 1.0f,
+                        get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) - ( encumb( bp_mouth ) / 10.0f ) );
+    // TODO: recovering stamina causes hunger/thirst/fatigue.
+    // TODO: Tiredness slowing recovery
 
     // stim recovers stamina (or impairs recovery)
     if( stim > 0 ) {
