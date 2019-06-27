@@ -83,7 +83,12 @@
 # PROFILE is for use with gprof or a similar program -- don't bother generally.
 # RELEASE_FLAGS is flags for release builds.
 RELEASE_FLAGS =
-WARNINGS = -Werror -Wall -Wextra -Woverloaded-virtual -Wpedantic -Wmissing-declarations
+WARNINGS = \
+  -Werror -Wall -Wextra \
+  -Wmissing-declarations \
+  -Wold-style-cast \
+  -Woverloaded-virtual \
+  -Wpedantic
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g
@@ -680,6 +685,8 @@ TESTSRC := $(wildcard tests/*.cpp)
 TESTHDR := $(wildcard tests/*.h)
 JSON_FORMATTER_SOURCES := tools/format/format.cpp src/json.cpp
 CHKJSON_SOURCES := src/chkjson/chkjson.cpp src/json.cpp
+CLANG_TIDY_PLUGIN_SOURCES := \
+  $(wildcard tools/clang-tidy-plugin/*.cpp tools/clang-tidy-plugin/*/*.cpp)
 TOOLHDR := $(wildcard tools/*/*.h)
 # Using sort here because it has the side-effect of deduplicating the list
 ASTYLE_SOURCES := $(sort \
@@ -689,6 +696,7 @@ ASTYLE_SOURCES := $(sort \
   $(TESTHDR) \
   $(JSON_FORMATTER_SOURCES) \
   $(CHKJSON_SOURCES) \
+  $(CLANG_TIDY_PLUGIN_SOURCES) \
   $(TOOLHDR))
 
 _OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)

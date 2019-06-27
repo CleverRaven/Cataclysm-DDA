@@ -550,10 +550,24 @@ bool avatar::create( character_type type, const std::string &tempname )
         mod_skill_level( e.first, e.second );
     }
 
+    // setup staring bank money
+
+    cash = rng( -200000, 200000 );
+
+    if( has_trait( trait_id( "MILLIONAIRE" ) ) ) {
+        cash = rng( 500000000, 1000000000 );
+    }
+    if( has_trait( trait_id( "DEBT" ) ) ) {
+        cash = rng( -1500000, -3000000 );
+    }
+    if( has_trait( trait_id( "SAVINGS" ) ) ) {
+        cash = rng( 1500000, 2000000 );
+    }
+
     // Learn recipes
     for( const auto &e : recipe_dict ) {
         const auto &r = e.second;
-        if( !knows_recipe( &r ) && has_recipe_requirements( r ) ) {
+        if( !r.has_flag( "SECRET" ) && !knows_recipe( &r ) && has_recipe_requirements( r ) ) {
             learn_recipe( &r );
         }
     }
@@ -1958,11 +1972,12 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
                    sorted_scens[cur_id]->gender_appropriate_name( u.male ),
                    pointsForScen );
 
-        std::string scenUnavailable =
-            _( "This scenario is not available in this world due to city size settings. " );
-        std::string scenDesc = sorted_scens[cur_id]->description( u.male );
+
+        const std::string scenDesc = sorted_scens[cur_id]->description( u.male );
 
         if( sorted_scens[cur_id]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {
+            const std::string scenUnavailable =
+                _( "This scenario is not available in this world due to city size settings. " );
             fold_and_print( w_description, 0, 0, TERMX - 2, c_red, scenUnavailable );
             fold_and_print( w_description, 1, 0, TERMX - 2, c_green, scenDesc );
         } else {
@@ -2405,7 +2420,7 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             redraw = true;
         } else if( action == "ANY_INPUT" &&
                    !MAP_SHARING::isSharing() ) { // Don't edit names when sharing maps
-            const long ch = ctxt.get_raw_input().get_first_input();
+            const int ch = ctxt.get_raw_input().get_first_input();
             utf8_wrapper wrap( you.name );
             if( ch == KEY_BACKSPACE ) {
                 if( !wrap.empty() ) {
@@ -2505,7 +2520,7 @@ trait_id Character::random_bad_trait()
 
 cata::optional<std::string> query_for_template_name()
 {
-    static const std::set<long> fname_char_blacklist = {
+    static const std::set<int> fname_char_blacklist = {
 #if defined(_WIN32)
         '\"', '*', '/', ':', '<', '>', '?', '\\', '|',
         '\x01', '\x02', '\x03', '\x04', '\x05', '\x06', '\x07',         '\x09',
@@ -2523,7 +2538,7 @@ cata::optional<std::string> query_for_template_name()
     spop.title( title );
     spop.description( desc );
     spop.width( FULL_SCREEN_WIDTH - utf8_width( title ) - 8 );
-    for( long character : fname_char_blacklist ) {
+    for( int character : fname_char_blacklist ) {
         spop.callbacks[ character ] = []() {
             return true;
         };

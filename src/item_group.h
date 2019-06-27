@@ -92,7 +92,7 @@ void load_item_group( JsonObject &jsobj, const Group_tag &group_id, const std::s
  * @throw std::string as usual for JSON errors, including invalid input values.
  */
 Group_tag load_item_group( JsonIn &stream, const std::string &default_subtype );
-}
+} // namespace item_group
 
 /**
  * Base interface for item spawn.
@@ -152,7 +152,7 @@ class Item_modifier
          * Charges to spawn the item with, if this turns out to
          * be negative, the default charges are used.
          */
-        std::pair<long, long> charges;
+        std::pair<int, int> charges;
         /**
          * Ammo for guns. If NULL the gun spawns without ammo.
          * This takes @ref charges and @ref with_ammo into account.

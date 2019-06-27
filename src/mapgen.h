@@ -296,7 +296,6 @@ class mapgen_function_json_base
         void setup_common();
         bool setup_common( JsonObject jo );
         void setup_setmap( JsonArray &parray );
-        void set_faction_owner( JsonObject jo );
         // Returns true if the mapgen qualifies at this point already
         virtual bool setup_internal( JsonObject &jo ) = 0;
         virtual void setup_setmap_internal() { }
@@ -349,6 +348,9 @@ class update_mapgen_function_json : public mapgen_function_json_base
         void check( const std::string &oter_name ) const;
         bool update_map( const tripoint &omt_pos, int offset_x, int offset_y,
                          mission *miss, bool verify = false ) const;
+        bool update_map( mapgendata &md, int offset_x = 0, int offset_y = 0,
+                         mission *miss = nullptr, bool verify = false, int rotation = 0 ) const;
+
     protected:
         bool setup_internal( JsonObject &/*jo*/ ) override;
         ter_id fill_ter;
@@ -443,7 +445,5 @@ void circle( map *m, ter_id type, double x, double y, double rad );
 void circle( map *m, ter_id type, int x, int y, int rad );
 void circle_furn( map *m, furn_id type, int x, int y, int rad );
 void add_corpse( map *m, int x, int y );
-
-using map_special_pointer = void ( * )( map &, const tripoint & );
 
 #endif

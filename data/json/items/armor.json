@@ -291,7 +291,7 @@
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY", "BLOCK_WHILE_WORN" ]
+    "flags": [ "VARSIZE", "BELTED", "STURDY", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "armguard_metal",
@@ -334,6 +334,29 @@
     "encumbrance": 10,
     "warmth": 5,
     "material_thickness": 3,
+    "flags": [ "BELTED", "BLOCK_WHILE_WORN" ]
+  },
+  {
+    "id": "armguard_scrap",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "pair of scrap arm guards",
+    "name_plural": "pairs of scrap arm guards",
+    "description": "A pair of arm guards made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "weight": 3064,
+    "volume": 19,
+    "price": 20000,
+    "to_hit": 1,
+    "bashing": 1,
+    "cutting": 1,
+    "material": [ "steel", "iron" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "ARMS" ],
+    "coverage": 80,
+    "encumbrance": 18,
+    "warmth": 20,
+    "material_thickness": 2,
     "flags": [ "BELTED", "BLOCK_WHILE_WORN" ]
   },
   {
@@ -698,7 +721,7 @@
     "description": "A suit of armor made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
     "weight": 9534,
     "volume": 62,
-    "price": 70000,
+    "price": 60000,
     "to_hit": -5,
     "bashing": 6,
     "cutting": 8,
@@ -706,7 +729,7 @@
     "symbol": "[",
     "color": "light_gray",
     "covers": [ "TORSO", "LEGS", "ARMS" ],
-    "coverage": 90,
+    "coverage": 80,
     "encumbrance": 18,
     "warmth": 20,
     "material_thickness": 2,
@@ -813,6 +836,7 @@
     "weight": 60,
     "volume": 0,
     "price": 5000,
+    "price_postapoc": 700,
     "material": [ "silver" ],
     "symbol": "[",
     "color": "yellow",
@@ -842,6 +866,7 @@
     "name": "detective badge",
     "description": "A tarnished golden shield gives an air of authority to the wearer.",
     "material": [ "gold" ],
+    "price_postapoc": 2000,
     "proportional": { "weight": 2 }
   },
   {
@@ -866,7 +891,18 @@
     "name": "doctor badge",
     "material": [ "plastic" ],
     "weight": 10,
+    "price_postapoc": 30,
     "description": "A plastic name tag marking the wearer as a real doctor of the medical kind."
+  },
+  {
+    "id": "badge_foodkid",
+    "copy-from": "badge_abstract",
+    "type": "ARMOR",
+    "name": "Foodkid badge",
+    "material": [ "plastic" ],
+    "price_postapoc": 30,
+    "weight": 10,
+    "description": "A star shaped badge, on it you can read \"Foodkid\" in bold letters.  This is Foodperson's trusty sidekick's badge."
   },
   {
     "id": "balclava",
@@ -1611,6 +1647,25 @@
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
+    "id": "cape_fp",
+    "type": "ARMOR",
+    "name": "Foodperson's cape",
+    "description": "A brightly-colored cape emblazoned with the \"Fp\" symbol.",
+    "weight": 900,
+    "volume": 12,
+    "price": 5000,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "]",
+    "color": "pink",
+    "covers": [ "TORSO" ],
+    "coverage": 50,
+    "encumbrance": 4,
+    "warmth": 10,
+    "material_thickness": 1,
+    "flags": [ "OVERSIZE", "BELTED" ]
+  },
+  {
     "id": "cassock",
     "type": "ARMOR",
     "name": "cassock",
@@ -1767,6 +1822,27 @@
     "warmth": 10,
     "material_thickness": 3,
     "flags": [ "OUTER" ]
+  },
+  {
+    "id": "chestguard_hard",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "hard chest guard",
+    "description": "A plastron of interlocking plastic plate protecting your torso.",
+    "weight": 1000,
+    "volume": 28,
+    "price": 60000,
+    "to_hit": -2,
+    "material": [ "plastic", "neoprene" ],
+    "symbol": "H",
+    "color": "dark_gray",
+    "covers": [ "TORSO" ],
+    "coverage": 90,
+    "encumbrance": 20,
+    "warmth": 20,
+    "material_thickness": 3,
+    "environmental_protection": 1,
+    "flags": [ "WATER_FRIENDLY", "STURDY", "OUTER" ]
   },
   {
     "id": "chestwrap",
@@ -2100,6 +2176,7 @@
     "weight": 10,
     "volume": 0,
     "price": 25000,
+    "price_postapoc": 200,
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
@@ -2113,6 +2190,7 @@
     "weight": 86,
     "volume": 0,
     "price": 2500,
+    "price_postapoc": 100,
     "material": [ "copper" ],
     "symbol": "[",
     "color": "brown"
@@ -2125,6 +2203,7 @@
     "weight": 50,
     "volume": 0,
     "price": 2900,
+    "price_postapoc": 50,
     "material": [ "copper" ],
     "symbol": "[",
     "color": "brown"
@@ -2271,6 +2350,29 @@
     "flags": [ "VARSIZE", "OUTER", "STURDY" ]
   },
   {
+    "id": "cuirass_scrap",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "scrap cuirass",
+    "name_plural": "scrap cuirasses",
+    "description": "A cuirass made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "weight": 3366,
+    "volume": 23,
+    "price": 20000,
+    "to_hit": -1,
+    "bashing": 2,
+    "cutting": 3,
+    "material": [ "steel", "iron" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "TORSO" ],
+    "coverage": 80,
+    "encumbrance": 18,
+    "warmth": 20,
+    "material_thickness": 2,
+    "flags": [ "OUTER" ]
+  },
+  {
     "id": "depowered_armor",
     "type": "ARMOR",
     "category": "armor",
@@ -2325,6 +2427,7 @@
     "weight": 10,
     "volume": 0,
     "price": 50000,
+    "price_postapoc": 1500,
     "bashing": 3,
     "cutting": 3,
     "material": [ "gold" ],
@@ -2342,6 +2445,7 @@
     "weight": 12,
     "volume": 0,
     "price": 190000,
+    "price_postapoc": 1700,
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
@@ -2395,6 +2499,7 @@
     "weight": 65,
     "volume": 1,
     "price": 12000,
+    "price_postapoc": 700,
     "to_hit": -1,
     "material": [ "steel" ],
     "symbol": "[",
@@ -2664,6 +2769,7 @@
     "weight": 10,
     "volume": 0,
     "price": 1200,
+    "price_postapoc": 10,
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -3757,6 +3863,28 @@
     "flags": [ "WATERPROOF", "STURDY" ]
   },
   {
+    "id": "gloves_cut_resistant",
+    "type": "ARMOR",
+    "name": "pair of cut resistant gloves",
+    "name_plural": "pairs of cut resistant gloves",
+    "description": "A pair of cut resistant gloves, useful when rapidly breaking down carcasses.",
+    "weight": 240,
+    "volume": 1,
+    "price": 9000,
+    "to_hit": 2,
+    "material": [ "steel", "cotton" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "looks_like": "gloves_work",
+    "covers": [ "HANDS" ],
+    "coverage": 95,
+    "encumbrance": 40,
+    "warmth": 10,
+    "material_thickness": 4,
+    "environmental_protection": 1,
+    "flags": [ "STURDY" ]
+  },
+  {
     "id": "gloves_wraps",
     "type": "ARMOR",
     "name": "pair of hand wraps",
@@ -3883,7 +4011,7 @@
     "id": "gobag",
     "type": "ARMOR",
     "name": "go bag",
-    "description": "A huge duffel bag with backpack attached, both packed to the gills.  Judging by the feel, a National Guard soldier could have packed this to be ready for deployment.  Activate or disassemble to unpack and enjoy.",
+    "description": "A huge duffel bag with backpack attached, both packed to the gills.  Judging by the feel, a National Guard soldier could have packed this to be ready for deployment.  Activate to unpack and enjoy.",
     "weight": 18043,
     "volume": 143,
     "price": 100000,
@@ -3897,7 +4025,15 @@
     "warmth": 10,
     "material_thickness": 3,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "use_action": "DISASSEMBLE"
+    "use_action": "GOBAG_NORMAL"
+  },
+  {
+    "id": "personal_gobag",
+    "type": "ARMOR",
+    "name": "personal go bag",
+    "description": "A huge duffel bag with backpack attached, both packed to the gills.  You have packed this to be ready for deployment.  Activate to unpack and enjoy.",
+    "use_action": "GOBAG_PERSONAL",
+    "copy-from": "gobag"
   },
   {
     "id": "goggles_ski",
@@ -3972,6 +4108,7 @@
     "weight": 40,
     "volume": 0,
     "price": 46000,
+    "price_postapoc": 1000,
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
@@ -3985,6 +4122,7 @@
     "weight": 10,
     "volume": 0,
     "price": 20000,
+    "price_postapoc": 500,
     "bashing": 2,
     "cutting": 2,
     "material": [ "gold" ],
@@ -4001,6 +4139,7 @@
     "weight": 10,
     "volume": 0,
     "price": 13000,
+    "price_postapoc": 500,
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
@@ -4015,6 +4154,7 @@
     "weight": 60,
     "volume": 1,
     "price": 50000,
+    "price_postapoc": 2000,
     "to_hit": -1,
     "material": [ "steel", "gold" ],
     "symbol": "[",
@@ -4808,6 +4948,28 @@
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "SUN_GLASSES" ]
   },
   {
+    "id": "helmet_scrap",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "scrap helmet",
+    "description": "A helmet made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "weight": 1692,
+    "volume": 11,
+    "price": 35000,
+    "to_hit": -1,
+    "bashing": 1,
+    "cutting": 2,
+    "material": [ "steel", "iron" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "HEAD", "EYES", "MOUTH" ],
+    "coverage": 80,
+    "encumbrance": 35,
+    "warmth": 20,
+    "material_thickness": 2,
+    "flags": [ "OUTER" ]
+  },
+  {
     "id": "helmet_skid",
     "type": "ARMOR",
     "category": "armor",
@@ -4917,6 +5079,7 @@
     "weight": 22,
     "volume": 0,
     "price": 5000,
+    "price_postapoc": 500,
     "material": "gold",
     "symbol": ",",
     "color": "yellow",
@@ -5319,6 +5482,12 @@
     "storage": 3,
     "warmth": 30,
     "material_thickness": 3,
+    "snippet_category": [
+      {
+        "id": "patched",
+        "text": "A jacket made from denim.  Provides decent protection from cuts.  This one is haphazardly covered with patches featuring metal band logos."
+      }
+    ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
@@ -5674,6 +5843,14 @@
     "flags": [ "VARSIZE", "POCKETS" ]
   },
   {
+    "id": "robofac_jumpsuit",
+    "type": "ARMOR",
+    "copy-from": "jumpsuit",
+    "name": "Hub 01 jumpsuit",
+    "description": "A brown jumpsuit worn by the staff of Hub 01.",
+    "color": "brown"
+  },
+  {
     "id": "jumpsuit_xl",
     "type": "ARMOR",
     "name": "XL jumpsuit",
@@ -5857,7 +6034,7 @@
     "id": "yukata",
     "type": "ARMOR",
     "name": "yukata",
-    "description": "An easy to wear, breezy robe secured with a sash. Essentially Japanese pajamas. Great for summer nights.",
+    "description": "An easy to wear, breezy robe secured with a sash.  Essentially Japanese pajamas.  Great for summer nights.",
     "weight": 900,
     "volume": 12,
     "price": 5000,
@@ -5877,7 +6054,7 @@
     "id": "haori",
     "type": "ARMOR",
     "name": "haori",
-    "description": "A loose coat with wide sleeves that is worn unfastened over a kimono. It is jet black with sparse, tasteful golden embroidery.",
+    "description": "A loose coat with wide sleeves that is worn unfastened over a kimono.  It is jet black with sparse, tasteful golden embroidery.",
     "weight": 800,
     "volume": 8,
     "price": 30000,
@@ -6203,7 +6380,7 @@
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+    "flags": [ "VARSIZE", "BELTED", "STURDY" ]
   },
   {
     "id": "legguard_metal",
@@ -6244,6 +6421,29 @@
     "encumbrance": 10,
     "warmth": 5,
     "material_thickness": 3,
+    "flags": [ "BELTED" ]
+  },
+  {
+    "id": "legguard_scrap",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "pair of scrap leg guards",
+    "name_plural": "pairs of scrap leg guards",
+    "description": "A pair of leg guards made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "weight": 3104,
+    "volume": 20,
+    "price": 20000,
+    "to_hit": -1,
+    "bashing": 1,
+    "cutting": 1,
+    "material": [ "steel", "iron" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "LEGS" ],
+    "coverage": 80,
+    "encumbrance": 18,
+    "warmth": 20,
+    "material_thickness": 2,
     "flags": [ "BELTED" ]
   },
   {
@@ -6325,6 +6525,7 @@
     "weight": 30,
     "volume": 0,
     "price": 4000,
+    "price_postapoc": 200,
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
@@ -6856,6 +7057,7 @@
     "weight": 30,
     "volume": 0,
     "price": 12000,
+    "price_postapoc": 400,
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
@@ -7081,6 +7283,25 @@
     "flags": [ "VARSIZE" ]
   },
   {
+    "id": "leg_warmers_f",
+    "type": "ARMOR",
+    "name": "pair of fur leggings",
+    "name_plural": "pairs of fur leggings",
+    "description": "Snug fur sleeves to keep your legs warm.  Simple yet effective since prehistoric times.",
+    "weight": 694,
+    "volume": 6,
+    "price": 1500,
+    "material": [ "fur" ],
+    "symbol": "[",
+    "color": "brown",
+    "covers": [ "LEGS" ],
+    "coverage": 60,
+    "encumbrance": 3,
+    "warmth": 40,
+    "material_thickness": 2,
+    "flags": [ "VARSIZE" ]
+  },
+  {
     "id": "pants_fur",
     "type": "ARMOR",
     "name": "fur pants",
@@ -7204,6 +7425,7 @@
     "weight": 30,
     "volume": 0,
     "price": 590000,
+    "price_postapoc": 2000,
     "material": [ "stone" ],
     "symbol": "[",
     "color": "white",
@@ -7720,6 +7942,7 @@
     "weight": 10,
     "volume": 0,
     "price": 30000,
+    "price_postapoc": 500,
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
@@ -7820,6 +8043,7 @@
     "weight": 80,
     "volume": 1,
     "price": 2200000,
+    "price_postapoc": 3000,
     "to_hit": -1,
     "material": [ "gold", "silver" ],
     "symbol": "[",
@@ -8000,6 +8224,7 @@
     "weight": 30,
     "volume": 0,
     "price": 25000,
+    "price_postapoc": 500,
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
@@ -8013,6 +8238,7 @@
     "weight": 9,
     "volume": 0,
     "price": 8000,
+    "price_postapoc": 200,
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
@@ -9207,6 +9433,7 @@
     "weight": 12,
     "volume": 0,
     "price": 28000,
+    "price_postapoc": 200,
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
@@ -9489,6 +9716,50 @@
       }
     ],
     "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "tshirt_tour",
+    "type": "ARMOR",
+    "copy-from": "tshirt",
+    "name": "tour t-shirt",
+    "description": "A short-sleeved cotton shirt.",
+    "price": 1000,
+    "price_postapoc": 1200,
+    "color": "dark_gray",
+    "snippet_category": [
+      {
+        "id": "death",
+        "text": "A short-sleeved cotton shirt with a death metal band's spidery, indecipherable logo printed on the front."
+      },
+      {
+        "id": "power",
+        "text": "A short-sleeved cotton shirt with a muscle-bound, long-haired man printed on the front.  He is riding a red dragon and wielding a flaming sword with malicious glee."
+      },
+      {
+        "id": "thrash",
+        "text": "A short-sleeved cotton shirt with a gore-spattered, guitar-playing zombie printed on the front.  It's rather tasteless in light of current events."
+      },
+      {
+        "id": "prog",
+        "text": "A short-sleeved cotton shirt with a pattern of complex geometric shapes and transcendental imagery printed on the front."
+      },
+      {
+        "id": "mohawk",
+        "text": "A short-sleeved cotton shirt with an image of a woman's face in portrait printed on the front.  She is wearing a large blue mohawk, her face is set in a snarl."
+      },
+      {
+        "id": "nuwave",
+        "text": "A short-sleeved black cotton shirt with a stylised representation of a radio wave printed on the front."
+      },
+      {
+        "id": "an_punk",
+        "text": "A short-sleeved cotton shirt, it's front showing an image of an upside-down American flag covered in anarchist graffiti, its edges frayed and burned."
+      },
+      {
+        "id": "mil_punk",
+        "text": "A short-sleeved cotton shirt with an AK-47 on the front.  It is held up by a clenched fist around its forestock, the fingers covered in crude looking tattoos."
+      }
+    ]
   },
   {
     "id": "tunic",
@@ -9986,6 +10257,7 @@
     "weight": 50,
     "volume": 1,
     "price": 5000,
+    "price_postapoc": 300,
     "to_hit": -1,
     "material": [ "plastic", "steel" ],
     "symbol": "[",
@@ -10022,7 +10294,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "XL survivor suit",
-    "description": "A massive home-built combination armor made from a bulletproof vest and a reinforced leather jumpsuit.  Protects from the elements as well as from harm.",
+    "description": "A massive hand-built combination armor made from a bulletproof vest and a reinforced leather jumpsuit.  Protects from the elements as well as from harm.",
     "weight": 12400,
     "volume": 72,
     "price": 150000,
@@ -10036,7 +10308,31 @@
     "encumbrance": 35,
     "storage": 34,
     "warmth": 15,
-    "material_thickness": 3,
+    "material_thickness": 4,
+    "environmental_protection": 3,
+    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+  },
+  {
+    "id": "xlhsurvivor_suit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "XL heavy survivor suit",
+    "description": "A massive, heavy, hand-built combination armor made from a reinforced bulletproof vest and a metal-plated leather jumpsuit.  Protects from the elements as well as from harm.",
+    "looks_like": "hsurvivor_suit",
+    "weight": 16500,
+    "volume": 75,
+    "price": 200000,
+    "to_hit": -3,
+    "bashing": 6,
+    "material": [ "kevlar", "steel", "leather" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "covers": [ "LEGS", "TORSO", "ARMS" ],
+    "coverage": 100,
+    "encumbrance": 45,
+    "storage": 30,
+    "warmth": 15,
+    "material_thickness": 6,
     "environmental_protection": 3,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
@@ -10271,6 +10567,70 @@
     "material_thickness": 2,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "OVERSIZE" ]
+  },
+  {
+    "id": "helmet_corinthian",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "Corinthian helm",
+    "description": "An ancient Greek bronze helmet that provides excellent protection for the head, with slits for the eyes and mouth.",
+    "weight": 1310,
+    "volume": 10,
+    "price": 30000,
+    "bashing": 10,
+    "material": [ "bronze" ],
+    "symbol": "[",
+    "color": "yellow",
+    "covers": [ "HEAD", "EYES", "MOUTH" ],
+    "coverage": 90,
+    "encumbrance": 30,
+    "warmth": 10,
+    "material_thickness": 3,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
+    "id": "armor_cuirass",
+    "type": "ARMOR",
+    "name": "bell cuirass",
+    "category": "armor",
+    "name_plural": "bell cuirasses",
+    "description": "An ancient Greek breastplate, made of bronze.",
+    "weight": 5896,
+    "volume": 24,
+    "price": 50000,
+    "to_hit": -5,
+    "bashing": 6,
+    "material": [ "bronze" ],
+    "symbol": "[",
+    "color": "yellow",
+    "covers": [ "TORSO" ],
+    "coverage": 90,
+    "encumbrance": 15,
+    "warmth": 15,
+    "material_thickness": 3,
+    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+  },
+  {
+    "id": "legguard_bronze",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "pair of bronze greaves",
+    "name_plural": "pairs of bronze greaves",
+    "description": "A pair of bronze leg guards with a simple leather lining.",
+    "weight": 2520,
+    "volume": 22,
+    "price": 40000,
+    "to_hit": 1,
+    "material": [ "bronze", "leather" ],
+    "symbol": "[",
+    "color": "yellow",
+    "covers": [ "LEGS" ],
+    "coverage": 70,
+    "encumbrance": 10,
+    "warmth": 15,
+    "material_thickness": 4,
+    "flags": [ "BELTED", "STURDY" ]
   },
   {
     "id": "tarp",

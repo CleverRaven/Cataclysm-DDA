@@ -59,7 +59,7 @@ int caravan_price( player &u, int price );
 
 void draw_caravan_borders( const catacurses::window &w, int current_window );
 void draw_caravan_categories( const catacurses::window &w, int category_selected,
-                              unsigned total_price, unsigned long cash );
+                              int total_price, int cash );
 void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *items,
                          std::vector<int> *counts, int offset, int item_selected );
 
@@ -499,15 +499,14 @@ void defense_game::setup()
     refresh_setup( w, selection );
 
     input_context ctxt( "DEFENSE_SETUP" );
-    ctxt.register_action( "UP", _( "Previous option" ) );
-    ctxt.register_action( "DOWN", _( "Next option" ) );
-    ctxt.register_action( "LEFT", _( "Cycle option value" ) );
-    ctxt.register_action( "RIGHT", _( "Cycle option value" ) );
-    ctxt.register_action( "CONFIRM", _( "Toggle option" ) );
+    ctxt.register_action( "UP", translate_marker( "Previous option" ) );
+    ctxt.register_action( "DOWN", translate_marker( "Next option" ) );
+    ctxt.register_action( "LEFT", translate_marker( "Cycle option value" ) );
+    ctxt.register_action( "RIGHT", translate_marker( "Cycle option value" ) );
+    ctxt.register_action( "CONFIRM", translate_marker( "Toggle option" ) );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "START" );
-    ctxt.register_action( "SAVE_TEMPLATE" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     while( true ) {
@@ -533,13 +532,6 @@ void defense_game::setup()
             } else {
                 selection--;
             }
-            refresh_setup( w, selection );
-        } else if( action == "SAVE_TEMPLATE" ) {
-            std::string name = string_input_popup()
-                               .title( _( "Template Name:" ) )
-                               .width( 20 )
-                               .query_string();
-            // TODO: this is NON FUNCTIONAL!!!
             refresh_setup( w, selection );
         } else {
             switch( selection ) {
@@ -747,7 +739,7 @@ void defense_game::refresh_setup( const catacurses::window &w, int selection )
     werase( w );
     mvwprintz( w,  0,  1, c_light_red, _( "DEFENSE MODE" ) );
     mvwprintz( w,  0, 28, c_light_red, _( "Press direction keys to cycle, ENTER to toggle" ) );
-    mvwprintz( w,  1, 28, c_light_red, _( "Press S to start, ! to save as a template" ) );
+    mvwprintz( w,  1, 28, c_light_red, _( "Press S to start" ) );
     mvwprintz( w,  2,  2, c_light_gray, _( "Scenario:" ) );
     mvwprintz( w,  3,  2, SELCOL( 1 ), defense_style_name( style ) );
     mvwprintz( w,  3, 28, c_light_gray, defense_style_description( style ) );
@@ -919,7 +911,7 @@ void defense_game::caravan()
         }
     }
 
-    unsigned total_price = 0;
+    signed total_price = 0;
 
     catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, 0, 0 );
 
@@ -1107,7 +1099,7 @@ Press %s to buy everything in your cart, %s to buy nothing." ),
                                              "Buy %d items, leaving you with %s?",
                                              items[0].size() ),
                                    items[0].size(),
-                                   format_money( static_cast<long>( g->u.cash ) - static_cast<long>( total_price ) ) ) ) ) {
+                                   format_money( static_cast<int>( g->u.cash ) - static_cast<int>( total_price ) ) ) ) ) {
                 done = true;
             }
             if( !done ) { // We canceled, so redraw everything
@@ -1280,7 +1272,7 @@ void draw_caravan_borders( const catacurses::window &w, int current_window )
 }
 
 void draw_caravan_categories( const catacurses::window &w, int category_selected,
-                              unsigned total_price, unsigned long cash )
+                              int total_price, int cash )
 {
     // Clear the window
     for( int i = 1; i <= 10; i++ ) {
@@ -1289,7 +1281,7 @@ void draw_caravan_categories( const catacurses::window &w, int category_selected
     mvwprintz( w, 1, 1, c_white, _( "Your Cash: %s" ), format_money( cash ) );
     wprintz( w, c_light_gray, " -> " );
     wprintz( w, ( total_price > cash ? c_red : c_green ), "%s",
-             format_money( static_cast<long>( cash ) - static_cast<long>( total_price ) ) );
+             format_money( static_cast<int>( cash ) - static_cast<int>( total_price ) ) );
 
     for( int i = 0; i < NUM_CARAVAN_CATEGORIES; i++ ) {
         mvwprintz( w, i + 3, 1, ( i == category_selected ? h_white : c_white ),
@@ -1324,8 +1316,8 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
                    item::nname( ( *items )[i], ( *counts )[i] ) );
         wprintz( w, c_white, " x %2d", ( *counts )[i] );
         if( ( *counts )[i] > 0 ) {
-            unsigned long price = caravan_price( g->u, item( ( *items )[i],
-                                                 0 ).price( false ) * ( *counts )[i] );
+            int price = caravan_price( g->u, item( ( *items )[i],
+                                                   0 ).price( false ) * ( *counts )[i] );
             wprintz( w, ( price > g->u.cash ? c_red : c_green ), " (%s)", format_money( price ) );
         }
     }

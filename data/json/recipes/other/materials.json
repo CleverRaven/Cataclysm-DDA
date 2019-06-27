@@ -1,5 +1,29 @@
 [
   {
+    "type": "recipe",
+    "result": "tanned_hide",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "36 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "tanned_pelt", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "leather",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "6 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "fur", 1 ] ] ]
+  },
+  {
     "result": "steel_chunk",
     "type": "recipe",
     "category": "CC_OTHER",

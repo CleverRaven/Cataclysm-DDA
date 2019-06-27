@@ -355,19 +355,19 @@ const recipe *select_crafting_recipe( int &batch_size )
                 } else if( subtab.cur() == "CSC_*_RECENT" ) {
                     picking = available_recipes.recent();
                 } else if( subtab.cur() == "CSC_*_HIDDEN" ) {
-                    picking.insert( picking.end(), available_recipes.begin(), available_recipes.end() );
+                    current = available_recipes.hidden();
                     show_hidden = true;
                 } else {
                     picking = available_recipes.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
                 }
 
-                current.clear();
-                for( auto i : picking ) {
-                    if( ( uistate.hidden_recipes.find( i->ident() ) != uistate.hidden_recipes.end() ) == show_hidden ) {
-                        current.push_back( i );
-                    }
-                }
                 if( !show_hidden ) {
+                    current.clear();
+                    for( auto i : picking ) {
+                        if( uistate.hidden_recipes.find( i->ident() ) == uistate.hidden_recipes.end() ) {
+                            current.push_back( i );
+                        }
+                    }
                     draw_hidden_amount( w_head, 0, picking.size() - current.size() );
                 }
 

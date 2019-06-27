@@ -92,6 +92,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "WIND_TURBINE", VPFLAG_WIND_TURBINE },
     { "SPACE_HEATER", VPFLAG_SPACE_HEATER, },
     { "COOLER", VPFLAG_COOLER, },
+    { "FIELD_EMITTER", VPFLAG_FIELD_EMITTER, },
     { "WATER_WHEEL", VPFLAG_WATER_WHEEL },
     { "RECHARGE", VPFLAG_RECHARGE },
     { "VISION", VPFLAG_EXTENDS_VISION },
@@ -318,6 +319,7 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     assign( jo, "energy_consumption", def.energy_consumption );
     assign( jo, "power", def.power );
     assign( jo, "epower", def.epower );
+    assign( jo, "emission_field_type", def.emission_field_type );
     assign( jo, "fuel_type", def.fuel_type );
     assign( jo, "default_ammo", def.default_ammo );
     assign( jo, "folded_volume", def.folded_volume );
@@ -1055,13 +1057,15 @@ void vehicle_prototype::finalize()
             } else {
                 for( const auto &e : pt.ammo_types ) {
                     const auto ammo = item::find_type( e );
-                    if( !ammo->ammo && ammo->ammo->type.count( base->gun->ammo ) ) {
+                    if( !ammo->ammo && base->gun->ammo.count( ammo->ammo->type ) ) {
                         debugmsg( "init_vehicles: turret %s has invalid ammo_type %s in %s",
                                   pt.part.c_str(), e.c_str(), id.c_str() );
                     }
                 }
                 if( pt.ammo_types.empty() ) {
-                    pt.ammo_types.insert( base->gun->ammo->default_ammotype() );
+                    if( !base->gun->ammo.empty() ) {
+                        pt.ammo_types.insert( ammotype( *base->gun->ammo.begin() )->default_ammotype() );
+                    }
                 }
             }
 

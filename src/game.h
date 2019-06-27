@@ -411,7 +411,7 @@ class game
          */
         bool revive_corpse( const tripoint &location, item &corpse );
         /**Turns Broken Cyborg monster into Cyborg NPC via surgery*/
-        void save_cyborg( item *cyborg, const tripoint couch_pos, player &installer );
+        void save_cyborg( item *cyborg, const tripoint &couch_pos, player &installer );
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
         bool cancel_activity_query( const std::string &message );
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
@@ -715,12 +715,10 @@ class game
 
         /** Check for dangerous stuff at dest_loc, return false if the player decides
         not to step there */
-        bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
         // Handle pushing during move, returns true if it handled the move
         bool grabbed_move( const tripoint &dp );
         bool grabbed_veh_move( const tripoint &dp );
         bool grabbed_furn_move( const tripoint &dp );
-
 
         void control_vehicle(); // Use vehicle controls  '^'
         void examine( const tripoint &p ); // Examine nearby terrain  'e'
@@ -764,6 +762,7 @@ class game
         void mon_info( const catacurses::window &,
                        int hor_padding = 0 ); // Prints a list of nearby monsters
         void cleanup_dead();     // Delete any dead NPCs/monsters
+        bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
     private:
         void wield();
         void wield( int pos ); // Wield a weapon  'w'

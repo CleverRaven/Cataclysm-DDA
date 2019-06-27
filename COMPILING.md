@@ -575,13 +575,15 @@ Open Terminal's preferences, turn on "Use bright colors for bold text" in "Prefe
 
 ## Visual Studio Guide
 
-Visual Studio 2015 (or later) is required to build Cataclysm.  If you use a later version of Visual Studio, you will need to [enable the Visual Studio 2015 (v140) platform toolset](https://developercommunity.visualstudio.com/content/problem/48806/cant-find-v140-in-visual-studio-2017.html). We created solution and project files in directory `msvc-full-features`. Because of the complexity and how troublesome defining every combination of build feature options are, in Visual Studio project we added all build features, including tiles, sound and localization.
+Visual Studio 2017 (or later) is required to build Cataclysm: Dark Days Ahead. Solutions and project files are located in directory `msvc-full-features`. Because of the complexity and how troublesome defining every combination of build feature options are, Visual Studio projects have all build features enabled, including tiles, sound and localization.
 
 ### Dependencies
 
 We've prepared an archive containing all the headers and libraries required to build Cataclysm: [http://dev.narc.ro/cataclysm/WinDepend-MSVC.zip](http://dev.narc.ro/cataclysm/WinDepend-MSVC.zip) or [http://dev.narc.ro/cataclysm/WinDepend-MSVC.7z](http://dev.narc.ro/cataclysm/WinDepend-MSVC.7z). The latter is smaller, but if you don't have a 7-zip archive extracter, the former one is easier to deal with.
 
-Extract the 'WinDepend' folder and put it in the root folder of Cataclysm project. Run the "copy_dll_to_bin" batch file and then move the dll files from the bin folder into the root folder the Cataclysm project.
+Extract the 'WinDepend' folder from the zip and put the 'WinDepend' folder in the root folder of Cataclysm project.  Your folder structure should look like this: `.../Cataclysm-DDA/WinDepend/...`
+
+Run the "copy_dll_to_bin" batch file and then move the dll files from the bin folder inside 'WinDepend' into the root folder the Cataclysm project.  You'll probably want to use the dlls that are in `WinDepend/bin/x64/`.
 
 ### Building
 

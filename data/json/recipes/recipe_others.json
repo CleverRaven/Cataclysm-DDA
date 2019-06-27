@@ -76,14 +76,67 @@
   },
   {
     "type": "recipe",
-    "result": "wood_panel",
+    "result": "wood_beam",
+    "id_suffix": "from logs",
     "category": "CC_OTHER",
     "skill_used": "fabrication",
-    "time": 1000,
+    "difficulty": 1,
+    "time": "1 h",
+    "autolearn": true,
+    "byproducts": [ [ "splinter", 20 ] ],
+    "qualities": [ { "id": "AXE", "level": 2 } ],
+    "//": "Eventually, smoothing tools should also be required, or we should distinguish between rough-hewn and finished beams",
+    "components": [ [ [ "log", 6 ] ] ],
+    "//2": "This is a terrible stand-in for the fact that logs are only 10kg chunks and not big enough to hew into an 8' or longer wooden beam."
+  },
+  {
+    "type": "recipe",
+    "result": "wood_panel",
+    "id_suffix": "from wooden beams",
+    "category": "CC_OTHER",
+    "skill_used": "fabrication",
+    "time": "2 h",
+    "autolearn": true,
+    "byproducts": [ [ "splinter", 7 ], [ "wood_panel", 3 ] ],
+    "qualities": [ { "id": "SAW_W", "level": 2 } ],
+    "components": [ [ [ "wood_beam", 1 ] ] ],
+    "//": "I am assuming here that you actually get more than 4 smaller-than-represented wood panels, but any application that requires panels means you'll be putting these side by side to get the effect of a single panel."
+  },
+  {
+    "type": "recipe",
+    "result": "wood_panel",
+    "id_suffix": "from wooden sheets",
+    "category": "CC_OTHER",
+    "skill_used": "fabrication",
+    "time": "10 m",
     "autolearn": true,
     "byproducts": [ [ "wood_panel", 1 ] ],
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
     "components": [ [ [ "wood_sheet", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "wood_panel",
+    "id_suffix": "from nailed planks",
+    "category": "CC_OTHER",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_W", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "2x4", 8 ] ], [ [ "nail", 36 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "2x4",
+    "id_suffix": "from wooden beams",
+    "category": "CC_OTHER",
+    "skill_used": "fabrication",
+    "time": "2 h",
+    "autolearn": true,
+    "byproducts": [ [ "splinter", 4 ], [ "2x4", 8 ] ],
+    "qualities": [ { "id": "SAW_W", "level": 2 } ],
+    "//": "This should eventually require planing tools once implemented, and should replace the ability to turn a small chunk of log into a long wooden plank.",
+    "components": [ [ [ "wood_beam", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2079,15 +2132,35 @@
       [ "mag_rifle", 2 ]
     ],
     "components": [
-      [ [ "wire", 2 ], [ "cable", 2 ] ],
+      [ [ "pipe_cleaner", 1 ] ],
       [ [ "soldering_iron", 1 ] ],
       [ [ "screwdriver_set", 1 ] ],
       [ [ "wrench", 1 ] ],
       [ [ "chisel", 1 ] ],
       [ [ "hacksaw", 1 ] ],
-      [ [ "hammer", 1 ] ],
-      [ [ "rag", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
+      [ [ "hammer", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "pipe_cleaner",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "mechanics",
+    "difficulty": 1,
+    "time": "2 m",
+    "reversible": true,
+    "book_learn": [
+      [ "manual_shotgun", 0 ],
+      [ "manual_rifle", 0 ],
+      [ "manual_smg", 0 ],
+      [ "manual_pistol", 0 ],
+      [ "recipe_bullets", 0 ],
+      [ "textbook_mechanics", 1 ],
+      [ "mag_mechanics", 2 ],
+      [ "mag_rifle", 2 ]
+    ],
+    "components": [ [ [ "wire", 2 ], [ "cable", 2 ] ], [ [ "rag", 2 ], [ "leather", 2 ], [ "fur", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -2197,7 +2270,7 @@
     "difficulty": 2,
     "time": "45 m",
     "autolearn": true,
-    "tools": [ [ [ "brick_kiln", 90 ], [ "kiln", 90 ] ] ],
+    "using": [ [ "earthenware_firing", 90 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 5 ] ] ]
   },
   {
@@ -3777,7 +3850,7 @@
     "difficulty": 2,
     "time": "45 m",
     "autolearn": true,
-    "tools": [ [ [ "brick_kiln", 90 ], [ "kiln", 90 ] ] ],
+    "using": [ [ "earthenware_firing", 90 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 5 ] ] ]
   },
   {
@@ -3790,7 +3863,7 @@
     "difficulty": 2,
     "time": "35 m",
     "autolearn": true,
-    "tools": [ [ [ "brick_kiln", 75 ], [ "kiln", 75 ] ] ],
+    "using": [ [ "earthenware_firing", 75 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 4 ] ] ]
   },
   {
@@ -3803,7 +3876,7 @@
     "difficulty": 2,
     "time": "50 m",
     "autolearn": true,
-    "tools": [ [ [ "brick_kiln", 100 ], [ "kiln", 100 ] ] ],
+    "using": [ [ "earthenware_firing", 100 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 8 ] ] ]
   },
   {
@@ -3816,7 +3889,7 @@
     "difficulty": 2,
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "brick_kiln", 40 ], [ "kiln", 40 ] ] ],
+    "using": [ [ "earthenware_firing", 40 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 3 ] ] ]
   },
   {
@@ -3829,7 +3902,7 @@
     "time": "40 m",
     "autolearn": true,
     "batch_time_factors": [ 75, 4 ],
-    "tools": [ [ [ "brick_kiln", 60 ], [ "kiln", 60 ] ] ],
+    "using": [ [ "earthenware_firing", 60 ] ],
     "components": [ [ [ "clay_lump", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -4402,5 +4475,33 @@
     "autolearn": true,
     "qualities": [ { "id": "DIG", "level": 3 } ],
     "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_soil", 3 ] ] ]
+  },
+  {
+    "result": "anvil_bronze",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": 100000,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 5 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "scrap_bronze", 10 ] ] ]
+  },
+  {
+    "result": "scrap_bronze",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": 10000,
+    "batch_time_factors": [ 90, 4 ],
+    "autolearn": true,
+    "using": [ [ "forging_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "tin", 12 ] ], [ [ "copper", 50 ] ] ]
   }
 ]

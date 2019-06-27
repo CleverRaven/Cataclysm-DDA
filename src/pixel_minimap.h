@@ -3,12 +3,12 @@
 #define MINIMAP_H
 
 #include "enums.h"
+#include "point.h"
 #include "sdl_wrappers.h"
 
 #include <cmath>
 #include <map>
 #include <memory>
-
 
 enum class pixel_minimap_mode {
     solid,
@@ -22,7 +22,6 @@ struct pixel_minimap_settings {
     int blink_interval = 0;
     bool square_pixels = true;
 };
-
 
 class pixel_minimap
 {

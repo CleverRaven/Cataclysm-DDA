@@ -38,7 +38,7 @@ namespace
 generic_factory<ma_technique> ma_techniques( "martial art technique" );
 generic_factory<martialart> martialarts( "martial art style" );
 generic_factory<ma_buff> ma_buffs( "martial art buff" );
-}
+} // namespace
 
 matype_id martial_art_learned_from( const itype &type )
 {
@@ -46,9 +46,13 @@ matype_id martial_art_learned_from( const itype &type )
         return {};
     }
 
-    // strip "manual_" from the start of the item id, add the rest to "style_"
-    // TODO: replace this terrible hack to rely on the item name matching the style name, it's terrible.
-    return matype_id( "style_" + type.get_id().substr( 7 ) );
+    if( !type.book || type.book->martial_art.is_null() ) {
+        debugmsg( "Item '%s' which claims to teach a martial art is missing martial_art",
+                  type.get_id() );
+        return {};
+    }
+
+    return type.book->martial_art;
 }
 
 void load_technique( JsonObject &jo, const std::string &src )
@@ -115,6 +119,7 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "stun_dur", stun_dur, 0 );
     optional( jo, was_loaded, "knockback_dist", knockback_dist, 0 );
     optional( jo, was_loaded, "knockback_spread", knockback_spread, 0 );
+    optional( jo, was_loaded, "knockback_follow", knockback_follow, 0 );
 
     optional( jo, was_loaded, "aoe", aoe, "" );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
@@ -201,6 +206,8 @@ void martialart::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "description", description );
     mandatory( jo, was_loaded, "initiate", initiate );
     optional( jo, was_loaded, "autolearn", autolearn_skills );
+    optional( jo, was_loaded, "primary_skill", primary_skill, skill_id( "unarmed" ) );
+    optional( jo, was_loaded, "learn_difficulty", learn_difficulty );
 
     optional( jo, was_loaded, "static_buffs", static_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onmove_buffs", onmove_buffs, ma_buff_reader{} );
@@ -329,6 +336,23 @@ void finialize_martial_arts()
     }
 }
 
+const std::string martialart_difficulty( matype_id mstyle )
+{
+    std::string diff;
+    if( mstyle->learn_difficulty <= 2 ) {
+        diff = _( "easy" );
+    } else if( mstyle->learn_difficulty <= 4 ) {
+        diff = _( "moderately hard" );
+    } else if( mstyle->learn_difficulty <= 6 ) {
+        diff = _( "hard" );
+    } else if( mstyle->learn_difficulty <= 8 ) {
+        diff = _( "very hard" );
+    } else {
+        diff = _( "extremely hard" );
+    }
+    return diff;
+}
+
 void clear_techniques_and_martial_arts()
 {
     martialarts.reset();
@@ -435,6 +459,7 @@ ma_technique::ma_technique()
     stun_dur = 0;
     knockback_dist = 0;
     knockback_spread = 0; // adding randomness to knockback, like tec_throw
+    knockback_follow = 0; // player follows the knocked-back party into their former tile
 
     // offensive
     disarms = false; // like tec_disarm
@@ -1033,7 +1058,6 @@ void player::martialart_use_message() const
     }
 }
 
-
 float ma_technique::damage_bonus( const player &u, damage_type type ) const
 {
     return bonuses.get_flat( u, AFFECTED_DAMAGE, type );
@@ -1107,6 +1131,10 @@ std::string ma_technique::get_description() const
     if( knockback_dist ) {
         dump << string_format( _( "* Will <info>knock back</info> enemies <stat>%d %s</stat>" ),
                                knockback_dist, ngettext( "tile", "tiles", knockback_dist ) ) << std::endl;
+    }
+
+    if( knockback_follow ) {
+        dump <<  _( "* Will <info>follow</info> enemies after knockback." ) << std::endl;
     }
 
     if( down_dur ) {

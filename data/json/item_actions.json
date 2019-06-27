@@ -516,6 +516,11 @@
   },
   {
     "type": "item_action",
+    "id": "FOODPERSON",
+    "name": "Activate"
+  },
+  {
+    "type": "item_action",
     "id": "FUNGICIDE",
     "name": "Take"
   },
@@ -633,6 +638,11 @@
     "type": "item_action",
     "id": "MP3_ON",
     "name": "Turn off music"
+  },
+  {
+    "type": "item_action",
+    "id": "RPGDIE",
+    "name": "Roll die"
   },
   {
     "type": "item_action",
@@ -1056,7 +1066,22 @@
   },
   {
     "type": "item_action",
+    "id": "weigh_self",
+    "name": "Use Scale"
+  },
+  {
+    "type": "item_action",
     "id": "CRAFT",
     "name": "Work on craft"
+  },
+  {
+    "type": "item_action",
+    "id": "GOBAG_NORMAL",
+    "name": "Get contents"
+  },
+  {
+    "type": "item_action",
+    "id": "GOBAG_PERSONAL",
+    "name": "Get contents"
   }
 ]

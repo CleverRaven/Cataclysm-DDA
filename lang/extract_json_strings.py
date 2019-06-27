@@ -68,6 +68,7 @@ ignorable = {
     "colordef",
     "emit",
     "EXTERNAL_OPTION",
+    "field_type",
     "GAME_OPTION",
     "ITEM_BLACKLIST",
     "item_group",
@@ -119,6 +120,7 @@ automatically_convertible = {
     "BIONIC_ITEM",
     "BOOK",
     "COMESTIBLE",
+    "construction_category",
     "CONTAINER",
     "dream",
     "ENGINE",
@@ -132,6 +134,7 @@ automatically_convertible = {
     "json_flag",
     "keybinding",
     "MAGAZINE",
+    "map_extra",
     "MOD_INFO",
     "MONSTER",
     "morale_type",
@@ -526,6 +529,9 @@ def extract_dynamic_line(line, outfile):
         extract_dynamic_line_optional(line, "npc_female", outfile)
         extract_dynamic_line_optional(line, "yes", outfile)
         extract_dynamic_line_optional(line, "no", outfile)
+        extract_dynamic_line_optional(line, "has_no_available_mission", outfile)
+        extract_dynamic_line_optional(line, "has_many_assigned_missions", outfile)
+        extract_dynamic_line_optional(line, "has_no_assigned_mission", outfile)
     elif type(line) == str:
         writestr(outfile, line)
 
@@ -935,6 +941,9 @@ def extract(item, infilename):
             if "description" in special_attack:
                 writestr(outfile, special_attack["description"], **kwargs)
                 wrote = True
+    if "footsteps" in item:
+       writestr(outfile, item["footsteps"], **kwargs)
+       wrote = True
     if not wrote:
         if not warning_supressed(infilename):
             print("WARNING: {}: nothing translatable found in item: {}".format(infilename, item))

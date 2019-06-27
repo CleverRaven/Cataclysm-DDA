@@ -43,6 +43,7 @@ void nanofab( player &p, const tripoint &examp );
 void controls_gate( player &p, const tripoint &examp );
 void cardreader( player &p, const tripoint &examp );
 void cardreader_robofac( player &p, const tripoint &examp );
+void cardreader_foodplace( player &p, const tripoint &examp );
 void intercom( player &p, const tripoint &examp );
 void cvdmachine( player &p, const tripoint &examp );
 void rubble( player &p, const tripoint &examp );
@@ -103,6 +104,7 @@ void sign( player &p, const tripoint &examp );
 void pay_gas( player &p, const tripoint &examp );
 void ledge( player &p, const tripoint &examp );
 void autodoc( player &p, const tripoint &examp );
+void translocator( player &p, const tripoint &examp );
 void on_smoke_out( const tripoint &examp,
                    const time_point &start_time ); //activates end of smoking effects
 void mill_finalize( player &, const tripoint &examp, const time_point &start_time );

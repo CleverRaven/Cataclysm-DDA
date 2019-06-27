@@ -111,7 +111,7 @@ int tileray::dir8() const
 
 // This function assumes a vehicle is being drawn.
 // It assumes horizontal lines are never skewed, vertical lines often skewed.
-long tileray::dir_symbol( long sym ) const
+int tileray::dir_symbol( int sym ) const
 {
     switch( sym ) {
         // output.cpp special_symbol() converts yubn to corners, hj to lines, c to cross

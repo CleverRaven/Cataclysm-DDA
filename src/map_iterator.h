@@ -5,6 +5,7 @@
 #include <cstddef>
 
 #include "enums.h"
+#include "point.h"
 
 class tripoint_range
 {
@@ -98,6 +99,15 @@ class tripoint_range
 
         bool empty() const {
             return size() == 0;
+        }
+
+        bool is_point_inside( const tripoint &point ) const {
+            for( const tripoint &current : *this ) {
+                if( current == point ) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         const tripoint &min() const {

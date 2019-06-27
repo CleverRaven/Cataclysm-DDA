@@ -159,6 +159,7 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 
 - ```ACIDBOMB``` Leaves a pool of acid on detonation.
 - ```BEANBAG``` Stuns the target.
+- ```BLACKPOWDER``` May clog up the gun with blackpowder fouling, which will also cause rust.
 - ```BLINDS_EYES``` Blinds the target if it hits the head (ranged projectiles can't actually hit the eyes at the moment).
 - ```BOUNCE``` Inflicts target with `bounced` effect and rebounds to a nearby target without this effect.
 - ```COOKOFF``` Explodes when lit on fire.
@@ -238,6 +239,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```HELMET_COMPAT``` Items that are not SKINTIGHT or OVERSIZE but can be worn with a helmet.
 - ```HOOD``` Allow this clothing to conditionally cover the head, for additional warmth or water protection., if the player's head isn't encumbered
 - ```HYGROMETER``` This gear is equipped with an accurate hygrometer (which is used to measure humidity).
+- ```NO_TAKEOFF``` Item with that flag can't be taken off.
 - ```NO_QUICKDRAW``` Don't offer to draw items from this holster when the fire key is pressed whilst the players hands are empty
 - ```ONLY_ONE``` You can wear only one.
 - ```OUTER```  Outer garment layer.
@@ -1098,8 +1100,9 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 ### Flags
 
 - ```ALLOW_ROTTEN``` Explicitly allow rotten components when crafting non-perishables.
-- ```BLIND_EASY``` Easy to craft with little to no light
-- ```BLIND_HARD``` Possible to craft with little to no light, but difficult
+- ```BLIND_EASY``` Easy to craft with little to no light.
+- ```BLIND_HARD``` Possible to craft with little to no light, but difficult.
+- ```SECRET``` Not automatically learned at character creation time based on high skill levels.
 - ```UNCRAFT_LIQUIDS_CONTAINED``` Spawn liquid items in its default container.
 - ```UNCRAFT_SINGLE_CHARGE``` Lists returned amounts for one charge of an item that is counted by charges.
 - ```FULL_MAGAZINE``` If this recipe requires magazines, it needs one that is full.  For deconstruction recipes, it will spawn a full magazine when deconstructed.
@@ -1236,6 +1239,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```CIRCLE_LIGHT``` Projects a circular radius of light when turned on.
 - ```CONE_LIGHT``` Projects a cone of light when turned on.
 - ```CONTROLS``` Can be used to control the vehicle.
+- ```COOLER``` There is separate command to toggle this part.
 - ```COVERED``` Prevents items in cargo parts from emitting any light.
 - ```CRAFTRIG``` Acts as a dehydrator, vacuum sealer and reloading press for crafting purposes. Potentially to include additional tools in the future.
 - ```CTRL_ELECTRONIC``` Controls electrical and electronic systems of the vehicle.
@@ -1253,6 +1257,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```E_HIGHER_SKILL``` Is an engine that is more difficult to install as more engines are installed.
 - ```E_STARTS_INSTANTLY``` Is an engine that starts instantly, like food pedals.
 - ```FAUCET```
+- ```FIELD_EMIITER``` Is a part that emits field (defined in ```emission_field_type```).
 - ```FLAT_SURF``` Part with a flat hard surface (e.g. table).
 - ```FOLDABLE```
 - ```FORGE``` Acts as a forge for crafting.
@@ -1298,7 +1303,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```SECURITY```
 - ```SHARP``` Striking a monster with this part does cutting damage instead of bashing damage, and prevents stunning the monster.
 - ```SOLAR_PANEL``` Recharges vehicle batteries when exposed to sunlight. Has a 1 in 4 chance of being broken on car generation.
-- ```SPACE_HEATER``` Is a part that emits hot air.
+- ```SPACE_HEATER``` There is separate command to toggle this part.
 - ```STABLE``` Similar to `WHEEL`, but if the vehicle is only a 1x1 section, this single wheel counts as enough wheels.
 - ```STEERABLE``` This wheel is steerable.
 - ```STEREO```

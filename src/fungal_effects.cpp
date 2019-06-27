@@ -100,9 +100,8 @@ void fungal_effects::marlossify( const tripoint &p )
         m.ter_set( p, t_marloss );
         return;
     }
-    bool is_fungi;
     for( int i = 0; i < 25; i++ ) {
-        is_fungi = m.has_flag_ter( "FUNGUS", p );
+        bool is_fungi = m.has_flag_ter( "FUNGUS", p );
         spread_fungus( p );
         if( is_fungi ) {
             return;
@@ -151,7 +150,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
         }
     } else if( m.has_flag( "YOUNG", p ) ) {
         if( x_in_y( growth * 10, 500 ) ) {
-            if( m.get_field_strength( p, fd_fungal_haze ) != 0 ) {
+            if( m.get_field_intensity( p, fd_fungal_haze ) != 0 ) {
                 if( x_in_y( growth * 10, 800 ) ) { // young trees are vulnerable
                     m.ter_set( p, t_fungus );
                     gm.summon_mon( mon_fungal_blossom, p );
@@ -168,7 +167,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
         }
     } else if( m.has_flag( "TREE", p ) ) {
         if( one_in( 10 ) ) {
-            if( m.get_field_strength( p, fd_fungal_haze ) != 0 ) {
+            if( m.get_field_intensity( p, fd_fungal_haze ) != 0 ) {
                 if( x_in_y( growth * 10, 100 ) ) {
                     m.ter_set( p, t_fungus );
                     gm.summon_mon( mon_fungal_blossom, p );
@@ -201,11 +200,16 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             }
         } else if( m.has_flag( "PLANT", p ) ) {
             // Replace the (already existing) seed
-            if( !m.i_at( p ).empty() ) {
-                m.i_at( p )[0] = item( "fungal_seeds", calendar::turn );
-            } else {
+            // Can't use item_stack::only_item() since there might be fertilizer
+            map_stack items = m.i_at( p );
+            const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
+                return it.is_seed();
+            } );
+            if( seed == items.end() || !seed->is_seed() ) {
                 DebugLog( D_ERROR, DC_ALL ) << "No seed item in the PLANT terrain at position " <<
                                             string_format( "%d,%d,%d.", p.x, p.y, p.z );
+            } else {
+                *seed = item( "fungal_seeds", calendar::turn );
             }
         }
     }

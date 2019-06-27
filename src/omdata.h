@@ -17,6 +17,7 @@
 #include "common_types.h"
 #include "enums.h"
 #include "int_id.h"
+#include "point.h"
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
@@ -97,7 +98,7 @@ type random();
 /** Whether these directions are parallel. */
 bool are_parallel( type dir1, type dir2 );
 
-}
+} // namespace om_direction
 
 class overmap_land_use_code
 {
@@ -442,7 +443,7 @@ void reset();
 
 const std::vector<oter_t> &get_all();
 
-}
+} // namespace overmap_terrains
 
 namespace overmap_land_use_codes
 {
@@ -454,7 +455,7 @@ void reset();
 
 const std::vector<overmap_land_use_code> &get_all();
 
-}
+} // namespace overmap_land_use_codes
 
 namespace overmap_specials
 {
@@ -472,13 +473,13 @@ overmap_special_batch get_default_batch( const point &origin );
  */
 overmap_special_id create_building_from( const string_id<oter_type_t> &base );
 
-}
+} // namespace overmap_specials
 
 namespace city_buildings
 {
 
 void load( JsonObject &jo, const std::string &src );
 
-}
+} // namespace city_buildings
 
 #endif

@@ -50,6 +50,7 @@
 #include "tileray.h"
 #include "type_id.h"
 
+static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
@@ -57,10 +58,11 @@ static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 
 const efftype_id effect_got_checked( "got_checked" );
 
+
 // constructor
 window_panel::window_panel( std::function<void( avatar &, const catacurses::window & )>
                             draw_func, const std::string &nm, int ht, int wd, bool def_toggle,
-                            std::function<bool( void )> render_func,  bool force_draw )
+                            std::function<bool()> render_func,  bool force_draw )
 {
     draw = draw_func;
     name = nm;
@@ -201,16 +203,19 @@ std::string window_panel::get_name() const
     return name;
 }
 
-static void draw_minimap( const avatar &u, const catacurses::window &w_minimap )
+void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const avatar &you,
+                                     const tripoint &global_omt, const int start_y_input, const int start_x_input, const int width,
+                                     const int height )
 {
-    const tripoint curs = u.global_omt_location();
-    const int cursx = curs.x;
-    const int cursy = curs.y;
-    const tripoint targ = u.get_active_mission_target();
+    const int cursx = global_omt.x;
+    const int cursy = global_omt.y;
+    const tripoint targ = you.get_active_mission_target();
     bool drew_mission = targ == overmap::invalid_tripoint;
+    const int start_y = start_y_input + ( height / 2 ) - 2;
+    const int start_x = start_x_input + ( width / 2 ) - 2;
 
-    for( int i = -2; i <= 2; i++ ) {
-        for( int j = -2; j <= 2; j++ ) {
+    for( int i = -( width / 2 ); i <= width - ( width / 2 ) - 1; i++ ) {
+        for( int j = -( height / 2 ); j <= height - ( height / 2 ) - 1; j++ ) {
             const int omx = cursx + i;
             const int omy = cursy + j;
             nc_color ter_color;
@@ -330,9 +335,9 @@ static void draw_minimap( const avatar &u, const catacurses::window &w_minimap )
                 }
             }
             if( i == 0 && j == 0 ) {
-                mvwputch_hi( w_minimap, 3, 3, ter_color, ter_sym );
+                mvwputch_hi( w_minimap, 3 + start_y, 3 + start_x, ter_color, ter_sym );
             } else {
-                mvwputch( w_minimap, 3 + j, 3 + i, ter_color, ter_sym );
+                mvwputch( w_minimap, 3 + j + start_y, 3 + i + start_x, ter_color, ter_sym );
             }
         }
     }
@@ -342,16 +347,16 @@ static void draw_minimap( const avatar &u, const catacurses::window &w_minimap )
         double slope = ( cursx != targ.x ) ? static_cast<double>( targ.y - cursy ) / static_cast<double>
                        ( targ.x - cursx ) : 4;
 
-        if( cursx == targ.x || fabs( slope ) > 3.5 ) { // Vertical slope
+        if( cursx == targ.x || fabs( slope ) > 3.5 ) {  // Vertical slope
             if( targ.y > cursy ) {
-                mvwputch( w_minimap, 6, 3, c_red, '*' );
+                mvwputch( w_minimap, 6 + start_y, 3 + start_x, c_red, '*' );
             } else {
-                mvwputch( w_minimap, 0, 3, c_red, '*' );
+                mvwputch( w_minimap, 0 + start_y, 3 + start_x, c_red, '*' );
             }
         } else {
             int arrowx = -1;
             int arrowy = -1;
-            if( fabs( slope ) >= 1. ) { // y diff is bigger!
+            if( fabs( slope ) >= 1. ) {  // y diff is bigger!
                 arrowy = ( targ.y > cursy ? 6 : 0 );
                 arrowx = static_cast<int>( 3 + 3 * ( targ.y > cursy ? slope : ( 0 - slope ) ) );
                 if( arrowx < 0 ) {
@@ -371,13 +376,13 @@ static void draw_minimap( const avatar &u, const catacurses::window &w_minimap )
                 }
             }
             char glyph = '*';
-            if( targ.z > u.posz() ) {
+            if( targ.z > you.posz() ) {
                 glyph = '^';
-            } else if( targ.z < u.posz() ) {
+            } else if( targ.z < you.posz() ) {
                 glyph = 'v';
             }
 
-            mvwputch( w_minimap, arrowy, arrowx, c_red, glyph );
+            mvwputch( w_minimap, arrowy + start_y, arrowx + start_x, c_red, glyph );
         }
     }
 
@@ -401,6 +406,12 @@ static void draw_minimap( const avatar &u, const catacurses::window &w_minimap )
             }
         }
     }
+}
+
+static void draw_minimap( const avatar &u, const catacurses::window &w_minimap )
+{
+    const tripoint curs = u.global_omt_location();
+    overmap_ui::draw_overmap_chunk( w_minimap, u, curs, 0, 0, 5, 5 );
 }
 
 static void decorate_panel( const std::string &name, const catacurses::window &w )
@@ -579,7 +590,7 @@ static std::string temp_delta_string( const avatar &u )
     } else if( delta == 1 ) {
         temp_message = _( " (Rising)" );
     } else if( delta == 0 ) {
-        temp_message = "";
+        temp_message.clear();
     } else if( delta == -1 ) {
         temp_message = _( " (Falling)" );
     } else if( delta == -2 ) {
@@ -861,7 +872,8 @@ static int get_int_digits( const int &digits )
 
 static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_index )
 {
-    const bool is_self_aware = u.has_trait( trait_SELFAWARE );
+    const bool no_feeling = u.has_trait( trait_NOPAIN );
+    const bool is_self_aware = u.has_trait( trait_SELFAWARE ) && !no_feeling;
     static auto print_symbol_num = []( const catacurses::window & w, int num, const std::string & sym,
     const nc_color & color ) {
         while( num-- > 0 ) {
@@ -882,11 +894,13 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
             if( is_self_aware || u.has_effect( effect_got_checked ) ) {
                 limb = string_format( "=%2d%%=", mend_perc );
                 color = c_blue;
-            } else {
+            } else if( !no_feeling ) {
                 const int num = mend_perc / 20;
                 print_symbol_num( w, num, "#", c_blue );
                 print_symbol_num( w, 5 - num, "=", c_blue );
                 return;
+            } else {
+                color = c_blue;
             }
         }
 
@@ -894,10 +908,17 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
         return;
     }
 
-    const auto &hp = get_hp_bar( u.hp_cur[limb_index], u.hp_max[limb_index] );
+    std::pair<std::string, nc_color> hp = get_hp_bar( u.hp_cur[limb_index], u.hp_max[limb_index] );
 
     if( is_self_aware || u.has_effect( effect_got_checked ) ) {
         wprintz( w, hp.second, "%3d  ", u.hp_cur[limb_index] );
+    } else if( no_feeling ) {
+        if( u.hp_cur[limb_index] < u.hp_max[limb_index] / 2 ) {
+            hp = std::make_pair( string_format( " %s", _( "Bad" ) ), c_red );
+        } else {
+            hp = std::make_pair( string_format( " %s", _( "Good" ) ), c_green );
+        }
+        wprintz( w, hp.second, hp.first );
     } else {
         wprintz( w, hp.second, hp.first );
 
@@ -1211,8 +1232,8 @@ static void draw_env1( const avatar &u, const catacurses::window &w )
         mvwprintz( w, 1, 1, c_light_gray, _( "Sky  : Underground" ) );
     } else {
         mvwprintz( w, 1, 1, c_light_gray, _( "Sky  :" ) );
-        wprintz( w, weather_data( g->weather.weather ).color, " %s",
-                 weather_data( g->weather.weather ).name );
+        const weather_datum wdata = weather_data( g->weather.weather );
+        wprintz( w, wdata.color, " %s", wdata.name );
     }
     // display lighting
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
@@ -1293,8 +1314,8 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     if( g->get_levz() < 0 ) {
         mvwprintz( w, 3, 8, c_light_gray, _( "Underground" ) );
     } else {
-        mvwprintz( w, 3, 8, weather_data( g->weather.weather ).color,
-                   weather_data( g->weather.weather ).name );
+        const weather_datum wdata = weather_data( g->weather.weather );
+        mvwprintz( w, 3, 8, wdata.color, wdata.name );
     }
     // display lighting
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
@@ -1411,10 +1432,10 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
         mvwprintz( w, 4, 35, c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
         // target speed > current speed
         const float strain = veh->strain();
-        nc_color col_vel = strain <= 0 ? c_light_blue :
-                           ( strain <= 0.2 ? c_yellow :
-                             ( strain <= 0.4 ? c_light_red : c_red ) );
         if( veh->cruise_on ) {
+            nc_color col_vel = strain <= 0 ? c_light_blue :
+                               ( strain <= 0.2 ? c_yellow :
+                                 ( strain <= 0.4 ? c_light_red : c_red ) );
             int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
             int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
             int offset = get_int_digits( t_speed );
@@ -1522,11 +1543,10 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
         mvwprintz( w, 0, 6, c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
         // target speed > current speed
         const float strain = veh->strain();
-        nc_color col_vel = strain <= 0 ? c_light_blue :
-                           ( strain <= 0.2 ? c_yellow :
-                             ( strain <= 0.4 ? c_light_red : c_red ) );
-
         if( veh->cruise_on ) {
+            nc_color col_vel = strain <= 0 ? c_light_blue :
+                               ( strain <= 0.2 ? c_yellow :
+                                 ( strain <= 0.4 ? c_light_red : c_red ) );
             int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
             int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
             int offset = get_int_digits( t_speed );
@@ -1602,9 +1622,9 @@ static void draw_weather_classic( avatar &, const catacurses::window &w )
     if( g->get_levz() < 0 ) {
         mvwprintz( w, 0, 0, c_light_gray, _( "Underground" ) );
     } else {
+        const weather_datum wdata = weather_data( g->weather.weather );
         mvwprintz( w, 0, 0, c_light_gray, _( "Weather :" ) );
-        mvwprintz( w, 0, 10, weather_data( g->weather.weather ).color,
-                   weather_data( g->weather.weather ).name );
+        mvwprintz( w, 0, 10, wdata.color, wdata.name );
     }
     mvwprintz( w, 0, 31, c_light_gray, _( "Moon :" ) );
     nc_color clr = c_white;
@@ -1701,8 +1721,11 @@ static void draw_mana( const player &u, const catacurses::window &w )
     werase( w );
 
     auto mana_pair = mana_stat( u );
-    mvwprintz( w, 0, getmaxx( w ) - 10, c_light_gray, "Mana" );
-    mvwprintz( w, 0, getmaxx( w ) - 5, mana_pair.first, mana_pair.second );
+    const std::string mana_string = string_format( "%6s %5s %10s %5s", _( "Mana" ),
+                                    colorize( mana_pair.second, mana_pair.first ), _( "Max Mana" ),
+                                    colorize( to_string( u.magic.max_mana( u ) ), c_light_blue ) );
+    nc_color gray = c_light_gray;
+    print_colored_text( w, 0, getmaxx( w ) - mana_string.size(), gray, gray, mana_string );
 
     wrefresh( w );
 }
@@ -1963,12 +1986,11 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
     ctxt.register_action( "TOGGLE_PANEL" );
 
     const int column_width = 43; // how far apart the columns are
-    size_t max_index;
+    size_t max_index = 0;
     int counter = 0;
     bool selected = false;
     size_t source_index = 0;
     size_t target_index = 0;
-    std::string saved_name;
 
     bool redraw = true;
     bool exit = false;
@@ -2003,7 +2025,7 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
                 }
             }
 
-            column == 0 ? max_index = row_indices.size() : max_index = layouts.size();
+            max_index = column == 0 ? row_indices.size() : layouts.size();
             int vertical_offset = 0;
             int selected_offset = 0;
             size_t modified_index = row_indices[index - 1];
@@ -2072,7 +2094,6 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
                 // saving win1 index
                 source_index = row_indices[index - 1];
                 selected = true;
-                saved_name = panels[source_index].get_name();
             }
             // dest window for the swap
             if( counter == 2 ) {

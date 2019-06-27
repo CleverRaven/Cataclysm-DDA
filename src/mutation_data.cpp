@@ -25,7 +25,7 @@ TraitGroupMap trait_groups;
 namespace
 {
 generic_factory<mutation_branch> trait_factory( "trait" );
-}
+} // namespace
 
 std::vector<dream> dreams;
 std::map<std::string, std::vector<trait_id> > mutations_category;
@@ -343,6 +343,7 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0f );
     optional( jo, was_loaded, "hearing_modifier", hearing_modifier, 1.0f );
     optional( jo, was_loaded, "noise_modifier", noise_modifier, 1.0f );
+    optional( jo, was_loaded, "temperature_speed_modifier", temperature_speed_modifier, 0.0f );
     optional( jo, was_loaded, "metabolism_modifier", metabolism_modifier, 0.0f );
     optional( jo, was_loaded, "thirst_modifier", thirst_modifier, 0.0f );
     optional( jo, was_loaded, "fatigue_modifier", fatigue_modifier, 0.0f );
@@ -378,6 +379,13 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
         std::string s = jsarr.next_string();
         category.push_back( s );
         mutations_category[s].push_back( trait_id( id ) );
+    }
+
+    jsarr = jo.get_array( "spells_learned" );
+    while( jsarr.has_more() ) {
+        JsonArray ja = jsarr.next_array();
+        const spell_id sp( ja.next_string() );
+        spells_learned.emplace( sp, ja.next_int() );
     }
 
     jsarr = jo.get_array( "wet_protection" );
@@ -633,9 +641,7 @@ void mutation_branch::load_trait_group( JsonArray &entries, const trait_group::T
             JsonArray subarr = entries.next_array();
 
             trait_id id( subarr.get_string( 0 ) );
-            std::unique_ptr<Trait_creation_data> ptr(
-                new Single_trait_creator( id, subarr.get_int( 1 ) ) );
-            tg.add_entry( ptr );
+            tg.add_entry( std::make_unique<Single_trait_creator>( id, subarr.get_int( 1 ) ) );
             // Otherwise load new format {"trait": ... } or {"group": ...}
         } else {
             JsonObject subobj = entries.next_object();
@@ -721,7 +727,7 @@ void mutation_branch::add_entry( Trait_group &tg, JsonObject &obj )
             JsonObject job2 = jarr.next_object();
             add_entry( tg2, job2 );
         }
-        tg.add_entry( ptr );
+        tg.add_entry( std::move( ptr ) );
         return;
     }
 
@@ -737,7 +743,7 @@ void mutation_branch::add_entry( Trait_group &tg, JsonObject &obj )
         return;
     }
 
-    tg.add_entry( ptr );
+    tg.add_entry( std::move( ptr ) );
 }
 
 std::shared_ptr<Trait_group> mutation_branch::get_group( const trait_group::Trait_group_tag &gid )

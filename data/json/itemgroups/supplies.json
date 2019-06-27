@@ -56,8 +56,9 @@
     "//": "large quantities of common building supplies.",
     "items": [
       { "item": "2x4", "prob": 100, "count": [ 5, 20 ] },
-      { "item": "wood_sheet", "prob": 50, "count": [ 1, 2 ] },
-      { "item": "wood_panel", "prob": 60, "count": [ 1, 4 ] },
+      { "item": "wood_beam", "prob": 50, "count": [ 1, 5 ] },
+      { "item": "wood_sheet", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "wood_panel", "prob": 60, "count": [ 1, 8 ] },
       { "item": "rock", "prob": 70, "count": [ 10, 20 ] },
       { "item": "coal_lump", "prob": 20, "count": [ 1, 10 ] },
       { "item": "material_cement", "prob": 100, "charges": 500, "container-item": "bag_canvas" },
@@ -75,7 +76,8 @@
       { "item": "pipe", "prob": 40, "count": [ 5, 10 ] },
       { "item": "wire", "prob": 40, "count": [ 5, 10 ] },
       { "item": "spike", "prob": 40, "count": [ 5, 10 ] },
-      { "item": "nail", "prob": 60, "count": [ 5, 20 ] }
+      { "item": "nail", "prob": 60, "count": [ 5, 20 ] },
+      { "item": "hinge", "prob": 60, "count": [ 5, 10 ] }
     ]
   },
   {
@@ -136,6 +138,7 @@
       {
         "distribution": [
           { "item": "2x4", "prob": 500, "count": [ 20, 50 ] },
+          { "item": "wood_beam", "prob": 50, "count": [ 5, 20 ] },
           { "item": "wood_sheet", "prob": 400, "count": [ 10, 30 ] },
           { "item": "wood_panel", "prob": 300, "count": [ 15, 40 ] },
           { "item": "log", "prob": 200, "count": [ 5, 10 ] },

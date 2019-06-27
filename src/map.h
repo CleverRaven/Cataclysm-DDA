@@ -17,6 +17,7 @@
 #include <tuple>
 
 #include "calendar.h"
+#include "colony.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item.h"
@@ -96,11 +97,10 @@ class map_stack : public item_stack
         tripoint location;
         map *myorigin;
     public:
-        map_stack( std::list<item> *newstack, tripoint newloc, map *neworigin ) :
+        map_stack( cata::colony<item> *newstack, tripoint newloc, map *neworigin ) :
             item_stack( newstack ), location( newloc ), myorigin( neworigin ) {}
-        std::list<item>::iterator erase( std::list<item>::iterator it ) override;
-        void push_back( const item &newitem ) override;
-        void insert_at( std::list<item>::iterator index, const item &newitem ) override;
+        void insert( const item &newitem ) override;
+        iterator erase( const_iterator it ) override;
         int count_limit() const override {
             return MAX_ITEM_IN_SQUARE;
         }
@@ -163,6 +163,7 @@ struct level_cache {
     float camera_cache[MAPSIZE_X][MAPSIZE_Y];
     lit_level visibility_cache[MAPSIZE_X][MAPSIZE_Y];
     std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_seen_cache;
+    std::bitset<MAPSIZE *MAPSIZE> field_cache;
 
     bool veh_in_active_range;
     bool veh_exists_at[MAPSIZE_X][MAPSIZE_Y];
@@ -468,7 +469,6 @@ class map
         bool clear_path( const tripoint &f, const tripoint &t, const int range,
                          const int cost_min, const int cost_max ) const;
 
-
         /**
          * Populates a vector of points that are reachable within a number of steps from a
          * point. It could be generalized to take advantage of z levels, but would need some
@@ -533,7 +533,7 @@ class map
         // Vehicle movement
         void vehmove();
         // Selects a vehicle to move, returns false if no moving vehicles
-        bool vehproceed();
+        bool vehproceed( VehicleList &vehs );
 
         // 3D vehicles
         VehicleList get_vehicles( const tripoint &start, const tripoint &end );
@@ -574,7 +574,7 @@ class map
 
         // Actually moves the vehicle
         // Unlike displace_vehicle, this one handles collisions
-        void move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing );
+        vehicle *move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing );
 
         // Furniture: 2D overloads
         void set( const int x, const int y, const ter_id &new_terrain, const furn_id &new_furniture );
@@ -897,8 +897,7 @@ class map
         // Items: 2D
         map_stack i_at( int x, int y );
         void i_clear( const int x, const int y );
-        std::list<item>::iterator i_rem( const point &location, std::list<item>::iterator it );
-        int i_rem( const int x, const int y, const int index );
+        map_stack::iterator i_rem( const point &location, map_stack::const_iterator it );
         void i_rem( const int x, const int y, item *it );
         void spawn_item( const int x, const int y, const std::string &itype_id,
                          const unsigned quantity = 1, const int charges = 0,
@@ -922,9 +921,8 @@ class map
         void i_clear( const tripoint &p );
         // i_rem() methods that return values act like container::erase(),
         // returning an iterator to the next item after removal.
-        std::list<item>::iterator i_rem( const tripoint &p, std::list<item>::iterator it );
-        int i_rem( const tripoint &p, const int index );
-        void i_rem( const tripoint &p, const item *it );
+        map_stack::iterator i_rem( const tripoint &p, map_stack::const_iterator it );
+        void i_rem( const tripoint &p, item *it );
         void spawn_artifact( const tripoint &p );
         void spawn_natural_artifact( const tripoint &p, const artifact_natural_property prop );
         void spawn_item( const tripoint &p, const std::string &itype_id,
@@ -944,8 +942,6 @@ class map
          */
         item &add_item_or_charges( const tripoint &pos, item obj, bool overflow = true );
 
-        /** Helper for map::add_item */
-        item &add_item_at( const tripoint &p, std::list<item>::iterator index, item new_item );
         /**
          * Place an item on the map, despite the parameter name, this is not necessarily a new item.
          * WARNING: does -not- check volume or stack charges. player functions (drop etc) should use
@@ -1027,15 +1023,6 @@ class map
 
         void create_anomaly( const tripoint &p, artifact_natural_property prop, bool create_rubble = true );
 
-        /**
-         * Fetch an item from this map location, with sanity checks to ensure it still exists.
-         */
-        item *item_from( const tripoint &pos, const size_t index );
-
-        /**
-         * Fetch an item from this vehicle, with sanity checks to ensure it still exists.
-         */
-        item *item_from( vehicle *veh, const int cargo_part, const size_t index );
         // Partial construction functions
         void partial_con_set( const tripoint &p, const partial_con &con );
         void partial_con_remove( const tripoint &p );
@@ -1085,10 +1072,10 @@ class map
          */
         time_duration get_field_age( const tripoint &p, const field_id type ) const;
         /**
-         * Get the density of a field entry (@ref field_entry::density),
+         * Get the intensity of a field entry (@ref field_entry::intensity),
          * if there is no field of that type, returns 0.
          */
-        int get_field_strength( const tripoint &p, const field_id type ) const;
+        int get_field_intensity( const tripoint &p, const field_id type ) const;
         /**
          * Increment/decrement age of field entry at point.
          * @return resulting age or `-1_turns` if not present (does *not* create a new field).
@@ -1096,11 +1083,11 @@ class map
         time_duration adjust_field_age( const tripoint &p, const field_id type,
                                         const time_duration &offset );
         /**
-         * Increment/decrement density of field entry at point, creating if not present,
-         * removing if density becomes 0.
-         * @return resulting density, or 0 for not present (either removed or not created at all).
+         * Increment/decrement intensity of field entry at point, creating if not present,
+         * removing if intensity becomes 0.
+         * @return resulting intensity, or 0 for not present (either removed or not created at all).
          */
-        int adjust_field_strength( const tripoint &p, const field_id type, const int offset );
+        int mod_field_intensity( const tripoint &p, const field_id type, const int offset );
         /**
          * Set age of field entry at point.
          * @param p Location of field
@@ -1113,27 +1100,27 @@ class map
         time_duration set_field_age( const tripoint &p, const field_id type, const time_duration &age,
                                      bool isoffset = false );
         /**
-         * Set density of field entry at point, creating if not present,
-         * removing if density becomes 0.
+         * Set intensity of field entry at point, creating if not present,
+         * removing if intensity becomes 0.
          * @param p Location of field
          * @param type ID of field
-         * @param str New strength of field
+         * @param new_intensity New intensity of field
          * @param isoffset If true, the given str value is added to the existing value,
-         * if false, the existing density is ignored and overridden.
-         * @return resulting density, or 0 for not present (either removed or not created at all).
+         * if false, the existing intensity is ignored and overridden.
+         * @return resulting intensity, or 0 for not present (either removed or not created at all).
          */
-        int set_field_strength( const tripoint &p, const field_id type, const int str,
-                                bool isoffset = false );
+        int set_field_intensity( const tripoint &p, const field_id type, const int new_intensity,
+                                 bool isoffset = false );
         /**
          * Get field of specific type at point.
          * @return NULL if there is no such field entry at that place.
          */
         field_entry *get_field( const tripoint &p, const field_id type );
         /**
-         * Add field entry at point, or set density if present
+         * Add field entry at point, or set intensity if present
          * @return false if the field could not be created (out of bounds), otherwise true.
          */
-        bool add_field( const tripoint &p, const field_id type, int density,
+        bool add_field( const tripoint &p, const field_id type, int intensity,
                         const time_duration &age = 0_turns );
         /**
          * Remove field entry at xy, ignored if the field entry is not present.
@@ -1141,12 +1128,12 @@ class map
         void remove_field( const tripoint &p, const field_id field_to_remove );
 
         // Splatters of various kind
-        void add_splatter( const field_id type, const tripoint &where, int density = 1 );
+        void add_splatter( const field_id type, const tripoint &where, int intensity = 1 );
         void add_splatter_trail( const field_id type, const tripoint &from, const tripoint &to );
-        void add_splash( const field_id type, const tripoint &center, int radius, int density );
+        void add_splash( const field_id type, const tripoint &center, int radius, int intensity );
 
         void propagate_field( const tripoint &center, const field_id type,
-                              int amount, int max_density = MAX_FIELD_DENSITY );
+                              int amount, int max_intensity = 3 );
 
         /**
          * Runs one cycle of emission @ref src which **may** result in propagation of fields
@@ -1245,6 +1232,7 @@ class map
                               const int init_veh_fuel = -1, const int init_veh_status = -1,
                               const bool merge_wrecks = true );
 
+        void do_vehicle_caching( int z );
         // Note: in 3D mode, will actually build caches on ALL z-levels
         void build_map_cache( int zlev, bool skip_lightmap = false );
         // Unlike the other caches, this populates a supplied cache instead of an internal cache.
@@ -1463,11 +1451,15 @@ class map
         void draw_connections( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
                                const float density );
 
-        void build_transparency_cache( int zlev );
+        // Builds a transparency cache and returns true if the cache was invalidated.
+        // Used to determine if seen cache should be rebuilt.
+        bool build_transparency_cache( int zlev );
         void build_sunlight_cache( int zlev );
     public:
         void build_outside_cache( int zlev );
-        void build_floor_cache( int zlev );
+        // Builds a floor cache and returns true if the cache was invalidated.
+        // Used to determine if seen cache should be rebuilt.
+        bool build_floor_cache( int zlev );
         // We want this visible in `game`, because we want it built earlier in the turn than the rest
         void build_floor_caches();
 
@@ -1520,6 +1512,7 @@ class map
          */
         submap *get_submap_at_grid( const point &gridp ) const;
         submap *get_submap_at_grid( const tripoint &gridp ) const;
+    protected:
         /**
          * Get the index of a submap pointer in the grid given by grid coordinates. The grid
          * coordinates must be valid: 0 <= x < my_MAPSIZE, same for y.
@@ -1533,7 +1526,7 @@ class map
          * The given submap pointer must not be null.
          */
         void setsubmap( size_t grididx, submap *smap );
-
+    private:
         /**
          * Internal versions of public functions to avoid checking same variables multiple times.
          * They lack safety checks, because their callers already do those.
@@ -1564,7 +1557,7 @@ class map
                               const tripoint &view_center,
                               bool low_light, bool bright_light, bool inorder ) const;
 
-        long determine_wall_corner( const tripoint &p ) const;
+        int determine_wall_corner( const tripoint &p ) const;
         // apply a circular light pattern immediately, however it's best to use...
         void apply_light_source( const tripoint &p, float luminance );
         // ...this, which will apply the light after at the end of generate_lightmap, and prevent redundant
@@ -1575,10 +1568,9 @@ class map
         void apply_light_arc( const tripoint &p, int angle, float luminance, int wideangle = 30 );
         void apply_light_ray( bool lit[MAPSIZE_X][MAPSIZE_Y],
                               const tripoint &s, const tripoint &e, float luminance );
-        void add_light_from_items( const tripoint &p, std::list<item>::iterator begin,
-                                   std::list<item>::iterator end );
-        std::unique_ptr<vehicle> add_vehicle_to_map( std::unique_ptr<vehicle> veh,
-                bool merge_wrecks );
+        void add_light_from_items( const tripoint &p, item_stack::iterator begin,
+                                   item_stack::iterator end );
+        std::unique_ptr<vehicle> add_vehicle_to_map( std::unique_ptr<vehicle> veh, bool merge_wrecks );
 
         // Internal methods used to bash just the selected features
         // Information on what to bash/what was bashed is read from/written to the bash_params struct
@@ -1601,7 +1593,7 @@ class map
          * It's a really heinous function pointer so a typedef is the best
          * solution in this instance.
          */
-        using map_process_func = bool ( * )( item_stack &, std::list<item>::iterator &, const tripoint &,
+        using map_process_func = bool ( * )( item_stack &, safe_reference<item> &, const tripoint &,
                                              const std::string &, float, temperature_flag );
     private:
 
@@ -1656,6 +1648,10 @@ class map
         std::array< std::unique_ptr<level_cache>, OVERMAP_LAYERS > caches;
 
         mutable std::array< std::unique_ptr<pathfinding_cache>, OVERMAP_LAYERS > pathfinding_caches;
+        /**
+         * Set of submaps that contain active items in absolute coordinates.
+         */
+        std::set<tripoint> submaps_with_active_items;
 
         // Note: no bounds check
         level_cache &get_cache( int zlev ) const {
@@ -1678,6 +1674,8 @@ class map
         void update_visibility_cache( int zlev );
         const visibility_variables &get_visibility_variables_cache() const;
 
+        void update_submap_active_item_status( const tripoint &p );
+
         // Clips the area to map bounds
         tripoint_range points_in_rectangle( const tripoint &from, const tripoint &to ) const;
         tripoint_range points_in_radius( const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
@@ -1697,9 +1695,8 @@ class map
         bool need_draw_lower_floor( const tripoint &p );
 };
 
-void shift_map_memory_seen_cache(
-    std::bitset<MAPSIZE_X *MAPSIZE_Y> &map_memory_seen_cache,
-    const int sx, const int sy );
+template<int SIZE, int MULTIPLIER>
+void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const int sx, const int sy );
 
 std::vector<point> closest_points_first( int radius, point p );
 std::vector<point> closest_points_first( int radius, int x, int y );
@@ -1712,6 +1709,7 @@ class tinymap : public map
     public:
         tinymap( int mapsize = 2, bool zlevels = false );
         bool inbounds( const tripoint &p ) const override;
+        bool fake_load( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type );
 };
 
 #endif

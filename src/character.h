@@ -366,7 +366,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if player has a trait with a flag */
         bool has_trait_flag( const std::string &flag ) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
-        trait_id trait_by_invlet( long ch ) const;
+        trait_id trait_by_invlet( int ch ) const;
 
         /** Toggles a trait on the player and in their mutation list */
         void toggle_trait( const trait_id &flag );
@@ -455,7 +455,8 @@ class Character : public Creature, public visitable<Character>
         bool has_active_bionic( const bionic_id &b ) const;
         /**Returns true if the player has any bionic*/
         bool has_any_bionic() const;
-
+        // route for overmap-scale travelling
+        std::vector<tripoint> omt_path;
         // --------------- Generic Item Stuff ---------------
 
         struct has_mission_item_filter {
@@ -538,7 +539,7 @@ class Character : public Creature, public visitable<Character>
          * @param unloading Do not try to add to a container when the item was intentionally unloaded.
          * @return Remaining charges which could not be stored in a container.
          */
-        long int i_add_to_container( const item &it, const bool unloading );
+        int i_add_to_container( const item &it, const bool unloading );
         item &i_add( item it, bool should_stack = true );
 
         /**
@@ -606,7 +607,7 @@ class Character : public Creature, public visitable<Character>
         /**
          * Counts ammo and UPS charges (lower of) for a given gun on the character.
          */
-        long ammo_count_for( const item &gun );
+        int ammo_count_for( const item &gun );
 
         /** Maximum thrown range with a given item, taking all active effects into account. */
         int throw_range( const item & ) const;
@@ -798,6 +799,12 @@ class Character : public Creature, public visitable<Character>
         stomach_contents stomach;
         stomach_contents guts;
 
+        int power_level;
+        int max_power_level;
+        int oxygen;
+        int stamina;
+        int radiation;
+
         void initialize_stomach_contents();
 
         /** Stable base metabolic rate due to traits */
@@ -848,6 +855,11 @@ class Character : public Creature, public visitable<Character>
         void shout( std::string text = "", bool order = false );
         /** Handles Character vomiting effects */
         void vomit();
+        // adds total healing to the bodypart. this is only a counter.
+        void healed_bp( int bp, int amount );
+
+        // the amount healed per bodypart per day
+        std::array<int, num_hp_parts> healed_total;
     protected:
         Character();
         Character( const Character & ) = delete;
@@ -878,6 +890,10 @@ class Character : public Creature, public visitable<Character>
         /** How healthy the character is. */
         int healthy;
         int healthy_mod;
+
+        /**height at character creation*/
+        int init_height = 175;
+
         // the player's activity level for metabolism calculations
         float activity_level = NO_EXERCISE;
 

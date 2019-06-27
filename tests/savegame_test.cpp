@@ -222,7 +222,7 @@ TEST_CASE( "Reading a legacy overmap save." )
 
     std::string legacy_save_name = "tests/data/legacy_0.C_overmap.sav";
     std::string new_save_name = "tests/data/jsionized_overmap.sav";
-    std::unique_ptr<overmap> test_map = std::unique_ptr<overmap>( new overmap( 0, 0 ) );
+    std::unique_ptr<overmap> test_map = std::make_unique<overmap>( 0, 0 );
     std::ifstream fin;
 
     fin.open( legacy_save_name.c_str(), std::ifstream::binary );
@@ -238,7 +238,7 @@ TEST_CASE( "Reading a legacy overmap save." )
     test_map->serialize( fout );
     fout.close();
 
-    std::unique_ptr<overmap> test_map_2 = std::unique_ptr<overmap>( new overmap( 0, 0 ) );
+    std::unique_ptr<overmap> test_map_2 = std::make_unique<overmap>( 0, 0 );
 
     fin.open( new_save_name.c_str(), std::ifstream::binary );
     REQUIRE( fin.is_open() );

@@ -486,7 +486,10 @@ class monster : public Creature
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::set<tripoint> get_path_avoid() const override;
-
+        // summoned monsters via spells
+        void set_summon_time( const time_duration &length );
+        // handles removing the monster if the timer runs out
+        void decrement_summon_timer();
     private:
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
@@ -511,6 +514,7 @@ class monster : public Creature
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
         std::bitset<NUM_MEFF> effect_cache;
+        cata::optional<time_duration> summon_time_limit = cata::nullopt;
 
     protected:
         void store( JsonOut &jsout ) const;

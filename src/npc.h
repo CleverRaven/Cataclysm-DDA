@@ -282,7 +282,8 @@ enum class ally_rule {
     avoid_doors = 2048,
     hold_the_line = 4096,
     ignore_noise = 8192,
-    forbid_engage = 16384
+    forbid_engage = 16384,
+    follow_distance_2 = 32768
 };
 
 struct ally_rule_data {
@@ -395,6 +396,13 @@ const std::unordered_map<std::string, ally_rule_data> ally_rule_strs = { {
                 ally_rule::forbid_engage,
                 "<ally_rule_forbid_engage_true_text>",
                 "<ally_rule_forbid_engage_false_text>"
+            }
+        },
+        {
+            "follow_distance_2", {
+                ally_rule::follow_distance_2,
+                "<ally_rule_follow_distance_2_true_text>",
+                "<ally_rule_follow_distance_2_false_text>"
             }
         }
     }
@@ -1180,7 +1188,6 @@ class npc : public player
          * if no goal exist, this is no_goal_point.
          */
         tripoint goal;
-        std::vector<tripoint> omt_path;
         tripoint wander_pos; // Not actually used (should be: wander there when you hear a sound)
         int wander_time;
         item *known_stolen_item = nullptr; // the item that the NPC wants the player to drop or barter for.

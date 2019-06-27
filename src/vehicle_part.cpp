@@ -6,6 +6,7 @@
 #include <set>
 #include <memory>
 
+#include "avatar.h"
 #include "debug.h"
 #include "game.h"
 #include "item.h"
@@ -463,7 +464,7 @@ bool vehicle_part::is_tank() const
 
 bool vehicle_part::is_battery() const
 {
-    return base.is_magazine() && base.ammo_type() == "battery";
+    return base.is_magazine() && base.ammo_types().count( ammotype( "battery" ) );
 }
 
 bool vehicle_part::is_reactor() const
@@ -523,7 +524,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
         return false;
     }
 
-    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant() ) {
+    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant( g->u.pos() ) ) {
         if( alert ) {
             add_msg( m_bad, _( "It is too cold to plant anything now." ) );
         }

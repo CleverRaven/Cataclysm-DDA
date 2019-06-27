@@ -155,7 +155,7 @@ bool monster::can_move_to( const tripoint &p ) const
             }
         } else if( has_flag( MF_AVOID_DANGER_1 ) ) {
             // Don't enter fire or electricity ever (other dangerous fields are fine though)
-            if( target_field.findField( fd_fire ) || target_field.findField( fd_electricity ) ) {
+            if( target_field.find_field( fd_fire ) || target_field.find_field( fd_electricity ) ) {
                 return false;
             }
         }
@@ -738,11 +738,24 @@ void monster::move()
         // Otherwise weird things happen
         destination.z = posz();
     }
+
+    int new_dx = destination.x - pos().x;
+    int new_dy = destination.y - pos().y;
+
     // toggle facing direction for sdl flip
-    if( destination.x < pos().x ) {
-        facing = FD_LEFT;
+    if( ! tile_iso ) {
+        if( new_dx < 0 ) {
+            facing = FD_LEFT;
+        } else if( new_dx > 0 ) {
+            facing = FD_RIGHT;
+        }
     } else {
-        facing = FD_RIGHT;
+        if( new_dy <= 0 && new_dx <= 0 ) {
+            facing = FD_LEFT;
+        }
+        if( new_dx >= 0 && new_dy >= 0 ) {
+            facing = FD_RIGHT;
+        }
     }
 
     tripoint next_step;
@@ -917,18 +930,8 @@ void monster::footsteps( const tripoint &p )
     if( volume == 0 ) {
         return;
     }
-    std::string footstep = _( "footsteps." );
-    if( type->in_species( BLOB ) ) {
-        footstep = _( "plop." );
-    } else if( type->in_species( ZOMBIE ) ) {
-        footstep = _( "shuffling." );
-    } else if( type->in_species( ROBOT ) ) {
-        footstep = _( "mechanical whirring." );
-    } else if( type->in_species( WORM ) ) {
-        footstep = _( "rustle." );
-    }
     int dist = rl_dist( p, g->u.pos() );
-    sounds::add_footstep( p, volume, dist, this, footstep );
+    sounds::add_footstep( p, volume, dist, this, type->get_footsteps() );
     return;
 }
 

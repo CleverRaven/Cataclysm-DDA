@@ -109,6 +109,8 @@ TEST_CASE( "string_formatter" )
     test_typed_printf<signed int>( "%i", nullptr );
     test_typed_printf<unsigned int>( "%u", nullptr );
 
+    test_typed_printf<size_t>( "%zu", "%u" );
+    test_typed_printf<ptrdiff_t>( "%td", "%d" );
 
 #if !defined(__USE_MINGW_ANSI_STDIO) && (defined(__MINGW32__) || defined(__MINGW64__))
     mingw_test( "%I32i", "%i", std::numeric_limits<signed long int>::max() );

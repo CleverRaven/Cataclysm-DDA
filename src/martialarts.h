@@ -94,6 +94,7 @@ class ma_technique
         int knockback_dist;
         float knockback_spread; // adding randomness to knockback, like tec_throw
         std::string aoe; // corresponds to an aoe shape, defaults to just the target
+        int knockback_follow; // player follows the knocked-back party into their former tile
 
         // offensive
         bool disarms; // like tec_disarm
@@ -229,6 +230,8 @@ class martialart
         std::string description;
         std::vector<std::string> initiate;
         std::vector<std::vector<std::string>> autolearn_skills;
+        skill_id primary_skill;
+        int learn_difficulty = 0;
         int arm_block;
         int leg_block;
         bool arm_block_with_bio_armor_arms;
@@ -272,6 +275,7 @@ void load_martial_art( JsonObject &jo, const std::string &src );
 void check_martialarts();
 void clear_techniques_and_martial_arts();
 void finialize_martial_arts();
+const std::string martialart_difficulty( matype_id mstyle );
 
 std::vector<matype_id> all_martialart_types();
 

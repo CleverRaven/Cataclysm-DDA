@@ -6,6 +6,7 @@
 #include <string>
 
 #include "enums.h"
+#include "point.h"
 #include "requirements.h"
 
 class inventory;
