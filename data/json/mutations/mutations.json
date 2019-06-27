@@ -5256,6 +5256,7 @@
     "changes_to": [ "COLDBLOOD2" ],
     "types": [ "METABOLISM" ],
     "category": [ "FISH", "CEPHALOPOD", "SPIDER" ],
+    "temperature_speed_modifier": 1,
     "metabolism_modifier": -0.333
   },
   {
@@ -5269,6 +5270,7 @@
     "changes_to": [ "COLDBLOOD3" ],
     "types": [ "METABOLISM" ],
     "category": [ "RAPTOR", "PLANT" ],
+    "temperature_speed_modifier": 0.333,
     "metabolism_modifier": -0.5
   },
   {
@@ -5282,6 +5284,7 @@
     "changes_to": [ "COLDBLOOD4" ],
     "types": [ "METABOLISM" ],
     "category": [ "INSECT", "LIZARD" ],
+    "temperature_speed_modifier": 0.5,
     "metabolism_modifier": -0.5
   },
   {
@@ -5296,6 +5299,7 @@
     "purifiable": false,
     "types": [ "METABOLISM" ],
     "category": [ "LIZARD", "PLANT" ],
+    "temperature_speed_modifier": 0.5,
     "metabolism_modifier": -0.5
   },
   {
