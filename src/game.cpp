@@ -8856,7 +8856,7 @@ bool game::walk_move( const tripoint &dest_loc )
     }
     vehicle *veh = veh_pointer_or_null( m.veh_at( dest_loc ) );
     if( veh ) {
-        if( !veh->handle_potential_theft( &g->u ) ) {
+        if( !veh->handle_potential_theft( &u ) ) {
             return false;
         }
     }
