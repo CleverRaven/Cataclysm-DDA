@@ -1638,7 +1638,7 @@ void player::abort_operation()
         for( size_t i = 5; i < Operation->values.size() - 1; i = i + 2 ) {
             apply_damage( nullptr, body_part( Operation->values[i] ), hurt );
             add_msg_player_or_npc( _( "The operation is aborted and your %s is left open." ),
-                                   _( "The operation is aborted and your %s is left open." ),
+                                   _( "The operation is aborted and <npcname>'s %s is left open." ),
                                    body_part_name_accusative( body_part( Operation->values[i] ) ) );
         }
     } else {

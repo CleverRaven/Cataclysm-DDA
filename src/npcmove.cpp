@@ -651,10 +651,6 @@ void npc::regen_ai_cache()
 
 void npc::move()
 {
-    if( in_sleep_state() && !has_effect( effect_under_op ) ) {
-        return;
-    }
-
     if( attitude == NPCATT_FLEE ) {
         set_attitude( NPCATT_FLEE_TEMP );  // Only run for so many hours
     } else if( attitude == NPCATT_FLEE_TEMP && !has_effect( effect_npc_flee_player ) ) {
