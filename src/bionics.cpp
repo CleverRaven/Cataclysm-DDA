@@ -1302,7 +1302,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     for( const auto &elem : bionics[b_id].occupied_bodyparts ) {
         activity.values.push_back( elem.first );
         activity.values.push_back( get_hp( bp_to_hp( elem.first ) ) );//stores current hp to avoid overheal
-        add_effect( effect_under_op, difficulty * 20_minutes, elem.first );
+        add_effect( effect_under_op, difficulty * 20_minutes, elem.first, false, difficulty );
     }
     return true;
 }
