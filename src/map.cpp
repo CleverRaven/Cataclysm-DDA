@@ -356,11 +356,18 @@ void map::on_vehicle_moved( const int smz )
 void map::vehmove()
 {
     // give vehicles movement points
-    VehicleList vehicle_list = get_vehicles();
-    for( auto &vehs_v : vehicle_list ) {
-        vehicle *veh = vehs_v.v;
-        veh->gain_moves();
-        veh->slow_leak();
+    VehicleList vehicle_list;
+    int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
+    int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
+    for( int zlev = minz; zlev < maxz; ++zlev ) {
+        level_cache &cache = get_cache( zlev );
+        for( vehicle *veh : cache.vehicle_list ) {
+            veh->gain_moves();
+            veh->slow_leak();
+            wrapped_vehicle w;
+            w.v = veh;
+            vehicle_list.push_back( w );
+        }
     }
 
     // 15 equals 3 >50mph vehicles, or up to 15 slow (1 square move) ones
