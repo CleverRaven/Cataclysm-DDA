@@ -362,6 +362,8 @@ class player : public Character
         /**When a monster fails the surgery*/
         void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
                                         float adjusted_skill );
+        /**When operation gets aborted*/
+        void abort_operation();
         /**Has enough anesthetic for surgery*/
         bool has_enough_anesth( const itype *cbm );
         /** Adds the entered amount to the player's bionic power_level */

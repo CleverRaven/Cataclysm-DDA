@@ -15,6 +15,7 @@
 #include "avatar_action.h"
 #include "ballistics.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "debug.h"
 #include "effect.h"
 #include "explosion.h"
@@ -34,6 +35,7 @@
 #include "overmapbuffer.h"
 #include "npc.h"
 #include "player.h"
+#include "player_activity.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
@@ -1285,6 +1287,9 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
 
     int success = chance_of_success - rng( 1, 100 );
 
+    const int failure_level = static_cast<int>( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
+
+
     if( is_npc() ) {
         static_cast<npc *>( this )->set_attitude( NPCATT_ACTIVITY );
         assign_activity( activity_id( "ACT_OPERATION_REMOVE" ), to_moves<int>( difficulty * 20_minutes ) );
@@ -1295,6 +1300,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
 
     activity.values.push_back( difficulty );
     activity.values.push_back( success );
+    activity.values.push_back( failure_level );
     activity.values.push_back( bionics[b_id].capacity );
     activity.values.push_back( pl_skill );
     activity.str_values.push_back( bionics[b_id].name );
@@ -1612,6 +1618,39 @@ void player::bionics_install_failure( player &installer, int difficulty, int suc
         break;
     }
 }
+
+void player::abort_operation()
+{
+    player_activity *Operation = &activity;
+    const int op_duration = Operation->values[0] * 20 * 60;
+    const int time_left = Operation->moves_left / 100;
+
+    // Difficulty 13 operation takes patient down to half MAX_HP: 0.5/13=0.04
+    // Other difficulty scale linearly from there
+    const int max_hurt = hp_max[bp_torso] * Operation->values[0] * 0.04;
+
+    int hurt = 0;
+    if( time_left > op_duration / 2 ) {
+        hurt = std::min( op_duration - time_left, max_hurt );
+    } else {
+        hurt = std::min( time_left, max_hurt );
+    }
+
+    if( Operation->values.size() > 5 ) {
+        for( size_t i = 5; i < Operation->values.size() - 1; i = i + 2 ) {
+            apply_damage( nullptr, body_part( Operation->values[i] ), hurt );
+            add_msg_player_or_npc( _( "The operation is aborted and your %s is left open." ),
+                                   _( "The operation is aborted and your %s is left open." ),
+                                   body_part_name_accusative( body_part( Operation->values[i] ) ) );
+        }
+    } else {
+        apply_damage( nullptr, num_bp, hurt );
+        add_msg_player_or_npc( _( "The operation is aborted and you are left open." ),
+                               _( "The operation is aborted and <npcname> is left open." ) );
+    }
+
+}
+
 
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
                                const bool each_bp_on_new_line )

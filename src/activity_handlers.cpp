@@ -2778,57 +2778,39 @@ void activity_handlers::uninstall_operation_do_turn( player_activity *act, playe
 
     const int difficulty = act->values.front();
 
-    const time_duration op_duration = act->values.front() * 10_minutes;
+    const time_duration op_duration = difficulty * 10_minutes;
     time_duration time_left = time_duration::from_turns( act->moves_left / 100 ) ;
 
-    // Difficulty 13 operation takes patient down to half MAX_HP: 0.5/13=0.04
-    // Other difficulty scale linearly from there
-    const int max_hurt = p->get_hp_max() * difficulty * 0.04;
-
     if( time_left >  op_duration ) {
-        if( act->values.size() > 4 ) {
-            for( size_t i = 4; i < act->values.size() - 1; i = i + 2 ) {
-                if( p->get_hp( p->bp_to_hp( body_part( act->values[i] ) ) ) > max_hurt ) {
-                    p->apply_damage( nullptr, body_part( act->values[i] ), 1 );
-
-                    if( one_in( 4 ) && u_see ) {
-                        p->add_msg_player_or_npc( m_info,
-                                                  _( "The Autodoc is meticulously cutting your %s open." ),
-                                                  _( "The Autodoc is meticulously cutting <npcname>'s %s open." ),
-                                                  body_part_name_accusative( body_part( act->values[i] ) ) );
-                    }
+        if( act->values.size() > 5 ) {
+            for( size_t i = 5; i < act->values.size() - 1; i = i + 2 ) {
+                if( one_in( 4 ) && u_see ) {
+                    p->add_msg_player_or_npc( m_info,
+                                              _( "The Autodoc is meticulously cutting your %s open." ),
+                                              _( "The Autodoc is meticulously cutting <npcname>'s %s open." ),
+                                              body_part_name_accusative( body_part( act->values[i] ) ) );
                 }
             }
         } else {
-            if( p->get_hp( p->bp_to_hp( num_bp ) ) > max_hurt )  {
-                p->apply_damage( nullptr, num_bp, 1 );
-
-                if( one_in( 4 ) && u_see ) {
-                    p->add_msg_player_or_npc( m_info,
-                                              _( "The Autodoc is meticulously cutting you open." ),
-                                              _( "The Autodoc is meticulously cutting <npcname> open." ) );
-                }
+            if( one_in( 4 ) && u_see ) {
+                p->add_msg_player_or_npc( m_info,
+                                          _( "The Autodoc is meticulously cutting you open." ),
+                                          _( "The Autodoc is meticulously cutting <npcname> open." ) );
             }
         }
     } else if( time_left == op_duration && u_see ) {
         add_msg( m_info, _( "The Autodoc attempts to carefully extract the bionic." ) );
     } else {
-        if( act->values.size() > 4 ) {
-            for( size_t i = 4; i < act->values.size() - 1; i = i + 2 ) {
-                if( p->get_hp( p->bp_to_hp( body_part( act->values[i] ) ) ) < act->values[i + 1] ) {
-                    p->heal( body_part( act->values[i] ), 1 );
-
-                    if( one_in( 4 ) && u_see ) {
-                        p->add_msg_player_or_npc( m_info,
-                                                  _( "The Autodoc is stitching your %s back up." ),
-                                                  _( "The Autodoc is stitching <npcname>'s %s back up." ),
-                                                  body_part_name_accusative( body_part( act->values[i] ) ) );
-                    }
+        if( act->values.size() > 5 ) {
+            for( size_t i = 5; i < act->values.size() - 1; i = i + 2 ) {
+                if( one_in( 4 ) && u_see ) {
+                    p->add_msg_player_or_npc( m_info,
+                                              _( "The Autodoc is stitching your %s back up." ),
+                                              _( "The Autodoc is stitching <npcname>'s %s back up." ),
+                                              body_part_name_accusative( body_part( act->values[i] ) ) );
                 }
             }
         } else {
-            p->heal( num_bp, 1 );
-
             if( one_in( 4 ) && u_see ) {
                 p->add_msg_player_or_npc( m_info,
                                           _( "The Autodoc is stitching you back up." ),
@@ -2867,7 +2849,7 @@ void activity_handlers::uninstall_operation_finish( player_activity *act, player
             p->remove_bionic( bid );
 
             // remove power bank provided by bionic
-            p->max_power_level -= act->values[2];
+            p->max_power_level -= act->values[3];
 
             if( item::type_is_defined( bid.c_str() ) ) {
                 g->m.spawn_item( p->pos(), bid.c_str(), 1 );
@@ -2883,8 +2865,8 @@ void activity_handlers::uninstall_operation_finish( player_activity *act, player
             }
 
             // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
-            float adjusted_skill = static_cast<float>( act->values[3] ) - std::min( static_cast<float>( 40 ),
-                                   static_cast<float>( act->values[3] ) - static_cast<float>( act->values[3] ) / static_cast<float>
+            float adjusted_skill = static_cast<float>( act->values[4] ) - std::min( static_cast<float>( 40 ),
+                                   static_cast<float>( act->values[4] ) - static_cast<float>( act->values[4] ) / static_cast<float>
                                    ( 10.0 ) );
             p->bionics_uninstall_failure( act->values[0], act->values[1], adjusted_skill );
         }
