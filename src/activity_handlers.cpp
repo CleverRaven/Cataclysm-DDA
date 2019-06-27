@@ -1928,7 +1928,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
         int new_skill_level = p->get_skill_level( sk );
         if( old_skill_level != new_skill_level ) {
             add_msg( m_good, _( "You finish training %s to level %d." ),
-                                skill_name, new_skill_level );
+                     skill_name, new_skill_level );
             if( new_skill_level % 4 == 0 ) {
                 //~ %d is skill level %s is skill name
                 p->add_memorial_log( pgettext( "memorial_male",
