@@ -716,13 +716,16 @@ class vehicle
                                  int &start_at, int &start_limit ) const;
         // owner functions
         inline void set_old_owner( const faction *temp_owner ) {
+            theft_time = calendar::turn;
             old_owner = temp_owner;
         }
         inline void remove_old_owner() {
+            theft_time = cata::nullopt;
             old_owner = nullptr;
         }
         inline void set_owner( faction *new_owner ) {
             owner = new_owner;
+            name = string_format( _( "%s (%s)" ), base_name.empty() ? name : base_name, new_owner->name );
         }
         inline void remove_owner() {
             owner = nullptr;
@@ -742,6 +745,7 @@ class vehicle
         inline bool has_owner() const {
             return owner;
         }
+        bool handle_potential_theft( player *p, bool check_only = false, bool prompt = true );
         /**
          *  Operate vehicle controls
          *  @param pos location of physical controls to operate (ignored during remote operation)
@@ -1519,11 +1523,14 @@ class vehicle
         bool refresh_zones();
 
         // config values
+        std::string base_name; // vehicle name without ownership
         std::string name;   // vehicle name
         // The faction that owns this vehicle.
         const faction *owner = nullptr;
         // The faction that previously owned this vehicle
         const faction *old_owner = nullptr;
+        // the time point when it was succesfully stolen
+        cata::optional<time_point> theft_time = cata::nullopt;
         /**
          * Type of the vehicle as it was spawned. This will never change, but it can be an invalid
          * type (e.g. if the definition of the prototype has been removed from json or if it has been

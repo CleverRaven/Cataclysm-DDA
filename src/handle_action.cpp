@@ -454,7 +454,12 @@ static void open()
             const vehicle *player_veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
             bool outside = !player_veh || player_veh != veh;
             if( !outside ) {
-                veh->open( openable );
+                if( !veh->handle_potential_theft( &u ) ) {
+                    u.moves += 100;
+                    return;
+                } else {
+                    veh->open( openable );
+                }
             } else {
                 // Outside means we check if there's anything in that tile outside-openable.
                 // If there is, we open everything on tile. This means opening a closed,
@@ -466,7 +471,12 @@ static void open()
                     add_msg( m_info, _( "That %s can only opened from the inside." ), name );
                     u.moves += 100;
                 } else {
-                    veh->open_all_at( openable );
+                    if( !veh->handle_potential_theft( &u ) ) {
+                        u.moves += 100;
+                        return;
+                    } else {
+                        veh->open_all_at( openable );
+                    }
                 }
             }
         } else {
@@ -562,24 +572,10 @@ static void grab()
         you.grab( OBJECT_NONE );
         return;
     }
-    faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
     if( const optional_vpart_position vp = m.veh_at( grabp ) ) {
         vehicle *source_veh = veh_pointer_or_null( g->m.veh_at( grabp ) );
-        if( source_veh && source_veh->has_owner() ){
-            const faction *veh_owner = source_veh->get_owner();
-            if( veh_owner && ( veh_owner != yours ) ){
-                if( !query_yn( _( "This vehicle belongs to: %s, there may be consequences if you are observed moving it, continue grabbing?" ), source_veh->get_owner()->name ) ) {
-                    return;
-                } else {
-                    you.add_faction_warning( source_veh->get_owner()->id );
-                    add_msg( "current warnings %d", you.current_warnings_fac( source_veh->get_owner()->id ) );
-                    if( you.beyond_final_warning( source_veh->get_owner()->id )){
-                        add_msg( "beond final warning");
-                    } else {
-                        add_msg( "not beond final warning");
-                    }
-                }
-            }
+        if( !source_veh->handle_potential_theft( &g->u ) ) {
+            return;
         }
         you.grab( OBJECT_VEHICLE, grabp - you.pos() );
         add_msg( _( "You grab the %s." ), vp->vehicle().name );
@@ -666,7 +662,12 @@ static void smash()
             return; // don't smash terrain if we've smashed a corpse
         }
     }
-
+    vehicle *veh = veh_pointer_or_null( g->m.veh_at( smashp ) );
+    if( veh != nullptr ) {
+        if( !veh->handle_potential_theft( &u ) ) {
+            return;
+        }
+    }
     didit = m.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
     if( didit ) {
         u.increase_activity_level( MODERATE_EXERCISE );

@@ -110,6 +110,7 @@
       "place_vehicles": [
         { "vehicle": "schoolbus", "x": 21, "y": 13, "chance": 75, "rotation": 270 },
         { "vehicle": "portable_generator", "x": 60, "y": 12, "chance": 100, "rotation": 0 },
+        { "vehicle": "motorcycle_cross", "x": 65, "y": 12, "chance": 100, "rotation": 0 },
         { "vehicle": "flatbed_truck", "x": 98, "y": 18, "chance": 75, "rotation": 90 }
       ],
       "items": {

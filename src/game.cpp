@@ -1375,7 +1375,13 @@ bool game::do_turn()
 
     events.process();
     mission::process_all();
-
+    // If controlling a vehicle that is owned by someone else
+    if( u.in_vehicle && u.controlling_vehicle ) {
+        vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
+        if( veh && !veh->handle_potential_theft( &u, true ) ) {
+            veh->handle_potential_theft( &u, false, false );
+        }
+    }
     if( calendar::once_every( 1_days ) ) {
         overmap_buffer.process_mongroups();
     }
@@ -5184,18 +5190,24 @@ void game::control_vehicle()
             veh_part = vp->part_index();
         }
     }
-
     if( veh != nullptr && veh->player_in_control( u ) ) {
         veh->use_controls( u.pos() );
     } else if( veh && veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 &&
                u.in_vehicle ) {
         if( !veh->interact_vehicle_locked() ) {
+            veh->handle_potential_theft( &u );
             return;
         }
         if( veh->engine_on ) {
+            if( !veh->handle_potential_theft( &u ) ) {
+                return;
+            }
             u.controlling_vehicle = true;
             add_msg( _( "You take control of the %s." ), veh->name );
         } else {
+            if( !veh->handle_potential_theft( &u ) ) {
+                return;
+            }
             veh->start_engines( true );
         }
     } else {
@@ -5211,6 +5223,9 @@ void game::control_vehicle()
         veh = &vp->vehicle();
         veh_part = vp->part_index();
         if( veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 ) {
+            if( !veh->handle_potential_theft( &u ) ) {
+                return;
+            }
             veh->use_controls( *examp_ );
         }
     }
@@ -8838,6 +8853,12 @@ bool game::walk_move( const tripoint &dest_loc )
 
     if( m.impassable( dest_loc ) && !pushing && !shifting_furniture ) {
         return false;
+    }
+    vehicle *veh = veh_pointer_or_null( m.veh_at( dest_loc ) );
+    if( veh ) {
+        if( !veh->handle_potential_theft( &g->u ) ) {
+            return false;
+        }
     }
     if( u.has_effect( effect_riding ) && vp_there ) {
         add_msg( m_warning, _( "You cannot board a vehicle whilst mounted." ) );

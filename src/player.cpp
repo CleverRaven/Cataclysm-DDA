@@ -7456,51 +7456,55 @@ void player::rooted()
     }
 }
 
-void player::add_faction_warning( const faction_id id )
+bool player::add_faction_warning( const faction_id id )
 {
-    std::map<faction_id, faction_warning>::iterator it;
-    it = warning_record.find(id);
-    if(it != warning_record.end()){
-        warning_record.find( id )->second.num_warnings += 1;
-        if( warning_record.find( id )->second.last_warning - calendar::turn > 5_minutes ) {
-            warning_record.find( id )->second.num_warnings -= 1;
+    std::map<faction_id, std::pair<int, time_point>>::iterator it;
+    it = warning_record.find( id );
+    if( it != warning_record.end() ) {
+        warning_record.find( id )->second.first += 1;
+        if( warning_record.find( id )->second.second - calendar::turn > 5_minutes ) {
+            warning_record.find( id )->second.first -= 1;
         }
-        warning_record.find( id )->second.last_warning = calendar::turn;
+        warning_record.find( id )->second.second = calendar::turn;
+        if( warning_record.find( id )->second.first > 3 ) {
+            return true;
+        }
     } else {
-        faction_warning new_warn;
-        new_warn.num_warnings = 1;
-        new_warn.last_warning = calendar::turn;
-        warning_record[id] = new_warn;
+        warning_record[id] = std::make_pair( 1, calendar::turn );
     }
     faction *fac = g->faction_manager_ptr->get( id );
     if( fac != nullptr && this->is_player() ) {
         fac->likes_u -= 1;
         fac->respects_u -= 1;
     }
+    add_msg( "current warnings: %d", current_warnings_fac( id ) );
+    return false;
 }
 
 int player::current_warnings_fac( const faction_id id )
 {
-    std::map<faction_id, faction_warning>::iterator it;
-    it = warning_record.find(id);
-    if(it != warning_record.end()){
-        if( warning_record.find( id )->second.last_warning - calendar::turn > 5_minutes ) {
-            warning_record.find( id )->second.num_warnings = std::max( 0, warning_record.find( id )->second.num_warnings -= 1);
+    std::map<faction_id, std::pair<int, time_point>>::iterator it;
+    it = warning_record.find( id );
+    if( it != warning_record.end() ) {
+        if( warning_record.find( id )->second.second - calendar::turn > 5_minutes ) {
+            warning_record.find( id )->second.first = std::max( 0,
+                    warning_record.find( id )->second.first -= 1 );
         }
-        return warning_record.find( id )->second.num_warnings;
+        return warning_record.find( id )->second.first;
     }
     return 0;
 }
 
 bool player::beyond_final_warning( const faction_id id )
 {
-    std::map<faction_id, faction_warning>::iterator it;
-    it = warning_record.find(id);
-    if(it != warning_record.end()){
-        if( warning_record.find( id )->second.last_warning - calendar::turn > 5_minutes ) {
-            warning_record.find( id )->second.num_warnings = std::max( 0, warning_record.find( id )->second.num_warnings -= 1);
+    std::map<faction_id, std::pair<int, time_point>>::iterator it;
+    it = warning_record.find( id );
+    if( it != warning_record.end() ) {
+        if( warning_record.find( id )->second.second - calendar::turn > 5_minutes ) {
+            warning_record.find( id )->second.first = std::max( 0,
+                    warning_record.find( id )->second.first -= 1 );
         }
-        return warning_record.find( id )->second.num_warnings > 3;
+        return warning_record.find( id )->second.first > 3;
     }
     return false;
 }
