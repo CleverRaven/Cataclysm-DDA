@@ -1571,7 +1571,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
-   {
+  {
     "type": "recipe",
     "result": "starch",
     "category": "CC_FOOD",
