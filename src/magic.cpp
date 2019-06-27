@@ -276,6 +276,11 @@ spell_id spell::id() const
     return type->id;
 }
 
+trait_id spell::spell_class() const
+{
+    return type->spell_class;
+}
+
 int spell::damage() const
 {
     if( type->min_damage >= 0 ) {
@@ -1119,7 +1124,38 @@ static bool casting_time_encumbered( const spell &sp, const player &p )
 
 static bool energy_cost_encumbered( const spell &sp, const player &p )
 {
-    return std::max( 0, p.encumb( bp_hand_l ) + p.encumb( bp_hand_r ) - 10 ) > 0;
+    if( !sp.has_flag( spell_flag::NO_HANDS ) ) {
+        return std::max( 0, p.encumb( bp_hand_l ) + p.encumb( bp_hand_r ) - 10 ) > 0;
+    }
+    return false;
+}
+
+// this prints various things about the spell out in a list
+// including flags and things like "goes through walls"
+std::string enumerate_spell_data( const spell &sp )
+{
+    std::vector<std::string> spell_data;
+    if( sp.has_flag( spell_flag::CONCENTRATE ) ) {
+        spell_data.emplace_back( _( "requires concentration" ) );
+    }
+    if( sp.has_flag( spell_flag::VERBAL ) ) {
+        spell_data.emplace_back( _( "verbal" ) );
+    }
+    if( sp.has_flag( spell_flag::SOMATIC ) ) {
+        spell_data.emplace_back( _( "somatic" ) );
+    }
+    if( !sp.has_flag( spell_flag::NO_HANDS ) ) {
+        spell_data.emplace_back( _( "impeded by gloves" ) );
+    } else {
+        spell_data.emplace_back( _( "does not require hands" ) );
+    }
+    if( !sp.has_flag( spell_flag::NO_LEGS ) ) {
+        spell_data.emplace_back( _( "requires mobility" ) );
+    }
+    if( sp.effect() == "target_attack" && sp.range() > 1 ) {
+        spell_data.emplace_back( _( "can be cast through walls" ) );
+    }
+    return enumerate_as_string( spell_data );
 }
 
 void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu )
@@ -1135,8 +1171,16 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     int line = 1;
     nc_color gray = c_light_gray;
     nc_color light_green = c_light_green;
+    nc_color yellow = c_yellow;
+
+    print_colored_text( w_menu, line++, h_col1, yellow, yellow,
+                        sp.spell_class() == trait_id( "NONE" ) ? _( "Classless" ) : sp.spell_class()->name() );
 
     line += fold_and_print( w_menu, line, h_col1, info_width, gray, sp.description() );
+
+    line++;
+
+    line += fold_and_print( w_menu, line, h_col1, info_width, gray, enumerate_spell_data( sp ) );
 
     line++;
 
@@ -1147,7 +1191,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
                         string_format( "%s: %d", _( "Max Level" ), sp.get_max_level() ) );
 
     print_colored_text( w_menu, line, h_col1, gray, gray,
-                        sp.colorized_fail_percent( g->u ) + ( fail_encumb( sp, g->u ) ? _( "impeded" ) : "" ) );
+                        sp.colorized_fail_percent( g->u ) );
     print_colored_text( w_menu, line++, h_col2, gray, gray,
                         string_format( "%s: %d", _( "Difficulty" ), sp.get_difficulty() ) );
 
@@ -1161,13 +1205,13 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
 
     const bool cost_encumb = energy_cost_encumbered( sp, g->u );
     print_colored_text( w_menu, line++, h_col1, gray, gray,
-                        string_format( "%s: %s %s%s", cost_encumb ? _( "Casting Cost" ) : _( "Casting Cost (impeded)" ),
+                        string_format( "%s: %s %s%s", cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" ),
                                        sp.energy_cost_string( g->u ), sp.energy_string(),
                                        sp.energy_source() == hp_energy ? "" :  string_format( " ( %s current )",
                                                sp.energy_cur_string( g->u ) ) ) );
     const bool c_t_encumb = casting_time_encumbered( sp, g->u );
     print_colored_text( w_menu, line++, h_col1, gray, gray, colorize(
-                            string_format( "%s: %s", c_t_encumb ? _( "Casting Time" ) : _( "Casting Time (impeded)" ),
+                            string_format( "%s: %s", c_t_encumb ? _( "Casting Time (impeded)" ) : _( "Casting Time" ),
                                            moves_to_string( sp.casting_time( g->u ) ) ),
                             c_t_encumb  ? c_red : c_light_gray ) );
 
@@ -1190,11 +1234,11 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     // if it's any type of attack spell, the stats are normal.
     if( fx == "target_attack" || fx == "projectile_attack" || fx == "cone_attack" ||
         fx == "line_attack" ) {
-        if( damage >= 0 ) {
+        if( damage > 0 ) {
             damage_string =  string_format( "%s: %s %s", _( "Damage" ), colorize( to_string( damage ),
                                             sp.damage_type_color() ),
                                             colorize( sp.damage_type_string(), sp.damage_type_color() ) );
-        } else {
+        } else if( damage < 0 ) {
             damage_string = string_format( "%s: %s", _( "Healing" ), colorize( "+" + to_string( -damage ),
                                            light_green ) );
         }

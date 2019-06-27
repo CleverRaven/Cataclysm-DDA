@@ -254,6 +254,8 @@ class spell
 
         // get spell id (from type)
         spell_id id() const;
+        // get spell class (from type)
+        trait_id spell_class() const;
         // get spell effect string (from type)
         std::string effect() const;
         // get spell effect_str data
