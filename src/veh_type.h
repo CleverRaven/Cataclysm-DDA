@@ -16,13 +16,13 @@
 #include "color.h"
 #include "damage.h"
 #include "enums.h"
+#include "emit.h"
 #include "optional.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
 #include "requirements.h"
-#include "field.h"
 
 using itype_id = std::string;
 
@@ -48,7 +48,6 @@ enum vpart_bitflags : int {
     VPFLAG_SEATBELT,
     VPFLAG_SPACE_HEATER,
     VPFLAG_COOLER,
-    VPFLAG_FIELD_EMITTER,
     VPFLAG_WHEEL,
     VPFLAG_MOUNTABLE,
     VPFLAG_FLOATS,
@@ -187,8 +186,8 @@ class vpart_info
          */
         int power = 0;
 
-        /** Emission type of part */
-        std::string emission_field_type = "fd_null";
+        /** Emissions of part */
+        std::set<emit_id> emissions;
 
         /** Fuel type of engine or tank */
         itype_id fuel_type = "null";

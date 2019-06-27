@@ -92,7 +92,6 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "WIND_TURBINE", VPFLAG_WIND_TURBINE },
     { "SPACE_HEATER", VPFLAG_SPACE_HEATER, },
     { "COOLER", VPFLAG_COOLER, },
-    { "FIELD_EMITTER", VPFLAG_FIELD_EMITTER, },
     { "WATER_WHEEL", VPFLAG_WATER_WHEEL },
     { "RECHARGE", VPFLAG_RECHARGE },
     { "VISION", VPFLAG_EXTENDS_VISION },
@@ -319,7 +318,7 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     assign( jo, "energy_consumption", def.energy_consumption );
     assign( jo, "power", def.power );
     assign( jo, "epower", def.epower );
-    assign( jo, "emission_field_type", def.emission_field_type );
+    assign( jo, "emissions", def.emissions );
     assign( jo, "fuel_type", def.fuel_type );
     assign( jo, "default_ammo", def.default_ammo );
     assign( jo, "folded_volume", def.folded_volume );
@@ -628,6 +627,21 @@ void vpart_info::check()
         }
         if( part.has_flag( "TURRET" ) && !base_item_type.gun ) {
             debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str() );
+        }
+        if( !part.emissions.empty() && !part.has_flag( "EMITTER" ) ) {
+            debugmsg( "vehicle part %s has emissions set, but the EMITTER flag is not set", part.id.c_str() );
+        }
+        if( part.has_flag( "EMITTER" ) ) {
+            if( part.emissions.empty() ) {
+                debugmsg( "vehicle part %s has the EMITTER flag, but no emissions were set", part.id.c_str() );
+            } else {
+                for( const emit_id &e : part.emissions ) {
+                    if( !e.is_valid() ) {
+                        debugmsg( "vehicle part %s has the EMITTER flag, but invalid emission %s was set",
+                                  part.id.c_str(), e.str().c_str() );
+                    }
+                }
+            }
         }
         for( auto &q : part.qualities ) {
             if( !q.first.is_valid() ) {
