@@ -893,15 +893,14 @@ void complete_construction( player *p )
     }
     g->m.partial_con_remove( terp );
     // Some constructions are allowed to have items left on the tile.
-    if( built.post_flags.count( "keep_items" ) == 0 )
-    {
+    if( built.post_flags.count( "keep_items" ) == 0 ) {
         // Move any items that have found their way onto the construction site.
         std::vector<tripoint> dump_spots;
-            for( const auto pt : g->m.points_in_radius( terp, 1 ) ) {
-                if( g->is_empty( pt ) && pt != terp ) {
-                    dump_spots.push_back( pt );
-                }
+        for( const tripoint &pt : g->m.points_in_radius( terp, 1 ) ) {
+            if( g->is_empty( pt ) && pt != terp ) {
+                dump_spots.push_back( pt );
             }
+        }
         if( !dump_spots.empty() ) {
             tripoint dump_spot = random_entry( dump_spots );
             map_stack items = g->m.i_at( terp );
