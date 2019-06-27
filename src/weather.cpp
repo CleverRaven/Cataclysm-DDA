@@ -1,5 +1,6 @@
 #include "weather.h"
 
+#include <array>
 #include <cmath>
 #include <sstream>
 #include <string>
@@ -922,29 +923,23 @@ std::string get_wind_desc( double windpower )
 
 rl_vec2d convert_wind_to_coord( const int angle )
 {
-
-    rl_vec2d windvec;
-    float fx = sin( angle * M_PI / 180.0f );
-    float fy = -cos( angle * M_PI / 180.0f );
-    int roundedx;
-    int roundedy;
-    if( fx > 0.5 ) {
-        roundedx = 1;
-    } else if( fx < -0.5 ) {
-        roundedx = -1;
-    } else {
-        roundedx = 0;
+    const std::array<std::pair<int, rl_vec2d>, 9> outputs = {{
+        { 330, rl_vec2d( 0, -1 ) },
+        { 301, rl_vec2d( -1, -1 ) },
+        { 240, rl_vec2d( -1, 0 ) },
+        { 211, rl_vec2d( -1, 1 ) },
+        { 150, rl_vec2d( 0, 1 ) },
+        { 121, rl_vec2d( 1, 1 ) },
+        { 60, rl_vec2d( 1, 0 ) },
+        { 31, rl_vec2d( 1, 1 ) },
+        { 0, rl_vec2d( 0, -1 ) }
+    }};
+    for( const std::pair<int, rl_vec2d>& val : outputs ) {
+        if( angle >= val.first ) {
+            return val.second;
+        }
     }
-    if( fy > 0.5 ) {
-        roundedy = 1;
-    } else if( fy < -0.5 ) {
-        roundedy = -1;
-    } else {
-        roundedy = 0;
-    }
-    windvec.x = roundedx;
-    windvec.y = roundedy;
-    return windvec;
+    return rl_vec2d( 0, 0 );
 }
 
 bool warm_enough_to_plant( const tripoint &pos )
