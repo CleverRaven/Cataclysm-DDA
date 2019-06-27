@@ -547,9 +547,9 @@ void player_morale::display( double focus_gain )
                                 c_light_green );
             //prints out all the positive morale effects
             for( size_t i = offset; i < static_cast<size_t>( rows_total ); ++i ) {
-                const std::string name = points[i].get_name();
                 const int bonus = points[i].get_net_bonus( mult );
                 if( bonus > 0 ) {
+                    const std::string name = points[i].get_name();
                     line += print_line( 4 + line, name.c_str(), points[i].get_percent_contribution(), true );
                 }
 
@@ -562,9 +562,9 @@ void player_morale::display( double focus_gain )
             line += print_line( 4 + line, total_negitive_label, -1 * get_total_negative_value(), false, c_red );
 
             for( size_t i = offset; i < static_cast<size_t>( rows_total ); ++i ) {
-                const std::string name = points[i].get_name();
                 const int bonus = points[i].get_net_bonus( mult );
                 if( bonus < 0 ) {
+                    const std::string name = points[i].get_name();
                     line += print_line( 4 + line, name.c_str(), points[i].get_percent_contribution(), true,
                                         c_light_red );
                 }

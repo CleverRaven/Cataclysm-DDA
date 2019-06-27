@@ -484,7 +484,7 @@ int field_entry::move_cost() const
 
 nc_color field_entry::color() const
 {
-    return all_field_types_enum_list[type].color[density - 1];
+    return all_field_types_enum_list[type].color[intensity - 1];
 }
 
 char field_entry::symbol() const
@@ -499,7 +499,7 @@ field_id field_entry::get_field_type() const
 
 int field_entry::get_field_intensity() const
 {
-    return density;
+    return intensity;
 }
 
 time_duration field_entry::get_field_age() const
@@ -521,10 +521,10 @@ field_id field_entry::set_field_type( const field_id new_field_id )
 
 }
 
-int field_entry::set_field_density( const int new_density )
+int field_entry::set_field_intensity( const int new_intensity )
 {
-    is_alive = new_density > 0;
-    return density = std::max( std::min( new_density, MAX_FIELD_DENSITY ), 1 );
+    is_alive = new_intensity > 0;
+    return intensity = std::max( std::min( new_intensity, 3 ), 1 );
 }
 
 time_duration field_entry::set_field_age( const time_duration &new_age )
@@ -533,7 +533,7 @@ time_duration field_entry::set_field_age( const time_duration &new_age )
 }
 
 field::field()
-    : draw_symbol( fd_null )
+    : _displayed_field_type( fd_null )
 {
 }
 
@@ -544,8 +544,8 @@ Good for checking for existence of a field: if(myfield.find_field(fd_fire)) woul
 */
 field_entry *field::find_field( const field_id field_to_find )
 {
-    const auto it = field_list.find( field_to_find );
-    if( it != field_list.end() ) {
+    const auto it = _field_type_list.find( field_to_find );
+    if( it != _field_type_list.end() ) {
         return &it->second;
     }
     return nullptr;
@@ -553,8 +553,8 @@ field_entry *field::find_field( const field_id field_to_find )
 
 const field_entry *field::find_field_c( const field_id field_to_find ) const
 {
-    const auto it = field_list.find( field_to_find );
-    if( it != field_list.end() ) {
+    const auto it = _field_type_list.find( field_to_find );
+    if( it != _field_type_list.end() ) {
         return &it->second;
     }
     return nullptr;
@@ -569,31 +569,31 @@ const field_entry *field::find_field( const field_id field_to_find ) const
 Function: addfield
 Inserts the given field_id into the field list for a given tile if it does not already exist.
 Returns false if the field_id already exists, true otherwise.
-If the field already exists, it will return false BUT it will add the density/age to the current values for upkeep.
+If the field already exists, it will return false BUT it will add the intensity/age to the current values for upkeep.
 If you wish to modify an already existing field use find_field and modify the result.
-Density defaults to 1, and age to 0 (permanent) if not specified.
+Intensity defaults to 1, and age to 0 (permanent) if not specified.
 */
-bool field::add_field( const field_id field_to_add, const int new_density,
+bool field::add_field( const field_id field_to_add, const int new_intensity,
                        const time_duration &new_age )
 {
-    auto it = field_list.find( field_to_add );
+    auto it = _field_type_list.find( field_to_add );
     if( all_field_types_enum_list[field_to_add].priority >=
-        all_field_types_enum_list[draw_symbol].priority ) {
-        draw_symbol = field_to_add;
+        all_field_types_enum_list[_displayed_field_type].priority ) {
+        _displayed_field_type = field_to_add;
     }
-    if( it != field_list.end() ) {
+    if( it != _field_type_list.end() ) {
         //Already exists, but lets update it. This is tentative.
-        it->second.set_field_density( it->second.get_field_intensity() + new_density );
+        it->second.set_field_intensity( it->second.get_field_intensity() + new_intensity );
         return false;
     }
-    field_list[field_to_add] = field_entry( field_to_add, new_density, new_age );
+    _field_type_list[field_to_add] = field_entry( field_to_add, new_intensity, new_age );
     return true;
 }
 
 bool field::remove_field( field_id const field_to_remove )
 {
-    const auto it = field_list.find( field_to_remove );
-    if( it == field_list.end() ) {
+    const auto it = _field_type_list.find( field_to_remove );
+    if( it == _field_type_list.end() ) {
         return false;
     }
     remove_field( it );
@@ -602,15 +602,15 @@ bool field::remove_field( field_id const field_to_remove )
 
 void field::remove_field( std::map<field_id, field_entry>::iterator const it )
 {
-    field_list.erase( it );
-    if( field_list.empty() ) {
-        draw_symbol = fd_null;
+    _field_type_list.erase( it );
+    if( _field_type_list.empty() ) {
+        _displayed_field_type = fd_null;
     } else {
-        draw_symbol = fd_null;
-        for( auto &fld : field_list ) {
+        _displayed_field_type = fd_null;
+        for( auto &fld : _field_type_list ) {
             if( all_field_types_enum_list[fld.first].priority >=
-                all_field_types_enum_list[draw_symbol].priority ) {
-                draw_symbol = fld.first;
+                all_field_types_enum_list[_displayed_field_type].priority ) {
+                _displayed_field_type = fld.first;
             }
         }
     }
@@ -622,48 +622,48 @@ Returns the number of fields existing on the current tile.
 */
 unsigned int field::field_count() const
 {
-    return field_list.size();
+    return _field_type_list.size();
 }
 
 std::map<field_id, field_entry>::iterator field::begin()
 {
-    return field_list.begin();
+    return _field_type_list.begin();
 }
 
 std::map<field_id, field_entry>::const_iterator field::begin() const
 {
-    return field_list.begin();
+    return _field_type_list.begin();
 }
 
 std::map<field_id, field_entry>::iterator field::end()
 {
-    return field_list.end();
+    return _field_type_list.end();
 }
 
 std::map<field_id, field_entry>::const_iterator field::end() const
 {
-    return field_list.end();
+    return _field_type_list.end();
 }
 
-std::string field_t::name( const int density ) const
+std::string field_t::name( const int intensity ) const
 {
-    const std::string &n = untranslated_name[std::min( std::max( 0, density ), MAX_FIELD_DENSITY - 1 )];
+    const std::string &n = untranslated_name[std::min( std::max( 0, intensity ), 2 )];
     return n.empty() ? n : _( n );
 }
 
 /*
-Function: field_symbol
+Function: displayed_field_type
 Returns the last added field from the tile for drawing purposes.
 */
-field_id field::field_symbol() const
+field_id field::displayed_field_type() const
 {
-    return draw_symbol;
+    return _displayed_field_type;
 }
 
 int field::move_cost() const
 {
     int current_cost = 0;
-    for( auto &fld : field_list ) {
+    for( auto &fld : _field_type_list ) {
         current_cost += fld.second.move_cost();
     }
     return current_cost;

@@ -878,6 +878,46 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mil_surplus_roof",
+    "name": "mil. surplus roof",
+    "sym": "M",
+    "copy-from": "generic_city_building",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_surplus_1",
+    "name": "mil. surplus",
+    "sym": "M",
+    "copy-from": "generic_city_building",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_surplus_roof_1",
+    "name": "mil. surplus roof",
+    "sym": "M",
+    "copy-from": "generic_city_building",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_surplus_2",
+    "name": "mil. surplus",
+    "sym": "M",
+    "copy-from": "generic_city_building",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_surplus_roof_2",
+    "name": "mil. surplus roof",
+    "sym": "M",
+    "copy-from": "generic_city_building",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "furniture",
     "name": "furniture store",
     "copy-from": "generic_city_building",

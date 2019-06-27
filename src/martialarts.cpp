@@ -206,6 +206,8 @@ void martialart::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "description", description );
     mandatory( jo, was_loaded, "initiate", initiate );
     optional( jo, was_loaded, "autolearn", autolearn_skills );
+    optional( jo, was_loaded, "primary_skill", primary_skill, skill_id( "unarmed" ) );
+    optional( jo, was_loaded, "learn_difficulty", learn_difficulty );
 
     optional( jo, was_loaded, "static_buffs", static_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onmove_buffs", onmove_buffs, ma_buff_reader{} );
@@ -332,6 +334,23 @@ void finialize_martial_arts()
         // bother us because ma_buff_effect_type does not have any members that can be sliced.
         effect_type::register_ma_buff_effect( new_eff );
     }
+}
+
+const std::string martialart_difficulty( matype_id mstyle )
+{
+    std::string diff;
+    if( mstyle->learn_difficulty <= 2 ) {
+        diff = _( "easy" );
+    } else if( mstyle->learn_difficulty <= 4 ) {
+        diff = _( "moderately hard" );
+    } else if( mstyle->learn_difficulty <= 6 ) {
+        diff = _( "hard" );
+    } else if( mstyle->learn_difficulty <= 8 ) {
+        diff = _( "very hard" );
+    } else {
+        diff = _( "extremely hard" );
+    }
+    return diff;
 }
 
 void clear_techniques_and_martial_arts()

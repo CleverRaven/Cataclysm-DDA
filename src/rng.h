@@ -81,8 +81,9 @@ inline V random_entry( const C &container, D default_value )
  * This function handles empty containers without requiring an instance of the
  * contained type when container is empty.
  */
-template<typename C, typename V = const typename C::value_type>
-inline cata::optional<std::reference_wrapper<V>> random_entry_opt( const C &container )
+template<typename C>
+inline auto random_entry_opt( C &container ) ->
+cata::optional<decltype( std::ref( *container.begin() ) )>
 {
     if( container.empty() ) {
         return cata::nullopt;

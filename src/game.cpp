@@ -1702,16 +1702,11 @@ int get_heat_radiation( const tripoint &location, bool direct )
     // Cache fires to avoid scanning the map around us bp times
     // Stored as intensity-distance pairs
     int temp_mod = 0;
-    std::vector<std::pair<int, int>> fires;
-    fires.reserve( 13 * 13 );
     int best_fire = 0;
     for( const tripoint &dest : g->m.points_in_radius( location, 6 ) ) {
-        if( !g->m.sees( location, dest, -1 ) ) {
-            continue;
-        }
         int heat_intensity = 0;
 
-        int ffire = g->m.get_field_strength( dest, fd_fire );
+        int ffire = g->m.get_field_intensity( dest, fd_fire );
         if( ffire > 0 ) {
             heat_intensity = ffire;
         } else if( g->m.tr_at( dest ).loadid == tr_lava ) {
@@ -1721,19 +1716,20 @@ int get_heat_radiation( const tripoint &location, bool direct )
             // No heat source here
             continue;
         }
+        if( g->u.pos() == location ) {
+            if( !g->m.pl_line_of_sight( dest, -1 ) ) {
+                continue;
+            }
+        } else if( !g->m.sees( location, dest, -1 ) ) {
+            continue;
+        }
         // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
         const int fire_dist = std::max( 1, square_dist( dest, location ) );
-        fires.emplace_back( std::make_pair( heat_intensity, fire_dist ) );
+        temp_mod += 6 * heat_intensity * heat_intensity / fire_dist;
         if( fire_dist <= 1 ) {
             // Extend limbs/lean over a single adjacent fire to warm up
             best_fire = std::max( best_fire, heat_intensity );
         }
-    }
-
-    for( const auto &intensity_dist : fires ) {
-        const int intensity = intensity_dist.first;
-        const int distance = intensity_dist.second;
-        temp_mod += 6 * intensity * intensity / distance;
     }
     if( direct ) {
         return best_fire;
@@ -1747,26 +1743,27 @@ int get_convection_temperature( const tripoint &location )
     int temp_mod = 0;
     const trap &trap_at_pos = g->m.tr_at( location );
     // directly on fire/lava tiles
-    int tile_strength = g->m.get_field_strength( location, fd_fire );
-    if( tile_strength > 0 || trap_at_pos.loadid == tr_lava ) {
+    int tile_intensity = g->m.get_field_intensity( location, fd_fire );
+    if( tile_intensity > 0 || trap_at_pos.loadid == tr_lava ) {
         temp_mod += 300;
     }
     // hot air of a fire/lava
-    auto tile_strength_mod = []( const tripoint & loc, field_id fld, int case_1, int case_2,
+    auto tile_intensity_mod = []( const tripoint & loc, field_id fld, int case_1, int case_2,
     int case_3 ) {
-        int strength = g->m.get_field_strength( loc, fld );
+        int field_intensity = g->m.get_field_intensity( loc, fld );
         int cases[3] = { case_1, case_2, case_3 };
-        return ( strength > 0 && strength < 4 ) ? cases[ strength - 1 ] : 0;
+        return ( field_intensity > 0 && field_intensity < 4 ) ? cases[ field_intensity - 1 ] : 0;
     };
 
-    temp_mod += tile_strength_mod( location, fd_hot_air1,  2,   6,  10 );
-    temp_mod += tile_strength_mod( location, fd_hot_air2,  6,  16,  20 );
-    temp_mod += tile_strength_mod( location, fd_hot_air3, 16,  40,  70 );
-    temp_mod += tile_strength_mod( location, fd_hot_air4, 70, 100, 160 );
-    temp_mod -= tile_strength_mod( location, fd_cold_air1,  2,   6,  10 );
-    temp_mod -= tile_strength_mod( location, fd_cold_air2,  6,  16,  20 );
-    temp_mod -= tile_strength_mod( location, fd_cold_air3, 16,  40,  70 );
-    temp_mod -= tile_strength_mod( location, fd_cold_air4, 70, 100, 160 );
+    // TODO: Jsonize
+    temp_mod += tile_intensity_mod( location, fd_hot_air1,  2,   6,  10 );
+    temp_mod += tile_intensity_mod( location, fd_hot_air2,  6,  16,  20 );
+    temp_mod += tile_intensity_mod( location, fd_hot_air3, 16,  40,  70 );
+    temp_mod += tile_intensity_mod( location, fd_hot_air4, 70, 100, 160 );
+    temp_mod -= tile_intensity_mod( location, fd_cold_air1,  2,   6,  10 );
+    temp_mod -= tile_intensity_mod( location, fd_cold_air2,  6,  16,  20 );
+    temp_mod -= tile_intensity_mod( location, fd_cold_air3, 16,  40,  70 );
+    temp_mod -= tile_intensity_mod( location, fd_cold_air4, 70, 100, 160 );
 
     return temp_mod;
 }
@@ -2211,7 +2208,6 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "RIGHT", translate_marker( "Move East" ) );
     ctxt.register_action( "RIGHTDOWN", translate_marker( "Move Southeast" ) );
     ctxt.register_action( "DOWN", translate_marker( "Move South" ) );
-    ctxt.register_action( "LEFTDOWN", translate_marker( "Move Southwest" ) );
     ctxt.register_action( "LEFTDOWN", translate_marker( "Move Southwest" ) );
     ctxt.register_action( "LEFT", translate_marker( "Move West" ) );
     ctxt.register_action( "LEFTUP", translate_marker( "Move Northwest" ) );
@@ -4596,6 +4592,8 @@ const T *game::critter_at( const tripoint &p, bool allow_hallucination ) const
 template const monster *game::critter_at<monster>( const tripoint &, bool ) const;
 template const npc *game::critter_at<npc>( const tripoint &, bool ) const;
 template const player *game::critter_at<player>( const tripoint &, bool ) const;
+template const avatar *game::critter_at<avatar>( const tripoint &, bool ) const;
+template avatar *game::critter_at<avatar>( const tripoint &, bool );
 template const Character *game::critter_at<Character>( const tripoint &, bool ) const;
 template Character *game::critter_at<Character>( const tripoint &, bool );
 template const Creature *game::critter_at<Creature>( const tripoint &, bool ) const;
@@ -4871,7 +4869,7 @@ bool game::revive_corpse( const tripoint &p, item &it )
     return ret;
 }
 
-void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installer )
+void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &installer )
 {
     int assist_bonus = installer.get_effect_int( effect_assisted );
 
@@ -4999,11 +4997,11 @@ void game::use_item( int pos )
     refresh_all();
 
     if( use_loc ) {
-        update_lum( loc.clone(), false );
-        u.use( loc.clone() );
-        update_lum( loc.clone(), true );
+        update_lum( loc, false );
+        u.use( loc );
+        update_lum( loc, true );
 
-        make_active( loc.clone() );
+        make_active( loc );
     } else {
         u.use( pos );
     }
@@ -7882,20 +7880,17 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
 
     smenu.addentry_col( BUTCHER, enough_light, 'B', _( "Quick butchery" ), cut_time( BUTCHER ),
                         _( "This technique is used when you are in a hurry, but still want to harvest something from the corpse.  Yields are lower as you don't try to be precise, but it's useful if you don't want to set up a workshop.  Prevents zombies from raising." ) );
-    smenu.addentry_col( BUTCHER_FULL, enough_light, 'b', _( "Full butchery" ),
-                        cut_time( BUTCHER_FULL ),
+    smenu.addentry_col( BUTCHER_FULL, enough_light, 'b', _( "Full butchery" ), cut_time( BUTCHER_FULL ),
                         _( "This technique is used to properly butcher a corpse, and requires a rope & a tree or a butchering rack, a flat surface (for ex. a table, a leather tarp, etc.) and good tools.  Yields are plentiful and varied, but it is time consuming." ) );
-    smenu.addentry_col( F_DRESS, enough_light, 'f', _( "Field dress corpse" ),
-                        cut_time( F_DRESS ),
+    smenu.addentry_col( F_DRESS, enough_light, 'f', _( "Field dress corpse" ), cut_time( F_DRESS ),
                         _( "Technique that involves removing internal organs and viscera to protect the corpse from rotting from inside. Yields internal organs. Carcass will be lighter and will stay fresh longer.  Can be combined with other methods for better effects." ) );
-    smenu.addentry_col( SKIN, enough_light, 's', ( "Skin corpse" ), cut_time( SKIN ),
+    smenu.addentry_col( SKIN, enough_light, 's', _( "Skin corpse" ), cut_time( SKIN ),
                         _( "Skinning a corpse is an involved and careful process that usually takes some time.  You need skill and an appropriately sharp and precise knife to do a good job.  Some corpses are too small to yield a full-sized hide and will instead produce scraps that can be used in other ways." ) );
     smenu.addentry_col( QUARTER, enough_light, 'k', _( "Quarter corpse" ), cut_time( QUARTER ),
                         _( "By quartering a previously field dressed corpse you will acquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
     smenu.addentry_col( DISMEMBER, true, 'm', _( "Dismember corpse" ), cut_time( DISMEMBER ),
                         _( "If you're aiming to just destroy a body outright, and don't care about harvesting it, dismembering it will hack it apart in a very short amount of time, but yield little to no usable flesh." ) );
-    smenu.addentry_col( DISSECT, enough_light, 'd', _( "Dissect corpse" ),
-                        cut_time( DISSECT ),
+    smenu.addentry_col( DISSECT, enough_light, 'd', _( "Dissect corpse" ), cut_time( DISSECT ),
                         _( "By careful dissection of the corpse, you will examine it for possible bionic implants, or discrete organs and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes a lot of time.  Your medical knowledge is most useful here." ) );
     smenu.query();
     switch( smenu.ret ) {
@@ -8312,7 +8307,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
         } else if( u.ammo_location && opt.ammo == u.ammo_location ) {
             u.ammo_location = item_location();
         } else {
-            u.ammo_location = opt.ammo.clone();
+            u.ammo_location = opt.ammo;
         }
         return;
     }
@@ -8361,13 +8356,13 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     }
 
     item::reload_option opt = u.ammo_location && it->can_reload_with( u.ammo_location->typeId() ) ?
-                              item::reload_option( &u, it, it, u.ammo_location.clone() ) :
+                              item::reload_option( &u, it, it, u.ammo_location ) :
                               u.select_ammo( *it, prompt, empty );
 
     if( opt ) {
         u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
         if( use_loc ) {
-            u.activity.targets.emplace_back( loc.clone() );
+            u.activity.targets.emplace_back( loc );
         } else {
             u.activity.targets.emplace_back( u, const_cast<item *>( opt.target ) );
         }
@@ -8981,9 +8976,9 @@ bool game::walk_move( const tripoint &dest_loc )
         const tripoint shifted_furn_dest = tripoint( furn_dest.x - submap_shift.x * SEEX,
                                            furn_dest.y - submap_shift.y * SEEY, furn_dest.z );
         const time_duration fire_age = m.get_field_age( shifted_furn_pos, fd_fire );
-        const int fire_str = m.get_field_strength( shifted_furn_pos, fd_fire );
+        const int fire_intensity = m.get_field_intensity( shifted_furn_pos, fd_fire );
         m.remove_field( shifted_furn_pos, fd_fire );
-        m.set_field_strength( shifted_furn_dest, fd_fire, fire_str );
+        m.set_field_intensity( shifted_furn_dest, fd_fire, fire_intensity );
         m.set_field_age( shifted_furn_dest, fd_fire, fire_age );
     }
 
@@ -9478,7 +9473,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
                              m.furn( fpos ).obj().has_flag( "FIRE_CONTAINER" ) ||
                              m.furn( fpos ).obj().has_flag( "SEALED" );
 
-    const int fire_str = m.get_field_strength( fpos, fd_fire );
+    const int fire_intensity = m.get_field_intensity( fpos, fd_fire );
     time_duration fire_age = m.get_field_age( fpos, fd_fire );
 
     int str_req = furntype.move_str_req;
@@ -9538,9 +9533,9 @@ bool game::grabbed_furn_move( const tripoint &dp )
     m.furn_set( fdest, m.furn( fpos ) );
     m.furn_set( fpos, f_null );
 
-    if( fire_str == 1 && !pulling_furniture ) {
+    if( fire_intensity == 1 && !pulling_furniture ) {
         m.remove_field( fpos, fd_fire );
-        m.set_field_strength( fdest, fd_fire, fire_str );
+        m.set_field_intensity( fdest, fd_fire, fire_intensity );
         m.set_field_age( fdest, fd_fire, fire_age );
     }
 
@@ -9644,7 +9639,7 @@ void game::on_move_effects()
             u.toggle_run_mode();
         }
         if( u.stamina < u.get_stamina_max() / 2 && one_in( u.stamina ) ) {
-            u.add_effect( effect_winded, 3_turns );
+            u.add_effect( effect_winded, 10_turns );
         }
     }
 
@@ -10042,8 +10037,6 @@ void game::vertical_move( int movez, bool force )
     if( !force ) {
         submap_shift = update_map( stairs.x, stairs.y );
     }
-    const tripoint adjusted_pos( old_pos.x - submap_shift.x * SEEX, old_pos.y - submap_shift.y * SEEY,
-                                 old_pos.z );
 
     if( !npcs_to_bring.empty() ) {
         // Would look nicer randomly scrambled
@@ -10098,6 +10091,8 @@ void game::vertical_move( int movez, bool force )
     }
 
     if( u.is_hauling() ) {
+        const tripoint adjusted_pos( old_pos.x - submap_shift.x * SEEX, old_pos.y - submap_shift.y * SEEY,
+                                     old_pos.z );
         u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
         // Whether the destination is inside a vehicle (not supported)
         u.activity.values.push_back( 0 );
@@ -11055,7 +11050,7 @@ void game::process_artifact( item &it, player &p )
                         if( calendar::once_every( 1_minutes ) ) {
                             add_msg( m_bad, _( "You feel fatigue seeping into your body." ) );
                             u.mod_fatigue( 3 * rng( 1, 3 ) );
-                            u.mod_stat( "stamina", -9 * rng( 1, 3 ) * rng( 1, 3 ) * rng( 2, 3 ) );
+                            u.mod_stat( "stamina", -90 * rng( 1, 3 ) * rng( 1, 3 ) * rng( 2, 3 ) );
                             it.charges++;
                         }
                         break;

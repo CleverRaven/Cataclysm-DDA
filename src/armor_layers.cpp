@@ -754,11 +754,11 @@ void player::sort_armor()
 
             // only equip if something valid selected!
             if( loc ) {
-                // save iterator to cursor's position
-                std::list<item>::iterator cursor_it = tmp_worn[leftListIndex];
                 // wear the item
                 if( cata::optional<std::list<item>::iterator> new_equip_it =
                         wear( this->i_at( loc.obtain( *this ) ) ) ) {
+                    // save iterator to cursor's position
+                    std::list<item>::iterator cursor_it = tmp_worn[leftListIndex];
                     // reorder `worn` vector to place new item at cursor
                     worn.splice( cursor_it, worn, *new_equip_it );
                 } else if( is_npc() ) {

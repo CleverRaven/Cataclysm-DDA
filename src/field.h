@@ -26,32 +26,32 @@ struct field_t {
     // should be the same as the entry in field_id below (e.g. "fd_fire").
     std::string id;
 
-    /** Display name for field at given density (e.g. light smoke, smoke, heavy smoke) */
-    std::string untranslated_name[ MAX_FIELD_DENSITY ];
-    /// Can be empty! \p density must be in the range [0, MAX_FIELD_DENSITY - 1].
-    std::string name( int density ) const;
+    /** Display name for field at given intensity (e.g. light smoke, smoke, heavy smoke) */
+    std::string untranslated_name[ 3 ];
+    /// Can be empty! \p intensity must be in the range [0, 2].
+    std::string name( int intensity ) const;
 
     char sym; //The symbol to draw for this field. Note that some are reserved like * and %. You will have to check the draw function for specifics.
     int priority; //Inferior numbers have lower priority. 0 is "ground" (splatter), 2 is "on the ground", 4 is "above the ground" (fire), 6 is reserved for furniture, and 8 is "in the air" (smoke).
 
-    /** Color the field will be drawn as on the screen at a given density */
-    deferred_color color[ MAX_FIELD_DENSITY ];
+    /** Color the field will be drawn as on the screen at a given intensity */
+    deferred_color color[ 3 ];
 
     /**
      * If false this field may block line of sight.
      * @warning this does nothing by itself. You must go to the code block in lightmap.cpp and modify
      * transparancy code there with a case statement as well!
     **/
-    bool transparent[ MAX_FIELD_DENSITY ];
+    bool transparent[ 3 ];
 
-    /** Where tile is dangerous (prompt before moving into) at given density */
-    bool dangerous[ MAX_FIELD_DENSITY ];
+    /** Where tile is dangerous (prompt before moving into) at given intensity */
+    bool dangerous[ 3 ];
 
-    //Controls, albeit randomly, how long a field of a given type will last before going down in density.
+    //Controls, albeit randomly, how long a field of a given type will last before going down in intensity.
     time_duration halflife;
 
-    /** cost of moving into and out of this field at given density */
-    int move_cost[ MAX_FIELD_DENSITY ];
+    /** cost of moving into and out of this field at given intensity */
+    int move_cost[ 3 ];
 
     /** Does it penetrate obstacles like gas, spread like liquid or just lie there like solid? */
     phase_id phase;
@@ -134,13 +134,13 @@ bool field_type_dangerous( field_id id );
 
 /**
  * An active or passive effect existing on a tile.
- * Each effect can vary in intensity (density) and age (usually used as a time to live).
+ * Each effect can vary in intensity and age (usually used as a time to live).
  */
 class field_entry
 {
     public:
-        field_entry() : type( fd_null ), density( 1 ), age( 0_turns ), is_alive( false ) { }
-        field_entry( const field_id t, const int d, const time_duration &a ) : type( t ), density( d ),
+        field_entry() : type( fd_null ), intensity( 1 ), age( 0_turns ), is_alive( false ) { }
+        field_entry( const field_id t, const int i, const time_duration &a ) : type( t ), intensity( i ),
             age( a ), is_alive( true ) { }
 
         nc_color color() const;
@@ -153,7 +153,7 @@ class field_entry
         //Returns the field_id of the current field entry.
         field_id get_field_type() const;
 
-        //Returns the current density (aka intensity) of the current field entry.
+        //Returns the current intensity of the current field entry.
         int get_field_intensity() const;
 
         //Allows you to modify the field_id of the current field entry.
@@ -161,8 +161,8 @@ class field_entry
         //breaks the field drawing code and field lookup
         field_id set_field_type( const field_id new_field_id );
 
-        //Allows you to modify the density of the current field entry.
-        int set_field_density( const int new_density );
+        //Allows you to modify the intensity of the current field entry.
+        int set_field_intensity( const int new_intensity );
 
         /// @returns @ref age.
         time_duration get_field_age() const;
@@ -171,19 +171,19 @@ class field_entry
         time_duration set_field_age( const time_duration &new_age );
         /// Adds given value to @ref age.
         /// @returns New value of @ref age.
-        time_duration mod_age( const time_duration &mod ) {
+        time_duration mod_field_age( const time_duration &mod ) {
             return set_field_age( get_field_age() + mod );
         }
 
         //Returns if the current field is dangerous or not.
         bool is_dangerous() const {
-            return all_field_types_enum_list[type].dangerous[density - 1];
+            return all_field_types_enum_list[type].dangerous[intensity - 1];
         }
 
-        //Returns the display name of the current field given its current density.
+        //Returns the display name of the current field given its current intensity.
         //IE: light smoke, smoke, heavy smoke
         std::string name() const {
-            return all_field_types_enum_list[type].name( density - 1 );
+            return all_field_types_enum_list[type].name( intensity - 1 );
         }
 
         //Returns true if this is an active field, false if it should be removed.
@@ -197,7 +197,7 @@ class field_entry
 
     private:
         field_id type; //The field identifier.
-        int density; //The density, or intensity (higher is stronger), of the field entry.
+        int intensity; //The intensity (higher is stronger), of the field entry.
         time_duration age; //The age, of the field effect. 0 is permanent.
         bool is_alive; //True if this is an active field, false if it should be destroyed next check.
 };
@@ -208,7 +208,7 @@ class field_entry
  * fire entry, but not two fire entries).
  * Use @ref find_field to get the field entry of a specific type, or iterate over
  * all entries via @ref begin and @ref end (allows range based iteration).
- * There is @ref field_symbol to specific which field should be drawn on the map.
+ * There is @ref displayed_field_type to specific which field should be drawn on the map.
 */
 class field
 {
@@ -234,11 +234,11 @@ class field
         /**
          * Inserts the given field_id into the field list for a given tile if it does not already exist.
          * If you wish to modify an already existing field use find_field and modify the result.
-         * Density defaults to 1, and age to 0 (permanent) if not specified.
-         * The density is added to an existing field entry, but the age is only used for newly added entries.
+         * Intensity defaults to 1, and age to 0 (permanent) if not specified.
+         * The intensity is added to an existing field entry, but the age is only used for newly added entries.
          * @return false if the field_id already exists, true otherwise.
          */
-        bool add_field( field_id field_to_add, int new_density = 1,
+        bool add_field( field_id field_to_add, int new_intensity = 1,
                         const time_duration &new_age = 0_turns );
 
         /**
@@ -250,7 +250,7 @@ class field
         bool remove_field( field_id field_to_remove );
         /**
          * Make sure to decrement the field counter in the submap.
-         * Removes the field entry, the iterator must point into @ref field_list and must be valid.
+         * Removes the field entry, the iterator must point into @ref _field_type_list and must be valid.
          */
         void remove_field( std::map<field_id, field_entry>::iterator );
 
@@ -260,7 +260,7 @@ class field
         /**
          * Returns the id of the field that should be drawn.
          */
-        field_id field_symbol() const;
+        field_id displayed_field_type() const;
 
         //Returns the vector iterator to begin searching through the list.
         std::map<field_id, field_entry>::iterator begin();
@@ -276,9 +276,10 @@ class field
         int move_cost() const;
 
     private:
-        std::map<field_id, field_entry>
-        field_list; //A pointer lookup table of all field effects on the current tile.    //Draw_symbol currently is equal to the last field added to the square. You can modify this behavior in the class functions if you wish.
-        field_id draw_symbol;
+        // A pointer lookup table of all field effects on the current tile.
+        std::map<field_id, field_entry> _field_type_list;
+        // _displayed_field_type is equal to the last field added to the square. You can modify this behavior in the class functions if you wish.
+        field_id _displayed_field_type;
 };
 
 #endif

@@ -1068,5 +1068,15 @@
     "type": "item_action",
     "id": "CRAFT",
     "name": "Work on craft"
+  },
+  {
+    "type": "item_action",
+    "id": "GOBAG_NORMAL",
+    "name": "Get contents"
+  },
+  {
+    "type": "item_action",
+    "id": "GOBAG_PERSONAL",
+    "name": "Get contents"
   }
 ]

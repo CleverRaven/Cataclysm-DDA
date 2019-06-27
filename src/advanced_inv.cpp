@@ -353,7 +353,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
                 stolen = true;
             }
         }
-        if( it.ammo_types().count( ammotype( "money" ) ) ) {
+        if( it.is_money() ) {
             //Count charges
             // TODO: transition to the item_location system used for the normal inventory
             unsigned int charges_total = 0;
@@ -974,8 +974,11 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
     if( square.id == AIM_INVENTORY ) {
         const invslice &stacks = u.inv.slice();
         for( size_t x = 0; x < stacks.size(); ++x ) {
-            auto &an_item = stacks[x]->front();
-            advanced_inv_listitem it( &an_item, x, stacks[x]->size(), square.id, false );
+            std::list<item *> item_pointers;
+            for( item &i : *stacks[x] ) {
+                item_pointers.push_back( &i );
+            }
+            advanced_inv_listitem it( item_pointers, x, square.id, false );
             if( is_filtered( *it.items.front() ) ) {
                 continue;
             }

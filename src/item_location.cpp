@@ -67,70 +67,39 @@ class item_location::impl
         class item_on_vehicle;
 
         impl() = default;
-        impl( std::list<item> *what ) :  what( &what->front() ), whatstart( what ) {}
-        impl( item *what ) : what( what ) {}
-        impl( int idx ) : idx( idx ) {}
+        impl( item *i ) : what( i->get_safe_reference() ), needs_unpacking( false ) {}
+        impl( int idx ) : idx( idx ), needs_unpacking( true ) {}
 
         virtual ~impl() = default;
 
-        virtual bool valid() const {
-            return false;
-        }
-
-        virtual type where() const {
-            return type::invalid;
-        }
-
-        virtual tripoint position() const {
-            return tripoint_min;
-        }
-
-        virtual std::string describe( const Character * ) const {
-            return "";
-        }
-
-        virtual int obtain( Character &, int ) {
-            return INT_MIN;
-        }
-
-        virtual int obtain_cost( const Character &, int ) const {
-            return 0;
-        }
-
-        virtual void remove_item() {}
-
+        virtual type where() const = 0;
+        virtual tripoint position() const = 0;
+        virtual std::string describe( const Character * ) const = 0;
+        virtual int obtain( Character &, int ) = 0;
+        virtual int obtain_cost( const Character &, int ) const = 0;
+        virtual void remove_item() = 0;
         virtual void serialize( JsonOut &js ) const = 0;
-
-        virtual item *unpack( int ) const {
-            return nullptr;
-        }
+        virtual item *unpack( int ) const = 0;
 
         item *target() const {
-            if( what == nullptr ) {
-                what = unpack( idx );
-            }
-            return what;
+            ensure_unpacked();
+            return what.get();
         }
 
-        // Add up the total charges of a stack of items
-        int charges_in_stack( unsigned int countOnly ) const {
-            int sum = 0;
-            unsigned int c = countOnly;
-            // If the list points to a nullpointer, then the target pointer must still be valid
-            if( whatstart == nullptr ) {
-                return target()->charges;
-            }
-            for( std::list<item>::iterator it = whatstart->begin(); it != whatstart->end() && c; ++it, --c ) {
-                sum += it->charges;
-            }
-            return sum;
+        bool valid() const {
+            ensure_unpacked();
+            return !!what;
         }
-
     private:
-        mutable item *what = nullptr;
+        void ensure_unpacked() const {
+            if( needs_unpacking ) {
+                what = unpack( idx )->get_safe_reference();
+                needs_unpacking = false;
+            }
+        }
+        mutable safe_reference<item> what;
         mutable int idx = -1;
-        //Only used for stacked cash card currently, needed to be able to process a stack of different items
-        mutable std::list<item> *whatstart = nullptr;
+        mutable bool needs_unpacking;
 
     public:
         //Flag that controls whether functions like obtain() should stack the obtained item
@@ -141,6 +110,38 @@ class item_location::impl
 class item_location::impl::nowhere : public item_location::impl
 {
     public:
+        type where() const override {
+            return type::invalid;
+        }
+
+        tripoint position() const override {
+            debugmsg( "invalid use of nowhere item_location" );
+            return tripoint_min;
+        }
+
+        std::string describe( const Character * ) const override {
+            debugmsg( "invalid use of nowhere item_location" );
+            return "";
+        }
+
+        int obtain( Character &, int ) override {
+            debugmsg( "invalid use of nowhere item_location" );
+            return INT_MIN;
+        }
+
+        int obtain_cost( const Character &, int ) const override {
+            debugmsg( "invalid use of nowhere item_location" );
+            return 0;
+        }
+
+        void remove_item() override {
+            debugmsg( "invalid use of nowhere item_location" );
+        }
+
+        item *unpack( int ) const override {
+            return nullptr;
+        }
+
         void serialize( JsonOut &js ) const override {
             js.start_object();
             js.member( "type", "null" );
@@ -155,12 +156,7 @@ class item_location::impl::item_on_map : public item_location::impl
 
     public:
         item_on_map( const map_cursor &cur, item *which ) : impl( which ), cur( cur ) {}
-        item_on_map( const map_cursor &cur, std::list<item> *which ) : impl( which ), cur( cur ) {}
         item_on_map( const map_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
-
-        bool valid() const override {
-            return target() && cur.has_item( *target() );
-        }
 
         void serialize( JsonOut &js ) const override {
             js.start_object();
@@ -227,36 +223,14 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 };
 
-static bool gun_has_item( const item &gun, const item *it )
-{
-    if( !gun.is_gun() ) {
-        return false;
-    }
-
-    if( gun.magazine_current() == it ) {
-        return true;
-    }
-
-    auto gms = gun.gunmods();
-    return !gms.empty() && std::find( gms.begin(), gms.end(), it ) != gms.end();
-}
-
 class item_location::impl::item_on_person : public item_location::impl
 {
     private:
         Character &who;
 
     public:
-        item_on_person( Character &who, std::list<item> *which ) : impl( which ), who( who ) {}
         item_on_person( Character &who, item *which ) : impl( which ), who( who ) {}
         item_on_person( Character &who, int idx ) : impl( idx ), who( who ) {}
-
-        bool valid() const override {
-            const item *targ = target();
-            return targ && who.has_item_with( [targ]( const item & it ) {
-                return &it == targ || gun_has_item( it, targ );
-            } );
-        }
 
         void serialize( JsonOut &js ) const override {
             js.start_object();
@@ -375,21 +349,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
 
     public:
         item_on_vehicle( const vehicle_cursor &cur, item *which ) : impl( which ), cur( cur ) {}
-        item_on_vehicle( const vehicle_cursor &cur, std::list<item> *which ) : impl( which ), cur( cur ) {}
         item_on_vehicle( const vehicle_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
-
-        bool valid() const override {
-            if( !target() ) {
-                return false;
-            }
-            if( &cur.veh.parts[ cur.part ].base == target() ) {
-                return true; // vehicle_part::base
-            }
-            if( cur.has_item( *target() ) ) {
-                return true; // item within CARGO
-            }
-            return false;
-        }
 
         void serialize( JsonOut &js ) const override {
             js.start_object();
@@ -474,30 +434,16 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 };
 
-// use of std::unique_ptr<impl> forces these definitions within the implementation
-item_location::item_location( item_location && ) = default;
-item_location &item_location::operator=( item_location && ) = default;
-item_location::~item_location() = default;
-
 const item_location item_location::nowhere;
 
 item_location::item_location()
     : ptr( new impl::nowhere() ) {}
 
-item_location::item_location( const map_cursor &mc, std::list<item> *which )
-    : ptr( new impl::item_on_map( mc, which ) ) {}
-
 item_location::item_location( const map_cursor &mc, item *which )
     : ptr( new impl::item_on_map( mc, which ) ) {}
 
-item_location::item_location( Character &ch, std::list<item> *which )
-    : ptr( new impl::item_on_person( ch, which ) ) {}
-
 item_location::item_location( Character &ch, item *which )
     : ptr( new impl::item_on_person( ch, which ) ) {}
-
-item_location::item_location( const vehicle_cursor &vc, std::list<item> *which )
-    : ptr( new impl::item_on_vehicle( vc, which ) ) {}
 
 item_location::item_location( const vehicle_cursor &vc, item *which )
     : ptr( new impl::item_on_vehicle( vc, which ) ) {}
@@ -568,11 +514,6 @@ void item_location::deserialize( JsonIn &js )
     }
 }
 
-int item_location::charges_in_stack( unsigned int countOnly ) const
-{
-    return ptr->charges_in_stack( countOnly );
-}
-
 item_location::type item_location::where() const
 {
     return ptr->where();
@@ -620,13 +561,6 @@ item *item_location::get_item()
 const item *item_location::get_item() const
 {
     return ptr->target();
-}
-
-item_location item_location::clone() const
-{
-    item_location res;
-    res.ptr = ptr;
-    return res;
 }
 
 void item_location::set_should_stack( bool should_stack ) const

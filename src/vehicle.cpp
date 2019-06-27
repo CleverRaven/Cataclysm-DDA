@@ -50,6 +50,7 @@
 #include "pldata.h"
 #include "rng.h"
 #include "weather_gen.h"
+#include "options.h"
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -3060,7 +3061,7 @@ bool vehicle::can_use_rails() const
             break;
         }
     }
-    return can_use && is_wheel_on_rail;
+    return is_wheel_on_rail;
 }
 
 int vehicle::ground_acceleration( const bool fueled, int at_vel_in_vmi ) const
@@ -3244,20 +3245,20 @@ bool vehicle::do_environmental_effects()
     return needed;
 }
 
-void vehicle::spew_smoke( double joules, int part, int density )
+void vehicle::spew_field( double joules, int part, field_id type, int intensity )
 {
     if( rng( 1, 10000 ) > joules ) {
         return;
     }
     point p = parts[part].mount;
-    density = std::max( joules / 10000, static_cast<double>( density ) );
+    intensity = std::max( joules / 10000, static_cast<double>( intensity ) );
     // Move back from engine/muffler until we find an open space
     while( relative_parts.find( p ) != relative_parts.end() ) {
         p.x += ( velocity < 0 ? 1 : -1 );
     }
     point q = coord_translate( p );
     const tripoint dest = global_pos3() + tripoint( q.x, q.y, 0 );
-    g->m.adjust_field_strength( dest, fd_smoke, density );
+    g->m.mod_field_intensity( dest, type, intensity );
 }
 
 /**
@@ -3319,7 +3320,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
                 }
 
                 if( ( exhaust_part == -1 ) && engine_on ) {
-                    spew_smoke( j, p, bad_filter ? MAX_FIELD_DENSITY : 1 );
+                    spew_field( j, p, fd_smoke, bad_filter ? 3 : 1 );
                 } else {
                     mufflesmoke += j;
                 }
@@ -3331,7 +3332,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     }
     if( ( exhaust_part != -1 ) && engine_on &&
         has_engine_type_not( fuel_type_muscle, true ) ) { // No engine, no smoke
-        spew_smoke( mufflesmoke, exhaust_part, bad_filter ? MAX_FIELD_DENSITY : 1 );
+        spew_field( mufflesmoke, exhaust_part, fd_smoke, bad_filter ? 3 : 1 );
     }
     // Cap engine noise to avoid deafening.
     noise = std::min( noise, 100.0 );
@@ -3841,35 +3842,38 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
     if( load > 0 && fuel_left( fuel_type_muscle ) > 0 ) {
         g->u.increase_activity_level( ACTIVE_EXERCISE );
     }
-    //do this with chance proportional to current load
+    //do this as a function of current load
     // But only if the player is actually there!
-    if( load > 0 && one_in( 1000 / load ) && fuel_left( fuel_type_muscle ) > 0 ) {
-        //cost proportional to strain
-        int mod = 1 + 4 * st;
+    if( load > 0 && fuel_left( fuel_type_muscle ) > 0 ) {
+        int mod = 0 + 4 * st; // strain
+        int base_burn = 3 + static_cast<int>( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) );
+        base_burn = ( load / 2 ) > base_burn ? ( load / 2 ) : base_burn;
         //charge bionics when using muscle engine
         if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
-            g->u.charge_power( 2 );
-            mod = mod * 2;
-        }
-        if( g->u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
-            if( one_in( 20 ) ) {
+            if( one_in( 1000 / load ) ) { // more pedaling = more power
                 g->u.charge_power( 1 );
             }
+            mod += load / 5;
         }
+        if( g->u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
+            if( one_in( 1000 / load ) && one_in( 20 ) ) { // intentional double chance check
+                g->u.charge_power( 1 );
+            }
+            mod += load / 10;
+        }
+        // decreased stamina burn scalable with load
         if( g->u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
-            g->u.charge_power( -10 );
+            g->u.charge_power( ( load / 20 ) > 1 ? -( load / 20 ) : -1 );
+            mod -= ( load / 5 ) > 5 ? ( load / 5 ) : 5;
         }
-        if( one_in( 10 ) ) {
-            g->u.mod_thirst( mod );
-            g->u.mod_fatigue( mod );
+        if( one_in( 1000 / load ) && one_in( 10 ) ) {
+            g->u.mod_thirst( 1 );
+            g->u.mod_fatigue( 1 );
         }
-        if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
-            g->u.mod_stat( "stamina", -mod * 30 );
-        } else if( g->u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
-            g->u.mod_stat( "stamina", -mod * 10 );
-        } else {
-            g->u.mod_stat( "stamina", -mod * 20 );
-        }
+        g->u.mod_stat( "stamina", -( base_burn + mod ) );
+        add_msg( m_debug, "Load: %d", load );
+        add_msg( m_debug, "Mod: %d", mod );
+        add_msg( m_debug, "Burn: %d", -( base_burn + mod ) );
     }
 }
 
@@ -4234,7 +4238,9 @@ void vehicle::idle( bool on_map )
         if( idle_rate < 10 ) {
             idle_rate = 10;    // minimum idle is 1% of full throttle
         }
-        consume_fuel( idle_rate, to_turns<int>( 1_turns ), true );
+        if( has_engine_type_not( fuel_type_muscle, true ) ) {
+            consume_fuel( idle_rate, to_turns<int>( 1_turns ), true );
+        }
 
         if( on_map ) {
             noise_and_smoke( idle_rate, 1_turns );
@@ -4248,7 +4254,7 @@ void vehicle::idle( bool on_map )
         engine_on = false;
     }
 
-    if( !warm_enough_to_plant() ) {
+    if( !warm_enough_to_plant( g->u.pos() ) ) {
         for( const vpart_reference &vp : get_enabled_parts( "PLANTER" ) ) {
             if( g->u.sees( global_pos3() ) ) {
                 add_msg( _( "The %s's planter turns off due to low temperature." ), name );
@@ -5514,8 +5520,8 @@ void vehicle::update_time( const time_point &update_to )
         if( pt.is_unavailable() || ( !pt.enabled ) ) {
             continue;
         }
-        int density = abs( pt.info().epower ) * 2;
-        g->m.adjust_field_strength( global_part_pos3( pt ), fd_hot_air3, density );
+        int intensity = abs( pt.info().epower ) * 2;
+        g->m.mod_field_intensity( global_part_pos3( pt ), fd_hot_air3, intensity );
         discharge_battery( pt.info().epower );
     }
     // coolers emitting cold air
@@ -5524,8 +5530,8 @@ void vehicle::update_time( const time_point &update_to )
         if( pt.is_unavailable() || ( !pt.enabled ) ) {
             continue;
         }
-        int density = abs( pt.info().epower ) * 5;
-        g->m.adjust_field_strength( global_part_pos3( pt ), fd_cold_air3, density );
+        int intensity = abs( pt.info().epower ) * 5;
+        g->m.mod_field_intensity( global_part_pos3( pt ), fd_cold_air3, intensity );
         discharge_battery( pt.info().epower );
     }
     // Get one weather data set per vehicle, they don't differ much across vehicle area

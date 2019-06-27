@@ -739,18 +739,18 @@ class jmapgen_alternativly : public jmapgen_piece
 /**
  * Places fields on the map.
  * "field": field type ident.
- * "density": initial field density.
+ * "intensity": initial field intensity.
  * "age": initial field age.
  */
 class jmapgen_field : public jmapgen_piece
 {
     public:
         field_id ftype;
-        int density;
+        int intensity;
         time_duration age;
         jmapgen_field( JsonObject &jsi ) : jmapgen_piece()
             , ftype( field_from_ident( jsi.get_string( "field" ) ) )
-            , density( jsi.get_int( "density", 1 ) )
+            , intensity( jsi.get_int( "intensity", 1 ) )
             , age( time_duration::from_turns( jsi.get_int( "age", 0 ) ) ) {
             if( ftype == fd_null ) {
                 set_mapgen_defer( jsi, "field", "invalid field type" );
@@ -758,7 +758,7 @@ class jmapgen_field : public jmapgen_piece
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mon_density*/, mission * /*miss*/ ) const override {
-            dat.m.add_field( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ), ftype, density, age );
+            dat.m.add_field( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ), ftype, intensity, age );
         }
 };
 /**
@@ -812,7 +812,6 @@ class jmapgen_faction : public jmapgen_piece
         jmapgen_faction( JsonObject &jsi ) : jmapgen_piece() {
             if( jsi.has_string( "id" ) ) {
                 id = faction_id( jsi.get_string( "id" ) );
-                std::string facid = jsi.get_string( "id" );
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,

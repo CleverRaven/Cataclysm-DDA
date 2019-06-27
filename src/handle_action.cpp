@@ -365,7 +365,6 @@ static void rcdrive( int dx, int dy )
         rotate_direction_cw( dx, dy );
     }
 
-    tripoint src( cx, cy, cz );
     tripoint dest( cx + dx, cy + dy, cz );
     if( m.impassable( dest ) || !m.can_put_items_ter_furn( dest ) ||
         m.has_furn( dest ) ) {
@@ -373,6 +372,7 @@ static void rcdrive( int dx, int dy )
                        _( "sound of a collision with an obstacle." ), true, "misc", "rc_car_hits_obstacle" );
         return;
     } else if( !m.add_item_or_charges( dest, *rc_car ).is_null() ) {
+        tripoint src( cx, cy, cz );
         //~ Sound of moving a remote controlled car
         sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz..." ), true, "misc", "rc_car_drives" );
         u.moves -= 50;
@@ -655,7 +655,8 @@ static void smash()
         u.increase_activity_level( MODERATE_EXERCISE );
         u.handle_melee_wear( u.weapon );
         u.moves -= move_cost;
-        const int mod_sta = ( ( u.weapon.weight() / 100_gram ) + 20 ) * -1;
+        const int mod_sta = ( ( u.weapon.weight() / 10_gram ) + 200 + static_cast<int>
+                              ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) ) * -1;
         u.mod_stat( "stamina", mod_sta );
 
         if( u.get_skill_level( skill_melee ) == 0 ) {
@@ -748,6 +749,10 @@ static void wait()
         }
 
     } else {
+        if( g->u.stamina < g->u.get_stamina_max() ) {
+            as_m.addentry( 12, true, 'w', _( "Wait until you catch your breath" ) );
+            durations[12] = MINUTES( 15 ); // to hide it from showing
+        }
         add_menu_item( 1, '1', !has_watch ? _( "Wait 300 heartbeats" ) : "", MINUTES( 5 ) );
         add_menu_item( 2, '2', !has_watch ? _( "Wait 1800 heartbeats" ) : "", MINUTES( 30 ) );
 
@@ -782,7 +787,7 @@ static void wait()
                 add_menu_item( 11, 'x', _( "Cancel the currently set alarm." ), 0 );
             }
         } else {
-            add_menu_item( 11, 'w', _( "Wait till weather changes" ) );
+            add_menu_item( 11, 'W', _( "Wait till weather changes" ) );
         }
     }
 
@@ -807,7 +812,14 @@ static void wait()
 
     } else {
         // Waiting
-        activity_id actType = activity_id( as_m.ret == 11 ? "ACT_WAIT_WEATHER" : "ACT_WAIT" );
+        activity_id actType;
+        if( as_m.ret == 11 ) {
+            actType = activity_id( "ACT_WAIT_WEATHER" );
+        } else if( as_m.ret == 12 ) {
+            actType = activity_id( "ACT_WAIT_STAMINA" );
+        } else {
+            actType = activity_id( "ACT_WAIT" );
+        }
 
         player_activity new_act( actType, 100 * ( durations[as_m.ret] - 1 ), 0 );
 
@@ -835,7 +847,7 @@ static void sleep()
     // List all active items, bionics or mutations so player can deactivate them
     std::vector<std::string> active;
     for( auto &it : u.inv_dump() ) {
-        if( it->active && ( it->charges > 0 || it->ammo_remaining() > 0 ) &&
+        if( it->active && ( it->charges > 0 || it->units_remaining( u ) > 0 ) &&
             it->is_transformable() ) {
             active.push_back( it->tname() );
         }
@@ -994,8 +1006,8 @@ static void loot()
         }
 
         if( flags & PlantPlots ) {
-            menu.addentry_desc( PlantPlots, warm_enough_to_plant() && has_seeds, 'p',
-                                !warm_enough_to_plant() ? _( "Plant seeds... it is too cold for planting" ) :
+            menu.addentry_desc( PlantPlots, warm_enough_to_plant( g->u.pos() ) && has_seeds, 'p',
+                                !warm_enough_to_plant( g->u.pos() ) ? _( "Plant seeds... it is too cold for planting" ) :
                                 !has_seeds ? _( "Plant seeds... you don't have any" ) : _( "Plant seeds" ),
                                 _( "Plant seeds into nearby Farm: Plot zones. Farm plot has to be set to specific plant seed and you must have seeds in your inventory." ) );
         }
@@ -1033,7 +1045,7 @@ static void loot()
             }
             break;
         case PlantPlots:
-            if( !warm_enough_to_plant() ) {
+            if( !warm_enough_to_plant( g->u.pos() ) ) {
                 add_msg( m_info, _( "It is too cold to plant anything now." ) );
             } else if( !has_seeds ) {
                 add_msg( m_info, _( "You don't have any seeds." ) );
@@ -1864,7 +1876,7 @@ bool game::handle_action()
                         } else if( u.ammo_location && opt.ammo == u.ammo_location ) {
                             u.ammo_location = item_location();
                         } else {
-                            u.ammo_location = opt.ammo.clone();
+                            u.ammo_location = opt.ammo;
                         }
                     }
                 }
@@ -1948,8 +1960,6 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't construct while you're in your shell." ) );
                 } else if( u.has_effect( effect_riding ) ) {
                     add_msg( m_info, _( "You can't construct while you're riding." ) );
-                } else if( g->u.fine_detail_vision_mod() > 4 && !g->u.has_trait( trait_DEBUG_HS ) ) {
-                    add_msg( m_info, _( "It is too dark to construct right now." ) );
                 } else {
                     construction_menu( false );
                 }

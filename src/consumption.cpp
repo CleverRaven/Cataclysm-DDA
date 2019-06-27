@@ -586,7 +586,7 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
     }
 
     if( stomach.stomach_remaining() < food.volume() / food.charges && !food.has_infinite_charges() ) {
-        if( food.has_flag( "USE_EAT_VERB" ) ) {
+        if( edible ) {
             add_consequence( _( "You're full already and will be forcing yourself to eat." ), TOO_FULL );
         } else {
             add_consequence( _( "You're full already and will be forcing yourself to drink." ), TOO_FULL );
