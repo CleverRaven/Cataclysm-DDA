@@ -9080,12 +9080,13 @@ point game::place_player( const tripoint &dest_loc )
     }
     if( u.has_effect( effect_under_op ) &&
         m.furn( dest_loc ) != furn_str_id( "f_autodoc_couch" ) ) {
+        add_msg( _( "The Autodoc's tools cut through you as you move away from it." ) );
         for( body_part bp : u.get_all_body_parts() ) {
             if( u.has_effect( effect_under_op, bp ) ) {
                 const int intensity = u.get_effect_int( effect_under_op, bp );
                 u.apply_damage( nullptr, bp, 3 * intensity );
                 u.add_effect( effect_bleed, 1_turns, bp, true, intensity );
-                add_msg( m_bad, _( "Moving from the Autodoc mid-operation rips your %s open." ),
+                add_msg( m_bad, _( "Your %s is ripped open." ),
                          body_part_name_accusative( bp ) );
                 if( bp == bp_eyes ) {
                     u.add_effect( effect_blind, 1_hours, num_bp );
