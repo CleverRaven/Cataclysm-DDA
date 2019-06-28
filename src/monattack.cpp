@@ -2610,8 +2610,8 @@ bool mattack::grab_drag( monster *z )
     if( target->has_effect( effect_under_op ) ) {
         target->add_msg_player_or_npc( m_good,
                                        _( "The %s tries to drag you, but you're securely fastened in the autodoc." ),
-                                       _( "The %s tries to drag <npcname>, but you're securely fastened in the autodoc." ), z->name() );
-        return;
+                                       _( "The %s tries to drag <npcname>, but they're securely fastened in the autodoc." ), z->name() );
+        return false;
     }
 
     player *foe = dynamic_cast< player * >( target );
