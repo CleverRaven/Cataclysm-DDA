@@ -4100,12 +4100,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         p.add_msg_if_player( m_info, _( "The autodoc is working on %s." ), patient.disp_name() );
         return;
     }
-    if( patient.backlog.front().id() == "ACT_OPERATION_REMOVE" ) {
-        if( query_yn( "Resume operation?" ) ) {
-            patient.assign_activity( patient.backlog.front(), true );
-        }
-        return;
-    }
+
     uilist amenu;
     amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation" );
     amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install" ) );

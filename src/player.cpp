@@ -10728,10 +10728,6 @@ void player::cancel_activity()
         stop_hauling();
     }
 
-    if( has_activity( activity_id( "ACT_OPERATION_REMOVE" ) ) ) {
-        abort_operation();
-    }
-
     // Clear any backlog items that aren't auto-resume.
     for( auto backlog_item = backlog.begin(); backlog_item != backlog.end(); ) {
         if( backlog_item->auto_resume ) {

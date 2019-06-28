@@ -1612,39 +1612,6 @@ void player::bionics_install_failure( player &installer, int difficulty, int suc
     }
 }
 
-void player::abort_operation()
-{
-    player_activity *Operation = &activity;
-    const int op_duration = Operation->values[0] * 20 * 60;
-    const int time_left = Operation->moves_left / 100;
-
-    // Difficulty 13 operation takes patient down to half MAX_HP: 0.5/13=0.04
-    // Other difficulty scale linearly from there
-    const int max_hurt = hp_max[bp_torso] * Operation->values[0] * 0.04;
-
-    int hurt = 0;
-    if( time_left > op_duration / 2 ) {
-        hurt = std::min( op_duration - time_left, max_hurt );
-    } else {
-        hurt = std::min( time_left, max_hurt );
-    }
-
-    if( Operation->values.size() > 4 ) {
-        for( size_t i = 4; i < Operation->values.size(); i++ ) {
-            apply_damage( nullptr, body_part( Operation->values[i] ), hurt );
-            add_msg_player_or_npc( _( "The operation is aborted and your %s is left open." ),
-                                   _( "The operation is aborted and <npcname>'s %s is left open." ),
-                                   body_part_name_accusative( body_part( Operation->values[i] ) ) );
-        }
-    } else {
-        apply_damage( nullptr, num_bp, hurt );
-        add_msg_player_or_npc( _( "The operation is aborted and you are left open." ),
-                               _( "The operation is aborted and <npcname> is left open." ) );
-    }
-
-}
-
-
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
                                const bool each_bp_on_new_line )
 {

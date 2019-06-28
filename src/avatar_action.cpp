@@ -71,12 +71,6 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         return true;
     }
 
-    if( you.has_effect( effect_under_op ) && m.furn( dest_loc ) != furn_str_id( "f_autodoc_couch" ) ) {
-        if( !query_yn( "Are you sure you want to move DURING the operation?  This will hurt you badly." ) ) {
-            return false;
-        }
-    }
-
     if( m.has_flag( TFLAG_MINEABLE, dest_loc ) && g->mostseen == 0 &&
         get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
         !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&

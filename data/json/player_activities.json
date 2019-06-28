@@ -554,7 +554,8 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "being operated on",
-    "based_on": "time"
+    "based_on": "time",
+    "suspendable": false
   },
   {
     "id": "ACT_UNLOAD_MAG",
