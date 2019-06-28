@@ -303,7 +303,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 43,
-    "description": "A modest blue flower. The flower's roots are very bitter, but they're not meant to be eaten raw.",
+    "description": "A modest blue flower. The flower's roots are very bitter and not meant to be eaten raw.",
     "price": 110,
     "material": "veggy",
     "volume": 1,
