@@ -427,7 +427,8 @@
           "mx_pond": 125,
           "mx_clay_deposit": 125,
           "mx_point_dead_vegetation": 500,
-          "mx_point_burned_ground": 500
+          "mx_point_burned_ground": 500,
+          "mx_casings": 30
         }
       },
       "forest_thick": {
@@ -453,7 +454,8 @@
           "mx_pond": 125,
           "mx_clay_deposit": 125,
           "mx_point_dead_vegetation": 500,
-          "mx_point_burned_ground": 500
+          "mx_point_burned_ground": 500,
+          "mx_casings": 30
         }
       },
       "forest_water": {
@@ -477,7 +479,8 @@
           "mx_pond": 125,
           "mx_clay_deposit": 125,
           "mx_point_dead_vegetation": 500,
-          "mx_point_burned_ground": 500
+          "mx_point_burned_ground": 500,
+          "mx_casings": 30
         }
       },
       "field": {
@@ -495,7 +498,8 @@
           "mx_portal_in": 1,
           "mx_anomaly": 3,
           "mx_point_dead_vegetation": 50,
-          "mx_point_burned_ground": 50
+          "mx_point_burned_ground": 50,
+          "mx_casings": 50
         }
       },
       "road": {
@@ -516,7 +520,8 @@
           "mx_portal_in": 2,
           "mx_anomaly": 3,
           "mx_roadworks": 100,
-          "mx_mayhem": 50
+          "mx_mayhem": 50,
+          "mx_casings": 100
         }
       },
       "build": {
@@ -532,7 +537,8 @@
           "mx_fumarole": 8,
           "mx_portal_in": 1,
           "mx_anomaly": 3,
-          "mx_point_burned_ground": 5
+          "mx_point_burned_ground": 5,
+          "mx_casings": 30
         }
       },
       "marloss": { "chance": 20, "extras": { "mx_marloss_pilgrimage": 100 } },
@@ -545,7 +551,8 @@
           "mx_portal": 7,
           "mx_fumarole": 20,
           "mx_portal_in": 1,
-          "mx_anomaly": 3
+          "mx_anomaly": 3,
+          "mx_casings": 30
         }
       },
       "research_facility_lot": {
@@ -559,7 +566,8 @@
           "mx_fumarole": 10,
           "mx_portal_in": 20,
           "mx_anomaly": 10,
-          "mx_point_burned_ground": 100
+          "mx_point_burned_ground": 100,
+          "mx_casings": 30
         }
       },
       "research_facility_interior": {
@@ -570,7 +578,8 @@
           "mx_portal": 100,
           "mx_crater": 300,
           "mx_portal_in": 40,
-          "mx_point_burned_ground": 125
+          "mx_point_burned_ground": 125,
+          "mx_casings": 30
         }
       }
     },

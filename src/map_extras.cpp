@@ -2286,6 +2286,151 @@ static void mx_mayhem( map &m, const tripoint &abs_sub )
     }
 }
 
+static void mx_casings( map &m, const tripoint &abs_sub )
+{
+    const auto items = item_group::items_from( "ammo_casings", calendar::turn );
+
+    switch( rng( 1, 4 ) ) {
+        //Pile of random casings in random place
+        case 1: {
+            const tripoint location = { rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ), abs_sub.z };
+            //Spawn casings
+            for( const auto &loc : g->m.points_in_radius( location, rng( 1, 2 ) ) ) {
+                if( one_in( 2 ) ) {
+                    m.spawn_items( loc, items );
+                }
+            }
+            //Spawn random trash in random place
+            for( int i = 0; i < rng( 1, 3 ); i++ ) {
+                const auto trash = item_group::items_from( "map_extra_casings", calendar::turn );
+                const tripoint trash_loc = random_entry( m.points_in_radius( { SEEX, SEEY, abs_sub.z }, 10 ) );
+                m.spawn_items( trash_loc, trash );
+            }
+            //Spawn blood and bloody rag and sometimes trail of blood
+            if( one_in( 2 ) ) {
+                m.add_field( location, fd_blood, rng( 1, 3 ) );
+                const tripoint bloody_rag_loc = random_entry( m.points_in_radius( location, 3 ) );
+                if( one_in( 2 ) ) {
+                    m.spawn_item( bloody_rag_loc, "rag_bloody" );
+                }
+                if( one_in( 2 ) ) {
+                    m.add_splatter_trail( fd_blood, location,
+                                          random_entry( m.points_in_radius( location, rng( 1, 4 ) ) ) );
+                }
+            }
+
+            break;
+        }
+        //Entire battlefield filled with casings
+        case 2: {
+            //Spawn casings
+            for( int i = 0; i < SEEX * 2; i++ ) {
+                for( int j = 0; j < SEEY * 2; j++ ) {
+                    if( one_in( 20 ) ) {
+                        m.spawn_items( i, j, items );
+                    }
+                }
+            }
+            const tripoint location = { SEEX, SEEY, abs_sub.z };
+            //Spawn random trash in random place
+            for( int i = 0; i < rng( 1, 3 ); i++ ) {
+                const auto trash = item_group::items_from( "map_extra_casings", calendar::turn );
+                const tripoint trash_loc = random_entry( m.points_in_radius( location, 10 ) );
+                m.spawn_items( trash_loc, trash );
+            }
+            //Spawn blood and bloody rag in random place
+            const tripoint random_place = random_entry( m.points_in_radius( location, rng( 1, 10 ) ) );
+            if( one_in( 2 ) ) {
+                m.add_field( random_place, fd_blood, rng( 1, 3 ) );
+                const tripoint bloody_rag_loc = random_entry( m.points_in_radius( random_place, 3 ) );
+                if( one_in( 2 ) ) {
+                    m.spawn_item( bloody_rag_loc, "rag_bloody" );
+                }
+            }
+            break;
+        }
+        //Person moved and fired in some direction
+        case 3: {
+            //Spawn casings and blood trail along the direction of movement
+            const tripoint from = { rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ), abs_sub.z };
+            const tripoint to = { rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ), abs_sub.z };
+            std::vector<tripoint> casings = line_to( from, to );
+            for( auto &i : casings ) {
+                if( one_in( 2 ) ) {
+                    m.spawn_items( { i.x, i.y, abs_sub.z }, items );
+                    if( one_in( 2 ) ) {
+                        m.add_field( { i.x, i.y, abs_sub.z }, fd_blood, rng( 1, 3 ) );
+                    }
+                }
+            }
+            //Spawn random trash in random place
+            for( int i = 0; i < rng( 1, 3 ); i++ ) {
+                const auto trash = item_group::items_from( "map_extra_casings", calendar::turn );
+                const tripoint trash_loc = random_entry( m.points_in_radius( { SEEX, SEEY, abs_sub.z }, 10 ) );
+                m.spawn_items( trash_loc, trash );
+            }
+            //Spawn blood and bloody rag at the destination
+            if( one_in( 2 ) ) {
+                m.add_field( from, fd_blood, rng( 1, 3 ) );
+                const tripoint bloody_rag_loc = random_entry( m.points_in_radius( to, 3 ) );
+                if( one_in( 2 ) ) {
+                    m.spawn_item( bloody_rag_loc, "rag_bloody" );
+                }
+            }
+            break;
+        }
+        //Two persons shot and created two piles of casings
+        case 4: {
+            const tripoint first_loc = { rng( 1, SEEX - 2 ), rng( 1, SEEY - 2 ), abs_sub.z };
+            const tripoint second_loc = { rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ), abs_sub.z };
+            const auto first_items = item_group::items_from( "ammo_casings", calendar::turn );
+            const auto second_items = item_group::items_from( "ammo_casings", calendar::turn );
+
+            for( const auto &loc : g->m.points_in_radius( first_loc, rng( 1, 2 ) ) ) {
+                if( one_in( 2 ) ) {
+                    m.spawn_items( loc, first_items );
+                }
+            }
+            for( const auto &loc : g->m.points_in_radius( second_loc, rng( 1, 2 ) ) ) {
+                if( one_in( 2 ) ) {
+                    m.spawn_items( loc, second_items );
+                }
+            }
+            //Spawn random trash in random place
+            for( int i = 0; i < rng( 1, 3 ); i++ ) {
+                const auto trash = item_group::items_from( "map_extra_casings", calendar::turn );
+                const tripoint trash_loc = random_entry( m.points_in_radius( { SEEX, SEEY, abs_sub.z }, 10 ) );
+                m.spawn_items( trash_loc, trash );
+            }
+            //Spawn blood and bloody rag at the first location, sometimes trail of blood
+            if( one_in( 2 ) ) {
+                m.add_field( first_loc, fd_blood, rng( 1, 3 ) );
+                const tripoint bloody_rag_loc = random_entry( m.points_in_radius( first_loc, 3 ) );
+                if( one_in( 2 ) ) {
+                    m.spawn_item( bloody_rag_loc, "rag_bloody" );
+                }
+                if( one_in( 2 ) ) {
+                    m.add_splatter_trail( fd_blood, first_loc,
+                                          random_entry( m.points_in_radius( first_loc, rng( 1, 4 ) ) ) );
+                }
+            }
+            //Spawn blood and bloody rag at the second location, sometimes trail of blood
+            if( one_in( 2 ) ) {
+                m.add_field( second_loc, fd_blood, rng( 1, 3 ) );
+                const tripoint bloody_rag_loc = random_entry( m.points_in_radius( second_loc, 3 ) );
+                if( one_in( 2 ) ) {
+                    m.spawn_item( bloody_rag_loc, "rag_bloody" );
+                }
+                if( one_in( 2 ) ) {
+                    m.add_splatter_trail( fd_blood, second_loc,
+                                          random_entry( m.points_in_radius( second_loc, rng( 1, 4 ) ) ) );
+                }
+            }
+            break;
+        }
+    }
+}
+
 FunctionMap builtin_functions = {
     { "mx_null", mx_null },
     { "mx_crater", mx_crater },
@@ -2319,6 +2464,7 @@ FunctionMap builtin_functions = {
     { "mx_burned_ground", mx_burned_ground },
     { "mx_point_burned_ground", mx_point_burned_ground },
     { "mx_marloss_pilgrimage", mx_marloss_pilgrimage },
+    { "mx_casings", mx_casings }
 };
 
 map_extra_pointer get_function( const std::string &name )

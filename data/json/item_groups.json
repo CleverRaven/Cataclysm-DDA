@@ -74,7 +74,8 @@
       [ "sharp_rock", 5 ],
       [ "months_old_newspaper", 1 ],
       [ "weeks_old_newspaper", 2 ],
-      [ "newest_newspaper", 3 ]
+      [ "newest_newspaper", 3 ],
+      { "group": "ammo_casings", "prob": 10 }
     ]
   },
   {
@@ -113,7 +114,8 @@
       [ "bottle_plastic", 1 ],
       [ "bottle_glass", 1 ],
       [ "syringe", 1 ],
-      [ "cig_butt", 1 ]
+      [ "cig_butt", 1 ],
+      { "group": "ammo_casings", "prob": 20 }
     ]
   },
   {
@@ -141,8 +143,9 @@
     "type": "item_group",
     "id": "road",
     "items": [
+      { "group": "ammo_casings", "prob": 20 },
       [ "jumper_cable", 5 ],
-      [ "muffler", 30 ],
+      [ "muffler", 5 ],
       [ "pipe", 20 ],
       [ "motor", 2 ],
       [ "motor_small", 2 ],
@@ -8080,6 +8083,7 @@
     "type": "item_group",
     "id": "trash_forest",
     "items": [
+      { "group": "ammo_casings", "prob": 3 },
       [ "rock", 5 ],
       [ "ceramic_shard", 5 ],
       [ "stick", 5 ],
