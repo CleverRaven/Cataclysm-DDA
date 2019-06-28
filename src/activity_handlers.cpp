@@ -2786,20 +2786,22 @@ void activity_handlers::uninstall_operation_do_turn( player_activity *act, playe
     const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
                                          furn_str_id( "f_autodoc" ) );
 
-    if( g->m.furn( p->pos() ) != furn_str_id( "f_autodoc_couch" ) ) {
+    if( g->m.furn( p->pos() ) != furn_str_id( "f_autodoc_couch" ) || autodocs.empty() ) {
         p->remove_effect( effect_under_op );
         act->set_to_null();
 
         if( u_see ) {
+            add_msg( m_bad, _( "The autodoc suffers a catastrophic failure." ) );
+
             p->add_msg_player_or_npc( m_bad,
-                                      _( "The Autodoc's tools cut through you as you move away from it." ),
-                                      _( "The Autodoc's tools cut through <npcname> as they move away from it." ) );
+                                      _( "The Autodoc's failure damages you greatly." ),
+                                      _( "The Autodoc's failure damages <npcname> greatly." ) );
         }
 
         if( act->values.size() > 4 ) {
             for( size_t i = 4; i < act->values.size(); i++ ) {
                 p->add_effect( effect_bleed, 1_turns, body_part( act->values[i] ), true, difficulty );
-                p->apply_damage( nullptr, body_part( act->values[i] ), 3 * difficulty );
+                p->apply_damage( nullptr, body_part( act->values[i] ), 10 * difficulty );
 
                 if( u_see ) {
                     p->add_msg_player_or_npc( m_bad, _( "Your %s is ripped open." ),
@@ -2814,14 +2816,8 @@ void activity_handlers::uninstall_operation_do_turn( player_activity *act, playe
             }
         } else {
             p->add_effect( effect_bleed, 1_turns, num_bp, true, difficulty );
-            p->apply_damage( nullptr, num_bp, 3 * difficulty );
+            p->apply_damage( nullptr, num_bp, 10 * difficulty );
         }
-    }
-
-    if( autodocs.empty() ) {
-        add_msg( "The Autodoc is gone, the operation stops." );
-        p->remove_effect( effect_under_op );
-        p->cancel_activity();
     }
 
     if( time_left >  op_duration ) {
