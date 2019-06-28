@@ -221,7 +221,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "Sonic overpressure wave projector",
-    "//": "test only - intended to be vehicle artillery"
+    "//": "test only - intended to be vehicle artillery",
     "description": "A bulky contraption with intricate machinery haphazardly built around an engraved stone sphere, connected to an emitter vaguely resembling a satellite dish.  If you could jury-rig a power supply for it, you could see what it does.",
     "weight": 4950,
     "volume": 12,
