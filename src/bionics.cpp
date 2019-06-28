@@ -1629,8 +1629,8 @@ void player::abort_operation()
         hurt = std::min( time_left, max_hurt );
     }
 
-    if( Operation->values.size() > 5 ) {
-        for( size_t i = 5; i < Operation->values.size() - 1; i = i + 2 ) {
+    if( Operation->values.size() > 4 ) {
+        for( size_t i = 4; i < Operation->values.size(); i++ ) {
             apply_damage( nullptr, body_part( Operation->values[i] ), hurt );
             add_msg_player_or_npc( _( "The operation is aborted and your %s is left open." ),
                                    _( "The operation is aborted and <npcname>'s %s is left open." ),

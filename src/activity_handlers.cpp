@@ -2785,25 +2785,34 @@ void activity_handlers::uninstall_operation_do_turn( player_activity *act, playe
 
     const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
                                          furn_str_id( "f_autodoc" ) );
+
     if( g->m.furn( p->pos() ) != furn_str_id( "f_autodoc_couch" ) ) {
         p->remove_effect( effect_under_op );
         act->set_to_null();
         if( act->values.size() > 4 ) {
             for( size_t i = 4; i < act->values.size(); i++ ) {
-                p->add_msg_player_or_npc( m_bad, _( "Moving from the Autodoc mid-operation rips your %s open." ),
-                                          _( "Moving from the Autodoc mid-operation rips <npcname>'s %s open." ),
-                                          body_part_name_accusative( body_part( act->values[i] ) ) );
                 p->add_effect( effect_bleed, 1_turns, body_part( act->values[i] ), true, difficulty );
+                p->apply_damage( nullptr, body_part( act->values[i] ), 3 * difficulty );
+
+                if( u_see ) {
+                    p->add_msg_player_or_npc( m_bad, _( "Moving from the Autodoc mid-operation rips your %s open." ),
+                                              _( "Moving from the Autodoc mid-operation rips <npcname>'s %s open." ),
+                                              body_part_name_accusative( body_part( act->values[i] ) ) );
+                }
+
                 if( body_part( act->values[i] ) == bp_eyes ) {
                     p->add_effect( effect_blind, 1_hours, num_bp );
                 }
                 p->remove_effect( effect_under_op, body_part( act->values[i] ) );
-
             }
         } else {
             p->add_effect( effect_bleed, 1_turns, num_bp, true, difficulty );
-            p->add_msg_player_or_npc( m_bad, _( "Moving from the Autodoc mid-operation rips you %s open." ),
-                                      _( "Moving from the Autodoc mid-operation rips <npcname> %s open." ) );
+            p->apply_damage( nullptr, num_bp, 3 * difficulty );
+
+            if( u_see ) {
+                p->add_msg_player_or_npc( m_bad, _( "Moving from the Autodoc mid-operation rips you %s open." ),
+                                          _( "Moving from the Autodoc mid-operation rips <npcname> %s open." ) );
+            }
         }
     }
 
