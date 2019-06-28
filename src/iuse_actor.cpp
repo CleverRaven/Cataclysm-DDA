@@ -4197,7 +4197,8 @@ int deploy_tent_actor::use( player &p, item &it, bool, const tripoint & ) const
             return 0;
         }
         if( g->m.impassable( dest ) || !g->m.has_flag( "FLAT", dest ) ) {
-            add_msg( m_info, _( "The %s in that direction is not passable." ), g->m.name( dest ) );
+            add_msg( m_info, _( "The %s in that direction isn't suitable for placing the %s." ),
+                     g->m.name( dest ), it.tname() );
             return 0;
         }
         if( g->m.has_furn( dest ) ) {
