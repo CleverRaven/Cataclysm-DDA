@@ -931,7 +931,7 @@ rl_vec2d convert_wind_to_coord( const int angle )
             { 150, rl_vec2d( 0, 1 ) },
             { 121, rl_vec2d( 1, 1 ) },
             { 60, rl_vec2d( 1, 0 ) },
-            { 31, rl_vec2d( 1, 1 ) },
+            { 31, rl_vec2d( 1, -1 ) },
             { 0, rl_vec2d( 0, -1 ) }
         }
     };
