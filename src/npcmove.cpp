@@ -659,6 +659,11 @@ void npc::move()
     regen_ai_cache();
     adjust_power_cbms();
 
+    if( has_effect( effect_under_op ) ) {
+        execute_action( npc_player_activity );
+        return;// NPCs under operation should just stay still
+    }
+
     npc_action action = npc_undecided;
 
     static const std::string no_target_str = "none";
