@@ -2634,7 +2634,7 @@ bool mattack::grab_drag( monster *z )
         } else {
             zz->setpos( zpt );
         }
-        target->add_msg_player_or_npc( m_good, _( "You are dragged behind the %s!" ),
+        target->add_msg_player_or_npc( m_bad, _( "You are dragged behind the %s!" ),
                                        _( "<npcname> gets dragged behind the %s!" ), z->name() );
     } else {
         target->add_msg_player_or_npc( m_good, _( "You resist the %s as it tries to drag you!" ),
