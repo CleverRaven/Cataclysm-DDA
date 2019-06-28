@@ -21,7 +21,8 @@
     "avoidance": 8,
     "difficulty": 0,
     "action": "bubble",
-    "drops": [ "bubblewrap" ]
+    "drops": [ "bubblewrap" ],
+    "vehicle_data": { "sound_volume": 18, "sound": "Pop!" }
   },
   {
     "type": "trap",
@@ -33,7 +34,8 @@
     "avoidance": 8,
     "difficulty": 0,
     "action": "glass",
-    "drops": [ "glass_shard" ]
+    "drops": [ "glass_shard" ],
+    "vehicle_data": { "sound_volume": 10, "sound": "Crunch!" }
   },
   {
     "type": "trap",
@@ -44,6 +46,8 @@
     "visibility": -1,
     "avoidance": 0,
     "difficulty": 0,
+    "comfort": 4,
+    "floor_bedding_warmth": -500,
     "action": "cot",
     "drops": [ "cot" ],
     "benign": true
@@ -85,6 +89,8 @@
     "visibility": -1,
     "avoidance": 0,
     "difficulty": 0,
+    "comfort": 4,
+    "floor_bedding_warmth": -1000,
     "action": "none",
     "drops": [ "rollmat" ],
     "benign": true
@@ -98,6 +104,8 @@
     "visibility": -1,
     "avoidance": 0,
     "difficulty": 0,
+    "comfort": 4,
+    "floor_bedding_warmth": -1000,
     "action": "none",
     "drops": [ "fur_rollmat" ],
     "benign": true
@@ -113,7 +121,8 @@
     "avoidance": 7,
     "difficulty": 3,
     "action": "beartrap",
-    "drops": [ "beartrap" ]
+    "drops": [ "beartrap" ],
+    "vehicle_data": { "damage": 300, "sound_volume": 8, "sound": "SNAP!", "sound_type": "trap", "sound_variant": "bear_trap" }
   },
   {
     "type": "trap",
@@ -126,7 +135,8 @@
     "avoidance": 8,
     "difficulty": 4,
     "action": "beartrap",
-    "drops": [ "beartrap" ]
+    "drops": [ "beartrap" ],
+    "vehicle_data": { "damage": 300, "sound_volume": 8, "sound": "SNAP!", "sound_type": "trap", "sound_variant": "bear_trap" }
   },
   {
     "type": "trap",
@@ -138,7 +148,8 @@
     "avoidance": 6,
     "difficulty": 0,
     "action": "board",
-    "drops": [ "board_trap" ]
+    "drops": [ "board_trap" ],
+    "vehicle_data": { "damage": 300 }
   },
   {
     "type": "trap",
@@ -150,7 +161,8 @@
     "avoidance": 6,
     "difficulty": 0,
     "action": "caltrops",
-    "drops": [ "caltrops" ]
+    "drops": [ "caltrops" ],
+    "vehicle_data": { "damage": 300 }
   },
   {
     "type": "trap",
@@ -162,7 +174,8 @@
     "avoidance": 6,
     "difficulty": 0,
     "action": "caltrops_glass",
-    "drops": [ "caltrops_glass" ]
+    "drops": [ "caltrops_glass" ],
+    "vehicle_data": { "damage": 300 }
   },
   {
     "type": "trap",
@@ -187,7 +200,16 @@
     "avoidance": 4,
     "difficulty": 5,
     "action": "crossbow",
-    "drops": [ "string_36", "crossbow", "bolt_steel" ]
+    "drops": [ "string_36", "crossbow", "bolt_steel" ],
+    "vehicle_data": {
+      "remove_trap": true,
+      "chance": 30,
+      "damage": 300,
+      "sound_volume": 1,
+      "sound": "Clank!",
+      "sound_type": "fire_gun",
+      "sound_variant": "crossbow"
+    }
   },
   {
     "type": "trap",
@@ -200,7 +222,16 @@
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
-    "drops": [ "string_36", "shotgun_d" ]
+    "drops": [ "string_36", "shotgun_d", { "item": "shot_00", "quantity": 2, "charges": 1 } ],
+    "vehicle_data": {
+      "remove_trap": true,
+      "chance": 70,
+      "damage": 300,
+      "sound_volume": 60,
+      "sound": "Bang!",
+      "sound_type": "fire_gun",
+      "sound_variant": "shotgun_d"
+    }
   },
   {
     "type": "trap",
@@ -213,7 +244,15 @@
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
-    "drops": [ "string_36", "shotgun_s" ]
+    "drops": [ "string_36", "shotgun_s", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
+    "vehicle_data": {
+      "chance": 70,
+      "damage": 300,
+      "sound_volume": 60,
+      "sound": "Bang!",
+      "sound_type": "fire_gun",
+      "sound_variant": "shotgun_s"
+    }
   },
   {
     "type": "trap",
@@ -225,6 +264,7 @@
     "visibility": 0,
     "avoidance": 0,
     "difficulty": 2,
+    "trap_radius": 1,
     "action": "none",
     "drops": [ "motor", "blade", "blade", "string_36" ]
   },
@@ -237,7 +277,8 @@
     "visibility": 0,
     "avoidance": 4,
     "difficulty": 99,
-    "action": "blade"
+    "action": "blade",
+    "vehicle_data": { "damage": 300, "sound_volume": 1, "sound": "Swinnng!", "sound_type": "smash_success", "sound_variant": "hit_vehicle" }
   },
   {
     "type": "trap",
@@ -250,7 +291,8 @@
     "avoidance": 14,
     "difficulty": 10,
     "action": "landmine",
-    "drops": [ "landmine" ]
+    "drops": [ "landmine" ],
+    "vehicle_data": { "do_explosion": true, "damage": 1000, "shrapnel": 8, "sound_volume": 10 }
   },
   {
     "type": "trap",
@@ -263,7 +305,8 @@
     "avoidance": 14,
     "difficulty": 10,
     "action": "landmine",
-    "drops": [ "landmine" ]
+    "drops": [ "landmine" ],
+    "vehicle_data": { "do_explosion": true, "damage": 1000, "shrapnel": 8, "sound_volume": 10 }
   },
   {
     "type": "trap",
@@ -298,7 +341,8 @@
     "visibility": 2,
     "avoidance": 20,
     "difficulty": 99,
-    "action": "dissector"
+    "action": "dissector",
+    "vehicle_data": { "damage": 500, "sound_volume": 10, "sound": "BRZZZAP!", "sound_type": "trap", "sound_variant": "dissector" }
   },
   {
     "type": "trap",
@@ -309,7 +353,8 @@
     "visibility": 10,
     "avoidance": 14,
     "difficulty": 99,
-    "action": "sinkhole"
+    "action": "sinkhole",
+    "vehicle_data": { "damage": 500 }
   },
   {
     "type": "trap",
@@ -320,7 +365,8 @@
     "visibility": 0,
     "avoidance": 8,
     "difficulty": 99,
-    "action": "pit"
+    "action": "pit",
+    "vehicle_data": { "damage": 500 }
   },
   {
     "type": "trap",
@@ -331,7 +377,8 @@
     "visibility": 0,
     "avoidance": 8,
     "difficulty": 99,
-    "action": "pit_spikes"
+    "action": "pit_spikes",
+    "vehicle_data": { "damage": 500 }
   },
   {
     "type": "trap",
@@ -342,7 +389,8 @@
     "visibility": 0,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "lava"
+    "action": "lava",
+    "vehicle_data": { "damage": 500 }
   },
   {
     "type": "trap",
@@ -364,7 +412,8 @@
     "visibility": 0,
     "avoidance": 99999,
     "difficulty": 99,
-    "action": "ledge"
+    "action": "ledge",
+    "vehicle_data": { "is_falling": true }
   },
   {
     "type": "trap",
@@ -377,7 +426,8 @@
     "avoidance": 4,
     "difficulty": 7,
     "action": "boobytrap",
-    "drops": [ "boobytrap" ]
+    "drops": [ "boobytrap" ],
+    "vehicle_data": { "do_explosion": true, "damage": 1000, "shrapnel": 12, "sound_volume": 18 }
   },
   {
     "type": "trap",
@@ -471,7 +521,8 @@
     "visibility": 0,
     "avoidance": 8,
     "difficulty": 99,
-    "action": "pit_glass"
+    "action": "pit_glass",
+    "vehicle_data": { "damage": 500 }
   },
   {
     "type": "trap",

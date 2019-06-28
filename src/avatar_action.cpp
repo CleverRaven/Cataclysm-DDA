@@ -24,7 +24,6 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -687,9 +686,11 @@ bool avatar_action::fire( avatar &you, map &m )
     // TODO: move handling "RELOAD_AND_SHOOT" flagged guns to a separate function.
     if( gun->has_flag( "RELOAD_AND_SHOOT" ) ) {
         if( !gun->ammo_remaining() ) {
-            item::reload_option opt = you.ammo_location &&
-                                      gun->can_reload_with( you.ammo_location->typeId() ) ? item::reload_option( &you, args.relevant,
-                                              args.relevant, you.ammo_location.clone() ) : you.select_ammo( *gun );
+            item::reload_option opt =
+                you.ammo_location &&
+                gun->can_reload_with( you.ammo_location->typeId() ) ?
+                item::reload_option( &you, args.relevant, args.relevant, you.ammo_location ) :
+                you.select_ammo( *gun );
             if( !opt ) {
                 // Menu canceled
                 return false;
@@ -700,8 +701,9 @@ bool avatar_action::fire( avatar &you, map &m )
                 return false;
             }
 
-            // Burn 2x the strength required to fire in stamina.
-            you.mod_stat( "stamina", gun->get_min_str() * -2 );
+            // Burn 0.2% max base stamina x the strength required to fire.
+            you.mod_stat( "stamina", gun->get_min_str() * static_cast<int>( 0.002f *
+                          get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
             // At low stamina levels, firing starts getting slow.
             int sta_percent = ( 100 * you.stamina ) / you.get_stamina_max();
             reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;

@@ -20,14 +20,22 @@ class player;
 class JsonObject;
 class JsonOut;
 class JsonIn;
+class teleporter_list;
 class time_duration;
 class nc_color;
 
 enum spell_flag {
-    PERMANENT,
-    IGNORE_WALLS,
-    HOSTILE_SUMMON,
-    HOSTILE_50,
+    PERMANENT, // items or creatures spawned with this spell do not disappear and die as normal
+    IGNORE_WALLS, // spell's aoe goes through walls
+    HOSTILE_SUMMON, // summon spell always spawns a hostile monster
+    HOSTILE_50, // summoned monster spawns friendly 50% of the time
+    SILENT, // spell makes no noise at target
+    LOUD, // spell makes extra noise at target
+    VERBAL, // spell makes noise at caster location, mouth encumbrance affects fail %
+    SOMATIC, // arm encumbrance affects fail % and casting time (slightly)
+    NO_HANDS, // hands do not affect spell energy cost
+    NO_LEGS, // legs do not affect casting time
+    CONCENTRATE, // focus affects spell fail %
     LAST
 };
 
@@ -220,7 +228,7 @@ class spell
         // distance spell can be cast
         int range() const;
         // how much energy does the spell cost
-        int energy_cost() const;
+        int energy_cost( const player &p ) const;
         // how long does this spell's effect last
         int duration() const;
         time_duration duration_turns() const;
@@ -229,7 +237,7 @@ class spell
         float spell_fail( const player &p ) const;
         std::string colorized_fail_percent( const player &p ) const;
         // how long does it take to cast the spell
-        int casting_time() const;
+        int casting_time( const player &p ) const;
 
         // can the player cast this spell?
         bool can_cast( const player &p ) const;
@@ -246,6 +254,8 @@ class spell
 
         // get spell id (from type)
         spell_id id() const;
+        // get spell class (from type)
+        trait_id spell_class() const;
         // get spell effect string (from type)
         std::string effect() const;
         // get spell effect_str data
@@ -272,6 +282,8 @@ class spell
         // difficulty of the level
         int get_difficulty() const;
 
+        // makes a spell sound at the location
+        void make_sound( const tripoint &target ) const;
         // heals the critter at the location, returns amount healed (player heals each body part)
         int heal( const tripoint &target ) const;
 
@@ -362,6 +374,8 @@ std::set<tripoint> spell_effect_line( const spell &, const tripoint &source,
 void spawn_ethereal_item( spell &sp );
 void recover_energy( spell &sp, const tripoint &target );
 void spawn_summoned_monster( spell &sp, const tripoint &source, const tripoint &target );
+void translocate( spell &sp, const tripoint &source, const tripoint &target,
+                  teleporter_list &tp_list );
 } // namespace spell_effect
 
 class spellbook_callback : public uilist_callback

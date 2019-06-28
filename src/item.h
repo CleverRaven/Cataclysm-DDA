@@ -22,6 +22,7 @@
 #include "io_tags.h"
 #include "item_location.h"
 #include "requirements.h"
+#include "safe_reference.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
@@ -184,6 +185,10 @@ class item : public visitable<item>
         /** For constructing in-progress crafts */
         item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections );
 
+        /** Return a pointer-like type that's automatically invalidated if this
+         * item is destroyed or assigned-to */
+        safe_reference<item> get_safe_reference();
+
         /**
          * Filter converting this instance to another type preserving all other aspects
          * @param new_type the type id to convert to
@@ -280,6 +285,8 @@ class item : public visitable<item>
          */
         bool ready_to_revive( const tripoint &pos ) const;
 
+        bool is_money() const;
+
         /**
          * Returns the default color of the item (e.g. @ref itype::color).
          */
@@ -375,7 +382,8 @@ class item : public visitable<item>
                 reload_option( const reload_option & );
                 reload_option &operator=( const reload_option & );
 
-                reload_option( const player *who, const item *target, const item *parent, item_location &&ammo );
+                reload_option( const player *who, const item *target, const item *parent,
+                               const item_location &ammo );
 
                 const player *who = nullptr;
                 const item *target = nullptr;
@@ -1980,6 +1988,7 @@ class item : public visitable<item>
         cata::flat_set<std::string> item_tags; // generic item specific flags
 
     private:
+        safe_reference_anchor anchor;
         const itype *curammo = nullptr;
         std::map<std::string, std::string> item_vars;
         const mtype *corpse = nullptr;

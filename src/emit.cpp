@@ -64,9 +64,9 @@ void emit::check_consistency()
     for( auto &e : emits_all ) {
         e.second.field_ = field_from_ident( e.second.field_name );
 
-        if( e.second.intensity_ > MAX_FIELD_INTENSITY || e.second.intensity_ < 1 ) {
+        if( e.second.intensity_ > 3 || e.second.intensity_ < 1 ) {
             debugmsg( "emission intensity of %s out of range", e.second.id_.c_str() );
-            e.second.intensity_ = std::max( std::min( e.second.intensity_, MAX_FIELD_INTENSITY ), 1 );
+            e.second.intensity_ = std::max( std::min( e.second.intensity_, 3 ), 1 );
         }
         if( e.second.qty_ <= 0 ) {
             debugmsg( "emission qty of %s out of range", e.second.id_.c_str() );

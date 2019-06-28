@@ -455,7 +455,8 @@ class Character : public Creature, public visitable<Character>
         bool has_active_bionic( const bionic_id &b ) const;
         /**Returns true if the player has any bionic*/
         bool has_any_bionic() const;
-
+        // route for overmap-scale travelling
+        std::vector<tripoint> omt_path;
         // --------------- Generic Item Stuff ---------------
 
         struct has_mission_item_filter {
@@ -854,6 +855,11 @@ class Character : public Creature, public visitable<Character>
         void shout( std::string text = "", bool order = false );
         /** Handles Character vomiting effects */
         void vomit();
+        // adds total healing to the bodypart. this is only a counter.
+        void healed_bp( int bp, int amount );
+
+        // the amount healed per bodypart per day
+        std::array<int, num_hp_parts> healed_total;
     protected:
         Character();
         Character( const Character & ) = delete;

@@ -261,7 +261,7 @@ void editmap_hilight::draw( editmap &em, bool update )
                 }
                 const field &t_field = g->m.field_at( p );
                 if( t_field.field_count() > 0 ) {
-                    field_id t_ftype = t_field.field_symbol();
+                    field_id t_ftype = t_field.displayed_field_type();
                     const field_entry *t_fld = t_field.find_field( t_ftype );
                     if( t_fld != nullptr ) {
                         t_col = t_fld->color();
@@ -551,7 +551,7 @@ void editmap::update_view( bool update_info )
                 }
                 const field &t_field = g->m.field_at( p );
                 if( t_field.field_count() > 0 ) {
-                    field_id t_ftype = t_field.field_symbol();
+                    field_id t_ftype = t_field.displayed_field_type();
                     const field_entry *t_fld = t_field.find_field( t_ftype );
                     if( t_fld != nullptr ) {
                         t_col = t_fld->color();
@@ -686,7 +686,7 @@ void editmap::update_view( bool update_info )
 
         if( g->m.has_graffiti_at( target ) ) {
             mvwprintw( w_info, off, 1,
-                       g->m.ter( target ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Incription: %s" ),
+                       g->m.ter( target ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
                        g->m.graffiti_at( target ) );
         }
 
@@ -1059,18 +1059,18 @@ int editmap::edit_ter()
 
 void editmap::update_fmenu_entry( uilist &fmenu, field &field, const field_id idx )
 {
-    int fintensity = 1;
+    int field_intensity = 1;
     const field_t &ftype = all_field_types_enum_list[idx];
     field_entry *fld = field.find_field( idx );
     if( fld != nullptr ) {
-        fintensity = fld->get_field_intensity();
+        field_intensity = fld->get_field_intensity();
     }
-    fmenu.entries[idx].txt = ftype.name( fintensity - 1 );
+    fmenu.entries[idx].txt = ftype.name( field_intensity - 1 );
     if( fld != nullptr ) {
-        fmenu.entries[idx].txt += " " + std::string( fintensity, '*' );
+        fmenu.entries[idx].txt += " " + std::string( field_intensity, '*' );
     }
     fmenu.entries[idx].text_color = ( fld != nullptr ? c_cyan : fmenu.text_color );
-    fmenu.entries[idx].extratxt.color = ftype.color[fintensity - 1];
+    fmenu.entries[idx].extratxt.color = ftype.color[field_intensity - 1];
 }
 
 void editmap::setup_fmenu( uilist &fmenu )
@@ -1079,8 +1079,8 @@ void editmap::setup_fmenu( uilist &fmenu )
     for( int i = 0; i < num_fields; i++ ) {
         const field_id fid = static_cast<field_id>( i );
         const field_t &ftype = all_field_types_enum_list[fid];
-        int fintensity = 1;
-        std::string fname = ftype.name( fintensity - 1 );
+        int field_intensity = 1;
+        std::string fname = ftype.name( field_intensity - 1 );
         fmenu.addentry( fid, true, -2, fname );
         fmenu.entries[fid].extratxt.left = 1;
         fmenu.entries[fid].extratxt.txt = string_format( "%c", ftype.sym );
@@ -1112,13 +1112,13 @@ int editmap::edit_fld()
         if( fmenu.selected > 0 && fmenu.selected < num_fields &&
             ( fmenu.ret > 0 || fmenu.keypress == KEY_LEFT || fmenu.keypress == KEY_RIGHT )
           ) {
-            int fintensity = 0;
+            int field_intensity = 0;
             const field_id idx = static_cast<field_id>( fmenu.selected );
             field_entry *fld = cur_field->find_field( idx );
             if( fld != nullptr ) {
-                fintensity = fld->get_field_intensity();
+                field_intensity = fld->get_field_intensity();
             }
-            int fsel_intensity = fintensity;
+            int fsel_intensity = field_intensity;
             if( fmenu.ret > 0 ) {
                 uilist femenu;
                 femenu.w_width = width;
@@ -1127,26 +1127,26 @@ int editmap::edit_fld()
                 femenu.w_x = offsetX;
 
                 const field_t &ftype = all_field_types_enum_list[idx];
-                femenu.text = ftype.name( fintensity == 0 ? 0 : fintensity - 1 );
+                femenu.text = ftype.name( field_intensity == 0 ? 0 : field_intensity - 1 );
                 femenu.addentry( pgettext( "map editor: used to describe a clean field (e.g. without blood)",
                                            "-clear-" ) );
 
                 femenu.addentry( string_format( "1: %s", ftype.name( 0 ) ) );
                 femenu.addentry( string_format( "2: %s", ftype.name( 1 ) ) );
                 femenu.addentry( string_format( "3: %s", ftype.name( 2 ) ) );
-                femenu.entries[fintensity].text_color = c_cyan;
-                femenu.selected = ( sel_field_intensity > 0 ? sel_field_intensity : fintensity );
+                femenu.entries[field_intensity].text_color = c_cyan;
+                femenu.selected = ( sel_field_intensity > 0 ? sel_field_intensity : field_intensity );
 
                 femenu.query();
                 if( femenu.ret >= 0 ) {
                     fsel_intensity = femenu.ret;
                 }
-            } else if( fmenu.keypress == KEY_RIGHT && fintensity < 3 ) {
+            } else if( fmenu.keypress == KEY_RIGHT && field_intensity < 3 ) {
                 fsel_intensity++;
-            } else if( fmenu.keypress == KEY_LEFT && fintensity > 0 ) {
+            } else if( fmenu.keypress == KEY_LEFT && field_intensity > 0 ) {
                 fsel_intensity--;
             }
-            if( fintensity != fsel_intensity || target_list.size() > 1 ) {
+            if( field_intensity != fsel_intensity || target_list.size() > 1 ) {
                 for( auto &elem : target_list ) {
                     const auto fid = static_cast<field_id>( idx );
                     field &t_field = g->m.get_field( elem );

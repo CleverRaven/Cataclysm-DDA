@@ -1337,7 +1337,8 @@
     "components": [ [ [ "nail", 6 ] ] ],
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
     "pre_terrain": "f_coffin_o",
-    "post_terrain": "f_coffin_c"
+    "post_terrain": "f_coffin_c",
+    "post_flags": [ "keep_items" ]
   },
   {
     "type": "construction",
@@ -1536,7 +1537,7 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
-    "components": [ [ [ "2x4", 4 ] ], [ [ "straw_pile", 8 ] ] ],
+    "components": [ [ [ "2x4", 4 ], [ "stick", 4 ] ], [ [ "straw_pile", 8 ], [ "withered", 8 ], [ "pine_bough", 8 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_terrain": "f_straw_bed"
@@ -2581,7 +2582,8 @@
     "time": "0 m",
     "pre_note": "Firewood or other flammable materials on a nearby tile marked in this way may be used to automatically refuel fires.  This will be done to maintain light during long-running tasks that require it such as crafting or reading, but not (for example) if you are simply waiting nearby.",
     "pre_special": "check_no_trap",
-    "post_special": "done_mark_firewood"
+    "post_special": "done_mark_firewood",
+    "post_flags": [ "keep_items" ]
   },
   {
     "type": "construction",
@@ -2591,7 +2593,8 @@
     "time": "0 m",
     "pre_note": "Mark a spot for target practice.  Firing will automatically target the first practice target location found in gun range, if no enemies are around.",
     "pre_special": "check_no_trap",
-    "post_special": "done_mark_practice_target"
+    "post_special": "done_mark_practice_target",
+    "post_flags": [ "keep_items" ]
   },
   {
     "type": "construction",

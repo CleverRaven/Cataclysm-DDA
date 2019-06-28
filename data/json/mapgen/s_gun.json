@@ -486,7 +486,7 @@
       },
       "place_items": [
         { "chance": 99, "item": "corpse_male", "x": 19, "y": 12 },
-        { "chance": 35, "item": "ammo_casings", "x": [ 14, 15 ], "y": 14 },
+        { "chance": 35, "item": "ammo_casings_bulk", "x": [ 14, 15 ], "y": 14 },
         { "chance": 35, "item": "guns_pistol_common", "x": 19, "y": 8 },
         { "chance": 75, "item": "guns_common", "x": 3, "y": 10 },
         { "chance": 40, "item": "gunmod_rare", "x": 3, "y": 12 },

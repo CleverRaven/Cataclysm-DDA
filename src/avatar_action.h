@@ -4,6 +4,7 @@
 
 #include "enums.h"
 #include "optional.h"
+#include "point.h"
 
 class avatar;
 class item;

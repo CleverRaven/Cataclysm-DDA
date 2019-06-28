@@ -74,7 +74,8 @@
       [ "magus_spellbook", 3 ],
       [ "eshaper_spellbook", 3 ],
       [ "magus_spellbook_move", 2 ],
-      [ "summon_undead_spellbook", 3 ]
+      [ "summon_undead_spellbook", 3 ],
+      [ "translocate_spellbook", 2 ]
     ]
   },
   {
@@ -142,7 +143,8 @@
       [ "recovery_spellbook", 3 ],
       [ "magus_spellbook", 6 ],
       [ "eshaper_spellbook", 6 ],
-      [ "magus_spellbook_move", 3 ]
+      [ "magus_spellbook_move", 3 ],
+      [ "translocate_spellbook", 2 ]
     ]
   },
   {
@@ -156,7 +158,14 @@
   {
     "id": "magic_shop_potions",
     "type": "item_group",
-    "items": [ [ "mana_potion_lesser", 15 ], [ "crystallized_mana", 15 ], [ "small_mana_crystal", 15 ] ]
+    "items": [
+      [ "mana_potion_lesser", 15 ],
+      [ "crystallized_mana", 25 ],
+      { "item": "small_mana_crystal", "prob": 20, "charges-min": 5, "charges-max": 50 },
+      [ "owlbear_stone", 5 ],
+      { "item": "stone_shell", "prob": 10, "count-min": 1, "count-max": 3 },
+      [ "egg_owlbear_rock", 2 ]
+    ]
   },
   {
     "type": "item_group",

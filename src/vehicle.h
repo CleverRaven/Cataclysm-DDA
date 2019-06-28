@@ -31,6 +31,7 @@
 #include "item_location.h"
 #include "type_id.h"
 
+enum field_id : int;
 class Creature;
 class nc_color;
 class player;
@@ -712,7 +713,7 @@ class vehicle
                              int hl = -1, bool detail = false ) const;
 
         // Vehicle parts descriptions - descriptions for all the parts on a single tile
-        void print_vparts_descs( const catacurses::window &win, int max_y, int width, int &p,
+        void print_vparts_descs( const catacurses::window &win, int max_y, int width, int p,
                                  int &start_at, int &start_limit ) const;
 
         /**
@@ -1108,8 +1109,8 @@ class vehicle
         // Get maximum velocity for the current movement mode
         int safe_velocity( bool fueled = true ) const;
 
-        // Generate smoke from a part, either at front or back of vehicle depending on velocity.
-        void spew_smoke( double joules, int part, int intensity = 1 );
+        // Generate field from a part, either at front or back of vehicle depending on velocity.
+        void spew_field( double joules, int part, field_id type, int intensity = 1 );
 
         // Loop through engines and generate noise and smoke for each one
         void noise_and_smoke( int load, time_duration time = 1_turns );
@@ -1398,8 +1399,7 @@ class vehicle
         //scoop operation,pickups, battery drain, etc.
         void operate_scoop();
         void operate_reaper();
-        void operate_plow();
-        void operate_rockwheel();
+        void transform_terrain();
         void add_toggle_to_opts( std::vector<uilist_entry> &options,
                                  std::vector<std::function<void()>> &actions, const std::string &name, char key,
                                  const std::string &flag );
@@ -1514,8 +1514,7 @@ class vehicle
         std::vector<int> water_wheels;     // List of water wheel indices
         std::vector<int> sails;            // List of sail indices
         std::vector<int> funnels;          // List of funnel indices
-        std::vector<int> heaters;          // List of heater parts
-        std::vector<int> coolers;          // List of cooler parts
+        std::vector<int> emitters;         // List of emitter parts
         std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
         std::vector<int> wheelcache;       // List of wheels
         std::vector<int> rail_wheelcache;  // List of rail wheels

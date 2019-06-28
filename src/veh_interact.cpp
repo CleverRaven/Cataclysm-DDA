@@ -42,7 +42,6 @@
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
 #include "calendar.h"
 #include "enums.h"
 #include "game_constants.h"
@@ -276,7 +275,7 @@ bool veh_interact::format_reqs( std::ostringstream &msg, const requirement_data 
                                 const std::map<skill_id, int> &skills, int moves ) const
 {
 
-    const auto inv = g->u.crafting_inventory();
+    const inventory &inv = g->u.crafting_inventory();
     bool ok = reqs.can_make_with_inventory( inv, is_crafting_component );
 
     msg << _( "<color_white>Time required:</color>\n" );
@@ -2825,7 +2824,7 @@ void veh_interact::complete_vehicle()
     // cmd = Install Repair reFill remOve Siphon Unload Changetire reName relAbel
     switch( static_cast<char>( g->u.activity.index ) ) {
         case 'i': {
-            auto inv = g->u.crafting_inventory();
+            const inventory &inv = g->u.crafting_inventory();
 
             const auto reqs = vpinfo.install_requirements();
             if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
@@ -2971,7 +2970,7 @@ void veh_interact::complete_vehicle()
         }
 
         case 'o': {
-            auto inv = g->u.crafting_inventory();
+            const inventory &inv = g->u.crafting_inventory();
 
             const auto reqs = vpinfo.removal_requirements();
             if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {

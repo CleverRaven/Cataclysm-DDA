@@ -153,7 +153,7 @@ class explosion_iuse : public iuse_actor
         int fields_radius = -1;
         field_id fields_type;
         int fields_min_intensity = 1;
-        int fields_max_intensity = MAX_FIELD_INTENSITY;
+        int fields_max_intensity = 3;
         /** Calls game::emp_blast if >= 0 */
         int emp_blast_radius = -1;
         /** Calls game::scrambler_blast if >= 0 */
@@ -968,7 +968,7 @@ class place_trap_actor : public iuse_actor
         /** Data that applies to buried traps. */
         data buried_data;
         /**
-         * The trap that makes up the outer layer of a 3x3 trap. This is not supported for buried traps!
+         * The trap that makes up the outer layer of a multi-tile trap. This is not supported for buried traps!
          */
         trap_str_id outer_layer_trap;
         bool is_allowed( player &p, const tripoint &pos, const std::string &name ) const;
@@ -1080,4 +1080,21 @@ class deploy_tent_actor : public iuse_actor
         bool check_intact( const tripoint &pos ) const;
 };
 
+/**
+* Weigh yourself on a bathroom scale. or something.
+*/
+class weigh_self_actor : public iuse_actor
+{
+    public:
+        // max weight this device can handle before showing "error"
+        units::mass max_weight;
+
+        weigh_self_actor( const std::string &type = "weigh_self" ) : iuse_actor( type ) {}
+
+        ~weigh_self_actor() override = default;
+        void load( JsonObject &jo ) override;
+        int use( player &p, item &itm, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
+};
 #endif

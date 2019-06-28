@@ -127,6 +127,41 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_library_roof",
+    "name": "library roof",
+    "copy-from": "generic_city_building",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_library_1",
+    "name": "library",
+    "copy-from": "generic_city_building",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_library_roof_1",
+    "name": "library roof",
+    "copy-from": "generic_city_building",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_library_2",
+    "name": "library",
+    "copy-from": "generic_city_building",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_library_roof_2",
+    "name": "library roof",
+    "copy-from": "generic_city_building",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "police",
     "name": "police station",
     "copy-from": "generic_city_building",

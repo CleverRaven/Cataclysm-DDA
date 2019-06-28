@@ -16,6 +16,7 @@
 #include "color.h"
 #include "damage.h"
 #include "enums.h"
+#include "emit.h"
 #include "optional.h"
 #include "string_id.h"
 #include "type_id.h"
@@ -119,6 +120,15 @@ struct vpslot_workbench {
     units::volume allowed_volume;
 };
 
+struct transform_terrain_data {
+    std::set<std::string> pre_flags;
+    std::string post_terrain;
+    std::string post_furniture;
+    std::string post_field;
+    int post_field_intensity;
+    time_duration post_field_age;
+};
+
 class vpart_info
 {
     private:
@@ -184,6 +194,9 @@ class vpart_info
          * For alternators is engine power consumed (negative value)
          */
         int power = 0;
+
+        /** Emissions of part */
+        std::set<emit_id> emissions;
 
         /** Fuel type of engine or tank */
         itype_id fuel_type = "null";
@@ -256,6 +269,9 @@ class vpart_info
 
         /** Flat decrease of damage of a given type. */
         std::array<float, NUM_DT> damage_reduction;
+
+        /* Contains data for terrain transformer parts */
+        transform_terrain_data transform_terrain;
 
         /**
          * @name Engine specific functions

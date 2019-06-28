@@ -163,6 +163,7 @@ struct level_cache {
     float camera_cache[MAPSIZE_X][MAPSIZE_Y];
     lit_level visibility_cache[MAPSIZE_X][MAPSIZE_Y];
     std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_seen_cache;
+    std::bitset<MAPSIZE *MAPSIZE> field_cache;
 
     bool veh_in_active_range;
     bool veh_exists_at[MAPSIZE_X][MAPSIZE_Y];
@@ -1086,7 +1087,7 @@ class map
          * removing if intensity becomes 0.
          * @return resulting intensity, or 0 for not present (either removed or not created at all).
          */
-        int adjust_field_intensity( const tripoint &p, const field_id type, const int offset );
+        int mod_field_intensity( const tripoint &p, const field_id type, const int offset );
         /**
          * Set age of field entry at point.
          * @param p Location of field
@@ -1103,12 +1104,12 @@ class map
          * removing if intensity becomes 0.
          * @param p Location of field
          * @param type ID of field
-         * @param str New strength of field
+         * @param new_intensity New intensity of field
          * @param isoffset If true, the given str value is added to the existing value,
          * if false, the existing intensity is ignored and overridden.
          * @return resulting intensity, or 0 for not present (either removed or not created at all).
          */
-        int set_field_intensity( const tripoint &p, const field_id type, const int str,
+        int set_field_intensity( const tripoint &p, const field_id type, const int new_intensity,
                                  bool isoffset = false );
         /**
          * Get field of specific type at point.
@@ -1129,10 +1130,10 @@ class map
         // Splatters of various kind
         void add_splatter( const field_id type, const tripoint &where, int intensity = 1 );
         void add_splatter_trail( const field_id type, const tripoint &from, const tripoint &to );
-        void add_splash( const field_id type, const tripoint &center, int radius, int density );
+        void add_splash( const field_id type, const tripoint &center, int radius, int intensity );
 
         void propagate_field( const tripoint &center, const field_id type,
-                              int amount, int max_intensity = MAX_FIELD_INTENSITY );
+                              int amount, int max_intensity = 3 );
 
         /**
          * Runs one cycle of emission @ref src which **may** result in propagation of fields
@@ -1592,7 +1593,7 @@ class map
          * It's a really heinous function pointer so a typedef is the best
          * solution in this instance.
          */
-        using map_process_func = bool ( * )( item_stack &, item_stack::iterator &, const tripoint &,
+        using map_process_func = bool ( * )( item_stack &, safe_reference<item> &, const tripoint &,
                                              const std::string &, float, temperature_flag );
     private:
 
@@ -1673,6 +1674,8 @@ class map
         void update_visibility_cache( int zlev );
         const visibility_variables &get_visibility_variables_cache() const;
 
+        void update_submap_active_item_status( const tripoint &p );
+
         // Clips the area to map bounds
         tripoint_range points_in_rectangle( const tripoint &from, const tripoint &to ) const;
         tripoint_range points_in_radius( const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
@@ -1692,9 +1695,8 @@ class map
         bool need_draw_lower_floor( const tripoint &p );
 };
 
-void shift_map_memory_seen_cache(
-    std::bitset<MAPSIZE_X *MAPSIZE_Y> &map_memory_seen_cache,
-    const int sx, const int sy );
+template<int SIZE, int MULTIPLIER>
+void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const int sx, const int sy );
 
 std::vector<point> closest_points_first( int radius, point p );
 std::vector<point> closest_points_first( int radius, int x, int y );

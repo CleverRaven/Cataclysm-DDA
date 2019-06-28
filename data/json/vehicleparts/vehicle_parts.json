@@ -1280,7 +1280,8 @@
     "//": "700W average assuming relatively small target-actual difference",
     "epower": -700,
     "bonus": 10,
-    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER" ],
+    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER", "EMITTER" ],
+    "emissions": [ "emit_heater_vehicle" ],
     "requirements": {
       "install": {
         "time": 12000,
@@ -1305,7 +1306,8 @@
     "durability": 400,
     "epower": -120,
     "bonus": 10,
-    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "COOLER" ],
+    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "COOLER", "EMITTER" ],
+    "emissions": [ "emit_cooler_vehicle" ],
     "requirements": {
       "install": {
         "time": 12000,
@@ -2725,7 +2727,8 @@
     "difficulty": 4,
     "location": "under",
     "power": -300,
-    "flags": [ "PLOW", "EXTRA_DRAG" ],
+    "transform_terrain": { "pre_flags": [ "PLOWABLE" ], "post_terrain": "t_dirtmound" },
+    "flags": [ "TRANSFORM_TERRAIN", "PLOW", "EXTRA_DRAG" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ]
   },
   {

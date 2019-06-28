@@ -33,7 +33,6 @@
 #include "veh_type.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
 #include "string_input_popup.h"
 #include "color.h"
 #include "input.h"
@@ -46,6 +45,7 @@
 #include "requirements.h"
 #include "rng.h"
 #include "string_id.h"
+#include "field.h"
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );
@@ -1077,33 +1077,36 @@ void vehicle::play_chimes()
     }
 }
 
-void vehicle::operate_plow()
+void vehicle::transform_terrain()
 {
-    for( const vpart_reference &vp : get_enabled_parts( "PLOW" ) ) {
-        const tripoint start_plow = vp.pos();
-        if( g->m.has_flag( "PLOWABLE", start_plow ) ) {
-            g->m.ter_set( start_plow, t_dirtmound );
-        } else {
-            const int speed = abs( velocity );
-            int v_damage = rng( 3, speed );
-            damage( vp.part_index(), v_damage, DT_BASH, false );
-            sounds::sound( start_plow, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false,
-                           "smash_success", "hit_vehicle" );
+    for( const vpart_reference &vp : get_enabled_parts( "TRANSFORM_TERRAIN" ) ) {
+        const tripoint start_pos = vp.pos();
+        const transform_terrain_data &ttd = vp.info().transform_terrain;
+        bool prereq_fulfilled = false;
+        for( const std::string &flag : ttd.pre_flags ) {
+            if( g->m.has_flag( flag, start_pos ) ) {
+                prereq_fulfilled = true;
+                break;
+            }
         }
-    }
-}
-
-void vehicle::operate_rockwheel()
-{
-    for( const vpart_reference &vp : get_enabled_parts( "ROCKWHEEL" ) ) {
-        const tripoint start_dig = vp.pos();
-        if( g->m.has_flag( "DIGGABLE", start_dig ) ) {
-            g->m.ter_set( start_dig, t_pit_shallow );
+        if( prereq_fulfilled ) {
+            const ter_id new_ter = ter_id( ttd.post_terrain );
+            if( new_ter != t_null ) {
+                g->m.ter_set( start_pos, new_ter );
+            }
+            const furn_id new_furn = furn_id( ttd.post_furniture );
+            if( new_furn != f_null ) {
+                g->m.furn_set( start_pos, new_furn );
+            }
+            const field_id new_field = field_from_ident( ttd.post_field );
+            if( new_field != fd_null ) {
+                g->m.add_field( start_pos, new_field, ttd.post_field_intensity, ttd.post_field_age );
+            }
         } else {
             const int speed = abs( velocity );
             int v_damage = rng( 3, speed );
             damage( vp.part_index(), v_damage, DT_BASH, false );
-            sounds::sound( start_dig, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false,
+            sounds::sound( start_pos, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false,
                            "smash_success", "hit_vehicle" );
         }
     }
@@ -1406,29 +1409,28 @@ void vehicle::use_harness( int part, const tripoint &pos )
     const cata::optional<tripoint> target_ = choose_adjacent(
                 _( "Where is the creature to harness?" ) );
     const tripoint target = *target_;
-    if( monster *mon_ptr = g->critter_at<monster>( target ) ) {
-        if( mon_ptr != nullptr ) {
-            monster &f = *mon_ptr;
-            if( f.friendly != 0 && f.has_flag( MF_PET_MOUNTABLE ) && g->is_empty( pos ) ) {
-                f.add_effect( effect_harnessed, 1_turns, num_bp, true );
-                f.setpos( pos );
-                add_msg( m_info, _( "You harness your %s to the %s." ), f.get_name(), name );
-                if( f.has_effect( effect_tied ) ) {
-                    add_msg( m_info, _( "You untie your %s." ), f.get_name() );
-                    f.remove_effect( effect_tied );
-                    item rope_6( "rope_6", 0 );
-                    g->u.i_add( rope_6 );
-                }
-            } else if( f.friendly == 0 ) {
-                add_msg( m_info, _( "This creature is not friendly!" ) );
-            } else if( !f.has_flag( MF_PET_MOUNTABLE ) ) {
-                add_msg( m_info, _( "This creature cannot be harnessed." ) );
-            } else if( !g->is_empty( pos ) ) {
-                add_msg( m_info, _( "The harness is blocked." ) );
+    monster *mon_ptr = g->critter_at<monster>( target );
+    if( mon_ptr != nullptr ) {
+        monster &f = *mon_ptr;
+        if( f.friendly != 0 && f.has_flag( MF_PET_MOUNTABLE ) && g->is_empty( pos ) ) {
+            f.add_effect( effect_harnessed, 1_turns, num_bp, true );
+            f.setpos( pos );
+            add_msg( m_info, _( "You harness your %s to the %s." ), f.get_name(), name );
+            if( f.has_effect( effect_tied ) ) {
+                add_msg( m_info, _( "You untie your %s." ), f.get_name() );
+                f.remove_effect( effect_tied );
+                item rope_6( "rope_6", 0 );
+                g->u.i_add( rope_6 );
             }
-        } else {
-            add_msg( m_info, _( "No creature there." ) );
+        } else if( f.friendly == 0 ) {
+            add_msg( m_info, _( "This creature is not friendly!" ) );
+        } else if( !f.has_flag( MF_PET_MOUNTABLE ) ) {
+            add_msg( m_info, _( "This creature cannot be harnessed." ) );
+        } else if( !g->is_empty( pos ) ) {
+            add_msg( m_info, _( "The harness is blocked." ) );
         }
+    } else {
+        add_msg( m_info, _( "No creature there." ) );
     }
 }
 

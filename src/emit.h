@@ -32,7 +32,7 @@ class emit
             return field_;
         }
 
-        /** Intensity of output fields, range [1..MAX_FIELD_INTENSITY] */
+        /** Intensity of output fields, range [1..3] */
         int intensity() const {
             return intensity_;
         }
@@ -62,7 +62,7 @@ class emit
     private:
         emit_id id_;
         field_id field_ = fd_null;
-        int intensity_ = MAX_FIELD_INTENSITY;
+        int intensity_ = 3;
         int qty_ = 1;
         int chance_ = 100;
 

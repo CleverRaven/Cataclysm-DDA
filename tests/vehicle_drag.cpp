@@ -11,7 +11,6 @@
 #include "map_iterator.h"
 #include "vehicle.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
 #include "player.h"
 #include "test_statistics.h"
 #include "bodypart.h"
