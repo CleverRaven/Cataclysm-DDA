@@ -10,6 +10,8 @@
 #include "map_iterator.h"
 #include "rng.h"
 #include "game_constants.h"
+#include "line.cpp"
+#include "monattack.cpp"
 
 projectile::projectile() :
     speed( 0 ), range( 0 ), drop( nullptr ), custom_explosion( nullptr )
@@ -200,6 +202,19 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
             }
         }
     }
+
+    if( effects.count( "OVERPRESSURE_WAVE" ) > 0 ) {
+        // add_msg( m_bad, _( "A buzzing wave of turbulence bursts forth!" ) );
+        std::vector<point> sight = line_to( g->u.posx, g->u.posy, p->posx(), p->posy(), 0 );
+        for( auto &i : sight ) {
+            if( g->m.is_bashable( i.x, i.y ) ) {
+                //Destroy it
+                g->m.bash( i.x, i.y, 999, false, true );
+                // add something to gib mobs
+                explosion_handler::explosion( p, 360, 0.4 );
+            }
+        }
+    }
 }
 
 int aoe_size( const std::set<std::string> &tags )
@@ -216,7 +231,8 @@ int aoe_size( const std::set<std::string> &tags )
     } else if( tags.count( "FRAG" ) ) {
         return 15;
     } else if( tags.count( "ACIDBOMB" ) ||
-               tags.count( "FLAME" ) ) {
+               tags.count( "FLAME" ) ||
+               tags.count( "OVERPRESSURE_WAVE" ) ) {
         return 1;
     }
 

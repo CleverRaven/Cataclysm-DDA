@@ -215,5 +215,42 @@
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NO_UNLOAD" ]
+  },
+  {
+    "id": "overpressure_wave_gun",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": "Sonic overpressure wave projector",
+    "//": "test only - intended to be vehicle artillery"
+    "description": "A bulky contraption with intricate machinery haphazardly built around an engraved stone sphere, connected to an emitter vaguely resembling a satellite dish.  If you could jury-rig a power supply for it, you could see what it does.",
+    "weight": 4950,
+    "volume": 12,
+    "price": 16000000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "cyan",
+    "skill": "rifle",
+    "range": 20,
+    "ranged_damage": 999,
+    "pierce": 99999,
+    "dispersion": 10,
+    "durability": 10,
+    "loudness": 999,
+    "ups_charges": 1,
+    "reload": 0,
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "emitter", 1 ],
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "ammo_effects": [ "OVERPRESSURE_WAVE" ],
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
   }
 ]
