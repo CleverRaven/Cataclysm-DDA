@@ -36,7 +36,6 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "vpart_reference.h" // IWYU pragma: keep
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "character.h"

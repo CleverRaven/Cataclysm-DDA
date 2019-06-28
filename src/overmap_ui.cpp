@@ -1397,6 +1397,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             const tripoint player_omt_pos = g->u.global_omt_location();
             if( !g->u.omt_path.empty() && g->u.omt_path.front() == curs ) {
                 if( query_yn( _( "Travel to this point?" ) ) ) {
+                    g->u.reset_move_mode();
                     g->u.assign_activity( activity_id( "ACT_TRAVELLING" ) );
                     action = "QUIT";
                 }

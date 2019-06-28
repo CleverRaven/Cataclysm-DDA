@@ -1257,7 +1257,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```E_HIGHER_SKILL``` Is an engine that is more difficult to install as more engines are installed.
 - ```E_STARTS_INSTANTLY``` Is an engine that starts instantly, like food pedals.
 - ```FAUCET```
-- ```FIELD_EMIITER``` Is a part that emits field (defined in ```emission_field_type```).
+- ```EMITTER``` Is a part has emission (defined in ```emissions```).
 - ```FLAT_SURF``` Part with a flat hard surface (e.g. table).
 - ```FOLDABLE```
 - ```FORGE``` Acts as a forge for crafting.
@@ -1307,6 +1307,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```STABLE``` Similar to `WHEEL`, but if the vehicle is only a 1x1 section, this single wheel counts as enough wheels.
 - ```STEERABLE``` This wheel is steerable.
 - ```STEREO```
+- ```TRANSFORM_TERRAIN``` Transform terrain (using rules defined in ```transform_terrain```).
 - ```TOOL_NONE``` Can be removed/installed without any tools
 - ```TOOL_SCREWDRIVER``` Attached with screws, can be removed/installed with a screwdriver
 - ```TOOL_WRENCH``` Attached with bolts, can be removed/installed with a wrench

@@ -22,7 +22,6 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "calendar.h"
 #include "character.h"
 #include "damage.h"

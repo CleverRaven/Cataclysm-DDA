@@ -62,7 +62,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
 #include "weather.h"
 #include "active_item_cache.h"
 #include "basecamp.h"

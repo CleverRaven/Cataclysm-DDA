@@ -1,7 +1,6 @@
 #include "vehicle.h" // IWYU pragma: associated
 #include "vpart_position.h" // IWYU pragma: associated
 #include "vpart_range.h" // IWYU pragma: associated
-#include "vpart_reference.h" // IWYU pragma: associated
 
 #include <algorithm>
 #include <array>
@@ -3846,7 +3845,7 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
     // But only if the player is actually there!
     if( load > 0 && fuel_left( fuel_type_muscle ) > 0 ) {
         int mod = 0 + 4 * st; // strain
-        int base_burn = 3 + static_cast<int>( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) );
+        int base_burn = -3 + static_cast<int>( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) );
         base_burn = ( load / 2 ) > base_burn ? ( load / 2 ) : base_burn;
         //charge bionics when using muscle engine
         if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
@@ -4284,20 +4283,17 @@ void vehicle::idle( bool on_map )
 
 void vehicle::on_move()
 {
+    if( has_part( "TRANSFORM_TERRAIN", true ) ) {
+        transform_terrain();
+    }
     if( has_part( "SCOOP", true ) ) {
         operate_scoop();
     }
     if( has_part( "PLANTER", true ) ) {
         operate_planter();
     }
-    if( has_part( "PLOW", true ) ) {
-        operate_plow();
-    }
     if( has_part( "REAPER", true ) ) {
         operate_reaper();
-    }
-    if( has_part( "ROCKWHEEL", true ) ) {
-        operate_rockwheel();
     }
 
     occupied_cache_time = calendar::before_time_starts;
@@ -4645,7 +4641,7 @@ void vehicle::refresh()
     sails.clear();
     water_wheels.clear();
     funnels.clear();
-    field_emitters.clear();
+    emitters.clear();
     relative_parts.clear();
     loose_parts.clear();
     wheelcache.clear();
@@ -4731,8 +4727,8 @@ void vehicle::refresh()
         if( vpi.has_flag( "UNMOUNT_ON_MOVE" ) ) {
             loose_parts.push_back( p );
         }
-        if( vpi.has_flag( "FIELD_EMITTER" ) ) {
-            field_emitters.push_back( p );
+        if( vpi.has_flag( "EMITTER" ) ) {
+            emitters.push_back( p );
         }
         if( vpi.has_flag( VPFLAG_WHEEL ) ) {
             wheelcache.push_back( p );
@@ -5481,14 +5477,14 @@ static bool is_sm_tile_outside( const tripoint &real_global_pos )
 void vehicle::update_time( const time_point &update_to )
 {
     // Parts emitting fields
-    for( int idx : field_emitters ) {
+    for( int idx : emitters ) {
         const vehicle_part &pt = parts[idx];
         if( pt.is_unavailable() || !pt.enabled ) {
             continue;
         }
-        const int intensity = abs( pt.info().epower ) * 2;
-        g->m.mod_field_intensity( global_part_pos3( pt ), field_from_ident( pt.info().emission_field_type ),
-                                  intensity );
+        for( const emit_id &e : pt.info().emissions ) {
+            g->m.emit_field( global_part_pos3( pt ), e );
+        }
         discharge_battery( pt.info().epower );
     }
 

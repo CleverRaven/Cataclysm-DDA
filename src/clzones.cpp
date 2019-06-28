@@ -24,7 +24,6 @@
 #include "translations.h"
 #include "ui.h"
 #include "vehicle.h"
-#include "vpart_reference.h"
 #include "item.h"
 #include "player.h"
 #include "vpart_position.h"

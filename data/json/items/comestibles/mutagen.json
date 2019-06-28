@@ -321,7 +321,7 @@
     "id": "mutagen_elfa",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": "elfa mutagen",
+    "name": "elf-a mutagen",
     "description": "An extremely rare mutagen cocktail.",
     "price": 200000,
     "use_action": { "type": "mutagen", "mutation_category": "ELFA" }

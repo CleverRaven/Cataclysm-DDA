@@ -47,7 +47,6 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
 #include "basecamp.h"
 #include "calendar.h"
 #include "color.h"

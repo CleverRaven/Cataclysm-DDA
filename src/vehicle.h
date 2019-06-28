@@ -1399,8 +1399,7 @@ class vehicle
         //scoop operation,pickups, battery drain, etc.
         void operate_scoop();
         void operate_reaper();
-        void operate_plow();
-        void operate_rockwheel();
+        void transform_terrain();
         void add_toggle_to_opts( std::vector<uilist_entry> &options,
                                  std::vector<std::function<void()>> &actions, const std::string &name, char key,
                                  const std::string &flag );
@@ -1515,7 +1514,7 @@ class vehicle
         std::vector<int> water_wheels;     // List of water wheel indices
         std::vector<int> sails;            // List of sail indices
         std::vector<int> funnels;          // List of funnel indices
-        std::vector<int> field_emitters;   // List of field emitter parts
+        std::vector<int> emitters;         // List of emitter parts
         std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
         std::vector<int> wheelcache;       // List of wheels
         std::vector<int> rail_wheelcache;  // List of rail wheels

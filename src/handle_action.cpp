@@ -50,7 +50,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
 #include "weather.h"
 #include "worldfactory.h"
 #include "bodypart.h"
@@ -702,15 +701,15 @@ static bool try_set_alarm()
                 _( "You already have an alarm set. What do you want to do?" ) :
                 _( "You have an alarm clock. What do you want to do?" );
 
-    as_m.entries.emplace_back( 0, true, 'a', already_set ?
-                               _( "Change your alarm" ) :
-                               _( "Set an alarm for later" ) );
-    as_m.entries.emplace_back( 1, true, 'w', already_set ?
+    as_m.entries.emplace_back( 0, true, 'w', already_set ?
                                _( "Keep the alarm and wait a while" ) :
                                _( "Wait a while" ) );
+    as_m.entries.emplace_back( 1, true, 'a', already_set ?
+                               _( "Change your alarm" ) :
+                               _( "Set an alarm for later" ) );
     as_m.query();
 
-    return as_m.ret == 0;
+    return as_m.ret == 1;
 }
 
 static void wait()
