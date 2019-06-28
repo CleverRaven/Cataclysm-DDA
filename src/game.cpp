@@ -4225,7 +4225,8 @@ void game::monmove()
         int turns = 0;
         m.creature_in_field( guy );
         guy.process_turn();
-        while( !guy.is_dead() && (!guy.in_sleep_state() || guy.has_effect(effect_under_op) )&& guy.moves > 0 && turns < 10 ) {
+        while( !guy.is_dead() && ( !guy.in_sleep_state() || guy.has_effect( effect_under_op ) ) &&
+               guy.moves > 0 && turns < 10 ) {
             int moves = guy.moves;
             guy.move();
             if( moves == guy.moves ) {

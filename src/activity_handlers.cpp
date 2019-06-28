@@ -2786,8 +2786,8 @@ void activity_handlers::uninstall_operation_do_turn( player_activity *act, playe
     const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
                                          furn_str_id( "f_autodoc" ) );
     if( g->m.furn( p->pos() ) != furn_str_id( "f_autodoc_couch" ) ) {
-        if( act->values.size() > 5 ) {
-            for( size_t i = 5; i < act->values.size() - 1; i = i + 2 ) {
+        if( act->values.size() > 4 ) {
+            for( size_t i = 4; i < act->values.size(); i++ ) {
                 p->add_msg_player_or_npc( m_bad, _( "Moving from the Autodoc mid-operation rips your %s open." ),
                                           _( "Moving from the Autodoc mid-operation rips <npcname>'s %s open." ),
                                           body_part_name_accusative( body_part( act->values[i] ) ) );
@@ -2814,8 +2814,8 @@ void activity_handlers::uninstall_operation_do_turn( player_activity *act, playe
     }
 
     if( time_left >  op_duration ) {
-        if( act->values.size() > 5 ) {
-            for( size_t i = 5; i < act->values.size() - 1; i = i + 2 ) {
+        if( act->values.size() > 4 ) {
+            for( size_t i = 4; i < act->values.size(); i ++ ) {
                 if( one_in( 4 ) && u_see ) {
                     p->add_msg_player_or_npc( m_info,
                                               _( "The Autodoc is meticulously cutting your %s open." ),
@@ -2853,7 +2853,7 @@ void activity_handlers::uninstall_operation_do_turn( player_activity *act, playe
                 p->remove_bionic( bid );
 
                 // remove power bank provided by bionic
-                p->max_power_level -= act->values[3];
+                p->max_power_level -= act->values[2];
 
                 if( item::type_is_defined( bid.c_str() ) ) {
                     g->m.spawn_item( p->pos(), bid.c_str(), 1 );
@@ -2869,8 +2869,8 @@ void activity_handlers::uninstall_operation_do_turn( player_activity *act, playe
                 }
 
                 // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
-                float adjusted_skill = static_cast<float>( act->values[4] ) - std::min( static_cast<float>( 40 ),
-                                       static_cast<float>( act->values[4] ) - static_cast<float>( act->values[4] ) / static_cast<float>
+                float adjusted_skill = static_cast<float>( act->values[3] ) - std::min( static_cast<float>( 40 ),
+                                       static_cast<float>( act->values[3] ) - static_cast<float>( act->values[3] ) / static_cast<float>
                                        ( 10.0 ) );
                 p->bionics_uninstall_failure( act->values[0], act->values[1], adjusted_skill );
 
@@ -2884,8 +2884,8 @@ void activity_handlers::uninstall_operation_do_turn( player_activity *act, playe
 
 
     } else if( act->values[1] > 0 ) {
-        if( act->values.size() > 5 ) {
-            for( size_t i = 5; i < act->values.size() - 1; i = i + 2 ) {
+        if( act->values.size() > 4 ) {
+            for( size_t i = 4; i < act->values.size(); i++ ) {
                 if( one_in( 4 ) && u_see ) {
                     p->add_msg_player_or_npc( m_info,
                                               _( "The Autodoc is stitching your %s back up." ),

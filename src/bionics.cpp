@@ -1285,9 +1285,6 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
 
     int success = chance_of_success - rng( 1, 100 );
 
-    const int failure_level = static_cast<int>( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
-
-
     if( is_npc() ) {
         static_cast<npc *>( this )->set_attitude( NPCATT_ACTIVITY );
         assign_activity( activity_id( "ACT_OPERATION_REMOVE" ), to_moves<int>( difficulty * 20_minutes ) );
@@ -1298,14 +1295,12 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
 
     activity.values.push_back( difficulty );
     activity.values.push_back( success );
-    activity.values.push_back( failure_level );
     activity.values.push_back( bionics[b_id].capacity );
     activity.values.push_back( pl_skill );
     activity.str_values.push_back( bionics[b_id].name );
     activity.str_values.push_back( b_id.c_str() );
     for( const auto &elem : bionics[b_id].occupied_bodyparts ) {
         activity.values.push_back( elem.first );
-        activity.values.push_back( get_hp( bp_to_hp( elem.first ) ) );//stores current hp to avoid overheal
         add_effect( effect_under_op, difficulty * 20_minutes, elem.first, false, difficulty );
     }
     return true;
