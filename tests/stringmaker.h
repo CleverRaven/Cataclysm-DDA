@@ -27,6 +27,13 @@ struct StringMaker<item> {
 };
 
 template<>
+struct StringMaker<point> {
+    static std::string convert( const point &p ) {
+        return string_format( "point( %d, %d )", p.x, p.y );
+    }
+};
+
+template<>
 struct StringMaker<rectangle> {
     static std::string convert( const rectangle &r ) {
         return string_format( "[%s-%s]", r.p_min.to_string(), r.p_max.to_string() );
