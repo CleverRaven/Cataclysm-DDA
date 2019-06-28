@@ -205,7 +205,7 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
 
     if( effects.count( "OVERPRESSURE_WAVE" ) > 0 ) {
         // add_msg( m_bad, _( "A buzzing wave of turbulence bursts forth!" ) );
-        std::vector<point> sight = line_to( g->u.posx, g->u.posy, p->posx(), p->posy(), 0 );
+        std::vector<point> sight = line_to( g->u.posx, g->u.posy, p.posx(), p.posy(), 0 );
         for( auto &i : sight ) {
             if( g->m.is_bashable( i.x, i.y ) ) {
                 //Destroy it
