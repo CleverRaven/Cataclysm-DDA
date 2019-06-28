@@ -2823,7 +2823,7 @@ void activity_handlers::uninstall_operation_do_turn( player_activity *act, playe
     if( time_left >  op_duration ) {
         if( act->values.size() > 4 ) {
             for( size_t i = 4; i < act->values.size(); i ++ ) {
-                if( one_in( 4 ) && u_see ) {
+                if( calendar::once_every( 2_minutes ) && u_see ) {
                     p->add_msg_player_or_npc( m_info,
                                               _( "The Autodoc is meticulously cutting your %s open." ),
                                               _( "The Autodoc is meticulously cutting <npcname>'s %s open." ),
@@ -2831,7 +2831,7 @@ void activity_handlers::uninstall_operation_do_turn( player_activity *act, playe
                 }
             }
         } else {
-            if( one_in( 4 ) && u_see ) {
+            if( calendar::once_every( 2_minutes ) && u_see ) {
                 p->add_msg_player_or_npc( m_info,
                                           _( "The Autodoc is meticulously cutting you open." ),
                                           _( "The Autodoc is meticulously cutting <npcname> open." ) );
@@ -2893,7 +2893,7 @@ void activity_handlers::uninstall_operation_do_turn( player_activity *act, playe
     } else if( act->values[1] > 0 ) {
         if( act->values.size() > 4 ) {
             for( size_t i = 4; i < act->values.size(); i++ ) {
-                if( one_in( 4 ) && u_see ) {
+                if( calendar::once_every( 2_minutes ) && u_see ) {
                     p->add_msg_player_or_npc( m_info,
                                               _( "The Autodoc is stitching your %s back up." ),
                                               _( "The Autodoc is stitching <npcname>'s %s back up." ),
@@ -2901,14 +2901,14 @@ void activity_handlers::uninstall_operation_do_turn( player_activity *act, playe
                 }
             }
         } else {
-            if( one_in( 4 ) && u_see ) {
+            if( calendar::once_every( 2_minutes ) && u_see ) {
                 p->add_msg_player_or_npc( m_info,
                                           _( "The Autodoc is stitching you back up." ),
                                           _( "The Autodoc is stitching <npcname> back up." ) );
             }
         }
     } else {
-        if( one_in( 4 ) && u_see ) {
+        if( calendar::once_every( 2_minutes ) && u_see ) {
             p->add_msg_player_or_npc( m_bad,
                                       _( "The Autodoc is moving eraticly through the rest of its program, not actually stitching your wounds." ),
                                       _( "The Autodoc is moving eraticly through the rest of its program, not actually stitching <npcname>'s wounds." ) );

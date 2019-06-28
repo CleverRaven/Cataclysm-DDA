@@ -4170,9 +4170,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     }
 
                 }
+                installer.mod_moves( -to_moves<int>( 1_minutes ) );
                 patient.add_effect( effect_under_op, duration, num_bp );
                 patient.install_bionics( ( *itemtype ), installer, true );
-                installer.mod_moves( -to_moves<int>( 1_minutes ) );
             }
             break;
         }
