@@ -278,7 +278,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
         };
     };
 
-    const auto spread_gas = [this, &get_neighbors](
+    scent_block sblk( submap_x, submap_y, submap_z, g->scent );
+    const auto spread_gas = [this, &get_neighbors, &sblk](
                                 field_entry & cur, const tripoint & p, field_id curtype,
     int percent_spread, const time_duration & outdoor_age_speedup ) {
         const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
@@ -288,7 +289,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                              sheltered );
         // Reset nearby scents to zero
         for( const tripoint &tmp : points_in_radius( p, 1 ) ) {
-            g->scent.set( tmp, 0 );
+            sblk.apply_gas( tmp );
         }
 
         const int current_intensity = cur.get_field_intensity();
@@ -542,9 +543,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_sludge:
                         break;
                     case fd_slime:
-                        if( g->scent.get( p ) < cur.get_field_intensity() * 10 ) {
-                            g->scent.set( p, cur.get_field_intensity() * 10 );
-                        }
+                        sblk.apply_slime( p, cur.get_field_intensity() * 10 );
                         break;
                     case fd_plasma:
                     case fd_laser:
@@ -1469,6 +1468,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
             }
         }
     }
+    sblk.commit_modifications();
     return dirty_transparency_cache;
 }
 
