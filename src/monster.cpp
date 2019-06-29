@@ -340,7 +340,7 @@ void monster::try_upgrade( bool pin_time )
             upgrade_time += current_day;
         } else {
             // offset by starting season
-            upgrade_time += to_days<int>( calendar::time_of_cataclysm - calendar::start );
+            upgrade_time += calendar::start;
         }
     }
 
