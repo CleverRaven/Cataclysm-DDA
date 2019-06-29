@@ -3,7 +3,7 @@
 #define MAP_MEMORY_H
 
 #include "lru_cache.h"
-#include "point.h"
+#include "point.h" // IWYU pragma: keep
 
 class JsonOut;
 class JsonObject;
