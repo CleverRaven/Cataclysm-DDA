@@ -575,6 +575,7 @@ void player::normalize()
     temp_conv.fill( BODYTEMP_NORM );
     stamina = get_stamina_max();
 }
+
 void player::reset_stats()
 {
     // Trait / mutation buffs
@@ -1883,7 +1884,7 @@ int player::run_cost( int base_cost, bool diag ) const
             movecost *= .9f;
         }
         if( has_active_bionic( bio_jointservo ) ) {
-            if ( move_mode == "sprint" ) {
+            if( move_mode == "sprint" ) {
                 movecost *= 0.85f;
             } else if( move_mode == "run" ) {
                 movecost *= 0.90f;
