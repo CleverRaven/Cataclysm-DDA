@@ -1493,6 +1493,11 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
     activity.str_values.push_back( bioid.c_str() );
     activity.str_values.push_back( bionics[upbioid].name );
     activity.str_values.push_back( upbioid.c_str() );
+    if( installer.has_trait( trait_PROF_MED ) || installer.has_trait( trait_PROF_AUTODOC ) ) {
+        activity.str_values.push_back( installer.disp_name( true ) );
+    } else {
+        activity.str_values.push_back( "NOT_MED" );
+    }
     for( const auto &elem : bionics[bioid].occupied_bodyparts ) {
         activity.values.push_back( elem.first );
         add_effect( effect_under_op, difficulty * 20_minutes, elem.first, false, difficulty );
@@ -1505,7 +1510,7 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
     return true;
 }
 
-void player::bionics_install_failure( player &installer, int difficulty, int success,
+void player::bionics_install_failure( std::string installer, int difficulty, int success,
                                       float adjusted_skill )
 {
     // "success" should be passed in as a negative integer representing how far off we
@@ -1519,39 +1524,17 @@ void player::bionics_install_failure( player &installer, int difficulty, int suc
     int failure_level = static_cast<int>( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
     int fail_type = ( failure_level > 5 ? 5 : failure_level );
 
+    add_msg( m_neutral, _( "The installation is a failure." ) );
+
     if( fail_type <= 0 ) {
         add_msg( m_neutral, _( "The installation fails without incident." ) );
         return;
     }
 
-    switch( rng( 1, 5 ) ) {
-        case 1:
-            installer.add_msg_player_or_npc( m_neutral,
-                                             _( "You flub the installation." ),
-                                             _( "<npcname> flubs the installation." ) );
-            break;
-        case 2:
-            installer.add_msg_player_or_npc( m_neutral,
-                                             _( "You mess up the installation." ),
-                                             _( "<npcname> messes up the installation." ) );
-            break;
-        case 3:
-            add_msg( m_neutral, _( "The installation fails." ) );
-            break;
-        case 4:
-            add_msg( m_neutral, _( "The installation is a failure." ) );
-            break;
-        case 5:
-            installer.add_msg_player_or_npc( m_neutral,
-                                             _( "You screw up the installation." ),
-                                             _( "<npcname> screws up the installation." ) );
-            break;
-    }
-
-    if( installer.has_trait( trait_PROF_MED ) || installer.has_trait( trait_PROF_AUTODOC ) ) {
+    if( installer != "NOT_MED" ) {
         //~"Complications" is USian medical-speak for "unintended damage from a medical procedure".
-        add_msg( m_neutral, _( "%s training helps %s minimize the complications." ),
-                 installer.disp_name( true ), installer.disp_name() );
+        add_msg( m_neutral, _( "%s training helps to minimize the complications." ),
+                 installer );
         // In addition to the bonus, medical residents know enough OR protocol to avoid botching.
         // Take MD and be immune to faulty bionics.
         if( fail_type == 5 ) {

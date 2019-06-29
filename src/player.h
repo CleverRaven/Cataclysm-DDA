@@ -345,7 +345,7 @@ class player : public Character
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
         bool install_bionics( const itype &type, player &installer, bool autodoc = false,
                               int skill_level = -1 );
-        void bionics_install_failure( player &installer, int difficulty, int success,
+        void bionics_install_failure( std::string installer, int difficulty, int success,
                                       float adjusted_skill );
         /**Is The uninstallation possible*/
         bool can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
