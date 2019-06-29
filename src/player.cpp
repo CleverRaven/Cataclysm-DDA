@@ -3441,7 +3441,7 @@ dealt_damage_instance player::deal_damage( Creature *source, body_part bp,
 void player::mod_pain( int npain )
 {
     if( npain > 0 ) {
-        if( has_trait( trait_NOPAIN ) || has_effect( effect_narcosis ) ) {
+        if( has_trait( trait_NOPAIN ) ) {
             return;
         }
         // always increase pain gained by one from these bad mutations
