@@ -209,7 +209,7 @@ struct scent_block {
         }
     }
 
-    inline point index( const tripoint &p ) {
+    point index( const tripoint &p ) const {
         return point( p.x - origin.x, p.y - origin.y );
     }
 
