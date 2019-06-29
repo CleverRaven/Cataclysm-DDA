@@ -1462,10 +1462,10 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
                          skilll_firstaid,
                          skilll_mechanics,
                          skill_level );
-        adjusted_skill = installer.bionics_pl_skill( skilll_electronics,
-                         skilll_firstaid,
-                         skilll_mechanics,
-                         skill_level );
+        pl_skill = installer.bionics_pl_skill( skilll_electronics,
+                                               skilll_firstaid,
+                                               skilll_mechanics,
+                                               skill_level );
     }
     int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, autodoc, difficulty );
 
