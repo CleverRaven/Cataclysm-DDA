@@ -325,7 +325,7 @@ void veh_interact::do_main_loop()
         } else if( action == "QUIT" ) {
             finish = true;
         } else if( action == "INSTALL" ) {
-            if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u )) ) {
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
                 redraw = true;
             } else {
                 redraw = do_install( msg );

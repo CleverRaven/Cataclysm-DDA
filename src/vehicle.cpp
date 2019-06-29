@@ -3724,7 +3724,8 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
         remove_old_owner();
         return true;
         // if there is a marker for having been stolen, but 15 minutes have passed, then officially transfer ownership
-    } else if( witnesses.empty() && get_old_owner() && get_old_owner() != yours && theft_time && calendar::turn - *theft_time > 15_minutes ) {
+    } else if( witnesses.empty() && get_old_owner() && get_old_owner() != yours && theft_time &&
+               calendar::turn - *theft_time > 15_minutes ) {
         set_owner( yours );
         remove_old_owner();
         return true;
