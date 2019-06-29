@@ -92,7 +92,7 @@ static void eff_fun_spores( player &u, effect &it )
     // Equivalent to X in 150000 + health * 100
     const int intense = it.get_intensity();
     if( ( !u.has_trait( trait_id( "M_IMMUNE" ) ) ) && ( one_in( 100 ) &&
-            x_in_y( intense, 900 + u.get_healthy() / 10 ) ) ) {
+            x_in_y( intense, 900 + u.get_healthy() * 6 / 10 ) ) ) {
         u.add_effect( effect_fungus, 1_turns, num_bp, true );
     }
 }
@@ -103,13 +103,13 @@ static void eff_fun_fungus( player &u, effect &it )
     const int bonus = u.get_healthy() / 10 + ( u.resists_effect( it ) ? 100 : 0 );
     switch( intense ) {
         case 1: // First hour symptoms
-            if( one_in( 960 + bonus ) ) {
+            if( one_in( 960 + bonus * 6 ) ) {
                 u.cough( true );
             }
-            if( one_in( 600 + bonus ) ) {
+            if( one_in( 600 + bonus * 6 ) ) {
                 u.add_msg_if_player( m_warning, _( "You feel nauseous." ) );
             }
-            if( one_in( 600 + bonus ) ) {
+            if( one_in( 600 + bonus * 6 ) ) {
                 u.add_msg_if_player( m_warning, _( "You smell and taste mushrooms." ) );
             }
             it.mod_duration( 1_turns );
@@ -118,12 +118,12 @@ static void eff_fun_fungus( player &u, effect &it )
             }
             break;
         case 2: // Five hours of worse symptoms
-            if( one_in( 3600 + bonus * 3 ) ) {
+            if( one_in( 3600 + bonus * 18 ) ) {
                 u.add_msg_if_player( m_bad,  _( "You spasm suddenly!" ) );
                 u.moves -= 100;
                 u.apply_damage( nullptr, bp_torso, 5 );
             }
-            if( x_in_y( u.vomit_mod(), ( 4800 + bonus * 4 ) ) || one_in( 12000 + bonus * 10 ) ) {
+            if( x_in_y( u.vomit_mod(), ( 4800 + bonus * 24 ) ) || one_in( 12000 + bonus * 60 ) ) {
                 u.add_msg_player_or_npc( m_bad, _( "You vomit a thick, gray goop." ),
                                          _( "<npcname> vomits a thick, gray goop." ) );
 
@@ -140,7 +140,7 @@ static void eff_fun_fungus( player &u, effect &it )
             }
             break;
         case 3: // Permanent symptoms
-            if( one_in( 6000 + bonus * 8 ) ) {
+            if( one_in( 6000 + bonus * 48 ) ) {
                 u.add_msg_player_or_npc( m_bad,  _( "You vomit thousands of live spores!" ),
                                          _( "<npcname> vomits thousands of live spores!" ) );
 
@@ -153,7 +153,7 @@ static void eff_fun_fungus( player &u, effect &it )
                     fe.fungalize( sporep, &u, 0.25 );
                 }
                 // We're fucked
-            } else if( one_in( 36000 + bonus * 20 ) ) {
+            } else if( one_in( 36000 + bonus * 120 ) ) {
                 if( u.hp_cur[hp_arm_l] <= 0 || u.hp_cur[hp_arm_r] <= 0 ) {
                     if( u.hp_cur[hp_arm_l] <= 0 && u.hp_cur[hp_arm_r] <= 0 ) {
                         u.add_msg_player_or_npc( m_bad,
@@ -549,7 +549,7 @@ void player::hardcoded_effects( effect &it )
             mod_per_bonus( -( dur > 400_minutes ? 10.0 : dur / 40_minutes ) );
         }
     } else if( id == effect_attention ) {
-        if( one_in( 600000 / to_turns<int>( dur ) ) && one_in( 600000 / to_turns<int>( dur ) ) &&
+        if( one_in( 100000 / to_turns<int>( dur ) ) && one_in( 100000 / to_turns<int>( dur ) ) &&
             one_in( 250 ) ) {
             tripoint dest( 0, 0, posz() );
             int tries = 0;
@@ -614,7 +614,7 @@ void player::hardcoded_effects( effect &it )
                                       pgettext( "memorial_female", "Spontaneous teleport." ) );
                 }
                 g->teleport();
-                if( one_in( 60 ) ) {
+                if( one_in( 10 ) ) {
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
                 }
@@ -624,7 +624,7 @@ void player::hardcoded_effects( effect &it )
                     add_msg( m_bad, _( "You pass out." ) );
                 }
                 fall_asleep( 2_hours );
-                if( one_in( 36 ) ) {
+                if( one_in( 6 ) ) {
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
                 }
@@ -632,7 +632,7 @@ void player::hardcoded_effects( effect &it )
         }
         if( dur > 6_hours ) {
             // 12 teleports
-            if( one_in( 24000 - ( dur - 360_minutes ) / 24_turns ) ) {
+            if( one_in( 24000 - ( dur - 360_minutes ) / 4_turns ) ) {
                 tripoint dest( 0, 0, posz() );
                 int &x = dest.x;
                 int &y = dest.y;
@@ -663,7 +663,7 @@ void player::hardcoded_effects( effect &it )
                     }
                 }
             }
-            if( one_in( 21000 - ( dur - 360_minutes ) / 24_turns ) ) {
+            if( one_in( 21000 - ( dur - 360_minutes ) / 4_turns ) ) {
                 add_msg_if_player( m_bad, _( "You shudder suddenly." ) );
                 mutate();
                 if( one_in( 4 ) ) {
@@ -1155,7 +1155,7 @@ void player::hardcoded_effects( effect &it )
                         add_msg_if_player( _( "You toss and turn trying to keep warm." ) );
                     }
                     if( temp_cur[bp] < BODYTEMP_FREEZING - get_fatigue() / 2 ||
-                        one_in( temp_cur[bp] + 30000 ) ) {
+                        one_in( temp_cur[bp] * 6 + 30000 ) ) {
                         add_msg_if_player( m_bad, _( "It's too cold to sleep." ) );
                         // Set ourselves up for removal
                         it.set_duration( 0_turns );
