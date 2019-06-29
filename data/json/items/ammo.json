@@ -596,6 +596,7 @@
     "id": "bearing",
     "price": 100,
     "name": "bearings",
+    "name_plural": "bearings",
     "symbol": "=",
     "color": "dark_gray",
     "description": "A box of ball bearings, useful as ammunition for slings or slingshots.",
