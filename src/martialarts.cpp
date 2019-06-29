@@ -1101,8 +1101,7 @@ std::string ma_technique::get_description() const
 
     if( crit_ok ) {
         dump << _( "* Can activate on a <info>normal</info> or a <info>crit</info> hit" ) << std::endl;
-    }
-    else if( crit_tec ) {
+    } else if( crit_tec ) {
         dump << _( "* Will only activate on a <info>crit</info>" ) << std::endl;
     }
 
