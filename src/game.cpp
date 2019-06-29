@@ -1378,8 +1378,8 @@ bool game::do_turn()
     // If controlling a vehicle that is owned by someone else
     if( u.in_vehicle && u.controlling_vehicle ) {
         vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
-        if( veh && !veh->handle_potential_theft( &u, true ) ) {
-            veh->handle_potential_theft( &u, false, false );
+        if( veh && !veh->handle_potential_theft( dynamic_cast<player &>( u ), true ) ) {
+            veh->handle_potential_theft( dynamic_cast<player &>( u ), false, false );
         }
     }
     if( calendar::once_every( 1_days ) ) {
@@ -5195,17 +5195,17 @@ void game::control_vehicle()
     } else if( veh && veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 &&
                u.in_vehicle ) {
         if( !veh->interact_vehicle_locked() ) {
-            veh->handle_potential_theft( &u );
+            veh->handle_potential_theft( dynamic_cast<player &>( u ) );
             return;
         }
         if( veh->engine_on ) {
-            if( !veh->handle_potential_theft( &u ) ) {
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
                 return;
             }
             u.controlling_vehicle = true;
             add_msg( _( "You take control of the %s." ), veh->name );
         } else {
-            if( !veh->handle_potential_theft( &u ) ) {
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
                 return;
             }
             veh->start_engines( true );
@@ -5223,7 +5223,7 @@ void game::control_vehicle()
         veh = &vp->vehicle();
         veh_part = vp->part_index();
         if( veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 ) {
-            if( !veh->handle_potential_theft( &u ) ) {
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
                 return;
             }
             veh->use_controls( *examp_ );
@@ -8854,7 +8854,7 @@ bool game::walk_move( const tripoint &dest_loc )
     if( m.impassable( dest_loc ) && !pushing && !shifting_furniture ) {
         return false;
     }
-    if( vp_there && !vp_there->vehicle().handle_potential_theft( &u ) ) {
+    if( vp_there && !vp_there->vehicle().handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
         return false;
     }
     if( u.has_effect( effect_riding ) && vp_there ) {

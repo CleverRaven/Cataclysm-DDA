@@ -454,7 +454,7 @@ static void open()
             const vehicle *player_veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
             bool outside = !player_veh || player_veh != veh;
             if( !outside ) {
-                if( !veh->handle_potential_theft( &u ) ) {
+                if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
                     u.moves += 100;
                     return;
                 } else {
@@ -471,7 +471,7 @@ static void open()
                     add_msg( m_info, _( "That %s can only opened from the inside." ), name );
                     u.moves += 100;
                 } else {
-                    if( !veh->handle_potential_theft( &u ) ) {
+                    if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
                         u.moves += 100;
                         return;
                     } else {
@@ -573,7 +573,7 @@ static void grab()
         return;
     }
     if( const optional_vpart_position vp = m.veh_at( grabp ) ) {
-        if( !vp->vehicle().handle_potential_theft( &g->u ) ) {
+        if( !vp->vehicle().handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
             return;
         }
         you.grab( OBJECT_VEHICLE, grabp - you.pos() );
@@ -663,7 +663,7 @@ static void smash()
     }
     vehicle *veh = veh_pointer_or_null( g->m.veh_at( smashp ) );
     if( veh != nullptr ) {
-        if( !veh->handle_potential_theft( &u ) ) {
+        if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
             return;
         }
     }

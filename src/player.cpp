@@ -7485,7 +7485,7 @@ int player::current_warnings_fac( const faction_id &id )
     if( it != warning_record.end() ) {
         if( it->second.second - calendar::turn > 5_minutes ) {
             it->second.first = std::max( 0,
-                                         it->second.first -= 1 );
+                                         it->second.first - 1 );
         }
         return it->second.first;
     }
@@ -7498,7 +7498,7 @@ bool player::beyond_final_warning( const faction_id &id )
     if( it != warning_record.end() ) {
         if( it->second.second - calendar::turn > 5_minutes ) {
             it->second.first = std::max( 0,
-                                         it->second.first -= 1 );
+                                         it->second.first - 1 );
         }
         return it->second.first > 3;
     }

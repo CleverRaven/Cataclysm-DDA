@@ -3697,22 +3697,20 @@ bool vehicle::sufficient_wheel_config() const
     return true;
 }
 
-bool vehicle::handle_potential_theft( player *p, bool check_only, bool prompt )
+bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
 {
-    if( p == nullptr ) {
-        return false;
-    }
     faction *yours;
-    if( p->is_player() ) {
+    if( p.is_player() ) {
         yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
     } else {
-        npc *guy = dynamic_cast<npc *>( p );
+        npc *guy = dynamic_cast<npc *>( &p );
         yours = guy->my_fac;
     }
     std::vector<npc *> witnesses;
     for( npc &elem : g->all_npcs() ) {
-        if( rl_dist( elem.pos(), p->pos() ) < MAX_VIEW_DISTANCE && get_owner() && elem.my_fac == owner &&
-            elem.sees( p->pos() ) ) {
+        if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && has_owner() &&
+            elem.my_fac == get_owner() &&
+            elem.sees( p.pos() ) ) {
             witnesses.push_back( &elem );
         }
     }
@@ -3726,15 +3724,8 @@ bool vehicle::handle_potential_theft( player *p, bool check_only, bool prompt )
         remove_old_owner();
         return true;
         // if there is a marker for having been stolen, but 15 minutes have passed, then officially transfer ownership
-    } else if( witnesses.empty() && get_owner() && get_owner() != yours && get_old_owner() &&
-               get_old_owner() != yours && theft_time && calendar::turn - *theft_time > 15_minutes ) {
-        if( p->is_player() ) {
-            set_owner( yours );
-            // Npcs dont steal vehicles yet... but maybe one day.
-        } else if( p->is_npc() ) {
-            npc *guy = dynamic_cast<npc *>( p );
-            set_owner( guy->my_fac );
-        }
+    } else if( witnesses.empty() && get_old_owner() && get_old_owner() != yours && theft_time && calendar::turn - *theft_time > 15_minutes ) {
+        set_owner( yours );
         remove_old_owner();
         return true;
         // No witnesses? then dont need to prompt, we assume the player is in process of stealing it.
@@ -3763,7 +3754,7 @@ bool vehicle::handle_potential_theft( player *p, bool check_only, bool prompt )
         elem->say( "<witnessed_thievery>", 7 );
     }
     if( !witnesses.empty() ) {
-        if( p->add_faction_warning( get_owner()->id ) ) {
+        if( p.add_faction_warning( get_owner()->id ) ) {
             for( npc *elem : witnesses ) {
                 elem->make_angry();
             }

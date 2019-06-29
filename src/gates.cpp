@@ -276,7 +276,7 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
         const int inside_closable = veh->next_part_to_close( vpart );
         const int openable = veh->next_part_to_open( vpart );
         if( closable >= 0 ) {
-            if( !veh->handle_potential_theft( &g->u ) ) {
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
                 return;
             }
             veh->close( closable );

@@ -675,7 +675,7 @@ void vehicle::use_controls( const tripoint &pos )
     if( menu.ret >= 0 ) {
         // allow player to turn off engine without triggering another warning
         if( menu.ret != 0 && menu.ret != 1 && menu.ret != 2 && menu.ret != 3 ) {
-            if( !handle_potential_theft( &g->u ) ) {
+            if( !handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
                 return;
             }
         }
@@ -1614,7 +1614,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         choice = selectmenu.ret;
     }
     if( choice != EXAMINE && choice != TRACK && choice != GET_ITEMS_ON_GROUND ) {
-        if( !handle_potential_theft( &g->u ) ) {
+        if( !handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
             return;
         }
     }

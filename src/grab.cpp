@@ -28,7 +28,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         return false;
     }
     vehicle *grabbed_vehicle = &grabbed_vehicle_vp->vehicle();
-    if( !grabbed_vehicle->handle_potential_theft( &g->u ) ) {
+    if( !grabbed_vehicle->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
         return false;
     }
     const int grabbed_part = grabbed_vehicle_vp->part_index();

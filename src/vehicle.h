@@ -739,7 +739,7 @@ class vehicle
         bool has_owner() const {
             return owner;
         }
-        bool handle_potential_theft( player *p, bool check_only = false, bool prompt = true );
+        bool handle_potential_theft( player &p, bool check_only = false, bool prompt = true );
         /**
          *  Operate vehicle controls
          *  @param pos location of physical controls to operate (ignored during remote operation)

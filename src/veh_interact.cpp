@@ -311,7 +311,7 @@ bool veh_interact::format_reqs( std::ostringstream &msg, const requirement_data 
 void veh_interact::do_main_loop()
 {
     bool finish = false;
-    const bool owned_by_player = veh->handle_potential_theft( &g->u, true );
+    const bool owned_by_player = veh->handle_potential_theft( dynamic_cast<player &>( g->u ), true );
     while( !finish ) {
         overview();
         display_mode();
@@ -325,31 +325,31 @@ void veh_interact::do_main_loop()
         } else if( action == "QUIT" ) {
             finish = true;
         } else if( action == "INSTALL" ) {
-            if( !veh->handle_potential_theft( &g->u ) ) {
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u )) ) {
                 redraw = true;
             } else {
                 redraw = do_install( msg );
             }
         } else if( action == "REPAIR" ) {
-            if( !veh->handle_potential_theft( &g->u ) ) {
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
                 redraw = true;
             } else {
                 redraw = do_repair( msg );
             }
         } else if( action == "MEND" ) {
-            if( !veh->handle_potential_theft( &g->u ) ) {
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
                 redraw = true;
             } else {
                 redraw = do_mend( msg );
             }
         } else if( action == "REFILL" ) {
-            if( !veh->handle_potential_theft( &g->u ) ) {
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
                 redraw = true;
             } else {
                 redraw = do_refill( msg );
             }
         } else if( action == "REMOVE" ) {
-            if( !veh->handle_potential_theft( &g->u ) ) {
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
                 redraw = true;
             } else {
                 redraw = do_remove( msg );
@@ -362,7 +362,7 @@ void veh_interact::do_main_loop()
                 redraw = true;
             }
         } else if( action == "SIPHON" ) {
-            if( veh->handle_potential_theft( &g->u ) ) {
+            if( veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
                 redraw = do_siphon( msg );
                 // Siphoning may have started a player activity. If so, we should close the
                 // vehicle dialog and continue with the activity.
@@ -375,14 +375,14 @@ void veh_interact::do_main_loop()
                 redraw = true;
             }
         } else if( action == "UNLOAD" ) {
-            if( veh->handle_potential_theft( &g->u ) ) {
+            if( veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
                 redraw = do_unload( msg );
                 finish = redraw;
             } else {
                 redraw = true;
             }
         } else if( action == "TIRE_CHANGE" ) {
-            if( veh->handle_potential_theft( &g->u ) ) {
+            if( veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
                 redraw = do_tirechange( msg );
             } else {
                 redraw = true;
