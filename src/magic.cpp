@@ -583,7 +583,7 @@ bool spell::bp_is_affected( body_part bp ) const
 void spell::make_sound( const tripoint &target ) const
 {
     if( !has_flag( spell_flag::SILENT ) ) {
-        int loudness = damage() / 3;
+        int loudness = abs( damage() ) / 3;
         if( has_flag( spell_flag::LOUD ) ) {
             loudness += 1 + damage() / 3;
         }
