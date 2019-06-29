@@ -198,6 +198,12 @@
   },
   {
     "type": "city_building",
+    "id": "mortuary",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "mortuary_north" }, { "point": [ 0, 0, 1 ], "overmap": "mortuary_roof_north" } ]
+  },
+  {
+    "type": "city_building",
     "id": "s_bookstore",
     "locations": [ "land" ],
     "overmaps": [

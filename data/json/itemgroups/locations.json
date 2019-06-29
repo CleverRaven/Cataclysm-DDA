@@ -643,6 +643,46 @@
     ]
   },
   {
+    "id": "corpse_male",
+    "type": "item_group",
+    "//": "For mortuary",
+    "subtype": "collection",
+    "entries": [
+      { "group": "male_underwear_top" },
+      { "group": "male_underwear_bottom" },
+      { "item": "corpse" },
+      { "item": "sheet" },
+      { "item": "bag_body_bag" }
+    ]
+  },
+  {
+    "id": "corpse_female",
+    "type": "item_group",
+    "//": "For mortuary",
+    "subtype": "collection",
+    "entries": [
+      { "group": "female_underwear_top" },
+      { "group": "female_underwear_bottom" },
+      { "item": "corpse" },
+      { "item": "sheet" },
+      { "item": "bag_body_bag" }
+    ]
+  },
+  {
+    "id": "corpse_viewing",
+    "type": "item_group",
+    "//": "For mortuary",
+    "subtype": "collection",
+    "entries": [
+      { "group": "female_underwear_top" },
+      { "group": "female_underwear_bottom" },
+      { "item": "ring" },
+      { "item": "veil_wedding" },
+      { "item": "dress_wedding" },
+      { "item": "corpse" }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "ss_merch_1",
     "//": "for cs_sex_shop",
