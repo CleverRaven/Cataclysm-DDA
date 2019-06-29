@@ -1416,6 +1416,10 @@ static bool wants_to_reload_with( const item &weap, const item &ammo )
 
 item &npc::find_reloadable()
 {
+    auto cached_value = cached_info.find( "reloadables" );
+    if( cached_value != cached_info.end() ) {
+        return null_item_reference();
+    }
     // Check wielded gun, non-wielded guns, mags and tools
     // TODO: Build a proper gun->mag->ammo DAG (Directed Acyclic Graph)
     // to avoid checking same properties over and over
@@ -1440,6 +1444,7 @@ item &npc::find_reloadable()
         return *reloadable;
     }
 
+    cached_info.emplace( "reloadables", 0.0 );
     return null_item_reference();
 }
 
