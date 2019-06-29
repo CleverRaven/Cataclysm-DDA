@@ -154,7 +154,7 @@ static int ter_furn_movecost( const ter_t &ter, const furn_t &furn )
 
 struct scent_block {
     template<typename T>
-    using data_block = std::array<std::array<T, SEEY + 2>, SEEX + 2>;
+    using data_block = std::array < std::array < T, SEEY + 2 >, SEEX + 2 >;
 
     enum data_mode {
         NONE = 0,
@@ -175,7 +175,7 @@ struct scent_block {
     int modification_count;
 
     scent_block( int subx, int suby, int subz, scent_map &scents )
-    : origin( subx * SEEX - 1, suby * SEEY - 1, subz ), scents(scents), modification_count(0) {
+        : origin( subx * SEEX - 1, suby * SEEY - 1, subz ), scents( scents ), modification_count( 0 ) {
         for( int x = 0; x < SEEX + 2; ++x ) {
             for( int y = 0; y < SEEY + 2; ++y ) {
                 assignable[x][y] = scents.inbounds( origin + tripoint( x, y, 0 ) );
@@ -192,7 +192,8 @@ struct scent_block {
             for( int y = 0; y < SEEY + 2; ++y ) {
                 if( assignable[x][y] ) {
                     switch( assignment[x][y].mode ) {
-                        case NONE: break;
+                        case NONE:
+                            break;
                         case SET: {
                             scents.set_unsafe( origin + tripoint( x, y, 0 ), assignment[x][y].intensity );
                             break;

@@ -101,10 +101,12 @@ void scent_map::set( const tripoint &p, int value )
     }
 }
 
-void scent_map::set_unsafe( const tripoint &p, int value ) {
+void scent_map::set_unsafe( const tripoint &p, int value )
+{
     grscent[p.x][p.y] = value;
 }
-int scent_map::get_unsafe( const tripoint &p ) const {
+int scent_map::get_unsafe( const tripoint &p ) const
+{
     return grscent[p.x][p.y] - std::abs( gm.get_levz() - p.z );
 }
 
