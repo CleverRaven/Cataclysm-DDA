@@ -1444,21 +1444,30 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
     int assist_bonus = installer.get_effect_int( effect_assisted );
 
     const bionic_id &bioid = type.bionic->id;
-    const int difficult = type.bionic->difficulty;
+    const bionic_id &upbioid = bioid->upgraded_bionic;
+    const int difficulty = type.bionic->difficulty;
     float adjusted_skill;
-
+    int pl_skill;
     if( autodoc ) {
         adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
                          skilll_computer,
                          skilll_electronics,
                          skill_level );
+        pl_skill = installer.bionics_pl_skill( skilll_firstaid,
+                                               skilll_computer,
+                                               skilll_electronics,
+                                               skill_level );
     } else {
         adjusted_skill = installer.bionics_adjusted_skill( skilll_electronics,
                          skilll_firstaid,
                          skilll_mechanics,
                          skill_level );
+        adjusted_skill = installer.bionics_pl_skill( skilll_electronics,
+                         skilll_firstaid,
+                         skilll_mechanics,
+                         skill_level );
     }
-    int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, autodoc, difficult );
+    int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, autodoc, difficulty );
 
     // Practice skills only if conducting manual installation
     if( !autodoc ) {
@@ -1468,39 +1477,31 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
     }
 
     int success = chance_of_success - rng( 0, 99 );
-    if( success > 0 ) {
-        if( is_player() ) {
-            add_memorial_log( pgettext( "memorial_male", "Installed bionic: %s." ),
-                              pgettext( "memorial_female", "Installed bionic: %s." ),
-                              bioid->name );
-        }
-        if( bioid->upgraded_bionic ) {
-            remove_bionic( bioid->upgraded_bionic );
-            //~ %1$s - name of the bionic to be upgraded (inferior), %2$s - name of the upgraded bionic (superior).
-            add_msg( m_good, _( "Successfully upgraded %1$s to %2$s." ),
-                     bioid->upgraded_bionic->name, bioid->name );
-        } else {
-            //~ %s - name of the bionic.
-            add_msg( m_good, _( "Successfully installed %s." ), bioid->name );
-        }
-
-        add_bionic( bioid );
-
-        for( const auto &mid : bioid->canceled_mutations ) {
-            if( has_trait( mid ) ) {
-                remove_mutation( mid );
-            }
-        }
+    if( is_npc() ) {
+        static_cast<npc *>( this )->set_attitude( NPCATT_ACTIVITY );
+        assign_activity( activity_id( "ACT_OPERATION_INSTALL" ), to_moves<int>( difficulty * 20_minutes ) );
+        static_cast<npc *>( this )->set_mission( NPC_MISSION_ACTIVITY );
     } else {
-        if( is_player() ) {
-            add_memorial_log( pgettext( "memorial_male", "Failed install of bionic: %s." ),
-                              pgettext( "memorial_female", "Failed install of bionic: %s." ),
-                              bioid->name );
-        }
-        bionics_install_failure( installer, difficult, success, adjusted_skill );
+        assign_activity( activity_id( "ACT_OPERATION_INSTALL" ), to_moves<int>( difficulty * 20_minutes ) );
     }
-    g->m.invalidate_map_cache( g->get_levz() );
-    g->refresh_all();
+
+    activity.values.push_back( difficulty );
+    activity.values.push_back( success );
+    activity.values.push_back( bionics[bioid].capacity );
+    activity.values.push_back( pl_skill );
+    activity.str_values.push_back( bionics[bioid].name );
+    activity.str_values.push_back( bioid.c_str() );
+    activity.str_values.push_back( bionics[upbioid].name );
+    activity.str_values.push_back( upbioid.c_str() );
+    for( const auto &elem : bionics[bioid].occupied_bodyparts ) {
+        activity.values.push_back( elem.first );
+        add_effect( effect_under_op, difficulty * 20_minutes, elem.first, false, difficulty );
+    }
+    for( const trait_id &mid : bioid->canceled_mutations ) {
+        if( has_trait( mid ) ) {
+            activity.str_values.push_back( mid.c_str() );
+        }
+    }
     return true;
 }
 
