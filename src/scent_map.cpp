@@ -89,7 +89,7 @@ void scent_map::shift( const int sm_shift_x, const int sm_shift_y )
 int scent_map::get( const tripoint &p ) const
 {
     if( inbounds( p ) && grscent[p.x][p.y] > 0 ) {
-        return grscent[p.x][p.y] - std::abs( gm.get_levz() - p.z );
+        return get_unsafe( p );
     }
     return 0;
 }
@@ -97,8 +97,15 @@ int scent_map::get( const tripoint &p ) const
 void scent_map::set( const tripoint &p, int value )
 {
     if( inbounds( p ) ) {
-        grscent[p.x][p.y] = value;
+        set_unsafe( p, value );
     }
+}
+
+void scent_map::set_unsafe( const tripoint &p, int value ) {
+    grscent[p.x][p.y] = value;
+}
+int scent_map::get_unsafe( const tripoint &p ) const {
+    return grscent[p.x][p.y] - std::abs( gm.get_levz() - p.z );
 }
 
 bool scent_map::inbounds( const tripoint &p ) const
