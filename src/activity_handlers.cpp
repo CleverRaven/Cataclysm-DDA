@@ -2629,27 +2629,28 @@ void activity_handlers::adv_inventory_do_turn( player_activity *, player *p )
 void activity_handlers::drive_do_turn( player_activity *act, player *p )
 {
     vehicle *player_veh = veh_pointer_or_null( g->m.veh_at( p->pos() ) );
-    if( !player_veh ){
+    if( !player_veh ) {
         act->set_to_null();
         p->cancel_activity();
         return;
     }
-    if( p->in_vehicle && p->controlling_vehicle && player_veh->is_autodriving && !g->u.omt_path.empty() && !player_veh->omt_path.empty() ){
+    if( p->in_vehicle && p->controlling_vehicle && player_veh->is_autodriving &&
+        !g->u.omt_path.empty() && !player_veh->omt_path.empty() ) {
         player_veh->do_autodrive();
-        if( g->u.global_omt_location() == g->u.omt_path.back() ){
+        if( g->u.global_omt_location() == g->u.omt_path.back() ) {
             g->u.omt_path.pop_back();
         }
         p->moves = 0;
     } else {
         p->add_msg_if_player( m_info, _( "Auto-drive cancelled." ) );
-        if( !player_veh->omt_path.empty() ){
+        if( !player_veh->omt_path.empty() ) {
             player_veh->omt_path.clear();
         }
         act->set_to_null();
         p->cancel_activity();
         return;
     }
-    if( player_veh->omt_path.empty() ){
+    if( player_veh->omt_path.empty() ) {
         act->set_to_null();
         p->add_msg_if_player( m_info, _( "You have reached your destination." ) );
         p->cancel_activity();
