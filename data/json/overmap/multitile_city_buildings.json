@@ -475,6 +475,16 @@
   },
   {
     "type": "city_building",
+    "id": "small_office",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "small_office_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "small_office_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "small_office_upper_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "railroad_city",
     "locations": [ "land" ],
     "overmaps": [
