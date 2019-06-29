@@ -173,6 +173,7 @@
     "unarmed_allowed": true,
     "block_counter": true,
     "dodge_counter": true,
+    "crit_ok": true,
     "mult_bonuses": [ [ "movecost", 0.0 ] ],
     "messages": [ "You counter-attack %s", "<npcname> counter-attacks %s" ]
   },
@@ -287,6 +288,7 @@
     "min_unarmed": 6,
     "unarmed_allowed": true,
     "dodge_counter": true,
+    "crit_ok": true,
     "down_dur": 1,
     "knockback_dist": 1,
     "knockback_spread": 1,
@@ -567,6 +569,7 @@
     "min_melee": 4,
     "unarmed_allowed": true,
     "block_counter": true,
+    "crit_ok": true,
     "mult_bonuses": [ [ "movecost", 0.0 ] ],
     "messages": [ "You block and counter-attack %s", "<npcname> blocks and counter-attacks %s" ]
   },
@@ -632,6 +635,7 @@
     "min_unarmed": 4,
     "unarmed_allowed": true,
     "dodge_counter": true,
+    "crit_ok": true,
     "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 1.25 ] ],
     "messages": [ "You lurch, and your wild swing hits %s", "<npcname> lurches, and hits %s" ]
   },
@@ -659,6 +663,7 @@
     "name": "Fencing stop thrust",
     "min_melee": 3,
     "block_counter": true,
+    "crit_ok": true,
     "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "stab", 1.5 ] ],
     "stun_dur": 1,
     "messages": [ "You deliver a perfect stop thrust to %s", "<npcname> delivers a perfect stop thrust to %s" ]
@@ -798,6 +803,7 @@
     "min_unarmed": 4,
     "unarmed_allowed": true,
     "dodge_counter": true,
+    "crit_ok": true,
     "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 1.5 ] ],
     "messages": [ "You dodge the attack and swipe at %s's exposed flank", "<npcname> dodges and catches %s exposed" ]
   },
@@ -818,6 +824,7 @@
     "min_unarmed": 4,
     "unarmed_allowed": true,
     "block_counter": true,
+    "crit_ok": true,
     "mult_bonuses": [ [ "movecost", 0.0 ] ],
     "stun_dur": 2,
     "messages": [ "You block the attack and send %s spinning", "<npcname> blocks and spins %s" ]
@@ -829,6 +836,7 @@
     "min_unarmed": 4,
     "unarmed_allowed": true,
     "dodge_counter": true,
+    "crit_ok": true,
     "mult_bonuses": [ [ "movecost", 0.0 ] ],
     "stun_dur": 2,
     "messages": [ "You dodge the attack and send %s spinning", "<npcname> dodges and spins %s" ]
@@ -955,6 +963,7 @@
     "min_unarmed": 5,
     "unarmed_allowed": true,
     "block_counter": true,
+    "crit_ok": true,
     "mult_bonuses": [ [ "movecost", 0.0 ] ],
     "messages": [ "You catch %s's attack, and hit back", "<npcname> catches %s, and counters" ]
   },
@@ -1047,6 +1056,7 @@
     "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ],
     "unarmed_allowed": false,
     "block_counter": true,
+    "crit_ok": true,
     "knockback_dist": 1,
     "messages": [ "You push %s away", "<npcname> pushes %s away" ]
   },
@@ -1123,6 +1133,7 @@
     "min_unarmed": 5,
     "unarmed_allowed": true,
     "dodge_counter": true,
+    "crit_ok": true,
     "mult_bonuses": [ [ "movecost", 0.0 ] ],
     "messages": [ "You receive %s's gift of violence, and return it in kind", "<npcname> receives %s's attack, and counters" ]
   },
