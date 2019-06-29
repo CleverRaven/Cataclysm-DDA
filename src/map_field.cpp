@@ -172,9 +172,10 @@ struct scent_block {
 
     tripoint origin;
     scent_map &scents;
+    int modification_count;
 
     scent_block( int subx, int suby, int subz, scent_map &scents )
-    : origin( subx * SEEX - 1, suby * SEEY - 1, subz ), scents(scents) {
+    : origin( subx * SEEX - 1, suby * SEEY - 1, subz ), scents(scents), modification_count(0) {
         for( int x = 0; x < SEEX + 2; ++x ) {
             for( int y = 0; y < SEEY + 2; ++y ) {
                 assignable[x][y] = scents.inbounds( origin + tripoint( x, y, 0 ) );
@@ -184,18 +185,21 @@ struct scent_block {
     }
 
     void commit_modifications() {
+        if( modification_count == 0 ) {
+            return;
+        }
         for( int x = 0; x < SEEX + 2; ++x ) {
             for( int y = 0; y < SEEY + 2; ++y ) {
                 if( assignable[x][y] ) {
                     switch( assignment[x][y].mode ) {
                         case NONE: break;
                         case SET: {
-                            scents.set( origin + tripoint( x, y, 0 ), assignment[x][y].intensity );
+                            scents.set_unsafe( origin + tripoint( x, y, 0 ), assignment[x][y].intensity );
                             break;
                         }
                         case MAX: {
                             tripoint p = origin + tripoint( x, y, 0 );
-                            scents.set( p, std::max( assignment[x][y].intensity, scents.get( p ) ) );
+                            scents.set_unsafe( p, std::max( assignment[x][y].intensity, scents.get_unsafe( p ) ) );
                             break;
                         }
                     }
@@ -213,6 +217,7 @@ struct scent_block {
         const point ndx = index( p );
         assignment[ndx.x][ndx.y].mode = SET;
         assignment[ndx.x][ndx.y].intensity = 0;
+        ++modification_count;
     }
     void apply_slime( const tripoint &p, int intensity ) {
         const point ndx = index( p );
@@ -236,6 +241,7 @@ struct scent_block {
                 break;
             }
         }
+        ++modification_count;
     }
 };
 
