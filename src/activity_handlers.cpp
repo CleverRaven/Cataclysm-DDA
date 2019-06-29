@@ -157,6 +157,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_FERTILIZE_PLOT" ), fertilize_plot_do_turn },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn },
     { activity_id( "ACT_OPERATION_REMOVE" ), uninstall_operation_do_turn },
+    { activity_id( "ACT_OPERATION_INSTALL" ), install_operation_do_turn },
     { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_do_turn },
     { activity_id( "ACT_TREE_COMMUNION" ), tree_communion_do_turn },
     { activity_id( "ACT_STUDY_SPELL" ), study_spell_do_turn}
@@ -2889,6 +2890,150 @@ void activity_handlers::uninstall_operation_do_turn( player_activity *act, playe
             act->set_to_null();
         }
 
+
+    } else if( act->values[1] > 0 ) {
+        if( act->values.size() > 4 ) {
+            for( size_t i = 4; i < act->values.size(); i++ ) {
+                if( calendar::once_every( 2_minutes ) && u_see ) {
+                    p->add_msg_player_or_npc( m_info,
+                                              _( "The Autodoc is stitching your %s back up." ),
+                                              _( "The Autodoc is stitching <npcname>'s %s back up." ),
+                                              body_part_name_accusative( body_part( act->values[i] ) ) );
+                }
+            }
+        } else {
+            if( calendar::once_every( 2_minutes ) && u_see ) {
+                p->add_msg_player_or_npc( m_info,
+                                          _( "The Autodoc is stitching you back up." ),
+                                          _( "The Autodoc is stitching <npcname> back up." ) );
+            }
+        }
+    } else {
+        if( calendar::once_every( 2_minutes ) && u_see ) {
+            p->add_msg_player_or_npc( m_bad,
+                                      _( "The Autodoc is moving eraticly through the rest of its program, not actually stitching your wounds." ),
+                                      _( "The Autodoc is moving eraticly through the rest of its program, not actually stitching <npcname>'s wounds." ) );
+        }
+    }
+    p->set_moves( 0 );
+}
+
+void activity_handlers::install_operation_do_turn( player_activity *act, player *p )
+{
+    const bool u_see = g->u.sees( p->pos() ) && !g->u.has_effect( effect_narcosis );
+
+    const int difficulty = act->values.front();
+
+    const time_duration op_duration = difficulty * 10_minutes;
+    time_duration time_left = time_duration::from_turns( act->moves_left / 100 );
+
+    const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
+                                         furn_str_id( "f_autodoc" ) );
+
+    if( g->m.furn( p->pos() ) != furn_str_id( "f_autodoc_couch" ) || autodocs.empty() ) {
+        p->remove_effect( effect_under_op );
+        act->set_to_null();
+
+        if( u_see ) {
+            add_msg( m_bad, _( "The autodoc suffers a catastrophic failure." ) );
+
+            p->add_msg_player_or_npc( m_bad,
+                                      _( "The Autodoc's failure damages you greatly." ),
+                                      _( "The Autodoc's failure damages <npcname> greatly." ) );
+        }
+
+        if( act->values.size() > 4 ) {
+            for( size_t i = 4; i < act->values.size(); i++ ) {
+                p->add_effect( effect_bleed, 1_turns, body_part( act->values[i] ), true, difficulty );
+                p->apply_damage( nullptr, body_part( act->values[i] ), 10 * difficulty );
+
+                if( u_see ) {
+                    p->add_msg_player_or_npc( m_bad, _( "Your %s is ripped open." ),
+                                              _( "<npcname>'s %s is ripped open." ),
+                                              body_part_name_accusative( body_part( act->values[i] ) ) );
+                }
+
+                if( body_part( act->values[i] ) == bp_eyes ) {
+                    p->add_effect( effect_blind, 1_hours, num_bp );
+                }
+                p->remove_effect( effect_under_op, body_part( act->values[i] ) );
+            }
+        } else {
+            p->add_effect( effect_bleed, 1_turns, num_bp, true, difficulty );
+            p->apply_damage( nullptr, num_bp, 10 * difficulty );
+        }
+    }
+
+    if( time_left > op_duration ) {
+        if( act->values.size() > 4 ) {
+            for( size_t i = 4; i < act->values.size(); i++ ) {
+                if( calendar::once_every( 2_minutes ) && u_see ) {
+                    p->add_msg_player_or_npc( m_info,
+                                              _( "The Autodoc is meticulously cutting your %s open." ),
+                                              _( "The Autodoc is meticulously cutting <npcname>'s %s open." ),
+                                              body_part_name_accusative( body_part( act->values[i] ) ) );
+                }
+            }
+        } else {
+            if( calendar::once_every( 2_minutes ) && u_see ) {
+                p->add_msg_player_or_npc( m_info,
+                                          _( "The Autodoc is meticulously cutting you open." ),
+                                          _( "The Autodoc is meticulously cutting <npcname> open." ) );
+            }
+        }
+    } else if( time_left == op_duration ) {
+        if( u_see ) {
+            add_msg( m_info, _( "The Autodoc attempts to carefully insert the bionic." ) );
+        }
+
+        if( act->str_values.size() > 1 ) {
+            const bionic_id bid = bionic_id( act->str_values[1] );
+            const bionic_id upbid = bionic_id( act->str_values[3] );
+
+            if( act->values[1] > 0 ) {
+
+                if( p->is_player() ) {
+                    p->add_memorial_log( pgettext( "memorial_male", "Installed bionic: %s." ),
+                                         pgettext( "memorial_female", "Installed bionic: %s." ),
+                                         act->str_values.front() );
+                }
+                if( upbid != bionic_id( "" ) ) {
+                    p->remove_bionic( upbid );
+                    //~ %1$s - name of the bionic to be upgraded (inferior), %2$s - name of the upgraded bionic (superior).
+                    add_msg( m_good, _( "Successfully upgraded %1$s to %2$s." ),
+                             act->str_values[2], act->str_values.front() );
+                } else {
+                    //~ %s - name of the bionic.
+                    add_msg( m_good, _( "Successfully installed %s." ), act->str_values.front() );
+                }
+
+                p->add_bionic( bid );
+
+                if( act->str_values.size() > 5 ) {
+                    for( size_t i = 5; i < act->str_values.size(); i++ ) {
+                        p->remove_mutation( trait_id( act->str_values[i] ) );
+                    }
+                }
+
+            } else {
+                if( p->is_player() ) {
+                    p->add_memorial_log( pgettext( "memorial_male", "Failed install of bionic: %s." ),
+                                         pgettext( "memorial_female", "Failed install of bionic: %s." ),
+                                         act->str_values.front() );
+                }
+
+                // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
+                float adjusted_skill = static_cast<float>( act->values[3] ) - std::min( static_cast<float>( 40 ),
+                                       static_cast<float>( act->values[3] ) - static_cast<float>( act->values[3] ) / static_cast<float>
+                                       ( 10.0 ) );
+                p->bionics_install_failure( act->str_values[4], difficulty, act->values[1], adjusted_skill );
+            }
+            g->m.invalidate_map_cache( g->get_levz() );
+            g->refresh_all();
+        } else {
+            add_msg( _( "You don't have this CBM." ) );
+            act->set_to_null();
+        }
 
     } else if( act->values[1] > 0 ) {
         if( act->values.size() > 4 ) {

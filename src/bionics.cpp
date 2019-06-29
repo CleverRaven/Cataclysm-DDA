@@ -1491,8 +1491,14 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
     activity.values.push_back( pl_skill );
     activity.str_values.push_back( bionics[bioid].name );
     activity.str_values.push_back( bioid.c_str() );
-    activity.str_values.push_back( bionics[upbioid].name );
-    activity.str_values.push_back( upbioid.c_str() );
+    if( upbioid ) {
+        activity.str_values.push_back( bionics[upbioid].name );
+        activity.str_values.push_back( upbioid.c_str() );
+    } else {
+        activity.str_values.push_back( "" );
+        activity.str_values.push_back( "" );
+    }
+
     if( installer.has_trait( trait_PROF_MED ) || installer.has_trait( trait_PROF_AUTODOC ) ) {
         activity.str_values.push_back( installer.disp_name( true ) );
     } else {

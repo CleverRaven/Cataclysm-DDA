@@ -98,6 +98,7 @@ void fertilize_plot_do_turn( player_activity *act, player *p );
 void harvest_plot_do_turn( player_activity *act, player *p );
 void try_sleep_do_turn( player_activity *act, player *p );
 void uninstall_operation_do_turn( player_activity *act, player *p );
+void install_operation_do_turn( player_activity *act, player *p );
 void robot_control_do_turn( player_activity *act, player *p );
 void tree_communion_do_turn( player_activity *act, player *p );
 void spellcasting_do_turn( player_activity *act, player *p );
