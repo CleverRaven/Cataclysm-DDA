@@ -2951,11 +2951,11 @@ bool npc::find_corpse_to_pulp()
     if( corpse == nullptr ) {
         // If we're following the player, don't wander off to pulp corpses
         const tripoint &around = is_walking_with() ? g->u.pos() : pos();
-        for( const tripoint &p : closest_tripoints_first( range, around ) ) {
-            corpse = check_tile( p );
+        for( const item_location &location : g->m.get_active_items_in_radius( around, range ) ) {
+            corpse = check_tile( location.position() );
 
             if( corpse != nullptr ) {
-                pulp_location.emplace( p );
+                pulp_location.emplace( location.position() );
                 break;
             }
 
