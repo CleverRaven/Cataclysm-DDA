@@ -1110,9 +1110,9 @@ int player::bionics_pl_skill( const skill_id &most_important_skill, const skill_
 {
     int pl_skill;
     if( skill_level == -1 ) {
-        pl_skill = int_cur * 4 +
-                   get_skill_level( most_important_skill ) * 4 +
-                   get_skill_level( important_skill ) * 3 +
+        pl_skill = int_cur                                  * 4 +
+                   get_skill_level( most_important_skill )  * 4 +
+                   get_skill_level( important_skill )       * 3 +
                    get_skill_level( least_important_skill ) * 1;
     } else {
         // override chance as though all values were skill_level if it is provided
@@ -2013,7 +2013,6 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
                            _( "As your conciousness slips away, you feel regret that you won't be able to enjoy the operation." ) );
     }
 
-
     if( has_effect( effect_narcosis ) ) {
         const time_duration remaining_time = get_effect_dur( effect_narcosis );
         if( remaining_time <= duration ) {
@@ -2025,5 +2024,4 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
         add_effect( effect_narcosis, duration );
         fall_asleep( duration );
     }
-
 }

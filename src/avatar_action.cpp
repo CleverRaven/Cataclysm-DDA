@@ -37,7 +37,6 @@ static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_stunned( "stunned" );
-const efftype_id effect_under_op( "under_operation" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_harnessed( "harnessed" );
 

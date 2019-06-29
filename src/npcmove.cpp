@@ -70,7 +70,6 @@ const skill_id skill_throw( "throw" );
 const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_bleed( "bleed" );
-const efftype_id effect_blind( "blind" );
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_catch_up( "catch_up" );
 const efftype_id effect_hallu( "hallu" );
