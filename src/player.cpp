@@ -11261,7 +11261,7 @@ void player::burn_move_stamina( int moves )
         burn_ratio = burn_ratio * 16;
     }
     if( move_mode == "run" ) {
-        burn_ratio = burn_ratio * 2;
+        burn_ratio = burn_ratio * 3;
     }
     burn_ratio = burn_ratio * ( ( current_weight / max_weight ) + 1 );
     mod_stat( "stamina", -( ( moves * burn_ratio ) / 100 ) );
