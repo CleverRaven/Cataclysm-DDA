@@ -53,7 +53,6 @@
 #include "type_id.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
 #include "veh_type.h"
 #include "vehicle.h"
 
