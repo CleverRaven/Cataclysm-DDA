@@ -3080,7 +3080,7 @@ void activity_handlers::uninstall_operation_finish( player_activity *act, player
         const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
                                              furn_str_id( "f_autodoc" ) );
         sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
-                       _( "a short upbeat jingle followed by: \"Operation Succesfull\"" ), true,
+                       _( "a short upbeat jingle: \"Operation Succesfull\"" ), true,
                        "Autodoc",
                        "success" );
     } else {
@@ -3089,7 +3089,7 @@ void activity_handlers::uninstall_operation_finish( player_activity *act, player
         const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
                                              furn_str_id( "f_autodoc" ) );
         sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
-                       _( "a sad beeping noise followed by: \"Operation Failed\"" ), true,
+                       _( "a sad beeping noise: \"Operation Failed\"" ), true,
                        "Autodoc",
                        "failure" );
     }
@@ -3104,7 +3104,7 @@ void activity_handlers::install_operation_finish( player_activity *act, player *
         const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
                                              furn_str_id( "f_autodoc" ) );
         sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
-                       _( "a short upbeat jingle followed by: \"Operation Succesfull\"" ), true,
+                       _( "a short upbeat jingle: \"Operation Succesfull\"" ), true,
                        "Autodoc",
                        "success" );
     } else {
@@ -3113,7 +3113,7 @@ void activity_handlers::install_operation_finish( player_activity *act, player *
         const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
                                              furn_str_id( "f_autodoc" ) );
         sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
-                       _( "a sad beeping noise followed by: \"Operation Failed\"" ), true,
+                       _( "a sad beeping noise: \"Operation Failed\"" ), true,
                        "Autodoc",
                        "failure" );
     }
