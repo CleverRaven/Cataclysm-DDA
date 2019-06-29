@@ -122,16 +122,22 @@ bool defense_game::init()
     return true;
 }
 
-void defense_game::wave_data( int current_wave, int inital_difficulty, int wave_difficulty, float caravan_tech_level ){
-    wave_difficulty;
-    initial_difficulty;
-    caravan_visits;
+void defense_game::calculate_tech_level() {
+    caravan_tech_level = ( caravan_visits );
+    add_msg( m_info, _( "Caravan Tech Level Int in calculate_tech_level before change: %i." ), tech_level_int );
+    convert_to_int();
+    add_msg( m_info, _( "Caravan Tech Level Int in calculate_tech_level after change: %i." ), tech_level_int );
+    add_msg( m_info, _( "Caravan Tech Level in calculate_tech_level: %f." ), caravan_tech_level );
 }
 
-void defense_game::calculate_tech_level() {
-    wave_data();
-    caravan_tech_level = ( current_wave );
-    add_msg( m_info, _( "Caravan Tech Level in calculate_tech_level: %f." ), caravan_tech_level );
+void defense_game::convert_to_int() {
+    add_msg( m_info, _( "Caravan Tech Level Int in convert_to_int before change: %i." ), tech_level_int );
+    tech_level_int = static_cast<int>( caravan_tech_level );
+    add_msg( m_info, _( "Caravan Tech Level Int in convert_to_int after change: %i." ), tech_level_int );
+}
+
+int defense_game::tech_level_accessor() const {
+    return tech_level_int;
 }
 
 void defense_game::per_turn()
@@ -149,13 +155,17 @@ void defense_game::per_turn()
         current_wave++;
         if( current_wave > 1 && current_wave % waves_between_caravans == 0 ) {
             caravan_visits++;
+            calculate_tech_level();
+            tech_level_accessor();
+            add_msg( m_info, _( "Caravan Tech Level Int in per_turn accessor: %i." ), tech_level_int );
+            std::vector<itype_id> caravan_items( caravan_category );
             popup( _( "A caravan approaches!  Press spacebar..." ) );
             caravan();
             add_msg( m_info, _( "Caravan Tech Level in per_turn: %f." ), caravan_tech_level );
+            add_msg( m_info, _( "Caravan Tech Level Int in per_turn: %i." ), tech_level_int );
             add_msg( m_info, _( "Initial Game Difficulty: %i." ), initial_difficulty );
             add_msg( m_info, _( "Wave Difficulty: %i." ), wave_difficulty );
             add_msg( m_info, _( "Caravan Visits: %i." ), caravan_visits );
-            defense_game::calculate_tech_level();
         }
         spawn_wave();
     }
@@ -1203,61 +1213,61 @@ std::vector<itype_id> caravan_items( caravan_category cat )
 {
     std::vector<itype_id> ret;
     item_group::ItemList item_list;
-    defense_game uwu;
-    uwu.wave_data();
-    uwu.calculate_tech_level();
     switch( cat ) {
     case CARAVAN_CART:
         return ret;
 
-    case CARAVAN_MELEE:
-        if( caravan_tech_level >= 1 && caravan_tech_level < 2 ) {
+    case CARAVAN_MELEE: {
+        defense_game dg;
+        dg.tech_level_accessor();
+        switch( dg.tech_level_int ){
+            case 1:
             item_list = item_group::items_from( "defense_caravan_melee_tier_1" );
-            add_msg( m_info, _( "Caravan Tech Level in CARAVAN_MELEE: %f." ), caravan_tech_level );
+            add_msg( m_info, _( "Caravan Tech Level Int in CARAVAN_MELEE: %i." ), dg.tech_level_int );
             break;
-        } else if( caravan_tech_level >= 2 && caravan_tech_level < 3 ) {
+            case 2:
             item_list = item_group::items_from( "defense_caravan_melee_tier_2" );
-            add_msg( m_info, _( "Caravan Tech Level in CARAVAN_MELEE: %f." ), caravan_tech_level );
+            add_msg( m_info, _( "Caravan Tech Level Int in CARAVAN_MELEE: %i." ), dg.tech_level_int );
             break;
-        } else if( caravan_tech_level >= 3 && caravan_tech_level < 4 ) {
+            case 3:
             item_list = item_group::items_from( "defense_caravan_melee_tier_3" );
-            add_msg( m_info, _( "Caravan Tech Level in CARAVAN_MELEE: %f." ), caravan_tech_level );
+            add_msg( m_info, _( "Caravan Tech Level Int in CARAVAN_MELEE: %i." ), dg.tech_level_int );
             break;
-        } else if( caravan_tech_level >= 4 && caravan_tech_level < 5 ) {
+            case 4:
             item_list = item_group::items_from( "defense_caravan_melee_tier_4" );
-            add_msg( m_info, _( "Caravan Tech Level in CARAVAN_MELEE: %f." ), caravan_tech_level );
+            add_msg( m_info, _( "Caravan Tech Level Int in CARAVAN_MELEE: %i." ), dg.tech_level_int );
             break;
-        } else if( caravan_tech_level >= 5 && caravan_tech_level < 6 ) {
+            case 5:
             item_list = item_group::items_from( "defense_caravan_melee_tier_5" );
-            add_msg( m_info, _( "Caravan Tech Level in CARAVAN_MELEE: %f." ), caravan_tech_level );
+            add_msg( m_info, _( "Caravan Tech Level Int in CARAVAN_MELEE: %i." ), dg.tech_level_int );
             break;
-        } else if( caravan_tech_level >= 6 && caravan_tech_level < 7 ) {
+            case 6:
             item_list = item_group::items_from( "defense_caravan_melee_tier_6" );
-            add_msg( m_info, _( "Caravan Tech Level in CARAVAN_MELEE: %f." ), caravan_tech_level );
+            add_msg( m_info, _( "Caravan Tech Level Int in CARAVAN_MELEE: %i." ), dg.tech_level_int );
             break;
-        } else if( caravan_tech_level >= 7 && caravan_tech_level < 8 ) {
+            case 7:
             item_list = item_group::items_from( "defense_caravan_melee_tier_7" );
-            add_msg( m_info, _( "Caravan Tech Level in CARAVAN_MELEE: %f." ), caravan_tech_level );
+            add_msg( m_info, _( "Caravan Tech Level Int in CARAVAN_MELEE: %i." ), dg.tech_level_int );
             break;
-        } else if( caravan_tech_level >= 8 && caravan_tech_level < 9 ) {
+            case 8:
             item_list = item_group::items_from( "defense_caravan_melee_tier_8" );
-            add_msg( m_info, _( "Caravan Tech Level in CARAVAN_MELEE: %f." ), caravan_tech_level );
+            add_msg( m_info, _( "Caravan Tech Level Int in CARAVAN_MELEE: %i." ), dg.tech_level_int );
             break;
-        } else if( caravan_tech_level >= 9 && caravan_tech_level < 10 ) {
+            case 9:
             item_list = item_group::items_from( "defense_caravan_melee_tier_9" );
-            add_msg( m_info, _( "Caravan Tech Level in CARAVAN_MELEE: %f." ), caravan_tech_level );
+            add_msg( m_info, _( "Caravan Tech Level Int in CARAVAN_MELEE: %i." ), dg.tech_level_int );
             break;
-        } else if( caravan_tech_level >= 10 && caravan_tech_level < 11 ) {
+            case 10:
             item_list = item_group::items_from( "defense_caravan_melee_tier_10" );
-            add_msg( m_info, _( "Caravan Tech Level in CARAVAN_MELEE: %f." ), caravan_tech_level );
+            add_msg( m_info, _( "Caravan Tech Level Int in CARAVAN_MELEE: %i." ), dg.tech_level_int );
             break;
-        } else if( caravan_tech_level >= 11 ) {
+            case 11:
             item_list = item_group::items_from( "defense_caravan_melee_tier_max" );
-            add_msg( m_info, _( "Caravan Tech Level in CARAVAN_MELEE: %f." ), caravan_tech_level );
+            add_msg( m_info, _( "Caravan Tech Level Int in CARAVAN_MELEE: %i." ), dg.tech_level_int );
             break;
         }
         break;
-
+    }
     case CARAVAN_RANGED:
         item_list = item_group::items_from( "defense_caravan_ranged" );
         break;

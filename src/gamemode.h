@@ -131,26 +131,16 @@ struct defense_game : public special_game {
     special_game_id id() override {
         return SGAME_DEFENSE;
     }
+    friend std::vector<itype_id> caravan_items( caravan_category cat );
     bool init() override;
     void per_turn() override;
     void pre_action( action_id &act ) override;
     void post_action( action_id act ) override;
     void game_over() override;
-
-    //Constructors
-    void wave_data();
-    void wave_data( int current_wave, int inital_difficulty, int wave_difficulty, float caravan_tech_level );
-
-    //Accessors
-    void get_current_wave() const;
-    void get_initial_difficulty() const;
-    void get_wave_difficulty() const;
-
-    //Mutator
-    void set_caravan_tech_level( float caravan_tech_level );
-
     void calculate_tech_level();
-    void uwu();
+    void convert_to_int();
+    void current_items();
+    int tech_level_accessor() const;
 
 private:
     void init_to_style( defense_style new_style );
@@ -177,10 +167,11 @@ private:
     int initial_difficulty;    // Total "level" of monsters in first wave
     int wave_difficulty;       // Increased "level" of monsters per wave
 
-    float caravan_tech_level;
+    float caravan_tech_level;  // Current tech level of the caravan.
+    int tech_level_int;
 
     time_duration time_between_waves;     // Cooldown / building / healing time
-    int waves_between_caravans; // How many waves until we get to trade?
+    int waves_between_caravans;           // How many waves until we get to trade?
 
     unsigned long initial_cash;  // How much cash do we start with?
     unsigned long cash_per_wave; // How much cash do we get per wave?
