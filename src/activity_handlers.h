@@ -138,6 +138,8 @@ void wait_weather_finish( player_activity *act, player *p );
 void wait_npc_finish( player_activity *act, player *p );
 void socialize_finish( player_activity *act, player *p );
 void try_sleep_finish( player_activity *act, player *p );
+void uninstall_operation_finish( player_activity *act, player *p );
+void install_operation_finish( player_activity *act, player *p );
 void disassemble_finish( player_activity *act, player *p );
 void vibe_finish( player_activity *act, player *p );
 void hand_crank_finish( player_activity *act, player *p );

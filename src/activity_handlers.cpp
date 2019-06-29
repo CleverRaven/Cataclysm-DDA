@@ -200,6 +200,8 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_WAIT_NPC" ), wait_npc_finish },
     { activity_id( "ACT_SOCIALIZE" ), socialize_finish },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_finish },
+    { activity_id( "ACT_OPERATION_REMOVE" ), uninstall_operation_finish },
+    { activity_id( "ACT_OPERATION_INSTALL" ), install_operation_finish },
     { activity_id( "ACT_DISASSEMBLE" ), disassemble_finish },
     { activity_id( "ACT_VIBE" ), vibe_finish },
     { activity_id( "ACT_ATM" ), atm_finish },
@@ -3066,6 +3068,54 @@ void activity_handlers::try_sleep_finish( player_activity *act, player *p )
 {
     if( !p->has_effect( effect_sleep ) ) {
         p->add_msg_if_player( _( "You try to sleep, but can't..." ) );
+    }
+    act->set_to_null();
+}
+
+void activity_handlers::uninstall_operation_finish( player_activity *act, player *p )
+{
+    if( act->values[1] > 0 ) {
+        add_msg( m_good,
+                 _( "The Autodoc retuns to its resting position after succesfully performing the removal." ) );
+        const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
+                                             furn_str_id( "f_autodoc" ) );
+        sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
+                       _( "a short upbeat jingle followed by: \"Operation Succesfull\"" ), true,
+                       "Autodoc",
+                       "success" );
+    } else {
+        add_msg( m_bad,
+                 _( "The Autodoc jerks back to its resting position after failing the removal." ) );
+        const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
+                                             furn_str_id( "f_autodoc" ) );
+        sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
+                       _( "a sad beeping noise followed by: \"Operation Failed\"" ), true,
+                       "Autodoc",
+                       "failure" );
+    }
+    act->set_to_null();
+}
+
+void activity_handlers::install_operation_finish( player_activity *act, player *p )
+{
+    if( act->values[1] > 0 ) {
+        add_msg( m_good,
+                 _( "The Autodoc retuns to its resting position after succesfully performing the installation." ) );
+        const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
+                                             furn_str_id( "f_autodoc" ) );
+        sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
+                       _( "a short upbeat jingle followed by: \"Operation Succesfull\"" ), true,
+                       "Autodoc",
+                       "success" );
+    } else {
+        add_msg( m_bad,
+                 _( "The Autodoc jerks back to its resting position after failing the installation." ) );
+        const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
+                                             furn_str_id( "f_autodoc" ) );
+        sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
+                       _( "a sad beeping noise followed by: \"Operation Failed\"" ), true,
+                       "Autodoc",
+                       "failure" );
     }
     act->set_to_null();
 }
