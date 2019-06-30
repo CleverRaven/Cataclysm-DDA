@@ -1,5 +1,6 @@
 #include "field.h"
 
+#include <array>
 #include <cmath>
 #include <cstddef>
 #include <algorithm>
@@ -151,6 +152,100 @@ static int ter_furn_movecost( const ter_t &ter, const furn_t &furn )
     return ter.movecost + furn.movecost;
 }
 
+struct scent_block {
+    template<typename T>
+    using data_block = std::array < std::array < T, SEEY + 2 >, SEEX + 2 >;
+
+    enum data_mode {
+        NONE = 0,
+        SET = 1,
+        MAX = 2
+    };
+
+    struct datum {
+        data_mode mode;
+        int intensity;
+    };
+
+    data_block<bool> assignable;
+    data_block<datum> assignment;
+
+    tripoint origin;
+    scent_map &scents;
+    int modification_count;
+
+    scent_block( int subx, int suby, int subz, scent_map &scents )
+        : origin( subx * SEEX - 1, suby * SEEY - 1, subz ), scents( scents ), modification_count( 0 ) {
+        for( int x = 0; x < SEEX + 2; ++x ) {
+            for( int y = 0; y < SEEY + 2; ++y ) {
+                assignable[x][y] = scents.inbounds( origin + tripoint( x, y, 0 ) );
+                assignment[x][y] = { NONE, 0 };
+            }
+        }
+    }
+
+    void commit_modifications() {
+        if( modification_count == 0 ) {
+            return;
+        }
+        for( int x = 0; x < SEEX + 2; ++x ) {
+            for( int y = 0; y < SEEY + 2; ++y ) {
+                if( assignable[x][y] ) {
+                    switch( assignment[x][y].mode ) {
+                        case NONE:
+                            break;
+                        case SET: {
+                            scents.set_unsafe( origin + tripoint( x, y, 0 ), assignment[x][y].intensity );
+                            break;
+                        }
+                        case MAX: {
+                            tripoint p = origin + tripoint( x, y, 0 );
+                            scents.set_unsafe( p, std::max( assignment[x][y].intensity, scents.get_unsafe( p ) ) );
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    point index( const tripoint &p ) const {
+        return point( p.x - origin.x, p.y - origin.y );
+    }
+
+    // We should be working entirely within the range, so don't range check here
+    void apply_gas( const tripoint &p ) {
+        const point ndx = index( p );
+        assignment[ndx.x][ndx.y].mode = SET;
+        assignment[ndx.x][ndx.y].intensity = 0;
+        ++modification_count;
+    }
+    void apply_slime( const tripoint &p, int intensity ) {
+        const point ndx = index( p );
+        datum &dat = assignment[ndx.x][ndx.y];
+        switch( dat.mode ) {
+            case NONE: {
+                // we don't know what the current intensity is, so we must do a max operation
+                dat.mode = MAX;
+                dat.intensity = intensity;
+                break;
+            }
+            case SET: {
+                // new intensity is going to be dat.intensity, so we just need to make it larger
+                // but cannot change
+                dat.intensity = std::max( dat.intensity, intensity );
+                break;
+            }
+            case MAX: {
+                // Already max for some reason, shouldn't occur. If it does we want to grow if possible
+                dat.intensity = std::max( dat.intensity, intensity );
+                break;
+            }
+        }
+        ++modification_count;
+    }
+};
+
 /*
 Function: process_fields_in_submap
 Iterates over every field on every tile of the given submap given as parameter.
@@ -190,7 +285,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
         };
     };
 
-    const auto spread_gas = [this, &get_neighbors](
+    scent_block sblk( submap_x, submap_y, submap_z, g->scent );
+    const auto spread_gas = [this, &get_neighbors, &sblk](
                                 field_entry & cur, const tripoint & p, field_id curtype,
     int percent_spread, const time_duration & outdoor_age_speedup ) {
         const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
@@ -200,7 +296,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                              sheltered );
         // Reset nearby scents to zero
         for( const tripoint &tmp : points_in_radius( p, 1 ) ) {
-            g->scent.set( tmp, 0 );
+            sblk.apply_gas( tmp );
         }
 
         const int current_intensity = cur.get_field_intensity();
@@ -454,9 +550,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_sludge:
                         break;
                     case fd_slime:
-                        if( g->scent.get( p ) < cur.get_field_intensity() * 10 ) {
-                            g->scent.set( p, cur.get_field_intensity() * 10 );
-                        }
+                        sblk.apply_slime( p, cur.get_field_intensity() * 10 );
                         break;
                     case fd_plasma:
                     case fd_laser:
@@ -1381,6 +1475,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
             }
         }
     }
+    sblk.commit_modifications();
     return dirty_transparency_cache;
 }
 
