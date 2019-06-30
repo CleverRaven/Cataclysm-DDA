@@ -342,7 +342,7 @@ class player : public Character
         /**Is the installation possible*/
         bool can_install_bionics( const itype &type, player &installer, bool autodoc = false,
                                   int skill_level = -1 );
-        /** Initialize all the values needed to starts the operation player activity */
+        /** Initialize all the values needed to start the operation player activity */
         bool install_bionics( const itype &type, player &installer, bool autodoc = false,
                               int skill_level = -1 );
         /**Success or failure of installation happens here*/
@@ -355,7 +355,7 @@ class player : public Character
         /**Is The uninstallation possible*/
         bool can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                    int skill_level = -1 );
-        /** Initialize all the values needed to starts the operation player_activity */
+        /** Initialize all the values needed to start the operation player_activity */
         bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                int skill_level = -1 );
         /**Succes or failure of removal happens here*/
