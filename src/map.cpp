@@ -8396,19 +8396,21 @@ std::list<item_location> map::get_active_items_in_radius( const tripoint &center
     const point maxg( std::min( maxp.x / SEEX, my_MAPSIZE - 1 ),
                       std::min( maxp.y / SEEY, my_MAPSIZE - 1 ) );
 
-    for( int gx = ming.x; gx <= maxg.x; ++gx ) {
-        for( int gy = ming.y; gy <= maxg.y; ++gy ) {
-            const point sm_offset( gx * SEEX, gy * SEEY );
+    for( const tripoint &submap_loc : submaps_with_active_items ) {
+        if( submap_loc.x < ming.x || submap_loc.y < ming.y ||
+            submap_loc.x > maxg.x || submap_loc.y > maxg.y ) {
+            continue;
+        }
+        const point sm_offset( submap_loc.x * SEEX, submap_loc.y * SEEY );
 
-            for( const auto &elem : get_submap_at_grid( { gx, gy, center.z } )->active_items.get() ) {
-                const tripoint pos( sm_offset + elem.location, center.z );
+        for( const auto &elem : get_submap_at_grid( submap_loc )->active_items.get() ) {
+            const tripoint pos( sm_offset + elem.location, submap_loc.z );
 
-                if( rl_dist( pos, center ) > radius ) {
-                    continue;
-                }
-
-                result.emplace_back( map_cursor( pos ), elem.item_ref.get() );
+            if( rl_dist( pos, center ) > radius ) {
+                continue;
             }
+
+            result.emplace_back( map_cursor( pos ), elem.item_ref.get() );
         }
     }
 
