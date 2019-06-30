@@ -2337,10 +2337,10 @@ void iexamine::autoclave_empty( player &p, const tripoint &examp )
 {
     furn_id cur_autoclave_type = g->m.furn( examp );
     furn_id next_autoclave_type = f_null;
-    if( cur_autoclave_type == furn_id( "f_autoclave_full" ) ) {
-        next_autoclave_type = furn_id( "f_autoclave_empty" );
+    if( cur_autoclave_type == furn_id( "f_autoclave" ) ) {
+        next_autoclave_type = furn_id( "f_autoclave_full" );
     } else {
-        debugmsg( "Examined furniture has action autoclave_full, but is of type %s",
+        debugmsg( "Examined furniture has action autoclave_empty, but is of type %s",
                   g->m.furn( examp ).id().c_str() );
         return;
     }
@@ -2359,17 +2359,19 @@ void iexamine::autoclave_empty( player &p, const tripoint &examp )
     }
     if( !filthy_cbms ) {
         add_msg( m_bad,
-                 _( "You need to remove all non-filthy CBM items from the autoclave to start the program." ) );
+                 _( "You need to remove all non-filthy non-CBM items from the autoclave to start the program." ) );
         return;
     } else if( !water_is_enough ) {
         add_msg( m_bad, _( "You need 64 charges of water for the autoclave." ) );
         return;
     }
 
-    p.use_charges( "water", 64 );
-    items.only_item().set_birthday( calendar::turn );
-    g->m.furn_set( examp, next_autoclave_type );
-    add_msg( _( "You start the autoclave." ) );
+    if( query_yn( _( "Start the autoclave?" ) ) ) {
+        p.use_charges( "water", 64 );
+        items.only_item().set_birthday( calendar::turn );
+        g->m.furn_set( examp, next_autoclave_type );
+        add_msg( _( "You start the autoclave." ) );
+    }
 }
 
 void iexamine::autoclave_full( player &p, const tripoint &examp )
@@ -2377,7 +2379,7 @@ void iexamine::autoclave_full( player &p, const tripoint &examp )
     furn_id cur_autoclave_type = g->m.furn( examp );
     furn_id next_autoclave_type = f_null;
     if( cur_autoclave_type == furn_id( "f_autoclave_full" ) ) {
-        next_autoclave_type = furn_id( "f_autoclave_empty" );
+        next_autoclave_type = furn_id( "f_autoclave" );
     } else {
         debugmsg( "Examined furniture has action autoclave_full, but is of type %s",
                   g->m.furn( examp ).id().c_str() );
@@ -2416,6 +2418,7 @@ void iexamine::autoclave_full( player &p, const tripoint &examp )
         it.set_flag( "STERILE" );
     }
     add_msg( m_good, _( "The cycle is complete, the CBMs are now sterile." ) );
+    g->m.furn_set( examp, next_autoclave_type );
 }
 
 void iexamine::fireplace( player &p, const tripoint &examp )
@@ -5482,6 +5485,8 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "locked_object", &iexamine::locked_object },
             { "kiln_empty", &iexamine::kiln_empty },
             { "kiln_full", &iexamine::kiln_full },
+            { "autoclave_empty", &iexamine::autoclave_empty },
+            { "autoclave_full", &iexamine::autoclave_full },
             { "fireplace", &iexamine::fireplace },
             { "ledge", &iexamine::ledge },
             { "autodoc", &iexamine::autodoc },
