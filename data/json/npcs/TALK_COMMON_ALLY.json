@@ -774,6 +774,7 @@
       { "u_has_item": "european_pilsner", "yes": "<noticedbooze>", "no": "<neutralchitchat>" },
       { "u_has_item": "pale_ale", "yes": "<noticedbooze>", "no": "<neutralchitchat>" },
       { "u_has_item": "india_pale_ale", "yes": "<noticedbooze>", "no": "<neutralchitchat>" },
+      { "u_has_item": "wine_barley", "yes": "<noticedbooze>", "no": "<neutralchitchat>" },
       {
         "is_season": "summer",
         "yes": "Yeah, this summer heat is hitting me hard, let's take a quick break, how goes it <name_g>?",
