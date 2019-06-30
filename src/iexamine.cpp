@@ -2384,7 +2384,6 @@ void iexamine::autoclave_empty( player &p, const tripoint &examp )
     }
 }
 
-
 void iexamine::autoclave_full( player &p, const tripoint &examp )
 {
     furn_id cur_autoclave_type = g->m.furn( examp );
