@@ -1383,6 +1383,12 @@ class player : public Character
         bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
         bool has_morale_to_craft() const;
         bool can_make( const recipe *r, int batch_size = 1 );  // have components?
+        /**
+         * Returns true if the player can start crafting the recipe with the given batch size
+         * The player is not required to have enough tool charges to finish crafting, only to
+         * complete the first step (total / 20 + total % 20 charges)
+         */
+        bool can_start_craft( const recipe *rec, int batch_size = 1 );
         bool making_would_work( const recipe_id &id_to_make, int batch_size );
 
         /**
@@ -1455,7 +1461,12 @@ class player : public Character
         comp_selection<tool_comp>
         select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
                                const std::string &hotkeys = DEFAULT_HOTKEYS,
-                               bool can_cancel = false, bool player_inv = true );
+                               bool can_cancel = false, bool player_inv = true,
+        const std::function<int( int )> charges_required_modifier = []( int i ) {
+            return i;
+        } );
+        /** Consume tools for the next multiplier * 5% progress of the craft */
+        bool craft_consume_tools( item &craft, int multiplier, bool start_craft );
         void consume_tools( const comp_selection<tool_comp> &tool, int batch );
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
                             const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE,
