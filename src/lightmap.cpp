@@ -127,8 +127,11 @@ bool map::build_transparency_cache( const int zlev )
                         value *= sight_penalty;
                     }
                     if( cur_submap->is_uniform ) {
+                        if( value == LIGHT_TRANSPARENCY_OPEN_AIR ) {
+                            break;
+                        }
                         zero_value = value;
-                        break;
+                        continue;
                     }
                     for( const auto &fld : cur_submap->fld[sx][sy] ) {
                         const field_entry &cur = fld.second;
