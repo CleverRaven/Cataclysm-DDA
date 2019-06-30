@@ -684,7 +684,7 @@ action_id handle_action_menu()
     if( g->u.get_movement_mode() == "run" ) {
         action_weightings[ACTION_TOGGLE_RUN] = 300;
     }
-    // If we're already crouching, make it simple to toggle crouching to off.
+    // If we're already crouching, make it simple to toggle sprinting to off.
     if( g->u.get_movement_mode() == "sprint" ) {
         action_weightings[ACTION_TOGGLE_SPRINT] = 300;
     }
