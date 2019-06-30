@@ -3086,7 +3086,7 @@ void item::on_wield( player &p, int mv )
     }
     p.add_msg_if_player( m_neutral, msg, tname() );
 
-    if( p.style_selected.obj().name != "No style" ) {
+    if( p.style_selected != mastyle_id::NULL_ID() ) {
         p.martialart_use_message();
     }
 }
