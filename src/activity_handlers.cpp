@@ -3099,7 +3099,7 @@ void activity_handlers::install_operation_finish( player_activity *act, player *
 {
     if( act->values[1] > 0 ) {
         add_msg( m_good,
-                 _( "The Autodoc retuns to its resting position after succesfully performing the installation." ) );
+                 _( "The Autodoc returns to its resting position after successfully performing the installation." ) );
         const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
                                              furn_str_id( "f_autodoc" ) );
         sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
