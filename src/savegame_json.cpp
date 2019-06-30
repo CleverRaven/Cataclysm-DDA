@@ -862,6 +862,12 @@ void avatar::store( JsonOut &json ) const
     json.member( "move_mode", move_mode );
     json.member( "magic", magic );
 
+    // stats through kills
+    json.member( "str_upgrade", str_upgrade );
+    json.member( "dex_upgrade", dex_upgrade );
+    json.member( "int_upgrade", int_upgrade );
+    json.member( "per_upgrade", per_upgrade );
+
     // crafting etc
     json.member( "activity", activity );
     json.member( "backlog", backlog );
@@ -954,6 +960,12 @@ void avatar::load( JsonObject &data )
     data.read( "focus_pool", focus_pool );
     data.read( "style_selected", style_selected );
     data.read( "keep_hands_free", keep_hands_free );
+
+    // stats through kills
+    data.read( "str_upgrade", str_upgrade );
+    data.read( "dex_upgrade", dex_upgrade );
+    data.read( "int_upgrade", int_upgrade );
+    data.read( "per_upgrade", per_upgrade );
 
     data.read( "stamina", stamina );
     data.read( "magic", magic );

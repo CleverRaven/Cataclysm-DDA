@@ -672,6 +672,8 @@ class game
         bool walk_move( const tripoint &dest );
         void on_move_effects();
 
+        // returns player's "kill xp" for monsters via STK
+        int kill_xp() const;
     private:
         // Game-start procedures
         void load( const save_t &name ); // Load a player-specific save file

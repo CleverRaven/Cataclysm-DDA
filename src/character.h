@@ -169,6 +169,13 @@ class Character : public Creature, public visitable<Character>
         bool is_warm() const override;
         const std::string &symbol() const override;
 
+        enum stat {
+            STRENGTH,
+            DEXTERITY,
+            INTELLIGENCE,
+            PERCEPTION
+        };
+
         // Character stats
         // TODO: Make those protected
         int str_max;

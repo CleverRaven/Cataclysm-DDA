@@ -1899,19 +1899,19 @@ body_part_set Character::exclusive_flag_coverage( const std::string &flag ) cons
 // get_stat_bonus() is always just the bonus amount
 int Character::get_str() const
 {
-    return std::max( 0, str_max + str_bonus );
+    return std::max( 0, get_str_base() + str_bonus );
 }
 int Character::get_dex() const
 {
-    return std::max( 0, dex_max + dex_bonus );
+    return std::max( 0, get_dex_base() + dex_bonus );
 }
 int Character::get_per() const
 {
-    return std::max( 0, per_max + per_bonus );
+    return std::max( 0, get_per_base() + per_bonus );
 }
 int Character::get_int() const
 {
-    return std::max( 0, int_max + int_bonus );
+    return std::max( 0, get_int_base() + int_bonus );
 }
 
 int Character::get_str_base() const
