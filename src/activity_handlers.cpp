@@ -2912,7 +2912,7 @@ void activity_handlers::uninstall_operation_do_turn( player_activity *act, playe
     } else {
         if( calendar::once_every( 2_minutes ) && u_see ) {
             p->add_msg_player_or_npc( m_bad,
-                                      _( "The Autodoc is moving eraticly through the rest of its program, not actually stitching your wounds." ),
+                                      _( "The Autodoc is moving erratically through the rest of its program, not actually stitching your wounds." ),
                                       _( "The Autodoc is moving eraticly through the rest of its program, not actually stitching <npcname>'s wounds." ) );
         }
     }
