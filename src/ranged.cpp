@@ -2265,12 +2265,12 @@ static double dispersion_from_skill( double skill, double weapon_dispersion )
         double post_threshold_skill_shortfall = double( MAX_SKILL ) - skill;
         // Lack of mastery multiplies the dispersion of the weapon.
         return dispersion_penalty + ( weapon_dispersion * post_threshold_skill_shortfall * 1.25 ) /
-            ( double( MAX_SKILL ) - skill_threshold );
+               ( double( MAX_SKILL ) - skill_threshold );
     }
     // Unskilled shooters suffer greater penalties, still scaling with weapon penalties.
     double pre_threshold_skill_shortfall = skill_threshold - skill;
     dispersion_penalty += weapon_dispersion *
-        ( 1.25 + pre_threshold_skill_shortfall * 3.75 / skill_threshold );
+                          ( 1.25 + pre_threshold_skill_shortfall * 3.75 / skill_threshold );
 
     return dispersion_penalty;
 }
