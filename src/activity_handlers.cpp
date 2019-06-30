@@ -2823,7 +2823,7 @@ void activity_handlers::uninstall_operation_do_turn( player_activity *act, playe
         }
     }
 
-    if( time_left >  op_duration ) {
+    if( time_left > op_duration ) {
         if( act->values.size() > 4 ) {
             for( size_t i = 4; i < act->values.size(); i ++ ) {
                 if( calendar::once_every( 2_minutes ) && u_see ) {
