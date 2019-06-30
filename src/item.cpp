@@ -3085,7 +3085,10 @@ void item::on_wield( player &p, int mv )
         handle_pickup_ownership( p );
     }
     p.add_msg_if_player( m_neutral, msg, tname() );
-    p.martialart_use_message();
+
+    if( p.style_selected.obj().name != "No style" ) {
+        p.martialart_use_message();
+    }
 }
 
 void item::handle_pickup_ownership( Character &c )
