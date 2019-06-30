@@ -6841,9 +6841,7 @@
     "time": "5 m",
     "batch_time_factors": [ 50, 4 ],
     "autolearn": true,
-    "components": [
-      [ "gin", 6 ], [ "wine_vermouth", 1 ]
-    ]
+    "components": [ [ "gin", 6 ], [ "wine_vermouth", 1 ] ]
   },
   {
     "type": "recipe",
