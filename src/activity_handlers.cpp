@@ -3079,7 +3079,7 @@ void activity_handlers::uninstall_operation_finish( player_activity *act, player
         const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
                                              furn_str_id( "f_autodoc" ) );
         sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
-                       _( "a short upbeat jingle: \"Operation Succesfull\"" ), true,
+                       _( "a short upbeat jingle: \"Operation successful\"" ), true,
                        "Autodoc",
                        "success" );
     } else {
