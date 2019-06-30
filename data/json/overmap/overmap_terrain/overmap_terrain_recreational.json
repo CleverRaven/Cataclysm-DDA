@@ -1047,6 +1047,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "museum_roof",
+    "name": "museum roof",
+    "copy-from": "generic_city_building",
+    "sym": "M",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "bowling_alley",
     "name": "bowling alley",
     "copy-from": "generic_city_building",

@@ -227,6 +227,12 @@
   },
   {
     "type": "city_building",
+    "id": "museum",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "museum_north" }, { "point": [ 0, 0, 1 ], "overmap": "museum_roof_north" } ]
+  },
+  {
+    "type": "city_building",
     "id": "s_butcher",
     "locations": [ "land" ],
     "overmaps": [
