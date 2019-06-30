@@ -2909,7 +2909,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
         if( calendar::once_every( 5_minutes ) && u_see ) {
             p->add_msg_player_or_npc( m_bad,
                                       _( "The Autodoc is moving erratically through the rest of its program, not actually stitching your wounds." ),
-                                      _( "The Autodoc is moving eraticly through the rest of its program, not actually stitching <npcname>'s wounds." ) );
+                                      _( "The Autodoc is moving erratically through the rest of its program, not actually stitching <npcname>'s wounds." ) );
         }
     }
     p->set_moves( 0 );
