@@ -17,7 +17,6 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "character.h"
 #include "debug.h"
 #include "enums.h"

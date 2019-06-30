@@ -973,8 +973,7 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
     // Create an empty requirement_data
     requirement_data ret;
 
-    // Tools and qualities are not checked upon resuming yet
-    // TODO: Check tools and qualities
+    // For items we cant change what alternative we selected half way through
     for( const item_comp &it : required_comps ) {
         ret.components.emplace_back( std::vector<item_comp>( {it} ) );
     }

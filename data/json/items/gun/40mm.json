@@ -93,7 +93,15 @@
     "dispersion": 180,
     "durability": 8,
     "reload": 400,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "brass catcher", 1 ], [ "sights", 1 ], [ "sling", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "modes": [ [ "DEFAULT", "semi-auto", 1, "NPC_AVOID" ], [ "AUTO", "auto", 6, "NPC_AVOID" ] ],
     "magazines": [ [ "40mm", [ "belt40mm" ] ] ],
     "flags": [ "MOUNTED_GUN" ]

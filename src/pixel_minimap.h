@@ -3,6 +3,7 @@
 #define MINIMAP_H
 
 #include "enums.h"
+#include "point.h"
 #include "sdl_wrappers.h"
 
 #include <cmath>

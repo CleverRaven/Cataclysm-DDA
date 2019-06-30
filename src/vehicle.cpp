@@ -1,7 +1,6 @@
 #include "vehicle.h" // IWYU pragma: associated
 #include "vpart_position.h" // IWYU pragma: associated
 #include "vpart_range.h" // IWYU pragma: associated
-#include "vpart_reference.h" // IWYU pragma: associated
 
 #include <algorithm>
 #include <array>
@@ -53,6 +52,7 @@
 #include "pldata.h"
 #include "rng.h"
 #include "weather_gen.h"
+#include "options.h"
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -517,6 +517,118 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     }
 
     invalidate_mass();
+}
+
+std::set<point> vehicle::immediate_path( int rotate )
+{
+    int distance_to_check = 10 + ( velocity / 800 );
+    tileray collision_vector;
+    int adjusted_angle = ( face.dir() + rotate ) % 360;
+    if( adjusted_angle < 0 ) {
+        adjusted_angle += 360;
+    }
+    collision_vector.init( adjusted_angle );
+    tripoint vehpos = global_pos3();
+    std::set<point> points_to_check;
+    for( int i = 0; i < distance_to_check; ++i ) {
+        collision_vector.advance( i );
+        for( int y = mount_min.y; y < mount_max.y; ++y ) {
+            points_to_check.emplace( vehpos.x + collision_vector.dx(), vehpos.y + y + collision_vector.dy() );
+        }
+    }
+    return points_to_check;
+
+}
+
+void vehicle::do_autodrive()
+{
+    if( omt_path.empty() ) {
+        is_autodriving = false;
+        return;
+    }
+    tripoint vehpos = global_pos3();
+    tripoint veh_omt_pos = ms_to_omt_copy( g->m.getabs( vehpos ) );
+    // we're at or close to the waypoint, pop it out and look for the next one.
+    if( veh_omt_pos == omt_path.back() ) {
+        omt_path.pop_back();
+    }
+
+    point omt_diff = point( omt_path.back().x - veh_omt_pos.x, omt_path.back().y - veh_omt_pos.y );
+    if( omt_diff.x > 3 || omt_diff.x < -3 || omt_diff.y > 3 || omt_diff.y < -3 ) {
+        // we've gone walkabout somehow, call off the whole thing
+        is_autodriving = false;
+        return;
+    }
+    int x_side = 0;
+    int y_side = 0;
+    if( omt_diff.x > 0 ) {
+        x_side = 2 * SEEX - 1;
+    } else if( omt_diff.x < 0 ) {
+        x_side = 0;
+    } else {
+        x_side = SEEX;
+    }
+    if( omt_diff.y > 0 ) {
+        y_side = 2 * SEEY - 1;
+    } else if( omt_diff.y < 0 ) {
+        y_side = 0;
+    } else {
+        y_side = SEEY;
+    }
+    // get the shared border mid-point of the next path omt
+    tripoint global_a = tripoint( veh_omt_pos.x * ( 2 * SEEX ), veh_omt_pos.y * ( 2 * SEEY ),
+                                  veh_omt_pos.z );
+    tripoint autodrive_local_target = ( global_a + tripoint( x_side, y_side,
+                                        smz ) - g->m.getabs( vehpos ) ) + global_pos3();
+    rl_vec2d facevec = face_vec();
+    point rel_pos_target = point( autodrive_local_target.x - vehpos.x,
+                                  autodrive_local_target.y - vehpos.y );
+    rl_vec2d targetvec = rl_vec2d( rel_pos_target.x, rel_pos_target.y );
+    // cross product
+    double crossy = ( facevec.x * targetvec.y ) - ( targetvec.x * facevec.y );
+
+    // dot product
+    double dotx = ( facevec.x * targetvec.x ) + ( facevec.y * targetvec.y );
+
+    double angle = ( atan2( crossy, dotx ) ) * 180 / M_PI;
+    // now we got the angle to the target, we can work out when we are heading towards disaster
+    // Check the tileray in the direction we need to head towards.
+    std::set<point> points_to_check = immediate_path( angle );
+    for( const auto &elem : points_to_check ) {
+        const optional_vpart_position ovp = g->m.veh_at( tripoint( elem.x, elem.y, smz ) );
+        if( g->m.impassable_ter_furn( tripoint( elem.x, elem.y, smz ) ) || ( ovp &&
+                &ovp->vehicle() != this ) ) {
+            if( velocity > 0 ) {
+                pldrive( 0, 10 );
+            }
+            is_autodriving = false;
+            return;
+        }
+    }
+    int turn_x = 0;
+    if( angle > 10.0 && angle <= 45.0 ) {
+        turn_x = 1;
+    } else if( angle > 45.0 && angle <= 90.0 ) {
+        turn_x = 3;
+    } else if( angle > 90.0 && angle <= 180.0 ) {
+        turn_x = 4;
+    } else if( angle < -10.0 && angle >= -45.0 ) {
+        turn_x = -1;
+    } else if( angle < -45.0 && angle >= -90.0 ) {
+        turn_x = -3;
+    } else if( angle < -90.0 && angle >= -180.0 ) {
+        turn_x = -4;
+    }
+    int accel_y = 0;
+    // best to cruise around at a safe velocity or 40mph, whichever is lowest
+    // accelerate when it dosnt need to turn.
+    if( ( turn_x > 0 || turn_x < 0 ) && velocity > 1000 ) {
+        accel_y = 1;
+    }
+    if( ( velocity < std::min( safe_velocity(), 32 * 100 ) && turn_x == 0 ) || velocity < 500 ) {
+        accel_y = -1;
+    }
+    pldrive( turn_x, accel_y );
 }
 
 /**
@@ -3063,7 +3175,7 @@ bool vehicle::can_use_rails() const
             break;
         }
     }
-    return can_use && is_wheel_on_rail;
+    return is_wheel_on_rail;
 }
 
 int vehicle::ground_acceleration( const bool fueled, int at_vel_in_vmi ) const
@@ -3247,7 +3359,7 @@ bool vehicle::do_environmental_effects()
     return needed;
 }
 
-void vehicle::spew_smoke( double joules, int part, int intensity )
+void vehicle::spew_field( double joules, int part, field_id type, int intensity )
 {
     if( rng( 1, 10000 ) > joules ) {
         return;
@@ -3260,7 +3372,7 @@ void vehicle::spew_smoke( double joules, int part, int intensity )
     }
     point q = coord_translate( p );
     const tripoint dest = global_pos3() + tripoint( q.x, q.y, 0 );
-    g->m.adjust_field_intensity( dest, fd_smoke, intensity );
+    g->m.mod_field_intensity( dest, type, intensity );
 }
 
 /**
@@ -3322,7 +3434,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
                 }
 
                 if( ( exhaust_part == -1 ) && engine_on ) {
-                    spew_smoke( j, p, bad_filter ? MAX_FIELD_INTENSITY : 1 );
+                    spew_field( j, p, fd_smoke, bad_filter ? 3 : 1 );
                 } else {
                     mufflesmoke += j;
                 }
@@ -3334,7 +3446,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     }
     if( ( exhaust_part != -1 ) && engine_on &&
         has_engine_type_not( fuel_type_muscle, true ) ) { // No engine, no smoke
-        spew_smoke( mufflesmoke, exhaust_part, bad_filter ? MAX_FIELD_INTENSITY : 1 );
+        spew_field( mufflesmoke, exhaust_part, fd_smoke, bad_filter ? 3 : 1 );
     }
     // Cap engine noise to avoid deafening.
     noise = std::min( noise, 100.0 );
@@ -3914,35 +4026,38 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
     if( load > 0 && fuel_left( fuel_type_muscle ) > 0 ) {
         g->u.increase_activity_level( ACTIVE_EXERCISE );
     }
-    //do this with chance proportional to current load
+    //do this as a function of current load
     // But only if the player is actually there!
-    if( load > 0 && one_in( 1000 / load ) && fuel_left( fuel_type_muscle ) > 0 ) {
-        //cost proportional to strain
-        int mod = 1 + 4 * st;
+    if( load > 0 && fuel_left( fuel_type_muscle ) > 0 ) {
+        int mod = 0 + 4 * st; // strain
+        int base_burn = -3 + static_cast<int>( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) );
+        base_burn = ( load / 2 ) > base_burn ? ( load / 2 ) : base_burn;
         //charge bionics when using muscle engine
         if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
-            g->u.charge_power( 2 );
-            mod = mod * 2;
-        }
-        if( g->u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
-            if( one_in( 20 ) ) {
+            if( one_in( 1000 / load ) ) { // more pedaling = more power
                 g->u.charge_power( 1 );
             }
+            mod += load / 5;
         }
+        if( g->u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
+            if( one_in( 1000 / load ) && one_in( 20 ) ) { // intentional double chance check
+                g->u.charge_power( 1 );
+            }
+            mod += load / 10;
+        }
+        // decreased stamina burn scalable with load
         if( g->u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
-            g->u.charge_power( -10 );
+            g->u.charge_power( ( load / 20 ) > 1 ? -( load / 20 ) : -1 );
+            mod -= ( load / 5 ) > 5 ? ( load / 5 ) : 5;
         }
-        if( one_in( 10 ) ) {
-            g->u.mod_thirst( mod );
-            g->u.mod_fatigue( mod );
+        if( one_in( 1000 / load ) && one_in( 10 ) ) {
+            g->u.mod_thirst( 1 );
+            g->u.mod_fatigue( 1 );
         }
-        if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
-            g->u.mod_stat( "stamina", -mod * 30 );
-        } else if( g->u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
-            g->u.mod_stat( "stamina", -mod * 10 );
-        } else {
-            g->u.mod_stat( "stamina", -mod * 20 );
-        }
+        g->u.mod_stat( "stamina", -( base_burn + mod ) );
+        add_msg( m_debug, "Load: %d", load );
+        add_msg( m_debug, "Mod: %d", mod );
+        add_msg( m_debug, "Burn: %d", -( base_burn + mod ) );
     }
 }
 
@@ -4307,7 +4422,9 @@ void vehicle::idle( bool on_map )
         if( idle_rate < 10 ) {
             idle_rate = 10;    // minimum idle is 1% of full throttle
         }
-        consume_fuel( idle_rate, to_turns<int>( 1_turns ), true );
+        if( has_engine_type_not( fuel_type_muscle, true ) ) {
+            consume_fuel( idle_rate, to_turns<int>( 1_turns ), true );
+        }
 
         if( on_map ) {
             noise_and_smoke( idle_rate, 1_turns );
@@ -4351,20 +4468,17 @@ void vehicle::idle( bool on_map )
 
 void vehicle::on_move()
 {
+    if( has_part( "TRANSFORM_TERRAIN", true ) ) {
+        transform_terrain();
+    }
     if( has_part( "SCOOP", true ) ) {
         operate_scoop();
     }
     if( has_part( "PLANTER", true ) ) {
         operate_planter();
     }
-    if( has_part( "PLOW", true ) ) {
-        operate_plow();
-    }
     if( has_part( "REAPER", true ) ) {
         operate_reaper();
-    }
-    if( has_part( "ROCKWHEEL", true ) ) {
-        operate_rockwheel();
     }
 
     occupied_cache_time = calendar::before_time_starts;
@@ -4421,8 +4535,8 @@ units::volume vehicle::free_volume( const int part ) const
 
 void vehicle::make_active( item_location &loc )
 {
-    item *target = loc.get_item();
-    if( !target->needs_processing() ) {
+    item &target = *loc;
+    if( !target.needs_processing() ) {
         return;
     }
     auto cargo_parts = get_parts_at( loc.position(), "CARGO", part_status_flag::any );
@@ -4431,12 +4545,7 @@ void vehicle::make_active( item_location &loc )
     }
     // System insures that there is only one part in this vector.
     vehicle_part *cargo_part = cargo_parts.front();
-    auto &item_stack = cargo_part->items;
-    auto item_index = std::find_if( item_stack.begin(), item_stack.end(),
-    [&target]( const item & i ) {
-        return &i == target;
-    } );
-    active_items.add( item_index, cargo_part->mount );
+    active_items.add( target, cargo_part->mount );
 }
 
 int vehicle::add_charges( int part, const item &itm )
@@ -4509,7 +4618,7 @@ cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item 
 
     const vehicle_stack::iterator new_pos = parts[part].items.insert( itm_copy );
     if( itm_copy.needs_processing() ) {
-        active_items.add( new_pos, parts[part].mount );
+        active_items.add( *new_pos, parts[part].mount );
     }
 
     invalidate_mass();
@@ -4531,9 +4640,8 @@ vehicle_stack::iterator vehicle::remove_item( int part, vehicle_stack::const_ite
 {
     cata::colony<item> &veh_items = parts[part].items;
 
-    if( active_items.has( it, parts[part].mount ) ) {
-        active_items.remove( it, parts[part].mount );
-    }
+    // remove from the active items cache (if it isn't there does nothing)
+    active_items.remove( &*it );
 
     invalidate_mass();
     return veh_items.erase( it );
@@ -4718,8 +4826,7 @@ void vehicle::refresh()
     sails.clear();
     water_wheels.clear();
     funnels.clear();
-    heaters.clear();
-    coolers.clear();
+    emitters.clear();
     relative_parts.clear();
     loose_parts.clear();
     wheelcache.clear();
@@ -4805,11 +4912,8 @@ void vehicle::refresh()
         if( vpi.has_flag( "UNMOUNT_ON_MOVE" ) ) {
             loose_parts.push_back( p );
         }
-        if( vpi.has_flag( "SPACE_HEATER" ) ) {
-            heaters.push_back( p );
-        }
-        if( vpi.has_flag( "COOLER" ) ) {
-            coolers.push_back( p );
+        if( vpi.has_flag( "EMITTER" ) ) {
+            emitters.push_back( p );
         }
         if( vpi.has_flag( VPFLAG_WHEEL ) ) {
             wheelcache.push_back( p );
@@ -5341,6 +5445,10 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
     if( ( static_cast<size_t>( p ) >= parts.size() ) || parts[p].removed ) {
         return dmg;
     }
+    // If auto-driving and damage happens, bail out
+    if( is_autodriving ) {
+        is_autodriving = false;
+    }
     g->m.set_memory_seen_cache_dirty( global_part_pos3( p ) );
     if( parts[p].is_broken() ) {
         return break_off( p, dmg );
@@ -5557,6 +5665,18 @@ static bool is_sm_tile_outside( const tripoint &real_global_pos )
 
 void vehicle::update_time( const time_point &update_to )
 {
+    // Parts emitting fields
+    for( int idx : emitters ) {
+        const vehicle_part &pt = parts[idx];
+        if( pt.is_unavailable() || !pt.enabled ) {
+            continue;
+        }
+        for( const emit_id &e : pt.info().emissions ) {
+            g->m.emit_field( global_part_pos3( pt ), e );
+        }
+        discharge_battery( pt.info().epower );
+    }
+
     if( smz < 0 ) {
         return;
     }
@@ -5577,29 +5697,8 @@ void vehicle::update_time( const time_point &update_to )
 
     // Weather stuff, only for z-levels >= 0
     // TODO: Have it wash cars from blood?
-    if( funnels.empty() && solar_panels.empty() && wind_turbines.empty() && water_wheels.empty() &&
-        heaters.empty() && coolers.empty() ) {
+    if( funnels.empty() && solar_panels.empty() && wind_turbines.empty() && water_wheels.empty() ) {
         return;
-    }
-    // heaters emitting hot air
-    for( int idx : heaters ) {
-        const auto &pt = parts[idx];
-        if( pt.is_unavailable() || ( !pt.enabled ) ) {
-            continue;
-        }
-        int intensity = abs( pt.info().epower ) * 2;
-        g->m.adjust_field_intensity( global_part_pos3( pt ), fd_hot_air3, intensity );
-        discharge_battery( pt.info().epower );
-    }
-    // coolers emitting cold air
-    for( int idx : coolers ) {
-        const vehicle_part &pt = parts[idx];
-        if( pt.is_unavailable() || ( !pt.enabled ) ) {
-            continue;
-        }
-        int intensity = abs( pt.info().epower ) * 5;
-        g->m.adjust_field_intensity( global_part_pos3( pt ), fd_cold_air3, intensity );
-        discharge_battery( pt.info().epower );
     }
     // Get one weather data set per vehicle, they don't differ much across vehicle area
     auto accum_weather = sum_conditions( update_from, update_to, g->m.getabs( global_pos3() ) );

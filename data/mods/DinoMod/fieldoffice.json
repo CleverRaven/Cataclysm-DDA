@@ -20,7 +20,8 @@
       [ "22_ratshot", 8 ],
       [ "browning_blr", 5 ],
       [ "remington_700", 10 ],
-      [ "270", 8 ],
+      [ "remington700_270", 10 ],
+      [ "270win_jsp", 8 ],
       [ "rifle_scope", 10 ],
       [ "laser_sight", 10 ],
       [ "rail_laser_sight", 10 ]

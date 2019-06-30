@@ -20,6 +20,7 @@
 #include "avatar_action.h"
 #include "clzones.h"
 #include "construction.h"
+#include "coordinate_conversions.h"
 #include "craft_command.h"
 #include "debug.h"
 #include "fault.h"
@@ -84,6 +85,7 @@
 #include "units.h"
 #include "type_id.h"
 #include "event.h"
+#include "options.h"
 
 class npc;
 
@@ -135,6 +137,8 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_REPAIR_ITEM" ), repair_item_do_turn },
     { activity_id( "ACT_BUTCHER" ), butcher_do_turn },
     { activity_id( "ACT_BUTCHER_FULL" ), butcher_do_turn },
+    { activity_id( "ACT_TRAVELLING" ), travel_do_turn },
+    { activity_id( "ACT_AUTODRIVE" ), drive_do_turn },
     { activity_id( "ACT_FIELD_DRESS" ), butcher_do_turn },
     { activity_id( "ACT_SKIN" ), butcher_do_turn },
     { activity_id( "ACT_QUARTER" ), butcher_do_turn },
@@ -155,7 +159,8 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_do_turn },
     { activity_id( "ACT_TREE_COMMUNION" ), tree_communion_do_turn },
     { activity_id( "ACT_STUDY_SPELL" ), study_spell_do_turn},
-    { activity_id( "ACT_WAIT_STAMINA" ), wait_stamina_do_turn },
+    { activity_id( "ACT_READ" ), read_do_turn},
+    { activity_id( "ACT_WAIT_STAMINA" ), wait_stamina_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -534,7 +539,7 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
             break;
     }
 
-    // At factor 0, 10 time_to_cut is 10 turns. At factor 50, it's 5 turns, at 75 it's 2.5
+    // At factor 0, base 100 time_to_cut remains 100. At factor 50, it's 50 , at factor 75 it's 25
     time_to_cut *= std::max( 25, 100 - factor );
     if( time_to_cut < 3000 ) {
         time_to_cut = 3000;
@@ -1764,15 +1769,16 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 g->m.add_splatter_trail( type_blood, pos, dest );
             }
 
-            float stamina_ratio = static_cast<float>( p->stamina ) / p->get_stamina_max();
-            p->mod_stat( "stamina", stamina_ratio * -40 );
+            p->mod_stat( "stamina", -pulp_power - static_cast<int>
+                         ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) );
 
-            moves += 100 / std::max( 0.25f, stamina_ratio );
             if( one_in( 4 ) ) {
                 // Smashing may not be butchery, but it involves some zombie anatomy
                 p->practice( skill_survival, 2, 2 );
             }
 
+            float stamina_ratio = static_cast<float>( p->stamina ) / p->get_stamina_max();
+            moves += 100 / std::max( 0.25f, stamina_ratio );
             if( moves >= p->moves ) {
                 // Enough for this turn;
                 p->moves -= moves;
@@ -1918,14 +1924,22 @@ void activity_handlers::train_finish( player_activity *act, player *p )
     if( sk.is_valid() ) {
         const Skill &skill = sk.obj();
         std::string skill_name = skill.name();
-        int new_skill_level = p->get_skill_level( sk ) + 1;
-        p->set_skill_level( sk, new_skill_level );
-        add_msg( m_good, _( "You finish training %s to level %d." ), skill_name, new_skill_level );
-        if( new_skill_level % 4 == 0 ) {
-            //~ %d is skill level %s is skill name
-            p->add_memorial_log( pgettext( "memorial_male", "Reached skill level %1$d in %2$s." ),
-                                 pgettext( "memorial_female", "Reached skill level %1$d in %2$s." ),
-                                 new_skill_level, skill_name );
+        int old_skill_level = p->get_skill_level( sk );
+        p->practice( sk, 100, old_skill_level );
+        int new_skill_level = p->get_skill_level( sk );
+        if( old_skill_level != new_skill_level ) {
+            add_msg( m_good, _( "You finish training %s to level %d." ),
+                     skill_name, new_skill_level );
+            if( new_skill_level % 4 == 0 ) {
+                //~ %d is skill level %s is skill name
+                p->add_memorial_log( pgettext( "memorial_male",
+                                               "Reached skill level %1$d in %2$s." ),
+                                     pgettext( "memorial_female",
+                                               "Reached skill level %1$d in %2$s." ),
+                                     new_skill_level, skill_name );
+            }
+        } else {
+            add_msg( m_good, _( "You finish training %s." ), skill_name );
         }
         act->set_to_null();
         return;
@@ -2612,6 +2626,74 @@ void activity_handlers::adv_inventory_do_turn( player_activity *, player *p )
     advanced_inv();
 }
 
+void activity_handlers::drive_do_turn( player_activity *act, player *p )
+{
+    vehicle *player_veh = veh_pointer_or_null( g->m.veh_at( p->pos() ) );
+    if( !player_veh ) {
+        act->set_to_null();
+        p->cancel_activity();
+        return;
+    }
+    if( p->in_vehicle && p->controlling_vehicle && player_veh->is_autodriving &&
+        !g->u.omt_path.empty() && !player_veh->omt_path.empty() ) {
+        player_veh->do_autodrive();
+        if( g->u.global_omt_location() == g->u.omt_path.back() ) {
+            g->u.omt_path.pop_back();
+        }
+        p->moves = 0;
+    } else {
+        p->add_msg_if_player( m_info, _( "Auto-drive cancelled." ) );
+        if( !player_veh->omt_path.empty() ) {
+            player_veh->omt_path.clear();
+        }
+        act->set_to_null();
+        p->cancel_activity();
+        return;
+    }
+    if( player_veh->omt_path.empty() ) {
+        act->set_to_null();
+        p->add_msg_if_player( m_info, _( "You have reached your destination." ) );
+        p->cancel_activity();
+    }
+}
+
+void activity_handlers::travel_do_turn( player_activity *act, player *p )
+{
+    const activity_id act_travel = activity_id( "ACT_TRAVELLING" );
+    if( !p->omt_path.empty() ) {
+        p->omt_path.pop_back();
+        if( p->omt_path.empty() ) {
+            p->add_msg_if_player( m_info, _( "You have reached your destination." ) );
+            g->draw();
+            act->set_to_null();
+            return;
+        }
+        tripoint sm_tri = g->m.getlocal( sm_to_ms_copy( omt_to_sm_copy( p->omt_path.back() ) ) );
+        tripoint centre_sub = tripoint( sm_tri.x + SEEX / 2, sm_tri.y + SEEY / 2, sm_tri.z );
+        if( !g->m.passable( centre_sub ) ) {
+            auto candidates = g->m.points_in_radius( centre_sub, 2 );
+            for( const auto &elem : candidates ) {
+                if( g->m.passable( elem ) ) {
+                    centre_sub = elem;
+                    break;
+                }
+            }
+        }
+        const auto route_to = g->m.route( p->pos(), centre_sub, p->get_pathfinding_settings(),
+                                          p->get_path_avoid() );
+        if( !route_to.empty() ) {
+            p->set_destination( route_to, player_activity( act_travel ) );
+        } else {
+            p->add_msg_if_player( _( "You cannot reach that destination" ) );
+        }
+    } else {
+        p->add_msg_if_player( m_info, _( "You have reached your destination." ) );
+    }
+    g->draw();
+    act->set_to_null();
+}
+
+
 void activity_handlers::armor_layers_do_turn( player_activity *, player *p )
 {
     p->cancel_activity();
@@ -2718,9 +2800,24 @@ void activity_handlers::repair_item_do_turn( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::butcher_do_turn( player_activity *, player *p )
+void activity_handlers::butcher_do_turn( player_activity */*act*/, player *p )
 {
-    p->mod_stat( "stamina", -20.0f * p->stamina / p->get_stamina_max() );
+    p->mod_stat( "stamina", -20 );
+}
+
+void activity_handlers::read_do_turn( player_activity *act, player *p )
+{
+    if( !act->str_values.empty() && act->str_values[0] == "martial_art" && one_in( 3 ) ) {
+        if( act->values.size() == 0 ) {
+            act->values.push_back( p->stamina );
+        }
+        p->stamina = act->values[0] - 1;
+        act->values[0] = p->stamina;
+    }
+    if( p->stamina < p->get_stamina_max() / 10 ) {
+        add_msg( m_info, _( "This training is exhausting.  Time to rest." ) );
+        act->set_to_null();
+    }
 }
 
 void activity_handlers::read_finish( player_activity *act, player *p )
@@ -2998,7 +3095,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     }
 
     // item_counter represents the percent progress relative to the base batch time
-    // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6732000 )
+    // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6'732'000 )
     const int old_counter = craft->item_counter;
 
     // Base moves for batch size with no speed modifier or assistants
@@ -3010,23 +3107,37 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     // Delta progress in moves adjusted for current crafting speed
     const double delta_progress = p->get_moves() * base_total_moves / cur_total_moves;
     // Current progress in moves
-    const double current_progress = craft->item_counter * base_total_moves / 10000000.0 +
+    const double current_progress = craft->item_counter * base_total_moves / 10'000'000.0 +
                                     delta_progress;
     // Current progress as a percent of base_total_moves to 2 decimal places
-    craft->item_counter = round( current_progress / base_total_moves * 10000000.0 );
+    craft->item_counter = round( current_progress / base_total_moves * 10'000'000.0 );
     p->set_moves( 0 );
 
     // This is to ensure we don't over count skill steps
-    craft->item_counter = std::min( craft->item_counter, 10000000 );
+    craft->item_counter = std::min( craft->item_counter, 10'000'000 );
 
-    // Skill is gained after every 5% progress
-    const int skill_steps = craft->item_counter / 500000 - old_counter / 500000;
-    if( skill_steps > 0 ) {
-        p->craft_skill_gain( *craft, skill_steps );
+    // Skill and tools are gained/consumed after every 5% progress
+    int five_percent_steps = craft->item_counter / 500'000 - old_counter / 500'000;
+    if( five_percent_steps > 0 ) {
+        p->craft_skill_gain( *craft, five_percent_steps );
+    }
+
+    // Unlike skill, tools are consumed once at the start and should not be consumed at the end
+    if( craft->item_counter >= 10'000'000 ) {
+        --five_percent_steps;
+    }
+
+    if( five_percent_steps > 0 ) {
+        if( !p->craft_consume_tools( *craft, five_percent_steps, false ) ) {
+            // So we don't skip over any tool comsuption
+            craft->item_counter -= craft->item_counter % 500'000 + 1;
+            p->cancel_activity();
+            return;
+        }
     }
 
     // if item_counter has reached 100% or more
-    if( craft->item_counter >= 10000000 ) {
+    if( craft->item_counter >= 10'000'000 ) {
         item craft_copy = *craft;
         act->targets.front().remove_item();
         p->cancel_activity();
@@ -3977,18 +4088,20 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
         casting.make_sound( target );
     } else if( fx == "summon" ) {
         spell_effect::spawn_summoned_monster( casting, p->pos(), target );
+    } else if( fx == "translocate" ) {
+        spell_effect::translocate( casting, p->pos(), target, g->u.translocators );
     } else {
         debugmsg( "ERROR: Spell effect not defined properly." );
     }
     if( !no_mana ) {
         // pay the cost
-        int cost = casting.energy_cost();
+        int cost = casting.energy_cost( *p );
         switch( casting.energy_source() ) {
             case mana_energy:
                 p->magic.mod_mana( *p, -cost );
                 break;
             case stamina_energy:
-                p->stamina -= cost;
+                p->mod_stat( "stamina", -cost );
                 break;
             case bionic_energy:
                 p->power_level -= cost;

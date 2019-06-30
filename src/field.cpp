@@ -524,7 +524,7 @@ field_id field_entry::set_field_type( const field_id new_field_id )
 int field_entry::set_field_intensity( const int new_intensity )
 {
     is_alive = new_intensity > 0;
-    return intensity = std::max( std::min( new_intensity, MAX_FIELD_INTENSITY ), 1 );
+    return intensity = std::max( std::min( new_intensity, 3 ), 1 );
 }
 
 time_duration field_entry::set_field_age( const time_duration &new_age )
@@ -647,8 +647,7 @@ std::map<field_id, field_entry>::const_iterator field::end() const
 
 std::string field_t::name( const int intensity ) const
 {
-    const std::string &n = untranslated_name[std::min( std::max( 0, intensity ),
-                                     MAX_FIELD_INTENSITY - 1 )];
+    const std::string &n = untranslated_name[std::min( std::max( 0, intensity ), 2 )];
     return n.empty() ? n : _( n );
 }
 

@@ -596,7 +596,8 @@ void computer::activate_function( computer_action action )
             for( int i = -60; i <= 60; i++ ) {
                 for( int j = -60; j <= 60; j++ ) {
                     const oter_id &oter = overmap_buffer.ter( center.x + i, center.y + j, center.z );
-                    if( is_ot_type( "sewer", oter ) || is_ot_prefix( "sewage", oter ) ) {
+                    if( is_ot_match( "sewer", oter, ot_match_type::TYPE ) ||
+                        is_ot_match( "sewage", oter, ot_match_type::PREFIX ) ) {
                         overmap_buffer.set_seen( center.x + i, center.y + j, center.z, true );
                     }
                 }
@@ -612,7 +613,8 @@ void computer::activate_function( computer_action action )
             for( int i = -60; i <= 60; i++ ) {
                 for( int j = -60; j <= 60; j++ ) {
                     const oter_id &oter = overmap_buffer.ter( center.x + i, center.y + j, center.z );
-                    if( is_ot_type( "subway", oter ) || is_ot_subtype( "lab_train_depot", oter ) ) {
+                    if( is_ot_match( "subway", oter, ot_match_type::TYPE ) ||
+                        is_ot_match( "lab_train_depot", oter, ot_match_type::CONTAINS ) ) {
                         overmap_buffer.set_seen( center.x + i, center.y + j, center.z, true );
                     }
                 }

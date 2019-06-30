@@ -265,16 +265,11 @@
     "base_mods": {
       "per_mod": [ -1 ],
       "dex_mod": [ -1 ],
-      "str_mod": [ -4, -1 ],
-      "speed_mod": [ -20 ],
+      "str_mod": [ -3 ],
+      "speed_mod": [ -30 ],
       "pain_min": [ 1 ],
-      "pain_chance": [ 1, 30 ],
-      "fatigue_min": [ 1 ],
-      "fatigue_chance": [ 1, 4 ],
-      "hunger_min": [ 1 ],
-      "hunger_chance": [ 1, 6 ],
-      "thirst_min": [ 1 ],
-      "thirst_chance": [ 1, 4 ]
+      "pain_chance": [ 1 ],
+      "pain_max_val": [ 20 ]
     }
   },
   {

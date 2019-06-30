@@ -267,8 +267,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 current.clear();
                 for( int i = 1; i <= 20; i++ ) {
                     current.push_back( chosen );
-                    available.push_back( chosen->requirements().can_make_with_inventory( crafting_inv,
-                                         chosen->get_component_filter(), i ) );
+                    available.push_back( g->u.can_start_craft( chosen, i ) );
                 }
             } else {
                 std::vector<const recipe *> picking;
@@ -375,8 +374,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 // cache recipe availability on first display
                 for( const auto e : current ) {
                     if( !availability_cache.count( e ) ) {
-                        availability_cache.emplace( e, e->requirements().can_make_with_inventory( crafting_inv,
-                                                    e->get_component_filter() ) );
+                        availability_cache.emplace( e, g->u.can_start_craft( e ) );
                     }
                 }
 

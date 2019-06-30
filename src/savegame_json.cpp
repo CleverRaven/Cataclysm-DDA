@@ -29,6 +29,7 @@
 #include "basecamp.h"
 #include "bionics.h"
 #include "calendar.h"
+#include "craft_command.h"
 #include "debug.h"
 #include "effect.h"
 #include "game.h"
@@ -58,7 +59,6 @@
 #include "vehicle.h"
 #include "vitamin.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
 #include "creature_tracker.h"
 #include "overmapbuffer.h"
 #include "active_item_cache.h"
@@ -874,6 +874,8 @@ void avatar::store( JsonOut &json ) const
     json.member( "stomach", stomach );
     json.member( "guts", guts );
 
+    json.member( "translocators", translocators );
+
     morale->store( json );
 
     // mission stuff
@@ -991,6 +993,8 @@ void avatar::load( JsonObject &data )
 
     data.read( "stomach", stomach );
     data.read( "guts", guts );
+
+    data.read( "translocators", translocators );
 
     morale->load( data );
 
@@ -2043,6 +2047,8 @@ void item::io( Archive &archive )
     archive.io( "light_dir", light.direction, nolight.direction );
     archive.io( "comps_used", comps_used, io::empty_default_tag() );
     archive.io( "next_failure_point", next_failure_point, -1 );
+    archive.io( "tools_to_continue", tools_to_continue, false );
+    archive.io( "cached_tool_selections", cached_tool_selections, io::empty_default_tag() );
 
     item_controller->migrate_item( orig, *this );
 
@@ -2473,7 +2479,7 @@ void vehicle::deserialize( JsonIn &jsin )
         auto end = vp.part().items.end();
         for( ; it != end; ++it ) {
             if( it->needs_processing() ) {
-                active_items.add( it, vp.mount() );
+                active_items.add( *it, vp.mount() );
             }
         }
     }
@@ -3541,7 +3547,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
 
                 const cata::colony<item>::iterator it = itm[p.x][p.y].insert( tmp );
                 if( tmp.needs_processing() ) {
-                    active_items.add( it, p );
+                    active_items.add( *it, p );
                 }
             }
         }

@@ -11,6 +11,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "enums.h"
+#include "point.h"
 #include "string_formatter.h"
 
 ////////////////////////////////////////////////////////////////////////////////////

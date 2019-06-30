@@ -3,6 +3,7 @@
 #define MAP_MEMORY_H
 
 #include "lru_cache.h"
+#include "point.h"
 
 class JsonOut;
 class JsonObject;

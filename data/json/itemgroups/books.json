@@ -27,6 +27,21 @@
     ]
   },
   {
+    "id": "light_reading",
+    "type": "item_group",
+    "//": "for music store",
+    "items": [
+      [ "novel_coa", 10 ],
+      [ "child_book", 50 ],
+      [ "manual_dodge_kid", 25 ],
+      [ "tall_tales", 20 ],
+      [ "story_book", 4 ],
+      [ "novel_pulp", 16 ],
+      [ "fairy_tales", 20 ],
+      [ "mag_comic", 20 ]
+    ]
+  },
+  {
     "id": "boxing_books",
     "type": "item_group",
     "items": [

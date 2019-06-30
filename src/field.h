@@ -27,31 +27,31 @@ struct field_t {
     std::string id;
 
     /** Display name for field at given intensity (e.g. light smoke, smoke, heavy smoke) */
-    std::string untranslated_name[ MAX_FIELD_INTENSITY ];
-    /// Can be empty! \p intensity must be in the range [0, MAX_FIELD_INTENSITY - 1].
+    std::string untranslated_name[ 3 ];
+    /// Can be empty! \p intensity must be in the range [0, 2].
     std::string name( int intensity ) const;
 
     char sym; //The symbol to draw for this field. Note that some are reserved like * and %. You will have to check the draw function for specifics.
     int priority; //Inferior numbers have lower priority. 0 is "ground" (splatter), 2 is "on the ground", 4 is "above the ground" (fire), 6 is reserved for furniture, and 8 is "in the air" (smoke).
 
     /** Color the field will be drawn as on the screen at a given intensity */
-    deferred_color color[ MAX_FIELD_INTENSITY ];
+    deferred_color color[ 3 ];
 
     /**
      * If false this field may block line of sight.
      * @warning this does nothing by itself. You must go to the code block in lightmap.cpp and modify
      * transparancy code there with a case statement as well!
     **/
-    bool transparent[ MAX_FIELD_INTENSITY ];
+    bool transparent[ 3 ];
 
     /** Where tile is dangerous (prompt before moving into) at given intensity */
-    bool dangerous[ MAX_FIELD_INTENSITY ];
+    bool dangerous[ 3 ];
 
     //Controls, albeit randomly, how long a field of a given type will last before going down in intensity.
     time_duration halflife;
 
     /** cost of moving into and out of this field at given intensity */
-    int move_cost[ MAX_FIELD_INTENSITY ];
+    int move_cost[ 3 ];
 
     /** Does it penetrate obstacles like gas, spread like liquid or just lie there like solid? */
     phase_id phase;
@@ -171,7 +171,7 @@ class field_entry
         time_duration set_field_age( const time_duration &new_age );
         /// Adds given value to @ref age.
         /// @returns New value of @ref age.
-        time_duration mod_age( const time_duration &mod ) {
+        time_duration mod_field_age( const time_duration &mod ) {
             return set_field_age( get_field_age() + mod );
         }
 

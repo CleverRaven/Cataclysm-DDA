@@ -21,7 +21,6 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "vpart_reference.h" // IWYU pragma: keep
 #include "calendar.h"
 #include "creature.h"
 #include "enums.h"
@@ -337,7 +336,7 @@ TEST_CASE( "npc-movement" )
             if( type == 'A' || type == 'R' || type == 'W' || type == 'M'
                 || type == 'B' || type == 'C' ) {
 
-                g->m.add_field( p, fd_acid, MAX_FIELD_INTENSITY );
+                g->m.add_field( p, fd_acid, 3 );
             }
             // spawn rubbles
             if( type == 'R' ) {

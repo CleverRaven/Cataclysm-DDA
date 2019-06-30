@@ -45,8 +45,7 @@
     "name": "serving area interface",
     "sym": "0",
     "color": "i_magenta",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -55,8 +54,7 @@
     "sym": "H",
     "color": "light_cyan",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -65,8 +63,7 @@
     "sym": "H",
     "color": "cyan",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -75,8 +72,7 @@
     "sym": "H",
     "color": "cyan",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -85,8 +81,7 @@
     "sym": "H",
     "color": "cyan",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -95,8 +90,7 @@
     "sym": "H",
     "color": "cyan",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",

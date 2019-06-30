@@ -290,7 +290,7 @@
     "color": "dark_gray",
     "move_cost": 4,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "FLAT" ],
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES" ],
     "bash": {
       "sound": "SCRRRASH!",
       "ter_set": "t_null",
@@ -331,7 +331,7 @@
     "symbol": ".",
     "color": "dark_gray",
     "move_cost": 4,
-    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "FLAT" ],
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES" ],
     "bash": {
       "sound": "SCRRRASH!",
       "ter_set": "t_null",
@@ -619,7 +619,7 @@
     "color": "brown_green",
     "move_cost": 5,
     "coverage": 50,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "PLOWABLE" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {

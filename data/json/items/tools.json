@@ -9414,5 +9414,20 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "VICE", 1 ] ]
+  },
+  {
+    "id": "bathroom_scale",
+    "type": "TOOL",
+    "name": "bathroom scale",
+    "symbol": "■",
+    "color": "light_gray",
+    "description": "This is a small bathroom scale, meant to weigh a person while naked.",
+    "weight": 1200,
+    "volume": 4,
+    "price": "500",
+    "to_hit": -2,
+    "bashing": 6,
+    "material": "steel",
+    "use_action": { "type": "weigh_self", "max_weight": 150000 }
   }
 ]

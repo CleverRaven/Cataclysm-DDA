@@ -9,6 +9,7 @@
 
 #include "enums.h"
 #include "math_defines.h"
+#include "point.h"
 
 /** Converts degrees to radians */
 constexpr double DEGREES( double v )

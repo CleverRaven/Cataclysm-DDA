@@ -42,7 +42,6 @@
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
 #include "calendar.h"
 #include "enums.h"
 #include "game_constants.h"

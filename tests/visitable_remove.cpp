@@ -16,7 +16,6 @@
 #include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "calendar.h"
 #include "enums.h"
 #include "inventory.h"

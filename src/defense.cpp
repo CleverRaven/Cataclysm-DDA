@@ -507,7 +507,6 @@ void defense_game::setup()
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "START" );
-    ctxt.register_action( "SAVE_TEMPLATE" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     while( true ) {
@@ -533,13 +532,6 @@ void defense_game::setup()
             } else {
                 selection--;
             }
-            refresh_setup( w, selection );
-        } else if( action == "SAVE_TEMPLATE" ) {
-            std::string name = string_input_popup()
-                               .title( _( "Template Name:" ) )
-                               .width( 20 )
-                               .query_string();
-            // TODO: this is NON FUNCTIONAL!!!
             refresh_setup( w, selection );
         } else {
             switch( selection ) {
@@ -747,7 +739,7 @@ void defense_game::refresh_setup( const catacurses::window &w, int selection )
     werase( w );
     mvwprintz( w,  0,  1, c_light_red, _( "DEFENSE MODE" ) );
     mvwprintz( w,  0, 28, c_light_red, _( "Press direction keys to cycle, ENTER to toggle" ) );
-    mvwprintz( w,  1, 28, c_light_red, _( "Press S to start, ! to save as a template" ) );
+    mvwprintz( w,  1, 28, c_light_red, _( "Press S to start" ) );
     mvwprintz( w,  2,  2, c_light_gray, _( "Scenario:" ) );
     mvwprintz( w,  3,  2, SELCOL( 1 ), defense_style_name( style ) );
     mvwprintz( w,  3, 28, c_light_gray, defense_style_description( style ) );

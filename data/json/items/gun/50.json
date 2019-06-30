@@ -53,7 +53,9 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "mechanism", 4 ],
-      [ "muzzle", 1 ]
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "magazines": [ [ "50", [ "belt50" ] ] ],
     "flags": [ "MOUNTED_GUN" ]

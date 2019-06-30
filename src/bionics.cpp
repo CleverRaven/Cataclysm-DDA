@@ -1194,7 +1194,7 @@ bool player::can_uninstall_bionic( const bionic_id &b_id, player &installer, boo
     }
 
     if( ( b_id == "bio_reactor" ) || ( b_id == "bio_advreactor" ) ) {
-        if( !query_yn(
+        if( !g->u.query_yn(
                 _( "WARNING: Removing a reactor may leave radioactive material! Remove anyway?" ) ) ) {
             return false;
         }
