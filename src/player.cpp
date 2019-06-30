@@ -12,7 +12,6 @@
 #include <bitset>
 #include <exception>
 #include <tuple>
-#include <cstddef>
 
 #include "action.h"
 #include "activity_handlers.h"

@@ -54,6 +54,7 @@
 #include "flat_set.h"
 #include "mapdata.h"
 #include "point.h"
+#include "material.h"
 
 class player;
 

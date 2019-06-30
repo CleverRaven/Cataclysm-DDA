@@ -11,7 +11,6 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "craft_command.h"
 #include "game.h"
 #include "map.h"
 #include "player.h"

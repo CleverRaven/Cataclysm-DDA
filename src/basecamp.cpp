@@ -8,7 +8,6 @@
 #include <utility>
 
 #include "avatar.h"
-#include "craft_command.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"

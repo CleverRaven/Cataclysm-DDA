@@ -1,6 +1,5 @@
 #include "magic.h"
 
-#include <math.h>
 #include <stdlib.h>
 #include <set>
 #include <algorithm>
@@ -8,6 +7,7 @@
 #include <memory>
 #include <tuple>
 #include <utility>
+#include <cmath>
 
 #include "avatar.h"
 #include "calendar.h"
