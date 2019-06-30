@@ -550,15 +550,7 @@
     "suspendable": false
   },
   {
-    "id": "ACT_OPERATION_REMOVE",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "being operated on",
-    "based_on": "time",
-    "suspendable": false
-  },
-  {
-    "id": "ACT_OPERATION_INSTALL",
+    "id": "ACT_OPERATION",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "being operated on",
