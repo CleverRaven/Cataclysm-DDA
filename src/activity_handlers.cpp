@@ -2892,7 +2892,6 @@ void activity_handlers::uninstall_operation_do_turn( player_activity *act, playe
             act->set_to_null();
         }
 
-
     } else if( act->values[1] > 0 ) {
         if( act->values.size() > 4 ) {
             for( size_t i = 4; i < act->values.size(); i++ ) {
