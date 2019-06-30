@@ -345,6 +345,11 @@ class player : public Character
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
         bool install_bionics( const itype &type, player &installer, bool autodoc = false,
                               int skill_level = -1 );
+        /***/
+        void perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success, int power_lvl,
+                              int pl_skill,
+                              std::string cbm_name, std::string upcbm_name, std::string installer_name,
+                              std::vector<trait_id> trait_to_rem );
         void bionics_install_failure( std::string installer, int difficulty, int success,
                                       float adjusted_skill );
         /**Is The uninstallation possible*/
@@ -353,6 +358,9 @@ class player : public Character
         /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
         bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                int skill_level = -1 );
+        /***/
+        void perform_uninstall( bionic_id bid, int difficulty, int success, int power_lvl, int pl_skill,
+                                std::string cbm_name );
         /**Used by monster to perform surgery*/
         bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
                                float adjusted_skill, bool autodoc = false );

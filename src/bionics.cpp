@@ -1306,6 +1306,50 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     return true;
 }
 
+void player::perform_uninstall( bionic_id bid, int difficulty, int succes, int power_lvl,
+                                int pl_skill, std::string cbm_name )
+{
+    if( succes > 0 ) {
+
+        if( is_player() ) {
+            add_memorial_log( pgettext( "memorial_male", "Removed bionic: %s." ),
+                              pgettext( "memorial_female", "Removed bionic: %s." ),
+                              cbm_name );
+        }
+
+        // until bionics can be flagged as non-removable
+        add_msg_player_or_npc( m_neutral, _( "Your parts are jiggled back into their familiar places." ),
+                               _( "<npcname>'s parts are jiggled back into their familiar places." ) );
+        add_msg( m_good, _( "Successfully removed %s." ), cbm_name );
+        remove_bionic( bid );
+
+        // remove power bank provided by bionic
+        max_power_level -= power_lvl;
+
+        if( item::type_is_defined( bid.c_str() ) ) {
+            g->m.spawn_item( pos(), bid.c_str(), 1 );
+        } else {
+            g->m.spawn_item( pos(), "burnt_out_bionic", 1 );
+        }
+
+    } else {
+        if( is_player() ) {
+            add_memorial_log( pgettext( "memorial_male", "Failed to remove bionic: %s." ),
+                              pgettext( "memorial_female", "Failed to remove bionic: %s." ),
+                              cbm_name );
+        }
+
+        // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
+        float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
+                               static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>
+                               ( 10.0 ) );
+        bionics_uninstall_failure( difficulty, succes, adjusted_skill );
+
+    }
+    g->m.invalidate_map_cache( g->get_levz() );
+    g->refresh_all();
+}
+
 bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
                                float adjusted_skill, bool autodoc )
 {
@@ -1514,6 +1558,53 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
         }
     }
     return true;
+}
+
+void player::perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
+                              int power_lvl,
+                              int pl_skill, std::string cbm_name, std::string upcbm_name, std::string installer_name,
+                              std::vector<trait_id> trait_to_rem )
+{
+    if( success > 0 ) {
+
+        if( is_player() ) {
+            add_memorial_log( pgettext( "memorial_male", "Installed bionic: %s." ),
+                              pgettext( "memorial_female", "Installed bionic: %s." ),
+                              cbm_name );
+        }
+        if( upbid != bionic_id( "" ) ) {
+            remove_bionic( upbid );
+            //~ %1$s - name of the bionic to be upgraded (inferior), %2$s - name of the upgraded bionic (superior).
+            add_msg( m_good, _( "Successfully upgraded %1$s to %2$s." ),
+                     upcbm_name, cbm_name );
+        } else {
+            //~ %s - name of the bionic.
+            add_msg( m_good, _( "Successfully installed %s." ), cbm_name );
+        }
+
+        add_bionic( bid );
+
+        if( !trait_to_rem.empty() ) {
+            for( trait_id tid : trait_to_rem ) {
+                remove_mutation( tid );
+            }
+        }
+
+    } else {
+        if( is_player() ) {
+            add_memorial_log( pgettext( "memorial_male", "Failed install of bionic: %s." ),
+                              pgettext( "memorial_female", "Failed install of bionic: %s." ),
+                              cbm_name );
+        }
+
+        // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
+        float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
+                               static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>
+                               ( 10.0 ) );
+        bionics_install_failure( installer_name, difficulty, success, adjusted_skill );
+    }
+    g->m.invalidate_map_cache( g->get_levz() );
+    g->refresh_all();
 }
 
 void player::bionics_install_failure( std::string installer, int difficulty, int success,
