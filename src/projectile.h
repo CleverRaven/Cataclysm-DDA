@@ -8,6 +8,7 @@
 
 #include "damage.h"
 #include "enums.h"
+#include "point.h"
 
 class Creature;
 struct explosion_data;

@@ -55,10 +55,10 @@
     "effect_str": "PAIN",
     "energy_source": "STAMINA",
     "base_casting_time": 50000,
-    "base_energy_cost": 500,
-    "energy_increment": 50,
+    "base_energy_cost": 5000,
+    "energy_increment": 500,
     "flags": [ "SOMATIC", "VERBAL" ],
-    "final_energy_cost": 1000
+    "final_energy_cost": 10000
   },
   {
     "id": "summon_zombie",

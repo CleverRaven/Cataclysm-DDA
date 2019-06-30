@@ -6,6 +6,7 @@
 #include <string>
 
 #include "enums.h"
+#include "point.h"
 #include "requirements.h"
 
 class inventory;
@@ -35,6 +36,9 @@ struct comp_selection {
 
     /** provides a translated name for 'comp', suffixed with it's location e.g '(nearby)'. */
     std::string nname() const;
+
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &jsin );
 };
 
 /**

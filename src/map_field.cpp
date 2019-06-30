@@ -2262,7 +2262,7 @@ void map::propagate_field( const tripoint &center, const field_id type, int amou
             int cur_intensity = get_field_intensity( gp.second, type );
             if( cur_intensity < max_intensity ) {
                 int bonus = std::min( max_intensity - cur_intensity, increment );
-                adjust_field_intensity( gp.second, type, bonus );
+                mod_field_intensity( gp.second, type, bonus );
                 amount -= bonus;
             } else {
                 amount--;

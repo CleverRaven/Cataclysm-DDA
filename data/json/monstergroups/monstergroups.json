@@ -5161,6 +5161,36 @@
     ]
   },
   {
+    "type": "monstergroup",
+    "name": "DUMP_ZOMBIES",
+    "default": "mon_zombie_crawler",
+    "monsters": [
+      { "monster": "mon_zombie_technician", "freq": 150, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_fat", "freq": 150, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_crawler", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_survivor", "freq": 70, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "DUMP_ANIMALS",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_fly", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_crow", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_fox_gray", "freq": 15, "cost_multiplier": 1 },
+      { "monster": "mon_fox_red", "freq": 15, "cost_multiplier": 1 },
+      { "monster": "mon_dog", "freq": 15, "cost_multiplier": 2 },
+      { "monster": "mon_black_rat", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_opossum", "freq": 15, "cost_multiplier": 1 },
+      { "monster": "mon_raccoon", "freq": 15, "cost_multiplier": 1 },
+      { "monster": "mon_rattlesnake", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_rattlesnake_giant", "freq": 5, "cost_multiplier": 2 },
+      { "monster": "mon_worm", "freq": 20, "cost_multiplier": 1 },
+      { "monster": "mon_wasp", "freq": 10, "cost_multiplier": 1 }
+    ]
+  },
+  {
     "name": "GROUP_PLAIN",
     "type": "monstergroup",
     "default": "mon_zombie",

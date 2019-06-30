@@ -81,7 +81,6 @@
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
 #include "weather.h"
 #include "weather_gen.h"
 #include "compatibility.h"
@@ -491,7 +490,7 @@ player::player() : Character()
     blocks_left = 1;
     power_level = 0;
     max_power_level = 0;
-    stamina = 1000; //Temporary value for stamina. It will be reset later from external json option.
+    stamina = 10000; //Temporary value for stamina. It will be reset later from external json option.
     stim = 0;
     pkill = 0;
     radiation = 0;
@@ -2269,6 +2268,9 @@ void player::mod_stat( const std::string &stat, float modifier )
     } else if( stat == "oxygen" ) {
         oxygen += modifier;
     } else if( stat == "stamina" ) {
+        if( stamina + modifier < 0 ) {
+            add_effect( effect_winded, 10_turns );
+        }
         stamina += modifier;
         stamina = std::min( stamina, get_stamina_max() );
         stamina = std::max( 0, stamina );
@@ -4624,14 +4626,13 @@ void player::update_stamina( int turns )
     float stamina_recovery = 0.0f;
     // Recover some stamina every turn.
     // Mutated stamina works even when winded
-    float stamina_multiplier = ( !has_effect( effect_winded ) ? 1.0f : 0.0f ) +
+    float stamina_multiplier = ( !has_effect( effect_winded ) ? 1.0f : 0.1f ) +
                                mutation_value( "stamina_regen_modifier" );
-    if( stamina_multiplier > 0.0f ) {
-        // But mouth encumbrance interferes, even with mutated stamina.
-        stamina_recovery += stamina_multiplier * std::max( 1.0f, 10.0f - ( encumb( bp_mouth ) / 10.0f ) );
-        // TODO: recovering stamina causes hunger/thirst/fatigue.
-        // TODO: Tiredness slowing recovery
-    }
+    // But mouth encumbrance interferes, even with mutated stamina.
+    stamina_recovery += stamina_multiplier * std::max( 1.0f,
+                        get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) - ( encumb( bp_mouth ) / 10.0f ) );
+    // TODO: recovering stamina causes hunger/thirst/fatigue.
+    // TODO: Tiredness slowing recovery
 
     // stim recovers stamina (or impairs recovery)
     if( stim > 0 ) {
@@ -4639,25 +4640,29 @@ void player::update_stamina( int turns )
         stamina_recovery += std::min( 5.0f, stim / 20.0f );
     } else if( stim < 0 ) {
         // Affect it less near 0 and more near full
-        // Stamina maxes out around 1000, stims kill at -200
-        // At -100 stim fully counters regular regeneration at 500 stamina,
-        // halves at 250 stamina, cuts by 25% at 125 stamina
-        // At -50 stim fully counters at 1000, halves at 500
-        stamina_recovery += stim * stamina / 1000.0f / 5.0f;
+        // Negative stim kill at -200
+        // At -100 stim it inflicts -20 malus to regen at 100%  stamina,
+        // effectivly countering stamina gain of default 20,
+        // at 50% stamina its -10 (50%), cuts by 25% at 25% stamina
+        stamina_recovery += stim / 5.0f * stamina / get_stamina_max() ;
     }
 
     const int max_stam = get_stamina_max();
     if( power_level >= 3 && has_active_bionic( bio_gills ) ) {
         int bonus = std::min<int>( power_level / 3, max_stam - stamina - stamina_recovery * turns );
-        bonus = std::min( bonus, 3 );
+        // so the effective recovery is up to 5x default
+        bonus = std::min( bonus, 4 * static_cast<int>
+                          ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) );
         if( bonus > 0 ) {
-            charge_power( -3 * bonus );
             stamina_recovery += bonus;
+            bonus /= 10;
+            bonus = std::max( bonus, 1 );
+            charge_power( -bonus );
         }
     }
 
-    stamina = roll_remainder( stamina + stamina_recovery * turns );
-
+    stamina += roll_remainder( stamina_recovery * turns );
+    add_msg( m_debug, "Stamina recovery: %d", roll_remainder( stamina_recovery * turns ) );
     // Cap at max
     stamina = std::min( std::max( stamina, 0 ), max_stam );
 }
@@ -4778,8 +4783,9 @@ void player::cough( bool harmful, int loudness )
 {
     if( harmful ) {
         const int stam = stamina;
-        mod_stat( "stamina", -100 );
-        if( stam < 100 && x_in_y( 100 - stam, 100 ) ) {
+        const int malus = get_stamina_max() * 0.05; // 5% max stamina
+        mod_stat( "stamina", -malus );
+        if( stam < malus && x_in_y( malus - stam, malus ) ) {
             apply_damage( nullptr, bp_torso, 1 );
         }
     }
@@ -5070,15 +5076,9 @@ void player::process_one_effect( effect &it, bool is_new )
     if( val != 0 ) {
         mod = 1;
         if( is_new || it.activated( calendar::turn, "STAMINA", val, reduced, mod ) ) {
-            stamina += bound_mod_to_vals( stamina, val,
-                                          it.get_max_val( "STAMINA", reduced ),
-                                          it.get_min_val( "STAMINA", reduced ) );
-            if( stamina < 0 ) {
-                // TODO: Make it drain fatigue and/or oxygen?
-                stamina = 0;
-            } else if( stamina > get_stamina_max() ) {
-                stamina = get_stamina_max();
-            }
+            mod_stat( "stamina", bound_mod_to_vals( stamina, val,
+                                                    it.get_max_val( "STAMINA", reduced ),
+                                                    it.get_min_val( "STAMINA", reduced ) ) );
         }
     }
 
@@ -6803,19 +6803,19 @@ int player::get_morale_level() const
     return morale->get_level();
 }
 
-void player::add_morale( morale_type type, int bonus, int max_bonus,
+void player::add_morale( const morale_type &type, int bonus, int max_bonus,
                          const time_duration &duration, const time_duration &decay_start,
                          bool capped, const itype *item_type )
 {
     morale->add( type, bonus, max_bonus, duration, decay_start, capped, item_type );
 }
 
-int player::has_morale( morale_type type ) const
+int player::has_morale( const morale_type &type ) const
 {
     return morale->has( type );
 }
 
-void player::rem_morale( morale_type type, const itype *item_type )
+void player::rem_morale( const morale_type &type, const itype *item_type )
 {
     morale->remove( type, item_type );
 }
@@ -11039,6 +11039,12 @@ void player::clear_destination()
     next_expected_position = cata::nullopt;
 }
 
+bool player::has_distant_destination() const
+{
+    return has_destination() && !destination_activity.is_null() &&
+           destination_activity.id() == "ACT_TRAVELLING" && !omt_path.empty();
+}
+
 bool player::has_destination() const
 {
     return !auto_move_route.empty();
@@ -11212,18 +11218,17 @@ void player::burn_move_stamina( int moves )
     if( current_weight > max_weight ) {
         overburden_percentage = ( current_weight - max_weight ) * 100 / max_weight;
     }
-    // Regain 10 stamina / turn
-    // 7/turn walking
-    // 20/turn running
-    int burn_ratio = 7;
+
+    int burn_ratio = get_option<int>( "PLAYER_BASE_STAMINA_BURN_RATE" );
     if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
         burn_ratio = burn_ratio * 2 - 3;
     }
     burn_ratio += overburden_percentage;
     if( move_mode == "run" ) {
-        burn_ratio = burn_ratio * 3 - 1;
+        burn_ratio = burn_ratio * 7;
     }
     mod_stat( "stamina", -( ( moves * burn_ratio ) / 100 ) );
+    add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
     // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
     // Starts at 1 in 25, goes down by 5 for every 50% more carried
     if( ( current_weight > max_weight ) && ( has_trait( trait_BADBACK ) || stamina == 0 ) &&

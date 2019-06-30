@@ -1234,12 +1234,12 @@ class player : public Character
         void resume_backlog_activity();
 
         int get_morale_level() const; // Modified by traits, &c
-        void add_morale( morale_type type, int bonus, int max_bonus = 0,
+        void add_morale( const morale_type &type, int bonus, int max_bonus = 0,
                          const time_duration &duration = 1_hours,
                          const time_duration &decay_start = 30_minutes, bool capped = false,
                          const itype *item_type = nullptr );
-        int has_morale( morale_type type ) const;
-        void rem_morale( morale_type type, const itype *item_type = nullptr );
+        int has_morale( const morale_type &type ) const;
+        void rem_morale( const morale_type &type, const itype *item_type = nullptr );
         void clear_morale();
         bool has_morale_to_read() const;
         /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
@@ -1383,6 +1383,12 @@ class player : public Character
         bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
         bool has_morale_to_craft() const;
         bool can_make( const recipe *r, int batch_size = 1 );  // have components?
+        /**
+         * Returns true if the player can start crafting the recipe with the given batch size
+         * The player is not required to have enough tool charges to finish crafting, only to
+         * complete the first step (total / 20 + total % 20 charges)
+         */
+        bool can_start_craft( const recipe *rec, int batch_size = 1 );
         bool making_would_work( const recipe_id &id_to_make, int batch_size );
 
         /**
@@ -1437,8 +1443,9 @@ class player : public Character
         void complete_disassemble( item_location &target, const recipe &dis );
 
         // yet more crafting.cpp
-        const inventory &crafting_inventory( tripoint src_pos = tripoint_zero,
-                                             int radius = PICKUP_RANGE ); // includes nearby items
+        // includes nearby items
+        const inventory &crafting_inventory( const tripoint &src_pos = tripoint_zero,
+                                             int radius = PICKUP_RANGE );
         void invalidate_crafting_inventory();
         comp_selection<item_comp>
         select_item_component( const std::vector<item_comp> &components,
@@ -1454,7 +1461,12 @@ class player : public Character
         comp_selection<tool_comp>
         select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
                                const std::string &hotkeys = DEFAULT_HOTKEYS,
-                               bool can_cancel = false, bool player_inv = true );
+                               bool can_cancel = false, bool player_inv = true,
+        const std::function<int( int )> charges_required_modifier = []( int i ) {
+            return i;
+        } );
+        /** Consume tools for the next multiplier * 5% progress of the craft */
+        bool craft_consume_tools( item &craft, int multiplier, bool start_craft );
         void consume_tools( const comp_selection<tool_comp> &tool, int batch );
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
                             const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE,
@@ -1466,6 +1478,8 @@ class player : public Character
         void set_destination( const std::vector<tripoint> &route,
                               const player_activity &destination_activity = player_activity() );
         void clear_destination();
+        bool has_distant_destination() const;
+
         bool has_destination() const;
         // true if player has destination activity AND is standing on destination tile
         bool has_destination_activity() const;
@@ -1530,7 +1544,6 @@ class player : public Character
         player_activity activity;
         std::list<player_activity> backlog;
         int volume;
-
         const profession *prof;
 
         start_location_id start_location;
@@ -1606,7 +1619,6 @@ class player : public Character
         std::set<int> follower_ids;
         //Record of player stats, for posterity only
         stats lifetime_stats;
-
         void mod_stat( const std::string &stat, float modifier ) override;
 
         int getID() const;

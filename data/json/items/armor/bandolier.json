@@ -17,7 +17,7 @@
     "use_action": {
       "type": "bandolier",
       "capacity": 18,
-      "ammo": [ "32", "762x25", "38", "40", "44", "45", "9x18", "9mm", "454", "500" ],
+      "ammo": [ "32", "762x25", "38", "357mag", "38super", "40", "10mm", "44", "45", "45colt", "9x18", "9mm", "454", "500" ],
       "draw_cost": 20
     },
     "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE", "FANCY" ]
@@ -60,7 +60,7 @@
     "coverage": 10,
     "encumbrance": 5,
     "material_thickness": 1,
-    "use_action": { "type": "bandolier", "capacity": 25, "ammo": [ "shot", "20x66mm", "shotcanister" ], "draw_cost": 25 },
+    "use_action": { "type": "bandolier", "capacity": 25, "ammo": [ "410shot", "shot", "20x66mm", "shotcanister" ], "draw_cost": 25 },
     "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
   },
   {
@@ -78,7 +78,7 @@
     "coverage": 12,
     "encumbrance": 15,
     "material_thickness": 1,
-    "use_action": { "type": "bandolier", "capacity": 50, "ammo": [ "shot", "20x66mm", "shotcanister" ], "draw_cost": 35 },
+    "use_action": { "type": "bandolier", "capacity": 50, "ammo": [ "410shot", "shot", "20x66mm", "shotcanister" ], "draw_cost": 35 },
     "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ]
   },
   {

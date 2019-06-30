@@ -280,7 +280,7 @@ void mapgendata::fill_groundcover()
 {
     m.draw_fill_background( this->default_groundcover );
 }
-bool mapgendata::is_groundcover( const ter_id iid ) const
+bool mapgendata::is_groundcover( const ter_id &iid ) const
 {
     for( const auto &pr : default_groundcover ) {
         if( pr.obj == iid ) {
@@ -3603,28 +3603,32 @@ static void mapgen_ants_generic( map *m, oter_id terrain_type, mapgendata dat,
             }
         }
     }
-    if( connects_to( dat.north(), 2 ) || is_ot_subtype( "ants_lab", dat.north() ) ) {
+    if( connects_to( dat.north(), 2 ) ||
+        is_ot_match( "ants_lab", dat.north(), ot_match_type::CONTAINS ) ) {
         for( int i = SEEX - 2; i <= SEEX + 3; i++ ) {
             for( int j = 0; j <= SEEY; j++ ) {
                 m->ter_set( i, j, t_rock_floor );
             }
         }
     }
-    if( connects_to( dat.east(), 3 ) || is_ot_subtype( "ants_lab", dat.east() ) ) {
+    if( connects_to( dat.east(), 3 ) ||
+        is_ot_match( "ants_lab", dat.east(), ot_match_type::CONTAINS ) ) {
         for( int i = SEEX; i <= SEEX * 2 - 1; i++ ) {
             for( int j = SEEY - 2; j <= SEEY + 3; j++ ) {
                 m->ter_set( i, j, t_rock_floor );
             }
         }
     }
-    if( connects_to( dat.south(), 0 ) || is_ot_subtype( "ants_lab", dat.south() ) ) {
+    if( connects_to( dat.south(), 0 ) ||
+        is_ot_match( "ants_lab", dat.south(), ot_match_type::CONTAINS ) ) {
         for( int i = SEEX - 2; i <= SEEX + 3; i++ ) {
             for( int j = SEEY; j <= SEEY * 2 - 1; j++ ) {
                 m->ter_set( i, j, t_rock_floor );
             }
         }
     }
-    if( connects_to( dat.west(), 1 ) || is_ot_subtype( "ants_lab", dat.west() ) ) {
+    if( connects_to( dat.west(), 1 ) ||
+        is_ot_match( "ants_lab", dat.west(), ot_match_type::CONTAINS ) ) {
         for( int i = 0; i <= SEEX; i++ ) {
             for( int j = SEEY - 2; j <= SEEY + 3; j++ ) {
                 m->ter_set( i, j, t_rock_floor );
@@ -3931,7 +3935,7 @@ void mapgen_forest( map *m, oter_id terrain_type, mapgendata dat, const time_poi
     }
 
     // There is a chance of placing terrain dependent furniture, e.g. f_cattails on t_water_sh.
-    const auto set_terrain_dependent_furniture = [&current_biome_def, &m]( const ter_id tid,
+    const auto set_terrain_dependent_furniture = [&current_biome_def, &m]( const ter_id & tid,
     const int x, const int y ) {
         const auto terrain_dependent_furniture_it = current_biome_def.terrain_dependent_furniture.find(
                     tid );

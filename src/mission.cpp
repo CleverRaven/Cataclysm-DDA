@@ -330,7 +330,7 @@ bool mission::is_complete( const int _npc_id ) const
 
         case MGOAL_GO_TO_TYPE: {
             const auto cur_ter = overmap_buffer.ter( g->u.global_omt_location() );
-            return is_ot_type( type->target_id.str(), cur_ter );
+            return is_ot_match( type->target_id.str(), cur_ter, ot_match_type::TYPE );
         }
 
         case MGOAL_FIND_ITEM_GROUP: {

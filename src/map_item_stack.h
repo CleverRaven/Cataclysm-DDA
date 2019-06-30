@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "enums.h"
+#include "point.h"
 
 class item;
 

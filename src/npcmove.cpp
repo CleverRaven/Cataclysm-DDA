@@ -45,7 +45,6 @@
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
 #include "bodypart.h"
 #include "character.h"
 #include "damage.h"
@@ -468,7 +467,7 @@ void npc::assess_danger()
 
         // don't ignore monsters that are too close or too close to an ally
         bool is_too_close = dist <= def_radius;
-        const auto test_too_close = [critter, &is_too_close]( const std::weak_ptr<Creature> guy ) {
+        const auto test_too_close = [critter, &is_too_close]( const std::weak_ptr<Creature> &guy ) {
             is_too_close |= too_close( critter.pos(), guy.lock().get()->pos() );
             return is_too_close;
         };
