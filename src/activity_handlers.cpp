@@ -2815,7 +2815,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
         if( act->values.size() > 4 ) {
             for( size_t i = 4; i < act->values.size(); i++ ) {
                 p->add_effect( effect_bleed, 1_turns, body_part( act->values[i] ), true, difficulty );
-                p->apply_damage( nullptr, body_part( act->values[i] ), 10 * difficulty );
+                p->apply_damage( nullptr, body_part( act->values[i] ), 20 * difficulty );
 
                 if( u_see ) {
                     p->add_msg_player_or_npc( m_bad, _( "Your %s is ripped open." ),
@@ -2830,7 +2830,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
             }
         } else {
             p->add_effect( effect_bleed, 1_turns, num_bp, true, difficulty );
-            p->apply_damage( nullptr, num_bp, 10 * difficulty );
+            p->apply_damage( nullptr, num_bp, 20 * difficulty );
         }
     }
 
