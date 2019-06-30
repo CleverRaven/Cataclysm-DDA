@@ -2333,6 +2333,91 @@ void iexamine::kiln_full( player &, const tripoint &examp )
     add_msg( _( "It has finished burning, yielding %d charcoal." ), result.charges );
 }
 
+void iexamine::autoclave_empty( player &p, const tripoint &examp )
+{
+    furn_id cur_autoclave_type = g->m.furn( examp );
+    furn_id next_autoclave_type = f_null;
+    if( cur_autoclave_type == furn_id( "f_autoclave_full" ) ) {
+        next_autoclave_type = furn_id( "f_autoclave_empty" );
+    } else {
+        debugmsg( "Examined furniture has action autoclave_full, but is of type %s",
+                  g->m.furn( examp ).id().c_str() );
+        return;
+    }
+
+
+    bool water_is_enough = g->u.crafting_inventory().has_charges( "water", 64 );
+    map_stack items = g->m.i_at( examp );
+    static const std::string filthy( "FILTHY" );
+    bool filthy_cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
+        return i.has_flag( filthy ) && i.is_bionic();
+    } );
+
+    if( items.empty() ) {
+        add_msg( _( "This autoclave is empty..." ) );
+        return;
+    }
+    if( !filthy_cbms ) {
+        add_msg( m_bad,
+                 _( "You need to remove all non-filthy CBM items from the autoclave to start the program." ) );
+        return;
+    } else if( !water_is_enough ) {
+        add_msg( m_bad, _( "You need 64 charges of water for the autoclave." ) );
+        return;
+    }
+
+    p.use_charges( "water", 64 );
+    items.only_item().set_birthday( calendar::turn );
+    g->m.furn_set( examp, next_autoclave_type );
+    add_msg( _( "You start the autoclave." ) );
+}
+
+void iexamine::autoclave_full( player &p, const tripoint &examp )
+{
+    furn_id cur_autoclave_type = g->m.furn( examp );
+    furn_id next_autoclave_type = f_null;
+    if( cur_autoclave_type == furn_id( "f_autoclave_full" ) ) {
+        next_autoclave_type = furn_id( "f_autoclave_empty" );
+    } else {
+        debugmsg( "Examined furniture has action autoclave_full, but is of type %s",
+                  g->m.furn( examp ).id().c_str() );
+        return;
+    }
+
+
+    bool water_is_enough = g->u.crafting_inventory().has_charges( "water", 64 );
+    map_stack items = g->m.i_at( examp );
+    static const std::string filthy( "FILTHY" );
+    bool cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
+        return  i.is_bionic();
+    } );
+
+    if( items.empty() ) {
+        add_msg( _( "This autoclave is empty..." ) );
+        g->m.furn_set( examp, next_autoclave_type );
+        return;
+    }
+    if( !cbms ) {
+        add_msg( m_bad,
+                 _( "ERROR Autoclave can't process non CBM items." ) );
+        return;
+    }
+    add_msg( _( "The autoclave is running." ) );
+    const time_duration Cycle_time = 90_minutes;
+    const time_duration time_left = Cycle_time - items.only_item().age();
+    if( time_left > 0_turns ) {
+        add_msg( _( "The cycle will be complete in %s." ), to_string( time_left ) );
+        return;
+    }
+
+    g->m.furn_set( examp, next_autoclave_type );
+    for( auto &it : items ) {
+        it.unset_flag( "FILTHY" );
+        it.set_flag( "STERILE" );
+    }
+    add_msg( m_good, _( "The cycle is complete, the CBMs are now sterile." ) );
+}
+
 void iexamine::fireplace( player &p, const tripoint &examp )
 {
     const bool already_on_fire = g->m.has_nearby_fire( examp, 0 );
