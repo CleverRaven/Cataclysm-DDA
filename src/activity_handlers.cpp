@@ -2757,7 +2757,7 @@ void activity_handlers::fish_do_turn( player_activity *act, player *p )
     }
     // no matter the population of fish, your skill and tool limits the ease of catching.
     fish_chance = std::min( survival_skill * 10, fish_chance );
-    if( x_in_y( fish_chance, 100000 ) ) {
+    if( x_in_y( fish_chance, 600000 ) ) {
         add_msg( m_good, _( "You feel a tug on your line!" ) );
         rod_fish( p, fish_pos );
     }
