@@ -57,10 +57,8 @@
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
-#include "omdata.h"
 #include "optional.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -68,6 +66,11 @@
 #include "units.h"
 #include "weighted_list.h"
 #include "type_id.h"
+#include "colony.h"
+#include "item_stack.h"
+#include "point.h"
+#include "vpart_position.h"
+#include "weather.h"
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );

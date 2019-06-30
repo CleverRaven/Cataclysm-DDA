@@ -25,6 +25,7 @@
 #include "game.h"
 #include "pathfinding.h"
 #include "units.h"
+#include "translations.h"
 
 namespace
 {

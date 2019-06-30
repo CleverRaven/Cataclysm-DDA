@@ -1,11 +1,11 @@
 #include "game.h"
 
-#include <cstdio>
 #include <wctype.h>
+#include <assert.h>
+#include <cstdio>
 #include <algorithm>
 #include <chrono>
 #include <cmath>
-#include <csignal>
 #include <ctime>
 #include <iterator>
 #include <locale>
@@ -23,6 +23,7 @@
 #include <type_traits>
 #include <unordered_set>
 #include <utility>
+#include <unordered_map>
 
 #include "action.h"
 #include "activity_handlers.h"
@@ -35,7 +36,6 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "clzones.h"
-#include "compatibility.h"
 #include "computer.h"
 #include "construction.h"
 #include "coordinate_conversions.h"
@@ -54,13 +54,11 @@
 #include "game_ui.h"
 #include "gamemode.h"
 #include "gates.h"
-#include "gun_mode.h"
 #include "help.h"
 #include "iexamine.h"
 #include "init.h"
 #include "input.h"
 #include "item_category.h"
-#include "item_group.h"
 #include "item_location.h"
 #include "iuse_actor.h"
 #include "json.h"
@@ -68,21 +66,17 @@
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
-#include "magic.h"
 #include "map.h"
 #include "map_item_stack.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
-#include "map_extras.h"
 #include "mapsharing.h"
-#include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
 #include "mod_manager.h"
 #include "monattack.h"
 #include "monexamine.h"
-#include "mongroup.h"
 #include "monstergenerator.h"
 #include "morale_types.h"
 #include "mtype.h"
@@ -98,8 +92,6 @@
 #include "path_info.h"
 #include "pickup.h"
 #include "popup.h"
-#include "projectile.h"
-#include "ranged.h"
 #include "recipe_dictionary.h"
 #include "rng.h"
 #include "safemode_ui.h"
@@ -111,7 +103,6 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "submap.h"
-#include "trait_group.h"
 #include "translations.h"
 #include "trap.h"
 #include "uistate.h"
@@ -121,7 +112,6 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
-#include "weather_gen.h"
 #include "worldfactory.h"
 #include "map_selector.h"
 #include "basecamp.h"
@@ -129,23 +119,22 @@
 #include "color.h"
 #include "damage.h"
 #include "field.h"
-#include "inventory.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
 #include "player.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "recipe.h"
-#include "regional_settings.h"
 #include "ret_val.h"
-#include "stomach.h"
 #include "tileray.h"
 #include "ui.h"
 #include "units.h"
-#include "weighted_list.h"
 #include "int_id.h"
 #include "string_id.h"
+#include "colony.h"
+#include "item.h"
+
+class inventory;
 
 #if defined(TILES)
 #include "cata_tiles.h"

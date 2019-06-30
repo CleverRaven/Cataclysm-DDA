@@ -1,7 +1,6 @@
 #include "overmapbuffer.h"
 
 #include <climits>
-#include <cmath>
 #include <algorithm>
 #include <cassert>
 #include <cstdlib>
@@ -19,7 +18,6 @@
 #include "game.h"
 #include "line.h"
 #include "map.h"
-#include "map_extras.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "npc.h"
@@ -32,12 +30,14 @@
 #include "calendar.h"
 #include "common_types.h"
 #include "game_constants.h"
-#include "player.h"
 #include "rng.h"
 #include "simple_pathfinding.h"
 #include "string_id.h"
 #include "translations.h"
 #include "int_id.h"
+#include "color.h"
+
+class map_extra;
 
 overmapbuffer overmap_buffer;
 

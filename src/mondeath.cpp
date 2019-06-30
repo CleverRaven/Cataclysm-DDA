@@ -43,6 +43,8 @@
 #include "units.h"
 #include "weighted_list.h"
 #include "type_id.h"
+#include "colony.h"
+#include "point.h"
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_blob_brain( "mon_blob_brain" );

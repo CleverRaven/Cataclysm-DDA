@@ -6,9 +6,12 @@
 #include <string>
 #include <vector>
 #include <utility>
+#include <set>
 
 #include "optional.h"
 #include "item.h"
+
+struct itype;
 
 using Item_tag = std::string;
 using Group_tag = std::string;

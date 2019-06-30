@@ -1,9 +1,7 @@
 #include "game.h" // IWYU pragma: associated
 
 #include <cstdlib>
-#include <cmath>
 #include <chrono>
-#include <iterator>
 #include <set>
 #include <sstream>
 #include <utility>
@@ -64,6 +62,7 @@
 #include "ui.h"
 #include "units.h"
 #include "string_id.h"
+#include "item.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 

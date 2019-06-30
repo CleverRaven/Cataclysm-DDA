@@ -1,15 +1,17 @@
 #include "craft_command.h"
 
+#include <limits.h>
 #include <cstdlib>
 #include <sstream>
 #include <algorithm>
 #include <limits>
 #include <list>
+#include <map>
+#include <utility>
 
 #include "debug.h"
 #include "game_constants.h"
 #include "inventory.h"
-#include "io.h"
 #include "item.h"
 #include "json.h"
 #include "output.h"

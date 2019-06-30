@@ -1,5 +1,15 @@
 #include "avatar_action.h"
 
+#include <stdlib.h>
+#include <algorithm>
+#include <functional>
+#include <memory>
+#include <ostream>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "action.h"
 #include "avatar.h"
 #include "creature.h"
@@ -16,7 +26,6 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
-#include "player.h"
 #include "projectile.h"
 #include "ranged.h"
 #include "translations.h"
@@ -24,6 +33,19 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "bodypart.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "gun_mode.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item_location.h"
+#include "mtype.h"
+#include "player_activity.h"
+#include "ret_val.h"
+#include "rng.h"
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 

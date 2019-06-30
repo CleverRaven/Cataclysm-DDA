@@ -24,7 +24,6 @@
 #include "int_id.h"
 #include "item.h"
 #include "optional.h"
-#include "player.h"
 #include "rng.h"
 
 const mtype_id mon_charred_nightmare( "mon_charred_nightmare" );

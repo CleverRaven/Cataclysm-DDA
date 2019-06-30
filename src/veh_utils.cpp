@@ -24,6 +24,8 @@
 #include "item.h"
 #include "requirements.h"
 #include "translations.h"
+#include "color.h"
+#include "point.h"
 
 namespace veh_utils
 {

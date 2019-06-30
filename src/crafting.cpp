@@ -10,12 +10,10 @@
 #include <limits>
 #include <map>
 #include <memory>
-#include <set>
 #include <utility>
 #include <vector>
 
 #include "activity_handlers.h"
-#include "ammo.h"
 #include "bionics.h"
 #include "calendar.h"
 #include "craft_command.h"
@@ -60,6 +58,15 @@
 #include "string_id.h"
 #include "units.h"
 #include "type_id.h"
+#include "clzones.h"
+#include "colony.h"
+#include "faction.h"
+#include "flat_set.h"
+#include "iuse.h"
+#include "point.h"
+#include "weather.h"
+
+class basecamp;
 
 const efftype_id effect_contacts( "contacts" );
 

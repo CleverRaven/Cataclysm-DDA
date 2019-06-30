@@ -2,9 +2,6 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
-#include <cstdint>
-#include <system_error>
-
 template<typename T>
 constexpr inline int sgn( const T x )
 {

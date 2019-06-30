@@ -2,7 +2,6 @@
 #ifndef RNG_H
 #define RNG_H
 
-#include <cstdint>
 #include <array>
 #include <functional>
 #include <random>

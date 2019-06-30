@@ -11,7 +11,6 @@
 #include <exception>
 #include <functional>
 #include <iterator>
-#include <limits>
 #include <list>
 #include <map>
 #include <utility>
@@ -93,6 +92,11 @@
 #include "weather_gen.h"
 #include "type_id.h"
 #include "options.h"
+#include "flat_set.h"
+#include "handle_liquid.h"
+#include "item_group.h"
+#include "omdata.h"
+#include "point.h"
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 

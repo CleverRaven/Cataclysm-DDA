@@ -12,7 +12,6 @@
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "enums.h"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
@@ -26,8 +25,6 @@
 #include "recipe_dictionary.h"
 #include "recipe_groups.h"
 #include "requirements.h"
-#include "rng.h"
-#include "skill.h"
 #include "string_input_popup.h"
 #include "faction_camp.h"
 #include "calendar.h"
@@ -35,6 +32,8 @@
 #include "compatibility.h"
 #include "string_id.h"
 #include "type_id.h"
+#include "flat_set.h"
+#include "line.h"
 
 const std::string base_camps::faction_encode_short( const std::string &type )
 {

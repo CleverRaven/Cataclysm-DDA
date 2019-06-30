@@ -2,20 +2,20 @@
 #ifndef MAGIC_H
 #define MAGIC_H
 
+#include <stddef.h>
 #include <map>
 #include <set>
+#include <string>
+#include <vector>
 
 #include "bodypart.h"
 #include "damage.h"
 #include "enum_bitset.h"
 #include "type_id.h"
 #include "ui.h"
+#include "string_id.h"
 
-struct mutation_branch;
 struct tripoint;
-struct dealt_damage_instance;
-struct damage_instance;
-
 class player;
 class JsonObject;
 class JsonOut;
@@ -23,6 +23,7 @@ class JsonIn;
 class teleporter_list;
 class time_duration;
 class nc_color;
+template <typename E> struct enum_traits;
 
 enum spell_flag {
     PERMANENT, // items or creatures spawned with this spell do not disappear and die as normal

@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <iterator>
+#include <cstddef>
 
 #include "avatar.h"
 #include "cata_utility.h"
@@ -17,6 +18,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "debug.h"
+#include "enums.h"
 
 namespace
 {

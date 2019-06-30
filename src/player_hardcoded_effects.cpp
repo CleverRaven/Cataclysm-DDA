@@ -19,6 +19,9 @@
 #include "rng.h"
 #include "translations.h"
 #include "units.h"
+#include "enums.h"
+#include "mtype.h"
+#include "stomach.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)

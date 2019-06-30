@@ -2,6 +2,7 @@
 
 #include <algorithm> //std::min
 #include <sstream>
+#include <cstddef>
 
 #include "mutation.h"
 #include "game.h"
@@ -10,6 +11,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "string_id.h"
+#include "enums.h"
 
 // '!' and '=' are uses as default bindings in the menu
 const invlet_wrapper

@@ -1,10 +1,21 @@
 #include "avatar.h"
 
+#include <limits.h>
+#include <stdlib.h>
+#include <algorithm>
+#include <list>
+#include <map>
+#include <memory>
+#include <ostream>
+#include <set>
+#include <tuple>
+#include <unordered_map>
+#include <utility>
+
 #include "action.h"
 #include "bionics.h"
 #include "calendar.h"
 #include "character.h"
-#include "creature.h"
 #include "effect.h"
 #include "enums.h"
 #include "filesystem.h"
@@ -31,6 +42,27 @@
 #include "ui.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "color.h"
+#include "compatibility.h"
+#include "debug.h"
+#include "game_constants.h"
+#include "item_location.h"
+#include "iuse.h"
+#include "mtype.h"
+#include "optional.h"
+#include "output.h"
+#include "pathfinding.h"
+#include "pimpl.h"
+#include "player_activity.h"
+#include "rng.h"
+#include "stomach.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "translations.h"
+#include "units.h"
+
+class JsonIn;
+class JsonOut;
 
 const efftype_id effect_contacts( "contacts" );
 const efftype_id effect_sleep( "sleep" );

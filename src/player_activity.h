@@ -12,6 +12,7 @@
 #include "enums.h"
 #include "item_location.h"
 #include "string_id.h"
+#include "point.h"
 
 class player;
 class Character;

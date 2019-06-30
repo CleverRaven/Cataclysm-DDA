@@ -6,19 +6,18 @@
 #include <algorithm>
 #include <array>
 #include <cassert>
-#include <cstdlib>
 #include <fstream>
 #include <bitset>
-#include <iostream>
 #include <iterator>
 #include <stdexcept>
 #include <tuple>
+#include <set>
+#include <sstream>
 
 #include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "clzones.h"
-#include "coordinate_conversions.h"
 #include "cursesport.h"
 #include "debug.h"
 #include "field.h"
@@ -58,13 +57,13 @@
 #include "cursesdef.h"
 #include "int_id.h"
 #include "map_memory.h"
-#include "math_defines.h"
 #include "optional.h"
 #include "sdltiles.h"
 #include "string_id.h"
 #include "tileray.h"
 #include "translations.h"
 #include "type_id.h"
+#include "game_constants.h"
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 

@@ -27,9 +27,12 @@
 #include "string_id.h"
 #include "tileray.h"
 #include "units.h"
-#include "enums.h"
 #include "item_location.h"
 #include "type_id.h"
+#include "optional.h"
+#include "point.h"
+
+class monster;
 
 enum field_id : int;
 class Creature;

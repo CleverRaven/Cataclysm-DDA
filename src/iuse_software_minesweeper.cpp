@@ -16,8 +16,8 @@
 #include "color.h"
 #include "compatibility.h"
 #include "cursesdef.h"
-#include "enums.h"
 #include "optional.h"
+#include "point.h"
 
 std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &p );
 

@@ -6,11 +6,9 @@
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
-#include <iterator>
 #include <limits>
 #include <queue>
 #include <sstream>
-#include <type_traits>
 #include <unordered_map>
 
 #include "ammo.h"
@@ -44,7 +42,6 @@
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
-#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -79,12 +76,13 @@
 #include "math_defines.h"
 #include "optional.h"
 #include "player.h"
-#include "player_activity.h"
 #include "tileray.h"
 #include "weighted_list.h"
 #include "enums.h"
 #include "int_id.h"
 #include "string_id.h"
+#include "construction.h"
+#include "flat_set.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 

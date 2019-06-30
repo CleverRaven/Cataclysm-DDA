@@ -19,6 +19,7 @@
 #include "translations.h"
 #include "calendar.h"
 #include "item.h"
+#include "flat_set.h"
 
 namespace
 {

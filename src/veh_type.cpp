@@ -29,7 +29,6 @@
 #include "cata_utility.h"
 #include "game_constants.h"
 #include "item.h"
-#include "player.h"
 #include "mapdata.h"
 
 class npc;
