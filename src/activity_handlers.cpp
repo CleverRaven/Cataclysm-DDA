@@ -2848,7 +2848,9 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                 p->perform_uninstall( bionic_id( act->str_values[1] ), act->values[0], act->values[1],
                                       act->values[2], act->values[3], act->str_values[0] );
             } else {
-                add_msg( _( "You don't have this bionic installed." ) );
+                debugmsg( _( "Tried to uninstall %s, but you don't have this bionic installed." ),
+                          bionic_id( act->str_values[1] ) );
+                p->remove_effect( effect_under_op );
                 act->set_to_null();
             }
         } else {
@@ -2868,7 +2870,8 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                                     act->values[2], act->values[3], act->str_values[0], act->str_values[2], act->str_values[4],
                                     trait_to_rem );
             } else {
-                add_msg( _( "This CBM doesn't exist." ) );
+                debugmsg( _( "%s is no a valid bionic_id" ), bionic_id( act->str_values[1] ) );
+                p->remove_effect( effect_under_op );
                 act->set_to_null();
             }
         }
