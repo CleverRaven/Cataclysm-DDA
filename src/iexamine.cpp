@@ -2345,6 +2345,7 @@ void iexamine::autoclave_empty( player &p, const tripoint &examp )
         return;
     }
 
+
     map_stack items = g->m.i_at( examp );
     static const std::string filthy( "FILTHY" );
     bool filthy_cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
@@ -2384,7 +2385,8 @@ void iexamine::autoclave_empty( player &p, const tripoint &examp )
     }
 }
 
-void iexamine::autoclave_full( player &, const tripoint &examp )
+
+void iexamine::autoclave_full( player &p, const tripoint &examp )
 {
     furn_id cur_autoclave_type = g->m.furn( examp );
     furn_id next_autoclave_type = f_null;
