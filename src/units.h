@@ -491,28 +491,8 @@ inline constexpr units::quantity<double, units::energy_in_millijoule_tag> operat
 }
 
 template<typename T>
-inline T read_from_json_string( JsonIn &jsin )
+inline T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, T>> &units )
 {
-    static const std::vector<std::pair<std::string, T>> units = { {
-            { "turns", 1_turns },
-            { "turn", 1_turns },
-            { "t", 1_turns },
-            { "seconds", 1_seconds },
-            { "second", 1_seconds },
-            { "s", 1_seconds },
-            { "minutes", 1_minutes },
-            { "minute", 1_minutes },
-            { "m", 1_minutes },
-            { "hours", 1_hours },
-            { "hour", 1_hours },
-            { "h", 1_hours },
-            { "days", 1_days },
-            { "day", 1_days },
-            { "d", 1_days },
-            // TODO: maybe add seasons?
-            // TODO: maybe add years? Those two things depend on season length!
-        }
-    };
     const size_t pos = jsin.tell();
     size_t i = 0;
     const auto error = [&]( const char *const msg ) {

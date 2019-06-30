@@ -344,7 +344,7 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
                     jttd.get_int( "post_field_age" ) );
         } else if( jttd.has_string( "post_field_age" ) ) {
             def.transform_terrain.post_field_age = read_from_json_string<time_duration>(
-                    *jttd.get_raw( "post_field_age" ) );
+                    *jttd.get_raw( "post_field_age" ), time_duration::units );
         } else {
             def.transform_terrain.post_field_age = 0_turns;
         }

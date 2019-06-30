@@ -5,6 +5,7 @@
 #include <string>
 #include <iosfwd>
 #include <utility>
+#include <vector>
 
 class time_duration;
 class time_point;
@@ -457,6 +458,8 @@ class time_duration
 
         /// Returns a random duration in the range [low, hi].
         friend time_duration rng( time_duration lo, time_duration hi );
+
+        static const std::vector<std::pair<std::string, time_duration>> units;
 };
 
 /// @see x_in_y(int,int)

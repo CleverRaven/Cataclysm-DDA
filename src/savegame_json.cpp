@@ -1882,7 +1882,7 @@ void time_duration::serialize( JsonOut &jsout ) const
 void time_duration::deserialize( JsonIn &jsin )
 {
     if( jsin.test_string() ) {
-        *this = read_from_json_string<time_duration>( jsin );
+        *this = read_from_json_string<time_duration>( jsin, time_duration::units );
     } else {
         turns_ = jsin.get_int();
     }
