@@ -1542,11 +1542,15 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
         activity.str_values.push_back( "" );
         activity.str_values.push_back( "" );
     }
-
     if( installer.has_trait( trait_PROF_MED ) || installer.has_trait( trait_PROF_AUTODOC ) ) {
         activity.str_values.push_back( installer.disp_name( true ) );
     } else {
         activity.str_values.push_back( "NOT_MED" );
+    }
+    if( autodoc ) {
+        activity.str_values.push_back( "true" );
+    } else {
+        activity.str_values.push_back( "false" );
     }
     for( const auto &elem : bionics[bioid].occupied_bodyparts ) {
         activity.values.push_back( elem.first );

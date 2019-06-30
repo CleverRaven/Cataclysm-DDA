@@ -2788,8 +2788,10 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     - str_values[2]: upgraded cbm name
     - str_values[3]: upgraded cbm bionic_id
     - str_values[4]: installer name
-    - str_values[5] and above: traits removed by the cbm
+    - str_values[5]: bool autodoc
+    - str_values[6] and above: traits removed by the cbm
     */
+    const bool autodoc = act->str_values[5] == "true";
     const bool u_see = g->u.sees( p->pos() ) && !g->u.has_effect( effect_narcosis );
 
     const int difficulty = act->values.front();
@@ -2797,47 +2799,49 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     const time_duration half_op_duration = difficulty * 10_minutes;
     time_duration time_left = time_duration::from_turns( act->moves_left / 100 ) ;
 
-    const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
-                                         furn_str_id( "f_autodoc" ) );
+    if( autodoc ) {
+        const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
+                                             furn_str_id( "f_autodoc" ) );
 
-    if( g->m.furn( p->pos() ) != furn_str_id( "f_autodoc_couch" ) || autodocs.empty() ) {
-        p->remove_effect( effect_under_op );
-        act->set_to_null();
+        if( g->m.furn( p->pos() ) != furn_str_id( "f_autodoc_couch" ) || autodocs.empty() ) {
+            p->remove_effect( effect_under_op );
+            act->set_to_null();
 
-        if( u_see ) {
-            add_msg( m_bad, _( "The autodoc suffers a catastrophic failure." ) );
+            if( u_see ) {
+                add_msg( m_bad, _( "The autodoc suffers a catastrophic failure." ) );
 
-            p->add_msg_player_or_npc( m_bad,
-                                      _( "The Autodoc's failure damages you greatly." ),
-                                      _( "The Autodoc's failure damages <npcname> greatly." ) );
-        }
-
-        if( act->values.size() > 4 ) {
-            for( size_t i = 4; i < act->values.size(); i++ ) {
-                p->add_effect( effect_bleed, 1_turns, body_part( act->values[i] ), true, difficulty );
-                p->apply_damage( nullptr, body_part( act->values[i] ), 20 * difficulty );
-
-                if( u_see ) {
-                    p->add_msg_player_or_npc( m_bad, _( "Your %s is ripped open." ),
-                                              _( "<npcname>'s %s is ripped open." ),
-                                              body_part_name_accusative( body_part( act->values[i] ) ) );
-                }
-
-                if( body_part( act->values[i] ) == bp_eyes ) {
-                    p->add_effect( effect_blind, 1_hours, num_bp );
-                }
-                p->remove_effect( effect_under_op, body_part( act->values[i] ) );
+                p->add_msg_player_or_npc( m_bad,
+                                          _( "The Autodoc's failure damages you greatly." ),
+                                          _( "The Autodoc's failure damages <npcname> greatly." ) );
             }
-        } else {
-            p->add_effect( effect_bleed, 1_turns, num_bp, true, difficulty );
-            p->apply_damage( nullptr, num_bp, 20 * difficulty );
+
+            if( act->values.size() > 4 ) {
+                for( size_t i = 4; i < act->values.size(); i++ ) {
+                    p->add_effect( effect_bleed, 1_turns, body_part( act->values[i] ), true, difficulty );
+                    p->apply_damage( nullptr, body_part( act->values[i] ), 20 * difficulty );
+
+                    if( u_see ) {
+                        p->add_msg_player_or_npc( m_bad, _( "Your %s is ripped open." ),
+                                                  _( "<npcname>'s %s is ripped open." ),
+                                                  body_part_name_accusative( body_part( act->values[i] ) ) );
+                    }
+
+                    if( body_part( act->values[i] ) == bp_eyes ) {
+                        p->add_effect( effect_blind, 1_hours, num_bp );
+                    }
+                    p->remove_effect( effect_under_op, body_part( act->values[i] ) );
+                }
+            } else {
+                p->add_effect( effect_bleed, 1_turns, num_bp, true, difficulty );
+                p->apply_damage( nullptr, num_bp, 20 * difficulty );
+            }
         }
     }
 
     if( time_left > half_op_duration ) {
         if( act->values.size() > 4 ) {
             for( size_t i = 4; i < act->values.size(); i++ ) {
-                if( calendar::once_every( 5_minutes ) && u_see ) {
+                if( calendar::once_every( 5_minutes ) && u_see && autodoc ) {
                     p->add_msg_player_or_npc( m_info,
                                               _( "The Autodoc is meticulously cutting your %s open." ),
                                               _( "The Autodoc is meticulously cutting <npcname>'s %s open." ),
@@ -2853,7 +2857,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
         }
     } else if( time_left == half_op_duration ) {
         if( act->str_values.size() < 3 ) {
-            if( u_see ) {
+            if( u_see && autodoc ) {
                 add_msg( m_info, _( "The Autodoc attempts to carefully extract the bionic." ) );
             }
 
@@ -2867,14 +2871,14 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                 act->set_to_null();
             }
         } else {
-            if( u_see ) {
+            if( u_see && autodoc ) {
                 add_msg( m_info, _( "The Autodoc attempts to carefully insert the bionic." ) );
             }
 
             if( bionic_id( act->str_values[1] ).is_valid() ) {
                 std::vector<trait_id> trait_to_rem;
-                if( act->str_values.size() > 5 ) {
-                    for( size_t i = 5; i < act->str_values.size(); i++ ) {
+                if( act->str_values.size() > 7 ) {
+                    for( size_t i = 6; i < act->str_values.size(); i++ ) {
                         trait_to_rem.emplace_back( trait_id( act->str_values[i] ) );
                     }
                 }
@@ -2891,7 +2895,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     } else if( act->values[1] > 0 ) {
         if( act->values.size() > 4 ) {
             for( size_t i = 4; i < act->values.size(); i++ ) {
-                if( calendar::once_every( 5_minutes ) && u_see ) {
+                if( calendar::once_every( 5_minutes ) && u_see && autodoc ) {
                     p->add_msg_player_or_npc( m_info,
                                               _( "The Autodoc is stitching your %s back up." ),
                                               _( "The Autodoc is stitching <npcname>'s %s back up." ),
@@ -2899,14 +2903,14 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                 }
             }
         } else {
-            if( calendar::once_every( 5_minutes ) && u_see ) {
+            if( calendar::once_every( 5_minutes ) && u_see && autodoc ) {
                 p->add_msg_player_or_npc( m_info,
                                           _( "The Autodoc is stitching you back up." ),
                                           _( "The Autodoc is stitching <npcname> back up." ) );
             }
         }
     } else {
-        if( calendar::once_every( 5_minutes ) && u_see ) {
+        if( calendar::once_every( 5_minutes ) && u_see && autodoc ) {
             p->add_msg_player_or_npc( m_bad,
                                       _( "The Autodoc is moving erratically through the rest of its program, not actually stitching your wounds." ),
                                       _( "The Autodoc is moving erratically through the rest of its program, not actually stitching <npcname>'s wounds." ) );
