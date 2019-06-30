@@ -2844,9 +2844,9 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                 add_msg( m_info, _( "The Autodoc attempts to carefully extract the bionic." ) );
             }
 
-            if( p->has_bionic( bionic_id( act->str_values[0] ) ) ) {
-                p->perform_uninstall( bionic_id( act->str_values[0] ), act->values[0], act->values[1],
-                                      act->values[2], act->values[3], act->str_values[1] );
+            if( p->has_bionic( bionic_id( act->str_values[1] ) ) ) {
+                p->perform_uninstall( bionic_id( act->str_values[1] ), act->values[0], act->values[1],
+                                      act->values[2], act->values[3], act->str_values[0] );
             } else {
                 add_msg( _( "You don't have this bionic installed." ) );
                 act->set_to_null();
@@ -2856,7 +2856,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                 add_msg( m_info, _( "The Autodoc attempts to carefully insert the bionic." ) );
             }
 
-            if( bionic_id( act->str_values[0] ).is_valid() ) {
+            if( bionic_id( act->str_values[1] ).is_valid() ) {
                 std::vector<trait_id> trait_to_rem;
                 if( act->str_values.size() > 5 ) {
                     for( size_t i = 5; i < act->str_values.size(); i++ ) {
