@@ -4126,6 +4126,7 @@
       { "group": "mags_pawnshop", "prob": 300 },
       [ "mag_fieldrepair", 50 ],
       [ "oxylamp", 50 ],
+      [ "bathroom_scale", 50 ],
       [ "polisher", 6 ],
       [ "inflatable_boat", 10 ],
       [ "hand_pump", 10 ],
