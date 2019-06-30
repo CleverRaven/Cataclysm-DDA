@@ -399,6 +399,7 @@ void npc::assess_danger()
         cur_threat_map[ threat_dir ] = 0.25f * ai_cache.threat_map[ threat_dir ];
     }
     // first, check if we're about to be consumed by fire
+    // TODO: Use the field cache
     for( const tripoint &pt : g->m.points_in_radius( pos(), 6 ) ) {
         if( pt == pos() || g->m.has_flag( TFLAG_FIRE_CONTAINER,  pt ) ) {
             continue;
@@ -416,13 +417,13 @@ void npc::assess_danger()
     // find our Character friends and enemies
     std::vector<std::weak_ptr<Creature>> hostile_guys;
     for( const npc &guy : g->all_npcs() ) {
-        if( &guy == this || !guy.is_active() || !sees( guy.pos() ) ) {
+        if( &guy == this || !guy.is_active() ) {
             continue;
         }
 
         if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
             ai_cache.friends.emplace_back( g->shared_from( guy ) );
-        } else if( attitude_to( guy ) != A_NEUTRAL ) {
+        } else if( attitude_to( guy ) != A_NEUTRAL && sees( guy.pos() ) ) {
             hostile_guys.emplace_back( g->shared_from( guy ) );
         }
     }
@@ -435,12 +436,15 @@ void npc::assess_danger()
     }
 
     for( const monster &critter : g->all_monsters() ) {
-        if( !sees( critter ) ) {
-            continue;
-        }
         auto att = critter.attitude_to( *this );
         if( att == A_FRIENDLY ) {
             ai_cache.friends.emplace_back( g->shared_from( critter ) );
+            continue;
+        }
+        if( att != A_HOSTILE && ( critter.friendly || !is_enemy() ) ) {
+            continue;
+        }
+        if( !sees( critter ) ) {
             continue;
         }
         float critter_threat = evaluate_enemy( critter );
@@ -452,9 +456,6 @@ void npc::assess_danger()
             }
         }
 
-        if( att != A_HOSTILE ) {
-            continue;
-        }
         int dist = rl_dist( pos(), critter.pos() );
         float scaled_distance = std::max( 1.0f, dist / critter.speed_rating() );
         float hp_percent = 1.0f - static_cast<float>( critter.get_hp() ) / critter.get_hp_max();
@@ -482,6 +483,10 @@ void npc::assess_danger()
         }
     }
 
+    if( assessment == 0.0 && hostile_guys.empty() ) {
+        ai_cache.danger_assessment = assessment;
+        return;
+    }
     const auto handle_hostile = [&]( const player & foe, float foe_threat,
     const std::string & bogey, const std::string & warning ) {
         if( foe_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
