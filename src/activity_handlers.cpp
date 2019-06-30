@@ -2777,6 +2777,19 @@ void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
 
 void activity_handlers::operation_do_turn( player_activity *act, player *p )
 {
+    /**
+    - values[0]: Difficulty
+    - values[1]: success
+    - values[2]: max_power_level
+    - values[3]: pl_skill
+    - values[4: ]: occupied body_parts
+    - str_values[0]: cbm name
+    - str_values[1]: bionic_id
+    - str_values[2]: upgraded cbm name
+    - str_values[3]: upgraded cbm bionic_id
+    - str_values[4]: installer name
+    - str_values[5: ]: traits removed by the cbm
+    */
     const bool u_see = g->u.sees( p->pos() ) && !g->u.has_effect( effect_narcosis );
 
     const int difficulty = act->values.front();
