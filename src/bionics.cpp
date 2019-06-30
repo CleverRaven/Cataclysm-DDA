@@ -1306,10 +1306,10 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     return true;
 }
 
-void player::perform_uninstall( bionic_id bid, int difficulty, int succes, int power_lvl,
+void player::perform_uninstall( bionic_id bid, int difficulty, int success, int power_lvl,
                                 int pl_skill, std::string cbm_name )
 {
-    if( succes > 0 ) {
+    if( success > 0 ) {
 
         if( is_player() ) {
             add_memorial_log( pgettext( "memorial_male", "Removed bionic: %s." ),
@@ -1343,7 +1343,7 @@ void player::perform_uninstall( bionic_id bid, int difficulty, int succes, int p
         float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
                                static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>
                                ( 10.0 ) );
-        bionics_uninstall_failure( difficulty, succes, adjusted_skill );
+        bionics_uninstall_failure( difficulty, success, adjusted_skill );
 
     }
     g->m.invalidate_map_cache( g->get_levz() );
