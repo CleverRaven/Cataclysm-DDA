@@ -346,6 +346,53 @@ inline constexpr double to_kilogram( const mass &v )
     return v.value() / 1000.0;
 }
 
+class energy_in_millijoule_tag
+{
+};
+
+using energy = quantity<int, energy_in_millijoule_tag>;
+
+const energy energy_min = units::energy( std::numeric_limits<units::energy::value_type>::min(),
+                          units::energy::unit_type{} );
+
+const energy energy_max = units::energy( std::numeric_limits<units::energy::value_type>::max(),
+                          units::energy::unit_type{} );
+
+template<typename value_type>
+inline constexpr quantity<value_type, energy_in_millijoule_tag> from_millijoule(
+    const value_type v )
+{
+    return quantity<value_type, energy_in_millijoule_tag>( v, energy_in_millijoule_tag{} );
+}
+
+template<typename value_type>
+inline constexpr quantity<value_type, energy_in_millijoule_tag> from_joule( const value_type v )
+{
+    return from_millijoule<value_type>( v * 1000 );
+}
+
+template<typename value_type>
+inline constexpr quantity<value_type, energy_in_millijoule_tag> from_kilojoule( const value_type v )
+{
+    return from_joule<value_type>( v * 1000 );
+}
+
+template<typename value_type>
+inline constexpr value_type to_millijoule( const quantity<value_type, energy_in_millijoule_tag> &v )
+{
+    return v / from_millijoule<value_type>( 1 );
+}
+
+inline constexpr double to_joule( const energy &v )
+{
+    return to_millijoule( v ) / 1000.0;
+}
+
+inline constexpr double to_kilojoule( const energy &v )
+{
+    return to_joule( v ) / 1000.0;
+}
+
 // Streaming operators for debugging and tests
 // (for UI output other functions should be used which render in the user's
 // chosen units)
@@ -357,6 +404,11 @@ inline std::ostream &operator<<( std::ostream &o, mass_in_gram_tag )
 inline std::ostream &operator<<( std::ostream &o, volume_in_milliliter_tag )
 {
     return o << "ml";
+}
+
+inline std::ostream &operator<<( std::ostream &o, energy_in_millijoule_tag )
+{
+    return o << "mJ";
 }
 
 template<typename value_type, typename tag_type>
@@ -400,6 +452,39 @@ inline constexpr units::quantity<double, units::mass_in_gram_tag> operator"" _ki
     const long double v )
 {
     return units::from_kilogram( v );
+}
+
+inline constexpr units::energy operator"" _mJ( const unsigned long long v )
+{
+    return units::from_millijoule( v );
+}
+
+inline constexpr units::quantity<double, units::energy_in_millijoule_tag> operator"" _mJ(
+    const long double v )
+{
+    return units::from_millijoule( v );
+}
+
+inline constexpr units::energy operator"" _J( const unsigned long long v )
+{
+    return units::from_joule( v );
+}
+
+inline constexpr units::quantity<double, units::energy_in_millijoule_tag> operator"" _J(
+    const long double v )
+{
+    return units::from_joule( v );
+}
+
+inline constexpr units::energy operator"" _kJ( const unsigned long long v )
+{
+    return units::from_kilojoule( v );
+}
+
+inline constexpr units::quantity<double, units::energy_in_millijoule_tag> operator"" _kJ(
+    const long double v )
+{
+    return units::from_kilojoule( v );
 }
 
 #endif
