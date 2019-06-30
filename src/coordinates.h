@@ -8,6 +8,177 @@
 #include "enums.h"
 #include "game_constants.h"
 #include "point.h"
+#include "debug.h"
+
+namespace coords
+{
+
+enum class scale {
+    map_square,
+    submap,
+    overmap_terrain,
+    segment,
+    overmap,
+    vehicle
+};
+
+constexpr scale ms = scale::map_square;
+constexpr scale sm = scale::submap;
+constexpr scale omt = scale::overmap_terrain;
+constexpr scale seg = scale::segment;
+constexpr scale om = scale::overmap;
+
+constexpr int map_squares_per( scale s )
+{
+    static_assert( SEEX == SEEY, "we assume submaps are square" );
+    static_assert( OMAPX == OMAPY, "we assume overmaps are square" );
+
+    switch( s ) {
+        case scale::map_square:
+            return 1;
+        case scale::submap:
+            return SEEX;
+        case scale::overmap_terrain:
+            return SEEX * 2;
+        case scale::segment:
+            return SEG_SIZE * map_squares_per( scale::overmap_terrain );
+        case scale::overmap:
+            return OMAPX * map_squares_per( scale::overmap_terrain );
+        default:
+            debugmsg( "Requested scale of %d", s );
+            abort();
+    }
+}
+
+enum class origin {
+    relative, // this is a special origin that can be added to any other
+    abs, // the global absolute origin for the entire game
+    submap, // from corner of submap
+    overmap_terrain, // from corner of overmap_terrain
+    overmap, // from corner of overmap
+};
+
+constexpr origin origin_from_scale( scale s )
+{
+    switch( s ) {
+        case scale::submap:
+            return origin::submap;
+        case scale::overmap_terrain:
+            return origin::overmap_terrain;
+        case scale::overmap:
+            return origin::overmap;
+        default:
+            debugmsg( "Requested origin for of %d", s );
+            abort();
+    }
+}
+
+// A generic coordinate-type-safe point.
+// Point should be the underlying representation type (either point or
+// tripoint).
+// Scale and Origin define the coordinate system for the point.
+template<typename Point, scale Scale, origin Origin>
+class coord_point
+{
+    public:
+        coord_point() = default;
+        explicit coord_point( const Point &p ) :
+            raw_( p )
+        {}
+
+        Point &raw() {
+            return raw_;
+        }
+        const Point &raw() const {
+            return raw_;
+        }
+    private:
+        Point raw_;
+};
+
+template<int ScaleUp, int ScaleDown, scale ResultScale>
+struct project_to_impl;
+
+template<int ScaleUp, scale ResultScale>
+struct project_to_impl<ScaleUp, 0, ResultScale> {
+    template<typename Point, origin Origin, scale SourceScale>
+    coord_point<Point, ResultScale, Origin> operator()(
+        const coord_point<Point, SourceScale, Origin> &src ) {
+        return coord_point<Point, ResultScale, Origin>( multiply_xy( src.raw(), ScaleUp ) );
+    }
+};
+
+template<int ScaleDown, scale ResultScale>
+struct project_to_impl<0, ScaleDown, ResultScale> {
+    template<typename Point, origin Origin, scale SourceScale>
+    coord_point<Point, ResultScale, Origin> operator()(
+        const coord_point<Point, SourceScale, Origin> &src ) {
+        return coord_point<Point, ResultScale, Origin>(
+                   divide_xy_round_to_minus_infinity( src.raw(), ScaleDown ) );
+    }
+};
+
+template<scale ResultScale, typename Point, origin Origin, scale SourceScale>
+inline coord_point<Point, ResultScale, Origin> project_to(
+    const coord_point<Point, SourceScale, Origin> &src )
+{
+    constexpr int scale_down = map_squares_per( ResultScale ) / map_squares_per( SourceScale );
+    constexpr int scale_up = map_squares_per( SourceScale ) / map_squares_per( ResultScale );
+    return project_to_impl<scale_up, scale_down, ResultScale>()( src );
+}
+
+template<typename Point, scale CoarseScale, scale FineScale, origin Origin>
+struct quotient_remainder {
+    constexpr static origin RemainderOrigin = origin_from_scale( CoarseScale );
+    using quotient_type = coord_point<Point, CoarseScale, Origin>;
+    quotient_type quotient;
+    using remainder_type = coord_point<Point, FineScale, RemainderOrigin>;
+    remainder_type remainder;
+
+    // For assigning to std::tie( q, r );
+    operator std::tuple<quotient_type &, remainder_type &>() {
+        return std::tie( quotient, remainder );
+    }
+};
+
+template<scale ResultScale, typename Point, origin Origin, scale SourceScale>
+inline quotient_remainder<Point, ResultScale, SourceScale, Origin> project_remain(
+    const coord_point<Point, SourceScale, Origin> &src )
+{
+    constexpr int ScaleDown = map_squares_per( ResultScale ) / map_squares_per( SourceScale );
+    static_assert( ScaleDown > 0, "You can only project to coarser coordinate systems" );
+    constexpr static origin RemainderOrigin = origin_from_scale( ResultScale );
+    coord_point<Point, ResultScale, Origin> quotient(
+        divide_xy_round_to_minus_infinity( src.raw(), ScaleDown ) );
+    coord_point<Point, SourceScale, RemainderOrigin> remainder(
+        src.raw() - quotient.raw() * ScaleDown );
+
+    return { quotient, remainder };
+}
+
+} // namespace coords
+
+using point_ms_abs = coords::coord_point<point, coords::ms, coords::origin::abs>;
+using point_ms_sm = coords::coord_point<point, coords::ms, coords::origin::submap>;
+using point_ms_omt = coords::coord_point<point, coords::ms, coords::origin::overmap_terrain>;
+using point_sm_abs = coords::coord_point<point, coords::sm, coords::origin::abs>;
+using point_sm_omt = coords::coord_point<point, coords::sm, coords::origin::overmap_terrain>;
+using point_sm_om = coords::coord_point<point, coords::sm, coords::origin::overmap>;
+using point_omt_abs = coords::coord_point<point, coords::omt, coords::origin::abs>;
+using point_omt_om = coords::coord_point<point, coords::omt, coords::origin::overmap>;
+using point_seg_abs = coords::coord_point<point, coords::seg, coords::origin::abs>;
+using point_om_abs = coords::coord_point<point, coords::om, coords::origin::abs>;
+
+using tripoint_ms_abs = coords::coord_point<tripoint, coords::ms, coords::origin::abs>;
+using tripoint_ms_sm = coords::coord_point<tripoint, coords::ms, coords::origin::submap>;
+using tripoint_ms_omt = coords::coord_point<tripoint, coords::ms, coords::origin::overmap_terrain>;
+using tripoint_sm_abs = coords::coord_point<tripoint, coords::sm, coords::origin::abs>;
+using tripoint_omt_abs = coords::coord_point<tripoint, coords::omt, coords::origin::abs>;
+using tripoint_seg_abs = coords::coord_point<tripoint, coords::seg, coords::origin::abs>;
+using tripoint_om_abs = coords::coord_point<tripoint, coords::om, coords::origin::abs>;
+
+using coords::project_to;
+using coords::project_remain;
 
 /* find appropriate subdivided coordinates for absolute tile coordinate.
  * This is less obvious than one might think, for negative coordinates, so this
