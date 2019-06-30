@@ -1002,8 +1002,8 @@ matec_id player::pick_technique( Creature &t, const item &weap,
         }
 
         // if critical then select only from critical tecs
-        // dodge and blocks roll again for their attack, so ignore critical state
-        if( !dodge_counter && !block_counter && ( crit != tec.crit_tec ) ) {
+        // but allow the technique if its crit ok
+        if( !tec.crit_ok && ( crit != tec.crit_tec ) ) {
             continue;
         }
 
