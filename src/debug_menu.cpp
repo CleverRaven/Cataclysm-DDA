@@ -1,6 +1,6 @@
 #include "debug_menu.h"
 
-#include <cxxabi.h>
+// IWYU pragma: no_include <cxxabi.h>
 #include <limits.h>
 #include <stdint.h>
 #include <algorithm>
