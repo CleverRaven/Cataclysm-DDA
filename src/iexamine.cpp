@@ -2378,7 +2378,6 @@ void iexamine::autoclave_empty( player &p, const tripoint &examp )
             p.consume_tools( e );
         }
         p.invalidate_crafting_inventory();
-
         items.only_item().set_birthday( calendar::turn );
         g->m.furn_set( examp, next_autoclave_type );
         add_msg( _( "You start the autoclave." ) );
