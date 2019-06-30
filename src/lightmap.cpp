@@ -118,8 +118,6 @@ bool map::build_transparency_cache( const int zlev )
                         value = LIGHT_TRANSPARENCY_SOLID;
                         zero_value = LIGHT_TRANSPARENCY_SOLID;
                         continue;
-                    } else if( cur_submap->is_uniform ) {
-                        break;
                     }
 
                     if( outside_cache[x][y] ) {
@@ -128,7 +126,10 @@ bool map::build_transparency_cache( const int zlev )
                         // weather in vehicles.
                         value *= sight_penalty;
                     }
-
+                    if( cur_submap->is_uniform ) {
+                        zero_value = value;
+                        break;
+                    }
                     for( const auto &fld : cur_submap->fld[sx][sy] ) {
                         const field_entry &cur = fld.second;
                         const field_id type = cur.get_field_type();
