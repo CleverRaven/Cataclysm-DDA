@@ -898,7 +898,6 @@ class Character : public Creature, public visitable<Character>
         float activity_level = NO_EXERCISE;
 
         std::array<encumbrance_data, num_bp> encumbrance_cache;
-        mutable std::map<std::string, double> cached_info;
 
         /**
          * Traits / mutations of the character. Key is the mutation id (it's also a valid

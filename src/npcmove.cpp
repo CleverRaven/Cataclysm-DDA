@@ -399,7 +399,6 @@ void npc::assess_danger()
         cur_threat_map[ threat_dir ] = 0.25f * ai_cache.threat_map[ threat_dir ];
     }
     // first, check if we're about to be consumed by fire
-    // TODO: Use the field cache
     for( const tripoint &pt : g->m.points_in_radius( pos(), 6 ) ) {
         if( pt == pos() || g->m.has_flag( TFLAG_FIRE_CONTAINER,  pt ) ) {
             continue;
@@ -417,13 +416,13 @@ void npc::assess_danger()
     // find our Character friends and enemies
     std::vector<std::weak_ptr<Creature>> hostile_guys;
     for( const npc &guy : g->all_npcs() ) {
-        if( &guy == this || !guy.is_active() ) {
+        if( &guy == this || !guy.is_active() || !sees( guy.pos() ) ) {
             continue;
         }
 
         if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
             ai_cache.friends.emplace_back( g->shared_from( guy ) );
-        } else if( attitude_to( guy ) != A_NEUTRAL && sees( guy.pos() ) ) {
+        } else if( attitude_to( guy ) != A_NEUTRAL ) {
             hostile_guys.emplace_back( g->shared_from( guy ) );
         }
     }
@@ -436,15 +435,12 @@ void npc::assess_danger()
     }
 
     for( const monster &critter : g->all_monsters() ) {
+        if( !sees( critter ) ) {
+            continue;
+        }
         auto att = critter.attitude_to( *this );
         if( att == A_FRIENDLY ) {
             ai_cache.friends.emplace_back( g->shared_from( critter ) );
-            continue;
-        }
-        if( att != A_HOSTILE && ( critter.friendly || !is_enemy() ) ) {
-            continue;
-        }
-        if( !sees( critter ) ) {
             continue;
         }
         float critter_threat = evaluate_enemy( critter );
@@ -456,6 +452,9 @@ void npc::assess_danger()
             }
         }
 
+        if( att != A_HOSTILE ) {
+            continue;
+        }
         int dist = rl_dist( pos(), critter.pos() );
         float scaled_distance = std::max( 1.0f, dist / critter.speed_rating() );
         float hp_percent = 1.0f - static_cast<float>( critter.get_hp() ) / critter.get_hp_max();
@@ -483,10 +482,6 @@ void npc::assess_danger()
         }
     }
 
-    if( assessment == 0.0 && hostile_guys.empty() ) {
-        ai_cache.danger_assessment = assessment;
-        return;
-    }
     const auto handle_hostile = [&]( const player & foe, float foe_threat,
     const std::string & bogey, const std::string & warning ) {
         if( foe_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
@@ -1421,10 +1416,6 @@ static bool wants_to_reload_with( const item &weap, const item &ammo )
 
 item &npc::find_reloadable()
 {
-    auto cached_value = cached_info.find( "reloadables" );
-    if( cached_value != cached_info.end() ) {
-        return null_item_reference();
-    }
     // Check wielded gun, non-wielded guns, mags and tools
     // TODO: Build a proper gun->mag->ammo DAG (Directed Acyclic Graph)
     // to avoid checking same properties over and over
@@ -1449,7 +1440,6 @@ item &npc::find_reloadable()
         return *reloadable;
     }
 
-    cached_info.emplace( "reloadables", 0.0 );
     return null_item_reference();
 }
 
@@ -2937,11 +2927,11 @@ bool npc::find_corpse_to_pulp()
     if( corpse == nullptr ) {
         // If we're following the player, don't wander off to pulp corpses
         const tripoint &around = is_walking_with() ? g->u.pos() : pos();
-        for( const item_location &location : g->m.get_active_items_in_radius( around, range ) ) {
-            corpse = check_tile( location.position() );
+        for( const tripoint &p : closest_tripoints_first( range, around ) ) {
+            corpse = check_tile( p );
 
             if( corpse != nullptr ) {
-                pulp_location.emplace( location.position() );
+                pulp_location.emplace( p );
                 break;
             }
 
