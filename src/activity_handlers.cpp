@@ -2782,13 +2782,13 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     - values[1]: success
     - values[2]: max_power_level
     - values[3]: pl_skill
-    - values[4: ]: occupied body_parts
+    - values[4] and above: occupied body_parts
     - str_values[0]: cbm name
     - str_values[1]: bionic_id
     - str_values[2]: upgraded cbm name
     - str_values[3]: upgraded cbm bionic_id
     - str_values[4]: installer name
-    - str_values[5: ]: traits removed by the cbm
+    - str_values[5] and above: traits removed by the cbm
     */
     const bool u_see = g->u.sees( p->pos() ) && !g->u.has_effect( effect_narcosis );
 
@@ -2862,7 +2862,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                                       act->values[2], act->values[3], act->str_values[0] );
             } else {
                 debugmsg( _( "Tried to uninstall %s, but you don't have this bionic installed." ),
-                          bionic_id( act->str_values[1] ) );
+                          act->str_values[1] );
                 p->remove_effect( effect_under_op );
                 act->set_to_null();
             }
@@ -2883,7 +2883,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                                     act->values[2], act->values[3], act->str_values[0], act->str_values[2], act->str_values[4],
                                     trait_to_rem );
             } else {
-                debugmsg( _( "%s is no a valid bionic_id" ), bionic_id( act->str_values[1] ) );
+                debugmsg( _( "%s is no a valid bionic_id" ), act->str_values[1] );
                 p->remove_effect( effect_under_op );
                 act->set_to_null();
             }
