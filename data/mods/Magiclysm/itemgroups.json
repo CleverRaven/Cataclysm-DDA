@@ -165,7 +165,8 @@
       [ "techno_idiots", 60 ],
       [ "translocate_spellbook", 20 ],
       [ "stat_up_spellbook", 45 ],
-      [ "alchemy_basic", 30 ]
+      [ "alchemy_basic", 30 ],
+      [ "lightning_storm_scroll", 12 ]
     ]
   },
   {
