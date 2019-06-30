@@ -2706,7 +2706,7 @@ void activity_handlers::atm_do_turn( player_activity *, player *p )
 }
 
 // fish-with-rod fish catching function.
-static void rod_fish( player *p, const tripoint &fish_point, std::vector<monster *> &fishables )
+static void rod_fish( player *p, std::vector<monster *> &fishables )
 {
     //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
     if( fishables.empty() ) {
@@ -2758,7 +2758,7 @@ void activity_handlers::fish_do_turn( player_activity *act, player *p )
     fish_chance = std::min( survival_skill * 10, fish_chance );
     if( x_in_y( fish_chance, 100000 ) ) {
         add_msg( m_good, _( "You feel a tug on your line!" ) );
-        rod_fish( p, fish_pos, fishables );
+        rod_fish( p, fishables );
     }
     if( calendar::once_every( 60_minutes ) ) {
         p->practice( skill_survival, rng( 1, 3 ) );
