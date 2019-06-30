@@ -1561,7 +1561,6 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
 }
 
 void player::perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
-                              int power_lvl,
                               int pl_skill, std::string cbm_name, std::string upcbm_name, std::string installer_name,
                               std::vector<trait_id> trait_to_rem )
 {

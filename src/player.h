@@ -346,7 +346,7 @@ class player : public Character
         bool install_bionics( const itype &type, player &installer, bool autodoc = false,
                               int skill_level = -1 );
         /**Success or failure of installation happens here*/
-        void perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success, int power_lvl,
+        void perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
                               int pl_skill,
                               std::string cbm_name, std::string upcbm_name, std::string installer_name,
                               std::vector<trait_id> trait_to_rem );

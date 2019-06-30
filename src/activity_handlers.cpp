@@ -2880,7 +2880,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                 }
                 p->perform_install( bionic_id( act->str_values[1] ), bionic_id( act->str_values[3] ),
                                     act->values[0], act->values[1],
-                                    act->values[2], act->values[3], act->str_values[0], act->str_values[2], act->str_values[4],
+                                    act->values[3], act->str_values[0], act->str_values[2], act->str_values[4],
                                     trait_to_rem );
             } else {
                 debugmsg( _( "%s is no a valid bionic_id" ), act->str_values[1] );
