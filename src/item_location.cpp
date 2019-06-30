@@ -92,7 +92,11 @@ class item_location::impl
     private:
         void ensure_unpacked() const {
             if( needs_unpacking ) {
-                what = unpack( idx )->get_safe_reference();
+                if( item *i = unpack( idx ) ) {
+                    what = i->get_safe_reference();
+                } else {
+                    debugmsg( "item_location lost its target item during a save/load cycle" );
+                }
                 needs_unpacking = false;
             }
         }
