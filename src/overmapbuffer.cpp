@@ -714,7 +714,8 @@ bool overmapbuffer::reveal( const tripoint &center, int radius,
     return result;
 }
 
-std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tripoint &dest )
+std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tripoint &dest,
+        bool road_only )
 {
     std::vector<tripoint> path;
     static const int RADIUS = 4;            // Maximal radius of search (in overmaps)
@@ -736,7 +737,8 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
         int res = 0;
         const auto oter = get_ter_at( cur.x, cur.y );
         int travel_cost = static_cast<int>( oter->get_travel_cost() );
-        if( oter->get_name() == "solid rock" || oter->get_name() == "open air" ) {
+        if( ( road_only && oter->get_name() != "road" ) || ( oter->get_name() == "solid rock" ||
+                oter->get_name() == "open air" ) ) {
             return pf::rejected;
         } else if( oter->get_name() == "forest" ) {
             travel_cost = 10;
