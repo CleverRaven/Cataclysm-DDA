@@ -2374,7 +2374,7 @@ void iexamine::autoclave_empty( player &p, const tripoint &examp )
     }
 }
 
-void iexamine::autoclave_full( player &p, const tripoint &examp )
+void iexamine::autoclave_full( player &, const tripoint &examp )
 {
     furn_id cur_autoclave_type = g->m.furn( examp );
     furn_id next_autoclave_type = f_null;
@@ -2386,8 +2386,6 @@ void iexamine::autoclave_full( player &p, const tripoint &examp )
         return;
     }
 
-
-    bool water_is_enough = g->u.crafting_inventory().has_charges( "water", 64 );
     map_stack items = g->m.i_at( examp );
     static const std::string filthy( "FILTHY" );
     bool cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {

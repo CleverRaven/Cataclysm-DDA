@@ -95,7 +95,7 @@ void clean_water_source( player &, const tripoint &examp );
 void kiln_empty( player &p, const tripoint &examp );
 void kiln_full( player &p, const tripoint &examp );
 void autoclave_empty( player &p, const tripoint &examp );
-void autoclave_full( player &p, const tripoint &examp );
+void autoclave_full( player &, const tripoint &examp );
 void fireplace( player &p, const tripoint &examp );
 void fvat_empty( player &p, const tripoint &examp );
 void fvat_full( player &p, const tripoint &examp );
