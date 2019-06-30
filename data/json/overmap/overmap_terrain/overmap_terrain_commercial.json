@@ -1446,6 +1446,22 @@
     "color": "brown"
   },
   {
+    "id": "small_office_roof",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "small office roof",
+    "sym": "o",
+    "color": "brown"
+  },
+  {
+    "id": "small_office_upper_roof",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "small office roof",
+    "sym": "o",
+    "color": "brown"
+  },
+  {
     "type": "overmap_terrain",
     "id": "candy_shop",
     "name": "candy shop",
