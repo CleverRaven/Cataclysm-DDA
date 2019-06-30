@@ -1082,7 +1082,7 @@ void reveal_map_actor::reveal_targets( const tripoint &center, const std::string
                                        int reveal_distance ) const
 {
     const auto places = overmap_buffer.find_all( center, target, radius, false,
-                        ot_match_type::CONTAINS );
+                        ot_match_type::contains );
     for( auto &place : places ) {
         overmap_buffer.reveal( place, reveal_distance );
     }

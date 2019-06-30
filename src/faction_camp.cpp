@@ -488,7 +488,7 @@ void talk_function::start_camp( npc &p )
     int near_fields = 0;
     for( const auto &om_near : om_region ) {
         const oter_id &om_type = oter_id( om_near.first );
-        if( is_ot_match( "field", om_type, ot_match_type::CONTAINS ) ) {
+        if( is_ot_match( "field", om_type, ot_match_type::contains ) ) {
             near_fields += 1;
         }
     }
@@ -503,17 +503,17 @@ void talk_function::start_camp( npc &p )
     int fields = 0;
     for( const auto &om_near : om_region_ext ) {
         const oter_id &om_type = oter_id( om_near.first );
-        if( is_ot_match( "faction_base", om_type, ot_match_type::CONTAINS ) ) {
+        if( is_ot_match( "faction_base", om_type, ot_match_type::contains ) ) {
             popup( _( "You are too close to another camp!" ) );
             return;
         }
-        if( is_ot_match( "forest_water", om_type, ot_match_type::TYPE ) ) {
+        if( is_ot_match( "forest_water", om_type, ot_match_type::type ) ) {
             swamps++;
-        } else if( is_ot_match( "forest", om_type, ot_match_type::CONTAINS ) ) {
+        } else if( is_ot_match( "forest", om_type, ot_match_type::contains ) ) {
             forests++;
-        } else if( is_ot_match( "river", om_type, ot_match_type::CONTAINS ) ) {
+        } else if( is_ot_match( "river", om_type, ot_match_type::contains ) ) {
             waters++;
-        } else if( is_ot_match( "field", om_type, ot_match_type::CONTAINS ) ) {
+        } else if( is_ot_match( "field", om_type, ot_match_type::contains ) ) {
             fields++;
         }
     }

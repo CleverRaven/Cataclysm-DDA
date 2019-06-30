@@ -37,19 +37,19 @@ enum ot_match_type {
     // The provided string must completely match the overmap terrain id, including
     // linear direction suffixes for linear terrain types or rotation suffixes
     // for rotated terrain types.
-    EXACT,
+    exact,
     // The provided string must completely match the base type id of the overmap
     // terrain id, which means that suffixes for rotation and linear terrain types
     // are ignored.
-    TYPE,
+    type,
     // The provided string must be a complete prefix (with additional parts delimited
     // by an underscore) of the overmap terrain id. For example, "forest" will match
     // "forest" or "forest_thick" but not "forestcabin".
-    PREFIX,
+    prefix,
     // The provided string must be contained within the overmap terrain id, but may
     // occur at the beginning, end, or middle and does not have any rules about
     // underscore delimiting.
-    CONTAINS
+    contains,
 };
 
 enum special_game_id : int {

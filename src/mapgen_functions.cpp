@@ -3602,7 +3602,7 @@ static void mapgen_ants_generic( map *m, oter_id terrain_type, mapgendata dat,
         }
     }
     if( connects_to( dat.north(), 2 ) ||
-        is_ot_match( "ants_lab", dat.north(), ot_match_type::CONTAINS ) ) {
+        is_ot_match( "ants_lab", dat.north(), ot_match_type::contains ) ) {
         for( int i = SEEX - 2; i <= SEEX + 3; i++ ) {
             for( int j = 0; j <= SEEY; j++ ) {
                 m->ter_set( i, j, t_rock_floor );
@@ -3610,7 +3610,7 @@ static void mapgen_ants_generic( map *m, oter_id terrain_type, mapgendata dat,
         }
     }
     if( connects_to( dat.east(), 3 ) ||
-        is_ot_match( "ants_lab", dat.east(), ot_match_type::CONTAINS ) ) {
+        is_ot_match( "ants_lab", dat.east(), ot_match_type::contains ) ) {
         for( int i = SEEX; i <= SEEX * 2 - 1; i++ ) {
             for( int j = SEEY - 2; j <= SEEY + 3; j++ ) {
                 m->ter_set( i, j, t_rock_floor );
@@ -3618,7 +3618,7 @@ static void mapgen_ants_generic( map *m, oter_id terrain_type, mapgendata dat,
         }
     }
     if( connects_to( dat.south(), 0 ) ||
-        is_ot_match( "ants_lab", dat.south(), ot_match_type::CONTAINS ) ) {
+        is_ot_match( "ants_lab", dat.south(), ot_match_type::contains ) ) {
         for( int i = SEEX - 2; i <= SEEX + 3; i++ ) {
             for( int j = SEEY; j <= SEEY * 2 - 1; j++ ) {
                 m->ter_set( i, j, t_rock_floor );
@@ -3626,7 +3626,7 @@ static void mapgen_ants_generic( map *m, oter_id terrain_type, mapgendata dat,
         }
     }
     if( connects_to( dat.west(), 1 ) ||
-        is_ot_match( "ants_lab", dat.west(), ot_match_type::CONTAINS ) ) {
+        is_ot_match( "ants_lab", dat.west(), ot_match_type::contains ) ) {
         for( int i = 0; i <= SEEX; i++ ) {
             for( int j = SEEY - 2; j <= SEEY + 3; j++ ) {
                 m->ter_set( i, j, t_rock_floor );

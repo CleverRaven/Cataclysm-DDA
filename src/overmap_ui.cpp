@@ -673,7 +673,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                 ter_color = c_yellow;
                 ter_sym   = "Z";
             } else if( !uistate.overmap_show_forest_trails && cur_ter &&
-                       is_ot_match( "forest_trail", cur_ter, ot_match_type::TYPE ) ) {
+                       is_ot_match( "forest_trail", cur_ter, ot_match_type::type ) ) {
                 // If forest trails shouldn't be displayed, and this is a forest trail, then
                 // instead render it like a forest.
                 set_color_and_symbol( forest, omx, omy, z, ter_sym, ter_color );
