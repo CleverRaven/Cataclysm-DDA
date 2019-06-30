@@ -2836,7 +2836,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
 
     if( time_left > half_op_duration ) {
         if( act->values.size() > 4 ) {
-            for( size_t i = 4; i < act->values.size(); i ++ ) {
+            for( size_t i = 4; i < act->values.size(); i++ ) {
                 if( calendar::once_every( 5_minutes ) && u_see ) {
                     p->add_msg_player_or_npc( m_info,
                                               _( "The Autodoc is meticulously cutting your %s open." ),
