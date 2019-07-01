@@ -1067,7 +1067,7 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
         // if it's too dark to construct there
         const bool enough_light = p.fine_detail_vision_mod() <= 4;
         if( !enough_light ) {
-            p.add_msg_if_player( m_info, _( "It is too dark to construct anything" ) );
+            p.add_msg_if_player( m_info, _( "It is too dark to construct anything." ) );
             return;
         }
         // check if can do the construction now we are actually there
