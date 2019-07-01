@@ -105,6 +105,7 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
     }
 
     optional( jo, was_loaded, "crit_tec", crit_tec, false );
+    optional( jo, was_loaded, "crit_ok", crit_ok, false );
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
     optional( jo, was_loaded, "dummy", dummy, false );
@@ -452,6 +453,7 @@ std::string ma_requirements::get_description( bool buff ) const
 ma_technique::ma_technique()
 {
     crit_tec = false;
+    crit_ok = false;
     defensive = false;
     dummy = false;
 
@@ -1097,7 +1099,9 @@ std::string ma_technique::get_description() const
 
     dump << reqs.get_description();
 
-    if( crit_tec ) {
+    if( crit_ok ) {
+        dump << _( "* Can activate on a <info>normal</info> or a <info>crit</info> hit" ) << std::endl;
+    } else if( crit_tec ) {
         dump << _( "* Will only activate on a <info>crit</info>" ) << std::endl;
     }
 

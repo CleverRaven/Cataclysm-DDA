@@ -29,6 +29,7 @@
 #include "basecamp.h"
 #include "bionics.h"
 #include "calendar.h"
+#include "craft_command.h"
 #include "debug.h"
 #include "effect.h"
 #include "game.h"
@@ -2022,6 +2023,8 @@ void item::io( Archive &archive )
     archive.io( "light_dir", light.direction, nolight.direction );
     archive.io( "comps_used", comps_used, io::empty_default_tag() );
     archive.io( "next_failure_point", next_failure_point, -1 );
+    archive.io( "tools_to_continue", tools_to_continue, false );
+    archive.io( "cached_tool_selections", cached_tool_selections, io::empty_default_tag() );
 
     item_controller->migrate_item( orig, *this );
 

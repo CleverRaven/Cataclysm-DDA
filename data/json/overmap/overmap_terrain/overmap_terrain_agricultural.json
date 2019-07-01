@@ -489,6 +489,46 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "moonshine_still_roof",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "moonshine still roof",
+    "sym": "S",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "moonshine_still_1",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "moonshine still",
+    "sym": "S",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "moonshine_still_roof_1",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "moonshine still roof",
+    "sym": "S",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "moonshine_still_2",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "moonshine still",
+    "sym": "S",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "moonshine_still_roof_2",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "moonshine still roof",
+    "sym": "S",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "TreeFarm_1b",
     "name": "tree farm",
     "sym": "T",

@@ -715,7 +715,9 @@ class vehicle
         // Vehicle parts descriptions - descriptions for all the parts on a single tile
         void print_vparts_descs( const catacurses::window &win, int max_y, int width, int p,
                                  int &start_at, int &start_limit ) const;
-
+        // project a tileray forward to predict obstacles
+        std::set<point> immediate_path( int rotate = 0 );
+        void do_autodrive();
         /**
          *  Operate vehicle controls
          *  @param pos location of physical controls to operate (ignored during remote operation)
@@ -1505,7 +1507,9 @@ class vehicle
         relative_parts;    // parts_at_relative(dp) is used a lot (to put it mildly)
         std::set<label> labels;            // stores labels
         std::unordered_multimap<point, zone_data> loot_zones;
-        // relative loot zone positions
+        bool is_autodriving = false;
+        std::vector<tripoint> omt_path; // route for overmap-scale auto-driving
+        tripoint autodrive_local_target = tripoint_zero; // currrent node the autopilot is aiming for
         std::vector<int> alternators;      // List of alternator indices
         std::vector<int> engines;          // List of engine indices
         std::vector<int> reactors;         // List of reactor indices

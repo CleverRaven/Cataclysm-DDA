@@ -92,6 +92,27 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "office_cubical_roof",
+    "name": "office roof",
+    "copy-from": "generic_city_building",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_cubical_1",
+    "name": "office",
+    "copy-from": "generic_city_building",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_cubical_roof_1",
+    "name": "office roof",
+    "copy-from": "generic_city_building",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "office_tower_1_entrance",
     "name": "office tower",
     "sym": "T",
@@ -1442,6 +1463,22 @@
     "type": "overmap_terrain",
     "copy-from": "generic_city_building",
     "name": "small office",
+    "sym": "o",
+    "color": "brown"
+  },
+  {
+    "id": "small_office_roof",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "small office roof",
+    "sym": "o",
+    "color": "brown"
+  },
+  {
+    "id": "small_office_upper_roof",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "small office roof",
     "sym": "o",
     "color": "brown"
   },

@@ -516,6 +516,118 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     invalidate_mass();
 }
 
+std::set<point> vehicle::immediate_path( int rotate )
+{
+    int distance_to_check = 10 + ( velocity / 800 );
+    tileray collision_vector;
+    int adjusted_angle = ( face.dir() + rotate ) % 360;
+    if( adjusted_angle < 0 ) {
+        adjusted_angle += 360;
+    }
+    collision_vector.init( adjusted_angle );
+    tripoint vehpos = global_pos3();
+    std::set<point> points_to_check;
+    for( int i = 0; i < distance_to_check; ++i ) {
+        collision_vector.advance( i );
+        for( int y = mount_min.y; y < mount_max.y; ++y ) {
+            points_to_check.emplace( vehpos.x + collision_vector.dx(), vehpos.y + y + collision_vector.dy() );
+        }
+    }
+    return points_to_check;
+
+}
+
+void vehicle::do_autodrive()
+{
+    if( omt_path.empty() ) {
+        is_autodriving = false;
+        return;
+    }
+    tripoint vehpos = global_pos3();
+    tripoint veh_omt_pos = ms_to_omt_copy( g->m.getabs( vehpos ) );
+    // we're at or close to the waypoint, pop it out and look for the next one.
+    if( veh_omt_pos == omt_path.back() ) {
+        omt_path.pop_back();
+    }
+
+    point omt_diff = point( omt_path.back().x - veh_omt_pos.x, omt_path.back().y - veh_omt_pos.y );
+    if( omt_diff.x > 3 || omt_diff.x < -3 || omt_diff.y > 3 || omt_diff.y < -3 ) {
+        // we've gone walkabout somehow, call off the whole thing
+        is_autodriving = false;
+        return;
+    }
+    int x_side = 0;
+    int y_side = 0;
+    if( omt_diff.x > 0 ) {
+        x_side = 2 * SEEX - 1;
+    } else if( omt_diff.x < 0 ) {
+        x_side = 0;
+    } else {
+        x_side = SEEX;
+    }
+    if( omt_diff.y > 0 ) {
+        y_side = 2 * SEEY - 1;
+    } else if( omt_diff.y < 0 ) {
+        y_side = 0;
+    } else {
+        y_side = SEEY;
+    }
+    // get the shared border mid-point of the next path omt
+    tripoint global_a = tripoint( veh_omt_pos.x * ( 2 * SEEX ), veh_omt_pos.y * ( 2 * SEEY ),
+                                  veh_omt_pos.z );
+    tripoint autodrive_local_target = ( global_a + tripoint( x_side, y_side,
+                                        smz ) - g->m.getabs( vehpos ) ) + global_pos3();
+    rl_vec2d facevec = face_vec();
+    point rel_pos_target = point( autodrive_local_target.x - vehpos.x,
+                                  autodrive_local_target.y - vehpos.y );
+    rl_vec2d targetvec = rl_vec2d( rel_pos_target.x, rel_pos_target.y );
+    // cross product
+    double crossy = ( facevec.x * targetvec.y ) - ( targetvec.x * facevec.y );
+
+    // dot product
+    double dotx = ( facevec.x * targetvec.x ) + ( facevec.y * targetvec.y );
+
+    double angle = ( atan2( crossy, dotx ) ) * 180 / M_PI;
+    // now we got the angle to the target, we can work out when we are heading towards disaster
+    // Check the tileray in the direction we need to head towards.
+    std::set<point> points_to_check = immediate_path( angle );
+    for( const auto &elem : points_to_check ) {
+        const optional_vpart_position ovp = g->m.veh_at( tripoint( elem.x, elem.y, smz ) );
+        if( g->m.impassable_ter_furn( tripoint( elem.x, elem.y, smz ) ) || ( ovp &&
+                &ovp->vehicle() != this ) ) {
+            if( velocity > 0 ) {
+                pldrive( 0, 10 );
+            }
+            is_autodriving = false;
+            return;
+        }
+    }
+    int turn_x = 0;
+    if( angle > 10.0 && angle <= 45.0 ) {
+        turn_x = 1;
+    } else if( angle > 45.0 && angle <= 90.0 ) {
+        turn_x = 3;
+    } else if( angle > 90.0 && angle <= 180.0 ) {
+        turn_x = 4;
+    } else if( angle < -10.0 && angle >= -45.0 ) {
+        turn_x = -1;
+    } else if( angle < -45.0 && angle >= -90.0 ) {
+        turn_x = -3;
+    } else if( angle < -90.0 && angle >= -180.0 ) {
+        turn_x = -4;
+    }
+    int accel_y = 0;
+    // best to cruise around at a safe velocity or 40mph, whichever is lowest
+    // accelerate when it dosnt need to turn.
+    if( ( turn_x > 0 || turn_x < 0 ) && velocity > 1000 ) {
+        accel_y = 1;
+    }
+    if( ( velocity < std::min( safe_velocity(), 32 * 100 ) && turn_x == 0 ) || velocity < 500 ) {
+        accel_y = -1;
+    }
+    pldrive( turn_x, accel_y );
+}
+
 /**
  * Smashes up a vehicle that has already been placed; used for generating
  * very damaged vehicles. Additionally, any spot where two vehicles overlapped
@@ -5259,6 +5371,10 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
     // Make sure p is within range and hasn't been removed already
     if( ( static_cast<size_t>( p ) >= parts.size() ) || parts[p].removed ) {
         return dmg;
+    }
+    // If auto-driving and damage happens, bail out
+    if( is_autodriving ) {
+        is_autodriving = false;
     }
     g->m.set_memory_seen_cache_dirty( global_part_pos3( p ) );
     if( parts[p].is_broken() ) {

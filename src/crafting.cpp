@@ -473,6 +473,35 @@ bool player::can_make( const recipe *r, int batch_size )
             batch_size );
 }
 
+bool player::can_start_craft( const recipe *rec, int batch_size )
+{
+    if( !rec ) {
+        return false;
+    }
+
+    const std::vector<std::vector<tool_comp>> &tool_reqs = rec->requirements().get_tools();
+
+    std::vector<std::vector<tool_comp>> adjusted_tool_reqs;
+    for( const std::vector<tool_comp> &alternatives : tool_reqs ) {
+        std::vector<tool_comp> adjusted_alternatives;
+        for( const tool_comp &alternative : alternatives ) {
+            tool_comp adjusted_alternative = alternative;
+            adjusted_alternative.count *= batch_size;
+            // Only for the next 5% progress
+            adjusted_alternative.count = adjusted_alternative.count / 20 +
+                                         adjusted_alternative.count % 20;
+            adjusted_alternatives.push_back( adjusted_alternative );
+        }
+        adjusted_tool_reqs.push_back( adjusted_alternatives );
+    }
+
+    const requirement_data start_reqs( adjusted_tool_reqs,
+                                       rec->requirements().get_qualities(),
+                                       rec->requirements().get_components() );
+
+    return start_reqs.can_make_with_inventory( crafting_inventory(), rec->get_component_filter() );
+}
+
 const inventory &player::crafting_inventory( const tripoint &src_pos, int radius )
 {
     tripoint inv_pos = src_pos;
@@ -688,7 +717,6 @@ void player::start_craft( craft_command &command, const tripoint &loc )
     }
 
     item craft = command.create_in_progress_craft();
-    craft.set_next_failure_point( *this );
 
     // In case we were wearing something just consumed
     if( !craft.components.empty() ) {
@@ -1207,6 +1235,54 @@ bool player::can_continue_craft( item &craft )
         }
     }
 
+    if( !craft.has_tools_to_continue() ) {
+
+        const std::vector<std::vector<tool_comp>> &tool_reqs = rec.requirements().get_tools();
+        const int batch_size = craft.charges;
+
+        std::vector<std::vector<tool_comp>> adjusted_tool_reqs;
+        for( const std::vector<tool_comp> &alternatives : tool_reqs ) {
+            std::vector<tool_comp> adjusted_alternatives;
+            for( const tool_comp &alternative : alternatives ) {
+                tool_comp adjusted_alternative = alternative;
+                adjusted_alternative.count *= batch_size;
+                // Only for the next 5% progress
+                adjusted_alternative.count /= 20;
+                adjusted_alternatives.push_back( adjusted_alternative );
+            }
+            adjusted_tool_reqs.push_back( adjusted_alternatives );
+        }
+
+        const requirement_data tool_continue_reqs( adjusted_tool_reqs,
+                std::vector<std::vector<quality_requirement>>(),
+                std::vector<std::vector<item_comp>>() );
+
+        if( !tool_continue_reqs.can_make_with_inventory( crafting_inventory(), return_true<item> ) ) {
+            std::ostringstream buffer;
+            buffer << _( "You don't have the necessary tools to continue crafting!" ) << "\n";
+            buffer << tool_continue_reqs.list_missing();
+            popup( buffer.str(), PF_NONE );
+            return false;
+        }
+
+        inventory map_inv;
+        map_inv.form_from_map( pos(), PICKUP_RANGE );
+
+        std::vector<comp_selection<tool_comp>> new_tool_selections;
+        for( const std::vector<tool_comp> &alternatives : tool_reqs ) {
+            comp_selection<tool_comp> selection = select_tool_component( alternatives, batch_size,
+            map_inv, DEFAULT_HOTKEYS, true, true, []( int charges ) {
+                return charges / 20;
+            } );
+            if( selection.use_from == cancel ) {
+                return false;
+            }
+            new_tool_selections.push_back( selection );
+        }
+
+        craft.set_cached_tool_selections( new_tool_selections );
+    }
+
     return true;
 }
 
@@ -1459,7 +1535,8 @@ std::list<item> player::consume_items( const std::vector<item_comp> &components,
 
 comp_selection<tool_comp>
 player::select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
-                               const std::string &hotkeys, bool can_cancel, bool player_inv )
+                               const std::string &hotkeys, bool can_cancel, bool player_inv,
+                               const std::function<int( int )> charges_required_modifier )
 {
 
     comp_selection<tool_comp> selected;
@@ -1471,7 +1548,8 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
     for( auto it = tools.begin(); it != tools.end() && !found_nocharge; ++it ) {
         itype_id type = it->type;
         if( it->count > 0 ) {
-            const int count = item::find_type( type )->charge_factor() * it->count * batch;
+            const int count = charges_required_modifier( item::find_type( type )->charge_factor() * it->count *
+                              batch );
             if( player_inv ) {
                 if( has_charges( type, count ) ) {
                     player_has.push_back( *it );
@@ -1555,6 +1633,91 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
     }
 
     return selected;
+}
+
+bool player::craft_consume_tools( item &craft, int mulitplier, bool start_craft )
+{
+    if( !craft.is_craft() ) {
+        debugmsg( "craft_consume_tools() called on non-craft '%s.' Aborting.", craft.tname() );
+        return false;
+    }
+
+    const auto calc_charges = [&craft, &start_craft, &mulitplier]( int charges ) {
+        int ret = charges;
+
+        // Account for batch size
+        ret *= craft.charges;
+
+        // Only for the next 5% progress
+        ret /= 20;
+
+        // In case more than 5% progress was accomplished in one turn
+        ret *= mulitplier;
+
+        // If just starting consume the remainder as well
+        if( start_craft ) {
+            ret += ( charges * craft.charges ) % 20;
+        }
+        return ret;
+    };
+
+    // First check if we still have our cached selections
+    const std::vector<comp_selection<tool_comp>> &cached_tool_selections =
+                craft.get_cached_tool_selections();
+
+    inventory map_inv;
+    map_inv.form_from_map( pos(), PICKUP_RANGE );
+
+    for( const comp_selection<tool_comp> &tool_sel : cached_tool_selections ) {
+        itype_id type = tool_sel.comp.type;
+        if( tool_sel.comp.count > 0 ) {
+            const int count = calc_charges( tool_sel.comp.count );
+            switch( tool_sel.use_from ) {
+                case use_from_player:
+                    if( !has_charges( type, count ) ) {
+                        add_msg_player_or_npc(
+                            string_format( _( "You have insufficient %s charges and can't continue crafting" ),
+                                           item::find_type( type )->nname( 1 ) ),
+                            string_format( _( "<npcname> has insufficient %s charges and can't continue crafting" ),
+                                           item::find_type( type )->nname( 1 ) ) );
+                        craft.set_tools_to_continue( false );
+                        return false;
+                    }
+                    break;
+                case use_from_map:
+                    if( !map_inv.has_charges( type, count ) ) {
+                        add_msg_player_or_npc(
+                            string_format( _( "You have insufficient %s charges and can't continue crafting" ),
+                                           item::find_type( type )->nname( 1 ) ),
+                            string_format( _( "<npcname> has insufficient %s charges and can't continue crafting" ),
+                                           item::find_type( type )->nname( 1 ) ) );
+                        craft.set_tools_to_continue( false );
+                        return false;
+                    }
+                    break;
+                case use_from_both:
+                case use_from_none:
+                case cancel:
+                    break;
+            }
+        } else if( !has_amount( type, 1 ) && !map_inv.has_tools( type, 1 ) ) {
+            add_msg_player_or_npc(
+                string_format( _( "You no longer have a %s and can't continue crafting" ),
+                               item::find_type( type )->nname( 1 ) ),
+                string_format( _( "<npcname> no longer has a %s and can't continue crafting" ),
+                               item::find_type( type )->nname( 1 ) ) );
+            craft.set_tools_to_continue( false );
+            return false;
+        }
+    }
+
+    // We have the selections, so consume them
+    for( const comp_selection<tool_comp> &tool : cached_tool_selections ) {
+        comp_selection<tool_comp> to_consume = tool;
+        to_consume.comp.count = calc_charges( to_consume.comp.count );
+        consume_tools( to_consume, 1 );
+    }
+    return true;
 }
 
 void player::consume_tools( const comp_selection<tool_comp> &tool, int batch )
