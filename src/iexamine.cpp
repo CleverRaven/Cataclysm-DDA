@@ -2369,8 +2369,9 @@ void iexamine::autoclave_empty( player &p, const tripoint &examp )
         return;
     }
 
-    if( query_yn( _( "Start the autoclave?" ) ) ) {
+    auto reqs = *requirement_id( "autoclave" );
 
+    if( query_yn( _( "Start the autoclave?" ) ) ) {
         for( const auto &e : reqs.get_components() ) {
             p.consume_items( e, 1, is_crafting_component );
         }
