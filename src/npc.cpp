@@ -1243,6 +1243,7 @@ void npc::say( const std::string &line, const int priority ) const
     }
     // Hallucinations don't make noise when they speak
     if( is_hallucination() ) {
+        add_msg( _( "%1$s saying \"%2$s\"" ), name, formatted_line );
         return;
     }
     // Sound happens even if we can't hear it
