@@ -3,7 +3,7 @@
     "type": "MOD_INFO",
     "ident": "stats_through_kills",
     "name": "Stats Through Kills",
-    "authors": [ "KorGgenT"],
+    "authors": [ "KorGgenT" ],
     "maintainer": [ "KorGgenT" ],
     "description": "You gain XP from kills that you can spend on increasing your stats.",
     "category": "rebalance",
