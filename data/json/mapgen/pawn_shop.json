@@ -336,8 +336,8 @@
         "^": "t_door_c",
         "+": "t_door_bar_locked",
         "*": "t_door_locked_alarm",
-        "|": "t_wall",
-        "-": "t_wall",
+        "|": "t_wall_w",
+        "-": "t_wall_w",
         "~": "t_window_alarm"
       },
       "furniture": {
