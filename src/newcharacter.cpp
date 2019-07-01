@@ -1972,7 +1972,6 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
                    sorted_scens[cur_id]->gender_appropriate_name( u.male ),
                    pointsForScen );
 
-
         const std::string scenDesc = sorted_scens[cur_id]->description( u.male );
 
         if( sorted_scens[cur_id]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {

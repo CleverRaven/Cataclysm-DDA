@@ -2844,7 +2844,6 @@ void player::pause()
     search_surroundings();
 }
 
-
 void player::set_movement_mode( const std::string &new_mode )
 {
     if( new_mode == "run" ) {

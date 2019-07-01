@@ -2693,7 +2693,6 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
     act->set_to_null();
 }
 
-
 void activity_handlers::armor_layers_do_turn( player_activity *, player *p )
 {
     p->cancel_activity();

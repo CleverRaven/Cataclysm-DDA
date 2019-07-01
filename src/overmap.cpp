@@ -474,7 +474,6 @@ bool is_river_or_lake( const oter_id &ter )
     return ter->is_river() || ter->is_lake() || ter->is_lake_shore();
 }
 
-
 bool is_ot_match( const std::string &name, const oter_id &oter,
                   const ot_match_type match_type )
 {

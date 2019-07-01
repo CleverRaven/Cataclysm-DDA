@@ -7781,7 +7781,6 @@ void game::drop_in_direction()
     }
 }
 
-
 // Used to set up the first Hotkey in the display set
 static int get_initial_hotkey( const size_t menu_index )
 {
