@@ -1,12 +1,11 @@
 #include "item_stack.h"
 
 #include <algorithm>
-#include <list>
-#include <iterator>
 
 #include "item.h"
 #include "output.h"
 #include "units.h"
+#include "debug.h"
 
 size_t item_stack::size() const
 {
@@ -76,7 +75,7 @@ item_stack::iterator item_stack::get_iterator_from_index( size_t idx )
     return items->get_iterator_from_index( idx );
 }
 
-size_t item_stack::get_index_from_iterator( const const_iterator &it )
+size_t item_stack::get_index_from_iterator( const item_stack::const_iterator &it )
 {
     return items->get_index_from_iterator( it );
 }

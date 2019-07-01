@@ -47,7 +47,6 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
 #include "basecamp.h"
 #include "calendar.h"
 #include "color.h"
@@ -58,10 +57,8 @@
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
-#include "omdata.h"
 #include "optional.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -69,6 +66,11 @@
 #include "units.h"
 #include "weighted_list.h"
 #include "type_id.h"
+#include "colony.h"
+#include "item_stack.h"
+#include "point.h"
+#include "vpart_position.h"
+#include "weather.h"
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );
@@ -363,9 +365,10 @@ int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp = nu
 int om_carry_weight_to_trips( units::mass mass, units::volume volume, units::mass carry_mass,
                               units::volume carry_volume );
 /// Formats the variables into a standard looking description to be displayed in a ynquery window
-std::string camp_trip_description( time_duration total_time, time_duration working_time,
-                                   time_duration travel_time, int distance, int trips,
-                                   int need_food );
+std::string camp_trip_description( const time_duration &total_time,
+                                   const time_duration &working_time,
+                                   const time_duration &travel_time,
+                                   int distance, int trips, int need_food );
 
 /// Returns a string for display of the selected car so you don't chop shop the wrong one
 std::string camp_car_description( vehicle *car );
@@ -485,7 +488,7 @@ void talk_function::start_camp( npc &p )
     int near_fields = 0;
     for( const auto &om_near : om_region ) {
         const oter_id &om_type = oter_id( om_near.first );
-        if( is_ot_subtype( "field", om_type ) ) {
+        if( is_ot_match( "field", om_type, ot_match_type::CONTAINS ) ) {
             near_fields += 1;
         }
     }
@@ -500,17 +503,17 @@ void talk_function::start_camp( npc &p )
     int fields = 0;
     for( const auto &om_near : om_region_ext ) {
         const oter_id &om_type = oter_id( om_near.first );
-        if( is_ot_subtype( "faction_base", om_type ) ) {
+        if( is_ot_match( "faction_base", om_type, ot_match_type::CONTAINS ) ) {
             popup( _( "You are too close to another camp!" ) );
             return;
         }
-        if( is_ot_type( "forest_water", om_type ) ) {
+        if( is_ot_match( "forest_water", om_type, ot_match_type::TYPE ) ) {
             swamps++;
-        } else if( is_ot_subtype( "forest", om_type ) ) {
+        } else if( is_ot_match( "forest", om_type, ot_match_type::CONTAINS ) ) {
             forests++;
-        } else if( is_ot_subtype( "river", om_type ) ) {
+        } else if( is_ot_match( "river", om_type, ot_match_type::CONTAINS ) ) {
             waters++;
-        } else if( is_ot_subtype( "field", om_type ) ) {
+        } else if( is_ot_match( "field", om_type, ot_match_type::CONTAINS ) ) {
             fields++;
         }
     }
@@ -1163,7 +1166,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                            "Time: 1 Min / Plot \n"
                            "Positions: 0/1 \n" );
                 mission_key.add_start( dir + miss_info.miss_id, dir + miss_info.desc, dir, entry,
-                                       plots > 0 && g->weather.get_temperature( omt_trg ) > 50 );
+                                       plots > 0 && warm_enough_to_plant( omt_trg ) );
             } else {
                 entry = miss_info.action;
                 bool avail = update_time_left( entry, npc_list );
@@ -3233,8 +3236,9 @@ std::string talk_function::om_simple_dir( const tripoint &omt_pos, const tripoin
 }
 
 // mission descriptions
-std::string camp_trip_description( time_duration total_time, time_duration working_time,
-                                   time_duration travel_time, int distance, int trips,
+std::string camp_trip_description( const time_duration &total_time,
+                                   const time_duration &working_time,
+                                   const time_duration &travel_time, int distance, int trips,
                                    int need_food )
 {
     std::string entry = " \n";

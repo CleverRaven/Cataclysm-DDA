@@ -5,7 +5,6 @@
 #include <algorithm>
 #include <cstdlib>
 #include <sstream>
-#include <functional>
 #include <iterator>
 #include <map>
 #include <memory>
@@ -13,7 +12,6 @@
 #include <type_traits>
 #include <utility>
 
-#include "activity_handlers.h"
 #include "ammo.h"
 #include "avatar.h"
 #include "basecamp.h"
@@ -21,7 +19,6 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "clzones.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "construction.h"
 #include "coordinate_conversions.h"
@@ -67,7 +64,6 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "weather.h"
 #include "bodypart.h"
 #include "color.h"
@@ -86,6 +82,10 @@
 #include "player_activity.h"
 #include "pldata.h"
 #include "string_id.h"
+#include "colony.h"
+#include "flat_set.h"
+#include "magic_teleporter_list.h"
+#include "point.h"
 
 const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
@@ -270,6 +270,20 @@ void iexamine::gaspump( player &p, const tripoint &examp )
         }
     }
     add_msg( m_info, _( "Out of order." ) );
+}
+
+void iexamine::translocator( player &, const tripoint &examp )
+{
+    const tripoint omt_loc = ms_to_omt_copy( g->m.getabs( examp ) );
+    const bool activated = g->u.translocators.knows_translocator( examp );
+    if( !activated ) {
+        g->u.translocators.activate_teleporter( omt_loc, examp );
+        add_msg( m_info, _( "Translocator gate active." ) );
+    } else {
+        if( query_yn( _( "Do you want to deactivate this active Translocator?" ) ) ) {
+            g->u.translocators.deactivate_teleporter( omt_loc, examp );
+        }
+    }
 }
 
 namespace
@@ -1505,7 +1519,7 @@ static bool drink_nectar( player &p )
 /**
  * Spawn an item after harvesting the plant
  */
-static void handle_harvest( player &p, std::string itemid, bool force_drop )
+static void handle_harvest( player &p, const std::string &itemid, bool force_drop )
 {
     item harvest = item( itemid );
     if( !force_drop && p.can_pickVolume( harvest, true ) &&
@@ -1914,7 +1928,7 @@ void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &see
 void iexamine::dirtmound( player &p, const tripoint &examp )
 {
 
-    if( !warm_enough_to_plant() ) {
+    if( !warm_enough_to_plant( g->u.pos() ) ) {
         add_msg( m_info, _( "It is too cold to plant anything now." ) );
         return;
     }
@@ -2562,7 +2576,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
         return;
     }
 
-    item &brew_i = items_here.only_item();
+    item &brew_i = *items_here.begin();
     // Does the vat contain unfermented brew, or already fermented booze?
     // TODO: Allow "recursive brewing" to continue without player having to check on it
     if( brew_i.is_brewable() ) {
@@ -2626,14 +2640,14 @@ bool iexamine::has_keg( const tripoint &pos )
     return get_keg_capacity( pos ) > 0_ml;
 }
 
-void iexamine::keg( player &p, const tripoint &examp )
+static void displace_items_except_one_liquid( const tripoint &examp )
 {
-    none( p, examp );
-    const auto keg_name = g->m.name( examp );
-    units::volume keg_cap = get_keg_capacity( examp );
-    map_stack items = g->m.i_at( examp );
+    // Temporarily replace the real furniture with a fake furniture with NOITEM
+    const furn_id previous_furn = g->m.furn( examp );
+    g->m.furn_set( examp, furn_id( "f_no_item" ) );
 
     bool liquid_present = false;
+    map_stack items = g->m.i_at( examp );
     for( map_stack::iterator it = items.begin(); it != items.end(); ) {
         if( !it->made_of_from_type( LIQUID ) || liquid_present ) {
             // This isn't a liquid or there was already another kind of liquid inside,
@@ -2646,6 +2660,20 @@ void iexamine::keg( player &p, const tripoint &examp )
             liquid_present = true;
         }
     }
+
+    // Replace the real furniture
+    g->m.furn_set( examp, previous_furn );
+}
+
+void iexamine::keg( player &p, const tripoint &examp )
+{
+    none( p, examp );
+    const auto keg_name = g->m.name( examp );
+    units::volume keg_cap = get_keg_capacity( examp );
+
+    const bool liquid_present = map_cursor( examp ).has_item_with( []( const item & it ) {
+        return it.made_of_from_type( LIQUID );
+    } );
 
     if( !liquid_present ) {
         add_msg( m_info, _( "It is empty." ) );
@@ -2689,6 +2717,10 @@ void iexamine::keg( player &p, const tripoint &examp )
         if( drink_index < 0 ) {
             return;
         }
+
+        // First empty the keg of foreign objects
+        displace_items_except_one_liquid( examp );
+
         //Store liquid chosen in the keg
         itype_id drink_type = drink_types[ drink_index ];
         int charges_held = p.charges_of( drink_type );
@@ -2713,6 +2745,10 @@ void iexamine::keg( player &p, const tripoint &examp )
         g->m.add_item( examp, drink );
         return;
     } else {
+        // First empty the keg of foreign objects
+        displace_items_except_one_liquid( examp );
+
+        map_stack items = g->m.i_at( examp );
         item &drink = items.only_item();
         const std::string drink_tname = drink.tname();
         const std::string drink_nname = item::nname( drink.typeId() );
@@ -3186,12 +3222,8 @@ void iexamine::trap( player &p, const tripoint &examp )
     }
     const int possible = tr.get_difficulty();
     bool seen = tr.can_see( examp, p );
-    if( seen && possible >= 99 ) {
-        add_msg( m_info, _( "That %s looks too dangerous to mess with. Best leave it alone." ),
-                 tr.name() );
-        return;
-    }
-    if( tr.loadid == tr_unfinished_construction ) {
+
+    if( tr.loadid == tr_unfinished_construction || g->m.partial_con_at( examp ) ) {
         partial_con *pc = g->m.partial_con_at( examp );
         if( pc ) {
             const std::vector<construction> &list_constructions = get_constructions();
@@ -3216,6 +3248,11 @@ void iexamine::trap( player &p, const tripoint &examp )
         } else {
             return;
         }
+    }
+    if( seen && possible >= 99 ) {
+        add_msg( m_info, _( "That %s looks too dangerous to mess with. Best leave it alone." ),
+                 tr.name() );
+        return;
     }
     // Some traps are not actual traps. Those should get a different query.
     if( seen && possible == 0 &&
@@ -3408,9 +3445,6 @@ void iexamine::sign( player &p, const tripoint &examp )
         std::string query_message = previous_signage_exists ?
                                     _( "Overwrite the existing message on the sign?" ) :
                                     _( "Add a message to the sign?" );
-        std::string spray_painted_message = previous_signage_exists ?
-                                            _( "You overwrite the previous message on the sign with your graffiti." ) :
-                                            _( "You graffiti a message onto the sign." );
         std::string ignore_message = _( "You leave the sign alone." );
         if( query_yn( query_message ) ) {
             std::string signage = string_input_popup()
@@ -3420,6 +3454,9 @@ void iexamine::sign( player &p, const tripoint &examp )
             if( signage.empty() ) {
                 p.add_msg_if_player( m_neutral, ignore_message );
             } else {
+                std::string spray_painted_message = previous_signage_exists ?
+                                                    _( "You overwrite the previous message on the sign with your graffiti." ) :
+                                                    _( "You graffiti a message onto the sign." );
                 g->m.set_signage( examp, signage );
                 p.add_msg_if_player( m_info, spray_painted_message );
                 p.mod_moves( - 20 * signage.length() );
@@ -4091,10 +4128,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         amenu.ret > 1 ) {
         needs_anesthesia = false;
     } else {
-        std::vector<const item *> a_filter = p.crafting_inventory().items_with( []( const item & it ) {
+        const inventory &crafting_inv = p.crafting_inventory();
+        std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
             return it.has_quality( quality_id( "ANESTHESIA" ) );
         } );
-        std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
+        std::vector<const item *> b_filter = crafting_inv.items_with( []( const item & it ) {
             return it.has_flag( "ANESTHESIA" ); // legacy
         } );
         for( const item *anesthesia_item : a_filter ) {
@@ -4124,10 +4162,10 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-            const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
             const float volume_anesth = itemtype->bionic->difficulty * 20 * 2; // 2ml/min
 
             if( patient.can_install_bionics( ( *itemtype ), installer, true ) ) {
+                const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 std::vector<item_comp> comps;
                 comps.push_back( item_comp( it->typeId(), 1 ) );
@@ -4185,7 +4223,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
             // Malfunctioning bionics that don't have associated items and get a difficulty of 12
             const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
-            const time_duration duration = difficulty * 20_minutes;
             const float volume_anesth = difficulty * 20 * 2; // 2ml/min
 
             player &installer = best_installer( p, null_player, difficulty );
@@ -4194,9 +4231,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             if( patient.can_uninstall_bionic( bid, installer, true ) ) {
+                const time_duration duration = difficulty * 20_minutes;
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 if( needs_anesthesia ) {
-                    if( acomps.empty() ) { // consume obsolete anesthesia first
+                    if( acomps.empty() ) {
+                        // consume obsolete anesthesia first
                         p.consume_tools( anesth_kit, volume_anesth );
                     } else {
                         p.consume_items( acomps, 1, is_crafting_component ); // legacy
@@ -5264,7 +5303,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
                 string_format( pgettext( "in progress craft", "<npcname> starts working on the %s." ),
                                selected_craft->tname() ) );
             p.assign_activity( activity_id( "ACT_CRAFT" ) );
-            p.activity.targets.push_back( crafts[amenu2.ret].clone() );
+            p.activity.targets.push_back( crafts[amenu2.ret] );
             p.activity.values.push_back( 0 ); // Not a long craft
             break;
         }
@@ -5332,6 +5371,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "harvest_ter", &iexamine::harvest_ter },
             { "harvested_plant", &iexamine::harvested_plant },
             { "shrub_marloss", &iexamine::shrub_marloss },
+            { "translocator", &iexamine::translocator },
             { "tree_marloss", &iexamine::tree_marloss },
             { "tree_hickory", &iexamine::tree_hickory },
             { "tree_maple", &iexamine::tree_maple },

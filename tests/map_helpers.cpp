@@ -12,13 +12,11 @@
 #include "mapdata.h"
 #include "monster.h"
 #include "npc.h"
-#include "player.h"
 #include "field.h"
-#include "enums.h"
 #include "game_constants.h"
-#include "overmapbuffer.h"
 #include "pimpl.h"
 #include "type_id.h"
+#include "point.h"
 
 void wipe_map_terrain()
 {

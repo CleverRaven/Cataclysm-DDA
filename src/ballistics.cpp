@@ -18,7 +18,6 @@
 #include "messages.h"
 #include "monster.h"
 #include "options.h"
-#include "player.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
@@ -33,6 +32,7 @@
 #include "translations.h"
 #include "units.h"
 #include "type_id.h"
+#include "point.h"
 
 const efftype_id effect_bounced( "bounced" );
 
@@ -125,7 +125,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
             }
             const trap &tr = g->m.tr_at( pt );
             if( tr.triggered_by_item( dropped_item ) ) {
-                tr.trigger( pt, nullptr );
+                tr.trigger( pt, nullptr, &dropped_item );
             }
         }
     }

@@ -1,5 +1,6 @@
 #include "monattack.h"
 
+#include <assert.h>
 #include <climits>
 #include <cstdlib>
 #include <algorithm>
@@ -46,8 +47,6 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
-#include "vehicle.h"
-#include "vpart_position.h"
 #include "weighted_list.h"
 #include "calendar.h"
 #include "creature.h"
@@ -65,6 +64,11 @@
 #include "string_formatter.h"
 #include "tileray.h"
 #include "type_id.h"
+#include "colony.h"
+#include "flat_set.h"
+#include "material.h"
+#include "point.h"
+#include "units.h"
 
 const mtype_id mon_ant( "mon_ant" );
 const mtype_id mon_ant_acid( "mon_ant_acid" );
@@ -853,7 +857,7 @@ bool mattack::resurrect( monster *z )
     bool found_eligible_corpse = false;
     int lowest_raise_score = INT_MAX;
     for( const tripoint &p : g->m.points_in_radius( z->pos(), range ) ) {
-        if( !g->is_empty( p ) || g->m.get_field_strength( p, fd_fire ) > 1 ||
+        if( !g->is_empty( p ) || g->m.get_field_intensity( p, fd_fire ) > 1 ||
             !g->m.sees( z->pos(), p, -1 ) ) {
             continue;
         }
@@ -1099,7 +1103,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
     constexpr int att_rad_dose_max      = 50; // max radiation
 
     // acid attack behavior
-    constexpr int att_acid_density = 3;
+    constexpr int att_acid_intensity = 3;
 
     // flavor messages
     static const std::array<const char *, 4> m_flavor = {{
@@ -1245,7 +1249,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
             // fill empty tiles with acid
             for( size_t i = 0; i < empty_neighbor_count; ++i ) {
                 const tripoint &p = empty_neighbors.first[i];
-                g->m.add_field( p, fd_acid, att_acid_density );
+                g->m.add_field( p, fd_acid, att_acid_intensity );
             }
 
             break;
@@ -1641,7 +1645,7 @@ bool mattack::fungus_big_blossom( monster *z )
     const auto u_see = g->u.sees( *z );
     // Fungal fire-suppressor! >:D
     for( const tripoint &dest : g->m.points_in_radius( z->pos(), 6 ) ) {
-        if( g->m.get_field_strength( dest, fd_fire ) != 0 ) {
+        if( g->m.get_field_intensity( dest, fd_fire ) != 0 ) {
             firealarm = true;
         }
         if( firealarm ) {
@@ -2634,7 +2638,7 @@ bool mattack::grab_drag( monster *z )
         } else {
             zz->setpos( zpt );
         }
-        target->add_msg_player_or_npc( m_good, _( "You are dragged behind the %s!" ),
+        target->add_msg_player_or_npc( m_bad, _( "You are dragged behind the %s!" ),
                                        _( "<npcname> gets dragged behind the %s!" ), z->name() );
     } else {
         target->add_msg_player_or_npc( m_good, _( "You resist the %s as it tries to drag you!" ),
@@ -3003,7 +3007,7 @@ bool mattack::photograph( monster *z )
     if( g->u.has_trait( trait_id( "PROF_FED" ) ) ) {
         // And you're wearing your badge
         if( g->u.is_wearing( "badge_marshal" ) ) {
-            add_msg( m_info, _( "The %s flashes a LED and departs.  The Feds have this." ), z->name() );
+            add_msg( m_info, _( "The %s flashes a LED and departs.  The Feds got this." ), z->name() );
             z->no_corpse_quiet = true;
             z->no_extra_death_drops = true;
             z->die( nullptr );

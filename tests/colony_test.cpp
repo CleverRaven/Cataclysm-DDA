@@ -1,10 +1,11 @@
-#include "catch/catch.hpp"
-#include "colony.h"
-
+#include <stddef.h>
 #include <algorithm> // std::find
 #include <functional> // std::greater
 #include <utility> // std::move
 #include <vector> // range-insert testing
+
+#include "catch/catch.hpp"
+#include "colony.h"
 
 // Fast xorshift+128 random number generator function
 // original: https://codingforspeed.com/using-faster-psudo-random-generator-xorshift/
@@ -27,7 +28,7 @@ static unsigned int xor_rand()
 
 TEST_CASE( "colony basics", "[colony]" )
 {
-    colony<int *> test_colony;
+    cata::colony<int *> test_colony;
 
     // Starts empty
     CHECK( test_colony.empty() );
@@ -55,7 +56,7 @@ TEST_CASE( "colony basics", "[colony]" )
 
     int count = 0;
     int sum = 0;
-    for( colony<int *>::iterator it = test_colony.begin(); it < test_colony.end(); ++it ) {
+    for( cata::colony<int *>::iterator it = test_colony.begin(); it < test_colony.end(); ++it ) {
         ++count;
         sum += **it;
     }
@@ -65,8 +66,8 @@ TEST_CASE( "colony basics", "[colony]" )
     // Iterator access
     CHECK( sum == 6000 );
 
-    colony<int *>::iterator plus_20 = test_colony.begin();
-    colony<int *>::iterator plus_200 = test_colony.begin();
+    cata::colony<int *>::iterator plus_20 = test_colony.begin();
+    cata::colony<int *>::iterator plus_200 = test_colony.begin();
     test_colony.advance( plus_20, 20 );
     test_colony.advance( plus_200, 200 );
 
@@ -75,24 +76,24 @@ TEST_CASE( "colony basics", "[colony]" )
     // Iterator - distance
     CHECK( test_colony.distance( plus_200, test_colony.begin() ) == -200 );
 
-    colony<int *>::iterator next_iterator = test_colony.next( test_colony.begin(), 5 );
-    colony<int *>::const_iterator cprev_iterator = test_colony.prev( test_colony.cend(), 300 );
+    cata::colony<int *>::iterator next_iterator = test_colony.next( test_colony.begin(), 5 );
+    cata::colony<int *>::const_iterator cprev_iterator = test_colony.prev( test_colony.cend(), 300 );
 
     // Iterator next
     CHECK( test_colony.distance( test_colony.begin(), next_iterator ) == 5 );
     // Const iterator prev
     CHECK( test_colony.distance( test_colony.cend(), cprev_iterator ) == -300 );
 
-    colony<int *>::iterator prev_iterator = test_colony.prev( test_colony.end(), 300 );
+    cata::colony<int *>::iterator prev_iterator = test_colony.prev( test_colony.end(), 300 );
 
     // Iterator/const iterator equality operator
     CHECK( cprev_iterator == prev_iterator );
 
-    colony<int *> test_colony_2;
+    cata::colony<int *> test_colony_2;
     test_colony_2 = test_colony;
 
-    colony<int *> test_colony_3( test_colony );
-    colony<int *> test_colony_4( test_colony_2, test_colony_2.get_allocator() );
+    cata::colony<int *> test_colony_3( test_colony );
+    cata::colony<int *> test_colony_4( test_colony_2, test_colony_2.get_allocator() );
 
     // Copy
     CHECK( test_colony_2.size() == 400 );
@@ -113,7 +114,8 @@ TEST_CASE( "colony basics", "[colony]" )
 
     count = 0;
     sum = 0;
-    for( colony<int *>::reverse_iterator it = test_colony.rbegin(); it != test_colony.rend(); ++it ) {
+    for( cata::colony<int *>::reverse_iterator it = test_colony.rbegin(); it != test_colony.rend();
+         ++it ) {
         ++count;
         sum += **it;
     }
@@ -123,20 +125,20 @@ TEST_CASE( "colony basics", "[colony]" )
     // Reverse iterator access
     CHECK( sum == 6000 );
 
-    colony<int *>::reverse_iterator r_iterator = test_colony.rbegin();
+    cata::colony<int *>::reverse_iterator r_iterator = test_colony.rbegin();
     test_colony.advance( r_iterator, 50 );
 
     // Reverse iterator advance and distance test
     CHECK( test_colony.distance( test_colony.rbegin(), r_iterator ) == 50 );
 
-    colony<int *>::reverse_iterator r_iterator2 = test_colony.next( r_iterator, 2 );
+    cata::colony<int *>::reverse_iterator r_iterator2 = test_colony.next( r_iterator, 2 );
 
     // Reverse iterator next and distance test
     CHECK( test_colony.distance( test_colony.rbegin(), r_iterator2 ) == 52 );
 
     count = 0;
     sum = 0;
-    for( colony<int *>::iterator it = test_colony.begin(); it < test_colony.end();
+    for( cata::colony<int *>::iterator it = test_colony.begin(); it < test_colony.end();
          test_colony.advance( it, 2 ) ) {
         ++count;
         sum += **it;
@@ -149,7 +151,8 @@ TEST_CASE( "colony basics", "[colony]" )
 
     count = 0;
     sum = 0;
-    for( colony<int *>::const_iterator it = test_colony.cbegin(); it != test_colony.cend(); ++it ) {
+    for( cata::colony<int *>::const_iterator it = test_colony.cbegin(); it != test_colony.cend();
+         ++it ) {
         ++count;
         sum += **it;
     }
@@ -161,8 +164,8 @@ TEST_CASE( "colony basics", "[colony]" )
 
     count = 0;
     sum = 0;
-    for( colony<int *>::const_reverse_iterator it = --colony<int *>::const_reverse_iterator(
-                test_colony.crend() ); it != colony<int *>::const_reverse_iterator( test_colony.crbegin() );
+    for( cata::colony<int *>::const_reverse_iterator it = --cata::colony<int *>::const_reverse_iterator(
+                test_colony.crend() ); it != cata::colony<int *>::const_reverse_iterator( test_colony.crbegin() );
          --it ) {
         ++count;
         sum += **it;
@@ -174,7 +177,7 @@ TEST_CASE( "colony basics", "[colony]" )
     CHECK( sum == 5980 );
 
     count = 0;
-    for( colony<int *>::iterator it = ++colony<int *>::iterator( test_colony.begin() );
+    for( cata::colony<int *>::iterator it = ++cata::colony<int *>::iterator( test_colony.begin() );
          it < test_colony.end(); ++it ) {
         ++count;
         it = test_colony.erase( it );
@@ -192,9 +195,10 @@ TEST_CASE( "colony basics", "[colony]" )
     CHECK( test_colony.capacity() == 200 );
 
     count = 0;
-    for( colony<int *>::reverse_iterator it = test_colony.rbegin(); it != test_colony.rend(); ++it ) {
+    for( cata::colony<int *>::reverse_iterator it = test_colony.rbegin(); it != test_colony.rend();
+         ++it ) {
         ++count;
-        colony<int *>::iterator temp = it.base();
+        cata::colony<int *>::iterator temp = it.base();
         it = test_colony.erase( --temp );
     }
 
@@ -210,7 +214,7 @@ TEST_CASE( "colony basics", "[colony]" )
     }
 
     count = 0;
-    for( colony<int *>::iterator it = --colony<int *>::iterator( test_colony.end() );
+    for( cata::colony<int *>::iterator it = --cata::colony<int *>::iterator( test_colony.end() );
          it != test_colony.begin(); --it ) {
         ++count;
     }
@@ -219,7 +223,7 @@ TEST_CASE( "colony basics", "[colony]" )
     CHECK( count == 399 );
 
     count = 0;
-    for( colony<int *>::iterator it = --( colony<int *>::iterator( test_colony.end() ) );
+    for( cata::colony<int *>::iterator it = --( cata::colony<int *>::iterator( test_colony.end() ) );
          it != test_colony.begin(); test_colony.advance( it, -2 ) ) {
         ++count;
     }
@@ -237,8 +241,8 @@ TEST_CASE( "colony basics", "[colony]" )
     // Insert to post-moved-colony test
     CHECK( test_colony.size() == 1 );
 
-    colony<int *> test_colony_5( test_colony_2 );
-    colony<int *> test_colony_6( std::move( test_colony_5 ), test_colony_2.get_allocator() );
+    cata::colony<int *> test_colony_5( test_colony_2 );
+    cata::colony<int *> test_colony_6( std::move( test_colony_5 ), test_colony_2.get_allocator() );
 
     // Allocator-extended move construct test
     CHECK( test_colony_6.size() == 400 );
@@ -266,7 +270,7 @@ TEST_CASE( "colony basics", "[colony]" )
 
 TEST_CASE( "insert and erase", "[colony]" )
 {
-    colony<int> test_colony;
+    cata::colony<int> test_colony;
 
     for( int i = 0; i < 500000; ++i ) {
         test_colony.insert( i );
@@ -275,15 +279,16 @@ TEST_CASE( "insert and erase", "[colony]" )
     // Size after insert
     CHECK( test_colony.size() == 500000 );
 
-    colony<int>::iterator found = std::find( test_colony.begin(), test_colony.end(), 5000 );
-    colony<int>::reverse_iterator found2 = std::find( test_colony.rbegin(), test_colony.rend(), 5000 );
+    cata::colony<int>::iterator found = std::find( test_colony.begin(), test_colony.end(), 5000 );
+    cata::colony<int>::reverse_iterator found2 = std::find( test_colony.rbegin(), test_colony.rend(),
+            5000 );
 
     // std::find reverse_iterator
     CHECK( *found == 5000 );
     // std::find iterator
     CHECK( *found2 == 5000 );
 
-    for( colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
+    for( cata::colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
         it = test_colony.erase( it );
     }
 
@@ -291,7 +296,7 @@ TEST_CASE( "insert and erase", "[colony]" )
     CHECK( test_colony.size() == 250000 );
 
     do {
-        for( colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ) {
+        for( cata::colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ) {
             if( ( xor_rand() & 7 ) == 0 ) {
                 it = test_colony.erase( it );
             } else {
@@ -316,7 +321,7 @@ TEST_CASE( "insert and erase", "[colony]" )
 
     int count = 0;
     do {
-        for( colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ) {
+        for( cata::colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ) {
             if( ( xor_rand() & 7 ) == 0 ) {
                 it = test_colony.erase( it );
                 ++count;
@@ -328,7 +333,7 @@ TEST_CASE( "insert and erase", "[colony]" )
     } while( count < 15000 );
 
     // Erase randomly till half-empty
-    CHECK( test_colony.size() == static_cast<unsigned long>( 30000 - count ) );
+    CHECK( test_colony.size() == static_cast<size_t>( 30000 - count ) );
 
     for( int i = 0; i < count; ++i ) {
         test_colony.insert( 1 );
@@ -338,7 +343,7 @@ TEST_CASE( "insert and erase", "[colony]" )
     CHECK( test_colony.size() == 30000 );
 
     count = 0;
-    for( colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ) {
+    for( cata::colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ) {
         if( ++count == 3 ) {
             count = 0;
             it = test_colony.erase( it );
@@ -352,7 +357,7 @@ TEST_CASE( "insert and erase", "[colony]" )
     CHECK( test_colony.size() == 45001 );
 
     do {
-        for( colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ) {
+        for( cata::colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ) {
             if( ( xor_rand() & 3 ) == 0 ) {
                 ++it;
                 test_colony.insert( 1 );
@@ -372,7 +377,7 @@ TEST_CASE( "insert and erase", "[colony]" )
     // Insert post-erase
     CHECK( test_colony.size() == 500000 );
 
-    colony<int>::iterator it = test_colony.begin();
+    cata::colony<int>::iterator it = test_colony.begin();
     test_colony.advance( it, 250000 );
 
     for( ; it != test_colony.end(); ) {
@@ -386,10 +391,10 @@ TEST_CASE( "insert and erase", "[colony]" )
         test_colony.insert( 10 );
     }
 
-    colony<int>::iterator end_it = test_colony.end();
+    cata::colony<int>::iterator end_it = test_colony.end();
     test_colony.advance( end_it, -250000 );
 
-    for( colony<int>::iterator it = test_colony.begin(); it != end_it; ) {
+    for( cata::colony<int>::iterator it = test_colony.begin(); it != end_it; ) {
         it = test_colony.erase( it );
     }
 
@@ -401,7 +406,7 @@ TEST_CASE( "insert and erase", "[colony]" )
     }
 
     int sum = 0;
-    for( colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
+    for( cata::colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
         sum += *it;
     }
 
@@ -410,10 +415,10 @@ TEST_CASE( "insert and erase", "[colony]" )
 
     end_it = test_colony.end();
     test_colony.advance( end_it, -50001 );
-    colony<int>::iterator begin_it = test_colony.begin();
+    cata::colony<int>::iterator begin_it = test_colony.begin();
     test_colony.advance( begin_it, 300000 );
 
-    for( colony<int>::iterator it = begin_it; it != end_it; ) {
+    for( cata::colony<int>::iterator it = begin_it; it != end_it; ) {
         it = test_colony.erase( it );
     }
 
@@ -427,7 +432,7 @@ TEST_CASE( "insert and erase", "[colony]" )
     begin_it = test_colony.begin();
     test_colony.advance( begin_it, 300001 );
 
-    for( colony<int>::iterator it = begin_it; it != test_colony.end(); ) {
+    for( cata::colony<int>::iterator it = begin_it; it != test_colony.end(); ) {
         it = test_colony.erase( it );
     }
 
@@ -450,7 +455,7 @@ TEST_CASE( "insert and erase", "[colony]" )
     // Advance + iterator-to-index test
     CHECK( index == 500 );
 
-    colony<int>::iterator it2 = test_colony.get_iterator_from_pointer( &( *it ) );
+    cata::colony<int>::iterator it2 = test_colony.get_iterator_from_pointer( &( *it ) );
 
     // Pointer-to-iterator test
     CHECK( it2 != test_colony.end() );
@@ -460,7 +465,7 @@ TEST_CASE( "insert and erase", "[colony]" )
     // Index-to-iterator test
     CHECK( it2 == it );
 
-    for( colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ) {
+    for( cata::colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ) {
         it = test_colony.erase( it );
     }
 
@@ -485,7 +490,7 @@ TEST_CASE( "insert and erase", "[colony]" )
             }
         }
         int count2 = 0;
-        for( colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ) {
+        for( cata::colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ) {
             if( ( xor_rand() & 7 ) == 0 ) {
                 it = test_colony.erase( it );
                 --count;
@@ -497,20 +502,20 @@ TEST_CASE( "insert and erase", "[colony]" )
     }
 
     // Multiple sequential small insert/erase commands
-    CHECK( test_colony.size() == static_cast<unsigned long>( count ) );
+    CHECK( test_colony.size() == static_cast<size_t>( count ) );
 }
 
 TEST_CASE( "range erase", "[colony]" )
 {
-    colony<int> test_colony;
+    cata::colony<int> test_colony;
 
     int count = 0;
     for( ; count != 1000; ++count ) {
         test_colony.insert( count );
     }
 
-    colony<int>::iterator it1 = test_colony.begin();
-    colony<int>::iterator it2 = test_colony.begin();
+    cata::colony<int>::iterator it1 = test_colony.begin();
+    cata::colony<int>::iterator it2 = test_colony.begin();
 
     test_colony.advance( it1, 500 );
     test_colony.advance( it2, 800 );
@@ -518,7 +523,7 @@ TEST_CASE( "range erase", "[colony]" )
     test_colony.erase( it1, it2 );
 
     count = 0;
-    for( colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
+    for( cata::colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
         ++count;
     }
 
@@ -535,7 +540,7 @@ TEST_CASE( "range erase", "[colony]" )
     test_colony.erase( it1, it2 );
 
     count = 0;
-    for( colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
+    for( cata::colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
         ++count;
     }
 
@@ -551,7 +556,7 @@ TEST_CASE( "range erase", "[colony]" )
     test_colony.erase( it1, it2 );
 
     count = 0;
-    for( colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
+    for( cata::colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
         ++count;
     }
 
@@ -567,7 +572,7 @@ TEST_CASE( "range erase", "[colony]" )
     test_colony.erase( it1, it2 );
 
     count = 0;
-    for( colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
+    for( cata::colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
         ++count;
     }
 
@@ -583,7 +588,7 @@ TEST_CASE( "range erase", "[colony]" )
     test_colony.erase( it1, it2 );
 
     count = 0;
-    for( colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
+    for( cata::colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
         ++count;
     }
 
@@ -597,7 +602,7 @@ TEST_CASE( "range erase", "[colony]" )
         test_colony.insert( count );
     }
 
-    for( colony<int>::iterator it = test_colony.begin(); it < test_colony.end(); ++it ) {
+    for( cata::colony<int>::iterator it = test_colony.begin(); it < test_colony.end(); ++it ) {
         it = test_colony.erase( it );
     }
 
@@ -609,7 +614,7 @@ TEST_CASE( "range erase", "[colony]" )
     test_colony.erase( it1, it2 );
 
     count = 0;
-    for( colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
+    for( cata::colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
         ++count;
     }
 
@@ -623,7 +628,7 @@ TEST_CASE( "range erase", "[colony]" )
         test_colony.insert( count );
     }
 
-    for( colony<int>::iterator it = test_colony.begin(); it < test_colony.end(); ++it ) {
+    for( cata::colony<int>::iterator it = test_colony.begin(); it < test_colony.end(); ++it ) {
         if( ( xor_rand() & 1 ) == 0 ) {
             it = test_colony.erase( it );
         }
@@ -643,7 +648,7 @@ TEST_CASE( "range erase", "[colony]" )
 
     count = 0;
 
-    for( colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
+    for( cata::colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
         ++count;
     }
 
@@ -674,7 +679,7 @@ TEST_CASE( "range erase", "[colony]" )
             test_colony.erase( it1, it2 );
 
             count = 0;
-            for( colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
+            for( cata::colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
                 ++count;
             }
 
@@ -714,7 +719,7 @@ TEST_CASE( "range erase", "[colony]" )
             test_colony.erase( it1, it2 );
 
             count = 0;
-            for( colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
+            for( cata::colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
                 ++count;
             }
 
@@ -732,7 +737,7 @@ TEST_CASE( "range erase", "[colony]" )
                 CHECK( test_colony.size() == static_cast<unsigned int>( count ) + extra_size );
 
                 count = 0;
-                for( colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
+                for( cata::colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
                     ++count;
                 }
 
@@ -761,7 +766,7 @@ TEST_CASE( "range erase", "[colony]" )
 
 TEST_CASE( "sort", "[colony]" )
 {
-    colony<int> test_colony;
+    cata::colony<int> test_colony;
 
     test_colony.reserve( 50000 );
 
@@ -774,7 +779,7 @@ TEST_CASE( "sort", "[colony]" )
     bool sorted = true;
     int prev = 0;
 
-    for( colony<int>::iterator cur = test_colony.begin(); cur != test_colony.end(); ++cur ) {
+    for( cata::colony<int>::iterator cur = test_colony.begin(); cur != test_colony.end(); ++cur ) {
         if( prev > *cur ) {
             sorted = false;
             break;
@@ -789,7 +794,7 @@ TEST_CASE( "sort", "[colony]" )
 
     prev = 65536;
 
-    for( colony<int>::iterator cur = test_colony.begin(); cur != test_colony.end(); ++cur ) {
+    for( cata::colony<int>::iterator cur = test_colony.begin(); cur != test_colony.end(); ++cur ) {
         if( prev < *cur ) {
             sorted = false;
             break;
@@ -803,17 +808,17 @@ TEST_CASE( "sort", "[colony]" )
 
 TEST_CASE( "insertion methods", "[colony]" )
 {
-    colony<int> test_colony = {1, 2, 3};
+    cata::colony<int> test_colony = {1, 2, 3};
 
     // Initializer-list constructor
     CHECK( test_colony.size() == 3 );
 
-    colony<int> test_colony_2( test_colony.begin(), test_colony.end() );
+    cata::colony<int> test_colony_2( test_colony.begin(), test_colony.end() );
 
     // Range constructor
     CHECK( test_colony_2.size() == 3 );
 
-    colony<int> test_colony_3( 5000, 2, 100, 1000 );
+    cata::colony<int> test_colony_3( 5000, 2, 100, 1000 );
 
     // Fill construction
     CHECK( test_colony_3.size() == 5000 );
@@ -837,7 +842,7 @@ TEST_CASE( "insertion methods", "[colony]" )
 
     int sum = 0;
 
-    for( colony<int>::iterator it = test_colony_2.begin(); it != test_colony_2.end(); ++it ) {
+    for( cata::colony<int>::iterator it = test_colony_2.begin(); it != test_colony_2.end(); ++it ) {
         sum += *it;
     }
 
@@ -851,7 +856,7 @@ TEST_CASE( "insertion methods", "[colony]" )
 
     sum = 0;
 
-    for( colony<int>::iterator it = test_colony_2.begin(); it != test_colony_2.end(); ++it ) {
+    for( cata::colony<int>::iterator it = test_colony_2.begin(); it != test_colony_2.end(); ++it ) {
         sum += *it;
     }
 
@@ -863,7 +868,7 @@ TEST_CASE( "insertion methods", "[colony]" )
 
     sum = 0;
 
-    for( colony<int>::iterator it = test_colony_2.begin(); it != test_colony_2.end(); ++it ) {
+    for( cata::colony<int>::iterator it = test_colony_2.begin(); it != test_colony_2.end(); ++it ) {
         sum += *it;
     }
 
@@ -875,7 +880,7 @@ TEST_CASE( "insertion methods", "[colony]" )
     test_colony_2.insert( 6000, 1 );
 
     sum = 0;
-    for( colony<int>::iterator it = test_colony_2.begin(); it != test_colony_2.end(); ++it ) {
+    for( cata::colony<int>::iterator it = test_colony_2.begin(); it != test_colony_2.end(); ++it ) {
         sum += *it;
     }
 
@@ -898,7 +903,7 @@ struct perfect_forwarding_test {
 
 TEST_CASE( "perfect forwarding", "[colony]" )
 {
-    colony<perfect_forwarding_test> test_colony;
+    cata::colony<perfect_forwarding_test> test_colony;
 
     int lvalue = 0;
     int &lvalueref = lvalue;
@@ -923,7 +928,7 @@ struct small_struct {
 
 TEST_CASE( "emplace", "[colony]" )
 {
-    colony<small_struct> test_colony;
+    cata::colony<small_struct> test_colony;
     int sum1 = 0, sum2 = 0;
 
     for( int i = 0; i < 100; ++i ) {
@@ -931,7 +936,8 @@ TEST_CASE( "emplace", "[colony]" )
         sum1 += i;
     }
 
-    for( colony<small_struct>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
+    for( cata::colony<small_struct>::iterator it = test_colony.begin(); it != test_colony.end();
+         ++it ) {
         sum2 += it->number;
     }
 
@@ -943,7 +949,7 @@ TEST_CASE( "emplace", "[colony]" )
 
 TEST_CASE( "group size and capacity", "[colony]" )
 {
-    colony<int> test_colony;
+    cata::colony<int> test_colony;
     test_colony.change_group_sizes( 50, 100 );
 
     test_colony.insert( 27 );
@@ -986,7 +992,7 @@ TEST_CASE( "group size and capacity", "[colony]" )
 
 TEST_CASE( "splice", "[colony]" )
 {
-    colony<int> test_colony_1, test_colony_2;
+    cata::colony<int> test_colony_1, test_colony_2;
 
     SECTION( "small splice 1" ) {
         int i = 0;
@@ -998,7 +1004,7 @@ TEST_CASE( "splice", "[colony]" )
         test_colony_1.splice( test_colony_2 );
 
         i = 0;
-        for( colony<int>::iterator it = test_colony_1.begin(); it < test_colony_1.end(); ++it ) {
+        for( cata::colony<int>::iterator it = test_colony_1.begin(); it < test_colony_1.end(); ++it ) {
             CHECK( i++ == *it );
         }
     }
@@ -1013,7 +1019,7 @@ TEST_CASE( "splice", "[colony]" )
         test_colony_1.splice( test_colony_2 );
 
         i = 0;
-        for( colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ++it ) {
+        for( cata::colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ++it ) {
             CHECK( i++ == *it );
         }
     }
@@ -1028,7 +1034,7 @@ TEST_CASE( "splice", "[colony]" )
         test_colony_1.splice( test_colony_2 );
 
         i = 0;
-        for( colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ++it ) {
+        for( cata::colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ++it ) {
             CHECK( i++ == *it );
         }
     }
@@ -1039,7 +1045,7 @@ TEST_CASE( "splice", "[colony]" )
             test_colony_2.insert( i + 100 );
         }
 
-        for( colony<int>::iterator it = test_colony_2.begin(); it != test_colony_2.end(); ) {
+        for( cata::colony<int>::iterator it = test_colony_2.begin(); it != test_colony_2.end(); ) {
             if( ( xor_rand() & 7 ) == 0 ) {
                 it = test_colony_2.erase( it );
             } else {
@@ -1050,7 +1056,7 @@ TEST_CASE( "splice", "[colony]" )
         test_colony_1.splice( test_colony_2 );
 
         int prev = -1;
-        for( colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ++it ) {
+        for( cata::colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ++it ) {
             CHECK( prev < *it );
             prev = *it;
         }
@@ -1062,7 +1068,7 @@ TEST_CASE( "splice", "[colony]" )
             test_colony_2.insert( i + 100 );
         }
 
-        for( colony<int>::iterator it = test_colony_2.begin(); it != test_colony_2.end(); ) {
+        for( cata::colony<int>::iterator it = test_colony_2.begin(); it != test_colony_2.end(); ) {
             if( ( xor_rand() & 3 ) == 0 ) {
                 it = test_colony_2.erase( it );
             } else {
@@ -1070,7 +1076,7 @@ TEST_CASE( "splice", "[colony]" )
             }
         }
 
-        for( colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ) {
+        for( cata::colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ) {
             if( ( xor_rand() & 1 ) == 0 ) {
                 it = test_colony_1.erase( it );
             } else {
@@ -1081,7 +1087,7 @@ TEST_CASE( "splice", "[colony]" )
         test_colony_1.splice( test_colony_2 );
 
         int prev = -1;
-        for( colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ++it ) {
+        for( cata::colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ++it ) {
             CHECK( prev < *it );
             prev = *it;
         }
@@ -1102,7 +1108,7 @@ TEST_CASE( "splice", "[colony]" )
         test_colony_1.splice( test_colony_2 );
 
         int prev = -1;
-        for( colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ++it ) {
+        for( cata::colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ++it ) {
             CHECK( prev < *it );
             prev = *it;
         }
@@ -1123,7 +1129,7 @@ TEST_CASE( "splice", "[colony]" )
         test_colony_1.splice( test_colony_2 );
 
         int prev = 255;
-        for( colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ++it ) {
+        for( cata::colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ++it ) {
             CHECK( prev >= *it );
             prev = *it;
         }
@@ -1138,7 +1144,7 @@ TEST_CASE( "splice", "[colony]" )
             test_colony_2.insert( i );
         }
 
-        for( colony<int>::iterator it = test_colony_2.begin(); it != test_colony_2.end(); ) {
+        for( cata::colony<int>::iterator it = test_colony_2.begin(); it != test_colony_2.end(); ) {
             if( ( xor_rand() & 1 ) == 0 ) {
                 it = test_colony_2.erase( it );
             } else {
@@ -1146,7 +1152,7 @@ TEST_CASE( "splice", "[colony]" )
             }
         }
 
-        for( colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ) {
+        for( cata::colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ) {
             if( ( xor_rand() & 1 ) == 0 ) {
                 it = test_colony_1.erase( it );
             } else {
@@ -1161,13 +1167,13 @@ TEST_CASE( "splice", "[colony]" )
         test_colony_1.splice( test_colony_2 );
 
         int prev = -1;
-        for( colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ++it ) {
+        for( cata::colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ++it ) {
             CHECK( prev < *it );
             prev = *it;
         }
 
         do {
-            for( colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ) {
+            for( cata::colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ) {
                 if( ( xor_rand() & 3 ) == 0 ) {
                     it = test_colony_1.erase( it );
                 } else if( ( xor_rand() & 7 ) == 0 ) {

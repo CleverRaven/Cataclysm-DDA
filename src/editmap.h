@@ -9,7 +9,7 @@
 #include "optional.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "enums.h"
+#include "point.h"
 #include "type_id.h"
 
 struct real_coords;
@@ -94,7 +94,7 @@ class editmap
         trap_id cur_trap;
 
         int sel_field;
-        int sel_fdensity;
+        int sel_field_intensity;
 
         trap_id sel_trap;
 

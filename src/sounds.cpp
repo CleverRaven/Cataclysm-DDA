@@ -33,17 +33,16 @@
 #include "calendar.h"
 #include "creature.h"
 #include "game_constants.h"
-#include "mapdata.h"
 #include "optional.h"
 #include "player_activity.h"
 #include "rng.h"
 #include "units.h"
-#include "material.h"
-#include "pldata.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "veh_type.h"
 #include "type_id.h"
+#include "point.h"
+#include "string_id.h"
 
 #if defined(SDL_SOUND)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -378,7 +377,7 @@ void sounds::process_sound_markers( player *p )
             }
             // if we can see it, don't print a direction
             if( pos == p->pos() ) {
-                add_msg( severity, _( "From yourself you hear %1$s." ), description );
+                add_msg( severity, _( "From your position you hear %1$s." ), description );
             } else if( p->sees( pos ) ) {
                 add_msg( severity, _( "You hear %1$s" ), description );
             } else {

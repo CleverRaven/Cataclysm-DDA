@@ -1,6 +1,5 @@
 #include "mattack_actors.h"
 
-#include <cmath>
 #include <algorithm>
 #include <memory>
 
@@ -24,6 +23,7 @@
 #include "player.h"
 #include "rng.h"
 #include "material.h"
+#include "point.h"
 
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_bite( "bite" );

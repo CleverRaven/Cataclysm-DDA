@@ -1,5 +1,6 @@
 #include "game_inventory.h"
 
+#include <math.h>
 #include <climits>
 #include <cstddef>
 #include <functional>
@@ -9,6 +10,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 #include "avatar.h"
 #include "game.h"
@@ -43,6 +45,7 @@
 #include "translations.h"
 #include "units.h"
 #include "type_id.h"
+#include "point.h"
 
 const efftype_id effect_assisted( "assisted" );
 
@@ -552,10 +555,11 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
-            const auto &a = get_consumable_item( lhs.location );
-            const auto &b = get_consumable_item( rhs.location );
+            const auto &a = get_consumable_item( lhs.any_item() );
+            const auto &b = get_consumable_item( rhs.any_item() );
 
-            const int freshness = rate_freshness( a, *lhs.location ) - rate_freshness( b, *rhs.location );
+            const int freshness = rate_freshness( a, *lhs.any_item() ) -
+                                  rate_freshness( b, *rhs.any_item() );
             if( freshness != 0 ) {
                 return freshness > 0;
             }
@@ -823,8 +827,8 @@ class gunmod_inventory_preset : public inventory_selector_preset
         }
 
         bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
-            const auto a = get_odds( lhs.location );
-            const auto b = get_odds( rhs.location );
+            const auto a = get_odds( lhs.any_item() );
+            const auto b = get_odds( rhs.any_item() );
 
             if( a.first > b.first || ( a.first == b.first && a.second < b.second ) ) {
                 return true;
@@ -950,11 +954,11 @@ class read_inventory_preset: public pickup_inventory_preset
                     return true;
                 }
 
-                if( !is_known( e.location ) ) {
+                if( !is_known( e.any_item() ) ) {
                     return false;
                 }
 
-                const auto &book = get_book( e.location );
+                const auto &book = get_book( e.any_item() );
                 if( book.skill && p.get_skill_level_object( book.skill ).can_train() ) {
                     return lcmatch( book.skill->name(), filter );
                 }
@@ -1425,10 +1429,11 @@ static item_location autodoc_internal( player &u, player &patient,
     } else if( patient.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
         hint = _( "<color_yellow>Patient has Sensory Dulling CBM installed.  Anesthesia unneeded.</color>" );
     } else {
-        std::vector<const item *> a_filter = u.crafting_inventory().items_with( []( const item & it ) {
+        const inventory &crafting_inv = u.crafting_inventory();
+        std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
             return it.has_quality( quality_id( "ANESTHESIA" ) );
         } );
-        std::vector<const item *> b_filter = u.crafting_inventory().items_with( []( const item & it ) {
+        std::vector<const item *> b_filter = crafting_inv.items_with( []( const item & it ) {
             return it.has_flag( "ANESTHESIA" ); // legacy
         } );
         for( const item *anesthesia_item : a_filter ) {

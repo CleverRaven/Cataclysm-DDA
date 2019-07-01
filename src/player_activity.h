@@ -12,6 +12,7 @@
 #include "enums.h"
 #include "item_location.h"
 #include "string_id.h"
+#include "point.h"
 
 class player;
 class Character;
@@ -53,9 +54,9 @@ class player_activity
         player_activity( activity_id, int turns = 0, int Index = -1, int pos = INT_MIN,
                          const std::string &name_in = "" );
         player_activity( player_activity && ) = default;
-        player_activity( const player_activity & );
+        player_activity( const player_activity & ) = default;
         player_activity &operator=( player_activity && ) = default;
-        player_activity &operator=( const player_activity & );
+        player_activity &operator=( const player_activity & ) = default;
 
         explicit operator bool() const {
             return !type.is_null();

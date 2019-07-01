@@ -8,6 +8,8 @@ SET(CMAKE_MODULE_PATH
     ${CMAKE_SOURCE_DIR}/CMakeModules
 )
 
+SET(CMAKE_TLS_VERIFY ON)
+
 # Build options
 option(TILES        "Build graphical tileset version."						"OFF")
 option(CURSES       "Build curses version."							"ON" )
@@ -17,8 +19,11 @@ option(USE_HOME_DIR "Use user's home directory for save files."					"ON" )
 option(LOCALIZE     "Support for language localizations. Also enable UTF support."		"ON" )
 option(LANGUAGES    "Compile localization files for specified languages."			""   )
 option(DYNAMIC_LINKING "Use dynamic linking. Or use static to remove MinGW dependency instead."	"ON")
-option(GIT_BINARY   "Git binary name or path."							"")
-OPTION(PREFIX       "Location of Data & GFX directories"                                   "")
+option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy plugin" "OFF")
+set(CATA_CLANG_TIDY_INCLUDE_DIR "" CACHE STRING "Path to internal clang-tidy headers required for plugin (e.g. ClangTidy.h)")
+set(CATA_CHECK_CLANG_TIDY "" CACHE STRING "Path to check_clang_tidy.py for plugin tests")
+set(GIT_BINARY       "" CACHE STRING "Git binary name or path.")
+set(PREFIX           "" CACHE STRING "Location of Data & GFX directories")
 
 include(CTest)
 
@@ -341,6 +346,9 @@ if (NOT MSVC)
 	add_subdirectory(src/chkjson)
 endif()
 add_subdirectory(tests)
+if (CATA_CLANG_TIDY_PLUGIN)
+	add_subdirectory(tools/clang-tidy-plugin)
+endif()
 
 CONFIGURE_FILE(
 	"${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"

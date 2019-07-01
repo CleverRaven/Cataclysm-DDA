@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "enums.h"
+#include "point.h"
 
 class monster;
 class JsonIn;

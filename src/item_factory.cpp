@@ -43,8 +43,11 @@
 #include "recipe.h"
 #include "string_id.h"
 #include "units.h"
+#include "cata_utility.h"
+#include "flat_set.h"
 
 class player;
+struct tripoint;
 
 using t_string_set = std::set<std::string>;
 static t_string_set item_blacklist;
@@ -664,6 +667,8 @@ void Item_factory::init()
                                 "present</info>."
                               ) );
     add_iuse( "GEIGER", &iuse::geiger );
+    add_iuse( "GOBAG_NORMAL", &iuse::gobag_normal );
+    add_iuse( "GOBAG_PERSONAL", &iuse::gobag_personal );
     add_iuse( "GRANADE", &iuse::granade );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
     add_iuse( "GRENADE_INC_ACT", &iuse::grenade_inc_act );
@@ -801,6 +806,7 @@ void Item_factory::init()
     add_actor( new deploy_tent_actor() );
     add_actor( new learn_spell_actor() );
     add_actor( new cast_spell_actor() );
+    add_actor( new weigh_self_actor() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups["EMPTY_GROUP"].reset( new Item_group( Item_group::G_COLLECTION, 100, 0, 0 ) );
@@ -842,6 +848,11 @@ void Item_factory::check_definitions() const
         }
         if( type->volume < 0_ml ) {
             msg << "negative volume" << "\n";
+        }
+        if( type->count_by_charges() || type->phase == LIQUID ) {
+            if( type->stack_size <= 0 ) {
+                msg << "invalid stack_size " << type->stack_size << " on type using charges\n";
+            }
         }
         if( type->price < 0 ) {
             msg << "negative price" << "\n";

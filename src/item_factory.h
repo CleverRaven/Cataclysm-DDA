@@ -16,9 +16,11 @@
 #include "itype.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_group.h"
 #include "iuse.h"
 #include "type_id.h"
+
+class Item_group;
+class Item_spawn_data;
 
 namespace cata
 {

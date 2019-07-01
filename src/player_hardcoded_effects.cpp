@@ -19,6 +19,9 @@
 #include "rng.h"
 #include "translations.h"
 #include "units.h"
+#include "enums.h"
+#include "mtype.h"
+#include "stomach.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -549,8 +552,8 @@ void player::hardcoded_effects( effect &it )
             mod_per_bonus( -( dur > 400_minutes ? 10.0 : dur / 40_minutes ) );
         }
     } else if( id == effect_attention ) {
-        if( one_in( 100000 / to_turns<int>( dur ) ) && one_in( 100000 / to_turns<int>( dur ) ) &&
-            one_in( 250 ) ) {
+        if( to_turns<int>( dur ) != 0 && one_in( 100000 / to_turns<int>( dur ) ) &&
+            one_in( 100000 / to_turns<int>( dur ) ) && one_in( 250 ) ) {
             tripoint dest( 0, 0, posz() );
             int tries = 0;
             do {

@@ -8,10 +8,11 @@
 #include "overmapbuffer.h"
 #include "calendar.h"
 #include "common_types.h"
-#include "enums.h"
 #include "omdata.h"
 #include "overmap_types.h"
 #include "type_id.h"
+#include "game_constants.h"
+#include "point.h"
 
 TEST_CASE( "set_and_get_overmap_scents" )
 {
@@ -90,10 +91,12 @@ TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin" )
 
     // ...and assert that the optional special exists on this map.
     bool found_optional = false;
-    for( int x = 0; x < 180; ++x ) {
-        for( int y = 0; y < 180; ++y ) {
+    for( int x = 0; x < OMAPX; ++x ) {
+        for( int y = 0; y < OMAPY; ++y ) {
             const oter_id t = test_overmap->get_ter( x, y, 0 );
-            if( t->id == "cabin" ) {
+            if( t->id == "cabin" ||
+                t->id == "cabin_north" || t->id == "cabin_east" ||
+                t->id == "cabin_south" || t->id == "cabin_west" ) {
                 found_optional = true;
             }
         }

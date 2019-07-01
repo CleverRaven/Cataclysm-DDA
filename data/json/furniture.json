@@ -517,7 +517,7 @@
     "comfort": 2,
     "floor_bedding_warmth": 200,
     "required_str": -1,
-    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "straw_pile", "count": [ 7, 8 ] } ] },
+    "deconstruct": { "items": [ { "item": "stick", "count": 4 }, { "item": "straw_pile", "count": [ 7, 8 ] } ] },
     "max_volume": 4000,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
     "bash": {
@@ -526,7 +526,7 @@
       "sound": "crunch!",
       "sound_fail": "whump.",
       "items": [
-        { "item": "2x4", "count": [ 2, 3 ] },
+        { "item": "stick", "count": [ 2, 3 ] },
         { "item": "straw_pile", "count": [ 7, 8 ] },
         { "item": "splinter", "count": [ 1, 2 ] }
       ]
@@ -2910,6 +2910,20 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "flower_dahlia",
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_chicory",
+    "name": "chicory",
+    "description": "A blue flower imported from Europe, also known as a Cornflower.",
+    "symbol": "f",
+    "color": "cyan",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "chicory_raw", "base_num": [ 1, 2 ] } ] } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -6561,6 +6575,18 @@
     "workbench": { "multiplier": 1.2, "mass": 500000, "volume": "200L" }
   },
   {
+    "id": "f_hanging_meathook",
+    "type": "furniture",
+    "name": "hanging meathook",
+    "description": "A hefty hook suspended from a chain for stringing up corpses.",
+    "symbol": "g",
+    "required_str": -1,
+    "move_cost_mod": 2,
+    "color": "light_gray",
+    "deconstruct": { "items": [ { "item": "grip_hook", "count": 1 }, { "item": "chain", "count": 1 } ] },
+    "flags": [ "TRANSPARENT", "BUTCHER_EQ" ]
+  },
+  {
     "type": "furniture",
     "id": "f_fake_bench_hands",
     "name": "fake workbench hands",
@@ -6670,5 +6696,17 @@
         { "item": "plastic_chunk", "count": [ 0, 1 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_no_item",
+    "//": "This is used in a hack to clear furniture with the keg iexamine of all items execept the stored liquid before usage.",
+    "name": "seeing this is a bug",
+    "description": "Seeing this is a bug.  If seen, please report and destroy.",
+    "symbol": "#",
+    "color": "black",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [ "NOITEM" ]
   }
 ]

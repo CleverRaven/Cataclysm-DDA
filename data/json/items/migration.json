@@ -611,5 +611,15 @@
     "id": "skinny_tie",
     "type": "MIGRATION",
     "replace": "tie_skinny"
+  },
+  {
+    "id": "270",
+    "type": "MIGRATION",
+    "replace": "270win_jsp"
+  },
+  {
+    "id": "reloaded_270",
+    "type": "MIGRATION",
+    "replace": "reloaded_270win_jsp"
   }
 ]

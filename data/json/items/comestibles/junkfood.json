@@ -14,7 +14,7 @@
     "description": "Dry toaster pastries usually coated with solid frosting and what luck!  These are strawberry flavored!",
     "price": 400,
     "material": [ "wheat", "junk" ],
-    "volume": 5,
+    "volume": "1 L",
     "charges": 8,
     "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "vitA", 3 ], [ "iron", 10 ] ],

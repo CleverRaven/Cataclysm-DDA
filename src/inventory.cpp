@@ -7,7 +7,6 @@
 #include <algorithm>
 #include <iterator>
 #include <memory>
-#include <set>
 
 #include "avatar.h"
 #include "debug.h"
@@ -22,7 +21,6 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "calendar.h"
 #include "character.h"
 #include "damage.h"
@@ -32,6 +30,9 @@
 #include "rng.h"
 #include "material.h"
 #include "type_id.h"
+#include "colony.h"
+#include "flat_set.h"
+#include "point.h"
 
 struct itype;
 

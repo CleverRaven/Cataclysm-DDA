@@ -7,7 +7,6 @@
 #include <list>
 #include <map>
 #include <memory>
-#include <unordered_map>
 #include <set>
 #include <vector>
 #include <ctime>
@@ -19,18 +18,17 @@
 #include "calendar.h"
 #include "cursesdef.h"
 #include "enums.h"
-#include "explosion.h"
 #include "game_constants.h"
-#include "handle_liquid.h"
 #include "item_location.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "creature.h"
-#include "item.h"
 #include "type_id.h"
 #include "monster.h"
-#include "game_inventory.h"
 #include "weather.h"
+#include "point.h"
+
+class item;
 
 #define DEFAULT_TILESET_ZOOM 16
 
@@ -80,7 +78,6 @@ enum weather_type : int;
 enum action_id : int;
 enum target_mode : int;
 
-struct targeting_data;
 struct special_game;
 
 using itype_id = std::string;
@@ -102,11 +99,7 @@ class overmap;
 class event_manager;
 
 enum event_type : int;
-class weather_generator;
-struct weather_printable;
 class live_view;
-class nc_color;
-struct w_point;
 struct visibility_variables;
 class scent_map;
 class loading_ui;
@@ -411,7 +404,7 @@ class game
          */
         bool revive_corpse( const tripoint &location, item &corpse );
         /**Turns Broken Cyborg monster into Cyborg NPC via surgery*/
-        void save_cyborg( item *cyborg, const tripoint couch_pos, player &installer );
+        void save_cyborg( item *cyborg, const tripoint &couch_pos, player &installer );
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
         bool cancel_activity_query( const std::string &message );
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
