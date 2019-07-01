@@ -38,6 +38,7 @@
 #include "magic.h"
 #include "craft_command.h"
 #include "point.h"
+#include "faction.h"
 
 class basecamp;
 class effect;
