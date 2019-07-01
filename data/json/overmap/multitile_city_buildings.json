@@ -2051,6 +2051,10 @@
     "type": "city_building",
     "id": "pawn_pf",
     "locations": [ "land" ],
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pawn_pf_north" }, { "point": [ 0, 0, -1 ], "overmap": "pawn_pf_under_north" } ]
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "pawn_pf_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "pawn_pf_under_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "pawn_pf_roof_north" }
+    ]
   }
 ]
