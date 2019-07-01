@@ -353,6 +353,33 @@
   },
   {
     "type": "city_building",
+    "id": "s_petstore",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_petstore_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_petstore_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_petstore_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_petstore_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_petstore_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_petstore_2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_petstore_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_petstore_roof_2_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "s_restaurant_coffee",
     "locations": [ "land" ],
     "overmaps": [

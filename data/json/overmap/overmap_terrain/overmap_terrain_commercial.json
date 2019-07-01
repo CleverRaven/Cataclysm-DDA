@@ -1691,6 +1691,41 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_petstore_roof",
+    "copy-from": "generic_city_building",
+    "name": "pet supply store roof",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_petstore_1",
+    "copy-from": "generic_city_building",
+    "name": "pet supply store",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_petstore_roof_1",
+    "copy-from": "generic_city_building",
+    "name": "pet supply store roof",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_petstore_2",
+    "copy-from": "generic_city_building",
+    "name": "pet supply store",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_petstore_roof_2",
+    "copy-from": "generic_city_building",
+    "name": "pet supply store roof",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_shoppingplaza_a1",
     "copy-from": "generic_city_building",
     "name": "abandoned shopping plaza",

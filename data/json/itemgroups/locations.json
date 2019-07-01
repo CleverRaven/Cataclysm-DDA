@@ -167,6 +167,25 @@
     "entries": [ { "group": "mags_obscure", "prob": 10 } ]
   },
   {
+    "id": "petstore_misc",
+    "type": "item_group",
+    "items": [ [ "dogfood", 35 ], [ "catfood", 35 ], [ "birdfood", 15 ], [ "dog_whistle", 15 ], [ "flashlight", 5 ] ]
+  },
+  {
+    "id": "petstore_shelves",
+    "type": "item_group",
+    "items": [
+      [ "dogfood", 30 ],
+      [ "catfood", 30 ],
+      [ "birdfood", 15 ],
+      [ "can_tuna", 15 ],
+      [ "can_chicken", 15 ],
+      [ "kevlar_harness", 5 ],
+      [ "leather_harness_dog", 5 ],
+      [ "rubber_harness_dog", 5 ]
+    ]
+  },
+  {
     "type": "item_group",
     "id": "mansion_guns",
     "magazine": 100,
