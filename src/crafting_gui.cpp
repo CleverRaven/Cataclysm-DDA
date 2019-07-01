@@ -20,7 +20,6 @@
 #include "itype.h"
 #include "json.h"
 #include "output.h"
-#include "player.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "skill.h"

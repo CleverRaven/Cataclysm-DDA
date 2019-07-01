@@ -2,15 +2,19 @@
 #ifndef NPCTRADE_H
 #define NPCTRADE_H
 
+#include <stddef.h>
 #include <vector>
-#include <set>
 #include <string>
 #include <utility>
+#include <algorithm>
+#include <list>
 
 #include "inventory.h"
 #include "item_location.h"
 #include "output.h"
 #include "units.h"
+#include "cursesdef.h"
+#include "translations.h"
 
 class Character;
 class faction;

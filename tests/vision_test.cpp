@@ -11,17 +11,16 @@
 #include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
-#include "player.h"
 #include "field.h"
 #include "map.h"
-#include "mapdata.h"
 #include "map_helpers.h"
 #include "calendar.h"
-#include "enums.h"
 #include "item.h"
 #include "lightmap.h"
 #include "shadowcasting.h"
 #include "type_id.h"
+#include "game_constants.h"
+#include "point.h"
 
 static void full_map_test( const std::vector<std::string> &setup,
                            const std::vector<std::string> &expected_results,

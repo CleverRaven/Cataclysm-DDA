@@ -7,7 +7,7 @@
 #include <sstream>
 #include <memory>
 #include <tuple>
-#include <type_traits>
+#include <list>
 
 #include "action.h"
 #include "activity_handlers.h"
@@ -46,6 +46,11 @@
 #include "rng.h"
 #include "string_id.h"
 #include "field.h"
+#include "bodypart.h"
+#include "enums.h"
+#include "monster.h"
+#include "mtype.h"
+#include "weather.h"
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );
@@ -673,6 +678,12 @@ void vehicle::use_controls( const tripoint &pos )
     menu.entries = options;
     menu.query();
     if( menu.ret >= 0 ) {
+        // allow player to turn off engine without triggering another warning
+        if( menu.ret != 0 && menu.ret != 1 && menu.ret != 2 && menu.ret != 3 ) {
+            if( !handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                return;
+            }
+        }
         actions[menu.ret]();
         // Don't access `this` from here on, one of the actions above is to call
         // fold_up(), which may have deleted `this` object.
@@ -1609,7 +1620,11 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         selectmenu.query();
         choice = selectmenu.ret;
     }
-
+    if( choice != EXAMINE && choice != TRACK && choice != GET_ITEMS_ON_GROUND ) {
+        if( !handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+            return;
+        }
+    }
     auto veh_tool = [&]( const itype_id & obj ) {
         item pseudo( obj );
         if( fuel_left( "battery" ) < pseudo.ammo_required() ) {

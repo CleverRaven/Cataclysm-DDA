@@ -1,9 +1,9 @@
 #include "mapgen.h"
 
+#include <assert.h>
 #include <cstdlib>
 #include <algorithm>
 #include <list>
-#include <random>
 #include <sstream>
 #include <array>
 #include <functional>
@@ -13,7 +13,6 @@
 #include <unordered_map>
 #include <cmath>
 
-#include "ammo.h"
 #include "clzones.h"
 #include "computer.h"
 #include "coordinate_conversions.h"
@@ -33,10 +32,8 @@
 #include "mapdata.h"
 #include "mapgen_functions.h"
 #include "mapgenformat.h"
-#include "messages.h"
 #include "mission.h"
 #include "mongroup.h"
-#include "mtype.h"
 #include "npc.h"
 #include "omdata.h"
 #include "optional.h"
@@ -63,8 +60,10 @@
 #include "tileray.h"
 #include "weighted_list.h"
 #include "material.h"
-#include "cata_utility.h"
 #include "int_id.h"
+#include "colony.h"
+#include "pimpl.h"
+#include "point.h"
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -6951,6 +6950,13 @@ void map::apply_faction_ownership( const int x1, const int y1, const int x2, con
         auto items = i_at( p.x, p.y );
         for( item &elem : items ) {
             elem.set_owner( fac );
+        }
+        vehicle *source_veh = veh_pointer_or_null( veh_at( p ) );
+        if( source_veh ) {
+            if( !source_veh->has_owner() ) {
+                source_veh->base_name = source_veh->name;
+                source_veh->set_owner( fac );
+            }
         }
     }
 }

@@ -24,7 +24,6 @@
 #include "catacharset.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
-#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
@@ -32,10 +31,8 @@
 #include "filesystem.h"
 #include "fungal_effects.h"
 #include "game.h"
-#include "get_version.h"
 #include "gun_mode.h"
 #include "handle_liquid.h"
-#include "help.h" // get_hint
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
@@ -49,8 +46,6 @@
 #include "martialarts.h"
 #include "material.h"
 #include "messages.h"
-#include "mission.h"
-#include "monstergenerator.h"
 #include "morale.h"
 #include "morale_types.h"
 #include "mtype.h"
@@ -60,7 +55,6 @@
 #include "options.h"
 #include "output.h"
 #include "overlay_ordering.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "pickup.h"
 #include "profession.h"
@@ -83,7 +77,6 @@
 #include "vpart_range.h"
 #include "weather.h"
 #include "weather_gen.h"
-#include "compatibility.h"
 #include "field.h"
 #include "fire.h"
 #include "int_id.h"
@@ -93,12 +86,15 @@
 #include "monster.h"
 #include "omdata.h"
 #include "overmap_types.h"
-#include "pathfinding.h"
 #include "recipe.h"
 #include "rng.h"
 #include "units.h"
 #include "visitable.h"
 #include "string_id.h"
+#include "colony.h"
+#include "enums.h"
+#include "flat_set.h"
+#include "stomach.h"
 
 constexpr double SQRT_2 = 1.41421356237309504880;
 
@@ -7454,6 +7450,55 @@ void player::rooted()
         }
         mod_healthy_mod( 5, 50 );
     }
+}
+
+bool player::add_faction_warning( const faction_id &id )
+{
+    const auto it = warning_record.find( id );
+    if( it != warning_record.end() ) {
+        it->second.first += 1;
+        if( it->second.second - calendar::turn > 5_minutes ) {
+            it->second.first -= 1;
+        }
+        it->second.second = calendar::turn;
+        if( it->second.first > 3 ) {
+            return true;
+        }
+    } else {
+        warning_record[id] = std::make_pair( 1, calendar::turn );
+    }
+    faction *fac = g->faction_manager_ptr->get( id );
+    if( fac != nullptr && is_player() ) {
+        fac->likes_u -= 1;
+        fac->respects_u -= 1;
+    }
+    return false;
+}
+
+int player::current_warnings_fac( const faction_id &id )
+{
+    const auto it = warning_record.find( id );
+    if( it != warning_record.end() ) {
+        if( it->second.second - calendar::turn > 5_minutes ) {
+            it->second.first = std::max( 0,
+                                         it->second.first - 1 );
+        }
+        return it->second.first;
+    }
+    return 0;
+}
+
+bool player::beyond_final_warning( const faction_id &id )
+{
+    const auto it = warning_record.find( id );
+    if( it != warning_record.end() ) {
+        if( it->second.second - calendar::turn > 5_minutes ) {
+            it->second.first = std::max( 0,
+                                         it->second.first - 1 );
+        }
+        return it->second.first > 3;
+    }
+    return false;
 }
 
 item::reload_option player::select_ammo( const item &base,

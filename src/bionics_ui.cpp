@@ -2,6 +2,7 @@
 
 #include <algorithm> //std::min
 #include <sstream>
+#include <cstddef>
 
 #include "bionics.h"
 #include "catacharset.h"

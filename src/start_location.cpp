@@ -2,13 +2,11 @@
 
 #include <climits>
 #include <algorithm>
-#include <random>
 #include <memory>
 
 #include "avatar.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
-#include "enums.h"
 #include "field.h"
 #include "game.h"
 #include "generic_factory.h"
@@ -25,6 +23,7 @@
 #include "pldata.h"
 #include "rng.h"
 #include "translations.h"
+#include "point.h"
 
 class item;
 

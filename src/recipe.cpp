@@ -23,6 +23,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "string_id.h"
+#include "flat_set.h"
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 

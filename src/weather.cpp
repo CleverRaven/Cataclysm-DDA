@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <array>
 #include <list>
 #include <memory>
 
@@ -22,7 +21,6 @@
 #include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -31,12 +29,13 @@
 #include "bodypart.h"
 #include "enums.h"
 #include "item.h"
-#include "mapdata.h"
 #include "math_defines.h"
 #include "rng.h"
 #include "string_id.h"
 #include "units.h"
-#include "int_id.h"
+#include "colony.h"
+#include "player_activity.h"
+#include "regional_settings.h"
 
 const efftype_id effect_glare( "glare" );
 const efftype_id effect_snow_glare( "snow_glare" );

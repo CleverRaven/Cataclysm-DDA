@@ -3,10 +3,8 @@
 #define PLAYER_H
 
 #include <climits>
-#include <cstddef>
 #include <array>
 #include <memory>
-#include <unordered_set>
 #include <functional>
 #include <iosfwd>
 #include <list>
@@ -24,7 +22,6 @@
 #include "damage.h"
 #include "game_constants.h"
 #include "item.h"
-#include "map_memory.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -34,12 +31,14 @@
 #include "color.h"
 #include "creature.h"
 #include "cursesdef.h"
-#include "enums.h"
 #include "inventory.h"
 #include "item_location.h"
 #include "pldata.h"
 #include "type_id.h"
 #include "magic.h"
+#include "craft_command.h"
+#include "point.h"
+#include "faction.h"
 
 class basecamp;
 class effect;
@@ -49,10 +48,10 @@ struct pathfinding_settings;
 class recipe;
 struct islot_comestible;
 struct itype;
+class monster;
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 
-class craft_command;
 class recipe_subset;
 
 enum action_id : int;
@@ -65,7 +64,6 @@ class dispersion_sources;
 
 using itype_id = std::string;
 struct trap;
-class mission;
 class profession;
 
 nc_color encumb_color( int level );
@@ -74,16 +72,9 @@ class ma_technique;
 class martialart;
 struct item_comp;
 struct tool_comp;
-template<typename CompType> struct comp_selection;
 class vehicle;
 struct w_point;
-struct points_left;
 struct targeting_data;
-
-namespace debug_menu
-{
-class mission_debug;
-} // namespace debug_menu
 
 // This tries to represent both rating and
 // player's decision to respect said rating
@@ -1171,6 +1162,10 @@ class player : public Character
         hint_rating rate_action_mend( const item &it ) const;
         hint_rating rate_action_disassemble( const item &it );
 
+        //returns true if the warning is now beyond final and results in hostility.
+        bool add_faction_warning( const faction_id &id );
+        int current_warnings_fac( const faction_id &id );
+        bool beyond_final_warning( const faction_id &id );
         /** Returns warmth provided by armor, etc. */
         int warmth( body_part bp ) const;
         /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
@@ -1844,7 +1839,8 @@ class player : public Character
         cata::optional<tripoint> destination_point;
         // Used to make sure auto move is canceled if we stumble off course
         cata::optional<tripoint> next_expected_position;
-
+        /** warnings from a faction about bad behaviour */
+        std::map<faction_id, std::pair<int, time_point>> warning_record;
         inventory cached_crafting_inventory;
         int cached_moves;
         time_point cached_time;

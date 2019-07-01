@@ -30,7 +30,7 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "color.h"
-#include "enums.h"
+#include "point.h"
 
 using std::min; // from <algorithm>
 using std::max;

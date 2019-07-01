@@ -10,12 +10,10 @@
 #include <limits>
 #include <map>
 #include <memory>
-#include <set>
 #include <utility>
 #include <vector>
 
 #include "activity_handlers.h"
-#include "ammo.h"
 #include "bionics.h"
 #include "calendar.h"
 #include "craft_command.h"
@@ -60,6 +58,15 @@
 #include "string_id.h"
 #include "units.h"
 #include "type_id.h"
+#include "clzones.h"
+#include "colony.h"
+#include "faction.h"
+#include "flat_set.h"
+#include "iuse.h"
+#include "point.h"
+#include "weather.h"
+
+class basecamp;
 
 const efftype_id effect_contacts( "contacts" );
 
@@ -481,23 +488,41 @@ bool player::can_start_craft( const recipe *rec, int batch_size )
 
     const std::vector<std::vector<tool_comp>> &tool_reqs = rec->requirements().get_tools();
 
+    // For tools adjust the reqired charges
     std::vector<std::vector<tool_comp>> adjusted_tool_reqs;
     for( const std::vector<tool_comp> &alternatives : tool_reqs ) {
         std::vector<tool_comp> adjusted_alternatives;
         for( const tool_comp &alternative : alternatives ) {
             tool_comp adjusted_alternative = alternative;
-            adjusted_alternative.count *= batch_size;
-            // Only for the next 5% progress
-            adjusted_alternative.count = adjusted_alternative.count / 20 +
-                                         adjusted_alternative.count % 20;
+            if( adjusted_alternative.count > 0 ) {
+                adjusted_alternative.count *= batch_size;
+                // Only for the first 5% progress
+                adjusted_alternative.count = adjusted_alternative.count / 20 +
+                                             adjusted_alternative.count % 20;
+            }
             adjusted_alternatives.push_back( adjusted_alternative );
         }
         adjusted_tool_reqs.push_back( adjusted_alternatives );
     }
 
+    const std::vector<std::vector<item_comp>> &comp_reqs = rec->requirements().get_components();
+
+    // For components we need to multiply by batch size to stay even with tools
+    std::vector<std::vector<item_comp>> adjusted_comp_reqs;
+    for( const std::vector<item_comp> &alternatives : comp_reqs ) {
+        std::vector<item_comp> adjusted_alternatives;
+        for( const item_comp &alternative : alternatives ) {
+            item_comp adjusted_alternative = alternative;
+            adjusted_alternative.count *= batch_size;
+            adjusted_alternatives.push_back( adjusted_alternative );
+        }
+        adjusted_comp_reqs.push_back( adjusted_alternatives );
+    }
+
+    // Qualities don't need adjustment
     const requirement_data start_reqs( adjusted_tool_reqs,
                                        rec->requirements().get_qualities(),
-                                       rec->requirements().get_components() );
+                                       adjusted_comp_reqs );
 
     return start_reqs.can_make_with_inventory( crafting_inventory(), rec->get_component_filter() );
 }
@@ -1245,9 +1270,11 @@ bool player::can_continue_craft( item &craft )
             std::vector<tool_comp> adjusted_alternatives;
             for( const tool_comp &alternative : alternatives ) {
                 tool_comp adjusted_alternative = alternative;
-                adjusted_alternative.count *= batch_size;
-                // Only for the next 5% progress
-                adjusted_alternative.count /= 20;
+                if( adjusted_alternative.count > 0 ) {
+                    adjusted_alternative.count *= batch_size;
+                    // Only for the next 5% progress
+                    adjusted_alternative.count /= 20;
+                }
                 adjusted_alternatives.push_back( adjusted_alternative );
             }
             adjusted_tool_reqs.push_back( adjusted_alternatives );
@@ -1645,6 +1672,10 @@ bool player::craft_consume_tools( item &craft, int mulitplier, bool start_craft 
     const auto calc_charges = [&craft, &start_craft, &mulitplier]( int charges ) {
         int ret = charges;
 
+        if( ret <= 0 ) {
+            return ret;
+        }
+
         // Account for batch size
         ret *= craft.charges;
 
@@ -1760,7 +1791,7 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
 {
     const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
 
-    if( !r ) {
+    if( !r || obj.has_flag( "ETHEREAL_ITEM" ) ) {
         return ret_val<bool>::make_failure( _( "You cannot disassemble this." ) );
     }
 

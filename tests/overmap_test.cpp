@@ -8,10 +8,11 @@
 #include "overmapbuffer.h"
 #include "calendar.h"
 #include "common_types.h"
-#include "enums.h"
 #include "omdata.h"
 #include "overmap_types.h"
 #include "type_id.h"
+#include "game_constants.h"
+#include "point.h"
 
 TEST_CASE( "set_and_get_overmap_scents" )
 {

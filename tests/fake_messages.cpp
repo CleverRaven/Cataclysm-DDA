@@ -4,9 +4,11 @@
 #include <vector>
 
 #include "messages.h"
+#include "enums.h"
 
 class JsonObject;
 class JsonOut;
+
 namespace catacurses
 {
 class window;

@@ -43,8 +43,11 @@
 #include "recipe.h"
 #include "string_id.h"
 #include "units.h"
+#include "cata_utility.h"
+#include "flat_set.h"
 
 class player;
+struct tripoint;
 
 using t_string_set = std::set<std::string>;
 static t_string_set item_blacklist;

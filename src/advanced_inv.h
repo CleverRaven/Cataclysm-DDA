@@ -12,7 +12,6 @@
 #include <vector>
 
 #include "cursesdef.h"
-#include "enums.h"
 #include "point.h"
 #include "units.h"
 

@@ -10,7 +10,6 @@
 #include <iterator>
 #include <list>
 #include <memory>
-#include <type_traits>
 
 #include "action.h"
 #include "activity_handlers.h"
@@ -21,7 +20,6 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
-#include "coordinate_conversions.h"
 #include "crafting.h"
 #include "creature.h"
 #include "debug.h"
@@ -63,7 +61,6 @@
 #include "vehicle.h"
 #include "vitamin.h"
 #include "weather.h"
-#include "creature.h"
 #include "enums.h"
 #include "int_id.h"
 #include "inventory.h"
@@ -73,6 +70,8 @@
 #include "player_activity.h"
 #include "recipe.h"
 #include "rng.h"
+#include "flat_set.h"
+#include "point.h"
 
 class npc;
 

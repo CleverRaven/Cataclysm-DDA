@@ -5,7 +5,6 @@
 #include <algorithm>
 #include <cstdlib>
 #include <sstream>
-#include <functional>
 #include <iterator>
 #include <map>
 #include <memory>
@@ -13,7 +12,6 @@
 #include <type_traits>
 #include <utility>
 
-#include "activity_handlers.h"
 #include "ammo.h"
 #include "avatar.h"
 #include "basecamp.h"
@@ -21,7 +19,6 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "clzones.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "construction.h"
 #include "coordinate_conversions.h"
@@ -85,6 +82,10 @@
 #include "player_activity.h"
 #include "pldata.h"
 #include "string_id.h"
+#include "colony.h"
+#include "flat_set.h"
+#include "magic_teleporter_list.h"
+#include "point.h"
 
 const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );

@@ -5,6 +5,7 @@
 #include "npc_favor.h" // IWYU pragma: associated
 #include "pldata.h" // IWYU pragma: associated
 
+#include <limits.h>
 #include <cctype>
 #include <cstddef>
 #include <algorithm>
@@ -22,14 +23,13 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+#include <bitset>
 
-#include "ammo.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "calendar.h"
-#include "craft_command.h"
 #include "debug.h"
 #include "effect.h"
 #include "game.h"
@@ -38,7 +38,6 @@
 #include "item.h"
 #include "item_factory.h"
 #include "json.h"
-#include "magic.h"
 #include "mission.h"
 #include "monster.h"
 #include "morale.h"
@@ -74,13 +73,22 @@
 #include "mapdata.h"
 #include "mattack_common.h"
 #include "morale_types.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "recipe.h"
-#include "stomach.h"
 #include "tileray.h"
 #include "visitable.h"
 #include "string_id.h"
+#include "colony.h"
+#include "computer.h"
+#include "construction.h"
+#include "field.h"
+#include "flat_set.h"
+#include "int_id.h"
+#include "lru_cache.h"
+#include "magic_teleporter_list.h"
+#include "point.h"
+#include "requirements.h"
+#include "vpart_position.h"
 
 struct oter_type_t;
 struct mutation_branch;
@@ -644,6 +652,18 @@ void player::store( JsonOut &json ) const
         json.member( "last_target_pos", last_target_pos );
     }
 
+    // faction warnings
+    json.member( "faction_warnings" );
+    json.start_array();
+    for( const auto elem : warning_record ) {
+        json.start_object();
+        json.member( "fac_warning_id", elem.first );
+        json.member( "fac_warning_num", elem.second.first );
+        json.member( "fac_warning_time", elem.second.second );
+        json.end_object();
+    }
+    json.end_array();
+
     json.member( "ammo_location", ammo_location );
 
     json.member( "camps" );
@@ -742,6 +762,18 @@ void player::load( JsonObject &data )
 
     if( has_bionic( bionic_id( "bio_solar" ) ) ) {
         remove_bionic( bionic_id( "bio_solar" ) );
+    }
+
+    if( data.has_array( "faction_warnings" ) ) {
+        JsonArray warning_arr = data.get_array( "faction_warnings" );
+        while( warning_arr.has_more() ) {
+            JsonObject warning_data = warning_arr.next_object();
+            std::string fac_id = warning_data.get_string( "fac_warning_id" );
+            int warning_num = warning_data.get_int( "fac_warning_num" );
+            time_point warning_time = calendar::before_time_starts;
+            warning_data.read( "fac_warning_time", warning_time );
+            warning_record[faction_id( fac_id )] = std::make_pair( warning_num, warning_time );
+        }
     }
 
     on_stat_change( "pkill", pkill );
@@ -2421,6 +2453,22 @@ void vehicle::deserialize( JsonIn &jsin )
     face.init( fdir );
     move.init( mdir );
     data.read( "name", name );
+    data.read( "base_name", base_name );
+    std::string temp_id;
+    std::string temp_old_id;
+    data.read( "owner", temp_id );
+    if( !temp_id.empty() ) {
+        owner = g->faction_manager_ptr->get( faction_id( temp_id ) );
+    } else {
+        owner = nullptr;
+    }
+    data.read( "old_owner", temp_old_id );
+    if( !temp_old_id.empty() ) {
+        old_owner = g->faction_manager_ptr->get( faction_id( temp_old_id ) );
+    } else {
+        old_owner = nullptr;
+    }
+    data.read( "theft_time", theft_time );
 
     data.read( "parts", parts );
 
@@ -2529,6 +2577,10 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "skidding", skidding );
     json.member( "of_turn_carry", of_turn_carry );
     json.member( "name", name );
+    json.member( "base_name", base_name );
+    json.member( "owner", owner ? owner->id.str() : "" );
+    json.member( "old_owner", old_owner ? old_owner->id.str() : "" );
+    json.member( "theft_time", theft_time );
     json.member( "parts", parts );
     json.member( "tags", tags );
     json.member( "labels", labels );

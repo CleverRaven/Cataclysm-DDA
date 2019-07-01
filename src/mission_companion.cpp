@@ -1,7 +1,6 @@
 #include "mission_companion.h"
 
 #include <cstdlib>
-#include <cmath>
 #include <algorithm>
 #include <cassert>
 #include <vector>
@@ -9,6 +8,7 @@
 #include <list>
 #include <unordered_map>
 #include <utility>
+#include <set>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -45,13 +45,15 @@
 #include "optional.h"
 #include "output.h"
 #include "pimpl.h"
-#include "player.h"
 #include "pldata.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "ui.h"
 #include "weighted_list.h"
 #include "material.h"
+#include "colony.h"
+#include "point.h"
+#include "weather.h"
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );

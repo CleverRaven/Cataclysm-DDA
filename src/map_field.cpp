@@ -1,5 +1,3 @@
-#include "field.h"
-
 #include <array>
 #include <cmath>
 #include <cstddef>
@@ -12,7 +10,11 @@
 #include <set>
 #include <utility>
 #include <vector>
+#include <array>
+#include <bitset>
+#include <string>
 
+#include "field.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -53,6 +55,10 @@
 #include "string_id.h"
 #include "units.h"
 #include "type_id.h"
+#include "basecamp.h"
+#include "colony.h"
+#include "game_constants.h"
+#include "point.h"
 
 const species_id FUNGUS( "FUNGUS" );
 
