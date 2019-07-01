@@ -778,6 +778,8 @@
         "s_daycare": 100,
         "s_thrift": 100,
         "s_petstore": 100,
+        "s_petstore_1": 100,
+        "s_petstore_2": 100,
         "megastore": 150,
         "hotel": 75,
         "hospital": 175,
