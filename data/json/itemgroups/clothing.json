@@ -511,7 +511,7 @@
     "id": "neckties",
     "type": "item_group",
     "items": [
-      [ "tie_skinny", 40 ],
+      [ "skinny_tie", 40 ],
       [ "tie_necktie", 40 ],
       [ "tie_bow", 40 ],
       [ "tie_clipon", 40 ]
