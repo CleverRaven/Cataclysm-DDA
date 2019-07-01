@@ -15,7 +15,7 @@
         "                        ",
         "                        ",
         "         |-------------|",
-        "         |CCC|.bbbbbbbb|",
+        "         |WCC|.bbbbbbbb|",
         "         |CCC+.........|",
         "         |---|........@|",
         "         |XcD|b.......@|",
@@ -48,8 +48,10 @@
         "m": "f_bigmirror",
         "b": "f_bookcase",
         "M": "f_bookcase",
-        "X": "f_magiclysm_translocator_gate"
+        "X": "f_magiclysm_translocator_gate",
+        "W": "f_water_heater"
       },
+      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "toilets": { "&": {  } },
       "items": {
         "S": { "item": "softdrugs", "chance": 20, "repeat": [ 1, 2 ] },
