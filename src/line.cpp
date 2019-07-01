@@ -11,6 +11,7 @@
 #include "translations.h"
 #include "string_formatter.h"
 #include "output.h"
+#include "enums.h"
 
 extern bool trigdist;
 

@@ -15,8 +15,8 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "color.h"
-#include "enums.h"
 #include "optional.h"
+#include "point.h"
 
 sokoban_game::sokoban_game() = default;
 

@@ -30,6 +30,7 @@
 #include "item.h"
 #include "player.h"
 #include "int_id.h"
+#include "point.h"
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_shadow( "mon_shadow" );

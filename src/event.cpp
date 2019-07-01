@@ -18,8 +18,8 @@
 #include "translations.h"
 #include "game_constants.h"
 #include "int_id.h"
-#include "player.h"
 #include "type_id.h"
+#include "enums.h"
 
 const mtype_id mon_amigara_horror( "mon_amigara_horror" );
 const mtype_id mon_copbot( "mon_copbot" );

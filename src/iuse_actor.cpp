@@ -10,7 +10,6 @@
 #include <iterator>
 #include <list>
 #include <memory>
-#include <type_traits>
 
 #include "action.h"
 #include "activity_handlers.h"
@@ -21,7 +20,6 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
-#include "coordinate_conversions.h"
 #include "crafting.h"
 #include "creature.h"
 #include "debug.h"
@@ -63,7 +61,6 @@
 #include "vehicle.h"
 #include "vitamin.h"
 #include "weather.h"
-#include "creature.h"
 #include "enums.h"
 #include "int_id.h"
 #include "inventory.h"
@@ -73,6 +70,8 @@
 #include "player_activity.h"
 #include "recipe.h"
 #include "rng.h"
+#include "flat_set.h"
+#include "point.h"
 
 class npc;
 
@@ -4197,7 +4196,8 @@ int deploy_tent_actor::use( player &p, item &it, bool, const tripoint & ) const
             return 0;
         }
         if( g->m.impassable( dest ) || !g->m.has_flag( "FLAT", dest ) ) {
-            add_msg( m_info, _( "The %s in that direction is not passable." ), g->m.name( dest ) );
+            add_msg( m_info, _( "The %s in that direction isn't suitable for placing the %s." ),
+                     g->m.name( dest ), it.tname() );
             return 0;
         }
         if( g->m.has_furn( dest ) ) {

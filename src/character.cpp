@@ -1,5 +1,6 @@
 #include "character.h"
 
+#include <ctype.h>
 #include <climits>
 #include <cstdlib>
 #include <algorithm>

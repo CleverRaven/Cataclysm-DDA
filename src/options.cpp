@@ -1,6 +1,7 @@
 #include "options.h"
 
 #include <climits>
+#include <type_traits>
 
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -39,7 +40,6 @@
 #include <sstream>
 #include <string>
 #include <exception>
-#include <iterator>
 
 bool trigdist;
 bool use_tiles;

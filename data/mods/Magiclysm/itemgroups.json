@@ -171,5 +171,19 @@
     "type": "item_group",
     "id": "magic_shop_clothes",
     "items": [ [ "cloak", 3 ], [ "cloak_wool", 5 ], [ "jedi_cloak", 3 ], [ "robe", 5 ], [ "tophat", 5 ], [ "leathersandals", 6 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "basement_utility_closet",
+    "//": "Stuff you would find in someone's basement closet.",
+    "items": [
+      { "group": "tools_common", "prob": 60 },
+      { "group": "paint", "prob": 20 },
+      { "group": "supplies_fuel", "prob": 35 },
+      [ "toolbox", 10 ],
+      [ "mop", 100 ],
+      [ "broom", 100 ],
+      [ "battery_car", 35 ]
+    ]
   }
 ]

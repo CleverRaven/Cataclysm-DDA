@@ -33,17 +33,16 @@
 #include "calendar.h"
 #include "creature.h"
 #include "game_constants.h"
-#include "mapdata.h"
 #include "optional.h"
 #include "player_activity.h"
 #include "rng.h"
 #include "units.h"
-#include "material.h"
-#include "pldata.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "veh_type.h"
 #include "type_id.h"
+#include "point.h"
+#include "string_id.h"
 
 #if defined(SDL_SOUND)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)

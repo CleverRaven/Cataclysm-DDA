@@ -76,6 +76,8 @@
 #include "bodypart.h"
 #include "translations.h"
 #include "type_id.h"
+#include "construction_category.h"
+#include "overmap.h"
 
 DynamicDataLoader::DynamicDataLoader()
 {

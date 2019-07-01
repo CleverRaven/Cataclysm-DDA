@@ -4,9 +4,7 @@
 #include <cassert>
 #include <list>
 #include <set>
-#include <type_traits>
 
-#include "ammo.h"
 #include "debug.h"
 #include "item.h"
 #include "item_factory.h"
@@ -16,8 +14,8 @@
 #include "calendar.h"
 #include "compatibility.h"
 #include "enums.h"
-#include "string_id.h"
 #include "type_id.h"
+#include "flat_set.h"
 
 static const std::string null_item_id( "null" );
 

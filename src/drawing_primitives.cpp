@@ -4,9 +4,9 @@
 #include <vector>
 #include <utility>
 
-#include "enums.h"
 #include "line.h"
 #include "rng.h"
+#include "point.h"
 
 void draw_line( std::function<void( const int, const int )>set, int x1, int y1, int x2, int y2 )
 {

@@ -2,6 +2,7 @@
 #ifndef ITEM_H
 #define ITEM_H
 
+#include <stdint.h>
 #include <climits>
 #include <list>
 #include <map>
@@ -15,9 +16,9 @@
 
 #include "calendar.h"
 #include "cata_utility.h"
+#include "craft_command.h"
 #include "debug.h"
 #include "enums.h"
-#include "faction.h"
 #include "flat_set.h"
 #include "io_tags.h"
 #include "item_location.h"
@@ -28,10 +29,12 @@
 #include "units.h"
 #include "visitable.h"
 #include "gun_mode.h"
+#include "point.h"
 
 class item;
 class material_type;
 struct mtype;
+class faction;
 
 namespace cata
 {
@@ -1926,6 +1929,11 @@ class item : public visitable<item>
          */
         requirement_data get_continue_reqs() const;
 
+        void set_tools_to_continue( bool value );
+        bool has_tools_to_continue() const;
+        void set_cached_tool_selections( const std::vector<comp_selection<tool_comp>> &selections );
+        const std::vector<comp_selection<tool_comp>> &get_cached_tool_selections() const;
+
     private:
         /**
          * Calculate the thermal energy and temperature change of the item
@@ -1999,6 +2007,9 @@ class item : public visitable<item>
         const recipe *making = nullptr;
         int next_failure_point = -1;
         std::vector<item_comp> comps_used;
+        // If the crafter has insufficient tools to continue to the next 5% progress step
+        bool tools_to_continue = false;
+        std::vector<comp_selection<tool_comp>> cached_tool_selections;
 
     public:
         int charges;

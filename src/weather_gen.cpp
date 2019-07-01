@@ -6,12 +6,12 @@
 #include <random>
 #include <string>
 
-#include "enums.h"
 #include "game_constants.h"
 #include "json.h"
 #include "rng.h"
 #include "simplexnoise.h"
 #include "weather.h"
+#include "point.h"
 
 namespace
 {

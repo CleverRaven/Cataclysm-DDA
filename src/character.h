@@ -34,11 +34,13 @@
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
+#include "point.h"
 
 struct pathfinding_settings;
 class item_location;
 class SkillLevel;
 class SkillLevelMap;
+
 enum field_id : int;
 class JsonObject;
 class JsonIn;

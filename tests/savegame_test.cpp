@@ -10,10 +10,10 @@
 #include "mongroup.h"
 #include "npc.h"
 #include "overmap.h"
-#include "enums.h"
 #include "monster.h"
 #include "string_id.h"
 #include "type_id.h"
+#include "point.h"
 
 // Intentionally ignoring the name member.
 static bool operator==( const city &a, const city &b )

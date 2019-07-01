@@ -1,14 +1,12 @@
 #include "map_extras.h"
 
 #include <cstdlib>
-#include <cmath>
-#include <array>
-#include <list>
 #include <memory>
 #include <set>
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <map>
 
 #include "cellular_automata.h"
 #include "debug.h"
@@ -40,9 +38,15 @@
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
-#include "messages.h"
 #include "coordinate_conversions.h"
 #include "options.h"
+#include "colony.h"
+#include "item_group.h"
+#include "json.h"
+#include "mapgen.h"
+#include "point.h"
+#include "string_formatter.h"
+#include "weighted_list.h"
 
 class npc_template;
 

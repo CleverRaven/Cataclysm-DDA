@@ -9,7 +9,6 @@
 #include <vector>
 #include <array>
 #include <exception>
-#include <list>
 #include <memory>
 #include <set>
 #include <utility>
@@ -17,7 +16,6 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
-#include "computer.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "debug_menu.h"
@@ -41,18 +39,15 @@
 #include "uistate.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "active_item_cache.h"
-#include "basecamp.h"
 #include "cata_utility.h"
 #include "creature.h"
 #include "game_constants.h"
 #include "int_id.h"
 #include "item.h"
-#include "item_stack.h"
 #include "omdata.h"
-#include "player.h"
 #include "shadowcasting.h"
 #include "string_id.h"
+#include "colony.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 

@@ -8,7 +8,6 @@
 #include <limits>
 #include <sstream>
 
-#include "ammo.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "coordinate_conversions.h"
@@ -57,6 +56,10 @@
 #include "visitable.h"
 #include "int_id.h"
 #include "pldata.h"
+#include "clzones.h"
+#include "enums.h"
+#include "flat_set.h"
+#include "stomach.h"
 
 class basecamp;
 class monfaction;
@@ -1239,8 +1242,7 @@ void npc::say( const std::string &line, const int priority ) const
         add_msg( m_warning, _( "%1$s says something but you can't hear it!" ), name );
     }
     // Hallucinations don't make noise when they speak
-    if( !is_hallucination() ) {
-        add_msg( _( "%1$s saying \"%2$s\"" ), name, formatted_line );
+    if( is_hallucination() ) {
         return;
     }
     // Sound happens even if we can't hear it

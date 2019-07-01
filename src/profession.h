@@ -9,7 +9,6 @@
 #include <utility>
 
 #include "string_id.h"
-#include "optional.h"
 #include "pldata.h"
 #include "type_id.h"
 
@@ -22,6 +21,7 @@ class item;
 using itype_id = std::string;
 class player;
 class JsonObject;
+
 enum add_type : int;
 
 class profession

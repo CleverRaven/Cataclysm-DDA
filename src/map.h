@@ -27,10 +27,13 @@
 #include "type_id.h"
 #include "units.h"
 #include "cata_utility.h"
+#include "faction.h"
+#include "point.h"
 
 struct furn_t;
 struct ter_t;
 template <typename T> class string_id;
+template <typename T> class safe_reference;
 
 namespace catacurses
 {

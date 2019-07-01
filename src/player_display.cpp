@@ -3,9 +3,9 @@
 #include <cstdlib>
 #include <algorithm>
 #include <sstream>
+#include <cstddef>
 
 #include "addiction.h"
-#include "avatar.h"
 #include "bionics.h"
 #include "effect.h"
 #include "game.h"
@@ -21,6 +21,7 @@
 #include "catacharset.h"
 #include "translations.h"
 #include "string_id.h"
+#include "enums.h"
 
 const skill_id skill_swimming( "swimming" );
 

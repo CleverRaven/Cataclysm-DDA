@@ -12,11 +12,12 @@
 #include <utility>
 
 #include "enums.h"
-#include "map_extras.h"
 #include "omdata.h"
 #include "overmap_types.h"
 #include "optional.h"
 #include "type_id.h"
+#include "point.h"
+#include "string_id.h"
 
 struct mongroup;
 class monster;
@@ -28,6 +29,7 @@ struct radio_tower;
 struct regional_settings;
 class vehicle;
 class basecamp;
+class map_extra;
 
 struct radio_tower_reference {
     /** The radio tower itself, points into @ref overmap::radios */
@@ -320,7 +322,8 @@ class overmapbuffer
         bool reveal( const tripoint &center, int radius );
         bool reveal( const tripoint &center, int radius,
                      const std::function<bool( const oter_id & )> &filter );
-        std::vector<tripoint> get_npc_path( const tripoint &src, const tripoint &dest );
+        std::vector<tripoint> get_npc_path( const tripoint &src, const tripoint &dest,
+                                            bool road_only = false );
         bool reveal_route( const tripoint &source, const tripoint &dest, int radius = 0,
                            bool road_only = false );
         /**

@@ -27,7 +27,7 @@
 #include "item.h"
 #include "json.h"
 #include "monster.h"
-#include "player.h"
+#include "material.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
