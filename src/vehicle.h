@@ -19,6 +19,7 @@
 #include "colony.h"
 #include "clzones.h"
 #include "damage.h"
+#include "faction.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_group.h"

@@ -20,6 +20,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "damage.h"
+#include "faction.h"
 #include "game_constants.h"
 #include "item.h"
 #include "optional.h"
