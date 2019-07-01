@@ -112,7 +112,7 @@ static void translate_all()
         normalized_names[cat] = _( get_cat_name( cat ) );
 
         for( const auto &subcat : craft_subcat_list[cat] ) {
-            normalized_names[subcat] =  _( get_subcat_name( cat, subcat ) ) ;
+            normalized_names[subcat] = _( get_subcat_name( cat, subcat ) ) ;
         }
     }
 }

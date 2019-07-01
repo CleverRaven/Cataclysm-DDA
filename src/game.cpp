@@ -610,7 +610,7 @@ void game::setup()
 
     load_world_modfiles( ui );
 
-    m =  map( get_option<bool>( "ZLEVELS" ) );
+    m = map( get_option<bool>( "ZLEVELS" ) );
 
     next_npc_id = 1;
     next_mission_id = 1;
@@ -4776,7 +4776,7 @@ bool game::swap_critters( Creature &a, Creature &b )
     // If swapping player/npc with a monster, monster is second
     bool a_first = a.is_player() ||
                    ( a.is_npc() && !b.is_player() );
-    Creature &first =  a_first ? a : b;
+    Creature &first  = a_first ? a : b;
     Creature &second = a_first ? b : a;
     // Possible options:
     // both first and second are monsters
@@ -8061,7 +8061,7 @@ void game::butcher()
 
     // Magic indices for special butcher options
     enum : int {
-        MULTISALVAGE =  MAX_ITEM_IN_SQUARE + 1,
+        MULTISALVAGE = MAX_ITEM_IN_SQUARE + 1,
         MULTIBUTCHER,
         MULTIDISASSEMBLE_ONE,
         MULTIDISASSEMBLE_ALL,

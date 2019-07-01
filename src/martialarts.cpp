@@ -1138,7 +1138,7 @@ std::string ma_technique::get_description() const
     }
 
     if( knockback_follow ) {
-        dump <<  _( "* Will <info>follow</info> enemies after knockback." ) << std::endl;
+        dump << _( "* Will <info>follow</info> enemies after knockback." ) << std::endl;
     }
 
     if( down_dur ) {

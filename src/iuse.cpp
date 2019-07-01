@@ -6656,7 +6656,7 @@ static std::string colorized_ter_name_flags_at( const tripoint &point,
     const std::string &graffiti_message = g->m.graffiti_at( point );
 
     if( !graffiti_message.empty() ) {
-        name +=  string_format( _( " with graffiti \"%s\"" ), graffiti_message );
+        name += string_format( _( " with graffiti \"%s\"" ), graffiti_message );
         return name;
     }
     if( ter_whitelist.empty() && flags.empty() ) {

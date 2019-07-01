@@ -950,7 +950,7 @@ void vehicle_prototype::load( JsonObject &jo )
     // If the json does not contain a name (the prototype would have no name), it means appending
     // to the existing prototype (the parts are not cleared).
     if( !vproto.parts.empty() && jo.has_string( "name" ) ) {
-        vproto =  vehicle_prototype();
+        vproto = vehicle_prototype();
     }
     if( vproto.parts.empty() ) {
         vproto.name = jo.get_string( "name" );

@@ -830,7 +830,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                                 // The maximum fire intensity is 1 for a lone fire, 2 for at least 1 neighbor,
                                 // 3 for at least 2 neighbors.
-                                int maximum_intensity =  1;
+                                int maximum_intensity = 1;
 
                                 // The following logic looks a bit complex due to optimization concerns, so here are the semantics:
                                 // 1. Calculate maximum field intensity based on fuel, -50 minutes is 2(medium), -500 minutes is 3(raging)

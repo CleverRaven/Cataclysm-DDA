@@ -3700,14 +3700,14 @@ units::volume item::volume( bool integral ) const
             // consider only the base size of the gun (without mods)
             int tmpvol = get_var( "volume",
                                   ( type->volume - type->gun->barrel_length ) / units::legacy_volume_factor );
-            if( tmpvol <=  3 ) {
+            if( tmpvol <= 3 ) {
                 // intentional NOP
-            } else if( tmpvol <=  5 ) {
-                ret -=  250_ml;
-            } else if( tmpvol <=  6 ) {
-                ret -=  500_ml;
-            } else if( tmpvol <=  9 ) {
-                ret -=  750_ml;
+            } else if( tmpvol <= 5 ) {
+                ret -= 250_ml;
+            } else if( tmpvol <= 6 ) {
+                ret -= 500_ml;
+            } else if( tmpvol <= 9 ) {
+                ret -= 750_ml;
             } else if( tmpvol <= 12 ) {
                 ret -= 1000_ml;
             } else if( tmpvol <= 15 ) {
@@ -7502,12 +7502,12 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
                 // This value shouldn't be there anymore after the loop is done so we don't bother with the set_item_temperature()
                 temperature = static_cast<int>( 100000 * temp_to_kelvin( env_temperature ) );
                 last_temp_check = time;
-            } else if( time - last_temp_check >  smallest_interval ) {
+            } else if( time - last_temp_check > smallest_interval ) {
                 calc_temp( env_temperature, insulation, time );
             }
 
             // Calculate item rot from item temperature
-            if( time - last_rot_check >  smallest_interval ) {
+            if( time - last_rot_check > smallest_interval ) {
                 calc_rot( time, env_temperature );
 
                 if( has_rotten_away() || ( is_corpse() && rot > 10_days ) ) {
@@ -7537,7 +7537,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
     // Limit calculations to max 4000 C (4273.15 K) to avoid specific energy from overflowing
     const float env_temperature = std::min( temp_to_kelvin( temp ), 4273.15 );
     const float old_temperature = 0.00001 * temperature;
-    const float temperature_difference =  env_temperature - old_temperature;
+    const float temperature_difference = env_temperature - old_temperature;
 
     // If no or only small temperature difference then no need to do math.
     if( std::abs( temperature_difference ) < 0.9 ) {

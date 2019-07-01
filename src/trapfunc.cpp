@@ -388,16 +388,16 @@ void trapfunc::crossbow( const tripoint &p, Creature *c, item * )
                     chance = 50;
                     break;
                 case MS_SMALL:
-                    chance =  8;
+                    chance = 8;
                     break;
                 case MS_MEDIUM:
-                    chance =  6;
+                    chance = 6;
                     break;
                 case MS_LARGE:
-                    chance =  4;
+                    chance = 4;
                     break;
                 case MS_HUGE:
-                    chance =  1;
+                    chance = 1;
                     break;
             }
             if( one_in( chance ) ) {
@@ -487,16 +487,16 @@ void trapfunc::shotgun( const tripoint &p, Creature *c, item * )
                     chance = 100;
                     break;
                 case MS_SMALL:
-                    chance =  16;
+                    chance = 16;
                     break;
                 case MS_MEDIUM:
-                    chance =  12;
+                    chance = 12;
                     break;
                 case MS_LARGE:
-                    chance =   8;
+                    chance = 8;
                     break;
                 case MS_HUGE:
-                    chance =   2;
+                    chance = 2;
                     break;
             }
             shots = ( one_in( 8 ) || one_in( chance ) ? 2 : 1 );

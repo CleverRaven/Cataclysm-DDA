@@ -3282,7 +3282,7 @@ void npc::heal_player( player &patient )
     if( !patient.is_npc() ) {
         // Test if we want to heal the player further
         if( op_of_u.value * 4 + op_of_u.trust + personality.altruism * 3 -
-            op_of_u.fear * 3 <  25 ) {
+            op_of_u.fear * 3 < 25 ) {
             say( _( "That's all the healing I can do." ) );
         } else {
             say( _( "Hold still, I can heal you more." ) );

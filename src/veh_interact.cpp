@@ -2155,7 +2155,7 @@ void veh_interact::display_veh()
         int sym = veh->part_sym( p );
         nc_color col = veh->part_color( p );
 
-        int x =   veh->parts[p].mount.y + ddy;
+        int x =    veh->parts[p].mount.y + ddy;
         int y = -( veh->parts[p].mount.x + ddx );
 
         if( x == 0 && y == 0 ) {

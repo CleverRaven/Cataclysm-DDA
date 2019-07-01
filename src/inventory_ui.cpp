@@ -2109,7 +2109,7 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
                 } );
 
                 // Otherwise, any favorite item to select?
-                const bool select_fav =  !select_nonfav && std::any_of( selected.begin(), selected.end(),
+                const bool select_fav = !select_nonfav && std::any_of( selected.begin(), selected.end(),
                 []( const inventory_entry * elem ) {
                     return elem->any_item()->is_favorite && elem->chosen_count == 0;
                 } );

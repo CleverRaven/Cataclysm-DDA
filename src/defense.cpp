@@ -155,7 +155,7 @@ void defense_game::pre_action( action_id &act )
     if( ( act == ACTION_MOVE_N && g->u.posy() == HALF_MAPSIZE_X &&
           g->get_levy() <= 93 ) ||
         ( act == ACTION_MOVE_NE && ( ( g->u.posy() == HALF_MAPSIZE_Y &&
-                                       g->get_levy() <=  93 ) ||
+                                       g->get_levy() <= 93 ) ||
                                      ( g->u.posx() == HALF_MAPSIZE_X + SEEX - 1 &&
                                        g->get_levx() >= 98 ) ) ) ||
         ( act == ACTION_MOVE_E && g->u.posx() == HALF_MAPSIZE_X + SEEX - 1 &&
@@ -169,13 +169,13 @@ void defense_game::pre_action( action_id &act )
         ( act == ACTION_MOVE_SW && ( ( g->u.posy() == HALF_MAPSIZE_Y + SEEY - 1 &&
                                        g->get_levy() >= 98 ) ||
                                      ( g->u.posx() == HALF_MAPSIZE_X &&
-                                       g->get_levx() <=  93 ) ) ) ||
+                                       g->get_levx() <= 93 ) ) ) ||
         ( act == ACTION_MOVE_W && g->u.posx() == HALF_MAPSIZE_X &&
           g->get_levx() <= 93 ) ||
         ( act == ACTION_MOVE_NW && ( ( g->u.posy() == HALF_MAPSIZE_Y &&
-                                       g->get_levy() <=  93 ) ||
+                                       g->get_levy() <= 93 ) ||
                                      ( g->u.posx() == HALF_MAPSIZE_X &&
-                                       g->get_levx() <=  93 ) ) ) ) {
+                                       g->get_levx() <= 93 ) ) ) ) {
         add_msg( m_info, _( "You cannot leave the %s behind!" ),
                  defense_location_name( location ) );
         act = ACTION_NULL;

@@ -490,34 +490,34 @@ void mapgen_hive( map *m, oter_id, mapgendata dat, const time_point &turn, float
                 m->ter_set( i, j + 4, t_wax );
                 m->ter_set( i + 1, j + 4, t_wax );
 
-                if( skip1 ==  0 || skip2 ==  0 ) {
+                if( skip1 == 0 || skip2 == 0 ) {
                     m->ter_set( i - 1, j - 4, t_floor_wax );
                 }
-                if( skip1 ==  1 || skip2 ==  1 ) {
+                if( skip1 == 1 || skip2 == 1 ) {
                     m->ter_set( i, j - 4, t_floor_wax );
                 }
-                if( skip1 ==  2 || skip2 ==  2 ) {
+                if( skip1 == 2 || skip2 == 2 ) {
                     m->ter_set( i + 1, j - 4, t_floor_wax );
                 }
-                if( skip1 ==  3 || skip2 ==  3 ) {
+                if( skip1 == 3 || skip2 == 3 ) {
                     m->ter_set( i - 2, j - 3, t_floor_wax );
                 }
-                if( skip1 ==  4 || skip2 ==  4 ) {
+                if( skip1 == 4 || skip2 == 4 ) {
                     m->ter_set( i - 1, j - 3, t_floor_wax );
                 }
-                if( skip1 ==  5 || skip2 ==  5 ) {
+                if( skip1 == 5 || skip2 == 5 ) {
                     m->ter_set( i + 1, j - 3, t_floor_wax );
                 }
-                if( skip1 ==  6 || skip2 ==  6 ) {
+                if( skip1 == 6 || skip2 == 6 ) {
                     m->ter_set( i + 2, j - 3, t_floor_wax );
                 }
-                if( skip1 ==  7 || skip2 ==  7 ) {
+                if( skip1 == 7 || skip2 == 7 ) {
                     m->ter_set( i - 3, j - 2, t_floor_wax );
                 }
-                if( skip1 ==  8 || skip2 ==  8 ) {
+                if( skip1 == 8 || skip2 == 8 ) {
                     m->ter_set( i - 2, j - 2, t_floor_wax );
                 }
-                if( skip1 ==  9 || skip2 ==  9 ) {
+                if( skip1 == 9 || skip2 == 9 ) {
                     m->ter_set( i + 2, j - 2, t_floor_wax );
                 }
                 if( skip1 == 10 || skip2 == 10 ) {
@@ -4199,10 +4199,10 @@ void mapgen_lake_shore( map *m, oter_id, mapgendata dat, const time_point &turn,
         return id != river_center && id.obj().is_river();
     };
 
-    const bool n_lake =  is_lake( dat.north() );
-    const bool e_lake =  is_lake( dat.east() );
-    const bool s_lake =  is_lake( dat.south() );
-    const bool w_lake =  is_lake( dat.west() );
+    const bool n_lake  = is_lake( dat.north() );
+    const bool e_lake  = is_lake( dat.east() );
+    const bool s_lake  = is_lake( dat.south() );
+    const bool w_lake  = is_lake( dat.west() );
     const bool nw_lake = is_lake( dat.nwest() );
     const bool ne_lake = is_lake( dat.neast() );
     const bool se_lake = is_lake( dat.seast() );
