@@ -1067,7 +1067,7 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
         // if it's too dark to construct there
         const bool enough_light = p.fine_detail_vision_mod() <= 4;
         if( !enough_light ) {
-            continue;
+            return;
         }
         // check if can do the construction now we are actually there
         const std::vector<zone_data> &post_zones = mgr.get_zones( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
