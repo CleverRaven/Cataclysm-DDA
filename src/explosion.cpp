@@ -50,6 +50,13 @@
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "flat_set.h"
+#include "int_id.h"
+#include "material.h"
+#include "monster.h"
+#include "mtype.h"
+#include "point.h"
+#include "type_id.h"
 
 static const itype_id null_itype( "null" );
 

@@ -8,7 +8,6 @@
 #include "field.h"
 #include "string_id.h"
 #include "type_id.h"
-#include "game_constants.h"
 
 class JsonObject;
 

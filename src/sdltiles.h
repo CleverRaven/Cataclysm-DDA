@@ -2,6 +2,7 @@
 #ifndef CATA_SDLTILES_H
 #define CATA_SDLTILES_H
 
+#include <array>
 #if defined(TILES)
 
 #include <string>

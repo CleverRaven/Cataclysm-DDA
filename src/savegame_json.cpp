@@ -5,6 +5,7 @@
 #include "npc_favor.h" // IWYU pragma: associated
 #include "pldata.h" // IWYU pragma: associated
 
+#include <limits.h>
 #include <cctype>
 #include <cstddef>
 #include <algorithm>
@@ -22,14 +23,13 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+#include <bitset>
 
-#include "ammo.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "calendar.h"
-#include "craft_command.h"
 #include "debug.h"
 #include "effect.h"
 #include "game.h"
@@ -38,7 +38,6 @@
 #include "item.h"
 #include "item_factory.h"
 #include "json.h"
-#include "magic.h"
 #include "mission.h"
 #include "monster.h"
 #include "morale.h"
@@ -74,13 +73,22 @@
 #include "mapdata.h"
 #include "mattack_common.h"
 #include "morale_types.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "recipe.h"
-#include "stomach.h"
 #include "tileray.h"
 #include "visitable.h"
 #include "string_id.h"
+#include "colony.h"
+#include "computer.h"
+#include "construction.h"
+#include "field.h"
+#include "flat_set.h"
+#include "int_id.h"
+#include "lru_cache.h"
+#include "magic_teleporter_list.h"
+#include "point.h"
+#include "requirements.h"
+#include "vpart_position.h"
 
 struct oter_type_t;
 struct mutation_branch;

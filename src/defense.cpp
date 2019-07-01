@@ -23,7 +23,6 @@
 #include "player.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translations.h"
 #include "cursesdef.h"
 #include "game_constants.h"
@@ -32,6 +31,8 @@
 #include "pldata.h"
 #include "mapdata.h"
 #include "string_id.h"
+#include "point.h"
+#include "weather.h"
 
 #define SPECIAL_WAVE_CHANCE 5 // One in X chance of single-flavor wave
 #define SPECIAL_WAVE_MIN 5 // Don't use a special wave with < X monsters

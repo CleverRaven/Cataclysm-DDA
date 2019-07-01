@@ -6,11 +6,8 @@
 
 #include "calendar.h"
 #include "debug.h"
-#include "emit.h"
 #include "enums.h"
-#include "itype.h"
 #include "translations.h"
-#include "optional.h"
 
 /** ID, {name}, symbol, priority, {color}, {transparency}, {dangerous}, half-life, {move_cost}, phase_id (of matter), accelerated_decay (decay outside of reality bubble) **/
 const std::array<field_t, num_fields> all_field_types_enum_list = { {

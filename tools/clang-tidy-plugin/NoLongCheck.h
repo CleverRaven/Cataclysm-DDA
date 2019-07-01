@@ -1,12 +1,19 @@
 #ifndef CATA_TOOLS_CLANG_TIDY_NOLONGCHECK_H
 #define CATA_TOOLS_CLANG_TIDY_NOLONGCHECK_H
 
+#include <clang/ASTMatchers/ASTMatchFinder.h>
+#include <llvm/ADT/StringRef.h>
+
 #include "ClangTidy.h"
 
 namespace clang
 {
+class CompilerInstance;
+
 namespace tidy
 {
+class ClangTidyContext;
+
 namespace cata
 {
 

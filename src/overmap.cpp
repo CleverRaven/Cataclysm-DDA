@@ -8,12 +8,10 @@
 #include <numeric>
 #include <ostream>
 #include <queue>
-#include <random>
 #include <vector>
 #include <exception>
 #include <unordered_set>
 #include <set>
-#include <iostream>
 
 #include "catacharset.h"
 #include "cata_utility.h"
@@ -28,7 +26,6 @@
 #include "mapbuffer.h"
 #include "mapgen.h"
 #include "mapgen_functions.h"
-#include "map_extras.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "mtype.h"
@@ -51,6 +48,8 @@
 #include "math_defines.h"
 #include "monster.h"
 #include "string_formatter.h"
+
+class map_extra;
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 

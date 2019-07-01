@@ -8,14 +8,12 @@
 #include <set>
 #include <utility>
 
-#include "ammo.h"
 #include "avatar.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "init.h"
 #include "item_factory.h"
 #include "loading_ui.h"
 #include "npc.h"
-#include "player.h"
 #include "recipe_dictionary.h"
 #include "skill.h"
 #include "veh_type.h"
@@ -29,8 +27,9 @@
 #include "translations.h"
 #include "units.h"
 #include "material.h"
-#include "string_id.h"
 #include "output.h"
+#include "flat_set.h"
+#include "item.h"
 
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )

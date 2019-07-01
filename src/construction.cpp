@@ -45,9 +45,12 @@
 #include "int_id.h"
 #include "item.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "morale_types.h"
-#include "ui.h"
+#include "colony.h"
+#include "construction_category.h"
+#include "item_stack.h"
+#include "mtype.h"
+#include "point.h"
 
 class inventory;
 

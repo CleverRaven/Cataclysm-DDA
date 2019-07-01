@@ -1,14 +1,17 @@
-#include <set>
+#include <stdlib.h>
+#include <memory>
+#include <string>
 
 #include "catch/catch.hpp"
 #include "calendar.h"
-#include "itype.h"
 #include "item.h"
-#include "map.h"
-#include "optional.h"
 #include "enums.h"
 #include "cata_utility.h"
 #include "game.h"
+#include "flat_set.h"
+#include "game_constants.h"
+#include "point.h"
+#include "weather.h"
 
 
 static bool is_nearly( float value, float expected )

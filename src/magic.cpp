@@ -1,5 +1,14 @@
 #include "magic.h"
 
+#include <stdlib.h>
+#include <set>
+#include <algorithm>
+#include <array>
+#include <memory>
+#include <tuple>
+#include <utility>
+#include <cmath>
+
 #include "avatar.h"
 #include "calendar.h"
 #include "color.h"
@@ -7,24 +16,26 @@
 #include "game.h"
 #include "generic_factory.h"
 #include "json.h"
-#include "line.h"
-#include "map.h"
-#include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
 #include "mutation.h"
-#include "npc.h"
-#include "options.h"
 #include "output.h"
 #include "player.h"
-#include "projectile.h"
-#include "rng.h"
 #include "sounds.h"
-#include "magic_teleporter_list.h"
 #include "translations.h"
 #include "ui.h"
-
-#include <set>
+#include "cata_utility.h"
+#include "character.h"
+#include "compatibility.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "enums.h"
+#include "input.h"
+#include "item.h"
+#include "pldata.h"
+#include "point.h"
+#include "string_formatter.h"
 
 namespace
 {

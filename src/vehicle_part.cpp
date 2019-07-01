@@ -5,6 +5,7 @@
 #include <cmath>
 #include <set>
 #include <memory>
+#include <list>
 
 #include "avatar.h"
 #include "debug.h"
@@ -21,7 +22,8 @@
 #include "weather.h"
 #include "optional.h"
 #include "color.h"
-#include "string_id.h"
+#include "enums.h"
+#include "flat_set.h"
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );

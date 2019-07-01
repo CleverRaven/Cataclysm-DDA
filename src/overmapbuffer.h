@@ -12,11 +12,12 @@
 #include <utility>
 
 #include "enums.h"
-#include "map_extras.h"
 #include "omdata.h"
 #include "overmap_types.h"
 #include "optional.h"
 #include "type_id.h"
+#include "point.h"
+#include "string_id.h"
 
 struct mongroup;
 class monster;
@@ -28,6 +29,7 @@ struct radio_tower;
 struct regional_settings;
 class vehicle;
 class basecamp;
+class map_extra;
 
 struct radio_tower_reference {
     /** The radio tower itself, points into @ref overmap::radios */

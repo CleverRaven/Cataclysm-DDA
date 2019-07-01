@@ -1,7 +1,7 @@
 #include "output.h"
 
-#include <cctype>
 #include <errno.h>
+#include <cctype>
 #include <cstdio>
 #include <algorithm>
 #include <cstdarg>
@@ -33,6 +33,7 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "units.h"
+#include "point.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>

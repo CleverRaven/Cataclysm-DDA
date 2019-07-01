@@ -20,9 +20,9 @@
 #include "game_constants.h"
 #include "omdata.h"
 #include "optional.h"
+#include "point.h"
 
 class avatar;
-class player;
 class mission;
 class Creature;
 class JsonObject;

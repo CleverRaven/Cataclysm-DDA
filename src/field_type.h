@@ -2,18 +2,21 @@
 #ifndef FIELD_TYPE_H
 #define FIELD_TYPE_H
 
+#include <stddef.h>
+#include <stdint.h>
 #include <algorithm>
 #include <vector>
+#include <memory>
+#include <string>
 
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
 #include "enums.h"
 #include "type_id.h"
+#include "string_id.h"
 
 class JsonObject;
-struct maptile;
-struct tripoint;
 
 enum phase_id : int;
 
