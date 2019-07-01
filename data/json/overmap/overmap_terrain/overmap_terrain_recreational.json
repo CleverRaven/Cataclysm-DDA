@@ -344,6 +344,30 @@
     "color": "i_green"
   },
   {
+    "id": "pavilion_roof",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "pavilion roof",
+    "sym": "A",
+    "color": "i_green"
+  },
+  {
+    "id": "pavilion_1",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "pavilion",
+    "sym": "A",
+    "color": "i_green"
+  },
+  {
+    "id": "pavilion_roof_1",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "pavilion roof",
+    "sym": "A",
+    "color": "i_green"
+  },
+  {
     "id": "hunting_blind",
     "type": "overmap_terrain",
     "name": "hunting blind",

@@ -362,6 +362,21 @@
   },
   {
     "type": "city_building",
+    "id": "pavilion",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pavilion_north" }, { "point": [ 0, 0, 1 ], "overmap": "pavilion_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "pavilion_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "pavilion_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "pavilion_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "bowling_alley",
     "locations": [ "land" ],
     "overmaps": [
