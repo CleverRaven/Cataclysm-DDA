@@ -2803,7 +2803,7 @@ void activity_handlers::repair_item_do_turn( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::butcher_do_turn( player_activity */*act*/, player *p )
+void activity_handlers::butcher_do_turn( player_activity * /*act*/, player *p )
 {
     p->mod_stat( "stamina", -20 );
 }
