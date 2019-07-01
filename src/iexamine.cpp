@@ -2345,7 +2345,6 @@ void iexamine::autoclave_empty( player &p, const tripoint &examp )
         return;
     }
 
-
     map_stack items = g->m.i_at( examp );
     static const std::string filthy( "FILTHY" );
     bool filthy_cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
@@ -2371,7 +2370,13 @@ void iexamine::autoclave_empty( player &p, const tripoint &examp )
 
     auto reqs = *requirement_id( "autoclave" );
 
+    if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
+        popup( "%s", reqs.list_missing() );
+        return;
+    }
+
     if( query_yn( _( "Start the autoclave?" ) ) ) {
+
         for( const auto &e : reqs.get_components() ) {
             p.consume_items( e, 1, is_crafting_component );
         }
