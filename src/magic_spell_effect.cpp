@@ -275,16 +275,19 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
 {
     const tripoint delta3 = target - source;
     const point delta( delta3.x, delta3.y );
+    // Get tile distance between source and target, if zero exit early to prevent
+    // an infinite loop later.
     const int distance = square_dist( source.x, source.y, target.x, target.y );
-
     if( distance == 0 ) {
         return std::set<tripoint>();
     }
 
+    // Octant used to determine matrix transforms to and from octant zero,
+    // defined as octant between y=0, y=x, and x>0
     int octant = get_octant( delta );
     const matrix22_i &to_zero = matrix_to( octant );
     const matrix22_i &from_zero = matrix_from( octant );
-
+    // Transform 'delta' direction vector to octant zero
     const point ray_diff = xform( to_zero, delta );
     ray o_ray{ ray_diff, point( 0, 0 ), ray_diff.x };
 
@@ -293,19 +296,26 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
         int s;
     };
 
+    // We will have a ray extending from the source, and 'aoe_radius' rays
+    // extending from the relative left and right of the source.
     std::vector<ray_set> rays;
     rays.reserve( aoe_radius + 1 );
+    // calculate line perpendicular to direction we're targetting
     point perp( -ray_diff.y, ray_diff.x );
+    // Orientation of point C relative to line AB
     auto side_of = []( const point & a, const point & b, const point & c ) {
         int cross = ( ( b.x - a.x ) * ( c.y - a.y ) - ( b.y - a.y ) * ( c.x - a.x ) );
         return ( cross > 0 ) - ( cross < 0 );
     };
+    // side that the target is on
     int side = side_of( point( 0, 0 ), perp, ray_diff );
-    int nside = side * -1;
+    int nside = side * -1; // side opposite the target
 
     int left = aoe_radius / 2;
-    int right = aoe_radius - left;
+    int right = aoe_radius - left; // effectively ceil( aoe_radius / 2.0 )
 
+    // Due to matrix transformations, odd numbered origin octants require
+    // swapping the left and right leg-lengths
     if( octant % 2 == 1 ) {
         std::swap( left, right );
     }
@@ -314,49 +324,62 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
         return ignore_walls || g->m.passable( src + tripoint( p, 0 ) );
     };
 
+    // Build left leg from just beyond origin to extant
     for( int i = -1; i >= -left; --i ) {
+        // translate origin ray towards left side
         ray_set rs;
         rs.r = o_ray;
         rs.r.origin.y = i;
         rs.s = 0;
-
+        // walk translated ray forward while not on the same side as target, nor coincident
+        // with perpendicular ray
         while( nside == side_of( point( 0, 0 ), perp, ray_at( rs.r, rs.s ) ) ) {
             ++rs.s;
         }
-        // test point here
+        // Test if the point is blocking. If it is blocking do not add it to the ray set,
+        // also stop processing this leg.
+        // Transform the ray point from octant zero into originating octant
         if( !test( ignore_walls, source, xform( from_zero, ray_at( rs.r, rs.s ) ) ) ) {
-            continue;
+            break;
         }
         rays.push_back( rs );
     }
+    // add ray pointing from origin to delta
     rays.push_back( { o_ray, 0 } );
+    // repeat building process for right leg
     for( int i = 1; i <= right; ++i ) {
         ray_set rs;
         rs.r = o_ray;
         rs.r.origin.y = i;
         rs.s = -1;
 
+        // Walk translated ray backward while on the same side as target, or coincident
+        // with perpendicular ray
         while( nside != side_of( point( 0, 0 ), perp, ray_at( rs.r, rs.s ) ) ) {
             --rs.s;
         }
+        // move back to coincident or on same side
         ++rs.s;
-        // test point here
+        // Test if the point is blocking. If it is blocking do not add it to the ray set,
+        // also stop processing this leg.
+        // Transform the ray point from octant zero into originating octant
         if( !test( ignore_walls, source, xform( from_zero, ray_at( rs.r, rs.s ) ) ) ) {
-            continue;
+            break;
         }
         rays.push_back( rs );
     }
 
     std::set<tripoint> result;
     for( const ray_set &rs : rays ) {
+        // ensure that the ray's origin is able to be used
         if( test( ignore_walls, source, xform( from_zero, ray_at( rs.r, rs.s ) ) ) ) {
-            // put first point
-            //targets.emplace( potential_target );
+            // put first point immediately as it has already been tested
             result.emplace( source + tripoint( xform( from_zero, ray_at( rs.r, rs.s ) ), 0 ) );
 
             // iterate over remaining points
             for( int i = 1; i <= distance; ++i ) {
                 point p = xform( from_zero, ray_at( rs.r, rs.s + i ) );
+                // test point, add if able to continue, otherwise stop processing this ray.
                 if( test( ignore_walls, source, p ) ) {
                     result.emplace( source + tripoint( p, 0 ) );
                 } else {
@@ -365,7 +388,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
             }
         }
     }
-    // remove source point
+    // remove source point and return
     result.erase( source );
     return result;
 }
