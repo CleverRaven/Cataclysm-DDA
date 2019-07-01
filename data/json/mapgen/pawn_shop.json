@@ -226,9 +226,7 @@
         { "item": "chainsaw_off", "x": 16, "y": 11 },
         { "item": "radio_car", "x": 18, "y": 10 }
       ],
-      "place_vehicles": [
-        { "chance": 100, "fuel": 15, "vehicle": "motorcycle", "x": 13, "y": 2, "rotation": 0 }
-      ]
+      "place_vehicles": [ { "chance": 100, "fuel": 15, "vehicle": "motorcycle", "x": 13, "y": 2, "rotation": 0 } ]
     }
   },
   {
@@ -283,7 +281,16 @@
         "|": "t_wall",
         "-": "t_wall"
       },
-      "furniture": { "t": "f_table", "f": "f_filing_cabinet", "h": "f_chair", "s": "f_stool", "b": "f_crate_c", "B": "f_bench", "c": "f_counter", "p": "f_drill_press" },
+      "furniture": {
+        "t": "f_table",
+        "f": "f_filing_cabinet",
+        "h": "f_chair",
+        "s": "f_stool",
+        "b": "f_crate_c",
+        "B": "f_bench",
+        "c": "f_counter",
+        "p": "f_drill_press"
+      },
       "items": {
         "t": { "item": "bondage", "chance": 60, "repeat": [ 2, 4 ] },
         "f": { "item": "office", "chance": 80, "repeat": [ 1, 2 ] },
@@ -386,6 +393,14 @@
     "type": "item_group",
     "id": "Maynard",
     "subtype": "collection",
-    "items": [ { "item": "longshirt" }, { "item": "wristwatch" }, { "item": "pants" }, { "item": "boxer_shorts" }, { "item": "socks" }, { "item": "boots" }, { "item": "corpse" } ]
+    "items": [
+      { "item": "longshirt" },
+      { "item": "wristwatch" },
+      { "item": "pants" },
+      { "item": "boxer_shorts" },
+      { "item": "socks" },
+      { "item": "boots" },
+      { "item": "corpse" }
+    ]
   }
 ]
