@@ -303,8 +303,12 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
     int side = side_of( point( 0, 0 ), perp, ray_diff );
     int nside = side * -1;
 
-    const int left = aoe_radius / 2;
-    const int right = aoe_radius - left;
+    int left = aoe_radius / 2;
+    int right = aoe_radius - left;
+
+    if( octant % 2 == 1 ) {
+        std::swap( left, right );
+    }
 
     auto test = []( bool ignore_walls, const tripoint & src, const point & p ) -> bool {
         return ignore_walls || g->m.passable( src + tripoint( p, 0 ) );
