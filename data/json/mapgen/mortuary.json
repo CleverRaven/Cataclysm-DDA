@@ -1,42 +1,5 @@
 [
   {
-    "id": "corpse_male",
-    "type": "item_group",
-    "subtype": "collection",
-    "entries": [
-      { "group": "male_underwear_top" },
-      { "group": "male_underwear_bottom" },
-      { "item": "corpse" },
-      { "item": "sheet" },
-      { "item": "bag_body_bag" }
-    ]
-  },
-  {
-    "id": "corpse_female",
-    "type": "item_group",
-    "subtype": "collection",
-    "entries": [
-      { "group": "female_underwear_top" },
-      { "group": "female_underwear_bottom" },
-      { "item": "corpse" },
-      { "item": "sheet" },
-      { "item": "bag_body_bag" }
-    ]
-  },
-  {
-    "id": "corpse_viewing",
-    "type": "item_group",
-    "subtype": "collection",
-    "entries": [
-      { "group": "female_underwear_top" },
-      { "group": "female_underwear_bottom" },
-      { "item": "gold_ring" },
-      { "item": "veil_wedding" },
-      { "item": "dress_wedding" },
-      { "item": "corpse" }
-    ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mortuary" ],
