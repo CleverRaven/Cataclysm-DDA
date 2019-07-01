@@ -217,22 +217,28 @@ void spell_type::load( JsonObject &jo, const std::string & )
 void spell_type::check_consistency()
 {
     for( const spell_type &sp_t : get_all() ) {
-        if( sp_t.min_aoe > sp_t.max_aoe ) {
+        if( ( sp_t.min_aoe > sp_t.max_aoe && sp_t.aoe_increment > 0 ) ||
+            ( sp_t.min_aoe < sp_t.max_aoe && sp_t.aoe_increment < 0 ) ) {
             debugmsg( string_format( "ERROR: %s has higher min_aoe than max_aoe", sp_t.id.c_str() ) );
         }
-        if( abs( sp_t.min_damage ) > abs( sp_t.max_damage ) ) {
+        if( ( sp_t.min_damage > sp_t.max_damage && sp_t.damage_increment > 0 ) ||
+            ( sp_t.min_damage < sp_t.max_damage && sp_t.damage_increment < 0 ) ) {
             debugmsg( string_format( "ERROR: %s has higher min_damage than max_damage", sp_t.id.c_str() ) );
         }
-        if( sp_t.min_range > sp_t.max_range ) {
+        if( ( sp_t.min_range > sp_t.max_range && sp_t.range_increment > 0 ) ||
+            ( sp_t.min_range < sp_t.max_range && sp_t.range_increment < 0 ) ) {
             debugmsg( string_format( "ERROR: %s has higher min_range than max_range", sp_t.id.c_str() ) );
         }
-        if( sp_t.min_dot > sp_t.max_dot ) {
+        if( ( sp_t.min_dot > sp_t.max_dot && sp_t.dot_increment > 0 ) ||
+            ( sp_t.min_dot < sp_t.max_dot && sp_t.dot_increment < 0 ) ) {
             debugmsg( string_format( "ERROR: %s has higher min_dot than max_dot", sp_t.id.c_str() ) );
         }
-        if( sp_t.min_duration > sp_t.max_duration ) {
+        if( ( sp_t.min_duration > sp_t.max_duration && sp_t.duration_increment > 0 ) ||
+            ( sp_t.min_duration < sp_t.max_duration && sp_t.duration_increment < 0 ) ) {
             debugmsg( string_format( "ERROR: %s has higher min_dot_time than max_dot_time", sp_t.id.c_str() ) );
         }
-        if( sp_t.min_pierce > sp_t.max_pierce ) {
+        if( ( sp_t.min_pierce > sp_t.max_pierce && sp_t.pierce_increment > 0 ) ||
+            ( sp_t.min_pierce < sp_t.max_pierce && sp_t.pierce_increment < 0 ) ) {
             debugmsg( string_format( "ERROR: %s has higher min_pierce than max_pierce", sp_t.id.c_str() ) );
         }
         if( sp_t.casting_time_increment < 0.0f && sp_t.base_casting_time < sp_t.final_casting_time ) {
@@ -583,7 +589,7 @@ bool spell::bp_is_affected( body_part bp ) const
 void spell::make_sound( const tripoint &target ) const
 {
     if( !has_flag( spell_flag::SILENT ) ) {
-        int loudness = damage() / 3;
+        int loudness = abs( damage() ) / 3;
         if( has_flag( spell_flag::LOUD ) ) {
             loudness += 1 + damage() / 3;
         }

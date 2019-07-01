@@ -442,6 +442,7 @@ static bool add_summoned_mon( const mtype_id &id, const tripoint &pos, const tim
     if( !permanent ) {
         spawned_mon.set_summon_time( time );
     }
+    spawned_mon.no_extra_death_drops = true;
     return g->add_zombie( spawned_mon );
 }
 

@@ -1784,7 +1784,7 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
 {
     const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
 
-    if( !r ) {
+    if( !r || obj.has_flag( "ETHEREAL_ITEM" ) ) {
         return ret_val<bool>::make_failure( _( "You cannot disassemble this." ) );
     }
 
