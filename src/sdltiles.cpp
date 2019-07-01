@@ -3,6 +3,7 @@
 #include "sdltiles.h" // IWYU pragma: associated
 #include "cursesdef.h" // IWYU pragma: associated
 
+#include <stdint.h>
 #include <climits>
 #include <algorithm>
 #include <cassert>
@@ -19,6 +20,7 @@
 #include <map>
 #include <set>
 #include <type_traits>
+#include <tuple>
 
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #   include <SDL2/SDL_image.h>
@@ -42,14 +44,13 @@
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
-#include "player.h"
 #include "sdlsound.h"
 #include "sdl_wrappers.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "enums.h"
 #include "json.h"
 #include "optional.h"
+#include "point.h"
 
 #if defined(__linux__)
 #   include <cstdlib> // getenv()/setenv()

@@ -3,10 +3,7 @@
 #include <algorithm>
 #include <utility>
 
-#include "colony.h"
-#include "debug.h"
 #include "item.h"
-#include "item_stack.h"
 #include "safe_reference.h"
 
 void active_item_cache::remove( const item *it )

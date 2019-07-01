@@ -4,6 +4,7 @@
 #include <iterator>
 
 #include "map_memory.h"
+#include "point.h"
 
 template<typename Key, typename Value>
 Value lru_cache<Key, Value>::get( const Key &pos, const Value &default_ ) const

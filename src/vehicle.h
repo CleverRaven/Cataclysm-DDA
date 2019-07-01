@@ -20,6 +20,7 @@
 #include "clzones.h"
 #include "damage.h"
 #include "game_constants.h"
+#include "faction.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_stack.h"
@@ -27,9 +28,12 @@
 #include "string_id.h"
 #include "tileray.h"
 #include "units.h"
-#include "enums.h"
 #include "item_location.h"
 #include "type_id.h"
+#include "optional.h"
+#include "point.h"
+
+class monster;
 
 enum field_id : int;
 class Creature;

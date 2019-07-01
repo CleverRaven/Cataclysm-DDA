@@ -1,5 +1,6 @@
 #include "monattack.h"
 
+#include <assert.h>
 #include <climits>
 #include <cstdlib>
 #include <algorithm>
@@ -46,8 +47,6 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
-#include "vehicle.h"
-#include "vpart_position.h"
 #include "weighted_list.h"
 #include "calendar.h"
 #include "creature.h"
@@ -65,6 +64,11 @@
 #include "string_formatter.h"
 #include "tileray.h"
 #include "type_id.h"
+#include "colony.h"
+#include "flat_set.h"
+#include "material.h"
+#include "point.h"
+#include "units.h"
 
 const mtype_id mon_ant( "mon_ant" );
 const mtype_id mon_ant_acid( "mon_ant_acid" );

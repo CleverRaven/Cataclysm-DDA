@@ -9,6 +9,7 @@
 #include <type_traits>
 #include <unordered_set>
 #include <utility>
+#include <unordered_map>
 
 #include "avatar.h"
 #include "coordinate_conversions.h"
@@ -32,7 +33,6 @@
 #include "json.h"
 #include "omdata.h"
 #include "overmap_types.h"
-#include "player.h"
 #include "regional_settings.h"
 #include "int_id.h"
 #include "string_id.h"

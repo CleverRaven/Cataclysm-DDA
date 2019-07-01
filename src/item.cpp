@@ -1,7 +1,6 @@
 #include "item.h"
 
 #include <cctype>
-#include <cstdint>
 #include <cstdlib>
 #include <algorithm>
 #include <array>
@@ -71,7 +70,6 @@
 #include "catacharset.h"
 #include "character.h"
 #include "color.h"
-#include "explosion.h"
 #include "int_id.h"
 #include "inventory.h"
 #include "item_group.h"
@@ -82,6 +80,11 @@
 #include "recipe.h"
 #include "rng.h"
 #include "weather_gen.h"
+#include "clzones.h"
+#include "faction.h"
+#include "magic.h"
+
+class npc_class;
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 

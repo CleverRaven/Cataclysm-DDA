@@ -60,6 +60,7 @@
 #include "units.h"
 #include "material.h"
 #include "type_id.h"
+#include "point.h"
 
 const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );

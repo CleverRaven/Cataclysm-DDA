@@ -8,7 +8,6 @@
 #include <limits>
 #include <sstream>
 
-#include "ammo.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "coordinate_conversions.h"
@@ -57,6 +56,10 @@
 #include "visitable.h"
 #include "int_id.h"
 #include "pldata.h"
+#include "clzones.h"
+#include "enums.h"
+#include "flat_set.h"
+#include "stomach.h"
 
 class basecamp;
 class monfaction;

@@ -12,6 +12,8 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <set>
+#include <type_traits>
 
 #include "avatar.h"
 #include "basecamp.h"
@@ -30,7 +32,6 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "sounds.h"
 #include "string_input_popup.h"
 #include "ui.h"
@@ -52,9 +53,10 @@
 #include "translations.h"
 #include "type_id.h"
 #include "vpart_position.h"
-#include "vpart_range.h"
-#include "veh_type.h"
 #include "vehicle.h"
+#include "enums.h"
+#include "map.h"
+#include "player_activity.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>

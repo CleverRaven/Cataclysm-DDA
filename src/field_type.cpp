@@ -1,10 +1,12 @@
 #include "field_type.h"
 
+#include <set>
+
 #include "debug.h"
 #include "enums.h"
 #include "generic_factory.h"
 #include "json.h"
-#include "optional.h"
+#include "int_id.h"
 
 namespace
 {

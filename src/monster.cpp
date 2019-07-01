@@ -49,9 +49,8 @@
 #include "player.h"
 #include "int_id.h"
 #include "string_id.h"
-#include "veh_type.h"
-#include "vehicle.h"
-#include "vpart_position.h"
+#include "flat_set.h"
+#include "weather.h"
 
 struct pathfinding_settings;
 

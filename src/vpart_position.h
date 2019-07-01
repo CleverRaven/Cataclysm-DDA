@@ -11,6 +11,9 @@
 
 class vehicle;
 struct vehicle_part;
+class player;
+class vpart_info;
+
 enum vpart_bitflags : int;
 class vpart_reference;
 struct tripoint;

@@ -18,7 +18,6 @@
 #include "messages.h"
 #include "monster.h"
 #include "options.h"
-#include "player.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
@@ -33,6 +32,7 @@
 #include "translations.h"
 #include "units.h"
 #include "type_id.h"
+#include "point.h"
 
 const efftype_id effect_bounced( "bounced" );
 

@@ -5,10 +5,11 @@
 #include <map>
 #include <string>
 #include <functional>
+#include <utility>
 
-#include "enums.h"
 #include "type_id.h"
 #include "weighted_list.h"
+#include "point.h"
 
 class time_point;
 struct regional_settings;

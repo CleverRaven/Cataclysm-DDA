@@ -7,7 +7,7 @@
 #include <sstream>
 #include <memory>
 #include <tuple>
-#include <type_traits>
+#include <list>
 
 #include "action.h"
 #include "activity_handlers.h"
@@ -46,6 +46,11 @@
 #include "rng.h"
 #include "string_id.h"
 #include "field.h"
+#include "bodypart.h"
+#include "enums.h"
+#include "monster.h"
+#include "mtype.h"
+#include "weather.h"
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );

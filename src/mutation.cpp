@@ -5,7 +5,6 @@
 #include <list>
 #include <unordered_set>
 
-#include "action.h"
 #include "avatar_action.h"
 #include "field.h"
 #include "game.h"
@@ -15,18 +14,14 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "translations.h"
-#include "ui.h"
-#include "int_id.h"
-#include "messages.h"
 #include "omdata.h"
-#include "optional.h"
 #include "player_activity.h"
 #include "rng.h"
 #include "string_id.h"
+#include "enums.h"
 
 const efftype_id effect_stunned( "stunned" );
 

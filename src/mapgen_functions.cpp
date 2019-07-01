@@ -1,11 +1,9 @@
 #include "mapgen_functions.h"
 
 #include <cstdlib>
-#include <cmath>
 #include <algorithm>
 #include <array>
 #include <iterator>
-#include <random>
 #include <initializer_list>
 #include <map>
 #include <ostream>
@@ -28,13 +26,13 @@
 #include "overmap.h"
 #include "trap.h"
 #include "vehicle_group.h"
-#include "vpart_position.h"
 #include "calendar.h"
 #include "game_constants.h"
 #include "regional_settings.h"
 #include "rng.h"
 #include "string_id.h"
 #include "int_id.h"
+#include "enums.h"
 
 class npc_template;
 

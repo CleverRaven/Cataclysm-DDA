@@ -1,13 +1,11 @@
 #include "game.h" // IWYU pragma: associated
 
 #include <cstdlib>
-#include <cmath>
 #include <algorithm>
 
 #include "avatar.h"
 #include "map.h"
 #include "messages.h"
-#include "player.h"
 #include "sounds.h"
 #include "vehicle.h"
 #include "vpart_position.h"

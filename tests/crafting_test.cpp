@@ -14,12 +14,10 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "npc.h"
-#include "player.h"
 #include "player_helpers.h"
 #include "recipe_dictionary.h"
 #include "calendar.h"
 #include "cata_utility.h"
-#include "enums.h"
 #include "inventory.h"
 #include "item.h"
 #include "optional.h"
@@ -29,6 +27,7 @@
 #include "string_id.h"
 #include "material.h"
 #include "type_id.h"
+#include "point.h"
 
 TEST_CASE( "recipe_subset" )
 {

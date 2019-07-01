@@ -14,7 +14,6 @@
 #include <memory>
 #include <unordered_map>
 
-#include "ammo.h"
 #include "avatar.h"
 #include "cata_utility.h"
 // needed for the workaround for the std::to_string bug in some compilers
@@ -62,13 +61,13 @@
 #include "faction.h"
 #include "game_constants.h"
 #include "int_id.h"
-#include "item.h"
 #include "mapdata.h"
 #include "material.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "player.h"
+#include "point.h"
 
 class basecamp;
 

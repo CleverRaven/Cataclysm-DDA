@@ -31,6 +31,9 @@
 #include "rng.h"
 #include "vpart_position.h"
 #include "string_id.h"
+#include "enums.h"
+#include "int_id.h"
+#include "monster.h"
 
 static const std::string part_location_structure( "structure" );
 static const itype_id fuel_type_muscle( "muscle" );

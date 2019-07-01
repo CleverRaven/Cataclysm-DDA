@@ -16,8 +16,6 @@
 #include "npc.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "enums.h"
-#include "player.h"
 #include "rng.h"
 #include "debug.h"
 #include "line.h"
@@ -25,6 +23,7 @@
 #include "optional.h"
 #include "translations.h"
 #include "type_id.h"
+#include "point.h"
 
 static const tripoint reveal_destination( const std::string &type )
 {

@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <string>
 #include <vector>
-#include <list>
 #include <memory>
 #include <set>
 
@@ -24,13 +23,14 @@
 #include "enums.h"
 #include "int_id.h"
 #include "item.h"
-#include "item_stack.h"
 #include "optional.h"
 #include "player_activity.h"
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
 #include "type_id.h"
+#include "colony.h"
+#include "point.h"
 
 // Gates namespace
 

@@ -14,13 +14,12 @@
 #include <sstream>
 #include <unordered_map>
 #include <memory>
+#include <list>
 
-#include "ammo.h"
 #include "avatar.h"
 #include "cata_utility.h"
 #include "colony.h"
 #include "coordinate_conversions.h"
-#include "creature.h"
 #include "debug.h"
 #include "explosion.h"
 #include "game.h"
@@ -53,6 +52,8 @@
 #include "rng.h"
 #include "weather_gen.h"
 #include "options.h"
+#include "enums.h"
+#include "monster.h"
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;

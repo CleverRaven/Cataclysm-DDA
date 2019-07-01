@@ -2,7 +2,6 @@
 
 #include <climits>
 #include <cstdlib>
-#include <cmath>
 #include <algorithm>
 #include <sstream>
 #include <string>
@@ -15,7 +14,6 @@
 #include "avatar.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
-#include "effect.h"
 #include "explosion.h"
 #include "event.h"
 #include "field.h"
@@ -42,19 +40,18 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
-#include "bodypart.h"
 #include "color.h"
 #include "creature.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "int_id.h"
 #include "item.h"
-#include "item_stack.h"
 #include "omdata.h"
-#include "optional.h"
-#include "pldata.h"
 #include "string_id.h"
 #include "type_id.h"
+#include "basecamp.h"
+#include "colony.h"
+#include "point.h"
 
 const mtype_id mon_manhack( "mon_manhack" );
 const mtype_id mon_secubot( "mon_secubot" );

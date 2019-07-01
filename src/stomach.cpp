@@ -16,6 +16,7 @@
 #include "itype.h"
 #include "optional.h"
 #include "rng.h"
+#include "character.h"
 
 stomach_contents::stomach_contents() = default;
 

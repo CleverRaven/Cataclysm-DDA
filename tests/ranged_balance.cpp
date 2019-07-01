@@ -13,7 +13,6 @@
 #include "units.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "enums.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
@@ -21,6 +20,7 @@
 #include "player.h"
 #include "material.h"
 #include "type_id.h"
+#include "point.h"
 
 using firing_statistics = statistics<bool>;
 

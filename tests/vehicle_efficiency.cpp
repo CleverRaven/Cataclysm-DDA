@@ -17,7 +17,6 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "map_iterator.h"
-#include "player.h"
 #include "test_statistics.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -31,8 +30,8 @@
 #include "mapdata.h"
 #include "units.h"
 #include "type_id.h"
-
-class monster;
+#include "point.h"
+#include "vpart_position.h"
 
 using efficiency_stat = statistics<int>;
 

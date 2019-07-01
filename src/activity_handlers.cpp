@@ -86,8 +86,12 @@
 #include "type_id.h"
 #include "event.h"
 #include "options.h"
-
-class npc;
+#include "colony.h"
+#include "color.h"
+#include "flat_set.h"
+#include "game_constants.h"
+#include "point.h"
+#include "weather.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -2799,7 +2803,7 @@ void activity_handlers::repair_item_do_turn( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::butcher_do_turn( player_activity */*act*/, player *p )
+void activity_handlers::butcher_do_turn( player_activity * /*act*/, player *p )
 {
     p->mod_stat( "stamina", -20 );
 }

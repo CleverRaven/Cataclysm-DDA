@@ -30,7 +30,6 @@
 #include "npc.h"
 #include "output.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -49,9 +48,15 @@
 #include "requirements.h"
 #include "tileray.h"
 #include "units.h"
-#include "material.h"
 #include "item.h"
 #include "string_id.h"
+#include "colony.h"
+#include "flat_set.h"
+#include "mapdata.h"
+#include "point.h"
+#include "material.h"
+
+class player;
 
 static inline const std::string status_color( bool status )
 {

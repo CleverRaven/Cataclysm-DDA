@@ -27,7 +27,6 @@
 #include <algorithm>
 #include <memory>
 #include <sstream>
-#include <type_traits>
 
 // sidebar messages flow direction
 extern bool log_from_top;

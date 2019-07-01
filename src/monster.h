@@ -25,6 +25,7 @@
 #include "pldata.h"
 #include "type_id.h"
 #include "units.h"
+#include "point.h"
 
 class JsonObject;
 class JsonIn;
