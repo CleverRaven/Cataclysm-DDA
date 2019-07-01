@@ -2345,8 +2345,6 @@ void iexamine::autoclave_empty( player &p, const tripoint &examp )
         return;
     }
 
-
-    bool water_is_enough = g->u.crafting_inventory().has_charges( "water", 64 );
     map_stack items = g->m.i_at( examp );
     static const std::string filthy( "FILTHY" );
     bool filthy_cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
@@ -2361,17 +2359,24 @@ void iexamine::autoclave_empty( player &p, const tripoint &examp )
         add_msg( m_bad,
                  _( "You need to remove all non-filthy non-CBM items from the autoclave to start the program." ) );
         return;
-    } else if( !water_is_enough ) {
-        add_msg( m_bad, _( "You need 64 charges of water for the autoclave." ) );
-        return;
     }
 
     auto reqs = *requirement_id( "autoclave" );
 
+    if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
+        popup( "%s", reqs.list_missing() );
+        return;
+    }
+
     if( query_yn( _( "Start the autoclave?" ) ) ) {
+
         for( const auto &e : reqs.get_components() ) {
             p.consume_items( e, 1, is_crafting_component );
         }
+        for( const auto &e : reqs.get_tools() ) {
+            p.consume_tools( e );
+        }
+        p.invalidate_crafting_inventory();
 
         items.only_item().set_birthday( calendar::turn );
         g->m.furn_set( examp, next_autoclave_type );
