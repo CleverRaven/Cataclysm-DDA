@@ -163,83 +163,208 @@ std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripo
     return targets;
 }
 
+struct matrix22_i {
+    int x0, y0, x1, y1;
+};
+
+struct ray {
+    point delta;
+    point origin;
+    int steps;
+};
+
+static int get_octant( const point &p )
+{
+    int ax = p.x * ( p.x > 0 ? 1 : -1 );
+    int ay = p.y * ( p.y > 0 ? 1 : -1 );
+
+    /*
+    A = ax >= ay
+    B = ax == p.x
+    C = ay == p.y
+    A | B | C | RES
+    ---------------
+    T | T | T | 0
+    T | T | F | 7
+    T | F | T | 3
+    T | F | F | 4
+    F | T | T | 1
+    F | T | F | 6
+    F | F | T | 2
+    F | F | F | 5
+    */
+    int A = ( ax >= ay ) << 2;
+    int B = ( ax == p.x ) << 1;
+    int C = ( ay == p.y ) << 0;
+
+    int n = A | B | C;
+
+    static const int results[8] = {
+        5,
+        2,
+        6,
+        1,
+        4,
+        3,
+        7,
+        0
+    };
+    return results[n];
+}
+
+static const matrix22_i &matrix_to( int to_octant )
+{
+    static const matrix22_i matrices[8] = {
+        { 1, 0, 0, 1 },
+        { 0, 1, 1, 0 },
+        { 0, -1, 1, 0 },
+        {-1, 0, 0, 1 },
+        {-1, 0, 0, -1 },
+        { 0, -1, -1, 0 },
+        { 0, 1, -1, 0 },
+        { 1, 0, 0, -1 }
+    };
+    return matrices[ to_octant ];
+}
+static const matrix22_i &matrix_from( int octant )
+{
+    static const int matrices[8] = {
+        0, 1, 6, 3, 4, 5, 2, 7
+    };
+    return matrix_to( matrices[octant] );
+}
+static point xform( const matrix22_i &mat, const point &p )
+{
+    return {
+        p.x *mat.x0 + p.y * mat.x1,
+        p.x *mat.y0 + p.y *mat.y1
+    };
+}
+
+static point ray_at( const ray &r, int step )
+{
+    if( r.steps == 0 || step == 0 ) {
+        return r.origin;
+    }
+
+    point result = r.origin;
+
+    int mul_steps = ( step > 0 ? ( step / r.steps ) : ( ( step - r.steps + 1 ) / r.steps ) );
+    int mod_steps = step - mul_steps * r.steps;
+
+    result.x += mul_steps * r.delta.x;
+    result.y += mul_steps * r.delta.y;
+
+    // Figure out what grid point we are along the line
+    int last_dy = 0, leftover = 0;
+    for( int i = 0; i < mod_steps; ++i ) {
+        leftover += r.delta.y;
+        if( leftover >= r.delta.x ) {
+            ++last_dy;
+            leftover -= r.delta.x;
+        }
+    }
+
+    result.x += mod_steps;
+    result.y += last_dy;
+
+    return result;
+}
 std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoint &source,
         const tripoint &target, const int aoe_radius, const bool ignore_walls )
 {
-    std::set<tripoint> targets;
-    const int initial_angle = coord_to_angle( source, target );
-    tripoint clockwise_starting_point;
-    calc_ray_end( initial_angle - 90, floor( aoe_radius / 2.0 ), source, clockwise_starting_point );
-    tripoint cclockwise_starting_point;
-    calc_ray_end( initial_angle + 90, ceil( aoe_radius / 2.0 ), source, cclockwise_starting_point );
-    tripoint clockwise_end_point;
-    calc_ray_end( initial_angle - 90, floor( aoe_radius / 2.0 ), target, clockwise_end_point );
-    tripoint cclockwise_end_point;
-    calc_ray_end( initial_angle + 90, ceil( aoe_radius / 2.0 ), target, cclockwise_end_point );
+    const tripoint delta3 = target - source;
+    const point delta( delta3.x, delta3.y );
+    const int distance = square_dist( source.x, source.y, target.x, target.y );
 
-    std::vector<tripoint> start_width = line_to( clockwise_starting_point, cclockwise_starting_point );
-    start_width.insert( start_width.begin(), clockwise_end_point );
-    std::vector<tripoint> end_width = line_to( clockwise_end_point, cclockwise_end_point );
-    end_width.insert( end_width.begin(), clockwise_starting_point );
+    if( distance == 0 ) {
+        return std::set<tripoint>();
+    }
 
-    std::vector<tripoint> cwise_line = line_to( clockwise_starting_point, cclockwise_starting_point );
-    cwise_line.insert( cwise_line.begin(), clockwise_starting_point );
-    std::vector<tripoint> ccwise_line = line_to( cclockwise_starting_point, cclockwise_end_point );
-    ccwise_line.insert( ccwise_line.begin(), cclockwise_starting_point );
+    int octant = get_octant( delta );
+    const matrix22_i &to_zero = matrix_to( octant );
+    const matrix22_i &from_zero = matrix_from( octant );
 
-    for( const tripoint &start_line_pt : start_width ) {
-        bool passable = true;
-        for( const tripoint &potential_target : line_to( source, start_line_pt ) ) {
-            passable = g->m.passable( potential_target ) || ignore_walls;
-            if( passable ) {
-                targets.emplace( potential_target );
-            } else {
-                break;
-            }
+    const point ray_diff = xform( to_zero, delta );
+    ray o_ray{ ray_diff, point( 0, 0 ), ray_diff.x };
+
+    struct ray_set {
+        ray r;
+        int s;
+    };
+
+    std::vector<ray_set> rays;
+    rays.reserve( aoe_radius + 1 );
+    point perp( -ray_diff.y, ray_diff.x );
+    auto side_of = []( const point & a, const point & b, const point & c ) {
+        int cross = ( ( b.x - a.x ) * ( c.y - a.y ) - ( b.y - a.y ) * ( c.x - a.x ) );
+        return ( cross > 0 ) - ( cross < 0 );
+    };
+    int side = side_of( point( 0, 0 ), perp, ray_diff );
+    int nside = side * -1;
+
+    const int left = aoe_radius / 2;
+    const int right = aoe_radius - left;
+
+    auto test = []( bool ignore_walls, const tripoint & src, const point & p ) -> bool {
+        return ignore_walls || g->m.passable( src + tripoint( p, 0 ) );
+    };
+
+    for( int i = -1; i >= -left; --i ) {
+        ray_set rs;
+        rs.r = o_ray;
+        rs.r.origin.y = i;
+        rs.s = 0;
+
+        while( nside == side_of( point( 0, 0 ), perp, ray_at( rs.r, rs.s ) ) ) {
+            ++rs.s;
         }
-        if( !passable ) {
-            // leading edge of line attack is very important to the whole
-            // if the leading edge is blocked, none of the attack spawning
-            // from that edge can propogate
+        // test point here
+        if( !test( ignore_walls, source, xform( from_zero, ray_at( rs.r, rs.s ) ) ) ) {
             continue;
         }
-        for( const tripoint &end_line_pt : end_width ) {
-            std::vector<tripoint> temp_line = line_to( start_line_pt, end_line_pt );
-            for( const tripoint &potential_target : temp_line ) {
-                if( ignore_walls || g->m.passable( potential_target ) ) {
-                    targets.emplace( potential_target );
-                } else {
-                    break;
-                }
-            }
+        rays.push_back( rs );
+    }
+    rays.push_back( { o_ray, 0 } );
+    for( int i = 1; i <= right; ++i ) {
+        ray_set rs;
+        rs.r = o_ray;
+        rs.r.origin.y = i;
+        rs.s = -1;
+
+        while( nside != side_of( point( 0, 0 ), perp, ray_at( rs.r, rs.s ) ) ) {
+            --rs.s;
         }
-        for( const tripoint &cwise_line_pt : cwise_line ) {
-            std::vector<tripoint> temp_line = line_to( start_line_pt, cwise_line_pt );
-            for( const tripoint &potential_target : temp_line ) {
-                if( ignore_walls || g->m.passable( potential_target ) ) {
-                    targets.emplace( potential_target );
-                } else {
-                    break;
-                }
-            }
+        ++rs.s;
+        // test point here
+        if( !test( ignore_walls, source, xform( from_zero, ray_at( rs.r, rs.s ) ) ) ) {
+            continue;
         }
-        for( const tripoint &ccwise_line_pt : ccwise_line ) {
-            std::vector<tripoint> temp_line = line_to( start_line_pt, ccwise_line_pt );
-            for( const tripoint &potential_target : temp_line ) {
-                if( ignore_walls || g->m.passable( potential_target ) ) {
-                    targets.emplace( potential_target );
+        rays.push_back( rs );
+    }
+
+    std::set<tripoint> result;
+    for( const ray_set &rs : rays ) {
+        if( test( ignore_walls, source, xform( from_zero, ray_at( rs.r, rs.s ) ) ) ) {
+            // put first point
+            //targets.emplace( potential_target );
+            result.emplace( source + tripoint( xform( from_zero, ray_at( rs.r, rs.s ) ), 0 ) );
+
+            // iterate over remaining points
+            for( int i = 1; i <= distance; ++i ) {
+                point p = xform( from_zero, ray_at( rs.r, rs.s + i ) );
+                if( test( ignore_walls, source, p ) ) {
+                    result.emplace( source + tripoint( p, 0 ) );
                 } else {
                     break;
                 }
             }
         }
     }
-
-    targets.erase( source );
-
-    return targets;
+    // remove source point
+    result.erase( source );
+    return result;
 }
-
 // spells do not reduce in damage the further away from the epicenter the targets are
 // rather they do their full damage in the entire area of effect
 static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &source,
