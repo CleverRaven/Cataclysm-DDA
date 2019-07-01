@@ -141,6 +141,19 @@ struct defense_game : public special_game {
     void convert_to_int();
     void current_items();
     int tech_level_accessor() const;
+    enum tech_constants {
+        level_1 = 1,
+        level_2 = 2,
+        level_3 = 3,
+        level_4 = 4,
+        level_5 = 5,
+        level_6 = 6,
+        level_7 = 7,
+        level_8 = 8,
+        level_9 = 9,
+        level_10 = 10,
+        level_max = 11
+    };
 
 private:
     void init_to_style( defense_style new_style );
