@@ -715,6 +715,32 @@ class vehicle
         // Vehicle parts descriptions - descriptions for all the parts on a single tile
         void print_vparts_descs( const catacurses::window &win, int max_y, int width, int p,
                                  int &start_at, int &start_limit ) const;
+        // owner functions
+        void set_old_owner( const faction *temp_owner ) {
+            theft_time = calendar::turn;
+            old_owner = temp_owner;
+        }
+        void remove_old_owner() {
+            theft_time = cata::nullopt;
+            old_owner = nullptr;
+        }
+        void set_owner( faction *new_owner ) {
+            owner = new_owner;
+            name = string_format( _( "%s (%s)" ), base_name.empty() ? name : base_name, new_owner->name );
+        }
+        void remove_owner() {
+            owner = nullptr;
+        }
+        const faction *get_owner() const {
+            return owner;
+        }
+        const faction *get_old_owner() const {
+            return old_owner;
+        }
+        bool has_owner() const {
+            return owner;
+        }
+        bool handle_potential_theft( player &p, bool check_only = false, bool prompt = true );
         // project a tileray forward to predict obstacles
         std::set<point> immediate_path( int rotate = 0 );
         void do_autodrive();
@@ -1494,7 +1520,14 @@ class vehicle
         bool refresh_zones();
 
         // config values
+        std::string base_name; // vehicle name without ownership
         std::string name;   // vehicle name
+        // The faction that owns this vehicle.
+        const faction *owner = nullptr;
+        // The faction that previously owned this vehicle
+        const faction *old_owner = nullptr;
+        // the time point when it was succesfully stolen
+        cata::optional<time_point> theft_time;
         /**
          * Type of the vehicle as it was spawned. This will never change, but it can be an invalid
          * type (e.g. if the definition of the prototype has been removed from json or if it has been

@@ -310,6 +310,7 @@ bool veh_interact::format_reqs( std::ostringstream &msg, const requirement_data 
 void veh_interact::do_main_loop()
 {
     bool finish = false;
+    const bool owned_by_player = veh->handle_potential_theft( dynamic_cast<player &>( g->u ), true );
     while( !finish ) {
         overview();
         display_mode();
@@ -323,35 +324,83 @@ void veh_interact::do_main_loop()
         } else if( action == "QUIT" ) {
             finish = true;
         } else if( action == "INSTALL" ) {
-            redraw = do_install( msg );
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                redraw = true;
+            } else {
+                redraw = do_install( msg );
+            }
         } else if( action == "REPAIR" ) {
-            redraw = do_repair( msg );
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                redraw = true;
+            } else {
+                redraw = do_repair( msg );
+            }
         } else if( action == "MEND" ) {
-            redraw = do_mend( msg );
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                redraw = true;
+            } else {
+                redraw = do_mend( msg );
+            }
         } else if( action == "REFILL" ) {
-            redraw = do_refill( msg );
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                redraw = true;
+            } else {
+                redraw = do_refill( msg );
+            }
         } else if( action == "REMOVE" ) {
-            redraw = do_remove( msg );
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                redraw = true;
+            } else {
+                redraw = do_remove( msg );
+            }
         } else if( action == "RENAME" ) {
-            redraw = do_rename( msg );
+            if( owned_by_player ) {
+                redraw = do_rename( msg );
+            } else {
+                popup( _( "You cannot rename this vehicle as it is owned by: %s." ), veh->get_owner()->name );
+                redraw = true;
+            }
         } else if( action == "SIPHON" ) {
-            redraw = do_siphon( msg );
-            // Siphoning may have started a player activity. If so, we should close the
-            // vehicle dialog and continue with the activity.
-            finish = !g->u.activity.is_null();
-            if( !finish ) {
-                // it's possible we just invalidated our crafting inventory
-                cache_tool_availability();
+            if( veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                redraw = do_siphon( msg );
+                // Siphoning may have started a player activity. If so, we should close the
+                // vehicle dialog and continue with the activity.
+                finish = !g->u.activity.is_null();
+                if( !finish ) {
+                    // it's possible we just invalidated our crafting inventory
+                    cache_tool_availability();
+                }
+            } else {
+                redraw = true;
             }
         } else if( action == "UNLOAD" ) {
-            redraw = do_unload( msg );
-            finish = redraw;
+            if( veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                redraw = do_unload( msg );
+                finish = redraw;
+            } else {
+                redraw = true;
+            }
         } else if( action == "TIRE_CHANGE" ) {
-            redraw = do_tirechange( msg );
+            if( veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                redraw = do_tirechange( msg );
+            } else {
+                redraw = true;
+            }
         } else if( action == "ASSIGN_CREW" ) {
-            redraw = do_assign_crew( msg );
+            if( owned_by_player ) {
+                redraw = do_assign_crew( msg );
+            } else {
+                popup( _( "You cannot assign crew on this vehicle as it is owned by: %s." ),
+                       veh->get_owner()->name );
+                redraw = true;
+            }
         } else if( action == "RELABEL" ) {
-            redraw = do_relabel( msg );
+            if( owned_by_player ) {
+                redraw = do_relabel( msg );
+            } else {
+                popup( _( "You cannot relabel this vehicle as it is owned by: %s." ), veh->get_owner()->name );
+                redraw = true;
+            }
         } else if( action == "FUEL_LIST_DOWN" ) {
             move_fuel_cursor( 1 );
         } else if( action == "FUEL_LIST_UP" ) {

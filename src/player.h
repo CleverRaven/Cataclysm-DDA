@@ -1171,6 +1171,10 @@ class player : public Character
         hint_rating rate_action_mend( const item &it ) const;
         hint_rating rate_action_disassemble( const item &it );
 
+        //returns true if the warning is now beyond final and results in hostility.
+        bool add_faction_warning( const faction_id &id );
+        int current_warnings_fac( const faction_id &id );
+        bool beyond_final_warning( const faction_id &id );
         /** Returns warmth provided by armor, etc. */
         int warmth( body_part bp ) const;
         /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
@@ -1844,7 +1848,8 @@ class player : public Character
         cata::optional<tripoint> destination_point;
         // Used to make sure auto move is canceled if we stumble off course
         cata::optional<tripoint> next_expected_position;
-
+        /** warnings from a faction about bad behaviour */
+        std::map<faction_id, std::pair<int, time_point>> warning_record;
         inventory cached_crafting_inventory;
         int cached_moves;
         time_point cached_time;

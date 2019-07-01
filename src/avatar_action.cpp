@@ -342,22 +342,23 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         }
         return true;
     }
-
     if( g->walk_move( dest_loc ) ) {
         return true;
     }
-
     if( g->phasing_move( dest_loc ) ) {
         return true;
     }
-
     if( veh_closed_door ) {
-        if( outside_vehicle ) {
-            veh1->open_all_at( dpart );
+        if( !veh1->handle_potential_theft( dynamic_cast<player &>( you ) ) ) {
+            return true;
         } else {
-            veh1->open( dpart );
-            add_msg( _( "You open the %1$s's %2$s." ), veh1->name,
-                     veh1->part_info( dpart ).name() );
+            if( outside_vehicle ) {
+                veh1->open_all_at( dpart );
+            } else {
+                veh1->open( dpart );
+                add_msg( _( "You open the %1$s's %2$s." ), veh1->name,
+                         veh1->part_info( dpart ).name() );
+            }
         }
         you.moves -= 100;
         // if auto-move is on, continue moving next turn
@@ -496,6 +497,11 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         add_msg( m_warning, _( "You cannot board a vehicle while mounted." ) );
         return;
+    }
+    if( const auto vp = m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+        if( !vp->vehicle().handle_potential_theft( dynamic_cast<player &>( you ) ) ) {
+            return;
+        }
     }
     you.setpos( p );
     g->update_map( you );

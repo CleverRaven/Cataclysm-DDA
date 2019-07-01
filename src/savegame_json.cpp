@@ -644,6 +644,18 @@ void player::store( JsonOut &json ) const
         json.member( "last_target_pos", last_target_pos );
     }
 
+    // faction warnings
+    json.member( "faction_warnings" );
+    json.start_array();
+    for( const auto elem : warning_record ) {
+        json.start_object();
+        json.member( "fac_warning_id", elem.first );
+        json.member( "fac_warning_num", elem.second.first );
+        json.member( "fac_warning_time", elem.second.second );
+        json.end_object();
+    }
+    json.end_array();
+
     json.member( "ammo_location", ammo_location );
 
     json.member( "camps" );
@@ -742,6 +754,18 @@ void player::load( JsonObject &data )
 
     if( has_bionic( bionic_id( "bio_solar" ) ) ) {
         remove_bionic( bionic_id( "bio_solar" ) );
+    }
+
+    if( data.has_array( "faction_warnings" ) ) {
+        JsonArray warning_arr = data.get_array( "faction_warnings" );
+        while( warning_arr.has_more() ) {
+            JsonObject warning_data = warning_arr.next_object();
+            std::string fac_id = warning_data.get_string( "fac_warning_id" );
+            int warning_num = warning_data.get_int( "fac_warning_num" );
+            time_point warning_time = calendar::before_time_starts;
+            warning_data.read( "fac_warning_time", warning_time );
+            warning_record[faction_id( fac_id )] = std::make_pair( warning_num, warning_time );
+        }
     }
 
     on_stat_change( "pkill", pkill );
@@ -2421,6 +2445,22 @@ void vehicle::deserialize( JsonIn &jsin )
     face.init( fdir );
     move.init( mdir );
     data.read( "name", name );
+    data.read( "base_name", base_name );
+    std::string temp_id;
+    std::string temp_old_id;
+    data.read( "owner", temp_id );
+    if( !temp_id.empty() ) {
+        owner = g->faction_manager_ptr->get( faction_id( temp_id ) );
+    } else {
+        owner = nullptr;
+    }
+    data.read( "old_owner", temp_old_id );
+    if( !temp_old_id.empty() ) {
+        old_owner = g->faction_manager_ptr->get( faction_id( temp_old_id ) );
+    } else {
+        old_owner = nullptr;
+    }
+    data.read( "theft_time", theft_time );
 
     data.read( "parts", parts );
 
@@ -2529,6 +2569,10 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "skidding", skidding );
     json.member( "of_turn_carry", of_turn_carry );
     json.member( "name", name );
+    json.member( "base_name", base_name );
+    json.member( "owner", owner ? owner->id.str() : "" );
+    json.member( "old_owner", old_owner ? old_owner->id.str() : "" );
+    json.member( "theft_time", theft_time );
     json.member( "parts", parts );
     json.member( "tags", tags );
     json.member( "labels", labels );

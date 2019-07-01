@@ -28,6 +28,9 @@ bool game::grabbed_veh_move( const tripoint &dp )
         return false;
     }
     vehicle *grabbed_vehicle = &grabbed_vehicle_vp->vehicle();
+    if( !grabbed_vehicle->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+        return false;
+    }
     const int grabbed_part = grabbed_vehicle_vp->part_index();
     for( size_t part_index = 0; part_index < grabbed_vehicle->parts.size(); ++part_index ) {
         monster *mon = grabbed_vehicle->get_pet( part_index );

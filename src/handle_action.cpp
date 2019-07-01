@@ -453,7 +453,12 @@ static void open()
             const vehicle *player_veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
             bool outside = !player_veh || player_veh != veh;
             if( !outside ) {
-                veh->open( openable );
+                if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                    u.moves += 100;
+                    return;
+                } else {
+                    veh->open( openable );
+                }
             } else {
                 // Outside means we check if there's anything in that tile outside-openable.
                 // If there is, we open everything on tile. This means opening a closed,
@@ -465,7 +470,12 @@ static void open()
                     add_msg( m_info, _( "That %s can only opened from the inside." ), name );
                     u.moves += 100;
                 } else {
-                    veh->open_all_at( openable );
+                    if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                        u.moves += 100;
+                        return;
+                    } else {
+                        veh->open_all_at( openable );
+                    }
                 }
             }
         } else {
@@ -561,8 +571,10 @@ static void grab()
         you.grab( OBJECT_NONE );
         return;
     }
-
     if( const optional_vpart_position vp = m.veh_at( grabp ) ) {
+        if( !vp->vehicle().handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+            return;
+        }
         you.grab( OBJECT_VEHICLE, grabp - you.pos() );
         add_msg( _( "You grab the %s." ), vp->vehicle().name );
     } else if( m.has_furn( grabp ) ) { // If not, grab furniture if present
@@ -648,7 +660,12 @@ static void smash()
             return; // don't smash terrain if we've smashed a corpse
         }
     }
-
+    vehicle *veh = veh_pointer_or_null( g->m.veh_at( smashp ) );
+    if( veh != nullptr ) {
+        if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+            return;
+        }
+    }
     didit = m.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
     if( didit ) {
         u.increase_activity_level( MODERATE_EXERCISE );
