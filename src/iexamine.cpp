@@ -2366,8 +2366,13 @@ void iexamine::autoclave_empty( player &p, const tripoint &examp )
         return;
     }
 
+    auto reqs = *requirement_id( "autoclave" );
+
     if( query_yn( _( "Start the autoclave?" ) ) ) {
-        p.use_charges( "water", 64 );
+        for( const auto &e : reqs.get_components() ) {
+            p.consume_items( e, 1, is_crafting_component );
+        }
+
         items.only_item().set_birthday( calendar::turn );
         g->m.furn_set( examp, next_autoclave_type );
         add_msg( _( "You start the autoclave." ) );

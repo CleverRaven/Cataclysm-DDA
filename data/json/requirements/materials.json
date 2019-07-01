@@ -33,7 +33,7 @@
     "id": "autoclave",
     "type": "requirement",
     "//": "Materials required to run one cycle of the autoclave",
-    "components": [ [ [ "water", 64 ] ], [ [ "water_clean", 64 ] ] ]
+    "components": [ [ [ "water", 64 ], [ "water_clean", 64 ] ] ]
   },
   {
     "id": "nanofabricator",
