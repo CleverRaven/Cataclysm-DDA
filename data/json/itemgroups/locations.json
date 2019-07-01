@@ -26,6 +26,12 @@
   },
   {
     "type": "item_group",
+    "id": "paintball_items",
+    "//": "For paintball_field.json",
+    "items": [ [ "paintballgun", 55 ], [ "paintball", 45 ], [ "goggles_swim", 15 ] ]
+  },
+  {
+    "type": "item_group",
     "id": "oa_ig_cs_desks",
     "//": "For cs_car_showroom",
     "items": [

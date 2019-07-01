@@ -17,6 +17,24 @@
   },
   {
     "type": "city_building",
+    "id": "paintball_field",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "paintball_field_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "paintball_field_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "paintball_field_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "paintball_field_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "paintball_field_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "mil_surplus",
     "locations": [ "land" ],
     "overmaps": [
