@@ -1507,6 +1507,12 @@ void avatar::upgrade_stat_prompt( const Character::stat &stat )
 {
     const int free_points = free_upgrade_points();
     const int next_lvl_xp = xp_to_next();
+
+    if( free_points <= 0 ) {
+        popup( _( "No available stat points to spend.  Experience to next level: %d" ), next_lvl_xp );
+        return;
+    }
+
     std::string stat_string;
     switch( stat ) {
         case STRENGTH:
@@ -1524,25 +1530,22 @@ void avatar::upgrade_stat_prompt( const Character::stat &stat )
         default:
             return;
     }
-    if( free_points == 0 ) {
-        popup( _( "No available stat points to spend.  Experience to next level: %d" ), next_lvl_xp );
-    } else if( free_points > 0 ) {
-        if( query_yn( _( "Are you sure you want to raise %s? %d points available." ), stat_string,
-                      free_points ) ) {
-            switch( stat ) {
-                case STRENGTH:
-                    str_upgrade++;
-                    break;
-                case DEXTERITY:
-                    dex_upgrade++;
-                    break;
-                case INTELLIGENCE:
-                    int_upgrade++;
-                    break;
-                case PERCEPTION:
-                    per_upgrade++;
-                    break;
-            }
+
+    if( query_yn( _( "Are you sure you want to raise %s? %d points available." ), stat_string,
+                  free_points ) ) {
+        switch( stat ) {
+            case STRENGTH:
+                str_upgrade++;
+                break;
+            case DEXTERITY:
+                dex_upgrade++;
+                break;
+            case INTELLIGENCE:
+                int_upgrade++;
+                break;
+            case PERCEPTION:
+                per_upgrade++;
+                break;
         }
     }
 }
