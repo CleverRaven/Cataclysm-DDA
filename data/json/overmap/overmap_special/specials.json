@@ -494,7 +494,7 @@
     "occurrences": [ 0, 1 ],
     "flags": [ "ANT" ],
     "spawns": [
-      { "group": "GROUP_ANT", "population": [ 500, 1000 ], "radius": [ 10, 30 ] },
+      { "group": "GROUP_ANT", "population": [ 500, 1000 ], "radius": [ 2, 5 ] },
       { "group": "GROUP_ANT", "population": [ 500, 1000 ], "radius": [ 10, 30 ] }
     ]
   },
