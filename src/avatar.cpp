@@ -806,7 +806,6 @@ bool avatar::read( int inventory_position, const bool continuous )
                  complex_player->disp_name() );
     }
 
-
     // push an indentifier of martial art book to the action handling
     if( it.type->use_methods.count( "MA_MANUAL" ) ) {
 

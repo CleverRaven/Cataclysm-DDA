@@ -990,19 +990,19 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
     if( has_provides( "scouting" ) ) {
         comp_list npc_list = get_mission_workers( "_faction_camp_scout_0" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_scout_0" ];
-        entry =  string_format( _( "Notes:\n"
-                                   "Send a companion out into the great unknown.  High survival "
-                                   "skills are needed to avoid combat but you should expect an "
-                                   "encounter or two.\n \n"
-                                   "Skill used: survival\n"
-                                   "Difficulty: 3\n"
-                                   "Effects:\n"
-                                   "> Select checkpoints to customize path.\n"
-                                   "> Reveals terrain around the path.\n"
-                                   "> Can bounce off hide sites to extend range.\n \n"
-                                   "Risk: High\n"
-                                   "Time: Travel\n"
-                                   "Positions: %d/3\n" ), npc_list.size() );
+        entry = string_format( _( "Notes:\n"
+                                  "Send a companion out into the great unknown.  High survival "
+                                  "skills are needed to avoid combat but you should expect an "
+                                  "encounter or two.\n \n"
+                                  "Skill used: survival\n"
+                                  "Difficulty: 3\n"
+                                  "Effects:\n"
+                                  "> Select checkpoints to customize path.\n"
+                                  "> Reveals terrain around the path.\n"
+                                  "> Can bounce off hide sites to extend range.\n \n"
+                                  "Risk: High\n"
+                                  "Time: Travel\n"
+                                  "Positions: %d/3\n" ), npc_list.size() );
         mission_key.add_start( miss_info.miss_id, miss_info.desc, "", entry, npc_list.size() < 3 );
         if( !npc_list.empty() ) {
             entry = miss_info.action;
@@ -1014,21 +1014,21 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
     if( has_provides( "patrolling" ) ) {
         comp_list npc_list = get_mission_workers( "_faction_camp_combat_0" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_combat_0" ];
-        entry =  string_format( _( "Notes:\n"
-                                   "Send a companion to purge the wasteland.  Their goal is to "
-                                   "kill anything hostile they encounter and return when "
-                                   "their wounds are too great or the odds are stacked against "
-                                   "them.\n \n"
-                                   "Skill used: survival\n"
-                                   "Difficulty: 4\n"
-                                   "Effects:\n"
-                                   "> Pulls creatures encountered into combat instead of "
-                                   "fleeing.\n"
-                                   "> Select checkpoints to customize path.\n"
-                                   "> Can bounce off hide sites to extend range.\n \n"
-                                   "Risk: Very High\n"
-                                   "Time: Travel\n"
-                                   "Positions: %d/3\n" ), npc_list.size() );
+        entry = string_format( _( "Notes:\n"
+                                  "Send a companion to purge the wasteland.  Their goal is to "
+                                  "kill anything hostile they encounter and return when "
+                                  "their wounds are too great or the odds are stacked against "
+                                  "them.\n \n"
+                                  "Skill used: survival\n"
+                                  "Difficulty: 4\n"
+                                  "Effects:\n"
+                                  "> Pulls creatures encountered into combat instead of "
+                                  "fleeing.\n"
+                                  "> Select checkpoints to customize path.\n"
+                                  "> Can bounce off hide sites to extend range.\n \n"
+                                  "Risk: Very High\n"
+                                  "Time: Travel\n"
+                                  "Positions: %d/3\n" ), npc_list.size() );
         mission_key.add_start( miss_info.miss_id, miss_info.desc, "", entry, npc_list.size() < 3 );
         if( !npc_list.empty() ) {
             entry = miss_info.action;
@@ -3077,7 +3077,7 @@ int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp )
     units::mass max_m = comp ? comp->weight_capacity() - comp->weight_carried() : 30_kilogram;
     //Assume an additional pack will be carried in addition to normal gear
     units::volume sack_v = item( itype_id( "makeshift_sling" ) ).get_storage();
-    units::volume max_v =  comp ? comp->volume_capacity() - comp->volume_carried() : sack_v;
+    units::volume max_v = comp ? comp->volume_capacity() - comp->volume_carried() : sack_v;
     max_v += sack_v;
     return om_carry_weight_to_trips( total_m, total_v, max_m, max_v );
 }

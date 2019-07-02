@@ -1655,7 +1655,7 @@ int map::move_cost_ter_furn( const int x, const int y ) const
         return 0;
     }
 
-    const int furncost =  current_submap->get_furn( l ).obj().movecost;
+    const int furncost = current_submap->get_furn( l ).obj().movecost;
     if( furncost < 0 ) {
         return 0;
     }
@@ -5219,7 +5219,7 @@ void map::disarm_trap( const tripoint &p )
     int roll = rng( tSkillLevel, 4 * tSkillLevel );
 
     // Some traps are not actual traps. Skip the rolls, different message and give the option to grab it right away.
-    if( tr.get_avoidance() ==  0 && tr.get_difficulty() == 0 ) {
+    if( tr.get_avoidance() == 0 && tr.get_difficulty() == 0 ) {
         add_msg( _( "The %s is taken down." ), tr.name() );
         tr.on_disarmed( *this, p );
         return;

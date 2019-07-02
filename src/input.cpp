@@ -927,7 +927,7 @@ cata::optional<tripoint> input_context::get_direction( const std::string &action
         return transform( tripoint( 0, +1, 0 ) );
     } else if( action == "LEFT" ) {
         return transform( tripoint( -1, 0, 0 ) );
-    } else if( action ==  "RIGHT" ) {
+    } else if( action == "RIGHT" ) {
         return transform( tripoint( +1, 0, 0 ) );
     } else if( action == "LEFTUP" ) {
         return transform( tripoint( -1, -1, 0 ) );

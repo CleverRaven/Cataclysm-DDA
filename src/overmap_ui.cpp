@@ -192,7 +192,7 @@ static weather_type get_weather_at_point( const tripoint &pos )
     }
     auto iter = weather_cache.find( pos );
     if( iter == weather_cache.end() ) {
-        const auto abs_ms_pos =  tripoint( pos.x * SEEX * 2, pos.y * SEEY * 2, pos.z );
+        const auto abs_ms_pos = tripoint( pos.x * SEEX * 2, pos.y * SEEY * 2, pos.z );
         const auto &wgen = overmap_buffer.get_settings( pos.x, pos.y, pos.z ).weather;
         const auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed() );
         iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
@@ -516,7 +516,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         for( const auto &s_ter : uistate.place_special->terrains ) {
             if( s_ter.p.z == 0 ) {
                 const point rp = om_direction::rotate( point( s_ter.p.x, s_ter.p.y ), uistate.omedit_rotation );
-                const oter_id oter =  s_ter.terrain->get_rotated( uistate.omedit_rotation );
+                const oter_id oter = s_ter.terrain->get_rotated( uistate.omedit_rotation );
 
                 special_cache.insert( std::make_pair(
                                           rp, std::make_pair( oter->get_symbol(), oter->get_color() ) ) );

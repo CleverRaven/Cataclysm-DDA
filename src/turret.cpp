@@ -484,7 +484,7 @@ int vehicle::turrets_aim_single( vehicle_part *tur_part )
         return shots;
     }
 
-    if( chosen !=  nullptr ) {
+    if( chosen != nullptr ) {
         shots = turrets_aim_and_fire( false, false, chosen );
     }
 

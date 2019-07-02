@@ -684,8 +684,6 @@ int construction_menu( bool blueprint )
                     }
                 }
                 exit = true;
-
-
             }
         }
     } while( !exit );

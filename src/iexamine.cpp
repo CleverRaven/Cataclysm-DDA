@@ -529,8 +529,8 @@ class atm_menu
                 }
 
                 dst->charges += i->charges;
-                i->charges =  0;
-                u.moves    -= 10;
+                i->charges = 0;
+                u.moves -= 10;
             }
 
             return true;
@@ -4622,7 +4622,7 @@ static void smoker_load_food( player &p, const tripoint &examp,
         }
     }
 
-    const int max_count_for_capacity =  remaining_capacity / what->base_volume();
+    const int max_count_for_capacity = remaining_capacity / what->base_volume();
     const int max_count = std::min( count, max_count_for_capacity );
 
     // ... then ask how many to put it
@@ -4730,7 +4730,7 @@ static void mill_load_food( player &p, const tripoint &examp,
         }
     }
 
-    const int max_count_for_capacity =  remaining_capacity / what->base_volume();
+    const int max_count_for_capacity = remaining_capacity / what->base_volume();
     const int max_count = std::min( count, max_count_for_capacity );
 
     // ... then ask how many to put it

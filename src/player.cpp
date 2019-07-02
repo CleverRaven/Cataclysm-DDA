@@ -2840,7 +2840,6 @@ void player::pause()
     search_surroundings();
 }
 
-
 void player::set_movement_mode( const std::string &new_mode )
 {
     if( new_mode == "run" ) {
@@ -6768,7 +6767,7 @@ void player::update_body_wetness( const w_point &weather )
         // Note: Using temp_conv rather than temp_cur, to better approximate environment
         if( temp_conv[bp] >= BODYTEMP_SCORCHING ) {
             drying_chance *= 2;
-        } else if( temp_conv[bp] >=  BODYTEMP_VERY_HOT ) {
+        } else if( temp_conv[bp] >= BODYTEMP_VERY_HOT ) {
             drying_chance = drying_chance * 3 / 2;
         } else if( temp_conv[bp] >= BODYTEMP_HOT ) {
             drying_chance = drying_chance * 4 / 3;
@@ -11470,20 +11469,20 @@ bool player::sees( const Creature &critter ) const
 
 nc_color player::bodytemp_color( int bp ) const
 {
-    nc_color color =  c_light_gray; // default
+    nc_color color = c_light_gray; // default
     if( bp == bp_eyes ) {
         color = c_light_gray;    // Eyes don't count towards warmth
-    } else if( temp_conv[bp] >  BODYTEMP_SCORCHING ) {
+    } else if( temp_conv[bp]  > BODYTEMP_SCORCHING ) {
         color = c_red;
-    } else if( temp_conv[bp] >  BODYTEMP_VERY_HOT ) {
+    } else if( temp_conv[bp]  > BODYTEMP_VERY_HOT ) {
         color = c_light_red;
-    } else if( temp_conv[bp] >  BODYTEMP_HOT ) {
+    } else if( temp_conv[bp]  > BODYTEMP_HOT ) {
         color = c_yellow;
-    } else if( temp_conv[bp] >  BODYTEMP_COLD ) {
+    } else if( temp_conv[bp]  > BODYTEMP_COLD ) {
         color = c_green;
-    } else if( temp_conv[bp] >  BODYTEMP_VERY_COLD ) {
+    } else if( temp_conv[bp]  > BODYTEMP_VERY_COLD ) {
         color = c_light_blue;
-    } else if( temp_conv[bp] >  BODYTEMP_FREEZING ) {
+    } else if( temp_conv[bp]  > BODYTEMP_FREEZING ) {
         color = c_cyan;
     } else if( temp_conv[bp] <= BODYTEMP_FREEZING ) {
         color = c_blue;

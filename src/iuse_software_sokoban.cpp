@@ -368,7 +368,7 @@ int sokoban_game::start_game()
             clear_level( w_sokoban );
             iCurrentLevel--;
             if( iCurrentLevel < 0 ) {
-                iCurrentLevel =  iNumLevel - 1;
+                iCurrentLevel = iNumLevel - 1;
             }
             bNewLevel = true;
         }
