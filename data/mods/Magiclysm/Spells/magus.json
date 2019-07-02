@@ -240,7 +240,7 @@
   {
     "id": "ogres_strength",
     "type": "SPELL",
-    "name": "Cat's Grace",
+    "name": "Ogre's Strength",
     "description": "You gain the strength of an ogre.",
     "valid_targets": [ "self" ],
     "min_duration": 6000,
