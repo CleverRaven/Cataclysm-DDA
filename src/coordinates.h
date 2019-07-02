@@ -75,7 +75,7 @@ constexpr origin origin_from_scale( scale s )
 // Point should be the underlying representation type (either point or
 // tripoint).
 // Scale and Origin define the coordinate system for the point.
-template<typename Point, scale Scale, origin Origin>
+template<typename Point, origin Origin, scale Scale>
 class coord_point
 {
     public:
@@ -105,12 +105,12 @@ class coord_point
             return raw_.z;
         }
 
-        coord_point &operator+=( const coord_point<Point, Scale, origin::relative> &r ) {
+        coord_point &operator+=( const coord_point<Point, origin::relative, Scale> &r ) {
             raw_ += r.raw();
             return *this;
         }
 
-        coord_point &operator-=( const coord_point<Point, Scale, origin::relative> &r ) {
+        coord_point &operator-=( const coord_point<Point, origin::relative, Scale> &r ) {
             raw_ -= r.raw();
             return *this;
         }
@@ -118,56 +118,56 @@ class coord_point
         Point raw_;
 };
 
-template<typename Point, scale Scale, origin Origin>
-constexpr inline bool operator==( const coord_point<Point, Scale, Origin> &l,
-                                  const coord_point<Point, Scale, Origin> &r )
+template<typename Point, origin Origin, scale Scale>
+constexpr inline bool operator==( const coord_point<Point, Origin, Scale> &l,
+                                  const coord_point<Point, Origin, Scale> &r )
 {
     return l.raw() == r.raw();
 }
 
-template<typename Point, scale Scale, origin Origin>
-constexpr inline bool operator!=( const coord_point<Point, Scale, Origin> &l,
-                                  const coord_point<Point, Scale, Origin> &r )
+template<typename Point, origin Origin, scale Scale>
+constexpr inline bool operator!=( const coord_point<Point, Origin, Scale> &l,
+                                  const coord_point<Point, Origin, Scale> &r )
 {
     return l.raw() != r.raw();
 }
 
-template<typename Point, scale Scale, origin Origin>
-constexpr inline bool operator<( const coord_point<Point, Scale, Origin> &l,
-                                 const coord_point<Point, Scale, Origin> &r )
+template<typename Point, origin Origin, scale Scale>
+constexpr inline bool operator<( const coord_point<Point, Origin, Scale> &l,
+                                 const coord_point<Point, Origin, Scale> &r )
 {
     return l.raw() < r.raw();
 }
 
-template<typename Point, scale Scale, origin OriginL>
-constexpr inline coord_point<Point, Scale, OriginL> operator+(
-    const coord_point<Point, Scale, OriginL> &l,
-    const coord_point<Point, Scale, origin::relative> &r )
+template<typename Point, origin OriginL, scale Scale>
+constexpr inline coord_point<Point, OriginL, Scale> operator+(
+    const coord_point<Point, OriginL, Scale> &l,
+    const coord_point<Point, origin::relative, Scale> &r )
 {
-    return coord_point<Point, Scale, OriginL>( l.raw() + r.raw() );
+    return coord_point<Point, OriginL, Scale>( l.raw() + r.raw() );
 }
 
-template < typename Point, scale Scale, origin OriginR,
+template < typename Point, origin OriginR, scale Scale,
            // enable_if to prevent ambiguity with above when both args are
            // relative
            typename = std::enable_if_t < OriginR != origin::relative >>
-constexpr inline coord_point<Point, Scale, OriginR> operator+(
-    const coord_point<Point, Scale, origin::relative> &l,
-    const coord_point<Point, Scale, OriginR> &r )
+constexpr inline coord_point<Point, OriginR, Scale> operator+(
+    const coord_point<Point, origin::relative, Scale> &l,
+    const coord_point<Point, OriginR, Scale> &r )
 {
-    return coord_point<Point, Scale, OriginR>( l.raw() + r.raw() );
+    return coord_point<Point, OriginR, Scale>( l.raw() + r.raw() );
 }
 
-template<typename Point, scale Scale, origin OriginL>
-constexpr inline coord_point<Point, Scale, OriginL> operator-(
-    const coord_point<Point, Scale, OriginL> &l,
-    const coord_point<Point, Scale, origin::relative> &r )
+template<typename Point, origin OriginL, scale Scale>
+constexpr inline coord_point<Point, OriginL, Scale> operator-(
+    const coord_point<Point, OriginL, Scale> &l,
+    const coord_point<Point, origin::relative, Scale> &r )
 {
-    return coord_point<Point, Scale, OriginL>( l.raw() - r.raw() );
+    return coord_point<Point, OriginL, Scale>( l.raw() - r.raw() );
 }
 
-template<typename Point, scale Scale, origin Origin>
-inline std::ostream &operator<<( std::ostream &os, const coord_point<Point, Scale, Origin> &p )
+template<typename Point, origin Origin, scale Scale>
+inline std::ostream &operator<<( std::ostream &os, const coord_point<Point, Origin, Scale> &p )
 {
     return os << p.raw();
 }
@@ -178,37 +178,37 @@ struct project_to_impl;
 template<int ScaleUp, scale ResultScale>
 struct project_to_impl<ScaleUp, 0, ResultScale> {
     template<typename Point, origin Origin, scale SourceScale>
-    coord_point<Point, ResultScale, Origin> operator()(
-        const coord_point<Point, SourceScale, Origin> &src ) {
-        return coord_point<Point, ResultScale, Origin>( multiply_xy( src.raw(), ScaleUp ) );
+    coord_point<Point, Origin, ResultScale> operator()(
+        const coord_point<Point, Origin, SourceScale> &src ) {
+        return coord_point<Point, Origin, ResultScale>( multiply_xy( src.raw(), ScaleUp ) );
     }
 };
 
 template<int ScaleDown, scale ResultScale>
 struct project_to_impl<0, ScaleDown, ResultScale> {
     template<typename Point, origin Origin, scale SourceScale>
-    coord_point<Point, ResultScale, Origin> operator()(
-        const coord_point<Point, SourceScale, Origin> &src ) {
-        return coord_point<Point, ResultScale, Origin>(
+    coord_point<Point, Origin, ResultScale> operator()(
+        const coord_point<Point, Origin, SourceScale> &src ) {
+        return coord_point<Point, Origin, ResultScale>(
                    divide_xy_round_to_minus_infinity( src.raw(), ScaleDown ) );
     }
 };
 
 template<scale ResultScale, typename Point, origin Origin, scale SourceScale>
-inline coord_point<Point, ResultScale, Origin> project_to(
-    const coord_point<Point, SourceScale, Origin> &src )
+inline coord_point<Point, Origin, ResultScale> project_to(
+    const coord_point<Point, Origin, SourceScale> &src )
 {
     constexpr int scale_down = map_squares_per( ResultScale ) / map_squares_per( SourceScale );
     constexpr int scale_up = map_squares_per( SourceScale ) / map_squares_per( ResultScale );
     return project_to_impl<scale_up, scale_down, ResultScale>()( src );
 }
 
-template<typename Point, scale CoarseScale, scale FineScale, origin Origin>
+template<typename Point, origin Origin, scale CoarseScale, scale FineScale>
 struct quotient_remainder {
     constexpr static origin RemainderOrigin = origin_from_scale( CoarseScale );
-    using quotient_type = coord_point<Point, CoarseScale, Origin>;
+    using quotient_type = coord_point<Point, Origin, CoarseScale>;
     quotient_type quotient;
-    using remainder_type = coord_point<Point, FineScale, RemainderOrigin>;
+    using remainder_type = coord_point<Point, RemainderOrigin, FineScale>;
     remainder_type remainder;
 
     // For assigning to std::tie( q, r );
@@ -218,15 +218,15 @@ struct quotient_remainder {
 };
 
 template<scale ResultScale, typename Point, origin Origin, scale SourceScale>
-inline quotient_remainder<Point, ResultScale, SourceScale, Origin> project_remain(
-    const coord_point<Point, SourceScale, Origin> &src )
+inline quotient_remainder<Point, Origin, ResultScale, SourceScale> project_remain(
+    const coord_point<Point, Origin, SourceScale> &src )
 {
     constexpr int ScaleDown = map_squares_per( ResultScale ) / map_squares_per( SourceScale );
     static_assert( ScaleDown > 0, "You can only project to coarser coordinate systems" );
     constexpr static origin RemainderOrigin = origin_from_scale( ResultScale );
-    coord_point<Point, ResultScale, Origin> quotient(
+    coord_point<Point, Origin, ResultScale> quotient(
         divide_xy_round_to_minus_infinity( src.raw(), ScaleDown ) );
-    coord_point<Point, SourceScale, RemainderOrigin> remainder(
+    coord_point<Point, RemainderOrigin, SourceScale> remainder(
         src.raw() - quotient.raw() * ScaleDown );
 
     return { quotient, remainder };
@@ -237,9 +237,9 @@ inline quotient_remainder<Point, ResultScale, SourceScale, Origin> project_remai
 namespace std
 {
 
-template<typename Point, coords::scale Scale, coords::origin Origin>
-struct hash<coords::coord_point<Point, Scale, Origin>> {
-    std::size_t operator()( const coords::coord_point<Point, Scale, Origin> &p ) const {
+template<typename Point, coords::origin Origin, coords::scale Scale>
+struct hash<coords::coord_point<Point, Origin, Scale>> {
+    std::size_t operator()( const coords::coord_point<Point, Origin, Scale> &p ) const {
         const hash<Point> h;
         return h( p.raw() );
     }
@@ -247,26 +247,26 @@ struct hash<coords::coord_point<Point, Scale, Origin>> {
 
 } // namespace std
 
-using point_ms_rel = coords::coord_point<point, coords::ms, coords::origin::relative>;
-using point_ms_abs = coords::coord_point<point, coords::ms, coords::origin::abs>;
-using point_ms_sm = coords::coord_point<point, coords::ms, coords::origin::submap>;
-using point_ms_omt = coords::coord_point<point, coords::ms, coords::origin::overmap_terrain>;
-using point_sm_abs = coords::coord_point<point, coords::sm, coords::origin::abs>;
-using point_sm_omt = coords::coord_point<point, coords::sm, coords::origin::overmap_terrain>;
-using point_sm_om = coords::coord_point<point, coords::sm, coords::origin::overmap>;
-using point_omt_abs = coords::coord_point<point, coords::omt, coords::origin::abs>;
-using point_omt_om = coords::coord_point<point, coords::omt, coords::origin::overmap>;
-using point_seg_abs = coords::coord_point<point, coords::seg, coords::origin::abs>;
-using point_om_abs = coords::coord_point<point, coords::om, coords::origin::abs>;
+using point_rel_ms = coords::coord_point<point, coords::origin::relative, coords::ms>;
+using point_abs_ms = coords::coord_point<point, coords::origin::abs, coords::ms>;
+using point_sm_ms = coords::coord_point<point, coords::origin::submap, coords::ms>;
+using point_omt_ms = coords::coord_point<point, coords::origin::overmap_terrain, coords::ms>;
+using point_abs_sm = coords::coord_point<point, coords::origin::abs, coords::sm>;
+using point_omt_sm = coords::coord_point<point, coords::origin::overmap_terrain, coords::sm>;
+using point_om_sm = coords::coord_point<point, coords::origin::overmap, coords::sm>;
+using point_abs_omt = coords::coord_point<point, coords::origin::abs, coords::omt>;
+using point_om_omt = coords::coord_point<point, coords::origin::overmap, coords::omt>;
+using point_abs_seg = coords::coord_point<point, coords::origin::abs, coords::seg>;
+using point_abs_om = coords::coord_point<point, coords::origin::abs, coords::om>;
 
-using tripoint_ms_rel = coords::coord_point<tripoint, coords::ms, coords::origin::relative>;
-using tripoint_ms_abs = coords::coord_point<tripoint, coords::ms, coords::origin::abs>;
-using tripoint_ms_sm = coords::coord_point<tripoint, coords::ms, coords::origin::submap>;
-using tripoint_ms_omt = coords::coord_point<tripoint, coords::ms, coords::origin::overmap_terrain>;
-using tripoint_sm_abs = coords::coord_point<tripoint, coords::sm, coords::origin::abs>;
-using tripoint_omt_abs = coords::coord_point<tripoint, coords::omt, coords::origin::abs>;
-using tripoint_seg_abs = coords::coord_point<tripoint, coords::seg, coords::origin::abs>;
-using tripoint_om_abs = coords::coord_point<tripoint, coords::om, coords::origin::abs>;
+using tripoint_rel_ms = coords::coord_point<tripoint, coords::origin::relative, coords::ms>;
+using tripoint_abs_ms = coords::coord_point<tripoint, coords::origin::abs, coords::ms>;
+using tripoint_sm_ms = coords::coord_point<tripoint, coords::origin::submap, coords::ms>;
+using tripoint_omt_ms = coords::coord_point<tripoint, coords::origin::overmap_terrain, coords::ms>;
+using tripoint_abs_sm = coords::coord_point<tripoint, coords::origin::abs, coords::sm>;
+using tripoint_abs_omt = coords::coord_point<tripoint, coords::origin::abs, coords::omt>;
+using tripoint_abs_seg = coords::coord_point<tripoint, coords::origin::abs, coords::seg>;
+using tripoint_abs_om = coords::coord_point<tripoint, coords::origin::abs, coords::om>;
 
 using coords::project_to;
 using coords::project_remain;
