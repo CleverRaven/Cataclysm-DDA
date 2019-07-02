@@ -247,6 +247,17 @@ struct hash<coords::coord_point<Point, Origin, Scale>> {
 
 } // namespace std
 
+/** Typedefs for point types with coordinate mnemonics.
+ *
+ * Each name is of the form (tri)point_<origin>_<scale> where <origin> tells you the
+ * context in which the point has meaning, and <scale> tells you what one unit
+ * of the point means.
+ *
+ * For example:
+ * point_omt_ms is the position of a map square within an overmap terrain.
+ * tripoint_rel_sm is a relative tripoint submap offset.
+ */
+/*@{*/
 using point_rel_ms = coords::coord_point<point, coords::origin::relative, coords::ms>;
 using point_abs_ms = coords::coord_point<point, coords::origin::abs, coords::ms>;
 using point_sm_ms = coords::coord_point<point, coords::origin::submap, coords::ms>;
@@ -267,6 +278,7 @@ using tripoint_abs_sm = coords::coord_point<tripoint, coords::origin::abs, coord
 using tripoint_abs_omt = coords::coord_point<tripoint, coords::origin::abs, coords::omt>;
 using tripoint_abs_seg = coords::coord_point<tripoint, coords::origin::abs, coords::seg>;
 using tripoint_abs_om = coords::coord_point<tripoint, coords::origin::abs, coords::om>;
+/*@}*/
 
 using coords::project_to;
 using coords::project_remain;
