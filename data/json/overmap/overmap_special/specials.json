@@ -817,7 +817,7 @@
     "flags": [ "FUNGAL" ],
     "rotate": false,
     "spawns": [
-      { "group": "GROUP_FUNGI", "population": [ 300, 600 ], "radius": [ 10, 25 ] }
+      { "group": "GROUP_FUNGI", "population": [ 100, 200 ], "radius": [ 10, 20 ] }
       { "group": "GROUP_FUNGI", "population": [ 300, 600 ], "radius": [ 2, 4 ] }
     ]
   },
