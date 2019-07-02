@@ -1,9 +1,16 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "mi-go_camp",
+    "id": "mi-go_camp1",
     "name": "mi-go encampment",
-    "sym": "O",
+    "sym": "<",
     "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_camp2",
+    "name": "mi-go encampment",
+    "sym": ">",
+    "color": "light_gray"
   }
 ]
