@@ -102,7 +102,10 @@ bool monexamine::pet_menu( monster &z )
     if( z.has_effect( effect_tied ) ) {
         amenu.addentry( rope, true, 't', _( "Untie" ) );
     } else {
-        if( g->u.has_amount( "rope_6", 1 ) ) {
+        std::vector<item *> rope_inv = g->u.items_with( []( const item & itm ) {
+            return itm.has_flag( "TIE_UP" );
+        } );
+        if( !rope_inv.empty() ) {
             amenu.addentry( rope, true, 't', _( "Tie" ) );
         } else {
             amenu.addentry( rope, false, 't', _( "You need a short rope to tie %s in place" ),
@@ -229,8 +232,7 @@ void monexamine::mount_pet( monster &z )
     z.add_effect( effect_ridden, 1_turns, num_bp, true );
     if( z.has_effect( effect_tied ) ) {
         z.remove_effect( effect_tied );
-        item rope_6( "rope_6", 0 );
-        g->u.i_add( rope_6 );
+        g->u.i_add( item( z.tied_item, 0 ) );
     }
     if( z.has_effect( effect_harnessed ) ) {
         z.remove_effect( effect_harnessed );
@@ -503,11 +505,32 @@ void monexamine::tie_or_untie( monster &z )
 {
     if( z.has_effect( effect_tied ) ) {
         z.remove_effect( effect_tied );
-        item rope_6( "rope_6", 0 );
-        g->u.i_add( rope_6 );
+        g->u.i_add( item( z.tied_item, 0 ) );
     } else {
+        std::vector<item *> rope_inv = g->u.items_with( []( const item & itm ) {
+            return itm.has_flag( "TIE_UP" );
+        } );
+        if( rope_inv.empty() ) {
+            return;
+        }
+        int i = 0;
+        uilist selection_menu;
+        selection_menu.text = string_format( _( "Select an item to tie your %s with." ), z.get_name() );
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
+        for( auto iter : rope_inv ) {
+            selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use %s" ), iter->tname() );
+        }
+        selection_menu.selected = 1;
+        selection_menu.query();
+        auto index = selection_menu.ret;
+        if( index == 0 || index == UILIST_CANCEL || index < 0 ||
+            index > static_cast<int>( rope_inv.size() ) ) {
+            return;
+        }
+        itype_id rope_id = rope_inv[index - 1]->typeId();
+        z.tied_item = rope_id;
+        g->u.use_amount( rope_id, 1 );
         z.add_effect( effect_tied, 1_turns, num_bp, true );
-        g->u.use_amount( "rope_6", 1 );
     }
 }
 
