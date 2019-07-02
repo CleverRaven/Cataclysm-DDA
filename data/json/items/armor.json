@@ -7021,24 +7021,6 @@
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
-    "id": "platinum_watch",
-    "type": "ARMOR",
-    "name": "platinum watch",
-    "name_plural": "platinum watches",
-    "description": "Flex on those gold-watch wearers with the rare, expensive and superior platinum watch.  This one is made from solid platinum.",
-    "weight": 80,
-    "volume": 1,
-    "//": "far more expensive than gold watches, around $100,000 for most platinum watches ",
-    "price": 10000000,
-    "to_hit": -1,
-    "material": [ "platinum" ],
-    "symbol": "[",
-    "color": "white",
-    "covers": [ "HAND_EITHER" ],
-    "coverage": 5,
-    "flags": [ "WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
-  },
-  {
     "id": "police_belt",
     "type": "ARMOR",
     "name": "police duty belt",
@@ -7734,23 +7716,6 @@
     "material_thickness": 3,
     "flags": [ "VARSIZE" ]
   },
-  {
-    "id": "silver_watch",
-    "type": "ARMOR",
-    "name": "silver watch",
-    "name_plural": "silver watches",
-    "description": "An elegant silver watch, crafted from silver-plated stainless steel.  It's much cheaper than other metal watches, and more classy than an ordinary wristwatch.",
-    "weight": 80,
-    "volume": 1,
-    "price": 18000,
-    "to_hit": -1,
-    "material": [ "steel", "silver" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "covers": [ "HAND_EITHER" ],
-    "coverage": 10,
-    "flags": [ "WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
-},
   {
     "id": "skinny_tie",
     "type": "ARMOR",
