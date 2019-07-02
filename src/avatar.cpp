@@ -1462,7 +1462,7 @@ int avatar::kill_xp() const
 }
 
 // based on  D&D 5e level progression
-static const std::vector<int> xp_cutoffs = {
+static const std::array<int, 20> xp_cutoffs = {
     300, 900, 2700, 6500, 14000,
     23000, 34000, 48000, 64000, 85000,
     100000, 120000, 140000, 165000, 195000,
@@ -1483,21 +1483,16 @@ int avatar::free_upgrade_points() const
     return lvl - str_upgrade - dex_upgrade - int_upgrade - per_upgrade;
 }
 
-static int xp_to_next()
+static int xp_to_next( const avatar &you )
 {
-    const int cur_xp = g->u.kill_xp();
-    int xp_next = 0;
-    for( std::vector<int>::const_iterator iter = xp_cutoffs.cbegin(); iter != xp_cutoffs.cend();
-         iter++ ) {
-        if( cur_xp >= *iter ) {
+    const int cur_xp = you.kill_xp();
+    // Initialize to 'already max level' sentinel
+    int xp_next = -1;
+    // Iterate in reverse: { 405k, 355k, 305k, ..., 300 }
+    for( std::array<int, 20>::const_reverse_iterator iter = xp_cutoffs.crbegin();
+         iter != xp_cutoffs.crend(); ++iter ) {
+        if( cur_xp < *iter ) {
             xp_next = *iter;
-        } else {
-            if( iter + 1 == xp_cutoffs.end() ) {
-                xp_next = -1;
-            } else {
-                xp_next = *( iter + 1 );
-            }
-            break;
         }
     }
     return xp_next;
@@ -1506,7 +1501,7 @@ static int xp_to_next()
 void avatar::upgrade_stat_prompt( const Character::stat &stat )
 {
     const int free_points = free_upgrade_points();
-    const int next_lvl_xp = xp_to_next();
+    const int next_lvl_xp = xp_to_next( *this );
 
     if( free_points <= 0 ) {
         popup( _( "No available stat points to spend.  Experience to next level: %d" ), next_lvl_xp );

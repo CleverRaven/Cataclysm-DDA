@@ -968,7 +968,7 @@ void avatar::load( JsonObject &data )
     data.read( "per_upgrade", per_upgrade );
 
     // this is so we don't need to call get_option in a draw function
-    if( !get_option<bool>( "STATS_THROUGH_SKILLS" ) )         {
+    if( !get_option<bool>( "STATS_THROUGH_KILLS" ) )         {
         str_upgrade = -str_upgrade;
         dex_upgrade = -dex_upgrade;
         int_upgrade = -int_upgrade;
