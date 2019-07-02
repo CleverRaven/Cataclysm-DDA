@@ -1437,42 +1437,22 @@ void avatar::reset_stats()
 
 int avatar::get_str_base() const
 {
-    const int str = Character::get_str_base();
-    if( get_option<bool>( "STK" ) ) {
-        return str + str_upgrade;
-    } else {
-        return str;
-    }
+    return Character::get_str_base() + std::max( 0, str_upgrade );
 }
 
 int avatar::get_dex_base() const
 {
-    const int dex = Character::get_dex_base();
-    if( get_option<bool>( "STK" ) ) {
-        return dex + dex_upgrade;
-    } else {
-        return dex;
-    }
+    return Character::get_dex_base() + std::max( 0, dex_upgrade );
 }
 
 int avatar::get_int_base() const
 {
-    const int intelligence = Character::get_int_base();
-    if( get_option<bool>( "STK" ) ) {
-        return intelligence + int_upgrade;
-    } else {
-        return intelligence;
-    }
+    return Character::get_int_base() + std::max( 0, int_upgrade );
 }
 
 int avatar::get_per_base() const
 {
-    const int per = Character::get_per_base();
-    if( get_option<bool>( "STK" ) ) {
-        return per + per_upgrade;
-    } else {
-        return per;
-    }
+    return Character::get_per_base() + std::max( 0, per_upgrade );
 }
 
 int avatar::kill_xp() const

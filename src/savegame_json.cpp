@@ -863,10 +863,10 @@ void avatar::store( JsonOut &json ) const
     json.member( "magic", magic );
 
     // stats through kills
-    json.member( "str_upgrade", str_upgrade );
-    json.member( "dex_upgrade", dex_upgrade );
-    json.member( "int_upgrade", int_upgrade );
-    json.member( "per_upgrade", per_upgrade );
+    json.member( "str_upgrade", abs( str_upgrade ) );
+    json.member( "dex_upgrade", abs( dex_upgrade ) );
+    json.member( "int_upgrade", abs( int_upgrade ) );
+    json.member( "per_upgrade", abs( per_upgrade ) );
 
     // crafting etc
     json.member( "activity", activity );
@@ -966,6 +966,14 @@ void avatar::load( JsonObject &data )
     data.read( "dex_upgrade", dex_upgrade );
     data.read( "int_upgrade", int_upgrade );
     data.read( "per_upgrade", per_upgrade );
+
+    // this is so we don't need to call get_option in a draw function
+    if( !get_option<bool>( "STATS_THROUGH_SKILLS" ) )         {
+        str_upgrade = -str_upgrade;
+        dex_upgrade = -dex_upgrade;
+        int_upgrade = -int_upgrade;
+        per_upgrade = -per_upgrade;
+    }
 
     data.read( "stamina", stamina );
     data.read( "magic", magic );

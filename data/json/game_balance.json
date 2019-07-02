@@ -190,7 +190,7 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "STK",
+    "name": "STATS_THROUGH_KILLS",
     "info": "Stats through Kills.  A mod that allows your stats to increase by killing zombies.",
     "stype": "bool",
     "value": false

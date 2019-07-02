@@ -348,7 +348,8 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
         curtab = action == "NEXT_TAB" ? curtab + 1 : 6;
     } else if( action == "QUIT" ) {
         done = true;
-    } else if( action == "CONFIRM" && line < 5 && get_option<bool>( "STK" ) && you.is_player() ) {
+    } else if( action == "CONFIRM" && line < 5 && get_option<bool>( "STATS_THROUGH_KILLS" ) &&
+               you.is_player() ) {
         g->u.upgrade_stat_prompt( static_cast<Character::stat>( line ) );
     }
     mvwprintz( w_stats, 2, 1, c_light_gray, _( "Strength:" ) );

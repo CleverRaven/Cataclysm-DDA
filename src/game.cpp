@@ -2996,7 +2996,7 @@ void game::disp_kills()
         buffer << _( "You haven't killed any monsters yet!" );
     } else {
         buffer << string_format( _( "KILL COUNT: %d" ), totalkills );
-        if( get_option<bool>( "STK" ) ) {
+        if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
             buffer << "    ";
             buffer << string_format( _( "Experience: %d (%d points available)" ), kill_xp(),
                                      u.free_upgrade_points() );
