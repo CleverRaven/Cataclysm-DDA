@@ -60,7 +60,6 @@ static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 
 const efftype_id effect_got_checked( "got_checked" );
 
-
 // constructor
 window_panel::window_panel( std::function<void( avatar &, const catacurses::window & )>
                             draw_func, const std::string &nm, int ht, int wd, bool def_toggle,

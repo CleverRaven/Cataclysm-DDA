@@ -223,7 +223,7 @@ static bool is_adjacent( const monster *z, const Creature *target, const bool al
     // The square above must have no floor (currently only open air).
     // The square below must have no ceiling (ie. be outside).
     const bool target_above = target->posz() > z->posz();
-    const tripoint &up =   target_above ? target->pos() : z->pos();
+    const tripoint &up   = target_above ? target->pos() : z->pos();
     const tripoint &down = target_above ? z->pos() : target->pos();
     return g->m.ter( up ) == t_open_air && g->m.is_outside( down );
 }

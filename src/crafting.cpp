@@ -1831,7 +1831,7 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
         const bool found = std::any_of( opts.begin(), opts.end(),
         [&]( const tool_comp & tool ) {
             return ( tool.count <= 0 && inv.has_tools( tool.type, 1 ) ) ||
-                   ( tool.count >  0 && inv.has_charges( tool.type, tool.count ) );
+                   ( tool.count  > 0 && inv.has_charges( tool.type, tool.count ) );
         } );
 
         if( !found ) {

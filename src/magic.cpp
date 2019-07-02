@@ -488,7 +488,7 @@ std::string spell::colorized_fail_percent( const player &p ) const
 {
     const float fail_fl = spell_fail( p ) * 100.0f;
     std::string fail_str;
-    fail_fl == 100.0f ? fail_str = _( "Too Difficult!" ) : fail_str =  string_format( "%.1f %% %s",
+    fail_fl == 100.0f ? fail_str = _( "Too Difficult!" ) : fail_str = string_format( "%.1f %% %s",
                                    fail_fl, _( "Failure Chance" ) );
     nc_color color;
     if( fail_fl > 90.0f ) {
@@ -1083,8 +1083,8 @@ class spellcasting_callback : public uilist_callback
             for( int i = 1; i < menu->w_height - 1; i++ ) {
                 mvwputch( menu->window, i, menu->w_width - menu->pad_right, c_magenta, LINE_XOXO );
             }
-            std::string ignore_string =  casting_ignore ? _( "Ignore Distractions" ) :
-                                         _( "Popup Distractions" );
+            std::string ignore_string = casting_ignore ? _( "Ignore Distractions" ) :
+                                        _( "Popup Distractions" );
             mvwprintz( menu->window, 0, menu->w_width - menu->pad_right + 2,
                        casting_ignore ? c_red : c_light_green, string_format( "%s %s", "[I]", ignore_string ) );
             draw_spell_info( *known_spells[entnum], menu );
@@ -1235,9 +1235,9 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     if( fx == "target_attack" || fx == "projectile_attack" || fx == "cone_attack" ||
         fx == "line_attack" ) {
         if( damage > 0 ) {
-            damage_string =  string_format( "%s: %s %s", _( "Damage" ), colorize( to_string( damage ),
-                                            sp.damage_type_color() ),
-                                            colorize( sp.damage_type_string(), sp.damage_type_color() ) );
+            damage_string = string_format( "%s: %s %s", _( "Damage" ), colorize( to_string( damage ),
+                                           sp.damage_type_color() ),
+                                           colorize( sp.damage_type_string(), sp.damage_type_color() ) );
         } else if( damage < 0 ) {
             damage_string = string_format( "%s: %s", _( "Healing" ), colorize( "+" + to_string( -damage ),
                                            light_green ) );
@@ -1263,7 +1263,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     } else if( fx == "summon" ) {
         damage_string = string_format( "%s %d %s", _( "Summon" ), sp.damage(),
                                        _( monster( mtype_id( sp.effect_data() ) ).get_name( ) ) );
-        aoe_string =  string_format( "%s: %d", _( "Spell Radius" ), sp.aoe() );
+        aoe_string = string_format( "%s: %d", _( "Spell Radius" ), sp.aoe() );
     }
 
     print_colored_text( w_menu, line, h_col1, gray, gray, damage_string );

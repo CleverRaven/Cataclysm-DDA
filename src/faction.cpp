@@ -129,7 +129,7 @@ std::string fac_ranking_text( int val )
     if( val <= -10 ) {
         return _( "Pariah" );
     }
-    if( val <=  -5 ) {
+    if( val <= -5 ) {
         return _( "Disliked" );
     }
     if( val >= 100 ) {
@@ -368,7 +368,7 @@ void basecamp::faction_display( const catacurses::window &fac_w, const int width
 {
     int y = 2;
     const nc_color col = c_white;
-    const tripoint player_abspos =  g->u.global_omt_location();
+    const tripoint player_abspos = g->u.global_omt_location();
     tripoint camp_pos = camp_omt_pos();
     std::string direction = direction_name( direction_from( player_abspos, camp_pos ) );
     mvwprintz( fac_w, ++y, width, c_light_gray, _( "Press enter to rename this camp" ) );
@@ -395,7 +395,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     int retval = 0;
     int y = 2;
     const nc_color col = c_white;
-    const tripoint player_abspos =  g->u.global_omt_location();
+    const tripoint player_abspos = g->u.global_omt_location();
 
     //get NPC followers, status, direction, location, needs, weapon, etc.
     mvwprintz( fac_w, ++y, width, c_light_gray, _( "Press enter to talk to this follower " ) );

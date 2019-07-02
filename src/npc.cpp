@@ -323,9 +323,9 @@ void npc::randomize( const npc_class_id &type )
     weapon   = item( "null", 0 );
     inv.clear();
     personality.aggression = rng( -10, 10 );
-    personality.bravery =    rng( -3, 10 );
-    personality.collector =  rng( -1, 10 );
-    personality.altruism =   rng( -10, 10 );
+    personality.bravery    = rng( -3, 10 );
+    personality.collector  = rng( -1, 10 );
+    personality.altruism   = rng( -10, 10 );
     moves = 100;
     mission = NPC_MISSION_NULL;
     male = one_in( 2 );
@@ -2578,7 +2578,7 @@ void npc::set_companion_mission( const tripoint &omt_pos, const std::string &rol
                                  const std::string &mission_id )
 {
     comp_mission.position = omt_pos;
-    comp_mission.mission_id =  mission_id;
+    comp_mission.mission_id = mission_id;
     comp_mission.role_id = role_id;
 }
 
@@ -2586,7 +2586,7 @@ void npc::set_companion_mission( const tripoint &omt_pos, const std::string &rol
                                  const std::string &mission_id, const tripoint &destination )
 {
     comp_mission.position = omt_pos;
-    comp_mission.mission_id =  mission_id;
+    comp_mission.mission_id = mission_id;
     comp_mission.role_id = role_id;
     comp_mission.destination = destination;
 }

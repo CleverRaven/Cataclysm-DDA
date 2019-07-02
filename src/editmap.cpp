@@ -444,7 +444,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
 {
     tripoint center = target;
     tripoint start = tripoint( center.x - getmaxx( w ) / 2, center.y - getmaxy( w ) / 2, target.z );
-    tripoint end =   tripoint( center.x + getmaxx( w ) / 2, center.y + getmaxy( w ) / 2, target.z );
+    tripoint end = tripoint( center.x + getmaxx( w ) / 2, center.y + getmaxy( w ) / 2, target.z );
     /*
         // pending filter options
         bool draw_furn=true;
