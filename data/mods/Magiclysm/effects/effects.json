@@ -128,6 +128,7 @@
     "apply_message": "You feel strong!",
     "remove_message": "Your strength deflates.",
     "rating": "good",
+    "removes_effects": [ "eagles_sight", "cats_grace", "foxs_cunning" ],
     "base_mods": { "str_mod": [ 4 ] }
   },
   {
@@ -138,6 +139,7 @@
     "apply_message": "You notice small details!",
     "remove_message": "Your vision returns to normal.",
     "rating": "good",
+    "removes_effects": [ "ogres_strength", "cats_grace", "foxs_cunning" ],
     "base_mods": { "per_mod": [ 4 ] }
   },
   {
@@ -148,6 +150,7 @@
     "apply_message": "Your reflexes are heightened!",
     "remove_message": "Your reflexes return to normal.",
     "rating": "good",
+    "removes_effects": [ "eagles_sight", "eagles_sight", "foxs_cunning" ],
     "base_mods": { "dex_mod": [ 4 ] }
   },
   {
@@ -158,6 +161,7 @@
     "apply_message": "Your intelligence is heightened!",
     "remove_message": "Your intelligence returns to normal.",
     "rating": "good",
+    "removes_effects": [ "eagles_sight", "cats_grace", "ogres_strength" ],
     "base_mods": { "int_mod": [ 4 ] }
   }
 ]
