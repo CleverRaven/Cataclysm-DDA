@@ -2315,14 +2315,14 @@ bool monster::is_hallucination() const
     return hallucination;
 }
 
-field_id monster::bloodType() const
+field_type_id monster::bloodType() const
 {
     if( is_hallucination() ) {
         return fd_null;
     }
     return type->bloodType();
 }
-field_id monster::gibType() const
+field_type_id monster::gibType() const
 {
     if( is_hallucination() ) {
         return fd_null;

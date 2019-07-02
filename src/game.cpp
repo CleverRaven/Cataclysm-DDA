@@ -1759,7 +1759,7 @@ int get_convection_temperature( const tripoint &location )
         temp_mod += 300;
     }
     // hot air of a fire/lava
-    auto tile_intensity_mod = []( const tripoint & loc, field_id fld, int case_1, int case_2,
+    auto tile_intensity_mod = []( const tripoint & loc, field_type_id fld, int case_1, int case_2,
     int case_3 ) {
         int field_intensity = g->m.get_field_intensity( loc, fld );
         int cases[3] = { case_1, case_2, case_3 };
@@ -11140,7 +11140,7 @@ void game::process_artifact( item &it, player &p )
 
             case AEP_EXTINGUISH:
                 for( const tripoint &dest : m.points_in_radius( p.pos(), 1 ) ) {
-                    m.adjust_field_age( dest, fd_fire, -1_turns );
+                    m.mod_field_age( dest, fd_fire, -1_turns );
                 }
                 break;
 

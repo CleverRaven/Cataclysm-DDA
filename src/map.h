@@ -45,7 +45,6 @@ class monster;
 class Creature;
 class tripoint_range;
 
-enum field_id : int;
 class field;
 class field_entry;
 class vehicle;
@@ -1073,24 +1072,24 @@ class map
          * Get the age of a field entry (@ref field_entry::age), if there is no
          * field of that type, returns `-1_turns`.
          */
-        time_duration get_field_age( const tripoint &p, const field_id type ) const;
+        time_duration get_field_age( const tripoint &p, const field_type_id type ) const;
         /**
          * Get the intensity of a field entry (@ref field_entry::intensity),
          * if there is no field of that type, returns 0.
          */
-        int get_field_intensity( const tripoint &p, const field_id type ) const;
+        int get_field_intensity( const tripoint &p, const field_type_id type ) const;
         /**
          * Increment/decrement age of field entry at point.
          * @return resulting age or `-1_turns` if not present (does *not* create a new field).
          */
-        time_duration adjust_field_age( const tripoint &p, const field_id type,
-                                        const time_duration &offset );
+        time_duration mod_field_age( const tripoint &p, const field_type_id type,
+                                     const time_duration &offset );
         /**
          * Increment/decrement intensity of field entry at point, creating if not present,
          * removing if intensity becomes 0.
          * @return resulting intensity, or 0 for not present (either removed or not created at all).
          */
-        int mod_field_intensity( const tripoint &p, const field_id type, const int offset );
+        int mod_field_intensity( const tripoint &p, const field_type_id type, const int offset );
         /**
          * Set age of field entry at point.
          * @param p Location of field
@@ -1100,43 +1099,43 @@ class map
          * if false, the existing age is ignored and overridden.
          * @return resulting age or `-1_turns` if not present (does *not* create a new field).
          */
-        time_duration set_field_age( const tripoint &p, const field_id type, const time_duration &age,
-                                     bool isoffset = false );
+        time_duration set_field_age( const tripoint &p, const field_type_id type,
+                                     const time_duration &age, bool isoffset = false );
         /**
          * Set intensity of field entry at point, creating if not present,
          * removing if intensity becomes 0.
          * @param p Location of field
          * @param type ID of field
          * @param new_intensity New intensity of field
-         * @param isoffset If true, the given str value is added to the existing value,
+         * @param isoffset If true, the given new_intensity value is added to the existing value,
          * if false, the existing intensity is ignored and overridden.
          * @return resulting intensity, or 0 for not present (either removed or not created at all).
          */
-        int set_field_intensity( const tripoint &p, const field_id type, const int new_intensity,
+        int set_field_intensity( const tripoint &p, const field_type_id type, const int new_intensity,
                                  bool isoffset = false );
         /**
          * Get field of specific type at point.
          * @return NULL if there is no such field entry at that place.
          */
-        field_entry *get_field( const tripoint &p, const field_id type );
+        field_entry *get_field( const tripoint &p, const field_type_id type );
         /**
          * Add field entry at point, or set intensity if present
          * @return false if the field could not be created (out of bounds), otherwise true.
          */
-        bool add_field( const tripoint &p, const field_id type, int intensity,
+        bool add_field( const tripoint &p, const field_type_id type, int intensity = INT_MAX,
                         const time_duration &age = 0_turns );
         /**
          * Remove field entry at xy, ignored if the field entry is not present.
          */
-        void remove_field( const tripoint &p, const field_id field_to_remove );
+        void remove_field( const tripoint &p, const field_type_id field_to_remove );
 
         // Splatters of various kind
-        void add_splatter( const field_id type, const tripoint &where, int intensity = 1 );
-        void add_splatter_trail( const field_id type, const tripoint &from, const tripoint &to );
-        void add_splash( const field_id type, const tripoint &center, int radius, int intensity );
+        void add_splatter( const field_type_id type, const tripoint &where, int intensity = 1 );
+        void add_splatter_trail( const field_type_id type, const tripoint &from, const tripoint &to );
+        void add_splash( const field_type_id type, const tripoint &center, int radius, int intensity );
 
-        void propagate_field( const tripoint &center, const field_id type,
-                              int amount, int max_intensity = 3 );
+        void propagate_field( const tripoint &center, const field_type_id type,
+                              int amount, int max_intensity = 0 );
 
         /**
          * Runs one cycle of emission @ref src which **may** result in propagation of fields
@@ -1213,7 +1212,7 @@ class map
         // mapgen.cpp functions
         void generate( const int x, const int y, const int z, const time_point &when );
         void place_spawns( const mongroup_id &group, const int chance,
-                           const int x1, const int y1, const int x2, const int y2, const float density,
+                           const int x1, const int y1, const int x2, const int y2, const float intensity,
                            const bool individual = false, const bool friendly = false );
         void place_gas_pump( const int x, const int y, const int charges );
         void place_gas_pump( const int x, const int y, const int charges, const std::string &fuel_type );

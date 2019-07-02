@@ -15,7 +15,6 @@ class time_point;
 struct regional_settings;
 class map;
 
-enum field_id : int;
 class mission;
 
 using mapgen_update_func = std::function<void( const tripoint &map_pos3, mission *miss )>;
@@ -210,7 +209,7 @@ void mapgen_lake_shore( map *m, oter_id terrain_type, mapgendata dat, const time
 // Temporary wrappers
 void mremove_trap( map *m, int x, int y );
 void mtrap_set( map *m, int x, int y, trap_id type );
-void madd_field( map *m, int x, int y, field_id type, int intensity );
+void madd_field( map *m, int x, int y, field_type_id type, int intensity );
 
 void place_stairs( map *m, oter_id terrain_type, mapgendata dat );
 

@@ -7848,7 +7848,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
     if( !active ) {
         return false;
     }
-    field_id smoke_type;
+    field_type_id smoke_type;
     if( has_flag( "TOBACCO" ) ) {
         smoke_type = fd_cigsmoke;
     } else {

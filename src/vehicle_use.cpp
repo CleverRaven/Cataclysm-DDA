@@ -1109,7 +1109,7 @@ void vehicle::transform_terrain()
             if( new_furn != f_null ) {
                 g->m.furn_set( start_pos, new_furn );
             }
-            const field_id new_field = field_from_ident( ttd.post_field );
+            const field_type_id new_field = field_type_id( ttd.post_field );
             if( new_field != fd_null ) {
                 g->m.add_field( start_pos, new_field, ttd.post_field_intensity, ttd.post_field_age );
             }

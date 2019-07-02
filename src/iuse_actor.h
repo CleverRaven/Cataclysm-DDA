@@ -25,7 +25,6 @@ class player;
 struct iteminfo;
 struct tripoint;
 
-enum field_id : int;
 enum hp_part : int;
 enum body_part : int;
 class JsonObject;
@@ -151,9 +150,9 @@ class explosion_iuse : public iuse_actor
         bool flashbang_player_immune = false;
         /** Create fields of this type around the center of the explosion */
         int fields_radius = -1;
-        field_id fields_type;
+        field_type_id fields_type;
         int fields_min_intensity = 1;
-        int fields_max_intensity = 3;
+        int fields_max_intensity = 0;
         /** Calls game::emp_blast if >= 0 */
         int emp_blast_radius = -1;
         /** Calls game::scrambler_blast if >= 0 */

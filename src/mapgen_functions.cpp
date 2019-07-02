@@ -4554,7 +4554,7 @@ void mtrap_set( map *m, int x, int y, trap_id type )
     m->trap_set( actual_location, type );
 }
 
-void madd_field( map *m, int x, int y, field_id type, int intensity )
+void madd_field( map *m, int x, int y, field_type_id type, int intensity )
 {
     tripoint actual_location( x, y, m->get_abs_sub().z );
     m->add_field( actual_location, type, intensity, 0_turns );

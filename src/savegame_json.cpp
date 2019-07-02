@@ -3364,8 +3364,7 @@ void submap::store( JsonOut &jsout ) const
                 jsout.start_array();
                 for( auto &elem : fld[i][j] ) {
                     const field_entry &cur = elem.second;
-                    // We don't seem to have a string identifier for fields anywhere.
-                    jsout.write( cur.get_field_type() );
+                    jsout.write( cur.get_field_type().id() );
                     jsout.write( cur.get_field_intensity() );
                     jsout.write( cur.get_field_age() );
                 }
@@ -3584,13 +3583,26 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
             int j = jsin.get_int();
             jsin.start_array();
             while( !jsin.end_array() ) {
-                int type = jsin.get_int();
+                // TODO: Check enum->string migration below
+                int type_int = 0;
+                std::string type_str;
+                if( jsin.test_int() ) {
+                    type_int = jsin.get_int();
+                } else {
+                    type_str = jsin.get_string();
+                }
                 int intensity = jsin.get_int();
                 int age = jsin.get_int();
-                if( fld[i][j].find_field( field_id( type ) ) == nullptr ) {
+                field_type_id ft;
+                if( !type_str.empty() ) {
+                    ft = field_type_id( type_str );
+                } else {
+                    ft = field_types::get_field_type_by_legacy_enum( type_int ).id;
+                }
+                if( fld[i][j].find_field( ft ) == nullptr ) {
                     field_count++;
                 }
-                fld[i][j].add_field( field_id( type ), intensity, time_duration::from_turns( age ) );
+                fld[i][j].add_field( ft, intensity, time_duration::from_turns( age ) );
             }
         }
     } else if( member_name == "graffiti" ) {

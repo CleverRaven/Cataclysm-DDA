@@ -1056,8 +1056,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     item &corpse_item = *target;
     std::list<item> contents = corpse_item.contents;
     const mtype *corpse = corpse_item.get_mtype();
-    const field_id type_blood = corpse->bloodType();
-    const field_id type_gib = corpse->gibType();
+    const field_type_id type_blood = corpse->bloodType();
+    const field_type_id type_gib = corpse->gibType();
 
     if( action == QUARTER ) {
         butchery_quarter( &corpse_item, *p );
@@ -1767,9 +1767,9 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 // Splatter a bit more randomly, so that it looks cooler
                 const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
                 const tripoint dest( pos.x + rng( -radius, radius ), pos.y + rng( -radius, radius ), pos.z );
-                const field_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
-                                            corpse.get_mtype()->gibType() :
-                                            corpse.get_mtype()->bloodType();
+                const field_type_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
+                                                 corpse.get_mtype()->gibType() :
+                                                 corpse.get_mtype()->bloodType();
                 g->m.add_splatter_trail( type_blood, pos, dest );
             }
 

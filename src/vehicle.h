@@ -35,7 +35,6 @@
 
 class monster;
 
-enum field_id : int;
 class Creature;
 class nc_color;
 class player;
@@ -1142,7 +1141,7 @@ class vehicle
         int safe_velocity( bool fueled = true ) const;
 
         // Generate field from a part, either at front or back of vehicle depending on velocity.
-        void spew_field( double joules, int part, field_id type, int intensity = 1 );
+        void spew_field( double joules, int part, field_type_id type, int intensity = 1 );
 
         // Loop through engines and generate noise and smoke for each one
         void noise_and_smoke( int load, time_duration time = 1_turns );
