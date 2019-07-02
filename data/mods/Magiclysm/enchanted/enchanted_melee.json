@@ -15,7 +15,7 @@
     "looks_like": "cudgel",
     "name": "cudgel +2",
     "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": .8 },
-    "relative": { "to_hit": 1 }
+    "relative": { "to_hit": 2 }
   },
   {
     "type": "GENERIC",
