@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mi-go_camp" ],
+    "om_terrain": [ "mi-go_camp1", "mi-go_camp2" ],
     "weight": 100,
     "object": {
       "fill_ter": "t_resin_floor",
@@ -32,11 +32,7 @@
         ".###+#.##   ######...##.........................",
         "........###+#.##................................"
       ],
-      "terrain": {
-        " ": "t_resin_floor",
-        "#": "t_resin_wall",
-        "+": "t_resin_hole_c"
-      }
+      "terrain": { " ": "t_resin_floor", "#": "t_resin_wall", "+": "t_resin_hole_c" }
     }
   }
 ]
