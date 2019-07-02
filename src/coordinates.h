@@ -240,7 +240,7 @@ namespace std
 template<typename Point, coords::origin Origin, coords::scale Scale>
 struct hash<coords::coord_point<Point, Origin, Scale>> {
     std::size_t operator()( const coords::coord_point<Point, Origin, Scale> &p ) const {
-        const hash<Point> h;
+        const hash<Point> h{};
         return h( p.raw() );
     }
 };
