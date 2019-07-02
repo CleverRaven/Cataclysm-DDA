@@ -3203,45 +3203,45 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
 
     if( g->m.furn( pos ) == f_rack ) {
         g->m.furn_set( pos, f_null );
-        g->m.spawn_item( pos, "pipe", rng( 1, 3 ) );
-        g->m.spawn_item( pos, "steel_chunk" );
+        g->m.spawn_item( p->pos(), "pipe", rng( 1, 3 ) );
+        g->m.spawn_item( p->pos(), "steel_chunk" );
     } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l ) {
         g->m.ter_set( pos, t_dirt );
-        g->m.spawn_item( pos, "pipe", 6 );
-        g->m.spawn_item( pos, "wire", 20 );
+        g->m.spawn_item( p->pos(), "pipe", 6 );
+        g->m.spawn_item( p->pos(), "wire", 20 );
     } else if( ter == t_chainfence_posts ) {
         g->m.ter_set( pos, t_dirt );
-        g->m.spawn_item( pos, "pipe", 6 );
+        g->m.spawn_item( p->pos(), "pipe", 6 );
     } else if( ter == t_window_bars_alarm ) {
         g->m.ter_set( pos, t_window_alarm );
-        g->m.spawn_item( pos, "pipe", 6 );
+        g->m.spawn_item( p->pos(), "pipe", 6 );
     } else if( ter == t_window_bars ) {
         g->m.ter_set( pos, t_window_empty );
-        g->m.spawn_item( pos, "pipe", 6 );
+        g->m.spawn_item( p->pos(), "pipe", 6 );
     } else if( ter == t_window_enhanced ) {
         g->m.ter_set( pos, t_window_reinforced );
-        g->m.spawn_item( pos, "spike", rng( 1, 4 ) );
+        g->m.spawn_item( p->pos(), "spike", rng( 1, 4 ) );
     } else if( ter == t_window_enhanced_noglass ) {
         g->m.ter_set( pos, t_window_reinforced_noglass );
-        g->m.spawn_item( pos, "spike", rng( 1, 4 ) );
+        g->m.spawn_item( p->pos(), "spike", rng( 1, 4 ) );
     } else if( ter == t_reb_cage ) {
         g->m.ter_set( pos, t_pit );
-        g->m.spawn_item( pos, "spike", 19 );
-        g->m.spawn_item( pos, "scrap", 8 );
+        g->m.spawn_item( p->pos(), "spike", 19 );
+        g->m.spawn_item( p->pos(), "scrap", 8 );
     } else if( ter == t_bars ) {
         if( g->m.ter( { pos.x + 1, pos.y, pos.z } ) == t_sewage || g->m.ter( { pos.x, pos.y + 1, pos.z } )
             == t_sewage ||
             g->m.ter( { pos.x - 1, pos.y, pos.z } ) == t_sewage || g->m.ter( { pos.x, pos.y - 1, pos.z } ) ==
             t_sewage ) {
             g->m.ter_set( pos, t_sewage );
-            g->m.spawn_item( pos, "pipe", 3 );
+            g->m.spawn_item( p->pos(), "pipe", 3 );
         } else {
             g->m.ter_set( pos, t_floor );
-            g->m.spawn_item( pos, "pipe", 3 );
+            g->m.spawn_item( p->pos(), "pipe", 3 );
         }
     } else if( ter == t_door_bar_c || ter == t_door_bar_locked ) {
         g->m.ter_set( pos, t_mdoor_frame );
-        g->m.spawn_item( pos, "pipe", 12 );
+        g->m.spawn_item( p->pos(), "pipe", 12 );
     }
 
     p->mod_stored_nutr( 5 );
