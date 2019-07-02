@@ -11465,9 +11465,7 @@
       "sound": "boom!",
       "sound_fail": "whack!",
       "ter_set": "t_null",
-      "items": [
-        { "item": "resin_chunk", "count": [ 10, 40 ] }
-      ]
+      "items": [ { "item": "resin_chunk", "count": [ 10, 40 ] } ]
     }
   },
   {
@@ -11487,9 +11485,7 @@
       "sound": "boom!",
       "sound_fail": "whack!",
       "ter_set": "t_null",
-      "items": [
-        { "item": "resin_chunk", "count": [ 2, 5 ] }
-      ]
+      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
     }
   },
   {
@@ -11509,9 +11505,7 @@
       "sound": "boom!",
       "sound_fail": "whack!",
       "ter_set": "t_null",
-      "items": [
-        { "item": "resin_chunk", "count": [ 10, 40 ] }
-      ]
+      "items": [ { "item": "resin_chunk", "count": [ 10, 40 ] } ]
     }
   },
   {
@@ -11544,12 +11538,7 @@
     "roof": "t_resin_roof",
     "flags": [ "DOOR", "NOITEM", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "open": "t_resin_hole_o",
-    "deconstruct": {
-      "ter_set": "t_resin_hole",
-      "items": [
-        { "item": "resin_chunk", "count": [ 2, 5 ] }
-      ]
-    },
+    "deconstruct": { "ter_set": "t_resin_hole", "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ] },
     "bash": {
       "str_min": 90,
       "str_max": 120,
@@ -11558,9 +11547,7 @@
       "sound": "boom!",
       "sound_fail": "whack!",
       "ter_set": "t_resin_hole",
-      "items": [
-        { "item": "resin_chunk", "count": [ 2, 5 ] }
-      ]
+      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
     }
   },
   {
@@ -11573,12 +11560,7 @@
     "move_cost": 2,
     "roof": "t_resin_roof",
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD" ],
-    "deconstruct": {
-      "ter_set": "t_resin_hole",
-      "items": [
-        { "item": "resin_chunk", "count": [ 2, 5 ] }
-      ]
-    },
+    "deconstruct": { "ter_set": "t_resin_hole", "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ] },
     "close": "t_resin_hole_c",
     "bash": {
       "str_min": 90,
@@ -11588,9 +11570,7 @@
       "sound": "boom!",
       "sound_fail": "whack!",
       "ter_set": "t_resin_hole",
-      "items": [
-        { "item": "resin_chunk", "count": [ 2, 5 ] }
-      ]
+      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
     }
   },
   {
@@ -11609,9 +11589,7 @@
       "sound": "boom!",
       "sound_fail": "whack!",
       "ter_set": "t_null",
-      "items": [
-        { "item": "resin_chunk", "count": [ 2, 5 ] }
-      ]
+      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
     }
   }
 ]
