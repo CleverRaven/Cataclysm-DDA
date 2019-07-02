@@ -2927,6 +2927,8 @@ nc_color item::color_in_inventory() const
         ret = c_red;
     } else if( is_filthy() || item_tags.count( "DIRTY" ) ) {
         ret = c_brown;
+    } else if( has_flag( "STERILE" ) ) {
+        ret = c_cyan;
     } else if( has_flag( "LEAK_DAM" ) && has_flag( "RADIOACTIVE" ) && damage() > 0 ) {
         ret = c_light_green;
     } else if( active && !is_food() && !is_food_container() && !is_corpse() ) {
@@ -3379,7 +3381,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( is_filthy() ) {
         ret << _( " (filthy)" );
     }
-
+    if( has_flag( "STERILE" ) ) {
+        ret << _( " (sterile)" );
+    }
     if( is_tool() && has_flag( "USE_UPS" ) ) {
         ret << _( " (UPS)" );
     }
@@ -7447,8 +7451,9 @@ std::string item::components_to_string() const
 bool item::needs_processing() const
 {
     return active || has_flag( "RADIO_ACTIVATION" ) || has_flag( "ETHEREAL_ITEM" ) ||
+           has_flag( "STERILE" ) ||
            ( is_container() && !contents.empty() && contents.front().needs_processing() ) ||
-           is_artifact() || is_food();
+           is_artifact() || is_food() ;
 }
 
 int item::processing_speed() const
@@ -8252,6 +8257,20 @@ bool item::process( player *carrier, const tripoint &pos, bool activate,
             carrier->add_msg_if_player( _( "%s %s disappears!" ), carrier->disp_name( true ), tname() );
         }
         return processed;
+    }
+
+    if( has_flag( "STERILE" ) ) {
+        if( !has_var( "sterile" ) ) {
+            unset_flag( "STERILE" );
+            return false;
+        }
+        set_var( "sterile", std::stoi( get_var( "sterile" ) ) - 1 );
+        const bool sterile_no_more = std::stoi( get_var( "sterile" ) ) <= 0;
+        if( sterile_no_more ) {
+            unset_flag( "STERILE" );
+            erase_var( "sterile" );
+        }
+        return false;
     }
 
     if( faults.count( fault_gun_blackpowder ) ) {
