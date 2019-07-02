@@ -158,7 +158,7 @@ Character::~Character() = default;
 Character::Character( Character && ) = default;
 Character &Character::operator=( Character && ) = default;
 
-field_id Character::bloodType() const
+field_type_id Character::bloodType() const
 {
     if( has_trait( trait_ACIDBLOOD ) ) {
         return fd_acid;
@@ -174,7 +174,7 @@ field_id Character::bloodType() const
     }
     return fd_blood;
 }
-field_id Character::gibType() const
+field_type_id Character::gibType() const
 {
     return fd_gibs_flesh;
 }
@@ -2659,51 +2659,43 @@ nc_color Character::symbol_color() const
     bool has_elec = false;
     bool has_fume = false;
     for( const auto &field : fields ) {
-        switch( field.first ) {
-            case fd_incendiary:
-            case fd_fire:
-                has_fire = true;
-                break;
-            case fd_electricity:
-                has_elec = true;
-                break;
-            case fd_acid:
-                has_acid = true;
-                break;
-            case fd_relax_gas:
-            case fd_fungal_haze:
-            case fd_fungicidal_gas:
-            case fd_toxic_gas:
-            case fd_tear_gas:
-            case fd_nuke_gas:
-            case fd_smoke:
-                has_fume = true;
-                break;
-            default:
-                continue;
+        if( field.first == fd_incendiary || field.first == fd_fire ) {
+            has_fire = true;
+        }
+        if( field.first == fd_electricity ) {
+            has_elec = true;
+        }
+        if( field.first == fd_acid ) {
+            has_acid = true;
+        }
+        if( field.first == fd_relax_gas || field.first == fd_fungal_haze ||
+            field.first == fd_fungicidal_gas || field.first == fd_toxic_gas ||
+            field.first == fd_tear_gas || field.first == fd_nuke_gas ||
+            field.first == fd_smoke ) {
+            has_fume = true;
         }
     }
-
     // Priority: electricity, fire, acid, gases
     // Can't just return in the switch, because field order is alphabetic
     if( has_elec ) {
         return hilite( basic );
-    } else if( has_fire ) {
+    }
+    if( has_fire ) {
         return red_background( basic );
-    } else if( has_acid ) {
+    }
+    if( has_acid ) {
         return green_background( basic );
-    } else if( has_fume ) {
+    }
+    if( has_fume ) {
         return white_background( basic );
     }
-
     if( in_sleep_state() ) {
         return hilite( basic );
     }
-
     return basic;
 }
 
-bool Character::is_immune_field( const field_id fid ) const
+bool Character::is_immune_field( const field_type_id fid ) const
 {
     // Obviously this makes us invincible
     if( has_trait( debug_nodmg ) ) {
@@ -2711,38 +2703,37 @@ bool Character::is_immune_field( const field_id fid ) const
     }
 
     // Check to see if we are immune
-    switch( fid ) {
-        case fd_smoke:
-            return get_env_resist( bp_mouth ) >= 12;
-        case fd_tear_gas:
-        case fd_toxic_gas:
-        case fd_gas_vent:
-        case fd_relax_gas:
-            return get_env_resist( bp_mouth ) >= 15;
-        case fd_fungal_haze:
-            return has_trait( trait_id( "M_IMMUNE" ) ) || ( get_env_resist( bp_mouth ) >= 15 &&
-                    get_env_resist( bp_eyes ) >= 15 );
-        case fd_electricity:
-            return is_elec_immune();
-        case fd_acid:
-            return has_trait( trait_id( "ACIDPROOF" ) ) ||
-                   ( !is_on_ground() && get_env_resist( bp_foot_l ) >= 15 &&
-                     get_env_resist( bp_foot_r ) >= 15 &&
-                     get_env_resist( bp_leg_l ) >= 15 &&
-                     get_env_resist( bp_leg_r ) >= 15 &&
-                     get_armor_type( DT_ACID, bp_foot_l ) >= 5 &&
-                     get_armor_type( DT_ACID, bp_foot_r ) >= 5 &&
-                     get_armor_type( DT_ACID, bp_leg_l ) >= 5 &&
-                     get_armor_type( DT_ACID, bp_leg_r ) >= 5 );
-        case fd_web:
-            return has_trait( trait_id( "WEB_WALKER" ) );
-        case fd_fire:
-        case fd_flame_burst:
-            return has_active_bionic( bionic_id( "bio_heatsink" ) ) || is_wearing( "rm13_armor_on" );
-        default:
-            // Suppress warning
-            break;
+    if( fid == fd_smoke ) {
+        return get_env_resist( bp_mouth ) >= 12;
     }
+    if( fid == fd_tear_gas || fid == fd_toxic_gas || fid == fd_gas_vent || fid == fd_relax_gas ) {
+        return get_env_resist( bp_mouth ) >= 15;
+    }
+    if( fid == fd_fungal_haze ) {
+        return has_trait( trait_id( "M_IMMUNE" ) ) || ( get_env_resist( bp_mouth ) >= 15 &&
+                get_env_resist( bp_eyes ) >= 15 );
+    }
+    if( fid == fd_electricity ) {
+        return is_elec_immune();
+    }
+    if( fid == fd_acid ) {
+        return has_trait( trait_id( "ACIDPROOF" ) ) ||
+               ( !is_on_ground() && get_env_resist( bp_foot_l ) >= 15 &&
+                 get_env_resist( bp_foot_r ) >= 15 &&
+                 get_env_resist( bp_leg_l ) >= 15 &&
+                 get_env_resist( bp_leg_r ) >= 15 &&
+                 get_armor_type( DT_ACID, bp_foot_l ) >= 5 &&
+                 get_armor_type( DT_ACID, bp_foot_r ) >= 5 &&
+                 get_armor_type( DT_ACID, bp_leg_l ) >= 5 &&
+                 get_armor_type( DT_ACID, bp_leg_r ) >= 5 );
+    }
+    if( fid == fd_web ) {
+        return has_trait( trait_id( "WEB_WALKER" ) );
+    }
+    if( fid == fd_fire || fid == fd_flame_burst ) {
+        return has_active_bionic( bionic_id( "bio_heatsink" ) ) || is_wearing( "rm13_armor_on" );
+    }
+
     // If we haven't found immunity yet fall up to the next level
     return Creature::is_immune_field( fid );
 }

@@ -744,11 +744,11 @@ class jmapgen_alternativly : public jmapgen_piece
 class jmapgen_field : public jmapgen_piece
 {
     public:
-        field_id ftype;
+        field_type_id ftype;
         int intensity;
         time_duration age;
         jmapgen_field( JsonObject &jsi ) : jmapgen_piece()
-            , ftype( field_from_ident( jsi.get_string( "field" ) ) )
+            , ftype( field_type_id( jsi.get_string( "field" ) ) )
             , intensity( jsi.get_int( "intensity", 1 ) )
             , age( time_duration::from_turns( jsi.get_int( "age", 0 ) ) ) {
             if( ftype == fd_null ) {

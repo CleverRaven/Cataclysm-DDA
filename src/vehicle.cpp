@@ -3360,7 +3360,7 @@ bool vehicle::do_environmental_effects()
     return needed;
 }
 
-void vehicle::spew_field( double joules, int part, field_id type, int intensity )
+void vehicle::spew_field( double joules, int part, field_type_id type, int intensity )
 {
     if( rng( 1, 10000 ) > joules ) {
         return;
@@ -3435,7 +3435,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
                 }
 
                 if( ( exhaust_part == -1 ) && engine_on ) {
-                    spew_field( j, p, fd_smoke, bad_filter ? 3 : 1 );
+                    spew_field( j, p, fd_smoke, bad_filter ? fd_smoke.obj().get_max_intensity() : 1 );
                 } else {
                     mufflesmoke += j;
                 }
@@ -3447,7 +3447,8 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     }
     if( ( exhaust_part != -1 ) && engine_on &&
         has_engine_type_not( fuel_type_muscle, true ) ) { // No engine, no smoke
-        spew_field( mufflesmoke, exhaust_part, fd_smoke, bad_filter ? 3 : 1 );
+        spew_field( mufflesmoke, exhaust_part, fd_smoke,
+                    bad_filter ? fd_smoke.obj().get_max_intensity() : 1 );
     }
     // Cap engine noise to avoid deafening.
     noise = std::min( noise, 100.0 );

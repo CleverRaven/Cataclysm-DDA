@@ -974,7 +974,7 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
         }
         // dont go there if it's dangerous.
         bool dangerous_field = false;
-        for( const std::pair<const field_id, field_entry> &e : g->m.field_at( src_loc ) ) {
+        for( const std::pair<const field_type_id, field_entry> &e : g->m.field_at( src_loc ) ) {
             if( p.is_dangerous_field( e.second ) ) {
                 dangerous_field = true;
                 break;
