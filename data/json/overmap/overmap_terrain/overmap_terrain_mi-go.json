@@ -2,7 +2,6 @@
   {
     "type": "overmap_terrain",
     "id": "mi-go_camp",
-    "copy-from": "generic_city_building",
     "name": "mi-go encampment",
     "sym": "O",
     "color": "dark_gray"
