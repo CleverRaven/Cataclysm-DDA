@@ -2348,7 +2348,7 @@ void iexamine::autoclave_empty( player &p, const tripoint &examp )
     map_stack items = g->m.i_at( examp );
     static const std::string filthy( "FILTHY" );
     bool filthy_cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
-        return i.has_flag( filthy ) && i.is_bionic();
+        return i.is_bionic();
     } );
 
     if( items.empty() ) {
@@ -2357,7 +2357,7 @@ void iexamine::autoclave_empty( player &p, const tripoint &examp )
     }
     if( !filthy_cbms ) {
         add_msg( m_bad,
-                 _( "You need to remove all non-filthy non-CBM items from the autoclave to start the program." ) );
+                 _( "You need to remove all non-CBM items from the autoclave to start the program." ) );
         return;
     }
 
@@ -2424,6 +2424,7 @@ void iexamine::autoclave_full( player &, const tripoint &examp )
     for( auto &it : items ) {
         it.unset_flag( "FILTHY" );
         it.set_flag( "STERILE" );
+        it.set_var( "sterile", 600 ); // sterile for 10mn
     }
     add_msg( m_good, _( "The cycle is complete, the CBMs are now sterile." ) );
     g->m.furn_set( examp, next_autoclave_type );
