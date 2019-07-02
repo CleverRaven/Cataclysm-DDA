@@ -1525,7 +1525,7 @@ void avatar::upgrade_stat_prompt( const Character::stat &stat )
             return;
     }
     if( free_points == 0 ) {
-        popup( _( "No available stat points to spend. Experience to next level: %d" ), next_lvl_xp );
+        popup( _( "No available stat points to spend.  Experience to next level: %d" ), next_lvl_xp );
     } else if( free_points > 0 ) {
         if( query_yn( _( "Are you sure you want to raise %s? %d points available." ), stat_string,
                       free_points ) ) {
