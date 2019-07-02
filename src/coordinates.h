@@ -45,8 +45,7 @@ constexpr int map_squares_per( scale s )
         case scale::overmap:
             return OMAPX * map_squares_per( scale::overmap_terrain );
         default:
-            debugmsg( "Requested scale of %d", s );
-            abort();
+            constexpr_fatal( 0, "Requested scale of %d", s );
     }
 }
 
@@ -68,8 +67,7 @@ constexpr origin origin_from_scale( scale s )
         case scale::overmap:
             return origin::overmap;
         default:
-            debugmsg( "Requested origin for of %d", s );
-            abort();
+            constexpr_fatal( origin::abs, "Requested origin for scale %d", s );
     }
 }
 
