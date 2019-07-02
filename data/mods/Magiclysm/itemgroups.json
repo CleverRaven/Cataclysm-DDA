@@ -185,7 +185,7 @@
       [ "eagles_sight_potion", 10 ],
       [ "cats_grace_potion", 10 ]
     ]
-  }
+  },
   {
     "id": "magic_shop_potions",
     "type": "item_group",
