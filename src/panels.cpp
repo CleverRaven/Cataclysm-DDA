@@ -1213,7 +1213,7 @@ static void draw_stat( avatar &u, const catacurses::window &w )
     stat_clr = int_string( u ).first;
     mvwprintz( w, 1, 8, stat_clr, "%s", u.get_int() );
     stat_clr = dex_string( u ).first;
-    mvwprintz( w, 0, 26, stat_clr, "%s", u.get_int() );
+    mvwprintz( w, 0, 26, stat_clr, "%s", u.get_dex() );
     stat_clr = per_string( u ).first;
     mvwprintz( w, 1, 26, stat_clr, "%s", u.get_per() );
 
