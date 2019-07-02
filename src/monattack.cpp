@@ -177,7 +177,7 @@ static Creature *sting_get_target( monster *z, float range = 5.0f )
 
     if( !z->sees( *target ) ||
         !g->m.clear_path( z->pos(), target->pos(), range, 1, 100 ) ) {
-        return false; // Can't see/reach target, no attack
+        return nullptr; // Can't see/reach target, no attack
     }
 
     return rl_dist( z->pos(), target->pos() ) <= range ? target : nullptr;
