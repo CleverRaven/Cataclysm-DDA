@@ -768,7 +768,7 @@
     "flags": [ "ANT" ],
     "rotate": false,
     "spawns": [
-      { "group": "GROUP_ANT", "population": [ 500, 1000 ], "radius": [ 2, 5 ] }
+      { "group": "GROUP_ANT", "population": [ 500, 1000 ], "radius": [ 2, 5 ] },
       { "group": "GROUP_ANT", "population": [ 500, 1000 ], "radius": [ 10, 30 ] }
     ]
   },
@@ -817,7 +817,7 @@
     "flags": [ "FUNGAL" ],
     "rotate": false,
     "spawns": [
-      { "group": "GROUP_FUNGI", "population": [ 100, 200 ], "radius": [ 10, 20 ] }
+      { "group": "GROUP_FUNGI", "population": [ 100, 200 ], "radius": [ 10, 20 ] },
       { "group": "GROUP_FUNGI", "population": [ 300, 600 ], "radius": [ 2, 4 ] }
     ]
   },
