@@ -10759,9 +10759,6 @@ void game::perhaps_add_random_npc()
         return;
     }
 
-    std::shared_ptr<npc> tmp = std::make_shared<npc>();
-    tmp->normalize();
-    tmp->randomize();
     //tmp->stock_missions();
     // Create the NPC in one of the outermost submaps,
     // hopefully far away to be invisible to the player,
@@ -10788,6 +10785,15 @@ void game::perhaps_add_random_npc()
         default:
             break;
     }
+    tripoint omt_pos = sm_to_omt_copy( tripoint( msx, msy, 0 ) );
+    const auto oter = overmap_buffer.ter( omt_pos );
+    // shouldnt spawn on lakes or rivers.
+    if( oter->is_river_or_lake() ) {
+        return;
+    }
+    std::shared_ptr<npc> tmp = std::make_shared<npc>();
+    tmp->normalize();
+    tmp->randomize();
     // adds the npc to the correct overmap.
     tmp->spawn_at_sm( msx, msy, 0 );
     overmap_buffer.insert_npc( tmp );
