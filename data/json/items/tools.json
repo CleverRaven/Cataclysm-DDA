@@ -6616,7 +6616,7 @@
     "name": "scalpel",
     "description": "This is a very sharp knife designed for surgical cutting.  Its small, sharp blade allows for precision strikes in the hands of the skilled.",
     "weight": 23,
-    "volume": 1,
+    "volume": "15 ml",
     "price": 1000,
     "to_hit": -3,
     "cutting": 7,
