@@ -12,7 +12,13 @@
   {
     "type": "item_group",
     "id": "homebooks",
-    "items": [ [ "wizard_beginner", 3 ], [ "wizard_advanced", 1 ], [ "priest_beginner", 5 ], [ "wizard_utility", 3 ] ]
+    "items": [
+      [ "wizard_beginner", 3 ],
+      [ "wizard_advanced", 1 ],
+      [ "priest_beginner", 5 ],
+      [ "wizard_utility", 3 ],
+      [ "techno_idiots", 2 ]
+    ]
   },
   {
     "type": "item_group",
@@ -37,7 +43,10 @@
       [ "magus_spellbook", 6 ],
       [ "eshaper_spellbook", 6 ],
       [ "magus_spellbook_move", 3 ],
-      [ "summon_undead_spellbook", 2 ]
+      [ "summon_undead_spellbook", 2 ],
+      [ "techno_fundamentals", 6 ],
+      [ "techno_em", 5 ],
+      [ "techno_idiots", 3 ]
     ]
   },
   {
@@ -56,7 +65,10 @@
       [ "magus_spellbook", 3 ],
       [ "eshaper_spellbook", 3 ],
       [ "magus_spellbook_move", 2 ],
-      [ "summon_undead_spellbook", 1 ]
+      [ "summon_undead_spellbook", 1 ],
+      [ "techno_fundamentals", 2 ],
+      [ "techno_em", 1 ],
+      [ "techno_idiots", 3 ]
     ]
   },
   {
@@ -75,6 +87,8 @@
       [ "eshaper_spellbook", 3 ],
       [ "magus_spellbook_move", 2 ],
       [ "summon_undead_spellbook", 3 ],
+      [ "techno_fundamentals", 3 ],
+      [ "techno_em", 2 ],
       [ "translocate_spellbook", 2 ]
     ]
   },
@@ -144,6 +158,9 @@
       [ "magus_spellbook", 6 ],
       [ "eshaper_spellbook", 6 ],
       [ "magus_spellbook_move", 3 ],
+      [ "techno_fundamentals", 4 ],
+      [ "techno_em", 3 ],
+      [ "techno_idiots", 6 ],
       [ "translocate_spellbook", 2 ]
     ]
   },
