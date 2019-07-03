@@ -544,10 +544,12 @@ time_duration calendar::season_length()
 {
     return time_duration::from_days( std::max( cur_season_length, 1 ) );
 }
-void calendar::set_eternal_season( bool is_eternal ) {
+void calendar::set_eternal_season( bool is_eternal )
+{
     is_eternal_season = is_eternal;
 }
-void calendar::set_season_length( const int dur ) {
+void calendar::set_season_length( const int dur )
+{
     cur_season_length = dur;
 }
 
