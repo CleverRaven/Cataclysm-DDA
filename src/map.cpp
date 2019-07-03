@@ -7193,7 +7193,7 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
             }
             const ter_t &ter = tmpsub->get_ter( p ).obj();
             if( ter.trap != tr_null && ter.trap != tr_ledge ) {
-                traplocs[trap_here].push_back( pnt );
+                traplocs[ter.trap].push_back( pnt );
             }
 
             if( do_funnels ) {
