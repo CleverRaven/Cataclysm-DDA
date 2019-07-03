@@ -73,6 +73,7 @@ static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_memory( "bio_memory" );
 static const bionic_id bio_watch( "bio_watch" );
 
+static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_FORGETFUL( "FORGETFUL" );
 static const trait_id trait_GOODMEMORY( "GOODMEMORY" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
@@ -1145,5 +1146,73 @@ void avatar::vomit()
 
 void avatar::disp_morale()
 {
-    morale->display( (calc_focus_equilibrium() - focus_pool) / 100.0 );
+    morale->display( ( calc_focus_equilibrium() - focus_pool ) / 100.0 );
+}
+
+// written mostly by FunnyMan3595 in Github issue #613 (DarklingWolf's repo),
+// with some small edits/corrections by Soron
+int avatar::calc_focus_equilibrium() const
+{
+    int focus_gain_rate = 100;
+
+    if( activity.id() == activity_id( "ACT_READ" ) ) {
+        const item &book = *activity.targets[0].get_item();
+        if( book.is_book() && get_item_position( &book ) != INT_MIN ) {
+            auto &bt = *book.type->book;
+            // apply a penalty when we're actually learning something
+            const SkillLevel &skill_level = get_skill_level_object( bt.skill );
+            if( skill_level.can_train() && skill_level < bt.level ) {
+                focus_gain_rate -= 50;
+            }
+        }
+    }
+
+    int eff_morale = get_morale_level();
+    // Factor in perceived pain, since it's harder to rest your mind while your body hurts.
+    // Cenobites don't mind, though
+    if( !has_trait( trait_CENOBITE ) ) {
+        eff_morale = eff_morale - get_perceived_pain();
+    }
+
+    if( eff_morale < -99 ) {
+        // At very low morale, focus goes up at 1% of the normal rate.
+        focus_gain_rate = 1;
+    } else if( eff_morale <= 50 ) {
+        // At -99 to +50 morale, each point of morale gives 1% of the normal rate.
+        focus_gain_rate += eff_morale;
+    } else {
+        /* Above 50 morale, we apply strong diminishing returns.
+        * Each block of 50% takes twice as many morale points as the previous one:
+        * 150% focus gain at 50 morale (as before)
+        * 200% focus gain at 150 morale (100 more morale)
+        * 250% focus gain at 350 morale (200 more morale)
+        * ...
+        * Cap out at 400% focus gain with 3,150+ morale, mostly as a sanity check.
+        */
+
+        int block_multiplier = 1;
+        int morale_left = eff_morale;
+        while( focus_gain_rate < 400 ) {
+            if( morale_left > 50 * block_multiplier ) {
+                // We can afford the entire block.  Get it and continue.
+                morale_left -= 50 * block_multiplier;
+                focus_gain_rate += 50;
+                block_multiplier *= 2;
+            } else {
+                // We can't afford the entire block.  Each block_multiplier morale
+                // points give 1% focus gain, and then we're done.
+                focus_gain_rate += morale_left / block_multiplier;
+                break;
+            }
+        }
+    }
+
+    // This should be redundant, but just in case...
+    if( focus_gain_rate < 1 ) {
+        focus_gain_rate = 1;
+    } else if( focus_gain_rate > 400 ) {
+        focus_gain_rate = 400;
+    }
+
+    return focus_gain_rate;
 }
