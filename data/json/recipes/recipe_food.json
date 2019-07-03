@@ -3047,7 +3047,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
-    "components": [ [ [ "chili_pepper", 2 ] ] ]
+       "components": [ [ [ "chili_pepper", 2 ] ], [ [ "garlic_clove", 2 ], [ "irradiated_onion", 1 ], [ "onion", 1 ], [ "wild herbs", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -7377,7 +7377,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "food_processor", 20 ] ] ],
-    "components": [ [ [ "chili_pepper", 1 ] ] ]
+    "components": [ [ [ "chili_pepper", 2 ] ], [ [ "garlic_clove", 2 ], [ "irradiated_onion", 1 ], [ "onion", 1 ], [ "wild herbs", 2 ] ] ]
   },
   {
     "type": "recipe",
