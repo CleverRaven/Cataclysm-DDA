@@ -3693,7 +3693,7 @@ const std::string &om_direction::id( type dir )
             "", "north", "east", "south", "west"
         }
     };
-    if( dir == type::invalid ) {
+    if( dir == om_direction::type::invalid ) {
         debugmsg( "Invalid direction cannot have an id." );
     }
     return ids[static_cast<size_t>( dir ) + 1];
@@ -3723,16 +3723,16 @@ const std::string &om_direction::name( type dir )
 point om_direction::rotate( const point &p, type dir )
 {
     switch( dir ) {
-        case type::invalid:
+        case om_direction::type::invalid:
             debugmsg( "Invalid overmap rotation (%d).", static_cast<int>( dir ) );
         // Intentional fallthrough.
-        case type::north:
+        case om_direction::type::north:
             break;  // No need to do anything.
-        case type::east:
+        case om_direction::type::east:
             return point( -p.y, p.x );
-        case type::south:
+        case om_direction::type::south:
             return point( -p.x, -p.y );
-        case type::west:
+        case om_direction::type::west:
             return point( p.y, -p.x );
     }
     return p;
@@ -3755,16 +3755,15 @@ point om_direction::displace( type dir, int dist )
 
 inline om_direction::type rotate_internal( om_direction::type dir, int step )
 {
-    using namespace om_direction;
-    if( dir == type::invalid ) {
+    if( dir == om_direction::type::invalid ) {
         debugmsg( "Can't rotate an invalid overmap rotation." );
         return dir;
     }
-    step = step % size;
+    step = step % om_direction::size;
     if( step < 0 ) {
-        step += size;
+        step += om_direction::size;
     }
-    return static_cast<om_direction::type>( ( static_cast<int>( dir ) + step ) % size );
+    return static_cast<om_direction::type>( ( static_cast<int>( dir ) + step ) % om_direction::size );
 }
 
 om_direction::type om_direction::add( type dir1, type dir2 )
