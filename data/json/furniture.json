@@ -391,7 +391,8 @@
     "required_str": -1,
     "deconstruct": { "items": [ { "item": "mattress", "count": 1 } ], "furn_set": "f_bed_frame" },
     "max_volume": 4000,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT" ],
+    "emissions": [ "emit_toxic_blast" ],
+    "flags": [ "EMITTER", "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 12,
       "str_max": 40,
