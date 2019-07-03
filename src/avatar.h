@@ -65,6 +65,8 @@ class avatar : public player
 
         /** Provides the window and detailed morale data */
         void disp_morale();
+        /** Uses morale and other factors to return the player's focus gain rate */
+        int calc_focus_equilibrium() const;
 
         std::vector<mission *> get_active_missions() const;
         std::vector<mission *> get_completed_missions() const;

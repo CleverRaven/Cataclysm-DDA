@@ -242,8 +242,6 @@ class player : public Character
         void apply_persistent_morale();
         /** Uses calc_focus_equilibrium to update the player's current focus */
         void update_mental_focus();
-        /** Uses morale and other factors to return the player's focus gain rate */
-        int calc_focus_equilibrium() const;
         /** Maintains body temperature */
         void update_bodytemp();
         /** Define color for displaying the body temperature */

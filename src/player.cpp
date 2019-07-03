@@ -1006,7 +1006,7 @@ void player::update_mental_focus()
 
 // written mostly by FunnyMan3595 in Github issue #613 (DarklingWolf's repo),
 // with some small edits/corrections by Soron
-int player::calc_focus_equilibrium() const
+int avatar::calc_focus_equilibrium() const
 {
     int focus_gain_rate = 100;
 
