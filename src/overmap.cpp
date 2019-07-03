@@ -3759,11 +3759,11 @@ inline om_direction::type rotate_internal( om_direction::type dir, int step )
         debugmsg( "Can't rotate an invalid overmap rotation." );
         return dir;
     }
-    step = step % size;
+    step = step % om_direction::size;
     if( step < 0 ) {
-        step += size;
+        step += om_direction::size;
     }
-    return static_cast<om_direction::type>( ( static_cast<int>( dir ) + step ) % size );
+    return static_cast<om_direction::type>( ( static_cast<int>( dir ) + step ) % om_direction::size );
 }
 
 om_direction::type om_direction::add( type dir1, type dir2 )
