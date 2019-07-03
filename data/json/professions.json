@@ -2219,13 +2219,13 @@
   {
     "type": "profession",
     "ident": "convict_drugs",
-    "name": "Bootlegger",
-    "description": "You clawed your way out of poverty by selling products everyone wanted, and they had the nerve to put you in jail for it. Too bad you can't sell booze to zombies or aliens.",
+    "name": "Meth Cook",
+    "description": "You clawed your way out of poverty by selling products everyone wanted, and they had the nerve to put you in jail for it. Too bad you can't sell drugs to zombies or aliens.",
     "points": 1,
     "skills": [ { "level": 2, "name": "cooking" }, { "level": 2, "name": "firstaid" } ],
     "items": {
-      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "matches" ],
-      "entries": [ { "item": "condom", "contents_item": "moonshine" } ],
+      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "adderall", "matches" ],
+      "entries": [ { "item": "condom", "contents_item": "dayquil" } ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
