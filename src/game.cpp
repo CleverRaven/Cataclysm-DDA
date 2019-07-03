@@ -8544,7 +8544,9 @@ void game::wield( item_location &loc )
         u.unwield();
 
         if( is_unwielding ) {
-            u.martialart_use_message();
+            if( u.style_selected != matype_id( "style_none" ) ) {
+                u.martialart_use_message();
+            }
             return;
         }
     }
