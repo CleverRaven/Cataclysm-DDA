@@ -1834,6 +1834,10 @@ npc_action npc::long_term_goal_action()
     }
 
     if( has_omt_destination() ) {
+        if( mission != NPC_MISSION_TRAVELLING ) {
+            set_mission( NPC_MISSION_TRAVELLING );
+            set_attitude( attitude );
+        }
         return npc_goto_destination;
     }
 
@@ -3592,7 +3596,7 @@ bool npc::saw_player_recently() const
 
 bool npc::has_omt_destination() const
 {
-    return goal != no_goal_point && !omt_path.empty();
+    return goal != no_goal_point;
 }
 
 void npc::reach_omt_destination()
@@ -3601,15 +3605,19 @@ void npc::reach_omt_destination()
         omt_path.clear();
     }
     if( is_travelling() ) {
-        talk_function::assign_guard( *this );
         guard_pos = g->m.getabs( pos() );
         goal = no_goal_point;
-        if( rl_dist( g->u.pos(), pos() ) > SEEX * 2 || !g->u.sees( pos() ) ) {
-            if( g->u.has_item_with_flag( "TWO_WAY_RADIO", true ) &&
-                has_item_with_flag( "TWO_WAY_RADIO", true ) ) {
-                add_msg( m_info, _( "From your two-way radio you hear %s reporting in, "
-                                    " 'I've arrived, boss!'" ), disp_name() );
+        if( is_player_ally() ) {
+            talk_function::assign_guard( *this );
+            if( rl_dist( g->u.pos(), pos() ) > SEEX * 2 || !g->u.sees( pos() ) ) {
+                if( g->u.has_item_with_flag( "TWO_WAY_RADIO", true ) &&
+                    has_item_with_flag( "TWO_WAY_RADIO", true ) ) {
+                    add_msg( m_info, _( "From your two-way radio you hear %s reporting in, "
+                                        " 'I've arrived, boss!'" ), disp_name() );
+                }
             }
+        } else {
+            revert_after_activity();
         }
         return;
     }
@@ -3744,9 +3752,13 @@ void npc::go_to_omt_destination()
     }
     if( !omt_path.empty() ) {
         point omt_diff = point( omt_path.back().x - omt_pos.x, omt_path.back().y - omt_pos.y );
-        if( omt_diff.x > 2 || omt_diff.x < -2 || omt_diff.y > 2 || omt_diff.y < -2 ) {
+        if( omt_diff.x > 3 || omt_diff.x < -3 || omt_diff.y > 3 || omt_diff.y < -3 ) {
             // we've gone wandering somehow, reset destination.
-            set_omt_destination();
+            if( !is_player_ally() ) {
+                set_omt_destination();
+            } else {
+                talk_function::assign_guard( *this );
+            }
             return;
         }
     }
