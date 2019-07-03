@@ -968,7 +968,7 @@ void player::apply_persistent_morale()
 
 }
 
-void player::update_mental_focus()
+void avatar::update_mental_focus()
 {
     int focus_gain_rate = calc_focus_equilibrium() - focus_pool;
 

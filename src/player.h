@@ -240,8 +240,6 @@ class player : public Character
         void update_morale();
         /** Ensures persistent morale effects are up-to-date */
         void apply_persistent_morale();
-        /** Uses calc_focus_equilibrium to update the player's current focus */
-        void update_mental_focus();
         /** Maintains body temperature */
         void update_bodytemp();
         /** Define color for displaying the body temperature */
