@@ -243,18 +243,20 @@ void spell_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "casting_time_increment", casting_time_increment, 0.0f );
 }
 
-static bool spell_infinite_loop_check( std::set<spell_id> &spell_effects, const spell_id &sp )
+static bool spell_infinite_loop_check( std::set<spell_id> spell_effects, const spell_id &sp )
 {
     if( spell_effects.count( sp ) ) {
         return true;
     }
     spell_effects.emplace( sp );
-    // fill out the list first for a breadth first search
+
+    std::set<spell_id> unique_spell_list;
     for( const fake_spell &fake_sp : sp->additional_spells ) {
-        spell_effects.emplace( fake_sp.id );
+        unique_spell_list.emplace( fake_sp.id );
     }
-    for( const fake_spell &fake_sp : sp->additional_spells ) {
-        if( spell_infinite_loop_check( spell_effects, fake_sp.id ) ) {
+
+    for( const spell_id &sp : unique_spell_list ) {
+        if( spell_infinite_loop_check( spell_effects, sp ) ) {
             return true;
         }
     }
