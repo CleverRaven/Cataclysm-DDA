@@ -2276,11 +2276,6 @@ void player::mod_stat( const std::string &stat, float modifier )
     }
 }
 
-void avatar::disp_morale()
-{
-    morale->display( ( calc_focus_equilibrium() - focus_pool ) / 100.0 );
-}
-
 time_duration player::estimate_effect_dur( const skill_id &relevant_skill,
         const efftype_id &target_effect, const time_duration &error_magnitude,
         int threshold, const Creature &target ) const

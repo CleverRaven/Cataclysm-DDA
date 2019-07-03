@@ -29,6 +29,7 @@
 #include "messages.h"
 #include "mission.h"
 #include "monstergenerator.h"
+#include "morale.h"
 #include "morale_types.h"
 #include "mutation.h"
 #include "npc.h"
@@ -1140,4 +1141,9 @@ void avatar::vomit()
         add_msg( m_warning, _( "You retched, but your stomach is empty." ) );
     }
     Character::vomit();
+}
+
+void avatar::disp_morale()
+{
+    morale->display( (calc_focus_equilibrium() - focus_pool) / 100.0 );
 }
