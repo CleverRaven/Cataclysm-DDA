@@ -968,42 +968,6 @@ void player::apply_persistent_morale()
 
 }
 
-void avatar::update_mental_focus()
-{
-    int focus_gain_rate = calc_focus_equilibrium() - focus_pool;
-
-    // handle negative gain rates in a symmetric manner
-    int base_change = 1;
-    if( focus_gain_rate < 0 ) {
-        base_change = -1;
-        focus_gain_rate = -focus_gain_rate;
-    }
-
-    // for every 100 points, we have a flat gain of 1 focus.
-    // for every n points left over, we have an n% chance of 1 focus
-    int gain = focus_gain_rate / 100;
-    if( rng( 1, 100 ) <= ( focus_gain_rate % 100 ) ) {
-        gain++;
-    }
-
-    focus_pool += ( gain * base_change );
-
-    // Fatigue should at least prevent high focus
-    // This caps focus gain at 60(arbitrary value) if you're Dead Tired
-    if( get_fatigue() >= DEAD_TIRED && focus_pool > 60 ) {
-        focus_pool = 60;
-    }
-
-    // Moved from calc_focus_equilibrium, because it is now const
-    if( activity.id() == activity_id( "ACT_READ" ) ) {
-        const item *book = activity.targets[0].get_item();
-        if( get_item_position( book ) == INT_MIN || !book->is_book() ) {
-            add_msg_if_player( m_bad, _( "You lost your book! You stop reading." ) );
-            activity.set_to_null();
-        }
-    }
-}
-
 /* Here lies the intended effects of body temperature
 
 Assumption 1 : a naked person is comfortable at 19C/66.2F (31C/87.8F at rest).
