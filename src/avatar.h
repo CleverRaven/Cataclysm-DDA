@@ -69,6 +69,8 @@ class avatar : public player
         int calc_focus_equilibrium() const;
         /** Uses calc_focus_equilibrium to update the player's current focus */
         void update_mental_focus();
+        /** Resets stats, and applies effects in an idempotent manner */
+        void reset_stats() override;
 
         std::vector<mission *> get_active_missions() const;
         std::vector<mission *> get_completed_missions() const;

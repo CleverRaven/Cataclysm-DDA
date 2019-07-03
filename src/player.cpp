@@ -572,7 +572,7 @@ void player::normalize()
     stamina = get_stamina_max();
 }
 
-void player::reset_stats()
+void avatar::reset_stats()
 {
     // Trait / mutation buffs
     if( has_trait( trait_THICK_SCALES ) ) {

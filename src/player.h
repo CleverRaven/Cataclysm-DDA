@@ -228,8 +228,6 @@ class player : public Character
                                            const time_duration &error_magnitude,
                                            int threshold, const Creature &target ) const;
 
-        /** Resets stats, and applies effects in an idempotent manner */
-        void reset_stats() override;
         /** Resets movement points and applies other non-idempotent changes */
         void process_turn() override;
         /** Calculates the various speed bonuses we will get from mutations, etc. */
