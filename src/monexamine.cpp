@@ -108,7 +108,7 @@ bool monexamine::pet_menu( monster &z )
         if( !rope_inv.empty() ) {
             amenu.addentry( rope, true, 't', _( "Tie" ) );
         } else {
-            amenu.addentry( rope, false, 't', _( "You need a short rope to tie %s in place" ),
+            amenu.addentry( rope, false, 't', _( "You need any type of rope to tie %s in place" ),
                             pet_name );
         }
     }
@@ -232,7 +232,7 @@ void monexamine::mount_pet( monster &z )
     z.add_effect( effect_ridden, 1_turns, num_bp, true );
     if( z.has_effect( effect_tied ) ) {
         z.remove_effect( effect_tied );
-        if( z.tied_item ){
+        if( z.tied_item ) {
             g->u.i_add( *z.tied_item, 0 );
             z.tied_item = cata::nullopt;
         }
@@ -508,7 +508,7 @@ void monexamine::tie_or_untie( monster &z )
 {
     if( z.has_effect( effect_tied ) ) {
         z.remove_effect( effect_tied );
-        if( z.tied_item ){
+        if( z.tied_item ) {
             g->u.i_add( *z.tied_item, 0 );
             z.tied_item = cata::nullopt;
         }
@@ -533,10 +533,13 @@ void monexamine::tie_or_untie( monster &z )
             index > static_cast<int>( rope_inv.size() ) ) {
             return;
         }
-        auto rope_item = rope_inv[index - 1];;
-        z.tied_item = *rope_item;
-        g->u.use_amount( rope_item, 1 );
-        z.add_effect( effect_tied, 1_turns, num_bp, true );
+        auto rope_item = rope_inv[index - 1];
+        int item_pos = g->u.get_item_position( rope_item );
+        if( item_pos != INT_MIN ) {
+            z.tied_item = *rope_item;
+            g->u.i_rem( item_pos );
+            z.add_effect( effect_tied, 1_turns, num_bp, true );
+        }
     }
 }
 

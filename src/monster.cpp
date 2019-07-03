@@ -2006,7 +2006,10 @@ void monster::die( Creature *nkiller )
     }
     // We were tied up at the moment of death, add a short rope to inventory
     if( has_effect( effect_tied ) ) {
-        add_item( item( tied_item, 0 ) );
+        if( tied_item ) {
+            add_item( *tied_item );
+            tied_item = cata::nullopt;
+        }
     }
     if( has_effect( effect_lightsnare ) ) {
         add_item( item( "string_36", 0 ) );
