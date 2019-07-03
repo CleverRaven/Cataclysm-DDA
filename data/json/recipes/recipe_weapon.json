@@ -108,6 +108,19 @@
   },
   {
     "type": "recipe",
+    "result": "bolas",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "survival",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 2,
+    "time": "40 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "string_36", 3 ] ], [ [ "rock", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "cudgel",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",

@@ -50,6 +50,22 @@
     "flags": [ "NOGIB" ]
   },
   {
+    "id": "bolas",
+    "type": "AMMO",
+    "category": "weapons",
+    "name": "bolas",
+    "description": "Some strings with weights, designed to tangle the legs of a target when thrown, usually at an animal.  Used by the Gauchos of Argentina.",
+    "weight": 400,
+    "volume": 3,
+    "price": 600,
+    "bashing": 1,
+    "material": [ "cotton", "stone" ],
+    "symbol": ";",
+    "color": "blue",
+    "ammo_type": "thrown",
+    "flags": [ "NOGIB", "TANGLE", "PRIMITIVE_RANGED_WEAPON" ]
+  },
+  {
     "type": "GENERIC",
     "id": "spear_rebar",
     "symbol": "/",
