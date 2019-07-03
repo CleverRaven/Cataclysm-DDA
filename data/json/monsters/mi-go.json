@@ -119,8 +119,12 @@
     "harvest": "zombie_meatslug",
     "path_settings": { "max_dist": 50 },
     "special_attacks": [
-      [ "PARROT", 5 ],[ "SHRIEK_ALERT", 5 ], [ "SHRIEK_STUN", 4 ], [ "LONGSWIPE", 12 ],
-      [ "STRETCH_ATTACK", 10 ], [ "SMASH", 30 ],
+      [ "PARROT", 5 ],
+      [ "SHRIEK_ALERT", 5 ],
+      [ "SHRIEK_STUN", 4 ],
+      [ "LONGSWIPE", 12 ],
+      [ "STRETCH_ATTACK", 10 ],
+      [ "SMASH", 30 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 35, "armor_multiplier": 0.6 } ] }
     ],
     "death_function": [ "NORMAL" ],
@@ -166,8 +170,10 @@
     "harvest": "zombie_meatslug",
     "path_settings": { "max_dist": 50 },
     "special_attacks": [
-      [ "PARROT", 5 ], [ "LONGSWIPE", 12 ],
-      [ "STRETCH_ATTACK", 20 ], [ "TAZER", 5 ],
+      [ "PARROT", 5 ],
+      [ "LONGSWIPE", 12 ],
+      [ "STRETCH_ATTACK", 20 ],
+      [ "TAZER", 5 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 30, "armor_multiplier": 0.7 } ] },
       {
         "type": "gun",
