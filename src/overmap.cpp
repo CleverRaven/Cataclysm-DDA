@@ -1823,8 +1823,8 @@ void mongroup::wander( const overmap &om )
         // TODO: somehow use the same algorithm that distributes zombie
         // density at world gen to spread the hordes over the actual
         // city, rather than the center city tile
-        target.x = target_city->pos.x * 2 + rng( -target_city->size * 2, target_city->size * 2);
-        target.y = target_city->pos.y * 2 + rng( -target_city->size * 2, target_city->size * 2);
+        target.x = target_city->pos.x * 2 + rng( -target_city->size * 2, target_city->size * 2 );
+        target.y = target_city->pos.y * 2 + rng( -target_city->size * 2, target_city->size * 2 );
         interest = 100;
     } else {
         target.x = pos.x + rng( -10, 10 );
