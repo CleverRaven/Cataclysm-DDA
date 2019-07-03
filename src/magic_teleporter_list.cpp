@@ -1,10 +1,12 @@
 #include "magic_teleporter_list.h"
 
+#include <stddef.h>
 #include <map>
-#include <unordered_set>
+#include <algorithm>
+#include <memory>
+#include <utility>
 
 #include "avatar.h"
-#include "character.h"
 #include "coordinate_conversions.h"
 #include "enums.h"
 #include "game.h"
@@ -14,10 +16,12 @@
 #include "map.h"
 #include "messages.h"
 #include "output.h"
-#include "overmapbuffer.h"
 #include "panels.h"
 #include "string_input_popup.h"
 #include "ui.h"
+#include "color.h"
+#include "string_formatter.h"
+#include "translations.h"
 
 static bool popup_string( std::string &result, std::string &title )
 {

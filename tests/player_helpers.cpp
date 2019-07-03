@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "avatar.h"
-#include "enums.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -13,6 +12,7 @@
 #include "inventory.h"
 #include "player_activity.h"
 #include "type_id.h"
+#include "point.h"
 
 int get_remaining_charges( const std::string &tool_id )
 {

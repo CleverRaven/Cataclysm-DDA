@@ -1066,6 +1066,11 @@
   },
   {
     "type": "item_action",
+    "id": "weigh_self",
+    "name": "Use Scale"
+  },
+  {
+    "type": "item_action",
     "id": "CRAFT",
     "name": "Work on craft"
   },

@@ -27,6 +27,7 @@ class item_category;
 class Item_factory;
 class player;
 class item;
+struct tripoint;
 
 enum art_effect_active : int;
 enum art_charge : int;

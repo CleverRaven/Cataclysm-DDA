@@ -41,7 +41,6 @@
 #include "catacharset.h"
 #include "compatibility.h"
 #include "debug.h"
-#include "enums.h"
 #include "game_constants.h"
 #include "int_id.h"
 #include "omdata.h"
@@ -49,6 +48,9 @@
 #include "string_formatter.h"
 #include "tileray.h"
 #include "type_id.h"
+#include "magic.h"
+#include "point.h"
+#include "string_id.h"
 
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );

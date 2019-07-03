@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <memory>
 #include <ostream>
+#include <list>
 
 #include "avatar.h"
 #include "bionics.h"
@@ -27,7 +28,6 @@
 #include "translations.h"
 #include "trap.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "tileray.h"
 #include "vehicle.h"
 #include "cata_utility.h"
@@ -37,6 +37,8 @@
 #include "player.h"
 #include "int_id.h"
 #include "string_id.h"
+#include "pimpl.h"
+#include "string_formatter.h"
 
 #define MONSTER_FOLLOW_DIST 8
 

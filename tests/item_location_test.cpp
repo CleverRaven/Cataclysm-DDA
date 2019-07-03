@@ -1,9 +1,18 @@
+#include <functional>
+#include <memory>
+#include <string>
+
 #include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
 #include "map_helpers.h"
 #include "rng.h"
-#include "stringmaker.h"
+#include "item_location.h"
+#include "map.h"
+#include "map_selector.h"
+#include "optional.h"
+#include "point.h"
+#include "visitable.h"
 
 TEST_CASE( "item_location_can_maintain_reference_despite_item_removal", "[item][item_location]" )
 {

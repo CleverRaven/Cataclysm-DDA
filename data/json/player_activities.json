@@ -271,6 +271,24 @@
     "no_resume": true
   },
   {
+    "id": "ACT_AUTODRIVE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "driving",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_TRAVELLING",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "travelling",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
     "id": "ACT_MOVE_LOOT",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",

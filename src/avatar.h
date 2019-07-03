@@ -2,10 +2,31 @@
 #ifndef AVATAR_H
 #define AVATAR_H
 
+#include <stddef.h>
+#include <iosfwd>
+#include <string>
+#include <unordered_set>
+#include <vector>
+
 #include "enums.h"
 #include "player.h"
-
 #include "magic_teleporter_list.h"
+#include "calendar.h"
+#include "item.h"
+#include "map_memory.h"
+#include "pldata.h"
+#include "point.h"
+
+class JsonIn;
+class JsonObject;
+class JsonOut;
+class mission;
+class npc;
+namespace debug_menu
+{
+class mission_debug;
+}  // namespace debug_menu
+struct points_left;
 
 class avatar : public player
 {

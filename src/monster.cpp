@@ -49,10 +49,8 @@
 #include "player.h"
 #include "int_id.h"
 #include "string_id.h"
-#include "veh_type.h"
-#include "vehicle.h"
-#include "vpart_position.h"
-#include "vpart_reference.h" // IWYU pragma: keep
+#include "flat_set.h"
+#include "weather.h"
 
 struct pathfinding_settings;
 
@@ -341,7 +339,7 @@ void monster::try_upgrade( bool pin_time )
             upgrade_time += current_day;
         } else {
             // offset by starting season
-            upgrade_time += to_days<int>( calendar::time_of_cataclysm - calendar::start );
+            upgrade_time += calendar::start;
         }
     }
 
@@ -1485,9 +1483,15 @@ bool monster::move_effects( bool )
         return false;
     }
     if( has_effect( effect_downed ) ) {
-        remove_effect( effect_downed );
-        if( u_see_me ) {
-            add_msg( _( "The %s climbs to its feet!" ), name() );
+        if( rng( 0, 40 ) > type->melee_dice * type->melee_sides * 1.5 ) {
+            if( u_see_me ) {
+                add_msg( _( "The %s struggles to stand." ), name() );
+            }
+        } else {
+            if( u_see_me ) {
+                add_msg( _( "The %s climbs to its feet!" ), name() );
+            }
+            remove_effect( effect_downed );
         }
         return false;
     }

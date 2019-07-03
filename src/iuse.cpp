@@ -11,7 +11,6 @@
 #include <exception>
 #include <functional>
 #include <iterator>
-#include <limits>
 #include <list>
 #include <map>
 #include <utility>
@@ -90,10 +89,14 @@
 #include "ret_val.h"
 #include "stomach.h"
 #include "string_id.h"
-#include "vpart_reference.h"
 #include "weather_gen.h"
 #include "type_id.h"
 #include "options.h"
+#include "flat_set.h"
+#include "handle_liquid.h"
+#include "item_group.h"
+#include "omdata.h"
+#include "point.h"
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
@@ -4752,25 +4755,25 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
 
     const ter_id ter = g->m.ter( pnt );
     const auto furn = g->m.furn( pnt );
-    int moves;
+    int turns = 0;
 
     if( furn == f_rack || ter == t_chainfence_posts ) {
-        moves = to_turns<int>( 2_seconds );
+        turns = to_turns<int>( 2_seconds );
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
-        moves = to_turns<int>( 5_seconds );
+        turns = to_turns<int>( 5_seconds );
     } else if( ter == t_chainfence || ter == t_chaingate_c ||
                ter == t_chaingate_l  || ter == t_bars || ter == t_window_bars_alarm ||
                ter == t_window_bars || ter == t_reb_cage ) {
-        moves = to_turns<int>( 10_seconds );
+        turns = to_turns<int>( 10_seconds );
     } else if( ter == t_door_metal_locked || ter == t_door_metal_c || ter == t_door_bar_c ||
                ter == t_door_bar_locked || ter == t_door_metal_pickable ) {
-        moves = to_turns<int>( 15_seconds );
+        turns = to_turns<int>( 15_seconds );
     } else {
         add_msg( m_info, _( "You can't cut that." ) );
         return 0;
     }
 
-    const int charges = moves / 100 * it->ammo_required();
+    const int charges = turns * it->ammo_required();
 
     if( charges > it->ammo_remaining() ) {
         add_msg( m_info, _( "Your torch doesn't have enough acetylene to cut that." ) );
@@ -4778,7 +4781,7 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
     }
 
     // placing ter here makes resuming tasks work better
-    p->assign_activity( activity_id( "ACT_OXYTORCH" ), moves, static_cast<int>( ter ),
+    p->assign_activity( activity_id( "ACT_OXYTORCH" ), turns, static_cast<int>( ter ),
                         p->get_item_position( it ) );
     p->activity.placement = pnt;
     p->activity.values.push_back( charges );

@@ -1,5 +1,6 @@
 #include "faction.h"
 
+#include <assert.h>
 #include <cstdlib>
 #include <bitset>
 #include <map>
@@ -12,7 +13,6 @@
 #include "basecamp.h"
 #include "cursesdef.h"
 #include "debug.h"
-#include "enums.h"
 #include "faction_camp.h"
 #include "game.h"
 #include "game_constants.h"
@@ -22,7 +22,6 @@
 #include "npc.h"
 #include "output.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -30,6 +29,7 @@
 #include "optional.h"
 #include "pimpl.h"
 #include "type_id.h"
+#include "point.h"
 
 namespace npc_factions
 {

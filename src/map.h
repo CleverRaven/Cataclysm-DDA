@@ -27,10 +27,13 @@
 #include "type_id.h"
 #include "units.h"
 #include "cata_utility.h"
+#include "faction.h"
+#include "point.h"
 
 struct furn_t;
 struct ter_t;
 template <typename T> class string_id;
+template <typename T> class safe_reference;
 
 namespace catacurses
 {
@@ -1593,7 +1596,7 @@ class map
          * It's a really heinous function pointer so a typedef is the best
          * solution in this instance.
          */
-        using map_process_func = bool ( * )( item_stack &, item_stack::iterator &, const tripoint &,
+        using map_process_func = bool ( * )( item_stack &, safe_reference<item> &, const tripoint &,
                                              const std::string &, float, temperature_flag );
     private:
 
@@ -1673,6 +1676,8 @@ class map
 
         void update_visibility_cache( int zlev );
         const visibility_variables &get_visibility_variables_cache() const;
+
+        void update_submap_active_item_status( const tripoint &p );
 
         // Clips the area to map bounds
         tripoint_range points_in_rectangle( const tripoint &from, const tripoint &to ) const;

@@ -14,10 +14,10 @@
 #include "calendar.h"
 #include "character.h"
 #include "damage.h"
-#include "enums.h" // tripoint
 #include "string_id.h"
 #include "tuple_hash.h"
 #include "type_id.h"
+#include "point.h"
 
 class nc_color;
 class JsonObject;

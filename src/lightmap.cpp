@@ -5,7 +5,6 @@
 #include <cstdlib>
 #include <cmath>
 #include <cstring>
-#include <list>
 #include <memory>
 #include <utility>
 #include <vector>
@@ -24,10 +23,8 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
 #include "weather.h"
 #include "calendar.h"
-#include "enums.h"
 #include "field.h"
 #include "item.h"
 #include "line.h"
@@ -36,6 +33,9 @@
 #include "string_formatter.h"
 #include "tileray.h"
 #include "type_id.h"
+#include "colony.h"
+#include "item_stack.h"
+#include "point.h"
 
 #define LIGHTMAP_CACHE_X MAPSIZE_X
 #define LIGHTMAP_CACHE_Y MAPSIZE_Y

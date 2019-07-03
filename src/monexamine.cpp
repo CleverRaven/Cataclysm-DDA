@@ -20,7 +20,6 @@
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
-#include "player.h"
 #include "output.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -33,6 +32,8 @@
 #include "string_formatter.h"
 #include "units.h"
 #include "type_id.h"
+#include "pimpl.h"
+#include "point.h"
 
 const species_id ZOMBIE( "ZOMBIE" );
 

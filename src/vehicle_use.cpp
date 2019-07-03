@@ -7,7 +7,7 @@
 #include <sstream>
 #include <memory>
 #include <tuple>
-#include <type_traits>
+#include <list>
 
 #include "action.h"
 #include "activity_handlers.h"
@@ -33,7 +33,6 @@
 #include "veh_type.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
 #include "string_input_popup.h"
 #include "color.h"
 #include "input.h"
@@ -46,6 +45,12 @@
 #include "requirements.h"
 #include "rng.h"
 #include "string_id.h"
+#include "field.h"
+#include "bodypart.h"
+#include "enums.h"
+#include "monster.h"
+#include "mtype.h"
+#include "weather.h"
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );
@@ -673,6 +678,12 @@ void vehicle::use_controls( const tripoint &pos )
     menu.entries = options;
     menu.query();
     if( menu.ret >= 0 ) {
+        // allow player to turn off engine without triggering another warning
+        if( menu.ret != 0 && menu.ret != 1 && menu.ret != 2 && menu.ret != 3 ) {
+            if( !handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                return;
+            }
+        }
         actions[menu.ret]();
         // Don't access `this` from here on, one of the actions above is to call
         // fold_up(), which may have deleted `this` object.
@@ -1077,33 +1088,36 @@ void vehicle::play_chimes()
     }
 }
 
-void vehicle::operate_plow()
+void vehicle::transform_terrain()
 {
-    for( const vpart_reference &vp : get_enabled_parts( "PLOW" ) ) {
-        const tripoint start_plow = vp.pos();
-        if( g->m.has_flag( "PLOWABLE", start_plow ) ) {
-            g->m.ter_set( start_plow, t_dirtmound );
-        } else {
-            const int speed = abs( velocity );
-            int v_damage = rng( 3, speed );
-            damage( vp.part_index(), v_damage, DT_BASH, false );
-            sounds::sound( start_plow, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false,
-                           "smash_success", "hit_vehicle" );
+    for( const vpart_reference &vp : get_enabled_parts( "TRANSFORM_TERRAIN" ) ) {
+        const tripoint start_pos = vp.pos();
+        const transform_terrain_data &ttd = vp.info().transform_terrain;
+        bool prereq_fulfilled = false;
+        for( const std::string &flag : ttd.pre_flags ) {
+            if( g->m.has_flag( flag, start_pos ) ) {
+                prereq_fulfilled = true;
+                break;
+            }
         }
-    }
-}
-
-void vehicle::operate_rockwheel()
-{
-    for( const vpart_reference &vp : get_enabled_parts( "ROCKWHEEL" ) ) {
-        const tripoint start_dig = vp.pos();
-        if( g->m.has_flag( "DIGGABLE", start_dig ) ) {
-            g->m.ter_set( start_dig, t_pit_shallow );
+        if( prereq_fulfilled ) {
+            const ter_id new_ter = ter_id( ttd.post_terrain );
+            if( new_ter != t_null ) {
+                g->m.ter_set( start_pos, new_ter );
+            }
+            const furn_id new_furn = furn_id( ttd.post_furniture );
+            if( new_furn != f_null ) {
+                g->m.furn_set( start_pos, new_furn );
+            }
+            const field_id new_field = field_from_ident( ttd.post_field );
+            if( new_field != fd_null ) {
+                g->m.add_field( start_pos, new_field, ttd.post_field_intensity, ttd.post_field_age );
+            }
         } else {
             const int speed = abs( velocity );
             int v_damage = rng( 3, speed );
             damage( vp.part_index(), v_damage, DT_BASH, false );
-            sounds::sound( start_dig, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false,
+            sounds::sound( start_pos, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false,
                            "smash_success", "hit_vehicle" );
         }
     }
@@ -1606,7 +1620,11 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         selectmenu.query();
         choice = selectmenu.ret;
     }
-
+    if( choice != EXAMINE && choice != TRACK && choice != GET_ITEMS_ON_GROUND ) {
+        if( !handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+            return;
+        }
+    }
     auto veh_tool = [&]( const itype_id & obj ) {
         item pseudo( obj );
         if( fuel_left( "battery" ) < pseudo.ammo_required() ) {

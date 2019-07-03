@@ -6,6 +6,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <unordered_map>
 
 #include "color.h"
 #include "string_id.h"

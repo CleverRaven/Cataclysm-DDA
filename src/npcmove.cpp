@@ -9,8 +9,8 @@
 #include <iterator>
 #include <tuple>
 #include <cmath>
+#include <type_traits>
 
-#include "ammo.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "cata_algo.h"
@@ -45,7 +45,6 @@
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
 #include "bodypart.h"
 #include "character.h"
 #include "damage.h"
@@ -58,6 +57,9 @@
 #include "ret_val.h"
 #include "units.h"
 #include "pldata.h"
+#include "enums.h"
+#include "overmap.h"
+#include "stomach.h"
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;

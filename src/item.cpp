@@ -1,7 +1,6 @@
 #include "item.h"
 
 #include <cctype>
-#include <cstdint>
 #include <cstdlib>
 #include <algorithm>
 #include <array>
@@ -22,6 +21,7 @@
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
+#include "craft_command.h"
 #include "damage.h"
 #include "debug.h"
 #include "dispersion.h"
@@ -66,12 +66,10 @@
 #include "vehicle.h"
 #include "vitamin.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "weather.h"
 #include "catacharset.h"
 #include "character.h"
 #include "color.h"
-#include "explosion.h"
 #include "int_id.h"
 #include "inventory.h"
 #include "item_group.h"
@@ -82,6 +80,11 @@
 #include "recipe.h"
 #include "rng.h"
 #include "weather_gen.h"
+#include "clzones.h"
+#include "faction.h"
+#include "magic.h"
+
+class npc_class;
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 
@@ -8599,6 +8602,26 @@ const recipe &item::get_making() const
         return recipe().ident().obj();
     }
     return *making;
+}
+
+void item::set_tools_to_continue( bool value )
+{
+    tools_to_continue = value;
+}
+
+bool item::has_tools_to_continue() const
+{
+    return tools_to_continue;
+}
+
+void item::set_cached_tool_selections( const std::vector<comp_selection<tool_comp>> &selections )
+{
+    cached_tool_selections = selections;
+}
+
+const std::vector<comp_selection<tool_comp>> &item::get_cached_tool_selections() const
+{
+    return cached_tool_selections;
 }
 
 const cata::optional<islot_comestible> &item::get_comestible() const

@@ -116,7 +116,7 @@
     "volume": 3,
     "price": 5000,
     "symbol": "?",
-    "color": "light_grey",
+    "color": "light_gray",
     "use_action": { "type": "learn_spell", "spells": [ "jolt", "windstrike", "windrun", "storm_hammer" ] }
   },
   {
@@ -177,7 +177,7 @@
     "weight": 434,
     "volume": 3,
     "symbol": "?",
-    "color": "light_grey",
+    "color": "light_gray",
     "use_action": { "type": "learn_spell", "spells": [ "magus_mana_beam", "magus_mana_bolt", "magus_mana_blast" ] }
   },
   {
@@ -202,7 +202,7 @@
     "weight": 231,
     "volume": 2,
     "symbol": "?",
-    "color": "light_grey",
+    "color": "light_gray",
     "use_action": { "type": "learn_spell", "spells": [ "phase_door", "magus_escape", "magus_haste" ] }
   },
   {
@@ -213,7 +213,7 @@
     "weight": 129,
     "volume": "100 ml",
     "symbol": "?",
-    "color": "light_grey",
+    "color": "light_gray",
     "use_action": { "type": "learn_spell", "spells": [ "summon_bear" ] }
   },
   {
@@ -224,7 +224,7 @@
     "weight": 788,
     "volume": 9,
     "symbol": "?",
-    "color": "light_grey",
+    "color": "light_gray",
     "use_action": { "type": "learn_spell", "spells": [ "summon_zombie", "summon_skeleton", "summon_decayed_pouncer" ] }
   },
   {

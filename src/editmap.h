@@ -9,7 +9,7 @@
 #include "optional.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "enums.h"
+#include "point.h"
 #include "type_id.h"
 
 struct real_coords;

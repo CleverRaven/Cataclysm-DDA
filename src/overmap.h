@@ -22,16 +22,20 @@
 #include "overmap_types.h" // IWYU pragma: keep
 #include "regional_settings.h"
 #include "enums.h"
-#include "map_extras.h"
 #include "mongroup.h"
 #include "optional.h"
 #include "type_id.h"
+#include "point.h"
+#include "rng.h"
+#include "string_id.h"
 
 class npc;
 class overmap_connection;
 class JsonIn;
 class JsonOut;
 class monster;
+class JsonObject;
+class map_extra;
 
 namespace pf
 {
@@ -393,8 +397,7 @@ class overmap
         void connect_closest_points( const std::vector<point> &points, int z,
                                      const overmap_connection &connection );
         // Polishing
-        bool check_ot_type( const std::string &otype, int x, int y, int z ) const;
-        bool check_ot_subtype( const std::string &otype, int x, int y, int z ) const;
+        bool check_ot( const std::string &otype, ot_match_type match_type, int x, int y, int z ) const;
         bool check_overmap_special_type( const overmap_special_id &id, const tripoint &location ) const;
         void chip_rock( int x, int y, int z );
 
@@ -448,10 +451,16 @@ class overmap
 
 bool is_river( const oter_id &ter );
 bool is_river_or_lake( const oter_id &ter );
-bool is_ot_type( const std::string &otype, const oter_id &oter );
-bool is_ot_prefix( const std::string &otype, const oter_id &oter );
-// Matches any oter_id that contains the substring passed in, useful when oter can be a suffix, not just a prefix.
-bool is_ot_subtype( const char *otype, const oter_id &oter );
+
+/**
+* Determine if the provided name is a match with the provided overmap terrain
+* based on the specified match type.
+* @param name is the name we're looking for.
+* @param oter is the overmap terrain id we're comparing our name with.
+* @param match_type is the matching rule to use when comparing the two values.
+*/
+bool is_ot_match( const std::string &name, const oter_id &oter,
+                  const ot_match_type match_type );
 
 /**
 * Gets a collection of sectors and their width for usage in placing overmap specials.

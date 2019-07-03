@@ -47,7 +47,6 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
 #include "basecamp.h"
 #include "calendar.h"
 #include "color.h"
@@ -58,10 +57,8 @@
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
-#include "omdata.h"
 #include "optional.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -69,6 +66,11 @@
 #include "units.h"
 #include "weighted_list.h"
 #include "type_id.h"
+#include "colony.h"
+#include "item_stack.h"
+#include "point.h"
+#include "vpart_position.h"
+#include "weather.h"
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );
@@ -486,7 +488,7 @@ void talk_function::start_camp( npc &p )
     int near_fields = 0;
     for( const auto &om_near : om_region ) {
         const oter_id &om_type = oter_id( om_near.first );
-        if( is_ot_subtype( "field", om_type ) ) {
+        if( is_ot_match( "field", om_type, ot_match_type::CONTAINS ) ) {
             near_fields += 1;
         }
     }
@@ -501,17 +503,17 @@ void talk_function::start_camp( npc &p )
     int fields = 0;
     for( const auto &om_near : om_region_ext ) {
         const oter_id &om_type = oter_id( om_near.first );
-        if( is_ot_subtype( "faction_base", om_type ) ) {
+        if( is_ot_match( "faction_base", om_type, ot_match_type::CONTAINS ) ) {
             popup( _( "You are too close to another camp!" ) );
             return;
         }
-        if( is_ot_type( "forest_water", om_type ) ) {
+        if( is_ot_match( "forest_water", om_type, ot_match_type::TYPE ) ) {
             swamps++;
-        } else if( is_ot_subtype( "forest", om_type ) ) {
+        } else if( is_ot_match( "forest", om_type, ot_match_type::CONTAINS ) ) {
             forests++;
-        } else if( is_ot_subtype( "river", om_type ) ) {
+        } else if( is_ot_match( "river", om_type, ot_match_type::CONTAINS ) ) {
             waters++;
-        } else if( is_ot_subtype( "field", om_type ) ) {
+        } else if( is_ot_match( "field", om_type, ot_match_type::CONTAINS ) ) {
             fields++;
         }
     }

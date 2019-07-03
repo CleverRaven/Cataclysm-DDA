@@ -19,7 +19,6 @@
 #include "player.h"
 #include "player_helpers.h"
 #include "character.h"
-#include "enums.h"
 #include "inventory.h"
 #include "item.h"
 #include "pimpl.h"
@@ -28,6 +27,7 @@
 #include "mapdata.h"
 #include "material.h"
 #include "type_id.h"
+#include "point.h"
 
 const efftype_id effect_gave_quest_item( "gave_quest_item" );
 const efftype_id effect_currently_busy( "currently_busy" );

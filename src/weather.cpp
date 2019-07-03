@@ -1,11 +1,11 @@
 #include "weather.h"
 
+#include <array>
 #include <cmath>
 #include <sstream>
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <array>
 #include <list>
 #include <memory>
 
@@ -21,7 +21,6 @@
 #include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -30,12 +29,13 @@
 #include "bodypart.h"
 #include "enums.h"
 #include "item.h"
-#include "mapdata.h"
 #include "math_defines.h"
 #include "rng.h"
 #include "string_id.h"
 #include "units.h"
-#include "int_id.h"
+#include "colony.h"
+#include "player_activity.h"
+#include "regional_settings.h"
 
 const efftype_id effect_glare( "glare" );
 const efftype_id effect_snow_glare( "snow_glare" );
@@ -856,16 +856,17 @@ int get_local_humidity( double humidity, weather_type weather, bool sheltered )
 double get_local_windpower( double windpower, const oter_id &omter, const tripoint &location,
                             const int &winddirection, bool sheltered )
 {
-    rl_vec2d windvec = convert_wind_to_coord( winddirection );
-    double tmpwind = windpower;
-    tripoint triblocker( location + point( windvec.x, windvec.y ) );
     /**
     *  A player is sheltered if he is underground, in a car, or indoors.
     **/
     if( sheltered ) {
-        tmpwind  = 0.0;
-        // Over map terrain may modify the effect of wind.
-    } else if( omter.id() == "forest_water" ) {
+        return 0.0;
+    }
+    rl_vec2d windvec = convert_wind_to_coord( winddirection );
+    double tmpwind = windpower;
+    tripoint triblocker( location + point( windvec.x, windvec.y ) );
+    // Over map terrain may modify the effect of wind.
+    if( omter.id() == "forest_water" ) {
         tmpwind *= 0.7;
     } else if( omter.id() == "forest" ) {
         tmpwind *= 0.5;
@@ -921,29 +922,24 @@ std::string get_wind_desc( double windpower )
 
 rl_vec2d convert_wind_to_coord( const int angle )
 {
-
-    rl_vec2d windvec;
-    float fx = sin( angle * M_PI / 180.0f );
-    float fy = -cos( angle * M_PI / 180.0f );
-    int roundedx;
-    int roundedy;
-    if( fx > 0.5 ) {
-        roundedx = 1;
-    } else if( fx < -0.5 ) {
-        roundedx = -1;
-    } else {
-        roundedx = 0;
+    static const std::array<std::pair<int, rl_vec2d>, 9> outputs = {{
+            { 330, rl_vec2d( 0, -1 ) },
+            { 301, rl_vec2d( -1, -1 ) },
+            { 240, rl_vec2d( -1, 0 ) },
+            { 211, rl_vec2d( -1, 1 ) },
+            { 150, rl_vec2d( 0, 1 ) },
+            { 121, rl_vec2d( 1, 1 ) },
+            { 60, rl_vec2d( 1, 0 ) },
+            { 31, rl_vec2d( 1, -1 ) },
+            { 0, rl_vec2d( 0, -1 ) }
+        }
+    };
+    for( const std::pair<int, rl_vec2d> &val : outputs ) {
+        if( angle >= val.first ) {
+            return val.second;
+        }
     }
-    if( fy > 0.5 ) {
-        roundedy = 1;
-    } else if( fy < -0.5 ) {
-        roundedy = -1;
-    } else {
-        roundedy = 0;
-    }
-    windvec.x = roundedx;
-    windvec.y = roundedy;
-    return windvec;
+    return rl_vec2d( 0, 0 );
 }
 
 bool warm_enough_to_plant( const tripoint &pos )

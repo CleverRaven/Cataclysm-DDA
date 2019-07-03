@@ -315,5 +315,15 @@
     "sym": "x",
     "color": "yellow",
     "autonote": true
+  },
+  {
+    "id": "mx_casings",
+    "type": "map_extra",
+    "name": "Casings",
+    "description": "Several spent casings are here.",
+    "function": "mx_casings",
+    "sym": "x",
+    "color": "yellow",
+    "autonote": true
   }
 ]

@@ -9,6 +9,7 @@
 #include <functional>
 #include <memory>
 #include <utility>
+#include <list>
 
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -31,7 +32,6 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -42,9 +42,15 @@
 #include "optional.h"
 #include "player_activity.h"
 #include "ret_val.h"
-#include "string_id.h"
 #include "units.h"
 #include "type_id.h"
+#include "clzones.h"
+#include "colony.h"
+#include "faction.h"
+#include "item_stack.h"
+#include "map_selector.h"
+#include "pimpl.h"
+#include "point.h"
 
 using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
@@ -317,7 +323,7 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
         quantities.pop_back();
 
         if( !target ) {
-            debugmsg( "lost target item of ACT_DROP" );
+            debugmsg( "lost target item of ACT_PICKUP" );
             continue;
         }
 

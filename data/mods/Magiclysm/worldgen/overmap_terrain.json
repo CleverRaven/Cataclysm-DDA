@@ -53,5 +53,10 @@
     "extras": "build",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_basement",
+    "copy-from": "generic_city_house_basement"
   }
 ]

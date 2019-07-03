@@ -1,7 +1,6 @@
 #include "creature.h"
 
 #include <cstdlib>
-#include <cmath>
 #include <algorithm>
 #include <map>
 #include <array>
@@ -37,6 +36,7 @@
 #include "optional.h"
 #include "player.h"
 #include "string_id.h"
+#include "point.h"
 
 const efftype_id effect_blind( "blind" );
 const efftype_id effect_bounced( "bounced" );

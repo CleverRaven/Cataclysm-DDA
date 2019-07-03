@@ -1,4 +1,5 @@
-#include "ClangTidy.h"
+#include <llvm/ADT/StringRef.h>
+
 #include "ClangTidyModule.h"
 #include "ClangTidyModuleRegistry.h"
 #include "NoLongCheck.h"

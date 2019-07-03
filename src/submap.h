@@ -4,10 +4,11 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <list>
 #include <memory>
 #include <vector>
 #include <string>
+#include <iterator>
+#include <map>
 
 #include "active_item_cache.h"
 #include "basecamp.h"
@@ -18,15 +19,13 @@
 #include "field.h"
 #include "game_constants.h"
 #include "item.h"
-#include "enums.h"
 #include "type_id.h"
 #include "vehicle.h"
+#include "point.h"
 
 class JsonIn;
 class JsonOut;
 class map;
-
-struct mtype;
 struct trap;
 struct ter_t;
 struct furn_t;

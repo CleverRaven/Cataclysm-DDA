@@ -2,6 +2,8 @@
 #ifndef SDL_UTILS_H
 #define SDL_UTILS_H
 
+#include <algorithm>
+
 #include "color.h"
 #include "sdl_wrappers.h"
 

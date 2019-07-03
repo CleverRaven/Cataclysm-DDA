@@ -3754,7 +3754,36 @@
   {
     "type": "overmap_special",
     "id": "Moonshine Still",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "moonshine_still_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "moonshine_still_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "moonshine_still_roof_north" }
+    ],
+    "locations": [ "forest" ],
+    "city_distance": [ 5, 20 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 0, 5 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Moonshine Still 1",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "moonshine_still_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "moonshine_still_roof_1_north" }
+    ],
+    "locations": [ "forest" ],
+    "city_distance": [ 5, 20 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 0, 5 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Moonshine Still 2",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "moonshine_still_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "moonshine_still_roof_2_north" }
+    ],
     "locations": [ "forest" ],
     "city_distance": [ 5, 20 ],
     "city_sizes": [ 0, 20 ],

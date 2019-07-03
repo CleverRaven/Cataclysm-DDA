@@ -2,7 +2,6 @@
 #include <algorithm>
 #include <list>
 #include <map>
-#include <string>
 #include <utility>
 #include <vector>
 
@@ -15,7 +14,6 @@
 #include "item.h"
 #include "optional.h"
 #include "string_id.h"
-#include "type_id.h"
 
 struct all_stats {
     statistics<int> calories;

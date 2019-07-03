@@ -111,7 +111,7 @@
     "item": "mind_scan_robofac",
     "value": 1000,
     "start": {
-      "assign_mission_target": { "om_terrain": "road_ew", "reveal_radius": 2, "random": true, "search_range": 80 },
+      "assign_mission_target": { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT", "reveal_radius": 2, "random": true, "search_range": 80 },
       "update_mapgen": { "place_nested": [ { "chunks": [ "robofac_mi2_convoy_ambush_chunk" ], "x": 0, "y": 0 } ] },
       "effect": [ { "u_buy_item": "mind_splicer" }, { "u_buy_item": "data_card" } ]
     },

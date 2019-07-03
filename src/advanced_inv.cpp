@@ -27,7 +27,6 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "calendar.h"
 #include "color.h"
 #include "game_constants.h"
@@ -36,8 +35,14 @@
 #include "item.h"
 #include "optional.h"
 #include "ret_val.h"
-#include "string_id.h"
 #include "type_id.h"
+#include "clzones.h"
+#include "colony.h"
+#include "enums.h"
+#include "faction.h"
+#include "item_location.h"
+#include "map_selector.h"
+#include "pimpl.h"
 
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>

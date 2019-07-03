@@ -7,13 +7,12 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "vehicle.h"
-#include "player.h"
 #include "calendar.h"
 #include "weather.h"
-#include "enums.h"
 #include "game_constants.h"
 #include "mapdata.h"
 #include "type_id.h"
+#include "point.h"
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_plut_cell( "plut_cell" );

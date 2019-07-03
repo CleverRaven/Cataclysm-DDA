@@ -1,7 +1,6 @@
 #include "overmapbuffer.h"
 
 #include <climits>
-#include <cmath>
 #include <algorithm>
 #include <cassert>
 #include <cstdlib>
@@ -19,7 +18,6 @@
 #include "game.h"
 #include "line.h"
 #include "map.h"
-#include "map_extras.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "npc.h"
@@ -32,12 +30,14 @@
 #include "calendar.h"
 #include "common_types.h"
 #include "game_constants.h"
-#include "player.h"
 #include "rng.h"
 #include "simple_pathfinding.h"
 #include "string_id.h"
 #include "translations.h"
 #include "int_id.h"
+#include "color.h"
+
+class map_extra;
 
 overmapbuffer overmap_buffer;
 
@@ -714,7 +714,8 @@ bool overmapbuffer::reveal( const tripoint &center, int radius,
     return result;
 }
 
-std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tripoint &dest )
+std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tripoint &dest,
+        bool road_only )
 {
     std::vector<tripoint> path;
     static const int RADIUS = 4;            // Maximal radius of search (in overmaps)
@@ -736,7 +737,8 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
         int res = 0;
         const auto oter = get_ter_at( cur.x, cur.y );
         int travel_cost = static_cast<int>( oter->get_travel_cost() );
-        if( oter->get_name() == "solid rock" || oter->get_name() == "open air" ) {
+        if( ( road_only && oter->get_name() != "road" ) || ( oter->get_name() == "solid rock" ||
+                oter->get_name() == "open air" ) ) {
             return pf::rejected;
         } else if( oter->get_name() == "forest" ) {
             travel_cost = 10;
@@ -824,26 +826,16 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, 
     return !path.nodes.empty();
 }
 
-bool overmapbuffer::check_ot_type_existing( const std::string &type, const tripoint &loc )
+bool overmapbuffer::check_ot_existing( const std::string &type, ot_match_type match_type,
+                                       const tripoint &loc )
 {
     const cata::optional<overmap_with_local_coordinates> om = get_existing_om_global_with_coordinates(
                 loc );
     if( !om ) {
         return false;
     }
-    return om->overmap_pointer->check_ot_type( type, om->coordinates.x, om->coordinates.y,
-            om->coordinates.z );
-}
-
-bool overmapbuffer::check_ot_subtype_existing( const std::string &type, const tripoint &loc )
-{
-    const cata::optional<overmap_with_local_coordinates> om = get_existing_om_global_with_coordinates(
-                loc );
-    if( !om ) {
-        return false;
-    }
-    return om->overmap_pointer->check_ot_subtype( type, om->coordinates.x, om->coordinates.y,
-            om->coordinates.z );
+    return om->overmap_pointer->check_ot( type, match_type, om->coordinates.x, om->coordinates.y,
+                                          om->coordinates.z );
 }
 
 bool overmapbuffer::check_overmap_special_type_existing( const overmap_special_id &id,
@@ -857,24 +849,16 @@ bool overmapbuffer::check_overmap_special_type_existing( const overmap_special_i
     return om->overmap_pointer->check_overmap_special_type( id, om->coordinates );
 }
 
-bool overmapbuffer::check_ot_type( const std::string &type, int x, int y, int z )
+bool overmapbuffer::check_ot( const std::string &type, ot_match_type match_type, int x, int y,
+                              int z )
 {
     overmap &om = get_om_global( x, y );
-    return om.check_ot_type( type, x, y, z );
+    return om.check_ot( type, match_type, x, y, z );
 }
-bool overmapbuffer::check_ot_type( const std::string &type, const tripoint &loc )
+bool overmapbuffer::check_ot( const std::string &type, ot_match_type match_type,
+                              const tripoint &loc )
 {
-    return check_ot_type( type, loc.x, loc.y, loc.z );
-}
-
-bool overmapbuffer::check_ot_subtype( const std::string &type, int x, int y, int z )
-{
-    overmap &om = get_om_global( x, y );
-    return om.check_ot_subtype( type, x, y, z );
-}
-bool overmapbuffer::check_ot_subtype( const std::string &type, const tripoint &loc )
-{
-    return check_ot_subtype( type, loc.x, loc.y, loc.z );
+    return check_ot( type, match_type, loc.x, loc.y, loc.z );
 }
 
 bool overmapbuffer::check_overmap_special_type( const overmap_special_id &id, const tripoint &loc )
@@ -884,14 +868,14 @@ bool overmapbuffer::check_overmap_special_type( const overmap_special_id &id, co
 }
 
 static omt_find_params assign_params( const std::string &type, int const radius, bool must_be_seen,
-                                      bool allow_subtype_matches, bool existing_overmaps_only,
+                                      ot_match_type match_type, bool existing_overmaps_only,
                                       const cata::optional<overmap_special_id> &om_special )
 {
     omt_find_params params;
     params.type = type;
     params.search_range = radius;
     params.must_see = must_be_seen;
-    params.allow_subtypes = allow_subtype_matches;
+    params.match_type = match_type;
     params.existing_only = existing_overmaps_only;
     params.om_special = om_special;
     return params;
@@ -901,14 +885,9 @@ bool overmapbuffer::is_findable_location( const tripoint &location, const omt_fi
 {
     bool type_matches = false;
     if( params.existing_only ) {
-        type_matches = params.allow_subtypes ?
-                       check_ot_subtype_existing( params.type, location ) :
-                       check_ot_type_existing( params.type, location );
-
+        type_matches = check_ot_existing( params.type, params.match_type, location );
     } else {
-        type_matches = params.allow_subtypes ?
-                       check_ot_subtype( params.type, location ) :
-                       check_ot_type( params.type, location );
+        type_matches = check_ot( params.type, params.match_type, location );
     }
     if( !type_matches ) {
         return false;
@@ -938,11 +917,11 @@ bool overmapbuffer::is_findable_location( const tripoint &location, const omt_fi
 
 tripoint overmapbuffer::find_closest( const tripoint &origin, const std::string &type,
                                       int const radius, bool must_be_seen,
-                                      bool allow_subtype_matches,
+                                      ot_match_type match_type,
                                       bool existing_overmaps_only,
                                       const cata::optional<overmap_special_id> &om_special )
 {
-    const omt_find_params params = assign_params( type, radius, must_be_seen, allow_subtype_matches,
+    const omt_find_params params = assign_params( type, radius, must_be_seen, match_type,
                                    existing_overmaps_only, om_special );
     return find_closest( origin, params );
 }
@@ -1026,11 +1005,11 @@ std::vector<tripoint> overmapbuffer::find_all( const tripoint &origin,
     return result;
 }
 std::vector<tripoint> overmapbuffer::find_all( const tripoint &origin, const std::string &type,
-        int dist, bool must_be_seen, bool allow_subtype_matches,
+        int dist, bool must_be_seen, ot_match_type match_type,
         bool existing_overmaps_only,
         const cata::optional<overmap_special_id> &om_special )
 {
-    const omt_find_params params = assign_params( type, dist, must_be_seen, allow_subtype_matches,
+    const omt_find_params params = assign_params( type, dist, must_be_seen, match_type,
                                    existing_overmaps_only, om_special );
     return find_all( origin, params );
 }
@@ -1040,11 +1019,11 @@ tripoint overmapbuffer::find_random( const tripoint &origin, const omt_find_para
     return random_entry( find_all( origin, params ), overmap::invalid_tripoint );
 }
 tripoint overmapbuffer::find_random( const tripoint &origin, const std::string &type,
-                                     int dist, bool must_be_seen, bool allow_subtype_matches,
+                                     int dist, bool must_be_seen, ot_match_type match_type,
                                      bool existing_overmaps_only,
                                      const cata::optional<overmap_special_id> &om_special )
 {
-    const omt_find_params params = assign_params( type, dist, must_be_seen, allow_subtype_matches,
+    const omt_find_params params = assign_params( type, dist, must_be_seen, match_type,
                                    existing_overmaps_only, om_special );
     return find_random( origin, params );
 }

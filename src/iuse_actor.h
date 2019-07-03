@@ -1080,4 +1080,21 @@ class deploy_tent_actor : public iuse_actor
         bool check_intact( const tripoint &pos ) const;
 };
 
+/**
+* Weigh yourself on a bathroom scale. or something.
+*/
+class weigh_self_actor : public iuse_actor
+{
+    public:
+        // max weight this device can handle before showing "error"
+        units::mass max_weight;
+
+        weigh_self_actor( const std::string &type = "weigh_self" ) : iuse_actor( type ) {}
+
+        ~weigh_self_actor() override = default;
+        void load( JsonObject &jo ) override;
+        int use( player &p, item &itm, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
+};
 #endif

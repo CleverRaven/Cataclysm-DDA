@@ -1,11 +1,11 @@
 #include "game.h"
 
-#include <cstdio>
 #include <wctype.h>
+#include <assert.h>
+#include <cstdio>
 #include <algorithm>
 #include <chrono>
 #include <cmath>
-#include <csignal>
 #include <ctime>
 #include <iterator>
 #include <locale>
@@ -23,6 +23,7 @@
 #include <type_traits>
 #include <unordered_set>
 #include <utility>
+#include <unordered_map>
 
 #include "action.h"
 #include "activity_handlers.h"
@@ -35,7 +36,6 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "clzones.h"
-#include "compatibility.h"
 #include "computer.h"
 #include "construction.h"
 #include "coordinate_conversions.h"
@@ -54,13 +54,11 @@
 #include "game_ui.h"
 #include "gamemode.h"
 #include "gates.h"
-#include "gun_mode.h"
 #include "help.h"
 #include "iexamine.h"
 #include "init.h"
 #include "input.h"
 #include "item_category.h"
-#include "item_group.h"
 #include "item_location.h"
 #include "iuse_actor.h"
 #include "json.h"
@@ -68,21 +66,17 @@
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
-#include "magic.h"
 #include "map.h"
 #include "map_item_stack.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
-#include "map_extras.h"
 #include "mapsharing.h"
-#include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
 #include "mod_manager.h"
 #include "monattack.h"
 #include "monexamine.h"
-#include "mongroup.h"
 #include "monstergenerator.h"
 #include "morale_types.h"
 #include "mtype.h"
@@ -98,8 +92,6 @@
 #include "path_info.h"
 #include "pickup.h"
 #include "popup.h"
-#include "projectile.h"
-#include "ranged.h"
 #include "recipe_dictionary.h"
 #include "rng.h"
 #include "safemode_ui.h"
@@ -111,7 +103,6 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "submap.h"
-#include "trait_group.h"
 #include "translations.h"
 #include "trap.h"
 #include "uistate.h"
@@ -120,9 +111,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
 #include "weather.h"
-#include "weather_gen.h"
 #include "worldfactory.h"
 #include "map_selector.h"
 #include "basecamp.h"
@@ -130,23 +119,22 @@
 #include "color.h"
 #include "damage.h"
 #include "field.h"
-#include "inventory.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
 #include "player.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "recipe.h"
-#include "regional_settings.h"
 #include "ret_val.h"
-#include "stomach.h"
 #include "tileray.h"
 #include "ui.h"
 #include "units.h"
-#include "weighted_list.h"
 #include "int_id.h"
 #include "string_id.h"
+#include "colony.h"
+#include "item.h"
+
+class inventory;
 
 #if defined(TILES)
 #include "cata_tiles.h"
@@ -1375,7 +1363,13 @@ bool game::do_turn()
 
     events.process();
     mission::process_all();
-
+    // If controlling a vehicle that is owned by someone else
+    if( u.in_vehicle && u.controlling_vehicle ) {
+        vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
+        if( veh && !veh->handle_potential_theft( dynamic_cast<player &>( u ), true ) ) {
+            veh->handle_potential_theft( dynamic_cast<player &>( u ), false, false );
+        }
+    }
     if( calendar::once_every( 1_days ) ) {
         overmap_buffer.process_mongroups();
     }
@@ -1427,7 +1421,7 @@ bool game::do_turn()
                     }
                 }
                 sounds::process_sound_markers( &u );
-                if( !u.activity && uquit != QUIT_WATCH ) {
+                if( !u.activity && !u.has_distant_destination() && uquit != QUIT_WATCH ) {
                     draw();
                 }
 
@@ -1618,8 +1612,11 @@ void game::catch_a_monster( monster *fish, const tripoint &pos, player *p,
 
 static bool cancel_auto_move( player &p, const std::string &text )
 {
-    if( p.has_destination() ) {
+    if( p.has_destination() && query_yn( "%s, cancel Auto-move?", text ) ) {
         add_msg( m_warning, _( "%s. Auto-move canceled" ), text );
+        if( !p.omt_path.empty() ) {
+            p.omt_path.clear();
+        }
         p.clear_destination();
         return true;
     }
@@ -1628,10 +1625,17 @@ static bool cancel_auto_move( player &p, const std::string &text )
 
 bool game::cancel_activity_or_ignore_query( const distraction_type type, const std::string &text )
 {
-    if( cancel_auto_move( u, text ) || !u.activity || u.activity.is_distraction_ignored( type ) ) {
+    if( u.has_distant_destination() ) {
+        if( cancel_auto_move( u, text ) ) {
+            return true;
+        } else {
+            u.set_destination( u.get_auto_move_route(), player_activity( activity_id( "ACT_TRAVELLING" ) ) );
+            return false;
+        }
+    }
+    if( !u.activity || u.activity.is_distraction_ignored( type ) ) {
         return false;
     }
-
     bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
 
     const auto allow_key = [force_uc]( const input_event & evt ) {
@@ -1669,10 +1673,17 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
 
 bool game::cancel_activity_query( const std::string &text )
 {
-    if( cancel_auto_move( u, text ) || !u.activity ) {
+    if( u.has_distant_destination() ) {
+        if( cancel_auto_move( u, text ) ) {
+            return true;
+        } else {
+            u.set_destination( u.get_auto_move_route(), player_activity( activity_id( "ACT_TRAVELLING" ) ) );
+            return false;
+        }
+    }
+    if( !u.activity ) {
         return false;
     }
-
     if( query_yn( "%s %s", text, u.activity.get_stop_phrase() ) ) {
         u.cancel_activity();
         u.resume_backlog_activity();
@@ -1894,7 +1905,8 @@ void game::handle_key_blocking_activity()
         }
     }
 
-    if( u.activity && u.activity.moves_left > 0 ) {
+    if( ( u.activity && u.activity.moves_left > 0 ) || ( u.has_destination() &&
+            !u.omt_path.empty() ) ) {
         input_context ctxt = get_default_mode_input_context();
         const std::string action = ctxt.handle_input( 0 );
         if( action == "pause" ) {
@@ -5183,18 +5195,24 @@ void game::control_vehicle()
             veh_part = vp->part_index();
         }
     }
-
     if( veh != nullptr && veh->player_in_control( u ) ) {
         veh->use_controls( u.pos() );
     } else if( veh && veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 &&
                u.in_vehicle ) {
         if( !veh->interact_vehicle_locked() ) {
+            veh->handle_potential_theft( dynamic_cast<player &>( u ) );
             return;
         }
         if( veh->engine_on ) {
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
+                return;
+            }
             u.controlling_vehicle = true;
             add_msg( _( "You take control of the %s." ), veh->name );
         } else {
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
+                return;
+            }
             veh->start_engines( true );
         }
     } else {
@@ -5210,6 +5228,9 @@ void game::control_vehicle()
         veh = &vp->vehicle();
         veh_part = vp->part_index();
         if( veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 ) {
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
+                return;
+            }
             veh->use_controls( *examp_ );
         }
     }
@@ -5929,7 +5950,7 @@ void game::print_graffiti_info( const tripoint &lp, const catacurses::window &w_
     const int max_width = getmaxx( w_look ) - column - 2;
     if( m.has_graffiti_at( lp ) ) {
         fold_and_print( w_look, ++line, column, max_width, c_light_gray,
-                        m.ter( lp ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Incription: %s" ),
+                        m.ter( lp ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
                         m.graffiti_at( lp ) );
     }
 }
@@ -8838,6 +8859,9 @@ bool game::walk_move( const tripoint &dest_loc )
     if( m.impassable( dest_loc ) && !pushing && !shifting_furniture ) {
         return false;
     }
+    if( vp_there && !vp_there->vehicle().handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
+        return false;
+    }
     if( u.has_effect( effect_riding ) && vp_there ) {
         add_msg( m_warning, _( "You cannot board a vehicle whilst mounted." ) );
         return false;
@@ -9638,7 +9662,7 @@ void game::on_move_effects()
         if( u.stamina <= 0 ) {
             u.toggle_run_mode();
         }
-        if( u.stamina < u.get_stamina_max() / 2 && one_in( u.stamina ) ) {
+        if( u.stamina < u.get_stamina_max() / 5 && one_in( u.stamina ) ) {
             u.add_effect( effect_winded, 10_turns );
         }
     }
