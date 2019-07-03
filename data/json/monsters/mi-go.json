@@ -74,7 +74,7 @@
     "path_settings": { "max_dist": 50 },
     "special_attacks": [
       [ "PARROT", 2 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_multiplier": 0.2 } ] }
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_multiplier": 0.4 } ] }
     ],
     "death_function": [ "NORMAL" ],
     "flags": [
@@ -125,7 +125,7 @@
       [ "LONGSWIPE", 12 ],
       [ "STRETCH_ATTACK", 10 ],
       [ "SMASH", 30 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 35, "armor_multiplier": 0.6 } ] }
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 35, "armor_multiplier": 0.7 } ] }
     ],
     "death_function": [ "NORMAL" ],
     "flags": [
