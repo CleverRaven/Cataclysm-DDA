@@ -66,19 +66,40 @@ class JsonIn;
 class JsonOut;
 
 const efftype_id effect_contacts( "contacts" );
+const efftype_id effect_depressants( "depressants" );
+const efftype_id effect_happy( "happy" );
+const efftype_id effect_irradiated( "irradiated" );
+const efftype_id effect_pkill( "pkill" );
+const efftype_id effect_sad( "sad" );
 const efftype_id effect_sleep( "sleep" );
+const efftype_id effect_sleep_deprived( "sleep_deprived" );
 const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+const efftype_id effect_stim( "stim" );
+const efftype_id effect_stim_overdose( "stim_overdose" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_memory( "bio_memory" );
 static const bionic_id bio_watch( "bio_watch" );
 
+static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
+static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_CHITIN2( "CHITIN2" );
+static const trait_id trait_CHITIN3( "CHITIN3" );
+static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
+static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
 static const trait_id trait_FORGETFUL( "FORGETFUL" );
 static const trait_id trait_GOODMEMORY( "GOODMEMORY" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
+static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
+static const trait_id trait_STIMBOOST( "STIMBOOST" );
+static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
+static const trait_id trait_WEBBED( "WEBBED" );
+static const trait_id trait_WHISKERS( "WHISKERS" );
+static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 
 const skill_id skill_unarmed( "unarmed" );
 
@@ -1251,4 +1272,163 @@ void avatar::update_mental_focus()
             activity.set_to_null();
         }
     }
+}
+
+void avatar::reset_stats()
+{
+    // Trait / mutation buffs
+    if( has_trait( trait_THICK_SCALES ) ) {
+        add_miss_reason( _( "Your thick scales get in the way." ), 2 );
+    }
+    if( has_trait( trait_CHITIN2 ) || has_trait( trait_CHITIN3 ) || has_trait( trait_CHITIN_FUR3 ) ) {
+        add_miss_reason( _( "Your chitin gets in the way." ), 1 );
+    }
+    if( has_trait( trait_COMPOUND_EYES ) && !wearing_something_on( bp_eyes ) ) {
+        mod_per_bonus( 1 );
+    }
+    if( has_trait( trait_INSECT_ARMS ) ) {
+        add_miss_reason( _( "Your insect limbs get in the way." ), 2 );
+    }
+    if( has_trait( trait_INSECT_ARMS_OK ) ) {
+        if( !wearing_something_on( bp_torso ) ) {
+            mod_dex_bonus( 1 );
+        } else {
+            mod_dex_bonus( -1 );
+            add_miss_reason( _( "Your clothing restricts your insect arms." ), 1 );
+        }
+    }
+    if( has_trait( trait_WEBBED ) ) {
+        add_miss_reason( _( "Your webbed hands get in the way." ), 1 );
+    }
+    if( has_trait( trait_ARACHNID_ARMS ) ) {
+        add_miss_reason( _( "Your arachnid limbs get in the way." ), 4 );
+    }
+    if( has_trait( trait_ARACHNID_ARMS_OK ) ) {
+        if( !wearing_something_on( bp_torso ) ) {
+            mod_dex_bonus( 2 );
+        } else if( !exclusive_flag_coverage( "OVERSIZE" ).test( bp_torso ) ) {
+            mod_dex_bonus( -2 );
+            add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
+        }
+    }
+    const auto set_fake_effect_dur = [this]( const efftype_id & type, const time_duration & dur ) {
+        effect &eff = get_effect( type );
+        if( eff.get_duration() == dur ) {
+            return;
+        }
+
+        if( eff.is_null() && dur > 0_turns ) {
+            add_effect( type, dur, num_bp, true );
+        } else if( dur > 0_turns ) {
+            eff.set_duration( dur );
+        } else {
+            remove_effect( type, num_bp );
+        }
+    };
+    // Painkiller
+    set_fake_effect_dur( effect_pkill, 1_turns * pkill );
+
+    // Pain
+    if( get_perceived_pain() > 0 ) {
+        const auto ppen = get_pain_penalty();
+        mod_str_bonus( -ppen.strength );
+        mod_dex_bonus( -ppen.dexterity );
+        mod_int_bonus( -ppen.intelligence );
+        mod_per_bonus( -ppen.perception );
+        if( ppen.dexterity > 0 ) {
+            add_miss_reason( _( "Your pain distracts you!" ), static_cast<unsigned>( ppen.dexterity ) );
+        }
+    }
+
+    // Radiation
+    set_fake_effect_dur( effect_irradiated, 1_turns * radiation );
+    // Morale
+    const int morale = get_morale_level();
+    set_fake_effect_dur( effect_happy, 1_turns * morale );
+    set_fake_effect_dur( effect_sad, 1_turns * -morale );
+
+    // Stimulants
+    set_fake_effect_dur( effect_stim, 1_turns * stim );
+    set_fake_effect_dur( effect_depressants, 1_turns * -stim );
+    if( has_trait( trait_STIMBOOST ) ) {
+        set_fake_effect_dur( effect_stim_overdose, 1_turns * ( stim - 60 ) );
+    } else {
+        set_fake_effect_dur( effect_stim_overdose, 1_turns * ( stim - 30 ) );
+    }
+    // Starvation
+    if( get_starvation() >= 200 ) {
+        // We die at 6000
+        const int dex_mod = -( get_starvation() + 300 ) / 1000;
+        add_miss_reason( _( "You're weak from hunger." ), static_cast<unsigned>( -dex_mod ) );
+        mod_str_bonus( -( get_starvation() + 300 ) / 500 );
+        mod_dex_bonus( dex_mod );
+        mod_int_bonus( -( get_starvation() + 300 ) / 1000 );
+    }
+    // Thirst
+    if( get_thirst() >= 200 ) {
+        // We die at 1200
+        const int dex_mod = -get_thirst() / 200;
+        add_miss_reason( _( "You're weak from thirst." ), static_cast<unsigned>( -dex_mod ) );
+        mod_str_bonus( -get_thirst() / 200 );
+        mod_dex_bonus( dex_mod );
+        mod_int_bonus( -get_thirst() / 200 );
+        mod_per_bonus( -get_thirst() / 200 );
+    }
+    if( get_sleep_deprivation() >= SLEEP_DEPRIVATION_HARMLESS ) {
+        set_fake_effect_dur( effect_sleep_deprived, 1_turns * get_sleep_deprivation() );
+    } else if( has_effect( effect_sleep_deprived ) ) {
+        remove_effect( effect_sleep_deprived );
+    }
+
+    // Dodge-related effects
+    mod_dodge_bonus( mabuff_dodge_bonus() -
+                     ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20.0f -
+                     ( encumb( bp_torso ) / 10.0f ) );
+    // Whiskers don't work so well if they're covered
+    if( has_trait( trait_WHISKERS ) && !wearing_something_on( bp_mouth ) ) {
+        mod_dodge_bonus( 1 );
+    }
+    if( has_trait( trait_WHISKERS_RAT ) && !wearing_something_on( bp_mouth ) ) {
+        mod_dodge_bonus( 2 );
+    }
+    // Spider hair is basically a full-body set of whiskers, once you get the brain for it
+    if( has_trait( trait_CHITIN_FUR3 ) ) {
+        static const std::array<body_part, 5> parts{ { bp_head, bp_arm_r, bp_arm_l, bp_leg_r, bp_leg_l } };
+        for( auto bp : parts ) {
+            if( !wearing_something_on( bp ) ) {
+                mod_dodge_bonus( +1 );
+            }
+        }
+        // Torso handled separately, bigger bonus
+        if( !wearing_something_on( bp_torso ) ) {
+            mod_dodge_bonus( 4 );
+        }
+    }
+
+    // Hit-related effects
+    mod_hit_bonus( mabuff_tohit_bonus() + weapon.type->m_to_hit );
+
+    // Apply static martial arts buffs
+    ma_static_effects();
+
+    if( calendar::once_every( 1_minutes ) ) {
+        update_mental_focus();
+    }
+
+    // Effects
+    for( const auto &maps : *effects ) {
+        for( auto i : maps.second ) {
+            const auto &it = i.second;
+            bool reduced = resists_effect( it );
+            mod_str_bonus( it.get_mod( "STR", reduced ) );
+            mod_dex_bonus( it.get_mod( "DEX", reduced ) );
+            mod_per_bonus( it.get_mod( "PER", reduced ) );
+            mod_int_bonus( it.get_mod( "INT", reduced ) );
+        }
+    }
+
+    Character::reset_stats();
+
+    recalc_sight_limits();
+    recalc_speed_bonus();
 }
