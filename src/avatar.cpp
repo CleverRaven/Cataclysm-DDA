@@ -1326,7 +1326,7 @@ void avatar::reset_stats()
         }
     };
     // Painkiller
-    set_fake_effect_dur( effect_pkill, 1_turns * pkill );
+    set_fake_effect_dur( effect_pkill, 1_turns * get_painkiller() );
 
     // Pain
     if( get_perceived_pain() > 0 ) {
