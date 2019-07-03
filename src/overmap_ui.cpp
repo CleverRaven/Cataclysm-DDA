@@ -1403,6 +1403,9 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             const tripoint player_omt_pos = g->u.global_omt_location();
             if( !g->u.omt_path.empty() && g->u.omt_path.front() == curs ) {
                 if( query_yn( _( "Travel to this point?" ) ) ) {
+                    // renew the path incase of a leftover dangling path point
+                    g->u.omt_path = overmap_buffer.get_npc_path( player_omt_pos, curs, g->u.in_vehicle &&
+                                    g->u.controlling_vehicle );
                     if( g->u.in_vehicle && g->u.controlling_vehicle ) {
                         vehicle *player_veh = veh_pointer_or_null( g->m.veh_at( g->u.pos() ) );
                         player_veh->omt_path = g->u.omt_path;
