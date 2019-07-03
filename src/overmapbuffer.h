@@ -413,7 +413,7 @@ class overmapbuffer
         void process_mongroups();
         /**
          * Let hordes move a step. Note that this may move monster groups inside the reality bubble,
-         * therefor you should probably call @ref map::spawn_monsters to spawn them.
+         * therefore you should probably call @ref map::spawn_monsters to spawn them.
          */
         void move_hordes();
         // hordes -- this uses overmap terrain coordinates!
