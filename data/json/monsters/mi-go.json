@@ -155,7 +155,7 @@
     "speed": 80,
     "material": [ "flesh" ],
     "symbol": "&",
-    "color": "dark_gray",
+    "color": "light_gray",
     "aggression": 20,
     "morale": 50,
     "melee_skill": 10,
