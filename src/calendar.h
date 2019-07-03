@@ -131,6 +131,8 @@ class calendar
          * calculates the current seconds/minutes/hour/day/season based on that counter value.
          */
         void sync();
+        static bool is_eternal_season;
+        static int cur_season_length;
 
     public:
         /** Initializers */
@@ -212,12 +214,14 @@ class calendar
         static const int INDEFINITELY_LONG;
         /// @returns Whether the eternal season is enabled.
         static bool eternal_season();
+        static void set_eternal_season( bool is_eternal_season );
 
         /** @returns Time in a year, (configured in current world settings) */
         static time_duration year_length();
 
         /** @returns Time of a season (configured in current world settings) */
         static time_duration season_length();
+        static void set_season_length( const int dur );
 
         /// @returns relative length of game season to real life season.
         static float season_ratio();
