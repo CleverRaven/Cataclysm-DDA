@@ -2141,47 +2141,31 @@ void map::monster_in_field( monster &z )
 std::tuple<maptile, maptile, maptile> map::get_wind_blockers( const int &winddirection,
         const tripoint &pos )
 {
-    double raddir = ( ( winddirection + 180 ) % 360 ) * ( M_PI / 180 );
-    float fx = -cos( raddir );
-    float fy = sin( raddir );
-    int roundedx;
-    int roundedy;
-    if( fx > 0.5 ) {
-        roundedx = 1;
-    } else if( fx < -0.5 ) {
-        roundedx = -1;
-    } else {
-        roundedx = 0;
-    }
-    if( fy > 0.5 ) {
-        roundedy = 1;
-    } else if( fy < -0.5 ) {
-        roundedy = -1;
-    } else {
-        roundedy = 0;
-    }
-    tripoint removepoint( pos - point( roundedx, roundedy ) );
+    static const std::array<std::pair<int, std::tuple< point, point, point >>, 9> outputs = {{
+            { 330, std::make_tuple( point( 1, 0 ), point( 1, -1 ), point( 1, 1 ) ) },
+            { 301, std::make_tuple( point( 1, 1 ), point( 1, 0 ), point( 0, 1 ) ) },
+            { 240, std::make_tuple( point( 0, 1 ), point( -1, 1 ), point( 1, 1 ) ) },
+            { 211, std::make_tuple( point( -1, 1 ), point( -1, 0 ), point( 0, 1 ) ) },
+            { 150, std::make_tuple( point( -1, 0 ), point( -1, -1 ), point( -1, 1 ) ) },
+            { 121, std::make_tuple( point( -1, -1 ), point( 0, -1 ), point( -1, 0 ) ) },
+            { 60, std::make_tuple( point( 0, -1 ), point( -1, -1 ), point( 1, -1 ) ) },
+            { 31, std::make_tuple( point( 1, -1 ), point( 1, 0 ), point( 0, -1 ) ) },
+            { 0, std::make_tuple( point( 1, 0 ), point( 1, -1 ), point( 1, 1 ) ) }
+        }
+    };
+
+    tripoint removepoint;
     tripoint removepoint2;
     tripoint removepoint3;
-    if( roundedy != 0 && roundedx == 0 ) {
-        removepoint2 = removepoint - point( 1, 0 );
-        removepoint3 = removepoint + point( 1, 0 );
-    } else if( roundedy == 0 && roundedx != 0 ) {
-        removepoint2 = removepoint - point( 0, 1 );
-        removepoint3 = removepoint + point( 0, 1 );
-    } else if( roundedy > 0 && roundedx > 0 ) {
-        removepoint2 = removepoint - point( 1, 0 );
-        removepoint3 = removepoint - point( 0, 1 );
-    } else if( roundedy < 0 && roundedx > 0 ) {
-        removepoint2 = removepoint - point( 1, 0 );
-        removepoint3 = removepoint + point( 0, 1 );
-    } else if( roundedy < 0 && roundedx < 0 ) {
-        removepoint2 = removepoint + point( 1, 0 );
-        removepoint3 = removepoint + point( 0, 1 );
-    } else if( roundedy > 0 && roundedx < 0 ) {
-        removepoint2 = removepoint + point( 1, 0 );
-        removepoint3 = removepoint - point( 0, 1 );
+    for( const std::pair<int, std::tuple< point, point, point >> &val : outputs ) {
+        if( winddirection >= val.first ) {
+            removepoint = pos + std::get<0>( val.second );
+            removepoint2 = pos + std::get<1>( val.second );
+            removepoint3 = pos + std::get<2>( val.second );
+            break;
+        }
     }
+
     const maptile remove_tile = maptile_at( removepoint );
     const maptile remove_tile2 = maptile_at( removepoint2 );
     const maptile remove_tile3 = maptile_at( removepoint3 );
