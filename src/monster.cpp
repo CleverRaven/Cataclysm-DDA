@@ -113,6 +113,9 @@ const species_id FUNGUS( "FUNGUS" );
 const species_id INSECT( "INSECT" );
 const species_id MAMMAL( "MAMMAL" );
 const species_id ABERRATION( "ABERRATION" );
+const species_id MOLLUSK( "MOLLUSK" );
+const species_id ROBOT( "ROBOT" );
+const species_id FISH( "FISH" );
 
 const efftype_id effect_badpoison( "badpoison" );
 const efftype_id effect_beartrap( "beartrap" );
@@ -1480,6 +1483,45 @@ bool monster::move_effects( bool )
 
     bool u_see_me = g->u.sees( *this );
     if( has_effect( effect_tied ) ) {
+        // friendly pet, will stay tied down and obey.
+        if( friendly == -1 ) {
+            return false;
+        } else {
+            // non-friendly monster will struggle to get free occasionally.
+            // some monsters cant be tangled up with a net/bolas/lassoo etc.
+            bool immediate_break = type->in_species( FISH ) || type->in_species( MOLLUSK ) ||
+                                   type->in_species( ROBOT ) || type->bodytype == "snake" || type->bodytype == "blob";
+            if( !immediate_break && rng( 0, 900 ) > type->melee_dice * type->melee_sides * 1.5 ) {
+                if( u_see_me ) {
+                    add_msg( _( "The %s struggles to break free of its bonds." ), name() );
+                }
+            } else if( immediate_break ) {
+                remove_effect( effect_tied );
+                if( tied_item ) {
+                    add_msg( _( "The %s easily slips out of its bonds." ), name() );
+                    g->m.add_item_or_charges( pos(), *tied_item );
+                    tied_item = cata::nullopt;
+                }
+            } else {
+                bool broken = true;
+                if( tied_item ) {
+                    broken = rng( type->melee_dice * type->melee_sides, std::min( 10000,
+                                  type->melee_dice * type->melee_sides * 250 ) ) > 800;
+                    if( !broken ) {
+                        g->m.add_item_or_charges( pos(), *tied_item );
+                    }
+                    tied_item = cata::nullopt;
+                    if( u_see_me ) {
+                        if( broken ) {
+                            add_msg( _( "The %s snaps the bindings holding it down." ), name() );
+                        } else {
+                            add_msg( _( "The %s breaks free of the bindings holding it down." ), name() );
+                        }
+                    }
+                }
+                remove_effect( effect_tied );
+            }
+        }
         return false;
     }
     if( has_effect( effect_downed ) ) {

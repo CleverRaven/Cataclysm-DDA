@@ -613,7 +613,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         du.res_pen += skill_level / 2.0f;
     }
     // handling for tangling thrown items
-    if( thrown.has_flag( "TANGLE")){
+    if( thrown.has_flag( "TANGLE" ) ) {
         proj_effects.insert( "TANGLE" );
     }
 

@@ -117,7 +117,21 @@
     "time": "40 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "string_36", 3 ] ], [ [ "rock", 3 ] ] ]
+    "components": [ [ [ "rope_6", 3 ], [ "rope_makeshift_6", 3 ] ], [ [ "rock", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "net",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "survival",
+    "skills_required": [ "tailor", 2 ],
+    "difficulty": 2,
+    "time": "100 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 40 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "string_36", 32 ] ], [ [ "rock", 8 ] ] ]
   },
   {
     "type": "recipe",

@@ -666,16 +666,20 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         monster *z = dynamic_cast<monster *>( this );
         player *n = dynamic_cast<player *>( this );
         // if its a tameable animal, its a good way to catch them if they are running away, like them ranchers do!
-        if( z ){
-            if( z->has_flag( MF_DOGFOOD ) || z->has_flag( MF_CATTLEFODDER) || z->has_flag( MF_CATFOOD ) || z->has_flag( MF_BIRDFOOD ) ){
+        // we assume immediate success, then certain monster types immediately break free in monster.cpp move_effects()
+        if( z ) {
+            if( !proj.get_drop().is_null() ) {
                 z->add_effect( effect_tied, 1_turns, num_bp, true );
                 z->tied_item = proj.get_drop();
-            // otherwise just down them, it's similar enough to simulate the tangling and difficulty in moving
             } else {
-                add_effect( effect_downed, 1_turns );
+                add_msg( m_debug, "projectile with TANGLE effect, but no drop item specified" );
             }
-        } else if( n ) {
+        } else if( n && !is_immune_effect( effect_downed ) ) {
+            // no tied up effect for people yet, just down them and stun them, its close enough to the desired effect.
+            // we can assume a person knows how to untangle their legs eventually and not panic like an animal.
             add_effect( effect_downed, 1_turns );
+            // stunned to simulate staggering around and stumbling trying to get the entangled thing off of them.
+            add_effect( effect_stunned, 1_turns * rng( 3, 8 ) );
         }
     }
     if( proj.proj_effects.count( "FLAME" ) ) {
