@@ -6871,7 +6871,7 @@ void player::process_active_items()
     }
 
     std::vector<item *> inv_active = inv.active_items();
-    for( auto tmp_it : inv_active ) {
+    for( item *tmp_it : inv_active ) {
 
         if( tmp_it->process( this, pos(), false ) ) {
             inv.remove_item( tmp_it );
