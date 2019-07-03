@@ -2276,7 +2276,7 @@ void player::mod_stat( const std::string &stat, float modifier )
     }
 }
 
-void player::disp_morale()
+void avatar::disp_morale()
 {
     morale->display( ( calc_focus_equilibrium() - focus_pool ) / 100.0 );
 }

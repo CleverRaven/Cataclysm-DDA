@@ -63,6 +63,9 @@ class avatar : public player
         size_t max_memorized_tiles() const;
         void clear_memorized_tile( const tripoint &pos );
 
+        /** Provides the window and detailed morale data */
+        void disp_morale();
+
         std::vector<mission *> get_active_missions() const;
         std::vector<mission *> get_completed_missions() const;
         std::vector<mission *> get_failed_missions() const;
