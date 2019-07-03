@@ -15,6 +15,7 @@
 #include "bionics.h"
 #include "cata_algo.h"
 #include "clzones.h"
+#include "coordinate_conversions.h"
 #include "debug.h"
 #include "dispersion.h"
 #include "effect.h"
@@ -3591,15 +3592,17 @@ bool npc::saw_player_recently() const
 
 bool npc::has_omt_destination() const
 {
-    return goal != no_goal_point;
+    return goal != no_goal_point && !omt_path.empty();
 }
 
 void npc::reach_omt_destination()
 {
+    if( !omt_path.empty() ) {
+        omt_path.clear();
+    }
     if( is_travelling() ) {
         talk_function::assign_guard( *this );
         guard_pos = g->m.getabs( pos() );
-        omt_path.clear();
         goal = no_goal_point;
         if( rl_dist( g->u.pos(), pos() ) > SEEX * 2 || !g->u.sees( pos() ) ) {
             if( g->u.has_item_with_flag( "TWO_WAY_RADIO", true ) &&
@@ -3678,15 +3681,25 @@ void npc::set_omt_destination()
     std::string dest_type;
     for( const auto &fulfill : needs ) {
         dest_type = get_location_for( fulfill )->get_random_terrain().id().str();
-        goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, 150, false );
-        if( goal != overmap::invalid_tripoint ) {
+        goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, 100, false );
+        omt_path = overmap_buffer.get_npc_path( surface_omt_loc, goal );
+        if( goal != overmap::invalid_tripoint && !omt_path.empty() ) {
             break;
         }
     }
 
     // couldn't find any places to go, so go somewhere.
-    if( goal == overmap::invalid_tripoint ) {
+    if( goal == overmap::invalid_tripoint || omt_path.empty() ) {
         goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
+        omt_path = overmap_buffer.get_npc_path( surface_omt_loc, goal );
+        // try one more time
+        if( omt_path.empty() ) {
+            goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
+            omt_path = overmap_buffer.get_npc_path( surface_omt_loc, goal );
+        }
+        if( omt_path.empty() ) {
+            goal = no_goal_point;
+        }
         return;
     }
 
@@ -3706,61 +3719,55 @@ void npc::go_to_omt_destination()
             return;
         }
     }
-    if( goal == no_goal_point ) {
+    if( goal == no_goal_point || omt_path.empty() ) {
         add_msg( m_debug, "npc::go_to_destination with no goal" );
         move_pause();
         reach_omt_destination();
         return;
     }
-
     const tripoint omt_pos = global_omt_location();
-    int sx = sgn( goal.x - omt_pos.x );
-    int sy = sgn( goal.y - omt_pos.y );
-    const int minz = std::min( goal.z, posz() );
-    const int maxz = std::max( goal.z, posz() );
-    add_msg( m_debug, "%s going (%d,%d,%d)->(%d,%d,%d)", name,
-             omt_pos.x, omt_pos.y, omt_pos.z, goal.x, goal.y, goal.z );
     if( goal == omt_pos ) {
         // We're at our desired map square!  Pause to keep the NPC infinite loop counter happy
         move_pause();
         reach_omt_destination();
         return;
     }
-
-    if( !path.empty() &&
-        sgn( path.back().x - posx() ) == sx &&
-        sgn( path.back().y - posy() ) == sy &&
-        sgn( path.back().z - posz() ) == sgn( goal.z - posz() ) ) {
-        // We're moving in the right direction, don't find a different path
+    if( !path.empty() ) {
+        // we already have a path, just use that until we cant.
         move_to_next();
         return;
     }
-
-    if( sx == 0 && sy == 0 && goal.z != posz() ) {
-        // Make sure we always have some points to check
-        sx = rng( -1, 1 );
-        sy = rng( -1, 1 );
+    // get the next path point
+    if( !omt_path.empty() && omt_path.back() == omt_pos ) {
+        // this should be the square we are at.
+        omt_path.pop_back();
     }
-
-    // sx and sy are now equal to the direction we need to move in
-    tripoint dest( posx() + 8 * sx, posy() + 8 * sy, goal.z );
-    for( int i = 0; i < 8; i++ ) {
-        if( ( g->m.passable( dest ) || can_open_door( dest, true ) ||
-              //Needs 20% chance of bashing success to be considered for pathing
-              g->m.bash_rating( smash_ability(), dest ) >= 2 ) &&
-            ( one_in( 4 ) || sees( dest ) ) ) {
-            update_path( dest );
-            if( !path.empty() && can_move_to( path[0] ) ) {
-                move_to_next();
-                return;
-            } else {
-                move_pause();
-                return;
+    if( !omt_path.empty() ) {
+        point omt_diff = point( omt_path.back().x - omt_pos.x, omt_path.back().y - omt_pos.y );
+        if( omt_diff.x > 2 || omt_diff.x < -2 || omt_diff.y > 2 || omt_diff.y < -2 ) {
+            // we've gone wandering somehow, reset destination.
+            set_omt_destination();
+            return;
+        }
+    }
+    tripoint sm_tri = g->m.getlocal( sm_to_ms_copy( omt_to_sm_copy( omt_path.back() ) ) );
+    tripoint centre_sub = tripoint( sm_tri.x + SEEX, sm_tri.y + SEEY, sm_tri.z );
+    if( !g->m.passable( centre_sub ) ) {
+        auto candidates = g->m.points_in_radius( centre_sub, 2 );
+        for( const auto &elem : candidates ) {
+            if( g->m.passable( elem ) ) {
+                centre_sub = elem;
+                break;
             }
         }
+    }
+    path = g->m.route( pos(), centre_sub, get_pathfinding_settings(), get_path_avoid() );
+    add_msg( m_debug, "%s going (%d,%d,%d)->(%d,%d,%d)", name,
+             omt_pos.x, omt_pos.y, omt_pos.z, goal.x, goal.y, goal.z );
 
-        dest = tripoint( posx() + rng( 0, 16 ) * sx, posy() + rng( 0, 16 ) * sy,
-                         rng( minz, maxz ) );
+    if( !path.empty() ) {
+        move_to_next();
+        return;
     }
     move_pause();
 }
