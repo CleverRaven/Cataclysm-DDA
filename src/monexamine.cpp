@@ -232,7 +232,10 @@ void monexamine::mount_pet( monster &z )
     z.add_effect( effect_ridden, 1_turns, num_bp, true );
     if( z.has_effect( effect_tied ) ) {
         z.remove_effect( effect_tied );
-        g->u.i_add( item( z.tied_item, 0 ) );
+        if( z.tied_item ){
+            g->u.i_add( *z.tied_item, 0 );
+            z.tied_item = cata::nullopt;
+        }
     }
     if( z.has_effect( effect_harnessed ) ) {
         z.remove_effect( effect_harnessed );
@@ -505,7 +508,10 @@ void monexamine::tie_or_untie( monster &z )
 {
     if( z.has_effect( effect_tied ) ) {
         z.remove_effect( effect_tied );
-        g->u.i_add( item( z.tied_item, 0 ) );
+        if( z.tied_item ){
+            g->u.i_add( *z.tied_item, 0 );
+            z.tied_item = cata::nullopt;
+        }
     } else {
         std::vector<item *> rope_inv = g->u.items_with( []( const item & itm ) {
             return itm.has_flag( "TIE_UP" );
@@ -527,9 +533,9 @@ void monexamine::tie_or_untie( monster &z )
             index > static_cast<int>( rope_inv.size() ) ) {
             return;
         }
-        itype_id rope_id = rope_inv[index - 1]->typeId();
-        z.tied_item = rope_id;
-        g->u.use_amount( rope_id, 1 );
+        auto rope_item = rope_inv[index - 1];;
+        z.tied_item = *rope_item;
+        g->u.use_amount( rope_item, 1 );
         z.add_effect( effect_tied, 1_turns, num_bp, true );
     }
 }
