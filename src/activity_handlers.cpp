@@ -1736,6 +1736,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     ///\EFFECT_STR increases pulping power, with diminishing returns
     float pulp_power = sqrt( ( p->str_cur + p->weapon.damage_melee( DT_BASH ) ) *
                              ( cut_power + 1.0f ) );
+    float pulp_effort = p->str_cur + p->weapon.damage_melee( DT_BASH );
     // Multiplier to get the chance right + some bonus for survival skill
     pulp_power *= 40 + p->get_skill_level( skill_survival ) * 5;
 
@@ -1773,8 +1774,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 g->m.add_splatter_trail( type_blood, pos, dest );
             }
 
-            p->mod_stat( "stamina", -pulp_power - static_cast<int>
-                         ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) );
+            p->mod_stat( "stamina", -pulp_effort );
 
             if( one_in( 4 ) ) {
                 // Smashing may not be butchery, but it involves some zombie anatomy
@@ -1783,6 +1783,10 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
 
             float stamina_ratio = static_cast<float>( p->stamina ) / p->get_stamina_max();
             moves += 100 / std::max( 0.25f, stamina_ratio );
+            if( stamina_ratio < 0.33 ) {
+                p->moves = std::min( 0, p->moves - moves );
+                return;
+            }
             if( moves >= p->moves ) {
                 // Enough for this turn;
                 p->moves -= moves;
