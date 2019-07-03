@@ -998,12 +998,9 @@ units::volume inventory::volume_without( const std::map<const item *, int> &with
 std::vector<item *> inventory::active_items()
 {
     std::vector<item *> ret;
-    for( auto &elem : items ) {
-        for( auto &elem_stack_iter : elem ) {
-            if( ( elem_stack_iter.is_artifact() && elem_stack_iter.is_tool() ) ||
-                elem_stack_iter.active ||
-                ( elem_stack_iter.is_container() && !elem_stack_iter.contents.empty() &&
-                  elem_stack_iter.contents.front().active ) ) {
+    for( std::list<item> &elem : items ) {
+        for( item &elem_stack_iter : elem ) {
+            if( elem_stack_iter.needs_processing() ) {
                 ret.push_back( &elem_stack_iter );
             }
         }
