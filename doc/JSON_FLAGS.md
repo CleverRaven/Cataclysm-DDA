@@ -852,8 +852,8 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```BORES``` Tunnels through just about anything (15x bash multiplier: dark wyrms' bash skill 12->180)
 - ```CAN_DIG``` Can dig _and_ walk.
 - ```CAN_OPEN_DOORS``` Can open doors on its path.
-- ```CATFOOD``` Becomes friendly / tamed with cat food.
 - ```CANPLAY``` This creature can be played with if it's a pet.
+- ```CATFOOD``` Becomes friendly / tamed with cat food.
 - ```CATTLEFODDER``` Becomes friendly / tamed with cattle fodder.
 - ```CBM_CIV``` May produce a common CBM a power CBM when butchered.
 - ```CBM_OP``` May produce a CBM or two from 'bionics_op' item group when butchered.
