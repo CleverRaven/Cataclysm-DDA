@@ -86,9 +86,27 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "pump_station_1_roof",
+    "copy-from": "generic_city_building",
+    "name": "pump station roof",
+    "sym": "P",
+    "color": "red",
+    "flags": [ "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "pump_station_2",
     "copy-from": "generic_city_building",
     "name": "pump station",
+    "sym": "P",
+    "color": "red",
+    "flags": [ "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pump_station_2_roof",
+    "copy-from": "generic_city_building",
+    "name": "pump station roof",
     "sym": "P",
     "color": "red",
     "flags": [ "KNOWN_DOWN" ]
