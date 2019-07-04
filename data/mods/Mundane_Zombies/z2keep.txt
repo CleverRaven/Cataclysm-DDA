@@ -8,7 +8,7 @@ decayed zombie : mon_zombie_rot
 fat zombie : mon_zombie_fat
 firefighter zombie : mon_zombie_fireman
 hazmat zombie : mon_zombie_hazmat
-enshelled zombie : mon_skeleton
+ossified zombie : mon_skeleton
 swimmer zombie : mon_zombie_swimmer
 tough zombie : mon_zombie_tough
 zombie child : mon_zombie_child
@@ -24,6 +24,6 @@ decayed pouncer : mon_zougar
 festering boar : mon_zombie_pig
 grim howler : mon_zolf
 rot-weiler : mon_dog_zombie_rot
-enshelled dog : mon_dog_skeleton
+ossified dog : mon_dog_skeleton
 z9 : mon_dog_zombie_cop
 zombie dog : mon_zombie_dog
