@@ -1738,12 +1738,10 @@ int get_heat_radiation( const tripoint &location, bool direct )
 
         maptile mt = g->m.maptile_at( dest );
 
-        //int ffire = g->m.get_field_intensity( dest, fd_fire );
         int ffire = maptile_field_intensity( mt, fd_fire );
         if( ffire > 0 ) {
             heat_intensity = ffire;
         } else if( maptile_trap_eq( mt, tr_lava ) ) {
-            //else if( g->m.tr_at( dest ).loadid == tr_lava ) {
             heat_intensity = 3;
         }
         if( heat_intensity == 0 ) {

@@ -182,7 +182,7 @@ inline bool goes_bad_cache_is_set()
 {
     return goes_bad_temp_cache_set;
 }
-}
+} // namespace item_internal
 
 const int item::INFINITE_CHARGES = INT_MAX;
 
@@ -4025,7 +4025,7 @@ std::set<matec_id> item::get_techniques() const
 bool item::goes_bad() const
 {
     if( item_internal::goes_bad_cache_is_set() ) {
-        return item_internal::goes_bad_cache_fetch();;
+        return item_internal::goes_bad_cache_fetch();
     }
     if( has_flag( "PROCESSING" ) ) {
         return false;
