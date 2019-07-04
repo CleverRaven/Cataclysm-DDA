@@ -6,9 +6,16 @@
 #include <vector>
 #include <iterator>
 #include <tuple>
+#include <array>
+#include <functional>
+#include <list>
+#include <map>
+#include <memory>
+#include <set>
+#include <unordered_map>
+#include <utility>
 
 #include "addiction.h"
-#include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -17,7 +24,6 @@
 #include "json.h"
 #include "mapsharing.h"
 #include "martialarts.h"
-#include "mtype.h"
 #include "monster.h"
 #include "mutation.h"
 #include "name.h"
@@ -37,6 +43,16 @@
 #include "worldfactory.h"
 #include "recipe.h"
 #include "string_id.h"
+#include "character.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "game_constants.h"
+#include "inventory.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "type_id.h"
+
+struct points_left;
 
 // Colors used in this file: (Most else defaults to c_light_gray)
 #define COL_STAT_ACT        c_white   // Selected stat
@@ -1971,7 +1987,6 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
         mvwprintz( w, 3, pMsg_length + 9, can_pick ? c_green : c_light_red, scen_msg_temp.c_str(),
                    sorted_scens[cur_id]->gender_appropriate_name( u.male ),
                    pointsForScen );
-
 
         const std::string scenDesc = sorted_scens[cur_id]->description( u.male );
 

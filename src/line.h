@@ -7,7 +7,6 @@
 #include <string>
 #include <vector>
 
-#include "enums.h"
 #include "math_defines.h"
 #include "point.h"
 

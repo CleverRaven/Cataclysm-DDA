@@ -228,6 +228,39 @@
     "use_action": { "type": "learn_spell", "spells": [ "summon_zombie", "summon_skeleton", "summon_decayed_pouncer" ] }
   },
   {
+    "id": "techno_fundamentals",
+    "type": "GENERIC",
+    "name": "Fundamentals of Technomancy",
+    "description": "This thick manual instructs the spellcaster on manipulating and empowering various forms of matter and energy.",
+    "weight": 258,
+    "volume": 3,
+    "symbol": "?",
+    "color": "light_grey",
+    "use_action": { "type": "learn_spell", "spells": [ "synaptic_stimulation", "animated_blade", "mirror_image" ] }
+  },
+  {
+    "id": "techno_idiots",
+    "type": "GENERIC",
+    "name": "Complete Idiot's Guide to Technomancy",
+    "description": "This colorful guide, full of diagrams and cartoons, teaches a couple of very basic Technomancy spells for the not-so-bright pupils.",
+    "weight": 211,
+    "volume": 2,
+    "symbol": "?",
+    "color": "light_grey",
+    "use_action": { "type": "learn_spell", "spells": [ "taze", "quantum_tunnel_lesser" ] }
+  },
+  {
+    "id": "techno_em",
+    "type": "GENERIC",
+    "name": "Technomancy and the Electromagnetic Spectrum",
+    "description": "This lab reference material book is thick and overflowing with information on combining magic with EM radiation.",
+    "weight": 284,
+    "volume": 4,
+    "symbol": "?",
+    "color": "light_grey",
+    "use_action": { "type": "learn_spell", "spells": [ "taze", "laze", "em_pulse" ] }
+  },
+  {
     "id": "translocate_spellbook",
     "type": "GENERIC",
     "name": "Geospatial Systems: The Lie Of Linearity",

@@ -15,11 +15,9 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "map_selector.h"
 #include "messages.h"
 #include "mission.h"
 #include "morale_types.h"
-#include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
 #include "npctrade.h"
@@ -44,6 +42,9 @@
 #include "player_activity.h"
 #include "pldata.h"
 #include "string_id.h"
+#include "material.h"
+#include "monster.h"
+#include "point.h"
 
 struct itype;
 
@@ -366,8 +367,8 @@ void talk_function::bionic_install( npc &p )
     std::vector<std::string> bionic_names;
     for( auto &bio : bionic_inv ) {
         if( std::find( bionic_types.begin(), bionic_types.end(), bio->typeId() ) == bionic_types.end() ) {
-            if( !g->u.has_bionic( bionic_id( bio->typeId() ) ) || bio->typeId() ==  "bio_power_storage" ||
-                bio->typeId() ==  "bio_power_storage_mkII" ) {
+            if( !g->u.has_bionic( bionic_id( bio->typeId() ) ) || bio->typeId() == "bio_power_storage" ||
+                bio->typeId() == "bio_power_storage_mkII" ) {
 
                 bionic_types.push_back( bio->typeId() );
                 bionic_names.push_back( bio->tname() + " - " + format_money( bio->price( true ) * 2 ) );

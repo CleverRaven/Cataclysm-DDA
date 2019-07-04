@@ -4,6 +4,7 @@
 #include <set>
 #include <utility>
 #include <vector>
+#include <sstream>
 
 #include "avatar.h"
 #include "catch/catch.hpp"
@@ -16,20 +17,19 @@
 #include "npc.h"
 #include "npc_class.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "text_snippets.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "calendar.h"
-#include "creature.h"
-#include "enums.h"
-#include "game_constants.h"
 #include "line.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "string_id.h"
 #include "type_id.h"
+#include "point.h"
+
+class Creature;
 
 static void on_load_test( npc &who, const time_duration &from, const time_duration &to )
 {

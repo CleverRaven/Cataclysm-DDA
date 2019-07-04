@@ -4,12 +4,12 @@
 
 #include <list>
 #include <unordered_map>
+#include <vector>
 
-#include "colony.h"
-#include "enums.h"
-#include "item.h"
-#include "item_stack.h"
 #include "safe_reference.h"
+#include "point.h"
+
+class item;
 
 // A struct used to uniquely identify an item within a submap or vehicle.
 struct item_reference {

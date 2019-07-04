@@ -6,6 +6,7 @@
 #include <memory>
 #include <unordered_map>
 #include <utility>
+#include <limits>
 
 #include "bionics.h"
 #include "character.h"
@@ -21,8 +22,9 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "active_item_cache.h"
-#include "enums.h"
 #include "pimpl.h"
+#include "colony.h"
+#include "point.h"
 
 /** @relates visitable */
 template <typename T>

@@ -22,6 +22,7 @@
 #include "creature.h"
 #include "debug.h"
 #include "optional.h"
+#include "enums.h"
 
 static const itype_id fuel_type_battery( "battery" );
 const efftype_id effect_on_roof( "on_roof" );
@@ -483,7 +484,7 @@ int vehicle::turrets_aim_single( vehicle_part *tur_part )
         return shots;
     }
 
-    if( chosen !=  nullptr ) {
+    if( chosen != nullptr ) {
         shots = turrets_aim_and_fire( false, false, chosen );
     }
 

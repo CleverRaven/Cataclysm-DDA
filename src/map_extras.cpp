@@ -1,14 +1,12 @@
 #include "map_extras.h"
 
 #include <cstdlib>
-#include <cmath>
-#include <array>
-#include <list>
 #include <memory>
 #include <set>
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <map>
 
 #include "cellular_automata.h"
 #include "debug.h"
@@ -40,9 +38,15 @@
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
-#include "messages.h"
 #include "coordinate_conversions.h"
 #include "options.h"
+#include "colony.h"
+#include "item_group.h"
+#include "json.h"
+#include "mapgen.h"
+#include "point.h"
+#include "string_formatter.h"
+#include "weighted_list.h"
 
 class npc_template;
 
@@ -591,15 +595,15 @@ static void mx_bandits_block( map &m, const tripoint &abs_sub )
     const oter_id &west = overmap_buffer.ter( abs_sub.x - 1, abs_sub.y, abs_sub.z );
     const oter_id &east = overmap_buffer.ter( abs_sub.x + 1, abs_sub.y, abs_sub.z );
 
-    const bool forest_at_north = is_ot_match( "forest", north, ot_match_type::PREFIX );
-    const bool forest_at_south = is_ot_match( "forest", south, ot_match_type::PREFIX );
-    const bool forest_at_west = is_ot_match( "forest", west, ot_match_type::PREFIX );
-    const bool forest_at_east = is_ot_match( "forest", east, ot_match_type::PREFIX );
+    const bool forest_at_north = is_ot_match( "forest", north, ot_match_type::prefix );
+    const bool forest_at_south = is_ot_match( "forest", south, ot_match_type::prefix );
+    const bool forest_at_west = is_ot_match( "forest", west, ot_match_type::prefix );
+    const bool forest_at_east = is_ot_match( "forest", east, ot_match_type::prefix );
 
-    const bool road_at_north = is_ot_match( "road", north, ot_match_type::TYPE );
-    const bool road_at_south = is_ot_match( "road", south, ot_match_type::TYPE );
-    const bool road_at_west = is_ot_match( "road", west, ot_match_type::TYPE );
-    const bool road_at_east = is_ot_match( "road", east, ot_match_type::TYPE );
+    const bool road_at_north = is_ot_match( "road", north, ot_match_type::type );
+    const bool road_at_south = is_ot_match( "road", south, ot_match_type::type );
+    const bool road_at_west = is_ot_match( "road", west, ot_match_type::type );
+    const bool road_at_east = is_ot_match( "road", east, ot_match_type::type );
 
     if( forest_at_north && forest_at_south &&
         road_at_west && road_at_east ) {
@@ -821,16 +825,16 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
     const oter_id &west = overmap_buffer.ter( abs_sub.x - 1, abs_sub.y, abs_sub.z );
     const oter_id &east = overmap_buffer.ter( abs_sub.x + 1, abs_sub.y, abs_sub.z );
 
-    const bool bridge_at_center = is_ot_match( "bridge", center, ot_match_type::TYPE );
-    const bool bridge_at_north = is_ot_match( "bridge", north, ot_match_type::TYPE );
-    const bool bridge_at_south = is_ot_match( "bridge", south, ot_match_type::TYPE );
-    const bool bridge_at_west = is_ot_match( "bridge", west, ot_match_type::TYPE );
-    const bool bridge_at_east = is_ot_match( "bridge", east, ot_match_type::TYPE );
+    const bool bridge_at_center = is_ot_match( "bridge", center, ot_match_type::type );
+    const bool bridge_at_north = is_ot_match( "bridge", north, ot_match_type::type );
+    const bool bridge_at_south = is_ot_match( "bridge", south, ot_match_type::type );
+    const bool bridge_at_west = is_ot_match( "bridge", west, ot_match_type::type );
+    const bool bridge_at_east = is_ot_match( "bridge", east, ot_match_type::type );
 
-    const bool road_at_north = is_ot_match( "road", north, ot_match_type::TYPE );
-    const bool road_at_south = is_ot_match( "road", south, ot_match_type::TYPE );
-    const bool road_at_west = is_ot_match( "road", west, ot_match_type::TYPE );
-    const bool road_at_east = is_ot_match( "road", east, ot_match_type::TYPE );
+    const bool road_at_north = is_ot_match( "road", north, ot_match_type::type );
+    const bool road_at_south = is_ot_match( "road", south, ot_match_type::type );
+    const bool road_at_west = is_ot_match( "road", west, ot_match_type::type );
+    const bool road_at_east = is_ot_match( "road", east, ot_match_type::type );
 
     const int num_mines = rng( 6, 20 );
     const std::string text = _( "DANGER! MINEFIELD!" );
@@ -1910,10 +1914,10 @@ static void mx_roadworks( map &m, const tripoint &abs_sub )
     const oter_id &west = overmap_buffer.ter( abs_sub.x - 1, abs_sub.y, abs_sub.z );
     const oter_id &east = overmap_buffer.ter( abs_sub.x + 1, abs_sub.y, abs_sub.z );
 
-    const bool road_at_north = is_ot_match( "road", north, ot_match_type::TYPE );
-    const bool road_at_south = is_ot_match( "road", south, ot_match_type::TYPE );
-    const bool road_at_west = is_ot_match( "road", west, ot_match_type::TYPE );
-    const bool road_at_east = is_ot_match( "road", east, ot_match_type::TYPE );
+    const bool road_at_north = is_ot_match( "road", north, ot_match_type::type );
+    const bool road_at_south = is_ot_match( "road", south, ot_match_type::type );
+    const bool road_at_west = is_ot_match( "road", west, ot_match_type::type );
+    const bool road_at_east = is_ot_match( "road", east, ot_match_type::type );
 
     // defect types
     weighted_int_list<ter_id> road_defects;

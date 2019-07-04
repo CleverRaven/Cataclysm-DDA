@@ -1,5 +1,6 @@
 #include "game_inventory.h"
 
+#include <math.h>
 #include <climits>
 #include <cstddef>
 #include <functional>
@@ -9,6 +10,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 #include "avatar.h"
 #include "game.h"
@@ -43,6 +45,7 @@
 #include "translations.h"
 #include "units.h"
 #include "type_id.h"
+#include "point.h"
 
 const efftype_id effect_assisted( "assisted" );
 

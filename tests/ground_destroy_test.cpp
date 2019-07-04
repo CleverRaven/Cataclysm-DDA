@@ -11,9 +11,9 @@
 #include "map_helpers.h"
 #include "mapdata.h"
 #include "options.h"
-#include "enums.h"
 #include "int_id.h"
 #include "type_id.h"
+#include "point.h"
 
 // Destroying pavement with a pickaxe should not leave t_flat_roof.
 // See issue #24707:

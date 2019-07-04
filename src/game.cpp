@@ -1,11 +1,11 @@
 #include "game.h"
 
-#include <cstdio>
 #include <wctype.h>
+#include <assert.h>
+#include <cstdio>
 #include <algorithm>
 #include <chrono>
 #include <cmath>
-#include <csignal>
 #include <ctime>
 #include <iterator>
 #include <locale>
@@ -23,6 +23,7 @@
 #include <type_traits>
 #include <unordered_set>
 #include <utility>
+#include <unordered_map>
 
 #include "action.h"
 #include "activity_handlers.h"
@@ -35,7 +36,6 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "clzones.h"
-#include "compatibility.h"
 #include "computer.h"
 #include "construction.h"
 #include "coordinate_conversions.h"
@@ -54,13 +54,11 @@
 #include "game_ui.h"
 #include "gamemode.h"
 #include "gates.h"
-#include "gun_mode.h"
 #include "help.h"
 #include "iexamine.h"
 #include "init.h"
 #include "input.h"
 #include "item_category.h"
-#include "item_group.h"
 #include "item_location.h"
 #include "iuse_actor.h"
 #include "json.h"
@@ -68,21 +66,17 @@
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
-#include "magic.h"
 #include "map.h"
 #include "map_item_stack.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
-#include "map_extras.h"
 #include "mapsharing.h"
-#include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
 #include "mod_manager.h"
 #include "monattack.h"
 #include "monexamine.h"
-#include "mongroup.h"
 #include "monstergenerator.h"
 #include "morale_types.h"
 #include "mtype.h"
@@ -98,8 +92,6 @@
 #include "path_info.h"
 #include "pickup.h"
 #include "popup.h"
-#include "projectile.h"
-#include "ranged.h"
 #include "recipe_dictionary.h"
 #include "rng.h"
 #include "safemode_ui.h"
@@ -111,7 +103,6 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "submap.h"
-#include "trait_group.h"
 #include "translations.h"
 #include "trap.h"
 #include "uistate.h"
@@ -121,7 +112,6 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
-#include "weather_gen.h"
 #include "worldfactory.h"
 #include "map_selector.h"
 #include "basecamp.h"
@@ -129,23 +119,22 @@
 #include "color.h"
 #include "damage.h"
 #include "field.h"
-#include "inventory.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
 #include "player.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "recipe.h"
-#include "regional_settings.h"
 #include "ret_val.h"
-#include "stomach.h"
 #include "tileray.h"
 #include "ui.h"
 #include "units.h"
-#include "weighted_list.h"
 #include "int_id.h"
 #include "string_id.h"
+#include "colony.h"
+#include "item.h"
+
+class inventory;
 
 #if defined(TILES)
 #include "cata_tiles.h"
@@ -610,7 +599,7 @@ void game::setup()
 
     load_world_modfiles( ui );
 
-    m =  map( get_option<bool>( "ZLEVELS" ) );
+    m = map( get_option<bool>( "ZLEVELS" ) );
 
     next_npc_id = 1;
     next_mission_id = 1;
@@ -1374,7 +1363,13 @@ bool game::do_turn()
 
     events.process();
     mission::process_all();
-
+    // If controlling a vehicle that is owned by someone else
+    if( u.in_vehicle && u.controlling_vehicle ) {
+        vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
+        if( veh && !veh->handle_potential_theft( dynamic_cast<player &>( u ), true ) ) {
+            veh->handle_potential_theft( dynamic_cast<player &>( u ), false, false );
+        }
+    }
     if( calendar::once_every( 1_days ) ) {
         overmap_buffer.process_mongroups();
     }
@@ -1764,7 +1759,7 @@ int get_convection_temperature( const tripoint &location )
         temp_mod += 300;
     }
     // hot air of a fire/lava
-    auto tile_intensity_mod = []( const tripoint & loc, field_id fld, int case_1, int case_2,
+    auto tile_intensity_mod = []( const tripoint & loc, field_type_id fld, int case_1, int case_2,
     int case_3 ) {
         int field_intensity = g->m.get_field_intensity( loc, fld );
         int cases[3] = { case_1, case_2, case_3 };
@@ -4770,7 +4765,7 @@ bool game::swap_critters( Creature &a, Creature &b )
     // If swapping player/npc with a monster, monster is second
     bool a_first = a.is_player() ||
                    ( a.is_npc() && !b.is_player() );
-    Creature &first =  a_first ? a : b;
+    Creature &first  = a_first ? a : b;
     Creature &second = a_first ? b : a;
     // Possible options:
     // both first and second are monsters
@@ -5200,18 +5195,24 @@ void game::control_vehicle()
             veh_part = vp->part_index();
         }
     }
-
     if( veh != nullptr && veh->player_in_control( u ) ) {
         veh->use_controls( u.pos() );
     } else if( veh && veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 &&
                u.in_vehicle ) {
         if( !veh->interact_vehicle_locked() ) {
+            veh->handle_potential_theft( dynamic_cast<player &>( u ) );
             return;
         }
         if( veh->engine_on ) {
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
+                return;
+            }
             u.controlling_vehicle = true;
             add_msg( _( "You take control of the %s." ), veh->name );
         } else {
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
+                return;
+            }
             veh->start_engines( true );
         }
     } else {
@@ -5227,6 +5228,9 @@ void game::control_vehicle()
         veh = &vp->vehicle();
         veh_part = vp->part_index();
         if( veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 ) {
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
+                return;
+            }
             veh->use_controls( *examp_ );
         }
     }
@@ -7766,7 +7770,6 @@ void game::drop_in_direction()
     }
 }
 
-
 // Used to set up the first Hotkey in the display set
 static int get_initial_hotkey( const size_t menu_index )
 {
@@ -8046,7 +8049,7 @@ void game::butcher()
 
     // Magic indices for special butcher options
     enum : int {
-        MULTISALVAGE =  MAX_ITEM_IN_SQUARE + 1,
+        MULTISALVAGE = MAX_ITEM_IN_SQUARE + 1,
         MULTIBUTCHER,
         MULTIDISASSEMBLE_ONE,
         MULTIDISASSEMBLE_ALL,
@@ -8541,7 +8544,9 @@ void game::wield( item_location &loc )
         u.unwield();
 
         if( is_unwielding ) {
-            u.martialart_use_message();
+            if( u.style_selected != matype_id( "style_none" ) ) {
+                u.martialart_use_message();
+            }
             return;
         }
     }
@@ -8853,6 +8858,9 @@ bool game::walk_move( const tripoint &dest_loc )
     }
 
     if( m.impassable( dest_loc ) && !pushing && !shifting_furniture ) {
+        return false;
+    }
+    if( vp_there && !vp_there->vehicle().handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
         return false;
     }
     if( u.has_effect( effect_riding ) && vp_there ) {
@@ -9655,7 +9663,7 @@ void game::on_move_effects()
         if( u.stamina <= 0 ) {
             u.toggle_run_mode();
         }
-        if( u.stamina < u.get_stamina_max() / 2 && one_in( u.stamina ) ) {
+        if( u.stamina < u.get_stamina_max() / 5 && one_in( u.stamina ) ) {
             u.add_effect( effect_winded, 10_turns );
         }
     }
@@ -11132,7 +11140,7 @@ void game::process_artifact( item &it, player &p )
 
             case AEP_EXTINGUISH:
                 for( const tripoint &dest : m.points_in_radius( p.pos(), 1 ) ) {
-                    m.adjust_field_age( dest, fd_fire, -1_turns );
+                    m.mod_field_age( dest, fd_fire, -1_turns );
                 }
                 break;
 

@@ -35,7 +35,6 @@ struct tripoint;
 class time_duration;
 
 enum damage_type : int;
-enum field_id : int;
 enum m_flag : int;
 enum hp_part : int;
 struct damage_instance;
@@ -270,7 +269,7 @@ class Creature
         /** Returns true if we are immune to the field type with the given fid. Does not
          *  handle intensity, so this function should only be called through is_dangerous_field().
          */
-        virtual bool is_immune_field( const field_id ) const {
+        virtual bool is_immune_field( const field_type_id ) const {
             return false;
         }
 
@@ -397,8 +396,8 @@ class Creature
         static const std::set<material_id> cmat_fleshnveg;
         static const std::set<material_id> cmat_flammable;
         static const std::set<material_id> cmat_flameres;
-        virtual field_id bloodType() const = 0;
-        virtual field_id gibType() const = 0;
+        virtual field_type_id bloodType() const = 0;
+        virtual field_type_id gibType() const = 0;
         // TODO: replumb this to use a std::string along with monster flags.
         virtual bool has_flag( const m_flag ) const {
             return false;

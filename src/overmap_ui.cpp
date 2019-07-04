@@ -12,6 +12,8 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <set>
+#include <type_traits>
 
 #include "avatar.h"
 #include "basecamp.h"
@@ -30,7 +32,6 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "sounds.h"
 #include "string_input_popup.h"
 #include "ui.h"
@@ -52,9 +53,10 @@
 #include "translations.h"
 #include "type_id.h"
 #include "vpart_position.h"
-#include "vpart_range.h"
-#include "veh_type.h"
 #include "vehicle.h"
+#include "enums.h"
+#include "map.h"
+#include "player_activity.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -190,7 +192,7 @@ static weather_type get_weather_at_point( const tripoint &pos )
     }
     auto iter = weather_cache.find( pos );
     if( iter == weather_cache.end() ) {
-        const auto abs_ms_pos =  tripoint( pos.x * SEEX * 2, pos.y * SEEY * 2, pos.z );
+        const auto abs_ms_pos = tripoint( pos.x * SEEX * 2, pos.y * SEEY * 2, pos.z );
         const auto &wgen = overmap_buffer.get_settings( pos.x, pos.y, pos.z ).weather;
         const auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed() );
         iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
@@ -514,7 +516,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         for( const auto &s_ter : uistate.place_special->terrains ) {
             if( s_ter.p.z == 0 ) {
                 const point rp = om_direction::rotate( point( s_ter.p.x, s_ter.p.y ), uistate.omedit_rotation );
-                const oter_id oter =  s_ter.terrain->get_rotated( uistate.omedit_rotation );
+                const oter_id oter = s_ter.terrain->get_rotated( uistate.omedit_rotation );
 
                 special_cache.insert( std::make_pair(
                                           rp, std::make_pair( oter->get_symbol(), oter->get_color() ) ) );
@@ -671,7 +673,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                 ter_color = c_yellow;
                 ter_sym   = "Z";
             } else if( !uistate.overmap_show_forest_trails && cur_ter &&
-                       is_ot_match( "forest_trail", cur_ter, ot_match_type::TYPE ) ) {
+                       is_ot_match( "forest_trail", cur_ter, ot_match_type::type ) ) {
                 // If forest trails shouldn't be displayed, and this is a forest trail, then
                 // instead render it like a forest.
                 set_color_and_symbol( forest, omx, omy, z, ter_sym, ter_color );

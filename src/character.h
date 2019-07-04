@@ -34,12 +34,13 @@
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
+#include "point.h"
 
 struct pathfinding_settings;
 class item_location;
 class SkillLevel;
 class SkillLevelMap;
-enum field_id : int;
+
 class JsonObject;
 class JsonIn;
 class JsonOut;
@@ -163,8 +164,8 @@ class Character : public Creature, public visitable<Character>
     public:
         ~Character() override;
 
-        field_id bloodType() const override;
-        field_id gibType() const override;
+        field_type_id bloodType() const override;
+        field_type_id gibType() const override;
         bool is_warm() const override;
         const std::string &symbol() const override;
 
@@ -731,7 +732,7 @@ class Character : public Creature, public visitable<Character>
         }
         virtual bool query_yn( const std::string &msg ) const = 0;
 
-        bool is_immune_field( const field_id fid ) const override;
+        bool is_immune_field( const field_type_id fid ) const override;
 
         /** Returns true if the player has some form of night vision */
         bool has_nv();

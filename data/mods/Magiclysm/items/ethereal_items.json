@@ -282,7 +282,6 @@
     "volume": 10,
     "bashing": 16,
     "to_hit": 1,
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 10 },
     "reload_noise_volume": 2,
     "loudness": 2,
     "ranged_damage": 17,

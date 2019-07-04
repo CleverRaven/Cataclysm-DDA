@@ -12,6 +12,7 @@
 #include <list>
 #include <unordered_map>
 #include <utility>
+#include <functional>
 
 #include "calendar.h"
 #include "line.h"
@@ -22,26 +23,29 @@
 #include "color.h"
 #include "creature.h"
 #include "cursesdef.h"
-#include "enums.h"
 #include "inventory.h"
 #include "item_location.h"
-#include "translations.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "material.h"
 #include "type_id.h"
+#include "faction.h"
+#include "int_id.h"
+#include "item.h"
+#include "point.h"
 
 struct bionic_data;
 class JsonObject;
 class JsonIn;
 class JsonOut;
-class item;
 struct overmap_location;
 class Character;
-class faction;
 class mission;
 class vehicle;
 struct pathfinding_settings;
+class monfaction;
+class npc_class;
+struct mission_type;
 
 enum game_message_type : int;
 class gun_mode;

@@ -9,8 +9,8 @@
 #include <iterator>
 #include <tuple>
 #include <cmath>
+#include <type_traits>
 
-#include "ammo.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "cata_algo.h"
@@ -57,6 +57,9 @@
 #include "ret_val.h"
 #include "units.h"
 #include "pldata.h"
+#include "enums.h"
+#include "overmap.h"
+#include "stomach.h"
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
@@ -3282,7 +3285,7 @@ void npc::heal_player( player &patient )
     if( !patient.is_npc() ) {
         // Test if we want to heal the player further
         if( op_of_u.value * 4 + op_of_u.trust + personality.altruism * 3 -
-            op_of_u.fear * 3 <  25 ) {
+            op_of_u.fear * 3 < 25 ) {
             say( _( "That's all the healing I can do." ) );
         } else {
             say( _( "Hold still, I can heal you more." ) );

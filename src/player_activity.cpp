@@ -1,7 +1,6 @@
 #include "player_activity.h"
 
 #include <algorithm>
-#include <iterator>
 
 #include "activity_handlers.h"
 #include "activity_type.h"
@@ -57,6 +56,14 @@ std::string player_activity::get_str_value( size_t index, const std::string &def
 
 void player_activity::do_turn( player &p )
 {
+    // Activities should never excessively drain stamina.
+    if( p.stamina < p.get_stamina_max() / 3 ) {
+        if( one_in( 50 ) ) {
+            p.add_msg_if_player( _( "You pause for a second to catch your breath." ) );
+        }
+        p.moves = 0;
+        return;
+    }
     // Should happen before activity or it may fail du to 0 moves
     if( *this && type->will_refuel_fires() ) {
         try_fuel_fire( *this, p );

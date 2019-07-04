@@ -1,10 +1,11 @@
-#include "catch/catch.hpp"
-#include "colony.h"
-
+#include <stddef.h>
 #include <algorithm> // std::find
 #include <functional> // std::greater
 #include <utility> // std::move
 #include <vector> // range-insert testing
+
+#include "catch/catch.hpp"
+#include "colony.h"
 
 // Fast xorshift+128 random number generator function
 // original: https://codingforspeed.com/using-faster-psudo-random-generator-xorshift/

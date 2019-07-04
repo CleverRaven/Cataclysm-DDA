@@ -1,5 +1,14 @@
 #include "magic.h"
 
+#include <stdlib.h>
+#include <set>
+#include <algorithm>
+#include <array>
+#include <memory>
+#include <tuple>
+#include <utility>
+#include <cmath>
+
 #include "avatar.h"
 #include "calendar.h"
 #include "color.h"
@@ -7,24 +16,26 @@
 #include "game.h"
 #include "generic_factory.h"
 #include "json.h"
-#include "line.h"
-#include "map.h"
-#include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
 #include "mutation.h"
-#include "npc.h"
-#include "options.h"
 #include "output.h"
 #include "player.h"
-#include "projectile.h"
-#include "rng.h"
 #include "sounds.h"
-#include "magic_teleporter_list.h"
 #include "translations.h"
 #include "ui.h"
-
-#include <set>
+#include "cata_utility.h"
+#include "character.h"
+#include "compatibility.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "enums.h"
+#include "input.h"
+#include "item.h"
+#include "pldata.h"
+#include "point.h"
+#include "string_formatter.h"
 
 namespace
 {
@@ -217,22 +228,28 @@ void spell_type::load( JsonObject &jo, const std::string & )
 void spell_type::check_consistency()
 {
     for( const spell_type &sp_t : get_all() ) {
-        if( sp_t.min_aoe > sp_t.max_aoe ) {
+        if( ( sp_t.min_aoe > sp_t.max_aoe && sp_t.aoe_increment > 0 ) ||
+            ( sp_t.min_aoe < sp_t.max_aoe && sp_t.aoe_increment < 0 ) ) {
             debugmsg( string_format( "ERROR: %s has higher min_aoe than max_aoe", sp_t.id.c_str() ) );
         }
-        if( abs( sp_t.min_damage ) > abs( sp_t.max_damage ) ) {
+        if( ( sp_t.min_damage > sp_t.max_damage && sp_t.damage_increment > 0 ) ||
+            ( sp_t.min_damage < sp_t.max_damage && sp_t.damage_increment < 0 ) ) {
             debugmsg( string_format( "ERROR: %s has higher min_damage than max_damage", sp_t.id.c_str() ) );
         }
-        if( sp_t.min_range > sp_t.max_range ) {
+        if( ( sp_t.min_range > sp_t.max_range && sp_t.range_increment > 0 ) ||
+            ( sp_t.min_range < sp_t.max_range && sp_t.range_increment < 0 ) ) {
             debugmsg( string_format( "ERROR: %s has higher min_range than max_range", sp_t.id.c_str() ) );
         }
-        if( sp_t.min_dot > sp_t.max_dot ) {
+        if( ( sp_t.min_dot > sp_t.max_dot && sp_t.dot_increment > 0 ) ||
+            ( sp_t.min_dot < sp_t.max_dot && sp_t.dot_increment < 0 ) ) {
             debugmsg( string_format( "ERROR: %s has higher min_dot than max_dot", sp_t.id.c_str() ) );
         }
-        if( sp_t.min_duration > sp_t.max_duration ) {
+        if( ( sp_t.min_duration > sp_t.max_duration && sp_t.duration_increment > 0 ) ||
+            ( sp_t.min_duration < sp_t.max_duration && sp_t.duration_increment < 0 ) ) {
             debugmsg( string_format( "ERROR: %s has higher min_dot_time than max_dot_time", sp_t.id.c_str() ) );
         }
-        if( sp_t.min_pierce > sp_t.max_pierce ) {
+        if( ( sp_t.min_pierce > sp_t.max_pierce && sp_t.pierce_increment > 0 ) ||
+            ( sp_t.min_pierce < sp_t.max_pierce && sp_t.pierce_increment < 0 ) ) {
             debugmsg( string_format( "ERROR: %s has higher min_pierce than max_pierce", sp_t.id.c_str() ) );
         }
         if( sp_t.casting_time_increment < 0.0f && sp_t.base_casting_time < sp_t.final_casting_time ) {
@@ -471,7 +488,7 @@ std::string spell::colorized_fail_percent( const player &p ) const
 {
     const float fail_fl = spell_fail( p ) * 100.0f;
     std::string fail_str;
-    fail_fl == 100.0f ? fail_str = _( "Too Difficult!" ) : fail_str =  string_format( "%.1f %% %s",
+    fail_fl == 100.0f ? fail_str = _( "Too Difficult!" ) : fail_str = string_format( "%.1f %% %s",
                                    fail_fl, _( "Failure Chance" ) );
     nc_color color;
     if( fail_fl > 90.0f ) {
@@ -583,7 +600,7 @@ bool spell::bp_is_affected( body_part bp ) const
 void spell::make_sound( const tripoint &target ) const
 {
     if( !has_flag( spell_flag::SILENT ) ) {
-        int loudness = damage() / 3;
+        int loudness = abs( damage() ) / 3;
         if( has_flag( spell_flag::LOUD ) ) {
             loudness += 1 + damage() / 3;
         }
@@ -1066,8 +1083,8 @@ class spellcasting_callback : public uilist_callback
             for( int i = 1; i < menu->w_height - 1; i++ ) {
                 mvwputch( menu->window, i, menu->w_width - menu->pad_right, c_magenta, LINE_XOXO );
             }
-            std::string ignore_string =  casting_ignore ? _( "Ignore Distractions" ) :
-                                         _( "Popup Distractions" );
+            std::string ignore_string = casting_ignore ? _( "Ignore Distractions" ) :
+                                        _( "Popup Distractions" );
             mvwprintz( menu->window, 0, menu->w_width - menu->pad_right + 2,
                        casting_ignore ? c_red : c_light_green, string_format( "%s %s", "[I]", ignore_string ) );
             draw_spell_info( *known_spells[entnum], menu );
@@ -1218,9 +1235,9 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     if( fx == "target_attack" || fx == "projectile_attack" || fx == "cone_attack" ||
         fx == "line_attack" ) {
         if( damage > 0 ) {
-            damage_string =  string_format( "%s: %s %s", _( "Damage" ), colorize( to_string( damage ),
-                                            sp.damage_type_color() ),
-                                            colorize( sp.damage_type_string(), sp.damage_type_color() ) );
+            damage_string = string_format( "%s: %s %s", _( "Damage" ), colorize( to_string( damage ),
+                                           sp.damage_type_color() ),
+                                           colorize( sp.damage_type_string(), sp.damage_type_color() ) );
         } else if( damage < 0 ) {
             damage_string = string_format( "%s: %s", _( "Healing" ), colorize( "+" + to_string( -damage ),
                                            light_green ) );
@@ -1246,7 +1263,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     } else if( fx == "summon" ) {
         damage_string = string_format( "%s %d %s", _( "Summon" ), sp.damage(),
                                        _( monster( mtype_id( sp.effect_data() ) ).get_name( ) ) );
-        aoe_string =  string_format( "%s: %d", _( "Spell Radius" ), sp.aoe() );
+        aoe_string = string_format( "%s: %d", _( "Spell Radius" ), sp.aoe() );
     }
 
     print_colored_text( w_menu, line, h_col1, gray, gray, damage_string );

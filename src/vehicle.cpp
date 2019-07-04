@@ -14,13 +14,12 @@
 #include <sstream>
 #include <unordered_map>
 #include <memory>
+#include <list>
 
-#include "ammo.h"
 #include "avatar.h"
 #include "cata_utility.h"
 #include "colony.h"
 #include "coordinate_conversions.h"
-#include "creature.h"
 #include "debug.h"
 #include "explosion.h"
 #include "game.h"
@@ -33,9 +32,12 @@
 #include "mapbuffer.h"
 #include "mapdata.h"
 #include "messages.h"
+#include "npc.h"
+#include "output.h"
 #include "overmapbuffer.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "string_input_popup.h"
 #include "submap.h"
 #include "translations.h"
 #include "veh_type.h"
@@ -50,6 +52,8 @@
 #include "rng.h"
 #include "weather_gen.h"
 #include "options.h"
+#include "enums.h"
+#include "monster.h"
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -3356,7 +3360,7 @@ bool vehicle::do_environmental_effects()
     return needed;
 }
 
-void vehicle::spew_field( double joules, int part, field_id type, int intensity )
+void vehicle::spew_field( double joules, int part, field_type_id type, int intensity )
 {
     if( rng( 1, 10000 ) > joules ) {
         return;
@@ -3431,7 +3435,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
                 }
 
                 if( ( exhaust_part == -1 ) && engine_on ) {
-                    spew_field( j, p, fd_smoke, bad_filter ? 3 : 1 );
+                    spew_field( j, p, fd_smoke, bad_filter ? fd_smoke.obj().get_max_intensity() : 1 );
                 } else {
                     mufflesmoke += j;
                 }
@@ -3443,7 +3447,8 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     }
     if( ( exhaust_part != -1 ) && engine_on &&
         has_engine_type_not( fuel_type_muscle, true ) ) { // No engine, no smoke
-        spew_field( mufflesmoke, exhaust_part, fd_smoke, bad_filter ? 3 : 1 );
+        spew_field( mufflesmoke, exhaust_part, fd_smoke,
+                    bad_filter ? fd_smoke.obj().get_max_intensity() : 1 );
     }
     // Cap engine noise to avoid deafening.
     noise = std::min( noise, 100.0 );
@@ -3669,8 +3674,8 @@ double vehicle::coeff_rolling_drag() const
         }
         // mildly increasing rolling resistance for vehicles with more than 4 wheels and mildly
         // decrease it for vehicles with less
-        wheel_factor *=  wheel_ratio /
-                         ( base_wheels * wheel_ratio - base_wheels + wheelcache.size() );
+        wheel_factor *= wheel_ratio /
+                        ( base_wheels * wheel_ratio - base_wheels + wheelcache.size() );
     }
     coefficient_rolling_resistance = newton_ratio * wheel_factor * to_kilogram( total_mass() );
     coeff_rolling_dirty = false;
@@ -3728,7 +3733,7 @@ double vehicle::coeff_water_drag() const
     double actual_area_m = width_m * structure_indices.size() / tile_width;
 
     // effective hull area is actual hull area * hull coverage
-    double hull_area_m =  actual_area_m * std::max( 0.1, hull_coverage );
+    double hull_area_m   = actual_area_m * std::max( 0.1, hull_coverage );
     // treat the hullform as a tetrahedron for half it's length, and a rectangular block
     // for the rest.  the mass of the water displaced by those shapes is equal to the mass
     // of the vehicle (Archimedes principle, eh?) and the volume of that water is the volume
@@ -3803,6 +3808,76 @@ bool vehicle::sufficient_wheel_config() const
             return false;
         }
     }
+    return true;
+}
+
+bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
+{
+    faction *yours;
+    if( p.is_player() ) {
+        yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
+    } else {
+        npc *guy = dynamic_cast<npc *>( &p );
+        yours = guy->my_fac;
+    }
+    std::vector<npc *> witnesses;
+    for( npc &elem : g->all_npcs() ) {
+        if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && has_owner() &&
+            elem.my_fac == get_owner() &&
+            elem.sees( p.pos() ) ) {
+            witnesses.push_back( &elem );
+        }
+    }
+    // the vehicle is yours, thats fine.
+    if( get_owner() == yours ) {
+        return true;
+        // if There is no owner
+        // handle transfer of ownership
+    } else if( !has_owner() ) {
+        set_owner( yours );
+        remove_old_owner();
+        return true;
+        // if there is a marker for having been stolen, but 15 minutes have passed, then officially transfer ownership
+    } else if( witnesses.empty() && get_old_owner() && get_old_owner() != yours && theft_time &&
+               calendar::turn - *theft_time > 15_minutes ) {
+        set_owner( yours );
+        remove_old_owner();
+        return true;
+        // No witnesses? then dont need to prompt, we assume the player is in process of stealing it.
+        // Ownership transfer checking is handled above, and warnings handled below.
+        // This is just to perform interaction with the vehicle without a prompt.
+        // It will prompt first-time, even with no witnesses, to inform player it is owned by someone else
+        // subsequently, no further prompts, the player should know by then.
+    } else if( witnesses.empty() && old_owner ) {
+        return true;
+    }
+    // if we are just checking if we could continue without problems, then the rest is assumed false
+    if( check_only ) {
+        return false;
+    }
+    // if we got here, theres some theft occuring
+    if( prompt ) {
+        if( !query_yn(
+                _( "This vehicle belongs to: %s, there may be consequences if you are observed interacting with it, continue?" ),
+                get_owner()->name ) ) {
+            return false;
+        }
+    }
+    // set old owner so that we can restore ownerhip if there are witnesses.
+    set_old_owner( get_owner() );
+    for( npc *elem : witnesses ) {
+        elem->say( "<witnessed_thievery>", 7 );
+    }
+    if( !witnesses.empty() ) {
+        if( p.add_faction_warning( get_owner()->id ) ) {
+            for( npc *elem : witnesses ) {
+                elem->make_angry();
+            }
+        }
+        // remove the temporary marker for a succesful theft, as it was witnessed.
+        remove_old_owner();
+    }
+    // if we got here, then the action will proceed after the previous warning
     return true;
 }
 
