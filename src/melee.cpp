@@ -710,8 +710,9 @@ float player::get_dodge() const
         ret /= 2;
     }
 
-    // TODO: What about the skates?
-    if( is_wearing( "roller_blades" ) ) {
+    if( worn_with_flag( "ROLLER_INLINE" ) ||
+        worn_with_flag( "ROLLER_QUAD" ) ||
+        worn_with_flag( "ROLLER_ONE" ) ) { 
         ret /= has_trait( trait_PROF_SKATER ) ? 2 : 5;
     }
 
