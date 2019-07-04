@@ -1458,7 +1458,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
-// Types of petfood for taming each different monster.
+// Types of food for taming each different monster.
 enum Petfood {
     DOGFOOD,
     CATFOOD,
@@ -5075,6 +5075,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                         const tripoint spawnp = random_entry_removed( empty );
                         if( monster *const b = g->summon_mon( bug, spawnp ) ) {
                             b->friendly = -1;
+                            b->add_effect( effect_pet, 1_turns, num_bp, true );
                         }
                     }
                 }
