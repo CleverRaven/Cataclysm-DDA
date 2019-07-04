@@ -35,6 +35,7 @@
 #include "debug.h"
 #include "explosion.h"
 #include "magic_teleporter_list.h"
+#include "magic_ter_furn_transform.h"
 #include "point.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -676,4 +677,17 @@ void spell_effect::translocate( const spell &sp, Creature &caster, const tripoin
 void spell_effect::none( const spell &sp, Creature &, const tripoint & )
 {
     debugmsg( "ERROR: %s has invalid spell effect.", sp.name() );
+}
+
+void spell_effect::transform_blast( const spell &sp, Creature &caster,
+                                    const tripoint &target )
+{
+    ter_furn_transform_id transform( sp.effect_data() );
+    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), true );
+    for( const tripoint &location : area ) {
+        if( one_in( sp.damage() ) ) {
+            transform->transform( location );
+            transform->add_all_messages( caster, location );
+        }
+    }
 }

@@ -187,6 +187,7 @@ void spell_type::load( JsonObject &jo, const std::string & )
         { "translocate", spell_effect::translocate },
         { "area_pull", spell_effect::area_pull },
         { "area_push", spell_effect::area_push },
+        { "ter_transform", spell_effect::transform_blast },
         { "none", spell_effect::none }
     };
 
