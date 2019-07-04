@@ -12092,7 +12092,11 @@ std::pair<std::string, nc_color> player::get_hunger_description() const
         } else if( !just_ate && ( recently_ate || contains > 0_ml ) ) {
             hunger_string.clear();
         } else {
-            hunger_string = _( "Hungry" );
+            if( get_bmi() > character_weight_category::overweight ) {
+                hunger_string = _( "Hungry" );
+            } else {
+                hunger_string = _( "Very Hungry" );
+            }
             hunger_color = c_yellow;
         }
     }
