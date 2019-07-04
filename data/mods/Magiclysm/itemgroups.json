@@ -46,7 +46,8 @@
       [ "summon_undead_spellbook", 2 ],
       [ "techno_fundamentals", 6 ],
       [ "techno_em", 5 ],
-      [ "techno_idiots", 3 ]
+      [ "techno_idiots", 3 ],
+      [ "alchemy_basic", 3 ]
     ]
   },
   {
@@ -68,7 +69,8 @@
       [ "summon_undead_spellbook", 1 ],
       [ "techno_fundamentals", 2 ],
       [ "techno_em", 1 ],
-      [ "techno_idiots", 3 ]
+      [ "techno_idiots", 3 ],
+      [ "alchemy_basic", 10 ]
     ]
   },
   {
@@ -162,7 +164,8 @@
       [ "techno_em", 30 ],
       [ "techno_idiots", 60 ],
       [ "translocate_spellbook", 20 ],
-      [ "stat_up_spellbook", 45 ]
+      [ "stat_up_spellbook", 45 ],
+      [ "alchemy_basic", 30 ]
     ]
   },
   {

@@ -32,5 +32,20 @@
     "healthy": 3,
     "color": "yellow",
     "description": "The liquid innards of an owlbear egg.  Good eating."
+  },
+  {
+  "id": "hairball",
+  "type": "COMESTIBLE"
+  "material": "fur",
+  "volume": "5ml",
+  "weight": 15,
+  "color": "brown",
+  "symbol": "0",
+  "name": "hairball",
+  "name_plural": "hairballs",
+  "description": "An ugly ball of animal spit and licked-off hairs. Don't swallow it.",
+  "price": 0,
+  "flags": [ "TRADER_AVOID" ],
+  "fun": -20
   }
 ]
