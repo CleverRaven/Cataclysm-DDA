@@ -7894,11 +7894,16 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     if( !enough_light ) {
         popup( _( "Some types of butchery are not possible when it is dark." ) );
     }
-    
+
     const int factor = g->u.max_quality( quality_id( "BUTCHER" ) );
+    const std::string msgFactor = factor > INT_MIN
+                                  ? string_format( _( "Your best tool has %d butchering." ), factor )
+                                  :  _( "You have no butchering tool." );
+
     const int factorD = g->u.max_quality( quality_id( "CUT_FINE" ) );
-    const std::string msgFactor = string_format( _( "Your best tool has %d butchering." ), factor );
-    const std::string msgFactorD = string_format( _( "Your best tool has %d fine cutting." ), factorD );
+    const std::string msgFactorD = factorD > INT_MIN
+                                   ? string_format( _( "Your best tool has %d fine cutting." ), factorD )
+                                   :  _( "You have no fine cutting tool." );
 
     uilist smenu;
     smenu.desc_enabled = true;
