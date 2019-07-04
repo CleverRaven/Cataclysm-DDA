@@ -568,6 +568,15 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             npc *npc_to_add = npc_to_get.get();
             followers.push_back( npc_to_add );
         }
+        for( auto &elem : overmap_buffer.get_npcs_near_player( 75 ) ) {
+            if( !elem ) {
+                continue;
+            }
+            npc *npc_to_add = elem.get();
+            if( npc_to_add->mission == NPC_MISSION_TRAVELLING ) {
+                followers.push_back( npc_to_add );
+            }
+        }
         for( auto &elem : g->u.omt_path ) {
             tripoint tri_to_add = tripoint( elem.x, elem.y, g->u.posz() );
             player_path_route.push_back( tri_to_add );

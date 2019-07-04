@@ -4273,13 +4273,11 @@ void game::monmove()
 void game::overmap_npc_move()
 {
     std::vector<npc *> travelling_npcs;
-    // for now just processing NPC followers on travelling missions
-    for( auto &elem : get_follower_list() ) {
-        std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
-        if( !npc_to_get ) {
+    for( auto &elem : overmap_buffer.get_npcs_near_player( 75 ) ) {
+        if( !elem ) {
             continue;
         }
-        npc *npc_to_add = npc_to_get.get();
+        npc *npc_to_add = elem.get();
         if( ( !npc_to_add->is_active() || rl_dist( u.pos(), npc_to_add->pos() ) > SEEX * 2 ) &&
             npc_to_add->mission == NPC_MISSION_TRAVELLING ) {
             travelling_npcs.push_back( npc_to_add );
@@ -4287,22 +4285,14 @@ void game::overmap_npc_move()
     }
     for( auto &elem : travelling_npcs ) {
         if( elem->has_omt_destination() ) {
-            tripoint sm_tri;
-            tripoint next_point;
-            std::vector<tripoint> path = overmap_buffer.get_npc_path( elem->global_omt_location(), elem->goal );
-            elem->omt_path = path;
-            if( path.size() > 1 ) {
-                next_point = path[std::max<size_t>( 0, path.size() - 2 )];
-                sm_tri = omt_to_sm_copy( next_point );
-            } else if( path.size() == 1 ) {
-                next_point = path[0];
-                sm_tri = omt_to_sm_copy( next_point );
-                elem->omt_path.clear();
-            } else if( path.empty() ) {
-                add_msg( m_info, _( "%s can't reach their destination" ),
-                         elem->disp_name() );
+            if( elem->omt_path.empty() ) {
+                elem->omt_path = overmap_buffer.get_npc_path( elem->global_omt_location(), elem->goal );
+            } else {
+                if( elem->omt_path.back() == elem->global_omt_location() ) {
+                    elem->omt_path.pop_back();
+                }
+                elem->travel_overmap( omt_to_sm_copy( elem->omt_path.back() ) );
             }
-            elem->travel_overmap( sm_tri );
             reload_npcs();
         }
     }
