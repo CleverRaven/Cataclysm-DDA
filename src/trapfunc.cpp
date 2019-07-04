@@ -1134,6 +1134,7 @@ void trapfunc::sinkhole( const tripoint &p, Creature *c, item *i )
 
 void trapfunc::ledge( const tripoint &p, Creature *c, item * )
 {
+    assert( c != nullptr );
     monster *m = dynamic_cast<monster *>( c );
     if( m != nullptr && m->has_flag( MF_FLIES ) ) {
         return;
