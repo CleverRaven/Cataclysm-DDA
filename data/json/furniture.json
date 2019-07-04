@@ -6741,6 +6741,62 @@
   },
   {
     "type": "furniture",
+    "id": "f_alien_pod",
+    "name": "slimy pod",
+    "description": "This is a slick, translucent pod suspended on a thin stalk.  It is covered in a thick mucus, obscuring whatever is floating in the gel-like substance inside.",
+    "symbol": "0",
+    "color": "magenta",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ]
+    "bash": {
+      "str_min": 25,
+      "str_max": 60,
+      "sound": "splorch!",
+      "sound_fail": "whump."
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_alien_pod_organ",
+    "name": "organ pod",
+    "description": "This is a translucent pod suspended on a thin stalk.  Inside you can see the dimly outlined shape of human organs, floating in some kind of preservative goo.",
+    "symbol": "0",
+    "color": "yellow",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ]
+    "bash": {
+      "str_min": 25,
+      "str_max": 60,
+      "sound": "splorch!",
+      "sound_fail": "whump."
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_alien_pod_resin",
+    "name": "resin pod",
+    "description": "This is a translucent pod suspended on a thin stalk.  Inside is a clean, clear resinous-looking fluid.  You could fairly easily tear it from the stalk and take it with you.",
+    "symbol": "0",
+    "color": "light_blue",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "deployed_item": "alien_pod_resin",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT" ]
+    "bash": {
+      "str_min": 25,
+      "str_max": 60,
+      "sound": "splorch!",
+      "sound_fail": "whump."
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_no_item",
     "//": "This is used in a hack to clear furniture with the keg iexamine of all items execept the stored liquid before usage.",
     "name": "seeing this is a bug",
