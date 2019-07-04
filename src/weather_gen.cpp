@@ -23,6 +23,42 @@ constexpr double tau = 2 * PI;
 weather_generator::weather_generator() = default;
 int weather_generator::current_winddir = 1000;
 
+double weather_generator::get_weather_temperature( const tripoint &location, const time_point &t,
+                                        unsigned seed ) const {
+    const double x( location.x / 2000.0 );
+    const double y( location.y / 2000.0 );
+    const double z( to_turn<int>( t + calendar::season_length() ) / 2000.0 );
+
+    const unsigned modSEED = seed % SIMPLEX_NOISE_RANDOM_SEED_LIMIT;
+    const double dayFraction = time_past_midnight( t ) / 1_days;
+
+    double T(raw_noise_4d( x, y, z, modSEED ) * 4.0 );
+
+    const double now( ( time_past_new_year( t ) + calendar::season_length() / 2 ) /
+                      calendar::year_length() ); // [0,1)
+    const double ctn( cos( tau * now ) ); // [-1, 1]
+
+    const season_type season = season_of_year( t );
+    const int seasonal_temp_mod[4] = { spring_temp_manual_mod, summer_temp_manual_mod, autumn_temp_manual_mod, winter_temp_manual_mod };
+    const double current_t( base_temperature + seasonal_temp_mod[ season ] );
+    // Start and end at -1 going up to 1 in summer.
+    const double seasonal_variation( ctn * -1 ); // [-1, 1]
+    // Harsh winter nights, hot summers.
+    const double season_atenuation( ctn / 2 + 1 );
+    // Make summers peak faster and winters not perma-frozen.
+    const double season_dispersion( pow( 2,
+                                         ctn + 1 ) - 2.3 );
+
+    // Day-night temperature variation.
+    double daily_variation( cos( tau * dayFraction - tau / 8 ) * -1 * season_atenuation / 2 +
+                            season_dispersion * -1 );
+    T += current_t;
+    T += seasonal_variation * 8 * exp( -pow( current_t * 2.7 / 10 - 0.5, 2 ) );
+    T += daily_variation * 8 * exp( -pow( current_t / 30, 2 ) );
+    T = T * 9 / 5 + 32;
+
+    return T;
+}
 w_point weather_generator::get_weather( const tripoint &location, const time_point &t,
                                         unsigned seed ) const
 {

@@ -7475,8 +7475,8 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
             //Use weather if above ground, use map temp if below
             double env_temperature = 0;
             if( pos.z >= 0 ) {
-                w_point weather = wgen.get_weather( pos, time, seed );
-                env_temperature = weather.temperature + enviroment_mod + local_mod;
+                double weather_temperature = wgen.get_weather_temperature( pos, time, seed );
+                env_temperature = weather_temperature + enviroment_mod + local_mod;
             } else {
                 env_temperature = AVERAGE_ANNUAL_TEMPERATURE + enviroment_mod + local_mod;
             }
