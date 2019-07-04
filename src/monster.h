@@ -413,7 +413,7 @@ class monster : public Creature
         int wandf;           // Urge to wander - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
         player *dragged_foe; // player being dragged by the monster
-
+        cata::optional<item> tied_item; // item used to tie the monster
         // DEFINING VALUES
         int friendly;
         int anger = 0;

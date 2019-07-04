@@ -1699,7 +1699,7 @@ void monster::load( JsonObject &data )
     if( data.read( "wandz", wander_pos.z ) ) {
         wander_pos.z = position.z;
     }
-
+    data.read( "tied_item", tied_item );
     data.read( "hp", hp );
 
     // sp_timeout indicates an old save, prior to the special_attacks refactor
@@ -1832,6 +1832,7 @@ void monster::store( JsonOut &json ) const
     json.member( "morale", morale );
     json.member( "hallucination", hallucination );
     json.member( "stairscount", staircount );
+    json.member( "tied_item", tied_item );
     // Store the relative position of the goal so it loads correctly after a map shift.
     json.member( "destination", goal - pos() );
     json.member( "ammo", ammo );

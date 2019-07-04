@@ -1431,8 +1431,10 @@ void vehicle::use_harness( int part, const tripoint &pos )
             if( f.has_effect( effect_tied ) ) {
                 add_msg( m_info, _( "You untie your %s." ), f.get_name() );
                 f.remove_effect( effect_tied );
-                item rope_6( "rope_6", 0 );
-                g->u.i_add( rope_6 );
+                if( f.tied_item ) {
+                    g->u.i_add( *f.tied_item, 0 );
+                    f.tied_item = cata::nullopt;
+                }
             }
         } else if( f.friendly == 0 ) {
             add_msg( m_info, _( "This creature is not friendly!" ) );
