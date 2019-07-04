@@ -2254,7 +2254,7 @@
     "points": 3,
     "skills": [ { "level": 1, "name": "speech" }, { "level": 1, "name": "survival" } ],
     "traits": [ "ANIMALEMPATH" ],
-    "pets": [ { "name": "mon_black_rat", "amount": 7 } ],
+    "pets": [ { "name": "mon_black_rat", "amount": 13 } ],
     "items": {
       "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "fried_seeds" ],
       "male": [ "briefs" ],
