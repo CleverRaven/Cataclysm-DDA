@@ -298,6 +298,11 @@ struct map_data_common_t {
 
         bool was_loaded = false;
 
+        bool is_flammable() const {
+            return flags.count( "FLAMMABLE" ) > 0 || flags.count( "FLAMMABLE_ASH" ) > 0 ||
+                   flags.count( "FLAMMABLE_HARD" ) > 0;
+        }
+
         virtual void load( JsonObject &jo, const std::string &src );
         virtual void check() const;
 };

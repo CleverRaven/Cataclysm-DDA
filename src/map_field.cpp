@@ -494,9 +494,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     // How much time to add to the fire's life due to burned items/terrain/furniture
                     time_duration time_added = 0_turns;
                     // Checks if the fire can spread
+                    const bool can_spread = !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER );
                     // If the flames are in furniture with fire_container flag like brazier or oven,
                     // they're fully contained, so skip consuming terrain
-                    const bool can_spread = !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER );
+                    const bool can_burn = ( ter.is_flammable() || frn.is_flammable() ) &&
+                                          !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER );
                     // The huge indent below should probably be somehow moved away from here
                     // without forcing the function to use i_at( p ) for fires without items
                     if( !is_sealed && map_tile.get_item_count() > 0 ) {
@@ -560,7 +562,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         veh->damage( part, cur.get_field_intensity() * 10, DT_HEAT, true );
                         //Damage the vehicle in the fire.
                     }
-                    if( can_spread ) {
+                    if( can_burn ) {
                         if( ter.has_flag( TFLAG_SWIMMABLE ) ) {
                             // Flames die quickly on water
                             cur.set_field_age( cur.get_field_age() + 4_minutes );
@@ -647,7 +649,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     // Lower age is a longer lasting fire
                     if( time_added != 0_turns ) {
                         cur.set_field_age( cur.get_field_age() - time_added );
-                    } else if( can_spread || !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER ) ) {
+                    } else if( can_burn ) {
                         // Nothing to burn = fire should be dying out faster
                         // Drain more power from big fires, so that they stop raging over nothing
                         // Except for fires on stoves and fireplaces, those are made to keep the fire alive
@@ -830,6 +832,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             // Allow weaker fires to spread occasionally
                             const int power = cur.get_field_intensity() + one_in( 5 );
                             if( can_spread && rng( 1, 100 ) < spread_chance &&
+                                ( dster.is_flammable() || dsfrn.is_flammable() ) &&
                                 ( in_pit == ( dster.id.id() == t_pit ) ) &&
                                 (
                                     ( power >= 3 && cur.get_field_age() < 0_turns && one_in( 20 ) ) ||
@@ -890,6 +893,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             // Allow weaker fires to spread occasionally
                             const int power = cur.get_field_intensity() + one_in( 5 );
                             if( can_spread && rng( 1, ( 100 - windpower ) ) < spread_chance &&
+                                ( dster.is_flammable() || dsfrn.is_flammable() ) &&
                                 ( in_pit == ( dster.id.id() == t_pit ) ) &&
                                 (
                                     ( power >= 3 && cur.get_field_age() < 0_turns && one_in( 20 ) ) ||
