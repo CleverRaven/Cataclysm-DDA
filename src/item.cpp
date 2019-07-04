@@ -5053,7 +5053,7 @@ bool item::is_med_container() const
 
 bool item::is_corpse() const
 {
-    return typeId() == "corpse" && corpse != nullptr;
+    return corpse != nullptr && typeId() == "corpse";
 }
 
 const mtype *item::get_mtype() const
