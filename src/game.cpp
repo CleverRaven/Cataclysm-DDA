@@ -1723,7 +1723,7 @@ static int maptile_field_intensity( maptile &mt, field_type_id fld )
 }
 static bool maptile_trap_eq( maptile &mt, const trap_id &id )
 {
-    return mt.get_trap_t().loadid == id;
+    return mt.get_trap() == id;
 }
 
 int get_heat_radiation( const tripoint &location, bool direct )
