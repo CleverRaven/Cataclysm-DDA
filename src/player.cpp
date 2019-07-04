@@ -1738,16 +1738,16 @@ int player::kcal_speed_penalty()
 {
     static const std::vector<std::pair<float, float>> starv_thresholds = { {
             std::make_pair( 0.0f, -90.0f ),
-            std::make_pair( 0.5f, -50.f ),
-            std::make_pair( 0.8f, -25.0f ),
-            std::make_pair( 0.95f, 0.0f )
+            std::make_pair( character_weight_category::emaciated, -50.f ),
+            std::make_pair( character_weight_category::underweight, -25.0f ),
+            std::make_pair( character_weight_category::normal, 0.0f )
         }
     };
     if( get_kcal_percent() > 0.95f ) {
         // @TODO: get speed penalties for being too fat, too
         return 0;
     } else {
-        return round( multi_lerp( starv_thresholds, get_kcal_percent() ) );
+        return round( multi_lerp( starv_thresholds, get_bmi() ) );
     }
 }
 
@@ -12040,8 +12040,7 @@ void player::do_skill_rust()
 
 std::pair<std::string, nc_color> player::get_hunger_description() const
 {
-    const bool calorie_deficit = get_stored_kcal() + guts.get_calories() + guts.get_calories_absorbed()
-                                 < get_healthy_kcal();
+    const bool calorie_deficit = get_bmi() < character_weight_category::normal;
     const units::volume contains = stomach.contains();
     const units::volume cap = stomach.capacity();
     std::string hunger_string;
