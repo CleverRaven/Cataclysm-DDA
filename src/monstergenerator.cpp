@@ -887,6 +887,8 @@ mtype_special_attack MonsterGenerator::create_actor( JsonObject obj, const std::
         new_attack = new bite_actor();
     } else if( attack_type == "gun" ) {
         new_attack = new gun_actor();
+    } else if( attack_type == "spell" ) {
+        new_attack = new mon_spellcasting_actor();
     } else {
         obj.throw_error( "unknown monster attack", "attack_type" );
     }

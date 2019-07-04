@@ -137,6 +137,56 @@ bool leap_actor::call( monster &z ) const
     return true;
 }
 
+mattack_actor *mon_spellcasting_actor::clone() const
+{
+    return new mon_spellcasting_actor( *this );
+}
+
+void mon_spellcasting_actor::load_internal( JsonObject &obj, const std::string & )
+{
+    std::string sp_id;
+    int spell_level;
+    mandatory( obj, was_loaded, "spell_id", sp_id );
+    optional( obj, was_loaded, "self", self, false );
+    optional( obj, was_loaded, "spell_level", spell_level, 0 );
+    spell_data = spell( spell_id( sp_id ) );
+    for( int i = 0; i <= spell_level; i++ ) {
+        spell_data.gain_level();
+    }
+    avatar fake_player;
+    move_cost = spell_data.casting_time( fake_player );
+}
+
+bool mon_spellcasting_actor::call( monster &mon ) const
+{
+    if( !mon.can_act() ) {
+        return false;
+    }
+    const tripoint target = mon.move_target();
+
+    if( rl_dist( mon.pos(), target ) > spell_data.range() ) {
+        return false;
+    }
+
+    std::string fx = spell_data.effect();
+
+    if( fx == "target_attack" ) {
+        spell_effect::target_attack( spell_data, mon, target );
+    } else if( fx == "projectile_attack" ) {
+        spell_effect::projectile_attack( spell_data, mon, target );
+    } else if( fx == "cone_attack" ) {
+        spell_effect::cone_attack( spell_data, mon, target );
+    } else if( fx == "line_attack" ) {
+        spell_effect::line_attack( spell_data, mon, target );
+    } else if( fx == "summon" ) {
+        spell_effect::spawn_summoned_monster( spell_data, mon, target );
+    } else {
+        debugmsg( "ERROR: %s spell attack effect not implemented" );
+        return false;
+    }
+    return true;
+}
+
 melee_actor::melee_actor()
 {
     damage_max_instance = damage_instance::physical( 9, 0, 0, 0 );

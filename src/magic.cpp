@@ -665,11 +665,11 @@ bool spell::is_valid_target( valid_target t ) const
     return type->valid_targets[t];
 }
 
-bool spell::is_valid_target( const tripoint &p ) const
+bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
 {
     bool valid = false;
     if( Creature *const cr = g->critter_at<Creature>( p ) ) {
-        Creature::Attitude cr_att = cr->attitude_to( g->u );
+        Creature::Attitude cr_att = cr->attitude_to( caster );
         valid = valid || ( cr_att != Creature::A_FRIENDLY && is_valid_target( target_hostile ) ) ||
                 ( cr_att == Creature::A_FRIENDLY && is_valid_target( target_ally ) );
     } else {
