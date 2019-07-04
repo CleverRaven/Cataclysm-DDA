@@ -7,38 +7,162 @@
     "object": {
       "fill_ter": "t_floor_resin",
       "rows": [
-        ".......##.....##.....##.........................",
-        ".....######.######.######.......................",
-        ".##### {  ###{   ###    ##......................",
-        "##  +      ###    +    V #..........##..........",
-        "#{  #      + ######     V#........######........",
-        "##  #      #   {  #   { V#......### V  ###......",
-        ".#  ##    ###    ###    ##....###        ###....",
-        ".# ######## ###### #+######.###            ##...",
-        ".#+######     ##          ###            {  #...",
-        "##    ##   {   #  {    V    ##   {          ##..",
-        "#{   V #       #      i      #               #..",
-        "#   ViV#  iVi ##     V iV    #               #..",
-        "#      +     ###      i      +              ##..",
-        "##    ##   #+# ###     {    ##              #...",
-        ".######## ##     ###      ###               #...",
-        "...########   {    ######## +      {       ##...",
-        "....##    ##      ##    ##  ###          ###....",
-        ".####      +      #   {  #    ########VV##......",
-        "##  #   {  #+##   +      #   ##......####.......",
-        "#{  +      #  #####      #####..................",
-        "#   ##    ##      ##ViiV##......................",
-        "##   ####+###    ########.......................",
-        ".###+#.##   ######...##.........................",
-        "........###+#.##................................"
+        ".......||.....||.....||.........................",
+        ".....||||||.||||||.||||||.......................",
+        ".|||||    ||| 4  |||    ||......................",
+        "||  +      ||#    +      |..........||..........",
+        "| 1 |  2   + #####|   5  |........||||||........",
+        "||  |      |  3   |      |......|||    |||......",
+        ".|  ||    |||    |||    ||....|||        |||....",
+        ".| |||||||| |||||| |+||||||.|||            ||...",
+        ".|+||||||     ||          |||               |...",
+        "||    ||       |            ||       6      ||..",
+        "|      |       |             |               |..",
+        "|   7  |   8  ||             |               |..",
+        "|      +     |||             +              ||..",
+        "||    ||   |+| |||     9    ||              |...",
+        ".|||||||| ||12   |||      |||               |...",
+        "...||||||||        ||||+||| +              ||...",
+        "....||11  ||      ||    ||  |||          |||....",
+        ".||||      +      |      | 14 ||||||||  ||......",
+        "||10|   {  |+||   +  13  |   ||......||||.......",
+        "|{  +      |16|||||      |||||..................",
+        "|   ||    ||      ||    ||......................",
+        "||   ||||+|||    ||||||||.......................",
+        ".|||+|.||15 ||||||...||.........................",
+        "........|||+|.||................................"
       ],
-      "terrain": {
-        " ": "t_floor_resin",
-        "#": "t_wall_resin",
-        "+": "t_resin_hole_c",
-        ".": [ [ "t_grass", 15 ], [ "t_dirt", 3 ], "t_grass_long" ]
-      },
-      "furniture": { "i": "f_alien_tendril", "V": "f_alien_anemone", "{": "f_alien_gasper" }
+      "palettes": [ "mi-go_palette" ],
+      "place_nested": [
+        { "chunks": [ "mi-go_encampment1_room1" ], "x": 0, "y": 2 },
+        { "chunks": [ "mi-go_encampment1_room2" ], "x": 4, "y": 1 },
+        { "chunks": [ "mi-go_encampment1_room3" ], "x": 11, "y": 3 },
+        { "chunks": [ "mi-go_encampment1_room4" ], "x": 12, "y": 0 },
+        { "chunks": [ "mi-go_encampment1_room5" ], "x": 18, "y": 1 }
+      ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "mi-go_palette",
+    "//": "Please don't assign numbers in this palette: due to the weird shape of rooms, numbers are used to identify nested map IDs.",
+    "terrain": {
+      " ": "t_floor_resin",
+      "|": "t_wall_resin",
+      "#": "t_wall_resin_cage",
+      "+": "t_resin_hole_c",
+      ".": [ [ "t_grass", 15 ], [ "t_dirt", 3 ], "t_grass_long" ]
+    },
+    "furniture": {
+      "i": "f_alien_tendril",
+      "V": "f_alien_anemone",
+      "{": "f_alien_gasper",
+      "P": "f_alien_pod",
+      "p": "f_alien_pod_organ",
+      "O": "f_alien_pod_resin"
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_encampment1_room1",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".||||",
+        "||  +",
+        "|  {|",
+        "||  |",
+        ".|  |",
+        ".| ||",
+        ".|+||"
+        
+      ],
+      "palettes": [ "mi-go_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_encampment1_room2",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".||||||.",
+        "||    ||",
+        "+      |",
+        "|  {   +",
+        "|      |",
+        "||    ||",
+        "||||||| "
+        
+      ],
+      "palettes": [ "mi-go_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_encampment1_room3",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||#    +",
+        "+ #####|",
+        "|      |",
+        "|| {  ||",
+        " |||||| "        
+      ],
+      "palettes": [ "mi-go_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_encampment1_room4",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "..||...",
+        "||||||.",
+        "| {  ||",
+        "|#    +",
+        " #####|"        
+      ],
+      "palettes": [ "mi-go_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_encampment1_room5",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".||||||.",
+        "||    ||",
+        "+      |",
+        "|   {  |",
+        "|      |",   
+        "||    ||",
+        " |+|||||"
+      ],
+      "palettes": [ "mi-go_palette" ]
     }
   }
 ]
