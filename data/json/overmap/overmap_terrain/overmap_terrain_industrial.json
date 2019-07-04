@@ -58,6 +58,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "pwr_sub_s_roof",
+    "name": "small power substation roof",
+    "sym": "H",
+    "color": "light_cyan",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "pwr_large_entrance",
     "name": "large power substation",
     "sym": "H",
@@ -67,8 +76,26 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "pwr_large_entrance_roof",
+    "name": "large power substation roof",
+    "sym": "H",
+    "color": "cyan",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "pwr_large_2",
     "name": "large power substation",
+    "sym": "H",
+    "color": "cyan",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pwr_large_2_roof",
+    "name": "large power substation roof",
     "sym": "H",
     "color": "cyan",
     "see_cost": 5,
