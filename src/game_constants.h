@@ -171,6 +171,6 @@ constexpr float overweight = 25.0f;
 constexpr float obese = 30.0f;
 constexpr float very_obese = 35.0f;
 constexpr float morbidly_obese = 40.0f;
-};
+}
 
 #endif
