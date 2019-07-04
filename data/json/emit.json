@@ -68,7 +68,7 @@
     "type": "emit",
     "//": "Small cloud of toxic gas emitted infrequently",
     "field": "fd_toxic_gas",
-    "chance": 1,
+    "chance": 2,
     "qty": 10
   },
   {
