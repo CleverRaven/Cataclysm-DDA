@@ -268,39 +268,39 @@ void spell_type::check_consistency()
     for( const spell_type &sp_t : get_all() ) {
         if( ( sp_t.min_aoe > sp_t.max_aoe && sp_t.aoe_increment > 0 ) ||
             ( sp_t.min_aoe < sp_t.max_aoe && sp_t.aoe_increment < 0 ) ) {
-            debugmsg( string_format( "ERROR: %s has higher min_aoe than max_aoe", sp_t.id.c_str() ) );
+            debugmsg( "ERROR: %s has higher min_aoe than max_aoe", sp_t.id.c_str() );
         }
         if( ( sp_t.min_damage > sp_t.max_damage && sp_t.damage_increment > 0 ) ||
             ( sp_t.min_damage < sp_t.max_damage && sp_t.damage_increment < 0 ) ) {
-            debugmsg( string_format( "ERROR: %s has higher min_damage than max_damage", sp_t.id.c_str() ) );
+            debugmsg( "ERROR: %s has higher min_damage than max_damage", sp_t.id.c_str() );
         }
         if( ( sp_t.min_range > sp_t.max_range && sp_t.range_increment > 0 ) ||
             ( sp_t.min_range < sp_t.max_range && sp_t.range_increment < 0 ) ) {
-            debugmsg( string_format( "ERROR: %s has higher min_range than max_range", sp_t.id.c_str() ) );
+            debugmsg( "ERROR: %s has higher min_range than max_range", sp_t.id.c_str() );
         }
         if( ( sp_t.min_dot > sp_t.max_dot && sp_t.dot_increment > 0 ) ||
             ( sp_t.min_dot < sp_t.max_dot && sp_t.dot_increment < 0 ) ) {
-            debugmsg( string_format( "ERROR: %s has higher min_dot than max_dot", sp_t.id.c_str() ) );
+            debugmsg( "ERROR: %s has higher min_dot than max_dot", sp_t.id.c_str() );
         }
         if( ( sp_t.min_duration > sp_t.max_duration && sp_t.duration_increment > 0 ) ||
             ( sp_t.min_duration < sp_t.max_duration && sp_t.duration_increment < 0 ) ) {
-            debugmsg( string_format( "ERROR: %s has higher min_dot_time than max_dot_time", sp_t.id.c_str() ) );
+            debugmsg( "ERROR: %s has higher min_dot_time than max_dot_time", sp_t.id.c_str() );
         }
         if( ( sp_t.min_pierce > sp_t.max_pierce && sp_t.pierce_increment > 0 ) ||
             ( sp_t.min_pierce < sp_t.max_pierce && sp_t.pierce_increment < 0 ) ) {
-            debugmsg( string_format( "ERROR: %s has higher min_pierce than max_pierce", sp_t.id.c_str() ) );
+            debugmsg( "ERROR: %s has higher min_pierce than max_pierce", sp_t.id.c_str() );
         }
         if( sp_t.casting_time_increment < 0.0f && sp_t.base_casting_time < sp_t.final_casting_time ) {
-            debugmsg( string_format( "ERROR: %s has negative increment and base_casting_time < final_casting_time",
-                                     sp_t.id.c_str() ) );
+            debugmsg( "ERROR: %s has negative increment and base_casting_time < final_casting_time",
+                      sp_t.id.c_str() );
         }
         if( sp_t.casting_time_increment > 0.0f && sp_t.base_casting_time > sp_t.final_casting_time ) {
-            debugmsg( string_format( "ERROR: %s has positive increment and base_casting_time > final_casting_time",
-                                     sp_t.id.c_str() ) );
+            debugmsg( "ERROR: %s has positive increment and base_casting_time > final_casting_time",
+                      sp_t.id.c_str() );
         }
         std::set<spell_id> spell_effect_list;
         if( spell_infinite_loop_check( spell_effect_list, sp_t.id ) ) {
-            debugmsg( string_format( "ERROR: %s has infinite loop in extra_effects", sp_t.id.c_str() ) );
+            debugmsg( "ERROR: %s has infinite loop in extra_effects", sp_t.id.c_str() );
         }
     }
 }
