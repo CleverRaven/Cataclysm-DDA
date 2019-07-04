@@ -19,8 +19,8 @@ struct slope {
         }
     }
 
-    int run;
     int rise;
+    int run;
 };
 
 inline bool operator<( const slope &lhs, const slope &rhs )
@@ -54,14 +54,15 @@ template<typename T>
 struct span {
     span( const slope &s_major, const slope &e_major,
           const slope &s_minor, const slope &e_minor,
-          const T &value ) :
+          const T &value, bool skip_first_row = false ) :
         start_major( s_major ), end_major( e_major ), start_minor( s_minor ), end_minor( e_minor ),
-        cumulative_value( value ) {}
+        cumulative_value( value ), skip_first_row( skip_first_row ) {}
     slope start_major;
     slope end_major;
     slope start_minor;
     slope end_minor;
     T cumulative_value;
+    bool skip_first_row;
 };
 
 // Add defaults for when method is invoked for the first time.
@@ -111,10 +112,10 @@ void cast_zlight_segment(
     // possibly splitting them.
     for( int distance = 1; distance <= radius; distance++ ) {
         delta.y = distance;
-        bool started_block = false;
-        T current_transparency;
+        T current_transparency = 0.0f;
 
-        for( auto this_span = spans.begin(); this_span != spans.end(); ++this_span ) {
+        for( auto this_span = spans.begin(); this_span != spans.end(); ) {
+            bool started_block = false;
             // TODO: Precalculate min/max delta.z based on start/end and distance
             for( delta.z = 0; delta.z <= distance; delta.z++ ) {
                 const slope trailing_edge_major( delta.z * 2 - 1, delta.y * 2 + 1 );
@@ -125,6 +126,15 @@ void cast_zlight_segment(
                 } else if( this_span->start_major > leading_edge_major ) {
                     // Current span has a higher z-value,
                     // jump to next iteration to catch up.
+                    continue;
+                } else if( this_span->skip_first_row && this_span->start_major == leading_edge_major ) {
+                    // Prevents an infinite loop in some cases after splitting off the D span.
+                    // We don't want to recheck the row that just caused the D span to be split off,
+                    // since that can lead to an identical span being split off again, hence the
+                    // infinite loop.
+                    //
+                    // This could also be accomplished by adding a small epsilon to the start_major
+                    // of the D span but that causes artifacts.
                     continue;
                 } else if( this_span->end_major < trailing_edge_major ) {
                     // We've escaped the bounds of the current span we're considering,
@@ -235,38 +245,38 @@ void cast_zlight_segment(
                     // If this is the last row processed, there is no D span.
                     // If check returns false, A and B are opaque and have no spans.
                     if( check( current_transparency, last_intensity ) ) {
-                        // Emit the A span if it's present.
+                        // Emit the A span if present, placing it before the current span in the list
                         if( trailing_edge_major > this_span->start_major ) {
-                            // Place BCD next in the list
-                            spans.emplace( std::next( this_span ),
-                                           trailing_edge_major, this_span->end_major,
+                            spans.emplace( this_span,
+                                           this_span->start_major, trailing_edge_major,
                                            this_span->start_minor, this_span->end_minor,
-                                           this_span->cumulative_value );
-                            // All we do to A is truncate it.
-                            this_span->end_major = trailing_edge_major;
-                            // Then make the current span the one we just inserted.
-                            ++this_span;
+                                           next_cumulative_transparency );
                         }
-                        // One way or the other, the current span is now BCD.
-                        // First handle B.
-                        spans.emplace( this_span, this_span->start_major, leading_edge_major,
-                                       this_span->start_minor, trailing_edge_minor,
-                                       next_cumulative_transparency );
+
+                        // Emit the B span if present, placing it before the current span in the list
+                        if( trailing_edge_minor > this_span->start_minor ) {
+                            spans.emplace( this_span,
+                                           std::max( this_span->start_major, trailing_edge_major ),
+                                           std::min( this_span->end_major, leading_edge_major ),
+                                           this_span->start_minor, trailing_edge_minor,
+                                           next_cumulative_transparency );
+                        }
+
                         // Overwrite new_start_minor since previous tile is transparent.
                         new_start_minor = trailing_edge_minor;
                     }
-                    // Current span is BCD, but B either doesn't exist or is handled.
-                    // Split off D if it exists.
+
+                    // Emit the D span if present, placing it after the current span in the list
                     if( leading_edge_major < this_span->end_major ) {
-                        // Infinite loop where the same D gets split off every iteration currently
                         spans.emplace( std::next( this_span ),
                                        leading_edge_major, this_span->end_major,
                                        this_span->start_minor, this_span->end_minor,
-                                       this_span->cumulative_value );
+                                       this_span->cumulative_value, true );
                     }
+
                     // Truncate this_span to the current block.
-                    this_span->start_major = trailing_edge_major;
-                    this_span->end_major = leading_edge_major;
+                    this_span->start_major = std::max( this_span->start_major, trailing_edge_major );
+                    this_span->end_major = std::min( this_span->end_major, leading_edge_major );
                     // The new span starts at the leading edge of the previous square if it is opaque,
                     // and at the trailing edge of the current square if it is transparent.
                     this_span->start_minor = new_start_minor;
@@ -276,6 +286,8 @@ void cast_zlight_segment(
                     current_transparency = new_transparency;
                 }
 
+                // If we end the row with an opaque tile, set the span to start at the next row
+                // since we don't need to process the current one any more.
                 if( !check( current_transparency, last_intensity ) ) {
                     this_span->start_major = leading_edge_major;
                 }
@@ -284,16 +296,16 @@ void cast_zlight_segment(
             if( !started_block ) {
                 // If we didn't scan at least 1 z-level, don't iterate further
                 // Otherwise we may "phase" through tiles without checking them
-                break;
-            }
-
-            if( !check( current_transparency, last_intensity ) ) {
+                this_span = spans.erase( this_span );
+            } else if( !check( current_transparency, last_intensity ) ) {
                 // If we reach the end of the span with terrain being opaque, we don't iterate further.
-                break;
+                this_span = spans.erase( this_span );
+            } else {
+                // Cumulative average of the values encountered.
+                this_span->cumulative_value = accumulate( this_span->cumulative_value,
+                                              current_transparency, distance );
+                ++this_span;
             }
-            // Cumulative average of the values encountered.
-            this_span->cumulative_value = accumulate( this_span->cumulative_value,
-                                          current_transparency, distance );
         }
     }
 }
