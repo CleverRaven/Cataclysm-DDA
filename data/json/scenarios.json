@@ -239,7 +239,7 @@
     "description": "You were a convicted felon planning your escape before the event.  Now the prisoners have turned into mindless horrors and the security bots are shooting on sight... you might need to expedite your escape plans.",
     "allowed_locs": [ "prison" ],
     "start_name": "Prison",
-    "professions": [ "convict", "death_row_convict" ],
+    "professions": [ "convict", "death_row_convict", "convict_embezzler", "convict_drugs", "convict_political", "convict_ratman" ],
     "forced_traits": [ "PSYCHOPATH" ],
     "flags": [ "CITY_START", "LONE_START" ]
   },
@@ -251,7 +251,7 @@
     "description": "You were delivered to some high-security prison right before the Cataclysm.  You almost managed to escape the walls of a prison...  Too bad it's located on a remote island, and now you need to find out how to escape it too.",
     "allowed_locs": [ "alcatraz" ],
     "start_name": "Island prison",
-    "professions": [ "convict", "death_row_convict" ],
+    "professions": [ "convict", "death_row_convict", "convict_embezzler", "convict_drugs", "convict_political", "convict_ratman" ],
     "flags": [ "LONE_START", "CHALLENGE", "OUTDOOR" ]
   },
   {
