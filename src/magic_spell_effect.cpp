@@ -493,5 +493,5 @@ void spell_effect::spawn_summoned_monster( const spell &sp, const Creature &cast
 void spell_effect::translocate( spell &sp, const Creature &caster,
                                 const tripoint &target, teleporter_list &tp_list )
 {
-    tp_list.translocate( spell_effect_area( sp, caster.pos(), spell_effect_blast, caster, true ) );
+    tp_list.translocate( spell_effect_area( sp, target, spell_effect_blast, caster, true ) );
 }
