@@ -1267,7 +1267,9 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
         add_msg( _( "The %s you were grabbing is destroyed!" ), old_t.name() );
         g->u.grab( OBJECT_NONE );
     }
-
+    if( new_t.has_flag( "EMITTER" ) ) {
+        field_furn_locs.push_back( p );
+    }
     if( old_t.transparent != new_t.transparent ) {
         set_transparency_cache_dirty( p.z );
     }
@@ -6437,6 +6439,7 @@ void map::load( const int wx, const int wy, const int wz, const bool update_vehi
     for( auto &traps : traplocs ) {
         traps.clear();
     }
+    field_furn_locs.clear();
     submaps_with_active_items.clear();
     set_abs_sub( wx, wy, wz );
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
@@ -6450,6 +6453,15 @@ void map::shift_traps( const tripoint &shift )
 {
     // Offset needs to have sign opposite to shift direction
     const tripoint offset( -shift.x * SEEX, -shift.y * SEEY, -shift.z );
+    for( auto iter = field_furn_locs.begin(); iter != field_furn_locs.end(); ){
+        tripoint &pos = *iter;
+        pos += offset;
+        if( inbounds( pos ) ) {
+            ++iter;
+        } else {
+            iter = field_furn_locs.erase( iter );
+        }
+    }
     for( auto &traps : traplocs ) {
         for( auto iter = traps.begin(); iter != traps.end(); ) {
             tripoint &pos = *iter;
@@ -7182,6 +7194,9 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
             const tripoint pnt( gridx * SEEX + x, gridy * SEEY + y, gridz );
             const point p( x, y );
             const auto &furn = this->furn( pnt ).obj();
+            if( furn.has_flag( "EMITTER" ) ){
+                field_furn_locs.push_back( pnt );
+            }
             // plants contain a seed item which must not be removed under any circumstances
             if( !furn.has_flag( "DONT_REMOVE_ROTTEN" ) ) {
                 remove_rotten_items( tmpsub->itm[x][y], pnt );
@@ -7491,6 +7506,11 @@ void map::clear_traps()
     for( auto &i : traplocs ) {
         i.clear();
     }
+}
+
+const std::vector<tripoint> &map::get_furn_field_locations() const
+{
+    return field_furn_locs;
 }
 
 const std::vector<tripoint> &map::trap_locations( const trap_id &type ) const

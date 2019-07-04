@@ -1036,6 +1036,7 @@ class map
 
         void disarm_trap( const tripoint &p );
         void remove_trap( const tripoint &p );
+        const std::vector<tripoint> &get_furn_field_locations() const;
         const std::vector<tripoint> &trap_locations( const trap_id &type ) const;
 
         //Spawns byproducts from items destroyed in fire.
@@ -1644,6 +1645,10 @@ class map
          * tr_null trap.
          */
         std::vector< std::vector<tripoint> > traplocs;
+        /**
+         * Vector of tripoints containing active field-emitting furniture
+         */
+        std::vector<tripoint> field_furn_locs;
         /**
          * Holds caches for visibility, light, transparency and vehicles
          */

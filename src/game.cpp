@@ -1507,6 +1507,14 @@ bool game::do_turn()
     if( calendar::once_every( 3_minutes ) ) {
         overmap_npc_move();
     }
+    if( calendar::once_every( 10_seconds ) ) {
+        for( const tripoint elem : m.get_furn_field_locations() ) {
+            const auto &furn = m.furn( elem ).obj();
+            for( const emit_id &e : furn.emissions ) {
+                g->m.emit_field( elem, e );
+            }
+        }
+    }
     update_stair_monsters();
     u.process_turn();
     if( u.moves < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
