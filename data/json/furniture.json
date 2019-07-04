@@ -6721,7 +6721,7 @@
     "coverage": 30,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "EMITTER" ],
-    "emissions": "emit_heater_vehicle",
+    "emissions": [ "emit_hot_air2_blast" ],
     "bash": { "str_min": 13, "str_max": 26, "sound": "splorch!", "sound_fail": "whump!" }
   },
   {
@@ -6735,8 +6735,8 @@
     "coverage": 40,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "EMITTER" ],
-    "emissions": [ "emit_hot_air2_stream", "emit_toxic_leak" ],
-    "//": "TODO: Make a custom emission that is not visible to the player",
+    "emissions": [ "emit_toxic_cloud", "emit_hot_air2_blast" ],
+    "//": "TODO: Make a custom toxic gas emission that is not visible to the player",
     "bash": { "str_min": 30, "str_max": 60, "sound": "splorch!", "sound_fail": "whump!" }
   },
   {
