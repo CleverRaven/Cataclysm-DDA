@@ -161,6 +161,24 @@ item &null_item_reference()
     return result;
 }
 
+namespace item_internal {
+bool goes_bad_temp_cache = false;
+bool goes_bad_temp_cache_set = false;
+inline bool goes_bad_cache_fetch() {
+    return goes_bad_temp_cache;
+}
+inline void goes_bad_cache_set( bool v ) {
+    goes_bad_temp_cache = v;
+    goes_bad_temp_cache_set = true;
+}
+inline void goes_bad_cache_unset() {
+    goes_bad_temp_cache_set = goes_bad_temp_cache = false;
+}
+inline bool goes_bad_cache_is_set() {
+    return goes_bad_temp_cache_set;
+}
+}
+
 const int item::INFINITE_CHARGES = INT_MAX;
 
 item::item() : bday( calendar::start )
@@ -4001,6 +4019,9 @@ std::set<matec_id> item::get_techniques() const
 
 bool item::goes_bad() const
 {
+    if( item_internal::goes_bad_cache_is_set() ) {
+        return item_internal::goes_bad_cache_fetch();;
+    }
     if( has_flag( "PROCESSING" ) ) {
         return false;
     }
@@ -7439,6 +7460,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     }
 
     time_point time;
+    item_internal::goes_bad_cache_set( goes_bad() );
     if( goes_bad() ) {
         time = std::min( { last_rot_check, last_temp_check } );
     } else {
@@ -7517,6 +7539,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
 
                 if( has_rotten_away() || ( is_corpse() && rot > 10_days ) ) {
                     // No need to track item that will be gone
+                    item_internal::goes_bad_cache_unset();
                     return;
                 }
             }
@@ -7528,6 +7551,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     if( now - time > smallest_interval ) {
         calc_temp( temp, insulation, now );
         calc_rot( now, temp );
+        item_internal::goes_bad_cache_unset();
         return;
     }
 
@@ -7535,6 +7559,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     if( specific_energy < 0 ) {
         set_item_temperature( temp_to_kelvin( temp ) );
     }
+    item_internal::goes_bad_cache_unset();
 }
 
 void item::calc_temp( const int temp, const float insulation, const time_point &time )
