@@ -2895,7 +2895,7 @@
   {
     "type": "overmap_special",
     "id": "power_station_small",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pwr_sub_s_north" } ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pwr_sub_s_north" }, { "point": [ 0, 0, 1 ], "overmap": "pwr_sub_s_roof_north" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
     "locations": [ "land" ],
     "city_distance": [ -1, 6 ],
@@ -2908,7 +2908,9 @@
     "id": "power_station_large",
     "overmaps": [
       { "point": [ 0, 1, 0 ], "overmap": "pwr_large_entrance_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "pwr_large_entrance_roof_north" },
       { "point": [ -1, 1, 0 ], "overmap": "pwr_large_2_north" },
+      { "point": [ -1, 1, 1 ], "overmap": "pwr_large_2_roof_north" },
       { "point": [ -1, 0, 0 ], "overmap": "pwr_large_3_north" },
       { "point": [ 0, 0, 0 ], "overmap": "pwr_large_4_north" }
     ],
