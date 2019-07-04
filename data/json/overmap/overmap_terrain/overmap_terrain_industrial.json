@@ -11,6 +11,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "public_works_NE_roof",
+    "name": "public works roof",
+    "sym": "w",
+    "color": "light_gray",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": "public_works_NW",
     "name": "public works",
     "sym": "w",
@@ -18,6 +27,15 @@
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "public_works_NW_roof",
+    "name": "public works roof",
+    "sym": "w",
+    "color": "light_gray",
+    "see_cost": 5,
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -31,6 +49,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "public_works_SW_roof",
+    "name": "public works roof",
+    "sym": "W",
+    "color": "light_gray",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": "public_works_SE",
     "name": "public works",
     "sym": "w",
@@ -38,6 +65,15 @@
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "public_works_SE_roof",
+    "name": "public works roof",
+    "sym": "w",
+    "color": "light_gray",
+    "see_cost": 5,
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
