@@ -747,6 +747,7 @@
         "small_storage_units": 300,
         "construction_site": 400,
         "post_office": 200,
+        "post_office_1": 200,
         "candy_shop": 200,
         "candy_shop_1": 200,
         "bakery": 200,
