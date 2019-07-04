@@ -649,6 +649,20 @@ class vehicle
         // How much does the temperature effect the engine starting (0.0 - 1.0)
         double engine_cold_factor( const int e ) const;
 
+        // refresh pivot_cache, clear pivot_dirty
+        void refresh_pivot() const;
+
+        void refresh_mass() const;
+        void calc_mass_center( bool precalc ) const;
+
+        /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
+        void leak_fuel( vehicle_part &pt );
+
+        /*
+         * Fire turret at automatically acquired targets
+         * @return number of shots actually fired (which may be zero)
+         */
+        int automatic_fire_turret( vehicle_part &pt );
         /**
          * Find a possibly off-map vehicle. If necessary, loads up its submap through
          * the global MAPBUFFER and pulls it from there. For this reason, you should only
@@ -1532,15 +1546,16 @@ class vehicle
         const faction *old_owner = nullptr;
 
     private:
-
         mutable double coefficient_air_resistance = 1;
         mutable double coefficient_rolling_resistance = 1;
         mutable double coefficient_water_resistance = 1;
         mutable double draft_m = 1;
         mutable double hull_height = 0.3;
 
-    public:
+        // Cached points occupied by the vehicle
+        std::set<tripoint> occupied_points;
 
+    public:
         std::vector<vehicle_part> parts;   // Parts which occupy different tiles
         std::vector<tripoint> omt_path; // route for overmap-scale auto-driving
         std::vector<int> alternators;      // List of alternator indices
@@ -1575,16 +1590,23 @@ class vehicle
         std::set<std::string> tags;        // Properties of the vehicle
         // After fuel consumption, this tracks the remainder of fuel < 1, and applies it the next time.
         std::map<itype_id, float> fuel_remainder;
-
-    private:
-
-        // Cached points occupied by the vehicle
-        std::set<tripoint> occupied_points;
-
-    public:
-
         std::unordered_multimap<point, zone_data> loot_zones;
         active_item_cache active_items;
+    
+    private:
+        mutable units::mass mass_cache;
+        // cached pivot point
+        mutable point pivot_cache;
+        /*
+         * The co-ordinates of the bounding box of the vehicle's mount points
+         */
+        mutable point mount_max;
+        mutable point mount_min;
+        mutable point mass_center_precalc;
+        mutable point mass_center_no_precalc;
+        tripoint autodrive_local_target = tripoint_zero; // currrent node the autopilot is aiming for
+
+    public:
         // Subtract from parts.size() to get the real part count.
         int removed_part_count;
 
@@ -1639,32 +1661,10 @@ class vehicle
         int extra_drag = 0;
         // last time point the fluid was inside tanks was checked for processing
         time_point last_fluid_check = calendar::time_of_cataclysm;
-
-    private:
-
-        mutable units::mass mass_cache;
-
-    public:
-
         // the time point when it was succesfully stolen
         cata::optional<time_point> theft_time;
         // rotation used for mount precalc values
         std::array<int, 2> pivot_rotation = { { 0, 0 } };
-
-    private:
-
-        // cached pivot point
-        mutable point pivot_cache;
-        /*
-         * The co-ordinates of the bounding box of the vehicle's mount points
-         */
-        mutable point mount_max;
-        mutable point mount_min;
-        mutable point mass_center_precalc;
-        mutable point mass_center_no_precalc;
-        tripoint autodrive_local_target = tripoint_zero; // currrent node the autopilot is aiming for
-
-    public:
 
         bounding_box rail_wheel_bounding_box;
         // points used for rotation of mount precalc values
@@ -1675,11 +1675,26 @@ class vehicle
         tileray move;
 
     private:
-
         bool no_refresh = false;
 
-    public:
+        // if true, pivot_cache needs to be recalculated
+        mutable bool pivot_dirty;
+        mutable bool mass_dirty = true;
+        mutable bool mass_center_precalc_dirty = true;
+        mutable bool mass_center_no_precalc_dirty = true;
+        // cached values for air, water, and  rolling resistance;
+        mutable bool coeff_rolling_dirty = true;
+        mutable bool coeff_air_dirty = true;
+        mutable bool coeff_water_dirty = true;
+        // air uses a two stage dirty check: one dirty bit gets set on part install,
+        // removal, or breakage. The other dirty bit only gets set during part_removal_cleanup,
+        // and that's the bit that controls recalculation.  The intent is to only recalculate
+        // the coeffs once per turn, even if multiple parts are destroyed in a collision
+        mutable bool coeff_air_changed = true;
+        // is the vehicle currently mostly in water
+        mutable bool is_floating = false;
 
+    public:
         bool is_autodriving = false;
         bool all_wheels_on_one_axis;
         // TODO: change these to a bitset + enum?
@@ -1707,40 +1722,6 @@ class vehicle
 
         // current noise of vehicle (engine working, etc.)
         unsigned char vehicle_noise = 0;
-
-    private:
-
-        // if true, pivot_cache needs to be recalculated
-        mutable bool pivot_dirty;
-        mutable bool mass_dirty = true;
-        mutable bool mass_center_precalc_dirty = true;
-        mutable bool mass_center_no_precalc_dirty = true;
-        // cached values for air, water, and  rolling resistance;
-        mutable bool coeff_rolling_dirty = true;
-        mutable bool coeff_air_dirty = true;
-        mutable bool coeff_water_dirty = true;
-        // air uses a two stage dirty check: one dirty bit gets set on part install,
-        // removal, or breakage. The other dirty bit only gets set during part_removal_cleanup,
-        // and that's the bit that controls recalculation.  The intent is to only recalculate
-        // the coeffs once per turn, even if multiple parts are destroyed in a collision
-        mutable bool coeff_air_changed = true;
-        // is the vehicle currently mostly in water
-        mutable bool is_floating = false;
-
-        // refresh pivot_cache, clear pivot_dirty
-        void refresh_pivot() const;
-
-        void refresh_mass() const;
-        void calc_mass_center( bool precalc ) const;
-
-        /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
-        void leak_fuel( vehicle_part &pt );
-
-        /*
-         * Fire turret at automatically acquired targets
-         * @return number of shots actually fired (which may be zero)
-         */
-        int automatic_fire_turret( vehicle_part &pt );
 };
 
 #endif
