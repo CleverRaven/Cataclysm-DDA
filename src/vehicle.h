@@ -1592,7 +1592,7 @@ class vehicle
         std::map<itype_id, float> fuel_remainder;
         std::unordered_multimap<point, zone_data> loot_zones;
         active_item_cache active_items;
-    
+
     private:
         mutable units::mass mass_cache;
         // cached pivot point
