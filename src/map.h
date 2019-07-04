@@ -32,6 +32,8 @@
 
 struct furn_t;
 struct ter_t;
+struct scent_block;
+
 template <typename T> class string_id;
 template <typename T> class safe_reference;
 
@@ -370,6 +372,14 @@ class map
         // Versions of the above that don't do bounds checks
         const maptile maptile_at_internal( const tripoint &p ) const;
         maptile maptile_at_internal( const tripoint &p );
+        maptile maptile_has_bounds( const tripoint &p, const bool bounds_checked );
+        std::array<maptile, 8> get_neighbors( const tripoint &p );
+        void spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
+                         const time_duration &outdoor_age_speedup, scent_block &sblk );
+        void create_hot_air( const tripoint &p, int intensity );
+        bool gas_can_spread_to( field_entry &cur, const maptile &dst );
+        void gas_spread_to( field_entry &cur, maptile &dst );
+        int burn_body_part( player &u, field_entry &cur, body_part bp, const int scale );
     public:
 
         // Movement and LOS
