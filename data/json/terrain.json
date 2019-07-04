@@ -11542,8 +11542,6 @@
     "bash": {
       "str_min": 90,
       "str_max": 120,
-      "sound": "smash!",
-      "sound_fail": "whump!",
       "sound": "boom!",
       "sound_fail": "whack!",
       "ter_set": "t_resin_hole",
@@ -11565,8 +11563,6 @@
     "bash": {
       "str_min": 90,
       "str_max": 120,
-      "sound": "smash!",
-      "sound_fail": "whump!",
       "sound": "boom!",
       "sound_fail": "whack!",
       "ter_set": "t_resin_hole",
