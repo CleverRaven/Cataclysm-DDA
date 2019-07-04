@@ -60,5 +60,66 @@
     "phase": "liquid",
     "price": 2500,
     "freezing_point": 40
+  },
+  {
+    "id": "mana_potion",
+    "type": "COMESTIBLE",
+    "name": "Mana Potion",
+    "copy-from": "mana_potion_lesser",
+    "use_action": { "type": "cast_spell", "spell_id": "recover_mana", "no_fail": true, "level": 5 },
+    "price": 10000
+  },
+  {
+    "id": "mana_potion_greater",
+    "type": "COMESTIBLE",
+    "name": "Greater Mana Potion",
+    "copy-from": "mana_potion_lesser",
+    "use_action": { "type": "cast_spell", "spell_id": "recover_mana", "no_fail": true, "level": 15 },
+    "price": 30000
+  },
+  {
+    "id": "cats_grace_potion",
+    "name": "Potion of Cat's Grace",
+    "description": "This is a potion of Cat's Grace.  It will increase your dexterity for 10 minutes.",
+    "use_action": { "type": "cast_spell", "spell_id": "cats_grace", "no_fail": true, "level": 9 },
+    "type": "COMESTIBLE",
+    "weight": 265,
+    "quench": 10,
+    "calories": 75,
+    "volume": 1,
+    "charges": 1,
+    "fun": -1,
+    "symbol": "~",
+    "container": "flask_glass",
+    "color": "yellow",
+    "comestible_type": "DRINK",
+    "flags": [ "EATEN_COLD" ],
+    "phase": "liquid",
+    "price": 3000,
+    "freezing_point": 40
+  },
+  {
+    "id": "ogres_strength_potion",
+    "name": "Potion of Ogre's Strength",
+    "description": "This is a potion of Ogre's Strength.  It will increase your strength for 10 minutes.",
+    "use_action": { "type": "cast_spell", "spell_id": "ogres_strength", "no_fail": true, "level": 9 },
+    "type": "COMESTIBLE",
+    "copy-from": "cats_grace_potion"
+  },
+  {
+    "id": "eagles_sight_potion",
+    "name": "Potion of Eagle's Sight",
+    "description": "This is a potion of Eagle's Sight.  It will increase your perception for 10 minutes.",
+    "use_action": { "type": "cast_spell", "spell_id": "eagles_sight", "no_fail": true, "level": 9 },
+    "type": "COMESTIBLE",
+    "copy-from": "cats_grace_potion"
+  },
+  {
+    "id": "foxs_cunning_potion",
+    "name": "Potion of Fox's Cunning",
+    "description": "This is a potion of Fox's Cunning.  It will increase your intelligence for 10 minutes.",
+    "use_action": { "type": "cast_spell", "spell_id": "foxs_cunning", "no_fail": true, "level": 9 },
+    "type": "COMESTIBLE",
+    "copy-from": "cats_grace_potion"
   }
 ]

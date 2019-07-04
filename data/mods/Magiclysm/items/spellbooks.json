@@ -117,7 +117,7 @@
     "price": 5000,
     "symbol": "?",
     "color": "light_gray",
-    "use_action": { "type": "learn_spell", "spells": [ "jolt", "windstrike", "windrun", "storm_hammer" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "jolt", "windstrike", "windrun", "storm_hammer", "lightning_bolt" ] }
   },
   {
     "id": "generic_spellbook",
@@ -270,5 +270,16 @@
     "symbol": "?",
     "color": "light_blue",
     "use_action": { "type": "learn_spell", "spells": [ "translocate_self" ] }
+  },
+  {
+    "id": "stat_up_spellbook",
+    "type": "GENERIC",
+    "name": "Transcendence of the Human Condition",
+    "description": "The Human is the only creature that seeks to improve himself.  This study examines different spells that can heighten various senses temporarily, in hopes to discover a more permanent solution.",
+    "weight": 1300,
+    "volume": 10,
+    "symbol": "?",
+    "color": "yellow",
+    "use_action": { "type": "learn_spell", "spells": [ "cats_grace", "ogres_strength", "foxs_cunning", "eagles_sight" ] }
   }
 ]
