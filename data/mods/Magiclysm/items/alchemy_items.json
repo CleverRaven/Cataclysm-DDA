@@ -107,5 +107,14 @@
   "type": "COMESTIBLE",
   "name": "potion starter",
   "description": "Strong alcohol, infused with mana and concentrated into a liquid that can stabilize spells into liquid form. You can still drink it, if you want."
+  },
+  {
+  "id": "adrenal_gland_large",
+  "copy-from": "meat",
+  "name": "large adrenal gland",
+  "name_plural": "large adrenal glands",
+  "description": "An organ located above the kidneys responsible for secretion of adrenaline, cortisol, and aldosterone. This one is huge, whether by nature or mutation.",
+  "delete": { "flags": [ "SMOKABLE" ] },
+  "price": 2000
   }
 ]

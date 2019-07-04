@@ -59,9 +59,8 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "rune_alchemist", -1 ], [ "rune_magus", -1 ] ] ],
     "components": [ [
     [ "potion_starter", 5 ] ],
-    [ [ "hairball", 2 ] ],
-    [ [ "catfood", 1 ], [ "fish", 1 ], [ "salted_fish", 1 ], [ "fish_cooked", 1 ],[ "fish_smoked", 1 ],[ "dry_fish", 1 ], [ "rehydrated_fish", 1 ], [ "fish_canned", 1 ],
-    [ "fish_pickled", 1 ], [ "fish_fried", 1 ], [ "canned_herring", 1 ], [ "lutefisk", 1 ] ] ]
+    [ [ "sinew", 40 ] ],
+    [ "adrenal_gland_large", 2 ] ]
   },
   {
     "type": "recipe",
@@ -78,9 +77,9 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "rune_alchemist", -1 ], [ "rune_magus", -1 ] ] ],
     "components": [ [
     [ "potion_starter", 5 ] ],
-    [ [ "hairball", 2 ] ],
-    [ [ "catfood", 1 ], [ "fish", 1 ], [ "salted_fish", 1 ], [ "fish_cooked", 1 ],[ "fish_smoked", 1 ],[ "dry_fish", 1 ], [ "rehydrated_fish", 1 ], [ "fish_canned", 1 ],
-    [ "fish_pickled", 1 ], [ "fish_fried", 1 ], [ "canned_herring", 1 ], [ "lutefisk", 1 ] ] ]
+    [ [ "egg_bird", 5 ], [ "egg_grouse", 5 ], [ "egg_duck", 3 ], [ "egg_crow", 5 ], [ "egg_chicken", 5 ], [ "egg_pheasant", 5 ], [ "egg_cockatrice", 5 ], [ "egg_reptile", 5 ], [ "egg_turkey", 3 ] [ "egg_goose_canadian", 2 ] ],
+    [ [ "feather", 20 ], [ "down_feather", 20 ] ],
+    [ [ "liver", 3 ], [ "veggy_canned", 3 ], [ "veggy_salted", 5 ], [ "carrot", 3 ], [ "irradiated_carrot", 3 ], [ "pumpkin", 4 ], [ "irradiated_pumpkin", 4 ], [ "raw_dandelion", 6 ], [ "zucchini", 4 ], [ "irradiated_zucchini", 4 ], [ "rose_hips", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -97,8 +96,7 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "rune_alchemist", -1 ], [ "rune_magus", -1 ] ] ],
     "components": [ [
     [ "potion_starter", 5 ] ],
-    [ [ "hairball", 2 ] ],
-    [ [ "catfood", 1 ], [ "fish", 1 ], [ "salted_fish", 1 ], [ "fish_cooked", 1 ],[ "fish_smoked", 1 ],[ "dry_fish", 1 ], [ "rehydrated_fish", 1 ], [ "fish_canned", 1 ],
-    [ "fish_pickled", 1 ], [ "fish_fried", 1 ], [ "canned_herring", 1 ], [ "lutefisk", 1 ] ] ]
+    [ [ "brain", 2 ], [ "brain_cooked", 2 ], [ "brain_fried", 2 ] ],
+    [ [ "addreall", 10 ], [ "caff_gum", 30 ], [ "chaw", 10 ], [ "cig", 20 ], [ "cigar", 5 ], [ "handrolled_cig", 20 ] ] ]
   }
 ]
