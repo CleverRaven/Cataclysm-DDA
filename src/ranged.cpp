@@ -1831,7 +1831,7 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
     do {
         ret = g->m.find_clear_path( src, dst );
 
-        if( fx == "target_attack" || fx == "projectile_attack" ) {
+        if( fx == "target_attack" || fx == "projectile_attack" || fx == "ter_transform" ) {
             spell_aoe = spell_effect::spell_effect_blast( casting, src, ret.back(), casting.aoe(), true );
         } else if( fx == "cone_attack" ) {
             spell_aoe = spell_effect::spell_effect_cone( casting, src, ret.back(), casting.aoe(), true );

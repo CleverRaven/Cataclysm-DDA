@@ -100,6 +100,9 @@ struct ter_t;
 using ter_id = int_id<ter_t>;
 using ter_str_id = string_id<ter_t>;
 
+class ter_furn_transform;
+using ter_furn_transform_id = string_id<ter_furn_transform>;
+
 class Trait_group;
 namespace trait_group
 {

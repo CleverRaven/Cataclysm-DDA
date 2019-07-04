@@ -39,6 +39,7 @@
 #include "material.h"
 #include "mission.h"
 #include "magic.h"
+#include "magic_ter_furn_transform.h"
 #include "mod_tileset.h"
 #include "monfaction.h"
 #include "mongroup.h"
@@ -371,6 +372,7 @@ void DynamicDataLoader::initialize()
     add( "morale_type", &morale_type_data::load_type );
     add( "SPELL", &spell_type::load_spell );
     add( "clothing_mod", &clothing_mods::load );
+    add( "ter_furn_transform", &ter_furn_transform::load_transform );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
