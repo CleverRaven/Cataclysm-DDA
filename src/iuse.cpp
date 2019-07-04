@@ -1458,7 +1458,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
-// Types of food for taming each different monster.
+// Types of petfood for taming each different monster.
 enum Petfood {
     DOGFOOD,
     CATFOOD,
