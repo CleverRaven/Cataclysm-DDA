@@ -3941,7 +3941,13 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
         const overmap_special_spawns &spawns = special.spawns;
         const int pop = rng( spawns.population.min, spawns.population.max );
         const int rad = rng( spawns.radius.min, spawns.radius.max );
-        add_mon_group( mongroup( spawns.group, p.x * 2, p.y * 2, p.z, rad, pop ) );
+        // Place four overlapping rings of monster spawning density, so that spawns
+        //  are densest nearest the originating special and become more disperse 
+        //  further out.
+        add_mon_group( mongroup( spawns.group, p.x * 2, p.y * 2, p.z, rad / 4, pop / 4 ) );
+        add_mon_group( mongroup( spawns.group, p.x * 2, p.y * 2, p.z, rad / 3, pop / 4 ) );
+        add_mon_group( mongroup( spawns.group, p.x * 2, p.y * 2, p.z, rad / 2, pop / 4 ) );
+        add_mon_group( mongroup( spawns.group, p.x * 2, p.y * 2, p.z, rad, pop / 4 ) );
     }
     // Place basement for houses.
     if( special.id == "FakeSpecial_house" && one_in( settings.city_spec.house_basement_chance ) ) {

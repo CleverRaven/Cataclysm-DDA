@@ -108,7 +108,7 @@
     "locations": [ "water" ],
     "city_sizes": [ 0, 12 ],
     "occurrences": [ 0, 1 ],
-    "spawns": { "group": "GROUP_RAZORCLAW", "population": [ 30, 60 ], "radius": [ 2, 10 ] }
+    "spawns": { "group": "GROUP_RAZORCLAW", "population": [ 30, 60 ], "radius": [ 2, 5 ] }
   },
   {
     "type": "overmap_special",
@@ -175,10 +175,7 @@
     "occurrences": [ 0, 4 ],
     "flags": [ "BEE" ],
     "rotate": false,
-    "spawns": [
-      { "group": "GROUP_BEE", "population": [ 100, 200 ], "radius": [ 2, 4 ] },
-      { "group": "GROUP_BEE", "population": [ 100, 200 ], "radius": [ 10, 30 ] }
-    ]
+    "spawns": { "group": "GROUP_BEE", "population": [ 200, 600 ], "radius": [ 2, 10 ] }
   },
   {
     "type": "overmap_special",
@@ -223,7 +220,8 @@
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 12 ],
     "occurrences": [ 1, 1 ],
-    "flags": [ "CLASSIC" ]
+    "flags": [ "CLASSIC" ],
+    "spawns": { "group": "GROUP_NETHER_CAPTURED", "population": [ 10, 20 ], "radius": [ 2, 4 ] }
   },
   {
     "type": "overmap_special",
@@ -261,7 +259,8 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 1, 20 ],
-    "occurrences": [ 0, 5 ]
+    "occurrences": [ 0, 5 ],
+    "spawns": { "group": "GROUP_DOMESTIC", "population": [ 1, 10 ], "radius": [ 2, 4 ] }
   },
   {
     "type": "overmap_special",
@@ -284,7 +283,8 @@
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 1, 20 ],
     "occurrences": [ 0, 5 ],
-    "flags": [ "CLASSIC" ]
+    "flags": [ "CLASSIC" ],
+    "spawns": { "group": "GROUP_DOMESTIC", "population": [ 1, 10 ], "radius": [ 2, 4 ] }
   },
   {
     "type": "overmap_special",
@@ -308,7 +308,8 @@
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 1, 20 ],
     "occurrences": [ 0, 5 ],
-    "flags": [ "CLASSIC" ]
+    "flags": [ "CLASSIC" ],
+    "spawns": { "group": "GROUP_DOMESTIC", "population": [ 1, 10 ], "radius": [ 2, 4 ] }
   },
   {
     "type": "overmap_special",
@@ -342,7 +343,8 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 1, 20 ],
-    "occurrences": [ 0, 5 ]
+    "occurrences": [ 0, 5 ],
+    "spawns": { "group": "GROUP_DOMESTIC", "population": [ 1, 10 ], "radius": [ 2, 4 ] }
   },
   {
     "type": "overmap_special",
@@ -364,7 +366,8 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 1, 20 ],
-    "occurrences": [ 0, 15 ]
+    "occurrences": [ 0, 15 ],
+    "spawns": { "group": "GROUP_DOMESTIC", "population": [ 1, 10 ], "radius": [ 2, 4 ] }
   },
   {
     "type": "overmap_special",
@@ -417,7 +420,8 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 1, 20 ],
-    "occurrences": [ 0, 15 ]
+    "occurrences": [ 0, 15 ],
+    "spawns": { "group": "GROUP_DOMESTIC", "population": [ 1, 10 ], "radius": [ 2, 4 ] }
   },
   {
     "type": "overmap_special",
@@ -444,7 +448,8 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 1, 20 ],
-    "occurrences": [ 0, 15 ]
+    "occurrences": [ 0, 15 ],
+    "spawns": { "group": "GROUP_DOMESTIC", "population": [ 1, 10 ], "radius": [ 2, 4 ] }
   },
   {
     "type": "overmap_special",
@@ -461,7 +466,8 @@
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 12 ],
     "occurrences": [ 0, 3 ],
-    "rotate": false
+    "rotate": false,
+    "spawns": { "group": "GROUP_NETHER_CAPTURED", "population": [ 10, 40 ], "radius": [ 2, 4 ] }
   },
   {
     "type": "overmap_special",
@@ -493,10 +499,7 @@
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 1 ],
     "flags": [ "ANT" ],
-    "spawns": [
-      { "group": "GROUP_ANT", "population": [ 500, 1000 ], "radius": [ 2, 5 ] },
-      { "group": "GROUP_ANT", "population": [ 500, 1000 ], "radius": [ 10, 30 ] }
-    ]
+    "spawns": { "group": "GROUP_ANT", "population": [ 1000, 2000 ], "radius": [ 10, 30 ] }
   },
   {
     "type": "overmap_special",
@@ -593,7 +596,8 @@
     "locations": [ "land" ],
     "city_distance": [ 4, -1 ],
     "city_sizes": [ 2, 10 ],
-    "occurrences": [ 0, 5 ]
+    "occurrences": [ 0, 5 ],
+    "spawns": { "group": "GROUP_MAYBE_MIL", "population": [ 50, 100 ], "radius": [ 2, 10 ] }
   },
   {
     "type": "overmap_special",
@@ -602,7 +606,8 @@
     "locations": [ "land" ],
     "city_distance": [ 4, -1 ],
     "city_sizes": [ 4, 12 ],
-    "occurrences": [ 0, 10 ]
+    "occurrences": [ 0, 10 ],
+    "spawns": { "group": "GROUP_MAYBE_MIL", "population": [ 50, 100 ], "radius": [ 2, 10 ] }
   },
   {
     "type": "overmap_special",
@@ -612,7 +617,8 @@
     "locations": [ "land" ],
     "city_distance": [ 30, -1 ],
     "city_sizes": [ 4, 12 ],
-    "occurrences": [ 0, 1 ]
+    "occurrences": [ 0, 1 ],
+    "spawns": { "group": "GROUP_MAYBE_MIL", "population": [ 100, 150 ], "radius": [ 2, 10 ] }
   },
   {
     "type": "overmap_special",
@@ -767,10 +773,7 @@
     "occurrences": [ 0, 3 ],
     "flags": [ "ANT" ],
     "rotate": false,
-    "spawns": [
-      { "group": "GROUP_ANT", "population": [ 500, 1000 ], "radius": [ 2, 5 ] },
-      { "group": "GROUP_ANT", "population": [ 500, 1000 ], "radius": [ 10, 30 ] }
-    ]
+    "spawns": { "group": "GROUP_ANT", "population": [ 1000, 2000 ], "radius": [ 10, 30 ] }
   },
   {
     "type": "overmap_special",
@@ -782,10 +785,7 @@
     "occurrences": [ 0, 3 ],
     "flags": [ "ANT" ],
     "rotate": false,
-    "spawns": [
-      { "group": "GROUP_ANT_ACID", "population": [ 400, 800 ], "radius": [ 2, 4 ] },
-      { "group": "GROUP_ANT_ACID", "population": [ 400, 800 ], "radius": [ 10, 30 ] }
-    ]
+    "spawns": { "group": "GROUP_ANT_ACID", "population": [ 800, 1600 ], "radius": [ 10, 20 ] }
   },
   {
     "type": "overmap_special",
@@ -816,10 +816,7 @@
     "occurrences": [ 0, 3 ],
     "flags": [ "FUNGAL" ],
     "rotate": false,
-    "spawns": [
-      { "group": "GROUP_FUNGI", "population": [ 100, 200 ], "radius": [ 10, 20 ] },
-      { "group": "GROUP_FUNGI", "population": [ 300, 600 ], "radius": [ 2, 4 ] }
-    ]
+    "spawns": { "group": "GROUP_FUNGI", "population": [ 600, 1200 ], "radius": [ 2, 20 ] }
   },
   {
     "type": "overmap_special",
@@ -831,7 +828,7 @@
     "occurrences": [ 0, 2 ],
     "flags": [ "FUNGAL" ],
     "rotate": false,
-    "spawns": { "group": "GROUP_FUNGI_TOWER", "population": [ 125, 175 ], "radius": [ 2, 2 ] }
+    "spawns": { "group": "GROUP_FUNGI_TOWER", "population": [ 125, 175 ], "radius": [ 2, 3 ] }
   },
   {
     "type": "overmap_special",
@@ -858,10 +855,7 @@
     "occurrences": [ 0, 4 ],
     "flags": [ "TRIFFID" ],
     "rotate": false,
-    "spawns": [
-      { "group": "GROUP_TRIFFID", "population": [ 400, 600 ], "radius": [ 12, 20 ] },
-      { "group": "GROUP_TRIFFID", "population": [ 400, 700 ], "radius": [ 2, 5 ] }
-    ]
+    "spawns": { "group": "GROUP_TRIFFID", "population": [ 800, 1300 ], "radius": [ 12, 20 ] }
   },
   {
     "type": "overmap_special",
@@ -2935,7 +2929,7 @@
     "city_distance": [ 5, 16 ],
     "city_sizes": [ 4, 14 ],
     "occurrences": [ 0, 3 ],
-    "spawns": { "group": "GROUP_LARGE_STATION", "population": [ 4, 10 ], "radius": [ 1, 2 ] }
+    "spawns": { "group": "GROUP_LARGE_STATION", "population": [ 4, 20 ], "radius": [ 2, 7 ] }
   },
   {
     "type": "overmap_special",
