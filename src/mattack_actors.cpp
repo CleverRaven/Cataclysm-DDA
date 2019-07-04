@@ -144,8 +144,8 @@ mattack_actor *mon_spellcasting_actor::clone() const
 
 void mon_spellcasting_actor::load_internal( JsonObject &obj, const std::string & )
 {
-    std::string sp_id = "";
-    int spell_level;
+    std::string sp_id;
+    int spell_level = 0;
     mandatory( obj, was_loaded, "spell_id", sp_id );
     optional( obj, was_loaded, "self", self, false );
     optional( obj, was_loaded, "spell_level", spell_level, 0 );
