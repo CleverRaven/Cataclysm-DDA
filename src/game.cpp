@@ -10788,7 +10788,7 @@ void game::perhaps_add_random_npc()
     tripoint omt_pos = sm_to_omt_copy( tripoint( msx, msy, 0 ) );
     const auto oter = overmap_buffer.ter( omt_pos );
     // shouldnt spawn on lakes or rivers.
-    if( is_river_or_lake( oter ) ){
+    if( is_river_or_lake( oter ) ) {
         return;
     }
     std::shared_ptr<npc> tmp = std::make_shared<npc>();
