@@ -100,7 +100,6 @@
   },
   {
     "id": "ogres_strength_potion",
-    "type": "COMESTIBLE",
     "name": "Potion of Ogre's Strength",
     "description": "This is a potion of Ogre's Strength.  It will increase your strength for 10 minutes.",
     "use_action": { "type": "cast_spell", "spell_id": "ogres_strength", "no_fail": true, "level": 9 },
@@ -109,7 +108,6 @@
   },
   {
     "id": "eagles_sight_potion",
-    "type": "COMESTIBLE",
     "name": "Potion of Eagle's Sight",
     "description": "This is a potion of Eagle's Sight.  It will increase your perception for 10 minutes.",
     "use_action": { "type": "cast_spell", "spell_id": "eagles_sight", "no_fail": true, "level": 9 },
@@ -118,7 +116,6 @@
   },
   {
     "id": "foxs_cunning_potion",
-    "type": "COMESTIBLE",
     "name": "Potion of Fox's Cunning",
     "description": "This is a potion of Fox's Cunning.  It will increase your intelligence for 10 minutes.",
     "use_action": { "type": "cast_spell", "spell_id": "foxs_cunning", "no_fail": true, "level": 9 },
