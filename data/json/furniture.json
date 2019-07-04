@@ -6749,13 +6749,8 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
-    "flags": [ "TRANSPARENT" ]
-    "bash": {
-      "str_min": 25,
-      "str_max": 60,
-      "sound": "splorch!",
-      "sound_fail": "whump."
-    }
+    "flags": [ "TRANSPARENT" ],
+    "bash": { "str_min": 25, "str_max": 60, "sound": "splorch!", "sound_fail": "whump." }
   },
   {
     "type": "furniture",
@@ -6767,13 +6762,8 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
-    "flags": [ "TRANSPARENT" ]
-    "bash": {
-      "str_min": 25,
-      "str_max": 60,
-      "sound": "splorch!",
-      "sound_fail": "whump."
-    }
+    "flags": [ "TRANSPARENT" ],
+    "bash": { "str_min": 25, "str_max": 60, "sound": "splorch!", "sound_fail": "whump." }
   },
   {
     "type": "furniture",
@@ -6787,13 +6777,8 @@
     "required_str": -1,
     "deployed_item": "alien_pod_resin",
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT" ]
-    "bash": {
-      "str_min": 25,
-      "str_max": 60,
-      "sound": "splorch!",
-      "sound_fail": "whump."
-    }
+    "flags": [ "TRANSPARENT" ],
+    "bash": { "str_min": 25, "str_max": 60, "sound": "splorch!", "sound_fail": "whump." }
   },
   {
     "type": "furniture",
