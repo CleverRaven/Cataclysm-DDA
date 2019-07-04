@@ -161,20 +161,25 @@ item &null_item_reference()
     return result;
 }
 
-namespace item_internal {
+namespace item_internal
+{
 bool goes_bad_temp_cache = false;
 bool goes_bad_temp_cache_set = false;
-inline bool goes_bad_cache_fetch() {
+inline bool goes_bad_cache_fetch()
+{
     return goes_bad_temp_cache;
 }
-inline void goes_bad_cache_set( bool v ) {
+inline void goes_bad_cache_set( bool v )
+{
     goes_bad_temp_cache = v;
     goes_bad_temp_cache_set = true;
 }
-inline void goes_bad_cache_unset() {
+inline void goes_bad_cache_unset()
+{
     goes_bad_temp_cache_set = goes_bad_temp_cache = false;
 }
-inline bool goes_bad_cache_is_set() {
+inline bool goes_bad_cache_is_set()
+{
     return goes_bad_temp_cache_set;
 }
 }

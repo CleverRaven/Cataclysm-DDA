@@ -1715,12 +1715,14 @@ void game::set_critter_died()
     critter_died = true;
 }
 
-static int maptile_field_intensity( maptile &mt, field_type_id fld ) {
+static int maptile_field_intensity( maptile &mt, field_type_id fld )
+{
     auto field_ptr = mt.find_field( fld );
 
     return ( field_ptr == nullptr ? 0 : field_ptr->get_field_intensity() );
 }
-static bool maptile_trap_eq( maptile &mt, const trap_id &id ) {
+static bool maptile_trap_eq( maptile &mt, const trap_id &id )
+{
     return mt.get_trap_t().loadid == id;
 }
 
@@ -1741,7 +1743,7 @@ int get_heat_radiation( const tripoint &location, bool direct )
         if( ffire > 0 ) {
             heat_intensity = ffire;
         } else if( maptile_trap_eq( mt, tr_lava ) ) {
-         //else if( g->m.tr_at( dest ).loadid == tr_lava ) {
+            //else if( g->m.tr_at( dest ).loadid == tr_lava ) {
             heat_intensity = 3;
         }
         if( heat_intensity == 0 ) {

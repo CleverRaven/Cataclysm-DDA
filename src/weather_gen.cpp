@@ -24,7 +24,8 @@ weather_generator::weather_generator() = default;
 int weather_generator::current_winddir = 1000;
 
 double weather_generator::get_weather_temperature( const tripoint &location, const time_point &t,
-                                        unsigned seed ) const {
+        unsigned seed ) const
+{
     const double x( location.x / 2000.0 );
     const double y( location.y / 2000.0 );
     const double z( to_turn<int>( t + calendar::season_length() ) / 2000.0 );
@@ -32,7 +33,7 @@ double weather_generator::get_weather_temperature( const tripoint &location, con
     const unsigned modSEED = seed % SIMPLEX_NOISE_RANDOM_SEED_LIMIT;
     const double dayFraction = time_past_midnight( t ) / 1_days;
 
-    double T(raw_noise_4d( x, y, z, modSEED ) * 4.0 );
+    double T( raw_noise_4d( x, y, z, modSEED ) * 4.0 );
 
     const double now( ( time_past_new_year( t ) + calendar::season_length() / 2 ) /
                       calendar::year_length() ); // [0,1)
