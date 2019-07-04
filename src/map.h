@@ -103,9 +103,6 @@ class map_stack : public item_stack
             item_stack( newstack ), location( newloc ), myorigin( neworigin ) {}
         void insert( const item &newitem ) override;
         iterator erase( const_iterator it ) override;
-        int count_limit() const override {
-            return MAX_ITEM_IN_SQUARE;
-        }
         units::volume max_volume() const override;
 };
 

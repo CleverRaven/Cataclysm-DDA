@@ -89,7 +89,6 @@ void advanced_inv_area::init()
             if( vstor >= 0 ) {
                 desc[0] = veh->name;
                 canputitemsloc = true;
-                max_size = MAX_ITEM_IN_VEHICLE_STORAGE;
             } else {
                 veh = nullptr;
                 canputitemsloc = false;
@@ -128,7 +127,6 @@ void advanced_inv_area::init()
                 vstor = -1;
             }
             canputitemsloc = can_store_in_vehicle() || g->m.can_put_items_ter_furn( pos );
-            max_size = MAX_ITEM_IN_SQUARE;
             if( can_store_in_vehicle() ) {
                 desc[1] = vpart_position( *veh, vstor ).get_label().value_or( "" );
             }

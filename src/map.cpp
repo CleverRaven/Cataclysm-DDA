@@ -4377,7 +4377,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 
     // Checks if sufficient space at tile to add item
     auto valid_limits = [&]( const tripoint & e ) {
-        return obj.volume() <= free_volume( e ) && i_at( e ).size() < MAX_ITEM_IN_SQUARE;
+        return obj.volume() <= free_volume( e );
     };
 
     // Performs the actual insertion of the object onto the map

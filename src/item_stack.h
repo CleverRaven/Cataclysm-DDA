@@ -52,8 +52,6 @@ class item_stack
         const_reverse_iterator rbegin() const;
         const_reverse_iterator rend() const;
 
-        /** Maximum number of items allowed here */
-        virtual int count_limit() const = 0;
         /** Maximum volume allowed here */
         virtual units::volume max_volume() const = 0;
         /** Total volume of the items here */
