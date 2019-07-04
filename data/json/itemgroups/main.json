@@ -67,6 +67,7 @@
       [ "royal_jelly", 80 ],
       [ "RPG", 10 ],
       [ "RPG-7_ammo", 10 ],
+      [ "atgm_heat", 1 ],
       [ "rx11_stimpack", 50 ],
       [ "rx12_injector", 50 ],
       [ "stimpack_ammo", 100 ],
@@ -176,6 +177,8 @@
       [ "m202_flash", 20 ],
       [ "RPG", 40 ],
       [ "RPG-7_ammo", 40 ],
+      [ "atgm_launcher", 3 ],
+      [ "atgm_heat", 6 ],
       [ "flamethrower", 50 ],
       [ "rm451_flamethrower", 40 ]
     ]
