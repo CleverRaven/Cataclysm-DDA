@@ -2749,8 +2749,7 @@ void activity_handlers::fish_do_turn( player_activity *act, player *p )
         survival_skill += dice( 4, 9 );
         survival_skill *= 2;
     }
-    const tripoint fish_pos = act->placement;
-    std::vector<monster *> fishables = g->get_fishable( 60, fish_pos );
+    std::vector<monster *> fishables = g->get_fishable_monsters( act->coord_set );
     // Fish are always there, even if it dosnt seem like they are visible!
     if( fishables.empty() ) {
         fish_chance += survival_skill / 2;
