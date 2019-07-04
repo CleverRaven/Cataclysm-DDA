@@ -675,7 +675,7 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
     } else {
         valid = is_valid_target( target_ground );
     }
-    if( p == g->u.pos() ) {
+    if( p == caster.pos() ) {
         valid = valid || is_valid_target( target_self );
     }
     return valid;
