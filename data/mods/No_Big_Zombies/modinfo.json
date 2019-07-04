@@ -4,7 +4,7 @@
     "ident": "No_Big_Zombies",
     "name": "No Big Zombies",
     "authors": [ "Inglonias" ],
-    "description": "Removes shocker brutes, zombie hulks, and enshelled juggernauts from the game.",
+    "description": "Removes shocker brutes, zombie hulks, and ossified juggernauts from the game.",
     "category": "monster_exclude",
     "dependencies": [ "dda" ]
   },
