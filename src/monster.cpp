@@ -1498,14 +1498,15 @@ bool monster::move_effects( bool )
             } else if( immediate_break ) {
                 remove_effect( effect_tied );
                 if( tied_item ) {
-                    add_msg( _( "The %s easily slips out of its bonds." ), name() );
+                    if( u_see_me ){
+                        add_msg( _( "The %s easily slips out of its bonds." ), name() );
+                    }
                     g->m.add_item_or_charges( pos(), *tied_item );
                     tied_item = cata::nullopt;
                 }
             } else {
-                bool broken = true;
                 if( tied_item ) {
-                    broken = rng( type->melee_dice * type->melee_sides, std::min( 10000,
+                    const bool broken = rng( type->melee_dice * type->melee_sides, std::min( 10000,
                                   type->melee_dice * type->melee_sides * 250 ) ) > 800;
                     if( !broken ) {
                         g->m.add_item_or_charges( pos(), *tied_item );
