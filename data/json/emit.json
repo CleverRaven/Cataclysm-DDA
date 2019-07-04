@@ -64,6 +64,13 @@
     "chance": 15
   },
   {
+    "id": "emit_toxic_cloud",
+    "type": "emit",
+    "//": "Small cloud of toxic gas",
+    "field": "fd_toxic_gas",
+    "qty": 5
+  },
+  {
     "id": "emit_acid_splash",
     "type": "emit",
     "//": "Small amount of strong acid - stacks, but weak on its own",
