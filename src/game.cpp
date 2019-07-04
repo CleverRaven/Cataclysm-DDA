@@ -3702,8 +3702,7 @@ Creature *game::is_hostile_within( int distance )
     return nullptr;
 }
 
-//get the fishable critters around and return these
-std::vector<monster *> game::get_fishable( int distance, const tripoint &fish_pos )
+std::unordered_set<tripoint> game::get_fishable_locations( int distance, const tripoint &fish_pos )
 {
     // We're going to get the contiguous fishable terrain starting at
     // the provided fishing location (e.g. where a line was cast or a fish
@@ -3757,13 +3756,19 @@ std::vector<monster *> game::get_fishable( int distance, const tripoint &fish_po
     std::unordered_set<tripoint> fishable_points;
     get_fishable_terrain( fish_pos, fishable_points );
 
+    return fishable_points;
+}
+
+std::vector<monster *> game::get_fishable_monsters( std::unordered_set<tripoint>
+        &fishable_locations )
+{
     std::vector<monster *> unique_fish;
     for( monster &critter : all_monsters() ) {
         // If it is fishable...
         if( critter.has_flag( MF_FISHABLE ) ) {
             const tripoint critter_pos = critter.pos();
             // ...and it is in a fishable location.
-            if( fishable_points.find( critter_pos ) != fishable_points.end() ) {
+            if( fishable_locations.find( critter_pos ) != fishable_locations.end() ) {
                 unique_fish.push_back( &critter );
             }
         }

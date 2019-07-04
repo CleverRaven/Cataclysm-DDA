@@ -1856,7 +1856,8 @@ int iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
 
 static bool good_fishing_spot( tripoint pos )
 {
-    std::vector<monster *> fishables = g->get_fishable( 60, pos );
+    std::unordered_set<tripoint> fishable_locations = g->get_fishable_locations( 60, pos );
+    std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
     // isolated little body of water with no definite fish population
     oter_id &cur_omt = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( pos ) ) );
     std::string om_id = cur_omt.id().c_str();
@@ -1890,7 +1891,7 @@ int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
     p->add_msg_if_player( _( "You cast your line and wait to hook something..." ) );
     p->assign_activity( activity_id( "ACT_FISH" ), to_moves<int>( 5_hours ), 0,
                         p->get_item_position( it ), it->tname() );
-    p->activity.placement = pnt;
+    p->activity.coord_set = g->get_fishable_locations( 60, pnt );
 
     return 0;
 }
@@ -1985,8 +1986,10 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
 
                 return 0;
             }
-            std::vector<monster *> fishables = g->get_fishable( 60,
-                                               pos ); //get the fishables around the trap's spot
+
+            //get the fishables around the trap's spot
+            std::unordered_set<tripoint> fishable_locations = g->get_fishable_locations( 60, pos );
+            std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
             for( int i = 0; i < fishes; i++ ) {
                 p->practice( skill_survival, rng( 3, 10 ) );
                 if( fishables.size() >= 1 ) {
