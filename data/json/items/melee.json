@@ -71,7 +71,6 @@
     "type": "AMMO",
     "category": "weapons",
     "name": "net",
-    "name_plural": "nets",
     "description": "A mesh of string and weights, traditionally used to catch fish, and to entangle oponents in combat.",
     "weight": 1100,
     "volume": 6,
