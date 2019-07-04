@@ -490,6 +490,16 @@ inline constexpr units::quantity<double, units::energy_in_millijoule_tag> operat
     return units::from_kilojoule( v );
 }
 
+namespace units
+{
+static const std::vector<std::pair<std::string, energy>> energy_units = { {
+        { "mJ", 1_mJ },
+        { "J", 1_J },
+        { "kJ", 1_kJ },
+    }
+};
+}
+
 template<typename T>
 T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, T>> &units )
 {
