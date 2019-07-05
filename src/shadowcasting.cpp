@@ -65,6 +65,90 @@ struct span {
     bool skip_first_row;
 };
 
+/**
+ * Handle splitting the current span in cast_horizontal_zlight_segment and
+ * cast_vertical_zlight_segment to avoid as much code duplication as possible
+ */
+template<typename T, bool( *check )( const T &, const T & ), T( *accumulate )( const T &, const T &, const int & )>
+static void split_span( std::list<span<T>> &spans, typename std::list<span<T>>::iterator &this_span,
+                        T &current_transparency, const T &new_transparency, const T &last_intensity,
+                        const int distance, slope &new_start_minor,
+                        const slope &trailing_edge_major, const slope &leading_edge_major,
+                        const slope &trailing_edge_minor, const slope &leading_edge_minor )
+{
+    const T next_cumulative_transparency = accumulate( this_span->cumulative_value,
+                                           current_transparency, distance );
+    // We split the span into up to 4 sub-blocks (sub-frustums actually,
+    // this is the view from the origin looking out):
+    // +-------+ <- end major
+    // |   D   |
+    // +---+---+ <- leading edge major
+    // | B | C |
+    // +---+---+ <- trailing edge major
+    // |   A   |
+    // +-------+ <- start major
+    // ^       ^
+    // |       end minor
+    // start minor
+    // A is previously processed row(s). This might be empty.
+    // B is already-processed tiles from current row. This must exist.
+    // C is remainder of current row. This must exist.
+    // D is not yet processed row(s). Might be empty.
+    // A, B and D have the previous transparency, C has the new transparency,
+    //   which might be opaque.
+    // One we processed fully in 2D and only need to extend in last D
+    // Only emit a new span horizontally if previous span was not opaque.
+    // If end_minor is <= trailing_edge_minor, A, B, C remain one span and
+    //  D becomes a new span if present.
+    // If this is the first row processed in the current span, there is no A span.
+    // If this is the last row processed, there is no D span.
+    // If check returns false, A and B are opaque and have no spans.
+    if( check( current_transparency, last_intensity ) ) {
+        // Emit the A span if present, placing it before the current span in the list
+        if( trailing_edge_major > this_span->start_major ) {
+            spans.emplace( this_span,
+                           this_span->start_major, trailing_edge_major,
+                           this_span->start_minor, this_span->end_minor,
+                           next_cumulative_transparency );
+        }
+
+        // Emit the B span if present, placing it before the current span in the list
+        if( trailing_edge_minor > this_span->start_minor ) {
+            spans.emplace( this_span,
+                           std::max( this_span->start_major, trailing_edge_major ),
+                           std::min( this_span->end_major, leading_edge_major ),
+                           this_span->start_minor, trailing_edge_minor,
+                           next_cumulative_transparency );
+        }
+
+        // Overwrite new_start_minor since previous tile is transparent.
+        new_start_minor = trailing_edge_minor;
+    }
+
+    // Emit the D span if present, placing it after the current span in the list
+    if( leading_edge_major < this_span->end_major ) {
+        // Pass true to the span constructor to set skip_first_row to true
+        // This prevents the same row we are currently checking being check by the
+        // new D span
+        spans.emplace( std::next( this_span ),
+                       leading_edge_major, this_span->end_major,
+                       this_span->start_minor, this_span->end_minor,
+                       this_span->cumulative_value, true );
+    }
+
+    // Truncate this_span to the current block.
+    this_span->start_major = std::max( this_span->start_major, trailing_edge_major );
+    this_span->end_major = std::min( this_span->end_major, leading_edge_major );
+
+    // The new span starts at the leading edge of the previous square if it is opaque,
+    // and at the trailing edge of the current square if it is transparent.
+    this_span->start_minor = new_start_minor;
+    this_span->cumulative_value = next_cumulative_transparency;
+
+    new_start_minor = leading_edge_minor;
+    current_transparency = new_transparency;
+}
+
 template<int xx, int xy, int xz, int yx, int yy, int yz, int zz, typename T,
          T( *calc )( const T &, const T &, const int & ),
          bool( *check )( const T &, const T & ),
@@ -211,77 +295,11 @@ void cast_horizontal_zlight_segment(
                         continue;
                     }
 
-                    const T next_cumulative_transparency = accumulate( this_span->cumulative_value,
-                                                           current_transparency, distance );
-                    // We split the span into up to 4 sub-blocks (sub-frustums actually,
-                    // this is the view from the origin looking out):
-                    // +-------+ <- end major
-                    // |   D   |
-                    // +---+---+ <- leading edge major
-                    // | B | C |
-                    // +---+---+ <- trailing edge major
-                    // |   A   |
-                    // +-------+ <- start major
-                    // ^       ^
-                    // |       end minor
-                    // start minor
-                    // A is previously processed row(s). This might be empty.
-                    // B is already-processed tiles from current row. This must exist.
-                    // C is remainder of current row. This must exist.
-                    // D is not yet processed row(s). Might be empty.
-                    // A, B and D have the previous transparency, C has the new transparency,
-                    //   which might be opaque.
-                    // One we processed fully in 2D and only need to extend in last D
-                    // Only emit a new span horizontally if previous span was not opaque.
-                    // If end_minor is <= trailing_edge_minor, A, B, C remain one span and
-                    //  D becomes a new span if present.
-                    // If this is the first row processed in the current span, there is no A span.
-                    // If this is the last row processed, there is no D span.
-                    // If check returns false, A and B are opaque and have no spans.
-                    if( check( current_transparency, last_intensity ) ) {
-                        // Emit the A span if present, placing it before the current span in the list
-                        if( trailing_edge_major > this_span->start_major ) {
-                            spans.emplace( this_span,
-                                           this_span->start_major, trailing_edge_major,
-                                           this_span->start_minor, this_span->end_minor,
-                                           next_cumulative_transparency );
-                        }
-
-                        // Emit the B span if present, placing it before the current span in the list
-                        if( trailing_edge_minor > this_span->start_minor ) {
-                            spans.emplace( this_span,
-                                           std::max( this_span->start_major, trailing_edge_major ),
-                                           std::min( this_span->end_major, leading_edge_major ),
-                                           this_span->start_minor, trailing_edge_minor,
-                                           next_cumulative_transparency );
-                        }
-
-                        // Overwrite new_start_minor since previous tile is transparent.
-                        new_start_minor = trailing_edge_minor;
-                    }
-
-                    // Emit the D span if present, placing it after the current span in the list
-                    if( leading_edge_major < this_span->end_major ) {
-                        // Pass true to the span constructor to set skip_first_row to true
-                        // This prevents the same row we are currently checking being check by the
-                        // new D span
-                        spans.emplace( std::next( this_span ),
-                                       leading_edge_major, this_span->end_major,
-                                       this_span->start_minor, this_span->end_minor,
-                                       this_span->cumulative_value, true );
-                    }
-
-                    // Truncate this_span to the current block.
-                    this_span->start_major = std::max( this_span->start_major, trailing_edge_major );
-                    this_span->end_major = std::min( this_span->end_major, leading_edge_major );
-
-                    // The new span starts at the leading edge of the previous square if it is opaque,
-                    // and at the trailing edge of the current square if it is transparent.
-                    this_span->start_minor = new_start_minor;
-                    this_span->cumulative_value = next_cumulative_transparency;
-
-                    new_start_minor = leading_edge_minor;
-                    current_transparency = new_transparency;
+                    // Handle spliting the span into up to 4 separate spans
+                    split_span<T, check, accumulate>( spans, this_span, current_transparency, new_transparency,
+                                                      last_intensity, distance, new_start_minor,
+                                                      trailing_edge_major, leading_edge_major,
+                                                      trailing_edge_minor, leading_edge_minor );
                 }
 
                 // If we end the row with an opaque tile, set the span to start at the next row
@@ -458,77 +476,11 @@ void cast_vertical_zlight_segment(
                         continue;
                     }
 
-                    const T next_cumulative_transparency = accumulate( this_span->cumulative_value,
-                                                           current_transparency, distance );
-                    // We split the span into up to 4 sub-blocks (sub-frustums actually,
-                    // this is the view from the origin looking out):
-                    // +-------+ <- end major
-                    // |   D   |
-                    // +---+---+ <- leading edge major
-                    // | B | C |
-                    // +---+---+ <- trailing edge major
-                    // |   A   |
-                    // +-------+ <- start major
-                    // ^       ^
-                    // |       end minor
-                    // start minor
-                    // A is previously processed row(s). This might be empty.
-                    // B is already-processed tiles from current row. This must exist.
-                    // C is remainder of current row. This must exist.
-                    // D is not yet processed row(s). Might be empty.
-                    // A, B and D have the previous transparency, C has the new transparency,
-                    //   which might be opaque.
-                    // One we processed fully in 2D and only need to extend in last D
-                    // Only emit a new span horizontally if previous span was not opaque.
-                    // If end_minor is <= trailing_edge_minor, A, B, C remain one span and
-                    //  D becomes a new span if present.
-                    // If this is the first row processed in the current span, there is no A span.
-                    // If this is the last row processed, there is no D span.
-                    // If check returns false, A and B are opaque and have no spans.
-                    if( check( current_transparency, last_intensity ) ) {
-                        // Emit the A span if present, placing it before the current span in the list
-                        if( trailing_edge_major > this_span->start_major ) {
-                            spans.emplace( this_span,
-                                           this_span->start_major, trailing_edge_major,
-                                           this_span->start_minor, this_span->end_minor,
-                                           next_cumulative_transparency );
-                        }
-
-                        // Emit the B span if present, placing it before the current span in the list
-                        if( trailing_edge_minor > this_span->start_minor ) {
-                            spans.emplace( this_span,
-                                           std::max( this_span->start_major, trailing_edge_major ),
-                                           std::min( this_span->end_major, leading_edge_major ),
-                                           this_span->start_minor, trailing_edge_minor,
-                                           next_cumulative_transparency );
-                        }
-
-                        // Overwrite new_start_minor since previous tile is transparent.
-                        new_start_minor = trailing_edge_minor;
-                    }
-
-                    // Emit the D span if present, placing it after the current span in the list
-                    if( leading_edge_major < this_span->end_major ) {
-                        // Pass true to the span constructor to set skip_first_row to true
-                        // This prevents the same row we are currently checking being check by the
-                        // new D span
-                        spans.emplace( std::next( this_span ),
-                                       leading_edge_major, this_span->end_major,
-                                       this_span->start_minor, this_span->end_minor,
-                                       this_span->cumulative_value, true );
-                    }
-
-                    // Truncate this_span to the current block.
-                    this_span->start_major = std::max( this_span->start_major, trailing_edge_major );
-                    this_span->end_major = std::min( this_span->end_major, leading_edge_major );
-
-                    // The new span starts at the leading edge of the previous square if it is opaque,
-                    // and at the trailing edge of the current square if it is transparent.
-                    this_span->start_minor = new_start_minor;
-                    this_span->cumulative_value = next_cumulative_transparency;
-
-                    new_start_minor = leading_edge_minor;
-                    current_transparency = new_transparency;
+                    // Handle spliting the span into up to 4 separate spans
+                    split_span<T, check, accumulate>( spans, this_span, current_transparency, new_transparency,
+                                                      last_intensity, distance, new_start_minor,
+                                                      trailing_edge_major, leading_edge_major,
+                                                      trailing_edge_minor, leading_edge_minor );
                 }
 
                 // If we end the row with an opaque tile, set the span to start at the next row
