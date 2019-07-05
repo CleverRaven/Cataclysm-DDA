@@ -68,7 +68,7 @@
         "       ####..####  7    ",
         "    #####  .####        "
       ],
-      "palette": "demon_spider_lair"
+      "palettes": [ "demon_spider_lair" ]
     }
   }
 ]
