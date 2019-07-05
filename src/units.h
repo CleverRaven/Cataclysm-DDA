@@ -386,12 +386,14 @@ inline constexpr value_type to_millijoule( const quantity<value_type, energy_in_
     return v / from_millijoule<value_type>( 1 );
 }
 
-inline constexpr double to_joule( const energy &v )
+template<typename value_type>
+inline constexpr value_type to_joule( const quantity<value_type, energy_in_millijoule_tag> &v )
 {
     return to_millijoule( v ) / 1000.0;
 }
 
-inline constexpr double to_kilojoule( const energy &v )
+template<typename value_type>
+inline constexpr value_type to_kilojoule( const quantity<value_type, energy_in_millijoule_tag> &v )
 {
     return to_joule( v ) / 1000.0;
 }
