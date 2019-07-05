@@ -35,8 +35,12 @@
   },
   {
   "id": "hairball",
-  "type": "COMESTIBLE"
-  "material": "fur",
+  "type": "COMESTIBLE",
+  "comestible_type": "MED",
+  "healthy": -1,
+  "stack_size": 1,
+  "material": [ "fur", "water" ],
+  "primary_material": "fur",
   "volume": "5ml",
   "weight": 15,
   "color": "brown",
@@ -45,7 +49,7 @@
   "name_plural": "hairballs",
   "description": "An ugly ball of animal spit and licked-off hairs. Don't swallow it.",
   "price": 0,
-  "flags": [ "TRADER_AVOID" ],
+  "flags": [ "TRADER_AVOID", "EDIBLE_FROZEN" ],
   "fun": -20
   }
 ]

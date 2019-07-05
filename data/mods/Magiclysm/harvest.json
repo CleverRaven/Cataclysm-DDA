@@ -55,7 +55,7 @@
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "hairball", "type": "skin", "mass_ratio": 0.00035 }
+      { "drop": "hairball", "type": "bionic", "max": 3 }
     ]
   },
   {
@@ -75,7 +75,7 @@
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "adrenal_gland_large", "base_num": [ 0, 1 ], "scale_num": [ 0.6, 0.9 ], "max": 2, "type": "offal" }
+      { "drop": "adrenal_gland_large", "type": "bionic", "max": 2 }
     ]
   },
   {
@@ -95,7 +95,7 @@
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "adrenal_gland_large", "base_num": [ 0, 1 ], "scale_num": [ 0.6, 0.9 ], "max": 2, "type": "offal" }
+      { "drop": "adrenal_gland_large", "type": "bionic", "max": 2 }
     ]
   },
   {
@@ -115,7 +115,7 @@
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "wool_staple", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "adrenal_gland_large", "base_num": [ 0, 1 ], "scale_num": [ 0.6, 0.9 ], "max": 2, "type": "offal" }
+      { "drop": "adrenal_gland_large", "type": "bionic", "max": 2 }
     ]
   },
   {
@@ -134,7 +134,7 @@
       { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "adrenal_gland_large", "base_num": [ 0, 1 ], "scale_num": [ 0.6, 0.9 ], "max": 2, "type": "offal" }
+      { "drop": "adrenal_gland_large", "type": "bionic", "max": 2 }
     ]
-  },
+  }
 ]
