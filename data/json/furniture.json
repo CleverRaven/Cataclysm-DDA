@@ -6715,7 +6715,7 @@
     "type": "furniture",
     "id": "f_alien_anemone",
     "name": "wafting anemone",
-    "description": "A fleshy white protruberance growing from the floor, with a cluster of tendrils pouring out of it.  It looks almost exactly like a sea anemone, even waving gently as though in the water.",
+    "description": "A fleshy white protuberance growing from the floor, with a cluster of tendrils pouring out of it.  It looks almost exactly like a sea anemone, even waving gently as though in the water.",
     "symbol": "V",
     "color": "white",
     "move_cost_mod": 6,
