@@ -15,17 +15,78 @@
         "t_tree_pine",
         "t_tree_birch",
         "t_tree_willow",
-        "t_tree_maple"
+        "t_tree_maple",
+        "t_webbed_corpse"
       ],
-      ".": [ [ "t_grass_dead", 2 ], [ "t_dirt", 15 ], [ "t_sand", 10 ], [ "t_dirtmound", 3 ], [ "t_rock_floor_no_roof", 8 ] ],
-      ",": [ "t_dirtfloor" ],
+      "~": [ "t_lava" ],
+      " ": [ [ "t_grass_dead", 2 ], [ "t_dirt", 15 ], [ "t_sand", 10 ], [ "t_dirtmound", 3 ], [ "t_rock_floor_no_roof", 8 ] ],
+      ".": [ "t_dirtfloor" ],
+      "$": [ "t_dirtfloor" ],
       "S": [ "t_dirtfloor" ],
-      "s": [ [ "t_dirtfloor", 6 ], [ "t_dirt", 15 ], [ "t_sand", 10 ], [ "t_dirtmound", 4 ], [ "t_rock_floor_no_roof", 3 ] ]
+      "s": [ [ "t_dirtfloor", 6 ], [ "t_dirt", 15 ], [ "t_sand", 10 ], [ "t_dirtmound", 4 ], [ "t_rock_floor_no_roof", 3 ] ],
+      "#": [ [ "t_demon_web_wall", 10 ], [ "t_tree_burnt" ] ]
     },
     "fields": {
-      ".": { "field": "fd_web", "intensity": 2, "chance": 20 },
-      ",": { "field": "fd_web", "intensity": 3, "chance": 65 },
+      " ": { "field": "fd_web", "intensity": 2, "chance": 5 },
+      ".": { "field": "fd_web", "intensity": 3, "chance": 65 },
       "s": { "field": "fd_web", "intensity": 3, "chance": 40 }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "demon_spider_lair" ],
+    "weight": 100,
+    "object": {
+      "rows": [
+        "         7              ",
+        "   7               7    ",
+        "   ###  ####7           ",
+        "   ###########          ",
+        "  ############   7      ",
+        "    #####.########   7  ",
+        "  7  ####..###########  ",
+        "   ###...........####   ",
+        "   ####...$......#####  ",
+        "  ####.............###7 ",
+        "  ###..$....s....#######",
+        " #####...~......$..#####",
+        "   ####......S..s..#####",
+        "  ####...s..........### ",
+        "  ######.....s....####7 ",
+        "  ####..........~..#### ",
+        " 7 #####..s........#####",
+        "    #######.......##### ",
+        "       #####.......#### ",
+        "   7      ####....####  ",
+        "     7   ####....####   ",
+        " 7      ####...####   7 ",
+        "       ####..####  7    ",
+        "    #####  .####        "
+      ],
+      "terrain": { "C": "t_rock_floor", " ": "t_rock", "+": "t_door_c", "-": "t_wall", "|": "t_wall", "<": "t_stairs_up" },
+      "furniture": {
+        "@": "f_sofa",
+        "I": "f_desk",
+        "D": "f_desk",
+        "S": "f_sink",
+        "~": "f_bathtub",
+        "m": "f_bigmirror",
+        "b": "f_bookcase",
+        "M": "f_bookcase",
+        "X": "f_magiclysm_translocator_gate",
+        "W": "f_water_heater"
+      }
+      "items": {
+        "S": { "item": "softdrugs", "chance": 20, "repeat": [ 1, 2 ] },
+        "b": { "item": "novels", "chance": 20, "repeat": [ 2, 3 ] },
+        "M": [ { "item": "magic_shop_books", "chance": 40 }, { "item": "magic_shop_potions", "chance": 60 } ],
+        "C": [
+          { "item": "basement_utility_closet", "chance": 55, "repeat": [ 1, 2 ] },
+          { "item": "magic_shop_potions", "chance": 15, "repeat": [ 1, 2 ] }
+        ],
+        "D": { "item": "magic_shop_potions", "chance": 35, "repeat": [ 3, 4 ] }
+      }
     }
   }
 ]

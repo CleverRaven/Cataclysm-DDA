@@ -17,5 +17,23 @@
       "ter_set": "t_dirt",
       "items": [ { "item": "ash", "count": [ 3, 10 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_webbed_corpse",
+    "name": "burnt tree",
+    "description": "This is a large coccoon-like object that looks to be the vague shape of some creature.  You don't want to know how long it stayed alive while being sucked dry by these spiders.",
+    "symbol": "7",
+    "color": "light_grey",
+    "move_cost": 0,
+    "coverage": 30,
+    "bash": {
+      "str_min": 30,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "ash", "count": [ 3, 10 ] } ]
+    }
   }
 }
