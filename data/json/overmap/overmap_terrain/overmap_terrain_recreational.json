@@ -999,6 +999,30 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "smoke_lounge_roof",
+    "copy-from": "generic_city_building",
+    "name": "smoking lounge roof",
+    "sym": "s",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "smoke_lounge_1",
+    "copy-from": "generic_city_building",
+    "name": "smoking lounge",
+    "sym": "s",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "smoke_lounge_roof_1",
+    "copy-from": "generic_city_building",
+    "name": "smoking lounge roof",
+    "sym": "s",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "music_venue",
     "copy-from": "generic_city_building",
     "name": "music venue",
