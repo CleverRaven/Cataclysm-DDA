@@ -2157,13 +2157,13 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         std::string info_string;
         if( type->battery->max_capacity < 1_J ) {
             info_string = string_format( _( "<bold>Capacity:</bold> %dmJ" ),
-                                         units::to_millijoule( type->battery->max_capacity ) );
+                                         to_millijoule( type->battery->max_capacity ) );
         } else if( type->battery->max_capacity < 1_kJ ) {
             info_string = string_format( _( "<bold>Capacity:</bold> %dJ" ),
-                                         units::to_joule( type->battery->max_capacity ) );
+                                         to_joule( type->battery->max_capacity ) );
         } else if( type->battery->max_capacity >= 1_kJ ) {
             info_string = string_format( _( "<bold>Capacity:</bold> %dkJ" ),
-                                         units::to_kilojoule( type->battery->max_capacity ) );
+                                         to_kilojoule( type->battery->max_capacity ) );
         }
         insert_separation_line();
         info.emplace_back( "BATTERY", info_string );
