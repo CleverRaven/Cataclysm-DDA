@@ -81,10 +81,18 @@
     "anger_triggers": [ "SOUND" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [
-    { "id": "scratch", "cooldown": 4, "damage_max_instance": [ { "damage_type": "cut", "amount": 60, "armor_multiplier": 0.9 } ] },
-    { "id": "slam", "cooldown": 3, "damage_max_instance": [ { "damage_type": "bash", "amount": 80, "armor_multiplier": 0.8 } ] },
-    [ "SMASH", 10 ]
-  ],
+      {
+        "id": "scratch",
+        "cooldown": 4,
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 60, "armor_multiplier": 0.9 } ]
+      },
+      {
+        "id": "slam",
+        "cooldown": 3,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 80, "armor_multiplier": 0.8 } ]
+      },
+      [ "SMASH", 10 ]
+    ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM", "CAN_DIG", "HIT_AND_RUN", "HARDTOSHOOT" ]
   },
   {
