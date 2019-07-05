@@ -268,6 +268,7 @@
     "symbol": ".",
     "color": "white",
     "move_cost": 2,
+    "light_emitted": 120,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
@@ -924,6 +925,7 @@
     "symbol": ".",
     "color": "white",
     "move_cost": 2,
+    "light_emitted": 240,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD", "MINEABLE" ],
     "bash": {
       "sound": "SMASH!",
@@ -7218,6 +7220,7 @@
     "symbol": "~",
     "color": "red",
     "move_cost": 4,
+    "light_emitted": 50,
     "trap": "tr_lava",
     "flags": [ "TRANSPARENT", "LIQUID", "DESTROY_ITEM", "USABLE_FIRE" ],
     "//": "lava-seared moose meat? yes, please"
@@ -7652,6 +7655,7 @@
     "color": "blue",
     "move_cost": 0,
     "coverage": 50,
+    "light_emitted": 10,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "CONSOLE", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
     "deconstruct": {

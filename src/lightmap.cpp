@@ -348,14 +348,12 @@ void map::generate_lightmap( const int zlev )
                     }
 
                     const ter_id terrain = cur_submap->ter[sx][sy];
-                    if( terrain == t_lava ) {
-                        add_light_source( p, 50 );
-                    } else if( terrain == t_console ) {
-                        add_light_source( p, 10 );
-                    } else if( terrain == t_thconc_floor_olight ) {
-                        add_light_source( p, 120 );
-                    } else if( terrain == t_utility_light ) {
-                        add_light_source( p, 240 );
+                    if( terrain->light_emitted > 0 ) {
+                        add_light_source( p, terrain->light_emitted );
+                    }
+                    const furn_id furniture = cur_submap->frn[sx][sy];
+                    if( furniture->light_emitted > 0 ) {
+                        add_light_source( p, furniture->light_emitted );
                     }
 
                     for( auto &fld : cur_submap->fld[sx][sy] ) {
