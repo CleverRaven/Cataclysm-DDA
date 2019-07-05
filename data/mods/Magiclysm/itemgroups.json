@@ -171,5 +171,10 @@
     "type": "item_group",
     "id": "magic_shop_clothes",
     "items": [ [ "cloak", 3 ], [ "cloak_wool", 5 ], [ "jedi_cloak", 3 ], [ "robe", 5 ], [ "tophat", 5 ], [ "leathersandals", 6 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "wisp_death",
+    "items": [ [ "glow_dust", 1 ] ]
   }
 ]

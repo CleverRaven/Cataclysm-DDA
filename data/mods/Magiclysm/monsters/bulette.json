@@ -1,0 +1,32 @@
+[
+  {
+    "id": "mon_bulette",
+    "type": "MONSTER",
+    "name": "bulette",
+    "description": "The bulette (or landshark) was the result of a mad wizard's experimental cross breeding of a snapping turtle and armadillo with infusions of demons' ichor.  They range temperate climates feeding on horses, men, and most other flesh.  The stupid bulette is irascible and always hungry, and they fear nothing.",
+    "default_faction": "magical_beast",
+    "bodytype": "bear",
+    "species": [ "MAGICAL_BEAST" ],
+    "volume": "850000 ml",
+    "weight": 900000,
+    "hp": 320,
+    "speed": 100,
+    "material": [ "flesh" ],
+    "symbol": "U",
+    "color": "light_gray",
+    "aggression": 0,
+    "morale": 60,
+    "melee_skill": 5,
+    "melee_dice": 6,
+    "melee_dice_sides": 7,
+    "melee_cut": 10,
+    "dodge": 2,
+    "armor_bash": 32,
+    "armor_cut": 30,
+    "harvest": "bulette",
+    "anger_triggers": [ "SOUND" ],
+    "death_function": [ "NORMAL" ],
+    "special_attacks": [ [ "scratch", 6 ] ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM", "CAN_DIG", "HIT_AND_RUN", "HARDTOSHOOT" ]
+  }
+]
