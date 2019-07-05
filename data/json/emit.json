@@ -72,6 +72,14 @@
     "qty": 10
   },
   {
+    "id": "emit_toxic_belch",
+    "type": "emit",
+    "//": "Large cloud of toxic gas emitted infrequently",
+    "field": "fd_toxic_gas",
+    "chance": 1,
+    "qty": 25
+  },
+  {
     "id": "emit_acid_splash",
     "type": "emit",
     "//": "Small amount of strong acid - stacks, but weak on its own",
