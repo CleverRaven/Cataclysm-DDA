@@ -983,20 +983,24 @@ static void draw_stats( avatar &u, const catacurses::window &w )
     werase( w );
     nc_color stat_clr = str_string( u ).first;
     mvwprintz( w, 0, 0, c_light_gray, _( "STR" ) );
-    mvwprintz( w, 0, u.str_cur < 10 ? 5 : 4, stat_clr,
-               u.str_cur < 100 ? to_string( u.str_cur ) : "99+" );
+    int stat = u.get_str();
+    mvwprintz( w, 0, stat < 10 ? 5 : 4, stat_clr,
+               stat < 100 ? to_string( stat ) : "99+" );
     stat_clr = dex_string( u ).first;
+    stat = u.get_dex();
     mvwprintz( w, 0, 9, c_light_gray, _( "DEX" ) );
-    mvwprintz( w, 0, u.dex_cur < 10 ? 14 : 13, stat_clr,
-               u.dex_cur < 100 ? to_string( u.dex_cur ) : "99+" );
+    mvwprintz( w, 0, stat < 10 ? 14 : 13, stat_clr,
+               stat < 100 ? to_string( stat ) : "99+" );
     stat_clr = int_string( u ).first;
+    stat = u.get_int();
     mvwprintz( w, 0, 17, c_light_gray, _( "INT" ) );
-    mvwprintz( w, 0, u.int_cur < 10 ? 22 : 21, stat_clr,
-               u.int_cur < 100 ? to_string( u.int_cur ) : "99+" );
+    mvwprintz( w, 0, stat < 10 ? 22 : 21, stat_clr,
+               stat < 100 ? to_string( stat ) : "99+" );
     stat_clr = per_string( u ).first;
+    stat = u.get_per();
     mvwprintz( w, 0, 25, c_light_gray, _( "PER" ) );
-    mvwprintz( w, 0, u.per_cur < 10 ? 30 : 29, stat_clr,
-               u.per_cur < 100 ? to_string( u.per_cur ) : "99+" );
+    mvwprintz( w, 0, stat < 10 ? 30 : 29, stat_clr,
+               stat < 100 ? to_string( stat ) : "99+" );
     wrefresh( w );
 }
 
@@ -1205,13 +1209,13 @@ static void draw_stat( avatar &u, const catacurses::window &w )
     mvwprintz( w, 1, 19, c_light_gray, _( "Per  :" ) );
 
     nc_color stat_clr = str_string( u ).first;
-    mvwprintz( w, 0, 8, stat_clr, "%s", u.str_cur );
+    mvwprintz( w, 0, 8, stat_clr, "%s", u.get_str() );
     stat_clr = int_string( u ).first;
-    mvwprintz( w, 1, 8, stat_clr, "%s", u.int_cur );
+    mvwprintz( w, 1, 8, stat_clr, "%s", u.get_int() );
     stat_clr = dex_string( u ).first;
-    mvwprintz( w, 0, 26, stat_clr, "%s", u.dex_cur );
+    mvwprintz( w, 0, 26, stat_clr, "%s", u.get_dex() );
     stat_clr = per_string( u ).first;
-    mvwprintz( w, 1, 26, stat_clr, "%s", u.per_cur );
+    mvwprintz( w, 1, 26, stat_clr, "%s", u.get_per() );
 
     std::pair<nc_color, std::string> pwr_pair = power_stat( u );
     mvwprintz( w, 2, 1, c_light_gray, _( "Power:" ) );

@@ -164,6 +164,46 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "recyclecenter_roof",
+    "copy-from": "generic_city_building",
+    "name": "recycle center roof",
+    "sym": "R",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "recyclecenter_1",
+    "copy-from": "generic_city_building",
+    "name": "recycle center",
+    "sym": "R",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "recyclecenter_roof_1",
+    "copy-from": "generic_city_building",
+    "name": "recycle center roof",
+    "sym": "R",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "recyclecenter_2",
+    "copy-from": "generic_city_building",
+    "name": "recycle center",
+    "sym": "R",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "recyclecenter_roof_2",
+    "copy-from": "generic_city_building",
+    "name": "recycle center roof",
+    "sym": "R",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "landfill",
     "copy-from": "generic_city_building",
     "name": "landfill",

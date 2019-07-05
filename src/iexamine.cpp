@@ -4551,9 +4551,9 @@ static void smoker_finalize( player &, const tripoint &examp, const time_point &
                 item result( it.get_comestible()->smoking_result, start_time + 6_hours, it.charges );
 
                 // Set flag to tell set_relative_rot() to calc from bday not now
-                result.set_flag( "SMOKING_RESULT" );
+                result.set_flag( "PROCESSING_RESULT" );
                 result.set_relative_rot( it.get_relative_rot() );
-                result.unset_flag( "SMOKING_RESULT" );
+                result.unset_flag( "PROCESSING_RESULT" );
                 it = result;
             }
         }

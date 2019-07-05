@@ -862,6 +862,12 @@ void avatar::store( JsonOut &json ) const
     json.member( "move_mode", move_mode );
     json.member( "magic", magic );
 
+    // stats through kills
+    json.member( "str_upgrade", abs( str_upgrade ) );
+    json.member( "dex_upgrade", abs( dex_upgrade ) );
+    json.member( "int_upgrade", abs( int_upgrade ) );
+    json.member( "per_upgrade", abs( per_upgrade ) );
+
     // crafting etc
     json.member( "activity", activity );
     json.member( "backlog", backlog );
@@ -954,6 +960,20 @@ void avatar::load( JsonObject &data )
     data.read( "focus_pool", focus_pool );
     data.read( "style_selected", style_selected );
     data.read( "keep_hands_free", keep_hands_free );
+
+    // stats through kills
+    data.read( "str_upgrade", str_upgrade );
+    data.read( "dex_upgrade", dex_upgrade );
+    data.read( "int_upgrade", int_upgrade );
+    data.read( "per_upgrade", per_upgrade );
+
+    // this is so we don't need to call get_option in a draw function
+    if( !get_option<bool>( "STATS_THROUGH_KILLS" ) )         {
+        str_upgrade = -str_upgrade;
+        dex_upgrade = -dex_upgrade;
+        int_upgrade = -int_upgrade;
+        per_upgrade = -per_upgrade;
+    }
 
     data.read( "stamina", stamina );
     data.read( "magic", magic );
@@ -1880,86 +1900,10 @@ void time_duration::serialize( JsonOut &jsout ) const
     jsout.write( turns_ );
 }
 
-time_duration time_duration::read_from_json_string( JsonIn &jsin )
-{
-    static const std::vector<std::pair<std::string, time_duration>> units = { {
-            { "turns", 1_turns },
-            { "turn", 1_turns },
-            { "t", 1_turns },
-            { "seconds", 1_seconds },
-            { "second", 1_seconds },
-            { "s", 1_seconds },
-            { "minutes", 1_minutes },
-            { "minute", 1_minutes },
-            { "m", 1_minutes },
-            { "hours", 1_hours },
-            { "hour", 1_hours },
-            { "h", 1_hours },
-            { "days", 1_days },
-            { "day", 1_days },
-            { "d", 1_days },
-            // TODO: maybe add seasons?
-            // TODO: maybe add years? Those two things depend on season length!
-        }
-    };
-    const size_t pos = jsin.tell();
-    size_t i = 0;
-    const auto error = [&]( const char *const msg ) {
-        jsin.seek( pos + i );
-        jsin.error( msg );
-    };
-
-    const std::string s = jsin.get_string();
-    // returns whether we are at the end of the string
-    const auto skip_spaces = [&]() {
-        while( i < s.size() && s[i] == ' ' ) {
-            ++i;
-        }
-        return i >= s.size();
-    };
-    const auto get_unit = [&]() {
-        if( skip_spaces() ) {
-            error( "invalid time duration string: missing unit" );
-        }
-        for( const auto &pair : units ) {
-            const std::string &unit = pair.first;
-            if( s.size() >= unit.size() + i && s.compare( i, unit.size(), unit ) == 0 ) {
-                i += unit.size();
-                return pair.second;
-            }
-        }
-        error( "invalid time duration string: unknown unit" );
-        throw; // above always throws
-    };
-
-    if( skip_spaces() ) {
-        error( "invalid time duration string: empty string" );
-    }
-    time_duration result = 0_turns;
-    do {
-        int sign_value = +1;
-        if( s[i] == '-' ) {
-            sign_value = -1;
-            ++i;
-        } else if( s[i] == '+' ) {
-            ++i;
-        }
-        if( i >= s.size() || !isdigit( s[i] ) ) {
-            error( "invalid time duration string: number expected" );
-        }
-        int value = 0;
-        for( ; i < s.size() && isdigit( s[i] ); ++i ) {
-            value = value * 10 + ( s[i] - '0' );
-        }
-        result += sign_value * value * get_unit();
-    } while( !skip_spaces() );
-    return result;
-}
-
 void time_duration::deserialize( JsonIn &jsin )
 {
     if( jsin.test_string() ) {
-        *this = read_from_json_string( jsin );
+        *this = read_from_json_string<time_duration>( jsin, time_duration::units );
     } else {
         turns_ = jsin.get_int();
     }
@@ -1981,7 +1925,7 @@ void item::io( Archive &archive )
     };
 
     const auto load_curammo = [this]( const std::string & id ) {
-        curammo = item::find_type( id );
+        curammo = item::find_type( item_controller->migrate_id( id ) );
     };
     const auto load_corpse = [this]( const std::string & id ) {
         if( id == "null" ) {

@@ -625,6 +625,27 @@ bool x_in_y( const time_duration &a, const time_duration &b )
     return ::x_in_y( to_turns<int>( a ), to_turns<int>( b ) );
 }
 
+const std::vector<std::pair<std::string, time_duration>> time_duration::units = { {
+        { "turns", 1_turns },
+        { "turn", 1_turns },
+        { "t", 1_turns },
+        { "seconds", 1_seconds },
+        { "second", 1_seconds },
+        { "s", 1_seconds },
+        { "minutes", 1_minutes },
+        { "minute", 1_minutes },
+        { "m", 1_minutes },
+        { "hours", 1_hours },
+        { "hour", 1_hours },
+        { "h", 1_hours },
+        { "days", 1_days },
+        { "day", 1_days },
+        { "d", 1_days },
+        // TODO: maybe add seasons?
+        // TODO: maybe add years? Those two things depend on season length!
+    }
+};
+
 season_type season_of_year( const time_point &p )
 {
     static time_point prev_turn = calendar::before_time_starts;

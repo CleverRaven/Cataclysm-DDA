@@ -1823,6 +1823,16 @@ void game::increase_kill_count( const mtype_id &id )
     kills[id]++;
 }
 
+int game::kill_xp() const
+{
+    int ret = 0;
+    for( const std::pair<mtype_id, int> &pair : kills ) {
+        ret += ( pair.first->difficulty + pair.first->difficulty_base ) * pair.second;
+    }
+    ret += npc_kills.size() * 10;
+    return ret;
+}
+
 void game::record_npc_kill( const npc &p )
 {
     npc_kills.push_back( p.get_name() );
@@ -2986,6 +2996,11 @@ void game::disp_kills()
         buffer << _( "You haven't killed any monsters yet!" );
     } else {
         buffer << string_format( _( "KILL COUNT: %d" ), totalkills );
+        if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
+            buffer << "    ";
+            buffer << string_format( _( "Experience: %d (%d points available)" ), kill_xp(),
+                                     u.free_upgrade_points() );
+        }
     }
     display_table( w, buffer.str(), 3, data );
 
