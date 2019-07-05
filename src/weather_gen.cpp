@@ -24,7 +24,9 @@ weather_generator::weather_generator() = default;
 int weather_generator::current_winddir = 1000;
 
 struct weather_gen_common {
-    double x, y, z;
+    double x;
+    double y;
+    double z;
     double ctn;
     double seasonal_variation;
     unsigned modSEED;
