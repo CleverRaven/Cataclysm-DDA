@@ -329,13 +329,13 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     }
 
     std::vector<Creature *> targets = g->get_creatures_if( [&]( const Creature & critter ) {
-        if( const monster *const mon_ptr = dynamic_cast<const monster *>( &critter ) ) {
+        if( critter.is_monster() ) {
             // friendly to the player, not a target for us
-            return mon_ptr->friendly == 0;
+            return static_cast<const monster *>( &critter )->friendly == 0;
         }
-        if( const npc *const npc_ptr = dynamic_cast<const npc *>( &critter ) ) {
+        if( critter.is_npc() ) {
             // friendly to the player, not a target for us
-            return npc_ptr->get_attitude() == NPCATT_KILL;
+            return static_cast<const npc *>( &critter )->get_attitude() == NPCATT_KILL;
         }
         // TODO: what about g->u?
         return false;
