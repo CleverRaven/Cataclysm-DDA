@@ -6707,7 +6707,7 @@
     "move_cost_mod": 4,
     "coverage": 10,
     "required_str": -1,
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "NONFLAMMABLE" ],
     "bash": { "str_min": 8, "str_max": 20, "sound": "splorch!", "sound_fail": "whump!" }
   },
   {
@@ -6720,7 +6720,7 @@
     "move_cost_mod": 6,
     "coverage": 30,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "flags": [ "TRANSPARENT", "EMITTER", "NONFLAMMABLE" ],
     "emissions": [ "emit_heater_vehicle" ],
     "bash": { "str_min": 13, "str_max": 26, "sound": "splorch!", "sound_fail": "whump!" }
   },
@@ -6734,7 +6734,7 @@
     "move_cost_mod": 6,
     "coverage": 40,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "flags": [ "TRANSPARENT", "EMITTER", "NONFLAMMABLE" ],
     "emissions": [ "emit_toxic_cloud", "emit_hot_air4_blast" ],
     "//": "TODO: Make a custom toxic gas emission that is not visible to the player",
     "bash": { "str_min": 30, "str_max": 60, "sound": "splorch!", "sound_fail": "whump!" }
@@ -6749,7 +6749,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "NONFLAMMABLE" ],
     "bash": { "str_min": 25, "str_max": 60, "sound": "splorch!", "sound_fail": "whump." }
   },
   {
@@ -6762,7 +6762,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "NONFLAMMABLE" ],
     "bash": { "str_min": 25, "str_max": 60, "sound": "splorch!", "sound_fail": "whump." }
   },
   {
@@ -6777,8 +6777,21 @@
     "required_str": -1,
     "deployed_item": "alien_pod_resin",
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "NONFLAMMABLE" ],
     "bash": { "str_min": 25, "str_max": 60, "sound": "splorch!", "sound_fail": "whump." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_alien_table",
+    "name": "fleshy altar",
+    "description": "This pulsing protruberance juts from the floor, its sides covered in scaled, oozing skin. The surface is flat, but undulates softly.  A handful of unidentifiable appendages reach from the sides, suggesting a sort of nightmarish living autodoc.",
+    "symbol": "n",
+    "color": "pink",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "NONFLAMMABLE" ],
+    "bash": { "str_min": 45, "str_max": 60, "sound": "splorch!", "sound_fail": "whump." }
   },
   {
     "type": "furniture",
