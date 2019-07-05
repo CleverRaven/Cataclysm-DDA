@@ -14,7 +14,6 @@
 #include <memory>
 #include <unordered_map>
 
-#include "ammo.h"
 #include "avatar.h"
 #include "cata_utility.h"
 // needed for the workaround for the std::to_string bug in some compilers
@@ -62,13 +61,13 @@
 #include "faction.h"
 #include "game_constants.h"
 #include "int_id.h"
-#include "item.h"
 #include "mapdata.h"
 #include "material.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "player.h"
+#include "point.h"
 
 class basecamp;
 
@@ -409,10 +408,10 @@ void game::chat()
                 for( npc *them : followers ) {
                     talk_function::assign_guard( *them );
                 }
-                yell_msg =  _( "Everyone guard here!" );
+                yell_msg = _( "Everyone guard here!" );
             } else {
                 talk_function::assign_guard( *followers[npcselect] );
-                yell_msg =  string_format( _( "Guard here, %s!" ), followers[npcselect]->name );
+                yell_msg = string_format( _( "Guard here, %s!" ), followers[npcselect]->name );
             }
             break;
         }
@@ -425,10 +424,10 @@ void game::chat()
                 for( npc *them : guards ) {
                     talk_function::stop_guard( *them );
                 }
-                yell_msg =  _( "Everyone follow me!" );
+                yell_msg = _( "Everyone follow me!" );
             } else {
                 talk_function::stop_guard( *guards[npcselect] );
-                yell_msg =  string_format( _( "Follow me, %s!" ), guards[npcselect]->name );
+                yell_msg = string_format( _( "Follow me, %s!" ), guards[npcselect]->name );
             }
             break;
         }
@@ -513,7 +512,7 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
             return;
             // discount if sound source is player, or seen by player,
             // listener is neutral and sound type is worth investigating.
-        } else if( spriority <  sounds::sound_t::destructive_activity &&
+        } else if( spriority < sounds::sound_t::destructive_activity &&
                    get_attitude_group( get_attitude() ) != attitude_group::hostile ) {
             return;
         }

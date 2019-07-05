@@ -31,6 +31,9 @@
 #include "rng.h"
 #include "vpart_position.h"
 #include "string_id.h"
+#include "enums.h"
+#include "int_id.h"
+#include "monster.h"
 
 static const std::string part_location_structure( "structure" );
 static const itype_id fuel_type_muscle( "muscle" );
@@ -73,7 +76,7 @@ int vmiph_to_cmps( int vmiph )
 
 int vehicle::slowdown( int at_velocity ) const
 {
-    double mps =  vmiph_to_mps( abs( at_velocity ) );
+    double mps = vmiph_to_mps( abs( at_velocity ) );
 
     // slowdown due to air resistance is proportional to square of speed
     double f_total_drag = coeff_air_drag() * mps * mps;
@@ -610,8 +613,8 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         // Velocity of object after collision
         const float vel2_a = ( mass * vel1 + mass2 * vel2 + e * mass * ( vel1 - vel2 ) ) / ( mass + mass2 );
         // Lost energy at collision -> deformation energy -> damage
-        const float E_before = 0.5f * ( mass * vel1 * vel1 )   + 0.5f * ( mass2 * vel2 * vel2 );
-        const float E_after =  0.5f * ( mass * vel1_a * vel1_a ) + 0.5f * ( mass2 * vel2_a * vel2_a );
+        const float E_before = 0.5f * ( mass * vel1 * vel1 )     + 0.5f * ( mass2 * vel2 * vel2 );
+        const float E_after  = 0.5f * ( mass * vel1_a * vel1_a ) + 0.5f * ( mass2 * vel2_a * vel2_a );
         const float d_E = E_before - E_after;
         if( d_E <= 0 ) {
             // Deformation energy is signed

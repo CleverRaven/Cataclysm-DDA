@@ -2,6 +2,7 @@
 #ifndef ITEM_H
 #define ITEM_H
 
+#include <stdint.h>
 #include <climits>
 #include <list>
 #include <map>
@@ -18,7 +19,6 @@
 #include "craft_command.h"
 #include "debug.h"
 #include "enums.h"
-#include "faction.h"
 #include "flat_set.h"
 #include "io_tags.h"
 #include "item_location.h"
@@ -29,10 +29,12 @@
 #include "units.h"
 #include "visitable.h"
 #include "gun_mode.h"
+#include "point.h"
 
 class item;
 class material_type;
 struct mtype;
+class faction;
 
 namespace cata
 {

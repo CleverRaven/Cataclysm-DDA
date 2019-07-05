@@ -2,10 +2,31 @@
 #ifndef AVATAR_H
 #define AVATAR_H
 
+#include <stddef.h>
+#include <iosfwd>
+#include <string>
+#include <unordered_set>
+#include <vector>
+
 #include "enums.h"
 #include "player.h"
-
 #include "magic_teleporter_list.h"
+#include "calendar.h"
+#include "item.h"
+#include "map_memory.h"
+#include "pldata.h"
+#include "point.h"
+
+class JsonIn;
+class JsonObject;
+class JsonOut;
+class mission;
+class npc;
+namespace debug_menu
+{
+class mission_debug;
+}  // namespace debug_menu
+struct points_left;
 
 class avatar : public player
 {
@@ -41,6 +62,15 @@ class avatar : public player
         /** Returns the amount of tiles survivor can remember. */
         size_t max_memorized_tiles() const;
         void clear_memorized_tile( const tripoint &pos );
+
+        /** Provides the window and detailed morale data */
+        void disp_morale();
+        /** Uses morale and other factors to return the player's focus gain rate */
+        int calc_focus_equilibrium() const;
+        /** Uses calc_focus_equilibrium to update the player's current focus */
+        void update_mental_focus();
+        /** Resets stats, and applies effects in an idempotent manner */
+        void reset_stats() override;
 
         std::vector<mission *> get_active_missions() const;
         std::vector<mission *> get_completed_missions() const;

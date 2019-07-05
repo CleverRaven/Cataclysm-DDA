@@ -51,6 +51,7 @@
 #include "weighted_list.h"
 #include "material.h"
 #include "type_id.h"
+#include "point.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_memory( "bio_memory" );

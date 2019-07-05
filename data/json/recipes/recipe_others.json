@@ -3576,6 +3576,20 @@
   },
   {
     "type": "recipe",
+    "result": "jumper_cable_heavy",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 3 ],
+    "difficulty": 5,
+    "time": "120 m",
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 60 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "cable", 650 ] ], [ [ "scrap", 10 ] ], [ [ "duct_tape", 30 ] ], [ [ "hose", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "bucket",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",

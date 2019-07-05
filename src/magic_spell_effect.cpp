@@ -1,7 +1,17 @@
-#include "magic.h"
-
+#include <limits.h>
+#include <math.h>
+#include <stdlib.h>
 #include <set>
+#include <algorithm>
+#include <array>
+#include <functional>
+#include <iterator>
+#include <map>
+#include <memory>
+#include <string>
+#include <vector>
 
+#include "magic.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "character.h"
@@ -18,6 +28,15 @@
 #include "player.h"
 #include "projectile.h"
 #include "type_id.h"
+#include "bodypart.h"
+#include "damage.h"
+#include "debug.h"
+#include "explosion.h"
+#include "magic_teleporter_list.h"
+#include "point.h"
+#include "ret_val.h"
+#include "rng.h"
+#include "translations.h"
 
 static tripoint random_point( int min_distance, int max_distance, const tripoint &player_pos )
 {
@@ -442,6 +461,7 @@ static bool add_summoned_mon( const mtype_id &id, const tripoint &pos, const tim
     if( !permanent ) {
         spawned_mon.set_summon_time( time );
     }
+    spawned_mon.no_extra_death_drops = true;
     return g->add_zombie( spawned_mon );
 }
 

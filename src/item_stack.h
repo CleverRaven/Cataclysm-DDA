@@ -5,7 +5,7 @@
 #include <cstddef>
 
 #include "colony.h"
-#include "item.h"
+#include "item.h" // IWYU pragma: keep
 #include "units.h"
 
 // A wrapper class to bundle up the references needed for a caller to safely manipulate

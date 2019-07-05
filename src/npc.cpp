@@ -8,7 +8,6 @@
 #include <limits>
 #include <sstream>
 
-#include "ammo.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "coordinate_conversions.h"
@@ -57,6 +56,10 @@
 #include "visitable.h"
 #include "int_id.h"
 #include "pldata.h"
+#include "clzones.h"
+#include "enums.h"
+#include "flat_set.h"
+#include "stomach.h"
 
 class basecamp;
 class monfaction;
@@ -320,9 +323,9 @@ void npc::randomize( const npc_class_id &type )
     weapon   = item( "null", 0 );
     inv.clear();
     personality.aggression = rng( -10, 10 );
-    personality.bravery =    rng( -3, 10 );
-    personality.collector =  rng( -1, 10 );
-    personality.altruism =   rng( -10, 10 );
+    personality.bravery    = rng( -3, 10 );
+    personality.collector  = rng( -1, 10 );
+    personality.altruism   = rng( -10, 10 );
     moves = 100;
     mission = NPC_MISSION_NULL;
     male = one_in( 2 );
@@ -1240,6 +1243,7 @@ void npc::say( const std::string &line, const int priority ) const
     }
     // Hallucinations don't make noise when they speak
     if( is_hallucination() ) {
+        add_msg( _( "%1$s saying \"%2$s\"" ), name, formatted_line );
         return;
     }
     // Sound happens even if we can't hear it
@@ -2575,7 +2579,7 @@ void npc::set_companion_mission( const tripoint &omt_pos, const std::string &rol
                                  const std::string &mission_id )
 {
     comp_mission.position = omt_pos;
-    comp_mission.mission_id =  mission_id;
+    comp_mission.mission_id = mission_id;
     comp_mission.role_id = role_id;
 }
 
@@ -2583,7 +2587,7 @@ void npc::set_companion_mission( const tripoint &omt_pos, const std::string &rol
                                  const std::string &mission_id, const tripoint &destination )
 {
     comp_mission.position = omt_pos;
-    comp_mission.mission_id =  mission_id;
+    comp_mission.mission_id = mission_id;
     comp_mission.role_id = role_id;
     comp_mission.destination = destination;
 }

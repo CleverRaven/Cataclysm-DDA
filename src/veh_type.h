@@ -15,14 +15,13 @@
 #include "calendar.h"
 #include "color.h"
 #include "damage.h"
-#include "enums.h"
-#include "emit.h"
 #include "optional.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
 #include "requirements.h"
+#include "point.h"
 
 using itype_id = std::string;
 

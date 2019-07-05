@@ -1,5 +1,6 @@
 #include "requirements.h"
 
+#include <limits.h>
 #include <cstdlib>
 #include <algorithm>
 #include <limits>
@@ -20,12 +21,12 @@
 #include "itype.h"
 #include "json.h"
 #include "output.h"
-#include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "color.h"
 #include "item.h"
 #include "visitable.h"
+#include "point.h"
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 

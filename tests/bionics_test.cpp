@@ -7,7 +7,6 @@
 
 #include "avatar.h"
 #include "catch/catch.hpp"
-#include "ammo.h"
 #include "bionics.h"
 #include "game.h"
 #include "item.h"

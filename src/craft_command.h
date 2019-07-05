@@ -5,7 +5,6 @@
 #include <vector>
 #include <string>
 
-#include "enums.h"
 #include "point.h"
 #include "requirements.h"
 
@@ -13,6 +12,8 @@ class inventory;
 class item;
 class player;
 class recipe;
+class JsonIn;
+class JsonOut;
 
 /**
 *   enum used by comp_selection to indicate where a component should be consumed from.

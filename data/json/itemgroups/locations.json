@@ -26,6 +26,12 @@
   },
   {
     "type": "item_group",
+    "id": "paintball_items",
+    "//": "For paintball_field.json",
+    "items": [ [ "paintballgun", 55 ], [ "paintball", 45 ], [ "goggles_swim", 15 ] ]
+  },
+  {
+    "type": "item_group",
     "id": "oa_ig_cs_desks",
     "//": "For cs_car_showroom",
     "items": [
@@ -165,6 +171,25 @@
     "id": "mags_pawnshop",
     "subtype": "distribution",
     "entries": [ { "group": "mags_obscure", "prob": 10 } ]
+  },
+  {
+    "id": "petstore_misc",
+    "type": "item_group",
+    "items": [ [ "dogfood", 35 ], [ "catfood", 35 ], [ "birdfood", 15 ], [ "dog_whistle", 15 ], [ "flashlight", 5 ] ]
+  },
+  {
+    "id": "petstore_shelves",
+    "type": "item_group",
+    "items": [
+      [ "dogfood", 30 ],
+      [ "catfood", 30 ],
+      [ "birdfood", 15 ],
+      [ "can_tuna", 15 ],
+      [ "can_chicken", 15 ],
+      [ "kevlar_harness", 5 ],
+      [ "leather_harness_dog", 5 ],
+      [ "rubber_harness_dog", 5 ]
+    ]
   },
   {
     "type": "item_group",
@@ -978,6 +1003,21 @@
       [ "usb_drive", 5 ],
       [ "software_useless", 10 ],
       [ "survnote", 1 ]
+    ]
+  },
+  {
+    "id": "my_precious",
+    "type": "item_group",
+    "//": "for pawn_shop safe",
+    "subtype": "distribution",
+    "items": [
+      { "group": "supplies_metal_precious", "prob": 70 },
+      { "item": "money_bundle", "prob": 90 },
+      { "item": "gold_watch", "prob": 30 },
+      { "item": "gold_ear", "prob": 30 },
+      { "item": "gold_bracelet", "prob": 30 },
+      { "item": "diamond_ring", "prob": 20 },
+      { "item": "diamond", "prob": 10 }
     ]
   },
   {

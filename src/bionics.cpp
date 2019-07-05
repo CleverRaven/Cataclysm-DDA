@@ -54,6 +54,11 @@
 #include "pimpl.h"
 #include "pldata.h"
 #include "units.h"
+#include "colony.h"
+#include "inventory.h"
+#include "item_location.h"
+#include "monster.h"
+#include "point.h"
 
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );

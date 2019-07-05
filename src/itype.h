@@ -27,14 +27,13 @@ class item_category;
 class Item_factory;
 class player;
 class item;
+struct tripoint;
 
 enum art_effect_active : int;
 enum art_charge : int;
 enum art_charge_req : int;
 enum art_effect_passive : int;
 using itype_id = std::string;
-
-enum field_id : int;
 
 class gun_modifier_data
 {

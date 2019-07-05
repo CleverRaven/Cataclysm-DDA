@@ -17,10 +17,10 @@
 #include "options.h"
 #include "player.h"
 #include "test_statistics.h"
-#include "enums.h"
 #include "game_constants.h"
 #include "item.h"
 #include "line.h"
+#include "point.h"
 
 using move_statistics = statistics<int>;
 

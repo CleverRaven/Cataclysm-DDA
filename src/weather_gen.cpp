@@ -6,12 +6,12 @@
 #include <random>
 #include <string>
 
-#include "enums.h"
 #include "game_constants.h"
 #include "json.h"
 #include "rng.h"
 #include "simplexnoise.h"
 #include "weather.h"
+#include "point.h"
 
 namespace
 {
@@ -255,7 +255,7 @@ void weather_generator::test_weather() const
     const time_point end = begin + 2 * calendar::year_length();
     for( time_point i = begin; i < end; i += 20_minutes ) {
         w_point w = get_weather( tripoint_zero, to_turn<int>( i ), 1000 );
-        weather_type c =  get_weather_conditions( w );
+        weather_type c = get_weather_conditions( w );
         weather_datum wd = weather_data( c );
 
         int year = to_turns<int>( i - calendar::time_of_cataclysm ) / to_turns<int>

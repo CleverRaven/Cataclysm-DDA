@@ -1,6 +1,8 @@
 #include "debug_menu.h"
 
-#include <cstddef>
+// IWYU pragma: no_include <cxxabi.h>
+#include <limits.h>
+#include <stdint.h>
 #include <algorithm>
 #include <chrono>
 #include <vector>
@@ -14,6 +16,9 @@
 #include <string>
 #include <type_traits>
 #include <utility>
+#include <cstdlib>
+#include <ctime>
+#include <unordered_map>
 
 #include "action.h"
 #include "avatar.h"
@@ -49,14 +54,11 @@
 #include "pldata.h"
 #include "translations.h"
 #include "type_id.h"
-
 #include "map.h"
 #include "veh_type.h"
-#include "enums.h"
 #include "weather.h"
 #include "recipe_dictionary.h"
 #include "martialarts.h"
-#include "item.h"
 #include "sounds.h"
 #include "trait_group.h"
 #include "artifact.h"
@@ -64,6 +66,23 @@
 #include "rng.h"
 #include "signal.h"
 #include "magic.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "cata_utility.h"
+#include "clzones.h"
+#include "compatibility.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "input.h"
+#include "item_group.h"
+#include "monster.h"
+#include "point.h"
+#include "stomach.h"
+#include "string_id.h"
+#include "units.h"
+#include "weather_gen.h"
+
+class vehicle;
 
 #if defined(TILES)
 #include "sdl_wrappers.h"

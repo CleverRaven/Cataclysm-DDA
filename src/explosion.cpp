@@ -50,6 +50,13 @@
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "flat_set.h"
+#include "int_id.h"
+#include "material.h"
+#include "monster.h"
+#include "mtype.h"
+#include "point.h"
+#include "type_id.h"
 
 static const itype_id null_itype( "null" );
 
@@ -752,7 +759,7 @@ void resonance_cascade( const tripoint &p )
                 case 5:
                     for( int k = i - 1; k <= i + 1; k++ ) {
                         for( int l = j - 1; l <= j + 1; l++ ) {
-                            field_id type = fd_null;
+                            field_type_id type = fd_null;
                             switch( rng( 1, 7 ) ) {
                                 case 1:
                                     type = fd_blood;

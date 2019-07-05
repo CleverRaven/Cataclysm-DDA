@@ -7,7 +7,6 @@
 #include <memory>
 #include <string>
 
-#include "enums.h"
 #include "point.h"
 
 class submap;

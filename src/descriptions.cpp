@@ -11,7 +11,6 @@
 #include "map.h"
 #include "mapdata.h"
 #include "output.h"
-#include "player.h"
 #include "string_formatter.h"
 #include "color.h"
 #include "translations.h"

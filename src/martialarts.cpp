@@ -26,6 +26,8 @@
 #include "item.h"
 #include "pimpl.h"
 #include "pldata.h"
+#include "enums.h"
+#include "optional.h"
 
 const skill_id skill_melee( "melee" );
 const skill_id skill_bashing( "bashing" );
@@ -1138,7 +1140,7 @@ std::string ma_technique::get_description() const
     }
 
     if( knockback_follow ) {
-        dump <<  _( "* Will <info>follow</info> enemies after knockback." ) << std::endl;
+        dump << _( "* Will <info>follow</info> enemies after knockback." ) << std::endl;
     }
 
     if( down_dur ) {
