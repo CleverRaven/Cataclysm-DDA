@@ -1,0 +1,31 @@
+[
+  {
+    "type": "palette",
+    "id": "demon_spider_lair",
+    "terrain": {
+      "7": [
+        [ "t_tree_burnt", 60 ],
+        "t_tree",
+        "t_tree_apple",
+        "t_tree_peach",
+        "t_tree_pear",
+        "t_tree_hickory",
+        "t_tree_beech",
+        "t_tree_coffee",
+        "t_tree_pine",
+        "t_tree_birch",
+        "t_tree_willow",
+        "t_tree_maple"
+      ],
+      ".": [ [ "t_grass_dead", 2 ], [ "t_dirt", 15 ], [ "t_sand", 10 ], [ "t_dirtmound", 3 ], [ "t_rock_floor_no_roof", 8 ] ],
+      ",": [ "t_dirtfloor" ],
+      "S": [ "t_dirtfloor" ],
+      "s": [ [ "t_dirtfloor", 6 ], [ "t_dirt", 15 ], [ "t_sand", 10 ], [ "t_dirtmound", 4 ], [ "t_rock_floor_no_roof", 3 ] ]
+    },
+    "fields": {
+      ".": { "field": "fd_web", "intensity": 2, "chance": 20 },
+      ",": { "field": "fd_web", "intensity": 3, "chance": 65 },
+      "s": { "field": "fd_web", "intensity": 3, "chance": 40 }
+    }
+  }
+]

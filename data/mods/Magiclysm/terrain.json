@@ -1,0 +1,21 @@
+{
+  {
+    "type": "terrain",
+    "id": "t_tree_burnt",
+    "name": "burnt tree",
+    "description": "This tree looks like it has been burnt badly, but it is somehow still standing.",
+    "symbol": "7",
+    "color": "dark_grey",
+    "move_cost": 0,
+    "coverage": 60,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "ash", "count": [ 3, 10 ] } ]
+    }
+  }
+}
