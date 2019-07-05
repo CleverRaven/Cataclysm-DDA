@@ -715,7 +715,7 @@ float player::get_dodge() const
     for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
         const monster *const mon = g->critter_at<monster>( dest );
         if( mon && ( mon->has_flag( MF_GRABS ) ||
-            mon->type->has_special_attack( "GRAB" ) ) ) {
+                     mon->type->has_special_attack( "GRAB" ) ) ) {
             zed_number++;
         }
     }
@@ -726,7 +726,7 @@ float player::get_dodge() const
 
     if( worn_with_flag( "ROLLER_INLINE" ) ||
         worn_with_flag( "ROLLER_QUAD" ) ||
-        worn_with_flag( "ROLLER_ONE" ) ) { 
+        worn_with_flag( "ROLLER_ONE" ) ) {
         ret /= has_trait( trait_PROF_SKATER ) ? 2 : 5;
     }
 
