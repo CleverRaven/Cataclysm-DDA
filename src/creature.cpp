@@ -679,7 +679,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             // we can assume a person knows how to untangle their legs eventually and not panic like an animal.
             add_effect( effect_downed, 1_turns );
             // stunned to simulate staggering around and stumbling trying to get the entangled thing off of them.
-            add_effect( effect_stunned, 1_turns * rng( 3, 8 ) );
+            add_effect( effect_stunned, rng( 3_turns, 8_turns ) );
         }
     }
     if( proj.proj_effects.count( "FLAME" ) ) {
