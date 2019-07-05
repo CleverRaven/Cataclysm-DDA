@@ -3,7 +3,7 @@
     "id": "copper_bracelet_manafocus_off",
     "type": "ARMOR",
     "name": "copper mana focusing bracelet",
-    "description": "An ornate copper bracelet covered in magical symbols, crafted and manipulated to act as a focus for magical powers when you are enchanting. This is the most basic enchanting tool. Activate to say the command word and turn the bracelet into a pencil like tool with a sharp point that you can use to etch magical symbols into other materials.",
+    "description": "An ornate copper bracelet covered in magical symbols, crafted and manipulated to act as a focus for magical powers when you are enchanting. This is the second most basic enchanting tool. Activate to say the command word and turn the bracelet into a pencil like tool with a sharp point that you can use to etch magical symbols into other materials.",
     "weight": 30,
     "volume": 0,
     "price": 25000,
