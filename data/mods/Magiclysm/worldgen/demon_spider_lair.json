@@ -27,10 +27,11 @@
       "#": [ [ "t_demon_web_wall", 10 ], "t_tree_burnt" ]
     },
     "fields": {
-      " ": { "field": "fd_web", "intensity": 2, "prob": 5 },
-      ".": { "field": "fd_web", "intensity": 3, "prob": 65 },
-      "s": { "field": "fd_web", "intensity": 3, "prob": 40 },
-      "S": { "field": "fd_web", "intensity": 3 }
+      " ": { "field": "fd_web", "intensity": 2 },
+      ".": { "field": "fd_web", "intensity": 3 },
+      "s": { "field": "fd_web", "intensity": 3 },
+      "S": { "field": "fd_web", "intensity": 3 },
+      "~": { "field": "fd_web", "intensity": 3 }
     },
     "items": {
       "$": { "item": "demon_spider_lair_treasure", "chance": 50, "repeat": [ 3, 6 ] }
