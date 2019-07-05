@@ -420,8 +420,8 @@
       [ "762R_casing", 60 ],
       [ "9mm_casing", 100 ],
       [ "9x18mm_casing", 80 ],
-      [ "shot_hull", 100 ]
-      { "item": "300BLK_casing", "prob": 80, "count": 20 }
+      [ "shot_hull", 100 ],
+      [ "300BLK_casing", 80 ]
     ]
   },
   {
