@@ -76,7 +76,7 @@
         "M": "f_bookcase",
         "X": "f_magiclysm_translocator_gate",
         "W": "f_water_heater"
-      }
+      },
       "items": {
         "S": { "item": "softdrugs", "chance": 20, "repeat": [ 1, 2 ] },
         "b": { "item": "novels", "chance": 20, "repeat": [ 2, 3 ] },
