@@ -85,7 +85,6 @@
         [ "egg_chicken", 5 ],
         [ "egg_pheasant", 5 ],
         [ "egg_cockatrice", 5 ],
-        [ "egg_reptile", 5 ],
         [ "egg_turkey", 3 ],
         [ "egg_goose_canadian", 2 ]
       ],
