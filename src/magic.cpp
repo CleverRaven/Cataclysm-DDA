@@ -917,6 +917,7 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
                     _( "Learning this spell will make you a\n\n%s: %s\n\nand lock you out of\n\n%s\n\nContinue?" ),
                     sp->spell_class->name(), sp->spell_class->desc(), trait_cancel ) ) {
                 p.set_mutation( sp->spell_class );
+                p.on_mutation_gain( sp->spell_class );
                 p.add_msg_if_player( sp->spell_class.obj().desc() );
             } else {
                 return;
