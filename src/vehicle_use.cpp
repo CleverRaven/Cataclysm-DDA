@@ -382,7 +382,7 @@ int vehicle::select_engine()
                                   fuel_left( fuel_id ) );
             tmenu.addentry( i++, is_available, -1, "[%s] %s %s",
                             is_active ? "x" : " ", parts[ e ].name(),
-                            item::find_type( fuel_id )->nname( 1 ) );
+                            item::nname( fuel_id ) );
         }
     }
     tmenu.query();

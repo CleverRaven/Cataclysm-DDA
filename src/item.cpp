@@ -1697,7 +1697,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             const auto compat = magazine_compatible();
             info.emplace_back( "DESCRIPTION", _( "<bold>Compatible magazines:</bold> " ) +
             enumerate_as_string( compat.begin(), compat.end(), []( const itype_id & id ) {
-                return item_controller->find_template( id )->nname( 1 );
+                return item::nname( id );
             } ) );
         }
 
@@ -2418,7 +2418,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( !rep.empty() ) {
                 info.emplace_back( "DESCRIPTION", _( "<bold>Repaired with</bold>: " ) +
                 enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
-                    return item::find_type( e )->nname( 1 );
+                    return nname( e );
                 }, enumeration_conjunction::or_ ) );
                 insert_separation_line();
                 if( reinforceable() ) {
