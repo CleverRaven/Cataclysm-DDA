@@ -1888,6 +1888,21 @@ void Item_factory::load_magazine( JsonObject &jo, const std::string &src )
     }
 }
 
+void Item_factory::load( islot_battery &slot, JsonObject &jo, const std::string & )
+{
+    slot.max_capacity = read_from_json_string<units::energy>( *jo.get_raw( "max_capacity" ),
+                        units::energy_units );
+}
+
+void Item_factory::load_battery( JsonObject &jo, const std::string &src )
+{
+    itype def;
+    if( load_definition( jo, src, def ) ) {
+        load_slot( def.battery, jo, src );
+        load_basic_info( jo, def, src );
+    }
+}
+
 void Item_factory::load( islot_bionic &slot, JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";

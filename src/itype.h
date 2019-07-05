@@ -618,6 +618,11 @@ struct islot_magazine {
     bool protects_contents = false;
 };
 
+struct islot_battery {
+    /** Maximum energy the battery can store */
+    units::energy max_capacity;
+};
+
 struct islot_ammo : common_ranged_data {
     /**
      * Ammo type, basically the "form" of the ammo that fits into the gun/tool.
@@ -762,6 +767,7 @@ struct itype {
         cata::optional<islot_gun> gun;
         cata::optional<islot_gunmod> gunmod;
         cata::optional<islot_magazine> magazine;
+        cata::optional<islot_battery> battery;
         cata::optional<islot_bionic> bionic;
         cata::optional<islot_ammo> ammo;
         cata::optional<islot_seed> seed;
