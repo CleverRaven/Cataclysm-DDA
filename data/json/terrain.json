@@ -11464,7 +11464,7 @@
       "str_max": 700,
       "sound": "boom!",
       "sound_fail": "whack!",
-      "ter_set": "t_null",
+      "ter_set": "t_resin_hole",
       "items": [ { "item": "resin_chunk", "count": [ 10, 40 ] } ]
     }
   },
@@ -11478,13 +11478,13 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_resin_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "BLOCK_WIND", "NONFLAMMABLE" ],
+    "flags": [ "NOITEM", "WALL", "TRANSPARENT", "INDOORS", "NONFLAMMABLE", "MINEABLE" ],
     "bash": {
-      "str_min": 100,
-      "str_max": 500,
+      "str_min": 70,
+      "str_max": 300,
       "sound": "boom!",
       "sound_fail": "whack!",
-      "ter_set": "t_null",
+      "ter_set": "t_floor_resin",
       "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
     }
   },
@@ -11589,11 +11589,11 @@
   {
     "type": "terrain",
     "id": "t_resin_hole",
-    "name": "resinous hole",
+    "name": "resin-lined hole",
     "description": "An open hole in the resin wall, large enough to pass through.",
     "symbol": "O",
     "color": "light_gray",
-    "move_cost": 2,
+    "move_cost": 4,
     "roof": "t_resin_roof",
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "NONFLAMMABLE" ],
     "bash": {
@@ -11601,7 +11601,7 @@
       "str_max": 500,
       "sound": "boom!",
       "sound_fail": "whack!",
-      "ter_set": "t_null",
+      "ter_set": "t_floor_resin",
       "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
     }
   }
