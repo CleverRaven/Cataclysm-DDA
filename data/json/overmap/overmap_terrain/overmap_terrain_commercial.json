@@ -279,6 +279,55 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_hardware_roof",
+    "name": "hardware store roof",
+    "copy-from": "generic_city_building",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_hardware_1",
+    "name": "hardware store",
+    "copy-from": "generic_city_building",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_hardware_roof_1",
+    "name": "hardware store roof",
+    "copy-from": "generic_city_building",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_hardware_2",
+    "name": "hardware store",
+    "copy-from": "generic_city_building",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_hardware_roof_2",
+    "name": "hardware store roof",
+    "copy-from": "generic_city_building",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_hardware_3",
+    "name": "hardware store",
+    "copy-from": "generic_city_building",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_hardware_roof_3",
+    "name": "hardware store roof",
+    "copy-from": "generic_city_building",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_electronics",
     "name": "electronics store",
     "copy-from": "generic_city_building",
