@@ -6706,9 +6706,9 @@
     "color": "blue",
     "move_cost_mod": 4,
     "coverage": 10,
+    "light_emitted": 15,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EMITTER", "NONFLAMMABLE" ],
-    "emissions": [ "emit_glimmer" ],
+    "flags": [ "TRANSPARENT", "NONFLAMMABLE" ],
     "bash": { "str_min": 8, "str_max": 20, "sound": "splorch!", "sound_fail": "whump!" }
   },
   {
@@ -6721,6 +6721,7 @@
     "move_cost_mod": 6,
     "coverage": 30,
     "required_str": -1,
+    "light_emitted": 5,
     "flags": [ "TRANSPARENT", "EMITTER", "NONFLAMMABLE" ],
     "emissions": [ "emit_heater_vehicle" ],
     "bash": { "str_min": 13, "str_max": 26, "sound": "splorch!", "sound_fail": "whump!" }
