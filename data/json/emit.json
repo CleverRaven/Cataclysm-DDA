@@ -142,5 +142,12 @@
     "field": "fd_cold_air3",
     "qty": 3,
     "chance": 100
+  },
+  {
+    "id": "emit_glimmer",
+    "type": "emit",
+    "field": "fd_dazzling",
+    "qty": 1,
+    "chance": 50
   }
 ]
