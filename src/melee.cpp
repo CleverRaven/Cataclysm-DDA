@@ -73,6 +73,7 @@ const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_contacts( "contacts" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_drunk( "drunk" );
+const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_lightsnare( "lightsnare" );
@@ -708,6 +709,19 @@ float player::get_dodge() const
     if( has_effect( effect_beartrap ) || has_effect( effect_lightsnare ) ||
         has_effect( effect_heavysnare ) ) {
         ret /= 2;
+    }
+
+    int zed_number = 0;
+    for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
+        const monster *const mon = g->critter_at<monster>( dest );
+        if( mon && ( mon->has_flag( MF_GRABS ) ||
+            mon->type->has_special_attack( "GRAB" ) ) ) {
+            zed_number++;
+        }
+    }
+
+    if( has_effect( effect_grabbed ) && zed_number > 0 ) {
+        ret /= zed_number + 1;
     }
 
     if( worn_with_flag( "ROLLER_INLINE" ) ||
