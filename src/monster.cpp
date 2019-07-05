@@ -1486,42 +1486,41 @@ bool monster::move_effects( bool )
         // friendly pet, will stay tied down and obey.
         if( friendly == -1 ) {
             return false;
-        } else {
-            // non-friendly monster will struggle to get free occasionally.
-            // some monsters cant be tangled up with a net/bolas/lassoo etc.
-            bool immediate_break = type->in_species( FISH ) || type->in_species( MOLLUSK ) ||
-                                   type->in_species( ROBOT ) || type->bodytype == "snake" || type->bodytype == "blob";
-            if( !immediate_break && rng( 0, 900 ) > type->melee_dice * type->melee_sides * 1.5 ) {
-                if( u_see_me ) {
-                    add_msg( _( "The %s struggles to break free of its bonds." ), name() );
-                }
-            } else if( immediate_break ) {
-                remove_effect( effect_tied );
-                if( tied_item ) {
-                    if( u_see_me ) {
-                        add_msg( _( "The %s easily slips out of its bonds." ), name() );
-                    }
-                    g->m.add_item_or_charges( pos(), *tied_item );
-                    tied_item = cata::nullopt;
-                }
-            } else {
-                if( tied_item ) {
-                    const bool broken = rng( type->melee_dice * type->melee_sides, std::min( 10000,
-                                             type->melee_dice * type->melee_sides * 250 ) ) > 800;
-                    if( !broken ) {
-                        g->m.add_item_or_charges( pos(), *tied_item );
-                    }
-                    tied_item = cata::nullopt;
-                    if( u_see_me ) {
-                        if( broken ) {
-                            add_msg( _( "The %s snaps the bindings holding it down." ), name() );
-                        } else {
-                            add_msg( _( "The %s breaks free of the bindings holding it down." ), name() );
-                        }
-                    }
-                }
-                remove_effect( effect_tied );
+        }
+        // non-friendly monster will struggle to get free occasionally.
+        // some monsters cant be tangled up with a net/bolas/lassoo etc.
+        bool immediate_break = type->in_species( FISH ) || type->in_species( MOLLUSK ) ||
+                               type->in_species( ROBOT ) || type->bodytype == "snake" || type->bodytype == "blob";
+        if( !immediate_break && rng( 0, 900 ) > type->melee_dice * type->melee_sides * 1.5 ) {
+            if( u_see_me ) {
+                add_msg( _( "The %s struggles to break free of its bonds." ), name() );
             }
+        } else if( immediate_break ) {
+            remove_effect( effect_tied );
+            if( tied_item ) {
+                if( u_see_me ) {
+                    add_msg( _( "The %s easily slips out of its bonds." ), name() );
+                }
+                g->m.add_item_or_charges( pos(), *tied_item );
+                tied_item = cata::nullopt;
+            }
+        } else {
+            if( tied_item ) {
+                const bool broken = rng( type->melee_dice * type->melee_sides, std::min( 10000,
+                                         type->melee_dice * type->melee_sides * 250 ) ) > 800;
+                if( !broken ) {
+                    g->m.add_item_or_charges( pos(), *tied_item );
+                }
+                tied_item = cata::nullopt;
+                if( u_see_me ) {
+                    if( broken ) {
+                        add_msg( _( "The %s snaps the bindings holding it down." ), name() );
+                    } else {
+                        add_msg( _( "The %s breaks free of the bindings holding it down." ), name() );
+                    }
+                }
+            }
+            remove_effect( effect_tied );
         }
         return false;
     }
