@@ -209,6 +209,7 @@
     "items": [ [ "glow_dust", 1 ] ]
   },
   {
+    "type": "item_group",
     "id": "basement_utility_closet",
     "//": "Stuff you would find in someone's basement closet.",
     "items": [

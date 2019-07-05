@@ -12,8 +12,8 @@
     "difficulty": 0,
     "location": "armor",
     "flags": [ "ARMOR" ],
-    "breaks_into": "leather",
+    "breaks_into": [ { "item": "leather", "count": [ 1, 2 ] } ],
     "damage_reduction": { "all": 12 },
-    "requirements": { "install": { "time": 120000, "using": [ [ "rope_natural_long", 2 ] ] } }
+    "requirements": { "install": { "time": 160000, "using": [ [ "rope_natural", 2 ] ] } }
   }
 ]
