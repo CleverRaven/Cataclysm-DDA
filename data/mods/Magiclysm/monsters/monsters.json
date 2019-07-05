@@ -70,8 +70,9 @@
     "aggression": 0,
     "morale": 60,
     "melee_skill": 6,
-    "melee_dice": 14,
-    "melee_dice_sides": 6,
+    "melee_dice": 4,
+    "melee_dice_sides": 3,
+    "melee_bash": 20,
     "melee_cut": 10,
     "dodge": 2,
     "armor_bash": 32,
@@ -79,7 +80,11 @@
     "harvest": "bulette",
     "anger_triggers": [ "SOUND" ],
     "death_function": [ "NORMAL" ],
-    "special_attacks": [ [ "scratch", 6 ], [ "SMASH", 20 ] ],
+    "special_attacks": [
+    { "id": "scratch", "cooldown": 4, "damage_max_instance": [ { "damage_type": "cut", "amount": 60, "armor_multiplier": 0.9 } ] },
+    { "id": "slam", "cooldown": 3, "damage_max_instance": [ { "damage_type": "bash", "amount": 80, "armor_multiplier": 0.8 } ] },
+    [ "SMASH", 10 ]
+  ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM", "CAN_DIG", "HIT_AND_RUN", "HARDTOSHOOT" ]
   },
   {
