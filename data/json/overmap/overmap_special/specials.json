@@ -3565,6 +3565,7 @@
     "id": "shooting range",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "shootingrange_1a_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "shootingrange_1a_roof_north" },
       { "point": [ 0, 1, 0 ], "overmap": "shootingrange_2a_north" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
