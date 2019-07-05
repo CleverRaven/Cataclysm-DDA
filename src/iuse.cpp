@@ -5075,6 +5075,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                         const tripoint spawnp = random_entry_removed( empty );
                         if( monster *const b = g->summon_mon( bug, spawnp ) ) {
                             b->friendly = -1;
+                            b->add_effect( effect_pet, 1_turns, num_bp, true );
                         }
                     }
                 }
