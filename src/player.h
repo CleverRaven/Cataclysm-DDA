@@ -185,6 +185,12 @@ class player : public Character
         bool is_player() const override {
             return true;
         }
+        player *as_player() override {
+            return this;
+        }
+        const player *as_player() const override {
+            return this;
+        }
 
         /** Processes human-specific effects of effects before calling Creature::process_effects(). */
         void process_effects() override;

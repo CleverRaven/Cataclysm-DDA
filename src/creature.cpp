@@ -180,7 +180,7 @@ bool Creature::sees( const Creature &critter ) const
         return is_player();
     }
 
-    const auto p = dynamic_cast< const player * >( &critter );
+    const player *p = critter.as_player();
     if( p != nullptr && p->is_invisible() ) {
         // Let invisible players see themselves (simplifies drawing)
         return p == this;
@@ -202,7 +202,7 @@ bool Creature::sees( const Creature &critter ) const
                     abs( posz() - critter.posz() ) <= 1 ) ) ) {
         return false;
     }
-    if( const player *p = dynamic_cast<const player *>( &critter ) ) {
+    if( p != nullptr ) {
         if( p->get_movement_mode() == "crouch" ) {
             const int coverage = g->m.obstacle_coverage( pos(), critter.pos() );
             if( coverage < 30 ) {
