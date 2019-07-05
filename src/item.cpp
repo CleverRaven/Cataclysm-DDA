@@ -2186,7 +2186,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 const auto compat = magazine_compatible();
                 info.emplace_back( "TOOL", _( "<bold>Compatible magazines:</bold> " ),
                 enumerate_as_string( compat.begin(), compat.end(), []( const itype_id & id ) {
-                    return item_controller->find_template( id )->nname( 1 );
+                    return item::nname( id );
                 } ) );
             }
         } else if( ammo_capacity() != 0 && parts->test( iteminfo_parts::TOOL_CAPACITY ) ) {
