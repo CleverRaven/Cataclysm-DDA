@@ -65,18 +65,6 @@ struct span {
     bool skip_first_row;
 };
 
-// Add defaults for when method is invoked for the first time.
-template<int xx, int xy, int xz, int yx, int yy, int yz, int zz, typename T,
-         T( *calc )( const T &, const T &, const int & ),
-         bool( *check )( const T &, const T & ),
-         T( *accumulate )( const T &, const T &, const int & )>
-void cast_zlight_segment(
-    const array_of_grids_of<T> &output_caches,
-    const array_of_grids_of<const T> &input_arrays,
-    const array_of_grids_of<const bool> &floor_caches,
-    const tripoint &offset, const int offset_distance,
-    const T numerator = 1.0f );
-
 template<int xx, int xy, int xz, int yx, int yy, int yz, int zz, typename T,
          T( *calc )( const T &, const T &, const int & ),
          bool( *check )( const T &, const T & ),
@@ -98,10 +86,11 @@ void cast_zlight_segment(
     T last_intensity = 0.0;
     tripoint delta( 0, 0, 0 );
     tripoint current( 0, 0, 0 );
-    // TODO: More optimal data structure.
+
     // We start out with one span covering the entire horizontal and vertical space
     // we are interested in.  Then as changes in transparency are encountered, we truncate
-    // that initial span and insert new spans after it in the list.
+    // that initial span and insert new spans before/after it in the list, removing any that
+    // are no longer needed as we go.
     std::list<span<T>> spans = { {
             slope( 0, 1 ), slope( 1, 1 ),
             slope( 0, 1 ), slope( 1, 1 ),
@@ -120,8 +109,9 @@ void cast_zlight_segment(
             for( delta.z = 0; delta.z <= distance; delta.z++ ) {
                 const slope trailing_edge_major( delta.z * 2 - 1, delta.y * 2 + 1 );
                 const slope leading_edge_major( delta.z * 2 + 1, delta.y * 2 - 1 );
-                current.z = offset.z + delta.x * 00 + delta.y * 00 + delta.z * zz;
+                current.z = offset.z + delta.z * zz;
                 if( current.z > max_z || current.z < min_z ) {
+                    // Current tile is out of bounds, advance to the next tile.
                     continue;
                 } else if( this_span->start_major > leading_edge_major ) {
                     // Current span has a higher z-value,
@@ -166,9 +156,12 @@ void cast_zlight_segment(
                     const slope trailing_edge_minor( delta.x * 2 - 1, delta.y * 2 + 1 );
                     const slope leading_edge_minor( delta.x * 2 + 1, delta.y * 2 - 1 );
 
-                    if( !( current.x >= 0 && current.y >= 0 && current.x < MAPSIZE_X &&
-                           current.y < MAPSIZE_Y ) || this_span->start_minor > leading_edge_minor ) {
-                        // Current tile comes before span we're considering, advance to the next tile.
+                    if( current.x < 0 || current.x >= MAPSIZE_X ||
+                        current.y < 0 || current.y >= MAPSIZE_Y ) {
+                        // Current tile is out of bounds, advance to the next tile.
+                        continue;
+                    } else if( this_span->start_minor > leading_edge_minor ) {
+                        // Current tile comes before the span we're considering, advance to the next tile.
                         continue;
                     } else if( this_span->end_minor < trailing_edge_minor ) {
                         // Current tile is after the span we're considering, continue to next row.
@@ -176,8 +169,9 @@ void cast_zlight_segment(
                     }
 
                     T new_transparency = ( *input_arrays[z_index] )[current.x][current.y];
+
                     // If we're looking at a tile with floor or roof from the floor/roof side,
-                    //  that tile is actually invisible to us.
+                    // that tile is actually invisible to us.
                     bool floor_block = false;
                     if( current.z < offset.z ) {
                         if( z_index < ( OVERMAP_LAYERS - 1 ) &&
@@ -268,6 +262,9 @@ void cast_zlight_segment(
 
                     // Emit the D span if present, placing it after the current span in the list
                     if( leading_edge_major < this_span->end_major ) {
+                        // Pass true to the span constructor to set skip_first_row to true
+                        // This prevents the same row we are currently checking being check by the
+                        // new D span
                         spans.emplace( std::next( this_span ),
                                        leading_edge_major, this_span->end_major,
                                        this_span->start_minor, this_span->end_minor,
@@ -277,6 +274,7 @@ void cast_zlight_segment(
                     // Truncate this_span to the current block.
                     this_span->start_major = std::max( this_span->start_major, trailing_edge_major );
                     this_span->end_major = std::min( this_span->end_major, leading_edge_major );
+
                     // The new span starts at the leading edge of the previous square if it is opaque,
                     // and at the trailing edge of the current square if it is transparent.
                     this_span->start_minor = new_start_minor;
@@ -295,10 +293,13 @@ void cast_zlight_segment(
 
             if( !started_block ) {
                 // If we didn't scan at least 1 z-level, don't iterate further
-                // Otherwise we may "phase" through tiles without checking them
+                // Otherwise we may "phase" through tiles without checking them or waste time
+                // checking spans that are out of bounds.
                 this_span = spans.erase( this_span );
             } else if( !check( current_transparency, last_intensity ) ) {
                 // If we reach the end of the span with terrain being opaque, we don't iterate further.
+                // This means that any encountered transparent tiles from the current span have been
+                // split off into new spans
                 this_span = spans.erase( this_span );
             } else {
                 // Cumulative average of the values encountered.
@@ -319,45 +320,89 @@ void cast_zlight(
     const array_of_grids_of<const bool> &floor_caches,
     const tripoint &origin, const int offset_distance, const T numerator )
 {
-    // Down
+    // Down lateral
+
+    //   .
+    //  ..
+    // @..
     cast_zlight_segment < 0, 1, 0, 1, 0, 0, -1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    // ...
+    // ..
+    // @
     cast_zlight_segment < 1, 0, 0, 0, 1, 0, -1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-
+    // @..
+    //  ..
+    //   .
     cast_zlight_segment < 0, -1, 0, 1, 0, 0, -1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    // ...
+    //  ..
+    //   @
     cast_zlight_segment < -1, 0, 0, 0, 1, 0, -1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-
+    // .
+    // ..
+    // ..@
     cast_zlight_segment < 0, 1, 0, -1, 0, 0, -1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    // @
+    // ..
+    // ...
     cast_zlight_segment < 1, 0, 0, 0, -1, 0, -1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-
+    // ..@
+    // ..
+    // .
     cast_zlight_segment < 0, -1, 0, -1, 0, 0, -1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    //   @
+    //  ..
+    // ...
     cast_zlight_segment < -1, 0, 0, 0, -1, 0, -1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
 
-    // Up
-    cast_zlight_segment<0, 1, 0, 1, 0, 0, 1, T, calc, check, accumulate>(
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    cast_zlight_segment<1, 0, 0, 0, 1, 0, 1, T, calc, check, accumulate>(
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    // Up lateral
 
+    //   .
+    //  ..
+    // @..
+    cast_zlight_segment < 0, 1, 0, 1, 0, 0, 1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    // ...
+    // ..
+    // @
+    cast_zlight_segment < 1, 0, 0, 0, 1, 0, 1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    // @..
+    //  ..
+    //   .
     cast_zlight_segment < 0, -1, 0, 1, 0, 0, 1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    // ...
+    //  ..
+    //   @
     cast_zlight_segment < -1, 0, 0, 0, 1, 0, 1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-
+    // .
+    // ..
+    // ..@
     cast_zlight_segment < 0, 1, 0, -1, 0, 0, 1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    // @
+    // ..
+    // ...
     cast_zlight_segment < 1, 0, 0, 0, -1, 0, 1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-
+    // ..@
+    // ..
+    // .
     cast_zlight_segment < 0, -1, 0, -1, 0, 0, 1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    //   @
+    //  ..
+    // ...
     cast_zlight_segment < -1, 0, 0, 0, -1, 0, 1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
 }
