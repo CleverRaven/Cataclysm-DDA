@@ -11648,10 +11648,10 @@ bool game::non_dead_range<Creature>::iterator::valid()
     }
     const Creature *const critter = current.get();
     if( critter->is_monster() ) {
-        return !static_cast<const monster const *>( critter )->is_dead();
+        return !static_cast<const monster *>( critter )->is_dead();
     }
     if( critter->is_npc() ) {
-        return !static_cast<const npc const *>( critter )->is_dead();
+        return !static_cast<const npc *>( critter )->is_dead();
     }
     return true; // must be g->u
 }
