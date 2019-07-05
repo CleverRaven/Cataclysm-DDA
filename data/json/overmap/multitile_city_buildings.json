@@ -1797,6 +1797,12 @@
   },
   {
     "type": "city_building",
+    "id": "s_gas_1",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_gas_1_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_gas_roof_1_north" } ]
+  },
+  {
+    "type": "city_building",
     "id": "s_garage",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_garage_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_garage_roof_north" } ]
