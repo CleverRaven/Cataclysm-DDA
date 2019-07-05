@@ -1741,7 +1741,7 @@ static void draw_mana( const player &u, const catacurses::window &w )
 
 static bool spell_panel()
 {
-    return !spell_type::get_all().empty();
+    return g->u.magic.knows_spell();
 }
 
 bool default_render()

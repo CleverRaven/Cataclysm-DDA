@@ -873,6 +873,11 @@ bool known_magic::knows_spell( const spell_id &sp ) const
     return spellbook.count( sp ) == 1;
 }
 
+bool known_magic::knows_spell() const
+{
+    return !spellbook.empty();
+}
+
 void known_magic::learn_spell( const std::string &sp, player &p, bool force )
 {
     learn_spell( spell_id( sp ), p, force );
