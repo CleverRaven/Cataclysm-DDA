@@ -51,6 +51,7 @@
 #include "item_stack.h"
 #include "mtype.h"
 #include "point.h"
+#include "units.h"
 
 class inventory;
 
@@ -1349,7 +1350,8 @@ void load_construction( JsonObject &jo )
     if( jo.has_int( "time" ) ) {
         con.time = to_moves<int>( time_duration::from_minutes( jo.get_int( "time" ) ) );
     } else if( jo.has_string( "time" ) ) {
-        con.time = to_moves<int>( time_duration::read_from_json_string( *jo.get_raw( "time" ) ) );
+        con.time = to_moves<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
+                                  time_duration::units ) );
     }
 
     if( jo.has_string( "using" ) ) {

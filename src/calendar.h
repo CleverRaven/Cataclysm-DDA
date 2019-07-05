@@ -5,6 +5,7 @@
 #include <string>
 #include <iosfwd>
 #include <utility>
+#include <vector>
 
 class time_duration;
 class time_point;
@@ -321,8 +322,6 @@ class time_duration
         /// Allows writing `time_duration d = 0;`
         time_duration( const std::nullptr_t ) : turns_( 0 ) { }
 
-        static time_duration read_from_json_string( JsonIn &jsin );
-
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
 
@@ -463,6 +462,8 @@ class time_duration
 
         /// Returns a random duration in the range [low, hi].
         friend time_duration rng( time_duration lo, time_duration hi );
+
+        static const std::vector<std::pair<std::string, time_duration>> units;
 };
 
 /// @see x_in_y(int,int)
