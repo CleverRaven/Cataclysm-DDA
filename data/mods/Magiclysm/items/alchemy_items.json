@@ -86,7 +86,7 @@
     "color": "light_gray",
     "name": "bulette plate",
     "description": "The great plates from behind a bulette's head have always been prized for use in shield and armor making.",
-    "material": "leather",
+    "material": "arcane_skin",
     "weight": 30000,
     "volume": 12
   },

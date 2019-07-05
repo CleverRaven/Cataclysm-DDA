@@ -18,12 +18,14 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_LIGHTING",
     "skill_used": "spellcraft",
-    "difficulty": 0,
+    "difficulty": 3,
     "time": "2 m",
+    "autolearn": true,
     "components": [
       [ [ "mana_potion_lesser", 1 ] ],
       [ [ "flask_glass", 1 ], [ "beaker", 1 ] ],
-      [ [ "glow_dust", 1 ] ],
+      [ [ "glow_dust", 2 ] ],
+      [ [ "diamond", 1 ], [ "bulette_pearl", 1 ] ],
       [ [ "string_6", 1 ] ],
       [ [ "rag", 2 ] ]
     ]
