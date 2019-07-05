@@ -180,7 +180,7 @@ void spell_type::load( JsonObject &jo, const std::string & )
         while( jarray.has_more() ) {
             JsonObject fake_spell_obj = jarray.next_object();
             std::string temp_id;
-            bool temp_self;
+            bool temp_self = false;
             int temp_max_level = -1;
             mandatory( fake_spell_obj, was_loaded, "id", temp_id );
             optional( fake_spell_obj, was_loaded, "hit_self", temp_self, false );
