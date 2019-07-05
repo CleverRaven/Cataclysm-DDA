@@ -1152,7 +1152,6 @@
     "name": "grab and pommel strike",
     "min_melee": 3,
     "crit_tec": true,
-    "unarmed_allowed": true,
     "melee_allowed": true,
     "down_dur": 1,
     "messages": [ "You grab and pommel strike %s", "<npcname> grab and pommel strikes %s" ]
@@ -1172,6 +1171,7 @@
     "id": "tec_swordsmanship_counter",
     "name": "displace and counter",
     "min_melee": 4,
+    "melee_allowed": true,
     "req_buffs": [ "swordsmanship_counter" ],
     "messages": [ "You displace and counter %s", "<npcname> displaces and counters %s" ],
     "mult_bonuses": [ [ "damage", "cut", 1.1 ], [ "movecost", 0.75 ] ],
@@ -1183,6 +1183,7 @@
     "name": "sweeping strike",
     "min_melee": 5,
     "crit_tec": true,
+    "melee_allowed": true,
     "down_dur": 2,
     "messages": [ "You trip %s with a sweeping strike", "<npcname> trips %s with a sweeping strike" ]
   },
@@ -1192,6 +1193,7 @@
     "name": "vicious strike",
     "min_melee": 5,
     "crit_tec": true,
+    "melee_allowed": true,
     "mult_bonuses": [ [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ], [ "damage", "stab", 1.5 ] ],
     "stun_dur": 1,
     "messages": [ "You hack at %s with a vicious strike", "<npcname> hack at %s with a vicious strike" ]
@@ -1202,6 +1204,7 @@
     "name": "death blow",
     "min_melee": 6,
     "crit_tec": true,
+    "melee_allowed": true,
     "mult_bonuses": [ [ "damage", "bash", 3 ], [ "damage", "cut", 0 ], [ "damage", "stab", 0 ], [ "movecost", 2 ] ],
     "stun_dur": 2,
     "messages": [
