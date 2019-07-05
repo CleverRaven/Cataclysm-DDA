@@ -6707,7 +6707,8 @@
     "move_cost_mod": 4,
     "coverage": 10,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "NONFLAMMABLE" ],
+    "flags": [ "TRANSPARENT", "EMITTER", "NONFLAMMABLE" ],
+    "emissions": [ "emit_glimmer" ],
     "bash": { "str_min": 8, "str_max": 20, "sound": "splorch!", "sound_fail": "whump!" }
   },
   {
