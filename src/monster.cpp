@@ -880,8 +880,8 @@ bool monster::is_fleeing( player &u ) const
 
 Creature::Attitude monster::attitude_to( const Creature &other ) const
 {
-    const auto m = dynamic_cast<const monster *>( &other );
-    const auto p = dynamic_cast<const player *>( &other );
+    const monster *m = other.is_monster() ? static_cast< const monster *>( &other ) : nullptr;
+    const player *p = other.as_player();
     if( m != nullptr ) {
         if( m == this ) {
             return A_FRIENDLY;
