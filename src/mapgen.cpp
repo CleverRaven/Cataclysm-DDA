@@ -5456,7 +5456,7 @@ void map::draw_spiral( const oter_id &terrain_type, mapgendata &/*dat*/, const t
 void map::draw_toxic_dump( const oter_id &terrain_type, mapgendata &/*dat*/,
                            const time_point &/*when*/, const float /*density*/ )
 {
-    if( terrain_type == "toxic_dump" ) {
+    if( is_ot_match( "toxic_dump", terrain_type, ot_match_type::type ) ) {
         fill_background( this, t_dirt );
         for( int n = 0; n < 6; n++ ) {
             int poolx = rng( 4, SEEX * 2 - 5 ), pooly = rng( 4, SEEY * 2 - 5 );
