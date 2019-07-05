@@ -33,9 +33,7 @@
       "S": { "field": "fd_web", "intensity": 3 },
       "~": { "field": "fd_web", "intensity": 3 }
     },
-    "items": {
-      "$": { "item": "demon_spider_lair_treasure", "chance": 50, "repeat": [ 3, 6 ] }
-    },
+    "items": { "$": { "item": "demon_spider_lair_treasure", "chance": 50, "repeat": [ 3, 6 ] } },
     "monster": {
       "S": { "monster": "mon_demon_spider_queen", "chance": 100 },
       "s": { "monster": "mon_demon_spider", "chance": 100 },
