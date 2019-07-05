@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "wizardtower1_z0 ],
+    "om_terrain": [ "wizardtower1_z0" ],
     "weight": 100,
     "object": {
       "fill_ter": "t_rock_floor",
