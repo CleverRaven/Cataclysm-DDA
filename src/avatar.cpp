@@ -33,6 +33,7 @@
 #include "morale_types.h"
 #include "mutation.h"
 #include "npc.h"
+#include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
@@ -1431,4 +1432,116 @@ void avatar::reset_stats()
 
     recalc_sight_limits();
     recalc_speed_bonus();
+
+}
+
+int avatar::get_str_base() const
+{
+    return Character::get_str_base() + std::max( 0, str_upgrade );
+}
+
+int avatar::get_dex_base() const
+{
+    return Character::get_dex_base() + std::max( 0, dex_upgrade );
+}
+
+int avatar::get_int_base() const
+{
+    return Character::get_int_base() + std::max( 0, int_upgrade );
+}
+
+int avatar::get_per_base() const
+{
+    return Character::get_per_base() + std::max( 0, per_upgrade );
+}
+
+int avatar::kill_xp() const
+{
+    // TODO: game::kills probably should be avatar::kills
+    return g->kill_xp();
+}
+
+// based on  D&D 5e level progression
+static const std::array<int, 20> xp_cutoffs = { {
+        300, 900, 2700, 6500, 14000,
+        23000, 34000, 48000, 64000, 85000,
+        100000, 120000, 140000, 165000, 195000,
+        225000, 265000, 305000, 355000, 405000
+    }
+};
+
+int avatar::free_upgrade_points() const
+{
+    const int xp = kill_xp();
+    int lvl = 0;
+    for( const int &xp_lvl : xp_cutoffs ) {
+        if( xp >= xp_lvl ) {
+            lvl++;
+        } else {
+            break;
+        }
+    }
+    return lvl - str_upgrade - dex_upgrade - int_upgrade - per_upgrade;
+}
+
+static int xp_to_next( const avatar &you )
+{
+    const int cur_xp = you.kill_xp();
+    // Initialize to 'already max level' sentinel
+    int xp_next = -1;
+    // Iterate in reverse: { 405k, 355k, 305k, ..., 300 }
+    for( std::array<int, 20>::const_reverse_iterator iter = xp_cutoffs.crbegin();
+         iter != xp_cutoffs.crend(); ++iter ) {
+        if( cur_xp < *iter ) {
+            xp_next = *iter;
+        }
+    }
+    return xp_next;
+}
+
+void avatar::upgrade_stat_prompt( const Character::stat &stat )
+{
+    const int free_points = free_upgrade_points();
+    const int next_lvl_xp = xp_to_next( *this );
+
+    if( free_points <= 0 ) {
+        popup( _( "No available stat points to spend.  Experience to next level: %d" ), next_lvl_xp );
+        return;
+    }
+
+    std::string stat_string;
+    switch( stat ) {
+        case STRENGTH:
+            stat_string = _( "strength" );
+            break;
+        case DEXTERITY:
+            stat_string = _( "dexterity" );
+            break;
+        case INTELLIGENCE:
+            stat_string = _( "intelligence" );
+            break;
+        case PERCEPTION:
+            stat_string = _( "perception" );
+            break;
+        default:
+            return;
+    }
+
+    if( query_yn( _( "Are you sure you want to raise %s? %d points available." ), stat_string,
+                  free_points ) ) {
+        switch( stat ) {
+            case STRENGTH:
+                str_upgrade++;
+                break;
+            case DEXTERITY:
+                dex_upgrade++;
+                break;
+            case INTELLIGENCE:
+                int_upgrade++;
+                break;
+            case PERCEPTION:
+                per_upgrade++;
+                break;
+        }
+    }
 }

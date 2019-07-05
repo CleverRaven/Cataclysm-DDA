@@ -140,6 +140,17 @@ class avatar : public player
         void steal( npc &target );
 
         teleporter_list translocators;
+
+        int get_str_base() const override;
+        int get_dex_base() const override;
+        int get_int_base() const override;
+        int get_per_base() const override;
+
+        void upgrade_stat_prompt( const Character::stat &stat_name );
+        // how many points are available to upgrade via STK
+        int free_upgrade_points() const;
+        // how much "kill xp" you have
+        int kill_xp() const;
     private:
         map_memory player_map_memory;
         bool show_map_memory;
@@ -170,6 +181,13 @@ class avatar : public player
         std::unordered_set<std::string> items_identified;
 
         object_type grab_type;
+
+        // these are the stat upgrades from stats through kills
+
+        int str_upgrade = 0;
+        int dex_upgrade = 0;
+        int int_upgrade = 0;
+        int per_upgrade = 0;
 };
 
 #endif
