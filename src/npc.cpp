@@ -620,10 +620,6 @@ void npc::revert_after_activity()
 {
     mission = previous_mission;
     attitude = previous_attitude;
-    activity = player_activity();
-    current_activity.clear();
-    clear_destination();
-    backlog.clear();
 }
 
 npc_mission npc::get_previous_mission()
@@ -1692,7 +1688,7 @@ bool npc::is_patrolling() const
 
 bool npc::has_player_activity() const
 {
-    return activity && mission == NPC_MISSION_ACTIVITY && attitude == NPCATT_ACTIVITY;
+    return activity && mission == NPC_MISSION_ACTIVITY;
 }
 
 bool npc::is_travelling() const
@@ -2658,7 +2654,7 @@ void npc::set_mission( npc_mission new_mission )
 
 bool npc::has_activity() const
 {
-    return mission == NPC_MISSION_ACTIVITY && attitude == NPCATT_ACTIVITY;
+    return mission == NPC_MISSION_ACTIVITY;
 }
 
 npc_attitude npc::get_attitude() const
