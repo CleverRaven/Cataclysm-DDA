@@ -766,6 +766,8 @@
         "music_venue_1": 100,
         "dump": 100,
         "recyclecenter": 100,
+        "recyclecenter_1": 100,
+        "recyclecenter_2": 100,
         "landfill": 100,
         "warehouse": 100,
         "abandonedwarehouse": 100,
