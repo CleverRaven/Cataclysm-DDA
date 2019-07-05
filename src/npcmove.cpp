@@ -764,7 +764,12 @@ void npc::move()
     if( action == npc_undecided && attitude == NPCATT_ACTIVITY ) {
         std::vector<tripoint> activity_route = get_auto_move_route();
         if( !activity_route.empty() && !has_destination_activity() ) {
-            const tripoint final_destination = activity_route.back();
+            tripoint final_destination;
+            if( destination_point ) {
+                final_destination = g->m.getlocal( *destination_point );
+            } else {
+                final_destination = activity_route.back();
+            }
             update_path( final_destination );
             if( !path.empty() ) {
                 move_to_next();
@@ -780,6 +785,14 @@ void npc::move()
     }
 
     if( action == npc_undecided ) {
+        // an interrupted activity can cause this situation. stops allied NPCs zooming off like random NPCs
+        if( attitude == NPCATT_ACTIVITY && !activity ) {
+            revert_after_activity();
+            if( is_ally( g->u ) ) {
+                attitude = NPCATT_FOLLOW;
+                mission = NPC_MISSION_NULL;
+            }
+        }
         if( is_stationary( true ) ) {
             // if we're in a vehicle, stay in the vehicle
             if( in_vehicle ) {
@@ -2989,7 +3002,9 @@ bool npc::do_player_activity()
         if( !backlog.empty() ) {
             activity = backlog.front();
             backlog.pop_front();
+            current_activity = activity.get_verb();
         } else {
+            current_activity.clear();
             revert_after_activity();
             // if we loaded after being out of the bubble for a while, we might have more
             // moves than we need, so clear them
@@ -3841,6 +3856,8 @@ std::string npc_action_name( npc_action action )
             return "Avoid friendly fire";
         case npc_escape_explosion:
             return "Escape explosion";
+        case npc_player_activity:
+            return "Performing activity";
         default:
             return "Unnamed action";
     }
