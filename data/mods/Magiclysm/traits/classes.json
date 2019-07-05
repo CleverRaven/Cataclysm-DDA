@@ -8,7 +8,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "cancels": [ "ANIMIST" ]
+    "cancels": [ "ANIMIST" ],
+    "spell_learned": [ [ "create_rune_magus", 1 ] ]
   },
   {
     "type": "mutation",

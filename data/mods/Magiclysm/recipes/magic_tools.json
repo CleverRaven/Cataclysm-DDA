@@ -33,8 +33,8 @@
   {
   "type": "recipe",
     "result": "copper_infuser",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_TOOLS",
     "skill_used": "fabrication",
     "skills_required": [ "spellcraft", 2 ],
     "difficulty": 3,
@@ -43,6 +43,18 @@
     "qualities": [ { "id": "CHISEL", "level": 1 } ],
     "components": [ [
      [ "copper_bracelet", 1 ] ] ]
-  }
+  },
+  {
+  "type": "recipe",
+    "result": "rune_alchemist",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "spellcraft", 4 ],
+    "difficulty": 4,
+    "time": "120m",
+    "autolearn": true,
+    "qualities": [ { "id": "CHISEL", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ]
+   } 
 ]
 

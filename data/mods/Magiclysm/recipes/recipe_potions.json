@@ -42,7 +42,8 @@
     [ "potion_starter", 5 ] ],
     [ [ "hairball", 2 ] ],
     [ [ "catfood", 1 ], [ "fish", 1 ], [ "salted_fish", 1 ], [ "fish_cooked", 1 ],[ "fish_smoked", 1 ],[ "dry_fish", 1 ], [ "rehydrated_fish", 1 ], [ "fish_canned", 1 ],
-    [ "fish_pickled", 1 ], [ "fish_fried", 1 ], [ "canned_herring", 1 ], [ "lutefisk", 1 ] ] ]
+    [ "fish_pickled", 1 ], [ "fish_fried", 1 ], [ "canned_herring", 1 ], [ "lutefisk", 1 ] ],
+    [ [ "adderall", 10 ], [ "meth", 6 ], [ "prozac", 15 ] ] ]
   },
   {
     "type": "recipe",
