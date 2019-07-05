@@ -1863,7 +1863,7 @@ void map::player_in_field( player &u )
 void map::creature_in_field( Creature &critter )
 {
     if( critter.is_monster() ) {
-        monster_in_field( *static_cast<monster*>( &critter ) );
+        monster_in_field( *static_cast<monster *>( &critter ) );
     } else if( player *p = critter.as_player() ) {
         player_in_field( *p );
     }
