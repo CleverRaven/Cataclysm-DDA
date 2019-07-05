@@ -35,5 +35,18 @@
       "ter_set": "t_dirt",
       "items": [ { "item": "ash", "count": [ 3, 10 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_demon_web_wall",
+    "name": "webbing wall",
+    "description": "This wall seems to be made up of a combination of webbing, wood splinters, detritus, and some kind of dark-colored resin.",
+    "symbol": "LINE_OXOX",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_flat_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "connects_to": "WALL"
   }
-}
+]
