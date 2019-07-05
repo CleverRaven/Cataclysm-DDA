@@ -8,6 +8,20 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_gas_1",
+    "name": "gas station",
+    "copy-from": "generic_city_building",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gas_roof_1",
+    "name": "gas station roof",
+    "copy-from": "generic_city_building",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_pharm",
     "name": "pharmacy",
     "copy-from": "generic_city_building",
@@ -1231,6 +1245,15 @@
     "extras": "build",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gas_rural_roof",
+    "name": "gas station roof",
+    "sym": "^",
+    "color": "light_blue",
+    "extras": "build",
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",

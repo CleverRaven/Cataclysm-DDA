@@ -513,13 +513,13 @@ bool is_ot_match( const std::string &name, const oter_id &oter,
     };
 
     switch( match_type ) {
-        case ot_match_type::EXACT:
+        case ot_match_type::exact:
             return is_ot( name, oter );
-        case ot_match_type::TYPE:
+        case ot_match_type::type:
             return is_ot_type( name, oter );
-        case ot_match_type::PREFIX:
+        case ot_match_type::prefix:
             return is_ot_prefix( name, oter );
-        case ot_match_type::CONTAINS:
+        case ot_match_type::contains:
             return is_ot_subtype( name, oter );
         default:
             return false;
@@ -1504,10 +1504,10 @@ bool overmap::generate_sub( const int z )
                 continue;
             }
 
-            if( is_ot_match( "sub_station", oter_ground, ot_match_type::TYPE ) && z == -1 ) {
+            if( is_ot_match( "sub_station", oter_ground, ot_match_type::type ) && z == -1 ) {
                 ter( i, j, z ) = oter_id( "sewer_sub_station" );
                 requires_sub = true;
-            } else if( is_ot_match( "sub_station", oter_ground, ot_match_type::TYPE ) && z == -2 ) {
+            } else if( is_ot_match( "sub_station", oter_ground, ot_match_type::type ) && z == -2 ) {
                 ter( i, j, z ) = oter_id( "subway_isolated" );
                 subway_points.emplace_back( i, j - 1 );
                 subway_points.emplace_back( i, j );
@@ -1552,7 +1552,7 @@ bool overmap::generate_sub( const int z )
                 central_lab_points.push_back( city( i, j, rng( std::max( 1, 7 + z ), 9 + z ) ) );
             } else if( oter_above == "central_lab_stairs" ) {
                 ter( i, j, z ) = oter_id( "central_lab" );
-            } else if( is_ot_match( "hidden_lab_stairs", oter_above, ot_match_type::CONTAINS ) ) {
+            } else if( is_ot_match( "hidden_lab_stairs", oter_above, ot_match_type::contains ) ) {
                 lab_points.push_back( city( i, j, rng( 1, 5 + z ) ) );
             } else if( oter_above == "mine_entrance" ) {
                 shaft_points.push_back( point( i, j ) );
@@ -1636,14 +1636,14 @@ bool overmap::generate_sub( const int z )
                 ter( i.x, i.y, z ) = oter_id( "open_air" ); // mark tile to prevent subway gen
 
                 for( auto &nearby_loc : nearby_locations ) {
-                    if( is_ot_match( "empty_rock", ter( nearby_loc.x, nearby_loc.y, z ), ot_match_type::CONTAINS ) ) {
+                    if( is_ot_match( "empty_rock", ter( nearby_loc.x, nearby_loc.y, z ), ot_match_type::contains ) ) {
                         // mark tile to prevent subway gen
                         ter( nearby_loc.x, nearby_loc.y, z ) = oter_id( "open_air" );
                     }
                 }
             } else {
                 // change train connection point back to rock to allow gen
-                if( is_ot_match( "open_air", ter( i.x, i.y, z ), ot_match_type::CONTAINS ) ) {
+                if( is_ot_match( "open_air", ter( i.x, i.y, z ), ot_match_type::contains ) ) {
                     ter( i.x, i.y, z ) = oter_id( "empty_rock" );
                 }
                 real_train_points.push_back( i );
@@ -1668,7 +1668,7 @@ bool overmap::generate_sub( const int z )
     }
 
     for( auto &i : subway_points ) {
-        if( is_ot_match( "sub_station", ter( i.x, i.y, z + 2 ), ot_match_type::TYPE ) ) {
+        if( is_ot_match( "sub_station", ter( i.x, i.y, z + 2 ), ot_match_type::type ) ) {
             ter( i.x, i.y, z ) = oter_id( "underground_sub_station" );
         }
     }
@@ -1686,7 +1686,7 @@ bool overmap::generate_sub( const int z )
                 bool is_depot_generated = false;
                 for( auto &subway_loc : subway_possible_loc ) {
                     if( !is_depot_generated &&
-                        is_ot_match( "subway", ter( subway_loc.x, subway_loc.y, z ), ot_match_type::CONTAINS ) ) {
+                        is_ot_match( "subway", ter( subway_loc.x, subway_loc.y, z ), ot_match_type::contains ) ) {
                         extra_route.push_back( i );
                         extra_route.push_back( subway_loc );
                         connect_closest_points( extra_route, z, *subway_tunnel );
@@ -1694,7 +1694,7 @@ bool overmap::generate_sub( const int z )
                         ter( i.x, i.y, z ) = train_type;
                         is_depot_generated = true; // only one connection to depot
                     } else if( is_ot_match( "open_air", ter( subway_loc.x, subway_loc.y, z ),
-                                            ot_match_type::CONTAINS ) ) {
+                                            ot_match_type::contains ) ) {
                         // clear marked
                         ter( subway_loc.x, subway_loc.y, z ) = oter_id( "empty_rock" );
                     }
@@ -1823,8 +1823,8 @@ void mongroup::wander( const overmap &om )
         // TODO: somehow use the same algorithm that distributes zombie
         // density at world gen to spread the hordes over the actual
         // city, rather than the center city tile
-        target.x = target_city->pos.x * 2 + rng( -5, 5 );
-        target.y = target_city->pos.y * 2 + rng( -5, 5 );
+        target.x = target_city->pos.x * 2 + rng( -target_city->size * 2, target_city->size * 2 );
+        target.y = target_city->pos.y * 2 + rng( -target_city->size * 2, target_city->size * 2 );
         interest = 100;
     } else {
         target.x = pos.x + rng( -10, 10 );
@@ -2055,7 +2055,7 @@ void overmap::place_forest_trails()
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
             oter_id oter = ter( i, j, 0 );
-            if( !is_ot_match( "forest", oter, ot_match_type::PREFIX ) ) {
+            if( !is_ot_match( "forest", oter, ot_match_type::prefix ) ) {
                 continue;
             }
 
@@ -2192,7 +2192,7 @@ void overmap::place_forest_trailheads()
         for( const point &nearby_point : closest_points_first(
                  settings.forest_trail.trailhead_road_distance,
                  point( trailhead.x, trailhead.y ) ) ) {
-            if( check_ot( "road", ot_match_type::CONTAINS, nearby_point.x, nearby_point.y, 0 ) ) {
+            if( check_ot( "road", ot_match_type::contains, nearby_point.x, nearby_point.y, 0 ) ) {
                 close = true;
             }
         }
@@ -2560,7 +2560,7 @@ void overmap::place_swamps()
     std::vector<std::vector<int>> floodplain( OMAPX, std::vector<int>( OMAPY, 0 ) );
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
-            if( is_ot_match( "river", ter( x, y, 0 ), ot_match_type::CONTAINS ) ) {
+            if( is_ot_match( "river", ter( x, y, 0 ), ot_match_type::contains ) ) {
                 std::vector<point> buffered_points = closest_points_first( rng(
                         settings.overmap_forest.river_floodplain_buffer_distance_min,
                         settings.overmap_forest.river_floodplain_buffer_distance_max ), x, y );
@@ -2583,7 +2583,7 @@ void overmap::place_swamps()
         for( int y = 0; y < OMAPY; y++ ) {
             // If this location isn't a forest, there's nothing to do here. We'll only grow swamps in existing
             // forest terrain.
-            if( !is_ot_match( "forest", ter( x, y, 0 ), ot_match_type::CONTAINS ) ) {
+            if( !is_ot_match( "forest", ter( x, y, 0 ), ot_match_type::contains ) ) {
                 continue;
             }
 
@@ -2997,7 +2997,7 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
             int dist_increment = s > 3 ? 3 : 2; // Determines at what distance the odds of placement decreases
             if( one_in( dist / dist_increment + 1 ) ) { // odds diminish farther away from the stairs
                 // make an ants lab if it's a basic lab and ants were there before.
-                if( prefix.empty() && check_ot( "ants", ot_match_type::TYPE, cx, cy, z ) ) {
+                if( prefix.empty() && check_ot( "ants", ot_match_type::type, cx, cy, z ) ) {
                     if( ter( cx, cy, z ) != "ants_queen" ) { // skip over a queen's chamber.
                         ter( cx, cy, z ) = labt_ants;
                     }
@@ -3026,7 +3026,7 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
     bool generate_stairs = true;
     for( auto &elem : generated_lab ) {
         // Use a check for "_stairs" to catch the hidden_lab_stairs tiles.
-        if( is_ot_match( "_stairs", ter( elem.x, elem.y, z + 1 ), ot_match_type::CONTAINS ) ) {
+        if( is_ot_match( "_stairs", ter( elem.x, elem.y, z + 1 ), ot_match_type::contains ) ) {
             generate_stairs = false;
         }
     }
@@ -3094,10 +3094,10 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
             tries++;
 
             adjacent_labs = ( is_ot_match( "lab", ter( trainx, trainy - 1, z ),
-                                           ot_match_type::CONTAINS ) ? 1 : 0 ) +
-                            ( is_ot_match( "lab", ter( trainx - 1, trainy, z ), ot_match_type::CONTAINS ) ? 1 : 0 ) +
-                            ( is_ot_match( "lab", ter( trainx, trainy + 1, z ), ot_match_type::CONTAINS ) ? 1 : 0 ) +
-                            ( is_ot_match( "lab", ter( trainx + 1, trainy, z ), ot_match_type::CONTAINS ) ? 1 : 0 );
+                                           ot_match_type::contains ) ? 1 : 0 ) +
+                            ( is_ot_match( "lab", ter( trainx - 1, trainy, z ), ot_match_type::contains ) ? 1 : 0 ) +
+                            ( is_ot_match( "lab", ter( trainx, trainy + 1, z ), ot_match_type::contains ) ? 1 : 0 ) +
+                            ( is_ot_match( "lab", ter( trainx + 1, trainy, z ), ot_match_type::contains ) ? 1 : 0 );
         } while( tries < 50 && (
                      ter( trainx, trainy, z ) == labt ||
                      ter( trainx, trainy, z ) == labt_stairs ||
@@ -3106,13 +3106,13 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
         if( tries < 50 ) {
             lab_train_points->push_back( point( trainx, trainy ) ); // possible train depot
             // next is rail connection
-            if( is_ot_match( "lab", ter( trainx, trainy - 1, z ), ot_match_type::CONTAINS ) ) {
+            if( is_ot_match( "lab", ter( trainx, trainy - 1, z ), ot_match_type::contains ) ) {
                 lab_train_points->push_back( point( trainx, trainy + 1 ) );
-            } else if( is_ot_match( "lab", ter( trainx, trainy + 1, z ), ot_match_type::CONTAINS ) ) {
+            } else if( is_ot_match( "lab", ter( trainx, trainy + 1, z ), ot_match_type::contains ) ) {
                 lab_train_points->push_back( point( trainx, trainy - 1 ) );
-            } else if( is_ot_match( "lab", ter( trainx + 1, trainy, z ), ot_match_type::CONTAINS ) ) {
+            } else if( is_ot_match( "lab", ter( trainx + 1, trainy, z ), ot_match_type::contains ) ) {
                 lab_train_points->push_back( point( trainx - 1, trainy ) );
-            } else if( is_ot_match( "lab", ter( trainx - 1, trainy, z ), ot_match_type::CONTAINS ) ) {
+            } else if( is_ot_match( "lab", ter( trainx - 1, trainy, z ), ot_match_type::contains ) ) {
                 lab_train_points->push_back( point( trainx + 1, trainy ) );
             }
         }
@@ -3132,10 +3132,10 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
             tries++;
 
             adjacent_labs = ( is_ot_match( "lab", ter( cellx, celly - 1, z ),
-                                           ot_match_type::CONTAINS ) ? 1 : 0 ) +
-                            ( is_ot_match( "lab", ter( cellx - 1, celly, z ), ot_match_type::CONTAINS ) ? 1 : 0 ) +
-                            ( is_ot_match( "lab", ter( cellx, celly + 1, z ), ot_match_type::CONTAINS ) ? 1 : 0 ) +
-                            ( is_ot_match( "lab", ter( cellx + 1, celly, z ), ot_match_type::CONTAINS ) ? 1 : 0 );
+                                           ot_match_type::contains ) ? 1 : 0 ) +
+                            ( is_ot_match( "lab", ter( cellx - 1, celly, z ), ot_match_type::contains ) ? 1 : 0 ) +
+                            ( is_ot_match( "lab", ter( cellx, celly + 1, z ), ot_match_type::contains ) ? 1 : 0 ) +
+                            ( is_ot_match( "lab", ter( cellx + 1, celly, z ), ot_match_type::contains ) ? 1 : 0 );
         } while( tries < 50 && (
                      ter( cellx, celly, z ) == labt_stairs ||
                      ter( cellx, celly, z ) == labt_finale ||
@@ -3159,7 +3159,7 @@ void overmap::build_anthill( int x, int y, int z, int s )
     std::vector<point> queenpoints;
     for( int i = x - s; i <= x + s; i++ ) {
         for( int j = y - s; j <= y + s; j++ ) {
-            if( check_ot( "ants", ot_match_type::TYPE, i, j, z ) ) {
+            if( check_ot( "ants", ot_match_type::type, i, j, z ) ) {
                 queenpoints.push_back( point( i, j ) );
             }
         }
@@ -3175,7 +3175,7 @@ void overmap::build_anthill( int x, int y, int z, int s )
                 auto &oter = ter( i, j, z );
                 for( auto dir : om_direction::all ) {
                     const point p = point( i, j ) + om_direction::displace( dir );
-                    if( check_ot( "ants", ot_match_type::TYPE, p.x, p.y, z ) ) {
+                    if( check_ot( "ants", ot_match_type::type, p.x, p.y, z ) ) {
                         size_t line = oter->get_line();
                         line = om_lines::set_segment( line, dir );
                         if( line != oter->get_line() ) {
@@ -3195,7 +3195,7 @@ void overmap::build_tunnel( int x, int y, int z, int s, om_direction::type dir )
     }
 
     const oter_id root_id( "ants_isolated" );
-    if( check_ot( "ants", ot_match_type::TYPE, x, y, z ) && root_id != get_ter( x, y, z )->id ) {
+    if( check_ot( "ants", ot_match_type::type, x, y, z ) && root_id != get_ter( x, y, z )->id ) {
         return;
     }
 
@@ -3205,7 +3205,7 @@ void overmap::build_tunnel( int x, int y, int z, int s, om_direction::type dir )
     valid.reserve( om_direction::size );
     for( auto r : om_direction::all ) {
         const point p = point( x, y ) + om_direction::displace( r );
-        if( !check_ot( "ants", ot_match_type::TYPE, p.x, p.y, z ) ) {
+        if( !check_ot( "ants", ot_match_type::type, p.x, p.y, z ) ) {
             valid.push_back( r );
         }
     }
@@ -3414,7 +3414,7 @@ pf::path overmap::lay_out_street( const overmap_connection &connection, const po
                 if( checkp != pos + om_direction::displace( dir, 1 ) &&
                     checkp != pos + om_direction::displace( om_direction::opposite( dir ), 1 ) &&
                     checkp != pos ) {
-                    if( is_ot_match( "road", get_ter( checkp ), ot_match_type::TYPE ) ) {
+                    if( is_ot_match( "road", get_ter( checkp ), ot_match_type::type ) ) {
                         collisions++;
                     }
                 }
@@ -3595,7 +3595,7 @@ bool overmap::check_overmap_special_type( const overmap_special_id &id,
 
 void overmap::good_river( int x, int y, int z )
 {
-    if( !is_ot_match( "river", get_ter( x, y, z ), ot_match_type::PREFIX ) ) {
+    if( !is_ot_match( "river", get_ter( x, y, z ), ot_match_type::prefix ) ) {
         return;
     }
     if( ( x == 0 ) || ( x == OMAPX - 1 ) ) {
@@ -3693,7 +3693,7 @@ const std::string &om_direction::id( type dir )
             "", "north", "east", "south", "west"
         }
     };
-    if( dir == type::invalid ) {
+    if( dir == om_direction::type::invalid ) {
         debugmsg( "Invalid direction cannot have an id." );
     }
     return ids[static_cast<size_t>( dir ) + 1];
@@ -3723,16 +3723,16 @@ const std::string &om_direction::name( type dir )
 point om_direction::rotate( const point &p, type dir )
 {
     switch( dir ) {
-        case type::invalid:
+        case om_direction::type::invalid:
             debugmsg( "Invalid overmap rotation (%d).", static_cast<int>( dir ) );
         // Intentional fallthrough.
-        case type::north:
+        case om_direction::type::north:
             break;  // No need to do anything.
-        case type::east:
+        case om_direction::type::east:
             return point( -p.y, p.x );
-        case type::south:
+        case om_direction::type::south:
             return point( -p.x, -p.y );
-        case type::west:
+        case om_direction::type::west:
             return point( p.y, -p.x );
     }
     return p;
@@ -3755,16 +3755,15 @@ point om_direction::displace( type dir, int dist )
 
 inline om_direction::type rotate_internal( om_direction::type dir, int step )
 {
-    using namespace om_direction;
-    if( dir == type::invalid ) {
+    if( dir == om_direction::type::invalid ) {
         debugmsg( "Can't rotate an invalid overmap rotation." );
         return dir;
     }
-    step = step % size;
+    step = step % om_direction::size;
     if( step < 0 ) {
-        step += size;
+        step += om_direction::size;
     }
-    return static_cast<type>( ( static_cast<int>( dir ) + step ) % size );
+    return static_cast<om_direction::type>( ( static_cast<int>( dir ) + step ) % om_direction::size );
 }
 
 om_direction::type om_direction::add( type dir1, type dir2 )
@@ -3819,7 +3818,7 @@ om_direction::type overmap::random_special_rotation( const overmap_special &spec
             const tripoint rp = p + om_direction::rotate( con.p, r );
             const oter_id &oter = get_ter( rp );
 
-            if( is_ot_match( con.terrain.str(), oter, ot_match_type::TYPE ) ) {
+            if( is_ot_match( con.terrain.str(), oter, ot_match_type::type ) ) {
                 ++score; // Found another one satisfied connection.
             } else if( !oter || con.existing || !con.connection->pick_subtype_for( oter ) ) {
                 valid = false;
@@ -4439,10 +4438,10 @@ overmap_special_id overmap_specials::create_building_from( const string_id<oter_
 namespace io
 {
 static const std::map<std::string, ot_match_type> ot_match_type_map = { {
-        { "EXACT", EXACT },
-        { "TYPE", TYPE },
-        { "PREFIX", PREFIX },
-        { "CONTAINS", CONTAINS }
+        { "EXACT", exact },
+        { "TYPE", type },
+        { "PREFIX", prefix },
+        { "CONTAINS", contains },
     }
 };
 template<>

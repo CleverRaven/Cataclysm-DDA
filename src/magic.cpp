@@ -903,6 +903,9 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
                     trait_cancel = string_format( "%s and %s", trait_cancel, cancel->name() );
                 } else if( cancel == sp->spell_class->cancels.front() ) {
                     trait_cancel = cancel->name();
+                    if( sp->spell_class->cancels.size() == 1 ) {
+                        trait_cancel = string_format( "%s: %s", trait_cancel, cancel->desc() );
+                    }
                 } else {
                     trait_cancel = string_format( "%s, %s", trait_cancel, cancel->name() );
                 }
@@ -911,8 +914,8 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
                 }
             }
             if( query_yn(
-                    _( "Learning this spell will make you a %s and lock you out of %s\nContinue?" ),
-                    sp->spell_class.obj().name(), trait_cancel ) ) {
+                    _( "Learning this spell will make you a\n\n%s: %s\n\nand lock you out of\n\n%s\n\nContinue?" ),
+                    sp->spell_class->name(), sp->spell_class->desc(), trait_cancel ) ) {
                 p.set_mutation( sp->spell_class );
                 p.add_msg_if_player( sp->spell_class.obj().desc() );
             } else {

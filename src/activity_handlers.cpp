@@ -1056,8 +1056,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     item &corpse_item = *target;
     std::list<item> contents = corpse_item.contents;
     const mtype *corpse = corpse_item.get_mtype();
-    const field_id type_blood = corpse->bloodType();
-    const field_id type_gib = corpse->gibType();
+    const field_type_id type_blood = corpse->bloodType();
+    const field_type_id type_gib = corpse->gibType();
 
     if( action == QUARTER ) {
         butchery_quarter( &corpse_item, *p );
@@ -1736,6 +1736,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     ///\EFFECT_STR increases pulping power, with diminishing returns
     float pulp_power = sqrt( ( p->str_cur + p->weapon.damage_melee( DT_BASH ) ) *
                              ( cut_power + 1.0f ) );
+    float pulp_effort = p->str_cur + p->weapon.damage_melee( DT_BASH );
     // Multiplier to get the chance right + some bonus for survival skill
     pulp_power *= 40 + p->get_skill_level( skill_survival ) * 5;
 
@@ -1767,14 +1768,13 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 // Splatter a bit more randomly, so that it looks cooler
                 const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
                 const tripoint dest( pos.x + rng( -radius, radius ), pos.y + rng( -radius, radius ), pos.z );
-                const field_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
-                                            corpse.get_mtype()->gibType() :
-                                            corpse.get_mtype()->bloodType();
+                const field_type_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
+                                                 corpse.get_mtype()->gibType() :
+                                                 corpse.get_mtype()->bloodType();
                 g->m.add_splatter_trail( type_blood, pos, dest );
             }
 
-            p->mod_stat( "stamina", -pulp_power - static_cast<int>
-                         ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) );
+            p->mod_stat( "stamina", -pulp_effort );
 
             if( one_in( 4 ) ) {
                 // Smashing may not be butchery, but it involves some zombie anatomy
@@ -1783,6 +1783,10 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
 
             float stamina_ratio = static_cast<float>( p->stamina ) / p->get_stamina_max();
             moves += 100 / std::max( 0.25f, stamina_ratio );
+            if( stamina_ratio < 0.33 ) {
+                p->moves = std::min( 0, p->moves - moves );
+                return;
+            }
             if( moves >= p->moves ) {
                 // Enough for this turn;
                 p->moves -= moves;
@@ -2673,7 +2677,7 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
             return;
         }
         tripoint sm_tri = g->m.getlocal( sm_to_ms_copy( omt_to_sm_copy( p->omt_path.back() ) ) );
-        tripoint centre_sub = tripoint( sm_tri.x + SEEX / 2, sm_tri.y + SEEY / 2, sm_tri.z );
+        tripoint centre_sub = tripoint( sm_tri.x + SEEX, sm_tri.y + SEEY, sm_tri.z );
         if( !g->m.passable( centre_sub ) ) {
             auto candidates = g->m.points_in_radius( centre_sub, 2 );
             for( const auto &elem : candidates ) {
@@ -2745,8 +2749,7 @@ void activity_handlers::fish_do_turn( player_activity *act, player *p )
         survival_skill += dice( 4, 9 );
         survival_skill *= 2;
     }
-    const tripoint fish_pos = act->placement;
-    std::vector<monster *> fishables = g->get_fishable( 60, fish_pos );
+    std::vector<monster *> fishables = g->get_fishable_monsters( act->coord_set );
     // Fish are always there, even if it dosnt seem like they are visible!
     if( fishables.empty() ) {
         fish_chance += survival_skill / 2;
@@ -3203,45 +3206,45 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
 
     if( g->m.furn( pos ) == f_rack ) {
         g->m.furn_set( pos, f_null );
-        g->m.spawn_item( pos, "pipe", rng( 1, 3 ) );
-        g->m.spawn_item( pos, "steel_chunk" );
+        g->m.spawn_item( p->pos(), "pipe", rng( 1, 3 ) );
+        g->m.spawn_item( p->pos(), "steel_chunk" );
     } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l ) {
         g->m.ter_set( pos, t_dirt );
-        g->m.spawn_item( pos, "pipe", 6 );
-        g->m.spawn_item( pos, "wire", 20 );
+        g->m.spawn_item( p->pos(), "pipe", 6 );
+        g->m.spawn_item( p->pos(), "wire", 20 );
     } else if( ter == t_chainfence_posts ) {
         g->m.ter_set( pos, t_dirt );
-        g->m.spawn_item( pos, "pipe", 6 );
+        g->m.spawn_item( p->pos(), "pipe", 6 );
     } else if( ter == t_window_bars_alarm ) {
         g->m.ter_set( pos, t_window_alarm );
-        g->m.spawn_item( pos, "pipe", 6 );
+        g->m.spawn_item( p->pos(), "pipe", 6 );
     } else if( ter == t_window_bars ) {
         g->m.ter_set( pos, t_window_empty );
-        g->m.spawn_item( pos, "pipe", 6 );
+        g->m.spawn_item( p->pos(), "pipe", 6 );
     } else if( ter == t_window_enhanced ) {
         g->m.ter_set( pos, t_window_reinforced );
-        g->m.spawn_item( pos, "spike", rng( 1, 4 ) );
+        g->m.spawn_item( p->pos(), "spike", rng( 1, 4 ) );
     } else if( ter == t_window_enhanced_noglass ) {
         g->m.ter_set( pos, t_window_reinforced_noglass );
-        g->m.spawn_item( pos, "spike", rng( 1, 4 ) );
+        g->m.spawn_item( p->pos(), "spike", rng( 1, 4 ) );
     } else if( ter == t_reb_cage ) {
         g->m.ter_set( pos, t_pit );
-        g->m.spawn_item( pos, "spike", 19 );
-        g->m.spawn_item( pos, "scrap", 8 );
+        g->m.spawn_item( p->pos(), "spike", 19 );
+        g->m.spawn_item( p->pos(), "scrap", 8 );
     } else if( ter == t_bars ) {
         if( g->m.ter( { pos.x + 1, pos.y, pos.z } ) == t_sewage || g->m.ter( { pos.x, pos.y + 1, pos.z } )
             == t_sewage ||
             g->m.ter( { pos.x - 1, pos.y, pos.z } ) == t_sewage || g->m.ter( { pos.x, pos.y - 1, pos.z } ) ==
             t_sewage ) {
             g->m.ter_set( pos, t_sewage );
-            g->m.spawn_item( pos, "pipe", 3 );
+            g->m.spawn_item( p->pos(), "pipe", 3 );
         } else {
             g->m.ter_set( pos, t_floor );
-            g->m.spawn_item( pos, "pipe", 3 );
+            g->m.spawn_item( p->pos(), "pipe", 3 );
         }
     } else if( ter == t_door_bar_c || ter == t_door_bar_locked ) {
         g->m.ter_set( pos, t_mdoor_frame );
-        g->m.spawn_item( pos, "pipe", 12 );
+        g->m.spawn_item( p->pos(), "pipe", 12 );
     }
 
     p->mod_stored_nutr( 5 );

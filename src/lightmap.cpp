@@ -119,8 +119,6 @@ bool map::build_transparency_cache( const int zlev )
                         value = LIGHT_TRANSPARENCY_SOLID;
                         zero_value = LIGHT_TRANSPARENCY_SOLID;
                         continue;
-                    } else if( cur_submap->is_uniform ) {
-                        break;
                     }
 
                     if( outside_cache[x][y] ) {
@@ -129,47 +127,42 @@ bool map::build_transparency_cache( const int zlev )
                         // weather in vehicles.
                         value *= sight_penalty;
                     }
-
+                    if( cur_submap->is_uniform ) {
+                        if( value == LIGHT_TRANSPARENCY_OPEN_AIR ) {
+                            break;
+                        }
+                        zero_value = value;
+                        continue;
+                    }
                     for( const auto &fld : cur_submap->fld[sx][sy] ) {
                         const field_entry &cur = fld.second;
-                        const field_id type = cur.get_field_type();
+                        const field_type_id type = cur.get_field_type();
                         const int intensity = cur.get_field_intensity();
 
-                        if( all_field_types_enum_list[type].transparent[intensity - 1] ) {
+                        if( type.obj().get_transparent( intensity - 1 ) ) {
                             continue;
                         }
 
                         // Fields are either transparent or not, however we want some to be translucent
-                        switch( type ) {
-                            case fd_cigsmoke:
-                            case fd_weedsmoke:
-                            case fd_cracksmoke:
-                            case fd_methsmoke:
-                            case fd_relax_gas:
-                                value *= 5;
-                                break;
-                            case fd_smoke:
-                            case fd_incendiary:
-                            case fd_toxic_gas:
-                            case fd_tear_gas:
-                                if( intensity == 3 ) {
-                                    value = LIGHT_TRANSPARENCY_SOLID;
-                                } else if( intensity == 2 ) {
-                                    value *= 10;
-                                }
-                                break;
-                            case fd_nuke_gas:
-                                value *= 10;
-                                break;
-                            case fd_fire:
-                                value *= 1.0 - ( intensity * 0.3 );
-                                break;
-                            default:
+                        if( type == fd_cigsmoke || type == fd_weedsmoke || type == fd_cracksmoke ||
+                            type == fd_methsmoke || type == fd_relax_gas ) {
+                            value *= 5;
+                        } else if( type == fd_smoke || type == fd_incendiary || type == fd_toxic_gas ||
+                                   type == fd_tear_gas ) {
+                            if( intensity == 3 ) {
                                 value = LIGHT_TRANSPARENCY_SOLID;
-                                break;
+                            } else if( intensity == 2 ) {
+                                value *= 10;
+                            }
+                        } else if( type == fd_nuke_gas ) {
+                            value *= 10;
+                        } else if( type == fd_fire ) {
+                            value *= 1.0 - ( intensity * 0.3 );
+                        } else {
+                            value = LIGHT_TRANSPARENCY_SOLID;
                         }
-                        // TODO: [lightmap] Have glass reduce light as well
                     }
+                    // TODO: [lightmap] Have glass reduce light as well
                 }
             }
         }
@@ -294,10 +287,10 @@ void map::generate_lightmap( const int zlev )
     auto &light_source_buffer = map_cache.light_source_buffer;
     std::memset( light_source_buffer, 0, sizeof( light_source_buffer ) );
 
-    constexpr std::array<int, 4> dir_x = {{  0, -1, 1, 0 }};    //    [0]
-    constexpr std::array<int, 4> dir_y = {{ -1,  0, 0, 1 }};    // [1][X][2]
-    constexpr std::array<int, 4> dir_d = {{ 90, 0, 180, 270 }}; //    [3]
-    constexpr std::array<std::array<quadrant, 2>, 4> dir_quadrants = {{
+    constexpr std::array<int, 4> dir_x = { {  0, -1, 1, 0 } };    //    [0]
+    constexpr std::array<int, 4> dir_y = { { -1,  0, 0, 1 } };    // [1][X][2]
+    constexpr std::array<int, 4> dir_d = { { 90, 0, 180, 270 } }; //    [3]
+    constexpr std::array<std::array<quadrant, 2>, 4> dir_quadrants = { {
             {{ quadrant::NE, quadrant::NW }},
             {{ quadrant::SW, quadrant::NW }},
             {{ quadrant::SE, quadrant::NE }},
@@ -305,7 +298,7 @@ void map::generate_lightmap( const int zlev )
         }
     };
 
-    const float natural_light  = g->natural_light_level( zlev );
+    const float natural_light = g->natural_light_level( zlev );
     const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
     const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
     // Iterate top to bottom because sunlight cache needs to construct in that order.
@@ -368,52 +361,47 @@ void map::generate_lightmap( const int zlev )
                     for( auto &fld : cur_submap->fld[sx][sy] ) {
                         const field_entry *cur = &fld.second;
                         // TODO: [lightmap] Attach light brightness to fields
-                        switch( cur->get_field_type() ) {
-                            case fd_fire:
-                                if( 3 == cur->get_field_intensity() ) {
-                                    add_light_source( p, 160 );
-                                } else if( 2 == cur->get_field_intensity() ) {
-                                    add_light_source( p, 60 );
-                                } else {
-                                    add_light_source( p, 20 );
-                                }
-                                break;
-                            case fd_fire_vent:
-                            case fd_flame_burst:
+                        const auto ft = cur->get_field_type();
+                        if( ft == fd_fire ) {
+                            if( 3 == cur->get_field_intensity() ) {
+                                add_light_source( p, 160 );
+                            } else if( 2 == cur->get_field_intensity() ) {
+                                add_light_source( p, 60 );
+                            } else {
                                 add_light_source( p, 20 );
-                                break;
-                            case fd_electricity:
-                            case fd_plasma:
-                                if( 3 == cur->get_field_intensity() ) {
-                                    add_light_source( p, 20 );
-                                } else if( 2 == cur->get_field_intensity() ) {
-                                    add_light_source( p, 4 );
-                                } else {
-                                    // Kinda a hack as the square will still get marked.
-                                    apply_light_source( p, LIGHT_SOURCE_LOCAL );
-                                }
-                                break;
-                            case fd_incendiary:
-                                if( 3 == cur->get_field_intensity() ) {
-                                    add_light_source( p, 160 );
-                                } else if( 2 == cur->get_field_intensity() ) {
-                                    add_light_source( p, 60 );
-                                } else {
-                                    add_light_source( p, 20 );
-                                }
-                                break;
-                            case fd_laser:
-                                apply_light_source( p, 4 );
-                                break;
-                            case fd_spotlight:
-                                add_light_source( p, 80 );
-                                break;
-                            case fd_dazzling:
-                                add_light_source( p, 5 );
-                                break;
-                            default:
-                                //Suppress warnings
-                                break;
+                            }
+                        }
+                        if( ft == fd_fire_vent || ft == fd_flame_burst ) {
+                            add_light_source( p, 20 );
+                        }
+                        if( ft == fd_electricity || ft == fd_plasma ) {
+
+                            if( 3 == cur->get_field_intensity() ) {
+                                add_light_source( p, 20 );
+                            } else if( 2 == cur->get_field_intensity() ) {
+                                add_light_source( p, 4 );
+                            } else {
+                                // Kinda a hack as the square will still get marked.
+                                apply_light_source( p, LIGHT_SOURCE_LOCAL );
+                            }
+                        }
+                        if( ft == fd_incendiary ) {
+                            if( 3 == cur->get_field_intensity() ) {
+                                add_light_source( p, 160 );
+                            } else if( 2 == cur->get_field_intensity() ) {
+                                add_light_source( p, 60 );
+                            } else {
+                                add_light_source( p, 20 );
+                            }
+                        }
+                        if( ft == fd_laser ) {
+                            apply_light_source( p, 4 );
+                        }
+                        if( ft == fd_spotlight ) {
+                            add_light_source( p, 80 );
+                        }
+                        if( ft == fd_dazzling ) {
+                            add_light_source( p, 5 );
                         }
                     }
                 }

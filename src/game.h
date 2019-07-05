@@ -14,6 +14,7 @@
 #include <iosfwd>
 #include <string>
 #include <chrono>
+#include <unordered_set>
 
 #include "calendar.h"
 #include "cursesdef.h"
@@ -463,13 +464,20 @@ class game
         void catch_a_monster( monster *fish, const tripoint &pos, player *p,
                               const time_duration &catch_duration );
         /**
-         * Get the fishable monsters within the contiguous fishable terrain starting at fish_pos,
-         * out to the specificed distance.
-         * @param distance Distance around the fish_pos to examine for contiguous fishable terrain.
+         * Get the contiguous fishable locations starting at fish_pos, out to the specificed distance.
+         * @param distance Distance around the fish_pos to examine for contiguous fishable locations.
          * @param fish_pos The location being fished.
-         * @return Fishable monsters within the specified contiguous fishable terrain.
+         * @return A set of locations representing the valid contiguous fishable locations.
          */
-        std::vector<monster *> get_fishable( int distance, const tripoint &fish_pos );
+        std::unordered_set<tripoint> get_fishable_locations( int distance, const tripoint &fish_pos );
+        /**
+         * Get the fishable monsters within the provided fishable locations.
+         * @param fishable_locations A set of locations which are valid fishable terrain. Any fishable monsters
+         * are filtered by this collection to determine those which can actually be caught.
+         * @return Fishable monsters within the specified fishable terrain.
+         */
+        std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint> &fishable_locations );
+
         /** Flings the input creature in the given direction. */
         void fling_creature( Creature *c, const int &dir, float flvel, bool controlled = false );
 
@@ -664,6 +672,8 @@ class game
         bool walk_move( const tripoint &dest );
         void on_move_effects();
 
+        // returns player's "kill xp" for monsters via STK
+        int kill_xp() const;
     private:
         // Game-start procedures
         void load( const save_t &name ); // Load a player-specific save file

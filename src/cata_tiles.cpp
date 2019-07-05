@@ -1493,10 +1493,10 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
                 col = v.color;
             }
         } else if( category == C_FIELD ) {
-            const field_id fid = field_from_ident( id );
-            sym = all_field_types_enum_list[fid].sym;
+            const field_type_id fid = field_type_id( id );
+            sym = fid.obj().get_codepoint();
             // TODO: field intensity?
-            col = all_field_types_enum_list[fid].color[0];
+            col = fid.obj().get_color();
         } else if( category == C_TRAP ) {
             const trap_str_id tmp( id );
             if( tmp.is_valid() ) {
@@ -2080,54 +2080,11 @@ bool cata_tiles::draw_graffiti( const tripoint &p, lit_level ll, int &height_3d 
 
 bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d )
 {
-    // check for field
     const field &f = g->m.field_at( p );
-    field_id f_id = f.displayed_field_type();
-    bool display_field;
-    bool display_items;
-    switch( f_id ) {
-        case fd_null:
-            //only draw items
-            display_field = false;
-            display_items = true;
-            break;
-        case fd_blood:
-        case fd_blood_veggy:
-        case fd_blood_insect:
-        case fd_blood_invertebrate:
-        case fd_gibs_flesh:
-        case fd_gibs_veggy:
-        case fd_gibs_insect:
-        case fd_gibs_invertebrate:
-        case fd_bile:
-        case fd_slime:
-        case fd_acid:
-        case fd_sap:
-        case fd_sludge:
-        case fd_cigsmoke:
-        case fd_weedsmoke:
-        case fd_cracksmoke:
-        case fd_methsmoke:
-        case fd_hot_air1:
-        case fd_hot_air2:
-        case fd_hot_air3:
-        case fd_hot_air4:
-        case fd_spotlight:
-            //need to draw fields and items both
-            display_field = true;
-            display_items = true;
-            break;
-        default:
-            //only draw fields
-            display_items = false;
-            display_field = true;
-            break;
-    }
+    const field_type &fld_type = g->m.field_at( p ).displayed_field_type().obj();
     bool ret_draw_field = true;
     bool ret_draw_items = true;
-    if( display_field ) {
-        const std::string fd_name = all_field_types_enum_list[f.displayed_field_type()].id;
-
+    if( fld_type.display_field ) {
         // for rotation information
         const int neighborhood[4] = {
             static_cast<int>( g->m.field_at( tripoint( p.x, p.y + 1, p.z ) ).displayed_field_type() ), // south
@@ -2140,10 +2097,10 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &heigh
         int rotation = 0;
         get_tile_values( f.displayed_field_type(), neighborhood, subtile, rotation );
 
-        ret_draw_field = draw_from_id_string( fd_name, C_FIELD, empty_string, p, subtile, rotation,
-                                              ll, nv_goggles_activated );
+        ret_draw_field = draw_from_id_string( fld_type.id.c_str(), C_FIELD, empty_string, p, subtile,
+                                              rotation, ll, nv_goggles_activated );
     }
-    if( display_items ) {
+    if( fld_type.display_items ) {
         if( !g->m.sees_some_items( p, g->u ) ) {
             return false;
         }
@@ -2934,7 +2891,7 @@ void cata_tiles::do_tile_loading_report()
     }, "Monsters", "" );
     tile_loading_report( vpart_info::all(), "Vehicle Parts", "vp_" );
     tile_loading_report<trap>( trap::count(), "Traps", "" );
-    tile_loading_report( all_field_types_enum_list, num_fields, "Fields", "" );
+    tile_loading_report<field_type>( field_type::count(), "Field Types", "" );
 
     // needed until DebugLog ostream::flush bugfix lands
     DebugLog( D_INFO, DC_ALL );

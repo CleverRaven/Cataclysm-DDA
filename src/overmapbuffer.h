@@ -96,7 +96,7 @@ struct overmap_with_local_coordinates {
 */
 struct omt_find_params {
     std::string type;
-    ot_match_type match_type = ot_match_type::TYPE;
+    ot_match_type match_type = ot_match_type::type;
     int search_range = 0;
     int min_distance = 0;
     bool must_see = false;
@@ -292,7 +292,7 @@ class overmapbuffer
          */
         std::vector<tripoint> find_all( const tripoint &origin, const omt_find_params &params );
         std::vector<tripoint> find_all( const tripoint &origin, const std::string &type,
-                                        int dist, bool must_be_seen, ot_match_type match_type = ot_match_type::TYPE,
+                                        int dist, bool must_be_seen, ot_match_type match_type = ot_match_type::type,
                                         bool existing_overmaps_only = false,
                                         const cata::optional<overmap_special_id> &om_special = cata::nullopt );
 
@@ -305,7 +305,7 @@ class overmapbuffer
          */
         tripoint find_random( const tripoint &origin, const omt_find_params &params );
         tripoint find_random( const tripoint &origin, const std::string &type,
-                              int dist, bool must_be_seen, ot_match_type match_type = ot_match_type::TYPE,
+                              int dist, bool must_be_seen, ot_match_type match_type = ot_match_type::type,
                               bool existing_overmaps_only = false,
                               const cata::optional<overmap_special_id> &om_special = cata::nullopt );
         /**
@@ -333,7 +333,7 @@ class overmapbuffer
          */
         tripoint find_closest( const tripoint &origin, const omt_find_params &params );
         tripoint find_closest( const tripoint &origin, const std::string &type, int radius,
-                               bool must_be_seen, ot_match_type match_type = ot_match_type::TYPE,
+                               bool must_be_seen, ot_match_type match_type = ot_match_type::type,
                                bool existing_overmaps_only = false,
                                const cata::optional<overmap_special_id> &om_special = cata::nullopt );
 

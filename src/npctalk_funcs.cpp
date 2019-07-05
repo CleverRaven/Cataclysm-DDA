@@ -259,6 +259,7 @@ void talk_function::goto_location( npc &p )
     p.set_mission( NPC_MISSION_TRAVELLING );
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
     p.goal = destination;
+    p.omt_path = overmap_buffer.get_npc_path( p.global_omt_location(), p.goal );
     p.guard_pos = npc::no_goal_point;
     p.set_attitude( NPCATT_NULL );
     return;

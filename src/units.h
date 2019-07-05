@@ -7,6 +7,9 @@
 #include <ostream>
 #include <utility>
 
+#include "calendar.h"
+#include "json.h"
+
 namespace units
 {
 
@@ -485,6 +488,63 @@ inline constexpr units::quantity<double, units::energy_in_millijoule_tag> operat
     const long double v )
 {
     return units::from_kilojoule( v );
+}
+
+template<typename T>
+inline T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, T>> &units )
+{
+    const size_t pos = jsin.tell();
+    size_t i = 0;
+    const auto error = [&]( const char *const msg ) {
+        jsin.seek( pos + i );
+        jsin.error( msg );
+    };
+
+    const std::string s = jsin.get_string();
+    // returns whether we are at the end of the string
+    const auto skip_spaces = [&]() {
+        while( i < s.size() && s[i] == ' ' ) {
+            ++i;
+        }
+        return i >= s.size();
+    };
+    const auto get_unit = [&]() {
+        if( skip_spaces() ) {
+            error( "invalid quantity string: missing unit" );
+        }
+        for( const auto &pair : units ) {
+            const std::string &unit = pair.first;
+            if( s.size() >= unit.size() + i && s.compare( i, unit.size(), unit ) == 0 ) {
+                i += unit.size();
+                return pair.second;
+            }
+        }
+        error( "invalid quantity string: unknown unit" );
+        throw; // above always throws
+    };
+
+    if( skip_spaces() ) {
+        error( "invalid quantity string: empty string" );
+    }
+    T result = 0;
+    do {
+        int sign_value = +1;
+        if( s[i] == '-' ) {
+            sign_value = -1;
+            ++i;
+        } else if( s[i] == '+' ) {
+            ++i;
+        }
+        if( i >= s.size() || !isdigit( s[i] ) ) {
+            error( "invalid quantity string: number expected" );
+        }
+        int value = 0;
+        for( ; i < s.size() && isdigit( s[i] ); ++i ) {
+            value = value * 10 + ( s[i] - '0' );
+        }
+        result += sign_value * value * get_unit();
+    } while( !skip_spaces() );
+    return result;
 }
 
 #endif

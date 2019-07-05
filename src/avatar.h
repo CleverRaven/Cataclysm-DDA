@@ -63,6 +63,15 @@ class avatar : public player
         size_t max_memorized_tiles() const;
         void clear_memorized_tile( const tripoint &pos );
 
+        /** Provides the window and detailed morale data */
+        void disp_morale();
+        /** Uses morale and other factors to return the player's focus gain rate */
+        int calc_focus_equilibrium() const;
+        /** Uses calc_focus_equilibrium to update the player's current focus */
+        void update_mental_focus();
+        /** Resets stats, and applies effects in an idempotent manner */
+        void reset_stats() override;
+
         std::vector<mission *> get_active_missions() const;
         std::vector<mission *> get_completed_missions() const;
         std::vector<mission *> get_failed_missions() const;
@@ -131,6 +140,17 @@ class avatar : public player
         void steal( npc &target );
 
         teleporter_list translocators;
+
+        int get_str_base() const override;
+        int get_dex_base() const override;
+        int get_int_base() const override;
+        int get_per_base() const override;
+
+        void upgrade_stat_prompt( const Character::stat &stat_name );
+        // how many points are available to upgrade via STK
+        int free_upgrade_points() const;
+        // how much "kill xp" you have
+        int kill_xp() const;
     private:
         map_memory player_map_memory;
         bool show_map_memory;
@@ -161,6 +181,13 @@ class avatar : public player
         std::unordered_set<std::string> items_identified;
 
         object_type grab_type;
+
+        // these are the stat upgrades from stats through kills
+
+        int str_upgrade = 0;
+        int dex_upgrade = 0;
+        int int_upgrade = 0;
+        int per_upgrade = 0;
 };
 
 #endif

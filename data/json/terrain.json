@@ -6910,11 +6910,12 @@
     "type": "terrain",
     "id": "t_gutter_downspout",
     "name": "downspout",
-    "description": "A length of gutter running from the roof to the ground, it looks flimsy. You may be able to climb down here.",
+    "description": "A length of gutter running from the roof to the ground, you could place a container underneath it to collect rainwater.  It looks flimsy. You may be able to climb down here.",
     "symbol": "|",
     "color": "white",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "UNSTABLE", "CLIMBABLE" ],
+    "trap": "tr_downspout_funnel",
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "UNSTABLE", "CLIMBABLE" ],
     "deconstruct": {
       "ter_set": "t_flat_roof",
       "items": [ { "item": "sheet_metal_small", "count": 2 }, { "item": "scrap", "count": [ 2, 3 ] } ]

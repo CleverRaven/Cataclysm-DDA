@@ -648,6 +648,8 @@ bool avatar::create( character_type type, const std::string &tempname )
         }
     }
 
+    prof->learn_spells( *this );
+
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
     apply_persistent_morale();
 
@@ -1541,6 +1543,13 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
             for( auto elem : sorted_profs[cur_id]->pets() ) {
                 monster mon( elem );
                 buffer << mon.get_name() << "\n";
+            }
+        }
+        // Profession spells
+        if( !sorted_profs[cur_id]->spells().empty() ) {
+            buffer << "<color_light_blue>" << _( "Spells:" ) << "</color>\n";
+            for( const std::pair<spell_id, int> spell_pair : sorted_profs[cur_id]->spells() ) {
+                buffer << _( spell_pair.first->name ) << _( " level " ) << spell_pair.second << "\n";
             }
         }
         werase( w_items );

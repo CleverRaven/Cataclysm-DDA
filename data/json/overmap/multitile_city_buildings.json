@@ -17,6 +17,24 @@
   },
   {
     "type": "city_building",
+    "id": "post_office",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "post_office_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "post_office_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "post_office_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "post_office_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "post_office_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "paintball_field",
     "locations": [ "land" ],
     "overmaps": [
@@ -440,6 +458,33 @@
   },
   {
     "type": "city_building",
+    "id": "recyclecenter",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "recyclecenter_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "recyclecenter_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "recyclecenter_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "recyclecenter_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "recyclecenter_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "recyclecenter_2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "recyclecenter_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "recyclecenter_roof_2_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "s_teashop",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_teashop_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_teashop_roof_north" } ]
@@ -689,9 +734,13 @@
     "overmaps": [
       { "point": [ 0, 2, 0 ], "overmap": "road_end_south" },
       { "point": [ 0, 0, 0 ], "overmap": "public_works_NW_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "public_works_NW_roof_north" },
       { "point": [ 1, 0, 0 ], "overmap": "public_works_NE_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "public_works_NE_roof_north" },
       { "point": [ 0, 1, 0 ], "overmap": "public_works_SW_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "public_works_SE_north" }
+      { "point": [ 0, 1, 1 ], "overmap": "public_works_SW_roof_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "public_works_SE_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "public_works_SE_roof_north" }
     ]
   },
   {
@@ -1745,6 +1794,12 @@
       { "point": [ 0, 0, 1 ], "overmap": "office_doctor_roof_2_north" },
       { "point": [ 0, 0, 2 ], "overmap": "office_doctor_upper_roof_2_north" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_gas_1",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_gas_1_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_gas_roof_1_north" } ]
   },
   {
     "type": "city_building",

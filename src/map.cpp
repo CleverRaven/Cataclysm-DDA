@@ -20,6 +20,7 @@
 #include "clzones.h"
 #include "debug.h"
 #include "drawing_primitives.h"
+#include "emit.h"
 #include "explosion.h"
 #include "event.h"
 #include "fragment_cloud.h"
@@ -1266,7 +1267,9 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
         add_msg( _( "The %s you were grabbing is destroyed!" ), old_t.name() );
         g->u.grab( OBJECT_NONE );
     }
-
+    if( new_t.has_flag( "EMITTER" ) ) {
+        field_furn_locs.push_back( p );
+    }
     if( old_t.transparent != new_t.transparent ) {
         set_transparency_cache_dirty( p.z );
     }
@@ -2127,7 +2130,7 @@ void map::drop_fields( const tripoint &p )
         return;
     }
 
-    std::list<field_id> dropped;
+    std::list<field_type_id> dropped;
     const tripoint below = p - tripoint( 0, 0, 1 );
     for( const auto &iter : fld ) {
         const field_entry &entry = iter.second;
@@ -2734,46 +2737,24 @@ void map::decay_fields_and_scent( const time_duration &amount )
                     for( auto &fp : fields ) {
                         to_proc--;
                         field_entry &cur = fp.second;
-                        const field_id type = cur.get_field_type();
-                        switch( type ) {
-                            case fd_fire:
-                                cur.set_field_age( cur.get_field_age() + amount_fire );
-                                break;
-                            case fd_blood:
-                            case fd_bile:
-                            case fd_gibs_flesh:
-                            case fd_gibs_veggy:
-                            case fd_slime:
-                            case fd_blood_veggy:
-                            case fd_blood_insect:
-                            case fd_blood_invertebrate:
-                            case fd_gibs_insect:
-                            case fd_gibs_invertebrate:
-                                cur.set_field_age( cur.get_field_age() + amount_liquid );
-                                break;
-                            case fd_smoke:
-                            case fd_toxic_gas:
-                            case fd_fungicidal_gas:
-                            case fd_tear_gas:
-                            case fd_nuke_gas:
-                            case fd_cigsmoke:
-                            case fd_weedsmoke:
-                            case fd_cracksmoke:
-                            case fd_methsmoke:
-                            case fd_relax_gas:
-                            case fd_fungal_haze:
-                            case fd_cold_air1:
-                            case fd_cold_air2:
-                            case fd_cold_air3:
-                            case fd_cold_air4:
-                            case fd_hot_air1:
-                            case fd_hot_air2:
-                            case fd_hot_air3:
-                            case fd_hot_air4:
-                                cur.set_field_age( cur.get_field_age() + amount_gas );
-                                break;
-                            default:
-                                break;
+                        const field_type_id type = cur.get_field_type();
+                        if( type == fd_fire ) {
+                            cur.set_field_age( cur.get_field_age() + amount_fire );
+                        }
+                        if( type == fd_blood || type == fd_bile || type == fd_gibs_flesh ||
+                            type == fd_gibs_veggy || type == fd_slime || type == fd_blood_veggy ||
+                            type == fd_blood_insect || type == fd_blood_invertebrate ||
+                            type == fd_gibs_insect || type == fd_gibs_invertebrate ) {
+                            cur.set_field_age( cur.get_field_age() + amount_liquid );
+                        }
+                        if( type == fd_smoke || type == fd_toxic_gas || type == fd_fungicidal_gas ||
+                            type == fd_tear_gas || type == fd_nuke_gas || type == fd_cigsmoke ||
+                            type == fd_weedsmoke || type == fd_cracksmoke || type == fd_methsmoke ||
+                            type == fd_relax_gas || type == fd_fungal_haze || type == fd_cold_air1 ||
+                            type == fd_cold_air2 || type == fd_cold_air3 || type == fd_cold_air4 ||
+                            type == fd_hot_air1 || type == fd_hot_air2 || type == fd_hot_air3 ||
+                            type == fd_hot_air4 ) {
+                            cur.set_field_age( cur.get_field_age() + amount_gas );
                         }
                     }
                 }
@@ -2844,7 +2825,7 @@ bool map::mop_spills( const tripoint &p )
     }
 
     field &fld = field_at( p );
-    static const std::vector<field_id> to_check = {
+    static const std::vector<field_type_id> to_check = {
         fd_blood,
         fd_blood_veggy,
         fd_blood_insect,
@@ -2857,7 +2838,7 @@ bool map::mop_spills( const tripoint &p )
         fd_slime,
         fd_sludge
     };
-    for( field_id fid : to_check ) {
+    for( field_type_id fid : to_check ) {
         retval |= fld.remove_field( fid );
     }
 
@@ -2981,7 +2962,7 @@ void map::smash_items( const tripoint &p, const int power )
                 damage_chance -= material_factor;
             }
         } else {
-            const field_id type_blood = i->is_corpse() ? i->get_mtype()->bloodType() : fd_null;
+            const field_type_id type_blood = i->is_corpse() ? i->get_mtype()->bloodType() : fd_null;
             while( ( damage_chance > material_factor ||
                      x_in_y( damage_chance, material_factor ) ) &&
                    i->damage() < i->max_damage() ) {
@@ -5319,19 +5300,19 @@ field &map::field_at( const tripoint &p )
     return current_submap->fld[l.x][l.y];
 }
 
-time_duration map::adjust_field_age( const tripoint &p, const field_id type,
-                                     const time_duration &offset )
+time_duration map::mod_field_age( const tripoint &p, const field_type_id type,
+                                  const time_duration &offset )
 {
     return set_field_age( p, type, offset, true );
 }
 
-int map::mod_field_intensity( const tripoint &p, const field_id type, const int offset )
+int map::mod_field_intensity( const tripoint &p, const field_type_id type, const int offset )
 {
     return set_field_intensity( p, type, offset, true );
 }
 
-time_duration map::set_field_age( const tripoint &p, const field_id type, const time_duration &age,
-                                  const bool isoffset )
+time_duration map::set_field_age( const tripoint &p, const field_type_id type,
+                                  const time_duration &age, const bool isoffset )
 {
     if( field_entry *const field_ptr = get_field( p, type ) ) {
         return field_ptr->set_field_age( ( isoffset ? field_ptr->get_field_age() : 0_turns ) + age );
@@ -5343,7 +5324,7 @@ time_duration map::set_field_age( const tripoint &p, const field_id type, const 
  * set intensity of field type at point, creating if not present, removing if intensity is 0
  * returns resulting intensity, or 0 for not present
  */
-int map::set_field_intensity( const tripoint &p, const field_id type, const int new_intensity,
+int map::set_field_intensity( const tripoint &p, const field_type_id type, const int new_intensity,
                               bool isoffset )
 {
     field_entry *field_ptr = get_field( p, type );
@@ -5363,19 +5344,19 @@ int map::set_field_intensity( const tripoint &p, const field_id type, const int 
     return 0;
 }
 
-time_duration map::get_field_age( const tripoint &p, const field_id type ) const
+time_duration map::get_field_age( const tripoint &p, const field_type_id type ) const
 {
     auto field_ptr = field_at( p ).find_field( type );
     return field_ptr == nullptr ? -1_turns : field_ptr->get_field_age();
 }
 
-int map::get_field_intensity( const tripoint &p, const field_id type ) const
+int map::get_field_intensity( const tripoint &p, const field_type_id type ) const
 {
     auto field_ptr = field_at( p ).find_field( type );
     return ( field_ptr == nullptr ? 0 : field_ptr->get_field_intensity() );
 }
 
-field_entry *map::get_field( const tripoint &p, const field_id type )
+field_entry *map::get_field( const tripoint &p, const field_type_id type )
 {
     if( !inbounds( p ) ) {
         return nullptr;
@@ -5387,14 +5368,17 @@ field_entry *map::get_field( const tripoint &p, const field_id type )
     return current_submap->fld[l.x][l.y].find_field( type );
 }
 
-bool map::add_field( const tripoint &p, const field_id type, int intensity,
+bool map::add_field( const tripoint &p, const field_type_id type, int intensity,
                      const time_duration &age )
 {
     if( !inbounds( p ) ) {
         return false;
     }
 
-    intensity = std::min( intensity, 3 );
+    if( intensity == INT_MAX ) {
+        intensity = type.obj().get_max_intensity();
+    }
+    intensity = std::min( intensity, type.obj().get_max_intensity() );
     if( intensity <= 0 ) {
         return false;
     }
@@ -5423,20 +5407,19 @@ bool map::add_field( const tripoint &p, const field_id type, int intensity,
     // TODO: Make it skip transparent fields
     set_transparency_cache_dirty( p.z );
 
-    const field_t &ft = all_field_types_enum_list[type];
-    if( field_type_dangerous( type ) ) {
+    if( type.obj().is_dangerous() ) {
         set_pathfinding_cache_dirty( p.z );
     }
 
     // Ensure blood type fields don't hang in the air
-    if( zlevels && ft.accelerated_decay ) {
+    if( zlevels && type.obj().accelerated_decay ) {
         support_dirty( p );
     }
 
     return true;
 }
 
-void map::remove_field( const tripoint &p, const field_id field_to_remove )
+void map::remove_field( const tripoint &p, const field_type_id field_to_remove )
 {
     if( !inbounds( p ) ) {
         return;
@@ -5448,27 +5431,20 @@ void map::remove_field( const tripoint &p, const field_id field_to_remove )
     if( current_submap->fld[l.x][l.y].remove_field( field_to_remove ) ) {
         // Only adjust the count if the field actually existed.
         if( ! --current_submap->field_count ) {
-            get_cache( p.z ).field_cache.reset( static_cast<size_t>( p.x / SEEX + ( (
-                                                    p.y / SEEX ) * MAPSIZE ) ) );
+            get_cache( p.z ).field_cache.set( static_cast<size_t>( p.x / SEEX + ( (
+                                                  p.y / SEEX ) * MAPSIZE ) ) );
         }
-        const auto &fdata = all_field_types_enum_list[ field_to_remove ];
-        for( bool i : fdata.transparent ) {
-            if( !i ) {
-                set_transparency_cache_dirty( p.z );
-                break;
-            }
+        const auto &fdata = field_to_remove.obj();
+        if( fdata.is_transparent() ) {
+            set_transparency_cache_dirty( p.z );
         }
-
-        for( bool danger : fdata.dangerous ) {
-            if( danger ) {
-                set_pathfinding_cache_dirty( p.z );
-                break;
-            }
+        if( fdata.is_dangerous() ) {
+            set_pathfinding_cache_dirty( p.z );
         }
     }
 }
 
-void map::add_splatter( const field_id type, const tripoint &where, int intensity )
+void map::add_splatter( const field_type_id type, const tripoint &where, int intensity )
 {
     if( intensity <= 0 ) {
         return;
@@ -5487,7 +5463,7 @@ void map::add_splatter( const field_id type, const tripoint &where, int intensit
     mod_field_intensity( where, type, intensity );
 }
 
-void map::add_splatter_trail( const field_id type, const tripoint &from, const tripoint &to )
+void map::add_splatter_trail( const field_type_id type, const tripoint &from, const tripoint &to )
 {
     if( type == fd_null ) {
         return;
@@ -5504,7 +5480,7 @@ void map::add_splatter_trail( const field_id type, const tripoint &from, const t
     }
 }
 
-void map::add_splash( const field_id type, const tripoint &center, int radius, int intensity )
+void map::add_splash( const field_type_id type, const tripoint &center, int radius, int intensity )
 {
     if( type == fd_null ) {
         return;
@@ -5862,12 +5838,12 @@ bool map::draw_maptile( const catacurses::window &w, const player &u, const trip
         }
     }
     if( curr_field.field_count() > 0 ) {
-        const field_id &fid = curr_field.displayed_field_type();
+        const field_type_id &fid = curr_field.displayed_field_type();
         const field_entry *fe = curr_field.find_field( fid );
-        const field_t &f = all_field_types_enum_list[fid];
-        if( f.sym == '&' || fe == nullptr ) {
+        const auto field_symbol = fid->get_symbol();
+        if( field_symbol == "&" || fe == nullptr ) {
             // Do nothing, a '&' indicates invisible fields.
-        } else if( f.sym == '*' ) {
+        } else if( field_symbol == "*" ) {
             // A random symbol.
             switch( rng( 1, 5 ) ) {
                 case 1:
@@ -5897,13 +5873,14 @@ bool map::draw_maptile( const catacurses::window &w, const player &u, const trip
             // (that are visible to the player!), we always set the symbol.
             // If there are items and the field does not hide them,
             // the code handling items will override it.
-            draw_item_sym = ( f.sym == '%' );
-            // If field priority is > 1, and the field is set to hide items,
+            draw_item_sym = ( field_symbol == "'%" );
+            // If field display_priority is > 1, and the field is set to hide items,
             //draw the field as it obscures what's under it.
-            if( ( f.sym != '%' && f.priority > 1 ) || ( f.sym != '%' && sym == '.' ) )  {
+            if( ( field_symbol != "%" && fid.obj().priority > 1 ) || ( field_symbol != "%" &&
+                    sym == '.' ) )  {
                 // default terrain '.' and
                 // non-default field symbol -> field symbol overrides terrain
-                sym = f.sym;
+                sym = field_symbol[0];
             }
             tercol = fe->color();
         }
@@ -6462,6 +6439,7 @@ void map::load( const int wx, const int wy, const int wz, const bool update_vehi
     for( auto &traps : traplocs ) {
         traps.clear();
     }
+    field_furn_locs.clear();
     submaps_with_active_items.clear();
     set_abs_sub( wx, wy, wz );
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
@@ -6475,6 +6453,15 @@ void map::shift_traps( const tripoint &shift )
 {
     // Offset needs to have sign opposite to shift direction
     const tripoint offset( -shift.x * SEEX, -shift.y * SEEY, -shift.z );
+    for( auto iter = field_furn_locs.begin(); iter != field_furn_locs.end(); ){
+        tripoint &pos = *iter;
+        pos += offset;
+        if( inbounds( pos ) ) {
+            ++iter;
+        } else {
+            iter = field_furn_locs.erase( iter );
+        }
+    }
     for( auto &traps : traplocs ) {
         for( auto iter = traps.begin(); iter != traps.end(); ) {
             tripoint &pos = *iter;
@@ -7181,7 +7168,7 @@ void map::decay_cosmetic_fields( const tripoint &p, const time_duration &time_si
 
         const time_duration added_age = 2 * time_since_last_actualize / rng( 2, 4 );
         fd.mod_field_age( added_age );
-        const time_duration hl = all_field_types_enum_list[ fd.get_field_type() ].halflife;
+        const time_duration hl = fd.get_field_type().obj().half_life;
         const int intensity_drop = fd.get_field_age() / hl;
         if( intensity_drop > 0 ) {
             fd.set_field_intensity( fd.get_field_intensity() - intensity_drop );
@@ -7207,6 +7194,9 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
             const tripoint pnt( gridx * SEEX + x, gridy * SEEY + y, gridz );
             const point p( x, y );
             const auto &furn = this->furn( pnt ).obj();
+            if( furn.has_flag( "EMITTER" ) ){
+                field_furn_locs.push_back( pnt );
+            }
             // plants contain a seed item which must not be removed under any circumstances
             if( !furn.has_flag( "DONT_REMOVE_ROTTEN" ) ) {
                 remove_rotten_items( tmpsub->itm[x][y], pnt );
@@ -7218,7 +7208,7 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
             }
             const ter_t &ter = tmpsub->get_ter( p ).obj();
             if( ter.trap != tr_null && ter.trap != tr_ledge ) {
-                traplocs[trap_here].push_back( pnt );
+                traplocs[ter.trap].push_back( pnt );
             }
 
             if( do_funnels ) {
@@ -7516,6 +7506,11 @@ void map::clear_traps()
     for( auto &i : traplocs ) {
         i.clear();
     }
+}
+
+const std::vector<tripoint> &map::get_furn_field_locations() const
+{
+    return field_furn_locs;
 }
 
 const std::vector<tripoint> &map::trap_locations( const trap_id &type ) const
@@ -8562,9 +8557,9 @@ void map::update_pathfinding_cache( int zlev ) const
 
                     for( const auto &fld : tile.get_field() ) {
                         const field_entry &cur = fld.second;
-                        const field_id type = cur.get_field_type();
-                        const int intensity = cur.get_field_intensity();
-                        if( all_field_types_enum_list[type].dangerous[intensity - 1] ) {
+                        const field_type_id type = cur.get_field_type();
+                        const int field_intensity = cur.get_field_intensity();
+                        if( type.obj().get_dangerous( field_intensity - 1 ) ) {
                             cur_value |= PF_FIELD;
                         }
                     }

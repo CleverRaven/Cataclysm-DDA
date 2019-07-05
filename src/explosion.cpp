@@ -759,7 +759,7 @@ void resonance_cascade( const tripoint &p )
                 case 5:
                     for( int k = i - 1; k <= i + 1; k++ ) {
                         for( int l = j - 1; l <= j + 1; l++ ) {
-                            field_id type = fd_null;
+                            field_type_id type = fd_null;
                             switch( rng( 1, 7 ) ) {
                                 case 1:
                                     type = fd_blood;

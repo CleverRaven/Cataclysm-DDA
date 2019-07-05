@@ -12,6 +12,8 @@
 
 // Divided by 100 to prevent overflowing when converted to moves
 const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
+bool calendar::is_eternal_season = false;
+int calendar::cur_season_length = 1;
 
 calendar calendar::start;
 calendar calendar::turn;
@@ -530,8 +532,7 @@ weekdays day_of_week( const time_point &p )
 
 bool calendar::eternal_season()
 {
-    static const std::string eternal_season_option_name = "ETERNAL_SEASON";
-    return get_option<bool>( eternal_season_option_name );
+    return is_eternal_season;
 }
 
 time_duration calendar::year_length()
@@ -541,9 +542,15 @@ time_duration calendar::year_length()
 
 time_duration calendar::season_length()
 {
-    static const std::string s = "SEASON_LENGTH";
-    // Avoid returning 0 as this value is used in division and expected to be non-zero.
-    return time_duration::from_days( std::max( get_option<int>( s ), 1 ) );
+    return time_duration::from_days( std::max( cur_season_length, 1 ) );
+}
+void calendar::set_eternal_season( bool is_eternal )
+{
+    is_eternal_season = is_eternal;
+}
+void calendar::set_season_length( const int dur )
+{
+    cur_season_length = dur;
 }
 
 float calendar::season_ratio()
@@ -617,6 +624,27 @@ bool x_in_y( const time_duration &a, const time_duration &b )
 {
     return ::x_in_y( to_turns<int>( a ), to_turns<int>( b ) );
 }
+
+const std::vector<std::pair<std::string, time_duration>> time_duration::units = { {
+        { "turns", 1_turns },
+        { "turn", 1_turns },
+        { "t", 1_turns },
+        { "seconds", 1_seconds },
+        { "second", 1_seconds },
+        { "s", 1_seconds },
+        { "minutes", 1_minutes },
+        { "minute", 1_minutes },
+        { "m", 1_minutes },
+        { "hours", 1_hours },
+        { "hour", 1_hours },
+        { "h", 1_hours },
+        { "days", 1_days },
+        { "day", 1_days },
+        { "d", 1_days },
+        // TODO: maybe add seasons?
+        // TODO: maybe add years? Those two things depend on season length!
+    }
+};
 
 season_type season_of_year( const time_point &p )
 {

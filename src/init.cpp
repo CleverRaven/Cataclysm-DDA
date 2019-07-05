@@ -25,7 +25,6 @@
 #include "faction.h"
 #include "fault.h"
 #include "filesystem.h"
-#include "field_type.h"
 #include "flag.h"
 #include "gates.h"
 #include "harvest.h"
@@ -530,6 +529,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     const std::vector<named_entry> entries = {{
             { _( "Body parts" ), &body_part_struct::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },
+            { _( "Emissions" ), &emit::finalize },
             {
                 _( "Items" ), []()
                 {

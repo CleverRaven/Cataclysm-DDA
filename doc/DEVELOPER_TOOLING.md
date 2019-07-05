@@ -16,6 +16,23 @@ Cataclysm has a [clang-tidy configuration file](../.clang-tidy) and if you have
 codebase.  We test with `clang-tidy` from LLVM 8.0.1 on Travis, so for the most
 consistent results, you might want to use that version.
 
+To run it you have a few options.
+
+* `clang-tidy` ships with a wrapper script `run-clang-tidy.py`.
+
+* Use CMake's built-in support by adding `-DCMAKE_CXX_CLANG_TIDY=clang-tidy`
+  or similar, pointing it to your chosen clang-tidy version.
+
+* To run `clang-tidy` directly try something like
+```sh
+grep '"file": "' build/compile_commands.json | \
+    sed "s+.*$PWD/++;s+\"$++" | \
+    egrep '.' | \
+    xargs -P 9 -n 1 clang-tidy -quiet
+```
+To focus on a subset of files add their names into the `egrep` regex in the
+middle of the command-line.
+
 ### Custom clang-tidy plugin
 
 We have written our own clang-tidy checks in a custom plugin.  Unfortunately,
@@ -48,6 +65,10 @@ build.  Add the following CMake options:
 -DCATA_CHECK_CLANG_TIDY="$extra_dir/test/clang-tidy/check_clang_tidy.py"
 ```
 where `$extra_dir` is the location of your `clang-tools-extra` checkout.
+
+To run `clang-tidy` with this plugin enabled add the
+`'-plugins=$build_dir/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so'` option
+to your `clang-tidy` command line.
 
 If you wish to run the tests for the custom clang-tidy plugin you will also
 need `lit`.  This will be built as part of `llvm`, or you can install it via

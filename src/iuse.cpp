@@ -1856,7 +1856,8 @@ int iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
 
 static bool good_fishing_spot( tripoint pos )
 {
-    std::vector<monster *> fishables = g->get_fishable( 60, pos );
+    std::unordered_set<tripoint> fishable_locations = g->get_fishable_locations( 60, pos );
+    std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
     // isolated little body of water with no definite fish population
     oter_id &cur_omt = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( pos ) ) );
     std::string om_id = cur_omt.id().c_str();
@@ -1890,7 +1891,7 @@ int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
     p->add_msg_if_player( _( "You cast your line and wait to hook something..." ) );
     p->assign_activity( activity_id( "ACT_FISH" ), to_moves<int>( 5_hours ), 0,
                         p->get_item_position( it ), it->tname() );
-    p->activity.placement = pnt;
+    p->activity.coord_set = g->get_fishable_locations( 60, pnt );
 
     return 0;
 }
@@ -1985,8 +1986,10 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
 
                 return 0;
             }
-            std::vector<monster *> fishables = g->get_fishable( 60,
-                                               pos ); //get the fishables around the trap's spot
+
+            //get the fishables around the trap's spot
+            std::unordered_set<tripoint> fishable_locations = g->get_fishable_locations( 60, pos );
+            std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
             for( int i = 0; i < fishes; i++ ) {
                 p->practice( skill_survival, rng( 3, 10 ) );
                 if( fishables.size() >= 1 ) {
@@ -4251,21 +4254,13 @@ int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
             const field &gasfield = g->m.field_at( pos );
             for( auto &dfield : gasfield ) {
                 const field_entry &entry = dfield.second;
-                const field_id fid = entry.get_field_type();
-                switch( fid ) {
-                    case fd_smoke:
-                        it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + 12 );
-                        break;
-                    case fd_tear_gas:
-                    case fd_toxic_gas:
-                    case fd_gas_vent:
-                    case fd_smoke_vent:
-                    case fd_relax_gas:
-                    case fd_fungal_haze:
-                        it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + 15 );
-                        break;
-                    default:
-                        break;
+                const field_type_id fid = entry.get_field_type();
+                if( fid == fd_smoke ) {
+                    it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + 12 );
+                }
+                if( fid == fd_tear_gas || fid == fd_toxic_gas || fid == fd_gas_vent ||
+                    fid == fd_smoke_vent || fid == fd_relax_gas || fid == fd_fungal_haze ) {
+                    it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + 15 );
                 }
             }
             if( it->get_var( "gas_absorbed", 0 ) >= 100 ) {
@@ -5080,6 +5075,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                         const tripoint spawnp = random_entry_removed( empty );
                         if( monster *const b = g->summon_mon( bug, spawnp ) ) {
                             b->friendly = -1;
+                            b->add_effect( effect_pet, 1_turns, num_bp, true );
                         }
                     }
                 }
@@ -5486,6 +5482,8 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
     } else {
         unfold_msg = _( unfold_msg );
     }
+    faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
+    veh->set_owner( yours );
     p->add_msg_if_player( m_neutral, unfold_msg, veh->name );
 
     p->moves -= it->get_var( "moves", to_turns<int>( 5_seconds ) );
@@ -6577,22 +6575,22 @@ static std::string colorized_trap_name_at( const tripoint &point )
 
 static std::string colorized_field_description_at( const tripoint &point )
 {
-    static const std::unordered_set<field_id, std::hash<int>> covered_in_affix_ids = {
+    static const std::unordered_set<field_type_id, std::hash<int>> covered_in_affix_ids = {
         fd_blood, fd_bile, fd_gibs_flesh, fd_gibs_veggy, fd_web,
         fd_slime, fd_acid, fd_sap, fd_sludge, fd_blood_veggy,
         fd_blood_insect, fd_blood_invertebrate,  fd_gibs_insect,
         fd_gibs_invertebrate, fd_rubble
     };
-    static const std::unordered_set<field_id, std::hash<int>> on_affix_ids = {
+    static const std::unordered_set<field_type_id, std::hash<int>> on_affix_ids = {
         fd_fire, fd_flame_burst
     };
-    static const std::unordered_set<field_id, std::hash<int>> under_affix_ids = {
+    static const std::unordered_set<field_type_id, std::hash<int>> under_affix_ids = {
         fd_gas_vent, fd_fire_vent, fd_fatigue
     };
-    static const std::unordered_set<field_id, std::hash<int>> illuminated_by_affix_ids = {
+    static const std::unordered_set<field_type_id, std::hash<int>> illuminated_by_affix_ids = {
         fd_spotlight, fd_laser, fd_dazzling, fd_electricity
     };
-    static const std::vector<std::pair<std::unordered_set<field_id, std::hash<int>>, std::string>>
+    static const std::vector<std::pair<std::unordered_set<field_type_id, std::hash<int>>, std::string>>
     affixes_vec = {
         { covered_in_affix_ids, _( " covered in %s" ) },
         { on_affix_ids, _( " on %s" ) },

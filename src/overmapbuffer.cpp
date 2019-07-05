@@ -93,30 +93,29 @@ overmap &overmapbuffer::get( const int x, const int y )
     }
 
     // That constructor loads an existing overmap or creates a new one.
-    overmap *new_om = new overmap( x, y );
-    overmaps[ p ] = std::unique_ptr<overmap>( new_om );
-    new_om->populate();
+    overmap &new_om = *( overmaps[ p ] = std::make_unique<overmap>( x, y ) );
+    new_om.populate();
     // Note: fix_mongroups might load other overmaps, so overmaps.back() is not
     // necessarily the overmap at (x,y)
-    fix_mongroups( *new_om );
-    fix_npcs( *new_om );
+    fix_mongroups( new_om );
+    fix_npcs( new_om );
 
-    last_requested_overmap = new_om;
-    return *new_om;
+    last_requested_overmap = &new_om;
+    return new_om;
 }
 
 void overmapbuffer::create_custom_overmap( const int x, const int y,
         overmap_special_batch &specials )
 {
-    overmap *new_om = new overmap( x, y );
+    point p( x, y );
     if( last_requested_overmap != nullptr ) {
-        auto om_iter = overmaps.find( new_om->pos() );
+        auto om_iter = overmaps.find( p );
         if( om_iter != overmaps.end() && om_iter->second.get() == last_requested_overmap ) {
             last_requested_overmap = nullptr;
         }
     }
-    overmaps[ new_om->pos() ] = std::unique_ptr<overmap>( new_om );
-    new_om->populate( specials );
+    overmap &new_om = *( overmaps[ p ] = std::make_unique<overmap>( x, y ) );
+    new_om.populate( specials );
 }
 
 void overmapbuffer::fix_mongroups( overmap &new_overmap )
@@ -737,14 +736,15 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
         int res = 0;
         const auto oter = get_ter_at( cur.x, cur.y );
         int travel_cost = static_cast<int>( oter->get_travel_cost() );
-        if( ( road_only && oter->get_name() != "road" ) || ( oter->get_name() == "solid rock" ||
-                oter->get_name() == "open air" ) ) {
+        if( ( road_only && ( oter->get_name() != "road" && oter->get_name() != "bridge" ) ) ||
+            ( oter->get_name() == "solid rock" ||
+              oter->get_name() == "open air" ) ) {
             return pf::rejected;
         } else if( oter->get_name() == "forest" ) {
             travel_cost = 10;
         } else if( oter->get_name() == "swamp" ) {
             travel_cost = 15;
-        } else if( oter->get_name() == "road" ) {
+        } else if( oter->get_name() == "road" || oter->get_name() == "bridge" ) {
             travel_cost = 1;
         } else if( oter->get_name() == "river" ) {
             travel_cost = 20;
