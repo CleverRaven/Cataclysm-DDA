@@ -22,18 +22,24 @@
       " ": [ [ "t_grass_dead", 2 ], [ "t_dirt", 15 ], [ "t_sand", 10 ], [ "t_dirtmound", 3 ], [ "t_rock_floor_no_roof", 8 ] ],
       ".": [ "t_dirtfloor" ],
       "$": [ "t_dirtfloor" ],
-      "S": [ "t_dirtfloor" ],
+      "S": [ "t_lava" ],
       "s": [ [ "t_dirtfloor", 6 ], [ "t_dirt", 15 ], [ "t_sand", 10 ], [ "t_dirtmound", 4 ], [ "t_rock_floor_no_roof", 3 ] ],
       "#": [ [ "t_demon_web_wall", 10 ], "t_tree_burnt" ]
     },
     "fields": {
-      " ": { "field": "fd_web", "intensity": 2, "chance": 5 },
-      ".": { "field": "fd_web", "intensity": 3, "chance": 65 },
-      "s": { "field": "fd_web", "intensity": 3, "chance": 40 },
+      " ": { "field": "fd_web", "intensity": 2, "prob": 5 },
+      ".": { "field": "fd_web", "intensity": 3, "prob": 65 },
+      "s": { "field": "fd_web", "intensity": 3, "prob": 40 },
       "S": { "field": "fd_web", "intensity": 3 }
     },
     "items": {
       "$": { "item": "demon_spider_lair_treasure", "chance": 50, "repeat": [ 3, 6 ] }
+    },
+    "monster": {
+      "S": { "monster": "mon_demon_spider_queen", "chance": 100 },
+      "s": { "monster": "mon_demon_spider", "chance": 100 },
+      ".": { "monster": "mon_demon_spiderling", "chance": 8 },
+      " ": { "monster": "mon_demon_spiderling", "chance": 1 }
     }
   },
   {
@@ -54,9 +60,9 @@
         "   ####...$..7...#####  ",
         "  ####.............###7 ",
         "  ###..$....s....#######",
-        " #####...~......$..#####",
-        "   ####......S..s..#####",
-        "  ####...s..........### ",
+        " #####..........$..#####",
+        "   ####.....~S..s..#####",
+        "  ####...s..~~......### ",
         "  ######.7...s....####7 ",
         "  ####..........~..#### ",
         " 7 #####..s........#####",
