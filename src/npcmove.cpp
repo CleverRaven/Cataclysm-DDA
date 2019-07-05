@@ -3771,7 +3771,6 @@ void npc::go_to_omt_destination()
                 centre_sub = elem;
                 break;
             }
-            return;
         }
     }
     path = g->m.route( pos(), centre_sub, get_pathfinding_settings(), get_path_avoid() );
