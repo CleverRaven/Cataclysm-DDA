@@ -128,6 +128,11 @@
     "items": [ [ "acoustic_guitar", 100 ], [ "violin", 80 ], [ "ukulele", 90 ], [ "banjo", 100 ], [ "guitar_electric", 100 ] ]
   },
   {
+    "type": "item_group",
+    "id": "smokelounge_items",
+    "items": [ [ "cigar", 65 ], [ "ecig", 25 ], [ "cig", 35 ], [ "tobacco", 45 ], [ "rolling_paper", 15 ], [ "pipe_tobacco", 10 ] ]
+  },
+  {
     "id": "cop_armory",
     "type": "item_group",
     "magazine": 100,
