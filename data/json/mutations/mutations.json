@@ -135,7 +135,7 @@
     "starting_trait": true,
     "cancels": [ "MET_RAT" ],
     "types": [ "METABOLISM" ],
-    "changes_to": [ "GIZZARD", "COLDBLOOD" ],
+    "changes_to": [ "COLDBLOOD" ],
     "category": [ "FISH", "BIRD", "INSECT", "TROGLOBITE" ],
     "metabolism_modifier": -0.333
   },
@@ -213,7 +213,8 @@
     "points": 1,
     "description": "The bottoms of your feet are tough and you are accustomed to going barefoot.  You receive no movement penalty for not wearing shoes.",
     "starting_trait": true,
-    "valid": false
+    "valid": false,
+    "category": [ "BIRD" ]
   },
   {
     "type": "mutation",
@@ -1008,7 +1009,7 @@
     "description": "Your head can't take much abuse.  Its maximum HP is 20% lower than usual.",
     "starting_trait": true,
     "social_modifiers": { "intimidate": -2 },
-    "category": [ "BIRD", "RAPTOR" ],
+    "category": [ "RAPTOR" ],
     "cancels": [ "TOUGH" ]
   },
   {
@@ -1269,6 +1270,7 @@
     "cancels": [ "TOUGH", "TOUGH2", "TOUGH3" ],
     "prereqs": [ "FLIMSY" ],
     "changes_to": [ "FLIMSY3" ],
+    "category": [ "BIRD" ],
     "hp_modifier": -0.5
   },
   {
@@ -1843,7 +1845,7 @@
     "bodytemp_modifiers": [ 50, 100 ],
     "description": "Iridescent feathers have grown to cover your entire body, providing a marginal protection against attacks and minor protection from cold.  They also provide a natural waterproofing.",
     "types": [ "SKIN" ],
-    "leads_to": [ "DOWN" ],
+    "leads_to": [ "DOWN", "PLUMAGE" ],
     "prereqs": [ "SKIN_ROUGH" ],
     "category": [ "BIRD" ],
     "armor": [ { "parts": "ALL", "bash": 1 } ]
@@ -2492,7 +2494,7 @@
     "types": [ "CLAWS" ],
     "prereqs": [ "NAILS" ],
     "cancels": [ "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
-    "category": [ "LIZARD", "BIRD", "CHIMERA" ]
+    "category": [ "LIZARD", "CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -2830,15 +2832,134 @@
     "type": "mutation",
     "id": "GIZZARD",
     "name": "Gizzard",
-    "points": -5,
-    "description": "You seem to get full faster now, and food goes through you more rapidly as well.",
+    "points": 2,
+    "description": "Your digestive tract has grown a gizzard, a small compartment attached to the stomach that helps digest food.  Slightly increases the energy gained through eating.",
     "valid": false,
     "purifiable": false,
     "prereqs": [ "BEAK", "BEAK_PECK", "BEAK_HUM" ],
-    "prereqs2": [ "LIGHTEATER" ],
     "threshreq": [ "THRESH_BIRD" ],
-    "cancels": [ "GOURMAND" ],
+    "leads_to": [ "BIRDCROP" ],
     "category": [ "BIRD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "FLEET3",
+    "name": "Subsonic-Sprinter",
+    "points": 5,
+    "description": "Your legs move at incredible speeds!  You move 40% faster on flat surfaces.",
+    "prereqs": [ "FLEET2" ],
+    "types": [ "RUNNING" ],
+    "category": [ "BIRD" ],
+    "threshreq": [ "THRESH_BIRD" ],
+    "movecost_flatground_modifier": 0.6
+  },
+  {
+    "type": "mutation",
+    "id": "BIRDCROP",
+    "name": "Bird Crop",
+    "points": 3,
+    "description": "Your throat has grown a bird crop, allowing you to store a little excess food if you overeat.",
+    "valid": false,
+    "purifiable": false,
+    "prereqs": [ "GIZZARD" ],
+    "threshreq": [ "THRESH_BIRD" ],
+    "category": [ "BIRD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "WINGS_FOLDING",
+    "name": "Folding Wings",
+    "points": 3,
+    "visibility": 4,
+    "ugliness": 2,
+    "purifiable": false,
+    "description": "Your wings are flexible now, allowing you to fold them against your body.  They no longer encumber you when uncovered, and negate fall damage.",
+    "types": [ "WINGS" ],
+    "prereqs": [ "WINGS_BIRD" ],
+    "threshreq": [ "THRESH_BIRD" ],
+    "encumbrance_covered": [ [ "TORSO", 4 ] ],
+    "armor": [ { "parts": [ "TORSO" ], "bash": 2 } ],
+    "category": [ "BIRD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIRDSONG1",
+    "name": "Lilting Voice",
+    "points": 1,
+    "description": "You have a pleasant lilt to your voice.  Persuading NPCs will be easier, but threatening them will be slightly harder.",
+    "valid": true,
+    "starting_trait": true,
+    "changes_to": [ "BIRDSONG2" ],
+    "social_modifiers": { "intimidate": -5, "persuade": 15 },
+    "cancels" : ["GROWL", "SNARL", "HISS"],
+    "category": [ "BIRD" ]
+  },  {
+    "type": "mutation",
+    "id": "BIRDSONG2",
+    "name": "Birdsong",
+    "points": 2,
+    "description": "Your voice has become a mixture of song and words.  Persuading NPCs will be much easier, but threatening them will be harder.",
+    "valid": false,
+    "prereqs": [ "BIRDSONG1" ],
+    "threshreq": [ "THRESH_BIRD" ],
+    "social_modifiers": { "intimidate": -10, "persuade": 25 },
+    "cancels" : ["GROWL", "SNARL", "HISS"],
+    "category": [ "BIRD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PLUMAGE",
+    "name": "Colorful Plumage",
+    "points": 1,
+    "description": "The feathers on your head have lengthened and alternate through every colour of the rainbow.  They're quite the sight.",
+    "valid": false,
+    "visibility" : 10,
+    "ugliness" : -5,
+    "prereqs": [ "FEATHERS" ],
+    "category": [ "BIRD" ]
+  },
+  {
+    "type" : "mutation",
+    "id" : "TALONS_STIFF",
+    "name" : "Stiff Talons",
+    "points" : -1,
+    "valid" : true,
+    "visibility" : 4,
+    "ugliness" : 2,
+    "mixed_effect" : true,
+    "description" : "Your legs have become much thinner and harder, and your feet have changed to stiff talons.  They prevent you from wearing footwear, but give extra protection. They're pretty sharp too.",
+    "types" : ["LEGS"],
+    "changes_to" : ["TALONS_FLEX"],
+    "category" : ["BIRD"],
+    "restricts_gear" : [ "FOOT_L", "FOOT_R" ],
+    "destroys_gear" : true,
+    "attacks" : {
+      "attack_text_u" : "You stab %s with a talon",
+      "attack_text_npc" : "%1$s stabs %2$s with a talon",
+      "chance" : 20,
+      "body_part" : [ "FOOT_L", "FOOT_R" ],
+      "strength_damage" : { "damage_type" : "stab", "amount" : 4 }
+    }
+  },
+  {
+    "type" : "mutation",
+    "id" : "TALONS_FLEX",
+    "name" : "Flexible Talons",
+    "points" : 2,
+    "visibility" : 4,
+    "ugliness" : 2,
+    "description" : "The long talons on your feet have become shorter, and much more flexible, enabling you to wear shoes again.",
+    "valid" : false,
+    "types" : ["LEGS"],
+    "threshreq" : ["THRESH_BIRD"],
+    "category" : ["BIRD"],
+    "attacks" : {
+      "attack_text_u" : "You stab %s with a talon",
+      "attack_text_npc" : "%1$s stabs %2$s with a talon",
+      "chance" : 20,
+      "body_part" : [ "FOOT_L", "FOOT_R" ],
+      "strength_damage" : { "damage_type" : "stab", "amount" : 2 }
+    }
   },
   {
     "type": "mutation",
@@ -3057,6 +3178,7 @@
     "points": 3,
     "description": "Your legs are extremely limber and fast-moving.  You move 30% faster on flat surfaces.",
     "prereqs": [ "FLEET" ],
+    "changes_to" : ["FLEET3"],
     "types": [ "RUNNING" ],
     "category": [ "BIRD" ],
     "movecost_flatground_modifier": 0.7
@@ -3507,13 +3629,16 @@
   {
     "type": "mutation",
     "id": "WINGS_BIRD",
-    "name": "Bird Wings",
+    "name": "Stiff Wings",
     "points": 2,
     "visibility": 4,
     "ugliness": 2,
-    "description": "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but you can use them to slow your descent during a fall, and will not take falling damage under any circumstances.",
+    "description": "You've grown stiff wings that sprout from your back.  They don't fold, making them easier to damage, and making it harder to wear gear and utilise them. Sometimes negates fall damage.",
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
+    "changes_to" : ["WINGS_FOLDING"],
+    "encumbrance_always": [ [ "TORSO", 10 ] ],
+    "armor": [ { "parts": [ "TORSO" ], "bash": 2 } ],
     "category": [ "BIRD" ]
   },
   {
@@ -4857,6 +4982,7 @@
     "ugliness": 5,
     "description": "Pecking at prey is part of your daily routine now.  Slightly reduces wet effects.",
     "valid": false,
+    "mixed_effect" : true,
     "purifiable": false,
     "types": [ "TEETH", "MUZZLE" ],
     "cancels": [ "MOUTH_TENTACLES" ],
@@ -4885,6 +5011,7 @@
     "ugliness": 5,
     "description": "Though your beak's not suitable for pecking, those flowers out there are a good source of energy.  Examine them to feed.",
     "valid": false,
+    "mixed_effect" : true,
     "purifiable": false,
     "types": [ "TEETH", "MUZZLE" ],
     "cancels": [ "MOUTH_TENTACLES" ],
@@ -5311,6 +5438,7 @@
     "description": "You have a growling, rough voice.  Persuading NPCs will be more difficult, but threatening them will be easier.",
     "changes_to": [ "SNARL" ],
     "category": [ "RAT", "URSINE", "LUPINE" ],
+    "cancels" : ["BIRDSONG1", "BIRDSONG2"],
     "social_modifiers": { "persuade": -20, "lie": -10, "intimidate": 10 }
   },
   {
@@ -5322,6 +5450,7 @@
     "description": "You have a threatening snarl in your voice.  Persuading NPCs will be near impossible, but threatening them will be much easier.",
     "prereqs": [ "GROWL" ],
     "category": [ "BEAST", "CHIMERA", "FELINE", "LUPINE" ],
+    "cancels" : ["BIRDSONG1", "BIRDSONG2"],
     "social_modifiers": { "persuade": -60, "lie": -40, "intimidate": 20 }
   },
   {
@@ -5332,6 +5461,7 @@
     "points": -1,
     "description": "You hiss when speaking.  Persuading NPCs will be more difficult, but threatening them will be easier.",
     "category": [ "LIZARD", "RAPTOR" ],
+    "cancels" : ["BIRDSONG1", "BIRDSONG2"],
     "social_modifiers": { "persuade": -20, "lie": -10, "intimidate": 10 }
   },
   {
@@ -5370,7 +5500,7 @@
     "visibility": 8,
     "ugliness": 2,
     "description": "Your arms have grown vibrantly colored feathers.  They effectively waterproof your arms and take the edge off hits, but really get in the way.  They're simply too small to help you in the air.",
-    "category": [ "RAPTOR" ],
+    "category": ["RAPTOR", "BIRD"],
     "wet_protection": [
       { "part": "ARM_L", "neutral": 50 },
       { "part": "ARM_R", "neutral": 50 },
