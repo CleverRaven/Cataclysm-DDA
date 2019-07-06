@@ -234,7 +234,7 @@ void monexamine::mount_pet( monster &z )
     if( z.has_effect( effect_tied ) ) {
         z.remove_effect( effect_tied );
         if( z.tied_item ) {
-            g->u.i_add( *z.tied_item, false );
+            g->u.i_add( *z.tied_item );
             z.tied_item = cata::nullopt;
         }
     }
