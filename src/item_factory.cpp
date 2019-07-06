@@ -973,6 +973,11 @@ void Item_factory::check_definitions() const
                 msg << string_format( "invalid drop item %s", type->ammo->drop.c_str() ) << "\n";
             }
         }
+        if( type->battery ) {
+            if( type->battery->max_capacity < 0_mJ ) {
+                msg << "battery cannot have negative maximum charge\n";
+            }
+        }
         if( type->gun ) {
             for( const ammotype &at : type->gun->ammo ) {
                 check_ammo_type( msg, at );
