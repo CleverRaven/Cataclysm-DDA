@@ -89,6 +89,7 @@ class gunmod_location
 
 struct islot_tool {
     std::set<ammotype> ammo_id = {};
+    std::set<itype_id> batteries;
 
     cata::optional<itype_id> revert_to;
     std::string revert_msg;

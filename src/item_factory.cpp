@@ -1541,6 +1541,14 @@ void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &sr
     } else if( jo.has_string( "ammo" ) ) {
         slot.ammo_id.insert( ammotype( jo.get_string( "ammo" ) ) );
     }
+    if( jo.has_array( "batteries" ) ) {
+        JsonArray batteries = jo.get_array( "batteries" );
+        for( size_t i = 0; i < batteries.size(); ++i ) {
+            slot.batteries.insert( batteries.get_string( i ) );
+        }
+    } else if( jo.has_string( "batteries" ) ) {
+        slot.batteries.insert( jo.get_string( "batteries" ) );
+    }
     assign( jo, "max_charges", slot.max_charges, strict, 0 );
     assign( jo, "initial_charges", slot.def_charges, strict, 0 );
     assign( jo, "charges_per_use", slot.charges_per_use, strict, 0 );
