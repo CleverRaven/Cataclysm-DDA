@@ -1,0 +1,32 @@
+[
+  {
+    "type": "start_location",
+    "ident": "church_3rdfloor_1",
+    "name": "Church",
+    "target": "church_3rdfloor_1"
+  },
+  {
+    "type": "start_location",
+    "ident": "church_1",
+    "name": "Church",
+    "target": "church_1"
+  },
+  {
+    "type": "start_location",
+    "ident": "church_steeple_end",
+    "name": "Church",
+    "target": "church_steeple_end"
+  },
+  {
+    "type": "start_location",
+    "ident": "church",
+    "name": "Church",
+    "target": "church"
+  },
+  {
+    "type": "start_location",
+    "ident": "magic_basement",
+    "name": "Wizard's Secret Basement Study",
+    "target": "magic_basement"
+  }
+]

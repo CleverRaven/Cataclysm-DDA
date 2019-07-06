@@ -250,5 +250,14 @@
     "name_plural": "Beautiful Springtime",
     "description": "A complete guide to Wing Chun Kung-fu.  Includes a section on butterfly swords and the use of long poles at the end.",
     "book_data": { "martial_art": "style_wingchun" }
+  },
+  {
+    "id": "manual_swordsmanship",
+    "copy-from": "book_martial",
+    "type": "GENERIC",
+    "name": "Historic European Swordfighting",
+    "name_plural": "Historic European Swordfighting",
+    "description": "A complete guide to medieval swordsmanship.  Compares the German and Italian traditions for longsword and side sword, in and out of armor, with and without shield.",
+    "book_data": { "martial_art": "style_swordsmanship" }
   }
 ]

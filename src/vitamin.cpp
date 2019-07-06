@@ -3,11 +3,11 @@
 #include <map>
 #include <memory>
 
-#include "assign.h"
 #include "calendar.h"
 #include "debug.h"
 #include "json.h"
 #include "translations.h"
+#include "units.h"
 
 static std::map<vitamin_id, vitamin> vitamins_all;
 
@@ -56,7 +56,7 @@ void vitamin::load_vitamin( JsonObject &jo )
     vit.excess_ = efftype_id( jo.get_string( "excess", "null" ) );
     vit.min_ = jo.get_int( "min" );
     vit.max_ = jo.get_int( "max", 0 );
-    vit.rate_ = time_duration::read_from_json_string( *jo.get_raw( "rate" ) );
+    vit.rate_ = read_from_json_string<time_duration>( *jo.get_raw( "rate" ), time_duration::units );
 
     if( vit.rate_ < 0_turns ) {
         jo.throw_error( "vitamin consumption rate cannot be negative", "rate" );

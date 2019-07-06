@@ -1,14 +1,11 @@
 #include "activity_handlers.h" // IWYU pragma: associated
 
 #include <climits>
-#include <cstddef>
 #include <algorithm>
-#include <cassert>
 #include <list>
 #include <vector>
 #include <iterator>
 #include <memory>
-#include <set>
 #include <string>
 #include <utility>
 
@@ -40,15 +37,20 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "calendar.h"
 #include "character.h"
 #include "game_constants.h"
 #include "inventory.h"
-#include "item_stack.h"
 #include "line.h"
 #include "units.h"
 #include "type_id.h"
+#include "flat_set.h"
+#include "int_id.h"
+#include "item_location.h"
+#include "point.h"
+#include "string_id.h"
+
+struct construction_category;
 
 void cancel_aim_processing();
 
@@ -972,7 +974,7 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
         }
         // dont go there if it's dangerous.
         bool dangerous_field = false;
-        for( const std::pair<const field_id, field_entry> &e : g->m.field_at( src_loc ) ) {
+        for( const std::pair<const field_type_id, field_entry> &e : g->m.field_at( src_loc ) ) {
             if( p.is_dangerous_field( e.second ) ) {
                 dangerous_field = true;
                 break;
@@ -1068,7 +1070,8 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
         // if it's too dark to construct there
         const bool enough_light = p.fine_detail_vision_mod() <= 4;
         if( !enough_light ) {
-            continue;
+            p.add_msg_if_player( m_info, _( "It is too dark to construct anything." ) );
+            return;
         }
         // check if can do the construction now we are actually there
         const std::vector<zone_data> &post_zones = mgr.get_zones( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
@@ -1413,16 +1416,22 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
     fire_data fd( 1, contained );
     time_duration fire_age = g->m.get_field_age( *best_fire, fd_fire );
 
-    // Maybe TODO: - refuelling in the rain could use more fuel
+    // Maybe TODO: - refueling in the rain could use more fuel
     // First, simulate expected burn per turn, to see if we need more fuel
     map_stack fuel_on_fire = g->m.i_at( *best_fire );
     for( item &it : fuel_on_fire ) {
         it.simulate_burn( fd );
-        // Uncontained fires grow below -50_minutes age
+        // Unconstrained fires grow below -50_minutes age
         if( !contained && fire_age < -40_minutes && fd.fuel_produced > 1.0f && !it.made_of( LIQUID ) ) {
             // Too much - we don't want a firestorm!
-            // Put item back to refuelling pile
-            move_item( p, it, 0, *best_fire - pos, *refuel_spot - pos, nullptr, -1 );
+            // Move item back to refueling pile
+            // Note: this handles messages (they're the generic "you drop x")
+            drop_on_map( p, item_drop_reason::deliberate, { it }, *refuel_spot );
+
+            const int distance = std::max( rl_dist( *best_fire, *refuel_spot ), 1 );
+            p.mod_moves( -Pickup::cost_to_move_item( p, it ) * distance );
+
+            g->m.i_rem( *best_fire, &it );
             return;
         }
     }
@@ -1443,8 +1452,13 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
         float last_fuel = fd.fuel_produced;
         it.simulate_burn( fd );
         if( fd.fuel_produced > last_fuel ) {
-            // Note: move_item() handles messages (they're the generic "you drop x")
-            move_item( p, it, 0, *refuel_spot - p.pos(), *best_fire - p.pos(), nullptr, -1 );
+            // Note: this handles messages (they're the generic "you drop x")
+            drop_on_map( p, item_drop_reason::deliberate, { it }, *best_fire );
+
+            const int distance = std::max( rl_dist( *refuel_spot, *best_fire ), 1 );
+            p.mod_moves( -Pickup::cost_to_move_item( p, it ) * distance );
+
+            g->m.i_rem( *refuel_spot, &it );
             return;
         }
     }

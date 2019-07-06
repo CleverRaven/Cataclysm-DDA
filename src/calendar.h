@@ -5,6 +5,7 @@
 #include <string>
 #include <iosfwd>
 #include <utility>
+#include <vector>
 
 class time_duration;
 class time_point;
@@ -131,6 +132,8 @@ class calendar
          * calculates the current seconds/minutes/hour/day/season based on that counter value.
          */
         void sync();
+        static bool is_eternal_season;
+        static int cur_season_length;
 
     public:
         /** Initializers */
@@ -212,12 +215,14 @@ class calendar
         static const int INDEFINITELY_LONG;
         /// @returns Whether the eternal season is enabled.
         static bool eternal_season();
+        static void set_eternal_season( bool is_eternal_season );
 
         /** @returns Time in a year, (configured in current world settings) */
         static time_duration year_length();
 
         /** @returns Time of a season (configured in current world settings) */
         static time_duration season_length();
+        static void set_season_length( const int dur );
 
         /// @returns relative length of game season to real life season.
         static float season_ratio();
@@ -316,8 +321,6 @@ class time_duration
 
         /// Allows writing `time_duration d = 0;`
         time_duration( const std::nullptr_t ) : turns_( 0 ) { }
-
-        static time_duration read_from_json_string( JsonIn &jsin );
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
@@ -459,6 +462,8 @@ class time_duration
 
         /// Returns a random duration in the range [low, hi].
         friend time_duration rng( time_duration lo, time_duration hi );
+
+        static const std::vector<std::pair<std::string, time_duration>> units;
 };
 
 /// @see x_in_y(int,int)

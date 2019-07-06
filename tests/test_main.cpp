@@ -38,13 +38,13 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
-#include "player.h"
 #include "worldfactory.h"
 #include "color.h"
 #include "options.h"
 #include "pldata.h"
 #include "rng.h"
 #include "type_id.h"
+#include "cata_utility.h"
 
 using name_value_pair_t = std::pair<std::string, std::string>;
 using option_overrides_t = std::vector<name_value_pair_t>;

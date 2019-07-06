@@ -7,7 +7,6 @@
 #include <algorithm>
 #include <iterator>
 #include <memory>
-#include <set>
 
 #include "avatar.h"
 #include "debug.h"
@@ -22,7 +21,6 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "calendar.h"
 #include "character.h"
 #include "damage.h"
@@ -32,6 +30,9 @@
 #include "rng.h"
 #include "material.h"
 #include "type_id.h"
+#include "colony.h"
+#include "flat_set.h"
+#include "point.h"
 
 struct itype;
 
@@ -997,12 +998,9 @@ units::volume inventory::volume_without( const std::map<const item *, int> &with
 std::vector<item *> inventory::active_items()
 {
     std::vector<item *> ret;
-    for( auto &elem : items ) {
-        for( auto &elem_stack_iter : elem ) {
-            if( ( elem_stack_iter.is_artifact() && elem_stack_iter.is_tool() ) ||
-                elem_stack_iter.active ||
-                ( elem_stack_iter.is_container() && !elem_stack_iter.contents.empty() &&
-                  elem_stack_iter.contents.front().active ) ) {
+    for( std::list<item> &elem : items ) {
+        for( item &elem_stack_iter : elem ) {
+            if( elem_stack_iter.needs_processing() ) {
                 ret.push_back( &elem_stack_iter );
             }
         }

@@ -5,7 +5,9 @@
 #include <cmath>
 #include <set>
 #include <memory>
+#include <list>
 
+#include "avatar.h"
 #include "debug.h"
 #include "game.h"
 #include "item.h"
@@ -20,7 +22,8 @@
 #include "weather.h"
 #include "optional.h"
 #include "color.h"
-#include "string_id.h"
+#include "enums.h"
+#include "flat_set.h"
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );
@@ -523,7 +526,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
         return false;
     }
 
-    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant() ) {
+    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant( g->u.pos() ) ) {
         if( alert ) {
             add_msg( m_bad, _( "It is too cold to plant anything now." ) );
         }

@@ -962,6 +962,7 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "mechanics",
+    "skills_required": [ "electronics", 1 ],
     "difficulty": 4,
     "time": "60 m",
     "reversible": true,

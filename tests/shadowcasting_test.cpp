@@ -12,9 +12,9 @@
 #include "map.h"
 #include "rng.h"
 #include "shadowcasting.h"
-#include "enums.h"
 #include "game_constants.h"
 #include "lightmap.h"
+#include "point.h"
 
 // Constants setting the ratio of set to unset tiles.
 constexpr unsigned int NUMERATOR = 1;

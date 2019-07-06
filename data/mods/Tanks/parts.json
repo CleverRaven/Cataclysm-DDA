@@ -67,20 +67,6 @@
   },
   {
     "type": "vehicle_part",
-    "id": "tow_launcher",
-    "copy-from": "turret_tank",
-    "name": "mounted ATGM launcher",
-    "range": 50,
-    "item": "atgm_launcher",
-    "size": 35,
-    "breaks_into": [ { "item": "atgm_launcher", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
-  },
-  {
-    "type": "vehicle_part",
     "id": "tow_turret",
     "copy-from": "turret_tank",
     "name": "ATGM turret",

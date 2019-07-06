@@ -57,5 +57,11 @@
     "type": "requirement",
     "//": "Components required for .410 ammo",
     "components": [ [ [ "410shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ] ]
+  },
+  {
+    "id": "ammo_270win",
+    "type": "requirement",
+    "//": "Components required for .270 Winchester ammo",
+    "components": [ [ [ "270win_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ] ]
   }
 ]

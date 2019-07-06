@@ -239,6 +239,7 @@ struct map_data_common_t {
         */
         std::array<int, SEASONS_PER_YEAR> symbol_;
 
+        int light_emitted;
         int movecost;   // The amount of movement points required to pass this terrain by default.
         int coverage; // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
         units::volume max_volume; // Maximal volume of items that can be stored in/on this furniture
@@ -340,6 +341,9 @@ struct furn_t : map_data_common_t {
     units::volume keg_capacity = 0_ml;
     int comfort = 0;
     int floor_bedding_warmth = 0;
+    /** Emissions of furniture */
+    std::set<emit_id> emissions;
+
     int bonus_fire_warmth_feet = 300;
     itype_id deployed_item; // item id string used to create furniture
 

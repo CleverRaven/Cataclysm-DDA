@@ -54,6 +54,11 @@
 #include "pimpl.h"
 #include "pldata.h"
 #include "units.h"
+#include "colony.h"
+#include "inventory.h"
+#include "item_location.h"
+#include "monster.h"
+#include "point.h"
 
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );
@@ -1194,7 +1199,7 @@ bool player::can_uninstall_bionic( const bionic_id &b_id, player &installer, boo
     }
 
     if( ( b_id == "bio_reactor" ) || ( b_id == "bio_advreactor" ) ) {
-        if( !query_yn(
+        if( !g->u.query_yn(
                 _( "WARNING: Removing a reactor may leave radioactive material! Remove anyway?" ) ) ) {
             return false;
         }

@@ -376,7 +376,7 @@ class JsonIn
         // special case for colony as it uses `insert()` instead of `push_back()`
         // and therefore doesn't fit with vector/deque/list
         template <typename T>
-        bool read( colony<T> &v ) {
+        bool read( cata::colony<T> &v ) {
             if( !test_array() ) {
                 return false;
             }
@@ -590,7 +590,7 @@ class JsonOut
 
         // special case for colony, since it doesn't fit in other categories
         template <typename T>
-        void write( const colony<T> &container ) {
+        void write( const cata::colony<T> &container ) {
             write_as_array( container );
         }
 

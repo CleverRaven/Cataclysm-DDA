@@ -391,6 +391,10 @@
     "professions": [
       "convict",
       "death_row_convict",
+      "convict_embezzler",
+      "convict_drugs",
+      "convict_political",
+      "convict_ratman",
       "chef",
       "medic",
       "k9_cop",
@@ -415,6 +419,10 @@
     "professions": [
       "convict",
       "death_row_convict",
+      "convict_embezzler",
+      "convict_drugs",
+      "convict_political",
+      "convict_ratman",
       "chef",
       "medic",
       "k9_cop",

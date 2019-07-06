@@ -5,6 +5,7 @@
 #include <cstddef>
 
 #include "enums.h"
+#include "point.h"
 
 class tripoint_range
 {

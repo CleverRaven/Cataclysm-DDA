@@ -1,7 +1,17 @@
-#include "magic.h"
-
+#include <limits.h>
+#include <math.h>
+#include <stdlib.h>
 #include <set>
+#include <algorithm>
+#include <array>
+#include <functional>
+#include <iterator>
+#include <map>
+#include <memory>
+#include <string>
+#include <vector>
 
+#include "magic.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "character.h"
@@ -18,6 +28,15 @@
 #include "player.h"
 #include "projectile.h"
 #include "type_id.h"
+#include "bodypart.h"
+#include "damage.h"
+#include "debug.h"
+#include "explosion.h"
+#include "magic_teleporter_list.h"
+#include "point.h"
+#include "ret_val.h"
+#include "rng.h"
+#include "translations.h"
 
 static tripoint random_point( int min_distance, int max_distance, const tripoint &player_pos )
 {
@@ -100,19 +119,22 @@ void spell_effect::move_earth( const tripoint &target )
     }
 }
 
-static bool in_spell_aoe( const tripoint &target, const tripoint &epicenter, const int &radius,
+static bool in_spell_aoe( const tripoint &start, const tripoint &end, const int &radius,
                           const bool ignore_walls )
 {
-    if( ignore_walls ) {
-        return rl_dist( epicenter, target ) <= radius;
+    if( rl_dist( start, end ) > radius ) {
+        return false;
     }
-    std::vector<tripoint> trajectory = line_to( epicenter, target );
+    if( ignore_walls ) {
+        return true;
+    }
+    const std::vector<tripoint> trajectory = line_to( start, end );
     for( const tripoint &pt : trajectory ) {
         if( g->m.impassable( pt ) ) {
             return false;
         }
     }
-    return rl_dist( epicenter, target ) <= radius;
+    return true;
 }
 
 std::set<tripoint> spell_effect::spell_effect_blast( const spell &, const tripoint &,
@@ -122,11 +144,9 @@ std::set<tripoint> spell_effect::spell_effect_blast( const spell &, const tripoi
     // TODO: Make this breadth-first
     for( int x = target.x - aoe_radius; x <= target.x + aoe_radius; x++ ) {
         for( int y = target.y - aoe_radius; y <= target.y + aoe_radius; y++ ) {
-            for( int z = target.z - aoe_radius; z <= target.z + aoe_radius; z++ ) {
-                const tripoint potential_target( x, y, z );
-                if( in_spell_aoe( potential_target, target, aoe_radius, ignore_walls ) ) {
-                    targets.emplace( potential_target );
-                }
+            const tripoint potential_target( x, y, target.z );
+            if( in_spell_aoe( target, potential_target, aoe_radius, ignore_walls ) ) {
+                targets.emplace( potential_target );
             }
         }
     }
@@ -148,7 +168,7 @@ std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripo
         end_points.emplace( potential );
     }
     for( const tripoint &ep : end_points ) {
-        std::vector<tripoint> trajectory = line_to( ep, source );
+        std::vector<tripoint> trajectory = line_to( source, ep );
         for( const tripoint &tp : trajectory ) {
             if( ignore_walls || g->m.passable( tp ) ) {
                 targets.emplace( tp );
@@ -293,9 +313,13 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
     }
 }
 
-static void damage_targets( const spell &sp, std::set<tripoint> targets )
+static void damage_targets( const spell &sp, const std::set<tripoint> &targets )
 {
-    for( const tripoint target : targets ) {
+    for( const tripoint &target : targets ) {
+        if( !sp.is_valid_target( target ) ) {
+            continue;
+        }
+        sp.make_sound( target );
         Creature *const cr = g->critter_at<Creature>( target );
         if( !cr ) {
             continue;
@@ -314,7 +338,7 @@ static void damage_targets( const spell &sp, std::set<tripoint> targets )
         }
         if( sp.damage() > 0 ) {
             cr->deal_projectile_attack( &g->u, atk, true );
-        } else {
+        } else if( sp.damage() < 0 ) {
             sp.heal( target );
             add_msg( m_good, _( "%s wounds are closing up!" ), cr->disp_name( true ) );
         }
@@ -325,11 +349,17 @@ void spell_effect::projectile_attack( const spell &sp, const tripoint &source,
                                       const tripoint &target )
 {
     std::vector<tripoint> trajectory = line_to( source, target );
-    for( const tripoint &pt : trajectory ) {
-        if( g->m.impassable( pt ) || pt == trajectory.back() ) {
-            target_attack( sp, source, target );
+    for( std::vector<tripoint>::iterator iter = trajectory.begin(); iter != trajectory.end(); iter++ ) {
+        if( g->m.impassable( *iter ) ) {
+            if( iter != trajectory.begin() ) {
+                target_attack( sp, source, *( iter - 1 ) );
+            } else {
+                target_attack( sp, source, *iter );
+            }
+            return;
         }
     }
+    target_attack( sp, source, trajectory.back() );
 }
 
 void spell_effect::target_attack( const spell &sp, const tripoint &source,
@@ -388,11 +418,7 @@ void spell_effect::recover_energy( spell &sp, const tripoint &target )
     if( energy_source == "MANA" ) {
         p->magic.mod_mana( *p, healing );
     } else if( energy_source == "STAMINA" ) {
-        if( healing > 0 ) {
-            p->stamina = std::min( p->get_stamina_max(), p->stamina + healing );
-        } else {
-            p->stamina = std::max( 0, p->stamina + healing );
-        }
+        p->mod_stat( "stamina", healing );
     } else if( energy_source == "FATIGUE" ) {
         // fatigue is backwards
         p->mod_fatigue( -healing );
@@ -400,7 +426,7 @@ void spell_effect::recover_energy( spell &sp, const tripoint &target )
         if( healing > 0 ) {
             p->power_level = std::min( p->max_power_level, p->power_level + healing );
         } else {
-            p->stamina = std::max( 0, p->stamina + healing );
+            p->mod_stat( "stamina", healing );
         }
     } else if( energy_source == "PAIN" ) {
         // pain is backwards
@@ -435,6 +461,7 @@ static bool add_summoned_mon( const mtype_id &id, const tripoint &pos, const tim
     if( !permanent ) {
         spawned_mon.set_summon_time( time );
     }
+    spawned_mon.no_extra_death_drops = true;
     return g->add_zombie( spawned_mon );
 }
 
@@ -452,10 +479,17 @@ void spell_effect::spawn_summoned_monster( spell &sp, const tripoint &source,
         std::advance( iter, mon_spot );
         if( add_summoned_mon( mon_id, *iter, summon_time, sp ) ) {
             num_mons--;
+            sp.make_sound( *iter );
         } else {
             add_msg( m_bad, "failed to place monster" );
         }
         // whether or not we succeed in spawning a monster, we don't want to try this tripoint again
         area.erase( iter );
     }
+}
+
+void spell_effect::translocate( spell &sp, const tripoint &source, const tripoint &target,
+                                teleporter_list &tp_list )
+{
+    tp_list.translocate( spell_effect_area( sp, source, target, spell_effect_blast, true ) );
 }

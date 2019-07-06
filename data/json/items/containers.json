@@ -927,6 +927,25 @@
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
+    "id": "canteen_wood",
+    "type": "CONTAINER",
+    "category": "clothing",
+    "name": "wooden canteen",
+    "description": "A water canteen made from wood, secured by metal bands and sealed with wax or pitch.  Holds 1.5 liters and has a simple carry strap.",
+    "weight": 232,
+    "volume": 7,
+    "price": 800,
+    "to_hit": 1,
+    "material": "wood",
+    "symbol": ")",
+    "color": "brown",
+    "contains": 6,
+    "seals": true,
+    "watertight": true,
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "encumbrance": 5, "material_thickness": 2 },
+    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+  },
+  {
     "id": "stomach_sealed",
     "type": "CONTAINER",
     "category": "other",

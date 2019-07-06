@@ -1,7 +1,6 @@
 #include "mission_companion.h"
 
 #include <cstdlib>
-#include <cmath>
 #include <algorithm>
 #include <cassert>
 #include <vector>
@@ -9,6 +8,7 @@
 #include <list>
 #include <unordered_map>
 #include <utility>
+#include <set>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -45,13 +45,15 @@
 #include "optional.h"
 #include "output.h"
 #include "pimpl.h"
-#include "player.h"
 #include "pldata.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "ui.h"
 #include "weighted_list.h"
 #include "material.h"
+#include "colony.h"
+#include "point.h"
+#include "weather.h"
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );
@@ -931,7 +933,7 @@ void talk_function::field_build_2( npc &p )
 
 void talk_function::field_plant( npc &p, const std::string &place )
 {
-    if( g->weather.get_temperature( g->u.pos() ) < 50 ) {
+    if( !warm_enough_to_plant( g->u.pos() ) ) {
         popup( _( "It is too cold to plant anything now." ) );
         return;
     }

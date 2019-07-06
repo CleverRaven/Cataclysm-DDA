@@ -11,16 +11,13 @@
 #include "map_iterator.h"
 #include "vehicle.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
-#include "player.h"
 #include "test_statistics.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "enums.h"
 #include "game_constants.h"
 #include "type_id.h"
-
-class monster;
+#include "point.h"
+#include "vpart_position.h"
 
 using efficiency_stat = statistics<long>;
 

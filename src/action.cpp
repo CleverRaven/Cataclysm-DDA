@@ -20,7 +20,6 @@
 #include "optional.h"
 #include "output.h"
 #include "path_info.h"
-#include "player.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
@@ -28,10 +27,10 @@
 #include "vpart_position.h"
 #include "creature.h"
 #include "cursesdef.h"
-#include "enums.h"
 #include "item.h"
 #include "ret_val.h"
 #include "type_id.h"
+#include "point.h"
 
 class inventory;
 

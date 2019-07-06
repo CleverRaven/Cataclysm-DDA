@@ -405,8 +405,7 @@
     "color": "light_green",
     "see_cost": 5,
     "extras": "field",
-    "mondensity": 3,
-    "flags": [ "NO_ROTATE" ]
+    "mondensity": 3
   },
   {
     "type": "overmap_terrain",
@@ -416,8 +415,7 @@
     "color": "i_light_green",
     "see_cost": 5,
     "extras": "field",
-    "mondensity": 3,
-    "flags": [ "NO_ROTATE" ]
+    "mondensity": 3
   },
   {
     "type": "overmap_terrain",
@@ -427,8 +425,7 @@
     "color": "i_light_green",
     "see_cost": 5,
     "extras": "field",
-    "mondensity": 3,
-    "flags": [ "NO_ROTATE" ]
+    "mondensity": 3
   },
   {
     "id": "dairy_farm_NW",
@@ -437,7 +434,7 @@
     "sym": "w",
     "color": "brown",
     "see_cost": 1,
-    "flags": [ "SIDEWALK", "NO_ROTATE" ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "id": "dairy_farm_NE",
@@ -446,7 +443,7 @@
     "sym": "w",
     "color": "brown",
     "see_cost": 1,
-    "flags": [ "SIDEWALK", "NO_ROTATE" ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "id": "dairy_farm_SE",
@@ -455,7 +452,7 @@
     "sym": "w",
     "color": "brown",
     "see_cost": 5,
-    "flags": [ "SIDEWALK", "NO_ROTATE" ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "id": "dairy_farm_SW",
@@ -464,7 +461,7 @@
     "sym": "w",
     "color": "brown",
     "see_cost": 5,
-    "flags": [ "SIDEWALK", "NO_ROTATE" ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "id": "cemetery_small",
@@ -487,6 +484,46 @@
     "id": "moonshine_still",
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "moonshine still",
+    "sym": "S",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "moonshine_still_roof",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "moonshine still roof",
+    "sym": "S",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "moonshine_still_1",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "moonshine still",
+    "sym": "S",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "moonshine_still_roof_1",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "moonshine still roof",
+    "sym": "S",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "moonshine_still_2",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "moonshine still",
+    "sym": "S",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "moonshine_still_roof_2",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "moonshine still roof",
     "sym": "S",
     "color": "i_brown"
   },

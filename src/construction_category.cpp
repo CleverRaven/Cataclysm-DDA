@@ -1,10 +1,9 @@
 #include "construction_category.h"
 
 #include <string>
+#include <set>
 
-#include "debug.h"
 #include "generic_factory.h"
-#include "json.h"
 
 namespace
 {

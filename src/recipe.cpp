@@ -23,6 +23,8 @@
 #include "translations.h"
 #include "type_id.h"
 #include "string_id.h"
+#include "flat_set.h"
+#include "units.h"
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
@@ -100,7 +102,8 @@ void recipe::load( JsonObject &jo, const std::string &src )
     if( jo.has_int( "time" ) ) {
         time = jo.get_int( "time" );
     } else if( jo.has_string( "time" ) ) {
-        time = to_moves<int>( time_duration::read_from_json_string( *jo.get_raw( "time" ) ) );
+        time = to_moves<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
+                              time_duration::units ) );
     }
     assign( jo, "difficulty", difficulty, strict, 0, MAX_SKILL );
     assign( jo, "flags", flags );

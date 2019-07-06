@@ -9,6 +9,77 @@ On Windows, there is an astyle extension for Visual Studio.
 
 See the [JSON style guide](JSON_STYLE.md).
 
+## clang-tidy
+
+Cataclysm has a [clang-tidy configuration file](../.clang-tidy) and if you have
+`clang-tidy` available you can run it to perform static analysis of the
+codebase.  We test with `clang-tidy` from LLVM 8.0.1 on Travis, so for the most
+consistent results, you might want to use that version.
+
+To run it you have a few options.
+
+* `clang-tidy` ships with a wrapper script `run-clang-tidy.py`.
+
+* Use CMake's built-in support by adding `-DCMAKE_CXX_CLANG_TIDY=clang-tidy`
+  or similar, pointing it to your chosen clang-tidy version.
+
+* To run `clang-tidy` directly try something like
+```sh
+grep '"file": "' build/compile_commands.json | \
+    sed "s+.*$PWD/++;s+\"$++" | \
+    egrep '.' | \
+    xargs -P 9 -n 1 clang-tidy -quiet
+```
+To focus on a subset of files add their names into the `egrep` regex in the
+middle of the command-line.
+
+### Custom clang-tidy plugin
+
+We have written our own clang-tidy checks in a custom plugin.  Unfortunately,
+`clang-tidy` as distributed by LLVM doesn't support plugins, so making this
+work requires some extra steps.
+
+If you are on Ubuntu Xenial then you might be able to get it working the same
+way Travis does.  Add the LLVM 8 Xenial source [listed
+here](https://apt.llvm.org/) to your `sources.list`, install the `clang-8
+libclang-8-dev llvm-8-dev llvm-8-tools` packages and build Cataclysm with CMake
+adding `-DCATA_CLANG_TIDY_PLUGIN=ON`.
+
+On other distributions you will probably need to build `clang-tidy` yourself.
+* Check out the `llvm`, `clang`, and `clang-tools-extra` repositories in the
+  required layout (as described for example
+  [here](https://quuxplusone.github.io/blog/2018/04/16/building-llvm-from-source/).
+* Patch in plugin support for `clang-tidy` using [this
+  patch](https://github.com/jbytheway/clang-tidy-plugin-support/blob/master/plugin-support.patch).
+* Configure LLVM using CMake, including the
+  `-DCMAKE_EXE_LINKER_FLAGS="-rdynamic"` option.
+* Add the `build/bin` directory to your path so that `clang-tidy` and
+  `FileCheck` are found from there.
+
+Then you can use your locally build `clang-tidy` to compile Cataclysm.  You'll
+need to use the CMake version of the Cataclysm build rather than the `Makefile`
+build.  Add the following CMake options:
+```sh
+-DCATA_CLANG_TIDY_PLUGIN=ON
+-DCATA_CLANG_TIDY_INCLUDE_DIR="$extra_dir/clang-tidy"
+-DCATA_CHECK_CLANG_TIDY="$extra_dir/test/clang-tidy/check_clang_tidy.py"
+```
+where `$extra_dir` is the location of your `clang-tools-extra` checkout.
+
+To run `clang-tidy` with this plugin enabled add the
+`'-plugins=$build_dir/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so'` option
+to your `clang-tidy` command line.
+
+If you wish to run the tests for the custom clang-tidy plugin you will also
+need `lit`.  This will be built as part of `llvm`, or you can install it via
+`pip` or your local package manager if you prefer.
+
+Then, assuming `build` is your Cataclysm build directory, you can run the tests
+with
+```sh
+lit -v build/tools/clang-tidy-plugin/test
+```
+
 ## include-what-you-use
 
 [include-what-you-use](https://github.com/include-what-you-use/include-what-you-use)
