@@ -477,9 +477,8 @@ static void run_spot_check( const grid_overlay &test_case, const grid_overlay &e
     std::array<const float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> transparency_cache;
     std::array<const bool ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> floor_cache;
 
-    int z = fov_3d ? 0 : 11;
     const int upper_bound = fov_3d ? OVERMAP_LAYERS : 12;
-    for( ; z < upper_bound; ++z ) {
+    for( int z = fov_3d ? 0 : 11; z < upper_bound; ++z ) {
         caches[z] = new level_cache();
         seen_squares[z] = &caches[z]->seen_cache;
         transparency_cache[z] = &caches[z]->transparency_cache;
@@ -524,8 +523,12 @@ static void run_spot_check( const grid_overlay &test_case, const grid_overlay &e
         trans_grid << '\n';
         expected_grid << '\n';
         actual_grid << '\n';
-        delete caches[gz];
     }
+
+    for( int z = fov_3d ? 0 : 11; z < upper_bound; ++z ) {
+        delete caches[z];
+    }
+
     CAPTURE( fov_3d );
     INFO( "transparency:\n" << trans_grid.str() );
     INFO( "actual:\n" << actual_grid.str() );
