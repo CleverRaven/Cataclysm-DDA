@@ -130,6 +130,9 @@ class quantity
             return this_type( -value_, unit_type{} );
         }
 
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
+
     private:
         value_type value_;
 };
