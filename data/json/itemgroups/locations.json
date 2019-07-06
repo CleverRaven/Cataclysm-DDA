@@ -911,6 +911,42 @@
     ]
   },
   {
+    "id": "thrift_misc",
+    "type": "item_group",
+    "items": [
+      [ "magnifying_glass", 5 ],
+      [ "sewing_kit", 15 ],
+      [ "scissors", 10 ],
+      [ "gasoline_lantern", 7 ],
+      [ "flashlight", 25 ],
+      [ "hotplate", 20 ],
+      [ "coffeemaker", 25 ],
+      [ "textbook_firstaid", 2 ],
+      [ "pocket_firearms", 1 ],
+      [ "mag_archery", 4 ]
+    ]
+  },
+  {
+    "id": "thrift_books",
+    "type": "item_group",
+    "items": [
+      [ "mag_traps", 20 ],
+      [ "manual_traps", 12 ],
+      [ "trappers_companion", 2 ],
+      [ "mag_guns", 15 ],
+      [ "mag_rifle", 15 ],
+      [ "mag_shotgun", 15 ],
+      [ "mag_survival", 40 ],
+      [ "manual_survival", 20 ],
+      [ "textbook_firstaid", 8 ],
+      [ "pocket_survival", 2 ],
+      [ "mag_archery", 15 ],
+      [ "manual_archery", 8 ],
+      [ "book_archery", 2 ],
+      [ "recipe_arrows", 4 ]
+    ]
+  },
+  {
     "type": "item_group",
     "id": "oa_ig_rd_desks",
     "//": "for ws_regional_dump",

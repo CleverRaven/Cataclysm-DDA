@@ -1770,6 +1770,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_thrift_roof",
+    "copy-from": "generic_city_building",
+    "name": "thrift store roof",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_daycare",
     "copy-from": "generic_city_building",
     "name": "daycare center",
