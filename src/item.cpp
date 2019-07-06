@@ -373,6 +373,23 @@ item &item::activate()
     return *this;
 }
 
+units::energy item::set_energy( units::energy qty )
+{
+    if( !is_battery() ) {
+        return 0;
+    }
+
+    units::energy val = energy_remaining() + qty;
+    if( val < 0 ) {
+        return val;
+    } else if( val > type->battery->max_capacity ) {
+        energy = type->battery->max_capacity;
+    } else {
+        energy = val;
+    }
+    return 0;
+}
+
 item &item::ammo_set( const itype_id &ammo, int qty )
 {
     if( qty < 0 ) {

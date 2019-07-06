@@ -212,6 +212,17 @@ class item : public visitable<item>
         item &activate();
 
         /**
+         * Add or remove energy from a battery.
+         * If adding the specified energy quantity would go over the battery's capacity fill
+         * the battery and ignore the remainder.
+         * If adding the specified energy quantity would reduce the battery's charge level
+         * below 0 do nothing and return how far below 0 it would have gone.
+         * @param qty energy quantity to add (can be negative)
+         * @return 0 valued energy quantity on success
+         */
+        units::energy set_energy( units::energy qty );
+
+        /**
          * Filter setting the ammo for this instance
          * Any existing ammo is removed. If necessary a magazine is also added.
          * @param ammo specific type of ammo (must be compatible with item ammo type)
