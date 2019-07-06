@@ -3476,6 +3476,10 @@ std::string item::display_name( unsigned int quantity ) const
         // A chargeable item
         amount = charges;
         max_amount = ammo_capacity();
+    } else if( is_battery() ) {
+        show_amt = true;
+        amount = to_joule( energy_remaining() );
+        max_amount = to_joule( type->battery->max_capacity );
     }
 
     if( amount || show_amt ) {
