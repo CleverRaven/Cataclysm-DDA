@@ -1296,12 +1296,14 @@ void overmap::serialize( std::ostream &fout ) const
     json.member( "layers" );
     json.start_array();
     for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+        auto &layer_terrain = layer[z].terrain;
         int count = 0;
         oter_id last_tertype( -1 );
         json.start_array();
         for( int j = 0; j < OMAPY; j++ ) {
+            // NOLINTNEXTLINE(modernize-loop-convert)
             for( int i = 0; i < OMAPX; i++ ) {
-                oter_id t = layer[z].terrain[i][j];
+                oter_id t = layer_terrain[i][j];
                 if( t != last_tertype ) {
                     if( count ) {
                         json.write( count );
