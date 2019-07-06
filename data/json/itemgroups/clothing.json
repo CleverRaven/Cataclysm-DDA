@@ -142,6 +142,12 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "ear_protection",
+    "//": "used in shooting_range.",
+    "items": [ [ "powered_earmuffs", 10 ], [ "ear_plugs", 50 ] ]
+  },
+  {
     "id": "clothing_outdoor_shoes",
     "type": "item_group",
     "//": "Standard (non-winter) shoes suitable for wearing outdoors.",

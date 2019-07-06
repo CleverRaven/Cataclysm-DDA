@@ -493,6 +493,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "shootingrange_1a_roof",
+    "name": "shooting range roof",
+    "sym": "S",
+    "color": "red",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": "shootingrange_2a",
     "name": "shooting range",
     "sym": "S",
