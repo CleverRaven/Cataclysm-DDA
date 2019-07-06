@@ -9,7 +9,7 @@
 extern int fov_3d_z_range;
 
 struct slope {
-    slope( int rise, int run ) {
+    slope( int_least8_t rise, int_least8_t run ) {
         // Ensure run is always positive for the comparison operators
         this->run = std::abs( run );
         if( run < 0 ) {
@@ -19,8 +19,10 @@ struct slope {
         }
     }
 
-    int rise;
-    int run;
+    // We don't need more that 8 bits since the shadowcasting area is not that large,
+    // currently the radius is 60.
+    int_least8_t rise;
+    int_least8_t run;
 };
 
 inline bool operator<( const slope &lhs, const slope &rhs )
