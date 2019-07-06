@@ -389,6 +389,85 @@
     ]
   },
   {
+    "id": "sugar_house_items",
+    "type": "item_group",
+    "items": [
+      [ "syrup", 60 ],
+      [ "sandwich_pbm", 20 ],
+      [ "maple_candy", 90 ],
+      [ "pancakes", 50 ],
+      [ "fruit_pancakes", 30 ],
+      [ "choc_pancakes", 20 ],
+      [ "fruit_waffles", 20 ],
+      [ "choc_waffles", 20 ],
+      [ "pie_maple", 70 ],
+      [ "pork_beans", 15 ],
+      [ "glazed_tenderloin", 5 ],
+      [ "cell_phone", 1 ],
+      [ "smart_phone", 3 ],
+      [ "glass", 40 ],
+      [ "spoon", 25 ],
+      [ "fork", 25 ],
+      [ "knife_butter", 20 ],
+      [ "knife_steak", 15 ],
+      [ "spork", 5 ],
+      [ "foon", 5 ]
+    ]
+  },
+  {
+    "id": "sugar_house_kitchen_items",
+    "type": "item_group",
+    "items": [
+      [ "thermometer", 90 ],
+      [ "family_cookbook", 90 ],
+      [ "maple_sap", 50 ],
+      [ "syrup", 100 ],
+      [ "maple_candy", 10 ],
+      [ "flour", 30 ],
+      [ "milk_powder", 30 ],
+      [ "powder_eggs", 10 ],
+      [ "egg_bird", 10 ],
+      [ "cooking_oil", 20 ],
+      [ "irradiated_apple", 5 ],
+      [ "irradiated_banana", 5 ],
+      [ "irradiated_strawberries", 5 ],
+      [ "chocolate", 20 ],
+      [ "waffleiron", 60 ],
+      [ "bread", 30 ],
+      [ "peanutbutter", 20 ],
+      [ "pot", 80 ]
+    ]
+  },
+  {
+    "id": "sugar_house_tools",
+    "type": "item_group",
+    "items": [
+      [ "hammer", 100 ],
+      [ "hand_drill", 100 ],
+      [ "screwdriver", 20 ],
+      [ "screwdriver_set", 10 ],
+      [ "cordless_drill", 70 ],
+      [ "thermometer", 60 ],
+      [ "saw", 90 ],
+      [ "chainsaw_off", 10 ],
+      [ "bucket", 100 ],
+      [ "tree_spile", 100 ],
+      [ "pot", 100 ]
+    ]
+  },
+  {
+    "id": "sugar_house_furnace",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "maple_sap", "container-item": "metal_tank", "charges-min": 2, "charges-max": 15 } ]
+  },
+  {
+    "id": "sugar_house_drum",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "syrup", "container-item": "55gal_drum", "charges-min": 2, "charges-max": 150 } ]
+  },
+  {
     "type": "item_group",
     "id": "bikeshop_tools",
     "items": [

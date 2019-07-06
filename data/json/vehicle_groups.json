@@ -575,6 +575,11 @@
     ]
   },
   {
+    "id": "sugar_house_vehicles",
+    "type": "vehicle_group",
+    "vehicles": [ [ "water_cart", 100 ] ]
+  },
+  {
     "id": "pump_station_vehicles",
     "type": "vehicle_group",
     "vehicles": [
