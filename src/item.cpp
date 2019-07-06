@@ -5874,14 +5874,14 @@ int item::ammo_consume( int qty, const tripoint &pos )
         auto res = mag->ammo_consume( qty, pos );
         if( res && ammo_remaining() == 0 ) {
             if( mag->has_flag( "MAG_DESTROY" ) ) {
-                contents.erase( std::remove_if( contents.begin(), contents.end(), [&mag]( const item & e ) {
+                contents.remove_if( [&mag]( const item & e ) {
                     return mag == &e;
-                } ) );
+                } );
             } else if( mag->has_flag( "MAG_EJECT" ) ) {
                 g->m.add_item( pos, *mag );
-                contents.erase( std::remove_if( contents.begin(), contents.end(), [&mag]( const item & e ) {
+                contents.remove_if( [&mag]( const item & e ) {
                     return mag == &e;
-                } ) );
+                } );
             }
         }
         return res;
