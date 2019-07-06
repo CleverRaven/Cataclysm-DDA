@@ -2247,6 +2247,10 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             } else if( idescription != item_vars.end() ) {
                 info.push_back( iteminfo( "DESCRIPTION", idescription->second ) );
             } else {
+                if( has_flag( "MAGIC_FOCUS" ) ) {
+                    info.push_back( iteminfo( "DESCRIPTION",
+                                              _( "This item is a <info>magical focus</info>.  You can cast spells with it in your hand." ) ) );
+                }
                 if( is_craft() ) {
                     const std::string desc = _( "This is an in progress %s.  It is %d percent complete." );
                     const int percent_progress = item_counter / 100000;
