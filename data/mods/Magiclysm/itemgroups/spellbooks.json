@@ -140,7 +140,9 @@
       { "group": "spellbook_tier_0", "prob": 60 },
       { "group": "spellbook_tier_1", "prob": 30 },
       { "group": "spellbook_tier_2", "prob": 9 },
-      { "group": "spellbook_tier_3", "prob": 1 }
+      { "group": "spellbook_tier_3", "prob": 1 },
+      { "group": "spell_scroll_tier_0", "prob": 300 },
+      { "group": "spell_scroll_tier_1", "prob": 100 }
     ]
   },
   {
@@ -150,7 +152,9 @@
       { "group": "spellbook_tier_0", "prob": 30 },
       { "group": "spellbook_tier_1", "prob": 50 },
       { "group": "spellbook_tier_2", "prob": 18 },
-      { "group": "spellbook_tier_3", "prob": 2 }
+      { "group": "spellbook_tier_3", "prob": 2 },
+      { "group": "spell_scroll_tier_1", "prob": 300 },
+      { "group": "spell_scroll_tier_2", "prob": 100 }
     ]
   },
   {
@@ -160,7 +164,9 @@
       { "group": "spellbook_tier_0", "prob": 5 },
       { "group": "spellbook_tier_1", "prob": 30 },
       { "group": "spellbook_tier_2", "prob": 50 },
-      { "group": "spellbook_tier_3", "prob": 15 }
+      { "group": "spellbook_tier_3", "prob": 15 },
+      { "group": "spell_scroll_tier_2", "prob": 300 },
+      { "group": "spell_scroll_tier_3", "prob": 100 }
     ]
   }
 ]
