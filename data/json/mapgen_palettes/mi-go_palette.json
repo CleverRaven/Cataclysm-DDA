@@ -9,12 +9,13 @@
       "|": "t_wall_resin",
       "#": "t_wall_resin_cage",
       "+": "t_resin_hole_c",
-      "<": "t_ramp_up",
-      ">": "t_ramp_down",
+      "<": "t_slope_up",
+      ">": "t_slope_down",
       "p": "t_platform_resin",
       "v": "t_open_air",
       "_": "t_resin_roof",
-      ".": [ [ "t_grass", 15 ], [ "t_dirt", 3 ], "t_grass_long" ]
+      ".": [ [ "t_grass", 15 ], [ "t_dirt", 3 ], "t_grass_long" ],
+      "@": "t_null"
     },
     "furniture": {
       "i": "f_alien_tendril",
