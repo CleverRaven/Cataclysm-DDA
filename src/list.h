@@ -750,9 +750,10 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 using iterator_category = std::bidirectional_iterator_tag;
                 using value_type = typename list::value_type;
                 using difference_type = typename list::difference_type;
-                using pointer = typename choose<is_const, typename list::const_pointer, typename list::pointer>::;
+                using pointer = typename
+                                choose<is_const, typename list::const_pointer, typename list::pointer>::type;
                 using reference = typename
-                                  choose<is_const, typename list::const_reference, typename list::reference>::;
+                                  choose<is_const, typename list::const_reference, typename list::reference>::type;
 
                 friend class list;
 
@@ -853,9 +854,10 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 using iterator_category = std::bidirectional_iterator_tag;
                 using value_type = typename list::value_type;
                 using difference_type = typename list::difference_type;
-                using pointer = typename choose<is_const, typename list::const_pointer, typename list::pointer>::;
+                using pointer = typename
+                                choose<is_const, typename list::const_pointer, typename list::pointer>::type;
                 using reference = typename
-                                  choose<is_const, typename list::const_reference, typename list::reference>::;
+                                  choose<is_const, typename list::const_reference, typename list::reference>::type;
 
                 friend class list;
 
@@ -964,8 +966,8 @@ template <class element_type, class element_allocator_type = std::allocator<elem
         node_base end_node;
         node_pointer_type
         last_endpoint; // last_endpoint being NULL means no elements have been constructed, but there may still be groups available due to clear() or reservee()
-        iterator begin_iterator;
         iterator end_iterator; // end_iterator is always the last entry point in last group in list (or one past the end of group)
+        iterator begin_iterator;
 
         // Packaging the group allocator with least-used member variables, for empty-base-class optimisation
         struct ebco_pair1 : node_pointer_allocator_type {
