@@ -9,6 +9,7 @@
 #include <type_traits>
 #include <unordered_set>
 #include <utility>
+#include <unordered_map>
 
 #include "avatar.h"
 #include "coordinate_conversions.h"
@@ -32,7 +33,6 @@
 #include "json.h"
 #include "omdata.h"
 #include "overmap_types.h"
-#include "player.h"
 #include "regional_settings.h"
 #include "int_id.h"
 #include "string_id.h"
@@ -693,11 +693,11 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
         } else if( old == "bunker" ) {
             if( pos.z < 0 ) {
                 new_id = oter_id( "bunker_basement" );
-            } else if( is_ot_match( "road", get_ter( pos.x + 1, pos.y, pos.z ), ot_match_type::TYPE ) ) {
+            } else if( is_ot_match( "road", get_ter( pos.x + 1, pos.y, pos.z ), ot_match_type::type ) ) {
                 new_id = oter_id( "bunker_west" );
-            } else if( is_ot_match( "road", get_ter( pos.x - 1, pos.y, pos.z ), ot_match_type::TYPE ) ) {
+            } else if( is_ot_match( "road", get_ter( pos.x - 1, pos.y, pos.z ), ot_match_type::type ) ) {
                 new_id = oter_id( "bunker_east" );
-            } else if( is_ot_match( "road", get_ter( pos.x, pos.y + 1, pos.z ), ot_match_type::TYPE ) ) {
+            } else if( is_ot_match( "road", get_ter( pos.x, pos.y + 1, pos.z ), ot_match_type::type ) ) {
                 new_id = oter_id( "bunker_north" );
             } else {
                 new_id = oter_id( "bunker_south" );

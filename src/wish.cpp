@@ -13,7 +13,6 @@
 #include "input.h"
 #include "item_factory.h"
 #include "map.h"
-#include "npc.h"
 #include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
@@ -29,11 +28,12 @@
 #include "calendar.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "enums.h"
 #include "item.h"
 #include "itype.h"
 #include "optional.h"
 #include "type_id.h"
+#include "flat_set.h"
+#include "point.h"
 
 class wish_mutate_callback: public uilist_callback
 {

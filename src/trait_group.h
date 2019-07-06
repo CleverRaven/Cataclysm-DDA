@@ -7,7 +7,6 @@
 #include <string>
 
 #include "string_id.h"
-#include "int_id.h"
 #include "type_id.h"
 
 class JsonObject;

@@ -8,6 +8,8 @@
 #include "item.h"
 #include "ret_val.h"
 
+struct tripoint;
+
 std::string gunmod_location::name() const
 {
     // Yes, currently the name is just the translated id.

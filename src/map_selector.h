@@ -4,7 +4,6 @@
 
 #include <vector>
 
-#include "enums.h"
 #include "point.h"
 #include "visitable.h"
 

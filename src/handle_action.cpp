@@ -1,9 +1,7 @@
 #include "game.h" // IWYU pragma: associated
 
 #include <cstdlib>
-#include <cmath>
 #include <chrono>
-#include <iterator>
 #include <set>
 #include <sstream>
 #include <utility>
@@ -64,6 +62,7 @@
 #include "ui.h"
 #include "units.h"
 #include "string_id.h"
+#include "item.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -453,7 +452,12 @@ static void open()
             const vehicle *player_veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
             bool outside = !player_veh || player_veh != veh;
             if( !outside ) {
-                veh->open( openable );
+                if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                    u.moves += 100;
+                    return;
+                } else {
+                    veh->open( openable );
+                }
             } else {
                 // Outside means we check if there's anything in that tile outside-openable.
                 // If there is, we open everything on tile. This means opening a closed,
@@ -465,7 +469,12 @@ static void open()
                     add_msg( m_info, _( "That %s can only opened from the inside." ), name );
                     u.moves += 100;
                 } else {
-                    veh->open_all_at( openable );
+                    if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                        u.moves += 100;
+                        return;
+                    } else {
+                        veh->open_all_at( openable );
+                    }
                 }
             }
         } else {
@@ -561,8 +570,10 @@ static void grab()
         you.grab( OBJECT_NONE );
         return;
     }
-
     if( const optional_vpart_position vp = m.veh_at( grabp ) ) {
+        if( !vp->vehicle().handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+            return;
+        }
         you.grab( OBJECT_VEHICLE, grabp - you.pos() );
         add_msg( _( "You grab the %s." ), vp->vehicle().name );
     } else if( m.has_furn( grabp ) ) { // If not, grab furniture if present
@@ -648,7 +659,12 @@ static void smash()
             return; // don't smash terrain if we've smashed a corpse
         }
     }
-
+    vehicle *veh = veh_pointer_or_null( g->m.veh_at( smashp ) );
+    if( veh != nullptr ) {
+        if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+            return;
+        }
+    }
     didit = m.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
     if( didit ) {
         u.increase_activity_level( MODERATE_EXERCISE );
@@ -979,7 +995,6 @@ static void loot()
     flags |= g->check_near_zone( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
                                  u.pos() ) ? ConstructPlots : 0;
 
-
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
         add_msg( m_info, _( "Compatible zones are %s and %s" ),
@@ -1288,11 +1303,6 @@ static void cast_spell()
 {
     player &u = g->u;
 
-    if( u.is_armed() ) {
-        add_msg( m_bad, _( "You need your hands free to cast spells!" ) );
-        return;
-    }
-
     std::vector<spell_id> spells = u.magic.spells();
 
     if( spells.empty() ) {
@@ -1318,6 +1328,11 @@ static void cast_spell()
     }
 
     spell &sp = *u.magic.get_spells()[spell_index];
+
+    if( u.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) && !u.weapon.has_flag( "MAGIC_FOCUS" ) ) {
+        add_msg( m_bad, _( "You need your hands free to cast this spell!" ) );
+        return;
+    }
 
     if( !u.magic.has_enough_energy( u, sp ) ) {
         add_msg( m_bad, _( "You don't have enough %s to cast the spell." ), sp.energy_string() );

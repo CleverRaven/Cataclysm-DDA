@@ -10,8 +10,8 @@
 #include "map_helpers.h"
 #include "player.h"
 #include "player_helpers.h"
-#include "enums.h"
 #include "item.h"
+#include "point.h"
 
 static void wield_check_internal( player &dummy, item &the_item, const char *section_text,
                                   const std::string &var_name, const int expected_cost )

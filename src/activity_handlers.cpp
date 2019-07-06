@@ -86,8 +86,12 @@
 #include "type_id.h"
 #include "event.h"
 #include "options.h"
-
-class npc;
+#include "colony.h"
+#include "color.h"
+#include "flat_set.h"
+#include "game_constants.h"
+#include "point.h"
+#include "weather.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -138,6 +142,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_BUTCHER" ), butcher_do_turn },
     { activity_id( "ACT_BUTCHER_FULL" ), butcher_do_turn },
     { activity_id( "ACT_TRAVELLING" ), travel_do_turn },
+    { activity_id( "ACT_AUTODRIVE" ), drive_do_turn },
     { activity_id( "ACT_FIELD_DRESS" ), butcher_do_turn },
     { activity_id( "ACT_SKIN" ), butcher_do_turn },
     { activity_id( "ACT_QUARTER" ), butcher_do_turn },
@@ -1051,8 +1056,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     item &corpse_item = *target;
     std::list<item> contents = corpse_item.contents;
     const mtype *corpse = corpse_item.get_mtype();
-    const field_id type_blood = corpse->bloodType();
-    const field_id type_gib = corpse->gibType();
+    const field_type_id type_blood = corpse->bloodType();
+    const field_type_id type_gib = corpse->gibType();
 
     if( action == QUARTER ) {
         butchery_quarter( &corpse_item, *p );
@@ -1731,6 +1736,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     ///\EFFECT_STR increases pulping power, with diminishing returns
     float pulp_power = sqrt( ( p->str_cur + p->weapon.damage_melee( DT_BASH ) ) *
                              ( cut_power + 1.0f ) );
+    float pulp_effort = p->str_cur + p->weapon.damage_melee( DT_BASH );
     // Multiplier to get the chance right + some bonus for survival skill
     pulp_power *= 40 + p->get_skill_level( skill_survival ) * 5;
 
@@ -1762,14 +1768,13 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 // Splatter a bit more randomly, so that it looks cooler
                 const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
                 const tripoint dest( pos.x + rng( -radius, radius ), pos.y + rng( -radius, radius ), pos.z );
-                const field_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
-                                            corpse.get_mtype()->gibType() :
-                                            corpse.get_mtype()->bloodType();
+                const field_type_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
+                                                 corpse.get_mtype()->gibType() :
+                                                 corpse.get_mtype()->bloodType();
                 g->m.add_splatter_trail( type_blood, pos, dest );
             }
 
-            p->mod_stat( "stamina", -pulp_power - static_cast<int>
-                         ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) );
+            p->mod_stat( "stamina", -pulp_effort );
 
             if( one_in( 4 ) ) {
                 // Smashing may not be butchery, but it involves some zombie anatomy
@@ -1778,6 +1783,10 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
 
             float stamina_ratio = static_cast<float>( p->stamina ) / p->get_stamina_max();
             moves += 100 / std::max( 0.25f, stamina_ratio );
+            if( stamina_ratio < 0.33 ) {
+                p->moves = std::min( 0, p->moves - moves );
+                return;
+            }
             if( moves >= p->moves ) {
                 // Enough for this turn;
                 p->moves -= moves;
@@ -2625,6 +2634,37 @@ void activity_handlers::adv_inventory_do_turn( player_activity *, player *p )
     advanced_inv();
 }
 
+void activity_handlers::drive_do_turn( player_activity *act, player *p )
+{
+    vehicle *player_veh = veh_pointer_or_null( g->m.veh_at( p->pos() ) );
+    if( !player_veh ) {
+        act->set_to_null();
+        p->cancel_activity();
+        return;
+    }
+    if( p->in_vehicle && p->controlling_vehicle && player_veh->is_autodriving &&
+        !g->u.omt_path.empty() && !player_veh->omt_path.empty() ) {
+        player_veh->do_autodrive();
+        if( g->u.global_omt_location() == g->u.omt_path.back() ) {
+            g->u.omt_path.pop_back();
+        }
+        p->moves = 0;
+    } else {
+        p->add_msg_if_player( m_info, _( "Auto-drive cancelled." ) );
+        if( !player_veh->omt_path.empty() ) {
+            player_veh->omt_path.clear();
+        }
+        act->set_to_null();
+        p->cancel_activity();
+        return;
+    }
+    if( player_veh->omt_path.empty() ) {
+        act->set_to_null();
+        p->add_msg_if_player( m_info, _( "You have reached your destination." ) );
+        p->cancel_activity();
+    }
+}
+
 void activity_handlers::travel_do_turn( player_activity *act, player *p )
 {
     const activity_id act_travel = activity_id( "ACT_TRAVELLING" );
@@ -2637,7 +2677,7 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
             return;
         }
         tripoint sm_tri = g->m.getlocal( sm_to_ms_copy( omt_to_sm_copy( p->omt_path.back() ) ) );
-        tripoint centre_sub = tripoint( sm_tri.x + SEEX / 2, sm_tri.y + SEEY / 2, sm_tri.z );
+        tripoint centre_sub = tripoint( sm_tri.x + SEEX, sm_tri.y + SEEY, sm_tri.z );
         if( !g->m.passable( centre_sub ) ) {
             auto candidates = g->m.points_in_radius( centre_sub, 2 );
             for( const auto &elem : candidates ) {
@@ -2661,7 +2701,6 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
     act->set_to_null();
 }
 
-
 void activity_handlers::armor_layers_do_turn( player_activity *, player *p )
 {
     p->cancel_activity();
@@ -2674,9 +2713,8 @@ void activity_handlers::atm_do_turn( player_activity *, player *p )
 }
 
 // fish-with-rod fish catching function.
-static void rod_fish( player *p, const tripoint &fish_point )
+static void rod_fish( player *p, std::vector<monster *> &fishables )
 {
-    std::vector<monster *> fishables = g->get_fishable( 60, fish_point ); //get the nearby fish list.
     //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
     if( fishables.empty() ) {
         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
@@ -2711,8 +2749,7 @@ void activity_handlers::fish_do_turn( player_activity *act, player *p )
         survival_skill += dice( 4, 9 );
         survival_skill *= 2;
     }
-    const tripoint fish_pos = act->placement;
-    std::vector<monster *> fishables = g->get_fishable( 60, fish_pos );
+    std::vector<monster *> fishables = g->get_fishable_monsters( act->coord_set );
     // Fish are always there, even if it dosnt seem like they are visible!
     if( fishables.empty() ) {
         fish_chance += survival_skill / 2;
@@ -2725,9 +2762,9 @@ void activity_handlers::fish_do_turn( player_activity *act, player *p )
     }
     // no matter the population of fish, your skill and tool limits the ease of catching.
     fish_chance = std::min( survival_skill * 10, fish_chance );
-    if( x_in_y( fish_chance, 100000 ) ) {
+    if( x_in_y( fish_chance, 600000 ) ) {
         add_msg( m_good, _( "You feel a tug on your line!" ) );
-        rod_fish( p, fish_pos );
+        rod_fish( p, fishables );
     }
     if( calendar::once_every( 60_minutes ) ) {
         p->practice( skill_survival, rng( 1, 3 ) );
@@ -2768,17 +2805,9 @@ void activity_handlers::repair_item_do_turn( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::butcher_do_turn( player_activity *act, player *p )
+void activity_handlers::butcher_do_turn( player_activity * /*act*/, player *p )
 {
-    const int drain = 1 + static_cast<int>( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) );
-    if( p->stamina <= drain + 200 ) { // 200 to give some space and not end the activity at 0 stamina
-        act->moves_left += p->moves; // wait for stamina regain, halt progress
-        if( one_in( 5 ) ) { // reduce spam
-            p->add_msg_if_player( _( "You pause for a second to catch your breath." ) );
-        }
-    } else {
-        p->mod_stat( "stamina", -drain );
-    }
+    p->mod_stat( "stamina", -20 );
 }
 
 void activity_handlers::read_do_turn( player_activity *act, player *p )
@@ -3071,7 +3100,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     }
 
     // item_counter represents the percent progress relative to the base batch time
-    // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6732000 )
+    // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6'732'000 )
     const int old_counter = craft->item_counter;
 
     // Base moves for batch size with no speed modifier or assistants
@@ -3083,23 +3112,37 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     // Delta progress in moves adjusted for current crafting speed
     const double delta_progress = p->get_moves() * base_total_moves / cur_total_moves;
     // Current progress in moves
-    const double current_progress = craft->item_counter * base_total_moves / 10000000.0 +
+    const double current_progress = craft->item_counter * base_total_moves / 10'000'000.0 +
                                     delta_progress;
     // Current progress as a percent of base_total_moves to 2 decimal places
-    craft->item_counter = round( current_progress / base_total_moves * 10000000.0 );
+    craft->item_counter = round( current_progress / base_total_moves * 10'000'000.0 );
     p->set_moves( 0 );
 
     // This is to ensure we don't over count skill steps
-    craft->item_counter = std::min( craft->item_counter, 10000000 );
+    craft->item_counter = std::min( craft->item_counter, 10'000'000 );
 
-    // Skill is gained after every 5% progress
-    const int skill_steps = craft->item_counter / 500000 - old_counter / 500000;
-    if( skill_steps > 0 ) {
-        p->craft_skill_gain( *craft, skill_steps );
+    // Skill and tools are gained/consumed after every 5% progress
+    int five_percent_steps = craft->item_counter / 500'000 - old_counter / 500'000;
+    if( five_percent_steps > 0 ) {
+        p->craft_skill_gain( *craft, five_percent_steps );
+    }
+
+    // Unlike skill, tools are consumed once at the start and should not be consumed at the end
+    if( craft->item_counter >= 10'000'000 ) {
+        --five_percent_steps;
+    }
+
+    if( five_percent_steps > 0 ) {
+        if( !p->craft_consume_tools( *craft, five_percent_steps, false ) ) {
+            // So we don't skip over any tool comsuption
+            craft->item_counter -= craft->item_counter % 500'000 + 1;
+            p->cancel_activity();
+            return;
+        }
     }
 
     // if item_counter has reached 100% or more
-    if( craft->item_counter >= 10000000 ) {
+    if( craft->item_counter >= 10'000'000 ) {
         item craft_copy = *craft;
         act->targets.front().remove_item();
         p->cancel_activity();
@@ -3163,45 +3206,45 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
 
     if( g->m.furn( pos ) == f_rack ) {
         g->m.furn_set( pos, f_null );
-        g->m.spawn_item( pos, "pipe", rng( 1, 3 ) );
-        g->m.spawn_item( pos, "steel_chunk" );
+        g->m.spawn_item( p->pos(), "pipe", rng( 1, 3 ) );
+        g->m.spawn_item( p->pos(), "steel_chunk" );
     } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l ) {
         g->m.ter_set( pos, t_dirt );
-        g->m.spawn_item( pos, "pipe", 6 );
-        g->m.spawn_item( pos, "wire", 20 );
+        g->m.spawn_item( p->pos(), "pipe", 6 );
+        g->m.spawn_item( p->pos(), "wire", 20 );
     } else if( ter == t_chainfence_posts ) {
         g->m.ter_set( pos, t_dirt );
-        g->m.spawn_item( pos, "pipe", 6 );
+        g->m.spawn_item( p->pos(), "pipe", 6 );
     } else if( ter == t_window_bars_alarm ) {
         g->m.ter_set( pos, t_window_alarm );
-        g->m.spawn_item( pos, "pipe", 6 );
+        g->m.spawn_item( p->pos(), "pipe", 6 );
     } else if( ter == t_window_bars ) {
         g->m.ter_set( pos, t_window_empty );
-        g->m.spawn_item( pos, "pipe", 6 );
+        g->m.spawn_item( p->pos(), "pipe", 6 );
     } else if( ter == t_window_enhanced ) {
         g->m.ter_set( pos, t_window_reinforced );
-        g->m.spawn_item( pos, "spike", rng( 1, 4 ) );
+        g->m.spawn_item( p->pos(), "spike", rng( 1, 4 ) );
     } else if( ter == t_window_enhanced_noglass ) {
         g->m.ter_set( pos, t_window_reinforced_noglass );
-        g->m.spawn_item( pos, "spike", rng( 1, 4 ) );
+        g->m.spawn_item( p->pos(), "spike", rng( 1, 4 ) );
     } else if( ter == t_reb_cage ) {
         g->m.ter_set( pos, t_pit );
-        g->m.spawn_item( pos, "spike", 19 );
-        g->m.spawn_item( pos, "scrap", 8 );
+        g->m.spawn_item( p->pos(), "spike", 19 );
+        g->m.spawn_item( p->pos(), "scrap", 8 );
     } else if( ter == t_bars ) {
         if( g->m.ter( { pos.x + 1, pos.y, pos.z } ) == t_sewage || g->m.ter( { pos.x, pos.y + 1, pos.z } )
             == t_sewage ||
             g->m.ter( { pos.x - 1, pos.y, pos.z } ) == t_sewage || g->m.ter( { pos.x, pos.y - 1, pos.z } ) ==
             t_sewage ) {
             g->m.ter_set( pos, t_sewage );
-            g->m.spawn_item( pos, "pipe", 3 );
+            g->m.spawn_item( p->pos(), "pipe", 3 );
         } else {
             g->m.ter_set( pos, t_floor );
-            g->m.spawn_item( pos, "pipe", 3 );
+            g->m.spawn_item( p->pos(), "pipe", 3 );
         }
     } else if( ter == t_door_bar_c || ter == t_door_bar_locked ) {
         g->m.ter_set( pos, t_mdoor_frame );
-        g->m.spawn_item( pos, "pipe", 12 );
+        g->m.spawn_item( p->pos(), "pipe", 12 );
     }
 
     p->mod_stored_nutr( 5 );
@@ -4022,39 +4065,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
     p->add_msg_if_player( _( "You cast %s!" ), casting.name() );
 
-    // figure out which function is the effect (maybe change this into how iuse or activity_handlers does it)
-    // TODO: refactor these so make_sound can be called inside each of these functions
-    const std::string fx = casting.effect();
-    if( fx == "pain_split" ) {
-        spell_effect::pain_split();
-        casting.make_sound( p->pos() );
-    } else if( fx == "move_earth" ) {
-        spell_effect::move_earth( target );
-        casting.make_sound( target );
-    } else if( fx == "target_attack" ) {
-        spell_effect::target_attack( casting, p->pos(), target );
-    } else if( fx == "projectile_attack" ) {
-        spell_effect::projectile_attack( casting, p->pos(), target );
-    } else if( fx == "cone_attack" ) {
-        spell_effect::cone_attack( casting, p->pos(), target );
-    } else if( fx == "line_attack" ) {
-        spell_effect::line_attack( casting, p->pos(), target );
-    } else if( fx == "teleport_random" ) {
-        spell_effect::teleport( casting.range(), casting.range() + casting.aoe() );
-        casting.make_sound( p->pos() );
-    } else if( fx == "spawn_item" ) {
-        spell_effect::spawn_ethereal_item( casting );
-        casting.make_sound( p->pos() );
-    } else if( fx == "recover_energy" ) {
-        spell_effect::recover_energy( casting, target );
-        casting.make_sound( target );
-    } else if( fx == "summon" ) {
-        spell_effect::spawn_summoned_monster( casting, p->pos(), target );
-    } else if( fx == "translocate" ) {
-        spell_effect::translocate( casting, p->pos(), target, g->u.translocators );
-    } else {
-        debugmsg( "ERROR: Spell effect not defined properly." );
-    }
+    casting.cast_all_effects( p->pos(), target );
+
     if( !no_mana ) {
         // pay the cost
         int cost = casting.energy_cost( *p );
@@ -4115,7 +4127,6 @@ void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
         act->values[0] += xp;
         studying.gain_exp( xp );
     }
-    act->moves_left -= 100;
 }
 
 void activity_handlers::study_spell_finish( player_activity *act, player *p )

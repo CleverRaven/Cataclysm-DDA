@@ -9,7 +9,6 @@
 #include <vector>
 #include <array>
 #include <exception>
-#include <list>
 #include <memory>
 #include <set>
 #include <utility>
@@ -17,7 +16,6 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
-#include "computer.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "debug_menu.h"
@@ -41,18 +39,15 @@
 #include "uistate.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "active_item_cache.h"
-#include "basecamp.h"
 #include "cata_utility.h"
 #include "creature.h"
 #include "game_constants.h"
 #include "int_id.h"
 #include "item.h"
-#include "item_stack.h"
 #include "omdata.h"
-#include "player.h"
 #include "shadowcasting.h"
 #include "string_id.h"
+#include "colony.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -261,11 +256,11 @@ void editmap_hilight::draw( editmap &em, bool update )
                 }
                 const field &t_field = g->m.field_at( p );
                 if( t_field.field_count() > 0 ) {
-                    field_id t_ftype = t_field.displayed_field_type();
+                    field_type_id t_ftype = t_field.displayed_field_type();
                     const field_entry *t_fld = t_field.find_field( t_ftype );
                     if( t_fld != nullptr ) {
                         t_col = t_fld->color();
-                        t_sym = t_fld->symbol();
+                        t_sym = t_fld->symbol()[0];
                     }
                 }
                 if( blink_interval[ cur_blink ] ) {
@@ -449,7 +444,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
 {
     tripoint center = target;
     tripoint start = tripoint( center.x - getmaxx( w ) / 2, center.y - getmaxy( w ) / 2, target.z );
-    tripoint end =   tripoint( center.x + getmaxx( w ) / 2, center.y + getmaxy( w ) / 2, target.z );
+    tripoint end = tripoint( center.x + getmaxx( w ) / 2, center.y + getmaxy( w ) / 2, target.z );
     /*
         // pending filter options
         bool draw_furn=true;
@@ -551,11 +546,11 @@ void editmap::update_view( bool update_info )
                 }
                 const field &t_field = g->m.field_at( p );
                 if( t_field.field_count() > 0 ) {
-                    field_id t_ftype = t_field.displayed_field_type();
+                    field_type_id t_ftype = t_field.displayed_field_type();
                     const field_entry *t_fld = t_field.find_field( t_ftype );
                     if( t_fld != nullptr ) {
                         t_col = t_fld->color();
-                        t_sym = t_fld->symbol();
+                        t_sym = t_fld->symbol()[0];
                     }
                 }
                 t_col = altblink ? green_background( t_col ) : cyan_background( t_col );
@@ -644,13 +639,14 @@ void editmap::update_view( bool update_info )
         mvwprintw( w_info, off, 1, "%s %s", g->m.features( target ).c_str(), extras );
         // 9
         off++;
-
         for( auto &fld : *cur_field ) {
             const field_entry &cur = fld.second;
             mvwprintz( w_info, off, 1, cur.color(),
-                       _( "field: %s (%d) intensity %d age %d" ),
-                       cur.name(), cur.get_field_type(),
-                       cur.get_field_intensity(), to_turns<int>( cur.get_field_age() )
+                       _( "field: %s L:%d[%s] A:%d" ),
+                       cur.get_field_type().id().c_str(),
+                       cur.get_field_intensity(),
+                       cur.name(),
+                       to_turns<int>( cur.get_field_age() )
                      );
             off++; // 10ish
         }
@@ -1057,33 +1053,33 @@ int editmap::edit_ter()
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// field edit
 
-void editmap::update_fmenu_entry( uilist &fmenu, field &field, const field_id idx )
+void editmap::update_fmenu_entry( uilist &fmenu, field &field, const field_type_id idx )
 {
     int field_intensity = 1;
-    const field_t &ftype = all_field_types_enum_list[idx];
+    const field_type &ftype = idx.obj();
     field_entry *fld = field.find_field( idx );
     if( fld != nullptr ) {
         field_intensity = fld->get_field_intensity();
     }
-    fmenu.entries[idx].txt = ftype.name( field_intensity - 1 );
+    fmenu.entries[idx].txt = ftype.get_name( field_intensity - 1 );
     if( fld != nullptr ) {
         fmenu.entries[idx].txt += " " + std::string( field_intensity, '*' );
     }
-    fmenu.entries[idx].text_color = ( fld != nullptr ? c_cyan : fmenu.text_color );
-    fmenu.entries[idx].extratxt.color = ftype.color[field_intensity - 1];
+    fmenu.entries[idx].text_color = fld != nullptr ? c_cyan : fmenu.text_color;
+    fmenu.entries[idx].extratxt.color = ftype.get_color( field_intensity - 1 );
 }
 
 void editmap::setup_fmenu( uilist &fmenu )
 {
     fmenu.entries.clear();
-    for( int i = 0; i < num_fields; i++ ) {
-        const field_id fid = static_cast<field_id>( i );
-        const field_t &ftype = all_field_types_enum_list[fid];
-        int field_intensity = 1;
-        std::string fname = ftype.name( field_intensity - 1 );
+    for( int i = 0; i < static_cast<int>( field_type::count() ); i++ ) {
+        const field_type_id fid = static_cast<field_type_id>( i );
+        const field_type &ftype = fid.obj();
+        const int field_intensity = 1;
+        std::string fname = ftype.get_name( field_intensity - 1 );
         fmenu.addentry( fid, true, -2, fname );
         fmenu.entries[fid].extratxt.left = 1;
-        fmenu.entries[fid].extratxt.txt = string_format( "%c", ftype.sym );
+        fmenu.entries[fid].extratxt.txt = string_format( "%s", ftype.get_symbol( field_intensity - 1 ) );
         update_fmenu_entry( fmenu, *cur_field, fid );
     }
     if( sel_field >= 0 ) {
@@ -1109,15 +1105,16 @@ int editmap::edit_fld()
                 pgettext( "Map editor: Editing field effects", "Field effects" ) );
 
         fmenu.query( false );
-        if( fmenu.selected > 0 && fmenu.selected < num_fields &&
+        if( fmenu.selected > 0 && fmenu.selected < static_cast<int>( field_type::count() ) &&
             ( fmenu.ret > 0 || fmenu.keypress == KEY_LEFT || fmenu.keypress == KEY_RIGHT )
           ) {
             int field_intensity = 0;
-            const field_id idx = static_cast<field_id>( fmenu.selected );
+            const field_type_id idx = static_cast<field_type_id>( fmenu.selected );
             field_entry *fld = cur_field->find_field( idx );
             if( fld != nullptr ) {
                 field_intensity = fld->get_field_intensity();
             }
+            const field_type &ftype = idx.obj();
             int fsel_intensity = field_intensity;
             if( fmenu.ret > 0 ) {
                 uilist femenu;
@@ -1126,14 +1123,15 @@ int editmap::edit_fld()
                 femenu.w_y = fmenu.w_height;
                 femenu.w_x = offsetX;
 
-                const field_t &ftype = all_field_types_enum_list[idx];
-                femenu.text = ftype.name( field_intensity == 0 ? 0 : field_intensity - 1 );
+                femenu.text = field_intensity < 1 ? "" : ftype.get_name( field_intensity - 1 );
                 femenu.addentry( pgettext( "map editor: used to describe a clean field (e.g. without blood)",
                                            "-clear-" ) );
 
-                femenu.addentry( string_format( "1: %s", ftype.name( 0 ) ) );
-                femenu.addentry( string_format( "2: %s", ftype.name( 1 ) ) );
-                femenu.addentry( string_format( "3: %s", ftype.name( 2 ) ) );
+                int i = 0;
+                for( const auto &intensity_level : ftype.intensity_levels ) {
+                    i++;
+                    femenu.addentry( string_format( "%d: %s", i, intensity_level.name ) );
+                }
                 femenu.entries[field_intensity].text_color = c_cyan;
                 femenu.selected = ( sel_field_intensity > 0 ? sel_field_intensity : field_intensity );
 
@@ -1141,14 +1139,15 @@ int editmap::edit_fld()
                 if( femenu.ret >= 0 ) {
                     fsel_intensity = femenu.ret;
                 }
-            } else if( fmenu.keypress == KEY_RIGHT && field_intensity < 3 ) {
+            } else if( fmenu.keypress == KEY_RIGHT &&
+                       field_intensity < static_cast<int>( ftype.get_max_intensity() ) ) {
                 fsel_intensity++;
             } else if( fmenu.keypress == KEY_LEFT && field_intensity > 0 ) {
                 fsel_intensity--;
             }
             if( field_intensity != fsel_intensity || target_list.size() > 1 ) {
                 for( auto &elem : target_list ) {
-                    const auto fid = static_cast<field_id>( idx );
+                    const auto fid = static_cast<field_type_id>( idx );
                     field &t_field = g->m.get_field( elem );
                     field_entry *t_fld = t_field.find_field( fid );
                     int t_intensity = 0;
@@ -1200,7 +1199,6 @@ int editmap::edit_fld()
     } while( fmenu.ret != UILIST_CANCEL );
     return ret;
 }
-
 ///// edit traps
 int editmap::edit_trp()
 {

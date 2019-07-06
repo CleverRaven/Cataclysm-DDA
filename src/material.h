@@ -3,7 +3,6 @@
 #define MATERIAL_H
 
 #include <cstddef>
-#include <array>
 #include <map>
 #include <set>
 #include <string>
@@ -11,7 +10,6 @@
 #include <utility>
 
 #include "fire.h"
-#include "game_constants.h"
 #include "optional.h"
 #include "string_id.h"
 #include "type_id.h"

@@ -1,7 +1,6 @@
 #include "creature.h"
 
 #include <cstdlib>
-#include <cmath>
 #include <algorithm>
 #include <map>
 #include <array>
@@ -37,6 +36,7 @@
 #include "optional.h"
 #include "player.h"
 #include "string_id.h"
+#include "point.h"
 
 const efftype_id effect_blind( "blind" );
 const efftype_id effect_bounced( "bounced" );
@@ -50,6 +50,7 @@ const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_riding( "riding" );
 const efftype_id effect_ridden( "ridden" );
+const efftype_id effect_tied( "tied" );
 
 const std::map<std::string, m_size> Creature::size_map = {
     {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
@@ -661,6 +662,26 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     dealt_dam.bp_hit = bp_hit;
 
     // Apply ammo effects to target.
+    if( proj.proj_effects.count( "TANGLE" ) ) {
+        monster *z = dynamic_cast<monster *>( this );
+        player *n = dynamic_cast<player *>( this );
+        // if its a tameable animal, its a good way to catch them if they are running away, like them ranchers do!
+        // we assume immediate success, then certain monster types immediately break free in monster.cpp move_effects()
+        if( z ) {
+            if( !proj.get_drop().is_null() ) {
+                z->add_effect( effect_tied, 1_turns, num_bp, true );
+                z->tied_item = proj.get_drop();
+            } else {
+                add_msg( m_debug, "projectile with TANGLE effect, but no drop item specified" );
+            }
+        } else if( n && !is_immune_effect( effect_downed ) ) {
+            // no tied up effect for people yet, just down them and stun them, its close enough to the desired effect.
+            // we can assume a person knows how to untangle their legs eventually and not panic like an animal.
+            add_effect( effect_downed, 1_turns );
+            // stunned to simulate staggering around and stumbling trying to get the entangled thing off of them.
+            add_effect( effect_stunned, rng( 3_turns, 8_turns ) );
+        }
+    }
     if( proj.proj_effects.count( "FLAME" ) ) {
         if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
             add_effect( effect_onfire, rng( 8_turns, 20_turns ), bp_hit );

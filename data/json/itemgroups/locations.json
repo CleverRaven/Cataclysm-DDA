@@ -26,6 +26,12 @@
   },
   {
     "type": "item_group",
+    "id": "paintball_items",
+    "//": "For paintball_field.json",
+    "items": [ [ "paintballgun", 55 ], [ "paintball", 45 ], [ "goggles_swim", 15 ] ]
+  },
+  {
+    "type": "item_group",
     "id": "oa_ig_cs_desks",
     "//": "For cs_car_showroom",
     "items": [
@@ -68,6 +74,63 @@
       [ "gold_watch", 5 ],
       [ "wristwatch", 10 ]
     ]
+  },
+  {
+    "id": "musicstore_showpiece",
+    "type": "item_group",
+    "//": "for music store",
+    "items": [
+      {
+        "distribution": [
+          { "item": "acoustic_guitar", "prob": 100 },
+          { "item": "bagpipes", "prob": 25 },
+          { "item": "banjo", "prob": 60 },
+          { "item": "bone_flute", "prob": 20 },
+          { "item": "clarinet", "prob": 50 },
+          { "item": "flute", "prob": 50 },
+          { "item": "harmonica_holder", "prob": 70 },
+          { "item": "jug_clay", "prob": 20 },
+          { "item": "saw", "prob": 20 },
+          { "item": "saxophone", "prob": 50 },
+          { "item": "trumpet", "prob": 50 },
+          { "item": "tuba", "prob": 25 },
+          { "item": "ukulele", "prob": 50 },
+          { "item": "violin", "prob": 90 },
+          { "item": "guitar_electric", "prob": 90 },
+          {
+            "collection": [ { "item": "case_violin" }, { "item": "tommygun" }, { "item": "grip" }, { "item": "thompson_drum" } ],
+            "prob": 15
+          },
+          { "collection": [ { "item": "case_violin" }, { "item": "violin_golden" } ], "prob": 50 },
+          { "collection": [ { "item": "spoon" }, { "item": "washboard" } ], "prob": 15 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mussto_windinst",
+    "type": "item_group",
+    "//": "for music store",
+    "items": [
+      [ "tuba", 10 ],
+      [ "trumpet", 25 ],
+      [ "flute", 25 ],
+      [ "clarinet", 25 ],
+      [ "saxophone", 25 ],
+      [ "harmonica_holder", 25 ],
+      [ "bagpipes", 5 ]
+    ]
+  },
+  {
+    "id": "mussto_stringinst",
+    "type": "item_group",
+    "//": "for music store",
+    "items": [ [ "acoustic_guitar", 100 ], [ "violin", 80 ], [ "ukulele", 90 ], [ "banjo", 100 ], [ "guitar_electric", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "smokelounge_items",
+    "items": [ [ "cigar", 65 ], [ "ecig", 25 ], [ "cig", 35 ], [ "tobacco", 45 ], [ "rolling_paper", 15 ], [ "pipe_tobacco", 10 ] ]
   },
   {
     "id": "cop_armory",
@@ -113,6 +176,25 @@
     "id": "mags_pawnshop",
     "subtype": "distribution",
     "entries": [ { "group": "mags_obscure", "prob": 10 } ]
+  },
+  {
+    "id": "petstore_misc",
+    "type": "item_group",
+    "items": [ [ "dogfood", 35 ], [ "catfood", 35 ], [ "birdfood", 15 ], [ "dog_whistle", 15 ], [ "flashlight", 5 ] ]
+  },
+  {
+    "id": "petstore_shelves",
+    "type": "item_group",
+    "items": [
+      [ "dogfood", 30 ],
+      [ "catfood", 30 ],
+      [ "birdfood", 15 ],
+      [ "can_tuna", 15 ],
+      [ "can_chicken", 15 ],
+      [ "kevlar_harness", 5 ],
+      [ "leather_harness_dog", 5 ],
+      [ "rubber_harness_dog", 5 ]
+    ]
   },
   {
     "type": "item_group",
@@ -307,6 +389,85 @@
     ]
   },
   {
+    "id": "sugar_house_items",
+    "type": "item_group",
+    "items": [
+      [ "syrup", 60 ],
+      [ "sandwich_pbm", 20 ],
+      [ "maple_candy", 90 ],
+      [ "pancakes", 50 ],
+      [ "fruit_pancakes", 30 ],
+      [ "choc_pancakes", 20 ],
+      [ "fruit_waffles", 20 ],
+      [ "choc_waffles", 20 ],
+      [ "pie_maple", 70 ],
+      [ "pork_beans", 15 ],
+      [ "glazed_tenderloin", 5 ],
+      [ "cell_phone", 1 ],
+      [ "smart_phone", 3 ],
+      [ "glass", 40 ],
+      [ "spoon", 25 ],
+      [ "fork", 25 ],
+      [ "knife_butter", 20 ],
+      [ "knife_steak", 15 ],
+      [ "spork", 5 ],
+      [ "foon", 5 ]
+    ]
+  },
+  {
+    "id": "sugar_house_kitchen_items",
+    "type": "item_group",
+    "items": [
+      [ "thermometer", 90 ],
+      [ "family_cookbook", 90 ],
+      [ "maple_sap", 50 ],
+      [ "syrup", 100 ],
+      [ "maple_candy", 10 ],
+      [ "flour", 30 ],
+      [ "milk_powder", 30 ],
+      [ "powder_eggs", 10 ],
+      [ "egg_bird", 10 ],
+      [ "cooking_oil", 20 ],
+      [ "irradiated_apple", 5 ],
+      [ "irradiated_banana", 5 ],
+      [ "irradiated_strawberries", 5 ],
+      [ "chocolate", 20 ],
+      [ "waffleiron", 60 ],
+      [ "bread", 30 ],
+      [ "peanutbutter", 20 ],
+      [ "pot", 80 ]
+    ]
+  },
+  {
+    "id": "sugar_house_tools",
+    "type": "item_group",
+    "items": [
+      [ "hammer", 100 ],
+      [ "hand_drill", 100 ],
+      [ "screwdriver", 20 ],
+      [ "screwdriver_set", 10 ],
+      [ "cordless_drill", 70 ],
+      [ "thermometer", 60 ],
+      [ "saw", 90 ],
+      [ "chainsaw_off", 10 ],
+      [ "bucket", 100 ],
+      [ "tree_spile", 100 ],
+      [ "pot", 100 ]
+    ]
+  },
+  {
+    "id": "sugar_house_furnace",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "maple_sap", "container-item": "metal_tank", "charges-min": 2, "charges-max": 15 } ]
+  },
+  {
+    "id": "sugar_house_drum",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "syrup", "container-item": "55gal_drum", "charges-min": 2, "charges-max": 150 } ]
+  },
+  {
     "type": "item_group",
     "id": "bikeshop_tools",
     "items": [
@@ -465,6 +626,19 @@
       [ "superglue", 5 ],
       [ "polisher", 15 ],
       [ "solar_panel", 15 ]
+    ]
+  },
+  {
+    "id": "clothing_sport",
+    "type": "item_group",
+    "//": "for sports_store",
+    "subtype": "distribution",
+    "items": [
+      { "group": "clothing_outdoor_torso" },
+      { "group": "clothing_outdoor_pants" },
+      { "group": "clothing_outdoor_shoes" },
+      { "group": "clothing_glasses", "prob": 10 },
+      { "group": "clothing_watch", "prob": 5 }
     ]
   },
   {
@@ -643,6 +817,46 @@
     ]
   },
   {
+    "id": "corpse_male",
+    "type": "item_group",
+    "//": "For mortuary",
+    "subtype": "collection",
+    "entries": [
+      { "group": "male_underwear_top" },
+      { "group": "male_underwear_bottom" },
+      { "item": "corpse" },
+      { "item": "sheet" },
+      { "item": "bag_body_bag" }
+    ]
+  },
+  {
+    "id": "corpse_female",
+    "type": "item_group",
+    "//": "For mortuary",
+    "subtype": "collection",
+    "entries": [
+      { "group": "female_underwear_top" },
+      { "group": "female_underwear_bottom" },
+      { "item": "corpse" },
+      { "item": "sheet" },
+      { "item": "bag_body_bag" }
+    ]
+  },
+  {
+    "id": "corpse_viewing",
+    "type": "item_group",
+    "//": "For mortuary",
+    "subtype": "collection",
+    "entries": [
+      { "group": "female_underwear_top" },
+      { "group": "female_underwear_bottom" },
+      { "item": "ring" },
+      { "item": "veil_wedding" },
+      { "item": "dress_wedding" },
+      { "item": "corpse" }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "ss_merch_1",
     "//": "for cs_sex_shop",
@@ -694,6 +908,42 @@
       [ "blanket", 20 ],
       [ "candle", 20 ],
       [ "pillow", 20 ]
+    ]
+  },
+  {
+    "id": "thrift_misc",
+    "type": "item_group",
+    "items": [
+      [ "magnifying_glass", 5 ],
+      [ "sewing_kit", 15 ],
+      [ "scissors", 10 ],
+      [ "gasoline_lantern", 7 ],
+      [ "flashlight", 25 ],
+      [ "hotplate", 20 ],
+      [ "coffeemaker", 25 ],
+      [ "textbook_firstaid", 2 ],
+      [ "pocket_firearms", 1 ],
+      [ "mag_archery", 4 ]
+    ]
+  },
+  {
+    "id": "thrift_books",
+    "type": "item_group",
+    "items": [
+      [ "mag_traps", 20 ],
+      [ "manual_traps", 12 ],
+      [ "trappers_companion", 2 ],
+      [ "mag_guns", 15 ],
+      [ "mag_rifle", 15 ],
+      [ "mag_shotgun", 15 ],
+      [ "mag_survival", 40 ],
+      [ "manual_survival", 20 ],
+      [ "textbook_firstaid", 8 ],
+      [ "pocket_survival", 2 ],
+      [ "mag_archery", 15 ],
+      [ "manual_archery", 8 ],
+      [ "book_archery", 2 ],
+      [ "recipe_arrows", 4 ]
     ]
   },
   {
@@ -886,6 +1136,21 @@
       [ "usb_drive", 5 ],
       [ "software_useless", 10 ],
       [ "survnote", 1 ]
+    ]
+  },
+  {
+    "id": "my_precious",
+    "type": "item_group",
+    "//": "for pawn_shop safe",
+    "subtype": "distribution",
+    "items": [
+      { "group": "supplies_metal_precious", "prob": 70 },
+      { "item": "money_bundle", "prob": 90 },
+      { "item": "gold_watch", "prob": 30 },
+      { "item": "gold_ear", "prob": 30 },
+      { "item": "gold_bracelet", "prob": 30 },
+      { "item": "diamond_ring", "prob": 20 },
+      { "item": "diamond", "prob": 10 }
     ]
   },
   {

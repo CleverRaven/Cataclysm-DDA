@@ -262,6 +262,7 @@
     "apply_message": "Your breath gives out!",
     "remove_message": "You catch your breath.",
     "rating": "bad",
+    "max_duration": 30,
     "base_mods": {
       "per_mod": [ -1 ],
       "dex_mod": [ -1 ],

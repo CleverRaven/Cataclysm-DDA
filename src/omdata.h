@@ -15,7 +15,6 @@
 #include "catacharset.h"
 #include "color.h"
 #include "common_types.h"
-#include "enums.h"
 #include "int_id.h"
 #include "point.h"
 #include "string_id.h"

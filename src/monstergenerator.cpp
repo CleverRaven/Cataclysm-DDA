@@ -25,6 +25,7 @@
 #include "game.h"
 #include "pathfinding.h"
 #include "units.h"
+#include "translations.h"
 
 namespace
 {
@@ -135,6 +136,7 @@ const std::map<std::string, m_flag> flag_map = {
     { "PRIORITIZE_TARGETS", MF_PRIORITIZE_TARGETS },
     { "NOT_HALLUCINATION", MF_NOT_HALLU },
     { "CATFOOD", MF_CATFOOD },
+    { "CANPLAY", MF_CANPLAY },
     { "CATTLEFODDER", MF_CATTLEFODDER },
     { "BIRDFOOD", MF_BIRDFOOD },
     { "PET_MOUNTABLE", MF_PET_MOUNTABLE },

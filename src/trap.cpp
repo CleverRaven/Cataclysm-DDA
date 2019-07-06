@@ -1,6 +1,7 @@
 #include "trap.h"
 
 #include <vector>
+#include <set>
 
 #include "debug.h"
 #include "generic_factory.h"
@@ -14,13 +15,10 @@
 #include "translations.h"
 #include "assign.h"
 #include "bodypart.h"
-#include "enums.h"
 #include "item.h"
-#include "itype.h"
-#include "mapdata.h"
-#include "messages.h"
-#include "pldata.h"
 #include "rng.h"
+#include "creature.h"
+#include "point.h"
 
 namespace
 {

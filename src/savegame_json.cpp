@@ -5,6 +5,7 @@
 #include "npc_favor.h" // IWYU pragma: associated
 #include "pldata.h" // IWYU pragma: associated
 
+#include <limits.h>
 #include <cctype>
 #include <cstddef>
 #include <algorithm>
@@ -22,8 +23,8 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+#include <bitset>
 
-#include "ammo.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "basecamp.h"
@@ -37,7 +38,6 @@
 #include "item.h"
 #include "item_factory.h"
 #include "json.h"
-#include "magic.h"
 #include "mission.h"
 #include "monster.h"
 #include "morale.h"
@@ -73,13 +73,22 @@
 #include "mapdata.h"
 #include "mattack_common.h"
 #include "morale_types.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "recipe.h"
-#include "stomach.h"
 #include "tileray.h"
 #include "visitable.h"
 #include "string_id.h"
+#include "colony.h"
+#include "computer.h"
+#include "construction.h"
+#include "field.h"
+#include "flat_set.h"
+#include "int_id.h"
+#include "lru_cache.h"
+#include "magic_teleporter_list.h"
+#include "point.h"
+#include "requirements.h"
+#include "vpart_position.h"
 
 struct oter_type_t;
 struct mutation_branch;
@@ -643,6 +652,18 @@ void player::store( JsonOut &json ) const
         json.member( "last_target_pos", last_target_pos );
     }
 
+    // faction warnings
+    json.member( "faction_warnings" );
+    json.start_array();
+    for( const auto elem : warning_record ) {
+        json.start_object();
+        json.member( "fac_warning_id", elem.first );
+        json.member( "fac_warning_num", elem.second.first );
+        json.member( "fac_warning_time", elem.second.second );
+        json.end_object();
+    }
+    json.end_array();
+
     json.member( "ammo_location", ammo_location );
 
     json.member( "camps" );
@@ -743,6 +764,18 @@ void player::load( JsonObject &data )
         remove_bionic( bionic_id( "bio_solar" ) );
     }
 
+    if( data.has_array( "faction_warnings" ) ) {
+        JsonArray warning_arr = data.get_array( "faction_warnings" );
+        while( warning_arr.has_more() ) {
+            JsonObject warning_data = warning_arr.next_object();
+            std::string fac_id = warning_data.get_string( "fac_warning_id" );
+            int warning_num = warning_data.get_int( "fac_warning_num" );
+            time_point warning_time = calendar::before_time_starts;
+            warning_data.read( "fac_warning_time", warning_time );
+            warning_record[faction_id( fac_id )] = std::make_pair( warning_num, warning_time );
+        }
+    }
+
     on_stat_change( "pkill", pkill );
     on_stat_change( "perceived_pain", get_perceived_pain() );
 
@@ -828,6 +861,12 @@ void avatar::store( JsonOut &json ) const
 
     json.member( "move_mode", move_mode );
     json.member( "magic", magic );
+
+    // stats through kills
+    json.member( "str_upgrade", abs( str_upgrade ) );
+    json.member( "dex_upgrade", abs( dex_upgrade ) );
+    json.member( "int_upgrade", abs( int_upgrade ) );
+    json.member( "per_upgrade", abs( per_upgrade ) );
 
     // crafting etc
     json.member( "activity", activity );
@@ -921,6 +960,20 @@ void avatar::load( JsonObject &data )
     data.read( "focus_pool", focus_pool );
     data.read( "style_selected", style_selected );
     data.read( "keep_hands_free", keep_hands_free );
+
+    // stats through kills
+    data.read( "str_upgrade", str_upgrade );
+    data.read( "dex_upgrade", dex_upgrade );
+    data.read( "int_upgrade", int_upgrade );
+    data.read( "per_upgrade", per_upgrade );
+
+    // this is so we don't need to call get_option in a draw function
+    if( !get_option<bool>( "STATS_THROUGH_KILLS" ) )         {
+        str_upgrade = -str_upgrade;
+        dex_upgrade = -dex_upgrade;
+        int_upgrade = -int_upgrade;
+        per_upgrade = -per_upgrade;
+    }
 
     data.read( "stamina", stamina );
     data.read( "magic", magic );
@@ -1666,7 +1719,7 @@ void monster::load( JsonObject &data )
     if( data.read( "wandz", wander_pos.z ) ) {
         wander_pos.z = position.z;
     }
-
+    data.read( "tied_item", tied_item );
     data.read( "hp", hp );
 
     // sp_timeout indicates an old save, prior to the special_attacks refactor
@@ -1799,6 +1852,7 @@ void monster::store( JsonOut &json ) const
     json.member( "morale", morale );
     json.member( "hallucination", hallucination );
     json.member( "stairscount", staircount );
+    json.member( "tied_item", tied_item );
     // Store the relative position of the goal so it loads correctly after a map shift.
     json.member( "destination", goal - pos() );
     json.member( "ammo", ammo );
@@ -1846,86 +1900,10 @@ void time_duration::serialize( JsonOut &jsout ) const
     jsout.write( turns_ );
 }
 
-time_duration time_duration::read_from_json_string( JsonIn &jsin )
-{
-    static const std::vector<std::pair<std::string, time_duration>> units = { {
-            { "turns", 1_turns },
-            { "turn", 1_turns },
-            { "t", 1_turns },
-            { "seconds", 1_seconds },
-            { "second", 1_seconds },
-            { "s", 1_seconds },
-            { "minutes", 1_minutes },
-            { "minute", 1_minutes },
-            { "m", 1_minutes },
-            { "hours", 1_hours },
-            { "hour", 1_hours },
-            { "h", 1_hours },
-            { "days", 1_days },
-            { "day", 1_days },
-            { "d", 1_days },
-            // TODO: maybe add seasons?
-            // TODO: maybe add years? Those two things depend on season length!
-        }
-    };
-    const size_t pos = jsin.tell();
-    size_t i = 0;
-    const auto error = [&]( const char *const msg ) {
-        jsin.seek( pos + i );
-        jsin.error( msg );
-    };
-
-    const std::string s = jsin.get_string();
-    // returns whether we are at the end of the string
-    const auto skip_spaces = [&]() {
-        while( i < s.size() && s[i] == ' ' ) {
-            ++i;
-        }
-        return i >= s.size();
-    };
-    const auto get_unit = [&]() {
-        if( skip_spaces() ) {
-            error( "invalid time duration string: missing unit" );
-        }
-        for( const auto &pair : units ) {
-            const std::string &unit = pair.first;
-            if( s.size() >= unit.size() + i && s.compare( i, unit.size(), unit ) == 0 ) {
-                i += unit.size();
-                return pair.second;
-            }
-        }
-        error( "invalid time duration string: unknown unit" );
-        throw; // above always throws
-    };
-
-    if( skip_spaces() ) {
-        error( "invalid time duration string: empty string" );
-    }
-    time_duration result = 0_turns;
-    do {
-        int sign_value = +1;
-        if( s[i] == '-' ) {
-            sign_value = -1;
-            ++i;
-        } else if( s[i] == '+' ) {
-            ++i;
-        }
-        if( i >= s.size() || !isdigit( s[i] ) ) {
-            error( "invalid time duration string: number expected" );
-        }
-        int value = 0;
-        for( ; i < s.size() && isdigit( s[i] ); ++i ) {
-            value = value * 10 + ( s[i] - '0' );
-        }
-        result += sign_value * value * get_unit();
-    } while( !skip_spaces() );
-    return result;
-}
-
 void time_duration::deserialize( JsonIn &jsin )
 {
     if( jsin.test_string() ) {
-        *this = read_from_json_string( jsin );
+        *this = read_from_json_string<time_duration>( jsin, time_duration::units );
     } else {
         turns_ = jsin.get_int();
     }
@@ -1947,7 +1925,7 @@ void item::io( Archive &archive )
     };
 
     const auto load_curammo = [this]( const std::string & id ) {
-        curammo = item::find_type( id );
+        curammo = item::find_type( item_controller->migrate_id( id ) );
     };
     const auto load_corpse = [this]( const std::string & id ) {
         if( id == "null" ) {
@@ -2022,6 +2000,8 @@ void item::io( Archive &archive )
     archive.io( "light_dir", light.direction, nolight.direction );
     archive.io( "comps_used", comps_used, io::empty_default_tag() );
     archive.io( "next_failure_point", next_failure_point, -1 );
+    archive.io( "tools_to_continue", tools_to_continue, false );
+    archive.io( "cached_tool_selections", cached_tool_selections, io::empty_default_tag() );
 
     item_controller->migrate_item( orig, *this );
 
@@ -2418,6 +2398,22 @@ void vehicle::deserialize( JsonIn &jsin )
     face.init( fdir );
     move.init( mdir );
     data.read( "name", name );
+    data.read( "base_name", base_name );
+    std::string temp_id;
+    std::string temp_old_id;
+    data.read( "owner", temp_id );
+    if( !temp_id.empty() ) {
+        owner = g->faction_manager_ptr->get( faction_id( temp_id ) );
+    } else {
+        owner = nullptr;
+    }
+    data.read( "old_owner", temp_old_id );
+    if( !temp_old_id.empty() ) {
+        old_owner = g->faction_manager_ptr->get( faction_id( temp_old_id ) );
+    } else {
+        old_owner = nullptr;
+    }
+    data.read( "theft_time", theft_time );
 
     data.read( "parts", parts );
 
@@ -2526,6 +2522,10 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "skidding", skidding );
     json.member( "of_turn_carry", of_turn_carry );
     json.member( "name", name );
+    json.member( "base_name", base_name );
+    json.member( "owner", owner ? owner->id.str() : "" );
+    json.member( "old_owner", old_owner ? old_owner->id.str() : "" );
+    json.member( "theft_time", theft_time );
     json.member( "parts", parts );
     json.member( "tags", tags );
     json.member( "labels", labels );
@@ -3309,8 +3309,7 @@ void submap::store( JsonOut &jsout ) const
                 jsout.start_array();
                 for( auto &elem : fld[i][j] ) {
                     const field_entry &cur = elem.second;
-                    // We don't seem to have a string identifier for fields anywhere.
-                    jsout.write( cur.get_field_type() );
+                    jsout.write( cur.get_field_type().id() );
                     jsout.write( cur.get_field_intensity() );
                     jsout.write( cur.get_field_age() );
                 }
@@ -3529,13 +3528,26 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
             int j = jsin.get_int();
             jsin.start_array();
             while( !jsin.end_array() ) {
-                int type = jsin.get_int();
+                // TODO: Check enum->string migration below
+                int type_int = 0;
+                std::string type_str;
+                if( jsin.test_int() ) {
+                    type_int = jsin.get_int();
+                } else {
+                    type_str = jsin.get_string();
+                }
                 int intensity = jsin.get_int();
                 int age = jsin.get_int();
-                if( fld[i][j].find_field( field_id( type ) ) == nullptr ) {
+                field_type_id ft;
+                if( !type_str.empty() ) {
+                    ft = field_type_id( type_str );
+                } else {
+                    ft = field_types::get_field_type_by_legacy_enum( type_int ).id;
+                }
+                if( fld[i][j].find_field( ft ) == nullptr ) {
                     field_count++;
                 }
-                fld[i][j].add_field( field_id( type ), intensity, time_duration::from_turns( age ) );
+                fld[i][j].add_field( ft, intensity, time_duration::from_turns( age ) );
             }
         }
     } else if( member_name == "graffiti" ) {

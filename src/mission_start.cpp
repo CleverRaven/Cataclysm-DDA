@@ -24,7 +24,6 @@
 #include "int_id.h"
 #include "item.h"
 #include "optional.h"
-#include "player.h"
 #include "rng.h"
 
 const mtype_id mon_charred_nightmare( "mon_charred_nightmare" );
@@ -206,8 +205,8 @@ void mission_start::place_npc_software( mission *miss )
     tripoint comppoint;
 
     oter_id oter = overmap_buffer.ter( place.x, place.y, place.z );
-    if( is_ot_match( "house", oter, ot_match_type::PREFIX ) ||
-        is_ot_match( "s_pharm", oter, ot_match_type::TYPE ) || oter == "" ) {
+    if( is_ot_match( "house", oter, ot_match_type::prefix ) ||
+        is_ot_match( "s_pharm", oter, ot_match_type::type ) || oter == "" ) {
         comppoint = find_potential_computer_point( compmap, place.z );
     }
 

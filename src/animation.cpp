@@ -12,11 +12,12 @@
 #include "weather.h"
 #include "creature.h"
 #include "cursesdef.h"
-#include "enums.h"
 #include "game_constants.h"
 #include "posix_time.h"
 #include "translations.h"
 #include "type_id.h"
+#include "explosion.h"
+#include "point.h"
 
 #if defined(TILES)
 #include <memory>

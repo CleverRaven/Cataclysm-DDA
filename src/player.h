@@ -3,10 +3,8 @@
 #define PLAYER_H
 
 #include <climits>
-#include <cstddef>
 #include <array>
 #include <memory>
-#include <unordered_set>
 #include <functional>
 #include <iosfwd>
 #include <list>
@@ -24,7 +22,6 @@
 #include "damage.h"
 #include "game_constants.h"
 #include "item.h"
-#include "map_memory.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -34,12 +31,14 @@
 #include "color.h"
 #include "creature.h"
 #include "cursesdef.h"
-#include "enums.h"
 #include "inventory.h"
 #include "item_location.h"
 #include "pldata.h"
 #include "type_id.h"
 #include "magic.h"
+#include "craft_command.h"
+#include "point.h"
+#include "faction.h"
 
 class basecamp;
 class effect;
@@ -49,10 +48,10 @@ struct pathfinding_settings;
 class recipe;
 struct islot_comestible;
 struct itype;
+class monster;
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 
-class craft_command;
 class recipe_subset;
 
 enum action_id : int;
@@ -65,7 +64,6 @@ class dispersion_sources;
 
 using itype_id = std::string;
 struct trap;
-class mission;
 class profession;
 
 nc_color encumb_color( int level );
@@ -74,16 +72,9 @@ class ma_technique;
 class martialart;
 struct item_comp;
 struct tool_comp;
-template<typename CompType> struct comp_selection;
 class vehicle;
 struct w_point;
-struct points_left;
 struct targeting_data;
-
-namespace debug_menu
-{
-class mission_debug;
-} // namespace debug_menu
 
 // This tries to represent both rating and
 // player's decision to respect said rating
@@ -231,16 +222,12 @@ class player : public Character
 
         /** Handles and displays detailed character info for the '@' screen */
         void disp_info();
-        /** Provides the window and detailed morale data */
-        void disp_morale();
 
         /**Estimate effect duration based on player relevant skill*/
         time_duration estimate_effect_dur( const skill_id &relevant_skill, const efftype_id &effect,
                                            const time_duration &error_magnitude,
                                            int threshold, const Creature &target ) const;
 
-        /** Resets stats, and applies effects in an idempotent manner */
-        void reset_stats() override;
         /** Resets movement points and applies other non-idempotent changes */
         void process_turn() override;
         /** Calculates the various speed bonuses we will get from mutations, etc. */
@@ -251,10 +238,6 @@ class player : public Character
         void update_morale();
         /** Ensures persistent morale effects are up-to-date */
         void apply_persistent_morale();
-        /** Uses calc_focus_equilibrium to update the player's current focus */
-        void update_mental_focus();
-        /** Uses morale and other factors to return the player's focus gain rate */
-        int calc_focus_equilibrium() const;
         /** Maintains body temperature */
         void update_bodytemp();
         /** Define color for displaying the body temperature */
@@ -1171,6 +1154,10 @@ class player : public Character
         hint_rating rate_action_mend( const item &it ) const;
         hint_rating rate_action_disassemble( const item &it );
 
+        //returns true if the warning is now beyond final and results in hostility.
+        bool add_faction_warning( const faction_id &id );
+        int current_warnings_fac( const faction_id &id );
+        bool beyond_final_warning( const faction_id &id );
         /** Returns warmth provided by armor, etc. */
         int warmth( body_part bp ) const;
         /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
@@ -1383,6 +1370,12 @@ class player : public Character
         bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
         bool has_morale_to_craft() const;
         bool can_make( const recipe *r, int batch_size = 1 );  // have components?
+        /**
+         * Returns true if the player can start crafting the recipe with the given batch size
+         * The player is not required to have enough tool charges to finish crafting, only to
+         * complete the first step (total / 20 + total % 20 charges)
+         */
+        bool can_start_craft( const recipe *rec, int batch_size = 1 );
         bool making_would_work( const recipe_id &id_to_make, int batch_size );
 
         /**
@@ -1455,7 +1448,12 @@ class player : public Character
         comp_selection<tool_comp>
         select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
                                const std::string &hotkeys = DEFAULT_HOTKEYS,
-                               bool can_cancel = false, bool player_inv = true );
+                               bool can_cancel = false, bool player_inv = true,
+        const std::function<int( int )> charges_required_modifier = []( int i ) {
+            return i;
+        } );
+        /** Consume tools for the next multiplier * 5% progress of the craft */
+        bool craft_consume_tools( item &craft, int multiplier, bool start_craft );
         void consume_tools( const comp_selection<tool_comp> &tool, int batch );
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
                             const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE,
@@ -1533,6 +1531,7 @@ class player : public Character
         player_activity activity;
         std::list<player_activity> backlog;
         int volume;
+        cata::optional<tripoint> destination_point;
         const profession *prof;
 
         start_location_id start_location;
@@ -1830,10 +1829,10 @@ class player : public Character
 
         std::vector<tripoint> auto_move_route;
         player_activity destination_activity;
-        cata::optional<tripoint> destination_point;
         // Used to make sure auto move is canceled if we stumble off course
         cata::optional<tripoint> next_expected_position;
-
+        /** warnings from a faction about bad behaviour */
+        std::map<faction_id, std::pair<int, time_point>> warning_record;
         inventory cached_crafting_inventory;
         int cached_moves;
         time_point cached_time;

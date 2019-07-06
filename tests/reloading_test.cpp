@@ -16,6 +16,7 @@
 #include "inventory.h"
 #include "optional.h"
 #include "player_activity.h"
+#include "type_id.h"
 
 TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 {

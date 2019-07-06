@@ -180,7 +180,10 @@
   {
     "type": "overmap_special",
     "id": "Rural Gas Station",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_gas_rural_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_gas_rural_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_gas_rural_roof_north" }
+    ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "land", "swamp" ],
     "city_distance": [ 10, 200 ],
@@ -225,7 +228,10 @@
   {
     "type": "overmap_special",
     "id": "Sugar House",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "sugar_house_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "sugar_house_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "sugar_house_roof_north" }
+    ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
     "locations": [ "forest" ],
     "city_distance": [ 20, -1 ],
@@ -612,6 +618,20 @@
     "type": "overmap_special",
     "id": "Radio Tower",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "radio_tower_north" } ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 0, 20 ],
+    "city_sizes": [ 4, 12 ],
+    "occurrences": [ 1, 5 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Radio Tower 1",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "radio_tower_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "radio_tower_roof_1_north" }
+    ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
     "locations": [ "land" ],
     "city_distance": [ 0, 20 ],
@@ -2895,7 +2915,7 @@
   {
     "type": "overmap_special",
     "id": "power_station_small",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pwr_sub_s_north" } ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pwr_sub_s_north" }, { "point": [ 0, 0, 1 ], "overmap": "pwr_sub_s_roof_north" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
     "locations": [ "land" ],
     "city_distance": [ -1, 6 ],
@@ -2908,7 +2928,9 @@
     "id": "power_station_large",
     "overmaps": [
       { "point": [ 0, 1, 0 ], "overmap": "pwr_large_entrance_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "pwr_large_entrance_roof_north" },
       { "point": [ -1, 1, 0 ], "overmap": "pwr_large_2_north" },
+      { "point": [ -1, 1, 1 ], "overmap": "pwr_large_2_roof_north" },
       { "point": [ -1, 0, 0 ], "overmap": "pwr_large_3_north" },
       { "point": [ 0, 0, 0 ], "overmap": "pwr_large_4_north" }
     ],
@@ -3085,7 +3107,7 @@
   {
     "type": "overmap_special",
     "id": "rest_stop",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "roadstop_north" } ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "roadstop_north" }, { "point": [ 0, 0, 1 ], "overmap": "roadstop_roof_north" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "land" ],
     "city_distance": [ 10, 200 ],
@@ -3097,7 +3119,10 @@
   {
     "type": "overmap_special",
     "id": "roadstop_a",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "roadstop_a_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "roadstop_a_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "roadstop_a_roof_north" }
+    ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "land" ],
     "city_distance": [ 10, 200 ],
@@ -3109,7 +3134,10 @@
   {
     "type": "overmap_special",
     "id": "roadstop_b",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "roadstop_b_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "roadstop_b_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "roadstop_b_roof_north" }
+    ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "land" ],
     "city_distance": [ 10, 200 ],
@@ -3123,7 +3151,9 @@
     "id": "pump_station",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "pump_station_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "pump_station_1_roof_north" },
       { "point": [ 0, 1, 0 ], "overmap": "pump_station_2_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "pump_station_2_roof_north" },
       { "point": [ 0, -1, -1 ], "overmap": "pump_station_3_north" },
       { "point": [ 0, 0, -1 ], "overmap": "pump_station_4_north" },
       { "point": [ 0, 1, -1 ], "overmap": "pump_station_5_north" }
@@ -3209,7 +3239,23 @@
   {
     "type": "overmap_special",
     "id": "Swamp Shack",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "hunter_shack_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "hunter_shack_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "hunter_shack_roof_north" }
+    ],
+    "locations": [ "swamp" ],
+    "city_distance": [ 12, -1 ],
+    "city_sizes": [ 0, 16 ],
+    "occurrences": [ 0, 8 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Swamp Shack 1",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "hunter_shack_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "hunter_shack_roof_1_north" }
+    ],
     "locations": [ "swamp" ],
     "city_distance": [ 12, -1 ],
     "city_sizes": [ 0, 16 ],
@@ -3544,6 +3590,7 @@
     "id": "shooting range",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "shootingrange_1a_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "shootingrange_1a_roof_north" },
       { "point": [ 0, 1, 0 ], "overmap": "shootingrange_2a_north" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
@@ -3643,7 +3690,9 @@
       { "point": [ 0, 0, 0 ], "overmap": "s_restparking_1_north" },
       { "point": [ 1, 0, 0 ], "overmap": "s_restparking_2_north" },
       { "point": [ 0, 1, 0 ], "overmap": "s_reststop_1_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "s_reststop_2_north" }
+      { "point": [ 0, 1, 1 ], "overmap": "s_reststop_1_roof_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "s_reststop_2_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "s_reststop_2_roof_north" }
     ],
     "connections": [
       { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true },
@@ -3754,7 +3803,36 @@
   {
     "type": "overmap_special",
     "id": "Moonshine Still",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "moonshine_still_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "moonshine_still_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "moonshine_still_roof_north" }
+    ],
+    "locations": [ "forest" ],
+    "city_distance": [ 5, 20 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 0, 5 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Moonshine Still 1",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "moonshine_still_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "moonshine_still_roof_1_north" }
+    ],
+    "locations": [ "forest" ],
+    "city_distance": [ 5, 20 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 0, 5 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Moonshine Still 2",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "moonshine_still_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "moonshine_still_roof_2_north" }
+    ],
     "locations": [ "forest" ],
     "city_distance": [ 5, 20 ],
     "city_sizes": [ 0, 20 ],

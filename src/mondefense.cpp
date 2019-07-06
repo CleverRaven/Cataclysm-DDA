@@ -21,6 +21,7 @@
 #include "translations.h"
 #include "enums.h"
 #include "item.h"
+#include "point.h"
 
 std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &p );
 

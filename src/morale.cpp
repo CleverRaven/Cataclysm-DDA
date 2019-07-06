@@ -14,15 +14,12 @@
 #include "debug.h"
 #include "input.h"
 #include "item.h"
-#include "itype.h"
-#include "iuse_actor.h"
 #include "morale_types.h"
 #include "options.h"
 #include "output.h"
 #include "translations.h"
 #include "color.h"
 #include "enums.h"
-#include "iuse.h"
 
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_hot( "hot" );

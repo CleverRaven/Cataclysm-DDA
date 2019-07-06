@@ -2,20 +2,20 @@
 #ifndef MAGIC_H
 #define MAGIC_H
 
+#include <stddef.h>
 #include <map>
 #include <set>
+#include <string>
+#include <vector>
 
 #include "bodypart.h"
 #include "damage.h"
 #include "enum_bitset.h"
 #include "type_id.h"
 #include "ui.h"
+#include "string_id.h"
 
-struct mutation_branch;
 struct tripoint;
-struct dealt_damage_instance;
-struct damage_instance;
-
 class player;
 class JsonObject;
 class JsonOut;
@@ -23,6 +23,7 @@ class JsonIn;
 class teleporter_list;
 class time_duration;
 class nc_color;
+template <typename E> struct enum_traits;
 
 enum spell_flag {
     PERMANENT, // items or creatures spawned with this spell do not disappear and die as normal
@@ -67,6 +68,18 @@ struct enum_traits<spell_flag> {
     static constexpr auto last = spell_flag::LAST;
 };
 
+struct fake_spell {
+    spell_id id;
+    // max level this spell can be
+    // if null pointer, spell can be up to its own max level
+    cata::optional<int> max_level;
+    // target tripoint is source (true) or target (false)
+    bool self;
+    fake_spell( const spell_id &sp_id, bool hit_self = false,
+                const cata::optional<int> &max_level = cata::nullopt ) : id( sp_id ),
+        max_level( max_level ), self( hit_self ) {};
+};
+
 class spell_type
 {
     public:
@@ -84,6 +97,8 @@ class spell_type
         std::string effect;
         // extra information about spell effect. allows for combinations for effects
         std::string effect_str;
+        // list of additional "spell effects"
+        std::vector<fake_spell> additional_spells;
 
         // minimum damage this spell can cause
         int min_damage;
@@ -287,6 +302,11 @@ class spell
         // heals the critter at the location, returns amount healed (player heals each body part)
         int heal( const tripoint &target ) const;
 
+        // casts the spell effect. returns true if successful
+        bool cast_spell_effect( const tripoint &source, const tripoint &target );
+        // goes through the spell effect and all of its internal spells
+        bool cast_all_effects( const tripoint &source, const tripoint &target );
+
         // is the target valid for this spell?
         bool is_valid_target( const tripoint &p ) const;
         bool is_valid_target( valid_target t ) const;
@@ -320,6 +340,8 @@ class known_magic
         bool can_learn_spell( const player &p, const spell_id &sp ) const;
         bool knows_spell( const std::string &sp ) const;
         bool knows_spell( const spell_id &sp ) const;
+        // does the player know a spell?
+        bool knows_spell() const;
         // spells known by player
         std::vector<spell_id> spells() const;
         // gets the spell associated with the spell_id to be edited

@@ -306,6 +306,7 @@ furn_t null_furniture_t()
     new_furniture.name_ = translate_marker( "nothing" );
     new_furniture.symbol_.fill( ' ' );
     new_furniture.color_.fill( c_white );
+    new_furniture.light_emitted = 0;
     new_furniture.movecost = 0;
     new_furniture.move_str_req = -1;
     new_furniture.transparent = true;
@@ -327,6 +328,7 @@ ter_t null_terrain_t()
     new_terrain.name_ = translate_marker( "nothing" );
     new_terrain.symbol_.fill( ' ' );
     new_terrain.color_.fill( c_white );
+    new_terrain.light_emitted = 0;
     new_terrain.movecost = 0;
     new_terrain.transparent = true;
     new_terrain.set_flag( "TRANSPARENT" );
@@ -1136,6 +1138,8 @@ void ter_t::load( JsonObject &jo, const std::string &src )
               DEFAULT_MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "trap", trap_id_str );
 
+    optional( jo, was_loaded, "light_emitted", light_emitted );
+
     load_symbol( jo );
 
     trap = tr_null;
@@ -1236,6 +1240,7 @@ void furn_t::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "coverage", coverage );
     optional( jo, was_loaded, "comfort", comfort, 0 );
     optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
+    optional( jo, was_loaded, "emissions", emissions );
     optional( jo, was_loaded, "bonus_fire_warmth_feet", bonus_fire_warmth_feet, 300 );
     optional( jo, was_loaded, "keg_capacity", keg_capacity, legacy_volume_reader, 0_ml );
     mandatory( jo, was_loaded, "required_str", move_str_req );
@@ -1245,6 +1250,8 @@ void furn_t::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "deployed_item", deployed_item );
     load_symbol( jo );
     transparent = false;
+
+    optional( jo, was_loaded, "light_emitted", light_emitted );
 
     for( auto &flag : jo.get_string_array( "flags" ) ) {
         set_flag( flag );
@@ -1286,6 +1293,18 @@ void furn_t::check() const
     }
     if( !close.is_valid() ) {
         debugmsg( "invalid furniture %s for closing %s", close.c_str(), id.c_str() );
+    }
+    if( has_flag( "EMITTER" ) ) {
+        if( emissions.empty() ) {
+            debugmsg( "furn %s has the EMITTER flag, but no emissions were set", id.c_str() );
+        } else {
+            for( const emit_id &e : emissions ) {
+                if( !e.is_valid() ) {
+                    debugmsg( "furn %s has the EMITTER flag, but invalid emission %s was set", id.c_str(),
+                              e.str().c_str() );
+                }
+            }
+        }
     }
 }
 

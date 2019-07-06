@@ -9,7 +9,6 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "rng.h"
-#include "game_constants.h"
 
 projectile::projectile() :
     speed( 0 ), range( 0 ), drop( nullptr ), custom_explosion( nullptr )

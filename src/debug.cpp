@@ -5,7 +5,6 @@
 #include <cstdio>
 #include <algorithm>
 #include <cassert>
-#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
@@ -34,6 +33,7 @@
 #include "translations.h"
 #include "worldfactory.h"
 #include "mod_manager.h"
+#include "type_id.h"
 
 #if !defined(_MSC_VER)
 #include <sys/time.h>

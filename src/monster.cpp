@@ -49,9 +49,8 @@
 #include "player.h"
 #include "int_id.h"
 #include "string_id.h"
-#include "veh_type.h"
-#include "vehicle.h"
-#include "vpart_position.h"
+#include "flat_set.h"
+#include "weather.h"
 
 struct pathfinding_settings;
 
@@ -114,6 +113,9 @@ const species_id FUNGUS( "FUNGUS" );
 const species_id INSECT( "INSECT" );
 const species_id MAMMAL( "MAMMAL" );
 const species_id ABERRATION( "ABERRATION" );
+const species_id MOLLUSK( "MOLLUSK" );
+const species_id ROBOT( "ROBOT" );
+const species_id FISH( "FISH" );
 
 const efftype_id effect_badpoison( "badpoison" );
 const efftype_id effect_beartrap( "beartrap" );
@@ -340,7 +342,7 @@ void monster::try_upgrade( bool pin_time )
             upgrade_time += current_day;
         } else {
             // offset by starting season
-            upgrade_time += to_days<int>( calendar::time_of_cataclysm - calendar::start );
+            upgrade_time += calendar::start;
         }
     }
 
@@ -1481,12 +1483,57 @@ bool monster::move_effects( bool )
 
     bool u_see_me = g->u.sees( *this );
     if( has_effect( effect_tied ) ) {
+        // friendly pet, will stay tied down and obey.
+        if( friendly == -1 ) {
+            return false;
+        }
+        // non-friendly monster will struggle to get free occasionally.
+        // some monsters cant be tangled up with a net/bolas/lassoo etc.
+        bool immediate_break = type->in_species( FISH ) || type->in_species( MOLLUSK ) ||
+                               type->in_species( ROBOT ) || type->bodytype == "snake" || type->bodytype == "blob";
+        if( !immediate_break && rng( 0, 900 ) > type->melee_dice * type->melee_sides * 1.5 ) {
+            if( u_see_me ) {
+                add_msg( _( "The %s struggles to break free of its bonds." ), name() );
+            }
+        } else if( immediate_break ) {
+            remove_effect( effect_tied );
+            if( tied_item ) {
+                if( u_see_me ) {
+                    add_msg( _( "The %s easily slips out of its bonds." ), name() );
+                }
+                g->m.add_item_or_charges( pos(), *tied_item );
+                tied_item = cata::nullopt;
+            }
+        } else {
+            if( tied_item ) {
+                const bool broken = rng( type->melee_dice * type->melee_sides, std::min( 10000,
+                                         type->melee_dice * type->melee_sides * 250 ) ) > 800;
+                if( !broken ) {
+                    g->m.add_item_or_charges( pos(), *tied_item );
+                }
+                tied_item = cata::nullopt;
+                if( u_see_me ) {
+                    if( broken ) {
+                        add_msg( _( "The %s snaps the bindings holding it down." ), name() );
+                    } else {
+                        add_msg( _( "The %s breaks free of the bindings holding it down." ), name() );
+                    }
+                }
+            }
+            remove_effect( effect_tied );
+        }
         return false;
     }
     if( has_effect( effect_downed ) ) {
-        remove_effect( effect_downed );
-        if( u_see_me ) {
-            add_msg( _( "The %s climbs to its feet!" ), name() );
+        if( rng( 0, 40 ) > type->melee_dice * type->melee_sides * 1.5 ) {
+            if( u_see_me ) {
+                add_msg( _( "The %s struggles to stand." ), name() );
+            }
+        } else {
+            if( u_see_me ) {
+                add_msg( _( "The %s climbs to its feet!" ), name() );
+            }
+            remove_effect( effect_downed );
         }
         return false;
     }
@@ -2001,8 +2048,10 @@ void monster::die( Creature *nkiller )
     }
     // We were tied up at the moment of death, add a short rope to inventory
     if( has_effect( effect_tied ) ) {
-        item rope_6( "rope_6", 0 );
-        add_item( rope_6 );
+        if( tied_item ) {
+            add_item( *tied_item );
+            tied_item = cata::nullopt;
+        }
     }
     if( has_effect( effect_lightsnare ) ) {
         add_item( item( "string_36", 0 ) );
@@ -2310,14 +2359,14 @@ bool monster::is_hallucination() const
     return hallucination;
 }
 
-field_id monster::bloodType() const
+field_type_id monster::bloodType() const
 {
     if( is_hallucination() ) {
         return fd_null;
     }
     return type->bloodType();
 }
-field_id monster::gibType() const
+field_type_id monster::gibType() const
 {
     if( is_hallucination() ) {
         return fd_null;

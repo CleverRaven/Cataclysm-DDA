@@ -7,8 +7,6 @@
 #include <list>
 #include <map>
 #include <memory>
-#include <set>
-#include <system_error>
 #include <type_traits>
 #include <utility>
 
@@ -24,13 +22,14 @@
 #include "overmap.h"
 #include "player_activity.h"
 #include "cata_utility.h"
-#include "enums.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "monster.h"
 #include "regional_settings.h"
 #include "rng.h"
 #include "type_id.h"
+#include "flat_set.h"
+#include "point.h"
 
 namespace std
 {

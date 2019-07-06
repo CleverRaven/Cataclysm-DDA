@@ -12,11 +12,12 @@
 #include <utility>
 
 #include "enums.h"
-#include "map_extras.h"
 #include "omdata.h"
 #include "overmap_types.h"
 #include "optional.h"
 #include "type_id.h"
+#include "point.h"
+#include "string_id.h"
 
 struct mongroup;
 class monster;
@@ -28,6 +29,7 @@ struct radio_tower;
 struct regional_settings;
 class vehicle;
 class basecamp;
+class map_extra;
 
 struct radio_tower_reference {
     /** The radio tower itself, points into @ref overmap::radios */
@@ -94,7 +96,7 @@ struct overmap_with_local_coordinates {
 */
 struct omt_find_params {
     std::string type;
-    ot_match_type match_type = ot_match_type::TYPE;
+    ot_match_type match_type = ot_match_type::type;
     int search_range = 0;
     int min_distance = 0;
     bool must_see = false;
@@ -290,7 +292,7 @@ class overmapbuffer
          */
         std::vector<tripoint> find_all( const tripoint &origin, const omt_find_params &params );
         std::vector<tripoint> find_all( const tripoint &origin, const std::string &type,
-                                        int dist, bool must_be_seen, ot_match_type match_type = ot_match_type::TYPE,
+                                        int dist, bool must_be_seen, ot_match_type match_type = ot_match_type::type,
                                         bool existing_overmaps_only = false,
                                         const cata::optional<overmap_special_id> &om_special = cata::nullopt );
 
@@ -303,7 +305,7 @@ class overmapbuffer
          */
         tripoint find_random( const tripoint &origin, const omt_find_params &params );
         tripoint find_random( const tripoint &origin, const std::string &type,
-                              int dist, bool must_be_seen, ot_match_type match_type = ot_match_type::TYPE,
+                              int dist, bool must_be_seen, ot_match_type match_type = ot_match_type::type,
                               bool existing_overmaps_only = false,
                               const cata::optional<overmap_special_id> &om_special = cata::nullopt );
         /**
@@ -320,7 +322,8 @@ class overmapbuffer
         bool reveal( const tripoint &center, int radius );
         bool reveal( const tripoint &center, int radius,
                      const std::function<bool( const oter_id & )> &filter );
-        std::vector<tripoint> get_npc_path( const tripoint &src, const tripoint &dest );
+        std::vector<tripoint> get_npc_path( const tripoint &src, const tripoint &dest,
+                                            bool road_only = false );
         bool reveal_route( const tripoint &source, const tripoint &dest, int radius = 0,
                            bool road_only = false );
         /**
@@ -330,7 +333,7 @@ class overmapbuffer
          */
         tripoint find_closest( const tripoint &origin, const omt_find_params &params );
         tripoint find_closest( const tripoint &origin, const std::string &type, int radius,
-                               bool must_be_seen, ot_match_type match_type = ot_match_type::TYPE,
+                               bool must_be_seen, ot_match_type match_type = ot_match_type::type,
                                bool existing_overmaps_only = false,
                                const cata::optional<overmap_special_id> &om_special = cata::nullopt );
 

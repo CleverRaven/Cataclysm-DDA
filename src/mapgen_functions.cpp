@@ -1,11 +1,9 @@
 #include "mapgen_functions.h"
 
 #include <cstdlib>
-#include <cmath>
 #include <algorithm>
 #include <array>
 #include <iterator>
-#include <random>
 #include <initializer_list>
 #include <map>
 #include <ostream>
@@ -28,13 +26,13 @@
 #include "overmap.h"
 #include "trap.h"
 #include "vehicle_group.h"
-#include "vpart_position.h"
 #include "calendar.h"
 #include "game_constants.h"
 #include "regional_settings.h"
 #include "rng.h"
 #include "string_id.h"
 #include "int_id.h"
+#include "enums.h"
 
 class npc_template;
 
@@ -490,34 +488,34 @@ void mapgen_hive( map *m, oter_id, mapgendata dat, const time_point &turn, float
                 m->ter_set( i, j + 4, t_wax );
                 m->ter_set( i + 1, j + 4, t_wax );
 
-                if( skip1 ==  0 || skip2 ==  0 ) {
+                if( skip1 == 0 || skip2 == 0 ) {
                     m->ter_set( i - 1, j - 4, t_floor_wax );
                 }
-                if( skip1 ==  1 || skip2 ==  1 ) {
+                if( skip1 == 1 || skip2 == 1 ) {
                     m->ter_set( i, j - 4, t_floor_wax );
                 }
-                if( skip1 ==  2 || skip2 ==  2 ) {
+                if( skip1 == 2 || skip2 == 2 ) {
                     m->ter_set( i + 1, j - 4, t_floor_wax );
                 }
-                if( skip1 ==  3 || skip2 ==  3 ) {
+                if( skip1 == 3 || skip2 == 3 ) {
                     m->ter_set( i - 2, j - 3, t_floor_wax );
                 }
-                if( skip1 ==  4 || skip2 ==  4 ) {
+                if( skip1 == 4 || skip2 == 4 ) {
                     m->ter_set( i - 1, j - 3, t_floor_wax );
                 }
-                if( skip1 ==  5 || skip2 ==  5 ) {
+                if( skip1 == 5 || skip2 == 5 ) {
                     m->ter_set( i + 1, j - 3, t_floor_wax );
                 }
-                if( skip1 ==  6 || skip2 ==  6 ) {
+                if( skip1 == 6 || skip2 == 6 ) {
                     m->ter_set( i + 2, j - 3, t_floor_wax );
                 }
-                if( skip1 ==  7 || skip2 ==  7 ) {
+                if( skip1 == 7 || skip2 == 7 ) {
                     m->ter_set( i - 3, j - 2, t_floor_wax );
                 }
-                if( skip1 ==  8 || skip2 ==  8 ) {
+                if( skip1 == 8 || skip2 == 8 ) {
                     m->ter_set( i - 2, j - 2, t_floor_wax );
                 }
-                if( skip1 ==  9 || skip2 ==  9 ) {
+                if( skip1 == 9 || skip2 == 9 ) {
                     m->ter_set( i + 2, j - 2, t_floor_wax );
                 }
                 if( skip1 == 10 || skip2 == 10 ) {
@@ -3604,7 +3602,7 @@ static void mapgen_ants_generic( map *m, oter_id terrain_type, mapgendata dat,
         }
     }
     if( connects_to( dat.north(), 2 ) ||
-        is_ot_match( "ants_lab", dat.north(), ot_match_type::CONTAINS ) ) {
+        is_ot_match( "ants_lab", dat.north(), ot_match_type::contains ) ) {
         for( int i = SEEX - 2; i <= SEEX + 3; i++ ) {
             for( int j = 0; j <= SEEY; j++ ) {
                 m->ter_set( i, j, t_rock_floor );
@@ -3612,7 +3610,7 @@ static void mapgen_ants_generic( map *m, oter_id terrain_type, mapgendata dat,
         }
     }
     if( connects_to( dat.east(), 3 ) ||
-        is_ot_match( "ants_lab", dat.east(), ot_match_type::CONTAINS ) ) {
+        is_ot_match( "ants_lab", dat.east(), ot_match_type::contains ) ) {
         for( int i = SEEX; i <= SEEX * 2 - 1; i++ ) {
             for( int j = SEEY - 2; j <= SEEY + 3; j++ ) {
                 m->ter_set( i, j, t_rock_floor );
@@ -3620,7 +3618,7 @@ static void mapgen_ants_generic( map *m, oter_id terrain_type, mapgendata dat,
         }
     }
     if( connects_to( dat.south(), 0 ) ||
-        is_ot_match( "ants_lab", dat.south(), ot_match_type::CONTAINS ) ) {
+        is_ot_match( "ants_lab", dat.south(), ot_match_type::contains ) ) {
         for( int i = SEEX - 2; i <= SEEX + 3; i++ ) {
             for( int j = SEEY; j <= SEEY * 2 - 1; j++ ) {
                 m->ter_set( i, j, t_rock_floor );
@@ -3628,7 +3626,7 @@ static void mapgen_ants_generic( map *m, oter_id terrain_type, mapgendata dat,
         }
     }
     if( connects_to( dat.west(), 1 ) ||
-        is_ot_match( "ants_lab", dat.west(), ot_match_type::CONTAINS ) ) {
+        is_ot_match( "ants_lab", dat.west(), ot_match_type::contains ) ) {
         for( int i = 0; i <= SEEX; i++ ) {
             for( int j = SEEY - 2; j <= SEEY + 3; j++ ) {
                 m->ter_set( i, j, t_rock_floor );
@@ -4199,10 +4197,10 @@ void mapgen_lake_shore( map *m, oter_id, mapgendata dat, const time_point &turn,
         return id != river_center && id.obj().is_river();
     };
 
-    const bool n_lake =  is_lake( dat.north() );
-    const bool e_lake =  is_lake( dat.east() );
-    const bool s_lake =  is_lake( dat.south() );
-    const bool w_lake =  is_lake( dat.west() );
+    const bool n_lake  = is_lake( dat.north() );
+    const bool e_lake  = is_lake( dat.east() );
+    const bool s_lake  = is_lake( dat.south() );
+    const bool w_lake  = is_lake( dat.west() );
     const bool nw_lake = is_lake( dat.nwest() );
     const bool ne_lake = is_lake( dat.neast() );
     const bool se_lake = is_lake( dat.seast() );
@@ -4556,7 +4554,7 @@ void mtrap_set( map *m, int x, int y, trap_id type )
     m->trap_set( actual_location, type );
 }
 
-void madd_field( map *m, int x, int y, field_id type, int intensity )
+void madd_field( map *m, int x, int y, field_type_id type, int intensity )
 {
     tripoint actual_location( x, y, m->get_abs_sub().z );
     m->add_field( actual_location, type, intensity, 0_turns );

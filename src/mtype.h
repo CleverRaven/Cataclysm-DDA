@@ -22,7 +22,6 @@ template <typename E> struct enum_traits;
 struct dealt_projectile_attack;
 struct species_type;
 
-enum field_id : int;
 enum body_part : int;
 enum m_size : int;
 
@@ -154,6 +153,7 @@ enum m_flag : int {
     MF_CATFOOD,             // This monster will become friendly when fed cat food.
     MF_CATTLEFODDER,        // This monster will become friendly when fed cattle fodder.
     MF_BIRDFOOD,            // This monster will become friendly when fed bird food.
+    MF_CANPLAY,             // This monster can be played with if it's a pet.
     MF_PET_MOUNTABLE,       // This monster can be mounted and ridden when tamed.
     MF_DOGFOOD,             // This monster will become friendly when fed dog food.
     MF_MILKABLE,            // This monster is milkable.
@@ -339,8 +339,8 @@ struct mtype {
         bool in_species( const species_id &spec ) const;
         bool in_species( const species_type &spec ) const;
         //Used for corpses.
-        field_id bloodType() const;
-        field_id gibType() const;
+        field_type_id bloodType() const;
+        field_type_id gibType() const;
         // The item id of the meat items that are produced by this monster (or "null")
         // if there is no matching item type. e.g. "veggy" for plant monsters.
         itype_id get_meat_itype() const;

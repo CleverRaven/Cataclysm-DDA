@@ -43,7 +43,8 @@
 "melee_allowed" : true,     // Means that ANY melee weapon can be used, NOT just the martial art's weapons 
 "min_melee" : 3,            // Minimum skill and its level required to use this technique. Can be any skill.
 "req_buffs": [ "eskrima_hit_buff" ],    // This technique requires a named buff to be active
-"crit_tec" : true,          // Can this technique be used on crit (and only on crit)?
+"crit_tec" : true,          // This technique only works on a critical hit
+"crit_ok" : true,           // This technique works on both normal and critical hits
 "knockback_dist": 1,        // Distance target is knocked back
 "knockback_spread": 1,      // The knockback may not send the target straight back
 "knockback_follow": 1,      // Attacker will follow target if they are knocked back
