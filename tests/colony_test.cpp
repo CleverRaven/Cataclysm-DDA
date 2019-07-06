@@ -267,7 +267,7 @@ TEST_CASE( "colony basics", "[colony]" )
     CHECK( test_colony_2.max_size() > test_colony_2.size() );
 }
 
-TEST_CASE( "insert and erase", "[colony]" )
+TEST_CASE( "colony insert and erase", "[colony]" )
 {
     cata::colony<int> test_colony;
 
@@ -504,7 +504,7 @@ TEST_CASE( "insert and erase", "[colony]" )
     CHECK( test_colony.size() == static_cast<size_t>( count ) );
 }
 
-TEST_CASE( "range erase", "[colony]" )
+TEST_CASE( "colony range erase", "[colony]" )
 {
     cata::colony<int> test_colony;
 
@@ -763,7 +763,7 @@ TEST_CASE( "range erase", "[colony]" )
     CHECK( test_colony.size() == 10 );
 }
 
-TEST_CASE( "sort", "[colony]" )
+TEST_CASE( "colony sort", "[colony]" )
 {
     cata::colony<int> test_colony;
 
@@ -805,7 +805,7 @@ TEST_CASE( "sort", "[colony]" )
     CHECK( sorted );
 }
 
-TEST_CASE( "insertion methods", "[colony]" )
+TEST_CASE( "colony insertion methods", "[colony]" )
 {
     cata::colony<int> test_colony = {1, 2, 3};
 
@@ -900,7 +900,7 @@ struct perfect_forwarding_test {
     {}
 };
 
-TEST_CASE( "perfect forwarding", "[colony]" )
+TEST_CASE( "colony perfect forwarding", "[colony]" )
 {
     cata::colony<perfect_forwarding_test> test_colony;
 
@@ -925,7 +925,7 @@ struct small_struct {
         number( num ) {};
 };
 
-TEST_CASE( "emplace", "[colony]" )
+TEST_CASE( "colony emplace", "[colony]" )
 {
     cata::colony<small_struct> test_colony;
     int sum1 = 0, sum2 = 0;
@@ -945,7 +945,7 @@ TEST_CASE( "emplace", "[colony]" )
     CHECK( test_colony.size() == 100 );
 }
 
-TEST_CASE( "group size and capacity", "[colony]" )
+TEST_CASE( "colony group size and capacity", "[colony]" )
 {
     cata::colony<int> test_colony;
     test_colony.change_group_sizes( 50, 100 );
@@ -988,7 +988,7 @@ TEST_CASE( "group size and capacity", "[colony]" )
     CHECK( test_colony.capacity() == 3400 );
 }
 
-TEST_CASE( "splice", "[colony]" )
+TEST_CASE( "colony splice", "[colony]" )
 {
     cata::colony<int> test_colony_1, test_colony_2;
 
