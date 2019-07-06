@@ -1829,6 +1829,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
 
     }
+
     if( is_armor() ) {
         body_part_set covered_parts = get_covered_body_parts();
         bool covers_anything = covered_parts.any();
@@ -2150,6 +2151,22 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                 volume_units_long() );
 
         info.push_back( iteminfo( "CONTAINER", temp1.str() ) );
+    }
+
+    if( is_battery() ) {
+        std::string info_string;
+        if( type->battery->max_capacity < 1_J ) {
+            info_string = string_format( _( "<bold>Capacity:</bold> %dmJ" ),
+                                         units::to_millijoule( type->battery->max_capacity ) );
+        } else if( type->battery->max_capacity < 1_kJ ) {
+            info_string = string_format( _( "<bold>Capacity:</bold> %dJ" ),
+                                         units::to_joule( type->battery->max_capacity ) );
+        } else if( type->battery->max_capacity >= 1_kJ ) {
+            info_string = string_format( _( "<bold>Capacity:</bold> %dkJ" ),
+                                         units::to_kilojoule( type->battery->max_capacity ) );
+        }
+        insert_separation_line();
+        info.emplace_back( "BATTERY", info_string );
     }
 
     if( is_tool() ) {
