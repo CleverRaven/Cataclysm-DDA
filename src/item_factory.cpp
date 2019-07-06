@@ -1119,6 +1119,10 @@ void Item_factory::check_definitions() const
             if( !type->tool->subtype.empty() && !has_template( type->tool->subtype ) ) {
                 msg << _( "Invalid tool subtype" ) << type->tool->subtype << "\n";
             }
+            if( !type->tool->batteries.empty() && ( !type->tool->ammo_id.empty() ||
+                                                    !type->magazines.empty() ) ) {
+                msg << _( "tool cannot have both batteries and ammo or magazines\n" );
+            }
         }
         if( type->bionic ) {
             if( !type->bionic->id.is_valid() ) {
