@@ -166,6 +166,20 @@ struct needs_rates {
     float kcal = 0.0f;
 };
 
+enum player_movemode : unsigned char {
+    PMM_WALK = 0,
+    PMM_RUN = 1,
+    PMM_CROUCH = 2,
+    PMM_COUNT
+};
+
+static const std::array< std::string, PMM_COUNT > player_movemode_str = { {
+        "walk",
+        "run",
+        "crouch"
+    }
+};
+
 class player : public Character
 {
     public:
@@ -446,8 +460,8 @@ class player : public Character
 
         void pause(); // '.' command; pauses & reduces recoil
 
-        void set_movement_mode( const std::string &mode );
-        const std::string get_movement_mode() const;
+        void set_movement_mode( const player_movemode mode );
+        bool movement_mode_is( const player_movemode mode ) const;
 
         void cycle_move_mode(); // Cycles to the next move mode.
         void reset_move_mode(); // Resets to walking.
@@ -1823,7 +1837,7 @@ class player : public Character
 
     protected:
         // TODO: move this to avatar
-        std::string move_mode;
+        player_movemode move_mode;
     private:
 
         std::vector<tripoint> auto_move_route;
