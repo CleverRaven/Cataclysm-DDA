@@ -4998,6 +4998,11 @@ bool item::is_magazine() const
     return type->magazine.has_value();
 }
 
+bool item::is_battery() const
+{
+    return type->battery.has_value();
+}
+
 bool item::is_ammo_belt() const
 {
     return is_magazine() && has_flag( "MAG_BELT" );

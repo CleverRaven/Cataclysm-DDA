@@ -1033,6 +1033,7 @@ class item : public visitable<item>
         bool is_medication() const;            // Is it a medication that only pretends to be food?
         bool is_bionic() const;
         bool is_magazine() const;
+        bool is_battery() const;
         bool is_ammo_belt() const;
         bool is_bandolier() const;
         bool is_holster() const;
