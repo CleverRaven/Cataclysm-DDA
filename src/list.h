@@ -1,3 +1,6 @@
+// This software is a modified version of the original.
+// The original license is as follows:
+
 // Copyright (c) 2019, Matthew Bentley (mattreecebentley@gmail.com) www.plflib.org
 
 // zLib license (https://www.zlib.net/zlib_license.html):
@@ -18,34 +21,34 @@
 // 3. This notice may not be removed or altered from any source distribution.
 
 #pragma once
-#ifndef PLF_LIST_H
-#define PLF_LIST_H
+#ifndef LIST_H
+#define LIST_H
 
-#define PLF_LIST_BLOCK_MIN static_cast<group_size_type>((sizeof(node) * 8 > (sizeof(*this) + sizeof(group)) * 2) ? 8 : (((sizeof(*this) + sizeof(group)) * 2) / sizeof(node)) + 1)
-#define PLF_LIST_BLOCK_MAX 2048
+#define LIST_BLOCK_MIN static_cast<group_size_type>((sizeof(node) * 8 > (sizeof(*this) + sizeof(group)) * 2) ? 8 : (((sizeof(*this) + sizeof(group)) * 2) / sizeof(node)) + 1)
+#define LIST_BLOCK_MAX 2048
 
-#define PLF_LIST_CONSTEXPR
-#define PLF_LIST_NOEXCEPT_SWAP(the_allocator) noexcept
-#define PLF_LIST_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) noexcept
+#define LIST_CONSTEXPR
+#define LIST_NOEXCEPT_SWAP(the_allocator) noexcept
+#define LIST_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) noexcept
 
 // TODO: Switch to these when we move to C++17
-// #define PLF_LIST_CONSTEXPR constexpr
-// #define PLF_LIST_NOEXCEPT_SWAP(the_allocator) noexcept(std::allocator_traits<the_allocator>::propagate_on_container_swap::value)
-// #define PLF_LIST_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) noexcept(std::allocator_traits<the_allocator>::is_always_equal::value)
+// #define LIST_CONSTEXPR constexpr
+// #define LIST_NOEXCEPT_SWAP(the_allocator) noexcept(std::allocator_traits<the_allocator>::propagate_on_container_swap::value)
+// #define LIST_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) noexcept(std::allocator_traits<the_allocator>::is_always_equal::value)
 
 // Note: GCC creates faster code without forcing inline
 #if defined(_MSC_VER)
-#define PLF_LIST_FORCE_INLINE __forceinline
+#define LIST_FORCE_INLINE __forceinline
 #else
-#define PLF_LIST_FORCE_INLINE
+#define LIST_FORCE_INLINE
 #endif
 
 // TODO: get rid of these defines
-#define PLF_LIST_CONSTRUCT(the_allocator, allocator_instance, location, ...)    std::allocator_traits<the_allocator>::construct(allocator_instance, location, __VA_ARGS__)
-#define PLF_LIST_DESTROY(the_allocator, allocator_instance, location)               std::allocator_traits<the_allocator>::destroy(allocator_instance, location)
-#define PLF_LIST_ALLOCATE(the_allocator, allocator_instance, size, hint)            std::allocator_traits<the_allocator>::allocate(allocator_instance, size, hint)
-#define PLF_LIST_ALLOCATE_INITIALIZATION(the_allocator, size, hint)                 std::allocator_traits<the_allocator>::allocate(*this, size, hint)
-#define PLF_LIST_DEALLOCATE(the_allocator, allocator_instance, location, size)      std::allocator_traits<the_allocator>::deallocate(allocator_instance, location, size)
+#define LIST_CONSTRUCT(the_allocator, allocator_instance, location, ...)    std::allocator_traits<the_allocator>::construct(allocator_instance, location, __VA_ARGS__)
+#define LIST_DESTROY(the_allocator, allocator_instance, location)               std::allocator_traits<the_allocator>::destroy(allocator_instance, location)
+#define LIST_ALLOCATE(the_allocator, allocator_instance, size, hint)            std::allocator_traits<the_allocator>::allocate(allocator_instance, size, hint)
+#define LIST_ALLOCATE_INITIALIZATION(the_allocator, size, hint)                 std::allocator_traits<the_allocator>::allocate(*this, size, hint)
+#define LIST_DEALLOCATE(the_allocator, allocator_instance, location, size)      std::allocator_traits<the_allocator>::deallocate(allocator_instance, location, size)
 
 #include <algorithm> // std::sort
 #include <cassert>  // assert
@@ -57,7 +60,7 @@
 #include <type_traits> // std::is_trivially_destructible, etc
 #include <utility> // std::move
 
-namespace plf
+namespace cata
 {
 
 template <class element_type, class element_allocator_type = std::allocator<element_type> > class
@@ -156,7 +159,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
             {}
 
             group( const group_size_type group_size, node_pointer_type const previous = NULL ):
-                nodes( PLF_LIST_ALLOCATE_INITIALIZATION( node_allocator_type, group_size, previous ) ),
+                nodes( LIST_ALLOCATE_INITIALIZATION( node_allocator_type, group_size, previous ) ),
                 free_list_head( NULL ),
                 beyond_end( nodes + group_size ),
                 number_of_elements( 0 )
@@ -192,7 +195,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
             }
 
             ~group() noexcept {
-                PLF_LIST_DEALLOCATE( node_allocator_type, ( *this ), nodes,
+                LIST_DEALLOCATE( node_allocator_type, ( *this ), nodes,
                                      static_cast<size_type>( beyond_end - nodes ) );
             }
         };
@@ -225,8 +228,8 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     group_allocator_pair( 0 )
                 {}
 
-                inline PLF_LIST_FORCE_INLINE void blank() noexcept {
-                    if PLF_LIST_CONSTEXPR( std::is_trivial<group_pointer_type>::value ) {
+                inline LIST_FORCE_INLINE void blank() noexcept {
+                    if LIST_CONSTEXPR( std::is_trivial<group_pointer_type>::value ) {
                         std::memset( static_cast<void *>( this ), 0, sizeof( group_vector ) );
                     } else {
                         last_endpoint_group = NULL;
@@ -249,7 +252,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 }
 
                 group_vector &operator = ( group_vector &&source ) noexcept {
-                    if PLF_LIST_CONSTEXPR( std::is_trivial<group_pointer_type>::value ) {
+                    if LIST_CONSTEXPR( std::is_trivial<group_pointer_type>::value ) {
                         std::memcpy( static_cast<void *>( this ), &source, sizeof( group_vector ) );
                     } else {
                         last_endpoint_group = std::move( source.last_endpoint_group );
@@ -272,7 +275,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                         return;
                     }
 
-                    if PLF_LIST_CONSTEXPR( !std::is_trivially_destructible<element_type>::value ||
+                    if LIST_CONSTEXPR( !std::is_trivially_destructible<element_type>::value ||
                                            !std::is_trivially_destructible<node_pointer_type>::value ) {
                         clear( last_endpoint_node ); // If clear has already been called, last_endpoint_node will already be == block_pointer->nodes, so no work will occur
                     }
@@ -280,10 +283,10 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     const group_pointer_type end_group = block_pointer + size;
                     for( group_pointer_type current_group = block_pointer; current_group != end_group;
                          ++current_group ) {
-                        PLF_LIST_DESTROY( group_allocator_type, group_allocator_pair, current_group );
+                        LIST_DESTROY( group_allocator_type, group_allocator_pair, current_group );
                     }
 
-                    PLF_LIST_DEALLOCATE( group_allocator_type, group_allocator_pair, block_pointer,
+                    LIST_DEALLOCATE( group_allocator_type, group_allocator_pair, block_pointer,
                                          group_allocator_pair.capacity );
                     blank();
                 }
@@ -291,33 +294,33 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 void clear( const node_pointer_type last_endpoint_node ) noexcept {
                     for( group_pointer_type current_group = block_pointer; current_group != last_endpoint_group;
                          ++current_group ) {
-                        if PLF_LIST_CONSTEXPR( !std::is_trivially_destructible<element_type>::value ||
+                        if LIST_CONSTEXPR( !std::is_trivially_destructible<element_type>::value ||
                                                !std::is_trivially_destructible<node_pointer_type>::value ) {
                             const node_pointer_type end = current_group->beyond_end;
 
                             if( ( end - current_group->nodes ) != current_group->number_of_elements ) {
                                 // If there are erased nodes present in the group
                                 for( node_pointer_type current_node = current_group->nodes; current_node != end; ++current_node ) {
-                                    if PLF_LIST_CONSTEXPR( !std::is_trivially_destructible<element_type>::value ) {
+                                    if LIST_CONSTEXPR( !std::is_trivially_destructible<element_type>::value ) {
                                         if( current_node->next != NULL ) { // ie. is not part of free list
-                                            PLF_LIST_DESTROY( element_allocator_type, element_allocator_pair, &( current_node->element ) );
+                                            LIST_DESTROY( element_allocator_type, element_allocator_pair, &( current_node->element ) );
                                         }
                                     }
 
-                                    if PLF_LIST_CONSTEXPR( !std::is_trivially_destructible<node_pointer_type>::value ) {
-                                        PLF_LIST_DESTROY( node_pointer_allocator_type, ( *this ), &( current_node->next ) );
-                                        PLF_LIST_DESTROY( node_pointer_allocator_type, ( *this ), &( current_node->previous ) );
+                                    if LIST_CONSTEXPR( !std::is_trivially_destructible<node_pointer_type>::value ) {
+                                        LIST_DESTROY( node_pointer_allocator_type, ( *this ), &( current_node->next ) );
+                                        LIST_DESTROY( node_pointer_allocator_type, ( *this ), &( current_node->previous ) );
                                     }
                                 }
                             } else {
                                 for( node_pointer_type current_node = current_group->nodes; current_node != end; ++current_node ) {
-                                    if PLF_LIST_CONSTEXPR( !std::is_trivially_destructible<element_type>::value ) {
-                                        PLF_LIST_DESTROY( element_allocator_type, element_allocator_pair, &( current_node->element ) );
+                                    if LIST_CONSTEXPR( !std::is_trivially_destructible<element_type>::value ) {
+                                        LIST_DESTROY( element_allocator_type, element_allocator_pair, &( current_node->element ) );
                                     }
 
-                                    if PLF_LIST_CONSTEXPR( !std::is_trivially_destructible<node_pointer_type>::value ) {
-                                        PLF_LIST_DESTROY( node_pointer_allocator_type, ( *this ), &( current_node->next ) );
-                                        PLF_LIST_DESTROY( node_pointer_allocator_type, ( *this ), &( current_node->previous ) );
+                                    if LIST_CONSTEXPR( !std::is_trivially_destructible<node_pointer_type>::value ) {
+                                        LIST_DESTROY( node_pointer_allocator_type, ( *this ), &( current_node->next ) );
+                                        LIST_DESTROY( node_pointer_allocator_type, ( *this ), &( current_node->previous ) );
                                     }
                                 }
                             }
@@ -327,34 +330,34 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                         current_group->number_of_elements = 0;
                     }
 
-                    if PLF_LIST_CONSTEXPR( !std::is_trivially_destructible<element_type>::value ||
+                    if LIST_CONSTEXPR( !std::is_trivially_destructible<element_type>::value ||
                                            !std::is_trivially_destructible<node_pointer_type>::value ) {
                         if( ( last_endpoint_node - last_endpoint_group->nodes ) != last_endpoint_group->number_of_elements ) {
                             // If there are erased nodes present in the group
                             for( node_pointer_type current_node = last_endpoint_group->nodes;
                                  current_node != last_endpoint_node; ++current_node ) {
-                                if PLF_LIST_CONSTEXPR( !std::is_trivially_destructible<element_type>::value ) {
+                                if LIST_CONSTEXPR( !std::is_trivially_destructible<element_type>::value ) {
                                     if( current_node->next != NULL ) {
                                         // is not part of free list ie. element has not already had it's destructor called
-                                        PLF_LIST_DESTROY( element_allocator_type, element_allocator_pair, &( current_node->element ) );
+                                        LIST_DESTROY( element_allocator_type, element_allocator_pair, &( current_node->element ) );
                                     }
                                 }
 
-                                if PLF_LIST_CONSTEXPR( !std::is_trivially_destructible<node_pointer_type>::value ) {
-                                    PLF_LIST_DESTROY( node_pointer_allocator_type, ( *this ), &( current_node->next ) );
-                                    PLF_LIST_DESTROY( node_pointer_allocator_type, ( *this ), &( current_node->previous ) );
+                                if LIST_CONSTEXPR( !std::is_trivially_destructible<node_pointer_type>::value ) {
+                                    LIST_DESTROY( node_pointer_allocator_type, ( *this ), &( current_node->next ) );
+                                    LIST_DESTROY( node_pointer_allocator_type, ( *this ), &( current_node->previous ) );
                                 }
                             }
                         } else {
                             for( node_pointer_type current_node = last_endpoint_group->nodes;
                                  current_node != last_endpoint_node; ++current_node ) {
-                                if PLF_LIST_CONSTEXPR( !std::is_trivially_destructible<element_type>::value ) {
-                                    PLF_LIST_DESTROY( element_allocator_type, element_allocator_pair, &( current_node->element ) );
+                                if LIST_CONSTEXPR( !std::is_trivially_destructible<element_type>::value ) {
+                                    LIST_DESTROY( element_allocator_type, element_allocator_pair, &( current_node->element ) );
                                 }
 
-                                if PLF_LIST_CONSTEXPR( !std::is_trivially_destructible<node_pointer_type>::value ) {
-                                    PLF_LIST_DESTROY( node_pointer_allocator_type, ( *this ), &( current_node->next ) );
-                                    PLF_LIST_DESTROY( node_pointer_allocator_type, ( *this ), &( current_node->previous ) );
+                                if LIST_CONSTEXPR( !std::is_trivially_destructible<node_pointer_type>::value ) {
+                                    LIST_DESTROY( node_pointer_allocator_type, ( *this ), &( current_node->next ) );
+                                    LIST_DESTROY( node_pointer_allocator_type, ( *this ), &( current_node->previous ) );
                                 }
                             }
                         }
@@ -367,14 +370,14 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
                 void expand_capacity( const size_type new_capacity ) { // used by add_new and append
                     group_pointer_type const old_block = block_pointer;
-                    block_pointer = PLF_LIST_ALLOCATE( group_allocator_type, group_allocator_pair, new_capacity, 0 );
+                    block_pointer = LIST_ALLOCATE( group_allocator_type, group_allocator_pair, new_capacity, 0 );
 
-                    if PLF_LIST_CONSTEXPR( std::is_trivially_copyable<node_pointer_type>::value &&
+                    if LIST_CONSTEXPR( std::is_trivially_copyable<node_pointer_type>::value &&
                                            std::is_trivially_destructible<node_pointer_type>::value ) {
                         // Dereferencing here in order to deal with smart pointer situations ie. obtaining the raw pointer from the smart pointer
                         // reinterpret_cast necessary to deal with GCC 8 warnings
                         std::memcpy( static_cast<void *>( &*block_pointer ), static_cast<void *>( &*old_block ), sizeof( group ) * size );
-                    } else if PLF_LIST_CONSTEXPR( std::is_move_constructible<node_pointer_type>::value ) {
+                    } else if LIST_CONSTEXPR( std::is_move_constructible<node_pointer_type>::value ) {
                         std::uninitialized_copy( std::make_move_iterator( old_block ),
                                                  std::make_move_iterator( old_block + size ), block_pointer );
                     } else {
@@ -387,13 +390,13 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
                             current_group->nodes = NULL;
                             current_group->beyond_end = NULL;
-                            PLF_LIST_DESTROY( group_allocator_type, group_allocator_pair, current_group );
+                            LIST_DESTROY( group_allocator_type, group_allocator_pair, current_group );
                         }
                     }
 
                     // correct pointer post-reallocation
                     last_searched_group = block_pointer + ( last_searched_group - old_block );
-                    PLF_LIST_DEALLOCATE( group_allocator_type, group_allocator_pair, old_block,
+                    LIST_DEALLOCATE( group_allocator_type, group_allocator_pair, old_block,
                                          group_allocator_pair.capacity );
                     group_allocator_pair.capacity = new_capacity;
                 }
@@ -405,7 +408,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
                     last_endpoint_group = block_pointer + size - 1;
 
-                    PLF_LIST_CONSTRUCT( group_allocator_type, group_allocator_pair, last_endpoint_group + 1, group_size,
+                    LIST_CONSTRUCT( group_allocator_type, group_allocator_pair, last_endpoint_group + 1, group_size,
                                         last_endpoint_group->nodes );
 
                     ++last_endpoint_group; // Doing this here instead of pre-construct to avoid need for a try-catch block
@@ -415,11 +418,11 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
                 // For adding first group *only* when group vector is completely empty and block_pointer is NULL
                 void initialize( const group_size_type group_size ) {
-                    last_endpoint_group = block_pointer = last_searched_group = PLF_LIST_ALLOCATE( group_allocator_type,
+                    last_endpoint_group = block_pointer = last_searched_group = LIST_ALLOCATE( group_allocator_type,
                                                           group_allocator_pair, 1, 0 );
                     group_allocator_pair.capacity = 1;
 
-                    PLF_LIST_CONSTRUCT( group_allocator_type, group_allocator_pair, last_endpoint_group, group_size );
+                    LIST_CONSTRUCT( group_allocator_type, group_allocator_pair, last_endpoint_group, group_size );
 
                     size = 1; // Doing these here instead of pre-construct to avoid need for a try-catch block
                     element_allocator_pair.capacity = group_size;
@@ -433,14 +436,14 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     element_allocator_pair.capacity -= static_cast<size_type>( group_to_erase->beyond_end -
                                                        group_to_erase->nodes );
 
-                    PLF_LIST_DESTROY( group_allocator_type, group_allocator_pair, group_to_erase );
+                    LIST_DESTROY( group_allocator_type, group_allocator_pair, group_to_erase );
 
-                    if PLF_LIST_CONSTEXPR( std::is_trivially_copyable<node_pointer_type>::value &&
+                    if LIST_CONSTEXPR( std::is_trivially_copyable<node_pointer_type>::value &&
                                            std::is_trivially_destructible<node_pointer_type>::value ) {
                         // Dereferencing here in order to deal with smart pointer situations ie. obtaining the raw pointer from the smart pointer
                         std::memmove( static_cast<void *>( &*group_to_erase ), static_cast<void *>( &*group_to_erase + 1 ),
                                       sizeof( group ) * ( --size - static_cast<size_type>( &*group_to_erase - &*block_pointer ) ) );
-                    } else if PLF_LIST_CONSTEXPR( std::is_move_constructible<node_pointer_type>::value ) {
+                    } else if LIST_CONSTEXPR( std::is_move_constructible<node_pointer_type>::value ) {
                         std::move( group_to_erase + 1, block_pointer + size--, group_to_erase );
                     } else {
                         group_pointer_type back = block_pointer + size--;
@@ -448,7 +451,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
                         back->nodes = NULL;
                         back->beyond_end = NULL;
-                        PLF_LIST_DESTROY( group_allocator_type, group_allocator_pair, back );
+                        LIST_DESTROY( group_allocator_type, group_allocator_pair, back );
                     }
                 }
 
@@ -457,9 +460,9 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                         --last_searched_group;
                     }
 
-                    group *temp_group = PLF_LIST_ALLOCATE( group_allocator_type, group_allocator_pair, 1, NULL );
+                    group *temp_group = LIST_ALLOCATE( group_allocator_type, group_allocator_pair, 1, NULL );
 
-                    if PLF_LIST_CONSTEXPR( std::is_trivially_copyable<node_pointer_type>::value &&
+                    if LIST_CONSTEXPR( std::is_trivially_copyable<node_pointer_type>::value &&
                                            std::is_trivially_destructible<node_pointer_type>::value ) {
                         std::memcpy( static_cast<void *>( &*temp_group ), static_cast<void *>( &*group_to_erase ),
                                      sizeof( group ) );
@@ -467,27 +470,27 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                                       sizeof( group ) * ( ( size - 1 ) - static_cast<size_type>( &*group_to_erase - &*block_pointer ) ) );
                         std::memcpy( static_cast<void *>( &*( block_pointer + size - 1 ) ),
                                      static_cast<void *>( &*temp_group ), sizeof( group ) );
-                    } else if PLF_LIST_CONSTEXPR( std::is_move_constructible<node_pointer_type>::value ) {
-                        PLF_LIST_CONSTRUCT( group_allocator_type, group_allocator_pair, temp_group,
+                    } else if LIST_CONSTEXPR( std::is_move_constructible<node_pointer_type>::value ) {
+                        LIST_CONSTRUCT( group_allocator_type, group_allocator_pair, temp_group,
                                             std::move( *group_to_erase ) );
                         std::move( group_to_erase + 1, block_pointer + size, group_to_erase );
                         *( block_pointer + size - 1 ) = std::move( *temp_group );
 
-                        if PLF_LIST_CONSTEXPR( !std::is_trivially_destructible<node_pointer_type>::value ) {
-                            PLF_LIST_DESTROY( group_allocator_type, group_allocator_pair, temp_group );
+                        if LIST_CONSTEXPR( !std::is_trivially_destructible<node_pointer_type>::value ) {
+                            LIST_DESTROY( group_allocator_type, group_allocator_pair, temp_group );
                         }
                     } else {
-                        PLF_LIST_CONSTRUCT( group_allocator_type, group_allocator_pair, temp_group, group() );
+                        LIST_CONSTRUCT( group_allocator_type, group_allocator_pair, temp_group, group() );
 
                         *temp_group = *group_to_erase;
                         std::copy( group_to_erase + 1, block_pointer + size, group_to_erase );
                         *( block_pointer + --size ) = *temp_group;
 
                         temp_group->nodes = NULL;
-                        PLF_LIST_DESTROY( group_allocator_type, group_allocator_pair, temp_group );
+                        LIST_DESTROY( group_allocator_type, group_allocator_pair, temp_group );
                     }
 
-                    PLF_LIST_DEALLOCATE( group_allocator_type, group_allocator_pair, temp_group, 1 );
+                    LIST_DEALLOCATE( group_allocator_type, group_allocator_pair, temp_group, 1 );
                 }
 
                 // In working implementation this cannot throw
@@ -643,8 +646,8 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     // Will never reach here on functioning implementations
                 }
 
-                void swap( group_vector &source ) PLF_LIST_NOEXCEPT_SWAP( group_allocator_type ) {
-                    if PLF_LIST_CONSTEXPR(
+                void swap( group_vector &source ) LIST_NOEXCEPT_SWAP( group_allocator_type ) {
+                    if LIST_CONSTEXPR(
                         std::is_trivial<group_pointer_type>::value ) { // if all pointer types are trivial we can just copy using memcpy - faster - avoids constructors/destructors etc
                         char temp[sizeof( group_vector )];
                         std::memcpy( static_cast<void *>( &temp ), static_cast<void *>( this ), sizeof( group_vector ) );
@@ -679,7 +682,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                          ++current_group ) {
                         element_allocator_pair.capacity -= static_cast<size_type>( current_group->beyond_end -
                                                            current_group->nodes );
-                        PLF_LIST_DESTROY( group_allocator_type, group_allocator_pair, current_group );
+                        LIST_DESTROY( group_allocator_type, group_allocator_pair, current_group );
                     }
 
                     size -= static_cast<size_type>( beyond_last - ( last_endpoint_group + 1 ) );
@@ -693,12 +696,12 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                         expand_capacity( size + source.size );
                     }
 
-                    if PLF_LIST_CONSTEXPR( std::is_trivially_copyable<node_pointer_type>::value &&
+                    if LIST_CONSTEXPR( std::is_trivially_copyable<node_pointer_type>::value &&
                                            std::is_trivially_destructible<node_pointer_type>::value ) {
                         // &* in order to deal with smart pointer situations ie. obtaining the raw pointer from the smart pointer
                         std::memcpy( static_cast<void *>( &*block_pointer + size ),
                                      static_cast<void *>( &*source.block_pointer ), sizeof( group ) * source.size );
-                    } else if PLF_LIST_CONSTEXPR( std::is_move_constructible<node_pointer_type>::value ) {
+                    } else if LIST_CONSTEXPR( std::is_move_constructible<node_pointer_type>::value ) {
                         std::uninitialized_copy( std::make_move_iterator( source.block_pointer ),
                                                  std::make_move_iterator( source.block_pointer + source.size ), block_pointer + size );
                     } else {
@@ -711,11 +714,11 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
                             current_group->nodes = NULL;
                             current_group->beyond_end = NULL;
-                            PLF_LIST_DESTROY( group_allocator_type, source.group_allocator_pair, current_group );
+                            LIST_DESTROY( group_allocator_type, source.group_allocator_pair, current_group );
                         }
                     }
 
-                    PLF_LIST_DEALLOCATE( group_allocator_type, source.group_allocator_pair, source.block_pointer,
+                    LIST_DEALLOCATE( group_allocator_type, source.group_allocator_pair, source.block_pointer,
                                          source.group_allocator_pair.capacity );
                     size += source.size;
                     last_endpoint_group = block_pointer + size - 1;
@@ -753,33 +756,33 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
                 friend class list;
 
-                inline PLF_LIST_FORCE_INLINE bool operator==( const list_iterator rh ) const noexcept {
+                inline LIST_FORCE_INLINE bool operator==( const list_iterator rh ) const noexcept {
                     return ( node_pointer == rh.node_pointer );
                 }
 
-                inline PLF_LIST_FORCE_INLINE bool operator==( const list_iterator < !is_const > rh ) const
+                inline LIST_FORCE_INLINE bool operator==( const list_iterator < !is_const > rh ) const
                 noexcept {
                     return ( node_pointer == rh.node_pointer );
                 }
 
-                inline PLF_LIST_FORCE_INLINE bool operator!=( const list_iterator rh ) const noexcept {
+                inline LIST_FORCE_INLINE bool operator!=( const list_iterator rh ) const noexcept {
                     return ( node_pointer != rh.node_pointer );
                 }
 
-                inline PLF_LIST_FORCE_INLINE bool operator!=( const list_iterator < !is_const > rh ) const
+                inline LIST_FORCE_INLINE bool operator!=( const list_iterator < !is_const > rh ) const
                 noexcept {
                     return ( node_pointer != rh.node_pointer );
                 }
 
-                inline PLF_LIST_FORCE_INLINE reference operator*() const {
+                inline LIST_FORCE_INLINE reference operator*() const {
                     return node_pointer->element;
                 }
 
-                inline PLF_LIST_FORCE_INLINE pointer operator->() const {
+                inline LIST_FORCE_INLINE pointer operator->() const {
                     return &( node_pointer->element );
                 }
 
-                inline PLF_LIST_FORCE_INLINE list_iterator &operator++() noexcept {
+                inline LIST_FORCE_INLINE list_iterator &operator++() noexcept {
                     assert( node_pointer != NULL ); // covers uninitialised list_iterator
                     node_pointer = node_pointer->next;
                     return *this;
@@ -791,7 +794,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     return copy;
                 }
 
-                inline PLF_LIST_FORCE_INLINE list_iterator &operator--() noexcept {
+                inline LIST_FORCE_INLINE list_iterator &operator--() noexcept {
                     assert( node_pointer != NULL ); // covers uninitialised list_iterator
                     node_pointer = node_pointer->previous;
                     return *this;
@@ -857,33 +860,33 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
                 friend class list;
 
-                inline PLF_LIST_FORCE_INLINE bool operator==( const list_reverse_iterator rh ) const noexcept {
+                inline LIST_FORCE_INLINE bool operator==( const list_reverse_iterator rh ) const noexcept {
                     return ( node_pointer == rh.node_pointer );
                 }
 
-                inline PLF_LIST_FORCE_INLINE bool operator==( const list_reverse_iterator < !is_const > rh ) const
+                inline LIST_FORCE_INLINE bool operator==( const list_reverse_iterator < !is_const > rh ) const
                 noexcept {
                     return ( node_pointer == rh.node_pointer );
                 }
 
-                inline PLF_LIST_FORCE_INLINE bool operator!=( const list_reverse_iterator rh ) const noexcept {
+                inline LIST_FORCE_INLINE bool operator!=( const list_reverse_iterator rh ) const noexcept {
                     return ( node_pointer != rh.node_pointer );
                 }
 
-                inline PLF_LIST_FORCE_INLINE bool operator!=( const list_reverse_iterator < !is_const > rh ) const
+                inline LIST_FORCE_INLINE bool operator!=( const list_reverse_iterator < !is_const > rh ) const
                 noexcept {
                     return ( node_pointer != rh.node_pointer );
                 }
 
-                inline PLF_LIST_FORCE_INLINE reference operator*() const {
+                inline LIST_FORCE_INLINE reference operator*() const {
                     return node_pointer->element;
                 }
 
-                inline PLF_LIST_FORCE_INLINE pointer operator->() const {
+                inline LIST_FORCE_INLINE pointer operator->() const {
                     return &( node_pointer->element );
                 }
 
-                inline PLF_LIST_FORCE_INLINE list_reverse_iterator &operator++() noexcept {
+                inline LIST_FORCE_INLINE list_reverse_iterator &operator++() noexcept {
                     assert( node_pointer != NULL ); // covers uninitialised list_reverse_iterator
                     node_pointer = node_pointer->previous;
                     return *this;
@@ -895,7 +898,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     return copy;
                 }
 
-                inline PLF_LIST_FORCE_INLINE list_reverse_iterator &operator--() noexcept {
+                inline LIST_FORCE_INLINE list_reverse_iterator &operator--() noexcept {
                     assert( node_pointer != NULL );
                     node_pointer = node_pointer->next;
                     return *this;
@@ -1214,9 +1217,9 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     if( last_endpoint == groups.last_endpoint_group->beyond_end ) {
                         // ie. there are no reusable groups available at the back of group vector
                         if( static_cast<size_type>( groups.last_endpoint_group - groups.block_pointer ) == groups.size - 1 ) {
-                            groups.add_new( ( node_pointer_allocator_pair.total_number_of_elements < PLF_LIST_BLOCK_MAX ) ?
+                            groups.add_new( ( node_pointer_allocator_pair.total_number_of_elements < LIST_BLOCK_MAX ) ?
                                             static_cast<group_size_type>( node_pointer_allocator_pair.total_number_of_elements ) :
-                                            PLF_LIST_BLOCK_MAX );
+                                            LIST_BLOCK_MAX );
                         } else {
                             ++groups.last_endpoint_group;
                         }
@@ -1224,7 +1227,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                         last_endpoint = groups.last_endpoint_group->nodes;
                     }
 
-                    PLF_LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, last_endpoint, it.node_pointer,
+                    LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, last_endpoint, it.node_pointer,
                                         it.node_pointer->previous, element );
 
                     ++( groups.last_endpoint_group->number_of_elements );
@@ -1244,7 +1247,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     node_pointer_type const selected_node = node_group->free_list_head;
                     const node_pointer_type previous = node_group->free_list_head->previous;
 
-                    PLF_LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, selected_node, it.node_pointer,
+                    LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, selected_node, it.node_pointer,
                                         it.node_pointer->previous, element );
 
                     node_group->free_list_head = previous;
@@ -1264,7 +1267,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
             } else { // list is empty
                 // In case of prior reserve/clear call as opposed to being uninitialized
                 if( groups.block_pointer == NULL ) {
-                    groups.initialize( PLF_LIST_BLOCK_MIN );
+                    groups.initialize( LIST_BLOCK_MIN );
                 }
 
                 groups.last_endpoint_group->number_of_elements = 1;
@@ -1272,13 +1275,13 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                                                         groups.last_endpoint_group->nodes;
                 node_pointer_allocator_pair.total_number_of_elements = 1;
 
-                if PLF_LIST_CONSTEXPR(
+                if LIST_CONSTEXPR(
                     std::is_nothrow_copy_constructible<node>::value ) { // Avoid try-catch code generation
-                    PLF_LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, last_endpoint++,
+                    LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, last_endpoint++,
                                         end_iterator.node_pointer, end_iterator.node_pointer, element );
                 } else {
                     try {
-                        PLF_LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, last_endpoint++,
+                        LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, last_endpoint++,
                                             end_iterator.node_pointer, end_iterator.node_pointer, element );
                     } catch( ... ) {
                         reset();
@@ -1290,11 +1293,11 @@ template <class element_type, class element_allocator_type = std::allocator<elem
             }
         }
 
-        inline PLF_LIST_FORCE_INLINE void push_back( const element_type &element ) {
+        inline LIST_FORCE_INLINE void push_back( const element_type &element ) {
             insert( end_iterator, element );
         }
 
-        inline PLF_LIST_FORCE_INLINE void push_front( const element_type &element ) {
+        inline LIST_FORCE_INLINE void push_front( const element_type &element ) {
             insert( begin_iterator, element );
         }
 
@@ -1305,9 +1308,9 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     if( last_endpoint == groups.last_endpoint_group->beyond_end ) {
                         if( static_cast<size_type>( groups.last_endpoint_group - groups.block_pointer ) == groups.size -
                             1 ) {
-                            groups.add_new( ( node_pointer_allocator_pair.total_number_of_elements < PLF_LIST_BLOCK_MAX ) ?
+                            groups.add_new( ( node_pointer_allocator_pair.total_number_of_elements < LIST_BLOCK_MAX ) ?
                                             static_cast<group_size_type>( node_pointer_allocator_pair.total_number_of_elements ) :
-                                            PLF_LIST_BLOCK_MAX );
+                                            LIST_BLOCK_MAX );
                         } else {
                             ++groups.last_endpoint_group;
                         }
@@ -1315,7 +1318,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                         last_endpoint = groups.last_endpoint_group->nodes;
                     }
 
-                    PLF_LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, last_endpoint, it.node_pointer,
+                    LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, last_endpoint, it.node_pointer,
                                         it.node_pointer->previous, std::move( element ) );
 
                     ++( groups.last_endpoint_group->number_of_elements );
@@ -1335,7 +1338,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     node_pointer_type const selected_node = node_group->free_list_head;
                     const node_pointer_type previous = node_group->free_list_head->previous;
 
-                    PLF_LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, selected_node, it.node_pointer,
+                    LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, selected_node, it.node_pointer,
                                         it.node_pointer->previous, std::move( element ) );
 
                     node_group->free_list_head = previous;
@@ -1354,7 +1357,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 }
             } else {
                 if( groups.block_pointer == NULL ) {
-                    groups.initialize( PLF_LIST_BLOCK_MIN );
+                    groups.initialize( LIST_BLOCK_MIN );
                 }
 
                 groups.last_endpoint_group->number_of_elements = 1;
@@ -1362,13 +1365,13 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                                                         groups.last_endpoint_group->nodes;
                 node_pointer_allocator_pair.total_number_of_elements = 1;
 
-                if PLF_LIST_CONSTEXPR( std::is_nothrow_move_constructible<node>::value ) {
-                    PLF_LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, last_endpoint++,
+                if LIST_CONSTEXPR( std::is_nothrow_move_constructible<node>::value ) {
+                    LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, last_endpoint++,
                                         end_iterator.node_pointer, end_iterator.node_pointer, std::move( element ) );
 
                 } else {
                     try {
-                        PLF_LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, last_endpoint++,
+                        LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, last_endpoint++,
                                             end_iterator.node_pointer, end_iterator.node_pointer, std::move( element ) );
                     } catch( ... ) {
                         reset();
@@ -1380,11 +1383,11 @@ template <class element_type, class element_allocator_type = std::allocator<elem
             }
         }
 
-        inline PLF_LIST_FORCE_INLINE void push_back( element_type &&element ) {
+        inline LIST_FORCE_INLINE void push_back( element_type &&element ) {
             insert( end_iterator, std::move( element ) );
         }
 
-        inline PLF_LIST_FORCE_INLINE void push_front( element_type &&element ) {
+        inline LIST_FORCE_INLINE void push_front( element_type &&element ) {
             insert( begin_iterator, std::move( element ) );
         }
 
@@ -1396,9 +1399,9 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     if( last_endpoint == groups.last_endpoint_group->beyond_end ) {
                         if( static_cast<size_type>( groups.last_endpoint_group - groups.block_pointer ) == groups.size -
                             1 ) {
-                            groups.add_new( ( node_pointer_allocator_pair.total_number_of_elements < PLF_LIST_BLOCK_MAX ) ?
+                            groups.add_new( ( node_pointer_allocator_pair.total_number_of_elements < LIST_BLOCK_MAX ) ?
                                             static_cast<group_size_type>( node_pointer_allocator_pair.total_number_of_elements ) :
-                                            PLF_LIST_BLOCK_MAX );
+                                            LIST_BLOCK_MAX );
                         } else {
                             ++groups.last_endpoint_group;
                         }
@@ -1406,7 +1409,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                         last_endpoint = groups.last_endpoint_group->nodes;
                     }
 
-                    PLF_LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, last_endpoint, it.node_pointer,
+                    LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, last_endpoint, it.node_pointer,
                                         it.node_pointer->previous, std::forward<arguments>( parameters )... );
 
                     ++( groups.last_endpoint_group->number_of_elements );
@@ -1426,7 +1429,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     node_pointer_type const selected_node = node_group->free_list_head;
                     const node_pointer_type previous = node_group->free_list_head->previous;
 
-                    PLF_LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, selected_node, it.node_pointer,
+                    LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, selected_node, it.node_pointer,
                                         it.node_pointer->previous, std::forward<arguments>( parameters )... );
 
                     node_group->free_list_head = previous;
@@ -1445,7 +1448,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 }
             } else {
                 if( groups.block_pointer == NULL ) {
-                    groups.initialize( PLF_LIST_BLOCK_MIN );
+                    groups.initialize( LIST_BLOCK_MIN );
                 }
 
                 groups.last_endpoint_group->number_of_elements = 1;
@@ -1453,12 +1456,12 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                                                         groups.last_endpoint_group->nodes;
                 node_pointer_allocator_pair.total_number_of_elements = 1;
 
-                if PLF_LIST_CONSTEXPR( std::is_nothrow_constructible<element_type, arguments ...>::value ) {
-                    PLF_LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, last_endpoint++,
+                if LIST_CONSTEXPR( std::is_nothrow_constructible<element_type, arguments ...>::value ) {
+                    LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, last_endpoint++,
                                         end_iterator.node_pointer, end_iterator.node_pointer, std::forward<arguments>( parameters )... );
                 } else {
                     try {
-                        PLF_LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, last_endpoint++,
+                        LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, last_endpoint++,
                                             end_iterator.node_pointer, end_iterator.node_pointer, std::forward<arguments>( parameters )... );
                     } catch( ... ) {
                         reset();
@@ -1471,12 +1474,12 @@ template <class element_type, class element_allocator_type = std::allocator<elem
         }
 
         template<typename... arguments>
-        inline PLF_LIST_FORCE_INLINE reference emplace_back( arguments &&... parameters ) {
+        inline LIST_FORCE_INLINE reference emplace_back( arguments &&... parameters ) {
             return ( emplace( end_iterator, std::forward<arguments>( parameters )... ) ).node_pointer->element;
         }
 
         template<typename... arguments>
-        inline PLF_LIST_FORCE_INLINE reference emplace_front( arguments &&... parameters ) {
+        inline LIST_FORCE_INLINE reference emplace_front( arguments &&... parameters ) {
             return ( emplace( begin_iterator,
                               std::forward<arguments>( parameters )... ) ).node_pointer->element;
         }
@@ -1490,12 +1493,12 @@ template <class element_type, class element_allocator_type = std::allocator<elem
             node_pointer_type previous = position->previous;
 
             do {
-                if PLF_LIST_CONSTEXPR( std::is_nothrow_copy_constructible<element_type>::value ) {
-                    PLF_LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, last_endpoint, last_endpoint + 1,
+                if LIST_CONSTEXPR( std::is_nothrow_copy_constructible<element_type>::value ) {
+                    LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, last_endpoint, last_endpoint + 1,
                                         previous, element );
                 } else {
                     try {
-                        PLF_LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, last_endpoint, last_endpoint + 1,
+                        LIST_CONSTRUCT( node_allocator_type, node_allocator_pair, last_endpoint, last_endpoint + 1,
                                             previous, element );
                     } catch( ... ) {
                         previous->next = position;
@@ -1528,52 +1531,52 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 ( static_cast<size_type>( groups.block_pointer->beyond_end - groups.block_pointer->nodes ) <
                   number_of_elements ) &&
                 ( static_cast<size_type>( groups.block_pointer->beyond_end - groups.block_pointer->nodes ) <
-                  PLF_LIST_BLOCK_MAX ) ) {
+                  LIST_BLOCK_MAX ) ) {
                 reset();
             }
 
             if( groups.block_pointer == NULL ) { // ie. Uninitialized list
-                if( number_of_elements > PLF_LIST_BLOCK_MAX ) {
-                    size_type multiples = number_of_elements / PLF_LIST_BLOCK_MAX;
+                if( number_of_elements > LIST_BLOCK_MAX ) {
+                    size_type multiples = number_of_elements / LIST_BLOCK_MAX;
                     const group_size_type remainder = static_cast<group_size_type>( number_of_elements -
-                                                      ( multiples++ * PLF_LIST_BLOCK_MAX ) ); // ++ to aid while loop below
+                                                      ( multiples++ * LIST_BLOCK_MAX ) ); // ++ to aid while loop below
 
                     // Create and fill first group:
                     if( remainder != 0 ) { // make sure smallest block is first
-                        if( remainder >= PLF_LIST_BLOCK_MIN ) {
+                        if( remainder >= LIST_BLOCK_MIN ) {
                             groups.initialize( remainder );
                             end_node.next = end_node.previous = last_endpoint = begin_iterator.node_pointer =
                                                                     groups.last_endpoint_group->nodes;
                             group_fill_position( element, remainder, end_iterator.node_pointer );
                         } else {
                             // Create first group as BLOCK_MIN size then subtract difference between BLOCK_MIN and remainder from next group:
-                            groups.initialize( PLF_LIST_BLOCK_MIN );
+                            groups.initialize( LIST_BLOCK_MIN );
                             end_node.next = end_node.previous = last_endpoint = begin_iterator.node_pointer =
                                                                     groups.last_endpoint_group->nodes;
-                            group_fill_position( element, PLF_LIST_BLOCK_MIN, end_iterator.node_pointer );
+                            group_fill_position( element, LIST_BLOCK_MIN, end_iterator.node_pointer );
 
-                            groups.add_new( PLF_LIST_BLOCK_MAX - ( PLF_LIST_BLOCK_MIN - remainder ) );
+                            groups.add_new( LIST_BLOCK_MAX - ( LIST_BLOCK_MIN - remainder ) );
                             end_node.previous = last_endpoint = groups.last_endpoint_group->nodes;
-                            group_fill_position( element, PLF_LIST_BLOCK_MAX - ( PLF_LIST_BLOCK_MIN - remainder ),
+                            group_fill_position( element, LIST_BLOCK_MAX - ( LIST_BLOCK_MIN - remainder ),
                                                  end_iterator.node_pointer );
                             --multiples;
                         }
                     } else {
-                        groups.initialize( PLF_LIST_BLOCK_MAX );
+                        groups.initialize( LIST_BLOCK_MAX );
                         end_node.next = end_node.previous = last_endpoint = begin_iterator.node_pointer =
                                                                 groups.last_endpoint_group->nodes;
-                        group_fill_position( element, PLF_LIST_BLOCK_MAX, end_iterator.node_pointer );
+                        group_fill_position( element, LIST_BLOCK_MAX, end_iterator.node_pointer );
                         --multiples;
                     }
 
                     while( --multiples != 0 ) {
-                        groups.add_new( PLF_LIST_BLOCK_MAX );
+                        groups.add_new( LIST_BLOCK_MAX );
                         end_node.previous = last_endpoint = groups.last_endpoint_group->nodes;
-                        group_fill_position( element, PLF_LIST_BLOCK_MAX, end_iterator.node_pointer );
+                        group_fill_position( element, LIST_BLOCK_MAX, end_iterator.node_pointer );
                     }
 
                 } else {
-                    groups.initialize( ( number_of_elements < PLF_LIST_BLOCK_MIN ) ? PLF_LIST_BLOCK_MIN :
+                    groups.initialize( ( number_of_elements < LIST_BLOCK_MIN ) ? LIST_BLOCK_MIN :
                                        static_cast<group_size_type>( number_of_elements ) ); // Construct first group
                     end_node.next = end_node.previous = last_endpoint = begin_iterator.node_pointer =
                                                             groups.last_endpoint_group->nodes;
@@ -1629,18 +1632,18 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     }
                 }
 
-                size_type multiples = remainder / static_cast<size_type>( PLF_LIST_BLOCK_MAX );
-                remainder -= multiples * PLF_LIST_BLOCK_MAX;
+                size_type multiples = remainder / static_cast<size_type>( LIST_BLOCK_MAX );
+                remainder -= multiples * LIST_BLOCK_MAX;
 
                 while( multiples-- != 0 ) {
-                    groups.add_new( PLF_LIST_BLOCK_MAX );
+                    groups.add_new( LIST_BLOCK_MAX );
                     last_endpoint = groups.last_endpoint_group->nodes;
-                    group_fill_position( element, PLF_LIST_BLOCK_MAX, position.node_pointer );
+                    group_fill_position( element, LIST_BLOCK_MAX, position.node_pointer );
                 }
 
                 if( remainder !=
                     0 ) { // Bit annoying to create a large block to house a lower number of elements, but beats the alternatives
-                    groups.add_new( PLF_LIST_BLOCK_MAX );
+                    groups.add_new( LIST_BLOCK_MAX );
                     last_endpoint = groups.last_endpoint_group->nodes;
                     group_fill_position( element, static_cast<group_size_type>( remainder ), position.node_pointer );
                 }
@@ -1676,13 +1679,13 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
     private:
 
-        inline PLF_LIST_FORCE_INLINE void destroy_all_node_pointers( group_pointer_type const
+        inline LIST_FORCE_INLINE void destroy_all_node_pointers( group_pointer_type const
                 group_to_process, const node_pointer_type beyond_end_node ) noexcept {
             for( node_pointer_type current_node = group_to_process->nodes; current_node != beyond_end_node;
                  ++current_node ) {
-                PLF_LIST_DESTROY( node_pointer_allocator_type, node_pointer_allocator_pair,
+                LIST_DESTROY( node_pointer_allocator_type, node_pointer_allocator_pair,
                                   &( current_node->next ) ); // Destruct element
-                PLF_LIST_DESTROY( node_pointer_allocator_type, node_pointer_allocator_pair,
+                LIST_DESTROY( node_pointer_allocator_type, node_pointer_allocator_pair,
                                   &( current_node->previous ) ); // Destruct element
             }
         }
@@ -1696,8 +1699,8 @@ template <class element_type, class element_allocator_type = std::allocator<elem
             assert( it.node_pointer != NULL );
             assert( it.node_pointer != end_iterator.node_pointer );
 
-            if PLF_LIST_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) ) {
-                PLF_LIST_DESTROY( element_allocator_type, ( *this ),
+            if LIST_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) ) {
+                LIST_DESTROY( element_allocator_type, ( *this ),
                                   &( it.node_pointer->element ) ); // Destruct element
             }
 
@@ -1760,14 +1763,14 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                                                    node_group->nodes );
                 node_allocator_pair.number_of_erased_nodes -= group_size;
 
-                if PLF_LIST_CONSTEXPR( !( std::is_trivially_destructible<node_pointer_type>::value ) ) {
+                if LIST_CONSTEXPR( !( std::is_trivially_destructible<node_pointer_type>::value ) ) {
                     destroy_all_node_pointers( node_group, node_group->beyond_end );
                 }
 
                 node_group->free_list_head = NULL;
 
                 // Preserve only last (active) group or second/third-to-last group - seems to be best for performance under high-modification benchmarks
-                if( ( group_size == PLF_LIST_BLOCK_MAX ) | ( node_group >= groups.last_endpoint_group - 1 ) ) {
+                if( ( group_size == LIST_BLOCK_MAX ) | ( node_group >= groups.last_endpoint_group - 1 ) ) {
                     groups.move_to_back( node_group );
                 } else {
                     groups.remove( node_group );
@@ -1775,7 +1778,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
                 return return_iterator;
             } else { // clear back group, leave trailing
-                if PLF_LIST_CONSTEXPR( !( std::is_trivially_destructible<node_pointer_type>::value ) ) {
+                if LIST_CONSTEXPR( !( std::is_trivially_destructible<node_pointer_type>::value ) ) {
                     destroy_all_node_pointers( node_group, last_endpoint );
                 }
 
@@ -1822,7 +1825,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
         }
 
         // Move assignment
-        list &operator=( list &&source ) PLF_LIST_NOEXCEPT_MOVE_ASSIGNMENT( allocator_type ) {
+        list &operator=( list &&source ) LIST_NOEXCEPT_MOVE_ASSIGNMENT( allocator_type ) {
             assert( &source != this );
 
             // Move source values across:
@@ -1922,7 +1925,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 return;
             }
 
-            node_pointer_type *const node_pointers = PLF_LIST_ALLOCATE( node_pointer_allocator_type,
+            node_pointer_type *const node_pointers = LIST_ALLOCATE( node_pointer_allocator_type,
                     node_pointer_allocator_pair, node_pointer_allocator_pair.total_number_of_elements, NULL );
             node_pointer_type *node_pointer = node_pointers;
 
@@ -1935,13 +1938,13 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     current_group->number_of_elements ) { // If there are erased nodes present in the group
                     for( node_pointer_type current_node = current_group->nodes; current_node != end; ++current_node ) {
                         if( current_node->next != NULL ) { // is not free list node
-                            PLF_LIST_CONSTRUCT( node_pointer_allocator_type, node_pointer_allocator_pair, node_pointer++,
+                            LIST_CONSTRUCT( node_pointer_allocator_type, node_pointer_allocator_pair, node_pointer++,
                                                 current_node );
                         }
                     }
                 } else {
                     for( node_pointer_type current_node = current_group->nodes; current_node != end; ++current_node ) {
-                        PLF_LIST_CONSTRUCT( node_pointer_allocator_type, node_pointer_allocator_pair, node_pointer++,
+                        LIST_CONSTRUCT( node_pointer_allocator_type, node_pointer_allocator_pair, node_pointer++,
                                             current_node );
                     }
                 }
@@ -1952,14 +1955,14 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 for( node_pointer_type current_node = groups.last_endpoint_group->nodes;
                      current_node != last_endpoint; ++current_node ) {
                     if( current_node->next != NULL ) {
-                        PLF_LIST_CONSTRUCT( node_pointer_allocator_type, node_pointer_allocator_pair, node_pointer++,
+                        LIST_CONSTRUCT( node_pointer_allocator_type, node_pointer_allocator_pair, node_pointer++,
                                             current_node );
                     }
                 }
             } else {
                 for( node_pointer_type current_node = groups.last_endpoint_group->nodes;
                      current_node != last_endpoint; ++current_node ) {
-                    PLF_LIST_CONSTRUCT( node_pointer_allocator_type, node_pointer_allocator_pair, node_pointer++,
+                    LIST_CONSTRUCT( node_pointer_allocator_type, node_pointer_allocator_pair, node_pointer++,
                                         current_node );
                 }
             }
@@ -1983,16 +1986,16 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 ( *node_pointer )->next = *( node_pointer + 1 );
                 ( *node_pointer )->previous = *( node_pointer - 1 );
 
-                if PLF_LIST_CONSTEXPR( !std::is_trivially_destructible<node_pointer_type>::value ) {
-                    PLF_LIST_DESTROY( node_pointer_allocator_type, node_pointer_allocator_pair, node_pointer - 1 );
+                if LIST_CONSTEXPR( !std::is_trivially_destructible<node_pointer_type>::value ) {
+                    LIST_DESTROY( node_pointer_allocator_type, node_pointer_allocator_pair, node_pointer - 1 );
                 }
             }
 
-            if PLF_LIST_CONSTEXPR( !std::is_trivially_destructible<node_pointer_type>::value ) {
-                PLF_LIST_DESTROY( node_pointer_allocator_type, node_pointer_allocator_pair, back );
+            if LIST_CONSTEXPR( !std::is_trivially_destructible<node_pointer_type>::value ) {
+                LIST_DESTROY( node_pointer_allocator_type, node_pointer_allocator_pair, back );
             }
 
-            PLF_LIST_DEALLOCATE( node_pointer_allocator_type, node_pointer_allocator_pair, node_pointers,
+            LIST_DEALLOCATE( node_pointer_allocator_type, node_pointer_allocator_pair, node_pointers,
                                  node_pointer_allocator_pair.total_number_of_elements );
         }
 
@@ -2022,8 +2025,8 @@ template <class element_type, class element_allocator_type = std::allocator<elem
         void reserve( size_type reserve_amount ) {
             if( reserve_amount == 0 || reserve_amount <= groups.element_allocator_pair.capacity ) {
                 return;
-            } else if( reserve_amount < PLF_LIST_BLOCK_MIN ) {
-                reserve_amount = PLF_LIST_BLOCK_MIN;
+            } else if( reserve_amount < LIST_BLOCK_MIN ) {
+                reserve_amount = LIST_BLOCK_MIN;
             } else if( reserve_amount > max_size() ) {
                 reserve_amount = max_size();
             }
@@ -2034,12 +2037,12 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                                                  - 1 )->beyond_end - ( groups.block_pointer + groups.size - 1 )->nodes );
 
                 // if last group isn't large enough, remove all groups
-                if( reserve_amount > end_group_size && end_group_size != PLF_LIST_BLOCK_MAX ) {
+                if( reserve_amount > end_group_size && end_group_size != LIST_BLOCK_MAX ) {
                     reset();
                 } else {
-                    size_type number_of_full_groups_needed = reserve_amount / PLF_LIST_BLOCK_MAX;
+                    size_type number_of_full_groups_needed = reserve_amount / LIST_BLOCK_MAX;
                     group_size_type remainder = static_cast<group_size_type>( reserve_amount -
-                                                ( number_of_full_groups_needed * PLF_LIST_BLOCK_MAX ) );
+                                                ( number_of_full_groups_needed * LIST_BLOCK_MAX ) );
 
                     // Remove any max_size groups which're not needed and any groups that're smaller than remainder:
                     for( group_pointer_type current_group = groups.block_pointer;
@@ -2047,7 +2050,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                         const group_size_type current_group_size = static_cast<group_size_type>
                                 ( groups.block_pointer->beyond_end - groups.block_pointer->nodes );
 
-                        if( number_of_full_groups_needed != 0 && current_group_size == PLF_LIST_BLOCK_MAX ) {
+                        if( number_of_full_groups_needed != 0 && current_group_size == LIST_BLOCK_MAX ) {
                             --number_of_full_groups_needed;
                             ++current_group;
                         } else if( remainder != 0 && current_group_size >= remainder ) {
@@ -2068,16 +2071,16 @@ template <class element_type, class element_allocator_type = std::allocator<elem
             const difference_type last_endpoint_group_number = groups.last_endpoint_group -
                     groups.block_pointer;
 
-            size_type number_of_full_groups = ( reserve_amount / PLF_LIST_BLOCK_MAX );
-            reserve_amount -= ( number_of_full_groups++ * PLF_LIST_BLOCK_MAX ); // ++ to aid while loop below
+            size_type number_of_full_groups = ( reserve_amount / LIST_BLOCK_MAX );
+            reserve_amount -= ( number_of_full_groups++ * LIST_BLOCK_MAX ); // ++ to aid while loop below
 
             // Previously uninitialized list or reset in above if statement; most common scenario
             if( groups.block_pointer == NULL ) {
                 if( reserve_amount != 0 ) {
-                    groups.initialize( static_cast<group_size_type>( ( ( reserve_amount < PLF_LIST_BLOCK_MIN ) ?
-                                       PLF_LIST_BLOCK_MIN : reserve_amount ) ) );
+                    groups.initialize( static_cast<group_size_type>( ( ( reserve_amount < LIST_BLOCK_MIN ) ?
+                                       LIST_BLOCK_MIN : reserve_amount ) ) );
                 } else {
-                    groups.initialize( PLF_LIST_BLOCK_MAX );
+                    groups.initialize( LIST_BLOCK_MAX );
                     --number_of_full_groups;
                 }
             } else if( reserve_amount != 0 ) {
@@ -2089,13 +2092,13 @@ template <class element_type, class element_allocator_type = std::allocator<elem
             }
 
             while( --number_of_full_groups != 0 ) {
-                groups.add_new( PLF_LIST_BLOCK_MAX );
+                groups.add_new( LIST_BLOCK_MAX );
             }
 
             groups.last_endpoint_group = groups.block_pointer + last_endpoint_group_number;
         }
 
-        inline PLF_LIST_FORCE_INLINE void free_unused_memory() noexcept {
+        inline LIST_FORCE_INLINE void free_unused_memory() noexcept {
             groups.trim_trailing_groups();
         }
 
@@ -2116,7 +2119,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
             list temp;
             temp.reserve( node_pointer_allocator_pair.total_number_of_elements );
 
-            if PLF_LIST_CONSTEXPR( std::is_move_assignable<element_type>::value &&
+            if LIST_CONSTEXPR( std::is_move_assignable<element_type>::value &&
                                    std::is_move_constructible<element_type>::value ) { // move elements if possible, otherwise copy them
                 temp.insert( temp.end_iterator, std::make_move_iterator( begin_iterator ),
                              std::make_move_iterator( end_iterator ) );
@@ -2435,7 +2438,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
             return element_allocator_type();
         }
 
-        void swap( list &source ) PLF_LIST_NOEXCEPT_SWAP( allocator_type ) {
+        void swap( list &source ) LIST_NOEXCEPT_SWAP( allocator_type ) {
             list temp( std::move( source ) );
             source = std::move( *this );
             *this = std::move( temp );
@@ -2444,27 +2447,27 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
 template <class swap_element_type, class swap_element_allocator_type>
 inline void swap( list<swap_element_type, swap_element_allocator_type> &a,
-                  list<swap_element_type, swap_element_allocator_type> &b ) PLF_LIST_NOEXCEPT_SWAP(
+                  list<swap_element_type, swap_element_allocator_type> &b ) LIST_NOEXCEPT_SWAP(
                       swap_element_allocator_type )
 {
     a.swap( b );
 }
 
-} // plf namespace
+} // cata namespace
 
-#undef PLF_LIST_BLOCK_MAX
-#undef PLF_LIST_BLOCK_MIN
+#undef LIST_BLOCK_MAX
+#undef LIST_BLOCK_MIN
 
-#undef PLF_LIST_FORCE_INLINE
+#undef LIST_FORCE_INLINE
 
-#undef PLF_LIST_CONSTEXPR
-#undef PLF_LIST_NOEXCEPT_SWAP
-#undef PLF_LIST_NOEXCEPT_MOVE_ASSIGNMENT
+#undef LIST_CONSTEXPR
+#undef LIST_NOEXCEPT_SWAP
+#undef LIST_NOEXCEPT_MOVE_ASSIGNMENT
 
-#undef PLF_LIST_CONSTRUCT
-#undef PLF_LIST_DESTROY
-#undef PLF_LIST_ALLOCATE
-#undef PLF_LIST_ALLOCATE_INITIALIZATION
-#undef PLF_LIST_DEALLOCATE
+#undef LIST_CONSTRUCT
+#undef LIST_DESTROY
+#undef LIST_ALLOCATE
+#undef LIST_ALLOCATE_INITIALIZATION
+#undef LIST_DEALLOCATE
 
-#endif // PLF_LIST_H
+#endif // LIST_H
