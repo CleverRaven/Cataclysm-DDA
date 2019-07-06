@@ -610,6 +610,24 @@
   },
   {
     "type": "city_building",
+    "id": "station_radio",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "station_radio_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "station_radio_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "station_radio_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "station_radio_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "station_radio_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "fishing_pond_city",
     "locations": [ "land" ],
     "overmaps": [
