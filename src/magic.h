@@ -304,9 +304,9 @@ class spell
         int heal( const tripoint &target ) const;
 
         // casts the spell effect. returns true if successful
-        bool cast_spell_effect( const tripoint &source, const tripoint &target );
+        bool cast_spell_effect( const Creature &source, const tripoint &target );
         // goes through the spell effect and all of its internal spells
-        bool cast_all_effects( const tripoint &source, const tripoint &target );
+        bool cast_all_effects( const Creature &source, const tripoint &target );
 
         // is the target valid for this spell?
         bool is_valid_target( const Creature &caster, const tripoint &p ) const;

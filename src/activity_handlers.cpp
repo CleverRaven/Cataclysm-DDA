@@ -4065,7 +4065,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
     p->add_msg_if_player( _( "You cast %s!" ), casting.name() );
 
-    casting.cast_all_effects( p->pos(), target );
+    casting.cast_all_effects( *p, target );
 
     if( !no_mana ) {
         // pay the cost

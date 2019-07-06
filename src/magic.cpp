@@ -863,14 +863,14 @@ int spell::heal( const tripoint &target ) const
     return -1;
 }
 
-bool spell::cast_spell_effect( const tripoint &source, const tripoint &target )
+bool spell::cast_spell_effect( const Creature &source, const tripoint &target )
 {
     // figure out which function is the effect (maybe change this into how iuse or activity_handlers does it)
     // TODO: refactor these so make_sound can be called inside each of these functions
     const std::string fx = effect();
     if( fx == "pain_split" ) {
         spell_effect::pain_split();
-        make_sound( source );
+        make_sound( source.pos() );
     } else if( fx == "move_earth" ) {
         spell_effect::move_earth( target );
         make_sound( target );
@@ -884,10 +884,10 @@ bool spell::cast_spell_effect( const tripoint &source, const tripoint &target )
         spell_effect::line_attack( *this, source, target );
     } else if( fx == "teleport_random" ) {
         spell_effect::teleport( range(), range() + aoe() );
-        make_sound( source );
+        make_sound( source.pos() );
     } else if( fx == "spawn_item" ) {
         spell_effect::spawn_ethereal_item( *this );
-        make_sound( source );
+        make_sound( source.pos() );
     } else if( fx == "recover_energy" ) {
         spell_effect::recover_energy( *this, target );
         make_sound( target );
@@ -902,7 +902,7 @@ bool spell::cast_spell_effect( const tripoint &source, const tripoint &target )
     return true;
 }
 
-bool spell::cast_all_effects( const tripoint &source, const tripoint &target )
+bool spell::cast_all_effects( const Creature &source, const tripoint &target )
 {
     // first call the effect of the main spell
     bool success = cast_spell_effect( source, target );
@@ -917,7 +917,7 @@ bool spell::cast_all_effects( const tripoint &source, const tripoint &target )
             sp.gain_level();
         }
         if( extra_spell.self ) {
-            success = success && sp.cast_all_effects( source, source );
+            success = success && sp.cast_all_effects( source, source.pos() );
         } else {
             success = success && sp.cast_all_effects( source, target );
         }
