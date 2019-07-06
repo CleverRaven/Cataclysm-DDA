@@ -13,6 +13,7 @@
     "monsters": [
       { "monster": "mon_owlbear", "freq": 10, "cost_multiplier": 10 },
       { "monster": "mon_wisp", "freq": 3, "cost_multiplier": 10, "conditions": [ "NIGHT" ] }
+	  { "monster": "mon_troll", "freq": 3, "cost_multiplier": 10, "conditions": [ "DAY" ] }
     ]
   },
   {
