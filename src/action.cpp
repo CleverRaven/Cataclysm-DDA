@@ -678,11 +678,11 @@ action_id handle_action_menu()
     }
 
     // If we're already running, make it simple to toggle running to off.
-    if( g->u.get_movement_mode() == "run" ) {
+    if( g->u.movement_mode_is( PMM_RUN ) ) {
         action_weightings[ACTION_TOGGLE_RUN] = 300;
     }
     // If we're already crouching, make it simple to toggle crouching to off.
-    if( g->u.get_movement_mode() == "crouch" ) {
+    if( g->u.movement_mode_is( PMM_CROUCH ) ) {
         action_weightings[ACTION_TOGGLE_CROUCH] = 300;
     }
 

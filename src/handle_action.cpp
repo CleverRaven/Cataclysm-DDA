@@ -1286,13 +1286,13 @@ static void open_movement_mode_menu()
 
     switch( as_m.ret ) {
         case 0:
-            u.set_movement_mode( "walk" );
+            u.set_movement_mode( PMM_WALK );
             break;
         case 1:
-            u.set_movement_mode( "run" );
+            u.set_movement_mode( PMM_RUN );
             break;
         case 2:
-            u.set_movement_mode( "crouch" );
+            u.set_movement_mode( PMM_CROUCH );
             break;
         default:
             break;

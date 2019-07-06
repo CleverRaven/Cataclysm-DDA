@@ -9010,9 +9010,9 @@ bool game::walk_move( const tripoint &dest_loc )
             } else if( u.has_bionic( bionic_id( "bio_ankles" ) ) ) {
                 volume = 12;
             }
-            if( u.get_movement_mode() == "run" ) {
+            if( u.movement_mode_is( PMM_RUN ) ) {
                 volume *= 1.5;
-            } else if( u.get_movement_mode() == "crouch" ) {
+            } else if( u.movement_mode_is( PMM_CROUCH ) ) {
                 volume /= 2;
             }
             sounds::sound( dest_loc, volume, sounds::sound_t::movement, _( "footsteps" ), true,
@@ -9695,14 +9695,14 @@ void game::on_move_effects()
         }
     }
     if( u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
-        if( u.get_movement_mode() == "run" ) {
+        if( u.movement_mode_is( PMM_RUN ) ) {
             u.charge_power( -20 );
         } else {
             u.charge_power( -10 );
         }
     }
 
-    if( u.get_movement_mode() == "run" ) {
+    if( u.movement_mode_is( PMM_RUN ) ) {
         if( u.stamina <= 0 ) {
             u.toggle_run_mode();
         }
