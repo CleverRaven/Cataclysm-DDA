@@ -6708,7 +6708,7 @@
     "coverage": 10,
     "light_emitted": 15,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "NONFLAMMABLE" ],
+    "flags": [ "TRANSPARENT" ],
     "bash": { "str_min": 8, "str_max": 20, "sound": "splorch!", "sound_fail": "whump!", "furn_set": "f_alien_scar" }
   },
   {
@@ -6722,7 +6722,7 @@
     "coverage": 30,
     "required_str": -1,
     "light_emitted": 3,
-    "flags": [ "TRANSPARENT", "EMITTER", "NONFLAMMABLE" ],
+    "flags": [ "TRANSPARENT", "EMITTER" ],
     "emissions": [ "emit_heater_vehicle" ],
     "bash": { "str_min": 13, "str_max": 26, "sound": "splorch!", "sound_fail": "whump!", "furn_set": "f_alien_scar" }
   },
@@ -6736,7 +6736,7 @@
     "move_cost_mod": 6,
     "coverage": 40,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EMITTER", "NONFLAMMABLE" ],
+    "flags": [ "TRANSPARENT", "EMITTER" ],
     "emissions": [ "emit_toxic_cloud", "emit_hot_air4_blast" ],
     "//": "TODO: Make a custom toxic gas emission that is not visible to the player",
     "bash": { "str_min": 30, "str_max": 60, "sound": "splorch!", "sound_fail": "whump!", "furn_set": "f_alien_scar" }
@@ -6751,7 +6751,7 @@
     "move_cost_mod": 4,
     "coverage": 20,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EMITTER", "NONFLAMMABLE" ],
+    "flags": [ "TRANSPARENT", "EMITTER" ],
     "emissions": [ "emit_glimmer", "emit_shock_burst" ],
     "//": "TODO: Make a custom toxic gas emission that is not visible to the player",
     "bash": { "str_min": 30, "str_max": 60, "sound": "splorch!", "sound_fail": "whump!", "furn_set": "f_alien_scar" }
@@ -6766,7 +6766,7 @@
     "move_cost_mod": 6,
     "coverage": 40,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EMITTER", "NONFLAMMABLE" ],
+    "flags": [ "TRANSPARENT", "EMITTER" ],
     "emissions": [ "emit_toxic_leak", "emit_hot_air4_blast", "emit_shock_burst" ],
     "//": "TODO: Make a custom toxic gas emission that is not visible to the player",
     "bash": { "str_min": 250, "str_max": 600, "sound": "splorch!", "sound_fail": "splat!" }
@@ -6781,7 +6781,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "NONFLAMMABLE" ],
+    "flags": [ "TRANSPARENT" ],
     "bash": { "str_min": 25, "str_max": 60, "sound": "splorch!", "sound_fail": "whump." }
   },
   {
@@ -6795,7 +6795,7 @@
     "coverage": 40,
     "required_str": -1,
     "light_emitted": 3,
-    "flags": [ "TRANSPARENT", "NONFLAMMABLE" ],
+    "flags": [ "TRANSPARENT" ],
     "bash": { "str_min": 25, "str_max": 60, "sound": "splorch!", "sound_fail": "whump." }
   },
   {
@@ -6810,7 +6810,7 @@
     "required_str": -1,
     "deployed_item": "alien_pod_resin",
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "NONFLAMMABLE" ],
+    "flags": [ "TRANSPARENT" ],
     "bash": { "str_min": 25, "str_max": 60, "sound": "splorch!", "sound_fail": "whump." }
   },
   {
@@ -6824,7 +6824,7 @@
     "coverage": 40,
     "required_str": -1,
     "light_emitted": 12,
-    "flags": [ "TRANSPARENT", "NONFLAMMABLE" ],
+    "flags": [ "TRANSPARENT" ],
     "bash": { "str_min": 45, "str_max": 60, "sound": "splorch!", "sound_fail": "whump.", "furn_set": "f_alien_scar" }
   },
   {
