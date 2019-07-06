@@ -550,6 +550,12 @@
   },
   {
     "type": "city_building",
+    "id": "s_sports",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_sports_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_sports_roof_north" } ]
+  },
+  {
+    "type": "city_building",
     "id": "pawn",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pawn_north" }, { "point": [ 0, 0, 1 ], "overmap": "pawn_roof_north" } ]

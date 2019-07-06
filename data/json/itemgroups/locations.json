@@ -550,6 +550,19 @@
     ]
   },
   {
+    "id": "clothing_sport",
+    "type": "item_group",
+    "//": "for sports_store",
+    "subtype": "distribution",
+    "items": [
+      { "group": "clothing_outdoor_torso" },
+      { "group": "clothing_outdoor_pants" },
+      { "group": "clothing_outdoor_shoes" },
+      { "group": "clothing_glasses", "prob": 10 },
+      { "group": "clothing_watch", "prob": 5 }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "ic_merch_vending",
     "//": "for cs_internet_cafe",

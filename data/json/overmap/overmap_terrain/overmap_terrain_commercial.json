@@ -342,6 +342,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_sports_roof",
+    "name": "sporting goods store roof",
+    "copy-from": "generic_city_building",
+    "color": "light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_liquor",
     "name": "liquor store",
     "copy-from": "generic_city_building",
