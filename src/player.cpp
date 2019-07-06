@@ -8545,7 +8545,7 @@ bool player::unload( item &it )
     }
 
     // Next check for any reasons why the item cannot be unloaded
-    if( target->ammo_types().empty() || target->ammo_capacity() <= 0 ) {
+    if( ( target->ammo_types().empty() || target->ammo_capacity() <= 0 ) && !target->battery_powered() ) {
         add_msg( m_info, _( "You can't unload a %s!" ), target->tname() );
         return false;
     }
@@ -8559,7 +8559,7 @@ bool player::unload( item &it )
         return false;
     }
 
-    if( !target->magazine_current() && target->ammo_remaining() <= 0 && target->casings_count() <= 0 ) {
+    if( !target->magazine_current() && !target->battery_current() && target->ammo_remaining() <= 0 && target->casings_count() <= 0 ) {
         if( target->is_tool() ) {
             add_msg( m_info, _( "Your %s isn't charged." ), target->tname() );
         } else {
@@ -8602,6 +8602,18 @@ bool player::unload( item &it )
         target->contents.erase( std::remove_if( target->contents.begin(),
         target->contents.end(), [&target]( const item & e ) {
             return target->magazine_current() == &e;
+        } ) );
+
+    } else if( target->battery_current() ) {
+        if( !this->add_or_drop_with_msg( *target->battery_current(), true ) ) {
+            return false;
+        }
+        // Eject battery consuming as much time as required to insert it
+        this->moves -= this->item_reload_cost( *target, *target->battery_current(), -1 );
+
+        target->contents.erase( std::remove_if( target->contents.begin(),
+        target->contents.end(), [&target]( const item & e ) {
+            return target->battery_current() == &e;
         } ) );
 
     } else if( target->ammo_remaining() ) {
@@ -8692,7 +8704,7 @@ hint_rating player::rate_action_unload( const item &it ) const
         return HINT_CANT;
     }
 
-    if( it.magazine_current() ) {
+    if( it.magazine_current() || it.battery_current() ) {
         return HINT_GOOD;
     }
 
