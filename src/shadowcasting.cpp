@@ -151,7 +151,7 @@ static void split_span( std::list<span<T>> &spans, typename std::list<span<T>>::
     current_transparency = new_transparency;
 }
 
-template<int xx, int xy, int xz, int yx, int yy, int yz, int zz, typename T,
+template<int xx_transform, int xy_transform, int yx_transform, int yy_transform, int z_transform, typename T,
          T( *calc )( const T &, const T &, const int & ),
          bool( *check )( const T &, const T & ),
          T( *accumulate )( const T &, const T &, const int & )>
@@ -195,7 +195,7 @@ void cast_horizontal_zlight_segment(
             for( delta.z = 0; delta.z <= distance; delta.z++ ) {
                 const slope trailing_edge_major( delta.z * 2 - 1, delta.y * 2 + 1 );
                 const slope leading_edge_major( delta.z * 2 + 1, delta.y * 2 - 1 );
-                current.z = offset.z + delta.z * zz;
+                current.z = offset.z + delta.z * z_transform;
                 if( current.z > max_z || current.z < min_z ) {
                     // Current tile is out of bounds, advance to the next tile.
                     continue;
@@ -221,8 +221,8 @@ void cast_horizontal_zlight_segment(
                 bool started_span = false;
                 const int z_index = current.z + OVERMAP_DEPTH;
                 for( delta.x = 0; delta.x <= distance; delta.x++ ) {
-                    current.x = offset.x + delta.x * xx + delta.y * xy + delta.z * xz;
-                    current.y = offset.y + delta.x * yx + delta.y * yy + delta.z * yz;
+                    current.x = offset.x + delta.x * xx_transform + delta.y * xy_transform;
+                    current.y = offset.y + delta.x * yx_transform + delta.y * yy_transform;
                     // Shadowcasting sweeps from the cardinal to the most extreme edge of the octant
                     // XXXX
                     // --->
@@ -526,42 +526,42 @@ void cast_zlight(
     //   .
     //  ..
     // @..
-    cast_horizontal_zlight_segment < 0, 1, 0, 1, 0, 0, -1, T, calc, check, accumulate > (
+    cast_horizontal_zlight_segment < 0, 1, 1, 0, -1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // ...
     // ..
     // @
-    cast_horizontal_zlight_segment < 1, 0, 0, 0, 1, 0, -1, T, calc, check, accumulate > (
+    cast_horizontal_zlight_segment < 1, 0, 0, 1, -1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // @..
     //  ..
     //   .
-    cast_horizontal_zlight_segment < 0, -1, 0, 1, 0, 0, -1, T, calc, check, accumulate > (
+    cast_horizontal_zlight_segment < 0, -1, 1, 0, -1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // ...
     //  ..
     //   @
-    cast_horizontal_zlight_segment < -1, 0, 0, 0, 1, 0, -1, T, calc, check, accumulate > (
+    cast_horizontal_zlight_segment < -1, 0, 0, 1, -1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // .
     // ..
     // ..@
-    cast_horizontal_zlight_segment < 0, 1, 0, -1, 0, 0, -1, T, calc, check, accumulate > (
+    cast_horizontal_zlight_segment < 0, 1, -1, 0, -1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // @
     // ..
     // ...
-    cast_horizontal_zlight_segment < 1, 0, 0, 0, -1, 0, -1, T, calc, check, accumulate > (
+    cast_horizontal_zlight_segment < 1, 0, 0, -1, -1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // ..@
     // ..
     // .
-    cast_horizontal_zlight_segment < 0, -1, 0, -1, 0, 0, -1, T, calc, check, accumulate > (
+    cast_horizontal_zlight_segment < 0, -1, -1, 0, -1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     //   @
     //  ..
     // ...
-    cast_horizontal_zlight_segment < -1, 0, 0, 0, -1, 0, -1, T, calc, check, accumulate > (
+    cast_horizontal_zlight_segment < -1, 0, 0, -1, -1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
 
     // Up lateral
@@ -569,42 +569,42 @@ void cast_zlight(
     //   .
     //  ..
     // @..
-    cast_horizontal_zlight_segment < 0, 1, 0, 1, 0, 0, 1, T, calc, check, accumulate > (
+    cast_horizontal_zlight_segment < 0, 1, 1, 0, 1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // ...
     // ..
     // @
-    cast_horizontal_zlight_segment < 1, 0, 0, 0, 1, 0, 1, T, calc, check, accumulate > (
+    cast_horizontal_zlight_segment < 1, 0, 0, 1, 1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // @..
     //  ..
     //   .
-    cast_horizontal_zlight_segment < 0, -1, 0, 1, 0, 0, 1, T, calc, check, accumulate > (
+    cast_horizontal_zlight_segment < 0, -1, 1, 0, 1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // ...
     //  ..
     //   @
-    cast_horizontal_zlight_segment < -1, 0, 0, 0, 1, 0, 1, T, calc, check, accumulate > (
+    cast_horizontal_zlight_segment < -1, 0, 0, 1, 1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // .
     // ..
     // ..@
-    cast_horizontal_zlight_segment < 0, 1, 0, -1, 0, 0, 1, T, calc, check, accumulate > (
+    cast_horizontal_zlight_segment < 0, 1, -1, 0, 1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // @
     // ..
     // ...
-    cast_horizontal_zlight_segment < 1, 0, 0, 0, -1, 0, 1, T, calc, check, accumulate > (
+    cast_horizontal_zlight_segment < 1, 0, 0, -1, 1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // ..@
     // ..
     // .
-    cast_horizontal_zlight_segment < 0, -1, 0, -1, 0, 0, 1, T, calc, check, accumulate > (
+    cast_horizontal_zlight_segment < 0, -1, -1, 0, 1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     //   @
     //  ..
     // ...
-    cast_horizontal_zlight_segment < -1, 0, 0, 0, -1, 0, 1, T, calc, check, accumulate > (
+    cast_horizontal_zlight_segment < -1, 0, 0, -1, 1, T, calc, check, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
 
     // Straight up
