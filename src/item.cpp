@@ -5812,6 +5812,15 @@ int item::gun_range( const player *p ) const
     return std::max( 0, ret );
 }
 
+units::energy item::energy_remaining() const
+{
+    if( is_battery() ) {
+        return energy;
+    }
+
+    return 0;
+}
+
 int item::ammo_remaining() const
 {
     const item *mag = magazine_current();

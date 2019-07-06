@@ -1561,6 +1561,9 @@ class item : public visitable<item>
          */
         bool is_gun() const;
 
+        /** Quantity of energy currently loaded in tool or battery */
+        units::energy energy_remaining() const;
+
         /** Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod */
         int ammo_remaining() const;
         /** Maximum quantity of ammunition loadable for tool, gun or auxiliary gunmod */
@@ -2014,19 +2017,20 @@ class item : public visitable<item>
 
     public:
         int charges;
+        units::energy energy;      // Amount of energy currently stored in a battery
 
-        // The number of charges a recipe creates.  Used for comestible consumption.
-        int recipe_charges = 1;
-        int burnt = 0;           // How badly we're burnt
-        int poison = 0;          // How badly poisoned is it?
-        int frequency = 0;       // Radio frequency
-        int note = 0;            // Associated dynamic text snippet.
-        int irradiation = 0;      // Tracks radiation dosage.
-        int item_counter = 0; // generic counter to be used with item flags
+        int recipe_charges =
+            1;    // The number of charges a recipe creates.  Used for comestible consumption.
+        int burnt = 0;             // How badly we're burnt
+        int poison = 0;            // How badly poisoned is it?
+        int frequency = 0;         // Radio frequency
+        int note = 0;              // Associated dynamic text snippet.
+        int irradiation = 0;       // Tracks radiation dosage.
+        int item_counter = 0;      // generic counter to be used with item flags
         int specific_energy = -10; // Specific energy (0.00001 J/g). Negative value for unprocessed.
-        int temperature = 0; // Temperature of the item (in 0.00001 K).
-        int mission_id = -1; // Refers to a mission in game's master list
-        int player_id = -1; // Only give a mission to the right player!
+        int temperature = 0;       // Temperature of the item (in 0.00001 K).
+        int mission_id = -1;       // Refers to a mission in game's master list
+        int player_id = -1;        // Only give a mission to the right player!
 
     private:
         /**
