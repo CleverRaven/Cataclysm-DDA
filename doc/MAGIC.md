@@ -14,6 +14,7 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
 	"valid_targets": [ "hostile", "ground", "self", "ally" ], // if a valid target is not included, you cannot cast the spell on that target.
 	"effect": "shallow_pit",                                  // effects are coded in C++. A list will be provided below of possible effects that have been coded.
 	"effect_str": "template"                                  // special. see below
+	"extra_effects": [ { "id": "fireball", "hit_self": false, "max_level": 3 } ],	// this allows you to cast multiple spells with only one spell
 	"effected_body_parts": [ "HEAD", "TORSO", "MOUTH", "EYES", "ARM_L", "ARM_R", "HAND_R", "HAND_L", "LEG_L", "FOOT_L", "FOOT_R" ], // body parts affected by effects
 	"spell_class": "NONE"                                     // 
 	"base_casting_time": 100,                                 // this is the casting time (in moves)

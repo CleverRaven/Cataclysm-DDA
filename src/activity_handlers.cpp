@@ -4065,39 +4065,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
     p->add_msg_if_player( _( "You cast %s!" ), casting.name() );
 
-    // figure out which function is the effect (maybe change this into how iuse or activity_handlers does it)
-    // TODO: refactor these so make_sound can be called inside each of these functions
-    const std::string fx = casting.effect();
-    if( fx == "pain_split" ) {
-        spell_effect::pain_split();
-        casting.make_sound( p->pos() );
-    } else if( fx == "move_earth" ) {
-        spell_effect::move_earth( target );
-        casting.make_sound( target );
-    } else if( fx == "target_attack" ) {
-        spell_effect::target_attack( casting, p->pos(), target );
-    } else if( fx == "projectile_attack" ) {
-        spell_effect::projectile_attack( casting, p->pos(), target );
-    } else if( fx == "cone_attack" ) {
-        spell_effect::cone_attack( casting, p->pos(), target );
-    } else if( fx == "line_attack" ) {
-        spell_effect::line_attack( casting, p->pos(), target );
-    } else if( fx == "teleport_random" ) {
-        spell_effect::teleport( casting.range(), casting.range() + casting.aoe() );
-        casting.make_sound( p->pos() );
-    } else if( fx == "spawn_item" ) {
-        spell_effect::spawn_ethereal_item( casting );
-        casting.make_sound( p->pos() );
-    } else if( fx == "recover_energy" ) {
-        spell_effect::recover_energy( casting, target );
-        casting.make_sound( target );
-    } else if( fx == "summon" ) {
-        spell_effect::spawn_summoned_monster( casting, p->pos(), target );
-    } else if( fx == "translocate" ) {
-        spell_effect::translocate( casting, p->pos(), target, g->u.translocators );
-    } else {
-        debugmsg( "ERROR: Spell effect not defined properly." );
-    }
+    casting.cast_all_effects( p->pos(), target );
+
     if( !no_mana ) {
         // pay the cost
         int cost = casting.energy_cost( *p );

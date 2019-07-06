@@ -68,6 +68,18 @@ struct enum_traits<spell_flag> {
     static constexpr auto last = spell_flag::LAST;
 };
 
+struct fake_spell {
+    spell_id id;
+    // max level this spell can be
+    // if null pointer, spell can be up to its own max level
+    cata::optional<int> max_level;
+    // target tripoint is source (true) or target (false)
+    bool self;
+    fake_spell( const spell_id &sp_id, bool hit_self = false,
+                const cata::optional<int> &max_level = cata::nullopt ) : id( sp_id ),
+        max_level( max_level ), self( hit_self ) {};
+};
+
 class spell_type
 {
     public:
@@ -85,6 +97,8 @@ class spell_type
         std::string effect;
         // extra information about spell effect. allows for combinations for effects
         std::string effect_str;
+        // list of additional "spell effects"
+        std::vector<fake_spell> additional_spells;
 
         // minimum damage this spell can cause
         int min_damage;
@@ -287,6 +301,11 @@ class spell
         void make_sound( const tripoint &target ) const;
         // heals the critter at the location, returns amount healed (player heals each body part)
         int heal( const tripoint &target ) const;
+
+        // casts the spell effect. returns true if successful
+        bool cast_spell_effect( const tripoint &source, const tripoint &target );
+        // goes through the spell effect and all of its internal spells
+        bool cast_all_effects( const tripoint &source, const tripoint &target );
 
         // is the target valid for this spell?
         bool is_valid_target( const tripoint &p ) const;
