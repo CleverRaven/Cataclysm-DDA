@@ -232,9 +232,9 @@ struct vision_test_case {
         }
         std::vector<std::string> new_v( v[0].size() );
 
-        for( size_t x = 0; x < v.size(); ++x ) {
+        for( const std::string &col : v ) {
             for( size_t y = 0; y < new_v.size(); ++y ) {
-                new_v[y].push_back( v[x].at( y ) );
+                new_v[y].push_back( col.at( y ) );
             }
         }
 

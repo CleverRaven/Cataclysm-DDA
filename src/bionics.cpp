@@ -536,19 +536,18 @@ bool player::activate_bionic( int b, bool eff_only )
                        "bio_hydraulics" );
     } else if( bio.id == "bio_water_extractor" ) {
         bool extracted = false;
-        for( auto it = g->m.i_at( pos() ).begin();
-             it != g->m.i_at( pos() ).end(); ++it ) {
+        for( item &it : g->m.i_at( pos() ) ) {
             static const auto volume_per_water_charge = units::from_milliliter( 500 );
-            if( it->is_corpse() ) {
-                const int avail = it->get_var( "remaining_water", it->volume() / volume_per_water_charge );
+            if( it.is_corpse() ) {
+                const int avail = it.get_var( "remaining_water", it.volume() / volume_per_water_charge );
                 if( avail > 0 &&
                     query_yn( _( "Extract water from the %s" ),
-                              colorize( it->tname(), it->color_in_inventory() ) ) ) {
+                              colorize( it.tname(), it.color_in_inventory() ) ) ) {
                     item water( "water_clean", calendar::turn, avail );
-                    water.set_item_temperature( 0.00001 * it->temperature );
+                    water.set_item_temperature( 0.00001 * it.temperature );
                     if( liquid_handler::consume_liquid( water ) ) {
                         extracted = true;
-                        it->set_var( "remaining_water", static_cast<int>( water.charges ) );
+                        it.set_var( "remaining_water", static_cast<int>( water.charges ) );
                     }
                     break;
                 }

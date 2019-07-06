@@ -141,8 +141,7 @@ npc::npc()
     attitude = NPCATT_NULL;
 
     *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, false );
-    for( size_t i = 0; i < 8; i++ ) {
-        direction threat_dir = npc_threat_dir[i];
+    for( direction threat_dir : npc_threat_dir ) {
         ai_cache.threat_map[ threat_dir ] = 0.0f;
     }
 }

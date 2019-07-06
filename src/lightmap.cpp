@@ -219,9 +219,9 @@ void map::build_sunlight_cache( int zlev )
     // If uppermost level, just apply weather illumination since there's no opportunity
     // for light to be blocked.
     if( zlev == OVERMAP_HEIGHT ) {
-        for( int x = 0; x < MAPSIZE_X; x++ ) {
-            for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                lm[x][y].fill( outside_light_level );
+        for( auto &lm_col : lm ) {
+            for( four_quadrants &lm_entry : lm_col ) {
+                lm_entry.fill( outside_light_level );
             }
         }
         return;

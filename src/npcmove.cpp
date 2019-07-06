@@ -264,8 +264,7 @@ tripoint npc::good_escape_direction( bool include_pos )
     candidates.emplace_back( pos() );
 
     std::map<direction, float> adj_map;
-    for( size_t i = 0; i < 8; i++ ) {
-        direction pt_dir = npc_threat_dir[i];
+    for( direction pt_dir : npc_threat_dir ) {
         const tripoint &pt = pos() + direction_XY( pt_dir );
         float cur_rating = rate_pt( pt, ai_cache.threat_map[ pt_dir ] );
         adj_map[pt_dir] = cur_rating;
@@ -398,8 +397,7 @@ void npc::assess_danger()
     };
     std::map<direction, float> cur_threat_map;
     // start with a decayed version of last turn's map
-    for( size_t i = 0; i < 8; i++ ) {
-        direction threat_dir = npc_threat_dir[i];
+    for( direction threat_dir : npc_threat_dir ) {
         cur_threat_map[ threat_dir ] = 0.25f * ai_cache.threat_map[ threat_dir ];
     }
     // first, check if we're about to be consumed by fire
