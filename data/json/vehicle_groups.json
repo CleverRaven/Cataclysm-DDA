@@ -489,6 +489,12 @@
     "vehicles": [ [ "bus", 1000 ], [ "schoolbus", 100 ], [ "bus_tour", 50 ] ]
   },
   {
+    "id": "VETS",
+    "type": "vehicle_group",
+    "//": "for veterinarian",
+    "vehicles": [ [ "car", 300 ], [ "pickup", 100 ], [ "suv", 50 ] ]
+  },
+  {
     "type": "vehicle_group",
     "id": "parking_garage",
     "vehicles": [
