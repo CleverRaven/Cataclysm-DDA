@@ -519,6 +519,14 @@ bool item::is_unarmed_weapon() const
     return has_flag( "UNARMED_WEAPON" ) || is_null();
 }
 
+bool item::battery_powered() const
+{
+    if( !type->tool || type->tool->batteries.empty() ) {
+        return false;
+    }
+    return true;
+}
+
 bool item::covers( const body_part bp ) const
 {
     return get_covered_body_parts().test( bp );
@@ -6137,6 +6145,11 @@ std::set<itype_id> item::magazine_compatible( bool conversion ) const
         }
     }
     return mags;
+}
+
+std::set<itype_id> item::battery_compatible() const
+{
+    return type->tool->batteries;
 }
 
 item *item::magazine_current()

@@ -1076,6 +1076,8 @@ class item : public visitable<item>
 
         bool is_unarmed_weapon() const; //Returns true if the item should be considered unarmed
 
+        bool battery_powered() const;
+
         bool has_temperature() const;
         float get_specific_heat_liquid() const;
         float get_specific_heat_solid() const;
@@ -1655,6 +1657,11 @@ class item : public visitable<item>
          *  @see item::magazine_integral
          */
         std::set<itype_id> magazine_compatible( bool conversion = true ) const;
+
+        /** Get compatible batteries (if any) for this item
+         *  @return list of compatible battery itype_ids
+         */
+        std::set<itype_id> battery_compatible() const;
 
         /** Currently loaded magazine (if any)
          *  @return current magazine or nullptr if either no magazine loaded or item has integral magazine
