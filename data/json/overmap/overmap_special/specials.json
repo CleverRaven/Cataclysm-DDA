@@ -228,7 +228,10 @@
   {
     "type": "overmap_special",
     "id": "Sugar House",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "sugar_house_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "sugar_house_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "sugar_house_roof_north" }
+    ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
     "locations": [ "forest" ],
     "city_distance": [ 20, -1 ],
