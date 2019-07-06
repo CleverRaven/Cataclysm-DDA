@@ -172,6 +172,30 @@
     "color": "i_yellow"
   },
   {
+    "id": "small_storage_units_roof",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "small storage units roof",
+    "sym": "#",
+    "color": "i_yellow"
+  },
+  {
+    "id": "small_storage_units_1",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "small storage units",
+    "sym": "#",
+    "color": "i_yellow"
+  },
+  {
+    "id": "small_storage_units_roof_1",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "small storage units roof",
+    "sym": "#",
+    "color": "i_yellow"
+  },
+  {
     "type": "overmap_terrain",
     "id": "lumberyard_0_0",
     "name": "lumberyard",
