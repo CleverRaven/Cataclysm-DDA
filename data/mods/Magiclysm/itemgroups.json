@@ -194,17 +194,32 @@
     "type": "item_group",
     "items": [
       { "group": "potions_common", "prob": 80 },
+      { "group": "alchemy_items", "prob": 30 },
       [ "crystallized_mana", 25 ],
-      { "item": "small_mana_crystal", "prob": 20, "charges-min": 5, "charges-max": 50 },
-      [ "owlbear_stone", 5 ],
+      { "item": "small_mana_crystal", "prob": 20, "charges-min": 5, "charges-max": 50 }
+    ]
+  },
+  {
+    "id": "alchemy_items",
+    "type": "item_group",
+    "items": [
+      [ "owlbear_stone", 10 ],
       { "item": "stone_shell", "prob": 10, "count-min": 1, "count-max": 3 },
-      [ "egg_owlbear_rock", 2 ]
+      [ "egg_owlbear_rock", 5 ],
+      [ "glow_light_off", 1 ],
+      [ "bulette_plate", 10 ],
+      { "item": "bulette_pearl", "prob": 8, "count-min": 1, "count-max": 2 }
     ]
   },
   {
     "type": "item_group",
     "id": "magic_shop_clothes",
     "items": [ [ "cloak", 3 ], [ "cloak_wool", 5 ], [ "jedi_cloak", 3 ], [ "robe", 5 ], [ "tophat", 5 ], [ "leathersandals", 6 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "wisp_death",
+    "items": [ [ "glow_dust", 1 ] ]
   },
   {
     "type": "item_group",

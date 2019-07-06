@@ -117,5 +117,74 @@
     "description": "An organ located above the kidneys responsible for secretion of adrenaline, cortisol, and aldosterone. This one is huge, whether by nature or mutation.",
     "delete": { "flags": [ "SMOKABLE" ] },
     "price": 2000
+  },
+  {
+    "id": "glow_dust",
+    "type": "GENERIC",
+    "symbol": "*",
+    "color": "yellow",
+    "name": "glow dust",
+    "description": "The powdered remains of a will-o-wisps's phsyical form.  It seems to still possess an otherworldly glow.",
+    "material": "powder",
+    "weight": 5,
+    "volume": 1
+  },
+  {
+    "id": "glow_light",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": "magical reading light",
+    "description": "Powered by the magic of glow powder and lesser mana potions, this extremely expensive little light will provide just enough light to read by for at least a decade.  Use it to close the cover and hide the light.",
+    "weight": 270,
+    "volume": 1,
+    "price": 125000,
+    "material": "glass",
+    "symbol": ",",
+    "color": "light_blue",
+    "use_action": {
+      "target": "glow_light_off",
+      "msg": "You close the nightlight's cover.",
+      "menu_text": "Close cover",
+      "type": "transform"
+    },
+    "flags": [ "LIGHT_5", "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "glow_light_off",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": "magical reading light (covered)",
+    "name_plural": "magical reading lights (covered)",
+    "description": "Powered by the magic of glow powder and lesser mana potions, this extremely expensive little light will provide just enough light to read by for at least a decade.  The cover is closed.  Use it to open the cover and show the light.",
+    "weight": 270,
+    "volume": 1,
+    "price": 125000,
+    "material": "glass",
+    "symbol": ",",
+    "color": "light_blue",
+    "use_action": { "target": "glow_light", "msg": "You open the nightlight's cover.", "menu_text": "Open cover", "type": "transform" },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "bulette_plate",
+    "type": "GENERIC",
+    "symbol": ")",
+    "color": "light_gray",
+    "name": "bulette plate",
+    "description": "The great plates from behind a bulette's head have always been prized for use in shield and armor making.",
+    "material": "arcane_skin",
+    "weight": 30000,
+    "volume": 12
+  },
+  {
+    "id": "bulette_pearl",
+    "type": "GENERIC",
+    "symbol": "*",
+    "color": "red",
+    "name": "bulette pearl",
+    "description": "As a bulette burrows through the earth its gills collect minute amounts of precious metals and gems which slowly aggregate into lustrous gemstones prized for their beauty and power.",
+    "material": "stone",
+    "weight": 120,
+    "volume": 1
   }
 ]
