@@ -1121,6 +1121,46 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "stripclub_roof",
+    "copy-from": "generic_city_building",
+    "name": "strip club roof",
+    "sym": "s",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stripclub_1",
+    "copy-from": "generic_city_building",
+    "name": "strip club",
+    "sym": "s",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stripclub_roof_1",
+    "copy-from": "generic_city_building",
+    "name": "strip club roof",
+    "sym": "s",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stripclub_2",
+    "copy-from": "generic_city_building",
+    "name": "strip club",
+    "sym": "s",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stripclub_roof_2",
+    "copy-from": "generic_city_building",
+    "name": "strip club roof",
+    "sym": "s",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "museum",
     "name": "museum",
     "copy-from": "generic_city_building",
