@@ -340,6 +340,8 @@ class known_magic
         bool can_learn_spell( const player &p, const spell_id &sp ) const;
         bool knows_spell( const std::string &sp ) const;
         bool knows_spell( const spell_id &sp ) const;
+        // does the player know a spell?
+        bool knows_spell() const;
         // spells known by player
         std::vector<spell_id> spells() const;
         // gets the spell associated with the spell_id to be edited
