@@ -3239,7 +3239,23 @@
   {
     "type": "overmap_special",
     "id": "Swamp Shack",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "hunter_shack_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "hunter_shack_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "hunter_shack_roof_north" }
+    ],
+    "locations": [ "swamp" ],
+    "city_distance": [ 12, -1 ],
+    "city_sizes": [ 0, 16 ],
+    "occurrences": [ 0, 8 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Swamp Shack 1",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "hunter_shack_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "hunter_shack_roof_1_north" }
+    ],
     "locations": [ "swamp" ],
     "city_distance": [ 12, -1 ],
     "city_sizes": [ 0, 16 ],
