@@ -93,6 +93,14 @@
     "chance": 50
   },
   {
+    "id": "emit_shock_burst",
+    "type": "emit",
+    "//": "small cloud of lightning",
+    "field": "fd_electricity",
+    "chance": 1,
+    "qty": 10
+  },
+  {
     "id": "emit_shock_cloud",
     "type": "emit",
     "//": "Thick cloud of lightning (example: incandescent husk)",

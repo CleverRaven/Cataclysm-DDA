@@ -54,7 +54,7 @@
         "||#    |",
         "+ #####|",
         "|    iV+",
-        "||P{PV||",
+        "||PFPV||",
         " |||||| "
       ],
       "palettes": [ "mi-go_palette" ]
@@ -103,11 +103,11 @@
       "rotation": [ 0, 3 ],
       "rows": [
         ".|||||",
-        "||    ",
+        "|| {  ",
         "+     ",
-        "|   { ",
-        "|     ",
-        "||    ",
+        "|   F ",
+        "| {   ",
+        "||   i",
         " |+|||"
       ],
       "palettes": [ "mi-go_palette" ]
@@ -127,21 +127,30 @@
         "........||........",
         "......||||||......",
         "....|||PPPP|||....",
-        "..|||PP    # |||..",
+        "..|||PP    #1|||..",
         "|||PP  i   ### ||.",
-        "|<           #  |.",
-        "||  VnV  } i ###||",
-        " |i nnn        # |",
+        "|<       }   #2 |.",
+        "||  VnV    i ###||",
+        " |i nnn        #3|",
         " |i nnn  i     # |",
         " +  VnV      ###||",
-        "||        i  #  |.",
+        "||        i  #4 |.",
         "|P    } ###  ###|.",
-        "+  i    # #### ||.",
-        "|||PPPP # #  |||..",
+        "+  i    # ####5||.",
+        "|||PPPP #7#6 |||..",
         "  ||||||||# ||....",
         " ||......||||....."
       ],
-      "palettes": [ "mi-go_palette" ]
+      "palettes": [ "mi-go_palette" ],
+      "npcs": {
+        "1": { "class": "thug" },
+        "2": { "class": "bandit" },
+        "3": { "class": "derelict_dweller" },
+        "4": { "class": "apis" },
+        "5": { "class": "thug" },
+        "6": { "class": "bandit" },
+        "7": { "class": "thug" }
+      }
     }
   },
   {
@@ -341,11 +350,49 @@
         "|| +  ",
         "|##|||",
         "|1  {|",
-        "|   ||",
+        "|  1||",
         "|||||."
       ],
       "palettes": [ "mi-go_palette" ],
       "monsters": { "1": { "monster": "GROUP_ZOMBIE_BRUTE", "chance": 1 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_encampment1_room15",
+    "//": "Roomfull of zaps",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|+||   +",
+        "| F|||||",
+        "|     P|",
+        "||F  F||",
+        " ||||||."
+      ],
+      "palettes": [ "mi-go_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_encampment1_room16",
+    "//": "Right side entrance",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|+|||",
+        "|   |",
+        "|||+|"
+      ],
+      "palettes": [ "mi-go_palette" ]
     }
   }
 ]

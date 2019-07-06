@@ -6743,6 +6743,21 @@
   },
   {
     "type": "furniture",
+    "id": "f_alien_zapper",
+    "name": "twitching frond",
+    "description": "A spine like the antenna of a moth juts from the ground, swaying gently in the air.  Every so often, a cascade of energy arcs along it and discharges into the ceiling.",
+    "symbol": "F",
+    "color": "light_blue",
+    "move_cost_mod": 4,
+    "coverage": 20,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "EMITTER", "NONFLAMMABLE" ],
+    "emissions": [ "emit_glimmer", "emit_shock_burst" ],
+    "//": "TODO: Make a custom toxic gas emission that is not visible to the player",
+    "bash": { "str_min": 30, "str_max": 60, "sound": "splorch!", "sound_fail": "whump!", "furn_set": "f_alien_scar" }
+  },
+  {
+    "type": "furniture",
     "id": "f_alien_scar",
     "name": "scarred lump",
     "description": "This is a pile of undentified twitching alien flesh, belching strange gases out of injured vessels.",
@@ -6752,7 +6767,7 @@
     "coverage": 40,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "EMITTER", "NONFLAMMABLE" ],
-    "emissions": [ "emit_toxic_leak", "emit_hot_air4_blast" ],
+    "emissions": [ "emit_toxic_leak", "emit_hot_air4_blast", "emit_shock_burst" ],
     "//": "TODO: Make a custom toxic gas emission that is not visible to the player",
     "bash": { "str_min": 250, "str_max": 600, "sound": "splorch!", "sound_fail": "splat!" }
   },
