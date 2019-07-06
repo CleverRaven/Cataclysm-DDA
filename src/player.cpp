@@ -1947,7 +1947,6 @@ time_duration player::estimate_effect_dur( const skill_id &relevant_skill,
     time_duration estimate = std::max( zero_duration, target.get_effect_dur( target_effect ) +
                                        rng( -1, 1 ) * error_magnitude *
                                        rng( 0, std::max( 0, threshold - skill_lvl ) ) );
-
     return estimate;
 }
 
@@ -5427,15 +5426,17 @@ void player::suffer()
     const bool leafier = has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
     const bool leafiest = has_trait( trait_LEAVES3 );
     int sunlight_nutrition = 0;
-    if( leafy && g->is_in_sunlight( pos() ) ) {
+    if( leafy && g->m.is_outside( pos() ) && ( g->light_level( pos().z ) >= 40 ) ) {
+        const float weather_factor = ( g->weather.weather == WEATHER_CLEAR ||
+                                       g->weather.weather == WEATHER_SUNNY ) ? 1.0 : 0.5;
         const int player_local_temp = g->weather.get_temperature( pos() );
         int flux = ( player_local_temp - 65 ) / 2;
         if( !has_hat ) {
-            sunlight_nutrition += 100 + flux;
+            sunlight_nutrition += ( 100 + flux ) * weather_factor;
         }
         if( leafier ) {
             int rate = ( ( 100 * sleeve_factor ) + flux ) * 2;
-            sunlight_nutrition += rate * ( leafiest ? 2 : 1 );
+            sunlight_nutrition += ( rate * ( leafiest ? 2 : 1 ) ) * weather_factor;
         }
     }
 
