@@ -2177,7 +2177,21 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.emplace_back( "TOOL", string_format( _( "<bold>Charges</bold>: %d" ), ammo_remaining() ) );
         }
 
-        if( !magazine_integral() ) {
+        if( battery_powered() ) {
+            if( battery_current() && parts->test( iteminfo_parts::TOOL_BATTERY_CURRENT ) ) {
+                info.emplace_back( "TOOL", _( "Battery: " ), string_format( "<stat>%s</stat>",
+                                   battery_current()->tname() ) );
+            }
+
+            if( parts->test( iteminfo_parts::TOOL_BATTERY_COMPATIBLE ) ) {
+                insert_separation_line();
+                const auto compat = battery_compatible();
+                info.emplace_back( "TOOL", _( "<bold>Compatible batteries:</bold> " ),
+                enumerate_as_string( compat.begin(), compat.end(), []( const itype_id & id ) {
+                    return item::nname( id );
+                } ) );
+            }
+        } else if( !magazine_integral() ) {
             if( magazine_current() && parts->test( iteminfo_parts::TOOL_MAGAZINE_CURRENT ) ) {
                 info.emplace_back( "TOOL", _( "Magazine: " ), string_format( "<stat>%s</stat>",
                                    magazine_current()->tname() ) );
