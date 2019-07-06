@@ -200,6 +200,12 @@
   },
   {
     "type": "city_building",
+    "id": "s_thrift",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_thrift_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_thrift_roof_north" } ]
+  },
+  {
+    "type": "city_building",
     "id": "s_gun",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_gun_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_gun_roof_north" } ]
