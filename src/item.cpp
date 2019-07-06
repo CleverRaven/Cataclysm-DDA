@@ -6168,6 +6168,19 @@ const item *item::magazine_current() const
     return const_cast<item *>( this )->magazine_current();
 }
 
+item *item::battery_current()
+{
+    auto iter = std::find_if( contents.begin(), contents.end(), []( const item & it ) {
+        return it.is_battery();
+    } );
+    return iter != contents.end() ? &*iter : nullptr;
+}
+
+const item *item::battery_current() const
+{
+    return const_cast<item *>( this )->battery_current();
+}
+
 std::vector<item *> item::gunmods()
 {
     std::vector<item *> res;

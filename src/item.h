@@ -1670,6 +1670,12 @@ class item : public visitable<item>
         item *magazine_current();
         const item *magazine_current() const;
 
+        /** Currently loaded battery (if any)
+         *  @return current battery or nullptr if no battery is loaded
+         */
+        item *battery_current();
+        const item *battery_current() const;
+
         /** Normalizes an item to use the new magazine system. Idempotent if item already converted.
          *  @return items that were created as a result of the conversion (excess ammo or magazines) */
         std::vector<item> magazine_convert();
