@@ -44,5 +44,38 @@
       [ "translocate_spellbook", 20 ],
       [ "recovery_spellbook", 30 ]
     ]
+  },
+  {
+    "id": "spellbook_loot_0",
+    "type": "item_group",
+    "//": "the difference between tiers and loot are that loot should be easy to",
+    "//": "drop into an itemgroup or mapgen without having multiple entries for higher tier spellbooks.",
+    "//": "and loot tiers will not always have the lower tier spellbook tiers.",
+    "items": [
+      { "group": "spellbook_tier_0", "prob": 60 },
+      { "group": "spellbook_tier_1", "prob": 30 },
+      { "group": "spellbook_tier_2", "prob": 9 },
+      { "group": "spellbook_tier_3", "prob": 1 }
+    ]
+  },
+  {
+    "id": "spellbook_loot_1",
+    "type": "item_group",
+    "items": [
+      { "group": "spellbook_tier_0", "prob": 30 },
+      { "group": "spellbook_tier_1", "prob": 50 },
+      { "group": "spellbook_tier_2", "prob": 18 },
+      { "group": "spellbook_tier_3", "prob": 2 }
+    ]
+  },
+  {
+    "id": "spellbook_loot_2",
+    "type": "item_group",
+    "items": [
+      { "group": "spellbook_tier_0", "prob": 5 },
+      { "group": "spellbook_tier_1", "prob": 30 },
+      { "group": "spellbook_tier_2", "prob": 50 },
+      { "group": "spellbook_tier_3", "prob": 15 }
+    ]
   }
 ]
