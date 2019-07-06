@@ -5375,6 +5375,9 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
         }
         return now ? ( ammo_remaining() < ammo_capacity() ) : true;
     } else {
+        if( battery_powered() ) {
+            return ammo.empty() ? true : type->tool->batteries.count( ammo );
+        }
         return ammo.empty() ? true : magazine_compatible().count( ammo );
     }
 }
@@ -8432,7 +8435,7 @@ bool item::is_reloadable() const
     } else if( !is_gun() && !is_tool() && !is_magazine() ) {
         return false;
 
-    } else if( ammo_types().empty() ) {
+    } else if( ammo_types().empty() && !battery_powered() ) {
         return false;
     }
 

@@ -7502,7 +7502,8 @@ item::reload_option player::select_ammo( const item &base, bool prompt, bool emp
     bool ammo_match_found = list_ammo( base, ammo_list, empty );
 
     if( ammo_list.empty() ) {
-        if( !base.is_magazine() && !base.magazine_integral() && !base.magazine_current() ) {
+        if( !base.is_magazine() && !base.magazine_integral() && !base.magazine_current() &&
+            !base.battery_powered() ) {
             add_msg_if_player( m_info, _( "You need a compatible magazine to reload the %s!" ),
                                base.tname() );
 
@@ -8092,10 +8093,10 @@ int player::item_reload_cost( const item &it, const item &ammo, int qty ) const
         qty = std::max( std::min( ammo.charges, qty ), 1 );
     } else if( ammo.is_ammo_container() || ammo.is_container() ) {
         qty = std::max( std::min( ammo.contents.front().charges, qty ), 1 );
-    } else if( ammo.is_magazine() ) {
+    } else if( ammo.is_magazine() || ammo.is_battery() ) {
         qty = 1;
     } else {
-        debugmsg( "cannot determine reload cost as %s is neither ammo or magazine", ammo.tname() );
+        debugmsg( "cannot determine reload cost as %s is not ammo, battery, or magazine", ammo.tname() );
         return 0;
     }
 

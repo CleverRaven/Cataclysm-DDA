@@ -1083,6 +1083,23 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             } );
         }
     }
+    if( obj.battery_powered() ) {
+        // find compatible batteries excluding those already loaded in tools
+        const std::set<itype_id> batteries = obj.battery_compatible();
+
+        src.visit_items( [&src, &nested, &out, batteries, empty]( item * node ) {
+            if( node->is_tool() ) {
+                return VisitResponse::SKIP;
+            }
+            if( node->is_battery() ) {
+                if( batteries.count( node->typeId() ) && ( node->energy_remaining() > 0_mJ || empty ) ) {
+                    out = item_location( src, node );
+                }
+                return VisitResponse::SKIP;
+            }
+            return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
+        } );
+    }
     if( obj.magazine_integral() ) {
         // find suitable ammo excluding that already loaded in magazines
         std::set<ammotype> ammo = obj.ammo_types();
