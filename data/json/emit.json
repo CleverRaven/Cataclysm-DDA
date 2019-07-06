@@ -163,7 +163,7 @@
     "id": "emit_glimmer",
     "type": "emit",
     "field": "fd_dazzling",
-    "qty": 1,
-    "chance": 50
+    "qty": 3,
+    "chance": 75
   }
 ]
