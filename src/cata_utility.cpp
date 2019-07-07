@@ -344,9 +344,12 @@ bool write_to_file( const std::string &path, const std::function<void( std::ostr
 }
 
 ofstream_wrapper_exclusive::ofstream_wrapper_exclusive( const std::string &path )
-    : path( path )
+    : file_stream()
+    , path( path )
+    , temp_path( path + ".tmp" )
 {
-    fopen_exclusive( file_stream, path.c_str(), std::ios::binary );
+
+    fopen_exclusive( file_stream, temp_path.c_str(), std::ios::binary );
     if( !file_stream.is_open() ) {
         throw std::runtime_error( _( "opening file failed" ) );
     }
@@ -354,16 +357,25 @@ ofstream_wrapper_exclusive::ofstream_wrapper_exclusive( const std::string &path 
 
 ofstream_wrapper_exclusive::~ofstream_wrapper_exclusive()
 {
-    if( file_stream.is_open() ) {
-        fclose_exclusive( file_stream, path.c_str() );
+    try {
+        close();
+    } catch( ... ) {
+        // ignored in destructor
     }
 }
 
 void ofstream_wrapper_exclusive::close()
 {
-    fclose_exclusive( file_stream, path.c_str() );
+    fclose_exclusive( file_stream, temp_path.c_str() );
     if( file_stream.fail() ) {
+        // Remove the incomplete or otherwise faulty file (if possible).
+        // Failures from it are ignored as we can't really do anything about them.
+        remove_file( temp_path );
         throw std::runtime_error( _( "writing to file failed" ) );
+    }
+    if( !rename_file( temp_path, path ) ) {
+        // Leave the temp path, so the user can move it if possible.
+        throw std::runtime_error( _( "moving temporary file \"" + temp_path + "\" failed" ) );
     }
 }
 

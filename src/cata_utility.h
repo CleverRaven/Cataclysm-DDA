@@ -405,6 +405,7 @@ class ofstream_wrapper_exclusive
     private:
         std::ofstream file_stream;
         std::string path;
+        std::string temp_path;
 
     public:
         ofstream_wrapper_exclusive( const std::string &path );
