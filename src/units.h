@@ -491,7 +491,7 @@ inline constexpr units::quantity<double, units::energy_in_millijoule_tag> operat
 }
 
 template<typename T>
-inline T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, T>> &units )
+T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, T>> &units )
 {
     const size_t pos = jsin.tell();
     size_t i = 0;
