@@ -34,7 +34,7 @@
   },
   {
     "id": "mon_nothic",
-    "name": "Nothic",
+    "name": "nothic",
     "description": "A baleful eye peers out from the darkness, its gleam hinting at a weird intelligence and unnerving malevolence.",
     "symbol": "N",
     "color": "dark_gray",
