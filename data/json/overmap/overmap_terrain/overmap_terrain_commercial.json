@@ -335,6 +335,27 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_electronics_roof",
+    "name": "electronics store roof",
+    "copy-from": "generic_city_building",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_electronics_1",
+    "name": "electronics store",
+    "copy-from": "generic_city_building",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_electronics_roof_1",
+    "name": "electronics store roof",
+    "copy-from": "generic_city_building",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_sports",
     "name": "sporting goods store",
     "copy-from": "generic_city_building",

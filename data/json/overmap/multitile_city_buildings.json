@@ -17,6 +17,24 @@
   },
   {
     "type": "city_building",
+    "id": "s_electronics",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_electronics_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_electronics_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_electronics_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_electronics_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_electronics_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "stripclub",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "stripclub_north" }, { "point": [ 0, 0, 1 ], "overmap": "stripclub_roof_north" } ]
