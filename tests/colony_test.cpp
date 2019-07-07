@@ -151,10 +151,9 @@ TEST_CASE( "colony basics", "[colony]" )
 
     count = 0;
     sum = 0;
-    for( cata::colony<int *>::const_iterator it = test_colony.cbegin(); it != test_colony.cend();
-         ++it ) {
+    for( int *p : test_colony ) {
         ++count;
-        sum += **it;
+        sum += *p;
     }
 
     // Constant iterator count
@@ -406,8 +405,8 @@ TEST_CASE( "insert and erase", "[colony]" )
     }
 
     int sum = 0;
-    for( cata::colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ++it ) {
-        sum += *it;
+    for( int it : test_colony ) {
+        sum += it;
     }
 
     // Re-insert post-heavy-erasure
@@ -779,12 +778,12 @@ TEST_CASE( "sort", "[colony]" )
     bool sorted = true;
     int prev = 0;
 
-    for( cata::colony<int>::iterator cur = test_colony.begin(); cur != test_colony.end(); ++cur ) {
-        if( prev > *cur ) {
+    for( int cur : test_colony ) {
+        if( prev > cur ) {
             sorted = false;
             break;
         }
-        prev = *cur;
+        prev = cur;
     }
 
     // Less-than sort test
@@ -794,12 +793,12 @@ TEST_CASE( "sort", "[colony]" )
 
     prev = 65536;
 
-    for( cata::colony<int>::iterator cur = test_colony.begin(); cur != test_colony.end(); ++cur ) {
-        if( prev < *cur ) {
+    for( int cur : test_colony ) {
+        if( prev < cur ) {
             sorted = false;
             break;
         }
-        prev = *cur;
+        prev = cur;
     }
 
     // Greater-than sort test
@@ -842,8 +841,8 @@ TEST_CASE( "insertion methods", "[colony]" )
 
     int sum = 0;
 
-    for( cata::colony<int>::iterator it = test_colony_2.begin(); it != test_colony_2.end(); ++it ) {
-        sum += *it;
+    for( int it : test_colony_2 ) {
+        sum += it;
     }
 
     // Reserve + fill insert
@@ -856,8 +855,8 @@ TEST_CASE( "insertion methods", "[colony]" )
 
     sum = 0;
 
-    for( cata::colony<int>::iterator it = test_colony_2.begin(); it != test_colony_2.end(); ++it ) {
-        sum += *it;
+    for( int it : test_colony_2 ) {
+        sum += it;
     }
 
     // Reserve + fill insert
@@ -868,8 +867,8 @@ TEST_CASE( "insertion methods", "[colony]" )
 
     sum = 0;
 
-    for( cata::colony<int>::iterator it = test_colony_2.begin(); it != test_colony_2.end(); ++it ) {
-        sum += *it;
+    for( int it : test_colony_2 ) {
+        sum += it;
     }
 
     // Reserve + fill + fill
@@ -880,8 +879,8 @@ TEST_CASE( "insertion methods", "[colony]" )
     test_colony_2.insert( 6000, 1 );
 
     sum = 0;
-    for( cata::colony<int>::iterator it = test_colony_2.begin(); it != test_colony_2.end(); ++it ) {
-        sum += *it;
+    for( int it : test_colony_2 ) {
+        sum += it;
     }
 
     // Reserve + fill + fill + reserve + fill
@@ -936,9 +935,8 @@ TEST_CASE( "emplace", "[colony]" )
         sum1 += i;
     }
 
-    for( cata::colony<small_struct>::iterator it = test_colony.begin(); it != test_colony.end();
-         ++it ) {
-        sum2 += it->number;
+    for( small_struct &s : test_colony ) {
+        sum2 += s.number;
     }
 
     //Basic emplace
@@ -1019,8 +1017,8 @@ TEST_CASE( "splice", "[colony]" )
         test_colony_1.splice( test_colony_2 );
 
         i = 0;
-        for( cata::colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ++it ) {
-            CHECK( i++ == *it );
+        for( int it : test_colony_1 ) {
+            CHECK( i++ == it );
         }
     }
 
@@ -1034,8 +1032,8 @@ TEST_CASE( "splice", "[colony]" )
         test_colony_1.splice( test_colony_2 );
 
         i = 0;
-        for( cata::colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ++it ) {
-            CHECK( i++ == *it );
+        for( int it : test_colony_1 ) {
+            CHECK( i++ == it );
         }
     }
 
@@ -1056,9 +1054,9 @@ TEST_CASE( "splice", "[colony]" )
         test_colony_1.splice( test_colony_2 );
 
         int prev = -1;
-        for( cata::colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ++it ) {
-            CHECK( prev < *it );
-            prev = *it;
+        for( int it : test_colony_1 ) {
+            CHECK( prev < it );
+            prev = it;
         }
     }
 
@@ -1087,9 +1085,9 @@ TEST_CASE( "splice", "[colony]" )
         test_colony_1.splice( test_colony_2 );
 
         int prev = -1;
-        for( cata::colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ++it ) {
-            CHECK( prev < *it );
-            prev = *it;
+        for( int it : test_colony_1 ) {
+            CHECK( prev < it );
+            prev = it;
         }
     }
 
@@ -1108,9 +1106,9 @@ TEST_CASE( "splice", "[colony]" )
         test_colony_1.splice( test_colony_2 );
 
         int prev = -1;
-        for( cata::colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ++it ) {
-            CHECK( prev < *it );
-            prev = *it;
+        for( int it : test_colony_1 ) {
+            CHECK( prev < it );
+            prev = it;
         }
     }
 
@@ -1129,9 +1127,9 @@ TEST_CASE( "splice", "[colony]" )
         test_colony_1.splice( test_colony_2 );
 
         int prev = 255;
-        for( cata::colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ++it ) {
-            CHECK( prev >= *it );
-            prev = *it;
+        for( int it : test_colony_1 ) {
+            CHECK( prev >= it );
+            prev = it;
         }
     }
 
@@ -1167,9 +1165,9 @@ TEST_CASE( "splice", "[colony]" )
         test_colony_1.splice( test_colony_2 );
 
         int prev = -1;
-        for( cata::colony<int>::iterator it = test_colony_1.begin(); it != test_colony_1.end(); ++it ) {
-            CHECK( prev < *it );
-            prev = *it;
+        for( int it : test_colony_1 ) {
+            CHECK( prev < it );
+            prev = it;
         }
 
         do {
