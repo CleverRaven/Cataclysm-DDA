@@ -1,4 +1,4 @@
-﻿#include "omdata.h" // IWYU pragma: associated
+#include "omdata.h" // IWYU pragma: associated
 #include "overmap.h" // IWYU pragma: associated
 
 #include <algorithm>
