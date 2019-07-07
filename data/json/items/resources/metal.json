@@ -286,5 +286,21 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched"
+  },
+  {
+    "type": "GENERIC",
+    "id": "scrap_copper",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "scrap copper",
+    "name_plural": "scrap copper",
+    "category": "spare_parts",
+    "description": "A small chunk of copper, usable for crafting or repairs.",
+    "price": 1000,
+    "material": "copper",
+    "weight": 200,
+    "volume": 1,
+    "bashing": 1,
+    "to_hit": -2
   }
 ]
