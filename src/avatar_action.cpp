@@ -115,9 +115,9 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     }
 
     // by this point we're either walking, running, crouching, or attacking, so update the activity level to match
-    if( you.get_movement_mode() == "walk" ) {
+    if( you.movement_mode_is( PMM_WALK ) ) {
         you.increase_activity_level( LIGHT_EXERCISE );
-    } else if( you.get_movement_mode() == "crouch" ) {
+    } else if( you.movement_mode_is( PMM_CROUCH ) ) {
         you.increase_activity_level( MODERATE_EXERCISE );
     } else {
         you.increase_activity_level( ACTIVE_EXERCISE );
@@ -355,7 +355,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     // open it if we are walking
     // vault over it if we are running
     if( m.passable_ter_furn( dest_loc )
-        && you.get_movement_mode() == "walk"
+        && you.movement_mode_is( PMM_WALK )
         && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
         you.moves -= 100;
         // if auto-move is on, continue moving next turn
