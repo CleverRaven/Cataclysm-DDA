@@ -326,24 +326,6 @@ float multi_lerp( const std::vector<std::pair<float, float>> &points, float x )
     return ( t * points[i].second ) + ( ( 1 - t ) * points[i - 1].second );
 }
 
-ofstream_wrapper::ofstream_wrapper( const std::string &path )
-{
-    file_stream.open( path.c_str(), std::ios::binary );
-    if( !file_stream.is_open() ) {
-        throw std::runtime_error( "opening file failed" );
-    }
-}
-
-ofstream_wrapper::~ofstream_wrapper() = default;
-
-void ofstream_wrapper::close()
-{
-    file_stream.close();
-    if( file_stream.fail() ) {
-        throw std::runtime_error( "writing to file failed" );
-    }
-}
-
 bool write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
                     const char *const fail_message )
 {
