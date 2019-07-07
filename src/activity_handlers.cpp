@@ -4029,7 +4029,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
             std::vector<tripoint> trajectory = th.target_ui( casting, no_fail, no_mana );
             if( !trajectory.empty() ) {
                 target = trajectory.back();
-                target_is_valid = casting.is_valid_target( target );
+                target_is_valid = casting.is_valid_target( *p, target );
                 if( !( casting.is_valid_target( target_ground ) || p->sees( target ) ) ) {
                     target_is_valid = false;
                 }
@@ -4065,7 +4065,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
     p->add_msg_if_player( _( "You cast %s!" ), casting.name() );
 
-    casting.cast_all_effects( p->pos(), target );
+    casting.cast_all_effects( *p, target );
 
     if( !no_mana ) {
         // pay the cost
