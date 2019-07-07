@@ -35,6 +35,24 @@
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
+    "id": "makeshift_scythe_war",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "makeshift war scythe",
+    "description": "This farming tool has been modified into an improvised weapon by rotating its blade 90 degrees, transforming it into a deadly giant blade on the end of a stick. However it's quite fragile.",
+    "weight": 3013,
+    "volume": 13,
+    "price": 16000,
+    "bashing": 2,
+    "cutting": 16,
+    "material": [ "steel", "wood" ],
+    "symbol": "/",
+    "color": "light_gray",
+    "techniques": [ "WIDE", "BRUTAL" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
+    "flags": [ "FRAGILE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR", "REACH_ATTACK" ]
+  },
+  {
     "id": "spear_knife",
     "type": "TOOL",
     "category": "weapons",
@@ -368,6 +386,25 @@
     "flags": [ "SPEAR", "NONCONDUCTIVE", "SHEATH_SPEAR", "JAVELIN" ],
     "price": 9000,
     "qualities": [ [ "COOK", 1 ] ]
+  },
+  {
+    "id": "pike",
+    "type": "GENERIC",
+    "category": "weapons",
+    "name": "pike",
+    "description": "This is a medieval weapon consisting of a wood shaft tipped with an iron spearhead.",
+    "weight": 2500,
+    "volume": 14,
+    "price": 40000,
+    "to_hit": -2,
+    "bashing": 8,
+    "cutting": 25,
+    "material": [ "iron", "wood" ],
+    "symbol": "/",
+    "color": "brown",
+    "techniques": [ "IMPALE", "WBLOCK_2" ],
+    "qualities": [ [ "COOK", 1 ] ],
+    "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
   },
   {
     "id": "pike_fake",
