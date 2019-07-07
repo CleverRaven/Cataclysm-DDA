@@ -63,6 +63,7 @@
     "see_cost": 5
   },
   {
+    "type": "overmap_terrain",
     "id": "used_bookstore",
     "name": "used bookstore",
     "sym": "B",
