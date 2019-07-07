@@ -164,6 +164,14 @@
     "color": "light_blue"
   },
   {
+    "type": "overmap_terrain",
+    "id": "warehouse_roof",
+    "copy-from": "generic_city_building",
+    "name": "small warehouse roof",
+    "sym": "w",
+    "color": "light_blue"
+  },
+  {
     "id": "small_storage_units",
     "type": "overmap_terrain",
     "copy-from": "generic_city_building",
