@@ -1405,11 +1405,17 @@
       { "point": [ 1, 0, 0 ], "overmap": "zoo_1_0_north" },
       { "point": [ 2, 0, 0 ], "overmap": "zoo_2_0_north" },
       { "point": [ 0, 1, 0 ], "overmap": "zoo_0_1_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "zoo_0_1_roof_north" },
       { "point": [ 1, 1, 0 ], "overmap": "zoo_1_1_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "zoo_1_1_roof_north" },
       { "point": [ 2, 1, 0 ], "overmap": "zoo_2_1_north" },
+      { "point": [ 2, 1, 1 ], "overmap": "zoo_2_1_roof_north" },
       { "point": [ 0, 2, 0 ], "overmap": "zoo_0_2_north" },
+      { "point": [ 0, 2, 1 ], "overmap": "zoo_0_2_roof_north" },
       { "point": [ 1, 2, 0 ], "overmap": "zoo_1_2_north" },
-      { "point": [ 2, 2, 0 ], "overmap": "zoo_2_2_north" }
+      { "point": [ 1, 2, 1 ], "overmap": "zoo_1_2_roof_north" },
+      { "point": [ 2, 2, 0 ], "overmap": "zoo_2_2_north" },
+      { "point": [ 2, 2, 1 ], "overmap": "zoo_2_2_roof_north" }
     ]
   },
   {
