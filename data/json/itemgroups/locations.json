@@ -151,6 +151,36 @@
     ]
   },
   {
+    "id": "vfw_tools",
+    "type": "item_group",
+    "items": [ [ "glock_19", 1 ], [ "boots_steel", 50 ], [ "boots_hiking", 10 ] ]
+  },
+  {
+    "id": "vfw_books",
+    "type": "item_group",
+    "items": [
+      [ "mag_traps", 20 ],
+      [ "manual_traps", 12 ],
+      [ "trappers_companion", 2 ],
+      [ "mag_guns", 40 ],
+      [ "mag_rifle", 40 ],
+      [ "mag_shotgun", 15 ],
+      [ "mag_survival", 40 ],
+      [ "textbook_firstaid", 8 ],
+      [ "pocket_firstaid", 2 ],
+      [ "pocket_survival", 2 ],
+      [ "pocket_firearms", 2 ],
+      [ "mag_archery", 15 ],
+      [ "manual_archery", 8 ],
+      [ "book_archery", 2 ]
+    ]
+  },
+  {
+    "id": "vfw_alcohol",
+    "type": "item_group",
+    "items": [ [ "beer", 20 ], [ "vodka", 2 ] ]
+  },
+  {
     "id": "energy_weapon_armory",
     "type": "item_group",
     "subtype": "collection",

@@ -1557,6 +1557,12 @@
   },
   {
     "type": "city_building",
+    "id": "s_vfw",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_vfw_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_vfw_roof_north" } ]
+  },
+  {
+    "type": "city_building",
     "id": "dispensary",
     "locations": [ "land" ],
     "overmaps": [

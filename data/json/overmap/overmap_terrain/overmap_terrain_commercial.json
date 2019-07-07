@@ -1759,6 +1759,15 @@
     "id": "s_vfw",
     "copy-from": "generic_city_building",
     "name": "veterans of foreign wars",
+    "sym": "w",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_vfw_roof",
+    "copy-from": "generic_city_building",
+    "name": "veterans of foreign wars center roof",
+    "sym": "w",
     "color": "i_green"
   },
   {
