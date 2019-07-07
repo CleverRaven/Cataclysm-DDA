@@ -137,9 +137,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": {
-        ">": "t_ladder_down"
-      },
+      "terrain": { ">": "t_ladder_down" },
       "furniture": { "%": "f_TV_antenna" },
       "place_nested": [
         {
@@ -228,10 +226,13 @@
           "t_tree_almond",
           "t_tree_pecan"
         ],
-        "<":"t_ladder_up",
-        "4":"t_gutter_downspout"
+        "<": "t_ladder_up",
+        "4": "t_gutter_downspout"
       },
-      "furniture": { "#": "f_counter", "{": "f_rack", "S": "f_stool",
+      "furniture": {
+        "#": "f_counter",
+        "{": "f_rack",
+        "S": "f_stool",
         "s": "f_sink",
         "U": [ "f_dumpster", "f_recycle_bin" ],
         "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
@@ -247,7 +248,6 @@
         "@": "f_sofa",
         "G": "f_workbench",
         "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ]
-
       },
       "toilets": { "&": {  } },
       "items": {
@@ -299,13 +299,8 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": {
-        ">": "t_ladder_down"
-      },
-      "nested": {
-        "U": { "chunks": [ "roof_2x2_infrastructure" ] },
-        "R": { "chunks": [ "roof_2x2_infrastructure_1" ] }
-      },
+      "terrain": { ">": "t_ladder_down" },
+      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
       "place_nested": [
         {
           "chunks": [
@@ -319,12 +314,7 @@
           "y": [ 5, 7 ]
         },
         {
-          "chunks": [
-            [ "null", 20 ],
-            [ "roof_4x4_utility", 40 ],
-            [ "roof_6x6_utility", 20 ],
-            [ "roof_6x6_survivor", 10 ]
-          ],
+          "chunks": [ [ "null", 20 ], [ "roof_4x4_utility", 40 ], [ "roof_6x6_utility", 20 ], [ "roof_6x6_survivor", 10 ] ],
           "x": [ 5, 13 ],
           "y": [ 9, 11 ]
         }
