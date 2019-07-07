@@ -1186,6 +1186,14 @@ bool &overmap::seen( int x, int y, int z )
     return layer[z + OVERMAP_DEPTH].visible[x][y];
 }
 
+bool overmap::seen( int x, int y, int z ) const
+{
+    if( !inbounds( tripoint( x, y, z ) ) ) {
+        return false;
+    }
+    return layer[z + OVERMAP_DEPTH].visible[x][y];
+}
+
 bool &overmap::explored( int x, int y, int z )
 {
     if( !inbounds( tripoint( x, y, z ) ) ) {
