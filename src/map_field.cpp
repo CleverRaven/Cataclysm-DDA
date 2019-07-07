@@ -1212,117 +1212,117 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             }
                         }
                     }
-                    if( curtype == fd_acid_vent ) {
+                }
+                if( curtype == fd_acid_vent ) {
 
-                        if( cur.get_field_intensity() > 1 ) {
-                            if( cur.get_field_age() >= 1_minutes ) {
-                                cur.set_field_intensity( cur.get_field_intensity() - 1 );
-                                cur.set_field_age( 0_turns );
-                            }
-                        } else {
-                            cur.set_field_intensity( 3 );
-                            for( const tripoint &t : points_in_radius( p, 5 ) ) {
-                                const field_entry *acid = get_field( t, fd_acid );
-                                if( acid != nullptr && acid->get_field_intensity() == 0 ) {
-                                    int new_intensity = 3 - ( rl_dist( p, t ) / 2 ) + ( one_in( 3 ) ? 1 : 0 );
-                                    if( new_intensity > 3 ) {
-                                        new_intensity = 3;
-                                    }
-                                    if( new_intensity > 0 ) {
-                                        add_field( t, fd_acid, new_intensity );
-                                    }
+                    if( cur.get_field_intensity() > 1 ) {
+                        if( cur.get_field_age() >= 1_minutes ) {
+                            cur.set_field_intensity( cur.get_field_intensity() - 1 );
+                            cur.set_field_age( 0_turns );
+                        }
+                    } else {
+                        cur.set_field_intensity( 3 );
+                        for( const tripoint &t : points_in_radius( p, 5 ) ) {
+                            const field_entry *acid = get_field( t, fd_acid );
+                            if( acid != nullptr && acid->get_field_intensity() == 0 ) {
+                                int new_intensity = 3 - ( rl_dist( p, t ) / 2 ) + ( one_in( 3 ) ? 1 : 0 );
+                                if( new_intensity > 3 ) {
+                                    new_intensity = 3;
+                                }
+                                if( new_intensity > 0 ) {
+                                    add_field( t, fd_acid, new_intensity );
                                 }
                             }
                         }
                     }
-                    if( curtype == fd_bees ) {
-                        dirty_transparency_cache = true;
-                        // Poor bees are vulnerable to so many other fields.
-                        // TODO: maybe adjust effects based on different fields.
-                        if( curfield.find_field( fd_web ) ||
-                            curfield.find_field( fd_fire ) ||
-                            curfield.find_field( fd_smoke ) ||
-                            curfield.find_field( fd_toxic_gas ) ||
-                            curfield.find_field( fd_tear_gas ) ||
-                            curfield.find_field( fd_relax_gas ) ||
-                            curfield.find_field( fd_nuke_gas ) ||
-                            curfield.find_field( fd_gas_vent ) ||
-                            curfield.find_field( fd_smoke_vent ) ||
-                            curfield.find_field( fd_fungicidal_gas ) ||
-                            curfield.find_field( fd_fire_vent ) ||
-                            curfield.find_field( fd_flame_burst ) ||
-                            curfield.find_field( fd_electricity ) ||
-                            curfield.find_field( fd_fatigue ) ||
-                            curfield.find_field( fd_shock_vent ) ||
-                            curfield.find_field( fd_plasma ) ||
-                            curfield.find_field( fd_laser ) ||
-                            curfield.find_field( fd_dazzling ) ||
-                            curfield.find_field( fd_electricity ) ||
-                            curfield.find_field( fd_incendiary ) ) {
-                            // Kill them at the end of processing.
-                            cur.set_field_intensity( 0 );
-                        } else {
-                            // Bees chase the player if in range, wander randomly otherwise.
-                            if( !g->u.is_underwater() &&
-                                rl_dist( p, g->u.pos() ) < 10 &&
-                                clear_path( p, g->u.pos(), 10, 0, 100 ) ) {
+                }
+                if( curtype == fd_bees ) {
+                    dirty_transparency_cache = true;
+                    // Poor bees are vulnerable to so many other fields.
+                    // TODO: maybe adjust effects based on different fields.
+                    if( curfield.find_field( fd_web ) ||
+                        curfield.find_field( fd_fire ) ||
+                        curfield.find_field( fd_smoke ) ||
+                        curfield.find_field( fd_toxic_gas ) ||
+                        curfield.find_field( fd_tear_gas ) ||
+                        curfield.find_field( fd_relax_gas ) ||
+                        curfield.find_field( fd_nuke_gas ) ||
+                        curfield.find_field( fd_gas_vent ) ||
+                        curfield.find_field( fd_smoke_vent ) ||
+                        curfield.find_field( fd_fungicidal_gas ) ||
+                        curfield.find_field( fd_fire_vent ) ||
+                        curfield.find_field( fd_flame_burst ) ||
+                        curfield.find_field( fd_electricity ) ||
+                        curfield.find_field( fd_fatigue ) ||
+                        curfield.find_field( fd_shock_vent ) ||
+                        curfield.find_field( fd_plasma ) ||
+                        curfield.find_field( fd_laser ) ||
+                        curfield.find_field( fd_dazzling ) ||
+                        curfield.find_field( fd_electricity ) ||
+                        curfield.find_field( fd_incendiary ) ) {
+                        // Kill them at the end of processing.
+                        cur.set_field_intensity( 0 );
+                    } else {
+                        // Bees chase the player if in range, wander randomly otherwise.
+                        if( !g->u.is_underwater() &&
+                            rl_dist( p, g->u.pos() ) < 10 &&
+                            clear_path( p, g->u.pos(), 10, 0, 100 ) ) {
 
-                                std::vector<point> candidate_positions =
-                                    squares_in_direction( p.x, p.y, g->u.posx(), g->u.posy() );
-                                for( auto &candidate_position : candidate_positions ) {
-                                    field &target_field =
-                                        get_field( tripoint( candidate_position, p.z ) );
-                                    // Only shift if there are no bees already there.
-                                    // TODO: Figure out a way to merge bee fields without allowing
-                                    // Them to effectively move several times in a turn depending
-                                    // on iteration direction.
-                                    if( !target_field.find_field( fd_bees ) ) {
-                                        add_field( tripoint( candidate_position, p.z ), fd_bees,
-                                                   cur.get_field_intensity(), cur.get_field_age() );
-                                        cur.set_field_intensity( 0 );
-                                        break;
-                                    }
+                            std::vector<point> candidate_positions =
+                                squares_in_direction( p.x, p.y, g->u.posx(), g->u.posy() );
+                            for( auto &candidate_position : candidate_positions ) {
+                                field &target_field =
+                                    get_field( tripoint( candidate_position, p.z ) );
+                                // Only shift if there are no bees already there.
+                                // TODO: Figure out a way to merge bee fields without allowing
+                                // Them to effectively move several times in a turn depending
+                                // on iteration direction.
+                                if( !target_field.find_field( fd_bees ) ) {
+                                    add_field( tripoint( candidate_position, p.z ), fd_bees,
+                                               cur.get_field_intensity(), cur.get_field_age() );
+                                    cur.set_field_intensity( 0 );
+                                    break;
                                 }
-                            } else {
-                                spread_gas( cur, p, 5, 0_turns, sblk );
                             }
+                        } else {
+                            spread_gas( cur, p, 5, 0_turns, sblk );
                         }
                     }
-                    if( curtype == fd_incendiary ) {
-                        //Needed for variable scope
-                        dirty_transparency_cache = true;
-                        tripoint dst( p.x + rng( -1, 1 ), p.y + rng( -1, 1 ), p.z );
-                        if( has_flag( TFLAG_FLAMMABLE, dst ) ||
-                            has_flag( TFLAG_FLAMMABLE_ASH, dst ) ||
-                            has_flag( TFLAG_FLAMMABLE_HARD, dst ) ) {
-                            add_field( dst, fd_fire, 1 );
-                        }
+                }
+                if( curtype == fd_incendiary ) {
+                    //Needed for variable scope
+                    dirty_transparency_cache = true;
+                    tripoint dst( p.x + rng( -1, 1 ), p.y + rng( -1, 1 ), p.z );
+                    if( has_flag( TFLAG_FLAMMABLE, dst ) ||
+                        has_flag( TFLAG_FLAMMABLE_ASH, dst ) ||
+                        has_flag( TFLAG_FLAMMABLE_HARD, dst ) ) {
+                        add_field( dst, fd_fire, 1 );
+                    }
 
-                        //check piles for flammable items and set those on fire
-                        if( flammable_items_at( dst ) ) {
-                            add_field( dst, fd_fire, 1 );
-                        }
+                    //check piles for flammable items and set those on fire
+                    if( flammable_items_at( dst ) ) {
+                        add_field( dst, fd_fire, 1 );
+                    }
 
-                        spread_gas( cur, p, 66, 4_minutes, sblk );
-                        create_hot_air( p, cur.get_field_intensity() );
+                    spread_gas( cur, p, 66, 4_minutes, sblk );
+                    create_hot_air( p, cur.get_field_intensity() );
+                }
+                if( curtype == fd_rubble ) {
+                    //Legacy Stuff
+                    make_rubble( p );
+                }
+                if( curtype == fd_fungicidal_gas ) {
+                    dirty_transparency_cache = true;
+                    spread_gas( cur, p, 120, 1_minutes, sblk );
+                    //check the terrain and replace it accordingly to simulate the fungus dieing off
+                    const auto &ter = map_tile.get_ter_t();
+                    const auto &frn = map_tile.get_furn_t();
+                    const int intensity = cur.get_field_intensity();
+                    if( ter.has_flag( "FUNGUS" ) && one_in( 10 / intensity ) ) {
+                        ter_set( p, t_dirt );
                     }
-                    if( curtype == fd_rubble ) {
-                        //Legacy Stuff
-                        make_rubble( p );
-                    }
-                    if( curtype == fd_fungicidal_gas ) {
-                        dirty_transparency_cache = true;
-                        spread_gas( cur, p, 120, 1_minutes, sblk );
-                        //check the terrain and replace it accordingly to simulate the fungus dieing off
-                        const auto &ter = map_tile.get_ter_t();
-                        const auto &frn = map_tile.get_furn_t();
-                        const int intensity = cur.get_field_intensity();
-                        if( ter.has_flag( "FUNGUS" ) && one_in( 10 / intensity ) ) {
-                            ter_set( p, t_dirt );
-                        }
-                        if( frn.has_flag( "FUNGUS" ) && one_in( 10 / intensity ) ) {
-                            furn_set( p, f_null );
-                        }
+                    if( frn.has_flag( "FUNGUS" ) && one_in( 10 / intensity ) ) {
+                        furn_set( p, f_null );
                     }
                 }
 
