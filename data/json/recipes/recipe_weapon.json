@@ -370,7 +370,6 @@
         [ "kirpan", 1 ]
       ],
       [ [ "nail", 2 ] ],
-      [ [ "wire", 1 ], [ "wire_barbed", 1 ], [ "scrap", 2 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
     ]
   },
@@ -389,7 +388,6 @@
     "components": [
       [ [ "spear_knife", 1 ] ],
       [ [ "nail", 2 ] ],
-      [ [ "wire", 1 ], [ "wire_barbed", 1 ], [ "scrap", 2 ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ]
     ]
   },
