@@ -1,6 +1,10 @@
 #include "mapsharing.h"
 
+#include "cata_utility.h"
+#include "filesystem.h"
+
 #include <cstdlib>
+#include <stdexcept>
 
 #if defined(__linux__)
 #include <sys/file.h>
@@ -135,20 +139,37 @@ void releaseLock( int fd, const char *lockName )
 
 std::map<std::string, int> lockFiles;
 
-void fopen_exclusive( std::ofstream &fout, const char *filename,
-                      std::ios_base::openmode mode )  // TODO: put this in an ofstream_exclusive class?
+void ofstream_wrapper_exclusive::open( const std::ios::openmode mode )
 {
-    std::string lockfile = std::string( filename ) + ".lock";
+    const std::string lockfile = temp_path + ".lock";
     lockFiles[lockfile] = getLock( lockfile.c_str() );
     if( lockFiles[lockfile] != -1 ) {
-        fout.open( filename, mode );
+        file_stream.open( temp_path, mode );
+    }
+    if( !file_stream.is_open() ) {
+        throw std::runtime_error( "opening file failed" );
     }
 }
 
-void fclose_exclusive( std::ofstream &fout, const char *filename )
+void ofstream_wrapper_exclusive::close()
 {
-    std::string lockFile = std::string( filename ) + ".lock";
-    fout.close();
+    if( !file_stream.is_open() ) {
+        return;
+    }
+
+    const std::string lockFile = temp_path + ".lock";
+    file_stream.close();
     releaseLock( lockFiles[lockFile], lockFile.c_str() );
     lockFiles[lockFile] = -1;
+
+    if( file_stream.fail() ) {
+        // Remove the incomplete or otherwise faulty file (if possible).
+        // Failures from it are ignored as we can't really do anything about them.
+        remove_file( temp_path );
+        throw std::runtime_error( "writing to file failed" );
+    }
+    if( !rename_file( temp_path, path ) ) {
+        // Leave the temp path, so the user can move it if possible.
+        throw std::runtime_error( "moving temporary file \"" + temp_path + "\" failed" );
+    }
 }

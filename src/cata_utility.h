@@ -404,7 +404,7 @@ bool read_from_file_optional( const std::string &path, JsonDeserializer &reader 
  * @note: The stream is closed in the destructor, but no exception is throw from it. To
  * ensure all errors get reported correctly, you should always call `close` explicitly.
  *
- * @note: This uses exclusive I/O (@ref fopen_exclusive).
+ * @note: This uses exclusive I/O.
  */
 class ofstream_wrapper_exclusive
 {
@@ -413,8 +413,10 @@ class ofstream_wrapper_exclusive
         std::string path;
         std::string temp_path;
 
+        void open( std::ios::openmode mode );
+
     public:
-        ofstream_wrapper_exclusive( const std::string &path );
+        ofstream_wrapper_exclusive( const std::string &path, std::ios::openmode mode );
         ~ofstream_wrapper_exclusive();
 
         std::ostream &stream() {

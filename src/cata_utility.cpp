@@ -329,7 +329,7 @@ float multi_lerp( const std::vector<std::pair<float, float>> &points, float x )
 void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer )
 {
     // Any of the below may throw. ofstream_wrapper_exclusive will clean up the temporary path on its own.
-    ofstream_wrapper_exclusive fout( path );
+    ofstream_wrapper_exclusive fout( path, std::ios::binary );
     writer( fout.stream() );
     fout.close();
 }
@@ -349,16 +349,13 @@ bool write_to_file( const std::string &path, const std::function<void( std::ostr
     }
 }
 
-ofstream_wrapper_exclusive::ofstream_wrapper_exclusive( const std::string &path )
+ofstream_wrapper_exclusive::ofstream_wrapper_exclusive( const std::string &path,
+        const std::ios::openmode mode )
     : file_stream()
     , path( path )
     , temp_path( path + ".tmp" )
 {
-
-    fopen_exclusive( file_stream, temp_path.c_str(), std::ios::binary );
-    if( !file_stream.is_open() ) {
-        throw std::runtime_error( _( "opening file failed" ) );
-    }
+    open( mode );
 }
 
 ofstream_wrapper_exclusive::~ofstream_wrapper_exclusive()
@@ -367,21 +364,6 @@ ofstream_wrapper_exclusive::~ofstream_wrapper_exclusive()
         close();
     } catch( ... ) {
         // ignored in destructor
-    }
-}
-
-void ofstream_wrapper_exclusive::close()
-{
-    fclose_exclusive( file_stream, temp_path.c_str() );
-    if( file_stream.fail() ) {
-        // Remove the incomplete or otherwise faulty file (if possible).
-        // Failures from it are ignored as we can't really do anything about them.
-        remove_file( temp_path );
-        throw std::runtime_error( _( "writing to file failed" ) );
-    }
-    if( !rename_file( temp_path, path ) ) {
-        // Leave the temp path, so the user can move it if possible.
-        throw std::runtime_error( _( "moving temporary file \"" + temp_path + "\" failed" ) );
     }
 }
 
