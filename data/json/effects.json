@@ -1342,7 +1342,7 @@
     "type": "effect_type",
     "id": "grabbed",
     "name": [ "Grabbed" ],
-    "desc": [ "You have been grabbed by an attack.\nYou are being held in place and cannot dodge, and blocking is very difficult." ],
+    "desc": [ "You have been grabbed by an attack.\nYou are being held in place, and dodging and blocking are very difficult." ],
     "rating": "bad",
     "max_duration": 2,
     "max_intensity": 15,
