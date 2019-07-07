@@ -70,8 +70,7 @@ struct om_map_extra {
 };
 
 struct om_vehicle {
-    int x; // overmap x coordinate of tracked vehicle
-    int y; // overmap y coordinate
+    point p; // overmap coordinates of tracked vehicle
     std::string name;
 };
 

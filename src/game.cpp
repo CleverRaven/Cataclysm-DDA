@@ -3444,12 +3444,13 @@ void game::draw_minimap()
             const int omx = cursx + i;
             const int omy = cursy + j;
             nc_color ter_color;
+            tripoint omp( omx, omy, get_levz() );
             std::string ter_sym;
-            const bool seen = overmap_buffer.seen( omx, omy, get_levz() );
-            const bool vehicle_here = overmap_buffer.has_vehicle( omx, omy, get_levz() );
-            if( overmap_buffer.has_note( omx, omy, get_levz() ) ) {
+            const bool seen = overmap_buffer.seen( omp );
+            const bool vehicle_here = overmap_buffer.has_vehicle( omp );
+            if( overmap_buffer.has_note( omp ) ) {
 
-                const std::string &note_text = overmap_buffer.note( omx, omy, get_levz() );
+                const std::string &note_text = overmap_buffer.note( omp );
 
                 ter_color = c_yellow;
                 ter_sym = "N";
@@ -3542,15 +3543,15 @@ void game::draw_minimap()
                 ter_color = c_cyan;
                 ter_sym = "c";
             } else {
-                const oter_id &cur_ter = overmap_buffer.ter( omx, omy, get_levz() );
+                const oter_id &cur_ter = overmap_buffer.ter( omp );
                 ter_sym = cur_ter->get_symbol();
-                if( overmap_buffer.is_explored( omx, omy, get_levz() ) ) {
+                if( overmap_buffer.is_explored( omp ) ) {
                     ter_color = c_dark_gray;
                 } else {
                     ter_color = cur_ter->get_color();
                 }
             }
-            if( !drew_mission && targ.x == omx && targ.y == omy ) {
+            if( !drew_mission && targ.xy() == omp.xy() ) {
                 // If there is a mission target, and it's not on the same
                 // overmap terrain as the player character, mark it.
                 // TODO: Inform player if the mission is above or below
@@ -3619,14 +3620,15 @@ void game::draw_minimap()
             }
             const int omx = cursx + i;
             const int omy = cursy + j;
-            if( overmap_buffer.get_horde_size( omx, omy, get_levz() ) >= HORDE_VISIBILITY_SIZE ) {
+            tripoint omp( omx, omy, get_levz() );
+            if( overmap_buffer.get_horde_size( omp ) >= HORDE_VISIBILITY_SIZE ) {
                 const tripoint cur_pos {
                     omx, omy, get_levz()
                 };
-                if( overmap_buffer.seen( omx, omy, get_levz() )
+                if( overmap_buffer.seen( omp )
                     && g->u.overmap_los( cur_pos, sight_points ) ) {
                     mvwputch( w_minimap, j + 3, i + 3, c_green,
-                              overmap_buffer.get_horde_size( omx, omy, get_levz() ) > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
+                              overmap_buffer.get_horde_size( omp ) > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
                 }
             }
         }
@@ -10376,23 +10378,26 @@ void game::vertical_notes( int z_before, int z_after )
         for( int y = -REVEAL_RADIUS; y <= REVEAL_RADIUS; y++ ) {
             const int cursx = gpos.x + x;
             const int cursy = gpos.y + y;
-            if( !overmap_buffer.seen( cursx, cursy, z_before ) ) {
+            const tripoint cursp_before( cursx, cursy, z_before );
+            const tripoint cursp_after( cursx, cursy, z_after );
+
+            if( !overmap_buffer.seen( cursp_before ) ) {
                 continue;
             }
-            if( overmap_buffer.has_note( cursx, cursy, z_after ) ) {
+            if( overmap_buffer.has_note( cursp_before ) ) {
                 // Already has a note -> never add an AUTO-note
                 continue;
             }
-            const oter_id &ter = overmap_buffer.ter( cursx, cursy, z_before );
-            const oter_id &ter2 = overmap_buffer.ter( cursx, cursy, z_after );
+            const oter_id &ter = overmap_buffer.ter( cursp_before );
+            const oter_id &ter2 = overmap_buffer.ter( cursp_after );
             if( z_after > z_before && ter->has_flag( known_up ) &&
                 !ter2->has_flag( known_down ) ) {
-                overmap_buffer.set_seen( cursx, cursy, z_after, true );
-                overmap_buffer.add_note( cursx, cursy, z_after, string_format( ">:W;%s", _( "AUTO: goes down" ) ) );
+                overmap_buffer.set_seen( cursp_after, true );
+                overmap_buffer.add_note( cursp_after, string_format( ">:W;%s", _( "AUTO: goes down" ) ) );
             } else if( z_after < z_before && ter->has_flag( known_down ) &&
                        !ter2->has_flag( known_up ) ) {
-                overmap_buffer.set_seen( cursx, cursy, z_after, true );
-                overmap_buffer.add_note( cursx, cursy, z_after, string_format( "<:W;%s", _( "AUTO: goes up" ) ) );
+                overmap_buffer.set_seen( cursp_after, true );
+                overmap_buffer.add_note( cursp_after, string_format( "<:W;%s", _( "AUTO: goes up" ) ) );
             }
         }
     }
@@ -10487,30 +10492,30 @@ void game::update_overmap_seen()
     const int dist = u.overmap_sight_range( light_level( u.posz() ) );
     const int dist_squared = dist * dist;
     // We can always see where we're standing
-    overmap_buffer.set_seen( ompos.x, ompos.y, ompos.z, true );
+    overmap_buffer.set_seen( ompos, true );
     for( int dx = -dist; dx <= dist; dx++ ) {
         for( int dy = -dist; dy <= dist; dy++ ) {
             const int h_squared = dx * dx + dy * dy;
             if( trigdist && h_squared > dist_squared ) {
                 continue;
             }
-            int x = ompos.x + dx;
-            int y = ompos.y + dy;
+            const tripoint p = ompos + point( dx, dy );
             // If circular distances are enabled, scale overmap distances by the diagonality of the sight line.
             const float multiplier = trigdist ? std::sqrt( h_squared ) / std::max<float>( std::abs( dx ),
                                      std::abs( dy ) ) : 1;
-            const std::vector<point> line = line_to( ompos.x, ompos.y, x, y, 0 );
+            const std::vector<tripoint> line = line_to( ompos, p, 0 );
             float sight_points = dist;
             for( auto it = line.begin();
                  it != line.end() && sight_points >= 0; ++it ) {
-                const oter_id &ter = overmap_buffer.ter( it->x, it->y, ompos.z );
+                const oter_id &ter = overmap_buffer.ter( *it );
                 sight_points -= static_cast<int>( ter->get_see_cost() ) * multiplier;
             }
             if( sight_points >= 0 ) {
-                overmap_buffer.set_seen( x, y, ompos.z, true );
-                for( int z = ompos.z - 1; z >= 0; z-- ) {
-                    overmap_buffer.set_seen( x, y, z, true );
-                }
+                tripoint seen( p );
+                do {
+                    overmap_buffer.set_seen( seen, true );
+                    --seen.z;
+                } while( seen.z >= 0 );
             }
         }
     }
@@ -11639,7 +11644,7 @@ overmap &game::get_cur_om() const
     // The player is located in the middle submap of the map.
     const tripoint sm = m.get_abs_sub() + tripoint( HALF_MAPSIZE, HALF_MAPSIZE, 0 );
     const tripoint pos_om = sm_to_om_copy( sm );
-    return overmap_buffer.get( pos_om.x, pos_om.y );
+    return overmap_buffer.get( pos_om.xy() );
 }
 
 std::vector<npc *> game::allies()

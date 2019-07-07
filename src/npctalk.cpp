@@ -2802,7 +2802,7 @@ void conditional_t::set_at_om_location( JsonObject &jo, const std::string &membe
         oter_id &omt_ref = overmap_buffer.ter( omt_pos );
 
         if( location == "FACTION_CAMP_ANY" ) {
-            cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.x, omt_pos.y );
+            cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
             if( bcp ) {
                 return true;
             }

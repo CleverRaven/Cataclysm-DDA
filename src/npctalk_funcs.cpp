@@ -229,7 +229,7 @@ void talk_function::goto_location( npc &p )
         if( elem == p.global_omt_location() ) {
             continue;
         }
-        cata::optional<basecamp *> camp = overmap_buffer.find_camp( elem.x, elem.y );
+        cata::optional<basecamp *> camp = overmap_buffer.find_camp( elem.xy() );
         if( !camp ) {
             continue;
         }
@@ -282,8 +282,7 @@ void talk_function::assign_guard( npc &p )
     p.set_mission( NPC_MISSION_GUARD_ALLY );
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
     p.set_omt_destination();
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().x,
-                                     p.global_omt_location().y );
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
         temp_camp->validate_assignees();
@@ -319,8 +318,7 @@ void talk_function::stop_guard( npc &p )
     p.chatbin.first_topic = "TALK_FRIEND";
     p.goal = npc::no_goal_point;
     p.guard_pos = npc::no_goal_point;
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().x,
-                                     p.global_omt_location().y );
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
         temp_camp->validate_assignees();

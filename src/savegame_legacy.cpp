@@ -433,7 +433,7 @@ void overmap::unserialize_legacy( std::istream &fin )
         } else if( datatype == 'v' ) {
             om_vehicle v;
             int id;
-            fin >> id >> v.name >> v.x >> v.y;
+            fin >> id >> v.name >> v.p.x >> v.p.y;
             vehicles[id] = v;
         } else if( datatype == 'n' ) { // NPC
             // When we start loading a new NPC, check to see if we've accumulated items for
