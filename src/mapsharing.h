@@ -41,8 +41,4 @@ void addDebugger( const std::string &name );
 void setDefaults();
 } // namespace MAP_SHARING
 
-int getLock( const char *lockName );
-void releaseLock( int fd, const char *lockName );
-extern std::map<std::string, int> lockFiles;
-
 #endif

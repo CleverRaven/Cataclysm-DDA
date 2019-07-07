@@ -100,21 +100,23 @@ void MAP_SHARING::setDefaults()
     MAP_SHARING::addAdmin( "admin" );
 }
 
+static std::map<std::string, int> lockFiles;
+
 #if !defined(__linux__) // make non-Linux operating systems happy
 
-int getLock( const char * )
+static int getLock( const char * )
 {
     return 0;
 }
 
-void releaseLock( int, const char * )
+static void releaseLock( int, const char * )
 {
     // Nothing to do.
 }
 
 #else
 
-int getLock( const char *lockName )
+static int getLock( const char *lockName )
 {
     mode_t m = umask( 0 );
     int fd = open( lockName, O_RDWR | O_CREAT, 0666 );
@@ -126,7 +128,7 @@ int getLock( const char *lockName )
     return fd;
 }
 
-void releaseLock( int fd, const char *lockName )
+static void releaseLock( int fd, const char *lockName )
 {
     if( fd < 0 ) {
         return;
@@ -136,8 +138,6 @@ void releaseLock( int fd, const char *lockName )
 }
 
 #endif // __linux__
-
-std::map<std::string, int> lockFiles;
 
 void ofstream_wrapper_exclusive::open( const std::ios::openmode mode )
 {
