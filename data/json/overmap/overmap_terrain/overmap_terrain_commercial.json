@@ -1936,6 +1936,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "veterinarian_roof",
+    "name": "veterinarian clinic roof",
+    "copy-from": "generic_city_building",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_laundromat",
     "name": "laundromat",
     "copy-from": "generic_city_building",

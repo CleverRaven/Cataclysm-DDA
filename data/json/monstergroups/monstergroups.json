@@ -5191,6 +5191,19 @@
     ]
   },
   {
+    "name": "GROUP_VETS",
+    "type": "monstergroup",
+    "//": "for veterinarian",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_zombie_dog", "freq": 15, "cost_multiplier": 1 },
+      { "monster": "mon_dog_zombie_rot", "freq": 15, "cost_multiplier": 3 },
+      { "monster": "mon_squirrel", "freq": 1, "cost_multiplier": 0 },
+      { "monster": "mon_cat", "freq": 10, "cost_multiplier": 0 },
+      { "monster": "mon_dog", "freq": 10, "cost_multiplier": 0 }
+    ]
+  },
+  {
     "name": "GROUP_PLAIN",
     "type": "monstergroup",
     "default": "mon_zombie",
