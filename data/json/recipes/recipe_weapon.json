@@ -312,6 +312,21 @@
   },
   {
     "type": "recipe",
+    "result": "spear_spike",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "time": "2 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "stick_long", 1 ], [ "long_pole", 1 ], [ "broom", 1 ], [ "pool_cue", 1 ] ],
+      [ [ "spike", 1 ], [ "scrap", 2 ] ],
+      [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "spear_knife",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
@@ -322,7 +337,6 @@
     "components": [
       [ [ "stick_long", 1 ], [ "long_pole", 1 ], [ "broom", 1 ], [ "pool_cue", 1 ] ],
       [
-        [ "spike", 1 ],
         [ "knife_butcher", 1 ],
         [ "knife_chef", 1 ],
         [ "knife_carving", 1 ],
