@@ -22,8 +22,6 @@ struct scent_block {
         data_mode mode;
         int intensity;
     };
-
-    data_block<bool> assignable;
     data_block<datum> assignment;
 
     tripoint origin;
@@ -34,7 +32,6 @@ struct scent_block {
         : origin( subx * SEEX - 1, suby * SEEY - 1, subz ), scents( scents ), modification_count( 0 ) {
         for( int x = 0; x < SEEX + 2; ++x ) {
             for( int y = 0; y < SEEY + 2; ++y ) {
-                assignable[x][y] = scents.inbounds( origin + tripoint( x, y, 0 ) );
                 assignment[x][y] = { NONE, 0 };
             }
         }
@@ -46,19 +43,22 @@ struct scent_block {
         }
         for( int x = 0; x < SEEX + 2; ++x ) {
             for( int y = 0; y < SEEY + 2; ++y ) {
-                if( assignable[x][y] ) {
-                    switch( assignment[x][y].mode ) {
-                        case NONE:
-                            break;
-                        case SET: {
-                            scents.set_unsafe( origin + tripoint( x, y, 0 ), assignment[x][y].intensity );
-                            break;
+                switch( assignment[x][y].mode ) {
+                    case NONE:
+                        break;
+                    case SET: {
+                        tripoint p = origin + tripoint( x, y, 0 );
+                        if( scents.inbounds( p ) ) {
+                            scents.set_unsafe( p, assignment[x][y].intensity );
                         }
-                        case MAX: {
-                            tripoint p = origin + tripoint( x, y, 0 );
+                        break;
+                    }
+                    case MAX: {
+                        tripoint p = origin + tripoint( x, y, 0 );
+                        if( scents.inbounds( p ) ) {
                             scents.set_unsafe( p, std::max( assignment[x][y].intensity, scents.get_unsafe( p ) ) );
-                            break;
                         }
+                        break;
                     }
                 }
             }
