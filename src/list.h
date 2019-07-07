@@ -2456,7 +2456,7 @@ inline void swap( list<swap_element_type, swap_element_allocator_type> &a,
     a.swap( b );
 }
 
-} // cata namespace
+} // namespace cata
 
 #undef LIST_BLOCK_MAX
 #undef LIST_BLOCK_MIN
