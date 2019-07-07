@@ -54,7 +54,11 @@ struct point {
 
         return *this;
     }
+
+    std::string to_string() const;
 };
+
+std::ostream &operator<<( std::ostream &, const point & );
 
 void serialize( const point &p, JsonOut &jsout );
 void deserialize( point &p, JsonIn &jsin );
@@ -144,14 +148,17 @@ struct tripoint {
         return *this;
     }
 
+    point xy() const {
+        return point( x, y );
+    }
+
+    std::string to_string() const;
+
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
 };
 
-inline std::ostream &operator<<( std::ostream &os, const tripoint &pos )
-{
-    return os << pos.x << "," << pos.y << "," << pos.z;
-}
+std::ostream &operator<<( std::ostream &, const tripoint & );
 
 // Make tripoint hashable so it can be used as an unordered_set or unordered_map key,
 // or a component of one.
