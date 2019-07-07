@@ -2397,7 +2397,9 @@ void veh_interact::display_name()
 {
     werase( w_name );
     mvwprintz( w_name, 0, 1, c_light_gray, _( "Name: " ) );
-    mvwprintz( w_name, 0, 1 + utf8_width( _( "Name: " ) ), c_light_green, veh->name );
+    mvwprintz( w_name, 0, 1 + utf8_width( _( "Name: " ) ), veh->get_owner() == nullptr ||
+               veh->get_owner() == g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ? c_light_green :
+               c_light_red, veh->name );
     wrefresh( w_name );
 }
 

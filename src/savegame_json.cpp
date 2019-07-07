@@ -2405,7 +2405,6 @@ void vehicle::deserialize( JsonIn &jsin )
     face.init( fdir );
     move.init( mdir );
     data.read( "name", name );
-    data.read( "base_name", base_name );
     std::string temp_id;
     std::string temp_old_id;
     data.read( "owner", temp_id );
@@ -2529,7 +2528,6 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "skidding", skidding );
     json.member( "of_turn_carry", of_turn_carry );
     json.member( "name", name );
-    json.member( "base_name", base_name );
     json.member( "owner", owner ? owner->id.str() : "" );
     json.member( "old_owner", old_owner ? old_owner->id.str() : "" );
     json.member( "theft_time", theft_time );
