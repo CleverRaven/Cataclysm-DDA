@@ -15,38 +15,24 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "GUN_DISPERSION_FLAT_PENALTY_PER_SKILL",
-    "info": "Flat penalty of dispersion per point of skill under max.",
-    "stype": "float",
-    "value": 3
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "GUN_DISPERSION_SKILL_THRESHOLD",
-    "info": "Skill threshold. Before used GUN_DISPERSION_MULT_PRE_SKILL_THRESHOLD + GUN_DISPERSION_MULT_POST_SKILL_THRESHOLD. After - only GUN_DISPERSION_MULT_POST_THRESHOLD.",
-    "stype": "float",
-    "value": 5
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "GUN_DISPERSION_MULT_PRE_SKILL_THRESHOLD",
-    "info": "Gun dispersion multiplier for lack of skill before threshold. GUN_DISPERSION_MULT_POST_SKILL_THRESHOLD will be added on top of it. GUN_DISPERSION_MULT_POST_SKILL_THRESHOLD=3.75 GUN_DISPERSION_MULT_POST_SKILL_THRESHOLD=1.25 means that zero skill character gets 3.75 + 1.25 = 5 extra weapon diseprsion multiplier.",
-    "stype": "float",
-    "value": 3.75
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "GUN_DISPERSION_MULT_POST_SKILL_THRESHOLD",
-    "info": "Gun dispersion multiplier for lack of skill after threshold. 1.25 means that character with skill level 5 gets 1.25 extra weapon dispersion multiplier.",
-    "stype": "float",
-    "value": 1.25
-  },
-  {
-    "type": "EXTERNAL_OPTION",
     "name": "PLAYER_MAX_STAMINA",
     "info": "Sets max stamina value of the player.",
     "stype": "int",
-    "value": 1000
+    "value": 10000
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_BASE_STAMINA_REGEN_RATE",
+    "info": "Sets base stamina regeneration per turn of the player. May be used as an offset in stamina draining effects.",
+    "stype": "float",
+    "value": 20
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_BASE_STAMINA_BURN_RATE",
+    "info": "Sets base stamina burn per 100 moves of the walking player.",
+    "stype": "int",
+    "value": 15
   },
   {
     "type": "EXTERNAL_OPTION",
@@ -72,16 +58,16 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_HEALING_RATE",
-    "info": "Set base player healing rate per turn. Default: 0.01",
+    "info": "Set base player healing rate per turn. Default: 0.0001",
     "stype": "float",
-    "value": 0.01
+    "value": 0.0001
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "NPC_HEALING_RATE",
-    "info": "Set base NPC healing rate per turn. Default: 0.01",
+    "info": "Set base NPC healing rate per turn. Default: 0.0001",
     "stype": "float",
-    "value": 0.01
+    "value": 0.0001
   },
   {
     "type": "EXTERNAL_OPTION",
@@ -199,6 +185,13 @@
     "type": "EXTERNAL_OPTION",
     "name": "CRAZY",
     "info": "A boolean specifically for Crazy Cataclysm.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "STATS_THROUGH_KILLS",
+    "info": "Stats through Kills.  A mod that allows your stats to increase by killing zombies.",
     "stype": "bool",
     "value": false
   }

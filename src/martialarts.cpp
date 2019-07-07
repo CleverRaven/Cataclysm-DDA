@@ -26,6 +26,8 @@
 #include "item.h"
 #include "pimpl.h"
 #include "pldata.h"
+#include "enums.h"
+#include "optional.h"
 
 const skill_id skill_melee( "melee" );
 const skill_id skill_bashing( "bashing" );
@@ -105,6 +107,7 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
     }
 
     optional( jo, was_loaded, "crit_tec", crit_tec, false );
+    optional( jo, was_loaded, "crit_ok", crit_ok, false );
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
     optional( jo, was_loaded, "dummy", dummy, false );
@@ -206,6 +209,8 @@ void martialart::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "description", description );
     mandatory( jo, was_loaded, "initiate", initiate );
     optional( jo, was_loaded, "autolearn", autolearn_skills );
+    optional( jo, was_loaded, "primary_skill", primary_skill, skill_id( "unarmed" ) );
+    optional( jo, was_loaded, "learn_difficulty", learn_difficulty );
 
     optional( jo, was_loaded, "static_buffs", static_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onmove_buffs", onmove_buffs, ma_buff_reader{} );
@@ -334,6 +339,23 @@ void finialize_martial_arts()
     }
 }
 
+const std::string martialart_difficulty( matype_id mstyle )
+{
+    std::string diff;
+    if( mstyle->learn_difficulty <= 2 ) {
+        diff = _( "easy" );
+    } else if( mstyle->learn_difficulty <= 4 ) {
+        diff = _( "moderately hard" );
+    } else if( mstyle->learn_difficulty <= 6 ) {
+        diff = _( "hard" );
+    } else if( mstyle->learn_difficulty <= 8 ) {
+        diff = _( "very hard" );
+    } else {
+        diff = _( "extremely hard" );
+    }
+    return diff;
+}
+
 void clear_techniques_and_martial_arts()
 {
     martialarts.reset();
@@ -433,6 +455,7 @@ std::string ma_requirements::get_description( bool buff ) const
 ma_technique::ma_technique()
 {
     crit_tec = false;
+    crit_ok = false;
     defensive = false;
     dummy = false;
 
@@ -1078,7 +1101,9 @@ std::string ma_technique::get_description() const
 
     dump << reqs.get_description();
 
-    if( crit_tec ) {
+    if( crit_ok ) {
+        dump << _( "* Can activate on a <info>normal</info> or a <info>crit</info> hit" ) << std::endl;
+    } else if( crit_tec ) {
         dump << _( "* Will only activate on a <info>crit</info>" ) << std::endl;
     }
 
@@ -1115,7 +1140,7 @@ std::string ma_technique::get_description() const
     }
 
     if( knockback_follow ) {
-        dump <<  _( "* Will <info>follow</info> enemies after knockback." ) << std::endl;
+        dump << _( "* Will <info>follow</info> enemies after knockback." ) << std::endl;
     }
 
     if( down_dur ) {

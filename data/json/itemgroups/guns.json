@@ -35,6 +35,8 @@
       { "item": "l_lookout_9mm", "prob": 20, "charges-min": 0, "charges-max": 7 },
       { "item": "l_sp_45", "prob": 35, "charges-min": 0, "charges-max": 12 },
       { "item": "l_sp_9mm", "prob": 60, "charges-min": 0, "charges-max": 21 },
+      { "item": "l_mp_45", "prob": 25, "charges-min": 0, "charges-max": 12 },
+      { "item": "l_mp_9mm", "prob": 25, "charges-min": 0, "charges-max": 21 },
       { "item": "ruger_lcr_22", "prob": 35, "charges-min": 0, "charges-max": 8 },
       { "item": "ruger_redhawk", "prob": 25, "charges-min": 0, "charges-max": 6 },
       { "item": "sig_40", "prob": 35, "charges-min": 0, "charges-max": 12 },
@@ -53,8 +55,6 @@
     "items": [
       { "item": "m17", "prob": 100, "charges-min": 0, "charges-max": 17 },
       { "item": "glock_18c", "prob": 70, "charges-min": 0, "charges-max": 17 },
-      { "item": "l_mp_45", "prob": 70, "charges-min": 0, "charges-max": 12 },
-      { "item": "l_mp_9mm", "prob": 100, "charges-min": 0, "charges-max": 21 },
       { "item": "needlepistol", "prob": 45, "charges-min": 0, "charges-max": 50 },
       { "item": "rm103a_pistol", "prob": 35, "charges-min": 0, "charges-max": 10 }
     ]
@@ -157,6 +157,7 @@
       { "item": "marlin_9a", "prob": 80, "charges-min": 0, "charges-max": 19 },
       { "item": "mosin44", "prob": 15, "charges-min": 0, "charges-max": 5 },
       { "item": "mosin91_30", "prob": 25, "charges-min": 0, "charges-max": 5 },
+      { "item": "remington700_270", "prob": 50, "charges-min": 0, "charges-max": 4 },
       { "item": "ruger_1022", "prob": 70, "charges-min": 0, "charges-max": 10 },
       { "item": "ruger_mini", "prob": 60, "charges-min": 0, "charges-max": 5 },
       { "item": "sks", "prob": 40, "charges-min": 0, "charges-max": 10 },
@@ -177,6 +178,8 @@
       { "item": "l_base_223", "prob": 40, "charges-min": 0, "charges-max": 32 },
       { "item": "l_car_223", "prob": 10, "charges-min": 0, "charges-max": 32 },
       { "item": "l_dsr_223", "prob": 5, "charges-min": 0, "charges-max": 32 },
+      { "item": "l_lmg_223", "prob": 5, "charges-min": 0, "charges-max": 32 },
+      { "item": "l_mbr_223", "prob": 10, "charges-min": 0, "charges-max": 32 },
       { "item": "l_long_45", "prob": 30, "charges-min": 0, "charges-max": 12 },
       { "item": "m14ebr", "prob": 15, "charges-min": 0, "charges-max": 20 },
       { "item": "M24", "prob": 15, "charges-min": 0, "charges-max": 20 },
@@ -198,8 +201,6 @@
     "//": "Military specification rifles only ever found at military sites.",
     "items": [
       { "item": "h&k416a5", "prob": 50, "charges-min": 0, "charges-max": 30 },
-      { "item": "l_lmg_223", "prob": 30, "charges-min": 0, "charges-max": 32 },
-      { "item": "l_mbr_223", "prob": 100, "charges-min": 0, "charges-max": 32 },
       { "item": "m107a1", "prob": 30, "charges-min": 0, "charges-max": 10 },
       { "item": "m134", "prob": 10, "charges-min": 0, "charges-max": 100 },
       { "item": "m14ebr", "prob": 10, "charges-min": 0, "charges-max": 20 },
@@ -277,6 +278,7 @@
       { "item": "m1014", "prob": 80, "charges-min": 0, "charges-max": 8 },
       { "item": "rm120c", "prob": 30, "charges-min": 0, "charges-max": 5 },
       { "item": "rm228", "prob": 30, "charges-min": 0, "charges-max": 10 },
+      { "item": "l_def_12", "prob": 20, "charges-min": 0, "charges-max": 8 },
       { "item": "saiga_12", "prob": 50, "charges-min": 0, "charges-max": 10 },
       { "item": "saiga_410", "prob": 40, "charges-min": 0, "charges-max": 10 }
     ]
@@ -286,8 +288,8 @@
     "id": "guns_shotgun_milspec",
     "//": "Military specification shotguns only ever found at military sites.",
     "items": [
-      { "item": "l_def_12", "prob": 100, "charges-min": 0, "charges-max": 8 },
-      { "item": "rm20", "prob": 20, "charges-min": 0, "charges-max": 20 }
+      { "item": "rm20", "prob": 20, "charges-min": 0, "charges-max": 20 },
+      { "item": "m1014", "prob": 100, "charges-min": 0, "charges-max": 8 }
     ]
   },
   {

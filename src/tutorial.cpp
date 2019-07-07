@@ -1,6 +1,5 @@
 #include "tutorial.h"
 
-#include <cstddef>
 #include <array>
 #include <memory>
 #include <string>
@@ -24,15 +23,15 @@
 #include "translations.h"
 #include "trap.h"
 #include "calendar.h"
-#include "enums.h"
 #include "game_constants.h"
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_stack.h"
 #include "pldata.h"
 #include "units.h"
 #include "type_id.h"
+#include "point.h"
+#include "weather.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 

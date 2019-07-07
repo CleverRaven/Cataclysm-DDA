@@ -2,24 +2,18 @@
   {
     "method": "json",
     "object": {
+      "fill_ter": "t_thconc_floor",
       "furniture": {
         "#": "f_table",
         "&": "f_trashcan",
-        "+": "f_null",
-        ".": "f_null",
-        "D": "f_null",
         "P": "f_sign",
-        "_": "f_null",
         "c": "f_chair",
-        "R": "f_null",
         "d": "f_desk",
-        "f": "f_null",
-        "s": "f_null",
         "t": "f_table",
-        "w": "f_null",
         "{": "f_recycle_bin",
-        "|": "f_null"
+        "S": "f_sink"
       },
+      "toilets": { "T": {  } },
       "place_items": [
         { "chance": 50, "repeat": [ 12, 22 ], "item": "recycle_iron", "x": [ 10, 14 ], "y": [ 15, 16 ] },
         { "chance": 50, "repeat": [ 5, 12 ], "item": "recycle_electronic", "x": [ 18, 19 ], "y": [ 12, 14 ] },
@@ -42,12 +36,12 @@
         "..|w|+|||+|||w||w|||||..",
         "..|&fff|#__##_RR_____|..",
         "..|fcffD__________P__|..",
-        "..|ddft|#_________{{_|..",
-        "..||||||#_________{{_|..",
-        "..|_______{{{{{P__{{_|..",
-        "..|__P__P_{{{{{______|..",
-        "..|_{{_{{_________P__|..",
-        "..|_{{_{{_{{{{{P__{{_|..",
+        "|||ddft|#_________{{_|..",
+        "|T||||||#_________{{_|..",
+        "|_D_______{{{{{P__{{_|..",
+        "|S|__P__P_{{{{{______|..",
+        "|||_{{_{{_________P__|..",
+        ".4|_{{_{{_{{{{{P__{{_|..",
         "..|_{{_{{_{{{{{___{{_|..",
         "..|_{{_{{_________{{_|..",
         "..|_{{_{{_{{{{{P_____|..",
@@ -61,12 +55,10 @@
         "........................"
       ],
       "terrain": {
-        "#": "t_thconc_floor",
         "&": "t_floor",
         "+": "t_door_metal_c",
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "D": "t_door_c",
-        "P": "t_thconc_floor",
         "_": "t_thconc_floor",
         "c": "t_floor",
         "R": "t_recycler",
@@ -75,8 +67,8 @@
         "s": "t_sidewalk",
         "t": "t_floor",
         "w": "t_window",
-        "{": "t_thconc_floor",
-        "|": "t_brick_wall"
+        "|": "t_brick_wall",
+        "4": "t_gutter_downspout"
       },
       "place_signs": [
         { "signage": "GLASS", "x": 18, "y": 6 },
@@ -95,28 +87,70 @@
     "weight": 100
   },
   {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "recyclecenter_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  |2222222222222222223  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "|2|..................3  ",
+        "|....................3  ",
+        "|.U..................3  ",
+        "|....................3  ",
+        "|-5..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |...............R..3  ",
+        "  |..................3  ",
+        "  |------------------3  ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 5, 15 ],
+          "y": [ 7, 15 ]
+        }
+      ]
+    }
+  },
+  {
     "method": "json",
     "object": {
+      "fill_ter": "t_thconc_floor",
       "furniture": {
         "#": "f_table",
         "&": "f_trashcan",
-        "+": "f_null",
-        "-": "f_null",
-        ".": "f_null",
         "C": "f_chair",
-        "D": "f_null",
         "P": "f_sign",
         "S": "f_sign",
-        "R": "f_null",
-        "_": "f_null",
         "a": "f_desk",
         "b": "f_bench",
-        "c": "f_null",
         "d": "f_recycle_bin",
         "s": "f_sign",
-        "w": "f_null",
         "{": "f_recycle_bin",
-        "|": "f_null"
+        "R": "f_sink"
       },
       "place_items": [
         { "chance": 50, "repeat": [ 2, 6 ], "item": "recycle_copper", "x": [ 8, 9 ], "y": 19 },
@@ -140,12 +174,12 @@
         ".....cccc...............",
         "..---S++S--|||ww||D|w|..",
         "..-ccccccccwC_______b|..",
-        "..-ccPccPcc|a&##____b|..",
-        "..-c{{cc{{c|||||____b|..",
-        "..-c{{cc{{c|&R#R_____|..",
-        "..-c{{cc{{c|#_____s__|..",
-        "..-c{{cc{{c|___s__dd_|..",
-        "..-c{{cc{{c|_ddd__dd_|..",
+        "..-ccPccPcc|a&##____b|||",
+        "..-c{{cc{{c|||||____b|T|",
+        "..-c{{cc{{c|&R#R_____=_|",
+        "..-c{{cc{{c|#_____s__|R|",
+        "..-c{{cc{{c|___s__dd_|||",
+        "..-c{{cc{{c|_ddd__dd_|4.",
         "..-c{{cc{{c|_ddd__dd_|..",
         "..-cccccccc|______dd_|..",
         "..-ccPccPcc|___s__dd_|..",
@@ -161,26 +195,22 @@
         "........................"
       ],
       "terrain": {
-        "#": "t_thconc_floor",
-        "&": "t_thconc_floor",
         "+": "t_chaingate_c",
         "-": "t_chainfence",
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "C": "t_thconc_floor",
         "D": "t_door_metal_c",
         "P": "t_concrete",
         "S": "t_chainfence",
         "_": "t_thconc_floor",
-        "a": "t_thconc_floor",
         "R": "t_recycler",
-        "b": "t_thconc_floor",
         "c": "t_concrete",
-        "d": "t_thconc_floor",
-        "s": "t_thconc_floor",
         "w": "t_window",
         "{": "t_concrete",
-        "|": "t_brick_wall"
+        "|": "t_brick_wall",
+        "4": "t_gutter_downspout",
+        "=": "t_door_c"
       },
+      "toilets": { "T": {  } },
       "place_signs": [
         { "signage": "GLASS", "x": 15, "y": 9 },
         { "signage": "ALUMINUM", "x": 8, "y": 13 },
@@ -195,34 +225,74 @@
         { "signage": "Drop off 7am to 6pm Monday thru Friday", "x": 11, "y": 3 }
       ]
     },
-    "om_terrain": "recyclecenter",
+    "om_terrain": "recyclecenter_1",
     "type": "mapgen",
     "weight": 100
   },
   {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "recyclecenter_roof_1",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "           |2222222223  ",
+        "           |.........3  ",
+        "           |.R.......323",
+        "           |...........3",
+        "           |.........U.3",
+        "           |...........3",
+        "           |.........3-3",
+        "           |.........5  ",
+        "           |.........3  ",
+        "           |.........3  ",
+        "           |.........3  ",
+        "           |.........3  ",
+        "           |.........3  ",
+        "           |.........3  ",
+        "           |.........3  ",
+        "           |.........3  ",
+        "           |.........3  ",
+        "           |.........3  ",
+        "           |---------3  ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 13, 15 ],
+          "y": [ 7, 17 ]
+        }
+      ]
+    }
+  },
+  {
     "method": "json",
     "object": {
+      "fill_ter": "t_thconc_floor",
       "furniture": {
         "#": "f_counter",
         "&": "f_trashcan",
-        "+": "f_null",
-        "-": "f_null",
-        ".": "f_null",
-        "4": "f_null",
-        "7": "f_null",
-        "D": "f_null",
         "P": "f_sign",
-        "R": "f_null",
-        "_": "f_null",
         "c": "f_chair",
         "d": "f_desk",
-        "p": "f_null",
         "s": "f_sign",
-        "t": "f_null",
-        "w": "f_null",
         "{": "f_recycle_bin",
-        "|": "f_null"
+        "S": "f_sink"
       },
+      "toilets": { "T": {  } },
       "place_items": [
         { "chance": 15, "item": "office", "x": [ 4, 5 ], "y": 14 },
         { "chance": 30, "item": "trash", "x": 3, "y": 14 },
@@ -237,6 +307,7 @@
         { "chance": 50, "repeat": [ 5, 18 ], "item": "recycle_aluminum", "x": [ 18, 20 ], "y": [ 15, 16 ] },
         { "chance": 50, "repeat": [ 5, 18 ], "item": "recycle_copper", "x": [ 18, 20 ], "y": [ 19, 20 ] }
       ],
+      "place_loot": [ { "item": "television", "x": 4, "y": 14, "chance": 100 }, { "item": "stepladder", "x": 8, "y": 13, "chance": 100 } ],
       "rows": [
         "__________ppppp_________",
         "__________ppppp_________",
@@ -255,17 +326,15 @@
         "_|-&ddtD..........P...|_",
         "_|wtctt-.{{{{{{{P.{{{.|_",
         "_|wttttw.{{{{{{{..{{{.|_",
-        "_|-tttt-..............|_",
-        "_|-tttt-..........P...|_",
-        "_|-#ttt-.{{{{{{{P.{{{.|_",
-        "_|-##RR-.{{{{{{{..{{{.|_",
+        "_|---tt-..............|_",
+        "_|-&-tt-..........P...|_",
+        "_|-tDtt-.{{{{{{{P.{{{.|_",
+        "_|-T-RR-.{{{{{{{..{{{.|_",
         "_|------..............|_",
         "_||||||||||||||||||||||_",
         "________________________"
       ],
       "terrain": {
-        "#": "t_thconc_floor",
-        "&": "t_thconc_floor",
         "+": "t_chaingate_c",
         "-": "t_concrete_wall",
         ".": "t_concrete",
@@ -275,14 +344,13 @@
         "P": "t_concrete",
         "R": "t_recycler",
         "_": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "c": "t_thconc_floor",
-        "d": "t_thconc_floor",
         "p": "t_pavement",
         "s": "t_grass",
         "t": "t_thconc_floor",
         "w": "t_window",
         "{": "t_concrete",
-        "|": "t_chainfence"
+        "|": "t_chainfence",
+        "5": "t_gutter_downspout"
       },
       "place_signs": [
         { "signage": "GLASS", "x": 18, "y": 12 },
@@ -298,8 +366,44 @@
         { "signage": "Drop off 8am to 8pm, weekdays.", "x": 15, "y": 4 }
       ]
     },
-    "om_terrain": "recyclecenter",
+    "om_terrain": "recyclecenter_2",
     "type": "mapgen",
     "weight": 100
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "recyclecenter_roof_2",
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  ......                ",
+        "  ......                ",
+        "  ......                ",
+        "  ......                ",
+        "  ......                ",
+        "  ......                ",
+        "  ......                ",
+        "  ......                ",
+        "  ......                ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_tar_flat_roof" }
+    }
   }
 ]

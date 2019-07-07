@@ -1,0 +1,19 @@
+[
+  {
+    "type": "vehicle_part",
+    "id": "bulette_plate",
+    "name": "bulette plating",
+    "symbol": ")",
+    "color": "light_gray",
+    "broken_symbol": ")",
+    "broken_color": "light_gray",
+    "durability": 800,
+    "item": "bulette_plate",
+    "difficulty": 0,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [ { "item": "leather", "count": [ 1, 2 ] } ],
+    "damage_reduction": { "all": 12 },
+    "requirements": { "install": { "time": 160000, "using": [ [ "rope_natural", 2 ] ] } }
+  }
+]

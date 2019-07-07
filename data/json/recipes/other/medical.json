@@ -131,8 +131,9 @@
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
+    "charges": 2,
     "flags": [ "BLIND_EASY" ],
-    "components": [ [ [ "rag", 1 ] ], [ [ "disinfectant", 1 ] ] ]
+    "components": [ [ [ "rag", 2 ] ], [ [ "disinfectant", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -143,7 +144,8 @@
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
+    "charges": 4,
     "flags": [ "BLIND_EASY" ],
-    "components": [ [ [ "cotton_ball", 1 ] ], [ [ "disinfectant", 1 ] ] ]
+    "components": [ [ [ "cotton_ball", 4 ] ], [ [ "disinfectant", 1 ] ] ]
   }
 ]

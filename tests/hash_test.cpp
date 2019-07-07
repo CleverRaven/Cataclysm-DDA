@@ -1,4 +1,3 @@
-#include <functional>
 #include <unordered_set>
 #include <vector>
 #include <algorithm>
@@ -6,7 +5,7 @@
 #include <iterator>
 
 #include "catch/catch.hpp"
-#include "enums.h"
+#include "point.h"
 
 #ifdef RELEASE
 #include <chrono>

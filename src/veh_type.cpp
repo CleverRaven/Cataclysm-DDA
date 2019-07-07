@@ -23,13 +23,13 @@
 #include "requirements.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
 #include "assign.h"
 #include "cata_utility.h"
 #include "game_constants.h"
 #include "item.h"
-#include "player.h"
 #include "mapdata.h"
 
 class npc;
@@ -318,6 +318,7 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     assign( jo, "energy_consumption", def.energy_consumption );
     assign( jo, "power", def.power );
     assign( jo, "epower", def.epower );
+    assign( jo, "emissions", def.emissions );
     assign( jo, "fuel_type", def.fuel_type );
     assign( jo, "default_ammo", def.default_ammo );
     assign( jo, "folded_volume", def.folded_volume );
@@ -326,6 +327,28 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     assign( jo, "bonus", def.bonus );
     assign( jo, "flags", def.flags );
     assign( jo, "description", def.description );
+
+    if( jo.has_member( "transform_terrain" ) ) {
+        JsonObject jttd = jo.get_object( "transform_terrain" );
+        JsonArray jpf = jttd.get_array( "pre_flags" );
+        while( jpf.has_more() ) {
+            std::string pre_flag = jpf.next_string();
+            def.transform_terrain.pre_flags.emplace( pre_flag );
+        }
+        def.transform_terrain.post_terrain = jttd.get_string( "post_terrain", "t_null" );
+        def.transform_terrain.post_furniture = jttd.get_string( "post_furniture", "f_null" );
+        def.transform_terrain.post_field = jttd.get_string( "post_field", "fd_null" );
+        def.transform_terrain.post_field_intensity = jttd.get_int( "post_field_intensity", 0 );
+        if( jttd.has_int( "post_field_age" ) ) {
+            def.transform_terrain.post_field_age = time_duration::from_turns(
+                    jttd.get_int( "post_field_age" ) );
+        } else if( jttd.has_string( "post_field_age" ) ) {
+            def.transform_terrain.post_field_age = read_from_json_string<time_duration>(
+                    *jttd.get_raw( "post_field_age" ), time_duration::units );
+        } else {
+            def.transform_terrain.post_field_age = 0_turns;
+        }
+    }
 
     if( jo.has_member( "requirements" ) ) {
         auto reqs = jo.get_object( "requirements" );
@@ -627,6 +650,21 @@ void vpart_info::check()
         if( part.has_flag( "TURRET" ) && !base_item_type.gun ) {
             debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str() );
         }
+        if( !part.emissions.empty() && !part.has_flag( "EMITTER" ) ) {
+            debugmsg( "vehicle part %s has emissions set, but the EMITTER flag is not set", part.id.c_str() );
+        }
+        if( part.has_flag( "EMITTER" ) ) {
+            if( part.emissions.empty() ) {
+                debugmsg( "vehicle part %s has the EMITTER flag, but no emissions were set", part.id.c_str() );
+            } else {
+                for( const emit_id &e : part.emissions ) {
+                    if( !e.is_valid() ) {
+                        debugmsg( "vehicle part %s has the EMITTER flag, but invalid emission %s was set",
+                                  part.id.c_str(), e.str().c_str() );
+                    }
+                }
+            }
+        }
         for( auto &q : part.qualities ) {
             if( !q.first.is_valid() ) {
                 debugmsg( "vehicle part %s has undefined tool quality %s", part.id.c_str(), q.first.c_str() );
@@ -912,7 +950,7 @@ void vehicle_prototype::load( JsonObject &jo )
     // If the json does not contain a name (the prototype would have no name), it means appending
     // to the existing prototype (the parts are not cleared).
     if( !vproto.parts.empty() && jo.has_string( "name" ) ) {
-        vproto =  vehicle_prototype();
+        vproto = vehicle_prototype();
     }
     if( vproto.parts.empty() ) {
         vproto.name = jo.get_string( "name" );

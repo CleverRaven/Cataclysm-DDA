@@ -43,6 +43,8 @@
 #include "units.h"
 #include "weighted_list.h"
 #include "type_id.h"
+#include "colony.h"
+#include "point.h"
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_blob_brain( "mon_blob_brain" );
@@ -173,8 +175,8 @@ void mdeath::splatter( monster &z )
         }
     }
 
-    const field_id type_blood = z.bloodType();
-    const field_id type_gib = z.gibType();
+    const field_type_id type_blood = z.bloodType();
+    const field_type_id type_gib = z.gibType();
 
     if( gibbable ) {
         const auto area = g->m.points_in_radius( z.pos(), 1 );
@@ -357,7 +359,7 @@ void mdeath::triffid_heart( monster &z )
 void mdeath::fungus( monster &z )
 {
     // If the fungus died from anti-fungal poison, don't pouf
-    if( g->m.get_field_strength( z.pos(), fd_fungicidal_gas ) ) {
+    if( g->m.get_field_intensity( z.pos(), fd_fungicidal_gas ) ) {
         return;
     }
 

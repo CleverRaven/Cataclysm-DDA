@@ -41,7 +41,6 @@
 #include "catacharset.h"
 #include "compatibility.h"
 #include "debug.h"
-#include "enums.h"
 #include "game_constants.h"
 #include "int_id.h"
 #include "omdata.h"
@@ -49,6 +48,9 @@
 #include "string_formatter.h"
 #include "tileray.h"
 #include "type_id.h"
+#include "magic.h"
+#include "point.h"
+#include "string_id.h"
 
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
@@ -202,16 +204,19 @@ std::string window_panel::get_name() const
     return name;
 }
 
-static void draw_minimap( const avatar &u, const catacurses::window &w_minimap )
+void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const avatar &you,
+                                     const tripoint &global_omt, const int start_y_input, const int start_x_input, const int width,
+                                     const int height )
 {
-    const tripoint curs = u.global_omt_location();
-    const int cursx = curs.x;
-    const int cursy = curs.y;
-    const tripoint targ = u.get_active_mission_target();
+    const int cursx = global_omt.x;
+    const int cursy = global_omt.y;
+    const tripoint targ = you.get_active_mission_target();
     bool drew_mission = targ == overmap::invalid_tripoint;
+    const int start_y = start_y_input + ( height / 2 ) - 2;
+    const int start_x = start_x_input + ( width / 2 ) - 2;
 
-    for( int i = -2; i <= 2; i++ ) {
-        for( int j = -2; j <= 2; j++ ) {
+    for( int i = -( width / 2 ); i <= width - ( width / 2 ) - 1; i++ ) {
+        for( int j = -( height / 2 ); j <= height - ( height / 2 ) - 1; j++ ) {
             const int omx = cursx + i;
             const int omy = cursy + j;
             nc_color ter_color;
@@ -331,9 +336,9 @@ static void draw_minimap( const avatar &u, const catacurses::window &w_minimap )
                 }
             }
             if( i == 0 && j == 0 ) {
-                mvwputch_hi( w_minimap, 3, 3, ter_color, ter_sym );
+                mvwputch_hi( w_minimap, 3 + start_y, 3 + start_x, ter_color, ter_sym );
             } else {
-                mvwputch( w_minimap, 3 + j, 3 + i, ter_color, ter_sym );
+                mvwputch( w_minimap, 3 + j + start_y, 3 + i + start_x, ter_color, ter_sym );
             }
         }
     }
@@ -343,16 +348,16 @@ static void draw_minimap( const avatar &u, const catacurses::window &w_minimap )
         double slope = ( cursx != targ.x ) ? static_cast<double>( targ.y - cursy ) / static_cast<double>
                        ( targ.x - cursx ) : 4;
 
-        if( cursx == targ.x || fabs( slope ) > 3.5 ) { // Vertical slope
+        if( cursx == targ.x || fabs( slope ) > 3.5 ) {  // Vertical slope
             if( targ.y > cursy ) {
-                mvwputch( w_minimap, 6, 3, c_red, '*' );
+                mvwputch( w_minimap, 6 + start_y, 3 + start_x, c_red, '*' );
             } else {
-                mvwputch( w_minimap, 0, 3, c_red, '*' );
+                mvwputch( w_minimap, 0 + start_y, 3 + start_x, c_red, '*' );
             }
         } else {
             int arrowx = -1;
             int arrowy = -1;
-            if( fabs( slope ) >= 1. ) { // y diff is bigger!
+            if( fabs( slope ) >= 1. ) {  // y diff is bigger!
                 arrowy = ( targ.y > cursy ? 6 : 0 );
                 arrowx = static_cast<int>( 3 + 3 * ( targ.y > cursy ? slope : ( 0 - slope ) ) );
                 if( arrowx < 0 ) {
@@ -372,13 +377,13 @@ static void draw_minimap( const avatar &u, const catacurses::window &w_minimap )
                 }
             }
             char glyph = '*';
-            if( targ.z > u.posz() ) {
+            if( targ.z > you.posz() ) {
                 glyph = '^';
-            } else if( targ.z < u.posz() ) {
+            } else if( targ.z < you.posz() ) {
                 glyph = 'v';
             }
 
-            mvwputch( w_minimap, arrowy, arrowx, c_red, glyph );
+            mvwputch( w_minimap, arrowy + start_y, arrowx + start_x, c_red, glyph );
         }
     }
 
@@ -402,6 +407,12 @@ static void draw_minimap( const avatar &u, const catacurses::window &w_minimap )
             }
         }
     }
+}
+
+static void draw_minimap( const avatar &u, const catacurses::window &w_minimap )
+{
+    const tripoint curs = u.global_omt_location();
+    overmap_ui::draw_overmap_chunk( w_minimap, u, curs, 0, 0, 5, 5 );
 }
 
 static void decorate_panel( const std::string &name, const catacurses::window &w )
@@ -972,20 +983,24 @@ static void draw_stats( avatar &u, const catacurses::window &w )
     werase( w );
     nc_color stat_clr = str_string( u ).first;
     mvwprintz( w, 0, 0, c_light_gray, _( "STR" ) );
-    mvwprintz( w, 0, u.str_cur < 10 ? 5 : 4, stat_clr,
-               u.str_cur < 100 ? to_string( u.str_cur ) : "99+" );
+    int stat = u.get_str();
+    mvwprintz( w, 0, stat < 10 ? 5 : 4, stat_clr,
+               stat < 100 ? to_string( stat ) : "99+" );
     stat_clr = dex_string( u ).first;
+    stat = u.get_dex();
     mvwprintz( w, 0, 9, c_light_gray, _( "DEX" ) );
-    mvwprintz( w, 0, u.dex_cur < 10 ? 14 : 13, stat_clr,
-               u.dex_cur < 100 ? to_string( u.dex_cur ) : "99+" );
+    mvwprintz( w, 0, stat < 10 ? 14 : 13, stat_clr,
+               stat < 100 ? to_string( stat ) : "99+" );
     stat_clr = int_string( u ).first;
+    stat = u.get_int();
     mvwprintz( w, 0, 17, c_light_gray, _( "INT" ) );
-    mvwprintz( w, 0, u.int_cur < 10 ? 22 : 21, stat_clr,
-               u.int_cur < 100 ? to_string( u.int_cur ) : "99+" );
+    mvwprintz( w, 0, stat < 10 ? 22 : 21, stat_clr,
+               stat < 100 ? to_string( stat ) : "99+" );
     stat_clr = per_string( u ).first;
+    stat = u.get_per();
     mvwprintz( w, 0, 25, c_light_gray, _( "PER" ) );
-    mvwprintz( w, 0, u.per_cur < 10 ? 30 : 29, stat_clr,
-               u.per_cur < 100 ? to_string( u.per_cur ) : "99+" );
+    mvwprintz( w, 0, stat < 10 ? 30 : 29, stat_clr,
+               stat < 100 ? to_string( stat ) : "99+" );
     wrefresh( w );
 }
 
@@ -995,9 +1010,8 @@ static void draw_stealth( avatar &u, const catacurses::window &w )
     mvwprintz( w, 0, 0, c_light_gray, _( "Speed" ) );
     mvwprintz( w, 0, 7, value_color( u.get_speed() ), "%s", u.get_speed() );
     mvwprintz( w, 0, 15 - to_string( u.movecounter ).length(), c_light_gray,
-               to_string( u.movecounter ) + ( u.get_movement_mode() == "walk" ? "W" :
-                       ( u.get_movement_mode() == "crouch" ? "C" :
-                         "R" ) ) );
+               to_string( u.movecounter ) + ( u.movement_mode_is( PMM_WALK ) ? "W" : ( u.movement_mode_is(
+                           PMM_CROUCH ) ? "C" : "R" ) ) );
 
     if( u.is_deaf() ) {
         mvwprintz( w, 0, 22, c_red, _( "DEAF" ) );
@@ -1161,9 +1175,8 @@ static void draw_char( avatar &u, const catacurses::window &w )
     const auto str_walk = pgettext( "movement-type", "W" );
     const auto str_run = pgettext( "movement-type", "R" );
     const auto str_crouch = pgettext( "movement-type", "C" );
-    const char *move = u.get_movement_mode() == "walk" ? str_walk : ( u.get_movement_mode() == "crouch"
-                       ? str_crouch :
-                       str_run );
+    const char *move = u.movement_mode_is( PMM_WALK ) ? str_walk : ( u.movement_mode_is(
+                           PMM_CROUCH ) ? str_crouch : str_run );
     std::string movecost = std::to_string( u.movecounter ) + "(" + move + ")";
     bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
     std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
@@ -1194,13 +1207,13 @@ static void draw_stat( avatar &u, const catacurses::window &w )
     mvwprintz( w, 1, 19, c_light_gray, _( "Per  :" ) );
 
     nc_color stat_clr = str_string( u ).first;
-    mvwprintz( w, 0, 8, stat_clr, "%s", u.str_cur );
+    mvwprintz( w, 0, 8, stat_clr, "%s", u.get_str() );
     stat_clr = int_string( u ).first;
-    mvwprintz( w, 1, 8, stat_clr, "%s", u.int_cur );
+    mvwprintz( w, 1, 8, stat_clr, "%s", u.get_int() );
     stat_clr = dex_string( u ).first;
-    mvwprintz( w, 0, 26, stat_clr, "%s", u.dex_cur );
+    mvwprintz( w, 0, 26, stat_clr, "%s", u.get_dex() );
     stat_clr = per_string( u ).first;
-    mvwprintz( w, 1, 26, stat_clr, "%s", u.per_cur );
+    mvwprintz( w, 1, 26, stat_clr, "%s", u.get_per() );
 
     std::pair<nc_color, std::string> pwr_pair = power_stat( u );
     mvwprintz( w, 2, 1, c_light_gray, _( "Power:" ) );
@@ -1402,9 +1415,8 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
         mvwprintz( w, 5, 21, u.get_speed() < 100 ? c_red : c_white,
                    _( "Spd " ) + to_string( u.get_speed() ) );
         mvwprintz( w, 5, 26 + to_string( u.get_speed() ).length(), c_white,
-                   to_string( u.movecounter ) + " " + ( u.get_movement_mode() == "walk" ? "W" :
-                           ( u.get_movement_mode() == "crouch" ? "C" :
-                             "R" ) ) );
+                   to_string( u.movecounter ) + " " + ( u.movement_mode_is( PMM_WALK ) ? "W" : ( u.movement_mode_is(
+                               PMM_CROUCH ) ? "C" : "R" ) ) );
     }
 
     // temperature
@@ -1422,10 +1434,10 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
         mvwprintz( w, 4, 35, c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
         // target speed > current speed
         const float strain = veh->strain();
-        nc_color col_vel = strain <= 0 ? c_light_blue :
-                           ( strain <= 0.2 ? c_yellow :
-                             ( strain <= 0.4 ? c_light_red : c_red ) );
         if( veh->cruise_on ) {
+            nc_color col_vel = strain <= 0 ? c_light_blue :
+                               ( strain <= 0.2 ? c_yellow :
+                                 ( strain <= 0.4 ? c_light_red : c_red ) );
             int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
             int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
             int offset = get_int_digits( t_speed );
@@ -1533,11 +1545,10 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
         mvwprintz( w, 0, 6, c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
         // target speed > current speed
         const float strain = veh->strain();
-        nc_color col_vel = strain <= 0 ? c_light_blue :
-                           ( strain <= 0.2 ? c_yellow :
-                             ( strain <= 0.4 ? c_light_red : c_red ) );
-
         if( veh->cruise_on ) {
+            nc_color col_vel = strain <= 0 ? c_light_blue :
+                               ( strain <= 0.2 ? c_yellow :
+                                 ( strain <= 0.4 ? c_light_red : c_red ) );
             int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
             int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
             int offset = get_int_digits( t_speed );
@@ -1727,7 +1738,7 @@ static void draw_mana( const player &u, const catacurses::window &w )
 
 static bool spell_panel()
 {
-    return !spell_type::get_all().empty();
+    return g->u.magic.knows_spell();
 }
 
 bool default_render()

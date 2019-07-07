@@ -1,4 +1,3 @@
-#include <inttypes.h>
 #include <time.h>
 #include <chrono>
 #include <cstdio>
@@ -11,7 +10,7 @@
 #include "catch/catch.hpp"
 #include "line.h"
 #include "rng.h"
-#include "enums.h"
+#include "point.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 // Compare all future line_to implementations to the canonical one.

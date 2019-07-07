@@ -25,6 +25,7 @@
 #include "game.h"
 #include "pathfinding.h"
 #include "units.h"
+#include "translations.h"
 
 namespace
 {
@@ -135,6 +136,7 @@ const std::map<std::string, m_flag> flag_map = {
     { "PRIORITIZE_TARGETS", MF_PRIORITIZE_TARGETS },
     { "NOT_HALLUCINATION", MF_NOT_HALLU },
     { "CATFOOD", MF_CATFOOD },
+    { "CANPLAY", MF_CANPLAY },
     { "CATTLEFODDER", MF_CATTLEFODDER },
     { "BIRDFOOD", MF_BIRDFOOD },
     { "PET_MOUNTABLE", MF_PET_MOUNTABLE },
@@ -885,6 +887,8 @@ mtype_special_attack MonsterGenerator::create_actor( JsonObject obj, const std::
         new_attack = new bite_actor();
     } else if( attack_type == "gun" ) {
         new_attack = new gun_actor();
+    } else if( attack_type == "spell" ) {
+        new_attack = new mon_spellcasting_actor();
     } else {
         obj.throw_error( "unknown monster attack", "attack_type" );
     }

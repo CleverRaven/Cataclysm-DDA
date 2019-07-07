@@ -10,7 +10,6 @@
 #include "bodypart.h"
 #include "color.h"
 #include "debug.h"
-#include "enums.h" // tripoint
 #include "json.h"
 #include "trait_group.h"
 #include "translations.h"

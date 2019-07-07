@@ -50,6 +50,7 @@
 #include <vector>
 #include <string>
 #include <utility>
+#include <type_traits>
 
 #define STRING2(x) #x
 #define STRING(x) STRING2(x)

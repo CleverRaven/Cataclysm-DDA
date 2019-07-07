@@ -176,6 +176,22 @@
     }
   },
   {
+    "id": "tow_launcher",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": "mounted BGM-71F TOW",
+    "item": "atgm_launcher",
+    "color": "green",
+    "broken_color": "green",
+    "durability": 800,
+    "difficulty": 8,
+    "breaks_into": [ { "item": "atgm_launcher", "prob": 50 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ], "time": 10000 },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
     "id": "mounted_rm298",
     "copy-from": "turret",
     "type": "vehicle_part",

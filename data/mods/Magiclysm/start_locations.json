@@ -22,5 +22,11 @@
     "ident": "church",
     "name": "Church",
     "target": "church"
+  },
+  {
+    "type": "start_location",
+    "ident": "magic_basement",
+    "name": "Wizard's Secret Basement Study",
+    "target": "magic_basement"
   }
 ]

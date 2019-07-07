@@ -1,0 +1,758 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "cudgel_plus_one",
+    "copy-from": "cudgel",
+    "looks_like": "cudgel",
+    "name": "cudgel +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "cudgel_plus_two",
+    "copy-from": "cudgel",
+    "looks_like": "cudgel",
+    "name": "cudgel +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "q_staff_plus_one",
+    "copy-from": "q_staff",
+    "looks_like": "q_staff",
+    "name": "quarterstaff +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "q_staff_plus_two",
+    "copy-from": "q_staff",
+    "looks_like": "q_staff",
+    "name": "quarterstaff +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "i_staff_plus_one",
+    "copy-from": "i_staff",
+    "looks_like": "i_staff",
+    "name": "ironshod quarterstaff +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "i_staff_plus_two",
+    "copy-from": "i_staff",
+    "looks_like": "i_staff",
+    "name": "ironshod quarterstaff +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "longsword_plus_one",
+    "copy-from": "longsword",
+    "looks_like": "longsword",
+    "name": "longsword +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "longsword_plus_two",
+    "copy-from": "longsword",
+    "looks_like": "longsword",
+    "name": "longsword +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "sledge_plus_one",
+    "copy-from": "hammer_sledge",
+    "looks_like": "hammer_sledge",
+    "name": "sledge hammer +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "sledge_plus_two",
+    "copy-from": "hammer_sledge",
+    "looks_like": "hammer_sledge",
+    "name": "sledge hammer +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "warhammer_plus_one",
+    "copy-from": "warhammer",
+    "looks_like": "warhammer",
+    "name": "warhammer +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "warhammer_plus_two",
+    "copy-from": "warhammer",
+    "looks_like": "warhammer",
+    "name": "warhammer +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "bat_plus_one",
+    "copy-from": "bat",
+    "looks_like": "bat",
+    "name": "bat +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "bat_plus_two",
+    "copy-from": "bat",
+    "looks_like": "bat",
+    "name": "bat +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "bat_metal_plus_one",
+    "copy-from": "bat_metal",
+    "looks_like": "bat_metal",
+    "name": "aluminum bat +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "metal_bat_plus_two",
+    "copy-from": "bat_metal",
+    "looks_like": "bat_metal",
+    "name": "aluminum bat +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "spear_steel_plus_one",
+    "copy-from": "spear_steel",
+    "looks_like": "spear_steel",
+    "name": "steel spear +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "spear_steel_plus_two",
+    "copy-from": "spear_steel",
+    "looks_like": "spear_steel",
+    "name": "steel spear +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "qiang_plus_one",
+    "copy-from": "qiang",
+    "looks_like": "qiang",
+    "name": "qiang +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "qiang_plus_two",
+    "copy-from": "qiang",
+    "looks_like": "qiang",
+    "name": "qiang +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "halberd_plus_one",
+    "copy-from": "halberd",
+    "looks_like": "halberd",
+    "name": "halberd +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "halberd_plus_two",
+    "copy-from": "halberd",
+    "looks_like": "halberd",
+    "name": "halberd +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "glaive_plus_one",
+    "copy-from": "glaive",
+    "looks_like": "glaive",
+    "name": "glaive +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "glaive_plus_two",
+    "copy-from": "glaive",
+    "looks_like": "glaive",
+    "name": "glaive +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "naginata_plus_one",
+    "copy-from": "naginata",
+    "looks_like": "naginata",
+    "name": "naginata +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "naginata_plus_two",
+    "copy-from": "naginata",
+    "looks_like": "naginata",
+    "name": "naginata +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "mace_plus_one",
+    "copy-from": "mace",
+    "looks_like": "mace",
+    "name": "mace +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "mace_plus_two",
+    "copy-from": "mace",
+    "looks_like": "mace",
+    "name": "mace +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "morningstar_plus_one",
+    "copy-from": "morningstar",
+    "looks_like": "morningstar",
+    "name": "morningstar +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "morningstar_plus_two",
+    "copy-from": "morningstar",
+    "looks_like": "morningstar",
+    "name": "morningstar +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "jian_plus_one",
+    "copy-from": "jian",
+    "looks_like": "jian",
+    "name": "jian +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "jian_plus_two",
+    "copy-from": "jian",
+    "looks_like": "jian",
+    "name": "jian +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "scimitar_plus_one",
+    "copy-from": "scimitar",
+    "looks_like": "scimitar",
+    "name": "scimitar +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "scimitar_plus_two",
+    "copy-from": "scimitar",
+    "looks_like": "scimitar",
+    "name": "scimitar +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "estoc_plus_one",
+    "copy-from": "estoc",
+    "looks_like": "estoc",
+    "name": "estoc +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "estoc_plus_two",
+    "copy-from": "estoc",
+    "looks_like": "estoc",
+    "name": "estoc +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "arming_sword_plus_one",
+    "copy-from": "arming_sword",
+    "looks_like": "arming_sword",
+    "name": "arming sword +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "arming_sword_plus_two",
+    "copy-from": "arming_sword",
+    "looks_like": "arming_sword",
+    "name": "arming sword +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "broadsword_plus_one",
+    "copy-from": "broadsword",
+    "looks_like": "broadsword",
+    "name": "broadsword +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "broadsword_plus_two",
+    "copy-from": "broadsword",
+    "looks_like": "broadsword",
+    "name": "broadsword +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "battleaxe_plus_one",
+    "copy-from": "battleaxe",
+    "looks_like": "battleaxe",
+    "name": "battle axe +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "battleaxe_plus_two",
+    "copy-from": "battleaxe",
+    "looks_like": "battleaxe",
+    "name": "battle axe +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "cavalry_sabre_plus_one",
+    "copy-from": "cavalry_sabre",
+    "looks_like": "cavalry_sabre",
+    "name": "cavalry sabre +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "cavalry_sabre_plus_two",
+    "copy-from": "cavalry_sabre",
+    "looks_like": "cavalry_sabre",
+    "name": "cavalry sabre +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "crowbar_plus_one",
+    "copy-from": "crowbar",
+    "looks_like": "crowbar",
+    "name": "crowbar +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "crowbar_plus_two",
+    "copy-from": "crowbar",
+    "looks_like": "crowbar",
+    "name": "crowbar +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "cutlass_plus_one",
+    "copy-from": "cutlass",
+    "looks_like": "cutlass",
+    "name": "cutlass +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "cutlass_plus_two",
+    "copy-from": "cutlass",
+    "looks_like": "cutlass",
+    "name": "cutlass +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "fire_ax_plus_one",
+    "copy-from": "fire_ax",
+    "looks_like": "fire_ax",
+    "name": "fire axe +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "fire_ax_plus_two",
+    "copy-from": "fire_ax",
+    "looks_like": "fire_ax",
+    "name": "fire axe +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "katana_plus_one",
+    "copy-from": "katana",
+    "looks_like": "katana",
+    "name": "katana +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "katana_plus_two",
+    "copy-from": "katana",
+    "looks_like": "katana",
+    "name": "katana +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "knife_combat_plus_one",
+    "copy-from": "knife_combat",
+    "looks_like": "knife_combat",
+    "name": "combat knife +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "knife_combat_plus_two",
+    "copy-from": "knife_combat",
+    "looks_like": "knife_combat",
+    "name": "combat knife +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "knife_hunting_plus_one",
+    "copy-from": "knife_hunting",
+    "looks_like": "knife_hunting",
+    "name": "hunting knife +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "knife_hunting_plus_two",
+    "copy-from": "knife_hunting",
+    "looks_like": "knife_hunting",
+    "name": "hunting knife +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "knife_rambo_plus_one",
+    "copy-from": "knife_rambo",
+    "looks_like": "knife_rambo",
+    "name": "survival knife +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "knife_rambo_plus_two",
+    "copy-from": "knife_rambo",
+    "looks_like": "knife_rambo",
+    "name": "survival knife +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "knife_trench_plus_one",
+    "copy-from": "knife_trench",
+    "looks_like": "knife_trench",
+    "name": "trench knife +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "knife_trench_plus_two",
+    "copy-from": "knife_trench",
+    "looks_like": "knife_trench",
+    "name": "trench knife +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "kris_plus_one",
+    "copy-from": "kris",
+    "looks_like": "kris",
+    "name": "kris +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "kris_plus_two",
+    "copy-from": "kris",
+    "looks_like": "kris",
+    "name": "kris +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "kukri_plus_one",
+    "copy-from": "kukri",
+    "looks_like": "kukri",
+    "name": "kukri +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "kukri_plus_two",
+    "copy-from": "kukri",
+    "looks_like": "kukri",
+    "name": "kukri +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "nodachi_plus_one",
+    "copy-from": "nodachi",
+    "looks_like": "nodachi",
+    "name": "nodachi +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "nodachi_plus_two",
+    "copy-from": "nodachi",
+    "looks_like": "nodachi",
+    "name": "nodachi +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "pickaxe_plus_one",
+    "copy-from": "pickaxe",
+    "looks_like": "pickaxe",
+    "name": "pickaxe +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "pickaxe_plus_two",
+    "copy-from": "pickaxe",
+    "looks_like": "pickaxe",
+    "name": "pickaxe +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "pike_plus_one",
+    "copy-from": "pike",
+    "looks_like": "pike",
+    "name": "pike +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "pike_plus_two",
+    "copy-from": "pike",
+    "looks_like": "pike",
+    "name": "pike +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "rapier_plus_one",
+    "copy-from": "rapier",
+    "looks_like": "rapier",
+    "name": "rapier +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "rapier_plus_two",
+    "copy-from": "rapier",
+    "looks_like": "rapier",
+    "name": "rapier +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "tanto_plus_one",
+    "copy-from": "tanto",
+    "looks_like": "tanto",
+    "name": "tanto +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "tanto_plus_two",
+    "copy-from": "tanto",
+    "looks_like": "tanto",
+    "name": "tanto +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "wakizashi_plus_one",
+    "copy-from": "wakizashi",
+    "looks_like": "wakizashi",
+    "name": "wakizashi +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "wakizashi_plus_two",
+    "copy-from": "wakizashi",
+    "looks_like": "wakizashi",
+    "name": "wakizashi +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "zweihander_plus_one",
+    "copy-from": "zweihander",
+    "looks_like": "zweihander",
+    "name": "zweihänder +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "zweihander_plus_two",
+    "copy-from": "zweihander",
+    "looks_like": "zweihander",
+    "name": "zweihänder +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "khopesh_plus_one",
+    "copy-from": "khopesh",
+    "looks_like": "khopesh",
+    "name": "khopesh +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "khopesh_plus_two",
+    "copy-from": "khopesh",
+    "looks_like": "khopesh",
+    "name": "khopesh +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "sword_xiphos_plus_one",
+    "copy-from": "sword_xiphos",
+    "looks_like": "sword_xiphos",
+    "name": "xiphos +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "sword_xiphos_plus_two",
+    "copy-from": "sword_xiphos",
+    "looks_like": "sword_xiphos",
+    "name": "xiphos +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dao_plus_one",
+    "copy-from": "dao",
+    "looks_like": "dao",
+    "name": "dao +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dao_plus_two",
+    "copy-from": "dao",
+    "looks_like": "dao",
+    "name": "dao +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  }
+]

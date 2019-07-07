@@ -312,6 +312,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "trailerparksmall0_roof",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "trailer park roof",
+    "sym": "#",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "trailerparksmall1",
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "trailer park",
@@ -320,9 +328,25 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "trailerparksmall1_roof",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "trailer park roof",
+    "sym": "#",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "trailerparksmall2",
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "trailer park",
+    "sym": "#",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailerparksmall2_roof",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "trailer park roof",
     "sym": "#",
     "color": "i_white"
   },

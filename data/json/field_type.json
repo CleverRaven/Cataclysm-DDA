@@ -13,7 +13,7 @@
     "half_life": "2 days",
     "phase": "liquid",
     "accelerated_decay": true,
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_bile",
@@ -23,7 +23,7 @@
     "half_life": "1 days",
     "phase": "liquid",
     "accelerated_decay": true,
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_gibs_flesh",
@@ -37,7 +37,7 @@
     "half_life": "2 days",
     "phase": "solid",
     "accelerated_decay": true,
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_gibs_veggy",
@@ -51,7 +51,7 @@
     "half_life": "2 days",
     "phase": "solid",
     "accelerated_decay": true,
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_web",
@@ -60,8 +60,8 @@
     "intensity_levels": [ { "name": "cowebs", "sym": "}" }, { "name": "webs" }, { "name": "thick webs", "transparent": false } ],
     "priority": 2,
     "phase": "solid",
-    "do_item": false,
-    "is_draw_field": true
+    "display_items": false,
+    "display_field": true
   },
   {
     "id": "fd_slime",
@@ -75,7 +75,7 @@
     "half_life": "1 days",
     "phase": "liquid",
     "accelerated_decay": true,
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_acid",
@@ -89,7 +89,7 @@
     "priority": 2,
     "half_life": "2 minutes",
     "phase": "liquid",
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_sap",
@@ -103,7 +103,7 @@
     "priority": 2,
     "half_life": "2 minutes",
     "phase": "liquid",
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_sludge",
@@ -117,7 +117,7 @@
     "priority": 2,
     "half_life": "6 hours",
     "phase": "liquid",
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_fire",
@@ -131,8 +131,8 @@
     "priority": 4,
     "half_life": "30 minutes",
     "phase": "plasma",
-    "do_item": false,
-    "is_draw_field": true
+    "display_items": false,
+    "display_field": true
   },
   {
     "id": "fd_rubble",
@@ -141,8 +141,8 @@
     "intensity_levels": [ { "name": "legacy_rubble", "sym": "#", "color": "dark_gray" } ],
     "half_life": "1 turns",
     "phase": "solid",
-    "do_item": false,
-    "is_draw_field": true
+    "display_items": false,
+    "display_field": true
   },
   {
     "id": "fd_smoke",
@@ -157,8 +157,8 @@
     "half_life": "2 minutes",
     "phase": "gas",
     "accelerated_decay": true,
-    "do_item": false,
-    "is_draw_field": true
+    "display_items": false,
+    "display_field": true
   },
   {
     "id": "fd_toxic_gas",
@@ -172,8 +172,8 @@
     "priority": 8,
     "half_life": "10 minutes",
     "phase": "gas",
-    "do_item": false,
-    "is_draw_field": true
+    "display_items": false,
+    "display_field": true
   },
   {
     "id": "fd_tear_gas",
@@ -187,8 +187,8 @@
     "priority": 8,
     "half_life": "5 minutes",
     "phase": "gas",
-    "do_item": false,
-    "is_draw_field": true
+    "display_items": false,
+    "display_field": true
   },
   {
     "id": "fd_nuke_gas",
@@ -202,8 +202,8 @@
     "priority": 8,
     "half_life": "100 minutes",
     "phase": "gas",
-    "do_item": false,
-    "is_draw_field": true
+    "display_items": false,
+    "display_field": true
   },
   {
     "id": "fd_gas_vent",
@@ -211,8 +211,8 @@
     "legacy_enum_id": 16,
     "intensity_levels": [ { "name": "gas vent" } ],
     "phase": "gas",
-    "do_item": false,
-    "is_draw_field": true
+    "display_items": false,
+    "display_field": true
   },
   {
     "id": "fd_fire_vent",
@@ -220,8 +220,8 @@
     "legacy_enum_id": 17,
     "intensity_levels": [ { "name": "fire vent" } ],
     "phase": "gas",
-    "do_item": false,
-    "is_draw_field": true
+    "display_items": false,
+    "display_field": true
   },
   {
     "id": "fd_flame_burst",
@@ -230,8 +230,8 @@
     "intensity_levels": [ { "name": "fire", "sym": "5", "color": "red", "dangerous": true } ],
     "priority": 4,
     "phase": "gas",
-    "do_item": false,
-    "is_draw_field": true
+    "display_items": false,
+    "display_field": true
   },
   {
     "id": "fd_electricity",
@@ -245,8 +245,8 @@
     "priority": 4,
     "half_life": "2 turns",
     "phase": "plasma",
-    "do_item": false,
-    "is_draw_field": true
+    "display_items": false,
+    "display_field": true
   },
   {
     "id": "fd_fatigue",
@@ -258,8 +258,8 @@
       { "name": "tear in reality", "color": "magenta", "transparent": false }
     ],
     "priority": 8,
-    "do_item": false,
-    "is_draw_field": true
+    "display_items": false,
+    "display_field": true
   },
   {
     "id": "fd_push_items",
@@ -267,8 +267,8 @@
     "legacy_enum_id": 21,
     "intensity_levels": [ { "name": "push items", "sym": "&" } ],
     "priority": -1,
-    "do_item": false,
-    "is_draw_field": true
+    "display_items": false,
+    "display_field": true
   },
   {
     "id": "fd_shock_vent",
@@ -277,8 +277,8 @@
     "intensity_levels": [ { "name": "shock vent", "sym": "&" } ],
     "priority": -1,
     "phase": "plasma",
-    "do_item": false,
-    "is_draw_field": true
+    "display_items": false,
+    "display_field": true
   },
   {
     "id": "fd_acid_vent",
@@ -287,8 +287,8 @@
     "intensity_levels": [ { "name": "acid vent", "sym": "&" } ],
     "priority": -1,
     "phase": "liquid",
-    "do_item": false,
-    "is_draw_field": true
+    "display_items": false,
+    "display_field": true
   },
   {
     "id": "fd_plasma",
@@ -302,8 +302,8 @@
     "priority": 4,
     "half_life": "2 turns",
     "phase": "plasma",
-    "do_item": false,
-    "is_draw_field": true
+    "display_items": false,
+    "display_field": true
   },
   {
     "id": "fd_laser",
@@ -317,8 +317,8 @@
     "priority": 4,
     "half_life": "1 turns",
     "phase": "plasma",
-    "do_item": false,
-    "is_draw_field": true
+    "display_items": false,
+    "display_field": true
   },
   {
     "id": "fd_spotlight",
@@ -327,7 +327,7 @@
     "intensity_levels": [ { "name": "spotlight", "sym": "&" } ],
     "priority": 1,
     "half_life": "1 turns",
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_dazzling",
@@ -337,8 +337,8 @@
     "priority": 4,
     "half_life": "1 turns",
     "phase": "plasma",
-    "do_item": false,
-    "is_draw_field": true
+    "display_items": false,
+    "display_field": true
   },
   {
     "id": "fd_blood_veggy",
@@ -352,7 +352,7 @@
     "half_life": "2 days",
     "phase": "liquid",
     "accelerated_decay": true,
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_blood_insect",
@@ -362,7 +362,7 @@
     "half_life": "2 days",
     "phase": "liquid",
     "accelerated_decay": true,
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_blood_invertebrate",
@@ -376,7 +376,7 @@
     "half_life": "2 days",
     "phase": "liquid",
     "accelerated_decay": true,
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_gibs_insect",
@@ -390,7 +390,7 @@
     "half_life": "2 days",
     "phase": "solid",
     "accelerated_decay": true,
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_gibs_invertebrate",
@@ -404,7 +404,7 @@
     "half_life": "2 days",
     "phase": "solid",
     "accelerated_decay": true,
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_cigsmoke",
@@ -419,7 +419,7 @@
     "half_life": "35 minutes",
     "phase": "gas",
     "accelerated_decay": true,
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_weedsmoke",
@@ -434,7 +434,7 @@
     "half_life": "325 turns",
     "phase": "gas",
     "accelerated_decay": true,
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_cracksmoke",
@@ -449,7 +449,7 @@
     "half_life": "225 turns",
     "phase": "gas",
     "accelerated_decay": true,
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_methsmoke",
@@ -464,7 +464,7 @@
     "half_life": "275 turns",
     "phase": "gas",
     "accelerated_decay": true,
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_bees",
@@ -477,8 +477,8 @@
     ],
     "priority": 8,
     "half_life": "100 minutes",
-    "do_item": false,
-    "is_draw_field": true
+    "display_items": false,
+    "display_field": true
   },
   {
     "id": "fd_incendiary",
@@ -492,8 +492,8 @@
     "priority": 8,
     "half_life": "50 minutes",
     "phase": "gas",
-    "do_item": false,
-    "is_draw_field": true
+    "display_items": false,
+    "display_field": true
   },
   {
     "id": "fd_relax_gas",
@@ -507,8 +507,8 @@
     "priority": 8,
     "half_life": "50 minutes",
     "phase": "gas",
-    "do_item": false,
-    "is_draw_field": true
+    "display_items": false,
+    "display_field": true
   },
   {
     "id": "fd_fungal_haze",
@@ -522,8 +522,8 @@
     "priority": 8,
     "half_life": "4 minutes",
     "phase": "gas",
-    "do_item": false,
-    "is_draw_field": true
+    "display_items": false,
+    "display_field": true
   },
   {
     "id": "fd_cold_air1",
@@ -533,7 +533,7 @@
     "priority": -1,
     "half_life": "50 minutes",
     "phase": "gas",
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_cold_air2",
@@ -543,7 +543,7 @@
     "priority": -1,
     "half_life": "50 minutes",
     "phase": "gas",
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_cold_air3",
@@ -553,7 +553,7 @@
     "priority": -1,
     "half_life": "50 minutes",
     "phase": "gas",
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_cold_air4",
@@ -563,7 +563,7 @@
     "priority": -1,
     "half_life": "50 minutes",
     "phase": "gas",
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_hot_air1",
@@ -573,7 +573,7 @@
     "priority": -1,
     "half_life": "50 minutes",
     "phase": "gas",
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_hot_air2",
@@ -583,7 +583,7 @@
     "priority": -1,
     "half_life": "50 minutes",
     "phase": "gas",
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_hot_air3",
@@ -593,7 +593,7 @@
     "priority": -1,
     "half_life": "50 minutes",
     "phase": "gas",
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_hot_air4",
@@ -603,7 +603,7 @@
     "priority": -1,
     "half_life": "50 minutes",
     "phase": "gas",
-    "is_draw_field": true
+    "display_field": true
   },
   {
     "id": "fd_fungicidal_gas",
@@ -617,8 +617,8 @@
     "priority": 8,
     "half_life": "90 minutes",
     "phase": "gas",
-    "do_item": false,
-    "is_draw_field": true
+    "display_items": false,
+    "display_field": true
   },
   {
     "id": "fd_smoke_vent",
@@ -626,7 +626,7 @@
     "legacy_enum_id": 50,
     "intensity_levels": [ { "name": "smoke vent", "dangerous": true } ],
     "phase": "gas",
-    "do_item": false,
-    "is_draw_field": true
+    "display_items": false,
+    "display_field": true
   }
 ]
