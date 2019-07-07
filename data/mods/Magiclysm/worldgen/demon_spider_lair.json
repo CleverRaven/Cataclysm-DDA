@@ -1,0 +1,79 @@
+[
+  {
+    "type": "palette",
+    "id": "demon_spider_lair",
+    "terrain": {
+      "7": [
+        [ "t_tree_burnt", 60 ],
+        "t_tree",
+        "t_tree_apple",
+        "t_tree_peach",
+        "t_tree_pear",
+        "t_tree_hickory",
+        "t_tree_beech",
+        "t_tree_coffee",
+        "t_tree_pine",
+        "t_tree_birch",
+        "t_tree_willow",
+        "t_tree_maple",
+        "t_webbed_corpse"
+      ],
+      "~": [ "t_lava" ],
+      " ": [ [ "t_grass_dead", 2 ], [ "t_dirt", 15 ], [ "t_sand", 10 ], [ "t_dirtmound", 3 ], [ "t_rock_floor_no_roof", 8 ] ],
+      ".": [ "t_dirtfloor" ],
+      "$": [ "t_dirtfloor" ],
+      "S": [ "t_lava" ],
+      "s": [ [ "t_dirtfloor", 6 ], [ "t_dirt", 15 ], [ "t_sand", 10 ], [ "t_dirtmound", 4 ], [ "t_rock_floor_no_roof", 3 ] ],
+      "#": [ [ "t_demon_web_wall", 10 ], "t_tree_burnt" ]
+    },
+    "fields": {
+      " ": { "field": "fd_web", "intensity": 2 },
+      ".": { "field": "fd_web", "intensity": 3 },
+      "s": { "field": "fd_web", "intensity": 3 },
+      "S": { "field": "fd_web", "intensity": 3 },
+      "~": { "field": "fd_web", "intensity": 3 }
+    },
+    "items": { "$": { "item": "demon_spider_lair_treasure", "chance": 50, "repeat": [ 3, 6 ] } },
+    "monster": {
+      "S": { "monster": "mon_demon_spider_queen", "chance": 100 },
+      "s": { "monster": "mon_demon_spider", "chance": 100 },
+      ".": { "monster": "mon_demon_spiderling", "chance": 8 },
+      " ": { "monster": "mon_demon_spiderling", "chance": 1 }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "demon_spider_lair" ],
+    "weight": 100,
+    "object": {
+      "rows": [
+        "         7              ",
+        "   7               7    ",
+        "   ###  ####7           ",
+        "   ###########          ",
+        "  ############   7      ",
+        "    #####.########   7  ",
+        "  7  ####..###########  ",
+        "   ###...........####   ",
+        "   ####...$..7...#####  ",
+        "  ####.............###7 ",
+        "  ###..$....s....#######",
+        " #####..........$..#####",
+        "   ####.....~S..s..#####",
+        "  ####...s..~~......### ",
+        "  ######.7...s....####7 ",
+        "  ####..........~..#### ",
+        " 7 #####..s........#####",
+        "    #######.....7.##### ",
+        "       #####7......#### ",
+        "   7      ####....####  ",
+        "     7   ####....####   ",
+        " 7      ####...####   7 ",
+        "       ####..####  7    ",
+        "    #####  .####        "
+      ],
+      "palettes": [ "demon_spider_lair" ]
+    }
+  }
+]

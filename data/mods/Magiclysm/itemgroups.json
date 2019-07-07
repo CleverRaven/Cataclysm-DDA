@@ -213,6 +213,15 @@
     ]
   },
   {
+    "id": "demon_spider_lair_treasure",
+    "type": "item_group",
+    "items": [
+      { "group": "potions_common", "prob": 20 },
+      { "group": "magic_shop_wands", "prob": 35 },
+      { "group": "magic_shop_books", "prob": 15 }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "magic_shop_clothes",
     "items": [ [ "cloak", 3 ], [ "cloak_wool", 5 ], [ "jedi_cloak", 3 ], [ "robe", 5 ], [ "tophat", 5 ], [ "leathersandals", 6 ] ]
