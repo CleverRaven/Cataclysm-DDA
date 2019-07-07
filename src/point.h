@@ -217,6 +217,16 @@ struct rectangle {
     point p_max;
     constexpr rectangle() = default;
     constexpr rectangle( const point &P_MIN, const point &P_MAX ) : p_min( P_MIN ), p_max( P_MAX ) {}
+
+    constexpr bool contains_half_open( const point &p ) const {
+        return p.x >= p_min.x && p.x < p_max.x &&
+               p.y >= p_min.y && p.y < p_max.y;
+    }
+
+    constexpr bool contains_inclusive( const point &p ) const {
+        return p.x >= p_min.x && p.x <= p_max.x &&
+               p.y >= p_min.y && p.y <= p_max.y;
+    }
 };
 
 struct box {
@@ -226,6 +236,23 @@ struct box {
     constexpr box( const tripoint &P_MIN, const tripoint &P_MAX ) : p_min( P_MIN ), p_max( P_MAX ) {}
     explicit constexpr box( const rectangle &R, int Z1, int Z2 ) :
         p_min( tripoint( R.p_min, Z1 ) ), p_max( tripoint( R.p_max, Z2 ) ) {}
+
+    constexpr bool contains_half_open( const tripoint &p ) const {
+        return p.x >= p_min.x && p.x < p_max.x &&
+               p.y >= p_min.y && p.y < p_max.y &&
+               p.z >= p_min.z && p.z < p_max.z;
+    }
+
+    constexpr bool contains_inclusive( const tripoint &p ) const {
+        return p.x >= p_min.x && p.x <= p_max.x &&
+               p.y >= p_min.y && p.y <= p_max.y &&
+               p.z >= p_min.z && p.z <= p_max.z;
+    }
+
+    void shrink( const tripoint &amount ) {
+        p_min += amount;
+        p_max -= amount;
+    }
 };
 
 static constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
@@ -247,29 +274,6 @@ static constexpr point point_north_west{ -1, -1 };
 
 static constexpr box box_zero( tripoint_zero, tripoint_zero );
 static constexpr rectangle rectangle_zero( point_zero, point_zero );
-
-/** Checks if given tripoint is inbounds of given min and max tripoints using given clearance **/
-inline bool generic_inbounds( const tripoint &p,
-                              const box &boundaries,
-                              const box &clearance = box_zero )
-{
-    return p.x >= boundaries.p_min.x + clearance.p_min.x &&
-           p.x <= boundaries.p_max.x - clearance.p_max.x &&
-           p.y >= boundaries.p_min.y + clearance.p_min.y &&
-           p.y <= boundaries.p_max.y - clearance.p_max.y &&
-           p.z >= boundaries.p_min.z + clearance.p_min.z &&
-           p.z <= boundaries.p_max.z - clearance.p_max.z;
-}
-
-/** Checks if given point is inbounds of given min and max point using given clearance **/
-inline bool generic_inbounds( const point &p,
-                              const rectangle &boundaries,
-                              const rectangle &clearance = rectangle_zero )
-{
-    return generic_inbounds( tripoint( p, 0 ),
-                             box( boundaries, 0, 0 ),
-                             box( clearance, 0, 0 ) );
-}
 
 struct sphere {
     int radius = 0;
