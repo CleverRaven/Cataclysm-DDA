@@ -326,13 +326,19 @@ float multi_lerp( const std::vector<std::pair<float, float>> &points, float x )
     return ( t * points[i].second ) + ( ( 1 - t ) * points[i - 1].second );
 }
 
+void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer )
+{
+    // Any of the below may throw. ofstream_wrapper_exclusive will clean up the temporary path on its own.
+    ofstream_wrapper_exclusive fout( path );
+    writer( fout.stream() );
+    fout.close();
+}
+
 bool write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
                     const char *const fail_message )
 {
     try {
-        ofstream_wrapper_exclusive fout( path );
-        writer( fout.stream() );
-        fout.close();
+        write_to_file( path, writer );
         return true;
 
     } catch( const std::exception &err ) {

@@ -350,9 +350,15 @@ class list_circularizer
  * \p fail_message, the error text and the path.
  *
  * @return Whether saving succeeded (no error was caught).
+ * @throw The void function throws when writing failes or when the @p writer throws.
+ * The other function catches all exceptions and returns false.
  */
+///@{
 bool write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
                     const char *fail_message );
+void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer );
+///@}
+
 class JsonDeserializer;
 
 /**
