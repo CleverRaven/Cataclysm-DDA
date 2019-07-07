@@ -321,7 +321,14 @@
     "autolearn": true,
     "components": [
       [ [ "stick_long", 1 ], [ "long_pole", 1 ], [ "broom", 1 ], [ "pool_cue", 1 ] ],
-      [ [ "spike", 1 ], [ "knife_steak", 1 ], [ "knife_paring", 1 ], [ "knife_folding", 1 ], [ "scalpel", 1 ] ],
+      [
+        [ "spike", 1 ],
+        [ "knife_steak", 1 ],
+        [ "knife_paring", 1 ],
+        [ "knife_folding", 1 ],
+        [ "scalpel", 1 ],
+        [ "xacto", 1 ]
+      ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ]
     ]
   },
