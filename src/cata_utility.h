@@ -442,10 +442,6 @@ class ofstream_wrapper_exclusive
         void close();
 };
 
-/** See @ref write_to_file, but uses the exclusive I/O functions. */
-bool write_to_file_exclusive( const std::string &path,
-                              const std::function<void( std::ostream & )> &writer,  const char *fail_message );
-
 std::istream &safe_getline( std::istream &ins, std::string &str );
 
 /** Apply fuzzy effect to a string like:
