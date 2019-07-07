@@ -328,6 +328,30 @@
   },
   {
     "type": "recipe",
+    "result": "spear_knife_reinforced",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "1 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "stick_long", 1 ], [ "broom", 1 ], [ "pool_cue", 1 ] ],
+      [
+        [ "knife_butcher", 1 ],
+        [ "knife_chef", 1 ],
+        [ "knife_carving", 1 ],
+        [ "knife_vegetable_cleaver", 1 ],
+        [ "knife_meat_cleaver", 1 ],
+        [ "kirpan", 1 ]
+      ],
+      [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
+      [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "longbow",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
