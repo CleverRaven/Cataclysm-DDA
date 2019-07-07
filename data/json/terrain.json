@@ -8382,7 +8382,7 @@
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,
-    "flags": [ "NOITEM", "CONNECT_TO_WALL", "NONFLAMMALBE" ],
+    "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
     "examine_action": "cardreader",
     "bash": {
       "str_min": 18,
