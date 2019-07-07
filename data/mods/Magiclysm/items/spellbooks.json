@@ -273,7 +273,7 @@
     "volume": 4,
     "symbol": "?",
     "color": "light_grey",
-    "use_action": { "type": "learn_spell", "spells": [ "taze", "laze", "em_pulse" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "taze", "laze" ] }
   },
   {
     "id": "translocate_spellbook",
