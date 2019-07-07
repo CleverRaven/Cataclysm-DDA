@@ -673,6 +673,11 @@
     ]
   },
   {
+    "id": "record_weather",
+    "type": "item_group",
+    "items": [ [ "record_weather", 100 ] ]
+  },
+  {
     "id": "tailorbooks",
     "type": "item_group",
     "items": [ [ "tailor_portfolio", 30 ], [ "mag_tailor", 50 ], [ "manual_tailor", 30 ], [ "textbook_tailor", 30 ] ]

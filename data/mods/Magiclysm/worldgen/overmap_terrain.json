@@ -56,6 +56,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "demon_spider_lair",
+    "name": "Forest",
+    "sym": "F",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
     "id": "magic_basement",
     "copy-from": "generic_city_house_basement"
   }

@@ -161,4 +161,16 @@ constexpr float MODERATE_EXERCISE = 1.55f;
 constexpr float ACTIVE_EXERCISE = 1.725f;
 constexpr float EXTRA_EXERCISE = 1.9f;
 
+// these are the lower bounds of each of the weight classes
+namespace character_weight_category
+{
+constexpr float emaciated = 14.0f;
+constexpr float underweight = 16.0f;
+constexpr float normal = 18.5f;
+constexpr float overweight = 25.0f;
+constexpr float obese = 30.0f;
+constexpr float very_obese = 35.0f;
+constexpr float morbidly_obese = 40.0f;
+} // namespace character_weight_category
+
 #endif

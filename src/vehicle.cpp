@@ -1596,9 +1596,9 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
             }
         }
 
-        for( std::unordered_multimap<point, zone_data>::iterator it = new_zones.begin();
-             it != new_zones.end(); ++it ) {
-            zone_manager::get_manager().create_vehicle_loot_zone( *this, it->first, it->second );
+        for( auto &new_zone : new_zones ) {
+            zone_manager::get_manager().create_vehicle_loot_zone(
+                *this, new_zone.first, new_zone.second );
         }
 
         // Now that we've added zones to this vehicle, we need to make sure their positions

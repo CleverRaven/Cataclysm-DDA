@@ -233,7 +233,6 @@ void monster::plan( const mfactions &factions )
     const int angers_cub_threatened = type->has_anger_trigger( mon_trigger::PLAYER_NEAR_BABY ) ? 8 : 0;
     const int fears_hostile_near = type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ? 5 : 0;
 
-    auto all_monsters = g->all_monsters();
     bool group_morale = has_flag( MF_GROUP_MORALE ) && morale < type->morale;
     bool swarms = has_flag( MF_SWARMS );
     auto mood = attitude();
@@ -264,7 +263,7 @@ void monster::plan( const mfactions &factions )
             }
         }
         if( angers_cub_threatened > 0 ) {
-            for( monster &tmp : all_monsters ) {
+            for( monster &tmp : g->all_monsters() ) {
                 if( type->baby_monster == tmp.type->id ) {
                     // baby nearby; is the player too close?
                     dist = tmp.rate_target( g->u, dist, smart_planning );
@@ -277,7 +276,7 @@ void monster::plan( const mfactions &factions )
             }
         }
     } else if( friendly != 0 && !docile ) {
-        for( monster &tmp : all_monsters ) {
+        for( monster &tmp : g->all_monsters() ) {
             if( tmp.friendly == 0 ) {
                 float rating = rate_target( tmp, dist, smart_planning );
                 if( rating < dist ) {

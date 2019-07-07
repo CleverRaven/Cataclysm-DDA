@@ -219,9 +219,9 @@ void map::build_sunlight_cache( int zlev )
     // If uppermost level, just apply weather illumination since there's no opportunity
     // for light to be blocked.
     if( zlev == OVERMAP_HEIGHT ) {
-        for( int x = 0; x < MAPSIZE_X; x++ ) {
-            for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                lm[x][y].fill( outside_light_level );
+        for( auto &lm_col : lm ) {
+            for( four_quadrants &lm_entry : lm_col ) {
+                lm_entry.fill( outside_light_level );
             }
         }
         return;
@@ -348,14 +348,12 @@ void map::generate_lightmap( const int zlev )
                     }
 
                     const ter_id terrain = cur_submap->ter[sx][sy];
-                    if( terrain == t_lava ) {
-                        add_light_source( p, 50 );
-                    } else if( terrain == t_console ) {
-                        add_light_source( p, 10 );
-                    } else if( terrain == t_thconc_floor_olight ) {
-                        add_light_source( p, 120 );
-                    } else if( terrain == t_utility_light ) {
-                        add_light_source( p, 240 );
+                    if( terrain->light_emitted > 0 ) {
+                        add_light_source( p, terrain->light_emitted );
+                    }
+                    const furn_id furniture = cur_submap->frn[sx][sy];
+                    if( furniture->light_emitted > 0 ) {
+                        add_light_source( p, furniture->light_emitted );
                     }
 
                     for( auto &fld : cur_submap->fld[sx][sy] ) {

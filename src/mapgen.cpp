@@ -5456,7 +5456,7 @@ void map::draw_spiral( const oter_id &terrain_type, mapgendata &/*dat*/, const t
 void map::draw_toxic_dump( const oter_id &terrain_type, mapgendata &/*dat*/,
                            const time_point &/*when*/, const float /*density*/ )
 {
-    if( terrain_type == "toxic_dump" ) {
+    if( is_ot_match( "toxic_dump", terrain_type, ot_match_type::type ) ) {
         fill_background( this, t_dirt );
         for( int n = 0; n < 6; n++ ) {
             int poolx = rng( 4, SEEX * 2 - 5 ), pooly = rng( 4, SEEY * 2 - 5 );
@@ -5522,7 +5522,15 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                                             f_counter, f_chair, f_desk, f_rack,  f_null, f_null,
                                             f_null, f_null, f_null, f_null, f_null, f_null,
                                             f_locker, f_sink,  f_toilet );
-    if( terrain_type == "haz_sar_entrance" ) {
+
+    // Convenience function because this big block of hardcoded mapgen does a LOT of overmap terrain
+    // comparisons and it gets very verbose. What would be better is to convert all this to JSON mapgen.
+    const auto match = []( const oter_id & oterid, const std::string & oterstr ) {
+        return is_ot_match( oterstr, oterid, ot_match_type::type );
+    };
+
+
+    if( match( terrain_type, "haz_sar_entrance" ) ) {
         // Init to grass & dirt;
         dat.fill_groundcover();
         mapf::formatted_set_simple( this, 0, 0,
@@ -5562,22 +5570,21 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                 adjust_radiation( x, y, rng( 10, 30 ) );
             }
         }
-        if( dat.north() == "haz_sar" && dat.west() == "haz_sar" ) {
+        if( match( dat.north(), "haz_sar" ) && match( dat.west(), "haz_sar" ) ) {
             rotate( 3 );
-        } else if( dat.north() == "haz_sar" && dat.east() == "haz_sar" ) {
+        } else if( match( dat.north(), "haz_sar" ) && match( dat.east(), "haz_sar" ) ) {
             rotate( 0 );
-        } else if( dat.south() == "haz_sar" && dat.east() == "haz_sar" ) {
+        } else if( match( dat.south(), "haz_sar" ) && match( dat.east(), "haz_sar" ) ) {
             rotate( 1 );
-        } else if( dat.west() == "haz_sar" && dat.south() == "haz_sar" ) {
+        } else if( match( dat.west(), "haz_sar" ) && match( dat.south(), "haz_sar" ) ) {
             rotate( 2 );
         }
-    } else if( terrain_type == "haz_sar" ) {
+    } else if( match( terrain_type, "haz_sar" ) ) {
         dat.fill_groundcover();
-        if( ( dat.south() == "haz_sar_entrance" && dat.east() == "haz_sar" ) ||
-            ( dat.north() == "haz_sar" &&
-              dat.east() == "haz_sar_entrance" ) || ( dat.west() == "haz_sar" &&
-                      dat.north() == "haz_sar_entrance" ) ||
-            ( dat.south() == "haz_sar" && dat.west() == "haz_sar_entrance" ) ) {
+        if( ( match( dat.south(), "haz_sar_entrance" ) && match( dat.east(), "haz_sar" ) ) ||
+            ( match( dat.north(), "haz_sar" ) && match( dat.east(), "haz_sar_entrance" ) ) ||
+            ( match( dat.west(), "haz_sar" ) && match( dat.north(), "haz_sar_entrance" ) ) ||
+            ( match( dat.south(), "haz_sar" ) && match( dat.west(), "haz_sar_entrance" ) ) ) {
             mapf::formatted_set_simple( this, 0, 0,
                                         "                        \n"
                                         " fFFFFFFFFFFFFFFFFFFFFFF\n"
@@ -5615,17 +5622,17 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                     adjust_radiation( x, y, rng( 10, 30 ) );
                 }
             }
-            if( dat.west() == "haz_sar_entrance" ) {
+            if( match( dat.west(), "haz_sar_entrance" ) ) {
                 rotate( 1 );
                 if( x_in_y( 1, 4 ) ) {
                     add_vehicle( vproto_id( "military_cargo_truck" ), 10, 11, 0 );
                 }
-            } else if( dat.north() == "haz_sar_entrance" ) {
+            } else if( match( dat.north(), "haz_sar_entrance" ) ) {
                 rotate( 2 );
                 if( x_in_y( 1, 4 ) ) {
                     add_vehicle( vproto_id( "military_cargo_truck" ), 12, 10, 90 );
                 }
-            } else if( dat.east() == "haz_sar_entrance" ) {
+            } else if( match( dat.east(), "haz_sar_entrance" ) ) {
                 rotate( 3 );
                 if( x_in_y( 1, 4 ) ) {
                     add_vehicle( vproto_id( "military_cargo_truck" ), 13, 12, 180 );
@@ -5634,10 +5641,10 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                 add_vehicle( vproto_id( "military_cargo_truck" ), 11, 13, 270 );
             }
 
-        } else if( ( dat.west() == "haz_sar_entrance" && dat.north() == "haz_sar" ) ||
-                   ( dat.north() == "haz_sar_entrance" && dat.east() == "haz_sar" ) ||
-                   ( dat.west() == "haz_sar" && dat.south() == "haz_sar_entrance" ) ||
-                   ( dat.south() == "haz_sar" && dat.east() == "haz_sar_entrance" ) ) {
+        } else if( ( match( dat.west(), "haz_sar_entrance" ) && match( dat.north(), "haz_sar" ) ) ||
+                   ( match( dat.north(), "haz_sar_entrance" ) && match( dat.east(), "haz_sar" ) ) ||
+                   ( match( dat.west(), "haz_sar" ) && match( dat.south(), "haz_sar_entrance" ) ) ||
+                   ( match( dat.south(), "haz_sar" ) && match( dat.east(), "haz_sar_entrance" ) ) ) {
             mapf::formatted_set_simple( this, 0, 0,
                                         "......|-+-|-+|...h..w f \n"
                                         ".c....|.............w f \n"
@@ -5673,13 +5680,13 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                     adjust_radiation( x, y, rng( 10, 30 ) );
                 }
             }
-            if( dat.north() == "haz_sar_entrance" ) {
+            if( match( dat.north(), "haz_sar_entrance" ) ) {
                 rotate( 1 );
             }
-            if( dat.east() == "haz_sar_entrance" ) {
+            if( match( dat.east(), "haz_sar_entrance" ) ) {
                 rotate( 2 );
             }
-            if( dat.south() == "haz_sar_entrance" ) {
+            if( match( dat.south(), "haz_sar_entrance" ) ) {
                 rotate( 3 );
             }
         } else {
@@ -5733,17 +5740,17 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
             tmpcomp->add_option( _( "COMMAND: REACTIVATE ELEVATOR" ), COMPACT_SRCF_ELEVATOR, 0 );
             tmpcomp->add_option( _( "COMMAND: SEAL SRCF [4423]" ), COMPACT_SRCF_SEAL, 5 );
             tmpcomp->add_failure( COMPFAIL_ALARM );
-            if( dat.west() == "haz_sar" && dat.north() == "haz_sar" ) {
+            if( match( dat.west(), "haz_sar" ) && match( dat.north(), "haz_sar" ) ) {
                 rotate( 1 );
             }
-            if( dat.east() == "haz_sar" && dat.north() == "haz_sar" ) {
+            if( match( dat.east(), "haz_sar" ) && match( dat.north(), "haz_sar" ) ) {
                 rotate( 2 );
             }
-            if( dat.east() == "haz_sar" && dat.south() == "haz_sar" ) {
+            if( match( dat.east(), "haz_sar" ) && match( dat.south(), "haz_sar" ) ) {
                 rotate( 3 );
             }
         }
-    } else if( terrain_type == "haz_sar_entrance_b1" ) {
+    } else if( match( terrain_type, "haz_sar_entrance_b1" ) ) {
         // Init to grass & dirt;
         dat.fill_groundcover();
         mapf::formatted_set_simple( this, 0, 0,
@@ -5802,22 +5809,21 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                 }
             }
         }
-        if( dat.north() == "haz_sar_b1" && dat.west() == "haz_sar_b1" ) {
+        if( match( dat.north(), "haz_sar_b1" ) && match( dat.west(), "haz_sar_b1" ) ) {
             rotate( 3 );
-        } else if( dat.north() == "haz_sar_b1" && dat.east() == "haz_sar_b1" ) {
+        } else if( match( dat.north(), "haz_sar_b1" ) && match( dat.east(), "haz_sar_b1" ) ) {
             rotate( 0 );
-        } else if( dat.south() == "haz_sar_b1" && dat.east() == "haz_sar_b1" ) {
+        } else if( match( dat.south(), "haz_sar_b1" ) && match( dat.east(), "haz_sar_b1" ) ) {
             rotate( 1 );
-        } else if( dat.west() == "haz_sar_b1" && dat.south() == "haz_sar_b1" ) {
+        } else if( match( dat.west(), "haz_sar_b1" ) && match( dat.south(), "haz_sar_b1" ) ) {
             rotate( 2 );
         }
-    } else if( terrain_type == "haz_sar_b1" ) {
+    } else if( match( terrain_type, "haz_sar_b1" ) ) {
         dat.fill_groundcover();
-        if( ( dat.south() == "haz_sar_entrance_b1" && dat.east() == "haz_sar_b1" ) ||
-            ( dat.north() == "haz_sar_b1" &&
-              dat.east() == "haz_sar_entrance_b1" ) || ( dat.west() == "haz_sar_b1" &&
-                      dat.north() == "haz_sar_entrance_b1" ) ||
-            ( dat.south() == "haz_sar_b1" && dat.west() == "haz_sar_entrance_b1" ) ) {
+        if( ( match( dat.south(), "haz_sar_entrance_b1" ) && match( dat.east(), "haz_sar_b1" ) ) ||
+            ( match( dat.north(), "haz_sar_b1" ) && match( dat.east(), "haz_sar_entrance_b1" ) ) ||
+            ( match( dat.west(), "haz_sar_b1" ) && match( dat.north(), "haz_sar_entrance_b1" ) ) ||
+            ( match( dat.south(), "haz_sar_b1" ) && match( dat.west(), "haz_sar_entrance_b1" ) ) ) {
             mapf::formatted_set_simple( this, 0, 0,
                                         "########################\n"
                                         "####################.##.\n"
@@ -5878,17 +5884,17 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                     }
                 }
             }
-            if( dat.west() == "haz_sar_entrance_b1" ) {
+            if( match( dat.west(), "haz_sar_entrance_b1" ) ) {
                 rotate( 1 );
-            } else if( dat.north() == "haz_sar_entrance_b1" ) {
+            } else if( match( dat.north(), "haz_sar_entrance_b1" ) ) {
                 rotate( 2 );
-            } else if( dat.east() == "haz_sar_entrance_b1" ) {
+            } else if( match( dat.east(), "haz_sar_entrance_b1" ) ) {
                 rotate( 3 );
             }
-        } else if( ( dat.west() == "haz_sar_entrance_b1" && dat.north() == "haz_sar_b1" ) ||
-                   ( dat.north() == "haz_sar_entrance_b1" && dat.east() == "haz_sar_b1" ) ||
-                   ( dat.west() == "haz_sar_b1" && dat.south() == "haz_sar_entrance_b1" ) ||
-                   ( dat.south() == "haz_sar_b1" && dat.east() == "haz_sar_entrance_b1" ) ) {
+        } else if( ( match( dat.west(), "haz_sar_entrance_b1" ) && match( dat.north(), "haz_sar_b1" ) ) ||
+                   ( match( dat.north(), "haz_sar_entrance_b1" ) && match( dat.east(), "haz_sar_b1" ) ) ||
+                   ( match( dat.west(), "haz_sar_b1" ) && match( dat.south(), "haz_sar_entrance_b1" ) ) ||
+                   ( match( dat.south(), "haz_sar_b1" ) && match( dat.east(), "haz_sar_entrance_b1" ) ) ) {
             mapf::formatted_set_simple( this, 0, 0,
                                         "....M..|,,,,|........###\n"
                                         ".......|-HH=|.........##\n"
@@ -5945,13 +5951,13 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                     }
                 }
             }
-            if( dat.north() == "haz_sar_entrance_b1" ) {
+            if( match( dat.north(), "haz_sar_entrance_b1" ) ) {
                 rotate( 1 );
             }
-            if( dat.east() == "haz_sar_entrance_b1" ) {
+            if( match( dat.east(), "haz_sar_entrance_b1" ) ) {
                 rotate( 2 );
             }
-            if( dat.south() == "haz_sar_entrance_b1" ) {
+            if( match( dat.south(), "haz_sar_entrance_b1" ) ) {
                 rotate( 3 );
             }
         } else {
@@ -6036,13 +6042,13 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
             tmpcomp->add_option( _( "USARMY: SEAL SRCF [987167]" ), COMPACT_SRCF_SEAL_ORDER, 4 );
             tmpcomp->add_option( _( "COMMAND: REACTIVATE ELEVATOR" ), COMPACT_SRCF_ELEVATOR, 0 );
             tmpcomp->add_failure( COMPFAIL_ALARM );
-            if( dat.west() == "haz_sar_b1" && dat.north() == "haz_sar_b1" ) {
+            if( match( dat.west(), "haz_sar_b1" ) && match( dat.north(), "haz_sar_b1" ) ) {
                 rotate( 1 );
             }
-            if( dat.east() == "haz_sar_b1" && dat.north() == "haz_sar_b1" ) {
+            if( match( dat.east(), "haz_sar_b1" ) && match( dat.north(), "haz_sar_b1" ) ) {
                 rotate( 2 );
             }
-            if( dat.east() == "haz_sar_b1" && dat.south() == "haz_sar_b1" ) {
+            if( match( dat.east(), "haz_sar_b1" ) && match( dat.south(), "haz_sar_b1" ) ) {
                 rotate( 3 );
             }
         }

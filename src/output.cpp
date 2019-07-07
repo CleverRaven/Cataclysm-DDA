@@ -133,9 +133,9 @@ std::vector<std::string> split_by_color( const std::string &s )
     std::vector<std::string> ret;
     std::vector<size_t> tag_positions = get_tag_positions( s );
     size_t last_pos = 0;
-    for( std::vector<size_t>::iterator it = tag_positions.begin(); it != tag_positions.end(); ++it ) {
-        ret.push_back( s.substr( last_pos, *it - last_pos ) );
-        last_pos = *it;
+    for( size_t tag_position : tag_positions ) {
+        ret.push_back( s.substr( last_pos, tag_position - last_pos ) );
+        last_pos = tag_position;
     }
     // and the last (or only) one
     ret.push_back( s.substr( last_pos, std::string::npos ) );

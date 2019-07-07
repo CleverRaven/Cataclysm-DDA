@@ -2247,6 +2247,10 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             } else if( idescription != item_vars.end() ) {
                 info.push_back( iteminfo( "DESCRIPTION", idescription->second ) );
             } else {
+                if( has_flag( "MAGIC_FOCUS" ) ) {
+                    info.push_back( iteminfo( "DESCRIPTION",
+                                              _( "This item is a <info>magical focus</info>.  You can cast spells with it in your hand." ) ) );
+                }
                 if( is_craft() ) {
                     const std::string desc = _( "This is an in progress %s.  It is %d percent complete." );
                     const int percent_progress = item_counter / 100000;
@@ -5870,14 +5874,14 @@ int item::ammo_consume( int qty, const tripoint &pos )
         auto res = mag->ammo_consume( qty, pos );
         if( res && ammo_remaining() == 0 ) {
             if( mag->has_flag( "MAG_DESTROY" ) ) {
-                contents.erase( std::remove_if( contents.begin(), contents.end(), [&mag]( const item & e ) {
+                contents.remove_if( [&mag]( const item & e ) {
                     return mag == &e;
-                } ) );
+                } );
             } else if( mag->has_flag( "MAG_EJECT" ) ) {
                 g->m.add_item( pos, *mag );
-                contents.erase( std::remove_if( contents.begin(), contents.end(), [&mag]( const item & e ) {
+                contents.remove_if( [&mag]( const item & e ) {
                     return mag == &e;
-                } ) );
+                } );
             }
         }
         return res;

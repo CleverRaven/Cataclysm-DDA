@@ -239,6 +239,7 @@ struct map_data_common_t {
         */
         std::array<int, SEASONS_PER_YEAR> symbol_;
 
+        int light_emitted;
         int movecost;   // The amount of movement points required to pass this terrain by default.
         int coverage; // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
         units::volume max_volume; // Maximal volume of items that can be stored in/on this furniture
@@ -296,6 +297,11 @@ struct map_data_common_t {
         std::string extended_description() const;
 
         bool was_loaded = false;
+
+        bool is_flammable() const {
+            return flags.count( "FLAMMABLE" ) > 0 || flags.count( "FLAMMABLE_ASH" ) > 0 ||
+                   flags.count( "FLAMMABLE_HARD" ) > 0;
+        }
 
         virtual void load( JsonObject &jo, const std::string &src );
         virtual void check() const;

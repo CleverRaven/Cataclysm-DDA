@@ -2049,9 +2049,9 @@ bool advanced_inventory::query_destination( aim_location &def )
     menu.pad_left = 9; /* free space for advanced_inventory::menu_square */
 
     {
-        // the direction locations should be contiguous in the enum
         std::vector <aim_location> ordered_locs;
-        assert( AIM_NORTHEAST - AIM_SOUTHWEST == 8 );
+        static_assert( AIM_NORTHEAST - AIM_SOUTHWEST == 8,
+                       "Expected 9 contiguous directions in the aim_location enum" );
         for( int i = AIM_SOUTHWEST; i <= AIM_NORTHEAST; i++ ) {
             ordered_locs.push_back( screen_relative_location( static_cast <aim_location>( i ) ) );
         }

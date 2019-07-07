@@ -165,7 +165,8 @@
       [ "techno_idiots", 60 ],
       [ "translocate_spellbook", 20 ],
       [ "stat_up_spellbook", 45 ],
-      [ "alchemy_basic", 30 ]
+      [ "alchemy_basic", 30 ],
+      [ "lightning_storm_scroll", 12 ]
     ]
   },
   {
@@ -209,6 +210,15 @@
       [ "glow_light_off", 1 ],
       [ "bulette_plate", 10 ],
       { "item": "bulette_pearl", "prob": 8, "count-min": 1, "count-max": 2 }
+    ]
+  },
+  {
+    "id": "demon_spider_lair_treasure",
+    "type": "item_group",
+    "items": [
+      { "group": "potions_common", "prob": 20 },
+      { "group": "magic_shop_wands", "prob": 35 },
+      { "group": "magic_shop_books", "prob": 15 }
     ]
   },
   {

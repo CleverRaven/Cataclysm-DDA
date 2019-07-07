@@ -199,6 +199,12 @@ class player : public Character
         bool is_player() const override {
             return true;
         }
+        player *as_player() override {
+            return this;
+        }
+        const player *as_player() const override {
+            return this;
+        }
 
         /** Processes human-specific effects of effects before calling Creature::process_effects(). */
         void process_effects() override;
@@ -1545,6 +1551,7 @@ class player : public Character
         player_activity activity;
         std::list<player_activity> backlog;
         int volume;
+        cata::optional<tripoint> destination_point;
         const profession *prof;
 
         start_location_id start_location;
@@ -1842,7 +1849,6 @@ class player : public Character
 
         std::vector<tripoint> auto_move_route;
         player_activity destination_activity;
-        cata::optional<tripoint> destination_point;
         // Used to make sure auto move is canceled if we stumble off course
         cata::optional<tripoint> next_expected_position;
         /** warnings from a faction about bad behaviour */

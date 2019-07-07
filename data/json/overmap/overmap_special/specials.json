@@ -228,7 +228,10 @@
   {
     "type": "overmap_special",
     "id": "Sugar House",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "sugar_house_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "sugar_house_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "sugar_house_roof_north" }
+    ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
     "locations": [ "forest" ],
     "city_distance": [ 20, -1 ],
@@ -2941,7 +2944,7 @@
   {
     "type": "overmap_special",
     "id": "warehouse",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "warehouse_north" } ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "warehouse_north" }, { "point": [ 0, 0, 1 ], "overmap": "warehouse_roof_north" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "land", "swamp" ],
     "city_distance": [ 6, 20 ],
@@ -3104,7 +3107,7 @@
   {
     "type": "overmap_special",
     "id": "rest_stop",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "roadstop_north" } ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "roadstop_north" }, { "point": [ 0, 0, 1 ], "overmap": "roadstop_roof_north" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "land" ],
     "city_distance": [ 10, 200 ],
@@ -3116,7 +3119,10 @@
   {
     "type": "overmap_special",
     "id": "roadstop_a",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "roadstop_a_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "roadstop_a_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "roadstop_a_roof_north" }
+    ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "land" ],
     "city_distance": [ 10, 200 ],
@@ -3128,7 +3134,10 @@
   {
     "type": "overmap_special",
     "id": "roadstop_b",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "roadstop_b_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "roadstop_b_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "roadstop_b_roof_north" }
+    ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "land" ],
     "city_distance": [ 10, 200 ],
@@ -3230,7 +3239,23 @@
   {
     "type": "overmap_special",
     "id": "Swamp Shack",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "hunter_shack_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "hunter_shack_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "hunter_shack_roof_north" }
+    ],
+    "locations": [ "swamp" ],
+    "city_distance": [ 12, -1 ],
+    "city_sizes": [ 0, 16 ],
+    "occurrences": [ 0, 8 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Swamp Shack 1",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "hunter_shack_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "hunter_shack_roof_1_north" }
+    ],
     "locations": [ "swamp" ],
     "city_distance": [ 12, -1 ],
     "city_sizes": [ 0, 16 ],
@@ -3565,6 +3590,7 @@
     "id": "shooting range",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "shootingrange_1a_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "shootingrange_1a_roof_north" },
       { "point": [ 0, 1, 0 ], "overmap": "shootingrange_2a_north" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
@@ -3664,7 +3690,9 @@
       { "point": [ 0, 0, 0 ], "overmap": "s_restparking_1_north" },
       { "point": [ 1, 0, 0 ], "overmap": "s_restparking_2_north" },
       { "point": [ 0, 1, 0 ], "overmap": "s_reststop_1_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "s_reststop_2_north" }
+      { "point": [ 0, 1, 1 ], "overmap": "s_reststop_1_roof_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "s_reststop_2_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "s_reststop_2_roof_north" }
     ],
     "connections": [
       { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true },

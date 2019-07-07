@@ -1303,11 +1303,6 @@ static void cast_spell()
 {
     player &u = g->u;
 
-    if( u.is_armed() ) {
-        add_msg( m_bad, _( "You need your hands free to cast spells!" ) );
-        return;
-    }
-
     std::vector<spell_id> spells = u.magic.spells();
 
     if( spells.empty() ) {
@@ -1333,6 +1328,11 @@ static void cast_spell()
     }
 
     spell &sp = *u.magic.get_spells()[spell_index];
+
+    if( u.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) && !u.weapon.has_flag( "MAGIC_FOCUS" ) ) {
+        add_msg( m_bad, _( "You need your hands free to cast this spell!" ) );
+        return;
+    }
 
     if( !u.magic.has_enough_energy( u, sp ) ) {
         add_msg( m_bad, _( "You don't have enough %s to cast the spell." ), sp.energy_string() );

@@ -3196,6 +3196,7 @@ void submap::store( JsonOut &jsout ) const
     std::string last_id;
     int num_same = 1;
     for( int j = 0; j < SEEY; j++ ) {
+        // NOLINTNEXTLINE(modernize-loop-convert)
         for( int i = 0; i < SEEX; i++ ) {
             const std::string this_id = ter[i][j].obj().id.str();
             if( !last_id.empty() ) {
@@ -3437,6 +3438,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
             int remaining = 0;
             int_id<ter_t> iid;
             for( int j = 0; j < SEEY; j++ ) {
+                // NOLINTNEXTLINE(modernize-loop-convert)
                 for( int i = 0; i < SEEX; i++ ) {
                     if( !remaining ) {
                         if( jsin.test_string() ) {

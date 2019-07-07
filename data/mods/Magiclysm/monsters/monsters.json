@@ -136,5 +136,35 @@
       "NO_BREATHE",
       "SWARMS"
     ]
+  },
+  {
+    "id": "mon_troll",
+    "type": "MONSTER",
+    "name": "troll",
+    "description": "Monstrous, green-skinned humanoid. Trolls are renowned for their thick hides and natural regenerative ability.",
+    "default_faction": "magical_beast",
+    "bodytype": "human",
+    "species": [ "MAGICAL_BEAST" ],
+    "volume": "875000 ml",
+    "weight": 875000,
+    "hp": 480,
+    "speed": 110,
+    "material": [ "flesh" ],
+    "symbol": "T",
+    "color": "light_green",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 5,
+    "melee_dice_sides": 7,
+    "melee_cut": 12,
+    "dodge": 1,
+    "armor_cut": 16,
+    "vision_day": 40,
+    "vision_night": 3,
+    "harvest": "mammal_large_leather",
+    "death_function": [ "NORMAL" ],
+    "special_attacks": [ { "type": "bite", "cooldown": 30 }, [ "GRAB", 15 ], [ "scratch", 15 ], [ "slam", 10 ], [ "SMASH", 30 ] ],
+    "flags": [ "SEES", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "BLEED", "REGENERATES_1", "FLAMMABLE" ]
   }
 ]
