@@ -54,14 +54,14 @@
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "FRAGILE_MELEE", "SHEATH_SPEAR" ]
   },
   {
-    "id": "spear_knife_reinforced",
+    "id": "spear_knife_superior",
     "type": "TOOL",
     "category": "weapons",
     "name": "knife spear",
     "description": "A sturdy wooden pole that has been carefully split and reinforced.  At the split point, a sharp blade has been bolted into place and reinforced with layers of sturdy wrapped bindings.",
     "weight": 1487,
     "volume": 5,
-    "price": 700,
+    "price": 1000,
     "to_hit": 1,
     "bashing": 4,
     "cutting": 16,
