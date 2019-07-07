@@ -1255,13 +1255,15 @@ void load_effect_type( JsonObject &jo )
     }
 
     if( jo.has_string( "max_duration" ) ) {
-        new_etype.max_duration = read_from_json_string<time_duration>( *jo.get_raw( "max_duration" ), time_duration::units );
+        new_etype.max_duration = read_from_json_string<time_duration>( *jo.get_raw( "max_duration" ),
+                                                                       time_duration::units );
     } else {
         new_etype.max_duration = time_duration::from_turns( jo.get_int( "max_duration", 0 ) );
     }
 
     if( jo.has_string( "int_dur_factor" ) ) {
-        new_etype.int_dur_factor = read_from_json_string<time_duration>( *jo.get_raw( "int_dur_factor" ), time_duration::units );
+        new_etype.int_dur_factor = read_from_json_string<time_duration>( *jo.get_raw( "int_dur_factor" ),
+                                                                         time_duration::units );
     } else {
         new_etype.int_dur_factor = time_duration::from_turns( jo.get_int( "int_dur_factor", 0 ) );
     }
