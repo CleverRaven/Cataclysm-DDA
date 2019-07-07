@@ -163,7 +163,8 @@
     "max_level": 20,
     "difficulty": 3,
     "base_casting_time": 100,
-    "base_energy_cost": 2
+    "base_energy_cost": 2,
+    "damage_type": "bio"
   },
   {
     "id": "create_rune_animist",
