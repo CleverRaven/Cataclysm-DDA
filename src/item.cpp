@@ -5834,6 +5834,11 @@ int item::gun_range( const player *p ) const
 
 units::energy item::energy_remaining() const
 {
+    const item *battery = battery_current();
+    if( battery ) {
+        return battery->energy_remaining();
+    }
+
     if( is_battery() ) {
         return energy;
     }
@@ -5934,9 +5939,22 @@ int item::ammo_required() const
     return 0;
 }
 
+units::energy item::energy_required() const
+{
+    if( is_tool() ) {
+        return type->energy_to_use();
+    }
+    return 0;
+}
+
 bool item::ammo_sufficient( int qty ) const
 {
     return ammo_remaining() >= ammo_required() * qty;
+}
+
+bool item::energy_sufficient( int qty ) const
+{
+    return energy_remaining() >= energy_required() * qty;
 }
 
 int item::ammo_consume( int qty, const tripoint &pos )

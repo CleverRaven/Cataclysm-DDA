@@ -162,6 +162,10 @@ void iuse_transform::load( JsonObject &obj )
     need_charges_msg = obj.has_string( "need_charges_msg" ) ? _
                        ( obj.get_string( "need_charges_msg" ) ) : _( "The %s is empty!" );
 
+    if( obj.has_string( "need_energy" ) ) {
+        need_energy = read_from_json_string<units::energy>( *obj.get_raw( "need_energy" ),
+                      units::energy_units );
+    }
     obj.read( "need_charges", need_charges );
     need_charges = std::max( need_charges, 0 );
     need_fire_msg = obj.has_string( "need_fire_msg" ) ? _( obj.get_string( "need_fire_msg" ) ) :
@@ -191,6 +195,12 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         return 0;
     }
     if( need_charges && it.units_remaining( p ) < need_charges ) {
+        if( possess ) {
+            p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
+        }
+        return 0;
+    }
+    if( need_energy > 0 && it.energy_remaining() < need_energy ) {
         if( possess ) {
             p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
         }

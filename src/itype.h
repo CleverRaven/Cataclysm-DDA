@@ -100,6 +100,7 @@ struct islot_tool {
     int def_charges = 0;
     int charge_factor = 1;
     int charges_per_use = 0;
+    units::energy energy_per_use = 0;
     int turns_per_charge = 0;
     int power_draw = 0;
 
@@ -974,6 +975,13 @@ struct itype {
                 return static_cast<int>( tool->charges_per_use );
             }
             return 1;
+        }
+
+        units::energy energy_to_use() const {
+            if( tool ) {
+                return tool->energy_per_use;
+            }
+            return 0;
         }
 
         // for tools that sub another tool, but use a different ratio of charges

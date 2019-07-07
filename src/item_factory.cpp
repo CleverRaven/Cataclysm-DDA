@@ -1545,6 +1545,7 @@ void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &sr
     } else if( jo.has_string( "ammo" ) ) {
         slot.ammo_id.insert( ammotype( jo.get_string( "ammo" ) ) );
     }
+
     if( jo.has_array( "batteries" ) ) {
         JsonArray batteries = jo.get_array( "batteries" );
         for( size_t i = 0; i < batteries.size(); ++i ) {
@@ -1552,6 +1553,11 @@ void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &sr
         }
     } else if( jo.has_string( "batteries" ) ) {
         slot.batteries.insert( jo.get_string( "batteries" ) );
+    }
+
+    if( jo.has_string( "energy_per_use" ) ) {
+        slot.energy_per_use = read_from_json_string<units::energy>( *jo.get_raw( "energy_per_use" ),
+                              units::energy_units );
     }
     assign( jo, "max_charges", slot.max_charges, strict, 0 );
     assign( jo, "initial_charges", slot.def_charges, strict, 0 );

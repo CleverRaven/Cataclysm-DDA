@@ -86,6 +86,9 @@ class iuse_transform : public iuse_actor
         /** minimum charges (if any) required for transformation */
         int need_charges = 0;
 
+        /** minimum energy (if any) required for transformation */
+        units::energy need_energy = 0;
+
         /** displayed if item is in player possession with %s replaced by item name */
         std::string need_charges_msg;
 

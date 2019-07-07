@@ -11,14 +11,14 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "green",
-    "charges_per_use": 1,
-    "batteries": ["battery_test"],
+    "energy_per_use": "1 kJ",
+    "batteries": [ "battery_test" ],
     "use_action": {
       "type": "transform",
       "target": "test_lantern_on",
       "active": true,
       "msg": "You turn the lantern on.",
-      "need_charges": 1,
+      "need_energy": "300 J",
       "need_charges_msg": "The lantern has no batteries."
     },
     "flags": [ "RADIO_MODABLE", "ALLOWS_REMOTE_USE" ],

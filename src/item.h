@@ -1586,6 +1586,9 @@ class item : public visitable<item>
         /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
         int ammo_required() const;
 
+        /** Quantity of energy consumed per usage of tool */
+        units::energy energy_required() const;
+
         /**
          * Check if sufficient ammo is loaded for given number of uses.
          *
@@ -1599,6 +1602,16 @@ class item : public visitable<item>
          * @returns true if ammo sufficient for number of uses is loaded, false otherwise
          */
         bool ammo_sufficient( int qty = 1 ) const;
+
+        /**
+         * Check if battery has sufficient energy for given number of uses.
+         *
+         * Check if there is enough energy available in a tool for the given number of uses.
+         * 
+         * @param[in] qty Number of uses
+         * @returns true if energy sufficient for number of uses is available, false otherwise
+         */
+        bool energy_sufficient( int qty = 1 ) const;
 
         /**
          * Consume ammo (if available) and return the amount of ammo that was consumed

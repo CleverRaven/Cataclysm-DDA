@@ -8545,7 +8545,8 @@ bool player::unload( item &it )
     }
 
     // Next check for any reasons why the item cannot be unloaded
-    if( ( target->ammo_types().empty() || target->ammo_capacity() <= 0 ) && !target->battery_powered() ) {
+    if( ( target->ammo_types().empty() || target->ammo_capacity() <= 0 ) &&
+        !target->battery_powered() ) {
         add_msg( m_info, _( "You can't unload a %s!" ), target->tname() );
         return false;
     }
@@ -8559,7 +8560,8 @@ bool player::unload( item &it )
         return false;
     }
 
-    if( !target->magazine_current() && !target->battery_current() && target->ammo_remaining() <= 0 && target->casings_count() <= 0 ) {
+    if( !target->magazine_current() && !target->battery_current() && target->ammo_remaining() <= 0 &&
+        target->casings_count() <= 0 ) {
         if( target->is_tool() ) {
             add_msg( m_info, _( "Your %s isn't charged." ), target->tname() );
         } else {
@@ -8790,6 +8792,13 @@ bool player::has_enough_charges( const item &it, bool show_msg ) const
                                          "Your %s needs %d charges from some UPS.",
                                          it.ammo_required() ),
                                it.tname(), it.ammo_required() );
+        }
+        return false;
+    } else if( !it.energy_sufficient() ) {
+        if( show_msg ) {
+            add_msg_if_player( m_info, ngettext( "Your %s has %d charge but needs %d.",
+                                                 "Your %s has %d charges but needs %d.", to_joule( it.energy_remaining() ) ), it.tname(),
+                               to_joule( it.energy_remaining() ), to_joule( it.energy_required() ) );
         }
         return false;
     } else if( !it.ammo_sufficient() ) {
