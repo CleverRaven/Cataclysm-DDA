@@ -585,5 +585,13 @@
     "name": "Scroll of Lightning Blast",
     "description": "You fire a small concentrated ball of lightning at the target.  The electricity diffuses quickly, so it doesn't do much damage, but you're able to fire off several quick ones in a row.",
     "use_action": { "type": "learn_spell", "spells": [ "lightning_blast" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_necrotic_gaze",
+    "name": "Scroll of Necrotic Gaze",
+    "description": "You use the power of your own blood to imbue necrotic energy into your gaze, damaging the target you look at.",
+    "use_action": { "type": "learn_spell", "spells": [ "necrotic_gaze" ] }
   }
 ]
