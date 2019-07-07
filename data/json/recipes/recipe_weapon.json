@@ -376,6 +376,25 @@
   },
   {
     "type": "recipe",
+    "result": "spear_knife_superior",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "id_suffix": "from simple version",
+    "difficulty": 2,
+    "time": "30 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "components": [
+      [ [ "spear_knife", 1 ] ],
+      [ [ "nail", 2 ] ],
+      [ [ "wire", 1 ], [ "wire_barbed", 1 ], [ "scrap", 2 ] ],
+      [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "longbow",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
