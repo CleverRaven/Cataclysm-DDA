@@ -2030,8 +2030,7 @@ class item : public visitable<item>
         int charges;
         units::energy energy;      // Amount of energy currently stored in a battery
 
-        int recipe_charges =
-            1;    // The number of charges a recipe creates.  Used for comestible consumption.
+        int recipe_charges = 1;    // The number of charges a recipe creates.
         int burnt = 0;             // How badly we're burnt
         int poison = 0;            // How badly poisoned is it?
         int frequency = 0;         // Radio frequency
