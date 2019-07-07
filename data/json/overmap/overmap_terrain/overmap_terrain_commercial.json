@@ -1759,6 +1759,15 @@
     "id": "s_vfw",
     "copy-from": "generic_city_building",
     "name": "veterans of foreign wars",
+    "sym": "w",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_vfw_roof",
+    "copy-from": "generic_city_building",
+    "name": "veterans of foreign wars center roof",
+    "sym": "w",
     "color": "i_green"
   },
   {
@@ -1931,6 +1940,13 @@
     "type": "overmap_terrain",
     "id": "veterinarian",
     "name": "veterinarian clinic",
+    "copy-from": "generic_city_building",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "veterinarian_roof",
+    "name": "veterinarian clinic roof",
     "copy-from": "generic_city_building",
     "color": "i_pink"
   },

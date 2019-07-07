@@ -508,7 +508,7 @@ player::player() : Character()
     controlling_vehicle = false;
     grab_point = tripoint_zero;
     hauling = false;
-    move_mode = "walk";
+    move_mode = PMM_WALK;
     style_selected = style_none;
     keep_hands_free = false;
     focus_pool = 100;
@@ -1617,7 +1617,7 @@ int player::run_cost( int base_cost, bool diag ) const
             movecost *= .9f;
         }
         if( has_active_bionic( bio_jointservo ) ) {
-            if( move_mode == "run" ) {
+            if( move_mode == PMM_RUN ) {
                 movecost *= 0.85f;
             } else {
                 movecost *= 0.95f;
@@ -1684,11 +1684,11 @@ int player::run_cost( int base_cost, bool diag ) const
         stamina_modifier = 1.0;
     }
 
-    if( move_mode == "run" && stamina > 0 ) {
+    if( move_mode == PMM_RUN && stamina > 0 ) {
         // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
         stamina_modifier *= 2.0;
     }
-    if( move_mode == "crouch" ) {
+    if( move_mode == PMM_CROUCH ) {
         stamina_modifier *= 0.5;
     }
     movecost /= stamina_modifier;
@@ -2572,82 +2572,86 @@ void player::pause()
     search_surroundings();
 }
 
-void player::set_movement_mode( const std::string &new_mode )
+void player::set_movement_mode( const player_movemode new_mode )
 {
-    if( new_mode == "run" ) {
-        if( stamina > 0 && !has_effect( effect_winded ) ) {
-            move_mode = "run";
-            if( is_hauling() ) {
-                stop_hauling();
-            }
+    switch( new_mode ) {
+        case PMM_WALK: {
             if( has_effect( effect_riding ) ) {
-                add_msg( _( "You spur your steed into a gallop." ) );
+                add_msg( _( "You nudge your steed to a steady trot." ) );
             } else {
-                add_msg( _( "You start running." ) );
+                add_msg( _( "You start walking." ) );
             }
-        } else {
+            break;
+        }
+        case PMM_RUN: {
+            if( stamina > 0 && !has_effect( effect_winded ) ) {
+                if( is_hauling() ) {
+                    stop_hauling();
+                }
+                if( has_effect( effect_riding ) ) {
+                    add_msg( _( "You spur your steed into a gallop." ) );
+                } else {
+                    add_msg( _( "You start running." ) );
+                }
+            } else {
+                if( has_effect( effect_riding ) ) {
+                    add_msg( m_bad, _( "Your steed is too tired to go faster." ) );
+                } else {
+                    add_msg( m_bad, _( "You're too tired to run." ) );
+                }
+            }
+            break;
+        }
+        case PMM_CROUCH: {
             if( has_effect( effect_riding ) ) {
-                add_msg( m_bad, _( "Your steed is too tired to go faster." ) );
+                add_msg( _( "You slow your steed to a walk." ) );
             } else {
-                add_msg( m_bad, _( "You're too tired to run." ) );
+                add_msg( _( "You start crouching." ) );
             }
+            break;
         }
-    } else if( new_mode == "crouch" ) {
-        move_mode = "crouch";
-        if( has_effect( effect_riding ) ) {
-            add_msg( _( "You slow your steed to a walk." ) );
-        } else {
-            add_msg( _( "You start crouching." ) );
-        }
-    } else {
-        move_mode = "walk";
-        if( has_effect( effect_riding ) ) {
-            add_msg( _( "You nudge your steed to a steady trot." ) );
-        } else {
-            add_msg( _( "You start walking." ) );
+        default: {
+            return;
         }
     }
+    move_mode = new_mode;
 }
 
-const std::string player::get_movement_mode() const
+bool player::movement_mode_is( const player_movemode mode ) const
 {
-    return move_mode;
+    return move_mode == mode;
 }
 
 void player::toggle_run_mode()
 {
-    if( move_mode == "run" ) {
-        set_movement_mode( "walk" );
+    if( move_mode == PMM_RUN ) {
+        set_movement_mode( PMM_WALK );
     } else {
-        set_movement_mode( "run" );
+        set_movement_mode( PMM_RUN );
     }
 }
 
 void player::toggle_crouch_mode()
 {
-    if( move_mode == "crouch" ) {
-        set_movement_mode( "walk" );
+    if( move_mode == PMM_CROUCH ) {
+        set_movement_mode( PMM_WALK );
     } else {
-        set_movement_mode( "crouch" );
+        set_movement_mode( PMM_CROUCH );
     }
 }
 
 void player::reset_move_mode()
 {
-    if( move_mode != "walk" ) {
-        set_movement_mode( "walk" );
+    if( move_mode != PMM_WALK ) {
+        set_movement_mode( PMM_WALK );
     }
 }
 
 void player::cycle_move_mode()
 {
-    if( move_mode == "walk" ) {
-        set_movement_mode( "run" );
-    } else if( move_mode == "run" ) {
-        set_movement_mode( "crouch" );
-    } else if( move_mode == "crouch" ) {
-        set_movement_mode( "walk" );
-    }
+    unsigned char as_uchar = static_cast<unsigned char>( move_mode );
+    as_uchar = ( as_uchar + 1 + PMM_COUNT ) % PMM_COUNT;
+    set_movement_mode( static_cast<player_movemode>( as_uchar ) );
 }
 
 void player::search_surroundings()
@@ -11003,7 +11007,7 @@ void player::burn_move_stamina( int moves )
         burn_ratio = burn_ratio * 2 - 3;
     }
     burn_ratio += overburden_percentage;
-    if( move_mode == "run" ) {
+    if( move_mode == PMM_RUN ) {
         burn_ratio = burn_ratio * 7;
     }
     mod_stat( "stamina", -( ( moves * burn_ratio ) / 100 ) );
@@ -11086,7 +11090,7 @@ void player::forced_dismount()
         add_msg( m_debug, "Forced_dismount could not find a square to deposit player" );
     }
     moves -= 150;
-    set_movement_mode( "walk" );
+    set_movement_mode( PMM_WALK );
     g->update_map( g->u );
 }
 
@@ -11106,7 +11110,7 @@ void player::dismount()
                 g->refresh_all();
                 critter->setpos( tripoint( pos().x - xdiff, pos().y - ydiff, pos().z ) );
                 mod_moves( -100 );
-                set_movement_mode( "walk" );
+                set_movement_mode( PMM_WALK );
                 return;
             } else {
                 add_msg( m_warning, _( "You cannot dismount there!" ) );
@@ -11550,8 +11554,8 @@ std::vector<std::string> player::get_overlay_ids() const
         rval.push_back( "wielded_" + weapon.typeId() );
     }
 
-    if( move_mode != "walk" ) {
-        rval.push_back( move_mode );
+    if( move_mode != PMM_WALK ) {
+        rval.push_back( player_movemode_str[ move_mode ] );
     }
     return rval;
 }
@@ -11608,7 +11612,7 @@ float player::speed_rating() const
     float ret = get_speed() / 100.0f;
     ret *= 100.0f / run_cost( 100, false );
     // Adjustment for player being able to run, but not doing so at the moment
-    if( move_mode != "run" ) {
+    if( move_mode != PMM_RUN ) {
         ret *= 1.0f + ( static_cast<float>( stamina ) / static_cast<float>( get_stamina_max() ) );
     }
     return ret;

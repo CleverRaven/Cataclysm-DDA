@@ -12,7 +12,9 @@
     "is_animal": true,
     "monsters": [
       { "monster": "mon_owlbear", "freq": 10, "cost_multiplier": 10 },
-      { "monster": "mon_wisp", "freq": 3, "cost_multiplier": 10, "conditions": [ "NIGHT" ] }
+      { "monster": "mon_wisp", "freq": 3, "cost_multiplier": 10, "conditions": [ "NIGHT" ] },
+      { "monster": "mon_troll", "freq": 3, "cost_multiplier": 10, "conditions": [ "DAY" ] },
+      { "monster": "mon_demon_spiderling", "freq": 15, "cost_multiplier": 5, "pack_size": [ 3, 7 ] }
     ]
   },
   {

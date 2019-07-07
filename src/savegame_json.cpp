@@ -859,7 +859,7 @@ void avatar::store( JsonOut &json ) const
     json.member( "style_selected", style_selected );
     json.member( "keep_hands_free", keep_hands_free );
 
-    json.member( "move_mode", move_mode );
+    json.member( "move_mode", player_movemode_str[ move_mode ] );
     json.member( "magic", magic );
 
     // stats through kills
@@ -977,7 +977,14 @@ void avatar::load( JsonObject &data )
 
     data.read( "stamina", stamina );
     data.read( "magic", magic );
-    data.read( "move_mode", move_mode );
+    std::string tmove_mode;
+    data.read( "move_mode", tmove_mode );
+    for( int i = 0; i < PMM_COUNT; ++i ) {
+        if( tmove_mode == player_movemode_str[i] ) {
+            move_mode = static_cast<player_movemode>( i );
+            break;
+        }
+    }
 
     set_highest_cat_level();
     drench_mut_calc();
@@ -3189,6 +3196,7 @@ void submap::store( JsonOut &jsout ) const
     std::string last_id;
     int num_same = 1;
     for( int j = 0; j < SEEY; j++ ) {
+        // NOLINTNEXTLINE(modernize-loop-convert)
         for( int i = 0; i < SEEX; i++ ) {
             const std::string this_id = ter[i][j].obj().id.str();
             if( !last_id.empty() ) {
@@ -3430,6 +3438,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
             int remaining = 0;
             int_id<ter_t> iid;
             for( int j = 0; j < SEEY; j++ ) {
+                // NOLINTNEXTLINE(modernize-loop-convert)
                 for( int i = 0; i < SEEX; i++ ) {
                     if( !remaining ) {
                         if( jsin.test_string() ) {

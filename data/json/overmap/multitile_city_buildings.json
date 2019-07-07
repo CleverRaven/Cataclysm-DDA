@@ -697,8 +697,11 @@
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "trailerparksmall0_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "trailerparksmall0_roof_north" },
       { "point": [ 1, 0, 0 ], "overmap": "trailerparksmall1_north" },
-      { "point": [ 2, 0, 0 ], "overmap": "trailerparksmall2_north" }
+      { "point": [ 1, 0, 1 ], "overmap": "trailerparksmall1_roof_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "trailerparksmall2_north" },
+      { "point": [ 2, 0, 1 ], "overmap": "trailerparksmall2_roof_north" }
     ]
   },
   {
@@ -1512,6 +1515,15 @@
   },
   {
     "type": "city_building",
+    "id": "veterinarian",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "veterinarian_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "veterinarian_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "abstorefront",
     "locations": [ "land" ],
     "overmaps": [
@@ -1554,6 +1566,12 @@
       { "point": [ 0, 0, 0 ], "overmap": "s_restaurant_fast_1_north" },
       { "point": [ 0, 0, 1 ], "overmap": "s_restaurant_fast_roof_1_north" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_vfw",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_vfw_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_vfw_roof_north" } ]
   },
   {
     "type": "city_building",

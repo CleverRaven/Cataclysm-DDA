@@ -16,6 +16,7 @@
 #include "string_id.h"
 
 struct tripoint;
+class Creature;
 class player;
 class JsonObject;
 class JsonOut;
@@ -303,12 +304,12 @@ class spell
         int heal( const tripoint &target ) const;
 
         // casts the spell effect. returns true if successful
-        bool cast_spell_effect( const tripoint &source, const tripoint &target );
+        bool cast_spell_effect( const Creature &source, const tripoint &target );
         // goes through the spell effect and all of its internal spells
-        bool cast_all_effects( const tripoint &source, const tripoint &target );
+        bool cast_all_effects( const Creature &source, const tripoint &target );
 
         // is the target valid for this spell?
-        bool is_valid_target( const tripoint &p ) const;
+        bool is_valid_target( const Creature &caster, const tripoint &p ) const;
         bool is_valid_target( valid_target t ) const;
 };
 
@@ -379,10 +380,14 @@ namespace spell_effect
 void teleport( int min_distance, int max_distance );
 void pain_split(); // only does g->u
 void move_earth( const tripoint &target );
-void target_attack( const spell &sp, const tripoint &source, const tripoint &target );
-void projectile_attack( const spell &sp, const tripoint &source, const tripoint &target );
-void cone_attack( const spell &sp, const tripoint &source, const tripoint &target );
-void line_attack( const spell &sp, const tripoint &source, const tripoint &target );
+void target_attack( const spell &sp, const Creature &caster,
+                    const tripoint &target );
+void projectile_attack( const spell &sp, const Creature &caster,
+                        const tripoint &target );
+void cone_attack( const spell &sp, const Creature &caster,
+                  const tripoint &target );
+void line_attack( const spell &sp, const Creature &caster,
+                  const tripoint &target );
 
 std::set<tripoint> spell_effect_blast( const spell &, const tripoint &, const tripoint &target,
                                        const int aoe_radius, const bool ignore_walls );
@@ -395,8 +400,8 @@ std::set<tripoint> spell_effect_line( const spell &, const tripoint &source,
 
 void spawn_ethereal_item( spell &sp );
 void recover_energy( spell &sp, const tripoint &target );
-void spawn_summoned_monster( spell &sp, const tripoint &source, const tripoint &target );
-void translocate( spell &sp, const tripoint &source, const tripoint &target,
+void spawn_summoned_monster( const spell &sp, const Creature &caster, const tripoint &target );
+void translocate( spell &sp, const Creature &caster, const tripoint &target,
                   teleporter_list &tp_list );
 } // namespace spell_effect
 

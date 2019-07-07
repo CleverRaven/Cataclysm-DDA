@@ -421,9 +421,7 @@ void mission::get_all_item_group_matches( std::vector<item *> &items,
         const itype_id &required_container, const itype_id &actual_container,
         bool &specific_container_required )
 {
-    for( std::vector<int>::size_type i = 0; i < ( items ).size(); i++ ) {
-        item *itm = items[i];
-
+    for( item *itm : items ) {
         bool correct_container = ( required_container == actual_container ) ||
                                  !specific_container_required;
 

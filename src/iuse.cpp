@@ -219,7 +219,6 @@ const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible" );
 const efftype_id effect_webbed( "webbed" );
 const efftype_id effect_weed_high( "weed_high" );
-const efftype_id effect_winded( "winded" );
 const efftype_id effect_magnesium_supplements( "magnesium" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
@@ -951,7 +950,6 @@ int iuse::oxygen_bottle( player *p, item *it, bool, const tripoint & )
         p->stim += 8;
         p->mod_painkiller( 2 );
     }
-    p->remove_effect( effect_winded );
     p->mod_painkiller( 2 );
     return it->type->charges_to_use();
 }
@@ -7017,7 +7015,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
             }
 
             if( guy ) {
-                if( guy->get_movement_mode() == "crouch" ) {
+                if( guy->movement_mode_is( PMM_CROUCH ) ) {
                     pose = _( "sits" );
                 } else {
                     pose = _( "stands" );

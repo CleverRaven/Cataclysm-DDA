@@ -1830,7 +1830,8 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     item &reloadable = *act->targets[ 0 ];
     item &ammo = *act->targets[1];
     const int qty = act->index;
-    const bool is_speedloader = act->targets[ 1 ]->has_flag( "SPEEDLOADER" );
+    const bool is_speedloader = ammo.has_flag( "SPEEDLOADER" );
+    const bool is_bolt = ammo.ammo_type() == ammotype( "bolt" );
 
     if( !reloadable.reload( *p, std::move( act->targets[ 1 ] ), qty ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable.tname() );
@@ -1844,7 +1845,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
         if( reloadable.has_flag( "RELOAD_ONE" ) && !is_speedloader ) {
             for( int i = 0; i != qty; ++i ) {
-                if( ammo.ammo_type() == ammotype( "bolt" ) )  {
+                if( is_bolt ) {
                     msg = _( "You insert a bolt into the %s." );
                 } else {
                     msg = _( "You insert a cartridge into the %s." );
@@ -4029,7 +4030,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
             std::vector<tripoint> trajectory = th.target_ui( casting, no_fail, no_mana );
             if( !trajectory.empty() ) {
                 target = trajectory.back();
-                target_is_valid = casting.is_valid_target( target );
+                target_is_valid = casting.is_valid_target( *p, target );
                 if( !( casting.is_valid_target( target_ground ) || p->sees( target ) ) ) {
                     target_is_valid = false;
                 }
@@ -4065,7 +4066,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
     p->add_msg_if_player( _( "You cast %s!" ), casting.name() );
 
-    casting.cast_all_effects( p->pos(), target );
+    casting.cast_all_effects( *p, target );
 
     if( !no_mana ) {
         // pay the cost
