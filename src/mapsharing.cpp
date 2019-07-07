@@ -100,52 +100,25 @@ void MAP_SHARING::setDefaults()
     MAP_SHARING::addAdmin( "admin" );
 }
 
-static std::map<std::string, int> lockFiles;
-
-#if !defined(__linux__) // make non-Linux operating systems happy
-
-static int getLock( const char * )
-{
-    return 0;
-}
-
-static void releaseLock( int, const char * )
-{
-    // Nothing to do.
-}
-
-#else
-
-static int getLock( const char *lockName )
-{
-    mode_t m = umask( 0 );
-    int fd = open( lockName, O_RDWR | O_CREAT, 0666 );
-    umask( m );
-    if( fd >= 0 && flock( fd, LOCK_EX | LOCK_NB ) < 0 ) {
-        close( fd );
-        fd = -1;
-    }
-    return fd;
-}
-
-static void releaseLock( int fd, const char *lockName )
-{
-    if( fd < 0 ) {
-        return;
-    }
-    remove( lockName );
-    close( fd );
-}
-
-#endif // __linux__
-
 void ofstream_wrapper_exclusive::open( const std::ios::openmode mode )
 {
-    const std::string lockfile = temp_path + ".lock";
-    lockFiles[lockfile] = getLock( lockfile.c_str() );
-    if( lockFiles[lockfile] != -1 ) {
-        file_stream.open( temp_path, mode );
+#if defined(__linux__)
+    // Create a *unique* temporary path. No other running program should
+    // use this path. If the file exists, it must be of a *former* program
+    // instance and can savely be deleted.
+    temp_path = path + "." + std::to_string( getpid() ) + ".temp";
+
+#else
+    // @todo exclusive I/O for non-linux systems
+    temp_path = path + ".temp";
+
+#endif
+
+    if( file_exist( temp_path ) ) {
+        remove_file( temp_path );
     }
+
+    file_stream.open( temp_path, mode );
     if( !file_stream.is_open() ) {
         throw std::runtime_error( "opening file failed" );
     }
@@ -156,11 +129,6 @@ void ofstream_wrapper_exclusive::close()
     if( !file_stream.is_open() ) {
         return;
     }
-
-    const std::string lockFile = temp_path + ".lock";
-    file_stream.close();
-    releaseLock( lockFiles[lockFile], lockFile.c_str() );
-    lockFiles[lockFile] = -1;
 
     if( file_stream.fail() ) {
         // Remove the incomplete or otherwise faulty file (if possible).

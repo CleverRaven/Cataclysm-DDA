@@ -353,7 +353,7 @@ ofstream_wrapper_exclusive::ofstream_wrapper_exclusive( const std::string &path,
         const std::ios::openmode mode )
     : file_stream()
     , path( path )
-    , temp_path( path + ".tmp" )
+    , temp_path()
 {
     open( mode );
 }
