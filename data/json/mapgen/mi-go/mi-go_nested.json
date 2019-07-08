@@ -159,13 +159,13 @@
       ],
       "palettes": [ "mi-go_palette" ],
       "npcs": {
-        "1": { "class": "thug" },
-        "2": { "class": "bandit" },
-        "3": { "class": "derelict_dweller" },
-        "4": { "class": "apis" },
-        "5": { "class": "thug" },
-        "6": { "class": "bandit" },
-        "7": { "class": "thug" }
+        "1": { "class": "mi-go_prisoner", "chance": 20 },
+        "2": { "class": "mi-go_prisoner", "chance": 20 },
+        "3": { "class": "mi-go_prisoner", "chance": 20 },
+        "4": { "class": "mi-go_prisoner", "chance": 20 },
+        "5": { "class": "apis", "chance": 20 },
+        "6": { "class": "mi-go_prisoner", "chance": 20 },
+        "7": { "class": "mi-go_prisoner", "chance": 20 }
       }
     }
   },
