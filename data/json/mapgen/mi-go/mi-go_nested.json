@@ -380,10 +380,8 @@
         "|  1||",
         "|||||."
       ],
-      "palettes": [ "mi-go_palette" ],      
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE_BRUTE", "x": [ 1, 3 ], "y": [ 3, 4 ], "repeat": [ 1, 2 ] }        
-      ],
+      "palettes": [ "mi-go_palette" ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE_BRUTE", "x": [ 1, 3 ], "y": [ 3, 4 ], "repeat": [ 1, 2 ] } ]
     }
   },
   {

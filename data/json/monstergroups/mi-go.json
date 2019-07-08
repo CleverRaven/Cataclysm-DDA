@@ -9,7 +9,14 @@
       { "monster": "mon_mi-go", "freq": 100, "cost_multiplier": 10, "starts": 14, "ends": 30, "pack_size": [ 2, 4 ] },
       { "monster": "mon_mi-go", "freq": 100, "cost_multiplier": 2, "starts": 30, "pack_size": [ 3, 6 ] },
       { "monster": "mon_mi-go_slaver", "freq": 100, "cost_multiplier": 10, "starts": 14, "ends": 30 },
-      { "monster": "mon_mi-go_slaver", "freq": 100, "cost_multiplier": 20, "starts": 14, "ends": 30, "pack_size": [ 1, 2 ] },
+      {
+        "monster": "mon_mi-go_slaver",
+        "freq": 100,
+        "cost_multiplier": 20,
+        "starts": 14,
+        "ends": 30,
+        "pack_size": [ 1, 2 ]
+      },
       { "monster": "mon_mi-go_slaver", "freq": 100, "cost_multiplier": 5, "starts": 30, "pack_size": [ 3, 6 ] },
       { "monster": "mon_mi-go_myrmidon", "freq": 20, "cost_multiplier": 50, "starts": 45 }
     ]
