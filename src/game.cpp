@@ -3768,7 +3768,7 @@ std::unordered_set<tripoint> game::get_fishable_locations( int distance, const t
             }
 
             // This point is out of bounds, so bail.
-            if( !generic_inbounds( current_point, fishing_boundaries ) ) {
+            if( !fishing_boundaries.contains_inclusive( current_point ) ) {
                 continue;
             }
 
