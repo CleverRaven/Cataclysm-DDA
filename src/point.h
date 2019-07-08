@@ -229,6 +229,8 @@ struct rectangle {
     }
 };
 
+point clamp_half_open( const point &p, const rectangle &r );
+
 struct box {
     tripoint p_min;
     tripoint p_max;
