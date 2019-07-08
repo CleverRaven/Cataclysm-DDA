@@ -4926,8 +4926,7 @@ void player::suffer()
             if( mdata.hunger ) {
                 // does not directly modify hunger, but burns kcal
                 mod_stored_nutr( mdata.cost );
-                // pretty well on your way to starving at 75% your healthy kcal storage
-                if( get_healthy_kcal() >= 3 * get_stored_kcal() / 4 ) {
+                if( get_bmi() < character_weight_category::underweight ) {
                     add_msg_if_player( m_warning, _( "You're too malnourished to keep your %s going." ), mdata.name() );
                     tdata.powered = false;
                 }
@@ -11804,10 +11803,10 @@ std::pair<std::string, nc_color> player::get_hunger_description() const
         } else if( recently_ate ) {
             hunger_string = _( "Very Hungry" );
             hunger_color = c_yellow;
-        } else if( get_kcal_percent() < 0.2f ) {
+        } else if( get_bmi() < character_weight_category::emaciated ) {
             hunger_string = _( "Starving!" );
             hunger_color = c_red;
-        } else if( get_kcal_percent() < 0.5f ) {
+        } else if( get_bmi() < character_weight_category::underweight ) {
             hunger_string = _( "Near starving" );
             hunger_color = c_red;
         } else {
