@@ -224,7 +224,6 @@ struct vision_test_case {
     std::vector<std::string> setup;
     std::vector<std::string> expected_results;
     calendar time;
-    bool test_3d;
 
     static void transpose( std::vector<std::string> &v ) {
         if( v.empty() ) {
@@ -284,9 +283,7 @@ struct vision_test_case {
     }
 
     void test_all() const {
-        // Disabling 3d tests for now since 3d sight casting is actually
-        // different (it sees round corners more).
-        if( test_3d ) {
+        {
             INFO( "using 3d casting" );
             fov_3d = true;
             test_all_transformations();
@@ -325,8 +322,7 @@ TEST_CASE( "vision_daylight", "[shadowcasting][vision]" )
             "444",
             "444",
         },
-        midday,
-        true
+        midday
     };
 
     t.test_all();
@@ -345,8 +341,7 @@ TEST_CASE( "vision_day_indoors", "[shadowcasting][vision]" )
             "111",
             "111",
         },
-        midday,
-        true
+        midday
     };
 
     t.test_all();
@@ -369,8 +364,7 @@ TEST_CASE( "vision_light_shining_in", "[shadowcasting][vision]" )
             "1144444444",
             "1144444444",
         },
-        midday,
-        false // 3D FOV gives different results here due to it seeing round corners more
+        midday
     };
 
     t.test_all();
@@ -387,8 +381,7 @@ TEST_CASE( "vision_no_lights", "[shadowcasting][vision]" )
             "111",
             "111",
         },
-        midnight,
-        true
+        midnight
     };
 
     t.test_all();
@@ -407,8 +400,7 @@ TEST_CASE( "vision_utility_light", "[shadowcasting][vision]" )
             "444",
             "444",
         },
-        midnight,
-        true
+        midnight
     };
 
     t.test_all();
@@ -427,8 +419,7 @@ TEST_CASE( "vision_wall_obstructs_light", "[shadowcasting][vision]" )
             "111",
             "111",
         },
-        midnight,
-        true
+        midnight
     };
 
     t.test_all();
@@ -451,8 +442,7 @@ TEST_CASE( "vision_wall_can_be_lit_by_player", "[shadowcasting][vision]" )
             "44",
             "66",
         },
-        midnight,
-        true
+        midnight
     };
 
     t.test_all();
@@ -481,8 +471,7 @@ TEST_CASE( "vision_see_wall_in_moonlight", "[shadowcasting][vision]" )
             "111",
             "111",
         },
-        DAYS( days_till_full_moon ),
-        true
+        DAYS( days_till_full_moon )
     };
 
     t.test_all();
