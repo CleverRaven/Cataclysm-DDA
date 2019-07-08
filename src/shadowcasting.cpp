@@ -10,7 +10,7 @@ extern int fov_3d_z_range;
 
 struct slope {
     slope( int_least8_t rise, int_least8_t run ) {
-        // Ensure run is always positive for the comparison operators
+        // Ensure run is always positive for the inequality operators
         this->run = std::abs( run );
         if( run < 0 ) {
             this->rise = -rise;
@@ -44,7 +44,7 @@ inline bool operator>=( const slope &lhs, const slope &rhs )
 }
 inline bool operator==( const slope &lhs, const slope &rhs )
 {
-    // a/b == c/d <=> a*d == c*b if b and d have the same sign.
+    // a/b == c/d <=> a*d == c*b
     return lhs.rise * rhs.run == rhs.rise * lhs.run;
 }
 inline bool operator!=( const slope &lhs, const slope &rhs )
@@ -71,7 +71,7 @@ struct span {
  * Handle splitting the current span in cast_horizontal_zlight_segment and
  * cast_vertical_zlight_segment to avoid as much code duplication as possible
  */
-template<typename T, bool( *check )( const T &, const T & ), T( *accumulate )( const T &, const T &, const int & )>
+template<typename T, bool( *is_transparent )( const T &, const T & ), T( *accumulate )( const T &, const T &, const int & )>
 static void split_span( std::list<span<T>> &spans, typename std::list<span<T>>::iterator &this_span,
                         T &current_transparency, const T &new_transparency, const T &last_intensity,
                         const int distance, slope &new_start_minor,
@@ -105,7 +105,7 @@ static void split_span( std::list<span<T>> &spans, typename std::list<span<T>>::
     // If this is the first row processed in the current span, there is no A span.
     // If this is the last row processed, there is no D span.
     // If check returns false, A and B are opaque and have no spans.
-    if( check( current_transparency, last_intensity ) ) {
+    if( is_transparent( current_transparency, last_intensity ) ) {
         // Emit the A span if present, placing it before the current span in the list
         if( trailing_edge_major > this_span->start_major ) {
             spans.emplace( this_span,
@@ -153,7 +153,7 @@ static void split_span( std::list<span<T>> &spans, typename std::list<span<T>>::
 
 template<int xx_transform, int xy_transform, int yx_transform, int yy_transform, int z_transform, typename T,
          T( *calc )( const T &, const T &, const int & ),
-         bool( *check )( const T &, const T & ),
+         bool( *is_transparent )( const T &, const T & ),
          T( *accumulate )( const T &, const T &, const int & )>
 void cast_horizontal_zlight_segment(
     const array_of_grids_of<T> &output_caches,
@@ -298,15 +298,16 @@ void cast_horizontal_zlight_segment(
                     }
 
                     // Handle spliting the span into up to 4 separate spans
-                    split_span<T, check, accumulate>( spans, this_span, current_transparency, new_transparency,
-                                                      last_intensity, distance, new_start_minor,
-                                                      trailing_edge_major, leading_edge_major,
-                                                      trailing_edge_minor, leading_edge_minor );
+                    split_span<T, is_transparent, accumulate>( spans, this_span, current_transparency,
+                            new_transparency, last_intensity,
+                            distance, new_start_minor,
+                            trailing_edge_major, leading_edge_major,
+                            trailing_edge_minor, leading_edge_minor );
                 }
 
                 // If we end the row with an opaque tile, set the span to start at the next row
                 // since we don't need to process the current one any more.
-                if( !check( current_transparency, last_intensity ) ) {
+                if( !is_transparent( current_transparency, last_intensity ) ) {
                     this_span->start_major = leading_edge_major;
                 }
             }
@@ -316,7 +317,7 @@ void cast_horizontal_zlight_segment(
                 // Otherwise we may "phase" through tiles without checking them or waste time
                 // checking spans that are out of bounds.
                 this_span = spans.erase( this_span );
-            } else if( !check( current_transparency, last_intensity ) ) {
+            } else if( !is_transparent( current_transparency, last_intensity ) ) {
                 // If we reach the end of the span with terrain being opaque, we don't iterate further.
                 // This means that any encountered transparent tiles from the current span have been
                 // split off into new spans
@@ -333,7 +334,7 @@ void cast_horizontal_zlight_segment(
 
 template<int x_transform, int y_transform, int z_transform, typename T,
          T( *calc )( const T &, const T &, const int & ),
-         bool( *check )( const T &, const T & ),
+         bool( *is_transparent )( const T &, const T & ),
          T( *accumulate )( const T &, const T &, const int & )>
 void cast_vertical_zlight_segment(
     const array_of_grids_of<T> &output_caches,
@@ -479,15 +480,16 @@ void cast_vertical_zlight_segment(
                     }
 
                     // Handle spliting the span into up to 4 separate spans
-                    split_span<T, check, accumulate>( spans, this_span, current_transparency, new_transparency,
-                                                      last_intensity, distance, new_start_minor,
-                                                      trailing_edge_major, leading_edge_major,
-                                                      trailing_edge_minor, leading_edge_minor );
+                    split_span<T, is_transparent, accumulate>( spans, this_span, current_transparency,
+                            new_transparency, last_intensity,
+                            distance, new_start_minor,
+                            trailing_edge_major, leading_edge_major,
+                            trailing_edge_minor, leading_edge_minor );
                 }
 
                 // If we end the row with an opaque tile, set the span to start at the next row
                 // since we don't need to process the current one any more.
-                if( !check( current_transparency, last_intensity ) ) {
+                if( !is_transparent( current_transparency, last_intensity ) ) {
                     this_span->start_major = leading_edge_major;
                 }
             }
@@ -497,7 +499,7 @@ void cast_vertical_zlight_segment(
                 // Otherwise we may "phase" through tiles without checking them or waste time
                 // checking spans that are out of bounds.
                 this_span = spans.erase( this_span );
-            } else if( !check( current_transparency, last_intensity ) ) {
+            } else if( !is_transparent( current_transparency, last_intensity ) ) {
                 // If we reach the end of the span with terrain being opaque, we don't iterate further.
                 // This means that any encountered transparent tiles from the current span have been
                 // split off into new spans
@@ -513,7 +515,7 @@ void cast_vertical_zlight_segment(
 }
 
 template<typename T, T( *calc )( const T &, const T &, const int & ),
-         bool( *check )( const T &, const T & ),
+         bool( *is_transparent )( const T &, const T & ),
          T( *accumulate )( const T &, const T &, const int & )>
 void cast_zlight(
     const array_of_grids_of<T> &output_caches,
@@ -523,126 +525,126 @@ void cast_zlight(
 {
     // Down lateral
 
-    //   .
-    //  ..
-    // @..
-    cast_horizontal_zlight_segment < 0, 1, 1, 0, -1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    // ...
-    // ..
-    // @
-    cast_horizontal_zlight_segment < 1, 0, 0, 1, -1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // @..
     //  ..
     //   .
-    cast_horizontal_zlight_segment < 0, -1, 1, 0, -1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    // ...
-    //  ..
-    //   @
-    cast_horizontal_zlight_segment < -1, 0, 0, 1, -1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    // .
-    // ..
-    // ..@
-    cast_horizontal_zlight_segment < 0, 1, -1, 0, -1, T, calc, check, accumulate > (
+    cast_horizontal_zlight_segment < 0, 1, 1, 0, -1, T, calc, is_transparent, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // @
     // ..
     // ...
-    cast_horizontal_zlight_segment < 1, 0, 0, -1, -1, T, calc, check, accumulate > (
+    cast_horizontal_zlight_segment < 1, 0, 0, 1, -1, T, calc, is_transparent, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    //   .
+    //  ..
+    // @..
+    cast_horizontal_zlight_segment < 0, -1, 1, 0, -1, T, calc, is_transparent, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    // ...
+    // ..
+    // @
+    cast_horizontal_zlight_segment < -1, 0, 0, 1, -1, T, calc, is_transparent, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // ..@
     // ..
     // .
-    cast_horizontal_zlight_segment < 0, -1, -1, 0, -1, T, calc, check, accumulate > (
+    cast_horizontal_zlight_segment < 0, 1, -1, 0, -1, T, calc, is_transparent, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     //   @
     //  ..
     // ...
-    cast_horizontal_zlight_segment < -1, 0, 0, -1, -1, T, calc, check, accumulate > (
+    cast_horizontal_zlight_segment < 1, 0, 0, -1, -1, T, calc, is_transparent, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    // .
+    // ..
+    // ..@
+    cast_horizontal_zlight_segment < 0, -1, -1, 0, -1, T, calc, is_transparent, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    // ...
+    //  ..
+    //   @
+    cast_horizontal_zlight_segment < -1, 0, 0, -1, -1, T, calc, is_transparent, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
 
     // Up lateral
 
-    //   .
-    //  ..
-    // @..
-    cast_horizontal_zlight_segment < 0, 1, 1, 0, 1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    // ...
-    // ..
-    // @
-    cast_horizontal_zlight_segment < 1, 0, 0, 1, 1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // @..
     //  ..
     //   .
-    cast_horizontal_zlight_segment < 0, -1, 1, 0, 1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    // ...
-    //  ..
-    //   @
-    cast_horizontal_zlight_segment < -1, 0, 0, 1, 1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    // .
-    // ..
-    // ..@
-    cast_horizontal_zlight_segment < 0, 1, -1, 0, 1, T, calc, check, accumulate > (
+    cast_horizontal_zlight_segment < 0, 1, 1, 0, 1, T, calc, is_transparent, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // @
     // ..
     // ...
-    cast_horizontal_zlight_segment < 1, 0, 0, -1, 1, T, calc, check, accumulate > (
+    cast_horizontal_zlight_segment < 1, 0, 0, 1, 1, T, calc, is_transparent, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // ..@
     // ..
     // .
-    cast_horizontal_zlight_segment < 0, -1, -1, 0, 1, T, calc, check, accumulate > (
+    cast_horizontal_zlight_segment < 0, -1, 1, 0, 1, T, calc, is_transparent, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     //   @
     //  ..
     // ...
-    cast_horizontal_zlight_segment < -1, 0, 0, -1, 1, T, calc, check, accumulate > (
+    cast_horizontal_zlight_segment < -1, 0, 0, 1, 1, T, calc, is_transparent, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    //   .
+    //  ..
+    // @..
+    cast_horizontal_zlight_segment < 0, 1, -1, 0, 1, T, calc, is_transparent, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    // ...
+    // ..
+    // @
+    cast_horizontal_zlight_segment < 1, 0, 0, -1, 1, T, calc, is_transparent, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    // .
+    // ..
+    // ..@
+    cast_horizontal_zlight_segment < 0, -1, -1, 0, 1, T, calc, is_transparent, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    // ...
+    //  ..
+    //   @
+    cast_horizontal_zlight_segment < -1, 0, 0, -1, 1, T, calc, is_transparent, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
 
     // Straight up
 
-    // ..
-    // @.
-    cast_vertical_zlight_segment < 1, 1, 1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // @.
     // ..
-    cast_vertical_zlight_segment < 1, -1, 1, T, calc, check, accumulate > (
+    cast_vertical_zlight_segment < 1, 1, 1, T, calc, is_transparent, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // ..
-    // .@
-    cast_vertical_zlight_segment < -1, 1, 1, T, calc, check, accumulate > (
+    // @.
+    cast_vertical_zlight_segment < 1, -1, 1, T, calc, is_transparent, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // .@
     // ..
-    cast_vertical_zlight_segment < -1, -1, 1, T, calc, check, accumulate > (
+    cast_vertical_zlight_segment < -1, 1, 1, T, calc, is_transparent, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    // ..
+    // .@
+    cast_vertical_zlight_segment < -1, -1, 1, T, calc, is_transparent, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
 
     // Straight down
 
-    // ..
-    // @.
-    cast_vertical_zlight_segment < 1, 1, -1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // @.
     // ..
-    cast_vertical_zlight_segment < 1, -1, -1, T, calc, check, accumulate > (
+    cast_vertical_zlight_segment < 1, 1, -1, T, calc, is_transparent, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // ..
-    // .@
-    cast_vertical_zlight_segment < -1, 1, -1, T, calc, check, accumulate > (
+    // @.
+    cast_vertical_zlight_segment < 1, -1, -1, T, calc, is_transparent, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // .@
     // ..
-    cast_vertical_zlight_segment < -1, -1, -1, T, calc, check, accumulate > (
+    cast_vertical_zlight_segment < -1, 1, -1, T, calc, is_transparent, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    // ..
+    // .@
+    cast_vertical_zlight_segment < -1, -1, -1, T, calc, is_transparent, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
 }
 
