@@ -4171,12 +4171,10 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                         furn_set( SEEX - 1, SEEY, f_table );
                         furn_set( SEEX, SEEY, f_table );
                         if( loot_variant <= 67 ) {
-                            spawn_item( SEEX - 1, SEEY - 1, "laser_pack", dice( 4, 3 ) );
                             spawn_item( SEEX, SEEY - 1, "UPS_off" );
                             spawn_item( SEEX, SEEY - 1, "battery", dice( 4, 3 ) );
                             spawn_item( SEEX - 1, SEEY, "v29" );
                             spawn_item( SEEX - 1, SEEY, "laser_rifle", dice( 1, 0 ) );
-                            spawn_item( SEEX, SEEY, "ftk93" );
                             spawn_item( SEEX - 1, SEEY, "recipe_atomic_battery" );
                             spawn_item( SEEX, SEEY  - 1, "solar_panel_v3" );
                         } else if( loot_variant > 67 && loot_variant < 89 ) {

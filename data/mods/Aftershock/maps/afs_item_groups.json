@@ -8,6 +8,7 @@
       [ "v29", 7 ],
       [ "afs_hydraulic_gauntlet", 3 ],
       [ "afs_energy_saber_off", 3 ],
+      [ "ftk93", 5 ],
       [ "afs_hardlight_longbow", 2 ]
     ]
   },
@@ -31,7 +32,8 @@
       [ "afs_bio_precision_solderers", 10 ],
       [ "afs_bio_missiles", 10 ],
       [ "afs_bio_linguistic_coprocessor", 10 ],
-      [ "afs_bio_dopamine_stimulators", 10 ]
+      [ "afs_bio_dopamine_stimulators", 10 ],
+      [ "bio_blaster", 5 ]
     ]
   },
   {
@@ -47,7 +49,7 @@
   {
     "id": "bionics_mil",
     "type": "item_group",
-    "items": [ [ "bio_furnace", 10 ] ]
+    "items": [ [ "bio_furnace", 10 ], [ "bio_blaster", 5 ] ]
   },
   {
     "id": "bionics_sci",
@@ -77,7 +79,14 @@
   {
     "id": "rare",
     "type": "item_group",
-    "items": [ [ "afs_calorie_pill", 10 ], [ "afs_sundew", 10 ], [ "afs_bag_of_holding", 1 ], [ "afs_atomic_smartphone", 5 ] ]
+    "items": [
+      [ "afs_calorie_pill", 10 ],
+      [ "afs_sundew", 10 ],
+      [ "afs_bag_of_holding", 1 ],
+      [ "afs_atomic_smartphone", 5 ],
+      [ "laser_pack", 10 ],
+      [ "ftk93", 5 ]
+    ]
   },
   {
     "id": "spider",

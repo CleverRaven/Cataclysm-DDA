@@ -107,16 +107,6 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ]
   },
   {
-    "id": "bio_blaster",
-    "type": "bionic",
-    "name": "Fusion Blaster Arm",
-    "description": "Your left arm has been surgically replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand.",
-    "occupied_bodyparts": [ [ "ARM_L", 20 ], [ "HAND_L", 5 ] ],
-    "act_cost": 50,
-    "fake_item": "bio_blaster_gun",
-    "flags": [ "BIONIC_GUN" ]
-  },
-  {
     "id": "bio_shotgun",
     "type": "bionic",
     "name": "Shotgun Arm",

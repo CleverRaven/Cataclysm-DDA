@@ -26,21 +26,6 @@
     "extend": { "flags": [ "USE_TANKS" ] }
   },
   {
-    "id": "fusion_gun",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": "mounted fusion gun",
-    "item": "ftk93",
-    "color": "magenta",
-    "broken_color": "magenta",
-    "difficulty": 6,
-    "breaks_into": [ { "item": "ftk93", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ], [ "electronics", 6 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 4 ] ] }
-    }
-  },
-  {
     "id": "laser_rifle",
     "copy-from": "turret",
     "type": "vehicle_part",
