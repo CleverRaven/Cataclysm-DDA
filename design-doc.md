@@ -8,6 +8,7 @@ permalink: /design-doc/
 * [User Experience](#user-experience)
 * [Gameplay](#gameplay)
 * [Story](#story)
+* [Technology](./technology.md)
 
 Cataclysm: Dark Days Ahead is a turn-based survival game set in a post-apocalyptic world. Struggle to survive in a harsh, persistent, procedurally generated world. Scavenge the remnants of a dead civilization for food, equipment, or, if you are lucky, a vehicle with a full tank of gas to get you the hell out of Dodge. Fight to defeat or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots and things far stranger and deadlier, and against the others like yourself, that want what you have…
 
@@ -194,7 +195,7 @@ The core message to Cataclysm is that we are all cogs in a massive, uncaring uni
 
 The primary setting of the game is present-day (2019 as of the time of writing) Earth.  The current setting is New England in the United States, but that is not a core value, and there is interest in expanding the game to other regions.
 
-Super-technology exists, but it is mostly restricted to secret lab facilities and military special forces.
+Super-technology exists, but it is mostly restricted to secret lab facilities and military special forces.  See the dedicated [technology](./technology.md) page for more information on what is specifically appropriate to the setting.
 
 That all changed during the cataclysm, a several day long event where horrors from other dimensions flooded into the world, destroying, killing and in some cases creating, rendering the world almost unrecognizable.
 
