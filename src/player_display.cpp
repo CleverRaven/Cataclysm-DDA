@@ -1147,7 +1147,8 @@ void player::disp_info()
         if( bmi < character_weight_category::underweight ) {
             const float str_penalty = 1.0f - ( ( bmi - 13.0f ) / 3.0f );
             starvation_text << _( "Strength" ) << " -" << string_format( "%2.0f%%\n", str_penalty * 100.0f );
-            starvation_text << _( "Dexterity" ) << " -" << string_format( "%2.0f%%", str_penalty * 100.0f );
+            starvation_text << _( "Dexterity" ) << " -" << string_format( "%2.0f%%\n", str_penalty * 50.0f );
+            starvation_text << _( "Intelligence" ) << " -" << string_format( "%2.0f%%", str_penalty * 50.0f );
         }
 
         effect_text.push_back( starvation_text.str() );
