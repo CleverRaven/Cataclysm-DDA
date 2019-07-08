@@ -87,6 +87,7 @@ class veh_interact
         catacurses::window w_list;
         catacurses::window w_details;
         catacurses::window w_name;
+        catacurses::window w_owner;
 
         vehicle *veh;
         bool has_wrench;
@@ -148,6 +149,7 @@ class veh_interact
         void display_veh();
         void display_stats() const;
         void display_name();
+        void display_owner();
         void display_mode();
         void display_list( size_t pos, const std::vector<const vpart_info *> &list, const int header = 0 );
         void display_details( const vpart_info *part );
