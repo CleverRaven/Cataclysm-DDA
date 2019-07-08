@@ -42,3 +42,6 @@ Milspec power armor relies on plutonium cells to function, this is what enables 
 
 ### Weaponry
 Like power armor, the major divergence point for weaponry is the existence of high density fictionalized power cells.  All other technology should be as realistic as possible.  Due to the extreme rarity and "one and done" nature of plutonium cells, military lasers and things are rare.  Technology that hasn't even been prototyped, or at the very least modeled theoretically, in our world is probably not appropriate for Cataclysm.
+
+### Dimensional Manipulation
+At the heart of most of the differences in technology is the ability to examine and manipulate dimensions in the CDDA universe. Portable versions of this technology are possible but should be limited, extremely rare, and extremely costly in energy terms.  That said, the events causing the cataclysm made the energy costs at least an order of magnitude lower, which in turn means that things that may have been barely functional proof-of-concept prototypes before may now be able to work fairly well.
