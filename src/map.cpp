@@ -6264,8 +6264,8 @@ void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tri
             t_grid[ item.ndx ] = item.dist;
             if( item.dist + 1 < range ) {
                 gen_neighbors( item, grid_dim, neighbor_elems );
-                for( int i = 0; i < 8; ++i ) {
-                    pq.push( neighbor_elems[i] );
+                for( pq_item neighbor_elem : neighbor_elems) {
+                    pq.push( neighbor_elem );
                 }
             }
         }

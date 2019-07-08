@@ -166,6 +166,20 @@ struct needs_rates {
     float kcal = 0.0f;
 };
 
+enum player_movemode : unsigned char {
+    PMM_WALK = 0,
+    PMM_RUN = 1,
+    PMM_CROUCH = 2,
+    PMM_COUNT
+};
+
+static const std::array< std::string, PMM_COUNT > player_movemode_str = { {
+        "walk",
+        "run",
+        "crouch"
+    }
+};
+
 class player : public Character
 {
     public:
@@ -184,6 +198,12 @@ class player : public Character
 
         bool is_player() const override {
             return true;
+        }
+        player *as_player() override {
+            return this;
+        }
+        const player *as_player() const override {
+            return this;
         }
 
         /** Processes human-specific effects of effects before calling Creature::process_effects(). */
@@ -446,8 +466,8 @@ class player : public Character
 
         void pause(); // '.' command; pauses & reduces recoil
 
-        void set_movement_mode( const std::string &mode );
-        const std::string get_movement_mode() const;
+        void set_movement_mode( const player_movemode mode );
+        bool movement_mode_is( const player_movemode mode ) const;
 
         void cycle_move_mode(); // Cycles to the next move mode.
         void reset_move_mode(); // Resets to walking.
@@ -1531,6 +1551,7 @@ class player : public Character
         player_activity activity;
         std::list<player_activity> backlog;
         int volume;
+        cata::optional<tripoint> destination_point;
         const profession *prof;
 
         start_location_id start_location;
@@ -1823,12 +1844,11 @@ class player : public Character
 
     protected:
         // TODO: move this to avatar
-        std::string move_mode;
+        player_movemode move_mode;
     private:
 
         std::vector<tripoint> auto_move_route;
         player_activity destination_activity;
-        cata::optional<tripoint> destination_point;
         // Used to make sure auto move is canceled if we stumble off course
         cata::optional<tripoint> next_expected_position;
         /** warnings from a faction about bad behaviour */

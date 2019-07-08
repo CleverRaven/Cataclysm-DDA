@@ -306,6 +306,7 @@ furn_t null_furniture_t()
     new_furniture.name_ = translate_marker( "nothing" );
     new_furniture.symbol_.fill( ' ' );
     new_furniture.color_.fill( c_white );
+    new_furniture.light_emitted = 0;
     new_furniture.movecost = 0;
     new_furniture.move_str_req = -1;
     new_furniture.transparent = true;
@@ -327,6 +328,7 @@ ter_t null_terrain_t()
     new_terrain.name_ = translate_marker( "nothing" );
     new_terrain.symbol_.fill( ' ' );
     new_terrain.color_.fill( c_white );
+    new_terrain.light_emitted = 0;
     new_terrain.movecost = 0;
     new_terrain.transparent = true;
     new_terrain.set_flag( "TRANSPARENT" );
@@ -1136,6 +1138,8 @@ void ter_t::load( JsonObject &jo, const std::string &src )
               DEFAULT_MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "trap", trap_id_str );
 
+    optional( jo, was_loaded, "light_emitted", light_emitted );
+
     load_symbol( jo );
 
     trap = tr_null;
@@ -1246,6 +1250,8 @@ void furn_t::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "deployed_item", deployed_item );
     load_symbol( jo );
     transparent = false;
+
+    optional( jo, was_loaded, "light_emitted", light_emitted );
 
     for( auto &flag : jo.get_string_array( "flags" ) ) {
         set_flag( flag );

@@ -1698,6 +1698,7 @@ For `type`s: `bionic` and `bionic_group` following enrties can scale the results
     "looks_like": "chair",
     "color": "white",
     "move_cost_mod": 2,
+    "light_emitted": 5,
     "required_str": 18,
     "flags": [ "TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD" ],
     "crafting_pseudo_item": "anvil",
@@ -1723,6 +1724,11 @@ Same as for terrain, see below in the chapter "Common to furniture and terrain".
 #### `move_cost_mod`
 
 Movement cost modifier (`-10` = impassable, `0` = no change). This is added to the movecost of the underlying terrain.
+
+#### `light_emitted`
+
+How much light the furniture produces.  10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
+For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 
 #### `required_str`
 
@@ -1751,6 +1757,7 @@ Strength required to move the furniture around. Negative values indicate an unmo
     "looks_like": "pit",
     "color": "ltred",
     "move_cost": 10,
+    "light_emitted": 10,
     "trap": "spike_pit",
     "max_volume": 4000,
     "flags": ["TRANSPARENT", "DIGGABLE"],
@@ -1778,6 +1785,11 @@ Same as for furniture, see below in the chapter "Common to furniture and terrain
 #### `move_cost`
 
 Move cost to move through. A value of 0 means it's impassable (e.g. wall). You should not use negative values. The positive value is multiple of 50 move points, e.g. value 2 means the player uses 2\*50 = 100 move points when moving across the terrain.
+
+#### `light_emitted`
+
+How much light the terrain emits. 10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
+For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 
 #### `trap`
 

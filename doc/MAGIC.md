@@ -14,6 +14,7 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
 	"valid_targets": [ "hostile", "ground", "self", "ally" ], // if a valid target is not included, you cannot cast the spell on that target.
 	"effect": "shallow_pit",                                  // effects are coded in C++. A list will be provided below of possible effects that have been coded.
 	"effect_str": "template"                                  // special. see below
+	"extra_effects": [ { "id": "fireball", "hit_self": false, "max_level": 3 } ],	// this allows you to cast multiple spells with only one spell
 	"effected_body_parts": [ "HEAD", "TORSO", "MOUTH", "EYES", "ARM_L", "ARM_R", "HAND_R", "HAND_L", "LEG_L", "FOOT_L", "FOOT_R" ], // body parts affected by effects
 	"spell_class": "NONE"                                     // 
 	"base_casting_time": 100,                                 // this is the casting time (in moves)
@@ -113,6 +114,7 @@ Currently there is only one way of learning spells that is implemented: learning
 ```
 You can study this spellbook for a rate of ~1 experience per turn depending on intelligence, spellcraft, and focus.
 
+
 #### Spells in professions
 
 You can add a "spell" member to professions like so:
@@ -120,3 +122,15 @@ You can add a "spell" member to professions like so:
 "spells": [ { "id": "summon_zombie", "level": 0 }, { "id": "magic_missile", "level": 10 } ]
 ```
 NOTE: This makes it possible to learn spells that conflict with a class. It also does not give the prompt to gain the class. Be judicious upon adding this to a profession!
+
+
+#### Monsters
+
+You can assign a spell as a special attack for a monster.
+```json
+{ "type": "spell", "spell_id": "burning_hands", "spell_level": 10, "cooldown": 10 }
+```
+* spell_id: the id for the spell being cast.
+* spell_level: the level at which the spell is cast. Spells cast by monsters do not gain levels like player spells.
+* cooldown: how often the monster can cast this spell
+

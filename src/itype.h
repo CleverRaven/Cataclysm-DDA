@@ -88,7 +88,7 @@ class gunmod_location
 };
 
 struct islot_tool {
-    std::set<ammotype> ammo_id = {};
+    std::set<ammotype> ammo_id;
 
     cata::optional<itype_id> revert_to;
     std::string revert_msg;
@@ -358,7 +358,7 @@ struct islot_mod {
     std::set<ammotype> acceptable_ammo;
 
     /** If set modifies parent ammo to this type */
-    std::set<ammotype> ammo_modifier = {};
+    std::set<ammotype> ammo_modifier;
 
     /** If non-empty replaces the compatible magazines for the parent item */
     std::map< ammotype, std::set<itype_id> > magazine_adaptor;
@@ -439,7 +439,7 @@ struct islot_gun : common_ranged_data {
     /**
      * What type of ammo this gun uses.
      */
-    std::set<ammotype> ammo = {};
+    std::set<ammotype> ammo;
     /**
      * Gun durability, affects gun being damaged during shooting.
      */
@@ -591,7 +591,7 @@ struct islot_gunmod : common_ranged_data {
 
 struct islot_magazine {
     /** What type of ammo this magazine can be loaded with */
-    std::set<ammotype> type = {};
+    std::set<ammotype> type;
 
     /** Capacity of magazine (in equivalent units to ammo charges) */
     int capacity = 0;

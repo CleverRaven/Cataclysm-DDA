@@ -5097,7 +5097,7 @@ bool mattack::doot( monster *z )
     }
     int spooks = 0;
     for( const tripoint &spookyscary : g->m.points_in_radius( z->pos(), 2 ) ) {
-        if( spookyscary == z->pos() || g->m.impassable( spookyscary ) ) {
+        if( !g->is_empty( spookyscary ) ) {
             continue;
         }
         const int dist = rl_dist( z->pos(), spookyscary );

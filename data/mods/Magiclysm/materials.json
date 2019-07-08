@@ -1,0 +1,22 @@
+[
+  {
+    "type": "material",
+    "ident": "arcane_skin",
+    "name": "Arcane Skin",
+    "density": 38,
+    "specific_heat_liquid": 0.82,
+    "specific_heat_solid": 0.45,
+    "latent_heat": 273,
+    "soft": true,
+    "reinforces": true,
+    "bash_resist": 14,
+    "cut_resist": 18,
+    "acid_resist": 4,
+    "fire_resist": 20,
+    "elec_resist": 2,
+    "chip_resist": 15,
+    "dmg_adj": [ "scratched", "cut", "shredded", "tattered" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "sliced"
+  }
+]

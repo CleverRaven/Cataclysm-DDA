@@ -1830,7 +1830,8 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     item &reloadable = *act->targets[ 0 ];
     item &ammo = *act->targets[1];
     const int qty = act->index;
-    const bool is_speedloader = act->targets[ 1 ]->has_flag( "SPEEDLOADER" );
+    const bool is_speedloader = ammo.has_flag( "SPEEDLOADER" );
+    const bool is_bolt = ammo.ammo_type() == ammotype( "bolt" );
 
     if( !reloadable.reload( *p, std::move( act->targets[ 1 ] ), qty ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable.tname() );
@@ -1844,7 +1845,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
         if( reloadable.has_flag( "RELOAD_ONE" ) && !is_speedloader ) {
             for( int i = 0; i != qty; ++i ) {
-                if( ammo.ammo_type() == ammotype( "bolt" ) )  {
+                if( is_bolt ) {
                     msg = _( "You insert a bolt into the %s." );
                 } else {
                     msg = _( "You insert a cartridge into the %s." );
@@ -4029,7 +4030,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
             std::vector<tripoint> trajectory = th.target_ui( casting, no_fail, no_mana );
             if( !trajectory.empty() ) {
                 target = trajectory.back();
-                target_is_valid = casting.is_valid_target( target );
+                target_is_valid = casting.is_valid_target( *p, target );
                 if( !( casting.is_valid_target( target_ground ) || p->sees( target ) ) ) {
                     target_is_valid = false;
                 }
@@ -4065,39 +4066,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
     p->add_msg_if_player( _( "You cast %s!" ), casting.name() );
 
-    // figure out which function is the effect (maybe change this into how iuse or activity_handlers does it)
-    // TODO: refactor these so make_sound can be called inside each of these functions
-    const std::string fx = casting.effect();
-    if( fx == "pain_split" ) {
-        spell_effect::pain_split();
-        casting.make_sound( p->pos() );
-    } else if( fx == "move_earth" ) {
-        spell_effect::move_earth( target );
-        casting.make_sound( target );
-    } else if( fx == "target_attack" ) {
-        spell_effect::target_attack( casting, p->pos(), target );
-    } else if( fx == "projectile_attack" ) {
-        spell_effect::projectile_attack( casting, p->pos(), target );
-    } else if( fx == "cone_attack" ) {
-        spell_effect::cone_attack( casting, p->pos(), target );
-    } else if( fx == "line_attack" ) {
-        spell_effect::line_attack( casting, p->pos(), target );
-    } else if( fx == "teleport_random" ) {
-        spell_effect::teleport( casting.range(), casting.range() + casting.aoe() );
-        casting.make_sound( p->pos() );
-    } else if( fx == "spawn_item" ) {
-        spell_effect::spawn_ethereal_item( casting );
-        casting.make_sound( p->pos() );
-    } else if( fx == "recover_energy" ) {
-        spell_effect::recover_energy( casting, target );
-        casting.make_sound( target );
-    } else if( fx == "summon" ) {
-        spell_effect::spawn_summoned_monster( casting, p->pos(), target );
-    } else if( fx == "translocate" ) {
-        spell_effect::translocate( casting, p->pos(), target, g->u.translocators );
-    } else {
-        debugmsg( "ERROR: Spell effect not defined properly." );
-    }
+    casting.cast_all_effects( *p, target );
+
     if( !no_mana ) {
         // pay the cost
         int cost = casting.energy_cost( *p );

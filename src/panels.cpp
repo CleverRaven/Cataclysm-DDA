@@ -1010,9 +1010,8 @@ static void draw_stealth( avatar &u, const catacurses::window &w )
     mvwprintz( w, 0, 0, c_light_gray, _( "Speed" ) );
     mvwprintz( w, 0, 7, value_color( u.get_speed() ), "%s", u.get_speed() );
     mvwprintz( w, 0, 15 - to_string( u.movecounter ).length(), c_light_gray,
-               to_string( u.movecounter ) + ( u.get_movement_mode() == "walk" ? "W" :
-                       ( u.get_movement_mode() == "crouch" ? "C" :
-                         "R" ) ) );
+               to_string( u.movecounter ) + ( u.movement_mode_is( PMM_WALK ) ? "W" : ( u.movement_mode_is(
+                           PMM_CROUCH ) ? "C" : "R" ) ) );
 
     if( u.is_deaf() ) {
         mvwprintz( w, 0, 22, c_red, _( "DEAF" ) );
@@ -1176,9 +1175,8 @@ static void draw_char( avatar &u, const catacurses::window &w )
     const auto str_walk = pgettext( "movement-type", "W" );
     const auto str_run = pgettext( "movement-type", "R" );
     const auto str_crouch = pgettext( "movement-type", "C" );
-    const char *move = u.get_movement_mode() == "walk" ? str_walk : ( u.get_movement_mode() == "crouch"
-                       ? str_crouch :
-                       str_run );
+    const char *move = u.movement_mode_is( PMM_WALK ) ? str_walk : ( u.movement_mode_is(
+                           PMM_CROUCH ) ? str_crouch : str_run );
     std::string movecost = std::to_string( u.movecounter ) + "(" + move + ")";
     bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
     std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
@@ -1417,9 +1415,8 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
         mvwprintz( w, 5, 21, u.get_speed() < 100 ? c_red : c_white,
                    _( "Spd " ) + to_string( u.get_speed() ) );
         mvwprintz( w, 5, 26 + to_string( u.get_speed() ).length(), c_white,
-                   to_string( u.movecounter ) + " " + ( u.get_movement_mode() == "walk" ? "W" :
-                           ( u.get_movement_mode() == "crouch" ? "C" :
-                             "R" ) ) );
+                   to_string( u.movecounter ) + " " + ( u.movement_mode_is( PMM_WALK ) ? "W" : ( u.movement_mode_is(
+                               PMM_CROUCH ) ? "C" : "R" ) ) );
     }
 
     // temperature
@@ -1741,7 +1738,7 @@ static void draw_mana( const player &u, const catacurses::window &w )
 
 static bool spell_panel()
 {
-    return !spell_type::get_all().empty();
+    return g->u.magic.knows_spell();
 }
 
 bool default_render()
