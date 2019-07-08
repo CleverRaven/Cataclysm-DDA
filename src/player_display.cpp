@@ -1034,7 +1034,8 @@ static void draw_initial_windows( const catacurses::window &w_stats,
     }
     if( you.kcal_speed_penalty() < 0 ) {
         pen = abs( you.kcal_speed_penalty() );
-        const std::string inanition = you.get_bmi() < character_weight_category::underweight ? _( "Starving" ) : _( "Underfed" );
+        const std::string inanition = you.get_bmi() < character_weight_category::underweight ?
+                                      _( "Starving" ) : _( "Underfed" );
         mvwprintz( w_speed, line, 1, c_red, _( "%-20s-%s%d%%" ), inanition,
                    ( pen < 10 ? " " : "" ), pen );
         line++;
