@@ -2,7 +2,7 @@
 
 **Summary**:
 
-Technology in Cataclysm should, except in specific situations, be *at a modern real life level*.  The design rationale for this is simple: it allows straightforward answers to questions about things like "is this idea reasonable", "how much ____ should this do", and more.  If it is possible in real life (and you can prove it), it's probably appropriate for Cataclysm.
+Technology in Cataclysm should, except in specific situations, be *at a modern real life level*.  The design rationale for this is simple: it allows straightforward answers to questions about things like "is this idea reasonable", "how much ____ should this do", and more.  If it is possible in real life (and you can prove it), it's probably appropriate for Cataclysm.  Likewise, if it's not possible in real life, it is probably not possible in Cataclysm... the exceptions will be enumerated in this document.
 
 See [the timeline](./lore-background.md) for lore explanations of the divergent technology in this world.
 
@@ -13,7 +13,7 @@ In terms of civilian technology there are a handful of things that differ from o
 CBMs have been available to the public for four years at the time of the Cataclysm.  This is vaguely analogous in scope to how common smartphones were in 1998-2002: while they exist, they are too expensive and too hard to find support for to be even somewhat widespread among civilians.
 
 ### Robots
-Proto-AI evolved from dimensional heuristics (the secrets of which are completely black box and explained away as a kind of deep learning) has made civilian level robots conceivable, albeit extremely rare.  The first public release of robots was police eyebots six years before the Cataclysm.  Most non-police civilian level applications are medical.  These AIs do well in constrained environments with very specific tasks.
+Proto-AI evolved from dimensional heuristics (the secrets of which are completely black box and explained away as a kind of deep learning) has made civilian level robots conceivable, albeit extremely rare.  The first public release of robots was police eyebots six years before the Cataclysm.  Most non-police civilian level applications are medical.  These AIs do well in constrained environments with very specific tasks.  They are, however, deeply stupid, especially without their central controllers.
 
 ### Energy Storage
 Energy storage among civilians is basically the same as real life earth, with a couple exceptions:
@@ -41,4 +41,4 @@ From a story standpoint, these cells use a small amount of exotic matter from th
 Milspec power armor relies on plutonium cells to function, this is what enables its existence.  Aside from fictionalized power storage, the rest of its capabilities are real life.
 
 ### Weaponry
-Like power armor, the major divergence point for weaponry is the existence of high density fictionalized power cells.  All other technology should be as realistic as possible.  Due to the extreme rarity and "one and done" nature of plutonium cells, military lasers and things are comparatively rare.
+Like power armor, the major divergence point for weaponry is the existence of high density fictionalized power cells.  All other technology should be as realistic as possible.  Due to the extreme rarity and "one and done" nature of plutonium cells, military lasers and things are rare.  Technology that hasn't even been prototyped, or at the very least modeled theoretically, in our world is probably not appropriate for Cataclysm.
