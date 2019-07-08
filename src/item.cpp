@@ -1,7 +1,6 @@
 #include "item.h"
 
 #include <cctype>
-#include <cstdint>
 #include <cstdlib>
 #include <algorithm>
 #include <array>
@@ -22,6 +21,7 @@
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
+#include "craft_command.h"
 #include "damage.h"
 #include "debug.h"
 #include "dispersion.h"
@@ -70,7 +70,6 @@
 #include "catacharset.h"
 #include "character.h"
 #include "color.h"
-#include "explosion.h"
 #include "int_id.h"
 #include "inventory.h"
 #include "item_group.h"
@@ -81,6 +80,11 @@
 #include "recipe.h"
 #include "rng.h"
 #include "weather_gen.h"
+#include "clzones.h"
+#include "faction.h"
+#include "magic.h"
+
+class npc_class;
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 
@@ -2243,6 +2247,10 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             } else if( idescription != item_vars.end() ) {
                 info.push_back( iteminfo( "DESCRIPTION", idescription->second ) );
             } else {
+                if( has_flag( "MAGIC_FOCUS" ) ) {
+                    info.push_back( iteminfo( "DESCRIPTION",
+                                              _( "This item is a <info>magical focus</info>.  You can cast spells with it in your hand." ) ) );
+                }
                 if( is_craft() ) {
                     const std::string desc = _( "This is an in progress %s.  It is %d percent complete." );
                     const int percent_progress = item_counter / 100000;
@@ -3084,7 +3092,10 @@ void item::on_wield( player &p, int mv )
         handle_pickup_ownership( p );
     }
     p.add_msg_if_player( m_neutral, msg, tname() );
-    p.martialart_use_message();
+
+    if( p.style_selected != matype_id( "style_none" ) ) {
+        p.martialart_use_message();
+    }
 }
 
 void item::handle_pickup_ownership( Character &c )
@@ -3699,14 +3710,14 @@ units::volume item::volume( bool integral ) const
             // consider only the base size of the gun (without mods)
             int tmpvol = get_var( "volume",
                                   ( type->volume - type->gun->barrel_length ) / units::legacy_volume_factor );
-            if( tmpvol <=  3 ) {
+            if( tmpvol <= 3 ) {
                 // intentional NOP
-            } else if( tmpvol <=  5 ) {
-                ret -=  250_ml;
-            } else if( tmpvol <=  6 ) {
-                ret -=  500_ml;
-            } else if( tmpvol <=  9 ) {
-                ret -=  750_ml;
+            } else if( tmpvol <= 5 ) {
+                ret -= 250_ml;
+            } else if( tmpvol <= 6 ) {
+                ret -= 500_ml;
+            } else if( tmpvol <= 9 ) {
+                ret -= 750_ml;
             } else if( tmpvol <= 12 ) {
                 ret -= 1000_ml;
             } else if( tmpvol <= 15 ) {
@@ -3999,8 +4010,7 @@ bool item::goes_bad() const
     }
     if( is_corpse() ) {
         // Corpses rot only if they are made of rotting materials
-        static const std::set<material_id> rotting_materials = materials::get_rotting();
-        return made_of_any( rotting_materials );
+        return made_of_any( materials::get_rotting() );
     }
     return is_food() && get_comestible()->spoils != 0_turns;
 }
@@ -5864,14 +5874,14 @@ int item::ammo_consume( int qty, const tripoint &pos )
         auto res = mag->ammo_consume( qty, pos );
         if( res && ammo_remaining() == 0 ) {
             if( mag->has_flag( "MAG_DESTROY" ) ) {
-                contents.erase( std::remove_if( contents.begin(), contents.end(), [&mag]( const item & e ) {
+                contents.remove_if( [&mag]( const item & e ) {
                     return mag == &e;
-                } ) );
+                } );
             } else if( mag->has_flag( "MAG_EJECT" ) ) {
                 g->m.add_item( pos, *mag );
-                contents.erase( std::remove_if( contents.begin(), contents.end(), [&mag]( const item & e ) {
+                contents.remove_if( [&mag]( const item & e ) {
                     return mag == &e;
-                } ) );
+                } );
             }
         }
         return res;
@@ -7501,12 +7511,12 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
                 // This value shouldn't be there anymore after the loop is done so we don't bother with the set_item_temperature()
                 temperature = static_cast<int>( 100000 * temp_to_kelvin( env_temperature ) );
                 last_temp_check = time;
-            } else if( time - last_temp_check >  smallest_interval ) {
+            } else if( time - last_temp_check > smallest_interval ) {
                 calc_temp( env_temperature, insulation, time );
             }
 
             // Calculate item rot from item temperature
-            if( time - last_rot_check >  smallest_interval ) {
+            if( time - last_rot_check > smallest_interval ) {
                 calc_rot( time, env_temperature );
 
                 if( has_rotten_away() || ( is_corpse() && rot > 10_days ) ) {
@@ -7536,7 +7546,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
     // Limit calculations to max 4000 C (4273.15 K) to avoid specific energy from overflowing
     const float env_temperature = std::min( temp_to_kelvin( temp ), 4273.15 );
     const float old_temperature = 0.00001 * temperature;
-    const float temperature_difference =  env_temperature - old_temperature;
+    const float temperature_difference = env_temperature - old_temperature;
 
     // If no or only small temperature difference then no need to do math.
     if( std::abs( temperature_difference ) < 0.9 ) {
@@ -7842,7 +7852,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
     if( !active ) {
         return false;
     }
-    field_id smoke_type;
+    field_type_id smoke_type;
     if( has_flag( "TOBACCO" ) ) {
         smoke_type = fd_cigsmoke;
     } else {
@@ -8598,6 +8608,26 @@ const recipe &item::get_making() const
         return recipe().ident().obj();
     }
     return *making;
+}
+
+void item::set_tools_to_continue( bool value )
+{
+    tools_to_continue = value;
+}
+
+bool item::has_tools_to_continue() const
+{
+    return tools_to_continue;
+}
+
+void item::set_cached_tool_selections( const std::vector<comp_selection<tool_comp>> &selections )
+{
+    cached_tool_selections = selections;
+}
+
+const std::vector<comp_selection<tool_comp>> &item::get_cached_tool_selections() const
+{
+    return cached_tool_selections;
 }
 
 const cata::optional<islot_comestible> &item::get_comestible() const

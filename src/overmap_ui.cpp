@@ -12,6 +12,8 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <set>
+#include <type_traits>
 
 #include "avatar.h"
 #include "basecamp.h"
@@ -30,7 +32,6 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "sounds.h"
 #include "string_input_popup.h"
 #include "ui.h"
@@ -51,6 +52,11 @@
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
+#include "vpart_position.h"
+#include "vehicle.h"
+#include "enums.h"
+#include "map.h"
+#include "player_activity.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -186,7 +192,7 @@ static weather_type get_weather_at_point( const tripoint &pos )
     }
     auto iter = weather_cache.find( pos );
     if( iter == weather_cache.end() ) {
-        const auto abs_ms_pos =  tripoint( pos.x * SEEX * 2, pos.y * SEEY * 2, pos.z );
+        const auto abs_ms_pos = tripoint( pos.x * SEEX * 2, pos.y * SEEY * 2, pos.z );
         const auto &wgen = overmap_buffer.get_settings( pos.x, pos.y, pos.z ).weather;
         const auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed() );
         iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
@@ -510,7 +516,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         for( const auto &s_ter : uistate.place_special->terrains ) {
             if( s_ter.p.z == 0 ) {
                 const point rp = om_direction::rotate( point( s_ter.p.x, s_ter.p.y ), uistate.omedit_rotation );
-                const oter_id oter =  s_ter.terrain->get_rotated( uistate.omedit_rotation );
+                const oter_id oter = s_ter.terrain->get_rotated( uistate.omedit_rotation );
 
                 special_cache.insert( std::make_pair(
                                           rp, std::make_pair( oter->get_symbol(), oter->get_color() ) ) );
@@ -561,6 +567,15 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             }
             npc *npc_to_add = npc_to_get.get();
             followers.push_back( npc_to_add );
+        }
+        for( auto &elem : overmap_buffer.get_npcs_near_player( 75 ) ) {
+            if( !elem ) {
+                continue;
+            }
+            npc *npc_to_add = elem.get();
+            if( npc_to_add->mission == NPC_MISSION_TRAVELLING ) {
+                followers.push_back( npc_to_add );
+            }
         }
         for( auto &elem : g->u.omt_path ) {
             tripoint tri_to_add = tripoint( elem.x, elem.y, g->u.posz() );
@@ -667,7 +682,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                 ter_color = c_yellow;
                 ter_sym   = "Z";
             } else if( !uistate.overmap_show_forest_trails && cur_ter &&
-                       is_ot_match( "forest_trail", cur_ter, ot_match_type::TYPE ) ) {
+                       is_ot_match( "forest_trail", cur_ter, ot_match_type::type ) ) {
                 // If forest trails shouldn't be displayed, and this is a forest trail, then
                 // instead render it like a forest.
                 set_color_and_symbol( forest, omx, omy, z, ter_sym, ter_color );
@@ -1397,15 +1412,26 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             const tripoint player_omt_pos = g->u.global_omt_location();
             if( !g->u.omt_path.empty() && g->u.omt_path.front() == curs ) {
                 if( query_yn( _( "Travel to this point?" ) ) ) {
-                    g->u.reset_move_mode();
-                    g->u.assign_activity( activity_id( "ACT_TRAVELLING" ) );
+                    // renew the path incase of a leftover dangling path point
+                    g->u.omt_path = overmap_buffer.get_npc_path( player_omt_pos, curs, g->u.in_vehicle &&
+                                    g->u.controlling_vehicle );
+                    if( g->u.in_vehicle && g->u.controlling_vehicle ) {
+                        vehicle *player_veh = veh_pointer_or_null( g->m.veh_at( g->u.pos() ) );
+                        player_veh->omt_path = g->u.omt_path;
+                        player_veh->is_autodriving = true;
+                        g->u.assign_activity( activity_id( "ACT_AUTODRIVE" ) );
+                    } else {
+                        g->u.reset_move_mode();
+                        g->u.assign_activity( activity_id( "ACT_TRAVELLING" ) );
+                    }
                     action = "QUIT";
                 }
             }
             if( curs == player_omt_pos ) {
                 g->u.omt_path.clear();
             } else {
-                g->u.omt_path = overmap_buffer.get_npc_path( player_omt_pos, curs );
+                g->u.omt_path = overmap_buffer.get_npc_path( player_omt_pos, curs, g->u.in_vehicle &&
+                                g->u.controlling_vehicle );
             }
         } else if( action == "TOGGLE_BLINKING" ) {
             uistate.overmap_blinking = !uistate.overmap_blinking;

@@ -7,7 +7,7 @@
 #include <sstream>
 #include <memory>
 #include <tuple>
-#include <type_traits>
+#include <list>
 
 #include "action.h"
 #include "activity_handlers.h"
@@ -46,6 +46,11 @@
 #include "rng.h"
 #include "string_id.h"
 #include "field.h"
+#include "bodypart.h"
+#include "enums.h"
+#include "monster.h"
+#include "mtype.h"
+#include "weather.h"
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );
@@ -673,6 +678,12 @@ void vehicle::use_controls( const tripoint &pos )
     menu.entries = options;
     menu.query();
     if( menu.ret >= 0 ) {
+        // allow player to turn off engine without triggering another warning
+        if( menu.ret != 0 && menu.ret != 1 && menu.ret != 2 && menu.ret != 3 ) {
+            if( !handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                return;
+            }
+        }
         actions[menu.ret]();
         // Don't access `this` from here on, one of the actions above is to call
         // fold_up(), which may have deleted `this` object.
@@ -748,10 +759,11 @@ bool vehicle::fold_up()
     if( can_be_folded ) {
         bicycle.set_var( "weight", to_gram( total_mass() ) );
         bicycle.set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
-        bicycle.set_var( "name", string_format( _( "folded %s" ), name ) );
-        bicycle.set_var( "vehicle_name", name );
+        bicycle.set_var( "name", string_format( _( "folded %s" ), base_name.empty() ? name : base_name ) );
+        bicycle.set_var( "vehicle_name", base_name.empty() ? name : base_name );
         // TODO: a better description?
-        bicycle.set_var( "description", string_format( _( "A folded %s." ), name ) );
+        bicycle.set_var( "description", string_format( _( "A folded %s." ),
+                         base_name.empty() ? name : base_name ) );
     }
 
     g->m.add_item_or_charges( g->u.pos(), bicycle );
@@ -1098,7 +1110,7 @@ void vehicle::transform_terrain()
             if( new_furn != f_null ) {
                 g->m.furn_set( start_pos, new_furn );
             }
-            const field_id new_field = field_from_ident( ttd.post_field );
+            const field_type_id new_field = field_type_id( ttd.post_field );
             if( new_field != fd_null ) {
                 g->m.add_field( start_pos, new_field, ttd.post_field_intensity, ttd.post_field_age );
             }
@@ -1117,7 +1129,7 @@ void vehicle::operate_reaper()
     for( const vpart_reference &vp : get_enabled_parts( "REAPER" ) ) {
         const size_t reaper_id = vp.part_index();
         const tripoint reaper_pos = vp.pos();
-        const int plant_produced =  rng( 1, vp.info().bonus );
+        const int plant_produced = rng( 1, vp.info().bonus );
         const int seed_produced = rng( 1, 3 );
         const units::volume max_pickup_volume = vp.info().size / 20;
         if( g->m.furn( reaper_pos ) != f_plant_harvest ) {
@@ -1419,8 +1431,10 @@ void vehicle::use_harness( int part, const tripoint &pos )
             if( f.has_effect( effect_tied ) ) {
                 add_msg( m_info, _( "You untie your %s." ), f.get_name() );
                 f.remove_effect( effect_tied );
-                item rope_6( "rope_6", 0 );
-                g->u.i_add( rope_6 );
+                if( f.tied_item ) {
+                    g->u.i_add( *f.tied_item, 0 );
+                    f.tied_item = cata::nullopt;
+                }
             }
         } else if( f.friendly == 0 ) {
             add_msg( m_info, _( "This creature is not friendly!" ) );
@@ -1609,7 +1623,11 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         selectmenu.query();
         choice = selectmenu.ret;
     }
-
+    if( choice != EXAMINE && choice != TRACK && choice != GET_ITEMS_ON_GROUND ) {
+        if( !handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+            return;
+        }
+    }
     auto veh_tool = [&]( const itype_id & obj ) {
         item pseudo( obj );
         if( fuel_left( "battery" ) < pseudo.ammo_required() ) {

@@ -20,9 +20,9 @@
 #include "game_constants.h"
 #include "omdata.h"
 #include "optional.h"
+#include "point.h"
 
 class avatar;
-class player;
 class mission;
 class Creature;
 class JsonObject;
@@ -145,7 +145,7 @@ struct mission_fail {
 
 struct mission_target_params {
     std::string overmap_terrain;
-    ot_match_type overmap_terrain_match_type = ot_match_type::TYPE;
+    ot_match_type overmap_terrain_match_type = ot_match_type::type;
     mission *mission_pointer;
 
     bool origin_u = true;

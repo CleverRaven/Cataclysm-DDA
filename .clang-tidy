@@ -16,7 +16,6 @@ misc-*,\
 modernize-*,\
 performance-*,\
 readability-*,\
--bugprone-inaccurate-erase,\
 -bugprone-incorrect-roundings,\
 -bugprone-integer-division,\
 -bugprone-macro-parentheses,\
@@ -27,7 +26,6 @@ readability-*,\
 -bugprone-undefined-memory-manipulation,\
 -bugprone-unused-return-value,\
 -bugprone-use-after-move,\
--cert-dcl03-c,\
 -cert-dcl16-c,\
 -cert-dcl21-cpp,\
 -cert-dcl50-cpp,\
@@ -43,11 +41,9 @@ readability-*,\
 -misc-definitions-in-headers,\
 -misc-non-private-member-variables-in-classes,\
 -misc-redundant-expression,\
--misc-static-assert,\
 -misc-unconventional-assign-operator,\
 -modernize-avoid-c-arrays,\
 -modernize-deprecated-headers,\
--modernize-loop-convert,\
 -modernize-make-unique,\
 -modernize-pass-by-value,\
 -modernize-raw-string-literal,\

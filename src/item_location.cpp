@@ -1,15 +1,12 @@
 #include "item_location.h"
 
 #include <climits>
-#include <list>
-#include <algorithm>
 #include <iosfwd>
 #include <vector>
 
 #include "avatar.h"
 #include "character.h"
 #include "debug.h"
-#include "enums.h"
 #include "game.h"
 #include "game_constants.h"
 #include "itype.h"
@@ -28,6 +25,8 @@
 #include "line.h"
 #include "optional.h"
 #include "visitable.h"
+#include "point.h"
+#include "safe_reference.h"
 
 template <typename T>
 static int find_index( const T &sel, const item *obj )
@@ -92,7 +91,11 @@ class item_location::impl
     private:
         void ensure_unpacked() const {
             if( needs_unpacking ) {
-                what = unpack( idx )->get_safe_reference();
+                if( item *i = unpack( idx ) ) {
+                    what = i->get_safe_reference();
+                } else {
+                    debugmsg( "item_location lost its target item during a save/load cycle" );
+                }
                 needs_unpacking = false;
             }
         }

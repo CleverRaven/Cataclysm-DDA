@@ -190,7 +190,7 @@ class optional
                        std::is_convertible < U &&, T >::value, bool >::type = true >
         optional & operator=( U && value ) {
             if( full ) {
-                get() =  std::forward<U>( value );
+                get() = std::forward<U>( value );
             } else {
                 construct( std::forward<U>( value ) );
             }

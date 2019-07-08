@@ -4,12 +4,14 @@
 
 #include <unordered_map>
 #include <vector>
+#include <string>
 
 namespace behavior
 {
 
 class node_t;
 class oracle_t;
+
 enum status_t : char;
 struct behavior_return;
 

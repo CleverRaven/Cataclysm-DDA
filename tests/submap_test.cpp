@@ -1,8 +1,9 @@
-#include <string>
-
 #include "catch/catch.hpp"
 #include "submap.h"
-#include "vehicle.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "point.h"
+#include "type_id.h"
 
 
 TEST_CASE( "submap rotation", "[submap]" )

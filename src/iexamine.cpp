@@ -5,7 +5,6 @@
 #include <algorithm>
 #include <cstdlib>
 #include <sstream>
-#include <functional>
 #include <iterator>
 #include <map>
 #include <memory>
@@ -13,7 +12,6 @@
 #include <type_traits>
 #include <utility>
 
-#include "activity_handlers.h"
 #include "ammo.h"
 #include "avatar.h"
 #include "basecamp.h"
@@ -21,7 +19,6 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "clzones.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "construction.h"
 #include "coordinate_conversions.h"
@@ -85,6 +82,10 @@
 #include "player_activity.h"
 #include "pldata.h"
 #include "string_id.h"
+#include "colony.h"
+#include "flat_set.h"
+#include "magic_teleporter_list.h"
+#include "point.h"
 
 const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
@@ -528,8 +529,8 @@ class atm_menu
                 }
 
                 dst->charges += i->charges;
-                i->charges =  0;
-                u.moves    -= 10;
+                i->charges = 0;
+                u.moves -= 10;
             }
 
             return true;
@@ -4550,9 +4551,9 @@ static void smoker_finalize( player &, const tripoint &examp, const time_point &
                 item result( it.get_comestible()->smoking_result, start_time + 6_hours, it.charges );
 
                 // Set flag to tell set_relative_rot() to calc from bday not now
-                result.set_flag( "SMOKING_RESULT" );
+                result.set_flag( "PROCESSING_RESULT" );
                 result.set_relative_rot( it.get_relative_rot() );
-                result.unset_flag( "SMOKING_RESULT" );
+                result.unset_flag( "PROCESSING_RESULT" );
                 it = result;
             }
         }
@@ -4621,7 +4622,7 @@ static void smoker_load_food( player &p, const tripoint &examp,
         }
     }
 
-    const int max_count_for_capacity =  remaining_capacity / what->base_volume();
+    const int max_count_for_capacity = remaining_capacity / what->base_volume();
     const int max_count = std::min( count, max_count_for_capacity );
 
     // ... then ask how many to put it
@@ -4729,7 +4730,7 @@ static void mill_load_food( player &p, const tripoint &examp,
         }
     }
 
-    const int max_count_for_capacity =  remaining_capacity / what->base_volume();
+    const int max_count_for_capacity = remaining_capacity / what->base_volume();
     const int max_count = std::min( count, max_count_for_capacity );
 
     // ... then ask how many to put it

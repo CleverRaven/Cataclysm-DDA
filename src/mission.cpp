@@ -27,7 +27,7 @@
 #include "item.h"
 #include "json.h"
 #include "monster.h"
-#include "player.h"
+#include "material.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -330,7 +330,7 @@ bool mission::is_complete( const int _npc_id ) const
 
         case MGOAL_GO_TO_TYPE: {
             const auto cur_ter = overmap_buffer.ter( g->u.global_omt_location() );
-            return is_ot_match( type->target_id.str(), cur_ter, ot_match_type::TYPE );
+            return is_ot_match( type->target_id.str(), cur_ter, ot_match_type::type );
         }
 
         case MGOAL_FIND_ITEM_GROUP: {
@@ -421,9 +421,7 @@ void mission::get_all_item_group_matches( std::vector<item *> &items,
         const itype_id &required_container, const itype_id &actual_container,
         bool &specific_container_required )
 {
-    for( std::vector<int>::size_type i = 0; i < ( items ).size(); i++ ) {
-        item *itm = items[i];
-
+    for( item *itm : items ) {
         bool correct_container = ( required_container == actual_container ) ||
                                  !specific_container_required;
 

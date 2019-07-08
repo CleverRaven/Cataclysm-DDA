@@ -59,7 +59,7 @@ class Skill
             return this->_ident == b._ident;
         }
         bool operator< ( const Skill &b ) const {
-            return this->_ident <  b._ident;    // Only here for the benefit of std::map<Skill,T>
+            return this->_ident < b._ident;    // Only here for the benefit of std::map<Skill,T>
         }
 
         bool operator!=( const Skill &b ) const {
@@ -124,40 +124,40 @@ class SkillLevel
             return this->_level == b._level && this->_exercise == b._exercise;
         }
         bool operator< ( const SkillLevel &b ) const {
-            return this->_level <  b._level || ( this->_level == b._level && this->_exercise < b._exercise );
+            return this->_level < b._level || ( this->_level == b._level && this->_exercise < b._exercise );
         }
         bool operator> ( const SkillLevel &b ) const {
-            return this->_level >  b._level || ( this->_level == b._level && this->_exercise > b._exercise );
+            return this->_level > b._level || ( this->_level == b._level && this->_exercise > b._exercise );
         }
 
         bool operator==( const int &b ) const {
             return this->_level == b;
         }
         bool operator< ( const int &b ) const {
-            return this->_level <  b;
+            return this->_level < b;
         }
         bool operator> ( const int &b ) const {
-            return this->_level >  b;
+            return this->_level > b;
         }
 
         bool operator!=( const SkillLevel &b ) const {
             return !( *this == b );
         }
         bool operator<=( const SkillLevel &b ) const {
-            return !( *this >  b );
+            return !( *this > b );
         }
         bool operator>=( const SkillLevel &b ) const {
-            return !( *this <  b );
+            return !( *this < b );
         }
 
         bool operator!=( const int &b ) const {
             return !( *this == b );
         }
         bool operator<=( const int &b ) const {
-            return !( *this >  b );
+            return !( *this > b );
         }
         bool operator>=( const int &b ) const {
-            return !( *this <  b );
+            return !( *this < b );
         }
 
         void serialize( JsonOut &jsout ) const;

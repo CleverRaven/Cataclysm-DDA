@@ -27,7 +27,8 @@
     "type": "GENERIC",
     "name": "short rope",
     "description": "A six-foot long piece of rope.  Too small to be of much use.",
-    "proportional": { "weight": 6, "volume": 6, "price": 6 }
+    "proportional": { "weight": 6, "volume": 6, "price": 6 },
+    "extend": { "flags": [ "TIE_UP" ] }
   },
   {
     "id": "rope_30",

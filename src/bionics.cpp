@@ -54,6 +54,11 @@
 #include "pimpl.h"
 #include "pldata.h"
 #include "units.h"
+#include "colony.h"
+#include "inventory.h"
+#include "item_location.h"
+#include "monster.h"
+#include "point.h"
 
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );
@@ -531,19 +536,18 @@ bool player::activate_bionic( int b, bool eff_only )
                        "bio_hydraulics" );
     } else if( bio.id == "bio_water_extractor" ) {
         bool extracted = false;
-        for( auto it = g->m.i_at( pos() ).begin();
-             it != g->m.i_at( pos() ).end(); ++it ) {
+        for( item &it : g->m.i_at( pos() ) ) {
             static const auto volume_per_water_charge = units::from_milliliter( 500 );
-            if( it->is_corpse() ) {
-                const int avail = it->get_var( "remaining_water", it->volume() / volume_per_water_charge );
+            if( it.is_corpse() ) {
+                const int avail = it.get_var( "remaining_water", it.volume() / volume_per_water_charge );
                 if( avail > 0 &&
                     query_yn( _( "Extract water from the %s" ),
-                              colorize( it->tname(), it->color_in_inventory() ) ) ) {
+                              colorize( it.tname(), it.color_in_inventory() ) ) ) {
                     item water( "water_clean", calendar::turn, avail );
-                    water.set_item_temperature( 0.00001 * it->temperature );
+                    water.set_item_temperature( 0.00001 * it.temperature );
                     if( liquid_handler::consume_liquid( water ) ) {
                         extracted = true;
-                        it->set_var( "remaining_water", static_cast<int>( water.charges ) );
+                        it.set_var( "remaining_water", static_cast<int>( water.charges ) );
                     }
                     break;
                 }
@@ -1194,7 +1198,7 @@ bool player::can_uninstall_bionic( const bionic_id &b_id, player &installer, boo
     }
 
     if( ( b_id == "bio_reactor" ) || ( b_id == "bio_advreactor" ) ) {
-        if( !query_yn(
+        if( !g->u.query_yn(
                 _( "WARNING: Removing a reactor may leave radioactive material! Remove anyway?" ) ) ) {
             return false;
         }

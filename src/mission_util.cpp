@@ -16,8 +16,6 @@
 #include "npc.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "enums.h"
-#include "player.h"
 #include "rng.h"
 #include "debug.h"
 #include "line.h"
@@ -25,6 +23,7 @@
 #include "optional.h"
 #include "translations.h"
 #include "type_id.h"
+#include "point.h"
 
 static const tripoint reveal_destination( const std::string &type )
 {
@@ -121,7 +120,7 @@ static tripoint random_house_in_city( const city_reference &cref )
     int endy   = city_center_omt.y + size;
     for( int x = startx; x <= endx; x++ ) {
         for( int y = starty; y <= endy; y++ ) {
-            if( overmap_buffer.check_ot( "house", ot_match_type::TYPE, x, y, z ) ) {
+            if( overmap_buffer.check_ot( "house", ot_match_type::type, x, y, z ) ) {
                 valid.push_back( tripoint( x, y, z ) );
             }
         }
@@ -147,11 +146,11 @@ tripoint mission_util::target_closest_lab_entrance( const tripoint &origin, int 
     // Get the surface locations for labs and for spaces above hidden lab stairs.
     testpoint.z = 0;
     tripoint surface = overmap_buffer.find_closest( testpoint, "lab_stairs", 0, false,
-                       ot_match_type::CONTAINS );
+                       ot_match_type::contains );
 
     testpoint.z = -1;
     tripoint underground = overmap_buffer.find_closest( testpoint, "hidden_lab_stairs", 0, false,
-                           ot_match_type::CONTAINS );
+                           ot_match_type::contains );
     underground.z = 0;
 
     tripoint closest;

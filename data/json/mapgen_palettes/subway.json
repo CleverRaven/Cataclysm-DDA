@@ -4,14 +4,15 @@
     "id": "subway",
     "terrain": {
       " ": [ "t_dirt", "t_dirt", "t_grass" ],
-      "|": "t_wall",
+      "|": "t_wall_w",
       "-": "t_wall_glass",
       ";": "t_door_glass_c",
-      ".": "t_floor",
+      ".": "t_thconc_floor",
       "S": "t_sidewalk",
       "*": "t_shrub",
       ">": "t_stairs_down",
-      "<": "t_stairs_up"
+      "<": "t_stairs_up",
+      "4": "t_gutter_downspout"
     },
     "furniture": { "&": "f_trashcan", "b": "f_bench", "1": "f_indoor_plant", "2": "f_indoor_plant_y" }
   },

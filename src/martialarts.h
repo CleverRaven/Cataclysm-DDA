@@ -86,6 +86,7 @@ class ma_technique
         bool defensive;
         bool dummy;
         bool crit_tec;
+        bool crit_ok;
 
         ma_requirements reqs;
 

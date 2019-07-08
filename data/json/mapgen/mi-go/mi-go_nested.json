@@ -384,7 +384,6 @@
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE_BRUTE", "x": [ 1, 3 ], "y": [ 3, 4 ], "repeat": [ 1, 2 ] }        
       ],
-      "monsters": { "1": { "monster": "GROUP_ZOMBIE_BRUTE", "chance": 100 } }
     }
   },
   {

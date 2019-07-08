@@ -22,16 +22,20 @@
 #include "overmap_types.h" // IWYU pragma: keep
 #include "regional_settings.h"
 #include "enums.h"
-#include "map_extras.h"
 #include "mongroup.h"
 #include "optional.h"
 #include "type_id.h"
+#include "point.h"
+#include "rng.h"
+#include "string_id.h"
 
 class npc;
 class overmap_connection;
 class JsonIn;
 class JsonOut;
 class monster;
+class JsonObject;
+class map_extra;
 
 namespace pf
 {
