@@ -7015,6 +7015,9 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
             }
 
             if( guy ) {
+                if( guy->is_hallucination() ) {
+                    continue; // do not include hallucinations
+                }
                 if( guy->movement_mode_is( PMM_CROUCH ) ) {
                     pose = _( "sits" );
                 } else {
