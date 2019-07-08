@@ -31,8 +31,7 @@ static const move_mode_id move_mode_crouch( "crouch" );
 
 enum class vision_test_flags {
     none = 0,
-    no_3d = 1 << 0,
-    crouching = 1 << 1,
+    crouching = 1 << 0,
 };
 
 static vision_test_flags operator&( vision_test_flags l, vision_test_flags r )
@@ -321,10 +320,7 @@ struct vision_test_case {
     }
 
     void test_all() const {
-        // Disabling 3d tests for now since 3d sight casting is actually
-        // different (it sees round corners more).
-        const bool test_3d = !( flags & vision_test_flags::no_3d );
-        if( test_3d ) {
+        {
             INFO( "using 3d casting" );
             fov_3d = true;
             test_all_transformations();
@@ -409,8 +405,7 @@ TEST_CASE( "vision_light_shining_in", "[shadowcasting][vision]" )
             "1144444444",
         },
         midday,
-        // 3D FOV gives different results here due to it seeing round corners more
-        vision_test_flags::no_3d
+        vision_test_flags::none
     };
 
     t.test_all();
