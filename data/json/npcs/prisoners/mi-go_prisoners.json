@@ -2,7 +2,7 @@
   {
     "type": "npc",
     "id": "mi-go_prisoner",
-    "//": "A generic prisoner entry for anyone stuck in jail.  At some point.",
+    "//": "A naked prisoner trapped in a horrifing cage, watching horrible things happen.",
     "name_suffix": "prisoner",
     "class": "NC_PRISONER",
     "attitude": 0,
@@ -16,7 +16,8 @@
     "name": "Prisoner",
     "job_description": "I'm just trying to survive.",
     "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
-    "skills": [ { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 3 ] }, { "constant": -3 } ] } } ]
+    "skills": [ { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 3 ] }, { "constant": -3 } ] } } ],
+    "//": "Skills intentionally kept low.  This character should probably have a higher chance of having insanity type traits eventually."
   },
   {
     "type": "talk_topic",
@@ -34,7 +35,7 @@
       "How are you here?  Are you one of them, somehow?  What's going on?"
     ],
     "responses": [
-      { "text": "Come with me, if you want to live.", "topic": "TALK_DONE", "effect": "join" },
+      { "text": "Come with me, if you want to live.", "topic": "TALK_DONE", "effect": "follow" },
       { "text": "I've no use for weaklings.  Run.  Now.", "topic": "TALK_DONE", "effect": "flee" }
     ]
   }
