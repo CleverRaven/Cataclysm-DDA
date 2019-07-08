@@ -6,11 +6,11 @@
     "description": "Increases pain",
     "valid_targets": [ "hostile" ],
     "//": "Listed as a recover energy effect with a negative modifier that decreases with each level of the spell, which makes it cause damage instead.",
-    "min_damage": -10,
-    "max_damage": -10,
-    "damage_increment": -10,
+    "min_damage": -200,
+    "max_damage": -200,
+    "damage_increment": -200,
     "effect": "recover_energy",
-    "effect_str": "PAIN",
+    "effect_str": "PAIN"
   },
   {
     "id": "stamina_damage",
@@ -19,12 +19,12 @@
     "description": "decreases stamina",
     "valid_targets": [ "hostile" ],
     "//": "Listed as a recover energy effect with a negative modifier that decreases with each level of the spell, which makes it cause damage instead.",
-    "min_damage": -100,
-    "max_damage": -100,
-    "damage_increment": -100,
+    "min_damage": -1000,
+    "max_damage": -1000,
+    "damage_increment": -1000,
     "effect": "recover_energy",
-    "effect_str": "STAMINA",
-  }
+    "effect_str": "STAMINA"
+  },
   {
     "id": "mi-go_slaver_beam",
     "type": "SPELL",
@@ -37,10 +37,10 @@
     "base_casting_time": 100,
     "max_level": 3,
     "min_range": 1,
-    "max_range": 2,
-    "range_increment": 3,
-    "min_duration": 10,
-    "max_duration": 10,
-    "duration_increment": 20
+    "max_range": 5,
+    "range_increment": 5,
+    "min_duration": 2000,
+    "max_duration": 2000,
+    "duration_increment": 2000
   }
 ]
