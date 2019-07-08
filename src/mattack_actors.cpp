@@ -180,20 +180,8 @@ bool mon_spellcasting_actor::call( monster &mon ) const
         return false;
     }
 
-    if( fx == "target_attack" ) {
-        spell_effect::target_attack( spell_data, mon, target );
-    } else if( fx == "projectile_attack" ) {
-        spell_effect::projectile_attack( spell_data, mon, target );
-    } else if( fx == "cone_attack" ) {
-        spell_effect::cone_attack( spell_data, mon, target );
-    } else if( fx == "line_attack" ) {
-        spell_effect::line_attack( spell_data, mon, target );
-    } else if( fx == "summon" ) {
-        spell_effect::spawn_summoned_monster( spell_data, mon, target );
-    } else {
-        debugmsg( "ERROR: %s spell attack effect not implemented" );
-        return false;
-    }
+    spell_data.cast_all_effects( mon, target );
+
     return true;
 }
 

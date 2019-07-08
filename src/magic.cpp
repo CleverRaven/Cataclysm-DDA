@@ -863,7 +863,7 @@ int spell::heal( const tripoint &target ) const
     return -1;
 }
 
-bool spell::cast_spell_effect( const Creature &source, const tripoint &target )
+bool spell::cast_spell_effect( const Creature &source, const tripoint &target ) const
 {
     // figure out which function is the effect (maybe change this into how iuse or activity_handlers does it)
     // TODO: refactor these so make_sound can be called inside each of these functions
@@ -902,7 +902,7 @@ bool spell::cast_spell_effect( const Creature &source, const tripoint &target )
     return true;
 }
 
-bool spell::cast_all_effects( const Creature &source, const tripoint &target )
+bool spell::cast_all_effects( const Creature &source, const tripoint &target ) const
 {
     // first call the effect of the main spell
     bool success = cast_spell_effect( source, target );
