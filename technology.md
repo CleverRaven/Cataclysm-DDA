@@ -59,3 +59,6 @@ At the heart of most of the differences in technology is the ability to examine 
 
 ### Cloning
 Advanced organ and body part cloning, derived from the study of crashed mi-go scouts and their ships, allows scientists to experiment on human parts grown in the lab.  The exact capabilities of these cloning vats hasn't yet been explored in game.
+
+### Mutagens
+Mutation is not so much a technology as taking advantage of the blob infection in all people.  They were prototypic before the cataclysm, and are unreliable and dangerous.
