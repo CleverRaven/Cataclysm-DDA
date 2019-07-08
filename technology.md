@@ -43,5 +43,10 @@ Milspec power armor relies on plutonium cells to function, this is what enables 
 ### Weaponry
 Like power armor, the major divergence point for weaponry is the existence of high density fictionalized power cells.  All other technology should be as realistic as possible.  Due to the extreme rarity and "one and done" nature of plutonium cells, military lasers and things are rare.  Technology that hasn't even been prototyped, or at the very least modeled theoretically, in our world is probably not appropriate for Cataclysm.
 
+## Top Secret Technology
+
 ### Dimensional Manipulation
 At the heart of most of the differences in technology is the ability to examine and manipulate dimensions in the CDDA universe. Portable versions of this technology are possible but should be limited, extremely rare, and extremely costly in energy terms.  That said, the events causing the cataclysm made the energy costs at least an order of magnitude lower, which in turn means that things that may have been barely functional proof-of-concept prototypes before may now be able to work fairly well.
+
+### Dimensional Heuristics
+"Smart" AI in Cataclysm relies on the ability to scan adjacent dimensions to learn the results of an upcoming action.  Before the cataclysm this could only look a few moments into the future in response to very specific questions, and was very power costly.  After the cataclysm, dimensional barriers are much lower, and this technology is far less costly energy-wise.  This allows a computer to simulate human deduction abilities.  It does not provide clairvoyance nor omniscience.
