@@ -7446,7 +7446,9 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                         p->add_msg_if_player( _( "Strange... there's nothing in the center of picture?" ) );
                     }
                 } else if( guy ) {
-                    if( !aim_bounds.is_point_inside( trajectory_point ) ) {
+                    if( trajectory_point == aim_point && guy->is_hallucination() ) {
+                        p->add_msg_if_player( _( "Strange... %s's not visible on the picture?" ), guy->name );
+                    } else if( !aim_bounds.is_point_inside( trajectory_point ) ) {
                         // take a photo of the monster that's in the way
                         p->add_msg_if_player( m_warning, _( "%s got in the way of your photo." ), guy->name );
                         incorrect_focus = true;
