@@ -304,9 +304,9 @@ class spell
         int heal( const tripoint &target ) const;
 
         // casts the spell effect. returns true if successful
-        bool cast_spell_effect( const Creature &source, const tripoint &target );
+        bool cast_spell_effect( const Creature &source, const tripoint &target ) const;
         // goes through the spell effect and all of its internal spells
-        bool cast_all_effects( const Creature &source, const tripoint &target );
+        bool cast_all_effects( const Creature &source, const tripoint &target ) const;
 
         // is the target valid for this spell?
         bool is_valid_target( const Creature &caster, const tripoint &p ) const;
@@ -398,10 +398,10 @@ std::set<tripoint> spell_effect_line( const spell &, const tripoint &source,
                                       const tripoint &target,
                                       const int aoe_radius, const bool ignore_walls );
 
-void spawn_ethereal_item( spell &sp );
-void recover_energy( spell &sp, const tripoint &target );
+void spawn_ethereal_item( const spell &sp );
+void recover_energy( const spell &sp, const tripoint &target );
 void spawn_summoned_monster( const spell &sp, const Creature &caster, const tripoint &target );
-void translocate( spell &sp, const Creature &caster, const tripoint &target,
+void translocate( const spell &sp, const Creature &caster, const tripoint &target,
                   teleporter_list &tp_list );
 } // namespace spell_effect
 
