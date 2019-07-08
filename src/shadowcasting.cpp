@@ -130,7 +130,7 @@ static void split_span( std::list<span<T>> &spans, typename std::list<span<T>>::
     // Emit the D span if present, placing it after the current span in the list
     if( leading_edge_major < this_span->end_major ) {
         // Pass true to the span constructor to set skip_first_row to true
-        // This prevents the same row we are currently checking being check by the
+        // This prevents the same row we are currently checking being checked by the
         // new D span
         spans.emplace( std::next( this_span ),
                        leading_edge_major, this_span->end_major,
@@ -145,7 +145,6 @@ static void split_span( std::list<span<T>> &spans, typename std::list<span<T>>::
     // The new span starts at the leading edge of the previous square if it is opaque,
     // and at the trailing edge of the current square if it is transparent.
     this_span->start_minor = new_start_minor;
-    this_span->cumulative_value = next_cumulative_transparency;
 
     new_start_minor = leading_edge_minor;
     current_transparency = new_transparency;
