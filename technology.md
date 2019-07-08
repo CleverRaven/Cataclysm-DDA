@@ -12,6 +12,9 @@ In terms of civilian technology there are a handful of things that differ from o
 ### Cybernetics
 CBMs have been available to the public for four years at the time of the Cataclysm.  This is vaguely analogous in scope to how common smartphones were in 1998-2002: while they exist, they are too expensive and too hard to find support for to be even somewhat widespread among civilians.
 
+#### Prosthetics
+Prosthetic limbs available to civilians are not markedly above the level available on our Earth, but may be a bit more widespread using the same anti-infection technology employed by CBMs.  Note that the level available on our Earth has gotten quite impressive, so this is a pretty high bar.
+
 ### Robots
 Proto-AI evolved from dimensional heuristics (the secrets of which are completely black box and explained away as a kind of deep learning) has made civilian level robots conceivable, albeit extremely rare.  The first public release of robots was police eyebots six years before the Cataclysm.  Most non-police civilian level applications are medical.  These AIs do well in constrained environments with very specific tasks.  They are, however, deeply stupid, especially without their central controllers.
 
@@ -29,6 +32,9 @@ The military at large has access to technology that far exceeds civilian capacit
 
 ### Cybernetics
 Cybernetics are much more common in the military, given the drive to create supersoldiers. Military bio-operators represent the pinnacle of what is allowed to potentially reach public or enemy ears.  Common military cybernetics should avoid miracle tech based around crazy stuff like folding time and space.
+
+#### Advanced prosthetics
+Military grade prosthetic limbs are able to offer somewhat increased strength and endurance over their living counterpart, at the cost of dexterity and tactile sense.  They still have some degree of feedback and are not insensate.  A common way of establishing prostheses in advanced cases would likely be to put a short range transmitter inside the limb stump, and the prosthetic would fit overtop the closed skin like a sleeve, receiving signals and power transcutaneously.
 
 ### Energy Storage
 Milspec energy storage is based around next generation power cells nicknamed "plutonium fuel cells".  These are neither radiation based nor fuel cells, but the name stuck.  From a design standpoint these are handwavium, items that exist to explain hypertech available to the military.  Design-wise they should be:
@@ -50,3 +56,6 @@ At the heart of most of the differences in technology is the ability to examine 
 
 ### Dimensional Heuristics
 "Smart" AI in Cataclysm relies on the ability to scan adjacent dimensions to learn the results of an upcoming action.  Before the cataclysm this could only look a few moments into the future in response to very specific questions, and was very power costly.  After the cataclysm, dimensional barriers are much lower, and this technology is far less costly energy-wise.  This allows a computer to simulate human deduction abilities.  It does not provide clairvoyance nor omniscience.
+
+### Cloning
+Advanced organ and body part cloning, derived from the study of crashed mi-go scouts and their ships, allows scientists to experiment on human parts grown in the lab.  The exact capabilities of these cloning vats hasn't yet been explored in game.
