@@ -462,5 +462,40 @@
       [ [ "scrap", 5 ] ],
       [ [ "can_drink_unsealed", 5 ], [ "can_food_unsealed", 5 ], [ "canister_empty", 5 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_laser_pack",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 5 ],
+    "difficulty": 3,
+    "time": "10 m",
+    "reversible": true,
+    "decomp_learn": 4,
+    "book_learn": [ [ "recipe_lab_elec", 4 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "superglue", 1 ] ], [ [ "plut_cell", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "unbio_blaster_gun",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "electronics",
+    "skills_required": [ "fabrication", 4, "gun", 2 ],
+    "difficulty": 6,
+    "time": "30 m",
+    "book_learn": [ [ "recipe_lab_elec", 5 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
+    "tools": [ [ [ "soldering_standard", 20, "LIST" ], [ "small_repairkit", 20 ], [ "large_repairkit", 10 ] ] ],
+    "components": [
+      [ [ "bio_blaster", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "2x4", 1 ], [ "stick", 1 ] ],
+      [ [ "cable", 3 ] ],
+      [ [ "plastic_chunk", 3 ] ]
+    ]
   }
 ]
