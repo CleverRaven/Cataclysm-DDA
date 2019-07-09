@@ -5810,9 +5810,9 @@
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
-    "id": "bullet_pouch",
+    "id": "ammo_pouch",
     "type": "ARMOR",
-    "name": "bullet pouch",
+    "name": "ammo pouch",
     "description": "A small pouch that can be used to store most types of small ammunition, rockets wont fit.  Activate to store ammunition.",
     "looks_like": "leather_pouch",
     "weight": 490,

@@ -384,7 +384,7 @@
     ]
   },
   {
-    "result": "bullet_pouch",
+    "result": "ammo_pouch",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
