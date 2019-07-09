@@ -1445,7 +1445,7 @@ bool game::do_turn()
             // We only want this to happen if the player had a chance to examine the sounds.
             sounds::reset_markers();
         } else {
-            // Rate limit polling to 10 times a second.
+            // Rate limit key polling to 10 times a second.
             static auto start = std::chrono::time_point_cast<std::chrono::milliseconds>(
                                     std::chrono::system_clock::now() );
             const auto now = std::chrono::time_point_cast<std::chrono::milliseconds>(
@@ -1454,6 +1454,20 @@ bool game::do_turn()
                 handle_key_blocking_activity();
                 start = now;
             }
+
+            // If player is performing a task and a monster is dangerously close, warn them
+            // regardless of previous safemode warnings
+            if( u.activity && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
+                u.activity.moves_left > 0 &&
+                !u.activity.is_distraction_ignored( distraction_type::hostile_spotted ) ) {
+                Creature *hostile_critter = is_hostile_very_close();
+                if( hostile_critter != nullptr ) {
+                    cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
+                                                     string_format( _( "The %s is dangerously close!" ),
+                                                             hostile_critter->get_name() ) );
+                }
+            }
+
         }
     }
 
@@ -1921,21 +1935,6 @@ std::list<std::string> game::get_npc_kill()
 
 void game::handle_key_blocking_activity()
 {
-    // If player is performing a task and a monster is dangerously close, warn them
-    // regardless of previous safemode warnings
-    if( u.activity && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
-        u.activity.moves_left > 0 &&
-        !u.activity.is_distraction_ignored( distraction_type::hostile_spotted ) ) {
-        Creature *hostile_critter = is_hostile_very_close();
-        if( hostile_critter != nullptr ) {
-            if( cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
-                                                 string_format( _( "The %s is dangerously close!" ),
-                                                         hostile_critter->get_name() ) ) ) {
-                return;
-            }
-        }
-    }
-
     if( ( u.activity && u.activity.moves_left > 0 ) || ( u.has_destination() &&
             !u.omt_path.empty() ) ) {
         input_context ctxt = get_default_mode_input_context();
