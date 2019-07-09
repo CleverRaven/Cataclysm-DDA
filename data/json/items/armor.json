@@ -5809,7 +5809,7 @@
     "material_thickness": 1,
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
-{
+  {
     "id": "bullet_pouch",
     "type": "ARMOR",
     "name": "bullet pouch",
