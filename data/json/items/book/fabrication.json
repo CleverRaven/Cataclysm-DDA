@@ -31,8 +31,8 @@
     "symbol": "?",
     "color": "blue",
     "skill": "fabrication",
-    "required_level": 4,
-    "max_level": 5,
+    "required_level": 6,
+    "max_level": 6,
     "intelligence": 8,
     "time": "60 m"
   },
