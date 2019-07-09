@@ -21,8 +21,8 @@
     "valid_targets": [ "hostile" ],
     "//": "Listed as a recover energy effect with a negative modifier that decreases with each level of the spell, which makes it cause damage instead.",
     "min_damage": -2000,
-    "max_damage": -20000,
-    "damage_increment": -3000,
+    "max_damage": -10000,
+    "damage_increment": -2000,
     "max_level": 10,
     "effect": "recover_energy",
     "effect_str": "STAMINA"
