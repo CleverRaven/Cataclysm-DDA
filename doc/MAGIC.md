@@ -113,8 +113,9 @@ Min and max values must always have the same sign, but it can be negative eg. in
     "description": "decreases stamina",
     "valid_targets": [ "hostile" ],
     "min_damage": -2000,
-    "max_damage": -20000,
+    "max_damage": -10000,
     "damage_increment": -3000,
+    "max_level": 10,
     "effect": "recover_energy",
     "effect_str": "STAMINA"
   }
