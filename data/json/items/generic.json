@@ -1706,7 +1706,7 @@
     "material": "iron",
     "flags": [ "DURABLE_MELEE", "TRADER_AVOID" ],
     "weight": 36287,
-    "volume": "6 ml",
+    "volume": 12,
     "bashing": 20,
     "to_hit": -5
   },
