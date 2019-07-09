@@ -1541,7 +1541,7 @@
       "sound_fail": "whack!",
       "sound_vol": 16,
       "furn_set": "f_bigmirror_b",
-      "items": [ { "item": "glass_shard", "count": [ 50, 252 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
     }
   },
   {
@@ -1583,7 +1583,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 12,
       "furn_set": "f_vending_o",
-      "items": [ { "item": "glass_shard", "count": [ 50, 252 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
     }
   },
   {
