@@ -1922,11 +1922,15 @@ void units::quantity<V, U>::serialize( JsonOut &jsout ) const
     jsout.write( value_ );
 }
 
+// TODO: BATTERIES this template specialization should be in the global namespace - see GCC bug 56480
+namespace units
+{
 template<>
 void units::energy::deserialize( JsonIn &jsin )
 {
     *this = from_millijoule( jsin.get_int() );
 }
+} // namespace units
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// item.h
