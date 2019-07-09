@@ -1432,7 +1432,7 @@ void vehicle::use_harness( int part, const tripoint &pos )
                 add_msg( m_info, _( "You untie your %s." ), f.get_name() );
                 f.remove_effect( effect_tied );
                 if( f.tied_item ) {
-                    g->u.i_add( *f.tied_item, 0 );
+                    g->u.i_add( *f.tied_item );
                     f.tied_item = cata::nullopt;
                 }
             }

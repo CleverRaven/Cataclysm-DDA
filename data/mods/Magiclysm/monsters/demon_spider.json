@@ -11,7 +11,7 @@
     ]
   },
   {
-    "id": "demon_spider",
+    "id": "demon_spider_queen",
     "type": "harvest",
     "//": "separate harvest entry for future special alchemical items",
     "entries": [
@@ -21,6 +21,11 @@
       { "drop": "demon_chitin_plate", "type": "skin", "mass_ratio": 0.01 },
       { "drop": "demon_spider_fang", "base_num": [ 0, 0 ], "scale_num": [ 0.1, 0.6 ], "max": 2, "type": "flesh" }
     ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "demon_spider",
+    "base_faction": "spider"
   },
   {
     "type": "material",

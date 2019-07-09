@@ -42,11 +42,8 @@
 
 static constexpr point lightmap_boundary_min( point_zero );
 static constexpr point lightmap_boundary_max( LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y );
-static constexpr point lightmap_clearance_min( point_zero );
-static constexpr point lightmap_clearance_max( 1, 1 );
 
 const rectangle lightmap_boundaries( lightmap_boundary_min, lightmap_boundary_max );
-const rectangle lightmap_clearance( lightmap_clearance_min, lightmap_clearance_max );
 
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_haslight( "haslight" );
@@ -324,9 +321,9 @@ void map::generate_lightmap( const int zlev )
                     if( !outside_cache[p.x][p.y] ) {
                         // Apply light sources for external/internal divide
                         for( int i = 0; i < 4; ++i ) {
-                            if( generic_inbounds( { p.x + dir_x[i], p.y + dir_y[i] },
-                                                  lightmap_boundaries, lightmap_clearance
-                                                ) && outside_cache[p.x + dir_x[i]][p.y + dir_y[i]]
+                            point neighbour = p.xy() + point( dir_x[i], dir_y[i] );
+                            if( lightmap_boundaries.contains_half_open( neighbour )
+                                && outside_cache[neighbour.x][neighbour.y]
                               ) {
                                 if( light_transparency( p ) > LIGHT_TRANSPARENCY_SOLID ) {
                                     update_light_quadrants(
@@ -606,17 +603,16 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
 
         four_quadrants seen_from( 0 );
         for( const offset_and_quadrants &oq : adjacent_offsets ) {
-            const int neighbour_x = p.x + oq.offset.x;
-            const int neighbour_y = p.y + oq.offset.y;
+            const point neighbour = p.xy() + oq.offset;
 
-            if( !generic_inbounds( { neighbour_x, neighbour_y }, lightmap_boundaries, lightmap_clearance ) ) {
+            if( !lightmap_boundaries.contains_half_open( neighbour ) ) {
                 continue;
             }
-            if( is_opaque( neighbour_x, neighbour_y ) ) {
+            if( is_opaque( neighbour.x, neighbour.y ) ) {
                 continue;
             }
-            if( map_cache.seen_cache[neighbour_x][neighbour_y] == 0 &&
-                map_cache.camera_cache[neighbour_x][neighbour_y] == 0 ) {
+            if( map_cache.seen_cache[neighbour.x][neighbour.y] == 0 &&
+                map_cache.camera_cache[neighbour.x][neighbour.y] == 0 ) {
                 continue;
             }
             // This is a non-opaque visible neighbour, so count visibility from the relevant
@@ -1499,7 +1495,7 @@ void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
             t += ay;
 
             // TODO: clamp coordinates to map bounds before this method is called.
-            if( generic_inbounds( { x, y }, lightmap_boundaries, lightmap_clearance ) ) {
+            if( lightmap_boundaries.contains_half_open( point( x, y ) ) ) {
                 float current_transparency = transparency_cache[x][y];
                 bool is_opaque = ( current_transparency == LIGHT_TRANSPARENCY_SOLID );
                 if( !lit[x][y] ) {
@@ -1531,7 +1527,7 @@ void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
             y += dy;
             t += ax;
 
-            if( generic_inbounds( { x, y }, lightmap_boundaries, lightmap_clearance ) ) {
+            if( lightmap_boundaries.contains_half_open( point( x, y ) ) ) {
                 float current_transparency = transparency_cache[x][y];
                 bool is_opaque = ( current_transparency == LIGHT_TRANSPARENCY_SOLID );
                 if( !lit[x][y] ) {

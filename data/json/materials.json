@@ -1210,9 +1210,9 @@
     "bash_dmg_verb": "splintered",
     "cut_dmg_verb": "gouged",
     "burn_data": [
-      { "fuel": 1, "smoke": 1, "burn": 0.02, "volume_per_turn": "1250_ml" },
-      { "fuel": 2, "smoke": 1, "burn": 0.04, "volume_per_turn": "5000_ml" },
-      { "fuel": 3, "smoke": 1, "burn": 0.06 }
+      { "fuel": 1, "smoke": 1, "burn": 0.01, "volume_per_turn": "200_ml" },
+      { "fuel": 2, "smoke": 1, "burn": 0.02, "volume_per_turn": "825_ml" },
+      { "fuel": 3, "smoke": 1, "burn": 0.03 }
     ],
     "burn_products": [ [ "ash", 0.018 ] ]
   },
