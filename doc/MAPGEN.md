@@ -189,7 +189,7 @@ Default: 1000
 ## 1.3 How "overmap_terrain" variables affect mapgen
 "id" is used to determine the required "om_terrain" id for standalone, -except- when the following variables are set in "overmap_terrain":
 * "extras" - applies rare, random scenes after mapgen; helicopter crashes, etc
-* "mondensity" - determines the default 'density' value for *"place_groups": [ { "monster": ...* (json)
+* "mondensity" - determines the default 'density' value for *"place_groups": [ { "monster": ...* (json), if this is not set then place_monsters will not work without its own explicitly set density argument.
 
 ## 1.4 Limitations / TODO
 * JSON: adding specific monster spawns are still WIP.
@@ -376,7 +376,7 @@ Example: "x": 12, "y": [ 5, 15 ]
 These values will produce a rectangle for map::place_spawns from ( 12, 5 ) to ( 12, 15 ) inclusive.
 
 #### 2.3.0.1 "density"
-**optional** magic sauce spawn amount number. Someone else describe this better >.>
+**optional** magic sauce spawn amount number that somehow determines how many monsters from the group can appear. This argument is optional, but for place_monsters to work the density must be set either here or in the overmap terrain definition. Otherwise it defaults to zero and no monsters will spawn. How density actually works is a strange mystery that someone should solve and put into this document.
 > Value: *floating point number*
 
 #### 2.3.0.2 "chance"
