@@ -12,12 +12,19 @@
   },
   {
     "type": "npc_class",
-    "id": "NC_Prisoner",
+    "id": "NC_PRISONER",
     "name": "Prisoner",
     "job_description": "I'm just trying to survive.",
     "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "skills": [ { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 3 ] }, { "constant": -5 } ] } } ],
+    "worn_override": "naked_prisoner",
+    "carry_override": "naked_prisoner",
+    "weapon_override": "naked_prisoner",
     "//": "Skills intentionally kept low.  This character should probably have a higher chance of having insanity type traits eventually."
+  },
+  {
+    "type": "item_group",
+    "id": "naked_prisoner"
   },
   {
     "type": "talk_topic",

@@ -153,10 +153,6 @@
         "@@@@@@@@@@@@@@@@@@",
         "@@@@@@@@@@@@@@@@@@"
       ],
-      "place_monsters": [
-        { "monster": "GROUP_MI-GO_BASE_CAPTORS", "x": [ 2, 12 ], "y": [ 5, 10 ], "repeat": [ 2, 3 ] },
-        { "monster": "GROUP_MI-GO_BASE_BOSS", "x": [ 12, 13 ], "y": [ 7, 8 ], "repeat": [ 0, 1 ] }
-      ],
       "palettes": [ "mi-go_palette" ],
       "npcs": {
         "1": { "class": "mi-go_prisoner", "chance": 20 },
@@ -166,7 +162,11 @@
         "5": { "class": "apis", "chance": 20 },
         "6": { "class": "mi-go_prisoner", "chance": 20 },
         "7": { "class": "mi-go_prisoner", "chance": 20 }
-      }
+      },
+      "place_monsters": [
+        { "monster": "GROUP_MI-GO_BASE_CAPTORS", "x": [ 2, 12 ], "y": [ 5, 10 ], "repeat": [ 2, 3 ] },
+        { "monster": "GROUP_MI-GO_BASE_BOSS", "x": [ 12, 13 ], "y": [ 7, 8 ], "repeat": [ 0, 1 ] }
+      ]
     }
   },
   {
