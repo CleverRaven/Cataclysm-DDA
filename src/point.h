@@ -229,6 +229,11 @@ struct rectangle {
     }
 };
 
+// Clamp p to the half-open rectangle r.
+// This independently clamps each coordinate of p to the bounds of the
+// rectangle.
+// Useful for example to round an arbitrary point to the nearest point on the
+// screen, or the nearest point in a particular submap.
 point clamp_half_open( const point &p, const rectangle &r );
 
 struct box {
