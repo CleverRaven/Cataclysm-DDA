@@ -503,7 +503,7 @@ static const std::vector<std::pair<std::string, energy>> energy_units = { {
         { "kJ", 1_kJ },
     }
 };
-}
+} // namespace units
 
 template<typename T>
 T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, T>> &units )
