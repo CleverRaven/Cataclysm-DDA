@@ -132,7 +132,7 @@
     "max_damage": 300,
     "max_level": 25,
     "base_energy_cost": 500,
-    "energy_cost_increment": 25,
+    "energy_increment": 25,
     "final_energy_cost": 1125,
     "difficulty": 4
   },
@@ -182,7 +182,7 @@
     "max_duration": 30000,
     "base_energy_cost": 675,
     "final_energy_cost": 475,
-    "energy_cost_increment": -5,
+    "energy_increment": -5,
     "flags": [ "HOSTILE_50", "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS" ],
     "effect": "summon",
     "effect_str": "mon_bear"
