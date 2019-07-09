@@ -2287,7 +2287,7 @@
     "reversible": true,
     "autolearn": true,
     "tools": [  ],
-    "components": [ [ [ "glass_shard", 42 ] ], [ [ "rag", 1 ], [ "duct_tape", 10 ] ] ]
+    "components": [ [ [ "glass_shard", 1 ] ], [ [ "rag", 1 ], [ "duct_tape", 10 ] ] ]
   },
   {
     "type": "recipe",

@@ -81,7 +81,7 @@
     "autolearn": true,
     "book_learn": [ [ "glassblowing_book", 5 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
-    "components": [ [ [ "glass_shard", 84 ] ] ]
+    "components": [ [ [ "glass_shard", 8 ] ] ]
   },
   {
     "type": "recipe",
@@ -617,7 +617,7 @@
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "using": [ [ "surface_heat", 2 ] ],
-    "components": [ [ [ "gunpowder", 16 ], [ "chem_black_powder", 16 ] ], [ [ "glass_shard", 42 ], [ "nail", 8 ], [ "combatnail", 8 ] ] ]
+    "components": [ [ [ "gunpowder", 16 ], [ "chem_black_powder", 16 ] ], [ [ "glass_shard", 4 ], [ "nail", 8 ], [ "combatnail", 8 ] ] ]
   },
   {
     "type": "recipe",
