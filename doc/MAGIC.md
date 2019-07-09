@@ -103,7 +103,7 @@ Spells that change effects as they level up must have a min and max effect and a
 "range_increment": 5,
 ```
 
-Min, max, and increment values must always have the same sign, but it can be negative eg. in the case of spells that use a negative 'recover' effect to cause pain or stamina damage. For example:
+Min and max values must always have the same sign, but it can be negative eg. in the case of spells that use a negative 'recover' effect to cause pain or stamina damage. For example:
 
 ```json
   {
