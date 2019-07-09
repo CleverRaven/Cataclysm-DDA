@@ -2131,6 +2131,32 @@ int iuse::unpack_item( player *p, item *it, bool, const tripoint & )
     return 0;
 }
 
+int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
+{
+
+    if( !it->contents.empty() ) {
+        popup( _( "This pouch is already full." ) );
+        return 0;
+    }
+    item_location bionic = g->inv_map_splice( []( const item & e ) {
+        return e.is_bionic();
+    }, _( "Choose CBM to pack" ), PICKUP_RANGE, _( "You don't have any CBMs." ) );
+
+    if( !bionic ) {
+        return 0;
+    }
+    //TODO: skill check
+
+    bionic.get_item()->set_flag( "PACKED" );
+
+    std::vector<item_comp> comps;
+    comps.push_back( item_comp( it->typeId(), 1 ) );
+    p->consume_items( comps, 1, is_crafting_component );
+
+
+    return 0;
+}
+
 int iuse::pack_item( player *p, item *it, bool t, const tripoint & )
 {
     if( p->is_underwater() ) {

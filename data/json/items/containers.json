@@ -130,6 +130,23 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
+    "id": "pouch_autoclave",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "autoclave pouch",
+    "description": "This is a medical device that bears the approval of the FDA (Food and Drug Administration).  These pouches are essential to sterilize medical tools.",
+    "weight": 2,
+    "volume": 0,
+    "price": 5,
+    "use_action": "PACK_CBM",
+    "to_hit": -1,
+    "rigid": false,
+    "material": [ "plastic", "paper" ],
+    "symbol": "]",
+    "color": "light_gray",
+    "contains": 11
+  },
+  {
     "id": "bag_zipper",
     "type": "CONTAINER",
     "category": "other",
