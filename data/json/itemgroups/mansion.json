@@ -176,6 +176,8 @@
       { "item": "wine_cabernet", "prob": 14, "count": [ 1, 12 ] },
       { "item": "wine_riesling", "prob": 12, "count": [ 1, 12 ] },
       { "item": "wine_chardonnay", "prob": 10, "count": [ 1, 12 ] },
+      { "item": "wine_marsala", "prob": 8, "count": [ 1, 12 ] },
+      { "item": "wine_vermouth", "prob": 13, "count": [ 1, 12 ] },
       { "item": "wine_noir", "prob": 8, "count": [ 1, 12 ] },
       { "item": "fruit_wine", "prob": 6, "count": [ 1, 12 ] }
     ]
@@ -201,6 +203,7 @@
       { "item": "wine_cabernet", "prob": 40, "container-item": "wooden_barrel" },
       { "item": "wine_riesling", "prob": 30, "container-item": "wooden_barrel" },
       { "item": "wine_chardonnay", "prob": 20, "container-item": "wooden_barrel" },
+      { "item": "wine_marsala", "prob": 15, "container-item": "wooden_barrel" },
       { "item": "wine_noir", "prob": 10, "container-item": "wooden_barrel" },
       { "item": "fruit_wine", "prob": 5, "container-item": "wooden_barrel" }
     ]
@@ -1080,6 +1083,7 @@
       [ "india_pale_ale", 20 ],
       [ "belgian_ale", 20 ],
       [ "pale_ale", 20 ],
+      [ "wine_barley", 20 ],
       [ "stout", 20 ]
     ]
   },
