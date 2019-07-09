@@ -8266,7 +8266,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate,
         return processed;
     }
 
-    if( has_flag( "STERILE" ) ) {
+    if( has_flag( "STERILE" ) && !has_flag( "PACKED" ) ) {
         if( !has_var( "sterile" ) ) {
             unset_flag( "STERILE" );
             return false;
