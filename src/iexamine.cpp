@@ -2424,7 +2424,7 @@ void iexamine::autoclave_full( player &, const tripoint &examp )
     for( auto &it : items ) {
         it.unset_flag( "FILTHY" );
         it.set_flag( "STERILE" );
-        it.set_var( "sterile", 600 ); // sterile for 10mn
+        it.set_var( "sterile", 5 ); // sterile for 5s
     }
     add_msg( m_good, _( "The cycle is complete, the CBMs are now sterile." ) );
     g->m.furn_set( examp, next_autoclave_type );
