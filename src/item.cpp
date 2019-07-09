@@ -2928,7 +2928,11 @@ nc_color item::color_in_inventory() const
     } else if( is_filthy() || item_tags.count( "DIRTY" ) ) {
         ret = c_brown;
     } else if( has_flag( "STERILE" ) ) {
-        ret = c_cyan;
+        if( has_flag( "PACKED" ) ) {
+            ret = c_dark_gray;
+        } else {
+            ret = c_cyan;
+        }
     } else if( has_flag( "LEAK_DAM" ) && has_flag( "RADIOACTIVE" ) && damage() > 0 ) {
         ret = c_light_green;
     } else if( active && !is_food() && !is_food_container() && !is_corpse() ) {
@@ -3383,6 +3387,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
     if( has_flag( "STERILE" ) ) {
         ret << _( " (sterile)" );
+    }
+    if( has_flag( "PACKED" ) ) {
+        ret << _( " (packed)" );
     }
     if( is_tool() && has_flag( "USE_UPS" ) ) {
         ret << _( " (UPS)" );
