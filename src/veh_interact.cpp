@@ -2397,7 +2397,13 @@ void veh_interact::display_name()
 {
     werase( w_name );
     mvwprintz( w_name, 0, 1, c_light_gray, _( "Name: " ) );
-    mvwprintz( w_name, 0, 1 + utf8_width( _( "Name: " ) ), c_light_green, veh->name );
+    std::string fac_name = veh->get_owner() &&
+                           veh->get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ?
+                           veh->get_owner()->name : _( "Yours" );
+    mvwprintz( w_name, 0, 1 + utf8_width( _( "Name: " ) ),
+               veh->get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ? c_light_red :
+               c_light_green, string_format( _( "%s (%s)" ), veh->name,
+                       veh->get_owner() == nullptr ? _( "not owned" ) : fac_name ) );
     wrefresh( w_name );
 }
 
