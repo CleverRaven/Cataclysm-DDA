@@ -676,7 +676,7 @@ class Character : public Creature, public visitable<Character>
 
         void drop_invalid_inventory();
 
-        bool has_artifact_with( const art_effect_passive effect ) const;
+        virtual bool has_artifact_with( const art_effect_passive effect ) const;
 
         // --------------- Clothing Stuff ---------------
         /** Returns true if the player is wearing the item. */
