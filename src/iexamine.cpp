@@ -2368,13 +2368,6 @@ void iexamine::autoclave_empty( player &p, const tripoint &examp )
         return;
     }
 
-    auto reqs = *requirement_id( "autoclave" );
-
-    if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
-        popup( "%s", reqs.list_missing() );
-        return;
-    }
-
     if( query_yn( _( "Start the autoclave?" ) ) ) {
 
         for( const auto &e : reqs.get_components() ) {

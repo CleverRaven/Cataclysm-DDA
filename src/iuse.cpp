@@ -2145,14 +2145,24 @@ int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
     if( !bionic ) {
         return 0;
     }
-    //TODO: skill check
 
-    bionic.get_item()->set_flag( "PACKED" );
+    const int success = p->get_skill_level( skill_firstaid ) - rng( 0, 6 );
+    if( success > 0 ) {
+        bionic.get_item()->set_flag( "PACKED" );
+        add_msg( m_info, _( "You carefully prepare the CBM for sterilization." ) );
+    } else {
+        bionic.get_item()->set_flag( "PACKED_FAULTY" );
+        if( success == 0 ) {
+            add_msg( m_bad, _( "You're not sure about the quality of your work." ) );
+        } else {
+            add_msg( m_info, _( "You put the CBM in the pouch and close it." ) );
+        }
+    }
+
 
     std::vector<item_comp> comps;
     comps.push_back( item_comp( it->typeId(), 1 ) );
     p->consume_items( comps, 1, is_crafting_component );
-
 
     return 0;
 }

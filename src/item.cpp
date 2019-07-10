@@ -2928,7 +2928,7 @@ nc_color item::color_in_inventory() const
     } else if( is_filthy() || item_tags.count( "DIRTY" ) ) {
         ret = c_brown;
     } else if( has_flag( "STERILE" ) ) {
-        if( has_flag( "PACKED" ) ) {
+        if( has_flag( "PACKED" ) || has_flag( "PACKED_FAULTY" ) ) {
             ret = c_dark_gray;
         } else {
             ret = c_cyan;
@@ -3388,7 +3388,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( has_flag( "STERILE" ) ) {
         ret << _( " (sterile)" );
     }
-    if( has_flag( "PACKED" ) ) {
+    if( has_flag( "PACKED" ) || has_flag( "PACKED_FAULTY" ) ) {
         ret << _( " (packed)" );
     }
     if( is_tool() && has_flag( "USE_UPS" ) ) {
