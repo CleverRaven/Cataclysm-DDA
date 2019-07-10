@@ -407,6 +407,12 @@
   },
   {
     "type": "snippet",
+    "category": "flier",
+    "text": ["\"NEW LINE OF CBMS RELEASED!\nGE are proud to announce the latest line of CBMS, the Metabolic Exchange System! Now your batteries can be powered from the food you eat, no more do you have to rely on expensive energy prices! Available now - while stocks last!\n(GE is not responsible for starvation that may or may not be caused by this system. If symptoms of hunger or lower power persist after eating, please consult your local doctor)\""
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "note",
     "text": [ "\"WE WERE RIGHT THE GOVERNMENT DID IT\"" ]
   },
@@ -1831,12 +1837,6 @@
     "type": "snippet",
     "category": "note",
     "text": ["\"WOLF ATTACKS ON THE RISE!\nIncreasing reports across the New England area of wolves attacking local wildlife, and even people. Forest rangers are baffled with the oddly aggressive behaviour, and while they have not yet determined the cause, they advise anyone sighting a wolf to avoid contact. If threatened - fight back. Running seems to provoke them to attack.\""
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "note",
-    "text": ["\"NEW LINE OF CBMS RELEASED!\nGE are proud to announce the latest line of CBMS, the Metabolic Exchange System! Now your batteries can be powered from the food you eat, no more do you have to rely on expensive energy prices! Available now - while stocks last!\n(GE is not responsible for starvation that may or may not be caused by this system. If symptoms of hunger or lower power persist after eating, please consult your local doctor)\""
     ]
   },
   {
