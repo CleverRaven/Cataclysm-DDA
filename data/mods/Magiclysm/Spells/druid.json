@@ -216,8 +216,8 @@
     "valid_targets": [ "none" ],
     "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS" ],
     "min_damage": 1,
-    "max_damage": 5,
-	"damage_increment": .25,
+    "max_damage": 6,
+	"damage_increment": 0.25,
     "effect": "spawn_item",
     "effect_str": "magical_strawberries",
     "base_casting_time": 200,
@@ -231,5 +231,5 @@
     "max_level": 20,
     "spell_class": "DRUID",
     "energy_source": "MANA"
-  },
+  }
 ]
