@@ -282,7 +282,7 @@ void game::load_weather( std::istream &fin )
     if( fin.peek() == 'l' ) {
         std::string line;
         getline( fin, line );
-        weather.lightning_active = ( line.compare( "lightning: 1" ) == 0 );
+        weather.lightning_active = line == "lightning: 1";
     } else {
         weather.lightning_active = false;
     }
