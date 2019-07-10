@@ -1721,29 +1721,44 @@ npc_action npc::address_needs( float danger )
         return npc_noop;
     }
 
-    if( ( danger <= NPC_DANGER_VERY_LOW &&
-          ( get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.95 || get_thirst() > 40 ) ) ||
-        get_thirst() > 80 || get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.75 ) {
+    // Extreme thirst or hunger, bypass safety check.
+    if( get_thirst() > 80 ||
+        get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.75 ) {
+        if( consume_food() ) {
+            return npc_noop;
+        }
+    }
+    //Does the hallucination needs to disappear ?
+    if( g->u.sees( *this ) && is_hallucination() ) {
+        if( !g->u.has_effect( effect_hallu ) ) {
+            die( nullptr );
+        }
+    }
+
+    if( danger > NPC_DANGER_VERY_LOW ) {
+        return npc_undecided;
+    }
+
+    if( get_thirst() > 40 ||
+        get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.95 ) {
         if( consume_food() ) {
             return npc_noop;
         }
     }
 
-    if( danger <= NPC_DANGER_VERY_LOW ) {
-        if( wants_to_recharge_cbm() && recharge_cbm() ) {
-            return npc_noop;
-        }
+    if( wants_to_recharge_cbm() && recharge_cbm() ) {
+        return npc_noop;
+    }
 
-        if( find_corpse_to_pulp() ) {
-            if( !do_pulp() ) {
-                move_to_next();
-            }
-            return npc_noop;
+    if( find_corpse_to_pulp() ) {
+        if( !do_pulp() ) {
+            move_to_next();
         }
+        return npc_noop;
+    }
 
-        if( adjust_worn() ) {
-            return npc_noop;
-        }
+    if( adjust_worn() ) {
+        return npc_noop;
     }
 
     const auto could_sleep = [&]() {
@@ -1771,13 +1786,6 @@ npc_action npc::address_needs( float danger )
             return npc_sleep;
         }
     }
-    //Does the hallucination needs to disappear ?
-    if( g->u.sees( *this ) && is_hallucination() ) {
-        if( !g->u.has_effect( effect_hallu ) ) {
-            die( nullptr );
-        }
-    }
-
     // TODO: Mutation & trait related needs
     // e.g. finding glasses; getting out of sunlight if we're an albino; etc.
 
