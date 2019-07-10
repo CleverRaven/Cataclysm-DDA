@@ -1835,12 +1835,6 @@
   },
   {
     "type": "snippet",
-    "category": "note",
-    "text": ["\"WOLF ATTACKS ON THE RISE!\nIncreasing reports across the New England area of wolves attacking local wildlife, and even people. Forest rangers are baffled with the oddly aggressive behaviour, and while they have not yet determined the cause, they advise anyone sighting a wolf to avoid contact. If threatened - fight back. Running seems to provoke them to attack.\""
-    ]
-  },
-  {
-    "type": "snippet",
     "category": "newest_news",
     "text": [
       "LABS BOMBED: In further invasion proof (discounting earlier suggestion of a riot drug) most of New England's scientific labs were bombed simultaneously yesterday.  No word yet from the military about who the aggressors are.",
@@ -1869,6 +1863,12 @@
     "type": "snippet",
     "category": "newest_news",
     "text": ["\"VAC AND RIVTECH WEAPON MANUFACTURERS AT IT AGAIN!\nThe two biggest names in military and civilian firearms are back at their competitive antics. After a court meeting between the two companies that left VAC suing for “intellectual theft”, Rivtech was reportedly exposed in an attempt to sabotage a Virgil Armament Company manufacturing plant. It is unsure if Rivtech will be facing legal consequences, and both companies refuse to comment.\""
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "newest_news",
+    "text": ["\"WOLF ATTACKS ON THE RISE!\nIncreasing reports across the New England area of wolves attacking local wildlife, and even people. Forest rangers are baffled with the oddly aggressive behaviour, and while they have not yet determined the cause, they advise anyone sighting a wolf to avoid contact. If threatened - fight back. Running seems to provoke them to attack.\""
     ]
   },
   {
