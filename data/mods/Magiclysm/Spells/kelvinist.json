@@ -114,6 +114,10 @@
     "base_energy_cost": 350,
     "energy_source": "MANA",
     "difficulty": 4,
+    "field_id": "fd_cold_air2",
+    "min_field_intensity": 0,
+    "max_field_intensity": 4,
+    "intensity_increment": 0.5,
     "damage_type": "cold"
   },
   {

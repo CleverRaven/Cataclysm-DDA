@@ -101,6 +101,19 @@ class spell_type
         // list of additional "spell effects"
         std::vector<fake_spell> additional_spells;
 
+        // if the spell has a field name defined, this is where it is
+        cata::optional<field_type_id> field;
+        // the chance one_in( field_chance ) that the field spawns at a tripoint in the area of the spell
+        int field_chance;
+        // field intensity at spell level 0
+        int min_field_intensity;
+        // increment of field intensity per level
+        float field_intensity_increment;
+        // maximum field intensity allowed
+        int max_field_intensity;
+        // field intensity added to the map is +- ( 1 + field_intensity_variance ) * field_intensity
+        float field_intensity_variance;
+
         // minimum damage this spell can cause
         int min_damage;
         // amount of damage increase per spell level
@@ -235,6 +248,8 @@ class spell
         // what is the max level of the spell
         int get_max_level() const;
 
+        // what is the intensity of the field the spell generates ( 0 if no field )
+        int field_intensity() const;
         // how much damage does the spell do
         int damage() const;
         dealt_damage_instance get_dealt_damage_instance() const;
@@ -297,6 +312,9 @@ class spell
         int get_level() const;
         // difficulty of the level
         int get_difficulty() const;
+
+        // tries to create a field at the location specified
+        void create_field( const tripoint &at ) const;
 
         // makes a spell sound at the location
         void make_sound( const tripoint &target ) const;
