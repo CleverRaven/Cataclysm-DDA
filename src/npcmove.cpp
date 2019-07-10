@@ -1347,7 +1347,6 @@ npc_action npc::method_of_attack()
 
 bool npc::need_heal( const player &n )
 {
-
     // if there are no healing items, there's nothing to do
     if( !( ai_cache.can_heal.bandage || ai_cache.can_heal.bleed || ai_cache.can_heal.bite ||
            ai_cache.can_heal.infect ) ) {
@@ -1693,18 +1692,20 @@ npc_action npc::address_needs( float danger )
         deactivate_bionic_by_id( bio_nanobots );
     }
 
-    if( is_player_ally() && need_heal( g->u ) ) {
-        ai_cache.ally = g->shared_from( g->u );
-        return npc_heal_player;
-    }
+    // If there are no healing items, there's nothing to do
+    if( ai_cache.can_heal.bandage || ai_cache.can_heal.bleed || ai_cache.can_heal.bite ||
+        ai_cache.can_heal.infect ) {
+        if( is_player_ally() && need_heal( g->u ) ) {
+            ai_cache.ally = g->shared_from( g->u );
+            return npc_heal_player;
+        }
 
-    const std::vector<npc *> allies = g->get_npcs_if( [&]( const npc & guy ) {
-        return guy.getID() != getID() && guy.is_ally( *this ) && posz() == guy.posz() &&
-               sees( guy.pos() ) && rl_dist( pos(), guy.pos() ) <= SEEX * 2;
-    } );
+        const std::vector<npc *> hurt_allies = g->get_npcs_if( [&]( const npc & guy ) {
+            return guy.getID() != getID() && guy.is_ally( *this ) && posz() == guy.posz() &&
+                   need_heal( guy ) && rl_dist( pos(), guy.pos() ) <= SEEX * 2 && sees( guy.pos() );
+        } );
 
-    for( npc *guy : allies ) {
-        if( need_heal( *guy ) ) {
+        for( npc *guy : hurt_allies ) {
             ai_cache.ally = g->shared_from( *guy );
             return npc_heal_player;
         }
