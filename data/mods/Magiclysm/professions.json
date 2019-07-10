@@ -44,7 +44,7 @@
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [ "pants", "longshirt", "socks", "cassock", "dress_shoes", "holy_symbol", "holybook_bible1", "priest_beginner", "pyro" ],
+        "items": [ "pants", "longshirt", "socks", "cassock", "dress_shoes", "holy_symbol", "holybook_bible1", "priest_beginner" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "briefs" ],
@@ -104,8 +104,7 @@
           "holy_symbol",
           "holybook_talmud",
           "holybook_tanakh",
-          "priest_beginner",
-          "pyro"
+          "priest_beginner"
         ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
@@ -135,8 +134,7 @@
           "leathersandals",
           "holy_symbol",
           "wristwatch",
-          "priest_beginner",
-          "pyro"
+          "priest_beginner"
         ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
@@ -166,8 +164,7 @@
           "flyer",
           "flyer",
           "holy_symbol",
-          "priest_beginner",
-          "pyro"
+          "priest_beginner"
         ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
@@ -189,5 +186,47 @@
       "female": [ "bra", "panties" ]
     },
     "traits": [ "ANIMIST" ]
+  },
+  {
+    "type": "profession",
+    "ident": "novice_stormshaper",
+    "name": "Novice Stormshaper",
+    "description": "The son of a weatherman, you were always interested in the weather.  Recently you found it was possible to manipulate the weather yourself through arcane means!  Unfortunately you did not have long to enjoy your power, as events unfolded...",
+    "spells": [ { "id": "lightning_bolt", "level": 1 }, { "id": "windrun", "level": 1 } ],
+    "points": 0,
+    "items": {
+      "both": [ "jeans", "tshirt", "hat_ball", "sneakers", "socks", "hoodie" ],
+      "male": [ "boxer_briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "traits": [ "STORMSHAPER" ]
+  },
+  {
+    "type": "profession",
+    "ident": "novice_earthshaper",
+    "name": "Novice Earthshaper",
+    "description": "You always were tough in a fight.  Your coach managed to teach you a trick or two to make you a little tougher.",
+    "spells": [ { "id": "stonefist", "level": 1 }, { "id": "seismic_stomp", "level": 1 } ],
+    "points": 0,
+    "items": {
+      "both": [ "jeans", "tshirt", "boxing_gloves", "hat_ball", "sneakers", "socks", "hoodie" ],
+      "male": [ "boxer_briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "traits": [ "EARTHSHAPER" ]
+  },
+  {
+    "type": "profession",
+    "ident": "novice_technomancer",
+    "name": "Novice Technomancer",
+    "description": "With the recent Cataclysm, the way you found to cheat on tests may have to find some other use.",
+    "spells": [ { "id": "synaptic_stimulation", "level": 4 } ],
+    "points": 0,
+    "items": {
+      "both": [ "jeans", "tshirt", "globes_light", "hat_ball", "sneakers", "socks", "hoodie" ],
+      "male": [ "boxer_briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "traits": [ "TECHNOMANCER" ]
   }
 ]
