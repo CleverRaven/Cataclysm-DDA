@@ -270,10 +270,7 @@ extern "C" {
 
     static void signal_handler( int sig )
     {
-        // supress clang-tidy warning about a cast IN SIG_DFL
-#ifndef __clang_analyzer__
         signal( sig, SIG_DFL );
-#endif
         const char *msg;
         switch( sig ) {
             case SIGSEGV:
@@ -292,10 +289,7 @@ extern "C" {
                 return;
         }
         log_crash( "Signal", msg );
-        // supress clang-tidy warning about a cast IN SIG_DFL
-#ifndef __clang_analyzer__
         std::signal( SIGABRT, SIG_DFL );
-#endif
         abort();
     }
 

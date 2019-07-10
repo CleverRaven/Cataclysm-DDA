@@ -12,6 +12,7 @@
 #include "avatar.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "game.h"
+#include "math_defines.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -47,10 +48,6 @@ const rectangle lightmap_boundaries( lightmap_boundary_min, lightmap_boundary_ma
 
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_haslight( "haslight" );
-
-constexpr double PI     = 3.14159265358979323846;
-constexpr double HALFPI = 1.57079632679489661923;
-constexpr double SQRT_2 = 1.41421356237309504880;
 
 std::string four_quadrants::to_string() const
 {
@@ -451,18 +448,18 @@ void map::generate_lightmap( const int zlev )
 
             if( vp.has_flag( VPFLAG_CONE_LIGHT ) ) {
                 if( veh_luminance > LL_LIT ) {
-                    add_light_source( src, SQRT_2 ); // Add a little surrounding light
+                    add_light_source( src, M_SQRT2 ); // Add a little surrounding light
                     apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance, 45 );
                 }
 
             } else if( vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
                 if( veh_luminance > LL_LIT ) {
-                    add_light_source( src, SQRT_2 ); // Add a little surrounding light
+                    add_light_source( src, M_SQRT2 ); // Add a little surrounding light
                     apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance, 90 );
                 }
 
             } else if( vp.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ) {
-                add_light_source( src, SQRT_2 ); // Add a little surrounding light
+                add_light_source( src, M_SQRT2 ); // Add a little surrounding light
                 apply_light_arc( src, v->face.dir() + pt->direction, vp.bonus, 180 );
 
             } else if( vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
@@ -1417,7 +1414,7 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
     int nangle = angle % 360;
 
     tripoint end;
-    double rad = PI * static_cast<double>( nangle ) / 180;
+    double rad = M_PI * static_cast<double>( nangle ) / 180;
     int range = LIGHT_RANGE( luminance );
     calc_ray_end( nangle, range, p, end );
     apply_light_ray( lit, p, end, luminance );
@@ -1431,13 +1428,13 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
     }
 
     // attempt to determine beam intensity required to cover all squares
-    const double wstep = ( wangle / ( wdist * SQRT_2 ) );
+    const double wstep = ( wangle / ( wdist * M_SQRT2 ) );
 
     // NOLINTNEXTLINE(clang-analyzer-security.FloatLoopCounter)
     for( double ao = wstep; ao <= wangle; ao += wstep ) {
         if( trigdist ) {
-            double fdist = ( ao * HALFPI ) / wangle;
-            double orad = ( PI * ao / 180.0 );
+            double fdist = ( ao * M_PI_2 ) / wangle;
+            double orad = ( M_PI * ao / 180.0 );
             end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos(
                                           rad + orad ) );
             end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin(

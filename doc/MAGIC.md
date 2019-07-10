@@ -39,7 +39,13 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
 	"duration_increment": 4,
 	"min_pierce": 0,                                          // how much of the spell pierces armor (currently not implemented)
 	"max_pierce": 1,
-	"pierce_increment": 0.1
+	"pierce_increment": 0.1,
+	"field_id": "fd_blood",                                   // the string id of the field (currently hardcoded)
+	"field_chance": 100,                                      // one_in( field_chance ) chance of spawning a field per tile in aoe
+	"min_field_intensity": 10,                                // field intensity of fields generated
+	"max_field_intensity": 10,
+	"field_intensity_increment": 1,
+	"field_intensity_variance": 0.1                           // the field can range in intensity from -variance as a percent to +variance as a percent i.e. this spell would be 9-11
   }
 ```
 Most of the default values for the above are either 0 or "NONE", so you may leave out most of the values if they do not pertain to your spell.

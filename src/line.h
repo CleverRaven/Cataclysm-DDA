@@ -113,6 +113,7 @@ float trig_dist( int x1, int y1, int x2, int y2 );
 float trig_dist( const tripoint &loc1, const tripoint &loc2 );
 // Roguelike distance; minimum of dX and dY
 int square_dist( int x1, int y1, int x2, int y2 );
+int square_dist( const point &loc1, const point &loc2 );
 int square_dist( const tripoint &loc1, const tripoint &loc2 );
 int rl_dist( int x1, int y1, int x2, int y2 );
 int rl_dist( const tripoint &loc1, const tripoint &loc2 );

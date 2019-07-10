@@ -391,7 +391,7 @@ void overmap::unserialize_legacy( std::istream &fin )
             // Bugfix for old saves: population of 2147483647 is far too much and will
             // crash the game. This specific number was caused by a bug in
             // overmap::add_mon_group.
-            if( mg.population == 2147483647ul ) {
+            if( mg.population == 2147483647U ) {
                 mg.population = rng( 1, 10 );
             }
             mg.diffuse = cd;
