@@ -417,6 +417,9 @@ void spell_effect::recover_energy( const spell &sp, const tripoint &target )
     // TODO: Change to Character
     // current limitation is that Character does not have stamina or power_level members
     player *p = g->critter_at<player>( target );
+    if( !p ) {
+        return;
+    }
 
     if( energy_source == "MANA" ) {
         p->magic.mod_mana( *p, healing );

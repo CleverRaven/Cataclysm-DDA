@@ -317,13 +317,15 @@ void spell_type::check_consistency()
         }
         if( sp_t.field ) {
             if( sp_t.field_chance <= 0 ) {
-                debugmsg( "ERROR: %s must have a positive field chance." );
+                debugmsg( "ERROR: %s must have a positive field chance.", sp_t.id.c_str() );
             }
             if( sp_t.field_intensity_increment > 0 && sp_t.max_field_intensity < sp_t.min_field_intensity ) {
-                debugmsg( "ERROR: max_field_intensity must be greater than min_field_intensity with positive increment." );
+                debugmsg( "ERROR: max_field_intensity must be greater than min_field_intensity with positive increment: %s",
+                          sp_t.id.c_str() );
             } else if( sp_t.field_intensity_increment < 0 &&
                        sp_t.max_field_intensity > sp_t.min_field_intensity ) {
-                debugmsg( "ERROR: min_field_intensity must be greater than max_field_intensity with negative increment." );
+                debugmsg( "ERROR: min_field_intensity must be greater than max_field_intensity with negative increment.",
+                          sp_t.id.c_str() );
             }
         }
     }
