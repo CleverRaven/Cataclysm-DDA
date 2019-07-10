@@ -1418,36 +1418,40 @@ void game_menus::inv::swap_letters( player &p )
 
 static item_location autodoc_internal( player &u, player &patient,
                                        const inventory_selector_preset &preset,
-                                       int radius, bool uninstall = false )
+                                       int radius, bool uninstall = false, bool surgeon = false )
 {
     inventory_pick_selector inv_s( u, preset );
     std::string hint;
     int drug_count = 0;
 
-    if( patient.has_trait( trait_NOPAIN ) ) {
-        hint = _( "<color_yellow>Patient has Deadened nerves.  Anesthesia unneeded.</color>" );
-    } else if( patient.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
-        hint = _( "<color_yellow>Patient has Sensory Dulling CBM installed.  Anesthesia unneeded.</color>" );
-    } else {
-        const inventory &crafting_inv = u.crafting_inventory();
-        std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
-            return it.has_quality( quality_id( "ANESTHESIA" ) );
-        } );
-        std::vector<const item *> b_filter = crafting_inv.items_with( []( const item & it ) {
-            return it.has_flag( "ANESTHESIA" ); // legacy
-        } );
-        for( const item *anesthesia_item : a_filter ) {
-            if( anesthesia_item->ammo_remaining() >= 1 ) {
-                drug_count += anesthesia_item->ammo_remaining();
-            }
-        }
-
-        if( b_filter.size() > 0 ) {
-            hint = string_format( _( "<color_yellow>Available kit: %i</color>" ), b_filter.size() );// legacy
+    if( !surgeon ) {//surgeon use their own anesthetic, player just need money
+        if( patient.has_trait( trait_NOPAIN ) ) {
+            hint = _( "<color_yellow>Patient has Deadened nerves.  Anesthesia unneeded.</color>" );
+        } else if( patient.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
+            hint = _( "<color_yellow>Patient has Sensory Dulling CBM installed.  Anesthesia unneeded.</color>" );
         } else {
-            hint = string_format( _( "<color_yellow>Available anesthetic: %i mL</color>" ), drug_count );
-        }
+            const inventory &crafting_inv = u.crafting_inventory();
+            std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
+                return it.has_quality( quality_id( "ANESTHESIA" ) );
+            } );
+            std::vector<const item *> b_filter = crafting_inv.items_with( []( const item & it ) {
+                return it.has_flag( "ANESTHESIA" ); // legacy
+            } );
+            for( const item *anesthesia_item : a_filter ) {
+                if( anesthesia_item->ammo_remaining() >= 1 ) {
+                    drug_count += anesthesia_item->ammo_remaining();
+                }
+            }
 
+            if( b_filter.size() > 0 ) {
+                hint = string_format( _( "<color_yellow>Available kit: %i</color>" ), b_filter.size() );// legacy
+            } else {
+                hint = string_format( _( "<color_yellow>Available anesthetic: %i mL</color>" ), drug_count );
+            }
+
+        }
+    } else {
+        hint = string_format( _( "<color_yellow>Money available: %s</color>" ), format_money( u.cash ) );
     }
 
     if( uninstall ) {
@@ -1618,9 +1622,131 @@ class bionic_install_preset: public inventory_selector_preset
         }
 };
 
-item_location game_menus::inv::install_bionic( player &p, player &patient )
+// Menu used by surgeon when installing a bionic
+class bionic_install_surgeon_preset : public inventory_selector_preset
 {
-    return autodoc_internal( p, patient, bionic_install_preset( p, patient ), 5 );
+    public:
+        bionic_install_surgeon_preset( player &pl, player &patient ) :
+            p( pl ), pa( patient ) {
+            append_cell( [this]( const item_location & loc ) {
+                return get_failure_chance( loc );
+            }, _( "FAILURE CHANCE" ) );
+
+            append_cell( [this]( const item_location & loc ) {
+                return get_operation_duration( loc );
+            }, _( "OPERATION DURATION" ) );
+
+            append_cell( [this]( const item_location & loc ) {
+                return get_money_amount( loc );
+            }, _( "PRICE" ) );
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->is_bionic();
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            const item *it = loc.get_item();
+            const itype *itemtype = it->type;
+            const bionic_id &bid = itemtype->bionic->id;
+
+            if( it->has_flag( "FILTHY" ) ) {
+                return _( "CBM is filthy." );
+            } else if( !it->has_flag( "STERILE" ) ) {
+                return _( "CBM is not sterile." );
+            } else if( pa.has_bionic( bid ) ) {
+                return _( "CBM already installed" );
+            } else if( bid->upgraded_bionic &&
+                       !pa.has_bionic( bid->upgraded_bionic ) &&
+                       it->is_upgrade() ) {
+                return _( "No base version installed" );
+            } else if( std::any_of( bid->available_upgrades.begin(),
+                                    bid->available_upgrades.end(),
+                                    std::bind( &player::has_bionic, &pa,
+                                               std::placeholders::_1 ) ) ) {
+                return _( "Superior version installed" );
+            } else if( pa.is_npc() && !bid->npc_usable ) {
+                return _( "CBM not compatible with patient" );
+            } else if( loc.get_item()->price( true ) * 2 > p.cash ) {
+                return string_format( _( "%s" ), format_money( loc.get_item()->price( true ) * 2 ) );
+            }
+
+            return std::string();
+        }
+
+    protected:
+        player &p;
+        player &pa;
+
+    private:
+        // Returns a formatted string of how long the operation will take.
+        std::string get_operation_duration( const item_location &loc ) {
+
+            const int difficulty = loc.get_item()->type->bionic->difficulty;
+
+            // 20 minutes per bionic difficulty.
+            int hours = difficulty / 3;
+            int minutes = ( difficulty % 3 ) * 20;
+            std::string minutes_string = minutes > 0
+                                         ? string_format( _( "%i minutes" ), minutes )
+                                         : std::string();
+
+            if( hours > 0 ) {
+                std::string hours_string = hours >= 2
+                                           ? string_format( _( "%i hours" ), hours )
+                                           : string_format( _( "%i hour" ), hours );
+
+                if( minutes > 0 ) {
+                    return string_format( _( "%s, %s" ), hours_string, minutes_string );
+                } else {
+                    return hours_string;
+                }
+            } else {
+                return minutes_string;
+            }
+        }
+
+        // Failure chance for bionic install. Combines multiple other functions together.
+        std::string get_failure_chance( const item_location &loc ) {
+
+            const int difficulty = loc.get_item()->type->bionic->difficulty;
+            int chance_of_failure = 100;
+            player &installer = p;
+            const int assist_bonus = installer.get_effect_int( effect_assisted );
+
+            const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
+                                       skill_computer,
+                                       skill_electronics,
+                                       20 );//override player's skills iwth surgeon skill
+
+            if( ( get_option < bool >( "SAFE_AUTODOC" ) ) ||
+                g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+                chance_of_failure = 0;
+            } else {
+                float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /
+                                                   ( 4.0 * difficulty ) );
+                chance_of_failure = 100 - static_cast<int>( ( 100 * skill_difficulty_parameter ) /
+                                    ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
+            }
+
+            return string_format( _( "%i%%" ), chance_of_failure );
+        }
+
+        std::string get_money_amount( const item_location &loc ) {
+            signed int price = loc.get_item()->price( true ) * 2;
+            return string_format( _( "%s" ), format_money( price ) );
+        }
+};
+
+item_location game_menus::inv::install_bionic( player &p, player &patient, bool surgeon )
+{
+    if( surgeon ) {
+        return autodoc_internal( p, patient, bionic_install_surgeon_preset( p, patient ), 5, false,
+                                 surgeon );
+    } else {
+        return autodoc_internal( p, patient, bionic_install_preset( p, patient ), 5 );
+    }
+
 }
 
 // Menu used by autodoc when uninstalling a bionic
