@@ -5813,6 +5813,7 @@
     "id": "ammo_pouch",
     "type": "ARMOR",
     "name": "ammo pouch",
+    "name_plural": "ammo pouches",
     "description": "A small pouch that can be used to store most types of small ammunition, rockets will not fit.  Activate to store ammunition.",
     "looks_like": "leather_pouch",
     "weight": 490,
