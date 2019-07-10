@@ -1520,7 +1520,11 @@ class bionic_install_preset: public inventory_selector_preset
             const itype *itemtype = it->type;
             const bionic_id &bid = itemtype->bionic->id;
 
-            if( pa.has_bionic( bid ) ) {
+            if( it->has_flag( "FILTHY" ) ) {
+                return _( "/!\\ CBM is highly contaminated. /!\\" );
+            } else if( !it->has_flag( "STERILE" ) ) {
+                return _( "/!\\ CBM is not sterile. /!\\" ) ;
+            } else if( pa.has_bionic( bid ) ) {
                 return _( "CBM already installed" );
             } else if( bid->upgraded_bionic &&
                        !pa.has_bionic( bid->upgraded_bionic ) &&
