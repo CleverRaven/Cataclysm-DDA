@@ -3846,7 +3846,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         // Okay, we have a cash card. Now we need to know what's left in the pump.
         const cata::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
                 uistate.ags_pay_gas_selected_pump );
-        int amount = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : 0l;
+        int amount = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : 0;
         if( amount >= 0 ) {
             sounds::sound( p.pos(), 6, sounds::sound_t::activity, _( "Glug Glug Glug" ), true, "tool",
                            "gaspump" );
