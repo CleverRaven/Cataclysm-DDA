@@ -924,6 +924,7 @@ void npc::stow_item( item &it )
 
 bool npc::wield( item &it )
 {
+    cached_info.erase( "weapon_value" );
     if( is_armed() ) {
         stow_item( weapon );
     }

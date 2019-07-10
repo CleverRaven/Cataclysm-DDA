@@ -653,10 +653,10 @@ void player::process_turn()
     // SkillLevel::readBook (has no connection to the skill or the player),
     // player::read, player::practice, ...
     // Check for spontaneous discovery of martial art styles
-    for( auto &style : all_martialart_types() ) {
+    for( auto &style : autolearn_martialart_types() ) {
         const matype_id ma( style );
 
-        if( can_autolearn( ma ) && !has_martialart( ma ) ) {
+        if( !has_martialart( ma ) && can_autolearn( ma ) ) {
             add_martialart( ma );
             add_msg_if_player( m_info, _( "You have learned a new style: %s!" ), ma.obj().name );
         }
@@ -7721,7 +7721,7 @@ bool player::wield( item &target )
     if( !unwield() ) {
         return false;
     }
-
+    cached_info.erase( "weapon_value" );
     if( target.is_null() ) {
         return true;
     }

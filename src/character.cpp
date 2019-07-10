@@ -898,6 +898,7 @@ item &Character::i_add( item it, bool should_stack )
     }
     auto &item_in_inv = inv.add_item( it, keep_invlet, true, should_stack );
     item_in_inv.on_pickup( *this );
+    cached_info.erase( "reloadables" );
     return item_in_inv;
 }
 
