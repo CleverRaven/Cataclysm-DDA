@@ -320,6 +320,7 @@ static void damage_targets( const spell &sp, const Creature &caster,
             continue;
         }
         sp.make_sound( target );
+        sp.create_field( target );
         Creature *const cr = g->critter_at<Creature>( target );
         if( !cr ) {
             continue;
