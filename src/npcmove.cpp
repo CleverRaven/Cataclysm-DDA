@@ -1474,7 +1474,7 @@ const item &npc::find_reloadable() const
 
 bool npc::can_reload_current()
 {
-    if( !weapon.is_gun() ) {
+    if( !weapon.is_gun() || !wants_to_reload( *this, weapon ) ) {
         return false;
     }
 
