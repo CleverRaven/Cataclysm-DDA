@@ -83,6 +83,7 @@
 #include "iuse.h"
 #include "lightmap.h"
 #include "line.h"
+#include "math_defines.h"
 #include "monster.h"
 #include "omdata.h"
 #include "overmap_types.h"
@@ -95,8 +96,6 @@
 #include "enums.h"
 #include "flat_set.h"
 #include "stomach.h"
-
-constexpr double SQRT_2 = 1.41421356237309504880;
 
 const double MAX_RECOIL = 3000;
 
@@ -1694,7 +1693,7 @@ int player::run_cost( int base_cost, bool diag ) const
     movecost /= stamina_modifier;
 
     if( diag ) {
-        movecost *= SQRT_2;
+        movecost *= M_SQRT2;
     }
 
     return static_cast<int>( movecost );

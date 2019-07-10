@@ -24,6 +24,7 @@
 #include "game.h"
 #include "handle_liquid.h"
 #include "itype.h"
+#include "math_defines.h"
 #include "map.h"
 #include "map_selector.h"
 #include "messages.h"
@@ -2949,9 +2950,8 @@ void veh_interact::complete_vehicle()
                     int delta_x = headlight_target->x - ( veh->global_pos3().x + q.x );
                     int delta_y = headlight_target->y - ( veh->global_pos3().y + q.y );
 
-                    const double PI = 3.14159265358979f;
                     dir = static_cast<int>( atan2( static_cast<float>( delta_y ),
-                                                   static_cast<float>( delta_x ) ) * 180.0 / PI );
+                                                   static_cast<float>( delta_x ) ) * 180.0 / M_PI );
                     dir -= veh->face.dir();
                     while( dir < 0 ) {
                         dir += 360;

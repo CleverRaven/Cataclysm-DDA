@@ -8,6 +8,7 @@
 
 #include "game_constants.h"
 #include "json.h"
+#include "math_defines.h"
 #include "rng.h"
 #include "simplexnoise.h"
 #include "weather.h"
@@ -15,9 +16,7 @@
 
 namespace
 {
-// GCC doesn't like M_PI here for some reason
-constexpr double PI  = 3.141592653589793238463;
-constexpr double tau = 2 * PI;
+constexpr double tau = 2 * M_PI;
 } //namespace
 
 weather_generator::weather_generator() = default;
