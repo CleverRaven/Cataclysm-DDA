@@ -251,7 +251,14 @@ float trig_dist( const tripoint &loc1, const tripoint &loc2 )
 
 int square_dist( const int x1, const int y1, const int x2, const int y2 )
 {
-    return square_dist( tripoint( x1, y1, 0 ), tripoint( x2, y2, 0 ) );
+    return square_dist( point( x1, y1 ), point( x2, y2 ) );
+}
+
+int square_dist( const point &loc1, const point &loc2 )
+{
+    const int dx = abs( loc1.x - loc2.x );
+    const int dy = abs( loc1.y - loc2.y );
+    return dx > dy ? dx : dy;
 }
 
 int square_dist( const tripoint &loc1, const tripoint &loc2 )
