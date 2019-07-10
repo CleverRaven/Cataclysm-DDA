@@ -207,5 +207,29 @@
     "spell_class": "DRUID",
     "energy_source": "MANA",
     "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
-  }
+  },
+  {
+    "id": "druid_createfood",
+    "type": "SPELL",
+    "name": "Nature's Bounty",
+    "description": "This spell calls upon the earth, summoning sustenance. The volitile nature of the magics causes the food to quickly degrade.",
+    "valid_targets": [ "none" ],
+    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "min_damage": 1,
+    "max_damage": 5,
+	"damage_increment": .25,
+    "effect": "spawn_item",
+    "effect_str": "magical_strawberries",
+    "base_casting_time": 200,
+    "base_energy_cost": 400,
+	"final_energy_cost": 800,
+	"energy_increment": 20,
+    "min_duration": 60,
+    "max_duration": 600,
+	"duration_increment": 27,
+    "difficulty": 6,
+    "max_level": 20,
+    "spell_class": "DRUID",
+    "energy_source": "MANA"
+  },
 ]

@@ -52,4 +52,24 @@
     "flags": [ "TRADER_AVOID", "EDIBLE_FROZEN" ],
     "fun": -20
   }
+  {
+    "type": "COMESTIBLE",
+    "id": "magical_strawberries",
+    "name": "handful of strawberries",
+    "name_plural": "handful of strawberries",
+    "weight": 144,
+    "color": "red",
+    "spoils_in": "10 minutes",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 3,
+    "healthy": 1,
+    "calories": 46,
+    "description": "Tasty, juicy berry. Quickly spoils.",
+    "price": 0,
+    "material": "fruit",
+    "volume": 1,
+    "fun": 1,
+    "vitamins": [ [ "vitC", 140 ], [ "calcium", 1 ], [ "iron", 3 ] ]
+  },
 ]
