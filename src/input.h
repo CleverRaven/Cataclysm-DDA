@@ -2,17 +2,19 @@
 #ifndef INPUT_H
 #define INPUT_H
 
+#include <cstddef>
 #include <functional>
 #include <map>
 #include <string>
 #include <vector>
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include <list>
 #include <algorithm>
 #endif
 
 struct tripoint;
+
 namespace cata
 {
 template<typename T>
@@ -55,7 +57,7 @@ static constexpr int LEGEND_HEIGHT = 11;
 static constexpr int BORDER_SPACE = 2;
 
 bool is_mouse_enabled();
-std::string get_input_string_from_file( std::string fname = "input.txt" );
+std::string get_input_string_from_file( const std::string &fname = "input.txt" );
 
 enum mouse_buttons { MOUSE_BUTTON_LEFT = 1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, SCROLLWHEEL_DOWN, MOUSE_MOVE };
 
@@ -70,7 +72,7 @@ enum input_event_t {
 /**
  * An instance of an input, like a keypress etc.
  *
- * Gamepad, mouse and keyboard keypresses will be represented as `long`.
+ * Gamepad, mouse and keyboard keypresses will be represented as `int`.
  * Whether a gamepad, mouse or keyboard was used can be checked using the
  * `type` member.
  *
@@ -78,10 +80,10 @@ enum input_event_t {
 struct input_event {
     input_event_t type;
 
-    std::vector<long> modifiers; // Keys that need to be held down for
+    std::vector<int> modifiers; // Keys that need to be held down for
     // this event to be activated.
 
-    std::vector<long> sequence; // The sequence of key or mouse events that
+    std::vector<int> sequence; // The sequence of key or mouse events that
     // triggers this event. For single-key
     // events, simply make this of size 1.
 
@@ -93,7 +95,7 @@ struct input_event {
     std::string edit;
     bool edit_refresh;
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     // Used exclusively by the quick shortcuts to determine how stale a shortcut is
     int shortcut_last_used_action_counter;
 #endif
@@ -101,26 +103,26 @@ struct input_event {
     input_event() {
         mouse_x = mouse_y = 0;
         type = CATA_INPUT_ERROR;
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         shortcut_last_used_action_counter = 0;
 #endif
     }
-    input_event( long s, input_event_t t )
+    input_event( int s, input_event_t t )
         : type( t ) {
         mouse_x = mouse_y = 0;
         sequence.push_back( s );
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         shortcut_last_used_action_counter = 0;
 #endif
     }
 
-    long get_first_input() const;
+    int get_first_input() const;
 
-    void add_input( const long input ) {
+    void add_input( const int input ) {
         sequence.push_back( input );
     }
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     input_event &operator=( const input_event &other ) {
         type = other.type;
         modifiers = other.modifiers;
@@ -220,8 +222,8 @@ class input_manager
         /**
          * Return first char associated with an action ID in a given context.
          */
-        long get_first_char_for_action( const std::string &action_descriptor,
-                                        const std::string &context = "default" );
+        int get_first_char_for_action( const std::string &action_descriptor,
+                                       const std::string &context = "default" );
 
         /**
          * Initializes the input manager, aka loads the input mapping configuration JSON.
@@ -237,12 +239,12 @@ class input_manager
          * Return the previously pressed key, or 0 if there is no previous input
          * or the previous input wasn't a key.
          */
-        long get_previously_pressed_key() const;
+        int get_previously_pressed_key() const;
 
         /**
          * Get the keycode associated with the given key name.
          */
-        long get_keycode( const std::string &name ) const;
+        int get_keycode( const std::string &name ) const;
 
         /**
          * Get the key name associated with the given keyboard keycode.
@@ -253,7 +255,7 @@ class input_manager
          * of the key. This acts as the inverse to get_keyname:
          * <code>get_keyname(get_keycode(a), , true) == a</code>
          */
-        std::string get_keyname( long ch, input_event_t input_type, bool portable = false ) const;
+        std::string get_keyname( int ch, input_event_t input_type, bool portable = false ) const;
 
         /**
          * curses getch() replacement.
@@ -284,26 +286,26 @@ class input_manager
     private:
         friend class input_context;
 
-        typedef std::vector<input_event> t_input_event_list;
-        typedef std::map<std::string, action_attributes> t_actions;
-        typedef std::map<std::string, t_actions> t_action_contexts;
+        using t_input_event_list = std::vector<input_event>;
+        using t_actions = std::map<std::string, action_attributes>;
+        using t_action_contexts = std::map<std::string, t_actions>;
         t_action_contexts action_contexts;
-        typedef std::map<std::string, std::string> t_string_string_map;
+        using t_string_string_map = std::map<std::string, std::string>;
 
-        typedef std::map<long, std::string> t_key_to_name_map;
+        using t_key_to_name_map = std::map<int, std::string>;
         t_key_to_name_map keycode_to_keyname;
         t_key_to_name_map gamepad_keycode_to_keyname;
-        typedef std::map<std::string, long> t_name_to_key_map;
+        using t_name_to_key_map = std::map<std::string, int>;
         t_name_to_key_map keyname_to_keycode;
 
         // See @ref get_previously_pressed_key
-        long previously_pressed_key;
+        int previously_pressed_key;
 
         // Maps the key names we see in keybindings.json and in-game to
         // the keycode integers.
         void init_keycode_mapping();
-        void add_keycode_pair( long ch, const std::string &name );
-        void add_gamepad_keycode_pair( long ch, const std::string &name );
+        void add_keycode_pair( int ch, const std::string &name );
+        void add_gamepad_keycode_pair( int ch, const std::string &name );
 
         /**
          * Load keybindings from a json file, override existing bindings.
@@ -368,37 +370,37 @@ extern input_manager inp_mngr;
 class input_context
 {
     public:
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         // Whatever's on top is our current input context.
         static std::list<input_context *> input_context_stack;
 #endif
 
         input_context() : registered_any_input( false ), category( "default" ),
             handling_coordinate_input( false ) {
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
             input_context_stack.push_back( this );
             allow_text_entry = false;
 #endif
         }
         // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
         // outside that window can be ignored
-        input_context( std::string category ) : registered_any_input( false ),
+        input_context( const std::string &category ) : registered_any_input( false ),
             category( category ), handling_coordinate_input( false ) {
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
             input_context_stack.push_back( this );
             allow_text_entry = false;
 #endif
         }
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         virtual ~input_context() {
             input_context_stack.remove( this );
         }
 
         // hack to allow creating manual keybindings for getch() instances, uilists etc. that don't use an input_context outside of the Android version
         struct manual_key {
-            manual_key( long _key, const std::string &_text ) : key( _key ), text( _text ) {}
-            long key;
+            manual_key( int _key, const std::string &_text ) : key( _key ), text( _text ) {}
+            int key;
             std::string text;
             bool operator==( const manual_key &other ) const {
                 return key == other.key && text == other.text;
@@ -412,9 +414,9 @@ class input_context
         bool allow_text_entry;
 
         void register_manual_key( manual_key mk );
-        void register_manual_key( long key, const std::string text = "" );
+        void register_manual_key( int key, const std::string text = "" );
 
-        std::string get_action_name_for_manual_key( long key ) {
+        std::string get_action_name_for_manual_key( int key ) {
             for( const auto &manual_key : registered_manual_keys ) {
                 if( manual_key.key == key ) {
                     return manual_key.text;
@@ -637,8 +639,14 @@ class input_context
         /**
          * Keys (and only keys, other input types are not included) that
          * trigger the given action.
+         * @param action_descriptor The action descriptor for which to get the bound keys.
+         * @param restrict_to_printable If `true` the function returns the bound keys only if they are printable. If `false`, all keys (whether they are printable or not) are returned.
+         * @returns All keys bound to the given action descriptor.
          */
-        std::vector<char> keys_bound_to( const std::string &action_id ) const;
+        std::vector<char> keys_bound_to( const std::string &action_descriptor,
+                                         bool restrict_to_printable = true ) const;
+        std::string key_bound_to( const std::string &action_descriptor, size_t index = 0,
+                                  bool restrict_to_printable = true ) const;
 
         /**
         * Get/Set edittext to display IME unspecified string.

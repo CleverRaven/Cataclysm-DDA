@@ -1,7 +1,11 @@
 #include "morale.h"
 
+#include <cstdlib>
 #include <algorithm>
 #include <set>
+#include <cmath>
+#include <memory>
+#include <utility>
 
 #include "bodypart.h"
 #include "cata_utility.h"
@@ -10,12 +14,12 @@
 #include "debug.h"
 #include "input.h"
 #include "item.h"
-#include "itype.h"
-#include "iuse_actor.h"
 #include "morale_types.h"
 #include "options.h"
 #include "output.h"
 #include "translations.h"
+#include "color.h"
+#include "enums.h"
 
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_hot( "hot" );
@@ -98,7 +102,7 @@ static const morale_mult badtemper( 0.8, 1.2 );
 static const morale_mult prozac( 1.0, 0.25 );
 // The bad prozac effect reduces good morale by 75%.
 static const morale_mult prozac_bad( 0.25, 1.0 );
-}
+} // namespace morale_mults
 
 std::string player_morale::morale_point::get_name() const
 {
@@ -144,17 +148,30 @@ void player_morale::morale_point::add( const int new_bonus, const int new_max_bo
     new_duration = std::max( 0_turns, new_duration );
     new_decay_start = std::max( 0_turns, new_decay_start );
 
+    const bool same_sign = ( bonus > 0 ) == ( new_max_bonus > 0 );
+
     if( new_cap || new_duration == 0_turns ) {
         duration = new_duration;
         decay_start = new_decay_start;
     } else {
-        bool same_sign = ( bonus > 0 ) == ( new_max_bonus > 0 );
-
         duration = pick_time( duration, new_duration, same_sign );
         decay_start = pick_time( decay_start, new_decay_start, same_sign );
     }
 
-    bonus = normalize_bonus( get_net_bonus() + new_bonus, new_max_bonus, new_cap );
+    int sqrt_of_sum_of_squares;
+    if( new_cap || !same_sign ) {
+        // If the morale bonus is capped apply the full bonus
+        // This is because some morale types build up slowly to a cap over time (e.g. MORALE_WET)
+        // If the new bonus is opposing apply the full bonus
+        sqrt_of_sum_of_squares = get_net_bonus() + new_bonus;
+    } else {
+        // Otherwise use the sqrt of sum of squares to nerf stacking
+        sqrt_of_sum_of_squares = pow( get_net_bonus(), 2 ) + pow( new_bonus, 2 );
+        sqrt_of_sum_of_squares = sqrt( sqrt_of_sum_of_squares );
+        sqrt_of_sum_of_squares *= sgn( bonus );
+    }
+
+    bonus = normalize_bonus( sqrt_of_sum_of_squares, new_max_bonus, new_cap );
     age = 0_turns; // Brand new. The assignment should stay below get_net_bonus() and pick_time().
 }
 
@@ -165,6 +182,15 @@ time_duration player_morale::morale_point::pick_time( const time_duration curren
     return ( remaining_time <= new_time && same_sign ) ? new_time : remaining_time;
 }
 
+void player_morale::morale_point::set_percent_contribution( double contribution )
+{
+    percent_contribution = contribution;
+}
+
+double player_morale::morale_point::get_percent_contribution()
+{
+    return percent_contribution;
+}
 void player_morale::morale_point::decay( const time_duration ticks )
 {
     if( ticks < 0_turns ) {
@@ -233,6 +259,8 @@ player_morale::player_morale() :
     mutations[trait_id( "ROOTS1" )]         = mutation_data( update_constrained );
     mutations[trait_id( "ROOTS2" )]        = mutation_data( update_constrained );
     mutations[trait_id( "ROOTS3" )]        = mutation_data( update_constrained );
+    mutations[trait_id( "LEAVES2" )]       = mutation_data( update_constrained );
+    mutations[trait_id( "LEAVES3" )]       = mutation_data( update_constrained );
     mutations[trait_id( "MASOCHIST" )]     = mutation_data( update_masochist );
     mutations[trait_id( "MASOCHIST_MED" )] = mutation_data( update_masochist );
     mutations[trait_id( "CENOBITE" )]      = mutation_data( update_masochist );
@@ -244,7 +272,7 @@ void player_morale::add( morale_type type, int bonus, int max_bonus,
 {
     if( ( duration == 0_turns ) & !is_permanent_morale( type ) ) {
         debugmsg( "Tried to set a non-permanent morale \"%s\" as permanent.",
-                  type.obj().describe( item_type ).c_str() );
+                  type.obj().describe( item_type ) );
         return;
     }
 
@@ -326,15 +354,77 @@ morale_mult player_morale::get_temper_mult() const
     return mult;
 }
 
+void player_morale::calculate_percentage()
+{
+    const morale_mult mult = get_temper_mult();
+
+    int sum_of_positive_squares = 0;
+    int sum_of_negative_squares = 0;
+
+    for( auto &m : points ) {
+        const int bonus = m.get_net_bonus( mult );
+        if( bonus > 0 ) {
+            sum_of_positive_squares += pow( bonus, 2 );
+        } else {
+            sum_of_negative_squares += pow( bonus, 2 );
+        }
+    }
+
+    for( auto &m : points ) {
+        const int bonus = m.get_net_bonus( mult );
+        if( bonus > 0 ) {
+            m.set_percent_contribution( ( pow( bonus, 2 ) / sum_of_positive_squares ) * 100 );
+        } else {
+            m.set_percent_contribution( ( pow( bonus, 2 ) / sum_of_negative_squares ) * 100 );
+        }
+    }
+}
+
+int player_morale::get_total_negative_value() const
+{
+    const morale_mult mult = get_temper_mult();
+    int sum = 0;
+    for( auto &m : points ) {
+        const int bonus = m.get_net_bonus( mult );
+        if( bonus < 0 ) {
+            sum += pow( bonus, 2 );
+        }
+    }
+    return sqrt( sum );
+}
+
+int player_morale::get_total_positive_value() const
+{
+    const morale_mult mult = get_temper_mult();
+    int sum = 0;
+    for( auto &m : points ) {
+        const int bonus = m.get_net_bonus( mult );
+        if( bonus > 0 ) {
+            sum += pow( bonus, 2 );
+        }
+
+    }
+    return sqrt( sum );
+}
+
 int player_morale::get_level() const
 {
     if( !level_is_valid ) {
         const morale_mult mult = get_temper_mult();
 
-        level = 0;
+        int sum_of_positive_squares = 0;
+        int sum_of_negative_squares = 0;
+
         for( auto &m : points ) {
-            level += m.get_net_bonus( mult );
+            const int bonus = m.get_net_bonus( mult );
+            if( bonus > 0 ) {
+                sum_of_positive_squares += pow( bonus, 2 );
+            } else {
+                sum_of_negative_squares += pow( bonus, 2 );
+            }
         }
+
+        level = sqrt( sum_of_positive_squares ) - sqrt( sum_of_negative_squares );
 
         if( took_prozac ) {
             level *= morale_mults::prozac;
@@ -363,11 +453,16 @@ void player_morale::decay( const time_duration ticks )
 
 void player_morale::display( double focus_gain )
 {
-    const char *morale_gain_caption = _( "Total morale gain" );
+    /*calculates the percent contributions of the morale points,
+     * must be done before anything else in this method
+     */
+    calculate_percentage();
+
+    const char *morale_gain_caption = _( "Total morale change" );
     const char *focus_gain_caption = _( "Focus gain per minute" );
     const char *points_is_empty = _( "Nothing affects your morale" );
 
-    int w_extra = 8;
+    int w_extra = 16;
 
     // Figure out how wide the source column needs to be.
     int source_column_width = std::max( utf8_width( morale_gain_caption ),
@@ -386,14 +481,24 @@ void player_morale::display( double focus_gain )
     const int win_y = ( TERMY - win_h ) / 2;
 
     catacurses::window w = catacurses::newwin( win_h, win_w, win_y, win_x );
-
-    const auto print_line = [ w ]( int y, const char *label, double value ) -> int {
+    //lambda function used to print almost everything to the window
+    const auto print_line = [ w ]( int y, const char *label, double value, bool isPercentage = false,
+    nc_color color_override = c_unset ) -> int {
         nc_color color;
         if( value != 0.0 )
         {
             const int decimals = ( value - static_cast<int>( value ) != 0.0 ) ? 2 : 0;
-            color = ( value > 0.0 ) ? c_green : c_red;
-            mvwprintz( w, y, getmaxx( w ) - 8, color, "%+6.*f", decimals, value );
+            if( color_override == c_unset ) {
+                color = ( value > 0.0 ) ? c_green : c_light_red;
+            } else {
+                color = color_override;
+            }
+            if( isPercentage ) {
+                mvwprintz( w, y, getmaxx( w ) - 8, color, "%6.*f%%", decimals, value );
+            } else {
+                mvwprintz( w, y, getmaxx( w ) - 8, color, "%+6.*f", decimals, value );
+            }
+
         } else
         {
             color = c_dark_gray;
@@ -408,6 +513,7 @@ void player_morale::display( double focus_gain )
 
     for( ;; ) {
 
+        //creates the window
         werase( w );
 
         draw_border( w );
@@ -425,6 +531,8 @@ void player_morale::display( double focus_gain )
         if( !points.empty() ) {
             const char *source_column = _( "Source" );
             const char *value_column = _( "Value" );
+            const char *total_positve_label = _( "Total positive morale" );
+            const char *total_negitive_label = _( "Total negative morale" );
 
             mvwprintz( w, 3, 2, c_light_gray, source_column );
             mvwprintz( w, 3, win_w - utf8_width( value_column ) - 2, c_light_gray, value_column );
@@ -432,11 +540,31 @@ void player_morale::display( double focus_gain )
             const morale_mult mult = get_temper_mult();
 
             int line = 0;
+            line += print_line( 4 + line, total_positve_label, get_total_positive_value(), false,
+                                c_light_green );
+            //prints out all the positive morale effects
             for( size_t i = offset; i < static_cast<size_t>( rows_total ); ++i ) {
-                const std::string name = points[i].get_name();
                 const int bonus = points[i].get_net_bonus( mult );
+                if( bonus > 0 ) {
+                    const std::string name = points[i].get_name();
+                    line += print_line( 4 + line, name.c_str(), points[i].get_percent_contribution(), true );
+                }
 
-                line += print_line( 4 + line, name.c_str(), bonus );
+                if( line >= rows_visible ) {
+                    break;  // This prevents overflowing (unlikely, but just in case)
+                }
+            }
+            line++; //adds a space in the GUI
+            //prints out all the negitve morale effects
+            line += print_line( 4 + line, total_negitive_label, -1 * get_total_negative_value(), false, c_red );
+
+            for( size_t i = offset; i < static_cast<size_t>( rows_total ); ++i ) {
+                const int bonus = points[i].get_net_bonus( mult );
+                if( bonus < 0 ) {
+                    const std::string name = points[i].get_name();
+                    line += print_line( 4 + line, name.c_str(), points[i].get_percent_contribution(), true,
+                                        c_light_red );
+                }
                 if( line >= rows_visible ) {
                     break;  // This prevents overflowing (unlikely, but just in case)
                 }
@@ -478,7 +606,7 @@ bool player_morale::consistent_with( const player_morale &morale ) const
             } );
 
             if( iter == rhs.points.end() || lhp.get_net_bonus() != iter->get_net_bonus() ) {
-                debugmsg( "Morale \"%s\" is inconsistent.", lhp.get_name().c_str() );
+                debugmsg( "Morale \"%s\" is inconsistent.", lhp.get_name() );
                 return false;
             }
         }
@@ -566,14 +694,10 @@ void player_morale::on_item_takeoff( const item &it )
     set_worn( it, false );
 }
 
-void player_morale::on_worn_item_transform( const item &it )
+void player_morale::on_worn_item_transform( const item &old_it, const item &new_it )
 {
-    item dummy = it;
-    dummy.convert( dynamic_cast<iuse_transform *>( item::find_type(
-                       it.typeId() )->get_use( "transform" )->get_actor_ptr() )->target );
-
-    set_worn( dummy, false );
-    set_worn( it, true );
+    set_worn( old_it, false );
+    set_worn( new_it, true );
 }
 
 void player_morale::on_worn_item_washed( const item &it )
@@ -752,7 +876,7 @@ void player_morale::update_bodytemp_penalty( const time_duration &ticks )
 
         if( max_pen != 0 )
         {
-            add( type, -2 * to_turns<int>( ticks ), -std::abs( max_pen ), 10_turns, 5_turns, true );
+            add( type, -2 * to_turns<int>( ticks ), -std::abs( max_pen ), 1_minutes, 30_seconds, true );
         }
     };
     apply_pen( MORALE_COLD, [ this ]( body_part bp ) {
@@ -777,6 +901,10 @@ void player_morale::update_constrained_penalty()
         has_mutation( trait_id( "ROOTS3" ) ) ) {
         pen += bp_pen( bp_foot_l, 5 );
         pen += bp_pen( bp_foot_r, 5 );
+    }
+    if( has_mutation( trait_id( "LEAVES2" ) ) || has_mutation( trait_id( "LEAVES3" ) ) ) {
+        pen += bp_pen( bp_arm_l, 5 );
+        pen += bp_pen( bp_arm_r, 5 );
     }
     set_permanent( MORALE_PERM_CONSTRAINED, -std::min( pen, 10 ) );
 }

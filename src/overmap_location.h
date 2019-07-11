@@ -3,12 +3,12 @@
 #define OVERMAP_LOCATION_H
 
 #include <vector>
+#include <string>
 
 #include "int_id.h"
 #include "string_id.h"
 
 class JsonObject;
-
 struct oter_t;
 struct oter_type_t;
 
@@ -41,6 +41,6 @@ void load( JsonObject &jo, const std::string &src );
 void check_consistency();
 void reset();
 
-}
+} // namespace overmap_locations
 
 #endif // OVERMAP_LOCATION_H

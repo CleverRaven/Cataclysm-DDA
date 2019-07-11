@@ -7,12 +7,11 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <algorithm>
+#include <type_traits>
 
 #include "units.h"
 
-class item;
-class Creature;
-struct tripoint;
 class JsonIn;
 class JsonOut;
 
@@ -250,11 +249,18 @@ double convert_volume( int volume, int *out_scale );
 double temp_to_celsius( double fahrenheit );
 
 /**
- * Convert a temperature from degrees Fahrenheit to degrees Kelvin.
+ * Convert a temperature from degrees Fahrenheit to Kelvin.
  *
  * @return Temperature in degrees K.
  */
 double temp_to_kelvin( double fahrenheit );
+
+/**
+ * Convert a temperature from Kelvin to degrees Fahrenheit.
+ *
+ * @return Temperature in degrees C.
+ */
+double kelvin_to_fahrenheit( double kelvin );
 
 /**
  * Clamp (number and space wise) value to with,
@@ -380,6 +386,7 @@ class ofstream_wrapper
 bool write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
                     const char *fail_message );
 class JsonDeserializer;
+
 /**
  * Try to open and read from given file using the given callback.
  *
@@ -503,11 +510,12 @@ bool string_starts_with( const std::string &s1, const std::string &s2 );
  */
 bool string_ends_with( const std::string &s1, const std::string &s2 );
 
-/** Used as a default in function declarations in visitable.h, inventory.h, and player.h */
-const std::function<bool( const item & )> return_true = []( const item & )
+/** Used as a default filter in various functions */
+template<typename T>
+bool return_true( const T & )
 {
     return true;
-};
+}
 
 /**
  * Joins a vector of `std::string`s into a single string with a delimiter/joiner

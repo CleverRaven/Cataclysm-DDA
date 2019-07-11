@@ -1,16 +1,16 @@
 #include "gamemode.h" // IWYU pragma: associated
 
-#include <ostream>
 #include <sstream>
+#include <set>
 
 #include "action.h"
+#include "avatar.h"
 #include "color.h"
 #include "construction.h"
 #include "debug.h"
 #include "game.h"
 #include "input.h"
 #include "item_group.h"
-#include "itype.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
@@ -23,8 +23,16 @@
 #include "player.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translations.h"
+#include "cursesdef.h"
+#include "game_constants.h"
+#include "item.h"
+#include "monster.h"
+#include "pldata.h"
+#include "mapdata.h"
+#include "string_id.h"
+#include "point.h"
+#include "weather.h"
 
 #define SPECIAL_WAVE_CHANCE 5 // One in X chance of single-flavor wave
 #define SPECIAL_WAVE_MIN 5 // Don't use a special wave with < X monsters
@@ -52,7 +60,7 @@ int caravan_price( player &u, int price );
 
 void draw_caravan_borders( const catacurses::window &w, int current_window );
 void draw_caravan_categories( const catacurses::window &w, int category_selected,
-                              unsigned total_price, unsigned long cash );
+                              int total_price, int cash );
 void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *items,
                          std::vector<int> *counts, int offset, int item_selected );
 
@@ -81,7 +89,7 @@ defense_game::defense_game()
 bool defense_game::init()
 {
     calendar::turn = HOURS( 12 ); // Start at noon
-    g->temperature = 65;
+    g->weather.temperature = 65;
     if( !g->u.create( PLTYPE_CUSTOM ) ) {
         return false;
     }
@@ -148,7 +156,7 @@ void defense_game::pre_action( action_id &act )
     if( ( act == ACTION_MOVE_N && g->u.posy() == HALF_MAPSIZE_X &&
           g->get_levy() <= 93 ) ||
         ( act == ACTION_MOVE_NE && ( ( g->u.posy() == HALF_MAPSIZE_Y &&
-                                       g->get_levy() <=  93 ) ||
+                                       g->get_levy() <= 93 ) ||
                                      ( g->u.posx() == HALF_MAPSIZE_X + SEEX - 1 &&
                                        g->get_levx() >= 98 ) ) ) ||
         ( act == ACTION_MOVE_E && g->u.posx() == HALF_MAPSIZE_X + SEEX - 1 &&
@@ -162,15 +170,15 @@ void defense_game::pre_action( action_id &act )
         ( act == ACTION_MOVE_SW && ( ( g->u.posy() == HALF_MAPSIZE_Y + SEEY - 1 &&
                                        g->get_levy() >= 98 ) ||
                                      ( g->u.posx() == HALF_MAPSIZE_X &&
-                                       g->get_levx() <=  93 ) ) ) ||
+                                       g->get_levx() <= 93 ) ) ) ||
         ( act == ACTION_MOVE_W && g->u.posx() == HALF_MAPSIZE_X &&
           g->get_levx() <= 93 ) ||
         ( act == ACTION_MOVE_NW && ( ( g->u.posy() == HALF_MAPSIZE_Y &&
-                                       g->get_levy() <=  93 ) ||
+                                       g->get_levy() <= 93 ) ||
                                      ( g->u.posx() == HALF_MAPSIZE_X &&
-                                       g->get_levx() <=  93 ) ) ) ) {
+                                       g->get_levx() <= 93 ) ) ) ) {
         add_msg( m_info, _( "You cannot leave the %s behind!" ),
-                 defense_location_name( location ).c_str() );
+                 defense_location_name( location ) );
         act = ACTION_NULL;
     }
 }
@@ -191,10 +199,10 @@ void defense_game::init_mtypes()
         mtype *const t = const_cast<mtype *>( &type );
         t->difficulty *= 1.5;
         t->difficulty += static_cast<int>( t->difficulty / 5 );
-        t->flags.insert( MF_BASHES );
-        t->flags.insert( MF_SMELLS );
-        t->flags.insert( MF_HEARS );
-        t->flags.insert( MF_SEES );
+        t->set_flag( MF_BASHES );
+        t->set_flag( MF_SMELLS );
+        t->set_flag( MF_HEARS );
+        t->set_flag( MF_SEES );
     }
 }
 
@@ -205,7 +213,7 @@ void defense_game::init_constructions()
 
 void defense_game::init_map()
 {
-    auto &starting_om = overmap_buffer.get( 0, 0 );
+    auto &starting_om = overmap_buffer.get( point_zero );
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
             starting_om.ter( x, y, 0 ) = oter_id( "field" );
@@ -492,15 +500,14 @@ void defense_game::setup()
     refresh_setup( w, selection );
 
     input_context ctxt( "DEFENSE_SETUP" );
-    ctxt.register_action( "UP", _( "Previous option" ) );
-    ctxt.register_action( "DOWN", _( "Next option" ) );
-    ctxt.register_action( "LEFT", _( "Cycle option value" ) );
-    ctxt.register_action( "RIGHT", _( "Cycle option value" ) );
-    ctxt.register_action( "CONFIRM", _( "Toggle option" ) );
+    ctxt.register_action( "UP", translate_marker( "Previous option" ) );
+    ctxt.register_action( "DOWN", translate_marker( "Next option" ) );
+    ctxt.register_action( "LEFT", translate_marker( "Cycle option value" ) );
+    ctxt.register_action( "RIGHT", translate_marker( "Cycle option value" ) );
+    ctxt.register_action( "CONFIRM", translate_marker( "Toggle option" ) );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "START" );
-    ctxt.register_action( "SAVE_TEMPLATE" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     while( true ) {
@@ -526,13 +533,6 @@ void defense_game::setup()
             } else {
                 selection--;
             }
-            refresh_setup( w, selection );
-        } else if( action == "SAVE_TEMPLATE" ) {
-            std::string name = string_input_popup()
-                               .title( _( "Template Name:" ) )
-                               .width( 20 )
-                               .query_string();
-            // TODO: this is NON FUNCTIONAL!!!
             refresh_setup( w, selection );
         } else {
             switch( selection ) {
@@ -571,9 +571,8 @@ void defense_game::setup()
                     }
                     mvwprintz( w, 5, 2, c_black, "\
  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" );
-                    mvwprintz( w, 5, 2, c_yellow, defense_location_name( location ).c_str() );
-                    mvwprintz( w,  5, 28, c_light_gray,
-                               defense_location_description( location ).c_str() );
+                    mvwprintz( w, 5, 2, c_yellow, defense_location_name( location ) );
+                    mvwprintz( w,  5, 28, c_light_gray, defense_location_description( location ) );
                     break;
 
                 case 3: // Difficulty of the first wave
@@ -741,13 +740,13 @@ void defense_game::refresh_setup( const catacurses::window &w, int selection )
     werase( w );
     mvwprintz( w,  0,  1, c_light_red, _( "DEFENSE MODE" ) );
     mvwprintz( w,  0, 28, c_light_red, _( "Press direction keys to cycle, ENTER to toggle" ) );
-    mvwprintz( w,  1, 28, c_light_red, _( "Press S to start, ! to save as a template" ) );
+    mvwprintz( w,  1, 28, c_light_red, _( "Press S to start" ) );
     mvwprintz( w,  2,  2, c_light_gray, _( "Scenario:" ) );
-    mvwprintz( w,  3,  2, SELCOL( 1 ), defense_style_name( style ).c_str() );
-    mvwprintz( w,  3, 28, c_light_gray, defense_style_description( style ).c_str() );
+    mvwprintz( w,  3,  2, SELCOL( 1 ), defense_style_name( style ) );
+    mvwprintz( w,  3, 28, c_light_gray, defense_style_description( style ) );
     mvwprintz( w,  4,  2, c_light_gray, _( "Location:" ) );
-    mvwprintz( w,  5,  2, SELCOL( 2 ), defense_location_name( location ).c_str() );
-    mvwprintz( w,  5, 28, c_light_gray, defense_location_description( location ).c_str() );
+    mvwprintz( w,  5,  2, SELCOL( 2 ), defense_location_name( location ) );
+    mvwprintz( w,  5, 28, c_light_gray, defense_location_description( location ) );
 
     mvwprintz( w,  7,  2, c_light_gray, _( "Initial Difficulty:" ) );
     mvwprintz( w,  7, NUMALIGN( initial_difficulty ), SELCOL( 3 ), "%d",
@@ -913,7 +912,7 @@ void defense_game::caravan()
         }
     }
 
-    unsigned total_price = 0;
+    signed total_price = 0;
 
     catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, 0, 0 );
 
@@ -945,9 +944,9 @@ Start by selecting a category using your favorite up/down keys.\n\
 Switch between category selection and item selecting by pressing %s.\n\
 Pick an item with the up/down keys, press left/right to buy 1 less/more.\n\
 Press %s to buy everything in your cart, %s to buy nothing." ),
-                       ctxt.get_desc( "NEXT_TAB" ).c_str(),
-                       ctxt.get_desc( "CONFIRM" ).c_str(),
-                       ctxt.get_desc( "QUIT" ).c_str()
+                       ctxt.get_desc( "NEXT_TAB" ),
+                       ctxt.get_desc( "CONFIRM" ),
+                       ctxt.get_desc( "QUIT" )
                      );
             draw_caravan_categories( w, category_selected, total_price, g->u.cash );
             draw_caravan_items( w, &( items[category_selected] ),
@@ -1101,7 +1100,7 @@ Press %s to buy everything in your cart, %s to buy nothing." ),
                                              "Buy %d items, leaving you with %s?",
                                              items[0].size() ),
                                    items[0].size(),
-                                   format_money( static_cast<long>( g->u.cash ) - static_cast<long>( total_price ) ) ) ) ) {
+                                   format_money( static_cast<int>( g->u.cash ) - static_cast<int>( total_price ) ) ) ) ) {
                 done = true;
             }
             if( !done ) { // We canceled, so redraw everything
@@ -1274,7 +1273,7 @@ void draw_caravan_borders( const catacurses::window &w, int current_window )
 }
 
 void draw_caravan_categories( const catacurses::window &w, int category_selected,
-                              unsigned total_price, unsigned long cash )
+                              int total_price, int cash )
 {
     // Clear the window
     for( int i = 1; i <= 10; i++ ) {
@@ -1283,11 +1282,11 @@ void draw_caravan_categories( const catacurses::window &w, int category_selected
     mvwprintz( w, 1, 1, c_white, _( "Your Cash: %s" ), format_money( cash ) );
     wprintz( w, c_light_gray, " -> " );
     wprintz( w, ( total_price > cash ? c_red : c_green ), "%s",
-             format_money( static_cast<long>( cash ) - static_cast<long>( total_price ) ) );
+             format_money( static_cast<int>( cash ) - static_cast<int>( total_price ) ) );
 
     for( int i = 0; i < NUM_CARAVAN_CATEGORIES; i++ ) {
         mvwprintz( w, i + 3, 1, ( i == category_selected ? h_white : c_white ),
-                   caravan_category_name( caravan_category( i ) ).c_str() );
+                   caravan_category_name( caravan_category( i ) ) );
     }
     wrefresh( w );
 }
@@ -1315,11 +1314,11 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
     for( int i = offset; i <= offset + FULL_SCREEN_HEIGHT - 2 &&
          i < static_cast<int>( items->size() ); i++ ) {
         mvwprintz( w, i - offset + 1, 40, ( item_selected == i ? h_white : c_white ),
-                   item::nname( ( *items )[i], ( *counts )[i] ).c_str() );
+                   item::nname( ( *items )[i], ( *counts )[i] ) );
         wprintz( w, c_white, " x %2d", ( *counts )[i] );
         if( ( *counts )[i] > 0 ) {
-            unsigned long price = caravan_price( g->u, item( ( *items )[i],
-                                                 0 ).price( false ) * ( *counts )[i] );
+            int price = caravan_price( g->u, item( ( *items )[i],
+                                                   0 ).price( false ) * ( *counts )[i] );
             wprintz( w, ( price > g->u.cash ? c_red : c_green ), " (%s)", format_money( price ) );
         }
     }
@@ -1365,7 +1364,7 @@ void defense_game::spawn_wave()
                 for( int i = 0; i < num; i++ ) {
                     spawn_wave_monster( type.id );
                 }
-                add_msg( m_info,  special_wave_message( type.nname( 100 ) ).c_str() );
+                add_msg( m_info,  special_wave_message( type.nname( 100 ) ) );
                 add_msg( m_info, "********" );
                 return;
             } else {
@@ -1464,28 +1463,28 @@ std::string defense_game::special_wave_message( std::string name )
 
     switch( rng( 1, 8 ) ) {
         case 1:
-            ret << string_format( _( "Invasion of the %s!" ), name.c_str() );
+            ret << string_format( _( "Invasion of the %s!" ), name );
             break;
         case 2:
-            ret << string_format( _( "Attack of the %s!" ), name.c_str() );
+            ret << string_format( _( "Attack of the %s!" ), name );
             break;
         case 3:
-            ret << string_format( _( "%s Attack!" ), name.c_str() );
+            ret << string_format( _( "%s Attack!" ), name );
             break;
         case 4:
-            ret << string_format( _( "%s from Hell!" ), name.c_str() );
+            ret << string_format( _( "%s from Hell!" ), name );
             break;
         case 5:
-            ret << string_format( _( "Beware! %s!" ), name.c_str() );
+            ret << string_format( _( "Beware! %s!" ), name );
             break;
         case 6:
-            ret << string_format( _( "The Day of the %s!" ), name.c_str() );
+            ret << string_format( _( "The Day of the %s!" ), name );
             break;
         case 7:
-            ret << string_format( _( "Revenge of the %s!" ), name.c_str() );
+            ret << string_format( _( "Revenge of the %s!" ), name );
             break;
         case 8:
-            ret << string_format( _( "Rise of the %s!" ), name.c_str() );
+            ret << string_format( _( "Rise of the %s!" ), name );
             break;
     }
 

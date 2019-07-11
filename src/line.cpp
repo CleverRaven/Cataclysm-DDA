@@ -2,10 +2,17 @@
 
 #include <cstdlib>
 #include <cassert>
+#include <algorithm>
+#include <array>
+#include <memory>
+#include <tuple>
+#include <utility>
 
+#include "math_defines.h"
 #include "translations.h"
 #include "string_formatter.h"
 #include "output.h"
+#include "enums.h"
 
 extern bool trigdist;
 
@@ -244,7 +251,14 @@ float trig_dist( const tripoint &loc1, const tripoint &loc2 )
 
 int square_dist( const int x1, const int y1, const int x2, const int y2 )
 {
-    return square_dist( tripoint( x1, y1, 0 ), tripoint( x2, y2, 0 ) );
+    return square_dist( point( x1, y1 ), point( x2, y2 ) );
+}
+
+int square_dist( const point &loc1, const point &loc2 )
+{
+    const int dx = abs( loc1.x - loc2.x );
+    const int dy = abs( loc1.y - loc2.y );
+    return dx > dy ? dx : dy;
 }
 
 int square_dist( const tripoint &loc1, const tripoint &loc2 )
@@ -277,7 +291,7 @@ int rl_dist( const tripoint &loc1, const tripoint &loc2 )
 // This more general version of this function gives correct values for larger values.
 unsigned make_xyz( const int x, const int y, const int z )
 {
-    static const double sixteenth_arc = 0.392699082;
+    static constexpr double sixteenth_arc = M_PI / 8;
     int vertical_position = ( ( z > 0 ) ? 2u : ( z < 0 ) ? 1u : 0u ) * 9u;
     if( x == 0 && y == 0 ) {
         return vertical_position;
@@ -317,7 +331,7 @@ unsigned make_xyz( const int x, const int y, const int z )
 }
 
 // returns the normalized dx, dy, dz for the current line vector.
-std::tuple<double, double, double> slope_of( const std::vector<tripoint> &line )
+static std::tuple<double, double, double> slope_of( const std::vector<tripoint> &line )
 {
     assert( !line.empty() && line.front() != line.back() );
     const double len = trig_dist( line.front(), line.back() );
@@ -448,7 +462,7 @@ const std::string direction_name_impl( const direction dir, const bool short_nam
         i = size;
     }
 
-    return short_name ? _( names[i].first.c_str() ) : _( names[i].second.c_str() );
+    return short_name ? _( names[i].first ) : _( names[i].second );
 }
 } //namespace
 
@@ -468,8 +482,7 @@ std::string direction_suffix( const tripoint &p, const tripoint &q )
     if( dist <= 0 ) {
         return std::string();
     }
-    return string_format( "%d%s", dist, trim( direction_name_short( direction_from( p,
-                          q ) ) ).c_str() );
+    return string_format( "%d%s", dist, trim( direction_name_short( direction_from( p, q ) ) ) );
 }
 
 // Cardinals are cardinals. Result is cardinal and adjacent sub-cardinals.

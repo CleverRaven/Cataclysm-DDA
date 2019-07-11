@@ -14,11 +14,11 @@
     "description": "Dry toaster pastries usually coated with solid frosting and what luck!  These are strawberry flavored!",
     "price": 400,
     "material": [ "wheat", "junk" ],
-    "volume": 5,
+    "volume": "1 L",
     "charges": 8,
     "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "vitA", 3 ], [ "iron", 10 ] ],
-    "fun": 25
+    "fun": 20
   },
   {
     "type": "COMESTIBLE",
@@ -26,7 +26,7 @@
     "name": "toast-em",
     "copy-from": "toastem",
     "description": "Dry toaster pastries, usually coated with solid frosting, these are blueberry flavored!",
-    "fun": 18
+    "fun": 15
   },
   {
     "type": "COMESTIBLE",
@@ -66,7 +66,7 @@
     "copy-from": "toasterpastryfrozen",
     "quench": 4,
     "description": "A delicious fruit-filled pastry that you've cooked.  It even comes with frosting!",
-    "fun": 30
+    "fun": 20
   },
   {
     "type": "COMESTIBLE",
@@ -250,7 +250,7 @@
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ] ],
-    "fun": 30
+    "fun": 20
   },
   {
     "type": "COMESTIBLE",
@@ -466,7 +466,7 @@
     "volume": 8,
     "charges": 12,
     "vitamins": [ [ "calcium", 3 ], [ "iron", 6 ] ],
-    "fun": 20
+    "fun": 15
   },
   {
     "type": "COMESTIBLE",
@@ -484,7 +484,7 @@
     "stim": 8,
     "quench": -5,
     "description": "A cake coated in the thickest icing you've ever seen.  Someone has written guff in quotation marks on it...",
-    "fun": 30
+    "fun": 20
   },
   {
     "type": "COMESTIBLE",
@@ -567,8 +567,9 @@
   {
     "type": "COMESTIBLE",
     "id": "neccowafers",
-    "name": "Necco wafer",
-    "weight": 46,
+    "name": "Necco wafers",
+    "name_plural": "Necco wafers",
+    "weight": 60,
     "color": "magenta",
     "spoils_in": "180 days",
     "stim": 1,
@@ -581,7 +582,7 @@
     "description": "A handful of candy wafers, in assorted flavors: orange, lemon, lime, clove, chocolate, wintergreen, cinnamon, and licorice.  Yum!",
     "price": 100,
     "material": "junk",
-    "volume": 0,
+    "volume": "40 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 4
   },
@@ -822,38 +823,19 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "frozen_burrito",
-    "name": "uncooked burrito",
+    "id": "junk_burrito",
+    "name": "microwave burrito",
     "weight": 142,
     "color": "brown",
-    "spoils_in": "11 days 16 hours",
+    "spoils_in": "2 days 12 hours",
     "container": "bag_plastic",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -12,
     "healthy": -2,
-    "calories": 130,
-    "description": "A small, microwaveable steak & cheese burrito, like those found at gas stations.  Not as appetizing or nutritious as it would be if heated up.",
-    "price": 200,
-    "material": [ "flesh", "junk", "milk" ],
-    "primary_material": "processed_food",
-    "volume": 1,
-    "fun": -3
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "cooked_burrito",
-    "name": "cooked burrito",
-    "weight": 142,
-    "color": "brown",
-    "spoils_in": "2 days 12 hours",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": -12,
-    "healthy": -1,
     "calories": 434,
-    "description": "A small, microwaveable steak & cheese burrito, like those found at gas stations.  It's tastier and more filling, but will also spoil quickly.",
-    "price": 90,
+    "description": "A small, microwaveable steak & cheese burrito, like those found at gas stations.",
+    "price": 200,
     "material": [ "flesh", "junk", "milk" ],
     "primary_material": "processed_food",
     "volume": 1,
@@ -988,20 +970,16 @@
   {
     "type": "COMESTIBLE",
     "id": "choc_pancakes",
+    "copy-from": "pancakes",
     "name": "chocolate pancake",
     "name_plural": "chocolate pancakes",
     "weight": 78,
-    "color": "brown",
-    "spoils_in": "10 days",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "calories": 2193,
+    "healthy": 0,
+    "calories": 219,
     "description": "Fluffy and delicious pancakes with real maple syrup, with delicious chocolate baked right in.",
     "price": 700,
     "material": [ "wheat", "junk", "milk" ],
     "primary_material": "processed_food",
-    "volume": 1,
-    "flags": [ "EATEN_HOT" ],
     "fun": 6,
     "vitamins": [ [ "vitA", 5 ], [ "calcium", 5 ], [ "iron", 17 ], [ "vitB", 33 ] ]
   },

@@ -1,21 +1,26 @@
 #include "cata_utility.h"
 
+#include <cctype>
+#include <cstdio>
 #include <algorithm>
 #include <cmath>
-#include <locale>
 #include <string>
+#include <exception>
+#include <iterator>
+#include <memory>
+#include <sstream>
+#include <stdexcept>
 
 #include "debug.h"
-#include "enums.h"
 #include "filesystem.h"
 #include "json.h"
 #include "mapsharing.h"
-#include "material.h"
 #include "options.h"
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
 #include "units.h"
+#include "catacharset.h"
 
 static double pow10( unsigned int n )
 {
@@ -260,6 +265,11 @@ double temp_to_celsius( double fahrenheit )
 double temp_to_kelvin( double fahrenheit )
 {
     return temp_to_celsius( fahrenheit ) + 273.15;
+}
+
+double kelvin_to_fahrenheit( double kelvin )
+{
+    return 1.8 * ( kelvin - 273.15 ) + 32;
 }
 
 double clamp_to_width( double value, int width, int &scale )

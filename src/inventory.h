@@ -2,34 +2,43 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
+#include <cstddef>
 #include <array>
 #include <list>
 #include <string>
 #include <unordered_map>
+#include <bitset>
 #include <utility>
 #include <vector>
+#include <limits>
+#include <functional>
+#include <map>
 
 #include "cata_utility.h"
-#include "enums.h"
 #include "item.h"
 #include "visitable.h"
+#include "units.h"
 
 class map;
 class npc;
+class Character;
+class JsonIn;
+class JsonOut;
+class player;
+struct tripoint;
 
-typedef std::list< std::list<item> > invstack;
-typedef std::vector< std::list<item>* > invslice;
-typedef std::vector< const std::list<item>* > const_invslice;
-typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
-typedef std::unordered_map< itype_id, std::list<const item *> > itype_bin;
-
-class salvage_actor;
+using invstack = std::list<std::list<item> >;
+using invslice = std::vector<std::list<item> *>;
+using const_invslice = std::vector<const std::list<item> *>;
+using indexed_invslice = std::vector< std::pair<std::list<item>*, int> >;
+using itype_bin = std::unordered_map< itype_id, std::list<const item *> >;
+using invlets_bitset = std::bitset<std::numeric_limits<char>::max()>;
 
 /**
  * Wrapper to handled a set of valid "inventory" letters. "inventory" can be any set of
  * objects that the player can access via a single character (e.g. bionics).
  * The class is (currently) derived from std::string for compatibility and because it's
- * simpler. But it may be changed to derive from `std::set<long>` or similar to get the full
+ * simpler. But it may be changed to derive from `std::set<int>` or similar to get the full
  * range of possible characters.
  */
 class invlet_wrapper : private std::string
@@ -37,7 +46,7 @@ class invlet_wrapper : private std::string
     public:
         invlet_wrapper( const char *chars ) : std::string( chars ) { }
 
-        bool valid( long invlet ) const;
+        bool valid( int invlet ) const;
         std::string get_allowed_chars() const {
             return *this;
         }
@@ -113,8 +122,10 @@ class inventory : public visitable<inventory>
          * the player's worn items / weapon
          */
         void restack( player &p );
-
-        void form_from_map( const tripoint &origin, int distance, bool assign_invlet = true );
+        void form_from_map( const tripoint &origin, int distance, bool assign_invlet = true,
+                            bool clear_path = true );
+        void form_from_map( map &m, const tripoint &origin, int distance, bool assign_invlet = true,
+                            bool clear_path = true );
 
         /**
          * Remove a specific item from the inventory. The item is compared
@@ -151,14 +162,14 @@ class inventory : public visitable<inventory>
         // Below, "amount" refers to quantity
         //        "charges" refers to charges
         std::list<item> use_amount( itype_id it, int quantity,
-                                    const std::function<bool( const item & )> &filter = is_crafting_component );
+                                    const std::function<bool( const item & )> &filter = return_true<item> );
 
         bool has_tools( const itype_id &it, int quantity,
-                        const std::function<bool( const item & )> &filter = return_true ) const;
+                        const std::function<bool( const item & )> &filter = return_true<item> ) const;
         bool has_components( const itype_id &it, int quantity,
-                             const std::function<bool( const item & )> &filter = is_crafting_component ) const;
-        bool has_charges( const itype_id &it, long quantity,
-                          const std::function<bool( const item & )> &filter = return_true ) const;
+                             const std::function<bool( const item & )> &filter = return_true<item> ) const;
+        bool has_charges( const itype_id &it, int quantity,
+                          const std::function<bool( const item & )> &filter = return_true<item> ) const;
 
         int leak_level( const std::string &flag ) const; // level of leaked bad stuff from items
 
@@ -166,8 +177,6 @@ class inventory : public visitable<inventory>
         int worst_item_value( npc *p ) const;
         bool has_enough_painkiller( int pain ) const;
         item *most_appropriate_painkiller( int pain );
-        item *best_for_melee( player &p, double &best );
-        item *most_loaded_gun();
 
         void rust_iron_items();
 
@@ -180,6 +189,7 @@ class inventory : public visitable<inventory>
         void dump( std::vector<item *> &dest );
 
         // vector rather than list because it's NOT an item stack
+        // returns all items that need processing
         std::vector<item *> active_items();
 
         void json_load_invcache( JsonIn &jsin );
@@ -196,7 +206,9 @@ class inventory : public visitable<inventory>
         // Removes invalid invlets, and assigns new ones if assign_invlet is true. Does not update the invlet cache.
         void update_invlet( item &it, bool assign_invlet = true );
 
-        std::set<char> allocated_invlets() const;
+        void set_stack_favorite( const int position, const bool favorite );
+
+        invlets_bitset allocated_invlets() const;
 
         /**
          * Returns visitable items binned by their itype.

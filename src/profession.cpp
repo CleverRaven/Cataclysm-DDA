@@ -3,23 +3,31 @@
 #include <cmath>
 #include <iterator>
 #include <map>
+#include <algorithm>
+#include <memory>
 
 #include "addiction.h"
+#include "avatar.h"
 #include "debug.h"
 #include "generic_factory.h"
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
+#include "mtype.h"
 #include "player.h"
 #include "pldata.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "calendar.h"
+#include "item.h"
+#include "flat_set.h"
+#include "type_id.h"
 
 namespace
 {
 generic_factory<profession> all_profs( "profession", "ident" );
 const string_id<profession> generic_profession_id( "unemployed" );
-}
+} // namespace
 
 static class json_item_substitution
 {
@@ -121,7 +129,7 @@ class item_reader : public generic_typed_reader<item_reader>
             JsonArray jarr = jin.get_array();
             const auto id = jarr.get_string( 0 );
             const auto s = jarr.get_string( 1 );
-            const auto snippet = _( s.c_str() );
+            const auto snippet = _( s );
             return profession::itypedec( id, snippet );
         }
         template<typename C>
@@ -155,6 +163,27 @@ void profession::load( JsonObject &jo, const std::string & )
         // These also may differ depending on the language settings!
         _description_male = pgettext( "prof_desc_male", desc.c_str() );
         _description_female = pgettext( "prof_desc_female", desc.c_str() );
+    }
+    if( jo.has_array( "pets" ) ) {
+        JsonArray array = jo.get_array( "pets" );
+        while( array.has_more() ) {
+            JsonObject subobj = array.next_object();
+            int count = subobj.get_int( "amount" );
+            mtype_id mon = mtype_id( subobj.get_string( "name" ) );
+            for( int start = 0; start < count; ++start ) {
+                _starting_pets.push_back( mon );
+            }
+        }
+    }
+
+    if( jo.has_array( "spells" ) ) {
+        JsonArray array = jo.get_array( "spells" );
+        while( array.has_more() ) {
+            JsonObject subobj = array.next_object();
+            int level = subobj.get_int( "level" );
+            spell_id sp = spell_id( subobj.get_string( "id" ) );
+            _starting_spells.emplace( sp, level );
+        }
     }
 
     mandatory( jo, was_loaded, "points", _point_cost );
@@ -268,7 +297,11 @@ void profession::check_definition() const
             debugmsg( "trait %s for profession %s does not exist", t.c_str(), id.c_str() );
         }
     }
-
+    for( const auto &elem : _starting_pets ) {
+        if( !elem.is_valid() ) {
+            debugmsg( "startng pet %s for profession %s does not exist", elem.c_str(), id.c_str() );
+        }
+    }
     for( const auto &elem : _starting_skills ) {
         if( !elem.first.is_valid() ) {
             debugmsg( "skill %s for profession %s does not exist", elem.first.c_str(), id.c_str() );
@@ -379,6 +412,11 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
     return result;
 }
 
+std::vector<mtype_id> profession::pets() const
+{
+    return _starting_pets;
+}
+
 std::vector<addiction> profession::addictions() const
 {
     return _starting_addictions;
@@ -413,6 +451,22 @@ bool profession::is_locked_trait( const trait_id &trait ) const
 {
     return std::find( _starting_traits.begin(), _starting_traits.end(), trait ) !=
            _starting_traits.end();
+}
+
+std::map<spell_id, int> profession::spells() const
+{
+    return _starting_spells;
+}
+
+void profession::learn_spells( avatar &you ) const
+{
+    for( const std::pair<spell_id, int> spell_pair : spells() ) {
+        you.magic.learn_spell( spell_pair.first, you, true );
+        spell &sp = you.magic.get_spell( spell_pair.first );
+        while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
+            sp.gain_level();
+        }
+    }
 }
 
 // item_substitution stuff:
@@ -576,13 +630,13 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
         return ret;
     }
 
-    const long old_amt = it.count();
+    const int old_amt = it.count();
     for( const substitution::info &inf : sub->infos ) {
         item result( inf.new_item );
-        const long new_amt = std::max( 1l, static_cast<long>( std::round( inf.ratio * old_amt ) ) );
+        const int new_amt = std::max( 1, static_cast<int>( std::round( inf.ratio * old_amt ) ) );
 
         if( !result.count_by_charges() ) {
-            for( long i = 0; i < new_amt; i++ ) {
+            for( int i = 0; i < new_amt; i++ ) {
                 ret.push_back( result.in_its_container() );
             }
         } else {
@@ -608,4 +662,3 @@ std::vector<itype_id> json_item_substitution::get_bonus_items( const std::vector
     }
     return ret;
 }
-

@@ -42,7 +42,9 @@
       "u": "t_dirtfloor",
       "W": "t_dirtfloor",
       "w": "t_window",
-      "y": "t_dirt"
+      "y": "t_dirt",
+      "z": "t_radio_tower",
+      "Z": "t_radio_controls"
     },
     "furniture": {
       "#": "f_null",

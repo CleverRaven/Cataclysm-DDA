@@ -142,7 +142,7 @@ Exotic damage types (currently only fire) do not scale with skills or crits.
 
 # RANGE WEAPONS
 ## Automatic Fire
-Guns with automatic fire are balanced around 1-second of cyclic fire, unless the cyclic or practical fire rate is less than 1 every six seconds.  Rates of fire less than 1 shot every six seconds are increased to 2.
+Guns with automatic fire are balanced around 1-second of cyclic fire, unless the cyclic or practical fire rate is less than 1 every second.  Rates of fire less than 1 shot every second are increased to 2.
 
 ## Magazines
 ### Reload times
@@ -207,8 +207,8 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 9x19mm +P+         | 115gr JHP bullet            | 678       | 26  | 5.9in    |                              |
 .38 Special        | 130gr FMJ bullet            | 256       | 16  | 4in      |                              |
 .38 FMJ            | 130gr FMJ bullet            | 256       | 16  | 4in      |                              |
-.38 Super          | 90gr JHP bullet             | 658       | 26  | 4in      |                              |
-10mm Auto          | 180gr FMJ bullet            | 575       | 24  | 4in      |                              |
+.38 Super          | 147gr JHP bullet            | 660       | 26  | 4in      |                              |
+10mm Auto          | 180gr FMJ bullet            | 960       | 31  | 4in      |                              |
 .40 S&W            | 135gr JHP bullet            | 575       | 24  | 4in      |                              |
 .40 FMJ            | 180gr FMJ bullet            | 598       | 24  | 4in      |                              |
 .44 Magnum         | 240gr JHP bullet            | 1570      | 40  | 7.5in    |                              |
@@ -216,6 +216,7 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 .45 ACP FMJ        | 230gr FMJ bullet            | 447       | 21  | 5in      |                              |
 .45 ACP +P         | 200gr JHP bullet            | 702       | 26  | 5in      |                              |
 .454 Casull        | 300gr JSP bullet            | 2459      | 50  | 7.5in    |                              |
+.45 Colt JHP       | 250gr JHP bullet            | 610       | 25  | 7.5in    |                              |
 .500 S&W Magnum    | 500gr bullet                | 3056      | 55  | 8.4in    |                              |
 4.6x30mm           | 31gr copper plated steel bullet | 505   | 22  | 7.1in    |        damage reduced by 4   |
 5.7x28mm SS190     | 31gr AP FMJ bullet          | 534       | 23  | 10.4in   |        damage reduced by 3   |
@@ -234,11 +235,13 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 .30-06 Springfield | 165gr soft point bullet     | 3894      | 62  | 24in     |        damage increased by 4 |
 .30-06 M2          | 165.7gr AP bullet           | 3676      | 60  | 24in     |         damage reduced by 10 |
 .30-06 M14A1       | Incendiary ammunition       | 3894      | 62  | 24in     |         damage reduced by 10 |
+.45-70 Govt.       | 300gr soft point bullet     | 3867      | 66  | 24in     |        damage increased by 4 |
 .300 Winchester Magnum | 220gr JHP bullet        | 5299      | 73  | 24in     |        damage increased by 5 |
 .700 NX            | 1000gr JSP bullet           | 12100     | 110 | 28in     |                              |
 .50 BMG Ball       | 750gr FMJ-BT bullet         | 17083     | 131 | 45in     |                              |
 .50 BMG M33 Ball   | 706.7gr bullet              | 18013     | 134 | 45in     |                              |
 .50 BMG M903 SLAP  | 355gr tungsten AP bullet    | 17083     | 131 | 45in     |  Can't be used with M107A1   |
+.410 000 shot      | 5 000 pellets               | 1530      | 39  | 18in     |                              |
 
 # LIQUIDS:
 Multi-charge items are weighed by the charge/use.  If you have an item that contains 40 uses, it'll weigh 40x as much (when found in-game) as you entered in the JSON. Liquids are priced by the 250mL unit, but handled in containers.  This can cause problems if you create something that comes in (say) a gallon jug (15 charges) and price it at the cost of a jug's worth: it'll be 15x as expensive as intended.

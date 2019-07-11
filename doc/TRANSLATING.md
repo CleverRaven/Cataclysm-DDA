@@ -78,6 +78,34 @@ Click on the "Save" button when you are satisfied with your translation.
 
 See [Transifex's documentation][3] for more information.
 
+### Grammatical gender
+
+For NPC dialogue (and potentially other strings) some languages may wish to
+have alternate translations depending on the gender of the conversation
+participants.  This two pieces of initial configuration.
+
+1. The dialogue must have the relevant genders listed in the json file defining
+   it.  See [the NPC docs](NPCs.md).
+2. Each language must specify the genders it wishes to use via the translation
+   of `grammatical gender list`.  This should be a space-separated list of
+   genders used in this language for such translations.  Don't add genders here
+   until you're sure you will need them, because it will make more work for
+   you.  If you need different genders than are currently supported you must
+   add them to the `all_genders` lists in `lang/extract_json_strings.py` and
+   `src/translations.cpp`.
+
+Having done this, the relevant dialogue lines will appear multiple times for
+translation, with different genders specified in the message context.  For
+example, a context of `npc:m` would indicate that the NPC participant in the
+conversation is male.
+
+Because of technical limitations, all supported genders will appear as
+contexts, but you only need to provide translations for the genders listed in
+`grammatical gender list` for your language.
+
+Other parts of the game have various ad hoc solutions to grammatical gender, so
+don't be surprised to see other contexts appearing for other strings.
+
 ### Tips
 
 There are issues specific to Cataclysm: DDA which translators should be aware of.

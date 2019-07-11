@@ -1,97 +1,5 @@
 [
   {
-    "id": "VETS",
-    "type": "vehicle_group",
-    "vehicles": [ [ "car", 300 ], [ "pickup", 100 ], [ "suv", 50 ] ]
-  },
-  {
-    "id": "vet_softdrug",
-    "type": "item_group",
-    "items": [
-      [ "bandages", 50 ],
-      [ "1st_aid", 10 ],
-      [ "saline", 20 ],
-      [ "vitamins", 15 ],
-      [ "calcium_tablet", 15 ],
-      [ "nyquil", 5 ],
-      [ "disinfectant", 15 ],
-      [ "vaccine_shot", 10 ],
-      [ "protein_powder", 30 ],
-      [ "smoxygen_tank", 20 ],
-      [ "elec_hairtrimmer", 15 ],
-      [ "survnote", 5 ],
-      [ "mask_dust", 65 ],
-      [ "glasses_safety", 10 ],
-      [ "towel", 50 ],
-      [ "scissors", 50 ],
-      [ "fungicide", 10 ],
-      [ "soap", 20 ],
-      [ "chem_hydrogen_peroxide", 10 ],
-      [ "canister_empty", 5 ],
-      [ "stethoscope", 50 ],
-      [ "scalpel", 50 ],
-      [ "gloves_medical", 50 ],
-      [ "medical_gauze", 25 ],
-      [ "quikclot", 10 ],
-      [ "hacksaw", 5 ],
-      [ "gloves_rubber", 25 ],
-      [ "rag_bloody", 10 ],
-      [ "bag_plastic", 20 ],
-      [ "string_6", 5 ]
-    ]
-  },
-  {
-    "id": "vet_utility",
-    "type": "item_group",
-    "items": [
-      [ "dog_whistle", 10 ],
-      [ "pet_carrier", 30 ],
-      [ "dogfood", 30 ],
-      [ "catfood", 30 ],
-      [ "birdfood", 10 ],
-      [ "towel", 20 ],
-      [ "soap", 10 ],
-      [ "gloves_medical", 20 ],
-      [ "rag", 15 ],
-      [ "rag_bloody", 2 ],
-      [ "bag_plastic", 20 ],
-      [ "jerky", 40 ]
-    ]
-  },
-  {
-    "id": "vet_hardrug",
-    "type": "item_group",
-    "items": [
-      [ "syringe", 10 ],
-      [ "diazepam", 10 ],
-      [ "antifungal", 30 ],
-      [ "antiparasitic", 30 ],
-      [ "antibiotics", 20 ],
-      [ "thorazine", 7 ],
-      [ "morphine", 10 ],
-      [ "codeine", 15 ],
-      [ "saline", 15 ],
-      [ "smoxygen_tank", 10 ],
-      [ "1st_aid", 30 ],
-      [ "medical_tape", 35 ],
-      [ "blood", 5 ],
-      [ "vaccine_shot", 15 ],
-      [ "anesthesia", 20 ]
-    ]
-  },
-  {
-    "name": "GROUP_VETS",
-    "type": "monstergroup",
-    "default": "mon_null",
-    "monsters": [
-      { "monster": "mon_zombie_dog", "freq": 15, "cost_multiplier": 1 },
-      { "monster": "mon_dog_zombie_rot", "freq": 15, "cost_multiplier": 3 },
-      { "monster": "mon_squirrel", "freq": 1, "cost_multiplier": 0 },
-      { "monster": "mon_cat", "freq": 10, "cost_multiplier": 0 },
-      { "monster": "mon_dog", "freq": 10, "cost_multiplier": 0 }
-    ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "veterinarian" ],
@@ -114,7 +22,7 @@
         " *-ll-y....-..+....T.-* ",
         " *-sl-.ddd.-++---i----* ",
         " *-lt-].c..+..-rr..==-* ",
-        " *----------..-#...^l-* ",
+        " *----------..-#...^l-4 ",
         " **~~~~~~~~;..-#...==-* ",
         "          ~-..i....^l-* ",
         "          ~-i--#...==-* ",
@@ -130,7 +38,7 @@
         "*": "t_shrub",
         "+": "t_door_c",
         ",": "t_pavement_y",
-        "-": "t_wall",
+        "-": "t_wall_w",
         ".": "t_floor",
         ":": "t_door_glass_c",
         ";": "t_door_locked",
@@ -144,7 +52,8 @@
         "s": "t_linoleum_white",
         "t": "t_linoleum_white",
         "D": "t_sidewalk",
-        "~": "t_sidewalk"
+        "~": "t_sidewalk",
+        "4": "t_gutter_downspout"
       },
       "furniture": {
         "#": "f_counter",
@@ -192,6 +101,54 @@
         { "vehicle": "VETS", "x": 7, "y": 2, "chance": 15, "rotation": [ 2, 3 ] },
         { "vehicle": "VETS", "x": 15, "y": 2, "chance": 15, "rotation": [ 2, 3 ] },
         { "vehicle": "VETS", "x": 23, "y": 2, "chance": 15, "rotation": [ 2, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "veterinarian_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  |2222222222222222223  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |--------|.........5  ",
+        "           |.........3  ",
+        "           |.........3  ",
+        "           |.&...=...3  ",
+        "           |...X.....3  ",
+        "           |.........3  ",
+        "           |---------3  ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 4, 17 ],
+          "y": [ 8, 11 ]
+        }
       ]
     }
   }

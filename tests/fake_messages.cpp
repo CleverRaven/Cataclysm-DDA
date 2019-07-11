@@ -1,4 +1,18 @@
+#include <stddef.h>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "messages.h"
+#include "enums.h"
+
+class JsonObject;
+class JsonOut;
+
+namespace catacurses
+{
+class window;
+}  // namespace catacurses
 
 /**
  * Stubs to turn all Messages calls into no-ops for unit testing.
@@ -9,7 +23,7 @@ std::vector<std::pair<std::string, std::string>> Messages::recent_messages( size
     return std::vector<std::pair<std::string, std::string>>();
 }
 void Messages::add_msg( std::string ) {}
-void Messages::add_msg( game_message_type, std::string ) {}
+void Messages::add_msg( const game_message_params &, std::string ) {}
 void Messages::clear_messages() {}
 void Messages::deactivate() {}
 size_t Messages::size()
@@ -26,5 +40,4 @@ void Messages::serialize( JsonOut & ) {}
 void Messages::deserialize( JsonObject & ) {}
 
 void add_msg( std::string ) {}
-
-void add_msg( game_message_type, std::string ) {}
+void add_msg( const game_message_params &, std::string ) {}

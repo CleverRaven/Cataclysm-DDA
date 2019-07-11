@@ -2,8 +2,10 @@
 #ifndef OVERMAP_H
 #define OVERMAP_H
 
+#include <cstdlib>
 #include <algorithm>
 #include <array>
+#include <climits>
 #include <functional>
 #include <iosfwd>
 #include <map>
@@ -11,31 +13,34 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <iterator>
+#include <utility>
 
 #include "basecamp.h"
 #include "game_constants.h"
-#include "monster.h"
 #include "omdata.h"
 #include "overmap_types.h" // IWYU pragma: keep
 #include "regional_settings.h"
-#include "weighted_list.h"
+#include "enums.h"
+#include "mongroup.h"
+#include "optional.h"
+#include "type_id.h"
+#include "point.h"
+#include "rng.h"
+#include "string_id.h"
 
-class basecamp;
-class input_context;
-class JsonObject;
 class npc;
-class overmapbuffer;
 class overmap_connection;
-namespace catacurses
-{
-class window;
-} // namespace catacurses
-struct mongroup;
+class JsonIn;
+class JsonOut;
+class monster;
+class JsonObject;
+class map_extra;
 
 namespace pf
 {
 struct path;
-}
+} // namespace pf
 
 struct city {
     // location of the city (in overmap terrain coordinates)
@@ -43,7 +48,7 @@ struct city {
     int size;
     std::string name;
     city( const point &P = point_zero, const int S = -1 );
-    city( const int X, const int Y, const int S ) : city( point( X, Y ), S ) {};
+    city( const int X, const int Y, const int S ) : city( point( X, Y ), S ) {}
 
     operator bool() const {
         return size >= 0;
@@ -58,9 +63,14 @@ struct om_note {
     int         y;
 };
 
+struct om_map_extra {
+    string_id<map_extra> id;
+    int                  x;
+    int                  y;
+};
+
 struct om_vehicle {
-    int x; // overmap x coordinate of tracked vehicle
-    int y; // overmap y coordinate
+    point p; // overmap coordinates of tracked vehicle
     std::string name;
 };
 
@@ -82,10 +92,10 @@ struct radio_tower {
     radio_type type;
     std::string message;
     int frequency;
-    radio_tower( int X = -1, int Y = -1, int S = -1, std::string M = "",
+    radio_tower( int X = -1, int Y = -1, int S = -1, const std::string &M = "",
                  radio_type T = MESSAGE_BROADCAST ) :
         x( X ), y( Y ), strength( S ), type( T ), message( M ) {
-        frequency = rand();
+        frequency = rng( 0, INT_MAX );
     }
 };
 
@@ -94,6 +104,7 @@ struct map_layer {
     bool visible[OMAPX][OMAPY];
     bool explored[OMAPX][OMAPY];
     std::vector<om_note> notes;
+    std::vector<om_map_extra> extras;
 };
 
 struct om_special_sectors {
@@ -151,6 +162,7 @@ class overmap
         overmap( const overmap & ) = default;
         overmap( overmap && ) = default;
         overmap( int x, int y );
+        overmap( const point &p ) : overmap( p.x, p.y ) {}
         ~overmap();
 
         overmap &operator=( const overmap & ) = default;
@@ -185,14 +197,56 @@ class overmap
         oter_id &ter( const tripoint &p );
         const oter_id get_ter( const int x, const int y, const int z ) const;
         const oter_id get_ter( const tripoint &p ) const;
-        bool   &seen( int x, int y, int z );
-        bool   &explored( int x, int y, int z );
+        bool &seen( int x, int y, int z );
+        bool &seen( const tripoint &p ) {
+            return seen( p.x, p.y, p.z );
+        }
+        bool seen( int x, int y, int z ) const;
+        bool seen( const tripoint &p ) const {
+            return seen( p.x, p.y, p.z );
+        }
+        bool &explored( int x, int y, int z );
+        bool &explored( const tripoint &p ) {
+            return explored( p.x, p.y, p.z );
+        }
         bool is_explored( const int x, const int y, const int z ) const;
+        bool is_explored( const tripoint &p ) const {
+            return is_explored( p.x, p.y, p.z );
+        }
 
         bool has_note( int x, int y, int z ) const;
+        bool has_note( const tripoint &p ) const {
+            return has_note( p.x, p.y, p.z );
+        }
         const std::string &note( int x, int y, int z ) const;
+        const std::string &note( const tripoint &p ) const {
+            return note( p.x, p.y, p.z );
+        }
         void add_note( int x, int y, int z, std::string message );
+        void add_note( const tripoint &p, std::string message ) {
+            add_note( p.x, p.y, p.z, message );
+        }
         void delete_note( int x, int y, int z );
+        void delete_note( const tripoint &p ) {
+            delete_note( p.x, p.y, p.z );
+        }
+
+        bool has_extra( int x, int y, int z ) const;
+        bool has_extra( const tripoint &p ) const {
+            return has_extra( p.x, p.y, p.z );
+        }
+        const string_id<map_extra> &extra( int x, int y, int z ) const;
+        const string_id<map_extra> &extra( const tripoint &p ) const {
+            return extra( p.x, p.y, p.z );
+        }
+        void add_extra( int x, int y, int z, const string_id<map_extra> &id );
+        void add_extra( const tripoint &p, const string_id<map_extra> &id ) {
+            add_extra( p.x, p.y, p.z, id );
+        }
+        void delete_extra( int x, int y, int z );
+        void delete_extra( const tripoint &p ) {
+            delete_extra( p.x, p.y, p.z );
+        }
 
         /**
          * Getter for overmap scents.
@@ -223,6 +277,13 @@ class overmap
          * coordinates), or empty vector if no matching notes are found.
          */
         std::vector<point> find_notes( const int z, const std::string &text );
+        /**
+         * Return a vector containing the absolute coordinates of
+         * every matching map extra on the current z level of the current overmap.
+         * @returns A vector of map extra coordinates (absolute overmap terrain
+         * coordinates), or empty vector if no matching map extras are found.
+         */
+        std::vector<point> find_extras( const int z, const std::string &text );
 
         /**
          * Returns whether or not the location has been generated (e.g. mapgen has run).
@@ -254,6 +315,9 @@ class overmap
         std::vector<city> cities;
         std::vector<city> roads_out;
         cata::optional<basecamp *> find_camp( const int x, const int y );
+        cata::optional<basecamp *> find_camp( const point &p ) {
+            return find_camp( p.x, p.y );
+        }
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
         void insert_npc( std::shared_ptr<npc> who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).
@@ -332,10 +396,16 @@ class overmap
 
         // Overall terrain
         void place_river( point pa, point pb );
-        void place_forest();
-
+        void place_forests();
+        void place_lakes();
+        void place_rivers( const overmap *north, const overmap *east, const overmap *south,
+                           const overmap *west );
+        void place_swamps();
         void place_forest_trails();
         void place_forest_trailheads();
+
+        void place_roads( const overmap *north, const overmap *east, const overmap *south,
+                          const overmap *west );
 
         // City Building
         overmap_special_id pick_random_building_to_place( int town_dist ) const;
@@ -367,8 +437,10 @@ class overmap
         void connect_closest_points( const std::vector<point> &points, int z,
                                      const overmap_connection &connection );
         // Polishing
-        bool check_ot_type( const std::string &otype, int x, int y, int z ) const;
-        bool check_ot_subtype( const std::string &otype, int x, int y, int z ) const;
+        bool check_ot( const std::string &otype, ot_match_type match_type, int x, int y, int z ) const;
+        bool check_ot( const std::string &otype, ot_match_type match_type, const tripoint &p ) const {
+            return check_ot( otype, match_type, p.x, p.y, p.z );
+        }
         bool check_overmap_special_type( const overmap_special_id &id, const tripoint &location ) const;
         void chip_rock( int x, int y, int z );
 
@@ -416,12 +488,22 @@ class overmap
         void load_monster_groups( JsonIn &jo );
         void load_legacy_monstergroups( JsonIn &jo );
         void save_monster_groups( JsonOut &jo ) const;
+    public:
+        static void load_obsolete_terrains( JsonObject &jo );
 };
 
 bool is_river( const oter_id &ter );
-bool is_ot_type( const std::string &otype, const oter_id &oter );
-// Matches any oter_id that contains the substring passed in, useful when oter can be a suffix, not just a prefix.
-bool is_ot_subtype( const char *otype, const oter_id &oter );
+bool is_river_or_lake( const oter_id &ter );
+
+/**
+* Determine if the provided name is a match with the provided overmap terrain
+* based on the specified match type.
+* @param name is the name we're looking for.
+* @param oter is the overmap terrain id we're comparing our name with.
+* @param match_type is the matching rule to use when comparing the two values.
+*/
+bool is_ot_match( const std::string &name, const oter_id &oter,
+                  const ot_match_type match_type );
 
 /**
 * Gets a collection of sectors and their width for usage in placing overmap specials.

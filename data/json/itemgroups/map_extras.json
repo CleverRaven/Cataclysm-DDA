@@ -105,5 +105,11 @@
     "subtype": "collection",
     "id": "male_underwear",
     "groups": [ "male_underwear_top", "male_underwear_bottom" ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "map_extra_casings",
+    "entries": [ { "item": "rag_bloody" }, { "item": "cigar_butt" }, { "item": "cig_butt" }, { "item": "can_drink_unsealed" } ]
   }
 ]

@@ -7,37 +7,27 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <memory>
+#include <string>
 
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "damage.h"
-#include "enums.h" // tripoint
 #include "string_id.h"
 #include "tuple_hash.h"
+#include "type_id.h"
+#include "point.h"
 
 class nc_color;
 class JsonObject;
-class vitamin;
-using vitamin_id = string_id<vitamin>;
-class martialart;
-using matype_id = string_id<martialart>;
+class player;
 struct dream;
-struct mutation_branch;
-class item;
-using trait_id = string_id<mutation_branch>;
-using itype_id = std::string;
-struct mutation_category_trait;
-
 class Trait_group;
-class Trait_creation_data;
-class JsonObject;
-class JsonArray;
+class item;
 
-namespace trait_group
-{
-using Trait_group_tag = string_id<Trait_group>;
-}
+using itype_id = std::string;
+class JsonArray;
 
 extern std::vector<dream> dreams;
 extern std::map<std::string, std::vector<trait_id> > mutations_category;
@@ -149,6 +139,8 @@ struct mutation_branch {
         // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness
         float stealth_modifier = 0.0f;
 
+        // Speed lowers--or raises--for every X F (X C) degrees below or above 65 F (18.3 C)
+        float temperature_speed_modifier = 0.0f;
         // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
         float metabolism_modifier = 0.0f;
         // As above but for thirst.
@@ -160,11 +152,24 @@ struct mutation_branch {
         // Modifier for the rate at which stamina regenerates.
         float stamina_regen_modifier = 0.0f;
 
+        // Adjusts sight range on the overmap. Positives make it farther, negatives make it closer.
+        float overmap_sight = 0.0f;
+
+        // Multiplier for sight range, defaulting to 1.
+        float overmap_multiplier = 1.0f;
+
         // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
         social_modifiers social_mods;
 
         /** The item, if any, spawned by the mutation */
         itype_id spawn_item;
+
+        // amount of mana added or subtracted from max
+        float mana_modifier;
+        float mana_multiplier;
+        float mana_regen_multiplier;
+        // spells learned and their associated level when gaining the mutation
+        std::map<spell_id, int> spells_learned;
     private:
         std::string raw_spawn_item_message;
     public:
@@ -332,18 +337,25 @@ struct mutation_branch {
 struct mutation_category_trait {
     private:
         std::string raw_name;
-        std::string raw_mutagen_message; // message when you consume mutagen
-        std::string raw_iv_message; //message when you inject an iv;
+        // Message when you consume mutagen
+        std::string raw_mutagen_message;
+        // Message when you inject an iv
+        std::string raw_iv_message;
         std::string raw_iv_sound_message = "NULL";
+        std::string raw_iv_sound_id = "shout";
+        std::string raw_iv_sound_variant = "default";
         std::string raw_iv_sleep_message = "NULL";
         std::string raw_junkie_message;
-        std::string raw_memorial_message; //memorial message when you cross a threshold
+        // Memorial message when you cross a threshold
+        std::string raw_memorial_message;
 
     public:
         std::string name() const;
         std::string mutagen_message() const;
         std::string iv_message() const;
         std::string iv_sound_message() const;
+        std::string iv_sound_id() const;
+        std::string iv_sound_variant() const;
         std::string iv_sleep_message() const;
         std::string junkie_message() const;
         std::string memorial_message_male() const;
@@ -354,23 +366,29 @@ struct mutation_category_trait {
         // The trait that you gain when you break the threshold for this category
         trait_id threshold_mut;
 
-        int mutagen_hunger  = 10;//these are defaults
+        // These are defaults
+        int mutagen_hunger  = 10;
         int mutagen_thirst  = 10;
         int mutagen_pain    = 2;
         int mutagen_fatigue = 5;
         int mutagen_morale  = 0;
-        int iv_min_mutations    = 1; //the minimum mutations an injection provides
+        // The minimum mutations an injection provides
+        int iv_min_mutations    = 1;
         int iv_additional_mutations = 2;
-        int iv_additional_mutations_chance = 3; //chance of additional mutations
+        // Chance of additional mutations
+        int iv_additional_mutations_chance = 3;
         int iv_hunger   = 10;
         int iv_thirst   = 10;
         int iv_pain     = 2;
         int iv_fatigue  = 5;
         int iv_morale   = 0;
         int iv_morale_max = 0;
-        bool iv_sound = false;  //determines if you make a sound when you inject mutagen
-        int iv_noise = 0;    //the amount of noise produced by the sound
-        bool iv_sleep = false;  //whether the iv has a chance of knocking you out.
+        // Determines if you make a sound when you inject mutagen
+        bool iv_sound = false;
+        // The amount of noise produced by the sound
+        int iv_noise = 0;
+        // Whether the iv has a chance of knocking you out.
+        bool iv_sleep = false;
         int iv_sleep_dur = 0;
 
         static const std::map<std::string, mutation_category_trait> &get_all();
@@ -385,7 +403,7 @@ void load_mutation_type( JsonObject &jsobj );
 bool mutation_category_is_valid( const std::string &cat );
 bool mutation_type_exists( const std::string &id );
 std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids );
-
+std::vector<trait_id> get_mutations_in_type( const std::string &id );
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
 
 enum class mutagen_rejection {
@@ -395,9 +413,9 @@ enum class mutagen_rejection {
 };
 
 struct mutagen_attempt {
-    mutagen_attempt( bool a, long c ) : allowed( a ), charges_used( c ) {}
+    mutagen_attempt( bool a, int c ) : allowed( a ), charges_used( c ) {}
     bool allowed;
-    long charges_used;
+    int charges_used;
 };
 
 mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,

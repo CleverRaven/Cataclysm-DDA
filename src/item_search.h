@@ -2,9 +2,11 @@
 #ifndef ITEM_SEARCH_H
 #define ITEM_SEARCH_H
 
+#include <cstddef>
 #include <algorithm>
 #include <functional>
 #include <string>
+#include <vector>
 
 #include "output.h"
 
@@ -24,10 +26,10 @@ std::function<bool( const T & )> filter_from_string( std::string filter,
 
     // remove curly braces (they only get in the way)
     if( filter.find( '{' ) != std::string::npos ) {
-        filter.erase( std::remove( filter.begin(), filter.end(), '{' ) );
+        filter.erase( std::remove( filter.begin(), filter.end(), '{' ), filter.end() );
     }
     if( filter.find( '}' ) != std::string::npos ) {
-        filter.erase( std::remove( filter.begin(), filter.end(), '}' ) );
+        filter.erase( std::remove( filter.begin(), filter.end(), '}' ), filter.end() );
     }
     if( filter.find( ',' ) != std::string::npos ) {
         // functions which only one of which must return true

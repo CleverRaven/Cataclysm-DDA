@@ -1,67 +1,54 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "bandit_tower_2tlc",
-        "comment" : "top left corner, second story and even levels",
-        "weight": 250,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_floor",
-            "rows": [
-                "################88######",
-                "################88######",
-                "################88######",
-                "#######==ww=====FF==ww==",
-                "#######=v.pp|pp...p|pp==",
-                "#####===..v.|......|pp==",
-                "#####===.v..F......|..v.",
-                "###=====-----......F.v..",
-                "###=xxLL...........F..v.",
-                "###=x.........---FF---..",
-                "###w....pp....|l|.v..|pp",
-                "###w............|..v.|--",
-                "###wp.........|l|..v..pp",
-                "###=p........-----------",
-                "###=.........F..........",
-                "###=......----..........",
-                "888F......|*x|..=======.",
-                "888F......F..|..=====Mee",
-                "###yyyyFyyy..|..==>>>Mee",
-                "###y......v..|....>>>Mee",
-                "###y.v.v.....|....>>>Mee",
-                "###y....v....|..=MMMMMMM",
-                "###y.v....ppp|..=eeeeM==",
-                "###===-------|...eeee*=="
-            ],
-            "rotation": 0,
-            "palettes": [
-                "tri_tower",
-                "upper_level",
-                "bandit_tower_stuff"
-            ],
-            "terrain":{
-                "5": "t_pavement",
-                "8": "t_bridge",
-                "y": "t_wall_wood",
-                "F": "t_chaingate_c"
-            },
-            "furniture":{
-                "p": "f_hay"
-            },
-            "item":{
-                ".": [ { "item": "straw_pile", "chance": 5 }, { "item": "withered", "chance": 10 } ],
-                "l": { "item": "shovel" },
-                "L": { "item": "bucket" },
-                "x": { "item": "egg_bird", "amount": [ 5, 20 ] }
-            },
-            "items":{
-                "l": { "item": "farming_seeds", "chance": 90 },
-                "L": { "item": "farming_tools", "chance": 90 },
-                "x": { "item": "bed", "chance": 20 }
-            },
-            "monster": {
-                "v": { "monster": "mon_chicken" }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "bandit_tower_2tlc",
+    "comment": "top left corner, second story and even levels",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "################88######",
+        "################88######",
+        "################88######",
+        "#######==ww=====FF==ww==",
+        "#######=v.pp|pp...p|pp==",
+        "#####===..v.|......|pp==",
+        "#####===.v..F......|..v.",
+        "###=====-----......F.v..",
+        "###=xxLL...........F..v.",
+        "###=x.........---FF---..",
+        "###w....pp....|l|.v..|pp",
+        "###w............|..v.|--",
+        "###wp.........|l|..v..pp",
+        "###=p........-----------",
+        "###=.........F..........",
+        "###=......----..........",
+        "888F......|*x|..=======.",
+        "888F......F..|..=====Mee",
+        "###yyyyFyyy..|..==>>>Mee",
+        "###y......v..|....>>>Mee",
+        "###y.v.v.....|....>>>Mee",
+        "###y....v....|..=MMMMMMM",
+        "###y.v....ppp|..=eeeeM==",
+        "###===-------|...eeee*=="
+      ],
+      "rotation": 0,
+      "palettes": [ "tri_tower", "upper_level", "bandit_tower_stuff" ],
+      "terrain": { "5": "t_pavement", "8": "t_bridge", "y": "t_wall_wood", "F": "t_chaingate_c" },
+      "furniture": { "p": "f_hay" },
+      "item": {
+        ".": [ { "item": "straw_pile", "chance": 5 }, { "item": "withered", "chance": 10 } ],
+        "l": { "item": "shovel" },
+        "L": { "item": "bucket" },
+        "x": { "item": "egg_bird", "amount": [ 5, 20 ] }
+      },
+      "items": {
+        "l": { "item": "farming_seeds", "chance": 90 },
+        "L": { "item": "farming_tools", "chance": 90 },
+        "x": { "item": "bed", "chance": 20 }
+      },
+      "monster": { "v": { "monster": "mon_chicken" } }
     }
+  }
 ]

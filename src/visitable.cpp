@@ -1,5 +1,13 @@
 #include "visitable.h"
 
+#include <climits>
+#include <algorithm>
+#include <map>
+#include <memory>
+#include <unordered_map>
+#include <utility>
+#include <limits>
+
 #include "bionics.h"
 #include "character.h"
 #include "debug.h"
@@ -9,11 +17,14 @@
 #include "map.h"
 #include "map_selector.h"
 #include "player.h"
-#include "string_id.h"
 #include "submap.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "active_item_cache.h"
+#include "pimpl.h"
+#include "colony.h"
+#include "point.h"
 
 /** @relates visitable */
 template <typename T>
@@ -641,16 +652,15 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
     for( auto iter = sub->itm[ offset.x ][ offset.y ].begin();
          iter != sub->itm[ offset.x ][ offset.y ].end(); ) {
         if( filter( *iter ) ) {
-            // check for presence in the active items cache
-            if( sub->active_items.has( iter, offset ) ) {
-                sub->active_items.remove( iter, offset );
-            }
+            // remove from the active items cache (if it isn't there does nothing)
+            sub->active_items.remove( &*iter );
 
             // if necessary remove item from the luminosity map
             sub->update_lum_rem( offset, *iter );
 
             // finally remove the item
-            res.splice( res.end(), sub->itm[ offset.x ][ offset.y ], iter++ );
+            res.push_back( *iter );
+            iter = sub->itm[ offset.x ][ offset.y ].erase( iter );
 
             if( --count == 0 ) {
                 return res;
@@ -663,6 +673,7 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
             ++iter;
         }
     }
+    g->m.update_submap_active_item_status( *cur );
     return res;
 }
 
@@ -702,11 +713,12 @@ std::list<item> visitable<vehicle_cursor>::remove_items_with( const
     vehicle_part &part = cur->veh.parts[ idx ];
     for( auto iter = part.items.begin(); iter != part.items.end(); ) {
         if( filter( *iter ) ) {
-            // check for presence in the active items cache
-            if( cur->veh.active_items.has( iter, part.mount ) ) {
-                cur->veh.active_items.remove( iter, part.mount );
-            }
-            res.splice( res.end(), part.items, iter++ );
+            // remove from the active items cache (if it isn't there does nothing)
+            cur->veh.active_items.remove( &*iter );
+
+            res.push_back( *iter );
+            iter = part.items.erase( iter );
+
             if( --count == 0 ) {
                 return res;
             }
@@ -744,10 +756,10 @@ std::list<item> visitable<vehicle_selector>::remove_items_with( const
 }
 
 template <typename T>
-static long charges_of_internal( const T &self, const itype_id &id, long limit,
-                                 const std::function<bool( const item & )> &filter )
+static int charges_of_internal( const T &self, const itype_id &id, int limit,
+                                const std::function<bool( const item & )> &filter )
 {
-    long qty = 0;
+    int qty = 0;
 
     bool found_tool_with_UPS = false;
     self.visit_items( [&]( const item * e ) {
@@ -783,21 +795,21 @@ static long charges_of_internal( const T &self, const itype_id &id, long limit,
 
 /** @relates visitable */
 template <typename T>
-long visitable<T>::charges_of( const std::string &what, long limit,
-                               const std::function<bool( const item & )> &filter ) const
+int visitable<T>::charges_of( const std::string &what, int limit,
+                              const std::function<bool( const item & )> &filter ) const
 {
     return charges_of_internal( *this, what, limit, filter );
 }
 
 /** @relates visitable */
 template <>
-long visitable<inventory>::charges_of( const std::string &what, long limit,
-                                       const std::function<bool( const item & )> &filter ) const
+int visitable<inventory>::charges_of( const std::string &what, int limit,
+                                      const std::function<bool( const item & )> &filter ) const
 {
     if( what == "UPS" ) {
-        long qty = 0;
+        int qty = 0;
         qty = sum_no_wrap( qty, charges_of( "UPS_off" ) );
-        qty = sum_no_wrap( qty, static_cast<long>( charges_of( "adv_UPS_off" ) / 0.6 ) );
+        qty = sum_no_wrap( qty, static_cast<int>( charges_of( "adv_UPS_off" ) / 0.6 ) );
         return std::min( qty, limit );
     }
     const auto &binned = static_cast<const inventory *>( this )->get_binned_items();
@@ -806,7 +818,7 @@ long visitable<inventory>::charges_of( const std::string &what, long limit,
         return 0;
     }
 
-    long res = 0;
+    int res = 0;
     for( const item *it : iter->second ) {
         res = sum_no_wrap( res, charges_of_internal( *it, what, limit, filter ) );
         if( res >= limit ) {
@@ -814,31 +826,31 @@ long visitable<inventory>::charges_of( const std::string &what, long limit,
         }
     }
 
-    return std::min<long>( limit, res );
+    return std::min( limit, res );
 }
 
 /** @relates visitable */
 template <>
-long visitable<Character>::charges_of( const std::string &what, long limit,
-                                       const std::function<bool( const item & )> &filter ) const
+int visitable<Character>::charges_of( const std::string &what, int limit,
+                                      const std::function<bool( const item & )> &filter ) const
 {
     auto self = static_cast<const Character *>( this );
     auto p = dynamic_cast<const player *>( self );
 
     if( what == "toolset" ) {
         if( p && p->has_active_bionic( bionic_id( "bio_tools" ) ) ) {
-            return std::min( static_cast<long>( p->power_level ), limit );
+            return std::min( p->power_level, limit );
         } else {
             return 0;
         }
     }
 
     if( what == "UPS" ) {
-        long qty = 0;
+        int qty = 0;
         qty = sum_no_wrap( qty, charges_of( "UPS_off" ) );
-        qty = sum_no_wrap( qty, static_cast<long>( charges_of( "adv_UPS_off" ) / 0.6 ) );
+        qty = sum_no_wrap( qty, static_cast<int>( charges_of( "adv_UPS_off" ) / 0.6 ) );
         if( p && p->has_active_bionic( bionic_id( "bio_ups" ) ) ) {
-            qty = sum_no_wrap( qty, static_cast<long>( p->power_level ) );
+            qty = sum_no_wrap( qty, p->power_level );
         }
         return std::min( qty, limit );
     }
@@ -893,7 +905,7 @@ int visitable<inventory>::amount_of( const std::string &what, bool pseudo, int l
         }
     }
 
-    return std::min<long>( limit, res );
+    return std::min( limit, res );
 }
 
 /** @relates visitable */

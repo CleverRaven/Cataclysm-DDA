@@ -96,12 +96,12 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
-    "difficulty": 2,
+    "difficulty": 3,
     "time": 25000,
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 1 ] ],
     "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "rag", 15 ], [ "sheet_metal_small", 6 ] ], [ [ "adhesive", 1, "LIST" ] ] ]
+    "components": [ [ [ "rag", 15 ] ], [ [ "sheet_metal_small", 6 ] ], [ [ "adhesive", 1, "LIST" ] ] ]
   },
   {
     "result": "afs_brigandine",
@@ -114,7 +114,7 @@
     "book_learn": [ [ "textbook_armwest", 3 ] ],
     "tools": [ [ [ "cordless_drill", 20 ] ] ],
     "using": [ [ "sewing_standard", 40 ] ],
-    "components": [ [ [ "leather", 14 ], [ "sheet_metal_small", 8 ] ] ]
+    "components": [ [ [ "leather", 14 ] ], [ [ "sheet_metal_small", 8 ] ] ]
   },
   {
     "result": "afs_titanium_vest",

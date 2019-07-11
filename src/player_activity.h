@@ -2,19 +2,23 @@
 #ifndef PLAYER_ACTIVITY_H
 #define PLAYER_ACTIVITY_H
 
+#include <cstddef>
 #include <climits>
 #include <set>
 #include <vector>
+#include <memory>
+#include <string>
+#include <unordered_set>
 
 #include "enums.h"
 #include "item_location.h"
 #include "string_id.h"
+#include "point.h"
 
 class player;
 class Character;
 class JsonIn;
 class JsonOut;
-class player_activity;
 class activity_type;
 class monster;
 
@@ -40,6 +44,7 @@ class player_activity
         std::vector<int> values;
         std::vector<std::string> str_values;
         std::vector<tripoint> coords;
+        std::unordered_set<tripoint> coord_set;
         std::vector<std::weak_ptr<monster>> monsters;
         tripoint placement;
         /** If true, the activity will be auto-resumed next time the player attempts
@@ -51,9 +56,9 @@ class player_activity
         player_activity( activity_id, int turns = 0, int Index = -1, int pos = INT_MIN,
                          const std::string &name_in = "" );
         player_activity( player_activity && ) = default;
-        player_activity( const player_activity & );
+        player_activity( const player_activity & ) = default;
         player_activity &operator=( player_activity && ) = default;
-        player_activity &operator=( const player_activity & );
+        player_activity &operator=( const player_activity & ) = default;
 
         explicit operator bool() const {
             return !type.is_null();
@@ -72,6 +77,8 @@ class player_activity
         // Question to ask when the activity is to be stopped,
         // e.g. "Stop doing something?", already translated.
         std::string get_stop_phrase() const;
+
+        std::string get_verb() const;
 
         int get_value( size_t index, int def = 0 ) const;
         std::string get_str_value( size_t index, const std::string &def = "" ) const;
@@ -100,13 +107,6 @@ class player_activity
          * can be resumed instead of starting the other activity.
          */
         bool can_resume_with( const player_activity &other, const Character &who ) const;
-        /**
-         * When an old activity A is resumed by a new activity B, normally B is
-         * discarded and the saved A is simply used in its place.  However,
-         * this will be called on A, passing B as an argument, in case A needs
-         * to grab any values from B.
-         */
-        void resume_with( const player_activity &other );
 
         bool is_distraction_ignored( distraction_type type ) const;
         void ignore_distraction( distraction_type type );

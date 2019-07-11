@@ -1,25 +1,5 @@
 [
   {
-    "id": "town_hall",
-    "type": "item_group",
-    "items": [
-      [ "paper", 100 ],
-      [ "permanent_marker", 35 ],
-      [ "file", 15 ],
-      [ "duct_tape", 15 ],
-      [ "file", 15 ],
-      [ "bubblewrap", 15 ],
-      [ "battery", 10 ],
-      [ "flashlight", 7 ],
-      [ "laptop", 7 ],
-      [ "eink_tablet_pc", 7 ],
-      [ "usb_drive", 5 ],
-      [ "cash_card", 5 ],
-      [ "record_accounting", 1 ],
-      [ "money_bundle", 1 ]
-    ]
-  },
-  {
     "type": "palette",
     "id": "town_hall_palette",
     "terrain": {
@@ -91,7 +71,7 @@
         { "item": "cannedfood", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "dining", "chance": 30 }
       ],
-      "R": { "item": "town_hall", "chance": 60, "repeat": [ 1, 2 ] }
+      "R": { "item": "office_supplies", "chance": 60, "repeat": [ 1, 2 ] }
     },
     "vendingmachines": { "4": { "item_group": "vending_drink" }, "5": { "item_group": "vending_food" } }
   },

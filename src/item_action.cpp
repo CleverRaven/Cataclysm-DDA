@@ -3,8 +3,14 @@
 #include <algorithm>
 #include <iterator>
 #include <sstream>
+#include <list>
+#include <memory>
+#include <set>
+#include <tuple>
+#include <unordered_set>
+#include <utility>
 
-#include "action.h"
+#include "avatar.h"
 #include "debug.h"
 #include "game.h"
 #include "input.h"
@@ -12,23 +18,24 @@
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
-#include "iuse_actor.h"
 #include "json.h"
 #include "output.h"
 #include "player.h"
 #include "ret_val.h"
 #include "translations.h"
 #include "ui.h"
+#include "calendar.h"
+#include "catacharset.h"
+#include "cursesdef.h"
+#include "iuse.h"
+#include "type_id.h"
+
+struct tripoint;
 
 static item_action nullaction;
 static const std::string errstring( "ERROR" );
 
-int clamp( int value, int low, int high )
-{
-    return ( value < low ) ? low : ( ( value > high ) ? high : value );
-}
-
-char key_bound_to( const input_context &ctxt, const item_action_id &act )
+static char key_bound_to( const input_context &ctxt, const item_action_id &act )
 {
     auto keys = ctxt.keys_bound_to( act );
     return keys.empty() ? '\0' : keys[0];
@@ -61,7 +68,7 @@ item_action_generator::item_action_generator() = default;
 item_action_generator::~item_action_generator() = default;
 
 // Get use methods of this item and its contents
-bool item_has_uses_recursive( const item &it )
+static bool item_has_uses_recursive( const item &it )
 {
     if( !it.type->use_methods.empty() ) {
         return true;
@@ -238,7 +245,7 @@ void game::item_action_menu()
 
     std::vector<std::tuple<item_action_id, std::string, std::string>> menu_items;
     // Sorts menu items by action.
-    typedef decltype( menu_items )::iterator Iter;
+    using Iter = decltype( menu_items )::iterator;
     const auto sort_menu = []( Iter from, Iter to ) {
         std::sort( from, to, []( const std::tuple<item_action_id, std::string, std::string> &lhs,
         const std::tuple<item_action_id, std::string, std::string> &rhs ) {
@@ -300,7 +307,7 @@ void game::item_action_menu()
 
     draw_ter();
     wrefresh( w_terrain );
-    draw_panels();
+    draw_panels( true );
 
     const item_action_id action = std::get<0>( menu_items[kmenu.ret] );
     item *it = iactions[action];

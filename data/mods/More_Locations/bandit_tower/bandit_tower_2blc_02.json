@@ -1,56 +1,47 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "bandit_tower_2blc",
-        "comment" : "bottom left corner, second story and even levels",
-        "weight": 150,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_floor",
-            "rows": [
-                "########################",
-                "########################",
-                "########################",
-                "#######==ww=====ww==ww==",
-                "#######=B..B|d+..BB|ll==",
-                "#####===B..B|-|....|..==",
-                "#####===....+d|..BB|....",
-                "###=====+------+----....",
-                "###=......+........+....",
-                "###=......-------+----++",
-                "###w......|lll|x|.B.B|dd",
-                "###w......+.....|.B.B|--",
-                "###w......|lll|x|....+.d",
-                "###=z,,,,,--------------",
-                "###=z,,,,,,,,,,,........",
-                "###=,,,,,,,,,,,,........",
-                "888,,,,,,,,,,,,,=======.",
-                "888,,,,,,,,,,,,,=====Mee",
-                "###|z,,,,,,,,,,,==<<<Mee",
-                "###|z,,,,,,,,,,,,,<<<Mee",
-                "###|z,,,,,,,,,,,,,<<<Mee",
-                "###|z,,,,,,,,,,,=MMMMMMM",
-                "###|*,,,,,,,,,,,=eeeeM==",
-                "###===-------|...eeeeM=="
-            ],
-            "rotation": 3,
-            "palettes": [
-                "tri_tower",
-                "upper_level",
-                "bandit_tower_stuff"
-            ],
-            "terrain":{
-                "5": "t_pavement",
-                "8": "t_bridge",
-                ",": [ "t_carpet_red", "t_carpet_yellow", "t_carpet_purple", "t_carpet_green", "t_linoleum_white" ]
-            },
-            "furniture":{
-                "z": "f_pinball_machine"
-            },
-            "items": {
-                "l": { "item": "cleaning", "chance": 85 },
-                "x": { "item": "chem_home", "chance": 45 } 
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "bandit_tower_2blc",
+    "comment": "bottom left corner, second story and even levels",
+    "weight": 150,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "#######==ww=====ww==ww==",
+        "#######=B..B|d+..BB|ll==",
+        "#####===B..B|-|....|..==",
+        "#####===....+d|..BB|....",
+        "###=====+------+----....",
+        "###=......+........+....",
+        "###=......-------+----++",
+        "###w......|lll|x|.B.B|dd",
+        "###w......+.....|.B.B|--",
+        "###w......|lll|x|....+.d",
+        "###=z,,,,,--------------",
+        "###=z,,,,,,,,,,,........",
+        "###=,,,,,,,,,,,,........",
+        "888,,,,,,,,,,,,,=======.",
+        "888,,,,,,,,,,,,,=====Mee",
+        "###|z,,,,,,,,,,,==<<<Mee",
+        "###|z,,,,,,,,,,,,,<<<Mee",
+        "###|z,,,,,,,,,,,,,<<<Mee",
+        "###|z,,,,,,,,,,,=MMMMMMM",
+        "###|*,,,,,,,,,,,=eeeeM==",
+        "###===-------|...eeeeM=="
+      ],
+      "rotation": 3,
+      "palettes": [ "tri_tower", "upper_level", "bandit_tower_stuff" ],
+      "terrain": {
+        "5": "t_pavement",
+        "8": "t_bridge",
+        ",": [ "t_carpet_red", "t_carpet_yellow", "t_carpet_purple", "t_carpet_green", "t_linoleum_white" ]
+      },
+      "furniture": { "z": "f_pinball_machine" },
+      "items": { "l": { "item": "cleaning", "chance": 85 }, "x": { "item": "chem_home", "chance": 45 } }
     }
+  }
 ]

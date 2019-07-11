@@ -2,6 +2,8 @@
 #ifndef ADVANCED_INV_H
 #define ADVANCED_INV_H
 
+#include <cctype>
+#include <cstddef>
 #include <array>
 #include <functional>
 #include <list>
@@ -10,7 +12,7 @@
 #include <vector>
 
 #include "cursesdef.h"
-#include "enums.h"
+#include "point.h"
 #include "units.h"
 
 class uilist;
@@ -99,11 +101,11 @@ struct advanced_inv_area {
     int max_size;
 
     advanced_inv_area( aim_location id ) : id( id ) {}
-    advanced_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off, std::string name,
-                       std::string shortname ) : id( id ), hscreenx( hscreenx ),
-        hscreeny( hscreeny ), off( off ), name( name ), shortname( shortname ), pos( 0, 0, 0 ),
-        canputitemsloc( false ), veh( nullptr ), vstor( -1 ), volume( 0_ml ), weight( 0_gram ),
-        max_size( 0 ) {
+    advanced_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off,
+                       const std::string &name, const std::string &shortname ) : id( id ),
+        hscreenx( hscreenx ), hscreeny( hscreeny ), off( off ), name( name ), shortname( shortname ),
+        pos( 0, 0, 0 ), canputitemsloc( false ), veh( nullptr ), vstor( -1 ), volume( 0_ml ),
+        weight( 0_gram ), max_size( 0 ) {
     }
 
     void init();
@@ -125,7 +127,7 @@ struct advanced_inv_area {
         if( id > AIM_DRAGGED || id < AIM_SOUTHWEST ) {
             return false;
         }
-        return ( veh != nullptr && vstor >= 0 );
+        return veh != nullptr && vstor >= 0;
     }
 };
 
@@ -138,7 +140,7 @@ class item_category;
  * Most members are used only for sorting.
  */
 struct advanced_inv_listitem {
-    typedef std::string itype_id;
+    using itype_id = std::string;
     /**
      * Index of the item in the itemstack.
      */
@@ -454,7 +456,7 @@ class advanced_inventory
          *      a valid item count to be moved.
          */
         bool query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
-                            const std::string &action, long &amount );
+                            const std::string &action, int &amount );
 
         void menu_square( uilist &menu );
 

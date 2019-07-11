@@ -19,6 +19,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "4570",
+    "name": ".45-70",
+    "default": "4570_sp"
+  },
+  {
+    "type": "ammunition_type",
     "id": "nail",
     "name": "nails",
     "default": "nail"
@@ -49,9 +55,21 @@
   },
   {
     "type": "ammunition_type",
+    "id": "shotcanister",
+    "name": "shotcanisters",
+    "default": "shotcanister_scrap"
+  },
+  {
+    "type": "ammunition_type",
     "id": "shot",
     "name": "shot",
     "default": "shot_00"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "410shot",
+    "name": ".410 shot",
+    "default": "410shot_000"
   },
   {
     "type": "ammunition_type",
@@ -79,9 +97,21 @@
   },
   {
     "type": "ammunition_type",
+    "id": "357mag",
+    "name": ".357 magnum",
+    "default": "357mag_jhp"
+  },
+  {
+    "type": "ammunition_type",
     "id": "9x18",
     "name": "9x18mm",
     "default": "9x18mm"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "380",
+    "name": ".380 ACP",
+    "default": "380_JHP"
   },
   {
     "type": "ammunition_type",
@@ -91,9 +121,21 @@
   },
   {
     "type": "ammunition_type",
+    "id": "38super",
+    "name": ".38 Super",
+    "default": "38super_fmj"
+  },
+  {
+    "type": "ammunition_type",
     "id": "40",
     "name": ".40",
     "default": "40sw"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "10mm",
+    "name": "10mm Auto",
+    "default": "10mm_fmj"
   },
   {
     "type": "ammunition_type",
@@ -111,13 +153,19 @@
     "type": "ammunition_type",
     "id": "460",
     "name": ".460",
-    "default": "45_acp"
+    "default": "460_rowland"
   },
   {
     "type": "ammunition_type",
     "id": "454",
     "name": ".454",
     "default": "454_Casull"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "45colt",
+    "name": ".45 Colt",
+    "default": "45colt_jhp"
   },
   {
     "type": "ammunition_type",
@@ -159,7 +207,13 @@
     "type": "ammunition_type",
     "id": "3006",
     "name": ".30-06",
-    "default": "270"
+    "default": "3006"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "270win",
+    "name": ".270 Winchester",
+    "default": "270win_jsp"
   },
   {
     "type": "ammunition_type",
@@ -223,6 +277,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "anesthetic",
+    "name": "anesthetic",
+    "default": "anesthetic"
+  },
+  {
+    "type": "ammunition_type",
     "id": "soap",
     "name": "soap",
     "default": "soap"
@@ -256,12 +316,6 @@
     "id": "reactor_slurry",
     "name": "plutonium slurry",
     "default": "plut_slurry"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "fusion",
-    "name": "fusion cell",
-    "default": "laser_pack"
   },
   {
     "type": "ammunition_type",
@@ -457,6 +511,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "atgm",
+    "name": "152mm anti-tank guided missile",
+    "default": "atgm_heat"
+  },
+  {
+    "type": "ammunition_type",
     "id": "unfinished_char",
     "name": "semi-charred fuel",
     "default": "unfinished_charcoal"
@@ -478,5 +538,23 @@
     "id": "paintball",
     "name": "paintball",
     "default": "paintball"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "nitrox",
+    "name": "compressed air",
+    "default": "nitrox"
+  },
+  {
+    "id": "tinder",
+    "name": "tinder",
+    "default": "tinder",
+    "type": "ammunition_type"
+  },
+  {
+    "id": "esbit",
+    "name": "hexamine",
+    "default": "chem_hexamine",
+    "type": "ammunition_type"
   }
 ]

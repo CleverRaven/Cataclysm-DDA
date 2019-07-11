@@ -3,6 +3,7 @@
 #include <array>
 #include <cmath>
 #include <limits>
+#include <algorithm>
 
 #include "options.h"
 #include "rng.h"
@@ -11,6 +12,10 @@
 
 // Divided by 100 to prevent overflowing when converted to moves
 const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
+const time_duration calendar::INDEFINITELY_LONG_DURATION(
+    time_duration::from_turns( std::numeric_limits<int>::max() ) );
+bool calendar::is_eternal_season = false;
+int calendar::cur_season_length = 1;
 
 calendar calendar::start;
 calendar calendar::turn;
@@ -235,6 +240,22 @@ bool calendar::is_night() const
     return now > sunset + twilight_duration || now < sunrise;
 }
 
+bool calendar::is_sunset_now() const
+{
+    const time_duration now = time_past_midnight( *this );
+    const time_duration sunset = time_past_midnight( this->sunset() );
+
+    return now > sunset && now < sunset + twilight_duration;
+}
+
+bool calendar::is_sunrise_now() const
+{
+    const time_duration now = time_past_midnight( *this );
+    const time_duration sunrise = time_past_midnight( this->sunrise() );
+
+    return now > sunrise && now < sunrise + twilight_duration;
+}
+
 double calendar::current_daylight_level() const
 {
     const double percent = static_cast<double>( static_cast<double>( day ) / to_days<int>
@@ -347,15 +368,12 @@ static std::string to_string_clipped( const int num, const clipped_unit type,
 
 std::pair<int, clipped_unit> clipped_time( const time_duration &d )
 {
-    // TODO: change INDEFINITELY_LONG to time_duration
-    if( to_turns<int>( d ) >= calendar::INDEFINITELY_LONG ) {
+    if( d >= calendar::INDEFINITELY_LONG_DURATION ) {
         return { 0, clipped_unit::forever };
     }
 
     if( d < 1_minutes ) {
-        // TODO: add to_seconds,from_seconds, operator ""_seconds, but currently
-        // this could be misleading as we only store turns, which are 6 whole seconds
-        const int sec = to_turns<int>( d ) * 6;
+        const int sec = to_seconds<int>( d );
         return { sec, clipped_unit::second };
     } else if( d < 1_hours ) {
         const int min = to_minutes<int>( d );
@@ -393,7 +411,7 @@ std::string to_string_clipped( const time_duration &d,
 
 std::string to_string( const time_duration &d )
 {
-    if( d >= time_duration::from_turns( calendar::INDEFINITELY_LONG ) ) {
+    if( d >= calendar::INDEFINITELY_LONG_DURATION ) {
         return _( "forever" );
     }
 
@@ -461,8 +479,7 @@ std::string to_string_time_of_day( const time_point &p )
 {
     const int hour = hour_of_day<int>( p );
     const int minute = minute_of_hour<int>( p );
-    // TODO: add a to_seconds function?
-    const int second = ( to_turns<int>( time_past_midnight( p ) ) * 6 ) % 60;
+    const int second = ( to_seconds<int>( time_past_midnight( p ) ) ) % 60;
     const std::string format_type = get_option<std::string>( "24_HOUR" );
 
     if( format_type == "military" ) {
@@ -516,8 +533,7 @@ weekdays day_of_week( const time_point &p )
 
 bool calendar::eternal_season()
 {
-    static const std::string eternal_season_option_name = "ETERNAL_SEASON";
-    return get_option<bool>( eternal_season_option_name );
+    return is_eternal_season;
 }
 
 time_duration calendar::year_length()
@@ -527,9 +543,15 @@ time_duration calendar::year_length()
 
 time_duration calendar::season_length()
 {
-    static const std::string s = "SEASON_LENGTH";
-    // Avoid returning 0 as this value is used in division and expected to be non-zero.
-    return time_duration::from_days( std::max( get_option<int>( s ), 1 ) );
+    return time_duration::from_days( std::max( cur_season_length, 1 ) );
+}
+void calendar::set_eternal_season( bool is_eternal )
+{
+    is_eternal_season = is_eternal;
+}
+void calendar::set_season_length( const int dur )
+{
+    cur_season_length = dur;
 }
 
 float calendar::season_ratio()
@@ -565,7 +587,7 @@ void calendar::sync()
     day = turn_number / DAYS( 1 ) % sl;
     hour = turn_number / HOURS( 1 ) % 24;
     minute = turn_number / MINUTES( 1 ) % 60;
-    second = ( turn_number * 6 ) % 60;
+    second = turn_number % 60;
 }
 
 bool calendar::once_every( const time_duration &event_frequency )
@@ -588,10 +610,10 @@ const std::string calendar::name_season( season_type s )
         }
     };
     if( s >= SPRING && s <= WINTER ) {
-        return _( season_names_untranslated[ s ].c_str() );
+        return _( season_names_untranslated[ s ] );
     }
 
-    return _( season_names_untranslated[ 4 ].c_str() );
+    return _( season_names_untranslated[ 4 ] );
 }
 
 time_duration rng( time_duration lo, time_duration hi )
@@ -603,6 +625,27 @@ bool x_in_y( const time_duration &a, const time_duration &b )
 {
     return ::x_in_y( to_turns<int>( a ), to_turns<int>( b ) );
 }
+
+const std::vector<std::pair<std::string, time_duration>> time_duration::units = { {
+        { "turns", 1_turns },
+        { "turn", 1_turns },
+        { "t", 1_turns },
+        { "seconds", 1_seconds },
+        { "second", 1_seconds },
+        { "s", 1_seconds },
+        { "minutes", 1_minutes },
+        { "minute", 1_minutes },
+        { "m", 1_minutes },
+        { "hours", 1_hours },
+        { "hour", 1_hours },
+        { "h", 1_hours },
+        { "days", 1_days },
+        { "day", 1_days },
+        { "d", 1_days },
+        // TODO: maybe add seasons?
+        // TODO: maybe add years? Those two things depend on season length!
+    }
+};
 
 season_type season_of_year( const time_point &p )
 {
@@ -639,4 +682,9 @@ std::string to_string( const time_point &p )
         return string_format( _( "Year %1$d, %2$s, day %3$d %4$s" ), year,
                               calendar::name_season( season_of_year( p ) ), day, time );
     }
+}
+
+time_point::time_point()
+{
+    turn_ = 0;
 }

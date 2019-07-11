@@ -65,26 +65,39 @@
     * 2.5.16 "loot"
     * 2.5.17 "sealed_item"
     * 2.5.18 "graffiti"
+    * 2.5.19 "translate_ter"
+    * 2.5.20 "zones"
   * 2.6 "rotation"
-
-# 0 Intro
-Note: You may wish to read over JSON_INFO.md beforehand.
+  * 2.7 "predecessor_mapgen"
+* 3 update_mapgen
+  * 3.1 overmap tile specification
+    * 3.1.0 "assign_mission_target"
+    * 3.1.1 "om_terrain"
+  * 3.2 mission specials
+    * 3.2.0 "target"
 
 ## 0.0 How buildings and terrain are generated
 Cataclysm creates buildings and terrain on discovery via 'mapgen'; functions specific to an overmap terrain (the tiles you see in [m]ap are also determined by overmap terrain). Overmap terrains ("oter") are defined in overmap_terrain.json.
 
-By default, an oter has a single builtin mapgen function which matches the '"id"' in it's json entry (examples: "house", "bank", etc). Multiple functions also possible. When a player moves into range of an area marked on the map as a house, the game chooses semi-randomly from a list of functions for "house", picks one, and runs it, laying down walls and adding items, monsters, rubber chickens and whatnot. This is all done in a fraction of a second (something to keep in mind for later).
+By default, an oter has a single built-in mapgen function which matches the '"id"' in it's json entry (examples: "house", "bank", etc). Multiple functions also possible. When a player moves into range of an area marked on the map as a house, the game chooses semi-randomly from a list of functions for "house", picks one, and runs it, laying down walls and adding items, monsters, rubber chickens and whatnot. This is all done in a fraction of a second (something to keep in mind for later).
 
-All mapgen functions build in a 24x24 tile area - even for large buildings; obtuse but surprisingly effective methods are used to assemble giant 3x3 hotels, etc. For the moment, mod support for big buildings is not fully supported, though technically possible (see below).
+All mapgen functions build in a 24x24 tile area - even for large buildings; obtuse but surprisingly effective methods are used to assemble giant 3x3 hotels, etc..
 
 In order to make a world that's random and (somewhat) sensical, there are numerous rules and exceptions to them, which are clarified below.
 
 # 1 Adding mapgen entries.
-One doesn't (and shouldn't) need to create a new overmap_terrain for a new variation of a building. For a custom gas station, defining a mapgen entry and adding it to the "s_gas" mapgen list will add it to the random variations of gas station in the world.
+One doesn't need to create a new overmap_terrain for a new variation of a building. For a custom gas station, defining a mapgen entry and adding it to the "s_gas" mapgen list will add it to the random variations of gas station in the world.
+
+If you use an existing overmap_terrain and it has a roof or other z-level linked to its file, the other levels will be generated with the ground floor. To avoid this, or add your own multiple z-levels, create an overmap_terrain with a similar name (s_gas_1).  
 
 ## 1.0 Methods
-While adding mapgen as a c++ function is one of the fastest (and the most versatile) ways to generate procedural terrain on the fly, this requires recompiling the game. For mods, one can instead define a mapgen function in:
-* JSON: A set of json arrays and objects for defining stuff and things. Pros: Fastest to apply, mostly complete, supported by one third party map editor so far. Cons: Not a programming language; no if statements or variables means instances of a particular json mapgen definition will all be similar. Support was added for randomizing things, however.
+While adding mapgen as a c++ function is one of the fastest (and the most versatile) ways to generate procedural terrain on the fly, this requires recompiling the game.
+
+Most of the existing c++ buildings have been moved to json and currently json mapping is the preferred method of adding both content and mods.
+
+* JSON: A set of json arrays and objects for defining stuff and things. Pros: Fastest to apply, mostly complete. Cons: Not a programming language; no if statements or variables means instances of a particular json mapgen definition will all be similar. Third party map editors are currently out of date.
+
+* JSON support includes the use of nested mapgen, smaller mapgen chunks which override a portion of the linked mapgen.  This allows for greater variety in furniture, terrain and spawns within a single mapgen file.  You can also link mapgen files for multiple z-level buildings and multi-tile buildings.  
 
 ## 1.1 Placement
 Mapgen definitions can be added in 2 places:
@@ -536,6 +549,8 @@ Places a field (see fields.h). Values:
 ### 2.5.1 "npcs"
 Places a new NPC. Values:
 - "class": (required, string) the npc class id, see data/json/npcs/npc.json or define your own npc class.
+- "target": (optional, bool) this NPC is a mission target.  Only valid for update_mapgen.
+- "add_trait" (optional, string or string array) this NPC gets these traits, in addition to any from the class definition.
 
 ### 2.5.2 "signs"
 Places a sign (furniture f_sign) with a message written on it. Either "signage" or "snippet" must be defined.  The message may include tags like \<full_name\>, \<given_name\>, and \<family_name\> that will insert a randomly generated name, or \<city\> that will insert the nearest city name.  Values:
@@ -609,6 +624,8 @@ Places a specific monster. Values:
 - "monster": (required, string) type id of the monster (e.g. mon_zombie).
 - "friendly": (optional, bool) whether the monster is friendly, default is false.
 - "name": (optional, string) a name for that monster, optional, default is to create an unnamed monster.
+- "target": (optional, bool) this monster is a mission target.  Only valid for update_mapgen.
+
 
 ### 2.5.14 "rubble"
 Creates rubble and bashes existing terrain (this step is applied last, after other things like furniture/terrain have been set). Creating rubble invokes the bashing function that can destroy terrain and cause structures to collapse.
@@ -677,9 +694,61 @@ Places a graffiti message at the location. Either "text" or "snippet" must be de
 - "text": (optional, string) the message that will be placed.
 - "snippet": (optional, string) a category of snippets that the message will be pulled from.
 
-# 2.7 "rotation"
+### 2.5.19 "translate_ter"
+Translates one type of terrain into another type of terrain.  There is no reason to do this with
+normal mapgen, but it is useful for setting a baseline with update_mapgen.
+- "from": (required, string) the terrain id of the terrain to be transformed
+- "to": (required, string) the terrain id that the from terrain will transformed into
+
+### 2.5.20 "zones"
+Places a zone for an NPC faction.  NPCs in the faction will use the zone to influence the AI.
+- "type": (required, string) must be one of NPC_RETREAT, NPC_NO_INVESTIGATE, or NPC_INVESTIGATE_ONLY.  NPCs will prefer to retreat towards NPC_RETREAT zones.  They will not move to the see the source of unseen sounds coming from NPC_NO_INVESTIGATE zones.  They will not move to the see the source of unseen sounds coming from outside NPC_INVESTIGATE_ONLY zones.
+- "faction": (required, string) the faction id of the NPC faction that will use the zone.
+- "name": (optional, string) the name of the zone.
+
+# 2.6 "rotation"
 Rotates the generated map after all the other mapgen stuff has been done. The value can be a single integer or a range (out of which a value will be randomly chosen). Example:
 ```JSON
 "rotation": [ 0, 3 ],
 ```
 Values are 90° steps.
+
+# 2.7 "predecessor_mapgen"
+Specifying an overmap terrain id here will run the entire mapgen for that overmap terrain type
+first, before applying the rest of the mapgen defined here. The primary use case for this is when
+our mapgen for a location takes place in a natural feature like a forest, swamp, or lake shore.
+Many existing JSON mapgen attempt to emulate the mapgen of the type they're being placed on (e.g. a
+cabin in the forest has placed the trees, grass and clutter of a forest to try to make the cabin
+fit in) which leads to them being out of sync when the generation of that type changes. By
+specifying the `predecessor_mapgen`, you can instead focus on the things that are added to the
+existing location type. Example:
+```json
+"predecessor_mapgen": "forest"
+```
+
+# 3 update_mapgen
+update_mapgen is a variant of normal JSON mapgen.  Instead of creating a new overmap tile, it
+updates an existing overmap tile with a specific set of changes.  Currently, it only works within
+the NPC mission interface, but it will be expanded to be a general purpose tool for modifying
+existing maps.
+
+update_mapgen generally uses the same fields as JSON mapgen, with a few exceptions.  update_mapgen has a few new fields to support missions, as well as ways to specify which overmap tile will be updated.
+
+# 3.1 overmap tile specification
+update_mapgen updates an existing overmap tile.  These fields provide a way to specify which tile to update.
+
+### 3.1.0 "assign_mission_target"
+assign_mission_target assigns an overmap tile as the target of a mission.  Any update_mapgen in the same scope will update that overmap tile.  The closet overmap terrain with the required terrain ID will be used, and if there is no matching terrain, an overmap special of om_special type will be created and then the om_terrain within that special will be used.
+- "om_terrain" (required, string) the overmap terrain ID of the mission target
+- "om_special" (required, string) the overmap special ID of the mission target
+
+### 3.1.1 "om_terrain"
+the closest overmap tile of type om_terrain in the closest overmap special of type om_special will be used.  The overmap tile will be updated but will not be set as the mission target.
+- "om_terrain" (required, string) the overmap terrain ID of the mission target
+- "om_special" (required, string) the overmap special ID of the mission target
+
+# 3.2 mission specials
+update_mapgen adds new optional keywords to a few mapgen JSON items.
+
+### 3.2.0 "target"
+place_npc, place_monster, and place_computer can take an optional target boolean. If they have `"target": true` and are invoked by update_mapgen with a valid mission, then the NPC, monster, or computer will be marked as the target of the mission.

@@ -1,72 +1,55 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "bandit_tower_3tlc",
-        "comment" : "top left corner, third and odd level floors.",
-        "weight": 250,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_floor",
-            "rows": [
-                "########################",
-                "########################",
-                "########################",
-                "#######==ww=====ww==ww==",
-                "#######=CCCC|j+CCCC|XX==",
-                "#####===..n.|-|..n.|XX==",
-                "#####===....+j|....|..XX",
-                "###=====+------+----....",
-                "###=xxxx...........+....",
-                "###=......-------+----++",
-                "###J.L.xx.|sss|S|..XX|XX",
-                "###J.L.xx.+..@..|....|--",
-                "###J.L.xx.|lll|l|XX..+.X",
-                "###=xx....--------------",
-                "###=xx.......!..xxxxxx..",
-                "###=--....---|..........",
-                "###J.Tn...KK0|.x===!!==.",
-                "###J........l|.x===..Mee",
-                "###J.Tn..~..s|.x==<<<Mee",
-                "###J.....~..l|.x==<<<Mee",
-                "###J.Tn..~..l|.x==<<<Mee",
-                "###J........s|..=MMMMMMM",
-                "###J.LLLLLL00|..=eeeeM==",
-                "###===-------|...eeeeM=="
-            ],
-            "rotation": 0,
-            "palettes": [
-                "tri_tower",
-                "upper_level",
-                "bandit_tower_stuff"
-            ],
-            "furniture":{
-                "j": "f_locker",
-                "J": "f_rack",
-                "K": "f_locker"
-            },
-            "item":{
-                "J": [ 
-                    { "item": "blanket", "chance": 2 },
-                    { "item": "towel", "chance": 2 },
-                    { "item": "sheet", "chance": 2 }
-                ],
-                "K": { "item": "soap", "amount": [ 5, 8 ] },
-                "T": { "item": "washboard", "amount": [ 0, 8 ] },
-                "X": { "item": "rag", "amount": [ 30, 60 ] }
-            },
-            "items":{
-                "C": { "item": "tools_tailor", "chance": 70 },
-                "j": { "item": "tools_tailor", "chance": 80 },
-                "l": { "item": "cleaning", "chance": 60 },
-                "L": [ 
-                    { "item": "clothing_outdoor_torso", "chance": 60 },
-                    { "item": "clothing_outdoor_pants", "chance": 60 }
-                ],
-                "x": { "item": "allclothes", "chance": 80 }
-            },
-            "npcs": {
-                "@": { "class": "thug" }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "bandit_tower_3tlc",
+    "comment": "top left corner, third and odd level floors.",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "#######==ww=====ww==ww==",
+        "#######=CCCC|j+CCCC|XX==",
+        "#####===..n.|-|..n.|XX==",
+        "#####===....+j|....|..XX",
+        "###=====+------+----....",
+        "###=xxxx...........+....",
+        "###=......-------+----++",
+        "###J.L.xx.|sss|S|..XX|XX",
+        "###J.L.xx.+..@..|....|--",
+        "###J.L.xx.|lll|l|XX..+.X",
+        "###=xx....--------------",
+        "###=xx.......!..xxxxxx..",
+        "###=--....---|..........",
+        "###J.Tn...KK0|.x===!!==.",
+        "###J........l|.x===..Mee",
+        "###J.Tn..~..s|.x==<<<Mee",
+        "###J.....~..l|.x==<<<Mee",
+        "###J.Tn..~..l|.x==<<<Mee",
+        "###J........s|..=MMMMMMM",
+        "###J.LLLLLL00|..=eeeeM==",
+        "###===-------|...eeeeM=="
+      ],
+      "rotation": 0,
+      "palettes": [ "tri_tower", "upper_level", "bandit_tower_stuff" ],
+      "furniture": { "j": "f_locker", "J": "f_rack", "K": "f_locker" },
+      "item": {
+        "J": [ { "item": "blanket", "chance": 2 }, { "item": "towel", "chance": 2 }, { "item": "sheet", "chance": 2 } ],
+        "K": { "item": "soap", "amount": [ 5, 8 ] },
+        "T": { "item": "washboard", "amount": [ 0, 8 ] },
+        "X": { "item": "rag", "amount": [ 30, 60 ] }
+      },
+      "items": {
+        "C": { "item": "tools_tailor", "chance": 70 },
+        "j": { "item": "tools_tailor", "chance": 80 },
+        "l": { "item": "cleaning", "chance": 60 },
+        "L": [ { "item": "clothing_outdoor_torso", "chance": 60 }, { "item": "clothing_outdoor_pants", "chance": 60 } ],
+        "x": { "item": "allclothes", "chance": 80 }
+      },
+      "npcs": { "@": { "class": "thug" } }
     }
+  }
 ]

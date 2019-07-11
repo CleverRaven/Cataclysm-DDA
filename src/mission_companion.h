@@ -6,24 +6,17 @@
 #include <string>
 #include <vector>
 
-#include "game.h"
-#include "map.h"
-#include "npc.h"
-#include "output.h"
+#include "calendar.h"
+#include "type_id.h"
 
-class martialart;
-class JsonObject;
-class mission;
-class time_point;
-class time_duration;
 class npc;
 class item;
 struct tripoint;
 struct comp_rank;
-class player;
 class npc_template;
 template<typename T>
 class string_id;
+class monster;
 
 using npc_ptr = std::shared_ptr<npc>;
 using comp_list = std::vector<npc_ptr>;
@@ -150,6 +143,8 @@ npc_ptr companion_choose_return( const tripoint &omt_pos, const std::string &rol
 //Return NPC to your party
 void companion_return( npc &comp );
 //Smash stuff, steal valuables, and change map maker
-std::vector<item *> loot_building( const tripoint &site );
-}
+// TODO: Make this return the loot gained
+void loot_building( const tripoint &site );
+
+} // namespace talk_function
 #endif

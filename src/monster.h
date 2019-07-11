@@ -2,7 +2,10 @@
 #ifndef MONSTER_H
 #define MONSTER_H
 
+#include <climits>
+#include <cstddef>
 #include <bitset>
+#include <functional>
 #include <map>
 #include <set>
 #include <string>
@@ -12,26 +15,33 @@
 #include "calendar.h"
 #include "creature.h"
 #include "enums.h"
-#include "int_id.h"
+#include "bodypart.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "damage.h"
+#include "item.h"
+#include "mtype.h"
+#include "optional.h"
+#include "pldata.h"
+#include "type_id.h"
+#include "units.h"
+#include "point.h"
 
 class JsonObject;
 class JsonIn;
 class JsonOut;
-class map;
-class game;
-class item;
-class monfaction;
 class player;
 class Character;
-struct mtype;
-enum monster_trigger : int;
-enum field_id : int;
+class effect;
+struct dealt_projectile_attack;
+struct pathfinding_settings;
+struct trap;
 
-using mfaction_id = int_id<monfaction>;
-using mtype_id = string_id<mtype>;
+enum class mon_trigger;
 
 class monster;
-typedef std::map< mfaction_id, std::set< monster * > > mfactions;
+
+using mfactions = std::map< mfaction_id, std::set< monster * > >;
 
 class mon_special_attack
 {
@@ -187,12 +197,14 @@ class monster : public Creature
         void plan( const mfactions &factions );
         void move(); // Actual movement
         void footsteps( const tripoint &p ); // noise made by movement
+        void shove_vehicle( const tripoint &remote_destination,
+                            const tripoint &nearby_destination ); // shove vehicles out of the way
 
         tripoint scent_move();
         int calc_movecost( const tripoint &f, const tripoint &t ) const;
         int calc_climb_cost( const tripoint &f, const tripoint &t ) const;
 
-        bool is_immune_field( const field_id fid ) const override;
+        bool is_immune_field( const field_type_id fid ) const override;
 
         /**
          * Attempt to move to p.
@@ -255,8 +267,6 @@ class monster : public Creature
         monster_attitude attitude( const Character *u = nullptr ) const; // See the enum above
         Attitude attitude_to( const Creature &other ) const override;
         void process_triggers(); // Process things that anger/scare us
-        void process_trigger( monster_trigger trig, int amount ); // Single trigger
-        int trigger_sum( const std::set<monster_trigger> &triggers ) const;
 
         bool is_underwater() const override;
         bool is_on_ground() const override;
@@ -321,6 +331,8 @@ class monster : public Creature
         float  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
         float  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
 
+        int get_grab_strength() const; // intensity of grabbed effect
+
         monster_horde_attraction get_horde_attraction();
         void set_horde_attraction( monster_horde_attraction mha );
         bool will_join_horde( int size );
@@ -384,8 +396,8 @@ class monster : public Creature
 
         bool is_hallucination() const override;    // true if the monster isn't actually real
 
-        field_id bloodType() const override;
-        field_id gibType() const override;
+        field_type_id bloodType() const override;
+        field_type_id gibType() const override;
 
         using Creature::add_msg_if_npc;
         void add_msg_if_npc( const std::string &msg ) const override;
@@ -400,22 +412,30 @@ class monster : public Creature
         tripoint wander_pos; // Wander destination - Just try to move in that direction
         int wandf;           // Urge to wander - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
-
+        player *dragged_foe; // player being dragged by the monster
+        cata::optional<item> tied_item; // item used to tie the monster
         // DEFINING VALUES
         int friendly;
         int anger = 0;
         int morale = 0;
-        mfaction_id faction; // Our faction (species, for most monsters)
-        int mission_id; // If we're related to a mission
+        // Our faction (species, for most monsters)
+        mfaction_id faction;
+        // If we're related to a mission
+        int mission_id;
         const mtype *type;
-        bool no_extra_death_drops;    // if true, don't spawn loot items as part of death
-        bool no_corpse_quiet = false; //if true, monster dies quietly and leaves no corpse
-        bool death_drops =
-            true; // Turned to false for simulating monsters during distant missions so they don't drop in sight
+        // If true, don't spawn loot items as part of death.
+        bool no_extra_death_drops;
+        // If true, monster dies quietly and leaves no corpse.
+        bool no_corpse_quiet = false;
+        // Turned to false for simulating monsters during distant missions so they don't drop in sight.
+        bool death_drops = true;
         bool is_dead() const;
         bool made_footstep;
-        std::string unique_name; // If we're unique
+        // If we're unique
+        std::string unique_name;
         bool hallucination;
+        // abstract for a fish monster representing a hidden stock of population in that area.
+        int fish_population = 1;
 
         void setpos( const tripoint &p ) override;
         const tripoint &pos() const override;
@@ -466,6 +486,13 @@ class monster : public Creature
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::set<tripoint> get_path_avoid() const override;
+        // summoned monsters via spells
+        void set_summon_time( const time_duration &length );
+        // handles removing the monster if the timer runs out
+        void decrement_summon_timer();
+    private:
+        void process_trigger( mon_trigger trig, int amount );
+        void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
 
     private:
         int hp;
@@ -487,6 +514,7 @@ class monster : public Creature
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
         std::bitset<NUM_MEFF> effect_cache;
+        cata::optional<time_duration> summon_time_limit = cata::nullopt;
 
     protected:
         void store( JsonOut &jsout ) const;

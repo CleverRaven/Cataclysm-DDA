@@ -191,7 +191,7 @@
       { "x": -2, "y": 1, "part": "frame_vertical" },
       { "x": -2, "y": 1, "part": "seat" },
       { "x": -2, "y": 1, "part": "turret_mount" },
-      { "x": -2, "y": 1, "part": "mounted_m60", "ammo": 100 },
+      { "x": -2, "y": 1, "part": "mounted_m60", "ammo": 80, "ammo_qty": [ 10, 100 ] },
       { "x": -2, "y": 1, "part": "roof" },
       { "x": -2, "y": -1, "part": "frame_vertical" },
       { "x": -2, "y": -1, "part": "halfboard_vertical" },

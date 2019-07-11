@@ -6,19 +6,16 @@
 #include <string>
 #include <vector>
 
-#include "enums.h"
 #include "units.h"
 
 class item;
 class player;
 class JsonObject;
-class MonsterGenerator;
 class monster;
-
 template<typename T> class ret_val;
-
 struct iteminfo;
-typedef std::string itype_id;
+
+using itype_id = std::string;
 struct tripoint;
 
 // iuse methods returning a bool indicating whether to consume a charge of the item being used.
@@ -43,7 +40,7 @@ class iuse
         int antifungal( player *, item *, bool, const tripoint & );
         int antiparasitic( player *, item *, bool, const tripoint & );
         int anticonvulsant( player *, item *, bool, const tripoint & );
-        int weed_brownie( player *, item *, bool, const tripoint & );
+        int weed_cake( player *, item *, bool, const tripoint & );
         int coke( player *, item *, bool, const tripoint & );
         int meth( player *, item *, bool, const tripoint & );
         int vaccine( player *, item *, bool, const tripoint & );
@@ -108,6 +105,7 @@ class iuse
         int e_combatsaw_on( player *, item *, bool, const tripoint & );
         int jackhammer( player *, item *, bool, const tripoint & );
         int pickaxe( player *, item *, bool, const tripoint & );
+        int burrow( player *, item *, bool, const tripoint & );
         int geiger( player *, item *, bool, const tripoint & );
         int teleport( player *, item *, bool, const tripoint & );
         int can_goo( player *, item *, bool, const tripoint & );
@@ -135,20 +133,22 @@ class iuse
         int shocktonfa_on( player *, item *, bool, const tripoint & );
         int mp3( player *, item *, bool, const tripoint & );
         int mp3_on( player *, item *, bool, const tripoint & );
+        int rpgdie( player *, item *, bool, const tripoint & );
+        int dive_tank( player *, item *, bool, const tripoint & );
         int gasmask( player *, item *, bool, const tripoint & );
         int portable_game( player *, item *, bool, const tripoint & );
         int vibe( player *, item *, bool, const tripoint & );
+        int hand_crank( player *, item *, bool, const tripoint & );
         int vortex( player *, item *, bool, const tripoint & );
         int dog_whistle( player *, item *, bool, const tripoint & );
         int blood_draw( player *, item *, bool, const tripoint & );
+        int mind_splicer( player *, item *, bool, const tripoint & );
         static void cut_log_into_planks( player & );
         int lumber( player *, item *, bool, const tripoint & );
         int chop_tree( player *, item *, bool, const tripoint & );
         int chop_logs( player *, item *, bool, const tripoint & );
         int oxytorch( player *, item *, bool, const tripoint & );
         int hacksaw( player *, item *, bool, const tripoint & );
-        int torch_lit( player *, item *, bool, const tripoint & );
-        int battletorch_lit( player *, item *, bool, const tripoint & );
         int boltcutters( player *, item *, bool, const tripoint & );
         int mop( player *, item *, bool, const tripoint & );
         int spray_can( player *, item *, bool, const tripoint & );
@@ -184,6 +184,7 @@ class iuse
         int einktabletpc( player *, item *, bool, const tripoint & );
         int camera( player *, item *, bool, const tripoint & );
         int ehandcuffs( player *, item *, bool, const tripoint & );
+        int foodperson( player *, item *, bool, const tripoint & );
         int cable_attach( player *, item *, bool, const tripoint & );
         int shavekit( player *, item *, bool, const tripoint & );
         int hairkit( player *, item *, bool, const tripoint & );
@@ -199,6 +200,8 @@ class iuse
         int magnesium_tablet( player *, item *, bool, const tripoint & );
         int coin_flip( player *, item *, bool, const tripoint & );
         int magic_8_ball( player *, item *, bool, const tripoint & );
+        int gobag_normal( player *, item *, bool, const tripoint & );
+        int gobag_personal( player *, item *, bool, const tripoint & );
 
         // MACGUFFINS
 
@@ -209,6 +212,8 @@ class iuse
         int multicooker( player *, item *, bool, const tripoint & );
 
         int remoteveh( player *, item *, bool, const tripoint & );
+
+        int craft( player *, item *, bool, const tripoint & );
 
         int disassemble( player *, item *, bool, const tripoint & );
 
@@ -222,9 +227,12 @@ class iuse
         static void play_music( player &p, const tripoint &source, int volume, int max_morale );
 
         // Helper for handling pesky wannabe-artists
-        static int handle_ground_graffiti( player &p, item *it, const std::string &prefix );
+        static int handle_ground_graffiti( player &p, item *it, const std::string &prefix,
+                                           const tripoint &pt );
 
 };
+
+void remove_radio_mod( item &it, player &p );
 
 // Helper for clothes washing
 struct washing_requirements {
@@ -234,13 +242,13 @@ struct washing_requirements {
 };
 washing_requirements washing_requirements_for_volume( units::volume );
 
-typedef int ( iuse::*use_function_pointer )( player *, item *, bool, const tripoint & );
+using use_function_pointer = int ( iuse::* )( player *, item *, bool, const tripoint & );
 
 class iuse_actor
 {
 
     protected:
-        iuse_actor( const std::string &type, long cost = -1 ) : type( type ), cost( cost ) {}
+        iuse_actor( const std::string &type, int cost = -1 ) : type( type ), cost( cost ) {}
 
     public:
         /**
@@ -250,11 +258,11 @@ class iuse_actor
         const std::string type;
 
         /** Units of ammo required per invocation (or use value from base item if negative) */
-        long cost;
+        int cost;
 
         virtual ~iuse_actor() = default;
         virtual void load( JsonObject &jo ) = 0;
-        virtual long use( player &, item &, bool, const tripoint & ) const = 0;
+        virtual int use( player &, item &, bool, const tripoint & ) const = 0;
         virtual ret_val<bool> can_use( const player &, const item &, bool, const tripoint & ) const;
         virtual void info( const item &, std::vector<iteminfo> & ) const {}
         /**
@@ -296,7 +304,7 @@ struct use_function {
 
         ~use_function() = default;
 
-        long call( player &, item &, bool, const tripoint & ) const;
+        int call( player &, item &, bool, const tripoint & ) const;
         ret_val<bool> can_call( const player &p, const item &it, bool t, const tripoint &pos ) const;
 
         iuse_actor *get_actor_ptr() const {

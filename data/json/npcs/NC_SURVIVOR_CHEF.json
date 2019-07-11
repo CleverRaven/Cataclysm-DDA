@@ -1,0 +1,61 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_SURVIVOR_CHEF_head",
+    "items": [ [ "hat_chef", 10 ], [ "pot_helmet", 80 ], [ "hat_ball", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SURVIVOR_CHEF_pants_male",
+    "items": [ [ "pants_checkered", 90 ], [ "pants", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SURVIVOR_CHEF_pants_female",
+    "items": [ [ "pants_checkered", 90 ], [ "jeans", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SURVIVOR_CHEF_shirt_male",
+    "items": [ [ "tshirt", 90 ], [ "longshirt", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SURVIVOR_CHEF_shirt_female",
+    "items": [ [ "tshirt", 90 ], [ "longshirt", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SURVIVOR_CHEF_gloves",
+    "items": [ [ "null", 80 ], [ "gloves_leather", 10 ], [ "gloves_fingerless", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SURVIVOR_CHEF_coat",
+    "items": [ [ "jacket_chef", 90 ], [ "hoodie", 5 ], [ "jacket_light", 5 ], [ "jacket_leather", 5 ], [ "jacket_jean", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SURVIVOR_CHEF_masks",
+    "items": [ [ "null", 80 ], [ "bandana", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SURVIVOR_CHEF_eyes",
+    "items": [ [ "null", 80 ], [ "sunglasses", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SURVIVOR_CHEF_misc",
+    "items": [
+      [ "water_clean", 90 ],
+      [ "knife_butcher", 100 ],
+      [ "joint", 50 ],
+      [ "coke", 5 ],
+      [ "cig", 60 ],
+      [ "lighter", 60 ],
+      { "item": "veggy_pickled", "prob": 30, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "meat_pickled", "prob": 20, "charges": 2, "container-item": "jar_glass_sealed" }
+    ]
+  }
+]

@@ -4,11 +4,10 @@
 #include <cstring>
 #include <array>
 
-#include "cursesdef.h"
 #include "options.h"
 #include "wcwidth.h"
 
-#if (defined _WIN32 || defined WINDOWS)
+#if defined(_WIN32)
 #include "platform_win.h"
 #include "mmsystem.h"
 #endif
@@ -215,7 +214,7 @@ int cursorx_to_position( const char *line, int cursorx, int *prevpos, int maxlen
     return i;
 }
 
-std::string utf8_truncate( std::string s, size_t length )
+std::string utf8_truncate( const std::string &s, size_t length )
 {
 
     if( length == 0 || s.empty() ) {
@@ -253,7 +252,7 @@ static void build_base64_decoding_table()
     }
 }
 
-std::string base64_encode( std::string str )
+std::string base64_encode( const std::string &str )
 {
     //assume it is already encoded
     if( str.length() > 0 && str[0] == '#' ) {
@@ -287,7 +286,7 @@ std::string base64_encode( std::string str )
     return "#" + encoded_data;
 }
 
-std::string base64_decode( std::string str )
+std::string base64_decode( const std::string &str )
 {
     // do not decode if it is not base64
     if( str.length() == 0 || str[0] != '#' ) {
@@ -362,7 +361,7 @@ static void strip_trailing_nulls( std::string &str )
 
 std::wstring utf8_to_wstr( const std::string &str )
 {
-#if defined(_WIN32) || defined(WINDOWS)
+#if defined(_WIN32)
     int sz = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, nullptr, 0 ) + 1;
     std::wstring wstr( sz, '\0' );
     MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, &wstr[0], sz );
@@ -379,7 +378,7 @@ std::wstring utf8_to_wstr( const std::string &str )
 
 std::string wstr_to_utf8( const std::wstring &wstr )
 {
-#if defined(_WIN32) || defined(WINDOWS)
+#if defined(_WIN32)
     int sz = WideCharToMultiByte( CP_UTF8, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL );
     std::string str( sz, '\0' );
     WideCharToMultiByte( CP_UTF8, 0, wstr.c_str(), -1, &str[0], sz, NULL, NULL );
@@ -399,7 +398,7 @@ std::string native_to_utf8( const std::string &str )
     if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
         return str;
     }
-#if defined(_WIN32) || defined(WINDOWS)
+#if defined(_WIN32)
     // native encoded string --> Unicode sequence --> UTF-8 string
     int unicode_size = MultiByteToWideChar( CP_ACP, 0, str.c_str(), -1, NULL, 0 ) + 1;
     std::wstring unicode( unicode_size, '\0' );
@@ -419,7 +418,7 @@ std::string utf8_to_native( const std::string &str )
     if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
         return str;
     }
-#if defined(_WIN32) || defined(WINDOWS)
+#if defined(_WIN32)
     // UTF-8 string --> Unicode sequence --> native encoded string
     int unicode_size = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, NULL, 0 ) + 1;
     std::wstring unicode( unicode_size, '\0' );
@@ -573,7 +572,7 @@ utf8_wrapper utf8_wrapper::substr_byte( size_t bytestart, size_t length,
     return utf8_wrapper( _data.substr( bytestart, bend - bytestart ) );
 }
 
-long utf8_wrapper::at( size_t start ) const
+uint32_t utf8_wrapper::at( size_t start ) const
 {
     const size_t bstart = byte_start( 0, start );
     const char *utf8str = _data.c_str() + bstart;

@@ -4,25 +4,16 @@
 
 #include <string>
 #include <vector>
+#include <utility>
 
 namespace catacurses
 {
 class window;
 } // namespace catacurses
-class martialart;
-class JsonObject;
-class mission;
-class time_point;
 class npc;
-class item;
 struct point;
 struct tripoint;
-struct comp_rank;
 struct mission_entry;
-class player;
-class npc_template;
-template<typename T>
-class string_id;
 
 enum camp_tab_mode {
     TAB_MAIN,
@@ -73,5 +64,5 @@ std::vector<std::pair<std::string, tripoint>> om_building_region( const tripoint
 std::string om_simple_dir( const tripoint &omt_pos, const tripoint &omt_tar );
 /// Converts a direction into a point offset
 point om_dir_to_offset( const std::string &dir );
-}
+} // namespace talk_function
 #endif

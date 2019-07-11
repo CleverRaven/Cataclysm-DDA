@@ -20,7 +20,7 @@
     "material": "plastic",
     "symbol": ")",
     "color": "dark_gray",
-    "contains": 200,
+    "contains": 10,
     "watertight": true,
     "qualities": [ [ "COOK", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
@@ -105,7 +105,15 @@
     "copy-from": "vehicle_rig",
     "name": "MetalMaster forge buddy",
     "name_plural": "MetalMaster forge buddies",
-    "description": "From the makers of the best-selling* FOODCO kitchen buddy comes the MetalMaster forge buddy, for all your metalworking and welding needs!  It's just as clunky and awkward as the thing it's spinning off, and still requires a vehicle battery to function."
+    "description": "From the makers of the best-selling* FOODCO kitchen buddy comes the MetalMaster forge buddy, for all your metalworking, firing, and welding needs!  It's just as clunky and awkward as the thing it's spinning off, and still requires a vehicle battery to function."
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_kitchen_rig",
+    "copy-from": "vehicle_rig",
+    "name": "KitchenMaster cooking buddy",
+    "name_plural": "KitchenMaster cooking buddies",
+    "description": "Because it *clearly* needed one, this large all-in-one station provides the functions of FOODCO's kitchen buddy, now with complementary fume hoods and chemistry materials.  Why a chef would need a chemical rig is anyone's guess, but you can mount it on a vehicle to make use of it."
   },
   {
     "type": "GENERIC",
@@ -134,5 +142,35 @@
     "ammo_type": "battery",
     "capacity": 100000,
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ]
+  },
+  {
+    "id": "nuclear_waste",
+    "type": "GENERIC",
+    "name": "nuclear waste",
+    "description": "A small pellet of silvery metal, still warm to the touch.",
+    "weight": 30,
+    "volume": 1,
+    "price": 0,
+    "material": "iron",
+    "symbol": "*",
+    "color": "light_green",
+    "flags": [ "RADIOACTIVE", "LEAK_ALWAYS" ]
+  },
+  {
+    "id": "nuclear_fuel",
+    "copy-from": "nuclear_waste",
+    "type": "GENERIC",
+    "name": "nuclear fuel pellet",
+    "description": "A small pellet of fissile material.  Handle carefully."
+  },
+  {
+    "id": "hazardous_waste_drum",
+    "copy-from": "55gal_drum",
+    "type": "CONTAINER",
+    "name": "hazardous waste drum",
+    "description": "A yellow drum meant for the storage of hazardous substances.",
+    "material": [ "steel", "lead" ],
+    "symbol": "0",
+    "color": "yellow"
   }
 ]

@@ -1,6 +1,12 @@
 #include "tutorial.h"
 
+#include <array>
+#include <memory>
+#include <string>
+#include <vector>
+
 #include "action.h"
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "game.h"
 #include "gamemode.h"
@@ -16,6 +22,16 @@
 #include "scent_map.h"
 #include "translations.h"
 #include "trap.h"
+#include "calendar.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item.h"
+#include "pldata.h"
+#include "units.h"
+#include "type_id.h"
+#include "point.h"
+#include "weather.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 
@@ -30,7 +46,7 @@ bool tutorial_game::init()
         elem = false;
     }
     g->scent.reset();
-    g->temperature = 65;
+    g->weather.temperature = 65;
     // We use a Z-factor of 10 so that we don't plop down tutorial rooms in the
     // middle of the "real" game world
     g->u.normalize();
@@ -50,7 +66,7 @@ bool tutorial_game::init()
     // overmap terrain coordinates
     const int lx = 50;
     const int ly = 50;
-    auto &starting_om = overmap_buffer.get( 0, 0 );
+    auto &starting_om = overmap_buffer.get( point_zero );
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
             starting_om.ter( i, j, -1 ) = rock;
@@ -101,10 +117,10 @@ void tutorial_game::per_turn()
     }
 
     if( !tutorials_seen[LESSON_BUTCHER] ) {
-        for( size_t i = 0; i < g->m.i_at( g->u.posx(), g->u.posy() ).size(); i++ ) {
-            if( g->m.i_at( g->u.posx(), g->u.posy() )[i].is_corpse() ) {
+        for( const item &it : g->m.i_at( g->u.posx(), g->u.posy() ) ) {
+            if( it.is_corpse() ) {
                 add_message( LESSON_BUTCHER );
-                i = g->m.i_at( g->u.posx(), g->u.posy() ).size();
+                break;
             }
         }
     }
@@ -146,7 +162,6 @@ void tutorial_game::pre_action( action_id &act )
         case ACTION_QUICKSAVE:
             popup( _( "You're saving a tutorial - the tutorial world lacks certain features of normal worlds. "
                       "Weird things might happen when you load this save. You have been warned." ) );
-            act = ACTION_NULL;
             break;
         default:
             // Other actions are fine.
@@ -157,7 +172,7 @@ void tutorial_game::pre_action( action_id &act )
 void tutorial_game::post_action( action_id act )
 {
     switch( act ) {
-        case ACTION_RELOAD:
+        case ACTION_RELOAD_WEAPON:
             if( g->u.weapon.is_gun() && !tutorials_seen[LESSON_GUN_FIRE] ) {
                 g->summon_mon( mon_zombie, tripoint( g->u.posx(), g->u.posy() - 6, g->u.posz() ) );
                 g->summon_mon( mon_zombie, tripoint( g->u.posx() + 2, g->u.posy() - 5, g->u.posz() ) );
@@ -261,7 +276,7 @@ void load_tutorial_messages( JsonObject &jo )
     tut_text.clear();
     JsonArray messages = jo.get_array( "messages" );
     while( messages.has_more() ) {
-        tut_text.push_back( _( messages.next_string().c_str() ) );
+        tut_text.push_back( _( messages.next_string() ) );
     }
 }
 

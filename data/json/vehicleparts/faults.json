@@ -18,10 +18,7 @@
     "description": "Help when starting an engine in low ambient temperatures.",
     "time": 240000,
     "skills": [ [ "mechanics", 4 ] ],
-    "requirements": {
-      "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ],
-      "components": [ [ [ "glowplug", 1 ] ] ]
-    }
+    "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "glowplug", 1 ] ] ] }
   },
   {
     "id": "fault_engine_immobiliser",
@@ -30,9 +27,7 @@
     "description": "Prevents starting of the vehicle without the appropriate key.",
     "time": 30000,
     "skills": [ [ "mechanics", 2 ], [ "electronics", 5 ] ],
-    "requirements": {
-      "qualities": [ { "id": "SCREW_FINE", "level": 1 } ]
-    }
+    "requirements": { "qualities": [ { "id": "SCREW_FINE", "level": 1 } ] }
   },
   {
     "id": "fault_engine_pump_diesel",
@@ -41,10 +36,7 @@
     "description": "Required to pump and pressurize diesel from a vehicles tank.",
     "time": 240000,
     "skills": [ [ "mechanics", 4 ] ],
-    "requirements": {
-      "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ],
-      "components": [ [ [ "pump_complex", 1 ] ] ]
-    }
+    "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "pump_complex", 1 ] ] ] }
   },
   {
     "id": "fault_engine_filter_air",
@@ -77,10 +69,7 @@
     "description": "Required to pump gasoline from a vehicles tank.",
     "time": 240000,
     "skills": [ [ "mechanics", 4 ] ],
-    "requirements": {
-      "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ],
-      "components": [ [ [ "well_pump", 1 ] ] ]
-    }
+    "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "well_pump", 1 ] ] ] }
   },
   {
     "id": "fault_engine_pump_water",
@@ -89,10 +78,7 @@
     "description": "Required to pump water to an external radiator or heatsink.",
     "time": 120000,
     "skills": [ [ "mechanics", 4 ] ],
-    "requirements": {
-      "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ],
-      "components": [ [ [ "well_pump", 1 ] ] ]
-    }
+    "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "well_pump", 1 ] ] ] }
   },
   {
     "id": "fault_engine_starter",
@@ -101,9 +87,6 @@
     "description": "Required to initially start the engine.",
     "time": 60000,
     "skills": [ [ "mechanics", 3 ] ],
-    "requirements": {
-      "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ],
-      "components": [ [ [ "motor_small", 1 ] ] ]
-    }
+    "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "motor_small", 1 ] ] ] }
   }
 ]

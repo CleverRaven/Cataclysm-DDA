@@ -65,7 +65,7 @@
       [ "canteen", 20 ],
       [ "knife_hunting", 30 ],
       [ "shovel", 30 ],
-      [ "battery", 30 ]
+      { "group": "ammo_pocket_batteries_full", "prob": 30 }
     ]
   },
   {

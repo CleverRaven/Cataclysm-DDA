@@ -33,8 +33,25 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
       "terrain": {
-        " ": [ "t_dirt", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_underbrush", "t_tree_young", "t_tree"],
-        ",": [ "t_dirt", "t_dirt", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_underbrush", "t_tree_young", "t_tree"],
+        " ": [ "t_dirt", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_underbrush", "t_tree_young", "t_tree" ],
+        ",": [
+          "t_dirt",
+          "t_dirt",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_underbrush",
+          "t_tree_young",
+          "t_tree"
+        ],
         "o": "t_manhole_cover",
         "7": "t_tree"
       }
@@ -73,13 +90,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        ".": "t_thconc_floor",
-        ">": "t_stairs_down",
-        "<": "t_stairs_up",
-        "|": "t_concrete_wall",
-        "-": "t_concrete_wall"
-      }
+      "terrain": { ".": "t_thconc_floor", ">": "t_stairs_down", "<": "t_stairs_up", "|": "t_concrete_wall", "-": "t_concrete_wall" }
     }
   },
   {

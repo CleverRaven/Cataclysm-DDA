@@ -212,7 +212,7 @@
     "armor_cut": 30,
     "vision_day": 30,
     "vision_night": 5,
-    "harvest": "zombie",
+    "harvest": "zombie_kevlar",
     "special_attacks": [
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "SMASH", 30 ]
@@ -264,7 +264,7 @@
     "armor_cut": 50,
     "vision_day": 35,
     "vision_night": 10,
-    "harvest": "zombie",
+    "harvest": "zombie_kevlar",
     "special_attacks": [
       { "id": "slam", "cooldown": 12, "damage_max_instance": [ { "damage_type": "bash", "amount": 35 } ] },
       [ "LONGSWIPE", 20 ],
@@ -463,6 +463,7 @@
       "POISON",
       "BLEED",
       "ACIDPROOF",
+      "ELECTRIC",
       "NO_BREATHE",
       "REVIVES",
       "FILTHY"

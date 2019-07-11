@@ -2,23 +2,24 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
 
-#include <array>
+#include <cstddef>
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
+#include <utility>
 
 #include "fire.h"
-#include "game_constants.h"
 #include "optional.h"
 #include "string_id.h"
+#include "type_id.h"
+
+class material_type;
 
 enum damage_type : int;
-class material_type;
-using material_id = string_id<material_type>;
 using itype_id = std::string;
 class JsonObject;
-class vitamin;
-using vitamin_id = string_id<vitamin>;
+
 using mat_burn_products = std::vector<std::pair<itype_id, float>>;
 using mat_compacts_into = std::vector<itype_id>;
 using material_list = std::vector<material_type>;
@@ -44,8 +45,11 @@ class material_type
         float _specific_heat_liquid = 4.186;
         float _specific_heat_solid = 2.108;
         float _latent_heat = 334;
+        int _freeze_point = 32; // Farenheit
         bool _edible = false;
+        bool _rotting = false;
         bool _soft = false;
+        bool _reinforces = false;
 
         std::string _bash_dmg_verb;
         std::string _cut_dmg_verb;
@@ -53,7 +57,7 @@ class material_type
 
         std::map<vitamin_id, double> _vitamins;
 
-        std::array<mat_burn_data, MAX_FIELD_DENSITY> _burn_data;
+        std::vector<mat_burn_data> _burn_data;
 
         //Burn products defined in JSON as "burn_products": [ [ "X", float efficiency ], [ "Y", float efficiency ] ]
         mat_burn_products _burn_products;
@@ -92,9 +96,12 @@ class material_type
         float specific_heat_liquid() const;
         float specific_heat_solid() const;
         float latent_heat() const;
+        int freeze_point() const;
         int density() const;
         bool edible() const;
+        bool rotting() const;
         bool soft() const;
+        bool reinforces() const;
 
         double vitamin( const vitamin_id &id ) const {
             const auto iter = _vitamins.find( id );
@@ -116,7 +123,8 @@ void reset();
 
 material_list get_all();
 material_list get_compactable();
+std::set<material_id> get_rotting();
 
-}
+} // namespace materials
 
 #endif

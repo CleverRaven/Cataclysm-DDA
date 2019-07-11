@@ -1,8 +1,14 @@
 #include "ui.h"
 
+#include <assert.h>
+#include <cctype>
+#include <climits>
+#include <cstdlib>
 #include <algorithm>
 #include <iterator>
+#include <memory>
 
+#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "debug.h"
@@ -12,7 +18,7 @@
 #include "player.h"
 #include "string_input_popup.h"
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 
 #include "options.h"
@@ -22,19 +28,6 @@
 * \defgroup UI "The UI Menu."
 * @{
 */
-
-////////////////////////////////////
-int getfoldedwidth( const std::vector<std::string> &foldedstring )
-{
-    int ret = 0;
-    for( auto &i : foldedstring ) {
-        int width = utf8_width( i );
-        if( width > ret ) {
-            ret = width;
-        }
-    }
-    return ret;
-}
 
 uilist::uilist()
 {
@@ -117,6 +110,7 @@ uilist::operator int() const
  */
 void uilist::init()
 {
+    assert( !test_mode ); // uilist should not be used in tests where there's no place for it
     w_x = MENU_AUTOASSIGN;              // starting position
     w_y = MENU_AUTOASSIGN;              // -1 = auto center
     w_width = MENU_AUTOASSIGN;          // MENU_AUTOASSIGN = based on text width or max entry width, -2 = based on max entry, folds text
@@ -138,7 +132,8 @@ void uilist::init()
     pad_right = 0;         // or right
     desc_enabled = false;  // don't show option description by default
     desc_lines = 6;        // default number of lines for description
-    border = true;         // TODO: always true
+    footer_text.clear();   // takes precedence over per-entry descriptions.
+    border = true;         // TODO: always true.
     border_color = c_magenta; // border color
     text_color = c_light_gray;  // text color
     title_color = c_green;  // title color
@@ -246,7 +241,7 @@ std::string uilist::inputfilter()
     .window( window, 4, w_height - 1, w_width - 4 )
     .identifier( identifier );
     input_event event;
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
         SDL_StartTextInput();
     }
@@ -386,8 +381,8 @@ void uilist::setup()
         if( desc_enabled ) {
             const int min_width = std::min( TERMX, std::max( w_width, descwidth_final ) ) - 4;
             const int max_width = TERMX - 4;
-            int descwidth = find_minimum_fold_width( entries[i].desc, desc_lines,
-                            min_width, max_width );
+            int descwidth = find_minimum_fold_width( footer_text.empty() ? entries[i].desc : footer_text,
+                            desc_lines, min_width, max_width );
             descwidth += 4; // 2x border + 2x ' ' pad
             if( descwidth_final < descwidth ) {
                 descwidth_final = descwidth;
@@ -465,7 +460,8 @@ void uilist::setup()
         desc_lines = 0;
         for( const uilist_entry &ent : entries ) {
             // -2 for borders, -2 for padding
-            desc_lines = std::max<int>( desc_lines, foldstring( ent.desc, w_width - 4 ).size() );
+            desc_lines = std::max<int>( desc_lines, foldstring( footer_text.empty() ? ent.desc : footer_text,
+                                        w_width - 4 ).size() );
         }
         if( desc_lines <= 0 ) {
             desc_enabled = false;
@@ -498,8 +494,8 @@ void uilist::setup()
                 popup( "Can't display menu options, 0 %d available screen rows are occupied\nThis is probably a bug.\n",
                        TERMY );
             } else {
-                popup( "Can't display menu options, %lu %d available screen rows are occupied by\n'%s\n(snip)\n%s'\nThis is probably a bug.\n",
-                       static_cast<unsigned long>( textformatted.size() ), TERMY, textformatted[ 0 ].c_str(),
+                popup( "Can't display menu options, %zu %d available screen rows are occupied by\n'%s\n(snip)\n%s'\nThis is probably a bug.\n",
+                       textformatted.size(), TERMY, textformatted[ 0 ].c_str(),
                        textformatted[ textformatted.size() - 1 ].c_str() );
             }
         }
@@ -586,7 +582,8 @@ void uilist::show()
         wprintz( window, border_color, " >" );
     }
 
-    std::string padspaces = std::string( w_width - 2 - pad_left - pad_right, ' ' );
+    const int pad_size = std::max( 0, w_width - 2 - pad_left - pad_right );
+    std::string padspaces = std::string( pad_size, ' ' );
     const int text_lines = textformatted.size();
     int estart = 1;
     if( !textformatted.empty() ) {
@@ -673,12 +670,12 @@ void uilist::show()
 
         if( static_cast<size_t>( selected ) < entries.size() ) {
             fold_and_print( window, w_height - desc_lines - 1, 2, w_width - 4, text_color,
-                            entries[selected].desc );
+                            footer_text.empty() ? entries[selected].desc : footer_text );
         }
     }
 
     if( !filter.empty() ) {
-        mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter.c_str() );
+        mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter );
         mvwprintz( window, w_height - 1, 4, text_color, filter );
     }
     apply_scrollbar();
@@ -709,7 +706,7 @@ void uilist::redraw( bool redraw_callback )
         wprintz( window, border_color, " >" );
     }
     if( !filter.empty() ) {
-        mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter.c_str() );
+        mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter );
         mvwprintz( window, w_height - 1, 4, text_color, filter );
     }
     ( void )redraw_callback; // TODO: something
@@ -842,7 +839,7 @@ void uilist::query( bool loop, int timeout )
 
     show();
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     for( const auto &entry : entries ) {
         if( entry.hotkey > 0 && entry.enabled ) {
             ctxt.register_manual_key( entry.hotkey, entry.txt );

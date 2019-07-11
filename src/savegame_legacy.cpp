@@ -1,7 +1,14 @@
+#include <cstddef>
 #include <sstream>
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <array>
+#include <list>
+#include <map>
+#include <memory>
+#include <type_traits>
+#include <utility>
 
 #include "debug.h"
 // for legacy classdata loaders
@@ -14,6 +21,15 @@
 #include "options.h"
 #include "overmap.h"
 #include "player_activity.h"
+#include "cata_utility.h"
+#include "game_constants.h"
+#include "inventory.h"
+#include "monster.h"
+#include "regional_settings.h"
+#include "rng.h"
+#include "type_id.h"
+#include "flat_set.h"
+#include "point.h"
 
 namespace std
 {
@@ -24,7 +40,7 @@ struct hash<talk_topic_enum> {
         return k; // the most trivial hash of them all
     }
 };
-}
+} // namespace std
 
 std::string convert_talk_topic( talk_topic_enum const old_value )
 {
@@ -177,8 +193,48 @@ std::string convert_talk_topic( talk_topic_enum const old_value )
     return iter->second;
 }
 
-///// item.h
-bool itag2ivar( const std::string &item_tag, std::map<std::string, std::string> &item_vars );
+const char ivaresc = 001;
+
+static bool itag2ivar( const std::string &item_tag,
+                       std::map<std::string, std::string> &item_vars )
+{
+    size_t pos = item_tag.find( '=' );
+    if( item_tag.at( 0 ) == ivaresc && pos != std::string::npos && pos >= 2 ) {
+        std::string val_decoded;
+        int svarlen = 0;
+        int svarsep = 0;
+        svarsep = item_tag.find( '=' );
+        svarlen = item_tag.size();
+        val_decoded.clear();
+        std::string var_name = item_tag.substr( 1, svarsep - 1 ); // will assume sanity here for now
+        for( int s = svarsep + 1; s < svarlen;
+             s++ ) { // cheap and temporary, AFAIK stringstream IFS = [\r\n\t ];
+            if( item_tag[s] == ivaresc && s < svarlen - 2 ) {
+                if( item_tag[s + 1] == '0' && item_tag[s + 2] == 'A' ) {
+                    s += 2;
+                    val_decoded.append( 1, '\n' );
+                } else if( item_tag[s + 1] == '0' && item_tag[s + 2] == 'D' ) {
+                    s += 2;
+                    val_decoded.append( 1, '\r' );
+                } else if( item_tag[s + 1] == '0' && item_tag[s + 2] == '6' ) {
+                    s += 2;
+                    val_decoded.append( 1, '\t' );
+                } else if( item_tag[s + 1] == '2' && item_tag[s + 2] == '0' ) {
+                    s += 2;
+                    val_decoded.append( 1, ' ' );
+                } else {
+                    val_decoded.append( 1, item_tag[s] ); // hhrrrmmmmm should be passing \a?
+                }
+            } else {
+                val_decoded.append( 1, item_tag[s] );
+            }
+        }
+        item_vars[var_name] = val_decoded;
+        return true;
+    } else {
+        return false;
+    }
+}
 
 void item::load_info( const std::string &data )
 {
@@ -335,7 +391,7 @@ void overmap::unserialize_legacy( std::istream &fin )
             // Bugfix for old saves: population of 2147483647 is far too much and will
             // crash the game. This specific number was caused by a bug in
             // overmap::add_mon_group.
-            if( mg.population == 2147483647ul ) {
+            if( mg.population == 2147483647U ) {
                 mg.population = rng( 1, 10 );
             }
             mg.diffuse = cd;
@@ -377,7 +433,7 @@ void overmap::unserialize_legacy( std::istream &fin )
         } else if( datatype == 'v' ) {
             om_vehicle v;
             int id;
-            fin >> id >> v.name >> v.x >> v.y;
+            fin >> id >> v.name >> v.p.x >> v.p.y;
             vehicles[id] = v;
         } else if( datatype == 'n' ) { // NPC
             // When we start loading a new NPC, check to see if we've accumulated items for
@@ -490,6 +546,7 @@ void overmap::unserialize_view_legacy( std::istream &fin )
             int vis = 0;
             if( z >= 0 && z < OVERMAP_LAYERS ) {
                 for( int j = 0; j < OMAPY; j++ ) {
+                    // NOLINTNEXTLINE(modernize-loop-convert)
                     for( int i = 0; i < OMAPX; i++ ) {
                         if( count == 0 ) {
                             fin >> vis >> count;
@@ -509,6 +566,7 @@ void overmap::unserialize_view_legacy( std::istream &fin )
             int explored = 0;
             if( z >= 0 && z < OVERMAP_LAYERS ) {
                 for( int j = 0; j < OMAPY; j++ ) {
+                    // NOLINTNEXTLINE(modernize-loop-convert)
                     for( int i = 0; i < OMAPX; i++ ) {
                         if( count == 0 ) {
                             fin >> explored >> count;
@@ -540,7 +598,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         activity_id( "ACT_GAME" ),
         activity_id( "ACT_WAIT" ),
         activity_id( "ACT_CRAFT" ),
-        activity_id( "ACT_LONGCRAFT" ),
+        activity_id::NULL_ID(), // ACT_LONGCRAFT is deprecated
         activity_id( "ACT_DISASSEMBLE" ),
         activity_id( "ACT_BUTCHER" ),
         activity_id( "ACT_LONGSALVAGE" ),

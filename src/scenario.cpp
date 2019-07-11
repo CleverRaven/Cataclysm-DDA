@@ -1,23 +1,23 @@
 #include "scenario.h"
 
+#include <cstdlib>
 #include <algorithm>
-#include <cmath>
 
-#include "addiction.h"
 #include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "map_extras.h"
+#include "mission.h"
 #include "mutation.h"
-#include "player.h"
 #include "profession.h"
 #include "translations.h"
+#include "rng.h"
 
 namespace
 {
 generic_factory<scenario> all_scenarios( "scenario", "ident" );
 const string_id<scenario> generic_scenario_id( "evacuee" );
-}
+} // namespace
 
 /** @relates string_id */
 template<>
@@ -80,7 +80,8 @@ void scenario::load( JsonObject &jo, const std::string & )
         jo.throw_error( "at least one starting location (member \"allowed_locs\") must be defined" );
     }
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
-    optional( jo, was_loaded, "map_special", _map_special, "mx_null" );
+    optional( jo, was_loaded, "map_extra", _map_extra, "mx_null" );
+    optional( jo, was_loaded, "missions", _missions, auto_flags_reader<mission_type_id> {} );
 }
 
 const scenario *scenario::generic()
@@ -125,7 +126,7 @@ void scenario::check_definitions()
     }
 }
 
-void check_traits( const std::set<trait_id> &traits, const string_id<scenario> &ident )
+static void check_traits( const std::set<trait_id> &traits, const string_id<scenario> &ident )
 {
     for( auto &t : traits ) {
         if( !t.is_valid() ) {
@@ -164,7 +165,18 @@ void scenario::check_definition() const
     check_traits( _allowed_traits, id );
     check_traits( _forced_traits, id );
     check_traits( _forbidden_traits, id );
-    MapExtras::get_function( _map_special ); // triggers a debug message upon invalid input
+    MapExtras::get_function( _map_extra ); // triggers a debug message upon invalid input
+
+    for( auto &m : _missions ) {
+        if( !m.is_valid() ) {
+            debugmsg( "starting mission %s for scenario %s does not exist", m.c_str(), id.c_str() );
+        }
+
+        if( std::find( m->origins.begin(), m->origins.end(), ORIGIN_GAME_START ) == m->origins.end() ) {
+            debugmsg( "starting mission %s for scenario %s must include an origin of ORIGIN_GAME_START",
+                      m.c_str(), id.c_str() );
+        }
+    }
 }
 
 const string_id<scenario> &scenario::ident() const
@@ -298,12 +310,16 @@ bool scenario::can_pick( const scenario &current_scenario, const int points ) co
 {
     return point_cost() - current_scenario.point_cost() <= points;
 }
-bool scenario::has_map_special() const
+bool scenario::has_map_extra() const
 {
-    return _map_special != "mx_null";
+    return _map_extra != "mx_null";
 }
-const std::string &scenario::get_map_special() const
+const std::string &scenario::get_map_extra() const
 {
-    return _map_special;
+    return _map_extra;
+}
+const std::vector<mission_type_id> &scenario::missions() const
+{
+    return _missions;
 }
 // vim:ts=4:sw=4:et:tw=0:fdm=marker:

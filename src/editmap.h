@@ -4,21 +4,28 @@
 
 #include <map>
 #include <vector>
+#include <string>
 
-#include "map.h"
-#include "omdata.h"
 #include "optional.h"
-#include "trap.h"
-#include "ui.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "point.h"
+#include "type_id.h"
 
 struct real_coords;
-enum field_id : int;
+class Creature;
+class field;
+class uilist;
+class vehicle;
+class map;
+class tinymap;
 
 enum shapetype {
     editmap_rect, editmap_rect_filled, editmap_line, editmap_circle,
 };
 
 class editmap;
+
 struct editmap_hilight {
     std::vector<bool> blink_interval;
     int cur_blink;
@@ -58,15 +65,12 @@ class editmap
         int edit_mapgen();
         void cleartmpmap( tinymap &tmpmap );
         int mapgen_preview( const real_coords &tc, uilist &gmenu );
-        bool mapgen_set( std::string om_name, tripoint &omt_tgt, int r = 0,
-                         bool change_sensitive = true );
         vehicle *mapgen_veh_query( const tripoint &omt_tgt );
-        bool mapgen_veh_has( const tripoint &omt_tgt );
         bool mapgen_veh_destroy( const tripoint &omt_tgt, vehicle *car_target );
         int mapgen_retarget();
         int select_shape( shapetype shape, int mode = -1 );
 
-        void update_fmenu_entry( uilist &fmenu, field &field, field_id idx );
+        void update_fmenu_entry( uilist &fmenu, field &field, field_type_id idx );
         void setup_fmenu( uilist &fmenu );
         catacurses::window w_info;
         catacurses::window w_help;
@@ -88,7 +92,7 @@ class editmap
         trap_id cur_trap;
 
         int sel_field;
-        int sel_fdensity;
+        int sel_field_intensity;
 
         trap_id sel_trap;
 
@@ -105,7 +109,7 @@ class editmap
 
         std::string padding;
 
-        std::map<field_id, std::string> fids;
+        std::map<field_type_id, std::string> fids;
 
         std::vector<tripoint> target_list;
         std::map<std::string, editmap_hilight> hilights;

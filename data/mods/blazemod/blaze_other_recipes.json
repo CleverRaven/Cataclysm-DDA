@@ -10,10 +10,7 @@
     "time": 180000,
     "autolearn": true,
     "using": [ [ "welding_standard", 30 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "pipe", 24 ], [ "rebar", 12 ] ],
       [ [ "steel_chunk", 18 ], [ "steel_lump", 6 ] ],
@@ -32,10 +29,7 @@
     "time": 180000,
     "autolearn": true,
     "using": [ [ "welding_standard", 30 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "pipe", 24 ], [ "rebar", 12 ] ],
       [ [ "steel_chunk", 18 ], [ "steel_lump", 6 ] ],
@@ -54,17 +48,14 @@
     "time": 180000,
     "autolearn": true,
     "using": [ [ "welding_standard", 30 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "pipe", 24 ], [ "rebar", 12 ] ],
       [ [ "steel_chunk", 18 ], [ "steel_lump", 6 ] ],
       [ [ "spring", 6 ] ],
       [ [ "reinforced_solar_panel_v2", 12 ] ]
     ]
-  },  
+  },
   {
     "result": "tread1",
     "type": "recipe",
@@ -76,21 +67,9 @@
     "time": 420000,
     "autolearn": true,
     "using": [ [ "forging_standard", 10 ], [ "steel_standard", 10 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 3 },
-      { "id": "CUT", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
-      [ [ "swage", -1 ] ]
-    ],
-    "components": [
-      [ [ "wire", 20 ] ],
-      [ [ "plastic_chunk", 200 ] ],
-      [ [ "chain", 6 ] ]
-    ]
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CUT", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "wire", 20 ] ], [ [ "plastic_chunk", 200 ] ], [ [ "chain", 6 ] ] ]
   },
   {
     "result": "tread2",
@@ -103,20 +82,9 @@
     "time": 520000,
     "autolearn": true,
     "using": [ [ "forging_standard", 15 ], [ "steel_standard", 15 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 3 },
-      { "id": "CUT", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
-      [ [ "swage", -1 ] ]
-    ],
-    "components": [
-      [ [ "steel_plate", 10 ] ],
-      [ [ "chain", 6 ] ]
-    ]
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CUT", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "steel_plate", 10 ] ], [ [ "chain", 6 ] ] ]
   },
   {
     "result": "tread3",
@@ -129,20 +97,9 @@
     "time": 720000,
     "autolearn": true,
     "using": [ [ "forging_standard", 20 ], [ "steel_standard", 20 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 3 },
-      { "id": "CUT", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
-      [ [ "swage", -1 ] ]
-    ],
-    "components": [
-      [ [ "hard_plate", 10 ] ],
-      [ [ "chain", 8 ] ]
-    ]
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CUT", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "hard_plate", 10 ] ], [ [ "chain", 8 ] ] ]
   },
   {
     "result": "turretframe",
@@ -155,10 +112,7 @@
     "time": 9000,
     "autolearn": true,
     "using": [ [ "welding_standard", 10 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "pipe", 8 ], [ "rebar", 4 ] ],
       [ [ "wire", 20 ] ],

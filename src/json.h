@@ -1,16 +1,19 @@
+#pragma once
 #ifndef JSON_H
 #define JSON_H
 
+#include <cstddef>
 #include <type_traits>
 #include <iostream>
 #include <string>
 #include <vector>
 #include <bitset>
-#include <utility>
 #include <array>
 #include <map>
 #include <set>
 #include <stdexcept>
+
+#include "colony.h"
 
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
@@ -26,8 +29,6 @@
  * Further documentation can be found below.
  */
 
-class JsonIn;
-class JsonOut;
 class JsonObject;
 class JsonArray;
 class JsonSerializer;
@@ -82,7 +83,7 @@ inline E string_to_enum_look_up( const C &container, const std::string &data )
     return iter->second;
 }
 /*@}*/
-}
+} // namespace io
 
 /* JsonIn
  * ======
@@ -133,9 +134,9 @@ inline E string_to_enum_look_up( const C &container, const std::string &data )
  *             if (name == "id") {
  *                 myobject.id = jsin.get_string();
  *             } else if (name == "name") {
- *                 myobject.name = _(jsin.get_string().c_str());
+ *                 myobject.name = _(jsin.get_string());
  *             } else if (name == "description") {
- *                 myobject.description = _(jsin.get_string().c_str());
+ *                 myobject.description = _(jsin.get_string());
  *             } else if (name == "points") {
  *                 myobject.points = jsin.get_int();
  *             } else if (name == "flags") {
@@ -176,6 +177,8 @@ class JsonIn
 
     public:
         JsonIn( std::istream &s ) : stream( &s ) {}
+        JsonIn( const JsonIn & ) = delete;
+        JsonIn &operator=( const JsonIn & ) = delete;
 
         bool get_ate_separator() {
             return ate_separator;
@@ -208,7 +211,6 @@ class JsonIn
         // data parsing
         std::string get_string(); // get the next value as a string
         int get_int(); // get the next value as an int
-        long get_long(); // get the next value as an long
         bool get_bool(); // get the next value as a bool
         double get_float(); // get the next value as a double
         std::string get_member_name(); // also strips the ':'
@@ -239,10 +241,10 @@ class JsonIn
         bool test_number();
         bool test_int() {
             return test_number();
-        };
+        }
         bool test_float() {
             return test_number();
-        };
+        }
         bool test_string();
         bool test_bitset();
         bool test_array();
@@ -258,8 +260,6 @@ class JsonIn
         bool read( short int &s );
         bool read( int &i );
         bool read( unsigned int &u );
-        bool read( long &l );
-        bool read( unsigned long &ul );
         bool read( float &f );
         bool read( double &d );
         bool read( std::string &s );
@@ -373,6 +373,31 @@ class JsonIn
             return true;
         }
 
+        // special case for colony as it uses `insert()` instead of `push_back()`
+        // and therefore doesn't fit with vector/deque/list
+        template <typename T>
+        bool read( cata::colony<T> &v ) {
+            if( !test_array() ) {
+                return false;
+            }
+            try {
+                start_array();
+                v.clear();
+                while( !end_array() ) {
+                    T element;
+                    if( read( element ) ) {
+                        v.insert( std::move( element ) );
+                    } else {
+                        skip_value();
+                    }
+                }
+            } catch( const JsonError & ) {
+                return false;
+            }
+
+            return true;
+        }
+
         // object ~> containers with unmatching key_type and value_type
         // map, unordered_map ~> object
         template < typename T, typename std::enable_if <
@@ -403,7 +428,7 @@ class JsonIn
 
         // error messages
         std::string line_number( int offset_modifier = 0 ); // for occasional use only
-        void error( std::string message, int offset = 0 ); // ditto
+        [[noreturn]] void error( const std::string &message, int offset = 0 ); // ditto
         void rewind( int max_lines = -1, int max_chars = -1 );
         std::string substr( size_t pos, size_t len = std::string::npos );
 };
@@ -448,6 +473,8 @@ class JsonOut
 
     public:
         JsonOut( std::ostream &stream, bool pretty_print = false, int depth = 0 );
+        JsonOut( const JsonOut & ) = delete;
+        JsonOut &operator=( const JsonOut & ) = delete;
 
         // punctuation
         void write_indent();
@@ -561,6 +588,12 @@ class JsonOut
             write_as_array( container );
         }
 
+        // special case for colony, since it doesn't fit in other categories
+        template <typename T>
+        void write( const cata::colony<T> &container ) {
+            write_as_array( container );
+        }
+
         // containers with unmatching key_type and value_type ~> object
         // map, unordered_map ~> object
         template < typename T, typename std::enable_if <
@@ -602,8 +635,8 @@ class JsonOut
  *
  *     JsonObject jo(jsin);
  *     std::string id = jo.get_string("id");
- *     std::string name = _(jo.get_string("name").c_str());
- *     std::string description = _(jo.get_string("description").c_str());
+ *     std::string name = _(jo.get_string("name"));
+ *     std::string description = _(jo.get_string("description"));
  *     int points = jo.get_int("points", 0);
  *     std::set<std::string> tags = jo.get_tags("flags");
  *     my_object_type myobject(id, name, description, points, tags);
@@ -662,6 +695,7 @@ class JsonObject
         ~JsonObject() {
             finish();
         }
+        JsonObject &operator=( const JsonObject & );
 
         void finish(); // moves the stream to the end of the object
         size_t size();
@@ -670,8 +704,8 @@ class JsonObject
         bool has_member( const std::string &name ); // true iff named member exists
         std::set<std::string> get_member_names();
         std::string str(); // copy object json as string
-        void throw_error( std::string err );
-        void throw_error( std::string err, const std::string &name );
+        [[noreturn]] void throw_error( std::string err );
+        [[noreturn]] void throw_error( std::string err, const std::string &name );
         // seek to a value and return a pointer to the JsonIn (member must exist)
         JsonIn *get_raw( const std::string &name );
 
@@ -682,8 +716,6 @@ class JsonObject
         bool get_bool( const std::string &name, const bool fallback );
         int get_int( const std::string &name );
         int get_int( const std::string &name, const int fallback );
-        long get_long( const std::string &name );
-        long get_long( const std::string &name, const long fallback );
         double get_float( const std::string &name );
         double get_float( const std::string &name, const double fallback );
         std::string get_string( const std::string &name );
@@ -723,10 +755,10 @@ class JsonObject
         bool has_number( const std::string &name );
         bool has_int( const std::string &name ) {
             return has_number( name );
-        };
+        }
         bool has_float( const std::string &name ) {
             return has_number( name );
-        };
+        }
         bool has_string( const std::string &name );
         bool has_array( const std::string &name );
         bool has_object( const std::string &name );
@@ -831,10 +863,11 @@ class JsonArray
     public:
         JsonArray( JsonIn &jsin );
         JsonArray( const JsonArray &jsarr );
-        JsonArray() : start( 0 ), index( 0 ), end( 0 ), jsin( NULL ) {};
+        JsonArray() : start( 0 ), index( 0 ), end( 0 ), jsin( NULL ) {}
         ~JsonArray() {
             finish();
         }
+        JsonArray &operator=( const JsonArray & );
 
         void finish(); // move the stream position to the end of the array
 
@@ -848,7 +881,6 @@ class JsonArray
         // iterative access
         bool next_bool();
         int next_int();
-        long next_long();
         double next_float();
         std::string next_string();
         JsonArray next_array();
@@ -858,7 +890,6 @@ class JsonArray
         // static access
         bool get_bool( int index );
         int get_int( int index );
-        long get_long( int index );
         double get_float( int index );
         std::string get_string( int index );
         JsonArray get_array( int index );
@@ -874,10 +905,10 @@ class JsonArray
         bool test_number();
         bool test_int() {
             return test_number();
-        };
+        }
         bool test_float() {
             return test_number();
-        };
+        }
         bool test_string();
         bool test_bitset();
         bool test_array();
@@ -889,10 +920,10 @@ class JsonArray
         bool has_number( int index );
         bool has_int( int index ) {
             return has_number( index );
-        };
+        }
         bool has_float( int index ) {
             return has_number( index );
-        };
+        }
         bool has_string( int index );
         bool has_array( int index );
         bool has_object( int index );
@@ -957,6 +988,12 @@ std::set<T> JsonObject::get_tags( const std::string &name )
 
     return res;
 }
+
+/**
+ * Get an array member from json with name name.  For each element of that
+ * array (which should be a string) add it to the given set.
+ */
+void add_array_to_set( std::set<std::string> &, JsonObject &json, const std::string &name );
 
 /* JsonSerializer
  * ==============

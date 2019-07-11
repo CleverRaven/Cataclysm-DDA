@@ -1,334 +1,300 @@
 [
-    {
-        "type"  : "item_group",
-        "id"    : "pizza_display",
-        "items" : [
-            ["pizza_human",  2],
-            ["pizza_meat",  48],
-            ["pizza_veggy", 50]
-        ]
-    },
-    {
-        "type"  : "item_group",
-        "id"    : "pizza_kitchen",
-        "items" : [
-            ["seasoning_italian", 23],
-            ["seasoning_salt",    13],
-            ["pepper",             5],
-            ["yeast",             10],
-            ["sugar",              9],
-            ["cornmeal",           8],
-            ["flour",             25],
-            ["cookbook",           3],
-            ["cookbook_italian",   2]
-        ]
-    },
-    {
-        "type"  : "item_group",
-        "id"    : "pizza_fridge",
-        "items" : [
-            ["sauce_red",         29],
-            ["royal_beef",         3],
-            ["can_sardine",       18],
-            ["onion",             14],
-            ["can_chicken",       13],
-            ["bacon",             15],
-            ["cheese",            38],
-            ["sauce_pesto",       12],
-            ["zucchini",          13],
-            ["tomato",            10],
-            ["mushroom_magic",     2],
-            ["mushroom_poison",    1],
-            ["mushroom",          27],
-            ["sausage",           25],
-            ["pineapple",         20]
-        ]
-    },
-    {
-        "type"  : "item_group",
-        "id"    : "pizza_beer",
-        "items" : [
-            ["imperial_stout",   15],
-            ["belgian_ale",      10],
-            ["stout",            20],
-            ["india_pale_ale",   20],
-            ["pale_ale",         15],
-            ["european_pilsner", 17],
-            ["mead",              5],
-            ["beer",             18]
-        ]
-    },
-    {
-        "type"  : "item_group",
-        "id"    : "pizza_soda",
-        "items" : [
-            ["purple_drink",   3],
-            ["crispycran",     7],
-            ["rootbeer",      15],
-            ["colamdew",       9],
-            ["orangesoda",    10],
-            ["lemonlime",      9],
-            ["creamsoda",      9],
-            ["cola",           9],
-            ["energy_drink",   5],
-            ["lemonade",       8]
-        ]
-    },
-    {
-        "type"  : "item_group",
-        "id"    : "pizza_table",
-        "items" : [
-            ["cig",           15],
-            ["rolling_paper",  7],
-            ["wrapper",       35],
-            ["ceramic_plate", 40],
-            ["cup_plastic",   40],
-            ["portable_game", 10],
-            ["chips",         15],
-            ["chips2",         3],
-            ["chips3",         3],
-            ["news_regional", 12],
-            ["flyer",          7]
-        ]
-    },
-    {
-        "type"  : "item_group",
-        "id"    : "pizza_locker",
-        "items" : [
-            ["towel",        15],
-            ["soap",         15],
-            ["bleach",       15],
-            ["broom",        13],
-            ["wolfsuit",      50],
-            ["dinosuit",      50],
-            ["hat_ball",     19],
-            ["jacket_light", 15],
-            ["mbag",         10],
-            ["rag",           6]
-        ]
-    },
-    {
-        "type"  : "item_group",
-        "id"    : "pizza_bathroom",
-        "items" : [
-            ["weed",     40],
-            ["coke",     20],
-            ["meth",      1],
-            ["aspirin",  15],
-            ["mag_porn", 30],
-            ["purse",    10],
-            ["hairpin",   3]
-        ]
-    },
-    {
-        "type"  : "item_group",
-        "id"    : "pizza_trash",
-        "ammo": 100,
-        "items" : [
-            ["cup_plastic",  40],
-            ["wrapper",      34],
-            ["bag_plastic",  20],
-            ["bottle_glass", 30],
-            ["can_drink_unsealed",    30],
-            ["rag",          10],
-            ["news_regional", 7],
-            ["mag_news",      7],
-            ["hairpin",      10],
-            ["flyer",         7],
-            ["glock_19",      5],
-            ["9mm",           3]
-        ]
-    },
-    {
-        "type":"monstergroup",
-        "name" : "GROUP_PIZZAPARLOR_ROBOT",
-        "default" : "mon_null",
-        "monsters" : [
-    { "monster" : "mon_animatronic_fox_old", "freq" : 100, "cost_multiplier": 2}
-        ,{ "monster" : "mon_animatronic_fox_new", "freq" : 100, "cost_multiplier": 2}
-        ,{ "monster" : "mon_animatronic_fox_wreck", "freq" : 100, "cost_multiplier": 2}
-        ,{ "monster" : "mon_animatronic_bunny_old", "freq" : 100, "cost_multiplier": 2}
-        ,{ "monster" : "mon_animatronic_bunny_new", "freq" : 100, "cost_multiplier": 2}
-        ,{ "monster" : "mon_animatronic_bat", "freq" : 100, "cost_multiplier": 2}
-        ,{ "monster" : "mon_animatronic_beaver", "freq" : 100, "cost_multiplier": 2}
-        ,{ "monster" : "mon_animatronic_cat", "freq" : 100, "cost_multiplier": 2}
-        ,{ "monster" : "mon_animatronic_chipmunk", "freq" : 100, "cost_multiplier": 2}
-        ,{ "monster" : "mon_animatronic_chicken_new", "freq" : 100, "cost_multiplier": 2}
-        ,{ "monster" : "mon_animatronic_chicken_old", "freq" : 100, "cost_multiplier": 2}
-        ,{ "monster" : "mon_animatronic_cow", "freq" : 100, "cost_multiplier": 2}
-        ,{ "monster" : "mon_animatronic_coyote", "freq" : 100, "cost_multiplier": 2}
-        ,{ "monster" : "mon_animatronic_deer", "freq" : 100, "cost_multiplier": 2}
-        ,{ "monster" : "mon_animatronic_horse", "freq" : 100, "cost_multiplier": 2}
-        ,{ "monster" : "mon_animatronic_pig", "freq" : 100, "cost_multiplier": 2}
-        ,{ "monster" : "mon_animatronic_sheep", "freq" : 100, "cost_multiplier": 2}
-        ,{ "monster" : "mon_animatronic_squirrel", "freq" : 100, "cost_multiplier": 2}
-        ,{ "monster" : "mon_animatronic_child", "freq" : 100, "cost_multiplier": 2}
-        ,{ "monster" : "mon_animatronic_wolf", "freq" : 100, "cost_multiplier": 2}
-        ,{ "monster" : "mon_animatronic_bear_old", "freq" : 100, "cost_multiplier": 2}
-        ,{ "monster" : "mon_animatronic_bear_new", "freq" : 100, "cost_multiplier": 2}        ]
-    },
-    {
-        "type": "overmap_terrain",
-        "id" : "bankruptpizzeria",
-        "name" : "Bankrupt Pizzeria",
-        "sym" : 94,
-        "color" : "dark_gray",
-        "see_cost" : 5,
-        "extras" : "build",
-        "mondensity" : 2,
-        "mapgen": [
-            {
-            "method": "json",
-            "weight": 10000,
-            "object": {
-                "rows": [
-                "-------------------++---",
-                "|www|wwwwwwwwww|wwwwwww|",
-                "|www|wwwwwwwwww|wwwwwww|",
-                "|---|wwwwwwwwwwwwwwwwww|",
-                "|Lww+wwwBBBBBBBwwwwwwww|",
-                "|Lww|wwwTTTTTTTwwwwwwww|",
-                "|Lww|wwwBBBBBBBwwwwwwP#|",
-                "|Lww|wwwwwwwwwwwww-----|",
-                "|Lww|wwBTTBwBTTBww+wwEw|",
-                "|----wwBTTBwBTTBww|wwww|",
-                "|...|wwBTTBwBTTBww|wwww|",
-                "|----wwBTTBwBTTBww-----|",
-                "|wwwwwwBTTBwBTTBww+wwEw|",
-                "|wwwwwwBTTBwBTTBww|wwww|",
-                "|wwwwwwwwwwwwwwwww|wwww|",
-                "|----ww------ww-+------|",
-                "|Lww|ww|....|ww|wCCFCEC|",
-                "|Lww+ww|....|ww|wwwwwww|",
-                "|Lww|ww|....|ww|wCCOCCC|",
-                "|---|ww------ww|-------|",
-                "|www|ww|C@CC|ww|wwwwwww|",
-                "|www|ww+wwww+ww|wwwwwww|",
-                "|www|ww|wUww|ww|wwwwwww|",
-                "--------------+---------"
-                ],
-                "terrain": {
-                    "r": "t_pavement",
-                    "y": "t_pavement_y",
-                    ".": "t_dirtfloor",
-                    "-": "t_wall",
-                    "1": "t_window",
-                    "|": "t_wall",
-                    "+": "t_door_c",
-                    "2": "t_chainfence_h",
-                    "3": "t_chainfence_v",
-                    "4": "t_chaingate_l",
-                    "5": "t_wall_wood",
-                    "@": "t_console_broken",
-                    "w": "t_linoleum_white",
-                    " ": "t_linoleum_white",
-                    "A": "t_linoleum_white",
-                    "B": "t_linoleum_white",
-                    "C": "t_linoleum_white",
-                    "D": "t_linoleum_white",
-                    "O": "t_linoleum_white",
-                    "t": "t_linoleum_white",
-                    "E": "t_linoleum_white",
-                    "F": "t_linoleum_white",
-                    "L": "t_linoleum_white",
-                    "H": "t_linoleum_white",
-                    "U": "t_linoleum_white",
-                    "T": "t_linoleum_white",
-                    "P": "t_linoleum_white",
-                    "#": "t_linoleum_white",
-                    "I": "t_linoleum_white"
-                },
-                "furniture": {
-                    "A": "f_rack",
-                "B": "f_bench",                    "C": "f_counter",
-                "O": "f_woodstove",
-                    "D": "f_sink",
-                    "E": "f_sink"
-,
-                "F": "f_fridge",                    "U": "f_chair",
-                    "L": "f_locker",
-                "T": "f_table",
-                "P": "f_indoor_plant",
-                "#": "f_trashcan",
-                    "I": "f_hay"
-                },
-                "toilets": {
-                    "t": { }
-                },
-                "comment": "randomly picked from a group ---v",
-                "place_items": [
-{ "item": "pizza_display", "x": 11,      "y": 5,  "chance": 60 }
-,
-                { "item": "pizza_kitchen", "x": 17, "y": 16,    "chance": 60  }
-,
-                { "item": "pizza_kitchen", "x": 18, "y": 16,    "chance": 60  }
-,
-                { "item": "pizza_kitchen", "x": 20, "y": 16,    "chance": 60  }
-,
-                { "item": "pizza_kitchen", "x": 18, "y": 18,    "chance": 60  }
-,
-                { "item": "pizza_display", "x": 19, "y": 18,    "chance": 60  }
-,               { "item": "pizza_fridge",  "x": 19, "y": 16,    "chance": 60  }
-,
-                { "item": "pizza_fridge",  "x": 19, "y": 16,    "chance": 60  }
-,
-                { "item": "pizza_beer",    "x": 14, "y": 8,    "chance": 60  }
-,
-                { "item": "pizza_soda",    "x": 13, "y": 9,    "chance": 60  }
-,
-                { "item": "pizza_table",   "x": 14, "y": 11,    "chance": 60  }
-,
-                { "item": "pizza_beer",    "x": 9, "y": 12,    "chance": 60  }
-,
-                { "item": "pizza_table",   "x": 9, "y": 10,    "chance": 60  }
-,
-                { "item": "pizza_table",   "x": 8, "y": 9,    "chance": 60  }
-,
-                { "item": "pizza_soda",    "x": 8, "y": 12,    "chance": 60  }
-,
-                { "item": "pizza_table",   "x": 20, "y": 16,    "chance": 60  }
-,
-                { "item": "pizza_table",   "x": 8, "y": 8,    "chance": 60  }
-,
-                { "item": "pizza_beer",    "x": 14, "y": 13,    "chance": 60  }
-,
-                { "item": "pizza_table",   "x": 13, "y": 11,    "chance": 60  }
-,
-                { "item": "pizza_table",   "x": 8, "y": 10,    "chance": 60  }
-,
-                { "item": "pizza_soda",    "x": 13, "y": 13,    "chance": 60  }
-,
-                { "item": "pizza_locker",  "x": 1, "y":  4,    "chance": 60  }
-,
-                { "item": "pizza_locker",  "x": 1, "y":  6,    "chance": 60  }
-,
-                { "item": "pizza_locker",  "x": 1, "y":  7,    "chance": 60  }
-,
-                { "item": "pizza_locker",  "x": 1, "y":  16,    "chance": 60  }
-,
-                { "item": "pizza_locker",  "x": 1, "y":  17,    "chance": 60  }
-,
-                { "item": "pizza_bathroom","x": 20, "y": 9,"chance": 60  }
-,
-                { "item": "office",        "x": 8, "y": 20, "chance": 60 }
-,
-                { "item": "office",        "x": 11, "y": 20, "chance": 60 }
-,
-                { "item": "pizza_trash",   "x": 22, "y": 6,"chance": 60  }
-                ],
-                "place_monsters": [
-                    { "monster": "GROUP_PIZZAPARLOR_ROBOT", "chance": 1, "x": 9, "y": 1, "density": 0.10 }
-,
-                    { "monster": "GROUP_PIZZAPARLOR_ROBOT", "chance": 1, "x": 10, "y": 1, "density": 0.10 }
-,
-                    { "monster": "GROUP_PIZZAPARLOR_ROBOT", "chance": 1, "x": 11, "y": 1, "density": 0.10 }
-,
-                    { "monster": "GROUP_PIZZAPARLOR_ROBOT", "chance": 1, "x": 1, "y": 13, "density": 0.10 }                ],
-            "comment": "end of mapgen json definition ---v"
+  {
+    "type": "item_group",
+    "id": "pizza_display",
+    "items": [ [ "pizza_human", 2 ], [ "pizza_meat", 48 ], [ "pizza_veggy", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "pizza_kitchen",
+    "items": [
+      [ "seasoning_italian", 23 ],
+      [ "seasoning_salt", 13 ],
+      [ "pepper", 5 ],
+      [ "yeast", 10 ],
+      [ "sugar", 9 ],
+      [ "cornmeal", 8 ],
+      [ "flour", 25 ],
+      [ "cookbook", 3 ],
+      [ "cookbook_italian", 2 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pizza_fridge",
+    "items": [
+      [ "sauce_red", 29 ],
+      [ "royal_beef", 3 ],
+      [ "can_sardine", 18 ],
+      [ "onion", 14 ],
+      [ "can_chicken", 13 ],
+      [ "bacon", 15 ],
+      [ "cheese", 38 ],
+      [ "sauce_pesto", 12 ],
+      [ "zucchini", 13 ],
+      [ "tomato", 10 ],
+      [ "mushroom_magic", 2 ],
+      [ "mushroom_poison", 1 ],
+      [ "mushroom", 27 ],
+      [ "sausage", 25 ],
+      [ "pineapple", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pizza_beer",
+    "items": [
+      [ "imperial_stout", 15 ],
+      [ "belgian_ale", 10 ],
+      [ "stout", 20 ],
+      [ "india_pale_ale", 20 ],
+      [ "pale_ale", 15 ],
+      [ "european_pilsner", 17 ],
+      [ "mead", 5 ],
+      [ "beer", 18 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pizza_soda",
+    "items": [
+      [ "purple_drink", 3 ],
+      [ "crispycran", 7 ],
+      [ "rootbeer", 15 ],
+      [ "colamdew", 9 ],
+      [ "orangesoda", 10 ],
+      [ "lemonlime", 9 ],
+      [ "creamsoda", 9 ],
+      [ "cola", 9 ],
+      [ "energy_drink", 5 ],
+      [ "lemonade", 8 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pizza_table",
+    "items": [
+      [ "cig", 15 ],
+      [ "rolling_paper", 7 ],
+      [ "wrapper", 35 ],
+      [ "ceramic_plate", 40 ],
+      [ "cup_plastic", 40 ],
+      [ "portable_game", 10 ],
+      [ "chips", 15 ],
+      [ "chips2", 3 ],
+      [ "chips3", 3 ],
+      [ "news_regional", 12 ],
+      [ "flyer", 7 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pizza_locker",
+    "items": [
+      [ "towel", 15 ],
+      [ "soap", 15 ],
+      [ "bleach", 15 ],
+      [ "broom", 13 ],
+      [ "wolfsuit", 50 ],
+      [ "dinosuit", 50 ],
+      [ "hat_ball", 19 ],
+      [ "jacket_light", 15 ],
+      [ "mbag", 10 ],
+      [ "rag", 6 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pizza_bathroom",
+    "items": [
+      [ "weed", 40 ],
+      [ "coke", 20 ],
+      [ "meth", 1 ],
+      [ "aspirin", 15 ],
+      [ "mag_porn", 30 ],
+      [ "purse", 10 ],
+      [ "hairpin", 3 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pizza_trash",
+    "ammo": 100,
+    "items": [
+      [ "cup_plastic", 40 ],
+      [ "wrapper", 34 ],
+      [ "bag_plastic", 20 ],
+      [ "bottle_glass", 30 ],
+      [ "can_drink_unsealed", 30 ],
+      [ "rag", 10 ],
+      [ "news_regional", 7 ],
+      [ "mag_news", 7 ],
+      [ "hairpin", 10 ],
+      [ "flyer", 7 ],
+      [ "glock_19", 5 ],
+      [ "9mm", 3 ]
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_PIZZAPARLOR_ROBOT",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_animatronic_fox_old", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_animatronic_fox_new", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_animatronic_fox_wreck", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_animatronic_bunny_old", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_animatronic_bunny_new", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_animatronic_bat", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_animatronic_beaver", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_animatronic_cat", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_animatronic_chipmunk", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_animatronic_chicken_new", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_animatronic_chicken_old", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_animatronic_cow", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_animatronic_coyote", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_animatronic_deer", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_animatronic_horse", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_animatronic_pig", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_animatronic_sheep", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_animatronic_squirrel", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_animatronic_child", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_animatronic_wolf", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_animatronic_bear_old", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_animatronic_bear_new", "freq": 100, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bankruptpizzeria",
+    "name": "Bankrupt Pizzeria",
+    "sym": 94,
+    "color": "dark_gray",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2,
+    "mapgen": [
+      {
+        "method": "json",
+        "weight": 10000,
+        "object": {
+          "rows": [
+            "-------------------++---",
+            "|www|wwwwwwwwww|wwwwwww|",
+            "|www|wwwwwwwwww|wwwwwww|",
+            "|---|wwwwwwwwwwwwwwwwww|",
+            "|Lww+wwwBBBBBBBwwwwwwww|",
+            "|Lww|wwwTTTTTTTwwwwwwww|",
+            "|Lww|wwwBBBBBBBwwwwwwP#|",
+            "|Lww|wwwwwwwwwwwww-----|",
+            "|Lww|wwBTTBwBTTBww+wwEw|",
+            "|----wwBTTBwBTTBww|wwww|",
+            "|...|wwBTTBwBTTBww|wwww|",
+            "|----wwBTTBwBTTBww-----|",
+            "|wwwwwwBTTBwBTTBww+wwEw|",
+            "|wwwwwwBTTBwBTTBww|wwww|",
+            "|wwwwwwwwwwwwwwwww|wwww|",
+            "|----ww------ww-+------|",
+            "|Lww|ww|....|ww|wCCFCEC|",
+            "|Lww+ww|....|ww|wwwwwww|",
+            "|Lww|ww|....|ww|wCCOCCC|",
+            "|---|ww------ww|-------|",
+            "|www|ww|C@CC|ww|wwwwwww|",
+            "|www|ww+wwww+ww|wwwwwww|",
+            "|www|ww|wUww|ww|wwwwwww|",
+            "--------------+---------"
+          ],
+          "terrain": {
+            "r": "t_pavement",
+            "y": "t_pavement_y",
+            ".": "t_dirtfloor",
+            "-": "t_wall",
+            "1": "t_window",
+            "|": "t_wall",
+            "+": "t_door_c",
+            "2": "t_chainfence_h",
+            "3": "t_chainfence_v",
+            "4": "t_chaingate_l",
+            "5": "t_wall_wood",
+            "@": "t_console_broken",
+            "w": "t_linoleum_white",
+            " ": "t_linoleum_white",
+            "A": "t_linoleum_white",
+            "B": "t_linoleum_white",
+            "C": "t_linoleum_white",
+            "D": "t_linoleum_white",
+            "O": "t_linoleum_white",
+            "t": "t_linoleum_white",
+            "E": "t_linoleum_white",
+            "F": "t_linoleum_white",
+            "L": "t_linoleum_white",
+            "H": "t_linoleum_white",
+            "U": "t_linoleum_white",
+            "T": "t_linoleum_white",
+            "P": "t_linoleum_white",
+            "#": "t_linoleum_white",
+            "I": "t_linoleum_white"
+          },
+          "furniture": {
+            "A": "f_rack",
+            "B": "f_bench",
+            "C": "f_counter",
+            "O": "f_woodstove",
+            "D": "f_sink",
+            "E": "f_sink",
+            "F": "f_fridge",
+            "U": "f_chair",
+            "L": "f_locker",
+            "T": "f_table",
+            "P": "f_indoor_plant",
+            "#": "f_trashcan",
+            "I": "f_hay"
+          },
+          "toilets": { "t": {  } },
+          "comment": "randomly picked from a group ---v",
+          "place_items": [
+            { "item": "pizza_display", "x": 11, "y": 5, "chance": 60 },
+            { "item": "pizza_kitchen", "x": 17, "y": 16, "chance": 60 },
+            { "item": "pizza_kitchen", "x": 18, "y": 16, "chance": 60 },
+            { "item": "pizza_kitchen", "x": 20, "y": 16, "chance": 60 },
+            { "item": "pizza_kitchen", "x": 18, "y": 18, "chance": 60 },
+            { "item": "pizza_display", "x": 19, "y": 18, "chance": 60 },
+            { "item": "pizza_fridge", "x": 19, "y": 16, "chance": 60 },
+            { "item": "pizza_fridge", "x": 19, "y": 16, "chance": 60 },
+            { "item": "pizza_beer", "x": 14, "y": 8, "chance": 60 },
+            { "item": "pizza_soda", "x": 13, "y": 9, "chance": 60 },
+            { "item": "pizza_table", "x": 14, "y": 11, "chance": 60 },
+            { "item": "pizza_beer", "x": 9, "y": 12, "chance": 60 },
+            { "item": "pizza_table", "x": 9, "y": 10, "chance": 60 },
+            { "item": "pizza_table", "x": 8, "y": 9, "chance": 60 },
+            { "item": "pizza_soda", "x": 8, "y": 12, "chance": 60 },
+            { "item": "pizza_table", "x": 20, "y": 16, "chance": 60 },
+            { "item": "pizza_table", "x": 8, "y": 8, "chance": 60 },
+            { "item": "pizza_beer", "x": 14, "y": 13, "chance": 60 },
+            { "item": "pizza_table", "x": 13, "y": 11, "chance": 60 },
+            { "item": "pizza_table", "x": 8, "y": 10, "chance": 60 },
+            { "item": "pizza_soda", "x": 13, "y": 13, "chance": 60 },
+            { "item": "pizza_locker", "x": 1, "y": 4, "chance": 60 },
+            { "item": "pizza_locker", "x": 1, "y": 6, "chance": 60 },
+            { "item": "pizza_locker", "x": 1, "y": 7, "chance": 60 },
+            { "item": "pizza_locker", "x": 1, "y": 16, "chance": 60 },
+            { "item": "pizza_locker", "x": 1, "y": 17, "chance": 60 },
+            { "item": "pizza_bathroom", "x": 20, "y": 9, "chance": 60 },
+            { "item": "office", "x": 8, "y": 20, "chance": 60 },
+            { "item": "office", "x": 11, "y": 20, "chance": 60 },
+            { "item": "pizza_trash", "x": 22, "y": 6, "chance": 60 }
+          ],
+          "place_monsters": [
+            { "monster": "GROUP_PIZZAPARLOR_ROBOT", "chance": 1, "x": 9, "y": 1, "density": 0.1 },
+            { "monster": "GROUP_PIZZAPARLOR_ROBOT", "chance": 1, "x": 10, "y": 1, "density": 0.1 },
+            { "monster": "GROUP_PIZZAPARLOR_ROBOT", "chance": 1, "x": 11, "y": 1, "density": 0.1 },
+            { "monster": "GROUP_PIZZAPARLOR_ROBOT", "chance": 1, "x": 1, "y": 13, "density": 0.1 }
+          ],
+          "comment": "end of mapgen json definition ---v"
         },
         "comment": "end of mapgen entry ---v",
-        "flags" : [ "SIDEWALK" ]
-    }
+        "flags": [ "SIDEWALK" ]
+      }
     ]
-    }
+  }
 ]
