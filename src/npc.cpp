@@ -213,8 +213,8 @@ void npc_template::load( JsonObject &jsobj )
         guy.myclass = npc_class_id( jsobj.get_string( "class" ) );
     }
 
-    guy.set_attitude( npc_attitude( jsobj.get_int( "attitude" ) ) );
-    guy.mission = npc_mission( jsobj.get_int( "mission" ) );
+    guy.set_attitude( static_cast<npc_attitude>( jsobj.get_int( "attitude" ) ) );
+    guy.mission = static_cast<npc_mission>( jsobj.get_int( "mission" ) );
     guy.chatbin.first_topic = jsobj.get_string( "chat" );
     if( jsobj.has_string( "mission_offered" ) ) {
         guy.miss_ids.emplace_back( mission_type_id( jsobj.get_string( "mission_offered" ) ) );
@@ -827,7 +827,7 @@ bool npc::wear_if_wanted( const item &it )
     if( splint ) {
         splint = false;
         for( int i = 0; i < num_hp_parts; i++ ) {
-            hp_part hpp = hp_part( i );
+            hp_part hpp = static_cast<hp_part>( i );
             body_part bp = player::hp_to_bp( hpp );
             if( hp_cur[i] <= 0 && it.covers( bp ) ) {
                 splint = true;
@@ -1101,7 +1101,8 @@ float npc::vehicle_danger( int radius ) const
             int size = std::max( last_part.mount.x, last_part.mount.y );
 
             double normal = sqrt( static_cast<float>( ( bx - ax ) * ( bx - ax ) + ( by - ay ) * ( by - ay ) ) );
-            int closest = int( abs( ( posx() - ax ) * ( by - ay ) - ( posy() - ay ) * ( bx - ax ) ) / normal );
+            int closest = static_cast<int>( abs( ( posx() - ax ) * ( by - ay ) - ( posy() - ay ) *
+                                                 ( bx - ax ) ) / normal );
 
             if( size > closest ) {
                 danger = i;
@@ -1222,12 +1223,12 @@ void npc::decide_needs()
         if( needrank[i] < 20 ) {
             for( j = 0; j < needs.size(); j++ ) {
                 if( needrank[i] < needrank[needs[j]] ) {
-                    needs.insert( needs.begin() + j, npc_need( i ) );
+                    needs.insert( needs.begin() + j, static_cast<npc_need>( i ) );
                     j = needs.size() + 1;
                 }
             }
             if( j == needs.size() ) {
-                needs.push_back( npc_need( i ) );
+                needs.push_back( static_cast<npc_need>( i ) );
             }
         }
     }

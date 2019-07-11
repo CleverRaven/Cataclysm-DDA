@@ -581,7 +581,7 @@ void calendar::sync()
         // mid-game, the result could be the wrong season!
         season = initial_season;
     } else {
-        season = season_type( turn_number / DAYS( sl ) % 4 );
+        season = static_cast<season_type>( turn_number / DAYS( sl ) % 4 );
     }
 
     day = turn_number / DAYS( 1 ) % sl;

@@ -332,7 +332,8 @@ void computer::load_data( const std::string &data )
 
         dump >> tmpname >> tmpaction >> tmpsec;
 
-        add_option( string_replace( tmpname, "_", " " ), computer_action( tmpaction ), tmpsec );
+        add_option( string_replace( tmpname, "_", " " ), static_cast<computer_action>( tmpaction ),
+                    tmpsec );
     }
 
     // Pull in failures
@@ -341,7 +342,7 @@ void computer::load_data( const std::string &data )
     for( int n = 0; n < failsize; n++ ) {
         int tmpfail;
         dump >> tmpfail;
-        add_failure( computer_failure_type( tmpfail ) );
+        add_failure( static_cast<computer_failure_type>( tmpfail ) );
     }
 }
 

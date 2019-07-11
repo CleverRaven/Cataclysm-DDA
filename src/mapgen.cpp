@@ -688,7 +688,7 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray )
         pjo.read( "fuel", tmp_fuel );
         pjo.read( "status", tmp_status );
         jmapgen_setmap tmp( tmp_x, tmp_y, tmp_x2, tmp_y2,
-                            jmapgen_setmap_op( tmpop + setmap_optype ), tmp_i,
+                            static_cast<jmapgen_setmap_op>( tmpop + setmap_optype ), tmp_i,
                             tmp_chance, tmp_repeat, tmp_rotation, tmp_fuel, tmp_status );
 
         setmap_points.push_back( tmp );
@@ -4963,7 +4963,7 @@ void map::draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_po
                     }
                 }
                 if( okay ) {
-                    room_type type = room_type( rng( room_mine_office, room_mine_housing ) );
+                    room_type type = static_cast<room_type>( rng( room_mine_office, room_mine_housing ) );
                     build_mine_room( this, type, x1, y1, x2, y2, dat );
                     tries = 0;
                 } else {
@@ -8256,13 +8256,13 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
 
         case ARTPROP_FRACTAL:
             create_anomaly( cx - 4, cy - 4,
-                            artifact_natural_property( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
+                            static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
             create_anomaly( cx + 4, cy - 4,
-                            artifact_natural_property( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
+                            static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
             create_anomaly( cx - 4, cy + 4,
-                            artifact_natural_property( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
+                            static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
             create_anomaly( cx + 4, cy - 4,
-                            artifact_natural_property( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
+                            static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
             break;
         default:
             break;
