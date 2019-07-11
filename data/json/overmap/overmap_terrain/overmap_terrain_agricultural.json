@@ -463,9 +463,27 @@
     "flags": [ "SIDEWALK" ]
   },
   {
+    "id": "dairy_farm_SE_roof",
+    "type": "overmap_terrain",
+    "name": "dairy farm roof",
+    "sym": "w",
+    "color": "brown",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
     "id": "dairy_farm_SW",
     "type": "overmap_terrain",
     "name": "dairy farm",
+    "sym": "w",
+    "color": "brown",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "dairy_farm_SW_roof",
+    "type": "overmap_terrain",
+    "name": "dairy farm roof",
     "sym": "w",
     "color": "brown",
     "see_cost": 5,
