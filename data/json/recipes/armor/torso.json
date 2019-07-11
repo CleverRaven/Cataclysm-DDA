@@ -551,7 +551,7 @@
     "autolearn": true,
     "components": [
       [ [ "dragonskin_empty", 1 ] ],
-      [ [ "ceramic_disk", 800 ] ]
+      [ [ "ceramicdisks", 8 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
   },
