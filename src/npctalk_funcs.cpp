@@ -489,8 +489,8 @@ void talk_function::give_aid( npc &p )
 {
     p.add_effect( effect_currently_busy, 30_minutes );
     for( int i = 0; i < num_hp_parts; i++ ) {
-        const body_part bp_healed = player::hp_to_bp( hp_part( i ) );
-        g->u.heal( hp_part( i ), 5 * rng( 2, 5 ) );
+        const body_part bp_healed = player::hp_to_bp( static_cast<hp_part>( i ) );
+        g->u.heal( static_cast<hp_part>( i ), 5 * rng( 2, 5 ) );
         if( g->u.has_effect( effect_bite, bp_healed ) ) {
             g->u.remove_effect( effect_bite, bp_healed );
         }
@@ -512,8 +512,8 @@ void talk_function::give_all_aid( npc &p )
     for( npc &guy : g->all_npcs() ) {
         if( guy.is_walking_with() && rl_dist( guy.pos(), g->u.pos() ) < PICKUP_RANGE ) {
             for( int i = 0; i < num_hp_parts; i++ ) {
-                const body_part bp_healed = player::hp_to_bp( hp_part( i ) );
-                guy.heal( hp_part( i ), 5 * rng( 2, 5 ) );
+                const body_part bp_healed = player::hp_to_bp( static_cast<hp_part>( i ) );
+                guy.heal( static_cast<hp_part>( i ), 5 * rng( 2, 5 ) );
                 if( guy.has_effect( effect_bite, bp_healed ) ) {
                     guy.remove_effect( effect_bite, bp_healed );
                 }

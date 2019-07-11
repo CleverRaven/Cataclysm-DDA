@@ -509,7 +509,7 @@ bool main_menu::opening_screen()
                 int yoffset = iMenuOffsetY - 2;
                 int xlen = 0;
                 for( int i = 1; i < NUM_SPECIAL_GAMES; i++ ) {
-                    std::string spec_name = special_game_name( special_game_id( i ) );
+                    std::string spec_name = special_game_name( static_cast<special_game_id>( i ) );
                     special_names.push_back( spec_name );
                     xlen += spec_name.size() + 2;
                 }
@@ -538,9 +538,9 @@ bool main_menu::opening_screen()
                 }
                 if( action == "UP" || action == "CONFIRM" ) {
                     if( sel2 >= 0 && sel2 < NUM_SPECIAL_GAMES - 1 ) {
-                        g->gamemode = get_special_game( special_game_id( sel2 + 1 ) );
+                        g->gamemode = get_special_game( static_cast<special_game_id>( sel2 + 1 ) );
                         // check world
-                        WORLDPTR world = world_generator->make_new_world( special_game_id( sel2 + 1 ) );
+                        WORLDPTR world = world_generator->make_new_world( static_cast<special_game_id>( sel2 + 1 ) );
                         if( world == nullptr ) {
                             continue;
                         }

@@ -249,9 +249,9 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     }
 
     const int current_intensity = cur.get_field_intensity();
-    const time_duration current_age = cur.get_field_age();
     // Dissipate faster outdoors.
     if( is_outside( p ) ) {
+        const time_duration current_age = cur.get_field_age();
         cur.set_field_age( current_age + outdoor_age_speedup );
     }
 
@@ -1016,8 +1016,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 }
                 if( curtype == fd_cold_air1 || curtype == fd_cold_air2 ||
                     curtype == fd_cold_air3 || curtype == fd_cold_air4 ||
-                    curtype == fd_hot_air1 || curtype == fd_hot_air3 ||
-                    curtype == fd_hot_air3 || curtype == fd_cold_air3 ) {
+                    curtype == fd_hot_air1 || curtype == fd_hot_air2 ||
+                    curtype == fd_hot_air3 || curtype == fd_hot_air4 ) {
                     // No transparency cache wrecking here!
                     spread_gas( cur, p, 100, 100_minutes, sblk );
                 }
@@ -1373,9 +1373,6 @@ void map::player_in_field( player &u )
     // A copy of the current field for reference. Do not add fields to it, use map::add_field
     field &curfield = get_field( u.pos() );
     bool inside = false; // Are we inside?
-    //to modify power of a field based on... whatever is relevant for the effect.
-    int adjusted_intensity;
-
     //If we are in a vehicle figure out if we are inside (reduces effects usually)
     // and what part of the vehicle we need to deal with.
     if( u.in_vehicle ) {
@@ -1482,8 +1479,9 @@ void map::player_in_field( player &u )
                 //heatsink or suit prevents ALL fire damage.
                 break;
             }
+            //to modify power of a field based on... whatever is relevant for the effect.
+            int adjusted_intensity = cur.get_field_intensity();
             //Burn the player. Less so if you are in a car or ON a car.
-            adjusted_intensity = cur.get_field_intensity();
             if( u.in_vehicle ) {
                 if( inside ) {
                     adjusted_intensity -= 2;

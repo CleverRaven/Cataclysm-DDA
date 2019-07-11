@@ -1227,7 +1227,7 @@ void npc_chatbin::deserialize( JsonIn &jsin )
     if( data.has_int( "first_topic" ) ) {
         int tmptopic = 0;
         data.read( "first_topic", tmptopic );
-        first_topic = convert_talk_topic( talk_topic_enum( tmptopic ) );
+        first_topic = convert_talk_topic( static_cast<talk_topic_enum>( tmptopic ) );
     } else {
         data.read( "first_topic", first_topic );
     }
@@ -1311,7 +1311,7 @@ void npc_opinion::serialize( JsonOut &json ) const
 void npc_favor::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
-    type = npc_favor_type( jo.get_int( "type" ) );
+    type = static_cast<npc_favor_type>( jo.get_int( "type" ) );
     jo.read( "value", value );
     jo.read( "itype_id", item_id );
     if( jo.has_int( "skill_id" ) ) {
@@ -1427,7 +1427,7 @@ void npc::load( JsonObject &data )
     }
 
     if( data.read( "mission", misstmp ) ) {
-        mission = npc_mission( misstmp );
+        mission = static_cast<npc_mission>( misstmp );
         static const std::set<npc_mission> legacy_missions = {{
                 NPC_MISSION_LEGACY_1, NPC_MISSION_LEGACY_2,
                 NPC_MISSION_LEGACY_3
@@ -1438,7 +1438,7 @@ void npc::load( JsonObject &data )
         }
     }
     if( data.read( "previous_mission", misstmp ) ) {
-        previous_mission = npc_mission( misstmp );
+        previous_mission = static_cast<npc_mission>( misstmp );
         static const std::set<npc_mission> legacy_missions = {{
                 NPC_MISSION_LEGACY_1, NPC_MISSION_LEGACY_2,
                 NPC_MISSION_LEGACY_3
@@ -1460,7 +1460,7 @@ void npc::load( JsonObject &data )
     }
 
     if( data.read( "attitude", atttmp ) ) {
-        attitude = npc_attitude( atttmp );
+        attitude = static_cast<npc_attitude>( atttmp );
         static const std::set<npc_attitude> legacy_attitudes = {{
                 NPCATT_LEGACY_1, NPCATT_LEGACY_2, NPCATT_LEGACY_3,
                 NPCATT_LEGACY_4, NPCATT_LEGACY_5, NPCATT_LEGACY_6
@@ -1471,7 +1471,7 @@ void npc::load( JsonObject &data )
         }
     }
     if( data.read( "previous_attitude", atttmp ) ) {
-        previous_attitude = npc_attitude( atttmp );
+        previous_attitude = static_cast<npc_attitude>( atttmp );
         static const std::set<npc_attitude> legacy_attitudes = {{
                 NPCATT_LEGACY_1, NPCATT_LEGACY_2, NPCATT_LEGACY_3,
                 NPCATT_LEGACY_4, NPCATT_LEGACY_5, NPCATT_LEGACY_6

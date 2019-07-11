@@ -476,7 +476,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     std::array<std::pair<oter_id, oter_t const *>, cache_size> cache {{}};
     size_t cache_next = 0;
 
-    const auto set_color_and_symbol = [&]( const oter_id & cur_ter, const tripoint omp,
+    const auto set_color_and_symbol = [&]( const oter_id & cur_ter, const tripoint & omp,
     std::string & ter_sym, nc_color & ter_color ) {
         // First see if we have the oter_t cached
         oter_t const *info = nullptr;

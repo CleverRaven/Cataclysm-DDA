@@ -621,7 +621,7 @@ void mission::load_info( std::istream &data )
     deadline = time_point::from_turn( deadline_ );
     target.z = 0;
     follow_up = mission_type::from_legacy( tmpfollow );
-    reward.type = npc_favor_type( reward_id );
+    reward.type = static_cast<npc_favor_type>( reward_id );
     reward.item_id = itype_id( rew_item );
     reward.skill = Skill::from_legacy_int( rew_skill );
     item_id = itype_id( itemid );

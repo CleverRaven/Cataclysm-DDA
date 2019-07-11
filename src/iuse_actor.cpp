@@ -635,8 +635,8 @@ void consume_drug_iuse::info( const item &, std::vector<iteminfo> &dump ) const
         if( rate <= 0_turns ) {
             return std::string();
         }
-        const int lo = int( v.second.first  * rate / 1_days * 100 );
-        const int hi = int( v.second.second * rate / 1_days * 100 );
+        const int lo = static_cast<int>( v.second.first  * rate / 1_days * 100 );
+        const int hi = static_cast<int>( v.second.second * rate / 1_days * 100 );
 
         return string_format( lo == hi ? "%s (%i%%)" : "%s (%i-%i%%)", v.first.obj().name(), lo,
                               hi );
@@ -3561,7 +3561,7 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
         int highest_damage = 0;
         for( int i = 0; i < num_hp_parts; i++ ) {
             int damage = 0;
-            const body_part i_bp = player::hp_to_bp( hp_part( i ) );
+            const body_part i_bp = player::hp_to_bp( static_cast<hp_part>( i ) );
             if( !patient.has_effect( effect_bandaged, i_bp ) ) {
                 damage += patient.hp_max[i] - patient.hp_cur[i];
             }
@@ -3570,7 +3570,7 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
             damage += infect * patient.get_effect_dur( effect_infected, i_bp ) / 10_minutes;
             if( damage > highest_damage ) {
                 highest_damage = damage;
-                healed = hp_part( i );
+                healed = static_cast<hp_part>( i );
             }
         }
     } else if( patient.is_player() ) {
