@@ -244,8 +244,8 @@
     "description": "A small slightly elongated disk, made of high-grade cermic. Reminds you of a scale",
     "price": 0,
     "material": "ceramic",
-    "weight": 0.1,
-    "volume": 0.1,
+    "weight": 1,
+    "volume": 1,
     "bashing": 1,
     "to_hit": -3
   },
