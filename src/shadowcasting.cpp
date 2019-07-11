@@ -69,85 +69,16 @@ struct span {
  * Handle splitting the current span in cast_horizontal_zlight_segment and
  * cast_vertical_zlight_segment to avoid as much code duplication as possible
  */
-template<typename T, bool( *is_transparent )( const T &, const T & ), T( *accumulate )( const T &, const T &, const int & )>
+/*template<typename T, bool( *is_transparent )( const T &, const T & ), T( *accumulate )( const T &, const T &, const int & )>
 static void split_span( std::list<span<T>> &spans, typename std::list<span<T>>::iterator &this_span,
                         T &current_transparency, const T &new_transparency, const T &last_intensity,
                         const int distance, slope &new_start_minor,
                         const slope &trailing_edge_major, const slope &leading_edge_major,
                         const slope &trailing_edge_minor, const slope &leading_edge_minor )
 {
-    const T next_cumulative_transparency = accumulate( this_span->cumulative_value,
-                                           current_transparency, distance );
-    // We split the span into up to 4 sub-blocks (sub-frustums actually,
-    // this is the view from the origin looking out):
-    // +-------+ <- end major
-    // |   D   |
-    // +---+---+ <- leading edge major
-    // | B | C |
-    // +---+---+ <- trailing edge major
-    // |   A   |
-    // +-------+ <- start major
-    // ^       ^
-    // |       end minor
-    // start minor
-    // A is previously processed row(s). This might be empty.
-    // B is already-processed tiles from current row. This must exist.
-    // C is remainder of current row. This must exist.
-    // D is not yet processed row(s). Might be empty.
-    // A, B and D have the previous transparency, C has the new transparency,
-    //   which might be opaque.
-    // One we processed fully in 2D and only need to extend in last D
-    // Only emit a new span horizontally if previous span was not opaque.
-    // If end_minor is <= trailing_edge_minor, A, B, C remain one span and
-    //  D becomes a new span if present.
-    // If this is the first row processed in the current span, there is no A span.
-    // If this is the last row processed, there is no D span.
-    // If check returns false, A and B are opaque and have no spans.
-    if( is_transparent( current_transparency, last_intensity ) ) {
-        // Emit the A span if present, placing it before the current span in the list
-        if( trailing_edge_major > this_span->start_major ) {
-            spans.emplace( this_span,
-                           this_span->start_major, trailing_edge_major,
-                           this_span->start_minor, this_span->end_minor,
-                           next_cumulative_transparency );
-        }
 
-        // Emit the B span if present, placing it before the current span in the list
-        if( trailing_edge_minor > this_span->start_minor ) {
-            spans.emplace( this_span,
-                           std::max( this_span->start_major, trailing_edge_major ),
-                           std::min( this_span->end_major, leading_edge_major ),
-                           this_span->start_minor, trailing_edge_minor,
-                           next_cumulative_transparency );
-        }
-
-        // Overwrite new_start_minor since previous tile is transparent.
-        new_start_minor = trailing_edge_minor;
-    }
-
-    // Emit the D span if present, placing it after the current span in the list
-    if( leading_edge_major < this_span->end_major ) {
-        // Pass true to the span constructor to set skip_first_row to true
-        // This prevents the same row we are currently checking being checked by the
-        // new D span
-        spans.emplace( std::next( this_span ),
-                       leading_edge_major, this_span->end_major,
-                       this_span->start_minor, this_span->end_minor,
-                       this_span->cumulative_value, true );
-    }
-
-    // Truncate this_span to the current block.
-    this_span->start_major = std::max( this_span->start_major, trailing_edge_major );
-    this_span->end_major = std::min( this_span->end_major, leading_edge_major );
-
-    // The new span starts at the leading edge of the previous square if it is opaque,
-    // and at the trailing edge of the current square if it is transparent.
-    this_span->start_minor = new_start_minor;
-
-    new_start_minor = leading_edge_minor;
-    current_transparency = new_transparency;
 }
-
+*/
 template<int xx_transform, int xy_transform, int yx_transform, int yy_transform, int z_transform, typename T,
          T( *calc )( const T &, const T &, const int & ),
          bool( *is_transparent )( const T &, const T & ),
@@ -163,8 +94,6 @@ void cast_horizontal_zlight_segment(
 
     constexpr int min_z = -OVERMAP_DEPTH;
     constexpr int max_z = OVERMAP_HEIGHT;
-
-    slope new_start_minor( 1, 1 );
 
     T last_intensity = 0.0;
     static constexpr tripoint origin( 0, 0, 0 );
@@ -183,12 +112,16 @@ void cast_horizontal_zlight_segment(
     };
     // At each "depth", a.k.a. distance from the origin, we iterate once over the list of spans,
     // possibly splitting them.
-    for( int distance = 1; distance <= radius; distance++ ) {
+    for( int distance = 1; distance <= radius && !spans.empty(); distance++ ) {
         delta.y = distance;
         T current_transparency = 0.0f;
 
         for( auto this_span = spans.begin(); this_span != spans.end(); ) {
             bool started_block = false;
+            bool first_row = true;
+            std::bitset<128> previous_row_transparencies;
+            std::bitset<128> current_row_transparencies;
+
             // TODO: Precalculate min/max delta.z based on start/end and distance
             for( delta.z = 0; delta.z <= distance; delta.z++ ) {
                 const slope trailing_edge_major( delta.z * 2 - 1, delta.y * 2 + 1 );
@@ -216,8 +149,10 @@ void cast_horizontal_zlight_segment(
                     break;
                 }
 
-                bool started_span = false;
                 const int z_index = current.z + OVERMAP_DEPTH;
+
+                slope current_start_minor = this_span->start_minor;
+
                 for( delta.x = 0; delta.x <= distance; delta.x++ ) {
                     current.x = offset.x + delta.x * xx_transform + delta.y * xy_transform;
                     current.y = offset.y + delta.x * yx_transform + delta.y * yy_transform;
@@ -275,38 +210,128 @@ void cast_horizontal_zlight_segment(
                         current_transparency = new_transparency;
                     }
 
+
                     const int dist = rl_dist( origin, delta ) + offset_distance;
                     last_intensity = calc( numerator, this_span->cumulative_value, dist );
+
+                    current_row_transparencies[delta.x] = is_transparent( new_transparency, last_intensity );
 
                     if( !floor_block ) {
                         ( *output_caches[z_index] )[current.x][current.y] =
                             std::max( ( *output_caches[z_index] )[current.x][current.y], last_intensity );
                     }
 
-                    if( !started_span ) {
-                        // Need to reset minor slope, because we're starting a new line
-                        new_start_minor = leading_edge_minor;
-                        started_span = true;
-                    }
-
-                    if( new_transparency == current_transparency ) {
+                    if( new_transparency == current_transparency && ( first_row || delta.x == 0 ||
+                            previous_row_transparencies[delta.x - 1] == previous_row_transparencies[delta.x] ) ) {
                         // All in order, no need to split the span.
-                        new_start_minor = leading_edge_minor;
                         continue;
                     }
 
                     // Handle spliting the span into up to 4 separate spans
-                    split_span<T, is_transparent, accumulate>( spans, this_span, current_transparency,
-                            new_transparency, last_intensity,
-                            distance, new_start_minor,
-                            trailing_edge_major, leading_edge_major,
-                            trailing_edge_minor, leading_edge_minor );
+                    // split_span<T, is_transparent, accumulate>( spans, this_span, current_transparency,
+                    //         new_transparency, last_intensity,
+                    //         distance, new_start_minor,
+                    //         trailing_edge_major, leading_edge_major,
+                    //         trailing_edge_minor, leading_edge_minor );
+
+                    const T next_cumulative_transparency = accumulate( this_span->cumulative_value,
+                                                           current_transparency, distance );
+                    // We split off any spans we encounter
+                    // This is the view from the origin looking out:
+                    // +-------+ <- end major
+                    // |     C |
+                    // +---+   + <- leading edge major if B opaque, next trailing edge major
+                    // | B |   |                                    if B transparent
+                    // +---+---+ <- trailing edge major
+                    // |   A   |
+                    // +-------+ <- start major
+                    // ^       ^
+                    // |       end minor
+                    // start minor
+                    // A is previously processed row(s). This might be empty.
+                    // B is already-processed tiles from current row. This might be empty.
+                    // C is the remainder of current span. This must exist.
+                    // A and B have the same, previous transparency.
+                    // C has an indeterminate and possibly non-homogenous transparency.
+
+                    // If check returns false, A and B are opaque and have no spans.
+                    if( is_transparent( current_transparency, last_intensity ) ) {
+                        // Emit the A span if present, placing it before the current span in the list
+                        if( trailing_edge_major > this_span->start_major ) {
+                            spans.emplace( this_span,
+                                           this_span->start_major, trailing_edge_major,
+                                           this_span->start_minor, this_span->end_minor,
+                                           next_cumulative_transparency );
+
+                            this_span->start_major = trailing_edge_major;
+
+                            // Since A is present we know that the previous row was entirely transparent
+                            // Emit the B span if present, placing it before the current span in the list
+                            if( trailing_edge_minor > current_start_minor ) {
+                                // Previous row is transparent, so use the trailing edge of the current row as start major
+                                // B is transparent, so use the trailing edge of the next row as end major
+                                const slope next_trailing_edge_major( ( delta.z + 1 ) * 2 - 1, delta.y * 2 + 1 );
+                                spans.emplace( this_span,
+                                               this_span->start_major, next_trailing_edge_major,
+                                               this_span->start_minor, trailing_edge_minor,
+                                               next_cumulative_transparency );
+
+                                current_start_minor = trailing_edge_major;
+                            }
+                        } else if( trailing_edge_minor > current_start_minor ) {
+                            // A span not present, so previous row might be opaque
+                            // It is sufficient to check only the directly previous transparency since
+                            // if there were any changes we would have detected them and already stopped
+                            if( first_row || previous_row_transparencies[delta.x - 1] ) {
+                                // Previous row is transparent, so use the trailing edge of the current row as start major
+                                // B is transparent, so use the trailing edge of the next row as end major
+                                const slope next_trailing_edge_major( ( delta.z + 1 ) * 2 - 1, delta.y * 2 + 1 );
+                                spans.emplace( this_span,
+                                               std::max( this_span->start_major, trailing_edge_major ),
+                                               next_trailing_edge_major,
+                                               this_span->start_minor, trailing_edge_minor,
+                                               next_cumulative_transparency );
+                            } else {
+                                // Previous row is opaque, so use the leading edge of the previous row as start major
+                                const slope previous_leading_edge_major( ( delta.z - 1 ) * 2 + 1, delta.y * 2 - 1 );
+                                // B is transparent, so use the trailing edge of the next row as end major
+                                const slope next_trailing_edge_major( ( delta.z + 1 ) * 2 - 1, delta.y * 2 + 1 );
+                                spans.emplace( this_span,
+                                               std::max( this_span->start_major, previous_leading_edge_major ),
+                                               next_trailing_edge_major,
+                                               this_span->start_minor, trailing_edge_minor,
+                                               next_cumulative_transparency, true );
+                            }
+
+                            current_start_minor = trailing_edge_major;
+                        }
+                    } else {
+                        // Leading edge of the previous square since opaque,
+                        const slope prev_leading_edge_major( ( delta.z - 1 ) * 2 + 1, delta.y * 2 - 1 );
+                        this_span->start_major = std::max( this_span->start_major, prev_leading_edge_major );
+
+                        const slope prev_leading_edge_minor( ( delta.x - 1 ) * 2 + 1, delta.y * 2 - 1 );
+                        current_start_minor = std::max( current_start_minor, prev_leading_edge_minor );
+
+                    }
+
+                    current_transparency = new_transparency;
                 }
 
                 // If we end the row with an opaque tile, set the span to start at the next row
-                // since we don't need to process the current one any more.
                 if( !is_transparent( current_transparency, last_intensity ) ) {
                     this_span->start_major = leading_edge_major;
+                }
+
+                if( this_span->start_major >= trailing_edge_major ) {
+                    this_span->start_minor = current_start_minor;
+                }
+
+                previous_row_transparencies = std::move( current_row_transparencies );
+                current_row_transparencies.reset();
+
+                if( started_block ) {
+                    first_row = false;
                 }
             }
 
@@ -329,7 +354,7 @@ void cast_horizontal_zlight_segment(
         }
     }
 }
-
+/*
 template<int x_transform, int y_transform, int z_transform, typename T,
          T( *calc )( const T &, const T &, const int & ),
          bool( *is_transparent )( const T &, const T & ),
@@ -397,7 +422,7 @@ void cast_vertical_zlight_segment(
                     break;
                 }
 
-                bool started_span = false;
+                bool started_row = false;
                 for( delta.x = 0; delta.x <= distance; delta.x++ ) {
                     current.x = offset.x + delta.x * x_transform;
                     current.z = offset.z + delta.z * z_transform;
@@ -465,10 +490,10 @@ void cast_vertical_zlight_segment(
                             std::max( ( *output_caches[z_index] )[current.x][current.y], last_intensity );
                     }
 
-                    if( !started_span ) {
+                    if( !started_row ) {
                         // Need to reset minor slope, because we're starting a new line
                         new_start_minor = leading_edge_minor;
-                        started_span = true;
+                        started_row = true;
                     }
 
                     if( new_transparency == current_transparency ) {
@@ -511,7 +536,7 @@ void cast_vertical_zlight_segment(
         }
     }
 }
-
+*/
 template<typename T, T( *calc )( const T &, const T &, const int & ),
          bool( *is_transparent )( const T &, const T & ),
          T( *accumulate )( const T &, const T &, const int & )>
@@ -533,24 +558,25 @@ void cast_zlight(
     // ...
     cast_horizontal_zlight_segment < 1, 0, 0, 1, -1, T, calc, is_transparent, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    // ..@
+    // ..
+    // .
+    cast_horizontal_zlight_segment < 0, -1, 1, 0, -1, T, calc, is_transparent, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+
+    //   @
+    //  ..
+    // ...
+    cast_horizontal_zlight_segment < -1, 0, 0, 1, -1, T, calc, is_transparent, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     //   .
     //  ..
     // @..
-    cast_horizontal_zlight_segment < 0, -1, 1, 0, -1, T, calc, is_transparent, accumulate > (
+    cast_horizontal_zlight_segment < 0, 1, -1, 0, -1, T, calc, is_transparent, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // ...
     // ..
     // @
-    cast_horizontal_zlight_segment < -1, 0, 0, 1, -1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    // ..@
-    // ..
-    // .
-    cast_horizontal_zlight_segment < 0, 1, -1, 0, -1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    //   @
-    //  ..
-    // ...
     cast_horizontal_zlight_segment < 1, 0, 0, -1, -1, T, calc, is_transparent, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // .
@@ -608,7 +634,7 @@ void cast_zlight(
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
 
     // Straight up
-
+    /*
     // @.
     // ..
     cast_vertical_zlight_segment < 1, 1, 1, T, calc, is_transparent, accumulate > (
@@ -644,6 +670,7 @@ void cast_zlight(
     // .@
     cast_vertical_zlight_segment < -1, -1, -1, T, calc, is_transparent, accumulate > (
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    */
 }
 
 // I can't figure out how to make implicit instantiation work when the parameters of
