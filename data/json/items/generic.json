@@ -288,7 +288,7 @@
     "description": "A set of small slightly elongated disks, made of high-grade ceramic. They reminds you of scales",
     "price": 0,
     "material": "lightceramic",
-    "weight": 1,
+    "weight": 100,
     "volume": 1,
     "bashing": 1,
     "to_hit": -3
