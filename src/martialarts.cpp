@@ -498,7 +498,7 @@ bool ma_technique::is_valid_player( const player &u ) const
 }
 
 ma_buff::ma_buff()
-    : buff_duration( 2_turns )
+    : buff_duration( 1_turns )
 {
     max_stacks = 1; // total number of stacks this buff can have
 
