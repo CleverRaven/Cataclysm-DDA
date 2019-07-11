@@ -545,15 +545,14 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
+    "difficulty": 5,
     "time": 480000,
     "reversible": true,
     "decomp_learn": 4,
     "autolearn": true,
     "components": [
       [ [ "dragonskin_empty", 1 ] ],
-      [ [ "ceramicdisks", 8 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
+      [ [ "ceramicdisks", 8 ] ] ]
   },
   {
     "result": "peacoat",
