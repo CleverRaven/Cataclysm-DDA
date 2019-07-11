@@ -208,12 +208,12 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 struct ebco_pair2 : allocator_type { // empty-base-class optimisation
                     size_type capacity; // Total element capacity of all initialized groups
                     explicit ebco_pair2( const size_type number_of_elements ) noexcept: capacity(
-                            number_of_elements ) {};
+                            number_of_elements ) {}
                 }       element_allocator_pair;
 
                 struct ebco_pair : group_allocator_type {
                     size_type capacity; // Total group capacity
-                    explicit ebco_pair( const size_type number_of_groups ) noexcept: capacity( number_of_groups ) {};
+                    explicit ebco_pair( const size_type number_of_groups ) noexcept: capacity( number_of_groups ) {}
                 }       group_allocator_pair;
 
                 group_vector() noexcept:

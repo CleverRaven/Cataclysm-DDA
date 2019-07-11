@@ -78,7 +78,7 @@ struct fake_spell {
     bool self;
     fake_spell( const spell_id &sp_id, bool hit_self = false,
                 const cata::optional<int> &max_level = cata::nullopt ) : id( sp_id ),
-        max_level( max_level ), self( hit_self ) {};
+        max_level( max_level ), self( hit_self ) {}
 };
 
 class spell_type
