@@ -11,6 +11,7 @@
 
 #include "calendar.h"
 #include "color.h"
+#include "enums.h"
 #include "explosion.h"
 #include "game_constants.h"
 #include "iuse.h"
