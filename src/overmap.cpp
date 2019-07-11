@@ -1186,6 +1186,14 @@ bool &overmap::seen( int x, int y, int z )
     return layer[z + OVERMAP_DEPTH].visible[x][y];
 }
 
+bool overmap::seen( int x, int y, int z ) const
+{
+    if( !inbounds( tripoint( x, y, z ) ) ) {
+        return false;
+    }
+    return layer[z + OVERMAP_DEPTH].visible[x][y];
+}
+
 bool &overmap::explored( int x, int y, int z )
 {
     if( !inbounds( tripoint( x, y, z ) ) ) {
@@ -4086,7 +4094,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         // Since this starts at enabled_specials::origin, it will only place new overmaps
         // in the 5x5 area surrounding the initial overmap, bounding the amount of work we will do.
         for( point candidate_addr : closest_points_first( 2, custom_overmap_specials.get_origin() ) ) {
-            if( !overmap_buffer.has( candidate_addr.x, candidate_addr.y ) ) {
+            if( !overmap_buffer.has( candidate_addr ) ) {
                 int current_distance = square_dist( pos().x, pos().y,
                                                     candidate_addr.x, candidate_addr.y );
                 if( nearest_candidates.empty() || current_distance == previous_distance ) {
@@ -4100,7 +4108,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         if( !nearest_candidates.empty() ) {
             std::shuffle( nearest_candidates.begin(), nearest_candidates.end(), rng_get_engine() );
             point new_om_addr = nearest_candidates.front();
-            overmap_buffer.create_custom_overmap( new_om_addr.x, new_om_addr.y, custom_overmap_specials );
+            overmap_buffer.create_custom_overmap( new_om_addr, custom_overmap_specials );
         } else {
             add_msg( _( "Unable to place all configured specials, some missions may fail to initialize." ) );
         }
@@ -4258,21 +4266,21 @@ void overmap::place_radios()
 
 void overmap::open( overmap_special_batch &enabled_specials )
 {
-    const std::string terfilename = overmapbuffer::terrain_filename( loc.x, loc.y );
+    const std::string terfilename = overmapbuffer::terrain_filename( loc );
 
     using namespace std::placeholders;
     if( read_from_file_optional( terfilename, std::bind( &overmap::unserialize, this, _1 ) ) ) {
-        const std::string plrfilename = overmapbuffer::player_filename( loc.x, loc.y );
+        const std::string plrfilename = overmapbuffer::player_filename( loc );
         read_from_file_optional( plrfilename, std::bind( &overmap::unserialize_view, this, _1 ) );
     } else { // No map exists!  Prepare neighbors, and generate one.
         std::vector<const overmap *> pointers;
         // Fetch south and north
         for( int i = -1; i <= 1; i += 2 ) {
-            pointers.push_back( overmap_buffer.get_existing( loc.x, loc.y + i ) );
+            pointers.push_back( overmap_buffer.get_existing( loc + point( 0, i ) ) );
         }
         // Fetch east and west
         for( int i = -1; i <= 1; i += 2 ) {
-            pointers.push_back( overmap_buffer.get_existing( loc.x + i, loc.y ) );
+            pointers.push_back( overmap_buffer.get_existing( loc + point( i, 0 ) ) );
         }
 
         // pointers looks like (north, south, west, east)
@@ -4283,8 +4291,8 @@ void overmap::open( overmap_special_batch &enabled_specials )
 // Note: this may throw io errors from std::ofstream
 void overmap::save() const
 {
-    const std::string plrfilename = overmapbuffer::player_filename( loc.x, loc.y );
-    const std::string terfilename = overmapbuffer::terrain_filename( loc.x, loc.y );
+    const std::string plrfilename = overmapbuffer::player_filename( loc );
+    const std::string terfilename = overmapbuffer::terrain_filename( loc );
 
     ofstream_wrapper fout_player( plrfilename );
     serialize_view( fout_player );

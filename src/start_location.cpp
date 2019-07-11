@@ -214,7 +214,7 @@ tripoint start_location::find_player_initial_location() const
     // creating overmaps as necessary.
     const int radius = 3;
     for( const point &omp : closest_points_first( radius, point_zero ) ) {
-        overmap &omap = overmap_buffer.get( omp.x, omp.y );
+        overmap &omap = overmap_buffer.get( omp );
         const tripoint omtstart = omap.find_random_omt( target() );
         if( omtstart != overmap::invalid_tripoint ) {
             return omtstart + point( omp.x * OMAPX, omp.y * OMAPY );

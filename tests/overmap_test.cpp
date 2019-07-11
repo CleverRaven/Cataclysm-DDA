@@ -38,11 +38,11 @@ TEST_CASE( "default_overmap_generation_always_succeeds" )
     int overmaps_to_construct = 10;
     for( point candidate_addr : closest_points_first( 10, { 0, 0 } ) ) {
         // Skip populated overmaps.
-        if( overmap_buffer.has( candidate_addr.x, candidate_addr.y ) ) {
+        if( overmap_buffer.has( candidate_addr ) ) {
             continue;
         }
         overmap_special_batch test_specials = overmap_specials::get_default_batch( candidate_addr );
-        overmap_buffer.create_custom_overmap( candidate_addr.x, candidate_addr.y, test_specials );
+        overmap_buffer.create_custom_overmap( candidate_addr, test_specials );
         for( const auto &special_placement : test_specials ) {
             auto special = special_placement.special_details;
             INFO( "In attempt #" << overmaps_to_construct
@@ -84,10 +84,10 @@ TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin" )
     overmap_special_batch test_specials = overmap_special_batch( origin, specials );
 
     // Run the overmap creation, which will try to place our specials.
-    overmap_buffer.create_custom_overmap( origin.x, origin.y, test_specials );
+    overmap_buffer.create_custom_overmap( origin, test_specials );
 
     // Get the origin overmap...
-    overmap *test_overmap = overmap_buffer.get_existing( origin.x, origin.y );
+    overmap *test_overmap = overmap_buffer.get_existing( origin );
 
     // ...and assert that the optional special exists on this map.
     bool found_optional = false;

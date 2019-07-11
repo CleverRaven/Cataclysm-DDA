@@ -405,7 +405,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
         cata::optional<tripoint> dest = get_mission_destination();
         if( dest ) {
             basecamp *dest_camp;
-            cata::optional<basecamp *> temp_camp = overmap_buffer.find_camp( dest->x, dest->y );
+            cata::optional<basecamp *> temp_camp = overmap_buffer.find_camp( dest->xy() );
             if( temp_camp ) {
                 dest_camp = *temp_camp;
                 dest_string = _( "travelling to : " ) + dest_camp->camp_name();
@@ -423,7 +423,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     tripoint guy_abspos = global_omt_location();
     basecamp *stationed_at;
     bool is_stationed = false;
-    cata::optional<basecamp *> p = overmap_buffer.find_camp( guy_abspos.x, guy_abspos.y );
+    cata::optional<basecamp *> p = overmap_buffer.find_camp( guy_abspos.xy() );
     if( p ) {
         is_stationed = true;
         stationed_at = *p;
@@ -467,10 +467,10 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
                 }
             }
             // if camp that player is at, has a radio tower
-            cata::optional<basecamp *> player_camp = overmap_buffer.find_camp( g->u.global_omt_location().x,
-                    g->u.global_omt_location().y );
+            cata::optional<basecamp *> player_camp =
+                overmap_buffer.find_camp( g->u.global_omt_location().xy() );
             if( const cata::optional<basecamp *> player_camp = overmap_buffer.find_camp(
-                        g->u.global_omt_location().x, g->u.global_omt_location().y ) ) {
+                        g->u.global_omt_location().xy() ) ) {
                 if( ( *player_camp )->has_provides( "radio_tower" ) ) {
                     max_range *= 5;
                 }
@@ -607,7 +607,7 @@ void new_faction_manager::display() const
         // create a list of faction camps
         std::vector<basecamp *> camps;
         for( auto elem : g->u.camps ) {
-            cata::optional<basecamp *> p = overmap_buffer.find_camp( elem.x, elem.y );
+            cata::optional<basecamp *> p = overmap_buffer.find_camp( elem.xy() );
             if( !p ) {
                 continue;
             }

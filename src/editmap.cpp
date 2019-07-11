@@ -1644,7 +1644,7 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
     // Coordinates of the overmap terrain that should be generated.
     const point omt_pos = ms_to_omt_copy( tc.abs_pos );
-    oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, target.z );
+    oter_id &omt_ref = overmap_buffer.ter( tripoint( omt_pos, target.z ) );
     // Copy to store the original value, to restore it upon canceling
     const oter_id orig_oters = omt_ref;
     omt_ref = oter_id( gmenu.ret );

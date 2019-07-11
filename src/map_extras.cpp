@@ -420,10 +420,11 @@ static void mx_collegekids( map &m, const tripoint & )
 
 static void mx_roadblock( map &m, const tripoint &abs_sub )
 {
-    std::string north = overmap_buffer.ter( abs_sub.x / 2, abs_sub.y / 2 - 1, abs_sub.z ).id().c_str();
-    std::string south = overmap_buffer.ter( abs_sub.x / 2, abs_sub.y / 2 + 1, abs_sub.z ).id().c_str();
-    std::string west = overmap_buffer.ter( abs_sub.x / 2 - 1, abs_sub.y / 2, abs_sub.z ).id().c_str();
-    std::string east = overmap_buffer.ter( abs_sub.x / 2 + 1, abs_sub.y / 2, abs_sub.z ).id().c_str();
+    const tripoint abs_omt = sm_to_omt_copy( abs_sub );
+    std::string north = overmap_buffer.ter( abs_omt + point( 0, -1 ) ).id().str();
+    std::string south = overmap_buffer.ter( abs_omt + point( 0, 1 ) ).id().str();
+    std::string west = overmap_buffer.ter( abs_omt + point( -1, 0 ) ).id().str();
+    std::string east = overmap_buffer.ter( abs_omt + point( 1, 0 ) ).id().str();
 
     bool northroad = false;
     bool eastroad = false;
@@ -590,10 +591,11 @@ static void mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
 
 static void mx_bandits_block( map &m, const tripoint &abs_sub )
 {
-    const oter_id &north = overmap_buffer.ter( abs_sub.x, abs_sub.y - 1, abs_sub.z );
-    const oter_id &south = overmap_buffer.ter( abs_sub.x, abs_sub.y + 1, abs_sub.z );
-    const oter_id &west = overmap_buffer.ter( abs_sub.x - 1, abs_sub.y, abs_sub.z );
-    const oter_id &east = overmap_buffer.ter( abs_sub.x + 1, abs_sub.y, abs_sub.z );
+    const tripoint abs_omt = sm_to_omt_copy( abs_sub );
+    const oter_id &north = overmap_buffer.ter( abs_omt + point( 0, -1 ) );
+    const oter_id &south = overmap_buffer.ter( abs_omt + point( 0, 1 ) );
+    const oter_id &west = overmap_buffer.ter( abs_omt + point( -1, 0 ) );
+    const oter_id &east = overmap_buffer.ter( abs_omt + point( 1, 0 ) );
 
     const bool forest_at_north = is_ot_match( "forest", north, ot_match_type::prefix );
     const bool forest_at_south = is_ot_match( "forest", south, ot_match_type::prefix );
@@ -819,11 +821,12 @@ static void mx_portal( map &m, const tripoint &abs_sub )
 
 static void mx_minefield( map &m, const tripoint &abs_sub )
 {
-    const oter_id &center = overmap_buffer.ter( abs_sub.x, abs_sub.y, abs_sub.z );
-    const oter_id &north = overmap_buffer.ter( abs_sub.x, abs_sub.y - 1, abs_sub.z );
-    const oter_id &south = overmap_buffer.ter( abs_sub.x, abs_sub.y + 1, abs_sub.z );
-    const oter_id &west = overmap_buffer.ter( abs_sub.x - 1, abs_sub.y, abs_sub.z );
-    const oter_id &east = overmap_buffer.ter( abs_sub.x + 1, abs_sub.y, abs_sub.z );
+    const tripoint abs_omt = sm_to_omt_copy( abs_sub );
+    const oter_id &center = overmap_buffer.ter( abs_omt );
+    const oter_id &north = overmap_buffer.ter( abs_omt + point( 0, -1 ) );
+    const oter_id &south = overmap_buffer.ter( abs_omt + point( 0, 1 ) );
+    const oter_id &west = overmap_buffer.ter( abs_omt + point( -1, 0 ) );
+    const oter_id &east = overmap_buffer.ter( abs_omt + point( 1, 0 ) );
 
     const bool bridge_at_center = is_ot_match( "bridge", center, ot_match_type::type );
     const bool bridge_at_north = is_ot_match( "bridge", north, ot_match_type::type );
@@ -1909,10 +1912,11 @@ static void mx_roadworks( map &m, const tripoint &abs_sub )
     // equipment in a box
     // (curved roads & intersections excluded, perhaps TODO)
 
-    const oter_id &north = overmap_buffer.ter( abs_sub.x, abs_sub.y - 1, abs_sub.z );
-    const oter_id &south = overmap_buffer.ter( abs_sub.x, abs_sub.y + 1, abs_sub.z );
-    const oter_id &west = overmap_buffer.ter( abs_sub.x - 1, abs_sub.y, abs_sub.z );
-    const oter_id &east = overmap_buffer.ter( abs_sub.x + 1, abs_sub.y, abs_sub.z );
+    const tripoint abs_omt = sm_to_omt_copy( abs_sub );
+    const oter_id &north = overmap_buffer.ter( abs_omt + point( 0, -1 ) );
+    const oter_id &south = overmap_buffer.ter( abs_omt + point( 0, 1 ) );
+    const oter_id &west = overmap_buffer.ter( abs_omt + point( -1, 0 ) );
+    const oter_id &east = overmap_buffer.ter( abs_omt + point( 1, 0 ) );
 
     const bool road_at_north = is_ot_match( "road", north, ot_match_type::type );
     const bool road_at_south = is_ot_match( "road", south, ot_match_type::type );

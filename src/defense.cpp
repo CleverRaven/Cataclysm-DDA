@@ -213,7 +213,7 @@ void defense_game::init_constructions()
 
 void defense_game::init_map()
 {
-    auto &starting_om = overmap_buffer.get( 0, 0 );
+    auto &starting_om = overmap_buffer.get( point_zero );
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
             starting_om.ter( x, y, 0 ) = oter_id( "field" );
