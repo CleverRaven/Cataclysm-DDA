@@ -2394,6 +2394,27 @@
     "flags": [ "STURDY", "OUTER", "NO_REPAIR" ]
   },
   {
+    "id": "dragonskin_empty",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "L.K.V.",
+    "description": "A lamellar kevlar vest, there are intricate kevlar voids usually filled with stitched in ceramic disks, you could repair the stitching if needed",
+    "weight": 2060,
+    "volume": 20,
+    "price": 1900,
+    "to_hit": -3,
+    "bashing": 6,
+    "material": [ "kevlar" ],
+    "symbol": "[",
+    "color": "light_red",
+    "covers": [ "TORSO" ],
+    "coverage": 25,
+    "encumbrance": 10,
+    "warmth": 10,
+    "material_thickness": 3,
+    "flags": [ "STURDY", "OUTER", ]
+  },
+  {
     "id": "dress",
     "type": "ARMOR",
     "name": "dress",
