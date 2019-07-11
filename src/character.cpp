@@ -2320,8 +2320,6 @@ void Character::reset_bonuses()
     per_bonus = 0;
     int_bonus = 0;
 
-    reset_encumbrance();
-
     Creature::reset_bonuses();
 }
 

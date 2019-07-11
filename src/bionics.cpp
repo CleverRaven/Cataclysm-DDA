@@ -692,6 +692,7 @@ bool player::activate_bionic( int b, bool eff_only )
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
+    reset_encumbrance();
     reset();
 
     // Also reset crafting inventory cache if this bionic spawned a fake item
@@ -777,6 +778,7 @@ bool player::deactivate_bionic( int b, bool eff_only )
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
+    reset_encumbrance();
     reset();
 
     // Also reset crafting inventory cache if this bionic spawned a fake item
@@ -1740,6 +1742,7 @@ void player::add_bionic( const bionic_id &b )
         add_bionic( inc_bid );
     }
 
+    reset_encumbrance();
     recalc_sight_limits();
 }
 
@@ -1759,6 +1762,7 @@ void player::remove_bionic( const bionic_id &b )
         new_my_bionics.push_back( bionic( i.id, i.invlet ) );
     }
     *my_bionics = new_my_bionics;
+    reset_encumbrance();
     recalc_sight_limits();
 }
 
