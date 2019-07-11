@@ -116,6 +116,9 @@ const size_t invalid = 0;
 
 constexpr size_t rotate( size_t line, om_direction::type dir )
 {
+    if( dir == om_direction::type::invalid ) {
+        return line;
+    }
     // Bitwise rotation to the left.
     return ( ( ( line << static_cast<size_t>( dir ) ) |
                ( line >> ( om_direction::size - static_cast<size_t>( dir ) ) ) ) & om_direction::bits );
@@ -123,6 +126,9 @@ constexpr size_t rotate( size_t line, om_direction::type dir )
 
 constexpr size_t set_segment( size_t line, om_direction::type dir )
 {
+    if( dir == om_direction::type::invalid ) {
+        return line;
+    }
     return line | 1 << static_cast<int>( dir );
 }
 
