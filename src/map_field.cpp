@@ -1016,8 +1016,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 }
                 if( curtype == fd_cold_air1 || curtype == fd_cold_air2 ||
                     curtype == fd_cold_air3 || curtype == fd_cold_air4 ||
-                    curtype == fd_hot_air1 || curtype == fd_hot_air3 ||
-                    curtype == fd_hot_air3 || curtype == fd_cold_air3 ) {
+                    curtype == fd_hot_air1 || curtype == fd_hot_air2 ||
+                    curtype == fd_hot_air3 || curtype == fd_hot_air4 ) {
                     // No transparency cache wrecking here!
                     spread_gas( cur, p, 100, 100_minutes, sblk );
                 }
