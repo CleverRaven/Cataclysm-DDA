@@ -25,6 +25,7 @@ class player;
 struct iteminfo;
 struct tripoint;
 
+enum ot_match_type;
 enum hp_part : int;
 enum body_part : int;
 class JsonObject;
@@ -382,13 +383,14 @@ class reveal_map_actor : public iuse_actor
         /**
          * Overmap terrain types that get revealed.
          */
-        std::vector<std::string> omt_types;
+        std::vector<std::pair<std::string, ot_match_type>> omt_types;
         /**
          * The message displayed after revealing.
          */
         std::string message;
 
-        void reveal_targets( const tripoint &center, const std::string &target, int reveal_distance ) const;
+        void reveal_targets( const tripoint &center, const std::pair<std::string, ot_match_type> &target,
+                             int reveal_distance ) const;
 
         reveal_map_actor( const std::string &type = "reveal_map" ) : iuse_actor( type ) {}
 
