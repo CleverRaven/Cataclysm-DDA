@@ -249,9 +249,9 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     }
 
     const int current_intensity = cur.get_field_intensity();
-    const time_duration current_age = cur.get_field_age();
     // Dissipate faster outdoors.
     if( is_outside( p ) ) {
+        const time_duration current_age = cur.get_field_age();
         cur.set_field_age( current_age + outdoor_age_speedup );
     }
 

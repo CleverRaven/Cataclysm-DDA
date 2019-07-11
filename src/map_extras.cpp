@@ -2317,8 +2317,8 @@ static void mx_casings( map &m, const tripoint &abs_sub )
             //Spawn blood and bloody rag and sometimes trail of blood
             if( one_in( 2 ) ) {
                 m.add_field( location, fd_blood, rng( 1, 3 ) );
-                const tripoint bloody_rag_loc = random_entry( m.points_in_radius( location, 3 ) );
                 if( one_in( 2 ) ) {
+                    const tripoint bloody_rag_loc = random_entry( m.points_in_radius( location, 3 ) );
                     m.spawn_item( bloody_rag_loc, "rag_bloody" );
                 }
                 if( one_in( 2 ) ) {
@@ -2347,11 +2347,11 @@ static void mx_casings( map &m, const tripoint &abs_sub )
                 m.spawn_items( trash_loc, trash );
             }
             //Spawn blood and bloody rag in random place
-            const tripoint random_place = random_entry( m.points_in_radius( location, rng( 1, 10 ) ) );
             if( one_in( 2 ) ) {
+                const tripoint random_place = random_entry( m.points_in_radius( location, rng( 1, 10 ) ) );
                 m.add_field( random_place, fd_blood, rng( 1, 3 ) );
-                const tripoint bloody_rag_loc = random_entry( m.points_in_radius( random_place, 3 ) );
                 if( one_in( 2 ) ) {
+                    const tripoint bloody_rag_loc = random_entry( m.points_in_radius( random_place, 3 ) );
                     m.spawn_item( bloody_rag_loc, "rag_bloody" );
                 }
             }
@@ -2380,8 +2380,8 @@ static void mx_casings( map &m, const tripoint &abs_sub )
             //Spawn blood and bloody rag at the destination
             if( one_in( 2 ) ) {
                 m.add_field( from, fd_blood, rng( 1, 3 ) );
-                const tripoint bloody_rag_loc = random_entry( m.points_in_radius( to, 3 ) );
                 if( one_in( 2 ) ) {
+                    const tripoint bloody_rag_loc = random_entry( m.points_in_radius( to, 3 ) );
                     m.spawn_item( bloody_rag_loc, "rag_bloody" );
                 }
             }
@@ -2413,8 +2413,8 @@ static void mx_casings( map &m, const tripoint &abs_sub )
             //Spawn blood and bloody rag at the first location, sometimes trail of blood
             if( one_in( 2 ) ) {
                 m.add_field( first_loc, fd_blood, rng( 1, 3 ) );
-                const tripoint bloody_rag_loc = random_entry( m.points_in_radius( first_loc, 3 ) );
                 if( one_in( 2 ) ) {
+                    const tripoint bloody_rag_loc = random_entry( m.points_in_radius( first_loc, 3 ) );
                     m.spawn_item( bloody_rag_loc, "rag_bloody" );
                 }
                 if( one_in( 2 ) ) {
@@ -2425,8 +2425,8 @@ static void mx_casings( map &m, const tripoint &abs_sub )
             //Spawn blood and bloody rag at the second location, sometimes trail of blood
             if( one_in( 2 ) ) {
                 m.add_field( second_loc, fd_blood, rng( 1, 3 ) );
-                const tripoint bloody_rag_loc = random_entry( m.points_in_radius( second_loc, 3 ) );
                 if( one_in( 2 ) ) {
+                    const tripoint bloody_rag_loc = random_entry( m.points_in_radius( second_loc, 3 ) );
                     m.spawn_item( bloody_rag_loc, "rag_bloody" );
                 }
                 if( one_in( 2 ) ) {
