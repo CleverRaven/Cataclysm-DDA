@@ -2391,7 +2391,7 @@
     "encumbrance": 10,
     "warmth": 12,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "STURDY", "OUTER", "NO_REPAIR" ]
+    "flags": [ "STURDY", "OUTER", "NO_REPAIR" ]
   },
   {
     "id": "dress",
