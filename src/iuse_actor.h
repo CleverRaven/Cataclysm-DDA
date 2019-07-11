@@ -25,7 +25,6 @@ class player;
 struct iteminfo;
 struct tripoint;
 
-enum ot_match_type;
 enum hp_part : int;
 enum body_part : int;
 class JsonObject;
