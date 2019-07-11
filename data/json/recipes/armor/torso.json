@@ -544,7 +544,7 @@
     "decomp_learn": 4,
     "autolearn": true,
     "components": [
-      [ [ "dragonskin_empty", 1 ] ],
+      [ [ "dragonskinempty", 1 ] ],
       [ [ "ceramicdisks", 8 ] ] ]
   },
   {
