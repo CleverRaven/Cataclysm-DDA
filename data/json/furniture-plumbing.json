@@ -1,0 +1,97 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_bathtub",
+    "name": "bathtub",
+    "symbol": "~",
+    "description": "You could lay in and take a soothing bath, if there were running water.  The plug is intact, so you could use it to store liquids.",
+    "color": "white",
+    "move_cost_mod": 2,
+    "coverage": 30,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
+    "max_volume": 800,
+    "examine_action": "keg",
+    "keg_capacity": 600,
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "porcelain breaking!",
+      "sound_fail": "whunk!",
+      "items": [
+        { "item": "cu_pipe", "prob": 50 },
+        { "item": "water_faucet", "prob": 50 },
+        { "item": "ceramic_shard", "count": [ 6, 18 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_shower",
+    "name": "shower",
+    "symbol": "~",
+    "description": "You would be able to clean yourself if water was running.",
+    "color": "white",
+    "move_cost_mod": 0,
+    "coverage": 35,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 30,
+      "sound": "porcelain breaking!",
+      "sound_fail": "whunk!",
+      "sound_vol": 16,
+      "sound_fail_vol": 12,
+      "items": [
+        { "item": "cu_pipe", "count": [ 0, 2 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] },
+        { "item": "ceramic_shard", "count": [ 2, 6 ] },
+        { "item": "glass_shard", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sink",
+    "name": "sink",
+    "symbol": "&",
+    "description": "Emergency relief provider.  Water isn't running, so it's basically useless.",
+    "color": "white",
+    "move_cost_mod": 2,
+    "coverage": 60,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "MOUNTABLE" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "porcelain breaking!",
+      "sound_fail": "whunk!",
+      "items": [
+        { "item": "cu_pipe", "prob": 50 },
+        { "item": "water_faucet", "prob": 50 },
+        { "item": "ceramic_shard", "count": [ 2, 8 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_toilet",
+    "name": "toilet",
+    "symbol": "&",
+    "color": "white",
+    "description": "A porcelain throne.  Emergency water source, from the tank, and provider of relief.",
+    "move_cost_mod": 2,
+    "coverage": 30,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "MOUNTABLE", "LIQUIDCONT" ],
+    "examine_action": "toilet",
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "porcelain breaking!",
+      "sound_fail": "whunk!",
+      "items": [ { "item": "cu_pipe", "prob": 50 }, { "item": "ceramic_shard", "count": [ 2, 8 ] } ]
+    }
+  }
+]
