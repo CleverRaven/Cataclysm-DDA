@@ -143,7 +143,16 @@
     "symbol": "/",
     "material": [ "superalloy" ],
     "techniques": [ "WBLOCK_2", "BRUTAL", "SWEEP" ],
-    "flags": [ "NONCONDUCTIVE", "BELT_CLIP", "LIGHT_15", "TRADER_AVOID", "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ],
+    "flags": [
+      "NONCONDUCTIVE",
+      "BELT_CLIP",
+      "LIGHT_15",
+      "TRADER_AVOID",
+      "UNBREAKABLE_MELEE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "MAGIC_FOCUS"
+    ],
     "volume": 5,
     "bashing": 30,
     "electric": 15,
@@ -182,7 +191,16 @@
     "weight": 1,
     "bashing": 10,
     "electric": 15,
-    "flags": [ "UNARMED_WEAPON", "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "LIGHT_5", "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ]
+    "flags": [
+      "UNARMED_WEAPON",
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "LIGHT_5",
+      "TRADER_AVOID",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "MAGIC_FOCUS"
+    ]
   },
   {
     "id": "tentacle_whip",
@@ -205,7 +223,7 @@
       "UNBREAKABLE_MELEE",
       "NO_REPAIR",
       "NO_SALVAGE",
-	  "MAGIC_FOCUS"
+      "MAGIC_FOCUS"
     ],
     "cutting": 30,
     "pierce": 6,
@@ -247,7 +265,7 @@
       "ONLY_ONE",
       "NO_REPAIR",
       "NO_SALVAGE",
-	  "MAGIC_FOCUS"
+      "MAGIC_FOCUS"
     ],
     "techniques": [ "WBLOCK_2", "WIDE", "SWEEP", "BRUTAL" ],
     "weight": 2175,
@@ -277,7 +295,7 @@
       "NO_SALVAGE",
       "NO_UNLOAD",
       "NO_AMMO",
-	  "MAGIC_FOCUS"
+      "MAGIC_FOCUS"
     ],
     "skill": "archery",
     "min_strength": 5,
