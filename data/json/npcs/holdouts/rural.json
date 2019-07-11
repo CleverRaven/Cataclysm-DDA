@@ -7,7 +7,57 @@
     "attitude": 0,
     "name_suffix": "Survivor",
     "mission": 7,
-    "chat": "TALK_STRANGER_NEUTRAL",
+    "chat": "TALK_RURAL_HOLDOUT_NEUTRAL",
     "faction": "wasteland_scavengers"
+  },
+  {
+    "id": "TALK_RURAL_HOLDOUT_NEUTRAL",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Woah there.  That's far enough, stranger.  You look nice enough, but I won't be fooled again.  What's your business?",
+      "Hold on there.  What's your business?  Keep your hands where I can see 'em.",
+      "Don't see many survivors up these parts anymore.  'Specially not anyone in what I'd call their right mind.  Who are you, and what are you doing here?",
+      "Well now, hold it for a second.  You don't look like a zombie.  What are you doing up in these parts?"
+    ],
+    "responses": [
+      { "text": "I'm looking for other survivors to travel with me.  You game?", "topic": "TALK_SUGGEST_FOLLOW" },
+      { "text": "I'm just a traveller.  What about you?  What's your story?", "topic": "TALK_RURAL_HOLDOUT_NEUTRAL_Story" },
+      { "text": "No need to be scared.  I'm just looking to trade.", "topic": "TALK_DONE", "effect": "start_trade", "switch": true, "default": false },
+      {
+        "text": "Fuck this.  Get the hell out of here, this is my shit now.",
+        "trial": { "type": "INTIMIDATE", "difficulty": 30 },
+        "success": { "topic": "TALK_DONE", "effect": "flee" },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_RURAL_HOLDOUT_NEUTRAL_Story",
+    "type": "talk_topic",
+    "dynamic_line": "I don't know if I'm quite comfortable discussing that with you.  How do I know you're not one of them psycho rioters?",
+    "responses": [
+      { "text": "Oh, come on.  Has anyone like that ever tried to ask you how you came to be here?", "trial": { "type": "PERSUADE", "difficulty": 30, "mod": [ [ "BRAVERY", 2 ], [ "FEAR", -2 ], [ "TRUST", 2 ] ] },
+        "success": { "topic": "TALK_STRANGER_NEUTRAL_StoryTOC", "opinion": { "trust": 1, "fear": -1 } },
+        "failure": { "topic": "TALK_STRANGER_NEUTRAL_StoryNo" } },
+      { "text": "All right then, no chit-chat.  How about we trade.", "topic": "TALK_DONE", "effect": "start_trade", "switch": true, "default": false },
+      { "text": "Screw it, I haven't got time for this.  Get the hell out of here before I end you.",
+        "trial": { "type": "INTIMIDATE", "difficulty": 30 },
+        "success": { "topic": "TALK_DONE", "effect": "flee" },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_RURAL_HOLDOUT_NEUTRAL_StoryNo",
+    "type": "talk_topic",
+    "dynamic_line": "No.  I'm not about to let my guard down just so you can smash my goddamn head in.",
+    "responses": [
+      { "text": "Fine.  You looking to trade, maybe?", "topic": "TALK_DONE", "effect": "start_trade", "switch": true, "default": false },
+      { "text": "Screw it, I haven't got time for this.  Get the hell out of here before I end you.",
+        "trial": { "type": "INTIMIDATE", "difficulty": 30 },
+        "success": { "topic": "TALK_DONE", "effect": "flee" },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      }
+    ]
   }
 ]
