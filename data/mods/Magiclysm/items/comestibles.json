@@ -57,7 +57,7 @@
     "id": "druid_seed",
     "name": "seed of purification",
     "category": "chems",
-	"comestible_type": "MED",
+    "comestible_type": "MED",
     "weight": 1,
     "color": "white",
     "use_action": "WATER_PURIFIER",
