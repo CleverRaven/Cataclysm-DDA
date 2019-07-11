@@ -339,7 +339,7 @@ bool mission::is_complete( const int _npc_id ) const
             tmp_inv.dump( items );
             Group_tag grp_type = type->group_id;
             itype_id container = type->container_id;
-            bool specific_container_required = container.compare( "null" ) != 0;
+            bool specific_container_required = container != "null";
 
             std::map<itype_id, int> matches = std::map<itype_id, int>();
             get_all_item_group_matches(

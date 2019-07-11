@@ -312,7 +312,7 @@ const string_id<oter_t> &int_id<oter_t>::id() const
 
 bool operator==( const int_id<oter_t> &lhs, const char *rhs )
 {
-    return lhs.id().str().compare( rhs ) == 0;
+    return lhs.id().str() == rhs;
 }
 
 bool operator!=( const int_id<oter_t> &lhs, const char *rhs )
