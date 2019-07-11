@@ -294,8 +294,7 @@
       "NO_REPAIR",
       "NO_SALVAGE",
       "NO_UNLOAD",
-      "NO_AMMO",
-      "MAGIC_FOCUS"
+      "NO_AMMO"
     ],
     "skill": "archery",
     "min_strength": 5,
