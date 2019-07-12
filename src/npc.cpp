@@ -2172,6 +2172,16 @@ void npc::add_new_mission( class mission *miss )
 
 void npc::on_unload()
 {
+}
+
+// A throtled version of player::update_body since npc's don't need to-the-turn updates.
+void npc::npc_update_body()
+{
+    static const time_duration npc_body_update_rate = 10_seconds;
+    if( calendar::turn - last_updated < npc_body_update_rate ) {
+        return;
+    }
+    update_body( last_updated, calendar::turn );
     last_updated = calendar::turn;
 }
 
