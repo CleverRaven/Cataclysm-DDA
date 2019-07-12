@@ -20,7 +20,7 @@
     "material_thickness": 4,
     "environmental_protection": 10,
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "flags": [ "VARSIZE", "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
     "techniques": [ "WBLOCK_3" ]
   },
   {
@@ -58,7 +58,7 @@
     "material_thickness": 4,
     "environmental_protection": 10,
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "flags": [ "VARSIZE", "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
     "techniques": [ "WBLOCK_3" ]
   },
   {
@@ -143,7 +143,16 @@
     "symbol": "/",
     "material": [ "superalloy" ],
     "techniques": [ "WBLOCK_2", "BRUTAL", "SWEEP" ],
-    "flags": [ "NONCONDUCTIVE", "BELT_CLIP", "LIGHT_15", "TRADER_AVOID", "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE" ],
+    "flags": [
+      "NONCONDUCTIVE",
+      "BELT_CLIP",
+      "LIGHT_15",
+      "TRADER_AVOID",
+      "UNBREAKABLE_MELEE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "MAGIC_FOCUS"
+    ],
     "volume": 5,
     "bashing": 30,
     "electric": 15,
@@ -182,7 +191,16 @@
     "weight": 1,
     "bashing": 10,
     "electric": 15,
-    "flags": [ "UNARMED_WEAPON", "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "LIGHT_5", "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE" ]
+    "flags": [
+      "UNARMED_WEAPON",
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "LIGHT_5",
+      "TRADER_AVOID",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "MAGIC_FOCUS"
+    ]
   },
   {
     "id": "tentacle_whip",
@@ -204,7 +222,8 @@
       "UNARMED_WEAPON",
       "UNBREAKABLE_MELEE",
       "NO_REPAIR",
-      "NO_SALVAGE"
+      "NO_SALVAGE",
+      "MAGIC_FOCUS"
     ],
     "cutting": 30,
     "pierce": 6,
@@ -245,7 +264,8 @@
       "SHEATH_SPEAR",
       "ONLY_ONE",
       "NO_REPAIR",
-      "NO_SALVAGE"
+      "NO_SALVAGE",
+      "MAGIC_FOCUS"
     ],
     "techniques": [ "WBLOCK_2", "WIDE", "SWEEP", "BRUTAL" ],
     "weight": 2175,
