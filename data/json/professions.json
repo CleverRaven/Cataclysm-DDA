@@ -2923,5 +2923,79 @@
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
-  }
+  },
+  {
+    "type": "profession",
+    "ident": "Aug_Gunslinger",
+    "name": "Bionic Gunslinger",
+    "description": "Lynched but not killed for a crime you didn't commit, you underwent Augmentation surgery and hunted down those responsible with your trusty revolver. now the apocolypse is here, and it's you, your cybernetics and your gun against the world.",
+    "points": 8,
+    "CBMs": [
+      "bio_targeting",
+      "bio_adrenaline",
+      "bio_night_vision",
+      "bio_ups",
+      "bio_power_storage_mkII",
+      "bio_dex_enhancer" 
+    ],
+    "skills": [
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "pistol" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "dodge" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "cowboy_hat",
+          "tshirt",
+          "gloves_leather",
+          "socks",
+          "jeans",
+          "boots_western",
+          "jacket_leather"
+        ],
+        "entries": [
+          { "item": "knife_hunting", "container-item": "sheath" },
+          { "item": "l_enforcer_45", "ammo-item": "460_rowland", "charges": 6, "Container-item": "sholster"  },
+          { "item": "460_rowland", "charges": 24 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boxer_shorts" ]
+    }
+   },
+   {       "type": "profession",
+    "ident": "Nrm_Gunslinger",
+    "name": "Gunslinger",
+    "description": "before the cataclysm, you dedicated your life to wandering the western reaches of the united states as a vigilante, killing modern criminals with your old school revolver. now the apocolypse has arrived, and in this new frontier your skills are needed more than ever.",
+    "points": 7,
+    "skills": [
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "pistol" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "dodge" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "cowboy_hat",
+          "tshirt",
+          "gloves_leather",
+          "socks",
+          "jeans",
+          "boots_western",
+          "jacket_leather",
+          "backpack_leather"
+        ],
+        "entries": [
+          { "item": "knife_hunting", "container-item": "sheath" },
+          { "item": "colt_army", "ammo-item": "44army", "charges": 6, "Container-item": "sholster"  },
+          { "item": "44army", "charges": 24 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boxer_shorts" ]
+    }
+   }
 ]
