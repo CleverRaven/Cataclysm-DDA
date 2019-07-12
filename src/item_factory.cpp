@@ -2087,6 +2087,9 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
         if( integral_def.get_string( "type" ) == "MAGAZINE" ) {
             load_slot( integral_type.magazine, integral_def, src );
             load_basic_info( integral_def, integral_type, src );
+            if( integral_type.name == "none" ) {
+                integral_type.name = string_format( "%s integral magazine", jo.get_string( "name" ) );
+            }
         } else {
             debugmsg( "integral loadable must have MAGAZINE type" );
             continue;
