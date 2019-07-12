@@ -173,7 +173,7 @@ struct requirement_data {
         requirement_data() = default;
         requirement_data( const alter_tool_comp_vector &tools, const alter_quali_req_vector &qualities,
                           const alter_item_comp_vector &components ) : tools( tools ), qualities( qualities ),
-            components( components ) {};
+            components( components ) {}
 
         const requirement_id &id() const {
             return id_;

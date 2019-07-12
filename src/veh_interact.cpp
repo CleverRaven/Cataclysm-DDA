@@ -24,6 +24,7 @@
 #include "game.h"
 #include "handle_liquid.h"
 #include "itype.h"
+#include "math_defines.h"
 #include "map.h"
 #include "map_selector.h"
 #include "messages.h"
@@ -2397,7 +2398,13 @@ void veh_interact::display_name()
 {
     werase( w_name );
     mvwprintz( w_name, 0, 1, c_light_gray, _( "Name: " ) );
-    mvwprintz( w_name, 0, 1 + utf8_width( _( "Name: " ) ), c_light_green, veh->name );
+    std::string fac_name = veh->get_owner() &&
+                           veh->get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ?
+                           veh->get_owner()->name : _( "Yours" );
+    mvwprintz( w_name, 0, 1 + utf8_width( _( "Name: " ) ),
+               veh->get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ? c_light_red :
+               c_light_green, string_format( _( "%s (%s)" ), veh->name,
+                       veh->get_owner() == nullptr ? _( "not owned" ) : fac_name ) );
     wrefresh( w_name );
 }
 
@@ -2943,9 +2950,8 @@ void veh_interact::complete_vehicle()
                     int delta_x = headlight_target->x - ( veh->global_pos3().x + q.x );
                     int delta_y = headlight_target->y - ( veh->global_pos3().y + q.y );
 
-                    const double PI = 3.14159265358979f;
                     dir = static_cast<int>( atan2( static_cast<float>( delta_y ),
-                                                   static_cast<float>( delta_x ) ) * 180.0 / PI );
+                                                   static_cast<float>( delta_x ) ) * 180.0 / M_PI );
                     dir -= veh->face.dir();
                     while( dir < 0 ) {
                         dir += 360;

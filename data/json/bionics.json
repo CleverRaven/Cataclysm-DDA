@@ -107,16 +107,6 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ]
   },
   {
-    "id": "bio_blaster",
-    "type": "bionic",
-    "name": "Fusion Blaster Arm",
-    "description": "Your left arm has been surgically replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand.",
-    "occupied_bodyparts": [ [ "ARM_L", 20 ], [ "HAND_L", 5 ] ],
-    "act_cost": 50,
-    "fake_item": "bio_blaster_gun",
-    "flags": [ "BIONIC_GUN" ]
-  },
-  {
     "id": "bio_shotgun",
     "type": "bionic",
     "name": "Shotgun Arm",
@@ -451,8 +441,8 @@
   {
     "id": "bio_gills",
     "type": "bionic",
-    "name": "Oxygenator",
-    "description": "A complex oxygen delivery system.  Improves the ability to extract oxygen from air and allows extracting it from water.  Will automatically turn on when drowning.  Turn on to recharge stamina faster, at moderate power cost.  Asthmatics may also use it to stop asthma attacks.",
+    "name": "Respirator",
+    "description": "A complex respiration augmentation system.  Improves respiration ability in air and allows breathing water.  Will automatically turn on when drowning.  Turn on to recharge stamina faster, at moderate power cost.  Asthmatics may also use it to stop asthma attacks.",
     "occupied_bodyparts": [ [ "TORSO", 8 ], [ "HEAD", 2 ], [ "MOUTH", 2 ] ],
     "flags": [ "BIONIC_TOGGLED" ]
   },

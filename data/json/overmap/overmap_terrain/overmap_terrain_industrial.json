@@ -164,10 +164,42 @@
     "color": "light_blue"
   },
   {
+    "type": "overmap_terrain",
+    "id": "warehouse_roof",
+    "copy-from": "generic_city_building",
+    "name": "small warehouse roof",
+    "sym": "w",
+    "color": "light_blue"
+  },
+  {
     "id": "small_storage_units",
     "type": "overmap_terrain",
     "copy-from": "generic_city_building",
     "name": "small storage units",
+    "sym": "#",
+    "color": "i_yellow"
+  },
+  {
+    "id": "small_storage_units_roof",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "small storage units roof",
+    "sym": "#",
+    "color": "i_yellow"
+  },
+  {
+    "id": "small_storage_units_1",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "small storage units",
+    "sym": "#",
+    "color": "i_yellow"
+  },
+  {
+    "id": "small_storage_units_roof_1",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "small storage units roof",
     "sym": "#",
     "color": "i_yellow"
   },
@@ -406,9 +438,25 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "large_storage_units_roof_3",
+    "copy-from": "generic_city_building",
+    "name": "storage units roof",
+    "sym": "#",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "large_storage_units_2",
     "copy-from": "generic_city_building",
     "name": "storage units",
+    "sym": "#",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "large_storage_units_roof_2",
+    "copy-from": "generic_city_building",
+    "name": "storage units roof",
     "sym": "#",
     "color": "i_yellow"
   },
@@ -422,6 +470,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "large_storage_units_roof_1",
+    "copy-from": "generic_city_building",
+    "name": "storage units roof",
+    "sym": "#",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "medium_storage_units_1",
     "copy-from": "generic_city_building",
     "name": "storage units",
@@ -430,7 +486,23 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "medium_storage_units_roof_1",
+    "copy-from": "generic_city_building",
+    "name": "storage units roof",
+    "sym": "#",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "medium_storage_units_2",
+    "copy-from": "generic_city_building",
+    "name": "storage units",
+    "sym": "#",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "medium_storage_units_roof_2",
     "copy-from": "generic_city_building",
     "name": "storage units",
     "sym": "#",

@@ -1357,13 +1357,14 @@ void avatar::reset_stats()
         set_fake_effect_dur( effect_stim_overdose, 1_turns * ( stim - 30 ) );
     }
     // Starvation
-    if( get_starvation() >= 200 ) {
-        // We die at 6000
-        const int dex_mod = -( get_starvation() + 300 ) / 1000;
-        add_miss_reason( _( "You're weak from hunger." ), static_cast<unsigned>( -dex_mod ) );
-        mod_str_bonus( -( get_starvation() + 300 ) / 500 );
-        mod_dex_bonus( dex_mod );
-        mod_int_bonus( -( get_starvation() + 300 ) / 1000 );
+    const float bmi = get_bmi();
+    if( bmi < character_weight_category::underweight ) {
+        const int str_penalty = floor( ( 1.0f - ( bmi - 13.0f ) / 3.0f ) * get_str_base() ) + 0.5f;
+        add_miss_reason( _( "You're weak from hunger." ),
+                         static_cast<unsigned>( ( get_starvation() + 300 ) / 1000 ) );
+        mod_str_bonus( -str_penalty );
+        mod_dex_bonus( -( str_penalty / 2 ) );
+        mod_int_bonus( -( str_penalty / 2 ) );
     }
     // Thirst
     if( get_thirst() >= 200 ) {

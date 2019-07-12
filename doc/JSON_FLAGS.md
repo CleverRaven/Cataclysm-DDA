@@ -181,6 +181,7 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```NAPALM``` Explosion that spreads fire.
 - ```NEVER_MISFIRES``` Firing ammo without this flag may trigger a misfiring, this is independent of the weapon flags.
 - ```NOGIB``` Prevents overkill damage on the target (target won't explode into gibs, see also the monster flag NO_GIBS).
+- ```TANGLE``` When this projectile hits a target, it has a chance to tangle them up and immobilise them.
 - ```NO_EMBED``` When an item would be spawned from the projectile, it will always be spawned on the ground rather than in monster's inventory. Implied for active thrown items. Doesn't do anything on projectiles that do not drop items.
 - ```NO_ITEM_DAMAGE``` Will not damage items on the map even when it otherwise would try to.
 - ```PLASMA``` Creates a trail of superheated plasma.
@@ -1015,7 +1016,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```SHRIEK_STUN``` "a stunning shriek!", causes a small bash, can cause a stun.
 - ```SHRIEK``` "a terrible shriek!"
 - ```SLIMESPRING``` Can provide a morale boost to the player, and cure bite and bleed effects.
-- ```SMASH``` Smashes the target for massive damage, sending it flying.
+- ```SMASH``` Smashes the target for massive damage, sending it flying for a number of tiles equal to `("melee_dice" * "melee_dice_sides" * 3) / 10`. 
 - ```SMG``` SMG turret fires.
 - ```SPIT_SAP``` Spit sap.
 - ```STARE``` Stare at the player and inflict teleglow.

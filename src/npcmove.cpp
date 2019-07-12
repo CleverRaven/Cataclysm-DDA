@@ -264,8 +264,7 @@ tripoint npc::good_escape_direction( bool include_pos )
     candidates.emplace_back( pos() );
 
     std::map<direction, float> adj_map;
-    for( size_t i = 0; i < 8; i++ ) {
-        direction pt_dir = npc_threat_dir[i];
+    for( direction pt_dir : npc_threat_dir ) {
         const tripoint &pt = pos() + direction_XY( pt_dir );
         float cur_rating = rate_pt( pt, ai_cache.threat_map[ pt_dir ] );
         adj_map[pt_dir] = cur_rating;
@@ -398,11 +397,11 @@ void npc::assess_danger()
     };
     std::map<direction, float> cur_threat_map;
     // start with a decayed version of last turn's map
-    for( size_t i = 0; i < 8; i++ ) {
-        direction threat_dir = npc_threat_dir[i];
+    for( direction threat_dir : npc_threat_dir ) {
         cur_threat_map[ threat_dir ] = 0.25f * ai_cache.threat_map[ threat_dir ];
     }
     // first, check if we're about to be consumed by fire
+    // TODO: Use the field cache
     for( const tripoint &pt : g->m.points_in_radius( pos(), 6 ) ) {
         if( pt == pos() || g->m.has_flag( TFLAG_FIRE_CONTAINER,  pt ) ) {
             continue;
@@ -420,13 +419,13 @@ void npc::assess_danger()
     // find our Character friends and enemies
     std::vector<std::weak_ptr<Creature>> hostile_guys;
     for( const npc &guy : g->all_npcs() ) {
-        if( &guy == this || !guy.is_active() || !sees( guy.pos() ) ) {
+        if( &guy == this || !guy.is_active() ) {
             continue;
         }
 
         if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
             ai_cache.friends.emplace_back( g->shared_from( guy ) );
-        } else if( attitude_to( guy ) != A_NEUTRAL ) {
+        } else if( attitude_to( guy ) != A_NEUTRAL && sees( guy.pos() ) ) {
             hostile_guys.emplace_back( g->shared_from( guy ) );
         }
     }
@@ -439,12 +438,15 @@ void npc::assess_danger()
     }
 
     for( const monster &critter : g->all_monsters() ) {
-        if( !sees( critter ) ) {
-            continue;
-        }
         auto att = critter.attitude_to( *this );
         if( att == A_FRIENDLY ) {
             ai_cache.friends.emplace_back( g->shared_from( critter ) );
+            continue;
+        }
+        if( att != A_HOSTILE && ( critter.friendly || !is_enemy() ) ) {
+            continue;
+        }
+        if( !sees( critter ) ) {
             continue;
         }
         float critter_threat = evaluate_enemy( critter );
@@ -456,9 +458,6 @@ void npc::assess_danger()
             }
         }
 
-        if( att != A_HOSTILE ) {
-            continue;
-        }
         int dist = rl_dist( pos(), critter.pos() );
         float scaled_distance = std::max( 1.0f, dist / critter.speed_rating() );
         float hp_percent = 1.0f - static_cast<float>( critter.get_hp() ) / critter.get_hp_max();
@@ -486,6 +485,10 @@ void npc::assess_danger()
         }
     }
 
+    if( assessment == 0.0 && hostile_guys.empty() ) {
+        ai_cache.danger_assessment = assessment;
+        return;
+    }
     const auto handle_hostile = [&]( const player & foe, float foe_threat,
     const std::string & bogey, const std::string & warning ) {
         if( foe_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
@@ -764,7 +767,12 @@ void npc::move()
     if( action == npc_undecided && attitude == NPCATT_ACTIVITY ) {
         std::vector<tripoint> activity_route = get_auto_move_route();
         if( !activity_route.empty() && !has_destination_activity() ) {
-            const tripoint final_destination = activity_route.back();
+            tripoint final_destination;
+            if( destination_point ) {
+                final_destination = g->m.getlocal( *destination_point );
+            } else {
+                final_destination = activity_route.back();
+            }
             update_path( final_destination );
             if( !path.empty() ) {
                 move_to_next();
@@ -780,6 +788,14 @@ void npc::move()
     }
 
     if( action == npc_undecided ) {
+        // an interrupted activity can cause this situation. stops allied NPCs zooming off like random NPCs
+        if( attitude == NPCATT_ACTIVITY && !activity ) {
+            revert_after_activity();
+            if( is_ally( g->u ) ) {
+                attitude = NPCATT_FOLLOW;
+                mission = NPC_MISSION_NULL;
+            }
+        }
         if( is_stationary( true ) ) {
             // if we're in a vehicle, stay in the vehicle
             if( in_vehicle ) {
@@ -1331,7 +1347,6 @@ npc_action npc::method_of_attack()
 
 bool npc::need_heal( const player &n )
 {
-
     // if there are no healing items, there's nothing to do
     if( !( ai_cache.can_heal.bandage || ai_cache.can_heal.bleed || ai_cache.can_heal.bite ||
            ai_cache.can_heal.infect ) ) {
@@ -1348,7 +1363,7 @@ bool npc::need_heal( const player &n )
     }
 
     for( int i = 0; i < num_hp_parts; i++ ) {
-        const hp_part part = hp_part( i );
+        const hp_part part = static_cast<hp_part>( i );
         const body_part bp_wounded = hp_to_bp( part );
 
         if( ai_cache.can_heal.bleed && n.has_effect( effect_bleed, bp_wounded ) ) {
@@ -1420,6 +1435,10 @@ static bool wants_to_reload_with( const item &weap, const item &ammo )
 
 item &npc::find_reloadable()
 {
+    auto cached_value = cached_info.find( "reloadables" );
+    if( cached_value != cached_info.end() ) {
+        return null_item_reference();
+    }
     // Check wielded gun, non-wielded guns, mags and tools
     // TODO: Build a proper gun->mag->ammo DAG (Directed Acyclic Graph)
     // to avoid checking same properties over and over
@@ -1444,6 +1463,7 @@ item &npc::find_reloadable()
         return *reloadable;
     }
 
+    cached_info.emplace( "reloadables", 0.0 );
     return null_item_reference();
 }
 
@@ -1454,7 +1474,7 @@ const item &npc::find_reloadable() const
 
 bool npc::can_reload_current()
 {
-    if( !weapon.is_gun() ) {
+    if( !weapon.is_gun() || !wants_to_reload( *this, weapon ) ) {
         return false;
     }
 
@@ -1672,18 +1692,20 @@ npc_action npc::address_needs( float danger )
         deactivate_bionic_by_id( bio_nanobots );
     }
 
-    if( is_player_ally() && need_heal( g->u ) ) {
-        ai_cache.ally = g->shared_from( g->u );
-        return npc_heal_player;
-    }
+    // If there are no healing items, there's nothing to do
+    if( ai_cache.can_heal.bandage || ai_cache.can_heal.bleed || ai_cache.can_heal.bite ||
+        ai_cache.can_heal.infect ) {
+        if( is_player_ally() && need_heal( g->u ) ) {
+            ai_cache.ally = g->shared_from( g->u );
+            return npc_heal_player;
+        }
 
-    const std::vector<npc *> allies = g->get_npcs_if( [&]( const npc & guy ) {
-        return guy.getID() != getID() && guy.is_ally( *this ) && posz() == guy.posz() &&
-               sees( guy.pos() ) && rl_dist( pos(), guy.pos() ) <= SEEX * 2;
-    } );
+        const std::vector<npc *> hurt_allies = g->get_npcs_if( [&]( const npc & guy ) {
+            return guy.getID() != getID() && guy.is_ally( *this ) && posz() == guy.posz() &&
+                   need_heal( guy ) && rl_dist( pos(), guy.pos() ) <= SEEX * 2 && sees( guy.pos() );
+        } );
 
-    for( npc *guy : allies ) {
-        if( need_heal( *guy ) ) {
+        for( npc *guy : hurt_allies ) {
             ai_cache.ally = g->shared_from( *guy );
             return npc_heal_player;
         }
@@ -1699,29 +1721,44 @@ npc_action npc::address_needs( float danger )
         return npc_noop;
     }
 
-    if( ( danger <= NPC_DANGER_VERY_LOW &&
-          ( get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.95 || get_thirst() > 40 ) ) ||
-        get_thirst() > 80 || get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.75 ) {
+    // Extreme thirst or hunger, bypass safety check.
+    if( get_thirst() > 80 ||
+        get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.75 ) {
+        if( consume_food() ) {
+            return npc_noop;
+        }
+    }
+    //Does the hallucination needs to disappear ?
+    if( g->u.sees( *this ) && is_hallucination() ) {
+        if( !g->u.has_effect( effect_hallu ) ) {
+            die( nullptr );
+        }
+    }
+
+    if( danger > NPC_DANGER_VERY_LOW ) {
+        return npc_undecided;
+    }
+
+    if( get_thirst() > 40 ||
+        get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.95 ) {
         if( consume_food() ) {
             return npc_noop;
         }
     }
 
-    if( danger <= NPC_DANGER_VERY_LOW ) {
-        if( wants_to_recharge_cbm() && recharge_cbm() ) {
-            return npc_noop;
-        }
+    if( wants_to_recharge_cbm() && recharge_cbm() ) {
+        return npc_noop;
+    }
 
-        if( find_corpse_to_pulp() ) {
-            if( !do_pulp() ) {
-                move_to_next();
-            }
-            return npc_noop;
+    if( find_corpse_to_pulp() ) {
+        if( !do_pulp() ) {
+            move_to_next();
         }
+        return npc_noop;
+    }
 
-        if( adjust_worn() ) {
-            return npc_noop;
-        }
+    if( adjust_worn() ) {
+        return npc_noop;
     }
 
     const auto could_sleep = [&]() {
@@ -1749,13 +1786,6 @@ npc_action npc::address_needs( float danger )
             return npc_sleep;
         }
     }
-    //Does the hallucination needs to disappear ?
-    if( g->u.sees( *this ) && is_hallucination() ) {
-        if( !g->u.has_effect( effect_hallu ) ) {
-            die( nullptr );
-        }
-    }
-
     // TODO: Mutation & trait related needs
     // e.g. finding glasses; getting out of sunlight if we're an albino; etc.
 
@@ -2935,11 +2965,11 @@ bool npc::find_corpse_to_pulp()
     if( corpse == nullptr ) {
         // If we're following the player, don't wander off to pulp corpses
         const tripoint &around = is_walking_with() ? g->u.pos() : pos();
-        for( const tripoint &p : closest_tripoints_first( range, around ) ) {
-            corpse = check_tile( p );
+        for( const item_location &location : g->m.get_active_items_in_radius( around, range ) ) {
+            corpse = check_tile( location.position() );
 
             if( corpse != nullptr ) {
-                pulp_location.emplace( p );
+                pulp_location.emplace( location.position() );
                 break;
             }
 
@@ -2989,7 +3019,9 @@ bool npc::do_player_activity()
         if( !backlog.empty() ) {
             activity = backlog.front();
             backlog.pop_front();
+            current_activity = activity.get_verb();
         } else {
+            current_activity.clear();
             revert_after_activity();
             // if we loaded after being out of the bubble for a while, we might have more
             // moves than we need, so clear them
@@ -3841,6 +3873,8 @@ std::string npc_action_name( npc_action action )
             return "Avoid friendly fire";
         case npc_escape_explosion:
             return "Escape explosion";
+        case npc_player_activity:
+            return "Performing activity";
         default:
             return "Unnamed action";
     }
@@ -4097,7 +4131,7 @@ bool npc::adjust_worn()
     const auto covers_broken = [this]( const item & it, side s ) {
         const auto covered = it.get_covered_body_parts( s );
         for( size_t i = 0; i < num_hp_parts; i++ ) {
-            if( hp_cur[ i ] <= 0 && covered.test( hp_to_bp( hp_part( i ) ) ) ) {
+            if( hp_cur[ i ] <= 0 && covered.test( hp_to_bp( static_cast<hp_part>( i ) ) ) ) {
                 return true;
             }
         }

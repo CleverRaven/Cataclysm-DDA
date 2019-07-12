@@ -339,7 +339,7 @@ bool mission::is_complete( const int _npc_id ) const
             tmp_inv.dump( items );
             Group_tag grp_type = type->group_id;
             itype_id container = type->container_id;
-            bool specific_container_required = container.compare( "null" ) != 0;
+            bool specific_container_required = container != "null";
 
             std::map<itype_id, int> matches = std::map<itype_id, int>();
             get_all_item_group_matches(
@@ -421,9 +421,7 @@ void mission::get_all_item_group_matches( std::vector<item *> &items,
         const itype_id &required_container, const itype_id &actual_container,
         bool &specific_container_required )
 {
-    for( std::vector<int>::size_type i = 0; i < ( items ).size(); i++ ) {
-        item *itm = items[i];
-
+    for( item *itm : items ) {
         bool correct_container = ( required_container == actual_container ) ||
                                  !specific_container_required;
 
@@ -623,7 +621,7 @@ void mission::load_info( std::istream &data )
     deadline = time_point::from_turn( deadline_ );
     target.z = 0;
     follow_up = mission_type::from_legacy( tmpfollow );
-    reward.type = npc_favor_type( reward_id );
+    reward.type = static_cast<npc_favor_type>( reward_id );
     reward.item_id = itype_id( rew_item );
     reward.skill = Skill::from_legacy_int( rew_skill );
     item_id = itype_id( itemid );

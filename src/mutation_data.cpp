@@ -748,7 +748,7 @@ void mutation_branch::add_entry( Trait_group &tg, JsonObject &obj )
 std::shared_ptr<Trait_group> mutation_branch::get_group( const trait_group::Trait_group_tag &gid )
 {
     auto found = trait_groups.find( gid );
-    return ( found != trait_groups.end() ) ? found->second : nullptr;
+    return found != trait_groups.end() ? found->second : nullptr;
 }
 
 std::vector<trait_group::Trait_group_tag> mutation_branch::get_all_group_names()

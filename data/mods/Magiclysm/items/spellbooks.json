@@ -117,7 +117,22 @@
     "price": 5000,
     "symbol": "?",
     "color": "light_gray",
-    "use_action": { "type": "learn_spell", "spells": [ "jolt", "windstrike", "windrun", "storm_hammer", "lightning_bolt" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "jolt", "windstrike", "windrun", "storm_hammer", "lightning_bolt", "lightning_blast" ]
+    }
+  },
+  {
+    "id": "lightning_storm_scroll",
+    "type": "GENERIC",
+    "name": "Scroll of Lightning Storm",
+    "description": "This scroll details how a spell called 'Lightning Blast' which is commonly used among Stormshapers can be altered to become much more powerful, at a much higher mana cost.",
+    "weight": 129,
+    "volume": 2,
+    "price": 25000,
+    "symbol": "?",
+    "color": "light_blue",
+    "use_action": { "type": "learn_spell", "spells": [ "lightning_storm" ] }
   },
   {
     "id": "generic_spellbook",
@@ -258,7 +273,7 @@
     "volume": 4,
     "symbol": "?",
     "color": "light_grey",
-    "use_action": { "type": "learn_spell", "spells": [ "taze", "laze", "em_pulse" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "taze", "laze" ] }
   },
   {
     "id": "translocate_spellbook",

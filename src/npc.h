@@ -869,6 +869,9 @@ class npc : public player
         bool has_identified( const std::string & ) const override {
             return true;
         }
+        bool has_artifact_with( const art_effect_passive ) const override {
+            return false;
+        }
         /** Is the item safe or does the NPC trust you enough? */
         bool will_accept_from_player( const item &it ) const;
 

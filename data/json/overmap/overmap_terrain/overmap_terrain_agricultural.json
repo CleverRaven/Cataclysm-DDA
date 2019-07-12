@@ -9,6 +9,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "sugar_house_roof",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "sugar house roof",
+    "sym": "S",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "farm_1",
     "name": "farm field",
     "sym": "#",
@@ -455,9 +463,27 @@
     "flags": [ "SIDEWALK" ]
   },
   {
+    "id": "dairy_farm_SE_roof",
+    "type": "overmap_terrain",
+    "name": "dairy farm roof",
+    "sym": "w",
+    "color": "brown",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
     "id": "dairy_farm_SW",
     "type": "overmap_terrain",
     "name": "dairy farm",
+    "sym": "w",
+    "color": "brown",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "dairy_farm_SW_roof",
+    "type": "overmap_terrain",
+    "name": "dairy farm roof",
     "sym": "w",
     "color": "brown",
     "see_cost": 5,

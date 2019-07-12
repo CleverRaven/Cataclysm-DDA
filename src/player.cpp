@@ -83,6 +83,7 @@
 #include "iuse.h"
 #include "lightmap.h"
 #include "line.h"
+#include "math_defines.h"
 #include "monster.h"
 #include "omdata.h"
 #include "overmap_types.h"
@@ -95,8 +96,6 @@
 #include "enums.h"
 #include "flat_set.h"
 #include "stomach.h"
-
-constexpr double SQRT_2 = 1.41421356237309504880;
 
 const double MAX_RECOIL = 3000;
 
@@ -258,8 +257,6 @@ static const trait_id trait_ALBINO( "ALBINO" );
 static const trait_id trait_AMPHIBIAN( "AMPHIBIAN" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
-static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
-static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_BARK( "BARK" );
@@ -270,15 +267,12 @@ static const trait_id trait_CF_HAIR( "CF_HAIR" );
 static const trait_id trait_CHAOTIC( "CHAOTIC" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
-static const trait_id trait_CHITIN2( "CHITIN2" );
-static const trait_id trait_CHITIN3( "CHITIN3" );
 static const trait_id trait_CHITIN_FUR( "CHITIN_FUR" );
 static const trait_id trait_CHITIN_FUR2( "CHITIN_FUR2" );
 static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
-static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
 static const trait_id trait_DEAF( "DEAF" );
 static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
@@ -317,8 +311,6 @@ static const trait_id trait_HORNS_POINTED( "HORNS_POINTED" );
 static const trait_id trait_HUGE( "HUGE" );
 static const trait_id trait_HUGE_OK( "HUGE_OK" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
-static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
-static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_JITTERY( "JITTERY" );
@@ -407,12 +399,10 @@ static const trait_id trait_SORES( "SORES" );
 static const trait_id trait_SPINES( "SPINES" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
-static const trait_id trait_STIMBOOST( "STIMBOOST" );
 static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
 static const trait_id trait_SUNBURN( "SUNBURN" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_TAIL_FIN( "TAIL_FIN" );
-static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
 static const trait_id trait_THORNS( "THORNS" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
@@ -432,8 +422,6 @@ static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
-static const trait_id trait_WHISKERS( "WHISKERS" );
-static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 stat_mod player::get_pain_penalty() const
@@ -508,7 +496,7 @@ player::player() : Character()
     controlling_vehicle = false;
     grab_point = tripoint_zero;
     hauling = false;
-    move_mode = "walk";
+    move_mode = PMM_WALK;
     style_selected = style_none;
     keep_hands_free = false;
     focus_pool = 100;
@@ -654,10 +642,10 @@ void player::process_turn()
     // SkillLevel::readBook (has no connection to the skill or the player),
     // player::read, player::practice, ...
     // Check for spontaneous discovery of martial art styles
-    for( auto &style : all_martialart_types() ) {
+    for( auto &style : autolearn_martialart_types() ) {
         const matype_id ma( style );
 
-        if( can_autolearn( ma ) && !has_martialart( ma ) ) {
+        if( !has_martialart( ma ) && can_autolearn( ma ) ) {
             add_martialart( ma );
             add_msg_if_player( m_info, _( "You have learned a new style: %s!" ), ma.obj().name );
         }
@@ -1475,16 +1463,16 @@ int player::kcal_speed_penalty()
 {
     static const std::vector<std::pair<float, float>> starv_thresholds = { {
             std::make_pair( 0.0f, -90.0f ),
-            std::make_pair( 0.5f, -50.f ),
-            std::make_pair( 0.8f, -25.0f ),
-            std::make_pair( 0.95f, 0.0f )
+            std::make_pair( character_weight_category::emaciated, -50.f ),
+            std::make_pair( character_weight_category::underweight, -25.0f ),
+            std::make_pair( character_weight_category::normal, 0.0f )
         }
     };
     if( get_kcal_percent() > 0.95f ) {
         // @TODO: get speed penalties for being too fat, too
         return 0;
     } else {
-        return round( multi_lerp( starv_thresholds, get_kcal_percent() ) );
+        return round( multi_lerp( starv_thresholds, get_bmi() ) );
     }
 }
 
@@ -1617,7 +1605,7 @@ int player::run_cost( int base_cost, bool diag ) const
             movecost *= .9f;
         }
         if( has_active_bionic( bio_jointservo ) ) {
-            if( move_mode == "run" ) {
+            if( move_mode == PMM_RUN ) {
                 movecost *= 0.85f;
             } else {
                 movecost *= 0.95f;
@@ -1684,17 +1672,17 @@ int player::run_cost( int base_cost, bool diag ) const
         stamina_modifier = 1.0;
     }
 
-    if( move_mode == "run" && stamina > 0 ) {
+    if( move_mode == PMM_RUN && stamina > 0 ) {
         // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
         stamina_modifier *= 2.0;
     }
-    if( move_mode == "crouch" ) {
+    if( move_mode == PMM_CROUCH ) {
         stamina_modifier *= 0.5;
     }
     movecost /= stamina_modifier;
 
     if( diag ) {
-        movecost *= SQRT_2;
+        movecost *= M_SQRT2;
     }
 
     return static_cast<int>( movecost );
@@ -2572,82 +2560,86 @@ void player::pause()
     search_surroundings();
 }
 
-void player::set_movement_mode( const std::string &new_mode )
+void player::set_movement_mode( const player_movemode new_mode )
 {
-    if( new_mode == "run" ) {
-        if( stamina > 0 && !has_effect( effect_winded ) ) {
-            move_mode = "run";
-            if( is_hauling() ) {
-                stop_hauling();
-            }
+    switch( new_mode ) {
+        case PMM_WALK: {
             if( has_effect( effect_riding ) ) {
-                add_msg( _( "You spur your steed into a gallop." ) );
+                add_msg( _( "You nudge your steed to a steady trot." ) );
             } else {
-                add_msg( _( "You start running." ) );
+                add_msg( _( "You start walking." ) );
             }
-        } else {
+            break;
+        }
+        case PMM_RUN: {
+            if( stamina > 0 && !has_effect( effect_winded ) ) {
+                if( is_hauling() ) {
+                    stop_hauling();
+                }
+                if( has_effect( effect_riding ) ) {
+                    add_msg( _( "You spur your steed into a gallop." ) );
+                } else {
+                    add_msg( _( "You start running." ) );
+                }
+            } else {
+                if( has_effect( effect_riding ) ) {
+                    add_msg( m_bad, _( "Your steed is too tired to go faster." ) );
+                } else {
+                    add_msg( m_bad, _( "You're too tired to run." ) );
+                }
+            }
+            break;
+        }
+        case PMM_CROUCH: {
             if( has_effect( effect_riding ) ) {
-                add_msg( m_bad, _( "Your steed is too tired to go faster." ) );
+                add_msg( _( "You slow your steed to a walk." ) );
             } else {
-                add_msg( m_bad, _( "You're too tired to run." ) );
+                add_msg( _( "You start crouching." ) );
             }
+            break;
         }
-    } else if( new_mode == "crouch" ) {
-        move_mode = "crouch";
-        if( has_effect( effect_riding ) ) {
-            add_msg( _( "You slow your steed to a walk." ) );
-        } else {
-            add_msg( _( "You start crouching." ) );
-        }
-    } else {
-        move_mode = "walk";
-        if( has_effect( effect_riding ) ) {
-            add_msg( _( "You nudge your steed to a steady trot." ) );
-        } else {
-            add_msg( _( "You start walking." ) );
+        default: {
+            return;
         }
     }
+    move_mode = new_mode;
 }
 
-const std::string player::get_movement_mode() const
+bool player::movement_mode_is( const player_movemode mode ) const
 {
-    return move_mode;
+    return move_mode == mode;
 }
 
 void player::toggle_run_mode()
 {
-    if( move_mode == "run" ) {
-        set_movement_mode( "walk" );
+    if( move_mode == PMM_RUN ) {
+        set_movement_mode( PMM_WALK );
     } else {
-        set_movement_mode( "run" );
+        set_movement_mode( PMM_RUN );
     }
 }
 
 void player::toggle_crouch_mode()
 {
-    if( move_mode == "crouch" ) {
-        set_movement_mode( "walk" );
+    if( move_mode == PMM_CROUCH ) {
+        set_movement_mode( PMM_WALK );
     } else {
-        set_movement_mode( "crouch" );
+        set_movement_mode( PMM_CROUCH );
     }
 }
 
 void player::reset_move_mode()
 {
-    if( move_mode != "walk" ) {
-        set_movement_mode( "walk" );
+    if( move_mode != PMM_WALK ) {
+        set_movement_mode( PMM_WALK );
     }
 }
 
 void player::cycle_move_mode()
 {
-    if( move_mode == "walk" ) {
-        set_movement_mode( "run" );
-    } else if( move_mode == "run" ) {
-        set_movement_mode( "crouch" );
-    } else if( move_mode == "crouch" ) {
-        set_movement_mode( "walk" );
-    }
+    unsigned char as_uchar = static_cast<unsigned char>( move_mode );
+    as_uchar = ( as_uchar + 1 + PMM_COUNT ) % PMM_COUNT;
+    set_movement_mode( static_cast<player_movemode>( as_uchar ) );
 }
 
 void player::search_surroundings()
@@ -4922,8 +4914,7 @@ void player::suffer()
             if( mdata.hunger ) {
                 // does not directly modify hunger, but burns kcal
                 mod_stored_nutr( mdata.cost );
-                // pretty well on your way to starving at 75% your healthy kcal storage
-                if( get_healthy_kcal() >= 3 * get_stored_kcal() / 4 ) {
+                if( get_bmi() < character_weight_category::underweight ) {
                     add_msg_if_player( m_warning, _( "You're too malnourished to keep your %s going." ), mdata.name() );
                     tdata.powered = false;
                 }
@@ -7719,7 +7710,7 @@ bool player::wield( item &target )
     if( !unwield() ) {
         return false;
     }
-
+    cached_info.erase( "weapon_value" );
     if( target.is_null() ) {
         return true;
     }
@@ -8598,10 +8589,9 @@ bool player::unload( item &it )
         // Eject magazine consuming half as much time as required to insert it
         this->moves -= this->item_reload_cost( *target, *target->magazine_current(), -1 ) / 2;
 
-        target->contents.erase( std::remove_if( target->contents.begin(),
-        target->contents.end(), [&target]( const item & e ) {
+        target->contents.remove_if( [&target]( const item & e ) {
             return target->magazine_current() == &e;
-        } ) );
+        } );
 
     } else if( target->ammo_remaining() ) {
         int qty = target->ammo_remaining();
@@ -10487,6 +10477,10 @@ void player::assign_activity( const player_activity &act, bool allow_resume )
     if( activity.rooted() ) {
         rooted_message();
     }
+    if( is_npc() ) {
+        npc *guy = dynamic_cast<npc *>( this );
+        guy->current_activity = activity.get_verb();
+    }
 }
 
 bool player::has_activity( const activity_id &type ) const
@@ -11000,7 +10994,7 @@ void player::burn_move_stamina( int moves )
         burn_ratio = burn_ratio * 2 - 3;
     }
     burn_ratio += overburden_percentage;
-    if( move_mode == "run" ) {
+    if( move_mode == PMM_RUN ) {
         burn_ratio = burn_ratio * 7;
     }
     mod_stat( "stamina", -( ( moves * burn_ratio ) / 100 ) );
@@ -11083,7 +11077,7 @@ void player::forced_dismount()
         add_msg( m_debug, "Forced_dismount could not find a square to deposit player" );
     }
     moves -= 150;
-    set_movement_mode( "walk" );
+    set_movement_mode( PMM_WALK );
     g->update_map( g->u );
 }
 
@@ -11103,7 +11097,7 @@ void player::dismount()
                 g->refresh_all();
                 critter->setpos( tripoint( pos().x - xdiff, pos().y - ydiff, pos().z ) );
                 mod_moves( -100 );
-                set_movement_mode( "walk" );
+                set_movement_mode( PMM_WALK );
                 return;
             } else {
                 add_msg( m_warning, _( "You cannot dismount there!" ) );
@@ -11547,8 +11541,8 @@ std::vector<std::string> player::get_overlay_ids() const
         rval.push_back( "wielded_" + weapon.typeId() );
     }
 
-    if( move_mode != "walk" ) {
-        rval.push_back( move_mode );
+    if( move_mode != PMM_WALK ) {
+        rval.push_back( player_movemode_str[ move_mode ] );
     }
     return rval;
 }
@@ -11605,7 +11599,7 @@ float player::speed_rating() const
     float ret = get_speed() / 100.0f;
     ret *= 100.0f / run_cost( 100, false );
     // Adjustment for player being able to run, but not doing so at the moment
-    if( move_mode != "run" ) {
+    if( move_mode != PMM_RUN ) {
         ret *= 1.0f + ( static_cast<float>( stamina ) / static_cast<float>( get_stamina_max() ) );
     }
     return ret;
@@ -11772,8 +11766,7 @@ void player::do_skill_rust()
 
 std::pair<std::string, nc_color> player::get_hunger_description() const
 {
-    const bool calorie_deficit = get_stored_kcal() + guts.get_calories() + guts.get_calories_absorbed()
-                                 < get_healthy_kcal();
+    const bool calorie_deficit = get_bmi() < character_weight_category::normal;
     const units::volume contains = stomach.contains();
     const units::volume cap = stomach.capacity();
     std::string hunger_string;
@@ -11798,10 +11791,10 @@ std::pair<std::string, nc_color> player::get_hunger_description() const
         } else if( recently_ate ) {
             hunger_string = _( "Very Hungry" );
             hunger_color = c_yellow;
-        } else if( get_kcal_percent() < 0.2f ) {
+        } else if( get_bmi() < character_weight_category::emaciated ) {
             hunger_string = _( "Starving!" );
             hunger_color = c_red;
-        } else if( get_kcal_percent() < 0.5f ) {
+        } else if( get_bmi() < character_weight_category::underweight ) {
             hunger_string = _( "Near starving" );
             hunger_color = c_red;
         } else {
@@ -11818,14 +11811,18 @@ std::pair<std::string, nc_color> player::get_hunger_description() const
         } else if( recently_ate && contains >= cap * 3 / 8 ) {
             hunger_string = _( "Full" );
             hunger_color = c_green;
-        } else if( ( stomach.time_since_ate() > 90_minutes && contains < cap / 8 ) || ( just_ate &&
-                   contains > 0_ml && contains < cap * 3 / 8 ) ) {
+        } else if( ( stomach.time_since_ate() > 90_minutes && contains < cap / 8 && recently_ate ) ||
+                   ( just_ate && contains > 0_ml && contains < cap * 3 / 8 ) ) {
             hunger_string = _( "Peckish" );
             hunger_color = c_dark_gray;
         } else if( !just_ate && ( recently_ate || contains > 0_ml ) ) {
             hunger_string.clear();
         } else {
-            hunger_string = _( "Hungry" );
+            if( get_bmi() > character_weight_category::overweight ) {
+                hunger_string = _( "Hungry" );
+            } else {
+                hunger_string = _( "Very Hungry" );
+            }
             hunger_color = c_yellow;
         }
     }

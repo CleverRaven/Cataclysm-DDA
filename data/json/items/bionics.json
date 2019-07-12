@@ -129,15 +129,6 @@
     "difficulty": 8
   },
   {
-    "id": "bio_blaster",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": "Fusion Blaster Arm CBM",
-    "description": "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand.",
-    "price": 220000,
-    "difficulty": 3
-  },
-  {
     "id": "bio_shotgun",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -375,8 +366,8 @@
     "id": "bio_gills",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
-    "name": "Oxygenator CBM",
-    "description": "A complex oxygen delivery system.  Improves the ability to extract oxygen from air and allows extracting it from water.  Will automatically turn on when drowning.  Turn on to recharge stamina faster, at moderate power cost.",
+    "name": "Respirator CBM",
+    "description": "A complex respiration augmentation system.  Improves respiration ability in air and allows breathing water.  Will automatically turn on when drowning.  Turn on to recharge stamina faster, at moderate power cost.",
     "price": 450000,
     "difficulty": 6
   },

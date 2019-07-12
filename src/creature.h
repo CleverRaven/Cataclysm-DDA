@@ -33,6 +33,7 @@ class JsonObject;
 class JsonOut;
 struct tripoint;
 class time_duration;
+class player;
 
 enum damage_type : int;
 enum m_flag : int;
@@ -80,6 +81,12 @@ class Creature
         }
         virtual bool is_monster() const {
             return false;
+        }
+        virtual player *as_player() {
+            return nullptr;
+        }
+        virtual const player *as_player() const {
+            return nullptr;
         }
         /** return the direction the creature is facing, for sdl horizontal flip **/
         FacingDirection facing = FD_RIGHT;

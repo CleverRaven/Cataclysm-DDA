@@ -391,7 +391,7 @@ void overmap::unserialize_legacy( std::istream &fin )
             // Bugfix for old saves: population of 2147483647 is far too much and will
             // crash the game. This specific number was caused by a bug in
             // overmap::add_mon_group.
-            if( mg.population == 2147483647ul ) {
+            if( mg.population == 2147483647U ) {
                 mg.population = rng( 1, 10 );
             }
             mg.diffuse = cd;
@@ -433,7 +433,7 @@ void overmap::unserialize_legacy( std::istream &fin )
         } else if( datatype == 'v' ) {
             om_vehicle v;
             int id;
-            fin >> id >> v.name >> v.x >> v.y;
+            fin >> id >> v.name >> v.p.x >> v.p.y;
             vehicles[id] = v;
         } else if( datatype == 'n' ) { // NPC
             // When we start loading a new NPC, check to see if we've accumulated items for
@@ -546,6 +546,7 @@ void overmap::unserialize_view_legacy( std::istream &fin )
             int vis = 0;
             if( z >= 0 && z < OVERMAP_LAYERS ) {
                 for( int j = 0; j < OMAPY; j++ ) {
+                    // NOLINTNEXTLINE(modernize-loop-convert)
                     for( int i = 0; i < OMAPX; i++ ) {
                         if( count == 0 ) {
                             fin >> vis >> count;
@@ -565,6 +566,7 @@ void overmap::unserialize_view_legacy( std::istream &fin )
             int explored = 0;
             if( z >= 0 && z < OVERMAP_LAYERS ) {
                 for( int j = 0; j < OMAPY; j++ ) {
+                    // NOLINTNEXTLINE(modernize-loop-convert)
                     for( int i = 0; i < OMAPX; i++ ) {
                         if( count == 0 ) {
                             fin >> explored >> count;

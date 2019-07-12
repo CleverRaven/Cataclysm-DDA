@@ -4282,10 +4282,10 @@ void mapgen_lake_shore( map *m, oter_id, mapgendata dat, const time_point &turn,
     const int sector_length = SEEX * 2 / 3;
 
     // Define the corners of the map. These won't change.
-    const point nw_corner( 0, 0 );
-    const point ne_corner( SEEX * 2 - 1, 0 );
-    const point se_corner( SEEX * 2 - 1, SEEY * 2 - 1 );
-    const point sw_corner( 0, SEEY * 2 - 1 );
+    static constexpr point nw_corner( 0, 0 );
+    static constexpr point ne_corner( SEEX * 2 - 1, 0 );
+    static constexpr point se_corner( SEEX * 2 - 1, SEEY * 2 - 1 );
+    static constexpr point sw_corner( 0, SEEY * 2 - 1 );
 
     // Define the four points that make up our polygon that we'll later pull line segments from for
     // the actual shoreline.
@@ -4443,7 +4443,7 @@ void mapgen_lake_shore( map *m, oter_id, mapgendata dat, const time_point &turn,
         line_segments.push_back( { sw, nw } );
     }
 
-    const rectangle map_boundaries( nw_corner, se_corner );
+    static constexpr rectangle map_boundaries( nw_corner, se_corner );
 
     // This will draw our shallow water coastline from the "from" point to the "to" point.
     // It buffers the points a bit for a thicker line. It also clears any furniture that might
@@ -4453,7 +4453,7 @@ void mapgen_lake_shore( map *m, oter_id, mapgendata dat, const time_point &turn,
         for( auto &p : points ) {
             std::vector<point> buffered_points = closest_points_first( 1, p.x, p.y );
             for( const point &bp : buffered_points ) {
-                if( !generic_inbounds( bp, map_boundaries ) ) {
+                if( !map_boundaries.contains_inclusive( bp ) ) {
                     continue;
                 }
                 // Use t_null for now instead of t_water_sh, because sometimes our extended terrain
@@ -4504,7 +4504,7 @@ void mapgen_lake_shore( map *m, oter_id, mapgendata dat, const time_point &turn,
 
             visited.emplace( current_point );
 
-            if( !generic_inbounds( current_point, map_boundaries ) ) {
+            if( !map_boundaries.contains_inclusive( current_point ) ) {
                 continue;
             }
 

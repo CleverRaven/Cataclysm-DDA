@@ -219,7 +219,6 @@ const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible" );
 const efftype_id effect_webbed( "webbed" );
 const efftype_id effect_weed_high( "weed_high" );
-const efftype_id effect_winded( "winded" );
 const efftype_id effect_magnesium_supplements( "magnesium" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
@@ -951,7 +950,6 @@ int iuse::oxygen_bottle( player *p, item *it, bool, const tripoint & )
         p->stim += 8;
         p->mod_painkiller( 2 );
     }
-    p->remove_effect( effect_winded );
     p->mod_painkiller( 2 );
     return it->type->charges_to_use();
 }
@@ -4807,14 +4805,14 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint & )
     int moves;
 
     if( ter == t_chainfence_posts || g->m.furn( pnt ) == f_rack ) {
-        moves = to_turns<int>( 2_minutes );
+        moves = to_moves<int>( 2_minutes );
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
-        moves = to_turns<int>( 5_minutes );
+        moves = to_moves<int>( 5_minutes );
     } else if( ter == t_chainfence || ter == t_chaingate_c ||
                ter == t_chaingate_l || ter == t_window_bars_alarm || ter == t_window_bars || ter == t_reb_cage ) {
-        moves = to_turns<int>( 10_minutes );
+        moves = to_moves<int>( 10_minutes );
     } else if( ter == t_door_bar_c || ter == t_door_bar_locked || ter == t_bars ) {
-        moves = to_turns<int>( 15_minutes );
+        moves = to_moves<int>( 15_minutes );
     } else {
         add_msg( m_info, _( "You can't cut that." ) );
         return 0;
@@ -6569,7 +6567,7 @@ static std::string colorized_trap_name_at( const tripoint &point )
     std::string name;
     if( !trap.is_null() && trap.get_visibility() <= 1 ) {
         name = colorize( trap.name(), trap.color ) + _( " on " );
-    };
+    }
     return name;
 }
 
@@ -7017,7 +7015,10 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
             }
 
             if( guy ) {
-                if( guy->get_movement_mode() == "crouch" ) {
+                if( guy->is_hallucination() ) {
+                    continue; // do not include hallucinations
+                }
+                if( guy->movement_mode_is( PMM_CROUCH ) ) {
                     pose = _( "sits" );
                 } else {
                     pose = _( "stands" );
@@ -7445,7 +7446,9 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                         p->add_msg_if_player( _( "Strange... there's nothing in the center of picture?" ) );
                     }
                 } else if( guy ) {
-                    if( !aim_bounds.is_point_inside( trajectory_point ) ) {
+                    if( trajectory_point == aim_point && guy->is_hallucination() ) {
+                        p->add_msg_if_player( _( "Strange... %s's not visible on the picture?" ), guy->name );
+                    } else if( !aim_bounds.is_point_inside( trajectory_point ) ) {
                         // take a photo of the monster that's in the way
                         p->add_msg_if_player( m_warning, _( "%s got in the way of your photo." ), guy->name );
                         incorrect_focus = true;

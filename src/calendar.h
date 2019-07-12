@@ -204,15 +204,24 @@ class calendar
 
     public:
         /**
-         * The expected duration of the cataclysm
-         *
-         * Large number that can be used to approximate infinite amounts of time.
+         * A number that represents the longest possible action.
          *
          * This number should be regarded as a number of turns, and can safely be converted to a
          * number of seconds or moves (movement points) without integer overflow.  If used to
          * represent a larger unit (hours/days/years), then this will result in integer overflow.
          */
         static const int INDEFINITELY_LONG;
+
+        /**
+         * The expected duration of the cataclysm
+         *
+         * Large duration that can be used to approximate infinite amounts of time.
+         *
+         * This number can't be safely converted to a number of moves without causing
+         * an integer overflow.
+         */
+        static const time_duration INDEFINITELY_LONG_DURATION;
+
         /// @returns Whether the eternal season is enabled.
         static bool eternal_season();
         static void set_eternal_season( bool is_eternal_season );

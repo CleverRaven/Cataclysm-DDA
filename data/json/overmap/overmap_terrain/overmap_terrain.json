@@ -404,6 +404,33 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "hunter_shack_roof",
+    "name": "swamp shack roof",
+    "sym": "F",
+    "color": "cyan",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hunter_shack_1",
+    "name": "swamp shack",
+    "sym": "F",
+    "color": "cyan",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hunter_shack_roof_1",
+    "name": "swamp shack roof",
+    "sym": "F",
+    "color": "cyan",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "campground_1a",
     "name": "campground",
     "sym": "+",

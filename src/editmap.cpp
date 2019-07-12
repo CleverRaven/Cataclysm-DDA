@@ -52,12 +52,9 @@
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 static constexpr tripoint editmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
-static constexpr tripoint editmap_boundary_max( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT );
-static constexpr tripoint editmap_clearance_min( tripoint_zero );
-static constexpr tripoint editmap_clearance_max( 1, 1, 0 );
+static constexpr tripoint editmap_boundary_max( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT + 1 );
 
 static constexpr box editmap_boundaries( editmap_boundary_min, editmap_boundary_max );
-static constexpr box editmap_clearance( editmap_clearance_min, editmap_clearance_max );
 
 static const ter_id undefined_ter_id( -1 );
 static const furn_id undefined_furn_id( -1 );
@@ -1429,7 +1426,7 @@ tripoint editmap::recalc_target( shapetype shape )
                 for( int y = origin.y - radius; y <= origin.y + radius; y++ ) {
                     const tripoint p( x, y, z );
                     if( rl_dist( p, origin ) <= radius ) {
-                        if( generic_inbounds( p, editmap_boundaries, editmap_clearance ) ) {
+                        if( editmap_boundaries.contains_half_open( p ) ) {
                             target_list.push_back( p );
                         }
                     }
@@ -1461,7 +1458,7 @@ tripoint editmap::recalc_target( shapetype shape )
                 for( int y = sy; y <= ey; y++ ) {
                     if( shape == editmap_rect_filled || x == sx || x == ex || y == sy || y == ey ) {
                         const tripoint p( x, y, z );
-                        if( generic_inbounds( p, editmap_boundaries, editmap_clearance ) ) {
+                        if( editmap_boundaries.contains_half_open( p ) ) {
                             target_list.push_back( p );
                         }
                     }
@@ -1647,7 +1644,7 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
     // Coordinates of the overmap terrain that should be generated.
     const point omt_pos = ms_to_omt_copy( tc.abs_pos );
-    oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, target.z );
+    oter_id &omt_ref = overmap_buffer.ter( tripoint( omt_pos, target.z ) );
     // Copy to store the original value, to restore it upon canceling
     const oter_id orig_oters = omt_ref;
     omt_ref = oter_id( gmenu.ret );
@@ -1871,9 +1868,8 @@ int editmap::mapgen_retarget()
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             tripoint ptarget = tripoint( target.x + ( vec->x * SEEX * 2 ), target.y + ( vec->y * SEEY * 2 ),
                                          target.z );
-            if( generic_inbounds( ptarget, editmap_boundaries, editmap_clearance ) &&
-                generic_inbounds( { ptarget.x + SEEX, ptarget.y + SEEY, ptarget.z },
-                                  editmap_boundaries, editmap_clearance ) ) {
+            if( editmap_boundaries.contains_half_open( ptarget ) &&
+                editmap_boundaries.contains_half_open( ptarget + point( SEEX, SEEY ) ) ) {
                 target = ptarget;
 
                 target_list.clear();

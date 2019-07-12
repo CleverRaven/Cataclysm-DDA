@@ -32,6 +32,8 @@
 
 struct furn_t;
 struct ter_t;
+struct scent_block;
+
 template <typename T> class string_id;
 template <typename T> class safe_reference;
 
@@ -346,6 +348,9 @@ class map
          * @param update_vehicles If true, add vehicles to the vehicle cache.
          */
         void load( const int wx, const int wy, const int wz, const bool update_vehicles );
+        void load( const tripoint &p, const bool update_vehicles ) {
+            load( p.x, p.y, p.z, update_vehicles );
+        }
         /**
          * Shift the map along the vector (sx,sy).
          * This is like loading the map with coordinates derived from the current
@@ -370,6 +375,14 @@ class map
         // Versions of the above that don't do bounds checks
         const maptile maptile_at_internal( const tripoint &p ) const;
         maptile maptile_at_internal( const tripoint &p );
+        maptile maptile_has_bounds( const tripoint &p, const bool bounds_checked );
+        std::array<maptile, 8> get_neighbors( const tripoint &p );
+        void spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
+                         const time_duration &outdoor_age_speedup, scent_block &sblk );
+        void create_hot_air( const tripoint &p, int intensity );
+        bool gas_can_spread_to( field_entry &cur, const maptile &dst );
+        void gas_spread_to( field_entry &cur, maptile &dst );
+        int burn_body_part( player &u, field_entry &cur, body_part bp, const int scale );
     public:
 
         // Movement and LOS
@@ -1212,6 +1225,9 @@ class map
 
         // mapgen.cpp functions
         void generate( const int x, const int y, const int z, const time_point &when );
+        void generate( const tripoint &p, const time_point &when ) {
+            generate( p.x, p.y, p.z, when );
+        }
         void place_spawns( const mongroup_id &group, const int chance,
                            const int x1, const int y1, const int x2, const int y2, const float intensity,
                            const bool individual = false, const bool friendly = false );

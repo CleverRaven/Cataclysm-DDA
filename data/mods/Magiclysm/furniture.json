@@ -10,5 +10,16 @@
     "required_str": 25,
     "flags": [ "TRANSLOCATOR", "MOUNTABLE", "ALLOW_FIELD_EFFECT" ],
     "examine_action": "translocator"
+  },
+  {
+    "type": "furniture",
+    "id": "f_magic_circle",
+    "name": "Magic Circle",
+    "move_cost_mod": 0,
+    "symbol": "O",
+    "color": "red",
+    "required_str": -1,
+    "flags": [ "ALLOW_FIELD_EFFECT" ],
+    "description": "This is a rough magic circle, carved into the ground and decorated with blood, candles, and other small knicknacks."
   }
 ]
