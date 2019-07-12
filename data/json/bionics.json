@@ -629,7 +629,7 @@
     "id": "bio_nanobots",
     "type": "bionic",
     "name": "Repair Nanobots",
-    "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will flit about your body, rapidly repairing damage (one point of health per second) and stopping bleeding at the cost of power.",
+    "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will flit about your body, repairing damage at 1 HP/s and stopping bleeding at the cost of power.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
   },
