@@ -2723,8 +2723,18 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.push_back( iteminfo( "DESCRIPTION", ntext + item_note->second ) );
         }
 
+        // We don't necessarily want to show the player all of an item's contents.
+        // Create a list of only the things we want to show and print from that.
+        std::list<item> print_contents;
+        for( const item &it : contents ) {
+            if( it.is_magazine() && it.is_irremovable() ) {
+                continue;
+            } else {
+                print_contents.emplace_back( it );
+            }
+        }
         // describe contents
-        if( !contents.empty() && parts->test( iteminfo_parts::DESCRIPTION_CONTENTS ) ) {
+        if( !print_contents.empty() && parts->test( iteminfo_parts::DESCRIPTION_CONTENTS ) ) {
             for( const auto mod : is_gun() ? gunmods() : toolmods() ) {
                 if( mod->type->gunmod ) {
                     temp1.str( "" );
@@ -2740,7 +2750,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 info.emplace_back( "DESCRIPTION", _( mod->type->description ) );
             }
             bool contents_header = false;
-            for( const auto &contents_item : contents ) {
+            for( const auto &contents_item : print_contents ) {
                 if( !contents_item.type->mod ) {
                     if( !contents_header ) {
                         insert_separation_line();
