@@ -2047,11 +2047,13 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
         def.damage_max = arr.get_int( 1 ) * itype::damage_scale;
     }
 
-    def.name = jo.get_string( "name" );
-    if( jo.has_member( "name_plural" ) ) {
-        def.name_plural = jo.get_string( "name_plural" );
-    } else {
-        def.name_plural = jo.get_string( "name" ) += "s";
+    if( jo.has_string( "name" ) ) {
+        def.name = jo.get_string( "name" );
+        if( jo.has_member( "name_plural" ) ) {
+            def.name_plural = jo.get_string( "name_plural" );
+        } else {
+            def.name_plural = jo.get_string( "name" ) += "s";
+        }
     }
 
     if( jo.has_string( "description" ) ) {
