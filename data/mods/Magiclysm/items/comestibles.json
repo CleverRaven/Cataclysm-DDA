@@ -51,20 +51,5 @@
     "price": 0,
     "flags": [ "TRADER_AVOID", "EDIBLE_FROZEN" ],
     "fun": -20
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "druid_seed",
-    "name": "seed of purification",
-    "category": "chems",
-    "comestible_type": "MED",
-    "weight": 1,
-    "color": "white",
-    "use_action": "WATER_PURIFIER",
-    "symbol": "!",
-    "description": "A magical seed meant to purify one unit of water.",
-    "volume": 1,
-    "stack_size": 100,
-    "flags": [ "TRADER_AVOID" ]
   }
 ]
