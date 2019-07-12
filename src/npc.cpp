@@ -213,8 +213,8 @@ void npc_template::load( JsonObject &jsobj )
         guy.myclass = npc_class_id( jsobj.get_string( "class" ) );
     }
 
-    guy.set_attitude( npc_attitude( jsobj.get_int( "attitude" ) ) );
-    guy.mission = npc_mission( jsobj.get_int( "mission" ) );
+    guy.set_attitude( static_cast<npc_attitude>( jsobj.get_int( "attitude" ) ) );
+    guy.mission = static_cast<npc_mission>( jsobj.get_int( "mission" ) );
     guy.chatbin.first_topic = jsobj.get_string( "chat" );
     if( jsobj.has_string( "mission_offered" ) ) {
         guy.miss_ids.emplace_back( mission_type_id( jsobj.get_string( "mission_offered" ) ) );
@@ -643,8 +643,8 @@ void npc::setpos( const tripoint &pos )
     submap_coords.y = g->get_levy() + pos.y / SEEY;
     const point pos_om_new = sm_to_om_copy( submap_coords );
     if( !is_fake() && pos_om_old != pos_om_new ) {
-        overmap &om_old = overmap_buffer.get( pos_om_old.x, pos_om_old.y );
-        overmap &om_new = overmap_buffer.get( pos_om_new.x, pos_om_new.y );
+        overmap &om_old = overmap_buffer.get( pos_om_old );
+        overmap &om_new = overmap_buffer.get( pos_om_new );
         if( const auto ptr = om_old.erase_npc( getID() ) ) {
             om_new.insert_npc( ptr );
         } else {
@@ -664,8 +664,8 @@ void npc::travel_overmap( const tripoint &pos )
         reach_omt_destination();
     }
     if( !is_fake() && pos_om_old != pos_om_new ) {
-        overmap &om_old = overmap_buffer.get( pos_om_old.x, pos_om_old.y );
-        overmap &om_new = overmap_buffer.get( pos_om_new.x, pos_om_new.y );
+        overmap &om_old = overmap_buffer.get( pos_om_old );
+        overmap &om_new = overmap_buffer.get( pos_om_new );
         if( const auto ptr = om_old.erase_npc( getID() ) ) {
             om_new.insert_npc( ptr );
         } else {
@@ -827,7 +827,7 @@ bool npc::wear_if_wanted( const item &it )
     if( splint ) {
         splint = false;
         for( int i = 0; i < num_hp_parts; i++ ) {
-            hp_part hpp = hp_part( i );
+            hp_part hpp = static_cast<hp_part>( i );
             body_part bp = player::hp_to_bp( hpp );
             if( hp_cur[i] <= 0 && it.covers( bp ) ) {
                 splint = true;
@@ -924,6 +924,7 @@ void npc::stow_item( item &it )
 
 bool npc::wield( item &it )
 {
+    cached_info.erase( "weapon_value" );
     if( is_armed() ) {
         stow_item( weapon );
     }
@@ -1100,7 +1101,8 @@ float npc::vehicle_danger( int radius ) const
             int size = std::max( last_part.mount.x, last_part.mount.y );
 
             double normal = sqrt( static_cast<float>( ( bx - ax ) * ( bx - ax ) + ( by - ay ) * ( by - ay ) ) );
-            int closest = int( abs( ( posx() - ax ) * ( by - ay ) - ( posy() - ay ) * ( bx - ax ) ) / normal );
+            int closest = static_cast<int>( abs( ( posx() - ax ) * ( by - ay ) - ( posy() - ay ) *
+                                                 ( bx - ax ) ) / normal );
 
             if( size > closest ) {
                 danger = i;
@@ -1221,12 +1223,12 @@ void npc::decide_needs()
         if( needrank[i] < 20 ) {
             for( j = 0; j < needs.size(); j++ ) {
                 if( needrank[i] < needrank[needs[j]] ) {
-                    needs.insert( needs.begin() + j, npc_need( i ) );
+                    needs.insert( needs.begin() + j, static_cast<npc_need>( i ) );
                     j = needs.size() + 1;
                 }
             }
             if( j == needs.size() ) {
-                needs.push_back( npc_need( i ) );
+                needs.push_back( static_cast<npc_need>( i ) );
             }
         }
     }
@@ -1654,8 +1656,7 @@ bool npc::is_leader() const
 
 bool npc::is_assigned_to_camp() const
 {
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( global_omt_location().x,
-                                     global_omt_location().y );
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( global_omt_location().xy() );
     if( !bcp ) {
         return false;
     }

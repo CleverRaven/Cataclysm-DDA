@@ -3297,7 +3297,9 @@
       { "point": [ 0, 0, 0 ], "overmap": "dairy_farm_NW_north" },
       { "point": [ 1, 0, 0 ], "overmap": "dairy_farm_NE_north" },
       { "point": [ 0, 1, 0 ], "overmap": "dairy_farm_SW_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "dairy_farm_SE_north" }
+      { "point": [ 0, 1, 1 ], "overmap": "dairy_farm_SW_roof_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "dairy_farm_SE_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "dairy_farm_SE_roof_north" }
     ],
     "connections": [ { "point": [ 0, 2, 0 ], "terrain": "road" } ],
     "locations": [ "wilderness" ],

@@ -203,12 +203,18 @@ class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
 
 void martialart::load( JsonObject &jo, const std::string & )
 {
-    JsonArray jsarr;
-
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
     mandatory( jo, was_loaded, "initiate", initiate );
-    optional( jo, was_loaded, "autolearn", autolearn_skills );
+    JsonArray jsarr = jo.get_array( "autolearn" );
+    while( jsarr.has_more() ) {
+        JsonArray skillArray = jsarr.next_array();
+        std::string skill_name = skillArray.get_string( 0 );
+        int skill_level = 0;
+        std::string skill_level_string = skillArray.get_string( 1 );
+        skill_level = stoi( skill_level_string );
+        autolearn_skills.emplace_back( skill_name, skill_level );
+    }
     optional( jo, was_loaded, "primary_skill", primary_skill, skill_id( "unarmed" ) );
     optional( jo, was_loaded, "learn_difficulty", learn_difficulty );
 
@@ -259,6 +265,18 @@ std::vector<matype_id> all_martialart_types()
 {
     std::vector<matype_id> result;
     for( const auto &ma : martialarts.get_all() ) {
+        result.push_back( ma.id );
+    }
+    return result;
+}
+
+std::vector<matype_id> autolearn_martialart_types()
+{
+    std::vector<matype_id> result;
+    for( const auto &ma : martialarts.get_all() ) {
+        if( ma.autolearn_skills.empty() ) {
+            continue;
+        }
         result.push_back( ma.id );
     }
     return result;
@@ -480,7 +498,7 @@ bool ma_technique::is_valid_player( const player &u ) const
 }
 
 ma_buff::ma_buff()
-    : buff_duration( 2_turns )
+    : buff_duration( 1_turns )
 {
     max_stacks = 1; // total number of stacks this buff can have
 
@@ -1033,10 +1051,10 @@ bool player::can_autolearn( const matype_id &ma_id ) const
         return false;
     }
 
-    const std::vector<std::vector<std::string>> skills = ma_id.obj().autolearn_skills;
-    for( auto &elem : skills ) {
-        const skill_id skill_req( elem[0] );
-        const int required_level = std::stoi( elem[1] );
+
+    for( const std::pair<std::string, int> &elem : ma_id.obj().autolearn_skills ) {
+        const skill_id skill_req( elem.first );
+        const int required_level = elem.second;
 
         if( required_level > get_skill_level( skill_req ) ) {
             return false;

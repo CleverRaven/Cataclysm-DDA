@@ -120,8 +120,9 @@ static tripoint random_house_in_city( const city_reference &cref )
     int endy   = city_center_omt.y + size;
     for( int x = startx; x <= endx; x++ ) {
         for( int y = starty; y <= endy; y++ ) {
-            if( overmap_buffer.check_ot( "house", ot_match_type::type, x, y, z ) ) {
-                valid.push_back( tripoint( x, y, z ) );
+            tripoint p( x, y, z );
+            if( overmap_buffer.check_ot( "house", ot_match_type::type, p ) ) {
+                valid.push_back( p );
             }
         }
     }

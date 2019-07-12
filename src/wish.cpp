@@ -263,15 +263,16 @@ void debug_menu::wishmutate( player *p )
             uistate.wishmutate_selected = wmenu.selected;
             if( rc != 0 ) {
                 for( size_t i = 0; i < cb.vTraits.size(); i++ ) {
-                    wmenu.entries[ i ].extratxt.txt.clear();
+                    uilist_entry &entry = wmenu.entries[ i ];
+                    entry.extratxt.txt.clear();
                     if( p->has_trait( cb.vTraits[ i ] ) ) {
-                        wmenu.entries[ i ].text_color = c_green;
+                        entry.text_color = c_green;
                         cb.pTraits[ cb.vTraits[ i ] ] = true;
                         if( p->has_base_trait( cb.vTraits[ i ] ) ) {
-                            wmenu.entries[ i ].extratxt.txt = "T";
+                            entry.extratxt.txt = "T";
                         }
                     } else {
-                        wmenu.entries[ i ].text_color = wmenu.text_color;
+                        entry.text_color = wmenu.text_color;
                         cb.pTraits[ cb.vTraits[ i ] ] = false;
                     }
                 }
@@ -508,9 +509,10 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
         item ity( opts[i], 0 );
         wmenu.addentry( i, true, 0, string_format( _( "%.*s" ), wmenu.pad_right - 5,
                         ity.tname( 1, false ) ) );
-        wmenu.entries[i].extratxt.txt = ity.symbol();
-        wmenu.entries[i].extratxt.color = ity.color();
-        wmenu.entries[i].extratxt.left = 1;
+        mvwzstr &entry_extra_text = wmenu.entries[i].extratxt;
+        entry_extra_text.txt = ity.symbol();
+        entry_extra_text.color = ity.color();
+        entry_extra_text.left = 1;
     }
 
     do {

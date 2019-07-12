@@ -84,7 +84,6 @@ readability-*,\
 -readability-redundant-string-init,\
 -readability-simplify-boolean-expr,\
 -readability-static-accessed-through-instance,\
--readability-string-compare,\
 "
 WarningsAsErrors: '*'
 HeaderFilterRegex: '(src|test).*'

@@ -348,6 +348,9 @@ class map
          * @param update_vehicles If true, add vehicles to the vehicle cache.
          */
         void load( const int wx, const int wy, const int wz, const bool update_vehicles );
+        void load( const tripoint &p, const bool update_vehicles ) {
+            load( p.x, p.y, p.z, update_vehicles );
+        }
         /**
          * Shift the map along the vector (sx,sy).
          * This is like loading the map with coordinates derived from the current
@@ -1222,6 +1225,9 @@ class map
 
         // mapgen.cpp functions
         void generate( const int x, const int y, const int z, const time_point &when );
+        void generate( const tripoint &p, const time_point &when ) {
+            generate( p.x, p.y, p.z, when );
+        }
         void place_spawns( const mongroup_id &group, const int chance,
                            const int x1, const int y1, const int x2, const int y2, const float intensity,
                            const bool individual = false, const bool friendly = false );

@@ -832,7 +832,8 @@
     "price": 1000,
     "material": [ "plastic", "aluminum" ],
     "weight": 2721,
-    "volume": 3
+    "volume": 3,
+    "bashing": 6
   },
   {
     "type": "GENERIC",

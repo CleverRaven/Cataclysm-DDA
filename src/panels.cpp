@@ -217,15 +217,14 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
 
     for( int i = -( width / 2 ); i <= width - ( width / 2 ) - 1; i++ ) {
         for( int j = -( height / 2 ); j <= height - ( height / 2 ) - 1; j++ ) {
-            const int omx = cursx + i;
-            const int omy = cursy + j;
+            const tripoint omp( cursx + i, cursy + j, g->get_levz() );
             nc_color ter_color;
             std::string ter_sym;
-            const bool seen = overmap_buffer.seen( omx, omy, g->get_levz() );
-            const bool vehicle_here = overmap_buffer.has_vehicle( omx, omy, g->get_levz() );
-            if( overmap_buffer.has_note( omx, omy, g->get_levz() ) ) {
+            const bool seen = overmap_buffer.seen( omp );
+            const bool vehicle_here = overmap_buffer.has_vehicle( omp );
+            if( overmap_buffer.has_note( omp ) ) {
 
-                const std::string &note_text = overmap_buffer.note( omx, omy, g->get_levz() );
+                const std::string &note_text = overmap_buffer.note( omp );
 
                 ter_color = c_yellow;
                 ter_sym = "N";
@@ -318,15 +317,15 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                 ter_color = c_cyan;
                 ter_sym = "c";
             } else {
-                const oter_id &cur_ter = overmap_buffer.ter( omx, omy, g->get_levz() );
+                const oter_id &cur_ter = overmap_buffer.ter( omp );
                 ter_sym = cur_ter->get_symbol();
-                if( overmap_buffer.is_explored( omx, omy, g->get_levz() ) ) {
+                if( overmap_buffer.is_explored( omp ) ) {
                     ter_color = c_dark_gray;
                 } else {
                     ter_color = cur_ter->get_color();
                 }
             }
-            if( !drew_mission && targ.x == omx && targ.y == omy ) {
+            if( !drew_mission && targ.xy() == omp.xy() ) {
                 // If there is a mission target, and it's not on the same
                 // overmap terrain as the player character, mark it.
                 // TODO: Inform player if the mission is above or below
@@ -393,16 +392,13 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
             if( i > -3 && i < 3 && j > -3 && j < 3 ) {
                 continue; // only do hordes on the border, skip inner map
             }
-            const int omx = cursx + i;
-            const int omy = cursy + j;
-            if( overmap_buffer.get_horde_size( omx, omy, g->get_levz() ) >= HORDE_VISIBILITY_SIZE ) {
-                const tripoint cur_pos{
-                    omx, omy, g->get_levz()
-                };
-                if( overmap_buffer.seen( omx, omy, g->get_levz() )
-                    && g->u.overmap_los( cur_pos, sight_points ) ) {
+            const tripoint omp( cursx + i, cursy + j, g->get_levz() );
+            int horde_size = overmap_buffer.get_horde_size( omp );
+            if( horde_size >= HORDE_VISIBILITY_SIZE ) {
+                if( overmap_buffer.seen( omp )
+                    && g->u.overmap_los( omp, sight_points ) ) {
                     mvwputch( w_minimap, j + 3, i + 3, c_green,
-                              overmap_buffer.get_horde_size( omx, omy, g->get_levz() ) > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
+                              horde_size > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
                 }
             }
         }

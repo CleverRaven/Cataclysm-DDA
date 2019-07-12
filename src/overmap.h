@@ -70,8 +70,7 @@ struct om_map_extra {
 };
 
 struct om_vehicle {
-    int x; // overmap x coordinate of tracked vehicle
-    int y; // overmap y coordinate
+    point p; // overmap coordinates of tracked vehicle
     std::string name;
 };
 
@@ -163,6 +162,7 @@ class overmap
         overmap( const overmap & ) = default;
         overmap( overmap && ) = default;
         overmap( int x, int y );
+        overmap( const point &p ) : overmap( p.x, p.y ) {}
         ~overmap();
 
         overmap &operator=( const overmap & ) = default;
@@ -197,19 +197,56 @@ class overmap
         oter_id &ter( const tripoint &p );
         const oter_id get_ter( const int x, const int y, const int z ) const;
         const oter_id get_ter( const tripoint &p ) const;
-        bool   &seen( int x, int y, int z );
-        bool   &explored( int x, int y, int z );
+        bool &seen( int x, int y, int z );
+        bool &seen( const tripoint &p ) {
+            return seen( p.x, p.y, p.z );
+        }
+        bool seen( int x, int y, int z ) const;
+        bool seen( const tripoint &p ) const {
+            return seen( p.x, p.y, p.z );
+        }
+        bool &explored( int x, int y, int z );
+        bool &explored( const tripoint &p ) {
+            return explored( p.x, p.y, p.z );
+        }
         bool is_explored( const int x, const int y, const int z ) const;
+        bool is_explored( const tripoint &p ) const {
+            return is_explored( p.x, p.y, p.z );
+        }
 
         bool has_note( int x, int y, int z ) const;
+        bool has_note( const tripoint &p ) const {
+            return has_note( p.x, p.y, p.z );
+        }
         const std::string &note( int x, int y, int z ) const;
+        const std::string &note( const tripoint &p ) const {
+            return note( p.x, p.y, p.z );
+        }
         void add_note( int x, int y, int z, std::string message );
+        void add_note( const tripoint &p, std::string message ) {
+            add_note( p.x, p.y, p.z, message );
+        }
         void delete_note( int x, int y, int z );
+        void delete_note( const tripoint &p ) {
+            delete_note( p.x, p.y, p.z );
+        }
 
         bool has_extra( int x, int y, int z ) const;
+        bool has_extra( const tripoint &p ) const {
+            return has_extra( p.x, p.y, p.z );
+        }
         const string_id<map_extra> &extra( int x, int y, int z ) const;
+        const string_id<map_extra> &extra( const tripoint &p ) const {
+            return extra( p.x, p.y, p.z );
+        }
         void add_extra( int x, int y, int z, const string_id<map_extra> &id );
+        void add_extra( const tripoint &p, const string_id<map_extra> &id ) {
+            add_extra( p.x, p.y, p.z, id );
+        }
         void delete_extra( int x, int y, int z );
+        void delete_extra( const tripoint &p ) {
+            delete_extra( p.x, p.y, p.z );
+        }
 
         /**
          * Getter for overmap scents.
@@ -278,6 +315,9 @@ class overmap
         std::vector<city> cities;
         std::vector<city> roads_out;
         cata::optional<basecamp *> find_camp( const int x, const int y );
+        cata::optional<basecamp *> find_camp( const point &p ) {
+            return find_camp( p.x, p.y );
+        }
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
         void insert_npc( std::shared_ptr<npc> who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).
@@ -398,6 +438,9 @@ class overmap
                                      const overmap_connection &connection );
         // Polishing
         bool check_ot( const std::string &otype, ot_match_type match_type, int x, int y, int z ) const;
+        bool check_ot( const std::string &otype, ot_match_type match_type, const tripoint &p ) const {
+            return check_ot( otype, match_type, p.x, p.y, p.z );
+        }
         bool check_overmap_special_type( const overmap_special_id &id, const tripoint &location ) const;
         void chip_rock( int x, int y, int z );
 

@@ -1,29 +1,6 @@
 [
   {
     "type": "furniture",
-    "id": "f_leaves_pile",
-    "name": "pile of leaves",
-    "symbol": "#",
-    "description": "A sizable pile of leaves.  You could sleep on it if you don't care about comfort or warmth.",
-    "color": "brown",
-    "move_cost_mod": 3,
-    "coverage": 35,
-    "comfort": 1,
-    "floor_bedding_warmth": 50,
-    "required_str": -1,
-    "deconstruct": { "items": [ { "item": "withered", "count": 50 } ] },
-    "max_volume": 4000,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
-    "bash": {
-      "str_min": 2,
-      "str_max": 6,
-      "sound": "crunch!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "withered", "count": [ 45, 50 ] } ]
-    }
-  },
-  {
-    "type": "furniture",
     "id": "f_rubble",
     "name": "pile of rubble",
     "symbol": "^",
@@ -204,6 +181,175 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [ { "item": "scrap", "count": [ 2, 6 ] }, { "item": "steel_chunk", "prob": 50 }, { "item": "pipe", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sign",
+    "name": "sign",
+    "symbol": "P",
+    "description": "Read it.  Warnings ahead.",
+    "color": "brown",
+    "examine_action": "sign",
+    "move_cost_mod": 1,
+    "coverage": 35,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SIGN" ],
+    "deconstruct": { "items": [ { "item": "2x4", "count": 3 }, { "item": "nail", "charges": [ 2, 5 ] } ] },
+    "bash": {
+      "str_min": 6,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "2x4", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 2, 4 ] }, { "item": "splinter", "count": 2 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_leaves_pile",
+    "name": "pile of leaves",
+    "symbol": "#",
+    "description": "A sizable pile of leaves.  You could sleep on it if you don't care about comfort or warmth.",
+    "color": "brown",
+    "move_cost_mod": 3,
+    "coverage": 35,
+    "comfort": 1,
+    "floor_bedding_warmth": 50,
+    "required_str": -1,
+    "deconstruct": { "items": [ { "item": "withered", "count": 50 } ] },
+    "max_volume": 4000,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "withered", "count": [ 45, 50 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_exercise",
+    "name": "exercise machine",
+    "symbol": "T",
+    "description": "Typically used for, well, exercising.  You're getting quite enough of that; running for your life.",
+    "color": "dark_gray",
+    "move_cost_mod": 1,
+    "coverage": 35,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "MINEABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 1 },
+        { "item": "steel_chunk", "count": 1 },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "lead", "charges": [ 1000, 2000 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 60,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "prob": 50 },
+        { "item": "pipe", "count": 1 },
+        { "item": "lead", "charges": [ 1000, 2000 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ball_mach",
+    "name": "ball machine",
+    "description": "An unpowered machine that seems like it could've been used to launch various balls for different types of sports.  It's only good for parts now if disassembled.",
+    "symbol": "T",
+    "color": "dark_gray",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "MINEABLE" ],
+    "bash": {
+      "str_min": 18,
+      "str_max": 60,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "scrap", "count": [ 2, 6 ] }, { "item": "steel_chunk", "prob": 50 }, { "item": "pipe", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bench",
+    "name": "bench",
+    "symbol": "#",
+    "description": "Hobo bed.  Airy.  Use at your own risk.",
+    "color": "brown",
+    "move_cost_mod": 1,
+    "coverage": 35,
+    "comfort": 1,
+    "floor_bedding_warmth": -1500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "CAN_SIT" ],
+    "max_volume": 4000,
+    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "2x4", "count": [ 1, 3 ] }, { "item": "nail", "charges": [ 2, 6 ] }, { "item": "splinter", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_table",
+    "name": "table",
+    "description": "Sit down when you eat!",
+    "symbol": "#",
+    "color": "red",
+    "move_cost_mod": 2,
+    "coverage": 50,
+    "required_str": 8,
+    "max_volume": 4000,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 8 ] } ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 2, 4 ] },
+        { "item": "wood_panel", "count": [ 0, 1 ] },
+        { "item": "nail", "charges": [ 4, 8 ] },
+        { "item": "splinter", "count": 1 }
+      ]
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_rack_coat",
+    "name": "coat rack",
+    "description": "A hooked rack for hanging jackets and hats.",
+    "symbol": "Y",
+    "color": "brown",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 4,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
+    "deconstruct": { "items": [ { "item": "nail", "charges": [ 2, 6 ] }, { "item": "2x4", "count": 2 } ] },
+    "max_volume": 120,
+    "bash": {
+      "str_min": 6,
+      "str_max": 30,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "splinter", "count": [ 3, 8 ] }, { "item": "nail", "charges": [ 1, 3 ] }, { "item": "2x4", "count": 1 } ]
     }
   },
   {

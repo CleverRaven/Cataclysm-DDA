@@ -676,7 +676,7 @@ class Character : public Creature, public visitable<Character>
 
         void drop_invalid_inventory();
 
-        bool has_artifact_with( const art_effect_passive effect ) const;
+        virtual bool has_artifact_with( const art_effect_passive effect ) const;
 
         // --------------- Clothing Stuff ---------------
         /** Returns true if the player is wearing the item. */
@@ -906,6 +906,7 @@ class Character : public Creature, public visitable<Character>
         float activity_level = NO_EXERCISE;
 
         std::array<encumbrance_data, num_bp> encumbrance_cache;
+        mutable std::map<std::string, double> cached_info;
 
         /**
          * Traits / mutations of the character. Key is the mutation id (it's also a valid

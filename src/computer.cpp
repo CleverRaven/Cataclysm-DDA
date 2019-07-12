@@ -332,7 +332,8 @@ void computer::load_data( const std::string &data )
 
         dump >> tmpname >> tmpaction >> tmpsec;
 
-        add_option( string_replace( tmpname, "_", " " ), computer_action( tmpaction ), tmpsec );
+        add_option( string_replace( tmpname, "_", " " ), static_cast<computer_action>( tmpaction ),
+                    tmpsec );
     }
 
     // Pull in failures
@@ -341,7 +342,7 @@ void computer::load_data( const std::string &data )
     for( int n = 0; n < failsize; n++ ) {
         int tmpfail;
         dump >> tmpfail;
-        add_failure( computer_failure_type( tmpfail ) );
+        add_failure( static_cast<computer_failure_type>( tmpfail ) );
     }
 }
 
@@ -592,10 +593,11 @@ void computer::activate_function( computer_action action )
             const tripoint center = g->u.global_omt_location();
             for( int i = -60; i <= 60; i++ ) {
                 for( int j = -60; j <= 60; j++ ) {
-                    const oter_id &oter = overmap_buffer.ter( center.x + i, center.y + j, center.z );
+                    point offset( i, j );
+                    const oter_id &oter = overmap_buffer.ter( center + offset );
                     if( is_ot_match( "sewer", oter, ot_match_type::type ) ||
                         is_ot_match( "sewage", oter, ot_match_type::prefix ) ) {
-                        overmap_buffer.set_seen( center.x + i, center.y + j, center.z, true );
+                        overmap_buffer.set_seen( center + offset, true );
                     }
                 }
             }
@@ -609,10 +611,11 @@ void computer::activate_function( computer_action action )
             const tripoint center = g->u.global_omt_location();
             for( int i = -60; i <= 60; i++ ) {
                 for( int j = -60; j <= 60; j++ ) {
-                    const oter_id &oter = overmap_buffer.ter( center.x + i, center.y + j, center.z );
+                    point offset( i, j );
+                    const oter_id &oter = overmap_buffer.ter( center + offset );
                     if( is_ot_match( "subway", oter, ot_match_type::type ) ||
                         is_ot_match( "lab_train_depot", oter, ot_match_type::contains ) ) {
-                        overmap_buffer.set_seen( center.x + i, center.y + j, center.z, true );
+                        overmap_buffer.set_seen( center + offset, true );
                     }
                 }
             }
@@ -628,6 +631,10 @@ void computer::activate_function( computer_action action )
                 add_msg( m_info, _( "Target acquisition canceled." ) );
                 return;
             }
+
+            // TODO: Z
+            target.z = 0;
+
             if( query_yn( _( "Confirm nuclear missile launch." ) ) ) {
                 add_msg( m_info, _( "Nuclear missile launched!" ) );
                 //Remove the option to fire another missile.
@@ -666,7 +673,7 @@ void computer::activate_function( computer_action action )
                 tmpmap.save();
             }
 
-            const oter_id oter = overmap_buffer.ter( target.x, target.y, 0 );
+            const oter_id oter = overmap_buffer.ter( target );
             //~ %s is terrain name
             g->u.add_memorial_log( pgettext( "memorial_male", "Launched a nuke at a %s." ),
                                    pgettext( "memorial_female", "Launched a nuke at a %s." ),

@@ -684,17 +684,7 @@ void player::mutate_category( const std::string &cat )
         }
     }
 
-    // if we can't mutate in the category do nothing
-    if( valid.empty() ) {
-        return;
-    }
-
-    if( mutate_towards( random_entry( valid ) ) ) {
-        return;
-    } else {
-        // if mutation failed (errors, post-threshold pick), try again once.
-        mutate_towards( random_entry( valid ) );
-    }
+    mutate_towards( valid, 2 );
 }
 
 static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
@@ -711,6 +701,22 @@ static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
         ret.insert( ret.end(), these_prereqs.begin(), these_prereqs.end() );
     }
     return ret;
+}
+
+bool player::mutate_towards( std::vector<trait_id> muts, int num_tries )
+{
+    while( !muts.empty() && num_tries > 0 ) {
+        int i = rng( 0, muts.size() - 1 );
+
+        if( mutate_towards( muts[i] ) ) {
+            return true;
+        }
+
+        muts.erase( muts.begin() + i );
+        --num_tries;
+    }
+
+    return false;
 }
 
 bool player::mutate_towards( const trait_id &mut )
@@ -780,9 +786,9 @@ bool player::mutate_towards( const trait_id &mut )
 
     if( !has_prereqs && ( !prereq.empty() || !prereqs2.empty() ) ) {
         if( !prereq1 && !prereq.empty() ) {
-            return mutate_towards( random_entry( prereq ) );
+            return mutate_towards( prereq );
         } else if( !prereq2 && !prereqs2.empty() ) {
-            return mutate_towards( random_entry( prereqs2 ) );
+            return mutate_towards( prereqs2 );
         }
     }
 

@@ -1263,7 +1263,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             return ( g->u.vitamin_rate( v.first ) > 0_turns &&
                      v.second != 0 ) // only display vitamins that we actually require
                    ? string_format( "%s (%i%%)", v.first.obj().name(),
-                                    int( v.second * g->u.vitamin_rate( v.first ) / 1_days * 100 ) )
+                                    static_cast<int>( v.second * g->u.vitamin_rate( v.first ) / 1_days * 100 ) )
                    : std::string();
         } );
         if( !required_vits.empty() && parts->test( iteminfo_parts::FOOD_VITAMINS ) ) {
@@ -4446,7 +4446,7 @@ bool item::ready_to_revive( const tripoint &pos ) const
         return false;
     }
     int age_in_hours = to_hours<int>( age() );
-    age_in_hours -= int( static_cast<float>( burnt ) / ( volume() / 250_ml ) );
+    age_in_hours -= static_cast<int>( static_cast<float>( burnt ) / ( volume() / 250_ml ) );
     if( damage_level( 4 ) > 0 ) {
         age_in_hours /= ( damage_level( 4 ) + 1 );
     }
@@ -5961,7 +5961,7 @@ const itype *item::ammo_data() const
 
     auto mods = is_gun() ? gunmods() : toolmods();
     for( const auto e : mods ) {
-        if( !e->type->mod->ammo_modifier.empty() &&
+        if( !e->type->mod->ammo_modifier.empty() && e->ammo_current() != "null" &&
             item_controller->has_template( e->ammo_current() ) ) {
             return item_controller->find_template( e->ammo_current() );
         }
