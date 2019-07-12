@@ -899,6 +899,9 @@ struct itype {
         /** What faults (if any) can occur */
         std::set<fault_id> faults;
 
+        /** Integral magazines and batteries */
+        std::list<itype> integral_loadables;
+
         /** Magazine types (if any) for each ammo type that can be used to reload this item */
         std::map< ammotype, std::set<itype_id> > magazines;
 

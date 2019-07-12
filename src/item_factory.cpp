@@ -2079,6 +2079,21 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
         def.phase = jo.get_enum_value<phase_id>( "phase" );
     }
 
+    JsonObject loadables = jo.get_object( "loadables" );
+    JsonArray integrals = loadables.get_array( "integrals" );
+    for( size_t i = 0; i < integrals.size(); ++i ) {
+        JsonObject integral_def = integrals.get_object( i );
+        itype integral_type;
+        if( integral_def.get_string( "type" ) == "MAGAZINE" ) {
+            load_slot( integral_type.magazine, integral_def, src );
+            load_basic_info( integral_def, integral_type, src );
+        } else {
+            debugmsg( "integral loadable must have MAGAZINE type" );
+            continue;
+        }
+        def.integral_loadables.push_back( integral_type );
+    }
+
     if( jo.has_array( "magazines" ) ) {
         def.magazine_default.clear();
         def.magazines.clear();
