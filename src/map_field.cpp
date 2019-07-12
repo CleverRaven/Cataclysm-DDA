@@ -131,7 +131,7 @@ bool map::process_fields()
         auto &field_cache = get_cache( z ).field_cache;
         for( int x = 0; x < my_MAPSIZE; x++ ) {
             for( int y = 0; y < my_MAPSIZE; y++ ) {
-                if( field_cache[ x + ( y * MAPSIZE ) ] ) {
+                if( field_cache[ x + y * MAPSIZE ] ) {
                     submap *const current_submap = get_submap_at_grid( { x, y, z } );
                     const bool cur_dirty = process_fields_in_submap( current_submap, x, y, z );
                     zlev_dirty |= cur_dirty;
@@ -256,7 +256,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     }
 
     // Bail out if we don't meet the spread chance or required intensity.
-    if( current_intensity <= 1 || rng( 1, ( 100 - windpower ) ) > percent_spread ) {
+    if( current_intensity <= 1 || rng( 1, 100 - windpower ) > percent_spread ) {
         return;
     }
 
@@ -879,7 +879,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             const furn_t &dsfrn = dst.get_furn_t();
                             // Allow weaker fires to spread occasionally
                             const int power = cur.get_field_intensity() + one_in( 5 );
-                            if( can_spread && rng( 1, ( 100 - windpower ) ) < spread_chance &&
+                            if( can_spread && rng( 1, 100 - windpower ) < spread_chance &&
                                 ( dster.is_flammable() || dsfrn.is_flammable() ) &&
                                 ( in_pit == ( dster.id.id() == t_pit ) ) &&
                                 (
@@ -907,7 +907,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     }
                     // Create smoke once - above us if possible, at us otherwise
                     if( !ter_furn_has_flag( ter, frn, TFLAG_SUPPRESS_SMOKE ) &&
-                        rng( 0, ( 100 - windpower ) ) <= smoke &&
+                        rng( 0, 100 - windpower ) <= smoke &&
                         rng( 3, 35 ) < cur.get_field_intensity() * 10 ) {
                         bool smoke_up = zlevels && p.z < OVERMAP_HEIGHT;
                         if( smoke_up ) {
@@ -1212,7 +1212,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         for( const tripoint &t : points_in_radius( p, 5 ) ) {
                             const field_entry *acid = get_field( t, fd_acid );
                             if( acid != nullptr && acid->get_field_intensity() == 0 ) {
-                                int new_intensity = 3 - ( rl_dist( p, t ) / 2 ) + ( one_in( 3 ) ? 1 : 0 );
+                                int new_intensity = 3 - rl_dist( p, t ) / 2 + ( one_in( 3 ) ? 1 : 0 );
                                 if( new_intensity > 3 ) {
                                     new_intensity = 3;
                                 }
@@ -1336,9 +1336,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
         for( int y = std::max( submap_y - 1, 0 ); y <= std::min( submap_y + 1, MAPSIZE - 1 ); ++y ) {
             for( int x = std::max( submap_x - 1, 0 ); x <= std::min( submap_x + 1, MAPSIZE - 1 ); ++x ) {
                 if( get_submap_at_grid( { x, y, z } )->field_count > 0 ) {
-                    field_cache.set( x + ( y * MAPSIZE ) );
+                    field_cache.set( x + y * MAPSIZE );
                 } else {
-                    field_cache.reset( x + ( y * MAPSIZE ) );
+                    field_cache.reset( x + y * MAPSIZE );
                 }
             }
         }
@@ -1602,7 +1602,7 @@ void map::player_in_field( player &u )
                     inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, 3_minutes );
                 } else if( cur.get_field_intensity() == 3 && !inside ) {
                     inhaled = u.add_env_effect( effect_badpoison, bp_mouth, 5, 3_minutes );
-                } else if( cur.get_field_intensity() == 1 && ( !inside ) ) {
+                } else if( cur.get_field_intensity() == 1 && !inside ) {
                     inhaled = u.add_env_effect( effect_poison, bp_mouth, 2, 2_minutes );
                 }
                 if( inhaled ) {
@@ -1615,7 +1615,7 @@ void map::player_in_field( player &u )
             // Get irradiated by the nuclear fallout.
             // Changed to min of intensity, not 0.
             const float rads = rng( cur.get_field_intensity(),
-                              cur.get_field_intensity() * ( cur.get_field_intensity() + 1 ) );
+                                    cur.get_field_intensity() * ( cur.get_field_intensity() + 1 ) );
             const bool rad_proof = !u.irradiate( rads );
             // TODO: Reduce damage for rad resistant?
             if( cur.get_field_intensity() == 3 && !rad_proof ) {
