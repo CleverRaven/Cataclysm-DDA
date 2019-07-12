@@ -6144,6 +6144,17 @@ const item *item::magazine_current() const
     return const_cast<item *>( this )->magazine_current();
 }
 
+std::vector<const item *> item::integral_magazines() const
+{
+    std::vector<const item *> mags;
+    for( const item &it : contents ) {
+        if( it.is_magazine() && it.is_irremovable() ) {
+            mags.push_back( &it );
+        }
+    }
+    return mags;
+}
+
 std::vector<item *> item::gunmods()
 {
     std::vector<item *> res;

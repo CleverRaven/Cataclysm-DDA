@@ -1648,6 +1648,11 @@ class item : public visitable<item>
         item *magazine_current();
         const item *magazine_current() const;
 
+        /** All integral magazines in an item
+        *  @return vector of pointers to integral magazine items
+        */
+        std::vector<const item *> integral_magazines() const;
+
         /** Normalizes an item to use the new magazine system. Idempotent if item already converted.
          *  @return items that were created as a result of the conversion (excess ammo or magazines) */
         std::vector<item> magazine_convert();
