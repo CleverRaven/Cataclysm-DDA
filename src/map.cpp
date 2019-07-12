@@ -94,6 +94,7 @@ const species_id ZOMBIE( "ZOMBIE" );
 const efftype_id effect_boomered( "boomered" );
 const efftype_id effect_crushed( "crushed" );
 const efftype_id effect_stunned( "stunned" );
+const efftype_id effect_riding( "riding" );
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -1304,7 +1305,14 @@ bool map::can_move_furniture( const tripoint &pos, player *p )
     }
 
     ///\EFFECT_STR determines what furniture the player can move
-    if( p != nullptr && p->str_cur < required_str ) {
+    int adjusted_str = p->str_cur;
+    if( p->has_effect( effect_riding ) && p->mounted_creature ) {
+        auto mons = p->mounted_creature.get();
+        if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->type->mech_str_bonus != 0 ) {
+            adjusted_str = mons->type->mech_str_bonus;
+        }
+    }
+    if( p != nullptr && adjusted_str < required_str ) {
         return false;
     }
 

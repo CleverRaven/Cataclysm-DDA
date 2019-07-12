@@ -36,6 +36,7 @@
 #include "pldata.h"
 #include "type_id.h"
 #include "magic.h"
+#include "monster.h"
 #include "craft_command.h"
 #include "point.h"
 #include "faction.h"
@@ -974,6 +975,10 @@ class player : public Character
         bool can_lift( const T &obj ) const {
             // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
             int str = get_str();
+            if( mounted_creature ) {
+                auto mons = mounted_creature.get();
+                str = mons->type->mech_str_bonus == 0 ? str : mons->type->mech_str_bonus;
+            }
             const int npc_str = get_lift_assist();
             if( has_trait( trait_id( "STRONGBACK" ) ) ) {
                 str *= 1.35;

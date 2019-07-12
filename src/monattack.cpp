@@ -983,6 +983,19 @@ bool mattack::resurrect( monster *z )
     return true;
 }
 
+void mattack::smash_specific( monster *z, Creature *target )
+{
+    if( target == nullptr || !is_adjacent( z, target, false ) ) {
+        return;
+    }
+    if( z->has_flag( MF_RIDEABLE_MECH ) ) {
+        z->mod_mech_power( -5 );
+    }
+    tripoint targ_pos = target->pos();
+    z->set_goal( targ_pos );
+    smash( z );
+}
+
 bool mattack::smash( monster *z )
 {
     if( !z->can_act() ) {

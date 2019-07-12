@@ -1729,6 +1729,7 @@ void monster::load( JsonObject &data )
     }
     data.read( "tied_item", tied_item );
     data.read( "hp", hp );
+    data.read( "battery_item", battery_item );
 
     // sp_timeout indicates an old save, prior to the special_attacks refactor
     if( data.has_array( "sp_timeout" ) ) {
@@ -1861,6 +1862,7 @@ void monster::store( JsonOut &json ) const
     json.member( "hallucination", hallucination );
     json.member( "stairscount", staircount );
     json.member( "tied_item", tied_item );
+    json.member( "battery_item", battery_item );
     // Store the relative position of the goal so it loads correctly after a map shift.
     json.member( "destination", goal - pos() );
     json.member( "ammo", ammo );

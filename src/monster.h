@@ -158,6 +158,7 @@ class monster : public Creature
 
         // Movement
         void shift( int sx, int sy ); // Shifts the monster to the appropriate submap
+        void set_goal( tripoint &p );
         // Updates current pos AND our plans
         bool wander(); // Returns true if we have no plans
 
@@ -384,6 +385,9 @@ class monster : public Creature
         void make_ally( const monster &z );
         // Add an item to inventory
         void add_item( const item &it );
+        // check mech power levels and modify it.
+        bool mod_mech_power( int amt );
+        bool check_mech_powered();
 
         /**
          * Makes monster react to heard sound
@@ -414,6 +418,7 @@ class monster : public Creature
         std::vector<item> inv; // Inventory
         player *dragged_foe; // player being dragged by the monster
         cata::optional<item> tied_item; // item used to tie the monster
+        cata::optional<item> battery_item; // item to power mechs
         // DEFINING VALUES
         int friendly;
         int anger = 0;

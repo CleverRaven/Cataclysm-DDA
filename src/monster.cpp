@@ -16,6 +16,7 @@
 #include "field.h"
 #include "game.h"
 #include "item.h"
+#include "itype.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -232,6 +233,14 @@ monster::monster( const mtype_id &id ) : monster()
     biosignatures = type->biosignatures;
     if( monster::has_flag( MF_AQUATIC ) ) {
         fish_population = dice( 1, 20 );
+    }
+    if( monster::has_flag( MF_RIDEABLE_MECH ) ) {
+        itype_id mech_bat = itype_id( type->mech_battery );
+        const itype &type = *item::find_type( mech_bat );
+        int max_charge = type.magazine->capacity;
+        item mech_bat_item = item( mech_bat, 0 );
+        mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero );
+        battery_item = mech_bat_item;
     }
 }
 
@@ -843,6 +852,11 @@ bool monster::made_of_any( const std::set<material_id> &ms ) const
 bool monster::made_of( phase_id p ) const
 {
     return type->phase == p;
+}
+
+void monster::set_goal( tripoint &p )
+{
+    goal = p;
 }
 
 void monster::shift( int sx, int sy )
@@ -2144,6 +2158,37 @@ void monster::die( Creature *nkiller )
             }
         }
     }
+}
+
+bool monster::mod_mech_power( int amt )
+{
+    if( is_hallucination() || !has_flag( MF_RIDEABLE_MECH ) || !battery_item ) {
+        return false;
+    }
+    amt = -amt;
+    battery_item->ammo_consume( amt, pos() );
+    if( battery_item->ammo_remaining() <= 0 ) {
+        return false;
+    }
+    return true;
+}
+
+bool monster::check_mech_powered()
+{
+    if( is_hallucination() || !has_flag( MF_RIDEABLE_MECH ) || !battery_item ) {
+        return false;
+    }
+    if( battery_item->ammo_remaining() <= 0 ) {
+        return false;
+    }
+    itype_id mech_bat = itype_id( type->mech_battery );
+    const itype &type = *item::find_type( mech_bat );
+    float low_charge = ( static_cast<float>( type.magazine->capacity ) / 100 ) * 10;
+    if( battery_item->ammo_remaining() <= low_charge && one_in( 10 ) ) {
+        add_msg( m_bad, _( "Your %s emits a beeping noise as its batteries start to get low." ),
+                 get_name() );
+    }
+    return true;
 }
 
 void monster::drop_items_on_death()

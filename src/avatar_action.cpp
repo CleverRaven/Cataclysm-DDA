@@ -334,7 +334,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         if( you.has_effect( effect_riding ) && you.mounted_creature != nullptr ) {
             auto mon = you.mounted_creature.get();
             if( !mon->has_flag( MF_SWIMS ) || mon->get_size() < you.get_size() + 2 ) {
-                add_msg( m_warning, _( "Your mount shies away from the water!" ) );
+                add_msg( m_warning, _( "The creature you are riding cannot swim while it is carrying you!" ) );
                 return false;
             }
         }
@@ -662,14 +662,27 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
         if( gun->get_gun_ups_drain() > 0 ) {
             const int ups_drain = gun->get_gun_ups_drain();
             const int adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
-
-            if( !( you.has_charges( "UPS_off", ups_drain ) ||
-                   you.has_charges( "adv_UPS_off", adv_ups_drain ) ||
-                   ( you.has_active_bionic( bionic_id( "bio_ups" ) ) && you.power_level >= ups_drain ) ) ) {
-                add_msg( m_info,
-                         _( "You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!" ),
-                         ups_drain, adv_ups_drain );
-                return false;
+            bool is_mech_weapon = false;
+            if( you.has_effect( effect_riding ) && g->u.mounted_creature ) {
+                auto mons = g->u.mounted_creature.get();
+                if( !mons->type->mech_weapon.empty() ) {
+                    is_mech_weapon = true;
+                }
+            }
+            if( !is_mech_weapon ) {
+                if( !( you.has_charges( "UPS_off", ups_drain ) ||
+                       you.has_charges( "adv_UPS_off", adv_ups_drain ) ||
+                       ( you.has_active_bionic( bionic_id( "bio_ups" ) ) && you.power_level >= ups_drain ) ) ) {
+                    add_msg( m_info,
+                             _( "You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!" ),
+                             ups_drain, adv_ups_drain );
+                    return false;
+                }
+            } else {
+                if( !you.has_charges( "UPS", ups_drain ) ) {
+                    add_msg( m_info, ( "Your mech has an empty battery, its weapon will not fire." ) );
+                    return false;
+                }
             }
         }
 
@@ -814,6 +827,16 @@ void avatar_action::plthrow( avatar &you, int pos,
     if( you.has_active_mutation( trait_SHELL2 ) ) {
         add_msg( m_info, _( "You can't effectively throw while you're in your shell." ) );
         return;
+    }
+    if( you.has_effect( effect_riding ) && g->u.mounted_creature ) {
+        auto mons = g->u.mounted_creature.get();
+        if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
+            if( !mons->check_mech_powered() ) {
+                add_msg( m_bad, _( "Your %s refuses to move as its batteries have been drained." ),
+                         mons->get_name() );
+                return;
+            }
+        }
     }
 
     if( pos == INT_MIN ) {
