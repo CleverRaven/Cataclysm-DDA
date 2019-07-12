@@ -1468,11 +1468,15 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                       "<info>" + skill.name() + "</info>" ) );
         }
 
-        if( mod->magazine_integral() || mod->magazine_current() ) {
-            if( mod->magazine_current() && parts->test( iteminfo_parts::GUN_MAGAZINE ) ) {
-                info.emplace_back( "GUN", _( "Magazine: " ),
-                                   string_format( "<stat>%s</stat>",
-                                                  mod->magazine_current()->tname() ) );
+        if( mod->magazine_current() ) {
+            if( mod->magazine_current() && parts->test( iteminfo_parts::GUN_MAGAZINE ) &&
+                !mod->magazine_current()->has_flag( "IRREMOVABLE" ) ) {
+                info.emplace_back( "GUN", _( "Magazine: " ), string_format( "<stat>%s</stat>",
+                                   mod->magazine_current()->tname() ) );
+            } else if( mod->magazine_current() && parts->test( iteminfo_parts::GUN_MAGAZINE ) &&
+                       mod->magazine_current()->has_flag( "IRREMOVABLE" ) ) {
+                info.emplace_back( "GUN", _( "Magazine: " ), string_format( "<stat>%s integral magazine</stat>",
+                                   mod->tname() ) );
             }
             if( mod->ammo_capacity() && parts->test( iteminfo_parts::GUN_CAPACITY ) ) {
                 for( const ammotype &at : mod->ammo_types() ) {
