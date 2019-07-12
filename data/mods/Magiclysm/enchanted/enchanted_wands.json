@@ -31,6 +31,7 @@
     "name": "lesser wand of magic missile",
     "plural": "lesser wands of magic missile",
     "copy-from": "spell_wand",
+    "price": 20000,
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts magic missile.",
     "use_action": { "type": "cast_spell", "spell_id": "magic_missile", "no_fail": true, "level": 10 }
   },
@@ -40,6 +41,7 @@
     "name": "greater wand of magic missile",
     "plural": "greater wands of magic missile",
     "copy-from": "spell_wand",
+    "price": 30000,
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts magic missile.",
     "use_action": { "type": "cast_spell", "spell_id": "magic_missile", "no_fail": true, "level": 15 }
   },
@@ -58,6 +60,7 @@
     "name": "lesser wand of fireball",
     "plural": "lesser wands of fireball",
     "copy-from": "spell_wand",
+    "price": 20000,
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts fireball.",
     "use_action": { "type": "cast_spell", "spell_id": "fireball", "no_fail": true, "level": 10 }
   },
@@ -67,6 +70,7 @@
     "name": "greater wand of fireball",
     "plural": "greater wands of fireball",
     "copy-from": "spell_wand",
+    "price": 30000,
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts fireball.",
     "use_action": { "type": "cast_spell", "spell_id": "fireball", "no_fail": true, "level": 15 }
   },
@@ -85,6 +89,7 @@
     "name": "lesser wand of mana beam",
     "plural": "lesser wands of mana beam",
     "copy-from": "spell_wand",
+    "price": 20000,
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts mana beam.",
     "use_action": { "type": "cast_spell", "spell_id": "magus_mana_beam", "no_fail": true, "level": 10 }
   },
@@ -94,6 +99,7 @@
     "name": "greater wand of mana beam",
     "plural": "greater wands of mana beam",
     "copy-from": "spell_wand",
+    "price": 30000,
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts mana beam.",
     "use_action": { "type": "cast_spell", "spell_id": "magus_mana_beam", "no_fail": true, "level": 15 }
   },
@@ -112,6 +118,7 @@
     "name": "lesser wand of point flare",
     "plural": "lesser wands of point flare",
     "copy-from": "spell_wand",
+    "price": 20000,
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts point flare.",
     "use_action": { "type": "cast_spell", "spell_id": "point_flare", "no_fail": true, "level": 10 }
   },
@@ -121,6 +128,7 @@
     "name": "greater wand of point flare",
     "plural": "greater wands of point flare",
     "copy-from": "spell_wand",
+    "price": 30000,
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts point flare.",
     "use_action": { "type": "cast_spell", "spell_id": "point_flare", "no_fail": true, "level": 15 }
   },
@@ -139,6 +147,7 @@
     "name": "lesser wand of iceball",
     "plural": "lesser wands of iceball",
     "copy-from": "spell_wand",
+    "price": 20000,
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts iceball.",
     "use_action": { "type": "cast_spell", "spell_id": "iceball", "no_fail": true, "level": 10 }
   },
@@ -148,6 +157,7 @@
     "name": "greater wand of iceball",
     "plural": "greater wands of iceball",
     "copy-from": "spell_wand",
+    "price": 30000,
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts iceball.",
     "use_action": { "type": "cast_spell", "spell_id": "iceball", "no_fail": true, "level": 15 }
   },
@@ -166,6 +176,7 @@
     "name": "lesser wand of cone of cold",
     "plural": "lesser wands of cone of cold",
     "copy-from": "spell_wand",
+    "price": 20000,
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts cone of cold.",
     "use_action": { "type": "cast_spell", "spell_id": "cone_cold", "no_fail": true, "level": 10 }
   },
@@ -175,6 +186,7 @@
     "name": "greater wand of cone of cold",
     "plural": "greater wands of cone of cold",
     "copy-from": "spell_wand",
+    "price": 30000,
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts cone of cold.",
     "use_action": { "type": "cast_spell", "spell_id": "cone_cold", "no_fail": true, "level": 15 }
   }
