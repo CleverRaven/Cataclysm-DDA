@@ -212,6 +212,10 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
         set_var( "NANOFAB_ITEM_ID", nanofab_recipe );
     }
 
+    for( const itype &it : type->integral_loadables ) {
+        emplace_back( &it, turn, qty ).item_tags.insert( "IRREMOVABLE" );
+    }
+
     if( type->gun ) {
         for( const auto &mod : type->gun->built_in_mods ) {
             emplace_back( mod, turn, qty ).item_tags.insert( "IRREMOVABLE" );
