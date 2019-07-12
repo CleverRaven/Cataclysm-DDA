@@ -293,8 +293,8 @@
       "ONLY_ONE",
       "NO_REPAIR",
       "NO_SALVAGE",
-      "NO_AMMO",
-      "NO_UNLOAD"
+      "NO_UNLOAD",
+      "NO_AMMO"
     ],
     "skill": "archery",
     "min_strength": 5,
