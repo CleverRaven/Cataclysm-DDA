@@ -329,6 +329,7 @@
     "points": 3,
     "description": "You have an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual, and you can remember more terrain.",
     "map_memory_capacity_multiplier": 2,
+    "skill_rust_multiplier": 0.66,
     "starting_trait": true,
     "valid": false,
     "cancels": [ "FORGETFUL" ]
@@ -1020,6 +1021,7 @@
     "description": "You have a hard time remembering things.  Your skills will erode slightly faster than usual, and you can remember less terrain.",
     "social_modifiers": { "lie": -5 },
     "map_memory_capacity_multiplier": 0.5,
+    "skill_rust_multiplier": 1.33,
     "starting_trait": true,
     "category": [ "BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT" ],
     "cancels": [ "GOODMEMORY" ]

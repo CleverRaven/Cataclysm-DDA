@@ -295,12 +295,10 @@ static const trait_id trait_FASTREADER( "FASTREADER" );
 static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
-static const trait_id trait_FORGETFUL( "FORGETFUL" );
 static const trait_id trait_FRESHWATEROSMOSIS( "FRESHWATEROSMOSIS" );
 static const trait_id trait_FUR( "FUR" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
-static const trait_id trait_GOODMEMORY( "GOODMEMORY" );
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
@@ -2726,13 +2724,7 @@ int player::rust_rate( bool return_stat_effect ) const
     int ret = ( ( get_option<std::string>( "SKILL_RUST" ) == "vanilla" ||
                   get_option<std::string>( "SKILL_RUST" ) == "capped" ) ? 500 : 500 - 35 * ( intel - 8 ) );
 
-    if( has_trait( trait_FORGETFUL ) ) {
-        ret *= 1.33;
-    }
-
-    if( has_trait( trait_GOODMEMORY ) ) {
-        ret *= .66;
-    }
+    ret *= mutation_value( "skill_rust_multiplier" );
 
     if( ret < 0 ) {
         ret = 0;
