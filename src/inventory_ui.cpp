@@ -1826,7 +1826,10 @@ item_location inventory_pick_selector::execute()
         } else if( input.action == "QUIT" ) {
             return item_location();
         } else if( input.action == "CONFIRM" ) {
-            return get_active_column().get_selected().any_item();
+            const inventory_entry &selected = get_active_column().get_selected();
+            if( selected ) {
+                return selected.any_item();
+            }
         } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
         } else {
