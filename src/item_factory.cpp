@@ -1880,6 +1880,7 @@ void Item_factory::load( islot_magazine &slot, JsonObject &jo, const std::string
     assign( jo, "reliability", slot.reliability, strict, 0, 10 );
     assign( jo, "reload_time", slot.reload_time, strict, 0 );
     assign( jo, "linkage", slot.linkage, strict );
+    assign( jo, "clips", slot.clips, strict );
 }
 
 void Item_factory::load_magazine( JsonObject &jo, const std::string &src )

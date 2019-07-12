@@ -593,6 +593,9 @@ struct islot_magazine {
     /** What type of ammo this magazine can be loaded with */
     std::set<ammotype> type;
 
+    /** What clips can be used to load this magazine */
+    std::set<itype_id> clips;
+
     /** Capacity of magazine (in equivalent units to ammo charges) */
     int capacity = 0;
 
