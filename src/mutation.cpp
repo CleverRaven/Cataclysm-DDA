@@ -532,7 +532,8 @@ void player::mutate()
         const mutation_branch &base_mdata = traits_iter;
         bool thresh_save = base_mdata.threshold;
         bool prof_save = base_mdata.profession;
-        bool purify_save = base_mdata.purifiable;
+        // are we unpurifiable? (saved from mutating away)
+        bool purify_save = !base_mdata.purifiable;
 
         // ...that we have...
         if( has_trait( base_mutation ) ) {
