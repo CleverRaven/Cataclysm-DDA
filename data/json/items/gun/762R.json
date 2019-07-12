@@ -51,7 +51,18 @@
     "range": 3,
     "dispersion": 90,
     "durability": 10,
-    "clip_size": 5,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "mosin_integral_mag",
+          "type": "MAGAZINE",
+          "ammo_type": [ "762R" ],
+          "capacity": 5,
+          "reliability": 9,
+          "clips": [ "762R_clip" ]
+        }
+      ]
+    },
     "barrel_length": 4,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -62,7 +73,6 @@
       [ "sights", 1 ],
       [ "sling", 1 ]
     ],
-    "magazines": [ [ "762R", [ "762R_clip" ] ] ],
     "flags": [ "RELOAD_ONE" ]
   },
   {
