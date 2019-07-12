@@ -420,25 +420,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 }
 
                 int part;
-                if( curtype == fd_blood ||
-                    curtype == fd_blood_veggy ||
-                    curtype == fd_blood_insect ||
-                    curtype == fd_blood_invertebrate ||
-                    curtype == fd_bile ||
-                    curtype == fd_gibs_flesh ||
-                    curtype == fd_gibs_veggy ||
-                    curtype == fd_gibs_insect ||
-                    curtype == fd_gibs_invertebrate ) {
-                    // Dissipate faster in water
-                    if( map_tile.get_ter_t().has_flag( TFLAG_SWIMMABLE ) ) {
-                        cur.set_field_age( cur.get_field_age() + 25_minutes );
-                    }
+                const ter_t &ter = map_tile.get_ter_t();
+                // Dissipate faster in water
+                if( ter.has_flag( TFLAG_SWIMMABLE ) ) {
+                    cur.mod_field_age( cur.get_underwater_age_speedup() );
                 }
                 if( curtype == fd_acid ) {
-                    const auto &ter = map_tile.get_ter_t();
-                    if( ter.has_flag( TFLAG_SWIMMABLE ) ) { // Dissipate faster in water
-                        cur.set_field_age( cur.get_field_age() + 2_minutes );
-                    }
                     // Try to fall by a z-level
                     if( !zlevels || p.z <= -OVERMAP_DEPTH ) {
                         break;
