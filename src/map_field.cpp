@@ -84,8 +84,8 @@ void map::create_burnproducts( const tripoint &p, const item &fuel, const units:
         return;
     }
     //Items that are multiple materials are assumed to be equal parts each.
-    units::mass by_weight = burned_mass / all_mats.size();
-    for( auto &mat : all_mats ) {
+    const units::mass by_weight = burned_mass / all_mats.size();
+    for( material_id &mat : all_mats ) {
         for( auto &bp : mat->burn_products() ) {
             itype_id id = bp.first;
             // Spawning the same item as the one that was just burned is pointless
@@ -93,8 +93,8 @@ void map::create_burnproducts( const tripoint &p, const item &fuel, const units:
             if( fuel.typeId() == id ) {
                 continue;
             }
-            float eff = bp.second;
-            int n = floor( eff * ( by_weight / item::find_type( id )->weight ) );
+            const float eff = bp.second;
+            const int n = floor( eff * ( by_weight / item::find_type( id )->weight ) );
 
             if( n <= 0 ) {
                 continue;
@@ -112,7 +112,7 @@ int map::burn_body_part( player &u, field_entry &cur, body_part bp, const int sc
     const int damage = rng( 1, scale + intensity );
     // A bit ugly, but better than being annoyed by acid when in hazmat
     if( u.get_armor_type( DT_ACID, bp ) < damage ) {
-        auto ddi = u.deal_damage( nullptr, bp, damage_instance( DT_ACID, damage ) );
+        const dealt_damage_instance ddi = u.deal_damage( nullptr, bp, damage_instance( DT_ACID, damage ) );
         total_damage += ddi.total_damage();
     }
     // Represents acid seeping in rather than being splashed on
@@ -207,8 +207,8 @@ std::array<maptile, 8> map::get_neighbors( const tripoint &p )
 bool map::gas_can_spread_to( field_entry &cur, const maptile &dst )
 {
     const field_entry *tmpfld = dst.get_field().find_field( cur.get_field_type() );
-    const auto &ter = dst.get_ter_t();
-    const auto &frn = dst.get_furn_t();
+    const ter_t &ter = dst.get_ter_t();
+    const furn_t &frn = dst.get_furn_t();
     // Candidates are existing weaker fields or navigable/flagged tiles with no field.
     return ( ter_furn_movecost( ter, frn ) > 0 || ter_furn_has_flag( ter, frn, TFLAG_PERMEABLE ) ) &&
            ( tmpfld == nullptr || tmpfld->get_field_intensity() < cur.get_field_intensity() );
@@ -216,9 +216,9 @@ bool map::gas_can_spread_to( field_entry &cur, const maptile &dst )
 
 void map::gas_spread_to( field_entry &cur, maptile &dst )
 {
-    auto current_type = cur.get_field_type();
-    auto current_age = cur.get_field_age();
-    auto current_intensity = cur.get_field_intensity();
+    const field_type_id current_type = cur.get_field_type();
+    const time_duration current_age = cur.get_field_age();
+    const int current_intensity = cur.get_field_intensity();
     field_entry *candidate_field = dst.find_field( current_type );
     // Nearby gas grows thicker, and ages are shared.
     const time_duration age_fraction = current_age / current_intensity ;
@@ -239,10 +239,10 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
                       const time_duration &outdoor_age_speedup, scent_block &sblk )
 {
     const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
-    bool sheltered = g->is_sheltered( p );
-    int winddirection = g->weather.winddirection;
-    int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
-                                         sheltered );
+    const bool sheltered = g->is_sheltered( p );
+    const int winddirection = g->weather.winddirection;
+    const int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
+                          sheltered );
     // Reset nearby scents to zero
     for( const tripoint &tmp : points_in_radius( p, 1 ) ) {
         sblk.apply_gas( tmp );
@@ -264,7 +264,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     // First check if we can fall
     // TODO: Make fall and rise chances parameters to enable heavy/light gas
     if( zlevels && p.z > -OVERMAP_DEPTH ) {
-        tripoint down{p.x, p.y, p.z - 1};
+        const tripoint down{ p.x, p.y, p.z - 1 };
         maptile down_tile = maptile_at_internal( down );
         if( gas_can_spread_to( cur, down_tile ) && valid_move( p, down, true, true ) ) {
             gas_spread_to( cur, down_tile );
@@ -290,9 +290,9 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
         }
     }
     auto maptiles = get_wind_blockers( winddirection, p );
-    maptile remove_tile = std::get<0>( maptiles );
-    maptile remove_tile2 = std::get<1>( maptiles );
-    maptile remove_tile3 = std::get<2>( maptiles );
+    const maptile remove_tile = std::get<0>( maptiles );
+    const maptile remove_tile2 = std::get<1>( maptiles );
+    const maptile remove_tile3 = std::get<2>( maptiles );
     // three map tiles that are facing th wind direction.
     if( !zlevels || one_in( spread.size() ) ) {
         // Construct the destination from offset and p
@@ -318,7 +318,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
             }
         }
     } else if( zlevels && p.z < OVERMAP_HEIGHT ) {
-        tripoint up{p.x, p.y, p.z + 1};
+        const tripoint up{ p.x, p.y, p.z + 1 };
         maptile up_tile = maptile_at_internal( up );
         if( gas_can_spread_to( cur, up_tile ) && valid_move( p, up, true, true ) ) {
             gas_spread_to( cur, up_tile );
@@ -482,8 +482,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     int winddirection = g->weather.winddirection;
                     int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
                                                          sheltered );
-                    const auto &ter = map_tile.get_ter_t();
-                    const auto &frn = map_tile.get_furn_t();
+                    const ter_t &ter = map_tile.get_ter_t();
+                    const furn_t &frn = map_tile.get_furn_t();
 
                     // We've got ter/furn cached, so let's use that
                     const bool is_sealed = ter_furn_has_flag( ter, frn, TFLAG_SEALED ) &&
@@ -502,7 +502,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     // The huge indent below should probably be somehow moved away from here
                     // without forcing the function to use i_at( p ) for fires without items
                     if( !is_sealed && map_tile.get_item_count() > 0 ) {
-                        auto items_here = i_at( p );
+                        map_stack items_here = i_at( p );
                         std::vector<item> new_content;
                         for( auto explosive = items_here.begin(); explosive != items_here.end(); ) {
                             if( explosive->will_explode_in_fire() ) {
@@ -721,7 +721,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                      count != neighbour_vec.size() && cur.get_field_age() < 0_turns;
                                      i = ( i + 1 ) % neighbour_vec.size(), count++ ) {
                                     maptile &dst = neighbour_vec[i];
-                                    auto dstfld = dst.find_field( fd_fire );
+                                    field_entry *dstfld = dst.find_field( fd_fire );
                                     // If the fire exists and is weaker than ours, boost it
                                     if( dstfld != nullptr &&
                                         ( dstfld->get_field_intensity() <= cur.get_field_intensity() ||
@@ -827,8 +827,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 spread_chance = 50 + spread_chance / 2;
                             }
 
-                            const auto &dster = dst.get_ter_t();
-                            const auto &dsfrn = dst.get_furn_t();
+                            const ter_t &dster = dst.get_ter_t();
+                            const furn_t &dsfrn = dst.get_furn_t();
                             // Allow weaker fires to spread occasionally
                             const int power = cur.get_field_intensity() + one_in( 5 );
                             if( can_spread && rng( 1, 100 ) < spread_chance &&
@@ -888,8 +888,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 spread_chance = 50 + spread_chance / 2;
                             }
 
-                            const auto &dster = dst.get_ter_t();
-                            const auto &dsfrn = dst.get_furn_t();
+                            const ter_t &dster = dst.get_ter_t();
+                            const furn_t &dsfrn = dst.get_furn_t();
                             // Allow weaker fires to spread occasionally
                             const int power = cur.get_field_intensity() + one_in( 5 );
                             if( can_spread && rng( 1, ( 100 - windpower ) ) < spread_chance &&
@@ -926,7 +926,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         if( smoke_up ) {
                             tripoint up{p.x, p.y, p.z + 1};
                             maptile dst = maptile_at_internal( up );
-                            const auto &dst_ter = dst.get_ter_t();
+                            const ter_t &dst_ter = dst.get_ter_t();
                             if( dst_ter.has_flag( TFLAG_NO_FLOOR ) ) {
                                 dst.add_field( fd_smoke, rng( 1, cur.get_field_intensity() ), 0_turns );
                             } else {
@@ -1129,7 +1129,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 }
 
                 if( curtype == fd_push_items ) {
-                    auto items = i_at( p );
+                    map_stack items = i_at( p );
                     for( auto pushee = items.begin(); pushee != items.end(); ) {
                         if( pushee->typeId() != "rock" ||
                             pushee->age() < 1_turns ) {
@@ -1270,7 +1270,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             std::vector<point> candidate_positions =
                                 squares_in_direction( p.x, p.y, g->u.posx(), g->u.posy() );
-                            for( auto &candidate_position : candidate_positions ) {
+                            for( point &candidate_position : candidate_positions ) {
                                 field &target_field =
                                     get_field( tripoint( candidate_position, p.z ) );
                                 // Only shift if there are no bees already there.
@@ -1315,8 +1315,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     dirty_transparency_cache = true;
                     spread_gas( cur, p, 120, 1_minutes, sblk );
                     //check the terrain and replace it accordingly to simulate the fungus dieing off
-                    const auto &ter = map_tile.get_ter_t();
-                    const auto &frn = map_tile.get_furn_t();
+                    const ter_t &ter = map_tile.get_ter_t();
+                    const furn_t &frn = map_tile.get_furn_t();
                     const int intensity = cur.get_field_intensity();
                     if( ter.has_flag( "FUNGUS" ) && one_in( 10 / intensity ) ) {
                         ter_set( p, t_dirt );
@@ -1391,7 +1391,7 @@ void map::player_in_field( player &u )
         }
 
         //Do things based on what field effect we are currently in.
-        const auto ft = cur.get_field_type();
+        const field_type_id ft = cur.get_field_type();
         if( ft == fd_web ) {
             //If we are in a web, can't walk in webs or are in a vehicle, get webbed maybe.
             //Moving through multiple webs stacks the effect.
@@ -1517,8 +1517,8 @@ void map::player_in_field( player &u )
                     }
                 };
 
-                int burn_min = adjusted_intensity;
-                int burn_max = 3 * adjusted_intensity + 3;
+                const int burn_min = adjusted_intensity;
+                const int burn_max = 3 * adjusted_intensity + 3;
                 std::list<body_part> parts_burned;
                 int msg_num = adjusted_intensity - 1;
                 if( !u.is_on_ground() ) {
@@ -1545,9 +1545,9 @@ void map::player_in_field( player &u )
                 }
 
                 int total_damage = 0;
-                for( auto part_burned : parts_burned ) {
-                    const auto dealt = u.deal_damage( nullptr, part_burned,
-                                                      damage_instance( DT_HEAT, rng( burn_min, burn_max ) ) );
+                for( body_part part_burned : parts_burned ) {
+                    const dealt_damage_instance dealt = u.deal_damage( nullptr, part_burned,
+                                                        damage_instance( DT_HEAT, rng( burn_min, burn_max ) ) );
                     total_damage += dealt.type_damage( DT_HEAT );
                 }
                 if( total_damage > 0 ) {
@@ -1561,21 +1561,21 @@ void map::player_in_field( player &u )
         }
         if( ft == fd_smoke ) {
             if( !inside ) {
-                //Get smoke disease from standing in smoke.
+                const //Get smoke disease from standing in smoke.
                 int intensity = cur.get_field_intensity();
-                int coughStr;
-                time_duration coughDur = 0_turns;
+                int cough_strength;
+                time_duration cough_duration = 0_turns;
                 if( intensity >= 3 ) { // thick smoke
-                    coughStr = 4;
-                    coughDur = 15_turns;
+                    cough_strength = 4;
+                    cough_duration = 15_turns;
                 } else if( intensity == 2 ) { // smoke
-                    coughStr = 2;
-                    coughDur = 7_turns;
+                    cough_strength = 2;
+                    cough_duration = 7_turns;
                 } else { // intensity 1, thin smoke
-                    coughStr = 1;
-                    coughDur = 2_turns;
+                    cough_strength = 1;
+                    cough_duration = 2_turns;
                 }
-                u.add_env_effect( effect_smoke, bp_mouth, coughStr, coughDur );
+                u.add_env_effect( effect_smoke, bp_mouth, cough_strength, cough_duration );
             }
         }
         if( ft == fd_tear_gas ) {
@@ -1627,9 +1627,9 @@ void map::player_in_field( player &u )
         if( ft == fd_nuke_gas ) {
             // Get irradiated by the nuclear fallout.
             // Changed to min of intensity, not 0.
-            float rads = rng( cur.get_field_intensity(),
+            const float rads = rng( cur.get_field_intensity(),
                               cur.get_field_intensity() * ( cur.get_field_intensity() + 1 ) );
-            bool rad_proof = !u.irradiate( rads );
+            const bool rad_proof = !u.irradiate( rads );
             // TODO: Reduce damage for rad resistant?
             if( cur.get_field_intensity() == 3 && !rad_proof ) {
                 u.add_msg_if_player( m_bad, _( "This radioactive gas burns!" ) );
@@ -1697,7 +1697,7 @@ void map::player_in_field( player &u )
             // Player is immune to bees while underwater.
             if( !u.is_underwater() ) {
                 int times_stung = 0;
-                int intensity = cur.get_field_intensity();
+                const int intensity = cur.get_field_intensity();
                 // If the bees can get at you, they cause steadily increasing pain.
                 // TODO: Specific stinging messages.
                 times_stung += one_in( 4 ) &&
@@ -1766,9 +1766,8 @@ void map::player_in_field( player &u )
                     u.get_env_resist( bp_eyes ) >= 15 ) {
                     break;
                 }
-                bool inhaled = false;
                 const int intensity = cur.get_field_intensity();
-                inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, intensity * 1_minutes );
+                bool inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, intensity * 1_minutes );
                 if( u.has_trait( trait_id( "THRESH_MYCUS" ) ) || u.has_trait( trait_id( "THRESH_MARLOSS" ) ) ) {
                     inhaled |= u.add_env_effect( effect_badpoison, bp_mouth, 5, intensity * 1_minutes );
                     u.hurtall( rng( intensity, intensity * 2 ), nullptr );
@@ -1808,7 +1807,7 @@ void map::monster_in_field( monster &z )
         if( !cur.is_field_alive() ) {
             continue;
         }
-        const auto cur_field_type = cur.get_field_type();
+        const field_type_id cur_field_type = cur.get_field_type();
         if( cur_field_type == fd_web ) {
             if( !z.has_flag( MF_WEBWALK ) ) {
                 z.add_effect( effect_webbed, 1_turns, num_bp, true, cur.get_field_intensity() );
@@ -2099,9 +2098,9 @@ void map::emit_field( const tripoint &pos, const emit_id &src, float mul )
         return;
     }
 
-    float chance = src->chance() * mul;
+    const float chance = src->chance() * mul;
     if( src.is_valid() &&  x_in_y( chance, 100 ) ) {
-        int qty = chance > 100.0f ? roll_remainder( src->qty() * chance / 100.0f ) : src->qty();
+        const int qty = chance > 100.0f ? roll_remainder( src->qty() * chance / 100.0f ) : src->qty();
         propagate_field( pos, src->field(), qty, src->intensity() );
     }
 }
@@ -2125,7 +2124,7 @@ void map::propagate_field( const tripoint &center, const field_type_id type, int
         // All points with equal gas intensity should propagate at the same time
         std::list<gas_blast> gas_front;
         gas_front.push_back( open.top() );
-        int cur_intensity = get_field_intensity( open.top().second, type );
+        const int cur_intensity = get_field_intensity( open.top().second, type );
         open.pop();
         while( !open.empty() && get_field_intensity( open.top().second, type ) == cur_intensity ) {
             if( closed.count( open.top().second ) == 0 ) {
@@ -2138,11 +2137,11 @@ void map::propagate_field( const tripoint &center, const field_type_id type, int
         int increment = std::max<int>( 1, amount / gas_front.size() );
 
         while( amount > 0 && !gas_front.empty() ) {
-            auto gp = random_entry_removed( gas_front );
+            gas_blast gp = random_entry_removed( gas_front );
             closed.insert( gp.second );
-            int cur_intensity = get_field_intensity( gp.second, type );
+            const int cur_intensity = get_field_intensity( gp.second, type );
             if( cur_intensity < max_intensity ) {
-                int bonus = std::min( max_intensity - cur_intensity, increment );
+                const int bonus = std::min( max_intensity - cur_intensity, increment );
                 mod_field_intensity( gp.second, type, bonus );
                 amount -= bonus;
             } else {
