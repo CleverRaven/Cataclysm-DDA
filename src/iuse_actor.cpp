@@ -1078,16 +1078,28 @@ void reveal_map_actor::load( JsonObject &obj )
     radius = obj.get_int( "radius" );
     message = obj.get_string( "message" );
     JsonArray jarr = obj.get_array( "terrain" );
+    std::string ter;
+    ot_match_type ter_match_type;
     while( jarr.has_more() ) {
-        omt_types.push_back( jarr.next_string() );
+        if( jarr.test_string() ) {
+            ter = jarr.next_string();
+            ter_match_type = ot_match_type::contains;
+        } else {
+            JsonObject jo = jarr.next_object();
+            ter = jo.get_string( "om_terrain" );
+            ter_match_type = jo.get_enum_value<ot_match_type>( jo.get_string( "om_terrain_match_type",
+                             "CONTAINS" ), ot_match_type::contains );
+        }
+        omt_types.push_back( std::make_pair( ter, ter_match_type ) );
     }
 }
 
-void reveal_map_actor::reveal_targets( const tripoint &center, const std::string &target,
+void reveal_map_actor::reveal_targets( const tripoint &center,
+                                       const std::pair<std::string, ot_match_type> &target,
                                        int reveal_distance ) const
 {
-    const auto places = overmap_buffer.find_all( center, target, radius, false,
-                        ot_match_type::contains );
+    const auto places = overmap_buffer.find_all( center, target.first, radius, false,
+                        target.second );
     for( auto &place : places ) {
         overmap_buffer.reveal( place, reveal_distance );
     }
