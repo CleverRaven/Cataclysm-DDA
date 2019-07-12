@@ -863,6 +863,9 @@ void Item_factory::check_definitions() const
         if( type->description.empty() ) {
             msg << "empty description" << "\n";
         }
+        if( type->name == "none" ) {
+            msg << "no name given" << "\n";
+        }
 
         for( const material_id &mat_id : type->materials ) {
             if( mat_id.str() == "null" || !mat_id.is_valid() ) {
