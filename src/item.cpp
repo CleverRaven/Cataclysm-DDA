@@ -5352,24 +5352,22 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
         return ( ( now ? !is_container_full() : true ) && ( ammo.empty()
                  || ( find_type( ammo )->phase == LIQUID && ( is_container_empty()
                          || contents.front().typeId() == ammo ) ) ) );
-    } else if( magazine_integral() ) {
+    } else if( is_magazine() ) {
         if( !ammo.empty() ) {
-            if( ammo_data() ) {
-                if( ammo_current() != ammo ) {
-                    return false;
-                }
-            } else {
-                auto at = find_type( ammo );
-                if( ( !at->ammo || !ammo_types().count( at->ammo->type ) ) &&
-                    !magazine_compatible().count( ammo ) ) {
-                    return false;
-                }
+            if( ammo_data() && ammo_current() != ammo ) {
+                return false;
+            }
+            const itype *at = find_type( ammo );
+            if( !at->ammo || !ammo_types().count( at->ammo->type ) ) {
+                return false;
             }
         }
-        return now ? ( ammo_remaining() < ammo_capacity() ) : true;
-    } else {
-        return ammo.empty() ? true : magazine_compatible().count( ammo );
+        if( now && !( ammo_remaining() < ammo_capacity() ) ) {
+            return false;
+        }
+        return true;
     }
+    return ammo.empty() ? true : magazine_compatible().count( ammo );
 }
 
 bool item::is_salvageable() const
