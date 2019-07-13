@@ -5362,7 +5362,7 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
                 return false;
             }
         }
-        if( now && !( ammo_remaining() < ammo_capacity() ) ) {
+        if( now && ammo_remaining() >= ammo_capacity() ) {
             return false;
         }
         return true;
