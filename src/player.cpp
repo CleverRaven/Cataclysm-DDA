@@ -8517,10 +8517,18 @@ bool player::unload( item &it )
     }
 
     // If item can be unloaded more than once (currently only guns) prompt user to choose
-    std::vector<std::string> msgs( 1, it.tname() );
-    std::vector<item *> opts( 1, &it );
+    std::vector<std::string> msgs;
+    std::vector<item *> opts;
 
-    for( auto e : it.gunmods() ) {
+    if( !it.integral_magazines().empty() ) {
+        msgs.emplace_back( it.magazine_current()->tname() );
+        opts.emplace_back( it.magazine_current() );;
+    } else {
+        msgs.emplace_back( it.tname() );
+        opts.emplace_back( &it );;
+    }
+
+    for( item *e : it.gunmods() ) {
         if( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
             ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) {
             msgs.emplace_back( e->tname() );
@@ -8531,11 +8539,9 @@ bool player::unload( item &it )
     item *target = nullptr;
     if( opts.size() > 1 ) {
         const int ret = uilist( _( "Unload what?" ), msgs );
-        if( ret >= 0 ) {
-            target = opts[ret];
-        }
+        target = opts[ret];
     } else {
-        target = &it;
+        target = opts[0];
     }
 
     if( target == nullptr ) {
@@ -8557,7 +8563,9 @@ bool player::unload( item &it )
         return false;
     }
 
-    if( !target->magazine_current() && target->ammo_remaining() <= 0 && target->casings_count() <= 0 ) {
+    if( ( !target->magazine_current() || ( target->magazine_current() &&
+                                           target->magazine_current()->has_flag( "IRREMOVABLE" ) ) ) && target->ammo_remaining() <= 0 &&
+        target->casings_count() <= 0 ) {
         if( target->is_tool() ) {
             add_msg( m_info, _( "Your %s isn't charged." ), target->tname() );
         } else {
@@ -8689,7 +8697,7 @@ hint_rating player::rate_action_unload( const item &it ) const
         return HINT_CANT;
     }
 
-    if( it.magazine_current() ) {
+    if( it.magazine_current() && !it.magazine_current()->has_flag( "IRREMOVABLE" ) ) {
         return HINT_GOOD;
     }
 
