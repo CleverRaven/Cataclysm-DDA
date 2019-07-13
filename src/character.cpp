@@ -1087,9 +1087,9 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
     if( obj.is_magazine() ) {
         // find suitable ammo excluding that already loaded in magazines
         std::set<ammotype> ammo = obj.ammo_types();
-        const auto mags = obj.magazine_compatible();
+        const auto clips = obj.type->magazine->clips;
 
-        src.visit_items( [&src, &nested, &out, ammo]( item * node ) {
+        src.visit_items( [&src, &nested, &out, clips, ammo]( item * node ) {
             if( node->is_gun() || node->is_tool() ) {
                 // guns/tools never contain usable ammo so most efficient to skip them now
                 return VisitResponse::SKIP;
@@ -1106,6 +1106,11 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                     }
                 }
                 return VisitResponse::SKIP;
+            }
+            if( node->is_magazine() && node->has_flag( "SPEEDLOADER" ) ) {
+                if( clips.count( node->typeId() ) && node->ammo_remaining() ) {
+                    out = item_location( src, node );
+                }
             }
 
             if( ammo.count( node->ammo_type() ) ) {
