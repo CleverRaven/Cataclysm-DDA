@@ -386,17 +386,6 @@ void spell_effect::line_attack( const spell &sp, const Creature &caster,
                     sp.has_flag( spell_flag::IGNORE_WALLS ) ) );
 }
 
-struct area_node_comparator {
-    area_node_comparator( std::vector<area_expander::node> &area ) : area( area ) {
-    }
-
-    bool operator()( int a, int b ) const {
-        return area[a].cost > area[b].cost;
-    }
-
-    std::vector<area_expander::node> &area;
-};
-
 area_expander::area_expander() : frontier( area_node_comparator( area ) )
 {
 }

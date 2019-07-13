@@ -468,8 +468,19 @@ struct area_expander {
     // Maps coordinate to expanded node.
     std::map<tripoint, int> area_search;
 
-    using comparator = std::function<bool ( int, int )>;
-    std::priority_queue<int, std::vector<int>, comparator> frontier;
+    struct area_node_comparator {
+        typedef std::vector<area_expander::node> area_t;
+        area_node_comparator( area_t &area ) : area( area ) {
+        }
+
+        bool operator()( int a, int b ) const {
+            return area[a].cost < area[b].cost;
+        }
+
+        std::vector<area_expander::node> &area;
+    };
+
+    std::priority_queue<int, std::vector<int>, area_node_comparator> frontier;
 
     area_expander();
     // Check whether we have already visited this node.
