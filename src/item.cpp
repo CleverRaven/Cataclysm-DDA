@@ -3913,14 +3913,9 @@ void item::unset_flags()
     item_tags.clear();
 }
 
-bool item::has_fault( fault_id fault )
+bool item::has_fault( const fault_id fault ) const
 {
-    for( const fault_id flt : faults ) {
-        if( flt == fault ) {
-            return true;
-        }
-    }
-    return false;
+    return faults.count( fault );
 }
 
 bool item::has_flag( const std::string &f ) const
