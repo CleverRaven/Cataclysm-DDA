@@ -1091,11 +1091,6 @@ void Item_factory::check_definitions() const
                         << ammo_variety.first.str() << "\" is not a magazine\n";
                 } else if( !mag_ptr->magazine->type.count( ammo_variety.first ) ) {
                     msg << "magazine \"" << magazine << "\" does not take compatible ammo \n";
-                } else if( mag_ptr->item_tags.count( "SPEEDLOADER" ) &&
-                           mag_ptr->magazine->capacity != type->gun->clip ) {
-                    msg << "Speedloader " << magazine << " capacity ("
-                        << mag_ptr->magazine->capacity << ") does not match gun capacity ("
-                        << type->gun->clip << ").\n";
                 }
             }
         }
