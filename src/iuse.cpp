@@ -2144,6 +2144,14 @@ int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
     if( !bionic ) {
         return 0;
     }
+    if( !bionic.get_item()->faults.empty() ) {
+        if( p->query_yn( _( "This CBM is faulty.  You should mend it first.  Do you want to try?" ) ) ) {
+            p->mend_item( std::move( bionic ) );
+        }
+        return 0;
+    }
+
+
     if( bionic.get_item()->has_flag( "PACKED" ) || bionic.get_item()->has_flag( "PACKED_FAULTY" ) ) {
         if( !p->query_yn( _( "This CBM is already prepared.  Do you want to re-do it?" ) ) ) {
             return 0;
