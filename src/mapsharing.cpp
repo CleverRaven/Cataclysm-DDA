@@ -2,6 +2,7 @@
 
 #include "cata_utility.h"
 #include "filesystem.h"
+#include "platform_win.h"
 
 #include <cstdlib>
 #include <stdexcept>
@@ -102,14 +103,17 @@ void MAP_SHARING::setDefaults()
 
 void ofstream_wrapper_exclusive::open( const std::ios::openmode mode )
 {
-#if defined(__linux__)
     // Create a *unique* temporary path. No other running program should
     // use this path. If the file exists, it must be of a *former* program
     // instance and can savely be deleted.
+#if defined(__linux__)
     temp_path = path + "." + std::to_string( getpid() ) + ".temp";
 
+#elif defined(_WIN32)
+    temp_path = path + "." + std::to_string( GetCurrentProcessId() ) + ".temp";
+
 #else
-    // @todo exclusive I/O for non-linux systems
+    // @todo exclusive I/O for other systems
     temp_path = path + ".temp";
 
 #endif
