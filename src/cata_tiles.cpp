@@ -174,7 +174,7 @@ formatted_text::formatted_text( const std::string &text, const int color,
 
 cata_tiles::cata_tiles( const SDL_Renderer_Ptr &renderer ) :
     renderer( renderer ),
-    minimap( new pixel_minimap( renderer ) )
+    minimap( renderer )
 {
     assert( renderer );
 
