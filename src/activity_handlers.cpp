@@ -109,6 +109,8 @@ const efftype_id effect_milked( "milked" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_under_op( "under_operation" );
 
+static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
+
 using namespace activity_handlers;
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -315,11 +317,13 @@ static void butcher_cbm_item( const std::string &what, const tripoint &pos,
     if( item::find_type( itype_id( what ) )->bionic.has_value() ) {
         item cbm( check_butcher_cbm( roll ) ? what : "burnt_out_bionic", age );
         cbm.set_flag( "FILTHY" );
+        cbm.faults.emplace( fault_bionic_salvaged );
         add_msg( m_good, _( "You discover a %s!" ), cbm.tname() );
         g->m.add_item( pos, cbm );
     } else if( check_butcher_cbm( roll ) ) {
         item something( what, age );
         something.set_flag( "FILTHY" );
+        something.faults.emplace( fault_bionic_salvaged );
         add_msg( m_good, _( "You discover a %s!" ), something.tname() );
         g->m.add_item( pos, something );
     } else {
@@ -340,12 +344,14 @@ static void butcher_cbm_group( const std::string &group, const tripoint &pos,
         const auto spawned = g->m.put_items_from_loc( group, pos, age );
         for( item *it : spawned ) {
             it->set_flag( "FILTHY" );
+            it->faults.emplace( fault_bionic_salvaged );
             add_msg( m_good, _( "You discover a %s!" ), it->tname() );
         }
     } else {
         //There is a burnt out CBM
         item cbm( "burnt_out_bionic", age );
         cbm.set_flag( "FILTHY" );
+        cbm.faults.emplace( fault_bionic_salvaged );
         add_msg( m_good, _( "You discover a %s!" ), cbm.tname() );
         g->m.add_item( pos, cbm );
     }
