@@ -2398,7 +2398,7 @@ void iexamine::autoclave_full( player &, const tripoint &examp )
     map_stack items = g->m.i_at( examp );
     static const std::string filthy( "FILTHY" );
     bool cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
-        return  i.is_bionic();
+        return i.is_bionic();
     } );
 
     if( items.empty() ) {
