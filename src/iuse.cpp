@@ -2133,7 +2133,6 @@ int iuse::unpack_item( player *p, item *it, bool, const tripoint & )
 
 int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
 {
-
     if( !it->contents.empty() ) {
         popup( _( "This pouch is already full." ) );
         return 0;
@@ -2144,6 +2143,11 @@ int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
 
     if( !bionic ) {
         return 0;
+    }
+    if( bionic.get_item()->has_flag( "PACKED" ) || bionic.get_item()->has_flag( "PACKED_FAULTY" ) ) {
+        if( !p->query_yn( _( "This CBM is already prepared.  Do you want to re-do it?" ) ) ) {
+            return 0;
+        }
     }
 
     const int success = p->get_skill_level( skill_firstaid ) - rng( 0, 6 );
@@ -2158,7 +2162,6 @@ int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
             add_msg( m_info, _( "You put the CBM in the pouch and close it." ) );
         }
     }
-
 
     std::vector<item_comp> comps;
     comps.push_back( item_comp( it->typeId(), 1 ) );
