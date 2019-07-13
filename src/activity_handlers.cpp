@@ -339,8 +339,8 @@ static void butcher_cbm_group( const std::string &group, const tripoint &pos,
         //The CBM works
         const auto spawned = g->m.put_items_from_loc( group, pos, age );
         for( item *it : spawned ) {
-            add_msg( m_good, _( "You discover a %s!" ), it->tname() );
             it->set_flag( "FILTHY" );
+            add_msg( m_good, _( "You discover a %s!" ), it->tname() );
         }
     } else {
         //There is a burnt out CBM
