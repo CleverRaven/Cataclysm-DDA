@@ -890,32 +890,32 @@ std::string get_wind_desc( double windpower )
 {
     std::string winddesc;
     if( windpower < 1 ) {
-        winddesc = "Calm";
+        winddesc = _( "Calm" );
     } else if( windpower <= 3 ) {
-        winddesc = "Light Air";
+        winddesc = _( "Light Air" );
     } else if( windpower <= 7 ) {
-        winddesc = "Light Breeze";
+        winddesc = _( "Light Breeze" );
     } else if( windpower <= 12 ) {
-        winddesc = "Gentle Breeze";
+        winddesc = _( "Gentle Breeze" );
     } else if( windpower <= 18 ) {
-        winddesc = "Moderate Breeze";
+        winddesc = _( "Moderate Breeze" );
     } else if( windpower <= 24 ) {
-        winddesc = "Fresh Breeze";
+        winddesc = _( "Fresh Breeze" );
     } else if( windpower <= 31 ) {
-        winddesc = "Strong Breeze";
+        winddesc = _( "Strong Breeze" );
     } else if( windpower <= 38 ) {
-        winddesc = "Moderate Gale";
+        winddesc = _( "Moderate Gale" );
     } else if( windpower <= 46 ) {
-        winddesc = "Gale";
+        winddesc = _( "Gale" );
     } else if( windpower <= 54 ) {
-        winddesc = "Strong Gale";
+        winddesc = _( "Strong Gale" );
     } else if( windpower <= 63 ) {
-        winddesc = "Whole Gale";
+        winddesc = _( "Whole Gale" );
     } else if( windpower <= 72 ) {
-        winddesc = "Violent Storm";
+        winddesc = _( "Violent Storm" );
     } else if( windpower > 72 ) {
         // Anything above Whole Gale is very unlikely to happen and has no additional effects.
-        winddesc = "Hurricane";
+        winddesc = _( "Hurricane" );
     }
     return winddesc;
 }
