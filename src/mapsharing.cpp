@@ -101,7 +101,7 @@ void MAP_SHARING::setDefaults()
     MAP_SHARING::addAdmin( "admin" );
 }
 
-void ofstream_wrapper_exclusive::open( const std::ios::openmode mode )
+void ofstream_wrapper::open( const std::ios::openmode mode )
 {
     // Create a *unique* temporary path. No other running program should
     // use this path. If the file exists, it must be of a *former* program
@@ -128,7 +128,7 @@ void ofstream_wrapper_exclusive::open( const std::ios::openmode mode )
     }
 }
 
-void ofstream_wrapper_exclusive::close()
+void ofstream_wrapper::close()
 {
     if( !file_stream.is_open() ) {
         return;

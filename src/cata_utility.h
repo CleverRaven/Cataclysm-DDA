@@ -406,7 +406,7 @@ bool read_from_file_optional( const std::string &path, JsonDeserializer &reader 
  *
  * @note: This uses exclusive I/O.
  */
-class ofstream_wrapper_exclusive
+class ofstream_wrapper
 {
     private:
         std::ofstream file_stream;
@@ -416,8 +416,8 @@ class ofstream_wrapper_exclusive
         void open( std::ios::openmode mode );
 
     public:
-        ofstream_wrapper_exclusive( const std::string &path, std::ios::openmode mode );
-        ~ofstream_wrapper_exclusive();
+        ofstream_wrapper( const std::string &path, std::ios::openmode mode );
+        ~ofstream_wrapper();
 
         std::ostream &stream() {
             return file_stream;

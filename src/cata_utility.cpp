@@ -328,8 +328,8 @@ float multi_lerp( const std::vector<std::pair<float, float>> &points, float x )
 
 void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer )
 {
-    // Any of the below may throw. ofstream_wrapper_exclusive will clean up the temporary path on its own.
-    ofstream_wrapper_exclusive fout( path, std::ios::binary );
+    // Any of the below may throw. ofstream_wrapper will clean up the temporary path on its own.
+    ofstream_wrapper fout( path, std::ios::binary );
     writer( fout.stream() );
     fout.close();
 }
@@ -349,8 +349,7 @@ bool write_to_file( const std::string &path, const std::function<void( std::ostr
     }
 }
 
-ofstream_wrapper_exclusive::ofstream_wrapper_exclusive( const std::string &path,
-        const std::ios::openmode mode )
+ofstream_wrapper::ofstream_wrapper( const std::string &path, const std::ios::openmode mode )
     : file_stream()
     , path( path )
     , temp_path()
@@ -358,7 +357,7 @@ ofstream_wrapper_exclusive::ofstream_wrapper_exclusive( const std::string &path,
     open( mode );
 }
 
-ofstream_wrapper_exclusive::~ofstream_wrapper_exclusive()
+ofstream_wrapper::~ofstream_wrapper()
 {
     try {
         close();
