@@ -1840,7 +1840,9 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
     std::string msg = _( "You reload the %s." );
 
-    if( reloadable.is_gun() ) {
+    // We're reloading an integral magazine in the gun or a detachable magazine. Either way you
+    // can't keep aiming while you do it.
+    if( reloadable.is_magazine() ) {
         p->recoil = MAX_RECOIL;
 
         if( reloadable.has_flag( "RELOAD_ONE" ) && !is_speedloader ) {
@@ -1852,6 +1854,8 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
                 }
             }
         }
+    }
+    if( reloadable.is_gun() ) {
         if( reloadable.type->gun->reload_noise_volume > 0 ) {
             sfx::play_variant_sound( "reload", reloadable.typeId(), sfx::get_heard_volume( p->pos() ) );
             sounds::ambient_sound( p->pos(), reloadable.type->gun->reload_noise_volume,
