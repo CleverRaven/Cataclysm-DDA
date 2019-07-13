@@ -2346,8 +2346,7 @@ void iexamine::autoclave_empty( player &p, const tripoint &examp )
     }
 
     map_stack items = g->m.i_at( examp );
-    static const std::string filthy( "FILTHY" );
-    bool filthy_cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
+    bool cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
         return i.is_bionic();
     } );
 
@@ -2355,7 +2354,7 @@ void iexamine::autoclave_empty( player &p, const tripoint &examp )
         add_msg( _( "This autoclave is empty..." ) );
         return;
     }
-    if( !filthy_cbms ) {
+    if( !cbms ) {
         add_msg( m_bad,
                  _( "You need to remove all non-CBM items from the autoclave to start the program." ) );
         return;
@@ -2377,7 +2376,9 @@ void iexamine::autoclave_empty( player &p, const tripoint &examp )
             p.consume_tools( e );
         }
         p.invalidate_crafting_inventory();
-        items.only_item().set_birthday( calendar::turn );
+        for( item it : items ) {
+            it.set_birthday( calendar::turn );
+        }
         g->m.furn_set( examp, next_autoclave_type );
         add_msg( _( "You start the autoclave." ) );
     }
@@ -2396,7 +2397,6 @@ void iexamine::autoclave_full( player &, const tripoint &examp )
     }
 
     map_stack items = g->m.i_at( examp );
-    static const std::string filthy( "FILTHY" );
     bool cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
         return i.is_bionic();
     } );
@@ -2412,8 +2412,11 @@ void iexamine::autoclave_full( player &, const tripoint &examp )
         return;
     }
     add_msg( _( "The autoclave is running." ) );
+
+    const item &clock = *items.begin();
     const time_duration Cycle_time = 90_minutes;
-    const time_duration time_left = Cycle_time - items.only_item().age();
+    const time_duration time_left = Cycle_time - clock.age();
+
     if( time_left > 0_turns ) {
         add_msg( _( "The cycle will be complete in %s." ), to_string( time_left ) );
         return;
