@@ -1301,6 +1301,9 @@ class item : public visitable<item>
         void unset_flags();
         /*@}*/
 
+        /**Does this item has the specified fault*/
+        bool has_fault( fault_id fault );
+
         /**
          * @name Item properties
          *
