@@ -632,9 +632,17 @@
     "id": "MARTIAL_ARTS5",
     "name": "Melee Weapon Training",
     "points": 3,
-    "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Pentjak Silat, Medieval Swordsmanship, Niten Ichi-Ryu, or Sōjutsu.",
+    "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Fior Di Battaglia,  Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
     "starting_trait": true,
-    "initial_ma_styles": [ "style_eskrima", "style_fencing", "style_silat", "style_niten", "style_sojutsu", "style_swordsmanship" ],
+    "initial_ma_styles": [
+      "style_eskrima",
+      "style_fencing",
+      "style_silat",
+      "style_niten",
+      "style_sojutsu",
+      "style_swordsmanship",
+      "style_medievalpole"
+    ],
     "valid": false
   },
   {

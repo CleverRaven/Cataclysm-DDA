@@ -1040,10 +1040,84 @@
   },
   {
     "type": "martial_art",
+    "id": "style_medievalpole",
+    "name": "Fior Di Battaglia",
+    "description": "Medieval Europe's martial techniques for fighting with polearms, great focus is given in countering one's opponent and knocking them down before landing a killing blow",
+    "initiate": [ "You set your feet apart and turn your torso slightly.", "%s sets their feet apart and turns their torso slightly." ],
+    "learn_difficulty": 6,
+    "arm_block": 99,
+    "leg_block": 99,
+    "static_buffs": [
+      {
+        "id": "medievalpole_static",
+        "name": "Stand Your Ground",
+        "description": "+2 blocks -1 dodge, halves your dodge and damage is reduced by your strength when blocking",
+        "strictly_melee": true,
+        "flat_bonuses": [ [ "block", "str", 1.0 ] ],
+        "mult_bonuses": [ [ "dodge", 0.5 ] ],
+        "bonus_dodges": -1,
+        "bonus_blocks": 2
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "medievalpole_move",
+        "name": "You moved",
+        "description": "Nulifies Stand Your Ground, don't move, stand there and counter!",
+        "strictly_melee": true,
+        "flat_bonuses": [ [ "block", "str", -1.0 ] ],
+        "mult_bonuses": [ [ "dodge", 1.0 ] ],
+        "buff_duration": 2,
+        "max_stacks": 1,
+        "bonus_dodges": 1,
+        "bonus_blocks": -2
+      }
+    ],
+    "onmiss_buffs": [
+      {
+        "id": "medievalpole_setup",
+        "name": "Setup",
+        "description": "They fell for your feint!",
+        "unarmed_allowed": false,
+        "min_melee": 0,
+        "buff_duration": 2,
+        "max_stacks": 1
+      }
+    ],
+    "techniques": [
+      "tec_medievalpole_counter",
+      "tec_medievalpole_highround",
+      "tec_medievalpole_feint",
+      "tec_medievalpole_highstab",
+      "tec_medievalpole_break"
+    ],
+    "weapons": [
+      "halberd",
+      "halberd_fake",
+      "lucern_hammer",
+      "lucern_hammerfake",
+      "glaive",
+      "makeshift_halberd",
+      "battleaxe_fake",
+      "battleaxe_inferior",
+      "battleaxe",
+      "fire_ax",
+      "pickaxe",
+      "ax",
+      "lobotomizer",
+      "primitive_axe",
+      "copper_ax",
+      "ji",
+      "hoe"
+    ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_swordsmanship",
     "name": "Medieval Swordsmanship",
     "description": "The art of the sword & shield, preceding the later development of fencing.  Designed for combat in and out of armor, it includes grappling as well as defensive and offensive sword techniques.",
     "initiate": [ "You stand tall and become vigilant against attacks.", "%s stands tall and becomes vigilant." ],
+    "learn_difficulty": 6,
     "arm_block": 99,
     "leg_block": 99,
     "strictly_melee": true,
