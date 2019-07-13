@@ -1555,27 +1555,9 @@ class bionic_install_preset: public inventory_selector_preset
     private:
         // Returns a formatted string of how long the operation will take.
         std::string get_operation_duration( const item_location &loc ) {
-
             const int difficulty = loc.get_item()->type->bionic->difficulty;
-
             // 20 minutes per bionic difficulty.
-            int hours = difficulty / 3;
-            int minutes = ( difficulty % 3 ) * 20;
-            std::string minutes_string = to_string_clipped( time_duration::from_minutes( difficulty * 20 ) );
-
-            if( hours > 0 ) {
-                std::string hours_string = hours >= 2
-                                           ? string_format( _( "%i hours" ), hours )
-                                           : string_format( _( "%i hour" ), hours );
-
-                if( minutes > 0 ) {
-                    return string_format( _( "%s, %s" ), hours_string, minutes_string );
-                } else {
-                    return hours_string;
-                }
-            } else {
-                return minutes_string;
-            }
+            return to_string( time_duration::from_minutes( difficulty * 20 ) );
         }
 
         // Failure chance for bionic install. Combines multiple other functions together.
@@ -1679,27 +1661,9 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
     private:
         // Returns a formatted string of how long the operation will take.
         std::string get_operation_duration( const item_location &loc ) {
-
             const int difficulty = loc.get_item()->type->bionic->difficulty;
-
             // 20 minutes per bionic difficulty.
-            int hours = difficulty / 3;
-            int minutes = ( difficulty % 3 ) * 20;
-            std::string minutes_string = to_string_clipped( time_duration::from_minutes( difficulty * 20 ) );
-
-            if( hours > 0 ) {
-                std::string hours_string = hours >= 2
-                                           ? string_format( _( "%i hours" ), hours )
-                                           : string_format( _( "%i hour" ), hours );
-
-                if( minutes > 0 ) {
-                    return string_format( _( "%s, %s" ), hours_string, minutes_string );
-                } else {
-                    return hours_string;
-                }
-            } else {
-                return minutes_string;
-            }
+            return to_string( time_duration::from_minutes( difficulty * 20 ) );
         }
 
         // Failure chance for bionic install. Combines multiple other functions together.
@@ -1784,27 +1748,9 @@ class bionic_uninstall_preset : public inventory_selector_preset
     private:
         // Returns a formatted string of how long the operation will take.
         std::string get_operation_duration( const item_location &loc ) {
-
             const int difficulty = loc.get_item()->type->bionic->difficulty;
-
             // 20 minutes per bionic difficulty.
-            int hours = difficulty / 3;
-            int minutes = ( difficulty % 3 ) * 20;
-            std::string minutes_string = to_string_clipped( time_duration::from_minutes( difficulty * 20 ) );
-
-            if( hours > 0 ) {
-                std::string hours_string = hours >= 2
-                                           ? string_format( _( "%i hours" ), hours )
-                                           : string_format( _( "%i hour" ), hours );
-
-                if( minutes > 0 ) {
-                    return string_format( _( "%s, %s" ), hours_string, minutes_string );
-                } else {
-                    return hours_string;
-                }
-            } else {
-                return minutes_string;
-            }
+            return to_string( time_duration::from_minutes( difficulty * 20 ) );
         }
 
         // Failure chance for bionic uninstall. Combines multiple other functions together.
