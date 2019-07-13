@@ -863,9 +863,6 @@ void Item_factory::check_definitions() const
         if( type->description.empty() ) {
             msg << "empty description" << "\n";
         }
-        if( type->name == "none" ) {
-            msg << "no name given" << "\n";
-        }
 
         for( const material_id &mat_id : type->materials ) {
             if( mat_id.str() == "null" || !mat_id.is_valid() ) {
@@ -2051,13 +2048,11 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
         def.damage_max = arr.get_int( 1 ) * itype::damage_scale;
     }
 
-    if( jo.has_string( "name" ) ) {
-        def.name = jo.get_string( "name" );
-        if( jo.has_member( "name_plural" ) ) {
-            def.name_plural = jo.get_string( "name_plural" );
-        } else {
-            def.name_plural = jo.get_string( "name" ) += "s";
-        }
+    def.name = jo.get_string( "name" );
+    if( jo.has_member( "name_plural" ) ) {
+        def.name_plural = jo.get_string( "name_plural" );
+    } else {
+        def.name_plural = jo.get_string( "name" ) += "s";
     }
 
     if( jo.has_string( "description" ) ) {
