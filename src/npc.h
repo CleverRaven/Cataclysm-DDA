@@ -1243,6 +1243,10 @@ class npc : public player
          * Retroactively update npc.
          */
         void on_load();
+        /**
+         * Update body, but throttled.
+         */
+        void npc_update_body();
 
         /// Set up (start) a companion mission.
         void set_companion_mission( npc &p, const std::string &mission_id );

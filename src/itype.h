@@ -871,9 +871,8 @@ struct itype {
         int price_post = -1;
 
         /**@}*/
-
-        bool rigid =
-            true; // If non-rigid volume (and if worn encumbrance) increases proportional to contents
+        // If non-rigid volume (and if worn encumbrance) increases proportional to contents
+        bool rigid = true;
 
         /** Damage output in melee for zero or more damage types */
         std::array<int, NUM_DT> melee;

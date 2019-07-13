@@ -4302,7 +4302,7 @@ void game::monmove()
 
         if( !guy.is_dead() ) {
             guy.process_active_items();
-            guy.update_body();
+            guy.npc_update_body();
         }
     }
     cleanup_dead();

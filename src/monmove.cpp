@@ -1525,8 +1525,8 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
  */
 void monster::stumble()
 {
-    // Only move every 3rd turn.
-    if( !one_in( 3 ) ) {
+    // Only move every 10 turns.
+    if( !one_in( 10 ) ) {
         return;
     }
 
@@ -1535,14 +1535,7 @@ void monster::stumble()
     const bool avoid_water = has_flag( MF_NO_BREATHE ) &&
                              !has_flag( MF_SWIMS ) && !has_flag( MF_AQUATIC );
     for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
-        if( dest != pos() && can_move_to( dest ) &&
-            //Stop zombies and other non-breathing monsters wandering INTO water
-            //(Unless they can swim/are aquatic)
-            //But let them wander OUT of water if they are there.
-            !( avoid_water &&
-               g->m.has_flag( TFLAG_SWIMMABLE, dest ) &&
-               !g->m.has_flag( TFLAG_SWIMMABLE, pos() ) ) &&
-            ( g->critter_at( dest, is_hallucination() ) == nullptr ) ) {
+        if( dest != pos() ) {
             valid_stumbles.push_back( dest );
         }
     }
@@ -1550,21 +1543,28 @@ void monster::stumble()
     if( g->m.has_zlevels() ) {
         tripoint below( posx(), posy(), posz() - 1 );
         tripoint above( posx(), posy(), posz() + 1 );
-        if( g->m.valid_move( pos(), below, false, true ) && can_move_to( below ) ) {
+        if( g->m.valid_move( pos(), below, false, true ) ) {
             valid_stumbles.push_back( below );
         }
         // More restrictions for moving up
         if( has_flag( MF_FLIES ) && one_in( 5 ) &&
-            g->m.valid_move( pos(), above, false, true ) && can_move_to( above ) ) {
+            g->m.valid_move( pos(), above, false, true ) ) {
             valid_stumbles.push_back( above );
         }
     }
-
-    if( valid_stumbles.empty() ) { //nowhere to stumble?
-        return;
+    while( !valid_stumbles.empty() ) {
+        const tripoint dest = random_entry_removed( valid_stumbles );
+        if( can_move_to( dest ) &&
+            //Stop zombies and other non-breathing monsters wandering INTO water
+            //(Unless they can swim/are aquatic)
+            //But let them wander OUT of water if they are there.
+            !( avoid_water &&
+               g->m.has_flag( TFLAG_SWIMMABLE, dest ) &&
+               !g->m.has_flag( TFLAG_SWIMMABLE, pos() ) ) &&
+            ( g->critter_at( dest, is_hallucination() ) == nullptr ) ) {
+            move_to( dest, true );
+        }
     }
-
-    move_to( random_entry( valid_stumbles ), false );
 }
 
 void monster::knock_back_from( const tripoint &p )

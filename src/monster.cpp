@@ -877,6 +877,9 @@ bool monster::is_fleeing( player &u ) const
     if( effect_cache[FLEEING] ) {
         return true;
     }
+    if( anger >= 100 || morale >= 100 ) {
+        return false;
+    }
     monster_attitude att = attitude( &u );
     return ( att == MATT_FLEE || ( att == MATT_FOLLOW && rl_dist( pos(), u.pos() ) <= 4 ) );
 }

@@ -6587,7 +6587,6 @@ void player::process_active_items()
 
     std::vector<item *> inv_active = inv.active_items();
     for( item *tmp_it : inv_active ) {
-
         if( tmp_it->process( this, pos(), false ) ) {
             inv.remove_item( tmp_it );
         }
@@ -6598,15 +6597,22 @@ void player::process_active_items()
         return itm.needs_processing() && itm.process( this, pos(), false );
     } );
 
-    int ch_UPS = charges_of( "UPS" );
+    // Active item processing done, now we're recharging.
     item *cloak = nullptr;
     item *power_armor = nullptr;
+    std::vector<item *> active_worn_items;
+    bool weapon_active = weapon.has_flag( "USE_UPS" ) &&
+                         weapon.charges < weapon.type->maximum_charges();
     // Manual iteration because we only care about *worn* active items.
-    for( auto &w : worn ) {
+    for( item &w : worn ) {
+        if( w.has_flag( "USE_UPS" ) &&
+            w.charges < w.type->maximum_charges() ) {
+            active_worn_items.push_back( &w );
+        }
         if( !w.active ) {
             continue;
         }
-        if( w.has_flag( "ACTIVE_CLOAKING" ) ) {
+        if( cloak == nullptr && w.has_flag( "ACTIVE_CLOAKING" ) ) {
             cloak = &w;
         }
         // Only the main power armor item can be active, the other ones (hauling frame, helmet) aren't.
@@ -6614,19 +6620,37 @@ void player::process_active_items()
             power_armor = &w;
         }
     }
+    std::vector<size_t> active_held_items;
+    int ch_UPS = 0;
+    for( size_t index = 0; index < inv.size(); index++ ) {
+        item &it = inv.find_item( index );
+        itype_id identifier = it.type->get_id();
+        if( identifier == "UPS_off" && it.charges > 0 ) {
+            ch_UPS += it.ammo_remaining();
+        } else if( identifier == "adv_UPS_off" && it.charges > 0 ) {
+            ch_UPS += it.ammo_remaining() / 0.6;
+        }
+        if( !it.has_flag( "USE_UPS" ) && it.charges < it.type->maximum_charges() ) {
+            active_held_items.push_back( index );
+        }
+    }
+    int ch_UPS_used = 0;
     if( cloak != nullptr ) {
         if( ch_UPS >= 20 ) {
             use_charges( "UPS", 20 );
+            ch_UPS -= 20;
             if( ch_UPS < 200 && one_in( 3 ) ) {
                 add_msg_if_player( m_warning, _( "Your cloaking flickers for a moment!" ) );
             }
         } else if( ch_UPS > 0 ) {
             use_charges( "UPS", ch_UPS );
+            return;
         } else {
             add_msg_if_player( m_bad,
                                _( "Your cloaking flickers and becomes opaque." ) );
             // Bypass the "you deactivate the ..." message
             cloak->active = false;
+            return;
         }
     }
 
@@ -6638,6 +6662,7 @@ void player::process_active_items()
         if( !bio_powered ) {
             if( ch_UPS >= power_cost ) {
                 use_charges( "UPS", power_cost );
+                ch_UPS -= power_cost;
             } else {
                 // Deactivate armor here, bypassing the usual deactivation message.
                 add_msg_if_player( m_warning, _( "Your power armor disengages." ) );
@@ -6648,35 +6673,24 @@ void player::process_active_items()
 
     // Load all items that use the UPS to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
-    ch_UPS = charges_of( "UPS" ); // might have been changed by cloak
-    int ch_UPS_used = 0;
-    for( size_t i = 0; i < inv.size() && ch_UPS_used < ch_UPS; i++ ) {
-        item &it = inv.find_item( i );
-        if( !it.has_flag( "USE_UPS" ) ) {
-            continue;
-        }
-        if( it.charges < it.type->maximum_charges() ) {
-            ch_UPS_used++;
-            it.charges++;
-        }
-    }
-    if( weapon.has_flag( "USE_UPS" ) &&  ch_UPS_used < ch_UPS &&
-        weapon.charges < weapon.type->maximum_charges() ) {
-        ch_UPS_used++;
-        weapon.charges++;
-    }
-
-    for( item &worn_item : worn ) {
+    for( size_t index : active_held_items ) {
         if( ch_UPS_used >= ch_UPS ) {
             break;
         }
-        if( !worn_item.has_flag( "USE_UPS" ) ) {
-            continue;
+        item &it = inv.find_item( index );
+        ch_UPS_used++;
+        it.charges++;
+    }
+    if( weapon_active && ch_UPS_used < ch_UPS ) {
+        ch_UPS_used++;
+        weapon.charges++;
+    }
+    for( item *worn_item : active_worn_items ) {
+        if( ch_UPS_used >= ch_UPS ) {
+            break;
         }
-        if( worn_item.charges < worn_item.type->maximum_charges() ) {
-            ch_UPS_used++;
-            worn_item.charges++;
-        }
+        ch_UPS_used++;
+        worn_item->charges++;
     }
     if( ch_UPS_used > 0 ) {
         use_charges( "UPS", ch_UPS_used );
