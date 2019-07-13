@@ -5363,6 +5363,14 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
                          || contents.front().typeId() == ammo ) ) ) );
     } else if( is_magazine() ) {
         if( !ammo.empty() ) {
+            if( find_type( ammo )->item_tags.count( "SPEEDLOADER" ) ) {
+                if( !type->magazine->clips.count( ammo ) ) {
+                    return false;
+                }
+                if( now ) {
+                    return !ammo_remaining();
+                }
+            }
             if( ammo_data() && ammo_current() != ammo ) {
                 return false;
             }
