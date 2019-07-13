@@ -1051,6 +1051,7 @@
     "learn_difficulty": 6,
     "arm_block": 99,
     "leg_block": 99,
+    "strictly_melee": true,
     "static_buffs": [
       {
         "id": "medievalpole_static",
