@@ -7460,7 +7460,7 @@ bool item::needs_processing() const
     return active || has_flag( "RADIO_ACTIVATION" ) || has_flag( "ETHEREAL_ITEM" ) ||
            has_flag( "STERILE" ) ||
            ( is_container() && !contents.empty() && contents.front().needs_processing() ) ||
-           is_artifact() || is_food() ;
+           is_artifact() || is_food();
 }
 
 int item::processing_speed() const
