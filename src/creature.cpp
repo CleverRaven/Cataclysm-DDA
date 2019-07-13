@@ -1640,5 +1640,5 @@ void Creature::knock_back_from( const tripoint &p )
         to.y--;
     }
 
-    knock_back_to(to);
+    knock_back_to( to );
 }
