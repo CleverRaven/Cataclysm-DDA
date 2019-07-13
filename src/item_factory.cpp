@@ -2095,7 +2095,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
                 integral_type.name = string_format( "%s integral magazine", jo.get_string( "name" ) );
             }
         } else {
-            debugmsg( "integral loadable must have MAGAZINE type" );
+            integral_def.throw_error( "integral loadable must have MAGAZINE type", "type" );
             continue;
         }
         def.integral_loadables.push_back( integral_type );
