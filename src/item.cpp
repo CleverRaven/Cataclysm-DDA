@@ -1662,11 +1662,20 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                ceil( mod->type->weight / 333.0_gram ) );
         }
 
+        // TODO: these shouldn't be dividing by 16.67 with 1s turns. Check all the code affecting
+        // reload times.
         if( parts->test( iteminfo_parts::GUN_RELOAD_TIME ) ) {
-            info.emplace_back( "GUN", _( "Reload time: " ),
-                               has_flag( "RELOAD_ONE" ) ? _( "<num> seconds per round" ) : _( "<num> seconds" ),
-                               iteminfo::lower_is_better,
-                               static_cast<int>( mod->get_reload_time() / 16.67 ) );
+            if( !integral_magazines().empty() ) {
+                info.emplace_back( "GUN", _( "Reload time: " ),
+                                   has_flag( "RELOAD_ONE" ) ? _( "<num> seconds per round" ) : _( "<num> seconds" ),
+                                   iteminfo::lower_is_better,
+                                   static_cast<int>( mod->magazine_current()->get_reload_time() / 16.67 ) );
+            } else {
+                info.emplace_back( "GUN", _( "Reload time: " ),
+                                   has_flag( "RELOAD_ONE" ) ? _( "<num> seconds per round" ) : _( "<num> seconds" ),
+                                   iteminfo::lower_is_better,
+                                   static_cast<int>( mod->get_reload_time() / 16.67 ) );
+            }
         }
 
         if( parts->test( iteminfo_parts::GUN_FIRE_MODES ) ) {
