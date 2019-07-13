@@ -469,8 +469,7 @@ struct area_expander {
     std::map<tripoint, int> area_search;
 
     struct area_node_comparator {
-        typedef std::vector<area_expander::node> area_t;
-        area_node_comparator( area_t &area ) : area( area ) {
+        area_node_comparator( std::vector<area_expander::node> &area ) : area( area ) {
         }
 
         bool operator()( int a, int b ) const {
