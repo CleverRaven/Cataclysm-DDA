@@ -1830,7 +1830,6 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     item &reloadable = *act->targets[ 0 ];
     item &ammo = *act->targets[1];
     const int qty = act->index;
-    const bool is_speedloader = ammo.has_flag( "SPEEDLOADER" );
     const bool is_bolt = ammo.ammo_type() == ammotype( "bolt" );
 
     if( !reloadable.reload( *p, std::move( act->targets[ 1 ] ), qty ) ) {
@@ -1845,7 +1844,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     if( reloadable.is_magazine() ) {
         p->recoil = MAX_RECOIL;
 
-        if( reloadable.has_flag( "RELOAD_ONE" ) && !is_speedloader ) {
+        if( reloadable.has_flag( "RELOAD_ONE" ) && !ammo.has_flag( "SPEEDLOADER" ) ) {
             for( int i = 0; i != qty; ++i ) {
                 if( is_bolt ) {
                     msg = _( "You insert a bolt into the %s." );
