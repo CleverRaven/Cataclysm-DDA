@@ -898,6 +898,7 @@ item &Character::i_add( item it, bool should_stack )
     }
     auto &item_in_inv = inv.add_item( it, keep_invlet, true, should_stack );
     item_in_inv.on_pickup( *this );
+    cached_info.erase( "reloadables" );
     return item_in_inv;
 }
 
@@ -3135,7 +3136,9 @@ mutation_value_map = {
     { "hearing_modifier", calc_mutation_value_multiplicative<&mutation_branch::hearing_modifier> },
     { "noise_modifier", calc_mutation_value_multiplicative<&mutation_branch::noise_modifier> },
     { "overmap_sight", calc_mutation_value_multiplicative<&mutation_branch::overmap_sight> },
-    { "overmap_multiplier", calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier> }
+    { "overmap_multiplier", calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier> },
+    { "map_memory_capacity_multiplier", calc_mutation_value_multiplicative<&mutation_branch::map_memory_capacity_multiplier> },
+    { "skill_rust_multiplier", calc_mutation_value_multiplicative<&mutation_branch::skill_rust_multiplier> }
 };
 
 float Character::mutation_value( const std::string &val ) const

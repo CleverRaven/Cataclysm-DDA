@@ -1034,7 +1034,9 @@ static void draw_initial_windows( const catacurses::window &w_stats,
     }
     if( you.kcal_speed_penalty() < 0 ) {
         pen = abs( you.kcal_speed_penalty() );
-        mvwprintz( w_speed, line, 1, c_red, _( "Starving            -%s%d%%" ),
+        const std::string inanition = you.get_bmi() < character_weight_category::underweight ?
+                                      _( "Starving" ) : _( "Underfed" );
+        mvwprintz( w_speed, line, 1, c_red, _( "%-20s-%s%d%%" ), inanition,
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
@@ -1127,12 +1129,12 @@ void player::disp_info()
         effect_text.push_back( pain_text.str() );
     }
 
-    int starvation_base_penalty = get_starvation() + 300;
+    const float bmi = get_bmi();
 
-    if( starvation_base_penalty > 300 ) {
+    if( bmi < character_weight_category::underweight ) {
         std::stringstream starvation_text;
 
-        if( starvation_base_penalty > 1400 ) {
+        if( bmi < character_weight_category::emaciated ) {
             effect_name.push_back( _( "Severely Malnourished" ) );
             starvation_text <<
                             _( "Your body is severely weakened by starvation. You might die if you don't start eating regular meals!\n \n" );
@@ -1142,15 +1144,11 @@ void player::disp_info()
                             _( "Your body is weakened by starvation. Only time and regular meals will help you recover.\n \n" );
         }
 
-        if( starvation_base_penalty > 500 ) {
-            starvation_text << _( "Strength" ) << " -" << static_cast<int>( starvation_base_penalty / 500 ) <<
-                            "   ";
-            if( starvation_base_penalty > 1000 ) {
-                starvation_text << _( "Dexterity" ) << " -" << static_cast<int>( starvation_base_penalty / 1000 ) <<
-                                "   ";
-                starvation_text << _( "Intelligence" ) << " -" << static_cast<int>( starvation_base_penalty / 1000 )
-                                << "   ";
-            }
+        if( bmi < character_weight_category::underweight ) {
+            const float str_penalty = 1.0f - ( ( bmi - 13.0f ) / 3.0f );
+            starvation_text << _( "Strength" ) << " -" << string_format( "%2.0f%%\n", str_penalty * 100.0f );
+            starvation_text << _( "Dexterity" ) << " -" << string_format( "%2.0f%%\n", str_penalty * 50.0f );
+            starvation_text << _( "Intelligence" ) << " -" << string_format( "%2.0f%%", str_penalty * 50.0f );
         }
 
         effect_text.push_back( starvation_text.str() );

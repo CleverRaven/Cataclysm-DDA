@@ -6,25 +6,7 @@
 
 #include "catch/catch.hpp"
 #include "colony.h"
-
-// Fast xorshift+128 random number generator function
-// original: https://codingforspeed.com/using-faster-psudo-random-generator-xorshift/
-static unsigned int xor_rand()
-{
-    static unsigned int x = 123456789;
-    static unsigned int y = 362436069;
-    static unsigned int z = 521288629;
-    static unsigned int w = 88675123;
-
-    const unsigned int t = x ^ ( x << 11 );
-
-    // Rotate the static values (w rotation in return statement):
-    x = y;
-    y = z;
-    z = w;
-
-    return w = w ^ ( w >> 19 ) ^ ( t ^ ( t >> 8 ) );
-}
+#include "colony_list_test_helpers.h"
 
 TEST_CASE( "colony basics", "[colony]" )
 {
@@ -267,7 +249,7 @@ TEST_CASE( "colony basics", "[colony]" )
     CHECK( test_colony_2.max_size() > test_colony_2.size() );
 }
 
-TEST_CASE( "insert and erase", "[colony]" )
+TEST_CASE( "colony insert and erase", "[colony]" )
 {
     cata::colony<int> test_colony;
 
@@ -504,7 +486,7 @@ TEST_CASE( "insert and erase", "[colony]" )
     CHECK( test_colony.size() == static_cast<size_t>( count ) );
 }
 
-TEST_CASE( "range erase", "[colony]" )
+TEST_CASE( "colony range erase", "[colony]" )
 {
     cata::colony<int> test_colony;
 
@@ -763,7 +745,7 @@ TEST_CASE( "range erase", "[colony]" )
     CHECK( test_colony.size() == 10 );
 }
 
-TEST_CASE( "sort", "[colony]" )
+TEST_CASE( "colony sort", "[colony]" )
 {
     cata::colony<int> test_colony;
 
@@ -805,7 +787,7 @@ TEST_CASE( "sort", "[colony]" )
     CHECK( sorted );
 }
 
-TEST_CASE( "insertion methods", "[colony]" )
+TEST_CASE( "colony insertion methods", "[colony]" )
 {
     cata::colony<int> test_colony = {1, 2, 3};
 
@@ -888,19 +870,7 @@ TEST_CASE( "insertion methods", "[colony]" )
     CHECK( sum == 12060 );
 }
 
-struct perfect_forwarding_test {
-    const bool success;
-
-    perfect_forwarding_test( int && /*perfect1*/, int &perfect2 ) : success( true ) {
-        perfect2 = 1;
-    }
-
-    template <typename T, typename U>
-    perfect_forwarding_test( T && /*imperfect1*/, U && /*imperfect2*/ ) : success( false )
-    {}
-};
-
-TEST_CASE( "perfect forwarding", "[colony]" )
+TEST_CASE( "colony perfect forwarding", "[colony]" )
 {
     cata::colony<perfect_forwarding_test> test_colony;
 
@@ -913,19 +883,7 @@ TEST_CASE( "perfect forwarding", "[colony]" )
     CHECK( lvalueref == 1 );
 }
 
-struct small_struct {
-    double *empty_field_1;
-    double unused_number;
-    unsigned int empty_field2;
-    double *empty_field_3;
-    int number;
-    unsigned int empty_field4;
-
-    small_struct( const int num ) noexcept:
-        number( num ) {};
-};
-
-TEST_CASE( "emplace", "[colony]" )
+TEST_CASE( "colony emplace", "[colony]" )
 {
     cata::colony<small_struct> test_colony;
     int sum1 = 0, sum2 = 0;
@@ -945,7 +903,7 @@ TEST_CASE( "emplace", "[colony]" )
     CHECK( test_colony.size() == 100 );
 }
 
-TEST_CASE( "group size and capacity", "[colony]" )
+TEST_CASE( "colony group size and capacity", "[colony]" )
 {
     cata::colony<int> test_colony;
     test_colony.change_group_sizes( 50, 100 );
@@ -988,7 +946,7 @@ TEST_CASE( "group size and capacity", "[colony]" )
     CHECK( test_colony.capacity() == 3400 );
 }
 
-TEST_CASE( "splice", "[colony]" )
+TEST_CASE( "colony splice", "[colony]" )
 {
     cata::colony<int> test_colony_1, test_colony_2;
 

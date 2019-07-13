@@ -66,7 +66,7 @@ bool tutorial_game::init()
     // overmap terrain coordinates
     const int lx = 50;
     const int ly = 50;
-    auto &starting_om = overmap_buffer.get( 0, 0 );
+    auto &starting_om = overmap_buffer.get( point_zero );
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
             starting_om.ter( i, j, -1 ) = rock;

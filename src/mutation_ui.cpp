@@ -145,7 +145,7 @@ void player::power_mutations()
         // drawing the mutation starts with mutation[scroll_position]
         const int list_start_y = HEADER_LINE_Y + 2 - scroll_position;
         int max_scroll_position = HEADER_LINE_Y + 2 + mutations_count -
-                                  ( ( menu_mode == "examining" ) ? DESCRIPTION_LINE_Y : ( HEIGHT - 1 ) );
+                                  ( menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1 );
         if( redraw ) {
             redraw = false;
 
@@ -175,7 +175,7 @@ void player::power_mutations()
                         ( menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1 ) ) {
                         break;
                     }
-                    type = ( has_base_trait( passive[i] ) ? c_cyan : c_light_cyan );
+                    type = has_base_trait( passive[i] ) ? c_cyan : c_light_cyan;
                     mvwprintz( wBio, list_start_y + i, 2, type, "%c %s", td.key, md.name() );
                 }
             }
@@ -191,9 +191,9 @@ void player::power_mutations()
                         break;
                     }
                     if( td.powered ) {
-                        type = ( has_base_trait( active[i] ) ? c_green : c_light_green );
+                        type = has_base_trait( active[i] ) ? c_green : c_light_green;
                     } else {
-                        type = ( has_base_trait( active[i] ) ? c_red : c_light_red );
+                        type = has_base_trait( active[i] ) ? c_red : c_light_red;
                     }
                     // TODO: track resource(s) used and specify
                     mvwputch( wBio, list_start_y + i, second_column, type, td.key );

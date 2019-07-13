@@ -2075,13 +2075,13 @@ void monster::die( Creature *nkiller )
     if( !is_hallucination() && has_flag( MF_QUEEN ) ) {
         // The submap coordinates of this monster, monster groups coordinates are
         // submap coordinates.
-        const point abssub = ms_to_sm_copy( g->m.getabs( posx(), posy() ) );
+        const tripoint abssub = ms_to_sm_copy( g->m.getabs( pos() ) );
         // Do it for overmap above/below too
         for( int z = 1; z >= -1; --z ) {
             for( int x = -HALF_MAPSIZE; x <= HALF_MAPSIZE; x++ ) {
                 for( int y = -HALF_MAPSIZE; y <= HALF_MAPSIZE; y++ ) {
-                    std::vector<mongroup *> groups = overmap_buffer.groups_at( abssub.x + x, abssub.y + y,
-                                                     g->get_levz() + z );
+                    tripoint offset( x, y, z );
+                    std::vector<mongroup *> groups = overmap_buffer.groups_at( abssub + offset );
                     for( auto &mgp : groups ) {
                         if( MonsterGroupManager::IsMonsterInGroup( mgp->type, type->id ) ) {
                             mgp->dying = true;

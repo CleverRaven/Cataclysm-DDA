@@ -6567,7 +6567,7 @@ static std::string colorized_trap_name_at( const tripoint &point )
     std::string name;
     if( !trap.is_null() && trap.get_visibility() <= 1 ) {
         name = colorize( trap.name(), trap.color ) + _( " on " );
-    };
+    }
     return name;
 }
 
@@ -7015,6 +7015,9 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
             }
 
             if( guy ) {
+                if( guy->is_hallucination() ) {
+                    continue; // do not include hallucinations
+                }
                 if( guy->movement_mode_is( PMM_CROUCH ) ) {
                     pose = _( "sits" );
                 } else {
@@ -7443,7 +7446,9 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                         p->add_msg_if_player( _( "Strange... there's nothing in the center of picture?" ) );
                     }
                 } else if( guy ) {
-                    if( !aim_bounds.is_point_inside( trajectory_point ) ) {
+                    if( trajectory_point == aim_point && guy->is_hallucination() ) {
+                        p->add_msg_if_player( _( "Strange... %s's not visible on the picture?" ), guy->name );
+                    } else if( !aim_bounds.is_point_inside( trajectory_point ) ) {
                         // take a photo of the monster that's in the way
                         p->add_msg_if_player( m_warning, _( "%s got in the way of your photo." ), guy->name );
                         incorrect_focus = true;

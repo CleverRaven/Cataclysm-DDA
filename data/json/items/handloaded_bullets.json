@@ -55,25 +55,5 @@
     "range": 10,
     "recoil": 840,
     "effects": [ "COOKOFF", "SHOT", "RECYCLED" ]
-  },
-  {
-    "type": "AMMO",
-    "id": "reloaded_laser_pack",
-    "price": 80,
-    "name": "bootleg fusion pack",
-    "symbol": "=",
-    "color": "light_green",
-    "description": "In the middle of the 21st Century, military powers began to look towards energy based weapons.  The result was the standard fusion pack, capable of delivering bolts of superheated gas at near light speed with no recoil.  This one has been hand-crafted from spare parts.",
-    "material": "plastic",
-    "volume": 1,
-    "weight": 68,
-    "bashing": 1,
-    "ammo_type": "fusion",
-    "damage": 11,
-    "pierce": 14,
-    "range": 30,
-    "stack_size": 40,
-    "count": 20,
-    "effects": [ "COOKOFF", "RECYCLED" ]
   }
 ]

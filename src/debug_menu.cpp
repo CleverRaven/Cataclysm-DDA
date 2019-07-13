@@ -1182,7 +1182,7 @@ void debug()
 
         case DEBUG_SPAWN_ARTIFACT:
             if( const cata::optional<tripoint> center = g->look_around() ) {
-                artifact_natural_property prop = artifact_natural_property( rng( ARTPROP_NULL + 1,
+                artifact_natural_property prop = static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1,
                                                  ARTPROP_MAX - 1 ) );
                 m.create_anomaly( *center, prop );
                 m.spawn_natural_artifact( *center, prop );

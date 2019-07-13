@@ -149,7 +149,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     g->m = map( get_option<bool>( "ZLEVELS" ) );
 
     overmap_special_batch empty_specials( { 0, 0 } );
-    overmap_buffer.create_custom_overmap( 0, 0, empty_specials );
+    overmap_buffer.create_custom_overmap( point_zero, empty_specials );
 
     g->m.load( g->get_levx(), g->get_levy(), g->get_levz(), false );
 }

@@ -282,7 +282,7 @@ void game::load_weather( std::istream &fin )
     if( fin.peek() == 'l' ) {
         std::string line;
         getline( fin, line );
-        weather.lightning_active = ( line.compare( "lightning: 1" ) == 0 );
+        weather.lightning_active = line == "lightning: 1";
     } else {
         weather.lightning_active = false;
     }
@@ -957,9 +957,9 @@ void overmap::unserialize( std::istream &fin )
                     if( tracker_member_name == "id" ) {
                         jsin.read( id );
                     } else if( tracker_member_name == "x" ) {
-                        jsin.read( new_tracker.x );
+                        jsin.read( new_tracker.p.x );
                     } else if( tracker_member_name == "y" ) {
-                        jsin.read( new_tracker.y );
+                        jsin.read( new_tracker.p.y );
                     } else if( tracker_member_name == "name" ) {
                         jsin.read( new_tracker.name );
                     }
@@ -1388,8 +1388,8 @@ void overmap::serialize( std::ostream &fout ) const
         json.start_object();
         json.member( "id", i.first );
         json.member( "name", i.second.name );
-        json.member( "x", i.second.x );
-        json.member( "y", i.second.y );
+        json.member( "x", i.second.p.x );
+        json.member( "y", i.second.p.y );
         json.end_object();
     }
     json.end_array();

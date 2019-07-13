@@ -5,7 +5,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "time": "0 m",
+    "time": "30 s",
     "reversible": true,
     "autolearn": true,
     "components": [
@@ -194,7 +194,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "time": "0 m",
+    "time": "30 s",
     "reversible": true,
     "autolearn": true,
     "components": [

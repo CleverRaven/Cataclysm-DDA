@@ -69,6 +69,10 @@ class field_entry
             return is_alive;
         }
 
+        time_duration get_underwater_age_speedup() const {
+            return type.obj().underwater_age_speedup;
+        }
+
         bool decays_on_actualize() const {
             return type.obj().accelerated_decay;
         }

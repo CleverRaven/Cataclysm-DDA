@@ -122,15 +122,13 @@ bool scent_map::inbounds( const tripoint &p ) const
     if( !scent_map_z_level_inbounds ) {
         return false;
     }
-    const point scent_map_boundary_min( point_zero );
-    const point scent_map_boundary_max( MAPSIZE_X, MAPSIZE_Y );
-    const point scent_map_clearance_min( point_zero );
-    const point scent_map_clearance_max( 1, 1 );
+    static constexpr point scent_map_boundary_min( point_zero );
+    static constexpr point scent_map_boundary_max( MAPSIZE_X, MAPSIZE_Y );
 
-    const rectangle scent_map_boundaries( scent_map_boundary_min, scent_map_boundary_max );
-    const rectangle scent_map_clearance( scent_map_clearance_min, scent_map_clearance_max );
+    static constexpr rectangle scent_map_boundaries(
+        scent_map_boundary_min, scent_map_boundary_max );
 
-    return generic_inbounds( { p.x, p.y }, scent_map_boundaries, scent_map_clearance );
+    return scent_map_boundaries.contains_half_open( p.xy() );
 }
 
 void scent_map::update( const tripoint &center, map &m )

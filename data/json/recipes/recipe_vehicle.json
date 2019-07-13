@@ -327,6 +327,6 @@
     "time": "60 m",
     "using": [ [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "sheet_metal", 3 ] ], [ [ "clockworks", 2 ] ] ]
+    "components": [ [ [ "sheet_metal", 3 ] ], [ [ "hinge", 2 ] ] ]
   }
 ]

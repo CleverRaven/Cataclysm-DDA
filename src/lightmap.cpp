@@ -12,6 +12,7 @@
 #include "avatar.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "game.h"
+#include "math_defines.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -42,18 +43,11 @@
 
 static constexpr point lightmap_boundary_min( point_zero );
 static constexpr point lightmap_boundary_max( LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y );
-static constexpr point lightmap_clearance_min( point_zero );
-static constexpr point lightmap_clearance_max( 1, 1 );
 
 const rectangle lightmap_boundaries( lightmap_boundary_min, lightmap_boundary_max );
-const rectangle lightmap_clearance( lightmap_clearance_min, lightmap_clearance_max );
 
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_haslight( "haslight" );
-
-constexpr double PI     = 3.14159265358979323846;
-constexpr double HALFPI = 1.57079632679489661923;
-constexpr double SQRT_2 = 1.41421356237309504880;
 
 std::string four_quadrants::to_string() const
 {
@@ -324,9 +318,9 @@ void map::generate_lightmap( const int zlev )
                     if( !outside_cache[p.x][p.y] ) {
                         // Apply light sources for external/internal divide
                         for( int i = 0; i < 4; ++i ) {
-                            if( generic_inbounds( { p.x + dir_x[i], p.y + dir_y[i] },
-                                                  lightmap_boundaries, lightmap_clearance
-                                                ) && outside_cache[p.x + dir_x[i]][p.y + dir_y[i]]
+                            point neighbour = p.xy() + point( dir_x[i], dir_y[i] );
+                            if( lightmap_boundaries.contains_half_open( neighbour )
+                                && outside_cache[neighbour.x][neighbour.y]
                               ) {
                                 if( light_transparency( p ) > LIGHT_TRANSPARENCY_SOLID ) {
                                     update_light_quadrants(
@@ -454,18 +448,18 @@ void map::generate_lightmap( const int zlev )
 
             if( vp.has_flag( VPFLAG_CONE_LIGHT ) ) {
                 if( veh_luminance > LL_LIT ) {
-                    add_light_source( src, SQRT_2 ); // Add a little surrounding light
+                    add_light_source( src, M_SQRT2 ); // Add a little surrounding light
                     apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance, 45 );
                 }
 
             } else if( vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
                 if( veh_luminance > LL_LIT ) {
-                    add_light_source( src, SQRT_2 ); // Add a little surrounding light
+                    add_light_source( src, M_SQRT2 ); // Add a little surrounding light
                     apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance, 90 );
                 }
 
             } else if( vp.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ) {
-                add_light_source( src, SQRT_2 ); // Add a little surrounding light
+                add_light_source( src, M_SQRT2 ); // Add a little surrounding light
                 apply_light_arc( src, v->face.dir() + pt->direction, vp.bonus, 180 );
 
             } else if( vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
@@ -606,17 +600,16 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
 
         four_quadrants seen_from( 0 );
         for( const offset_and_quadrants &oq : adjacent_offsets ) {
-            const int neighbour_x = p.x + oq.offset.x;
-            const int neighbour_y = p.y + oq.offset.y;
+            const point neighbour = p.xy() + oq.offset;
 
-            if( !generic_inbounds( { neighbour_x, neighbour_y }, lightmap_boundaries, lightmap_clearance ) ) {
+            if( !lightmap_boundaries.contains_half_open( neighbour ) ) {
                 continue;
             }
-            if( is_opaque( neighbour_x, neighbour_y ) ) {
+            if( is_opaque( neighbour.x, neighbour.y ) ) {
                 continue;
             }
-            if( map_cache.seen_cache[neighbour_x][neighbour_y] == 0 &&
-                map_cache.camera_cache[neighbour_x][neighbour_y] == 0 ) {
+            if( map_cache.seen_cache[neighbour.x][neighbour.y] == 0 &&
+                map_cache.camera_cache[neighbour.x][neighbour.y] == 0 ) {
                 continue;
             }
             // This is a non-opaque visible neighbour, so count visibility from the relevant
@@ -1421,7 +1414,7 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
     int nangle = angle % 360;
 
     tripoint end;
-    double rad = PI * static_cast<double>( nangle ) / 180;
+    double rad = M_PI * static_cast<double>( nangle ) / 180;
     int range = LIGHT_RANGE( luminance );
     calc_ray_end( nangle, range, p, end );
     apply_light_ray( lit, p, end, luminance );
@@ -1435,13 +1428,13 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
     }
 
     // attempt to determine beam intensity required to cover all squares
-    const double wstep = ( wangle / ( wdist * SQRT_2 ) );
+    const double wstep = ( wangle / ( wdist * M_SQRT2 ) );
 
     // NOLINTNEXTLINE(clang-analyzer-security.FloatLoopCounter)
     for( double ao = wstep; ao <= wangle; ao += wstep ) {
         if( trigdist ) {
-            double fdist = ( ao * HALFPI ) / wangle;
-            double orad = ( PI * ao / 180.0 );
+            double fdist = ( ao * M_PI_2 ) / wangle;
+            double orad = ( M_PI * ao / 180.0 );
             end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos(
                                           rad + orad ) );
             end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin(
@@ -1499,7 +1492,7 @@ void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
             t += ay;
 
             // TODO: clamp coordinates to map bounds before this method is called.
-            if( generic_inbounds( { x, y }, lightmap_boundaries, lightmap_clearance ) ) {
+            if( lightmap_boundaries.contains_half_open( point( x, y ) ) ) {
                 float current_transparency = transparency_cache[x][y];
                 bool is_opaque = ( current_transparency == LIGHT_TRANSPARENCY_SOLID );
                 if( !lit[x][y] ) {
@@ -1531,7 +1524,7 @@ void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
             y += dy;
             t += ax;
 
-            if( generic_inbounds( { x, y }, lightmap_boundaries, lightmap_clearance ) ) {
+            if( lightmap_boundaries.contains_half_open( point( x, y ) ) ) {
                 float current_transparency = transparency_cache[x][y];
                 bool is_opaque = ( current_transparency == LIGHT_TRANSPARENCY_SOLID );
                 if( !lit[x][y] ) {
