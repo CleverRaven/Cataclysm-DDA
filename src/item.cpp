@@ -1475,8 +1475,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                    mod->magazine_current()->tname() ) );
             } else if( mod->magazine_current() && parts->test( iteminfo_parts::GUN_MAGAZINE ) &&
                        mod->magazine_current()->has_flag( "IRREMOVABLE" ) ) {
-                info.emplace_back( "GUN", _( "Magazine: " ), string_format( "<stat>%s integral magazine</stat>",
-                                   mod->tname() ) );
+                info.emplace_back( "GUN", _( "Magazine: " ),
+                                   string_format( _( "<stat>%s integral magazine</stat>" ),
+                                                  mod->tname() ) );
             }
             if( mod->ammo_capacity() && parts->test( iteminfo_parts::GUN_CAPACITY ) ) {
                 for( const ammotype &at : mod->ammo_types() ) {
