@@ -1561,9 +1561,7 @@ class bionic_install_preset: public inventory_selector_preset
             // 20 minutes per bionic difficulty.
             int hours = difficulty / 3;
             int minutes = ( difficulty % 3 ) * 20;
-            std::string minutes_string = minutes > 0
-                                         ? string_format( _( "%i minutes" ), minutes )
-                                         : std::string();
+            std::string minutes_string = to_string_clipped( time_duration::from_minutes( difficulty * 20 ) );
 
             if( hours > 0 ) {
                 std::string hours_string = hours >= 2
@@ -1687,9 +1685,7 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
             // 20 minutes per bionic difficulty.
             int hours = difficulty / 3;
             int minutes = ( difficulty % 3 ) * 20;
-            std::string minutes_string = minutes > 0
-                                         ? string_format( _( "%i minutes" ), minutes )
-                                         : std::string();
+            std::string minutes_string = to_string_clipped( time_duration::from_minutes( difficulty * 20 ) );
 
             if( hours > 0 ) {
                 std::string hours_string = hours >= 2
@@ -1734,7 +1730,6 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
 
         std::string get_money_amount( const item_location &loc ) {
             return format_money( loc.get_item()->price( true ) * 2 );
-            return string_format( _( "%s" ), format_money( price ) );
         }
 };
 
@@ -1795,9 +1790,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
             // 20 minutes per bionic difficulty.
             int hours = difficulty / 3;
             int minutes = ( difficulty % 3 ) * 20;
-            std::string minutes_string = minutes > 0
-                                         ? string_format( _( "%i minutes" ), minutes )
-                                         : std::string();
+            std::string minutes_string = to_string_clipped( time_duration::from_minutes( difficulty * 20 ) );
 
             if( hours > 0 ) {
                 std::string hours_string = hours >= 2
