@@ -2386,7 +2386,8 @@
   },
   {
     "id": "pouch_autoclave",
-    "type": "GENERIC",
+    "type": "AMMO",
+    "ammo_type": "NULL",
     "category": "other",
     "name": "autoclave pouch",
     "description": "This is a medical device that bears the approval of the FDA (Food and Drug Administration).  These pouches are essential to sterilize medical tools.",
