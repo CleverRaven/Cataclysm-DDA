@@ -6589,7 +6589,7 @@ bool item::reload( player &u, item_location loc, int qty )
     } );
 
     if( is_magazine() ) {
-        qty = std::min( qty, ammo->charges );
+        qty = std::min( qty, ammo->has_flag( "SPEEDLOADER" ) ? ammo->ammo_remaining() : ammo->charges );
 
         if( is_ammo_belt() && type->magazine->linkage ) {
             if( !u.use_charges_if_avail( *type->magazine->linkage, qty ) ) {
@@ -6597,10 +6597,15 @@ bool item::reload( player &u, item_location loc, int qty )
             }
         }
 
-        contents.emplace_back( *ammo );
-        contents.back().charges = qty;
-        ammo->charges -= qty;
-
+        if( ammo->has_flag( "SPEEDLOADER" ) ) {
+            contents.emplace_back( ammo->contents.front() );
+            contents.back().charges = qty;
+            ammo->ammo_consume( qty, tripoint_zero );
+        } else {
+            contents.emplace_back( *ammo );
+            contents.back().charges = qty;
+            ammo->charges -= qty;
+        }
     } else if( is_watertight_container() ) {
         if( !ammo->made_of_from_type( LIQUID ) ) {
             debugmsg( "Tried to reload liquid container with non-liquid." );
@@ -6635,12 +6640,7 @@ bool item::reload( player &u, item_location loc, int qty )
         return true;
 
     } else {
-        if( ammo->has_flag( "SPEEDLOADER" ) ) {
-            curammo = find_type( ammo->contents.front().typeId() );
-            qty = std::min( qty, ammo->ammo_remaining() );
-            ammo->ammo_consume( qty, tripoint_zero );
-            charges += qty;
-        } else if( ammo->ammo_type() == "plutonium" ) {
+        if( ammo->ammo_type() == "plutonium" ) {
             curammo = find_type( ammo->typeId() );
             ammo->charges -= qty;
 
