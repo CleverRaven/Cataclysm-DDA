@@ -1717,7 +1717,7 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
             const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
                                        skill_computer,
                                        skill_electronics,
-                                       20 );//override player's skills iwth surgeon skill
+                                       20 );//override player's skills with surgeon skill
 
             if( ( get_option < bool >( "SAFE_AUTODOC" ) ) ||
                 g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
