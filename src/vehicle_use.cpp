@@ -22,6 +22,7 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
+#include "morale_types.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pickup.h"
@@ -62,7 +63,10 @@ static const fault_id fault_glowplug( "fault_engine_glow_plug" );
 static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
 static const fault_id fault_pump( "fault_engine_pump_fuel" );
 static const fault_id fault_starter( "fault_engine_starter" );
+const efftype_id effect_boomered( "boomered" );
+const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_harnessed( "harnessed" );
+const efftype_id effect_slimed( "slimed" );
 const efftype_id effect_tied( "tied" );
 const skill_id skill_mechanics( "mechanics" );
 
@@ -1049,6 +1053,27 @@ void vehicle::reload_seeds( const tripoint &pos )
     }
 }
 
+static void use_towel( const tripoint &pos )
+{
+    ( void )pos; // TODO soil the towel
+    player &p = g->u;
+    bool slime = p.has_effect( effect_slimed );
+    bool boom = p.has_effect( effect_boomered );
+    bool glow = p.has_effect( effect_glowing );
+    int mult = slime + boom + glow; // cleaning off more than one at once makes it take longer
+    p.remove_effect( effect_slimed ); // able to clean off all at once
+    p.remove_effect( effect_boomered );
+    p.remove_effect( effect_glowing );
+    if( abs( p.has_morale( MORALE_WET ) ) ) {
+        p.rem_morale( MORALE_WET );
+        p.body_wetness.fill( 0 );
+        p.add_msg_if_player( _( "You use the towel to dry off." ) );
+        mult += 1;
+
+    }
+    p.moves -= 50 * mult;
+}
+
 void vehicle::beeper_sound()
 {
     // No power = no sound
@@ -1662,6 +1687,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case USE_TOWEL: {
+            use_towel( pos );
             return;
         }
         case USE_WASHMACHINE: {
