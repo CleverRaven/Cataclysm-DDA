@@ -1733,7 +1733,7 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
         }
 
         std::string get_money_amount( const item_location &loc ) {
-            signed int price = loc.get_item()->price( true ) * 2;
+            return format_money( loc.get_item()->price( true ) * 2 );
             return string_format( _( "%s" ), format_money( price ) );
         }
 };
