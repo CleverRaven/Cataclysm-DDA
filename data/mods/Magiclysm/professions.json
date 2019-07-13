@@ -229,7 +229,7 @@
     "spells": [ { "id": "synaptic_stimulation", "level": 4 } ],
     "points": 0,
     "items": {
-      "both": [ "jeans", "tshirt", "globes_light", "hat_ball", "sneakers", "socks", "hoodie" ],
+      "both": [ "jeans", "tshirt", "gloves_light", "hat_ball", "sneakers", "socks", "hoodie" ],
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
     },
