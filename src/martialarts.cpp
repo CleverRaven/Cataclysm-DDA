@@ -76,12 +76,10 @@ void ma_requirements::load( JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
+    optional( jo, was_loaded, "unarmed_weapons_allowed", unarmed_weapons_allowed, true );
 
     optional( jo, was_loaded, "req_buffs", req_buffs, auto_flags_reader<mabuff_id> {} );
     optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<> {} );
-
-    optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
-    optional( jo, was_loaded, "strictly_melee", strictly_melee, false );
 
     // TODO: De-hardcode the skills and damage types here
     add_if_exists( jo, min_skill, was_loaded, "min_melee", skill_melee );
@@ -397,10 +395,12 @@ bool ma_requirements::is_valid_player( const player &u ) const
     // There are 4 different cases of "armedness":
     // Truly unarmed, unarmed weapon, style-allowed weapon, generic weapon
     bool valid_weapon =
-        ( unarmed_allowed && u.unarmed_attack() &&
-          ( !strictly_unarmed || !u.is_armed() ) ) ||
-        ( is_valid_weapon( u.weapon ) &&
-          ( melee_allowed || u.style_selected.obj().has_weapon( u.weapon.typeId() ) ) );
+       ( !u.style_selected.obj().strictly_melee && unarmed_allowed &&
+       ( !u.is_armed() || ( u.unarmed_attack() && unarmed_weapons_allowed ) ) ) ||
+       ( !u.style_selected.obj().strictly_unarmed && melee_allowed &&
+       is_valid_weapon( u.weapon ) &&
+       ( u.style_selected.obj().has_weapon( u.weapon.typeId() ) ||
+       u.style_selected.obj().allow_melee ) );
     if( !valid_weapon ) {
         return false;
     }

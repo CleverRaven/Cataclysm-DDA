@@ -39,7 +39,7 @@
 "id" : "tec_debug_arpen",   // Unique ID. Must be one continuous word
 "name" : "phasing strike",  // In-game name displayed
 "unarmed_allowed" : true,   // Can an unarmed character use this technique
-"strict_unarmed" : true,    // Does this buff require the character to be actually unarmed or does it allow unarmed weapons
+"unarmed_weapons_allowed" : true,    // Does this technique require the character to be actually unarmed or does it allow unarmed weapons
 "melee_allowed" : true,     // Means that ANY melee weapon can be used, NOT just the martial art's weapons 
 "min_melee" : 3,            // Minimum skill and its level required to use this technique. Can be any skill.
 "req_buffs": [ "eskrima_hit_buff" ],    // This technique requires a named buff to be active
@@ -74,8 +74,7 @@
 "buff_duration": 2,                 // Duration in turns that this buff lasts
 "unarmed_allowed" : true,           // Can this buff be applied to an unarmed character
 "unarmed_allowed" : false,          // Can this buff be applied to an armed character
-"strictly_unarmed" : true,          // Does this buff require the character to be actually unarmed. If false, allows unarmed weapons (brass knuckles, punch daggers)
-"strictly_melee" : true,            // Does this buff require the character to use a weapon. 
+"unarmed_weapons_allowed" : true,          // Does this buff require the character to be actually unarmed. If true, allows unarmed weapons (brass knuckles, punch daggers)
 "max_stacks" : 8,                   // Maximum number of stacks on the buff. Buff bonuses are multiplied by current buff intensity
 "bonus_blocks": 1       // Extra blocks per turn
 "bonus_dodges": 1       // Extra dodges per turn
