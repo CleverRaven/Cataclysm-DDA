@@ -899,7 +899,7 @@ void complete_construction( player *p )
         // Move any items that have found their way onto the construction site.
         std::vector<tripoint> dump_spots;
         for( const tripoint &pt : g->m.points_in_radius( terp, 1 ) ) {
-            if( g->is_empty( pt ) && pt != terp ) {
+            if( g->m.can_put_items( pt ) && pt != terp ) {
                 dump_spots.push_back( pt );
             }
         }
