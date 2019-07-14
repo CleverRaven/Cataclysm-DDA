@@ -399,8 +399,8 @@ bool trading_window::perform_trade( npc &p, const std::string &deal )
     volume_left = p.volume_capacity() - p.volume_carried();
     weight_left = p.weight_capacity() - p.weight_carried();
     if( p.mission == NPC_MISSION_SHOPKEEP ) {
-        volume_left = 5000000_ml;
-        weight_left = 5000_kilogram;
+        volume_left = 5'000'000_ml;
+        weight_left = 5'000_kilogram;
     }
 
     do {
