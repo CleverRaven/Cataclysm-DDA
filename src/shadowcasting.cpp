@@ -122,6 +122,8 @@ void cast_horizontal_zlight_segment(
             std::bitset<128> previous_row_transparencies;
             std::bitset<128> current_row_transparencies;
 
+            slope current_start_minor = slope( 1, 1 );
+
             // TODO: Precalculate min/max delta.z based on start/end and distance
             for( delta.z = 0; delta.z <= distance; delta.z++ ) {
                 const slope trailing_edge_major( delta.z * 2 - 1, delta.y * 2 + 1 );
@@ -151,7 +153,7 @@ void cast_horizontal_zlight_segment(
 
                 const int z_index = current.z + OVERMAP_DEPTH;
 
-                slope current_start_minor = this_span->start_minor;
+                current_start_minor = this_span->start_minor;
 
                 for( delta.x = 0; delta.x <= distance; delta.x++ ) {
                     current.x = offset.x + delta.x * xx_transform + delta.y * xy_transform;
@@ -276,7 +278,7 @@ void cast_horizontal_zlight_segment(
                                                this_span->start_minor, trailing_edge_minor,
                                                next_cumulative_transparency );
 
-                                current_start_minor = trailing_edge_major;
+                                current_start_minor = trailing_edge_minor;
                             }
                         } else if( trailing_edge_minor > current_start_minor ) {
                             // A span not present, so previous row might be opaque
@@ -303,7 +305,7 @@ void cast_horizontal_zlight_segment(
                                                next_cumulative_transparency, true );
                             }
 
-                            current_start_minor = trailing_edge_major;
+                            current_start_minor = trailing_edge_minor;
                         }
                     } else {
                         // Leading edge of the previous square since opaque,
@@ -320,11 +322,39 @@ void cast_horizontal_zlight_segment(
 
                 // If we end the row with an opaque tile, set the span to start at the next row
                 if( !is_transparent( current_transparency, last_intensity ) ) {
-                    this_span->start_major = leading_edge_major;
-                }
+                    // We know the last tile was opaque, but there may have been transparent tiles
+                    // earlier in the row.
+                    const slope next_trailing_edge_major( ( delta.z + 1 ) * 2 - 1, delta.y * 2 + 1 );
+                    this_span->start_major = next_trailing_edge_major;
+                } else if( current_start_minor != this_span->start_minor ) {
+                    // If a span was broken off earlier in this row, we need to break off the rest
+                    // of the row to a new span and set the current span to start on the next row
 
-                if( this_span->start_major >= trailing_edge_major ) {
-                    this_span->start_minor = current_start_minor;
+                    // Previous row is transparent, so use the trailing edge of the current row as start major
+                    // this new span is transparent, so use the trailing edge of the next row as end major
+                    const T next_cumulative_transparency = accumulate( this_span->cumulative_value,
+                                                           current_transparency, distance );
+                    if( first_row || previous_row_transparencies[delta.x - 1] ) {
+                        const slope next_trailing_edge_major( ( delta.z + 1 ) * 2 - 1, delta.y * 2 + 1 );
+                        spans.emplace( this_span,
+                                       std::max( this_span->start_major, trailing_edge_major ),
+                                       next_trailing_edge_major,
+                                       current_start_minor, this_span->end_minor,
+                                       next_cumulative_transparency );
+                    } else {
+                        // Previous row is opaque, so use the leading edge of the previous row as start major
+                        const slope previous_leading_edge_major( ( delta.z - 1 ) * 2 + 1, delta.y * 2 - 1 );
+                        // B is transparent, so use the trailing edge of the next row as end major
+                        const slope next_trailing_edge_major( ( delta.z + 1 ) * 2 - 1, delta.y * 2 + 1 );
+                        spans.emplace( this_span,
+                                       std::max( this_span->start_major, previous_leading_edge_major ),
+                                       next_trailing_edge_major,
+                                       current_start_minor, this_span->end_minor,
+                                       next_cumulative_transparency, true );
+                    }
+
+                    const slope next_trailing_edge_major( ( delta.z + 1 ) * 2 - 1, delta.y * 2 + 1 );
+                    this_span->start_major = next_trailing_edge_major;
                 }
 
                 previous_row_transparencies = std::move( current_row_transparencies );
