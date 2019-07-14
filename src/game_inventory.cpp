@@ -1526,7 +1526,7 @@ class bionic_install_preset: public inventory_selector_preset
 
             if( it->has_flag( "FILTHY" ) ) {
                 return _( "/!\\ CBM is highly contaminated. /!\\" );
-            } else if( !it->has_flag( "STERILE" ) ) {
+            } else if( it->has_flag( "NO_STERILE" ) ) {
                 return _( "/!\\ CBM is not sterile. /!\\" ) ;
             } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
                 return _( "CBM already deployed.  Please reset to factory state." );
@@ -1635,7 +1635,7 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
 
             if( it->has_flag( "FILTHY" ) ) {
                 return _( "CBM is filthy." );
-            } else if( !it->has_flag( "STERILE" ) ) {
+            } else if( it->has_flag( "NO_STERILE" ) ) {
                 return _( "CBM is not sterile." );
             } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
                 return _( "CBM already deployed." );
