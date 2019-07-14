@@ -159,5 +159,16 @@
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
       { "drop": "adrenal_gland_large", "type": "bionic", "max": 2 }
     ]
+  },
+  {
+    "id": "dragon_black",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "meat_dragon", "type": "flesh", "mass_ratio": 0.18 },
+      { "drop": "dragon_black_scale", "type": "skin", "mass_ratio": 0.05 },
+      { "drop": "black_dragon_hide_raw", "type": "skin", "mass_ratio": 0.1 },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.1 }
+    ]
   }
 ]

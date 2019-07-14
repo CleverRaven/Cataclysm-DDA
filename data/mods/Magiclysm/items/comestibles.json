@@ -51,5 +51,14 @@
     "price": 0,
     "flags": [ "TRADER_AVOID", "EDIBLE_FROZEN" ],
     "fun": -20
+  },
+  {
+    "id": "meat_dragon",
+    "type": "COMESTIBLE",
+    "copy-from": "meat",
+    "name": "dragon meat",
+    "name_plural": "dragon meat",
+    "description": "The meat from a slain dragon.  It does not seem to respond to cooking the same way as other meat, making it obvious that it still retains some magical properties.",
+    "parasites": 0
   }
 ]
