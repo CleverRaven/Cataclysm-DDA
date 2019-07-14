@@ -495,6 +495,8 @@ void Character::load( JsonObject &data )
     on_stat_change( "hunger", hunger );
     on_stat_change( "fatigue", fatigue );
     on_stat_change( "sleep_deprivation", sleep_deprivation );
+    recalc_sight_limits();
+    reset_encumbrance();
 
     // FIXME: Fix corrupted bionic power data loading (see #31627). Temporary.
     power_level = pmap.get_int( "power_level", data.get_int( "power_level", 0 ) );
