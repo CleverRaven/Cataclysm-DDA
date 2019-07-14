@@ -395,12 +395,12 @@ bool ma_requirements::is_valid_player( const player &u ) const
     // There are 4 different cases of "armedness":
     // Truly unarmed, unarmed weapon, style-allowed weapon, generic weapon
     bool valid_weapon =
-       ( !u.style_selected.obj().strictly_melee && unarmed_allowed &&
-       ( !u.is_armed() || ( u.unarmed_attack() && unarmed_weapons_allowed ) ) ) ||
-       ( !u.style_selected.obj().strictly_unarmed && melee_allowed &&
-       is_valid_weapon( u.weapon ) &&
-       ( u.style_selected.obj().has_weapon( u.weapon.typeId() ) ||
-       u.style_selected.obj().allow_melee ) );
+        ( !u.style_selected.obj().strictly_melee && unarmed_allowed &&
+          ( !u.is_armed() || ( u.unarmed_attack() && unarmed_weapons_allowed ) ) ) ||
+        ( !u.style_selected.obj().strictly_unarmed && melee_allowed &&
+          is_valid_weapon( u.weapon ) &&
+          ( u.style_selected.obj().has_weapon( u.weapon.typeId() ) ||
+            u.style_selected.obj().allow_melee ) );
     if( !valid_weapon ) {
         return false;
     }
