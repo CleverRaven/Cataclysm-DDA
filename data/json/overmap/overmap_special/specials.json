@@ -5323,7 +5323,6 @@
       { "point": [ 28, 29, 0 ], "overmap": "forest" },
       { "point": [ 29, 29, 0 ], "overmap": "forest_thick" }
     ],
-    "connections": [ { "point": [ 0, 15, 0 ], "terrain": "road" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 1, 20 ],
