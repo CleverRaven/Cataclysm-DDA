@@ -4393,9 +4393,11 @@
       { "point": [ 1, 0, 1 ], "overmap": "mi-go_camp2-1_north" },
       { "point": [ 1, 0, 2 ], "overmap": "mi-go_camp2-2_north" }
     ],
-    "locations": [ "wilderness" ],
+    "locations": [ "wilderness", "forest", "land" ],
     "city_distance": [ 1, -1 ],
     "city_sizes": [ 0, 20 ],
-    "occurrences": [ 0, 0 ]
+    "occurrences": [ 0, 0 ],
+    "flags": [ "CLASSIC" ],
+    "spawns": { "group": "GROUP_MI-GO_CAMP_OM", "population": [ 50, 200 ], "radius": [ 2, 30 ] }
   }
 ]
