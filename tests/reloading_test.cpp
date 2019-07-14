@@ -33,6 +33,7 @@ TEST_CASE( "reload_integral_magazine_of gun", "[reload],[gun]" )
     REQUIRE( ammo_pos != INT_MIN );
     REQUIRE( gun.ammo_remaining() == 0 );
     REQUIRE( !gun.integral_magazines().empty() );
+    REQUIRE( gun.magazine_current()->is_reloadable_with( ammo.type->get_id() ) );
 
     bool success = gun.magazine_current()->reload( dummy, item_location( dummy, &ammo ), ammo.charges );
 
@@ -55,6 +56,7 @@ TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
     REQUIRE( ammo_pos != INT_MIN );
     REQUIRE( gun.ammo_remaining() == 0 );
     REQUIRE( !gun.integral_magazines().empty() );
+    REQUIRE( !gun.is_reloadable_with( ammo.type->get_id() ) );
 
     bool success = gun.reload( dummy, item_location( dummy, &ammo ), ammo.charges );
 
@@ -83,11 +85,13 @@ TEST_CASE( "reload_integral_magazine_of_gun_using_speedloader", "[reload],[gun]"
     REQUIRE( loader_pos != INT_MIN );
     REQUIRE( speedloader.ammo_remaining() == 0 );
     REQUIRE( speedloader.has_flag( "SPEEDLOADER" ) );
+    REQUIRE( speedloader.is_reloadable_with( ammo.type->get_id() ) );
 
     bool speedloader_success = speedloader.reload( dummy, item_location( dummy, &ammo ), ammo.charges );
 
     REQUIRE( speedloader_success );
     REQUIRE( speedloader.ammo_remaining() == speedloader.ammo_capacity() );
+    REQUIRE( gun.magazine_current()->is_reloadable_with( speedloader.type->get_id() ) );
 
     bool success = gun.magazine_current()->reload( dummy, item_location( dummy, &speedloader ),
                    speedloader.ammo_remaining() );
@@ -119,11 +123,13 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
     REQUIRE( loader_pos != INT_MIN );
     REQUIRE( speedloader.ammo_remaining() == 0 );
     REQUIRE( speedloader.has_flag( "SPEEDLOADER" ) );
+    REQUIRE( speedloader.is_reloadable_with( ammo.type->get_id() ) );
 
     bool speedloader_success = speedloader.reload( dummy, item_location( dummy, &ammo ), ammo.charges );
 
     REQUIRE( speedloader_success );
     REQUIRE( speedloader.ammo_remaining() == speedloader.ammo_capacity() );
+    REQUIRE( !gun.is_reloadable_with( speedloader.type->get_id() ) );
 
     bool success = gun.reload( dummy, item_location( dummy, &speedloader ),
                                speedloader.ammo_remaining() );
@@ -152,6 +158,7 @@ TEST_CASE( "reload_gun_with_empty_detachable_magazine", "[reload],[gun]" )
     REQUIRE( gun_pos != INT_MIN );
 
     REQUIRE( mag.ammo_remaining() == 0 );
+    REQUIRE( gun.is_reloadable_with( mag.type->get_id() ) );
 
     bool success = gun.reload( dummy, item_location( dummy, &mag ), 1 );
 
