@@ -544,7 +544,6 @@
     "decomp_learn": 4,
     "autolearn": true,
     "components": [ [ [ "dragonskinempty", 1 ] ], [ [ "ceramicdisks", 8 ] ] ]
-      [ [ "ceramicdisks", 8 ] ] ]
   },
   {
     "result": "peacoat",
