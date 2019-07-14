@@ -2927,8 +2927,8 @@ nc_color item::color_in_inventory() const
         ret = c_red;
     } else if( is_filthy() || item_tags.count( "DIRTY" ) ) {
         ret = c_brown;
-    } else if( has_flag( "STERILE" ) ) {
-        if( has_flag( "PACKED" ) || has_flag( "PACKED_FAULTY" ) ) {
+    } else if( is_bionic() && !has_flag( "NO_STERILE" ) ) {
+        if( ( !has_flag( "NO_PACKED" ) || has_flag( "PACKED_FAULTY" ) ) ) {
             ret = c_dark_gray;
         } else {
             ret = c_cyan;
@@ -3385,10 +3385,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( is_filthy() ) {
         ret << _( " (filthy)" );
     }
-    if( has_flag( "STERILE" ) ) {
+    if( is_bionic() && !has_flag( "NO_STERILE" ) ) {
         ret << _( " (sterile)" );
     }
-    if( has_flag( "PACKED" ) || has_flag( "PACKED_FAULTY" ) ) {
+    if( !has_flag( "NO_PACKED" ) || has_flag( "PACKED_FAULTY" ) ) {
         ret << _( " (packed)" );
     }
     if( is_tool() && has_flag( "USE_UPS" ) ) {
@@ -7463,7 +7463,7 @@ std::string item::components_to_string() const
 bool item::needs_processing() const
 {
     return active || has_flag( "RADIO_ACTIVATION" ) || has_flag( "ETHEREAL_ITEM" ) ||
-           has_flag( "STERILE" ) ||
+           ( is_bionic() && !has_flag( "NO_STERILE" ) ) ||
            ( is_container() && !contents.empty() && contents.front().needs_processing() ) ||
            is_artifact() || is_food();
 }
@@ -8271,15 +8271,15 @@ bool item::process( player *carrier, const tripoint &pos, bool activate,
         return processed;
     }
 
-    if( has_flag( "STERILE" ) && !has_flag( "PACKED" ) ) {
+    if( is_bionic() && !has_flag( "NO_STERILE" ) && has_flag( "NO_PACKED" ) ) {
         if( !has_var( "sterile" ) ) {
-            unset_flag( "STERILE" );
+            set_flag( "NO_STERILE" );
             return false;
         }
         set_var( "sterile", std::stoi( get_var( "sterile" ) ) - 1 );
         const bool sterile_no_more = std::stoi( get_var( "sterile" ) ) <= 0;
         if( sterile_no_more ) {
-            unset_flag( "STERILE" );
+            set_flag( "NO_STERILE" );
             erase_var( "sterile" );
         }
         return false;

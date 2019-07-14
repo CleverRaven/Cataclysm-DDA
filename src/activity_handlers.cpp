@@ -317,12 +317,16 @@ static void butcher_cbm_item( const std::string &what, const tripoint &pos,
     if( item::find_type( itype_id( what ) )->bionic.has_value() ) {
         item cbm( check_butcher_cbm( roll ) ? what : "burnt_out_bionic", age );
         cbm.set_flag( "FILTHY" );
+        cbm.set_flag( "NO_STERILE" );
+        cbm.set_flag( "NO_PACKED" );
         cbm.faults.emplace( fault_bionic_salvaged );
         add_msg( m_good, _( "You discover a %s!" ), cbm.tname() );
         g->m.add_item( pos, cbm );
     } else if( check_butcher_cbm( roll ) ) {
         item something( what, age );
         something.set_flag( "FILTHY" );
+        something.set_flag( "NO_STERILE" );
+        something.set_flag( "NO_PACKED" );
         something.faults.emplace( fault_bionic_salvaged );
         add_msg( m_good, _( "You discover a %s!" ), something.tname() );
         g->m.add_item( pos, something );
@@ -344,6 +348,8 @@ static void butcher_cbm_group( const std::string &group, const tripoint &pos,
         const auto spawned = g->m.put_items_from_loc( group, pos, age );
         for( item *it : spawned ) {
             it->set_flag( "FILTHY" );
+            it->set_flag( "NO_STERILE" );
+            it->set_flag( "NO_PACKED" );
             it->faults.emplace( fault_bionic_salvaged );
             add_msg( m_good, _( "You discover a %s!" ), it->tname() );
         }
@@ -351,6 +357,8 @@ static void butcher_cbm_group( const std::string &group, const tripoint &pos,
         //There is a burnt out CBM
         item cbm( "burnt_out_bionic", age );
         cbm.set_flag( "FILTHY" );
+        cbm.set_flag( "NO_STERILE" );
+        cbm.set_flag( "NO_PACKED" );
         cbm.faults.emplace( fault_bionic_salvaged );
         add_msg( m_good, _( "You discover a %s!" ), cbm.tname() );
         g->m.add_item( pos, cbm );

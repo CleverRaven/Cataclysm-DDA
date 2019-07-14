@@ -2152,7 +2152,8 @@ int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
     }
 
 
-    if( bionic.get_item()->has_flag( "PACKED" ) || bionic.get_item()->has_flag( "PACKED_FAULTY" ) ) {
+    if( !bionic.get_item()->has_flag( "NO_PACKED" ) ||
+        bionic.get_item()->has_flag( "PACKED_FAULTY" ) ) {
         if( !p->query_yn( _( "This CBM is already prepared.  Do you want to re-do it?" ) ) ) {
             return 0;
         }
@@ -2160,9 +2161,11 @@ int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
 
     const int success = p->get_skill_level( skill_firstaid ) - rng( 0, 6 );
     if( success > 0 ) {
-        bionic.get_item()->set_flag( "PACKED" );
+        bionic.get_item()->unset_flag( "NO_PACKED" );
+        bionic.get_item()->unset_flag( "PACKED_FAULTY" );
         add_msg( m_info, _( "You carefully prepare the CBM for sterilization." ) );
     } else {
+        bionic.get_item()->unset_flag( "NO_PACKED" );
         bionic.get_item()->set_flag( "PACKED_FAULTY" );
         if( success == 0 ) {
             add_msg( m_bad, _( "You're not sure about the quality of your work." ) );
