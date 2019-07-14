@@ -1051,6 +1051,7 @@
     "learn_difficulty": 6,
     "arm_block": 99,
     "leg_block": 99,
+    "strictly_melee": true,
     "static_buffs": [
       {
         "id": "medievalpole_static",
@@ -1068,7 +1069,7 @@
         "id": "medievalpole_move",
         "name": "You moved",
         "description": "Nulifies Stand Your Ground, don't move, stand there and counter!",
-        "strictly_melee": true,
+        "melee_allowed": true,
         "flat_bonuses": [ [ "block", "str", -1.0 ] ],
         "mult_bonuses": [ [ "dodge", 1.0 ] ],
         "buff_duration": 2,
@@ -1082,7 +1083,7 @@
         "id": "medievalpole_setup",
         "name": "Setup",
         "description": "They fell for your feint!",
-        "unarmed_allowed": false,
+        "melee_allowed": true,
         "min_melee": 0,
         "buff_duration": 2,
         "max_stacks": 1

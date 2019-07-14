@@ -1151,6 +1151,7 @@
     "id": "tec_medievalpole_counter",
     "name": "Displace and Hook",
     "min_melee": 3,
+    "melee_allowed": true,
     "down_dur": 2,
     "block_counter": true,
     "crit_ok": true,
@@ -1162,6 +1163,7 @@
     "id": "tec_medievalpole_highround",
     "name": "High Round Strike",
     "min_melee": 3,
+    "melee_allowed": true,
     "mult_bonuses": [ [ "damage", "bash", 1.2 ], [ "damage", "cut", 1.2 ], [ "damage", "stab", 1.2 ] ],
     "messages": [ "You swing high and strike at %s", "<npcname> swings high and strikes %s" ]
   },
@@ -1170,6 +1172,7 @@
     "id": "tec_medievalpole_feint",
     "name": "High Round Feint",
     "min_melee": 3,
+    "melee_allowed": true,
     "defensive": true,
     "miss_recovery": true,
     "mult_bonuses": [ [ "movecost", 0.8 ] ],
@@ -1191,6 +1194,7 @@
     "name": "High Round Stab",
     "req_buffs": "medievalpole_setup",
     "min_melee": 3,
+    "melee_allowed": true,
     "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.75 ] ],
     "messages": [ "You quickly stab %s", "<npcname> quickly stabs %s" ]
   },
