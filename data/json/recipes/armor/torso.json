@@ -543,7 +543,7 @@
     "reversible": true,
     "decomp_learn": 4,
     "autolearn": true,
-    "components": [
+    "components": [ [ [ "dragonskinempty", 1 ] ], [ [ "ceramicdisks", 8 ] ] ]
       [ [ "dragonskinempty", 1 ] ],
       [ [ "ceramicdisks", 8 ] ] ]
   },
