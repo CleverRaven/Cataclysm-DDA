@@ -279,6 +279,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "ceramicdisks",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "set of 100 ceramic disk",
+    "name_plural": "ceramic disks",
+    "description": "A set of small slightly elongated disks, made of high-grade ceramic. They remind you of scales",
+    "price": 0,
+    "material": "lightceramic",
+    "weight": 100,
+    "volume": 1,
+    "bashing": 1,
+    "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
     "id": "acidchitin_piece",
     "copy-from": "chitin_piece",
     "name": "chunk of biosilicified chitin",
