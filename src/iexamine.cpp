@@ -2350,6 +2350,10 @@ void iexamine::autoclave_empty( player &p, const tripoint &examp )
         return i.is_bionic();
     } );
 
+    bool filthy_cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
+        return i.is_bionic() && i.has_flag( "FILTHY" );
+    } );
+
     if( items.empty() ) {
         add_msg( _( "This autoclave is empty..." ) );
         return;
@@ -2359,7 +2363,11 @@ void iexamine::autoclave_empty( player &p, const tripoint &examp )
                  _( "You need to remove all non-CBM items from the autoclave to start the program." ) );
         return;
     }
-
+    if( filthy_cbms ) {
+        add_msg( m_bad,
+                 _( "Some of those CBMs are filthy, you should wash them first for the sterilisation process to work properly." ) );
+        return;
+    }
     auto reqs = *requirement_id( "autoclave" );
 
     if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
