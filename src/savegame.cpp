@@ -803,23 +803,7 @@ void overmap::load_legacy_monstergroups( JsonIn &jsin )
 // throws std::exception
 void overmap::unserialize( std::istream &fin )
 {
-
-    if( fin.peek() == '#' ) {
-        // This was the last savegame version that produced the old format.
-        static int overmap_legacy_save_version = 24;
-        std::string vline;
-        getline( fin, vline );
-        std::string tmphash;
-        std::string tmpver;
-        int savedver = -1;
-        std::stringstream vliness( vline );
-        vliness >> tmphash >> tmpver >> savedver;
-        if( savedver <= overmap_legacy_save_version ) {
-            unserialize_legacy( fin );
-            return;
-        }
-    }
-
+    chkversion( fin );
     JsonIn jsin( fin );
     jsin.start_object();
     while( !jsin.end_object() ) {
@@ -1061,23 +1045,7 @@ static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool ( &arr
 // throws std::exception
 void overmap::unserialize_view( std::istream &fin )
 {
-    // Private/per-character view of the overmap.
-    if( fin.peek() == '#' ) {
-        // This was the last savegame version that produced the old format.
-        static int overmap_legacy_save_version = 24;
-        std::string vline;
-        getline( fin, vline );
-        std::string tmphash;
-        std::string tmpver;
-        int savedver = -1;
-        std::stringstream vliness( vline );
-        vliness >> tmphash >> tmpver >> savedver;
-        if( savedver <= overmap_legacy_save_version ) {
-            unserialize_view_legacy( fin );
-            return;
-        }
-    }
-
+    chkversion( fin );
     JsonIn jsin( fin );
     jsin.start_object();
     while( !jsin.end_object() ) {

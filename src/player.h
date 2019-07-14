@@ -223,11 +223,6 @@ class player : public Character
         /** Returns what color the player should be drawn as */
         nc_color basic_symbol_color() const override;
 
-        /** Deserializes string data when loading files */
-        virtual void load_info( std::string data );
-        /** Outputs a serialized json string for saving */
-        virtual std::string save_info() const;
-
         /** Returns an enumeration of visible mutations with colors */
         std::string visible_mutations( const int visibility_cap ) const;
         std::vector<std::string> short_description_parts() const;
