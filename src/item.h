@@ -2060,6 +2060,7 @@ class item : public visitable<item>
         bool is_favorite = false;
 
         void set_favorite( const bool favorite );
+        bool has_clothing_mod() const;
 };
 
 bool item_compare_by_charges( const item &left, const item &right );

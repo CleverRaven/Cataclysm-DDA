@@ -14,6 +14,9 @@ using bionic_id = string_id<bionic_data>;
 struct construction_category;
 using construction_category_id = string_id<construction_category>;
 
+struct clothing_mod;
+using clothing_mod_id = string_id<clothing_mod>;
+
 class effect_type;
 using efftype_id = string_id<effect_type>;
 

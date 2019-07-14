@@ -83,6 +83,7 @@
 #include "clzones.h"
 #include "faction.h"
 #include "magic.h"
+#include "clothing_mod.h"
 
 class npc_class;
 
@@ -3254,8 +3255,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             ret << string_format( "+%d", amt );
         }
         maintext = ret.str();
-    } else if( is_armor() && item_tags.count( "wooled" ) + item_tags.count( "furred" ) +
-               item_tags.count( "leather_padded" ) + item_tags.count( "kevlar_padded" ) > 0 ) {
+    } else if( is_armor() && has_clothing_mod() ) {
         ret.str( "" );
         ret << label( quantity );
         ret << "+1";
@@ -4318,20 +4318,10 @@ int item::get_encumber_when_containing(
             break;
     }
 
-    const int thickness = get_thickness();
-    const int coverage = get_coverage();
-    if( item_tags.count( "wooled" ) ) {
-        encumber += 1 + 3 * coverage / 100;
-    }
-    if( item_tags.count( "furred" ) ) {
-        encumber += 1 + 4 * coverage / 100;
-    }
-
-    if( item_tags.count( "leather_padded" ) ) {
-        encumber += ceil( 2 * thickness * coverage / 100.0f );
-    }
-    if( item_tags.count( "kevlar_padded" ) ) {
-        encumber += ceil( 2 * thickness * coverage / 100.0f );
+    for( auto cm : clothing_mods::get_all() ) {
+        if( item_tags.count( cm.flag ) > 0 ) {
+            encumber += std::max( 1, static_cast<int>( ceil( cm.get_mod_val( "encumber", *this ) ) ) );
+        }
     }
 
     return encumber;
@@ -4378,23 +4368,20 @@ int item::get_thickness() const
 
 int item::get_warmth() const
 {
-    int fur_lined = 0;
-    int wool_lined = 0;
     const auto t = find_armor_data();
     if( t == nullptr ) {
         return 0;
     }
     int result = t->warmth;
 
-    if( item_tags.count( "furred" ) > 0 ) {
-        fur_lined = 35 * get_coverage() / 100;
+    for( auto cm : clothing_mods::get_all() ) {
+        if( item_tags.count( cm.flag ) > 0 ) {
+            result += cm.get_mod_val( "warmth", *this );
+        }
     }
 
-    if( item_tags.count( "wooled" ) > 0 ) {
-        wool_lined = 20 * get_coverage() / 100;
-    }
 
-    return result + fur_lined + wool_lined;
+    return result;
 }
 
 units::volume item::get_pet_armor_max_vol() const
@@ -4506,7 +4493,6 @@ int item::bash_resist( bool to_self ) const
         return 0;
     }
 
-    const int base_thickness = get_thickness();
     float resist = 0;
     float padding = 0;
     int eff_thickness = 1;
@@ -4519,11 +4505,11 @@ int item::bash_resist( bool to_self ) const
         const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
         eff_thickness = std::max( 1, get_thickness() - eff_damage );
     }
-    if( item_tags.count( "leather_padded" ) > 0 ) {
-        padding += base_thickness;
-    }
-    if( item_tags.count( "kevlar_padded" ) > 0 ) {
-        padding += base_thickness;
+
+    for( auto cm : clothing_mods::get_all() ) {
+        if( item_tags.count( cm.flag ) > 0 ) {
+            padding += cm.get_mod_val( "bash", *this );
+        }
     }
 
     const std::vector<const material_type *> mat_types = made_of_types();
@@ -4557,11 +4543,10 @@ int item::cut_resist( bool to_self ) const
         const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
         eff_thickness = std::max( 1, base_thickness - eff_damage );
     }
-    if( item_tags.count( "leather_padded" ) > 0 ) {
-        padding += base_thickness;
-    }
-    if( item_tags.count( "kevlar_padded" ) > 0 ) {
-        padding += base_thickness * 2;
+    for( auto cm : clothing_mods::get_all() ) {
+        if( item_tags.count( cm.flag ) > 0 ) {
+            padding += cm.get_mod_val( "cut", *this );
+        }
     }
 
     const std::vector<const material_type *> mat_types = made_of_types();
@@ -8667,4 +8652,14 @@ const cata::optional<islot_comestible> &item::get_comestible() const
     } else {
         return type->comestible;
     }
+}
+
+bool item::has_clothing_mod() const
+{
+    for( auto &cm : clothing_mods::get_all() ) {
+        if( item_tags.count( cm.flag ) > 0 ) {
+            return true;
+        }
+    }
+    return false;
 }
