@@ -848,7 +848,7 @@ struct itype {
         /** Weight of item ( or each stack member ) */
         units::mass weight = 0_gram;
         /** Weight difference with the part it replaces for mods */
-        units::mass integral_weight = units::from_gram( -1 );
+        units::mass integral_weight = -1_gram;
 
         /**
          * Space occupied by items of this type
@@ -860,7 +860,7 @@ struct itype {
          * Space consumed when integrated as part of another item (defaults to volume)
          * CAUTION: value given is for a default-sized stack. Avoid using this. In general, see @ref item::volume instead.
          */
-        units::volume integral_volume = units::from_milliliter( -1 );
+        units::volume integral_volume = -1_ml;
 
         /** Number of items per above volume for @ref stackable items */
         int stack_size = 0;
