@@ -1781,7 +1781,7 @@
     "symbol": "*",
     "color": "red",
     "explode_in_fire": true,
-    "explosion": { "power": 200 },
+    "explosion": { "power": 938 },
     "use_action": {
       "target": "dynamite_act",
       "msg": "You light the dynamite.",
@@ -1810,7 +1810,7 @@
     "color": "red",
     "turns_per_charge": 1,
     "explode_in_fire": true,
-    "explosion": { "power": 200 },
+    "explosion": { "power": 938 },
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
