@@ -253,7 +253,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 
         dummy.weapon = item( "sw_610", 0, 0 );
         REQUIRE( dummy.weapon.ammo_remaining() == 0 );
-        REQUIRE( dummy.weapon.can_reload_with( ammo.type->get_id() ) );
+        REQUIRE( dummy.weapon.magazine_current()->can_reload_with( ammo.type->get_id() ) );
 
         WHEN( "the player triggers auto reload until the revolver is full" ) {
             reload_a_revolver( dummy, dummy.weapon, ammo );
@@ -267,7 +267,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
         GIVEN( "the player has another gun with ammo" ) {
             item &gun2 = dummy.i_add( item( "sw_610", 0, 0 ) );
             REQUIRE( gun2.ammo_remaining() == 0 );
-            REQUIRE( gun2.can_reload_with( ammo.type->get_id() ) );
+            REQUIRE( gun2.magazine_current()->can_reload_with( ammo.type->get_id() ) );
             WHEN( "the player triggers auto reload until the first revolver is full" ) {
                 reload_a_revolver( dummy, dummy.weapon, ammo );
                 WHEN( "the player triggers auto reload until the second revolver is full" ) {
