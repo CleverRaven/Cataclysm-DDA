@@ -1904,20 +1904,6 @@ nc_color player::basic_symbol_color() const
     return c_white;
 }
 
-void player::load_info( std::string data )
-{
-    try {
-        ::deserialize( *this, data );
-    } catch( const std::exception &jsonerr ) {
-        debugmsg( "Bad player json\n%s", jsonerr.what() );
-    }
-}
-
-std::string player::save_info() const
-{
-    return ::serialize( *this ) + "\n" + dump_memorial();
-}
-
 /**
  * Adds an event to the memorial log, to be written to the memorial file when
  * the character dies. The message should contain only the informational string,

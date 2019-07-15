@@ -376,9 +376,6 @@ class overmap
         void serialize( std::ostream &fin ) const;
         // Save per-player overmap view data.
         void serialize_view( std::ostream &fin ) const;
-        // parse data in an old overmap file
-        void unserialize_legacy( std::istream &fin );
-        void unserialize_view_legacy( std::istream &fin );
     private:
         void generate( const overmap *north, const overmap *east,
                        const overmap *south, const overmap *west,

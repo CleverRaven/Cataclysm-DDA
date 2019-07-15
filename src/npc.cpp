@@ -292,27 +292,6 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
 
 npc::~npc() = default;
 
-std::string npc::save_info() const
-{
-    return ::serialize( *this );
-}
-
-void npc::load_info( std::string data )
-{
-    std::stringstream dump;
-    dump << data;
-
-    JsonIn jsin( dump );
-    try {
-        deserialize( jsin );
-    } catch( const JsonError &jsonerr ) {
-        debugmsg( "Bad npc json\n%s", jsonerr.c_str() );
-    }
-    if( !fac_id.str().empty() ) {
-        set_fac( fac_id );
-    }
-}
-
 void npc::randomize( const npc_class_id &type )
 {
     if( getID() <= 0 ) {
