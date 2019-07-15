@@ -6,10 +6,10 @@
     "item": "leather",
     "implement_prompt": "Pad with leather",
     "destroy_prompt": "Destroy leather padding",
-    "mod_value":[
-      { "type": "bash", "value": 1, "proportion": ["thickness", "coverage"] },
-      { "type": "cut", "value": 1, "proportion": ["thickness", "coverage"] },
-      { "type": "encumber", "value": 2, "proportion": ["thickness", "coverage"] }
+    "mod_value": [
+      { "type": "bash", "value": 1, "proportion": [ "thickness", "coverage" ] },
+      { "type": "cut", "value": 1, "proportion": [ "thickness", "coverage" ] },
+      { "type": "encumber", "value": 2, "proportion": [ "thickness", "coverage" ] }
     ]
   },
   {
@@ -19,10 +19,10 @@
     "item": "kevlar_plate",
     "implement_prompt": "Pad with Kevlar",
     "destroy_prompt": "Destroy Kevlar padding",
-    "mod_value":[
-      { "type": "bash", "value": 1, "proportion": ["thickness", "coverage"] },
-      { "type": "cut", "value": 2, "proportion": ["thickness", "coverage"] },
-      { "type": "encumber", "value": 2, "proportion": ["thickness", "coverage"] }
+    "mod_value": [
+      { "type": "bash", "value": 1, "proportion": [ "thickness", "coverage" ] },
+      { "type": "cut", "value": 2, "proportion": [ "thickness", "coverage" ] },
+      { "type": "encumber", "value": 2, "proportion": [ "thickness", "coverage" ] }
     ]
   },
   {
@@ -32,9 +32,9 @@
     "item": "fur",
     "implement_prompt": "Line it with fur",
     "destroy_prompt": "Destroy fur lining",
-    "mod_value":[
-        { "type": "encumber", "value": 4, "proportion": ["coverage"] },
-        { "type": "warmth", "value": 35, "proportion": ["coverage"] }
+    "mod_value": [
+      { "type": "encumber", "value": 4, "proportion": [ "coverage" ] },
+      { "type": "warmth", "value": 35, "proportion": [ "coverage" ] }
     ]
   },
   {
@@ -44,9 +44,9 @@
     "item": "felt_patch",
     "implement_prompt": "Line it with wool",
     "destroy_prompt": "Destroy wool lining",
-    "mod_value":[
-        { "type": "encumber", "value": 3, "proportion": ["coverage"] },
-        { "type": "warmth", "value": 20, "proportion": ["coverage"] }
+    "mod_value": [
+      { "type": "encumber", "value": 3, "proportion": [ "coverage" ] },
+      { "type": "warmth", "value": 20, "proportion": [ "coverage" ] }
     ]
   }
 ]
