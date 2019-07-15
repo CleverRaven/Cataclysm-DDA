@@ -1916,6 +1916,22 @@ void time_duration::deserialize( JsonIn &jsin )
     }
 }
 
+template<typename V, typename U>
+void units::quantity<V, U>::serialize( JsonOut &jsout ) const
+{
+    jsout.write( value_ );
+}
+
+// TODO: BATTERIES this template specialization should be in the global namespace - see GCC bug 56480
+namespace units
+{
+template<>
+void units::energy::deserialize( JsonIn &jsin )
+{
+    *this = from_millijoule( jsin.get_int() );
+}
+} // namespace units
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// item.h
 
@@ -1956,6 +1972,8 @@ void item::io( Archive &archive )
     // normalize legacy saves to always have charges >= 0
     archive.io( "charges", charges, 0 );
     charges = std::max( charges, 0 );
+
+    archive.io( "energy", energy, 0_mJ );
 
     int cur_phase = static_cast<int>( current_phase );
     archive.io( "burnt", burnt, 0 );

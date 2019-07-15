@@ -4507,13 +4507,19 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             if( !n.has_flag( "RECHARGE" ) && !n.has_flag( "USE_UPS" ) ) {
                 continue;
             }
-            if( n.ammo_capacity() > n.ammo_remaining() ) {
+            // TODO: BATTERIES this should be rewritten when vehicle power and items both use energy quantities
+            if( n.ammo_capacity() > n.ammo_remaining() ||
+                ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining() ) ) {
                 // Around 85% efficient, so double discharge once every 7 seconds
                 const int per_charge = one_in( 7 ) ? 2 : 1;
                 const int missing = cur_veh.discharge_battery( per_charge, false );
                 if( missing < per_charge &&
                     ( missing == 0 || x_in_y( per_charge - missing, per_charge ) ) ) {
-                    n.ammo_set( "battery", n.ammo_remaining() + 1 );
+                    if( n.is_battery() ) {
+                        n.set_energy( 1_kJ );
+                    } else {
+                        n.ammo_set( "battery", n.ammo_remaining() + 1 );
+                    }
                 }
 
                 if( missing > 0 ) {
