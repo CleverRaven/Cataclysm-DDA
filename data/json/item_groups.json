@@ -4705,6 +4705,7 @@
       [ "hat_knit", 25 ],
       [ "backpack", 38 ],
       [ "backpack_leather", 8 ],
+      [ "large tactical backpack", 3 ],
       [ "slingpack", 8 ],
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "novel_scifi", 20 ],
