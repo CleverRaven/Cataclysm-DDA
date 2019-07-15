@@ -821,7 +821,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 150 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "leather", 45 ], [ "tanned_pelt", 9 ] ], [ [ "scrap", 10 ] ], [ [ "cordage", 2, "LIST"] ] ]
+    "components": [ [ [ "leather", 20 ], [ "tanned_hide", 4 ] ], [ [ "sheet_metal_small", 8 ] ], [ [ "cordage", 2, "LIST"] ], [ [ "leather_pouch", 2 ] ] ]
 	},
     {
     "result": "travel pack",
@@ -832,8 +832,8 @@
     "difficulty": 3,
     "time": "90 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 80 ] ],
-    "components": [ [ [ "rag", 20 ] ] , [ [ "cordage", 2, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 40 ] ],
+    "components": [ [ [ "rag", 5 ] ] , [ [ "cordage", 1, "LIST" ] ] ]
 	},
 	{
     "result": "petpack",
@@ -845,7 +845,7 @@
     "time": "100 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 100 ] ],
-    "components": [ [ [ "rag", 12 ] ], [ [ "plastic_chunk", 6 ] ] ]
+    "components": [ [ [ "rag", 5 ] ], [ [ "plastic_chunk", 8 ] ] ]
 	},
 	{
     "result": "large tactical backpack",
@@ -856,8 +856,8 @@
     "difficulty": 4,
     "time": "160 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 150 ] ],
-    "components": [ [ [ "leather", 35 ], [ "tanned_pelt", 7 ] ], [ [ "cordage", 3, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 100 ] ],
+    "components": [ [ [ "leather", 5 ], [ "tanned_pelt", 1 ] ], [ [ "cordage", 1, "LIST" ] ] ]
 	},
 	{
     "result": "hiking backpack",
@@ -868,7 +868,7 @@
     "difficulty": 4,
     "time": "180 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 150 ] ],
-    "components": [ [ [ "leather", 35 ], [ "tanned_pelt", 7 ] ], [ [ "cordage", 3, "LIST" ] ] ]	
+    "using": [ [ "sewing_standard", 100 ] ],
+    "components": [ [ [ "leather", 5 ], [ "tanned_pelt", 1 ] ], [ [ "cordage", 1, "LIST" ] ] ]		
   }
 ]
