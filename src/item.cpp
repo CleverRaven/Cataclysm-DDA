@@ -4603,11 +4603,11 @@ int item::acid_resist( bool to_self, int base_env_resist ) const
 
     for( auto cm : clothing_mods::get_all() ) {
         if( item_tags.count( cm.flag ) > 0 ) {
-            mod += cm.get_mod_val( "fire", *this );
+            mod += cm.get_mod_val( "acid", *this );
         }
     }
 
-    return lround( resist );
+    return lround( resist + mod );
 }
 
 int item::fire_resist( bool to_self, int base_env_resist ) const

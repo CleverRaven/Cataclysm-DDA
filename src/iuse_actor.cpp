@@ -4396,13 +4396,20 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         } else {
             prompt = obj.destroy_prompt;
         }
+        std::ostringstream desc;
+        desc << string_format( _( "Bash/Cut: %d/%d->%d/%d" ),
+                               mod.bash_resist(), mod.cut_resist(),
+                               temp_item.bash_resist(), temp_item.cut_resist() ) << "\n";
+        desc << string_format( _( "Acid: %d->%d" ),
+                               mod.acid_resist(), temp_item.acid_resist() ) << "\n";
+        desc << string_format( _( "Fire: %d->%d" ),
+                               mod.fire_resist(), temp_item.fire_resist() ) << "\n";
+        desc << string_format( _( "Warmth: %d->%d" ),
+                               mod.get_warmth(), temp_item.get_warmth() ) << "\n";
+        desc << string_format( _( "Encumbrance: %d->%d" ),
+                               mod.get_encumber( p ), temp_item.get_encumber( p ) ) << "\n";
         tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, string_format( "%s", _( prompt.c_str() ) ),
-                             string_format( _( "Bash/Cut: %d/%d->%d/%d\nWarmth: %d->%d\nEncumbrance: %d->%d" ),
-                                            mod.bash_resist(), mod.cut_resist(),
-                                            temp_item.bash_resist(), temp_item.cut_resist(),
-                                            mod.get_warmth(), temp_item.get_warmth(),
-                                            mod.get_encumber( p ), temp_item.get_encumber( p )
-                                          ) );
+                             desc.str() );
     }
     tmenu.textwidth = 80;
     tmenu.desc_enabled = true;
