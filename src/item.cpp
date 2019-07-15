@@ -4380,7 +4380,6 @@ int item::get_warmth() const
         }
     }
 
-
     return result;
 }
 
@@ -4494,7 +4493,7 @@ int item::bash_resist( bool to_self ) const
     }
 
     float resist = 0;
-    float padding = 0;
+    float mod = 0;
     int eff_thickness = 1;
 
     // Armor gets an additional multiplier.
@@ -4508,7 +4507,7 @@ int item::bash_resist( bool to_self ) const
 
     for( auto cm : clothing_mods::get_all() ) {
         if( item_tags.count( cm.flag ) > 0 ) {
-            padding += cm.get_mod_val( "bash", *this );
+            mod += cm.get_mod_val( "bash", *this );
         }
     }
 
@@ -4521,7 +4520,7 @@ int item::bash_resist( bool to_self ) const
         resist /= mat_types.size();
     }
 
-    return lround( ( resist * eff_thickness ) + padding );
+    return lround( ( resist * eff_thickness ) + mod );
 }
 
 int item::cut_resist( bool to_self ) const
@@ -4532,7 +4531,7 @@ int item::cut_resist( bool to_self ) const
 
     const int base_thickness = get_thickness();
     float resist = 0;
-    float padding = 0;
+    float mod = 0;
     int eff_thickness = 1;
 
     // Armor gets an additional multiplier.
@@ -4545,7 +4544,7 @@ int item::cut_resist( bool to_self ) const
     }
     for( auto cm : clothing_mods::get_all() ) {
         if( item_tags.count( cm.flag ) > 0 ) {
-            padding += cm.get_mod_val( "cut", *this );
+            mod += cm.get_mod_val( "cut", *this );
         }
     }
 
@@ -4558,7 +4557,7 @@ int item::cut_resist( bool to_self ) const
         resist /= mat_types.size();
     }
 
-    return lround( ( resist * eff_thickness ) + padding );
+    return lround( ( resist * eff_thickness ) + mod );
 }
 
 #if defined(_MSC_VER)
@@ -4579,6 +4578,7 @@ int item::acid_resist( bool to_self, int base_env_resist ) const
     }
 
     float resist = 0.0;
+    float mod = 0.0;
     if( is_null() ) {
         return 0.0;
     }
@@ -4601,6 +4601,12 @@ int item::acid_resist( bool to_self, int base_env_resist ) const
         resist *= env / 10.0f;
     }
 
+    for( auto cm : clothing_mods::get_all() ) {
+        if( item_tags.count( cm.flag ) > 0 ) {
+            mod += cm.get_mod_val( "fire", *this );
+        }
+    }
+
     return lround( resist );
 }
 
@@ -4612,6 +4618,7 @@ int item::fire_resist( bool to_self, int base_env_resist ) const
     }
 
     float resist = 0.0;
+    float mod = 0.0;
     if( is_null() ) {
         return 0.0;
     }
@@ -4631,7 +4638,13 @@ int item::fire_resist( bool to_self, int base_env_resist ) const
         resist *= env / 10.0f;
     }
 
-    return lround( resist );
+    for( auto cm : clothing_mods::get_all() ) {
+        if( item_tags.count( cm.flag ) > 0 ) {
+            mod += cm.get_mod_val( "fire", *this );
+        }
+    }
+
+    return lround( resist + mod );
 }
 
 int item::chip_resistance( bool worst ) const
