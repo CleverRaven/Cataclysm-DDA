@@ -1816,7 +1816,7 @@
       "sound_volume": 0,
       "sound_msg": "ssss...",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
-      "explosion": { "power": 250 }
+      "explosion": { "power": 938 }
     },
     "flags": [ "TRADER_AVOID", "BOMB" ]
   },
