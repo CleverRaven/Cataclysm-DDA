@@ -31,6 +31,9 @@
 #include "rng.h"
 #include "vpart_position.h"
 #include "string_id.h"
+#include "enums.h"
+#include "int_id.h"
+#include "monster.h"
 
 static const std::string part_location_structure( "structure" );
 static const itype_id fuel_type_muscle( "muscle" );
@@ -73,7 +76,7 @@ int vmiph_to_cmps( int vmiph )
 
 int vehicle::slowdown( int at_velocity ) const
 {
-    double mps =  vmiph_to_mps( abs( at_velocity ) );
+    double mps = vmiph_to_mps( abs( at_velocity ) );
 
     // slowdown due to air resistance is proportional to square of speed
     double f_total_drag = coeff_air_drag() * mps * mps;
@@ -610,8 +613,8 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         // Velocity of object after collision
         const float vel2_a = ( mass * vel1 + mass2 * vel2 + e * mass * ( vel1 - vel2 ) ) / ( mass + mass2 );
         // Lost energy at collision -> deformation energy -> damage
-        const float E_before = 0.5f * ( mass * vel1 * vel1 )   + 0.5f * ( mass2 * vel2 * vel2 );
-        const float E_after =  0.5f * ( mass * vel1_a * vel1_a ) + 0.5f * ( mass2 * vel2_a * vel2_a );
+        const float E_before = 0.5f * ( mass * vel1 * vel1 )     + 0.5f * ( mass2 * vel2 * vel2 );
+        const float E_after  = 0.5f * ( mass * vel1_a * vel1_a ) + 0.5f * ( mass2 * vel2_a * vel2_a );
         const float d_E = E_before - E_after;
         if( d_E <= 0 ) {
             // Deformation energy is signed
@@ -671,7 +674,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             int dam = obj_dmg * dmg_mod / 100;
 
             // No blood from hallucinations
-            if( !critter->is_hallucination() ) {
+            if( critter != nullptr && !critter->is_hallucination() ) {
                 if( part_flag( ret.part, "SHARP" ) ) {
                     parts[ret.part].blood += ( 20 + dam ) * 5;
                 } else if( dam > rng( 10, 30 ) ) {
@@ -719,9 +722,9 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
                 if( critter->is_dead_state() ) {
                     smashed = true;
-                } else {
+                } else if( critter != nullptr ) {
                     // Only count critter as pushed away if it actually changed position
-                    smashed = ( critter->pos() != p );
+                    smashed = critter->pos() != p;
                 }
             }
         }
@@ -804,6 +807,10 @@ void vehicle::handle_trap( const tripoint &p, int part )
     const trap &tr = g->m.tr_at( p );
     const trap_id t = tr.loadid;
 
+    if( t == tr_null ) {
+        // If the trap doesn't exist, we can't interact with it, so just return
+        return;
+    }
     vehicle_handle_trap_data veh_data = tr.vehicle_data;
 
     if( veh_data.is_falling ) {
@@ -1469,8 +1476,11 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
             ///\EFFECT_STR reduces chance of being thrown from your seat when not wearing a seatbelt
             move_resist = psg->str_cur * 150 + 500;
         } else {
-            move_resist = std::max( 100,
-                                    static_cast<int>( to_kilogram( pet->get_weight() ) * 200 ) );
+            int pet_resist = 0;
+            if( pet != nullptr ) {
+                pet_resist = static_cast<int>( to_kilogram( pet->get_weight() ) * 200 );
+            }
+            move_resist = std::max( 100, pet_resist );
         }
         if( veh.part_with_feature( ps, VPFLAG_SEATBELT, true ) == -1 ) {
             ///\EFFECT_STR reduces chance of being thrown from your seat when not wearing a seatbelt

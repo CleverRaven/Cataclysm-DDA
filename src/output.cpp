@@ -1,7 +1,7 @@
 #include "output.h"
 
-#include <cctype>
 #include <errno.h>
+#include <cctype>
 #include <cstdio>
 #include <algorithm>
 #include <cstdarg>
@@ -33,6 +33,7 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "units.h"
+#include "point.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -132,9 +133,9 @@ std::vector<std::string> split_by_color( const std::string &s )
     std::vector<std::string> ret;
     std::vector<size_t> tag_positions = get_tag_positions( s );
     size_t last_pos = 0;
-    for( std::vector<size_t>::iterator it = tag_positions.begin(); it != tag_positions.end(); ++it ) {
-        ret.push_back( s.substr( last_pos, *it - last_pos ) );
-        last_pos = *it;
+    for( size_t tag_position : tag_positions ) {
+        ret.push_back( s.substr( last_pos, tag_position - last_pos ) );
+        last_pos = tag_position;
     }
     // and the last (or only) one
     ret.push_back( s.substr( last_pos, std::string::npos ) );
@@ -718,7 +719,7 @@ std::string string_replace( std::string text, const std::string &before, const s
 {
     // Check if there's something to replace (mandatory) and it's necessary (optional)
     // Second condition assumes that text is much longer than both &before and &after.
-    if( before.length() == 0 || !before.compare( after ) ) {
+    if( before.length() == 0 || before == after ) {
         return text;
     }
 

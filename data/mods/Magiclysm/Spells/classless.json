@@ -8,7 +8,7 @@
     "effect": "line_attack",
     "damage_type": "fire",
     "base_casting_time": 200,
-    "base_energy_cost": 800,
+    "base_energy_cost": 8000,
     "energy_source": "STAMINA",
     "spell_class": "NONE",
     "flags": [ "LOUD", "SOMATIC", "VERBAL" ],
@@ -126,23 +126,17 @@
     "duration_increment": 3000
   },
   {
-    "id": "create_rune_alchemist",
+    "id": "translocate_self",
     "type": "SPELL",
-    "name": "Alchemist Rune",
-    "description": "This ritual creates a small pebble attuned to alchemy itself. This rune can substitute for the eight school runes in basic recipes.",
+    "name": "Translocate Self",
+    "description": "Translocates the user to an attuned gate.",
     "valid_targets": [ "self" ],
-    "min_damage": 1,
-    "max_damage": 1,
-    "effect": "spawn_item",
-    "effect_str": "rune_alchemist",
-    "base_casting_time": 5000,
-    "base_energy_cost": 500,
-    "min_duration": 1,
-    "max_duration": 2,
-    "duration_increment": 1,
-    "difficulty": 7,
-    "max_level": 1,
+    "effect": "translocate",
+    "difficulty": 15,
+    "max_level": 25,
+    "base_casting_time": 6000,
+    "base_energy_cost": 675,
     "energy_source": "MANA",
-    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
+    "spell_class": "NONE"
   }
 ]

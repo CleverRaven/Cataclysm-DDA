@@ -1,0 +1,44 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_fireplace",
+    "name": "fireplace",
+    "symbol": "#",
+    "description": "Ah.  The relaxation of sitting in front of a fire as the world around you crumbles.  Towards the End, you could also get this service on your television.",
+    "bgcolor": "white",
+    "move_cost_mod": 2,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MINEABLE" ],
+    "examine_action": "fireplace",
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "rock", "count": [ 15, 30 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_woodstove",
+    "name": "wood stove",
+    "symbol": "#",
+    "bgcolor": "red",
+    "description": "Wood stove for heating and cooking.  Much more efficient than an open flame.",
+    "move_cost_mod": 2,
+    "coverage": 60,
+    "required_str": 10,
+    "max_volume": 1000,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MOUNTABLE" ],
+    "examine_action": "fireplace",
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "scrap", "count": [ 3, 6 ] }, { "item": "pipe", "prob": 50 } ]
+    },
+    "deconstruct": { "items": [ { "item": "metal_tank", "count": 1 }, { "item": "pipe", "count": 1 } ] }
+  }
+]

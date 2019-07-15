@@ -63,6 +63,8 @@ class weather_generator
         int get_water_temperature() const;
         void test_weather() const;
 
+        double get_weather_temperature( const tripoint &, const time_point &, unsigned ) const;
+
         static weather_generator load( JsonObject &jo );
 };
 

@@ -5,7 +5,6 @@
 #include <algorithm>
 #include <cstdlib>
 #include <sstream>
-#include <functional>
 #include <iterator>
 #include <map>
 #include <memory>
@@ -13,7 +12,6 @@
 #include <type_traits>
 #include <utility>
 
-#include "activity_handlers.h"
 #include "ammo.h"
 #include "avatar.h"
 #include "basecamp.h"
@@ -21,7 +19,6 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "clzones.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "construction.h"
 #include "coordinate_conversions.h"
@@ -67,7 +64,6 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "weather.h"
 #include "bodypart.h"
 #include "color.h"
@@ -86,6 +82,10 @@
 #include "player_activity.h"
 #include "pldata.h"
 #include "string_id.h"
+#include "colony.h"
+#include "flat_set.h"
+#include "magic_teleporter_list.h"
+#include "point.h"
 
 const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
@@ -107,6 +107,7 @@ const efftype_id effect_mending( "mending" );
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_sleep( "sleep" );
+const efftype_id effect_under_op( "under_operation" );
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -270,6 +271,20 @@ void iexamine::gaspump( player &p, const tripoint &examp )
         }
     }
     add_msg( m_info, _( "Out of order." ) );
+}
+
+void iexamine::translocator( player &, const tripoint &examp )
+{
+    const tripoint omt_loc = ms_to_omt_copy( g->m.getabs( examp ) );
+    const bool activated = g->u.translocators.knows_translocator( examp );
+    if( !activated ) {
+        g->u.translocators.activate_teleporter( omt_loc, examp );
+        add_msg( m_info, _( "Translocator gate active." ) );
+    } else {
+        if( query_yn( _( "Do you want to deactivate this active Translocator?" ) ) ) {
+            g->u.translocators.deactivate_teleporter( omt_loc, examp );
+        }
+    }
 }
 
 namespace
@@ -515,8 +530,8 @@ class atm_menu
                 }
 
                 dst->charges += i->charges;
-                i->charges =  0;
-                u.moves    -= 10;
+                i->charges = 0;
+                u.moves -= 10;
             }
 
             return true;
@@ -1272,8 +1287,7 @@ void iexamine::bulletin_board( player &p, const tripoint &examp )
 {
     g->validate_camps();
     point omt = ms_to_omt_copy( g->m.getabs( examp.x, examp.y ) );
-    tripoint omt_tri = tripoint( omt.x, omt.y, p.pos().z );
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_tri.x, omt_tri.y );
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
         temp_camp->validate_assignees();
@@ -1505,7 +1519,7 @@ static bool drink_nectar( player &p )
 /**
  * Spawn an item after harvesting the plant
  */
-static void handle_harvest( player &p, std::string itemid, bool force_drop )
+static void handle_harvest( player &p, const std::string &itemid, bool force_drop )
 {
     item harvest = item( itemid );
     if( !force_drop && p.can_pickVolume( harvest, true ) &&
@@ -3208,12 +3222,8 @@ void iexamine::trap( player &p, const tripoint &examp )
     }
     const int possible = tr.get_difficulty();
     bool seen = tr.can_see( examp, p );
-    if( seen && possible >= 99 ) {
-        add_msg( m_info, _( "That %s looks too dangerous to mess with. Best leave it alone." ),
-                 tr.name() );
-        return;
-    }
-    if( tr.loadid == tr_unfinished_construction ) {
+
+    if( tr.loadid == tr_unfinished_construction || g->m.partial_con_at( examp ) ) {
         partial_con *pc = g->m.partial_con_at( examp );
         if( pc ) {
             const std::vector<construction> &list_constructions = get_constructions();
@@ -3238,6 +3248,11 @@ void iexamine::trap( player &p, const tripoint &examp )
         } else {
             return;
         }
+    }
+    if( seen && possible >= 99 ) {
+        add_msg( m_info, _( "That %s looks too dangerous to mess with. Best leave it alone." ),
+                 tr.name() );
+        return;
     }
     // Some traps are not actual traps. Those should get a different query.
     if( seen && possible == 0 &&
@@ -3430,9 +3445,6 @@ void iexamine::sign( player &p, const tripoint &examp )
         std::string query_message = previous_signage_exists ?
                                     _( "Overwrite the existing message on the sign?" ) :
                                     _( "Add a message to the sign?" );
-        std::string spray_painted_message = previous_signage_exists ?
-                                            _( "You overwrite the previous message on the sign with your graffiti." ) :
-                                            _( "You graffiti a message onto the sign." );
         std::string ignore_message = _( "You leave the sign alone." );
         if( query_yn( query_message ) ) {
             std::string signage = string_input_popup()
@@ -3442,6 +3454,9 @@ void iexamine::sign( player &p, const tripoint &examp )
             if( signage.empty() ) {
                 p.add_msg_if_player( m_neutral, ignore_message );
             } else {
+                std::string spray_painted_message = previous_signage_exists ?
+                                                    _( "You overwrite the previous message on the sign with your graffiti." ) :
+                                                    _( "You graffiti a message onto the sign." );
                 g->m.set_signage( examp, signage );
                 p.add_msg_if_player( m_info, spray_painted_message );
                 p.mod_moves( - 20 * signage.length() );
@@ -3831,7 +3846,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         // Okay, we have a cash card. Now we need to know what's left in the pump.
         const cata::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
                 uistate.ags_pay_gas_selected_pump );
-        int amount = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : 0l;
+        int amount = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : 0;
         if( amount >= 0 ) {
             sounds::sound( p.pos(), 6, sounds::sound_t::activity, _( "Glug Glug Glug" ), true, "tool",
                            "gaspump" );
@@ -4093,6 +4108,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
             return;
         }
+    } else if( patient.has_effect( effect_under_op ) ) {
+        popup( _( "Operation underway.  Please wait until the end of the current procedure.  Estimated time remaining: %s." ),
+               to_string( patient.get_effect_dur( effect_under_op ) ) );
+        p.add_msg_if_player( m_info, _( "The autodoc is working on %s." ), patient.disp_name() );
+        return;
     }
 
     uilist amenu;
@@ -4147,10 +4167,10 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-            const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
             const float volume_anesth = itemtype->bionic->difficulty * 20 * 2; // 2ml/min
 
             if( patient.can_install_bionics( ( *itemtype ), installer, true ) ) {
+                const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 std::vector<item_comp> comps;
                 comps.push_back( item_comp( it->typeId(), 1 ) );
@@ -4165,8 +4185,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     }
 
                 }
-                patient.install_bionics( ( *itemtype ), installer, true );
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
+                patient.add_effect( effect_under_op, duration, num_bp );
+                patient.install_bionics( ( *itemtype ), installer, true );
             }
             break;
         }
@@ -4208,7 +4229,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
             // Malfunctioning bionics that don't have associated items and get a difficulty of 12
             const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
-            const time_duration duration = difficulty * 20_minutes;
             const float volume_anesth = difficulty * 20 * 2; // 2ml/min
 
             player &installer = best_installer( p, null_player, difficulty );
@@ -4217,17 +4237,20 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             if( patient.can_uninstall_bionic( bid, installer, true ) ) {
+                const time_duration duration = difficulty * 20_minutes;
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 if( needs_anesthesia ) {
-                    if( acomps.empty() ) { // consume obsolete anesthesia first
+                    if( acomps.empty() ) {
+                        // consume obsolete anesthesia first
                         p.consume_tools( anesth_kit, volume_anesth );
                     } else {
                         p.consume_items( acomps, 1, is_crafting_component ); // legacy
                     }
 
                 }
-                patient.uninstall_bionic( bid, installer, true );
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
+                patient.add_effect( effect_under_op, duration, num_bp );
+                patient.uninstall_bionic( bid, installer, true );
             }
             break;
         }
@@ -4535,9 +4558,9 @@ static void smoker_finalize( player &, const tripoint &examp, const time_point &
                 item result( it.get_comestible()->smoking_result, start_time + 6_hours, it.charges );
 
                 // Set flag to tell set_relative_rot() to calc from bday not now
-                result.set_flag( "SMOKING_RESULT" );
+                result.set_flag( "PROCESSING_RESULT" );
                 result.set_relative_rot( it.get_relative_rot() );
-                result.unset_flag( "SMOKING_RESULT" );
+                result.unset_flag( "PROCESSING_RESULT" );
                 it = result;
             }
         }
@@ -4606,7 +4629,7 @@ static void smoker_load_food( player &p, const tripoint &examp,
         }
     }
 
-    const int max_count_for_capacity =  remaining_capacity / what->base_volume();
+    const int max_count_for_capacity = remaining_capacity / what->base_volume();
     const int max_count = std::min( count, max_count_for_capacity );
 
     // ... then ask how many to put it
@@ -4714,7 +4737,7 @@ static void mill_load_food( player &p, const tripoint &examp,
         }
     }
 
-    const int max_count_for_capacity =  remaining_capacity / what->base_volume();
+    const int max_count_for_capacity = remaining_capacity / what->base_volume();
     const int max_count = std::min( count, max_count_for_capacity );
 
     // ... then ask how many to put it
@@ -5355,6 +5378,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "harvest_ter", &iexamine::harvest_ter },
             { "harvested_plant", &iexamine::harvested_plant },
             { "shrub_marloss", &iexamine::shrub_marloss },
+            { "translocator", &iexamine::translocator },
             { "tree_marloss", &iexamine::tree_marloss },
             { "tree_hickory", &iexamine::tree_hickory },
             { "tree_maple", &iexamine::tree_maple },

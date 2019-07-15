@@ -24,13 +24,13 @@
 #include "game.h"
 #include "handle_liquid.h"
 #include "itype.h"
+#include "math_defines.h"
 #include "map.h"
 #include "map_selector.h"
 #include "messages.h"
 #include "npc.h"
 #include "output.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -42,7 +42,6 @@
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
 #include "calendar.h"
 #include "enums.h"
 #include "game_constants.h"
@@ -50,9 +49,15 @@
 #include "requirements.h"
 #include "tileray.h"
 #include "units.h"
-#include "material.h"
 #include "item.h"
 #include "string_id.h"
+#include "colony.h"
+#include "flat_set.h"
+#include "mapdata.h"
+#include "point.h"
+#include "material.h"
+
+class player;
 
 static inline const std::string status_color( bool status )
 {
@@ -311,6 +316,7 @@ bool veh_interact::format_reqs( std::ostringstream &msg, const requirement_data 
 void veh_interact::do_main_loop()
 {
     bool finish = false;
+    const bool owned_by_player = veh->handle_potential_theft( dynamic_cast<player &>( g->u ), true );
     while( !finish ) {
         overview();
         display_mode();
@@ -324,35 +330,83 @@ void veh_interact::do_main_loop()
         } else if( action == "QUIT" ) {
             finish = true;
         } else if( action == "INSTALL" ) {
-            redraw = do_install( msg );
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                redraw = true;
+            } else {
+                redraw = do_install( msg );
+            }
         } else if( action == "REPAIR" ) {
-            redraw = do_repair( msg );
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                redraw = true;
+            } else {
+                redraw = do_repair( msg );
+            }
         } else if( action == "MEND" ) {
-            redraw = do_mend( msg );
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                redraw = true;
+            } else {
+                redraw = do_mend( msg );
+            }
         } else if( action == "REFILL" ) {
-            redraw = do_refill( msg );
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                redraw = true;
+            } else {
+                redraw = do_refill( msg );
+            }
         } else if( action == "REMOVE" ) {
-            redraw = do_remove( msg );
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                redraw = true;
+            } else {
+                redraw = do_remove( msg );
+            }
         } else if( action == "RENAME" ) {
-            redraw = do_rename( msg );
+            if( owned_by_player ) {
+                redraw = do_rename( msg );
+            } else {
+                popup( _( "You cannot rename this vehicle as it is owned by: %s." ), veh->get_owner()->name );
+                redraw = true;
+            }
         } else if( action == "SIPHON" ) {
-            redraw = do_siphon( msg );
-            // Siphoning may have started a player activity. If so, we should close the
-            // vehicle dialog and continue with the activity.
-            finish = !g->u.activity.is_null();
-            if( !finish ) {
-                // it's possible we just invalidated our crafting inventory
-                cache_tool_availability();
+            if( veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                redraw = do_siphon( msg );
+                // Siphoning may have started a player activity. If so, we should close the
+                // vehicle dialog and continue with the activity.
+                finish = !g->u.activity.is_null();
+                if( !finish ) {
+                    // it's possible we just invalidated our crafting inventory
+                    cache_tool_availability();
+                }
+            } else {
+                redraw = true;
             }
         } else if( action == "UNLOAD" ) {
-            redraw = do_unload( msg );
-            finish = redraw;
+            if( veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                redraw = do_unload( msg );
+                finish = redraw;
+            } else {
+                redraw = true;
+            }
         } else if( action == "TIRE_CHANGE" ) {
-            redraw = do_tirechange( msg );
+            if( veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                redraw = do_tirechange( msg );
+            } else {
+                redraw = true;
+            }
         } else if( action == "ASSIGN_CREW" ) {
-            redraw = do_assign_crew( msg );
+            if( owned_by_player ) {
+                redraw = do_assign_crew( msg );
+            } else {
+                popup( _( "You cannot assign crew on this vehicle as it is owned by: %s." ),
+                       veh->get_owner()->name );
+                redraw = true;
+            }
         } else if( action == "RELABEL" ) {
-            redraw = do_relabel( msg );
+            if( owned_by_player ) {
+                redraw = do_relabel( msg );
+            } else {
+                popup( _( "You cannot relabel this vehicle as it is owned by: %s." ), veh->get_owner()->name );
+                redraw = true;
+            }
         } else if( action == "FUEL_LIST_DOWN" ) {
             move_fuel_cursor( 1 );
         } else if( action == "FUEL_LIST_UP" ) {
@@ -2107,7 +2161,7 @@ void veh_interact::display_veh()
         int sym = veh->part_sym( p );
         nc_color col = veh->part_color( p );
 
-        int x =   veh->parts[p].mount.y + ddy;
+        int x =    veh->parts[p].mount.y + ddy;
         int y = -( veh->parts[p].mount.x + ddx );
 
         if( x == 0 && y == 0 ) {
@@ -2344,7 +2398,13 @@ void veh_interact::display_name()
 {
     werase( w_name );
     mvwprintz( w_name, 0, 1, c_light_gray, _( "Name: " ) );
-    mvwprintz( w_name, 0, 1 + utf8_width( _( "Name: " ) ), c_light_green, veh->name );
+    std::string fac_name = veh->get_owner() &&
+                           veh->get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ?
+                           veh->get_owner()->name : _( "Yours" );
+    mvwprintz( w_name, 0, 1 + utf8_width( _( "Name: " ) ),
+               veh->get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ? c_light_red :
+               c_light_green, string_format( _( "%s (%s)" ), veh->name,
+                       veh->get_owner() == nullptr ? _( "not owned" ) : fac_name ) );
     wrefresh( w_name );
 }
 
@@ -2890,9 +2950,8 @@ void veh_interact::complete_vehicle()
                     int delta_x = headlight_target->x - ( veh->global_pos3().x + q.x );
                     int delta_y = headlight_target->y - ( veh->global_pos3().y + q.y );
 
-                    const double PI = 3.14159265358979f;
                     dir = static_cast<int>( atan2( static_cast<float>( delta_y ),
-                                                   static_cast<float>( delta_x ) ) * 180.0 / PI );
+                                                   static_cast<float>( delta_x ) ) * 180.0 / M_PI );
                     dir -= veh->face.dir();
                     while( dir < 0 ) {
                         dir += 360;

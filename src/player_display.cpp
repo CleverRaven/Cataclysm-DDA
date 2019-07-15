@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <algorithm>
 #include <sstream>
+#include <cstddef>
 
 #include "addiction.h"
 #include "avatar.h"
@@ -21,6 +22,7 @@
 #include "catacharset.h"
 #include "translations.h"
 #include "string_id.h"
+#include "enums.h"
 
 const skill_id skill_swimming( "swimming" );
 
@@ -346,6 +348,9 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
         curtab = action == "NEXT_TAB" ? curtab + 1 : 6;
     } else if( action == "QUIT" ) {
         done = true;
+    } else if( action == "CONFIRM" && line < 5 && get_option<bool>( "STATS_THROUGH_KILLS" ) &&
+               you.is_player() ) {
+        g->u.upgrade_stat_prompt( static_cast<Character::stat>( line ) );
     }
     mvwprintz( w_stats, 2, 1, c_light_gray, _( "Strength:" ) );
     mvwprintz( w_stats, 3, 1, c_light_gray, _( "Dexterity:" ) );
@@ -909,10 +914,10 @@ static void draw_initial_windows( const catacurses::window &w_stats,
         mvwprintz( w_stats, line_n, 21, c_light_gray, "(%2d)", max );
     };
 
-    display_stat( _( "Strength:" ), you.str_cur, you.str_max, 2 );
-    display_stat( _( "Dexterity:" ), you.dex_cur, you.dex_max, 3 );
-    display_stat( _( "Intelligence:" ), you.int_cur, you.int_max, 4 );
-    display_stat( _( "Perception:" ), you.per_cur, you.per_max, 5 );
+    display_stat( _( "Strength:" ), you.get_str(), you.get_str_base(), 2 );
+    display_stat( _( "Dexterity:" ), you.get_dex(), you.get_dex_base(), 3 );
+    display_stat( _( "Intelligence:" ), you.get_int(), you.get_int_base(), 4 );
+    display_stat( _( "Perception:" ), you.get_per(), you.get_per_base(), 5 );
     mvwprintz( w_stats, 6, 1, c_light_gray, _( "Weight:" ) );
     mvwprintz( w_stats, 6, 25 - you.get_weight_string().size(), c_light_gray, you.get_weight_string() );
 
@@ -1029,7 +1034,9 @@ static void draw_initial_windows( const catacurses::window &w_stats,
     }
     if( you.kcal_speed_penalty() < 0 ) {
         pen = abs( you.kcal_speed_penalty() );
-        mvwprintz( w_speed, line, 1, c_red, _( "Starving            -%s%d%%" ),
+        const std::string inanition = you.get_bmi() < character_weight_category::underweight ?
+                                      _( "Starving" ) : _( "Underfed" );
+        mvwprintz( w_speed, line, 1, c_red, _( "%-20s-%s%d%%" ), inanition,
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
@@ -1122,12 +1129,12 @@ void player::disp_info()
         effect_text.push_back( pain_text.str() );
     }
 
-    int starvation_base_penalty = get_starvation() + 300;
+    const float bmi = get_bmi();
 
-    if( starvation_base_penalty > 300 ) {
+    if( bmi < character_weight_category::underweight ) {
         std::stringstream starvation_text;
 
-        if( starvation_base_penalty > 1400 ) {
+        if( bmi < character_weight_category::emaciated ) {
             effect_name.push_back( _( "Severely Malnourished" ) );
             starvation_text <<
                             _( "Your body is severely weakened by starvation. You might die if you don't start eating regular meals!\n \n" );
@@ -1137,15 +1144,11 @@ void player::disp_info()
                             _( "Your body is weakened by starvation. Only time and regular meals will help you recover.\n \n" );
         }
 
-        if( starvation_base_penalty > 500 ) {
-            starvation_text << _( "Strength" ) << " -" << static_cast<int>( starvation_base_penalty / 500 ) <<
-                            "   ";
-            if( starvation_base_penalty > 1000 ) {
-                starvation_text << _( "Dexterity" ) << " -" << static_cast<int>( starvation_base_penalty / 1000 ) <<
-                                "   ";
-                starvation_text << _( "Intelligence" ) << " -" << static_cast<int>( starvation_base_penalty / 1000 )
-                                << "   ";
-            }
+        if( bmi < character_weight_category::underweight ) {
+            const float str_penalty = 1.0f - ( ( bmi - 13.0f ) / 3.0f );
+            starvation_text << _( "Strength" ) << " -" << string_format( "%2.0f%%\n", str_penalty * 100.0f );
+            starvation_text << _( "Dexterity" ) << " -" << string_format( "%2.0f%%\n", str_penalty * 50.0f );
+            starvation_text << _( "Intelligence" ) << " -" << string_format( "%2.0f%%", str_penalty * 50.0f );
         }
 
         effect_text.push_back( starvation_text.str() );

@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <memory>
 #include <ostream>
+#include <list>
 
 #include "avatar.h"
 #include "bionics.h"
@@ -27,7 +28,6 @@
 #include "translations.h"
 #include "trap.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "tileray.h"
 #include "vehicle.h"
 #include "cata_utility.h"
@@ -37,6 +37,8 @@
 #include "player.h"
 #include "int_id.h"
 #include "string_id.h"
+#include "pimpl.h"
+#include "string_formatter.h"
 
 #define MONSTER_FOLLOW_DIST 8
 
@@ -66,28 +68,26 @@ bool monster::wander()
     return ( goal == pos() );
 }
 
-bool monster::is_immune_field( const field_id fid ) const
+bool monster::is_immune_field( const field_type_id fid ) const
 {
-    switch( fid ) {
-        case fd_smoke:
-        case fd_tear_gas:
-        case fd_toxic_gas:
-        case fd_relax_gas:
-        case fd_nuke_gas:
-            return has_flag( MF_NO_BREATHE );
-        case fd_acid:
-            return has_flag( MF_ACIDPROOF ) || has_flag( MF_FLIES );
-        case fd_fire:
-            return has_flag( MF_FIREPROOF );
-        case fd_electricity:
-            return has_flag( MF_ELECTRIC );
-        case fd_fungal_haze:
-            return has_flag( MF_NO_BREATHE ) || type->in_species( FUNGUS );
-        case fd_fungicidal_gas:
-            return !type->in_species( FUNGUS );
-        default:
-            // Suppress warning
-            break;
+    if( fid == fd_smoke || fid == fd_tear_gas || fid == fd_toxic_gas ||
+        fid == fd_relax_gas || fid == fd_nuke_gas ) {
+        return has_flag( MF_NO_BREATHE );
+    }
+    if( fid == fd_acid ) {
+        return has_flag( MF_ACIDPROOF ) || has_flag( MF_FLIES );
+    }
+    if( fid == fd_fire ) {
+        return has_flag( MF_FIREPROOF );
+    }
+    if( fid == fd_electricity ) {
+        return has_flag( MF_ELECTRIC );
+    }
+    if( fid == fd_fungal_haze ) {
+        return has_flag( MF_NO_BREATHE ) || type->in_species( FUNGUS );
+    }
+    if( fid == fd_fungicidal_gas ) {
+        return !type->in_species( FUNGUS );
     }
     // No specific immunity was found, so fall upwards
     return Creature::is_immune_field( fid );
@@ -233,7 +233,6 @@ void monster::plan( const mfactions &factions )
     const int angers_cub_threatened = type->has_anger_trigger( mon_trigger::PLAYER_NEAR_BABY ) ? 8 : 0;
     const int fears_hostile_near = type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ? 5 : 0;
 
-    auto all_monsters = g->all_monsters();
     bool group_morale = has_flag( MF_GROUP_MORALE ) && morale < type->morale;
     bool swarms = has_flag( MF_SWARMS );
     auto mood = attitude();
@@ -264,7 +263,7 @@ void monster::plan( const mfactions &factions )
             }
         }
         if( angers_cub_threatened > 0 ) {
-            for( monster &tmp : all_monsters ) {
+            for( monster &tmp : g->all_monsters() ) {
                 if( type->baby_monster == tmp.type->id ) {
                     // baby nearby; is the player too close?
                     dist = tmp.rate_target( g->u, dist, smart_planning );
@@ -277,7 +276,7 @@ void monster::plan( const mfactions &factions )
             }
         }
     } else if( friendly != 0 && !docile ) {
-        for( monster &tmp : all_monsters ) {
+        for( monster &tmp : g->all_monsters() ) {
             if( tmp.friendly == 0 ) {
                 float rating = rate_target( tmp, dist, smart_planning );
                 if( rating < dist ) {
@@ -510,7 +509,7 @@ void monster::move()
             add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
                      name() );
         }
-        static const auto volume_per_hp = units::from_milliliter( 250 );
+        static const auto volume_per_hp = 250_ml;
         for( auto &elem : g->m.i_at( pos() ) ) {
             hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
             if( has_flag( MF_ABSORBS_SPLITS ) && hp / 2 > type->hp ) {
@@ -1526,8 +1525,8 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
  */
 void monster::stumble()
 {
-    // Only move every 3rd turn.
-    if( !one_in( 3 ) ) {
+    // Only move every 10 turns.
+    if( !one_in( 10 ) ) {
         return;
     }
 
@@ -1536,14 +1535,7 @@ void monster::stumble()
     const bool avoid_water = has_flag( MF_NO_BREATHE ) &&
                              !has_flag( MF_SWIMS ) && !has_flag( MF_AQUATIC );
     for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
-        if( dest != pos() && can_move_to( dest ) &&
-            //Stop zombies and other non-breathing monsters wandering INTO water
-            //(Unless they can swim/are aquatic)
-            //But let them wander OUT of water if they are there.
-            !( avoid_water &&
-               g->m.has_flag( TFLAG_SWIMMABLE, dest ) &&
-               !g->m.has_flag( TFLAG_SWIMMABLE, pos() ) ) &&
-            ( g->critter_at( dest, is_hallucination() ) == nullptr ) ) {
+        if( dest != pos() ) {
             valid_stumbles.push_back( dest );
         }
     }
@@ -1551,21 +1543,28 @@ void monster::stumble()
     if( g->m.has_zlevels() ) {
         tripoint below( posx(), posy(), posz() - 1 );
         tripoint above( posx(), posy(), posz() + 1 );
-        if( g->m.valid_move( pos(), below, false, true ) && can_move_to( below ) ) {
+        if( g->m.valid_move( pos(), below, false, true ) ) {
             valid_stumbles.push_back( below );
         }
         // More restrictions for moving up
         if( has_flag( MF_FLIES ) && one_in( 5 ) &&
-            g->m.valid_move( pos(), above, false, true ) && can_move_to( above ) ) {
+            g->m.valid_move( pos(), above, false, true ) ) {
             valid_stumbles.push_back( above );
         }
     }
-
-    if( valid_stumbles.empty() ) { //nowhere to stumble?
-        return;
+    while( !valid_stumbles.empty() ) {
+        const tripoint dest = random_entry_removed( valid_stumbles );
+        if( can_move_to( dest ) &&
+            //Stop zombies and other non-breathing monsters wandering INTO water
+            //(Unless they can swim/are aquatic)
+            //But let them wander OUT of water if they are there.
+            !( avoid_water &&
+               g->m.has_flag( TFLAG_SWIMMABLE, dest ) &&
+               !g->m.has_flag( TFLAG_SWIMMABLE, pos() ) ) &&
+            ( g->critter_at( dest, is_hallucination() ) == nullptr ) ) {
+            move_to( dest, true );
+        }
     }
-
-    move_to( random_entry( valid_stumbles ), false );
 }
 
 void monster::knock_back_from( const tripoint &p )

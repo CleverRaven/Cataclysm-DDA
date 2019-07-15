@@ -19,7 +19,6 @@
 #include "player.h"
 #include "player_helpers.h"
 #include "character.h"
-#include "enums.h"
 #include "inventory.h"
 #include "item.h"
 #include "pimpl.h"
@@ -28,6 +27,7 @@
 #include "mapdata.h"
 #include "material.h"
 #include "type_id.h"
+#include "point.h"
 
 const efftype_id effect_gave_quest_item( "gave_quest_item" );
 const efftype_id effect_currently_busy( "currently_busy" );
@@ -75,8 +75,8 @@ static void gen_response_lines( dialogue &d, size_t expected_count )
 
 static void change_om_type( const std::string &new_type )
 {
-    const point omt_pos = ms_to_omt_copy( g->m.getabs( g->u.posx(), g->u.posy() ) );
-    oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, g->u.posz() );
+    const tripoint omt_pos = ms_to_omt_copy( g->m.getabs( g->u.pos() ) );
+    oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     omt_ref = oter_id( new_type );
 }
 
@@ -201,7 +201,7 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[2].text == "This is an npc service test response." );
     CHECK( d.responses[3].text == "This is an npc available test response." );
 
-    change_om_type( "pond_swamp" );
+    change_om_type( "pond_swamp_north" );
     d.add_topic( "TALK_TEST_LOCATION" );
     d.gen_responses( d.topic_stack.back() );
     gen_response_lines( d, 1 );
@@ -415,8 +415,12 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[0].text == "This is a basic test response." );
 
     const auto has_item = [&]( player & p, const std::string & id, int count ) {
-        return p.has_charges( itype_id( id ), count ) ||
-               p.has_amount( itype_id( id ), count );
+        item old_item = item( id );
+        if( old_item.count_by_charges() ) {
+            return p.has_charges( itype_id( id ), count );
+        } else {
+            return p.has_amount( itype_id( id ), count );
+        }
     };
     const auto has_beer_bottle = [&]( player & p, int count ) {
         return has_item( p, "bottle_glass", 1 ) && has_item( p, "beer", count );
@@ -555,6 +559,7 @@ TEST_CASE( "npc_talk_test" )
     CHECK( has_item( g->u, "beer", 1 ) );
     effects = d.responses[17].success;
     effects.apply( d );
+    CHECK( has_item( g->u, "beer", 0 ) );
     CHECK( !has_item( g->u, "beer", 1 ) );
 
     d.add_topic( "TALK_COMBAT_COMMANDS" );

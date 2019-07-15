@@ -1,14 +1,11 @@
 #include "activity_handlers.h" // IWYU pragma: associated
 
 #include <climits>
-#include <cstddef>
 #include <algorithm>
-#include <cassert>
 #include <list>
 #include <vector>
 #include <iterator>
 #include <memory>
-#include <set>
 #include <string>
 #include <utility>
 
@@ -40,15 +37,20 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "calendar.h"
 #include "character.h"
 #include "game_constants.h"
 #include "inventory.h"
-#include "item_stack.h"
 #include "line.h"
 #include "units.h"
 #include "type_id.h"
+#include "flat_set.h"
+#include "int_id.h"
+#include "item_location.h"
+#include "point.h"
+#include "string_id.h"
+
+struct construction_category;
 
 void cancel_aim_processing();
 
@@ -972,7 +974,7 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
         }
         // dont go there if it's dangerous.
         bool dangerous_field = false;
-        for( const std::pair<const field_id, field_entry> &e : g->m.field_at( src_loc ) ) {
+        for( const std::pair<const field_type_id, field_entry> &e : g->m.field_at( src_loc ) ) {
             if( p.is_dangerous_field( e.second ) ) {
                 dangerous_field = true;
                 break;
@@ -1068,7 +1070,8 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
         // if it's too dark to construct there
         const bool enough_light = p.fine_detail_vision_mod() <= 4;
         if( !enough_light ) {
-            continue;
+            p.add_msg_if_player( m_info, _( "It is too dark to construct anything." ) );
+            return;
         }
         // check if can do the construction now we are actually there
         const std::vector<zone_data> &post_zones = mgr.get_zones( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
@@ -1160,7 +1163,7 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
     // If we got here without restarting the activity, it means we're done.
     if( p.is_npc() ) {
         npc *guy = dynamic_cast<npc *>( &p );
-        guy->current_activity = "";
+        guy->current_activity.clear();
         guy->revert_after_activity();
     }
 }

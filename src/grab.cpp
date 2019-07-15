@@ -1,13 +1,11 @@
 #include "game.h" // IWYU pragma: associated
 
 #include <cstdlib>
-#include <cmath>
 #include <algorithm>
 
 #include "avatar.h"
 #include "map.h"
 #include "messages.h"
-#include "player.h"
 #include "sounds.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -28,6 +26,9 @@ bool game::grabbed_veh_move( const tripoint &dp )
         return false;
     }
     vehicle *grabbed_vehicle = &grabbed_vehicle_vp->vehicle();
+    if( !grabbed_vehicle->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+        return false;
+    }
     const int grabbed_part = grabbed_vehicle_vp->part_index();
     for( size_t part_index = 0; part_index < grabbed_vehicle->parts.size(); ++part_index ) {
         monster *mon = grabbed_vehicle->get_pet( part_index );
@@ -61,8 +62,8 @@ bool game::grabbed_veh_move( const tripoint &dp )
                next_grab.x != 0 && next_grab.y != 0 ) {
         // Zig-zag (or semi-zig-zag) pull: player is diagonal to vehicle
         // and moves away from it, but not directly away
-        dp_veh.x = ( dp.x == -dp_veh.x ) ? 0 : dp_veh.x;
-        dp_veh.y = ( dp.y == -dp_veh.y ) ? 0 : dp_veh.y;
+        dp_veh.x = dp.x == -dp_veh.x ? 0 : dp_veh.x;
+        dp_veh.y = dp.y == -dp_veh.y ? 0 : dp_veh.y;
 
         next_grab = -dp_veh;
         zigzag = true;

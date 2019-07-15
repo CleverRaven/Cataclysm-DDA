@@ -1,5 +1,6 @@
 #include "character.h"
 
+#include <ctype.h>
 #include <climits>
 #include <cstdlib>
 #include <algorithm>
@@ -17,6 +18,7 @@
 #include "effect.h"
 #include "field.h"
 #include "game.h"
+#include "game_constants.h"
 #include "itype.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -157,7 +159,7 @@ Character::~Character() = default;
 Character::Character( Character && ) = default;
 Character &Character::operator=( Character && ) = default;
 
-field_id Character::bloodType() const
+field_type_id Character::bloodType() const
 {
     if( has_trait( trait_ACIDBLOOD ) ) {
         return fd_acid;
@@ -173,7 +175,7 @@ field_id Character::bloodType() const
     }
     return fd_blood;
 }
-field_id Character::gibType() const
+field_type_id Character::gibType() const
 {
     return fd_gibs_flesh;
 }
@@ -896,6 +898,7 @@ item &Character::i_add( item it, bool should_stack )
     }
     auto &item_in_inv = inv.add_item( it, keep_invlet, true, should_stack );
     item_in_inv.on_pickup( *this );
+    cached_info.erase( "reloadables" );
     return item_in_inv;
 }
 
@@ -1898,19 +1901,19 @@ body_part_set Character::exclusive_flag_coverage( const std::string &flag ) cons
 // get_stat_bonus() is always just the bonus amount
 int Character::get_str() const
 {
-    return std::max( 0, str_max + str_bonus );
+    return std::max( 0, get_str_base() + str_bonus );
 }
 int Character::get_dex() const
 {
-    return std::max( 0, dex_max + dex_bonus );
+    return std::max( 0, get_dex_base() + dex_bonus );
 }
 int Character::get_per() const
 {
-    return std::max( 0, per_max + per_bonus );
+    return std::max( 0, get_per_base() + per_bonus );
 }
 int Character::get_int() const
 {
-    return std::max( 0, int_max + int_bonus );
+    return std::max( 0, get_int_base() + int_bonus );
 }
 
 int Character::get_str_base() const
@@ -2317,8 +2320,6 @@ void Character::reset_bonuses()
     per_bonus = 0;
     int_bonus = 0;
 
-    reset_encumbrance();
-
     Creature::reset_bonuses();
 }
 
@@ -2658,51 +2659,43 @@ nc_color Character::symbol_color() const
     bool has_elec = false;
     bool has_fume = false;
     for( const auto &field : fields ) {
-        switch( field.first ) {
-            case fd_incendiary:
-            case fd_fire:
-                has_fire = true;
-                break;
-            case fd_electricity:
-                has_elec = true;
-                break;
-            case fd_acid:
-                has_acid = true;
-                break;
-            case fd_relax_gas:
-            case fd_fungal_haze:
-            case fd_fungicidal_gas:
-            case fd_toxic_gas:
-            case fd_tear_gas:
-            case fd_nuke_gas:
-            case fd_smoke:
-                has_fume = true;
-                break;
-            default:
-                continue;
+        if( field.first == fd_incendiary || field.first == fd_fire ) {
+            has_fire = true;
+        }
+        if( field.first == fd_electricity ) {
+            has_elec = true;
+        }
+        if( field.first == fd_acid ) {
+            has_acid = true;
+        }
+        if( field.first == fd_relax_gas || field.first == fd_fungal_haze ||
+            field.first == fd_fungicidal_gas || field.first == fd_toxic_gas ||
+            field.first == fd_tear_gas || field.first == fd_nuke_gas ||
+            field.first == fd_smoke ) {
+            has_fume = true;
         }
     }
-
     // Priority: electricity, fire, acid, gases
     // Can't just return in the switch, because field order is alphabetic
     if( has_elec ) {
         return hilite( basic );
-    } else if( has_fire ) {
+    }
+    if( has_fire ) {
         return red_background( basic );
-    } else if( has_acid ) {
+    }
+    if( has_acid ) {
         return green_background( basic );
-    } else if( has_fume ) {
+    }
+    if( has_fume ) {
         return white_background( basic );
     }
-
     if( in_sleep_state() ) {
         return hilite( basic );
     }
-
     return basic;
 }
 
-bool Character::is_immune_field( const field_id fid ) const
+bool Character::is_immune_field( const field_type_id fid ) const
 {
     // Obviously this makes us invincible
     if( has_trait( debug_nodmg ) ) {
@@ -2710,38 +2703,37 @@ bool Character::is_immune_field( const field_id fid ) const
     }
 
     // Check to see if we are immune
-    switch( fid ) {
-        case fd_smoke:
-            return get_env_resist( bp_mouth ) >= 12;
-        case fd_tear_gas:
-        case fd_toxic_gas:
-        case fd_gas_vent:
-        case fd_relax_gas:
-            return get_env_resist( bp_mouth ) >= 15;
-        case fd_fungal_haze:
-            return has_trait( trait_id( "M_IMMUNE" ) ) || ( get_env_resist( bp_mouth ) >= 15 &&
-                    get_env_resist( bp_eyes ) >= 15 );
-        case fd_electricity:
-            return is_elec_immune();
-        case fd_acid:
-            return has_trait( trait_id( "ACIDPROOF" ) ) ||
-                   ( !is_on_ground() && get_env_resist( bp_foot_l ) >= 15 &&
-                     get_env_resist( bp_foot_r ) >= 15 &&
-                     get_env_resist( bp_leg_l ) >= 15 &&
-                     get_env_resist( bp_leg_r ) >= 15 &&
-                     get_armor_type( DT_ACID, bp_foot_l ) >= 5 &&
-                     get_armor_type( DT_ACID, bp_foot_r ) >= 5 &&
-                     get_armor_type( DT_ACID, bp_leg_l ) >= 5 &&
-                     get_armor_type( DT_ACID, bp_leg_r ) >= 5 );
-        case fd_web:
-            return has_trait( trait_id( "WEB_WALKER" ) );
-        case fd_fire:
-        case fd_flame_burst:
-            return has_active_bionic( bionic_id( "bio_heatsink" ) ) || is_wearing( "rm13_armor_on" );
-        default:
-            // Suppress warning
-            break;
+    if( fid == fd_smoke ) {
+        return get_env_resist( bp_mouth ) >= 12;
     }
+    if( fid == fd_tear_gas || fid == fd_toxic_gas || fid == fd_gas_vent || fid == fd_relax_gas ) {
+        return get_env_resist( bp_mouth ) >= 15;
+    }
+    if( fid == fd_fungal_haze ) {
+        return has_trait( trait_id( "M_IMMUNE" ) ) || ( get_env_resist( bp_mouth ) >= 15 &&
+                get_env_resist( bp_eyes ) >= 15 );
+    }
+    if( fid == fd_electricity ) {
+        return is_elec_immune();
+    }
+    if( fid == fd_acid ) {
+        return has_trait( trait_id( "ACIDPROOF" ) ) ||
+               ( !is_on_ground() && get_env_resist( bp_foot_l ) >= 15 &&
+                 get_env_resist( bp_foot_r ) >= 15 &&
+                 get_env_resist( bp_leg_l ) >= 15 &&
+                 get_env_resist( bp_leg_r ) >= 15 &&
+                 get_armor_type( DT_ACID, bp_foot_l ) >= 5 &&
+                 get_armor_type( DT_ACID, bp_foot_r ) >= 5 &&
+                 get_armor_type( DT_ACID, bp_leg_l ) >= 5 &&
+                 get_armor_type( DT_ACID, bp_leg_r ) >= 5 );
+    }
+    if( fid == fd_web ) {
+        return has_trait( trait_id( "WEB_WALKER" ) );
+    }
+    if( fid == fd_fire || fid == fd_flame_burst ) {
+        return has_active_bionic( bionic_id( "bio_heatsink" ) ) || is_wearing( "rm13_armor_on" );
+    }
+
     // If we haven't found immunity yet fall up to the next level
     return Creature::is_immune_field( fid );
 }
@@ -3142,7 +3134,9 @@ mutation_value_map = {
     { "hearing_modifier", calc_mutation_value_multiplicative<&mutation_branch::hearing_modifier> },
     { "noise_modifier", calc_mutation_value_multiplicative<&mutation_branch::noise_modifier> },
     { "overmap_sight", calc_mutation_value_multiplicative<&mutation_branch::overmap_sight> },
-    { "overmap_multiplier", calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier> }
+    { "overmap_multiplier", calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier> },
+    { "map_memory_capacity_multiplier", calc_mutation_value_multiplicative<&mutation_branch::map_memory_capacity_multiplier> },
+    { "skill_rust_multiplier", calc_mutation_value_multiplicative<&mutation_branch::skill_rust_multiplier> }
 };
 
 float Character::mutation_value( const std::string &val ) const
@@ -3260,41 +3254,41 @@ std::string Character::get_weight_string() const
 {
     const float bmi = get_bmi();
     if( get_option<bool>( "CRAZY" ) ) {
-        if( bmi > 50.0f ) {
+        if( bmi > character_weight_category::morbidly_obese + 10.0f ) {
             return _( "AW HELL NAH" );
-        } else if( bmi > 45.0f ) {
+        } else if( bmi > character_weight_category::morbidly_obese + 5.0f ) {
             return _( "DAYUM" );
-        } else if( bmi > 40.0f ) {
+        } else if( bmi > character_weight_category::morbidly_obese ) {
             return _( "Fluffy" );
-        } else if( bmi > 35.0f ) {
+        } else if( bmi > character_weight_category::very_obese ) {
             return _( "Husky" );
-        } else if( bmi > 30.0f ) {
+        } else if( bmi > character_weight_category::obese ) {
             return _( "Healthy" );
-        } else if( bmi > 25.0f ) {
+        } else if( bmi > character_weight_category::overweight ) {
             return _( "Big" );
-        } else if( bmi > 18.5f ) {
+        } else if( bmi > character_weight_category::normal ) {
             return _( "Normal" );
-        } else if( bmi > 16.0f ) {
+        } else if( bmi > character_weight_category::underweight ) {
             return _( "Bean Pole" );
-        } else if( bmi > 14.0f ) {
+        } else if( bmi > character_weight_category::emaciated ) {
             return _( "Emaciated" );
         } else {
             return _( "Spooky Scary Skeleton" );
         }
     } else {
-        if( bmi > 40.0f ) {
+        if( bmi > character_weight_category::morbidly_obese ) {
             return _( "Morbidly Obese" );
-        } else if( bmi > 35.0f ) {
+        } else if( bmi > character_weight_category::very_obese ) {
             return _( "Very Obese" );
-        } else if( bmi > 30.0f ) {
+        } else if( bmi > character_weight_category::obese ) {
             return _( "Obese" );
-        } else if( bmi > 25.0f ) {
+        } else if( bmi > character_weight_category::overweight ) {
             return _( "Overweight" );
-        } else if( bmi > 18.5f ) {
+        } else if( bmi > character_weight_category::normal ) {
             return _( "Normal" );
-        } else if( bmi > 16.0f ) {
+        } else if( bmi > character_weight_category::underweight ) {
             return _( "Underweight" );
-        } else if( bmi > 14.0f ) {
+        } else if( bmi > character_weight_category::emaciated ) {
             return _( "Emaciated" );
         } else {
             return _( "Skeletal" );
@@ -3305,19 +3299,19 @@ std::string Character::get_weight_string() const
 std::string Character::get_weight_description() const
 {
     const float bmi = get_bmi();
-    if( bmi > 40.0f ) {
+    if( bmi > character_weight_category::morbidly_obese ) {
         return _( "You have far more fat than is healthy or useful.  It is causing you major problems." );
-    } else if( bmi > 35.0f ) {
+    } else if( bmi > character_weight_category::very_obese ) {
         return _( "You have too much fat.  It impacts your day to day health and wellness." );
-    } else if( bmi > 30.0f ) {
-        return _( "you've definitely put on a lot of extra weight.  Although it's helpful in times of famine, this is too much and is impacting your health." );
-    } else if( bmi > 25.0f ) {
+    } else if( bmi > character_weight_category::obese ) {
+        return _( "You've definitely put on a lot of extra weight.  Although it's helpful in times of famine, this is too much and is impacting your health." );
+    } else if( bmi > character_weight_category::overweight ) {
         return _( "You've put on some extra pounds.  Nothing too excessive but it's starting to impact your health and waistline a bit." );
-    } else if( bmi > 18.5f ) {
+    } else if( bmi > character_weight_category::normal ) {
         return _( "You look to be a pretty healthy weight, with some fat to last you through the winter but nothing excessive." );
-    } else if( bmi > 16.0f ) {
+    } else if( bmi > character_weight_category::underweight ) {
         return _( "You are thin, thinner than is healthy.  You are less resilient to going without food." );
-    } else if( bmi > 14.0f ) {
+    } else if( bmi > character_weight_category::emaciated ) {
         return _( "You are very unhealthily underweight, nearing starvation." );
     } else {
         return _( "You have very little meat left on your bones.  You appear to be starving." );

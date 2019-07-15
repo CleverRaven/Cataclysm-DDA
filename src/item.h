@@ -2,6 +2,7 @@
 #ifndef ITEM_H
 #define ITEM_H
 
+#include <stdint.h>
 #include <climits>
 #include <list>
 #include <map>
@@ -15,9 +16,9 @@
 
 #include "calendar.h"
 #include "cata_utility.h"
+#include "craft_command.h"
 #include "debug.h"
 #include "enums.h"
-#include "faction.h"
 #include "flat_set.h"
 #include "io_tags.h"
 #include "item_location.h"
@@ -28,10 +29,12 @@
 #include "units.h"
 #include "visitable.h"
 #include "gun_mode.h"
+#include "point.h"
 
 class item;
 class material_type;
 struct mtype;
+class faction;
 
 namespace cata
 {
@@ -207,6 +210,17 @@ class item : public visitable<item>
 
         /** Filter converting instance to active state */
         item &activate();
+
+        /**
+         * Add or remove energy from a battery.
+         * If adding the specified energy quantity would go over the battery's capacity fill
+         * the battery and ignore the remainder.
+         * If adding the specified energy quantity would reduce the battery's charge level
+         * below 0 do nothing and return how far below 0 it would have gone.
+         * @param qty energy quantity to add (can be negative)
+         * @return 0 valued energy quantity on success
+         */
+        units::energy set_energy( const units::energy &qty );
 
         /**
          * Filter setting the ammo for this instance
@@ -1030,6 +1044,7 @@ class item : public visitable<item>
         bool is_medication() const;            // Is it a medication that only pretends to be food?
         bool is_bionic() const;
         bool is_magazine() const;
+        bool is_battery() const;
         bool is_ammo_belt() const;
         bool is_bandolier() const;
         bool is_holster() const;
@@ -1557,6 +1572,9 @@ class item : public visitable<item>
          */
         bool is_gun() const;
 
+        /** Quantity of energy currently loaded in tool or battery */
+        units::energy energy_remaining() const;
+
         /** Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod */
         int ammo_remaining() const;
         /** Maximum quantity of ammunition loadable for tool, gun or auxiliary gunmod */
@@ -1926,6 +1944,11 @@ class item : public visitable<item>
          */
         requirement_data get_continue_reqs() const;
 
+        void set_tools_to_continue( bool value );
+        bool has_tools_to_continue() const;
+        void set_cached_tool_selections( const std::vector<comp_selection<tool_comp>> &selections );
+        const std::vector<comp_selection<tool_comp>> &get_cached_tool_selections() const;
+
     private:
         /**
          * Calculate the thermal energy and temperature change of the item
@@ -1999,22 +2022,25 @@ class item : public visitable<item>
         const recipe *making = nullptr;
         int next_failure_point = -1;
         std::vector<item_comp> comps_used;
+        // If the crafter has insufficient tools to continue to the next 5% progress step
+        bool tools_to_continue = false;
+        std::vector<comp_selection<tool_comp>> cached_tool_selections;
 
     public:
         int charges;
+        units::energy energy;      // Amount of energy currently stored in a battery
 
-        // The number of charges a recipe creates.  Used for comestible consumption.
-        int recipe_charges = 1;
-        int burnt = 0;           // How badly we're burnt
-        int poison = 0;          // How badly poisoned is it?
-        int frequency = 0;       // Radio frequency
-        int note = 0;            // Associated dynamic text snippet.
-        int irradiation = 0;      // Tracks radiation dosage.
-        int item_counter = 0; // generic counter to be used with item flags
+        int recipe_charges = 1;    // The number of charges a recipe creates.
+        int burnt = 0;             // How badly we're burnt
+        int poison = 0;            // How badly poisoned is it?
+        int frequency = 0;         // Radio frequency
+        int note = 0;              // Associated dynamic text snippet.
+        int irradiation = 0;       // Tracks radiation dosage.
+        int item_counter = 0;      // generic counter to be used with item flags
         int specific_energy = -10; // Specific energy (0.00001 J/g). Negative value for unprocessed.
-        int temperature = 0; // Temperature of the item (in 0.00001 K).
-        int mission_id = -1; // Refers to a mission in game's master list
-        int player_id = -1; // Only give a mission to the right player!
+        int temperature = 0;       // Temperature of the item (in 0.00001 K).
+        int mission_id = -1;       // Refers to a mission in game's master list
+        int player_id = -1;        // Only give a mission to the right player!
 
     private:
         /**

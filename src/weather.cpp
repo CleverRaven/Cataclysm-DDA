@@ -1,11 +1,11 @@
 #include "weather.h"
 
+#include <array>
 #include <cmath>
 #include <sstream>
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <array>
 #include <list>
 #include <memory>
 
@@ -21,7 +21,6 @@
 #include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -30,12 +29,13 @@
 #include "bodypart.h"
 #include "enums.h"
 #include "item.h"
-#include "mapdata.h"
 #include "math_defines.h"
 #include "rng.h"
 #include "string_id.h"
 #include "units.h"
-#include "int_id.h"
+#include "colony.h"
+#include "player_activity.h"
+#include "regional_settings.h"
 
 const efftype_id effect_glare( "glare" );
 const efftype_id effect_snow_glare( "snow_glare" );
@@ -240,7 +240,7 @@ void item::add_rain_to_container( bool acid, int charges )
                 // The container has water, and the acid rain didn't turn it
                 // into weak acid. Poison the water instead, assuming 1
                 // charge of acid would act like a charge of water with poison 5.
-                int total_poison = liq.poison * ( orig ) + ( 5 * added );
+                int total_poison = liq.poison * orig + 5 * added;
                 liq.poison = total_poison / liq.charges;
                 int leftover_poison = total_poison - liq.poison * liq.charges;
                 if( leftover_poison > rng( 0, liq.charges ) ) {
@@ -711,8 +711,8 @@ int get_local_windchill( double temperature, double humidity, double windpower )
 
         // Temperature is removed at the end, because get_local_windchill is meant to calculate the difference.
         // Source : http://en.wikipedia.org/wiki/Wind_chill#North_American_and_United_Kingdom_wind_chill_index
-        windchill = 35.74 + 0.6215 * tmptemp - 35.75 * ( pow( tmpwind,
-                    0.16 ) ) + 0.4275 * tmptemp * ( pow( tmpwind, 0.16 ) ) - tmptemp;
+        windchill = 35.74 + 0.6215 * tmptemp - 35.75 * pow( tmpwind,
+                    0.16 ) + 0.4275 * tmptemp * pow( tmpwind, 0.16 ) - tmptemp;
         if( tmpwind < 4 ) {
             windchill = 0;    // This model fails when there is 0 wind.
         }
@@ -723,8 +723,8 @@ int get_local_windchill( double temperature, double humidity, double windpower )
         tmpwind = tmpwind * 0.44704; // Convert to meters per second.
         tmptemp = temp_to_celsius( tmptemp );
 
-        windchill = ( 0.33 * ( ( humidity / 100.00 ) * 6.105 * exp( ( 17.27 * tmptemp ) /
-                               ( 237.70 + tmptemp ) ) ) - 0.70 * tmpwind - 4.00 );
+        windchill = 0.33 * ( humidity / 100.00 * 6.105 * exp( 17.27 * tmptemp /
+                             ( 237.70 + tmptemp ) ) ) - 0.70 * tmpwind - 4.00;
         // Convert to Fahrenheit, but omit the '+ 32' because we are only dealing with a piece of the felt air temperature equation.
         windchill = windchill * 9 / 5;
     }
@@ -770,21 +770,21 @@ std::string get_shortdirstring( int angle )
     std::string dirstring;
     int dirangle = angle;
     if( dirangle <= 23 || dirangle > 338 ) {
-        dirstring = ( "N" );
+        dirstring = _( "N" );
     } else if( dirangle <= 68 && dirangle > 23 ) {
-        dirstring = ( "NE" );
+        dirstring = _( "NE" );
     } else if( dirangle <= 113 && dirangle > 68 ) {
-        dirstring = ( "E" );
+        dirstring = _( "E" );
     } else if( dirangle <= 158 && dirangle > 113 ) {
-        dirstring = ( "SE" );
+        dirstring = _( "SE" );
     } else if( dirangle <= 203 && dirangle > 158 ) {
-        dirstring = ( "S" );
+        dirstring = _( "S" );
     } else if( dirangle <= 248 && dirangle > 203 ) {
-        dirstring = ( "SW" );
+        dirstring = _( "SW" );
     } else if( dirangle <= 293 && dirangle > 248 ) {
-        dirstring = ( "W" );
+        dirstring = _( "W" );
     } else if( dirangle <= 338 && dirangle > 293 ) {
-        dirstring = ( "NW" );
+        dirstring = _( "NW" );
     }
     return dirstring;
 }
@@ -795,21 +795,21 @@ std::string get_dirstring( int angle )
     std::string dirstring;
     int dirangle = angle;
     if( dirangle <= 23 || dirangle > 338 ) {
-        dirstring = ( "North" );
+        dirstring = _( "North" );
     } else if( dirangle <= 68 && dirangle > 23 ) {
-        dirstring = ( "North-East" );
+        dirstring = _( "North-East" );
     } else if( dirangle <= 113 && dirangle > 68 ) {
-        dirstring = ( "East" );
+        dirstring = _( "East" );
     } else if( dirangle <= 158 && dirangle > 113 ) {
-        dirstring = ( "South-East" );
+        dirstring = _( "South-East" );
     } else if( dirangle <= 203 && dirangle > 158 ) {
-        dirstring = ( "South" );
+        dirstring = _( "South" );
     } else if( dirangle <= 248 && dirangle > 203 ) {
-        dirstring = ( "South-West" );
+        dirstring = _( "South-West" );
     } else if( dirangle <= 293 && dirangle > 248 ) {
-        dirstring = ( "West" );
+        dirstring = _( "West" );
     } else if( dirangle <= 338 && dirangle > 293 ) {
-        dirstring = ( "North-West" );
+        dirstring = _( "North-West" );
     }
     return dirstring;
 }
@@ -856,16 +856,17 @@ int get_local_humidity( double humidity, weather_type weather, bool sheltered )
 double get_local_windpower( double windpower, const oter_id &omter, const tripoint &location,
                             const int &winddirection, bool sheltered )
 {
-    rl_vec2d windvec = convert_wind_to_coord( winddirection );
-    double tmpwind = windpower;
-    tripoint triblocker( location + point( windvec.x, windvec.y ) );
     /**
     *  A player is sheltered if he is underground, in a car, or indoors.
     **/
     if( sheltered ) {
-        tmpwind  = 0.0;
-        // Over map terrain may modify the effect of wind.
-    } else if( omter.id() == "forest_water" ) {
+        return 0.0;
+    }
+    rl_vec2d windvec = convert_wind_to_coord( winddirection );
+    double tmpwind = windpower;
+    tripoint triblocker( location + point( windvec.x, windvec.y ) );
+    // Over map terrain may modify the effect of wind.
+    if( omter.id() == "forest_water" ) {
         tmpwind *= 0.7;
     } else if( omter.id() == "forest" ) {
         tmpwind *= 0.5;
@@ -889,61 +890,56 @@ std::string get_wind_desc( double windpower )
 {
     std::string winddesc;
     if( windpower < 1 ) {
-        winddesc = "Calm";
+        winddesc = _( "Calm" );
     } else if( windpower <= 3 ) {
-        winddesc = "Light Air";
+        winddesc = _( "Light Air" );
     } else if( windpower <= 7 ) {
-        winddesc = "Light Breeze";
+        winddesc = _( "Light Breeze" );
     } else if( windpower <= 12 ) {
-        winddesc = "Gentle Breeze";
+        winddesc = _( "Gentle Breeze" );
     } else if( windpower <= 18 ) {
-        winddesc = "Moderate Breeze";
+        winddesc = _( "Moderate Breeze" );
     } else if( windpower <= 24 ) {
-        winddesc = "Fresh Breeze";
+        winddesc = _( "Fresh Breeze" );
     } else if( windpower <= 31 ) {
-        winddesc = "Strong Breeze";
+        winddesc = _( "Strong Breeze" );
     } else if( windpower <= 38 ) {
-        winddesc = "Moderate Gale";
+        winddesc = _( "Moderate Gale" );
     } else if( windpower <= 46 ) {
-        winddesc = "Gale";
+        winddesc = _( "Gale" );
     } else if( windpower <= 54 ) {
-        winddesc = "Strong Gale";
+        winddesc = _( "Strong Gale" );
     } else if( windpower <= 63 ) {
-        winddesc = "Whole Gale";
+        winddesc = _( "Whole Gale" );
     } else if( windpower <= 72 ) {
-        winddesc = "Violent Storm";
+        winddesc = _( "Violent Storm" );
     } else if( windpower > 72 ) {
         // Anything above Whole Gale is very unlikely to happen and has no additional effects.
-        winddesc = "Hurricane";
+        winddesc = _( "Hurricane" );
     }
     return winddesc;
 }
 
 rl_vec2d convert_wind_to_coord( const int angle )
 {
-
-    rl_vec2d windvec;
-    float fx = sin( angle * M_PI / 180.0f );
-    float fy = -cos( angle * M_PI / 180.0f );
-    int roundedx;
-    int roundedy;
-    if( fx > 0.5 ) {
-        roundedx = 1;
-    } else if( fx < -0.5 ) {
-        roundedx = -1;
-    } else {
-        roundedx = 0;
+    static const std::array<std::pair<int, rl_vec2d>, 9> outputs = {{
+            { 330, rl_vec2d( 0, -1 ) },
+            { 301, rl_vec2d( -1, -1 ) },
+            { 240, rl_vec2d( -1, 0 ) },
+            { 211, rl_vec2d( -1, 1 ) },
+            { 150, rl_vec2d( 0, 1 ) },
+            { 121, rl_vec2d( 1, 1 ) },
+            { 60, rl_vec2d( 1, 0 ) },
+            { 31, rl_vec2d( 1, -1 ) },
+            { 0, rl_vec2d( 0, -1 ) }
+        }
+    };
+    for( const std::pair<int, rl_vec2d> &val : outputs ) {
+        if( angle >= val.first ) {
+            return val.second;
+        }
     }
-    if( fy > 0.5 ) {
-        roundedy = 1;
-    } else if( fy < -0.5 ) {
-        roundedy = -1;
-    } else {
-        roundedy = 0;
-    }
-    windvec.x = roundedx;
-    windvec.y = roundedy;
-    return windvec;
+    return rl_vec2d( 0, 0 );
 }
 
 bool warm_enough_to_plant( const tripoint &pos )
@@ -1032,7 +1028,7 @@ int weather_manager::get_temperature( const tripoint &location )
     }
     //underground temperature = average New England temperature = 43F/6C rounded to int
     const int temp = ( location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature ) +
-                     ( g->new_game ? 0 : ( g->m.get_temperature( location ) + temp_mod ) );
+                     ( g->new_game ? 0 : g->m.get_temperature( location ) + temp_mod );
 
     temperature_cache.emplace( std::make_pair( location, temp ) );
     return temp;

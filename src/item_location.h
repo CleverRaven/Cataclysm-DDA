@@ -2,7 +2,6 @@
 #ifndef ITEM_LOCATION_H
 #define ITEM_LOCATION_H
 
-#include <list>
 #include <memory>
 #include <string>
 

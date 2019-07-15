@@ -27,6 +27,21 @@
     ]
   },
   {
+    "id": "light_reading",
+    "type": "item_group",
+    "//": "for music store",
+    "items": [
+      [ "novel_coa", 10 ],
+      [ "child_book", 50 ],
+      [ "manual_dodge_kid", 25 ],
+      [ "tall_tales", 20 ],
+      [ "story_book", 4 ],
+      [ "novel_pulp", 16 ],
+      [ "fairy_tales", 20 ],
+      [ "mag_comic", 20 ]
+    ]
+  },
+  {
     "id": "boxing_books",
     "type": "item_group",
     "items": [
@@ -54,6 +69,7 @@
       [ "manual_silat", 100 ],
       [ "manual_taekwondo", 100 ],
       [ "manual_wingchun", 100 ],
+      [ "manual_medievalpole", 10 ],
       [ "manual_swordsmanship", 10 ]
     ]
   },
@@ -572,6 +588,7 @@
       [ "manual_sojutsu", 1 ],
       [ "manual_capoeira", 1 ],
       [ "manual_wingchun", 3 ],
+      [ "manual_medievalpole", 3 ],
       [ "manual_swordsmanship", 3 ],
       { "group": "rare_martial_arts_books", "prob": 6 }
     ]
@@ -605,7 +622,8 @@
       [ "manual_brawl", 10 ],
       [ "mag_cutting", 5 ],
       [ "textbook_weapeast", 1 ],
-      [ "manual_wingchun", 3 ]
+      [ "manual_wingchun", 3 ],
+      [ "manual_medievalpole", 1 ]
     ]
   },
   {
@@ -656,6 +674,11 @@
       [ "textbook_firstaid", 10 ],
       [ "mag_computer", 50 ]
     ]
+  },
+  {
+    "id": "record_weather",
+    "type": "item_group",
+    "items": [ [ "record_weather", 100 ] ]
   },
   {
     "id": "tailorbooks",

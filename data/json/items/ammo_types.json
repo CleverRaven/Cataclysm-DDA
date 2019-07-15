@@ -319,12 +319,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "fusion",
-    "name": "fusion cell",
-    "default": "laser_pack"
-  },
-  {
-    "type": "ammunition_type",
     "id": "12mm",
     "name": "12mm slugs",
     "default": "12mm"
@@ -514,6 +508,12 @@
     "id": "homebrew_rocket",
     "name": "homebrew rocket",
     "default": "spiked_rocket"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "atgm",
+    "name": "152mm anti-tank guided missile",
+    "default": "atgm_heat"
   },
   {
     "type": "ammunition_type",

@@ -1,0 +1,34 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_camp1",
+    "name": "mi-go encampment",
+    "sym": "<",
+    "color": "dark_gray",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_camp2",
+    "name": "mi-go encampment",
+    "sym": ">",
+    "color": "light_gray",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_camp2-1",
+    "name": "mi-go spire",
+    "sym": ">",
+    "color": "light_gray",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_camp2-2",
+    "name": "mi-go landing platform",
+    "sym": "_",
+    "color": "light_gray",
+    "mondensity": 2
+  }
+]

@@ -54,6 +54,11 @@
 #include "pimpl.h"
 #include "pldata.h"
 #include "units.h"
+#include "colony.h"
+#include "inventory.h"
+#include "item_location.h"
+#include "monster.h"
+#include "point.h"
 
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );
@@ -94,6 +99,7 @@ const efftype_id effect_took_flumed( "took_flumed" );
 const efftype_id effect_took_prozac( "took_prozac" );
 const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
 const efftype_id effect_took_xanax( "took_xanax" );
+const efftype_id effect_under_op( "under_operation" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 
@@ -531,19 +537,18 @@ bool player::activate_bionic( int b, bool eff_only )
                        "bio_hydraulics" );
     } else if( bio.id == "bio_water_extractor" ) {
         bool extracted = false;
-        for( auto it = g->m.i_at( pos() ).begin();
-             it != g->m.i_at( pos() ).end(); ++it ) {
-            static const auto volume_per_water_charge = units::from_milliliter( 500 );
-            if( it->is_corpse() ) {
-                const int avail = it->get_var( "remaining_water", it->volume() / volume_per_water_charge );
+        for( item &it : g->m.i_at( pos() ) ) {
+            static const auto volume_per_water_charge = 500_ml;
+            if( it.is_corpse() ) {
+                const int avail = it.get_var( "remaining_water", it.volume() / volume_per_water_charge );
                 if( avail > 0 &&
                     query_yn( _( "Extract water from the %s" ),
-                              colorize( it->tname(), it->color_in_inventory() ) ) ) {
+                              colorize( it.tname(), it.color_in_inventory() ) ) ) {
                     item water( "water_clean", calendar::turn, avail );
-                    water.set_item_temperature( 0.00001 * it->temperature );
+                    water.set_item_temperature( 0.00001 * it.temperature );
                     if( liquid_handler::consume_liquid( water ) ) {
                         extracted = true;
-                        it->set_var( "remaining_water", static_cast<int>( water.charges ) );
+                        it.set_var( "remaining_water", static_cast<int>( water.charges ) );
                     }
                     break;
                 }
@@ -688,6 +693,7 @@ bool player::activate_bionic( int b, bool eff_only )
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
+    reset_encumbrance();
     reset();
 
     // Also reset crafting inventory cache if this bionic spawned a fake item
@@ -773,6 +779,7 @@ bool player::deactivate_bionic( int b, bool eff_only )
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
+    reset_encumbrance();
     reset();
 
     // Also reset crafting inventory cache if this bionic spawned a fake item
@@ -941,7 +948,7 @@ void player::process_bionic( int b )
     }
 }
 
-void player::bionics_uninstall_failure( player &installer, int difficulty, int success,
+void player::bionics_uninstall_failure( int difficulty, int success,
                                         float adjusted_skill )
 {
     // "success" should be passed in as a negative integer representing how far off we
@@ -959,29 +966,8 @@ void player::bionics_uninstall_failure( player &installer, int difficulty, int s
         add_msg( m_neutral, _( "The removal fails without incident." ) );
         return;
     }
-    switch( rng( 1, 5 ) ) {
-        case 1:
-            installer.add_msg_player_or_npc( m_neutral,
-                                             _( "You flub the removal." ),
-                                             _( "<npcname> flubs the removal." ) );
-            break;
-        case 2:
-            installer.add_msg_player_or_npc( m_neutral,
-                                             _( "You mess up the removal." ),
-                                             _( "<npcname> messes up the removal." ) );
-            break;
-        case 3:
-            add_msg( m_neutral, _( "The removal fails." ) );
-            break;
-        case 4:
-            add_msg( m_neutral, _( "The removal is a failure." ) );
-            break;
-        case 5:
-            installer.add_msg_player_or_npc( m_neutral,
-                                             _( "You screw up the removal." ),
-                                             _( "<npcname> screws up the removal." ) );
-            break;
-    }
+
+    add_msg( m_neutral, _( "The removal is a failure." ) );
 
     switch( fail_type ) {
         case 1:
@@ -1116,6 +1102,18 @@ float player::bionics_adjusted_skill( const skill_id &most_important_skill,
                                       const skill_id &least_important_skill,
                                       int skill_level )
 {
+    int pl_skill = bionics_pl_skill( most_important_skill, important_skill, least_important_skill,
+                                     skill_level );
+
+    // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
+    float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
+                           static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>( 10.0 ) );
+    return adjusted_skill;
+}
+
+int player::bionics_pl_skill( const skill_id &most_important_skill, const skill_id &important_skill,
+                              const skill_id &least_important_skill, int skill_level )
+{
     int pl_skill;
     if( skill_level == -1 ) {
         pl_skill = int_cur                                  * 4 +
@@ -1140,11 +1138,7 @@ float player::bionics_adjusted_skill( const skill_id &most_important_skill,
         add_msg( m_neutral, _( "A lifetime of augmentation has taught %s a thing or two..." ),
                  disp_name() );
     }
-
-    // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
-    float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
-                           static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>( 10.0 ) );
-    return adjusted_skill;
+    return pl_skill;
 }
 
 // bionic manipulation chance of success
@@ -1194,7 +1188,7 @@ bool player::can_uninstall_bionic( const bionic_id &b_id, player &installer, boo
     }
 
     if( ( b_id == "bio_reactor" ) || ( b_id == "bio_advreactor" ) ) {
-        if( !query_yn(
+        if( !g->u.query_yn(
                 _( "WARNING: Removing a reactor may leave radioactive material! Remove anyway?" ) ) ) {
             return false;
         }
@@ -1264,16 +1258,25 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
 
     // removal of bionics adds +2 difficulty over installation
     float adjusted_skill;
+    int pl_skill;
     if( autodoc ) {
         adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
                          skilll_computer,
                          skilll_electronics,
                          skill_level );
+        pl_skill = installer.bionics_pl_skill( skilll_firstaid,
+                                               skilll_computer,
+                                               skilll_electronics,
+                                               skill_level );
     } else {
         adjusted_skill = installer.bionics_adjusted_skill( skilll_electronics,
                          skilll_firstaid,
                          skilll_mechanics,
                          skill_level );
+        pl_skill = installer.bionics_pl_skill( skilll_electronics,
+                                               skilll_firstaid,
+                                               skilll_mechanics,
+                                               skill_level );
     }
 
     int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, autodoc, difficulty + 2 );
@@ -1288,35 +1291,69 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
 
     int success = chance_of_success - rng( 1, 100 );
 
+    if( is_npc() ) {
+        static_cast<npc *>( this )->set_attitude( NPCATT_ACTIVITY );
+        assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
+        static_cast<npc *>( this )->set_mission( NPC_MISSION_ACTIVITY );
+    } else {
+        assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
+    }
+
+    activity.values.push_back( difficulty );
+    activity.values.push_back( success );
+    activity.values.push_back( bionics[b_id].capacity );
+    activity.values.push_back( pl_skill );
+    activity.str_values.push_back( bionics[b_id].name );
+    activity.str_values.push_back( b_id.c_str() );
+    for( const auto &elem : bionics[b_id].occupied_bodyparts ) {
+        activity.values.push_back( elem.first );
+        add_effect( effect_under_op, difficulty * 20_minutes, elem.first, false, difficulty );
+    }
+    return true;
+}
+
+void player::perform_uninstall( bionic_id bid, int difficulty, int success, int power_lvl,
+                                int pl_skill, std::string cbm_name )
+{
     if( success > 0 ) {
+
         if( is_player() ) {
             add_memorial_log( pgettext( "memorial_male", "Removed bionic: %s." ),
                               pgettext( "memorial_female", "Removed bionic: %s." ),
-                              bionics[b_id].name );
+                              cbm_name );
         }
+
         // until bionics can be flagged as non-removable
         add_msg_player_or_npc( m_neutral, _( "Your parts are jiggled back into their familiar places." ),
                                _( "<npcname>'s parts are jiggled back into their familiar places." ) );
-        add_msg( m_good, _( "Successfully removed %s." ), bionics[b_id].name );
+        add_msg( m_good, _( "Successfully removed %s." ), cbm_name );
+        remove_bionic( bid );
+
         // remove power bank provided by bionic
-        max_power_level -= bionics[b_id].capacity;
-        remove_bionic( b_id );
-        if( item::type_is_defined( b_id.c_str() ) ) {
-            g->m.spawn_item( pos(), b_id.c_str(), 1 );
+        max_power_level -= power_lvl;
+
+        if( item::type_is_defined( bid.c_str() ) ) {
+            g->m.spawn_item( pos(), bid.c_str(), 1 );
         } else {
             g->m.spawn_item( pos(), "burnt_out_bionic", 1 );
         }
+
     } else {
         if( is_player() ) {
             add_memorial_log( pgettext( "memorial_male", "Failed to remove bionic: %s." ),
                               pgettext( "memorial_female", "Failed to remove bionic: %s." ),
-                              bionics[b_id].name );
+                              cbm_name );
         }
-        bionics_uninstall_failure( installer, difficulty, success, adjusted_skill );
+
+        // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
+        float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
+                               static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>
+                               ( 10.0 ) );
+        bionics_uninstall_failure( difficulty, success, adjusted_skill );
+
     }
     g->m.invalidate_map_cache( g->get_levz() );
     g->refresh_all();
-    return true;
 }
 
 bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
@@ -1457,21 +1494,30 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
     int assist_bonus = installer.get_effect_int( effect_assisted );
 
     const bionic_id &bioid = type.bionic->id;
-    const int difficult = type.bionic->difficulty;
+    const bionic_id &upbioid = bioid->upgraded_bionic;
+    const int difficulty = type.bionic->difficulty;
     float adjusted_skill;
-
+    int pl_skill;
     if( autodoc ) {
         adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
                          skilll_computer,
                          skilll_electronics,
                          skill_level );
+        pl_skill = installer.bionics_pl_skill( skilll_firstaid,
+                                               skilll_computer,
+                                               skilll_electronics,
+                                               skill_level );
     } else {
         adjusted_skill = installer.bionics_adjusted_skill( skilll_electronics,
                          skilll_firstaid,
                          skilll_mechanics,
                          skill_level );
+        pl_skill = installer.bionics_pl_skill( skilll_electronics,
+                                               skilll_firstaid,
+                                               skilll_mechanics,
+                                               skill_level );
     }
-    int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, autodoc, difficult );
+    int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, autodoc, difficulty );
 
     // Practice skills only if conducting manual installation
     if( !autodoc ) {
@@ -1481,43 +1527,96 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
     }
 
     int success = chance_of_success - rng( 0, 99 );
+    if( is_npc() ) {
+        static_cast<npc *>( this )->set_attitude( NPCATT_ACTIVITY );
+        assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
+        static_cast<npc *>( this )->set_mission( NPC_MISSION_ACTIVITY );
+    } else {
+        assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
+    }
+
+    activity.values.push_back( difficulty );
+    activity.values.push_back( success );
+    activity.values.push_back( bionics[bioid].capacity );
+    activity.values.push_back( pl_skill );
+    activity.str_values.push_back( bionics[bioid].name );
+    activity.str_values.push_back( bioid.c_str() );
+    if( upbioid ) {
+        activity.str_values.push_back( bionics[upbioid].name );
+        activity.str_values.push_back( upbioid.c_str() );
+    } else {
+        activity.str_values.push_back( "" );
+        activity.str_values.push_back( "" );
+    }
+    if( installer.has_trait( trait_PROF_MED ) || installer.has_trait( trait_PROF_AUTODOC ) ) {
+        activity.str_values.push_back( installer.disp_name( true ) );
+    } else {
+        activity.str_values.push_back( "NOT_MED" );
+    }
+    if( autodoc ) {
+        activity.str_values.push_back( "true" );
+    } else {
+        activity.str_values.push_back( "false" );
+    }
+    for( const auto &elem : bionics[bioid].occupied_bodyparts ) {
+        activity.values.push_back( elem.first );
+        add_effect( effect_under_op, difficulty * 20_minutes, elem.first, false, difficulty );
+    }
+    for( const trait_id &mid : bioid->canceled_mutations ) {
+        if( has_trait( mid ) ) {
+            activity.str_values.push_back( mid.c_str() );
+        }
+    }
+    return true;
+}
+
+void player::perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
+                              int pl_skill, std::string cbm_name, std::string upcbm_name, std::string installer_name,
+                              std::vector<trait_id> trait_to_rem )
+{
     if( success > 0 ) {
+
         if( is_player() ) {
             add_memorial_log( pgettext( "memorial_male", "Installed bionic: %s." ),
                               pgettext( "memorial_female", "Installed bionic: %s." ),
-                              bioid->name );
+                              cbm_name );
         }
-        if( bioid->upgraded_bionic ) {
-            remove_bionic( bioid->upgraded_bionic );
+        if( upbid != bionic_id( "" ) ) {
+            remove_bionic( upbid );
             //~ %1$s - name of the bionic to be upgraded (inferior), %2$s - name of the upgraded bionic (superior).
             add_msg( m_good, _( "Successfully upgraded %1$s to %2$s." ),
-                     bioid->upgraded_bionic->name, bioid->name );
+                     upcbm_name, cbm_name );
         } else {
             //~ %s - name of the bionic.
-            add_msg( m_good, _( "Successfully installed %s." ), bioid->name );
+            add_msg( m_good, _( "Successfully installed %s." ), cbm_name );
         }
 
-        add_bionic( bioid );
+        add_bionic( bid );
 
-        for( const auto &mid : bioid->canceled_mutations ) {
-            if( has_trait( mid ) ) {
-                remove_mutation( mid );
+        if( !trait_to_rem.empty() ) {
+            for( trait_id tid : trait_to_rem ) {
+                remove_mutation( tid );
             }
         }
+
     } else {
         if( is_player() ) {
             add_memorial_log( pgettext( "memorial_male", "Failed install of bionic: %s." ),
                               pgettext( "memorial_female", "Failed install of bionic: %s." ),
-                              bioid->name );
+                              cbm_name );
         }
-        bionics_install_failure( installer, difficult, success, adjusted_skill );
+
+        // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
+        float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
+                               static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>
+                               ( 10.0 ) );
+        bionics_install_failure( installer_name, difficulty, success, adjusted_skill );
     }
     g->m.invalidate_map_cache( g->get_levz() );
     g->refresh_all();
-    return true;
 }
 
-void player::bionics_install_failure( player &installer, int difficulty, int success,
+void player::bionics_install_failure( std::string installer, int difficulty, int success,
                                       float adjusted_skill )
 {
     // "success" should be passed in as a negative integer representing how far off we
@@ -1531,39 +1630,17 @@ void player::bionics_install_failure( player &installer, int difficulty, int suc
     int failure_level = static_cast<int>( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
     int fail_type = ( failure_level > 5 ? 5 : failure_level );
 
+    add_msg( m_neutral, _( "The installation is a failure." ) );
+
     if( fail_type <= 0 ) {
         add_msg( m_neutral, _( "The installation fails without incident." ) );
         return;
     }
 
-    switch( rng( 1, 5 ) ) {
-        case 1:
-            installer.add_msg_player_or_npc( m_neutral,
-                                             _( "You flub the installation." ),
-                                             _( "<npcname> flubs the installation." ) );
-            break;
-        case 2:
-            installer.add_msg_player_or_npc( m_neutral,
-                                             _( "You mess up the installation." ),
-                                             _( "<npcname> messes up the installation." ) );
-            break;
-        case 3:
-            add_msg( m_neutral, _( "The installation fails." ) );
-            break;
-        case 4:
-            add_msg( m_neutral, _( "The installation is a failure." ) );
-            break;
-        case 5:
-            installer.add_msg_player_or_npc( m_neutral,
-                                             _( "You screw up the installation." ),
-                                             _( "<npcname> screws up the installation." ) );
-            break;
-    }
-
-    if( installer.has_trait( trait_PROF_MED ) || installer.has_trait( trait_PROF_AUTODOC ) ) {
+    if( installer != "NOT_MED" ) {
         //~"Complications" is USian medical-speak for "unintended damage from a medical procedure".
-        add_msg( m_neutral, _( "%s training helps %s minimize the complications." ),
-                 installer.disp_name( true ), installer.disp_name() );
+        add_msg( m_neutral, _( "%s training helps to minimize the complications." ),
+                 installer );
         // In addition to the bonus, medical residents know enough OR protocol to avoid botching.
         // Take MD and be immune to faulty bionics.
         if( fail_type == 5 ) {
@@ -1736,6 +1813,7 @@ void player::add_bionic( const bionic_id &b )
         add_bionic( inc_bid );
     }
 
+    reset_encumbrance();
     recalc_sight_limits();
 }
 
@@ -1755,6 +1833,7 @@ void player::remove_bionic( const bionic_id &b )
         new_my_bionics.push_back( bionic( i.id, i.invlet ) );
     }
     *my_bionics = new_my_bionics;
+    reset_encumbrance();
     recalc_sight_limits();
 }
 

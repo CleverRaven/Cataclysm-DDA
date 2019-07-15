@@ -43,6 +43,8 @@
 #include "units.h"
 #include "weighted_list.h"
 #include "type_id.h"
+#include "colony.h"
+#include "point.h"
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_blob_brain( "mon_blob_brain" );
@@ -173,8 +175,8 @@ void mdeath::splatter( monster &z )
         }
     }
 
-    const field_id type_blood = z.bloodType();
-    const field_id type_gib = z.gibType();
+    const field_type_id type_blood = z.bloodType();
+    const field_type_id type_gib = z.gibType();
 
     if( gibbable ) {
         const auto area = g->m.points_in_radius( z.pos(), 1 );
@@ -710,7 +712,7 @@ void mdeath::jabberwock( monster &z )
     bool vorpal = ch && ch->is_player() &&
                   rl_dist( z.pos(), ch->pos() ) <= 1 &&
                   ch->weapon.has_flag( "DIAMOND" ) &&
-                  ch->weapon.volume() > units::from_milliliter( 750 );
+                  ch->weapon.volume() > 750_ml;
 
     if( vorpal && !ch->weapon.has_technique( matec_id( "VORPAL" ) ) ) {
         if( ch->sees( z ) ) {

@@ -328,6 +328,8 @@
     "name": "Good Memory",
     "points": 3,
     "description": "You have an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual, and you can remember more terrain.",
+    "map_memory_capacity_multiplier": 2,
+    "skill_rust_multiplier": 0.66,
     "starting_trait": true,
     "valid": false,
     "cancels": [ "FORGETFUL" ]
@@ -630,9 +632,17 @@
     "id": "MARTIAL_ARTS5",
     "name": "Melee Weapon Training",
     "points": 3,
-    "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Pentjak Silat, Medieval Swordsmanship, Niten Ichi-Ryu, or Sōjutsu.",
+    "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Fior Di Battaglia,  Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
     "starting_trait": true,
-    "initial_ma_styles": [ "style_eskrima", "style_fencing", "style_silat", "style_niten", "style_sojutsu", "style_swordsmanship" ],
+    "initial_ma_styles": [
+      "style_eskrima",
+      "style_fencing",
+      "style_silat",
+      "style_niten",
+      "style_sojutsu",
+      "style_swordsmanship",
+      "style_medievalpole"
+    ],
     "valid": false
   },
   {
@@ -1018,6 +1028,8 @@
     "points": -3,
     "description": "You have a hard time remembering things.  Your skills will erode slightly faster than usual, and you can remember less terrain.",
     "social_modifiers": { "lie": -5 },
+    "map_memory_capacity_multiplier": 0.5,
+    "skill_rust_multiplier": 1.33,
     "starting_trait": true,
     "category": [ "BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT" ],
     "cancels": [ "GOODMEMORY" ]

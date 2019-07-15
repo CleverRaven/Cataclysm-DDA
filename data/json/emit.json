@@ -64,6 +64,22 @@
     "chance": 15
   },
   {
+    "id": "emit_toxic_cloud",
+    "type": "emit",
+    "//": "Small cloud of toxic gas emitted infrequently",
+    "field": "fd_toxic_gas",
+    "chance": 2,
+    "qty": 10
+  },
+  {
+    "id": "emit_toxic_belch",
+    "type": "emit",
+    "//": "Large cloud of toxic gas emitted infrequently",
+    "field": "fd_toxic_gas",
+    "chance": 1,
+    "qty": 25
+  },
+  {
     "id": "emit_acid_splash",
     "type": "emit",
     "//": "Small amount of strong acid - stacks, but weak on its own",
@@ -75,6 +91,14 @@
     "//": "Small amount of strong acid - will need more to melt anything",
     "field": "fd_acid",
     "chance": 50
+  },
+  {
+    "id": "emit_shock_burst",
+    "type": "emit",
+    "//": "small cloud of lightning",
+    "field": "fd_electricity",
+    "chance": 1,
+    "qty": 10
   },
   {
     "id": "emit_shock_cloud",
@@ -93,29 +117,53 @@
   {
     "id": "emit_cold_air2_stream",
     "type": "emit",
-    "//": "Medium cold air emitter",
     "field": "fd_cold_air2",
     "qty": 50
   },
   {
     "id": "emit_cold_air2_blast",
     "type": "emit",
-    "//": "Large cold air emitter",
     "field": "fd_cold_air2",
     "qty": 100
   },
   {
     "id": "emit_hot_air2_stream",
     "type": "emit",
-    "//": "Medium hot air emitter",
     "field": "fd_hot_air2",
     "qty": 50
   },
   {
     "id": "emit_hot_air2_blast",
     "type": "emit",
-    "//": "Large hot air emitter",
     "field": "fd_hot_air2",
     "qty": 100
+  },
+  {
+    "id": "emit_hot_air4_blast",
+    "type": "emit",
+    "field": "fd_hot_air4",
+    "//": "Makes the surrounding area extremely, uncomfortably hot.",
+    "qty": 300
+  },
+  {
+    "id": "emit_heater_vehicle",
+    "type": "emit",
+    "field": "fd_hot_air3",
+    "qty": 3,
+    "chance": 100
+  },
+  {
+    "id": "emit_cooler_vehicle",
+    "type": "emit",
+    "field": "fd_cold_air3",
+    "qty": 3,
+    "chance": 100
+  },
+  {
+    "id": "emit_glimmer",
+    "type": "emit",
+    "field": "fd_dazzling",
+    "qty": 2,
+    "chance": 75
   }
 ]

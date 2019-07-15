@@ -51,6 +51,7 @@
 #include "weighted_list.h"
 #include "material.h"
 #include "type_id.h"
+#include "point.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_memory( "bio_memory" );
@@ -72,6 +73,7 @@ const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_contacts( "contacts" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_drunk( "drunk" );
+const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_lightsnare( "lightsnare" );
@@ -522,13 +524,13 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
 
     const int melee = get_skill_level( skill_melee );
     /** @EFFECT_STR reduces stamina cost for melee attack with heavier weapons */
-    const int weight_cost = cur_weapon.weight() / ( 20_gram * std::max( 1, str_cur ) );
-    const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 5.0f );
-    const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 5 : 0;
+    const int weight_cost = cur_weapon.weight() / ( 2_gram * std::max( 1, str_cur ) );
+    const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) * 2.0f );
+    const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 50 : 0;
     /** @EFFECT_MELEE reduces stamina cost of melee attacks */
-    const int mod_sta = ( weight_cost + encumbrance_cost - melee - deft_bonus + 10 ) * -1;
-    mod_stat( "stamina", std::min( -5, mod_sta ) );
-
+    const int mod_sta = ( weight_cost + encumbrance_cost - melee - deft_bonus + 50 ) * -1;
+    mod_stat( "stamina", std::min( -50, mod_sta ) );
+    add_msg( m_debug, "Stamina burn: %d", std::min( -50, mod_sta ) );
     mod_moves( -move_cost );
 
     ma_onattack_effects(); // trigger martial arts on-attack effects
@@ -709,8 +711,22 @@ float player::get_dodge() const
         ret /= 2;
     }
 
-    // TODO: What about the skates?
-    if( is_wearing( "roller_blades" ) ) {
+    int zed_number = 0;
+    for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
+        const monster *const mon = g->critter_at<monster>( dest );
+        if( mon && ( mon->has_flag( MF_GRABS ) ||
+                     mon->type->has_special_attack( "GRAB" ) ) ) {
+            zed_number++;
+        }
+    }
+
+    if( has_effect( effect_grabbed ) && zed_number > 0 ) {
+        ret /= zed_number + 1;
+    }
+
+    if( worn_with_flag( "ROLLER_INLINE" ) ||
+        worn_with_flag( "ROLLER_QUAD" ) ||
+        worn_with_flag( "ROLLER_ONE" ) ) {
         ret /= has_trait( trait_PROF_SKATER ) ? 2 : 5;
     }
 
@@ -758,11 +774,6 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average,
         skill = BIO_CQB_LEVEL;
     }
 
-    if( unarmed && weap.is_null() ) {
-        // Pure unarmed doubles the bonuses from unarmed skill
-        skill *= 2;
-    }
-
     const int stat = get_str();
     /** @EFFECT_STR increases bashing damage */
     float stat_bonus = bonus_damage( !average );
@@ -792,11 +803,6 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average,
     /** @EFFECT_BASHING caps bash damage with bashing weapons */
     float bash_cap = 2 * stat + 2 * skill;
     float bash_mul = 1.0f;
-
-    if( unarmed ) {
-        /** @EFFECT_UNARMED increases bashing damage with unarmed weapons */
-        weap_dam += skill;
-    }
 
     // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
     if( skill < 5 ) {
@@ -1002,19 +1008,18 @@ matec_id player::pick_technique( Creature &t, const item &weap,
         }
 
         // skip dodge counter techniques
-        if( ( dodge_counter && !tec.dodge_counter ) || ( !dodge_counter && tec.dodge_counter ) ) {
+        if( dodge_counter != tec.dodge_counter ) {
             continue;
         }
 
         // skip block counter techniques
-        if( ( block_counter && !tec.block_counter ) || ( !block_counter && tec.block_counter ) ) {
+        if( block_counter != tec.block_counter ) {
             continue;
         }
 
         // if critical then select only from critical tecs
-        // dodge and blocks roll again for their attack, so ignore critical state
-        if( !dodge_counter && !block_counter && ( ( crit && !tec.crit_tec ) || ( !crit &&
-                tec.crit_tec ) ) ) {
+        // but allow the technique if its crit ok
+        if( !tec.crit_ok && ( crit != tec.crit_tec ) ) {
             continue;
         }
 
@@ -1983,6 +1988,12 @@ int player::attack_speed( const item &weap ) const
 
 double player::weapon_value( const item &weap, int ammo ) const
 {
+    if( &weapon == &weap ) {
+        auto cached_value = cached_info.find( "weapon_value" );
+        if( cached_value != cached_info.end() ) {
+            return cached_value->second;
+        }
+    }
     const double val_gun = gun_value( weap, ammo );
     const double val_melee = melee_value( weap );
     const double more = std::max( val_gun, val_melee );
@@ -1991,6 +2002,9 @@ double player::weapon_value( const item &weap, int ammo ) const
     // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
     const double my_val = more + ( less / 2.0 );
     add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.type->get_id(), ammo, my_val );
+    if( &weapon == &weap ) {
+        cached_info.emplace( "weapon_value", my_val );
+    }
     return my_val;
 }
 

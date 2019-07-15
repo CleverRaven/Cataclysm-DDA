@@ -7,6 +7,7 @@
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
     "pre_special": "check_deconstruct",
+    "post_flags": [ "keep_items" ],
     "post_special": "done_deconstruct"
   },
   {
@@ -18,6 +19,7 @@
     "pre_note": "Certain terrain and furniture can be deconstructed without any tools.",
     "pre_flags": "EASY_DECONSTRUCT",
     "pre_special": "check_deconstruct",
+    "post_flags": [ "keep_items" ],
     "post_special": "done_deconstruct"
   },
   {
@@ -28,6 +30,7 @@
     "time": "0 m",
     "pre_note": "Mark a spot for crafting.  Crafting tasks next to this tile will automatically use this location instead of attempting to craft in your hands, with the usual crafting speed penalty for working on the ground.  Does not prevent using a proper workbench, if available.  Deconstruct or smash to remove.",
     "pre_special": "check_empty",
+    "post_flags": [ "keep_items" ],
     "post_terrain": "f_ground_crafting_spot"
   },
   {
@@ -192,7 +195,7 @@
     "description": "Board Up Wood Door",
     "//": "regular door",
     "category": "REINFORCE",
-    "required_skills": [ [ "fabrication", 1 ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
@@ -204,7 +207,7 @@
     "description": "Board Up Wood Door",
     "//": "peephole door",
     "category": "REINFORCE",
-    "required_skills": [ [ "fabrication", 1 ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
@@ -216,7 +219,7 @@
     "description": "Board Up Wood Door",
     "//": "boarded damaged door",
     "category": "REINFORCE",
-    "required_skills": [ [ "fabrication", 1 ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
@@ -228,7 +231,7 @@
     "description": "Board Up Wood Door",
     "//": "boarded damaged peephole door",
     "category": "REINFORCE",
-    "required_skills": [ [ "fabrication", 1 ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
@@ -240,7 +243,7 @@
     "description": "Board Up Wood Door",
     "//": "the reinforced doors",
     "category": "REINFORCE",
-    "required_skills": [ [ "fabrication", 1 ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
@@ -252,7 +255,7 @@
     "description": "Board Up Wood Door",
     "//": "damaged reinforced doors",
     "category": "REINFORCE",
-    "required_skills": [ [ "fabrication", 1 ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
@@ -447,7 +450,7 @@
     "description": "Board Up Window",
     "//": "Board up normal window",
     "category": "REINFORCE",
-    "required_skills": [ [ "fabrication", 1 ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
@@ -459,7 +462,7 @@
     "description": "Board Up Window",
     "//": "Board up window with curtains",
     "category": "REINFORCE",
-    "required_skills": [ [ "fabrication", 1 ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
@@ -472,7 +475,7 @@
     "description": "Board Up Window",
     "//": "Board up empty window",
     "category": "REINFORCE",
-    "required_skills": [ [ "fabrication", 1 ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
@@ -484,7 +487,7 @@
     "description": "Board Up Window",
     "//": "Board up window frame only",
     "category": "REINFORCE",
-    "required_skills": [ [ "fabrication", 1 ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
@@ -1299,6 +1302,7 @@
     "components": [ [ [ "nail", 6 ] ] ],
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
     "pre_terrain": "f_crate_o",
+    "post_flags": [ "keep_items" ],
     "post_terrain": "f_crate_c"
   },
   {
@@ -1337,7 +1341,8 @@
     "components": [ [ [ "nail", 6 ] ] ],
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
     "pre_terrain": "f_coffin_o",
-    "post_terrain": "f_coffin_c"
+    "post_terrain": "f_coffin_c",
+    "post_flags": [ "keep_items" ]
   },
   {
     "type": "construction",
@@ -1349,6 +1354,7 @@
     "components": [ [ [ "rock", 20 ], [ "2x4", 2 ] ] ],
     "pre_flags": "DIGGABLE",
     "pre_terrain": "f_coffin_c",
+    "post_flags": [ "keep_items" ],
     "post_terrain": "t_grave_new",
     "post_special": "done_grave"
   },
@@ -2581,7 +2587,8 @@
     "time": "0 m",
     "pre_note": "Firewood or other flammable materials on a nearby tile marked in this way may be used to automatically refuel fires.  This will be done to maintain light during long-running tasks that require it such as crafting or reading, but not (for example) if you are simply waiting nearby.",
     "pre_special": "check_no_trap",
-    "post_special": "done_mark_firewood"
+    "post_special": "done_mark_firewood",
+    "post_flags": [ "keep_items" ]
   },
   {
     "type": "construction",
@@ -2591,7 +2598,8 @@
     "time": "0 m",
     "pre_note": "Mark a spot for target practice.  Firing will automatically target the first practice target location found in gun range, if no enemies are around.",
     "pre_special": "check_no_trap",
-    "post_special": "done_mark_practice_target"
+    "post_special": "done_mark_practice_target",
+    "post_flags": [ "keep_items" ]
   },
   {
     "type": "construction",

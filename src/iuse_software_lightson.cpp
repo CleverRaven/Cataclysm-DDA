@@ -12,8 +12,8 @@
 #include "translations.h"
 #include "catacharset.h"
 #include "color.h"
-#include "enums.h"
 #include "optional.h"
+#include "point.h"
 
 void lightson_game::new_level()
 {

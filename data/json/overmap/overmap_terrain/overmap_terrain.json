@@ -37,7 +37,7 @@
     "see_cost": 2,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "NO_ROTATE" ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -122,8 +122,7 @@
     "sym": "F",
     "color": "green",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -132,8 +131,7 @@
     "sym": "C",
     "color": "i_green",
     "see_cost": 5,
-    "extras": "build",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "build"
   },
   {
     "type": "overmap_terrain",
@@ -143,8 +141,7 @@
     "color": "i_green",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2,
-    "flags": [ "NO_ROTATE" ]
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -208,8 +205,7 @@
     "name": "shipwreck",
     "sym": "w",
     "color": "red",
-    "see_cost": 4,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 4
   },
   {
     "type": "overmap_terrain",
@@ -217,8 +213,7 @@
     "name": "shipwreck",
     "sym": "w",
     "color": "red",
-    "see_cost": 4,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 4
   },
   {
     "type": "overmap_terrain",
@@ -226,8 +221,7 @@
     "name": "razorclaw nest",
     "sym": "w",
     "color": "red",
-    "see_cost": 4,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 4
   },
   {
     "type": "overmap_terrain",
@@ -235,8 +229,7 @@
     "name": "shipwreck",
     "sym": "w",
     "color": "red",
-    "see_cost": 4,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 4
   },
   {
     "type": "overmap_terrain",
@@ -244,8 +237,23 @@
     "name": "radio tower",
     "sym": "X",
     "color": "light_gray",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "radio_tower_1",
+    "name": "radio tower",
+    "sym": "X",
+    "color": "light_gray",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "radio_tower_roof_1",
+    "name": "radio tower roof",
+    "sym": "X",
+    "color": "light_gray",
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -254,8 +262,7 @@
     "sym": "F",
     "color": "green",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -264,8 +271,7 @@
     "sym": "F",
     "color": "green",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -274,8 +280,7 @@
     "sym": "F",
     "color": "green",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -284,8 +289,7 @@
     "sym": "F",
     "color": "green",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -294,8 +298,7 @@
     "sym": "F",
     "color": "green",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -321,8 +324,7 @@
     "color": "green",
     "see_cost": 5,
     "extras": "field",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
-    "flags": [ "NO_ROTATE" ]
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 }
   },
   {
     "type": "overmap_terrain",
@@ -332,8 +334,7 @@
     "color": "green",
     "see_cost": 5,
     "extras": "field",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
-    "flags": [ "NO_ROTATE" ]
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 }
   },
   {
     "type": "overmap_terrain",
@@ -343,8 +344,7 @@
     "color": "light_green",
     "see_cost": 5,
     "extras": "field",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
-    "flags": [ "NO_ROTATE" ]
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 }
   },
   {
     "type": "overmap_terrain",
@@ -354,8 +354,7 @@
     "color": "light_green",
     "see_cost": 5,
     "extras": "field",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
-    "flags": [ "NO_ROTATE" ]
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 }
   },
   {
     "type": "overmap_terrain",
@@ -365,8 +364,7 @@
     "color": "light_green",
     "see_cost": 5,
     "extras": "field",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
-    "flags": [ "NO_ROTATE" ]
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 }
   },
   {
     "type": "overmap_terrain",
@@ -375,8 +373,7 @@
     "sym": ".",
     "color": "blue",
     "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "NO_ROTATE" ]
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -385,8 +382,7 @@
     "sym": "F",
     "color": "blue",
     "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "NO_ROTATE" ]
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -395,8 +391,7 @@
     "sym": "F",
     "color": "blue",
     "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "NO_ROTATE" ]
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -405,8 +400,34 @@
     "sym": "F",
     "color": "cyan",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hunter_shack_roof",
+    "name": "swamp shack roof",
+    "sym": "F",
+    "color": "cyan",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hunter_shack_1",
+    "name": "swamp shack",
+    "sym": "F",
+    "color": "cyan",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hunter_shack_roof_1",
+    "name": "swamp shack roof",
+    "sym": "F",
+    "color": "cyan",
+    "see_cost": 5,
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -523,8 +544,7 @@
     "sym": "F",
     "color": "green",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -533,8 +553,7 @@
     "sym": "F",
     "color": "green",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",

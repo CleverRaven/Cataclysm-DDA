@@ -2,13 +2,11 @@
 
 #include <climits>
 #include <algorithm>
-#include <random>
 #include <memory>
 
 #include "avatar.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
-#include "enums.h"
 #include "field.h"
 #include "game.h"
 #include "generic_factory.h"
@@ -25,6 +23,7 @@
 #include "pldata.h"
 #include "rng.h"
 #include "translations.h"
+#include "point.h"
 
 class item;
 
@@ -215,7 +214,7 @@ tripoint start_location::find_player_initial_location() const
     // creating overmaps as necessary.
     const int radius = 3;
     for( const point &omp : closest_points_first( radius, point_zero ) ) {
-        overmap &omap = overmap_buffer.get( omp.x, omp.y );
+        overmap &omap = overmap_buffer.get( omp );
         const tripoint omtstart = omap.find_random_omt( target() );
         if( omtstart != overmap::invalid_tripoint ) {
             return omtstart + point( omp.x * OMAPX, omp.y * OMAPY );
@@ -410,7 +409,7 @@ void start_location::add_map_extra( const tripoint &omtstart,
 void start_location::handle_heli_crash( player &u ) const
 {
     for( int i = 2; i < num_hp_parts; i++ ) { // Skip head + torso for balance reasons.
-        const auto part = hp_part( i );
+        const auto part = static_cast<hp_part>( i );
         const auto bp_part = u.hp_to_bp( part );
         const int roll = static_cast<int>( rng( 1, 8 ) );
         switch( roll ) {

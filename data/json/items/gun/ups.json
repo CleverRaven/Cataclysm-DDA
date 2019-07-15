@@ -25,6 +25,7 @@
     "reload": 0,
     "valid_mod_locations": [
       [ "accessories", 4 ],
+      [ "emitter", 1 ],
       [ "grip", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
@@ -50,7 +51,7 @@
     "symbol": "(",
     "color": "magenta",
     "skill": "rifle",
-    "range": 24,
+    "range": 30,
     "ranged_damage": 10,
     "pierce": 15,
     "dispersion": 90,
@@ -59,6 +60,8 @@
     "ups_charges": 25,
     "reload": 200,
     "valid_mod_locations": [
+      [ "emitter", 1 ],
+      [ "lens", 1 ],
       [ "sling", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
@@ -106,32 +109,6 @@
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
-  },
-  {
-    "id": "unbio_blaster_gun",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "name": "fusion blaster rifle",
-    "description": "A cyborg's fusion blaster arm, cannibalized and converted into a rifle.  This improvised weapon is powered by a standard UPS connection.",
-    "weight": 2680,
-    "volume": 10,
-    "price": 420000,
-    "to_hit": -1,
-    "bashing": 10,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "magenta",
-    "skill": "rifle",
-    "range": 30,
-    "ranged_damage": 22,
-    "dispersion": 90,
-    "durability": 6,
-    "loudness": 15,
-    "ups_charges": 40,
-    "reload": 600,
-    "valid_mod_locations": [ [ "grip", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
-    "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME", "NEVER_JAMS" ],
-    "flags": [ "NO_UNLOAD" ]
   },
   {
     "id": "v29",
@@ -192,7 +169,16 @@
     "loudness": 7,
     "ups_charges": 20,
     "reload": 300,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "emitter", 1 ],
+      [ "grip", 1 ],
+      [ "lens", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NO_UNLOAD" ]
   }

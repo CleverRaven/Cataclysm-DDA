@@ -3,9 +3,11 @@
 #include <algorithm>
 #include <memory>
 #include <iterator>
+#include <array>
 
 #include "mapdata.h"
 #include "trap.h"
+#include "tileray.h"
 
 template<int sx, int sy>
 void maptile_soa<sx, sy>::swap_soa_tile( const point &p1, const point &p2 )

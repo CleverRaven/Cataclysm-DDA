@@ -26,6 +26,8 @@
 #include "item.h"
 #include "pimpl.h"
 #include "pldata.h"
+#include "enums.h"
+#include "optional.h"
 
 const skill_id skill_melee( "melee" );
 const skill_id skill_bashing( "bashing" );
@@ -74,12 +76,10 @@ void ma_requirements::load( JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
+    optional( jo, was_loaded, "unarmed_weapons_allowed", unarmed_weapons_allowed, true );
 
     optional( jo, was_loaded, "req_buffs", req_buffs, auto_flags_reader<mabuff_id> {} );
     optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<> {} );
-
-    optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
-    optional( jo, was_loaded, "strictly_melee", strictly_melee, false );
 
     // TODO: De-hardcode the skills and damage types here
     add_if_exists( jo, min_skill, was_loaded, "min_melee", skill_melee );
@@ -105,6 +105,7 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
     }
 
     optional( jo, was_loaded, "crit_tec", crit_tec, false );
+    optional( jo, was_loaded, "crit_ok", crit_ok, false );
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
     optional( jo, was_loaded, "dummy", dummy, false );
@@ -200,12 +201,20 @@ class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
 
 void martialart::load( JsonObject &jo, const std::string & )
 {
-    JsonArray jsarr;
-
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
     mandatory( jo, was_loaded, "initiate", initiate );
-    optional( jo, was_loaded, "autolearn", autolearn_skills );
+    JsonArray jsarr = jo.get_array( "autolearn" );
+    while( jsarr.has_more() ) {
+        JsonArray skillArray = jsarr.next_array();
+        std::string skill_name = skillArray.get_string( 0 );
+        int skill_level = 0;
+        std::string skill_level_string = skillArray.get_string( 1 );
+        skill_level = stoi( skill_level_string );
+        autolearn_skills.emplace_back( skill_name, skill_level );
+    }
+    optional( jo, was_loaded, "primary_skill", primary_skill, skill_id( "unarmed" ) );
+    optional( jo, was_loaded, "learn_difficulty", learn_difficulty );
 
     optional( jo, was_loaded, "static_buffs", static_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onmove_buffs", onmove_buffs, ma_buff_reader{} );
@@ -254,6 +263,18 @@ std::vector<matype_id> all_martialart_types()
 {
     std::vector<matype_id> result;
     for( const auto &ma : martialarts.get_all() ) {
+        result.push_back( ma.id );
+    }
+    return result;
+}
+
+std::vector<matype_id> autolearn_martialart_types()
+{
+    std::vector<matype_id> result;
+    for( const auto &ma : martialarts.get_all() ) {
+        if( ma.autolearn_skills.empty() ) {
+            continue;
+        }
         result.push_back( ma.id );
     }
     return result;
@@ -334,6 +355,23 @@ void finialize_martial_arts()
     }
 }
 
+const std::string martialart_difficulty( matype_id mstyle )
+{
+    std::string diff;
+    if( mstyle->learn_difficulty <= 2 ) {
+        diff = _( "easy" );
+    } else if( mstyle->learn_difficulty <= 4 ) {
+        diff = _( "moderately hard" );
+    } else if( mstyle->learn_difficulty <= 6 ) {
+        diff = _( "hard" );
+    } else if( mstyle->learn_difficulty <= 8 ) {
+        diff = _( "very hard" );
+    } else {
+        diff = _( "extremely hard" );
+    }
+    return diff;
+}
+
 void clear_techniques_and_martial_arts()
 {
     martialarts.reset();
@@ -357,10 +395,12 @@ bool ma_requirements::is_valid_player( const player &u ) const
     // There are 4 different cases of "armedness":
     // Truly unarmed, unarmed weapon, style-allowed weapon, generic weapon
     bool valid_weapon =
-        ( unarmed_allowed && u.unarmed_attack() &&
-          ( !strictly_unarmed || !u.is_armed() ) ) ||
-        ( is_valid_weapon( u.weapon ) &&
-          ( melee_allowed || u.style_selected.obj().has_weapon( u.weapon.typeId() ) ) );
+        ( !u.style_selected.obj().strictly_melee && unarmed_allowed &&
+          ( !u.is_armed() || ( u.unarmed_attack() && unarmed_weapons_allowed ) ) ) ||
+        ( !u.style_selected.obj().strictly_unarmed && melee_allowed &&
+          is_valid_weapon( u.weapon ) &&
+          ( u.style_selected.obj().has_weapon( u.weapon.typeId() ) ||
+            u.style_selected.obj().allow_melee ) );
     if( !valid_weapon ) {
         return false;
     }
@@ -433,6 +473,7 @@ std::string ma_requirements::get_description( bool buff ) const
 ma_technique::ma_technique()
 {
     crit_tec = false;
+    crit_ok = false;
     defensive = false;
     dummy = false;
 
@@ -457,7 +498,7 @@ bool ma_technique::is_valid_player( const player &u ) const
 }
 
 ma_buff::ma_buff()
-    : buff_duration( 2_turns )
+    : buff_duration( 1_turns )
 {
     max_stacks = 1; // total number of stacks this buff can have
 
@@ -1010,10 +1051,10 @@ bool player::can_autolearn( const matype_id &ma_id ) const
         return false;
     }
 
-    const std::vector<std::vector<std::string>> skills = ma_id.obj().autolearn_skills;
-    for( auto &elem : skills ) {
-        const skill_id skill_req( elem[0] );
-        const int required_level = std::stoi( elem[1] );
+
+    for( const std::pair<std::string, int> &elem : ma_id.obj().autolearn_skills ) {
+        const skill_id skill_req( elem.first );
+        const int required_level = elem.second;
 
         if( required_level > get_skill_level( skill_req ) ) {
             return false;
@@ -1078,7 +1119,9 @@ std::string ma_technique::get_description() const
 
     dump << reqs.get_description();
 
-    if( crit_tec ) {
+    if( crit_ok ) {
+        dump << _( "* Can activate on a <info>normal</info> or a <info>crit</info> hit" ) << std::endl;
+    } else if( crit_tec ) {
         dump << _( "* Will only activate on a <info>crit</info>" ) << std::endl;
     }
 
@@ -1115,7 +1158,7 @@ std::string ma_technique::get_description() const
     }
 
     if( knockback_follow ) {
-        dump <<  _( "* Will <info>follow</info> enemies after knockback." ) << std::endl;
+        dump << _( "* Will <info>follow</info> enemies after knockback." ) << std::endl;
     }
 
     if( down_dur ) {

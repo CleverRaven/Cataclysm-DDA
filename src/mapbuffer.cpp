@@ -4,35 +4,21 @@
 #include <algorithm>
 #include <exception>
 #include <functional>
-#include <iterator>
 #include <set>
 #include <utility>
 #include <vector>
 
 #include "cata_utility.h"
-#include "computer.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
 #include "json.h"
 #include "map.h"
-#include "mapdata.h"
 #include "output.h"
 #include "submap.h"
 #include "translations.h"
-#include "trap.h"
-#include "vehicle.h"
-#include "active_item_cache.h"
-#include "basecamp.h"
-#include "calendar.h"
-#include "field.h"
 #include "game_constants.h"
-#include "int_id.h"
-#include "item.h"
-#include "string_id.h"
-#include "visitable.h"
-#include "type_id.h"
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -215,42 +201,42 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
 
     // Don't create the directory if it would be empty
     assure_dir_exist( dirname );
-    ofstream_wrapper_exclusive fout( filename );
-    JsonOut jsout( fout );
-    jsout.start_array();
-    for( auto &submap_addr : submap_addrs ) {
-        if( submaps.count( submap_addr ) == 0 ) {
-            continue;
-        }
-
-        submap *sm = submaps[submap_addr];
-
-        if( sm == nullptr ) {
-            continue;
-        }
-
-        jsout.start_object();
-
-        jsout.member( "version", savegame_version );
-        jsout.member( "coordinates" );
-
+    write_to_file( filename, [&]( std::ostream & fout ) {
+        JsonOut jsout( fout );
         jsout.start_array();
-        jsout.write( submap_addr.x );
-        jsout.write( submap_addr.y );
-        jsout.write( submap_addr.z );
-        jsout.end_array();
+        for( auto &submap_addr : submap_addrs ) {
+            if( submaps.count( submap_addr ) == 0 ) {
+                continue;
+            }
 
-        sm->store( jsout );
+            submap *sm = submaps[submap_addr];
 
-        jsout.end_object();
+            if( sm == nullptr ) {
+                continue;
+            }
 
-        if( delete_after_save ) {
-            submaps_to_delete.push_back( submap_addr );
+            jsout.start_object();
+
+            jsout.member( "version", savegame_version );
+            jsout.member( "coordinates" );
+
+            jsout.start_array();
+            jsout.write( submap_addr.x );
+            jsout.write( submap_addr.y );
+            jsout.write( submap_addr.z );
+            jsout.end_array();
+
+            sm->store( jsout );
+
+            jsout.end_object();
+
+            if( delete_after_save ) {
+                submaps_to_delete.push_back( submap_addr );
+            }
         }
-    }
 
-    jsout.end_array();
-    fout.close();
+        jsout.end_array();
+    } );
 }
 
 // We're reading in way too many entities here to mess around with creating sub-objects and

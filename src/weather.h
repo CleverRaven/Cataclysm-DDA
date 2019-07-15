@@ -3,11 +3,12 @@
 #define WEATHER_H
 
 #include "color.h"
-#include "enums.h"
 #include "optional.h"
 #include "pimpl.h"
+#include "point.h"
 #include "type_id.h"
 #include "weather_gen.h"
+#include "calendar.h"
 
 /**
  * @name BODYTEMP
@@ -32,11 +33,7 @@
 #include <unordered_map>
 #include <utility>
 
-class time_duration;
-class time_point;
 class item;
-struct point;
-struct tripoint;
 struct trap;
 struct rl_vec2d;
 

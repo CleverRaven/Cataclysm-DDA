@@ -59,21 +59,28 @@ const std::map<emit_id, emit> &emit::all()
     return emits_all;
 }
 
+void emit::finalize()
+{
+    for( auto &e : emits_all ) {
+        e.second.field_ = field_type_id( e.second.field_name );
+    }
+}
 void emit::check_consistency()
 {
     for( auto &e : emits_all ) {
-        e.second.field_ = field_from_ident( e.second.field_name );
-
-        if( e.second.intensity_ > MAX_FIELD_INTENSITY || e.second.intensity_ < 1 ) {
-            debugmsg( "emission intensity of %s out of range", e.second.id_.c_str() );
-            e.second.intensity_ = std::max( std::min( e.second.intensity_, MAX_FIELD_INTENSITY ), 1 );
+        const int max_intensity = e.second.field_.obj().get_max_intensity();
+        if( e.second.intensity_ > max_intensity || e.second.intensity_ < 1 ) {
+            debugmsg( "emission intensity of %s out of range (%d of max %d)", e.second.id_.c_str(),
+                      e.second.intensity_, max_intensity );
+            e.second.intensity_ = max_intensity;
         }
         if( e.second.qty_ <= 0 ) {
             debugmsg( "emission qty of %s out of range", e.second.id_.c_str() );
         }
         if( e.second.chance_ > 100 || e.second.chance_ <= 0 ) {
-            e.second.intensity_ = std::max( std::min( e.second.chance_, 100 ), 1 );
-            debugmsg( "emission chance of %s out of range", e.second.id_.c_str() );
+            debugmsg( "emission chance of %s out of range (%d of min 1 max 100)", e.second.id_.c_str(),
+                      e.second.chance_ );
+            e.second.chance_ = std::max( std::min( e.second.chance_, 100 ), 1 );
         }
     }
 }

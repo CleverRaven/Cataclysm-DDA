@@ -344,6 +344,30 @@
     "color": "i_green"
   },
   {
+    "id": "pavilion_roof",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "pavilion roof",
+    "sym": "A",
+    "color": "i_green"
+  },
+  {
+    "id": "pavilion_1",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "pavilion",
+    "sym": "A",
+    "color": "i_green"
+  },
+  {
+    "id": "pavilion_roof_1",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "pavilion roof",
+    "sym": "A",
+    "color": "i_green"
+  },
+  {
     "id": "hunting_blind",
     "type": "overmap_terrain",
     "name": "hunting blind",
@@ -461,6 +485,16 @@
     "type": "overmap_terrain",
     "id": "shootingrange_1a",
     "name": "shooting range",
+    "sym": "S",
+    "color": "red",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "shootingrange_1a_roof",
+    "name": "shooting range roof",
     "sym": "S",
     "color": "red",
     "see_cost": 5,
@@ -655,9 +689,25 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "zoo_0_1_roof",
+    "copy-from": "generic_city_building",
+    "name": "zoo roof",
+    "sym": "Z",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "zoo_1_1",
     "copy-from": "generic_city_building",
     "name": "zoo",
+    "sym": "Z",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_1_1_roof",
+    "copy-from": "generic_city_building",
+    "name": "zoo roof",
     "sym": "Z",
     "color": "i_green"
   },
@@ -671,9 +721,25 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "zoo_2_1_roof",
+    "copy-from": "generic_city_building",
+    "name": "zoo roof",
+    "sym": "Z",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "zoo_0_2",
     "copy-from": "generic_city_building",
     "name": "zoo",
+    "sym": "Z",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_0_2_roof",
+    "copy-from": "generic_city_building",
+    "name": "zoo roof",
     "sym": "Z",
     "color": "i_green"
   },
@@ -687,9 +753,25 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "zoo_1_2_roof",
+    "copy-from": "generic_city_building",
+    "name": "zoo roof",
+    "sym": "Z",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "zoo_2_2",
     "copy-from": "generic_city_building",
     "name": "zoo",
+    "sym": "Z",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_2_2_roof",
+    "copy-from": "generic_city_building",
+    "name": "zoo roof",
     "sym": "Z",
     "color": "i_green"
   },
@@ -943,9 +1025,57 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "paintball_field_roof",
+    "copy-from": "generic_city_building",
+    "name": "paintball field roof",
+    "sym": "p",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "paintball_field_1",
+    "copy-from": "generic_city_building",
+    "name": "paintball field",
+    "sym": "p",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "paintball_field_roof_1",
+    "copy-from": "generic_city_building",
+    "name": "paintball field roof",
+    "sym": "p",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "smoke_lounge",
     "copy-from": "generic_city_building",
     "name": "smoking lounge",
+    "sym": "s",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "smoke_lounge_roof",
+    "copy-from": "generic_city_building",
+    "name": "smoking lounge roof",
+    "sym": "s",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "smoke_lounge_1",
+    "copy-from": "generic_city_building",
+    "name": "smoking lounge",
+    "sym": "s",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "smoke_lounge_roof_1",
+    "copy-from": "generic_city_building",
+    "name": "smoking lounge roof",
     "sym": "s",
     "color": "white"
   },
@@ -1039,8 +1169,56 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "stripclub_roof",
+    "copy-from": "generic_city_building",
+    "name": "strip club roof",
+    "sym": "s",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stripclub_1",
+    "copy-from": "generic_city_building",
+    "name": "strip club",
+    "sym": "s",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stripclub_roof_1",
+    "copy-from": "generic_city_building",
+    "name": "strip club roof",
+    "sym": "s",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stripclub_2",
+    "copy-from": "generic_city_building",
+    "name": "strip club",
+    "sym": "s",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stripclub_roof_2",
+    "copy-from": "generic_city_building",
+    "name": "strip club roof",
+    "sym": "s",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "museum",
     "name": "museum",
+    "copy-from": "generic_city_building",
+    "sym": "M",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "museum_roof",
+    "name": "museum roof",
     "copy-from": "generic_city_building",
     "sym": "M",
     "color": "white"

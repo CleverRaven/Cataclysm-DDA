@@ -15,6 +15,7 @@
 #include "string_formatter.h"
 #include "color.h"
 #include "enums.h"
+#include "units.h"
 
 namespace
 {
@@ -1253,13 +1254,25 @@ void load_effect_type( JsonObject &jo )
         new_etype.blocks_effects.push_back( efftype_id( f ) );
     }
 
+    if( jo.has_string( "max_duration" ) ) {
+        new_etype.max_duration = read_from_json_string<time_duration>( *jo.get_raw( "max_duration" ),
+                                 time_duration::units );
+    } else {
+        new_etype.max_duration = time_duration::from_turns( jo.get_int( "max_duration", 0 ) );
+    }
+
+    if( jo.has_string( "int_dur_factor" ) ) {
+        new_etype.int_dur_factor = read_from_json_string<time_duration>( *jo.get_raw( "int_dur_factor" ),
+                                   time_duration::units );
+    } else {
+        new_etype.int_dur_factor = time_duration::from_turns( jo.get_int( "int_dur_factor", 0 ) );
+    }
+
     new_etype.max_intensity = jo.get_int( "max_intensity", 1 );
-    new_etype.max_duration = time_duration::from_turns( jo.get_int( "max_duration", 0 ) );
     new_etype.dur_add_perc = jo.get_int( "dur_add_perc", 100 );
     new_etype.int_add_val = jo.get_int( "int_add_val", 0 );
     new_etype.int_decay_step = jo.get_int( "int_decay_step", -1 );
     new_etype.int_decay_tick = jo.get_int( "int_decay_tick", 0 );
-    new_etype.int_dur_factor = time_duration::from_turns( jo.get_int( "int_dur_factor", 0 ) );
 
     new_etype.load_miss_msgs( jo, "miss_messages" );
     new_etype.load_decay_msgs( jo, "decay_messages" );

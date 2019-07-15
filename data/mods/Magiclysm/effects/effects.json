@@ -109,5 +109,59 @@
     "remove_message": "You return to your normal speed.",
     "rating": "good",
     "base_mods": { "dex_mod": [ 4 ], "speed_mod": [ 300 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "synaptic_stim",
+    "name": [ "Synaptic Stimulation" ],
+    "desc": [ "Your mental processing is increased." ],
+    "apply_message": "Your mind accelerates.",
+    "remove_message": "You mind returns to normal speed.",
+    "rating": "good",
+    "base_mods": { "dex_mod": [ 4 ], "int_mod": [ 4 ], "speed_mod": [ 30 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "ogres_strength",
+    "name": [ "Ogre's Strength" ],
+    "desc": [ "You have the strength of an Ogre!" ],
+    "apply_message": "You feel strong!",
+    "remove_message": "Your strength deflates.",
+    "rating": "good",
+    "removes_effects": [ "eagles_sight", "cats_grace", "foxs_cunning" ],
+    "base_mods": { "str_mod": [ 4 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "eagles_sight",
+    "name": [ "Eagle's Sight" ],
+    "desc": [ "You have the perception of an Eagle!" ],
+    "apply_message": "You notice small details!",
+    "remove_message": "Your vision returns to normal.",
+    "rating": "good",
+    "removes_effects": [ "ogres_strength", "cats_grace", "foxs_cunning" ],
+    "base_mods": { "per_mod": [ 4 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "cats_grace",
+    "name": [ "Cat's Grace" ],
+    "desc": [ "You have the dexterity of a cat!" ],
+    "apply_message": "Your reflexes are heightened!",
+    "remove_message": "Your reflexes return to normal.",
+    "rating": "good",
+    "removes_effects": [ "eagles_sight", "eagles_sight", "foxs_cunning" ],
+    "base_mods": { "dex_mod": [ 4 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "foxs_cunning",
+    "name": [ "Fox's Cunning" ],
+    "desc": [ "You have the cunning of a Fox!" ],
+    "apply_message": "Your intelligence is heightened!",
+    "remove_message": "Your intelligence returns to normal.",
+    "rating": "good",
+    "removes_effects": [ "eagles_sight", "cats_grace", "ogres_strength" ],
+    "base_mods": { "int_mod": [ 4 ] }
   }
 ]

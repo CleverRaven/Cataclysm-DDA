@@ -1121,6 +1121,7 @@ Gun mods can be defined like this:
 "acceptable_ammo": [ "9mm" ],  // Optional filter restricting mod to guns with those base (before modifiers) ammo types
 "install_time": "30 s",        // Optional time installation takes. Installation is instantaneous if unspecified. An integer will be read as moves or a time string can be used.
 "ammo_modifier": [ "57" ],     // Optional field which if specified modifies parent gun to use these ammo types
+"magazine_adaptor": [ [ "223", [ "stanag30" ] ] ], // Optional field which changes the types of magazines the parent gun accepts
 "burst_modifier": 3,           // Optional field increasing or decreasing base gun burst size
 "damage_modifier": -1,         // Optional field increasing or decreasing base gun damage
 "dispersion_modifier": 15,     // Optional field increasing or decreasing base gun dispersion
@@ -1130,6 +1131,14 @@ Gun mods can be defined like this:
 "ups_charges": 200,            // Optional field increasing or decreasing base gun UPS consumption (per shot)
 "reload_modifier": -10,        // Optional field increasing or decreasing base gun reload time in percent
 "min_str_required_mod": 14,    // Optional field increasing or decreasing minimum strength required to use gun
+```
+
+### Batteries
+```C++
+"type": "BATTERY",    // Defines this as a BATTERY
+...                   // Same entries as above for the generic item
+                      // Additionally some battery specific entries:
+"max_energy": "30 kJ" // Mandatory. Maximum energy quantity the battery can hold
 ```
 
 ### Tools
@@ -1697,6 +1706,7 @@ For `type`s: `bionic` and `bionic_group` following enrties can scale the results
     "looks_like": "chair",
     "color": "white",
     "move_cost_mod": 2,
+    "light_emitted": 5,
     "required_str": 18,
     "flags": [ "TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD" ],
     "crafting_pseudo_item": "anvil",
@@ -1722,6 +1732,11 @@ Same as for terrain, see below in the chapter "Common to furniture and terrain".
 #### `move_cost_mod`
 
 Movement cost modifier (`-10` = impassable, `0` = no change). This is added to the movecost of the underlying terrain.
+
+#### `light_emitted`
+
+How much light the furniture produces.  10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
+For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 
 #### `required_str`
 
@@ -1750,6 +1765,7 @@ Strength required to move the furniture around. Negative values indicate an unmo
     "looks_like": "pit",
     "color": "ltred",
     "move_cost": 10,
+    "light_emitted": 10,
     "trap": "spike_pit",
     "max_volume": 4000,
     "flags": ["TRANSPARENT", "DIGGABLE"],
@@ -1777,6 +1793,11 @@ Same as for furniture, see below in the chapter "Common to furniture and terrain
 #### `move_cost`
 
 Move cost to move through. A value of 0 means it's impassable (e.g. wall). You should not use negative values. The positive value is multiple of 50 move points, e.g. value 2 means the player uses 2\*50 = 100 move points when moving across the terrain.
+
+#### `light_emitted`
+
+How much light the terrain emits. 10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
+For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 
 #### `trap`
 

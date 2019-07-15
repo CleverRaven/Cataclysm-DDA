@@ -1,6 +1,8 @@
 #include "debug_menu.h"
 
-#include <cstddef>
+// IWYU pragma: no_include <cxxabi.h>
+#include <limits.h>
+#include <stdint.h>
 #include <algorithm>
 #include <chrono>
 #include <vector>
@@ -14,6 +16,9 @@
 #include <string>
 #include <type_traits>
 #include <utility>
+#include <cstdlib>
+#include <ctime>
+#include <unordered_map>
 
 #include "action.h"
 #include "avatar.h"
@@ -49,14 +54,11 @@
 #include "pldata.h"
 #include "translations.h"
 #include "type_id.h"
-
 #include "map.h"
 #include "veh_type.h"
-#include "enums.h"
 #include "weather.h"
 #include "recipe_dictionary.h"
 #include "martialarts.h"
-#include "item.h"
 #include "sounds.h"
 #include "trait_group.h"
 #include "artifact.h"
@@ -64,6 +66,23 @@
 #include "rng.h"
 #include "signal.h"
 #include "magic.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "cata_utility.h"
+#include "clzones.h"
+#include "compatibility.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "input.h"
+#include "item_group.h"
+#include "monster.h"
+#include "point.h"
+#include "stomach.h"
+#include "string_id.h"
+#include "units.h"
+#include "weather_gen.h"
+
+class vehicle;
 
 #if defined(TILES)
 #include "sdl_wrappers.h"
@@ -539,7 +558,7 @@ void character_edit_menu()
             int value;
             if( query_int( value, _( "Set stamina to? Current: %d. Max: %d." ), p.stamina,
                            p.get_stamina_max() ) ) {
-                if( value > 0 && value <= p.get_stamina_max() ) {
+                if( value >= 0 && value <= p.get_stamina_max() ) {
                     p.stamina = value;
                 } else {
                     add_msg( m_bad, _( "Target stamina value out of bounds!" ) );
@@ -1004,7 +1023,7 @@ void debug()
     bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG, false ) != -1;
     int action = debug_menu_uilist( debug_menu_has_hotkey );
     g->refresh_all();
-    player &u = g->u;
+    avatar &u = g->u;
     map &m = g->m;
     switch( action ) {
         case DEBUG_WISH:
@@ -1082,6 +1101,9 @@ void debug()
                      u.get_healthy_kcal() );
             add_msg( m_info, _( "Body Mass Index: %.0f\nBasal Metabolic Rate: %i" ), u.get_bmi(), u.get_bmr() );
             add_msg( m_info, _( "Player activity level: %s" ), u.activity_level_str() );
+            if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
+                add_msg( m_info, _( "Kill xp: %d" ), u.kill_xp() );
+            }
             g->disp_NPCs();
             break;
         }
@@ -1160,7 +1182,7 @@ void debug()
 
         case DEBUG_SPAWN_ARTIFACT:
             if( const cata::optional<tripoint> center = g->look_around() ) {
-                artifact_natural_property prop = artifact_natural_property( rng( ARTPROP_NULL + 1,
+                artifact_natural_property prop = static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1,
                                                  ARTPROP_MAX - 1 ) );
                 m.create_anomaly( *center, prop );
                 m.spawn_natural_artifact( *center, prop );

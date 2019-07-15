@@ -22,7 +22,6 @@
       [ "dump_pouch", 100 ],
       [ "electrohack", 30 ],
       [ "fetus", 10 ],
-      [ "ftk93", 10 ],
       [ "hazmat_suit", 50 ],
       [ "hk_g80", 20 ],
       [ "hk_g80mag", 35 ],
@@ -34,7 +33,6 @@
       [ "l-stick", 10 ],
       [ "large_repairkit", 20 ],
       [ "standard_template_construct", 15 ],
-      [ "laser_pack", 100 ],
       [ "laser_rifle", 10 ],
       [ "m240", 10 ],
       [ "m249", 10 ],
@@ -67,6 +65,7 @@
       [ "royal_jelly", 80 ],
       [ "RPG", 10 ],
       [ "RPG-7_ammo", 10 ],
+      [ "atgm_heat", 1 ],
       [ "rx11_stimpack", 50 ],
       [ "rx12_injector", 50 ],
       [ "stimpack_ammo", 100 ],
@@ -85,7 +84,6 @@
       [ "12mm", 10 ],
       [ "bot_laserturret", 10 ],
       [ "alloy_plate", 10 ],
-      [ "ftk93", 10 ],
       [ "solar_panel_v3", 10 ],
       [ "q_solarpack", 10 ],
       [ "can_sealer", 10 ],
@@ -95,7 +93,6 @@
       [ "hk_g80mag", 10 ],
       [ "emp_gun", 10 ],
       [ "knife_rm42", 10 ],
-      [ "laser_pack", 10 ],
       [ "laser_rifle", 10 ],
       [ "mininuke", 10 ],
       [ "adv_UPS_off", 10 ],
@@ -148,8 +145,7 @@
       [ "mutagen_alpha", 0 ],
       [ "mutagen_chimera", 0 ],
       [ "mutagen_elfa", 0 ],
-      [ "mutagen_medical", 0 ],
-      [ "unbio_blaster_gun", 0 ]
+      [ "mutagen_medical", 0 ]
     ]
   },
   {
@@ -176,6 +172,8 @@
       [ "m202_flash", 20 ],
       [ "RPG", 40 ],
       [ "RPG-7_ammo", 40 ],
+      [ "atgm_launcher", 3 ],
+      [ "atgm_heat", 6 ],
       [ "flamethrower", 50 ],
       [ "rm451_flamethrower", 40 ]
     ]

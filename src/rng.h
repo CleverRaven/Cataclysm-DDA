@@ -2,7 +2,6 @@
 #ifndef RNG_H
 #define RNG_H
 
-#include <cstdint>
 #include <array>
 #include <functional>
 #include <random>
@@ -24,7 +23,7 @@ using cata_default_random_engine = std::minstd_rand0;
 cata_default_random_engine &rng_get_engine();
 unsigned int rng_bits();
 
-int rng( int val1, int val2 );
+int rng( int lo, int hi );
 double rng_float( double val1, double val2 );
 bool one_in( int chance );
 bool one_turn_in( const time_duration &duration );

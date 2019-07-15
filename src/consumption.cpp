@@ -32,6 +32,8 @@
 #include "vpart_position.h"
 #include "rng.h"
 #include "string_id.h"
+#include "enums.h"
+#include "flat_set.h"
 
 namespace
 {

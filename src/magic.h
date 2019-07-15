@@ -2,26 +2,29 @@
 #ifndef MAGIC_H
 #define MAGIC_H
 
+#include <stddef.h>
 #include <map>
 #include <set>
+#include <string>
+#include <vector>
 
 #include "bodypart.h"
 #include "damage.h"
 #include "enum_bitset.h"
 #include "type_id.h"
 #include "ui.h"
+#include "string_id.h"
 
-struct mutation_branch;
 struct tripoint;
-struct dealt_damage_instance;
-struct damage_instance;
-
+class Creature;
 class player;
 class JsonObject;
 class JsonOut;
 class JsonIn;
+class teleporter_list;
 class time_duration;
 class nc_color;
+template <typename E> struct enum_traits;
 
 enum spell_flag {
     PERMANENT, // items or creatures spawned with this spell do not disappear and die as normal
@@ -66,6 +69,18 @@ struct enum_traits<spell_flag> {
     static constexpr auto last = spell_flag::LAST;
 };
 
+struct fake_spell {
+    spell_id id;
+    // max level this spell can be
+    // if null pointer, spell can be up to its own max level
+    cata::optional<int> max_level;
+    // target tripoint is source (true) or target (false)
+    bool self;
+    fake_spell( const spell_id &sp_id, bool hit_self = false,
+                const cata::optional<int> &max_level = cata::nullopt ) : id( sp_id ),
+        max_level( max_level ), self( hit_self ) {}
+};
+
 class spell_type
 {
     public:
@@ -83,6 +98,21 @@ class spell_type
         std::string effect;
         // extra information about spell effect. allows for combinations for effects
         std::string effect_str;
+        // list of additional "spell effects"
+        std::vector<fake_spell> additional_spells;
+
+        // if the spell has a field name defined, this is where it is
+        cata::optional<field_type_id> field;
+        // the chance one_in( field_chance ) that the field spawns at a tripoint in the area of the spell
+        int field_chance;
+        // field intensity at spell level 0
+        int min_field_intensity;
+        // increment of field intensity per level
+        float field_intensity_increment;
+        // maximum field intensity allowed
+        int max_field_intensity;
+        // field intensity added to the map is +- ( 1 + field_intensity_variance ) * field_intensity
+        float field_intensity_variance;
 
         // minimum damage this spell can cause
         int min_damage;
@@ -218,6 +248,8 @@ class spell
         // what is the max level of the spell
         int get_max_level() const;
 
+        // what is the intensity of the field the spell generates ( 0 if no field )
+        int field_intensity() const;
         // how much damage does the spell do
         int damage() const;
         dealt_damage_instance get_dealt_damage_instance() const;
@@ -227,7 +259,7 @@ class spell
         // distance spell can be cast
         int range() const;
         // how much energy does the spell cost
-        int energy_cost() const;
+        int energy_cost( const player &p ) const;
         // how long does this spell's effect last
         int duration() const;
         time_duration duration_turns() const;
@@ -236,7 +268,7 @@ class spell
         float spell_fail( const player &p ) const;
         std::string colorized_fail_percent( const player &p ) const;
         // how long does it take to cast the spell
-        int casting_time() const;
+        int casting_time( const player &p ) const;
 
         // can the player cast this spell?
         bool can_cast( const player &p ) const;
@@ -253,6 +285,8 @@ class spell
 
         // get spell id (from type)
         spell_id id() const;
+        // get spell class (from type)
+        trait_id spell_class() const;
         // get spell effect string (from type)
         std::string effect() const;
         // get spell effect_str data
@@ -279,13 +313,21 @@ class spell
         // difficulty of the level
         int get_difficulty() const;
 
+        // tries to create a field at the location specified
+        void create_field( const tripoint &at ) const;
+
         // makes a spell sound at the location
         void make_sound( const tripoint &target ) const;
         // heals the critter at the location, returns amount healed (player heals each body part)
         int heal( const tripoint &target ) const;
 
+        // casts the spell effect. returns true if successful
+        bool cast_spell_effect( const Creature &source, const tripoint &target ) const;
+        // goes through the spell effect and all of its internal spells
+        bool cast_all_effects( const Creature &source, const tripoint &target ) const;
+
         // is the target valid for this spell?
-        bool is_valid_target( const tripoint &p ) const;
+        bool is_valid_target( const Creature &caster, const tripoint &p ) const;
         bool is_valid_target( valid_target t ) const;
 };
 
@@ -317,6 +359,8 @@ class known_magic
         bool can_learn_spell( const player &p, const spell_id &sp ) const;
         bool knows_spell( const std::string &sp ) const;
         bool knows_spell( const spell_id &sp ) const;
+        // does the player know a spell?
+        bool knows_spell() const;
         // spells known by player
         std::vector<spell_id> spells() const;
         // gets the spell associated with the spell_id to be edited
@@ -354,10 +398,14 @@ namespace spell_effect
 void teleport( int min_distance, int max_distance );
 void pain_split(); // only does g->u
 void move_earth( const tripoint &target );
-void target_attack( const spell &sp, const tripoint &source, const tripoint &target );
-void projectile_attack( const spell &sp, const tripoint &source, const tripoint &target );
-void cone_attack( const spell &sp, const tripoint &source, const tripoint &target );
-void line_attack( const spell &sp, const tripoint &source, const tripoint &target );
+void target_attack( const spell &sp, const Creature &caster,
+                    const tripoint &target );
+void projectile_attack( const spell &sp, const Creature &caster,
+                        const tripoint &target );
+void cone_attack( const spell &sp, const Creature &caster,
+                  const tripoint &target );
+void line_attack( const spell &sp, const Creature &caster,
+                  const tripoint &target );
 
 std::set<tripoint> spell_effect_blast( const spell &, const tripoint &, const tripoint &target,
                                        const int aoe_radius, const bool ignore_walls );
@@ -368,9 +416,11 @@ std::set<tripoint> spell_effect_line( const spell &, const tripoint &source,
                                       const tripoint &target,
                                       const int aoe_radius, const bool ignore_walls );
 
-void spawn_ethereal_item( spell &sp );
-void recover_energy( spell &sp, const tripoint &target );
-void spawn_summoned_monster( spell &sp, const tripoint &source, const tripoint &target );
+void spawn_ethereal_item( const spell &sp );
+void recover_energy( const spell &sp, const tripoint &target );
+void spawn_summoned_monster( const spell &sp, const Creature &caster, const tripoint &target );
+void translocate( const spell &sp, const Creature &caster, const tripoint &target,
+                  teleporter_list &tp_list );
 } // namespace spell_effect
 
 class spellbook_callback : public uilist_callback

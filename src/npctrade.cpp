@@ -1,11 +1,13 @@
 #include "npctrade.h"
 
+#include <limits.h>
 #include <cstdlib>
 #include <algorithm>
 #include <string>
 #include <vector>
 #include <list>
 #include <memory>
+#include <set>
 
 #include "avatar.h"
 #include "cata_utility.h"
@@ -26,6 +28,8 @@
 #include "units.h"
 #include "visitable.h"
 #include "type_id.h"
+#include "faction.h"
+#include "pimpl.h"
 
 const skill_id skill_barter( "barter" );
 
@@ -223,8 +227,8 @@ void trading_window::setup_trade( int cost, npc &np )
         u_get = cost - np.op_of_u.owed;
         // the NPC doesn't require a barter to exactly match, but there's a small limit to how
         // much credit they'll extend
-        npc_requires =  50 * std::max( 0, np.op_of_u.trust + np.op_of_u.value + np.op_of_u.fear -
-                                       np.op_of_u.anger + np.personality.altruism );
+        npc_requires = 50 * std::max( 0, np.op_of_u.trust + np.op_of_u.value + np.op_of_u.fear -
+                                      np.op_of_u.anger + np.personality.altruism );
     }
 }
 
@@ -395,8 +399,8 @@ bool trading_window::perform_trade( npc &p, const std::string &deal )
     volume_left = p.volume_capacity() - p.volume_carried();
     weight_left = p.weight_capacity() - p.weight_carried();
     if( p.mission == NPC_MISSION_SHOPKEEP ) {
-        volume_left = units::from_liter( 5000 );
-        weight_left = units::from_kilogram( 5000 );
+        volume_left = 5'000'000_ml;
+        weight_left = 5'000_kilogram;
     }
 
     do {

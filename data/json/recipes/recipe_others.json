@@ -1637,7 +1637,7 @@
     "subcategory": "CSC_OTHER_TRAPS",
     "skill_used": "traps",
     "difficulty": 1,
-    "time": "0 m",
+    "time": "30 s",
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
     "components": [ [ [ "superglue", 1 ] ] ]
@@ -1661,7 +1661,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",
     "skill_used": "traps",
-    "time": "0 m",
+    "time": "15 s",
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -1853,7 +1853,7 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "0 m",
+    "time": "30 s",
     "autolearn": true,
     "using": [ [ "welding_standard", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
@@ -3573,6 +3573,20 @@
     "using": [ [ "soldering_standard", 25 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "cable", 100 ] ], [ [ "scrap", 4 ] ], [ [ "duct_tape", 50 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "jumper_cable_heavy",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 3 ],
+    "difficulty": 5,
+    "time": "120 m",
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 60 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "cable", 650 ] ], [ [ "scrap", 10 ] ], [ [ "duct_tape", 30 ] ], [ [ "hose", 2 ] ] ]
   },
   {
     "type": "recipe",

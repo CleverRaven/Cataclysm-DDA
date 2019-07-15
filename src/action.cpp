@@ -20,7 +20,6 @@
 #include "optional.h"
 #include "output.h"
 #include "path_info.h"
-#include "player.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
@@ -28,10 +27,10 @@
 #include "vpart_position.h"
 #include "creature.h"
 #include "cursesdef.h"
-#include "enums.h"
 #include "item.h"
 #include "ret_val.h"
 #include "type_id.h"
+#include "point.h"
 
 class inventory;
 
@@ -459,8 +458,8 @@ action_id look_up_action( const std::string &ident )
     }
     // ^^ Temporarily for the interface with the input manager!
     for( int i = 0; i < NUM_ACTIONS; i++ ) {
-        if( action_ident( action_id( i ) ) == ident ) {
-            return action_id( i );
+        if( action_ident( static_cast<action_id>( i ) ) == ident ) {
+            return static_cast<action_id>( i );
         }
     }
     return ACTION_NULL;
@@ -679,11 +678,11 @@ action_id handle_action_menu()
     }
 
     // If we're already running, make it simple to toggle running to off.
-    if( g->u.get_movement_mode() == "run" ) {
+    if( g->u.movement_mode_is( PMM_RUN ) ) {
         action_weightings[ACTION_TOGGLE_RUN] = 300;
     }
     // If we're already crouching, make it simple to toggle crouching to off.
-    if( g->u.get_movement_mode() == "crouch" ) {
+    if( g->u.movement_mode_is( PMM_CROUCH ) ) {
         action_weightings[ACTION_TOGGLE_CROUCH] = 300;
     }
 

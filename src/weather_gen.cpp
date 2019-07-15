@@ -2,86 +2,123 @@
 
 #include <algorithm>
 #include <cmath>
-#include <fstream>
 #include <random>
 #include <string>
 
-#include "enums.h"
 #include "game_constants.h"
+#include "cata_utility.h"
 #include "json.h"
+#include "math_defines.h"
 #include "rng.h"
 #include "simplexnoise.h"
 #include "weather.h"
+#include "point.h"
 
 namespace
 {
-// GCC doesn't like M_PI here for some reason
-constexpr double PI  = 3.141592653589793238463;
-constexpr double tau = 2 * PI;
+constexpr double tau = 2 * M_PI;
 } //namespace
 
 weather_generator::weather_generator() = default;
 int weather_generator::current_winddir = 1000;
 
-w_point weather_generator::get_weather( const tripoint &location, const time_point &t,
-                                        unsigned seed ) const
+struct weather_gen_common {
+    double x;
+    double y;
+    double z;
+    double ctn;
+    double seasonal_variation;
+    unsigned modSEED;
+    season_type season;
+};
+
+static weather_gen_common get_common_data( const tripoint &location, const time_point &t,
+        unsigned seed )
 {
+    weather_gen_common result;
     // Integer x position / widening factor of the Perlin function.
-    const double x( location.x / 2000.0 );
+    result.x = location.x / 2000.0;
     // Integer y position / widening factor of the Perlin function.
-    const double y( location.y / 2000.0 );
+    result.y = location.y / 2000.0;
     // Integer turn / widening factor of the Perlin function.
-    const double z( to_turn<int>( t + calendar::season_length() ) / 2000.0 );
+    result.z = to_turn<int>( t + calendar::season_length() ) / 2000.0;
+    // Limit the random seed during noise calculation, a large value flattens the noise generator to zero
+    // Windows has a rand limit of 32768, other operating systems can have higher limits
+    result.modSEED = seed % SIMPLEX_NOISE_RANDOM_SEED_LIMIT;
+    const double now( ( time_past_new_year( t ) + calendar::season_length() / 2 ) /
+                      calendar::year_length() ); // [0,1)
+    result.ctn = cos( tau * now ); // [-1, 1]
+    result.season = season_of_year( t );
+    // Start and end at -1 going up to 1 in summer.
+    result.seasonal_variation = result.ctn * -1; // [-1, 1]
+
+    return result;
+}
+
+static double weather_temperature_from_common_data( const weather_generator &wg,
+        const weather_gen_common &common, const time_point &t )
+{
+    const double x( common.x );
+    const double y( common.y );
+    const double z( common.z );
+
+    const unsigned modSEED = common.modSEED;
+    const double ctn( common.ctn ); // [-1, 1]
+    const season_type season = common.season;
 
     const double dayFraction = time_past_midnight( t ) / 1_days;
 
-    // Limit the random seed during noise calculation, a large value flattens the noise generator to zero
-    // Windows has a rand limit of 32768, other operating systems can have higher limits
-    const unsigned modSEED = seed % SIMPLEX_NOISE_RANDOM_SEED_LIMIT;
-    // Noise factors
+    // manually specified seasonal temp variation from region_settings.json
+    const int seasonal_temp_mod[4] = { wg.spring_temp_manual_mod, wg.summer_temp_manual_mod, wg.autumn_temp_manual_mod, wg.winter_temp_manual_mod };
+    const double current_t( wg.base_temperature + seasonal_temp_mod[ season ] );
+    // Start and end at -1 going up to 1 in summer.
+    const double seasonal_variation( common.seasonal_variation ); // [-1, 1]
+    // Harsh winter nights, hot summers.
+    const double season_atenuation( ctn / 2 + 1 );
+    // Make summers peak faster and winters not perma-frozen.
+    const double season_dispersion( pow( 2,
+                                         ctn + 1 ) - 2.3 );
+
+    // Day-night temperature variation.
+    double daily_variation( cos( tau * dayFraction - tau / 8 ) * -1 * season_atenuation / 2 +
+                            season_dispersion * -1 );
+
     double T( raw_noise_4d( x, y, z, modSEED ) * 4.0 );
+    T += current_t;
+    T += seasonal_variation * 8 * exp( -pow( current_t * 2.7 / 10 - 0.5, 2 ) );
+    T += daily_variation * 8 * exp( -pow( current_t / 30, 2 ) );
+
+    return T * 9 / 5 + 32;
+}
+
+double weather_generator::get_weather_temperature( const tripoint &location, const time_point &t,
+        unsigned seed ) const
+{
+    return weather_temperature_from_common_data( *this, get_common_data( location, t, seed ), t );
+}
+w_point weather_generator::get_weather( const tripoint &location, const time_point &t,
+                                        unsigned seed ) const
+{
+    const weather_gen_common common = get_common_data( location, t, seed );
+
+    const double x( common.x );
+    const double y( common.y );
+    const double z( common.z );
+
+    const unsigned modSEED = common.modSEED;
+    const double ctn( common.ctn ); // [-1, 1]
+    const season_type season = common.season;
+
+    // Noise factors
+    const double T( weather_temperature_from_common_data( *this, common, t ) );
     double H( raw_noise_4d( x, y, z / 5, modSEED + 101 ) );
     double H2( raw_noise_4d( x, y, z, modSEED + 151 ) / 4 );
     double P( raw_noise_4d( x / 2.5, y / 2.5, z / 30, modSEED + 211 ) * 70 );
     double A( raw_noise_4d( x, y, z, modSEED ) * 8.0 );
     double W( raw_noise_4d( x / 2.5, y / 2.5, z / 200, modSEED ) * 10.0 );
 
-    const double now( ( time_past_new_year( t ) + calendar::season_length() / 2 ) /
-                      calendar::year_length() ); // [0,1)
-    const double ctn( cos( tau * now ) );
-    const season_type season = season_of_year( t );
-    double mod_t( 0 ); // TODO: make this depend on latitude and altitude?
-    // manually specified seasonal temp variation from region_settings.json
-    if( season == WINTER ) {
-        mod_t += winter_temp_manual_mod;
-    } else if( season == SPRING ) {
-        mod_t += spring_temp_manual_mod;
-    } else if( season == SUMMER ) {
-        mod_t += summer_temp_manual_mod;
-    } else if( season == AUTUMN ) {
-        mod_t += autumn_temp_manual_mod;
-    }
-    const double current_t( base_temperature +
-                            mod_t );
     // Start and end at -1 going up to 1 in summer.
-    const double seasonal_variation( ctn * -1 );
-    // Harsh winter nights, hot summers.
-    const double season_atenuation( ctn / 2 + 1 );
-    // Make summers peak faster and winters not perma-frozen.
-    const double season_dispersion( pow( 2,
-                                         ctn + 1 ) - 2.3 );
-    // Day-night temperature variation.
-    double daily_variation( cos( tau * dayFraction - tau / 8 ) * -1 * season_atenuation / 2 +
-                            season_dispersion * -1 );
-    // Add baseline to the noise.
-    T += current_t;
-    // Add season curve offset to account for the winter-summer difference in day-night difference.
-    T += seasonal_variation * 8 * exp( -pow( current_t * 2.7 / 10 - 0.5,
-                                       2 ) );
-    // Add daily variation scaled to the inverse of the current baseline. A very specific and finicky adjustment curve.
-    T += daily_variation * 8 * exp( -pow( current_t / 30,
-                                          2 ) );
-    T = T * 9 / 5 + 32; // Convert to imperial. =|
+    const double seasonal_variation( common.seasonal_variation ); // [-1, 1]
 
     // Humidity variation
     double mod_h( 0 );
@@ -245,33 +282,33 @@ void weather_generator::test_weather() const
     // Usage:
     // weather_generator WEATHERGEN; // Instantiate the class.
     // WEATHERGEN.test_weather(); // Runs this test.
-    std::ofstream testfile;
-    testfile.open( "weather.output", std::ofstream::trunc );
-    testfile <<
-             "|;year;season;day;hour;minute;temperature(F);humidity(%);pressure(mB);weatherdesc;windspeed(mph);winddirection"
-             << std::endl;
+    write_to_file( "weather.output", [&]( std::ostream & testfile ) {
+        testfile <<
+                 "|;year;season;day;hour;minute;temperature(F);humidity(%);pressure(mB);weatherdesc;windspeed(mph);winddirection"
+                 << std::endl;
 
-    const time_point begin = calendar::turn;
-    const time_point end = begin + 2 * calendar::year_length();
-    for( time_point i = begin; i < end; i += 20_minutes ) {
-        w_point w = get_weather( tripoint_zero, to_turn<int>( i ), 1000 );
-        weather_type c =  get_weather_conditions( w );
-        weather_datum wd = weather_data( c );
+        const time_point begin = calendar::turn;
+        const time_point end = begin + 2 * calendar::year_length();
+        for( time_point i = begin; i < end; i += 20_minutes ) {
+            w_point w = get_weather( tripoint_zero, to_turn<int>( i ), 1000 );
+            weather_type c = get_weather_conditions( w );
+            weather_datum wd = weather_data( c );
 
-        int year = to_turns<int>( i - calendar::time_of_cataclysm ) / to_turns<int>
-                   ( calendar::year_length() ) + 1;
-        const int hour = hour_of_day<int>( i );
-        const int minute = minute_of_hour<int>( i );
-        int day;
-        if( calendar::eternal_season() ) {
-            day = to_days<int>( time_past_new_year( i ) );
-        } else {
-            day = day_of_season<int>( i );
+            int year = to_turns<int>( i - calendar::time_of_cataclysm ) / to_turns<int>
+                       ( calendar::year_length() ) + 1;
+            const int hour = hour_of_day<int>( i );
+            const int minute = minute_of_hour<int>( i );
+            int day;
+            if( calendar::eternal_season() ) {
+                day = to_days<int>( time_past_new_year( i ) );
+            } else {
+                day = day_of_season<int>( i );
+            }
+            testfile << "|;" << year << ";" << season_of_year( i ) << ";" << day << ";" << hour << ";" << minute
+                     << ";" << w.temperature << ";" << w.humidity << ";" << w.pressure << ";" << wd.name << ";" <<
+                     w.windpower << ";" << w.winddirection << std::endl;
         }
-        testfile << "|;" << year << ";" << season_of_year( i ) << ";" << day << ";" << hour << ";" << minute
-                 << ";" << w.temperature << ";" << w.humidity << ";" << w.pressure << ";" << wd.name << ";" <<
-                 w.windpower << ";" << w.winddirection << std::endl;
-    }
+    }, "weather test file" );
 }
 
 weather_generator weather_generator::load( JsonObject &jo )

@@ -18,8 +18,8 @@
 #include "translations.h"
 #include "game_constants.h"
 #include "int_id.h"
-#include "player.h"
 #include "type_id.h"
+#include "enums.h"
 
 const mtype_id mon_amigara_horror( "mon_amigara_horror" );
 const mtype_id mon_copbot( "mon_copbot" );
@@ -53,8 +53,8 @@ void event::actualize()
 
                 g->u.add_memorial_log( pgettext( "memorial_male", "Became wanted by the police!" ),
                                        pgettext( "memorial_female", "Became wanted by the police!" ) );
-                int robx = ( u_pos.x > map_point.x ? 0 - SEEX * 2 : SEEX * 4 );
-                int roby = ( u_pos.y > map_point.y ? 0 - SEEY * 2 : SEEY * 4 );
+                int robx = u_pos.x > map_point.x ? 0 - SEEX * 2 : SEEX * 4;
+                int roby = u_pos.y > map_point.y ? 0 - SEEY * 2 : SEEY * 4;
                 g->summon_mon( robot_type, tripoint( robx, roby, g->u.posz() ) );
             }
         }

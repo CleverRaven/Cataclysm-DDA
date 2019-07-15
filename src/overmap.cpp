@@ -1,4 +1,4 @@
-﻿#include "omdata.h" // IWYU pragma: associated
+#include "omdata.h" // IWYU pragma: associated
 #include "overmap.h" // IWYU pragma: associated
 
 #include <algorithm>
@@ -8,12 +8,10 @@
 #include <numeric>
 #include <ostream>
 #include <queue>
-#include <random>
 #include <vector>
 #include <exception>
 #include <unordered_set>
 #include <set>
-#include <iostream>
 
 #include "catacharset.h"
 #include "cata_utility.h"
@@ -28,7 +26,6 @@
 #include "mapbuffer.h"
 #include "mapgen.h"
 #include "mapgen_functions.h"
-#include "map_extras.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "mtype.h"
@@ -51,6 +48,8 @@
 #include "math_defines.h"
 #include "monster.h"
 #include "string_formatter.h"
+
+class map_extra;
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -117,6 +116,9 @@ const size_t invalid = 0;
 
 constexpr size_t rotate( size_t line, om_direction::type dir )
 {
+    if( dir == om_direction::type::invalid ) {
+        return line;
+    }
     // Bitwise rotation to the left.
     return ( ( ( line << static_cast<size_t>( dir ) ) |
                ( line >> ( om_direction::size - static_cast<size_t>( dir ) ) ) ) & om_direction::bits );
@@ -124,6 +126,9 @@ constexpr size_t rotate( size_t line, om_direction::type dir )
 
 constexpr size_t set_segment( size_t line, om_direction::type dir )
 {
+    if( dir == om_direction::type::invalid ) {
+        return line;
+    }
     return line | 1 << static_cast<int>( dir );
 }
 
@@ -313,7 +318,7 @@ const string_id<oter_t> &int_id<oter_t>::id() const
 
 bool operator==( const int_id<oter_t> &lhs, const char *rhs )
 {
-    return lhs.id().str().compare( rhs ) == 0;
+    return lhs.id().str() == rhs;
 }
 
 bool operator!=( const int_id<oter_t> &lhs, const char *rhs )
@@ -474,39 +479,57 @@ bool is_river_or_lake( const oter_id &ter )
     return ter->is_river() || ter->is_lake() || ter->is_lake_shore();
 }
 
-bool is_ot_type( const std::string &otype, const oter_id &oter )
+bool is_ot_match( const std::string &name, const oter_id &oter,
+                  const ot_match_type match_type )
 {
-    // Is a match if the base type is the same which will allow for handling rotations/linear features
-    // but won't incorrectly match other locations that happen to contain the substring.
-    return otype == oter->get_type_id().str();
-}
+    const auto is_ot = []( const std::string & otype, const oter_id & oter ) {
+        return otype == oter.id().str();
+    };
 
-bool is_ot_prefix( const std::string &otype, const oter_id &oter )
-{
-    const size_t oter_size = oter.id().str().size();
-    const size_t compare_size = otype.size();
-    if( compare_size > oter_size ) {
-        return false;
+    const auto is_ot_type = []( const std::string & otype, const oter_id & oter ) {
+        // Is a match if the base type is the same which will allow for handling rotations/linear features
+        // but won't incorrectly match other locations that happen to contain the substring.
+        return otype == oter->get_type_id().str();
+    };
+
+    const auto is_ot_prefix = []( const std::string & otype, const oter_id & oter ) {
+        const size_t oter_size = oter.id().str().size();
+        const size_t compare_size = otype.size();
+        if( compare_size > oter_size ) {
+            return false;
+        }
+
+        const auto &oter_str = oter.id();
+        if( oter_str.str().compare( 0, compare_size, otype ) != 0 ) {
+            return false;
+        }
+
+        // check if it's a full match
+        if( compare_size == oter_size ) {
+            return true;
+        }
+
+        // only okay for partial if next char is an underscore
+        return oter_str.str()[compare_size] == '_';
+    };
+
+    const auto is_ot_subtype = []( const std::string & otype, const oter_id & oter ) {
+        // Checks for any partial match.
+        return strstr( oter.id().c_str(), otype.c_str() );
+    };
+
+    switch( match_type ) {
+        case ot_match_type::exact:
+            return is_ot( name, oter );
+        case ot_match_type::type:
+            return is_ot_type( name, oter );
+        case ot_match_type::prefix:
+            return is_ot_prefix( name, oter );
+        case ot_match_type::contains:
+            return is_ot_subtype( name, oter );
+        default:
+            return false;
     }
-
-    const auto &oter_str = oter.id();
-    if( oter_str.str().compare( 0, compare_size, otype ) != 0 ) {
-        return false;
-    }
-
-    // check if it's a full match
-    if( compare_size == oter_size ) {
-        return true;
-    }
-
-    // only okay for partial if next char is an underscore
-    return oter_str.str()[compare_size] == '_';
-}
-
-bool is_ot_subtype( const char *otype, const oter_id &oter )
-{
-    // Checks for any partial match.
-    return strstr( oter.id().c_str(), otype );
 }
 
 /*
@@ -1169,6 +1192,14 @@ bool &overmap::seen( int x, int y, int z )
     return layer[z + OVERMAP_DEPTH].visible[x][y];
 }
 
+bool overmap::seen( int x, int y, int z ) const
+{
+    if( !inbounds( tripoint( x, y, z ) ) ) {
+        return false;
+    }
+    return layer[z + OVERMAP_DEPTH].visible[x][y];
+}
+
 bool &overmap::explored( int x, int y, int z )
 {
     if( !inbounds( tripoint( x, y, z ) ) ) {
@@ -1344,7 +1375,7 @@ const string_id<map_extra> &overmap::extra( const int x, const int y, const int 
     return ( it != std::end( extras ) ) ? it->id : fallback;
 }
 
-void overmap::add_extra( const int x, const int y, const int z, const string_id<map_extra> id )
+void overmap::add_extra( const int x, const int y, const int z, const string_id<map_extra> &id )
 {
     if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
         debugmsg( "Attempting to add not to overmap for blank layer %d", z );
@@ -1386,15 +1417,14 @@ std::vector<point> overmap::find_extras( const int z, const std::string &text )
 
 bool overmap::inbounds( const tripoint &p, int clearance )
 {
-    const tripoint overmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
-    const tripoint overmap_boundary_max( OMAPX, OMAPY, OVERMAP_HEIGHT );
-    const tripoint overmap_clearance_min( 0 + clearance, 0 + clearance, 0 );
-    const tripoint overmap_clearance_max( 1 + clearance, 1 + clearance, 0 );
+    static constexpr tripoint overmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
+    static constexpr tripoint overmap_boundary_max( OMAPX, OMAPY, OVERMAP_HEIGHT + 1 );
 
-    const box overmap_boundaries( overmap_boundary_min, overmap_boundary_max );
-    const box overmap_clearance( overmap_clearance_min, overmap_clearance_max );
+    static constexpr box overmap_boundaries( overmap_boundary_min, overmap_boundary_max );
+    box stricter_boundaries = overmap_boundaries;
+    stricter_boundaries.shrink( tripoint( clearance, clearance, 0 ) );
 
-    return generic_inbounds( p, overmap_boundaries, overmap_clearance );
+    return stricter_boundaries.contains_half_open( p );
 }
 
 const scent_trace &overmap::scent_at( const tripoint &loc ) const
@@ -1487,10 +1517,10 @@ bool overmap::generate_sub( const int z )
                 continue;
             }
 
-            if( is_ot_type( "sub_station", oter_ground ) && z == -1 ) {
+            if( is_ot_match( "sub_station", oter_ground, ot_match_type::type ) && z == -1 ) {
                 ter( i, j, z ) = oter_id( "sewer_sub_station" );
                 requires_sub = true;
-            } else if( is_ot_type( "sub_station", oter_ground ) && z == -2 ) {
+            } else if( is_ot_match( "sub_station", oter_ground, ot_match_type::type ) && z == -2 ) {
                 ter( i, j, z ) = oter_id( "subway_isolated" );
                 subway_points.emplace_back( i, j - 1 );
                 subway_points.emplace_back( i, j );
@@ -1535,7 +1565,7 @@ bool overmap::generate_sub( const int z )
                 central_lab_points.push_back( city( i, j, rng( std::max( 1, 7 + z ), 9 + z ) ) );
             } else if( oter_above == "central_lab_stairs" ) {
                 ter( i, j, z ) = oter_id( "central_lab" );
-            } else if( is_ot_subtype( "hidden_lab_stairs", oter_above ) ) {
+            } else if( is_ot_match( "hidden_lab_stairs", oter_above, ot_match_type::contains ) ) {
                 lab_points.push_back( city( i, j, rng( 1, 5 + z ) ) );
             } else if( oter_above == "mine_entrance" ) {
                 shaft_points.push_back( point( i, j ) );
@@ -1619,14 +1649,14 @@ bool overmap::generate_sub( const int z )
                 ter( i.x, i.y, z ) = oter_id( "open_air" ); // mark tile to prevent subway gen
 
                 for( auto &nearby_loc : nearby_locations ) {
-                    if( is_ot_subtype( "empty_rock", ter( nearby_loc.x, nearby_loc.y, z ) ) ) {
+                    if( is_ot_match( "empty_rock", ter( nearby_loc.x, nearby_loc.y, z ), ot_match_type::contains ) ) {
                         // mark tile to prevent subway gen
                         ter( nearby_loc.x, nearby_loc.y, z ) = oter_id( "open_air" );
                     }
                 }
             } else {
                 // change train connection point back to rock to allow gen
-                if( is_ot_subtype( "open_air", ter( i.x, i.y, z ) ) ) {
+                if( is_ot_match( "open_air", ter( i.x, i.y, z ), ot_match_type::contains ) ) {
                     ter( i.x, i.y, z ) = oter_id( "empty_rock" );
                 }
                 real_train_points.push_back( i );
@@ -1651,7 +1681,7 @@ bool overmap::generate_sub( const int z )
     }
 
     for( auto &i : subway_points ) {
-        if( is_ot_type( "sub_station", ter( i.x, i.y, z + 2 ) ) ) {
+        if( is_ot_match( "sub_station", ter( i.x, i.y, z + 2 ), ot_match_type::type ) ) {
             ter( i.x, i.y, z ) = oter_id( "underground_sub_station" );
         }
     }
@@ -1668,14 +1698,16 @@ bool overmap::generate_sub( const int z )
                 ter( i.x, i.y, z ) = oter_id( "empty_rock" ); // this clears marked tiles
                 bool is_depot_generated = false;
                 for( auto &subway_loc : subway_possible_loc ) {
-                    if( !is_depot_generated && is_ot_subtype( "subway", ter( subway_loc.x, subway_loc.y, z ) ) ) {
+                    if( !is_depot_generated &&
+                        is_ot_match( "subway", ter( subway_loc.x, subway_loc.y, z ), ot_match_type::contains ) ) {
                         extra_route.push_back( i );
                         extra_route.push_back( subway_loc );
                         connect_closest_points( extra_route, z, *subway_tunnel );
 
                         ter( i.x, i.y, z ) = train_type;
                         is_depot_generated = true; // only one connection to depot
-                    } else if( is_ot_subtype( "open_air", ter( subway_loc.x, subway_loc.y, z ) ) ) {
+                    } else if( is_ot_match( "open_air", ter( subway_loc.x, subway_loc.y, z ),
+                                            ot_match_type::contains ) ) {
                         // clear marked
                         ter( subway_loc.x, subway_loc.y, z ) = oter_id( "empty_rock" );
                     }
@@ -1804,8 +1836,8 @@ void mongroup::wander( const overmap &om )
         // TODO: somehow use the same algorithm that distributes zombie
         // density at world gen to spread the hordes over the actual
         // city, rather than the center city tile
-        target.x = target_city->pos.x * 2 + rng( -5, 5 );
-        target.y = target_city->pos.y * 2 + rng( -5, 5 );
+        target.x = target_city->pos.x * 2 + rng( -target_city->size * 2, target_city->size * 2 );
+        target.y = target_city->pos.y * 2 + rng( -target_city->size * 2, target_city->size * 2 );
         interest = 100;
     } else {
         target.x = pos.x + rng( -10, 10 );
@@ -2036,7 +2068,7 @@ void overmap::place_forest_trails()
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
             oter_id oter = ter( i, j, 0 );
-            if( !is_ot_prefix( "forest", oter ) ) {
+            if( !is_ot_match( "forest", oter, ot_match_type::prefix ) ) {
                 continue;
             }
 
@@ -2173,7 +2205,7 @@ void overmap::place_forest_trailheads()
         for( const point &nearby_point : closest_points_first(
                  settings.forest_trail.trailhead_road_distance,
                  point( trailhead.x, trailhead.y ) ) ) {
-            if( check_ot_subtype( "road", nearby_point.x, nearby_point.y, 0 ) ) {
+            if( check_ot( "road", ot_match_type::contains, nearby_point.x, nearby_point.y, 0 ) ) {
                 close = true;
             }
         }
@@ -2541,7 +2573,7 @@ void overmap::place_swamps()
     std::vector<std::vector<int>> floodplain( OMAPX, std::vector<int>( OMAPY, 0 ) );
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
-            if( is_ot_subtype( "river", ter( x, y, 0 ) ) ) {
+            if( is_ot_match( "river", ter( x, y, 0 ), ot_match_type::contains ) ) {
                 std::vector<point> buffered_points = closest_points_first( rng(
                         settings.overmap_forest.river_floodplain_buffer_distance_min,
                         settings.overmap_forest.river_floodplain_buffer_distance_max ), x, y );
@@ -2564,7 +2596,7 @@ void overmap::place_swamps()
         for( int y = 0; y < OMAPY; y++ ) {
             // If this location isn't a forest, there's nothing to do here. We'll only grow swamps in existing
             // forest terrain.
-            if( !is_ot_subtype( "forest", ter( x, y, 0 ) ) ) {
+            if( !is_ot_match( "forest", ter( x, y, 0 ), ot_match_type::contains ) ) {
                 continue;
             }
 
@@ -2978,7 +3010,7 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
             int dist_increment = s > 3 ? 3 : 2; // Determines at what distance the odds of placement decreases
             if( one_in( dist / dist_increment + 1 ) ) { // odds diminish farther away from the stairs
                 // make an ants lab if it's a basic lab and ants were there before.
-                if( prefix.empty() && check_ot_type( "ants", cx, cy, z ) ) {
+                if( prefix.empty() && check_ot( "ants", ot_match_type::type, cx, cy, z ) ) {
                     if( ter( cx, cy, z ) != "ants_queen" ) { // skip over a queen's chamber.
                         ter( cx, cy, z ) = labt_ants;
                     }
@@ -3007,7 +3039,7 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
     bool generate_stairs = true;
     for( auto &elem : generated_lab ) {
         // Use a check for "_stairs" to catch the hidden_lab_stairs tiles.
-        if( is_ot_subtype( "_stairs", ter( elem.x, elem.y, z + 1 ) ) ) {
+        if( is_ot_match( "_stairs", ter( elem.x, elem.y, z + 1 ), ot_match_type::contains ) ) {
             generate_stairs = false;
         }
     }
@@ -3074,10 +3106,11 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
             trainy = rng( y - s * 1.5 - 1, y + s * 1.5 + 1 );
             tries++;
 
-            adjacent_labs = ( is_ot_subtype( "lab", ter( trainx, trainy - 1, z ) ) ? 1 : 0 ) +
-                            ( is_ot_subtype( "lab", ter( trainx - 1, trainy, z ) ) ? 1 : 0 ) +
-                            ( is_ot_subtype( "lab", ter( trainx, trainy + 1, z ) ) ? 1 : 0 ) +
-                            ( is_ot_subtype( "lab", ter( trainx + 1, trainy, z ) ) ? 1 : 0 );
+            adjacent_labs = ( is_ot_match( "lab", ter( trainx, trainy - 1, z ),
+                                           ot_match_type::contains ) ? 1 : 0 ) +
+                            ( is_ot_match( "lab", ter( trainx - 1, trainy, z ), ot_match_type::contains ) ? 1 : 0 ) +
+                            ( is_ot_match( "lab", ter( trainx, trainy + 1, z ), ot_match_type::contains ) ? 1 : 0 ) +
+                            ( is_ot_match( "lab", ter( trainx + 1, trainy, z ), ot_match_type::contains ) ? 1 : 0 );
         } while( tries < 50 && (
                      ter( trainx, trainy, z ) == labt ||
                      ter( trainx, trainy, z ) == labt_stairs ||
@@ -3086,13 +3119,13 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
         if( tries < 50 ) {
             lab_train_points->push_back( point( trainx, trainy ) ); // possible train depot
             // next is rail connection
-            if( is_ot_subtype( "lab", ter( trainx, trainy - 1, z ) ) ) {
+            if( is_ot_match( "lab", ter( trainx, trainy - 1, z ), ot_match_type::contains ) ) {
                 lab_train_points->push_back( point( trainx, trainy + 1 ) );
-            } else if( is_ot_subtype( "lab", ter( trainx, trainy + 1, z ) ) ) {
+            } else if( is_ot_match( "lab", ter( trainx, trainy + 1, z ), ot_match_type::contains ) ) {
                 lab_train_points->push_back( point( trainx, trainy - 1 ) );
-            } else if( is_ot_subtype( "lab", ter( trainx + 1, trainy, z ) ) ) {
+            } else if( is_ot_match( "lab", ter( trainx + 1, trainy, z ), ot_match_type::contains ) ) {
                 lab_train_points->push_back( point( trainx - 1, trainy ) );
-            } else if( is_ot_subtype( "lab", ter( trainx - 1, trainy, z ) ) ) {
+            } else if( is_ot_match( "lab", ter( trainx - 1, trainy, z ), ot_match_type::contains ) ) {
                 lab_train_points->push_back( point( trainx + 1, trainy ) );
             }
         }
@@ -3111,10 +3144,11 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
             celly = rng( y - s * 1.5 - 1, y + s * 1.5 + 1 );
             tries++;
 
-            adjacent_labs = ( is_ot_subtype( "lab", ter( cellx, celly - 1, z ) ) ? 1 : 0 ) +
-                            ( is_ot_subtype( "lab", ter( cellx - 1, celly, z ) ) ? 1 : 0 ) +
-                            ( is_ot_subtype( "lab", ter( cellx, celly + 1, z ) ) ? 1 : 0 ) +
-                            ( is_ot_subtype( "lab", ter( cellx + 1, celly, z ) ) ? 1 : 0 );
+            adjacent_labs = ( is_ot_match( "lab", ter( cellx, celly - 1, z ),
+                                           ot_match_type::contains ) ? 1 : 0 ) +
+                            ( is_ot_match( "lab", ter( cellx - 1, celly, z ), ot_match_type::contains ) ? 1 : 0 ) +
+                            ( is_ot_match( "lab", ter( cellx, celly + 1, z ), ot_match_type::contains ) ? 1 : 0 ) +
+                            ( is_ot_match( "lab", ter( cellx + 1, celly, z ), ot_match_type::contains ) ? 1 : 0 );
         } while( tries < 50 && (
                      ter( cellx, celly, z ) == labt_stairs ||
                      ter( cellx, celly, z ) == labt_finale ||
@@ -3138,7 +3172,7 @@ void overmap::build_anthill( int x, int y, int z, int s )
     std::vector<point> queenpoints;
     for( int i = x - s; i <= x + s; i++ ) {
         for( int j = y - s; j <= y + s; j++ ) {
-            if( check_ot_type( "ants", i, j, z ) ) {
+            if( check_ot( "ants", ot_match_type::type, i, j, z ) ) {
                 queenpoints.push_back( point( i, j ) );
             }
         }
@@ -3154,7 +3188,7 @@ void overmap::build_anthill( int x, int y, int z, int s )
                 auto &oter = ter( i, j, z );
                 for( auto dir : om_direction::all ) {
                     const point p = point( i, j ) + om_direction::displace( dir );
-                    if( check_ot_type( "ants", p.x, p.y, z ) ) {
+                    if( check_ot( "ants", ot_match_type::type, p.x, p.y, z ) ) {
                         size_t line = oter->get_line();
                         line = om_lines::set_segment( line, dir );
                         if( line != oter->get_line() ) {
@@ -3174,7 +3208,7 @@ void overmap::build_tunnel( int x, int y, int z, int s, om_direction::type dir )
     }
 
     const oter_id root_id( "ants_isolated" );
-    if( check_ot_type( "ants", x, y, z ) && root_id != get_ter( x, y, z )->id ) {
+    if( check_ot( "ants", ot_match_type::type, x, y, z ) && root_id != get_ter( x, y, z )->id ) {
         return;
     }
 
@@ -3184,7 +3218,7 @@ void overmap::build_tunnel( int x, int y, int z, int s, om_direction::type dir )
     valid.reserve( om_direction::size );
     for( auto r : om_direction::all ) {
         const point p = point( x, y ) + om_direction::displace( r );
-        if( !check_ot_type( "ants", p.x, p.y, z ) ) {
+        if( !check_ot( "ants", ot_match_type::type, p.x, p.y, z ) ) {
             valid.push_back( r );
         }
     }
@@ -3393,7 +3427,7 @@ pf::path overmap::lay_out_street( const overmap_connection &connection, const po
                 if( checkp != pos + om_direction::displace( dir, 1 ) &&
                     checkp != pos + om_direction::displace( om_direction::opposite( dir ), 1 ) &&
                     checkp != pos ) {
-                    if( is_ot_type( "road", get_ter( checkp ) ) ) {
+                    if( is_ot_match( "road", get_ter( checkp ), ot_match_type::type ) ) {
                         collisions++;
                     }
                 }
@@ -3550,16 +3584,11 @@ void overmap::chip_rock( int x, int y, int z )
     }
 }
 
-bool overmap::check_ot_type( const std::string &otype, int x, int y, int z ) const
+bool overmap::check_ot( const std::string &otype, ot_match_type match_type, int x, int y,
+                        int z ) const
 {
     const oter_id oter = get_ter( x, y, z );
-    return is_ot_type( otype, oter );
-}
-
-bool overmap::check_ot_subtype( const std::string &otype, int x, int y, int z ) const
-{
-    const oter_id oter = get_ter( x, y, z );
-    return is_ot_subtype( otype.c_str(), oter );
+    return is_ot_match( otype, oter, match_type );
 }
 
 bool overmap::check_overmap_special_type( const overmap_special_id &id,
@@ -3579,7 +3608,7 @@ bool overmap::check_overmap_special_type( const overmap_special_id &id,
 
 void overmap::good_river( int x, int y, int z )
 {
-    if( !is_ot_prefix( "river", get_ter( x, y, z ) ) ) {
+    if( !is_ot_match( "river", get_ter( x, y, z ), ot_match_type::prefix ) ) {
         return;
     }
     if( ( x == 0 ) || ( x == OMAPX - 1 ) ) {
@@ -3677,7 +3706,7 @@ const std::string &om_direction::id( type dir )
             "", "north", "east", "south", "west"
         }
     };
-    if( dir == type::invalid ) {
+    if( dir == om_direction::type::invalid ) {
         debugmsg( "Invalid direction cannot have an id." );
     }
     return ids[static_cast<size_t>( dir ) + 1];
@@ -3707,16 +3736,16 @@ const std::string &om_direction::name( type dir )
 point om_direction::rotate( const point &p, type dir )
 {
     switch( dir ) {
-        case type::invalid:
+        case om_direction::type::invalid:
             debugmsg( "Invalid overmap rotation (%d).", static_cast<int>( dir ) );
         // Intentional fallthrough.
-        case type::north:
+        case om_direction::type::north:
             break;  // No need to do anything.
-        case type::east:
+        case om_direction::type::east:
             return point( -p.y, p.x );
-        case type::south:
+        case om_direction::type::south:
             return point( -p.x, -p.y );
-        case type::west:
+        case om_direction::type::west:
             return point( p.y, -p.x );
     }
     return p;
@@ -3739,16 +3768,15 @@ point om_direction::displace( type dir, int dist )
 
 inline om_direction::type rotate_internal( om_direction::type dir, int step )
 {
-    using namespace om_direction;
-    if( dir == type::invalid ) {
+    if( dir == om_direction::type::invalid ) {
         debugmsg( "Can't rotate an invalid overmap rotation." );
         return dir;
     }
-    step = step % size;
+    step = step % om_direction::size;
     if( step < 0 ) {
-        step += size;
+        step += om_direction::size;
     }
-    return static_cast<type>( ( static_cast<int>( dir ) + step ) % size );
+    return static_cast<om_direction::type>( ( static_cast<int>( dir ) + step ) % om_direction::size );
 }
 
 om_direction::type om_direction::add( type dir1, type dir2 )
@@ -3803,7 +3831,7 @@ om_direction::type overmap::random_special_rotation( const overmap_special &spec
             const tripoint rp = p + om_direction::rotate( con.p, r );
             const oter_id &oter = get_ter( rp );
 
-            if( is_ot_type( con.terrain.str(), oter ) ) {
+            if( is_ot_match( con.terrain.str(), oter, ot_match_type::type ) ) {
                 ++score; // Found another one satisfied connection.
             } else if( !oter || con.existing || !con.connection->pick_subtype_for( oter ) ) {
                 valid = false;
@@ -4072,7 +4100,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         // Since this starts at enabled_specials::origin, it will only place new overmaps
         // in the 5x5 area surrounding the initial overmap, bounding the amount of work we will do.
         for( point candidate_addr : closest_points_first( 2, custom_overmap_specials.get_origin() ) ) {
-            if( !overmap_buffer.has( candidate_addr.x, candidate_addr.y ) ) {
+            if( !overmap_buffer.has( candidate_addr ) ) {
                 int current_distance = square_dist( pos().x, pos().y,
                                                     candidate_addr.x, candidate_addr.y );
                 if( nearest_candidates.empty() || current_distance == previous_distance ) {
@@ -4086,7 +4114,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         if( !nearest_candidates.empty() ) {
             std::shuffle( nearest_candidates.begin(), nearest_candidates.end(), rng_get_engine() );
             point new_om_addr = nearest_candidates.front();
-            overmap_buffer.create_custom_overmap( new_om_addr.x, new_om_addr.y, custom_overmap_specials );
+            overmap_buffer.create_custom_overmap( new_om_addr, custom_overmap_specials );
         } else {
             add_msg( _( "Unable to place all configured specials, some missions may fail to initialize." ) );
         }
@@ -4244,21 +4272,21 @@ void overmap::place_radios()
 
 void overmap::open( overmap_special_batch &enabled_specials )
 {
-    const std::string plrfilename = overmapbuffer::player_filename( loc.x, loc.y );
-    const std::string terfilename = overmapbuffer::terrain_filename( loc.x, loc.y );
+    const std::string terfilename = overmapbuffer::terrain_filename( loc );
 
     using namespace std::placeholders;
     if( read_from_file_optional( terfilename, std::bind( &overmap::unserialize, this, _1 ) ) ) {
+        const std::string plrfilename = overmapbuffer::player_filename( loc );
         read_from_file_optional( plrfilename, std::bind( &overmap::unserialize_view, this, _1 ) );
     } else { // No map exists!  Prepare neighbors, and generate one.
         std::vector<const overmap *> pointers;
         // Fetch south and north
         for( int i = -1; i <= 1; i += 2 ) {
-            pointers.push_back( overmap_buffer.get_existing( loc.x, loc.y + i ) );
+            pointers.push_back( overmap_buffer.get_existing( loc + point( 0, i ) ) );
         }
         // Fetch east and west
         for( int i = -1; i <= 1; i += 2 ) {
-            pointers.push_back( overmap_buffer.get_existing( loc.x + i, loc.y ) );
+            pointers.push_back( overmap_buffer.get_existing( loc + point( i, 0 ) ) );
         }
 
         // pointers looks like (north, south, west, east)
@@ -4269,16 +4297,13 @@ void overmap::open( overmap_special_batch &enabled_specials )
 // Note: this may throw io errors from std::ofstream
 void overmap::save() const
 {
-    const std::string plrfilename = overmapbuffer::player_filename( loc.x, loc.y );
-    const std::string terfilename = overmapbuffer::terrain_filename( loc.x, loc.y );
+    write_to_file( overmapbuffer::player_filename( loc ), [&]( std::ostream & stream ) {
+        serialize_view( stream );
+    } );
 
-    ofstream_wrapper fout_player( plrfilename );
-    serialize_view( fout_player );
-    fout_player.close();
-
-    ofstream_wrapper_exclusive fout_terrain( terfilename );
-    serialize( fout_terrain );
-    fout_terrain.close();
+    write_to_file( overmapbuffer::terrain_filename( loc ), [&]( std::ostream & stream ) {
+        serialize( stream );
+    } );
 }
 
 void overmap::add_mon_group( const mongroup &group )
@@ -4419,5 +4444,21 @@ overmap_special_id overmap_specials::create_building_from( const string_id<oter_
 
     return specials.insert( new_special ).id;
 }
+
+namespace io
+{
+static const std::map<std::string, ot_match_type> ot_match_type_map = { {
+        { "EXACT", exact },
+        { "TYPE", type },
+        { "PREFIX", prefix },
+        { "CONTAINS", contains },
+    }
+};
+template<>
+ot_match_type string_to_enum<ot_match_type>( const std::string &data )
+{
+    return string_to_enum_look_up( ot_match_type_map, data );
+}
+} // namespace io
 
 constexpr tripoint overmap::invalid_tripoint;

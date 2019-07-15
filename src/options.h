@@ -7,8 +7,10 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <tuple>
 
 #include "translations.h"
+#include "optional.h"
 
 class JsonIn;
 class JsonOut;

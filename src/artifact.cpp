@@ -782,14 +782,14 @@ std::string new_artifact()
         def.tool->def_charges = def.tool->max_charges;
         // If we have charges, pick a recharge mechanism
         if( def.tool->max_charges > 0 ) {
-            def.artifact->charge_type = art_charge( rng( ARTC_NULL + 1, NUM_ARTCS - 1 ) );
+            def.artifact->charge_type = static_cast<art_charge>( rng( ARTC_NULL + 1, NUM_ARTCS - 1 ) );
         }
         if( one_in( 8 ) && num_bad + num_good >= 4 ) {
             def.artifact->charge_type = ARTC_NULL;    // 1 in 8 chance that it can't recharge!
         }
         // Maybe pick an extra recharge requirement
         if( one_in( std::max( 1, 6 - num_good ) ) && def.artifact->charge_type != ARTC_NULL ) {
-            def.artifact->charge_req = art_charge_req( rng( ACR_NULL + 1, NUM_ACRS - 1 ) );
+            def.artifact->charge_req = static_cast<art_charge_req>( rng( ACR_NULL + 1, NUM_ACRS - 1 ) );
         }
         // Assign dream data (stored individually so they can be overridden in json)
         def.artifact->dream_msg_unmet  = artifact_dream_data[static_cast<int>
@@ -923,8 +923,8 @@ std::string new_natural_artifact( artifact_natural_property prop )
     const artifact_shape_datum &shape_data = random_entry_ref( artifact_shape_data );
     // Pick a property
     const artifact_natural_property property = ( prop > ARTPROP_NULL ? prop :
-            artifact_natural_property( rng( ARTPROP_NULL + 1,
-                                            ARTPROP_MAX - 1 ) ) );
+            static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1,
+                    ARTPROP_MAX - 1 ) ) );
     const artifact_property_datum &property_data = artifact_property_data[property];
 
     def.sym = ":";
@@ -968,25 +968,25 @@ std::string new_natural_artifact( artifact_natural_property prop )
         if( good_passive ) {
             aep_good = random_entry_ref( property_data.passive_good );
             if( aep_good == AEP_NULL || one_in( 4 ) ) {
-                aep_good = art_effect_passive( rng( AEP_NULL + 1, AEP_SPLIT - 1 ) );
+                aep_good = static_cast<art_effect_passive>( rng( AEP_NULL + 1, AEP_SPLIT - 1 ) );
             }
         }
         if( bad_passive ) {
             aep_bad = random_entry_ref( property_data.passive_bad );
             if( aep_bad == AEP_NULL || one_in( 4 ) ) {
-                aep_bad = art_effect_passive( rng( AEP_SPLIT + 1, NUM_AEAS - 1 ) );
+                aep_bad = static_cast<art_effect_passive>( rng( AEP_SPLIT + 1, NUM_AEAS - 1 ) );
             }
         }
         if( good_active ) {
             aea_good = random_entry_ref( property_data.active_good );
             if( aea_good == AEA_NULL || one_in( 4 ) ) {
-                aea_good = art_effect_active( rng( AEA_NULL + 1, AEA_SPLIT - 1 ) );
+                aea_good = static_cast<art_effect_active>( rng( AEA_NULL + 1, AEA_SPLIT - 1 ) );
             }
         }
         if( bad_active ) {
             aea_bad = random_entry_ref( property_data.active_bad );
             if( aea_bad == AEA_NULL || one_in( 4 ) ) {
-                aea_bad = art_effect_active( rng( AEA_SPLIT + 1, NUM_AEAS - 1 ) );
+                aea_bad = static_cast<art_effect_active>( rng( AEA_SPLIT + 1, NUM_AEAS - 1 ) );
             }
         }
 
@@ -1012,10 +1012,10 @@ std::string new_natural_artifact( artifact_natural_property prop )
     // (When "implanting" them in a mundane item, this ability may be lost
     if( !def.artifact->effects_activated.empty() ) {
         def.tool->def_charges = def.tool->max_charges = rng( 1, 4 );
-        def.artifact->charge_type = art_charge( rng( ARTC_NULL + 1, NUM_ARTCS - 1 ) );
+        def.artifact->charge_type = static_cast<art_charge>( rng( ARTC_NULL + 1, NUM_ARTCS - 1 ) );
         //Maybe pick an extra recharge requirement
         if( one_in( 6 ) ) {
-            def.artifact->charge_req = art_charge_req( rng( ACR_NULL + 1, NUM_ACRS - 1 ) );
+            def.artifact->charge_req = static_cast<art_charge_req>( rng( ACR_NULL + 1, NUM_ACRS - 1 ) );
         }
     }
     // Assign dream data (stored individually so they can be overridden in json)
@@ -1062,7 +1062,7 @@ std::vector<art_effect_passive> fill_good_passive()
 {
     std::vector<art_effect_passive> ret;
     for( int i = AEP_NULL + 1; i < AEP_SPLIT; i++ ) {
-        ret.push_back( art_effect_passive( i ) );
+        ret.push_back( static_cast<art_effect_passive>( i ) );
     }
     return ret;
 }
@@ -1071,7 +1071,7 @@ std::vector<art_effect_passive> fill_bad_passive()
 {
     std::vector<art_effect_passive> ret;
     for( int i = AEP_SPLIT + 1; i < NUM_AEPS; i++ ) {
-        ret.push_back( art_effect_passive( i ) );
+        ret.push_back( static_cast<art_effect_passive>( i ) );
     }
     return ret;
 }
@@ -1080,7 +1080,7 @@ std::vector<art_effect_active> fill_good_active()
 {
     std::vector<art_effect_active> ret;
     for( int i = AEA_NULL + 1; i < AEA_SPLIT; i++ ) {
-        ret.push_back( art_effect_active( i ) );
+        ret.push_back( static_cast<art_effect_active>( i ) );
     }
     return ret;
 }
@@ -1089,7 +1089,7 @@ std::vector<art_effect_active> fill_bad_active()
 {
     std::vector<art_effect_active> ret;
     for( int i = AEA_SPLIT + 1; i < NUM_AEAS; i++ ) {
-        ret.push_back( art_effect_active( i ) );
+        ret.push_back( static_cast<art_effect_active>( i ) );
     }
     return ret;
 }
@@ -1292,7 +1292,7 @@ void it_artifact_armor::deserialize( JsonObject &jo )
 
 bool save_artifacts( const std::string &path )
 {
-    return write_to_file_exclusive( path, [&]( std::ostream & fout ) {
+    return write_to_file( path, [&]( std::ostream & fout ) {
         JsonOut json( fout, true );
         json.start_array();
         // We only want runtime types, otherwise static artifacts are loaded twice (on init and then on game load)

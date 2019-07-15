@@ -1,6 +1,5 @@
 #include "mattack_actors.h"
 
-#include <cmath>
 #include <algorithm>
 #include <memory>
 
@@ -24,6 +23,7 @@
 #include "player.h"
 #include "rng.h"
 #include "material.h"
+#include "point.h"
 
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_bite( "bite" );
@@ -133,6 +133,54 @@ bool leap_actor::call( monster &z ) const
     if( seen ) {
         add_msg( _( "The %s leaps!" ), z.name() );
     }
+
+    return true;
+}
+
+mattack_actor *mon_spellcasting_actor::clone() const
+{
+    return new mon_spellcasting_actor( *this );
+}
+
+void mon_spellcasting_actor::load_internal( JsonObject &obj, const std::string & )
+{
+    std::string sp_id;
+    int spell_level = 0;
+    mandatory( obj, was_loaded, "spell_id", sp_id );
+    optional( obj, was_loaded, "self", self, false );
+    optional( obj, was_loaded, "spell_level", spell_level, 0 );
+    spell_data = spell( spell_id( sp_id ) );
+    for( int i = 0; i <= spell_level; i++ ) {
+        spell_data.gain_level();
+    }
+    avatar fake_player;
+    move_cost = spell_data.casting_time( fake_player );
+}
+
+bool mon_spellcasting_actor::call( monster &mon ) const
+{
+    if( !mon.can_act() ) {
+        return false;
+    }
+
+    if( !mon.attack_target() ) {
+        // this is an attack. there is no reason to attack if there isn't a real target.
+        return false;
+    }
+
+    const tripoint target = mon.attack_target()->pos();
+
+    std::string fx = spell_data.effect();
+    // is the spell an attack that needs to hit the target?
+    // examples of spells that don't: summons, teleport self
+    const bool targeted_attack = fx == "target_attack" || fx == "projectile_attack" ||
+                                 fx == "cone_attack" || fx == "line_attack";
+
+    if( targeted_attack && rl_dist( mon.pos(), target ) > spell_data.range() ) {
+        return false;
+    }
+
+    spell_data.cast_all_effects( mon, target );
 
     return true;
 }

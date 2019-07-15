@@ -7,6 +7,9 @@
 #include <ostream>
 #include <utility>
 
+#include "calendar.h"
+#include "json.h"
+
 namespace units
 {
 
@@ -126,6 +129,9 @@ class quantity
         constexpr this_type operator-() const {
             return this_type( -value_, unit_type{} );
         }
+
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
 
     private:
         value_type value_;
@@ -346,6 +352,55 @@ inline constexpr double to_kilogram( const mass &v )
     return v.value() / 1000.0;
 }
 
+class energy_in_millijoule_tag
+{
+};
+
+using energy = quantity<int, energy_in_millijoule_tag>;
+
+const energy energy_min = units::energy( std::numeric_limits<units::energy::value_type>::min(),
+                          units::energy::unit_type{} );
+
+const energy energy_max = units::energy( std::numeric_limits<units::energy::value_type>::max(),
+                          units::energy::unit_type{} );
+
+template<typename value_type>
+inline constexpr quantity<value_type, energy_in_millijoule_tag> from_millijoule(
+    const value_type v )
+{
+    return quantity<value_type, energy_in_millijoule_tag>( v, energy_in_millijoule_tag{} );
+}
+
+template<typename value_type>
+inline constexpr quantity<value_type, energy_in_millijoule_tag> from_joule( const value_type v )
+{
+    return from_millijoule<value_type>( v * 1000 );
+}
+
+template<typename value_type>
+inline constexpr quantity<value_type, energy_in_millijoule_tag> from_kilojoule( const value_type v )
+{
+    return from_joule<value_type>( v * 1000 );
+}
+
+template<typename value_type>
+inline constexpr value_type to_millijoule( const quantity<value_type, energy_in_millijoule_tag> &v )
+{
+    return v / from_millijoule<value_type>( 1 );
+}
+
+template<typename value_type>
+inline constexpr value_type to_joule( const quantity<value_type, energy_in_millijoule_tag> &v )
+{
+    return to_millijoule( v ) / 1000.0;
+}
+
+template<typename value_type>
+inline constexpr value_type to_kilojoule( const quantity<value_type, energy_in_millijoule_tag> &v )
+{
+    return to_joule( v ) / 1000.0;
+}
+
 // Streaming operators for debugging and tests
 // (for UI output other functions should be used which render in the user's
 // chosen units)
@@ -357,6 +412,11 @@ inline std::ostream &operator<<( std::ostream &o, mass_in_gram_tag )
 inline std::ostream &operator<<( std::ostream &o, volume_in_milliliter_tag )
 {
     return o << "ml";
+}
+
+inline std::ostream &operator<<( std::ostream &o, energy_in_millijoule_tag )
+{
+    return o << "mJ";
 }
 
 template<typename value_type, typename tag_type>
@@ -400,6 +460,106 @@ inline constexpr units::quantity<double, units::mass_in_gram_tag> operator"" _ki
     const long double v )
 {
     return units::from_kilogram( v );
+}
+
+inline constexpr units::energy operator"" _mJ( const unsigned long long v )
+{
+    return units::from_millijoule( v );
+}
+
+inline constexpr units::quantity<double, units::energy_in_millijoule_tag> operator"" _mJ(
+    const long double v )
+{
+    return units::from_millijoule( v );
+}
+
+inline constexpr units::energy operator"" _J( const unsigned long long v )
+{
+    return units::from_joule( v );
+}
+
+inline constexpr units::quantity<double, units::energy_in_millijoule_tag> operator"" _J(
+    const long double v )
+{
+    return units::from_joule( v );
+}
+
+inline constexpr units::energy operator"" _kJ( const unsigned long long v )
+{
+    return units::from_kilojoule( v );
+}
+
+inline constexpr units::quantity<double, units::energy_in_millijoule_tag> operator"" _kJ(
+    const long double v )
+{
+    return units::from_kilojoule( v );
+}
+
+namespace units
+{
+static const std::vector<std::pair<std::string, energy>> energy_units = { {
+        { "mJ", 1_mJ },
+        { "J", 1_J },
+        { "kJ", 1_kJ },
+    }
+};
+} // namespace units
+
+template<typename T>
+T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, T>> &units )
+{
+    const size_t pos = jsin.tell();
+    size_t i = 0;
+    const auto error = [&]( const char *const msg ) {
+        jsin.seek( pos + i );
+        jsin.error( msg );
+    };
+
+    const std::string s = jsin.get_string();
+    // returns whether we are at the end of the string
+    const auto skip_spaces = [&]() {
+        while( i < s.size() && s[i] == ' ' ) {
+            ++i;
+        }
+        return i >= s.size();
+    };
+    const auto get_unit = [&]() {
+        if( skip_spaces() ) {
+            error( "invalid quantity string: missing unit" );
+        }
+        for( const auto &pair : units ) {
+            const std::string &unit = pair.first;
+            if( s.size() >= unit.size() + i && s.compare( i, unit.size(), unit ) == 0 ) {
+                i += unit.size();
+                return pair.second;
+            }
+        }
+        error( "invalid quantity string: unknown unit" );
+        throw; // above always throws
+    };
+
+    if( skip_spaces() ) {
+        error( "invalid quantity string: empty string" );
+    }
+    T result = 0;
+    do {
+        int sign_value = +1;
+        if( s[i] == '-' ) {
+            sign_value = -1;
+            ++i;
+        } else if( s[i] == '+' ) {
+            ++i;
+        }
+        if( i >= s.size() || !isdigit( s[i] ) ) {
+            error( "invalid quantity string: number expected" );
+        }
+        int value = 0;
+        for( ; i < s.size() && isdigit( s[i] ); ++i ) {
+            value = value * 10 + ( s[i] - '0' );
+        }
+        result += sign_value * value * get_unit();
+    } while( !skip_spaces() );
+    return result;
 }
 
 #endif

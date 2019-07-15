@@ -26,7 +26,12 @@
 		  "f_lotus_season_winter",
 		  "animal",
 		  "bio_powershot",
-		  "f_no_item"
+		  "f_no_item",
+		  "nano_turret_pistol_weapon",
+		  "nano_turret_rifle_weapon",
+		  "nano_turret_shredder_weapon",
+		  "nano_turret_smg_weapon", 
+		  "tr_downspout_funnel"
 		  
 		  ],
           "fg": 0,
@@ -53830,7 +53835,7 @@
           "rotates": false
         },
         {
-          "id": "8mm_bootleg_jsp",
+          "id": ["8mm_bootleg_jsp", "270win_jsp", "reloaded_270win_jsp"], 
           "fg": 3937,
           "bg": 957,
           "rotates": false
@@ -57518,7 +57523,7 @@
           "rotates": false
         },
         {
-          "id": "estoc",
+          "id": ["estoc", "estoc_inferior"], 
           "fg": 1727,
           "bg": 957,
           "rotates": false
@@ -65053,13 +65058,7 @@
 			{ "weight":300, "sprite":3082},
 			{ "weight":300, "sprite":3083},
 			{ "weight":300, "sprite":3084},
-			{ "weight":300, "sprite":3085},
-			{ "weight":1, "sprite":23303},
-			{ "weight":1, "sprite":23304},
-			{ "weight":1, "sprite":23305},
-			{ "weight":1, "sprite":23306},
-			{ "weight":1, "sprite":23307},
-			{ "weight":1, "sprite":23308}
+			{ "weight":300, "sprite":3085}
             ],
 			"rotates": false
         },
@@ -69190,6 +69189,10 @@
           "id": "coffee_syrup",
           "fg": 1143,
           "rotates": false
+        },        {
+          "id": "chicory_coffee",
+          "fg": 1143,
+          "rotates": false
         },
         {
           "id": "cola_meth",
@@ -72214,7 +72217,7 @@
           "rotates": false
         },
         {
-          "id": "22_casing",
+          "id": ["22_casing", "270win_casing"], 
           "fg": 1605,
           "rotates": false
         },
@@ -72378,6 +72381,15 @@
         },
         {
           "id": "ammolink30mm",
+          "fg": 1629
+        },        {
+          "id": "ammolink22",
+          "fg": 1629
+        },{
+          "id": "ammolink45",
+          "fg": 1629
+        },{
+          "id": "ammolink762R",
           "fg": 1629
         },
         {
@@ -73368,7 +73380,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_estoc",
+          "id": ["overlay_wielded_estoc", "overlay_wielded_estoc_inferior"],
           "fg": 1844,
           "rotates": false
         },
@@ -82189,6 +82201,16 @@
         },
         {
           "id": "belt308",
+          "fg": 2264
+        },     
+		{
+          "id": "belt22",
+          "fg": 2264
+        },		{
+          "id": "belt45",
+          "fg": 2264
+        },{
+          "id": "belt762R",
           "fg": 2264
         },
 		{
@@ -91786,6 +91808,11 @@
           "id": "vp_roof",
           "fg": 4095,
           "rotates": true
+        },  
+		{
+          "id": "vp_nano_roof",
+          "fg": 4095,
+          "rotates": true
         },
         {
           "id": "vp_inflatable_section",
@@ -94725,17 +94752,17 @@
     "sprite_offset_y":-48,
     "tiles":
     [
-		{ "id": "mon_mechaspider_queen", "fg": 11568, "rotates": false },
-		{ "id": "mon_mechaspider", "fg": 11569, "rotates": false },
+		{ "id": "mon_mechaspider_queen", "bg": 11568, "rotates": false },
+		{ "id": "mon_mechaspider", "bg": 11569, "rotates": false },
 		{ "id": "broken_mechaspider", "fg": 11570, "rotates": false },
-		{ "id": "mon_generator_SCINET", "fg": 11571, "rotates": false },
+		{ "id": "mon_generator_SCINET", "bg": 11571, "rotates": false },
 		{ "id": "!mon_treent_green", "fg": 11572, "rotates": false },
 		{ "id": "mon_cyberdemon", "fg": 11573, "rotates": false },
 		{ "id": "corpse_mon_cyberdemon", "fg": 11577, "rotates": false },
 		{ "id": "corpse_mon_doom_archdemon", "fg": 11578, "rotates": false },
-		{ "id": "mon_doom_archdemon", "fg": 11574, "rotates": false },
+		{ "id": "mon_doom_archdemon", "bg": 11574, "rotates": false },
 		{ "id": "arachnotron_guts", "fg": 11575, "rotates": false },
-		{ "id": "mon_dragon_dummy", "fg": 11576, "rotates": false },
+		{ "id": "mon_dragon_dummy", "bg": 11576, "rotates": false },
 		{ "id": "mon_ant_acid_ultralisk", "fg": 11580, "rotates": false },
 		{ "id": "!broken_tankbot", "fg": 11581, "rotates": false },
 		{ "id": "!mon_albino_penguin", "fg": 11582, "rotates": false },
@@ -98505,7 +98532,7 @@
           "rotates": false		  
         }, 
 		{
-		  "id": ["t_grass_tall_season_winter", "t_grass_long_season_winter"],
+		  "id": ["t_grass_tall_season_winter", "t_grass_long_season_winter", "t_flat_roof_season_winter", "t_gutter_south_season_winter", "t_gutter_north_season_winter", "t_gutter_west_season_winter", "t_gutter_east_season_winter"],
           "fg": 17428,
           "bg": 0,
           "multitile": true,
@@ -100550,7 +100577,7 @@
 			"rotates": false
 			},
 			{
-          "id": [ "t_gutter_south_season_winter", "t_gutter_north_season_winter", "t_gutter_west_season_winter", "t_gutter_east_season_winter"],
+          "id": [ "!t_gutter_south_season_winter", "!t_gutter_north_season_winter", "!t_gutter_west_season_winter", "!t_gutter_east_season_winter"],
           "fg": 18180,
 		  "multitile": true,
           "additional_tiles": [
@@ -100671,32 +100698,32 @@
             {
 			  "id": "center",
               "fg": 18212,
-			  "bg": 5010
+			  "bg": 5013
             },
             {
               "id": "corner",
               "fg": [18213, 18214, 18215, 18216],
-			  "bg": 5010
+			  "bg": 5013
             },
             {
               "id": "t_connection",
               "fg": [18217, 18218, 18219, 18220],
-			  "bg": 5010
+			  "bg": 5013
             },
             {
               "id": "edge",
               "fg": [18221, 18222],
-			  "bg": 5010
+			  "bg": 5013
             },
             {
               "id": "end_piece",
               "fg": [18223, 18224, 18225, 18226],
-			  "bg": 5010
+			  "bg": 5013
             },
             {
               "id": "unconnected",
               "fg": 18227,
-			  "bg": 5010
+			  "bg": 5013
             }
 			],
 			"rotates": false
@@ -101051,32 +101078,32 @@
             {
 			  "id": "center",
               "fg": 18356,
-			  "bg": 993
+			  "bg": 5013
             },
             {
               "id": "corner",
               "fg": [18357, 18358, 18359, 18360],
-			  "bg": 993
+			  "bg": 5013
             },
             {
               "id": "t_connection",
               "fg": [18361, 18362, 18363, 18364],
-			  "bg": 993
+			  "bg": 5013
             },
             {
               "id": "edge",
               "fg": [18365, 18366],
-			  "bg": 993
+			  "bg": 5013
             },
             {
               "id": "end_piece",
               "fg": [18367, 18368, 18369, 18370],
-			  "bg": 993
+			  "bg": 5013
             },
             {
               "id": "unconnected",
               "fg": 18371,
-			  "bg": 993
+			  "bg": 5013
             }
 			],
 			"rotates": false
@@ -103915,7 +103942,7 @@
 			],
 			"rotates": false
 			},{
-          "id": "free_realestate",
+          "id": "t_concrete",
           "fg": 19460,
 		  "bg": 0,
 		  "multitile": true,
@@ -103949,6 +103976,120 @@
               "id": "unconnected",
               "fg": 19475,
 			  "bg": 0
+            }
+			],
+			"rotates": true
+			},{
+          "id": "fd_tear_gas",
+          "fg": 19476,
+		  "bg": 0,
+		  "multitile": true,
+          "additional_tiles": [ 
+			{
+              "id": "center",
+              "fg": 19476,
+			  "bg": 0
+            },		  
+		  {
+              "id": "corner",
+              "fg": [19477, 19478, 19479, 19480],
+			  "bg": 0
+            },
+					  {
+              "id": "t_connection",
+              "fg": [19481, 19482, 19483, 19484],
+			  "bg": 0
+            },
+            {
+              "id": "edge",
+              "fg": [19485, 19486],
+			  "bg": 0
+            },
+            {
+              "id": "end_piece",
+              "fg": [19487, 19488, 19489, 19490],
+			  "bg": 0
+            },
+            {
+              "id": "unconnected",
+              "fg": 19491,
+			  "bg": 0
+            }
+			],
+			"rotates": true
+			},{
+          "id": "t_nano_wall",
+          "fg": 19492,
+		  "bg": 0,
+		  "multitile": true,
+          "additional_tiles": [ 
+			{
+              "id": "center",
+              "fg": 19492,
+			  "bg": 0
+            },		  
+		  {
+              "id": "corner",
+              "fg": [19493, 19494, 19495, 19496],
+			  "bg": 0
+            },
+					  {
+              "id": "t_connection",
+              "fg": [19497, 19498, 19499, 19500],
+			  "bg": 0
+            },
+            {
+              "id": "edge",
+              "fg": [19501, 19502],
+			  "bg": 0
+            },
+            {
+              "id": "end_piece",
+              "fg": [19503, 19504, 19505, 19506],
+			  "bg": 0
+            },
+            {
+              "id": "unconnected",
+              "fg": 19507,
+			  "bg": 0
+            }
+			],
+			"rotates": true
+			},{
+          "id": "t_reinforced_glass",
+          "fg": 19508,
+		  "bg": 5010,
+		  "multitile": true,
+          "additional_tiles": [ 
+			{
+              "id": "center",
+              "fg": 19508,
+			  "bg": 5010
+            },		  
+		  {
+              "id": "corner",
+              "fg": [19509, 19510, 19511, 19512],
+			  "bg": 5010
+            },
+					  {
+              "id": "t_connection",
+              "fg": [19513, 19514, 19515, 19516],
+			  "bg": 5010
+            },
+            {
+              "id": "edge",
+              "fg": [19517, 19518],
+			  "bg": 5010
+            },
+            {
+              "id": "end_piece",
+              "fg": [19519, 19520, 19521, 19522],
+			  "bg": 5010
+            },
+            {
+              "id": "unconnected",
+              "fg": 19523,
+			  "bg": 5010
             }
 			],
 			"rotates": true
@@ -117179,17 +117320,22 @@
           "rotates": false
         },
 		{
-          "id": "nanosuit",
+          "id": ["nanosuit", "nanosuit_heated", "nanosuit_heated_2", "nanosuit_heated_3", "nanosuit_heated_4", "nanosuit_heated_5"],
           "fg": 23150
         },
 		{
-          "id": "overlay_worn_nanosuit",
+          "id": ["overlay_worn_nanosuit", "overlay_worn_nanosuit_heated", "overlay_worn_nanosuit_heated_2", "overlay_worn_nanosuit_heated_3", "overlay_worn_nanosuit_heated_4", "overlay_worn_nanosuit_heated_5"],
           "fg": 23151,
           "rotates": false
         },
 		{
           "id": "nano_container",
           "fg": 23152
+        },	
+		{
+          "id": "nt_fluid_tank_1",
+          "fg": 23152,
+          "rotates": false
         },
 		{
           "id": "overlay_worn_nano_container",
@@ -124264,7 +124410,7 @@
           "rotates": false
         },	
 				{
-          "id": ["f_bluebell_season_winter", "f_dahlia_season_winter", "f_datura_season_winter", "f_flower_marloss_season_winter", "f_dandelion_season_winter", "f_chamomile_season_winter", "f_flower_tulip_season_winter", "f_flower_spurge_season_winter", "f_cattails_season_winter", "f_black_eyed_susan_season_winter", "f_lily_season_winter", "f_sunflower_season_winter", "f_mutpoppy_season_winter"],
+          "id": ["f_bluebell_season_winter", "f_dahlia_season_winter", "f_datura_season_winter", "f_flower_marloss_season_winter", "f_dandelion_season_winter", "f_chamomile_season_winter", "f_flower_tulip_season_winter", "f_flower_spurge_season_winter", "f_cattails_season_winter", "f_black_eyed_susan_season_winter", "f_lily_season_winter", "f_sunflower_season_winter", "f_mutpoppy_season_winter", "f_chicory_season_winter"],
           "fg": 24327,
 		  "bg": 0,
           "rotates": false
@@ -126043,7 +126189,7 @@
           "bg": 0,
           "rotates": false
         },{
-          "id": ["mana_potion_lesser" ],
+          "id": ["mana_potion_lesser", "mana_potion", "mana_potion_greater" ],
           "fg": 24669,
           "bg": 0,
           "rotates": false
@@ -126634,10 +126780,1317 @@
           "id": ["summon_scroll_smudged"],
           "fg": 24783,
           "bg": 0
+        },{
+          "id": ["grip_mount"],
+          "fg": 24784,
+          "bg": 0
+        },{
+          "id": ["personal_gobag"],
+          "fg": 24785,
+          "bg": 0
+        },{
+          "id": ["overlay_worn_personal_gobag"],
+          "fg": 24786,
+          "bg": 0
+        },{
+          "id": ["rail_mount"],
+          "fg": 24787,
+          "bg": 0
         },
 		{
-          "id": "atlatl",
-          "fg": 1986,
+          "id": ["remington700_270"],
+          "fg": 24788,
+          "bg": 0
+        },	
+		{
+          "id": ["overlay_wielded_remington700_270"],
+          "fg": 24789,
+          "bg": 0
+        },		{
+          "id": ["sights_mount"],
+          "fg": 24790,
+          "bg": 0
+        },{
+          "id": ["sights_mount_launcher"],
+          "fg": 24791,
+          "bg": 0
+        },{
+          "id": ["sights_mount_pistol"],
+          "fg": 24792,
+          "bg": 0
+        },{
+          "id": ["stock_mount"],
+          "fg": 24793,
+          "bg": 0
+        },{
+          "id": ["underbarrel_mount"],
+          "fg": 24794,
+          "bg": 0
+        },{
+          "id": ["mon_owlbear"],
+          "fg": 24795,
+          "bg": 0
+        },{
+          "id": ["mon_owlbear_cub"],
+          "fg": 24796,
+          "bg": 0
+        },{
+          "id": ["corpse_mon_owlbear"],
+          "fg": 24797,
+          "bg": 0
+        },{
+          "id": ["corpse_mon_owlbear_cub"],
+          "fg": 24798,
+          "bg": 0
+        },{
+          "id": ["f_magiclysm_translocator_gate"],
+          "fg": 24799,
+          "bg": 0
+        },{
+          "id": ["egg_owlbear_rock"],
+          "fg": 24800,
+          "bg": 0
+        },{
+          "id": ["egg_owlbear"],
+          "fg": 24801,
+          "bg": 0
+        },
+		{
+          "id": ["owlbear_stone"],
+          "fg": 24802,
+          "bg": 0
+        },	
+		{
+          "id": ["finger_firelighter"],
+          "fg": 24803,
+          "bg": 0
+        },		{
+          "id": ["overlay_wielded_finger_firelighter"],
+          "fg": 24804,
+          "bg": 0
+        },{
+          "id": ["stone_shell"],
+          "fg": 24805,
+          "bg": 0
+        },{
+          "id": ["translocate_spellbook"],
+          "fg": 24806,
+          "bg": 0
+        },{
+          "id": ["rune_alchemist"],
+          "fg": 24807,
+          "bg": 0
+        },{
+          "id": ["rune_animist"],
+          "fg": 24808,
+          "bg": 0
+        },{
+          "id": ["rune_biomancer"],
+          "fg": 24809,
+          "bg": 0
+        },
+		{
+          "id": ["rune_druid"],
+          "fg": 24810,
+          "bg": 0
+        },		{
+          "id": ["rune_earthshaper"],
+          "fg": 24811,
+          "bg": 0
+        },{
+          "id": ["rune_kelvinist"], 
+          "fg": 24812,
+          "bg": 0
+        },{
+          "id": ["rune_magus"],
+          "fg": 24813,
+          "bg": 0
+        },{
+          "id": ["rune_stormshaper"],
+          "fg": 24814,
+          "bg": 0
+        },{
+          "id": ["rune_technomancer"],
+          "fg": 24815,
+          "bg": 0
+        },{
+          "id": ["f_chicory"],
+          "fg": 24816,
+          "bg": 0
+        },{
+          "id": ["bathroom_scale"],
+          "fg": 24817,
+          "bg": 0
+        },{
+          "id": ["carrot_wild"],
+          "fg": 24818,
+          "bg": 0
+        },{
+          "id": ["chicory_raw"],
+          "fg": 24819,
+          "bg": 0
+        },{
+          "id": ["salsify_raw"],
+          "fg": 24820,
+          "bg": 0
+        },{
+          "id": ["salsify_baked"],
+          "fg": 24821,
+          "bg": 0
+        },{
+          "id": ["seed_chicory"],
+          "fg": 24822,
+          "bg": 0
+        },{
+          "id": ["seed_salsify_raw"],
+          "fg": 24823,
+          "bg": 0
+        },{
+          "id": ["seed_wildcarrot"],
+          "fg": 24824,
+          "bg": 0
+        },{
+          "id": ["sippy_cup"],
+          "fg": 24825,
+          "bg": 0
+        },{
+          "id": ["corpse_mon_skeleton_scorched"],
+          "fg": 24826,
+          "bg": 0
+        },{
+          "id": ["t_nano_floor"],
+          "fg": 24827,
+          "bg": 0
+        },{
+          "id": ["t_nano_door_c"],
+          "fg": 24828,
+          "bg": 0
+        },{
+          "id": ["t_nano_door_o"],
+          "fg": 24829,
+          "bg": 0
+        },{
+          "id": ["t_nano_roof"],
+          "fg": 24830,
+          "bg": 0
+        },{
+          "id": ["nanite_dart"],
+          "fg": 24831,
+          "bg": 0
+        },{
+          "id": ["nanite_multitool_large"],
+          "fg": 24832,
+          "bg": 0
+        },{
+          "id": ["overlay_wielded_nanite_multitool_large"],
+          "fg": 24833,
+          "bg": 0
+        },{
+          "id": ["nanite_multitool_small"],
+          "fg": 24834,
+          "bg": 0
+        },{
+          "id": ["overlay_wielded_nanite_multitool_small"],
+          "fg": 24835,
+          "bg": 0
+        },{
+          "id": ["nanite_multitool_weld"],
+          "fg": 24836,
+          "bg": 0
+        },{
+          "id": ["overlay_wielded_nanite_multitool_weld"],
+          "fg": 24837,
+          "bg": 0
+        },
+		{
+          "id": ["nano_blade_mag", "nano_dart_mag", "nano_wire_mag", "nano_deathcloud_mag"],
+          "fg": 24838,
+          "bg": 0
+        },
+		{
+          "id": ["nano_frame"],
+          "fg": 24839,
+          "bg": 0
+        },		{
+          "id": ["nano_holster"],
+          "fg": 24840,
+          "bg": 0
+        },{
+          "id": ["overlay_worn_nano_holster"],
+          "fg": 24841,
+          "bg": 0
+        },{
+          "id": ["nano_sheath"],
+          "fg": 24842,
+          "bg": 0
+        },{
+          "id": ["overlay_worn_nano_sheath"],
+          "fg": 24843,
+          "bg": 0
+        },{
+          "id": ["nano_mag_holder"],
+          "fg": 24844,
+          "bg": 0
+        },{
+          "id": ["overlay_worn_nano_mag_holder"],
+          "fg": 24845,
+          "bg": 0
+        },{
+          "id": ["nano_launcher"],
+          "fg": 24846,
+          "bg": 0
+        },{
+          "id": ["overlay_wielded_nano_launcher"],
+          "fg": 24847,
+          "bg": 0
+        },{
+          "id": ["nano_mag_empty"],
+          "fg": 24848,
+          "bg": 0
+        },{
+          "id": ["nano_pistol"],
+          "fg": 24849,
+          "bg": 0
+        },{
+          "id": ["overlay_wielded_nano_pistol"],
+          "fg": 24850,
+          "bg": 0
+        },{
+          "id": ["nano_rifle"],
+          "fg": 24851,
+          "bg": 0
+        },{
+          "id": ["overlay_wielded_nano_rifle"],
+          "fg": 24852,
+          "bg": 0
+        },{
+          "id": ["nano_smg"],
+          "fg": 24853,
+          "bg": 0
+        },{
+          "id": ["overlay_wielded_nano_smg"],
+          "fg": 24854,
+          "bg": 0
+        },{
+          "id": ["vp_nt_solar_1"],
+          "fg": 24855,
+          "bg": 0,
+		  "rotates": true
+        },{
+          "id": ["vp_nt_armor_1"],
+          "fg": 24856,
+          "bg": 0,
+		  "rotates": true
+        },{
+          "id": ["vp_nt_armor_2"],
+          "fg": 24857,
+          "bg": 0,
+		  "rotates": true
+        },{
+          "id": ["vp_nt_storage"],
+          "fg": 24858,
+          "bg": 0,
+		  "rotates": true
+        },{
+          "id": ["vp_nt_crafter"],
+          "fg": 24859,
+          "bg": 0,
+		  "rotates": true
+        },      
+		{
+          "id": "vp_nanoboard_horizontal",
+          "fg": 24861,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24862}]
+        },		
+		{
+          "id": "vp_nanoboard_ne",
+          "fg": 24863,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24864}]
+        },	
+		{
+          "id": "vp_nanoboard_nw",
+          "fg": 24865,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24866}]
+        },	
+		{
+          "id": "vp_nanoboard_se",
+          "fg": 24867,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24868}]
+        },	
+		{
+          "id": "vp_nanoboard_sw",
+          "fg": 24869,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24870}]
+        },	
+		{
+          "id": "vp_nanoboard_vertical",
+          "fg": 24871,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24872}]
+        },		
+		
+		{
+          "id": "vp_nanohalfboard_horizontal",
+          "fg": 24861,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24862}]
+        },	
+		{
+          "id": "vp_nanohalfboard_horizontal_2",
+          "fg": 24861,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24862}]
+        },	
+		
+		{
+          "id": "vp_nanohalfboard_ne",
+          "fg": 24873,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24874}]
+        },	
+		{
+          "id": "vp_nanohalfboard_nw",
+          "fg": 24875,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24876}]
+        },	
+		{
+          "id": "vp_nanohalfboard_se",
+          "fg": 24867,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24868}]
+        },	
+		{
+          "id": "vp_nanohalfboard_sw",
+          "fg": 24869,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24870}]
+        },	
+		{
+          "id": "vp_nanohalfboard_vertical",
+          "fg": 24871,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24872}]
+        },		{
+          "id": "vp_nanohalfboard_vertical_2",
+          "fg": 24871,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24872}]
+        },   
+		{
+          "id": "vp_nano_door",
+          "fg": 24877,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [   
+		  {"id": "open", "fg": 24878},
+		  {"id": "broken", "fg": 24879}
+		  ]
+        },	
+		{
+          "id": "vp_nano_door_opaque",
+          "fg": 24880,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [   
+		  {"id": "open", "fg": 24881},
+		  {"id": "broken", "fg": 24882}
+		  ]
+        },	
+		{
+          "id": "vp_nanotech_frame_cover",
+          "fg": 24883,
+          "rotates": true
+		},		{
+          "id": "vp_nanotech_frame_cross",
+          "fg": 24884,
+          "rotates": true
+		},		{
+          "id": "vp_nanotech_frame_horizontal",
+          "fg": 24885,
+          "rotates": true
+		},		{
+          "id": "vp_nanotech_frame_horizontal_2",
+          "fg": 24885,
+          "rotates": true
+		},{
+          "id": "vp_nanotech_frame_ne",
+          "fg": 24886,
+          "rotates": true
+		},{
+          "id": "vp_nanotech_frame_nw",
+          "fg": 24887,
+          "rotates": true
+		},{
+          "id": "vp_nanotech_frame_se",
+          "fg": 24888,
+          "rotates": true
+		},{
+          "id": "vp_nanotech_frame_sw",
+          "fg": 24889,
+          "rotates": true
+		},{
+          "id": "vp_nanotech_frame_vertical",
+          "fg": 24890,
+          "rotates": true
+		},{
+          "id": "vp_nanotech_frame_vertical_2",
+          "fg": 24890,
+          "rotates": true
+		},	
+		
+		{
+          "id": "vp_nanotech_frame2_cover",
+          "fg": 24891,
+          "rotates": true
+		},		
+		{
+          "id": "vp_nanotech_frame2_cross",
+          "fg": 24892,
+          "rotates": true
+		},		{
+          "id": "vp_nanotech_frame2_horizontal",
+          "fg": 24893,
+          "rotates": true
+		},		{
+          "id": "vp_nanotech_frame2_horizontal_2",
+          "fg": 24893,
+          "rotates": true
+		},{
+          "id": "vp_nanotech_frame2_ne",
+          "fg": 24894,
+          "rotates": true
+		},{
+          "id": "vp_nanotech_frame2_nw",
+          "fg": 24895,
+          "rotates": true
+		},{
+          "id": "vp_nanotech_frame2_se",
+          "fg": 24896,
+          "rotates": true
+		},{
+          "id": "vp_nanotech_frame2_sw",
+          "fg": 24897,
+          "rotates": true
+		},{
+          "id": "vp_nanotech_frame2_vertical",
+          "fg": 24898,
+          "rotates": true
+		},{
+          "id": "vp_nanotech_frame2_vertical_2",
+          "fg": 24898,
+          "rotates": true
+		},{
+          "id": "vp_nanotech_anima",
+          "fg": 24899,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24900}]
+        },
+		{
+          "id": "vp_nanotech_battery",
+          "fg": 24901,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24902}]
+        }, 	
+		{
+          "id": "vp_nanotech_control",
+          "fg": 24903,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24904}]
+        }, 		{
+          "id": "vp_nanotech_crawler",
+          "fg": 24905,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24906}]
+        },{
+          "id": "vp_nano_aisle",
+          "fg": 24907,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24908}]
+        },{
+          "id": "vp_nano_boat",
+          "fg": 24909,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24910}]
+        },{
+          "id": ["vp_nano_freezer", "vp_nano_fridge"],
+          "fg": 24911,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24912}]
+        },{
+          "id": ["vp_nanocam"],
+          "fg": 24913,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24914}]
+        },{
+          "id": ["vp_nanofactory_vehicle_1", "vp_nanofactory_vehicle_2", "vp_nt_fluid_tank_1"],
+          "fg": 24915,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24916}]
+        },
+		{
+          "id": ["vp_nanotech_generator"],
+          "fg": 23281,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24917}]
+        },{
+          "id": ["vp_nanotech_shockmesh"],
+          "fg": 24918,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24919}]
+        },
+		{
+          "id": ["mon_nano_turret_pistol"],
+          "fg": 24920,
+          "bg": 0
+        },		{
+          "id": ["mon_nano_turret_shredder"],
+          "fg": 24921,
+          "bg": 0
+        },		{
+          "id": ["mon_nano_turret_rifle"],
+          "fg": 24922,
+          "bg": 0
+        },		{
+          "id": ["mon_nano_turret_smg"],
+          "fg": 24923,
+          "bg": 0
+        },{
+          "id": ["corpse_mon_nano_turret_smg", "corpse_mon_nano_turret_rifle", "corpse_mon_nano_turret_shredder", "corpse_mon_nano_turret_pistol"],
+          "fg": 24924,
+          "bg": 0
+        },{
+          "id": ["vp_nano_turret_pistol"],
+          "fg": 24925,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24926}]
+        },{
+          "id": ["vp_nano_turret_rifle"],
+          "fg": 24927,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24928}]
+        },{
+          "id": ["vp_nano_turret_shredder"],
+          "fg": 24929,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24930}]
+        },{
+          "id": ["vp_nano_turret_smg"],
+          "fg": 24931,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [{ "id": "broken", "fg": 24932}]
+        },	
+		{
+          "id": ["nano_turret_pistol", "nanoturret_pistol"],
+          "fg": 24933,
+          "bg": 0
+        },		{
+          "id": ["nano_turret_rifle", "nanoturret_rifle"],
+          "fg": 24934,
+          "bg": 0
+        },		{
+          "id": ["nano_turret_shredder", "nanoturret_shredder"],
+          "fg": 24935,
+          "bg": 0
+        },{
+          "id": ["nano_turret_smg", "nanoturret_smg"],
+          "fg": 24936,
+          "bg": 0
+        },		{
+          "id": ["overlay_wielded_nano_turret_pistol"],
+          "fg": 24937,
+          "bg": 0
+        },		{
+          "id": ["overlay_wielded_nano_turret_rifle"],
+          "fg": 24938,
+          "bg": 0
+        },		{
+          "id": ["overlay_wielded_nano_turret_shredder"],
+          "fg": 24939,
+          "bg": 0
+        },{
+          "id": ["overlay_wielded_nano_turret_smg"],
+          "fg": 24940,
+          "bg": 0
+        },{
+          "id": ["223betacmag"],
+          "fg": 24941,
+          "bg": 0
+        },{
+          "id": ["autofire_rifle"],
+          "fg": 24942,
+          "bg": 0
+        },{
+          "id": ["select_autofire_rifle"],
+          "fg": 24943,
+          "bg": 0
+        },
+		{
+          "id": ["automag"],
+          "fg": 24944,
+          "bg": 0
+        },		{
+          "id": ["overlay_wielded_automag"],
+          "fg": 24945,
+          "bg": 0
+        },{
+          "id": ["automagPack"],
+          "fg": 24946,
+          "bg": 0
+        },{
+          "id": ["beretta93r"],
+          "fg": 24947,
+          "bg": 0
+        },{
+          "id": ["overlay_wielded_beretta93r"],
+          "fg": 24948,
+          "bg": 0
+        },
+		{
+          "id": ["bfg50a", "bfg50carb"],
+          "fg": 24949,
+          "bg": 0
+        },{
+          "id": ["overlay_wielded_bfg50a", "overlay_wielded_bfg50carb"],
+          "fg": 24950,
+          "bg": 0
+        },		{
+          "id": ["cbj_ms"],
+          "fg": 24951,
+          "bg": 0
+        },{
+          "id": ["overlay_wielded_cbj_ms"],
+          "fg": 24952,
+          "bg": 0
+        },{
+          "id": ["cbj_msPack"],
+          "fg": 24953,
+          "bg": 0
+        },
+		{
+          "id": ["308ak74mag25", "223r5mag", "308r5mag", "strike40_mag", "hp40mag", "ccw40mag", "select_autofire_shot", "retool_38", "retool_357", "retool_40", "retool_762", "retool_545x39"],
+          "fg": 24954,
+          "bg": 0
+        },{
+          "id": ["ccw9mm_mag"],
+          "fg": 24955,
+          "bg": 0
+        },{
+          "id": ["coltsmg"],
+          "fg": 24956,
+          "bg": 0
+        },{
+          "id": ["overlay_wielded_coltsmg"],
+          "fg": 24957,
+          "bg": 0
+        },{
+          "id": ["coonan357"],
+          "fg": 24958,
+          "bg": 0
+        },{
+          "id": ["overlay_wielded_coonan357"],
+          "fg": 24959,
+          "bg": 0
+        },{
+          "id": ["coonan357Pack"],
+          "fg": 24960,
+          "bg": 0
+        },{
+          "id": ["enfield_l85a2"],
+          "fg": 24961,
+          "bg": 0
+        },{
+          "id": ["overlay_wielded_enfield_l85a2"],
+          "fg": 24962,
+          "bg": 0
+        },
+{
+          "id": ["overlay_effect_slimed"],
+          "fg": 24963,
+          "bg": 0
+        },{
+          "id": ["mon_mirror_image"],
+          "fg": 24964,
+          "bg": 0
+        },
+		{
+          "id": ["arming_sword_plus_one"],
+          "fg": 24965,
+          "bg": 1632
+        },		{
+          "id": ["arming_sword_plus_two"],
+          "fg": 24966,
+          "bg": 1632
+        },	
+		{
+          "id": ["bat_metal_plus_one"],
+          "fg": 24965,
+          "bg": 1651
+        },		{
+          "id": ["metal_bat_plus_two"],
+          "fg": 24966,
+          "bg": 1651
+        },
+				{
+          "id": ["bat_plus_one"],
+          "fg": 24965,
+          "bg": 1646
+        },		{
+          "id": ["bat_plus_two"],
+          "fg": 24966,
+          "bg": 1646
+        },{
+          "id": ["battleaxe_plus_one"],
+          "fg": 24965,
+          "bg": 3443
+        },		{
+          "id": ["battleaxe_plus_two"],
+          "fg": 24966,
+          "bg": 3443
+        },{
+          "id": ["broadsword_plus_one"],
+          "fg": 24965,
+          "bg": 3460
+        },		{
+          "id": ["broadsword_plus_two"],
+          "fg": 24966,
+          "bg": 3460
+        },{
+          "id": ["cavalry_sabre_plus_one"],
+          "fg": 24965,
+          "bg": 1721
+        },		{
+          "id": ["cavalry_sabre_plus_two"],
+          "fg": 24966,
+          "bg": 1721
+        },{
+          "id": ["crowbar_plus_one"],
+          "fg": 24965,
+          "bg": 3492
+        },		{
+          "id": ["crowbar_plus_two"],
+          "fg": 24966,
+          "bg": 3492
+        },{
+          "id": ["cudgel_plus_one"],
+          "fg": 24965,
+          "bg": 1718
+        },		{
+          "id": ["cudgel_plus_two"],
+          "fg": 24966,
+          "bg": 1718
+        },{
+          "id": ["cutlass_plus_one"],
+          "fg": 24965,
+          "bg": 1721
+        },		{
+          "id": ["cutlass_plus_two"],
+          "fg": 24966,
+          "bg": 1721
+        },{
+          "id": ["dao_plus_one"],
+          "fg": 24965,
+          "bg": 3497
+        },		{
+          "id": ["dao_plus_two"],
+          "fg": 24966,
+          "bg": 3497
+        },{
+          "id": ["estoc_plus_one"],
+          "fg": 24965,
+          "bg": 1727
+        },		{
+          "id": ["estoc_plus_two"],
+          "fg": 24966,
+          "bg": 1727
+        },
+		{
+          "id": ["fire_ax_plus_one"],
+          "fg": 24965,
+          "bg": 3522
+        },		{
+          "id": ["fire_ax_plus_two"],
+          "fg": 24966,
+          "bg": 3522
+        },		{
+          "id": ["glaive_plus_one"],
+          "fg": 24965,
+          "bg": 3760
+        },		{
+          "id": ["glaive_plus_two"],
+          "fg": 24966,
+          "bg": 3760
+        },{
+          "id": ["halberd_plus_one"],
+          "fg": 24965,
+          "bg": 1796
+        },		{
+          "id": ["halberd_plus_two"],
+          "fg": 24966,
+          "bg": 1796
+        },{
+          "id": ["i_staff_plus_one"],
+          "fg": 24965,
+          "bg": 1770
+        },		{
+          "id": ["i_staff_plus_two"],
+          "fg": 24966,
+          "bg": 1770
+        },
+		{
+          "id": ["jian_plus_one"],
+          "fg": 24965,
+          "bg": 1774
+        },		{
+          "id": ["jian_plus_two"],
+          "fg": 24966,
+          "bg": 1774
+        },		{
+          "id": ["katana_plus_one"],
+          "fg": 24965,
+          "bg": 23015
+        },		{
+          "id": ["katana_plus_two"],
+          "fg": 24966,
+          "bg": 23015
+        },{
+          "id": ["khopesh_plus_one"],
+          "fg": 24965,
+          "bg": 3585
+        },		{
+          "id": ["khopesh_plus_two"],
+          "fg": 24966,
+          "bg": 3585
+        },{
+          "id": ["knife_combat_plus_one"],
+          "fg": 24965,
+          "bg": 3587
+        },		{
+          "id": ["knife_combat_plus_two"],
+          "fg": 24966,
+          "bg": 3587
+        },{
+          "id": ["knife_hunting_plus_one"],
+          "fg": 24965,
+          "bg": 3588
+        },		{
+          "id": ["knife_hunting_plus_two"],
+          "fg": 24966,
+          "bg": 3588
+        },{
+          "id": ["knife_rambo_plus_one"],
+          "fg": 24965,
+          "bg": 3589
+        },		{
+          "id": ["knife_rambo_plus_two"],
+          "fg": 24966,
+          "bg": 3589
+        },{
+          "id": ["knife_trench_plus_one"],
+          "fg": 24965,
+          "bg": 3593
+        },		{
+          "id": ["knife_trench_plus_two"],
+          "fg": 24966,
+          "bg": 3593
+        },{
+          "id": ["kris_plus_one"],
+          "fg": 24965,
+          "bg": 1784
+        },		{
+          "id": ["kris_plus_two"],
+          "fg": 24966,
+          "bg": 1784
+        },{
+          "id": ["kukri_plus_one"],
+          "fg": 24965,
+          "bg": 3594
+        },		{
+          "id": ["kukri_plus_two"],
+          "fg": 24966,
+          "bg": 3594
+        },{
+          "id": ["longsword_plus_one"],
+          "fg": 24965,
+          "bg": 23011
+        },		{
+          "id": ["longsword_plus_two"],
+          "fg": 24966,
+          "bg": 23011
+        },{
+          "id": ["mace_plus_one"],
+          "fg": 24965,
+          "bg": 1795
+        },		{
+          "id": ["mace_plus_two"],
+          "fg": 24966,
+          "bg": 1795
+        },{
+          "id": ["morningstar_plus_one"],
+          "fg": 24965,
+          "bg": 1811
+        },		{
+          "id": ["morningstar_plus_two"],
+          "fg": 24966,
+          "bg": 1811
+        },{
+          "id": ["naginata_plus_one"],
+          "fg": 24965,
+          "bg": 1820
+        },		{
+          "id": ["naginata_plus_two"],
+          "fg": 24966,
+          "bg": 1820
+        },{
+          "id": ["nodachi_plus_one"],
+          "fg": 24965,
+          "bg": 3634
+        },		{
+          "id": ["nodachi_plus_two"],
+          "fg": 24966,
+          "bg": 3634
+        },{
+          "id": ["pickaxe_plus_one"],
+          "fg": 24965,
+          "bg": 3702
+        },		{
+          "id": ["pickaxe_plus_two"],
+          "fg": 24966,
+          "bg": 3702
+        },{
+          "id": ["pike_plus_one"],
+          "fg": 24965,
+          "bg": 1877
+        },		{
+          "id": ["pike_plus_two"],
+          "fg": 24966,
+          "bg": 1877
+        },{
+          "id": ["q_staff_plus_one"],
+          "fg": 24965,
+          "bg": 1898
+        },		{
+          "id": ["q_staff_plus_two"],
+          "fg": 24966,
+          "bg": 1898
+        },{
+          "id": ["qiang_plus_one"],
+          "fg": 24965,
+          "bg": 1897
+        },		{
+          "id": ["qiang_plus_two"],
+          "fg": 24966,
+          "bg": 1897
+        },{
+          "id": ["rapier_plus_one"],
+          "fg": 24965,
+          "bg": 3726
+        },		{
+          "id": ["rapier_plus_two"],
+          "fg": 24966,
+          "bg": 3726
+        },{
+          "id": ["scimitar_plus_one"],
+          "fg": 24965,
+          "bg": 1911
+        },		{
+          "id": ["scimitar_plus_two"],
+          "fg": 24966,
+          "bg": 1911
+        },{
+          "id": ["sledge_plus_one"],
+          "fg": 24965,
+          "bg": 1757
+        },		{
+          "id": ["sledge_plus_two"],
+          "fg": 24966,
+          "bg": 1757
+        },{
+          "id": ["spear_steel_plus_one"],
+          "fg": 24965,
+          "bg": 1931
+        },		{
+          "id": ["spear_steel_plus_two"],
+          "fg": 24966,
+          "bg": 1931
+        },{
+          "id": ["sword_xiphos_plus_one"],
+          "fg": 24965,
+          "bg": 3777
+        },		{
+          "id": ["sword_xiphos_plus_two"],
+          "fg": 24966,
+          "bg": 3777
+        },{
+          "id": ["tanto_plus_one"],
+          "fg": 24965,
+          "bg": 3783
+        },		{
+          "id": ["tanto_plus_two"],
+          "fg": 24966,
+          "bg": 3783
+        },{
+          "id": ["wakizashi_plus_one"],
+          "fg": 24965,
+          "bg": 1969
+        },		{
+          "id": ["wakizashi_plus_two"],
+          "fg": 24966,
+          "bg": 1969
+        },{
+          "id": ["warhammer_plus_one"],
+          "fg": 24965,
+          "bg": 1970
+        },		{
+          "id": ["warhammer_plus_two"],
+          "fg": 24966,
+          "bg": 1970
+        },{
+          "id": ["zweihander_plus_one"],
+          "fg": 24965,
+          "bg": 3819
+        },		{
+          "id": ["zweihander_plus_two"],
+          "fg": 24966,
+          "bg": 3819
+        },
+		
+		{
+          "id": ["mon_animated_blade"],
+          "fg": 24967,
+          "bg": 0
+        },		{
+          "id": ["techno_idiots"],
+          "fg": 24968,
+          "bg": 0
+        },
+		{
+          "id": ["techno_fundamentals"],
+          "fg": 24969,
+          "bg": 0
+        },		{
+          "id": ["techno_em"],
+          "fg": 24970,
+          "bg": 0
+        },
+		{
+          "id": ["fad", "fx_05", "galil", "m1_9", "marlin_1894", "marlin_1894c", "marlin_336", "mdr", "mtar21", "norinco56_1", "norinco56_2", "r93t2", "ruger_m77", "saiga_mk3", "steyr_ssg69", "wa2000", "", "", "", "", "", "", "", "", "", ""],
+          "fg": 24971,  "note": "generic MWE rifle item",
+          "bg": 0
+        },
+		{
+          "id": ["overlay_wielded_fad", "overlay_wielded_fx_05", "overlay_wielded_galil", "overlay_wielded_m1_9", "overlay_wielded_marlin_1894", "overlay_wielded_marlin_1894c", "overlay_wielded_marlin_336", "overlay_wielded_mdr", "overlay_wielded_mtar21", "overlay_wielded_norinco56_1", "overlay_wielded_norinco56_2", "overlay_wielded_r93t2", "overlay_wielded_ruger_m77", "overlay_wielded_saiga_mk3", "overlay_wielded_steyr_ssg69", "overlay_wielded_wa2000"],
+          "fg": 24972, "note": "generic MWE wielded rifle",
+          "bg": 0
+        },
+				{
+          "id": ["fold_adjust_stock", "neck_strap", "peep_sight", "six12_mod", "six12_shot_suppressor", "survivor_bipod", "susat_scope"],
+          "fg": 24973, "note": "generic MWE mod",
+          "bg": 0
+        },{
+          "id": ["gl_06", "rgm40"],
+          "fg": 24974, "note": "generic MWE launcher item",
+          "bg": 0
+        },{
+          "id": ["overlay_wielded_gl_06", "overlay_wielded_rgm40"],
+          "fg": 24975, "note": "generic MWE wielded launcher",
+          "bg": 0
+        },
+		{
+          "id": ["henry_mares_leg", "hk45ct", "hk45t", "hsdeluxe", "hshdm", "kahr_k9", "korthcombat", "m45a1", "mr_73", "nibelungen", "rohrbaugh_r9s", "stechkin", "strike_one", "sw_59", "vd01"],
+          "fg": 24976, "note": "generic MWE pistol item",
+          "bg": 0
+        },{
+          "id": ["overlay_wielded_henry_mares_leg", "overlay_wielded_hk45ct", "overlay_wielded_hk45t", "overlay_wielded_hsdeluxe", "overlay_wielded_hshdm", "overlay_wielded_kahr_k9", "overlay_wielded_korthcombat", "overlay_wielded_m45a1", "overlay_wielded_mr_73", "overlay_wielded_nibelungen", "overlay_wielded_rohrbaugh_r9s", "overlay_wielded_stechkin", "overlay_wielded_strike_one", "overlay_wielded_sw_59", "overlay_wielded_vd01"],
+          "fg": 24977, "note": "generic MWE wielded pistol",
+          "bg": 0
+        },	
+		{
+          "id": ["hp9mm_mag", "stechkinmag", "strike9mm_mag", "sw9mm_mag", "vd01mag"],
+          "fg": 24978, "note": "generic MWE pistol magazine item",
+          "bg": 0
+        },
+				{
+          "id": ["m45a1Pack", "r93t2Pack", "strike_onePack", "vd01Pack"],
+          "fg": 24979, "note": "generic MWE pack",
+          "bg": 0
+        },	
+		{
+          "id": ["m45a1Pack", "nato9mag", "sterlingmag"],
+          "fg": 24980, "note": "generic MWE SMG magazine",
+          "bg": 0
+        },	
+		{
+          "id": ["reloaded_3030_win", "reloaded_357_magn"],
+          "fg": 24981, "note": "generic MWE ammo",
+          "bg": 0
+        },		{
+          "id": ["six12", "six12mil", "st_12", "uts_15"],
+          "fg": 24982, "note": "generic MWE shotgun item",
+          "bg": 0
+        },{
+          "id": ["overlay_wielded_six12", "overlay_wielded_six12mil", "overlay_wielded_st_12", "overlay_wielded_uts_15"],
+          "fg": 24983, "note": "generic MWE wielded shotgun",
+          "bg": 0
+        },
+		{
+          "id": ["", "six12mag"],
+          "fg": 24984, "note": "generic MWE shotgun magazine",
+          "bg": 0
+        },{
+          "id": ["sterling4", "stkcpw"],
+          "fg": 24985, "note": "generic MWE SMG item",
+          "bg": 0
+        },{
+          "id": ["overlay_wielded_sterling4", "overlay_wielded_stkcpw"],
+          "fg": 24986, "note": "generic MWE SMG item",
+          "bg": 0
+        },
+		{
+          "id": ["aks74", "aks74u", "artyomrk95_tp", "ax308", "bren", "british_em2", "delisle", "dplmg", "dsr1", "famas", "fnminimi", "hk_g36c", "honeybadger", "l96a1", "lewisgun", "m4block", "m4sop", "mg3", "mg3_uk", "mosin_finn", "msbs", "msbsb", "needle_rifle", "obrez", "pkm", "psg1", "rpd", "rpk", "scarl_uk", "styerscout", "svd", "svu", "winmodel1873", "m16"],
+          "fg": 24987, "note": "generic AGE rifle item",
+          "bg": 0
+        },{
+          "id": ["overlay_wielded_aks74", "overlay_wielded_aks74u", "overlay_wielded_artyomrk95_tp", "ax308", "overlay_wielded_bren", "overlay_wielded_british_em2", "overlay_wielded_delisle", "overlay_wielded_dplmg", "overlay_wielded_dsr1", "overlay_wielded_famas", "overlay_wielded_fnminimi", "overlay_wielded_hk_g36c", "overlay_wielded_honeybadger", "overlay_wielded_l96a1", "overlay_wielded_lewisgun", "overlay_wielded_m4block", "overlay_wielded_m4sop", "overlay_wielded_mg3", "overlay_wielded_mg3_uk", "overlay_wielded_mosin_finn", "overlay_wielded_msbs", "overlay_wielded_msbsb", "overlay_wielded_needle_rifle", "overlay_wielded_obrez", "overlay_wielded_pkm", "overlay_wielded_psg1", "overlay_wielded_rpd", "overlay_wielded_rpk", "overlay_wielded_scarl_uk", "overlay_wielded_styerscout", "overlay_wielded_svd", "overlay_wielded_svu", "overlay_wielded_winmodel1873", "overlay_wielded_m16"],
+          "fg": 24988, "note": "generic AGE wielded rifle",
+          "bg": 0
+        },		
+		{
+          "id": ["auto5", "mossberg_590a1", "striker", "spas12", "usas12", "w1887", "w1897"],
+          "fg": 24989, "note": "generic AGE shotgun item",
+          "bg": 0
+        },{
+          "id": ["overlay_wielded_auto5", "overlay_wielded_mossberg_590a1", "overlay_wielded_striker", "overlay_wielded_spas12", "overlay_wielded_usas12", "overlay_wielded_w1887", "overlay_wielded_w1897"],
+          "fg": 24990, "note": "generic AGE wielded shotgun",
+          "bg": 0
+        },
+		{
+          "id": ["badgunmagazine", "bizondrummag", "blackout10", "blackout30", "cz52magazine", "cz75magazine", "cz83magazine", "dpwhy", "fort12magazine", "lewiswhy", "p08_45mag", "p08_9mag", "p220mag", "p226mag", "ppsh_43magazine", "tec22drummag", "tec_22magazine", "usas30mag", "stripperclip_9", "stripperclip_45", "stanarg10", "stanarg30", "stanarg50"],
+          "fg": 24991, "note": "generic AGE magazine item",
+          "bg": 0
+        },		{
+          "id": ["bg-15"],
+          "fg": 24992, "note": "generic AGE launcher item",
+          "bg": 0
+        },{
+          "id": ["overlay_wielded_bg-15"],
+          "fg": 24993, "note": "generic AGE launcher wielded",
+          "bg": 0
+        },
+		{
+          "id": ["bizon", "bm32", "bm32/38", "homebrew_smg", "ppsh_clone", "scrop_evo"],
+          "fg": 24994, "note": "generic AGE SMG item",
+          "bg": 0
+        },{
+          "id": ["overlay_wielded_bizon", "overlay_wielded_bm32", "overlay_wielded_bm32/38", "overlay_wielded_homebrew_smg", "overlay_wielded_ppsh_clone", "overlay_wielded_scrop_evo"],
+          "fg": 24995, "note": "generic AGE wielded SMG",
+          "bg": 0
+        },
+		{
+          "id": ["atgm_spent"],
+          "fg": 24996, 
+          "bg": 0
+        },		{
+          "id": ["spinach"],
+          "fg": 24997, 
+          "bg": 0
+        },{
+          "id": ["cats_grace_potion", "eagles_sight_potion", "foxs_cunning_potion", "ogres_strength_potion"],
+          "fg": 24998, 
+          "bg": 0
+        },{
+          "id": ["stat_up_spellbook"],
+          "fg": 24999, 
+          "bg": 0
+        },
+		{
+          "id": ["browning_hp_uk", "colt_detective", "colt_python", "colt_single_action_army", "cz_52", "cz_75", "cz_83", "fn_fnx", "fort12", "g18", "g18c", "glock_34", "homebrewer_gun", "m1911a1", "p08-45", "p08-9", "r51", "red9", "swiss_p210", "t17", "tec22_b"],
+          "fg": 25000, "note": "generic AGE pistol item",
+          "bg": 0
+        },{
+          "id": ["overlay_wielded_browning_hp_uk", "overlay_wielded_colt_detective", "overlay_wielded_colt_python", "overlay_wielded_colt_single_action_army", "overlay_wielded_cz_52", "overlay_wielded_cz_75", "overlay_wielded_cz_83", "overlay_wielded_fn_fnx", "overlay_wielded_fort12", "overlay_wielded_g18", "overlay_wielded_g18c", "overlay_wielded_glock_34", "overlay_wielded_homebrewer_gun", "overlay_wielded_m1911a1", "overlay_wielded_p08-45", "overlay_wielded_p08-9", "overlay_wielded_r51", "overlay_wielded_red9", "overlay_wielded_swiss_p210", "overlay_wielded_t17", "overlay_wielded_tec22_b"],
+          "fg": 25001, "note": "generic AGE wielded pistol",
+          "bg": 0
+        },		
+		
+		{
+          "id": [ "gp-25", "gp-30", "hybrid_sight", "mg3_uk_stock", "pedersen_device", "rebel_sup", "reflex_sight", "reflex_sight2", "reflex_sight3", "reflex_sight4", "reflex_sight5", "reflex_sight6", "reflex_sight7", "scope", "scope2", "scope3", "scope4", "scope5", "scarl_uk_bigboys", "spgun_shotgun"],
+          "fg": 250002, "note": "generic AGE gun mods",
+          "bg": 0
+        },		{
+          "id": [ "reloaded_22_quiet", "reloaded_3006_match", "reloaded_303", "reloaded_545_match", "reloaded_556_match", "reloaded_762ak_match"],
+          "fg": 25003, "note": "generic AGE ammo",
+          "bg": 0
+        },
+		
+		{
+          "id": [ "bolas"],
+          "fg": 25004,
+          "bg": 0
+        },		{
+          "id": [ "overlay_wielded_bolas"],
+          "fg": 25005,
+          "bg": 0
+        },		{
+          "id": [ "net"],
+          "fg": 25006,
+          "bg": 0
+        },		{
+          "id": [ "overlay_wielded_net"],
+          "fg": 25007,
+          "bg": 0
+        },{
+          "id": [ "mon_wisp"],
+          "fg": [
+            { "weight":3, "sprite":25008},
+            { "weight":3, "sprite":25009},
+			{ "weight":3, "sprite":25010},
+			{ "weight":3, "sprite":25011}
+            ],
+          "bg": 0
+        },{
+          "id": [ "glow_dust"],
+          "fg": 25012,
+          "bg": 0
+        },
+		
+		{
+          "id": "atlatl", "note": "before that i add all new items to the tileset! !!!NEW-ITEMS-HERE!!", 
+          "fg": 1986, 
 		  "bg": 0,
 		  "rotates": false 
         },
@@ -126653,7 +128106,7 @@
 		"tiles":
 	[
 		{
-          "id": "atlatl", 
+          "id": "atlatl",  
           "fg": 1986,
 		  "bg": 0,
           "rotates": false
@@ -128566,83 +130019,95 @@
           "fg": 35829,
 		  "bg": 0,		  
           "rotates": false
-        },
-			{
-          "id": ["t_slope_up"],
+        },		{
+          "id": ["mon_revenant"],
+          "fg": 35830,
+		  "bg": 0,		  
+          "rotates": false
+        },		{
+          "id": ["mon_cyberdemon"],
+          "fg": 35831,
+		  "bg": 0,		  
+          "rotates": false
+        },		{
+          "id": ["corpse_mon_cyberdemon"],
+          "fg": 35832,
+		  "bg": 0,		  
+          "rotates": false
+        },		{
+          "id": ["mon_zombie_bonetitan"],
+          "fg": 35833,
+		  "bg": 0,		  
+          "rotates": false
+        },{
+          "id": ["fd_fire"],
+          "fg": 35834,
+		  "bg": 0,		  
+          "rotates": false
+        },		{
+          "id": "t_gutter_downspout",
+          "fg": 35835,
+		  "bg": 35759,
+          "rotates": false
+        },		{
+          "id": "t_gutter_drop",
+          "fg": 35836,
+		  "bg": 35759,
+          "rotates": false
+        },{
+          "id": "overlay_hostile_sees_player",
           "fg": 35837,
-		  "multitile": true,
-          "additional_tiles": [
-            {
-              "id": "center",
-              "fg": 35837,
-			  "bg": 972
-            },
-            {
-              "id": "corner",
-              "fg": [35838, 35839, 35840, 35841],
-			  "bg": 972
-            },
-            {
-              "id": "t_connection",
-              "fg": [35842, 35843, 35844, 35845],
-			  "bg": 972
-            },
-            {
-              "id": "edge",
-              "fg": [35846, 35847],
-			  "bg": 972
-            },
-            {
-              "id": "end_piece",
-              "fg": [35848, 35849, 35850, 35851],
-			  "bg": 972
-            },
-            {
-              "id": "unconnected",
-              "fg": 35852,
-			  "bg": 972
-            }
-			],
-			"rotates": false
-			},
-			{
-          "id": ["t_slope_down"],
-          "fg": 35853,
-		  "multitile": true,
-          "additional_tiles": [
-            {
-              "id": "center",
-              "fg": 35853,
-			  "bg": 972
-            },
-            {
-              "id": "corner",
-              "fg": [35854, 35855, 35856, 35857],
-			  "bg": 972
-            },
-            {
-              "id": "t_connection",
-              "fg": [35858, 35859, 35860, 35861],
-			  "bg": 972
-            },
-            {
-              "id": "edge",
-              "fg": [35858, 35863],
-			  "bg": 972
-            },
-            {
-              "id": "end_piece",
-              "fg": [35864, 35865, 35866, 35867],
-			  "bg": 972
-            },
-            {
-              "id": "unconnected",
-              "fg": 35868,
-			  "bg": 972
-            }
-			],
-			"rotates": false
-			}
+		  "bg": 0,
+          "rotates": false
+        },{
+          "id": "overlay_friendly_sees_player",
+          "fg": 35838,
+		  "bg": 0,
+          "rotates": false
+        },{
+          "id": "overlay_neutral_sees_player",
+          "fg": 35839,
+		  "bg": 0,
+          "rotates": false
+        },{
+          "id": "overlay_other_sees_player",
+          "fg": 35840,
+		  "bg": 0,
+          "rotates": false
+        },  
+		{
+          "id": "television",
+          "fg": 35841,
+          "rotates": false
+        },  
+		{
+          "id": "mon_turret",
+          "fg": 35842,
+          "rotates": false
+        },
+				{
+          "id": "mon_troll",
+          "fg": 35843,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_troll",
+          "fg": 35844,
+          "rotates": false
+        },
+				{
+          "id": "mon_bulette",
+          "fg": 35845,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_bulette",
+          "fg": 35846,
+          "rotates": false
+        }
+		
+
+
 	    
     ]
     } 

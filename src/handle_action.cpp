@@ -1,9 +1,7 @@
 #include "game.h" // IWYU pragma: associated
 
 #include <cstdlib>
-#include <cmath>
 #include <chrono>
-#include <iterator>
 #include <set>
 #include <sstream>
 #include <utility>
@@ -50,7 +48,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
 #include "weather.h"
 #include "worldfactory.h"
 #include "bodypart.h"
@@ -65,6 +62,7 @@
 #include "ui.h"
 #include "units.h"
 #include "string_id.h"
+#include "item.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -77,7 +75,6 @@ static const bionic_id bio_remote( "bio_remote" );
 
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_SHELL2( "SHELL2" );
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 const skill_id skill_driving( "driving" );
 const skill_id skill_melee( "melee" );
@@ -365,7 +362,6 @@ static void rcdrive( int dx, int dy )
         rotate_direction_cw( dx, dy );
     }
 
-    tripoint src( cx, cy, cz );
     tripoint dest( cx + dx, cy + dy, cz );
     if( m.impassable( dest ) || !m.can_put_items_ter_furn( dest ) ||
         m.has_furn( dest ) ) {
@@ -373,6 +369,7 @@ static void rcdrive( int dx, int dy )
                        _( "sound of a collision with an obstacle." ), true, "misc", "rc_car_hits_obstacle" );
         return;
     } else if( !m.add_item_or_charges( dest, *rc_car ).is_null() ) {
+        tripoint src( cx, cy, cz );
         //~ Sound of moving a remote controlled car
         sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz..." ), true, "misc", "rc_car_drives" );
         u.moves -= 50;
@@ -454,7 +451,12 @@ static void open()
             const vehicle *player_veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
             bool outside = !player_veh || player_veh != veh;
             if( !outside ) {
-                veh->open( openable );
+                if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                    u.moves += 100;
+                    return;
+                } else {
+                    veh->open( openable );
+                }
             } else {
                 // Outside means we check if there's anything in that tile outside-openable.
                 // If there is, we open everything on tile. This means opening a closed,
@@ -466,7 +468,12 @@ static void open()
                     add_msg( m_info, _( "That %s can only opened from the inside." ), name );
                     u.moves += 100;
                 } else {
-                    veh->open_all_at( openable );
+                    if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                        u.moves += 100;
+                        return;
+                    } else {
+                        veh->open_all_at( openable );
+                    }
                 }
             }
         } else {
@@ -562,8 +569,10 @@ static void grab()
         you.grab( OBJECT_NONE );
         return;
     }
-
     if( const optional_vpart_position vp = m.veh_at( grabp ) ) {
+        if( !vp->vehicle().handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+            return;
+        }
         you.grab( OBJECT_VEHICLE, grabp - you.pos() );
         add_msg( _( "You grab the %s." ), vp->vehicle().name );
     } else if( m.has_furn( grabp ) ) { // If not, grab furniture if present
@@ -649,13 +658,19 @@ static void smash()
             return; // don't smash terrain if we've smashed a corpse
         }
     }
-
+    vehicle *veh = veh_pointer_or_null( g->m.veh_at( smashp ) );
+    if( veh != nullptr ) {
+        if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+            return;
+        }
+    }
     didit = m.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
     if( didit ) {
         u.increase_activity_level( MODERATE_EXERCISE );
         u.handle_melee_wear( u.weapon );
         u.moves -= move_cost;
-        const int mod_sta = ( ( u.weapon.weight() / 100_gram ) + 20 ) * -1;
+        const int mod_sta = ( ( u.weapon.weight() / 10_gram ) + 200 + static_cast<int>
+                              ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) ) * -1;
         u.mod_stat( "stamina", mod_sta );
 
         if( u.get_skill_level( skill_melee ) == 0 ) {
@@ -701,15 +716,15 @@ static bool try_set_alarm()
                 _( "You already have an alarm set. What do you want to do?" ) :
                 _( "You have an alarm clock. What do you want to do?" );
 
-    as_m.entries.emplace_back( 0, true, 'a', already_set ?
-                               _( "Change your alarm" ) :
-                               _( "Set an alarm for later" ) );
-    as_m.entries.emplace_back( 1, true, 'w', already_set ?
+    as_m.entries.emplace_back( 0, true, 'w', already_set ?
                                _( "Keep the alarm and wait a while" ) :
                                _( "Wait a while" ) );
+    as_m.entries.emplace_back( 1, true, 'a', already_set ?
+                               _( "Change your alarm" ) :
+                               _( "Set an alarm for later" ) );
     as_m.query();
 
-    return as_m.ret == 0;
+    return as_m.ret == 1;
 }
 
 static void wait()
@@ -978,7 +993,6 @@ static void loot()
     }
     flags |= g->check_near_zone( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
                                  u.pos() ) ? ConstructPlots : 0;
-
 
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
@@ -1271,13 +1285,13 @@ static void open_movement_mode_menu()
 
     switch( as_m.ret ) {
         case 0:
-            u.set_movement_mode( "walk" );
+            u.set_movement_mode( PMM_WALK );
             break;
         case 1:
-            u.set_movement_mode( "run" );
+            u.set_movement_mode( PMM_RUN );
             break;
         case 2:
-            u.set_movement_mode( "crouch" );
+            u.set_movement_mode( PMM_CROUCH );
             break;
         default:
             break;
@@ -1287,11 +1301,6 @@ static void open_movement_mode_menu()
 static void cast_spell()
 {
     player &u = g->u;
-
-    if( u.is_armed() ) {
-        add_msg( m_bad, _( "You need your hands free to cast spells!" ) );
-        return;
-    }
 
     std::vector<spell_id> spells = u.magic.spells();
 
@@ -1319,6 +1328,11 @@ static void cast_spell()
 
     spell &sp = *u.magic.get_spells()[spell_index];
 
+    if( u.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) && !u.weapon.has_flag( "MAGIC_FOCUS" ) ) {
+        add_msg( m_bad, _( "You need your hands free to cast this spell!" ) );
+        return;
+    }
+
     if( !u.magic.has_enough_energy( u, sp ) ) {
         add_msg( m_bad, _( "You don't have enough %s to cast the spell." ), sp.energy_string() );
         return;
@@ -1329,7 +1343,7 @@ static void cast_spell()
         return;
     }
 
-    player_activity cast_spell( activity_id( "ACT_SPELLCASTING" ), sp.casting_time() );
+    player_activity cast_spell( activity_id( "ACT_SPELLCASTING" ), sp.casting_time( u ) );
     // [0] this is used as a spell level override for items casting spells
     cast_spell.values.emplace_back( -1 );
     // [1] if this value is 1, the spell never fails

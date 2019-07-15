@@ -27,14 +27,13 @@ class item_category;
 class Item_factory;
 class player;
 class item;
+struct tripoint;
 
 enum art_effect_active : int;
 enum art_charge : int;
 enum art_charge_req : int;
 enum art_effect_passive : int;
 using itype_id = std::string;
-
-enum field_id : int;
 
 class gun_modifier_data
 {
@@ -89,7 +88,7 @@ class gunmod_location
 };
 
 struct islot_tool {
-    std::set<ammotype> ammo_id = {};
+    std::set<ammotype> ammo_id;
 
     cata::optional<itype_id> revert_to;
     std::string revert_msg;
@@ -359,7 +358,7 @@ struct islot_mod {
     std::set<ammotype> acceptable_ammo;
 
     /** If set modifies parent ammo to this type */
-    std::set<ammotype> ammo_modifier = {};
+    std::set<ammotype> ammo_modifier;
 
     /** If non-empty replaces the compatible magazines for the parent item */
     std::map< ammotype, std::set<itype_id> > magazine_adaptor;
@@ -440,7 +439,7 @@ struct islot_gun : common_ranged_data {
     /**
      * What type of ammo this gun uses.
      */
-    std::set<ammotype> ammo = {};
+    std::set<ammotype> ammo;
     /**
      * Gun durability, affects gun being damaged during shooting.
      */
@@ -592,7 +591,7 @@ struct islot_gunmod : common_ranged_data {
 
 struct islot_magazine {
     /** What type of ammo this magazine can be loaded with */
-    std::set<ammotype> type = {};
+    std::set<ammotype> type;
 
     /** Capacity of magazine (in equivalent units to ammo charges) */
     int capacity = 0;
@@ -617,6 +616,11 @@ struct islot_magazine {
 
     /** If false, ammo will cook off if this mag is affected by fire */
     bool protects_contents = false;
+};
+
+struct islot_battery {
+    /** Maximum energy the battery can store */
+    units::energy max_capacity;
 };
 
 struct islot_ammo : common_ranged_data {
@@ -763,6 +767,7 @@ struct itype {
         cata::optional<islot_gun> gun;
         cata::optional<islot_gunmod> gunmod;
         cata::optional<islot_magazine> magazine;
+        cata::optional<islot_battery> battery;
         cata::optional<islot_bionic> bionic;
         cata::optional<islot_ammo> ammo;
         cata::optional<islot_seed> seed;
@@ -849,7 +854,7 @@ struct itype {
         /** Weight of item ( or each stack member ) */
         units::mass weight = 0_gram;
         /** Weight difference with the part it replaces for mods */
-        units::mass integral_weight = units::from_gram( -1 );
+        units::mass integral_weight = -1_gram;
 
         /**
          * Space occupied by items of this type
@@ -861,7 +866,7 @@ struct itype {
          * Space consumed when integrated as part of another item (defaults to volume)
          * CAUTION: value given is for a default-sized stack. Avoid using this. In general, see @ref item::volume instead.
          */
-        units::volume integral_volume = units::from_milliliter( -1 );
+        units::volume integral_volume = -1_ml;
 
         /** Number of items per above volume for @ref stackable items */
         int stack_size = 0;
@@ -872,9 +877,8 @@ struct itype {
         int price_post = -1;
 
         /**@}*/
-
-        bool rigid =
-            true; // If non-rigid volume (and if worn encumbrance) increases proportional to contents
+        // If non-rigid volume (and if worn encumbrance) increases proportional to contents
+        bool rigid = true;
 
         /** Damage output in melee for zero or more damage types */
         std::array<int, NUM_DT> melee;

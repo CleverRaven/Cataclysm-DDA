@@ -9,7 +9,7 @@
 #include "optional.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "enums.h"
+#include "point.h"
 #include "type_id.h"
 
 struct real_coords;
@@ -19,8 +19,6 @@ class uilist;
 class vehicle;
 class map;
 class tinymap;
-
-enum field_id : int;
 
 enum shapetype {
     editmap_rect, editmap_rect_filled, editmap_line, editmap_circle,
@@ -72,7 +70,7 @@ class editmap
         int mapgen_retarget();
         int select_shape( shapetype shape, int mode = -1 );
 
-        void update_fmenu_entry( uilist &fmenu, field &field, field_id idx );
+        void update_fmenu_entry( uilist &fmenu, field &field, field_type_id idx );
         void setup_fmenu( uilist &fmenu );
         catacurses::window w_info;
         catacurses::window w_help;
@@ -111,7 +109,7 @@ class editmap
 
         std::string padding;
 
-        std::map<field_id, std::string> fids;
+        std::map<field_type_id, std::string> fids;
 
         std::vector<tripoint> target_list;
         std::map<std::string, editmap_hilight> hilights;

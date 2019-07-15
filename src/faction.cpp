@@ -1,5 +1,6 @@
 #include "faction.h"
 
+#include <assert.h>
 #include <cstdlib>
 #include <bitset>
 #include <map>
@@ -12,7 +13,6 @@
 #include "basecamp.h"
 #include "cursesdef.h"
 #include "debug.h"
-#include "enums.h"
 #include "faction_camp.h"
 #include "game.h"
 #include "game_constants.h"
@@ -22,7 +22,6 @@
 #include "npc.h"
 #include "output.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -30,6 +29,7 @@
 #include "optional.h"
 #include "pimpl.h"
 #include "type_id.h"
+#include "point.h"
 
 namespace npc_factions
 {
@@ -129,7 +129,7 @@ std::string fac_ranking_text( int val )
     if( val <= -10 ) {
         return _( "Pariah" );
     }
-    if( val <=  -5 ) {
+    if( val <= -5 ) {
         return _( "Disliked" );
     }
     if( val >= 100 ) {
@@ -269,7 +269,7 @@ nc_color faction::food_supply_color()
     }
 }
 
-bool faction::has_relationship( const faction_id guy_id, npc_factions::relationship flag ) const
+bool faction::has_relationship( const faction_id &guy_id, npc_factions::relationship flag ) const
 {
     for( const auto rel_data : relations ) {
         if( rel_data.first == guy_id.c_str() ) {
@@ -368,12 +368,11 @@ void basecamp::faction_display( const catacurses::window &fac_w, const int width
 {
     int y = 2;
     const nc_color col = c_white;
-    const tripoint player_abspos =  g->u.global_omt_location();
+    const tripoint player_abspos = g->u.global_omt_location();
     tripoint camp_pos = camp_omt_pos();
     std::string direction = direction_name( direction_from( player_abspos, camp_pos ) );
     mvwprintz( fac_w, ++y, width, c_light_gray, _( "Press enter to rename this camp" ) );
-    const std::string centerstring = "center";
-    if( ( !direction.compare( centerstring ) ) == 0 ) {
+    if( direction != "center" ) {
         mvwprintz( fac_w, ++y, width, c_light_gray, _( "Direction : to the " ) + direction );
     }
     mvwprintz( fac_w, ++y, width, col, _( "Location : (%d, %d)" ), camp_pos.x, camp_pos.y );
@@ -395,7 +394,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     int retval = 0;
     int y = 2;
     const nc_color col = c_white;
-    const tripoint player_abspos =  g->u.global_omt_location();
+    const tripoint player_abspos = g->u.global_omt_location();
 
     //get NPC followers, status, direction, location, needs, weapon, etc.
     mvwprintz( fac_w, ++y, width, c_light_gray, _( "Press enter to talk to this follower " ) );
@@ -405,7 +404,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
         cata::optional<tripoint> dest = get_mission_destination();
         if( dest ) {
             basecamp *dest_camp;
-            cata::optional<basecamp *> temp_camp = overmap_buffer.find_camp( dest->x, dest->y );
+            cata::optional<basecamp *> temp_camp = overmap_buffer.find_camp( dest->xy() );
             if( temp_camp ) {
                 dest_camp = *temp_camp;
                 dest_string = _( "travelling to : " ) + dest_camp->camp_name();
@@ -423,7 +422,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     tripoint guy_abspos = global_omt_location();
     basecamp *stationed_at;
     bool is_stationed = false;
-    cata::optional<basecamp *> p = overmap_buffer.find_camp( guy_abspos.x, guy_abspos.y );
+    cata::optional<basecamp *> p = overmap_buffer.find_camp( guy_abspos.xy() );
     if( p ) {
         is_stationed = true;
         stationed_at = *p;
@@ -431,8 +430,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
         stationed_at = nullptr;
     }
     std::string direction = direction_name( direction_from( player_abspos, guy_abspos ) );
-    std::string centerstring = "center";
-    if( ( !direction.compare( centerstring ) ) == 0 ) {
+    if( direction != "center" ) {
         mvwprintz( fac_w, ++y, width, col, _( "Direction : to the " ) + direction );
     } else {
         mvwprintz( fac_w, ++y, width, col, _( "Direction : Nearby" ) );
@@ -467,10 +465,10 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
                 }
             }
             // if camp that player is at, has a radio tower
-            cata::optional<basecamp *> player_camp = overmap_buffer.find_camp( g->u.global_omt_location().x,
-                    g->u.global_omt_location().y );
+            cata::optional<basecamp *> player_camp =
+                overmap_buffer.find_camp( g->u.global_omt_location().xy() );
             if( const cata::optional<basecamp *> player_camp = overmap_buffer.find_camp(
-                        g->u.global_omt_location().x, g->u.global_omt_location().y ) ) {
+                        g->u.global_omt_location().xy() ) ) {
                 if( ( *player_camp )->has_provides( "radio_tower" ) ) {
                     max_range *= 5;
                 }
@@ -607,7 +605,7 @@ void new_faction_manager::display() const
         // create a list of faction camps
         std::vector<basecamp *> camps;
         for( auto elem : g->u.camps ) {
-            cata::optional<basecamp *> p = overmap_buffer.find_camp( elem.x, elem.y );
+            cata::optional<basecamp *> p = overmap_buffer.find_camp( elem.xy() );
             if( !p ) {
                 continue;
             }

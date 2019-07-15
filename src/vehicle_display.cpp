@@ -225,7 +225,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
  * @param start_at Which vehicle part to start printing at.
  * @param start_limit the part index beyond which the display is full
  */
-void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int width, int &p,
+void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int width, int p,
                                   int &start_at, int &start_limit ) const
 {
     if( p < 0 || p >= static_cast<int>( parts.size() ) ) {
@@ -303,7 +303,7 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
 {
     std::set<itype_id> opts;
     for( const auto &pt : parts ) {
-        if( ( pt.is_fuel_store() ) && pt.ammo_current() != "null" ) {
+        if( pt.is_fuel_store() && pt.ammo_current() != "null" ) {
             opts.emplace( pt.ammo_current() );
         }
     }
@@ -351,7 +351,7 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
     }
 
     int yofs = 0;
-    int max_gauge = ( ( isHorizontal ) ? 12 : 5 ) + start_index;
+    int max_gauge = ( isHorizontal ? 12 : 5 ) + start_index;
     int max_size = std::min( static_cast<int>( fuels.size() ), max_gauge );
     std::map<itype_id, int> fuel_usages = fuel_usage();
 
@@ -362,7 +362,7 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
     }
 
     // check if the current index is less than the max size minus 12 or 5, to indicate that there's more
-    if( ( start_index < static_cast<int>( fuels.size() ) - ( ( isHorizontal ) ? 12 : 5 ) ) ) {
+    if( start_index < static_cast<int>( fuels.size() ) - ( isHorizontal ? 12 : 5 ) ) {
         mvwprintz( win, y + yofs, x, c_light_green, ">" );
         wprintz( win, c_light_gray, " for more" );
     }
@@ -403,7 +403,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, int y, int x,
         if( debug_mode ) {
             mvwprintz( win, y, x + 6, f_color, "%d/%d", f_left, cap );
         } else {
-            mvwprintz( win, y, x + 6, f_color, "%d", ( f_left * 100 ) / cap );
+            mvwprintz( win, y, x + 6, f_color, "%d", f_left * 100 / cap );
             wprintz( win, c_light_gray, "%c", 045 );
         }
     }

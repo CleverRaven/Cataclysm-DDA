@@ -42,19 +42,20 @@
         "t_shrub_raspberry": 0.4166,
         "t_shrub_huckleberry": 0.4166,
         "t_shrub_grape": 0.2066,
-        "t_shrub_rose": 4.3333,
-        "t_shrub_hydrangea": 4.3333,
-        "t_shrub_lilac": 4.3333,
-        "f_black_eyed_susan": 4.3333,
-        "f_lily": 4.3333,
-        "f_flower_tulip": 8.3333,
-        "f_flower_spurge": 8.3333,
-        "f_chamomile": 8.3333,
-        "f_mutpoppy": 8.3333,
-        "f_bluebell": 8.3333,
-        "f_dahlia": 8.3333,
-        "f_datura": 4.3333,
-        "f_dandelion": 8.3333,
+        "t_shrub_rose": 4,
+        "t_shrub_hydrangea": 4,
+        "t_shrub_lilac": 4,
+        "f_black_eyed_susan": 4,
+        "f_lily": 4,
+        "f_flower_tulip": 8,
+        "f_flower_spurge": 8,
+        "f_chamomile": 8,
+        "f_chicory": 4.9995,
+        "f_mutpoppy": 8,
+        "f_bluebell": 8,
+        "f_dahlia": 8,
+        "f_datura": 4,
+        "f_dandelion": 8,
         "f_boulder_small": 1,
         "f_boulder_medium": 0.6666,
         "f_boulder_large": 0.3333
@@ -95,13 +96,14 @@
         "t_shrub_raspberry": 8.0,
         "t_shrub_huckleberry": 5.0,
         "t_shrub_grape": 5.0,
-        "t_shrub_rose": 3.5,
-        "t_shrub_hydrangea": 3.5,
-        "t_shrub_lilac": 3.5,
-        "f_black_eyed_susan": 3.5,
-        "f_lily": 3.5,
-        "f_flower_tulip": 3.5,
+        "t_shrub_rose": 3,
+        "t_shrub_hydrangea": 3,
+        "t_shrub_lilac": 3,
+        "f_black_eyed_susan": 3,
+        "f_lily": 3,
+        "f_flower_tulip": 3,
         "f_flower_spurge": 3.5,
+        "f_chicory": 3,
         "f_mutpoppy": 3.5,
         "f_bluebell": 3.5,
         "f_dahlia": 3.5,
@@ -425,7 +427,8 @@
           "mx_pond": 125,
           "mx_clay_deposit": 125,
           "mx_point_dead_vegetation": 500,
-          "mx_point_burned_ground": 500
+          "mx_point_burned_ground": 500,
+          "mx_casings": 30
         }
       },
       "forest_thick": {
@@ -451,7 +454,8 @@
           "mx_pond": 125,
           "mx_clay_deposit": 125,
           "mx_point_dead_vegetation": 500,
-          "mx_point_burned_ground": 500
+          "mx_point_burned_ground": 500,
+          "mx_casings": 30
         }
       },
       "forest_water": {
@@ -475,7 +479,8 @@
           "mx_pond": 125,
           "mx_clay_deposit": 125,
           "mx_point_dead_vegetation": 500,
-          "mx_point_burned_ground": 500
+          "mx_point_burned_ground": 500,
+          "mx_casings": 30
         }
       },
       "field": {
@@ -493,7 +498,8 @@
           "mx_portal_in": 1,
           "mx_anomaly": 3,
           "mx_point_dead_vegetation": 50,
-          "mx_point_burned_ground": 50
+          "mx_point_burned_ground": 50,
+          "mx_casings": 50
         }
       },
       "road": {
@@ -514,7 +520,8 @@
           "mx_portal_in": 2,
           "mx_anomaly": 3,
           "mx_roadworks": 100,
-          "mx_mayhem": 50
+          "mx_mayhem": 50,
+          "mx_casings": 100
         }
       },
       "build": {
@@ -530,7 +537,8 @@
           "mx_fumarole": 8,
           "mx_portal_in": 1,
           "mx_anomaly": 3,
-          "mx_point_burned_ground": 5
+          "mx_point_burned_ground": 5,
+          "mx_casings": 30
         }
       },
       "marloss": { "chance": 20, "extras": { "mx_marloss_pilgrimage": 100 } },
@@ -543,7 +551,8 @@
           "mx_portal": 7,
           "mx_fumarole": 20,
           "mx_portal_in": 1,
-          "mx_anomaly": 3
+          "mx_anomaly": 3,
+          "mx_casings": 30
         }
       },
       "research_facility_lot": {
@@ -557,7 +566,8 @@
           "mx_fumarole": 10,
           "mx_portal_in": 20,
           "mx_anomaly": 10,
-          "mx_point_burned_ground": 100
+          "mx_point_burned_ground": 100,
+          "mx_casings": 30
         }
       },
       "research_facility_interior": {
@@ -568,7 +578,8 @@
           "mx_portal": 100,
           "mx_crater": 300,
           "mx_portal_in": 40,
-          "mx_point_burned_ground": 125
+          "mx_point_burned_ground": 125,
+          "mx_casings": 30
         }
       }
     },
@@ -606,7 +617,8 @@
         "pool_6": 50,
         "skate_park": 100,
         "small_wooded_trail": 300,
-        "pavilion": 200,
+        "pavilion": 100,
+        "pavilion_1": 100,
         "cemetery_small": 200,
         "Pond": 200,
         "communitygarden": 200,
@@ -633,11 +645,15 @@
         "craft_shop_1": 200,
         "craft_shop_2": 200,
         "s_gas": 500,
+        "s_gas_1": 500,
         "s_pharm": 300,
         "s_pharm_1": 300,
         "s_grocery": 1500,
         "s_grocery_1": 1500,
-        "s_hardware": 500,
+        "s_hardware": 400,
+        "s_hardware_1": 400,
+        "s_hardware_2": 400,
+        "s_hardware_3": 400,
         "s_sports": 500,
         "dojo": 200,
         "dojo_1": 200,
@@ -675,15 +691,18 @@
         "s_pizza_parlor_1": 400,
         "bar": 400,
         "bar_1": 400,
-        "s_electronics": 500,
+        "s_electronics": 400,
+        "s_electronics_1": 400,
         "pawn": 300,
+        "pawn_1": 300,
         "mil_surplus": 200,
         "mil_surplus_1": 200,
         "mil_surplus_2": 200,
         "s_garage": 300,
         "s_garage_1": 300,
         "s_garage_2": 300,
-        "station_radio": 400,
+        "station_radio": 300,
+        "station_radio_1": 300,
         "office_doctor": 200,
         "office_doctor_1": 200,
         "office_doctor_2": 200,
@@ -698,6 +717,7 @@
         "church": 200,
         "church_1": 200,
         "office_cubical": 200,
+        "office_cubical_1": 200,
         "furniture": 200,
         "abstorefront": 200,
         "abstorefront_1": 200,
@@ -722,7 +742,9 @@
         "animalshelter": 100,
         "mortuary": 100,
         "smallscrapyard": 100,
-        "stripclub": 200,
+        "stripclub": 100,
+        "stripclub_1": 100,
+        "stripclub_2": 100,
         "orchard": 200,
         "dispensary": 100,
         "dispensary_1": 100,
@@ -730,9 +752,11 @@
         "headshop": 100,
         "small_office": 200,
         "art_gallery": 200,
-        "small_storage_units": 300,
+        "small_storage_units": 150,
+        "small_storage_units_1": 150,
         "construction_site": 400,
         "post_office": 200,
+        "post_office_1": 200,
         "candy_shop": 200,
         "candy_shop_1": 200,
         "bakery": 200,
@@ -743,13 +767,17 @@
         "s_bike_shop": 100,
         "s_bike_shop_1": 100,
         "paintball_field": 100,
+        "paintball_field_1": 100,
         "smoke_lounge": 100,
+        "smoke_lounge_1": 100,
         "gambling_hall": 100,
         "gambling_hall_1": 100,
         "music_venue": 100,
         "music_venue_1": 100,
         "dump": 100,
         "recyclecenter": 100,
+        "recyclecenter_1": 100,
+        "recyclecenter_2": 100,
         "landfill": 100,
         "warehouse": 100,
         "abandonedwarehouse": 100,
@@ -766,6 +794,8 @@
         "s_daycare": 100,
         "s_thrift": 100,
         "s_petstore": 100,
+        "s_petstore_1": 100,
+        "s_petstore_2": 100,
         "megastore": 150,
         "hotel": 75,
         "hospital": 175,

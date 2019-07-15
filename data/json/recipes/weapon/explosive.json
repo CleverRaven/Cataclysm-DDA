@@ -5,7 +5,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "time": "0 m",
+    "time": "30 s",
     "reversible": true,
     "autolearn": true,
     "components": [
@@ -194,7 +194,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "time": "0 m",
+    "time": "30 s",
     "reversible": true,
     "autolearn": true,
     "components": [
@@ -320,7 +320,7 @@
     "reversible": true,
     "book_learn": [ [ "manual_launcher", 2 ], [ "textbook_anarch", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "can_drink_unsealed", 1 ] ], [ [ "chem_black_powder", 100 ] ], [ [ "string_6", 1 ] ] ]
+    "components": [ [ [ "can_food_unsealed", 1 ] ], [ [ "chem_black_powder", 100 ] ], [ [ "string_6", 1 ] ] ]
   },
   {
     "result": "tool_black_powder_charge",

@@ -9,6 +9,7 @@
 #include <type_traits>
 #include <unordered_set>
 #include <utility>
+#include <unordered_map>
 
 #include "avatar.h"
 #include "coordinate_conversions.h"
@@ -32,7 +33,6 @@
 #include "json.h"
 #include "omdata.h"
 #include "overmap_types.h"
-#include "player.h"
 #include "regional_settings.h"
 #include "int_id.h"
 #include "string_id.h"
@@ -282,7 +282,7 @@ void game::load_weather( std::istream &fin )
     if( fin.peek() == 'l' ) {
         std::string line;
         getline( fin, line );
-        weather.lightning_active = ( line.compare( "lightning: 1" ) == 0 );
+        weather.lightning_active = line == "lightning: 1";
     } else {
         weather.lightning_active = false;
     }
@@ -356,40 +356,19 @@ void game::save_shortcuts( std::ostream &fout )
 }
 #endif
 
+std::unordered_set<std::string> obsolete_terrains;
+
+void overmap::load_obsolete_terrains( JsonObject &jo )
+{
+    JsonArray ja = jo.get_array( "terrains" );
+    while( ja.has_more() ) {
+        obsolete_terrains.emplace( ja.next_string() );
+    }
+}
+
 bool overmap::obsolete_terrain( const std::string &ter )
 {
-    static const std::unordered_set<std::string> obsolete = {
-        "apartments_con_tower_1", "apartments_con_tower_1_entrance",
-        "apartments_mod_tower_1", "apartments_mod_tower_1_entrance",
-        "bridge_ew", "bridge_ns",
-        "public_works", "public_works_entrance",
-        "hdwr_large_entrance", "hdwr_large_SW", "hdwr_large_NW",
-        "hdwr_large_NE", "hdwr_large_backroom", "hdwr_large_loadingbay",
-        "cemetery_4square_00", "cemetery_4square_10",
-        "cemetery_4square_01", "cemetery_4square_11",
-        "loffice_tower_1", "loffice_tower_2", "loffice_tower_3", "loffice_tower_4",
-        "loffice_tower_5", "loffice_tower_6", "loffice_tower_7", "loffice_tower_8",
-        "loffice_tower_9", "loffice_tower_10", "loffice_tower_11", "loffice_tower_12",
-        "loffice_tower_13", "loffice_tower_14", "loffice_tower_15", "loffice_tower_16",
-        "school_1", "school_2", "school_3",
-        "school_4", "school_5", "school_6",
-        "school_7", "school_8", "school_9",
-        "prison_1", "prison_2", "prison_3",
-        "prison_4", "prison_5", "prison_6",
-        "prison_7", "prison_8", "prison_9",
-        "prison_b_entrance", "prison_b",
-        "hospital_entrance", "hospital",
-        "cathedral_1_entrance", "cathedral_1",
-        "cathedral_b_entrance", "cathedral_b",
-        "hotel_tower_1_1", "hotel_tower_1_2", "hotel_tower_1_3", "hotel_tower_1_4",
-        "hotel_tower_1_5", "hotel_tower_1_6", "hotel_tower_1_7", "hotel_tower_1_8",
-        "hotel_tower_1_9", "hotel_tower_b_1", "hotel_tower_b_2", "hotel_tower_b_3",
-        "bunker", "farm", "farm_field", "subway_station",
-        "mansion", "mansion_entrance",
-        "pool"
-    };
-
-    return obsolete.find( ter ) != obsolete.end();
+    return obsolete_terrains.find( ter ) != obsolete_terrains.end();
 }
 
 /*
@@ -467,18 +446,6 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             nearby.push_back( { 1, entr, 1, old, base + "SE_south" } );
             nearby.push_back( { 1, old, -1, entr, base + "SE_east" } );
             nearby.push_back( { -1, old, 1, entr, base + "SE_west" } );
-
-        } else if( old.compare( 0, 11, "hdwr_large_" ) == 0 ) {
-            //Migrate terrains with NO_ROTATE flag to rotatable
-            new_id = oter_id( old + "_north" );
-
-        } else if( old.compare( 0, 17, "cemetery_4square_" ) == 0 ) {
-            //Migrate terrains with NO_ROTATE flag to rotatable
-            new_id = oter_id( old + "_north" );
-
-        } else if( old.compare( 0, 14, "loffice_tower_" ) == 0 ) {
-            //Migrate terrains with NO_ROTATE flag to rotatable
-            new_id = oter_id( old + "_north" );
 
         } else if( old.compare( 0, 7, "school_" ) == 0 ) {
             const std::string school = "school_";
@@ -726,15 +693,16 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
         } else if( old == "bunker" ) {
             if( pos.z < 0 ) {
                 new_id = oter_id( "bunker_basement" );
-            } else if( is_ot_type( "road", get_ter( pos.x + 1, pos.y, pos.z ) ) ) {
+            } else if( is_ot_match( "road", get_ter( pos.x + 1, pos.y, pos.z ), ot_match_type::type ) ) {
                 new_id = oter_id( "bunker_west" );
-            } else if( is_ot_type( "road", get_ter( pos.x - 1, pos.y, pos.z ) ) ) {
+            } else if( is_ot_match( "road", get_ter( pos.x - 1, pos.y, pos.z ), ot_match_type::type ) ) {
                 new_id = oter_id( "bunker_east" );
-            } else if( is_ot_type( "road", get_ter( pos.x, pos.y + 1, pos.z ) ) ) {
+            } else if( is_ot_match( "road", get_ter( pos.x, pos.y + 1, pos.z ), ot_match_type::type ) ) {
                 new_id = oter_id( "bunker_north" );
             } else {
                 new_id = oter_id( "bunker_south" );
             }
+
         } else if( old == "farm" ) {
             new_id = oter_id( "farm_2_north" );
 
@@ -760,8 +728,33 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                 nearby.push_back( {  0, "mansion",          -2, "mansion_entrance", "mansion_t2_north" } );
                 nearby.push_back( {  2, "mansion",          -2, "mansion",          "mansion_c2_west" } );
             }
-        } else if( old == "pool" ) {
-            new_id = oter_id( "pool_1_north" );
+
+            // Migrate terrains with NO_ROTATE flag to rotatable
+        } else if( old.compare( 0, 4, "lmoe" ) == 0 ||
+                   old.compare( 0, 5, "cabin" ) == 0 ||
+                   old.compare( 0, 5, "pond_" ) == 0 ||
+                   old.compare( 0, 6, "bandit" ) == 0 ||
+                   old.compare( 0, 7, "haz_sar" ) == 0 ||
+                   old.compare( 0, 7, "shelter" ) == 0 ||
+                   old.compare( 0, 8, "campsite" ) == 0 ||
+                   old.compare( 0, 9, "pwr_large" ) == 0 ||
+                   old.compare( 0, 9, "shipwreck" ) == 0 ||
+                   old.compare( 0, 9, "robofachq" ) == 0 ||
+                   old.compare( 0, 10, "ranch_camp" ) == 0 ||
+                   old.compare( 0, 11, "hdwr_large_" ) == 0 ||
+                   old.compare( 0, 14, "loffice_tower_" ) == 0 ||
+                   old.compare( 0, 17, "cemetery_4square_" ) == 0 ) {
+            new_id = oter_id( old + "_north" );
+
+        } else if( old == "hunter_shack" ||
+                   old == "outpost" ||
+                   old == "park" ||
+                   old == "pool" ||
+                   old == "pwr_sub_s" ||
+                   old == "radio_tower" ||
+                   old == "sai" ||
+                   old == "toxic_dump" ) {
+            new_id = oter_id( old + "_north" );
         }
 
         for( const auto &conv : nearby ) {
@@ -810,23 +803,7 @@ void overmap::load_legacy_monstergroups( JsonIn &jsin )
 // throws std::exception
 void overmap::unserialize( std::istream &fin )
 {
-
-    if( fin.peek() == '#' ) {
-        // This was the last savegame version that produced the old format.
-        static int overmap_legacy_save_version = 24;
-        std::string vline;
-        getline( fin, vline );
-        std::string tmphash;
-        std::string tmpver;
-        int savedver = -1;
-        std::stringstream vliness( vline );
-        vliness >> tmphash >> tmpver >> savedver;
-        if( savedver <= overmap_legacy_save_version ) {
-            unserialize_legacy( fin );
-            return;
-        }
-    }
-
+    chkversion( fin );
     JsonIn jsin( fin );
     jsin.start_object();
     while( !jsin.end_object() ) {
@@ -964,9 +941,9 @@ void overmap::unserialize( std::istream &fin )
                     if( tracker_member_name == "id" ) {
                         jsin.read( id );
                     } else if( tracker_member_name == "x" ) {
-                        jsin.read( new_tracker.x );
+                        jsin.read( new_tracker.p.x );
                     } else if( tracker_member_name == "y" ) {
-                        jsin.read( new_tracker.y );
+                        jsin.read( new_tracker.p.y );
                     } else if( tracker_member_name == "name" ) {
                         jsin.read( new_tracker.name );
                     }
@@ -1052,7 +1029,7 @@ static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool ( &arr
     int count = 0;
     bool value = false;
     for( int j = 0; j < OMAPY; j++ ) {
-        for( int i = 0; i < OMAPX; i++ ) {
+        for( auto &array_col : array ) {
             if( count == 0 ) {
                 jsin.start_array();
                 jsin.read( value );
@@ -1060,7 +1037,7 @@ static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool ( &arr
                 jsin.end_array();
             }
             count--;
-            array[i][j] = value;
+            array_col[j] = value;
         }
     }
 }
@@ -1068,23 +1045,7 @@ static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool ( &arr
 // throws std::exception
 void overmap::unserialize_view( std::istream &fin )
 {
-    // Private/per-character view of the overmap.
-    if( fin.peek() == '#' ) {
-        // This was the last savegame version that produced the old format.
-        static int overmap_legacy_save_version = 24;
-        std::string vline;
-        getline( fin, vline );
-        std::string tmphash;
-        std::string tmpver;
-        int savedver = -1;
-        std::stringstream vliness( vline );
-        vliness >> tmphash >> tmpver >> savedver;
-        if( savedver <= overmap_legacy_save_version ) {
-            unserialize_view_legacy( fin );
-            return;
-        }
-    }
-
+    chkversion( fin );
     JsonIn jsin( fin );
     jsin.start_object();
     while( !jsin.end_object() ) {
@@ -1147,8 +1108,8 @@ static void serialize_array_to_compacted_sequence( JsonOut &json,
     int count = 0;
     int lastval = -1;
     for( int j = 0; j < OMAPY; j++ ) {
-        for( int i = 0; i < OMAPX; i++ ) {
-            const int value = array[i][j];
+        for( const auto &array_col : array ) {
+            const int value = array_col[j];
             if( value != lastval ) {
                 if( count ) {
                     json.write( count );
@@ -1303,12 +1264,14 @@ void overmap::serialize( std::ostream &fout ) const
     json.member( "layers" );
     json.start_array();
     for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+        auto &layer_terrain = layer[z].terrain;
         int count = 0;
         oter_id last_tertype( -1 );
         json.start_array();
         for( int j = 0; j < OMAPY; j++ ) {
+            // NOLINTNEXTLINE(modernize-loop-convert)
             for( int i = 0; i < OMAPX; i++ ) {
-                oter_id t = layer[z].terrain[i][j];
+                oter_id t = layer_terrain[i][j];
                 if( t != last_tertype ) {
                     if( count ) {
                         json.write( count );
@@ -1393,8 +1356,8 @@ void overmap::serialize( std::ostream &fout ) const
         json.start_object();
         json.member( "id", i.first );
         json.member( "name", i.second.name );
-        json.member( "x", i.second.x );
-        json.member( "y", i.second.y );
+        json.member( "x", i.second.p.x );
+        json.member( "y", i.second.p.y );
         json.end_object();
     }
     json.end_array();

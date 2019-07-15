@@ -4253,7 +4253,6 @@
     "monsters": [
       { "monster": "mon_flying_polyp", "freq": 25, "cost_multiplier": 0 },
       { "monster": "mon_hunting_horror", "freq": 240, "cost_multiplier": 0 },
-      { "monster": "mon_mi_go", "freq": 120, "cost_multiplier": 0 },
       { "monster": "mon_yugg", "freq": 70, "cost_multiplier": 0 },
       { "monster": "mon_gelatin", "freq": 120, "cost_multiplier": 0 },
       { "monster": "mon_flaming_eye", "freq": 120, "cost_multiplier": 0 },
@@ -4556,7 +4555,8 @@
     "default": "mon_null",
     "monsters": [
       { "monster": "mon_zombie_nullfield", "freq": 550, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_brute_shocker", "freq": 300, "cost_multiplier": 2 }
+      { "monster": "mon_zombie_brute_shocker", "freq": 300, "cost_multiplier": 2 },
+      { "monster": "mon_skeleton_electric", "freq": 300, "cost_multiplier": 2 }
     ]
   },
   {
@@ -4613,6 +4613,16 @@
       { "monster": "mon_pig", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_sheep", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_lemming", "freq": 10, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_COWS",
+    "type": "monstergroup",
+    "default": "mon_null",
+    "is_safe": true,
+    "monsters": [
+      { "monster": "mon_cow", "freq": 100, "cost_multiplier": 10, "ends": 168 },
+      { "monster": "mon_cow", "freq": 50, "cost_multiplier": 5, "starts": 168 }
     ]
   },
   {
@@ -5158,6 +5168,49 @@
     "monsters": [
       { "monster": "mon_zombie_fireman", "freq": 100, "cost_multiplier": 2, "pack_size": [ 3, 5 ] },
       { "monster": "mon_zombie", "freq": 40, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "DUMP_ZOMBIES",
+    "default": "mon_zombie_crawler",
+    "monsters": [
+      { "monster": "mon_zombie_technician", "freq": 150, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_fat", "freq": 150, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_crawler", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_survivor", "freq": 70, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "DUMP_ANIMALS",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_fly", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_crow", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_fox_gray", "freq": 15, "cost_multiplier": 1 },
+      { "monster": "mon_fox_red", "freq": 15, "cost_multiplier": 1 },
+      { "monster": "mon_dog", "freq": 15, "cost_multiplier": 2 },
+      { "monster": "mon_black_rat", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_opossum", "freq": 15, "cost_multiplier": 1 },
+      { "monster": "mon_raccoon", "freq": 15, "cost_multiplier": 1 },
+      { "monster": "mon_rattlesnake", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_rattlesnake_giant", "freq": 5, "cost_multiplier": 2 },
+      { "monster": "mon_worm", "freq": 20, "cost_multiplier": 1 },
+      { "monster": "mon_wasp", "freq": 10, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_VETS",
+    "type": "monstergroup",
+    "//": "for veterinarian",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_zombie_dog", "freq": 15, "cost_multiplier": 1 },
+      { "monster": "mon_dog_zombie_rot", "freq": 15, "cost_multiplier": 3 },
+      { "monster": "mon_squirrel", "freq": 1, "cost_multiplier": 0 },
+      { "monster": "mon_cat", "freq": 10, "cost_multiplier": 0 },
+      { "monster": "mon_dog", "freq": 10, "cost_multiplier": 0 }
     ]
   },
   {

@@ -27,7 +27,6 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "calendar.h"
 #include "color.h"
 #include "game_constants.h"
@@ -36,8 +35,14 @@
 #include "item.h"
 #include "optional.h"
 #include "ret_val.h"
-#include "string_id.h"
 #include "type_id.h"
+#include "clzones.h"
+#include "colony.h"
+#include "enums.h"
+#include "faction.h"
+#include "item_location.h"
+#include "map_selector.h"
+#include "pimpl.h"
 
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>
@@ -756,16 +761,13 @@ void advanced_inv_area::init()
     const field &tmpfld = g->m.field_at( pos );
     for( auto &fld : tmpfld ) {
         const field_entry &cur = fld.second;
-        field_id curType = cur.get_field_type();
-        switch( curType ) {
-            case fd_fire:
-                flags.append( _( " <color_white_red>FIRE</color>" ) );
-                break;
-            default:
-                if( cur.is_dangerous() ) {
-                    danger_field = true;
-                }
-                break;
+        field_type_id curType = cur.get_field_type();
+        if( curType == fd_fire ) {
+            flags.append( _( " <color_white_red>FIRE</color>" ) );
+        } else {
+            if( cur.is_dangerous() ) {
+                danger_field = true;
+            }
         }
     }
     if( danger_field ) {
@@ -2047,9 +2049,9 @@ bool advanced_inventory::query_destination( aim_location &def )
     menu.pad_left = 9; /* free space for advanced_inventory::menu_square */
 
     {
-        // the direction locations should be contiguous in the enum
         std::vector <aim_location> ordered_locs;
-        assert( AIM_NORTHEAST - AIM_SOUTHWEST == 8 );
+        static_assert( AIM_NORTHEAST - AIM_SOUTHWEST == 8,
+                       "Expected 9 contiguous directions in the aim_location enum" );
         for( int i = AIM_SOUTHWEST; i <= AIM_NORTHEAST; i++ ) {
             ordered_locs.push_back( screen_relative_location( static_cast <aim_location>( i ) ) );
         }

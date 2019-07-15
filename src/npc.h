@@ -12,6 +12,7 @@
 #include <list>
 #include <unordered_map>
 #include <utility>
+#include <functional>
 
 #include "calendar.h"
 #include "line.h"
@@ -22,26 +23,29 @@
 #include "color.h"
 #include "creature.h"
 #include "cursesdef.h"
-#include "enums.h"
 #include "inventory.h"
 #include "item_location.h"
-#include "translations.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "material.h"
 #include "type_id.h"
+#include "faction.h"
+#include "int_id.h"
+#include "item.h"
+#include "point.h"
 
 struct bionic_data;
 class JsonObject;
 class JsonIn;
 class JsonOut;
-class item;
 struct overmap_location;
 class Character;
-class faction;
 class mission;
 class vehicle;
 struct pathfinding_settings;
+class monfaction;
+class npc_class;
+struct mission_type;
 
 enum game_message_type : int;
 class gun_mode;
@@ -752,10 +756,6 @@ class npc : public player
         void starting_weapon( const npc_class_id &type );
 
         // Save & load
-        // Overloaded from player
-        void load_info( std::string data ) override;
-        std::string save_info() const override;
-
         void deserialize( JsonIn &jsin ) override;
         void serialize( JsonOut &jsout ) const override;
 
@@ -864,6 +864,9 @@ class npc : public player
         void activate_item( int position );
         bool has_identified( const std::string & ) const override {
             return true;
+        }
+        bool has_artifact_with( const art_effect_passive ) const override {
+            return false;
         }
         /** Is the item safe or does the NPC trust you enough? */
         bool will_accept_from_player( const item &it ) const;
@@ -1188,7 +1191,6 @@ class npc : public player
          * if no goal exist, this is no_goal_point.
          */
         tripoint goal;
-        std::vector<tripoint> omt_path;
         tripoint wander_pos; // Not actually used (should be: wander there when you hear a sound)
         int wander_time;
         item *known_stolen_item = nullptr; // the item that the NPC wants the player to drop or barter for.
@@ -1237,6 +1239,10 @@ class npc : public player
          * Retroactively update npc.
          */
         void on_load();
+        /**
+         * Update body, but throttled.
+         */
+        void npc_update_body();
 
         /// Set up (start) a companion mission.
         void set_companion_mission( npc &p, const std::string &mission_id );

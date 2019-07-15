@@ -1,5 +1,6 @@
 #include "monattack.h"
 
+#include <assert.h>
 #include <climits>
 #include <cstdlib>
 #include <algorithm>
@@ -46,8 +47,6 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
-#include "vehicle.h"
-#include "vpart_position.h"
 #include "weighted_list.h"
 #include "calendar.h"
 #include "creature.h"
@@ -65,6 +64,11 @@
 #include "string_formatter.h"
 #include "tileray.h"
 #include "type_id.h"
+#include "colony.h"
+#include "flat_set.h"
+#include "material.h"
+#include "point.h"
+#include "units.h"
 
 const mtype_id mon_ant( "mon_ant" );
 const mtype_id mon_ant_acid( "mon_ant_acid" );
@@ -138,6 +142,7 @@ const efftype_id effect_slimed( "slimed" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_targeted( "targeted" );
 const efftype_id effect_teleglow( "teleglow" );
+const efftype_id effect_under_op( "under_operation" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
@@ -171,10 +176,15 @@ static Creature *sting_get_target( monster *z, float range = 5.0f )
         return nullptr;
     }
 
+    if( !z->sees( *target ) ||
+        !g->m.clear_path( z->pos(), target->pos(), range, 1, 100 ) ) {
+        return nullptr; // Can't see/reach target, no attack
+    }
+
     return rl_dist( z->pos(), target->pos() ) <= range ? target : nullptr;
 }
 
-static bool sting_shoot( monster *z, Creature *target, damage_instance &dam )
+static bool sting_shoot( monster *z, Creature *target, damage_instance &dam, float range )
 {
     if( target->uncanny_dodge() ) {
         target->add_msg_if_player( m_bad, _( "The %s shoots a dart but you dodge it." ),
@@ -182,14 +192,26 @@ static bool sting_shoot( monster *z, Creature *target, damage_instance &dam )
         return false;
     }
 
-    body_part bp = target->get_random_body_part();
-    target->absorb_hit( bp, dam );
-    if( dam.total_damage() > 0 ) {
+    projectile proj;
+    proj.speed = 10;
+    proj.range = range;
+    proj.impact.add( dam );
+    proj.proj_effects.insert( "NO_OVERSHOOT" );
+
+    dealt_projectile_attack atk = projectile_attack( proj, z->pos(), target->pos(), { 500 }, z );
+    if( atk.dealt_dam.total_damage() > 0 ) {
         target->add_msg_if_player( m_bad, _( "The %s shoots a dart into you!" ), z->name() );
         return true;
     } else {
-        target->add_msg_if_player( m_bad, _( "The %s shoots a dart but it bounces off your armor." ),
-                                   z->name() );
+        if( atk.missed_by == 1 ) {
+            target->add_msg_if_player( m_good,
+                                       _( "The %s shoots a dart at you, but misses!" ),
+                                       z->name() );
+        } else {
+            target->add_msg_if_player( m_good,
+                                       _( "The %s shoots a dart but it bounces off your armor." ),
+                                       z->name() );
+        }
         return false;
     }
 }
@@ -219,7 +241,7 @@ static bool is_adjacent( const monster *z, const Creature *target, const bool al
     // The square above must have no floor (currently only open air).
     // The square below must have no ceiling (ie. be outside).
     const bool target_above = target->posz() > z->posz();
-    const tripoint &up =   target_above ? target->pos() : z->pos();
+    const tripoint &up   = target_above ? target->pos() : z->pos();
     const tripoint &down = target_above ? z->pos() : target->pos();
     return g->m.ter( up ) == t_open_air && g->m.is_outside( down );
 }
@@ -2606,6 +2628,13 @@ bool mattack::grab_drag( monster *z )
         return false;
     }
 
+    if( target->has_effect( effect_under_op ) ) {
+        target->add_msg_player_or_npc( m_good,
+                                       _( "The %s tries to drag you, but you're securely fastened in the autodoc." ),
+                                       _( "The %s tries to drag <npcname>, but they're securely fastened in the autodoc." ), z->name() );
+        return false;
+    }
+
     player *foe = dynamic_cast< player * >( target );
 
     grab( z ); //First, grab the target
@@ -2634,7 +2663,7 @@ bool mattack::grab_drag( monster *z )
         } else {
             zz->setpos( zpt );
         }
-        target->add_msg_player_or_npc( m_good, _( "You are dragged behind the %s!" ),
+        target->add_msg_player_or_npc( m_bad, _( "You are dragged behind the %s!" ),
                                        _( "<npcname> gets dragged behind the %s!" ), z->name() );
     } else {
         target->add_msg_player_or_npc( m_good, _( "You resist the %s as it tries to drag you!" ),
@@ -2648,7 +2677,8 @@ bool mattack::grab_drag( monster *z )
 
 bool mattack::gene_sting( monster *z )
 {
-    Creature *target = sting_get_target( z, 7.0f );
+    const float range = 7.0f;
+    Creature *target = sting_get_target( z, range );
     if( target == nullptr || !( target->is_player() || target->is_npc() ) ) {
         return false;
     }
@@ -2657,7 +2687,7 @@ bool mattack::gene_sting( monster *z )
 
     damage_instance dam = damage_instance();
     dam.add_damage( DT_STAB, 6, 10, 0.6, 1 );
-    bool hit = sting_shoot( z, target, dam );
+    bool hit = sting_shoot( z, target, dam, range );
     if( hit ) {
         //Add checks if previous NPC/player conditions are removed
         dynamic_cast<player *>( target )->mutate();
@@ -2668,7 +2698,8 @@ bool mattack::gene_sting( monster *z )
 
 bool mattack::para_sting( monster *z )
 {
-    Creature *target = sting_get_target( z, 4.0f );
+    const float range = 4.0f;
+    Creature *target = sting_get_target( z, range );
     if( target == nullptr ) {
         return false;
     }
@@ -2677,7 +2708,7 @@ bool mattack::para_sting( monster *z )
 
     damage_instance dam = damage_instance();
     dam.add_damage( DT_STAB, 6, 8, 0.8, 1 );
-    bool hit = sting_shoot( z, target, dam );
+    bool hit = sting_shoot( z, target, dam, range );
     if( hit ) {
         target->add_msg_if_player( m_bad, _( "You feel poison enter your body!" ) );
         target->add_effect( effect_paralyzepoison, 5_minutes );
@@ -3003,7 +3034,7 @@ bool mattack::photograph( monster *z )
     if( g->u.has_trait( trait_id( "PROF_FED" ) ) ) {
         // And you're wearing your badge
         if( g->u.is_wearing( "badge_marshal" ) ) {
-            add_msg( m_info, _( "The %s flashes a LED and departs.  The Feds have this." ), z->name() );
+            add_msg( m_info, _( "The %s flashes a LED and departs.  The Feds got this." ), z->name() );
             z->no_corpse_quiet = true;
             z->no_extra_death_drops = true;
             z->die( nullptr );
@@ -5074,7 +5105,7 @@ bool mattack::doot( monster *z )
     }
     int spooks = 0;
     for( const tripoint &spookyscary : g->m.points_in_radius( z->pos(), 2 ) ) {
-        if( spookyscary == z->pos() || g->m.impassable( spookyscary ) ) {
+        if( !g->is_empty( spookyscary ) ) {
             continue;
         }
         const int dist = rl_dist( z->pos(), spookyscary );

@@ -1,9 +1,21 @@
 #include "avatar.h"
 
+#include <limits.h>
+#include <stdlib.h>
+#include <algorithm>
+#include <list>
+#include <map>
+#include <memory>
+#include <ostream>
+#include <set>
+#include <tuple>
+#include <unordered_map>
+#include <utility>
+
 #include "action.h"
 #include "bionics.h"
+#include "calendar.h"
 #include "character.h"
-#include "creature.h"
 #include "effect.h"
 #include "enums.h"
 #include "filesystem.h"
@@ -13,12 +25,15 @@
 #include "item.h"
 #include "itype.h"
 #include "map.h"
+#include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
 #include "monstergenerator.h"
+#include "morale.h"
 #include "morale_types.h"
 #include "mutation.h"
 #include "npc.h"
+#include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
@@ -29,20 +44,63 @@
 #include "ui.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "color.h"
+#include "compatibility.h"
+#include "debug.h"
+#include "game_constants.h"
+#include "item_location.h"
+#include "iuse.h"
+#include "mtype.h"
+#include "optional.h"
+#include "output.h"
+#include "pathfinding.h"
+#include "pimpl.h"
+#include "player_activity.h"
+#include "rng.h"
+#include "stomach.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "translations.h"
+#include "units.h"
+
+class JsonIn;
+class JsonOut;
 
 const efftype_id effect_contacts( "contacts" );
+const efftype_id effect_depressants( "depressants" );
+const efftype_id effect_happy( "happy" );
+const efftype_id effect_irradiated( "irradiated" );
+const efftype_id effect_pkill( "pkill" );
+const efftype_id effect_sad( "sad" );
 const efftype_id effect_sleep( "sleep" );
+const efftype_id effect_sleep_deprived( "sleep_deprived" );
 const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+const efftype_id effect_stim( "stim" );
+const efftype_id effect_stim_overdose( "stim_overdose" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_memory( "bio_memory" );
 static const bionic_id bio_watch( "bio_watch" );
 
-static const trait_id trait_FORGETFUL( "FORGETFUL" );
-static const trait_id trait_GOODMEMORY( "GOODMEMORY" );
+static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
+static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
+static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_CHITIN2( "CHITIN2" );
+static const trait_id trait_CHITIN3( "CHITIN3" );
+static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
+static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
+static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
+static const trait_id trait_STIMBOOST( "STIMBOOST" );
+static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
+static const trait_id trait_WEBBED( "WEBBED" );
+static const trait_id trait_WHISKERS( "WHISKERS" );
+static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
+
+const skill_id skill_unarmed( "unarmed" );
 
 avatar::avatar() : player()
 {
@@ -318,15 +376,12 @@ size_t avatar::max_memorized_tiles() const
     // Only check traits once a turn since this is called a huge number of times.
     if( current_map_memory_turn != calendar::turn ) {
         current_map_memory_turn = calendar::turn;
+        float map_memory_capacity_multiplier =
+            mutation_value( "map_memory_capacity_multiplier" );
         if( has_active_bionic( bio_memory ) ) {
-            current_map_memory_capacity = SEEX * SEEY * 20000; // 5000 overmap tiles
-        } else if( has_trait( trait_FORGETFUL ) ) {
-            current_map_memory_capacity = SEEX * SEEY * 200; // 50 overmap tiles
-        } else if( has_trait( trait_GOODMEMORY ) ) {
-            current_map_memory_capacity = SEEX * SEEY * 800; // 200 overmap tiles
-        } else {
-            current_map_memory_capacity = SEEX * SEEY * 400; // 100 overmap tiles
+            map_memory_capacity_multiplier = 50;
         }
+        current_map_memory_capacity = 2 * SEEX * 2 * SEEY * 100 * map_memory_capacity_multiplier;
     }
     return current_map_memory_capacity;
 }
@@ -687,6 +742,26 @@ bool avatar::read( int inventory_position, const bool continuous )
             }
             act.index = menu.ret;
         }
+        if( it.type->use_methods.count( "MA_MANUAL" ) ) {
+
+            if( g->u.has_martialart( martial_art_learned_from( *it.type ) ) ) {
+                g->u.add_msg_if_player( m_info, _( "You already know all this book has to teach." ) );
+                activity.set_to_null();
+                return false;
+            }
+
+            uilist menu;
+            menu.title = string_format( _( "Train %s from manual:" ),
+                                        martial_art_learned_from( *it.type )->name );
+            menu.addentry( -1, true, 1, _( "Train once." ) );
+            menu.addentry( getID(), true, 2, _( "Train until tired or success." ) );
+            menu.query( true );
+            if( menu.ret == UILIST_CANCEL ) {
+                add_msg( m_info, _( "Never mind." ) );
+                return false;
+            }
+            act.index = menu.ret;
+        }
         add_msg( m_info, _( "Now reading %s, %s to stop early." ),
                  it.type_name(), press_x( ACTION_PAUSE ) );
     }
@@ -748,6 +823,17 @@ bool avatar::read( int inventory_position, const bool continuous )
         add_msg( m_warning,
                  _( "This book is too complex for %s to easily understand. It will take longer to read." ),
                  complex_player->disp_name() );
+    }
+
+    // push an indentifier of martial art book to the action handling
+    if( it.type->use_methods.count( "MA_MANUAL" ) ) {
+
+        if( g->u.stamina < g->u.get_stamina_max() / 10 ) {
+            add_msg( m_info, _( "You are too exhausted to train martial arts." ) );
+            return false;
+        }
+        act.str_values.clear();
+        act.str_values.emplace_back( "martial_art" );
     }
 
     assign_activity( act );
@@ -814,9 +900,21 @@ void avatar::do_read( item &book )
         if( book_fun_for( book, *this ) != 0 ) {
             add_msg( m_info, _( "Reading this book affects your morale by %d" ), book_fun_for( book, *this ) );
         }
-        add_msg( m_info, ngettext( "A chapter of this book takes %d minute to read.",
-                                   "A chapter of this book takes %d minutes to read.", reading->time ),
-                 reading->time );
+
+        if( book.type->use_methods.count( "MA_MANUAL" ) ) {
+            const matype_id style_to_learn = martial_art_learned_from( *book.type );
+            add_msg( m_info, _( "You can learn %s style from it." ), style_to_learn->name );
+            add_msg( m_info, _( "This fighting style is %s to learn." ),
+                     martialart_difficulty( style_to_learn ) );
+            add_msg( m_info, _( "It would be easier to master if you'd have skill expertise in %s." ),
+                     style_to_learn->primary_skill->name() );
+            add_msg( m_info, _( "A training session with this book takes %s" ),
+                     to_string( time_duration::from_minutes( reading->time ) ) );
+        } else {
+            add_msg( m_info, ngettext( "A chapter of this book takes %d minute to read.",
+                                       "A chapter of this book takes %d minutes to read.", reading->time ),
+                     reading->time );
+        }
 
         std::vector<std::string> recipe_list;
         for( const auto &elem : reading->recipes ) {
@@ -965,18 +1063,51 @@ void avatar::do_read( item &book )
         }
     }
 
+    // NPCs can't learn martial arts from manuals (yet).
+    auto m = book.type->use_methods.find( "MA_MANUAL" );
+    if( m != book.type->use_methods.end() ) {
+        const matype_id style_to_learn = martial_art_learned_from( *book.type );
+        skill_id skill_used = style_to_learn->primary_skill;
+        int difficulty = std::max( 1, style_to_learn->learn_difficulty );
+        difficulty = std::max( 1, 20 + difficulty * 2 - g->u.get_skill_level( skill_used ) * 2 );
+        add_msg( m_debug, _( "Chance to learn one in: %d" ), difficulty );
+
+        if( one_in( difficulty ) ) {
+            m->second.call( *this, book, false, pos() );
+            continuous = false;
+        } else {
+            if( activity.index == g->u.getID() ) {
+                continuous = true;
+                switch( rng( 1, 5 ) ) {
+                    case 1:
+                        add_msg( m_info,
+                                 _( "You train the moves according to the book, but can't get a grasp of the style, so you start from the beginning." ) );
+                        break;
+                    case 2:
+                        add_msg( m_info,
+                                 _( "This martial art is not easy to grasp.  You start training the moves from the beginning." ) );
+                        break;
+                    case 3:
+                        add_msg( m_info,
+                                 _( "You decide to read the manual and train even more.  In martial arts, patience leads to mastery." ) );
+                        break;
+                    case 4:
+                    case 5:
+                        add_msg( m_info, _( "You try again.  This training will finally pay off." ) );
+                        break;
+                }
+            } else {
+                add_msg( m_info, _( "You train for a while." ) );
+            }
+        }
+    }
+
     if( continuous ) {
         activity.set_to_null();
         read( get_item_position( &book ), true );
         if( activity ) {
             return;
         }
-    }
-
-    // NPCs can't learn martial arts from manuals (yet).
-    auto m = book.type->use_methods.find( "MA_MANUAL" );
-    if( m != book.type->use_methods.end() ) {
-        m->second.call( *this, book, false, pos() );
     }
 
     activity.set_to_null();
@@ -1028,4 +1159,385 @@ void avatar::vomit()
         add_msg( m_warning, _( "You retched, but your stomach is empty." ) );
     }
     Character::vomit();
+}
+
+void avatar::disp_morale()
+{
+    morale->display( ( calc_focus_equilibrium() - focus_pool ) / 100.0 );
+}
+
+// written mostly by FunnyMan3595 in Github issue #613 (DarklingWolf's repo),
+// with some small edits/corrections by Soron
+int avatar::calc_focus_equilibrium() const
+{
+    int focus_gain_rate = 100;
+
+    if( activity.id() == activity_id( "ACT_READ" ) ) {
+        const item &book = *activity.targets[0].get_item();
+        if( book.is_book() && get_item_position( &book ) != INT_MIN ) {
+            auto &bt = *book.type->book;
+            // apply a penalty when we're actually learning something
+            const SkillLevel &skill_level = get_skill_level_object( bt.skill );
+            if( skill_level.can_train() && skill_level < bt.level ) {
+                focus_gain_rate -= 50;
+            }
+        }
+    }
+
+    int eff_morale = get_morale_level();
+    // Factor in perceived pain, since it's harder to rest your mind while your body hurts.
+    // Cenobites don't mind, though
+    if( !has_trait( trait_CENOBITE ) ) {
+        eff_morale = eff_morale - get_perceived_pain();
+    }
+
+    if( eff_morale < -99 ) {
+        // At very low morale, focus goes up at 1% of the normal rate.
+        focus_gain_rate = 1;
+    } else if( eff_morale <= 50 ) {
+        // At -99 to +50 morale, each point of morale gives 1% of the normal rate.
+        focus_gain_rate += eff_morale;
+    } else {
+        /* Above 50 morale, we apply strong diminishing returns.
+        * Each block of 50% takes twice as many morale points as the previous one:
+        * 150% focus gain at 50 morale (as before)
+        * 200% focus gain at 150 morale (100 more morale)
+        * 250% focus gain at 350 morale (200 more morale)
+        * ...
+        * Cap out at 400% focus gain with 3,150+ morale, mostly as a sanity check.
+        */
+
+        int block_multiplier = 1;
+        int morale_left = eff_morale;
+        while( focus_gain_rate < 400 ) {
+            if( morale_left > 50 * block_multiplier ) {
+                // We can afford the entire block.  Get it and continue.
+                morale_left -= 50 * block_multiplier;
+                focus_gain_rate += 50;
+                block_multiplier *= 2;
+            } else {
+                // We can't afford the entire block.  Each block_multiplier morale
+                // points give 1% focus gain, and then we're done.
+                focus_gain_rate += morale_left / block_multiplier;
+                break;
+            }
+        }
+    }
+
+    // This should be redundant, but just in case...
+    if( focus_gain_rate < 1 ) {
+        focus_gain_rate = 1;
+    } else if( focus_gain_rate > 400 ) {
+        focus_gain_rate = 400;
+    }
+
+    return focus_gain_rate;
+}
+
+void avatar::update_mental_focus()
+{
+    int focus_gain_rate = calc_focus_equilibrium() - focus_pool;
+
+    // handle negative gain rates in a symmetric manner
+    int base_change = 1;
+    if( focus_gain_rate < 0 ) {
+        base_change = -1;
+        focus_gain_rate = -focus_gain_rate;
+    }
+
+    // for every 100 points, we have a flat gain of 1 focus.
+    // for every n points left over, we have an n% chance of 1 focus
+    int gain = focus_gain_rate / 100;
+    if( rng( 1, 100 ) <= ( focus_gain_rate % 100 ) ) {
+        gain++;
+    }
+
+    focus_pool += ( gain * base_change );
+
+    // Fatigue should at least prevent high focus
+    // This caps focus gain at 60(arbitrary value) if you're Dead Tired
+    if( get_fatigue() >= DEAD_TIRED && focus_pool > 60 ) {
+        focus_pool = 60;
+    }
+
+    // Moved from calc_focus_equilibrium, because it is now const
+    if( activity.id() == activity_id( "ACT_READ" ) ) {
+        const item *book = activity.targets[0].get_item();
+        if( get_item_position( book ) == INT_MIN || !book->is_book() ) {
+            add_msg_if_player( m_bad, _( "You lost your book! You stop reading." ) );
+            activity.set_to_null();
+        }
+    }
+}
+
+void avatar::reset_stats()
+{
+    // Trait / mutation buffs
+    if( has_trait( trait_THICK_SCALES ) ) {
+        add_miss_reason( _( "Your thick scales get in the way." ), 2 );
+    }
+    if( has_trait( trait_CHITIN2 ) || has_trait( trait_CHITIN3 ) || has_trait( trait_CHITIN_FUR3 ) ) {
+        add_miss_reason( _( "Your chitin gets in the way." ), 1 );
+    }
+    if( has_trait( trait_COMPOUND_EYES ) && !wearing_something_on( bp_eyes ) ) {
+        mod_per_bonus( 1 );
+    }
+    if( has_trait( trait_INSECT_ARMS ) ) {
+        add_miss_reason( _( "Your insect limbs get in the way." ), 2 );
+    }
+    if( has_trait( trait_INSECT_ARMS_OK ) ) {
+        if( !wearing_something_on( bp_torso ) ) {
+            mod_dex_bonus( 1 );
+        } else {
+            mod_dex_bonus( -1 );
+            add_miss_reason( _( "Your clothing restricts your insect arms." ), 1 );
+        }
+    }
+    if( has_trait( trait_WEBBED ) ) {
+        add_miss_reason( _( "Your webbed hands get in the way." ), 1 );
+    }
+    if( has_trait( trait_ARACHNID_ARMS ) ) {
+        add_miss_reason( _( "Your arachnid limbs get in the way." ), 4 );
+    }
+    if( has_trait( trait_ARACHNID_ARMS_OK ) ) {
+        if( !wearing_something_on( bp_torso ) ) {
+            mod_dex_bonus( 2 );
+        } else if( !exclusive_flag_coverage( "OVERSIZE" ).test( bp_torso ) ) {
+            mod_dex_bonus( -2 );
+            add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
+        }
+    }
+    const auto set_fake_effect_dur = [this]( const efftype_id & type, const time_duration & dur ) {
+        effect &eff = get_effect( type );
+        if( eff.get_duration() == dur ) {
+            return;
+        }
+
+        if( eff.is_null() && dur > 0_turns ) {
+            add_effect( type, dur, num_bp, true );
+        } else if( dur > 0_turns ) {
+            eff.set_duration( dur );
+        } else {
+            remove_effect( type, num_bp );
+        }
+    };
+    // Painkiller
+    set_fake_effect_dur( effect_pkill, 1_turns * get_painkiller() );
+
+    // Pain
+    if( get_perceived_pain() > 0 ) {
+        const auto ppen = get_pain_penalty();
+        mod_str_bonus( -ppen.strength );
+        mod_dex_bonus( -ppen.dexterity );
+        mod_int_bonus( -ppen.intelligence );
+        mod_per_bonus( -ppen.perception );
+        if( ppen.dexterity > 0 ) {
+            add_miss_reason( _( "Your pain distracts you!" ), static_cast<unsigned>( ppen.dexterity ) );
+        }
+    }
+
+    // Radiation
+    set_fake_effect_dur( effect_irradiated, 1_turns * radiation );
+    // Morale
+    const int morale = get_morale_level();
+    set_fake_effect_dur( effect_happy, 1_turns * morale );
+    set_fake_effect_dur( effect_sad, 1_turns * -morale );
+
+    // Stimulants
+    set_fake_effect_dur( effect_stim, 1_turns * stim );
+    set_fake_effect_dur( effect_depressants, 1_turns * -stim );
+    if( has_trait( trait_STIMBOOST ) ) {
+        set_fake_effect_dur( effect_stim_overdose, 1_turns * ( stim - 60 ) );
+    } else {
+        set_fake_effect_dur( effect_stim_overdose, 1_turns * ( stim - 30 ) );
+    }
+    // Starvation
+    const float bmi = get_bmi();
+    if( bmi < character_weight_category::underweight ) {
+        const int str_penalty = floor( ( 1.0f - ( bmi - 13.0f ) / 3.0f ) * get_str_base() ) + 0.5f;
+        add_miss_reason( _( "You're weak from hunger." ),
+                         static_cast<unsigned>( ( get_starvation() + 300 ) / 1000 ) );
+        mod_str_bonus( -str_penalty );
+        mod_dex_bonus( -( str_penalty / 2 ) );
+        mod_int_bonus( -( str_penalty / 2 ) );
+    }
+    // Thirst
+    if( get_thirst() >= 200 ) {
+        // We die at 1200
+        const int dex_mod = -get_thirst() / 200;
+        add_miss_reason( _( "You're weak from thirst." ), static_cast<unsigned>( -dex_mod ) );
+        mod_str_bonus( -get_thirst() / 200 );
+        mod_dex_bonus( dex_mod );
+        mod_int_bonus( -get_thirst() / 200 );
+        mod_per_bonus( -get_thirst() / 200 );
+    }
+    if( get_sleep_deprivation() >= SLEEP_DEPRIVATION_HARMLESS ) {
+        set_fake_effect_dur( effect_sleep_deprived, 1_turns * get_sleep_deprivation() );
+    } else if( has_effect( effect_sleep_deprived ) ) {
+        remove_effect( effect_sleep_deprived );
+    }
+
+    // Dodge-related effects
+    mod_dodge_bonus( mabuff_dodge_bonus() -
+                     ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20.0f -
+                     ( encumb( bp_torso ) / 10.0f ) );
+    // Whiskers don't work so well if they're covered
+    if( has_trait( trait_WHISKERS ) && !wearing_something_on( bp_mouth ) ) {
+        mod_dodge_bonus( 1 );
+    }
+    if( has_trait( trait_WHISKERS_RAT ) && !wearing_something_on( bp_mouth ) ) {
+        mod_dodge_bonus( 2 );
+    }
+    // Spider hair is basically a full-body set of whiskers, once you get the brain for it
+    if( has_trait( trait_CHITIN_FUR3 ) ) {
+        static const std::array<body_part, 5> parts{ { bp_head, bp_arm_r, bp_arm_l, bp_leg_r, bp_leg_l } };
+        for( auto bp : parts ) {
+            if( !wearing_something_on( bp ) ) {
+                mod_dodge_bonus( +1 );
+            }
+        }
+        // Torso handled separately, bigger bonus
+        if( !wearing_something_on( bp_torso ) ) {
+            mod_dodge_bonus( 4 );
+        }
+    }
+
+    // Hit-related effects
+    mod_hit_bonus( mabuff_tohit_bonus() + weapon.type->m_to_hit );
+
+    // Apply static martial arts buffs
+    ma_static_effects();
+
+    if( calendar::once_every( 1_minutes ) ) {
+        update_mental_focus();
+    }
+
+    // Effects
+    for( const auto &maps : *effects ) {
+        for( auto i : maps.second ) {
+            const auto &it = i.second;
+            bool reduced = resists_effect( it );
+            mod_str_bonus( it.get_mod( "STR", reduced ) );
+            mod_dex_bonus( it.get_mod( "DEX", reduced ) );
+            mod_per_bonus( it.get_mod( "PER", reduced ) );
+            mod_int_bonus( it.get_mod( "INT", reduced ) );
+        }
+    }
+
+    Character::reset_stats();
+
+    recalc_sight_limits();
+    recalc_speed_bonus();
+
+}
+
+int avatar::get_str_base() const
+{
+    return Character::get_str_base() + std::max( 0, str_upgrade );
+}
+
+int avatar::get_dex_base() const
+{
+    return Character::get_dex_base() + std::max( 0, dex_upgrade );
+}
+
+int avatar::get_int_base() const
+{
+    return Character::get_int_base() + std::max( 0, int_upgrade );
+}
+
+int avatar::get_per_base() const
+{
+    return Character::get_per_base() + std::max( 0, per_upgrade );
+}
+
+int avatar::kill_xp() const
+{
+    // TODO: game::kills probably should be avatar::kills
+    return g->kill_xp();
+}
+
+// based on  D&D 5e level progression
+static const std::array<int, 20> xp_cutoffs = { {
+        300, 900, 2700, 6500, 14000,
+        23000, 34000, 48000, 64000, 85000,
+        100000, 120000, 140000, 165000, 195000,
+        225000, 265000, 305000, 355000, 405000
+    }
+};
+
+int avatar::free_upgrade_points() const
+{
+    const int xp = kill_xp();
+    int lvl = 0;
+    for( const int &xp_lvl : xp_cutoffs ) {
+        if( xp >= xp_lvl ) {
+            lvl++;
+        } else {
+            break;
+        }
+    }
+    return lvl - str_upgrade - dex_upgrade - int_upgrade - per_upgrade;
+}
+
+static int xp_to_next( const avatar &you )
+{
+    const int cur_xp = you.kill_xp();
+    // Initialize to 'already max level' sentinel
+    int xp_next = -1;
+    // Iterate in reverse: { 405k, 355k, 305k, ..., 300 }
+    for( std::array<int, 20>::const_reverse_iterator iter = xp_cutoffs.crbegin();
+         iter != xp_cutoffs.crend(); ++iter ) {
+        if( cur_xp < *iter ) {
+            xp_next = *iter;
+        }
+    }
+    return xp_next;
+}
+
+void avatar::upgrade_stat_prompt( const Character::stat &stat )
+{
+    const int free_points = free_upgrade_points();
+    const int next_lvl_xp = xp_to_next( *this );
+
+    if( free_points <= 0 ) {
+        popup( _( "No available stat points to spend.  Experience to next level: %d" ), next_lvl_xp );
+        return;
+    }
+
+    std::string stat_string;
+    switch( stat ) {
+        case STRENGTH:
+            stat_string = _( "strength" );
+            break;
+        case DEXTERITY:
+            stat_string = _( "dexterity" );
+            break;
+        case INTELLIGENCE:
+            stat_string = _( "intelligence" );
+            break;
+        case PERCEPTION:
+            stat_string = _( "perception" );
+            break;
+        default:
+            return;
+    }
+
+    if( query_yn( _( "Are you sure you want to raise %s? %d points available." ), stat_string,
+                  free_points ) ) {
+        switch( stat ) {
+            case STRENGTH:
+                str_upgrade++;
+                break;
+            case DEXTERITY:
+                dex_upgrade++;
+                break;
+            case INTELLIGENCE:
+                int_upgrade++;
+                break;
+            case PERCEPTION:
+                per_upgrade++;
+                break;
+        }
+    }
 }

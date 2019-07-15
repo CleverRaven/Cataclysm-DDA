@@ -9,12 +9,15 @@
 #include <set>
 #include <vector>
 #include <string>
+#include <utility>
 
-#include "construction_category.h"
 #include "item.h"
 #include "optional.h"
 #include "string_id.h"
 #include "type_id.h"
+
+class inventory;
+class player;
 
 namespace catacurses
 {
@@ -53,6 +56,9 @@ struct construction {
 
         // Flags beginning terrain must have
         std::set<std::string> pre_flags;
+
+        // Post construction flags
+        std::set<std::string> post_flags;
 
         /** Skill->skill level mapping. Can be empty. */
         std::map<skill_id, int> required_skills;

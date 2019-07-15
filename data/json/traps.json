@@ -540,6 +540,20 @@
   },
   {
     "type": "trap",
+    "id": "tr_downspout_funnel",
+    "name": "downspout funnel",
+    "color": "brown",
+    "symbol": "v",
+    "looks_like": "t_gutter_downspout",
+    "visibility": 999,
+    "avoidance": 0,
+    "difficulty": 0,
+    "action": "none",
+    "benign": true,
+    "funnel_radius": 1200
+  },
+  {
+    "type": "trap",
     "id": "tr_metal_funnel",
     "name": "metal funnel",
     "color": "dark_gray",
