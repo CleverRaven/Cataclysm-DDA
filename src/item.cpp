@@ -6106,8 +6106,7 @@ bool item::magazine_integral() const
         }
     }
 
-    // We have an integral magazine if we're a gun with an ammo capacity (clip) or we have no magazines.
-    return ( is_gun() && type->gun->clip > 0 ) || type->magazines.empty();
+    return !integral_magazines().empty();
 }
 
 itype_id item::magazine_default( bool conversion ) const
