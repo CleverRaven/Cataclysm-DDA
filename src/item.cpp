@@ -380,8 +380,8 @@ item &item::activate()
 item &item::ammo_set( const itype_id &ammo, int qty )
 {
     if( qty < 0 ) {
-        // completely fill an integral or existing magazine
-        if( magazine_integral() || magazine_current() ) {
+        // completely fill an integral or detachable magazine
+        if( magazine_current() ) {
             qty = ammo_capacity();
 
             // else try to add a magazine using default ammo count property if set
@@ -402,7 +402,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
 
     // handle reloadable tools and guns with no specific ammo type as special case
     if( ( ammo == "null" && ammo_types().empty() ) || is_money() ) {
-        if( ( is_tool() || is_gun() ) && magazine_integral() ) {
+        if( ( is_tool() || is_gun() ) && !magazine_current() ) {
             curammo = nullptr;
             charges = std::min( qty, ammo_capacity() );
         }
@@ -423,10 +423,6 @@ item &item::ammo_set( const itype_id &ammo, int qty )
             contents.back().item_tags.insert( "NO_DROP" );
             contents.back().item_tags.insert( "IRREMOVABLE" );
         }
-
-    } else if( magazine_integral() ) {
-        curammo = atype;
-        charges = std::min( qty, ammo_capacity() );
 
     } else {
         if( !magazine_current() ) {
@@ -472,9 +468,6 @@ item &item::ammo_unset()
         // do nothing
     } else if( is_magazine() ) {
         contents.clear();
-    } else if( magazine_integral() ) {
-        curammo = nullptr;
-        charges = 0;
     } else if( magazine_current() ) {
         magazine_current()->ammo_unset();
     }
