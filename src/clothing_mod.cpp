@@ -5,6 +5,7 @@
 
 #include "generic_factory.h"
 #include "item.h"
+#include "debug.h"
 
 namespace
 {
@@ -12,6 +13,25 @@ namespace
 generic_factory<clothing_mod> all_clothing_mods( "clothing mods" );
 
 } // namespace
+
+static cm_type cm_type_from_string( const std::string &str )
+{
+    if( str == "acid" ) {
+        return cm_acid;
+    } else if( str == "fire" ) {
+        return cm_fire;
+    } else if( str == "bash" ) {
+        return cm_bash;
+    } else if( str == "cut" ) {
+        return cm_cut;
+    } else if( str == "encumber" ) {
+        return cm_encumber;
+    } else if( str == "warmth" ) {
+        return cm_warmth;
+    }
+    debugmsg( "Invalid mod type '%s'.", str.c_str() );
+    return cm_invalid;
+}
 
 /** @relates string_id */
 template<>
@@ -38,7 +58,9 @@ void clothing_mod::load( JsonObject &jo, const std::string & )
     while( jarr.has_more() ) {
         JsonObject mv_jo = jarr.next_object();
         mod_value mv;
-        mandatory( mv_jo, was_loaded, "type", mv.type );
+        std::string temp_str;
+        mandatory( mv_jo, was_loaded, "type", temp_str );
+        mv.type = cm_type_from_string( temp_str );
         mandatory( mv_jo, was_loaded, "value", mv.value );
         JsonArray jarr_prop = mv_jo.get_array( "proportion" );
         while( jarr_prop.has_more() ) {
@@ -47,18 +69,20 @@ void clothing_mod::load( JsonObject &jo, const std::string & )
                 mv.thickness_propotion = true;
             } else if( str == "coverage" ) {
                 mv.coverage_propotion = true;
+            } else {
+                jarr_prop.throw_error( "Invalid value, valid are: \"coverage\" and \"thickness\"" );
             }
         }
         mod_values.push_back( mv );
     }
 }
 
-float clothing_mod::get_mod_val( const std::string type, const item &it )
+float clothing_mod::get_mod_val( const cm_type &type, const item &it ) const
 {
     const int thickness = it.get_thickness();
     const int coverage = it.get_coverage();
     float result = 0.0f;
-    for( mod_value &mv : mod_values ) {
+    for( const mod_value &mv : mod_values ) {
         if( mv.type == type ) {
             float tmp = mv.value;
             if( mv.thickness_propotion ) {

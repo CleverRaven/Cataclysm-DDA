@@ -4318,9 +4318,9 @@ int item::get_encumber_when_containing(
             break;
     }
 
-    for( auto cm : clothing_mods::get_all() ) {
+    for( auto &cm : clothing_mods::get_all() ) {
         if( item_tags.count( cm.flag ) > 0 ) {
-            encumber += std::max( 1, static_cast<int>( ceil( cm.get_mod_val( "encumber", *this ) ) ) );
+            encumber += std::max( 1, static_cast<int>( ceil( cm.get_mod_val( cm_encumber, *this ) ) ) );
         }
     }
 
@@ -4374,9 +4374,9 @@ int item::get_warmth() const
     }
     int result = t->warmth;
 
-    for( auto cm : clothing_mods::get_all() ) {
+    for( auto &cm : clothing_mods::get_all() ) {
         if( item_tags.count( cm.flag ) > 0 ) {
-            result += cm.get_mod_val( "warmth", *this );
+            result += cm.get_mod_val( cm_warmth, *this );
         }
     }
 
@@ -4505,9 +4505,9 @@ int item::bash_resist( bool to_self ) const
         eff_thickness = std::max( 1, get_thickness() - eff_damage );
     }
 
-    for( auto cm : clothing_mods::get_all() ) {
+    for( auto &cm : clothing_mods::get_all() ) {
         if( item_tags.count( cm.flag ) > 0 ) {
-            mod += cm.get_mod_val( "bash", *this );
+            mod += cm.get_mod_val( cm_bash, *this );
         }
     }
 
@@ -4542,9 +4542,9 @@ int item::cut_resist( bool to_self ) const
         const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
         eff_thickness = std::max( 1, base_thickness - eff_damage );
     }
-    for( auto cm : clothing_mods::get_all() ) {
+    for( auto &cm : clothing_mods::get_all() ) {
         if( item_tags.count( cm.flag ) > 0 ) {
-            mod += cm.get_mod_val( "cut", *this );
+            mod += cm.get_mod_val( cm_cut, *this );
         }
     }
 
@@ -4601,9 +4601,9 @@ int item::acid_resist( bool to_self, int base_env_resist ) const
         resist *= env / 10.0f;
     }
 
-    for( auto cm : clothing_mods::get_all() ) {
+    for( auto &cm : clothing_mods::get_all() ) {
         if( item_tags.count( cm.flag ) > 0 ) {
-            mod += cm.get_mod_val( "acid", *this );
+            mod += cm.get_mod_val( cm_acid, *this );
         }
     }
 
@@ -4638,9 +4638,9 @@ int item::fire_resist( bool to_self, int base_env_resist ) const
         resist *= env / 10.0f;
     }
 
-    for( auto cm : clothing_mods::get_all() ) {
+    for( auto &cm : clothing_mods::get_all() ) {
         if( item_tags.count( cm.flag ) > 0 ) {
-            mod += cm.get_mod_val( "fire", *this );
+            mod += cm.get_mod_val( cm_fire, *this );
         }
     }
 
