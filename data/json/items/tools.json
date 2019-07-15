@@ -5531,6 +5531,29 @@
     "qualities": [ [ "DISTILL", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
+    "id": "autoclave",
+    "type": "TOOL",
+    "name": "autoclave",
+    "description": "This is an autoclave.  It's useful for sterilizing things like CBMs.",
+    "weight": 34500,
+    "volume": "76 L",
+    "price": 162654,
+    "to_hit": -6,
+    "bashing": 10,
+    "material": "metal",
+    "symbol": "A",
+    "color": "yellow",
+    "use_action": "autoclave",
+    "ammo": "battery",
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
+  },
+  {
     "id": "survival_marker",
     "type": "TOOL",
     "name": "survival marker",
