@@ -809,8 +809,8 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [ [ [ "rag", 6 ] ] ]
-	},
-	{
+  },
+  {
     "result": "the bigpack",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -822,8 +822,8 @@
     "using": [ [ "sewing_standard", 150 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "leather", 20 ], [ "tanned_hide", 4 ] ], [ [ "sheet_metal_small", 8 ] ], [ [ "cordage", 2, "LIST"] ], [ [ "leather_pouch", 2 ] ] ]
-	},
-    {
+  },
+  {
     "result": "travel pack",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -834,8 +834,8 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 40 ] ],
     "components": [ [ [ "rag", 5 ] ] , [ [ "cordage", 1, "LIST" ] ] ]
-	},
-	{
+  },
+  {
     "result": "petpack",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -846,8 +846,8 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 100 ] ],
     "components": [ [ [ "rag", 5 ] ], [ [ "plastic_chunk", 8 ] ] ]
-	},
-	{
+  },
+  {
     "result": "large tactical backpack",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -858,8 +858,8 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 100 ] ],
     "components": [ [ [ "leather", 5 ], [ "tanned_pelt", 1 ] ], [ [ "cordage", 1, "LIST" ] ] ]
-	},
-	{
+  },
+  {
     "result": "hiking backpack",
     "type": "recipe",
     "category": "CC_ARMOR",
