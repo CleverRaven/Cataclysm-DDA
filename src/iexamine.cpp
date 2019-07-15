@@ -4314,6 +4314,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     if( item::type_is_defined( bio.id.str() ) ) {// put cbm items in your inventory
                         item bionic_to_uninstall( bio.id.str(), calendar::turn );
                         bionic_to_uninstall.set_flag( "IN_CBM" );
+                        bionic_to_uninstall.set_flag( "NO_STERILE" );
+                        bionic_to_uninstall.set_flag( "NO_PACKED" );
                         g->u.i_add( bionic_to_uninstall );
                     }
                 }
