@@ -3385,12 +3385,18 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( is_filthy() ) {
         ret << _( " (filthy)" );
     }
-    if( is_bionic() && !has_flag( "NO_STERILE" ) ) {
+    if( is_bionic() && ( !has_flag( "NO_PACKED" ) || has_flag( "PACKED_FAULTY" ) ) ) {
+        if( !has_flag( "NO_STERILE" ) ) {
+            ret << _( " (sterile)" );
+        } else {
+            ret << _( " (packed)" );
+        }
+    }
+    if( is_bionic() && !has_flag( "NO_STERILE" ) && !( !has_flag( "NO_PACKED" ) ||
+            has_flag( "PACKED_FAULTY" ) ) ) {
         ret << _( " (sterile)" );
     }
-    if( is_bionic() && ( !has_flag( "NO_PACKED" ) || has_flag( "PACKED_FAULTY" ) ) ) {
-        ret << _( " (packed)" );
-    }
+
     if( is_tool() && has_flag( "USE_UPS" ) ) {
         ret << _( " (UPS)" );
     }
@@ -8271,7 +8277,8 @@ bool item::process( player *carrier, const tripoint &pos, bool activate,
         return processed;
     }
 
-    if( is_bionic() && !has_flag( "NO_STERILE" ) && has_flag( "NO_PACKED" ) ) {
+    if( is_bionic() && !has_flag( "NO_STERILE" ) && ( has_flag( "NO_PACKED" ) ||
+            has_flag( "PACKED_FAULTY" ) ) ) {
         if( !has_var( "sterile" ) ) {
             set_flag( "NO_STERILE" );
             return false;

@@ -3816,7 +3816,7 @@
     "max_volume": 4000,
     "insulation": 2,
     "looks_like": "f_washer",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "SEALED" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
@@ -3861,7 +3861,7 @@
     "max_volume": 4000,
     "insulation": 2,
     "looks_like": "f_washer",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "SEALED" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
