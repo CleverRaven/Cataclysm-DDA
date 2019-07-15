@@ -2804,7 +2804,7 @@ void game::reset_npc_dispositions()
 bool game::save_factions_missions_npcs()
 {
     std::string masterfile = get_world_base_save_path() + "/master.gsav";
-    return write_to_file_exclusive( masterfile, [&]( std::ostream & fout ) {
+    return write_to_file( masterfile, [&]( std::ostream & fout ) {
         serialize_master( fout );
     }, _( "factions data" ) );
 }
@@ -2867,7 +2867,7 @@ bool game::save()
             !save_maps() ||
             !get_auto_pickup().save_character() ||
             !get_safemode().save_character() ||
-        !write_to_file_exclusive( get_world_base_save_path() + "/uistate.json", [&]( std::ostream & fout ) {
+        !write_to_file( get_world_base_save_path() + "/uistate.json", [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
             uistate.serialize( jsout );
         }, _( "uistate data" ) ) ) {

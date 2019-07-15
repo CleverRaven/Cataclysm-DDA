@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <cstdlib>
 #include <cstring>
-#include <fstream>
 #include <map>
 #include <string>
 #include <vector>
@@ -146,14 +145,12 @@ void edit_json( SAVEOBJ &it )
                 tmret = -2;
             }
         } else if( tmret == 2 ) {
-            std::ofstream fout;
-            fout.open( "save/jtest-1j.txt" );
-            fout << osave1;
-            fout.close();
-
-            fout.open( "save/jtest-2j.txt" );
-            fout << serialize( it );
-            fout.close();
+            write_to_file( "save/jtest-1j.txt", [&]( std::ostream & fout ) {
+                fout << osave1;
+            }, nullptr );
+            write_to_file( "save/jtest-2j.txt", [&]( std::ostream & fout ) {
+                fout << serialize( it );
+            }, nullptr );
         }
         tm.addentry( 0, true, 'r', pgettext( "item manipulation debug menu entry", "rehash" ) );
         tm.addentry( 1, true, 'e', pgettext( "item manipulation debug menu entry", "edit" ) );

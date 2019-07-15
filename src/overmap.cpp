@@ -1,4 +1,4 @@
-﻿#include "omdata.h" // IWYU pragma: associated
+#include "omdata.h" // IWYU pragma: associated
 #include "overmap.h" // IWYU pragma: associated
 
 #include <algorithm>
@@ -4297,16 +4297,13 @@ void overmap::open( overmap_special_batch &enabled_specials )
 // Note: this may throw io errors from std::ofstream
 void overmap::save() const
 {
-    const std::string plrfilename = overmapbuffer::player_filename( loc );
-    const std::string terfilename = overmapbuffer::terrain_filename( loc );
+    write_to_file( overmapbuffer::player_filename( loc ), [&]( std::ostream & stream ) {
+        serialize_view( stream );
+    } );
 
-    ofstream_wrapper fout_player( plrfilename );
-    serialize_view( fout_player );
-    fout_player.close();
-
-    ofstream_wrapper_exclusive fout_terrain( terfilename );
-    serialize( fout_terrain );
-    fout_terrain.close();
+    write_to_file( overmapbuffer::terrain_filename( loc ), [&]( std::ostream & stream ) {
+        serialize( stream );
+    } );
 }
 
 void overmap::add_mon_group( const mongroup &group )
