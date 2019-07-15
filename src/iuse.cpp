@@ -9027,6 +9027,35 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
         return 0;
     }
 
+    wash_items( p, false );
+    return 0;
+}
+
+int iuse::washcbms( player *p, item *, bool, const tripoint & )
+{
+    if( p->fine_detail_vision_mod() > 4 ) {
+        p->add_msg_if_player( _( "You can't see to do that!" ) );
+        return 0;
+    }
+
+    // Check that player isn't over volume limit as this might cause it to break... this is a hack.
+    // TODO: find a better solution.
+    if( p->volume_capacity() < p->volume_carried() ) {
+        p->add_msg_if_player( _( "You're carrying too much to clean anything." ) );
+        return 0;
+    }
+
+    if( p->fine_detail_vision_mod() > 4 ) {
+        p->add_msg_if_player( _( "You can't see to do that!" ) );
+        return 0;
+    }
+
+    wash_items( p, true );
+    return 0;
+}
+
+int iuse::wash_items( player *p, bool cbm )
+{
     p->inv.restack( *p );
     const inventory &crafting_inv = p->crafting_inventory();
 
@@ -9041,8 +9070,15 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
                                        crafting_inv.charges_of( "detergent" ) );
 
     const inventory_filter_preset preset( []( const item_location & location ) {
-        return location->item_tags.find( "FILTHY" ) != location->item_tags.end();
+        return location->item_tags.find( "FILTHY" ) != location->item_tags.end() && !location->is_bionic();
     } );
+
+    const inventory_filter_preset cbm_preset( []( const item_location & location ) {
+        return location->item_tags.find( "FILTHY" ) != location->item_tags.end() && location->is_bionic();
+    } );
+
+
+
     auto make_raw_stats = [available_water, available_cleanser](
                               const std::map<const item *, int> &items
     ) {
@@ -9059,25 +9095,42 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
             return string_format( "%3d", val );
         };
         using stats = inventory_selector::stats;
-        return stats{{
+        return stats{ {
                 display_stat( _( "Water" ), required.water, available_water, to_string ),
                 display_stat( _( "Cleanser" ), required.cleanser, available_cleanser, to_string )
-            }};
+            } };
     };
-    // TODO: this should also search surrounding area, not just player inventory.
-    inventory_iuse_selector inv_s( *p, _( "ITEMS TO CLEAN" ), preset, make_raw_stats );
-    inv_s.add_character_items( *p );
-    inv_s.set_title( _( "Multiclean" ) );
-    inv_s.set_hint( _( "To clean x items, type a number before selecting." ) );
-    if( inv_s.empty() ) {
-        popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
-        return 0;
-    }
-    std::list<std::pair<int, int>> to_clean = inv_s.execute();
-    if( to_clean.empty() ) {
-        return 0;
-    }
 
+    std::list<std::pair<int, int>> to_clean;
+    if( cbm ) {
+        // TODO: this should also search surrounding area, not just player inventory.
+        inventory_iuse_selector inv_cbm( *p, _( "ITEMS TO CLEAN" ), cbm_preset, make_raw_stats );
+        inv_cbm.add_character_items( *p );
+        inv_cbm.set_title( _( "Multiclean" ) );
+        inv_cbm.set_hint( _( "To clean x items, type a number before selecting." ) );
+        if( inv_cbm.empty() ) {
+            popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
+            return 0;
+        }
+        to_clean = inv_cbm.execute();
+        if( to_clean.empty() ) {
+            return 0;
+        }
+    } else {
+        // TODO: this should also search surrounding area, not just player inventory.
+        inventory_iuse_selector inv_s( *p, _( "ITEMS TO CLEAN" ), preset, make_raw_stats );
+        inv_s.add_character_items( *p );
+        inv_s.set_title( _( "Multiclean" ) );
+        inv_s.set_hint( _( "To clean x items, type a number before selecting." ) );
+        if( inv_s.empty() ) {
+            popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
+            return 0;
+        }
+        to_clean = inv_s.execute();
+        if( to_clean.empty() ) {
+            return 0;
+        }
+    }
     // Determine if we have enough water and cleanser for all the items.
     units::volume total_volume = 0_ml;
     for( std::pair<int, int> pair : to_clean ) {
@@ -9119,6 +9172,7 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
 
     return 0;
 }
+
 int iuse::break_stick( player *p, item *it, bool, const tripoint & )
 {
     p->moves -= to_turns<int>( 2_seconds );

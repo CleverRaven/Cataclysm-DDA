@@ -936,6 +936,11 @@
   },
   {
     "type": "item_action",
+    "id": "WASHCBMS",
+    "name": "Wash CBMs"
+  },
+  {
+    "type": "item_action",
     "id": "WATER_PURIFIER",
     "name": "Purify some water"
   },
