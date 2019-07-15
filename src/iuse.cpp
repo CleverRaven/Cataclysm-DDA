@@ -2133,10 +2133,6 @@ int iuse::unpack_item( player *p, item *it, bool, const tripoint & )
 
 int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
 {
-    if( !it->contents.empty() ) {
-        popup( _( "This pouch is already full." ) );
-        return 0;
-    }
     item_location bionic = g->inv_map_splice( []( const item & e ) {
         return e.is_bionic();
     }, _( "Choose CBM to pack" ), PICKUP_RANGE, _( "You don't have any CBMs." ) );
