@@ -2931,7 +2931,7 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
         if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
             wake_up();
         }
-        if( !is_npc() ) {
+        if( !is_npc() && !has_effect( effect_narcosis ) ) {
             if( source != nullptr ) {
                 g->cancel_activity_or_ignore_query( distraction_type::attacked,
                                                     string_format( _( "You were attacked by %s!" ),
@@ -3152,7 +3152,7 @@ dealt_damage_instance player::deal_damage( Creature *source, body_part bp,
 void player::mod_pain( int npain )
 {
     if( npain > 0 ) {
-        if( has_trait( trait_NOPAIN ) ) {
+        if( has_trait( trait_NOPAIN ) || has_effect( effect_narcosis ) ) {
             return;
         }
         // always increase pain gained by one from these bad mutations
