@@ -257,6 +257,7 @@
         "w": "t_window_domestic",
         "+": "t_door_c",
         "-": "t_dirtfloor",
+        "x": [ "t_machinery_light", "t_machinery_old" ],
         "9": [
           "t_tree_blackjack",
           "t_tree_walnut",
@@ -282,8 +283,7 @@
           "t_tree_hickory",
           "t_tree_almond",
           "t_tree_pecan"
-        ],
-        "x": [ "t_machinery_light", "t_machinery_heavy", "t_machinery_old", "t_machinery_electronic" ]
+        ]
       },
       "furniture": {
         "B": "f_sofa",
