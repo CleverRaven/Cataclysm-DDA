@@ -753,7 +753,14 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                    old == "pwr_sub_s" ||
                    old == "radio_tower" ||
                    old == "sai" ||
-                   old == "toxic_dump" ) {
+                   old == "toxic_dump" ||
+                   old == "orchard_stall" ||
+                   old == "orchard_tree_apple" ||
+                   old == "orchard_processing" ||
+                   old == "dairy_farm_NW" ||
+                   old == "dairy_farm_NE" ||
+                   old == "dairy_farm_SW" ||
+                   old == "dairy_farm_SE" ) {
             new_id = oter_id( old + "_north" );
         }
 
