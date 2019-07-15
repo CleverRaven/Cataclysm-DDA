@@ -26,12 +26,12 @@
     "id": "REFUGEE_Jenny_worn",
     "subtype": "collection",
     "entries": [
-      { "item": "linuxtshirt" },
-      { "item": "jeans" },
-      { "item": "hoodie" },
       { "item": "sports_bra" },
       { "item": "panties" },
       { "item": "socks" },
+      { "item": "linuxtshirt" },
+      { "item": "jeans" },
+      { "item": "hoodie" },
       { "item": "sneakers" },
       { "item": "backpack" }
     ]

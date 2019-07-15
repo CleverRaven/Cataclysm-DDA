@@ -32,14 +32,14 @@
     "id": "REFUGEE_Aleesha_worn",
     "subtype": "collection",
     "entries": [
-      { "item": "tshirt_text" },
-      { "item": "skirt" },
-      { "item": "blanket" },
       { "item": "sports_bra" },
       { "item": "boxer_shorts" },
       { "item": "socks" },
+      { "item": "tshirt_text" },
+      { "item": "skirt" },
       { "item": "sneakers" },
-      { "item": "mbag" }
+      { "item": "mbag" },
+      { "item": "blanket" }
     ]
   },
   {
