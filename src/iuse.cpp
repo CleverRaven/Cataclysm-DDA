@@ -5893,6 +5893,12 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
+    if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( "FIX_FARSIGHT" ) &&
+        !p->has_effect( effect_contacts ) && !p->has_bionic( bionic_id( "bio_eye_optic" ) ) ) {
+        add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
+        return 0;
+    }
+
     int choice = uilist( _( "Welcome to hackPRO!:" ), {
         _( "Prepare IFF protocol override" ),
         _( "Set friendly robots to passive mode" ),
@@ -6256,7 +6262,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             return 0;
         }
         if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( "FIX_FARSIGHT" ) &&
-            !p->has_effect( effect_contacts ) ) {
+            !p->has_effect( effect_contacts ) && !p->has_bionic( bionic_id( "bio_eye_optic" ) ) ) {
             add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
             return 0;
         }

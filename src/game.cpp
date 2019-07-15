@@ -4586,7 +4586,7 @@ void game::use_computer( const tripoint &p )
         return;
     }
     if( u.has_trait( trait_id( "HYPEROPIC" ) ) && !u.worn_with_flag( "FIX_FARSIGHT" ) &&
-        !u.has_effect( effect_contacts ) ) {
+        !u.has_effect( effect_contacts ) && !u.has_bionic( bionic_id( "bio_eye_optic" ) ) ) {
         add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
         return;
     }
