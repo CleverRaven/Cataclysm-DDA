@@ -1333,9 +1333,19 @@ void player::perform_uninstall( bionic_id bid, int difficulty, int success, int 
         max_power_level -= power_lvl;
 
         if( item::type_is_defined( bid.c_str() ) ) {
-            g->m.spawn_item( pos(), bid.c_str(), 1 );
+            item cbm( bid.c_str() );
+            cbm.set_flag( "FILTHY" );
+            cbm.set_flag( "NO_STERILE" );
+            cbm.set_flag( "NO_PACKED" );
+            cbm.faults.emplace( fault_id( "fault_bionic_salvaged" ) );
+            g->m.add_item( pos(), cbm );
         } else {
-            g->m.spawn_item( pos(), "burnt_out_bionic", 1 );
+            item burnt_out( "burnt_out_bionic" );
+            burnt_out.set_flag( "FILTHY" );
+            burnt_out.set_flag( "NO_STERILE" );
+            burnt_out.set_flag( "NO_PACKED" );
+            burnt_out.faults.emplace( fault_id( "fault_bionic_salvaged" ) );
+            g->m.add_item( pos(), burnt_out );
         }
 
     } else {
