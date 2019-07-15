@@ -509,7 +509,7 @@ void monster::move()
             add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
                      name() );
         }
-        static const auto volume_per_hp = units::from_milliliter( 250 );
+        static const auto volume_per_hp = 250_ml;
         for( auto &elem : g->m.i_at( pos() ) ) {
             hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
             if( has_flag( MF_ABSORBS_SPLITS ) && hp / 2 > type->hp ) {

@@ -46,8 +46,8 @@ class item_pricing
         int npc_has = 0;
         int u_charges = 0;
         int npc_charges = 0;
-        units::mass weight = units::from_gram( 0 );
-        units::volume vol = units::from_milliliter( 0 );
+        units::mass weight = 0_gram;
+        units::volume vol = 0_ml;
 };
 
 class trading_window

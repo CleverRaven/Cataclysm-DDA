@@ -712,7 +712,7 @@ void mdeath::jabberwock( monster &z )
     bool vorpal = ch && ch->is_player() &&
                   rl_dist( z.pos(), ch->pos() ) <= 1 &&
                   ch->weapon.has_flag( "DIAMOND" ) &&
-                  ch->weapon.volume() > units::from_milliliter( 750 );
+                  ch->weapon.volume() > 750_ml;
 
     if( vorpal && !ch->weapon.has_technique( matec_id( "VORPAL" ) ) ) {
         if( ch->sees( z ) ) {

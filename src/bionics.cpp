@@ -538,7 +538,7 @@ bool player::activate_bionic( int b, bool eff_only )
     } else if( bio.id == "bio_water_extractor" ) {
         bool extracted = false;
         for( item &it : g->m.i_at( pos() ) ) {
-            static const auto volume_per_water_charge = units::from_milliliter( 500 );
+            static const auto volume_per_water_charge = 500_ml;
             if( it.is_corpse() ) {
                 const int avail = it.get_var( "remaining_water", it.volume() / volume_per_water_charge );
                 if( avail > 0 &&
