@@ -10170,6 +10170,12 @@
     "storage": 260,
     "warmth": 5,
     "material_thickness": 6,
+    "use_action": {
+    "type": "holster",
+    "max_volume": 15,
+    "min_volume": 5,
+    "multi": 1,
+    "skills": [ "smg", "shotgun", "rifle", "bow", "crossbow" ] },
     "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ]
   },
   {
