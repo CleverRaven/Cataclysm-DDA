@@ -89,7 +89,13 @@
     "base_energy_cost": 350,
     "energy_source": "MANA",
     "difficulty": 4,
-    "damage_type": "fire"
+    "damage_type": "fire",
+	"field_id": "fd_fire",
+	"field_chance": 5,
+	"min_field_intensity": 1,
+	"max_field_intensity": 3,
+	"field_intensity_increment": 0.25,
+	"field_intensity_variance": 0.1
   },
   {
     "id": "cone_cold",
@@ -143,7 +149,13 @@
     "base_energy_cost": 150,
     "energy_source": "MANA",
     "difficulty": 2,
-    "damage_type": "fire"
+    "damage_type": "fire",
+	"field_id": "fd_fire",
+	"field_chance": 5,
+	"min_field_intensity": 1,
+	"max_field_intensity": 3,
+	"field_intensity_increment": 0.25,
+	"field_intensity_variance": 0.1
   },
   {
     "id": "frost_spray",
