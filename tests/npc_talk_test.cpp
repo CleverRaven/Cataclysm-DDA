@@ -75,8 +75,8 @@ static void gen_response_lines( dialogue &d, size_t expected_count )
 
 static void change_om_type( const std::string &new_type )
 {
-    const point omt_pos = ms_to_omt_copy( g->m.getabs( g->u.posx(), g->u.posy() ) );
-    oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, g->u.posz() );
+    const tripoint omt_pos = ms_to_omt_copy( g->m.getabs( g->u.pos() ) );
+    oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     omt_ref = oter_id( new_type );
 }
 

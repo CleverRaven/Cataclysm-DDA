@@ -5893,6 +5893,12 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
+    if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( "FIX_FARSIGHT" ) &&
+        !p->has_effect( effect_contacts ) && !p->has_bionic( bionic_id( "bio_eye_optic" ) ) ) {
+        add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
+        return 0;
+    }
+
     int choice = uilist( _( "Welcome to hackPRO!:" ), {
         _( "Prepare IFF protocol override" ),
         _( "Set friendly robots to passive mode" ),
@@ -6256,7 +6262,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             return 0;
         }
         if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( "FIX_FARSIGHT" ) &&
-            !p->has_effect( effect_contacts ) ) {
+            !p->has_effect( effect_contacts ) && !p->has_bionic( bionic_id( "bio_eye_optic" ) ) ) {
             add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
             return 0;
         }
@@ -6567,7 +6573,7 @@ static std::string colorized_trap_name_at( const tripoint &point )
     std::string name;
     if( !trap.is_null() && trap.get_visibility() <= 1 ) {
         name = colorize( trap.name(), trap.color ) + _( " on " );
-    };
+    }
     return name;
 }
 
@@ -7015,6 +7021,9 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
             }
 
             if( guy ) {
+                if( guy->is_hallucination() ) {
+                    continue; // do not include hallucinations
+                }
                 if( guy->movement_mode_is( PMM_CROUCH ) ) {
                     pose = _( "sits" );
                 } else {
@@ -7443,7 +7452,9 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                         p->add_msg_if_player( _( "Strange... there's nothing in the center of picture?" ) );
                     }
                 } else if( guy ) {
-                    if( !aim_bounds.is_point_inside( trajectory_point ) ) {
+                    if( trajectory_point == aim_point && guy->is_hallucination() ) {
+                        p->add_msg_if_player( _( "Strange... %s's not visible on the picture?" ), guy->name );
+                    } else if( !aim_bounds.is_point_inside( trajectory_point ) ) {
                         // take a photo of the monster that's in the way
                         p->add_msg_if_player( m_warning, _( "%s got in the way of your photo." ), guy->name );
                         incorrect_focus = true;
@@ -8717,9 +8728,8 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         /* windpower defined in internal velocity units (=.01 mph) */
-        double windpower = static_cast<int>( 100.0f * get_local_windpower( g->weather.windspeed +
-                                             vehwindspeed,
-                                             cur_om_ter, p->pos(), g->weather.winddirection, g->is_sheltered( p->pos() ) ) );
+        const double windpower = 100 * get_local_windpower( g->weather.windspeed + vehwindspeed, cur_om_ter,
+                                 p->pos(), g->weather.winddirection, g->is_sheltered( p->pos() ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
                               convert_velocity( windpower, VU_WIND ),

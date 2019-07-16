@@ -1,0 +1,72 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "cestus_plus_one",
+    "copy-from": "cestus",
+    "looks_like": "cestus",
+    "name": "cestus +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "cestus_plus_two",
+    "copy-from": "cestus",
+    "looks_like": "cestus",
+    "name": "cestus +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "flaming_fist",
+    "symbol": "3",
+    "color": "red",
+    "name": "flaming fist",
+    "name_plural": "flaming fists",
+    "description": "A heavy metal guard that covers the fist and increases striking power, with stout padding underneath to protect the wearers hand.  It has been enchanted to emit dark magical flames that only harm enemies.",
+    "looks_like": "cestus",
+    "material": [ "steel", "leather" ],
+    "volume": 2,
+    "weight": 970,
+    "to_hit": 2,
+    "bashing": 12,
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "FLAMING" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "flaming_fist_plus_one",
+    "copy-from": "flaming_fist",
+    "looks_like": "flaming_fist",
+    "name": "flaming fist +1",
+    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "flaming_fist_plus_two",
+    "copy-from": "flaming_fist",
+    "looks_like": "flaming_fist",
+    "name": "flaming fist +2",
+    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "gauntlet_pounding",
+    "symbol": "3",
+    "color": "light_gray",
+    "name": "gauntlet of pounding",
+    "name_plural": "gauntlets of pounding",
+    "description": "A large gleaming metal gauntlet covered in magical symbols that allows you to land astoundingly powerful blows.",
+    "material": [ "superalloy" ],
+    "volume": 4,
+    "weight": 981,
+    "bashing": 34,
+    "to_hit": 3,
+    "qualities": [ [ "HAMMER", 2 ] ],
+    "techniques": [ "WBLOCK_1", "BRUTAL" ],
+    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "OVERSIZE", "MESSY" ]
+  }
+]

@@ -107,6 +107,7 @@ const efftype_id effect_mending( "mending" );
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_sleep( "sleep" );
+const efftype_id effect_under_op( "under_operation" );
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -1286,8 +1287,7 @@ void iexamine::bulletin_board( player &p, const tripoint &examp )
 {
     g->validate_camps();
     point omt = ms_to_omt_copy( g->m.getabs( examp.x, examp.y ) );
-    tripoint omt_tri = tripoint( omt.x, omt.y, p.pos().z );
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_tri.x, omt_tri.y );
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
         temp_camp->validate_assignees();
@@ -3846,7 +3846,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         // Okay, we have a cash card. Now we need to know what's left in the pump.
         const cata::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
                 uistate.ags_pay_gas_selected_pump );
-        int amount = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : 0l;
+        int amount = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : 0;
         if( amount >= 0 ) {
             sounds::sound( p.pos(), 6, sounds::sound_t::activity, _( "Glug Glug Glug" ), true, "tool",
                            "gaspump" );
@@ -4108,6 +4108,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
             return;
         }
+    } else if( patient.has_effect( effect_under_op ) ) {
+        popup( _( "Operation underway.  Please wait until the end of the current procedure.  Estimated time remaining: %s." ),
+               to_string( patient.get_effect_dur( effect_under_op ) ) );
+        p.add_msg_if_player( m_info, _( "The autodoc is working on %s." ), patient.disp_name() );
+        return;
     }
 
     uilist amenu;
@@ -4180,8 +4185,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     }
 
                 }
-                patient.install_bionics( ( *itemtype ), installer, true );
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
+                patient.add_effect( effect_under_op, duration, num_bp );
+                patient.install_bionics( ( *itemtype ), installer, true );
             }
             break;
         }
@@ -4242,8 +4248,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     }
 
                 }
-                patient.uninstall_bionic( bid, installer, true );
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
+                patient.add_effect( effect_under_op, duration, num_bp );
+                patient.uninstall_bionic( bid, installer, true );
             }
             break;
         }

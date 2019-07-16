@@ -29,8 +29,7 @@ struct ma_requirements {
 
     bool unarmed_allowed; // does this bonus work when unarmed?
     bool melee_allowed; // what about with a melee weapon?
-    bool strictly_unarmed; // If unarmed, what about unarmed weapons?
-    bool strictly_melee; // Does it only work with weapons?
+    bool unarmed_weapons_allowed; // If unarmed, what about unarmed weapons?
 
     /** Minimum amount of given skill to trigger this bonus */
     std::map<skill_id, int> min_skill;
@@ -46,8 +45,7 @@ struct ma_requirements {
     ma_requirements() {
         unarmed_allowed = false;
         melee_allowed = false;
-        strictly_unarmed = false;
-        strictly_melee = false;
+        unarmed_weapons_allowed = true;
     }
 
     std::string get_description( bool buff = false ) const;
@@ -230,7 +228,7 @@ class martialart
         std::string name;
         std::string description;
         std::vector<std::string> initiate;
-        std::vector<std::vector<std::string>> autolearn_skills;
+        std::vector<std::pair<std::string, int>> autolearn_skills;
         skill_id primary_skill;
         int learn_difficulty = 0;
         int arm_block;
@@ -279,5 +277,6 @@ void finialize_martial_arts();
 const std::string martialart_difficulty( matype_id mstyle );
 
 std::vector<matype_id> all_martialart_types();
+std::vector<matype_id> autolearn_martialart_types();
 
 #endif

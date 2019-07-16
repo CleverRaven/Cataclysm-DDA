@@ -120,28 +120,26 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
         }
     }
     // x, and y are submap coordinates, convert to overmap terrain coordinates
-    int overx = x;
-    int overy = y;
-    sm_to_omt( overx, overy );
-    const regional_settings *rsettings = &overmap_buffer.get_settings( overx, overy, z );
-    oter_id terrain_type = overmap_buffer.ter( overx, overy, z );
-    oter_id t_above = overmap_buffer.ter( overx, overy, z + 1 );
-    oter_id t_below = overmap_buffer.ter( overx, overy, z - 1 );
-    oter_id t_north = overmap_buffer.ter( overx, overy - 1, z );
-    oter_id t_neast = overmap_buffer.ter( overx + 1, overy - 1, z );
-    oter_id t_east  = overmap_buffer.ter( overx + 1, overy, z );
-    oter_id t_seast = overmap_buffer.ter( overx + 1, overy + 1, z );
-    oter_id t_south = overmap_buffer.ter( overx, overy + 1, z );
-    oter_id t_swest = overmap_buffer.ter( overx - 1, overy + 1, z );
-    oter_id t_west  = overmap_buffer.ter( overx - 1, overy, z );
-    oter_id t_nwest = overmap_buffer.ter( overx - 1, overy - 1, z );
+    tripoint abs_omt = sm_to_omt_copy( tripoint( x, y, z ) );
+    const regional_settings *rsettings = &overmap_buffer.get_settings( abs_omt );
+    oter_id terrain_type = overmap_buffer.ter( abs_omt );
+    oter_id t_above = overmap_buffer.ter( abs_omt + tripoint( 0, 0, 1 ) );
+    oter_id t_below = overmap_buffer.ter( abs_omt + tripoint( 0, 0, -1 ) );
+    oter_id t_north = overmap_buffer.ter( abs_omt + tripoint( 0, -1, 0 ) );
+    oter_id t_neast = overmap_buffer.ter( abs_omt + tripoint( 1, -1, 0 ) );
+    oter_id t_east  = overmap_buffer.ter( abs_omt + tripoint( 1, 0, 0 ) );
+    oter_id t_seast = overmap_buffer.ter( abs_omt + tripoint( 1, 1, 0 ) );
+    oter_id t_south = overmap_buffer.ter( abs_omt + tripoint( 0, 1, 0 ) );
+    oter_id t_swest = overmap_buffer.ter( abs_omt + tripoint( -1, 1, 0 ) );
+    oter_id t_west  = overmap_buffer.ter( abs_omt + tripoint( -1, 0, 0 ) );
+    oter_id t_nwest = overmap_buffer.ter( abs_omt + tripoint( -1, -1, 0 ) );
 
     // This attempts to scale density of zombies inversely with distance from the nearest city.
     // In other words, make city centers dense and perimeters sparse.
     float density = 0.0;
-    for( int i = overx - MON_RADIUS; i <= overx + MON_RADIUS; i++ ) {
-        for( int j = overy - MON_RADIUS; j <= overy + MON_RADIUS; j++ ) {
-            density += overmap_buffer.ter( i, j, z )->get_mondensity();
+    for( int i = -MON_RADIUS; i <= MON_RADIUS; i++ ) {
+        for( int j = -MON_RADIUS; j <= MON_RADIUS; j++ ) {
+            density += overmap_buffer.ter( abs_omt + point( i, j ) )->get_mondensity();
         }
     }
     density = density / 100;
@@ -690,7 +688,7 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray )
         pjo.read( "fuel", tmp_fuel );
         pjo.read( "status", tmp_status );
         jmapgen_setmap tmp( tmp_x, tmp_y, tmp_x2, tmp_y2,
-                            jmapgen_setmap_op( tmpop + setmap_optype ), tmp_i,
+                            static_cast<jmapgen_setmap_op>( tmpop + setmap_optype ), tmp_i,
                             tmp_chance, tmp_repeat, tmp_rotation, tmp_fuel, tmp_status );
 
         setmap_points.push_back( tmp );
@@ -4171,12 +4169,10 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                         furn_set( SEEX - 1, SEEY, f_table );
                         furn_set( SEEX, SEEY, f_table );
                         if( loot_variant <= 67 ) {
-                            spawn_item( SEEX - 1, SEEY - 1, "laser_pack", dice( 4, 3 ) );
                             spawn_item( SEEX, SEEY - 1, "UPS_off" );
                             spawn_item( SEEX, SEEY - 1, "battery", dice( 4, 3 ) );
                             spawn_item( SEEX - 1, SEEY, "v29" );
                             spawn_item( SEEX - 1, SEEY, "laser_rifle", dice( 1, 0 ) );
-                            spawn_item( SEEX, SEEY, "ftk93" );
                             spawn_item( SEEX - 1, SEEY, "recipe_atomic_battery" );
                             spawn_item( SEEX, SEEY  - 1, "solar_panel_v3" );
                         } else if( loot_variant > 67 && loot_variant < 89 ) {
@@ -4967,7 +4963,7 @@ void map::draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_po
                     }
                 }
                 if( okay ) {
-                    room_type type = room_type( rng( room_mine_office, room_mine_housing ) );
+                    room_type type = static_cast<room_type>( rng( room_mine_office, room_mine_housing ) );
                     build_mine_room( this, type, x1, y1, x2, y2, dat );
                     tries = 0;
                 } else {
@@ -6846,8 +6842,8 @@ void map::place_spawns( const mongroup_id &group, const int chance,
                         const bool individual, const bool friendly )
 {
     if( !group.is_valid() ) {
-        const point omt = sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
-        const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
+        const tripoint omt = sm_to_omt_copy( get_abs_sub() );
+        const oter_id &oid = overmap_buffer.ter( omt );
         debugmsg( "place_spawns: invalid mongroup '%s', om_terrain = '%s' (%s)", group.c_str(),
                   oid.id().c_str(), oid->get_mapgen_id().c_str() );
         return;
@@ -6960,7 +6956,6 @@ void map::apply_faction_ownership( const int x1, const int y1, const int x2, con
         vehicle *source_veh = veh_pointer_or_null( veh_at( p ) );
         if( source_veh ) {
             if( !source_veh->has_owner() ) {
-                source_veh->base_name = source_veh->name;
                 source_veh->set_owner( fac );
             }
         }
@@ -6989,8 +6984,8 @@ std::vector<item *> map::place_items( const items_location &loc, int chance, int
         return res;
     }
     if( !item_group::group_is_defined( loc ) ) {
-        const point omt = sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
-        const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
+        const tripoint omt = sm_to_omt_copy( get_abs_sub() );
+        const oter_id &oid = overmap_buffer.ter( omt );
         debugmsg( "place_items: invalid item group '%s', om_terrain = '%s' (%s)",
                   loc.c_str(), oid.id().c_str(), oid->get_mapgen_id().c_str() );
         return res;
@@ -7283,8 +7278,7 @@ void map::rotate( int turns )
     // TODO: This radius can be smaller - how small?
     const int radius = HALF_MAPSIZE + 3;
     // uses submap coordinates
-    const std::vector<std::shared_ptr<npc>> npcs = overmap_buffer.get_npcs_near( abs_sub.x, abs_sub.y,
-                                         abs_sub.z, radius );
+    const std::vector<std::shared_ptr<npc>> npcs = overmap_buffer.get_npcs_near( abs_sub, radius );
     for( const std::shared_ptr<npc> &i : npcs ) {
         npc &np = *i;
         const tripoint sq = np.global_square_location();
@@ -8262,13 +8256,13 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
 
         case ARTPROP_FRACTAL:
             create_anomaly( cx - 4, cy - 4,
-                            artifact_natural_property( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
+                            static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
             create_anomaly( cx + 4, cy - 4,
-                            artifact_natural_property( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
+                            static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
             create_anomaly( cx - 4, cy + 4,
-                            artifact_natural_property( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
+                            static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
             create_anomaly( cx + 4, cy - 4,
-                            artifact_natural_property( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
+                            static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
             break;
         default:
             break;
@@ -8360,9 +8354,9 @@ bool update_mapgen_function_json::update_map( const tripoint &omt_pos, int offse
         mission *miss, bool verify ) const
 {
     tinymap update_tmap;
-    const regional_settings &rsettings = overmap_buffer.get_settings( omt_pos.x, omt_pos.y,
-                                         omt_pos.z );
-    update_tmap.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
+    const regional_settings &rsettings = overmap_buffer.get_settings( omt_pos );
+    const tripoint sm_pos = omt_to_sm_copy( omt_pos );
+    update_tmap.load( sm_pos, false );
     const std::string map_id = overmap_buffer.ter( omt_pos ).id().c_str();
     oter_id north = overmap_buffer.ter( omt_pos + tripoint( 0, -1, 0 ) );
     oter_id south = overmap_buffer.ter( omt_pos + tripoint( 0, 1, 0 ) );

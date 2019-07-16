@@ -13,9 +13,11 @@
 #include "calendar.h"
 #include "color.h"
 #include "damage.h"
+#include "field.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "json.h"
+#include "map.h"
 #include "messages.h"
 #include "monster.h"
 #include "mutation.h"
@@ -200,6 +202,17 @@ void spell_type::load( JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "effect_str", effect_str, "" );
 
+    std::string field_input;
+    optional( jo, was_loaded, "field_id", field_input, "none" );
+    if( field_input != "none" ) {
+        field = field_type_id( field_input );
+    }
+    optional( jo, was_loaded, "field_chance", field_chance, 1 );
+    optional( jo, was_loaded, "min_field_intensity", min_field_intensity, 0 );
+    optional( jo, was_loaded, "max_field_intensity", max_field_intensity, 0 );
+    optional( jo, was_loaded, "field_intensity_increment", field_intensity_increment, 0.0f );
+    optional( jo, was_loaded, "field_intensity_variance", field_intensity_variance, 0.0f );
+
     optional( jo, was_loaded, "min_damage", min_damage, 0 );
     optional( jo, was_loaded, "damage_increment", damage_increment, 0.0f );
     optional( jo, was_loaded, "max_damage", max_damage, 0 );
@@ -302,6 +315,19 @@ void spell_type::check_consistency()
         if( spell_infinite_loop_check( spell_effect_list, sp_t.id ) ) {
             debugmsg( "ERROR: %s has infinite loop in extra_effects", sp_t.id.c_str() );
         }
+        if( sp_t.field ) {
+            if( sp_t.field_chance <= 0 ) {
+                debugmsg( "ERROR: %s must have a positive field chance.", sp_t.id.c_str() );
+            }
+            if( sp_t.field_intensity_increment > 0 && sp_t.max_field_intensity < sp_t.min_field_intensity ) {
+                debugmsg( "ERROR: max_field_intensity must be greater than min_field_intensity with positive increment: %s",
+                          sp_t.id.c_str() );
+            } else if( sp_t.field_intensity_increment < 0 &&
+                       sp_t.max_field_intensity > sp_t.min_field_intensity ) {
+                debugmsg( "ERROR: min_field_intensity must be greater than max_field_intensity with negative increment.",
+                          sp_t.id.c_str() );
+            }
+        }
     }
 }
 
@@ -338,6 +364,13 @@ spell_id spell::id() const
 trait_id spell::spell_class() const
 {
     return type->spell_class;
+}
+
+int spell::field_intensity() const
+{
+    return std::min( type->max_field_intensity,
+                     static_cast<int>( type->min_field_intensity + round( get_level() *
+                                       type->field_intensity_increment ) ) );
 }
 
 int spell::damage() const
@@ -639,6 +672,26 @@ bool spell::bp_is_affected( body_part bp ) const
     return type->affected_bps[bp];
 }
 
+void spell::create_field( const tripoint &at ) const
+{
+    if( !type->field ) {
+        return;
+    }
+    const int intensity = field_intensity() + rng( -type->field_intensity_variance * field_intensity(),
+                          type->field_intensity_variance * field_intensity() );
+    if( intensity <= 0 ) {
+        return;
+    }
+    if( one_in( type->field_chance ) ) {
+        field_entry *field = g->m.get_field( at, *type->field );
+        if( field ) {
+            field->set_field_intensity( field->get_field_intensity() + intensity );
+        } else {
+            g->m.add_field( at, *type->field, intensity );
+        }
+    }
+}
+
 void spell::make_sound( const tripoint &target ) const
 {
     if( !has_flag( spell_flag::SILENT ) ) {
@@ -863,7 +916,7 @@ int spell::heal( const tripoint &target ) const
     return -1;
 }
 
-bool spell::cast_spell_effect( const Creature &source, const tripoint &target )
+bool spell::cast_spell_effect( const Creature &source, const tripoint &target ) const
 {
     // figure out which function is the effect (maybe change this into how iuse or activity_handlers does it)
     // TODO: refactor these so make_sound can be called inside each of these functions
@@ -902,7 +955,7 @@ bool spell::cast_spell_effect( const Creature &source, const tripoint &target )
     return true;
 }
 
-bool spell::cast_all_effects( const Creature &source, const tripoint &target )
+bool spell::cast_all_effects( const Creature &source, const tripoint &target ) const
 {
     // first call the effect of the main spell
     bool success = cast_spell_effect( source, target );

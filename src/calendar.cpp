@@ -12,6 +12,8 @@
 
 // Divided by 100 to prevent overflowing when converted to moves
 const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
+const time_duration calendar::INDEFINITELY_LONG_DURATION(
+    time_duration::from_turns( std::numeric_limits<int>::max() ) );
 bool calendar::is_eternal_season = false;
 int calendar::cur_season_length = 1;
 
@@ -366,8 +368,7 @@ static std::string to_string_clipped( const int num, const clipped_unit type,
 
 std::pair<int, clipped_unit> clipped_time( const time_duration &d )
 {
-    // TODO: change INDEFINITELY_LONG to time_duration
-    if( to_turns<int>( d ) >= calendar::INDEFINITELY_LONG ) {
+    if( d >= calendar::INDEFINITELY_LONG_DURATION ) {
         return { 0, clipped_unit::forever };
     }
 
@@ -410,7 +411,7 @@ std::string to_string_clipped( const time_duration &d,
 
 std::string to_string( const time_duration &d )
 {
-    if( d >= time_duration::from_turns( calendar::INDEFINITELY_LONG ) ) {
+    if( d >= calendar::INDEFINITELY_LONG_DURATION ) {
         return _( "forever" );
     }
 
@@ -580,7 +581,7 @@ void calendar::sync()
         // mid-game, the result could be the wrong season!
         season = initial_season;
     } else {
-        season = season_type( turn_number / DAYS( sl ) % 4 );
+        season = static_cast<season_type>( turn_number / DAYS( sl ) % 4 );
     }
 
     day = turn_number / DAYS( 1 ) % sl;

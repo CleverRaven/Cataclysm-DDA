@@ -203,6 +203,7 @@ const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
+const efftype_id effect_under_op( "under_operation" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_winded( "winded" );
 const efftype_id effect_ridden( "ridden" );
@@ -1445,7 +1446,7 @@ bool game::do_turn()
             // We only want this to happen if the player had a chance to examine the sounds.
             sounds::reset_markers();
         } else {
-            // Rate limit polling to 10 times a second.
+            // Rate limit key polling to 10 times a second.
             static auto start = std::chrono::time_point_cast<std::chrono::milliseconds>(
                                     std::chrono::system_clock::now() );
             const auto now = std::chrono::time_point_cast<std::chrono::milliseconds>(
@@ -1454,6 +1455,20 @@ bool game::do_turn()
                 handle_key_blocking_activity();
                 start = now;
             }
+
+            // If player is performing a task and a monster is dangerously close, warn them
+            // regardless of previous safemode warnings
+            if( u.activity && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
+                u.activity.moves_left > 0 &&
+                !u.activity.is_distraction_ignored( distraction_type::hostile_spotted ) ) {
+                Creature *hostile_critter = is_hostile_very_close();
+                if( hostile_critter != nullptr ) {
+                    cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
+                                                     string_format( _( "The %s is dangerously close!" ),
+                                                             hostile_critter->get_name() ) );
+                }
+            }
+
         }
     }
 
@@ -1921,21 +1936,6 @@ std::list<std::string> game::get_npc_kill()
 
 void game::handle_key_blocking_activity()
 {
-    // If player is performing a task and a monster is dangerously close, warn them
-    // regardless of previous safemode warnings
-    if( u.activity && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
-        u.activity.moves_left > 0 &&
-        !u.activity.is_distraction_ignored( distraction_type::hostile_spotted ) ) {
-        Creature *hostile_critter = is_hostile_very_close();
-        if( hostile_critter != nullptr ) {
-            if( cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
-                                                 string_format( _( "The %s is dangerously close!" ),
-                                                         hostile_critter->get_name() ) ) ) {
-                return;
-            }
-        }
-    }
-
     if( ( u.activity && u.activity.moves_left > 0 ) || ( u.has_destination() &&
             !u.omt_path.empty() ) ) {
         input_context ctxt = get_default_mode_input_context();
@@ -2804,7 +2804,7 @@ void game::reset_npc_dispositions()
 bool game::save_factions_missions_npcs()
 {
     std::string masterfile = get_world_base_save_path() + "/master.gsav";
-    return write_to_file_exclusive( masterfile, [&]( std::ostream & fout ) {
+    return write_to_file( masterfile, [&]( std::ostream & fout ) {
         serialize_master( fout );
     }, _( "factions data" ) );
 }
@@ -2867,7 +2867,7 @@ bool game::save()
             !save_maps() ||
             !get_auto_pickup().save_character() ||
             !get_safemode().save_character() ||
-        !write_to_file_exclusive( get_world_base_save_path() + "/uistate.json", [&]( std::ostream & fout ) {
+        !write_to_file( get_world_base_save_path() + "/uistate.json", [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
             uistate.serialize( jsout );
         }, _( "uistate data" ) ) ) {
@@ -3444,12 +3444,13 @@ void game::draw_minimap()
             const int omx = cursx + i;
             const int omy = cursy + j;
             nc_color ter_color;
+            tripoint omp( omx, omy, get_levz() );
             std::string ter_sym;
-            const bool seen = overmap_buffer.seen( omx, omy, get_levz() );
-            const bool vehicle_here = overmap_buffer.has_vehicle( omx, omy, get_levz() );
-            if( overmap_buffer.has_note( omx, omy, get_levz() ) ) {
+            const bool seen = overmap_buffer.seen( omp );
+            const bool vehicle_here = overmap_buffer.has_vehicle( omp );
+            if( overmap_buffer.has_note( omp ) ) {
 
-                const std::string &note_text = overmap_buffer.note( omx, omy, get_levz() );
+                const std::string &note_text = overmap_buffer.note( omp );
 
                 ter_color = c_yellow;
                 ter_sym = "N";
@@ -3542,15 +3543,15 @@ void game::draw_minimap()
                 ter_color = c_cyan;
                 ter_sym = "c";
             } else {
-                const oter_id &cur_ter = overmap_buffer.ter( omx, omy, get_levz() );
+                const oter_id &cur_ter = overmap_buffer.ter( omp );
                 ter_sym = cur_ter->get_symbol();
-                if( overmap_buffer.is_explored( omx, omy, get_levz() ) ) {
+                if( overmap_buffer.is_explored( omp ) ) {
                     ter_color = c_dark_gray;
                 } else {
                     ter_color = cur_ter->get_color();
                 }
             }
-            if( !drew_mission && targ.x == omx && targ.y == omy ) {
+            if( !drew_mission && targ.xy() == omp.xy() ) {
                 // If there is a mission target, and it's not on the same
                 // overmap terrain as the player character, mark it.
                 // TODO: Inform player if the mission is above or below
@@ -3619,14 +3620,15 @@ void game::draw_minimap()
             }
             const int omx = cursx + i;
             const int omy = cursy + j;
-            if( overmap_buffer.get_horde_size( omx, omy, get_levz() ) >= HORDE_VISIBILITY_SIZE ) {
+            tripoint omp( omx, omy, get_levz() );
+            if( overmap_buffer.get_horde_size( omp ) >= HORDE_VISIBILITY_SIZE ) {
                 const tripoint cur_pos {
                     omx, omy, get_levz()
                 };
-                if( overmap_buffer.seen( omx, omy, get_levz() )
+                if( overmap_buffer.seen( omp )
                     && g->u.overmap_los( cur_pos, sight_points ) ) {
                     mvwputch( w_minimap, j + 3, i + 3, c_green,
-                              overmap_buffer.get_horde_size( omx, omy, get_levz() ) > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
+                              overmap_buffer.get_horde_size( omp ) > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
                 }
             }
         }
@@ -4273,7 +4275,8 @@ void game::monmove()
         int turns = 0;
         m.creature_in_field( guy );
         guy.process_turn();
-        while( !guy.is_dead() && !guy.in_sleep_state() && guy.moves > 0 && turns < 10 ) {
+        while( !guy.is_dead() && ( !guy.in_sleep_state() || guy.has_effect( effect_under_op ) ) &&
+               guy.moves > 0 && turns < 10 ) {
             int moves = guy.moves;
             guy.move();
             if( moves == guy.moves ) {
@@ -4300,7 +4303,7 @@ void game::monmove()
 
         if( !guy.is_dead() ) {
             guy.process_active_items();
-            guy.update_body();
+            guy.npc_update_body();
         }
     }
     cleanup_dead();
@@ -4583,7 +4586,7 @@ void game::use_computer( const tripoint &p )
         return;
     }
     if( u.has_trait( trait_id( "HYPEROPIC" ) ) && !u.worn_with_flag( "FIX_FARSIGHT" ) &&
-        !u.has_effect( effect_contacts ) ) {
+        !u.has_effect( effect_contacts ) && !u.has_bionic( bionic_id( "bio_eye_optic" ) ) ) {
         add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
         return;
     }
@@ -5149,7 +5152,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
             if( elem.made_of( LIQUID ) ) {
                 // Liquids are OK, will be destroyed later
                 continue;
-            } else if( elem.volume() < units::from_milliliter( 250 ) ) {
+            } else if( elem.volume() < 250_ml ) {
                 // Dito for small items, will be moved away
                 continue;
             }
@@ -10376,23 +10379,26 @@ void game::vertical_notes( int z_before, int z_after )
         for( int y = -REVEAL_RADIUS; y <= REVEAL_RADIUS; y++ ) {
             const int cursx = gpos.x + x;
             const int cursy = gpos.y + y;
-            if( !overmap_buffer.seen( cursx, cursy, z_before ) ) {
+            const tripoint cursp_before( cursx, cursy, z_before );
+            const tripoint cursp_after( cursx, cursy, z_after );
+
+            if( !overmap_buffer.seen( cursp_before ) ) {
                 continue;
             }
-            if( overmap_buffer.has_note( cursx, cursy, z_after ) ) {
+            if( overmap_buffer.has_note( cursp_before ) ) {
                 // Already has a note -> never add an AUTO-note
                 continue;
             }
-            const oter_id &ter = overmap_buffer.ter( cursx, cursy, z_before );
-            const oter_id &ter2 = overmap_buffer.ter( cursx, cursy, z_after );
+            const oter_id &ter = overmap_buffer.ter( cursp_before );
+            const oter_id &ter2 = overmap_buffer.ter( cursp_after );
             if( z_after > z_before && ter->has_flag( known_up ) &&
                 !ter2->has_flag( known_down ) ) {
-                overmap_buffer.set_seen( cursx, cursy, z_after, true );
-                overmap_buffer.add_note( cursx, cursy, z_after, string_format( ">:W;%s", _( "AUTO: goes down" ) ) );
+                overmap_buffer.set_seen( cursp_after, true );
+                overmap_buffer.add_note( cursp_after, string_format( ">:W;%s", _( "AUTO: goes down" ) ) );
             } else if( z_after < z_before && ter->has_flag( known_down ) &&
                        !ter2->has_flag( known_up ) ) {
-                overmap_buffer.set_seen( cursx, cursy, z_after, true );
-                overmap_buffer.add_note( cursx, cursy, z_after, string_format( "<:W;%s", _( "AUTO: goes up" ) ) );
+                overmap_buffer.set_seen( cursp_after, true );
+                overmap_buffer.add_note( cursp_after, string_format( "<:W;%s", _( "AUTO: goes up" ) ) );
             }
         }
     }
@@ -10487,30 +10493,30 @@ void game::update_overmap_seen()
     const int dist = u.overmap_sight_range( light_level( u.posz() ) );
     const int dist_squared = dist * dist;
     // We can always see where we're standing
-    overmap_buffer.set_seen( ompos.x, ompos.y, ompos.z, true );
+    overmap_buffer.set_seen( ompos, true );
     for( int dx = -dist; dx <= dist; dx++ ) {
         for( int dy = -dist; dy <= dist; dy++ ) {
             const int h_squared = dx * dx + dy * dy;
             if( trigdist && h_squared > dist_squared ) {
                 continue;
             }
-            int x = ompos.x + dx;
-            int y = ompos.y + dy;
+            const tripoint p = ompos + point( dx, dy );
             // If circular distances are enabled, scale overmap distances by the diagonality of the sight line.
             const float multiplier = trigdist ? std::sqrt( h_squared ) / std::max<float>( std::abs( dx ),
                                      std::abs( dy ) ) : 1;
-            const std::vector<point> line = line_to( ompos.x, ompos.y, x, y, 0 );
+            const std::vector<tripoint> line = line_to( ompos, p, 0 );
             float sight_points = dist;
             for( auto it = line.begin();
                  it != line.end() && sight_points >= 0; ++it ) {
-                const oter_id &ter = overmap_buffer.ter( it->x, it->y, ompos.z );
+                const oter_id &ter = overmap_buffer.ter( *it );
                 sight_points -= static_cast<int>( ter->get_see_cost() ) * multiplier;
             }
             if( sight_points >= 0 ) {
-                overmap_buffer.set_seen( x, y, ompos.z, true );
-                for( int z = ompos.z - 1; z >= 0; z-- ) {
-                    overmap_buffer.set_seen( x, y, z, true );
-                }
+                tripoint seen( p );
+                do {
+                    overmap_buffer.set_seen( seen, true );
+                    --seen.z;
+                } while( seen.z >= 0 );
             }
         }
     }
@@ -11639,7 +11645,7 @@ overmap &game::get_cur_om() const
     // The player is located in the middle submap of the map.
     const tripoint sm = m.get_abs_sub() + tripoint( HALF_MAPSIZE, HALF_MAPSIZE, 0 );
     const tripoint pos_om = sm_to_om_copy( sm );
-    return overmap_buffer.get( pos_om.x, pos_om.y );
+    return overmap_buffer.get( pos_om.xy() );
 }
 
 std::vector<npc *> game::allies()

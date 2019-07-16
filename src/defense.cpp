@@ -213,7 +213,7 @@ void defense_game::init_constructions()
 
 void defense_game::init_map()
 {
-    auto &starting_om = overmap_buffer.get( 0, 0 );
+    auto &starting_om = overmap_buffer.get( point_zero );
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
             starting_om.ter( x, y, 0 ) = oter_id( "field" );
@@ -538,17 +538,17 @@ void defense_game::setup()
             switch( selection ) {
                 case 1: // Scenario selection
                     if( action == "RIGHT" ) {
-                        if( style == defense_style( NUM_DEFENSE_STYLES - 1 ) ) {
-                            style = defense_style( 1 );
+                        if( style == static_cast<defense_style>( NUM_DEFENSE_STYLES - 1 ) ) {
+                            style = static_cast<defense_style>( 1 );
                         } else {
-                            style = defense_style( style + 1 );
+                            style = static_cast<defense_style>( style + 1 );
                         }
                     }
                     if( action == "LEFT" ) {
-                        if( style == defense_style( 1 ) ) {
-                            style = defense_style( NUM_DEFENSE_STYLES - 1 );
+                        if( style == static_cast<defense_style>( 1 ) ) {
+                            style = static_cast<defense_style>( NUM_DEFENSE_STYLES - 1 );
                         } else {
-                            style = defense_style( style - 1 );
+                            style = static_cast<defense_style>( style - 1 );
                         }
                     }
                     init_to_style( style );
@@ -556,17 +556,17 @@ void defense_game::setup()
 
                 case 2: // Location selection
                     if( action == "RIGHT" ) {
-                        if( location == defense_location( NUM_DEFENSE_LOCATIONS - 1 ) ) {
-                            location = defense_location( 1 );
+                        if( location == static_cast<defense_location>( NUM_DEFENSE_LOCATIONS - 1 ) ) {
+                            location = static_cast<defense_location>( 1 );
                         } else {
-                            location = defense_location( location + 1 );
+                            location = static_cast<defense_location>( location + 1 );
                         }
                     }
                     if( action == "LEFT" ) {
-                        if( location == defense_location( 1 ) ) {
-                            location = defense_location( NUM_DEFENSE_LOCATIONS - 1 );
+                        if( location == static_cast<defense_location>( 1 ) ) {
+                            location = static_cast<defense_location>( NUM_DEFENSE_LOCATIONS - 1 );
                         } else {
-                            location = defense_location( location - 1 );
+                            location = static_cast<defense_location>( location - 1 );
                         }
                     }
                     mvwprintz( w, 5, 2, c_black, "\
@@ -900,7 +900,7 @@ void defense_game::caravan()
 
     // Init the items for each category
     for( int i = 0; i < NUM_CARAVAN_CATEGORIES; i++ ) {
-        items[i] = caravan_items( caravan_category( i ) );
+        items[i] = caravan_items( static_cast<caravan_category>( i ) );
         for( std::vector<itype_id>::iterator it = items[i].begin();
              it != items[i].end(); ) {
             if( current_wave == 0 || !one_in( 4 ) ) {
@@ -1286,7 +1286,7 @@ void draw_caravan_categories( const catacurses::window &w, int category_selected
 
     for( int i = 0; i < NUM_CARAVAN_CATEGORIES; i++ ) {
         mvwprintz( w, i + 3, 1, ( i == category_selected ? h_white : c_white ),
-                   caravan_category_name( caravan_category( i ) ) );
+                   caravan_category_name( static_cast<caravan_category>( i ) ) );
     }
     wrefresh( w );
 }

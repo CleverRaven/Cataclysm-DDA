@@ -320,6 +320,7 @@ static void damage_targets( const spell &sp, const Creature &caster,
             continue;
         }
         sp.make_sound( target );
+        sp.create_field( target );
         Creature *const cr = g->critter_at<Creature>( target );
         if( !cr ) {
             continue;
@@ -383,7 +384,7 @@ void spell_effect::line_attack( const spell &sp, const Creature &caster,
                     sp.has_flag( spell_flag::IGNORE_WALLS ) ) );
 }
 
-void spell_effect::spawn_ethereal_item( spell &sp )
+void spell_effect::spawn_ethereal_item( const spell &sp )
 {
     item granted( sp.effect_data(), calendar::turn );
     if( !granted.is_comestible() && !( sp.has_flag( spell_flag::PERMANENT ) && sp.is_max_level() ) ) {
@@ -408,7 +409,7 @@ void spell_effect::spawn_ethereal_item( spell &sp )
     }
 }
 
-void spell_effect::recover_energy( spell &sp, const tripoint &target )
+void spell_effect::recover_energy( const spell &sp, const tripoint &target )
 {
     // this spell is not appropriate for healing
     const int healing = sp.damage();
@@ -416,6 +417,9 @@ void spell_effect::recover_energy( spell &sp, const tripoint &target )
     // TODO: Change to Character
     // current limitation is that Character does not have stamina or power_level members
     player *p = g->critter_at<player>( target );
+    if( !p ) {
+        return;
+    }
 
     if( energy_source == "MANA" ) {
         p->magic.mod_mana( *p, healing );
@@ -490,7 +494,7 @@ void spell_effect::spawn_summoned_monster( const spell &sp, const Creature &cast
     }
 }
 
-void spell_effect::translocate( spell &sp, const Creature &caster,
+void spell_effect::translocate( const spell &sp, const Creature &caster,
                                 const tripoint &target, teleporter_list &tp_list )
 {
     tp_list.translocate( spell_effect_area( sp, target, spell_effect_blast, caster, true ) );

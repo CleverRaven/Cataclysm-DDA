@@ -1076,7 +1076,7 @@ bool zone_manager::save_zones()
     added_vzones.clear();
     changed_vzones.clear();
     removed_vzones.clear();
-    return write_to_file_exclusive( savefile, [&]( std::ostream & fout ) {
+    return write_to_file( savefile, [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
         serialize( jsout );
     }, _( "zones date" ) );

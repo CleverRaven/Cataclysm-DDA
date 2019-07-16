@@ -181,20 +181,24 @@ bool Creature::sees( const Creature &critter ) const
         return is_player();
     }
 
-    const player *p = critter.as_player();
-    if( p != nullptr && p->is_invisible() ) {
-        // Let invisible players see themselves (simplifies drawing)
-        return p == this;
-    }
-
     if( !fov_3d && !debug_mode && posz() != critter.posz() ) {
         return false;
     }
 
+    // Creatures always see themselves (simplifies drawing).
+    if( this == &critter ) {
+        return true;
+    }
+    // This check is ridiculously expensive so defer it to after everything else.
+    auto visible = []( const player * p ) {
+        return p == nullptr || !p->is_invisible();
+    };
+
+    const player *p = critter.as_player();
     const int wanted_range = rl_dist( pos(), critter.pos() );
     if( wanted_range <= 1 &&
         ( posz() == critter.posz() || g->m.valid_move( pos(), critter.pos(), false, true ) ) ) {
-        return true;
+        return visible( p );
     } else if( ( wanted_range > 1 && critter.digging() ) ||
                ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && g->m.light_at( critter.pos() ) <= LL_LOW ) ||
                ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos() ) ) ||
@@ -207,7 +211,7 @@ bool Creature::sees( const Creature &critter ) const
         if( p->movement_mode_is( PMM_CROUCH ) ) {
             const int coverage = g->m.obstacle_coverage( pos(), critter.pos() );
             if( coverage < 30 ) {
-                return sees( critter.pos(), critter.is_player() );
+                return sees( critter.pos(), critter.is_player() ) && visible( p );
             }
             float size_modifier = 1.0;
             switch( p->get_size() ) {
@@ -228,12 +232,12 @@ bool Creature::sees( const Creature &critter ) const
             }
             const int vision_modifier = 30 - 0.5 * coverage * size_modifier;
             if( vision_modifier > 1 ) {
-                return sees( critter.pos(), critter.is_player(), vision_modifier );
+                return sees( critter.pos(), critter.is_player(), vision_modifier ) && visible( p );
             }
             return false;
         }
     }
-    return sees( critter.pos(), critter.is_player() );
+    return sees( critter.pos(), p != nullptr ) && visible( p );
 }
 
 bool Creature::sees( const tripoint &t, bool is_player, int range_mod ) const

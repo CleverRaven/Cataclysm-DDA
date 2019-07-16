@@ -47,6 +47,10 @@
     "final_casting_time": 100,
     "casting_time_increment": -5,
     "base_energy_cost": 140,
+    "field_id": "fd_electricity",
+    "min_field_intensity": 1,
+    "max_field_intensity": 1,
+    "field_chance": 1,
     "damage_type": "electric",
     "energy_source": "MANA"
   },
@@ -168,7 +172,7 @@
     "base_casting_time": 120,
     "final_casting_time": 50,
     "casting_time_increment": -5,
-    "base_casting_cost": 55,
+    "base_energy_cost": 55,
     "damage_type": "electric",
     "effect": "projectile_attack"
   },
@@ -192,7 +196,7 @@
     "difficulty": 20,
     "spell_class": "STORMSHAPER",
     "energy_source": "MANA",
-    "base_casting_cost": 500,
+    "base_energy_cost": 500,
     "base_casting_time": 300,
     "damage_type": "electric",
     "effect": "projectile_attack",
