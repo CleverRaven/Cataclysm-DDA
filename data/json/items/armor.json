@@ -10239,7 +10239,7 @@
     "covers": [ "TORSO" ],
     "coverage": 45,
     "encumbrance": 12,
-    "storage": 25,
+    "storage": 15,
     "warmth": 3,
     "material_thickness": 3,
     "properties": [ [ "monster_size_capacity", "SMALL" ] ],
