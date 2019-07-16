@@ -261,7 +261,19 @@
     "range": 6,
     "dispersion": 180,
     "durability": 6,
-    "clip_size": 1,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "hand_crossbow_integral_mag",
+          "type": "MAGAZINE",
+          "name": "pistol crossbow",
+          "description": "This item defines the integral magazine of a hand_crossbow item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "bolt" ],
+          "capacity": 1
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "grip", 1 ],
@@ -295,8 +307,20 @@
     "range": 9,
     "dispersion": 150,
     "durability": 6,
-    "clip_size": 1,
-    "reload": 500,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "crossbow_integral_mag",
+          "type": "MAGAZINE",
+          "name": "crossbow",
+          "description": "This item defines the integral magazine of a crossbow item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "bolt" ],
+          "capacity": 1,
+          "reload_time": 500
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
@@ -331,8 +355,20 @@
     "loudness": 8,
     "dispersion": 220,
     "durability": 6,
-    "clip_size": 1,
-    "reload": 600,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "compositecrossbow_integral_mag",
+          "type": "MAGAZINE",
+          "name": "composite crossbow",
+          "description": "This item defines the integral magazine of a compositecrossbow item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "bolt" ],
+          "capacity": 1,
+          "reload_time": 600
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
@@ -367,8 +403,20 @@
     "loudness": 12,
     "dispersion": 200,
     "durability": 6,
-    "clip_size": 1,
-    "reload": 300,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "compcrossbow_integral_mag",
+          "type": "MAGAZINE",
+          "name": "compound crossbow",
+          "description": "This item defines the integral magazine of a compcrossbow item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "bolt" ],
+          "capacity": 1,
+          "reload_time": 300
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
@@ -404,8 +452,20 @@
     "dispersion": 330,
     "recoil": 30,
     "durability": 6,
-    "clip_size": 1,
-    "reload": 6000,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "huge_crossbow_integral_mag",
+          "type": "MAGAZINE",
+          "name": "heavy crossbow",
+          "description": "This item defines the integral magazine of a huge_crossbow item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "bolt" ],
+          "capacity": 1,
+          "reload_time": 6000
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
@@ -440,8 +500,20 @@
     "dispersion": 500,
     "recoil": 30,
     "durability": 6,
-    "clip_size": 10,
-    "reload": 50,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "rep_crossbow_integral_mag",
+          "type": "MAGAZINE",
+          "name": "repeating crossbow integral magazine",
+          "description": "This item defines the integral magazine of a rep_crossbow item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "bolt" ],
+          "capacity": 10,
+          "reload_time": 50
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
