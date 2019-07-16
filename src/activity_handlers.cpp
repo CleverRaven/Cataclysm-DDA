@@ -2907,16 +2907,18 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     - values[2]: max_power_level
     - values[3]: pl_skill
     - values[4] and above: occupied body_parts
-    - str_values[0]: cbm name
-    - str_values[1]: bionic_id
-    - str_values[2]: upgraded cbm name
-    - str_values[3]: upgraded cbm bionic_id
-    - str_values[4]: installer name
-    - str_values[5]: bool autodoc
-    - str_values[6] and above: traits removed by the cbm
+    - str_values[0]: install/uninstall
+    - str_values[1]: cbm name
+    - str_values[2]: bionic_id
+    - str_values[3]: upgraded cbm name
+    - str_values[4]: upgraded cbm bionic_id
+    - str_values[5]: installer name
+    - str_values[6]: bool autodoc
+    - str_values[7] and above: traits removed by the cbm
     */
-    const bool autodoc = act->str_values[5] == "true";
-    const bool u_see = g->u.sees( p->pos() ) && !g->u.has_effect( effect_narcosis );
+    const bool autodoc = act->str_values[6] == "true";
+    const bool u_see = p->is_player() ? true : g->u.sees( p->pos() ) &&
+                       !g->u.has_effect( effect_narcosis );
 
     const int difficulty = act->values.front();
 
@@ -2980,17 +2982,17 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
             }
         }
     } else if( time_left == half_op_duration ) {
-        if( act->str_values.size() < 3 ) {
+        if( act->str_values[0] == "uninstall" ) {
             if( u_see && autodoc ) {
                 add_msg( m_info, _( "The Autodoc attempts to carefully extract the bionic." ) );
             }
 
-            if( p->has_bionic( bionic_id( act->str_values[1] ) ) ) {
-                p->perform_uninstall( bionic_id( act->str_values[1] ), act->values[0], act->values[1],
-                                      act->values[2], act->values[3], act->str_values[0] );
+            if( p->has_bionic( bionic_id( act->str_values[2] ) ) ) {
+                p->perform_uninstall( bionic_id( act->str_values[2] ), act->values[0], act->values[1],
+                                      act->values[2], act->values[3], act->str_values[1] );
             } else {
                 debugmsg( _( "Tried to uninstall %s, but you don't have this bionic installed." ),
-                          act->str_values[1] );
+                          act->str_values[2] );
                 p->remove_effect( effect_under_op );
                 act->set_to_null();
             }
@@ -2999,19 +3001,19 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                 add_msg( m_info, _( "The Autodoc attempts to carefully insert the bionic." ) );
             }
 
-            if( bionic_id( act->str_values[1] ).is_valid() ) {
+            if( bionic_id( act->str_values[2] ).is_valid() ) {
                 std::vector<trait_id> trait_to_rem;
-                if( act->str_values.size() > 7 ) {
-                    for( size_t i = 6; i < act->str_values.size(); i++ ) {
+                if( act->str_values.size() > 8 ) {
+                    for( size_t i = 7; i < act->str_values.size(); i++ ) {
                         trait_to_rem.emplace_back( trait_id( act->str_values[i] ) );
                     }
                 }
-                p->perform_install( bionic_id( act->str_values[1] ), bionic_id( act->str_values[3] ),
+                p->perform_install( bionic_id( act->str_values[2] ), bionic_id( act->str_values[4] ),
                                     act->values[0], act->values[1],
-                                    act->values[3], act->str_values[0], act->str_values[2], act->str_values[4],
+                                    act->values[3], act->str_values[1], act->str_values[3], act->str_values[5],
                                     trait_to_rem );
             } else {
-                debugmsg( _( "%s is no a valid bionic_id" ), act->str_values[1] );
+                debugmsg( _( "%s is no a valid bionic_id" ), act->str_values[2] );
                 p->remove_effect( effect_under_op );
                 act->set_to_null();
             }
