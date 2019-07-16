@@ -1461,7 +1461,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                       "<info>" + skill.name() + "</info>" ) );
         }
 
-        if( mod->magazine_current() ) {
+        if( mod->magazine_current() && !mod->has_flag( "RELOAD_AND_SHOOT" ) ) {
             if( mod->magazine_current() && parts->test( iteminfo_parts::GUN_MAGAZINE ) &&
                 !mod->magazine_current()->has_flag( "IRREMOVABLE" ) ) {
                 info.emplace_back( "GUN", _( "Magazine: " ), string_format( "<stat>%s</stat>",
