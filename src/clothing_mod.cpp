@@ -24,10 +24,12 @@ static cm_type cm_type_from_string( const std::string &str )
         return cm_bash;
     } else if( str == "cut" ) {
         return cm_cut;
-    } else if( str == "encumber" ) {
-        return cm_encumber;
+    } else if( str == "encumbrance" ) {
+        return cm_encumbrance;
     } else if( str == "warmth" ) {
         return cm_warmth;
+    } else if( str == "storage" ) {
+        return cm_storage;
     }
     debugmsg( "Invalid mod type '%s'.", str.c_str() );
     return cm_invalid;

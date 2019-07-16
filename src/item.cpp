@@ -4236,8 +4236,16 @@ units::volume item::get_storage() const
     if( t == nullptr ) {
         return is_pet_armor() ? type->pet_armor->storage : 0_ml;
     }
+    units::volume storage = t->storage;
+    float tmp = 0.0;
+    for( auto &cm : clothing_mods::get_all() ) {
+        if( item_tags.count( cm.flag ) > 0 ) {
+            tmp += cm.get_mod_val( cm_storage, *this );
+        }
+    }
+    storage += lround( tmp ) * units::legacy_volume_factor;
 
-    return t->storage;
+    return storage;
 }
 
 int item::get_env_resist( int override_base_resist ) const
@@ -4320,7 +4328,7 @@ int item::get_encumber_when_containing(
 
     for( auto &cm : clothing_mods::get_all() ) {
         if( item_tags.count( cm.flag ) > 0 ) {
-            encumber += std::max( 1, static_cast<int>( ceil( cm.get_mod_val( cm_encumber, *this ) ) ) );
+            encumber += std::max( 1, static_cast<int>( ceil( cm.get_mod_val( cm_encumbrance, *this ) ) ) );
         }
     }
 

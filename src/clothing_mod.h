@@ -17,8 +17,9 @@ enum cm_type : int {
     cm_fire,
     cm_bash,
     cm_cut,
-    cm_encumber,
+    cm_encumbrance,
     cm_warmth,
+    cm_storage,
     cm_invalid
 };
 

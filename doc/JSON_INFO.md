@@ -2009,7 +2009,7 @@ A flat multiplier on the harvest count of the plant. For numbers greater than on
 "destroy_prompt": "Destroy leather padding", // prompt to show when destroy mod.
 "mod_value": [            // List of mod effect.
     {
-        "type": "bash",   // "bash", "cut", "fire", "acid", "warmth", and "encumber" is available.
+        "type": "bash",   // "bash", "cut", "fire", "acid", "warmth", "storage", and "encumbrance" is available.
         "value": 1,       // value of effect.
         "proportion": [   // (optional) value of effect propotions to clothing's parameter.
             "thickness",  //            "thickness" and "coverage" is available.

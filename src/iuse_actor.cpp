@@ -4408,6 +4408,9 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                                mod.get_warmth(), temp_item.get_warmth() ) << "\n";
         desc << string_format( _( "Encumbrance: %d->%d" ),
                                mod.get_encumber( p ), temp_item.get_encumber( p ) ) << "\n";
+        desc << string_format( _( "Storage: %s %s->%s %s" ),
+                               format_volume( mod.get_storage() ), volume_units_abbr(),
+                               format_volume( temp_item.get_storage() ), volume_units_abbr() ) << "\n";
         tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, string_format( "%s", _( prompt.c_str() ) ),
                              desc.str() );
     }
