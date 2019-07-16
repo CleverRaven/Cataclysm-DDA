@@ -223,8 +223,20 @@
     "ranged_damage": -5,
     "dispersion": 550,
     "durability": 6,
-    "clip_size": 6,
-    "reload": 200,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "rifle_308_integral_mag",
+          "type": "MAGAZINE",
+          "name": "pipe rifle: .308",
+          "description": "This item defines the integral magazine of a rifle_308 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "308" ],
+          "capacity": 6,
+          "reload_time": 200
+        }
+      ]
+    },
     "barrel_length": 2,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -260,9 +272,22 @@
     "ammo": "308",
     "dispersion": 90,
     "durability": 9,
-    "clip_size": 3,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "savage_111f_integral_mag",
+          "type": "MAGAZINE",
+          "name": "Savage 111F integral magazine",
+          "description": "This item defines the integral magazine of a savage_111f item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "308" ],
+          "capacity": 3,
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "barrel_length": 3,
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS" ]
   },
   {
     "id": "scar_h",

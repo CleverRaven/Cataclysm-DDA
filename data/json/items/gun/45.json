@@ -150,8 +150,20 @@
     "dispersion": 550,
     "durability": 6,
     "loudness": 25,
-    "clip_size": 1,
-    "reload": 200,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "rifle_45_integral_mag",
+          "type": "MAGAZINE",
+          "name": "pipe rifle: .45",
+          "description": "This item defines the integral magazine of a rifle_45 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "45" ],
+          "capacity": 1,
+          "reload_time": 200
+        }
+      ]
+    },
     "barrel_length": 3,
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -222,7 +234,19 @@
     "dispersion": 620,
     "durability": 7,
     "loudness": 25,
-    "clip_size": 5
+    "loadables": {
+      "integrals": [
+        {
+          "id": "surv_hand_cannon_integral_mag",
+          "type": "MAGAZINE",
+          "name": "homemade hand cannon",
+          "description": "This item defines the integral magazine of a surv_hand_cannon item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "45" ],
+          "capacity": 5
+        }
+      ]
+    }
   },
   {
     "id": "tommygun",

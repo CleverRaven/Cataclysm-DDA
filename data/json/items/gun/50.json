@@ -67,7 +67,19 @@
     "name": ".50 caliber rifle",
     "description": "Modified from the massive M2 Browning, this pared down rifle has been altered to be fired unmounted.  The burst fire has been disabled, and its belt fed mechanism has been modified into a much smaller single round chamber.",
     "material": [ "steel", "wood" ],
-    "clip_size": 1,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "m2browning_sawn_integral_mag",
+          "type": "MAGAZINE",
+          "name": ".50 caliber rifle",
+          "description": "This item defines the integral magazine of a m2browning_sawn item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "50" ],
+          "capacity": 1
+        }
+      ]
+    },
     "modes": [ [ "DEFAULT", "manual", 1 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -82,7 +94,6 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [  ],
     "relative": { "weight": -21500, "volume": -6, "price": -1210000, "ranged_damage": -4, "dispersion": 60, "barrel_length": -1 },
     "flags": [ "RELOAD_EJECT" ]
   }

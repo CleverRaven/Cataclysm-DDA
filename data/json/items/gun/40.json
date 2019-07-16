@@ -223,7 +223,7 @@
     "loadables": {
       "integrals": [
         {
-          "id": "sw610_integral_mag",
+          "id": "sw_610_integral_mag",
           "type": "MAGAZINE",
           "name": "S&W 610 cylinder",
           "description": "This item defines the integral magazine of a sw_610 item. It should not be visible to the player.",

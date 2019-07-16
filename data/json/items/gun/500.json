@@ -17,7 +17,20 @@
     "ranged_damage": 2,
     "dispersion": 180,
     "durability": 8,
-    "clip_size": 7,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "bh_m89_integral_mag",
+          "type": "MAGAZINE",
+          "name": "Big Horn Modl 89 integral magazine",
+          "description": "This item defines the integral magazine of a bh_m89 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "500" ],
+          "capacity": 7,
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -51,8 +64,21 @@
     "ammo": "500",
     "dispersion": 280,
     "durability": 8,
-    "clip_size": 5,
-    "magazines": [ [ "500", [ "500_speedloader5" ] ] ],
+    "loadables": {
+      "integrals": [
+        {
+          "id": "sw_500_integral_mag",
+          "type": "MAGAZINE",
+          "name": "S&W 500 cylinder",
+          "description": "This item defines the integral magazine of a sw_500 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "500" ],
+          "capacity": 5,
+          "clips": [ "500_speedloader5" ],
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "grip", 1 ],

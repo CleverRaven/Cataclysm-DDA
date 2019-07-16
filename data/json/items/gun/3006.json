@@ -88,7 +88,21 @@
     "ammo": "3006",
     "dispersion": 120,
     "durability": 8,
-    "clip_size": 5,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "m1903_integral_mag",
+          "type": "MAGAZINE",
+          "name": "M1903 Springfield integral magazine",
+          "description": "This item defines the integral magazine of a m1903 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "3006" ],
+          "capacity": 5,
+          "clips": [ "3006_clip" ],
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "barrel_length": 1,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -103,9 +117,7 @@
       [ "rail mount", 1 ],
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ],
-    "magazines": [ [ "3006", [ "3006_clip" ] ] ],
-    "flags": [ "RELOAD_ONE" ]
+    ]
   },
   {
     "id": "m1918",
@@ -160,9 +172,22 @@
     "ammo": "3006",
     "dispersion": 90,
     "durability": 8,
-    "clip_size": 4,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "remington_700_integral_mag",
+          "type": "MAGAZINE",
+          "name": "Remington 700 integral magazine",
+          "description": "This item defines the integral magazine of a remington_700 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "3006" ],
+          "capacity": 4,
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "barrel_length": 3,
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS" ]
   },
   {
     "id": "rifle_3006",
@@ -186,8 +211,20 @@
     "dispersion": 550,
     "durability": 6,
     "loudness": 25,
-    "clip_size": 1,
-    "reload": 200,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "rifle_3006_integral_mag",
+          "type": "MAGAZINE",
+          "name": "pipe rifle: .30-06",
+          "description": "This item defines the integral magazine of a rifle_3006 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "3006" ],
+          "capacity": 1,
+          "reload_time": 200
+        }
+      ]
+    },
     "barrel_length": 4,
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -208,7 +245,20 @@
     "name": "Special 700",
     "description": "A rusty receiver, a R700 pattern barrel and half a broken crutch; all held together in the shape of a rifle with nothing more than glue, duct tape, and generous amounts of faith.",
     "price": 100000,
-    "clip_size": 1,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "survivor-special_700_integral_mag",
+          "type": "MAGAZINE",
+          "name": "Special 700",
+          "description": "This item defines the integral magazine of a survivor-special_700 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "3006" ],
+          "capacity": 1,
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "bore", 1 ],

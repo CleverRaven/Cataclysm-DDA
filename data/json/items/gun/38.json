@@ -19,8 +19,21 @@
     "ranged_damage": -1,
     "dispersion": 620,
     "durability": 3,
-    "clip_size": 2,
-    "reload": 200,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "2_shot_special_integral_mag",
+          "type": "MAGAZINE",
+          "name": "2 Shot Special",
+          "description": "This item defines the integral magazine of a s2_shot_special item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "38" ],
+          "capacity": 2,
+          "reload_time": 200,
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
@@ -48,7 +61,20 @@
     "range": 3,
     "dispersion": 520,
     "durability": 6,
-    "clip_size": 4,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "cop_38_integral_mag",
+          "type": "MAGAZINE",
+          "name": "COP 38",
+          "description": "This item defines the integral magazine of a scop_38 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "38" ],
+          "capacity": 4,
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -59,7 +85,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
     "id": "rifle_38",
@@ -81,8 +107,20 @@
     "dispersion": 550,
     "durability": 6,
     "loudness": 25,
-    "clip_size": 1,
-    "reload": 200,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "rifle_38_integral_mag",
+          "type": "MAGAZINE",
+          "name": "pipe rifle: .38",
+          "description": "This item defines the integral magazine of a rifle_38 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "38" ],
+          "capacity": 1,
+          "reload_time": 200
+        }
+      ]
+    },
     "barrel_length": 3,
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -115,8 +153,21 @@
     "ranged_damage": -2,
     "dispersion": 480,
     "durability": 10,
-    "clip_size": 5,
-    "magazines": [ [ "38", [ "38_speedloader5" ] ] ],
+    "loadables": {
+      "integrals": [
+        {
+          "id": "ruger_lcr_38_integral_mag",
+          "type": "MAGAZINE",
+          "name": "Ruger LCR cylinder",
+          "description": "This item defines the integral magazine of a ruger_lcr_38 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "38" ],
+          "capacity": 5,
+          "clips": [ "38_speedloader5" ],
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],

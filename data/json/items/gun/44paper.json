@@ -15,7 +15,20 @@
     "ammo": "44paper",
     "dispersion": 400,
     "durability": 7,
-    "clip_size": 5,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "colt_army_integral_mag",
+          "type": "MAGAZINE",
+          "name": "Colt M186 Army cylinder",
+          "description": "This item defines the integral magazine of a scolt_army item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "44paper" ],
+          "capacity": 6,
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "proportional": { "reload": 2 }
   }
 ]

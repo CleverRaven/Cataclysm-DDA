@@ -14,8 +14,20 @@
     "ammo": "40mm",
     "dispersion": 550,
     "durability": 6,
-    "clip_size": 1,
-    "reload": 350,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "launcher_simple_integral_mag",
+          "type": "MAGAZINE",
+          "name": "tube 40mm launcher",
+          "description": "This item defines the integral magazine of a launcher_simple item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "40mm" ],
+          "capacity": 1,
+          "reload_time": 350
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -43,8 +55,20 @@
     "ammo": "40mm",
     "dispersion": 270,
     "durability": 9,
-    "clip_size": 1,
-    "reload": 150
+    "loadables": {
+      "integrals": [
+        {
+          "id": "m320_integral_mag",
+          "type": "MAGAZINE",
+          "name": "M320 stand alone launcher",
+          "description": "This item defines the integral magazine of a m320 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "40mm" ],
+          "capacity": 1,
+          "reload_time": 150
+        }
+      ]
+    }
   },
   {
     "id": "m79",
@@ -62,8 +86,20 @@
     "ranged_damage": 3,
     "dispersion": 150,
     "durability": 8,
-    "clip_size": 1,
-    "reload": 250,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "m79_integral_mag",
+          "type": "MAGAZINE",
+          "name": "M79 launcher",
+          "description": "This item defines the integral magazine of a m79 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "40mm" ],
+          "capacity": 1,
+          "reload_time": 250
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -122,8 +158,21 @@
     "ammo": "40mm",
     "dispersion": 270,
     "durability": 8,
-    "clip_size": 6,
-    "reload": 300,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "mgl_integral_mag",
+          "type": "MAGAZINE",
+          "name": "Milkor MGL cylinder",
+          "description": "This item defines the integral magazine of a mgl item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "40mm" ],
+          "capacity": 6,
+          "reload_time": 300,
+          "flags": [" RELOAD_ONE" ]
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -151,7 +200,20 @@
     "ammo": "40mm",
     "dispersion": 140,
     "durability": 9,
-    "clip_size": 4,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "rm802_integral_mag",
+          "type": "MAGAZINE",
+          "name": "RM802 integral magazine",
+          "description": "This item defines the integral magazine of a rm802 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "40mm" ],
+          "capacity": 4,
+          "flags": [" RELOAD_ONE" ]
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "brass catcher", 1 ],
@@ -163,7 +225,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   },
   {
     "id": "triple_launcher_simple",
@@ -171,7 +233,20 @@
     "type": "GUN",
     "name": "triple-barrel 40mm launcher",
     "description": "A homemade triple-barrel 40mm grenade launcher.  Capable of launching all three grenades at once, it is extremely powerful for a homemade weapon.",
-    "clip_size": 3,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "triple_launcher_simple_integral_mag",
+          "type": "MAGAZINE",
+          "name": "triple-barrel 40mm launcher",
+          "description": "This item defines the integral magazine of a triple_launcher_simple item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "40mm" ],
+          "capacity": 3,
+          "flags": [" RELOAD_ONE" ]
+        }
+      ]
+    },
     "modes": [ [ "DEFAULT", "single", 1, "NPC_AVOID" ], [ "MULTI", "multi", 3, [ "NPC_AVOID", "SIMULTANEOUS" ] ] ],
     "proportional": { "weight": 1.5, "volume": 1.8, "price": 2 }
   }

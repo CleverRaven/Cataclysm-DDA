@@ -17,8 +17,21 @@
     "ammo": [ "454", "45colt" ],
     "dispersion": 280,
     "durability": 8,
-    "clip_size": 5,
-    "magazines": [ [ "454", [ "454_speedloader5" ] ] ],
+    "loadables": {
+      "integrals": [
+        {
+          "id": "raging_bull_integral_mag",
+          "type": "MAGAZINE",
+          "name": "Taurus Raging Bull cylinder",
+          "description": "This item defines the integral magazine of a raging_bull item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "454", "45colt" ],
+          "capacity": 5,
+          "clips": [ "454_speedloader5" ],
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "grip", 1 ],

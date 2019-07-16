@@ -40,8 +40,21 @@
     "ranged_damage": 1,
     "dispersion": 360,
     "durability": 8,
-    "clip_size": 6,
-    "magazines": [ [ "460", [ "460_speedloader6" ] ] ],
+    "loadables": {
+      "integrals": [
+        {
+          "id": "l_enforcer_45_integral_mag",
+          "type": "MAGAZINE",
+          "name": "L2031 Enforcer cylinder",
+          "description": "This item defines the integral magazine of a l_enforcer_45 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "460" ],
+          "capacity": 6,
+          "clips": [ "460_speedloader6" ],
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "built_in_mods": [ "lead_holo_sight", "lead_laser_sight" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -74,7 +87,20 @@
     "ranged_damage": 4,
     "dispersion": 180,
     "durability": 9,
-    "clip_size": 12,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "l_long_45_integral_mag",
+          "type": "MAGAZINE",
+          "name": ":1820 Long Ranger integral magazine",
+          "description": "This item defines the integral magazine of a l_long_45 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "460" ],
+          "capacity": 12,
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "barrel_length": 2,
     "built_in_mods": [ "lead_holo_sight", "lead_laser_sight" ],
     "valid_mod_locations": [
@@ -87,7 +113,6 @@
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
       [ "stock mount", 1 ]
-    ],
-    "flags": [ "RELOAD_ONE" ]
+    ]
   }
 ]
