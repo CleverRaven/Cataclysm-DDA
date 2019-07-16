@@ -341,5 +341,23 @@
     "initial_charges": 15,
     "max_charges": 15,
     "use_action": "WATER_PURIFIER"
+  },
+  {
+    "id": "water_breathing_mask",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "symbol": "[",
+    "color": "dark_gray",
+    "name": "water breathing mask",
+    "description": "A magical field covering your face that allows you to see and breathe underwater.  Taking it off while underwater would probably be a bad idea.",
+    "material": [ "plastic" ],
+    "weight": 1,
+    "volume": 0,
+    "flags": [ "WATER_FRIENDLY", "REBREATHER", "SWIM_GOGGLES", "STURDY", "OVERSIZE", "TRADER_AVOID" ],
+    "covers": [ "EYES", "MOUTH" ],
+    "warmth": 30,
+    "environmental_protection": 2,
+    "encumbrance": 0,
+    "coverage": 100
   }
 ]

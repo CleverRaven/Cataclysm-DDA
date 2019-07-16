@@ -163,5 +163,15 @@
     "rating": "good",
     "removes_effects": [ "eagles_sight", "cats_grace", "ogres_strength" ],
     "base_mods": { "int_mod": [ 4 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "feather_fall",
+    "name": [ "Feather Falling" ],
+    "desc": [ "You can fall long distances but are weakened!" ],
+    "apply_message": "Your body is lighter but weaker!",
+    "remove_message": "Your body returns to normal.",
+    "rating": "good",
+    "base_mods": { "dex_mod": [ 50 ], "str_mod": [ -4 ] }
   }
 ]
