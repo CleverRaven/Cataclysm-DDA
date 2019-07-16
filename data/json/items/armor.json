@@ -10172,7 +10172,7 @@
     "flags": [ "OVERSIZE", "OUTER", "WATERPROOF", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
-    "id": "bigpack",
+    "id": "bigback",
     "type": "ARMOR",
     "name": "the bigpack",
     "description": "Prized by pack rats, may lead to a bad back.",
@@ -10197,7 +10197,7 @@
     "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ]
   },
   {
-    "id": "hiking_backpack",
+    "id": "backpack_hiking",
     "type": "ARMOR",
     "name": "hiking backpack",
     "description": "A large sized hiking backpack excellent storage space.",
@@ -10247,7 +10247,7 @@
     "flags": [ "BELTED", "WATERPROOF"]
   },
   {
-    "id": "large_tactical_backpack",
+    "id": "backpack_tactical_large",
     "type": "ARMOR",
     "name": "large tactical backpack",
     "description": "A large tactical multi-compartment backpack has great lower back support.",
