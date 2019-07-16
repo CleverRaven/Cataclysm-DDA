@@ -2916,7 +2916,17 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     - str_values[6]: bool autodoc
     - str_values[7] and above: traits removed by the cbm
     */
-    const bool autodoc = act->str_values[6] == "true";
+    enum operation_values_ids {
+        operation_type = 0,
+        cbm_name = 1,
+        cbm_id = 2,
+        upgraded_cbm_name = 3,
+        upgraded_cbm_id = 4,
+        installer_name = 5,
+        is_autodoc = 6,
+        trait_first = 7
+    };
+    const bool autodoc = act->str_values[is_autodoc] == "true";
     const bool u_see = p->is_player() ? true : g->u.sees( p->pos() ) &&
                        !g->u.has_effect( effect_narcosis );
 
@@ -2982,17 +2992,17 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
             }
         }
     } else if( time_left == half_op_duration ) {
-        if( act->str_values[0] == "uninstall" ) {
+        if( act->str_values[operation_type] == "uninstall" ) {
             if( u_see && autodoc ) {
                 add_msg( m_info, _( "The Autodoc attempts to carefully extract the bionic." ) );
             }
 
-            if( p->has_bionic( bionic_id( act->str_values[2] ) ) ) {
-                p->perform_uninstall( bionic_id( act->str_values[2] ), act->values[0], act->values[1],
-                                      act->values[2], act->values[3], act->str_values[1] );
+            if( p->has_bionic( bionic_id( act->str_values[cbm_id] ) ) ) {
+                p->perform_uninstall( bionic_id( act->str_values[cbm_id] ), act->values[0], act->values[1],
+                                      act->values[2], act->values[3], act->str_values[cbm_name] );
             } else {
                 debugmsg( _( "Tried to uninstall %s, but you don't have this bionic installed." ),
-                          act->str_values[2] );
+                          act->str_values[cbm_id] );
                 p->remove_effect( effect_under_op );
                 act->set_to_null();
             }
@@ -3001,19 +3011,19 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                 add_msg( m_info, _( "The Autodoc attempts to carefully insert the bionic." ) );
             }
 
-            if( bionic_id( act->str_values[2] ).is_valid() ) {
+            if( bionic_id( act->str_values[cbm_id] ).is_valid() ) {
                 std::vector<trait_id> trait_to_rem;
-                if( act->str_values.size() > 8 ) {
-                    for( size_t i = 7; i < act->str_values.size(); i++ ) {
+                if( act->str_values.size() > trait_first + 1 ) {
+                    for( size_t i = trait_first; i < act->str_values.size(); i++ ) {
                         trait_to_rem.emplace_back( trait_id( act->str_values[i] ) );
                     }
                 }
-                p->perform_install( bionic_id( act->str_values[2] ), bionic_id( act->str_values[4] ),
-                                    act->values[0], act->values[1],
-                                    act->values[3], act->str_values[1], act->str_values[3], act->str_values[5],
+                p->perform_install( bionic_id( act->str_values[cbm_id] ),
+                                    bionic_id( act->str_values[upgraded_cbm_id] ), act->values[0], act->values[1], act->values[3],
+                                    act->str_values[cbm_name], act->str_values[upgraded_cbm_name], act->str_values[installer_name],
                                     trait_to_rem );
             } else {
-                debugmsg( _( "%s is no a valid bionic_id" ), act->str_values[2] );
+                debugmsg( _( "%s is no a valid bionic_id" ), act->str_values[cbm_id] );
                 p->remove_effect( effect_under_op );
                 act->set_to_null();
             }
