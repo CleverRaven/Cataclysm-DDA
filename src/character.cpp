@@ -1164,12 +1164,11 @@ std::vector<item_location> Character::find_reloadables()
             return VisitResponse::NEXT;
         }
         bool reloadable = false;
-        if( node->is_gun() && !node->magazine_compatible().empty() ) {
+        if( node->is_gun() && ( !node->magazine_compatible().empty() || node->magazine_integral() ) ) {
             reloadable = node->magazine_current() == nullptr ||
                          node->ammo_remaining() < node->ammo_capacity();
         } else {
-            reloadable = ( node->is_magazine() || node->is_bandolier() ||
-                           ( node->is_gun() && node->magazine_integral() ) ) &&
+            reloadable = ( node->is_magazine() || node->is_bandolier() ) &&
                          node->ammo_remaining() < node->ammo_capacity();
         }
         if( reloadable ) {
