@@ -10274,7 +10274,7 @@
   {
     "id": "travelpack",
     "type": "ARMOR",
-    "name": "travel pack",
+    "name": "travelpack",
     "description": "A hiking pack used for short trips.",
     "weight": 636,
     "volume": 12,
