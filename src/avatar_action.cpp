@@ -724,7 +724,7 @@ bool avatar_action::fire( avatar &you, map &m )
                 return false;
             }
             reload_time += opt.moves();
-            if( !gun->reload( you, std::move( opt.ammo ), 1 ) ) {
+            if( !gun->magazine_current()->reload( you, std::move( opt.ammo ), 1 ) ) {
                 // Reload not allowed
                 return false;
             }
