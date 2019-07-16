@@ -38,9 +38,21 @@
     "ammo": "300",
     "dispersion": 110,
     "durability": 8,
-    "clip_size": 3,
-    "barrel_length": 3,
-    "flags": [ "RELOAD_ONE" ]
+    "loadables": {
+      "integrals": [
+        {
+          "id": "weatherby_5_integral_mag",
+          "type": "MAGAZINE",
+          "name": "Weatherby Mark V integral magazine",
+          "description": "This item defines the integral magazine of a weatherby_5 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "300" ],
+          "capacity": 3,
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
+    "barrel_length": 3
   },
   {
     "id": "win70",
@@ -59,8 +71,20 @@
     "ammo": "300",
     "dispersion": 90,
     "durability": 8,
-    "clip_size": 3,
-    "barrel_length": 3,
-    "flags": [ "RELOAD_ONE" ]
+    "loadables": {
+      "integrals": [
+        {
+          "id": "win70_integral_mag",
+          "type": "MAGAZINE",
+          "name": "Winchester Model 70 integral magazine",
+          "description": "This item defines the integral magazine of a win70 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "300" ],
+          "capacity": 3,
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
+    "barrel_length": 3
   }
 ]

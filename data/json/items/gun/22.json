@@ -57,8 +57,22 @@
     "ranged_damage": 5,
     "dispersion": 90,
     "durability": 8,
-    "clip_size": 19,
-    "magazines": [ [ "22", [ "marlin_tubeloader" ] ] ],
+    "loadables": {
+      "integrals": [
+        {
+          "id": "marlin_9a_integral_mag",
+          "type": "MAGAZINE",
+          "name": "Marlin 39A integral magazine",
+          "description": "This item defines the integral magazine of a marlin_9a item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "22" ],
+          "capacity": 19,
+          "reliability": 9,
+          "clips": [ "marlin_tubeloader" ],
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -72,8 +86,7 @@
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
-    ],
-    "flags": [ "RELOAD_ONE" ]
+    ]
   },
   {
     "id": "moss_brownie",
@@ -93,7 +106,20 @@
     "ranged_damage": -2,
     "dispersion": 520,
     "durability": 6,
-    "clip_size": 4,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "moss_brownie_integral_mag",
+          "type": "MAGAZINE",
+          "name": "Mossberg Brownie",
+          "description": "This item defines the integral magazine of a moss_brownie item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "22" ],
+          "capacity": 4,
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -104,7 +130,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
     "id": "rifle_22",
@@ -127,8 +153,20 @@
     "dispersion": 550,
     "durability": 6,
     "loudness": 25,
-    "clip_size": 1,
-    "reload": 200,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "rifle_22_integral_mag",
+          "type": "MAGAZINE",
+          "name": "pipe rifle: .22",
+          "description": "This item defines the integral magazine of a rifle_22 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "22" ],
+          "capacity": 1,
+          "reload_time": 200
+        }
+      ]
+    },
     "barrel_length": 2,
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -222,8 +260,21 @@
     "name": "Ruger LCR .22",
     "name_plural": "Ruger LCR .22",
     "ammo": "22",
-    "clip_size": 8,
-    "magazines": [ [ "22", [ "22_speedloader8" ] ] ]
+    "loadables": {
+      "integrals": [
+        {
+          "id": "ruger_lcr_22_integral_mag",
+          "type": "MAGAZINE",
+          "name": "Ruger LCR .22 cylinder",
+          "description": "This item defines the integral magazine of a ruger_lcr_22 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "22" ],
+          "capacity": 8,
+          "clips": [ "22_speedloader8" ],
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    }
   },
   {
     "id": "sig_mosquito",

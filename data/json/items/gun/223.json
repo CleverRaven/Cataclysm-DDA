@@ -106,8 +106,21 @@
     "dispersion": 380,
     "durability": 8,
     "loudness": 30,
-    "clip_size": 5,
-    "magazines": [ [ "223", [ "223_speedloader5" ] ] ],
+    "loadables": {
+      "integrals": [
+        {
+          "id": "l_bak_223_integral_mag",
+          "type": "MAGAZINE",
+          "name": "L2037 Backup cylinder",
+          "description": "This item defines the integral magazine of a l_bak_223 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "223" ],
+          "capacity": 5,
+          "clips": [ "223_speedloader5" ],
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "built_in_mods": [ "lead_holo_sight", "lead_laser_sight" ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ] ]
   },
@@ -310,8 +323,20 @@
     "dispersion": 550,
     "durability": 6,
     "loudness": 25,
-    "clip_size": 1,
-    "reload": 200,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "rifle_223_integral_mag",
+          "type": "MAGAZINE",
+          "name": "pipe rifle: .223",
+          "description": "This item defines the integral magazine of a rifle_223 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "223" ],
+          "capacity": 1,
+          "reload_time": 200
+        }
+      ]
+    },
     "barrel_length": 4,
     "valid_mod_locations": [
       [ "accessories", 2 ],

@@ -15,8 +15,21 @@
     "ammo": "270win",
     "dispersion": 70,
     "durability": 8,
-    "clip_size": 4,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "remington700_270_integral_mag",
+          "type": "MAGAZINE",
+          "name": "Remington 700 integral magazine",
+          "description": "This item defines the integral magazine of a remington700_270 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "270win" ],
+          "capacity": 4,
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "barrel_length": 3,
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS" ]
   }
 ]

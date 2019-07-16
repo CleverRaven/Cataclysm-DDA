@@ -55,8 +55,20 @@
     "dispersion": 550,
     "durability": 6,
     "loudness": 25,
-    "clip_size": 1,
-    "reload": 200,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "rifle_40_integral_mag",
+          "type": "MAGAZINE",
+          "name": "pipe rifle: .40",
+          "description": "This item defines the integral magazine of a rifle_40 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "40" ],
+          "capacity": 1,
+          "reload_time": 200
+        }
+      ]
+    },
     "barrel_length": 3,
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -162,8 +174,21 @@
     "dispersion": 620,
     "durability": 6,
     "loudness": 25,
-    "clip_size": 6,
-    "reload": 200,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "urv_six_shooter_integral_mag",
+          "type": "MAGAZINE",
+          "name": "handmade six-shooter cylinder",
+          "description": "This item defines the integral magazine of a surv_six_shooter item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "40" ],
+          "capacity": 6,
+          "reload_time": 200,
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -174,7 +199,7 @@
       [ "underbarrel", 1 ],
       [ "rail mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
     "id": "sw_610",
@@ -195,8 +220,21 @@
     "ranged_damage": 1,
     "dispersion": 320,
     "durability": 8,
-    "clip_size": 6,
-    "magazines": [ [ "40", [ "40_speedloader6" ] ] ],
+    "loadables": {
+      "integrals": [
+        {
+          "id": "sw610_integral_mag",
+          "type": "MAGAZINE",
+          "name": "S&W 610 cylinder",
+          "description": "This item defines the integral magazine of a sw_610 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "10mm", "40" ],
+          "capacity": 6,
+          "clips": [ "40_speedloader6" ],
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
