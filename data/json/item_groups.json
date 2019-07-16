@@ -36,7 +36,7 @@
       { "item": "colamdew", "prob": 5, "container-item": "bottle_twoliter" },
       [ "backpack", 38 ],
       [ "slingpack", 19 ],
-      [ "travelpack", 3 ],
+      [ "travelpack", 10 ],
       [ "petpack", 1 ],
       [ "pockknife", 14 ],
       [ "roller_shoes_off", 10 ],
