@@ -266,7 +266,10 @@
     "type": "technique",
     "id": "tec_aikido_break",
     "name": "Grab Break",
-    "messages": [ "The %s tries to grab you, but you smoothly break free!", "The %s tries to grab <npcname>, but they smoothly break free!" ],
+    "messages": [
+      "The %s tries to grab you, but you smoothly break free!",
+      "The %s tries to grab <npcname>, but they smoothly break free!"
+    ],
     "min_unarmed": 3,
     "unarmed_allowed": true,
     "defensive": true,
