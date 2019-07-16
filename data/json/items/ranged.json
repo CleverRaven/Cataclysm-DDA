@@ -21,8 +21,20 @@
     "ranged_damage": 2,
     "dispersion": 150,
     "durability": 7,
-    "clip_size": 150,
-    "reload": 50,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "bbgun_integral_mag",
+          "type": "MAGAZINE",
+          "name": "BB gun integral magazine",
+          "description": "This item defines the integral magazine of a bbgun item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "BB" ],
+          "capacity": 150,
+          "reload_time": 50
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "sights", 1 ],
@@ -53,7 +65,19 @@
     "range": 8,
     "dispersion": 150,
     "durability": 6,
-    "clip_size": 1
+    "loadables": {
+      "integrals": [
+        {
+          "id": "sling_integral_mag",
+          "type": "MAGAZINE",
+          "name": "sling",
+          "description": "This item defines the integral magazine of a sling item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "pebble" ],
+          "capacity": 1
+        }
+      ]
+    }
   },
   {
     "id": "slingshot",
@@ -74,7 +98,19 @@
     "range": 5,
     "dispersion": 75,
     "durability": 6,
-    "clip_size": 1,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "slingshot_integral_mag",
+          "type": "MAGAZINE",
+          "name": "slingshot",
+          "description": "This item defines the integral magazine of a slingshot item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "pebble" ],
+          "capacity": 1
+        }
+      ]
+    },
     "valid_mod_locations": [ [ "grip mount", 1 ], [ "underbarrel mount", 1 ] ]
   },
   {
@@ -96,7 +132,19 @@
     "range": 8,
     "dispersion": 45,
     "durability": 7,
-    "clip_size": 1,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "wristrocket_integral_mag",
+          "type": "MAGAZINE",
+          "name": "brace slingshot",
+          "description": "This item defines the integral magazine of a wristrocket item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "pebble" ],
+          "capacity": 1
+        }
+      ]
+    },
     "valid_mod_locations": [ [ "grip mount", 1 ], [ "underbarrel mount", 1 ] ]
   },
   {
@@ -119,8 +167,20 @@
     "range": 10,
     "dispersion": 55,
     "durability": 6,
-    "clip_size": 1,
-    "reload": 400,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "bullet_crossbow_integral_mag",
+          "type": "MAGAZINE",
+          "name": "bullet crossbow",
+          "description": "This item defines the integral magazine of a bullet_crossbow item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "pebble" ],
+          "capacity": 1,
+          "reload_time": 400
+        }
+      ]
+    },
     "loudness": 3,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -153,8 +213,19 @@
     "to_hit": -3,
     "dispersion": 300,
     "durability": 9,
-    "clip_size": 1,
-    "reload": 150,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "LAW_integral_mag",
+          "type": "MAGAZINE",
+          "name": "LAW",
+          "description": "This item defines the integral magazine of a LAW item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "66mm" ],
+          "capacity": 1
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 1 ],
       [ "sling", 1 ],
@@ -182,7 +253,19 @@
     "to_hit": -3,
     "dispersion": 60,
     "durability": 9,
-    "clip_size": 1,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "TANK_integral_mag",
+          "type": "MAGAZINE",
+          "name": "Tankbot Main Gun",
+          "description": "This item defines the integral magazine of a TANK item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "120mm" ],
+          "capacity": 1
+        }
+      ]
+    },
     "loudness": 300
   },
   {
@@ -208,8 +291,20 @@
     "dispersion": 60,
     "durability": 8,
     "burst": 5,
-    "clip_size": 25,
-    "reload": 700,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "plasma_rifle_integral_mag",
+          "type": "MAGAZINE",
+          "name": "Boeing XM-P integral magazine",
+          "description": "This item defines the integral magazine of a plasma_rifle item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "plasma" ],
+          "capacity": 25,
+          "reload_time": 700
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "emitter", 1 ],
@@ -243,7 +338,19 @@
     "to_hit": -1,
     "dispersion": 550,
     "durability": 6,
-    "clip_size": 1,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "pipe_combination_gun_integral_mag",
+          "type": "MAGAZINE",
+          "name": "pipe combination gun",
+          "description": "This item defines the integral magazine of a pipe_combination_gun item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "3006" ],
+          "capacity": 1
+        }
+      ]
+    },
     "loudness": 25,
     "barrel_length": 2,
     "built_in_mods": [ "combination_gun_shotgun_pipe" ],
@@ -279,8 +386,20 @@
     "dispersion": 75,
     "durability": 7,
     "burst": 5,
-    "clip_size": 15,
-    "reload": 1000,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "tihar_integral_mag",
+          "type": "MAGAZINE",
+          "name": "pneumatic assault rifle integral magazine",
+          "description": "This item defines the integral magazine of a tihar item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "pebble" ],
+          "capacity": 15,
+          "reload_time": 1000
+        }
+      ]
+    },
     "loudness": 18,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -314,8 +433,20 @@
     "range": 20,
     "dispersion": 30,
     "durability": 7,
-    "clip_size": 8,
-    "reload": 1000,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "helsing_integral_mag",
+          "type": "MAGAZINE",
+          "name": "pneumatic bolt driver",
+          "description": "This item defines the integral magazine of a helsing item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "bolt" ],
+          "capacity": 8,
+          "reload_time": 1000
+        }
+      ]
+    },
     "loudness": 22,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -351,8 +482,20 @@
     "dispersion": 350,
     "durability": 7,
     "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],
-    "clip_size": 2,
-    "reload": 1000,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "pneumatic_shotgun_integral_mag",
+          "type": "MAGAZINE",
+          "name": "pneumatic shotgun",
+          "description": "This item defines the integral magazine of a pneumatic_shotgun item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "shotcanister" ],
+          "capacity": 2,
+          "reload_time": 1000
+        }
+      ]
+    },
     "loudness": 22,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -385,8 +528,20 @@
     "range": 40,
     "dispersion": 600,
     "durability": 7,
-    "clip_size": 1,
-    "reload": 800,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "mininuke_launcher_integral_mag",
+          "type": "MAGAZINE",
+          "name": "mininuke launcher",
+          "description": "This item defines the integral magazine of a mininuke_launcher item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "mininuke_mod" ],
+          "capacity": 1,
+          "reload_time": 800
+        }
+      ]
+    },
     "valid_mod_locations": [ [ "sling", 1 ], [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ]
   },
   {
@@ -410,8 +565,20 @@
     "dispersion": 300,
     "durability": 7,
     "burst": 4,
-    "clip_size": 4,
-    "reload": 600,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "m202_flash_integral_mag",
+          "type": "MAGAZINE",
+          "name": "M202 FLASH",
+          "description": "This item defines the integral magazine of a m202_flash item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "m235" ],
+          "capacity": 4,
+          "reload_time": 600
+        }
+      ]
+    },
     "loudness": 200,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -444,8 +611,20 @@
     "to_hit": -3,
     "dispersion": 600,
     "durability": 10,
-    "clip_size": 1,
-    "reload": 150,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "RPG_integral_mag",
+          "type": "MAGAZINE",
+          "name": "RPG-7",
+          "description": "This item defines the integral magazine of a RPG item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "RPG-7" ],
+          "capacity": 1,
+          "reload_time": 150
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
@@ -477,8 +656,20 @@
     "range": 4,
     "dispersion": 90,
     "durability": 8,
-    "clip_size": 1,
-    "reload": 700,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "speargun_integral_mag",
+          "type": "MAGAZINE",
+          "name": "speargun",
+          "description": "This item defines the integral magazine of a speargun item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "fishspear" ],
+          "capacity": 1,
+          "reload_time": 700
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
@@ -508,8 +699,20 @@
     "to_hit": -2,
     "dispersion": 120,
     "durability": 8,
-    "clip_size": 1,
-    "reload": 600,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "minispeargun_integral_mag",
+          "type": "MAGAZINE",
+          "name": "mini speargun",
+          "description": "This item defines the integral magazine of a minispeargun item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "fishspear" ],
+          "capacity": 1,
+          "reload_time": 600
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "grip", 1 ],
@@ -540,8 +743,20 @@
     "range": 4,
     "dispersion": 120,
     "durability": 7,
-    "clip_size": 2,
-    "reload": 700,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "tihardoublespeargun_integral_mag",
+          "type": "MAGAZINE",
+          "name": "double speargun",
+          "description": "This item defines the integral magazine of a tihardoublespeargun item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "fishspear" ],
+          "capacity": 2,
+          "reload_time": 700
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
@@ -573,8 +788,20 @@
     "range": 2,
     "dispersion": 105,
     "durability": 8,
-    "clip_size": 4,
-    "reload": 1000,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "airspeargun_integral_mag",
+          "type": "MAGAZINE",
+          "name": "pneumatic speargun integral magazine",
+          "description": "This item defines the integral magazine of a airspeargun item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "fishspear" ],
+          "capacity": 4,
+          "reload_time": 1000
+        }
+      ]
+    },
     "loudness": 11,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -604,7 +831,19 @@
     "bashing": 12,
     "to_hit": -1,
     "durability": 8,
-    "clip_size": 1,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "combination_gun_integral_mag",
+          "type": "MAGAZINE",
+          "name": "combination gun",
+          "description": "This item defines the integral magazine of a combination_gun item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "3006" ],
+          "capacity": 1
+        }
+      ]
+    },
     "loudness": 25,
     "barrel_length": 2,
     "built_in_mods": [ "combination_gun_shotgun" ],
@@ -642,8 +881,20 @@
     "dispersion": 300,
     "durability": 5,
     "burst": 1,
-    "clip_size": 1,
-    "reload": 800,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "tiharsurv_rocket_launcher_integral_mag",
+          "type": "MAGAZINE",
+          "name": "crude rocket launcher",
+          "description": "This item defines the integral magazine of a tiharsurv_rocket_launcher item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "homebrew_rocket" ],
+          "capacity": 1,
+          "reload_time": 800
+        }
+      ]
+    },
     "loudness": 200,
     "valid_mod_locations": [ [ "sling", 1 ], [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ]
   },
@@ -668,8 +919,20 @@
     "dispersion": 450,
     "durability": 10,
     "burst": 5,
-    "clip_size": 100,
-    "reload": 0,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "watercannon_integral_mag",
+          "type": "MAGAZINE",
+          "name": "water cannon",
+          "description": "This item defines the integral magazine of a watercannon item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "water" ],
+          "capacity": 100,
+          "reload_time": 0
+        }
+      ]
+    },
     "valid_mod_locations": [ [ "sling", 1 ] ]
   }
 ]
