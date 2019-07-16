@@ -2169,20 +2169,18 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.emplace_back( "TOOL", string_format( _( "<bold>Charges</bold>: %d" ), ammo_remaining() ) );
         }
 
-        if( !magazine_integral() ) {
-            if( magazine_current() && parts->test( iteminfo_parts::TOOL_MAGAZINE_CURRENT ) ) {
-                info.emplace_back( "TOOL", _( "Magazine: " ), string_format( "<stat>%s</stat>",
-                                   magazine_current()->tname() ) );
-            }
+        if( magazine_current() && parts->test( iteminfo_parts::TOOL_MAGAZINE_CURRENT ) ) {
+            info.emplace_back( "TOOL", _( "Magazine: " ), string_format( "<stat>%s</stat>",
+                               magazine_current()->tname() ) );
+        }
 
-            if( parts->test( iteminfo_parts::TOOL_MAGAZINE_COMPATIBLE ) ) {
-                insert_separation_line();
-                const auto compat = magazine_compatible();
-                info.emplace_back( "TOOL", _( "<bold>Compatible magazines:</bold> " ),
-                enumerate_as_string( compat.begin(), compat.end(), []( const itype_id & id ) {
-                    return item_controller->find_template( id )->nname( 1 );
-                } ) );
-            }
+        if( !magazine_compatible().empty() && parts->test( iteminfo_parts::TOOL_MAGAZINE_COMPATIBLE ) ) {
+            insert_separation_line();
+            const auto compat = magazine_compatible();
+            info.emplace_back( "TOOL", _( "<bold>Compatible magazines:</bold> " ),
+            enumerate_as_string( compat.begin(), compat.end(), []( const itype_id & id ) {
+                return item_controller->find_template( id )->nname( 1 );
+            } ) );
         } else if( ammo_capacity() != 0 && parts->test( iteminfo_parts::TOOL_CAPACITY ) ) {
             std::string tmp;
             bool bionic_tool = has_flag( "USES_BIONIC_POWER" );
