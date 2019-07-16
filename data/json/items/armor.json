@@ -10174,7 +10174,7 @@
   {
     "id": "bigback",
     "type": "ARMOR",
-    "name": "the bigpack",
+    "name": "bigpack",
     "description": "Prized by pack rats, may lead to a bad back.",
     "weight": 3539,
     "volume": 85,
