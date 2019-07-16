@@ -8224,6 +8224,60 @@ static bool multicooker_hallu( player &p )
 
 }
 
+int iuse::autoclave( player *p, item *it, bool t, const tripoint & )
+{
+    if( t ) {
+        if( !it->units_sufficient( *p ) ) {
+            it->active = false;
+            return 0;
+        }
+        int Cycle_time = it->get_var( "CYCLETIME", 0 );
+        Cycle_time -= 1;
+        if( Cycle_time <= 0 ) {
+
+
+            it->active = false;
+            it->erase_var( "CYCLETIME" );
+        } else {
+            add_msg( _( "The cycle will be complete in %s." ),
+                     to_string( time_duration::from_seconds( Cycle_time ) ) );
+        }
+
+    } else {
+        if( p->is_underwater() ) {
+            p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+            return 0;
+        }
+        const inventory_filter_preset cbm_preset( []( const item_location & location ) {
+            return location->item_tags.find( "NO_STERILE" ) != location->item_tags.end() &&
+                   location->is_bionic();
+        } );
+
+
+        inventory_iuse_selector inv_cbm( *p, _( "Select CBM to sterilize" ), cbm_preset );
+        inv_cbm.add_character_items( *p );
+        inv_cbm.set_title( _( "Sterilization" ) );
+        inv_cbm.set_hint( _( "You can fit up to 3 CBM in this autoclave." ) );
+        if( inv_cbm.empty() ) {
+            popup( std::string( _( "You have nothing to sterilize." ) ), PF_GET_KEY );
+            return 0;
+        }
+        std::list<std::pair<int, int>> to_steril = inv_cbm.execute();
+        if( to_steril.empty() ) {
+            return 0;
+        } else if( to_steril.size() > 3 ) {
+            popup( std::string( _( "You can't fit more thant 3 CBMs in this autoclave." ) ), PF_GET_KEY );
+            return 0;
+        }
+        for (std::pair<int,int> it: to_steril)
+        {
+
+        }
+
+    }
+    return 0;
+}
+
 int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 {
     static const std::set<std::string> multicooked_subcats = { "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" };

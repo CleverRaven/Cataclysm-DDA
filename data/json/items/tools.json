@@ -5540,10 +5540,10 @@
     "price": 162654,
     "to_hit": -6,
     "bashing": 10,
-    "material": "metal",
+    "material": "steel",
     "symbol": "A",
     "color": "yellow",
-    "use_action": "autoclave",
+    "use_action": "AUTOCLAVE",
     "ammo": "battery",
     "magazines": [
       [
