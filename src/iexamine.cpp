@@ -2409,6 +2409,10 @@ void iexamine::autoclave_full( player &, const tripoint &examp )
         return i.is_bionic();
     } );
 
+    bool cbms_not_packed = std::all_of( items.begin(), items.end(), []( const item & i ) {
+        return i.is_bionic() && i.has_flag( "NO_PACKED" );
+    } );
+
     if( items.empty() ) {
         add_msg( _( "This autoclave is empty..." ) );
         g->m.furn_set( examp, next_autoclave_type );
@@ -2434,9 +2438,14 @@ void iexamine::autoclave_full( player &, const tripoint &examp )
     for( auto &it : items ) {
         it.unset_flag( "FILTHY" );
         it.unset_flag( "NO_STERILE" );
-        it.set_var( "sterile", 5 ); // sterile for 5s
+        it.set_var( "sterile", 1 ); // sterile for 1s if not (packed)
     }
     add_msg( m_good, _( "The cycle is complete, the CBMs are now sterile." ) );
+
+    if( cbms_not_packed ) {
+        add_msg( m_info,
+                 _( "CBMs in direct contact with the environnement will become contaminated again almost immediatly." ) );
+    }
     g->m.furn_set( examp, next_autoclave_type );
 }
 
