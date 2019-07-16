@@ -38,23 +38,23 @@
         "bonus_blocks": 1,
         "flat_bonuses": [ [ "block", "dex", 1.0 ] ]
       },
-	  {
+      {
         "id": "buff_aikido_static2",
         "name": "Advanced Aikido",
         "description": "An advanced aikido practitioner can protect themselves against even more opponents than normal.\n\n+1 Block attempts, +1 Dodge attempts.",
         "unarmed_allowed": true,
         "min_unarmed": 5,
         "bonus_dodges": 1,
-        "bonus_blocks": 1	
+        "bonus_blocks": 1
       }
     ],
     "techniques": [
-	  "tec_aikido_break",
-	  "tec_aikido_dodgedisarm",
-	  "tec_aikido_blockdisarm",
-	  "tec_aikido_dodgethrow",
-	  "tec_aikido_blockthrow"
-	]
+      "tec_aikido_break",
+      "tec_aikido_dodgedisarm",
+      "tec_aikido_blockdisarm",
+      "tec_aikido_dodgethrow",
+      "tec_aikido_blockthrow"
+    ]
   },
   {
     "type": "martial_art",
