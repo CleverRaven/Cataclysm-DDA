@@ -36,7 +36,7 @@
     "result": "bot_manhack",
     "copy-from": "bot_hack_base",
     "components": [
-      [ [ "bot_manhack", 1 ], [ "broken_manhack", 1 ] ],
+      [ [ "broken_manhack", 1 ] ],
       [ [ "spike", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "cable", 1 ] ],
