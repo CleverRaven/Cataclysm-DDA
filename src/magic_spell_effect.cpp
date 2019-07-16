@@ -499,3 +499,17 @@ void spell_effect::translocate( const spell &sp, const Creature &caster,
 {
     tp_list.translocate( spell_effect_area( sp, target, spell_effect_blast, caster, true ) );
 }
+
+void spell_effect::use_action( const spell &sp )
+{
+    item granted( sp.effect_data(), calendar::turn );
+    if( !g->u.can_use( granted ) ) {
+        granted.delete();
+        msg = _("You cannot use this spell for that purpose.");
+        return;
+    } else {
+        g->u.i_add( granted );
+        player::use( granted );
+        granted.delete();
+    }
+}

@@ -417,6 +417,7 @@ std::set<tripoint> spell_effect_line( const spell &, const tripoint &source,
                                       const int aoe_radius, const bool ignore_walls );
 
 void spawn_ethereal_item( const spell &sp );
+void use_action( const spell &sp );
 void recover_energy( const spell &sp, const tripoint &target );
 void spawn_summoned_monster( const spell &sp, const Creature &caster, const tripoint &target );
 void translocate( const spell &sp, const Creature &caster, const tripoint &target,
