@@ -3597,13 +3597,6 @@ units::mass item::weight( bool include_contents, bool integral ) const
             ret *= 0.85;
         }
 
-    } else if( magazine_integral() && !is_magazine() ) {
-        if( ammo_current() == "plut_cell" ) {
-            ret += ammo_remaining() * find_type( ammotype(
-                    *ammo_types().begin() )->default_ammotype() )->weight / PLUTONIUM_CHARGES;
-        } else if( ammo_data() ) {
-            ret += ammo_remaining() * ammo_data()->weight;
-        }
     }
 
     // if this is an ammo belt add the weight of any implicitly contained linkages
