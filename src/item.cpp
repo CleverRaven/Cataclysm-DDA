@@ -8412,16 +8412,16 @@ bool item::is_reloadable() const
     if( has_flag( "NO_RELOAD" ) && !has_flag( "VEHICLE" ) ) {
         return false; // turrets ignore NO_RELOAD flag
 
-    } else if( is_bandolier() ) {
+    } else if( is_bandolier() || is_container() || is_magazine() ) {
         return true;
 
-    } else if( is_container() ) {
-        return true;
-
-    } else if( !is_gun() && !is_tool() && !is_magazine() ) {
+    } else if( !is_gun() && !is_tool() ) {
         return false;
 
     } else if( ammo_types().empty() ) {
+        return false;
+
+    } else if( integral_magazines().empty() && magazine_compatible().empty() ) {
         return false;
     }
 
