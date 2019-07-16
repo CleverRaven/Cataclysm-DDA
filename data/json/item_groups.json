@@ -2788,7 +2788,6 @@
     "magazine": 100,
     "items": [
       [ "coat_winter", 50 ],
-      [ "backpack_hiking", 10 ],
       [ "peacoat", 30 ],
       [ "greatcoat", 15 ],
       [ "gloves_light", 35 ],
