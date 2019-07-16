@@ -827,7 +827,7 @@
     "components": [ [ [ "rag", 6 ] ] ]
   },
   {
-    "result": "the bigpack",
+    "result": "bigpack",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
@@ -840,7 +840,7 @@
     "components": [ [ [ "leather", 20 ], [ "tanned_hide", 4 ] ], [ [ "sheet_metal_small", 8 ] ], [ [ "cordage", 2, "LIST"] ], [ [ "leather_pouch", 2 ] ] ]
   },
   {
-    "result": "travel pack",
+    "result": "travel_pack",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
@@ -864,7 +864,7 @@
     "components": [ [ [ "rag", 5 ] ], [ [ "plastic_chunk", 8 ] ] ]
   },
   {
-    "result": "large tactical backpack",
+    "result": "large_tactical_backpack",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
@@ -876,7 +876,7 @@
     "components": [ [ [ "leather", 5 ], [ "tanned_pelt", 1 ] ], [ [ "cordage", 1, "LIST" ] ] ]
   },
   {
-    "result": "hiking backpack",
+    "result": "hiking_backpack",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
