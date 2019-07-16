@@ -10259,7 +10259,7 @@
     "color": "green",
     "covers": [ "TORSO" ],
     "coverage": 75,
-    "encumbrance": 154
+    "encumbrance": 154,
     "storage": 260,
     "warmth": 5,
     "material_thickness": 6,
