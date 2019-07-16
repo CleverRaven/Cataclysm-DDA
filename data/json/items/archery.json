@@ -322,8 +322,20 @@
     "range": 8,
     "dispersion": 250,
     "durability": 6,
-    "clip_size": 1,
-    "reload": 50
+    "loadables": {
+      "integrals": [
+        {
+          "id": "selfbow_integral_mag",
+          "type": "MAGAZINE",
+          "name": "self bow",
+          "description": "This item defines the integral magazine of a selfbow item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "arrow" ],
+          "capacity": 1,
+          "reload_time": 50
+        }
+      ]
+    }
   },
   {
     "id": "shortbow",
@@ -348,8 +360,20 @@
     "range": 10,
     "dispersion": 210,
     "durability": 6,
-    "clip_size": 1,
-    "reload": 30,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "shortbow_integral_mag",
+          "type": "MAGAZINE",
+          "name": "short bow",
+          "description": "This item defines the integral magazine of a shortbow item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "arrow" ],
+          "capacity": 1,
+          "reload_time": 30
+        }
+      ]
+    },
     "valid_mod_locations": [ [ "dampening", 1 ] ]
   },
   {
@@ -375,8 +399,20 @@
     "range": 18,
     "dispersion": 100,
     "durability": 6,
-    "clip_size": 1,
-    "reload": 110,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "compbow_integral_mag",
+          "type": "MAGAZINE",
+          "name": "compound bow",
+          "description": "This item defines the integral magazine of a compbow item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "arrow" ],
+          "capacity": 1,
+          "reload_time": 110
+        }
+      ]
+    },
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
     "use_action": {
       "menu_text": "Tighten Limbs",
@@ -451,8 +487,20 @@
     "range": 12,
     "dispersion": 150,
     "durability": 6,
-    "clip_size": 1,
-    "reload": 35,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "compositebow_integral_mag",
+          "type": "MAGAZINE",
+          "name": "composite bow",
+          "description": "This item defines the integral magazine of a compositebow item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "arrow" ],
+          "capacity": 1,
+          "reload_time": 35
+        }
+      ]
+    },
     "valid_mod_locations": [ [ "dampening", 1 ] ]
   },
   {
@@ -478,8 +526,20 @@
     "range": 14,
     "dispersion": 120,
     "durability": 6,
-    "clip_size": 1,
-    "reload": 90,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "recur_integral_mag",
+          "type": "MAGAZINE",
+          "name": "recurve bow",
+          "description": "This item defines the integral magazine of a recur item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "arrow" ],
+          "capacity": 1,
+          "reload_time": 90
+        }
+      ]
+    },
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
   },
   {
@@ -505,8 +565,20 @@
     "range": 12,
     "dispersion": 120,
     "durability": 6,
-    "clip_size": 1,
-    "reload": 40,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "reflex_integral_mag",
+          "type": "MAGAZINE",
+          "name": "reflex bow",
+          "description": "This item defines the integral magazine of a reflex item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "arrow" ],
+          "capacity": 1,
+          "reload_time": 40
+        }
+      ]
+    },
     "valid_mod_locations": [ [ "dampening", 1 ] ]
   },
   {
@@ -532,8 +604,20 @@
     "range": 14,
     "dispersion": 140,
     "durability": 6,
-    "clip_size": 1,
-    "reload": 80,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "hybridbow_integral_mag",
+          "type": "MAGAZINE",
+          "name": "hybrid longbow",
+          "description": "This item defines the integral magazine of a hybridbow item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "arrow" ],
+          "capacity": 1,
+          "reload_time": 80
+        }
+      ]
+    },
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
   },
   {
@@ -559,8 +643,20 @@
     "range": 18,
     "dispersion": 210,
     "durability": 6,
-    "clip_size": 1,
-    "reload": 70,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "longbow_integral_mag",
+          "type": "MAGAZINE",
+          "name": "long bow",
+          "description": "This item defines the integral magazine oflong item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "arrow" ],
+          "capacity": 1,
+          "reload_time": 70
+        }
+      ]
+    },
     "valid_mod_locations": [ [ "dampening", 1 ] ]
   },
   {
@@ -601,11 +697,23 @@
     "reload_noise_volume": 4,
     "loudness": 20,
     "durability": 8,
-    "reload": 150,
     "ranged_damage": 40,
     "range": 22,
     "dispersion": 100,
-    "clip_size": 1,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "compgreatbow_integral_mag",
+          "type": "MAGAZINE",
+          "name": "compound greatbow",
+          "description": "This item defines the integral magazine of a compgreatbow item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "arrow" ],
+          "capacity": 1,
+          "reload_time": 150
+        }
+      ]
+    },
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
   },
   {
@@ -631,8 +739,20 @@
     "range": 18,
     "dispersion": 120,
     "durability": 6,
-    "clip_size": 1,
-    "reload": 40,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "reflexrecurvebow_integral_mag",
+          "type": "MAGAZINE",
+          "name": "reflex recurve bow",
+          "description": "This item defines the integral magazine of a reflexrecurvebow item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "arrow" ],
+          "capacity": 1,
+          "reload_time": 40
+        }
+      ]
+    },
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
   },
   {
