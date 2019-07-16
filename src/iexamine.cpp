@@ -2444,7 +2444,7 @@ void iexamine::autoclave_full( player &, const tripoint &examp )
 
     if( cbms_not_packed ) {
         add_msg( m_info,
-                 _( "CBMs in direct contact with the environnement will become contaminated again almost immediatly." ) );
+                 _( "CBMs in direct contact with the environment will almost immediately become contaminated." ) );
     }
     g->m.furn_set( examp, next_autoclave_type );
 }
