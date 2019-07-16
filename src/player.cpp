@@ -7501,7 +7501,7 @@ item::reload_option player::select_ammo( const item &base, bool prompt, bool emp
     bool ammo_match_found = list_ammo( base, ammo_list, empty );
 
     if( ammo_list.empty() ) {
-        if( !base.is_magazine() && !base.magazine_integral() && !base.magazine_current() ) {
+        if( !base.is_magazine() && !base.magazine_current() ) {
             add_msg_if_player( m_info, _( "You need a compatible magazine to reload the %s!" ),
                                base.tname() );
 
