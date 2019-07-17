@@ -99,3 +99,23 @@ std::string gun_type_type::name() const
 {
     return pgettext( "gun_type_type", name_.c_str() );
 }
+
+bool itype::can_have_charges() const
+{
+    if( count_by_charges() ) {
+        return true;
+    }
+    if( battery && battery->max_capacity > 0 ) {
+        return true;
+    }
+    if( tool && tool->max_charges > 0 ) {
+        return true;
+    }
+    if( gun && gun->clip > 0 ) {
+        return true;
+    }
+    if( item_tags.count( "CAN_HAVE_CHARGES" ) ) {
+        return true;
+    }
+    return false;
+}
