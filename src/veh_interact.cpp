@@ -1073,6 +1073,30 @@ bool veh_interact::do_repair( std::string &msg )
         }
     }
 
+    auto can_repair = [&msg, &reason]() {
+        switch( reason ) {
+            case LOW_MORALE:
+                msg = _( "Your morale is too low to repair..." );
+                return false;
+            case LOW_LIGHT:
+                msg = _( "It's too dark to see what you are doing..." );
+                return false;
+            case MOVING_VEHICLE:
+                msg = _( "You can't repair stuff while driving." );
+                return false;
+            case INVALID_TARGET:
+                msg = _( "There are no damaged parts on this vehicle." );
+                return false;
+            default:
+                break;
+        }
+        return true;
+    };
+
+    if( !can_repair() ) {
+        return false;
+    }
+
     set_title( _( "Choose a part here to repair:" ) );
 
     int pos = 0;
@@ -1110,21 +1134,8 @@ bool veh_interact::do_repair( std::string &msg )
 
         const std::string action = main_context.handle_input();
         if( ( action == "REPAIR" || action == "CONFIRM" ) && ok ) {
-            switch( reason ) {
-                case LOW_MORALE:
-                    msg = _( "Your morale is too low to repair..." );
-                    return false;
-                case LOW_LIGHT:
-                    msg = _( "It's too dark to see what you are doing..." );
-                    return false;
-                case MOVING_VEHICLE:
-                    msg = _( "You can't repair stuff while driving." );
-                    return false;
-                case INVALID_TARGET:
-                    msg = _( "There are no damaged parts on this vehicle." );
-                    return false;
-                default:
-                    break;
+            if( !can_repair() ) {
+                return false;
             }
             sel_vehicle_part = &pt;
             sel_vpart_info = &vp;
