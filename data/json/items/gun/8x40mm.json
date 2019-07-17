@@ -258,8 +258,22 @@
     "ranged_damage": 10,
     "dispersion": 175,
     "durability": 9,
-    "clip_size": 5,
-    "magazines": [ [ "8x40mm", [ "8x40_speedloader5" ] ] ],
+    "loadables": {
+      "integrals": [
+        {
+          "id": "rm99_pistol_integral_mag",
+          "type": "MAGAZINE",
+          "name": "RM99 cylinder",
+          "description": "This item defines the integral magazine of a rm99_pistol item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "8x40mm" ],
+          "capacity": 5,
+          "reliability": 9,
+          "clips": [ "8x40_speedloader5" ],
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -270,6 +284,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "WATERPROOF_GUN", "RELOAD_ONE", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   }
 ]

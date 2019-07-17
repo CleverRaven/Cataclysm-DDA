@@ -16,7 +16,19 @@
     "dispersion": 600,
     "durability": 7,
     "loudness": 40,
-    "clip_size": 1,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "flaregun_integral_mag",
+          "type": "MAGAZINE",
+          "name": "flaregun",
+          "description": "This item defines the integral magazine of a flaregun item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "signal_flare" ],
+          "capacity": 1
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],

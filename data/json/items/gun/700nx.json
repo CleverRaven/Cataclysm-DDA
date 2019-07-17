@@ -17,8 +17,20 @@
     "skill": "rifle",
     "dispersion": 90,
     "durability": 8,
-    "clip_size": 1,
-    "reload": 600,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "trex_gun_integral_mag",
+          "type": "MAGAZINE",
+          "name": "Elephant gun",
+          "description": "This item defines the integral magazine of a trex_gun item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "700nx" ],
+          "capacity": 1,
+          "reload_time": 600
+        }
+      ]
+    },
     "barrel_length": 4,
     "valid_mod_locations": [
       [ "accessories", 4 ],

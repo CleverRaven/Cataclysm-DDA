@@ -20,8 +20,20 @@
     "ranged_damage": 1,
     "dispersion": 150,
     "durability": 7,
-    "clip_size": 50,
-    "reload": 50,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "paintballgun_integral_mag",
+          "type": "MAGAZINE",
+          "name": "Paintball gun integral magazine",
+          "description": "This item defines the integral magazine of a paintballgun item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "paintball" ],
+          "capacity": 50,
+          "reload_time": 50
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "sling", 1 ],
       [ "grip mount", 1 ],

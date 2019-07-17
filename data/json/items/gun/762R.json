@@ -54,7 +54,7 @@
     "loadables": {
       "integrals": [
         {
-          "id": "mosin_integral_mag",
+          "id": "mosin91_30_integral_mag",
           "type": "MAGAZINE",
           "name": "Mosin-Nagant 1891/30 integral magazine",
           "description": "This item defines the integral magazine of a mosin91_30 item. It should not be visible to the player.",

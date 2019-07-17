@@ -18,8 +18,20 @@
     "dispersion": 50,
     "sight_dispersion": 10,
     "durability": 9,
-    "clip_size": 1,
-    "reload": 600,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "atgm_launcher_integral_mag",
+          "type": "MAGAZINE",
+          "name": "BGM-71F TOW",
+          "description": "This item defines the integral magazine of a atgm_launcher item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "atgm" ],
+          "capacity": 1,
+          "reload_time": 600
+        }
+      ]
+    },
     "loudness": 200,
     "valid_mod_locations": [ [ "sling", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
     "flags": [ "MOUNTED_GUN", "NEVER_JAMS", "RELOAD_EJECT" ]

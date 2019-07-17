@@ -15,7 +15,19 @@
     "ammo": "shot",
     "dispersion": 855,
     "durability": 6,
-    "clip_size": 1,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "bio_shotgun_arm_integral_mag",
+          "type": "MAGAZINE",
+          "name": "bionic shotgun",
+          "description": "This item defines the integral magazine of a bio_shotgun_arm item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "shot" ],
+          "capacity": 1
+        }
+      ]
+    },
     "reload": 200,
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "NO_UNWIELD", "TRADER_AVOID" ]
   },

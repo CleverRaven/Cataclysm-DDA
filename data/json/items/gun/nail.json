@@ -51,8 +51,20 @@
     "dispersion": 800,
     "durability": 8,
     "loudness": 5,
-    "clip_size": 20,
-    "reload": 50,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "nailgun_integral_mag",
+          "type": "MAGAZINE",
+          "name": "nailgun integral magazine",
+          "description": "This item defines the integral magazine of a nailgun item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "anil" ],
+          "capacity": 20,
+          "reload_time": 50
+        }
+      ]
+    },
     "valid_mod_locations": [ [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ]
   },
   {
@@ -65,7 +77,6 @@
     "bashing": 12,
     "skill": "rifle",
     "burst": 10,
-    "clip_size": 0,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],

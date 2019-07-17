@@ -16,7 +16,20 @@
     "ammo": [ "4570" ],
     "dispersion": 200,
     "durability": 8,
-    "clip_size": 7,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "1895sbl_integral_mag",
+          "type": "MAGAZINE",
+          "name": "Marlin 1895 SBL integral magazine",
+          "description": "This item defines the integral magazine of a 1895sbl item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "4570" ],
+          "capacity": 7,
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "brass catcher", 1 ],
@@ -28,8 +41,7 @@
       [ "rail mount", 1 ],
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ],
-    "flags": [ "RELOAD_ONE" ]
+    ]
   },
   {
     "id": "bfr",
@@ -49,7 +61,19 @@
     "ranged_damage": -15,
     "dispersion": 180,
     "durability": 8,
-    "clip_size": 5,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "bfr_integral_mag",
+          "type": "MAGAZINE",
+          "name": "Magnum Research BFR cylinder",
+          "description": "This item defines the integral magazine of a bfr item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "4570" ],
+          "capacity": 5
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -81,7 +105,19 @@
     "ranged_damage": 4,
     "dispersion": 100,
     "durability": 8,
-    "clip_size": 1,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "sharps_integral_mag",
+          "type": "MAGAZINE",
+          "name": "1874 Sharps",
+          "description": "This item defines the integral magazine of a sharps item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "4570" ],
+          "capacity": 1
+        }
+      ]
+    },
     "built_in_mods": [ "match_trigger" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],

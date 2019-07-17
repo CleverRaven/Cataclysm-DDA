@@ -236,8 +236,21 @@
     "name_plural": "L2032 Lookout",
     "description": "After the Enforcer's success, Leadworks LLC reworked their autorevolver design to cater to the 9x19mm market.  The Lookout takes advantage of the smaller 9x19mm to hold a seventh round, without sacrificing the ease of handling or reloading the Enforcer made legendary.  Comes with built in holographic and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "ammo": "9mm",
-    "clip_size": 7,
-    "magazines": [ [ "9mm", [ "9mm_speedloader7" ] ] ]
+    "loadables": {
+      "integrals": [
+        {
+          "id": "l_lookout_9mm_integral_mag",
+          "type": "MAGAZINE",
+          "name": "L2032 Lookout cylinder",
+          "description": "This item defines the integral magazine of a l_lookout_9mm item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "9mm" ],
+          "capacity": 7,
+          "clips": [ "9mm_speedloader7" ],
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    }
   },
   {
     "id": "l_mp_9mm",
@@ -329,8 +342,20 @@
     "durability": 6,
     "blackpowder_tolerance": 60,
     "loudness": 25,
-    "clip_size": 1,
-    "reload": 200,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "rifle_9mm_integral_mag",
+          "type": "MAGAZINE",
+          "name": "pipe rifle: 9x19mm",
+          "description": "This item defines the integral magazine of a rifle_9mm item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "9mm" ],
+          "capacity": 1,
+          "reload_time": 200
+        }
+      ]
+    },
     "barrel_length": 3,
     "valid_mod_locations": [
       [ "accessories", 2 ],

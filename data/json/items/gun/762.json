@@ -94,7 +94,22 @@
     "ranged_damage": 1,
     "dispersion": 90,
     "durability": 8,
-    "clip_size": 10,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "sks_integral_mag",
+          "type": "MAGAZINE",
+          "name": "SKS integral magazine",
+          "description": "This item defines the integral magazine of a sks item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "762" ],
+          "capacity": 10,
+          "reliability": 9,
+          "clips": [ "762x39_clip" ],
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "barrel_length": 2,
     "built_in_mods": [ "inter_bayonet" ],
     "valid_mod_locations": [
@@ -111,7 +126,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "762", [ "762x39_clip" ] ] ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS" ]
   }
 ]

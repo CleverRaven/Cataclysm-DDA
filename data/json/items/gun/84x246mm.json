@@ -18,8 +18,20 @@
     "to_hit": -3,
     "dispersion": 300,
     "durability": 8,
-    "clip_size": 1,
-    "reload": 300,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "m3_carlgustav_integral_mag",
+          "type": "MAGAZINE",
+          "name": "M3 recoilless rifle",
+          "description": "This item defines the integral magazine of a m3_carlgustav item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "84x246mm" ],
+          "capacity": 1,
+          "reload_time": 300
+        }
+      ]
+    },
     "loudness": 200,
     "valid_mod_locations": [
       [ "accessories", 4 ],

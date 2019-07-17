@@ -19,9 +19,21 @@
     "ranged_damage": 40,
     "dispersion": 100,
     "durability": 7,
-    "clip_size": 10,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "heavy_rail_rifle_integral_mag",
+          "type": "MAGAZINE",
+          "name": "heavy rail rifle integral magazine",
+          "description": "This item defines the integral magazine of a heavy_rail_rifle item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "metal_rail" ],
+          "capacity": 10,
+          "reload_time": 200
+        }
+      ]
+    },
     "ups_charges": 100,
-    "reload": 200,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "emitter", 1 ],
@@ -53,9 +65,21 @@
     "skill": "rifle",
     "dispersion": 90,
     "durability": 6,
-    "clip_size": 1,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "rebar_rifle_integral_mag",
+          "type": "MAGAZINE",
+          "name": "feromagnetic rail rifle",
+          "description": "This item defines the integral magazine of a rebar_rifle item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "metal_rail" ],
+          "capacity": 1,
+          "reload_time": 200
+        }
+      ]
+    },
     "ups_charges": 40,
-    "reload": 200,
     "valid_mod_locations": [
       [ "emitter", 1 ],
       [ "grip", 1 ],
