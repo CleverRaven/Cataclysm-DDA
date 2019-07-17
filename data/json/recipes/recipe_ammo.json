@@ -958,9 +958,9 @@
         "subcategory": "CSC_OTHER_MATERIALS",
         "skill_used": "fabrication",
         "difficulty": 2,
-        "time": "1 h",
+        "time": "60 m",
         "autolearn": true,
         "qualities": [ { "id": "HAMMER", "level": 1} ],
-        "components": [ [ [ "coal_lump", 2 ], [ "limestone", 3] ] ]
+        "components": [ [ [ "coal_lump", 30 ], [ "quicklime", 44] ] ]
     }
 ]
