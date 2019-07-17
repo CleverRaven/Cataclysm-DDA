@@ -1067,9 +1067,6 @@ bool veh_interact::do_repair( std::string &msg )
         if( most_repairable ) {
             move_cursor( most_repairable->mount.y + ddy, -( most_repairable->mount.x + ddx ) );
             return false;
-        } else {
-            msg = _( "There are no damaged parts on this vehicle." );
-            return false;
         }
     }
 
@@ -1134,6 +1131,7 @@ bool veh_interact::do_repair( std::string &msg )
 
         const std::string action = main_context.handle_input();
         if( ( action == "REPAIR" || action == "CONFIRM" ) && ok ) {
+            reason = cant_do( 'r' );
             if( !can_repair() ) {
                 return false;
             }
