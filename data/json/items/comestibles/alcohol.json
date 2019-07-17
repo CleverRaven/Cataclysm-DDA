@@ -22,7 +22,7 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 5,
-    "flags": [ "EATEN_COLD", "MYCUS_OK", "" ],
+    "flags": [ "EATEN_COLD", "MYCUS_OK" ],
     "fun": 25,
     "freezing_point": 17
   },
