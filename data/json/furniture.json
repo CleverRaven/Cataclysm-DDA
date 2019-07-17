@@ -1985,51 +1985,7 @@
         { "item": "pipe", "count": [ 0, 4 ] }
       ]
     }
-  },
-   {
-    "type": "furniture",
-    "id": "f_arcfurnace_empty",
-    "name": "crude arc furnace",
-    "description": "A crude cement arc furnace designed to burn a powdery mix of coke and limestone to create calcium carbide.",
-    "symbol": "U",
-    "color": "brown",
-    "move_cost_mod": -1,
-    "coverage": 40,
-    "required_str": -1,
-    "examine_action": "arcfurnace_empty",
-    "max_volume": 800,
-    "crafting_pseudo_item": "arcfurnace",
-    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
-    "deconstruct": { "items": [ { "item": "rock", "count": [ 35, 40 ] } ] },
-    "bash": {
-      "str_min": 25,
-      "str_max": 180,
-      "sound": "crash!",
-      "sound_fail": "whump!",
-      "items": [ { "item": "rock", "count": [ 15, 30 ] } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_arcfurnace_full",
-    "name": "filled crude arc furnace",
-    "description": "A crude cement arc furnace designed to burn a powdery mix of coke and limestone to create calcium carbide.",
-    "symbol": "U",
-    "color": "brown_red",
-    "move_cost_mod": -1,
-    "coverage": 40,
-    "required_str": -1,
-    "examine_action": "arcfurnace_full",
-    "flags": [ "NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
-    "deconstruct": { "items": [ { "item": "rock", "count": [ 30, 30 ] } ] },
-    "bash": {
-      "str_min": 25,
-      "str_max": 180,
-      "sound": "crash!",
-      "sound_fail": "whump!",
-      "items": [ { "item": "rock", "count": [ 15, 30 ] } ]
-    }
-  },
+  }, 
   {
     "type": "furniture",
     "id": "f_arcfurnace_metal_empty",
@@ -2046,7 +2002,7 @@
     "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
     "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
     "bash": {
-      "str_min": 12,
+      "str_min": 18,
       "str_max": 40,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
@@ -2071,7 +2027,7 @@
     "flags": [ "NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM" ],
     "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
     "bash": {
-      "str_min": 12,
+      "str_min": 18,
       "str_max": 40,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
