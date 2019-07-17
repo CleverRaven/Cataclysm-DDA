@@ -385,6 +385,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "cac2powder",
+    "name": "powdered calcium carbonate premix",
+    "defulat": "cac2powder"
+  },
+  {
+    "type": "ammunition_type",
     "id": "metal_rail",
     "name": "ferrous rail projectile",
     "default": "rebar_rail"
@@ -520,6 +526,12 @@
     "id": "unfinished_char",
     "name": "semi-charred fuel",
     "default": "unfinished_charcoal"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "unfinished_cac2powder",
+    "name": "partially burned calcium carbonate",
+    "default": "unfinished_cac2powder"
   },
   {
     "type": "ammunition_type",
