@@ -53,7 +53,20 @@
     "ranged_damage": 2,
     "dispersion": 180,
     "durability": 8,
-    "clip_size": 10,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "henry_big_boy_integral_mag",
+          "type": "MAGAZINE",
+          "name": "Henry Big Boy .44 integral magazine",
+          "description": "This item defines the integral magazine of a henry_big_boy item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "44" ],
+          "capacity": 10,
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -87,7 +100,20 @@
     "ranged_damage": -1,
     "dispersion": 360,
     "durability": 8,
-    "clip_size": 9,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "lemat_revolver_integral_mag",
+          "type": "MAGAZINE",
+          "name": "LeMat revolver cylinder",
+          "description": "This item defines the integral magazine of a lemat_revolver item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "44" ],
+          "capacity": 9,
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "built_in_mods": [ "lemat_revolver_shotgun" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -121,8 +147,20 @@
     "dispersion": 550,
     "durability": 6,
     "loudness": 25,
-    "clip_size": 1,
-    "reload": 200,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "rifle_44_integral_mag",
+          "type": "MAGAZINE",
+          "name": "pipe rifle: .44 Magnum",
+          "description": "This item defines the integral magazine of a rifle_44 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "44" ],
+          "capacity": 1,
+          "reload_time": 200
+        }
+      ]
+    },
     "barrel_length": 3,
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -154,8 +192,21 @@
     "ammo": "44",
     "dispersion": 280,
     "durability": 8,
-    "clip_size": 6,
-    "magazines": [ [ "44", [ "44_speedloader6" ] ] ],
+    "loadables": {
+      "integrals": [
+        {
+          "id": "ruger_redhawk_integral_mag",
+          "type": "MAGAZINE",
+          "name": "Ruger Redhawk cylinder",
+          "description": "This item defines the integral magazine of a ruger_redhawk item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "44" ],
+          "capacity": 6,
+          "clips": [ "44_speedloader6" ],
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -186,8 +237,21 @@
     "ranged_damage": -1,
     "dispersion": 280,
     "durability": 8,
-    "clip_size": 6,
-    "magazines": [ [ "44", [ "44_speedloader6" ] ] ],
+    "loadables": {
+      "integrals": [
+        {
+          "id": "sw629_integral_mag",
+          "type": "MAGAZINE",
+          "name": "S&W 629 cylinder",
+          "description": "This item defines the integral magazine of a sw629 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "44" ],
+          "capacity": 6,
+          "clips": [ "44_speedloader6" ],
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
