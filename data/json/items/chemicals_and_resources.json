@@ -1237,7 +1237,7 @@
     "type": "AMMO",
     "category": "other",
     "name": "calcium carbide",
-    "description": "A brownish powder used as a precursor to making acetylene gas."
+    "description": "A brownish powder used as a precursor to making acetylene gas.",
     "weight": 1,
     "volume": "10 ml",
     "count": 100,
