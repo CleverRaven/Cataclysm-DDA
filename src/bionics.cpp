@@ -1303,8 +1303,17 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     activity.values.push_back( success );
     activity.values.push_back( bionics[b_id].capacity );
     activity.values.push_back( pl_skill );
+    activity.str_values.push_back( "uninstall" );
     activity.str_values.push_back( bionics[b_id].name );
     activity.str_values.push_back( b_id.c_str() );
+    activity.str_values.push_back( "" );
+    activity.str_values.push_back( "" );
+    activity.str_values.push_back( "" );
+    if( autodoc ) {
+        activity.str_values.push_back( "true" );
+    } else {
+        activity.str_values.push_back( "false" );
+    }
     for( const auto &elem : bionics[b_id].occupied_bodyparts ) {
         activity.values.push_back( elem.first );
         add_effect( effect_under_op, difficulty * 20_minutes, elem.first, false, difficulty );
@@ -1539,6 +1548,7 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
     activity.values.push_back( success );
     activity.values.push_back( bionics[bioid].capacity );
     activity.values.push_back( pl_skill );
+    activity.str_values.push_back( "install" );
     activity.str_values.push_back( bionics[bioid].name );
     activity.str_values.push_back( bioid.c_str() );
     if( upbioid ) {
