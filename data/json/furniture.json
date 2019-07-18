@@ -1988,7 +1988,7 @@
   }, 
   {
     "type": "furniture",
-    "id": "f_arcfurnace_metal_empty",
+    "id": "f_arcfurnace_empty",
     "name": "arc furnace",
     "description": "An arc furnace designed to burn a powdery mix of coke and limestone to create calcium carbide.",
     "symbol": "U",
@@ -2015,7 +2015,7 @@
   },
   {
     "type": "furniture",
-    "id": "f_arcfurnace_metal_full",
+    "id": "f_arcfurnace_full",
     "name": "filled arc furnace",
     "description": "An arc furnace designed to burn a powdery mix of coke and limestone to create calcium carbide.",
     "symbol": "U",
