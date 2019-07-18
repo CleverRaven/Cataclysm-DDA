@@ -5021,7 +5021,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
             quantity -= tmp.charges;
             ret.push_back( tmp );
             
-            if( quantity == 0) {
+            if( quantity == 0 ) {
                 return ret;
             }
         }
