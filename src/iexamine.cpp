@@ -2340,8 +2340,6 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
     furn_id next_arcfurnace_type = f_null;
     if( cur_arcfurnace_type == f_arcfurnace_empty ) {
         next_arcfurnace_type = f_arcfurnace_full;
-    } else if( cur_arcfurnace_type == f_arcfurnace_metal_empty ) {
-        next_arcfurnace_type = f_arcfurnace_metal_full;
     } else {
         debugmsg( "Examined furniture has action arcfurnace_empty, but is of type %s",
                   g->m.furn( examp ).id().c_str() );
@@ -2414,8 +2412,6 @@ void iexamine::arcfurnace_full( player &, const tripoint &examp )
     furn_id next_arcfurnace_type = f_null;
     if( cur_arcfurnace_type == f_arcfurnace_full ) {
         next_arcfurnace_type = f_arcfurnace_empty;
-    } else if( cur_arcfurnace_type == f_arcfurnace_metal_full ) {
-        next_arcfurnace_type = f_arcfurnace_metal_empty;
     } else {
         debugmsg( "Examined furniture has action arcfurnace_full, but is of type %s",
                   g->m.furn( examp ).id().c_str() );
