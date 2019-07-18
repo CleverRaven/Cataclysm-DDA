@@ -49,6 +49,10 @@ struct field_type {
         int decay_amount_factor = 0;
         int apply_slime_factor = 0;
         bool dirty_transparency_cache = false;
+        bool has_fire = false;
+        bool has_acid = false;
+        bool has_elec = false;
+        bool has_fume = false;
 
         int priority = 0;
         time_duration half_life = 0_turns;

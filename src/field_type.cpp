@@ -90,6 +90,10 @@ void field_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "decay_amount_factor", decay_amount_factor, 0 );
     optional( jo, was_loaded, "apply_slime_factor", apply_slime_factor, 0 );
     optional( jo, was_loaded, "dirty_transparency_cache", dirty_transparency_cache, false );
+    optional( jo, was_loaded, "has_fire", has_fire, false );
+    optional( jo, was_loaded, "has_acid", has_acid, false );
+    optional( jo, was_loaded, "has_elec", has_elec, false );
+    optional( jo, was_loaded, "has_fume", has_fume, false );
     optional( jo, was_loaded, "priority", priority, 0 );
     optional( jo, was_loaded, "half_life", half_life, 0_turns );
     if( jo.has_member( "phase" ) ) {

@@ -2654,31 +2654,19 @@ nc_color Character::symbol_color() const
 
     const auto &fields = g->m.field_at( pos() );
 
+    // Priority: electricity, fire, acid, gases
+    bool has_elec = false;
     bool has_fire = false;
     bool has_acid = false;
-    bool has_elec = false;
     bool has_fume = false;
     for( const auto &field : fields ) {
-        if( field.first == fd_incendiary || field.first == fd_fire ) {
-            has_fire = true;
+        has_elec = field.first.obj().has_elec;
+        if( has_elec ) {
+            return hilite( basic );
         }
-        if( field.first == fd_electricity ) {
-            has_elec = true;
-        }
-        if( field.first == fd_acid ) {
-            has_acid = true;
-        }
-        if( field.first == fd_relax_gas || field.first == fd_fungal_haze ||
-            field.first == fd_fungicidal_gas || field.first == fd_toxic_gas ||
-            field.first == fd_tear_gas || field.first == fd_nuke_gas ||
-            field.first == fd_smoke ) {
-            has_fume = true;
-        }
-    }
-    // Priority: electricity, fire, acid, gases
-    // Can't just return in the switch, because field order is alphabetic
-    if( has_elec ) {
-        return hilite( basic );
+        has_fire = field.first.obj().has_fire;
+        has_acid = field.first.obj().has_acid;
+        has_fume = field.first.obj().has_fume;
     }
     if( has_fire ) {
         return red_background( basic );
