@@ -1050,10 +1050,10 @@ void set_furn_ids()
     f_kiln_full = furn_id( "f_kiln_full" );
     f_kiln_metal_empty = furn_id( "f_kiln_metal_empty" );
     f_kiln_metal_full = furn_id( "f_kiln_metal_full" );
-    f_arcfurance_empty = furn_id( "f_arcfurnace_empty );
-    f_arcfurnace_full = furn_id( "f_arcfurnace_full );
-    f_arcfurnace_metal_empty = furn_id ( "f_arcfurnace_metal_empty );
-    f_arcfurnace_metal_full = furn_id ( "f_arcfurnace_metal_full );
+    f_arcfurance_empty = furn_id( "f_arcfurnace_empty" );
+    f_arcfurnace_full = furn_id( "f_arcfurnace_full" );
+    f_arcfurnace_metal_empty = furn_id ( "f_arcfurnace_metal_empty" );
+    f_arcfurnace_metal_full = furn_id ( "f_arcfurnace_metal_full" );
     f_smoking_rack = furn_id( "f_smoking_rack" );
     f_smoking_rack_active = furn_id( "f_smoking_rack_active" );
     f_metal_smoking_rack = furn_id( "f_metal_smoking_rack" );
