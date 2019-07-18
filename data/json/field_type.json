@@ -81,6 +81,7 @@
       { "name": "puddle of slime", "color": "green" }
     ],
     "decay_amount_factor": 2,
+    "apply_slime_factor": 10,
     "half_life": "1 days",
     "phase": "liquid",
     "accelerated_decay": true,

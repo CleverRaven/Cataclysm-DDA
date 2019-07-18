@@ -455,9 +455,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                     // TODO: Allow spreading to the sides if age < 0 && intensity == 3
                 }
-                if( curtype == fd_slime ) {
-                    sblk.apply_slime( p, cur.get_field_intensity() * 10 );
+                if( curtype.obj().apply_slime_factor > 0 ) {
+                    sblk.apply_slime( p, cur.get_field_intensity() * curtype.obj().apply_slime_factor );
                 }
+
                 if( curtype == fd_plasma || curtype == fd_laser ) {
                     dirty_transparency_cache = true;
                 }
