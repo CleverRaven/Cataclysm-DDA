@@ -169,7 +169,7 @@
           "ammo_type": [ "40mm" ],
           "capacity": 6,
           "reload_time": 300,
-          "flags": [" RELOAD_ONE" ]
+          "flags": [ " RELOAD_ONE" ]
         }
       ]
     },
@@ -210,7 +210,7 @@
           "symbol": "#",
           "ammo_type": [ "40mm" ],
           "capacity": 4,
-          "flags": [" RELOAD_ONE" ]
+          "flags": [ " RELOAD_ONE" ]
         }
       ]
     },
@@ -243,7 +243,7 @@
           "symbol": "#",
           "ammo_type": [ "40mm" ],
           "capacity": 3,
-          "flags": [" RELOAD_ONE" ]
+          "flags": [ " RELOAD_ONE" ]
         }
       ]
     },

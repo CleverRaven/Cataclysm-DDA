@@ -151,14 +151,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "shotgun" ],
-    "gun_data": {
-      "ammo": "shot",
-      "skill": "shotgun",
-      "ranged_damage": 3,
-      "dispersion": 345,
-      "durability": 10,
-      "reload": 120
-    },
+    "gun_data": { "ammo": "shot", "skill": "shotgun", "ranged_damage": 3, "dispersion": 345, "durability": 10, "reload": 120 },
     "loadables": {
       "integrals": [
         {
@@ -207,14 +200,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "pistol" ],
-    "gun_data": {
-      "ammo": "shot",
-      "skill": "shotgun",
-      "range": -2,
-      "ranged_damage": 2,
-      "dispersion": 600,
-      "durability": 10
-    },
+    "gun_data": { "ammo": "shot", "skill": "shotgun", "range": -2, "ranged_damage": 2, "dispersion": 600, "durability": 10 },
     "loadables": {
       "integrals": [
         {
