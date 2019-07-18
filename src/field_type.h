@@ -28,6 +28,7 @@ struct field_intensity_level {
     bool transparent = true;
     int move_cost = 0;
     float light_emitted = 0.0f;
+    float translucency = 0.0f;
 };
 
 struct field_type {
@@ -85,6 +86,9 @@ struct field_type {
         }
         float get_light_emitted( int level = 0 ) const {
             return intensity_levels[level].light_emitted;
+        }
+        float get_translucency( int level = 0 ) const {
+            return intensity_levels[level].translucency;
         }
 
         bool is_dangerous() const {

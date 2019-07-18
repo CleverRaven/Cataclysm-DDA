@@ -130,31 +130,11 @@ bool map::build_transparency_cache( const int zlev )
                     }
                     for( const auto &fld : cur_submap->fld[sx][sy] ) {
                         const field_entry &cur = fld.second;
-                        const field_type_id type = cur.get_field_type();
-                        const int intensity = cur.get_field_intensity();
-
-                        if( type.obj().get_transparent( intensity - 1 ) ) {
+                        if( cur.is_transparent() ) {
                             continue;
                         }
-
                         // Fields are either transparent or not, however we want some to be translucent
-                        if( type == fd_cigsmoke || type == fd_weedsmoke || type == fd_cracksmoke ||
-                            type == fd_methsmoke || type == fd_relax_gas ) {
-                            value *= 5;
-                        } else if( type == fd_smoke || type == fd_incendiary || type == fd_toxic_gas ||
-                                   type == fd_tear_gas ) {
-                            if( intensity == 3 ) {
-                                value = LIGHT_TRANSPARENCY_SOLID;
-                            } else if( intensity == 2 ) {
-                                value *= 10;
-                            }
-                        } else if( type == fd_nuke_gas ) {
-                            value *= 10;
-                        } else if( type == fd_fire ) {
-                            value *= 1.0 - ( intensity * 0.3 );
-                        } else {
-                            value = LIGHT_TRANSPARENCY_SOLID;
-                        }
+                        value = value * cur.translucency();
                     }
                     // TODO: [lightmap] Have glass reduce light as well
                 }

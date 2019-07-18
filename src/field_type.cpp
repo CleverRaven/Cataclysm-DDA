@@ -84,6 +84,8 @@ void field_type::load( JsonObject &jo, const std::string & )
                   fallback_intensity_level.move_cost );
         optional( jao, was_loaded, "light_emitted", intensity_level.light_emitted,
                   fallback_intensity_level.light_emitted );
+        optional( jao, was_loaded, "translucency", intensity_level.translucency,
+                  fallback_intensity_level.translucency );
         intensity_levels.emplace_back( intensity_level );
     }
     optional( jo, was_loaded, "underwater_age_speedup", underwater_age_speedup, 0_turns );

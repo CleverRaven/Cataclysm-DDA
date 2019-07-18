@@ -15,6 +15,16 @@ float field_entry::light_emitted() const
     return type.obj().get_light_emitted( intensity - 1 );
 }
 
+float field_entry::translucency() const
+{
+    return type.obj().get_translucency( intensity - 1 );
+}
+
+bool field_entry::is_transparent() const
+{
+    return type.obj().get_transparent( intensity - 1 );
+}
+
 nc_color field_entry::color() const
 {
     return type.obj().get_color( intensity - 1 );

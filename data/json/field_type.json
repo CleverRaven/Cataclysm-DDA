@@ -136,9 +136,9 @@
     "type": "field_type",
     "legacy_enum_id": 10,
     "intensity_levels": [
-      { "name": "small fire", "sym": "4", "color": "yellow", "dangerous": true, "light_emitted": 20 },
-      { "name": "fire", "color": "light_red", "light_emitted": 60 },
-      { "name": "raging fire", "color": "red", "light_emitted": 160 }
+      { "name": "small fire", "sym": "4", "color": "yellow", "dangerous": true, "light_emitted": 20, "translucency": 0.7 },
+      { "name": "fire", "color": "light_red", "light_emitted": 60, "translucency": 0.4 },
+      { "name": "raging fire", "color": "red", "light_emitted": 160, "translucency": 0.1 }
     ],
     "decay_amount_factor": 3,
     "has_fire": true,
@@ -163,9 +163,9 @@
     "type": "field_type",
     "legacy_enum_id": 12,
     "intensity_levels": [
-      { "name": "thin smoke", "sym": "8", "dangerous": true },
-      { "name": "smoke", "color": "light_gray", "transparent": false },
-      { "name": "thick smoke", "color": "dark_gray" }
+      { "name": "thin smoke", "sym": "8", "dangerous": true, "translucency": 1 },
+      { "name": "smoke", "color": "light_gray", "transparent": false, "translucency": 10 },
+      { "name": "thick smoke", "color": "dark_gray", "translucency": 0 }
     ],
     "decay_amount_factor": 5,
     "dirty_transparency_cache": true,
@@ -181,9 +181,9 @@
     "type": "field_type",
     "legacy_enum_id": 13,
     "intensity_levels": [
-      { "name": "hazy cloud", "sym": "8", "dangerous": true },
-      { "name": "toxic gas", "color": "light_green", "transparent": false },
-      { "name": "thick toxic gas", "color": "green" }
+      { "name": "hazy cloud", "sym": "8", "dangerous": true, "translucency": 1 },
+      { "name": "toxic gas", "color": "light_green", "transparent": false, "translucency": 10 },
+      { "name": "thick toxic gas", "color": "green", "translucency": 0 }
     ],
     "decay_amount_factor": 5,
     "dirty_transparency_cache": true,
@@ -199,9 +199,9 @@
     "type": "field_type",
     "legacy_enum_id": 14,
     "intensity_levels": [
-      { "name": "hazy cloud", "sym": "8", "dangerous": true },
-      { "name": "tear gas", "color": "light_green", "transparent": false },
-      { "name": "thick tear gas", "color": "green" }
+      { "name": "hazy cloud", "sym": "8", "dangerous": true, "translucency": 1 },
+      { "name": "tear gas", "color": "light_green", "transparent": false, "translucency": 10 },
+      { "name": "thick tear gas", "color": "green", "translucency": 0 }
     ],
     "decay_amount_factor": 5,
     "dirty_transparency_cache": true,
@@ -217,7 +217,7 @@
     "type": "field_type",
     "legacy_enum_id": 15,
     "intensity_levels": [
-      { "name": "hazy cloud", "sym": "8", "dangerous": true },
+      { "name": "hazy cloud", "sym": "8", "dangerous": true, "translucency": 10 },
       { "name": "radioactive gas", "color": "light_green" },
       { "name": "thick radioactive gas", "color": "green", "transparent": false }
     ],
@@ -450,7 +450,7 @@
     "type": "field_type",
     "legacy_enum_id": 33,
     "intensity_levels": [
-      { "name": "swirl of tobacco smoke" },
+      { "name": "swirl of tobacco smoke", "translucency": 5 },
       { "name": "tobacco smoke", "color": "light_gray" },
       { "name": "thick tobacco smoke", "color": "dark_gray" }
     ],
@@ -467,7 +467,7 @@
     "type": "field_type",
     "legacy_enum_id": 34,
     "intensity_levels": [
-      { "name": "swirl of pot smoke" },
+      { "name": "swirl of pot smoke", "translucency": 5 },
       { "name": "pot smoke", "color": "light_gray" },
       { "name": "thick pot smoke", "color": "dark_gray" }
     ],
@@ -484,7 +484,7 @@
     "type": "field_type",
     "legacy_enum_id": 35,
     "intensity_levels": [
-      { "name": "swirl of crack smoke" },
+      { "name": "swirl of crack smoke", "translucency": 5 },
       { "name": "crack smoke", "color": "light_gray" },
       { "name": "thick crack smoke", "color": "dark_gray" }
     ],
@@ -501,7 +501,7 @@
     "type": "field_type",
     "legacy_enum_id": 36,
     "intensity_levels": [
-      { "name": "swirl of meth smoke" },
+      { "name": "swirl of meth smoke", "translucency": 5 },
       { "name": "meth smoke", "color": "light_gray" },
       { "name": "thick meth  smoke", "color": "dark_gray" }
     ],
@@ -533,9 +533,15 @@
     "type": "field_type",
     "legacy_enum_id": 38,
     "intensity_levels": [
-      { "name": "smoke", "sym": "8", "dangerous": true, "light_emitted": 20 },
-      { "name": "airborne incendiary", "color": "light_red", "light_emitted": 60 },
-      { "name": "airborne incendiary", "color": "light_red_red", "transparent": false, "light_emitted": 160 }
+      { "name": "smoke", "sym": "8", "dangerous": true, "light_emitted": 20, "translucency": 1 },
+      { "name": "airborne incendiary", "color": "light_red", "light_emitted": 60, "translucency": 10 },
+      {
+        "name": "airborne incendiary",
+        "color": "light_red_red",
+        "transparent": false,
+        "light_emitted": 160,
+        "translucency": 0
+      }
     ],
     "dirty_transparency_cache": true,
     "has_fire": true,
@@ -550,7 +556,7 @@
     "type": "field_type",
     "legacy_enum_id": 39,
     "intensity_levels": [
-      { "name": "hazy cloud", "sym": ".", "dangerous": true },
+      { "name": "hazy cloud", "sym": ".", "dangerous": true, "translucency": 5 },
       { "name": "sedative gas", "color": "pink" },
       { "name": "relaxation gas", "color": "cyan" }
     ],
