@@ -50,7 +50,7 @@ void leap_actor::load_internal( JsonObject &obj, const std::string & )
     max_range = obj.get_float( "max_range" );
     // Optional:
     min_range = obj.get_float( "min_range", 1.0f );
-    allow_no_target = obj.get_bool( "allow_no_target", true );
+    allow_no_target = obj.get_bool( "allow_no_target", false );
     move_cost = obj.get_int( "move_cost", 150 );
     min_consider_range = obj.get_float( "min_consider_range", 0.0f );
     max_consider_range = obj.get_float( "max_consider_range", 200.0f );

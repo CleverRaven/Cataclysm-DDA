@@ -4359,14 +4359,7 @@
     "harvest": "zombie",
     "path_settings": { "max_dist": 5 },
     "special_attacks": [
-      {
-        "type": "leap",
-        "cooldown": 10,
-        "max_range": 8,
-        "min_consider_range": 3,
-        "max_consider_range": 7,
-        "allow_no_target": false
-      },
+      { "type": "leap", "cooldown": 10, "max_range": 8, "min_consider_range": 3, "max_consider_range": 7 },
       {
         "type": "bite",
         "cooldown": 10,
