@@ -5017,7 +5017,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
                 ftype = "battery";
             }
             item tmp( type, 0 ); //TODO: add a sane birthday arg?
-            tmp.charges = furnacepart->vehicle().drain( ftpye, qauntity );
+            tmp.charges = furnacepart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back( tmp );
             
