@@ -387,7 +387,7 @@
     "type": "ammunition_type",
     "id": "cac2powder",
     "name": "powdered calcium carbide premix",
-    "defulat": "cac2powder"
+    "default": "cac2powder"
   },
   {
     "type": "ammunition_type",
