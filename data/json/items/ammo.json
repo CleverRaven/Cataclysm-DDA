@@ -747,6 +747,7 @@
     "category": "spare_parts",
     "price": 200,
     "name": "calcium carbide premix",
+    "name_plural": "calcium carbide premix",
     "symbol": "=",
     "color": "dark_gray",
     "description": "A powdered mixture of coke and lime ready to be smelted into usable calcium carbide in an arc furnace.",
