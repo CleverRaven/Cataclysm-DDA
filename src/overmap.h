@@ -418,7 +418,6 @@ class overmap
         void build_tunnel( int x, int y, int z, int s, om_direction::type dir );
         bool build_slimepit( int x, int y, int z, int s );
         void build_mine( int x, int y, int z, int s );
-        void place_rifts( const int z );
 
         // Connection laying
         pf::path lay_out_connection( const overmap_connection &connection, const point &source,
