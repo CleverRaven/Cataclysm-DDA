@@ -1781,7 +1781,7 @@
     "symbol": "*",
     "color": "red",
     "explode_in_fire": true,
-    "explosion": { "power": 200 },
+    "explosion": { "power": 938 },
     "use_action": {
       "target": "dynamite_act",
       "msg": "You light the dynamite.",
@@ -1810,13 +1810,13 @@
     "color": "red",
     "turns_per_charge": 1,
     "explode_in_fire": true,
-    "explosion": { "power": 200 },
+    "explosion": { "power": 938 },
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "ssss...",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
-      "explosion": { "power": 250 }
+      "explosion": { "power": 938 }
     },
     "flags": [ "TRADER_AVOID", "BOMB" ]
   },
