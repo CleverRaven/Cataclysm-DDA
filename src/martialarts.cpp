@@ -590,7 +590,7 @@ std::string ma_buff::get_description( bool passive ) const
     std::string temp = bonuses.get_description();
     if( !temp.empty() ) {
         dump << string_format( _( "<bold>%s:</bold> " ),
-                               ngettext( "Bonus", "Bonus/stack", max_stacks ) ) << temp << std::endl;
+                               ngettext( "Bonus", "Bonus/stack", max_stacks ) ) << std::endl << temp;
     }
 
     dump << reqs.get_description( true );
@@ -1114,7 +1114,7 @@ std::string ma_technique::get_description() const
 
     std::string temp = bonuses.get_description();
     if( !temp.empty() ) {
-        dump << _( "<bold>Bonus:</bold> " ) << temp << std::endl;
+        dump << _( "<bold>Bonus:</bold> " ) << std::endl << temp;
     }
 
     dump << reqs.get_description();
@@ -1197,7 +1197,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         if( ma.force_unarmed ) {
             buffer << _( "<bold>This style forces you to use unarmed strikes, even if wielding a weapon.</bold>" );
-            buffer << std::endl << "--" << std::endl;
+            buffer << "--" << std::endl;
         }
 
         if( ma.arm_block_with_bio_armor_arms || ma.arm_block != 99 ||
@@ -1229,7 +1229,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                 for( const auto &buff : buffs ) {
                     buffer << std::endl << buff->get_description( passive ) ;
                 }
-                buffer << std::endl << "--" << std::endl;
+                buffer << "--" << std::endl;
             }
         };
 
@@ -1247,11 +1247,10 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         for( const auto &tech : ma.techniques ) {
             buffer << string_format( _( "<header>Technique:</header> <bold>%s</bold>   " ),
                                      _( tech.obj().name ) ) << std::endl;
-            buffer << tech.obj().get_description() << std::endl << "--" << std::endl;
+            buffer << tech.obj().get_description() << "--" << std::endl;
         }
 
         if( !ma.weapons.empty() ) {
-            buffer << std::endl << std::endl;
             buffer << ngettext( "<bold>Weapon:</bold>", "<bold>Weapons:</bold>", ma.weapons.size() ) << " ";
             buffer << enumerate_as_string( ma.weapons.begin(), ma.weapons.end(), []( const std::string & wid ) {
                 return item::nname( wid );
