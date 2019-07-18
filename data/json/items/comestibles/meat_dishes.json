@@ -882,7 +882,7 @@
     "material": [ "flesh", "wheat", "milk" ],
     "primary_material": "processed_food",
     "volume": 2,
-    "flags": [ "EATEN_HOT", "ALLERGEN_MILK", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT", "ALLERGEN_MILK" ],
     "fun": 5,
     "vitamins": [ [ "calcium", 9 ], [ "iron", 14 ] ]
   },
