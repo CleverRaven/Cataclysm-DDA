@@ -78,6 +78,10 @@ class field_entry
             return type.obj().underwater_age_speedup;
         }
 
+        int get_gas_absorption_factor() const {
+            return type.obj().gas_absorption_factor;
+        }
+
         bool decays_on_actualize() const {
             return type.obj().accelerated_decay;
         }

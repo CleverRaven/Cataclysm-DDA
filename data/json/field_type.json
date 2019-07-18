@@ -176,6 +176,7 @@
       { "name": "thick smoke", "color": "dark_gray", "translucency": 0 }
     ],
     "decay_amount_factor": 5,
+    "gas_absorption_factor": 12,
     "dirty_transparency_cache": true,
     "priority": 8,
     "half_life": "2 minutes",
@@ -194,6 +195,7 @@
       { "name": "thick toxic gas", "color": "green", "translucency": 0 }
     ],
     "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
     "dirty_transparency_cache": true,
     "has_fume": true,
     "priority": 8,
@@ -212,6 +214,7 @@
       { "name": "thick tear gas", "color": "green", "translucency": 0 }
     ],
     "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
     "dirty_transparency_cache": true,
     "has_fume": true,
     "priority": 8,
@@ -243,6 +246,7 @@
     "type": "field_type",
     "legacy_enum_id": 16,
     "intensity_levels": [ { "name": "gas vent" } ],
+    "gas_absorption_factor": 15,
     "dirty_transparency_cache": true,
     "phase": "gas",
     "display_items": false,
@@ -569,6 +573,7 @@
       { "name": "relaxation gas", "color": "cyan" }
     ],
     "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
     "dirty_transparency_cache": true,
     "has_fume": true,
     "priority": 8,
@@ -587,6 +592,7 @@
       { "name": "thick fungal haze", "transparent": false }
     ],
     "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
     "dirty_transparency_cache": true,
     "has_fume": true,
     "priority": 8,
@@ -738,6 +744,7 @@
     "type": "field_type",
     "legacy_enum_id": 50,
     "intensity_levels": [ { "name": "smoke vent", "dangerous": true } ],
+    "gas_absorption_factor": 15,
     "dirty_transparency_cache": true,
     "has_fume": true,
     "phase": "gas",
