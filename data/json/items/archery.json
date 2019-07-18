@@ -673,7 +673,6 @@
     "armor_data": { "covers": [ "TORSO" ], "coverage": 7, "material_thickness": 2, "encumbrance": 25 },
     "dispersion": 200,
     "durability": 8,
-    "reload": 100,
     "loudness": 16,
     "ranged_damage": 20,
     "range": 20

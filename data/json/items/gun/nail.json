@@ -59,7 +59,7 @@
           "name": "nailgun integral magazine",
           "description": "This item defines the integral magazine of a nailgun item. It should not be visible to the player.",
           "symbol": "#",
-          "ammo_type": [ "anil" ],
+          "ammo_type": [ "nail" ],
           "capacity": 20,
           "reload_time": 50
         }
