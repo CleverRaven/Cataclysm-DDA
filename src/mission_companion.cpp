@@ -1891,6 +1891,7 @@ npc_ptr talk_function::companion_choose( const std::string &skill_tested, int sk
         npc_companion_mission c_mission = guy->get_companion_mission();
         // get non-assigned visible followers
         if( g->u.posz() == guy->posz() && !guy->has_companion_mission() &&
+            !guy->is_travelling() &&
             ( rl_dist( g->u.pos(), guy->pos() ) <= SEEX * 2 ) && g->u.sees( guy->pos() ) ) {
             available.push_back( guy );
         } else if( bcp ) {
