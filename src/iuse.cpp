@@ -4265,7 +4265,7 @@ int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
                 it->ammo_consume( 1, p->pos() );
                 it->set_var( "gas_absorbed", 0 );
             }
-            if( it->charges == 0 ) {
+            if( it->ammo_remaining() == 0 ) {
                 p->add_msg_player_or_npc(
                     m_bad,
                     _( "Your %s requires new filter!" ),
@@ -4274,7 +4274,7 @@ int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
             }
         }
     } else { // activate
-        if( it->charges == 0 ) {
+        if( it->ammo_remaining() == 0 ) {
             p->add_msg_if_player( _( "Your %s don't have a filter." ), it->tname() );
         } else {
             p->add_msg_if_player( _( "You prepared your %s." ), it->tname() );
@@ -4282,7 +4282,7 @@ int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
             it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
         }
     }
-    if( it->charges == 0 ) {
+    if( it->ammo_remaining() == 0 ) {
         it->set_var( "overwrite_env_resist", 0 );
         it->active = false;
     }

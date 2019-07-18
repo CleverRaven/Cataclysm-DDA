@@ -662,10 +662,22 @@
     "material_thickness": 2,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 7,
-    "max_charges": 100,
-    "initial_charges": 100,
     "ammo": "gasfilter_s",
-    "use_action": "GASMASK"
+    "use_action": "GASMASK",
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "mask_filter_integral_magazine",
+          "name": "filter mask integral magazine",
+          "description": "This item defines the integral magazine of a mask_filter item. It should not be visible to the player.",
+          "ammo_type": "gasfilter_s",
+          "capacity": 100,
+          "count": 100
+        }
+      ]
+    }
   },
   {
     "id": "mask_gas",
@@ -687,10 +699,22 @@
     "material_thickness": 2,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
-    "max_charges": 100,
-    "initial_charges": 100,
     "ammo": "gasfilter_m",
-    "use_action": "GASMASK"
+    "use_action": "GASMASK",
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "mask_gas_integral_magazine",
+          "name": "gas mask integral magazine",
+          "description": "This item defines the integral magazine of a mask_gas item. It should not be visible to the player.",
+          "ammo_type": "gasfilter_m",
+          "capacity": 100,
+          "count": 100
+        }
+      ]
+    }
   },
   {
     "id": "mask_gas_xl",
@@ -712,11 +736,23 @@
     "material_thickness": 2,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
-    "max_charges": 100,
-    "initial_charges": 100,
     "ammo": "gasfilter_m",
     "use_action": "GASMASK",
-    "flags": [ "OVERSIZE" ]
+    "flags": [ "OVERSIZE" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "mask_gas_xl_integral_magazine",
+          "name": "XL gas mask integral magazine",
+          "description": "This item defines the integral magazine of a mask_gas_xl item. It should not be visible to the player.",
+          "ammo_type": "gasfilter_m",
+          "capacity": 100,
+          "count": 100
+        }
+      ]
+    }
   },
   {
     "id": "mask_fsurvivor",
@@ -739,11 +775,23 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
-    "max_charges": 100,
-    "initial_charges": 100,
     "ammo": "gasfilter_m",
     "use_action": "GASMASK",
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "mask_fsurvivor_integral_magazine",
+          "name": "survivor firemask integral magazine",
+          "description": "This item defines the integral magazine of a mask_fsurvivor item. It should not be visible to the player.",
+          "ammo_type": "gasfilter_m",
+          "capacity": 100,
+          "count": 100
+        }
+      ]
+    }
   },
   {
     "id": "mask_fsurvivorxl",
@@ -766,11 +814,23 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
-    "max_charges": 100,
-    "initial_charges": 100,
     "ammo": "gasfilter_m",
     "use_action": "GASMASK",
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "mask_fsurvivorxl_integral_magazine",
+          "name": "XL survivor firemask integral magazine",
+          "description": "This item defines the integral magazine of a mask_fsurvivorxl item. It should not be visible to the player.",
+          "ammo_type": "gasfilter_m",
+          "capacity": 100,
+          "count": 100
+        }
+      ]
+    }
   },
   {
     "id": "mask_bunker",
@@ -786,8 +846,6 @@
     "weight": 1260,
     "volume": 6,
     "to_hit": -3,
-    "max_charges": 100,
-    "initial_charges": 100,
     "ammo": "gasfilter_m",
     "use_action": "GASMASK",
     "covers": [ "MOUTH", "EYES" ],
@@ -797,7 +855,21 @@
     "encumbrance": 20,
     "coverage": 100,
     "qualities": [ [ "GLARE", 2 ] ],
-    "material_thickness": 3
+    "material_thickness": 3,
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "mask_bunker_integral_magazine",
+          "name": "firefighter PBA mask integral magazine",
+          "description": "This item defines the integral magazine of a mask_bunker item. It should not be visible to the player.",
+          "ammo_type": "gasfilter_m",
+          "capacity": 100,
+          "count": 100
+        }
+      ]
+    }
   },
   {
     "id": "mask_hsurvivor",
@@ -809,8 +881,6 @@
     "volume": 5,
     "price": 24000,
     "to_hit": -3,
-    "max_charges": 100,
-    "initial_charges": 100,
     "ammo": "gasfilter_m",
     "use_action": "GASMASK",
     "material": [ "kevlar", "steel" ],
@@ -824,7 +894,21 @@
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "mask_hsurvivor_integral_magazine",
+          "name": "heavy survivor mask integral magazine",
+          "description": "This item defines the integral magazine of a mask_hsurvivor item. It should not be visible to the player.",
+          "ammo_type": "gasfilter_m",
+          "capacity": 100,
+          "count": 100
+        }
+      ]
+    }
   },
   {
     "id": "mask_lsurvivor",
@@ -836,8 +920,6 @@
     "volume": 5,
     "price": 24000,
     "to_hit": -3,
-    "max_charges": 100,
-    "initial_charges": 100,
     "charges_per_use": 1,
     "ammo": "gasfilter_m",
     "use_action": "GASMASK",
@@ -852,7 +934,21 @@
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "mask_lsurvivor_integral_magazine",
+          "name": "light survivor mask integral magazine",
+          "description": "This item defines the integral magazine of a mask_lsurvivor item. It should not be visible to the player.",
+          "ammo_type": "gasfilter_m",
+          "capacity": 100,
+          "count": 100
+        }
+      ]
+    }
   },
   {
     "id": "mask_survivor",
@@ -864,8 +960,6 @@
     "volume": 5,
     "price": 24000,
     "to_hit": -3,
-    "max_charges": 100,
-    "initial_charges": 100,
     "ammo": "gasfilter_m",
     "use_action": "GASMASK",
     "material": [ "kevlar", "leather" ],
@@ -879,7 +973,21 @@
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "mask_survivor_integral_magazine",
+          "name": "survivor mask integral magazine",
+          "description": "This item defines the integral magazine of a mask_survivor item. It should not be visible to the player.",
+          "ammo_type": "gasfilter_m",
+          "capacity": 100,
+          "count": 100
+        }
+      ]
+    }
   },
   {
     "id": "mask_survivorxl",
@@ -891,8 +999,6 @@
     "volume": 5,
     "price": 24000,
     "to_hit": -3,
-    "max_charges": 100,
-    "initial_charges": 100,
     "ammo": "gasfilter_m",
     "use_action": "GASMASK",
     "material": [ "kevlar", "plastic" ],
@@ -906,7 +1012,21 @@
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "mask_survivorxl_integral_magazine",
+          "name": "XL survivor mask integral magazine",
+          "description": "This item defines the integral magazine of a mask_survivorxl item. It should not be visible to the player.",
+          "ammo_type": "gasfilter_m",
+          "capacity": 100,
+          "count": 100
+        }
+      ]
+    }
   },
   {
     "id": "mask_wsurvivor",
@@ -918,8 +1038,6 @@
     "volume": 5,
     "price": 24000,
     "to_hit": -3,
-    "max_charges": 100,
-    "initial_charges": 100,
     "ammo": "gasfilter_m",
     "use_action": "GASMASK",
     "material": [ "kevlar", "fur" ],
@@ -933,7 +1051,21 @@
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "mask_wsurvivor_integral_magazine",
+          "name": "winter survivor mask integral magazine",
+          "description": "This item defines the integral magazine of a mask_wsurvivor item. It should not be visible to the player.",
+          "ammo_type": "gasfilter_m",
+          "capacity": 100,
+          "count": 100
+        }
+      ]
+    }
   },
   {
     "id": "mask_wsurvivorxl",
@@ -945,8 +1077,6 @@
     "volume": 5,
     "price": 24000,
     "to_hit": -3,
-    "max_charges": 100,
-    "initial_charges": 100,
     "ammo": "gasfilter_m",
     "use_action": "GASMASK",
     "material": [ "kevlar", "fur" ],
@@ -960,7 +1090,21 @@
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "mask_wsurvivorxl_integral_magazine",
+          "name": "XL winter survivor mask integral magazine",
+          "description": "This item defines the integral magazine of a mask_wsurvivorxl item. It should not be visible to the player.",
+          "ammo_type": "gasfilter_m",
+          "capacity": 100,
+          "count": 100
+        }
+      ]
+    }
   },
   {
     "id": "goggles_nv",
