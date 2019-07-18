@@ -85,6 +85,7 @@ void field_type::load( JsonObject &jo, const std::string & )
         intensity_levels.emplace_back( intensity_level );
     }
     optional( jo, was_loaded, "underwater_age_speedup", underwater_age_speedup, 0_turns );
+    optional( jo, was_loaded, "decay_amount_factor", decay_amount_factor, 0 );
     optional( jo, was_loaded, "priority", priority, 0 );
     optional( jo, was_loaded, "half_life", half_life, 0_turns );
     if( jo.has_member( "phase" ) ) {

@@ -45,6 +45,7 @@ struct field_type {
         std::vector<field_intensity_level> intensity_levels;
 
         time_duration underwater_age_speedup = 0_turns;
+        int decay_amount_factor = 0;
 
         int priority = 0;
         time_duration half_life = 0_turns;

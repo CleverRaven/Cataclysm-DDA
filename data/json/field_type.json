@@ -11,6 +11,7 @@
     "legacy_enum_id": 1,
     "intensity_levels": [ { "name": "blood splatter", "color": "red" }, { "name": "blood stain" }, { "name": "puddle of blood" } ],
     "underwater_age_speedup": "25 minutes",
+    "decay_amount_factor": 2,
     "half_life": "2 days",
     "phase": "liquid",
     "accelerated_decay": true,
@@ -22,6 +23,7 @@
     "legacy_enum_id": 2,
     "intensity_levels": [ { "name": "bile splatter", "color": "pink" }, { "name": "bile stain" }, { "name": "puddle of bile" } ],
     "underwater_age_speedup": "25 minutes",
+    "decay_amount_factor": 2,
     "half_life": "1 days",
     "phase": "liquid",
     "accelerated_decay": true,
@@ -37,6 +39,7 @@
       { "name": "heap of gore", "color": "red" }
     ],
     "underwater_age_speedup": "25 minutes",
+    "decay_amount_factor": 2,
     "half_life": "2 days",
     "phase": "solid",
     "accelerated_decay": true,
@@ -52,6 +55,7 @@
       { "name": "broken vegetation tangle", "color": "green" }
     ],
     "underwater_age_speedup": "25 minutes",
+    "decay_amount_factor": 2,
     "half_life": "2 days",
     "phase": "solid",
     "accelerated_decay": true,
@@ -76,6 +80,7 @@
       { "name": "slime stain" },
       { "name": "puddle of slime", "color": "green" }
     ],
+    "decay_amount_factor": 2,
     "half_life": "1 days",
     "phase": "liquid",
     "accelerated_decay": true,
@@ -133,6 +138,7 @@
       { "name": "fire", "color": "light_red" },
       { "name": "raging fire", "color": "red" }
     ],
+    "decay_amount_factor": 3,
     "priority": 4,
     "half_life": "30 minutes",
     "phase": "plasma",
@@ -158,6 +164,7 @@
       { "name": "smoke", "color": "light_gray", "transparent": false },
       { "name": "thick smoke", "color": "dark_gray" }
     ],
+    "decay_amount_factor": 5,
     "priority": 8,
     "half_life": "2 minutes",
     "phase": "gas",
@@ -174,6 +181,7 @@
       { "name": "toxic gas", "color": "light_green", "transparent": false },
       { "name": "thick toxic gas", "color": "green" }
     ],
+    "decay_amount_factor": 5,
     "priority": 8,
     "half_life": "10 minutes",
     "phase": "gas",
@@ -189,6 +197,7 @@
       { "name": "tear gas", "color": "light_green", "transparent": false },
       { "name": "thick tear gas", "color": "green" }
     ],
+    "decay_amount_factor": 5,
     "priority": 8,
     "half_life": "5 minutes",
     "phase": "gas",
@@ -204,6 +213,7 @@
       { "name": "radioactive gas", "color": "light_green" },
       { "name": "thick radioactive gas", "color": "green", "transparent": false }
     ],
+    "decay_amount_factor": 5,
     "priority": 8,
     "half_life": "100 minutes",
     "phase": "gas",
@@ -355,6 +365,7 @@
       { "name": "puddle of resin" }
     ],
     "underwater_age_speedup": "25 minutes",
+    "decay_amount_factor": 2,
     "half_life": "2 days",
     "phase": "liquid",
     "accelerated_decay": true,
@@ -366,6 +377,7 @@
     "legacy_enum_id": 29,
     "intensity_levels": [ { "name": "bug blood splatter", "color": "green" }, { "name": "bug blood stain" }, { "name": "puddle of bug blood" } ],
     "underwater_age_speedup": "25 minutes",
+    "decay_amount_factor": 2,
     "half_life": "2 days",
     "phase": "liquid",
     "accelerated_decay": true,
@@ -381,6 +393,7 @@
       { "name": "puddle of hemolymph" }
     ],
     "underwater_age_speedup": "25 minutes",
+    "decay_amount_factor": 2,
     "half_life": "2 days",
     "phase": "liquid",
     "accelerated_decay": true,
@@ -396,6 +409,7 @@
       { "name": "torn insect organs", "color": "yellow" }
     ],
     "underwater_age_speedup": "25 minutes",
+    "decay_amount_factor": 2,
     "half_life": "2 days",
     "phase": "solid",
     "accelerated_decay": true,
@@ -411,6 +425,7 @@
       { "name": "heap of squishy gore", "color": "dark_gray" }
     ],
     "underwater_age_speedup": "25 minutes",
+    "decay_amount_factor": 2,
     "half_life": "2 days",
     "phase": "solid",
     "accelerated_decay": true,
@@ -425,6 +440,7 @@
       { "name": "tobacco smoke", "color": "light_gray" },
       { "name": "thick tobacco smoke", "color": "dark_gray" }
     ],
+    "decay_amount_factor": 5,
     "priority": 8,
     "half_life": "35 minutes",
     "phase": "gas",
@@ -440,6 +456,7 @@
       { "name": "pot smoke", "color": "light_gray" },
       { "name": "thick pot smoke", "color": "dark_gray" }
     ],
+    "decay_amount_factor": 5,
     "priority": 8,
     "half_life": "325 turns",
     "phase": "gas",
@@ -455,6 +472,7 @@
       { "name": "crack smoke", "color": "light_gray" },
       { "name": "thick crack smoke", "color": "dark_gray" }
     ],
+    "decay_amount_factor": 5,
     "priority": 8,
     "half_life": "225 turns",
     "phase": "gas",
@@ -470,6 +488,7 @@
       { "name": "meth smoke", "color": "light_gray" },
       { "name": "thick meth  smoke", "color": "dark_gray" }
     ],
+    "decay_amount_factor": 5,
     "priority": 8,
     "half_life": "275 turns",
     "phase": "gas",
@@ -514,6 +533,7 @@
       { "name": "sedative gas", "color": "pink" },
       { "name": "relaxation gas", "color": "cyan" }
     ],
+    "decay_amount_factor": 5,
     "priority": 8,
     "half_life": "50 minutes",
     "phase": "gas",
@@ -529,6 +549,7 @@
       { "name": "fungal haze", "color": "cyan" },
       { "name": "thick fungal haze", "transparent": false }
     ],
+    "decay_amount_factor": 5,
     "priority": 8,
     "half_life": "4 minutes",
     "phase": "gas",
@@ -540,6 +561,7 @@
     "type": "field_type",
     "legacy_enum_id": 41,
     "intensity_levels": [ { "name": "cold air 1", "sym": "&" }, { "color": "blue" }, { "color": "cyan" } ],
+    "decay_amount_factor": 5,
     "priority": -1,
     "half_life": "50 minutes",
     "phase": "gas",
@@ -550,6 +572,7 @@
     "type": "field_type",
     "legacy_enum_id": 42,
     "intensity_levels": [ { "name": "cold air 2", "sym": "&" }, { "color": "blue" }, { "color": "cyan" } ],
+    "decay_amount_factor": 5,
     "priority": -1,
     "half_life": "50 minutes",
     "phase": "gas",
@@ -560,6 +583,7 @@
     "type": "field_type",
     "legacy_enum_id": 43,
     "intensity_levels": [ { "name": "cold air 3", "sym": "&" }, { "color": "blue" }, { "color": "cyan" } ],
+    "decay_amount_factor": 5,
     "priority": -1,
     "half_life": "50 minutes",
     "phase": "gas",
@@ -570,6 +594,7 @@
     "type": "field_type",
     "legacy_enum_id": 44,
     "intensity_levels": [ { "name": "cold air 4", "sym": "&" }, { "color": "blue" }, { "color": "cyan" } ],
+    "decay_amount_factor": 5,
     "priority": -1,
     "half_life": "50 minutes",
     "phase": "gas",
@@ -580,6 +605,7 @@
     "type": "field_type",
     "legacy_enum_id": 45,
     "intensity_levels": [ { "name": "hot air 1", "sym": "&" }, { "color": "yellow" }, { "color": "red" } ],
+    "decay_amount_factor": 5,
     "priority": -1,
     "half_life": "50 minutes",
     "phase": "gas",
@@ -590,6 +616,7 @@
     "type": "field_type",
     "legacy_enum_id": 46,
     "intensity_levels": [ { "name": "hot air 2", "sym": "&" }, { "color": "yellow" }, { "color": "red" } ],
+    "decay_amount_factor": 5,
     "priority": -1,
     "half_life": "50 minutes",
     "phase": "gas",
@@ -600,6 +627,7 @@
     "type": "field_type",
     "legacy_enum_id": 47,
     "intensity_levels": [ { "name": "hot air 3", "sym": "&" }, { "color": "yellow" }, { "color": "red" } ],
+    "decay_amount_factor": 5,
     "priority": -1,
     "half_life": "50 minutes",
     "phase": "gas",
@@ -610,6 +638,7 @@
     "type": "field_type",
     "legacy_enum_id": 48,
     "intensity_levels": [ { "name": "hot air 4", "sym": "&" }, { "color": "yellow" }, { "color": "red" } ],
+    "decay_amount_factor": 5,
     "priority": -1,
     "half_life": "50 minutes",
     "phase": "gas",
@@ -624,6 +653,7 @@
       { "name": "fungicidal gas", "color": "light_gray" },
       { "name": "thick fungicidal gas", "color": "dark_gray", "transparent": false }
     ],
+    "decay_amount_factor": 5,
     "priority": 8,
     "half_life": "90 minutes",
     "phase": "gas",
