@@ -39,7 +39,19 @@
     "range": -2,
     "dispersion": 300,
     "durability": 8,
-    "clip_size": 100,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "flamethrower_crude_integral_mag",
+          "type": "MAGAZINE",
+          "name": "spraycan flamethrower",
+          "description": "This item defines the integral magazine of a flamethrower_crude item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "flammable" ],
+          "capacity": 100
+        }
+      ]
+    },
     "valid_mod_locations": [ [ "sling", 1 ], [ "stock", 1 ], [ "rail mount", 1 ] ],
     "relative": { "reload": 4 }
   },

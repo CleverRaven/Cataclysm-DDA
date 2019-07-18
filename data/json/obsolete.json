@@ -143,8 +143,20 @@
     "ranged_damage": 40,
     "dispersion": 30,
     "durability": 9,
-    "clip_size": 2,
-    "reload": 600,
+    "loadables": {
+      "integrals": [
+        {
+          "id": "ftk93_integral_mag",
+          "type": "MAGAZINE",
+          "name": "FTK-93 dusion gun",
+          "description": "This item defines the integral magazine of a ftk93 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "fusion" ],
+          "capacity": 2,
+          "reload_time": 600
+        }
+      ]
+    },
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "emitter", 1 ],

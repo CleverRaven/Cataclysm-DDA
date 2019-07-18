@@ -52,9 +52,23 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle" ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "range": 2, "dispersion": 345, "durability": 10, "clip_size": 2 },
+    "gun_data": { "ammo": "shot", "skill": "shotgun", "range": 2, "dispersion": 345, "durability": 10 },
+    "loadables": {
+      "integrals": [
+        {
+          "id": "combination_gun_shotgun_integral_mag",
+          "type": "MAGAZINE",
+          "name": "combination gun shotgun",
+          "description": "This item defines the integral magazine of a combination_gun_shotgun item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "shot" ],
+          "capacity": 2,
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "dispersion_modifier": 15,
-    "flags": [ "IRREMOVABLE", "RELOAD_ONE", "RELOAD_EJECT" ]
+    "flags": [ "IRREMOVABLE", "RELOAD_EJECT" ]
   },
   {
     "id": "combination_gun_shotgun_pipe",
@@ -70,8 +84,22 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle" ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 480, "durability": 6, "clip_size": 2 },
-    "flags": [ "IRREMOVABLE", "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 480, "durability": 6 },
+    "loadables": {
+      "integrals": [
+        {
+          "id": "combinatio_gun_shotgun_pipe_integral_mag",
+          "type": "MAGAZINE",
+          "name": "pipe combination gun shotgun",
+          "description": "This item defines the integral magazine of a combination_gun_shotgun_pipe item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "shot" ],
+          "capacity": 2,
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
+    "flags": [ "IRREMOVABLE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
     "id": "grip",
@@ -129,10 +157,23 @@
       "ranged_damage": 3,
       "dispersion": 345,
       "durability": 10,
-      "clip_size": 7,
       "reload": 120
     },
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+    "loadables": {
+      "integrals": [
+        {
+          "id": "ksg_aux_shotgun_integral_mag",
+          "type": "MAGAZINE",
+          "name": "KSG second magazine",
+          "description": "This item defines the integral magazine of a ksg_aux_shotgun item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "shot" ],
+          "capacity": 7,
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
+    "flags": [ "IRREMOVABLE" ]
   },
   {
     "id": "laser_sight",
@@ -172,10 +213,22 @@
       "range": -2,
       "ranged_damage": 2,
       "dispersion": 600,
-      "durability": 10,
-      "clip_size": 1
+      "durability": 10
     },
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+    "loadables": {
+      "integrals": [
+        {
+          "id": "lemat_revolver_shotgun_integral_mag",
+          "type": "MAGAZINE",
+          "name": "LeMat revolver shotgun",
+          "description": "This item defines the integral magazine of a lemat_revolver_shotgun item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "shot" ],
+          "capacity": 1
+        }
+      ]
+    },
+    "flags": [ "IRREMOVABLE" ]
   },
   {
     "id": "m203",
@@ -191,7 +244,20 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": { "ammo": "40mm", "skill": "launcher", "dispersion": 300, "durability": 10, "clip_size": 1 },
+    "gun_data": { "ammo": "40mm", "skill": "launcher", "dispersion": 300, "durability": 10 },
+    "loadables": {
+      "integrals": [
+        {
+          "id": "m203_integral_mag",
+          "type": "MAGAZINE",
+          "name": "M203",
+          "description": "This item defines the integral magazine of a m203 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "40mm" ],
+          "capacity": 1
+        }
+      ]
+    },
     "dispersion_modifier": 30,
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
@@ -210,7 +276,20 @@
     "color": "dark_gray",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": { "ammo": "40mm", "skill": "launcher", "dispersion": 270, "durability": 10, "clip_size": 1 },
+    "gun_data": { "ammo": "40mm", "skill": "launcher", "dispersion": 270, "durability": 10 },
+    "loadables": {
+      "integrals": [
+        {
+          "id": "m320_integral_mag",
+          "type": "MAGAZINE",
+          "name": "M320 GLM",
+          "description": "This item defines the integral magazine of a m320 item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "40mm" ],
+          "capacity": 1
+        }
+      ]
+    },
     "dispersion_modifier": 60,
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
@@ -243,10 +322,23 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 330, "durability": 10, "clip_size": 4 },
+    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 330, "durability": 10 },
+    "loadables": {
+      "integrals": [
+        {
+          "id": "masterkey_integral_mag",
+          "type": "MAGAZINE",
+          "name": "masterkey shotgun integral magazine",
+          "description": "This item defines the integral magazine of a masterkey item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "shot" ],
+          "capacity": 4,
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "dispersion_modifier": 15,
-    "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
-    "flags": [ "RELOAD_ONE" ]
+    "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ]
   },
   {
     "id": "pipe_launcher40mm",
@@ -261,7 +353,20 @@
     "color": "light_gray",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": { "ammo": "40mm", "skill": "launcher", "dispersion": 450, "durability": 10, "clip_size": 1 },
+    "gun_data": { "ammo": "40mm", "skill": "launcher", "dispersion": 450, "durability": 10 },
+    "loadables": {
+      "integrals": [
+        {
+          "id": "pipe_launcher40mm_integral_mag",
+          "type": "MAGAZINE",
+          "name": "40mm pipe launcher",
+          "description": "This item defines the integral magazine of a pipe_launcher40mm item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "40mm" ],
+          "capacity": 1
+        }
+      ]
+    },
     "dispersion_modifier": 60,
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ]
   },
@@ -318,10 +423,23 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 375, "durability": 10, "clip_size": 2 },
+    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 375, "durability": 10 },
+    "loadables": {
+      "integrals": [
+        {
+          "id": "u_shotgun_integral_mag",
+          "type": "MAGAZINE",
+          "name": "underslung shotgun",
+          "description": "This item defines the integral magazine of a u_shotgun item. It should not be visible to the player.",
+          "symbol": "#",
+          "ammo_type": [ "shot" ],
+          "capacity": 2,
+          "flags": [ "RELOAD_ONE" ]
+        }
+      ]
+    },
     "dispersion_modifier": 30,
-    "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
-    "flags": [ "RELOAD_ONE" ]
+    "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ]
   },
   {
     "id": "lead_laser_sight",
