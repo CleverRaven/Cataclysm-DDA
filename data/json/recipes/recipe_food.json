@@ -928,7 +928,7 @@
   {
     "type": "recipe",
     "result": "dogfood_canned",
-	"id_suffix": "canned",
+    "id_suffix": "canned",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -1008,7 +1008,7 @@
   {
     "type": "recipe",
     "result": "catfood_canned",
-	"id_suffix": "canned",
+    "id_suffix": "canned",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
