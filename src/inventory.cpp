@@ -559,7 +559,7 @@ void inventory::form_from_map( map &m, const tripoint &origin, int range, bool a
             item arcfurnace( "arcfurnace", 0);
             arcfurnace.charges = veh->fuel_left ("battery", true );
             arcfurnace.item_tags.insert ( "PSEUDO" );
-            ad_item( arcfurnace );
+            add_item( arcfurnace );
         }
         if( chempart ) {
             item hotplate( "hotplate", 0 );
