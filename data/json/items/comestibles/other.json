@@ -609,7 +609,7 @@
     "color": "light_gray",
     "container": "can_food",
     "description": "Canned food for dogs. Keeps the food preserved, not that the dogs care.",
-    "price": 400,
+    "price": 400
   },
   {
     "id": "catfood",
@@ -643,7 +643,7 @@
     "color": "light_gray",
     "container": "can_food",
     "description": "Canned food for cats. Keeps the food preserved, not that the cats care about you.",
-    "price": 400,
+    "price": 400
   },
   {
     "type": "COMESTIBLE",
