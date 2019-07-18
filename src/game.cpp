@@ -1734,8 +1734,9 @@ static int maptile_field_intensity( maptile &mt, field_type_id fld )
 {
     auto field_ptr = mt.find_field( fld );
 
-    return ( field_ptr == nullptr ? 0 : field_ptr->get_field_intensity() );
+    return field_ptr == nullptr ? 0 : field_ptr->get_field_intensity();
 }
+
 static bool maptile_trap_eq( maptile &mt, const trap_id &id )
 {
     return mt.get_trap() == id;
@@ -1786,33 +1787,19 @@ int get_heat_radiation( const tripoint &location, bool direct )
 
 int get_convection_temperature( const tripoint &location )
 {
-    // Heat from hot air (fields)
     int temp_mod = 0;
+    // Directly on lava tiles
     maptile mt = g->m.maptile_at( location );
-    // directly on fire/lava tiles
-    int tile_intensity = maptile_field_intensity( mt, fd_fire );
-    if( tile_intensity > 0 || maptile_trap_eq( mt, tr_lava ) ) {
-        temp_mod += 300;
+    int lava_mod = maptile_trap_eq( mt, tr_lava ) ? fd_fire.obj().get_convection_temperature_mod() : 0;
+    // Modifier from fields
+    for( auto fd : g->m.field_at( location ) ) {
+        // Nullify lava modifier when there is open fire
+        if( fd.first == fd_fire ) {
+            lava_mod = 0;
+        };
+        temp_mod += fd.second.convection_temperature_mod();
     }
-    // hot air of a fire/lava
-    auto tile_intensity_mod = []( maptile & mt, field_type_id fld, int case_1, int case_2,
-    int case_3 ) {
-        int field_intensity = maptile_field_intensity( mt, fld );
-        int cases[3] = { case_1, case_2, case_3 };
-        return ( field_intensity > 0 && field_intensity < 4 ) ? cases[ field_intensity - 1 ] : 0;
-    };
-
-    // TODO: Jsonize
-    temp_mod += tile_intensity_mod( mt, fd_hot_air1,  2,   6,  10 );
-    temp_mod += tile_intensity_mod( mt, fd_hot_air2,  6,  16,  20 );
-    temp_mod += tile_intensity_mod( mt, fd_hot_air3, 16,  40,  70 );
-    temp_mod += tile_intensity_mod( mt, fd_hot_air4, 70, 100, 160 );
-    temp_mod -= tile_intensity_mod( mt, fd_cold_air1,  2,   6,  10 );
-    temp_mod -= tile_intensity_mod( mt, fd_cold_air2,  6,  16,  20 );
-    temp_mod -= tile_intensity_mod( mt, fd_cold_air3, 16,  40,  70 );
-    temp_mod -= tile_intensity_mod( mt, fd_cold_air4, 70, 100, 160 );
-
-    return temp_mod;
+    return temp_mod + lava_mod;
 }
 
 int game::assign_mission_id()

@@ -136,7 +136,15 @@
     "type": "field_type",
     "legacy_enum_id": 10,
     "intensity_levels": [
-      { "name": "small fire", "sym": "4", "color": "yellow", "dangerous": true, "light_emitted": 20, "translucency": 0.7 },
+      {
+        "name": "small fire",
+        "sym": "4",
+        "color": "yellow",
+        "dangerous": true,
+        "light_emitted": 20,
+        "translucency": 0.7,
+        "convection_temperature_mod": 300
+      },
       { "name": "fire", "color": "light_red", "light_emitted": 60, "translucency": 0.4 },
       { "name": "raging fire", "color": "red", "light_emitted": 160, "translucency": 0.1 }
     ],
@@ -591,7 +599,11 @@
     "id": "fd_cold_air1",
     "type": "field_type",
     "legacy_enum_id": 41,
-    "intensity_levels": [ { "name": "cold air 1", "sym": "&" }, { "color": "blue" }, { "color": "cyan" } ],
+    "intensity_levels": [
+      { "name": "cold air 1", "sym": "&", "convection_temperature_mod": -2 },
+      { "color": "blue", "convection_temperature_mod": -4 },
+      { "color": "cyan", "convection_temperature_mod": -6 }
+    ],
     "decay_amount_factor": 5,
     "priority": -1,
     "half_life": "50 minutes",
@@ -602,7 +614,11 @@
     "id": "fd_cold_air2",
     "type": "field_type",
     "legacy_enum_id": 42,
-    "intensity_levels": [ { "name": "cold air 2", "sym": "&" }, { "color": "blue" }, { "color": "cyan" } ],
+    "intensity_levels": [
+      { "name": "cold air 2", "sym": "&", "convection_temperature_mod": -6 },
+      { "color": "blue", "convection_temperature_mod": -16 },
+      { "color": "cyan", "convection_temperature_mod": -20 }
+    ],
     "decay_amount_factor": 5,
     "priority": -1,
     "half_life": "50 minutes",
@@ -613,7 +629,11 @@
     "id": "fd_cold_air3",
     "type": "field_type",
     "legacy_enum_id": 43,
-    "intensity_levels": [ { "name": "cold air 3", "sym": "&" }, { "color": "blue" }, { "color": "cyan" } ],
+    "intensity_levels": [
+      { "name": "cold air 3", "sym": "&", "convection_temperature_mod": -16 },
+      { "color": "blue", "convection_temperature_mod": -40 },
+      { "color": "cyan", "convection_temperature_mod": -70 }
+    ],
     "decay_amount_factor": 5,
     "priority": -1,
     "half_life": "50 minutes",
@@ -624,7 +644,11 @@
     "id": "fd_cold_air4",
     "type": "field_type",
     "legacy_enum_id": 44,
-    "intensity_levels": [ { "name": "cold air 4", "sym": "&" }, { "color": "blue" }, { "color": "cyan" } ],
+    "intensity_levels": [
+      { "name": "cold air 4", "sym": "&", "convection_temperature_mod": -70 },
+      { "color": "blue", "convection_temperature_mod": -100 },
+      { "color": "cyan", "convection_temperature_mod": -160 }
+    ],
     "decay_amount_factor": 5,
     "priority": -1,
     "half_life": "50 minutes",
@@ -635,7 +659,11 @@
     "id": "fd_hot_air1",
     "type": "field_type",
     "legacy_enum_id": 45,
-    "intensity_levels": [ { "name": "hot air 1", "sym": "&" }, { "color": "yellow" }, { "color": "red" } ],
+    "intensity_levels": [
+      { "name": "hot air 1", "sym": "&", "convection_temperature_mod": 2 },
+      { "color": "yellow", "convection_temperature_mod": 6 },
+      { "color": "red", "convection_temperature_mod": 10 }
+    ],
     "decay_amount_factor": 5,
     "priority": -1,
     "half_life": "50 minutes",
@@ -646,7 +674,11 @@
     "id": "fd_hot_air2",
     "type": "field_type",
     "legacy_enum_id": 46,
-    "intensity_levels": [ { "name": "hot air 2", "sym": "&" }, { "color": "yellow" }, { "color": "red" } ],
+    "intensity_levels": [
+      { "name": "hot air 2", "sym": "&", "convection_temperature_mod": 6 },
+      { "color": "yellow", "convection_temperature_mod": 16 },
+      { "color": "red", "convection_temperature_mod": 20 }
+    ],
     "decay_amount_factor": 5,
     "priority": -1,
     "half_life": "50 minutes",
@@ -657,7 +689,11 @@
     "id": "fd_hot_air3",
     "type": "field_type",
     "legacy_enum_id": 47,
-    "intensity_levels": [ { "name": "hot air 3", "sym": "&" }, { "color": "yellow" }, { "color": "red" } ],
+    "intensity_levels": [
+      { "name": "hot air 3", "sym": "&", "convection_temperature_mod": 16 },
+      { "color": "yellow", "convection_temperature_mod": 40 },
+      { "color": "red", "convection_temperature_mod": 70 }
+    ],
     "decay_amount_factor": 5,
     "priority": -1,
     "half_life": "50 minutes",
@@ -668,7 +704,11 @@
     "id": "fd_hot_air4",
     "type": "field_type",
     "legacy_enum_id": 48,
-    "intensity_levels": [ { "name": "hot air 4", "sym": "&" }, { "color": "yellow" }, { "color": "red" } ],
+    "intensity_levels": [
+      { "name": "hot air 4", "sym": "&", "convection_temperature_mod": 70 },
+      { "color": "yellow", "convection_temperature_mod": 100 },
+      { "color": "red", "convection_temperature_mod": 160 }
+    ],
     "decay_amount_factor": 5,
     "priority": -1,
     "half_life": "50 minutes",

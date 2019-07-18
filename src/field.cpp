@@ -25,6 +25,11 @@ bool field_entry::is_transparent() const
     return type.obj().get_transparent( intensity - 1 );
 }
 
+int field_entry::convection_temperature_mod() const
+{
+    return type.obj().get_convection_temperature_mod( intensity - 1 );
+}
+
 nc_color field_entry::color() const
 {
     return type.obj().get_color( intensity - 1 );

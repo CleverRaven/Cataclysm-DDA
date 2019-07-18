@@ -29,6 +29,7 @@ struct field_intensity_level {
     int move_cost = 0;
     float light_emitted = 0.0f;
     float translucency = 0.0f;
+    int convection_temperature_mod = 0.0f;
 };
 
 struct field_type {
@@ -89,6 +90,9 @@ struct field_type {
         }
         float get_translucency( int level = 0 ) const {
             return intensity_levels[level].translucency;
+        }
+        int get_convection_temperature_mod( int level = 0 ) const {
+            return intensity_levels[level].convection_temperature_mod;
         }
 
         bool is_dangerous() const {
