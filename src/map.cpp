@@ -5010,7 +5010,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
             }
         }
         
-        if( furnacepart) { //we have a veh_furance, no to see what to drain
+        if( furnacepart) { //we have a veh_furnace, no to see what to drain
             itype_id ftype = "null";
             
             if( type == "arcfurnace" ) {
