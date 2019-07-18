@@ -135,9 +135,9 @@
     "type": "field_type",
     "legacy_enum_id": 10,
     "intensity_levels": [
-      { "name": "small fire", "sym": "4", "color": "yellow", "dangerous": true },
-      { "name": "fire", "color": "light_red" },
-      { "name": "raging fire", "color": "red" }
+      { "name": "small fire", "sym": "4", "color": "yellow", "dangerous": true, "light_emitted": 20 },
+      { "name": "fire", "color": "light_red", "light_emitted": 60 },
+      { "name": "raging fire", "color": "red", "light_emitted": 160 }
     ],
     "decay_amount_factor": 3,
     "priority": 4,
@@ -239,7 +239,7 @@
     "id": "fd_fire_vent",
     "type": "field_type",
     "legacy_enum_id": 17,
-    "intensity_levels": [ { "name": "fire vent" } ],
+    "intensity_levels": [ { "name": "fire vent", "light_emitted": 20 } ],
     "phase": "gas",
     "display_items": false,
     "display_field": true
@@ -248,7 +248,7 @@
     "id": "fd_flame_burst",
     "type": "field_type",
     "legacy_enum_id": 18,
-    "intensity_levels": [ { "name": "fire", "sym": "5", "color": "red", "dangerous": true } ],
+    "intensity_levels": [ { "name": "fire", "sym": "5", "color": "red", "dangerous": true, "light_emitted": 20 } ],
     "priority": 4,
     "phase": "gas",
     "display_items": false,
@@ -259,9 +259,9 @@
     "type": "field_type",
     "legacy_enum_id": 19,
     "intensity_levels": [
-      { "name": "sparks", "sym": "9", "dangerous": true },
-      { "name": "electric crackle", "color": "cyan" },
-      { "name": "electric cloud", "color": "blue" }
+      { "name": "sparks", "sym": "9", "dangerous": true, "light_emitted": 0.01 },
+      { "name": "electric crackle", "color": "cyan", "light_emitted": 4 },
+      { "name": "electric cloud", "color": "blue", "light_emitted": 20 }
     ],
     "priority": 4,
     "half_life": "2 turns",
@@ -316,9 +316,9 @@
     "type": "field_type",
     "legacy_enum_id": 24,
     "intensity_levels": [
-      { "name": "faint plasma", "color": "magenta", "sym": "9" },
-      { "name": "glowing plasma", "color": "pink" },
-      { "name": "glaring plasma", "color": "white" }
+      { "name": "faint plasma", "color": "magenta", "sym": "9", "light_emitted": 0.01 },
+      { "name": "glowing plasma", "color": "pink", "light_emitted": 4 },
+      { "name": "glaring plasma", "color": "white", "light_emitted": 20 }
     ],
     "priority": 4,
     "half_life": "2 turns",
@@ -332,7 +332,7 @@
     "type": "field_type",
     "legacy_enum_id": 25,
     "intensity_levels": [
-      { "name": "faint glimmer", "color": "blue", "sym": "9" },
+      { "name": "faint glimmer", "color": "blue", "sym": "9", "light_emitted": 4 },
       { "name": "beam of light", "color": "light_blue" },
       { "name": "intense beam of light", "color": "white" }
     ],
@@ -347,7 +347,7 @@
     "id": "fd_spotlight",
     "type": "field_type",
     "legacy_enum_id": 26,
-    "intensity_levels": [ { "name": "spotlight", "sym": "&" } ],
+    "intensity_levels": [ { "name": "spotlight", "sym": "&", "light_emitted": 80 } ],
     "priority": 1,
     "half_life": "1 turns",
     "display_field": true
@@ -356,7 +356,7 @@
     "id": "fd_dazzling",
     "type": "field_type",
     "legacy_enum_id": 27,
-    "intensity_levels": [ { "name": "dazzling", "color": "light_red_yellow", "sym": "#" } ],
+    "intensity_levels": [ { "name": "dazzling", "color": "light_red_yellow", "sym": "#", "light_emitted": 5 } ],
     "priority": 4,
     "half_life": "1 turns",
     "phase": "plasma",
@@ -527,9 +527,9 @@
     "type": "field_type",
     "legacy_enum_id": 38,
     "intensity_levels": [
-      { "name": "smoke", "sym": "8", "dangerous": true },
-      { "name": "airborne incendiary", "color": "light_red" },
-      { "name": "airborne incendiary", "color": "light_red_red", "transparent": false }
+      { "name": "smoke", "sym": "8", "dangerous": true, "light_emitted": 20 },
+      { "name": "airborne incendiary", "color": "light_red", "light_emitted": 60 },
+      { "name": "airborne incendiary", "color": "light_red_red", "transparent": false, "light_emitted": 160 }
     ],
     "dirty_transparency_cache": true,
     "priority": 8,

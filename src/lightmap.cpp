@@ -352,48 +352,9 @@ void map::generate_lightmap( const int zlev )
 
                     for( auto &fld : cur_submap->fld[sx][sy] ) {
                         const field_entry *cur = &fld.second;
-                        // TODO: [lightmap] Attach light brightness to fields
-                        const auto ft = cur->get_field_type();
-                        if( ft == fd_fire ) {
-                            if( 3 == cur->get_field_intensity() ) {
-                                add_light_source( p, 160 );
-                            } else if( 2 == cur->get_field_intensity() ) {
-                                add_light_source( p, 60 );
-                            } else {
-                                add_light_source( p, 20 );
-                            }
-                        }
-                        if( ft == fd_fire_vent || ft == fd_flame_burst ) {
-                            add_light_source( p, 20 );
-                        }
-                        if( ft == fd_electricity || ft == fd_plasma ) {
-
-                            if( 3 == cur->get_field_intensity() ) {
-                                add_light_source( p, 20 );
-                            } else if( 2 == cur->get_field_intensity() ) {
-                                add_light_source( p, 4 );
-                            } else {
-                                // Kinda a hack as the square will still get marked.
-                                apply_light_source( p, LIGHT_SOURCE_LOCAL );
-                            }
-                        }
-                        if( ft == fd_incendiary ) {
-                            if( 3 == cur->get_field_intensity() ) {
-                                add_light_source( p, 160 );
-                            } else if( 2 == cur->get_field_intensity() ) {
-                                add_light_source( p, 60 );
-                            } else {
-                                add_light_source( p, 20 );
-                            }
-                        }
-                        if( ft == fd_laser ) {
-                            apply_light_source( p, 4 );
-                        }
-                        if( ft == fd_spotlight ) {
-                            add_light_source( p, 80 );
-                        }
-                        if( ft == fd_dazzling ) {
-                            add_light_source( p, 5 );
+                        const int light_emitted = cur->light_emitted();
+                        if( light_emitted > 0 ) {
+                            add_light_source( p, light_emitted );
                         }
                     }
                 }

@@ -27,6 +27,8 @@ class field_entry
         //returns the move cost of this field
         int move_cost() const;
 
+        float light_emitted() const;
+
         //Returns the field_type_id of the current field entry.
         field_type_id get_field_type() const;
 

@@ -10,6 +10,11 @@ int field_entry::move_cost() const
     return type.obj().get_move_cost( intensity - 1 );
 }
 
+float field_entry::light_emitted() const
+{
+    return type.obj().get_light_emitted( intensity - 1 );
+}
+
 nc_color field_entry::color() const
 {
     return type.obj().get_color( intensity - 1 );
