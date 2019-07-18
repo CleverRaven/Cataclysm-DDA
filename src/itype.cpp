@@ -105,9 +105,6 @@ bool itype::can_have_charges() const
     if( count_by_charges() ) {
         return true;
     }
-    if( battery && battery->max_capacity > 0 ) {
-        return true;
-    }
     if( tool && tool->max_charges > 0 ) {
         return true;
     }
