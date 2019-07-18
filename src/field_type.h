@@ -47,6 +47,7 @@ struct field_type {
         time_duration underwater_age_speedup = 0_turns;
         int decay_amount_factor = 0;
         int apply_slime_factor = 0;
+        bool dirty_transparency_cache = false;
 
         int priority = 0;
         time_duration half_life = 0_turns;

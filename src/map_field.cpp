@@ -413,6 +413,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     debugmsg( "Whoooooa intensity of %d", cur.get_field_intensity() );
                 }
 
+                dirty_transparency_cache = curtype.obj().dirty_transparency_cache;
+
                 // Don't process "newborn" fields. This gives the player time to run if they need to.
                 if( cur.get_field_age() == 0_turns ) {
                     curtype = fd_null;
@@ -457,10 +459,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 }
                 if( curtype.obj().apply_slime_factor > 0 ) {
                     sblk.apply_slime( p, cur.get_field_intensity() * curtype.obj().apply_slime_factor );
-                }
-
-                if( curtype == fd_plasma || curtype == fd_laser ) {
-                    dirty_transparency_cache = true;
                 }
                 if( curtype == fd_fire ) {
                     // Entire objects for ter/frn for flags
@@ -942,15 +940,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     }
                 }
                 if( curtype == fd_smoke || curtype == fd_tear_gas ) {
-                    dirty_transparency_cache = true;
                     spread_gas( cur, p, 10, 0_turns, sblk );
                 }
                 if( curtype == fd_relax_gas ) {
-                    dirty_transparency_cache = true;
                     spread_gas( cur, p, 15, 5_minutes, sblk );
                 }
                 if( curtype == fd_fungal_haze ) {
-                    dirty_transparency_cache = true;
                     spread_gas( cur, p, 13, 5_turns, sblk );
                     if( one_in( 10 - 2 * cur.get_field_intensity() ) ) {
                         // Haze'd terrain
@@ -958,16 +953,13 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     }
                 }
                 if( curtype == fd_toxic_gas ) {
-                    dirty_transparency_cache = true;
                     spread_gas( cur, p, 30, 3_minutes, sblk );
                 }
 
                 if( curtype == fd_cigsmoke ) {
-                    dirty_transparency_cache = true;
                     spread_gas( cur, p, 250, 6_minutes, sblk );
                 }
                 if( curtype == fd_weedsmoke ) {
-                    dirty_transparency_cache = true;
                     spread_gas( cur, p, 200, 6_minutes, sblk );
 
                     if( one_in( 20 ) ) {
@@ -979,7 +971,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 }
 
                 if( curtype == fd_methsmoke ) {
-                    dirty_transparency_cache = true;
                     spread_gas( cur, p, 175, 7_minutes, sblk );
                     if( one_in( 20 ) ) {
                         if( npc *const np = g->critter_at<npc>( p ) ) {
@@ -988,7 +979,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     }
                 }
                 if( curtype == fd_cracksmoke ) {
-                    dirty_transparency_cache = true;
                     spread_gas( cur, p, 175, 8_minutes, sblk );
 
                     if( one_in( 20 ) ) {
@@ -998,7 +988,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     }
                 }
                 if( curtype == fd_nuke_gas ) {
-                    dirty_transparency_cache = true;
                     int extra_radiation = rng( 0, cur.get_field_intensity() );
                     adjust_radiation( p, extra_radiation );
                     spread_gas( cur, p, 15, 1_minutes, sblk );
@@ -1012,7 +1001,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     spread_gas( cur, p, 100, 100_minutes, sblk );
                 }
                 if( curtype == fd_gas_vent ) {
-                    dirty_transparency_cache = true;
                     for( const tripoint &pnt : points_in_radius( p, cur.get_field_intensity() - 1 ) ) {
                         field &wandering_field = get_field( pnt );
                         tmpfld = wandering_field.find_field( fd_toxic_gas );
@@ -1024,7 +1012,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     }
                 }
                 if( curtype == fd_smoke_vent ) {
-                    dirty_transparency_cache = true;
                     for( const tripoint &pnt : points_in_radius( p, cur.get_field_intensity() - 1 ) ) {
                         field &wandering_field = get_field( pnt );
                         tmpfld = wandering_field.find_field( fd_smoke );
@@ -1233,7 +1220,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     }
                 }
                 if( curtype == fd_bees ) {
-                    dirty_transparency_cache = true;
                     // Poor bees are vulnerable to so many other fields.
                     // TODO: maybe adjust effects based on different fields.
                     if( curfield.find_field( fd_web ) ||
@@ -1287,7 +1273,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 }
                 if( curtype == fd_incendiary ) {
                     // Needed for variable scope
-                    dirty_transparency_cache = true;
                     tripoint dst( p.x + rng( -1, 1 ), p.y + rng( -1, 1 ), p.z );
                     if( has_flag( TFLAG_FLAMMABLE, dst ) ||
                         has_flag( TFLAG_FLAMMABLE_ASH, dst ) ||
@@ -1308,7 +1293,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     make_rubble( p );
                 }
                 if( curtype == fd_fungicidal_gas ) {
-                    dirty_transparency_cache = true;
                     spread_gas( cur, p, 120, 1_minutes, sblk );
                     // Check the terrain and replace it accordingly to simulate the fungus dieing off
                     const ter_t &ter = map_tile.get_ter_t();

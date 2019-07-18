@@ -87,6 +87,7 @@ void field_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "underwater_age_speedup", underwater_age_speedup, 0_turns );
     optional( jo, was_loaded, "decay_amount_factor", decay_amount_factor, 0 );
     optional( jo, was_loaded, "apply_slime_factor", apply_slime_factor, 0 );
+    optional( jo, was_loaded, "dirty_transparency_cache", dirty_transparency_cache, false );
     optional( jo, was_loaded, "priority", priority, 0 );
     optional( jo, was_loaded, "half_life", half_life, 0_turns );
     if( jo.has_member( "phase" ) ) {

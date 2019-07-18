@@ -166,6 +166,7 @@
       { "name": "thick smoke", "color": "dark_gray" }
     ],
     "decay_amount_factor": 5,
+    "dirty_transparency_cache": true,
     "priority": 8,
     "half_life": "2 minutes",
     "phase": "gas",
@@ -183,6 +184,7 @@
       { "name": "thick toxic gas", "color": "green" }
     ],
     "decay_amount_factor": 5,
+    "dirty_transparency_cache": true,
     "priority": 8,
     "half_life": "10 minutes",
     "phase": "gas",
@@ -199,6 +201,7 @@
       { "name": "thick tear gas", "color": "green" }
     ],
     "decay_amount_factor": 5,
+    "dirty_transparency_cache": true,
     "priority": 8,
     "half_life": "5 minutes",
     "phase": "gas",
@@ -215,6 +218,7 @@
       { "name": "thick radioactive gas", "color": "green", "transparent": false }
     ],
     "decay_amount_factor": 5,
+    "dirty_transparency_cache": true,
     "priority": 8,
     "half_life": "100 minutes",
     "phase": "gas",
@@ -226,6 +230,7 @@
     "type": "field_type",
     "legacy_enum_id": 16,
     "intensity_levels": [ { "name": "gas vent" } ],
+    "dirty_transparency_cache": true,
     "phase": "gas",
     "display_items": false,
     "display_field": true
@@ -317,6 +322,7 @@
     ],
     "priority": 4,
     "half_life": "2 turns",
+    "dirty_transparency_cache": true,
     "phase": "plasma",
     "display_items": false,
     "display_field": true
@@ -332,6 +338,7 @@
     ],
     "priority": 4,
     "half_life": "1 turns",
+    "dirty_transparency_cache": true,
     "phase": "plasma",
     "display_items": false,
     "display_field": true
@@ -442,6 +449,7 @@
       { "name": "thick tobacco smoke", "color": "dark_gray" }
     ],
     "decay_amount_factor": 5,
+    "dirty_transparency_cache": true,
     "priority": 8,
     "half_life": "35 minutes",
     "phase": "gas",
@@ -458,6 +466,7 @@
       { "name": "thick pot smoke", "color": "dark_gray" }
     ],
     "decay_amount_factor": 5,
+    "dirty_transparency_cache": true,
     "priority": 8,
     "half_life": "325 turns",
     "phase": "gas",
@@ -474,6 +483,7 @@
       { "name": "thick crack smoke", "color": "dark_gray" }
     ],
     "decay_amount_factor": 5,
+    "dirty_transparency_cache": true,
     "priority": 8,
     "half_life": "225 turns",
     "phase": "gas",
@@ -490,6 +500,7 @@
       { "name": "thick meth  smoke", "color": "dark_gray" }
     ],
     "decay_amount_factor": 5,
+    "dirty_transparency_cache": true,
     "priority": 8,
     "half_life": "275 turns",
     "phase": "gas",
@@ -505,6 +516,7 @@
       { "name": "swarm of bees", "color": "light_gray" },
       { "name": "angry swarm of bees", "color": "dark_gray" }
     ],
+    "dirty_transparency_cache": true,
     "priority": 8,
     "half_life": "100 minutes",
     "display_items": false,
@@ -519,6 +531,7 @@
       { "name": "airborne incendiary", "color": "light_red" },
       { "name": "airborne incendiary", "color": "light_red_red", "transparent": false }
     ],
+    "dirty_transparency_cache": true,
     "priority": 8,
     "half_life": "50 minutes",
     "phase": "gas",
@@ -535,6 +548,7 @@
       { "name": "relaxation gas", "color": "cyan" }
     ],
     "decay_amount_factor": 5,
+    "dirty_transparency_cache": true,
     "priority": 8,
     "half_life": "50 minutes",
     "phase": "gas",
@@ -551,6 +565,7 @@
       { "name": "thick fungal haze", "transparent": false }
     ],
     "decay_amount_factor": 5,
+    "dirty_transparency_cache": true,
     "priority": 8,
     "half_life": "4 minutes",
     "phase": "gas",
@@ -655,6 +670,7 @@
       { "name": "thick fungicidal gas", "color": "dark_gray", "transparent": false }
     ],
     "decay_amount_factor": 5,
+    "dirty_transparency_cache": true,
     "priority": 8,
     "half_life": "90 minutes",
     "phase": "gas",
@@ -666,6 +682,7 @@
     "type": "field_type",
     "legacy_enum_id": 50,
     "intensity_levels": [ { "name": "smoke vent", "dangerous": true } ],
+    "dirty_transparency_cache": true,
     "phase": "gas",
     "display_items": false,
     "display_field": true
