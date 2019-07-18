@@ -284,7 +284,6 @@
     "symbol": "/",
     "color": "dark_gray",
     "ammo": "gasoline",
-    "max_charges": 50,
     "techniques": "WBLOCK_2",
     "use_action": {
       "type": "fireweapon_off",
@@ -297,7 +296,20 @@
       "lacks_fuel_message": "Click."
     },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
-    "flags": [ "FIRE", "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "FIRE", "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "firemachete_off_integral_magazine",
+          "name": "No. 9 integral magazine",
+          "description": "This item defines the integral magazine of a firemachete_off item. It should not be visible to the player.",
+          "ammo_type": "gasoline",
+          "capacity": 50
+        }
+      ]
+    }
   },
   {
     "id": "firemachete_on",
@@ -316,7 +328,6 @@
     "symbol": "/",
     "color": "red",
     "ammo": "gasoline",
-    "max_charges": 50,
     "turns_per_charge": 30,
     "revert_to": "firemachete_off",
     "techniques": [ "WBLOCK_2" ],
@@ -335,7 +346,20 @@
       },
       { "type": "firestarter", "moves": 30 }
     ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "firemachete_on_integral_magazine",
+          "name": "No. 9 integral magazine",
+          "description": "This item defines the integral magazine of a firemachete_on item. It should not be visible to the player.",
+          "ammo_type": "gasoline",
+          "capacity": 50
+        }
+      ]
+    }
   },
   {
     "id": "cavalry_sabre",
@@ -844,7 +868,6 @@
     "symbol": "/",
     "color": "light_gray",
     "ammo": "gasoline",
-    "max_charges": 50,
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "use_action": {
       "type": "fireweapon_off",
@@ -855,7 +878,20 @@
       "lacks_fuel_message": "Dein Flammenschwert hat keinen Brennstoff mehr."
     },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "zweifire_off_integral_magazine",
+          "name": "flammenschwert (aus) integral magazine",
+          "description": "This item defines the integral magazine of a zweifire_off item. It should not be visible to the player.",
+          "ammo_type": "gasoline",
+          "capacity": 50
+        }
+      ]
+    }
   },
   {
     "id": "zweifire_on",
@@ -874,7 +910,6 @@
     "symbol": "/",
     "color": "red",
     "ammo": "gasoline",
-    "max_charges": 50,
     "turns_per_charge": 30,
     "revert_to": "zweifire_off",
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
@@ -889,7 +924,20 @@
       },
       { "type": "firestarter", "moves": 30 }
     ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "zweifire_on_integral_magazine",
+          "name": "flammenschwert integral magazine",
+          "description": "This item defines the integral magazine of a zweifire_on item. It should not be visible to the player.",
+          "ammo_type": "gasoline",
+          "capacity": 50
+        }
+      ]
+    }
   },
   {
     "id": "zweihander",
@@ -1156,7 +1204,6 @@
     "symbol": "/",
     "color": "light_gray",
     "ammo": "gasoline",
-    "max_charges": 50,
     "techniques": "WBLOCK_2",
     "use_action": {
       "type": "fireweapon_off",
@@ -1167,7 +1214,20 @@
       "lacks_fuel_message": "No strength to fight!"
     },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 6 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "broadfire_off_integral_magazine",
+          "name": "firebrand (off) integral magazine",
+          "description": "This item defines the integral magazine of a broadfire_off item. It should not be visible to the player.",
+          "ammo_type": "gasoline",
+          "capacity": 50
+        }
+      ]
+    }
   },
   {
     "id": "broadfire_on",
@@ -1323,7 +1383,6 @@
     "symbol": "/",
     "color": "light_gray",
     "ammo": "gasoline",
-    "max_charges": 50,
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "use_action": {
       "type": "fireweapon_off",
@@ -1334,7 +1393,20 @@
       "lacks_fuel_message": "Time stands still."
     },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 6 ] ],
-    "flags": [ "FIRE", "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "FIRE", "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "firekatana_off_integral_magazine",
+          "name": "Rising Sun integral magazine",
+          "description": "This item defines the integral magazine of a firekatana_off item. It should not be visible to the player.",
+          "ammo_type": "gasoline",
+          "capacity": 50
+        }
+      ]
+    }
   },
   {
     "id": "firekatana_on",
@@ -1352,7 +1424,6 @@
     "symbol": "/",
     "color": "red",
     "ammo": "gasoline",
-    "max_charges": 50,
     "turns_per_charge": 30,
     "revert_to": "firekatana_off",
     "techniques": [ "RAPID", "WBLOCK_2" ],
@@ -1368,7 +1439,20 @@
       },
       { "type": "firestarter", "moves": 30 }
     ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "firekatana_on_integral_magazine",
+          "name": "Rising Sun integral magazine",
+          "description": "This item defines the integral magazine of a firekatana_on item. It should not be visible to the player.",
+          "ammo_type": "gasoline",
+          "capacity": 50
+        }
+      ]
+    }
   },
   {
     "id": "zweihander_fake",
@@ -1562,12 +1646,24 @@
     "symbol": "/",
     "color": "red",
     "ammo": "gasoline",
-    "max_charges": 800,
     "turns_per_charge": 1,
     "revert_to": "chainsaw_off",
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "use_action": "CS_LAJATANG_OFF",
-    "flags": [ "NONCONDUCTIVE" ]
+    "flags": [ "NONCONDUCTIVE" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "cs_lajatang_off_integral_magazine",
+          "name": "chainsaw lajatang (off) integral magazine",
+          "description": "This item defines the integral magazine of a cs_lajatang_off item. It should not be visible to the player.",
+          "ammo_type": "gasoline",
+          "capacity": 800
+        }
+      ]
+    }
   },
   {
     "id": "cs_lajatang_on",
@@ -1676,9 +1772,21 @@
     "symbol": "/",
     "color": "light_gray",
     "ammo": "gasoline",
-    "max_charges": 1000,
     "use_action": "COMBATSAW_OFF",
-    "techniques": [ "WBLOCK_1", "SWEEP" ]
+    "techniques": [ "WBLOCK_1", "SWEEP" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "combatsaw_off_integral_magazine",
+          "name": "combat chainsaw (off) integral magazine",
+          "description": "This item defines the integral magazine of a combatsaw_off item. It should not be visible to the player.",
+          "ammo_type": "gasoline",
+          "capacity": 1000
+        }
+      ]
+    }
   },
   {
     "id": "combatsaw_on",

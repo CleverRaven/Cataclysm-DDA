@@ -1902,7 +1902,7 @@ int fireweapon_off_actor::use( player &p, item &it, bool t, const tripoint & ) c
         return 0;
     }
 
-    if( it.charges <= 0 ) {
+    if( it.ammo_remaining()<= 0 ) {
         p.add_msg_if_player( _( lacks_fuel_message ) );
         return 0;
     }
@@ -1927,7 +1927,7 @@ int fireweapon_off_actor::use( player &p, item &it, bool t, const tripoint & ) c
 ret_val<bool> fireweapon_off_actor::can_use( const player &p, const item &it, bool,
         const tripoint & ) const
 {
-    if( it.charges < it.type->charges_to_use() ) {
+    if( it.ammo_remaining()< it.type->charges_to_use() ) {
         return ret_val<bool>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
@@ -1960,7 +1960,7 @@ iuse_actor *fireweapon_on_actor::clone() const
 int fireweapon_on_actor::use( player &p, item &it, bool t, const tripoint & ) const
 {
     bool extinguish = true;
-    if( it.charges == 0 ) {
+    if( it.ammo_remaining() == 0 ) {
         p.add_msg_if_player( m_bad, _( charges_extinguish_message ) );
     } else if( p.is_underwater() ) {
         p.add_msg_if_player( m_bad, _( water_extinguish_message ) );
