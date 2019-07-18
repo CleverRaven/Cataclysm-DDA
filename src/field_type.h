@@ -9,6 +9,7 @@
 #include <memory>
 #include <string>
 
+#include "bodypart.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
@@ -19,6 +20,7 @@
 class JsonObject;
 
 enum phase_id : int;
+enum body_part : int;
 
 struct field_intensity_level {
     std::string name;
@@ -56,6 +58,9 @@ struct field_type {
         bool has_acid = false;
         bool has_elec = false;
         bool has_fume = false;
+
+        std::vector<trait_id> immunity_data_traits;
+        std::vector<std::pair<body_part, int>> immunity_data_body_part_env_resistance;
 
         int priority = 0;
         time_duration half_life = 0_turns;
