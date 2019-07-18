@@ -74,7 +74,7 @@
     "intensity_levels": [
       { "name": "slime trail", "color": "light_green" },
       { "name": "slime stain" },
-      { "name": "uddle of slime", "color": "green" }
+      { "name": "puddle of slime", "color": "green" }
     ],
     "half_life": "1 days",
     "phase": "liquid",
@@ -86,7 +86,7 @@
     "type": "field_type",
     "legacy_enum_id": 7,
     "intensity_levels": [
-      { "name": "acit splatter", "sym": "5", "color": "light_green", "dangerous": true },
+      { "name": "acid splatter", "sym": "5", "color": "light_green", "dangerous": true },
       { "name": "acid streak" },
       { "name": "pool of acid", "color": "green" }
     ],
