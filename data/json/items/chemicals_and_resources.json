@@ -300,7 +300,7 @@
     "comestible_type": "FOOD",
     "symbol": "!",
     "healthy": -7,
-    "description": "Agricultural grade chemical insecticide powder designed to eradicate insect pests.",
+    "description": "Agricultural-grade chemical insecticide powder designed to eradicate insect pests.",
     "price": 1100,
     "price_postapoc": 5000,
     "material": "powder",
