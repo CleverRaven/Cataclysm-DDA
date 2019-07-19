@@ -968,11 +968,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     }
                 }
 
-                if( curtype == fd_nuke_gas ) {
-                    int extra_radiation = rng( 0, cur.get_field_intensity() );
+                // Apply radition
+                if( cur.extra_radiation_max() > 0 ) {
+                    int extra_radiation = rng( cur.extra_radiation_min(), cur.extra_radiation_max() );
                     adjust_radiation( p, extra_radiation );
-                    break;
                 }
+
                 if( curtype == fd_gas_vent ) {
                     for( const tripoint &pnt : points_in_radius( p, cur.get_field_intensity() - 1 ) ) {
                         field &wandering_field = get_field( pnt );

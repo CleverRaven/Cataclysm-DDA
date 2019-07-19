@@ -27,6 +27,9 @@ class field_entry
         //returns the move cost of this field
         int move_cost() const;
 
+        int extra_radiation_min() const;
+        int extra_radiation_max() const;
+
         float light_emitted() const;
         float translucency() const;
         bool is_transparent() const;

@@ -82,6 +82,10 @@ void field_type::load( JsonObject &jo, const std::string & )
                   fallback_intensity_level.dangerous );
         optional( jao, was_loaded, "move_cost", intensity_level.move_cost,
                   fallback_intensity_level.move_cost );
+        optional( jao, was_loaded, "extra_radiation_min", intensity_level.extra_radiation_min,
+                  fallback_intensity_level.extra_radiation_min );
+        optional( jao, was_loaded, "extra_radiation_max", intensity_level.extra_radiation_max,
+                  fallback_intensity_level.extra_radiation_max );
         optional( jao, was_loaded, "light_emitted", intensity_level.light_emitted,
                   fallback_intensity_level.light_emitted );
         optional( jao, was_loaded, "translucency", intensity_level.translucency,
