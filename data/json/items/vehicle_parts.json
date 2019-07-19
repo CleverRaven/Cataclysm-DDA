@@ -73,7 +73,7 @@
     "color": "brown",
     "symbol": "-",
     "material": [ "wood" ],
-    "volume": 10,
+    "volume": "2500 ml",
     "bashing": 4,
     "category": "veh_parts",
     "price": 3000

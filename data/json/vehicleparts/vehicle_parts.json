@@ -1717,7 +1717,7 @@
     "damage_modifier": 10,
     "description": "A towel hanger with towels.",
     "durability": 45,
-    "folded_volume": 10,
+    "folded_volume": "2500 ml",
     "item": "towel_hanger",
     "requirements": {
       "install": { "time": 30000, "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] },
