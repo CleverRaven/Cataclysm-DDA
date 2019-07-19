@@ -8371,6 +8371,9 @@ void game::reload( int pos, bool prompt )
 void game::reload( item_location &loc, bool prompt, bool empty )
 {
     item *it = loc.get_item();
+    if( it->magazine_integral() ) {
+        it = it->magazine_current();
+    }
     bool use_loc = true;
     if( !it->has_flag( "ALLOWS_REMOTE_USE" ) ) {
         it = &u.i_at( loc.obtain( u ) );
