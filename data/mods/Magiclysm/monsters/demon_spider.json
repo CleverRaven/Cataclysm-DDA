@@ -209,7 +209,7 @@
     "description": "This gigantic spider is the size of a moving van: you have no idea how it manages to stay together, much less move with that bulk.  Its abdomen is huge and swollen-looking, and an evil intelligence burns in its eyes even as magic crackles around its chitinous barbs.",
     "copy-from": "mon_demon_spider",
     "weight": 250000,
-    "hp": 56000,
+    "hp": 5600,
     "speed": 28,
     "aggression": 100,
     "melee_skill": 10,
