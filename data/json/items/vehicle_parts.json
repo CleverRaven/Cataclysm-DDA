@@ -46,7 +46,19 @@
     "category": "veh_parts",
     "price": 90000,
     "ammo": "plutonium",
-    "max_charges": 10000
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "minireactor_integral_magazine",
+          "name": "minireactor integral magazine",
+          "description": "This item defines the integral magazine of a minireactor item. It should not be visible to the player.",
+          "ammo_type": "plutonium",
+          "capacity": 10000
+        }
+      ]
+    }
   },
   {
     "type": "GENERIC",

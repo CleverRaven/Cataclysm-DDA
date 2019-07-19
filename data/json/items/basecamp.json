@@ -7,7 +7,19 @@
     "description": "A fake charcoal smoker used for basecamps.",
     "sub": "char_smoker",
     "ammo": "charcoal",
-    "max_charges": 2000
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "fake_char_smoker_integral_magazine",
+          "name": "basecamp charcoal smoker integral magazine",
+          "description": "This item defines the integral magazine of a fake_char_smoker item. It should not be visible to the player.",
+          "ammo_type": "charcoal",
+          "capacity": 2000
+        }
+      ]
+    }
   },
   {
     "id": "fake_fireplace",
@@ -17,8 +29,20 @@
     "description": "A fake fireplace used for basecamps.",
     "sub": "hotplate",
     "ammo": "tinder",
-    "max_charges": 50000,
-    "charge_factor": 25
+    "charge_factor": 25,
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "fake_fireplace_integral_magazine",
+          "name": "basecamp fireplace integral magazine",
+          "description": "This item defines the integral magazine of a fake_fireplace item. It should not be visible to the player.",
+          "ammo_type": "tinder",
+          "capacity": 50000
+        }
+      ]
+    }
   },
   {
     "id": "fake_forge",
@@ -28,7 +52,19 @@
     "description": "A fake forge used for basecamps.",
     "sub": "char_forge",
     "ammo": "charcoal",
-    "max_charges": 2000
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "fake_forge_integral_magazine",
+          "name": "basecamp forge integral magazine",
+          "description": "This item defines the integral magazine of a fake_forge item. It should not be visible to the player.",
+          "ammo_type": "charcoal",
+          "capacity": 2000
+        }
+      ]
+    }
   },
   {
     "id": "fake_char_kiln",
@@ -38,7 +74,19 @@
     "description": "A fake kiln used for basecamps.",
     "sub": "char_kiln",
     "ammo": "charcoal",
-    "max_charges": 2000
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "fake_char_kiln_integral_magazine",
+          "name": "basecamp kiln integral magazine",
+          "description": "This item defines the integral magazine of a fake_char_kiln item. It should not be visible to the player.",
+          "ammo_type": "charcoal",
+          "capacity": 2000
+        }
+      ]
+    }
   },
   {
     "id": "fake_stove",
@@ -48,8 +96,20 @@
     "description": "A fake stove used for basecamps.",
     "sub": "hotplate",
     "ammo": "tinder",
-    "max_charges": 50000,
-    "charge_factor": 10
+    "charge_factor": 10,
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "fake_stove_integral_magazine",
+          "name": "basecamp stove integral magazine",
+          "description": "This item defines the integral magazine of a fake_stove item. It should not be visible to the player.",
+          "ammo_type": "tinder",
+          "capacity": 50000
+        }
+      ]
+    }
   },
   {
     "id": "fake_drop_hammer",
