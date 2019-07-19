@@ -2673,7 +2673,7 @@ nc_color Character::symbol_color() const
         if( field.first == fd_relax_gas || field.first == fd_fungal_haze ||
             field.first == fd_fungicidal_gas || field.first == fd_toxic_gas ||
             field.first == fd_tear_gas || field.first == fd_nuke_gas ||
-            field.first == fd_smoke ) {
+            field.first == fd_smoke || field.first == fd_insecticidal_gas ) {
             has_fume = true;
         }
     }

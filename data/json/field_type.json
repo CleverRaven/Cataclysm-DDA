@@ -615,7 +615,21 @@
       { "name": "thick fungicidal gas", "color": "dark_gray", "transparent": false }
     ],
     "priority": 8,
-    "half_life": "90 minutes",
+    "half_life": "30 minutes",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true
+  },
+  {
+    "id": "fd_insecticidal_gas",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "hazy cloud", "sym": "8", "dangerous": true },
+      { "name": "insecticidal gas", "color": "light_gray" },
+      { "name": "thick insecticidal gas", "color": "dark_gray", "transparent": false }
+    ],
+    "priority": 8,
+    "half_life": "30 minutes",
     "phase": "gas",
     "display_items": false,
     "display_field": true

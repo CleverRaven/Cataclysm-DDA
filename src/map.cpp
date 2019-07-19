@@ -2753,7 +2753,7 @@ void map::decay_fields_and_scent( const time_duration &amount )
                             type == fd_relax_gas || type == fd_fungal_haze || type == fd_cold_air1 ||
                             type == fd_cold_air2 || type == fd_cold_air3 || type == fd_cold_air4 ||
                             type == fd_hot_air1 || type == fd_hot_air2 || type == fd_hot_air3 ||
-                            type == fd_hot_air4 ) {
+                            type == fd_hot_air4 || type == fd_insecticidal_gas ) {
                             cur.set_field_age( cur.get_field_age() + amount_gas );
                         }
                     }
@@ -3700,6 +3700,10 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 
     if( ammo_effects.count( "STREAM_GAS_FUNGICIDAL" ) && !one_in( 3 ) ) {
         add_field( p, fd_fungicidal_gas, rng( 1, 2 ) );
+    }
+
+    if( ammo_effects.count( "STREAM_GAS_INSCENTICIDAL" ) && !one_in( 3 ) ) {
+        add_field( p, fd_insecticidal_gas, rng( 1, 2 ) );
     }
 
     if( ammo_effects.count( "STREAM_BIG" ) && !one_in( 4 ) ) {

@@ -78,6 +78,7 @@
       { "item": "bandana", "prob": 20 },
       { "item": "scarf", "prob": 15 },
       { "item": "fungicide", "prob": 20 },
+      { "item": "insecticide", "prob": 20 },
       { "item": "antifungal", "prob": 20 },
       { "item": "antiparasitic", "prob": 20 }
     ]
