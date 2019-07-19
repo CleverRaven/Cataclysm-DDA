@@ -974,25 +974,15 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     adjust_radiation( p, extra_radiation );
                 }
 
-                if( curtype == fd_gas_vent ) {
+                // Apply wandering fields from vents
+                if( curtype.obj().wandering_field.is_valid() ) {
                     for( const tripoint &pnt : points_in_radius( p, cur.get_field_intensity() - 1 ) ) {
                         field &wandering_field = get_field( pnt );
-                        tmpfld = wandering_field.find_field( fd_toxic_gas );
+                        tmpfld = wandering_field.find_field( curtype.obj().wandering_field );
                         if( tmpfld && tmpfld->get_field_intensity() < cur.get_field_intensity() ) {
                             tmpfld->set_field_intensity( tmpfld->get_field_intensity() + 1 );
                         } else {
-                            add_field( pnt, fd_toxic_gas, cur.get_field_intensity() );
-                        }
-                    }
-                }
-                if( curtype == fd_smoke_vent ) {
-                    for( const tripoint &pnt : points_in_radius( p, cur.get_field_intensity() - 1 ) ) {
-                        field &wandering_field = get_field( pnt );
-                        tmpfld = wandering_field.find_field( fd_smoke );
-                        if( tmpfld && tmpfld->get_field_intensity() < cur.get_field_intensity() ) {
-                            tmpfld->set_field_intensity( tmpfld->get_field_intensity() + 1 );
-                        } else {
-                            add_field( pnt, fd_smoke, cur.get_field_intensity() );
+                            add_field( pnt, curtype.obj().wandering_field, cur.get_field_intensity() );
                         }
                     }
                 }

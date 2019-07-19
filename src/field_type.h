@@ -39,12 +39,16 @@ struct field_intensity_level {
 struct field_type {
     public:
         void load( JsonObject &jo, const std::string &src );
+        void finalize();
         void check() const;
 
     public:
         // Used by generic_factory
         field_type_str_id id;
         bool was_loaded = false;
+
+        // Used only during loading
+        std::string wandering_field_id = "fd_null";
 
     public:
         int legacy_enum_id = -1;
@@ -76,6 +80,7 @@ struct field_type {
         bool accelerated_decay = false;
         bool display_items = true;
         bool display_field = false;
+        field_type_id wandering_field;
 
     public:
         std::string get_name( int level = 0 ) const {
