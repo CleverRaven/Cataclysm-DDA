@@ -4147,7 +4147,6 @@
     "color": "white",
     "ammo": "thread",
     "sub": "sewing_kit",
-    "max_charges": 200,
     "charges_per_use": 1,
     "qualities": [ [ "SEW", 1 ] ],
     "use_action": {
@@ -4159,7 +4158,20 @@
       "cost_scaling": 0.1,
       "move_cost": 1300
     },
-    "flags": [ "STAB", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "STAB", "ALLOWS_REMOTE_USE" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "needle_bone_integral_magazine",
+          "name": "bone needle integral magazine",
+          "description": "This item defines the integral magazine of a needle_bone item. It should not be visible to the player.",
+          "ammo_type": "thread",
+          "capacity": 200
+        }
+      ]
+    }
   },
   {
     "id": "needle_curved",
@@ -4174,7 +4186,6 @@
     "color": "light_gray",
     "ammo": "thread",
     "sub": "sewing_kit",
-    "max_charges": 200,
     "charges_per_use": 1,
     "qualities": [ [ "SEW", 1 ] ],
     "use_action": {
@@ -4186,7 +4197,20 @@
       "cost_scaling": 0.1,
       "move_cost": 1200
     },
-    "flags": [ "STAB", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "STAB", "ALLOWS_REMOTE_USE" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "needle_curved_integral_magazine",
+          "name": "curved needle integral magazine",
+          "description": "This item defines the integral magazine of a needle_curved item. It should not be visible to the player.",
+          "ammo_type": "thread",
+          "capacity": 200
+        }
+      ]
+    }
   },
   {
     "id": "needle_wood",
@@ -4201,7 +4225,6 @@
     "color": "brown",
     "ammo": "thread",
     "sub": "sewing_kit",
-    "max_charges": 200,
     "charges_per_use": 1,
     "qualities": [ [ "SEW", 1 ] ],
     "use_action": {
@@ -4213,7 +4236,20 @@
       "cost_scaling": 0.1,
       "move_cost": 1500
     },
-    "flags": [ "STAB", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "STAB", "ALLOWS_REMOTE_USE" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "needle_wood_integral_magazine",
+          "name": "wooden needle integral magazine",
+          "description": "This item defines the integral magazine of a needle_wood item. It should not be visible to the player.",
+          "ammo_type": "thread",
+          "capacity": 200
+        }
+      ]
+    }
   },
   {
     "id": "noise_emitter",
@@ -5316,8 +5352,6 @@
     "symbol": ",",
     "color": "red",
     "ammo": "thread",
-    "initial_charges": 50,
-    "max_charges": 200,
     "charges_per_use": 1,
     "qualities": [ [ "SEW", 1 ] ],
     "use_action": {
@@ -5329,7 +5363,21 @@
       "cost_scaling": 0.1,
       "move_cost": 1000
     },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "sewing_kit_integral_magazine",
+          "name": "sewing kit integral magazine",
+          "description": "This item defines the integral magazine of a sewing_kit item. It should not be visible to the player.",
+          "ammo_type": "thread",
+          "capacity": 200,
+          "count": 50
+        }
+      ]
+    }
   },
   {
     "id": "anesthetic_kit",
@@ -5907,8 +5955,6 @@
     "color": "red",
     "ammo": "thread",
     "sub": "sewing_kit",
-    "initial_charges": 50,
-    "max_charges": 400,
     "charges_per_use": 1,
     "qualities": [ [ "SEW", 1 ], [ "KNIT", 1 ], [ "CUT", 1 ] ],
     "use_action": [
@@ -5923,7 +5969,21 @@
       },
       "SEW_ADVANCED"
     ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "tailors_kit_integral_magazine",
+          "name": "tailor's kit integral magazine",
+          "description": "This item defines the integral magazine of a tailors_kit item. It should not be visible to the player.",
+          "ammo_type": "thread",
+          "capacity": 400,
+          "count": 50
+        }
+      ]
+    }
   },
   {
     "id": "tanning_hide",
