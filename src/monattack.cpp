@@ -2138,6 +2138,13 @@ bool mattack::dermatik_growth( monster *z )
     return false;
 }
 
+bool mattack::fungal_trail( monster *z )
+{
+    fungal_effects fe( *g, g->m );
+    fe.spread_fungus( z->pos() );
+    return false;
+}
+
 bool mattack::plant( monster *z )
 {
     fungal_effects fe( *g, g->m );
