@@ -1903,17 +1903,12 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             return 0;
         }
 
-        if( it->charges < 0 ) {
-            it->charges = 0;
-            return 0;
-        }
-
         if( p->is_underwater() ) {
             p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
             return 0;
         }
 
-        if( it->charges == 0 ) {
+        if( it->ammo_remaining() == 0 ) {
             p->add_msg_if_player( _( "Fish are not foolish enough to go in here without bait." ) );
             return 0;
         }
@@ -1942,7 +1937,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
 
     } else {
         // Handle processing fish trap over time.
-        if( it->charges == 0 ) {
+        if( it->ammo_remaining() == 0 ) {
             it->active = false;
             return 0;
         }
@@ -1955,16 +1950,13 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
 
             int success = -50;
             const int surv = p->get_skill_level( skill_survival );
-            const int attempts = rng( it->charges, it->charges * it->charges );
+            const int attempts = rng( it->ammo_remaining(), it->ammo_remaining() * it->ammo_remaining() );
             for( int i = 0; i < attempts; i++ ) {
                 /** @EFFECT_SURVIVAL randomly increases number of fish caught in fishing trap */
                 success += rng( surv, surv * surv );
             }
 
-            it->charges = rng( -1, it->charges );
-            if( it->charges < 0 ) {
-                it->charges = 0;
-            }
+            it->ammo_consume( rng( 0, it->ammo_remaining() ), pos );
 
             int fishes = 0;
 
@@ -1979,9 +1971,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             }
 
             if( fishes == 0 ) {
-                it->charges = 0;
                 p->practice( skill_survival, rng( 5, 15 ) );
-
                 return 0;
             }
 

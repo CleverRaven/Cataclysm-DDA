@@ -2318,9 +2318,21 @@
     "symbol": ";",
     "color": "green",
     "ammo": "fish_bait",
-    "max_charges": 5,
     "revert_to": "fish_trap",
-    "use_action": "FISH_TRAP"
+    "use_action": "FISH_TRAP",
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "fish_trap_integral_magazine",
+          "name": "plastic fish trap integral magazine",
+          "description": "This item defines the integral magazine of a fish_trap item. It should not be visible to the player.",
+          "ammo_type": "fish_bait",
+          "capacity": 5
+        }
+      ]
+    }
   },
   {
     "id": "fishing_hook_basic",
