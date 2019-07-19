@@ -14,10 +14,22 @@
     "color": "light_gray",
     "ammo": "esbit",
     "sub": "hotplate",
-    "initial_charges": 50,
-    "max_charges": 50,
     "charges_per_use": 1,
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "esbit_stove_integral_magazine",
+          "name": "hexamine stove integral magazine",
+          "description": "This item defines the integral magazine of a esbit_stove item. It should not be visible to the player.",
+          "ammo_type": "esbit",
+          "capacity": 50,
+          "count": 50
+        }
+      ]
+    }
   },
   {
     "id": "mess_tin",

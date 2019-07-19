@@ -154,7 +154,19 @@
     "symbol": ";",
     "color": "light_green",
     "ammo": "plutonium",
-    "max_charges": 2500
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "adv_UPS_off_integral_magazine",
+          "name": "advanced UPS integral magazine",
+          "description": "This item defines the integral magazine of a adv_UPS_off item. It should not be visible to the player.",
+          "ammo_type": "plutonium",
+          "capacity": 2500
+        }
+      ]
+    }
   },
   {
     "id": "advanced_ecig",
@@ -3931,11 +3943,23 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "tape",
-    "max_charges": 200,
     "charges_per_use": 50,
     "qualities": [ [ "CHISEL", 3 ], [ "HAMMER_FINE", 1 ], [ "HAMMER", 3 ], [ "PRY", 1 ] ],
     "use_action": "MISC_REPAIR",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "misc_repairkit_integral_magazine",
+          "name": "basic repair kit integral magazine",
+          "description": "This item defines the integral magazine of a misc_repairkit item. It should not be visible to the player.",
+          "ammo_type": "tape",
+          "capacity": 200
+        }
+      ]
+    }
   },
   {
     "id": "mold_plastic",
@@ -7493,7 +7517,7 @@
           "ammo_type": "tinder",
           "capacity": 100
         }
-    ]
+      ]
     }
   },
   {
