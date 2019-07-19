@@ -588,8 +588,20 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "charcoal",
-    "max_charges": 1000,
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "brick_kiln_integral_magazine",
+          "name": "brick kiln integral magazine",
+          "description": "This item defines the integral magazine of a brick_kiln item. It should not be visible to the player.",
+          "ammo_type": "charcoal",
+          "capacity": 1000
+        }
+      ]
+    }
   },
   {
     "id": "kiln",
@@ -997,8 +1009,6 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "initial_charges": 110,
-    "max_charges": 120,
     "charges_per_use": 1,
     "use_action": [
       {
@@ -1012,7 +1022,21 @@
       { "revert_to": "smart_phone", "type": "CAMERA" },
       "MP3"
     ],
-    "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "smart_phone_integral_magazine",
+          "name": "smartphone integral magazine",
+          "description": "This item defines the integral magazine of a smart_phone item. It should not be visible to the player.",
+          "ammo_type": "battery",
+          "capacity": 120,
+          "count": 110
+        }
+      ]
+    }
   },
   {
     "id": "smartphone_music",
@@ -1059,10 +1083,22 @@
     "symbol": "/",
     "color": "red",
     "ammo": "gasoline",
-    "max_charges": 400,
     "techniques": "SWEEP",
     "use_action": "CHAINSAW_OFF",
-    "flags": [ "NONCONDUCTIVE" ]
+    "flags": [ "NONCONDUCTIVE" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "chainsaw_off_integral_magazine",
+          "name": "chainsaw (off) integral magazine",
+          "description": "This item defines the integral magazine of a chainsaw_off item. It should not be visible to the player.",
+          "ammo_type": "gasoline",
+          "capacity": 400
+        }
+      ]
+    }
   },
   {
     "id": "chainsaw_on",
@@ -1096,8 +1132,20 @@
     "color": "dark_gray",
     "ammo": "charcoal",
     "sub": "forge",
-    "max_charges": 500,
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "char_forge_integral_magazine",
+          "name": "charcoal forge integral magazine",
+          "description": "This item defines the integral magazine of a char_forge item. It should not be visible to the player.",
+          "ammo_type": "charcoal",
+          "capacity": 500
+        }
+      ]
+    }
   },
   {
     "id": "char_kiln",
@@ -1148,8 +1196,20 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "charcoal",
-    "max_charges": 200,
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "char_smoker_integral_magazine",
+          "name": "charcoal smoker integral magazine",
+          "description": "This item defines the integral magazine of a char_smoker item. It should not be visible to the player.",
+          "ammo_type": "charcoal",
+          "capacity": 200
+        }
+      ]
+    }
   },
   {
     "id": "charcoal_cooker",
@@ -1989,11 +2049,23 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "initial_charges": 3500,
-    "max_charges": 7000,
     "charges_per_use": 3500,
     "use_action": "JACKHAMMER",
-    "flags": [ "STAB", "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "STAB", "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "elec_jackhammer_integral_magazine",
+          "name": "electric jackhammer integral magazine",
+          "description": "This item defines the integral magazine of a elec_jackhammer item. It should not be visible to the player.",
+          "ammo_type": "battery",
+          "capacity": 7000,
+          "count": 3500
+        }
+      ]
+    }
   },
   {
     "id": "electrohack",
@@ -2661,8 +2733,6 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": "gasoline",
-    "initial_charges": 500,
-    "max_charges": 500,
     "charges_per_use": 1,
     "use_action": {
       "target": "gasoline_lantern_on",
@@ -2673,7 +2743,21 @@
       "need_charges_msg": "The lamp is empty.",
       "type": "transform"
     },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "gasoline_lantern_integral_magazine",
+          "name": "gasoline lantern (off) integral magazine",
+          "description": "This item defines the integral magazine of a gasoline_lantern item. It should not be visible to the player.",
+          "ammo_type": "gasoline",
+          "capacity": 500,
+          "count": 500
+        }
+      ]
+    }
   },
   {
     "id": "gasoline_lantern_on",
@@ -3099,10 +3183,22 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "gasoline",
-    "max_charges": 400,
     "charges_per_use": 10,
     "use_action": "JACKHAMMER",
-    "flags": [ "STAB", "DIG_TOOL", "POWERED" ]
+    "flags": [ "STAB", "DIG_TOOL", "POWERED" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "jackhammer_integral_magazine",
+          "name": "jackhammer integral magazine",
+          "description": "This item defines the integral magazine of a jackhammer item. It should not be visible to the player.",
+          "ammo_type": "gasoline",
+          "capacity": 400
+        }
+      ]
+    }
   },
   {
     "id": "jar_pickles_pickled",
@@ -4163,8 +4259,6 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": "lamp_oil",
-    "initial_charges": 800,
-    "max_charges": 800,
     "charges_per_use": 1,
     "use_action": {
       "target": "oil_lamp_on",
@@ -4175,7 +4269,21 @@
       "need_charges_msg": "The lamp is empty.",
       "type": "transform"
     },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "oil_lamp_integral_magazine",
+          "name": "oil lamp (off) integral magazine",
+          "description": "This item defines the integral magazine of a oil_lamp item. It should not be visible to the player.",
+          "ammo_type": "lamp_oil",
+          "capacity": 800,
+          "count": 800
+        }
+      ]
+    }
   },
   {
     "id": "oil_lamp_on",
@@ -4824,8 +4932,6 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": "gasoline",
-    "initial_charges": 25,
-    "max_charges": 50,
     "charges_per_use": 1,
     "use_action": [
       {
@@ -4839,7 +4945,21 @@
       },
       { "type": "firestarter", "moves": 50 }
     ],
-    "flags": [ "FIRESTARTER" ]
+    "flags": [ "FIRESTARTER" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "ref_lighter_integral_magazine",
+          "name": "refillable lighter integral magazine",
+          "description": "This item defines the integral magazine of a ref_lighter item. It should not be visible to the player.",
+          "ammo_type": "gasoline",
+          "capacity": 50,
+          "count": 25
+        }
+      ]
+    }
   },
   {
     "id": "ref_lighter_on",
@@ -4854,8 +4974,6 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": "gasoline",
-    "initial_charges": 25,
-    "max_charges": 50,
     "charges_per_use": 1,
     "turns_per_charge": 10,
     "revert_to": "ref_lighter",
@@ -4869,7 +4987,21 @@
         "type": "transform"
       }
     ],
-    "flags": [ "FIRE", "LIGHT_8", "FLAMING", "REFILLABLE_LIGHTER", "TRADER_AVOID", "WATER_EXTINGUISH" ]
+    "flags": [ "FIRE", "LIGHT_8", "FLAMING", "REFILLABLE_LIGHTER", "TRADER_AVOID", "WATER_EXTINGUISH" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "ref_lighter_on_integral_magazine",
+          "name": "refillable lighter integral magazine",
+          "description": "This item defines the integral magazine of a ref_lighter_on item. It should not be visible to the player.",
+          "ammo_type": "gasoline",
+          "capacity": 50,
+          "count": 25
+        }
+      ]
+    }
   },
   {
     "id": "rock_pot",
@@ -4937,10 +5069,22 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": "ampoule",
-    "initial_charges": 2,
-    "max_charges": 2,
     "charges_per_use": 1,
-    "use_action": "JET_INJECTOR"
+    "use_action": "JET_INJECTOR",
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "rx12_injector_integral_magazine",
+          "name": "RX12 jet injector integral magazine",
+          "description": "This item defines the integral magazine of a rx12_injector item. It should not be visible to the player.",
+          "ammo_type": "ampoule",
+          "capacity": 2,
+          "count": 2
+        }
+      ]
+    }
   },
   {
     "id": "safe_box",
@@ -5140,9 +5284,21 @@
     "symbol": "!",
     "color": "cyan",
     "ammo": "anesthetic",
-    "initial_charges": 3000,
-    "max_charges": 3000,
-    "qualities": [ [ "ANESTHESIA", 1 ] ]
+    "qualities": [ [ "ANESTHESIA", 1 ] ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "anesthetic_kit_integral_magazine",
+          "name": "anesthesia kit integral magazine",
+          "description": "This item defines the integral magazine of a anesthetic_kit item. It should not be visible to the player.",
+          "ammo_type": "anesthetic",
+          "capacity": 3000,
+          "count": 3000
+        }
+      ]
+    }
   },
   {
     "id": "shavingkit",
@@ -5157,10 +5313,22 @@
     "symbol": ";",
     "color": "white",
     "ammo": "soap",
-    "initial_charges": 5,
-    "max_charges": 10,
     "charges_per_use": 1,
-    "use_action": "SHAVEKIT"
+    "use_action": "SHAVEKIT",
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "shavingkit_integral_magazine",
+          "name": "shaving kit integral magazine",
+          "description": "This item defines the integral magazine of a shavingkit item. It should not be visible to the player.",
+          "ammo_type": "soap",
+          "capacity": 10,
+          "count": 5
+        }
+      ]
+    }
   },
   {
     "id": "shelter_kit",
@@ -5201,7 +5369,6 @@
     "symbol": "/",
     "color": "light_gray",
     "ammo": "gasoline",
-    "max_charges": 50,
     "use_action": {
       "type": "fireweapon_off",
       "target_id": "shishkebab_on",
@@ -5214,7 +5381,20 @@
     },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -30 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "FIRE", "SHEATH_SWORD" ]
+    "flags": [ "FIRE", "SHEATH_SWORD" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "shishkebab_off_integral_magazine",
+          "name": "shishkebab (off) integral magazine",
+          "description": "This item defines the integral magazine of a shishkebab_off item. It should not be visible to the player.",
+          "ammo_type": "gasoline",
+          "capacity": 50
+        }
+      ]
+    }
   },
   {
     "id": "shishkebab_on",
@@ -5598,9 +5778,21 @@
     "symbol": ";",
     "color": "brown",
     "ammo": "soap",
-    "max_charges": 10,
     "charges_per_use": 1,
-    "use_action": "SHAVEKIT"
+    "use_action": "SHAVEKIT",
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "survivor_shavingkit_integral_magazine",
+          "name": "makeshift shaving kit integral magazine",
+          "description": "This item defines the integral magazine of a survivor_shavingkit item. It should not be visible to the player.",
+          "ammo_type": "soap",
+          "capacity": 10
+        }
+      ]
+    }
   },
   {
     "id": "swage",
@@ -6459,9 +6651,21 @@
     "symbol": "/",
     "color": "green",
     "ammo": "gasoline",
-    "max_charges": 600,
     "use_action": "TRIMMER_OFF",
-    "flags": [ "NONCONDUCTIVE" ]
+    "flags": [ "NONCONDUCTIVE" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "trimmer_off_integral_magazine",
+          "name": "hedge trimmer (off) integral magazine",
+          "description": "This item defines the integral magazine of a trimmer_off item. It should not be visible to the player.",
+          "ammo_type": "gasoline",
+          "capacity": 600
+        }
+      ]
+    }
   },
   {
     "id": "trimmer_on",
@@ -7191,7 +7395,6 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": "tinder",
-    "max_charges": 100,
     "use_action": {
       "target": "tinderbox_on",
       "msg": "You light the tinder.",
@@ -7199,6 +7402,19 @@
       "need_fire": 1,
       "need_fire_msg": "You need a lighter or fire to light this.",
       "type": "transform"
+    },
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "tinderbox_integral_magazine",
+          "name": "ember carrier integral magazine",
+          "description": "This item defines the integral magazine of a tinderbox item. It should not be visible to the player.",
+          "ammo_type": "tinder",
+          "capacity": 100
+        }
+      ]
     }
   },
   {
@@ -7214,7 +7430,6 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": "tinder",
-    "max_charges": 100,
     "turns_per_charge": 600,
     "revert_to": "tinderbox",
     "use_action": [
@@ -7227,7 +7442,20 @@
         "type": "transform"
       }
     ],
-    "flags": [ "FIRESTARTER" ]
+    "flags": [ "FIRESTARTER" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "tinderbox_on_integral_magazine",
+          "name": "ember carrier (lit) integral magazine",
+          "description": "This item defines the integral magazine of a tinderbox_on item. It should not be visible to the player.",
+          "ammo_type": "tinder",
+          "capacity": 100
+        }
+      ]
+    }
   },
   {
     "id": "adobe_pallet_full",
