@@ -2668,8 +2668,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "initial_charges": 60,
-    "max_charges": 60,
     "ammo": "nitrox",
     "covers": [ "TORSO" ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY" ],
@@ -2678,7 +2676,21 @@
     "encumbrance": 30,
     "coverage": 25,
     "material_thickness": 4,
-    "use_action": "DIVE_TANK"
+    "use_action": "DIVE_TANK",
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "scuba_tank_integral_magazine",
+          "name": "scuba tank integral magazine",
+          "description": "This item defines the integral magazine of a scuba_tank item. It should not be visible to the player.",
+          "ammo_type": "nitrox",
+          "capacity": 60,
+          "count": 60
+        }
+      ]
+    }
   },
   {
     "id": "scuba_tank_on",
@@ -2695,7 +2707,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "max_charges": 60,
     "charges_per_use": 1,
     "turns_per_charge": 10,
     "ammo": "nitrox",
@@ -2706,7 +2717,20 @@
     "encumbrance": 30,
     "coverage": 25,
     "material_thickness": 4,
-    "use_action": "DIVE_TANK"
+    "use_action": "DIVE_TANK",
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "scuba_tank_on_integral_magazine",
+          "name": "scuba tank (on) integral magazine",
+          "description": "This item defines the integral magazine of a scuba_tank_on item. It should not be visible to the player.",
+          "ammo_type": "nitrox",
+          "capacity": 60
+        }
+      ]
+    }
   },
   {
     "id": "small_scuba_tank",
@@ -2723,8 +2747,6 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "initial_charges": 20,
-    "max_charges": 20,
     "ammo": "nitrox",
     "covers": [ "TORSO" ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY" ],
@@ -2733,7 +2755,21 @@
     "encumbrance": 30,
     "coverage": 25,
     "material_thickness": 4,
-    "use_action": "DIVE_TANK"
+    "use_action": "DIVE_TANK",
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "small_scuba_tank_integral_magazine",
+          "name": "small scuba tank integral magazine",
+          "description": "This item defines the integral magazine of a small_scuba_tank item. It should not be visible to the player.",
+          "ammo_type": "nitrox",
+          "capacity": 20,
+          "count": 20
+        }
+      ]
+    }
   },
   {
     "id": "small_scuba_tank_on",
@@ -2750,7 +2786,6 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "max_charges": 20,
     "charges_per_use": 1,
     "turns_per_charge": 10,
     "ammo": "nitrox",
@@ -2761,7 +2796,20 @@
     "encumbrance": 30,
     "coverage": 25,
     "material_thickness": 4,
-    "use_action": "DIVE_TANK"
+    "use_action": "DIVE_TANK",
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "small_scuba_tank_on_integral_magazine",
+          "name": "small scuba tank (on) integral magazine",
+          "description": "This item defines the integral magazine of a small_scuba_tank_on item. It should not be visible to the player.",
+          "ammo_type": "nitrox",
+          "capacity": 20
+        }
+      ]
+    }
   },
   {
     "id": "electric_blanket",
