@@ -238,7 +238,7 @@
     "skill": "rifle",
     "ammo": "plasma",
     "weight": 10500,
-    "volume": 16,
+    "volume": "4L",
     "bashing": 12,
     "to_hit": -2,
     "range": 25,
