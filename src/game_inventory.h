@@ -100,6 +100,8 @@ item_location repair( player &p, const repair_item_actor *actor, const item *mai
 item_location install_bionic( player &p, player &patient, bool surgeon = false );
 /** Bionic uninstall menu. */
 item_location uninstall_bionic( player &p, player &patient );
+/**Autoclave sterilize menu*/
+item_location sterilize_cbm( player &p );
 /*@}*/
 
 } // namespace inv

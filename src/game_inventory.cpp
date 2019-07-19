@@ -1712,7 +1712,6 @@ item_location game_menus::inv::install_bionic( player &p, player &patient, bool 
     }
 
 }
-
 // Menu used by autodoc when uninstalling a bionic
 class bionic_uninstall_preset : public inventory_selector_preset
 {
@@ -1806,3 +1805,84 @@ item_location game_menus::inv::uninstall_bionic( player &p, player &patient )
     return autodoc_internal( p, patient, bionic_uninstall_preset( p, patient ), 0, true );
 }
 
+
+item_location game_menus::inv::sterilize_cbm( player &p )
+{
+    return autoclave_internal( p, bionic_sterilize_preset( p ), 6 );
+}
+// Menu used by autocalve when sterilizing a bionic
+class bionic_sterilize_preset : public inventory_selector_preset
+{
+    public:
+        bionic_sterilize_preset( player &pl ) :
+            p( pl ) {
+
+            append_cell( [this]( const item_location & loc ) {
+                return to_string( time_duration::from_minutes( 90 ) );
+            }, _( "CYCLE DURATION" ) );
+
+            append_cell( [this]( const item_location & loc ) {
+                return "2 L";
+            }, _( "WATER REQUIRED" ) );
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->has_flag( "NO_STERILIZE" ) && loc->is_bionic();
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            auto reqs = *requirement_id( "autoclave_item" );
+
+            if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
+                return string_format( "%2 L" );
+            }
+
+            return std::string();
+        }
+
+    protected:
+        player &p;
+    private:
+};
+
+static item_location autoclave_internal( player &u,
+        const inventory_selector_preset &preset,
+        int radius )
+{
+    inventory_pick_selector inv_s( u, preset );
+    inv_s.set_title( string_format( _( "Sterilization" ) ) );
+    inv_s.set_hint( _( "<color_yellow>Select one CBM to sterilize.</color>" ) );
+    inv_s.set_display_stats( false );
+
+    std::pair<size_t, size_t> init_pair;
+    bool init_selection = false;
+    do {
+        u.inv.restack( u );
+
+        inv_s.clear_items();
+        inv_s.add_character_items( u );
+        inv_s.add_nearby_items( radius );
+
+        if( init_selection ) {
+            inv_s.update();
+            inv_s.select_position( init_pair );
+            init_selection = false;
+        }
+
+        if( inv_s.empty() ) {
+            popup( _( "You don't have any CBM to sterilize." ), PF_GET_KEY );
+            return item_location();
+        }
+
+        item_location location = inv_s.execute();
+
+        if( inv_s.keep_open ) {
+            inv_s.keep_open = false;
+            continue;
+        }
+
+        return location;
+
+    } while( true );
+
+}
