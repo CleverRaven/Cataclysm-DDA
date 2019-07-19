@@ -1,3 +1,8 @@
+Cataclysm: Dark Days Ahead JSON Web Linting Tool
+This is a tool to help modders and editors of the open source game Cataclysm: Dark Days Ahead write JSON in the game's expected format.
+
+Paste some JSON into the field below and click "Lint" to run an autoformatter against it.
+
 [
   {
     "id": "debug_mon",
@@ -4768,18 +4773,7 @@
     "emit_fields": [ "emit_fungal_haze_plume" ],
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 15 ] ],
     "death_function": [ "FUNGUS" ],
-    "flags": [
-      "SEES",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "HARDTOSHOOT",
-      "NO_BREATHE",
-      "PUSH_MON",
-      "FILTHY"
-    ]
+    "flags": [ "SEES", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "HARDTOSHOOT", "NO_BREATHE", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_spitter",
@@ -5229,10 +5223,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "mr_bones",
-    "special_attacks": [
-      [ "SMASH", 20 ],
-      [ "FUNGAL_TRAIL", 3 ]
-    ],
+    "special_attacks": [ [ "SMASH", 20 ], [ "FUNGAL_TRAIL", 3 ] ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": [ "FUNGUS" ],
     "burn_into": "mon_zombie_fiend",
