@@ -753,7 +753,7 @@
     "description": "A powdered mixture of coke and lime ready to be smelted into usable calcium carbide in an arc furnace.",
     "material": "wood",
     "phase": "solid",
-    "volume": 1,
+    "volume": "250 ml",
     "weight": 11,
     "ammo_type": "cac2powder",
     "count": 100,
