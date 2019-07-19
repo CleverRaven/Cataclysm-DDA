@@ -67,7 +67,7 @@ static const std::map<affected_stat, std::string> affected_stat_map_translation 
         std::make_pair( AFFECTED_MOVE_COST, translate_marker( "Move cost" ) ),
         std::make_pair( AFFECTED_DAMAGE, translate_marker( "damage" ) ),
         std::make_pair( AFFECTED_ARMOR, translate_marker( "Armor" ) ),
-        std::make_pair( AFFECTED_ARMOR_PENETRATION, translate_marker( "Armor pen" ) ),
+        std::make_pair( AFFECTED_ARMOR_PENETRATION, translate_marker( "Armor penetration" ) ),
         std::make_pair( AFFECTED_TARGET_ARMOR_MULTIPLIER, translate_marker( "Target armor multiplier" ) ),
     }
 };
@@ -225,14 +225,14 @@ std::string bonus_container::get_description() const
         }
 
         for( const auto &sf : boni.second ) {
-            dump << string_format( "%s: <stat>%d%%</stat>", type, static_cast<int>( sf.scale * 100 ) );
+            dump << string_format( "* %s: <stat>%d%%</stat>", type, static_cast<int>( sf.scale * 100 ) );
 
             if( sf.stat ) {
                 //~ bash damage +80% of strength
                 dump << _( " of " ) << string_from_scaling_stat( sf.stat );
             }
 
-            dump << "  ";
+            dump << std::endl;
         }
     }
 
@@ -245,16 +245,16 @@ std::string bonus_container::get_description() const
 
         for( const auto &sf : boni.second ) {
             if( sf.stat ) {
-                dump << string_format( "%s: <stat>%s%d%%</stat>", type, sf.scale < 0 ? "" : "+",
+                dump << string_format( "* %s: <stat>%s%d%%</stat>", type, sf.scale < 0 ? "" : "+",
                                        static_cast<int>( sf.scale * 100 ) );
                 //~ bash damage +80% of strength
                 dump << _( " of " ) << string_from_scaling_stat( sf.stat );
             } else {
-                dump << string_format( "%s: <stat>%s%d</stat>", type, sf.scale < 0 ? "" : "+",
+                dump << string_format( "* %s: <stat>%s%d</stat>", type, sf.scale < 0 ? "" : "+",
                                        static_cast<int>( sf.scale ) );
             }
 
-            dump << "  ";
+            dump << std::endl;
         }
     }
 

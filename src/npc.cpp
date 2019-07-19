@@ -292,27 +292,6 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
 
 npc::~npc() = default;
 
-std::string npc::save_info() const
-{
-    return ::serialize( *this );
-}
-
-void npc::load_info( std::string data )
-{
-    std::stringstream dump;
-    dump << data;
-
-    JsonIn jsin( dump );
-    try {
-        deserialize( jsin );
-    } catch( const JsonError &jsonerr ) {
-        debugmsg( "Bad npc json\n%s", jsonerr.c_str() );
-    }
-    if( !fac_id.str().empty() ) {
-        set_fac( fac_id );
-    }
-}
-
 void npc::randomize( const npc_class_id &type )
 {
     if( getID() <= 0 ) {
@@ -2172,6 +2151,16 @@ void npc::add_new_mission( class mission *miss )
 
 void npc::on_unload()
 {
+}
+
+// A throtled version of player::update_body since npc's don't need to-the-turn updates.
+void npc::npc_update_body()
+{
+    static const time_duration npc_body_update_rate = 10_seconds;
+    if( calendar::turn - last_updated < npc_body_update_rate ) {
+        return;
+    }
+    update_body( last_updated, calendar::turn );
     last_updated = calendar::turn;
 }
 

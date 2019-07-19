@@ -373,6 +373,24 @@ item &item::activate()
     return *this;
 }
 
+units::energy item::set_energy( const units::energy &qty )
+{
+    if( !is_battery() ) {
+        debugmsg( "Tried to set energy of non-battery item" );
+        return 0;
+    }
+
+    units::energy val = energy_remaining() + qty;
+    if( val < 0 ) {
+        return val;
+    } else if( val > type->battery->max_capacity ) {
+        energy = type->battery->max_capacity;
+    } else {
+        energy = val;
+    }
+    return 0;
+}
+
 item &item::ammo_set( const itype_id &ammo, int qty )
 {
     if( qty < 0 ) {
@@ -1829,6 +1847,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
 
     }
+
     if( is_armor() ) {
         body_part_set covered_parts = get_covered_body_parts();
         bool covers_anything = covered_parts.any();
@@ -2152,6 +2171,22 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "CONTAINER", temp1.str() ) );
     }
 
+    if( is_battery() ) {
+        std::string info_string;
+        if( type->battery->max_capacity < 1_J ) {
+            info_string = string_format( _( "<bold>Capacity:</bold> %dmJ" ),
+                                         to_millijoule( type->battery->max_capacity ) );
+        } else if( type->battery->max_capacity < 1_kJ ) {
+            info_string = string_format( _( "<bold>Capacity:</bold> %dJ" ),
+                                         to_joule( type->battery->max_capacity ) );
+        } else if( type->battery->max_capacity >= 1_kJ ) {
+            info_string = string_format( _( "<bold>Capacity:</bold> %dkJ" ),
+                                         to_kilojoule( type->battery->max_capacity ) );
+        }
+        insert_separation_line();
+        info.emplace_back( "BATTERY", info_string );
+    }
+
     if( is_tool() ) {
         insert_separation_line();
         if( ammo_capacity() != 0 && parts->test( iteminfo_parts::TOOL_CHARGES ) ) {
@@ -2169,7 +2204,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 const auto compat = magazine_compatible();
                 info.emplace_back( "TOOL", _( "<bold>Compatible magazines:</bold> " ),
                 enumerate_as_string( compat.begin(), compat.end(), []( const itype_id & id ) {
-                    return item_controller->find_template( id )->nname( 1 );
+                    return item::nname( id );
                 } ) );
             }
         } else if( ammo_capacity() != 0 && parts->test( iteminfo_parts::TOOL_CAPACITY ) ) {
@@ -3459,6 +3494,10 @@ std::string item::display_name( unsigned int quantity ) const
         // A chargeable item
         amount = charges;
         max_amount = ammo_capacity();
+    } else if( is_battery() ) {
+        show_amt = true;
+        amount = to_joule( energy_remaining() );
+        max_amount = to_joule( type->battery->max_capacity );
     }
 
     if( amount || show_amt ) {
@@ -5024,6 +5063,11 @@ bool item::is_magazine() const
     return type->magazine.has_value();
 }
 
+bool item::is_battery() const
+{
+    return type->battery.has_value();
+}
+
 bool item::is_ammo_belt() const
 {
     return is_magazine() && has_flag( "MAG_BELT" );
@@ -5788,6 +5832,15 @@ int item::gun_range( const player *p ) const
     }
 
     return std::max( 0, ret );
+}
+
+units::energy item::energy_remaining() const
+{
+    if( is_battery() ) {
+        return energy;
+    }
+
+    return 0;
 }
 
 int item::ammo_remaining() const

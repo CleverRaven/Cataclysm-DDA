@@ -770,21 +770,21 @@ std::string get_shortdirstring( int angle )
     std::string dirstring;
     int dirangle = angle;
     if( dirangle <= 23 || dirangle > 338 ) {
-        dirstring = "N";
+        dirstring = _( "N" );
     } else if( dirangle <= 68 && dirangle > 23 ) {
-        dirstring = "NE";
+        dirstring = _( "NE" );
     } else if( dirangle <= 113 && dirangle > 68 ) {
-        dirstring = "E";
+        dirstring = _( "E" );
     } else if( dirangle <= 158 && dirangle > 113 ) {
-        dirstring = "SE";
+        dirstring = _( "SE" );
     } else if( dirangle <= 203 && dirangle > 158 ) {
-        dirstring = "S";
+        dirstring = _( "S" );
     } else if( dirangle <= 248 && dirangle > 203 ) {
-        dirstring = "SW";
+        dirstring = _( "SW" );
     } else if( dirangle <= 293 && dirangle > 248 ) {
-        dirstring = "W";
+        dirstring = _( "W" );
     } else if( dirangle <= 338 && dirangle > 293 ) {
-        dirstring = "NW";
+        dirstring = _( "NW" );
     }
     return dirstring;
 }
@@ -795,21 +795,21 @@ std::string get_dirstring( int angle )
     std::string dirstring;
     int dirangle = angle;
     if( dirangle <= 23 || dirangle > 338 ) {
-        dirstring = "North";
+        dirstring = _( "North" );
     } else if( dirangle <= 68 && dirangle > 23 ) {
-        dirstring = "North-East";
+        dirstring = _( "North-East" );
     } else if( dirangle <= 113 && dirangle > 68 ) {
-        dirstring = "East";
+        dirstring = _( "East" );
     } else if( dirangle <= 158 && dirangle > 113 ) {
-        dirstring = "South-East";
+        dirstring = _( "South-East" );
     } else if( dirangle <= 203 && dirangle > 158 ) {
-        dirstring = "South";
+        dirstring = _( "South" );
     } else if( dirangle <= 248 && dirangle > 203 ) {
-        dirstring = "South-West";
+        dirstring = _( "South-West" );
     } else if( dirangle <= 293 && dirangle > 248 ) {
-        dirstring = "West";
+        dirstring = _( "West" );
     } else if( dirangle <= 338 && dirangle > 293 ) {
-        dirstring = "North-West";
+        dirstring = _( "North-West" );
     }
     return dirstring;
 }
@@ -890,32 +890,32 @@ std::string get_wind_desc( double windpower )
 {
     std::string winddesc;
     if( windpower < 1 ) {
-        winddesc = "Calm";
+        winddesc = _( "Calm" );
     } else if( windpower <= 3 ) {
-        winddesc = "Light Air";
+        winddesc = _( "Light Air" );
     } else if( windpower <= 7 ) {
-        winddesc = "Light Breeze";
+        winddesc = _( "Light Breeze" );
     } else if( windpower <= 12 ) {
-        winddesc = "Gentle Breeze";
+        winddesc = _( "Gentle Breeze" );
     } else if( windpower <= 18 ) {
-        winddesc = "Moderate Breeze";
+        winddesc = _( "Moderate Breeze" );
     } else if( windpower <= 24 ) {
-        winddesc = "Fresh Breeze";
+        winddesc = _( "Fresh Breeze" );
     } else if( windpower <= 31 ) {
-        winddesc = "Strong Breeze";
+        winddesc = _( "Strong Breeze" );
     } else if( windpower <= 38 ) {
-        winddesc = "Moderate Gale";
+        winddesc = _( "Moderate Gale" );
     } else if( windpower <= 46 ) {
-        winddesc = "Gale";
+        winddesc = _( "Gale" );
     } else if( windpower <= 54 ) {
-        winddesc = "Strong Gale";
+        winddesc = _( "Strong Gale" );
     } else if( windpower <= 63 ) {
-        winddesc = "Whole Gale";
+        winddesc = _( "Whole Gale" );
     } else if( windpower <= 72 ) {
-        winddesc = "Violent Storm";
+        winddesc = _( "Violent Storm" );
     } else if( windpower > 72 ) {
         // Anything above Whole Gale is very unlikely to happen and has no additional effects.
-        winddesc = "Hurricane";
+        winddesc = _( "Hurricane" );
     }
     return winddesc;
 }

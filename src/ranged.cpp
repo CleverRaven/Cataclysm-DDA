@@ -1710,7 +1710,7 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
         const bool no_mana )
 {
     player &pc = g->u;
-    if( !casting.can_cast( pc ) ) {
+    if( !no_mana && !casting.can_cast( pc ) ) {
         pc.add_msg_if_player( m_bad, _( "You don't have enough %s to cast this spell" ),
                               casting.energy_string() );
     }

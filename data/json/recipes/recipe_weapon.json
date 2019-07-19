@@ -3140,5 +3140,22 @@
       [ [ "log", 1 ] ],
       [ [ "tallow", 4 ], [ "tallow_tainted", 4 ], [ "cooking_oil", 32 ], [ "cooking_oil2", 32 ], [ "lamp_oil", 500 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "lucern_hammer",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "360 m",
+    "book_learn": [ [ "textbook_weapwest", 6 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 350 ], [ "oxy_torch", 70 ] ] ],
+    "components": [
+      [ [ "steel_lump", 3 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ],
+      [ [ "stick_long", 1 ] ],
+      [ [ "fur", 2 ], [ "leather", 2 ] ]
+    ]
   }
 ]

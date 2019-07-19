@@ -697,7 +697,7 @@
     "resist_traits": [ "INFRESIST" ],
     "main_parts_only": true,
     "rating": "bad",
-    "int_dur_factor": "80 m",
+    "int_dur_factor": "8 h",
     "max_intensity": 3,
     "base_mods": {
       "pain_chance": [ 2, 1 ],
@@ -1378,6 +1378,12 @@
   {
     "type": "effect_type",
     "id": "narcosis"
+  },
+  {
+    "type": "effect_type",
+    "id": "under_operation",
+    "name": [ "Under operation" ],
+    "desc": [ "You are being operated on.  Try to stay still." ]
   },
   {
     "type": "effect_type",

@@ -222,7 +222,6 @@
     "material": [ "milk" ],
     "primary_material": "cheese",
     "volume": 1,
-    "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
     "vitamins": [ [ "vitA", 12 ], [ "calcium", 38 ], [ "iron", 10 ] ]

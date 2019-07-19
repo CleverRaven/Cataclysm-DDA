@@ -10,6 +10,7 @@
     "type": "field_type",
     "legacy_enum_id": 1,
     "intensity_levels": [ { "name": "blood splatter", "color": "red" }, { "name": "blood stain" }, { "name": "puddle of blood" } ],
+    "underwater_age_speedup": "25 minutes",
     "half_life": "2 days",
     "phase": "liquid",
     "accelerated_decay": true,
@@ -20,6 +21,7 @@
     "type": "field_type",
     "legacy_enum_id": 2,
     "intensity_levels": [ { "name": "bile splatter", "color": "pink" }, { "name": "bile stain" }, { "name": "puddle of bile" } ],
+    "underwater_age_speedup": "25 minutes",
     "half_life": "1 days",
     "phase": "liquid",
     "accelerated_decay": true,
@@ -34,6 +36,7 @@
       { "name": "bloody meat chunks", "color": "light_red" },
       { "name": "heap of gore", "color": "red" }
     ],
+    "underwater_age_speedup": "25 minutes",
     "half_life": "2 days",
     "phase": "solid",
     "accelerated_decay": true,
@@ -48,6 +51,7 @@
       { "name": "shattered branches and leaves" },
       { "name": "broken vegetation tangle", "color": "green" }
     ],
+    "underwater_age_speedup": "25 minutes",
     "half_life": "2 days",
     "phase": "solid",
     "accelerated_decay": true,
@@ -86,6 +90,7 @@
       { "name": "acid streak" },
       { "name": "pool of acid", "color": "green" }
     ],
+    "underwater_age_speedup": "2 minutes",
     "priority": 2,
     "half_life": "2 minutes",
     "phase": "liquid",
@@ -349,6 +354,7 @@
       { "name": "plant sap stain" },
       { "name": "puddle of resin" }
     ],
+    "underwater_age_speedup": "25 minutes",
     "half_life": "2 days",
     "phase": "liquid",
     "accelerated_decay": true,
@@ -359,6 +365,7 @@
     "type": "field_type",
     "legacy_enum_id": 29,
     "intensity_levels": [ { "name": "bug blood splatter", "color": "green" }, { "name": "bug blood stain" }, { "name": "puddle of bug blood" } ],
+    "underwater_age_speedup": "25 minutes",
     "half_life": "2 days",
     "phase": "liquid",
     "accelerated_decay": true,
@@ -373,6 +380,7 @@
       { "name": "hemolymph stain" },
       { "name": "puddle of hemolymph" }
     ],
+    "underwater_age_speedup": "25 minutes",
     "half_life": "2 days",
     "phase": "liquid",
     "accelerated_decay": true,
@@ -387,6 +395,7 @@
       { "name": "shattered bug leg", "color": "green" },
       { "name": "torn insect organs", "color": "yellow" }
     ],
+    "underwater_age_speedup": "25 minutes",
     "half_life": "2 days",
     "phase": "solid",
     "accelerated_decay": true,
@@ -401,6 +410,7 @@
       { "name": "icky mess" },
       { "name": "heap of squishy gore", "color": "dark_gray" }
     ],
+    "underwater_age_speedup": "25 minutes",
     "half_life": "2 days",
     "phase": "solid",
     "accelerated_decay": true,

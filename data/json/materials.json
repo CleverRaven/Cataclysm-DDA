@@ -149,6 +149,21 @@
   },
   {
     "type": "material",
+    "ident": "lightceramic",
+    "name": "Dragon Scale",
+    "density": 4,
+    "bash_resist": 4,
+    "cut_resist": 8,
+    "acid_resist": 10,
+    "fire_resist": 10,
+    "elec_resist": 10,
+    "chip_resist": 20,
+    "dmg_adj": [ "chipped", "cracked", "split", "broken" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "cut"
+  },
+  {
+    "type": "material",
     "ident": "chitin",
     "name": "Chitin",
     "density": 10,

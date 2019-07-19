@@ -2008,7 +2008,7 @@
   },
   {
     "type": "construction",
-    "description": "Paint Wall white",
+    "description": "Paint Wall White",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "40 m",
