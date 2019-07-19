@@ -1154,7 +1154,7 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
     }
 
     if ( effect == effect_stunned ) {
-        return !has_flag( MF_STUN_IMMUNE );
+        return has_flag( MF_STUN_IMMUNE );
     }
 
     return false;
