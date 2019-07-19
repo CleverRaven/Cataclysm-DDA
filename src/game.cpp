@@ -1794,7 +1794,7 @@ int get_convection_temperature( const tripoint &location )
     // Modifier from fields
     for( auto fd : g->m.field_at( location ) ) {
         // Nullify lava modifier when there is open fire
-        if( fd.first == fd_fire ) {
+        if( fd.first.obj().has_fire ) {
             lava_mod = 0;
         };
         temp_mod += fd.second.convection_temperature_mod();
@@ -5844,8 +5844,8 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
     const field &tmpfield = m.field_at( lp );
     for( auto &fld : tmpfield ) {
         const field_entry &cur = fld.second;
-        if( fld.first == fd_fire && ( m.has_flag( TFLAG_FIRE_CONTAINER, lp ) ||
-                                      m.ter( lp ) == t_pit_shallow || m.ter( lp ) == t_pit ) ) {
+        if( fld.first.obj().has_fire && ( m.has_flag( TFLAG_FIRE_CONTAINER, lp ) ||
+                                          m.ter( lp ) == t_pit_shallow || m.ter( lp ) == t_pit ) ) {
             const int max_width = getmaxx( w_look ) - column - 2;
             int lines = fold_and_print( w_look, ++line, column, max_width, cur.color(),
                                         get_fire_fuel_string( lp ) ) - 1;
@@ -9265,7 +9265,7 @@ point game::place_player( const tripoint &dest_loc )
             const auto pulp = [&]( const tripoint & pos ) {
                 for( const auto &maybe_corpse : m.i_at( pos ) ) {
                     if( maybe_corpse.is_corpse() && maybe_corpse.can_revive() &&
-                        maybe_corpse.get_mtype()->bloodType() != fd_acid ) {
+                        !maybe_corpse.get_mtype()->bloodType().obj().has_acid ) {
                         u.assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
                         u.activity.placement = pos;
                         u.activity.auto_resume = true;

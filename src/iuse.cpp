@@ -4511,7 +4511,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player( m_info, _( "You drew blood from the %s..." ), map_it.tname() );
             drew_blood = true;
             auto bloodtype( map_it.get_mtype()->bloodType() );
-            if( bloodtype == fd_acid ) {
+            if( bloodtype.obj().has_acid ) {
                 acid_blood = true;
             } else {
                 blood.set_mtype( map_it.get_mtype() );
