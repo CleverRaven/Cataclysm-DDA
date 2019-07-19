@@ -187,6 +187,8 @@
     "decay_amount_factor": 5,
     "gas_absorption_factor": 12,
     "dirty_transparency_cache": true,
+    "percent_spread": 10,
+    "outdoor_age_speedup": "0 turns",
     "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 12 ] ] },
     "priority": 8,
     "half_life": "2 minutes",
@@ -206,6 +208,8 @@
     ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": 15,
+    "percent_spread": 30,
+    "outdoor_age_speedup": "3 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
     "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
@@ -226,6 +230,8 @@
     ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": 15,
+    "percent_spread": 10,
+    "outdoor_age_speedup": "0 turns",
     "dirty_transparency_cache": true,
     "has_fume": true,
     "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
@@ -245,6 +251,8 @@
       { "name": "thick radioactive gas", "color": "green", "transparent": false }
     ],
     "decay_amount_factor": 5,
+    "percent_spread": 15,
+    "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
     "priority": 8,
@@ -489,6 +497,8 @@
       { "name": "thick tobacco smoke", "color": "dark_gray" }
     ],
     "decay_amount_factor": 5,
+    "percent_spread": 250,
+    "outdoor_age_speedup": "6 minutes",
     "dirty_transparency_cache": true,
     "priority": 8,
     "half_life": "35 minutes",
@@ -506,6 +516,8 @@
       { "name": "thick pot smoke", "color": "dark_gray" }
     ],
     "decay_amount_factor": 5,
+    "percent_spread": 200,
+    "outdoor_age_speedup": "6 minutes",
     "dirty_transparency_cache": true,
     "priority": 8,
     "half_life": "325 turns",
@@ -523,6 +535,8 @@
       { "name": "thick crack smoke", "color": "dark_gray" }
     ],
     "decay_amount_factor": 5,
+    "percent_spread": 175,
+    "outdoor_age_speedup": "8 minutes",
     "dirty_transparency_cache": true,
     "priority": 8,
     "half_life": "225 turns",
@@ -540,6 +554,8 @@
       { "name": "thick meth  smoke", "color": "dark_gray" }
     ],
     "decay_amount_factor": 5,
+    "percent_spread": 175,
+    "outdoor_age_speedup": "7 minutes",
     "dirty_transparency_cache": true,
     "priority": 8,
     "half_life": "275 turns",
@@ -556,6 +572,8 @@
       { "name": "swarm of bees", "color": "light_gray" },
       { "name": "angry swarm of bees", "color": "dark_gray" }
     ],
+    "percent_spread": 5,
+    "outdoor_age_speedup": "0 turns",
     "dirty_transparency_cache": true,
     "priority": 8,
     "half_life": "100 minutes",
@@ -577,6 +595,8 @@
         "translucency": 0
       }
     ],
+    "percent_spread": 66,
+    "outdoor_age_speedup": "4 minutes",
     "dirty_transparency_cache": true,
     "has_fire": true,
     "priority": 8,
@@ -596,6 +616,8 @@
     ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": 15,
+    "percent_spread": 15,
+    "outdoor_age_speedup": "5 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
     "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
@@ -616,6 +638,8 @@
     ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": 15,
+    "percent_spread": 13,
+    "outdoor_age_speedup": "5 turns",
     "dirty_transparency_cache": true,
     "has_fume": true,
     "immunity_data": { "traits": [ "M_IMMUNE" ], "body_part_env_resistance": [ [ "MOUTH", 15 ], [ "EYES", 15 ] ] },
@@ -635,6 +659,8 @@
       { "color": "cyan", "convection_temperature_mod": -6 }
     ],
     "decay_amount_factor": 5,
+    "percent_spread": 100,
+    "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
     "phase": "gas",
@@ -650,6 +676,8 @@
       { "color": "cyan", "convection_temperature_mod": -20 }
     ],
     "decay_amount_factor": 5,
+    "percent_spread": 100,
+    "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
     "phase": "gas",
@@ -665,6 +693,8 @@
       { "color": "cyan", "convection_temperature_mod": -70 }
     ],
     "decay_amount_factor": 5,
+    "percent_spread": 100,
+    "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
     "phase": "gas",
@@ -680,6 +710,8 @@
       { "color": "cyan", "convection_temperature_mod": -160 }
     ],
     "decay_amount_factor": 5,
+    "percent_spread": 100,
+    "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
     "phase": "gas",
@@ -695,6 +727,8 @@
       { "color": "red", "convection_temperature_mod": 10 }
     ],
     "decay_amount_factor": 5,
+    "percent_spread": 100,
+    "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
     "phase": "gas",
@@ -710,6 +744,8 @@
       { "color": "red", "convection_temperature_mod": 20 }
     ],
     "decay_amount_factor": 5,
+    "percent_spread": 100,
+    "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
     "phase": "gas",
@@ -725,6 +761,8 @@
       { "color": "red", "convection_temperature_mod": 70 }
     ],
     "decay_amount_factor": 5,
+    "percent_spread": 100,
+    "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
     "phase": "gas",
@@ -740,6 +778,8 @@
       { "color": "red", "convection_temperature_mod": 160 }
     ],
     "decay_amount_factor": 5,
+    "percent_spread": 100,
+    "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
     "phase": "gas",
@@ -755,6 +795,8 @@
       { "name": "thick fungicidal gas", "color": "dark_gray", "transparent": false }
     ],
     "decay_amount_factor": 5,
+    "percent_spread": 120,
+    "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
     "priority": 8,

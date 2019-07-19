@@ -50,7 +50,9 @@ struct field_type {
         std::vector<field_intensity_level> intensity_levels;
 
         time_duration underwater_age_speedup = 0_turns;
+        time_duration outdoor_age_speedup = 0_turns;
         int decay_amount_factor = 0;
+        int percent_spread = 0;
         int apply_slime_factor = 0;
         int gas_absorption_factor = 0;
         bool is_splattering = false;

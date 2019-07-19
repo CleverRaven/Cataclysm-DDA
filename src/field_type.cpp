@@ -102,7 +102,9 @@ void field_type::load( JsonObject &jo, const std::string & )
                     jao.get_string( 0 ) ), jao.get_int( 1 ) ) );
     }
     optional( jo, was_loaded, "underwater_age_speedup", underwater_age_speedup, 0_turns );
+    optional( jo, was_loaded, "outdoor_age_speedup", outdoor_age_speedup, 0_turns );
     optional( jo, was_loaded, "decay_amount_factor", decay_amount_factor, 0 );
+    optional( jo, was_loaded, "percent_spread", percent_spread, 0 );
     optional( jo, was_loaded, "apply_slime_factor", apply_slime_factor, 0 );
     optional( jo, was_loaded, "gas_absorption_factor", gas_absorption_factor, 0 );
     optional( jo, was_loaded, "is_splattering", is_splattering, false );
