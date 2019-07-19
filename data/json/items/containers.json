@@ -1114,5 +1114,11 @@
     "watertight": true,
     "seals": true,
     "properties": [ [ "burst_when_filled", "75" ] ]
-  }
+  },
+  {
+    "id":"can_food_large",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "large tin can",
+    "description": "A tin can, like what beans come in."
 ]
