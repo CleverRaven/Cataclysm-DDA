@@ -90,6 +90,20 @@ void field_type::load( JsonObject &jo, const std::string & )
                   fallback_intensity_level.convection_temperature_mod );
         intensity_levels.emplace_back( intensity_level );
     }
+
+    if( jo.has_object( "npc_complain" ) ) {
+        JsonObject joc = jo.get_object( "npc_complain" );
+        int chance;
+        std::string issue;
+        time_duration duration;
+        std::string speech;
+        optional( joc, was_loaded, "chance", chance, 0 );
+        optional( joc, was_loaded, "issue", issue );
+        optional( joc, was_loaded, "duration", duration, 0_turns );
+        optional( joc, was_loaded, "speech", speech );
+        npc_complain_data = std::make_tuple( chance, issue, duration, speech );
+    }
+
     JsonObject jid = jo.get_object( "immunity_data" );
     JsonArray jidt = jid.get_array( "traits" );
     while( jidt.has_more() ) {

@@ -515,6 +515,7 @@
       { "name": "pot smoke", "color": "light_gray" },
       { "name": "thick pot smoke", "color": "dark_gray" }
     ],
+    "npc_complain": { "chance": 20, "issue": "weed_smell", "duration": "10 minutes", "speech": "<weed_smell>" },
     "decay_amount_factor": 5,
     "percent_spread": 200,
     "outdoor_age_speedup": "6 minutes",
@@ -534,6 +535,7 @@
       { "name": "crack smoke", "color": "light_gray" },
       { "name": "thick crack smoke", "color": "dark_gray" }
     ],
+    "npc_complain": { "chance": 20, "issue": "crack_smell", "duration": "30 minutes", "speech": "<crack_smell>" },
     "decay_amount_factor": 5,
     "percent_spread": 175,
     "outdoor_age_speedup": "8 minutes",
@@ -553,6 +555,7 @@
       { "name": "meth smoke", "color": "light_gray" },
       { "name": "thick meth  smoke", "color": "dark_gray" }
     ],
+    "npc_complain": { "chance": 20, "issue": "meth_smell", "duration": "30 minutes", "speech": "<meth_smell>" },
     "decay_amount_factor": 5,
     "percent_spread": 175,
     "outdoor_age_speedup": "7 minutes",

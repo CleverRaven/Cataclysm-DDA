@@ -956,30 +956,18 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     }
                 }
 
-                if( curtype == fd_weedsmoke ) {
-                    if( one_in( 20 ) ) {
-                        if( npc *const np = g->critter_at<npc>( p ) ) {
-                            np->complain_about( "weed_smell", 10_minutes, "<weed_smell>" );
-                        }
-                    }
-
-                }
-
-                if( curtype == fd_methsmoke ) {
-                    if( one_in( 20 ) ) {
-                        if( npc *const np = g->critter_at<npc>( p ) ) {
-                            np->complain_about( "meth_smell", 30_minutes, "<meth_smell>" );
-                        }
+                // Process npc complaints
+                const std::tuple<int, std::string, time_duration, std::string> &npc_complain_data =
+                    curtype.obj().npc_complain_data;
+                const int chance = std::get<0>( npc_complain_data );
+                if( chance > 0 && one_in( chance ) ) {
+                    if( npc *const np = g->critter_at<npc>( p ) ) {
+                        np->complain_about( std::get<1>( npc_complain_data ),
+                                            std::get<2>( npc_complain_data ),
+                                            std::get<3>( npc_complain_data ) );
                     }
                 }
 
-                if( curtype == fd_cracksmoke ) {
-                    if( one_in( 20 ) ) {
-                        if( npc *const np = g->critter_at<npc>( p ) ) {
-                            np->complain_about( "crack_smell", 30_minutes, "<crack_smell>" );
-                        }
-                    }
-                }
                 if( curtype == fd_nuke_gas ) {
                     int extra_radiation = rng( 0, cur.get_field_intensity() );
                     adjust_radiation( p, extra_radiation );
