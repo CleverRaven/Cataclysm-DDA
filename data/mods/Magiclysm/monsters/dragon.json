@@ -52,7 +52,7 @@
     "id": "mon_dragon_black_young",
     "type": "MONSTER",
     "name": "young black dragon",
-    "description": "This black dragon appears to still be in the early stages of life.  Its eyes have just started to sink in its sockets, and its curved, segemented horns have just begun to darken at the tips.  You can just tell by looking at it that this creature is Evil to its very core.  Even though this dragon is not fully grown, it is the size of a full-grown bull.",
+    "description": "This black dragon appears to still be in the early stages of life.  Its eyes have just started to sink in its sockets, and its curved, segmented horns have just begun to darken at the tips.  You can tell just by looking at it, this creature is evil to its very core.  Even though this dragon is not fully grown, it is the size of a full-grown bull.",
     "copy-from": "mon_dragon_black_wyrmling",
     "//": "should be roughly 4000 L, as that's the size of a large cow.",
     "volume": "1000 L",
