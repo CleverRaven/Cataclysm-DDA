@@ -146,6 +146,7 @@
       [ "makeshift_machete", 15 ],
       [ "flamethrower_crude", 20 ],
       [ "fungicide", 20 ],
+      [ "insecticide", 20 ],
       [ "antifungal", 20 ],
       [ "antiparasitic", 20 ],
       [ "diazepam", 15 ],
