@@ -207,5 +207,28 @@
     "spell_class": "DRUID",
     "energy_source": "MANA",
     "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
+  },
+  {
+    "id": "purify_seed",
+    "type": "SPELL",
+    "name": "Purification Seed",
+    "description": "You summon a gift of the earth which will purify water. Rapidly degrades if not utilized.",
+    "valid_targets": [ "self" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "druid_seed",
+    "base_casting_time": 30000,
+    "final_casting_time": 6000,
+    "casting_time_increment": -1200,
+    "base_energy_cost": 1000,
+    "final_energy_cost": 1000,
+    "min_duration": 6000,
+    "max_duration": 6000,
+    "difficulty": 6,
+    "max_level": 20,
+    "spell_class": "DRUID",
+    "energy_source": "MANA",
+    "flags": [ "NO_LEGS", "CONCENTRATE" ]
   }
 ]

@@ -29,8 +29,7 @@ struct ma_requirements {
 
     bool unarmed_allowed; // does this bonus work when unarmed?
     bool melee_allowed; // what about with a melee weapon?
-    bool strictly_unarmed; // If unarmed, what about unarmed weapons?
-    bool strictly_melee; // Does it only work with weapons?
+    bool unarmed_weapons_allowed; // If unarmed, what about unarmed weapons?
 
     /** Minimum amount of given skill to trigger this bonus */
     std::map<skill_id, int> min_skill;
@@ -46,8 +45,7 @@ struct ma_requirements {
     ma_requirements() {
         unarmed_allowed = false;
         melee_allowed = false;
-        strictly_unarmed = false;
-        strictly_melee = false;
+        unarmed_weapons_allowed = true;
     }
 
     std::string get_description( bool buff = false ) const;

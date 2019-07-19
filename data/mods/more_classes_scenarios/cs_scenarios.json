@@ -81,39 +81,10 @@
   },
   {
     "type": "scenario",
-    "ident": "heli_crash",
-    "copy-from": "heli_crash",
-    "extend": { "professions": [ "bio_specops" ] }
-  },
-  {
-    "type": "scenario",
-    "ident": "lab_chal",
-    "copy-from": "lab_chal",
-    "extend": { "professions": [ "cykotic" ] }
-  },
-  {
-    "type": "scenario",
-    "ident": "mutant",
-    "copy-from": "mutant",
-    "extend": { "professions": [ "cykotic" ] }
-  },
-  {
-    "type": "scenario",
-    "ident": "schools_out",
-    "copy-from": "schools_out",
-    "extend": { "professions": [ "elementary_student", "prep_student", "janitor", "poor_student" ] }
-  },
-  {
-    "type": "scenario",
     "ident": "cyberpunk",
     "copy-from": "cyberpunk",
-    "extend": { "professions": [ "bionic_thief", "bionic_hitman", "bio_gangster", "wasteland_cyborg" ] }
-  },
-  {
-    "type": "scenario",
-    "ident": "wilderness",
-    "copy-from": "wilderness",
-    "extend": { "professions": [ "pri-sur" ] }
+    "add_professions": true,
+    "extend": { "professions": [ "bio_gangster", "wasteland_cyborg" ] }
   },
   {
     "type": "scenario",
@@ -129,20 +100,8 @@
   },
   {
     "type": "scenario",
-    "ident": "missed",
-    "copy-from": "missed",
+    "ident": "evacuee",
+    "copy-from": "evacuee",
     "extend": { "allowed_locs": [ "s_electronics_s", "s_clothes_s" ] }
-  },
-  {
-    "type": "scenario",
-    "ident": "mutant",
-    "copy-from": "mutant",
-    "extend": { "professions": [ "faulty_bionic" ] }
-  },
-  {
-    "type": "scenario",
-    "ident": "bad_day",
-    "copy-from": "bad_day",
-    "extend": { "professions": [ "faulty_bionic", "cykotic" ] }
   }
 ]

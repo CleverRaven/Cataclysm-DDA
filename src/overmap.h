@@ -376,9 +376,6 @@ class overmap
         void serialize( std::ostream &fin ) const;
         // Save per-player overmap view data.
         void serialize_view( std::ostream &fin ) const;
-        // parse data in an old overmap file
-        void unserialize_legacy( std::istream &fin );
-        void unserialize_view_legacy( std::istream &fin );
     private:
         void generate( const overmap *north, const overmap *east,
                        const overmap *south, const overmap *west,
@@ -421,7 +418,6 @@ class overmap
         void build_tunnel( int x, int y, int z, int s, om_direction::type dir );
         bool build_slimepit( int x, int y, int z, int s );
         void build_mine( int x, int y, int z, int s );
-        void place_rifts( const int z );
 
         // Connection laying
         pf::path lay_out_connection( const overmap_connection &connection, const point &source,

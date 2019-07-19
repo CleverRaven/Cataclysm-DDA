@@ -756,10 +756,6 @@ class npc : public player
         void starting_weapon( const npc_class_id &type );
 
         // Save & load
-        // Overloaded from player
-        void load_info( std::string data ) override;
-        std::string save_info() const override;
-
         void deserialize( JsonIn &jsin ) override;
         void serialize( JsonOut &jsout ) const override;
 

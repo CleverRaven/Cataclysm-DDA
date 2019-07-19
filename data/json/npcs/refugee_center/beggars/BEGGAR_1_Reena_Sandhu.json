@@ -54,13 +54,13 @@
     "id": "NC_BEGGAR_1_worn",
     "subtype": "collection",
     "entries": [
-      { "item": "blanket" },
-      { "item": "jeans" },
-      { "item": "sweater" },
       { "item": "bra" },
       { "item": "panties" },
       { "item": "socks" },
-      { "item": "sneakers" }
+      { "item": "jeans" },
+      { "item": "sweater" },
+      { "item": "sneakers" },
+      { "item": "blanket" }
     ]
   },
   {

@@ -3129,7 +3129,7 @@ static bool ends_with( const std::string &text, const std::string &suffix )
 //Pseudo-Curses Functions           *
 //***********************************
 
-static void font_folder_list( std::ofstream &fout, const std::string &path,
+static void font_folder_list( std::ostream &fout, const std::string &path,
                               std::set<std::string> &bitmap_fonts )
 {
     for( const auto &f : get_files_from_path( "", path, true, false ) ) {
@@ -3196,36 +3196,43 @@ static void font_folder_list( std::ofstream &fout, const std::string &path,
 
 static void save_font_list()
 {
-    std::set<std::string> bitmap_fonts;
-    std::ofstream fout( FILENAMES["fontlist"].c_str(), std::ios_base::trunc );
-
-    font_folder_list( fout, FILENAMES["fontdir"], bitmap_fonts );
+    try {
+        std::set<std::string> bitmap_fonts;
+        write_to_file( FILENAMES["fontlist"], [&]( std::ostream & fout ) {
+            font_folder_list( fout, FILENAMES["fontdir"], bitmap_fonts );
 
 #if defined(_WIN32)
-    char buf[256];
-    GetSystemWindowsDirectory( buf, 256 );
-    strcat( buf, "\\fonts" );
-    font_folder_list( fout, buf, bitmap_fonts );
+            char buf[256];
+            GetSystemWindowsDirectory( buf, 256 );
+            strcat( buf, "\\fonts" );
+            font_folder_list( fout, buf, bitmap_fonts );
 #elif defined(_APPLE_) && defined(_MACH_)
-    /*
-    // Well I don't know how osx actually works ....
-    font_folder_list(fout, "/System/Library/Fonts", bitmap_fonts);
-    font_folder_list(fout, "/Library/Fonts", bitmap_fonts);
+            /*
+            // Well I don't know how osx actually works ....
+            font_folder_list(fout, "/System/Library/Fonts", bitmap_fonts);
+            font_folder_list(fout, "/Library/Fonts", bitmap_fonts);
 
-    wordexp_t exp;
-    wordexp("~/Library/Fonts", &exp, 0);
-    font_folder_list(fout, exp.we_wordv[0], bitmap_fonts);
-    wordfree(&exp);*/
+            wordexp_t exp;
+            wordexp("~/Library/Fonts", &exp, 0);
+            font_folder_list(fout, exp.we_wordv[0], bitmap_fonts);
+            wordfree(&exp);*/
 #else // Other POSIX-ish systems
-    font_folder_list( fout, "/usr/share/fonts", bitmap_fonts );
-    font_folder_list( fout, "/usr/local/share/fonts", bitmap_fonts );
-    char *home;
-    if( ( home = getenv( "HOME" ) ) ) {
-        std::string userfontdir = home;
-        userfontdir += "/.fonts";
-        font_folder_list( fout, userfontdir, bitmap_fonts );
-    }
+            font_folder_list( fout, "/usr/share/fonts", bitmap_fonts );
+            font_folder_list( fout, "/usr/local/share/fonts", bitmap_fonts );
+            char *home;
+            if( ( home = getenv( "HOME" ) ) ) {
+                std::string userfontdir = home;
+                userfontdir += "/.fonts";
+                font_folder_list( fout, userfontdir, bitmap_fonts );
+            }
 #endif
+        } );
+    } catch( const std::exception &err ) {
+        // This is called during startup, the UI system may not be initialized (because that
+        // needs the font file in order to load the font for it).
+        dbg( D_ERROR ) << "Faied to create fontlist file \"" << FILENAMES["fontlist"] << "\": " <<
+                       err.what();
+    }
 }
 
 static cata::optional<std::string> find_system_font( const std::string &name, int &faceIndex )

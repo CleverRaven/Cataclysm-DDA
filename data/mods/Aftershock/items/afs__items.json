@@ -27,6 +27,7 @@
   },
   {
     "id": "afs_fridge",
+    "category": "veh_parts",
     "type": "GENERIC",
     "name": "vehicle refrigerator",
     "description": "A household refrigerator with impressive capacity.  Its power connection has been refurbished, and it can be mounted onto a vehicle to draw from its power.",
@@ -44,6 +45,7 @@
   },
   {
     "id": "afs_freezer",
+    "category": "veh_parts",
     "type": "GENERIC",
     "name": "vehicle freezer",
     "copy-from": "afs_fridge",

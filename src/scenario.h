@@ -31,6 +31,7 @@ class scenario
         std::string _start_name;
 
         bool blacklist = false; // If true, professions is a blacklist.
+        bool extra_professions = false; // If true, professions add to default professions.
         std::vector<string_id<profession>> professions; // as specified in JSON, verbatim
 
         /**

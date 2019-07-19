@@ -308,5 +308,38 @@
     "range": 15,
     "dispersion": 120,
     "durability": 8
+  },
+  {
+    "type": "TOOL",
+    "id": "druid_seed",
+    "name": "seed of purification",
+    "weight": 1,
+    "color": "white",
+    "use_action": {
+      "type": "transform",
+      "target": "druid_dust",
+      "msg": "You squeeze the seed in your palm, and it begins to turn to a fine dust.",
+      "target_charges": 15,
+      "menu_text": "Squeeze seed"
+    },
+    "symbol": "!",
+    "description": "A magical seed that can be squeezed to release purifying dust, which can then be used to purify up to a gallon of water",
+    "volume": 1,
+    "stack_size": 100,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "druid_dust",
+    "type": "TOOL",
+    "name": "faintly glowing dust",
+    "description": "This fine dust glows with a growing intensity",
+    "weight": 0.25,
+    "volume": 0.1,
+    "price": 0,
+    "symbol": "!",
+    "color": "white",
+    "initial_charges": 15,
+    "max_charges": 15,
+    "use_action": "WATER_PURIFIER"
   }
 ]
