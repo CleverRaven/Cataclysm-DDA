@@ -96,15 +96,27 @@
     "covers": [ "TORSO", "HEAD", "ARMS", "LEGS" ],
     "coverage": 65,
     "encumbrance": 10,
-    "max_charges": 1000,
-    "initial_charges": 500,
     "charges_per_use": 25,
     "ammo": "plutonium",
     "warmth": 10,
     "material_thickness": 1,
     "environmental_protection": 4,
     "use_action": "DIRECTIONAL_HOLOGRAM",
-    "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "OUTER" ]
+    "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "OUTER" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "holo_cloak_integral_magazine",
+          "name": "hologram cloak integral magazine",
+          "description": "This item defines the integral magazine of a holo_cloak item. It should not be visible to the player.",
+          "ammo_type": "plutonium",
+          "capacity": 1000,
+          "count": 500
+        }
+      ]
+    }
   },
   {
     "type": "TOOL_ARMOR",
@@ -507,7 +519,6 @@
     "weight": 6820,
     "volume": 36,
     "to_hit": -3,
-    "max_charges": 5000,
     "ammo": "plutonium",
     "use_action": "RM13ARMOR_OFF",
     "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
@@ -516,7 +527,20 @@
     "environmental_protection": 15,
     "encumbrance": 30,
     "coverage": 100,
-    "material_thickness": 2
+    "material_thickness": 2,
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "rm13_armor_integral_magazine",
+          "name": "RM13 combat armor integral magazine",
+          "description": "This item defines the integral magazine of a rm13_armor item. It should not be visible to the player.",
+          "ammo_type": "plutonium",
+          "capacity": 5000
+        }
+      ]
+    }
   },
   {
     "id": "rm13_armor_on",
@@ -562,8 +586,6 @@
     "weight": 720,
     "volume": 2,
     "to_hit": -3,
-    "max_charges": 60,
-    "initial_charges": 60,
     "charges_per_use": 1,
     "ammo": "rebreather_filter",
     "use_action": {
@@ -579,7 +601,21 @@
     "environmental_protection": 1,
     "encumbrance": 30,
     "coverage": 75,
-    "material_thickness": 1
+    "material_thickness": 1,
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "rebreather_integral_magazine",
+          "name": "rebreather mask integral magazine",
+          "description": "This item defines the integral magazine of a rebreather item. It should not be visible to the player.",
+          "ammo_type": "rebreather_filter",
+          "capacity": 60,
+          "count": 60
+        }
+      ]
+    }
   },
   {
     "id": "rebreather_on",
@@ -609,8 +645,6 @@
     "weight": 960,
     "volume": 5,
     "to_hit": -3,
-    "max_charges": 60,
-    "initial_charges": 60,
     "charges_per_use": 1,
     "ammo": "rebreather_filter",
     "use_action": {
@@ -626,7 +660,21 @@
     "environmental_protection": 1,
     "encumbrance": 30,
     "coverage": 75,
-    "material_thickness": 1
+    "material_thickness": 1,
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "rebreather_xl_integral_magazine",
+          "name": "XL rebreather mask integral magazine",
+          "description": "This item defines the integral magazine of a rebreather_xl item. It should not be visible to the player.",
+          "ammo_type": "rebreather_filter",
+          "capacity": 60,
+          "count": 60
+        }
+      ]
+    }
   },
   {
     "id": "rebreather_xl_on",
@@ -1245,11 +1293,23 @@
     "flags": [ "OVERSIZE" ],
     "weight": 364,
     "volume": 3,
-    "max_charges": 2,
     "charges_per_use": 1,
     "ammo": "ampoule",
     "use_action": "JET_INJECTOR",
-    "material_thickness": 3
+    "material_thickness": 3,
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "wearable_rx12_integral_magazine",
+          "name": "wearable RX12 jet injector integral magazine",
+          "description": "This item defines the integral magazine of a wearable_rx12 item. It should not be visible to the player.",
+          "ammo_type": "ampoule",
+          "capacity": 2
+        }
+      ]
+    }
   },
   {
     "id": "rx11_stimpack",
@@ -1265,12 +1325,24 @@
     "flags": [ "OVERSIZE" ],
     "weight": 212,
     "volume": 3,
-    "max_charges": 5,
-    "initial_charges": 5,
     "charges_per_use": 1,
     "ammo": "stimpack_ammo",
     "use_action": "STIMPACK",
-    "material_thickness": 3
+    "material_thickness": 3,
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "rx11_stimpack_integral_magazine",
+          "name": "RX11 stimulant delivery system integral magazine",
+          "description": "This item defines the integral magazine of a rx11_stimpack item. It should not be visible to the player.",
+          "ammo_type": "stimpack_ammo",
+          "capacity": 5,
+          "count": 5
+        }
+      ]
+    }
   },
   {
     "id": "mask_h20survivor",
@@ -1286,7 +1358,6 @@
     "weight": 982,
     "volume": 6,
     "to_hit": -3,
-    "max_charges": 120,
     "charges_per_use": 1,
     "ammo": "rebreather_filter",
     "use_action": {
@@ -1302,7 +1373,20 @@
     "environmental_protection": 10,
     "encumbrance": 30,
     "coverage": 75,
-    "material_thickness": 2
+    "material_thickness": 2,
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "mask_h20survivor_integral_magazine",
+          "name": "survivor divemask integral magazine",
+          "description": "This item defines the integral magazine of a mask_h20survivor item. It should not be visible to the player.",
+          "ammo_type": "rebreather_filter",
+          "capacity": 120
+        }
+      ]
+    }
   },
   {
     "id": "mask_h20survivor_on",
@@ -1332,7 +1416,6 @@
     "weight": 1302,
     "volume": 8,
     "to_hit": -3,
-    "max_charges": 120,
     "charges_per_use": 1,
     "ammo": "rebreather_filter",
     "use_action": {
@@ -1348,7 +1431,20 @@
     "environmental_protection": 10,
     "encumbrance": 30,
     "coverage": 75,
-    "material_thickness": 2
+    "material_thickness": 2,
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "mask_h20survivorxl_integral_magazine",
+          "name": "XL survivor divemask integral magazine",
+          "description": "This item defines the integral magazine of a mask_h20survivorxl item. It should not be visible to the player.",
+          "ammo_type": "rebreather_filter",
+          "capacity": 120
+        }
+      ]
+    }
   },
   {
     "id": "mask_h20survivorxl_on",
