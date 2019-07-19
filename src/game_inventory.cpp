@@ -1806,10 +1806,6 @@ item_location game_menus::inv::uninstall_bionic( player &p, player &patient )
 }
 
 
-item_location game_menus::inv::sterilize_cbm( player &p )
-{
-    return autoclave_internal( p, bionic_sterilize_preset( p ), 6 );
-}
 // Menu used by autocalve when sterilizing a bionic
 class bionic_sterilize_preset : public inventory_selector_preset
 {
@@ -1827,7 +1823,7 @@ class bionic_sterilize_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->has_flag( "NO_STERILIZE" ) && loc->is_bionic();
+            return loc->has_flag( "NO_STERILE" ) && loc->is_bionic();
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -1842,7 +1838,6 @@ class bionic_sterilize_preset : public inventory_selector_preset
 
     protected:
         player &p;
-    private:
 };
 
 static item_location autoclave_internal( player &u,
@@ -1885,4 +1880,8 @@ static item_location autoclave_internal( player &u,
 
     } while( true );
 
+}
+item_location game_menus::inv::sterilize_cbm( player &p )
+{
+    return autoclave_internal( p, bionic_sterilize_preset( p ), 6 );
 }
