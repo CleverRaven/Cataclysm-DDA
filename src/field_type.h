@@ -53,6 +53,7 @@ struct field_type {
         int decay_amount_factor = 0;
         int apply_slime_factor = 0;
         int gas_absorption_factor = 0;
+        bool is_splattering = false;
         bool dirty_transparency_cache = false;
         bool has_fire = false;
         bool has_acid = false;
