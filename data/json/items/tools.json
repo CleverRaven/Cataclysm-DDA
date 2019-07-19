@@ -1226,10 +1226,22 @@
     "color": "green",
     "ammo": "charcoal",
     "sub": "hotplate",
-    "initial_charges": 50,
-    "max_charges": 50,
     "charges_per_use": 1,
-    "use_action": "HOTPLATE"
+    "use_action": "HOTPLATE",
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "charcoal_cooker_integral_magazine",
+          "name": "charcoal cooker integral magazine",
+          "description": "This item defines the integral magazine of a charcoal_cooker item. It should not be visible to the player.",
+          "ammo_type": "charcoal",
+          "capacity": 50,
+          "count": 50
+        }
+      ]
+    }
   },
   {
     "id": "chipper",
@@ -2725,10 +2737,22 @@
     "color": "green",
     "ammo": "gasoline",
     "sub": "hotplate",
-    "initial_charges": 500,
-    "max_charges": 500,
     "charges_per_use": 1,
-    "use_action": "HOTPLATE"
+    "use_action": "HOTPLATE",
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "gasoline_cooker_integral_magazine",
+          "name": "gasoline cooker integral magazine",
+          "description": "This item defines the integral magazine of a gasoline_cooker item. It should not be visible to the player.",
+          "ammo_type": "gasoline",
+          "capacity": 500,
+          "count": 500
+        }
+      ]
+    }
   },
   {
     "id": "gasoline_lantern",
@@ -4251,10 +4275,22 @@
     "color": "green",
     "ammo": "lamp_oil",
     "sub": "hotplate",
-    "initial_charges": 800,
-    "max_charges": 800,
     "charges_per_use": 1,
-    "use_action": "HOTPLATE"
+    "use_action": "HOTPLATE",
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "oil_cooker_integral_magazine",
+          "name": "lamp oil cooker integral magazine",
+          "description": "This item defines the integral magazine of a oil_cooker item. It should not be visible to the player.",
+          "ammo_type": "lamp_oil",
+          "capacity": 800,
+          "count": 800
+        }
+      ]
+    }
   },
   {
     "id": "oil_lamp",
@@ -4692,10 +4728,22 @@
     "color": "light_gray",
     "ammo": "conc_alcohol",
     "sub": "hotplate",
-    "initial_charges": 500,
-    "max_charges": 500,
     "charges_per_use": 1,
-    "use_action": "HOTPLATE"
+    "use_action": "HOTPLATE",
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "popcan_stove_integral_magazine",
+          "name": "soda can stove kit integral magazine",
+          "description": "This item defines the integral magazine of a popcan_stove item. It should not be visible to the player.",
+          "ammo_type": "conc_alcohol",
+          "capacity": 500,
+          "count": 500
+        }
+      ]
+    }
   },
   {
     "id": "portable_game",
@@ -5755,10 +5803,22 @@
     "color": "brown",
     "ammo": "lamp_oil",
     "sub": "hotplate",
-    "max_charges": 800,
     "charges_per_use": 1,
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "survivor_mess_kit_integral_magazine",
+          "name": "survivor mess kit integral magazine",
+          "description": "This item defines the integral magazine of a survivor_mess_kit item. It should not be visible to the player.",
+          "ammo_type": "lamp_oil",
+          "capacity": 800
+        }
+      ]
+    }
   },
   {
     "id": "survivor_scope",
@@ -7350,7 +7410,6 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": "tinder",
-    "max_charges": 100,
     "charges_per_use": 25,
     "use_action": [
       {
@@ -7362,7 +7421,20 @@
         "menu_text": "Light",
         "type": "transform"
       }
+    ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "hobo_stove_integral_magazine",
+          "name": "hobo stove integral magazine",
+          "description": "This item defines the integral magazine of a hobo_stove item. It should not be visible to the player.",
+          "ammo_type": "tinder",
+          "capacity": 100
+        }
     ]
+    }
   },
   {
     "id": "hobo_stove_on",
@@ -7379,7 +7451,6 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": "tinder",
-    "max_charges": 100,
     "charges_per_use": 25,
     "turns_per_charge": 300,
     "revert_to": "hobo_stove",
@@ -7393,7 +7464,20 @@
         "type": "transform"
       }
     ],
-    "flags": [ "LIGHT_3", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "LIGHT_3", "ALLOWS_REMOTE_USE" ],
+    "loadables": {
+      "integrals": [
+        {
+          "type": "MAGAZINE",
+          "symbol": "#",
+          "id": "hobo_stove_on_integral_magazine",
+          "name": "hobo stove (lit) integral magazine",
+          "description": "This item defines the integral magazine of a hobo_stove_on item. It should not be visible to the player.",
+          "ammo_type": "tinder",
+          "capacity": 100
+        }
+      ]
+    }
   },
   {
     "id": "tinderbox",
