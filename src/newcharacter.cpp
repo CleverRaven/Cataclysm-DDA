@@ -283,7 +283,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     int num_gtraits = 0;
     int num_btraits = 0;
     int tries = 0;
-    add_traits(); // adds mandatory profession/scenario traits.
+    add_traits( points ); // adds mandatory profession/scenario traits.
     for( const auto &mut : my_mutations ) {
         const mutation_branch &mut_info = mut.first.obj();
         if( mut_info.profession ) {
@@ -1608,7 +1608,7 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
             u.prof = &sorted_profs[cur_id].obj();
             // Add traits for the new profession (and perhaps scenario, if, for example,
             // both the scenario and old profession require the same trait)
-            u.add_traits();
+            u.add_traits( points );
             points.skill_points -= netPointCost;
         } else if( action == "CHANGE_GENDER" ) {
             u.male = !u.male;
@@ -2499,12 +2499,14 @@ void Character::empty_skills()
     }
 }
 
-void Character::add_traits()
+void Character::add_traits( points_left &points )
 {
     // TODO: get rid of using g->u here, use `this` instead
     for( const trait_id &tr : g->u.prof->get_locked_traits() ) {
         if( !has_trait( tr ) ) {
             toggle_trait( tr );
+        } else {
+            points.trait_points += tr->points;
         }
     }
     for( const trait_id &tr : g->scen->get_locked_traits() ) {
@@ -2667,5 +2669,6 @@ void reset_scenario( avatar &u, const scenario *scen )
     u.empty_traits();
     u.recalc_hp();
     u.empty_skills();
-    u.add_traits();
+    points_left temp = points_left();
+    u.add_traits( temp );
 }
