@@ -179,7 +179,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CLAIRE2",
-    "dynamic_line": "You don't need as much luck if you are prepared and work together.  We've had our losses, my brother in law, Barry, was our best hunter but things are so different now ...",
+    "dynamic_line": "You don't need as much luck if you are prepared and work together.  We've had our losses, my brother in law, Barry, was our best hunter but things are so different now...",
     "responses": [
       { "text": "What happened to Barry?", "topic": "TALK_BARRY" },
       { "text": "A farm must be a pretty safe place these days.", "topic": "TALK_CLAIRE_FARM" },
@@ -202,7 +202,7 @@
     "id": "TALK_CLAIRE_MEDICINE",
     "dynamic_line": "I have always studied and made some natural remedies, but now they are more essential than ever.  Who knows the next time we'll see a trained doctor.  These remedies aren't always as effective, but they can do the job in a pinch.",
     "responses": [
-      { "text": "I'd like to ask you something else ...", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
+      { "text": "I'd like to ask you something else...", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -212,16 +212,16 @@
     "dynamic_line": "Some of their cows were killed before we realized what was happening, Barry and Carlos went into the forest to find the predator but it was like nothing they'd ever seen.  Carlos may be willing to tell you more.",
     "effect": { "u_add_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" },
     "responses": [
-      { "text": "I'd like to ask you something else ...", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
+      { "text": "I'd like to ask you something else...", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_CLAIRE_FARM",
-    "dynamic_line": "We've always tried to live a quiet life out here, I suppose we are doing better then most.",
+    "dynamic_line": "We've always tried to live a quiet life out here, I suppose we are doing better than most.",
     "responses": [
-      { "text": "I'd like to ask you something else ...", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
+      { "text": "I'd like to ask you something else...", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -230,7 +230,7 @@
     "id": "TALK_CLAIRE_HUSBAND",
     "dynamic_line": "Jack and I have been together for 40 years.  He's been my anchor through all of this chaos.",
     "responses": [
-      { "text": "I'd like to ask you something else ...", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
+      { "text": "I'd like to ask you something else...", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -239,7 +239,7 @@
     "id": "TALK_CLAIRE_DAUGHTER",
     "dynamic_line": "Jesse and her family live up at the horse farm. Her husband, Carlos, may have some jobs for you.",
     "responses": [
-      { "text": "I'd like to ask you something else ...", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
+      { "text": "I'd like to ask you something else...", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -248,7 +248,7 @@
     "id": "TALK_CLAIRE_BROTHER",
     "dynamic_line": "Eddie's dairy is at the end of the road.  He's may have some jobs for you if you are interested.",
     "responses": [
-      { "text": "I'd like to ask you something else ...", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
+      { "text": "I'd like to ask you something else...", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -275,7 +275,7 @@
   {
     "id": "MISSION_ISHERWOOD_CLAIRE_1",
     "type": "mission_definition",
-    "name": "Gather 50 dandelions.",
+    "name": "Gather 50 dandelions",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,
@@ -322,7 +322,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I could use some seeds from the forest.",
-      "offer": "We could use some seeds for the next planting season.  Can you bring me 20 bee balm seeds.",
+      "offer": "We could use some seeds for the next planting season.  Can you bring me 20 bee balm seeds?",
       "accepted": "Thank you.  It's important to have a good stock before the flu season hits.",
       "rejected": "Oh well.  Maybe some other time, thanks.",
       "advice": "You should search through the forest, make sure to check in the underbrush for beebalm and then harvest its seeds.",
