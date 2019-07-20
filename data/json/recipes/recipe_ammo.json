@@ -961,6 +961,6 @@
     "time": "60 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "coal_lump", 30 ] ], [ [ "quicklime", 44 ] ] ]
+    "components": [ [ [ "coal_lump", 30 ] ], [ [ "material_quicklime", 44 ] ] ]
   }
 ]
