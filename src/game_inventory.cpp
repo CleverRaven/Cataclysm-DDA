@@ -568,7 +568,7 @@ class comestible_inventory_preset : public inventory_selector_preset
 
     protected:
         int get_order( const item_location &loc, const time_duration time ) const {
-            const item &it = const_cast<item &>( *loc );
+            const item &it = static_cast<const item &>( *loc );
             if( get_consumable_item( loc ).rotten() )  {
                 return 0;
             } else if( time > 0_turns && !( it.type->container && it.type->container->preserves ) ) {
