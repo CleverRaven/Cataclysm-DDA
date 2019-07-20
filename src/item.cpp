@@ -7930,6 +7930,9 @@ bool item::process_fake_smoke( player * /*carrier*/, const tripoint &pos )
 
 bool item::process_litcig( player *carrier, const tripoint &pos )
 {
+    if( !one_in( 10 ) ) {
+        return false;
+    }
     process_extinguish( carrier, pos );
     // process_extinguish might have extinguished the item already
     if( !active ) {
@@ -7943,22 +7946,19 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
     }
     // if carried by someone:
     if( carrier != nullptr ) {
-        // only puff every other turn
-        if( item_counter % 2 == 0 ) {
-            time_duration duration = 1_minutes;
-            if( carrier->has_trait( trait_id( "TOLERANCE" ) ) ) {
-                duration = 30_seconds;
-            } else if( carrier->has_trait( trait_id( "LIGHTWEIGHT" ) ) ) {
-                duration = 2_minutes;
-            }
-            carrier->add_msg_if_player( m_neutral, _( "You take a puff of your %s." ), tname() );
-            if( has_flag( "TOBACCO" ) ) {
-                carrier->add_effect( effect_cig, duration );
-            } else {
-                carrier->add_effect( effect_weed_high, duration / 2 );
-            }
-            carrier->moves -= 15;
+        time_duration duration = 15_seconds;
+        if( carrier->has_trait( trait_id( "TOLERANCE" ) ) ) {
+            duration = 7_seconds;
+        } else if( carrier->has_trait( trait_id( "LIGHTWEIGHT" ) ) ) {
+            duration = 30_seconds;
         }
+        carrier->add_msg_if_player( m_neutral, _( "You take a puff of your %s." ), tname() );
+        if( has_flag( "TOBACCO" ) ) {
+            carrier->add_effect( effect_cig, duration );
+        } else {
+            carrier->add_effect( effect_weed_high, duration / 2 );
+        }
+        carrier->moves -= 15;
 
         if( ( carrier->has_effect( effect_shakes ) && one_in( 10 ) ) ||
             ( carrier->has_trait( trait_id( "JITTERY" ) ) && one_in( 200 ) ) ) {
