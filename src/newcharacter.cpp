@@ -1601,11 +1601,9 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
                 desc_offset++;
             }
         } else if( action == "CONFIRM" ) {
-            // Remove old profession-specific traits (e.g. pugilist for boxers)
+            // Remove traits from the previous profession
             for( const trait_id &old_trait : u.prof->get_locked_traits() ) {
-                if( old_trait.obj().profession ) {
-                    u.toggle_trait( old_trait );
-                }
+                u.toggle_trait( old_trait );
             }
             u.prof = &sorted_profs[cur_id].obj();
             // Add traits for the new profession (and perhaps scenario, if, for example,
