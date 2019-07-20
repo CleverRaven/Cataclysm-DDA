@@ -2941,6 +2941,6 @@
       [ [ "mortar_build", 10 ] ]
     ],
     "pre_special": "check_empty",
-    "post_terrain": "f_arcfurnace_metal_empty"
+    "post_terrain": "f_arcfurnace_empty"
   }
 ]
