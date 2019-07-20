@@ -1985,7 +1985,7 @@
         { "item": "pipe", "count": [ 0, 4 ] }
       ]
     }
-  }, 
+  },
   {
     "type": "furniture",
     "id": "f_arcfurnace_empty",
