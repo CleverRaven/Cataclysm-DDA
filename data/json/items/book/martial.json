@@ -252,6 +252,15 @@
     "book_data": { "martial_art": "style_wingchun" }
   },
   {
+    "id": "manual_medievalpole",
+    "copy-from": "book_martial",
+    "type": "GENERIC",
+    "name": "Fior Di Battaglia",
+    "name_plural": "Fior Di Battaglia",
+    "description": "A completely translated medieval guide teaching various techniques with polearms, there is a chapter about the many variations of common polearms... there are even pictures!",
+    "book_data": { "martial_art": "style_medievalpole" }
+  },
+  {
     "id": "manual_swordsmanship",
     "copy-from": "book_martial",
     "type": "GENERIC",

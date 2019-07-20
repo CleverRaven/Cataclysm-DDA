@@ -107,7 +107,7 @@ Press ESC to return to the game." ) ) + 1;
             second_column = std::max( second_column, utf8_width( cat_name ) + 4 );
         }
 
-        shortcut_print( win, y + i % half_size, ( i < half_size ? 1 : second_column ),
+        shortcut_print( win, y + i % half_size, i < half_size ? 1 : second_column,
                         c_white, c_light_blue, cat_name );
     }
 

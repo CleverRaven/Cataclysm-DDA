@@ -719,7 +719,7 @@ std::string string_replace( std::string text, const std::string &before, const s
 {
     // Check if there's something to replace (mandatory) and it's necessary (optional)
     // Second condition assumes that text is much longer than both &before and &after.
-    if( before.length() == 0 || !before.compare( after ) ) {
+    if( before.length() == 0 || before == after ) {
         return text;
     }
 

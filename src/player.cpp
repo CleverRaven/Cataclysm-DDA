@@ -83,6 +83,7 @@
 #include "iuse.h"
 #include "lightmap.h"
 #include "line.h"
+#include "math_defines.h"
 #include "monster.h"
 #include "omdata.h"
 #include "overmap_types.h"
@@ -95,8 +96,6 @@
 #include "enums.h"
 #include "flat_set.h"
 #include "stomach.h"
-
-constexpr double SQRT_2 = 1.41421356237309504880;
 
 const double MAX_RECOIL = 3000;
 
@@ -258,8 +257,6 @@ static const trait_id trait_ALBINO( "ALBINO" );
 static const trait_id trait_AMPHIBIAN( "AMPHIBIAN" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
-static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
-static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_BARK( "BARK" );
@@ -270,15 +267,12 @@ static const trait_id trait_CF_HAIR( "CF_HAIR" );
 static const trait_id trait_CHAOTIC( "CHAOTIC" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
-static const trait_id trait_CHITIN2( "CHITIN2" );
-static const trait_id trait_CHITIN3( "CHITIN3" );
 static const trait_id trait_CHITIN_FUR( "CHITIN_FUR" );
 static const trait_id trait_CHITIN_FUR2( "CHITIN_FUR2" );
 static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
-static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
 static const trait_id trait_DEAF( "DEAF" );
 static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
@@ -301,12 +295,10 @@ static const trait_id trait_FASTREADER( "FASTREADER" );
 static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
-static const trait_id trait_FORGETFUL( "FORGETFUL" );
 static const trait_id trait_FRESHWATEROSMOSIS( "FRESHWATEROSMOSIS" );
 static const trait_id trait_FUR( "FUR" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
-static const trait_id trait_GOODMEMORY( "GOODMEMORY" );
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
@@ -317,8 +309,6 @@ static const trait_id trait_HORNS_POINTED( "HORNS_POINTED" );
 static const trait_id trait_HUGE( "HUGE" );
 static const trait_id trait_HUGE_OK( "HUGE_OK" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
-static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
-static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_JITTERY( "JITTERY" );
@@ -407,12 +397,10 @@ static const trait_id trait_SORES( "SORES" );
 static const trait_id trait_SPINES( "SPINES" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
-static const trait_id trait_STIMBOOST( "STIMBOOST" );
 static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
 static const trait_id trait_SUNBURN( "SUNBURN" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_TAIL_FIN( "TAIL_FIN" );
-static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
 static const trait_id trait_THORNS( "THORNS" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
@@ -432,8 +420,6 @@ static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
-static const trait_id trait_WHISKERS( "WHISKERS" );
-static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 stat_mod player::get_pain_penalty() const
@@ -654,10 +640,10 @@ void player::process_turn()
     // SkillLevel::readBook (has no connection to the skill or the player),
     // player::read, player::practice, ...
     // Check for spontaneous discovery of martial art styles
-    for( auto &style : all_martialart_types() ) {
+    for( auto &style : autolearn_martialart_types() ) {
         const matype_id ma( style );
 
-        if( can_autolearn( ma ) && !has_martialart( ma ) ) {
+        if( !has_martialart( ma ) && can_autolearn( ma ) ) {
             add_martialart( ma );
             add_msg_if_player( m_info, _( "You have learned a new style: %s!" ), ma.obj().name );
         }
@@ -1694,7 +1680,7 @@ int player::run_cost( int base_cost, bool diag ) const
     movecost /= stamina_modifier;
 
     if( diag ) {
-        movecost *= SQRT_2;
+        movecost *= M_SQRT2;
     }
 
     return static_cast<int>( movecost );
@@ -1916,20 +1902,6 @@ nc_color player::basic_symbol_color() const
         return c_dark_gray;
     }
     return c_white;
-}
-
-void player::load_info( std::string data )
-{
-    try {
-        ::deserialize( *this, data );
-    } catch( const std::exception &jsonerr ) {
-        debugmsg( "Bad player json\n%s", jsonerr.what() );
-    }
-}
-
-std::string player::save_info() const
-{
-    return ::serialize( *this ) + "\n" + dump_memorial();
 }
 
 /**
@@ -2738,13 +2710,7 @@ int player::rust_rate( bool return_stat_effect ) const
     int ret = ( ( get_option<std::string>( "SKILL_RUST" ) == "vanilla" ||
                   get_option<std::string>( "SKILL_RUST" ) == "capped" ) ? 500 : 500 - 35 * ( intel - 8 ) );
 
-    if( has_trait( trait_FORGETFUL ) ) {
-        ret *= 1.33;
-    }
-
-    if( has_trait( trait_GOODMEMORY ) ) {
-        ret *= .66;
-    }
+    ret *= mutation_value( "skill_rust_multiplier" );
 
     if( ret < 0 ) {
         ret = 0;
@@ -2951,7 +2917,7 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
         if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
             wake_up();
         }
-        if( !is_npc() ) {
+        if( !is_npc() && !has_effect( effect_narcosis ) ) {
             if( source != nullptr ) {
                 g->cancel_activity_or_ignore_query( distraction_type::attacked,
                                                     string_format( _( "You were attacked by %s!" ),
@@ -3172,7 +3138,7 @@ dealt_damage_instance player::deal_damage( Creature *source, body_part bp,
 void player::mod_pain( int npain )
 {
     if( npain > 0 ) {
-        if( has_trait( trait_NOPAIN ) ) {
+        if( has_trait( trait_NOPAIN ) || has_effect( effect_narcosis ) ) {
             return;
         }
         // always increase pain gained by one from these bad mutations
@@ -4926,8 +4892,7 @@ void player::suffer()
             if( mdata.hunger ) {
                 // does not directly modify hunger, but burns kcal
                 mod_stored_nutr( mdata.cost );
-                // pretty well on your way to starving at 75% your healthy kcal storage
-                if( get_healthy_kcal() >= 3 * get_stored_kcal() / 4 ) {
+                if( get_bmi() < character_weight_category::underweight ) {
                     add_msg_if_player( m_warning, _( "You're too malnourished to keep your %s going." ), mdata.name() );
                     tdata.powered = false;
                 }
@@ -6608,7 +6573,6 @@ void player::process_active_items()
 
     std::vector<item *> inv_active = inv.active_items();
     for( item *tmp_it : inv_active ) {
-
         if( tmp_it->process( this, pos(), false ) ) {
             inv.remove_item( tmp_it );
         }
@@ -6619,15 +6583,22 @@ void player::process_active_items()
         return itm.needs_processing() && itm.process( this, pos(), false );
     } );
 
-    int ch_UPS = charges_of( "UPS" );
+    // Active item processing done, now we're recharging.
     item *cloak = nullptr;
     item *power_armor = nullptr;
+    std::vector<item *> active_worn_items;
+    bool weapon_active = weapon.has_flag( "USE_UPS" ) &&
+                         weapon.charges < weapon.type->maximum_charges();
     // Manual iteration because we only care about *worn* active items.
-    for( auto &w : worn ) {
+    for( item &w : worn ) {
+        if( w.has_flag( "USE_UPS" ) &&
+            w.charges < w.type->maximum_charges() ) {
+            active_worn_items.push_back( &w );
+        }
         if( !w.active ) {
             continue;
         }
-        if( w.has_flag( "ACTIVE_CLOAKING" ) ) {
+        if( cloak == nullptr && w.has_flag( "ACTIVE_CLOAKING" ) ) {
             cloak = &w;
         }
         // Only the main power armor item can be active, the other ones (hauling frame, helmet) aren't.
@@ -6635,19 +6606,37 @@ void player::process_active_items()
             power_armor = &w;
         }
     }
+    std::vector<size_t> active_held_items;
+    int ch_UPS = 0;
+    for( size_t index = 0; index < inv.size(); index++ ) {
+        item &it = inv.find_item( index );
+        itype_id identifier = it.type->get_id();
+        if( identifier == "UPS_off" && it.charges > 0 ) {
+            ch_UPS += it.ammo_remaining();
+        } else if( identifier == "adv_UPS_off" && it.charges > 0 ) {
+            ch_UPS += it.ammo_remaining() / 0.6;
+        }
+        if( !it.has_flag( "USE_UPS" ) && it.charges < it.type->maximum_charges() ) {
+            active_held_items.push_back( index );
+        }
+    }
+    int ch_UPS_used = 0;
     if( cloak != nullptr ) {
         if( ch_UPS >= 20 ) {
             use_charges( "UPS", 20 );
+            ch_UPS -= 20;
             if( ch_UPS < 200 && one_in( 3 ) ) {
                 add_msg_if_player( m_warning, _( "Your cloaking flickers for a moment!" ) );
             }
         } else if( ch_UPS > 0 ) {
             use_charges( "UPS", ch_UPS );
+            return;
         } else {
             add_msg_if_player( m_bad,
                                _( "Your cloaking flickers and becomes opaque." ) );
             // Bypass the "you deactivate the ..." message
             cloak->active = false;
+            return;
         }
     }
 
@@ -6659,6 +6648,7 @@ void player::process_active_items()
         if( !bio_powered ) {
             if( ch_UPS >= power_cost ) {
                 use_charges( "UPS", power_cost );
+                ch_UPS -= power_cost;
             } else {
                 // Deactivate armor here, bypassing the usual deactivation message.
                 add_msg_if_player( m_warning, _( "Your power armor disengages." ) );
@@ -6669,35 +6659,24 @@ void player::process_active_items()
 
     // Load all items that use the UPS to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
-    ch_UPS = charges_of( "UPS" ); // might have been changed by cloak
-    int ch_UPS_used = 0;
-    for( size_t i = 0; i < inv.size() && ch_UPS_used < ch_UPS; i++ ) {
-        item &it = inv.find_item( i );
-        if( !it.has_flag( "USE_UPS" ) ) {
-            continue;
-        }
-        if( it.charges < it.type->maximum_charges() ) {
-            ch_UPS_used++;
-            it.charges++;
-        }
-    }
-    if( weapon.has_flag( "USE_UPS" ) &&  ch_UPS_used < ch_UPS &&
-        weapon.charges < weapon.type->maximum_charges() ) {
-        ch_UPS_used++;
-        weapon.charges++;
-    }
-
-    for( item &worn_item : worn ) {
+    for( size_t index : active_held_items ) {
         if( ch_UPS_used >= ch_UPS ) {
             break;
         }
-        if( !worn_item.has_flag( "USE_UPS" ) ) {
-            continue;
+        item &it = inv.find_item( index );
+        ch_UPS_used++;
+        it.charges++;
+    }
+    if( weapon_active && ch_UPS_used < ch_UPS ) {
+        ch_UPS_used++;
+        weapon.charges++;
+    }
+    for( item *worn_item : active_worn_items ) {
+        if( ch_UPS_used >= ch_UPS ) {
+            break;
         }
-        if( worn_item.charges < worn_item.type->maximum_charges() ) {
-            ch_UPS_used++;
-            worn_item.charges++;
-        }
+        ch_UPS_used++;
+        worn_item->charges++;
     }
     if( ch_UPS_used > 0 ) {
         use_charges( "UPS", ch_UPS_used );
@@ -7723,7 +7702,7 @@ bool player::wield( item &target )
     if( !unwield() ) {
         return false;
     }
-
+    cached_info.erase( "weapon_value" );
     if( target.is_null() ) {
         return true;
     }
@@ -11804,10 +11783,10 @@ std::pair<std::string, nc_color> player::get_hunger_description() const
         } else if( recently_ate ) {
             hunger_string = _( "Very Hungry" );
             hunger_color = c_yellow;
-        } else if( get_kcal_percent() < 0.2f ) {
+        } else if( get_bmi() < character_weight_category::emaciated ) {
             hunger_string = _( "Starving!" );
             hunger_color = c_red;
-        } else if( get_kcal_percent() < 0.5f ) {
+        } else if( get_bmi() < character_weight_category::underweight ) {
             hunger_string = _( "Near starving" );
             hunger_color = c_red;
         } else {

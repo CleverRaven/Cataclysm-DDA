@@ -565,7 +565,7 @@
     "skill_used": "fabrication",
     "skills_required": [ "gun", 1 ],
     "difficulty": 3,
-    "time": "0 m",
+    "time": "30 s",
     "autolearn": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
@@ -594,7 +594,7 @@
     "skill_used": "fabrication",
     "skills_required": [ "gun", 1 ],
     "difficulty": 3,
-    "time": "0 m",
+    "time": "30 s",
     "autolearn": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
@@ -612,7 +612,7 @@
     "skill_used": "fabrication",
     "skills_required": [ "gun", 1 ],
     "difficulty": 3,
-    "time": "0 m",
+    "time": "30 s",
     "autolearn": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
@@ -775,21 +775,6 @@
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_laser_pack",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_OTHER",
-    "skill_used": "fabrication",
-    "skills_required": [ "electronics", 5 ],
-    "difficulty": 3,
-    "time": "10 m",
-    "reversible": true,
-    "decomp_learn": 4,
-    "book_learn": [ [ "recipe_lab_elec", 4 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "superglue", 1 ] ], [ [ "plut_cell", 1 ] ] ]
   },
   {
     "type": "recipe",

@@ -41,3 +41,9 @@ TEST_CASE( "point_to_string", "[point]" )
     CHECK( point( 0, 1 ).to_string() == "(0,1)" );
     CHECK( tripoint( -1, 0, 1 ).to_string() == "(-1,0,1)" );
 }
+
+TEST_CASE( "tripoint_xy", "[point]" )
+{
+    tripoint p( 1, 2, 3 );
+    CHECK( p.xy() == point( 1, 2 ) );
+}

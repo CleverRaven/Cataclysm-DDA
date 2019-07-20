@@ -1,4 +1,4 @@
-﻿#include "omdata.h" // IWYU pragma: associated
+#include "omdata.h" // IWYU pragma: associated
 #include "overmap.h" // IWYU pragma: associated
 
 #include <algorithm>
@@ -116,6 +116,9 @@ const size_t invalid = 0;
 
 constexpr size_t rotate( size_t line, om_direction::type dir )
 {
+    if( dir == om_direction::type::invalid ) {
+        return line;
+    }
     // Bitwise rotation to the left.
     return ( ( ( line << static_cast<size_t>( dir ) ) |
                ( line >> ( om_direction::size - static_cast<size_t>( dir ) ) ) ) & om_direction::bits );
@@ -123,6 +126,9 @@ constexpr size_t rotate( size_t line, om_direction::type dir )
 
 constexpr size_t set_segment( size_t line, om_direction::type dir )
 {
+    if( dir == om_direction::type::invalid ) {
+        return line;
+    }
     return line | 1 << static_cast<int>( dir );
 }
 
@@ -312,7 +318,7 @@ const string_id<oter_t> &int_id<oter_t>::id() const
 
 bool operator==( const int_id<oter_t> &lhs, const char *rhs )
 {
-    return lhs.id().str().compare( rhs ) == 0;
+    return lhs.id().str() == rhs;
 }
 
 bool operator!=( const int_id<oter_t> &lhs, const char *rhs )
@@ -1186,6 +1192,14 @@ bool &overmap::seen( int x, int y, int z )
     return layer[z + OVERMAP_DEPTH].visible[x][y];
 }
 
+bool overmap::seen( int x, int y, int z ) const
+{
+    if( !inbounds( tripoint( x, y, z ) ) ) {
+        return false;
+    }
+    return layer[z + OVERMAP_DEPTH].visible[x][y];
+}
+
 bool &overmap::explored( int x, int y, int z )
 {
     if( !inbounds( tripoint( x, y, z ) ) ) {
@@ -1718,10 +1732,6 @@ bool overmap::generate_sub( const int z )
         }
     }
 
-    // Disable rifts when they can interfere with subways and sewers.
-    if( z < -4 ) {
-        place_rifts( z );
-    }
     for( auto &i : mine_points ) {
         build_mine( i.pos.x, i.pos.y, z, i.size );
     }
@@ -3290,40 +3300,6 @@ void overmap::build_mine( int x, int y, int z, int s )
     ter( x, y, z ) = mine_finale_or_down;
 }
 
-void overmap::place_rifts( const int z )
-{
-    int num_rifts = rng( 0, 2 ) * rng( 0, 2 );
-    std::vector<point> riftline;
-    if( !one_in( 4 ) ) {
-        num_rifts++;
-    }
-    const oter_id hellmouth( "hellmouth" );
-    const oter_id rift( "rift" );
-
-    for( int n = 0; n < num_rifts; n++ ) {
-        int x = rng( MAX_RIFT_SIZE, OMAPX - MAX_RIFT_SIZE );
-        int y = rng( MAX_RIFT_SIZE, OMAPY - MAX_RIFT_SIZE );
-        int xdist = rng( MIN_RIFT_SIZE, MAX_RIFT_SIZE ),
-            ydist = rng( MIN_RIFT_SIZE, MAX_RIFT_SIZE );
-        // We use rng(0, 10) as the t-value for this Bresenham Line, because by
-        // repeating this twice, we can get a thick line, and a more interesting rift.
-        for( int o = 0; o < 3; o++ ) {
-            if( xdist > ydist ) {
-                riftline = line_to( x - xdist, y - ydist + o, x + xdist, y + ydist, rng( 0, 10 ) );
-            } else {
-                riftline = line_to( x - xdist + o, y - ydist, x + xdist, y + ydist, rng( 0, 10 ) );
-            }
-            for( size_t i = 0; i < riftline.size(); i++ ) {
-                if( i == riftline.size() / 2 && !one_in( 3 ) ) {
-                    ter( riftline[i].x, riftline[i].y, z ) = hellmouth;
-                } else {
-                    ter( riftline[i].x, riftline[i].y, z ) = rift;
-                }
-            }
-        }
-    }
-}
-
 pf::path overmap::lay_out_connection( const overmap_connection &connection, const point &source,
                                       const point &dest, int z, const bool must_be_unexplored ) const
 {
@@ -4086,7 +4062,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         // Since this starts at enabled_specials::origin, it will only place new overmaps
         // in the 5x5 area surrounding the initial overmap, bounding the amount of work we will do.
         for( point candidate_addr : closest_points_first( 2, custom_overmap_specials.get_origin() ) ) {
-            if( !overmap_buffer.has( candidate_addr.x, candidate_addr.y ) ) {
+            if( !overmap_buffer.has( candidate_addr ) ) {
                 int current_distance = square_dist( pos().x, pos().y,
                                                     candidate_addr.x, candidate_addr.y );
                 if( nearest_candidates.empty() || current_distance == previous_distance ) {
@@ -4100,7 +4076,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         if( !nearest_candidates.empty() ) {
             std::shuffle( nearest_candidates.begin(), nearest_candidates.end(), rng_get_engine() );
             point new_om_addr = nearest_candidates.front();
-            overmap_buffer.create_custom_overmap( new_om_addr.x, new_om_addr.y, custom_overmap_specials );
+            overmap_buffer.create_custom_overmap( new_om_addr, custom_overmap_specials );
         } else {
             add_msg( _( "Unable to place all configured specials, some missions may fail to initialize." ) );
         }
@@ -4258,21 +4234,21 @@ void overmap::place_radios()
 
 void overmap::open( overmap_special_batch &enabled_specials )
 {
-    const std::string terfilename = overmapbuffer::terrain_filename( loc.x, loc.y );
+    const std::string terfilename = overmapbuffer::terrain_filename( loc );
 
     using namespace std::placeholders;
     if( read_from_file_optional( terfilename, std::bind( &overmap::unserialize, this, _1 ) ) ) {
-        const std::string plrfilename = overmapbuffer::player_filename( loc.x, loc.y );
+        const std::string plrfilename = overmapbuffer::player_filename( loc );
         read_from_file_optional( plrfilename, std::bind( &overmap::unserialize_view, this, _1 ) );
     } else { // No map exists!  Prepare neighbors, and generate one.
         std::vector<const overmap *> pointers;
         // Fetch south and north
         for( int i = -1; i <= 1; i += 2 ) {
-            pointers.push_back( overmap_buffer.get_existing( loc.x, loc.y + i ) );
+            pointers.push_back( overmap_buffer.get_existing( loc + point( 0, i ) ) );
         }
         // Fetch east and west
         for( int i = -1; i <= 1; i += 2 ) {
-            pointers.push_back( overmap_buffer.get_existing( loc.x + i, loc.y ) );
+            pointers.push_back( overmap_buffer.get_existing( loc + point( i, 0 ) ) );
         }
 
         // pointers looks like (north, south, west, east)
@@ -4283,16 +4259,13 @@ void overmap::open( overmap_special_batch &enabled_specials )
 // Note: this may throw io errors from std::ofstream
 void overmap::save() const
 {
-    const std::string plrfilename = overmapbuffer::player_filename( loc.x, loc.y );
-    const std::string terfilename = overmapbuffer::terrain_filename( loc.x, loc.y );
+    write_to_file( overmapbuffer::player_filename( loc ), [&]( std::ostream & stream ) {
+        serialize_view( stream );
+    } );
 
-    ofstream_wrapper fout_player( plrfilename );
-    serialize_view( fout_player );
-    fout_player.close();
-
-    ofstream_wrapper_exclusive fout_terrain( terfilename );
-    serialize( fout_terrain );
-    fout_terrain.close();
+    write_to_file( overmapbuffer::terrain_filename( loc ), [&]( std::ostream & stream ) {
+        serialize( stream );
+    } );
 }
 
 void overmap::add_mon_group( const mongroup &group )

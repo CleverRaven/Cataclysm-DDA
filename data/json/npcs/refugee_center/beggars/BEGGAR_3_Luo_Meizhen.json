@@ -48,15 +48,15 @@
     "id": "NC_BEGGAR_3_worn",
     "subtype": "collection",
     "items": [
-      { "item": "hoodie" },
-      { "item": "jacket_evac" },
-      { "item": "jeans" },
-      { "item": "panties" },
-      { "item": "camisole" },
       { "item": "bra" },
       { "item": "socks" },
+      { "item": "panties" },
+      { "item": "camisole" },
+      { "item": "hoodie" },
+      { "item": "jeans" },
       { "item": "lowtops" },
-      { "item": "gloves_light" }
+      { "item": "gloves_light" },
+      { "item": "jacket_evac" }
     ]
   },
   {

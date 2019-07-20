@@ -495,6 +495,8 @@ void Character::load( JsonObject &data )
     on_stat_change( "hunger", hunger );
     on_stat_change( "fatigue", fatigue );
     on_stat_change( "sleep_deprivation", sleep_deprivation );
+    recalc_sight_limits();
+    reset_encumbrance();
 
     // FIXME: Fix corrupted bionic power data loading (see #31627). Temporary.
     power_level = pmap.get_int( "power_level", data.get_int( "power_level", 0 ) );
@@ -1227,7 +1229,7 @@ void npc_chatbin::deserialize( JsonIn &jsin )
     if( data.has_int( "first_topic" ) ) {
         int tmptopic = 0;
         data.read( "first_topic", tmptopic );
-        first_topic = convert_talk_topic( talk_topic_enum( tmptopic ) );
+        first_topic = convert_talk_topic( static_cast<talk_topic_enum>( tmptopic ) );
     } else {
         data.read( "first_topic", first_topic );
     }
@@ -1311,7 +1313,7 @@ void npc_opinion::serialize( JsonOut &json ) const
 void npc_favor::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
-    type = npc_favor_type( jo.get_int( "type" ) );
+    type = static_cast<npc_favor_type>( jo.get_int( "type" ) );
     jo.read( "value", value );
     jo.read( "itype_id", item_id );
     if( jo.has_int( "skill_id" ) ) {
@@ -1427,7 +1429,7 @@ void npc::load( JsonObject &data )
     }
 
     if( data.read( "mission", misstmp ) ) {
-        mission = npc_mission( misstmp );
+        mission = static_cast<npc_mission>( misstmp );
         static const std::set<npc_mission> legacy_missions = {{
                 NPC_MISSION_LEGACY_1, NPC_MISSION_LEGACY_2,
                 NPC_MISSION_LEGACY_3
@@ -1438,7 +1440,7 @@ void npc::load( JsonObject &data )
         }
     }
     if( data.read( "previous_mission", misstmp ) ) {
-        previous_mission = npc_mission( misstmp );
+        previous_mission = static_cast<npc_mission>( misstmp );
         static const std::set<npc_mission> legacy_missions = {{
                 NPC_MISSION_LEGACY_1, NPC_MISSION_LEGACY_2,
                 NPC_MISSION_LEGACY_3
@@ -1460,7 +1462,7 @@ void npc::load( JsonObject &data )
     }
 
     if( data.read( "attitude", atttmp ) ) {
-        attitude = npc_attitude( atttmp );
+        attitude = static_cast<npc_attitude>( atttmp );
         static const std::set<npc_attitude> legacy_attitudes = {{
                 NPCATT_LEGACY_1, NPCATT_LEGACY_2, NPCATT_LEGACY_3,
                 NPCATT_LEGACY_4, NPCATT_LEGACY_5, NPCATT_LEGACY_6
@@ -1471,7 +1473,7 @@ void npc::load( JsonObject &data )
         }
     }
     if( data.read( "previous_attitude", atttmp ) ) {
-        previous_attitude = npc_attitude( atttmp );
+        previous_attitude = static_cast<npc_attitude>( atttmp );
         static const std::set<npc_attitude> legacy_attitudes = {{
                 NPCATT_LEGACY_1, NPCATT_LEGACY_2, NPCATT_LEGACY_3,
                 NPCATT_LEGACY_4, NPCATT_LEGACY_5, NPCATT_LEGACY_6
@@ -1916,6 +1918,22 @@ void time_duration::deserialize( JsonIn &jsin )
     }
 }
 
+template<typename V, typename U>
+void units::quantity<V, U>::serialize( JsonOut &jsout ) const
+{
+    jsout.write( value_ );
+}
+
+// TODO: BATTERIES this template specialization should be in the global namespace - see GCC bug 56480
+namespace units
+{
+template<>
+void units::energy::deserialize( JsonIn &jsin )
+{
+    *this = from_millijoule( jsin.get_int() );
+}
+} // namespace units
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// item.h
 
@@ -1956,6 +1974,8 @@ void item::io( Archive &archive )
     // normalize legacy saves to always have charges >= 0
     archive.io( "charges", charges, 0 );
     charges = std::max( charges, 0 );
+
+    archive.io( "energy", energy, 0_mJ );
 
     int cur_phase = static_cast<int>( current_phase );
     archive.io( "burnt", burnt, 0 );
@@ -2405,7 +2425,6 @@ void vehicle::deserialize( JsonIn &jsin )
     face.init( fdir );
     move.init( mdir );
     data.read( "name", name );
-    data.read( "base_name", base_name );
     std::string temp_id;
     std::string temp_old_id;
     data.read( "owner", temp_id );
@@ -2529,7 +2548,6 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "skidding", skidding );
     json.member( "of_turn_carry", of_turn_carry );
     json.member( "name", name );
-    json.member( "base_name", base_name );
     json.member( "owner", owner ? owner->id.str() : "" );
     json.member( "old_owner", old_owner ? old_owner->id.str() : "" );
     json.member( "theft_time", theft_time );

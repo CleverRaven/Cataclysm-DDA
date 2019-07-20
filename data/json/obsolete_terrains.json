@@ -257,7 +257,14 @@
       "shipwreck_river_2",
       "shipwreck_river_3",
       "shipwreck_river_4",
-      "toxic_dump"
+      "toxic_dump",
+      "orchard_tree_apple",
+      "orchard_stall",
+      "orchard_processing",
+      "dairy_farm_NW",
+      "dairy_farm_NE",
+      "dairy_farm_SW",
+      "dairy_farm_SE"
     ]
   }
 ]

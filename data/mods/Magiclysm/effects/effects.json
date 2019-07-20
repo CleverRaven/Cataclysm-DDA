@@ -114,9 +114,9 @@
     "type": "effect_type",
     "id": "synaptic_stim",
     "name": [ "Synaptic Stimulation" ],
-    "desc": [ "Your mental processing is incrased." ],
+    "desc": [ "Your mental processing is increased." ],
     "apply_message": "Your mind accelerates.",
-    "remove_message": "You mind reutnrs to normal speed.",
+    "remove_message": "Your mind returns to normal speed.",
     "rating": "good",
     "base_mods": { "dex_mod": [ 4 ], "int_mod": [ 4 ], "speed_mod": [ 30 ] }
   },

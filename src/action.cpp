@@ -458,8 +458,8 @@ action_id look_up_action( const std::string &ident )
     }
     // ^^ Temporarily for the interface with the input manager!
     for( int i = 0; i < NUM_ACTIONS; i++ ) {
-        if( action_ident( action_id( i ) ) == ident ) {
-            return action_id( i );
+        if( action_ident( static_cast<action_id>( i ) ) == ident ) {
+            return static_cast<action_id>( i );
         }
     }
     return ACTION_NULL;

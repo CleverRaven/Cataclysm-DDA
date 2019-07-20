@@ -158,6 +158,12 @@ struct mutation_branch {
         // Multiplier for sight range, defaulting to 1.
         float overmap_multiplier = 1.0f;
 
+        // Multiplier for map memory capacity, defaulting to 1.
+        float map_memory_capacity_multiplier = 1.0f;
+
+        // Multiplier for skill rust, defaulting to 1.
+        float skill_rust_multiplier = 1.0f;
+
         // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
         social_modifiers social_mods;
 

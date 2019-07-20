@@ -223,11 +223,6 @@ class player : public Character
         /** Returns what color the player should be drawn as */
         nc_color basic_symbol_color() const override;
 
-        /** Deserializes string data when loading files */
-        virtual void load_info( std::string data );
-        /** Outputs a serialized json string for saving */
-        virtual std::string save_info() const;
-
         /** Returns an enumeration of visible mutations with colors */
         std::string visible_mutations( const int visibility_cap ) const;
         std::vector<std::string> short_description_parts() const;
@@ -340,25 +335,38 @@ class player : public Character
                                       const skill_id &important_skill,
                                       const skill_id &least_important_skill,
                                       int skill_level = -1 );
+        /** Calculate non adjusted skill for (un)installing bionics */
+        int bionics_pl_skill( const skill_id &most_important_skill,
+                              const skill_id &important_skill,
+                              const skill_id &least_important_skill,
+                              int skill_level = -1 );
         /**Is the installation possible*/
         bool can_install_bionics( const itype &type, player &installer, bool autodoc = false,
                                   int skill_level = -1 );
-        /** Attempts to install bionics, returns false if the player cancels prior to installation */
+        /** Initialize all the values needed to start the operation player_activity */
         bool install_bionics( const itype &type, player &installer, bool autodoc = false,
                               int skill_level = -1 );
-        void bionics_install_failure( player &installer, int difficulty, int success,
+        /**Success or failure of installation happens here*/
+        void perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
+                              int pl_skill,
+                              std::string cbm_name, std::string upcbm_name, std::string installer_name,
+                              std::vector<trait_id> trait_to_rem );
+        void bionics_install_failure( std::string installer, int difficulty, int success,
                                       float adjusted_skill );
         /**Is The uninstallation possible*/
         bool can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                    int skill_level = -1 );
-        /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
+        /** Initialize all the values needed to start the operation player_activity */
         bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                int skill_level = -1 );
+        /**Succes or failure of removal happens here*/
+        void perform_uninstall( bionic_id bid, int difficulty, int success, int power_lvl, int pl_skill,
+                                std::string cbm_name );
         /**Used by monster to perform surgery*/
         bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
                                float adjusted_skill, bool autodoc = false );
         /**When a player fails the surgery*/
-        void bionics_uninstall_failure( player &installer, int difficulty, int success,
+        void bionics_uninstall_failure( int difficulty, int success,
                                         float adjusted_skill );
         /**When a monster fails the surgery*/
         void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
@@ -397,6 +405,8 @@ class player : public Character
         void mutate();
         /** Picks a random valid mutation in a category and mutate_towards() it */
         void mutate_category( const std::string &mut_cat );
+        /** Mutates toward one of the given mutations, upgrading or removing conflicts if necessary */
+        bool mutate_towards( std::vector<trait_id> muts, int num_tries = INT_MAX );
         /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
         bool mutate_towards( const trait_id &mut );
         /** Removes a mutation, downgrading to the previous level if possible */

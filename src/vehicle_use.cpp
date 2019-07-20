@@ -759,11 +759,10 @@ bool vehicle::fold_up()
     if( can_be_folded ) {
         bicycle.set_var( "weight", to_gram( total_mass() ) );
         bicycle.set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
-        bicycle.set_var( "name", string_format( _( "folded %s" ), base_name.empty() ? name : base_name ) );
-        bicycle.set_var( "vehicle_name", base_name.empty() ? name : base_name );
+        bicycle.set_var( "name", string_format( _( "folded %s" ), name ) );
+        bicycle.set_var( "vehicle_name", name );
         // TODO: a better description?
-        bicycle.set_var( "description", string_format( _( "A folded %s." ),
-                         base_name.empty() ? name : base_name ) );
+        bicycle.set_var( "description", string_format( _( "A folded %s." ), name ) );
     }
 
     g->m.add_item_or_charges( g->u.pos(), bicycle );
@@ -1019,7 +1018,7 @@ void vehicle::reload_seeds( const tripoint &pos )
     } );
 
     auto seed_entries = iexamine::get_seed_entries( seed_inv );
-    seed_entries.emplace( seed_entries.begin(), seed_tuple( itype_id( "null" ), "No seed", 0 ) );
+    seed_entries.emplace( seed_entries.begin(), seed_tuple( itype_id( "null" ), _( "No seed" ), 0 ) );
 
     int seed_index = iexamine::query_seed( seed_entries );
 

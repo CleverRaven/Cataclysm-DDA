@@ -742,7 +742,6 @@ class vehicle
         }
         void set_owner( faction *new_owner ) {
             owner = new_owner;
-            name = string_format( _( "%s (%s)" ), base_name.empty() ? name : base_name, new_owner->name );
         }
         void remove_owner() {
             owner = nullptr;
@@ -1576,7 +1575,6 @@ class vehicle
         std::vector<int> floating;         // List of parts that provide buoyancy to boats
 
         // config values
-        std::string base_name; // vehicle name without ownership
         std::string name;   // vehicle name
         /**
          * Type of the vehicle as it was spawned. This will never change, but it can be an invalid
