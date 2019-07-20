@@ -2499,6 +2499,12 @@ void Character::empty_skills()
     }
 }
 
+void Character::add_traits()
+{
+    points_left points = points_left();
+    add_traits( points );
+}
+
 void Character::add_traits( points_left &points )
 {
     // TODO: get rid of using g->u here, use `this` instead
@@ -2669,6 +2675,5 @@ void reset_scenario( avatar &u, const scenario *scen )
     u.empty_traits();
     u.recalc_hp();
     u.empty_skills();
-    points_left temp = points_left();
-    u.add_traits( temp );
+    u.add_traits();
 }

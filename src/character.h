@@ -792,6 +792,7 @@ class Character : public Creature, public visitable<Character>
          * Adds mandatory scenario and profession traits unless you already have them
          * And if you do already have them, refunds the points for the trait
          */
+        void add_traits();
         void add_traits( points_left &points );
 
         // --------------- Values ---------------
