@@ -140,7 +140,6 @@ void vehicle::thrust( int thd )
         if( velocity == 0 ) {
             stop();
         }
-        return;
     }
     // Accelerate (true) or brake (false)
     bool thrusting = true;
