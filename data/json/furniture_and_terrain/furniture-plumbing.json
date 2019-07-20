@@ -47,7 +47,7 @@
         { "item": "cu_pipe", "count": [ 0, 2 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] },
         { "item": "ceramic_shard", "count": [ 2, 6 ] },
-        { "item": "glass_shard", "count": [ 1, 2 ] }
+        { "item": "glass_shard", "count": [ 8, 16 ] }
       ]
     }
   },
