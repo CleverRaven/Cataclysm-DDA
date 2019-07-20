@@ -712,7 +712,7 @@ void mdeath::fungalburst( monster &z )
         return;
     }
 
-    std::string explode = string_format( _( "a %s explode!" ), z.name() );
+    std::string explode = string_format( _( "a %s explodes!" ), z.name() );
     sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );
     g->m.emit_field( z.pos(), emit_id( "emit_fungal_blast" ) );
 }
