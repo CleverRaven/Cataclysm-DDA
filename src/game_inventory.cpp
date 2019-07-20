@@ -555,33 +555,28 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
-            const auto &a = get_consumable_item( lhs.any_item() );
-            const auto &b = get_consumable_item( rhs.any_item() );
-
-            const int freshness = rate_freshness( a, *lhs.any_item() ) -
-                                  rate_freshness( b, *rhs.any_item() );
-            if( freshness != 0 ) {
-                return freshness > 0;
-            }
-
-            return inventory_selector_preset::sort_compare( lhs, rhs );
+            time_duration time_a = get_time_left( lhs.any_item() );
+            time_duration time_b = get_time_left( rhs.any_item() );
+            int order_a = get_order( lhs.any_item(), time_a );
+            int order_b = get_order( rhs.any_item(), time_b );
+            
+            return order_a < order_b
+                || ( order_a == order_b && time_a < time_b )
+                || ( order_a == order_b && time_a == time_b && inventory_selector_preset::sort_compare( lhs, rhs ) );
         }
 
     protected:
-        int rate_freshness( const item &it, const item &container ) const {
-            if( p.will_eat( it ).value() == edible_rating::ROTTEN ) {
-                return -1;
-            } else if( !container.type->container || !container.type->container->preserves ) {
-                if( it.is_fresh() ) {
-                    return 1;
-                } else if( it.is_going_bad() ) {
-                    return 3;
-                } else if( it.goes_bad() ) {
-                    return 2;
-                }
-            }
-
-            return 0;
+        int get_order( const item_location &loc, const time_duration time ) const {
+            const item &it = const_cast<item &>( *loc );
+            if( get_consumable_item( loc ).rotten() )  {
+                return 0;
+            } else if( time > 0_turns && !( it.type->container && it.type->container->preserves ) ) {
+                return 1;
+            } else if( time == 0_turns ) {
+                return 3;
+            } else {
+                return 2;
+            }        
         }
 
         // WARNING: this can return consumables which are not necessarily possessing
@@ -603,22 +598,31 @@ class comestible_inventory_preset : public inventory_selector_preset
             return dummy;
         }
 
-        std::string get_time_left_rounded( const item_location &loc ) {
-            const item &it = get_consumable_item( loc );
-            const double relative_rot = it.get_relative_rot();
-            const time_duration shelf_life = get_edible_comestible( loc ).spoils;
-            time_duration time_left = shelf_life - shelf_life * relative_rot;
+        time_duration get_time_left( const item_location &loc ) const {
+            time_duration time_left = 0_turns;
+            if( get_edible_comestible( loc ).spoils > 0_turns )  {
+                const item &it = get_consumable_item( loc );
+                const double relative_rot = it.get_relative_rot();
+                const time_duration shelf_life = get_edible_comestible( loc ).spoils;
+                time_left = shelf_life - shelf_life * relative_rot;
 
-            // Correct for an estimate that exceeds shelf life -- this happens especially with
-            // fresh items.
-            if( time_left > shelf_life ) {
-                time_left = shelf_life;
+                // Correct for an estimate that exceeds shelf life -- this happens especially with
+                // fresh items.
+                if( time_left > shelf_life ) {
+                    time_left = shelf_life;
+                }
             }
 
+            return time_left;
+        }
+        
+        std::string get_time_left_rounded( const item_location &loc ) const {
+            const item &it = get_consumable_item( loc );
             if( it.is_going_bad() ) {
                 return _( "soon!" );
             }
 
+            time_duration time_left = get_time_left( loc );
             return to_string_approx( time_left );
         }
 
