@@ -5526,6 +5526,8 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "locked_object", &iexamine::locked_object },
             { "kiln_empty", &iexamine::kiln_empty },
             { "kiln_full", &iexamine::kiln_full },
+            { "arcfurnace_empty", &iexamine::arcfurnace_empty },
+            { "arcfurnace_full", &iexamine::arcfurnace_full },
             { "fireplace", &iexamine::fireplace },
             { "ledge", &iexamine::ledge },
             { "autodoc", &iexamine::autodoc },
