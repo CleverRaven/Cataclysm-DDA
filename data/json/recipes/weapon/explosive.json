@@ -166,13 +166,13 @@
       [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "bb", 100 ], [ "nail", 30 ] ],
       [
-        [ "gunpowder", 72 ],
-        [ "chem_black_powder", 72 ],
-        [ "shot_he", 3 ],
-        [ "shot_flechette", 12 ],
-        [ "shot_00", 12 ],
-        [ "shot_slug", 12 ],
-        [ "shot_bird", 24 ]
+        [ "gunpowder", 216 ],
+        [ "chem_black_powder", 324 ],
+        [ "shot_he", 9 ],
+        [ "shot_flechette", 36 ],
+        [ "shot_00", 36 ],
+        [ "shot_slug", 36 ],
+        [ "shot_bird", 72 ]
       ]
     ]
   },
@@ -227,13 +227,13 @@
       [ [ "bottle_glass", 1 ], [ "clay_canister", 1 ], [ "flask_glass", 1 ] ],
       [ [ "nail", 40 ] ],
       [
-        [ "gunpowder", 72 ],
-        [ "chem_black_powder", 72 ],
-        [ "shot_he", 3 ],
-        [ "shot_flechette", 12 ],
-        [ "shot_00", 12 ],
-        [ "shot_slug", 12 ],
-        [ "shot_bird", 24 ]
+        [ "gunpowder", 216 ],
+        [ "chem_black_powder", 324 ],
+        [ "shot_he", 9 ],
+        [ "shot_flechette", 36 ],
+        [ "shot_00", 36 ],
+        [ "shot_slug", 36 ],
+        [ "shot_bird", 72 ]
       ]
     ]
   },
@@ -251,13 +251,13 @@
     "components": [
       [ [ "pipe", 1 ] ],
       [
-        [ "gunpowder", 72 ],
-        [ "chem_black_powder", 72 ],
-        [ "shot_he", 3 ],
-        [ "shot_flechette", 12 ],
-        [ "shot_00", 12 ],
-        [ "shot_slug", 12 ],
-        [ "shot_bird", 24 ]
+        [ "gunpowder", 216 ],
+        [ "chem_black_powder", 324 ],
+        [ "shot_he", 9 ],
+        [ "shot_flechette", 36 ],
+        [ "shot_00", 36 ],
+        [ "shot_slug", 36 ],
+        [ "shot_bird", 72 ]
       ],
       [ [ "string_6", 1 ] ]
     ]
@@ -320,7 +320,7 @@
     "reversible": true,
     "book_learn": [ [ "manual_launcher", 2 ], [ "textbook_anarch", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "can_food_unsealed", 1 ] ], [ [ "chem_black_powder", 100 ] ], [ [ "string_6", 1 ] ] ]
+    "components": [ [ [ "can_food_unsealed", 1 ] ], [ [ "chem_black_powder", 412 ] ], [ [ "string_6", 1 ] ] ]
   },
   {
     "result": "tool_black_powder_charge",
@@ -333,7 +333,7 @@
     "reversible": true,
     "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "chem_black_powder", 600 ] ], [ [ "scrap", 20 ] ], [ [ "string_6", 1 ] ] ]
+    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "chem_black_powder", 4120 ] ], [ [ "scrap", 20 ] ], [ [ "string_6", 1 ] ] ]
   },
   {
     "result": "tool_rdx_charge",
