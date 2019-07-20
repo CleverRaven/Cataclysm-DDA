@@ -735,7 +735,7 @@ static void wait()
     bool setting_alarm = false;
 
     if( u.controlling_vehicle && ( g->m.veh_at( u.pos() )->vehicle().velocity || g->m.veh_at( u.pos() )->vehicle().cruise_velocity ) ) {
-        popup( "You can't pass time while controlling a moving vehicle." );
+        popup( _( "You can't pass time while controlling a moving vehicle." ) );
         return;
     }
 
