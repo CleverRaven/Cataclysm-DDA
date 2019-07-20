@@ -43,6 +43,8 @@ const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_harnessed( "harnessed" );
 const skill_id skill_driving( "driving" );
 
+const efftype_id effect_winded( "winded" );
+
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
 // tile height in meters
@@ -133,7 +135,13 @@ void vehicle::thrust( int thd )
             return;
         }
     }
-
+    if( g->u.has_effect( effect_winded ) ) {
+        cruise_velocity = 0;
+        if( velocity == 0 ) {
+            stop();
+        }
+        return;
+    }
     // Accelerate (true) or brake (false)
     bool thrusting = true;
     if( velocity ) {
