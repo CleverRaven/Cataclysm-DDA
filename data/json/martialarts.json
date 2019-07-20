@@ -238,7 +238,7 @@
       "tec_krav_maga_grab",
       "tec_krav_maga_break"
     ],
-    "weapons": [ "tonfa", "tonfa_wood", "shocktonfa_off", "shocktonfa_on" ]
+    "weapons": [ "PR24-extended", "tonfa", "tonfa_wood", "shocktonfa_off", "shocktonfa_on" ]
   },
   {
     "type": "martial_art",
