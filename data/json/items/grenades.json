@@ -332,7 +332,7 @@
     "countdown_action": { "type": "transform", "target": "canister_empty" },
     "flags": [ "TRADER_AVOID" ]
   },
-    {
+  {
     "id": "fungicidalbomb_makeshift",
     "copy-from": "grenade_canister",
     "looks_like": "smokebomb",
