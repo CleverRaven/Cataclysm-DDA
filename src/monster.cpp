@@ -1153,7 +1153,7 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
                ( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) ) );
     }
 
-    if ( effect == effect_stunned ) {
+    if( effect == effect_stunned ) {
         return has_flag( MF_STUN_IMMUNE );
     }
 
