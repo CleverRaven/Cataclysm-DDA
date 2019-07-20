@@ -2366,13 +2366,6 @@ void npc::process_turn()
         }
 
         // TODO: Similar checks for fear and anger
-
-        // Should update body state here while last_updated is valid.
-        update_body( last_updated, calendar::turn );
-
-        // Update when NPC state was last modified.
-        last_updated = calendar::turn;
-
     }
 
     // TODO: Add decreasing trust/value/etc. here when player doesn't provide food
