@@ -1779,7 +1779,7 @@ void map::player_in_field( player &u )
             const int intensity = cur.get_field_intensity();
             bool inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, intensity * 1_minutes );
             if( ( ft == fd_fungicidal_gas && ( u.has_trait( trait_id( "THRESH_MYCUS" ) ) ||
-                                                u.has_trait( trait_id( "THRESH_MARLOSS" ) ) ) )
+                                               u.has_trait( trait_id( "THRESH_MARLOSS" ) ) ) )
                 || ( ft == fd_insecticidal_gas && u.get_highest_category() == "INSECT" ) ) {
                 inhaled |= u.add_env_effect( effect_badpoison, bp_mouth, 5, intensity * 1_minutes );
                 u.hurtall( rng( intensity, intensity * 2 ), nullptr );
