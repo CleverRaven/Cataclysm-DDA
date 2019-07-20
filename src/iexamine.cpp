@@ -2424,7 +2424,8 @@ void iexamine::fireplace( player &p, const tripoint &examp )
         case 4: {
             g->m.remove_field( examp, fd_fire );
             p.mod_moves( -200 );
-            p.add_msg_if_player( m_info, _( "With a few determined moves you put out the fire in the %s." ), g->m.furnname( examp ) );
+            p.add_msg_if_player( m_info, _( "With a few determined moves you put out the fire in the %s." ),
+                                 g->m.furnname( examp ) );
             return;
         }
         default:
