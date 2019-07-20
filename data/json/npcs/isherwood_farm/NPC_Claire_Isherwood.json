@@ -200,7 +200,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CLAIRE_MEDICINE",
-    "dynamic_line": "I have always studied and made some natural remedies, but now they are more essential then ever.  Who knows the next time we'll see a trained doctor.  These remedies aren't always as effective, but they can do the job in a pinch.",
+    "dynamic_line": "I have always studied and made some natural remedies, but now they are more essential than ever.  Who knows the next time we'll see a trained doctor.  These remedies aren't always as effective, but they can do the job in a pinch.",
     "responses": [
       { "text": "I'd like to ask you something else ...", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
