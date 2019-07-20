@@ -559,10 +559,11 @@ class comestible_inventory_preset : public inventory_selector_preset
             time_duration time_b = get_time_left( rhs.any_item() );
             int order_a = get_order( lhs.any_item(), time_a );
             int order_b = get_order( rhs.any_item(), time_b );
-            
+
             return order_a < order_b
-                || ( order_a == order_b && time_a < time_b )
-                || ( order_a == order_b && time_a == time_b && inventory_selector_preset::sort_compare( lhs, rhs ) );
+                   || ( order_a == order_b && time_a < time_b )
+                   || ( order_a == order_b && time_a == time_b &&
+                        inventory_selector_preset::sort_compare( lhs, rhs ) );
         }
 
     protected:
@@ -576,7 +577,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return 3;
             } else {
                 return 2;
-            }        
+            }
         }
 
         // WARNING: this can return consumables which are not necessarily possessing
@@ -615,7 +616,7 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             return time_left;
         }
-        
+
         std::string get_time_left_rounded( const item_location &loc ) const {
             const item &it = get_consumable_item( loc );
             if( it.is_going_bad() ) {
