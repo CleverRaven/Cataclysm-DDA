@@ -4909,7 +4909,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
         const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG", true );
         const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE", true );
         const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
-        const cata::optional<vpart_reference> furnacepart = vp.part_with_feature ( "ARCFURNACE", true);
+        const cata::optional<vpart_reference> furnacepart = vp.part_with_feature( "ARCFURNACE", true);
         const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
 
