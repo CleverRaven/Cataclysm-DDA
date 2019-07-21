@@ -1,0 +1,235 @@
+[
+  {
+    "type": "enchantment",
+    "id": "null",
+    "cost": 0
+  },
+  {
+    "type": "enchantment",
+    "id": "STR_UP",
+    "good": true,
+    "cost": 3
+  },
+  {
+    "type": "enchantment",
+    "id": "DEX_UP",
+    "good": true,
+    "cost": 3
+  },
+  {
+    "type": "enchantment",
+    "id": "PER_UP",
+    "good": true,
+    "cost": 3
+  },
+  {
+    "type": "enchantment",
+    "id": "INT_up",
+    "good": true,
+    "cost": 3
+  },
+  {
+    "type": "enchantment",
+    "id": "all_up",
+    "good": true,
+    "cost": 5
+  },
+  {
+    "type": "enchantment",
+    "id": "speed_up",
+    "good": true,
+    "cost": 4
+  },
+  {
+    "type": "enchantment",
+    "id": "pblue",
+    "good": true,
+    "cost": 2
+  },
+  {
+    "type": "enchantment",
+    "id": "snakes",
+    "good": true,
+    "cost": 4
+  },
+  {
+    "type": "enchantment",
+    "id": "invicible",
+    "good": true,
+    "cost": 7
+  },
+  {
+    "type": "enchantment",
+    "id": "clairvoyance",
+    "good": true,
+    "cost": 5
+  },
+  {
+    "type": "enchantment",
+    "id": "clairvoyance+",
+    "good": true,
+    "cost": 7
+  },
+  {
+    "type": "enchantment",
+    "id": "super_clairvoyance",
+    "good": true,
+    "cost": 50
+  },
+  {
+    "type": "enchantment",
+    "id": "stealth",
+    "good": true,
+    "cost": 2
+  },
+  {
+    "type": "enchantment",
+    "id": "extinguish",
+    "good": true,
+    "cost": 2
+  },
+  {
+    "type": "enchantment",
+    "id": "glow",
+    "good": true,
+    "cost": 1
+  },
+  {
+    "type": "enchantment",
+    "id": "psyshield",
+    "good": true,
+    "cost": 1
+  },
+  {
+    "type": "enchantment",
+    "id": "resist_electricity",
+    "good": true,
+    "cost": 3
+  },
+  {
+    "type": "enchantment",
+    "id": "carry_more",
+    "good": true,
+    "cost": 3
+  },
+  {
+    "type": "enchantment",
+    "id": "sap_life",
+    "good": true,
+    "cost": 5
+  },
+  {
+    "type": "enchantment",
+    "id": "fun",
+    "good": true,
+    "cost": 1
+  },
+  {
+    "type": "enchantment",
+    "id": "hunger",
+    "good": false,
+    "cost": -2
+  },
+  {
+    "type": "enchantment",
+    "id": "thirst",
+    "good": false,
+    "cost": -2
+  },
+  {
+    "type": "enchantment",
+    "id": "smoke",
+    "good": false,
+    "cost": -1
+  },
+  {
+    "type": "enchantment",
+    "id": "evil",
+    "good": false,
+    "cost": -5
+  },
+  {
+    "type": "enchantment",
+    "id": "schizo",
+    "good": false,
+    "cost": -3
+  },
+  {
+    "type": "enchantment",
+    "id": "radioactive",
+    "good": false,
+    "cost": -5
+  },
+  {
+    "type": "enchantment",
+    "id": "mutagenic",
+    "good": false,
+    "cost": -3
+  },
+  {
+    "type": "enchantment",
+    "id": "attention",
+    "good": false,
+    "cost": -5
+  },
+  {
+    "type": "enchantment",
+    "id": "STR_down",
+    "good": false,
+    "cost": -2
+  },
+  {
+    "type": "enchantment",
+    "id": "DEX_down",
+    "good": false,
+    "cost": -2
+  },
+  {
+    "type": "enchantment",
+    "id": "PER_down",
+    "good": false,
+    "cost": -2
+  },
+  {
+    "type": "enchantment",
+    "id": "INT_down",
+    "good": false,
+    "cost": -2
+  },
+  {
+    "type": "enchantment",
+    "id": "all_down",
+    "good": false,
+    "cost": -5
+  },
+  {
+    "type": "enchantment",
+    "id": "speed_down",
+    "good": false,
+    "cost": -4
+  },
+  {
+    "type": "enchantment",
+    "id": "force_teleport",
+    "good": false,
+    "cost": -5
+  },
+  {
+    "type": "enchantment",
+    "id": "movement_noise",
+    "good": false,
+    "cost": -3
+  },
+  {
+    "type": "enchantment",
+    "id": "bad_weather",
+    "good": false,
+    "cost": -2
+  },
+  {
+    "type": "enchantment",
+    "id": "sick",
+    "good": false,
+    "cost": -1
+  }
+]
