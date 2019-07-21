@@ -5,14 +5,14 @@
     "//": "Intermittent cigarette smoke (example: lit cigarette)",
     "field": "fd_cigsmoke",
     "intensity": 2,
-    "chance": 50
+    "chance": 20
   },
   {
     "id": "emit_joint_trail",
     "type": "emit",
     "//": "Intermittent joint smoke (example: lit cigarette)",
     "field": "fd_weedsmoke",
-    "chance": 50
+    "chance": 20
   },
   {
     "id": "emit_smoke_blast",
