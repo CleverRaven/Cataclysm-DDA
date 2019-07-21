@@ -756,7 +756,7 @@
     "volume": "250 ml",
     "weight": 11,
     "ammo_type": "cac2powder",
-    "count": 100,
+    "count": 25,
     "stack_size": 10,
     "fuel": { "energy": 5.2 }
   },

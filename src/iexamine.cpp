@@ -2387,24 +2387,24 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
         return;
     }
     //arc furnaces require a huge amount of current, so 1 full storage battery would work as a stand in
-    if( !p.has_charges( "battery", 40000 ) ) {
-        add_msg( _( "This furnace is ready to be turned on, but you lack sufficent power." ) );
+    if( !p.has_charges( "UPS", 1250 ) ) {
+        add_msg( _( "This furnace is ready to be turned on, but you lack a UPS with sufficient power." ) );
         return;
     } else {
-        add_msg( _( "This furnace contains %s %s of material, and is ready to be ignited." ),
+        add_msg( _( "This furnace contains %s %s of material, and is ready to be turned on." ),
                  format_volume( total_volume ), volume_units_abbr() );
         if( !query_yn( _( "Turn on the furnace?" ) ) ) {
             return;
         }
     }
 
-    p.use_charges( "battery", 40000 );
+    p.use_charges( "UPS", 1250 );
     g->m.i_clear( examp );
     g->m.furn_set( examp, next_arcfurnace_type );
     item result( "unfinished_cac2", calendar::turn );
     result.charges = char_charges;
     g->m.add_item( examp, result );
-    add_msg( _( "You ignite the furnace." ) );
+    add_msg( _( "You turn on the furnace." ) );
 }
 
 void iexamine::arcfurnace_full( player &, const tripoint &examp )

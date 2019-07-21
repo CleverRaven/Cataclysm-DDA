@@ -1240,7 +1240,7 @@
     "description": "A brownish powder used as a precursor to making acetylene gas.",
     "weight": 1,
     "volume": "10 ml",
-    "count": 100,
+    "count": 10,
     "price": 0,
     "material": "wood",
     "symbol": "=",
