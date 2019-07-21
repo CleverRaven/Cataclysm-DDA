@@ -9072,7 +9072,7 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
 int iuse::break_stick( player *p, item *it, bool, const tripoint & )
 {
     p->moves -= to_turns<int>( 2_seconds );
-    p->mod_stat( "stamina", static_cast<int>( 0.05f * get_option<float>( "PLAYER_MAX_STAMINA" ) ) );
+    p->mod_stat( "stamina", static_cast<int>( 0.05f * get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
 
     if( p->get_str() < 5 ) {
         p->add_msg_if_player( _( "You are too weak to even try." ) );
