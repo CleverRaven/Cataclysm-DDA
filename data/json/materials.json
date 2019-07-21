@@ -903,7 +903,7 @@
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged"
   },
-   {
+  {
     "type": "material",
     "ident": "cac2powder",
     "name": "Powder",
