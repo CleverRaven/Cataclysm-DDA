@@ -333,7 +333,7 @@
     "type": "technique",
     "id": "tec_biojutsu_takedown",
     "name": "Biojutsu Takedown",
-    "messages": [ "You kick and slam %s to the ground", "<npcname> kick and slam %s to the ground" ],
+    "messages": [ "You kick and slam %s to the ground", "<npcname> kicks and slams %s to the ground" ],
     "min_unarmed": 2,
     "unarmed_allowed": true,
     "unarmed_weapons_allowed": false,
