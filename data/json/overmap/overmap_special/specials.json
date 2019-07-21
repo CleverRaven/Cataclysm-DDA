@@ -5328,5 +5328,25 @@
     "city_sizes": [ 1, 20 ],
     "occurrences": [ 0, 0 ],
     "flags": [ "CLASSIC", "UNIQUE" ]
+  },
+  {
+    "id": "airliner_crashed",
+    "type": "overmap_special",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "airliner_a1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "airliner_a2_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "airliner_a3_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "airliner_b1_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "airliner_b2_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "airliner_b3_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "airliner_c1_north" },
+      { "point": [ 1, 2, 0 ], "overmap": "airliner_c2_north" },
+      { "point": [ 2, 2, 0 ], "overmap": "airliner_c3_north" }
+    ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 6, -1 ],
+    "city_sizes": [ 0, 12 ],
+    "occurrences": [ 2, 2 ],
+    "flags": [ "CLASSIC" ]
   }
 ]
