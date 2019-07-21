@@ -479,7 +479,6 @@ void inventory::form_from_map( map &m, const tripoint &origin, int range, bool a
         const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG", true );
         const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE", true );
         const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
-        const cata::optional<vpart_reference> furnacepart = vp.part_with_feature( "ARCFURNACE", true );
         const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
 
@@ -554,12 +553,6 @@ void inventory::form_from_map( map &m, const tripoint &origin, int range, bool a
             kiln.charges = veh->fuel_left( "battery", true );
             kiln.item_tags.insert( "PSEUDO" );
             add_item( kiln );
-        }
-        if( furnacepart ) {
-            item arcfurnace( "arcfurnace", 0);
-            arcfurnace.charges = veh->fuel_left ("battery", true );
-            arcfurnace.item_tags.insert ( "PSEUDO" );
-            add_item( arcfurnace );
         }
         if( chempart ) {
             item hotplate( "hotplate", 0 );
