@@ -2357,8 +2357,9 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
         } else if( i.made_of_any( arcfurnaceable ) ) {
             fuel_present = true;
         } else {
-            add_msg( m_bad, _( "This furnace contains %s, which can't be made into calcium carbide!" ), i.tname( 1,
-                     false ) );
+            add_msg( m_bad, _( "This furnace contains %s, which can't be made into calcium carbide!" ),
+                     i.tname( 1,
+                              false ) );
             return;
         }
     }
@@ -2385,7 +2386,7 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
         add_msg( _( "The batch in this furance is too small to yield usable calcium carbide." ) );
         return;
     }
-//arc furnaces require a huge amount of current, so 1 full storage battery would work as a stand in
+    //arc furnaces require a huge amount of current, so 1 full storage battery would work as a stand in
     if( !p.has_charges( "battery", 40000 ) ) {
         add_msg( _( "This furnace is ready to be turned on, but you lack sufficent power." ) );
         return;
