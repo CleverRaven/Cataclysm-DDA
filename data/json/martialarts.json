@@ -66,6 +66,49 @@
   },
   {
     "type": "martial_art",
+    "id": "style_biojutsu",
+    "name": "Bionic Combatives",
+    "description": "A modern combat style for the post-modern human.  Nicknamed \"Biojutsu\", Bionic Combatives combines integrated weaponry, armor and augments into an consolidated fighting discipline.",
+    "initiate": [ "BEGINING BIONIC COMBATIVES PROGRAM. INITIATING COMBAT PROTOCOLS.", "%s starts moving with swift robotic percision." ],
+    "arm_block_with_bio_armor_arms": true,
+    "leg_block_with_bio_armor_legs": true,
+    "static_buffs": [
+      {
+        "id": "buff_biojutsu_static",
+        "name": "Biojutsu Stance",
+        "description": "void player::ApplyBiojutsuStatic() {\n    blocks_left += 2;\n    set_hit_bonus( get_hit_bonus() + 1 );\n}\n\n+2 Blocks attemps, +1 Accuracy.",
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "min_unarmed": 0,
+        "bonus_blocks": 2,
+        "flat_bonuses": [ [ "hit", 1.0 ] ]
+      }
+    ],
+    "onkill_buffs": [
+      {
+        "id": "buff_biojutsu_onkill",
+        "name": "Optimization",
+        "description": ">10 LOCATE TARGET\n>20 EXECUTE TARGET\n>30 GOTO 10\n\n+1 Accuracy, +2 all damage.\nLasts 3 turns.  Stacks 3 times.",
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "min_melee": 4,
+        "buff_duration": 3,
+        "max_stacks": 3,
+        "flat_bonuses": [ [ "damage", "bash", 2.0 ], [ "damage", "cut", 2.0 ], [ "damage", "stab", 2.0 ], [ "hit", 1.0 ] ]
+      }
+    ],
+    "techniques": [
+      "tec_biojutsu_counter",
+      "tec_biojutsu_disarm",
+      "tec_biojutsu_strike",
+      "tec_biojutsu_impale",
+      "tec_biojutsu_takedown",
+      "tec_biojutsu_wide"
+    ],
+    "weapons": [ "bio_claws_weapon", "bio_blade_weapon" ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_brawling",
     "name": "Brawling",
     "description": "You're used to hand-to-creature fighting.  Not stylish or sporting, but it gets the job done.",
@@ -382,37 +425,6 @@
       }
     ],
     "techniques": [ "tec_taekwondo_precise", "tec_taekwondo_push", "tec_taekwondo_sweep" ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_biojutsu",
-    "name": "Bionic Combatives",
-    "description": "A modern combat style for the post-modern human.  Bionic Combatives combines integrated weaponry, armor and augments into an consolidated fighting discipline.",
-    "initiate": [ "BEGINING BIONIC COMBATIVES PROGRAM. INITIATING COMBAT PROTOCOLS.", "%s starts moving with swift robotic percision." ],
-    "arm_block": 99,
-    "leg_block": 99,
-    "arm_block_with_bio_armor_arms": true,
-    "leg_block_with_bio_armor_legs": true,
-    "static_buffs": [
-      {
-        "id": "biojutsu_static",
-        "name": "Biojutsu",
-        "unarmed_allowed": true,
-        "melee_allowed": true,
-        "min_unarmed": 2,
-        "description": "+1 Blocks",
-        "bonus_blocks": 1
-      }
-    ],
-    "techniques": [
-      "tec_biojutsu_counter",
-      "tec_biojutsu_rapid_unarmed",
-      "tec_biojutsu_rapid_armed",
-      "tec_biojutsu_impale",
-      "tec_biojutsu_sweep",
-      "tec_biojutsu_wide"
-    ],
-    "weapons": [ "bio_claws_weapon", "bio_blade_weapon" ]
   },
   {
     "type": "martial_art",
