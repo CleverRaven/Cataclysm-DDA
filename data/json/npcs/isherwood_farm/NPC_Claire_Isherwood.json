@@ -20,6 +20,9 @@
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
     "bonus_per": { "one_in": 4 },
+    "worn_override": "NC_Isherwood_worn",
+    "carry_override": "NC_ISHERWOOD_rifle",
+    "weapon_override": "NC_ISHERWOOD_archery",
     "shopkeeper_item_group": "NC_ISHERWOOD_CLAIRE_misc",
     "skills": [
       {
@@ -32,60 +35,6 @@
       { "skill": "survival", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "pistol", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "rifle", "bonus": { "rng": [ 4, 8 ] } }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "NC_ISHERWOOD_CLAIRE_shirt",
-    "items": [ [ "tshirt", 20 ], [ "dress_shirt", 20 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "NC_ISHERWOOD_CLAIRE_gloves",
-    "items": [ [ "null", 60 ], [ "gloves_leather", 20 ], [ "gloves_fingerless", 20 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "NC_ISHERWOOD_CLAIRE_coat",
-    "items": [ [ "jacket_light", 20 ], [ "jacket_leather", 20 ], [ "jacket_jean", 20 ], [ "jacket_flannel", 20 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "NC_ISHERWOOD_CLAIRE_hat",
-    "items": [ [ "null", 40 ], [ "cowboy_hat", 40 ], [ "hat_boonie", 20 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "NC_ISHERWOOD_CLAIRE_extra",
-    "items": [ [ "null", 5 ], [ "backpack_leather", 25 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "NC_ISHERWOOD_CLAIRE_archery",
-    "items": [
-      [ "crossbow", 20 ],
-      [ "shortbow", 5 ],
-      [ "compbow", 15 ],
-      [ "compositebow", 15 ],
-      [ "recurbow", 15 ],
-      [ "reflexbow", 10 ],
-      [ "longbow", 10 ],
-      [ "hand_crossbow", 15 ],
-      [ "selfbow", 5 ]
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "NC_ISHERWOOD_CLAIRE_rifle",
-    "items": [
-      [ "rifle_22", 5 ],
-      [ "rifle_9mm", 5 ],
-      [ "ruger_1022", 10 ],
-      [ "browning_blr", 10 ],
-      [ "remington_700", 10 ],
-      [ "savage_111f", 5 ],
-      [ "marlin_9a", 25 ],
-      [ "m1903", 5 ]
     ]
   },
   {
@@ -329,7 +278,7 @@
       "inquire": "How is the search going?",
       "success": "Wow, perfect.  Here are some of my own remedies and if those don't work try my other gift.",
       "success_lie": "What good does this do us?",
-      "failure": "I'll have to find someone more comforable in the forest..."
+      "failure": "I'll have to find someone more at home in the forest..."
     }
   }
 ]

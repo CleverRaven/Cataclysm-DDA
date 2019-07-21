@@ -20,6 +20,9 @@
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
     "bonus_per": { "one_in": 4 },
+    "worn_override": "NC_Isherwood_worn",
+    "carry_override": "NC_ISHERWOOD_rifle",
+    "weapon_override": "NC_ISHERWOOD_archery",
     "shopkeeper_item_group": "NC_ISHERWOOD_JACK_misc",
     "skills": [
       {
@@ -36,17 +39,18 @@
   },
   {
     "type": "item_group",
-    "id": "NC_ISHERWOOD_JACK_shirt",
-    "items": [ [ "tshirt", 20 ], [ "dress_shirt", 20 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "NC_ISHERWOOD_JACK_gloves",
-    "items": [ [ "null", 60 ], [ "gloves_leather", 20 ], [ "gloves_fingerless", 20 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "NC_ISHERWOOD_JACK_coat",
+    "id": "NC_Isherwood_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "backpack_leather" },
+      { "item": "jeans" },
+      { "item": "tshirt" },
+      { "item": "gloves_fingerless" },
+      { "item": "panties" },
+      { "item": "socks" },
+      { "item": "cowboy_hat" },
+      { "item": "boots" }
+    ],
     "items": [
       [ "jacket_light", 20 ],
       [ "jacket_leather", 20 ],
@@ -57,17 +61,7 @@
   },
   {
     "type": "item_group",
-    "id": "NC_ISHERWOOD_JACK_hat",
-    "items": [ [ "null", 40 ], [ "cowboy_hat", 40 ], [ "hat_hunting", 40 ], [ "hat_boonie", 20 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "NC_ISHERWOOD_JACK_extra",
-    "items": [ [ "null", 5 ], [ "backpack_leather", 25 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "NC_ISHERWOOD_JACK_archery",
+    "id": "NC_ISHERWOOD_archery",
     "items": [
       [ "crossbow", 20 ],
       [ "shortbow", 5 ],
@@ -82,7 +76,7 @@
   },
   {
     "type": "item_group",
-    "id": "NC_ISHERWOOD_JACK_rifle",
+    "id": "NC_ISHERWOOD_rifle",
     "items": [
       [ "rifle_22", 5 ],
       [ "rifle_9mm", 5 ],
