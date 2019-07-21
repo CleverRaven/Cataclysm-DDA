@@ -2237,7 +2237,7 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "thump.",
-      "items": [ { "item": "rock", "count": [ 1, 6 ] } ]
+      "items": [ { "item": "rock", "count": [ 1, 6 ] }, { "item": "sharp_rock", "count": [ 0, 2 ] } ]
     }
   },
   {
@@ -2257,7 +2257,7 @@
       "str_max": 80,
       "sound": "smash!",
       "sound_fail": "thump.",
-      "items": [ { "item": "rock", "count": [ 5, 11 ] } ]
+      "items": [ { "item": "rock", "count": [ 5, 11 ] }, { "item": "sharp_rock", "count": [ 1, 4 ] } ]
     }
   },
   {
@@ -2278,6 +2278,7 @@
       "sound_fail": "thump.",
       "items": [
         { "item": "rock", "count": [ 10, 22 ] },
+        { "item": "sharp_rock", "count": [ 3, 7 ] },
         { "item": "material_limestone", "charges": [ 2, 5 ], "prob": 30 },
         { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 10 }
       ]
