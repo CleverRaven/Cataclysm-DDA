@@ -5252,60 +5252,51 @@ void game::control_vehicle()
     } else {
         std::vector<optional_vpart_position> vehicles;
         tripoint sole_position;
-        for (const tripoint elem : m.points_in_radius(g->u.pos(), 1)) {
-            if (const optional_vpart_position vp = m.veh_at(elem)){
-                const cata::optional<vpart_reference> vpr = vp.value().part_with_feature("CONTROLS", true);
-                if (vpr) {
-                    vehicles.push_back(vp);
+        for( const tripoint elem : m.points_in_radius( g->u.pos(), 1 ) ) {
+            if( const optional_vpart_position vp = m.veh_at( elem ) ) {
+                const cata::optional<vpart_reference> vpr = vp.value().part_with_feature( "CONTROLS", true );
+                if( vpr ) {
+                    vehicles.push_back( vp );
                     sole_position = elem;
                 }
             }
         }
-        if (vehicles.size() < 1)
-        {
-            add_msg(_("No vehicle controls in reach."));
+        if( vehicles.size() < 1 ) {
+            add_msg( _( "No vehicle controls in reach." ) );
             return;
-        }
-        else if (vehicles.size() > 1)
-        {
-            const cata::optional<tripoint> examp_ = choose_adjacent(_("Control vehicle where?"));
-            if (!examp_) {
+        } else if( vehicles.size() > 1 ) {
+            const cata::optional<tripoint> examp_ = choose_adjacent( _( "Control vehicle where?" ) );
+            if( !examp_ ) {
                 return;
             }
-            optional_vpart_position vp = m.veh_at(*examp_);
-            if (vp) {
-                const cata::optional<vpart_reference> vpr = vp.value().part_with_feature("CONTROLS", true);
-                if (vpr) {
+            optional_vpart_position vp = m.veh_at( *examp_ );
+            if( vp ) {
+                const cata::optional<vpart_reference> vpr = vp.value().part_with_feature( "CONTROLS", true );
+                if( vpr ) {
                     veh = &vp->vehicle();
                     veh_part = vp->part_index();
-                    if (veh->avail_part_with_feature(veh_part, "CONTROLS", true) >= 0) {
-                        if (!veh->handle_potential_theft(dynamic_cast<player &>(u))) {
+                    if( veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 ) {
+                        if( !veh->handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
                             return;
                         }
-                        veh->use_controls(*examp_);
+                        veh->use_controls( *examp_ );
                     }
-                }
-                else
-                {
-                    add_msg(_("The vehicle doesn't have controls there."));
+                } else {
+                    add_msg( _( "The vehicle doesn't have controls there." ) );
                     return;
                 }
-            }
-            else
-            {
-                add_msg(_("No vehicle there."));
+            } else {
+                add_msg( _( "No vehicle there." ) );
                 return;
             }
-        }
-        else if (vehicles.size() == 1)
-        {
+        } else if( vehicles.size() == 1 ) {
             veh = &vehicles.front()->vehicle();
             veh_part = vehicles.front()->part_index();
-            if (veh->avail_part_with_feature(veh_part, "CONTROLS", true) >= 0) {
-                if (!veh->handle_potential_theft(dynamic_cast<player &>(u))) {
+            if( veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 ) {
+                if( !veh->handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
                     return;
                 }
-                veh->use_controls(sole_position);
+                veh->use_controls( sole_position );
             }
         }
     }
