@@ -529,9 +529,9 @@
   },
   {
     "type": "ammunition_type",
-    "id": "unfinished_cac2powder",
+    "id": "unfinished_cac2",
     "name": "partially burned calcium carbide",
-    "default": "unfinished_cac2powder"
+    "default": "unfinished_cac2"
   },
   {
     "type": "ammunition_type",

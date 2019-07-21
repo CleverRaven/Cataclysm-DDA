@@ -751,7 +751,7 @@
     "symbol": "=",
     "color": "dark_gray",
     "description": "A powdered mixture of coke and lime ready to be smelted into usable calcium carbide in an arc furnace.",
-    "material": "wood",
+    "material": "cac2powder",
     "phase": "solid",
     "volume": "250 ml",
     "weight": 11,
@@ -1001,6 +1001,20 @@
     "volume": 1,
     "weight": 300,
     "ammo_type": "unfinished_char"
+  },
+  {
+    "type": "AMMO",
+	"id": "unfinished_cac2",
+	"category": "spare_parts",
+	"price": 0,
+	"name": "unfinished calcium carbide",
+	"symbol": "=",
+	"color": "white",
+	"description": "The incomplete process of converting coal and lime into calcium carbide. Useless in this state/",
+	"material": "cac2powder",
+	"volume": 1,
+	"weight": 300,
+	"ammo_type": "unfinished_cac2"
   },
   {
     "type": "AMMO",
