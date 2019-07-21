@@ -41,16 +41,6 @@
     "max_charges": 2000
   },
   {
-    "id": "fake_arcfurnace",
-    "type": "TOOL",
-    "copy-from": "fake_item",
-    "name": "basecamp arc furnace",
-    "description": "A fake arc furnace used for basecamps.",
-    "sub": "arcfurnace",
-    "ammo": "battery",
-    "max_charges": "80000"
-  },
-  {
     "id": "fake_stove",
     "type": "TOOL",
     "copy-from": "fake_item",
