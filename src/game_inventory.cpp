@@ -568,10 +568,9 @@ class comestible_inventory_preset : public inventory_selector_preset
 
     protected:
         int get_order( const item_location &loc, const time_duration time ) const {
-            const item &it = static_cast<const item &>( *loc );
             if( get_consumable_item( loc ).rotten() )  {
                 return 0;
-            } else if( time > 0_turns && !( it.type->container && it.type->container->preserves ) ) {
+            } else if( time > 0_turns && !( loc->type->container && loc->type->container->preserves ) ) {
                 return 1;
             } else if( time == 0_turns ) {
                 return 3;
@@ -601,10 +600,10 @@ class comestible_inventory_preset : public inventory_selector_preset
 
         time_duration get_time_left( const item_location &loc ) const {
             time_duration time_left = 0_turns;
-            if( get_edible_comestible( loc ).spoils > 0_turns )  {
+            const time_duration shelf_life = get_edible_comestible( loc ).spoils;
+            if( shelf_life > 0_turns ) {
                 const item &it = get_consumable_item( loc );
                 const double relative_rot = it.get_relative_rot();
-                const time_duration shelf_life = get_edible_comestible( loc ).spoils;
                 time_left = shelf_life - shelf_life * relative_rot;
 
                 // Correct for an estimate that exceeds shelf life -- this happens especially with
