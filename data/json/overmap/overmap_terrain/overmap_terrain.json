@@ -792,5 +792,56 @@
     "sym": "i",
     "color": "light_green",
     "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_a1",
+    "name": "field",
+    "sym": ".",
+    "color": "brown",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_a2",
+    "copy-from": "airliner_a1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_a3",
+    "copy-from": "airliner_a1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_b1",
+    "copy-from": "airliner_a1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_b2",
+    "name": "crashed airliner",
+    "sym": "A",
+    "color": "red",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_b3",
+    "copy-from": "airliner_a1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_c1",
+    "copy-from": "airliner_a1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_c2",
+    "copy-from": "airliner_a1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_c3",
+    "copy-from": "airliner_a1"
   }
 ]
