@@ -4918,6 +4918,20 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
     for( size_t i = 0; i < num_used && !effects.empty(); i++ ) {
         const art_effect_active used = random_entry_removed( effects );
 
+        //cast_spell_effect(p, #tarteg nach aktion?);
+        player_activity cast_spell( activity_id( "ACT_SPELLCASTING" ), 0);
+        // [0] this is used as a spell level override for items casting spells
+        cast_spell.values.emplace_back( -1 );
+        // [1] if this value is 1, the spell never fails
+        cast_spell.values.emplace_back( 1 );
+        // [2] this value overrides the mana cost if set to 0
+        cast_spell.values.emplace_back( 1 );
+
+        for(size_t l = 0; l < ) // with get all names from actives.json
+        <art_effect_active>string_to_enum()
+        cast_spell.name = random_entry_removed( effects ); // ist enum, muss string sein -> wrapper
+        p.assign_activity( cast_spell, false );
+
         switch( used ) {
             case AEA_STORM: {
                 sounds::sound( p->pos(), 10, sounds::sound_t::combat, _( "Ka-BOOM!" ), true, "environment",
