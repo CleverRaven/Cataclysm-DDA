@@ -41,13 +41,6 @@
     "description": "An electric kiln made to run off a vehicle's storage battery."
   },
   {
-    "id": "furnacerig",
-    "copy-from": "vehicle_rig",
-    "type": "GENERIC",
-    "name": "vehicle arc furnace",
-    "description": "A vehicle mounted arc furnace."
-  },
-  {
     "id": "kitchen_unit",
     "copy-from": "vehicle_rig",
     "type": "GENERIC",
