@@ -5245,7 +5245,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
     amenu.addentry( start_long_craft, true,            '3', _( "Craft as long as possible" ) );
     amenu.addentry( work_on_craft,    !crafts.empty(), '4', _( "Work on craft" ) );
     if( !part ) {
-        amenu.addentry( get_items,    items_at_loc,    '5', _( "Get items" ) );
+        amenu.addentry( get_items,    items_at_loc,    'g', _( "Get items" ) );
     }
 
     amenu.query();
