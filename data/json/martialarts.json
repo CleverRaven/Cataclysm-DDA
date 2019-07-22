@@ -100,7 +100,8 @@
     "techniques": [
       "tec_biojutsu_counter",
       "tec_biojutsu_disarm",
-      "tec_biojutsu_strike",
+      "tec_biojutsu_strike_unarmed",
+      "tec_biojutsu_strike_melee",
       "tec_biojutsu_impale",
       "tec_biojutsu_takedown",
       "tec_biojutsu_wide"
