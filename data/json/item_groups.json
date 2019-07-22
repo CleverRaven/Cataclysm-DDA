@@ -7131,7 +7131,13 @@
       [ "solarpack", 2 ],
       [ "chem_hexamine", 5 ],
       [ "esbit_stove", 8 ],
-      [ "mess_tin", 4 ]
+      [ "mess_tin", 4 ],
+      [ "beam_scatterer", 1 ],
+      [ "focusing_lens", 1 ],
+      [ "electrolaser_conversion", 1 ],
+      [ "effective_emitter", 1 ],
+      [ "high_density_capacitor", 1 ],
+      [ "emp_gun", 1 ]
     ]
   },
   {
