@@ -324,5 +324,37 @@
     "reliability": 7,
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "bhp9mag_13rd",
+    "type": "MAGAZINE",
+    "name": "Hi Power magazine 9x19mm",
+    "description": "A 13 round steel box magazine for the Browning Hi Power 9x19mm.",
+    "weight": 100,
+    "volume": "35 ml",
+    "price": 2400,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "9mm",
+    "capacity": 13,
+    "reliability": 9,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "bhp9mag_15rd",
+    "type": "MAGAZINE",
+    "name": "Hi Power magazine 9x19mm",
+    "description": "A 15 round steel box magazine for the Browning Hi Power 9x19mm.",
+    "weight": 100,
+    "volume": "50 ml",
+    "price": 2700,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "9mm",
+    "capacity": 15,
+    "reliability": 9,
+    "flags": [ "MAG_COMPACT" ]
   }
 ]
