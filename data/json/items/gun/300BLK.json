@@ -6,7 +6,7 @@
     "name": "Remington ACR .300BLK",
     "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing carbines.  This version is chambered for the .300 AAC Blackout round.",
     "weight": 3495,
-    "volume": 8,
+    "volume": "2 L",
     "price": 234300,
     "to_hit": -1,
     "bashing": 12,
