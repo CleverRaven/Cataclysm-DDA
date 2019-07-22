@@ -83,8 +83,8 @@
   {
     "id": "bhp40mag",
     "type": "MAGAZINE",
-    "name": "Hi Power magazine .40 S&W",
-    "description": "A 10 round steel box magazine for the Browning Hi Power .40 S&W.",
+    "name": "Hi-Power magazine .40 S&W",
+    "description": "A 10 round steel box magazine for the Browning Hi-Power .40 S&W.",
     "weight": 120,
     "volume": 1,
     "price": 4000,
