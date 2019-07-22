@@ -188,7 +188,7 @@
       { "group": "guns_energy", "prob": 20 },
       { "group": "gunmod_energy", "prob": 40 },
       [ "plut_cell", 30 ],
-	  [ "plasma", 30 ],
+      [ "plasma", 30 ],
       [ "adv_UPS_off", 20 ]
     ]
   },
