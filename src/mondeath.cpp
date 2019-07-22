@@ -665,7 +665,7 @@ void mdeath::broken( monster &z )
 			g->m.spawn_item( z.pos(), ammo_entry.first.c_str(), z.ammo[ammo_entry.first.c_str()], 1, calendar::turn );
 		}
 	}
-    }
+}
     //end adds ammo drop
     //TODO: make mdeath::splatter work for robots
     if( ( broken_mon.damage() >= broken_mon.max_damage() ) && g->u.sees( z.pos() ) ) {
