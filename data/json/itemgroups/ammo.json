@@ -421,7 +421,7 @@
       [ "9mm_casing", 100 ],
       [ "9x18mm_casing", 80 ],
       [ "shot_hull", 100 ],
-      [ "300BLK_casing", 80 ]
+      [ "300blk_casing", 80 ]
     ]
   },
   {
