@@ -5,7 +5,7 @@
     "name": ".300 AAC Blackout",
     "description": ".300 AAC Blackout is an intermediate cartridge that achieves ballistics similar to the 7.62x39 but allows use on the AR-15 platform.  The round is necked-up from the 5.56mm NATO, but feeds from a STANAG magazine.  It requires a specific barrel, so will not work in a standard M4 or similar carbine.  This loading is supersonic.",
     "weight": 18,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 3500,
     "material": [ "brass", "powder" ],
     "symbol": "=",
