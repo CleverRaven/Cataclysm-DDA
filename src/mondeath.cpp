@@ -661,7 +661,7 @@ void mdeath::broken( monster &z )
     const bool dropsammo = z.type->has_flag( MF_DROPS_AMMO ); 
     if( dropsammo ) {
     for( const auto &ammo_entry : z.type->starting_ammo ) {
-		if (z.ammo[ammo_entry.first] > 0) {
+		if( z.ammo[ammo_entry.first] > 0 ) {
 			g->m.spawn_item( z.pos(), ammo_entry.first.c_str(), z.ammo[ammo_entry.first.c_str()], 1, calendar::turn );
 		}
 	}
