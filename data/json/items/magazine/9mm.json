@@ -344,7 +344,7 @@
   {
     "id": "bhp9mag_15rd",
     "type": "MAGAZINE",
-    "name": "Hi Power magazine 9x19mm",
+    "name": "Hi Power magazine",
     "description": "A 15 round steel box magazine for the Browning Hi Power.",
     "weight": 100,
     "volume": "120 ml",
@@ -354,6 +354,22 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "capacity": 15,
+    "reliability": 9,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "p38mag",
+    "type": "MAGAZINE",
+    "name": "P38 magazine",
+    "description": "An 8 round steel box magazine for the Walther P38.",
+    "weight": 70,
+    "volume": "80 ml",
+    "price": 1500,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "9mm",
+    "capacity": 8,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
   }
