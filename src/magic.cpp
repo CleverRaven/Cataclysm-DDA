@@ -1521,7 +1521,7 @@ void known_magic::on_mutation_gain( const trait_id &mid, player &p )
     for( const std::pair<spell_id, int> &sp : mid->spells_learned ) {
         learn_spell( sp.first, p, true );
         spell &temp_sp = get_spell( sp.first );
-        for( int level = 0; level <= sp.second; level++ ) {
+        for( int level = 0; level < sp.second; level++ ) {
             temp_sp.gain_level();
         }
     }
