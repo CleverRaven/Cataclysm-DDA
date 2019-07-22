@@ -4238,7 +4238,7 @@ units::volume item::get_storage() const
         return is_pet_armor() ? type->pet_armor->storage : 0_ml;
     }
     units::volume storage = t->storage;
-    float mod = get_clothing_mod_val( cm_storage );
+    float mod = get_clothing_mod_val( clothing_mod_type_storage );
     storage += lround( mod ) * units::legacy_volume_factor;
 
     return storage;
@@ -4322,7 +4322,8 @@ int item::get_encumber_when_containing(
             break;
     }
 
-    encumber += std::max( 1, static_cast<int>( ceil( get_clothing_mod_val( cm_encumbrance ) ) ) );
+    encumber += std::max( 1, static_cast<int>( ceil( get_clothing_mod_val(
+                              clothing_mod_type_encumbrance ) ) ) );
 
     return encumber;
 }
@@ -4374,7 +4375,7 @@ int item::get_warmth() const
     }
     int result = t->warmth;
 
-    result += get_clothing_mod_val( cm_warmth );
+    result += get_clothing_mod_val( clothing_mod_type_warmth );
 
     return result;
 }
@@ -4489,7 +4490,7 @@ int item::bash_resist( bool to_self ) const
     }
 
     float resist = 0;
-    float mod = get_clothing_mod_val( cm_bash );
+    float mod = get_clothing_mod_val( clothing_mod_type_bash );
     int eff_thickness = 1;
 
     // Armor gets an additional multiplier.
@@ -4521,7 +4522,7 @@ int item::cut_resist( bool to_self ) const
 
     const int base_thickness = get_thickness();
     float resist = 0;
-    float mod = get_clothing_mod_val( cm_cut );
+    float mod = get_clothing_mod_val( clothing_mod_type_cut );
     int eff_thickness = 1;
 
     // Armor gets an additional multiplier.
@@ -4563,7 +4564,7 @@ int item::acid_resist( bool to_self, int base_env_resist ) const
     }
 
     float resist = 0.0;
-    float mod = get_clothing_mod_val( cm_acid );
+    float mod = get_clothing_mod_val( clothing_mod_type_acid );
     if( is_null() ) {
         return 0.0;
     }
@@ -4597,7 +4598,7 @@ int item::fire_resist( bool to_self, int base_env_resist ) const
     }
 
     float resist = 0.0;
-    float mod = get_clothing_mod_val( cm_fire );
+    float mod = get_clothing_mod_val( clothing_mod_type_fire );
     if( is_null() ) {
         return 0.0;
     }

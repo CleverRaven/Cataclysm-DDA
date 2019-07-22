@@ -13,14 +13,14 @@ class player;
 class item;
 
 enum clothing_mod_type : int {
-    cm_acid,
-    cm_fire,
-    cm_bash,
-    cm_cut,
-    cm_encumbrance,
-    cm_warmth,
-    cm_storage,
-    cm_invalid
+    clothing_mod_type_acid,
+    clothing_mod_type_fire,
+    clothing_mod_type_bash,
+    clothing_mod_type_cut,
+    clothing_mod_type_encumbrance,
+    clothing_mod_type_warmth,
+    clothing_mod_type_storage,
+    clothing_mod_type_invalid
 };
 
 struct mod_value {
@@ -51,14 +51,14 @@ namespace clothing_mods
 {
 
 constexpr std::array<clothing_mod_type, 8> all_clothing_mod_types = {{
-        cm_acid,
-        cm_fire,
-        cm_bash,
-        cm_cut,
-        cm_encumbrance,
-        cm_warmth,
-        cm_storage,
-        cm_invalid
+        clothing_mod_type_acid,
+        clothing_mod_type_fire,
+        clothing_mod_type_bash,
+        clothing_mod_type_cut,
+        clothing_mod_type_encumbrance,
+        clothing_mod_type_warmth,
+        clothing_mod_type_storage,
+        clothing_mod_type_invalid
     }
 };
 

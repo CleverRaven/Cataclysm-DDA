@@ -34,14 +34,14 @@ namespace io
 {
 
 static const std::map<std::string, clothing_mod_type> clothing_mod_type_map = {{
-        { "acid", cm_acid },
-        { "fire", cm_fire },
-        { "bash", cm_bash },
-        { "cut", cm_cut },
-        { "encumbrance", cm_encumbrance },
-        { "warmth", cm_warmth },
-        { "storage", cm_storage },
-        { "invalid", cm_invalid }
+        { "acid", clothing_mod_type_acid },
+        { "fire", clothing_mod_type_fire },
+        { "bash", clothing_mod_type_bash },
+        { "cut", clothing_mod_type_cut },
+        { "encumbrance", clothing_mod_type_encumbrance },
+        { "warmth", clothing_mod_type_warmth },
+        { "storage", clothing_mod_type_storage },
+        { "invalid", clothing_mod_type_invalid }
     }
 };
 
@@ -52,7 +52,7 @@ clothing_mod_type string_to_enum<clothing_mod_type>( const std::string &data )
 
     if( iter == clothing_mod_type_map.end() ) {
         debugmsg( "Invalid mod type '%s'.", data.c_str() );
-        return cm_invalid;
+        return clothing_mod_type_invalid;
     }
 
     return string_to_enum_look_up( clothing_mod_type_map, data );
