@@ -87,7 +87,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_hub_tent_southwest",
-    "description": "We should expand our housing by putting up a tent on the southwest side, though doing so will mean we will need more materials to build the central building.",
+    "description": "We should expand our housing by putting up a tent on the southwest side, though doing so will mean we need more materials to build the central building.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "fabrication",
