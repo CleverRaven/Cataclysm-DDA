@@ -65,7 +65,14 @@
       [ "m9mag", 5 ],
       [ "mp5mag", 10 ],
       [ "sig40mag", 20 ],
-      [ "stanag30", 5 ]
+      [ "stanag30", 5 ],
+      [ "ppq9mag_10rd", 25 ],
+      [ "ppq9mag_15rd", 15 ],
+      [ "ppq9mag_17rd", 5 ],
+      [ "ppq40mag_10rd", 15 ],
+      [ "ppq40mag_12rd", 10 ],
+      [ "ppq40mag_14rd", 5 ],
+      [ "ppq45mag", 5 ]
     ]
   },
   {
@@ -106,7 +113,17 @@
       [ "rugerlcpmag", 10 ],
       [ "sw22mag", 10 ],
       [ "p226mag_15rd_357sig", 25 ],
-      [ "p320mag_14rd_357sig", 10 ]
+      [ "p320mag_14rd_357sig", 10 ],
+      [ "bhp9mag_13rd", 15 ],
+      [ "bhp9mag_15rd", 5 ],
+      [ "p38mag", 15 ],
+      [ "ppq9mag_10rd", 25 ],
+      [ "ppq9mag_15rd", 15 ],
+      [ "ppq9mag_17rd", 5 ],
+      [ "ppq40mag_10rd", 12 ],
+      [ "ppq40mag_12rd", 8 ],
+      [ "ppq40mag_14rd", 4 ],
+      [ "ppq45mag", 2 ]
     ]
   },
   {

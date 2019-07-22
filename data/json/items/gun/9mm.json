@@ -621,5 +621,23 @@
     "durability": 8,
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "p38mag" ] ] ]
+  },
+  {
+    "id": "walther_ppq_9mm",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": "Walther PPQ 9mm",
+    "description": "The Walther PPQ is a semi automatic pistol designed as a potential replacement for the Walther P99.",
+    "weight": 615,
+    "volume": 1,
+    "price": 65000,
+    "bashing": 8,
+    "material": [ "plastic", "steel" ],
+    "color": "dark_gray",
+    "ammo": "9mm",
+    "dispersion": 480,
+    "durability": 9,
+    "magazine_well": 1,
+    "magazines": [ [ "9mm", [ "ppq9mag_10rd", "ppq9mag_15rd", "ppq9mag_17rd" ] ] ]
   }
 ]

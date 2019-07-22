@@ -271,5 +271,23 @@
     "built_in_mods": [ "match_trigger" ],
     "default_mods": [ "suppressor" ],
     "magazines": [ [ "45", [ "usp45mag" ] ] ]
+  },
+  {
+    "id": "walther_ppq_45",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": "Walther PPQ .45 ACP",
+    "description": "The Walther PPQ is a semi automatic pistol designed as a potential replacement for the Walther P99.",
+    "weight": 714,
+    "volume": 1,
+    "price": 80000,
+    "bashing": 8,
+    "material": [ "plastic", "steel" ],
+    "color": "dark_gray",
+    "ammo": "45",
+    "dispersion": 480,
+    "durability": 9,
+    "magazine_well": 1,
+    "magazines": [ [ "45", [ "ppq45mag" ] ] ]
   }
 ]
