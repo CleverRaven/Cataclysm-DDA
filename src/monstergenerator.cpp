@@ -149,7 +149,6 @@ const std::map<std::string, m_flag> flag_map = {
     { "ELECTRIC_FIELD", MF_ELECTRIC_FIELD },
     { "LOUDMOVES", MF_LOUDMOVES },
     { "DROPS_AMMO", MF_DROPS_AMMO }
-
 };
 
 } // namespace
