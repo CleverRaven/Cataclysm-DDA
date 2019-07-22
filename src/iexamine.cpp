@@ -4431,7 +4431,7 @@ static void smoker_activate( player &p, const tripoint &examp )
             add_msg( _( "You remove %s from the rack." ), it.tname() );
             g->m.add_item_or_charges( p.pos(), it );
             p.mod_moves( -p.item_handling_cost( it ) );
-            g->m.i_rem(examp, &it);
+            g->m.i_rem( examp, &it );
             return;
         }
         if( it.has_flag( "SMOKED" ) && it.has_flag( "SMOKABLE" ) ) {
