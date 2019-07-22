@@ -399,7 +399,6 @@
       [ [ "canister_empty", 1 ] ]
     ]
   },
-  
   {
     "result": "broken_secubot",
     "type": "uncraft",
