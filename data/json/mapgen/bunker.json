@@ -92,7 +92,7 @@
       ],
       "terrain": {
         " ": "t_floor",
-		"r": "t_floor",
+        "r": "t_floor",
         "#": "t_rock",
         "+": "t_door_metal_locked",
         "6": "t_card_military",
@@ -100,7 +100,7 @@
         "M": "t_wall_metal",
         "|": "t_reinforced_glass"
       },
-	  "furniture": { "r": "f_rack" },
+      "furniture": { "r": "f_rack" },
       "items": { "r": { "item": "bunker_basement_loot", "chance": 15, "repeat": [ 1, 5 ] } }
     }
   },
