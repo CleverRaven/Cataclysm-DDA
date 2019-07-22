@@ -14,7 +14,9 @@ generic_factory<clothing_mod> all_clothing_mods( "clothing mods" );
 
 } // namespace
 
-static cm_type cm_type_from_string( const std::string &str )
+static std::map<clothing_mod_type, std::vector<clothing_mod>> clothing_mods_by_type;
+
+static clothing_mod_type clothing_mod_type_from_string( const std::string &str )
 {
     if( str == "acid" ) {
         return cm_acid;
@@ -62,7 +64,7 @@ void clothing_mod::load( JsonObject &jo, const std::string & )
         mod_value mv;
         std::string temp_str;
         mandatory( mv_jo, was_loaded, "type", temp_str );
-        mv.type = cm_type_from_string( temp_str );
+        mv.type = clothing_mod_type_from_string( temp_str );
         mandatory( mv_jo, was_loaded, "value", mv.value );
         JsonArray jarr_prop = mv_jo.get_array( "proportion" );
         while( jarr_prop.has_more() ) {
@@ -79,7 +81,7 @@ void clothing_mod::load( JsonObject &jo, const std::string & )
     }
 }
 
-float clothing_mod::get_mod_val( const cm_type &type, const item &it ) const
+float clothing_mod::get_mod_val( const clothing_mod_type &type, const item &it ) const
 {
     const int thickness = it.get_thickness();
     const int coverage = it.get_coverage();
@@ -97,6 +99,16 @@ float clothing_mod::get_mod_val( const cm_type &type, const item &it ) const
         }
     }
     return result;
+}
+
+bool clothing_mod::has_mod_type( const clothing_mod_type &type ) const
+{
+    for( auto mv : mod_values ) {
+        if( mv.type == type ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 size_t clothing_mod::count()
@@ -117,4 +129,22 @@ void clothing_mods::reset()
 const std::vector<clothing_mod> &clothing_mods::get_all()
 {
     return all_clothing_mods.get_all();
+}
+
+const std::vector<clothing_mod> &clothing_mods::get_all_with( clothing_mod_type type )
+{
+    const auto iter = clothing_mods_by_type.find( type );
+    if( iter != clothing_mods_by_type.end() ) {
+        return iter->second;
+    } else {
+        // Build cache
+        std::vector<clothing_mod> *list = new std::vector<clothing_mod> {};
+        for( auto cm : get_all() ) {
+            if( cm.has_mod_type( type ) ) {
+                list->push_back( cm );
+            }
+        }
+        clothing_mods_by_type.emplace( type, *list );
+        return *list;
+    }
 }

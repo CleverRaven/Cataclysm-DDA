@@ -12,7 +12,7 @@ class JsonObject;
 class player;
 class item;
 
-enum cm_type : int {
+enum clothing_mod_type : int {
     cm_acid,
     cm_fire,
     cm_bash,
@@ -23,8 +23,21 @@ enum cm_type : int {
     cm_invalid
 };
 
+constexpr std::array<clothing_mod_type, 8> all_clothing_mod_types = {
+    {
+        cm_acid,
+        cm_fire,
+        cm_bash,
+        cm_cut,
+        cm_encumbrance,
+        cm_warmth,
+        cm_storage,
+        cm_invalid
+    }
+};
+
 struct mod_value {
-    cm_type type;
+    clothing_mod_type type;
     float value;
     bool thickness_propotion = false;
     bool coverage_propotion = false;
@@ -32,7 +45,8 @@ struct mod_value {
 
 struct clothing_mod {
     void load( JsonObject &jo, const std::string &src );
-    float get_mod_val( const cm_type &type, const item &it ) const;
+    float get_mod_val( const clothing_mod_type &type, const item &it ) const;
+    bool has_mod_type( const clothing_mod_type &type ) const;
 
     clothing_mod_id id;
     bool was_loaded = false;
@@ -53,6 +67,7 @@ void load( JsonObject &jo, const std::string &src );
 void reset();
 
 const std::vector<clothing_mod> &get_all();
+const std::vector<clothing_mod> &get_all_with( clothing_mod_type type );
 
 } // namespace clothing_mods
 

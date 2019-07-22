@@ -4237,13 +4237,8 @@ units::volume item::get_storage() const
         return is_pet_armor() ? type->pet_armor->storage : 0_ml;
     }
     units::volume storage = t->storage;
-    float tmp = 0.0;
-    for( auto &cm : clothing_mods::get_all() ) {
-        if( item_tags.count( cm.flag ) > 0 ) {
-            tmp += cm.get_mod_val( cm_storage, *this );
-        }
-    }
-    storage += lround( tmp ) * units::legacy_volume_factor;
+    float mod = get_clothing_mod_val( cm_storage );
+    storage += lround( mod ) * units::legacy_volume_factor;
 
     return storage;
 }
@@ -4326,11 +4321,7 @@ int item::get_encumber_when_containing(
             break;
     }
 
-    for( auto &cm : clothing_mods::get_all() ) {
-        if( item_tags.count( cm.flag ) > 0 ) {
-            encumber += std::max( 1, static_cast<int>( ceil( cm.get_mod_val( cm_encumbrance, *this ) ) ) );
-        }
-    }
+    encumber += std::max( 1, static_cast<int>( ceil( get_clothing_mod_val( cm_encumbrance ) ) ) );
 
     return encumber;
 }
@@ -4382,11 +4373,7 @@ int item::get_warmth() const
     }
     int result = t->warmth;
 
-    for( auto &cm : clothing_mods::get_all() ) {
-        if( item_tags.count( cm.flag ) > 0 ) {
-            result += cm.get_mod_val( cm_warmth, *this );
-        }
-    }
+    result += get_clothing_mod_val( cm_warmth );
 
     return result;
 }
@@ -4501,7 +4488,7 @@ int item::bash_resist( bool to_self ) const
     }
 
     float resist = 0;
-    float mod = 0;
+    float mod = get_clothing_mod_val( cm_bash );
     int eff_thickness = 1;
 
     // Armor gets an additional multiplier.
@@ -4511,12 +4498,6 @@ int item::bash_resist( bool to_self ) const
         const int dmg = damage_level( 4 );
         const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
         eff_thickness = std::max( 1, get_thickness() - eff_damage );
-    }
-
-    for( auto &cm : clothing_mods::get_all() ) {
-        if( item_tags.count( cm.flag ) > 0 ) {
-            mod += cm.get_mod_val( cm_bash, *this );
-        }
     }
 
     const std::vector<const material_type *> mat_types = made_of_types();
@@ -4539,7 +4520,7 @@ int item::cut_resist( bool to_self ) const
 
     const int base_thickness = get_thickness();
     float resist = 0;
-    float mod = 0;
+    float mod = get_clothing_mod_val( cm_cut );
     int eff_thickness = 1;
 
     // Armor gets an additional multiplier.
@@ -4549,11 +4530,6 @@ int item::cut_resist( bool to_self ) const
         const int dmg = damage_level( 4 );
         const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
         eff_thickness = std::max( 1, base_thickness - eff_damage );
-    }
-    for( auto &cm : clothing_mods::get_all() ) {
-        if( item_tags.count( cm.flag ) > 0 ) {
-            mod += cm.get_mod_val( cm_cut, *this );
-        }
     }
 
     const std::vector<const material_type *> mat_types = made_of_types();
@@ -4586,7 +4562,7 @@ int item::acid_resist( bool to_self, int base_env_resist ) const
     }
 
     float resist = 0.0;
-    float mod = 0.0;
+    float mod = get_clothing_mod_val( cm_acid );
     if( is_null() ) {
         return 0.0;
     }
@@ -4609,12 +4585,6 @@ int item::acid_resist( bool to_self, int base_env_resist ) const
         resist *= env / 10.0f;
     }
 
-    for( auto &cm : clothing_mods::get_all() ) {
-        if( item_tags.count( cm.flag ) > 0 ) {
-            mod += cm.get_mod_val( cm_acid, *this );
-        }
-    }
-
     return lround( resist + mod );
 }
 
@@ -4626,7 +4596,7 @@ int item::fire_resist( bool to_self, int base_env_resist ) const
     }
 
     float resist = 0.0;
-    float mod = 0.0;
+    float mod = get_clothing_mod_val( cm_fire );
     if( is_null() ) {
         return 0.0;
     }
@@ -4644,12 +4614,6 @@ int item::fire_resist( bool to_self, int base_env_resist ) const
     if( env < 10 ) {
         // Iron resists immersion in magma, iron-clad knight won't.
         resist *= env / 10.0f;
-    }
-
-    for( auto &cm : clothing_mods::get_all() ) {
-        if( item_tags.count( cm.flag ) > 0 ) {
-            mod += cm.get_mod_val( cm_fire, *this );
-        }
     }
 
     return lround( resist + mod );
@@ -8683,4 +8647,27 @@ bool item::has_clothing_mod() const
         }
     }
     return false;
+}
+
+float item::get_clothing_mod_val( clothing_mod_type type ) const
+{
+    auto iter = clothing_mod_val_cache.find( type );
+    if( iter != clothing_mod_val_cache.end() ) {
+        return iter->second;
+    } else {
+        // Build cache
+        float tmp = 0.0;
+        for( auto cm : clothing_mods::get_all_with( type ) ) {
+            if( item_tags.count( cm.flag ) > 0 ) {
+                tmp += cm.get_mod_val( type, *this );
+            }
+        }
+        clothing_mod_val_cache.emplace( type, tmp );
+        return tmp;
+    }
+}
+
+void item::clear_clothing_mod_val_cache()
+{
+    clothing_mod_val_cache.clear();
 }
