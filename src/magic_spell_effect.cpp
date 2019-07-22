@@ -536,9 +536,8 @@ void spell_effect::storm(const spell &sp, const tripoint &target) {
         }
     }
 }
-        break;
 
-void spell_effect::fireball(const spell &sp, const tripoint &target) {
+void spell_effect::fire_ball(const spell &sp, const tripoint &target) {
     explosion_handler::explosion( target, 180, 0.5, true );
 }
 
@@ -564,13 +563,13 @@ void spell_effect::blood(const spell &sp, const tripoint &target) {
     }
 }
 
-void spell_effect_area::fatigueFATIGUE(const spell &sp, const tripoint &target) {
+void spell_effect::fatigue(const spell &sp, const tripoint &target) {
     p->add_msg_if_player( m_warning, _( "The fabric of space seems to decay." ) );
     int x = rng( target.x - 3, target.x + 3 ), y = rng( target.y - 3, target.y + 3 );
     g->m.add_field( {x, y, target.z}, fd_fatigue, rng( 1, 2 ) );
 }
 
-void spell_effect_area::pulse(const spell &sp, const tripoint &target){
+void spell_effect::pulse(const spell &sp, const tripoint &target){
     sounds::sound( target, 30, sounds::sound_t::combat, _( "The earth shakes!" ), true, "misc",
                    "earthquake" );
     for( const tripoint &pt : g->m.points_in_radius( target, 2 ) ) {
@@ -583,187 +582,136 @@ void spell_effect_area::pulse(const spell &sp, const tripoint &target){
     }
 }
 
-            case AEA_ENTRANCE:
-                for( const tripoint &dest : g->m.points_in_radius( p->pos(), 8 ) ) {
-                    monster *const mon = g->critter_at<monster>( dest, true );
-                    if( mon && mon->friendly == 0 && rng( 0, 600 ) > mon->get_hp() ) {
-                        mon->make_friendly();
-                    }
-                }
-                break;
+void spell_effect::entrance(const spell &sp, const tripoint &target){
+    for( const tripoint &dest : g->m.points_in_radius( p->pos(), 8 ) ) {
+        monster *const mon = g->critter_at<monster>( dest, true );
+        if( mon && mon->friendly == 0 && rng( 0, 600 ) > mon->get_hp() ) {
+            mon->make_friendly();
+        }
+    }
+}
 
-            case AEA_BUGS: {
-                int roll = rng( 1, 10 );
-                mtype_id bug = mtype_id::NULL_ID();
-                int num = 0;
-                std::vector<tripoint> empty;
-                for( const tripoint &dest : g->m.points_in_radius( p->pos(), 1 ) ) {
-                    if( g->is_empty( dest ) ) {
-                        empty.push_back( dest );
-                    }
-                }
-                if( empty.empty() || roll <= 4 ) {
-                    p->add_msg_if_player( m_warning, _( "Flies buzz around you." ) );
-                } else if( roll <= 7 ) {
-                    p->add_msg_if_player( m_warning, _( "Giant flies appear!" ) );
-                    bug = mon_fly;
-                    num = rng( 2, 4 );
-                } else if( roll <= 9 ) {
-                    p->add_msg_if_player( m_warning, _( "Giant bees appear!" ) );
-                    bug = mon_bee;
-                    num = rng( 1, 3 );
-                } else {
-                    p->add_msg_if_player( m_warning, _( "Giant wasps appear!" ) );
-                    bug = mon_wasp;
-                    num = rng( 1, 2 );
-                }
-                if( bug ) {
-                    for( int j = 0; j < num && !empty.empty(); j++ ) {
-                        const tripoint spawnp = random_entry_removed( empty );
-                        if( monster *const b = g->summon_mon( bug, spawnp ) ) {
-                            b->friendly = -1;
-                            b->add_effect( effect_pet, 1_turns, num_bp, true );
-                        }
-                    }
-                }
+void spell_effect::bugs(const spell &sp, const tripoint &target){
+    int roll = rng( 1, 10 );
+    mtype_id bug = mtype_id::NULL_ID();
+    int num = 0;
+    std::vector<tripoint> empty;
+    for( const tripoint &dest : g->m.points_in_radius( p->pos(), 1 ) ) {
+        if( g->is_empty( dest ) ) {
+            empty.push_back( dest );
+        }
+    }
+    if( empty.empty() || roll <= 4 ) {
+        p->add_msg_if_player( m_warning, _( "Flies buzz around you." ) );
+    } else if( roll <= 7 ) {
+        p->add_msg_if_player( m_warning, _( "Giant flies appear!" ) );
+        bug = mon_fly;
+        num = rng( 2, 4 );
+    } else if( roll <= 9 ) {
+        p->add_msg_if_player( m_warning, _( "Giant bees appear!" ) );
+        bug = mon_bee;
+        num = rng( 1, 3 );
+    } else {
+        p->add_msg_if_player( m_warning, _( "Giant wasps appear!" ) );
+        bug = mon_wasp;
+        num = rng( 1, 2 );
+    }
+    if( bug ) {
+        for( int j = 0; j < num && !empty.empty(); j++ ) {
+            const tripoint spawnp = random_entry_removed( empty );
+            if( monster *const b = g->summon_mon( bug, spawnp ) ) {
+                b->friendly = -1;
+                b->add_effect( effect_pet, 1_turns, num_bp, true );
             }
-            break;
+        }
+    }
+}
 
-            case AEA_TELEPORT:
-                g->teleport( p );
-                break;
+void spell_effect::light(const spell &sp, const tripoint &target){
+    p->add_msg_if_player( _( "The %s glows brightly!" ), it->tname() );
+    g->events.add( EVENT_ARTIFACT_LIGHT, calendar::turn + 3_minutes );
+}
 
-            case AEA_LIGHT:
-                p->add_msg_if_player( _( "The %s glows brightly!" ), it->tname() );
-                g->events.add( EVENT_ARTIFACT_LIGHT, calendar::turn + 3_minutes );
-                break;
+void spell_effect::growth(const spell &sp, const tripoint &target){
+    monster tmptriffid( mtype_id::NULL_ID(), target );
+    mattack::growplants( &tmptriffid );
+}
 
-            case AEA_GROWTH: {
-                monster tmptriffid( mtype_id::NULL_ID(), p->pos() );
-                mattack::growplants( &tmptriffid );
+void spell_effect::mutate(const spell &sp){
+    if( !one_in( 3 ) )
+        p->mutate();
+}
+
+void spell_effect::teleglow(const spell &sp){
+    p->add_msg_if_player( m_warning, _( "You feel unhinged." ) );
+    p->add_effect( effect_teleglow, rng( 30_minutes, 120_minutes ) );
+}
+
+void spell_effect::noise(const spell &sp, const tripoint &target){
+    sounds::sound( target, 100, sounds::sound_t::combat,
+                   string_format( _( "a deafening boom from %s %s" ),
+                                  p->disp_name( true ), it->tname() ), true, "misc", "shockwave" );
+}
+
+void spell_effect::scream(const spell &sp, const tripoint &target){
+    sounds::sound( target, 40, sounds::sound_t::alert,
+                   string_format( _( "a disturbing scream from %s %s" ),
+                                  p->disp_name( true ), it->tname() ), true, "shout", "scream" );
+    if( !p->is_deaf() )
+        p->add_morale( MORALE_SCREAM, -10, 0, 30_minutes, 1_minutes );
+}
+
+void spell_effect::dim(const spell &sp){
+    p->add_msg_if_player( _( "The sky starts to dim." ) );
+    g->events.add( EVENT_DIM, calendar::turn + 5_minutes );
+}
+
+void spell_effect::flash(const spell &sp, const tripoint &target){
+    p->add_msg_if_player( _( "The %s flashes brightly!" ), it->tname() );
+    explosion_handler::flashbang( target );
+}
+
+void spell_effect::vomit(const spell &sp){
+    p->add_msg_if_player( m_bad, _( "A wave of nausea passes through you!" ) );
+    p->vomit();
+}
+
+void spell_effect::shadows(const spell &sp, const tripoint &target){
+    int num_shadows = rng( 4, 8 );
+    int num_spawned = 0;
+    for( int j = 0; j < num_shadows; j++ ) {
+        int tries = 0;
+        tripoint monp = target;
+        do {
+            if( one_in( 2 ) ) {
+                monp.x = rng( target.x - 5, target.x + 5 );
+                monp.y = ( one_in( 2 ) ? target.y - 5 : target.y + 5 );
+            } else {
+                monp.x = ( one_in( 2 ) ? target.x - 5 : target.x + 5 );
+                monp.y = rng( target.y - 5, target.y + 5 );
             }
-            break;
-
-            case AEA_HURTALL:
-                for( monster &critter : g->all_monsters() ) {
-                    critter.apply_damage( nullptr, bp_torso, rng( 0, 5 ) );
-                }
-                break;
-
-            case AEA_RADIATION:
-                add_msg( m_warning, _( "Horrible gases are emitted!" ) );
-                for( const tripoint &dest : g->m.points_in_radius( p->pos(), 1 ) ) {
-                    g->m.add_field( dest, fd_nuke_gas, rng( 2, 3 ) );
-                }
-                break;
-
-            case AEA_PAIN:
-                p->add_msg_if_player( m_bad, _( "You're wracked with pain!" ) );
-                // OK, the Lovecraftian thingamajig can bring Deadened
-                // masochists & Cenobites the stimulation they've been
-                // craving ;)
-                p->mod_pain_noresist( rng( 5, 15 ) );
-                break;
-
-            case AEA_MUTATE:
-                if( !one_in( 3 ) ) {
-                    p->mutate();
-                }
-                break;
-
-            case AEA_PARALYZE:
-                p->add_msg_if_player( m_bad, _( "You're paralyzed!" ) );
-                p->moves -= rng( 50, 200 );
-                break;
-
-            case AEA_FIRESTORM: {
-                p->add_msg_if_player( m_bad, _( "Fire rains down around you!" ) );
-                std::vector<tripoint> ps = closest_tripoints_first( 3, p->pos() );
-                for( auto p_it : ps ) {
-                    if( !one_in( 3 ) ) {
-                        g->m.add_field( p_it, fd_fire, 1 + rng( 0, 1 ) * rng( 0, 1 ), 3_minutes );
-                    }
-                }
-                break;
+        } while( tries < 5 && !g->is_empty( monp ) &&
+                 !g->m.sees( monp, target, 10 ) );
+        if( tries < 5 ) { // TODO: tries increment is missing, so this expression is always true
+            if( monster *const  spawned = g->summon_mon( mon_shadow, monp ) ) {
+                num_spawned++;
+                spawned->reset_special_rng( "DISAPPEAR" );
             }
+        }
+    }
+    if( num_spawned > 1 ) {
+        p->add_msg_if_player( m_warning, _( "Shadows form around you." ) );
+    } else if( num_spawned == 1 ) {
+        p->add_msg_if_player( m_warning, _( "A shadow forms nearby." ) );
+    }
+}
 
-            case AEA_ATTENTION:
-                p->add_msg_if_player( m_warning, _( "You feel like your action has attracted attention." ) );
-                p->add_effect( effect_attention, rng( 1_hours, 3_hours ) );
-                break;
+void spell_effect::stamina_empty(const spell &sp){
+    p->add_msg_if_player( m_bad, _( "Your body feels like jelly." ) );
+    p->stamina = p->stamina * 1 / ( rng( 3, 8 ) );
+}
 
-            case AEA_TELEGLOW:
-                p->add_msg_if_player( m_warning, _( "You feel unhinged." ) );
-                p->add_effect( effect_teleglow, rng( 30_minutes, 120_minutes ) );
-                break;
-
-            case AEA_NOISE:
-                sounds::sound( p->pos(), 100, sounds::sound_t::combat,
-                               string_format( _( "a deafening boom from %s %s" ),
-                                              p->disp_name( true ), it->tname() ), true, "misc", "shockwave" );
-                break;
-
-            case AEA_SCREAM:
-                sounds::sound( p->pos(), 40, sounds::sound_t::alert,
-                               string_format( _( "a disturbing scream from %s %s" ),
-                                              p->disp_name( true ), it->tname() ), true, "shout", "scream" );
-                if( !p->is_deaf() ) {
-                    p->add_morale( MORALE_SCREAM, -10, 0, 30_minutes, 1_minutes );
-                }
-                break;
-
-            case AEA_DIM:
-                p->add_msg_if_player( _( "The sky starts to dim." ) );
-                g->events.add( EVENT_DIM, calendar::turn + 5_minutes );
-                break;
-
-            case AEA_FLASH:
-                p->add_msg_if_player( _( "The %s flashes brightly!" ), it->tname() );
-                explosion_handler::flashbang( p->pos() );
-                break;
-
-            case AEA_VOMIT:
-                p->add_msg_if_player( m_bad, _( "A wave of nausea passes through you!" ) );
-                p->vomit();
-                break;
-
-            case AEA_SHADOWS: {
-                int num_shadows = rng( 4, 8 );
-                int num_spawned = 0;
-                for( int j = 0; j < num_shadows; j++ ) {
-                    int tries = 0;
-                    tripoint monp = p->pos();
-                    do {
-                        if( one_in( 2 ) ) {
-                            monp.x = rng( p->posx() - 5, p->posx() + 5 );
-                            monp.y = ( one_in( 2 ) ? p->posy() - 5 : p->posy() + 5 );
-                        } else {
-                            monp.x = ( one_in( 2 ) ? p->posx() - 5 : p->posx() + 5 );
-                            monp.y = rng( p->posy() - 5, p->posy() + 5 );
-                        }
-                    } while( tries < 5 && !g->is_empty( monp ) &&
-                             !g->m.sees( monp, p->pos(), 10 ) );
-                    if( tries < 5 ) { // TODO: tries increment is missing, so this expression is always true
-                        if( monster *const  spawned = g->summon_mon( mon_shadow, monp ) ) {
-                            num_spawned++;
-                            spawned->reset_special_rng( "DISAPPEAR" );
-                        }
-                    }
-                }
-                if( num_spawned > 1 ) {
-                    p->add_msg_if_player( m_warning, _( "Shadows form around you." ) );
-                } else if( num_spawned == 1 ) {
-                    p->add_msg_if_player( m_warning, _( "A shadow forms nearby." ) );
-                }
-            }
-            break;
-
-            case AEA_STAMINA_EMPTY:
-                p->add_msg_if_player( m_bad, _( "Your body feels like jelly." ) );
-                p->stamina = p->stamina * 1 / ( rng( 3, 8 ) );
-                break;
-
-            case AEA_FUN:
-                p->add_msg_if_player( m_good, _( "You're filled with euphoria!" ) );
-                p->add_morale( MORALE_FEELING_GOOD, rng( 20, 50 ), 0, 5_minutes, 5_turns, false );
-                break;
+void spell_effect::dim(const spell &sp){
+    p->add_msg_if_player( m_good, _( "You're filled with euphoria!" ) );
+    p->add_morale( MORALE_FEELING_GOOD, rng( 20, 50 ), 0, 5_minutes, 5_turns, false );
+}

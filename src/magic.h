@@ -421,6 +421,27 @@ void recover_energy( const spell &sp, const tripoint &target );
 void spawn_summoned_monster( const spell &sp, const Creature &caster, const tripoint &target );
 void translocate( const spell &sp, const Creature &caster, const tripoint &target,
                   teleporter_list &tp_list );
+
+void storm(const spell &sp, const tripoint &target);
+void fire_ball(const spell &sp, const tripoint &target);
+void _map(const spell &sp, const tripoint &target);
+void blood(const spell &sp, const tripoint &target);
+void fatigue(const spell &sp, const tripoint &target);
+void pulse(const spell &sp, const tripoint &target);
+void entrance(const spell &sp, const tripoint &target);
+void bugs(const spell &sp, const tripoint &target);
+void light(const spell &sp, const tripoint &target);
+void growth(const spell &sp, const tripoint &target);
+void mutate(const spell &sp);
+void teleglow(const spell &sp);
+void noise(const spell &sp, const tripoint &target);
+void scream(const spell &sp, const tripoint &target);
+void dim(const spell &sp);
+void flash(const spell &sp, const tripoint &target);
+void vomit(const spell &sp);
+void shadows(const spell &sp, const tripoint &target);
+void stamina_empty(const spell &sp);
+void dim(const spell &sp);
 } // namespace spell_effect
 
 class spellbook_callback : public uilist_callback

@@ -1061,7 +1061,9 @@
   },
   {
     "type": "effect_type",
-    "id": "attention"
+    "id": "attention",
+    "apply_message": "You feel like your action has attracted attention.",
+    "max_duration": "2 h"
   },
   {
     "type": "effect_type",
@@ -1713,5 +1715,24 @@
   {
     "type": "effect_type",
     "id": "has_prospectus"
+  },
+  {
+    "type": "effect_type",
+    "id": "magic_pain",
+    "name": [ "magic_pain" ],
+    "desc": [ "You don't understand why you feel so bad." ],
+    "apply_message": "You're wracked with pain!",
+    "max_duration": "10 s",
+    "base_mods": { "pain_min": [ 5 ], "pain_max": [ 15 ]}
+  },
+  {
+    "type": "effect_type",
+    "id": "paralysed",
+    "name": [ "Paralysed" ],
+    "desc": [ "You loose the chance to move for a short while." ],
+    "apply_message": "You're paralyzed!",
+    "rating": "bad",
+    "max_duration": "1 s",
+    "base_mods": { "speed_mod_min":[50], "speed_mod_max":[200]}
   }
 ]

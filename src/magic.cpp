@@ -949,7 +949,43 @@ bool spell::cast_spell_effect( const Creature &source, const tripoint &target ) 
     } else if( fx == "translocate" ) {
         spell_effect::translocate( *this, source, target, g->u.translocators );
     } else if( fx == "storm" ) {
-        spell_effect::translocate( *this, target);
+        spell_effect::storm( *this, target);
+    } else if( fx == "fire_ball" ) {
+        spell_effect::fire_ball( *this, target);
+    } else if( fx == "_map" ) {
+        spell_effect::_map( *this, target);
+    } else if( fx == "blood" ) {
+        spell_effect::blood( *this, target);
+    } else if( fx == "fatigue" ) {
+        spell_effect::fatigue( *this, target);
+    } else if( fx == "pulse" ) {
+        spell_effect::pulse( *this, target);
+    } else if( fx == "entrance" ) {
+        spell_effect::entrance( *this, target);
+    } else if( fx == "bugs" ) {
+        spell_effect::bugs( *this, target);
+    } else if( fx == "light" ) {
+        spell_effect::light( *this, target);
+    } else if( fx == "growth" ) {
+        spell_effect::growth( *this, target);
+    } else if( fx == "mutate" ) {
+        spell_effect::mutate( *this);
+    } else if( fx == "teleglow" ) {
+        spell_effect::teleglow( *this);
+    } else if( fx == "noise" ) {
+        spell_effect::noise( *this, target);
+    } else if( fx == "scream" ) {
+        spell_effect::scream( *this, target);
+    } else if( fx == "dim" ) {
+        spell_effect::dim( *this);
+    } else if( fx == "flash" ) {
+        spell_effect::flash( *this, target);
+    } else if( fx == "vomit" ) {
+        spell_effect::vomit( *this);
+    } else if( fx == "shadows" ) {
+        spell_effect::shadows( *this, target);
+    } else if( fx == "stamina_empty" ) {
+        spell_effect::noise( *this);
     } else {
         debugmsg( "ERROR: Spell effect not defined properly." );
         return false;

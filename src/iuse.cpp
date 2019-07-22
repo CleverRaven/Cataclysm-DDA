@@ -4914,15 +4914,17 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
         num_used += rng( 1, art->effects_activated.size() - num_used );
     }
 
+    // temporary code: art_effect_active deprecated, wraps to string
     std::unordered_map<art_effect_active, std::string> art_active_to_string = { {AEA_NULL, "null"}, {AEA_STORM, "strom"}, {AEA_FIREBALL, "fire_ball"}, {AEA_ADRENALINE, "adrenaline"},
      {AEA_MAP, "_map"}, {AEA_BLOOD, "blood"}, {AEA_FATIGUE, "fatigue"}, {AEA_ACIDBALL, "acid_ball"}, {AEA_PULSE, "pulse"}, {AEA_HEAL, "heal"}, {AEA_CONFUSED, "confuse"},
      {AEA_ENTRANCE, "entrance"}, {AEA_BUGS, "bugs"}, {AEA_TELEPORT, "teleport"}, {AEA_LIGHT, "light"}, {AEA_GROWTH, "growth"}, {AEA_HURTALL, "hurtall"}, {AEA_FUN, "fun"},
      {AEA_RADIATION, "radiation"}, {AEA_PAIN, "pain"}, {AEA_MUTATE, "mutate"}, {AEA_PARALYZE, "paralyze"}, {AEA_FIRESTORM, "fire_storm"}, {AEA_ATTENTION, "attention"},
      {AEA_TELEGLOW, "teleglow"}, {AEA_NOISE, "noise"}, {AEA_SCREAM, "scream"}, {AEA_DIM, "dim"}, {AEA_FLASH, "flash"}, {AEA_VOMIT, "vomit"}, {AEA_SHADOWS, "shadows"}, {AEA_STAMINA_EMPTY, "stamina_empty"} };
+    std::vector<std::string> effects;
+    for( art_effect_active use : art->effects_activated)
+        effects.push_back(art_active_to_string[use]);
 
-    std::vector<std::string> effects = art_active_to_string[art->effects_activated];
     for( size_t i = 0; i < num_used && !effects.empty(); i++ ) {
-        //cast_spell_effect(p, #tarteg nach aktion?);
         player_activity cast_spell( activity_id( "ACT_SPELLCASTING" ), 0);
         // [0] this is used as a spell level override for items casting spells
         cast_spell.values.emplace_back( -1 );
