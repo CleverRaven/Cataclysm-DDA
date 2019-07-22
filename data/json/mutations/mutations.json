@@ -5268,7 +5268,7 @@
     "changes_to": [ "COLDBLOOD2" ],
     "types": [ "METABOLISM" ],
     "category": [ "FISH", "CEPHALOPOD", "SPIDER" ],
-    "temperature_speed_modifier": 1,
+    "temperature_speed_modifier": 0.2,
     "metabolism_modifier": -0.333
   },
   {
