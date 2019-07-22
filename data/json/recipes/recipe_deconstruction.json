@@ -503,7 +503,7 @@
       [ [ "sensor_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "power_supply", 1 ] ],
-	  [ [ "m2browning_sawn", 1 ] ],
+      [ [ "m2browning_sawn", 1 ] ],
       [ [ "scrap", 4 ] ]
     ]
   },
