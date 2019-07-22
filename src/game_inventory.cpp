@@ -568,10 +568,16 @@ class comestible_inventory_preset : public inventory_selector_preset
 
     protected:
         int get_order( const item_location &loc, const time_duration time ) const {
-            if( get_consumable_item( loc ).rotten() )  {
+            if( time > 0_turns && !( loc->type->container && loc->type->container->preserves ) ) {
                 return 0;
-            } else if( time > 0_turns && !( loc->type->container && loc->type->container->preserves ) ) {
-                return 1;
+            } else if( get_consumable_item( loc ).rotten() ) {
+                static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
+                static const trait_id trait_SAPROVORE( "SAPROVORE" );
+                if( p.has_trait( trait_SAPROPHAGE ) || p.has_trait( trait_SAPROVORE ) ) {
+                    return 1;
+                } else {
+                    return 4;
+                }
             } else if( time == 0_turns ) {
                 return 3;
             } else {
