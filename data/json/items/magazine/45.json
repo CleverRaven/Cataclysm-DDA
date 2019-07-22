@@ -165,7 +165,7 @@
   {
     "id": "ppq45mag",
     "type": "MAGAZINE",
-    "name": "PPQ magazine .40 S&W",
+    "name": "PPQ magazine .45 ACP",
     "description": "A 12 round steel box magazine for the Walther PPQ .45 ACP.",
     "weight": 80,
     "volume": 1,
@@ -173,7 +173,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "40",
+    "ammo_type": "45",
     "capacity": 12,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
