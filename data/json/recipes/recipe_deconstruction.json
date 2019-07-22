@@ -506,7 +506,7 @@
       [ [ "scrap", 4 ] ]
     ]
   },
-    {
+  {
     "result": "broken_laserturret",
     "type": "uncraft",
     "skill_used": "electronics",
