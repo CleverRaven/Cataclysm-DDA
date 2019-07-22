@@ -482,7 +482,7 @@
       [ [ "sensor_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "power_supply", 1 ] ],
-	  [ [ "m4a1", 1 ] ],
+    [ [ "m4a1", 1 ] ],
       [ [ "scrap", 4 ] ]
     ]
   },
