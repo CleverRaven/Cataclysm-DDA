@@ -2358,8 +2358,7 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
             fuel_present = true;
         } else {
             add_msg( m_bad, _( "This furnace contains %s, which can't be made into calcium carbide!" ),
-                     i.tname( 1,
-                              false ) );
+                     i.tname( 1, false ) );
             return;
         }
     }
