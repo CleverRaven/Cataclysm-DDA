@@ -523,7 +523,7 @@
       [ [ "sensor_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "power_supply", 1 ] ],
-	  [ [ "laser_rifle", 1 ] ],
+      [ [ "laser_rifle", 1 ] ],
       [ [ "heavy_battery_cell", 1 ] ],
       [ [ "scrap", 4 ] ]
     ]
