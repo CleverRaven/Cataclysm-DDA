@@ -1645,7 +1645,7 @@
     "name": ".300 AAC Blackout caliber conversion kit",
     "description": "This kit is used to convert an AR-15 .223/5.56mm rifle to the new .300BLK caliber.",
     "weight": 1000,
-    "volume": 2,
+    "volume": "500 ml",
     "integral_volume": 0,
     "integral_weight": 0,
     "price": 50000,
