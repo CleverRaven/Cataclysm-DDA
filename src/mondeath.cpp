@@ -657,7 +657,7 @@ void mdeath::broken( monster &z )
     g->m.add_item_or_charges( z.pos(), broken_mon );
 	
 	
-//adds ammo drop	
+    //adds ammo drop	
     const bool dropsammo = z.type->has_flag( MF_DROPS_AMMO ); 
     if( dropsammo ) {
     for( const auto &ammo_entry : z.type->starting_ammo ) {
