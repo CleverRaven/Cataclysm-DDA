@@ -585,13 +585,13 @@
     "magazines": [ [ "9mm", [ "p320mag_17rd_9x19mm" ] ] ]
   },
   {
-    "id": "hi_power_9mm",
+    "id": "hi_power",
     "copy-from": "pistol_base",
     "type": "GUN",
     "name": "Browning Hi Power",
     "description": "The Browning Hi Power is a semi automatic handgun. It is one of the most widely used military pistols in history.",
     "weight": 900,
-    "volume": "114 ml",
+    "volume": 1,
     "price": 32000,
     "to_hit": -2,
     "bashing": 8,

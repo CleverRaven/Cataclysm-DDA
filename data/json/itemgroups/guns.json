@@ -20,7 +20,8 @@
       { "item": "kp32", "prob": 10, "charges-min": 0, "charges-max": 7 },
       { "item": "kp3at", "prob": 35, "charges-min": 0, "charges-max": 6 },
       { "item": "rugerlcp", "prob": 35, "charges-min": 0, "charges-max": 6 },
-      { "item": "kpf9", "prob": 35, "charges-min": 0, "charges-max": 7 }
+      { "item": "kpf9", "prob": 35, "charges-min": 0, "charges-max": 7 },
+      { "item": "hi_power", "prob": 35, "charges-min": 0, "charges-max": 15 }
     ]
   },
   {
