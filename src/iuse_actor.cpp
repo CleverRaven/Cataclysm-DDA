@@ -4389,7 +4389,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         // TODO: List how much material we have and how much we need
         auto obj = cm.obj();
         item temp_item = modded_copy( mod, obj.flag );
-        temp_item.clear_clothing_mod_val_cache();
+        temp_item.update_clothing_mod_val();
         bool enab = can_add_mod( obj.flag, obj.item_string );
         std::string prompt;
         if( mod.item_tags.count( obj.flag ) == 0 ) {
@@ -4477,7 +4477,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     p.add_msg_if_player( m_good, _( "You modify your %s!" ), mod.tname() );
     mod.item_tags.insert( the_mod );
-    mod.clear_clothing_mod_val_cache();
+    mod.update_clothing_mod_val();
     p.consume_items( comps, 1, is_crafting_component );
     return thread_needed / 2;
 }

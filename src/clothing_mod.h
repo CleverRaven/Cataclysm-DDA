@@ -23,19 +23,6 @@ enum clothing_mod_type : int {
     cm_invalid
 };
 
-constexpr std::array<clothing_mod_type, 8> all_clothing_mod_types = {
-    {
-        cm_acid,
-        cm_fire,
-        cm_bash,
-        cm_cut,
-        cm_encumbrance,
-        cm_warmth,
-        cm_storage,
-        cm_invalid
-    }
-};
-
 struct mod_value {
     clothing_mod_type type;
     float value;
@@ -63,11 +50,25 @@ struct clothing_mod {
 namespace clothing_mods
 {
 
+constexpr std::array<clothing_mod_type, 8> all_clothing_mod_types = {{
+        cm_acid,
+        cm_fire,
+        cm_bash,
+        cm_cut,
+        cm_encumbrance,
+        cm_warmth,
+        cm_storage,
+        cm_invalid
+    }
+};
+
 void load( JsonObject &jo, const std::string &src );
 void reset();
 
 const std::vector<clothing_mod> &get_all();
 const std::vector<clothing_mod> &get_all_with( clothing_mod_type type );
+
+const std::string string_from_clothing_mod_type( clothing_mod_type type );
 
 } // namespace clothing_mods
 

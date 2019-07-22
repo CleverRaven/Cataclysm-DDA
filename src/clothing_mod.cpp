@@ -16,27 +16,6 @@ generic_factory<clothing_mod> all_clothing_mods( "clothing mods" );
 
 static std::map<clothing_mod_type, std::vector<clothing_mod>> clothing_mods_by_type;
 
-static clothing_mod_type clothing_mod_type_from_string( const std::string &str )
-{
-    if( str == "acid" ) {
-        return cm_acid;
-    } else if( str == "fire" ) {
-        return cm_fire;
-    } else if( str == "bash" ) {
-        return cm_bash;
-    } else if( str == "cut" ) {
-        return cm_cut;
-    } else if( str == "encumbrance" ) {
-        return cm_encumbrance;
-    } else if( str == "warmth" ) {
-        return cm_warmth;
-    } else if( str == "storage" ) {
-        return cm_storage;
-    }
-    debugmsg( "Invalid mod type '%s'.", str.c_str() );
-    return cm_invalid;
-}
-
 /** @relates string_id */
 template<>
 bool string_id<clothing_mod>::is_valid() const
@@ -51,6 +30,54 @@ const clothing_mod &string_id<clothing_mod>::obj() const
     return all_clothing_mods.obj( *this );
 }
 
+namespace io
+{
+
+static const std::map<std::string, clothing_mod_type> clothing_mod_type_map = {{
+        { "acid", cm_acid },
+        { "fire", cm_fire },
+        { "bash", cm_bash },
+        { "cut", cm_cut },
+        { "encumbrance", cm_encumbrance },
+        { "warmth", cm_warmth },
+        { "storage", cm_storage },
+        { "invalid", cm_invalid }
+    }
+};
+
+template<>
+clothing_mod_type string_to_enum<clothing_mod_type>( const std::string &data )
+{
+    auto iter = clothing_mod_type_map.find( data );
+
+    if( iter == clothing_mod_type_map.end() ) {
+        debugmsg( "Invalid mod type '%s'.", data.c_str() );
+        return cm_invalid;
+    }
+
+    return string_to_enum_look_up( clothing_mod_type_map, data );
+}
+
+template<>
+const std::string enum_to_string<clothing_mod_type>( clothing_mod_type data )
+{
+    const auto iter = std::find_if( clothing_mod_type_map.begin(), clothing_mod_type_map.end(),
+    [data]( const std::pair<std::string, clothing_mod_type> &pr ) {
+        return pr.second == data;
+    } );
+
+    if( iter == clothing_mod_type_map.end() ) {
+        if( iter == clothing_mod_type_map.end() ) {
+            debugmsg( "Invalid mod type value '%d'.", data );
+            return "invalid";
+        }
+    }
+
+    return iter->first;
+}
+
+} // namespace io
+
 void clothing_mod::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "flag", flag );
@@ -64,7 +91,7 @@ void clothing_mod::load( JsonObject &jo, const std::string & )
         mod_value mv;
         std::string temp_str;
         mandatory( mv_jo, was_loaded, "type", temp_str );
-        mv.type = clothing_mod_type_from_string( temp_str );
+        mv.type = io::string_to_enum<clothing_mod_type>( temp_str );
         mandatory( mv_jo, was_loaded, "value", mv.value );
         JsonArray jarr_prop = mv_jo.get_array( "proportion" );
         while( jarr_prop.has_more() ) {
@@ -124,6 +151,7 @@ void clothing_mods::load( JsonObject &jo, const std::string &src )
 void clothing_mods::reset()
 {
     all_clothing_mods.reset();
+    clothing_mods_by_type.clear();
 }
 
 const std::vector<clothing_mod> &clothing_mods::get_all()
@@ -138,13 +166,18 @@ const std::vector<clothing_mod> &clothing_mods::get_all_with( clothing_mod_type 
         return iter->second;
     } else {
         // Build cache
-        std::vector<clothing_mod> *list = new std::vector<clothing_mod> {};
+        std::vector<clothing_mod> list = std::vector<clothing_mod> {};
         for( auto cm : get_all() ) {
             if( cm.has_mod_type( type ) ) {
-                list->push_back( cm );
+                list.push_back( cm );
             }
         }
-        clothing_mods_by_type.emplace( type, *list );
-        return *list;
+        clothing_mods_by_type.emplace( type, std::move( list ) );
+        return clothing_mods_by_type[type];
     }
+}
+
+const std::string clothing_mods::string_from_clothing_mod_type( clothing_mod_type type )
+{
+    return io::enum_to_string<clothing_mod_type>( type );
 }

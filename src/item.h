@@ -2059,12 +2059,11 @@ class item : public visitable<item>
         char invlet = 0;      // Inventory letter
         bool active = false; // If true, it has active effects to be processed
         bool is_favorite = false;
-        mutable std::map<clothing_mod_type, float> clothing_mod_val_cache;
 
         void set_favorite( const bool favorite );
         bool has_clothing_mod() const;
         float get_clothing_mod_val( clothing_mod_type type ) const;
-        void clear_clothing_mod_val_cache();
+        void update_clothing_mod_val();
 };
 
 bool item_compare_by_charges( const item &left, const item &right );

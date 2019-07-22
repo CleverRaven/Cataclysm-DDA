@@ -88,6 +88,7 @@
 class npc_class;
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
+static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
 
 const skill_id skill_survival( "survival" );
 const skill_id skill_melee( "melee" );
@@ -8651,23 +8652,22 @@ bool item::has_clothing_mod() const
 
 float item::get_clothing_mod_val( clothing_mod_type type ) const
 {
-    auto iter = clothing_mod_val_cache.find( type );
-    if( iter != clothing_mod_val_cache.end() ) {
-        return iter->second;
-    } else {
-        // Build cache
+    const std::string key = CLOTHING_MOD_VAR_PREFIX + clothing_mods::string_from_clothing_mod_type(
+                                type );
+    return get_var( key, 0.0 );
+}
+
+void item::update_clothing_mod_val()
+{
+    for( auto type : clothing_mods::all_clothing_mod_types ) {
+        const std::string key = CLOTHING_MOD_VAR_PREFIX + clothing_mods::string_from_clothing_mod_type(
+                                    type );
         float tmp = 0.0;
         for( auto cm : clothing_mods::get_all_with( type ) ) {
             if( item_tags.count( cm.flag ) > 0 ) {
                 tmp += cm.get_mod_val( type, *this );
             }
         }
-        clothing_mod_val_cache.emplace( type, tmp );
-        return tmp;
+        set_var( key, tmp );
     }
-}
-
-void item::clear_clothing_mod_val_cache()
-{
-    clothing_mod_val_cache.clear();
 }
