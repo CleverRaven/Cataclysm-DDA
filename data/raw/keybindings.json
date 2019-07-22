@@ -1883,6 +1883,12 @@
   },
   {
     "type": "keybinding",
+    "name": "View Radiation Map",
+    "category": "DEFAULTMODE",
+    "id": "debug_radiation"
+  },
+  {
+    "type": "keybinding",
     "name": "Switch Sidebar Style",
     "category": "DEFAULTMODE",
     "id": "toggle_sidebar_style"

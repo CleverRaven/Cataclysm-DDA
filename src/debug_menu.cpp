@@ -139,6 +139,7 @@ enum debug_menu_index {
     DEBUG_DISPLAY_SCENTS_LOCAL,
     DEBUG_DISPLAY_TEMP,
     DEBUG_DISPLAY_VISIBILITY,
+    DEBUG_DISPLAY_RADIATION,
     DEBUG_LEARN_SPELLS,
     DEBUG_LEVEL_SPELLS
 };
@@ -196,6 +197,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_DISPLAY_SCENTS_LOCAL, true, 's', _( "Toggle display local scents" ) ) },
             { uilist_entry( DEBUG_DISPLAY_TEMP, true, 'T', _( "Toggle display temperature" ) ) },
             { uilist_entry( DEBUG_DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
+            { uilist_entry( DEBUG_DISPLAY_RADIATION, true, 'R', _( "Toggle display radiation" ) ) },
             { uilist_entry( DEBUG_SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ) },
             { uilist_entry( DEBUG_BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ) },
             { uilist_entry( DEBUG_TRAIT_GROUP, true, 't', _( "Test trait group" ) ) },
@@ -1319,16 +1321,19 @@ void debug()
             case DEBUG_DISPLAY_SCENTS_LOCAL:
                 g->displaying_temperature = false;
                 g->displaying_visibility = false;
+                g->displaying_radiation = false;
                 g->displaying_scent = !g->displaying_scent;
                 break;
             case DEBUG_DISPLAY_TEMP:
                 g->displaying_scent = false;
                 g->displaying_visibility = false;
+                g->displaying_radiation = false;
                 g->displaying_temperature = !g->displaying_temperature;
                 break;
             case DEBUG_DISPLAY_VISIBILITY: {
                 g->displaying_scent = false;
                 g->displaying_temperature = false;
+                g->displaying_radiation = false;
                 g->displaying_visibility = !g->displaying_visibility;
                 if( g->displaying_visibility ) {
                     std::vector< tripoint > locations;
@@ -1356,6 +1361,13 @@ void debug()
                 } else {
                     g->displaying_visibility_creature = nullptr;
                 }
+            }
+            break;
+            case DEBUG_DISPLAY_RADIATION: {
+                g->displaying_scent = false;
+                g->displaying_temperature = false;
+                g->displaying_visibility = false;
+                g->displaying_radiation = !g->displaying_radiation;
             }
             break;
             case DEBUG_CHANGE_TIME: {
