@@ -463,7 +463,7 @@
       [ [ "sensor_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "power_supply", 1 ] ],
-	  [ [ "hk_mp5", 2 ] ],
+     [ [ "hk_mp5", 2 ] ],
       [ [ "scrap", 4 ] ]
     ]
   },
