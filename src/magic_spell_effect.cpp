@@ -503,7 +503,7 @@ void spell_effect::translocate( const spell &sp, const Creature &caster,
 // hardcoded artifact actives
 void spell_effect::storm(const spell &sp, const tripoint &target) {
     ## p: player -> target, g: game
-    sounds::sound( p->pos(), 10, sounds::sound_t::combat, _( "Ka-BOOM!" ), true, "environment",
+    sounds::sound( target, 10, sounds::sound_t::combat, _( "Ka-BOOM!" ), true, "environment",
                    "thunder_near" );
     int num_bolts = rng( 2, 4 );
     for( int j = 0; j < num_bolts; j++ ) {
@@ -538,84 +538,50 @@ void spell_effect::storm(const spell &sp, const tripoint &target) {
 }
         break;
 
-            case AEA_FIREBALL: {
-                if( const cata::optional<tripoint> fireball = g->look_around() ) {
-                    explosion_handler::explosion( *fireball, 180, 0.5, true );
-                }
-            }
-            break;
+void spell_effect::fireball(const spell &sp, const tripoint &target) {
+    explosion_handler::explosion( target, 180, 0.5, true );
+}
 
-            case AEA_ADRENALINE:
-                p->add_msg_if_player( m_good, _( "You're filled with a roaring energy!" ) );
-                p->add_effect( effect_adrenaline, rng( 20_minutes, 25_minutes ) );
-                break;
+void spell_effect::_map(const spell &sp, const tripoint &target) {
+    const bool new_map = overmap_buffer.reveal(
+                             point( target.x, target.y ), 20, target.z );
+    if( new_map ) {
+        p->add_msg_if_player( m_warning, _( "You have a vision of the surrounding area..." ) );
+        p->moves -= to_turns<int>( 1_seconds );
+    }
+}
 
-            case AEA_MAP: {
-                const tripoint center = p->global_omt_location();
-                const bool new_map = overmap_buffer.reveal(
-                                         point( center.x, center.y ), 20, center.z );
-                if( new_map ) {
-                    p->add_msg_if_player( m_warning, _( "You have a vision of the surrounding area..." ) );
-                    p->moves -= to_turns<int>( 1_seconds );
-                }
-            }
-            break;
+void spell_effect::blood(const spell &sp, const tripoint &target) {
+    bool blood = false;
+    for( const tripoint &tmp : g->m.points_in_radius( p->pos(), 4 ) ) {
+        if( !one_in( 4 ) && g->m.add_field( tmp, fd_blood, 3 ) &&
+            ( blood || g->u.sees( tmp ) ) ) {
+            blood = true;
+        }
+    }
+    if( blood ) {
+        p->add_msg_if_player( m_warning, _( "Blood soaks out of the ground and walls." ) );
+    }
+}
 
-            case AEA_BLOOD: {
-                bool blood = false;
-                for( const tripoint &tmp : g->m.points_in_radius( p->pos(), 4 ) ) {
-                    if( !one_in( 4 ) && g->m.add_field( tmp, fd_blood, 3 ) &&
-                        ( blood || g->u.sees( tmp ) ) ) {
-                        blood = true;
-                    }
-                }
-                if( blood ) {
-                    p->add_msg_if_player( m_warning, _( "Blood soaks out of the ground and walls." ) );
-                }
-            }
-            break;
+void spell_effect_area::fatigueFATIGUE(const spell &sp, const tripoint &target) {
+    p->add_msg_if_player( m_warning, _( "The fabric of space seems to decay." ) );
+    int x = rng( target.x - 3, target.x + 3 ), y = rng( target.y - 3, target.y + 3 );
+    g->m.add_field( {x, y, target.z}, fd_fatigue, rng( 1, 2 ) );
+}
 
-            case AEA_FATIGUE: {
-                p->add_msg_if_player( m_warning, _( "The fabric of space seems to decay." ) );
-                int x = rng( p->posx() - 3, p->posx() + 3 ), y = rng( p->posy() - 3, p->posy() + 3 );
-                g->m.add_field( {x, y, p->posz()}, fd_fatigue, rng( 1, 2 ) );
-            }
-            break;
-
-            case AEA_ACIDBALL: {
-                if( const cata::optional<tripoint> acidball = g->look_around() ) {
-                    for( const tripoint &tmp : g->m.points_in_radius( *acidball, 1 ) ) {
-                        g->m.add_field( tmp, fd_acid, rng( 2, 3 ) );
-                    }
-                }
-            }
-            break;
-
-            case AEA_PULSE:
-                sounds::sound( p->pos(), 30, sounds::sound_t::combat, _( "The earth shakes!" ), true, "misc",
-                               "earthquake" );
-                for( const tripoint &pt : g->m.points_in_radius( p->pos(), 2 ) ) {
-                    g->m.bash( pt, 40 );
-                    g->m.bash( pt, 40 );  // Multibash effect, so that doors &c will fall
-                    g->m.bash( pt, 40 );
-                    if( g->m.is_bashable( pt ) && rng( 1, 10 ) >= 3 ) {
-                        g->m.bash( pt, 999, false, true );
-                    }
-                }
-                break;
-
-            case AEA_HEAL:
-                p->add_msg_if_player( m_good, _( "You feel healed." ) );
-                p->healall( 2 );
-                break;
-
-            case AEA_CONFUSED:
-                for( const tripoint &dest : g->m.points_in_radius( p->pos(), 8 ) ) {
-                    if( monster *const mon = g->critter_at<monster>( dest, true ) ) {
-                        mon->add_effect( effect_stunned, rng( 5_turns, 15_turns ) );
-                    }
-                }
-                break;
+void spell_effect_area::pulse(const spell &sp, const tripoint &target){
+    sounds::sound( target, 30, sounds::sound_t::combat, _( "The earth shakes!" ), true, "misc",
+                   "earthquake" );
+    for( const tripoint &pt : g->m.points_in_radius( target, 2 ) ) {
+        g->m.bash( pt, 40 );
+        g->m.bash( pt, 40 );  // Multibash effect, so that doors &c will fall
+        g->m.bash( pt, 40 );
+        if( g->m.is_bashable( pt ) && rng( 1, 10 ) >= 3 ) {
+            g->m.bash( pt, 999, false, true );
+        }
+    }
+}
 
             case AEA_ENTRANCE:
                 for( const tripoint &dest : g->m.points_in_radius( p->pos(), 8 ) ) {
@@ -800,13 +766,4 @@ void spell_effect::storm(const spell &sp, const tripoint &target) {
             case AEA_FUN:
                 p->add_msg_if_player( m_good, _( "You're filled with euphoria!" ) );
                 p->add_morale( MORALE_FEELING_GOOD, rng( 20, 50 ), 0, 5_minutes, 5_turns, false );
-                break;
-
-            case AEA_SPLIT: // TODO: Add something
-                break;
-
-            case AEA_NULL: // BUG
-            case NUM_AEAS:
-            default:
-                debugmsg( "iuse::artifact(): wrong artifact type (%d)", used );
                 break;

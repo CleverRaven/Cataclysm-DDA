@@ -948,6 +948,8 @@ bool spell::cast_spell_effect( const Creature &source, const tripoint &target ) 
         spell_effect::spawn_summoned_monster( *this, source, target );
     } else if( fx == "translocate" ) {
         spell_effect::translocate( *this, source, target, g->u.translocators );
+    } else if( fx == "storm" ) {
+        spell_effect::translocate( *this, target);
     } else {
         debugmsg( "ERROR: Spell effect not defined properly." );
         return false;

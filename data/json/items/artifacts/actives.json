@@ -7,22 +7,20 @@
     "effect": "storm",
     "valid_targets": [ "self" ],
     "base_energy_cost": 2,
-    "flags": ["LOUD", "NO_HANDS", "NO_LEGS"],
-    "energy_source": "CHARGES",
-    ""difficulty""=-20
+    "flags": ["LOUD", "NO_HANDS", "NO_LEGS"]
   },
   {
-    "id": "fireball",
+    "//":"collision with kelvinist/fireball",
+    "id": "fire_ball",
     "type": "SPELL",
     "name": "Fireball",
     "description": "Throw a big ball of burning fire somewhere.",
     "effect": "target_attack",
-    "valid_targets": [ "ground" ],
+    "valid_targets": [ "self", "ground", "hostile"],
     "base_energy_cost": 4,
     "flags": ["LOUD", "NO_HANDS", "NO_LEGS"],
     "min_aoe":3,
-    "energy_source": "CHARGES",
-    ""difficulty""=-20
+    "field_id":"fire"
   },
    {
     "id": "adrenaline",
@@ -34,10 +32,8 @@
     "effect": "target_attack",
     "effect_str": "adrenaline",
     "base_energy_cost": 5,
-    "energy_source": "CHARGES",
     "min_duration": 1200,
-    "max_duration": 1500,
-    ""difficulty""=-20
+    "max_duration": 1500
   },
   {
     "id": "map",
@@ -47,9 +43,7 @@
     "valid_targets": [ "self"],
     "flags": [ "NO_HANDS", "NO_LEGS", "PERMANENT" ],
     "effect": "map",
-    "base_energy_cost": 4,
-    "energy_source": "CHARGES",
-    ""difficulty""=-20
+    "base_energy_cost": 4
   },
   {
     "id": "blood",
@@ -59,9 +53,11 @@
     "valid_targets": [ "ground"],
     "flags": [ "NO_HANDS", "NO_LEGS" ],
     "effect": "blood",
-    "base_energy_cost": ,
-    "energy_source": "CHARGES",
-    ""difficulty""=-20
+    "base_energy_cost": 0,
+    "min_aoe": 4,
+    "field_id": "blood",
+    "field_chance": "",
+    "min_field_intensity": ""
   },
   {
     "id": "fatigue",
@@ -71,21 +67,22 @@
     "valid_targets": [ "self"],
     "flags": [ "NO_HANDS", "NO_LEGS" ],
     "effect": "fatigue",
-    "base_energy_cost": ,
-    "energy_source": "CHARGES",
-    ""difficulty""=-20
+    "base_energy_cost": 0
   },
   {
-    "id": "acidball",
+    "id": "acid_ball",
+    "//": "adjust to intensity rng(2,3), currently allways 2.",
     "type": "SPELL",
     "name": "Acidball",
-    "description": "",
-    "valid_targets": [ "ground"],
+    "description": "Throw strong acid at a location.",
+    "valid_targets": [ "ground", "hostile"],
     "flags": [ "NO_HANDS", "NO_LEGS" ],
     "effect": "target_attack",
-    "base_energy_cost": ,
-    "energy_source": "CHARGES",
-    ""difficulty""=-20
+    "base_energy_cost": 4,
+    "min_aoe": 1,
+    "field_id": "acid",
+    "min_field_intensity": 2,
+    "max_field_intensity": 3
   },
   {
     "id": "pulse",
@@ -95,46 +92,45 @@
     "valid_targets": [ "self"],
     "flags": [ "NO_HANDS", "NO_LEGS", "LOUD"],
     "effect": "pulse",
-    "base_energy_cost": ,
-    "energy_source": "CHARGES",
-    ""difficulty""=-20
+    "base_energy_cost": 5,
+    "min_aoe": 2
   },
   {
     "id": "heal",
+    "//": "is p->healall(2);"
     "type": "SPELL",
     "name": "Heal",
-    "description": "",
+    "description": "Refreshes your Health Points.",
     "valid_targets": [ "self"],
     "flags": [ "NO_HANDS", "NO_LEGS" ],
-    "effect": "target_attack", ##healall??
-    "base_energy_cost": ,
-    "energy_source": "CHARGES",
-    ""difficulty""=-20
+    "effect": "target_attack",
+    "min_damage": -2,
+    "base_energy_cost": 4
   },
   {
     "id": "confused",
     "type": "SPELL",
     "name": "Confused",
-    "description": "",
+    "description": "Messes with the mind of your enemies.",
     "valid_targets": [ "hostile"],
     "flags": [ "NO_HANDS", "NO_LEGS" ],
     "effect": "target_attack",
     "effect_str": "confused",
-    "base_energy_cost": ,
-    "energy_source": "CHARGES",
-    ""difficulty""=-20
+    "base_energy_cost": 3,
+    "min_aoe": 8,
+    "min_duration": 500,
+    "max_duration": 1500
   },
   {
     "id": "entrance",
     "type": "SPELL",
     "name": "Entrance",
-    "description": "",
+    "description": "Hypnotise your enemies to make them friendly.",
     "valid_targets": [ "ground"],
     "flags": [ "NO_HANDS", "NO_LEGS" ],
     "effect": "summon",
-    "base_energy_cost": ,
-    "energy_source": "CHARGES",
-    ""difficulty""=-20
+    "base_energy_cost": 3,
+    "min_aoe": 8
   },
   {
     "id": "bugs",
