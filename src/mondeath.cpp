@@ -666,7 +666,7 @@ void mdeath::broken( monster &z )
 		}
 	}
     }
-//end adds ammo drop	
+    //end adds ammo drop
     //TODO: make mdeath::splatter work for robots
     if( ( broken_mon.damage() >= broken_mon.max_damage() ) && g->u.sees( z.pos() ) ) {
         add_msg( m_good, _( "The %s is destroyed!" ), z.name() );
