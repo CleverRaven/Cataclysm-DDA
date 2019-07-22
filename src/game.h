@@ -878,6 +878,7 @@ class game
         void display_scent();   // Displays the scent map
         void display_temperature();    // Displays temperature map
         void display_visibility(); // Displays visibility map
+        void display_radiation(); // Displays radiation map
 
         Creature *is_hostile_within( int distance );
 
@@ -939,6 +940,7 @@ class game
         bool displaying_visibility;
         /** Creature for which to display the visibility map */
         Creature *displaying_visibility_creature;
+        bool displaying_radiation;
 
         bool show_panel_adm;
         bool right_sidebar;

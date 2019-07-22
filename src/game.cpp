@@ -261,6 +261,7 @@ game::game() :
     displaying_scent( false ),
     displaying_temperature( false ),
     displaying_visibility( false ),
+    displaying_radiation( false ),
     safe_mode( SAFE_MODE_ON ),
     pixel_minimap_option( 0 ),
     mostseen( 0 ),
@@ -2352,6 +2353,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "debug_scent" );
     ctxt.register_action( "debug_temp" );
     ctxt.register_action( "debug_visibility" );
+    ctxt.register_action( "debug_radiation" );
     ctxt.register_action( "debug_mode" );
     ctxt.register_action( "zoom_out" );
     ctxt.register_action( "zoom_in" );
@@ -6628,6 +6630,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     ctxt.register_action( "debug_scent" );
     ctxt.register_action( "debug_temp" );
     ctxt.register_action( "debug_visibility" );
+    ctxt.register_action( "debug_radiation" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -6756,6 +6759,10 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
         } else if( action == "debug_temp" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_temperature();
+            }
+        } else if( action == "debug_radiation" ) {
+            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
+                display_radiation();
             }
         } else if( action == "EXTENDED_DESCRIPTION" ) {
             extended_description( lp );
@@ -10931,12 +10938,9 @@ void game::teleport( player *p, bool add_teleglow )
 void game::display_scent()
 {
     if( use_tiles ) {
-        if( displaying_temperature ) {
-            displaying_temperature = false;
-        }
-        if( displaying_visibility ) {
-            displaying_visibility = false;
-        }
+        displaying_temperature = false;
+        displaying_visibility = false;
+        displaying_radiation = false;
         displaying_scent = !displaying_scent;
     } else {
         int div;
@@ -10956,12 +10960,9 @@ void game::display_scent()
 void game::display_temperature()
 {
     if( use_tiles ) {
-        if( displaying_scent ) {
-            displaying_scent = false;
-        }
-        if( displaying_visibility ) {
-            displaying_visibility = false;
-        }
+        displaying_scent = false;
+        displaying_visibility = false;
+        displaying_radiation = false;
         displaying_temperature = !displaying_temperature;
     }
 }
@@ -10969,13 +10970,20 @@ void game::display_temperature()
 void game::display_visibility()
 {
     if( use_tiles ) {
-        if( displaying_scent ) {
-            displaying_scent = false;
-        }
-        if( displaying_temperature ) {
-            displaying_temperature = false;
-        }
+        displaying_scent = false;
+        displaying_temperature = false;
+        displaying_radiation = false;
         displaying_visibility = !displaying_visibility;
+    }
+}
+
+void game::display_radiation()
+{
+    if( use_tiles ) {
+        displaying_scent = false;
+        displaying_visibility = false;
+        displaying_temperature = false;
+        displaying_radiation = !displaying_radiation;
     }
 }
 

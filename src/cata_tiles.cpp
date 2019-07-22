@@ -1089,6 +1089,18 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                 }
             }
 
+            if( g->displaying_radiation ) {
+                const int rad_value = g->m.get_radiation( {x, y, center.z} );
+                catacurses::base_color col;
+                if( rad_value > 0 ) {
+                    col = catacurses::green;
+                } else {
+                    col = catacurses::cyan;
+                }
+                overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 2, 0 ),
+                                         formatted_text( std::to_string( rad_value ), 8 + col, NORTH ) );
+            }
+
             // Add temperature value to the overlay_strings list for every visible tile when displaying temperature
             if( g->displaying_temperature ) {
                 int temp_value = g->weather.get_temperature( {x, y, center.z} );
