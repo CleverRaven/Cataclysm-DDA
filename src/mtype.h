@@ -166,7 +166,6 @@ enum m_flag : int {
     MF_CAN_OPEN_DOORS,      // This monster can open doors.
     MF_DROPS_AMMO,			// DROPS AMMO ON DEATH NEW!
     MF_MAX                 // Sets the length of the flags - obviously must be LAST
-
 };
 
 template<>
