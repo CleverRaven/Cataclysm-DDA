@@ -54,6 +54,8 @@ const skill_id skill_electronics( "electronics" );
 const skill_id skill_firstaid( "firstaid" );
 
 static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
+static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
 class Character;
 
@@ -571,8 +573,6 @@ class comestible_inventory_preset : public inventory_selector_preset
             if( time > 0_turns && !( loc->type->container && loc->type->container->preserves ) ) {
                 return 0;
             } else if( get_consumable_item( loc ).rotten() ) {
-                static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
-                static const trait_id trait_SAPROVORE( "SAPROVORE" );
                 if( p.has_trait( trait_SAPROPHAGE ) || p.has_trait( trait_SAPROVORE ) ) {
                     return 1;
                 } else {
