@@ -5218,7 +5218,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "mr_bones",
-    "special_attacks": [ [ "SMASH", 20 ], [ "FUNGAL_TRAIL", 3 ] ],
+    "special_attacks": [ [ "SMASH", 20 ] ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": [ "FUNGUS" ],
     "burn_into": "mon_zombie_fiend",

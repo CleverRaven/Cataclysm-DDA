@@ -112,6 +112,7 @@ const mtype_id mon_zombie_sproglodyte( "mon_zombie_sproglodyte" );
 const mtype_id mon_zombie_shriekling( "mon_zombie_shriekling" );
 const mtype_id mon_zombie_snotgobbler( "mon_zombie_snotgobbler" );
 const mtype_id mon_zombie_waif( "mon_zombie_waif" );
+const mtype_id mon_spider_fungus( "mon_spider_fungus" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id FUNGUS( "FUNGUS" );
@@ -121,6 +122,7 @@ const species_id ABERRATION( "ABERRATION" );
 const species_id MOLLUSK( "MOLLUSK" );
 const species_id ROBOT( "ROBOT" );
 const species_id FISH( "FISH" );
+const species_id SPIDER( "SPIDER" );
 
 const efftype_id effect_badpoison( "badpoison" );
 const efftype_id effect_beartrap( "beartrap" );
@@ -2320,6 +2322,8 @@ bool monster::make_fungus()
         polypick = 7;
     } else if( tid == mon_zombie_gasbag ) {
         polypick = 8;
+    } else if( type->in_species( SPIDER ) && get_size() > MS_TINY ) {
+        polypick = 9;
     }
 
     const std::string old_name = name();
@@ -2347,6 +2351,9 @@ bool monster::make_fungus()
             break;
         case 8:
             poly( mon_zombie_gasbag_fungus );
+            break;
+        case 9:
+            poly( mon_spider_fungus );
             break;
         default:
             return false;
