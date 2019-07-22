@@ -225,6 +225,6 @@
     "dispersion": 480,
     "durability": 8,
     "magazine_well": 1,
-    "magazines": [ [ "40", [ "bhp40mag_13rd", "bhp40mag_15rd" ] ] ]
+    "magazines": [ [ "40", [ "bhp40mag" ] ] ]
   }
 ]
