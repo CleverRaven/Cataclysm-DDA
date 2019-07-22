@@ -648,7 +648,6 @@ void mdeath::broken( monster &z )
     }
     // make "broken_manhack", or "broken_eyebot", ...
     item_id.insert( 0, "broken_" );
-
     item broken_mon( item_id, calendar::turn );
     const int max_hp = std::max( z.get_hp_max(), 1 );
     const float overflow_damage = std::max( -z.get_hp(), 0 );
@@ -656,7 +655,18 @@ void mdeath::broken( monster &z )
     broken_mon.set_damage( static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
 
     g->m.add_item_or_charges( z.pos(), broken_mon );
-
+	
+	
+//adds ammo drop	
+    const bool dropsammo = z.type->has_flag( MF_DROPS_AMMO ); 
+    if( dropsammo ) {
+    for( const auto &ammo_entry : z.type->starting_ammo ) {
+		if (z.ammo[ammo_entry.first] > 0) {
+			g->m.spawn_item( z.pos(), ammo_entry.first.c_str(), z.ammo[ammo_entry.first.c_str()], 1, calendar::turn );
+		}
+	}
+    }
+//end adds ammo drop	
     //TODO: make mdeath::splatter work for robots
     if( ( broken_mon.damage() >= broken_mon.max_damage() ) && g->u.sees( z.pos() ) ) {
         add_msg( m_good, _( "The %s is destroyed!" ), z.name() );
