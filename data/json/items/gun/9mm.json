@@ -585,11 +585,11 @@
     "magazines": [ [ "9mm", [ "p320mag_17rd_9x19mm" ] ] ]
   },
   {
-    "id": "hi_power",
+    "id": "hi_power_9mm",
     "copy-from": "pistol_base",
     "type": "GUN",
-    "name": "Browning Hi Power",
-    "description": "The Browning Hi Power is a semi automatic handgun. It is one of the most widely used military pistols in history.",
+    "name": "Browning Hi Power 9x19mm",
+    "description": "The Browning Hi Power is a semi automatic handgun. It is one of the most widely used military pistols in history. This can be loaded with 9x19mm Parabellum.",
     "weight": 900,
     "volume": 1,
     "price": 32000,

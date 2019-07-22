@@ -21,7 +21,8 @@
       { "item": "kp3at", "prob": 35, "charges-min": 0, "charges-max": 6 },
       { "item": "rugerlcp", "prob": 35, "charges-min": 0, "charges-max": 6 },
       { "item": "kpf9", "prob": 35, "charges-min": 0, "charges-max": 7 },
-      { "item": "hi_power", "prob": 35, "charges-min": 0, "charges-max": 15 },
+      { "item": "hi_power_9mm", "prob": 35, "charges-min": 0, "charges-max": 15 },
+      { "item": "hi_power_40", "prob": 20, "charges-min": 0, "charges-max": 15 },
       { "item": "walther_p38", "prob": 20, "charges-min": 0, "charges-max": 8 }
     ]
   },
