@@ -658,7 +658,7 @@ void mdeath::broken( monster &z )
 	
 	
     //adds ammo drop	
-    const bool dropsammo = z.type->has_flag( MF_DROPS_AMMO ); 
+    const bool drops_ammo = z.type->has_flag( MF_DROPS_AMMO ); 
     if( dropsammo ) {
     for( const auto &ammo_entry : z.type->starting_ammo ) {
 		if( z.ammo[ammo_entry.first] > 0 ) {
