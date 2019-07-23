@@ -4173,6 +4173,8 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                             spawn_item( SEEX, SEEY - 1, "battery", dice( 4, 3 ) );
                             spawn_item( SEEX - 1, SEEY, "v29" );
                             spawn_item( SEEX - 1, SEEY, "laser_rifle", dice( 1, 0 ) );
+                            spawn_item( SEEX, SEEY, "plasma_gun" );
+                            spawn_item( SEEX, SEEY, "plasma" );
                             spawn_item( SEEX - 1, SEEY, "recipe_atomic_battery" );
                             spawn_item( SEEX, SEEY  - 1, "solar_panel_v3" );
                         } else if( loot_variant > 67 && loot_variant < 89 ) {

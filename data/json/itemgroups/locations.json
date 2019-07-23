@@ -183,14 +183,13 @@
   {
     "id": "energy_weapon_armory",
     "type": "item_group",
-    "subtype": "collection",
+    "subtype": "distribution",
     "items": [
-      { "group": "guns_energy", "prob": 50 },
+      { "group": "guns_energy", "prob": 20 },
+      { "group": "gunmod_energy", "prob": 40 },
       [ "plut_cell", 30 ],
-      [ "adv_UPS_off", 20 ],
-      [ "electrolaser_conversion", 5 ],
-      [ "high_density_capacitor", 5 ],
-      [ "beam_scatterer", 5 ]
+      [ "plasma", 30 ],
+      [ "adv_UPS_off", 20 ]
     ]
   },
   {
