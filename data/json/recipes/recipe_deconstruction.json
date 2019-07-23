@@ -421,7 +421,7 @@
       [ [ "hk_mp5", 1 ] ],
       [ [ "canister_empty", 1 ] ]
     ]
-  },  
+  },
   {
     "result": "broken_skitterbot",
     "type": "uncraft",
