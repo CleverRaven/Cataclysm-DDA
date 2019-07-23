@@ -568,5 +568,11 @@
     "name": "hexamine",
     "default": "chem_hexamine",
     "type": "ammunition_type"
+  },
+  {
+  "id": "oxygen",
+  "name": "oxygen",
+  "default": "oxygen",
+  "type": "ammunition_type"
   }
 ]
