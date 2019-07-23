@@ -1813,11 +1813,11 @@ class bionic_sterilize_preset : public inventory_selector_preset
         bionic_sterilize_preset( player &pl ) :
             p( pl ) {
 
-            append_cell( [this]( const item_location & loc ) {
+            append_cell( [this]( const item_location & ) {
                 return to_string( time_duration::from_minutes( 90 ) );
             }, _( "CYCLE DURATION" ) );
 
-            append_cell( [this]( const item_location & loc ) {
+            append_cell( [this]( const item_location & ) {
                 return "2 L";
             }, _( "WATER REQUIRED" ) );
         }
