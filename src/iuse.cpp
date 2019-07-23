@@ -4588,7 +4588,7 @@ int iuse::mind_splicer( player *p, item *it, bool, const tripoint & )
 
 void iuse::cut_log_into_planks( player &p )
 {
-    p.moves -= to_moves<int>( 3_seconds );
+    p.moves -= to_moves<int>( 20_minutes );
     p.add_msg_if_player( _( "You cut the log into planks." ) );
     const int max_planks = 10;
     /** @EFFECT_FABRICATION increases number of planks cut from a log */
