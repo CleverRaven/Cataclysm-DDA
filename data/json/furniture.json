@@ -2973,7 +2973,7 @@
       "str_max": 15,
       "sound": "crumple!",
       "sound_fail": "thud.",
-      "items": [ { "item": "paper", "count": [ 50, 100 ] } ]
+      "items": [ { "item": "paper", "charges": [ 50, 100 ] } ]
     }
   },
   {
