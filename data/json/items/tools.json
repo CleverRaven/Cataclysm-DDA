@@ -1507,6 +1507,16 @@
     "qualities": [ [ "SMOKE_PIPE", 1 ] ]
   },
   {
+    "type": "TOOL",
+    "id": "crash_axe",
+    "name": "crash axe",
+    "copy-from": "hatchet",
+    "looks_like": "hatchet",
+    "description": "A short lightweight emergency tool with a quarter circular blade, a short pick opposite the blade and an insulated handle.  Traditionally used on airplanes to chop down or pry walls or cabinets to gain access in case of fire.",
+    "material": [ "steel", "plastic" ],
+    "qualities": [ [ "AXE", 2 ], [ "CUT", 1 ], [ "PRY", 2 ], [ "BUTCHER", 16 ] ]
+  },
+  {
     "id": "crossbow_trap",
     "type": "TOOL",
     "name": "crossbow trap",
