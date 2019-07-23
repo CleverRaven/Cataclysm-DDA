@@ -7426,7 +7426,7 @@
     "type": "TOOL",
     "name": "acetylene-gas machine",
     "symbol": "&",
-    "color": "grey",
+    "color": "light_gray",
     "description": "This bulky device takes water and calcium carbide and yields unpressurised acetylene.",
     "weight": 8000,
     "volume": 12,
