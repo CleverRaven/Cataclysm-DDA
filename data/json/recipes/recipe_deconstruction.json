@@ -456,13 +456,13 @@
     "components": [
       [ [ "ai_module", 1 ] ],
       [ [ "RAM", 1 ] ],
+      [ [ "gun_module", 2 ] ],
+      [ [ "hk_mp5", 2 ] ],
       [ [ "small_storage_battery", 1 ] ],
-      [ [ "scrap", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "power_supply", 1 ] ],
-     [ [ "hk_mp5", 2 ] ],
-      [ [ "scrap", 4 ] ]
+      [ [ "turret_chassis", 1 ] ]
     ]
   },
   {
@@ -476,13 +476,13 @@
     "components": [
       [ [ "ai_module", 1 ] ],
       [ [ "RAM", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "m4a1", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
-      [ [ "scrap", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "power_supply", 1 ] ],
-      [ [ "m4a1", 1 ] ],
-      [ [ "scrap", 4 ] ]
+      [ [ "turret_chassis", 1 ] ]
     ]
   },
   {
@@ -496,13 +496,13 @@
     "components": [
       [ [ "ai_module", 1 ] ],
       [ [ "RAM", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "m107a1", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
-      [ [ "scrap", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "power_supply", 1 ] ],
-      [ [ "m2browning_sawn", 1 ] ],
-      [ [ "scrap", 4 ] ]
+      [ [ "turret_chassis", 1 ] ]
     ]
   },
   {
@@ -516,14 +516,14 @@
     "components": [
       [ [ "ai_module", 1 ] ],
       [ [ "RAM", 1 ] ],
-      [ [ "small_storage_battery", 1 ] ],
-      [ [ "scrap", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "laser_cannon", 1 ] ],
+      [ [ "medium_storage_battery", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
+      [ [ "solar_cell", 4 ] ],
       [ [ "power_supply", 1 ] ],
-      [ [ "laser_rifle", 1 ] ],
-      [ [ "heavy_battery_cell", 1 ] ],
-      [ [ "scrap", 4 ] ]
+      [ [ "turret_chassis", 1 ] ]
     ]
   },
   {
