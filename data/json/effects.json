@@ -1723,7 +1723,7 @@
     "desc": [ "You don't understand why you feel so bad." ],
     "apply_message": "You're wracked with pain!",
     "max_duration": "10 s",
-    "base_mods": { "pain_min": [ 5 ], "pain_max": [ 15 ]}
+    "base_mods": { "pain_min": [ 5 ], "pain_max": [ 15 ] }
   },
   {
     "type": "effect_type",
@@ -1731,8 +1731,6 @@
     "name": [ "Paralysed" ],
     "desc": [ "You loose the chance to move for a short while." ],
     "apply_message": "You're paralyzed!",
-    "rating": "bad",
-    "max_duration": "1 s",
-    "base_mods": { "speed_mod_min":[50], "speed_mod_max":[200]}
+    "max_duration": "1 s"
   }
 ]

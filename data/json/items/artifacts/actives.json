@@ -7,7 +7,9 @@
     "effect": "storm",
     "valid_targets": [ "self" ],
     "base_energy_cost": 2,
-    "flags": ["LOUD", "NO_HANDS", "NO_LEGS"]
+    "field_id": "fd_electricity",
+    "min_field_intensity": 3,
+    "field_intensity_variance": 0.2
   },
   {
     "id": "fire_ball",
@@ -15,19 +17,17 @@
     "name": "Fireball",
     "description": "Throw a big ball of burning fire somewhere.",
     "effect": "target_attack",
-    "valid_targets": [ "self", "ground", "hostile"],
+    "valid_targets": [ "self", "ground", "hostile" ],
     "base_energy_cost": 4,
-    "flags": ["LOUD", "NO_HANDS", "NO_LEGS"],
-    "min_aoe":3,
-    "field_id":"fire"
+    "min_aoe": 3,
+    "field_id": "fire"
   },
-   {
+  {
     "id": "adrenaline",
     "type": "SPELL",
     "name": "Adrenaline",
     "description": "",
-    "valid_targets": [ "self"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
     "effect": "target_attack",
     "effect_str": "adrenaline",
     "base_energy_cost": 5,
@@ -39,9 +39,9 @@
     "type": "SPELL",
     "name": "Map",
     "description": "You have a vision of your surroundings.",
-    "valid_targets": [ "self"],
-    "flags": [ "NO_HANDS", "NO_LEGS", "PERMANENT" ],
+    "valid_targets": [ "self" ],
     "effect": "_map",
+    "min_range": 20,
     "base_energy_cost": 4
   },
   {
@@ -49,24 +49,25 @@
     "type": "SPELL",
     "name": "Blood",
     "description": "It bleeds.",
-    "valid_targets": [ "ground"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "ground" ],
     "effect": "blood",
     "base_energy_cost": 0,
     "min_aoe": 4,
-    "field_id": "blood",
+    "field_id": "fd_blood",
     "field_chance": "",
-    "min_field_intensity": ""
+    "min_field_intensity": 3
   },
   {
     "id": "fatigue",
     "type": "SPELL",
     "name": "Fatigue",
     "description": "The fabric of space seems to decay.",
-    "valid_targets": [ "self"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
     "effect": "fatigue",
-    "base_energy_cost": 0
+    "base_energy_cost": 0,
+    "field_id": "fd_fatigue",
+    "min_field_intensity": 2,
+    "field_intensity_variance": 0.2
   },
   {
     "id": "acid_ball",
@@ -74,8 +75,7 @@
     "type": "SPELL",
     "name": "Acidball",
     "description": "Throw strong acid at a location.",
-    "valid_targets": [ "ground", "hostile"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "ground", "hostile" ],
     "effect": "target_attack",
     "base_energy_cost": 4,
     "min_aoe": 1,
@@ -88,20 +88,19 @@
     "type": "SPELL",
     "name": "Pulse",
     "description": "",
-    "valid_targets": [ "self"],
-    "flags": [ "NO_HANDS", "NO_LEGS", "LOUD"],
+    "valid_targets": [ "self" ],
     "effect": "pulse",
     "base_energy_cost": 5,
+    "min_damage": 40,
     "min_aoe": 2
   },
   {
     "id": "heal",
-    "//": "is p->healall(2);"
+    "//": "is p->healall(2);",
     "type": "SPELL",
     "name": "Heal",
     "description": "Refreshes your Health Points.",
-    "valid_targets": [ "self"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
     "effect": "target_attack",
     "min_damage": -2,
     "base_energy_cost": 4
@@ -111,8 +110,7 @@
     "type": "SPELL",
     "name": "Confused",
     "description": "Messes with the mind of your enemies.",
-    "valid_targets": [ "hostile"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "hostile" ],
     "effect": "target_attack",
     "effect_str": "confused",
     "base_energy_cost": 3,
@@ -125,8 +123,7 @@
     "type": "SPELL",
     "name": "Entrance",
     "description": "Hypnotise your enemies to make them friendly.",
-    "valid_targets": [ "self", "ground", "hostile"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self", "ground", "hostile" ],
     "effect": "entrance",
     "base_energy_cost": 3,
     "min_aoe": 8
@@ -136,18 +133,17 @@
     "type": "SPELL",
     "name": "Bugs",
     "description": "Summen Flying monsters.",
-    "valid_targets": [ "ground"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "ground" ],
     "effect": "bugs",
-    "base_energy_cost": 3
+    "base_energy_cost": 3,
+    "min_aoe": 1
   },
   {
     "id": "teleport",
     "type": "SPELL",
     "name": "Teleport",
     "description": "In the blink of an eye.",
-    "valid_targets": [ "self"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
     "effect": "teleport_random",
     "base_energy_cost": 5,
     "min_aoe": 15
@@ -157,8 +153,7 @@
     "type": "SPELL",
     "name": "Light",
     "description": "It emits a feint glow.",
-    "valid_targets": [ "self"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
     "effect": "teleport_random",
     "base_energy_cost": 1
   },
@@ -167,8 +162,7 @@
     "type": "SPELL",
     "name": "Growth",
     "description": "Plants grow on every inch of the floor.",
-    "valid_targets": [ "self"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
     "effect": "growth",
     "base_energy_cost": 4
   },
@@ -177,21 +171,19 @@
     "type": "SPELL",
     "name": "Hurt",
     "description": "Waves of energie flow from around you and hurt all monsters around you.",
-    "//": "was originally rng(0,5) damage. 3 for now."
-    "valid_targets": [ "hostile"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "//": "was originally rng(0,5) damage. 3 for now.",
+    "valid_targets": [ "hostile" ],
     "min_damage": 3,
     "effect": "target_attack",
     "base_energy_cost": 6,
-    "min_aoe": 500
+    "min_aoe": 50
   },
   {
     "id": "radiation",
     "type": "SPELL",
     "name": "Radiation",
     "description": "Horrible gases are emitted!",
-    "valid_targets": [ "self"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
     "effect": "target_attack",
     "base_energy_cost": -3,
     "aoe_min": 1,
@@ -204,8 +196,7 @@
     "type": "SPELL",
     "name": "Pain",
     "description": "You're wracked with pain!",
-    "valid_targets": [ "self"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
     "effect": "target_attack",
     "effect_str": "magic_pain",
     "base_energy_cost": -2
@@ -215,8 +206,7 @@
     "type": "SPELL",
     "name": "Mutation",
     "description": "",
-    "valid_targets": [ "self"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
     "effect": "teleport_random",
     "base_energy_cost": -3
   },
@@ -225,10 +215,9 @@
     "type": "SPELL",
     "name": "Teleport",
     "description": "You can't move for a turn.",
-    "valid_targets": [ "self"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
     "effect": "target_attack",
-    "effect_str": "paralysed"
+    "effect_str": "paralysed",
     "base_energy_cost": -2
   },
   {
@@ -236,8 +225,7 @@
     "type": "SPELL",
     "name": "Fire_Storm",
     "description": "Fire rains down around you!",
-    "valid_targets": [ "self"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
     "effect": "target_attack",
     "base_energy_cost": -3,
     "aoe_min": 3,
@@ -250,8 +238,7 @@
     "type": "SPELL",
     "name": "Attention",
     "description": "Somehow all Eyes are on you.",
-    "valid_targets": [ "self"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
     "effect": "target_attack",
     "effect_str": "attention",
     "base_energy_cost": -6
@@ -261,8 +248,7 @@
     "type": "SPELL",
     "name": "Teleglow",
     "description": "You and your tool start glowing in a feint bright light and you change position.",
-    "valid_targets": [ "self"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
     "effect": "teleglow",
     "base_energy_cost": -4
   },
@@ -271,28 +257,27 @@
     "type": "SPELL",
     "name": "Teleport",
     "description": "A loud bang.",
-    "valid_targets": [ "self"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
     "effect": "noise",
-    "base_energy_cost": -2
+    "base_energy_cost": -2,
+    "min_damage": 100
   },
   {
     "id": "scream",
     "type": "SPELL",
     "name": "Teleport",
     "description": "A terrifiyng scream.",
-    "valid_targets": [ "self"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
     "effect": "scream",
-    "base_energy_cost": -2
+    "base_energy_cost": -2,
+    "min_damage": 40
   },
   {
     "id": "dim",
     "type": "SPELL",
     "name": "Teleport",
     "description": "",
-    "valid_targets": [ "self"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
     "effect": "dim",
     "base_energy_cost": -3
   },
@@ -301,8 +286,7 @@
     "type": "SPELL",
     "name": "Flash",
     "description": "",
-    "valid_targets": [ "self"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
     "effect": "flash",
     "base_energy_cost": -4
   },
@@ -311,8 +295,7 @@
     "type": "SPELL",
     "name": "Vomit",
     "description": "",
-    "valid_targets": [ "self"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
     "effect": "vomit",
     "base_energy_cost": -2
   },
@@ -321,8 +304,7 @@
     "type": "SPELL",
     "name": "Shadow",
     "description": "",
-    "valid_targets": [ "self"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
     "effect": "shadows",
     "base_energy_cost": -5
   },
@@ -331,8 +313,7 @@
     "type": "SPELL",
     "name": "Teleport",
     "description": "",
-    "valid_targets": [ "self"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
     "effect": "stamina_empty",
     "base_energy_cost": -2
   },
@@ -341,8 +322,7 @@
     "type": "SPELL",
     "name": "Teleport",
     "description": "",
-    "valid_targets": [ "self"],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
     "effect": "fun",
     "base_energy_cost": 2
   }

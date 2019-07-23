@@ -119,7 +119,7 @@ static const std::array<int, NUM_AEAS> active_effect_cost = { {
         -4, // AEA_FLASH
         -2, // AEA_VOMIT
         -5  // AEA_SHADOWS
-        -2 // AEA_STAMINA_EMPTY
+        - 2 // AEA_STAMINA_EMPTY
     }
 };
 

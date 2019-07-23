@@ -37,6 +37,7 @@
 #include "iuse_actor.h" // For firestarter
 #include "json.h"
 #include "line.h"
+#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -4915,26 +4916,22 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
     }
 
     // temporary code: art_effect_active deprecated, wraps to string
-    std::unordered_map<art_effect_active, std::string> art_active_to_string = { {AEA_NULL, "null"}, {AEA_STORM, "strom"}, {AEA_FIREBALL, "fire_ball"}, {AEA_ADRENALINE, "adrenaline"},
-     {AEA_MAP, "_map"}, {AEA_BLOOD, "blood"}, {AEA_FATIGUE, "fatigue"}, {AEA_ACIDBALL, "acid_ball"}, {AEA_PULSE, "pulse"}, {AEA_HEAL, "heal"}, {AEA_CONFUSED, "confuse"},
-     {AEA_ENTRANCE, "entrance"}, {AEA_BUGS, "bugs"}, {AEA_TELEPORT, "teleport"}, {AEA_LIGHT, "light"}, {AEA_GROWTH, "growth"}, {AEA_HURTALL, "hurtall"}, {AEA_FUN, "fun"},
-     {AEA_RADIATION, "radiation"}, {AEA_PAIN, "pain"}, {AEA_MUTATE, "mutate"}, {AEA_PARALYZE, "paralyze"}, {AEA_FIRESTORM, "fire_storm"}, {AEA_ATTENTION, "attention"},
-     {AEA_TELEGLOW, "teleglow"}, {AEA_NOISE, "noise"}, {AEA_SCREAM, "scream"}, {AEA_DIM, "dim"}, {AEA_FLASH, "flash"}, {AEA_VOMIT, "vomit"}, {AEA_SHADOWS, "shadows"}, {AEA_STAMINA_EMPTY, "stamina_empty"} };
-    std::vector<std::string> effects;
-    for( art_effect_active use : art->effects_activated)
-        effects.push_back(art_active_to_string[use]);
+    std::unordered_map<art_effect_active, const char *> art_active_to_string = { {AEA_NULL, "null"}, {AEA_STORM, "strom"}, {AEA_FIREBALL, "fire_ball"}, {AEA_ADRENALINE, "adrenaline"},
+        {AEA_MAP, "_map"}, {AEA_BLOOD, "blood"}, {AEA_FATIGUE, "fatigue"}, {AEA_ACIDBALL, "acid_ball"}, {AEA_PULSE, "pulse"}, {AEA_HEAL, "heal"}, {AEA_CONFUSED, "confuse"},
+        {AEA_ENTRANCE, "entrance"}, {AEA_BUGS, "bugs"}, {AEA_TELEPORT, "teleport"}, {AEA_LIGHT, "light"}, {AEA_GROWTH, "growth"}, {AEA_HURTALL, "hurtall"}, {AEA_FUN, "fun"},
+        {AEA_RADIATION, "radiation"}, {AEA_PAIN, "pain"}, {AEA_MUTATE, "mutate"}, {AEA_PARALYZE, "paralyze"}, {AEA_FIRESTORM, "fire_storm"}, {AEA_ATTENTION, "attention"},
+        {AEA_TELEGLOW, "teleglow"}, {AEA_NOISE, "noise"}, {AEA_SCREAM, "scream"}, {AEA_DIM, "dim"}, {AEA_FLASH, "flash"}, {AEA_VOMIT, "vomit"}, {AEA_SHADOWS, "shadows"}, {AEA_STAMINA_EMPTY, "stamina_empty"}
+    };
 
-    for( size_t i = 0; i < num_used && !effects.empty(); i++ ) {
-        player_activity cast_spell( activity_id( "ACT_SPELLCASTING" ), 0);
-        // [0] this is used as a spell level override for items casting spells
-        cast_spell.values.emplace_back( -1 );
-        // [1] if this value is 1, the spell never fails
-        cast_spell.values.emplace_back( 1 );
-        // [2] this value overrides the mana cost if set to 0
-        cast_spell.values.emplace_back( 1 );
-
-        cast_spell.name = random_entry_removed( effects );
-        p.assign_activity( cast_spell, false );
+    //std::string name = new std::string( "" );
+    for( size_t i = 0; i < num_used && !art->effects_activated.empty(); i++ ) {
+        //name = *art_active_to_string.at( art->effects_activated[i] );
+        spell sp = spell( spell_id( art_active_to_string.at( art->effects_activated[i] ) ) );
+        int diff = it->charges - sp.energy_cost( *p );
+        if( !( diff < 0 || diff > it->type->maximum_charges() ) ) {
+            sp.cast_spell_effect( *p, p->pos() );
+            it->mod_charges( sp.energy_cost( *p ) );
+        }
     }
     return it->type->charges_to_use();
 }
