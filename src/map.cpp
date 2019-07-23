@@ -2695,9 +2695,6 @@ void map::decay_fields_and_scent( const time_duration &amount )
     // Decay scent separately, so that later we can use field count to skip empty submaps
     g->scent.decay();
 
-    const time_duration amount_fire = amount / 3; // Decay fire by this much
-    const time_duration amount_liquid = amount / 2; // Decay washable fields (blood, guts etc.) by this
-    const time_duration amount_gas = amount / 5; // Decay gas type fields by this
     // Coordinate code copied from lightmap calculations
     // TODO: Z
     const int smz = abs_sub.z;
@@ -2738,23 +2735,10 @@ void map::decay_fields_and_scent( const time_duration &amount )
                         to_proc--;
                         field_entry &cur = fp.second;
                         const field_type_id type = cur.get_field_type();
-                        if( type == fd_fire ) {
-                            cur.set_field_age( cur.get_field_age() + amount_fire );
-                        }
-                        if( type == fd_blood || type == fd_bile || type == fd_gibs_flesh ||
-                            type == fd_gibs_veggy || type == fd_slime || type == fd_blood_veggy ||
-                            type == fd_blood_insect || type == fd_blood_invertebrate ||
-                            type == fd_gibs_insect || type == fd_gibs_invertebrate ) {
-                            cur.set_field_age( cur.get_field_age() + amount_liquid );
-                        }
-                        if( type == fd_smoke || type == fd_toxic_gas || type == fd_fungicidal_gas ||
-                            type == fd_tear_gas || type == fd_nuke_gas || type == fd_cigsmoke ||
-                            type == fd_weedsmoke || type == fd_cracksmoke || type == fd_methsmoke ||
-                            type == fd_relax_gas || type == fd_fungal_haze || type == fd_cold_air1 ||
-                            type == fd_cold_air2 || type == fd_cold_air3 || type == fd_cold_air4 ||
-                            type == fd_hot_air1 || type == fd_hot_air2 || type == fd_hot_air3 ||
-                            type == fd_hot_air4 ) {
-                            cur.set_field_age( cur.get_field_age() + amount_gas );
+                        const int decay_amount_factor =  type.obj().decay_amount_factor;
+                        if( decay_amount_factor != 0 ) {
+                            const time_duration decay_amount = amount / decay_amount_factor;
+                            cur.set_field_age( cur.get_field_age() + decay_amount );
                         }
                     }
                 }
