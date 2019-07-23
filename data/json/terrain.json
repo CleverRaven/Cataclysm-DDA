@@ -6750,7 +6750,7 @@
       "ter_set": "t_rock_floor",
       "items": [
         { "item": "glass_shard", "count": [ 6, 20 ] },
-        { "item": "pipe", "charges": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
         { "item": "scrap", "count": [ 1, 3 ] }
       ]
     }

@@ -952,7 +952,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 }
                 g->m.add_item_or_charges( p.pos(), obj );
             } else {
-                item obj( drop, calendar::turn, roll );
+                item obj( drop, calendar::turn );
                 obj.set_mtype( &mt );
                 if( obj.has_temperature() ) {
                     obj.set_item_temperature( 0.00001 * corpse_item->temperature );

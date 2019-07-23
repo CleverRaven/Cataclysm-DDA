@@ -985,6 +985,7 @@ struct itype {
             }
             return 1;
         }
+        bool can_have_charges() const;
 
         /**
          * Number of (charges of) this type of item that fit into the given volume.
