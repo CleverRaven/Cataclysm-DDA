@@ -251,7 +251,7 @@
       [ "salt", 10 ],
       [ "sugar", 10 ],
       [ "chem_ethanol", 10 ],
-	  [ "oxygen_cylinder", 8 ]
+      [ "oxygen_cylinder", 8 ]
     ]
   },
   {
