@@ -51,7 +51,7 @@ clothing_mod_type string_to_enum<clothing_mod_type>( const std::string &data )
     auto iter = clothing_mod_type_map.find( data );
 
     if( iter == clothing_mod_type_map.end() ) {
-        debugmsg( "Invalid mod type '%s'.", data.c_str() );
+        debugmsg( "Invalid mod type '%s'.", data );
         return clothing_mod_type_invalid;
     }
 
@@ -67,10 +67,8 @@ const std::string enum_to_string<clothing_mod_type>( clothing_mod_type data )
     } );
 
     if( iter == clothing_mod_type_map.end() ) {
-        if( iter == clothing_mod_type_map.end() ) {
-            debugmsg( "Invalid mod type value '%d'.", data );
-            return "invalid";
-        }
+        debugmsg( "Invalid mod type value '%d'.", data );
+        return "invalid";
     }
 
     return iter->first;
@@ -166,8 +164,8 @@ const std::vector<clothing_mod> &clothing_mods::get_all_with( clothing_mod_type 
         return iter->second;
     } else {
         // Build cache
-        std::vector<clothing_mod> list = std::vector<clothing_mod> {};
-        for( auto cm : get_all() ) {
+        std::vector<clothing_mod> list;
+        for( auto &cm : get_all() ) {
             if( cm.has_mod_type( type ) ) {
                 list.push_back( cm );
             }
@@ -177,7 +175,7 @@ const std::vector<clothing_mod> &clothing_mods::get_all_with( clothing_mod_type 
     }
 }
 
-const std::string clothing_mods::string_from_clothing_mod_type( clothing_mod_type type )
+std::string clothing_mods::string_from_clothing_mod_type( clothing_mod_type type )
 {
     return io::enum_to_string<clothing_mod_type>( type );
 }

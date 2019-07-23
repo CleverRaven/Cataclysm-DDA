@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <string>
 #include <vector>
+#include <array>
 
 #include "type_id.h"
 
@@ -68,7 +69,7 @@ void reset();
 const std::vector<clothing_mod> &get_all();
 const std::vector<clothing_mod> &get_all_with( clothing_mod_type type );
 
-const std::string string_from_clothing_mod_type( clothing_mod_type type );
+std::string string_from_clothing_mod_type( clothing_mod_type type );
 
 } // namespace clothing_mods
 
