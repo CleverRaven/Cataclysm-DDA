@@ -5547,6 +5547,7 @@
     "use_action": "AUTOCLAVE",
     "power_draw": 1500000,
     "charges_per_use": 1,
+    "looks_like": "microwave",
     "ammo": "battery",
     "magazines": [
       [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
