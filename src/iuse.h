@@ -212,7 +212,7 @@ class iuse
         int radiocaron( player *, item *, bool, const tripoint & );
         int radiocontrol( player *, item *, bool, const tripoint & );
 
-        int autoclave(player *, item *, bool, const tripoint &);
+        int autoclave( player *, item *, bool, const tripoint & );
 
         int multicooker( player *, item *, bool, const tripoint & );
 
