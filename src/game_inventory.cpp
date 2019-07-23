@@ -1653,7 +1653,7 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
             } else if( pa.is_npc() && !bid->npc_usable ) {
                 return _( "CBM not compatible with patient" );
             } else if( it->price( true ) * 2 > p.cash ) {
-                return format_money( loc.get_item()->price( true ) * 2 );
+                return format_money( it->price( true ) * 2 );
             }
 
             return std::string();
