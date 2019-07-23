@@ -21,12 +21,12 @@
       { "item": "kp3at", "prob": 35, "charges-min": 0, "charges-max": 6 },
       { "item": "rugerlcp", "prob": 35, "charges-min": 0, "charges-max": 6 },
       { "item": "kpf9", "prob": 35, "charges-min": 0, "charges-max": 7 },
-      { "item": "hi_power_9mm", "prob": 35, "charges-min": 0, "charges-max": 15 },
-      { "item": "hi_power_40", "prob": 20, "charges-min": 0, "charges-max": 10 },
-      { "item": "walther_p38", "prob": 20, "charges-min": 0, "charges-max": 8 },
-      { "item": "walther_ppq_9mm", "prob": 40, "charges-min": 0, "charges-max": 17 },
-      { "item": "walther_ppq_40", "prob": 20, "charges-min": 0, "charges-max": 14 },
-      { "item": "walther_ppq_45", "prob": 10, "charges-min": 0, "charges-max": 12 }
+      { "item": "hi_power_9mm", "prob": 15, "charges-min": 0, "charges-max": 15 },
+      { "item": "hi_power_40", "prob": 10, "charges-min": 0, "charges-max": 10 },
+      { "item": "walther_p38", "prob": 5, "charges-min": 0, "charges-max": 8 },
+      { "item": "walther_ppq_9mm", "prob": 15, "charges-min": 0, "charges-max": 17 },
+      { "item": "walther_ppq_40", "prob": 10, "charges-min": 0, "charges-max": 14 },
+      { "item": "walther_ppq_45", "prob": 5, "charges-min": 0, "charges-max": 12 }
     ]
   },
   {
