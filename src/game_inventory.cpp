@@ -1826,7 +1826,7 @@ class bionic_sterilize_preset : public inventory_selector_preset
             return loc->has_flag( "NO_STERILE" ) && loc->is_bionic();
         }
 
-        std::string get_denial( const item_location &loc ) const override {
+        std::string get_denial( const item_location & ) const override {
             auto reqs = *requirement_id( "autoclave_item" );
 
             if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
