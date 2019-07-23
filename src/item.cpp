@@ -4709,12 +4709,12 @@ int item::chip_resistance( bool worst ) const
 
 int item::min_damage() const
 {
-    return type->damage_min;
+    return type->damage_min();
 }
 
 int item::max_damage() const
 {
-    return type->damage_max;
+    return type->damage_max();
 }
 
 float item::get_relative_health() const

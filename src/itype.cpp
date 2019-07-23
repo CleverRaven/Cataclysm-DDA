@@ -31,7 +31,7 @@ int itype::charges_per_volume( const units::volume &vol ) const
     if( volume == 0_ml ) {
         return item::INFINITE_CHARGES; // TODO: items should not have 0 volume at all!
     }
-    return ( stackable ? stack_size : 1 ) * vol / volume;
+    return ( count_by_charges() ? stack_size : 1 ) * vol / volume;
 }
 
 // Members of iuse struct, which is slowly morphing into a class.
