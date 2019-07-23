@@ -571,7 +571,7 @@
   },
   {
     "id": "oxygen",
-  "name": "oxygen",
+    "name": "oxygen",
   "default": "oxygen",
   "type": "ammunition_type"
   }
