@@ -1116,7 +1116,7 @@
     "properties": [ [ "burst_when_filled", "75" ] ]
   },
   {
-    "id":"can_food_big",
+    "id": "can_food_big",
     "type": "CONTAINER",
     "category": "other",
     "name": "large tin can",
