@@ -7422,17 +7422,17 @@
     "use_action": { "type": "weigh_self", "max_weight": 150000 }
   },
   {
-   "id": "acetylene_machine",
-   "type": "TOOL",
-   "name": "acetylene-gas machine",
-   "symbol": "&",
-   "color": "grey",
-   "description": "This bulky device takes water and calcium carbide and yields unpressurised acetylene.",
-   "weight": 8000,
-   "volume": 12,
-   "price": "3200",
-   "to-hit": -4,
-   "bashing": 12,
-   "material": "steel"
+    "id": "acetylene_machine",
+    "type": "TOOL",
+    "name": "acetylene-gas machine",
+    "symbol": "&",
+    "color": "grey",
+    "description": "This bulky device takes water and calcium carbide and yields unpressurised acetylene.",
+    "weight": 8000,
+    "volume": 12,
+    "price": "3200",
+    "to-hit": -4,
+    "bashing": 12,
+    "material": "steel"
   }
 ]
