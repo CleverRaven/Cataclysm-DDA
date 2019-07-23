@@ -194,7 +194,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
     // for ammo and comestibles stack size defaults to count of initial charges
     // Set max stack size to 200 to prevent integer overflow
-    if( obj.stackable ) {
+    if( obj.count_by_charges() ) {
         if( obj.stack_size == 0 ) {
             obj.stack_size = obj.charges_default();
         } else if( obj.stack_size > 200 ) {
@@ -1274,11 +1274,10 @@ bool Item_factory::load_definition( JsonObject &jo, const std::string &src, ityp
         // adjust type specific defaults
         auto opt = jo.get_string( "type" );
 
-        // ammo and comestibles by default lack differing damage levels and are always stackable
+        // ammo and comestibles by default lack differing damage levels
         if( opt == "AMMO" || opt == "COMESTIBLE" ) {
             def.damage_min = 0;
             def.damage_max = 0;
-            def.stackable = true;
         }
         return true;
     }
@@ -1289,11 +1288,10 @@ bool Item_factory::load_definition( JsonObject &jo, const std::string &src, ityp
         def.looks_like = jo.get_string( "copy-from" );
         // adjust type specific defaults
         auto opt = jo.get_string( "type" );
-        // ammo and comestibles by default lack differing damage levels and are always stackable
+        // ammo and comestibles by default lack differing damage levels
         if( opt == "AMMO" || opt == "COMESTIBLE" ) {
             def.damage_min = 0;
             def.damage_max = 0;
-            def.stackable = true;
         }
         return true;
     }
@@ -2044,7 +2042,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     assign( jo, "volume", def.volume );
     assign( jo, "price", def.price );
     assign( jo, "price_postapoc", def.price_post );
-    assign( jo, "stackable", def.stackable, strict );
+    assign( jo, "stackable", def.stackable_, strict );
     assign( jo, "integral_volume", def.integral_volume );
     assign( jo, "bashing", def.melee[DT_BASH], strict, 0 );
     assign( jo, "cutting", def.melee[DT_CUT], strict, 0 );

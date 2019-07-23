@@ -942,7 +942,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                     obj.set_rot( corpse_item->get_rot() );
                 }
                 liquid_handler::handle_all_liquid( obj, 1 );
-            } else if( drop->stackable ) {
+            } else if( drop->count_by_charges() ) {
                 item obj( drop, calendar::turn, roll );
                 if( obj.has_temperature() ) {
                     obj.set_item_temperature( 0.00001 * corpse_item->temperature );

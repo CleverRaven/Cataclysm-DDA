@@ -774,6 +774,10 @@ struct itype {
         cata::optional<islot_artifact> artifact;
         /*@}*/
 
+    private:
+        /** Can item be combined with other identical items? */
+        bool stackable_ = false;
+
     protected:
         std::string id = "null"; /** unique string identifier for this type */
 
@@ -833,9 +837,6 @@ struct itype {
         // Should the item explode when lit on fire
         bool explode_in_fire = false;
 
-        /** Can item be combined with other identical items? */
-        bool stackable = false;
-
         /** Is item destroyed after the countdown action is run? */
         bool countdown_destroy = false;
 
@@ -858,7 +859,7 @@ struct itype {
 
         /**
          * Space occupied by items of this type
-         * CAUTION: value given is for a default-sized stack. Avoid using where @ref stackable items may be encountered; see @ref item::volume instead.
+         * CAUTION: value given is for a default-sized stack. Avoid using where @ref count_by_charges items may be encountered; see @ref item::volume instead.
          * To determine how many of an item can fit in a given space, use @ref charges_per_volume.
          */
         units::volume volume = 0_ml;
@@ -868,7 +869,7 @@ struct itype {
          */
         units::volume integral_volume = -1_ml;
 
-        /** Number of items per above volume for @ref stackable items */
+        /** Number of items per above volume for @ref count_by_charges items */
         int stack_size = 0;
 
         /** Value before cataclysm. Price given is for a default-sized stack. */
@@ -953,7 +954,7 @@ struct itype {
         }
 
         bool count_by_charges() const {
-            return stackable;
+            return stackable_ || ammo.has_value() || comestible.has_value();
         }
 
         int charges_default() const {
@@ -964,7 +965,7 @@ struct itype {
             } else if( ammo ) {
                 return ammo->def_charges;
             }
-            return stackable ? 1 : 0;
+            return count_by_charges() ? 1 : 0;
         }
 
         int charges_to_use() const {
