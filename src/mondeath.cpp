@@ -655,17 +655,18 @@ void mdeath::broken( monster &z )
     broken_mon.set_damage( static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
 
     g->m.add_item_or_charges( z.pos(), broken_mon );
-	
-	
-    //adds ammo drop	
-    const bool drops_ammo = z.type->has_flag( MF_DROPS_AMMO ); 
+
+
+    //adds ammo drop
+    const bool drops_ammo = z.type->has_flag( MF_DROPS_AMMO );
     if( drops_ammo ) {
-    for( const std::pair<std::string, int> &ammo_entry : z.type->starting_ammo ) {
-		if( z.ammo[ammo_entry.first] > 0 ) {
-			g->m.spawn_item( z.pos(), ammo_entry.first.c_str(), z.ammo[ammo_entry.first.c_str()], 1, calendar::turn );
-		}
-	}
-}
+        for( const std::pair<std::string, int> &ammo_entry : z.type->starting_ammo ) {
+            if( z.ammo[ammo_entry.first] > 0 ) {
+                g->m.spawn_item( z.pos(), ammo_entry.first.c_str(), z.ammo[ammo_entry.first.c_str()], 1,
+                                 calendar::turn );
+            }
+        }
+    }
     //end adds ammo drop
     //TODO: make mdeath::splatter work for robots
     if( ( broken_mon.damage() >= broken_mon.max_damage() ) && g->u.sees( z.pos() ) ) {
