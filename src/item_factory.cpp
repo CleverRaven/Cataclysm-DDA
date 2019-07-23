@@ -1287,6 +1287,14 @@ bool Item_factory::load_definition( JsonObject &jo, const std::string &src, ityp
     if( base != m_templates.end() ) {
         def = base->second;
         def.looks_like = jo.get_string( "copy-from" );
+        // adjust type specific defaults
+        auto opt = jo.get_string( "type" );
+        // ammo and comestibles by default lack differing damage levels and are always stackable
+        if( opt == "AMMO" || opt == "COMESTIBLE" ) {
+            def.damage_min = 0;
+            def.damage_max = 0;
+            def.stackable = true;
+        }
         return true;
     }
 
