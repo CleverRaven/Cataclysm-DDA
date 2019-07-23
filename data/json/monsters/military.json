@@ -31,7 +31,7 @@
         "require_sunlight": true
       }
     ],
-    "death_drops": {},
+    "death_drops": {  },
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
   },
@@ -77,9 +77,9 @@
         "no_ammo_sound": "a chk!"
       }
     ],
-    "death_drops": {},
+    "death_drops": {  },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO"]
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
   },
   {
     "id": "mon_turret_rifle",
@@ -115,7 +115,7 @@
         "ranges": [ [ 0, 8, "AUTO" ], [ 9, 16, "DEFAULT" ] ]
       }
     ],
-    "death_drops": {},
+    "death_drops": {  },
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
   }
