@@ -234,7 +234,7 @@
   },
   {
     "type": "tool_quality",
-	"id": "PRESSURIZATION",
+    "id": "PRESSURIZATION",
 	"name":"pressurizing"
   }
 ]
