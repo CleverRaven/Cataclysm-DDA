@@ -1233,21 +1233,6 @@
     "ammo_type": "components"
   },
   {
-    "id": "cac2",
-    "type": "AMMO",
-    "category": "other",
-    "name": "calcium carbide",
-    "description": "A brownish powder used as a precursor to making acetylene gas.",
-    "weight": 1,
-    "volume": "10 ml",
-    "count": 10,
-    "price": 0,
-    "material": "wood",
-    "symbol": "=",
-    "color": "brown",
-    "ammo_type": "components"
-  },
-  {
    "id": "acetylene",
    "type": "COMESTIBLE",
    "name": "acetylene",

@@ -2350,7 +2350,7 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
     bool fuel_present = false;
     auto items = g->m.i_at( examp );
     for( const item &i : items ) {
-        if( i.typeId() == "cac2" ) {
+        if( i.typeId() == "chem_carbide" ) {
             add_msg( _( "This furnace already contains calcium carbide." ) );
             add_msg( _( "Remove it before activating the arc furnace again." ) );
             return;
@@ -2358,8 +2358,7 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
             fuel_present = true;
         } else {
             add_msg( m_bad, _( "This furnace contains %s, which can't be made into calcium carbide!" ),
-                     i.tname( 1,
-                              false ) );
+                     i.tname( 1, false ) );
             return;
         }
     }
@@ -2425,7 +2424,7 @@ void iexamine::arcfurnace_full( player &, const tripoint &examp )
         g->m.furn_set( examp, next_arcfurnace_type );
         return;
     }
-    auto char_type = item::find_type( "cac2" );
+    auto char_type = item::find_type( "chem_carbide" );
     add_msg( _( "There's an arc furnace there." ) );
     const time_duration firing_time = 2_hours; // Arc furnaces work really fast in reality
     const time_duration time_left = firing_time - items.only_item().age();
@@ -2447,7 +2446,7 @@ void iexamine::arcfurnace_full( player &, const tripoint &examp )
     units::volume total_volume = 0_ml;
     // Burn stuff that should get charred, leave out the rest
     for( auto item_it = items.begin(); item_it != items.end(); ) {
-        if( item_it->typeId() == "unfinished_cac2" || item_it->typeId() == "cac2" ) {
+        if( item_it->typeId() == "unfinished_cac2" || item_it->typeId() == "chem_carbide" ) {
             total_volume += item_it->volume();
             item_it = items.erase( item_it );
         } else {
@@ -2455,7 +2454,7 @@ void iexamine::arcfurnace_full( player &, const tripoint &examp )
         }
     }
 
-    item result( "cac2", calendar::turn );
+    item result( "chem_carbide", calendar::turn );
     result.charges = char_type->charges_per_volume( total_volume );
     g->m.add_item( examp, result );
     g->m.furn_set( examp, next_arcfurnace_type );
