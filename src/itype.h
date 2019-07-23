@@ -778,6 +778,13 @@ struct itype {
         /** Can item be combined with other identical items? */
         bool stackable_ = false;
 
+        /** Minimum and maximum amount of damage to an item (state of maximum repair). */
+        // @todo create and use a MinMax class or similar to put both values into one object.
+        /// @{
+        int damage_min_ = -1000;
+        int damage_max_ = +4000;
+        /// @}
+
     protected:
         std::string id = "null"; /** unique string identifier for this type */
 
@@ -793,6 +800,13 @@ struct itype {
     public:
         itype() {
             melee.fill( 0 );
+        }
+
+        int damage_min() const {
+            return count_by_charges() ? 0 : damage_min_;
+        }
+        int damage_max() const {
+            return count_by_charges() ? 0 : damage_max_;
         }
 
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
@@ -895,8 +909,6 @@ struct itype {
         std::string sym;
         nc_color color = c_white; // Color on the map (color.h)
 
-        int damage_min = -1000; /** Minimum amount of damage to an item (state of maximum repair) */
-        int damage_max =  4000; /** Maximum amount of damage to an item (state before destroyed) */
         static constexpr int damage_scale = 1000; /** Damage scale compared to the old float damage value */
 
         /** What items can be used to repair this item? @see Item_factory::finalize */

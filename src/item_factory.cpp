@@ -127,7 +127,7 @@ static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
 void Item_factory::finalize_pre( itype &obj )
 {
     // TODO: separate repairing from reinforcing/enhancement
-    if( obj.damage_max == obj.damage_min ) {
+    if( obj.damage_max() == obj.damage_min() ) {
         obj.item_tags.insert( "NO_REPAIR" );
     }
 
@@ -857,7 +857,7 @@ void Item_factory::check_definitions() const
         if( type->price < 0 ) {
             msg << "negative price" << "\n";
         }
-        if( type->damage_min > 0 || type->damage_max < 0 || type->damage_min > type->damage_max ) {
+        if( type->damage_min() > 0 || type->damage_max() < 0 || type->damage_min() > type->damage_max() ) {
             msg << "invalid damage range" << "\n";
         }
         if( type->description.empty() ) {
@@ -1270,15 +1270,6 @@ bool Item_factory::load_definition( JsonObject &jo, const std::string &src, ityp
     if( !jo.has_string( "copy-from" ) ) {
         // if this is a new definition ensure we start with a clean itype
         def = itype();
-
-        // adjust type specific defaults
-        auto opt = jo.get_string( "type" );
-
-        // ammo and comestibles by default lack differing damage levels
-        if( opt == "AMMO" || opt == "COMESTIBLE" ) {
-            def.damage_min = 0;
-            def.damage_max = 0;
-        }
         return true;
     }
 
@@ -1286,13 +1277,6 @@ bool Item_factory::load_definition( JsonObject &jo, const std::string &src, ityp
     if( base != m_templates.end() ) {
         def = base->second;
         def.looks_like = jo.get_string( "copy-from" );
-        // adjust type specific defaults
-        auto opt = jo.get_string( "type" );
-        // ammo and comestibles by default lack differing damage levels
-        if( opt == "AMMO" || opt == "COMESTIBLE" ) {
-            def.damage_min = 0;
-            def.damage_max = 0;
-        }
         return true;
     }
 
@@ -2069,8 +2053,8 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
 
     if( jo.has_member( "damage_states" ) ) {
         auto arr = jo.get_array( "damage_states" );
-        def.damage_min = arr.get_int( 0 ) * itype::damage_scale;
-        def.damage_max = arr.get_int( 1 ) * itype::damage_scale;
+        def.damage_min_ = arr.get_int( 0 ) * itype::damage_scale;
+        def.damage_max_ = arr.get_int( 1 ) * itype::damage_scale;
     }
 
     def.name = jo.get_string( "name" );
