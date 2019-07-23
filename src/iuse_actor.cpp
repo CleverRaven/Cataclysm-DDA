@@ -2307,7 +2307,7 @@ void cast_spell_actor::load( JsonObject &obj )
 void cast_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
     const std::string message = string_format( _( "This item casts %s at level %i." ),
-                                item_spell.c_str(),
+                                _( item_spell->name ),
                                 spell_level );
     dump.emplace_back( "DESCRIPTION", message );
     if( no_fail ) {
