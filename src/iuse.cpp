@@ -8296,7 +8296,7 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
 
             it->put_in( *cbm );
             it->activate();
-            it->set_var( "CYCLETIME", 5400 ); // one cycle last 90min
+            it->set_var( "CYCLETIME", to_seconds<int>( 90_minutes ) ); // one cycle
             return it->type->charges_to_use();
         }
     } else {
