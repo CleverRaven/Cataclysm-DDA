@@ -44,7 +44,7 @@
     "name": "blunderbuss flechette",
     "symbol": "=",
     "color": "red",
-    "description": "A prepared blunderbuss shot of homemade flechette made out of nails or glass.  Shreds armor.",
+    "description": "A prepared blunderbuss shot of homemade flechette made out of nails.  Shreds armor.",
     "material": [ "plastic", "powder" ],
     "volume": 1,
     "weight": 3,
