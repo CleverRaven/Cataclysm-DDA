@@ -8224,57 +8224,87 @@ static bool multicooker_hallu( player &p )
 
 }
 
-int iuse::autoclave( player *p, item *it, bool t, const tripoint & )
+int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
 {
     if( t ) {
         if( !it->units_sufficient( *p ) ) {
+            add_msg( m_bad, _( "The autoclave ran out of battery and stopped before completing its cycle." ) );
             it->active = false;
+            item *clean_cbm = nullptr;
+            for( item &bio : it->contents ) {
+                if( bio.is_bionic() ) {
+                    clean_cbm = &bio;
+                }
+            }
+            if( clean_cbm ) {
+                g->m.add_item( pos, *clean_cbm );
+                it->remove_item( *clean_cbm );
+            }
             return 0;
         }
+
         int Cycle_time = it->get_var( "CYCLETIME", 0 );
         Cycle_time -= 1;
         if( Cycle_time <= 0 ) {
-
-
             it->active = false;
             it->erase_var( "CYCLETIME" );
+            item *clean_cbm = nullptr;
+            for( item &bio : it->contents ) {
+                if( bio.is_bionic() ) {
+                    bio.unset_flag( "NO_STERILE" );
+                    bio.set_var( "sterile", 1 ); // sterile for 1s if not (packed);
+                    clean_cbm = &bio;
+                }
+            }
+            if( clean_cbm ) {
+                g->m.add_item( pos, *clean_cbm );
+                it->remove_item( *clean_cbm );
+            }
+
         } else {
-            add_msg( _( "The cycle will be complete in %s." ),
-                     to_string( time_duration::from_seconds( Cycle_time ) ) );
+            it->set_var( "CYCLETIME", Cycle_time );
         }
 
-    } else {
+    } else if( !it->active ) {
         if( p->is_underwater() ) {
             p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
             return 0;
         }
-        const inventory_filter_preset cbm_preset( []( const item_location & location ) {
-            return location->item_tags.find( "NO_STERILE" ) != location->item_tags.end() &&
-                   location->is_bionic();
-        } );
 
+        auto reqs = *requirement_id( "autoclave_item" );
 
-        inventory_iuse_selector inv_cbm( *p, _( "Select CBM to sterilize" ), cbm_preset );
-        inv_cbm.add_character_items( *p );
-        inv_cbm.set_title( _( "Sterilization" ) );
-        inv_cbm.set_hint( _( "You can fit up to 3 CBM in this autoclave." ) );
-        if( inv_cbm.empty() ) {
-            popup( std::string( _( "You have nothing to sterilize." ) ), PF_GET_KEY );
+        const item_location to_sterile = game_menus::inv::sterilize_cbm( *p );
+
+        if( !to_sterile ) {
             return 0;
         }
-        std::list<std::pair<int, int>> to_steril = inv_cbm.execute();
-        if( to_steril.empty() ) {
-            return 0;
-        } else if( to_steril.size() > 3 ) {
-            popup( std::string( _( "You can't fit more thant 3 CBMs in this autoclave." ) ), PF_GET_KEY );
-            return 0;
-        }
-        for (std::pair<int,int> it: to_steril)
-        {
 
-        }
+        if( query_yn( _( "Start the autoclave?" ) ) ) {
 
+            for( const auto &e : reqs.get_components() ) {
+                p->consume_items( e, 1, is_crafting_component );
+            }
+            for( const auto &e : reqs.get_tools() ) {
+                p->consume_tools( e );
+            }
+            p->invalidate_crafting_inventory();
+            const item *cbm = to_sterile.get_item();
+
+            std::vector<item_comp> comps;
+            comps.push_back( item_comp( cbm->typeId(), 1 ) );
+            p->consume_items( comps, 1, is_crafting_component );
+
+            it->put_in( *cbm );
+            it->activate();
+            it->set_var( "CYCLETIME", 5400 ); // one cycle last 90min
+            return it->type->charges_to_use();
+        }
+    } else {
+        int Cycle_time = it->get_var( "CYCLETIME", 0 );
+        add_msg( _( "The cycle will be complete in %s." ),
+                 to_string( time_duration::from_seconds( Cycle_time ) ) );
     }
+
     return 0;
 }
 
