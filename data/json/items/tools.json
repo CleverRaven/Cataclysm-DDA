@@ -101,7 +101,7 @@
     "volume": 2,
     "bashing": 4,
     "to_hit": -1,
-	"qualities": [ [ "PRESSURIZATION", 1 ] ]
+    "qualities": [ [ "PRESSURIZATION", 1 ] ]
   },
   {
     "id": "UPS_off",
