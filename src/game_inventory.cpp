@@ -1652,7 +1652,7 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
                 return _( "Superior version installed" );
             } else if( pa.is_npc() && !bid->npc_usable ) {
                 return _( "CBM not compatible with patient" );
-            } else if( loc.get_item()->price( true ) * 2 > p.cash ) {
+            } else if( it->price( true ) * 2 > p.cash ) {
                 return format_money( loc.get_item()->price( true ) * 2 );
             }
 
