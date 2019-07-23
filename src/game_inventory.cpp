@@ -1814,7 +1814,7 @@ class bionic_sterilize_preset : public inventory_selector_preset
             p( pl ) {
 
             append_cell( []( const item_location & ) {
-                return to_string( time_duration::from_minutes( 90 ) );
+                return to_string( 90_minutes );
             }, _( "CYCLE DURATION" ) );
 
             append_cell( []( const item_location & ) {
