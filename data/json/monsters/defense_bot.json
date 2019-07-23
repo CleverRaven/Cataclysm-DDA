@@ -22,7 +22,7 @@
     "revert_to_itype": "bot_secubot",
     "starting_ammo": { "9mm": 100 },
     "special_attacks": [ { "type": "gun", "cooldown": 2, "gun_type": "hk_mp5", "ranges": [ [ 0, 6, "AUTO" ], [ 7, 12, "DEFAULT" ] ] } ],
-    "death_drops": {},
+    "death_drops": {  },
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "DROPS_AMMO" ]
   },
@@ -52,7 +52,7 @@
       { "type": "gun", "cooldown": 1, "gun_type": "hk_mp5", "ranges": [ [ 0, 6, "AUTO" ], [ 7, 12, "DEFAULT" ] ] },
       [ "PARROT", 40 ]
     ],
-    "death_drops": {},
+    "death_drops": {  },
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
   },
@@ -116,7 +116,17 @@
     "special_attacks": [ [ "SCIENCE", 16 ], [ "TAZER", 10 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "skitterbot", 1 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "GOODHEARING", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_2", "DROPS_AMMO" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "BASHES",
+      "GOODHEARING",
+      "ELECTRONIC",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "PATH_AVOID_DANGER_2",
+      "DROPS_AMMO"
+    ]
   },
   {
     "id": "mon_robofac_prototype",
