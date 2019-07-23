@@ -279,6 +279,13 @@ static constexpr point point_south_west{ -1, 1 };
 static constexpr point point_west{ -1, 0 };
 static constexpr point point_north_west{ -1, -1 };
 
+static constexpr std::array<point, 4> four_adjacent_offsets{{
+        point_north, point_east, point_south, point_west
+    }};
+
+static constexpr tripoint tripoint_above{ 0, 0, 1 };
+static constexpr tripoint tripoint_below{ 0, 0, -1 };
+
 static constexpr box box_zero( tripoint_zero, tripoint_zero );
 static constexpr rectangle rectangle_zero( point_zero, point_zero );
 

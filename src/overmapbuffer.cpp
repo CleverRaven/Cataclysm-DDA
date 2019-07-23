@@ -681,7 +681,6 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
         return path;
     }
 
-
     // Local source - center of the local area
     const point start( OX, OY );
     // To convert local coordinates to global ones
@@ -1120,7 +1119,7 @@ static radio_tower_reference create_radio_tower_reference( const overmap &om, ra
         const tripoint &center )
 {
     // global submap coordinates, same as center is
-    const point pos = point( t.x, t.y ) + om_to_sm_copy( om.pos() );
+    const point pos = t.pos + om_to_sm_copy( om.pos() );
     const int strength = t.strength - rl_dist( tripoint( pos, 0 ), center );
     return radio_tower_reference{ &t, pos, strength };
 }
@@ -1356,7 +1355,7 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string
         const int offset_y = om.pos().y * OMAPY;
         for( int i = 0; i < OMAPX; i++ ) {
             for( int j = 0; j < OMAPY; j++ ) {
-                const std::string &note = om.note( i, j, z );
+                const std::string &note = om.note( { i, j, z } );
                 if( note.empty() ) {
                     continue;
                 }
@@ -1366,7 +1365,7 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string
                 }
                 result.push_back( t_point_with_note(
                                       point( offset_x + i, offset_y + j ),
-                                      om.note( i, j, z )
+                                      om.note( { i, j, z } )
                                   ) );
             }
         }
@@ -1379,11 +1378,11 @@ overmapbuffer::t_extras_vector overmapbuffer::get_extras( int z, const std::stri
     overmapbuffer::t_extras_vector result;
     for( auto &it : overmaps ) {
         const overmap &om = *it.second;
-        const int offset_x = om.pos().x * OMAPX;
-        const int offset_y = om.pos().y * OMAPY;
+        const point offset = om_to_omt_copy( om.pos() );
         for( int i = 0; i < OMAPX; i++ ) {
             for( int j = 0; j < OMAPY; j++ ) {
-                const string_id<map_extra> &extra = om.extra( i, j, z );
+                tripoint p( i, j, z );
+                const string_id<map_extra> &extra = om.extra( p );
                 if( extra.is_null() ) {
                     continue;
                 }
@@ -1393,8 +1392,8 @@ overmapbuffer::t_extras_vector overmapbuffer::get_extras( int z, const std::stri
                     continue;
                 }
                 result.push_back( t_point_with_extra(
-                                      point( offset_x + i, offset_y + j ),
-                                      om.extra( i, j, z )
+                                      p.xy() + offset,
+                                      om.extra( p )
                                   ) );
             }
         }

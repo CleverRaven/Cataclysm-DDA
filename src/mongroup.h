@@ -101,14 +101,18 @@ struct mongroup {
      */
     std::string horde_behaviour;
     bool diffuse = false;   // group size ind. of dist. from center and radius invariant
-    mongroup( const mongroup_id &ptype, int pposx, int pposy, int pposz,
+    mongroup( const mongroup_id &ptype, const tripoint &ppos,
               unsigned int prad, unsigned int ppop )
         : type( ptype )
-        , pos( pposx, pposy, pposz )
+        , pos( ppos )
         , radius( prad )
         , population( ppop )
         , target() {
     }
+    mongroup( const mongroup_id &ptype, int pposx, int pposy, int pposz,
+              unsigned int prad, unsigned int ppop )
+        : mongroup( ptype, tripoint( pposx, pposy, pposz ), prad, ppop )
+    {}
     mongroup( const std::string &ptype, tripoint ppos, unsigned int prad, unsigned int ppop,
               tripoint ptarget, int pint, bool pdie, bool phorde, bool pdiff ) :
         type( ptype ), pos( ppos ), radius( prad ), population( ppop ), target( ptarget ),
