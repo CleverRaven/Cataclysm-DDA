@@ -570,7 +570,7 @@
     "type": "ammunition_type"
   },
   {
-  "id": "oxygen",
+    "id": "oxygen",
   "name": "oxygen",
   "default": "oxygen",
   "type": "ammunition_type"
