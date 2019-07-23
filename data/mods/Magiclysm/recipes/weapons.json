@@ -1,0 +1,154 @@
+[
+  {
+    "type": "recipe",
+    "result": "rune_magus_weapon",
+    "\\": "Forging and water included for glass heat-tempering process",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 2 ], [ "bashing", 2 ] ],
+    "difficulty": 4,
+    "time": "360 m",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 2 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "tools": [ [ [ "water", -1 ] ], [ [ "tongs", -1 ] ] ],
+    "components": [
+      [ [ "q_staff", 1 ] ],
+      [ [ "jar_glass", 2 ] ],
+      [ [ "rune_magus", 2 ] ],
+      [ [ "tallow", 2 ], [ "tallow_tainted", 2 ], [ "cooking_oil", 16 ], [ "cooking_oil2", 16 ], [ "lamp_oil", 250 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "rune_biomancer_weapon",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 2 ], [ "piercing", 2 ] ],
+    "difficulty": 4,
+    "time": "2 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "fire", -1 ] ] ],
+    "components": [
+      [ [ "stick_long", 1 ], [ "pool_cue", 1 ] ],
+      [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
+      [ [ "duct_tape", 20 ], [ "filament", 20, "LIST" ] ],
+      [ [ "bone", 3 ], [ "bone_human", 3 ], [ "bone_tainted", 6 ] ],
+      [ [ "rune_biomancer", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "rune_animist_weapon",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 2 ], [ "piercing", 2 ] ],
+    "difficulty": 4,
+    "time": "360 m",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 2 ], [ "steel_tiny", 1 ] ],
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "MANA_INFUSE", "level": 1 }
+    ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "rune_animist", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "rune_druid_weapon",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 2 ], [ "archery", 2 ] ],
+    "difficulty": 4,
+    "time": "360 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "components": [
+      [ [ "stick", 3 ], [ "2x4", 2 ] ],
+      [ [ "bone", 3 ], [ "bone_human", 3 ] ],
+      [ [ "cordage", 2, "LIST" ], [ "filament", 200, "LIST" ] ],
+      [ [ "rune_druid", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "rune_technomancer_weapon",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ [ "spellcraft", 2 ], [ "mechanics", 2 ] ],
+    "time": "360 m",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 14 ], [ "steel_standard", 3 ] ],
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "MANA_INFUSE", "level": 1 }
+    ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "rune_technomancer", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "rune_stormshaper_weapon",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ [ "spellcraft", 2 ], [ "bashing", 2 ] ],
+    "time": "360 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [
+      [ [ "stick", 1 ], [ "2x4", 1 ] ],
+      [ [ "scrap_copper", 10 ], [ "copper", 1000 ] ],
+      [ [ "silver", 100 ] ],
+      [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ], [ "duct_tape", 40 ] ],
+      [ [ "rune_stormshaper", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "rune_earthshaper_weapon",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 2 ], [ "bashing", 2 ] ],
+    "difficulty": 4,
+    "time": "360 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "components": [ [ [ "leather", 4 ] ], [ [ "scrap", 8 ] ], [ [ "rune_earthshaper", 1 ] ] ]
+  },
+  {
+    "result": "rune_kelvinist_weapon",
+    "type": "recipe",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "skills_required": [ [ "spellcraft", 2 ], [ "cutting", 2 ] ],
+    "time": "420 m",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 4 ], [ "steel_standard", 2 ] ],
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "MANA_INFUSE", "level": 1 }
+    ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ], [ [ "rune_kelvinist", 1 ] ] ]
+  }
+]
