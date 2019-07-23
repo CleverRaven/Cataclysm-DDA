@@ -662,7 +662,8 @@ void mdeath::broken( monster &z )
     if( drops_ammo ) {
         for( const std::pair<std::string, int> &ammo_entry : z.type->starting_ammo ) {
             if( z.ammo[ammo_entry.first] > 0 ) {
-                g->m.spawn_item( z.pos(), ammo_entry.first.c_str(), z.ammo[ammo_entry.first.c_str()], 1,
+                const std::string firstammoentry = ammo_entry.first.c_str();
+                g->m.spawn_item( z.pos(), firstammoentry z.ammo[firstammoentry], 1,
                                  calendar::turn );
             }
         }
