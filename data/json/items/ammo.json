@@ -928,7 +928,7 @@
     "material": "steel",
     "volume": 10,
     "weight": 1183,
-	"ammo_type": "oxygen",
+    "ammo_type": "oxygen",
     "count": 10
   },
   {
