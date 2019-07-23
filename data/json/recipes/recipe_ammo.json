@@ -577,7 +577,8 @@
         [ "pebble", 16 ],
         [ "pebble_clay", 16 ],
         [ "marble", 16 ],
-        [ "bearing", 16 ]
+        [ "bearing", 16 ],
+        [ "glass_shard", 1 ]
       ],
       [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
     ]
