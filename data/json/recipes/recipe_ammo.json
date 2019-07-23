@@ -572,7 +572,7 @@
     "components": [
       [ [ "gunpowder", 16 ], [ "chem_black_powder", 24 ] ],
       [
-        [ "bb", 16 ],
+        [ "bb", 24 ],
         [ "clockworks", 1 ],
         [ "pebble", 16 ],
         [ "pebble_clay", 16 ],
