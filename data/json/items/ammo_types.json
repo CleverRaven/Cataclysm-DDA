@@ -573,6 +573,6 @@
     "id": "oxygen",
     "name": "oxygen",
   "default": "oxygen",
-  "type": "ammunition_type"
+    "type": "ammunition_type"
   }
 ]
