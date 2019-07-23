@@ -915,8 +915,8 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
 
     if( has_target ) {
         const int distance = rl_dist( center, target );
-        mvwprintz(wbar, ++lines, 1, c_white, _("Distance to active mission:"));
-        mvwprintz(wbar, ++lines, 1, c_white, _("%d tiles"), distance);
+        mvwprintz( wbar, ++lines, 1, c_white, _( "Distance to active mission:" ) );
+        mvwprintz( wbar, ++lines, 1, c_white, _( "%d tiles" ), distance );
 
         const int above_below = target.z - orig.z;
         std::string msg;
@@ -929,13 +929,11 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             mvwprintz( wbar, ++lines, 1, c_white, _( "%s" ), msg );
         }
     }
-    
+
     //Show mission targets on this location
-    for (auto & mission : g->u.get_active_missions())
-    {
-        if (mission->get_target() == center)
-        {
-            mvwprintz(wbar, ++lines, 1, c_white, mission->name());
+    for( auto &mission : g->u.get_active_missions() ) {
+        if( mission->get_target() == center ) {
+            mvwprintz( wbar, ++lines, 1, c_white, mission->name() );
         }
     }
 
