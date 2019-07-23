@@ -2436,7 +2436,6 @@ void iexamine::autoclave_full( player &, const tripoint &examp )
 
     g->m.furn_set( examp, next_autoclave_type );
     for( auto &it : items ) {
-        it.unset_flag( "FILTHY" );
         it.unset_flag( "NO_STERILE" );
         it.set_var( "sterile", 1 ); // sterile for 1s if not (packed)
     }
