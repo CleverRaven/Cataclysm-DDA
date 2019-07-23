@@ -877,6 +877,9 @@ bool monster::is_fleeing( player &u ) const
     if( effect_cache[FLEEING] ) {
         return true;
     }
+    if( anger >= 100 || morale >= 100 ) {
+        return false;
+    }
     monster_attitude att = attitude( &u );
     return ( att == MATT_FLEE || ( att == MATT_FOLLOW && rl_dist( pos(), u.pos() ) <= 4 ) );
 }
@@ -1148,6 +1151,10 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
         effect == effect_poison ) {
         return !has_flag( MF_WARM ) ||
                ( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) ) );
+    }
+
+    if( effect == effect_stunned ) {
+        return has_flag( MF_STUN_IMMUNE );
     }
 
     return false;

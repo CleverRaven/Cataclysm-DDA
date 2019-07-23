@@ -709,7 +709,7 @@ bool overmapbuffer::reveal( const tripoint &center, int radius,
                 continue;
             }
             result = true;
-            set_seen( local, true );
+            set_seen( p, true );
         }
     }
     return result;

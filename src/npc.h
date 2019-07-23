@@ -756,10 +756,6 @@ class npc : public player
         void starting_weapon( const npc_class_id &type );
 
         // Save & load
-        // Overloaded from player
-        void load_info( std::string data ) override;
-        std::string save_info() const override;
-
         void deserialize( JsonIn &jsin ) override;
         void serialize( JsonOut &jsout ) const override;
 
@@ -1243,6 +1239,10 @@ class npc : public player
          * Retroactively update npc.
          */
         void on_load();
+        /**
+         * Update body, but throttled.
+         */
+        void npc_update_body();
 
         /// Set up (start) a companion mission.
         void set_companion_mission( npc &p, const std::string &mission_id );

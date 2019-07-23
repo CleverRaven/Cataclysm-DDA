@@ -3127,7 +3127,6 @@
           "trenchcoat_fur",
           "backpack_leather",
           "boots_fur",
-          "footrags_fur",
           "gloves_fur",
           "hat_fur",
           "scarf_fur",
@@ -3147,8 +3146,7 @@
           { "item": "arrow_wood", "charges": 20, "container-item": "quiver" }
         ]
       }
-    },
-    "flags": [ "SCEN_ONLY" ]
+    }
   },
   {
     "type": "profession",
@@ -3575,7 +3573,7 @@
     "ident": "miner",
     "name": "Miner",
     "description": "You're a miner, not a minor!  Your canteen is dry, your jackhammer is out of gas, and you're on your last pair of batteries for your mining helmet...",
-    "points": 0,
+    "points": 2,
     "items": {
       "both": {
         "items": [
@@ -3602,8 +3600,7 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "boy_shorts", "sports_bra" ]
-    },
-    "flags": [ "SCEN_ONLY" ]
+    }
   },
   {
     "type": "profession",
@@ -3656,8 +3653,7 @@
     "ident": "naked",
     "name": "Naked and Afraid",
     "description": "You were out filming a reality TV show in the woods and the cast and crew all seemed to have turned into zombies.  Looks like it's for real now...",
-    "points": -1,
-    "flags": [ "SCEN_ONLY" ]
+    "points": -1
   },
   {
     "type": "profession",

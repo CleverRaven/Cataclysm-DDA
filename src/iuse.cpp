@@ -5893,6 +5893,12 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
+    if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( "FIX_FARSIGHT" ) &&
+        !p->has_effect( effect_contacts ) && !p->has_bionic( bionic_id( "bio_eye_optic" ) ) ) {
+        add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
+        return 0;
+    }
+
     int choice = uilist( _( "Welcome to hackPRO!:" ), {
         _( "Prepare IFF protocol override" ),
         _( "Set friendly robots to passive mode" ),
@@ -6256,7 +6262,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             return 0;
         }
         if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( "FIX_FARSIGHT" ) &&
-            !p->has_effect( effect_contacts ) ) {
+            !p->has_effect( effect_contacts ) && !p->has_bionic( bionic_id( "bio_eye_optic" ) ) ) {
             add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
             return 0;
         }
@@ -8722,9 +8728,8 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         /* windpower defined in internal velocity units (=.01 mph) */
-        double windpower = static_cast<int>( 100.0f * get_local_windpower( g->weather.windspeed +
-                                             vehwindspeed,
-                                             cur_om_ter, p->pos(), g->weather.winddirection, g->is_sheltered( p->pos() ) ) );
+        const double windpower = 100 * get_local_windpower( g->weather.windspeed + vehwindspeed, cur_om_ter,
+                                 p->pos(), g->weather.winddirection, g->is_sheltered( p->pos() ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
                               convert_velocity( windpower, VU_WIND ),
@@ -9067,7 +9072,7 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
 int iuse::break_stick( player *p, item *it, bool, const tripoint & )
 {
     p->moves -= to_turns<int>( 2_seconds );
-    p->mod_stat( "stamina", static_cast<int>( 0.05f * get_option<float>( "PLAYER_MAX_STAMINA" ) ) );
+    p->mod_stat( "stamina", static_cast<int>( 0.05f * get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
 
     if( p->get_str() < 5 ) {
         p->add_msg_if_player( _( "You are too weak to even try." ) );

@@ -76,12 +76,10 @@ void ma_requirements::load( JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
+    optional( jo, was_loaded, "unarmed_weapons_allowed", unarmed_weapons_allowed, true );
 
     optional( jo, was_loaded, "req_buffs", req_buffs, auto_flags_reader<mabuff_id> {} );
     optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<> {} );
-
-    optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
-    optional( jo, was_loaded, "strictly_melee", strictly_melee, false );
 
     // TODO: De-hardcode the skills and damage types here
     add_if_exists( jo, min_skill, was_loaded, "min_melee", skill_melee );
@@ -397,10 +395,12 @@ bool ma_requirements::is_valid_player( const player &u ) const
     // There are 4 different cases of "armedness":
     // Truly unarmed, unarmed weapon, style-allowed weapon, generic weapon
     bool valid_weapon =
-        ( unarmed_allowed && u.unarmed_attack() &&
-          ( !strictly_unarmed || !u.is_armed() ) ) ||
-        ( is_valid_weapon( u.weapon ) &&
-          ( melee_allowed || u.style_selected.obj().has_weapon( u.weapon.typeId() ) ) );
+        ( !u.style_selected.obj().strictly_melee && unarmed_allowed &&
+          ( !u.is_armed() || ( u.unarmed_attack() && unarmed_weapons_allowed ) ) ) ||
+        ( !u.style_selected.obj().strictly_unarmed && melee_allowed &&
+          is_valid_weapon( u.weapon ) &&
+          ( u.style_selected.obj().has_weapon( u.weapon.typeId() ) ||
+            u.style_selected.obj().allow_melee ) );
     if( !valid_weapon ) {
         return false;
     }
@@ -498,7 +498,7 @@ bool ma_technique::is_valid_player( const player &u ) const
 }
 
 ma_buff::ma_buff()
-    : buff_duration( 2_turns )
+    : buff_duration( 1_turns )
 {
     max_stacks = 1; // total number of stacks this buff can have
 
@@ -590,7 +590,7 @@ std::string ma_buff::get_description( bool passive ) const
     std::string temp = bonuses.get_description();
     if( !temp.empty() ) {
         dump << string_format( _( "<bold>%s:</bold> " ),
-                               ngettext( "Bonus", "Bonus/stack", max_stacks ) ) << temp << std::endl;
+                               ngettext( "Bonus", "Bonus/stack", max_stacks ) ) << std::endl << temp;
     }
 
     dump << reqs.get_description( true );
@@ -1114,7 +1114,7 @@ std::string ma_technique::get_description() const
 
     std::string temp = bonuses.get_description();
     if( !temp.empty() ) {
-        dump << _( "<bold>Bonus:</bold> " ) << temp << std::endl;
+        dump << _( "<bold>Bonus:</bold> " ) << std::endl << temp;
     }
 
     dump << reqs.get_description();
@@ -1197,7 +1197,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         if( ma.force_unarmed ) {
             buffer << _( "<bold>This style forces you to use unarmed strikes, even if wielding a weapon.</bold>" );
-            buffer << std::endl << "--" << std::endl;
+            buffer << "--" << std::endl;
         }
 
         if( ma.arm_block_with_bio_armor_arms || ma.arm_block != 99 ||
@@ -1229,7 +1229,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                 for( const auto &buff : buffs ) {
                     buffer << std::endl << buff->get_description( passive ) ;
                 }
-                buffer << std::endl << "--" << std::endl;
+                buffer << "--" << std::endl;
             }
         };
 
@@ -1247,11 +1247,10 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         for( const auto &tech : ma.techniques ) {
             buffer << string_format( _( "<header>Technique:</header> <bold>%s</bold>   " ),
                                      _( tech.obj().name ) ) << std::endl;
-            buffer << tech.obj().get_description() << std::endl << "--" << std::endl;
+            buffer << tech.obj().get_description() << "--" << std::endl;
         }
 
         if( !ma.weapons.empty() ) {
-            buffer << std::endl << std::endl;
             buffer << ngettext( "<bold>Weapon:</bold>", "<bold>Weapons:</bold>", ma.weapons.size() ) << " ";
             buffer << enumerate_as_string( ma.weapons.begin(), ma.weapons.end(), []( const std::string & wid ) {
                 return item::nname( wid );

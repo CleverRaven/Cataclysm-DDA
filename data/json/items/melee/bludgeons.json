@@ -652,5 +652,42 @@
     "bashing": 9999,
     "price": 12000,
     "qualities": [ [ "HAMMER", 1 ] ]
+  },
+  {
+    "id": "lucern_hammer",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "lucern hammer",
+    "description": "This is a versatile polearm with an spiked hammer head, a spike, and a hook attached to a long stick.",
+    "price": 50000,
+    "material": [ "wood", "steel" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "SPEAR" ],
+    "techniques": [ "WBLOCK_1", "WIDE", "SWEEP" ],
+    "weight": 3200,
+    "volume": 15,
+    "bashing": 30,
+    "cutting": 22,
+    "to_hit": 2,
+    "qualities": [ [ "COOK", 1 ] ]
+  },
+  {
+    "id": "lucern_hammerfake",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "lucern hammer",
+    "description": "This is a cheap piece of crap imitation of a versatile polearm with a spiked hammer head, probably used for LARPing",
+    "price": 4000,
+    "price_postapoc": 0,
+    "material": [ "wood", "aluminum" ],
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "SPEAR" ],
+    "techniques": [ "WBLOCK_1", "SWEEP" ],
+    "weight": 2700,
+    "volume": 15,
+    "bashing": 14,
+    "cutting": 3,
+    "to_hit": 2,
+    "qualities": [ [ "COOK", 1 ] ]
   }
 ]

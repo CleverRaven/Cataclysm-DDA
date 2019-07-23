@@ -971,7 +971,7 @@ bool color_manager::save_custom()
 {
     const auto savefile = FILENAMES["custom_colors"];
 
-    return write_to_file_exclusive( savefile, [&]( std::ostream & fout ) {
+    return write_to_file( savefile, [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
         serialize( jsout );
     }, _( "custom colors" ) );

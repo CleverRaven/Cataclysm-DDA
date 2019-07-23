@@ -973,6 +973,11 @@ void Item_factory::check_definitions() const
                 msg << string_format( "invalid drop item %s", type->ammo->drop.c_str() ) << "\n";
             }
         }
+        if( type->battery ) {
+            if( type->battery->max_capacity < 0_mJ ) {
+                msg << "battery cannot have negative maximum charge\n";
+            }
+        }
         if( type->gun ) {
             for( const ammotype &at : type->gun->ammo ) {
                 check_ammo_type( msg, at );
@@ -1884,6 +1889,21 @@ void Item_factory::load_magazine( JsonObject &jo, const std::string &src )
     itype def;
     if( load_definition( jo, src, def ) ) {
         load_slot( def.magazine, jo, src );
+        load_basic_info( jo, def, src );
+    }
+}
+
+void Item_factory::load( islot_battery &slot, JsonObject &jo, const std::string & )
+{
+    slot.max_capacity = read_from_json_string<units::energy>( *jo.get_raw( "max_capacity" ),
+                        units::energy_units );
+}
+
+void Item_factory::load_battery( JsonObject &jo, const std::string &src )
+{
+    itype def;
+    if( load_definition( jo, src, def ) ) {
+        load_slot( def.battery, jo, src );
         load_basic_info( jo, def, src );
     }
 }

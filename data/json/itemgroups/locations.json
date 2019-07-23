@@ -210,14 +210,14 @@
   {
     "id": "petstore_misc",
     "type": "item_group",
-    "items": [ [ "dogfood", 35 ], [ "catfood", 35 ], [ "birdfood", 15 ], [ "dog_whistle", 15 ], [ "flashlight", 5 ] ]
+    "items": [ [ "dogfood_canned", 35 ], [ "catfood_canned", 35 ], [ "birdfood", 15 ], [ "dog_whistle", 15 ], [ "flashlight", 5 ] ]
   },
   {
     "id": "petstore_shelves",
     "type": "item_group",
     "items": [
-      [ "dogfood", 30 ],
-      [ "catfood", 30 ],
+      [ "dogfood_canned", 30 ],
+      [ "catfood_canned", 30 ],
       [ "birdfood", 15 ],
       [ "can_tuna", 15 ],
       [ "can_chicken", 15 ],
@@ -841,8 +841,8 @@
     "items": [
       [ "dog_whistle", 10 ],
       [ "pet_carrier", 30 ],
-      [ "dogfood", 30 ],
-      [ "catfood", 30 ],
+      [ "dogfood_canned", 30 ],
+      [ "catfood_canned", 30 ],
       [ "birdfood", 10 ],
       [ "towel", 20 ],
       [ "soap", 10 ],

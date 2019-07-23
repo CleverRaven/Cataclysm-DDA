@@ -203,6 +203,7 @@ const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
+const efftype_id effect_under_op( "under_operation" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_winded( "winded" );
 const efftype_id effect_ridden( "ridden" );
@@ -1445,7 +1446,7 @@ bool game::do_turn()
             // We only want this to happen if the player had a chance to examine the sounds.
             sounds::reset_markers();
         } else {
-            // Rate limit polling to 10 times a second.
+            // Rate limit key polling to 10 times a second.
             static auto start = std::chrono::time_point_cast<std::chrono::milliseconds>(
                                     std::chrono::system_clock::now() );
             const auto now = std::chrono::time_point_cast<std::chrono::milliseconds>(
@@ -1454,6 +1455,20 @@ bool game::do_turn()
                 handle_key_blocking_activity();
                 start = now;
             }
+
+            // If player is performing a task and a monster is dangerously close, warn them
+            // regardless of previous safemode warnings
+            if( u.activity && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
+                u.activity.moves_left > 0 &&
+                !u.activity.is_distraction_ignored( distraction_type::hostile_spotted ) ) {
+                Creature *hostile_critter = is_hostile_very_close();
+                if( hostile_critter != nullptr ) {
+                    cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
+                                                     string_format( _( "The %s is dangerously close!" ),
+                                                             hostile_critter->get_name() ) );
+                }
+            }
+
         }
     }
 
@@ -1921,21 +1936,6 @@ std::list<std::string> game::get_npc_kill()
 
 void game::handle_key_blocking_activity()
 {
-    // If player is performing a task and a monster is dangerously close, warn them
-    // regardless of previous safemode warnings
-    if( u.activity && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
-        u.activity.moves_left > 0 &&
-        !u.activity.is_distraction_ignored( distraction_type::hostile_spotted ) ) {
-        Creature *hostile_critter = is_hostile_very_close();
-        if( hostile_critter != nullptr ) {
-            if( cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
-                                                 string_format( _( "The %s is dangerously close!" ),
-                                                         hostile_critter->get_name() ) ) ) {
-                return;
-            }
-        }
-    }
-
     if( ( u.activity && u.activity.moves_left > 0 ) || ( u.has_destination() &&
             !u.omt_path.empty() ) ) {
         input_context ctxt = get_default_mode_input_context();
@@ -2804,7 +2804,7 @@ void game::reset_npc_dispositions()
 bool game::save_factions_missions_npcs()
 {
     std::string masterfile = get_world_base_save_path() + "/master.gsav";
-    return write_to_file_exclusive( masterfile, [&]( std::ostream & fout ) {
+    return write_to_file( masterfile, [&]( std::ostream & fout ) {
         serialize_master( fout );
     }, _( "factions data" ) );
 }
@@ -2867,7 +2867,7 @@ bool game::save()
             !save_maps() ||
             !get_auto_pickup().save_character() ||
             !get_safemode().save_character() ||
-        !write_to_file_exclusive( get_world_base_save_path() + "/uistate.json", [&]( std::ostream & fout ) {
+        !write_to_file( get_world_base_save_path() + "/uistate.json", [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
             uistate.serialize( jsout );
         }, _( "uistate data" ) ) ) {
@@ -4275,7 +4275,8 @@ void game::monmove()
         int turns = 0;
         m.creature_in_field( guy );
         guy.process_turn();
-        while( !guy.is_dead() && !guy.in_sleep_state() && guy.moves > 0 && turns < 10 ) {
+        while( !guy.is_dead() && ( !guy.in_sleep_state() || guy.has_effect( effect_under_op ) ) &&
+               guy.moves > 0 && turns < 10 ) {
             int moves = guy.moves;
             guy.move();
             if( moves == guy.moves ) {
@@ -4302,7 +4303,7 @@ void game::monmove()
 
         if( !guy.is_dead() ) {
             guy.process_active_items();
-            guy.update_body();
+            guy.npc_update_body();
         }
     }
     cleanup_dead();
@@ -4585,7 +4586,7 @@ void game::use_computer( const tripoint &p )
         return;
     }
     if( u.has_trait( trait_id( "HYPEROPIC" ) ) && !u.worn_with_flag( "FIX_FARSIGHT" ) &&
-        !u.has_effect( effect_contacts ) ) {
+        !u.has_effect( effect_contacts ) && !u.has_bionic( bionic_id( "bio_eye_optic" ) ) ) {
         add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
         return;
     }
@@ -5151,7 +5152,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
             if( elem.made_of( LIQUID ) ) {
                 // Liquids are OK, will be destroyed later
                 continue;
-            } else if( elem.volume() < units::from_milliliter( 250 ) ) {
+            } else if( elem.volume() < 250_ml ) {
                 // Dito for small items, will be moved away
                 continue;
             }

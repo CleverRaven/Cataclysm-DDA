@@ -384,6 +384,22 @@
     ]
   },
   {
+    "result": "ammo_pouch",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "skills_required": [ "survival", 1 ],
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [
+      [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
+      [ [ "filament", 20, "LIST" ], [ "cordage", 1, "LIST" ] ]
+    ]
+  },
+  {
     "result": "legpouch",
     "type": "recipe",
     "category": "CC_ARMOR",

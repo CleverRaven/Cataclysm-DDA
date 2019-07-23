@@ -514,6 +514,7 @@
     "category": "other",
     "id": "chopsticks",
     "name": "chopsticks",
+    "name_plural": "pairs of chopsticks",
     "description": "One of the most popular eating utensils in the world.  Does double duty as a way of dealing with especially fragile vampires.",
     "flags": [ "STAB" ],
     "symbol": "X",
@@ -559,6 +560,7 @@
     "category": "other",
     "id": "garlic_press",
     "name": "garlic press",
+    "name_plural": "garlic presses",
     "description": "This tool can squash a clove or two of garlic into a fine paste.",
     "looks_like": "spoon",
     "copy-from": "base_utensil"

@@ -107,6 +107,7 @@ const efftype_id effect_mending( "mending" );
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_sleep( "sleep" );
+const efftype_id effect_under_op( "under_operation" );
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -4107,6 +4108,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
             return;
         }
+    } else if( patient.has_effect( effect_under_op ) ) {
+        popup( _( "Operation underway.  Please wait until the end of the current procedure.  Estimated time remaining: %s." ),
+               to_string( patient.get_effect_dur( effect_under_op ) ) );
+        p.add_msg_if_player( m_info, _( "The autodoc is working on %s." ), patient.disp_name() );
+        return;
     }
 
     uilist amenu;
@@ -4179,8 +4185,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     }
 
                 }
-                patient.install_bionics( ( *itemtype ), installer, true );
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
+                patient.add_effect( effect_under_op, duration, num_bp );
+                patient.install_bionics( ( *itemtype ), installer, true );
             }
             break;
         }
@@ -4241,8 +4248,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     }
 
                 }
-                patient.uninstall_bionic( bid, installer, true );
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
+                patient.add_effect( effect_under_op, duration, num_bp );
+                patient.uninstall_bionic( bid, installer, true );
             }
             break;
         }
@@ -4422,8 +4430,8 @@ static void smoker_activate( player &p, const tripoint &examp )
                      false ) );
             add_msg( _( "You remove %s from the rack." ), it.tname() );
             g->m.add_item_or_charges( p.pos(), it );
-            g->m.i_rem( examp, &it );
             p.mod_moves( -p.item_handling_cost( it ) );
+            g->m.i_rem( examp, &it );
             return;
         }
         if( it.has_flag( "SMOKED" ) && it.has_flag( "SMOKABLE" ) ) {
@@ -5237,7 +5245,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
     amenu.addentry( start_long_craft, true,            '3', _( "Craft as long as possible" ) );
     amenu.addentry( work_on_craft,    !crafts.empty(), '4', _( "Work on craft" ) );
     if( !part ) {
-        amenu.addentry( get_items,    items_at_loc,    '5', _( "Get items" ) );
+        amenu.addentry( get_items,    items_at_loc,    'g', _( "Get items" ) );
     }
 
     amenu.query();

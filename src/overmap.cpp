@@ -1,4 +1,4 @@
-﻿#include "omdata.h" // IWYU pragma: associated
+#include "omdata.h" // IWYU pragma: associated
 #include "overmap.h" // IWYU pragma: associated
 
 #include <algorithm>
@@ -116,6 +116,9 @@ const size_t invalid = 0;
 
 constexpr size_t rotate( size_t line, om_direction::type dir )
 {
+    if( dir == om_direction::type::invalid ) {
+        return line;
+    }
     // Bitwise rotation to the left.
     return ( ( ( line << static_cast<size_t>( dir ) ) |
                ( line >> ( om_direction::size - static_cast<size_t>( dir ) ) ) ) & om_direction::bits );
@@ -123,6 +126,9 @@ constexpr size_t rotate( size_t line, om_direction::type dir )
 
 constexpr size_t set_segment( size_t line, om_direction::type dir )
 {
+    if( dir == om_direction::type::invalid ) {
+        return line;
+    }
     return line | 1 << static_cast<int>( dir );
 }
 
@@ -1726,10 +1732,6 @@ bool overmap::generate_sub( const int z )
         }
     }
 
-    // Disable rifts when they can interfere with subways and sewers.
-    if( z < -4 ) {
-        place_rifts( z );
-    }
     for( auto &i : mine_points ) {
         build_mine( i.pos.x, i.pos.y, z, i.size );
     }
@@ -3298,40 +3300,6 @@ void overmap::build_mine( int x, int y, int z, int s )
     ter( x, y, z ) = mine_finale_or_down;
 }
 
-void overmap::place_rifts( const int z )
-{
-    int num_rifts = rng( 0, 2 ) * rng( 0, 2 );
-    std::vector<point> riftline;
-    if( !one_in( 4 ) ) {
-        num_rifts++;
-    }
-    const oter_id hellmouth( "hellmouth" );
-    const oter_id rift( "rift" );
-
-    for( int n = 0; n < num_rifts; n++ ) {
-        int x = rng( MAX_RIFT_SIZE, OMAPX - MAX_RIFT_SIZE );
-        int y = rng( MAX_RIFT_SIZE, OMAPY - MAX_RIFT_SIZE );
-        int xdist = rng( MIN_RIFT_SIZE, MAX_RIFT_SIZE ),
-            ydist = rng( MIN_RIFT_SIZE, MAX_RIFT_SIZE );
-        // We use rng(0, 10) as the t-value for this Bresenham Line, because by
-        // repeating this twice, we can get a thick line, and a more interesting rift.
-        for( int o = 0; o < 3; o++ ) {
-            if( xdist > ydist ) {
-                riftline = line_to( x - xdist, y - ydist + o, x + xdist, y + ydist, rng( 0, 10 ) );
-            } else {
-                riftline = line_to( x - xdist + o, y - ydist, x + xdist, y + ydist, rng( 0, 10 ) );
-            }
-            for( size_t i = 0; i < riftline.size(); i++ ) {
-                if( i == riftline.size() / 2 && !one_in( 3 ) ) {
-                    ter( riftline[i].x, riftline[i].y, z ) = hellmouth;
-                } else {
-                    ter( riftline[i].x, riftline[i].y, z ) = rift;
-                }
-            }
-        }
-    }
-}
-
 pf::path overmap::lay_out_connection( const overmap_connection &connection, const point &source,
                                       const point &dest, int z, const bool must_be_unexplored ) const
 {
@@ -4291,16 +4259,13 @@ void overmap::open( overmap_special_batch &enabled_specials )
 // Note: this may throw io errors from std::ofstream
 void overmap::save() const
 {
-    const std::string plrfilename = overmapbuffer::player_filename( loc );
-    const std::string terfilename = overmapbuffer::terrain_filename( loc );
+    write_to_file( overmapbuffer::player_filename( loc ), [&]( std::ostream & stream ) {
+        serialize_view( stream );
+    } );
 
-    ofstream_wrapper fout_player( plrfilename );
-    serialize_view( fout_player );
-    fout_player.close();
-
-    ofstream_wrapper_exclusive fout_terrain( terfilename );
-    serialize( fout_terrain );
-    fout_terrain.close();
+    write_to_file( overmapbuffer::terrain_filename( loc ), [&]( std::ostream & stream ) {
+        serialize( stream );
+    } );
 }
 
 void overmap::add_mon_group( const mongroup &group )

@@ -1,0 +1,132 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_counter",
+    "name": "counter",
+    "description": "Affixed to the wall or found in kitchens or stores.",
+    "symbol": "#",
+    "color": "blue",
+    "move_cost_mod": 2,
+    "coverage": 60,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 10 ] } ]
+    },
+    "max_volume": 4000,
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "splinter", "count": 1 } ]
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_counter_gate_c",
+    "name": "closed counter gate",
+    "description": "A commercial quality swinging door made of wood that allows passage behind counters.",
+    "symbol": "+",
+    "color": "blue",
+    "move_cost": 3,
+    "move_cost_mod": 2,
+    "required_str": 4,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DOOR", "ORGANIC" ],
+    "connects_to": "COUNTER",
+    "open": "f_counter_gate_o",
+    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": 10 } ] },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "splinter", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_counter_gate_o",
+    "name": "open counter gate",
+    "description": "A commercial quality swinging door made of wood that allows passage behind counters.",
+    "symbol": ".",
+    "color": "blue",
+    "move_cost": 2,
+    "move_cost_mod": 2,
+    "required_str": 4,
+    "connects_to": "COUNTER",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "ROAD", "ORGANIC" ],
+    "close": "f_counter_gate_c",
+    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": 10 } ] },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "splinter", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_desk",
+    "name": "desk",
+    "symbol": "#",
+    "description": "Sit down at it or work on it.",
+    "color": "light_red",
+    "move_cost_mod": 1,
+    "coverage": 45,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF" ],
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 8 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 16, 24 ] } ]
+    },
+    "max_volume": 4000,
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 4, 7 ] },
+        { "item": "wood_panel", "count": [ 0, 1 ] },
+        { "item": "nail", "charges": [ 10, 16 ] },
+        { "item": "splinter", "count": [ 4, 12 ] }
+      ]
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_table",
+    "name": "table",
+    "description": "Sit down when you eat!",
+    "symbol": "#",
+    "color": "red",
+    "move_cost_mod": 2,
+    "coverage": 50,
+    "required_str": 8,
+    "max_volume": 4000,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 8 ] } ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 2, 4 ] },
+        { "item": "wood_panel", "count": [ 0, 1 ] },
+        { "item": "nail", "charges": [ 4, 8 ] },
+        { "item": "splinter", "count": 1 }
+      ]
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
+  }
+]

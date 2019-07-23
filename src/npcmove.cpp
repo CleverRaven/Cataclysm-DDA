@@ -80,6 +80,7 @@ const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_infection( "infection" );
 const efftype_id effect_lying_down( "lying_down" );
+const efftype_id effect_under_op( "under_operation" );
 const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_onfire( "onfire" );
@@ -662,6 +663,11 @@ void npc::move()
     }
     regen_ai_cache();
     adjust_power_cbms();
+
+    if( has_effect( effect_under_op ) ) {
+        execute_action( npc_player_activity );
+        return;// NPCs under operation should just stay still
+    }
 
     npc_action action = npc_undecided;
 
@@ -2572,8 +2578,7 @@ void npc::find_item()
     const auto consider_terrain =
     [ this, whitelisting, volume_allowed, &wanted, &wanted_name ]( const tripoint & p ) {
         // We only want to pick plants when there are no items to pick
-        if( !whitelisting || wanted != nullptr || !wanted_name.empty() ||
-            volume_allowed < units::from_milliliter( 250 ) ) {
+        if( !whitelisting || wanted != nullptr || !wanted_name.empty() || volume_allowed < 250_ml ) {
             return;
         }
 

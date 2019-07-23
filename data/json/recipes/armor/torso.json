@@ -533,6 +533,19 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "dragonskin",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": 480000,
+    "reversible": true,
+    "decomp_learn": 4,
+    "autolearn": true,
+    "components": [ [ [ "dragonskinempty", 1 ] ], [ [ "ceramicdisks", 8 ] ] ]
+  },
+  {
     "result": "peacoat",
     "type": "recipe",
     "category": "CC_ARMOR",

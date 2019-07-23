@@ -1133,6 +1133,14 @@ Gun mods can be defined like this:
 "min_str_required_mod": 14,    // Optional field increasing or decreasing minimum strength required to use gun
 ```
 
+### Batteries
+```C++
+"type": "BATTERY",    // Defines this as a BATTERY
+...                   // Same entries as above for the generic item
+                      // Additionally some battery specific entries:
+"max_energy": "30 kJ" // Mandatory. Maximum energy quantity the battery can hold
+```
+
 ### Tools
 
 ```C++

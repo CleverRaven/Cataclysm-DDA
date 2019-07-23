@@ -142,6 +142,7 @@ const efftype_id effect_slimed( "slimed" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_targeted( "targeted" );
 const efftype_id effect_teleglow( "teleglow" );
+const efftype_id effect_under_op( "under_operation" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
@@ -2624,6 +2625,13 @@ bool mattack::grab_drag( monster *z )
     Creature *target = z->attack_target();
     monster *zz = dynamic_cast<monster *>( target );
     if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 1 ) {
+        return false;
+    }
+
+    if( target->has_effect( effect_under_op ) ) {
+        target->add_msg_player_or_npc( m_good,
+                                       _( "The %s tries to drag you, but you're securely fastened in the autodoc." ),
+                                       _( "The %s tries to drag <npcname>, but they're securely fastened in the autodoc." ), z->name() );
         return false;
     }
 

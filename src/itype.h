@@ -618,6 +618,11 @@ struct islot_magazine {
     bool protects_contents = false;
 };
 
+struct islot_battery {
+    /** Maximum energy the battery can store */
+    units::energy max_capacity;
+};
+
 struct islot_ammo : common_ranged_data {
     /**
      * Ammo type, basically the "form" of the ammo that fits into the gun/tool.
@@ -762,6 +767,7 @@ struct itype {
         cata::optional<islot_gun> gun;
         cata::optional<islot_gunmod> gunmod;
         cata::optional<islot_magazine> magazine;
+        cata::optional<islot_battery> battery;
         cata::optional<islot_bionic> bionic;
         cata::optional<islot_ammo> ammo;
         cata::optional<islot_seed> seed;
@@ -848,7 +854,7 @@ struct itype {
         /** Weight of item ( or each stack member ) */
         units::mass weight = 0_gram;
         /** Weight difference with the part it replaces for mods */
-        units::mass integral_weight = units::from_gram( -1 );
+        units::mass integral_weight = -1_gram;
 
         /**
          * Space occupied by items of this type
@@ -860,7 +866,7 @@ struct itype {
          * Space consumed when integrated as part of another item (defaults to volume)
          * CAUTION: value given is for a default-sized stack. Avoid using this. In general, see @ref item::volume instead.
          */
-        units::volume integral_volume = units::from_milliliter( -1 );
+        units::volume integral_volume = -1_ml;
 
         /** Number of items per above volume for @ref stackable items */
         int stack_size = 0;
@@ -871,9 +877,8 @@ struct itype {
         int price_post = -1;
 
         /**@}*/
-
-        bool rigid =
-            true; // If non-rigid volume (and if worn encumbrance) increases proportional to contents
+        // If non-rigid volume (and if worn encumbrance) increases proportional to contents
+        bool rigid = true;
 
         /** Damage output in melee for zero or more damage types */
         std::array<int, NUM_DT> melee;

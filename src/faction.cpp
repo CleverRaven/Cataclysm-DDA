@@ -372,8 +372,7 @@ void basecamp::faction_display( const catacurses::window &fac_w, const int width
     tripoint camp_pos = camp_omt_pos();
     std::string direction = direction_name( direction_from( player_abspos, camp_pos ) );
     mvwprintz( fac_w, ++y, width, c_light_gray, _( "Press enter to rename this camp" ) );
-    const std::string centerstring = "center";
-    if( ( !direction.compare( centerstring ) ) == 0 ) {
+    if( direction != "center" ) {
         mvwprintz( fac_w, ++y, width, c_light_gray, _( "Direction : to the " ) + direction );
     }
     mvwprintz( fac_w, ++y, width, col, _( "Location : (%d, %d)" ), camp_pos.x, camp_pos.y );
@@ -431,8 +430,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
         stationed_at = nullptr;
     }
     std::string direction = direction_name( direction_from( player_abspos, guy_abspos ) );
-    std::string centerstring = "center";
-    if( ( !direction.compare( centerstring ) ) == 0 ) {
+    if( direction != "center" ) {
         mvwprintz( fac_w, ++y, width, col, _( "Direction : to the " ) + direction );
     } else {
         mvwprintz( fac_w, ++y, width, col, _( "Direction : Nearby" ) );

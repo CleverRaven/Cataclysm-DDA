@@ -1,5 +1,22 @@
 [
   {
+    "id": "clothing_biker",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Protective clothing for motorbike riding.",
+    "items": [
+      { "item": "helmet_motor" },
+      { "item": "motorbike_boots", "prob": 80 },
+      {
+        "distribution": [
+          { "collection": [ { "item": "motorbike_armor" }, { "item": "motorbike_pants", "prob": 80 } ], "prob": 40 },
+          { "item": "touring_suit", "prob": 60 }
+        ],
+        "prob": 80
+      }
+    ]
+  },
+  {
     "id": "clothing_glasses",
     "type": "item_group",
     "items": [

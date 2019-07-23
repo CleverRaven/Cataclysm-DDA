@@ -1292,7 +1292,7 @@ void it_artifact_armor::deserialize( JsonObject &jo )
 
 bool save_artifacts( const std::string &path )
 {
-    return write_to_file_exclusive( path, [&]( std::ostream & fout ) {
+    return write_to_file( path, [&]( std::ostream & fout ) {
         JsonOut json( fout, true );
         json.start_array();
         // We only want runtime types, otherwise static artifacts are loaded twice (on init and then on game load)

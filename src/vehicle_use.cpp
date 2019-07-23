@@ -898,8 +898,8 @@ bool vehicle::start_engine( const int e )
         return false;
     }
 
-    // Damaged engines have a chance of failing to start
-    if( x_in_y( dmg * 100, 120 ) ) {
+    // Damaged non-electric engines have a chance of failing to start
+    if( !is_engine_type( e, fuel_type_battery ) && x_in_y( dmg * 100, 120 ) ) {
         sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::movement,
                        string_format( _( "the %s clanking and grinding" ), eng.name() ), true, "vehicle",
                        "engine_clanking_fail" );
@@ -1018,7 +1018,7 @@ void vehicle::reload_seeds( const tripoint &pos )
     } );
 
     auto seed_entries = iexamine::get_seed_entries( seed_inv );
-    seed_entries.emplace( seed_entries.begin(), seed_tuple( itype_id( "null" ), "No seed", 0 ) );
+    seed_entries.emplace( seed_entries.begin(), seed_tuple( itype_id( "null" ), _( "No seed" ), 0 ) );
 
     int seed_index = iexamine::query_seed( seed_entries );
 

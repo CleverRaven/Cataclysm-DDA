@@ -292,27 +292,6 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
 
 npc::~npc() = default;
 
-std::string npc::save_info() const
-{
-    return ::serialize( *this );
-}
-
-void npc::load_info( std::string data )
-{
-    std::stringstream dump;
-    dump << data;
-
-    JsonIn jsin( dump );
-    try {
-        deserialize( jsin );
-    } catch( const JsonError &jsonerr ) {
-        debugmsg( "Bad npc json\n%s", jsonerr.c_str() );
-    }
-    if( !fac_id.str().empty() ) {
-        set_fac( fac_id );
-    }
-}
-
 void npc::randomize( const npc_class_id &type )
 {
     if( getID() <= 0 ) {
@@ -2172,7 +2151,15 @@ void npc::add_new_mission( class mission *miss )
 
 void npc::on_unload()
 {
-    last_updated = calendar::turn;
+}
+
+// A throtled version of player::update_body since npc's don't need to-the-turn updates.
+void npc::npc_update_body()
+{
+    if( calendar::once_every( 10_seconds ) ) {
+        update_body( last_updated, calendar::turn );
+        last_updated = calendar::turn;
+    }
 }
 
 void npc::on_load()
@@ -2381,7 +2368,6 @@ void npc::process_turn()
         // TODO: Similar checks for fear and anger
     }
 
-    last_updated = calendar::turn;
     // TODO: Add decreasing trust/value/etc. here when player doesn't provide food
     // TODO: Make NPCs leave the player if there's a path out of map and player is sleeping/unseen/etc.
 }

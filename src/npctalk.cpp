@@ -89,6 +89,7 @@ const efftype_id effect_infection( "infection" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_sleep( "sleep" );
+const efftype_id effect_under_op( "under_operation" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
@@ -722,8 +723,11 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
                g->u.activity.index == getID() ) {
         return;
     }
-    g->cancel_activity_or_ignore_query( distraction_type::talked_to,
-                                        string_format( _( "%s talked to you." ), name ) );
+
+    if( !g->u.has_effect( effect_under_op ) ) {
+        g->cancel_activity_or_ignore_query( distraction_type::talked_to,
+                                            string_format( _( "%s talked to you." ), name ) );
+    }
 }
 
 std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
