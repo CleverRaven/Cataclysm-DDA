@@ -9,7 +9,8 @@
     "durability": 240,
     "description": "A metal wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "breaks_into": "ig_vp_sheet_metal",
-    "flags": [ "OPAQUE", "OBSTACLE", "FULL_BOARD", "NO_ROOF_NEEDED" ]
+    "flags": [ "OPAQUE", "OBSTACLE", "FULL_BOARD", "NO_ROOF_NEEDED" ],
+    "damage_reduction": { "all": 45 }
   },
   {
     "abstract": "clothboard",
@@ -43,7 +44,8 @@
     "description": "A half-height metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "proportional": { "durability": 0.8 },
     "extend": { "flags": [ "HALF_BOARD" ] },
-    "delete": { "flags": [ "OPAQUE", "FULL_BOARD" ] }
+    "delete": { "flags": [ "OPAQUE", "FULL_BOARD" ] },
+    "damage_reduction": { "all": 45 }
   },
   {
     "abstract": "stowboard",
@@ -58,7 +60,8 @@
     "durability": 200,
     "description": "A metal wall with a storage locker.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "size": 250,
-    "flags": [ "OBSTACLE", "OPAQUE", "CARGO", "COVERED", "FULL_BOARD", "NO_ROOF_NEEDED" ]
+    "flags": [ "OBSTACLE", "OPAQUE", "CARGO", "COVERED", "FULL_BOARD", "NO_ROOF_NEEDED" ],
+    "damage_reduction": { "all": 50 }
   },
   {
     "abstract": "hdstowboard",
@@ -69,7 +72,8 @@
     "color": "brown",
     "broken_color": "dark_gray",
     "proportional": { "durability": 4.15, "size": 0.76 },
-    "flags": [ "OBSTACLE", "OPAQUE", "CARGO", "COVERED", "FULL_BOARD" ]
+    "flags": [ "OBSTACLE", "OPAQUE", "CARGO", "COVERED", "FULL_BOARD" ],
+    "damage_reduction": { "all": 72, "cut": 80, "stab": 80 }
   },
   {
     "abstract": "hdboard",
@@ -82,7 +86,8 @@
     "durability": 1000,
     "description": "A strong metal wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "breaks_into": "ig_vp_steel_plate",
-    "flags": [ "OPAQUE", "OBSTACLE", "FULL_BOARD", "NO_ROOF_NEEDED" ]
+    "flags": [ "OPAQUE", "OBSTACLE", "FULL_BOARD", "NO_ROOF_NEEDED" ],
+    "damage_reduction": { "all": 75, "cut": 80, "stab": 80 }
   },
   {
     "abstract": "hdhalfboard",
@@ -92,7 +97,8 @@
     "description": "A half-height strong metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "proportional": { "durability": 0.8 },
     "extend": { "flags": [ "HALF_BOARD" ] },
-    "delete": { "flags": [ "OPAQUE", "FULL_BOARD" ] }
+    "delete": { "flags": [ "OPAQUE", "FULL_BOARD" ] },
+    "damage_reduction": { "all": 75, "cut": 80, "stab": 80 }
   },
   {
     "abstract": "woodboard",
@@ -106,7 +112,8 @@
     "durability": 300,
     "description": "A wooden wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "breaks_into": "ig_vp_wood_plate",
-    "flags": [ "OPAQUE", "OBSTACLE", "NAILABLE", "FULL_BOARD", "NO_ROOF_NEEDED" ]
+    "flags": [ "OPAQUE", "OBSTACLE", "NAILABLE", "FULL_BOARD", "NO_ROOF_NEEDED" ],
+    "damage_reduction": { "all": 46 }
   },
   {
     "abstract": "woodhalfboard",
@@ -116,7 +123,8 @@
     "description": "A half-height wooden wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "proportional": { "durability": 0.8 },
     "extend": { "flags": [ "HALF_BOARD" ] },
-    "delete": { "flags": [ "OPAQUE", "FULL_BOARD" ] }
+    "delete": { "flags": [ "OPAQUE", "FULL_BOARD" ] },
+    "damage_reduction": { "all": 46 }
   },
   {
     "abstract": "xlhalfboard",
@@ -128,7 +136,8 @@
     "durability": 100,
     "description": "A half-height thin metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "breaks_into": [ { "item": "pipe", "prob": 50 } ],
-    "flags": [ "OBSTACLE", "HALF_BOARD", "NO_ROOF_NEEDED" ]
+    "flags": [ "OBSTACLE", "HALF_BOARD", "NO_ROOF_NEEDED" ],
+    "damage_reduction": { "all": 26 }
   },
   {
     "id": "halfboard_cover",

@@ -33,7 +33,8 @@
     "rolling_resistance": 0.25,
     "wheel_type": "rail",
     "contact_area": 80,
-    "flags": [ "WHEEL", "RAIL" ]
+    "flags": [ "WHEEL", "RAIL" ],
+    "damage_reduction": { "all": 66 }
   },
   {
     "id": "rail_wheel_steerable",
@@ -64,7 +65,7 @@
     "flags": [ "ARMOR", "OBSTACLE", "WHEEL", "STEERABLE" ],
     "wheel_type": "rigid",
     "contact_area": 400,
-    "damage_reduction": { "all": 10000 }
+    "damage_reduction": { "all": 225 }
   },
   {
     "id": "wheel",
@@ -134,7 +135,8 @@
     "rolling_resistance": 0.6,
     "wheel_type": "standard",
     "contact_area": 480,
-    "flags": [ "WHEEL" ]
+    "flags": [ "WHEEL" ],
+    "damage_reduction": { "all": 60 }
   },
   {
     "id": "wheel_armor_steerable",
@@ -447,7 +449,8 @@
     "rolling_resistance": 2.15,
     "wheel_type": "rigid",
     "contact_area": 60,
-    "flags": [ "WHEEL" ]
+    "flags": [ "WHEEL" ],
+    "damage_reduction": { "all": 20 }
   },
   {
     "id": "wheel_wood_b",
@@ -462,6 +465,7 @@
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "rolling_resistance": 2.05,
-    "proportional": { "durability": 2, "damage_modifier": 2 }
+    "proportional": { "durability": 2, "damage_modifier": 2 },
+    "damage_reduction": { "all": 20 }
   }
 ]
