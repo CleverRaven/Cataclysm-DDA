@@ -170,7 +170,7 @@ weather_type weather_generator::get_weather_conditions( const tripoint &location
     w_point w( get_weather( location, t, seed ) );
     weather_type wt = get_weather_conditions( w );
     // Make sure we don't say it's sunny at night! =P
-    if( wt == WEATHER_SUNNY && calendar( to_turn<int>( t ) ).is_night() ) {
+    if( wt == WEATHER_SUNNY && is_night( t ) ) {
         return WEATHER_CLEAR;
     }
     return wt;

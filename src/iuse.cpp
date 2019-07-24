@@ -7061,7 +7061,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
             photo_text += _( "It is <color_yellow>sunrise</color>. " );
         } else if( calendar::turn.is_sunset_now() ) {
             photo_text += _( "It is <color_light_red>sunset</color>. " );
-        } else if( calendar::turn.is_night() ) {
+        } else if( is_night( calendar::turn ) ) {
             photo_text += _( "It is <color_dark_gray>night</color>. " );
         } else {
             photo_text += _( "It is day. " );

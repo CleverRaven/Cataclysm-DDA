@@ -788,12 +788,12 @@ void sfx::do_ambient()
     const bool is_sheltered = g->is_sheltered( g->u.pos() );
     const bool weather_changed = g->weather.weather != previous_weather;
     // Step in at night time / we are not indoors
-    if( calendar::turn.is_night() && !is_sheltered &&
+    if( is_night( calendar::turn ) && !is_sheltered &&
         !is_channel_playing( 1 ) && !is_deaf ) {
         fade_audio_group( 2, 1000 );
         play_ambient_variant_sound( "environment", "nighttime", heard_volume, 1, 1000 );
         // Step in at day time / we are not indoors
-    } else if( !calendar::turn.is_night() && !is_channel_playing( 0 ) &&
+    } else if( !is_night( calendar::turn ) && !is_channel_playing( 0 ) &&
                !is_sheltered && !is_deaf ) {
         fade_audio_group( 2, 1000 );
         play_ambient_variant_sound( "environment", "daytime", heard_volume, 0, 1000 );

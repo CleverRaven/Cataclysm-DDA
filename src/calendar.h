@@ -177,8 +177,6 @@ class calendar
         void increment();
 
         // Sunlight and day/night calculations
-        /** Returns true if it's currently after sunset + TWILIGHT_SECONDS or before sunrise - TWILIGHT_SECONDS. */
-        bool is_night() const;
         /** Returns true if it's currently after sunset and before sunset + TWILIGHT_SECONDS. */
         bool is_sunset_now() const;
         /** Returns true if it's currently after sunrise and before sunrise + TWILIGHT_SECONDS. */
@@ -682,6 +680,8 @@ moon_phase get_moon_phase( const time_point &p );
 time_point sunrise( const time_point &p );
 /** Returns the current sunset time based on the time of year. */
 time_point sunset( const time_point &p );
+/** Returns whether it's currently after sunset + TWILIGHT_SECONDS or before sunrise - TWILIGHT_SECONDS. */
+bool is_night( const time_point &p );
 
 enum class weekdays : int {
     SUNDAY = 0,
