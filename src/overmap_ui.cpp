@@ -1084,7 +1084,7 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
 
     for( int x = curs.x - OMAPX / 2; x < curs.x + OMAPX / 2; x++ ) {
         for( int y = curs.y - OMAPY / 2; y < curs.y + OMAPY / 2; y++ ) {
-            overmap *om = overmap_buffer.get_existing_om_global( point( x, y ) );
+            overmap *om = overmap_buffer.get_existing_om_global( point( x, y ) ).om;
 
             if( om ) {
                 int om_relative_x = x;
