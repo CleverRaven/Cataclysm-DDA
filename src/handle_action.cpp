@@ -792,13 +792,13 @@ static void wait()
 
         add_menu_item( 7,  'd',
                        setting_alarm ? _( "Set alarm for dawn" ) : _( "Wait till dawn" ),
-                       diurnal_time_before( calendar::turn.sunrise() ) );
+                       diurnal_time_before( to_turns<int>( sunrise( calendar::turn ) - calendar::time_of_cataclysm ) ) );
         add_menu_item( 8,  'n',
                        setting_alarm ? _( "Set alarm for noon" ) : _( "Wait till noon" ),
                        diurnal_time_before( HOURS( 12 ) ) );
         add_menu_item( 9,  'k',
                        setting_alarm ? _( "Set alarm for dusk" ) : _( "Wait till dusk" ),
-                       diurnal_time_before( calendar::turn.sunset() ) );
+                       diurnal_time_before( to_turns<int>( sunset( calendar::turn ) - calendar::time_of_cataclysm ) ) );
         add_menu_item( 10, 'm',
                        setting_alarm ? _( "Set alarm for midnight" ) : _( "Wait till midnight" ),
                        diurnal_time_before( HOURS( 0 ) ) );

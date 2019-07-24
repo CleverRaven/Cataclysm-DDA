@@ -104,8 +104,8 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
 
     bool monster_found = false;
     // Loop invariant values
-    const time_point sunset = calendar::turn.sunset();
-    const time_point sunrise = calendar::turn.sunrise();
+    const time_point sunset = ::sunset( calendar::turn );
+    const time_point sunrise = ::sunrise( calendar::turn );
     const season_type season = season_of_year( calendar::turn );
     // Step through spawn definitions from the monster group until one is found or
     for( auto it = group.monsters.begin(); it != group.monsters.end() && !monster_found; ++it ) {
