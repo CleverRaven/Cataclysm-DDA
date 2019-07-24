@@ -93,6 +93,7 @@ enum npc_attitude : int {
     NPCATT_END
 };
 
+std::string npc_attitude_id( npc_attitude );
 std::string npc_attitude_name( npc_attitude );
 
 // Attitudes are grouped by overall behavior towards player
