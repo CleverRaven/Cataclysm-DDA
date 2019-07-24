@@ -132,7 +132,7 @@ float clothing_mod::get_mod_val( const clothing_mod_type &type, const item &it )
 
 bool clothing_mod::has_mod_type( const clothing_mod_type &type ) const
 {
-    for( auto mv : mod_values ) {
+    for( auto &mv : mod_values ) {
         if( mv.type == type ) {
             return true;
         }
