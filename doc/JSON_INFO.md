@@ -1700,9 +1700,9 @@ Array of dictionaries defining possible items produced on butchering and their l
     `bionic`: an item gained by dissecting the creature. not restricted to CBMs.
     `bionic_group`: an item group that will give an item by dissecting a creature. not restricted to groups containing CBMs.
 
-`flags` value should be an array of string.  It's the flags that will be added to te items of that entry upon harvesting.
+`flags` value should be an array of strings.  It's the flags that will be added to te items of that entry upon harvesting.
 
-`faults` value should be an array of string.  It's the faults that will be added to te items of that entry upon harvesting.
+`faults` value should be an array of `fault_id` strings.  It's the faults that will be added to te items of that entry upon harvesting.
 
 For every `type` other then `bionic` and `bionic_group` following entries scale the results:
     `base_num` value should be an array with two elements in which the first defines the minimum number of the corresponding item produced and the second defines the maximum number.
