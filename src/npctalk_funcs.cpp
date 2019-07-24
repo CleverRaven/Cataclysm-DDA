@@ -355,7 +355,7 @@ void talk_function::insult_combat( npc &p )
 
 void talk_function::bionic_install( npc &p )
 {
-    const item_location bionic = game_menus::inv::install_bionic( g->u, g->u, true );
+    item_location bionic = game_menus::inv::install_bionic( g->u, g->u, true );
 
     if( !bionic ) {
         return;
@@ -370,9 +370,7 @@ void talk_function::bionic_install( npc &p )
     if( g->u.can_install_bionics( it, p, false, 20 ) ) {
         g->u.cash -= price;
         p.cash += price;
-        std::vector<item_comp> comps;
-        comps.push_back( item_comp( tmp->typeId(), 1 ) );
-        g->u.consume_items( comps, 1 );
+        bionic.remove_item();
         g->u.install_bionics( it, p, false, 20 );
     }
 }

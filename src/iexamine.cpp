@@ -4268,14 +4268,13 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
     switch( amenu.ret ) {
         case INSTALL_CBM: {
-            const item_location bionic = game_menus::inv::install_bionic( p, patient );
+            item_location bionic = game_menus::inv::install_bionic( p, patient );
 
             if( !bionic ) {
                 return;
             }
 
-            const item *it = bionic.get_item();
-            const itype *itemtype = it->type;
+            const itype *itemtype = bionic.get_item()->type;
 
             player &installer = best_installer( p, null_player, itemtype->bionic->difficulty );
             if( &installer == &null_player ) {
@@ -4287,9 +4286,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             if( patient.can_install_bionics( ( *itemtype ), installer, true ) ) {
                 const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
-                std::vector<item_comp> comps;
-                comps.push_back( item_comp( it->typeId(), 1 ) );
-                p.consume_items( comps, 1, is_crafting_component );
+                bionic.remove_item();
                 if( needs_anesthesia ) {
                     // Consume obsolete anesthesia first
                     if( acomps.empty() ) {

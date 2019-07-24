@@ -8273,7 +8273,7 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
 
         auto reqs = *requirement_id( "autoclave_item" );
 
-        const item_location to_sterile = game_menus::inv::sterilize_cbm( *p );
+        item_location to_sterile = game_menus::inv::sterilize_cbm( *p );
 
         if( !to_sterile ) {
             return 0;
@@ -8290,11 +8290,9 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
             p->invalidate_crafting_inventory();
             const item *cbm = to_sterile.get_item();
 
-            std::vector<item_comp> comps;
-            comps.push_back( item_comp( cbm->typeId(), 1 ) );
-            p->consume_items( comps, 1, is_crafting_component );
-
             it->put_in( *cbm );
+            to_sterile.remove_item();
+
             it->activate();
             it->set_var( "CYCLETIME", to_seconds<int>( 90_minutes ) ); // one cycle
             return it->type->charges_to_use();

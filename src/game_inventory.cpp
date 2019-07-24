@@ -1830,7 +1830,7 @@ class bionic_sterilize_preset : public inventory_selector_preset
             auto reqs = *requirement_id( "autoclave_item" );
 
             if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
-                return string_format( "2 L" );
+                return "2 L";
             }
 
             return std::string();
