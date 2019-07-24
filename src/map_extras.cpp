@@ -1402,6 +1402,7 @@ static void place_fumarole( map &m, int x1, int y1, int x2, int y2, std::set<poi
 
 }
 
+//Obsolete, remove after 0.E.
 static void mx_fumarole( map &m, const tripoint &abs_sub )
 {
     if( abs_sub.z <= 0 ) {
