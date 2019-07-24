@@ -12,6 +12,18 @@ void active_item_cache::remove( const item *it )
         item *const target = active_item.item_ref.get();
         return !target || target == it;
     } );
+    if( it->can_revive() ) {
+        special_items[ "corpse" ].remove_if( [it]( const item_reference & active_item ) {
+            item *const target = active_item.item_ref.get();
+            return !target || target == it;
+        } );
+    }
+    if( it->get_use( "explosion" ) ) {
+        special_items[ "explosives" ].remove_if( [it]( const item_reference & active_item ) {
+            item *const target = active_item.item_ref.get();
+            return !target || target == it;
+        } );
+    }
 }
 
 void active_item_cache::add( item &it, point location )
@@ -23,6 +35,12 @@ void active_item_cache::add( item &it, point location )
     return &it == active_item_ref.item_ref.get();
     } ) != target_list.end() ) {
         return;
+    }
+    if( it.can_revive() ) {
+        special_items[ "corpse" ].push_back( item_reference{ location, it.get_safe_reference() } );
+    }
+    if( it.get_use( "explosion" ) ) {
+        special_items[ "explosives" ].push_back( item_reference{ location, it.get_safe_reference() } );
     }
     target_list.push_back( item_reference{ location, it.get_safe_reference() } );
 }
@@ -70,6 +88,15 @@ std::vector<item_reference> active_item_cache::get_for_processing()
         kv.second.splice( kv.second.end(), kv.second, kv.second.begin(), it );
     }
     return items_to_process;
+}
+
+std::vector<item_reference> active_item_cache::get_special( std::string type )
+{
+    std::vector<item_reference> matching_items;
+    for( const item_reference &it : special_items[type] ) {
+        matching_items.push_back( it );
+    }
+    return matching_items;
 }
 
 void active_item_cache::subtract_locations( const point &delta )
