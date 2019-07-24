@@ -134,7 +134,7 @@ static void scatter_chunks( const std::string &chunk_name, int chunk_amt, monste
 
         for( size_t j = 0; j < traj.size(); j++ ) {
             tarp = traj[j];
-            if( one_in( 2 ) && !z.bloodType().id().is_null() ) {
+            if( one_in( 2 ) && z.bloodType().id() ) {
                 g->m.add_splatter( z.bloodType(), tarp );
             } else {
                 g->m.add_splatter( z.gibType(), tarp, rng( 1, j + 1 ) );

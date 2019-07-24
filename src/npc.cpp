@@ -2156,12 +2156,10 @@ void npc::on_unload()
 // A throtled version of player::update_body since npc's don't need to-the-turn updates.
 void npc::npc_update_body()
 {
-    static const time_duration npc_body_update_rate = 10_seconds;
-    if( calendar::turn - last_updated < npc_body_update_rate ) {
-        return;
+    if( calendar::once_every( 10_seconds ) ) {
+        update_body( last_updated, calendar::turn );
+        last_updated = calendar::turn;
     }
-    update_body( last_updated, calendar::turn );
-    last_updated = calendar::turn;
 }
 
 void npc::on_load()
@@ -2370,7 +2368,6 @@ void npc::process_turn()
         // TODO: Similar checks for fear and anger
     }
 
-    last_updated = calendar::turn;
     // TODO: Add decreasing trust/value/etc. here when player doesn't provide food
     // TODO: Make NPCs leave the player if there's a path out of map and player is sleeping/unseen/etc.
 }

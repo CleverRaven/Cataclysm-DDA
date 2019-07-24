@@ -4325,7 +4325,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 5, 25 ],
     "city_sizes": [ 1, 12 ],
-    "occurrences": [ 0, 3 ],
+    "occurrences": [ 0, 0 ],
     "flags": [ "CLASSIC" ]
   },
   {

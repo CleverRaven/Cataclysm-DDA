@@ -457,6 +457,10 @@ static bool is_summon_friendly( const spell &sp )
 static bool add_summoned_mon( const mtype_id &id, const tripoint &pos, const time_duration &time,
                               const spell &sp )
 {
+    if( g->critter_at( pos ) ) {
+        // add_zombie doesn't check if there's a critter at the location already
+        return false;
+    }
     const bool permanent = sp.has_flag( spell_flag::PERMANENT );
     monster spawned_mon( id, pos );
     if( is_summon_friendly( sp ) ) {

@@ -1338,7 +1338,8 @@
         "min_volume": 1,
         "max_volume": 4,
         "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
-      }
+      },
+      "CROWBAR"
     ],
     "qualities": [
       [ "HAMMER", 3 ],

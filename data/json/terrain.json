@@ -5388,7 +5388,7 @@
     "move_cost": 0,
     "coverage": 80,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
-    "transforms_into": "t_tree_deadpine",
+    "transforms_into": "t_tree_pine_harvested",
     "examine_action": "harvest_ter",
     "harvest_by_season": [
       {
@@ -5407,9 +5407,21 @@
   },
   {
     "type": "terrain",
+    "id": "t_tree_pine_harvested",
+    "name": "pine tree",
+    "description": "A towering coniferous tree that belongs to the 'Pinus' genus, with the New England species varying from 'P. strobus', 'P. resinosa' and 'P. rigida'.  Some of the branches have been stripped away and many of the pinecones aren't developed fully yet, but given a season, it could be harvestable again.  Also, you could cut it down with the right tools.",
+    "symbol": "4",
+    "color": "green",
+    "copy-from": "t_tree_pine",
+    "looks_like": "t_tree_deadpine",
+    "transforms_into": "t_tree_pine",
+    "examine_action": "harvested_plant"
+  },
+  {
+    "type": "terrain",
     "id": "t_tree_deadpine",
     "name": "dead pine tree",
-    "description": "A towering coniferous tree that belongs to the 'Pinus' genus, with the New England species varying from 'P. strobus', 'P. resinosa' and 'P. rigida'.  Some of the branches have been stripped away and many of the pinecones aren't developed fully yet, but given a season, it could be harvestable again.  You could also cut it down with the right tools.",
+    "description": "A towering coniferous tree that belongs to the 'Pinus' genus, with the New England species varying from 'P. strobus', 'P. resinosa' and 'P. rigida'.  This trees branches are bare, and it appears to be dead.  You could cut it down with the right tools.",
     "symbol": "4",
     "color": "brown",
     "move_cost": 0,
@@ -6738,7 +6750,7 @@
       "ter_set": "t_rock_floor",
       "items": [
         { "item": "glass_shard", "count": [ 6, 20 ] },
-        { "item": "pipe", "charges": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
         { "item": "scrap", "count": [ 1, 3 ] }
       ]
     }

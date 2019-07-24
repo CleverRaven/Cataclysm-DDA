@@ -5373,7 +5373,7 @@ bool map::add_field( const tripoint &p, const field_type_id type, int intensity,
         return false;
     }
 
-    if( type.id().is_null() ) {
+    if( !type.id() ) {
         return false;
     }
 
@@ -5455,7 +5455,7 @@ void map::add_splatter( const field_type_id type, const tripoint &where, int int
 
 void map::add_splatter_trail( const field_type_id type, const tripoint &from, const tripoint &to )
 {
-    if( type.id().is_null() ) {
+    if( !type.id() ) {
         return;
     }
     const auto trail = line_to( from, to );
@@ -5472,7 +5472,7 @@ void map::add_splatter_trail( const field_type_id type, const tripoint &from, co
 
 void map::add_splash( const field_type_id type, const tripoint &center, int radius, int intensity )
 {
-    if( type.id().is_null() ) {
+    if( !type.id() ) {
         return;
     }
     // TODO: use Bresenham here and take obstacles into account

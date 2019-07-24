@@ -2237,7 +2237,7 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "thump.",
-      "items": [ { "item": "rock", "count": [ 1, 6 ] } ]
+      "items": [ { "item": "rock", "count": [ 1, 6 ] }, { "item": "sharp_rock", "count": [ 0, 2 ] } ]
     }
   },
   {
@@ -2257,7 +2257,7 @@
       "str_max": 80,
       "sound": "smash!",
       "sound_fail": "thump.",
-      "items": [ { "item": "rock", "count": [ 5, 11 ] } ]
+      "items": [ { "item": "rock", "count": [ 5, 11 ] }, { "item": "sharp_rock", "count": [ 1, 4 ] } ]
     }
   },
   {
@@ -2278,6 +2278,7 @@
       "sound_fail": "thump.",
       "items": [
         { "item": "rock", "count": [ 10, 22 ] },
+        { "item": "sharp_rock", "count": [ 3, 7 ] },
         { "item": "material_limestone", "charges": [ 2, 5 ], "prob": 30 },
         { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 10 }
       ]
@@ -2972,7 +2973,7 @@
       "str_max": 15,
       "sound": "crumple!",
       "sound_fail": "thud.",
-      "items": [ { "item": "paper", "count": [ 50, 100 ] } ]
+      "items": [ { "item": "paper", "charges": [ 50, 100 ] } ]
     }
   },
   {
@@ -3569,75 +3570,6 @@
         { "item": "jerrycan", "count": [ 2, 4 ] },
         { "item": "metal_tank", "count": [ 2, 4 ] },
         { "item": "motor_small", "count": 1 }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_utility_shelf",
-    "name": "utility shelf",
-    "symbol": "{",
-    "looks_like": "f_rack",
-    "description": "A simple heavy-duty plastic and metal shelving unit.",
-    "color": "light_gray",
-    "move_cost_mod": -1,
-    "coverage": 55,
-    "required_str": 6,
-    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
-        { "item": "plastic_chunk", "count": [ 2, 12 ] },
-        { "item": "pipe", "count": [ 4, 8 ] }
-      ]
-    },
-    "max_volume": 2000,
-    "bash": {
-      "str_min": 16,
-      "str_max": 40,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "plastic_chunk", "count": [ 1, 6 ] },
-        { "item": "sheet_metal_small", "count": [ 1, 4 ] },
-        { "item": "pipe", "count": 1 }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_glass_cabinet",
-    "name": "glass front cabinet",
-    "symbol": "[",
-    "looks_like": "f_display_rack",
-    "description": "A tall storage cabinet with a clear glass window.",
-    "color": "light_gray",
-    "move_cost_mod": -1,
-    "coverage": 30,
-    "required_str": 8,
-    "flags": [ "PLACE_ITEM", "TRANSPARENT", "BLOCKSDOOR" ],
-    "deconstruct": {
-      "items": [
-        { "item": "2x4", "count": [ 2, 6 ] },
-        { "item": "nail", "charges": [ 4, 16 ] },
-        { "item": "glass_sheet", "count": [ 1, 2 ] },
-        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
-        { "item": "pipe", "count": [ 0, 4 ] }
-      ]
-    },
-    "max_volume": 1600,
-    "bash": {
-      "str_min": 12,
-      "str_max": 40,
-      "sound": "glass breaking!",
-      "sound_fail": "crunch!",
-      "items": [
-        { "item": "2x4", "count": [ 1, 4 ] },
-        { "item": "splinter", "count": [ 1, 4 ] },
-        { "item": "nail", "charges": [ 4, 8 ] },
-        { "item": "glass_shard", "count": [ 2, 12 ] },
-        { "item": "scrap", "count": [ 0, 2 ] }
       ]
     }
   },

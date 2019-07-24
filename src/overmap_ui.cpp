@@ -26,6 +26,7 @@
 #include "line.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
+#include "mission.h"
 #include "mongroup.h"
 #include "npc.h"
 #include "options.h"
@@ -913,8 +914,9 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     }
 
     if( has_target ) {
-        const int distance = rl_dist( orig, target );
-        mvwprintz( wbar, ++lines, 1, c_white, _( "Distance to target: %d" ), distance );
+        const int distance = rl_dist( center, target );
+        mvwprintz( wbar, ++lines, 1, c_white, _( "Distance to active mission:" ) );
+        mvwprintz( wbar, ++lines, 1, c_white, _( "%d tiles" ), distance );
 
         const int above_below = target.z - orig.z;
         std::string msg;
@@ -927,6 +929,14 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             mvwprintz( wbar, ++lines, 1, c_white, _( "%s" ), msg );
         }
     }
+
+    //Show mission targets on this location
+    for( auto &mission : g->u.get_active_missions() ) {
+        if( mission->get_target() == center ) {
+            mvwprintz( wbar, ++lines, 1, c_white, mission->name() );
+        }
+    }
+
     mvwprintz( wbar, 12, 1, c_magenta, _( "Use movement keys to pan." ) );
     mvwprintz( wbar, 13, 1, c_magenta, _( "Press W to preview route." ) );
     mvwprintz( wbar, 14, 1, c_magenta, _( "Press again to confirm." ) );

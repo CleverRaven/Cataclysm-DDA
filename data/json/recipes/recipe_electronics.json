@@ -648,13 +648,7 @@
     "book_learn": [ [ "advanced_electronics", 4 ], [ "recipe_lab_elec", 4 ], [ "textbook_anarch", 4 ] ],
     "using": [ [ "soldering_standard", 24 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "power_supply", 4 ] ],
-      [ [ "small_storage_battery", 1 ] ],
-      [ [ "amplifier", 3 ] ],
-      [ [ "scrap", 4 ] ],
-      [ [ "cable", 10 ] ]
-    ]
+    "components": [ [ [ "power_supply", 4 ] ], [ [ "amplifier", 3 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",

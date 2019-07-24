@@ -2128,7 +2128,8 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 2 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ]
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "use_action": "CROWBAR"
   },
   {
     "id": "fire_drill",
@@ -2868,7 +2869,7 @@
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "HAMMER", 3 ], [ "PRY", 1 ], [ "HAMMER_FINE", 1 ] ],
-    "use_action": "HAMMER",
+    "use_action": [ "HAMMER", "CROWBAR" ],
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ]
   },
   {
@@ -3314,7 +3315,7 @@
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ]
     ],
-    "use_action": "GUN_REPAIR",
+    "use_action": [ "GUN_REPAIR", "CROWBAR" ],
     "magazines": [
       [
         "battery",
@@ -3802,7 +3803,7 @@
     "max_charges": 200,
     "charges_per_use": 50,
     "qualities": [ [ "CHISEL", 3 ], [ "HAMMER_FINE", 1 ], [ "HAMMER", 3 ], [ "PRY", 1 ] ],
-    "use_action": "MISC_REPAIR",
+    "use_action": [ "MISC_REPAIR", "CROWBAR" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -5344,7 +5345,7 @@
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ]
     ],
-    "use_action": "GUN_REPAIR",
+    "use_action": [ "GUN_REPAIR", "CROWBAR" ],
     "magazines": [
       [
         "battery",
@@ -6338,7 +6339,7 @@
       [ "REAM", 1 ],
       [ "VICE", 1 ]
     ],
-    "use_action": [ "HAMMER" ]
+    "use_action": [ "HAMMER", "CROWBAR" ]
   },
   {
     "id": "toolset_extended",
@@ -7125,8 +7126,8 @@
     "type": "TOOL",
     "name": "hobo stove",
     "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  Useful for defrosting and reheating food, uses simple tinder.",
-    "weight": 1366,
-    "volume": 6,
+    "weight": 500,
+    "volume": 1,
     "price": 0,
     "to_hit": -1,
     "bashing": 2,
@@ -7154,8 +7155,8 @@
     "name": "hobo stove (lit)",
     "name_plural": "hobo stoves (lit)",
     "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  Useful for defrosting and reheating food, uses simple tinder.",
-    "weight": 1366,
-    "volume": 6,
+    "weight": 500,
+    "volume": 1,
     "price": 0,
     "to_hit": -1,
     "bashing": 2,

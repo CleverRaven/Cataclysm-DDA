@@ -1,5 +1,10 @@
 [
   {
+    "type": "SPECIES",
+    "id": "DEMON_SPIDER",
+    "anger_triggers": [ "FRIEND_DIED", "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ]
+  },
+  {
     "id": "demon_spider",
     "type": "harvest",
     "entries": [
@@ -104,7 +109,7 @@
     "description": "Despite it being the size of a small dog, you can tell this is a very young spider.  Its red color is why you gave it this name; you have never seen this creature before the Cataclysm.  It is quick, and its large fangs drip with venom.",
     "default_faction": "demon_spider",
     "bodytype": "spider",
-    "species": [ "SPIDER" ],
+    "species": [ "DEMON_SPIDER" ],
     "material": [ "iflesh", "demon_chitin" ],
     "diff": 2,
     "volume": "30000 ml",
@@ -139,7 +144,7 @@
     "name": "demon spider",
     "default_faction": "demon_spider",
     "bodytype": "spider",
-    "species": [ "SPIDER" ],
+    "species": [ "DEMON_SPIDER" ],
     "material": [ "iflesh", "demon_chitin" ],
     "diff": 7,
     "weight": 125000,
@@ -209,13 +214,16 @@
     "description": "This gigantic spider is the size of a moving van: you have no idea how it manages to stay together, much less move with that bulk.  Its abdomen is huge and swollen-looking, and an evil intelligence burns in its eyes even as magic crackles around its chitinous barbs.",
     "copy-from": "mon_demon_spider",
     "weight": 250000,
-    "hp": 56000,
+    "hp": 5600,
     "speed": 28,
     "aggression": 100,
     "melee_skill": 10,
     "melee_dice_sides": 20,
     "melee_cut": 30,
+    "vision_day": 12,
+    "vision_night": 18,
     "harvest": "demon_spider_queen",
+    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON", "STUN_IMMUNE" ],
     "special_attacks": [
       { "type": "spell", "spell_id": "mon_summon_demon_spiderlings", "cooldown": 35 },
       { "type": "spell", "spell_id": "mon_demon_fireball", "cooldown": 10 }

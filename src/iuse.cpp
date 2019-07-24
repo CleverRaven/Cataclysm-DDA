@@ -3418,7 +3418,7 @@ int iuse::teleport( player *p, item *it, bool, const tripoint & )
     if( !it->ammo_sufficient() ) {
         return 0;
     }
-    p->moves -= to_turns<int>( 1_seconds );
+    p->moves -= to_moves<int>( 1_seconds );
     g->teleport( p );
     return it->type->charges_to_use();
 }
@@ -3930,7 +3930,7 @@ int iuse::tazer( player *p, item *it, bool, const tripoint &pos )
     /** @EFFECT_DEX slightly increases chance of successfully using tazer */
     /** @EFFECT_MELEE increases chance of successfully using a tazer */
     int numdice = 3 + ( p->dex_cur / 2.5 ) + p->get_skill_level( skill_melee ) * 2;
-    p->moves -= to_turns<int>( 1_seconds );
+    p->moves -= to_moves<int>( 1_seconds );
 
     /** @EFFECT_DODGE increases chance of dodging a tazer attack */
     const bool tazer_was_dodged = dice( numdice, 10 ) < dice( target->get_dodge(), 10 );
@@ -4456,7 +4456,7 @@ int iuse::vortex( player *p, item *it, bool, const tripoint & )
     }
 
     p->add_msg_if_player( m_warning, _( "Air swirls all over..." ) );
-    p->moves -= to_turns<int>( 1_seconds );
+    p->moves -= to_moves<int>( 1_seconds );
     it->convert( "spiral_stone" );
     monster mvortex( mon_vortex, random_entry( spawn ) );
     mvortex.friendly = -1;
@@ -4583,7 +4583,7 @@ int iuse::mind_splicer( player *p, item *it, bool, const tripoint & )
 
 void iuse::cut_log_into_planks( player &p )
 {
-    p.moves -= to_turns<int>( 3_seconds );
+    p.moves -= to_moves<int>( 20_minutes );
     p.add_msg_if_player( _( "You cut the log into planks." ) );
     const int max_planks = 10;
     /** @EFFECT_FABRICATION increases number of planks cut from a log */
@@ -4834,12 +4834,12 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     if( g->m.ter( pnt ) == t_chaingate_l ) {
-        p->moves -= to_turns<int>( 1_seconds );
+        p->moves -= to_moves<int>( 1_seconds );
         g->m.ter_set( pnt, t_chaingate_c );
         sounds::sound( pnt, 5, sounds::sound_t::combat, _( "Gachunk!" ), true, "tool", "boltcutters" );
         g->m.spawn_item( p->posx(), p->posy(), "scrap", 3 );
     } else if( g->m.ter( pnt ) == t_chainfence ) {
-        p->moves -= to_turns<int>( 5_seconds );
+        p->moves -= to_moves<int>( 5_seconds );
         g->m.ter_set( pnt, t_chainfence_posts );
         sounds::sound( pnt, 5, sounds::sound_t::combat, _( "Snick, snick, gachunk!" ), true, "tool",
                        "boltcutters" );
@@ -4968,7 +4968,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                                          point( center.x, center.y ), 20, center.z );
                 if( new_map ) {
                     p->add_msg_if_player( m_warning, _( "You have a vision of the surrounding area..." ) );
-                    p->moves -= to_turns<int>( 1_seconds );
+                    p->moves -= to_moves<int>( 1_seconds );
                 }
             }
             break;
@@ -5489,7 +5489,7 @@ int iuse::adrenaline_injector( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    p->moves -= to_turns<int>( 1_seconds );
+    p->moves -= to_moves<int>( 1_seconds );
     p->add_msg_player_or_npc( _( "You inject yourself with adrenaline." ),
                               _( "<npcname> injects themselves with adrenaline." ) );
 
@@ -5588,7 +5588,7 @@ int iuse::contacts( player *p, item *it, bool, const tripoint & )
     const time_duration duration = rng( 6_days, 8_days );
     if( p->has_effect( effect_contacts ) ) {
         if( query_yn( _( "Replace your current lenses?" ) ) ) {
-            p->moves -= to_turns<int>( 20_seconds );
+            p->moves -= to_moves<int>( 20_seconds );
             p->add_msg_if_player( _( "You replace your current %s." ), it->tname() );
             p->remove_effect( effect_contacts );
             p->add_effect( effect_contacts, duration );
@@ -5599,7 +5599,7 @@ int iuse::contacts( player *p, item *it, bool, const tripoint & )
         }
     } else if( p->has_trait( trait_HYPEROPIC ) || p->has_trait( trait_MYOPIC ) ||
                p->has_trait( trait_URSINE_EYE ) ) {
-        p->moves -= to_turns<int>( 20_seconds );
+        p->moves -= to_moves<int>( 20_seconds );
         p->add_msg_if_player( _( "You put the %s in your eyes." ), it->tname() );
         p->add_effect( effect_contacts, duration );
         return it->type->charges_to_use();
@@ -5673,14 +5673,14 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
     std::string resultdurability;
     if( fix.damage() <= 0 ) {
         sounds::sound( p->pos(), 6, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
-        p->moves -= to_turns<int>( 20_seconds * p->fine_detail_vision_mod() );
+        p->moves -= to_moves<int>( 20_seconds * p->fine_detail_vision_mod() );
         p->practice( skill_mechanics, 10 );
         fix.mod_damage( -itype::damage_scale );
         p->add_msg_if_player( m_good, _( "You accurize your %s." ), fix.tname( 1, false ) );
 
     } else if( fix.damage() > itype::damage_scale ) {
         sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
-        p->moves -= to_turns<int>( 10_seconds * p->fine_detail_vision_mod() );
+        p->moves -= to_moves<int>( 10_seconds * p->fine_detail_vision_mod() );
         p->practice( skill_mechanics, 10 );
         fix.mod_damage( -itype::damage_scale );
         resultdurability = fix.durability_indicator( true );
@@ -5689,7 +5689,7 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
 
     } else {
         sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
-        p->moves -= to_turns<int>( 5_seconds * p->fine_detail_vision_mod() );
+        p->moves -= to_moves<int>( 5_seconds * p->fine_detail_vision_mod() );
         p->practice( skill_mechanics, 10 );
         fix.set_damage( 0 );
         resultdurability = fix.durability_indicator( true );
@@ -5813,13 +5813,13 @@ int iuse::misc_repair( player *p, item *it, bool, const tripoint & )
     const std::string startdurability = fix.durability_indicator( true );
     std::string resultdurability;
     if( fix.damage() <= 0 ) {
-        p->moves -= to_turns<int>( 10_seconds * p->fine_detail_vision_mod() );
+        p->moves -= to_moves<int>( 10_seconds * p->fine_detail_vision_mod() );
         p->practice( skill_fabrication, 10 );
         fix.mod_damage( -itype::damage_scale );
         p->add_msg_if_player( m_good, _( "You reinforce your %s." ), fix.tname() );
 
     } else if( fix.damage() > itype::damage_scale ) {
-        p->moves -= to_turns<int>( 5_seconds * p->fine_detail_vision_mod() );
+        p->moves -= to_moves<int>( 5_seconds * p->fine_detail_vision_mod() );
         p->practice( skill_fabrication, 10 );
         fix.mod_damage( -itype::damage_scale );
         resultdurability = fix.durability_indicator( true );
@@ -5827,7 +5827,7 @@ int iuse::misc_repair( player *p, item *it, bool, const tripoint & )
                               startdurability, resultdurability );
 
     } else {
-        p->moves -= to_turns<int>( 3_seconds * p->fine_detail_vision_mod() );
+        p->moves -= to_moves<int>( 3_seconds * p->fine_detail_vision_mod() );
         p->practice( skill_fabrication, 10 );
         fix.set_damage( 0 );
         resultdurability = fix.durability_indicator( true );
@@ -5947,7 +5947,7 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
             return it->type->charges_to_use();
         }
         case 1: { //make all friendly robots stop their purposeless extermination of (un)life.
-            p->moves -= to_turns<int>( 1_seconds );
+            p->moves -= to_moves<int>( 1_seconds );
             int f = 0; //flag to check if you have robotic allies
             for( monster &critter : g->all_monsters() ) {
                 if( critter.friendly != 0 && critter.type->in_species( ROBOT ) ) {
@@ -5964,7 +5964,7 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
             return it->type->charges_to_use();
         }
         case 2: { //make all friendly robots terminate (un)life with extreme prejudice
-            p->moves -= to_turns<int>( 1_seconds );
+            p->moves -= to_moves<int>( 1_seconds );
             int f = 0; //flag to check if you have robotic allies
             for( monster &critter : g->all_monsters() ) {
                 if( critter.friendly != 0 && critter.has_flag( MF_ELECTRONIC ) ) {
@@ -6322,7 +6322,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
                 it->set_var( "EIPC_PHOTOS", count );
             }
 
-            p->moves -= to_turns<int>( rng( 3_seconds, 7_seconds ) );
+            p->moves -= to_moves<int>( rng( 3_seconds, 7_seconds ) );
 
             if( p->has_trait( trait_PSYCHOPATH ) ) {
                 p->add_msg_if_player( m_info, _( "Wasted time, these pictures do not provoke your senses." ) );
@@ -6459,7 +6459,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 
         if( ei_download == choice ) {
 
-            p->moves -= to_turns<int>( 2_seconds );
+            p->moves -= to_moves<int>( 2_seconds );
 
             const int inventory_index = g->inv_for_flag( "MC_MOBILE", _( "Insert memory card" ) );
             item &mc = p->i_at( inventory_index );
@@ -6490,7 +6490,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
         }
 
         if( ei_decrypt == choice ) {
-            p->moves -= to_turns<int>( 2_seconds );
+            p->moves -= to_moves<int>( 2_seconds );
             const int inventory_index = g->inv_for_flag( "MC_MOBILE", _( "Insert memory card" ) );
             item &mc = p->i_at( inventory_index );
 
@@ -7583,7 +7583,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
             return 0;
         }
 
-        p->moves -= to_turns<int>( 2_seconds );
+        p->moves -= to_moves<int>( 2_seconds );
 
         const int inventory_index = g->inv_for_flag( "MC_MOBILE", _( "Insert memory card" ) );
         item &mc = p->i_at( inventory_index );
@@ -7784,7 +7784,7 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
 
             if( put.has_flag( "RADIOCARITEM" ) && ( put.volume() <= 1250_ml ||
                                                     ( put.weight() <= 2_kilogram ) ) ) {
-                p->moves -= to_turns<int>( 3_seconds );
+                p->moves -= to_moves<int>( 3_seconds );
                 p->add_msg_if_player( _( "You armed your RC car with %s." ),
                                       put.tname() );
                 it->put_in( p->i_rem( inventory_index ) );
@@ -7796,7 +7796,7 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
                                       put.tname() );
             }
         } else { // Disarm the car
-            p->moves -= to_turns<int>( 2_seconds );
+            p->moves -= to_moves<int>( 2_seconds );
 
             p->inv.assign_empty_invlet( *bomb_it, *p, true ); // force getting an invlet.
             p->i_add( *bomb_it );
@@ -7936,7 +7936,7 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
 
         p->add_msg_if_player( _( "Click." ) );
         sendRadioSignal( *p, signal );
-        p->moves -= to_turns<int>( 2_seconds );
+        p->moves -= to_moves<int>( 2_seconds );
     }
 
     return it->type->charges_to_use();
@@ -7971,7 +7971,7 @@ static bool hackveh( player &p, item &it, vehicle &veh )
 
     if( effort == 0 && !query_yn( _( "Try to hack this car's security system?" ) ) ) {
         // Scanning for security systems isn't free
-        p.moves -= to_turns<int>( 1_seconds );
+        p.moves -= to_moves<int>( 1_seconds );
         it.charges -= 1;
         return false;
     }
@@ -7990,7 +7990,7 @@ static bool hackveh( player &p, item &it, vehicle &veh )
         success = true;
     }
 
-    p.moves -= to_turns<int>( time_duration::from_seconds( effort ) );
+    p.moves -= to_moves<int>( time_duration::from_seconds( effort ) );
     it.charges -= effort;
     if( success && advanced ) { // Unlock controls, but only if they're drive-by-wire
         veh.is_locked = false;
@@ -8115,7 +8115,7 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
 
 static bool multicooker_hallu( player &p )
 {
-    p.moves -= to_turns<int>( 2_seconds );
+    p.moves -= to_moves<int>( 2_seconds );
     const int random_hallu = rng( 1, 7 );
     std::vector<tripoint> points;
     switch( random_hallu ) {
@@ -8438,7 +8438,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             p->practice( skill_electronics, rng( 5, 10 ) );
             p->practice( skill_fabrication, rng( 5, 10 ) );
 
-            p->moves -= to_turns<int>( 7_seconds );
+            p->moves -= to_moves<int>( 7_seconds );
 
             /** @EFFECT_INT increases chance to successfully upgrade multi-cooker */
 
@@ -8912,7 +8912,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
                 p->add_msg_if_player( m_bad, _( "The %1$s avoids your attempts to put it in the %2$s." ),
                                       f.type->nname(), it->type->nname( 1 ) );
             }
-            p->moves -= to_turns<int>( 1_seconds );
+            p->moves -= to_moves<int>( 1_seconds );
         } else {
             add_msg( _( "The %s can't capture nothing" ), it->tname() );
             return 0;
@@ -8940,7 +8940,7 @@ int iuse::ladder( player *p, item *, bool, const tripoint & )
     }
 
     p->add_msg_if_player( _( "You set down the ladder." ) );
-    p->moves -= to_turns<int>( 5_seconds );
+    p->moves -= to_moves<int>( 5_seconds );
     g->m.furn_set( pnt, furn_str_id( "f_ladder" ) );
     return 1;
 }
@@ -9066,8 +9066,8 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
 }
 int iuse::break_stick( player *p, item *it, bool, const tripoint & )
 {
-    p->moves -= to_turns<int>( 2_seconds );
-    p->mod_stat( "stamina", static_cast<int>( 0.05f * get_option<float>( "PLAYER_MAX_STAMINA" ) ) );
+    p->moves -= to_moves<int>( 2_seconds );
+    p->mod_stat( "stamina", static_cast<int>( 0.05f * get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
 
     if( p->get_str() < 5 ) {
         p->add_msg_if_player( _( "You are too weak to even try." ) );
