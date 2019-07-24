@@ -4432,6 +4432,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         if( query_yn( _( "Are you sure?  You will not gain any materials back." ) ) ) {
             mod.item_tags.erase( the_mod );
         }
+        mod.update_clothing_mod_val();
 
         return 0;
     }
@@ -4472,6 +4473,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                              mod.tname() );
         p.consume_items( comps, 1, is_crafting_component );
         mod.item_tags.insert( the_mod );
+        mod.update_clothing_mod_val();
         return thread_needed;
     }
 
