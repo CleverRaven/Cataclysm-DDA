@@ -211,18 +211,18 @@ bool is_night( const time_point &p )
     return now > sunset + twilight_duration || now < sunrise;
 }
 
-bool calendar::is_sunset_now() const
+bool is_sunset_now( const time_point &p )
 {
-    const time_duration now = time_past_midnight( *this );
-    const time_duration sunset = time_past_midnight( ::sunset( *this ) );
+    const time_duration now = time_past_midnight( p );
+    const time_duration sunset = time_past_midnight( ::sunset( p ) );
 
     return now > sunset && now < sunset + twilight_duration;
 }
 
-bool calendar::is_sunrise_now() const
+bool is_sunrise_now( const time_point &p )
 {
-    const time_duration now = time_past_midnight( *this );
-    const time_duration sunrise = time_past_midnight( ::sunrise( *this ) );
+    const time_duration now = time_past_midnight( p );
+    const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
 
     return now > sunrise && now < sunrise + twilight_duration;
 }
