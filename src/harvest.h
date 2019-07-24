@@ -27,6 +27,9 @@ struct harvest_entry {
     float mass_ratio = 0.00f;
 
     static harvest_entry load( JsonObject &jo, const std::string &src );
+
+    std::vector<std::string> flags;
+    std::vector<std::string> faults;
 };
 
 class harvest_list
