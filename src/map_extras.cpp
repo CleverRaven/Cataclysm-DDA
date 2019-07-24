@@ -1564,7 +1564,10 @@ static void mx_portal_in( map &m, const tripoint &abs_sub )
             for( const auto &loc : g->m.points_in_radius( portal_location, 5 ) ) {
                 m.place_spawns( GROUP_MI_GO_CAMP_OM, 30, loc.x - 5, loc.y - 5, loc.x + 5, loc.y + 5, 1, true );
             }
-            rough_circle( &m, ter_id( "t_floor_resin" ), x + rng( -5, 5 ), y + rng( -5, 5 ), 5 );
+            const int x_pos = x + rng( -5, 5 );
+            const int y_pos = y + rng( -5, 5 );
+            circle( &m, ter_id( "t_wall_resin" ), x_pos, y_pos, 6 );
+            rough_circle( &m, ter_id( "t_floor_resin" ), x_pos, y_pos, 5 );
             break;
         }
     }
