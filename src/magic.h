@@ -224,6 +224,8 @@ class spell
         // returns damage type for the spell
         damage_type dmg_type() const;
 
+        std::string obj_name;
+
     public:
         spell() = default;
         spell( const spell_type *sp, int xp = 0 );
@@ -329,6 +331,10 @@ class spell
         // is the target valid for this spell?
         bool is_valid_target( const Creature &caster, const tripoint &p ) const;
         bool is_valid_target( valid_target t ) const;
+
+        //acceess the name to the object causing related to the spell
+        void set_obj_name( const std::string);
+        std::string get_obj_name() const;
 };
 
 class known_magic
@@ -430,7 +436,7 @@ void fatigue( const spell &sp, const Creature &caster, const tripoint &target );
 void pulse( const spell &sp, const tripoint &target );
 void entrance( const spell &sp, const tripoint &target );
 void bugs( const spell &sp, const Creature &caster, const tripoint &target );
-void light( const Creature &caster );
+void light( const spell &sp, const Creature &caster );
 void growth( const tripoint &target );
 void mutate( const Creature &caster );
 void teleglow( const Creature &caster );

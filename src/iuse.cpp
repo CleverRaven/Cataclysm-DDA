@@ -4914,6 +4914,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
         spell sp = spell( spell_id( art_active_to_string.at( art->effects_activated[i] ) ) );
         int diff = it->charges - sp.energy_cost( *p );
         if( !( diff < 0 || diff > it->type->maximum_charges() ) ) {
+            sp.set_obj_name( it->tname() );
             sp.cast_spell_effect( *p, p->pos() );
             it->mod_charges( sp.energy_cost( *p ) );
         }

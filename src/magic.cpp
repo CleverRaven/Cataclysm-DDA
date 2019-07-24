@@ -352,6 +352,7 @@ spell::spell( const spell_type *sp, int xp )
 {
     type = sp;
     experience = xp;
+    obj_name = "";
 }
 
 spell::spell( spell_id sp, int xp ) : spell( &sp.obj(), xp ) {}
@@ -976,7 +977,7 @@ bool spell::cast_spell_effect( const Creature &source, const tripoint &target ) 
     } else if( fx == "bugs" ) {
         spell_effect::bugs( *this, source, target );
     } else if( fx == "light" ) {
-        spell_effect::light( source );
+        spell_effect::light( *this, source );
     } else if( fx == "growth" ) {
         spell_effect::growth( target );
     } else if( fx == "mutate" ) {
@@ -1027,6 +1028,16 @@ bool spell::cast_all_effects( const Creature &source, const tripoint &target ) c
         }
     }
     return success;
+}
+
+void spell::set_obj_name( const std::string new_name)
+{
+    obj_name = new_name;
+}
+
+std::string get_obj_name() const
+{
+    return obj_name
 }
 
 // player

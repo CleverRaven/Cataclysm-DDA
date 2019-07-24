@@ -639,15 +639,15 @@ void spell_effect::bugs( const spell &sp, const Creature &caster, const tripoint
             const tripoint spawnp = random_entry_removed( empty );
             if( monster *const b = g->summon_mon( bug, spawnp ) ) {
                 b->friendly = -1;
-                b->add_effect( efftype_id( "effect_pet" ), 1_turns, num_bp, true );
+                b->add_effect( static_cast<efftype_id>( "effect_pet" ), 1_turns, num_bp, true );
             }
         }
     }
 }
 
-void spell_effect::light( const Creature &caster )
+void spell_effect::light( const spell &sp, const Creature &caster )
 {
-    caster.add_msg_if_player( _( "The %s glows brightly!" ), "it->tname()" );
+    caster.add_msg_if_player( _( "The %s glows brightly!" ), sp.get_obj_name() );
     g->events.add( EVENT_ARTIFACT_LIGHT, calendar::turn + 3_minutes );
 }
 
@@ -676,7 +676,7 @@ void spell_effect::noise( const spell &sp, const Creature &caster, const tripoin
 {
     sounds::sound( target, sp.damage(), sounds::sound_t::combat,
                    string_format( _( "a deafening boom from %s %s" ),
-                                  caster.disp_name( true ), "it->tname()" ), true, "misc", "shockwave" );
+                                  caster.disp_name( true ), sp.get_obj_name() ), true, "misc", "shockwave" );
 }
 
 void spell_effect::scream( const spell &sp, const Creature &caster, const tripoint &target )
@@ -684,7 +684,7 @@ void spell_effect::scream( const spell &sp, const Creature &caster, const tripoi
     player *p = g->critter_at<player>( caster.pos() );
     sounds::sound( target, sp.damage(), sounds::sound_t::alert,
                    string_format( _( "a disturbing scream from %s %s" ),
-                                  p->disp_name( true ), "it->tname()" ), true, "shout", "scream" );
+                                  p->disp_name( true ), sp.get_obj_name() ), true, "shout", "scream" );
     if( !p->is_deaf() ) {
         p->add_morale( MORALE_SCREAM, -10, 0, 30_minutes, 1_minutes );
     }
