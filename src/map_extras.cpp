@@ -1458,7 +1458,7 @@ static void mx_portal_in( map &m, const tripoint &abs_sub )
     const int x = portal_location.x;
     const int y = portal_location.y;
 
-    switch( rng( 5, 5 ) ) {
+    switch( rng( 7, 7 ) ) {
         //Mycus spreading through the portal
         case 1: {
             m.add_field( portal_location, fd_fatigue, 3 );
@@ -1570,7 +1570,7 @@ static void mx_portal_in( map &m, const tripoint &abs_sub )
             m.add_field( portal_location, fd_fatigue, 3 );
             artifact_natural_property prop =
                 static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) );
-            m.create_anomaly( portal_location, prop, false );
+            m.create_anomaly( portal_location, prop );
             m.spawn_natural_artifact( { x + rng( -1, 1 ), y + rng( -1, 1 ), abs_sub.z }, prop );
             break;
         }
