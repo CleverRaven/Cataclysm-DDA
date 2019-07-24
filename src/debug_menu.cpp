@@ -1387,10 +1387,11 @@ void debug()
                 };
 
                 uilist smenu;
+		static const auto years = [](const time_point &p) { return static_cast<int>( ( p - calendar::time_of_cataclysm ) / calendar::year_length() ); };
                 do {
                     const int iSel = smenu.ret;
                     smenu.reset();
-                    smenu.addentry( 0, true, 'y', "%s: %d", _( "year" ), calendar::turn.years() );
+                    smenu.addentry( 0, true, 'y', "%s: %d", _( "year" ), years( calendar::turn ) );
                     smenu.addentry( 1, !calendar::eternal_season(), 's', "%s: %d",
                                     _( "season" ), static_cast<int>( season_of_year( calendar::turn ) ) );
                     smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), day_of_season<int>( calendar::turn ) );
@@ -1402,7 +1403,7 @@ void debug()
 
                     switch( smenu.ret ) {
                         case 0:
-                            set_turn( calendar::turn.years(), to_turns<int>( calendar::year_length() ), _( "Set year to?" ) );
+                            set_turn( years( calendar::turn ), to_turns<int>( calendar::year_length() ), _( "Set year to?" ) );
                             break;
                         case 1:
                             set_turn( static_cast<int>( season_of_year( calendar::turn ) ),
