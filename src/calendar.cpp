@@ -162,83 +162,51 @@ moon_phase get_moon_phase( const time_point &p )
     return static_cast<moon_phase>( current_phase );
 }
 
-calendar calendar::sunrise() const
+time_point sunrise( const time_point &p )
 {
-    int start_hour = 0;
-    int end_hour = 0;
-    int newhour = 0;
-    int newminute = 0;
-    switch( season ) {
-        case SPRING:
-            start_hour = SUNRISE_EQUINOX;
-            end_hour   = SUNRISE_SUMMER;
-            break;
-        case SUMMER:
-            start_hour = SUNRISE_SUMMER;
-            end_hour   = SUNRISE_EQUINOX;
-            break;
-        case AUTUMN:
-            start_hour = SUNRISE_EQUINOX;
-            end_hour   = SUNRISE_WINTER;
-            break;
-        case WINTER:
-            start_hour = SUNRISE_WINTER;
-            end_hour   = SUNRISE_EQUINOX;
-            break;
-    }
-    const double percent = static_cast<double>( static_cast<double>( day ) / to_days<int>
-                           ( season_length() ) );
-    double time = static_cast<double>( start_hour ) * ( 1. - percent ) + static_cast<double>
-                  ( end_hour ) * percent;
+    static_assert( static_cast<int>( SPRING ) == 0,
+                   "Expected spring to be the first season. If not, code below will use wrong index into array" );
 
-    newhour = static_cast<int>( time );
-    time -= static_cast<int>( time );
-    newminute = static_cast<int>( time * 60 );
+    static const std::array<int, 4> start_hours = { { SUNRISE_EQUINOX, SUNRISE_SUMMER, SUNRISE_EQUINOX, SUNRISE_WINTER, } };
+    const size_t season = static_cast<size_t>( season_of_year( p ) );
+    assert( season < start_hours.size() );
 
-    return calendar( newminute, newhour, day, season, year );
+    const double start_hour = start_hours[season];
+    const double end_hour = start_hours[( season + 1 ) % 4];
+
+    const double into_month = static_cast<double>( day_of_season<int>( p ) ) / to_days<int>
+                              ( calendar::season_length() );
+    const double time = start_hour * ( 1.0 - into_month ) + end_hour * into_month;
+
+    const time_point midnight = p - time_past_midnight( p );
+    return midnight + time_duration::from_minutes( static_cast<int>( time * 60 ) );
 }
 
-calendar calendar::sunset() const
+time_point sunset( const time_point &p )
 {
-    int start_hour = 0;
-    int end_hour = 0;
-    int newhour = 0;
-    int newminute = 0;
-    switch( season ) {
-        case SPRING:
-            start_hour = SUNSET_EQUINOX;
-            end_hour   = SUNSET_SUMMER;
-            break;
-        case SUMMER:
-            start_hour = SUNSET_SUMMER;
-            end_hour   = SUNSET_EQUINOX;
-            break;
-        case AUTUMN:
-            start_hour = SUNSET_EQUINOX;
-            end_hour   = SUNSET_WINTER;
-            break;
-        case WINTER:
-            start_hour = SUNSET_WINTER;
-            end_hour   = SUNSET_EQUINOX;
-            break;
-    }
-    const double percent = static_cast<double>( static_cast<double>( day ) / to_days<int>
-                           ( season_length() ) );
-    double time = static_cast<double>( start_hour ) * ( 1. - percent ) + static_cast<double>
-                  ( end_hour ) * percent;
+    static_assert( static_cast<int>( SPRING ) == 0,
+                   "Expected spring to be the first season. If not, code below will use wrong index into array" );
 
-    newhour = static_cast<int>( time );
-    time -= static_cast<int>( time );
-    newminute = static_cast<int>( time * 60 );
+    static const std::array<int, 4> start_hours = { { SUNSET_EQUINOX, SUNSET_SUMMER, SUNSET_EQUINOX, SUNSET_WINTER } };
+    const size_t season = static_cast<size_t>( season_of_year( p ) );
+    assert( season < start_hours.size() );
 
-    return calendar( newminute, newhour, day, season, year );
+    const double start_hour = start_hours[season];
+    const double end_hour = start_hours[( season + 1 ) % 4];
+
+    const double into_month = static_cast<double>( day_of_season<int>( p ) ) / to_days<int>
+                              ( calendar::season_length() );
+    const double time = start_hour * ( 1.0 - into_month ) + end_hour * into_month;
+
+    const time_point midnight = p - time_past_midnight( p );
+    return midnight + time_duration::from_minutes( static_cast<int>( time * 60 ) );
 }
 
 bool calendar::is_night() const
 {
     const time_duration now = time_past_midnight( *this );
-    const time_duration sunrise = time_past_midnight( this->sunrise() );
-    const time_duration sunset = time_past_midnight( this->sunset() );
+    const time_duration sunrise = time_past_midnight( ::sunrise( *this ) );
+    const time_duration sunset = time_past_midnight( ::sunset( *this ) );
 
     return now > sunset + twilight_duration || now < sunrise;
 }
@@ -246,7 +214,7 @@ bool calendar::is_night() const
 bool calendar::is_sunset_now() const
 {
     const time_duration now = time_past_midnight( *this );
-    const time_duration sunset = time_past_midnight( this->sunset() );
+    const time_duration sunset = time_past_midnight( ::sunset( *this ) );
 
     return now > sunset && now < sunset + twilight_duration;
 }
@@ -254,7 +222,7 @@ bool calendar::is_sunset_now() const
 bool calendar::is_sunrise_now() const
 {
     const time_duration now = time_past_midnight( *this );
-    const time_duration sunrise = time_past_midnight( this->sunrise() );
+    const time_duration sunrise = time_past_midnight( ::sunrise( *this ) );
 
     return now > sunrise && now < sunrise + twilight_duration;
 }
@@ -288,8 +256,8 @@ double calendar::current_daylight_level() const
 float calendar::sunlight() const
 {
     const time_duration now = time_past_midnight( *this );
-    const time_duration sunrise = time_past_midnight( this->sunrise() );
-    const time_duration sunset = time_past_midnight( this->sunset() );
+    const time_duration sunrise = time_past_midnight( ::sunrise( *this ) );
+    const time_duration sunset = time_past_midnight( ::sunset( *this ) );
 
     const double daylight_level = current_daylight_level();
 

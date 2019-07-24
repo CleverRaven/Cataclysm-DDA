@@ -318,12 +318,12 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[4].text == "This is a days since cataclysm 210 test response." );
     CHECK( d.responses[5].text == "This is a days since cataclysm 300 test response." );
 
-    calendar::turn = calendar::turn.sunrise() + HOURS( 4 );
+    calendar::turn = to_turn<int>( sunrise( calendar::turn ) + 4_hours );
     d.add_topic( "TALK_TEST_TIME" );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a is day test response." );
-    calendar::turn = calendar::turn.sunset() + HOURS( 2 );
+    calendar::turn = to_turn<int>( sunset( calendar::turn ) + 2_hours );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a is night test response." );

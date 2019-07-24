@@ -64,7 +64,7 @@ TEST_CASE( "vehicle_power" )
         REQUIRE( veh_ptr != nullptr );
         g->refresh_all();
         calendar::turn = to_turns<int>( calendar::turn.season_length() ) + DAYS( 1 );
-        const time_point start_time = calendar::turn.sunrise() + 3_hours;
+        const time_point start_time = sunrise( calendar::turn ) + 3_hours;
         veh_ptr->update_time( start_time );
         veh_ptr->discharge_battery( veh_ptr->fuel_left( fuel_type_battery ) );
         REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 0 );
