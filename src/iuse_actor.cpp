@@ -898,6 +898,7 @@ int ups_based_armor_actor::use( player &p, item &it, bool t, const tripoint & ) 
         return 0;
     }
     it.active = !it.active;
+    p.reset_encumbrance();
     if( it.active ) {
         if( activate_msg.empty() ) {
             p.add_msg_if_player( m_info, _( "You activate your %s." ), it.tname() );
