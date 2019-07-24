@@ -7,6 +7,7 @@
 #include <set>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include "string_id.h"
 #include "type_id.h"
