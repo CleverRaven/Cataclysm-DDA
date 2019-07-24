@@ -24,7 +24,7 @@
 
 static void full_map_test( const std::vector<std::string> &setup,
                            const std::vector<std::string> &expected_results,
-                           const calendar &time )
+                           const time_point &time )
 {
     const ter_id t_brick_wall( "t_brick_wall" );
     const ter_id t_window_frame( "t_window_frame" );
@@ -223,7 +223,7 @@ static void full_map_test( const std::vector<std::string> &setup,
 struct vision_test_case {
     std::vector<std::string> setup;
     std::vector<std::string> expected_results;
-    calendar time;
+    time_point time;
     bool test_3d;
 
     static void transpose( std::vector<std::string> &v ) {
@@ -299,8 +299,8 @@ struct vision_test_case {
     }
 };
 
-static constexpr int midnight = HOURS( 0 );
-static constexpr int midday = HOURS( 12 );
+static const time_point midnight = calendar::turn_zero + 0_hours;
+static const time_point midday = calendar::turn_zero + 12_hours;
 
 // The following characters are used in these setups:
 // ' ' - empty, outdoors
