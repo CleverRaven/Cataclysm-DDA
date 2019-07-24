@@ -21,6 +21,7 @@ class active_item_cache
 {
     private:
         std::unordered_map<int, std::list<item_reference>> active_items;
+        std::unordered_map<std::string, std::list<item_reference>> special_items;
 
     public:
         /**
@@ -57,6 +58,10 @@ class active_item_cache
          */
         std::vector<item_reference> get_for_processing();
 
+        /**
+         * Returns the currently tracked list of special active items.
+         */
+        std::vector<item_reference> get_special( std::string type );
         /** Subtract delta from every item_reference's location */
         void subtract_locations( const point &delta );
         void rotate_locations( int turns, const point &dim );
