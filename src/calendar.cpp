@@ -537,11 +537,6 @@ float calendar::season_from_default_ratio()
     return to_days<float>( season_length() ) / default_season_length;
 }
 
-int calendar::day_of_year() const
-{
-    return day + to_days<int>( season_length() ) * season;
-}
-
 void calendar::sync()
 {
     const int sl = to_days<int>( season_length() );
