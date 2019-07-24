@@ -14,6 +14,7 @@
 
 #include "debug.h"
 #include "field.h"
+#include "flood_fill.h"
 #include "item.h"
 #include "line.h"
 #include "map.h"
@@ -4491,31 +4492,20 @@ void mapgen_lake_shore( map *m, oter_id, mapgendata dat, const time_point &turn,
     // we'll floodfill the sections adjacent to the lake with deep water. As before, we also clear
     // out any furniture that we placed by the extended mapgen.
     std::unordered_set<point> visited;
+
+    const auto should_fill = [&]( const point & p ) {
+        if( !map_boundaries.contains_inclusive( p ) ) {
+            return false;
+        }
+        return m->ter( p.x, p.y ) != t_null;
+    };
+
     const auto fill_deep_water = [&]( const point & starting_point ) {
-        std::queue<point> to_check;
-        to_check.push( starting_point );
-        while( !to_check.empty() ) {
-            const point current_point = to_check.front();
-            to_check.pop();
-
-            if( visited.find( current_point ) != visited.end() ) {
-                continue;
-            }
-
-            visited.emplace( current_point );
-
-            if( !map_boundaries.contains_inclusive( current_point ) ) {
-                continue;
-            }
-
-            if( m->ter( current_point.x, current_point.y ) != t_null ) {
-                m->ter_set( current_point.x, current_point.y, t_water_dp );
-                m->furn_set( current_point.x, current_point.y, f_null );
-                to_check.push( point( current_point.x, current_point.y + 1 ) );
-                to_check.push( point( current_point.x, current_point.y - 1 ) );
-                to_check.push( point( current_point.x + 1, current_point.y ) );
-                to_check.push( point( current_point.x - 1, current_point.y ) );
-            }
+        std::vector<point> water_points = ff::point_flood_fill_4_connected( starting_point, visited,
+                                          should_fill );
+        for( auto &wp : water_points ) {
+            m->ter_set( wp.x, wp.y, t_water_dp );
+            m->furn_set( wp.x, wp.y, f_null );
         }
     };
 

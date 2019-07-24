@@ -17,6 +17,7 @@
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
+#include "flood_fill.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "json.h"
@@ -2025,40 +2026,13 @@ void overmap::place_forest_trails()
 {
     std::unordered_set<point> visited;
 
-    const auto get_forest = [&]( point starting_point, std::vector<point> &forest_points ) {
-        std::queue<point> to_check;
-        to_check.push( starting_point );
-        while( !to_check.empty() ) {
-            const point current_point = to_check.front();
-            to_check.pop();
-
-            // We've been here before, so bail.
-            if( visited.find( current_point ) != visited.end() ) {
-                continue;
-            }
-
-            // This point is out of bounds, so bail.
-            if( !inbounds( current_point, 1 ) ) {
-                continue;
-            }
-
-            // Mark this point as visited.
-            visited.emplace( current_point );
-
-            // If this point is a valid forest type, then add it to our collection
-            // of forest points.
-            const auto current_terrain = ter( current_point.x, current_point.y, 0 );
-            if( current_terrain == "forest" || current_terrain == "forest_thick" ||
-                current_terrain == "forest_water" ) {
-                forest_points.emplace_back( current_point );
-                to_check.push( point( current_point.x, current_point.y + 1 ) );
-                to_check.push( point( current_point.x, current_point.y - 1 ) );
-                to_check.push( point( current_point.x + 1, current_point.y ) );
-                to_check.push( point( current_point.x - 1, current_point.y ) );
-            }
+    const auto is_forest = [&]( const point & p ) {
+        if( !inbounds( p, 1 ) ) {
+            return false;
         }
-
-        return;
+        const auto current_terrain = ter( p.x, p.y, 0 );
+        return current_terrain == "forest" || current_terrain == "forest_thick" ||
+               current_terrain == "forest_water";
     };
 
     for( int i = 0; i < OMAPX; i++ ) {
@@ -2077,8 +2051,8 @@ void overmap::place_forest_trails()
             }
 
             // Get the contiguous forest from this point.
-            std::vector<point> forest_points;
-            get_forest( seed_point, forest_points );
+            std::vector<point> forest_points = ff::point_flood_fill_4_connected( seed_point, visited,
+                                               is_forest );
 
             // If we don't have enough points to build a trail, move on.
             if( forest_points.empty() ||
@@ -2279,36 +2253,15 @@ void overmap::place_lakes()
 {
     const om_noise::om_noise_layer_lake f( global_base_point(), g->get_seed() );
 
-    // We're going to flood-fill our lake so that we can consider the entire lake when evaluating it
-    // for placement, even when the lake runs off the edge of the current overmap.
-    std::unordered_set<point> visited;
-    const auto get_lake = [&]( const point & starting_point, std::vector<point> &lake_points ) {
-        std::queue<point> to_check;
-        to_check.push( starting_point );
-        while( !to_check.empty() ) {
-            const point current_point = to_check.front();
-            to_check.pop();
-
-            if( visited.find( current_point ) != visited.end() ) {
-                continue;
-            }
-
-            visited.emplace( current_point );
-
-            // It's a lake if it exceeds the noise threshold defined in the region settings.
-            const bool is_lake = f.noise_at( current_point ) > settings.overmap_lake.noise_threshold_lake;
-            if( is_lake ) {
-                lake_points.emplace_back( current_point );
-                to_check.push( point( current_point.x, current_point.y + 1 ) );
-                to_check.push( point( current_point.x, current_point.y - 1 ) );
-                to_check.push( point( current_point.x + 1, current_point.y ) );
-                to_check.push( point( current_point.x - 1, current_point.y ) );
-            }
-        }
+    const auto is_lake = [&]( const point & p ) {
+        return f.noise_at( p ) > settings.overmap_lake.noise_threshold_lake;
     };
 
     const oter_id lake_surface( "lake_surface" );
     const oter_id lake_shore( "lake_shore" );
+
+    // We'll keep track of our visited lake points so we don't repeat the work.
+    std::unordered_set<point> visited;
 
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
@@ -2318,12 +2271,13 @@ void overmap::place_lakes()
             }
 
             // It's a lake if it exceeds the noise threshold defined in the region settings.
-            if( f.noise_at( seed_point ) <= settings.overmap_lake.noise_threshold_lake ) {
+            if( !is_lake( seed_point ) ) {
                 continue;
             }
 
-            std::vector<point> lake_points;
-            get_lake( seed_point, lake_points );
+            // We're going to flood-fill our lake so that we can consider the entire lake when evaluating it
+            // for placement, even when the lake runs off the edge of the current overmap.
+            std::vector<point> lake_points = ff::point_flood_fill_4_connected( seed_point, visited, is_lake );
 
             // If this lake doesn't exceed our minimum size threshold, then skip it. We can use this to
             // exclude the tiny lakes that don't provide interesting map features and exist mostly as a
