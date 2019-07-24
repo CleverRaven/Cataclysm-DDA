@@ -1457,7 +1457,7 @@ static void mx_portal_in( map &m, const tripoint &abs_sub )
     const int x = portal_location.x;
     const int y = portal_location.y;
 
-    switch( rng( 5, 5 ) ) {
+    switch( rng( 6, 6 ) ) {
         //Mycus spreading through the portal
         case 1: {
             m.add_field( portal_location, fd_fatigue, 3 );
@@ -1474,14 +1474,8 @@ static void mx_portal_in( map &m, const tripoint &abs_sub )
         //Netherworld monsters spawning around the portal
         case 2: {
             m.add_field( portal_location, fd_fatigue, 3 );
-            for( int i = x - 5; i <= x + 5; i++ ) {
-                for( int j = y - 5; j <= y + 5; j++ ) {
-                    if( rng( 1, 9 ) >= trig_dist( x, y, i, j ) ) {
-                        if( one_in( 15 ) ) {
-                            m.place_spawns( GROUP_NETHER_PORTAL, 1, i, j, i, j, 1, true );
-                        }
-                    }
-                }
+            for( const auto &loc : g->m.points_in_radius( portal_location, 5 ) ) {
+                 m.place_spawns( GROUP_NETHER_PORTAL, 15, loc.x - 5, loc.y - 5, loc.x + 5, loc.y + 5, 1, true );
             }
             break;
         }
@@ -1566,14 +1560,8 @@ static void mx_portal_in( map &m, const tripoint &abs_sub )
         case 6: {
             //Mi-go went through the portal and began constructing their base of operations
             m.add_field( portal_location, fd_fatigue, 3 );
-            for( int i = x - 5; i <= x + 5; i++ ) {
-                for( int j = y - 5; j <= y + 5; j++ ) {
-                    if( rng( 1, 9 ) >= trig_dist( x, y, i, j ) ) {
-                        if( one_in( 15 ) ) {
-                            m.place_spawns( GROUP_MI_GO_CAMP_OM, 1, i, j, i, j, 1, true );
-                        }
-                    }
-                }
+            for( const auto &loc : g->m.points_in_radius( portal_location, 5 ) ) {
+                m.place_spawns( GROUP_MI_GO_CAMP_OM, 30, loc.x - 5, loc.y - 5, loc.x + 5, loc.y + 5, 1, true );
             }
             rough_circle( &m, ter_id( "t_floor_resin" ), x + rng( -5, 5 ), y + rng( -5, 5 ), 5 );
             break;
