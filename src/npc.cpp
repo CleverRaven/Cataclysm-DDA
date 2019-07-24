@@ -2047,7 +2047,7 @@ void npc::die( Creature *nkiller )
 
 std::string npc_attitude_id( npc_attitude att )
 {
-    static const std::unordered_map<npc_attitude, std::string> npc_attitude_ids = {
+    static const std::map<npc_attitude, std::string> npc_attitude_ids = {
         { NPCATT_NULL, "NPCATT_NULL" },
         { NPCATT_TALK, "NPCATT_TALK" },
         { NPCATT_FOLLOW, "NPCATT_FOLLOW" },
