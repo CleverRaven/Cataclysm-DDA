@@ -3154,7 +3154,7 @@ void conditional_t::set_has_stolen_item( bool is_npc )
 void conditional_t::set_is_day()
 {
     condition = []( const dialogue & ) {
-        return !calendar::turn.is_night();
+        return !is_night( calendar::turn );
     };
 }
 

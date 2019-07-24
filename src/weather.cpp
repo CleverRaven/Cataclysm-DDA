@@ -631,7 +631,7 @@ std::string weather_forecast( const point &abs_sm_pos )
         std::string day;
         bool started_at_night;
         const time_point c = last_hour + 12_hours * d;
-        if( d == 0 && calendar( to_turn<int>( c ) ).is_night() ) {
+        if( d == 0 && is_night( c ) ) {
             day = _( "Tonight" );
             started_at_night = true;
         } else {
@@ -977,7 +977,7 @@ void weather_manager::update_weather()
         weather = weather_override == WEATHER_NULL ?
                   weather_gen.get_weather_conditions( w )
                   : weather_override;
-        if( weather == WEATHER_SUNNY && calendar::turn.is_night() ) {
+        if( weather == WEATHER_SUNNY && is_night( calendar::turn ) ) {
             weather = WEATHER_CLEAR;
         }
         sfx::do_ambient();
