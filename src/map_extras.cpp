@@ -1458,7 +1458,7 @@ static void mx_portal_in( map &m, const tripoint &abs_sub )
     const int x = portal_location.x;
     const int y = portal_location.y;
 
-    switch( rng( 7, 7 ) ) {
+    switch( rng( 1, 7 ) ) {
         //Mycus spreading through the portal
         case 1: {
             m.add_field( portal_location, fd_fatigue, 3 );
