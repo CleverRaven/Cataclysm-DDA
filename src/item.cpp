@@ -4322,8 +4322,7 @@ int item::get_encumber_when_containing(
             break;
     }
 
-    encumber += std::max( 1, static_cast<int>( ceil( get_clothing_mod_val(
-                              clothing_mod_type_encumbrance ) ) ) );
+    encumber += static_cast<int>( std::ceil( get_clothing_mod_val( clothing_mod_type_encumbrance ) ) );
 
     return encumber;
 }

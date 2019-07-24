@@ -27,6 +27,7 @@ enum clothing_mod_type : int {
 struct mod_value {
     clothing_mod_type type;
     float value;
+    bool round_up = false;
     bool thickness_propotion = false;
     bool coverage_propotion = false;
 };

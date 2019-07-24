@@ -91,6 +91,7 @@ void clothing_mod::load( JsonObject &jo, const std::string & )
         mandatory( mv_jo, was_loaded, "type", temp_str );
         mv.type = io::string_to_enum<clothing_mod_type>( temp_str );
         mandatory( mv_jo, was_loaded, "value", mv.value );
+        optional( mv_jo, was_loaded, "round_up", mv.round_up );
         JsonArray jarr_prop = mv_jo.get_array( "proportion" );
         while( jarr_prop.has_more() ) {
             std::string str = jarr_prop.next_string();
@@ -119,6 +120,9 @@ float clothing_mod::get_mod_val( const clothing_mod_type &type, const item &it )
             }
             if( mv.coverage_propotion ) {
                 tmp *= coverage / 100.0f;
+            }
+            if( mv.round_up ) {
+                tmp = std::ceil( tmp );
             }
             result += tmp;
         }

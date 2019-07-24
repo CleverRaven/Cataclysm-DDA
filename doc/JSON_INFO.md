@@ -2011,6 +2011,7 @@ A flat multiplier on the harvest count of the plant. For numbers greater than on
     {
         "type": "bash",   // "bash", "cut", "fire", "acid", "warmth", "storage", and "encumbrance" is available.
         "value": 1,       // value of effect.
+        "round_up": false // (optional) round up value of effect. defaults to false.
         "proportion": [   // (optional) value of effect propotions to clothing's parameter.
             "thickness",  //            "thickness" and "coverage" is available.
             "coverage"
