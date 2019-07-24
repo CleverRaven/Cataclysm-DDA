@@ -253,15 +253,15 @@ double current_daylight_level( const time_point &p )
     return double( modifier * DAYLIGHT_LEVEL );
 }
 
-float calendar::sunlight() const
+float sunlight( const time_point &p )
 {
-    const time_duration now = time_past_midnight( *this );
-    const time_duration sunrise = time_past_midnight( ::sunrise( *this ) );
-    const time_duration sunset = time_past_midnight( ::sunset( *this ) );
+    const time_duration now = time_past_midnight( p );
+    const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
+    const time_duration sunset = time_past_midnight( ::sunset( p ) );
 
-    const double daylight_level = current_daylight_level( *this );
+    const double daylight_level = current_daylight_level( p );
 
-    int current_phase = static_cast<int>( get_moon_phase( *this ) );
+    int current_phase = static_cast<int>( get_moon_phase( p ) );
     if( current_phase > static_cast<int>( MOON_PHASE_MAX ) / 2 ) {
         current_phase = static_cast<int>( MOON_PHASE_MAX ) - current_phase;
     }
