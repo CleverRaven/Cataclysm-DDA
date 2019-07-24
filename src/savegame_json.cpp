@@ -1818,8 +1818,8 @@ void monster::load( JsonObject &data )
     if( !data.read( "last_updated", last_updated ) ) {
         last_updated = calendar::turn;
     }
-    last_baby = data.get_int( "last_baby", calendar::turn );
-    last_biosig = data.get_int( "last_biosig", calendar::turn );
+    last_baby = data.get_int( "last_baby", to_turn<int>( calendar::turn ) );
+    last_biosig = data.get_int( "last_biosig", to_turn<int>( calendar::turn ) );
 
     data.read( "path", path );
 }

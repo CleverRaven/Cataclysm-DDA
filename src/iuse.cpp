@@ -2125,7 +2125,7 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
             } );
 
             std::vector<std::string> segments = foldstring( message, RADIO_PER_TURN );
-            int index = calendar::turn % segments.size();
+            int index = to_turn<int>( calendar::turn ) % segments.size();
             std::stringstream messtream;
             messtream << string_format( _( "radio: %s" ), segments[index] );
             message = messtream.str();

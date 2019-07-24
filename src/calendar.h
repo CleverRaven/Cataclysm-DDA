@@ -99,149 +99,73 @@ enum moon_phase {
  * Encapsulates the current time of day, date, and year.  Also tracks seasonal variation in day
  * length, the passing of the seasons themselves, and the phases of the moon.
  */
-class calendar
+namespace calendar
 {
-    private:
-        /**
-         *  This is the basic "quantum" unit of world time.  It is a one second interval.
-         */
-        int turn_number;
+/**
+ * Predicate to handle rate-limiting. Returns `true` after every @p event_frequency duration.
+ */
+bool once_every( const time_duration &event_frequency );
 
-        /** Seconds portion of time */
-        int second;
+/**
+ * A number that represents the longest possible action.
+ *
+ * This number should be regarded as a number of turns, and can safely be converted to a
+ * number of seconds or moves (movement points) without integer overflow.  If used to
+ * represent a larger unit (hours/days/years), then this will result in integer overflow.
+ */
+extern const int INDEFINITELY_LONG;
 
-        /** Minutes portion of time */
-        int minute;
+/**
+ * The expected duration of the cataclysm
+ *
+ * Large duration that can be used to approximate infinite amounts of time.
+ *
+ * This number can't be safely converted to a number of moves without causing
+ * an integer overflow.
+ */
+extern const time_duration INDEFINITELY_LONG_DURATION;
 
-        /** Hours portion of time (using a 24-hour clock) */
-        int hour;
+/// @returns Whether the eternal season is enabled.
+bool eternal_season();
+void set_eternal_season( bool is_eternal_season );
 
-        /** Day of season */
-        int day;
+/** @returns Time in a year, (configured in current world settings) */
+time_duration year_length();
 
-        /** Current season */
-        season_type season;
+/** @returns Time of a season (configured in current world settings) */
+time_duration season_length();
+void set_season_length( const int dur );
 
-        /** Current year, starts counting from 0 in default scenarios */
-        int year;
+/// @returns relative length of game season to real life season.
+float season_ratio();
 
-        /**
-         * Synchronize all variables to the turn_number
-         *
-         * Time is actually counted as a running total of turns since start of game.  This function
-         * calculates the current seconds/minutes/hour/day/season based on that counter value.
-         */
-        void sync();
-        static bool is_eternal_season;
-        static int cur_season_length;
+/**
+ * @returns ratio of actual season length (a world option) to default season length. This
+ * should be used to convert JSON values (that assume the default for the season length
+ * option) to actual in-game length.
+ */
+float season_from_default_ratio();
 
-    public:
-        /** Initializers */
-        /**
-         * Starts at turn count zero, (midnight of first day, year zero, spring time)
-         */
-        calendar();
-        calendar( const calendar &copy ) = default;
+/** Returns the translated name of the season (with first letter being uppercase). */
+const std::string name_season( season_type s );
 
-        /** Construct calendar with specific starting time and day. */
-        calendar( int Minute, int Hour, int Day, season_type Season, int Year );
+extern time_point start_of_cataclysm;
+extern time_point turn;
+extern season_type initial_season;
 
-        /**
-         * Construct calendar with specific elapsed turns count.
-         * @param turn Turn count value for constructed calendar
-         */
-        calendar( int turn );
-
-        /**
-         * Accessor for current turn_number.
-         *
-         * @returns Current turn number.
-         */
-        operator int() const;
-
-        // Basic calendar operators. Usually modifies or checks the turn_number of the calendar
-        calendar &operator = ( const calendar &rhs ) = default;
-        calendar &operator = ( int rhs );
-        calendar &operator -=( const calendar &rhs );
-        calendar &operator -=( int rhs );
-        calendar &operator +=( const calendar &rhs );
-        calendar &operator +=( int rhs );
-        calendar  operator - ( const calendar &rhs ) const;
-        calendar  operator - ( int rhs ) const;
-        calendar  operator + ( const calendar &rhs ) const;
-        calendar  operator + ( int rhs ) const;
-        bool      operator ==( int rhs ) const;
-        bool      operator ==( const calendar &rhs ) const;
-
-        /** Increases turn_number by 1. (1 second) */
-        void increment();
-
-        /**
-         * Predicate to handle rate-limiting. Returns `true` after every @p event_frequency duration.
-         */
-        static bool once_every( const time_duration &event_frequency );
-
-    public:
-        /**
-         * A number that represents the longest possible action.
-         *
-         * This number should be regarded as a number of turns, and can safely be converted to a
-         * number of seconds or moves (movement points) without integer overflow.  If used to
-         * represent a larger unit (hours/days/years), then this will result in integer overflow.
-         */
-        static const int INDEFINITELY_LONG;
-
-        /**
-         * The expected duration of the cataclysm
-         *
-         * Large duration that can be used to approximate infinite amounts of time.
-         *
-         * This number can't be safely converted to a number of moves without causing
-         * an integer overflow.
-         */
-        static const time_duration INDEFINITELY_LONG_DURATION;
-
-        /// @returns Whether the eternal season is enabled.
-        static bool eternal_season();
-        static void set_eternal_season( bool is_eternal_season );
-
-        /** @returns Time in a year, (configured in current world settings) */
-        static time_duration year_length();
-
-        /** @returns Time of a season (configured in current world settings) */
-        static time_duration season_length();
-        static void set_season_length( const int dur );
-
-        /// @returns relative length of game season to real life season.
-        static float season_ratio();
-
-        /**
-         * @returns ratio of actual season length (a world option) to default season length. This
-         * should be used to convert JSON values (that assume the default for the season length
-         * option) to actual in-game length.
-         */
-        static float season_from_default_ratio();
-
-        /** Returns the translated name of the season (with first letter being uppercase). */
-        static const std::string name_season( season_type s );
-
-        static   calendar start_of_cataclysm;
-        static   calendar turn;
-        static season_type initial_season;
-
-        /**
-         * A time point that is always before the current turn, even when the game has
-         * just started. This implies `before_time_starts < calendar::turn` is always
-         * true. It can be used to initialize `time_point` values that denote that last
-         * time a cache was update.
-         */
-        static const time_point before_time_starts;
-        /**
-         * Represents time point 0.
-         */
-        // TODO: flesh out the documentation
-        static const time_point turn_zero;
-};
+/**
+ * A time point that is always before the current turn, even when the game has
+ * just started. This implies `before_time_starts < calendar::turn` is always
+ * true. It can be used to initialize `time_point` values that denote that last
+ * time a cache was update.
+ */
+extern const time_point before_time_starts;
+/**
+ * Represents time point 0.
+ */
+// TODO: flesh out the documentation
+extern const time_point turn_zero;
+} // namespace calendar
 
 template<typename T>
 constexpr T to_turns( const time_duration &duration );
@@ -553,8 +477,6 @@ class time_point
         constexpr time_point( const int t ) : turn_( t ) { }
 
     public:
-        // TODO: replace usage of `calendar` with `time_point`, remove this constructor
-        time_point( const calendar &c ) : turn_( c ) { }
         /// Allows writing `time_point p = 0;`
         constexpr time_point( const std::nullptr_t ) : turn_( 0 ) { }
         // TODO: remove this, nobody should need it, one should use a constant `time_point`

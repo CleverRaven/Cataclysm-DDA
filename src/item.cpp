@@ -4135,7 +4135,7 @@ void item::set_relative_rot( double val )
 {
     if( goes_bad() ) {
         rot = get_shelf_life() * val;
-        // calc_rot uses last_rot_check (when it's not time_of_cataclysm) instead of bday.
+        // calc_rot uses last_rot_check (when it's not turn_zero) instead of bday.
         // this makes sure the rotting starts from now, not from bday.
         // if this item is the result of smoking or milling don't do this, we want to start from bday.
         if( !has_flag( "PROCESSING_RESULT" ) ) {
@@ -8175,7 +8175,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
 {
     int energy = 0;
     if( type->tool->turns_per_charge > 0 &&
-        static_cast<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
+        to_turn<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
         energy = std::max( ammo_required(), 1 );
 
     } else if( type->tool->power_draw > 0 ) {

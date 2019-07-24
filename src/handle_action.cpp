@@ -729,7 +729,7 @@ static bool try_set_alarm()
 
 static void wait()
 {
-    std::map<int, int> durations;
+    std::map<int, time_duration> durations;
     uilist as_m;
     player &u = g->u;
     bool setting_alarm = false;
@@ -748,60 +748,64 @@ static void wait()
 
     const auto add_menu_item = [ &as_m, &durations, has_watch ]
                                ( int retval, int hotkey, const std::string &caption = "",
-    int duration = calendar::INDEFINITELY_LONG ) {
+    const time_duration &duration = time_duration::from_turns( calendar::INDEFINITELY_LONG ) ) {
 
         std::string text( caption );
 
-        if( has_watch && duration != calendar::INDEFINITELY_LONG ) {
-            const std::string dur_str( to_string( time_duration::from_turns( duration ) ) );
+        if( has_watch && duration != time_duration::from_turns( calendar::INDEFINITELY_LONG ) ) {
+            const std::string dur_str( to_string( duration ) );
             text += ( text.empty() ? dur_str : string_format( " (%s)", dur_str ) );
         }
         as_m.addentry( retval, true, hotkey, text );
-        durations[retval] = duration;
+        durations.emplace( retval, duration );
     };
 
     if( setting_alarm ) {
 
-        add_menu_item( 0, '0', "", MINUTES( 30 ) );
+        add_menu_item( 0, '0', "", 30_minutes );
 
         for( int i = 1; i <= 9; ++i ) {
-            add_menu_item( i, '0' + i, "", HOURS( i ) );
+            add_menu_item( i, '0' + i, "", i * 1_hours );
         }
 
     } else {
         if( g->u.stamina < g->u.get_stamina_max() ) {
             as_m.addentry( 12, true, 'w', _( "Wait until you catch your breath" ) );
-            durations[12] = MINUTES( 15 ); // to hide it from showing
+            durations.emplace( 12, 15_minutes ); // to hide it from showing
         }
-        add_menu_item( 1, '1', !has_watch ? _( "Wait 300 heartbeats" ) : "", MINUTES( 5 ) );
-        add_menu_item( 2, '2', !has_watch ? _( "Wait 1800 heartbeats" ) : "", MINUTES( 30 ) );
+        add_menu_item( 1, '1', !has_watch ? _( "Wait 300 heartbeats" ) : "", 5_minutes );
+        add_menu_item( 2, '2', !has_watch ? _( "Wait 1800 heartbeats" ) : "", 30_minutes );
 
         if( has_watch ) {
-            add_menu_item( 3, '3', "", HOURS( 1 ) );
-            add_menu_item( 4, '4', "", HOURS( 2 ) );
-            add_menu_item( 5, '5', "", HOURS( 3 ) );
-            add_menu_item( 6, '6', "", HOURS( 6 ) );
+            add_menu_item( 3, '3', "", 1_hours );
+            add_menu_item( 4, '4', "", 2_hours );
+            add_menu_item( 5, '5', "", 3_hours );
+            add_menu_item( 6, '6', "", 6_hours );
         }
     }
 
     if( g->get_levz() >= 0 || has_watch ) {
-        const auto diurnal_time_before = []( const int turn ) {
-            const int remainder = turn % DAYS( 1 ) - calendar::turn % DAYS( 1 );
-            return ( remainder > 0 ) ? remainder : DAYS( 1 ) + remainder;
+        const time_point last_midnight = calendar::turn - time_past_midnight( calendar::turn );
+        const auto diurnal_time_before = []( const time_point & p ) {
+            // Either the given time is in the future (e.g. waiting for sunset while it's early morning),
+            // than use it directly. Otherwise (in the past), add a single day to get the same time tomorrow
+            // (e.g. waiting for sunrise while it's noon).
+            const time_point target_time = p > calendar::turn ? p : p + 1_days;
+            return target_time - calendar::turn;
         };
 
         add_menu_item( 7,  'd',
                        setting_alarm ? _( "Set alarm for dawn" ) : _( "Wait till dawn" ),
-                       diurnal_time_before( to_turns<int>( sunrise( calendar::turn ) - calendar::time_of_cataclysm ) ) );
+                       diurnal_time_before( to_turns<int>( sunrise( calendar::turn ) - calendar::turn_zero ) ) );
         add_menu_item( 8,  'n',
                        setting_alarm ? _( "Set alarm for noon" ) : _( "Wait till noon" ),
-                       diurnal_time_before( HOURS( 12 ) ) );
+                       diurnal_time_before( last_midnight + 12_hours ) );
         add_menu_item( 9,  'k',
                        setting_alarm ? _( "Set alarm for dusk" ) : _( "Wait till dusk" ),
-                       diurnal_time_before( to_turns<int>( sunset( calendar::turn ) - calendar::time_of_cataclysm ) ) );
+                       diurnal_time_before( to_turns<int>( sunset( calendar::turn ) - calendar::turn_zero ) ) );
         add_menu_item( 10, 'm',
                        setting_alarm ? _( "Set alarm for midnight" ) : _( "Wait till midnight" ),
-                       diurnal_time_before( HOURS( 0 ) ) );
+                       diurnal_time_before( last_midnight + 0_hours ) );
         if( setting_alarm ) {
             if( u.has_effect( effect_alarm_clock ) ) {
                 add_menu_item( 11, 'x', _( "Cancel the currently set alarm." ), 0 );
@@ -816,9 +820,11 @@ static void wait()
     as_m.text += setting_alarm ? _( "Set alarm for when?" ) : _( "Wait for how long?" );
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
-    if( durations.count( as_m.ret ) == 0 ) {
+    const auto dur_iter = durations.find( as_m.ret );
+    if( dur_iter == durations.end() ) {
         return;
     }
+    const time_duration time_to_wait = dur_iter->second;
 
     if( setting_alarm ) {
         // Setting alarm
@@ -826,7 +832,7 @@ static void wait()
         if( as_m.ret == 11 ) {
             add_msg( _( "You cancel your alarm." ) );
         } else {
-            u.add_effect( effect_alarm_clock, time_duration::from_turns( durations[as_m.ret] ) );
+            u.add_effect( effect_alarm_clock, time_to_wait );
             add_msg( _( "You set your alarm." ) );
         }
 
@@ -841,7 +847,7 @@ static void wait()
             actType = activity_id( "ACT_WAIT" );
         }
 
-        player_activity new_act( actType, 100 * ( durations[as_m.ret] - 1 ), 0 );
+        player_activity new_act( actType, 100 * ( to_turns<int>( time_to_wait ) - 1 ), 0 );
 
         u.assign_activity( new_act, false );
     }
@@ -2337,6 +2343,6 @@ bool game::handle_action()
 
     u.movecounter = ( !u.is_dead_state() ? ( before_action_moves - u.moves ) : 0 );
     dbg( D_INFO ) << string_format( "%s: [%d] %d - %d = %d", action_ident( act ),
-                                    static_cast<int>( calendar::turn ), before_action_moves, u.movecounter, u.moves );
+                                    to_turn<int>( calendar::turn ), before_action_moves, u.movecounter, u.moves );
     return ( !u.is_dead_state() );
 }

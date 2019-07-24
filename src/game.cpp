@@ -1087,10 +1087,10 @@ bool game::cleanup_at_end()
 
         center_print( w_rip, iInfoLine++, c_white, _( "Survived:" ) );
 
-        int turns = calendar::turn - calendar::start_of_cataclysm;
-        int minutes = ( turns / MINUTES( 1 ) ) % 60;
-        int hours = ( turns / HOURS( 1 ) ) % 24;
-        int days = turns / DAYS( 1 );
+        const time_duration survived = calendar::turn - calendar::start_of_cataclysm;
+        const int minutes = to_minutes<int>( survived ) % 60;
+        const int hours = to_hours<int>( survived ) % 24;
+        const int days = to_days<int>( survived );
 
         if( days > 0 ) {
             sTemp = string_format( "%dd %dh %dm", days, hours, minutes );
@@ -1352,7 +1352,7 @@ bool game::do_turn()
         new_game = false;
     } else {
         gamemode->per_turn();
-        calendar::turn.increment();
+        calendar::turn += 1_turns;
     }
 
     // starting a new turn, clear out temperature cache
@@ -3208,7 +3208,7 @@ void game::draw_panels( bool force_draw )
 void game::draw_panels( size_t column, size_t index, bool force_draw )
 {
     static int previous_turn = -1;
-    const int current_turn = calendar::turn;
+    const int current_turn = to_turns<int>( calendar::turn - calendar::turn_zero );
     const bool draw_this_turn = current_turn > previous_turn || force_draw;
     auto &mgr = panel_manager::get_manager();
     int y = 0;
@@ -3827,7 +3827,8 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
     new_seen_mon.clear();
 
     static int previous_turn = 0;
-    const int current_turn = calendar::turn;
+    // @todo change current_turn to time_point
+    const int current_turn = to_turns<int>( calendar::turn - calendar::turn_zero );
     const int sm_ignored_turns = get_option<int>( "SAFEMODEIGNORETURNS" );
 
     for( auto &c : u.get_visible_creatures( MAPSIZE_X ) ) {
@@ -4699,8 +4700,10 @@ bool game::add_zombie( monster &critter, bool pin_upgrade )
     }
 
     critter.last_updated = calendar::turn;
-    critter.last_baby = calendar::turn;
-    critter.last_biosig = calendar::turn;
+    // @todo change last_baby to time_point
+    critter.last_baby = to_turn<int>( calendar::turn );
+    // @todo change last_biosig to time_point
+    critter.last_biosig = to_turn<int>( calendar::turn );
     return critter_tracker->add( critter );
 }
 
@@ -11380,23 +11383,23 @@ void game::start_calendar()
             calendar::initial_season = SPRING;
         } else if( scen->has_flag( "SUM_START" ) ) {
             calendar::initial_season = SUMMER;
-            calendar::turn += to_turns<int>( calendar::season_length() );
+            calendar::turn += calendar::season_length();
         } else if( scen->has_flag( "AUT_START" ) ) {
             calendar::initial_season = AUTUMN;
-            calendar::turn += to_turns<int>( calendar::season_length() * 2 );
+            calendar::turn += calendar::season_length() * 2;
         } else if( scen->has_flag( "WIN_START" ) ) {
             calendar::initial_season = WINTER;
-            calendar::turn += to_turns<int>( calendar::season_length() * 3 );
+            calendar::turn += calendar::season_length() * 3;
         } else if( scen->has_flag( "SUM_ADV_START" ) ) {
             calendar::initial_season = SUMMER;
-            calendar::turn += to_turns<int>( calendar::season_length() * 5 );
+            calendar::turn += calendar::season_length() * 5;
         } else {
             debugmsg( "The Unicorn" );
         }
     } else {
         // No scenario, so use the starting date+time configured in world options
         const int initial_days = get_option<int>( "INITIAL_DAY" );
-        calendar::start_of_cataclysm = DAYS( initial_days );
+        calendar::start_of_cataclysm = calendar::turn_zero + 1_days * initial_days;
 
         // Determine the season based off how long the seasons are set to be
         // First mod by length of season to get number of seasons elapsed, then mod by 4 to force a 0-3 range of values
@@ -11412,8 +11415,8 @@ void game::start_calendar()
         }
 
         calendar::turn = calendar::start_of_cataclysm
-                         + HOURS( get_option<int>( "INITIAL_TIME" ) )
-                         + DAYS( get_option<int>( "SPAWN_DELAY" ) );
+                         + 1_days * get_option<int>( "INITIAL_TIME" )
+                         + 1_days * get_option<int>( "SPAWN_DELAY" );
     }
 
 }

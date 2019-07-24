@@ -1080,7 +1080,7 @@ void debug()
                 s.c_str(),
                 u.posx(), g->u.posy(), g->get_levx(), g->get_levy(),
                 overmap_buffer.ter( g->u.global_omt_location() )->get_name(),
-                static_cast<int>( calendar::turn ),
+                to_turns<int>( calendar::turn - calendar::turn_zero ),
                 get_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
                 _( "NPCs are NOT going to spawn." ),
                 g->num_creatures() );
@@ -1371,7 +1371,7 @@ void debug()
             }
             break;
             case DEBUG_CHANGE_TIME: {
-                auto set_turn = [&]( const int initial, const int factor, const char *const msg ) {
+                auto set_turn = [&]( const int initial, const time_duration factor, const char *const msg ) {
                     const auto text = string_input_popup()
                         .title( msg )
                         .width( 20 )
@@ -1381,13 +1381,15 @@ void debug()
                     if( text.empty() ) {
                         return;
                     }
-                    const int new_value = ( std::atoi( text.c_str() ) - initial ) * factor;
-                    calendar::turn += std::max( std::min( INT_MAX / 2 - calendar::turn, new_value ),
-                                                -calendar::turn );
+                    const int new_value = std::atoi( text.c_str() );
+                    const time_duration offset = ( new_value - initial ) * factor;
+                    // Arbitrary maximal value.
+                    const time_point max = calendar::turn_zero + time_duration::from_turns( std::numeric_limits<int>::max() / 2 );
+                    calendar::turn = std::max( std::min( max, calendar::turn + offset ), calendar::turn_zero );
                 };
 
                 uilist smenu;
-		static const auto years = [](const time_point &p) { return static_cast<int>( ( p - calendar::time_of_cataclysm ) / calendar::year_length() ); };
+		static const auto years = [](const time_point &p) { return static_cast<int>( ( p - calendar::turn_zero ) / calendar::year_length() ); };
                 do {
                     const int iSel = smenu.ret;
                     smenu.reset();
@@ -1397,31 +1399,29 @@ void debug()
                     smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), day_of_season<int>( calendar::turn ) );
                     smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), hour_of_day<int>( calendar::turn ) );
                     smenu.addentry( 4, true, 'm', "%s: %d", _( "minute" ), minute_of_hour<int>( calendar::turn ) );
-                    smenu.addentry( 5, true, 't', "%s: %d", _( "turn" ), static_cast<int>( calendar::turn ) );
+                    smenu.addentry( 5, true, 't', "%s: %d", _( "turn" ), to_turns<int>( calendar::turn - calendar::turn_zero ) );
                     smenu.selected = iSel;
                     smenu.query();
 
                     switch( smenu.ret ) {
                         case 0:
-                            set_turn( years( calendar::turn ), to_turns<int>( calendar::year_length() ), _( "Set year to?" ) );
+                            set_turn( years( calendar::turn ), calendar::year_length(), _( "Set year to?" ) );
                             break;
                         case 1:
-                            set_turn( static_cast<int>( season_of_year( calendar::turn ) ),
-                                      to_turns<int>( calendar::turn.season_length() ),
-                                      _( "Set season to? (0 = spring)" ) );
+                            set_turn( static_cast<int>( season_of_year( calendar::turn ) ), calendar::season_length(), _( "Set season to? (0 = spring)" ) );
                             break;
                         case 2:
-                            set_turn( day_of_season<int>( calendar::turn ), DAYS( 1 ), _( "Set days to?" ) );
+                            set_turn( day_of_season<int>( calendar::turn ), 1_days, _( "Set days to?" ) );
                             break;
                         case 3:
-                            set_turn( hour_of_day<int>( calendar::turn ), HOURS( 1 ), _( "Set hour to?" ) );
+                            set_turn( hour_of_day<int>( calendar::turn ), 1_hours, _( "Set hour to?" ) );
                             break;
                         case 4:
-                            set_turn( minute_of_hour<int>( calendar::turn ), MINUTES( 1 ), _( "Set minute to?" ) );
+                            set_turn( minute_of_hour<int>( calendar::turn ), 1_minutes, _( "Set minute to?" ) );
                             break;
                         case 5:
-                            set_turn( calendar::turn, 1,
-                                      string_format( _( "Set turn to? (One day is %i turns)" ), static_cast<int>( DAYS( 1 ) ) ).c_str() );
+                            set_turn( to_turns<int>( calendar::turn - calendar::turn_zero ), 1_turns,
+                                      string_format( _( "Set turn to? (One day is %i turns)" ), to_turns<int>( 1_days ) ).c_str() );
                             break;
                         default:
                             break;
