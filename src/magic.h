@@ -333,8 +333,8 @@ class spell
         bool is_valid_target( valid_target t ) const;
 
         //acceess the name to the object causing related to the spell
-        void set_obj_name( const std::string);
-        std::string get_obj_name() const;
+        void set_obj_name( std::string );
+        const char *get_obj_name() const;
 };
 
 class known_magic

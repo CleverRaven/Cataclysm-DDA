@@ -16,7 +16,7 @@
     "type": "SPELL",
     "name": "Fireball",
     "description": "Throw a big ball of burning fire somewhere.",
-    "effect": "target_attack",
+    "effect": "fire_ball",
     "valid_targets": [ "self", "ground", "hostile" ],
     "base_energy_cost": 4,
     "min_aoe": 3,
@@ -40,7 +40,7 @@
     "name": "Map",
     "description": "You have a vision of your surroundings.",
     "valid_targets": [ "self" ],
-    "effect": "_map",
+    "effect": "map",
     "min_range": 20,
     "base_energy_cost": 4
   },
@@ -71,13 +71,14 @@
   },
   {
     "id": "acid_ball",
-    "//": "adjust to intensity rng(2,3), currently allways 2.",
     "type": "SPELL",
     "name": "Acidball",
     "description": "Throw strong acid at a location.",
     "valid_targets": [ "ground", "hostile" ],
     "effect": "target_attack",
     "base_energy_cost": 4,
+    "min_range": 2,
+    "max_range": 20,
     "min_aoe": 1,
     "field_id": "acid",
     "min_field_intensity": 2,
@@ -96,7 +97,6 @@
   },
   {
     "id": "heal",
-    "//": "is p->healall(2);",
     "type": "SPELL",
     "name": "Heal",
     "description": "Refreshes your Health Points.",
@@ -154,7 +154,7 @@
     "name": "Light",
     "description": "It emits a feint glow.",
     "valid_targets": [ "self" ],
-    "effect": "teleport_random",
+    "effect": "light",
     "base_energy_cost": 1
   },
   {
@@ -162,7 +162,7 @@
     "type": "SPELL",
     "name": "Growth",
     "description": "Plants grow on every inch of the floor.",
-    "valid_targets": [ "self" ],
+    "valid_targets": [ "self", "ground", "hostile" ],
     "effect": "growth",
     "base_energy_cost": 4
   },
@@ -213,7 +213,7 @@
   {
     "id": "paralyse",
     "type": "SPELL",
-    "name": "Teleport",
+    "name": "Paralyse",
     "description": "You can't move for a turn.",
     "valid_targets": [ "self" ],
     "effect": "target_attack",
@@ -320,7 +320,7 @@
   {
     "id": "fun",
     "type": "SPELL",
-    "name": "Teleport",
+    "name": "Fun",
     "description": "",
     "valid_targets": [ "self" ],
     "effect": "fun",

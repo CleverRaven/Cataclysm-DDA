@@ -1030,14 +1030,14 @@ bool spell::cast_all_effects( const Creature &source, const tripoint &target ) c
     return success;
 }
 
-void spell::set_obj_name( const std::string new_name)
+void spell::set_obj_name( std::string new_name )
 {
     obj_name = new_name;
 }
 
-std::string get_obj_name() const
+const char *spell::get_obj_name() const
 {
-    return obj_name
+    return obj_name.c_str();
 }
 
 // player
