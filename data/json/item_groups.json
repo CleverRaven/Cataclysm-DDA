@@ -632,7 +632,7 @@
       { "item": "can_corn", "prob": 4, "charges": 4, "container-item": "can_food_big" },
       { "item": "can_tomato", "prob": 4, "charges": 24, "container-item": "can_food_big" },
       { "item": "can_pineapple", "prob": 4, "charges": 12, "container-item": "can_food_big" },
-      { "item": "sauce_red", "prob": 3, "charges": 12, "container-item": "can_food_big" }
+      { "item": "sauce_red", "prob": 3, "charges": 96, "container-item": "can_food_big" }
     ]
   },
   {
