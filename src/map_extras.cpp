@@ -1458,7 +1458,7 @@ static void mx_portal_in( map &m, const tripoint &abs_sub )
     const int x = portal_location.x;
     const int y = portal_location.y;
 
-    switch( rng( 7, 7 ) ) {
+    switch( rng( 5, 5 ) ) {
         //Mycus spreading through the portal
         case 1: {
             m.add_field( portal_location, fd_fatigue, 3 );
@@ -1512,14 +1512,9 @@ static void mx_portal_in( map &m, const tripoint &abs_sub )
             if( abs_sub.z <= 0 ) {
                 int x1 = rng( 0,    SEEX     - 3 ), y1 = rng( 0,    SEEY     - 3 ),
                     x2 = rng( SEEX, SEEX * 2 - 3 ), y2 = rng( SEEY, SEEY * 2 - 3 );
-
                 // Pick a random cardinal direction to also spawn lava in
                 // This will make the lava a single connected line, not just on diagonals
-                std::vector<direction> possibilities;
-                possibilities.push_back( EAST );
-                possibilities.push_back( WEST );
-                possibilities.push_back( NORTH );
-                possibilities.push_back( SOUTH );
+                static const std::array<direction, 4> possibilities = { { EAST, WEST, NORTH, SOUTH } };
                 const direction extra_lava_dir = random_entry( possibilities );
                 int x_extra = 0;
                 int y_extra = 0;
