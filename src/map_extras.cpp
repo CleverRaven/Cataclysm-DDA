@@ -1458,7 +1458,7 @@ static void mx_portal_in( map &m, const tripoint &abs_sub )
     const int x = portal_location.x;
     const int y = portal_location.y;
 
-    switch( rng( 6, 6 ) ) {
+    switch( rng( 7, 7 ) ) {
         //Mycus spreading through the portal
         case 1: {
             m.add_field( portal_location, fd_fatigue, 3 );
@@ -1476,7 +1476,7 @@ static void mx_portal_in( map &m, const tripoint &abs_sub )
         case 2: {
             m.add_field( portal_location, fd_fatigue, 3 );
             for( const auto &loc : g->m.points_in_radius( portal_location, 5 ) ) {
-                 m.place_spawns( GROUP_NETHER_PORTAL, 15, loc.x - 5, loc.y - 5, loc.x + 5, loc.y + 5, 1, true );
+                m.place_spawns( GROUP_NETHER_PORTAL, 15, loc.x - 5, loc.y - 5, loc.x + 5, loc.y + 5, 1, true );
             }
             break;
         }
@@ -1570,9 +1570,19 @@ static void mx_portal_in( map &m, const tripoint &abs_sub )
             rough_circle( &m, ter_id( "t_floor_resin" ), x_pos, y_pos, 5 );
             break;
         }
+        //Anomaly caused by the portal and spawned an artifact
+        case 7: {
+            m.add_field( portal_location, fd_fatigue, 3 );
+            artifact_natural_property prop =
+                static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) );
+            m.create_anomaly( portal_location, prop, false );
+            m.spawn_natural_artifact( { x + rng( -1, 1 ), y + rng( -1, 1 ), abs_sub.z }, prop );
+            break;
+        }
     }
 }
 
+//Obsolete, remove after 0.E.
 static void mx_anomaly( map &m, const tripoint &abs_sub )
 {
     tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
