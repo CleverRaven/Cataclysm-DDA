@@ -11,32 +11,38 @@
 #include <string>
 #include <vector>
 
-#include "magic.h"
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
 #include "creature.h"
+#include "damage.h"
+#include "debug.h"
 #include "enums.h"
+#include "event.h"
+#include "explosion.h"
 #include "game.h"
 #include "item.h"
 #include "line.h"
+#include "magic.h"
+#include "magic_teleporter_list.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
+#include "monattack.h"
+#include "morale_types.h"
+#include "overmapbuffer.h"
 #include "player.h"
 #include "projectile.h"
-#include "type_id.h"
-#include "bodypart.h"
-#include "damage.h"
-#include "debug.h"
-#include "explosion.h"
-#include "magic_teleporter_list.h"
 #include "point.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "sounds.h"
 #include "translations.h"
+#include "type_id.h"
 
 static tripoint random_point( int min_distance, int max_distance, const tripoint &player_pos )
 {
@@ -505,8 +511,8 @@ void spell_effect::translocate( const spell &sp, const Creature &caster,
 }
 
 // hardcoded artifact actives
-void spell_effect::storm(const spell &sp, const tripoint &target) {
-    ## p: player -> target, g: game
+void spell_effect::storm( const spell &sp, const tripoint &target )
+{
     sounds::sound( target, 10, sounds::sound_t::combat, _( "Ka-BOOM!" ), true, "environment",
                    "thunder_near" );
     int num_bolts = rng( 2, 4 );
@@ -522,7 +528,7 @@ void spell_effect::storm(const spell &sp, const tripoint &target) {
         for( int n = 0; n < dist; n++ ) {
             boltx += xdir;
             bolty += ydir;
-            g->m.add_field( {boltx, bolty, target.z}, fd_electricity, rng( 2, 3 ) );
+            sp.create_field( {boltx, bolty, target.z} );
             if( one_in( 4 ) ) {
                 if( xdir == 0 ) {
                     xdir = rng( 0, 1 ) * 2 - 1;
@@ -541,53 +547,60 @@ void spell_effect::storm(const spell &sp, const tripoint &target) {
     }
 }
 
-void spell_effect::fire_ball(const spell &sp, const tripoint &target) {
+void spell_effect::fire_ball( const tripoint &target )
+{
     explosion_handler::explosion( target, 180, 0.5, true );
 }
 
-void spell_effect::_map(const spell &sp, const tripoint &target) {
+void spell_effect::map( const spell &sp, const tripoint &target )
+{
+    player *p = g->critter_at<player>( target );
     const bool new_map = overmap_buffer.reveal(
-                             point( target.x, target.y ), 20, target.z );
+                             point( target.x, target.y ), sp.aoe(), target.z );
     if( new_map ) {
         p->add_msg_if_player( m_warning, _( "You have a vision of the surrounding area..." ) );
-        p->moves -= to_turns<int>( 1_seconds );
+        p->mod_moves( -to_moves<int>( 1_seconds ) );
     }
 }
 
-void spell_effect::blood(const spell &sp, const tripoint &target) {
+void spell_effect::blood( const spell &sp, const Creature &caster, const tripoint &target )
+{
     bool blood = false;
-    for( const tripoint &tmp : g->m.points_in_radius( p->pos(), 4 ) ) {
-        if( !one_in( 4 ) && g->m.add_field( tmp, fd_blood, 3 ) &&
-            ( blood || g->u.sees( tmp ) ) ) {
-            blood = true;
+    for( const tripoint &tmp : g->m.points_in_radius( target, sp.aoe() ) ) {
+        if( !one_in( 4 ) ) {
+            sp.create_field( tmp );
+            blood |= g->u.sees( tmp );
         }
     }
     if( blood ) {
-        p->add_msg_if_player( m_warning, _( "Blood soaks out of the ground and walls." ) );
+        caster.add_msg_if_player( m_warning, _( "Blood soaks out of the ground and walls." ) );
     }
 }
 
-void spell_effect::fatigue(const spell &sp, const tripoint &target) {
-    p->add_msg_if_player( m_warning, _( "The fabric of space seems to decay." ) );
+void spell_effect::fatigue( const spell &sp, const Creature &caster, const tripoint &target )
+{
+    caster.add_msg_if_player( m_warning, _( "The fabric of space seems to decay." ) );
     int x = rng( target.x - 3, target.x + 3 ), y = rng( target.y - 3, target.y + 3 );
-    g->m.add_field( {x, y, target.z}, fd_fatigue, rng( 1, 2 ) );
+    sp.create_field( {x, y, target.z} );
 }
 
-void spell_effect::pulse(const spell &sp, const tripoint &target){
+void spell_effect::pulse( const spell &sp, const tripoint &target )
+{
     sounds::sound( target, 30, sounds::sound_t::combat, _( "The earth shakes!" ), true, "misc",
                    "earthquake" );
-    for( const tripoint &pt : g->m.points_in_radius( target, 2 ) ) {
-        g->m.bash( pt, 40 );
-        g->m.bash( pt, 40 );  // Multibash effect, so that doors &c will fall
-        g->m.bash( pt, 40 );
+    for( const tripoint &pt : g->m.points_in_radius( target, sp.aoe() ) ) {
+        g->m.bash( pt, sp.damage() );
+        g->m.bash( pt, sp.damage() );  // Multibash effect, so that doors &c will fall
+        g->m.bash( pt, sp.damage() );
         if( g->m.is_bashable( pt ) && rng( 1, 10 ) >= 3 ) {
             g->m.bash( pt, 999, false, true );
         }
     }
 }
 
-void spell_effect::entrance(const spell &sp, const tripoint &target){
-    for( const tripoint &dest : g->m.points_in_radius( p->pos(), 8 ) ) {
+void spell_effect::entrance( const spell &sp, const tripoint &target )
+{
+    for( const tripoint &dest : g->m.points_in_radius( target, sp.aoe() ) ) {
         monster *const mon = g->critter_at<monster>( dest, true );
         if( mon && mon->friendly == 0 && rng( 0, 600 ) > mon->get_hp() ) {
             mon->make_friendly();
@@ -595,29 +608,30 @@ void spell_effect::entrance(const spell &sp, const tripoint &target){
     }
 }
 
-void spell_effect::bugs(const spell &sp, const tripoint &target){
+void spell_effect::bugs( const spell &sp, const Creature &caster, const tripoint &target )
+{
     int roll = rng( 1, 10 );
     mtype_id bug = mtype_id::NULL_ID();
     int num = 0;
     std::vector<tripoint> empty;
-    for( const tripoint &dest : g->m.points_in_radius( p->pos(), 1 ) ) {
+    for( const tripoint &dest : g->m.points_in_radius( target, sp.aoe() ) ) {
         if( g->is_empty( dest ) ) {
             empty.push_back( dest );
         }
     }
     if( empty.empty() || roll <= 4 ) {
-        p->add_msg_if_player( m_warning, _( "Flies buzz around you." ) );
+        caster.add_msg_if_player( m_warning, _( "Flies buzz around you." ) );
     } else if( roll <= 7 ) {
-        p->add_msg_if_player( m_warning, _( "Giant flies appear!" ) );
-        bug = mon_fly;
+        caster.add_msg_if_player( m_warning, _( "Giant flies appear!" ) );
+        bug = mtype_id( "mon_fly" );
         num = rng( 2, 4 );
     } else if( roll <= 9 ) {
-        p->add_msg_if_player( m_warning, _( "Giant bees appear!" ) );
-        bug = mon_bee;
+        caster.add_msg_if_player( m_warning, _( "Giant bees appear!" ) );
+        bug = mtype_id( "mon_bee" );
         num = rng( 1, 3 );
     } else {
-        p->add_msg_if_player( m_warning, _( "Giant wasps appear!" ) );
-        bug = mon_wasp;
+        caster.add_msg_if_player( m_warning, _( "Giant wasps appear!" ) );
+        bug = mtype_id( "mon_wasp" );
         num = rng( 1, 2 );
     }
     if( bug ) {
@@ -625,64 +639,81 @@ void spell_effect::bugs(const spell &sp, const tripoint &target){
             const tripoint spawnp = random_entry_removed( empty );
             if( monster *const b = g->summon_mon( bug, spawnp ) ) {
                 b->friendly = -1;
-                b->add_effect( effect_pet, 1_turns, num_bp, true );
+                b->add_effect( efftype_id( "effect_pet" ), 1_turns, num_bp, true );
             }
         }
     }
 }
 
-void spell_effect::light(const spell &sp, const tripoint &target){
-    p->add_msg_if_player( _( "The %s glows brightly!" ), it->tname() );
+void spell_effect::light( const Creature &caster )
+{
+    caster.add_msg_if_player( _( "The %s glows brightly!" ), "it->tname()" );
     g->events.add( EVENT_ARTIFACT_LIGHT, calendar::turn + 3_minutes );
 }
 
-void spell_effect::growth(const spell &sp, const tripoint &target){
+void spell_effect::growth( const tripoint &target )
+{
     monster tmptriffid( mtype_id::NULL_ID(), target );
     mattack::growplants( &tmptriffid );
 }
 
-void spell_effect::mutate(const spell &sp){
-    if( !one_in( 3 ) )
+void spell_effect::mutate( const Creature &caster )
+{
+    player *p = g->critter_at<player>( caster.pos() );
+    if( !one_in( 3 ) ) {
         p->mutate();
+    }
 }
 
-void spell_effect::teleglow(const spell &sp){
+void spell_effect::teleglow( const Creature &caster )
+{
+    player *p = g->critter_at<player>( caster.pos() );
     p->add_msg_if_player( m_warning, _( "You feel unhinged." ) );
-    p->add_effect( effect_teleglow, rng( 30_minutes, 120_minutes ) );
+    p->add_effect( efftype_id( "effect_teleglow" ), rng( 30_minutes, 120_minutes ) );
 }
 
-void spell_effect::noise(const spell &sp, const tripoint &target){
-    sounds::sound( target, 100, sounds::sound_t::combat,
+void spell_effect::noise( const spell &sp, const Creature &caster, const tripoint &target )
+{
+    sounds::sound( target, sp.damage(), sounds::sound_t::combat,
                    string_format( _( "a deafening boom from %s %s" ),
-                                  p->disp_name( true ), it->tname() ), true, "misc", "shockwave" );
+                                  caster.disp_name( true ), "it->tname()" ), true, "misc", "shockwave" );
 }
 
-void spell_effect::scream(const spell &sp, const tripoint &target){
-    sounds::sound( target, 40, sounds::sound_t::alert,
+void spell_effect::scream( const spell &sp, const Creature &caster, const tripoint &target )
+{
+    player *p = g->critter_at<player>( caster.pos() );
+    sounds::sound( target, sp.damage(), sounds::sound_t::alert,
                    string_format( _( "a disturbing scream from %s %s" ),
-                                  p->disp_name( true ), it->tname() ), true, "shout", "scream" );
-    if( !p->is_deaf() )
+                                  p->disp_name( true ), "it->tname()" ), true, "shout", "scream" );
+    if( !p->is_deaf() ) {
         p->add_morale( MORALE_SCREAM, -10, 0, 30_minutes, 1_minutes );
+    }
 }
 
-void spell_effect::dim(const spell &sp){
-    p->add_msg_if_player( _( "The sky starts to dim." ) );
+void spell_effect::dim( const Creature &caster )
+{
+    caster.add_msg_if_player( _( "The sky starts to dim." ) );
     g->events.add( EVENT_DIM, calendar::turn + 5_minutes );
 }
 
-void spell_effect::flash(const spell &sp, const tripoint &target){
-    p->add_msg_if_player( _( "The %s flashes brightly!" ), it->tname() );
+void spell_effect::flash( const Creature &caster, const tripoint &target )
+{
+    caster.add_msg_if_player( _( "The %s flashes brightly!" ), "it->tname()" );
     explosion_handler::flashbang( target );
 }
 
-void spell_effect::vomit(const spell &sp){
+void spell_effect::vomit( const Creature &caster )
+{
+    player *p = g->critter_at<player>( caster.pos() );
     p->add_msg_if_player( m_bad, _( "A wave of nausea passes through you!" ) );
     p->vomit();
 }
 
-void spell_effect::shadows(const spell &sp, const tripoint &target){
+void spell_effect::shadows( const Creature &caster, const tripoint &target )
+{
     int num_shadows = rng( 4, 8 );
     int num_spawned = 0;
+    const mtype_id mon_shadow( "mon_shadow" );
     for( int j = 0; j < num_shadows; j++ ) {
         int tries = 0;
         tripoint monp = target;
@@ -704,18 +735,22 @@ void spell_effect::shadows(const spell &sp, const tripoint &target){
         }
     }
     if( num_spawned > 1 ) {
-        p->add_msg_if_player( m_warning, _( "Shadows form around you." ) );
+        caster.add_msg_if_player( m_warning, _( "Shadows form around you." ) );
     } else if( num_spawned == 1 ) {
-        p->add_msg_if_player( m_warning, _( "A shadow forms nearby." ) );
+        caster.add_msg_if_player( m_warning, _( "A shadow forms nearby." ) );
     }
 }
 
-void spell_effect::stamina_empty(const spell &sp){
+void spell_effect::stamina_empty( const Creature &caster )
+{
+    player *p = g->critter_at<player>( caster.pos() );
     p->add_msg_if_player( m_bad, _( "Your body feels like jelly." ) );
     p->stamina = p->stamina * 1 / ( rng( 3, 8 ) );
 }
 
-void spell_effect::dim(const spell &sp){
+void spell_effect::fun( const Creature &caster )
+{
+    player *p = g->critter_at<player>( caster.pos() );
     p->add_msg_if_player( m_good, _( "You're filled with euphoria!" ) );
     p->add_morale( MORALE_FEELING_GOOD, rng( 20, 50 ), 0, 5_minutes, 5_turns, false );
 }

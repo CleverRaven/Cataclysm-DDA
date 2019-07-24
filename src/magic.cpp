@@ -964,7 +964,7 @@ bool spell::cast_spell_effect( const Creature &source, const tripoint &target ) 
     } else if( fx == "fire_ball" ) {
         spell_effect::fire_ball( target );
     } else if( fx == "map" ) {
-        spell_effect::map( *this, source, target );
+        spell_effect::map( *this, target );
     } else if( fx == "blood" ) {
         spell_effect::blood( *this, source, target );
     } else if( fx == "fatigue" ) {
@@ -984,7 +984,7 @@ bool spell::cast_spell_effect( const Creature &source, const tripoint &target ) 
     } else if( fx == "teleglow" ) {
         spell_effect::teleglow( source );
     } else if( fx == "noise" ) {
-        spell_effect::noise( *this, target );
+        spell_effect::noise( *this, source, target );
     } else if( fx == "scream" ) {
         spell_effect::scream( *this, source, target );
     } else if( fx == "dim" ) {

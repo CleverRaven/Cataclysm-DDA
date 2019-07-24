@@ -424,7 +424,7 @@ void translocate( const spell &sp, const Creature &caster, const tripoint &targe
 
 void storm( const spell &sp, const tripoint &target );
 void fire_ball( const tripoint &target );
-void map( const spell &sp, const Creature &caster, const tripoint &target );
+void map( const spell &sp, const tripoint &target );
 void blood( const spell &sp, const Creature &caster, const tripoint &target );
 void fatigue( const spell &sp, const Creature &caster, const tripoint &target );
 void pulse( const spell &sp, const tripoint &target );
@@ -434,7 +434,7 @@ void light( const Creature &caster );
 void growth( const tripoint &target );
 void mutate( const Creature &caster );
 void teleglow( const Creature &caster );
-void noise( const spell &sp, const tripoint &target );
+void noise( const spell &sp, const Creature &caster, const tripoint &target );
 void scream( const spell &sp, const Creature &caster, const tripoint &target );
 void dim( const Creature &caster );
 void flash( const Creature &caster, const tripoint &target );
