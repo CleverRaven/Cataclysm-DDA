@@ -3639,7 +3639,7 @@ float game::natural_light_level( const int zlev ) const
 
     // Sunlight/moonlight related stuff
     if( !weather.lightning_active ) {
-        ret = calendar::turn.sunlight();
+        ret = sunlight( calendar::turn );
     } else {
         // Recent lightning strike has lit the area
         ret = DAYLIGHT_LEVEL;

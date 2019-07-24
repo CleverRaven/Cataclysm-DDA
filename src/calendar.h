@@ -176,10 +176,6 @@ class calendar
         /** Increases turn_number by 1. (1 second) */
         void increment();
 
-        // Sunlight and day/night calculations
-        /** Returns the current sunlight or moonlight level through the preceding functions. */
-        float sunlight() const;
-
         /** Current year, with default game start as year 0 */
         int years() const {
             return year;
@@ -682,6 +678,8 @@ bool is_sunset_now( const time_point &p );
 bool is_sunrise_now( const time_point &p );
 /** Returns the current seasonally-adjusted maximum daylight level */
 double current_daylight_level( const time_point &p );
+/** Returns the current sunlight or moonlight level through the preceding functions. */
+float sunlight( const time_point &p );
 
 enum class weekdays : int {
     SUNDAY = 0,
