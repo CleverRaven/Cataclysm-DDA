@@ -5373,7 +5373,7 @@ bool map::add_field( const tripoint &p, const field_type_id type, int intensity,
         return false;
     }
 
-    if( type == fd_null ) {
+    if( !type.id() ) {
         return false;
     }
 
@@ -5439,7 +5439,7 @@ void map::add_splatter( const field_type_id type, const tripoint &where, int int
     if( intensity <= 0 ) {
         return;
     }
-    if( type == fd_blood || type == fd_gibs_flesh ) { // giblets are also good for painting
+    if( type.obj().is_splattering ) {
         if( const optional_vpart_position vp = veh_at( where ) ) {
             vehicle *const veh = &vp->vehicle();
             // Might be -1 if all the vehicle's parts at where are marked for removal
@@ -5455,7 +5455,7 @@ void map::add_splatter( const field_type_id type, const tripoint &where, int int
 
 void map::add_splatter_trail( const field_type_id type, const tripoint &from, const tripoint &to )
 {
-    if( type == fd_null ) {
+    if( !type.id() ) {
         return;
     }
     const auto trail = line_to( from, to );
@@ -5472,7 +5472,7 @@ void map::add_splatter_trail( const field_type_id type, const tripoint &from, co
 
 void map::add_splash( const field_type_id type, const tripoint &center, int radius, int intensity )
 {
-    if( type == fd_null ) {
+    if( !type.id() ) {
         return;
     }
     // TODO: use Bresenham here and take obstacles into account

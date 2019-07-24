@@ -749,7 +749,7 @@ class jmapgen_field : public jmapgen_piece
             , ftype( field_type_id( jsi.get_string( "field" ) ) )
             , intensity( jsi.get_int( "intensity", 1 ) )
             , age( time_duration::from_turns( jsi.get_int( "age", 0 ) ) ) {
-            if( ftype == fd_null ) {
+            if( !ftype.id() ) {
                 set_mapgen_defer( jsi, "field", "invalid field type" );
             }
         }

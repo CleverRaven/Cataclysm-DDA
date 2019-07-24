@@ -86,11 +86,26 @@ void field_type::load( JsonObject &jo, const std::string & )
                   fallback_intensity_level.light_emitted );
         optional( jao, was_loaded, "translucency", intensity_level.translucency,
                   fallback_intensity_level.translucency );
+        optional( jao, was_loaded, "convection_temperature_mod", intensity_level.convection_temperature_mod,
+                  fallback_intensity_level.convection_temperature_mod );
         intensity_levels.emplace_back( intensity_level );
+    }
+    JsonObject jid = jo.get_object( "immunity_data" );
+    JsonArray jidt = jid.get_array( "traits" );
+    while( jidt.has_more() ) {
+        immunity_data_traits.emplace_back( trait_id( jidt.next_string() ) );
+    }
+    JsonArray jidr = jid.get_array( "body_part_env_resistance" );
+    while( jidr.has_more() ) {
+        JsonArray jao = jidr.next_array();
+        immunity_data_body_part_env_resistance.emplace_back( std::make_pair( get_body_part_token(
+                    jao.get_string( 0 ) ), jao.get_int( 1 ) ) );
     }
     optional( jo, was_loaded, "underwater_age_speedup", underwater_age_speedup, 0_turns );
     optional( jo, was_loaded, "decay_amount_factor", decay_amount_factor, 0 );
     optional( jo, was_loaded, "apply_slime_factor", apply_slime_factor, 0 );
+    optional( jo, was_loaded, "gas_absorption_factor", gas_absorption_factor, 0 );
+    optional( jo, was_loaded, "is_splattering", is_splattering, false );
     optional( jo, was_loaded, "dirty_transparency_cache", dirty_transparency_cache, false );
     optional( jo, was_loaded, "has_fire", has_fire, false );
     optional( jo, was_loaded, "has_acid", has_acid, false );

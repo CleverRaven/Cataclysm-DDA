@@ -4252,13 +4252,8 @@ int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
             const field &gasfield = g->m.field_at( pos );
             for( auto &dfield : gasfield ) {
                 const field_entry &entry = dfield.second;
-                const field_type_id fid = entry.get_field_type();
-                if( fid == fd_smoke ) {
-                    it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + 12 );
-                }
-                if( fid == fd_tear_gas || fid == fd_toxic_gas || fid == fd_gas_vent ||
-                    fid == fd_smoke_vent || fid == fd_relax_gas || fid == fd_fungal_haze ) {
-                    it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + 15 );
+                if( entry.get_gas_absorption_factor() > 0 ) {
+                    it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + entry.get_gas_absorption_factor() );
                 }
             }
             if( it->get_var( "gas_absorbed", 0 ) >= 100 ) {
@@ -4516,7 +4511,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player( m_info, _( "You drew blood from the %s..." ), map_it.tname() );
             drew_blood = true;
             auto bloodtype( map_it.get_mtype()->bloodType() );
-            if( bloodtype == fd_acid ) {
+            if( bloodtype.obj().has_acid ) {
                 acid_blood = true;
             } else {
                 blood.set_mtype( map_it.get_mtype() );
