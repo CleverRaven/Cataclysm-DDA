@@ -176,11 +176,6 @@ class calendar
         /** Increases turn_number by 1. (1 second) */
         void increment();
 
-        /** Current year, with default game start as year 0 */
-        int years() const {
-            return year;
-        }
-
         /**
          * Predicate to handle rate-limiting. Returns `true` after every @p event_frequency duration.
          */
