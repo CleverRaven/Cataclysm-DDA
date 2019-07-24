@@ -623,15 +623,15 @@ void spell_effect::bugs( const spell &sp, const Creature &caster, const tripoint
         caster.add_msg_if_player( m_warning, _( "Flies buzz around you." ) );
     } else if( roll <= 7 ) {
         caster.add_msg_if_player( m_warning, _( "Giant flies appear!" ) );
-        bug = mtype_id( "mon_fly" );
+        bug = static_cast<mtype_id>( "mon_fly" );
         num = rng( 2, 4 );
     } else if( roll <= 9 ) {
         caster.add_msg_if_player( m_warning, _( "Giant bees appear!" ) );
-        bug = mtype_id( "mon_bee" );
+        bug = static_cast<mtype_id>( "mon_bee" );
         num = rng( 1, 3 );
     } else {
         caster.add_msg_if_player( m_warning, _( "Giant wasps appear!" ) );
-        bug = mtype_id( "mon_wasp" );
+        bug = static_cast<mtype_id>( "mon_wasp" );
         num = rng( 1, 2 );
     }
     if( bug ) {
@@ -713,7 +713,7 @@ void spell_effect::shadows( const Creature &caster, const tripoint &target )
 {
     int num_shadows = rng( 4, 8 );
     int num_spawned = 0;
-    const mtype_id mon_shadow( "mon_shadow" );
+    mtype_id mon_shadow = static_cast<mtype_id>( "mon_shadow" );
     for( int j = 0; j < num_shadows; j++ ) {
         int tries = 0;
         tripoint monp = target;
