@@ -30,7 +30,7 @@ struct harvest_entry {
     static harvest_entry load( JsonObject &jo, const std::string &src );
 
     std::vector<std::string> flags;
-    std::vector<std::string> faults;
+    std::vector<fault_id> faults;
 };
 
 class harvest_list
