@@ -4,7 +4,7 @@
     "id": "style_biojutsu",
     "name": "Bionic Combatives",
     "description": "A modern combat style for the post-modern human.  Nicknamed \"Biojutsu\", Bionic Combatives combines integrated weaponry, armor and augments into an consolidated fighting discipline.",
-    "initiate": [ "BEGINING BIONIC COMBATIVES PROGRAM. INITIATING COMBAT PROTOCOLS.", "%s starts moving with swift robotic percision." ],
+    "initiate": [ "BEGINNING BIONIC COMBATIVES PROGRAM. INITIATING COMBAT PROTOCOLS.", "%s starts moving with swift robotic precision." ],
     "arm_block_with_bio_armor_arms": true,
     "leg_block_with_bio_armor_legs": true,
     "static_buffs": [
