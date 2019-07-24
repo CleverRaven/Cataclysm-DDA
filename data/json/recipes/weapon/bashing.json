@@ -48,6 +48,19 @@
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
+    "result": "claw_bar",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "100 m",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 6 ], [ "steel_standard", 2 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+  },
+  {
     "result": "iceaxe",
     "type": "recipe",
     "category": "CC_WEAPON",
