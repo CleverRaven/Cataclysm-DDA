@@ -1212,7 +1212,7 @@ class item : public visitable<item>
         /**
          * Callback when contents of the item are affected in any way other than just processing.
          */
-        void on_contents_changed();
+        void on_contents_changed( Character *c = nullptr );
 
         /**
          * Callback immediately **before** an item is damaged

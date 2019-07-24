@@ -129,7 +129,7 @@ bool handle_liquid_from_container( std::list<item>::iterator in_container,
     const int old_charges = in_container->charges;
     handle_liquid( *in_container, &container, radius );
     if( in_container->charges != old_charges ) {
-        container.on_contents_changed();
+        container.on_contents_changed( &g->u );
     }
 
     if( in_container->charges > 0 ) {

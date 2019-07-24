@@ -2112,7 +2112,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
             popup( _( "You can't partially unload liquids from unsealable container." ) );
             return false;
         }
-        src_container.on_contents_changed();
+        src_container.on_contents_changed( &g->u );
     }
     dest_container.fill_with( src_contents, amount );
 

@@ -7114,7 +7114,7 @@ bool player::consume_item( item &target )
         feed_furnace_with( comest ) ) {
 
         if( target.is_container() ) {
-            target.on_contents_changed();
+            target.on_contents_changed( this );
         }
 
         return comest.charges <= 0;
@@ -8538,7 +8538,7 @@ bool player::unload( item &it )
             return consumed;
         } ), it.contents.end() );
         if( changed ) {
-            it.on_contents_changed();
+            it.on_contents_changed( this );
         }
         return true;
     }
@@ -10641,7 +10641,7 @@ bool player::wield_contents( item &container, int pos, bool penalties, int base_
 
     weapon = std::move( *target );
     container.contents.erase( target );
-    container.on_contents_changed();
+    container.on_contents_changed( this );
 
     inv.update_invlet( weapon );
     inv.update_cache_with_item( weapon );

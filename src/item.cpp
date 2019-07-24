@@ -3242,10 +3242,13 @@ void item::on_pickup( Character &p )
     }
 }
 
-void item::on_contents_changed()
+void item::on_contents_changed( Character *c )
 {
     if( is_non_resealable_container() ) {
         convert( type->container->unseals_into );
+    }
+    if( c != nullptr ) {
+        c->reset_encumbrance();
     }
 }
 
@@ -5501,7 +5504,7 @@ bool item::spill_contents( Character &c )
     }
 
     while( !contents.empty() ) {
-        on_contents_changed();
+        on_contents_changed( &c );
         if( contents_made_of( LIQUID ) ) {
             if( !liquid_handler::handle_liquid_from_container( *this, 1 ) ) {
                 return false;
@@ -6632,7 +6635,7 @@ bool item::reload( player &u, item_location loc, int qty )
             return false;
         }
         if( container ) {
-            container->on_contents_changed();
+            container->on_contents_changed( &u );
         }
         fill_with( *ammo, qty );
     } else if( !magazine_integral() ) {
@@ -6960,7 +6963,7 @@ bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
     }
 
     if( quantity != old_quantity ) {
-        on_contents_changed();
+        on_contents_changed( &g->u );
     }
 
     // Now check the item itself
@@ -7175,7 +7178,7 @@ void item::fill_with( item &liquid, int amount )
     }
 
     liquid.mod_charges( -amount );
-    on_contents_changed();
+    on_contents_changed( &g->u );
 }
 
 void item::set_countdown( int num_turns )
@@ -7251,7 +7254,7 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
     }
 
     if( qty != old_qty || !del.empty() ) {
-        on_contents_changed();
+        on_contents_changed( &g->u );
     }
 
     return destroy;
