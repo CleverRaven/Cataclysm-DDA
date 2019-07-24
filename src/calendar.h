@@ -215,8 +215,6 @@ class calendar
         /// @returns relative length of game season to real life season.
         static float season_ratio();
 
-        /** @returns Number of days elapsed in current year */
-        int day_of_year() const;
         /**
          * @returns ratio of actual season length (a world option) to default season length. This
          * should be used to convert JSON values (that assume the default for the season length
