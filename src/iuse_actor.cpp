@@ -4376,6 +4376,22 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                ( it.charges >= thread_needed && has_enough[mat_item] );
     };
 
+    const auto get_compare_color = [&]( const int before, const int after,
+    const bool higher_is_better ) {
+        return before == after ? c_unset : ( ( after > before ) == higher_is_better ? c_light_green :
+                                             c_red );
+    };
+    const auto get_volume_compare_color = [&]( const units::volume before, const units::volume after,
+    const bool higher_is_better ) {
+        return before == after ? c_unset : ( ( after > before ) == higher_is_better ? c_light_green :
+                                             c_red );
+    };
+    const auto format_desc_string = [&]( const std::string label, const int before, const int after,
+    const bool higher_is_better ) {
+        return colorize( string_format( "%s: %d->%d\n", label, before, after ), get_compare_color( before,
+                         after, higher_is_better ) );
+    };
+
     uilist tmenu;
     // TODO: Tell how much thread will we use
     if( it.charges >= thread_needed ) {
@@ -4386,32 +4402,31 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     int index = 0;
     for( auto cm : clothing_mods ) {
-        // TODO: List how much material we have and how much we need
         auto obj = cm.obj();
         item temp_item = modded_copy( mod, obj.flag );
         temp_item.update_clothing_mod_val();
         bool enab = can_add_mod( obj.flag, obj.item_string );
         std::string prompt;
         if( mod.item_tags.count( obj.flag ) == 0 ) {
-            prompt = obj.implement_prompt;
+            prompt = string_format( "%s (%d %s)", obj.implement_prompt, items_needed,
+                                    item::nname( obj.item_string, items_needed ) );
         } else {
             prompt = obj.destroy_prompt;
         }
         std::ostringstream desc;
-        desc << string_format( _( "Bash/Cut: %d/%d->%d/%d" ),
-                               mod.bash_resist(), mod.cut_resist(),
-                               temp_item.bash_resist(), temp_item.cut_resist() ) << "\n";
-        desc << string_format( _( "Acid: %d->%d" ),
-                               mod.acid_resist(), temp_item.acid_resist() ) << "\n";
-        desc << string_format( _( "Fire: %d->%d" ),
-                               mod.fire_resist(), temp_item.fire_resist() ) << "\n";
-        desc << string_format( _( "Warmth: %d->%d" ),
-                               mod.get_warmth(), temp_item.get_warmth() ) << "\n";
-        desc << string_format( _( "Encumbrance: %d->%d" ),
-                               mod.get_encumber( p ), temp_item.get_encumber( p ) ) << "\n";
-        desc << string_format( _( "Storage: %s %s->%s %s" ),
-                               format_volume( mod.get_storage() ), volume_units_abbr(),
-                               format_volume( temp_item.get_storage() ), volume_units_abbr() ) << "\n";
+        desc << format_desc_string( _( "Bash" ), mod.bash_resist(), temp_item.bash_resist(), true );
+        desc << format_desc_string( _( "Cut" ), mod.cut_resist(), temp_item.cut_resist(), true );
+        desc << format_desc_string( _( "Acid" ), mod.acid_resist(), temp_item.acid_resist(), true );
+        desc << format_desc_string( _( "Fire" ), mod.fire_resist(), temp_item.fire_resist(), true );
+        desc << format_desc_string( _( "Warmth" ), mod.get_warmth(), temp_item.get_warmth(), true );
+        desc << format_desc_string( _( "Encumbrance" ), mod.get_encumber( p ), temp_item.get_encumber( p ),
+                                    false );
+        auto before = mod.get_storage();
+        auto after = temp_item.get_storage();
+        desc << colorize( string_format( "%s: %s %s->%s %s\n", _( "Storage" ),
+                                         format_volume( before ), volume_units_abbr(), format_volume( after ),
+                                         volume_units_abbr() ), get_volume_compare_color( before, after, true ) );
+
         tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, string_format( "%s", _( prompt.c_str() ) ),
                              desc.str() );
     }
