@@ -2147,7 +2147,6 @@ int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-
     if( !bionic.get_item()->has_flag( "NO_PACKED" ) ||
         bionic.get_item()->has_flag( "PACKED_FAULTY" ) ) {
         if( !p->query_yn( _( "This CBM is already prepared.  Do you want to re-do it?" ) ) ) {
@@ -8263,7 +8262,6 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
         } else {
             it->set_var( "CYCLETIME", Cycle_time );
         }
-
     } else if( !it->active ) {
         if( p->is_underwater() ) {
             p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
@@ -8298,7 +8296,7 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
         }
     } else {
         int Cycle_time = it->get_var( "CYCLETIME", 0 );
-        add_msg( _( "The cycle will be complete in %s." ),
+        add_msg( _( "The cycle will be completed in %s." ),
                  to_string( time_duration::from_seconds( Cycle_time ) ) );
     }
 

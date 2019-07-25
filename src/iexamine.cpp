@@ -2365,7 +2365,7 @@ void iexamine::autoclave_empty( player &p, const tripoint &examp )
     }
     if( filthy_cbms ) {
         add_msg( m_bad,
-                 _( "Some of those CBMs are filthy, you should wash them first for the sterilisation process to work properly." ) );
+                 _( "Some of those CBMs are filthy, you should wash them first for the sterilization process to work properly." ) );
         return;
     }
     auto reqs = *requirement_id( "autoclave" );

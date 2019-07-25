@@ -1638,20 +1638,20 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
             } else if( it->has_flag( "NO_STERILE" ) ) {
                 return _( "CBM is not sterile." );
             } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
-                return _( "CBM already deployed." );
+                return _( "CBM is already deployed." );
             } else if( pa.has_bionic( bid ) ) {
-                return _( "CBM already installed" );
+                return _( "CBM is already installed." );
             } else if( bid->upgraded_bionic &&
                        !pa.has_bionic( bid->upgraded_bionic ) &&
                        it->is_upgrade() ) {
-                return _( "No base version installed" );
+                return _( "No base version installed." );
             } else if( std::any_of( bid->available_upgrades.begin(),
                                     bid->available_upgrades.end(),
                                     std::bind( &player::has_bionic, &pa,
                                                std::placeholders::_1 ) ) ) {
-                return _( "Superior version installed" );
+                return _( "Superior version installed." );
             } else if( pa.is_npc() && !bid->npc_usable ) {
-                return _( "CBM not compatible with patient" );
+                return _( "CBM is not compatible with patient." );
             } else if( it->price( true ) * 2 > p.cash ) {
                 return format_money( it->price( true ) * 2 );
             }
@@ -1806,7 +1806,7 @@ item_location game_menus::inv::uninstall_bionic( player &p, player &patient )
 }
 
 
-// Menu used by autocalve when sterilizing a bionic
+// Menu used by autoclave when sterilizing a bionic
 class bionic_sterilize_preset : public inventory_selector_preset
 {
     public:
@@ -1846,7 +1846,7 @@ static item_location autoclave_internal( player &u,
 {
     inventory_pick_selector inv_s( u, preset );
     inv_s.set_title( string_format( _( "Sterilization" ) ) );
-    inv_s.set_hint( _( "<color_yellow>Select one CBM to sterilize.</color>" ) );
+    inv_s.set_hint( _( "<color_yellow>Select one CBM to sterilize</color>" ) );
     inv_s.set_display_stats( false );
 
     std::pair<size_t, size_t> init_pair;

@@ -2928,7 +2928,7 @@ nc_color item::color_in_inventory() const
     } else if( is_filthy() || item_tags.count( "DIRTY" ) ) {
         ret = c_brown;
     } else if( is_bionic() && !has_flag( "NO_STERILE" ) ) {
-        if( ( !has_flag( "NO_PACKED" ) || has_flag( "PACKED_FAULTY" ) ) ) {
+        if( !has_flag( "NO_PACKED" ) || has_flag( "PACKED_FAULTY" ) ) {
             ret = c_dark_gray;
         } else {
             ret = c_cyan;
