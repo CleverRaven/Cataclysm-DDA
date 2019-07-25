@@ -294,7 +294,7 @@ void weather_generator::test_weather() const
             weather_type c = get_weather_conditions( w );
             weather_datum wd = weather_data( c );
 
-            int year = to_turns<int>( i - calendar::time_of_cataclysm ) / to_turns<int>
+            int year = to_turns<int>( i - calendar::turn_zero ) / to_turns<int>
                        ( calendar::year_length() ) + 1;
             const int hour = hour_of_day<int>( i );
             const int minute = minute_of_hour<int>( i );

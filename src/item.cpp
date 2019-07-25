@@ -186,7 +186,7 @@ inline bool goes_bad_cache_is_set()
 
 const int item::INFINITE_CHARGES = INT_MAX;
 
-item::item() : bday( calendar::start )
+item::item() : bday( calendar::start_of_cataclysm )
 {
     type = nullitem();
 }
@@ -3513,7 +3513,7 @@ std::string item::display_name( unsigned int quantity ) const
     }
 
     // This is a hack to prevent possible crashing when displaying maps as items during character creation
-    if( is_map() && calendar::turn != calendar::time_of_cataclysm ) {
+    if( is_map() && calendar::turn != calendar::turn_zero ) {
         const city *c = overmap_buffer.closest_city( omt_to_sm_copy( get_var( "reveal_map_center_omt",
                         g->u.global_omt_location() ) ) ).city;
         if( c != nullptr ) {
@@ -4241,13 +4241,13 @@ void item::calc_rot( time_point time, int temp )
     }
 
     // bday and/or last_rot_check might be zero, if both are then we want calendar::start
-    const time_point since = std::max( {last_rot_check, time_point( calendar::start )} );
+    const time_point since = std::max( {last_rot_check, time_point( calendar::start_of_cataclysm )} );
 
     // simulation of different age of food at the start of the game and good/bad storage
     // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
     // positive = food was produced some time before calendar::start and/or bad storage
     // negative = food was stored in good conditions before calendar::start
-    if( since <= calendar::start ) {
+    if( since <= calendar::start_of_cataclysm ) {
         time_duration spoil_variation = get_shelf_life() * 0.2f;
         rot += factor * rng( -spoil_variation, spoil_variation );
     }

@@ -17,12 +17,12 @@ const time_duration calendar::INDEFINITELY_LONG_DURATION(
 bool calendar::is_eternal_season = false;
 int calendar::cur_season_length = 1;
 
-calendar calendar::start;
+calendar calendar::start_of_cataclysm;
 calendar calendar::turn;
 season_type calendar::initial_season;
 
 const time_point calendar::before_time_starts = time_point::from_turn( -1 );
-const time_point calendar::time_of_cataclysm = time_point::from_turn( 0 );
+const time_point calendar::turn_zero = time_point::from_turn( 0 );
 
 // Internal constants, not part of the calendar interface.
 // Times for sunrise, sunset at equinoxes
@@ -152,7 +152,7 @@ moon_phase get_moon_phase( const time_point &p )
     //One full phase every 2 rl months = 2/3 season length
     const time_duration moon_phase_duration = calendar::season_length() * 2.0 / 3.0;
     //Switch moon phase at noon so it stays the same all night
-    const time_duration current_day = ( p - calendar::time_of_cataclysm ) + 1_days / 2;
+    const time_duration current_day = ( p - calendar::turn_zero ) + 1_days / 2;
     const double phase_change = current_day / moon_phase_duration;
     const int current_phase = static_cast<int>( round( phase_change * MOON_PHASE_MAX ) ) %
                               static_cast<int>( MOON_PHASE_MAX );
@@ -525,7 +525,7 @@ weekdays day_of_week( const time_point &p )
      * <wito> kevingranade: add four for thursday. ;)
      * <kevingranade> sounds like consensus to me
      * <kevingranade> Thursday it is */
-    const int day_since_cataclysm = to_days<int>( p - calendar::time_of_cataclysm );
+    const int day_since_cataclysm = to_days<int>( p - calendar::turn_zero );
     static const weekdays start_day = weekdays::THURSDAY;
     const int result = day_since_cataclysm + static_cast<int>( start_day );
     return static_cast<weekdays>( result % 7 );
@@ -669,7 +669,7 @@ season_type season_of_year( const time_point &p )
 
 std::string to_string( const time_point &p )
 {
-    const int year = to_turns<int>( p - calendar::time_of_cataclysm ) / to_turns<int>
+    const int year = to_turns<int>( p - calendar::turn_zero ) / to_turns<int>
                      ( calendar::year_length() ) + 1;
     const std::string time = to_string_time_of_day( p );
     if( calendar::eternal_season() ) {

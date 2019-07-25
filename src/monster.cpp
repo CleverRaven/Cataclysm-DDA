@@ -330,7 +330,7 @@ void monster::try_upgrade( bool pin_time )
         return;
     }
 
-    const int current_day = to_days<int>( calendar::turn - time_point( calendar::start ) );
+    const int current_day = to_days<int>( calendar::turn - time_point( calendar::start_of_cataclysm ) );
     //This should only occur when a monster is created or upgraded to a new form
     if( upgrade_time < 0 ) {
         upgrade_time = next_upgrade_time();
@@ -342,7 +342,7 @@ void monster::try_upgrade( bool pin_time )
             upgrade_time += current_day;
         } else {
             // offset by starting season
-            upgrade_time += calendar::start;
+            upgrade_time += calendar::start_of_cataclysm;
         }
     }
 
@@ -384,7 +384,7 @@ void monster::try_reproduce()
         return;
     }
 
-    const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
+    const int current_day = to_days<int>( calendar::turn - calendar::turn_zero );
     if( baby_timer < 0 ) {
         baby_timer = type->baby_timer;
         if( baby_timer < 0 ) {
@@ -447,7 +447,7 @@ void monster::try_biosignature()
         return;
     }
 
-    const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
+    const int current_day = to_days<int>( calendar::turn - calendar::turn_zero );
     if( biosig_timer < 0 ) {
         biosig_timer = type->biosig_timer;
         if( biosig_timer < 0 ) {
@@ -2147,7 +2147,7 @@ void monster::drop_items_on_death()
     if( type->death_drops.empty() ) {
         return;
     }
-    const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(), calendar::start );
+    const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(), calendar::start_of_cataclysm );
 
     if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
         for( const auto &it : dropped ) {

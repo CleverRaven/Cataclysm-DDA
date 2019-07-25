@@ -248,7 +248,7 @@ class calendar
         /** Returns the translated name of the season (with first letter being uppercase). */
         static const std::string name_season( season_type s );
 
-        static   calendar start;
+        static   calendar start_of_cataclysm;
         static   calendar turn;
         static season_type initial_season;
 
@@ -263,7 +263,7 @@ class calendar
          * Represents time point 0.
          */
         // TODO: flesh out the documentation
-        static const time_point time_of_cataclysm;
+        static const time_point turn_zero;
 };
 
 template<typename T>
@@ -646,31 +646,31 @@ time_point inline &operator-=( time_point &lhs, const time_duration &rhs )
 
 inline time_duration time_past_midnight( const time_point &p )
 {
-    return ( p - calendar::time_of_cataclysm ) % 1_days;
+    return ( p - calendar::turn_zero ) % 1_days;
 }
 
 inline time_duration time_past_new_year( const time_point &p )
 {
-    return ( p - calendar::time_of_cataclysm ) % calendar::year_length();
+    return ( p - calendar::turn_zero ) % calendar::year_length();
 }
 
 template<typename T>
 inline T minute_of_hour( const time_point &p )
 {
-    return to_minutes<T>( ( p - calendar::time_of_cataclysm ) % 1_hours );
+    return to_minutes<T>( ( p - calendar::turn_zero ) % 1_hours );
 }
 
 template<typename T>
 inline T hour_of_day( const time_point &p )
 {
-    return to_hours<T>( ( p - calendar::time_of_cataclysm ) % 1_days );
+    return to_hours<T>( ( p - calendar::turn_zero ) % 1_days );
 }
 
 /// This uses the current season length.
 template<typename T>
 inline T day_of_season( const time_point &p )
 {
-    return to_days<T>( ( p - calendar::time_of_cataclysm ) % calendar::season_length() );
+    return to_days<T>( ( p - calendar::turn_zero ) % calendar::season_length() );
 }
 
 /// @returns The season of the of the given time point. Returns the same season for
