@@ -2864,20 +2864,27 @@ void activity_handlers::wait_npc_finish( player_activity *act, player *p )
 
 void activity_handlers::wait_stamina_do_turn( player_activity *act, player *p )
 {
-    if( p->stamina == p->get_stamina_max() ) {
+    int stamina_threshold = p->get_stamina_max();
+    if( !act->values.empty() ) {
+        stamina_threshold = act->values.front();
+    }
+    if( p->stamina >= stamina_threshold ) {
         wait_stamina_finish( act, p );
     }
 }
 
 void activity_handlers::wait_stamina_finish( player_activity *act, player *p )
 {
-    // in case it takes longer then expected
-    if( p->stamina != p->get_stamina_max() ) {
+    if( !act->values.empty() ) {
+        if( p->stamina < act->values.front() ) {
+            debugmsg( "Failed to wait until stamina threshold %d reached, only at %d. You may not be regaining stamina.",
+                      act->values.front(), p->stamina );
+        }
+    } else if( p->stamina < p->get_stamina_max() ) {
         p->add_msg_if_player( _( "You are bored of waiting, so you stop." ) );
-        act->set_to_null();
-        return;
+    } else {
+        p->add_msg_if_player( _( "You finish waiting and feel refreshed." ) );
     }
-    p->add_msg_if_player( _( "You finish waiting and feel refreshed." ) );
     act->set_to_null();
 }
 
