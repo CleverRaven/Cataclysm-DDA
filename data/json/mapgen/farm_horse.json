@@ -154,7 +154,7 @@
         { "monster": "mon_horse", "x": [ 66, 68 ], "y": [ 35, 37 ], "chance": 30 },
         { "monster": "mon_horse", "x": [ 66, 68 ], "y": [ 39, 41 ], "chance": 30 }
       ],
-      "place_vehicles": [ { "vehicle": "uncovered_wagon", "x": 78, "y": 20, "rotation": 180, "chance": 100, "status": 0 } ]
+      "place_vehicles": [ { "vehicle": "uncovered_wagon", "x": 78, "y": 20, "rotation": 180, "chance": 30, "status": 0 } ]
     }
   },
   {
