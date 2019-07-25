@@ -119,7 +119,9 @@
         "8": { "item": "homebooks", "chance": 30 },
         "r": { "item": "restaur_kitchen", "chance": 30 },
         "c": { "item": "kitchen_counters", "chance": 30 },
-        "D": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] }
+        "D": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
+        "7": { "item": "horse_gear", "chance": 30 },
+        "^": { "item": "horse_gear", "chance": 30 }
       },
       "place_loot": [
         { "item": "television", "x": 17, "y": 88, "chance": 100 },
@@ -151,7 +153,8 @@
         { "monster": "mon_horse", "x": [ 66, 68 ], "y": [ 31, 33 ], "chance": 30 },
         { "monster": "mon_horse", "x": [ 66, 68 ], "y": [ 35, 37 ], "chance": 30 },
         { "monster": "mon_horse", "x": [ 66, 68 ], "y": [ 39, 41 ], "chance": 30 }
-      ]
+      ],
+      "place_vehicles": [ { "vehicle": "uncovered_wagon", "x": 78, "y": 20, "rotation": 180, "chance": 100, "status": 0 } ]
     }
   },
   {
