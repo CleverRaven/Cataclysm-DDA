@@ -9,6 +9,7 @@
 #include <memory>
 #include <string>
 
+#include "bodypart.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
@@ -19,6 +20,7 @@
 class JsonObject;
 
 enum phase_id : int;
+enum body_part : int;
 
 struct field_intensity_level {
     std::string name;
@@ -27,6 +29,9 @@ struct field_intensity_level {
     bool dangerous = false;
     bool transparent = true;
     int move_cost = 0;
+    float light_emitted = 0.0f;
+    float translucency = 0.0f;
+    int convection_temperature_mod = 0.0f;
 };
 
 struct field_type {
@@ -45,6 +50,18 @@ struct field_type {
         std::vector<field_intensity_level> intensity_levels;
 
         time_duration underwater_age_speedup = 0_turns;
+        int decay_amount_factor = 0;
+        int apply_slime_factor = 0;
+        int gas_absorption_factor = 0;
+        bool is_splattering = false;
+        bool dirty_transparency_cache = false;
+        bool has_fire = false;
+        bool has_acid = false;
+        bool has_elec = false;
+        bool has_fume = false;
+
+        std::vector<trait_id> immunity_data_traits;
+        std::vector<std::pair<body_part, int>> immunity_data_body_part_env_resistance;
 
         int priority = 0;
         time_duration half_life = 0_turns;
@@ -74,6 +91,15 @@ struct field_type {
         }
         int get_move_cost( int level = 0 ) const {
             return intensity_levels[level].move_cost;
+        }
+        float get_light_emitted( int level = 0 ) const {
+            return intensity_levels[level].light_emitted;
+        }
+        float get_translucency( int level = 0 ) const {
+            return intensity_levels[level].translucency;
+        }
+        int get_convection_temperature_mod( int level = 0 ) const {
+            return intensity_levels[level].convection_temperature_mod;
         }
 
         bool is_dangerous() const {

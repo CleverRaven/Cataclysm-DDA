@@ -4430,8 +4430,8 @@ static void smoker_activate( player &p, const tripoint &examp )
                      false ) );
             add_msg( _( "You remove %s from the rack." ), it.tname() );
             g->m.add_item_or_charges( p.pos(), it );
-            g->m.i_rem( examp, &it );
             p.mod_moves( -p.item_handling_cost( it ) );
+            g->m.i_rem( examp, &it );
             return;
         }
         if( it.has_flag( "SMOKED" ) && it.has_flag( "SMOKABLE" ) ) {
@@ -5245,7 +5245,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
     amenu.addentry( start_long_craft, true,            '3', _( "Craft as long as possible" ) );
     amenu.addentry( work_on_craft,    !crafts.empty(), '4', _( "Work on craft" ) );
     if( !part ) {
-        amenu.addentry( get_items,    items_at_loc,    '5', _( "Get items" ) );
+        amenu.addentry( get_items,    items_at_loc,    'g', _( "Get items" ) );
     }
 
     amenu.query();

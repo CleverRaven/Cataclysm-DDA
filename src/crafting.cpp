@@ -1308,6 +1308,7 @@ bool player::can_continue_craft( item &craft )
         }
 
         craft.set_cached_tool_selections( new_tool_selections );
+        craft.set_tools_to_continue( true );
     }
 
     return true;

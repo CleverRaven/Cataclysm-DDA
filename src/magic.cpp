@@ -375,32 +375,43 @@ int spell::field_intensity() const
 
 int spell::damage() const
 {
-    if( type->min_damage >= 0 ) {
-        return std::min( static_cast<int>( type->min_damage + round( get_level() *
-                                           type->damage_increment ) ), type->max_damage );
+    const int leveled_damage = type->min_damage + round( get_level() * type->damage_increment );
+    if( type->min_damage >= 0 || type->max_damage >= type->min_damage ) {
+        return std::min( leveled_damage, type->max_damage );
     } else { // if it's negative, min and max work differently
-        return std::max( static_cast<int>( type->min_damage + round( get_level() *
-                                           type->damage_increment ) ), type->max_damage );
+        return std::max( leveled_damage, type->max_damage );
     }
 }
 
 int spell::aoe() const
 {
-    return std::min( static_cast<int>( type->min_aoe + round( get_level() * type->aoe_increment ) ),
-                     type->max_aoe );
+    const int leveled_aoe = type->min_aoe + round( get_level() * type->aoe_increment );
+    if( type->max_aoe >= type->min_aoe ) {
+        return std::min( leveled_aoe, type->max_aoe );
+    } else {
+        return std::max( leveled_aoe, type->max_aoe );
+    }
 }
 
 int spell::range() const
 {
-    return std::min( static_cast<int>( type->min_range + round( get_level() * type->range_increment ) ),
-                     type->max_range );
+    const int leveled_range = type->min_range + round( get_level() * type->range_increment );
+    if( type->max_range >= type->min_range ) {
+        return std::min( leveled_range, type->max_range );
+    } else {
+        return std::max( leveled_range, type->max_range );
+    }
 }
 
 int spell::duration() const
 {
-    return std::min( static_cast<int>( type->min_duration + round( get_level() *
-                                       type->duration_increment ) ),
-                     type->max_duration );
+    const int leveled_duration = type->min_duration + round( get_level() *
+                                 type->duration_increment );
+    if( type->max_duration >= type->min_duration ) {
+        return std::min( leveled_duration, type->max_duration );
+    } else {
+        return std::max( leveled_duration, type->max_duration );
+    }
 }
 
 time_duration spell::duration_turns() const
@@ -1510,7 +1521,7 @@ void known_magic::on_mutation_gain( const trait_id &mid, player &p )
     for( const std::pair<spell_id, int> &sp : mid->spells_learned ) {
         learn_spell( sp.first, p, true );
         spell &temp_sp = get_spell( sp.first );
-        for( int level = 0; level <= sp.second; level++ ) {
+        for( int level = 0; level < sp.second; level++ ) {
             temp_sp.gain_level();
         }
     }

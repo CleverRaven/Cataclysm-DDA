@@ -27,6 +27,11 @@ class field_entry
         //returns the move cost of this field
         int move_cost() const;
 
+        float light_emitted() const;
+        float translucency() const;
+        bool is_transparent() const;
+        int convection_temperature_mod() const;
+
         //Returns the field_type_id of the current field entry.
         field_type_id get_field_type() const;
 
@@ -71,6 +76,10 @@ class field_entry
 
         time_duration get_underwater_age_speedup() const {
             return type.obj().underwater_age_speedup;
+        }
+
+        int get_gas_absorption_factor() const {
+            return type.obj().gas_absorption_factor;
         }
 
         bool decays_on_actualize() const {

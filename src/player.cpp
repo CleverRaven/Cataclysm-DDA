@@ -6611,9 +6611,9 @@ void player::process_active_items()
     for( size_t index = 0; index < inv.size(); index++ ) {
         item &it = inv.find_item( index );
         itype_id identifier = it.type->get_id();
-        if( identifier == "UPS_off" && it.charges > 0 ) {
+        if( identifier == "UPS_off" ) {
             ch_UPS += it.ammo_remaining();
-        } else if( identifier == "adv_UPS_off" && it.charges > 0 ) {
+        } else if( identifier == "adv_UPS_off" ) {
             ch_UPS += it.ammo_remaining() / 0.6;
         }
         if( !it.has_flag( "USE_UPS" ) && it.charges < it.type->maximum_charges() ) {

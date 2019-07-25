@@ -784,7 +784,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
         // BIONIC handling - no code for DISSECT to let the bionic drop fall through
         if( entry.type == "bionic" || entry.type == "bionic_group" ) {
             if( action == F_DRESS ) {
-                if( entry.drop == "pheromone" ) {
+                if( drop != nullptr && !drop->bionic ) {
                     if( one_in( 3 ) ) {
                         p.add_msg_if_player( m_bad,
                                              _( "You notice some strange organs, perhaps harvestable via careful dissection." ) );
@@ -796,7 +796,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 continue;
             }
             if( action == BUTCHER || action == BUTCHER_FULL || action == DISMEMBER ) {
-                if( entry.drop == "pheromone" ) {
+                if( drop != nullptr && !drop->bionic ) {
                     if( one_in( 3 ) ) {
                         p.add_msg_if_player( m_bad,
                                              _( "Your butchering tool destroys a strange organ.  Perhaps a more surgical approach would allow harvesting it." ) );
@@ -942,7 +942,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                     obj.set_rot( corpse_item->get_rot() );
                 }
                 liquid_handler::handle_all_liquid( obj, 1 );
-            } else if( drop->stackable ) {
+            } else if( drop->count_by_charges() ) {
                 item obj( drop, calendar::turn, roll );
                 if( obj.has_temperature() ) {
                     obj.set_item_temperature( 0.00001 * corpse_item->temperature );
@@ -952,7 +952,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 }
                 g->m.add_item_or_charges( p.pos(), obj );
             } else {
-                item obj( drop, calendar::turn, roll );
+                item obj( drop, calendar::turn );
                 obj.set_mtype( &mt );
                 if( obj.has_temperature() ) {
                     obj.set_item_temperature( 0.00001 * corpse_item->temperature );
@@ -1755,7 +1755,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
         const mtype *corpse_mtype = corpse.get_mtype();
         if( !corpse.is_corpse() || !corpse_mtype->has_flag( MF_REVIVES ) ||
             ( std::find( act->str_values.begin(), act->str_values.end(), "auto_pulp_no_acid" ) !=
-              act->str_values.end() && corpse_mtype->bloodType() == fd_acid ) ) {
+              act->str_values.end() && corpse_mtype->bloodType().obj().has_acid ) ) {
             // Don't smash non-rezing corpses //don't smash acid zombies when auto pulping
             continue;
         }

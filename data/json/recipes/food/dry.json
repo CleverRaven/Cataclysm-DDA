@@ -419,7 +419,7 @@
     "batch_time_factors": [ 83, 3 ],
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 25, "LIST" ], [ "mortar_pestle", -1 ] ] ],
+    "tools": [ [ [ "mortar_pestle", -1 ] ], [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "dry_meat", 1 ], [ "dry_fish", 1 ] ] ]
   },
   {

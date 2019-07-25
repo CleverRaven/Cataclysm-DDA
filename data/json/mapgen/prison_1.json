@@ -576,7 +576,7 @@
   {
     "id": "prison_canine_food",
     "type": "item_group",
-    "items": [ [ "dogfood", 100 ] ]
+    "items": [ [ "dogfood_canned", 100 ] ]
   },
   {
     "id": "prison_canine_bowl",
