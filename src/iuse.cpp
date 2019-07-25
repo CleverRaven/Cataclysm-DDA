@@ -8260,7 +8260,6 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
                 g->m.add_item( pos, *clean_cbm );
                 it->remove_item( *clean_cbm );
             }
-
         } else {
             it->set_var( "CYCLETIME", Cycle_time );
         }
