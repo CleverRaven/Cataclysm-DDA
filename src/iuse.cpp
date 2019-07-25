@@ -9097,11 +9097,6 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
         return 0;
     }
 
-    if( p->fine_detail_vision_mod() > 4 ) {
-        p->add_msg_if_player( _( "You can't see to do that!" ) );
-        return 0;
-    }
-
     wash_items( p, false );
     return 0;
 }
@@ -9117,11 +9112,6 @@ int iuse::washcbms( player *p, item *, bool, const tripoint & )
     // TODO: find a better solution.
     if( p->volume_capacity() < p->volume_carried() ) {
         p->add_msg_if_player( _( "You're carrying too much to clean anything." ) );
-        return 0;
-    }
-
-    if( p->fine_detail_vision_mod() > 4 ) {
-        p->add_msg_if_player( _( "You can't see to do that!" ) );
         return 0;
     }
 
