@@ -8393,8 +8393,13 @@ tripoint_range map::points_in_radius( const tripoint &center, size_t radius, siz
     return tripoint_range( tripoint( minx, miny, minz ), tripoint( maxx, maxy, maxz ) );
 }
 
+std::list<item_location> map::get_active_items_in_radius( const tripoint &center, int radius ) const
+{
+    return get_active_items_in_radius( center, radius, special_item_type::none );
+}
+
 std::list<item_location> map::get_active_items_in_radius( const tripoint &center, int radius,
-        std::string type ) const
+        special_item_type type ) const
 {
     std::list<item_location> result;
 
@@ -8415,7 +8420,7 @@ std::list<item_location> map::get_active_items_in_radius( const tripoint &center
         const point sm_offset( submap_loc.x * SEEX, submap_loc.y * SEEY );
 
         submap *sm = get_submap_at_grid( submap_loc );
-        std::vector<item_reference> items = type.empty() ? sm->active_items.get() :
+        std::vector<item_reference> items = type == special_item_type::none ? sm->active_items.get() :
                                             sm->active_items.get_special( type );
         for( const auto &elem : items ) {
             const tripoint pos( sm_offset + elem.location, submap_loc.z );

@@ -64,6 +64,7 @@ class zone_data;
 struct trap;
 
 enum direction : unsigned;
+enum class special_item_type : char;
 using itype_id = std::string;
 template<typename T>
 class visitable;
@@ -1707,8 +1708,9 @@ class map
         tripoint_range points_in_rectangle( const tripoint &from, const tripoint &to ) const;
         tripoint_range points_in_radius( const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
 
+        std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius ) const;
         std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius,
-                std::string type = "" ) const;
+                special_item_type type ) const;
 
         /**returns positions of furnitures matching target in the specified radius*/
         std::list<tripoint> find_furnitures_in_radius( const tripoint &center, size_t radius,
