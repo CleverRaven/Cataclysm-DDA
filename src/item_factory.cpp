@@ -43,8 +43,11 @@
 #include "recipe.h"
 #include "string_id.h"
 #include "units.h"
+#include "cata_utility.h"
+#include "flat_set.h"
 
 class player;
+struct tripoint;
 
 using t_string_set = std::set<std::string>;
 static t_string_set item_blacklist;
@@ -124,7 +127,7 @@ static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
 void Item_factory::finalize_pre( itype &obj )
 {
     // TODO: separate repairing from reinforcing/enhancement
-    if( obj.damage_max == obj.damage_min ) {
+    if( obj.damage_max() == obj.damage_min() ) {
         obj.item_tags.insert( "NO_REPAIR" );
     }
 
@@ -191,7 +194,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
     // for ammo and comestibles stack size defaults to count of initial charges
     // Set max stack size to 200 to prevent integer overflow
-    if( obj.stackable ) {
+    if( obj.count_by_charges() ) {
         if( obj.stack_size == 0 ) {
             obj.stack_size = obj.charges_default();
         } else if( obj.stack_size > 200 ) {
@@ -664,6 +667,8 @@ void Item_factory::init()
                                 "present</info>."
                               ) );
     add_iuse( "GEIGER", &iuse::geiger );
+    add_iuse( "GOBAG_NORMAL", &iuse::gobag_normal );
+    add_iuse( "GOBAG_PERSONAL", &iuse::gobag_personal );
     add_iuse( "GRANADE", &iuse::granade );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
     add_iuse( "GRENADE_INC_ACT", &iuse::grenade_inc_act );
@@ -801,6 +806,7 @@ void Item_factory::init()
     add_actor( new deploy_tent_actor() );
     add_actor( new learn_spell_actor() );
     add_actor( new cast_spell_actor() );
+    add_actor( new weigh_self_actor() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups["EMPTY_GROUP"].reset( new Item_group( Item_group::G_COLLECTION, 100, 0, 0 ) );
@@ -843,10 +849,15 @@ void Item_factory::check_definitions() const
         if( type->volume < 0_ml ) {
             msg << "negative volume" << "\n";
         }
+        if( type->count_by_charges() || type->phase == LIQUID ) {
+            if( type->stack_size <= 0 ) {
+                msg << "invalid stack_size " << type->stack_size << " on type using charges\n";
+            }
+        }
         if( type->price < 0 ) {
             msg << "negative price" << "\n";
         }
-        if( type->damage_min > 0 || type->damage_max < 0 || type->damage_min > type->damage_max ) {
+        if( type->damage_min() > 0 || type->damage_max() < 0 || type->damage_min() > type->damage_max() ) {
             msg << "invalid damage range" << "\n";
         }
         if( type->description.empty() ) {
@@ -960,6 +971,11 @@ void Item_factory::check_definitions() const
             }
             if( type->ammo->drop != "null" && !has_template( type->ammo->drop ) ) {
                 msg << string_format( "invalid drop item %s", type->ammo->drop.c_str() ) << "\n";
+            }
+        }
+        if( type->battery ) {
+            if( type->battery->max_capacity < 0_mJ ) {
+                msg << "battery cannot have negative maximum charge\n";
             }
         }
         if( type->gun ) {
@@ -1254,16 +1270,6 @@ bool Item_factory::load_definition( JsonObject &jo, const std::string &src, ityp
     if( !jo.has_string( "copy-from" ) ) {
         // if this is a new definition ensure we start with a clean itype
         def = itype();
-
-        // adjust type specific defaults
-        auto opt = jo.get_string( "type" );
-
-        // ammo and comestibles by default lack differing damage levels and are always stackable
-        if( opt == "AMMO" || opt == "COMESTIBLE" ) {
-            def.damage_min = 0;
-            def.damage_max = 0;
-            def.stackable = true;
-        }
         return true;
     }
 
@@ -1626,7 +1632,8 @@ void Item_factory::load( islot_book &slot, JsonObject &jo, const std::string &sr
     if( jo.has_int( "time" ) ) {
         slot.time = jo.get_int( "time" );
     } else if( jo.has_string( "time" ) ) {
-        slot.time = to_minutes<int>( time_duration::read_from_json_string( *jo.get_raw( "time" ) ) );
+        slot.time = to_minutes<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
+                                     time_duration::units ) );
     }
     assign( jo, "skill", slot.skill, strict );
     assign( jo, "martial_art", slot.martial_art, strict );
@@ -1813,7 +1820,8 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     if( jo.has_int( "time" ) ) {
         slot.install_time = jo.get_int( "time" );
     } else if( jo.has_string( "time" ) ) {
-        slot.install_time = to_moves<int>( time_duration::read_from_json_string( *jo.get_raw( "time" ) ) );
+        slot.install_time = to_moves<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
+                                           time_duration::units ) );
     }
 
     if( jo.has_member( "mod_targets" ) ) {
@@ -1871,6 +1879,21 @@ void Item_factory::load_magazine( JsonObject &jo, const std::string &src )
     itype def;
     if( load_definition( jo, src, def ) ) {
         load_slot( def.magazine, jo, src );
+        load_basic_info( jo, def, src );
+    }
+}
+
+void Item_factory::load( islot_battery &slot, JsonObject &jo, const std::string & )
+{
+    slot.max_capacity = read_from_json_string<units::energy>( *jo.get_raw( "max_capacity" ),
+                        units::energy_units );
+}
+
+void Item_factory::load_battery( JsonObject &jo, const std::string &src )
+{
+    itype def;
+    if( load_definition( jo, src, def ) ) {
+        load_slot( def.battery, jo, src );
         load_basic_info( jo, def, src );
     }
 }
@@ -2003,7 +2026,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     assign( jo, "volume", def.volume );
     assign( jo, "price", def.price );
     assign( jo, "price_postapoc", def.price_post );
-    assign( jo, "stackable", def.stackable, strict );
+    assign( jo, "stackable", def.stackable_, strict );
     assign( jo, "integral_volume", def.integral_volume );
     assign( jo, "bashing", def.melee[DT_BASH], strict, 0 );
     assign( jo, "cutting", def.melee[DT_CUT], strict, 0 );
@@ -2030,8 +2053,8 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
 
     if( jo.has_member( "damage_states" ) ) {
         auto arr = jo.get_array( "damage_states" );
-        def.damage_min = arr.get_int( 0 ) * itype::damage_scale;
-        def.damage_max = arr.get_int( 1 ) * itype::damage_scale;
+        def.damage_min_ = arr.get_int( 0 ) * itype::damage_scale;
+        def.damage_max_ = arr.get_int( 1 ) * itype::damage_scale;
     }
 
     def.name = jo.get_string( "name" );
@@ -2694,8 +2717,8 @@ const std::string calc_category( const itype &obj )
 std::vector<Group_tag> Item_factory::get_all_group_names()
 {
     std::vector<std::string> rval;
-    for( GroupMap::iterator it = m_template_groups.begin(); it != m_template_groups.end(); it++ ) {
-        rval.push_back( it->first );
+    for( GroupMap::value_type &group_pair : m_template_groups ) {
+        rval.push_back( group_pair.first );
     }
     return rval;
 }

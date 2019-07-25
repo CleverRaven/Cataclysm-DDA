@@ -2,6 +2,9 @@
 
 #include "sdl_utils.h"
 
+#include <stddef.h>
+#include <array>
+
 #include "color.h"
 #include "color_loader.h"
 #include "cursesport.h"

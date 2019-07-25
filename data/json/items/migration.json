@@ -586,5 +586,15 @@
     "id": "10mm",
     "type": "MIGRATION",
     "replace": "10mm_fmj"
+  },
+  {
+    "id": "270",
+    "type": "MIGRATION",
+    "replace": "270win_jsp"
+  },
+  {
+    "id": "reloaded_270",
+    "type": "MIGRATION",
+    "replace": "reloaded_270win_jsp"
   }
 ]

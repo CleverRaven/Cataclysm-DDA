@@ -2,7 +2,7 @@
 #ifndef COORDINATE_CONVERSIONS_H
 #define COORDINATE_CONVERSIONS_H
 
-#include "enums.h"
+#include "point.h"
 
 /**
  * Coordinate systems used here are:

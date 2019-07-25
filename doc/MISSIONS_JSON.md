@@ -112,19 +112,20 @@ necessary) a particular overmap terrain and designating it as the mission target
 allow control over how it is picked and how some effects (such as revealing the surrounding area)
 are applied afterwards. The `om_terrain` is the only required field.
 
- Identifier          | Description
----                  | ---
-`om_terrain`         | ID of overmap terrain which will be selected as the target. Mandatory.
-`om_special`         | ID of overmap special containing the overmap terrain.
-`om_terrain_replace` | ID of overmap terrain to be found and replaced if `om_terrain` cannot be found.
-`reveal_radius`      | Radius in overmap terrain coordinates to reveal.
-`must_see`           | If true, the `om_terrain` must have been seen already.
-`cant_see`           | If true, the `om_terrain` must not have been seen already.
-`random`             | If true, a random matching `om_terrain` is used. If false, the closest is used.
-`search_range`       | Range in overmap terrain coordinates to look for a matching `om_terrain`.
-`min_distance`       | Range in overmap terrain coordinates.  Instances of `om_terrain` in this range will be ignored.
-`origin_npc`         | Start the search at the NPC's, rather than the player's, current position.
-`z`                  | If specified, will be used rather than the player or NPC's z when searching.
+ Identifier            | Description
+---                    | ---
+`om_terrain`           | ID of overmap terrain which will be selected as the target. Mandatory.
+`om_terrain_match_type`| Matching rule to use with `om_terrain`. Defaults to TYPE. Details below.
+`om_special`           | ID of overmap special containing the overmap terrain.
+`om_terrain_replace`   | ID of overmap terrain to be found and replaced if `om_terrain` cannot be found.
+`reveal_radius`        | Radius in overmap terrain coordinates to reveal.
+`must_see`             | If true, the `om_terrain` must have been seen already.
+`cant_see`             | If true, the `om_terrain` must not have been seen already.
+`random`               | If true, a random matching `om_terrain` is used. If false, the closest is used.
+`search_range`         | Range in overmap terrain coordinates to look for a matching `om_terrain`.
+`min_distance`         | Range in overmap terrain coordinates.  Instances of `om_terrain` in this range will be ignored.
+`origin_npc`           | Start the search at the NPC's, rather than the player's, current position.
+`z`                    | If specified, will be used rather than the player or NPC's z when searching.
 `offset_x`,<br\>`offset_y`,<br\>`offset_z` | After finding or creating `om_terrain`, offset the mission target terrain by the offsets in overmap terrain coordinates.
 
 **example**
@@ -144,6 +145,24 @@ are applied afterwards. The `om_terrain` is the only required field.
 
 If the `om_terrain` is part of an overmap special, it's essential to specify the `om_special`
 value as well--otherwise, the game will not know how to spawn the entire special.
+
+`om_terrain_match_type` defaults to TYPE if unspecified, and has the following possible values:
+
+* `EXACT` - The provided string must completely match the overmap terrain id,
+  including linear direction suffixes for linear terrain types or rotation
+  suffixes for rotated terrain types.
+
+* `TYPE` - The provided string must completely match the base type id of the
+  overmap terrain id, which means that suffixes for rotation and linear terrain
+  types are ignored.
+    
+* `PREFIX` - The provided string must be a complete prefix (with additional
+  parts delimited by an underscore) of the overmap terrain id. For example,
+  "forest" will match "forest" or "forest_thick" but not "forestcabin".
+
+* `CONTAINS` - The provided string must be contained within the overmap terrain
+  id, but may occur at the beginning, end, or middle and does not have any rules
+  about underscore delimiting.
 
 If an `om_special` must be placed, it will follow the same placement rules as defined in its
 overmap special definition, respecting allowed terrains, distance from cities, road connections,

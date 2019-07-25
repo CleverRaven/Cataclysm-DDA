@@ -8,18 +8,17 @@
 #include <string>
 
 #include "calendar.h"
-#include "enums.h"
 #include "io_tags.h"
 #include "monster.h"
 #include "string_id.h"
 #include "type_id.h"
+#include "point.h"
 
 // from overmap.h
 class overmap;
 class JsonObject;
 class JsonIn;
 class JsonOut;
-
 struct MonsterGroupEntry;
 
 using FreqDef = std::vector<MonsterGroupEntry>;

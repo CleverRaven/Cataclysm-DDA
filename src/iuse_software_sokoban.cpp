@@ -15,8 +15,8 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "color.h"
-#include "enums.h"
 #include "optional.h"
+#include "point.h"
 
 sokoban_game::sokoban_game() = default;
 
@@ -368,7 +368,7 @@ int sokoban_game::start_game()
             clear_level( w_sokoban );
             iCurrentLevel--;
             if( iCurrentLevel < 0 ) {
-                iCurrentLevel =  iNumLevel - 1;
+                iCurrentLevel = iNumLevel - 1;
             }
             bNewLevel = true;
         }

@@ -925,6 +925,11 @@
   {
     "type": "snippet",
     "category": "note",
+    "text": [ "\"Don't let the ember go out please don't go out I need you precious fire.\"" ]
+  },
+  {
+    "type": "snippet",
+    "category": "note",
     "text": [ "\"What's with these pits... with, like, sli\"" ]
   },
   {
@@ -1606,11 +1611,6 @@
     "type": "snippet",
     "category": "note",
     "text": [ "\"ENGLAND DID THIS\"" ]
-  },
-  {
-    "type": "snippet",
-    "category": "note",
-    "text": [ "\"I finally dug to the hellmouth.  My body burns but my soul finally finds its purpose\"" ]
   },
   {
     "type": "snippet",

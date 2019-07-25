@@ -215,7 +215,7 @@
     "time": "35 m",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 5 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "leather", 9 ], [ "tanned_hide", 2 ] ] ]
+    "components": [ [ [ "leather", 12 ], [ "tanned_hide", 2 ] ] ]
   },
   {
     "result": "boots_winter",

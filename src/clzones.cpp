@@ -1,11 +1,11 @@
 #include "clzones.h"
 
-#include <cstddef>
 #include <climits>
 #include <iosfwd>
 #include <iterator>
 #include <list>
 #include <tuple>
+#include <algorithm>
 
 #include "avatar.h"
 #include "cata_utility.h"
@@ -18,16 +18,15 @@
 #include "json.h"
 #include "line.h"
 #include "map.h"
-#include "messages.h"
 #include "output.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
 #include "vehicle.h"
-#include "vpart_reference.h"
 #include "item.h"
 #include "player.h"
 #include "vpart_position.h"
+#include "faction.h"
 
 zone_manager::zone_manager()
 {
@@ -1077,7 +1076,7 @@ bool zone_manager::save_zones()
     added_vzones.clear();
     changed_vzones.clear();
     removed_vzones.clear();
-    return write_to_file_exclusive( savefile, [&]( std::ostream & fout ) {
+    return write_to_file( savefile, [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
         serialize( jsout );
     }, _( "zones date" ) );

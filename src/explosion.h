@@ -4,12 +4,10 @@
 
 #include <map>
 #include <string>
-#include <vector>
 
 using itype_id = std::string;
 
 struct tripoint;
-
 class JsonObject;
 class nc_color;
 

@@ -297,7 +297,17 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 500,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sling", 1 ], [ "stock", 1 ], [ "dampening", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "dampening", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "compositecrossbow",

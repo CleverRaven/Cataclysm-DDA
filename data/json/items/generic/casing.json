@@ -38,6 +38,15 @@
     "volume": "10ml"
   },
   {
+    "id": "270win_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".270 Winchester casing",
+    "description": "An empty casing from a .270 Winchester round.",
+    "weight": 7,
+    "volume": "10ml"
+  },
+  {
     "id": "300_casing",
     "copy-from": "casing",
     "type": "GENERIC",
@@ -311,6 +320,17 @@
     "description": "An empty casing from a .380 ACP round.",
     "weight": 3,
     "volume": "5ml"
+  },
+  {
+    "id": "atgm_spent",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": "152mm ATGM tube",
+    "color": "dark_gray",
+    "description": "An empty steel tube which once contained a 152mm ATGM.  Now it's essentially just a huge pipe.",
+    "material": "steel",
+    "weight": 9500,
+    "volume": 30
   },
   {
     "id": "shot_hull",

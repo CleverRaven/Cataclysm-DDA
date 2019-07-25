@@ -4,12 +4,13 @@
 #include "catch/catch.hpp"
 #include "calendar.h"
 #include "json.h"
+#include "units.h"
 
 static time_duration parse_time_duration( const std::string &json )
 {
     std::istringstream buffer( json );
     JsonIn jsin( buffer );
-    return time_duration::read_from_json_string( jsin );
+    return read_from_json_string<time_duration>( jsin, time_duration::units );
 }
 
 TEST_CASE( "time_duration parsing from JSON" )

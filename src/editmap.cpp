@@ -3,13 +3,11 @@
 #include <algorithm>
 #include <cstdlib>
 #include <cstring>
-#include <fstream>
 #include <map>
 #include <string>
 #include <vector>
 #include <array>
 #include <exception>
-#include <list>
 #include <memory>
 #include <set>
 #include <utility>
@@ -17,7 +15,6 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
-#include "computer.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "debug_menu.h"
@@ -41,28 +38,22 @@
 #include "uistate.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "active_item_cache.h"
-#include "basecamp.h"
 #include "cata_utility.h"
 #include "creature.h"
 #include "game_constants.h"
 #include "int_id.h"
 #include "item.h"
-#include "item_stack.h"
 #include "omdata.h"
-#include "player.h"
 #include "shadowcasting.h"
 #include "string_id.h"
+#include "colony.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 static constexpr tripoint editmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
-static constexpr tripoint editmap_boundary_max( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT );
-static constexpr tripoint editmap_clearance_min( tripoint_zero );
-static constexpr tripoint editmap_clearance_max( 1, 1, 0 );
+static constexpr tripoint editmap_boundary_max( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT + 1 );
 
 static constexpr box editmap_boundaries( editmap_boundary_min, editmap_boundary_max );
-static constexpr box editmap_clearance( editmap_clearance_min, editmap_clearance_max );
 
 static const ter_id undefined_ter_id( -1 );
 static const furn_id undefined_furn_id( -1 );
@@ -154,14 +145,12 @@ void edit_json( SAVEOBJ &it )
                 tmret = -2;
             }
         } else if( tmret == 2 ) {
-            std::ofstream fout;
-            fout.open( "save/jtest-1j.txt" );
-            fout << osave1;
-            fout.close();
-
-            fout.open( "save/jtest-2j.txt" );
-            fout << serialize( it );
-            fout.close();
+            write_to_file( "save/jtest-1j.txt", [&]( std::ostream & fout ) {
+                fout << osave1;
+            }, nullptr );
+            write_to_file( "save/jtest-2j.txt", [&]( std::ostream & fout ) {
+                fout << serialize( it );
+            }, nullptr );
         }
         tm.addentry( 0, true, 'r', pgettext( "item manipulation debug menu entry", "rehash" ) );
         tm.addentry( 1, true, 'e', pgettext( "item manipulation debug menu entry", "edit" ) );
@@ -196,7 +185,7 @@ editmap::editmap()
     cur_field = 0;
     cur_trap = tr_null;
     sel_field = -1;
-    sel_fdensity = -1;
+    sel_field_intensity = -1;
     sel_trap = undefined_trap_id;
 
     fsel = undefined_furn_id;
@@ -261,11 +250,11 @@ void editmap_hilight::draw( editmap &em, bool update )
                 }
                 const field &t_field = g->m.field_at( p );
                 if( t_field.field_count() > 0 ) {
-                    field_id t_ftype = t_field.field_symbol();
+                    field_type_id t_ftype = t_field.displayed_field_type();
                     const field_entry *t_fld = t_field.find_field( t_ftype );
                     if( t_fld != nullptr ) {
                         t_col = t_fld->color();
-                        t_sym = t_fld->symbol();
+                        t_sym = t_fld->symbol()[0];
                     }
                 }
                 if( blink_interval[ cur_blink ] ) {
@@ -449,7 +438,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
 {
     tripoint center = target;
     tripoint start = tripoint( center.x - getmaxx( w ) / 2, center.y - getmaxy( w ) / 2, target.z );
-    tripoint end =   tripoint( center.x + getmaxx( w ) / 2, center.y + getmaxy( w ) / 2, target.z );
+    tripoint end = tripoint( center.x + getmaxx( w ) / 2, center.y + getmaxy( w ) / 2, target.z );
     /*
         // pending filter options
         bool draw_furn=true;
@@ -551,11 +540,11 @@ void editmap::update_view( bool update_info )
                 }
                 const field &t_field = g->m.field_at( p );
                 if( t_field.field_count() > 0 ) {
-                    field_id t_ftype = t_field.field_symbol();
+                    field_type_id t_ftype = t_field.displayed_field_type();
                     const field_entry *t_fld = t_field.find_field( t_ftype );
                     if( t_fld != nullptr ) {
                         t_col = t_fld->color();
-                        t_sym = t_fld->symbol();
+                        t_sym = t_fld->symbol()[0];
                     }
                 }
                 t_col = altblink ? green_background( t_col ) : cyan_background( t_col );
@@ -644,13 +633,14 @@ void editmap::update_view( bool update_info )
         mvwprintw( w_info, off, 1, "%s %s", g->m.features( target ).c_str(), extras );
         // 9
         off++;
-
         for( auto &fld : *cur_field ) {
             const field_entry &cur = fld.second;
             mvwprintz( w_info, off, 1, cur.color(),
-                       _( "field: %s (%d) density %d age %d" ),
-                       cur.name(), cur.get_field_type(),
-                       cur.get_field_intensity(), to_turns<int>( cur.get_field_age() )
+                       _( "field: %s L:%d[%s] A:%d" ),
+                       cur.get_field_type().id().c_str(),
+                       cur.get_field_intensity(),
+                       cur.name(),
+                       to_turns<int>( cur.get_field_age() )
                      );
             off++; // 10ish
         }
@@ -686,7 +676,7 @@ void editmap::update_view( bool update_info )
 
         if( g->m.has_graffiti_at( target ) ) {
             mvwprintw( w_info, off, 1,
-                       g->m.ter( target ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Incription: %s" ),
+                       g->m.ter( target ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
                        g->m.graffiti_at( target ) );
         }
 
@@ -1057,33 +1047,33 @@ int editmap::edit_ter()
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// field edit
 
-void editmap::update_fmenu_entry( uilist &fmenu, field &field, const field_id idx )
+void editmap::update_fmenu_entry( uilist &fmenu, field &field, const field_type_id idx )
 {
-    int fdens = 1;
-    const field_t &ftype = all_field_types_enum_list[idx];
+    int field_intensity = 1;
+    const field_type &ftype = idx.obj();
     field_entry *fld = field.find_field( idx );
     if( fld != nullptr ) {
-        fdens = fld->get_field_intensity();
+        field_intensity = fld->get_field_intensity();
     }
-    fmenu.entries[idx].txt = ftype.name( fdens - 1 );
+    fmenu.entries[idx].txt = ftype.get_name( field_intensity - 1 );
     if( fld != nullptr ) {
-        fmenu.entries[idx].txt += " " + std::string( fdens, '*' );
+        fmenu.entries[idx].txt += " " + std::string( field_intensity, '*' );
     }
-    fmenu.entries[idx].text_color = ( fld != nullptr ? c_cyan : fmenu.text_color );
-    fmenu.entries[idx].extratxt.color = ftype.color[fdens - 1];
+    fmenu.entries[idx].text_color = fld != nullptr ? c_cyan : fmenu.text_color;
+    fmenu.entries[idx].extratxt.color = ftype.get_color( field_intensity - 1 );
 }
 
 void editmap::setup_fmenu( uilist &fmenu )
 {
     fmenu.entries.clear();
-    for( int i = 0; i < num_fields; i++ ) {
-        const field_id fid = static_cast<field_id>( i );
-        const field_t &ftype = all_field_types_enum_list[fid];
-        int fdens = 1;
-        std::string fname = ftype.name( fdens - 1 );
+    for( int i = 0; i < static_cast<int>( field_type::count() ); i++ ) {
+        const field_type_id fid = static_cast<field_type_id>( i );
+        const field_type &ftype = fid.obj();
+        const int field_intensity = 1;
+        std::string fname = ftype.get_name( field_intensity - 1 );
         fmenu.addentry( fid, true, -2, fname );
         fmenu.entries[fid].extratxt.left = 1;
-        fmenu.entries[fid].extratxt.txt = string_format( "%c", ftype.sym );
+        fmenu.entries[fid].extratxt.txt = string_format( "%s", ftype.get_symbol( field_intensity - 1 ) );
         update_fmenu_entry( fmenu, *cur_field, fid );
     }
     if( sel_field >= 0 ) {
@@ -1104,21 +1094,22 @@ int editmap::edit_fld()
 
     do {
         uphelp( pgettext( "Map editor: Field effects shortkeys",
-                          "[s/tab] shape select, [m]ove, [<,>] density" ),
+                          "[s/tab] shape select, [m]ove, [<,>] intensity" ),
                 pgettext( "Map editor: Field effects shortkeys", "[enter] edit, [q]uit, [v] showall" ),
                 pgettext( "Map editor: Editing field effects", "Field effects" ) );
 
         fmenu.query( false );
-        if( fmenu.selected > 0 && fmenu.selected < num_fields &&
+        if( fmenu.selected > 0 && fmenu.selected < static_cast<int>( field_type::count() ) &&
             ( fmenu.ret > 0 || fmenu.keypress == KEY_LEFT || fmenu.keypress == KEY_RIGHT )
           ) {
-            int fdens = 0;
-            const field_id idx = static_cast<field_id>( fmenu.selected );
+            int field_intensity = 0;
+            const field_type_id idx = static_cast<field_type_id>( fmenu.selected );
             field_entry *fld = cur_field->find_field( idx );
             if( fld != nullptr ) {
-                fdens = fld->get_field_intensity();
+                field_intensity = fld->get_field_intensity();
             }
-            int fsel_dens = fdens;
+            const field_type &ftype = idx.obj();
+            int fsel_intensity = field_intensity;
             if( fmenu.ret > 0 ) {
                 uilist femenu;
                 femenu.w_width = width;
@@ -1126,50 +1117,52 @@ int editmap::edit_fld()
                 femenu.w_y = fmenu.w_height;
                 femenu.w_x = offsetX;
 
-                const field_t &ftype = all_field_types_enum_list[idx];
-                femenu.text = ftype.name( fdens == 0 ? 0 : fdens - 1 );
+                femenu.text = field_intensity < 1 ? "" : ftype.get_name( field_intensity - 1 );
                 femenu.addentry( pgettext( "map editor: used to describe a clean field (e.g. without blood)",
                                            "-clear-" ) );
 
-                femenu.addentry( string_format( "1: %s", ftype.name( 0 ) ) );
-                femenu.addentry( string_format( "2: %s", ftype.name( 1 ) ) );
-                femenu.addentry( string_format( "3: %s", ftype.name( 2 ) ) );
-                femenu.entries[fdens].text_color = c_cyan;
-                femenu.selected = ( sel_fdensity > 0 ? sel_fdensity : fdens );
+                int i = 0;
+                for( const auto &intensity_level : ftype.intensity_levels ) {
+                    i++;
+                    femenu.addentry( string_format( "%d: %s", i, intensity_level.name ) );
+                }
+                femenu.entries[field_intensity].text_color = c_cyan;
+                femenu.selected = ( sel_field_intensity > 0 ? sel_field_intensity : field_intensity );
 
                 femenu.query();
                 if( femenu.ret >= 0 ) {
-                    fsel_dens = femenu.ret;
+                    fsel_intensity = femenu.ret;
                 }
-            } else if( fmenu.keypress == KEY_RIGHT && fdens < 3 ) {
-                fsel_dens++;
-            } else if( fmenu.keypress == KEY_LEFT && fdens > 0 ) {
-                fsel_dens--;
+            } else if( fmenu.keypress == KEY_RIGHT &&
+                       field_intensity < static_cast<int>( ftype.get_max_intensity() ) ) {
+                fsel_intensity++;
+            } else if( fmenu.keypress == KEY_LEFT && field_intensity > 0 ) {
+                fsel_intensity--;
             }
-            if( fdens != fsel_dens || target_list.size() > 1 ) {
+            if( field_intensity != fsel_intensity || target_list.size() > 1 ) {
                 for( auto &elem : target_list ) {
-                    const auto fid = static_cast<field_id>( idx );
+                    const auto fid = static_cast<field_type_id>( idx );
                     field &t_field = g->m.get_field( elem );
                     field_entry *t_fld = t_field.find_field( fid );
-                    int t_dens = 0;
+                    int t_intensity = 0;
                     if( t_fld != nullptr ) {
-                        t_dens = t_fld->get_field_intensity();
+                        t_intensity = t_fld->get_field_intensity();
                     }
-                    if( fsel_dens != 0 ) {
-                        if( t_dens != 0 ) {
-                            g->m.set_field_strength( elem, fid, fsel_dens );
+                    if( fsel_intensity != 0 ) {
+                        if( t_intensity != 0 ) {
+                            g->m.set_field_intensity( elem, fid, fsel_intensity );
                         } else {
-                            g->m.add_field( elem, fid, fsel_dens );
+                            g->m.add_field( elem, fid, fsel_intensity );
                         }
                     } else {
-                        if( t_dens != 0 ) {
+                        if( t_intensity != 0 ) {
                             g->m.remove_field( elem, fid );
                         }
                     }
                 }
                 update_fmenu_entry( fmenu, *cur_field, idx );
                 sel_field = fmenu.selected;
-                sel_fdensity = fsel_dens;
+                sel_field_intensity = fsel_intensity;
             }
             update_view( true );
         } else if( fmenu.ret == 0 ) {
@@ -1185,7 +1178,7 @@ int editmap::edit_fld()
             }
             update_view( true );
             sel_field = fmenu.selected;
-            sel_fdensity = 0;
+            sel_field_intensity = 0;
         } else if( fmenu.keypress == 's' || fmenu.keypress == '\t' || fmenu.keypress == 'm' ) {
             int sel_tmp = fmenu.selected;
             int ret = select_shape( editshape, ( fmenu.keypress == 'm' ? 1 : 0 ) );
@@ -1200,7 +1193,6 @@ int editmap::edit_fld()
     } while( fmenu.ret != UILIST_CANCEL );
     return ret;
 }
-
 ///// edit traps
 int editmap::edit_trp()
 {
@@ -1431,7 +1423,7 @@ tripoint editmap::recalc_target( shapetype shape )
                 for( int y = origin.y - radius; y <= origin.y + radius; y++ ) {
                     const tripoint p( x, y, z );
                     if( rl_dist( p, origin ) <= radius ) {
-                        if( generic_inbounds( p, editmap_boundaries, editmap_clearance ) ) {
+                        if( editmap_boundaries.contains_half_open( p ) ) {
                             target_list.push_back( p );
                         }
                     }
@@ -1463,7 +1455,7 @@ tripoint editmap::recalc_target( shapetype shape )
                 for( int y = sy; y <= ey; y++ ) {
                     if( shape == editmap_rect_filled || x == sx || x == ex || y == sy || y == ey ) {
                         const tripoint p( x, y, z );
-                        if( generic_inbounds( p, editmap_boundaries, editmap_clearance ) ) {
+                        if( editmap_boundaries.contains_half_open( p ) ) {
                             target_list.push_back( p );
                         }
                     }
@@ -1649,7 +1641,7 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
     // Coordinates of the overmap terrain that should be generated.
     const point omt_pos = ms_to_omt_copy( tc.abs_pos );
-    oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, target.z );
+    oter_id &omt_ref = overmap_buffer.ter( tripoint( omt_pos, target.z ) );
     // Copy to store the original value, to restore it upon canceling
     const oter_id orig_oters = omt_ref;
     omt_ref = oter_id( gmenu.ret );
@@ -1873,9 +1865,8 @@ int editmap::mapgen_retarget()
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             tripoint ptarget = tripoint( target.x + ( vec->x * SEEX * 2 ), target.y + ( vec->y * SEEY * 2 ),
                                          target.z );
-            if( generic_inbounds( ptarget, editmap_boundaries, editmap_clearance ) &&
-                generic_inbounds( { ptarget.x + SEEX, ptarget.y + SEEY, ptarget.z },
-                                  editmap_boundaries, editmap_clearance ) ) {
+            if( editmap_boundaries.contains_half_open( ptarget ) &&
+                editmap_boundaries.contains_half_open( ptarget + point( SEEX, SEEY ) ) ) {
                 target = ptarget;
 
                 target_list.clear();

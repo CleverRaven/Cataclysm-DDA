@@ -10,6 +10,7 @@
 
 #include "damage.h"
 #include "mattack_common.h"
+#include "magic.h"
 #include "mtype.h"
 #include "type_id.h"
 #include "weighted_list.h"
@@ -35,6 +36,22 @@ class leap_actor : public mattack_actor
 
         leap_actor() { }
         ~leap_actor() override = default;
+
+        void load_internal( JsonObject &jo, const std::string &src ) override;
+        bool call( monster & ) const override;
+        mattack_actor *clone() const override;
+};
+
+class mon_spellcasting_actor : public mattack_actor
+{
+    public:
+        // is the spell beneficial to target itself?
+        bool self;
+        spell spell_data;
+        int move_cost;
+
+        mon_spellcasting_actor() {}
+        ~mon_spellcasting_actor() override = default;
 
         void load_internal( JsonObject &jo, const std::string &src ) override;
         bool call( monster & ) const override;

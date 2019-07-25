@@ -357,6 +357,7 @@
       [ "naginata_fake", 5 ],
       [ "naginata_inferior", 3 ],
       [ "estoc", 2 ],
+      [ "estoc_inferior", 4 ],
       [ "estoc_fake", 6 ],
       [ "qiang", 3 ],
       [ "halberd", 2 ],

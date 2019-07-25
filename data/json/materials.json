@@ -149,6 +149,21 @@
   },
   {
     "type": "material",
+    "ident": "lightceramic",
+    "name": "Dragon Scale",
+    "density": 4,
+    "bash_resist": 4,
+    "cut_resist": 8,
+    "acid_resist": 10,
+    "fire_resist": 10,
+    "elec_resist": 10,
+    "chip_resist": 20,
+    "dmg_adj": [ "chipped", "cracked", "split", "broken" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "cut"
+  },
+  {
+    "type": "material",
     "ident": "chitin",
     "name": "Chitin",
     "density": 10,
@@ -829,6 +844,26 @@
   },
   {
     "type": "material",
+    "ident": "alien_resin",
+    "name": "Resin",
+    "density": 10,
+    "specific_heat_liquid": 1.8,
+    "specific_heat_solid": 1.8,
+    "latent_heat": 50,
+    "bash_resist": 8,
+    "cut_resist": 12,
+    "acid_resist": 20,
+    "fire_resist": 8,
+    "elec_resist": 8,
+    "chip_resist": 12,
+    "repaired_with": "resin_chunk",
+    "salvaged_into": "resin_chunk",
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "gouged"
+  },
+  {
+    "type": "material",
     "ident": "powder",
     "name": "Powder",
     "density": 1,
@@ -1190,9 +1225,9 @@
     "bash_dmg_verb": "splintered",
     "cut_dmg_verb": "gouged",
     "burn_data": [
-      { "fuel": 1, "smoke": 1, "burn": 0.02, "volume_per_turn": "1250_ml" },
-      { "fuel": 2, "smoke": 1, "burn": 0.04, "volume_per_turn": "5000_ml" },
-      { "fuel": 3, "smoke": 1, "burn": 0.06 }
+      { "fuel": 1, "smoke": 1, "burn": 0.01, "volume_per_turn": "200_ml" },
+      { "fuel": 2, "smoke": 1, "burn": 0.02, "volume_per_turn": "825_ml" },
+      { "fuel": 3, "smoke": 1, "burn": 0.03 }
     ],
     "burn_products": [ [ "ash", 0.018 ] ]
   },

@@ -6,19 +6,18 @@
 #include <algorithm>
 #include <array>
 #include <cassert>
-#include <cstdlib>
 #include <fstream>
 #include <bitset>
-#include <iostream>
 #include <iterator>
 #include <stdexcept>
 #include <tuple>
+#include <set>
+#include <sstream>
 
 #include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "clzones.h"
-#include "coordinate_conversions.h"
 #include "cursesport.h"
 #include "debug.h"
 #include "field.h"
@@ -49,7 +48,6 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "weather.h"
 #include "weighted_list.h"
 #include "calendar.h"
@@ -59,13 +57,13 @@
 #include "cursesdef.h"
 #include "int_id.h"
 #include "map_memory.h"
-#include "math_defines.h"
 #include "optional.h"
 #include "sdltiles.h"
 #include "string_id.h"
 #include "tileray.h"
 #include "translations.h"
 #include "type_id.h"
+#include "game_constants.h"
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -1495,10 +1493,10 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
                 col = v.color;
             }
         } else if( category == C_FIELD ) {
-            const field_id fid = field_from_ident( id );
-            sym = all_field_types_enum_list[fid].sym;
-            // TODO: field density?
-            col = all_field_types_enum_list[fid].color[0];
+            const field_type_id fid = field_type_id( id );
+            sym = fid.obj().get_codepoint();
+            // TODO: field intensity?
+            col = fid.obj().get_color();
         } else if( category == C_TRAP ) {
             const trap_str_id tmp( id );
             if( tmp.is_valid() ) {
@@ -2082,70 +2080,27 @@ bool cata_tiles::draw_graffiti( const tripoint &p, lit_level ll, int &height_3d 
 
 bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d )
 {
-    // check for field
     const field &f = g->m.field_at( p );
-    field_id f_id = f.field_symbol();
-    bool is_draw_field;
-    bool do_item;
-    switch( f_id ) {
-        case fd_null:
-            //only draw items
-            is_draw_field = false;
-            do_item = true;
-            break;
-        case fd_blood:
-        case fd_blood_veggy:
-        case fd_blood_insect:
-        case fd_blood_invertebrate:
-        case fd_gibs_flesh:
-        case fd_gibs_veggy:
-        case fd_gibs_insect:
-        case fd_gibs_invertebrate:
-        case fd_bile:
-        case fd_slime:
-        case fd_acid:
-        case fd_sap:
-        case fd_sludge:
-        case fd_cigsmoke:
-        case fd_weedsmoke:
-        case fd_cracksmoke:
-        case fd_methsmoke:
-        case fd_hot_air1:
-        case fd_hot_air2:
-        case fd_hot_air3:
-        case fd_hot_air4:
-        case fd_spotlight:
-            //need to draw fields and items both
-            is_draw_field = true;
-            do_item = true;
-            break;
-        default:
-            //only draw fields
-            do_item = false;
-            is_draw_field = true;
-            break;
-    }
+    const field_type &fld_type = g->m.field_at( p ).displayed_field_type().obj();
     bool ret_draw_field = true;
-    bool ret_draw_item = true;
-    if( is_draw_field ) {
-        const std::string fd_name = all_field_types_enum_list[f.field_symbol()].id;
-
+    bool ret_draw_items = true;
+    if( fld_type.display_field ) {
         // for rotation information
         const int neighborhood[4] = {
-            static_cast<int>( g->m.field_at( tripoint( p.x, p.y + 1, p.z ) ).field_symbol() ), // south
-            static_cast<int>( g->m.field_at( tripoint( p.x + 1, p.y, p.z ) ).field_symbol() ), // east
-            static_cast<int>( g->m.field_at( tripoint( p.x - 1, p.y, p.z ) ).field_symbol() ), // west
-            static_cast<int>( g->m.field_at( tripoint( p.x, p.y - 1, p.z ) ).field_symbol() ) // north
+            static_cast<int>( g->m.field_at( tripoint( p.x, p.y + 1, p.z ) ).displayed_field_type() ), // south
+            static_cast<int>( g->m.field_at( tripoint( p.x + 1, p.y, p.z ) ).displayed_field_type() ), // east
+            static_cast<int>( g->m.field_at( tripoint( p.x - 1, p.y, p.z ) ).displayed_field_type() ), // west
+            static_cast<int>( g->m.field_at( tripoint( p.x, p.y - 1, p.z ) ).displayed_field_type() ) // north
         };
 
         int subtile = 0;
         int rotation = 0;
-        get_tile_values( f.field_symbol(), neighborhood, subtile, rotation );
+        get_tile_values( f.displayed_field_type(), neighborhood, subtile, rotation );
 
-        ret_draw_field = draw_from_id_string( fd_name, C_FIELD, empty_string, p, subtile, rotation,
-                                              ll, nv_goggles_activated );
+        ret_draw_field = draw_from_id_string( fld_type.id.c_str(), C_FIELD, empty_string, p, subtile,
+                                              rotation, ll, nv_goggles_activated );
     }
-    if( do_item ) {
+    if( fld_type.display_items ) {
         if( !g->m.sees_some_items( p, g->u ) ) {
             return false;
         }
@@ -2157,13 +2112,13 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &heigh
                                     displayed_item.get_mtype()->id.str() : displayed_item.typeId();
 
         const std::string it_category = displayed_item.type->get_item_type_string();
-        ret_draw_item = draw_from_id_string( it_name, C_ITEM, it_category, p, 0, 0, ll,
-                                             nv_goggles_activated, height_3d );
-        if( ret_draw_item && cur_maptile.get_item_count() > 1 ) {
+        ret_draw_items = draw_from_id_string( it_name, C_ITEM, it_category, p, 0, 0, ll,
+                                              nv_goggles_activated, height_3d );
+        if( ret_draw_items && cur_maptile.get_item_count() > 1 ) {
             draw_item_highlight( p );
         }
     }
-    return ret_draw_field && ret_draw_item;
+    return ret_draw_field && ret_draw_items;
 }
 
 bool cata_tiles::draw_vpart_below( const tripoint &p, lit_level /*ll*/, int &/*height_3d*/ )
@@ -2936,7 +2891,7 @@ void cata_tiles::do_tile_loading_report()
     }, "Monsters", "" );
     tile_loading_report( vpart_info::all(), "Vehicle Parts", "vp_" );
     tile_loading_report<trap>( trap::count(), "Traps", "" );
-    tile_loading_report( all_field_types_enum_list, num_fields, "Fields", "" );
+    tile_loading_report<field_type>( field_type::count(), "Field Types", "" );
 
     // needed until DebugLog ostream::flush bugfix lands
     DebugLog( D_INFO, DC_ALL );

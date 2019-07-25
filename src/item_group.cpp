@@ -4,9 +4,7 @@
 #include <cassert>
 #include <list>
 #include <set>
-#include <type_traits>
 
-#include "ammo.h"
 #include "debug.h"
 #include "item.h"
 #include "item_factory.h"
@@ -16,8 +14,8 @@
 #include "calendar.h"
 #include "compatibility.h"
 #include "enums.h"
-#include "string_id.h"
 #include "type_id.h"
+#include "flat_set.h"
 
 static const std::string null_item_id( "null" );
 
@@ -226,8 +224,7 @@ void Item_modifier::modify( item &new_item ) const
             if( !new_item.ammo_types().empty() && qty > 0 ) {
                 new_item.ammo_set( new_item.ammo_default(), qty );
             }
-        } else if( !new_item.is_gun() ) {
-            //not gun, food, ammo or tool.
+        } else if( new_item.type->can_have_charges() ) {
             new_item.charges = ch;
         }
     }

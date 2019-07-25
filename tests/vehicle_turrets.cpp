@@ -1,7 +1,6 @@
 #include <algorithm>
 #include <map>
 #include <memory>
-#include <set>
 #include <utility>
 #include <vector>
 
@@ -11,16 +10,15 @@
 #include "game.h"
 #include "itype.h"
 #include "map.h"
-#include "player.h"
 #include "veh_type.h"
 #include "vehicle.h"
-#include "enums.h"
 #include "item.h"
 #include "item_location.h"
 #include "optional.h"
 #include "string_id.h"
 #include "units.h"
 #include "type_id.h"
+#include "point.h"
 
 static std::vector<const vpart_info *> turret_types()
 {

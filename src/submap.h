@@ -4,10 +4,11 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <list>
 #include <memory>
 #include <vector>
 #include <string>
+#include <iterator>
+#include <map>
 
 #include "active_item_cache.h"
 #include "basecamp.h"
@@ -18,15 +19,13 @@
 #include "field.h"
 #include "game_constants.h"
 #include "item.h"
-#include "enums.h"
 #include "type_id.h"
 #include "vehicle.h"
+#include "point.h"
 
 class JsonIn;
 class JsonOut;
 class map;
-
-struct mtype;
 struct trap;
 struct ter_t;
 struct furn_t;
@@ -251,12 +250,13 @@ struct maptile {
             return sm->fld[x][y];
         }
 
-        field_entry *find_field( const field_id field_to_find ) {
+        field_entry *find_field( const field_type_id field_to_find ) {
             return sm->fld[x][y].find_field( field_to_find );
         }
 
-        bool add_field( const field_id field_to_add, const int new_density, const time_duration &new_age ) {
-            const bool ret = sm->fld[x][y].add_field( field_to_add, new_density, new_age );
+        bool add_field( const field_type_id field_to_add, const int new_intensity,
+                        const time_duration &new_age ) {
+            const bool ret = sm->fld[x][y].add_field( field_to_add, new_intensity, new_age );
             if( ret ) {
                 sm->field_count++;
             }

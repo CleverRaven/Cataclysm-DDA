@@ -5,7 +5,9 @@
 #include <cmath>
 #include <set>
 #include <memory>
+#include <list>
 
+#include "avatar.h"
 #include "debug.h"
 #include "game.h"
 #include "item.h"
@@ -20,7 +22,8 @@
 #include "weather.h"
 #include "optional.h"
 #include "color.h"
-#include "string_id.h"
+#include "enums.h"
+#include "flat_set.h"
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );
@@ -92,7 +95,7 @@ std::string vehicle_part::name( bool with_prefix ) const
     }
 
     if( base.is_faulty() ) {
-        res += ( _( " (faulty)" ) );
+        res += _( " (faulty)" );
     }
 
     if( base.has_var( "contained_name" ) ) {
@@ -110,7 +113,7 @@ int vehicle_part::hp() const
 {
     const int dur = info().durability;
     if( base.max_damage() > 0 ) {
-        return dur - ( dur * base.damage() / base.max_damage() );
+        return dur - dur * base.damage() / base.max_damage();
     } else {
         return dur;
     }
@@ -128,7 +131,7 @@ int vehicle_part::damage_level( int max ) const
 
 double vehicle_part::health_percent() const
 {
-    return ( 1.0 - static_cast<double>( base.damage() ) / base.max_damage() );
+    return 1.0 - static_cast<double>( base.damage() ) / base.max_damage();
 }
 
 double vehicle_part::damage_percent() const
@@ -523,7 +526,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
         return false;
     }
 
-    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant() ) {
+    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant( g->u.pos() ) ) {
         if( alert ) {
             add_msg( m_bad, _( "It is too cold to plant anything now." ) );
         }

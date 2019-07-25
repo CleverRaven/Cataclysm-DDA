@@ -22,21 +22,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "army_mags_rm51",
+    "id": "army_mags_m2010",
     "entries": [
-      { "item": "8x40_50_mag", "ammo-item": "8mm_fmj", "charges": 50 },
-      { "item": "8x40_50_mag", "ammo-item": "8mm_fmj", "charges": 50 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
-    "id": "army_mags_rm25",
-    "entries": [
-      { "item": "8x40_25_mag", "ammo-item": "8mm_fmj", "charges": 25 },
-      { "item": "8x40_25_mag", "ammo-item": "8mm_fmj", "charges": 25 },
-      { "item": "8x40_25_mag", "ammo-item": "8mm_fmj", "charges": 25 },
-      { "item": "8x40_25_mag", "ammo-item": "8mm_fmj", "charges": 25 }
+      { "item": "m2010mag", "ammo-item": "300_winmag", "charges": 5 },
+      { "item": "m2010mag", "ammo-item": "300_winmag", "charges": 5 },
+      { "item": "m2010mag", "ammo-item": "300_winmag", "charges": 5 },
+      { "item": "m2010mag", "ammo-item": "300_winmag", "charges": 5 }
     ]
   },
   {
@@ -69,10 +60,10 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "army_mags_lw21",
+    "id": "army_mags_glock17",
     "entries": [
-      { "item": "lw21mag", "ammo-item": "9mmfmj", "charges": 21 },
-      { "item": "lw21mag", "ammo-item": "9mmfmj", "charges": 21 }
+      { "item": "glock17_22", "ammo-item": "9mmfmj", "charges": 22 },
+      { "item": "glock17_22", "ammo-item": "9mmfmj", "charges": 22 }
     ]
   },
   {
@@ -1030,8 +1021,8 @@
         ],
         "entries": [
           { "group": "charged_cell_phone" },
-          { "item": "l_enforcer_45", "ammo-item": "460_rowland", "charges": 6, "container-item": "sholster" },
-          { "item": "460_rowland", "charges": 24 }
+          { "item": "sw_619", "ammo-item": "357mag_fmj", "charges": 6, "container-item": "sholster" },
+          { "item": "357mag_fmj", "charges": 24 }
         ]
       },
       "male": [ "briefs" ],
@@ -1289,8 +1280,8 @@
         "entries": [
           { "group": "charged_cell_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "remington_700", "ammo-item": "270", "charges": 4, "contents-item": "shoulder_strap" },
-          { "item": "270", "charges": 16, "container-item": "bandolier_rifle" },
+          { "item": "remington700_270", "ammo-item": "270win_jsp", "charges": 4, "contents-item": "shoulder_strap" },
+          { "item": "270win_jsp", "charges": 16, "container-item": "bandolier_rifle" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
       },
@@ -1692,8 +1683,8 @@
           "two_way_radio"
         ],
         "entries": [
-          { "item": "l_mp_9mm", "ammo-item": "9mmP", "container-item": "holster" },
-          { "item": "chestrig", "container-group": "army_mags_lw21" }
+          { "item": "glock_18c", "ammo-item": "9mmP", "container-item": "holster" },
+          { "item": "chestrig", "container-group": "army_mags_glock17" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1788,12 +1779,8 @@
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "sheath", "contents-item": "knife_combat" },
-          {
-            "item": "rm51_assault_rifle",
-            "ammo-item": "8mm_fmj",
-            "contents-item": [ "shoulder_strap", "acog_scope" ]
-          },
-          { "item": "modularvestceramic", "contents-group": "army_mags_rm51" }
+          { "item": "h&k416a5", "ammo-item": "556", "contents-item": [ "shoulder_strap", "acog_scope" ] },
+          { "item": "modularvestceramic", "contents-group": "army_mags_m4" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1851,11 +1838,15 @@
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "hat_boonie", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "rm11b_sniper_rifle", "ammo-item": "8mm_fmj", "contents-item": [ "shoulder_strap" ] },
+          {
+            "item": "m2010",
+            "ammo-item": "300_winmag",
+            "contents-item": [ "shoulder_strap", "rifle_scope", "bipod" ]
+          },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
           { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
-          { "item": "chestrig", "contents-group": [ "army_mags_rm25" ] }
+          { "item": "chestrig", "contents-group": [ "army_mags_m2010" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2213,6 +2204,66 @@
   },
   {
     "type": "profession",
+    "ident": "convict_embezzler",
+    "name": "Embezzler",
+    "description": "You had a genius plan to skim fractions of cents out of your company's accounts. This plan immediately failed and got you arrested. They said you were too soft for prison, except right now they're dead and you're not.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "barter" }, { "level": 2, "name": "computer" } ],
+    "items": {
+      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "rock_sock" ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "ident": "convict_drugs",
+    "name": "Meth Cook",
+    "description": "You clawed your way out of poverty by selling products everyone wanted, and they had the nerve to put you in jail for it. Too bad you can't sell drugs to zombies or aliens.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "cooking" }, { "level": 2, "name": "firstaid" } ],
+    "items": {
+      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "adderall", "matches" ],
+      "entries": [ { "item": "condom", "contents_item": "dayquil" } ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "ident": "convict_political",
+    "name": "Political Prisoner",
+    "description": "Exposing what was going on in those labs was a noble idea. You insist you could have stopped the Cataclysm if it weren't for that misdemeanor charge.",
+    "points": 1,
+    "skills": [ { "level": 3, "name": "speech" } ],
+    "items": {
+      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "gum" ],
+      "entries": [ { "group": "charged_cell_phone" } ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "ident": "convict_ratman",
+    "name": { "male": "Rat Prince", "female": "Rat Princess" },
+    "description": "You probably needed psychiatric help instead of a prison sentence. At least your loyal subjects have agreed to hold the line as you make your daring escape.",
+    "points": 3,
+    "skills": [ { "level": 1, "name": "speech" }, { "level": 1, "name": "survival" } ],
+    "traits": [ "ANIMALEMPATH" ],
+    "pets": [ { "name": "mon_black_rat", "amount": 13 } ],
+    "items": {
+      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "fried_seeds" ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
     "ident": "burglar",
     "name": "Burglar",
     "description": "You thought this would be your lucky break.  Does it count as breaking and entering if everyone in town is undead?",
@@ -2245,7 +2296,7 @@
     "name": { "male": "Razor Boy", "female": "Razor Girl" },
     "description": "Through a series of painful and expensive surgeries you became a walking bionic weapon, your services as a mercenary available to the highest bidder.  Now that the world has ended, those bionic enhancements may spell the difference between life and death.",
     "points": 5,
-    "CBMs": [ "bio_razors", "bio_sunglasses", "bio_dex_enhancer", "bio_ears", "bio_carbon" ],
+    "CBMs": [ "bio_razors", "bio_armor_eyes", "bio_sunglasses", "bio_dex_enhancer", "bio_ears", "bio_carbon" ],
     "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "unarmed" }, { "level": 2, "name": "dodge" } ],
     "items": {
       "both": [
@@ -2758,7 +2809,7 @@
     "items": {
       "both": {
         "items": [ "shorts", "tshirt", "socks", "lowtops", "wristwatch" ],
-        "entries": [ { "group": "charged_cell_phone" }, { "item": "gobag", "custom-flags": [ "FIT" ] } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "personal_gobag", "custom-flags": [ "FIT" ] } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -3076,7 +3127,6 @@
           "trenchcoat_fur",
           "backpack_leather",
           "boots_fur",
-          "footrags_fur",
           "gloves_fur",
           "hat_fur",
           "scarf_fur",
@@ -3096,8 +3146,7 @@
           { "item": "arrow_wood", "charges": 20, "container-item": "quiver" }
         ]
       }
-    },
-    "flags": [ "SCEN_ONLY" ]
+    }
   },
   {
     "type": "profession",
@@ -3524,7 +3573,7 @@
     "ident": "miner",
     "name": "Miner",
     "description": "You're a miner, not a minor!  Your canteen is dry, your jackhammer is out of gas, and you're on your last pair of batteries for your mining helmet...",
-    "points": 0,
+    "points": 2,
     "items": {
       "both": {
         "items": [
@@ -3551,8 +3600,7 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "boy_shorts", "sports_bra" ]
-    },
-    "flags": [ "SCEN_ONLY" ]
+    }
   },
   {
     "type": "profession",
@@ -3605,8 +3653,7 @@
     "ident": "naked",
     "name": "Naked and Afraid",
     "description": "You were out filming a reality TV show in the woods and the cast and crew all seemed to have turned into zombies.  Looks like it's for real now...",
-    "points": -1,
-    "flags": [ "SCEN_ONLY" ]
+    "points": -1
   },
   {
     "type": "profession",

@@ -6,6 +6,7 @@
 #include <functional>
 #include <vector>
 #include <string>
+#include <tuple>
 
 #include "color.h"
 #include "int_id.h"
@@ -22,45 +23,59 @@ class JsonObject;
 
 namespace trapfunc
 {
-// creature is the creature that triggered the trap,
 // p is the point where the trap is (not where the creature is)
-// creature can be NULL.
-void none( Creature *, const tripoint & );
-void bubble( Creature *creature, const tripoint &p );
-void glass( Creature *creature, const tripoint &p );
-void cot( Creature *creature, const tripoint &p );
-void beartrap( Creature *creature, const tripoint &p );
-void snare_light( Creature *creature, const tripoint &p );
-void snare_heavy( Creature *creature, const tripoint &p );
-void board( Creature *creature, const tripoint &p );
-void caltrops( Creature *creature, const tripoint &p );
-void caltrops_glass( Creature *creature, const tripoint &p );
-void tripwire( Creature *creature, const tripoint &p );
-void crossbow( Creature *creature, const tripoint &p );
-void shotgun( Creature *creature, const tripoint &p );
-void blade( Creature *creature, const tripoint &p );
-void landmine( Creature *creature, const tripoint &p );
-void telepad( Creature *creature, const tripoint &p );
-void goo( Creature *creature, const tripoint &p );
-void dissector( Creature *creature, const tripoint &p );
-void sinkhole( Creature *creature, const tripoint &p );
-void pit( Creature *creature, const tripoint &p );
-void pit_spikes( Creature *creature, const tripoint &p );
-void pit_glass( Creature *creature, const tripoint &p );
-void lava( Creature *creature, const tripoint &p );
-void portal( Creature *creature, const tripoint &p );
-void ledge( Creature *creature, const tripoint &p );
-void boobytrap( Creature *creature, const tripoint &p );
-void temple_flood( Creature *creature, const tripoint &p );
-void temple_toggle( Creature *creature, const tripoint &p );
-void glow( Creature *creature, const tripoint &p );
-void hum( Creature *creature, const tripoint &p );
-void shadow( Creature *creature, const tripoint &p );
-void drain( Creature *creature, const tripoint &p );
-void snake( Creature *creature, const tripoint &p );
+// creature is the creature that triggered the trap,
+// item is the item that triggered the trap,
+// creature and item can be nullptr.
+void none( const tripoint &, Creature *, item * );
+void bubble( const tripoint &p, Creature *c, item *i );
+void glass( const tripoint &p, Creature *c, item *i );
+void cot( const tripoint &p, Creature *c, item *i );
+void beartrap( const tripoint &p, Creature *c, item *i );
+void snare_light( const tripoint &p, Creature *c, item *i );
+void snare_heavy( const tripoint &p, Creature *c, item *i );
+void board( const tripoint &p, Creature *c, item *i );
+void caltrops( const tripoint &p, Creature *c, item *i );
+void caltrops_glass( const tripoint &p, Creature *c, item *i );
+void tripwire( const tripoint &p, Creature *c, item *i );
+void crossbow( const tripoint &p, Creature *c, item *i );
+void shotgun( const tripoint &p, Creature *c, item *i );
+void blade( const tripoint &p, Creature *c, item *i );
+void landmine( const tripoint &p, Creature *c, item *i );
+void telepad( const tripoint &p, Creature *c, item *i );
+void goo( const tripoint &p, Creature *c, item *i );
+void dissector( const tripoint &p, Creature *c, item *i );
+void sinkhole( const tripoint &p, Creature *c, item *i );
+void pit( const tripoint &p, Creature *c, item *i );
+void pit_spikes( const tripoint &p, Creature *c, item *i );
+void pit_glass( const tripoint &p, Creature *c, item *i );
+void lava( const tripoint &p, Creature *c, item *i );
+void portal( const tripoint &p, Creature *c, item *i );
+void ledge( const tripoint &p, Creature *c, item *i );
+void boobytrap( const tripoint &p, Creature *c, item *i );
+void temple_flood( const tripoint &p, Creature *c, item *i );
+void temple_toggle( const tripoint &p, Creature *c, item *i );
+void glow( const tripoint &p, Creature *c, item *i );
+void hum( const tripoint &p, Creature *c, item *i );
+void shadow( const tripoint &p, Creature *c, item *i );
+void drain( const tripoint &p, Creature *c, item *i );
+void snake( const tripoint &p, Creature *c, item *i );
 } // namespace trapfunc
 
-using trap_function = std::function<void( Creature *, const tripoint & )>;
+struct vehicle_handle_trap_data {
+    bool remove_trap = false;
+    bool do_explosion = false;
+    bool is_falling = false;
+    int chance = 100;
+    int damage = 0;
+    int shrapnel = 0;
+    int sound_volume = 0;
+    std::string sound;
+    std::string sound_type;
+    std::string sound_variant;
+};
+
+using trap_function = std::function<void( const tripoint &, Creature *, item * )>;
 
 struct trap {
         using itype_id = std::string;
@@ -75,6 +90,7 @@ struct trap {
         int visibility = 1; // 1 to ??, affects detection
         int avoidance = 0;  // 0 to ??, affects avoidance
         int difficulty = 0; // 0 to ??, difficulty of assembly & disassembly
+        int trap_radius = 0;// 0 to ??, trap radius
         bool benign = false;
         bool always_invisible = false;
         trap_function act;
@@ -83,9 +99,13 @@ struct trap {
          * If an item with this weight or more is thrown onto the trap, it triggers.
          */
         units::mass trigger_weight = units::mass( -1, units::mass::unit_type{} );
-        int funnel_radius_mm;
-        std::vector<itype_id> components; // For disassembly?
+        int funnel_radius_mm = 0;
+        std::vector<std::tuple<std::string, int, int>> components; // For disassembly?
     public:
+        int comfort = 0;
+        int floor_bedding_warmth = 0;
+    public:
+        vehicle_handle_trap_data vehicle_data;
         std::string name() const;
         /**
          * There are special always invisible traps. See player::search_surroundings
@@ -137,8 +157,9 @@ struct trap {
          * them). This can also be a null pointer if the trap has been triggered by some thrown
          * item (which must have the @ref trigger_weight).
          * @param pos The location of the trap in the main map.
+         * @param item The item that triggered the trap
          */
-        void trigger( const tripoint &pos, Creature *creature ) const;
+        void trigger( const tripoint &pos, Creature *creature = nullptr, item *item = nullptr ) const;
         /**
          * If the given item is throw onto the trap, does it trigger the trap?
          */
@@ -150,10 +171,11 @@ struct trap {
          */
         void on_disarmed( map &m, const tripoint &p ) const;
         /**
-         * Whether this kind of trap actually occupies a 3x3 area. Currently only blade traps
-         * do so.
+         * This is used when defining area this trap occupies. A value of 0 means trap occupies exactly 1 tile.
          */
-        bool is_3x3_trap() const;
+        int get_trap_radius() const {
+            return trap_radius;
+        }
         /**
          * Whether this is the null-traps, aka no trap at all.
          */

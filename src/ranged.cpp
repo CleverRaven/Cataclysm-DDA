@@ -60,6 +60,7 @@
 #include "units.h"
 #include "material.h"
 #include "type_id.h"
+#include "point.h"
 
 const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );
@@ -529,7 +530,8 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     units::volume volume = to_throw.volume();
     units::mass weight = to_throw.weight();
 
-    const int stamina_cost = ( ( weight / 100_gram ) + 20 ) * -1;
+    const int stamina_cost = ( static_cast<int>( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) )
+                               + ( weight / 10_gram ) + 200 ) * -1;
     mod_stat( "stamina", stamina_cost );
 
     const skill_id &skill_used = skill_throw;
@@ -609,6 +611,10 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Not as much as in melee, though
     for( damage_unit &du : impact.damage_units ) {
         du.res_pen += skill_level / 2.0f;
+    }
+    // handling for tangling thrown items
+    if( thrown.has_flag( "TANGLE" ) ) {
+        proj_effects.insert( "TANGLE" );
     }
 
     // Put the item into the projectile
@@ -1704,7 +1710,7 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
         const bool no_mana )
 {
     player &pc = g->u;
-    if( !casting.can_cast( pc ) ) {
+    if( !no_mana && !casting.can_cast( pc ) ) {
         pc.add_msg_if_player( m_bad, _( "You don't have enough %s to cast this spell" ),
                               casting.energy_string() );
     }
@@ -2257,22 +2263,18 @@ static double dispersion_from_skill( double skill, double weapon_dispersion )
         return 0.0;
     }
     double skill_shortfall = double( MAX_SKILL ) - skill;
-    // Flat penalty dispersion per point of skill under max.
-    double flat_penalty = get_option< float >( "GUN_DISPERSION_FLAT_PENALTY_PER_SKILL" );
-    double dispersion_penalty = flat_penalty * skill_shortfall;
-    double skill_threshold = get_option< float >( "GUN_DISPERSION_SKILL_THRESHOLD" );
-    double mult_post_threshold = get_option< float >( "GUN_DISPERSION_MULT_POST_SKILL_THRESHOLD" );
+    double dispersion_penalty = 3 * skill_shortfall;
+    double skill_threshold = 5;
     if( skill >= skill_threshold ) {
         double post_threshold_skill_shortfall = double( MAX_SKILL ) - skill;
         // Lack of mastery multiplies the dispersion of the weapon.
-        return dispersion_penalty + weapon_dispersion * post_threshold_skill_shortfall *
-               mult_post_threshold / ( double( MAX_SKILL ) - skill_threshold );
+        return dispersion_penalty + ( weapon_dispersion * post_threshold_skill_shortfall * 1.25 ) /
+               ( double( MAX_SKILL ) - skill_threshold );
     }
     // Unskilled shooters suffer greater penalties, still scaling with weapon penalties.
     double pre_threshold_skill_shortfall = skill_threshold - skill;
-    double mult_pre_thershold = get_option< float >( "GUN_DISPERSION_MULT_PRE_SKILL_THRESHOLD" );
-    dispersion_penalty += weapon_dispersion * ( mult_post_threshold + pre_threshold_skill_shortfall *
-                          mult_pre_thershold / skill_threshold );
+    dispersion_penalty += weapon_dispersion *
+                          ( 1.25 + pre_threshold_skill_shortfall * 3.75 / skill_threshold );
 
     return dispersion_penalty;
 }
@@ -2306,11 +2308,10 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
         dispersion.add_multiplier( 0.75 );
     }
 
-    if( ( is_underwater() && !obj.has_flag( "UNDERWATER_GUN" ) ) ||
-        // Range is effectively four times longer when shooting unflagged guns underwater.
-        ( !is_underwater() && obj.has_flag( "UNDERWATER_GUN" ) ) ) {
-        // Range is effectively four times longer when shooting flagged guns out of water.
-        dispersion.add_range( 150 ); //Adding dispersion for additonal debuff
+    // Range is effectively four times longer when shooting unflagged/flagged guns underwater/out of water.
+    if( is_underwater() != obj.has_flag( "UNDERWATER_GUN" ) ) {
+        // Adding dispersion for additional debuff
+        dispersion.add_range( 150 );
         dispersion.add_multiplier( 4 );
     }
 

@@ -14,7 +14,6 @@
 #include <memory>
 #include <unordered_map>
 
-#include "ammo.h"
 #include "avatar.h"
 #include "cata_utility.h"
 // needed for the workaround for the std::to_string bug in some compilers
@@ -62,13 +61,13 @@
 #include "faction.h"
 #include "game_constants.h"
 #include "int_id.h"
-#include "item.h"
 #include "mapdata.h"
 #include "material.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "player.h"
+#include "point.h"
 
 class basecamp;
 
@@ -90,6 +89,7 @@ const efftype_id effect_infection( "infection" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_sleep( "sleep" );
+const efftype_id effect_under_op( "under_operation" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
@@ -409,10 +409,10 @@ void game::chat()
                 for( npc *them : followers ) {
                     talk_function::assign_guard( *them );
                 }
-                yell_msg =  _( "Everyone guard here!" );
+                yell_msg = _( "Everyone guard here!" );
             } else {
                 talk_function::assign_guard( *followers[npcselect] );
-                yell_msg =  string_format( _( "Guard here, %s!" ), followers[npcselect]->name );
+                yell_msg = string_format( _( "Guard here, %s!" ), followers[npcselect]->name );
             }
             break;
         }
@@ -425,10 +425,10 @@ void game::chat()
                 for( npc *them : guards ) {
                     talk_function::stop_guard( *them );
                 }
-                yell_msg =  _( "Everyone follow me!" );
+                yell_msg = _( "Everyone follow me!" );
             } else {
                 talk_function::stop_guard( *guards[npcselect] );
-                yell_msg =  string_format( _( "Follow me, %s!" ), guards[npcselect]->name );
+                yell_msg = string_format( _( "Follow me, %s!" ), guards[npcselect]->name );
             }
             break;
         }
@@ -513,7 +513,7 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
             return;
             // discount if sound source is player, or seen by player,
             // listener is neutral and sound type is worth investigating.
-        } else if( spriority <  sounds::sound_t::destructive_activity &&
+        } else if( spriority < sounds::sound_t::destructive_activity &&
                    get_attitude_group( get_attitude() ) != attitude_group::hostile ) {
             return;
         }
@@ -723,8 +723,11 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
                g->u.activity.index == getID() ) {
         return;
     }
-    g->cancel_activity_or_ignore_query( distraction_type::talked_to,
-                                        string_format( _( "%s talked to you." ), name ) );
+
+    if( !g->u.has_effect( effect_under_op ) ) {
+        g->cancel_activity_or_ignore_query( distraction_type::talked_to,
+                                            string_format( _( "%s talked to you." ), name ) );
+    }
 }
 
 std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
@@ -1787,8 +1790,15 @@ void talk_effect_fun_t::set_u_buy_item( const std::string &item_name, int cost, 
             return;
         }
         if( container_name.empty() ) {
-            item new_item = item( item_name, calendar::turn, count );
-            u.i_add( new_item );
+            item new_item = item( item_name, calendar::turn, 1 );
+            if( new_item.count_by_charges() ) {
+                new_item.mod_charges( count - 1 );
+                u.i_add( new_item );
+            } else {
+                for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
+                    u.i_add( new_item );
+                }
+            }
             if( count == 1 ) {
                 //~ %1%s is the NPC name, %2$s is an item
                 popup( _( "%1$s gives you a %2$s." ), p.name, new_item.tname() );
@@ -1811,7 +1821,7 @@ void talk_effect_fun_t::set_u_sell_item( const std::string &item_name, int cost,
     function = [item_name, cost, count]( const dialogue & d ) {
         npc &p = *d.beta;
         player &u = *d.alpha;
-        item old_item = item( item_name, calendar::turn, count );
+        item old_item = item( item_name, calendar::turn, 1 );
         if( u.has_charges( item_name, count ) ) {
             u.use_charges( item_name, count );
         } else if( u.has_amount( item_name, count ) ) {
@@ -1821,7 +1831,14 @@ void talk_effect_fun_t::set_u_sell_item( const std::string &item_name, int cost,
             popup( _( "You don't have a %1$s!" ), old_item.tname() );
             return;
         }
-        p.i_add( old_item );
+        if( old_item.count_by_charges() ) {
+            old_item.mod_charges( count - 1 );
+            p.i_add( old_item );
+        } else {
+            for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
+                p.i_add( old_item );
+            }
+        }
 
         if( count == 1 ) {
             //~ %1%s is the NPC name, %2$s is an item
@@ -2789,7 +2806,7 @@ void conditional_t::set_at_om_location( JsonObject &jo, const std::string &membe
         oter_id &omt_ref = overmap_buffer.ter( omt_pos );
 
         if( location == "FACTION_CAMP_ANY" ) {
-            cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.x, omt_pos.y );
+            cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
             if( bcp ) {
                 return true;
             }

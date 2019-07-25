@@ -3,7 +3,6 @@
 #include <cstdlib>
 #include <cstring>
 #include <array>
-#include <iosfwd>
 
 #include "options.h"
 #include "wcwidth.h"

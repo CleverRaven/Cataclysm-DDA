@@ -12,11 +12,12 @@
 #include "weather.h"
 #include "creature.h"
 #include "cursesdef.h"
-#include "enums.h"
 #include "game_constants.h"
 #include "posix_time.h"
 #include "translations.h"
 #include "type_id.h"
+#include "explosion.h"
+#include "point.h"
 
 #if defined(TILES)
 #include <memory>
@@ -39,7 +40,7 @@ class basic_animation
 {
     public:
         basic_animation( const int scale ) :
-            delay{ 0, get_option<int>( "ANIMATION_DELAY" ) * scale * 1000000l } {
+            delay{ 0, get_option<int>( "ANIMATION_DELAY" ) * scale * 1000000L } {
         }
 
         void draw() const {

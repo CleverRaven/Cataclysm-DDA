@@ -39,6 +39,15 @@
     "components": [ [ [ "scrap", 5 ] ] ]
   },
   {
+    "result": "atgm_spent",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "30 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_chunk", 38 ] ] ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
     "result": "mattress",
     "type": "uncraft",
     "skill_used": "tailor",

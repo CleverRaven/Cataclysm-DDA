@@ -14,7 +14,6 @@
 #include "game.h"
 #include "item.h"
 #include "itype.h"
-#include "player.h"
 #include "profession.h"
 #include "scenario.h"
 #include "string_id.h"

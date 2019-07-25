@@ -12,7 +12,6 @@
 #include "compatibility.h" // IWYU pragma: keep
 #include "input.h"
 #include "output.h"
-#include "player.h"
 #include "npc.h"
 #include "color.h"
 #include "debug.h"

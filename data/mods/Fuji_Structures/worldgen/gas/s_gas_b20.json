@@ -124,7 +124,7 @@
         { "monster": "GROUP_BUNKER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.8 },
         { "monster": "GROUP_SCI", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.5 }
       ],
-      "fields": { "l": { "field": "fd_nuke_gas", "density": 1, "age": 0 }, "L": { "field": "fd_nuke_gas", "density": 1, "age": 0 } }
+      "fields": { "l": { "field": "fd_nuke_gas", "intensity": 1, "age": 0 }, "L": { "field": "fd_nuke_gas", "intensity": 1, "age": 0 } }
     }
   }
 ]

@@ -16,7 +16,6 @@
 #include <string>
 #include <utility>
 #include <vector>
-#include <type_traits>
 #if defined(_WIN32)
 #include "platform_win.h"
 #else

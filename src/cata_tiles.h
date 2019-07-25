@@ -5,7 +5,6 @@
 #include <cstddef>
 #include <memory>
 #include <map>
-#include <set>
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -16,15 +15,14 @@
 #include "lightmap.h"
 #include "line.h"
 #include "options.h"
-#include "game_constants.h"
 #include "weather.h"
 #include "enums.h"
 #include "weighted_list.h"
+#include "point.h"
 
 class Creature;
 class player;
 class pixel_minimap;
-
 class JsonObject;
 
 extern void set_displaybuffer_rendertarget();

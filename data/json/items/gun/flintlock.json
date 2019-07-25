@@ -5,7 +5,15 @@
     "type": "GUN",
     "name": "flintlock carbine",
     "description": "This short rifle design once dominated the battlefields of ancient Europe, and may yet re-earn its feared status due to its ease of handling and ability to use easily-crafted ammunition.",
-    "valid_mod_locations": [ [ "accessories", 1 ], [ "sling", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 1 ],
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "relative": { "weight": -500, "volume": -4, "range": -2, "ranged_damage": -4 },
     "proportional": { "bashing": 0.6, "dispersion": 1.35, "reload": 0.6 }
   },
@@ -42,7 +50,14 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 600,
-    "valid_mod_locations": [ [ "accessories", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "flags": [ "NEVER_JAMS" ]
   },
   {
@@ -67,7 +82,15 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 1200,
-    "valid_mod_locations": [ [ "accessories", 1 ], [ "sling", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ]
+    ],
     "flags": [ "NEVER_JAMS", "DURABLE_MELEE" ]
   }
 ]

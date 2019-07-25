@@ -1,6 +1,7 @@
 #include "translations.h"
 
 #include <clocale>
+#include <array>
 
 #if defined(LOCALIZE) && defined(__STRICT_ANSI__)
 #undef __STRICT_ANSI__ // _putenv in minGW need that
@@ -23,6 +24,7 @@
 #include "output.h"
 #include "path_info.h"
 #include "cursesdef.h"
+#include "cata_utility.h"
 
 // Names depend on the language settings. They are loaded from different files
 // based on the currently used language. If that changes, we have to reload the

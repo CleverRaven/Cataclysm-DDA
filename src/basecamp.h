@@ -6,13 +6,12 @@
 #include <list>
 #include <memory>
 #include <vector>
-#include <list>
 #include <map>
 #include <set>
 #include <string>
 
-#include "enums.h"
 #include "inventory.h"
+#include "point.h"
 
 class JsonIn;
 class JsonOut;

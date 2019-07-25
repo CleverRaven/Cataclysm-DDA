@@ -2,6 +2,17 @@
 
 #include "pixel_minimap.h"
 
+#include <assert.h>
+#include <stdlib.h>
+#include <set>
+#include <vector>
+#include <algorithm>
+#include <array>
+#include <bitset>
+#include <cmath>
+#include <iterator>
+#include <utility>
+
 #include "avatar.h"
 #include "coordinate_conversions.h"
 #include "game.h"
@@ -9,12 +20,17 @@
 #include "mapdata.h"
 #include "monster.h"
 #include "sdl_utils.h"
-#include "player.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-#include <set>
-#include <vector>
+#include "cata_utility.h"
+#include "character.h"
+#include "color.h"
+#include "creature.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "lightmap.h"
+#include "math_defines.h"
+#include "optional.h"
 
 extern void set_displaybuffer_rendertarget();
 

@@ -15,7 +15,17 @@
     "dispersion": 550,
     "durability": 6,
     "clip_size": 1,
-    "reload": 350
+    "reload": 350,
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "m320",
@@ -53,7 +63,17 @@
     "dispersion": 150,
     "durability": 8,
     "clip_size": 1,
-    "reload": 250
+    "reload": 250,
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "mark19",
@@ -73,7 +93,15 @@
     "dispersion": 180,
     "durability": 8,
     "reload": 400,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "brass catcher", 1 ], [ "sights", 1 ], [ "sling", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "modes": [ [ "DEFAULT", "semi-auto", 1, "NPC_AVOID" ], [ "AUTO", "auto", 6, "NPC_AVOID" ] ],
     "magazines": [ [ "40mm", [ "belt40mm" ] ] ],
     "flags": [ "MOUNTED_GUN" ]
@@ -95,7 +123,17 @@
     "dispersion": 270,
     "durability": 8,
     "clip_size": 6,
-    "reload": 300
+    "reload": 300,
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "rm802",

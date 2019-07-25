@@ -411,7 +411,6 @@
           "mx_portal": 3,
           "mx_minefield": 50,
           "mx_crater": 10,
-          "mx_fumarole": 8,
           "mx_portal_in": 1,
           "mx_anomaly": 3,
           "mx_spider": 200,
@@ -434,7 +433,6 @@
           "mx_portal": 3,
           "mx_minefield": 50,
           "mx_crater": 10,
-          "mx_fumarole": 8,
           "mx_portal_in": 1,
           "mx_anomaly": 3,
           "mx_shia": 1,
@@ -459,7 +457,6 @@
           "mx_portal": 3,
           "mx_minefield": 50,
           "mx_crater": 10,
-          "mx_fumarole": 8,
           "mx_portal_in": 1,
           "mx_anomaly": 3,
           "mx_spider": 200,
@@ -482,7 +479,6 @@
           "mx_portal": 3,
           "mx_minefield": 50,
           "mx_crater": 10,
-          "mx_fumarole": 8,
           "mx_portal_in": 1,
           "mx_anomaly": 3
         }
@@ -501,7 +497,6 @@
           "mx_portal": 5,
           "mx_minefield": 80,
           "mx_crater": 10,
-          "mx_fumarole": 8,
           "mx_portal_in": 2,
           "mx_anomaly": 3
         }
@@ -514,22 +509,13 @@
           "mx_collegekids": 15,
           "mx_portal": 5,
           "mx_crater": 60,
-          "mx_fumarole": 8,
           "mx_portal_in": 1,
           "mx_anomaly": 3
         }
       },
       "subway": {
         "chance": 75,
-        "extras": {
-          "mx_military": 5,
-          "mx_science": 12,
-          "mx_collegekids": 15,
-          "mx_portal": 7,
-          "mx_fumarole": 20,
-          "mx_portal_in": 1,
-          "mx_anomaly": 3
-        }
+        "extras": { "mx_military": 5, "mx_science": 12, "mx_collegekids": 15, "mx_portal": 7, "mx_portal_in": 1, "mx_anomaly": 3 }
       }
     },
     "num_forests": 250,

@@ -2,9 +2,17 @@
 #ifndef MAP_EXTRAS_H
 #define MAP_EXTRAS_H
 
+#include <stdint.h>
 #include <string>
+#include <unordered_map>
 
-#include "mapgen.h"
+#include "catacharset.h"
+#include "color.h"
+#include "string_id.h"
+
+class JsonObject;
+class map;
+struct tripoint;
 
 using map_extra_pointer = void( * )( map &, const tripoint & );
 

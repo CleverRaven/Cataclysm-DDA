@@ -1,6 +1,9 @@
 #include "fungal_effects.h"
 
 #include <memory>
+#include <algorithm>
+#include <ostream>
+#include <string>
 
 #include "avatar.h"
 #include "creature.h"
@@ -21,6 +24,10 @@
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
+#include "colony.h"
+#include "debug.h"
+#include "point.h"
+#include "string_formatter.h"
 
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 const mtype_id mon_spore( "mon_spore" );
@@ -150,7 +157,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
         }
     } else if( m.has_flag( "YOUNG", p ) ) {
         if( x_in_y( growth * 10, 500 ) ) {
-            if( m.get_field_strength( p, fd_fungal_haze ) != 0 ) {
+            if( m.get_field_intensity( p, fd_fungal_haze ) != 0 ) {
                 if( x_in_y( growth * 10, 800 ) ) { // young trees are vulnerable
                     m.ter_set( p, t_fungus );
                     gm.summon_mon( mon_fungal_blossom, p );
@@ -167,7 +174,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
         }
     } else if( m.has_flag( "TREE", p ) ) {
         if( one_in( 10 ) ) {
-            if( m.get_field_strength( p, fd_fungal_haze ) != 0 ) {
+            if( m.get_field_intensity( p, fd_fungal_haze ) != 0 ) {
                 if( x_in_y( growth * 10, 100 ) ) {
                     m.ter_set( p, t_fungus );
                     gm.summon_mon( mon_fungal_blossom, p );

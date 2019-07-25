@@ -20,9 +20,9 @@
 #include "game_constants.h"
 #include "omdata.h"
 #include "optional.h"
+#include "point.h"
 
 class avatar;
-class player;
 class mission;
 class Creature;
 class JsonObject;
@@ -144,12 +144,13 @@ struct mission_fail {
 };
 
 struct mission_target_params {
-    std::string overmap_terrain_subtype;
+    std::string overmap_terrain;
+    ot_match_type overmap_terrain_match_type = ot_match_type::type;
     mission *mission_pointer;
 
     bool origin_u = true;
     cata::optional<tripoint> offset;
-    cata::optional<std::string> replaceable_overmap_terrain_subtype;
+    cata::optional<std::string> replaceable_overmap_terrain;
     cata::optional<overmap_special_id> overmap_special;
     cata::optional<int> reveal_radius;
     int min_distance = 0;

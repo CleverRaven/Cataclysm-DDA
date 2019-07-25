@@ -2080,5 +2080,77 @@
     "speaker": "creepy_doll",
     "sound": "My previous owner squealed like a pig when I gutted her!",
     "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog",
+    "sound": "BARK!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_bull",
+    "sound": "BARK!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_pitbullmix",
+    "sound": "BARK!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_beagle",
+    "sound": "YAP!",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_bcollie",
+    "sound": "BARK!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_boxer",
+    "sound": "BARK!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_chihuahua",
+    "sound": "YAP!",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_dachshund",
+    "sound": "YAP!",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_gshepherd",
+    "sound": "BARK!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_gpyrenees",
+    "sound": "WOOF!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_rottweiler",
+    "sound": "WOOF!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_auscattle",
+    "sound": "BARK!",
+    "volume": 40
   }
 ]

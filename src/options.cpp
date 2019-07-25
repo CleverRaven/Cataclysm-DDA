@@ -1,6 +1,7 @@
 #include "options.h"
 
 #include <climits>
+#include <type_traits>
 
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -39,7 +40,6 @@
 #include <sstream>
 #include <string>
 #include <exception>
-#include <iterator>
 
 bool trigdist;
 bool use_tiles;
@@ -1224,7 +1224,7 @@ void options_manager::add_options_general()
        );
 
     add( "SOUNDPACKS", "general", translate_marker( "Choose soundpack" ),
-         translate_marker( "Choose the soundpack you want to use." ),
+         translate_marker( "Choose the soundpack you want to use.  Requires restart." ),
          build_soundpacks_list(), "basic", COPT_NO_SOUND_HIDE
        ); // populate the options dynamically
 
@@ -1232,21 +1232,21 @@ void options_manager::add_options_general()
 
     add( "MUSIC_VOLUME", "general", translate_marker( "Music volume" ),
          translate_marker( "Adjust the volume of the music being played in the background." ),
-         0, 200, 100, COPT_NO_SOUND_HIDE
+         0, 128, 100, COPT_NO_SOUND_HIDE
        );
 
     get_option( "MUSIC_VOLUME" ).setPrerequisite( "SOUND_ENABLED" );
 
     add( "SOUND_EFFECT_VOLUME", "general", translate_marker( "Sound effect volume" ),
          translate_marker( "Adjust the volume of sound effects being played by the game." ),
-         0, 200, 100, COPT_NO_SOUND_HIDE
+         0, 128, 100, COPT_NO_SOUND_HIDE
        );
 
     get_option( "SOUND_EFFECT_VOLUME" ).setPrerequisite( "SOUND_ENABLED" );
 
     add( "AMBIENT_SOUND_VOLUME", "general", translate_marker( "Ambient sound volume" ),
          translate_marker( "Adjust the volume of ambient sounds being played by the game." ),
-         0, 200, 100, COPT_NO_SOUND_HIDE
+         0, 128, 100, COPT_NO_SOUND_HIDE
        );
 
     get_option( "AMBIENT_SOUND_VOLUME" ).setPrerequisite( "SOUND_ENABLED" );
@@ -1372,7 +1372,7 @@ void options_manager::add_options_interface()
          * `Shift` + `Cursor Left` -> `7` = `Move Northwest`;
          * `Shift` + `Cursor Right` -> `3` = `Move Southeast`;
          * `Shift` + `Cursor Up` -> `9` = `Move Northeast`;
-         * `Shift` + `Cursor Down` -> `1` =  `Move Southwest`.
+         * `Shift` + `Cursor Down` -> `1` = `Move Southwest`.
 
          and
 
@@ -1386,7 +1386,7 @@ void options_manager::add_options_interface()
          * `Shift` + `Cursor Left` -> `7` = `Move Northwest`;
          * `Ctrl` + `Cursor Left` -> `3` = `Move Southeast`;
          * `Shift` + `Cursor Right` -> `9` = `Move Northeast`;
-         * `Ctrl` + `Cursor Right` -> `1` =  `Move Southwest`.
+         * `Ctrl` + `Cursor Right` -> `1` = `Move Southwest`.
 
          */
     translate_marker( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", translate_marker( "None" ) }, { "mode1", translate_marker( "Mode 1: Numpad Emulation" ) }, { "mode2", translate_marker( "Mode 2: CW/CCW" ) }, { "mode3", translate_marker( "Mode 3: L/R Tilt" ) } },
@@ -2685,6 +2685,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
     if( lang_changed ) {
         set_language();
     }
+    calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
+    calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
 #if !defined(__ANDROID__) && (defined(TILES) || defined(_WIN32))
     if( terminal_size_changed ) {
@@ -2814,6 +2816,8 @@ void options_manager::load()
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
+    calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
+    calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 #if defined(SDL_SOUND)
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 #endif

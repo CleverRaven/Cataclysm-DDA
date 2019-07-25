@@ -18,25 +18,38 @@
       "R": "t_floor",
       "S": "t_floor",
       "~": "t_sidewalk",
-      "-": "t_wall",
-      "|": "t_wall",
+      "-": "t_wall_w",
+      "|": "t_wall_w",
       "'": "t_window",
       "`": "t_window_alarm",
       "+": "t_door_c",
-      "/": "t_door_curtain_c"
+      "/": "t_door_curtain_c",
+      "Y": "t_concrete",
+      "U": "t_concrete",
+      "4": "t_gutter_downspout",
+      "<": "t_ladder_up"
     },
     "furniture": {
       "#": "f_counter",
+      "U": [ "f_dumpster", "f_recycle_bin" ],
       "h": "f_chair",
       "%": "f_sink",
       "@": "f_mannequin",
+      "L": "f_locker",
       "^": [ "f_bigmirror", "f_bigmirror", "f_bigmirror", "f_bigmirror_b" ],
       "R": "f_rack",
       "S": "f_stool",
       "A": "f_rack",
       "B": "f_rack",
       "C": "f_rack",
-      "D": [ "f_displaycase", "f_displaycase", "f_displaycase", "f_displaycase", "f_displaycase_b" ]
+      "D": [ "f_displaycase", "f_displaycase", "f_displaycase", "f_displaycase", "f_displaycase_b" ],
+      "*": "f_canvas_wall",
+      "8": "f_groundsheet",
+      "]": "f_canvas_door",
+      "Q": "f_camp_chair",
+      "b": "f_brazier",
+      "r": "f_tourist_table",
+      "d": "f_mannequin"
     },
     "toilets": { "&": {  } }
   }

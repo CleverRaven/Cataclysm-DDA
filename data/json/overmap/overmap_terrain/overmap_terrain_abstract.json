@@ -164,7 +164,7 @@
     "color": "white",
     "extras": "field",
     "see_cost": 5,
-    "monster_density": 2
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",

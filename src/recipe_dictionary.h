@@ -138,6 +138,9 @@ class recipe_subset
         /** Find recently used recipes */
         std::vector<const recipe *> recent() const;
 
+        /** Find hidden recipes */
+        std::vector<const recipe *> hidden() const;
+
         /** Find recipes matching query (left anchored partial matches are supported) */
         std::vector<const recipe *> search( const std::string &txt,
                                             const search_type key = search_type::name ) const;

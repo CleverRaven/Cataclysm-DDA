@@ -7,7 +7,6 @@
 #include <list>
 #include <map>
 #include <memory>
-#include <unordered_map>
 #include <set>
 #include <vector>
 #include <ctime>
@@ -15,22 +14,22 @@
 #include <iosfwd>
 #include <string>
 #include <chrono>
+#include <unordered_set>
 
 #include "calendar.h"
 #include "cursesdef.h"
 #include "enums.h"
-#include "explosion.h"
 #include "game_constants.h"
-#include "handle_liquid.h"
 #include "item_location.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "creature.h"
-#include "item.h"
 #include "type_id.h"
 #include "monster.h"
-#include "game_inventory.h"
 #include "weather.h"
+#include "point.h"
+
+class item;
 
 #define DEFAULT_TILESET_ZOOM 16
 
@@ -80,7 +79,6 @@ enum weather_type : int;
 enum action_id : int;
 enum target_mode : int;
 
-struct targeting_data;
 struct special_game;
 
 using itype_id = std::string;
@@ -102,11 +100,7 @@ class overmap;
 class event_manager;
 
 enum event_type : int;
-class weather_generator;
-struct weather_printable;
 class live_view;
-class nc_color;
-struct w_point;
 struct visibility_variables;
 class scent_map;
 class loading_ui;
@@ -411,7 +405,7 @@ class game
          */
         bool revive_corpse( const tripoint &location, item &corpse );
         /**Turns Broken Cyborg monster into Cyborg NPC via surgery*/
-        void save_cyborg( item *cyborg, const tripoint couch_pos, player &installer );
+        void save_cyborg( item *cyborg, const tripoint &couch_pos, player &installer );
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
         bool cancel_activity_query( const std::string &message );
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
@@ -470,13 +464,20 @@ class game
         void catch_a_monster( monster *fish, const tripoint &pos, player *p,
                               const time_duration &catch_duration );
         /**
-         * Get the fishable monsters within the contiguous fishable terrain starting at fish_pos,
-         * out to the specificed distance.
-         * @param distance Distance around the fish_pos to examine for contiguous fishable terrain.
+         * Get the contiguous fishable locations starting at fish_pos, out to the specificed distance.
+         * @param distance Distance around the fish_pos to examine for contiguous fishable locations.
          * @param fish_pos The location being fished.
-         * @return Fishable monsters within the specified contiguous fishable terrain.
+         * @return A set of locations representing the valid contiguous fishable locations.
          */
-        std::vector<monster *> get_fishable( int distance, const tripoint &fish_pos );
+        std::unordered_set<tripoint> get_fishable_locations( int distance, const tripoint &fish_pos );
+        /**
+         * Get the fishable monsters within the provided fishable locations.
+         * @param fishable_locations A set of locations which are valid fishable terrain. Any fishable monsters
+         * are filtered by this collection to determine those which can actually be caught.
+         * @return Fishable monsters within the specified fishable terrain.
+         */
+        std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint> &fishable_locations );
+
         /** Flings the input creature in the given direction. */
         void fling_creature( Creature *c, const int &dir, float flvel, bool controlled = false );
 
@@ -671,6 +672,8 @@ class game
         bool walk_move( const tripoint &dest );
         void on_move_effects();
 
+        // returns player's "kill xp" for monsters via STK
+        int kill_xp() const;
     private:
         // Game-start procedures
         void load( const save_t &name ); // Load a player-specific save file

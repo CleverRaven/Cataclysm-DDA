@@ -9,8 +9,6 @@
 #include <vector>
 #include <utility>
 
-#include "faction.h"
-#include "int_id.h"
 #include "mapgen_functions.h"
 #include "regional_settings.h"
 #include "type_id.h"
@@ -22,6 +20,7 @@ class JsonObject;
 class mission;
 struct tripoint;
 class map;
+template <typename T> struct weighted_int_list;
 
 using building_gen_pointer = void ( * )( map *, oter_id, mapgendata, const time_point &, float );
 

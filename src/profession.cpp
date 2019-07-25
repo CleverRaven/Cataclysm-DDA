@@ -7,6 +7,7 @@
 #include <memory>
 
 #include "addiction.h"
+#include "avatar.h"
 #include "debug.h"
 #include "generic_factory.h"
 #include "item_group.h"
@@ -19,6 +20,8 @@
 #include "translations.h"
 #include "calendar.h"
 #include "item.h"
+#include "flat_set.h"
+#include "type_id.h"
 
 namespace
 {
@@ -172,6 +175,17 @@ void profession::load( JsonObject &jo, const std::string & )
             }
         }
     }
+
+    if( jo.has_array( "spells" ) ) {
+        JsonArray array = jo.get_array( "spells" );
+        while( array.has_more() ) {
+            JsonObject subobj = array.next_object();
+            int level = subobj.get_int( "level" );
+            spell_id sp = spell_id( subobj.get_string( "id" ) );
+            _starting_spells.emplace( sp, level );
+        }
+    }
+
     mandatory( jo, was_loaded, "points", _point_cost );
 
     if( !was_loaded || jo.has_member( "items" ) ) {
@@ -437,6 +451,22 @@ bool profession::is_locked_trait( const trait_id &trait ) const
 {
     return std::find( _starting_traits.begin(), _starting_traits.end(), trait ) !=
            _starting_traits.end();
+}
+
+std::map<spell_id, int> profession::spells() const
+{
+    return _starting_spells;
+}
+
+void profession::learn_spells( avatar &you ) const
+{
+    for( const std::pair<spell_id, int> spell_pair : spells() ) {
+        you.magic.learn_spell( spell_pair.first, you, true );
+        spell &sp = you.magic.get_spell( spell_pair.first );
+        while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
+            sp.gain_level();
+        }
+    }
 }
 
 // item_substitution stuff:

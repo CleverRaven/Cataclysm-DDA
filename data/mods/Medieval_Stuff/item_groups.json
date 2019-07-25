@@ -20,11 +20,6 @@
     "id": "antique_rare",
     "type": "item_group",
     "items": [
-      [ "ji", 1 ],
-      [ "dao", 3 ],
-      [ "sword_xiphos", 4 ],
-      [ "khopesh", 4 ],
-      [ "spear_dory", 3 ],
       [ "fire_lance", 2 ],
       [ "lance_charge", 1 ],
       [ "lance_charge_shot", 1 ],
@@ -39,7 +34,7 @@
   {
     "id": "museum_melee",
     "type": "item_group",
-    "items": [ [ "ji", 2 ], [ "dao", 3 ], [ "sword_xiphos", 4 ], [ "sword_forged", 3 ], [ "khopesh", 4 ], [ "spear_dory", 3 ] ]
+    "items": [ [ "ji", 2 ], [ "dao", 3 ], [ "sword_xiphos", 4 ], [ "khopesh", 4 ], [ "spear_dory", 3 ] ]
   },
   {
     "id": "museum_guns",
@@ -60,9 +55,6 @@
     "id": "museum_armor",
     "type": "item_group",
     "items": [
-      [ "helmet_corinthian", 45 ],
-      [ "armor_cuirass", 25 ],
-      [ "legguard_bronze", 20 ],
       [ "shield_wooden", 10 ],
       [ "shield_wooden_large", 5 ],
       [ "shield_hoplon", 10 ],

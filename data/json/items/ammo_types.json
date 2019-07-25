@@ -207,7 +207,13 @@
     "type": "ammunition_type",
     "id": "3006",
     "name": ".30-06",
-    "default": "270"
+    "default": "3006"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "270win",
+    "name": ".270 Winchester",
+    "default": "270win_jsp"
   },
   {
     "type": "ammunition_type",
@@ -310,12 +316,6 @@
     "id": "reactor_slurry",
     "name": "plutonium slurry",
     "default": "plut_slurry"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "fusion",
-    "name": "fusion cell",
-    "default": "laser_pack"
   },
   {
     "type": "ammunition_type",
@@ -508,6 +508,12 @@
     "id": "homebrew_rocket",
     "name": "homebrew rocket",
     "default": "spiked_rocket"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "atgm",
+    "name": "152mm anti-tank guided missile",
+    "default": "atgm_heat"
   },
   {
     "type": "ammunition_type",

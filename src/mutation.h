@@ -14,10 +14,10 @@
 #include "calendar.h"
 #include "character.h"
 #include "damage.h"
-#include "enums.h" // tripoint
 #include "string_id.h"
 #include "tuple_hash.h"
 #include "type_id.h"
+#include "point.h"
 
 class nc_color;
 class JsonObject;
@@ -139,6 +139,8 @@ struct mutation_branch {
         // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness
         float stealth_modifier = 0.0f;
 
+        // Speed lowers--or raises--for every X F (X C) degrees below or above 65 F (18.3 C)
+        float temperature_speed_modifier = 0.0f;
         // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
         float metabolism_modifier = 0.0f;
         // As above but for thirst.
@@ -155,6 +157,12 @@ struct mutation_branch {
 
         // Multiplier for sight range, defaulting to 1.
         float overmap_multiplier = 1.0f;
+
+        // Multiplier for map memory capacity, defaulting to 1.
+        float map_memory_capacity_multiplier = 1.0f;
+
+        // Multiplier for skill rust, defaulting to 1.
+        float skill_rust_multiplier = 1.0f;
 
         // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
         social_modifiers social_mods;

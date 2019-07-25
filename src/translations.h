@@ -5,6 +5,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <type_traits>
 
 #include "optional.h"
 

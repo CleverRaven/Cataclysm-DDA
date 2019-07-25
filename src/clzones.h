@@ -2,6 +2,7 @@
 #ifndef CLZONES_H
 #define CLZONES_H
 
+#include <stddef.h>
 #include <map>
 #include <unordered_map>
 #include <unordered_set>
@@ -11,8 +12,8 @@
 #include <memory>
 #include <string>
 
-#include "enums.h"
 #include "optional.h"
+#include "point.h"
 #include "string_id.h"
 #include "type_id.h"
 

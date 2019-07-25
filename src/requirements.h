@@ -169,6 +169,12 @@ struct requirement_data {
         alter_item_comp_vector components;
 
     public:
+
+        requirement_data() = default;
+        requirement_data( const alter_tool_comp_vector &tools, const alter_quali_req_vector &qualities,
+                          const alter_item_comp_vector &components ) : tools( tools ), qualities( qualities ),
+            components( components ) {}
+
         const requirement_id &id() const {
             return id_;
         }
@@ -270,9 +276,8 @@ struct requirement_data {
         requirement_data disassembly_requirements() const;
 
         /**
-         * Returns the requirements to continue an in progress craft with the passed components.
+         * Returns the item requirements to continue an in progress craft with the passed components.
          * Returned requirement_data is for *all* batches at once.
-         * TODO: Make this return tool and quality requirments as well
          */
         static requirement_data continue_requirements( const std::vector<item_comp> &required_comps,
                 const std::list<item> &remaining_comps );
