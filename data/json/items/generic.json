@@ -2390,7 +2390,7 @@
     "ammo_type": "NULL",
     "category": "other",
     "name": "autoclave pouch",
-    "description": "This is a medical device that bears the approval of the FDA (Food and Drug Administration).  If used properly, these pouches can keep things sterile indefinitly.",
+    "description": "This is a medical device that bears the approval of the FDA (Food and Drug Administration).  If used properly, these pouches can keep things sterile indefinitely.",
     "weight": 2,
     "volume": 0,
     "price": 5,
