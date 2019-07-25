@@ -2149,7 +2149,7 @@ int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
 
     if( !bionic.get_item()->has_flag( "NO_PACKED" ) ||
         bionic.get_item()->has_flag( "PACKED_FAULTY" ) ) {
-        if( !p->query_yn( _( "This CBM is already prepared.  Do you want to re-do it?" ) ) ) {
+        if( !p->query_yn( _( "This CBM is already packed.  Do you want to put it in a new pouch?" ) ) ) {
             return 0;
         }
     }
@@ -2162,10 +2162,9 @@ int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
     } else {
         bionic.get_item()->unset_flag( "NO_PACKED" );
         bionic.get_item()->set_flag( "PACKED_FAULTY" );
+        add_msg( m_info, _( "You put the CBM in the pouch and close it." ) );
         if( success == 0 ) {
             add_msg( m_bad, _( "You're not sure about the quality of your work." ) );
-        } else {
-            add_msg( m_info, _( "You put the CBM in the pouch and close it." ) );
         }
     }
 
