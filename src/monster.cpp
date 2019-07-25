@@ -384,7 +384,7 @@ void monster::try_reproduce()
         return;
     }
 
-    const int current_day = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
+    const int current_day = to_days<int>( calendar::turn - calendar::turn_zero );
     if( baby_timer < 0 ) {
         baby_timer = type->baby_timer;
         if( baby_timer < 0 ) {
@@ -447,7 +447,7 @@ void monster::try_biosignature()
         return;
     }
 
-    const int current_day = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
+    const int current_day = to_days<int>( calendar::turn - calendar::turn_zero );
     if( biosig_timer < 0 ) {
         biosig_timer = type->biosig_timer;
         if( biosig_timer < 0 ) {
