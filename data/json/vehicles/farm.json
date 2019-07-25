@@ -244,8 +244,8 @@
       { "x": -1, "y": 1, "parts": [ "frame_cross", "wood box" ] },
       { "x": -1, "y": -1, "parts": [ "frame_cross", "wood box" ] },
       { "x": -2, "y": 0, "parts": [ "frame_cross", "wooden_aisle_vertical" ] },
-      { "x": -2, "y": 1, "parts": [ "frame_cross", "wood box" ] },
-      { "x": -2, "y": -1, "parts": [ "frame_cross", "wood box" ] }
+      { "x": -2, "y": 1, "parts": [ "frame_cross", "wood box", "wheel_wood_b" ] },
+      { "x": -2, "y": -1, "parts": [ "frame_cross", "wood box", "wheel_wood_b" ] }
     ]
   }
 ]
