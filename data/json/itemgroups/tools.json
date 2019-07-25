@@ -52,7 +52,7 @@
       [ "bucket", 5 ],
       [ "jumper_cable", 10 ],
       [ "funnel", 50 ],
-      [ "claw_bar", 5 ],
+      [ "claw_bar", 2 ],
       [ "crowbar", 10 ],
       [ "thermometer", 5 ],
       [ "multitool", 10 ],
@@ -113,7 +113,7 @@
     "items": [
       { "group": "tools_common", "prob": 100 },
       [ "wrench", 200 ],
-      [ "claw_bar", 5 ],
+      [ "claw_bar", 2 ],
       [ "crowbar", 10 ],
       [ "pliers", 200 ],
       [ "bucket", 50 ],

@@ -2883,7 +2883,7 @@
     "to_hit": 1,
     "bashing": 10,
     "cutting": 1,
-    "material": [ "steel"],
+    "material": "steel",
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "PRY", 2 ], [ "HAMMER", 1 ] ],
