@@ -16,6 +16,8 @@
       "l": "t_metal_floor",
       "S": "t_metal_floor",
       "T": "t_metal_floor",
+      "z": "t_metal_floor",
+      "Z": "t_metal_floor",
       "+": "t_door_metal_c",
       "D": "t_door_metal_locked",
       "g": "t_reinforced_glass",

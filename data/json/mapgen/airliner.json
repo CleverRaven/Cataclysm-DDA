@@ -21,7 +21,7 @@
         "                              ddmmgggggmmddd *                          ",
         "                             dddmggxxxggmddd                            ",
         "                              ddmgxa.axgmddd                            ",
-        "                              ddmMl...lMmddd                            ",
+        "                              ddmMlz.ZlMmddd                            ",
         "                        *     ddMMMM+MMMMddd                            ",
         "                              ddD.......Ddd                             ",
         "                              d*MMMM.MMMMdd *                           ",
@@ -29,11 +29,11 @@
         "                             dddsaaa.aaasd*                             ",
         "                             dddM.......Md                              ",
         "                             dddsaaa.aaasdd                             ",
-        "                              d*M.......Mdd        *                    ",
-        "                             *dd*.a..aaasdd                             ",
-        "                              ddd.......Mdd                             ",
-        "                            *  d*....aaasdd*                            ",
-        "                              ddMMMM.MMMMddd                            ",
+        "                              d*M.......Mdd d      *                    ",
+        "                             *d**..a.aaasdd                             ",
+        "                             dd**.......Mdd                             ",
+        "                            *d***.aa.aaasdd*                            ",
+        "                              d*MMMM.MMMMddd                            ",
         "                            *ddmM..+....Mm*dd                           ",
         "                            ddmmsTSM.aaasmm*d                           ",
         "                        dddddmmmMMMM....Mmmmd *                         ",
@@ -47,38 +47,38 @@
         "                   ddmmmmmmmmmmmD.......Dmmmmmdd  *                     ",
         "                d ddmmmmmmmmmmmmsaaa.aaasmmmmd*  **                     ",
         "                 ddmmmmmmmmmmmmmM.......Mmmmm*                          ",
-        "                ddmmmmmmmmmmmmmmsaaa.aaasmmmd                           ",
-        "              dddmmmmmmmmmmmmmmmM.......Mmmd*                           ",
+        "                ddmmmmmmmmmmmmmmsaaa.aaasmmmd  d                        ",
+        "              dddmmmmmmmmmmmmmmmM.......Mmmd*   d                       ",
         "       *      ddmmmmmmmmmmmmmmddsaaa.aaasdddd*                          ",
         "             ddmmmmmmmmmmmmmddddM.......Mddddd                          ",
-        "           dddmmmmmmmmmmmmddd*ddsaaa.aaasdddd   *                       ",
-        "           ddmmmmmmmmmmmdd*dd ddM........*dd                            ",
+        "           dddmmmmmmmmmmmmddd*ddsaaa.aaasdddd   *   d                   ",
+        "           ddmmmmmmmmmmmdd*dd ddM........*dd   d                        ",
         "         dddmmmmmmmmmmdddd*d  ddsaaa.aa.dd*dd                           ",
-        "        dddmmmmmmmmmdd  *dd  dddM.......*dddd    *                      ",
+        "        dddmmmmmmmmmdd  *dd  dddM.......*dddd d  *                      ",
         "      *dddmmmmmmmmddd   d*dd  ddsaaa.a.d**dd                            ",
-        "       ddmmmmmmmdddd   d**d * ddM......dddd   *                         ",
+        "       ddmmmmmmmdddd   d**d * ddM......dddd   *   d                     ",
         "     dddmmmmmmdddd    ddddd  dddsaaa.a>>*d*d                            ",
-        "     ddmmmmmdddd     ddddd*   ddMMMM..>>**dd  *                         ",
+        "     ddmmmmmdddd     ddddd*   ddM.....>>**dd  *                         ",
         "    ddmmmmdddd   *    d*dd    *dMMMM.a.dd**d       **                   ",
         "  dddmmmmdddd          dd    *ddMTSM....dddd* * ddddd *                 ",
         " dddmmmmdddd            d    ddds..+.aa.*dd**   dMMMdd                  ",
-        " ddmmmmdddd                  *ddMMMM.MMM.dd*   ddMMMMdd*                ",
+        " ddmmmmdddd                  *ddMMMM.MMM.dd* d ddMMMMdd*                ",
         "  dmmmdddd             *      dds..+.+...*d    *ddMMMMddd               ",
-        " dddd*dddd *                * d*MTSM.MSTM*d  *   *dMMMMd                ",
+        " dddd*dddd *            d   * d*MTSM.MSTM*d  *   *dMMMMd                ",
         " ddddd*dd                    dddMMMM.MMMMd*       ddddddd               ",
-        " ddddddd              *   *   ddD.......D*d    *  *dddddd *             ",
-        "ddddd*d                      *ddMMMM+MMMMddd *     ddddd                ",
-        " *ddddd      *               ddddMaa.alMddd        *ddd *               ",
+        " ddddddd              *   *   ddD.......D*d  d *  *dddddd *             ",
+        "ddddd*d                  d   *ddMMMM+MMMMddd *     ddddd                ",
+        " *ddddd      *     d   d     ddddMaa.alMddd     d  *ddd *               ",
         "  ddd*dd                   *  dddM....lMd*dd   *    ddd                 ",
-        " ddddddd              *      * ddMfccclMdd*d        dd                  ",
-        " dddddd*             *     *  dddMMMMMMM*ddd   *    d                   ",
-        " *dddddd                 *    d*ddM...Mddd*   *                         ",
-        " dddd*dd              *      d dddM.M.Mddd*                             ",
-        " ddddddd                *     ddddM...Mdd*dd*                           ",
-        "  ddddd*                     *dd*dMM.MMdddd*d    *                      ",
-        "  ddddd               *      ddddddM.Mdd*ddd    **           *          ",
-        " d dddd *                 d   dd*ddM.Mddd*ddd                    * *    ",
-        "   ddd            *    *     ddddd*M.Mdd*ddddd  *      *     dd     d   ",
+        " ddddddd              *      * ddMfccclMdd*d d      dd                  ",
+        " dddddd*             *   d *  dddMMMMMMM*ddd   *    d                   ",
+        " *dddddd                 *    d*ddMMMMMddd*   *                         ",
+        " dddd*dd            d *   d  d dddMMMMMddd*     d                       ",
+        " ddddddd                *     ddddMMMMMdd*dd*      d                    ",
+        "  ddddd*                     *dd*dMMMMMdddd*d    *                      ",
+        "  ddddd               * d    ddddddMMMdd*ddd    **           *          ",
+        " d dddd *                 d   dd*ddMMMddd*ddd                    * *    ",
+        "   ddd            *    *     ddddd*MMMdd*ddddd  *      *     dd     d   ",
         "    d                      d *dd*ddMMMdddd*dd              ddddddd      ",
         "        d           *  *  d  dd*ddddMddd* dd      *     * ddddMMMdd*  d ",
         "                            dddddd*ddd*dddddd  *         dddMMMMMMdd    ",
@@ -108,22 +108,22 @@
         "           d                  ddddddddddddd                             ",
         "                               ddddddddddd   d          *               ",
         "     d           d         *    ddddddd*ddd        d                    ",
-        "        d * dd                 ddddddddddddd    *                       ",
-        "       ddddddddd          d  dddddddddddddd  d      *                   ",
-        "   * dddMMMMMMMdd   *         dddddddddddd                              ",
-        "    ddMMMMMMMMMMd      d     dddd*dddddddddd   d                        ",
-        "    ddMMMMMMMMM.dd            dddddddddddddd                            ",
-        "    ddMMMMMMMMMMdd*     *     dd*ddddd*ddd*d         *                  ",
-        " *   dddMMMMMMMdd         d d  ddddddddddd        *                     ",
-        "       ddd*ddddd               ddddddddddddd  d                         ",
-        "       dddddddd  *    *       * ddddd*ddddd           *                 ",
-        "      * ddddddd             d  ddddddddddd*dd                           ",
-        "         ddddd  *               dd*ddddd***d                            ",
-        "         dddd           d d     ddddddd*ddd* d      *                   ",
-        "      d   ddd                  d*dddd*ddddd                             ",
-        "           dd       d d       dddd*dd*d*dd*d      *                     ",
-        "           d          *      * ddddd*ddd*dd   d          d              ",
-        "               d          d     *dd*dd*ddd*d*      *                    ",
+        "             d * dd            ddddddddddddd    *                       ",
+        "            ddddddddd     d  dddddddddddddd  d      *                   ",
+        "        * dddMMMMMMMdd  *     dddddddddddd                              ",
+        "         ddMMMMMMMMMMd  d    dddd*dddddddddd   d                        ",
+        "         ddMMMMMMMMM.dd       dddddddddddddd                            ",
+        "         ddMMMMMMMMMMdd* *    dd*ddddd*ddd*d         *                  ",
+        "    *     dddMMMMMMMdd    d d  ddddddddddd        *                     ",
+        "            ddd*ddddd          ddddddddddddd  d                         ",
+        "            ddddddddd *   *   * ddddd*ddddd           *                 ",
+        "           * ddddddd        d  ddddddddddd*dd                           ",
+        "              dddddd *          dd*ddddd***d                            ",
+        "              ddddd     d d     ddddddd*ddd* d      *                   ",
+        "           d   dddd            d*dddd*ddddd                             ",
+        "                ddd  d d       dddd*dd*d*dd*d      *                    ",
+        "                dd    *      * ddddd*ddd*dd   d          d              ",
+        "                 d        d     *dd*dd*ddd*d*      *                    ",
         "    d      *         d *      * dd*d*dd**d*    *      *     d           ",
         "                           * d   ddd*dd*d*d      d      d               ",
         "                  *     d       dd*d*dddddd *     *     *               ",
@@ -131,20 +131,35 @@
         "                    *  *        * dd**ddd     *   *         d           ",
         "                       *   *  d   ddddddd *         d                   ",
         "                 *   d             *d*dd     d          *               ",
-        "                         * *    d   ddd*   *       d  d                 ",
+        "                         *      d   ddd*   *       d  d                 ",
         "                                     dd         *                       "
       ],
-      "palettes": [ "airliner_palette" ]
+      "palettes": [ "airliner_palette" ],
+      "items": {
+        "d": [ { "item": "airliner_debris", "chance": 15 } ],
+        "*": [ { "item": "airliner_debris" } ],
+        "a": [ { "item": "snacks", "chance": 5 } ],
+        "f": [ { "item": "fridgesnacks", "chance": 80, "repeat": [ 15, 20 ] } ]
+      },
+      "place_loot": [
+        { "group": "airliner_cockpit", "x": 34, "y": 8 },
+        { "group": "office_supplies", "repeat": [ 3, 5 ], "x": 38, "y": 8 },
+        { "group": "airliner_galley", "x": 38, "y": 55 },
+        { "group": "office_supplies", "repeat": [ 3, 5 ], "x": 38, "y": 56 },
+        { "group": "snacks", "repeat": [ 10, 15 ], "x": 38, "y": 57 }
+      ],
+      "place_monsters": [
+        { "monster": "GROUP_MALL", "x": [ 27, 47 ], "y": [ 10, 23 ], "repeat": [ 5, 10 ], "density": 0.1 },
+        { "monster": "GROUP_MALL", "x": [ 27, 47 ], "y": [ 24, 47 ], "repeat": [ 7, 16 ], "density": 0.1 },
+        { "monster": "GROUP_MALL", "x": [ 27, 47 ], "y": [ 48, 61 ], "repeat": [ 3, 4 ], "density": 0.1 }
+      ],
+      "monster": { "Z": { "monster": "mon_zombie_electric" }, "z": { "monster": "mon_zombie" } }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [
-      [ "airliner_2a_1" ],
-      [ "airliner_2b_1" ],
-      [ "airliner_2c_1" ]
-    ],
+    "om_terrain": [ [ "airliner_2a_1" ], [ "airliner_2b_1" ], [ "airliner_2c_1" ] ],
     "weight": 250,
     "object": {
       "rows": [
@@ -227,10 +242,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [
-      [ "airliner_2b_-1" ],
-      [ "airliner_2c_-1" ]
-    ],
+    "om_terrain": [ [ "airliner_2b_-1" ], [ "airliner_2c_-1" ] ],
     "weight": 250,
     "object": {
       "fill_ter": "t_metal_floor",
@@ -262,9 +274,10 @@
         ",,,,,,,,,M.+r+.M,,,,,,,,",
         ",,,,,,,,,M.MrM.M,,,,,,,,",
         ",,,,,,,,,M.+r+.M,,,,,,,,",
+        ",,,,,,,,,M.MrM.M,,,,,,,,",
         ",,,,,,,,,M.MMM.M,,,,,,,,",
         ",,,,,,,,,M.....M,,,,,,,,",
-        ",,,,,,,,,Ml...lM,,,,,,,,",
+        ",,,,,,,,,M....lM,,,,,,,,",
         ",,,,,,,,,MMDDDMM,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -274,7 +287,6 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
-        ",,,,,,,,,,,,,,,,,,.,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -284,8 +296,51 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "airliner_palette" ]
+      "palettes": [ "airliner_palette" ],
+      "items": { "r": [ { "item": "airliner_luggage", "chance": 80, "repeat": [ 2, 3 ] } ] },
+      "place_loot": [ { "group": "airliner_galley", "x": 14, "y": 30 } ]
     }
+  },
+  {
+    "id": "airliner_luggage",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "bags_trip" },
+      { "group": "allclothes", "count-min": 3, "count-max": 7 },
+      { "group": "shoes", "prob": 30 },
+      { "group": "glasses", "prob": 10 },
+      { "group": "magazines", "prob": 10 }
+    ]
+  },
+  {
+    "id": "airliner_cockpit",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "item": "crash_axe" },
+      {
+        "collection": [ { "item": "flaregun" }, { "item": "signal_flare", "count-min": 1, "count-max": 2 } ],
+        "prob": 40
+      },
+      { "item": "1st_aid", "prob": 40 },
+      { "item": "handflare", "count-min": 1, "count-max": 3, "prob": 30 },
+      { "item": "sm_extinguisher", "prob": 75 }
+    ]
+  },
+  {
+    "id": "airliner_galley",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "item": "1st_aid", "prob": 40 },
+      { "item": "handflare", "count-min": 1, "count-max": 3, "prob": 30 },
+      { "item": "sm_extinguisher", "prob": 75 }
+    ]
+  },
+  {
+    "id": "airliner_debris",
+    "type": "item_group",
+    "items": [ [ "scrap", 30 ], [ "steel_chunk", 20 ], [ "steel_lump", 10 ], [ "sheet_metal_small", 10 ], [ "sheet_metal", 5 ] ]
   }
-]
 ]
