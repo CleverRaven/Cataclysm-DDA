@@ -232,20 +232,20 @@
       [ "oHo" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame_cross", "wooden_aisle_vertical" ] },
-      { "x": 0, "y": 1, "parts": [ "frame_cross", "wood box" ] },
-      { "x": 0, "y": -1, "parts": [ "frame_cross", "wood box" ] },
-      { "x": 1, "y": 0, "parts": [ "frame_cross", "seat_wood", "controls" ] },
-      { "x": 1, "y": 1, "parts": [ "frame_cross", "seat_wood", "wheel_wood_b" ] },
-      { "x": 1, "y": -1, "parts": [ "frame_cross", "seat_wood", "wheel_wood_b" ] },
+      { "x": 0, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical" ] },
+      { "x": 0, "y": 1, "parts": [ "frame_wood_cross", "wood box" ] },
+      { "x": 0, "y": -1, "parts": [ "frame_wood_cross", "wood box" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_wood_cross", "seat_wood", "controls" ] },
+      { "x": 1, "y": 1, "parts": [ "frame_wood_cross", "seat_wood", "wheel_wood_b" ] },
+      { "x": 1, "y": -1, "parts": [ "frame_wood_cross", "seat_wood", "wheel_wood_b" ] },
       { "x": 2, "y": 1, "part": "yoke_harness" },
       { "x": 2, "y": -1, "part": "yoke_harness" },
-      { "x": -1, "y": 0, "parts": [ "frame_cross", "wooden_aisle_vertical" ] },
-      { "x": -1, "y": 1, "parts": [ "frame_cross", "wood box" ] },
-      { "x": -1, "y": -1, "parts": [ "frame_cross", "wood box" ] },
-      { "x": -2, "y": 0, "parts": [ "frame_cross", "wooden_aisle_vertical" ] },
-      { "x": -2, "y": 1, "parts": [ "frame_cross", "wood box", "wheel_wood_b" ] },
-      { "x": -2, "y": -1, "parts": [ "frame_cross", "wood box", "wheel_wood_b" ] }
+      { "x": -1, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_wood_cross", "wood box" ] },
+      { "x": -1, "y": -1, "parts": [ "frame_wood_cross", "wood box" ] },
+      { "x": -2, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical" ] },
+      { "x": -2, "y": 1, "parts": [ "frame_wood_cross", "wood box", "wheel_wood_b" ] },
+      { "x": -2, "y": -1, "parts": [ "frame_wood_cross", "wood box", "wheel_wood_b" ] }
     ]
   }
 ]
