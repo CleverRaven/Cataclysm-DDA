@@ -352,6 +352,7 @@ spell::spell( const spell_type *sp, int xp )
 {
     type = sp;
     experience = xp;
+    obj_name = "";
 }
 
 spell::spell( spell_id sp, int xp ) : spell( &sp.obj(), xp ) {}
@@ -959,6 +960,46 @@ bool spell::cast_spell_effect( const Creature &source, const tripoint &target ) 
         spell_effect::spawn_summoned_monster( *this, source, target );
     } else if( fx == "translocate" ) {
         spell_effect::translocate( *this, source, target, g->u.translocators );
+    } else if( fx == "storm" ) {
+        spell_effect::storm( *this, target );
+    } else if( fx == "fire_ball" ) {
+        spell_effect::fire_ball( target );
+    } else if( fx == "map" ) {
+        spell_effect::map( *this, target );
+    } else if( fx == "blood" ) {
+        spell_effect::blood( *this, source, target );
+    } else if( fx == "fatigue" ) {
+        spell_effect::fatigue( *this, source, target );
+    } else if( fx == "pulse" ) {
+        spell_effect::pulse( *this, target );
+    } else if( fx == "entrance" ) {
+        spell_effect::entrance( *this, target );
+    } else if( fx == "bugs" ) {
+        spell_effect::bugs( *this, source, target );
+    } else if( fx == "light" ) {
+        spell_effect::light( *this, source );
+    } else if( fx == "growth" ) {
+        spell_effect::growth( target );
+    } else if( fx == "mutate" ) {
+        spell_effect::mutate( source );
+    } else if( fx == "teleglow" ) {
+        spell_effect::teleglow( source );
+    } else if( fx == "noise" ) {
+        spell_effect::noise( *this, source, target );
+    } else if( fx == "scream" ) {
+        spell_effect::scream( *this, source, target );
+    } else if( fx == "dim" ) {
+        spell_effect::dim( source );
+    } else if( fx == "flash" ) {
+        spell_effect::flash( source, target );
+    } else if( fx == "vomit" ) {
+        spell_effect::vomit( source );
+    } else if( fx == "shadows" ) {
+        spell_effect::shadows( source, target );
+    } else if( fx == "stamina_empty" ) {
+        spell_effect::stamina_empty( source );
+    } else if( fx == "fun" ) {
+        spell_effect::fun( source );
     } else {
         debugmsg( "ERROR: Spell effect not defined properly." );
         return false;
@@ -987,6 +1028,16 @@ bool spell::cast_all_effects( const Creature &source, const tripoint &target ) c
         }
     }
     return success;
+}
+
+void spell::set_obj_name( std::string new_name )
+{
+    obj_name = new_name;
+}
+
+const char *spell::get_obj_name() const
+{
+    return obj_name.c_str();
 }
 
 // player
