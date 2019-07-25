@@ -3981,7 +3981,7 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                         spawn_item( marker_x, marker_y,
                                     "mininuke", 1, 1, 0, rng( 2, 4 ) );
                     } else {
-                        item newliquid( "plut_slurry_dense", calendar::turn_zero );
+                        item newliquid( "plut_slurry_dense", calendar::start_of_cataclysm );
                         newliquid.charges = 1;
                         add_item_or_charges( tripoint( marker_x, marker_y, get_abs_sub().z ),
                                              newliquid );

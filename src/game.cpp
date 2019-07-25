@@ -610,8 +610,7 @@ void game::setup()
 
     weather.weather = WEATHER_CLEAR; // Start with some nice weather...
     // Weather shift in 30
-    // TODO: shouldn't that use calendar::start instead of INITIAL_TIME?
-    weather.nextweather = calendar::turn_zero + time_duration::from_hours(
+    weather.nextweather = calendar::start_of_cataclysm + time_duration::from_hours(
                               get_option<int>( "INITIAL_TIME" ) ) + 30_minutes;
 
     turnssincelastmon = 0; //Auto safe mode init
@@ -11344,7 +11343,7 @@ void game::start_calendar()
                              scen->has_flag( "SUM_ADV_START" );
 
     if( scen_season ) {
-        // Configured starting date overridden by scenario, calendar::start is left as Spring 1
+        // Configured starting date overridden by scenario, calendar::start_of_cataclysm is left as Spring 1
         calendar::start_of_cataclysm = HOURS( get_option<int>( "INITIAL_TIME" ) );
         calendar::turn = HOURS( get_option<int>( "INITIAL_TIME" ) );
         if( scen->has_flag( "SPR_START" ) ) {

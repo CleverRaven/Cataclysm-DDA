@@ -4240,7 +4240,7 @@ void item::calc_rot( time_point time, int temp )
         temp = temperatures::fridge;
     }
 
-    // bday and/or last_rot_check might be zero, if both are then we want calendar::start
+    // last_rot_check might be zero, if both are then we want calendar::start_of_cataclysm
     const time_point since = std::max( {last_rot_check, time_point( calendar::start_of_cataclysm )} );
 
     // simulation of different age of food at the start of the game and good/bad storage
@@ -8636,7 +8636,7 @@ time_point item::birthday() const
 
 void item::set_birthday( const time_point &bday )
 {
-    this->bday = bday;
+    this->bday = std::max( calendar::turn_zero, bday );
 }
 
 bool item::is_upgrade() const
