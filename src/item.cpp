@@ -249,6 +249,8 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     if( current_phase == PNULL ) {
         current_phase = type->phase;
     }
+    // item always has any relic properties from itype.
+    relic = type->relic;
 }
 
 item::item( const itype_id &id, time_point turn, int qty )
@@ -5558,6 +5560,19 @@ bool item::is_transformable() const
 bool item::is_artifact() const
 {
     return type->artifact.has_value();
+}
+
+bool item::is_relic() const
+{
+    return relic.has_value();
+}
+
+std::vector<enchantment> item::get_enchantments() const
+{
+    if( !is_relic() ) {
+        return std::vector<enchantment>{};
+    }
+    return relic->get_enchantments();
 }
 
 bool item::can_contain( const item &it ) const

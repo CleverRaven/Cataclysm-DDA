@@ -1574,6 +1574,11 @@ void Item_factory::load_tool( JsonObject &jo, const std::string &src )
     }
 }
 
+void Item_factory::load( relic &slot, JsonObject &jo, const std::string &src )
+{
+    slot.load( jo );
+}
+
 void Item_factory::load( islot_mod &slot, JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
@@ -2185,6 +2190,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     load_slot_optional( def.artifact, jo, "artifact_data", src );
     load_slot_optional( def.brewable, jo, "brewable", src );
     load_slot_optional( def.fuel, jo, "fuel", src );
+    load_slot_optional( def.relic, jo, "artifact_data", src );
 
     // optional gunmod slot may also specify mod data
     load_slot_optional( def.gunmod, jo, "gunmod_data", src );
