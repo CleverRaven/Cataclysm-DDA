@@ -2615,7 +2615,7 @@
     "species": [ "FUNGUS" ],
     "diff": 1,
     "volume": "750 ml",
-    "weight": 1000,
+    "weight": 1,
     "hp": 4,
     "speed": 100,
     "material": [ "veggy" ],
