@@ -73,6 +73,7 @@ const std::map<std::string, spell_flag> flag_map = {
     { "SOMATIC", spell_flag::SOMATIC },
     { "NO_HANDS", spell_flag::NO_HANDS },
     { "NO_LEGS", spell_flag::NO_LEGS },
+    { "PLAYER_MSG", spell_flag::PLAYER_MSG },
     { "CONCENTRATE", spell_flag::CONCENTRATE }
 };
 } // namespace
@@ -1043,6 +1044,11 @@ void spell::set_obj_name( std::string new_name )
 const char *spell::get_obj_name() const
 {
     return obj_name.c_str();
+}
+
+std::string spell::desc() const
+{
+    return type->description;
 }
 
 // player

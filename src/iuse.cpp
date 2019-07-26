@@ -4911,13 +4911,16 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
     };
 
     for( size_t i = 0; i < num_used && !art->effects_activated.empty(); i++ ) {
-        spell sp = spell( spell_id( art_active_to_string.at( art->effects_activated[i] ) ) );
-        int diff = it->charges - sp.energy_cost( *p );
-        if( !( diff < 0 || diff > it->type->maximum_charges() ) ) {
-            sp.set_obj_name( it->tname() );
-            sp.cast_spell_effect( *p, p->pos() );
-            it->mod_charges( sp.energy_cost( *p ) );
-        }
+        player_activity cast_spell = player_activity( activity_id( "ACT_SPELLCASTING" ) );
+        // [0] this is used as a spell level override for items casting spells
+        cast_spell.values.emplace_back( 0 );
+        // [1] if this value is 1, the spell never fails
+        cast_spell.values.emplace_back( 1 );
+        // [2] this value overrides the mana cost if set to 0
+        cast_spell.values.emplace_back( 0 );
+        cast_spell.name = art_active_to_string.at( art->effects_activated[i] );
+        cast_spell.str_values = { it->tname() };
+        p->assign_activity( cast_spell, false );
     }
     return it->type->charges_to_use();
 }

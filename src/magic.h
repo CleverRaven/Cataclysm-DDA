@@ -38,6 +38,7 @@ enum spell_flag {
     NO_HANDS, // hands do not affect spell energy cost
     NO_LEGS, // legs do not affect casting time
     CONCENTRATE, // focus affects spell fail %
+    PLAYER_MSG, // custom message to the player from the description
     LAST
 };
 
@@ -338,9 +339,12 @@ class spell
         bool is_valid_target( const Creature &caster, const tripoint &p ) const;
         bool is_valid_target( valid_target t ) const;
 
-        //acceess the name to the object causing related to the spell
+        // acceess the name to the object causing related to the spell
         void set_obj_name( std::string );
         const char *get_obj_name() const;
+
+        // access to the description
+        std::string desc() const;
 };
 
 class known_magic
