@@ -68,9 +68,7 @@
     "floor_bedding_warmth": 500,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 7,
-    "deconstruct": {
-      "items": [ { "item": "pipe", "count": 10 }, { "item": "rag", "count": [ 30, 33 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "pipe", "count": 10 }, { "item": "rag", "count": [ 30, 33 ] } ] },
     "max_volume": 4000,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
     "bash": {
