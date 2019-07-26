@@ -613,7 +613,7 @@ void talk_function::buy_10_logs( npc &p )
     const auto &cur_om = g->get_cur_om();
     std::vector<tripoint> places_om;
     for( auto &i : places ) {
-        if( &cur_om == overmap_buffer.get_existing_om_global( i ) ) {
+        if( &cur_om == overmap_buffer.get_existing_om_global( i ).om ) {
             places_om.push_back( i );
         }
     }
@@ -639,7 +639,7 @@ void talk_function::buy_100_logs( npc &p )
     const auto &cur_om = g->get_cur_om();
     std::vector<tripoint> places_om;
     for( auto &i : places ) {
-        if( &cur_om == overmap_buffer.get_existing_om_global( i ) ) {
+        if( &cur_om == overmap_buffer.get_existing_om_global( i ).om ) {
             places_om.push_back( i );
         }
     }

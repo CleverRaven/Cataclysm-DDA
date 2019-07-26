@@ -329,10 +329,12 @@ tripoint mission_util::target_om_ter_random( const std::string &omter, int revea
     if( places.empty() ) {
         return g->u.global_omt_location();
     }
-    const auto loc_om = overmap_buffer.get_existing_om_global( loc );
+    const overmap *loc_om = overmap_buffer.get_existing_om_global( loc ).om;
+    assert( loc_om );
+
     std::vector<tripoint> places_om;
     for( auto &i : places ) {
-        if( loc_om == overmap_buffer.get_existing_om_global( i ) ) {
+        if( loc_om == overmap_buffer.get_existing_om_global( i ).om ) {
             places_om.push_back( i );
         }
     }
