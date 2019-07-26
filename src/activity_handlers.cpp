@@ -307,7 +307,7 @@ static bool check_butcher_cbm( const int roll )
 }
 
 static void butcher_cbm_item( const std::string &what, const tripoint &pos,
-                              const time_point &age, const int roll, const std::vector<std::string> flags,
+                              const time_point &age, const int roll, const std::vector<std::string> &flags,
                               const std::vector<fault_id> faults )
 {
     if( roll < 0 ) {
