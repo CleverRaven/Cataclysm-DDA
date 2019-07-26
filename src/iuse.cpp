@@ -2154,13 +2154,17 @@ int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
         }
     }
 
+    if( bionic.get_item()->has_flag( "NO_PACKED" ) ) {
+        bionic.get_item()->unset_flag( "NO_PACKED" );
+    }
+    if( bionic.get_item()->has_flag( "PACKED_FAULTY" ) ) {
+        bionic.get_item()->unset_flag( "PACKED_FAULTY" );
+    }
+
     const int success = p->get_skill_level( skill_firstaid ) - rng( 0, 6 );
     if( success > 0 ) {
-        bionic.get_item()->unset_flag( "NO_PACKED" );
-        bionic.get_item()->unset_flag( "PACKED_FAULTY" );
         add_msg( m_info, _( "You carefully prepare the CBM for sterilization." ) );
     } else {
-        bionic.get_item()->unset_flag( "NO_PACKED" );
         bionic.get_item()->set_flag( "PACKED_FAULTY" );
         add_msg( m_info, _( "You put the CBM in the pouch and close it." ) );
         if( success == 0 ) {
