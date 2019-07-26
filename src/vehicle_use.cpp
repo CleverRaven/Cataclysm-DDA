@@ -22,7 +22,6 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "morale_types.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pickup.h"
@@ -63,10 +62,7 @@ static const fault_id fault_glowplug( "fault_engine_glow_plug" );
 static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
 static const fault_id fault_pump( "fault_engine_pump_fuel" );
 static const fault_id fault_starter( "fault_engine_starter" );
-const efftype_id effect_boomered( "boomered" );
-const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_harnessed( "harnessed" );
-const efftype_id effect_slimed( "slimed" );
 const efftype_id effect_tied( "tied" );
 const skill_id skill_mechanics( "mechanics" );
 
