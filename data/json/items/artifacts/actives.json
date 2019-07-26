@@ -20,7 +20,7 @@
     "valid_targets": [ "self", "ground", "hostile" ],
     "base_energy_cost": 4,
     "min_aoe": 3,
-    "field_id": "fire"
+    "field_id": "fd_fire"
   },
   {
     "id": "adrenaline",
@@ -80,7 +80,7 @@
     "min_range": 2,
     "max_range": 20,
     "min_aoe": 1,
-    "field_id": "acid",
+    "field_id": "fd_acid",
     "min_field_intensity": 2,
     "max_field_intensity": 3
   },
