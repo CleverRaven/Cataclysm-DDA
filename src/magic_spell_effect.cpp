@@ -272,7 +272,7 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
         aoe_func, const Creature &caster, bool ignore_walls = false )
 {
     std::set<tripoint> targets = { target }; // initialize with epicenter
-    if( sp.aoe() < 1 ) {
+    if( sp.aoe() <= 1 ) {
         return targets;
     }
 
@@ -636,7 +636,7 @@ void spell_effect::bugs( const spell &sp, const Creature &caster, const tripoint
             const tripoint spawnp = random_entry_removed( empty );
             if( monster *const b = g->summon_mon( bug, spawnp ) ) {
                 b->friendly = -1;
-                b->add_effect( static_cast<efftype_id>( "pet" ), 1_turns, num_bp, true );
+                b->add_effect( static_cast<efftype_id>( "effect_pet" ), 1_turns, num_bp, true );
             }
         }
     }
