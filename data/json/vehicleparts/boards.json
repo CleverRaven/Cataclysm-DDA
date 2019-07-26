@@ -10,7 +10,7 @@
     "description": "A metal wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "breaks_into": "ig_vp_sheet_metal",
     "flags": [ "OPAQUE", "OBSTACLE", "FULL_BOARD", "NO_ROOF_NEEDED" ],
-    "damage_reduction": { "all": 45 }
+    "damage_reduction": { "all": 28 }
   },
   {
     "abstract": "clothboard",
@@ -45,7 +45,7 @@
     "proportional": { "durability": 0.8 },
     "extend": { "flags": [ "HALF_BOARD" ] },
     "delete": { "flags": [ "OPAQUE", "FULL_BOARD" ] },
-    "damage_reduction": { "all": 45 }
+    "damage_reduction": { "all": 28 }
   },
   {
     "abstract": "stowboard",
@@ -61,7 +61,7 @@
     "description": "A metal wall with a storage locker.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "size": 250,
     "flags": [ "OBSTACLE", "OPAQUE", "CARGO", "COVERED", "FULL_BOARD", "NO_ROOF_NEEDED" ],
-    "damage_reduction": { "all": 50 }
+    "damage_reduction": { "all": 34 }
   },
   {
     "abstract": "hdstowboard",
@@ -113,7 +113,7 @@
     "description": "A wooden wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "breaks_into": "ig_vp_wood_plate",
     "flags": [ "OPAQUE", "OBSTACLE", "NAILABLE", "FULL_BOARD", "NO_ROOF_NEEDED" ],
-    "damage_reduction": { "all": 46 }
+    "damage_reduction": { "all": 16 }
   },
   {
     "abstract": "woodhalfboard",
@@ -124,7 +124,7 @@
     "proportional": { "durability": 0.8 },
     "extend": { "flags": [ "HALF_BOARD" ] },
     "delete": { "flags": [ "OPAQUE", "FULL_BOARD" ] },
-    "damage_reduction": { "all": 46 }
+    "damage_reduction": { "all": 16 }
   },
   {
     "abstract": "xlhalfboard",
@@ -137,7 +137,7 @@
     "description": "A half-height thin metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "breaks_into": [ { "item": "pipe", "prob": 50 } ],
     "flags": [ "OBSTACLE", "HALF_BOARD", "NO_ROOF_NEEDED" ],
-    "damage_reduction": { "all": 26 }
+    "damage_reduction": { "all": 8 }
   },
   {
     "id": "halfboard_cover",

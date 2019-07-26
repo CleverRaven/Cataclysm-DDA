@@ -321,7 +321,7 @@
     "location": "center",
     "flags": [ "AISLE", "BOARDABLE" ],
     "breaks_into": "ig_vp_sheet_metal",
-    "damage_reduction": { "all": 45 }
+    "damage_reduction": { "all": 28 }
   },
   {
     "type": "vehicle_part",
@@ -338,7 +338,7 @@
     "location": "center",
     "flags": [ "AISLE", "BOARDABLE" ],
     "breaks_into": "ig_vp_sheet_metal",
-    "damage_reduction": { "all": 45 }
+    "damage_reduction": { "all": 28 }
   },
   {
     "type": "vehicle_part",
@@ -355,7 +355,7 @@
     "location": "center",
     "flags": [ "AISLE", "BOARDABLE", "NAILABLE" ],
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
-    "damage_reduction": { "all": 46 }
+    "damage_reduction": { "all": 16 }
   },
   {
     "type": "vehicle_part",
@@ -372,7 +372,7 @@
     "location": "center",
     "flags": [ "AISLE", "BOARDABLE", "NAILABLE" ],
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
-    "damage_reduction": { "all": 46 }
+    "damage_reduction": { "all": 16 }
   },
   {
     "type": "vehicle_part",
@@ -390,7 +390,7 @@
     "location": "center",
     "flags": [ "AISLE", "BOARDABLE", "CARGO", "LOCKABLE_CARGO", "COVERED" ],
     "breaks_into": "ig_vp_sheet_metal",
-    "damage_reduction": { "all": 48 }
+    "damage_reduction": { "all": 28 }
   },
   {
     "type": "vehicle_part",
@@ -428,7 +428,7 @@
     "location": "roof",
     "flags": [ "ROOF" ],
     "breaks_into": "ig_vp_sheet_metal",
-    "damage_reduction": { "all": 45 }
+    "damage_reduction": { "all": 28 }
   },
   {
     "type": "vehicle_part",
@@ -464,7 +464,7 @@
     "location": "center",
     "flags": [ "CARGO", "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "TOOL_WRENCH" ],
     "breaks_into": "ig_vp_frame",
-    "damage_reduction": { "all": 30 }
+    "damage_reduction": { "all": 21 }
   },
   {
     "type": "vehicle_part",
@@ -483,7 +483,7 @@
     "location": "center",
     "flags": [ "CARGO", "OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE", "TOOL_WRENCH" ],
     "breaks_into": "ig_vp_frame",
-    "damage_reduction": { "all": 45 }
+    "damage_reduction": { "all": 28 }
   },
   {
     "type": "vehicle_part",
@@ -541,7 +541,7 @@
     "location": "center",
     "flags": [ "OBSTACLE", "OPAQUE", "OPENABLE", "ROOF", "BOARDABLE", "TOOL_WRENCH" ],
     "breaks_into": "ig_vp_frame",
-    "damage_reduction": { "all": 45 }
+    "damage_reduction": { "all": 28 }
   },
   {
     "type": "vehicle_part",
@@ -560,7 +560,7 @@
     "location": "center",
     "flags": [ "CARGO", "LOCKABLE_CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED" ],
     "breaks_into": "ig_vp_frame",
-    "damage_reduction": { "all": 46 }
+    "damage_reduction": { "all": 30 }
   },
   {
     "type": "vehicle_part",
@@ -579,7 +579,7 @@
     "location": "center",
     "flags": [ "CARGO", "LOCKABLE_CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED", "OPAQUE" ],
     "breaks_into": "ig_vp_frame",
-    "damage_reduction": { "all": 48 }
+    "damage_reduction": { "all": 34 }
   },
   {
     "type": "vehicle_part",
@@ -859,7 +859,7 @@
     "location": "center",
     "flags": [ "CARGO", "LOCKABLE_CARGO", "COVERED", "BOARDABLE" ],
     "breaks_into": "ig_vp_frame",
-    "damage_reduction": { "all": 45 }
+    "damage_reduction": { "all": 30 }
   },
   {
     "type": "vehicle_part",
@@ -877,7 +877,7 @@
     "location": "center",
     "flags": [ "CARGO", "TOOL_SCREWDRIVER", "BOARDABLE", "COVERED", "LOCKABLE_CARGO" ],
     "breaks_into": "ig_vp_frame",
-    "damage_reduction": { "all": 40 }
+    "damage_reduction": { "all": 28 }
   },
   {
     "type": "vehicle_part",
@@ -899,7 +899,7 @@
       "install": { "time": 60000, "using": [ [ "rope_natural_short", 1 ] ] },
       "repair": { "time": 30000, "using": [ [ "adhesive", 1 ] ] }
     },
-    "damage_reduction": { "all": 42 }
+    "damage_reduction": { "all": 18 }
   },
   {
     "type": "vehicle_part",
@@ -917,7 +917,7 @@
     "location": "center",
     "flags": [ "CARGO", "BOARDABLE", "COVERED", "NAILABLE", "LOCKABLE_CARGO" ],
     "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
-    "damage_reduction": { "all": 38 }
+    "damage_reduction": { "all": 16 }
   },
   {
     "type": "vehicle_part",
@@ -936,7 +936,7 @@
     "location": "center",
     "flags": [ "CARGO", "BOARDABLE", "COVERED", "NAILABLE", "FOLDABLE", "LOCKABLE_CARGO" ],
     "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
-    "damage_reduction": { "all": 30 }
+    "damage_reduction": { "all": 10 }
   },
   {
     "type": "vehicle_part",
@@ -977,7 +977,7 @@
       "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 1 ] ], "time": 25000, "using": [ [ "welding_standard", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
     },
-    "damage_reduction": { "all": 12 }
+    "damage_reduction": { "all": 6 }
   },
   {
     "type": "vehicle_part",
@@ -999,7 +999,7 @@
       "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ], "time": 35000, "using": [ [ "welding_standard", 2 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SAW_M", "level": 1 } ] }
     },
-    "damage_reduction": { "all": 12 }
+    "damage_reduction": { "all": 6 }
   },
   {
     "type": "vehicle_part",
@@ -1022,7 +1022,7 @@
       "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ], "time": 35000, "using": [ [ "welding_standard", 2 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SAW_M", "level": 1 } ] }
     },
-    "damage_reduction": { "all": 10 }
+    "damage_reduction": { "all": 4 }
   },
   {
     "type": "vehicle_part",
@@ -1045,7 +1045,7 @@
       { "item": "nail", "charges": [ 4, 7 ] }
     ],
     "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "20L" },
-    "damage_reduction": { "all": 40 }
+    "damage_reduction": { "all": 24 }
   },
   {
     "type": "vehicle_part",
@@ -1068,7 +1068,7 @@
       { "item": "nail", "charges": [ 4, 7 ] }
     ],
     "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "20L" },
-    "damage_reduction": { "all": 38 }
+    "damage_reduction": { "all": 16 }
   },
   {
     "type": "vehicle_part",
@@ -1094,7 +1094,7 @@
       { "item": "scrap", "count": [ 12, 24 ] }
     ],
     "workbench": { "multiplier": 1.2, "mass": 300000, "volume": "30L" },
-    "damage_reduction": { "all": 45 }
+    "damage_reduction": { "all": 29 }
   },
   {
     "type": "vehicle_part",
@@ -1112,7 +1112,7 @@
     "location": "under",
     "flags": [ "FLOATS", "NAILABLE" ],
     "breaks_into": [ { "item": "splinter", "count": [ 10, 20 ] } ],
-    "damage_reduction": { "all": 40 }
+    "damage_reduction": { "all": 10 }
   },
   {
     "type": "vehicle_part",
@@ -1131,7 +1131,7 @@
     "location": "under",
     "flags": [ "FLOATS" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 4, 8 ] } ],
-    "damage_reduction": { "all": 22 }
+    "damage_reduction": { "all": 12 }
   },
   {
     "type": "vehicle_part",
@@ -1150,7 +1150,7 @@
     "location": "under",
     "flags": [ "FLOATS" ],
     "breaks_into": "ig_vp_sheet_metal",
-    "damage_reduction": { "all": 46 }
+    "damage_reduction": { "all": 28 }
   },
   {
     "type": "vehicle_part",
@@ -1169,7 +1169,7 @@
     "location": "under",
     "flags": [ "FLOATS", "BOARDABLE" ],
     "breaks_into": [ { "item": "kevlar_plate", "count": [ 1, 3 ] } ],
-    "damage_reduction": { "all": 30 }
+    "damage_reduction": { "all": 14 }
   },
   {
     "type": "vehicle_part",
@@ -1339,7 +1339,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
     },
     "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
-    "damage_reduction": { "all": 26 }
+    "damage_reduction": { "all": 15 }
   },
   {
     "id": "mountable_cooler",
@@ -1366,7 +1366,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
     },
     "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
-    "damage_reduction": { "all": 26 }
+    "damage_reduction": { "all": 15 }
   },
   {
     "type": "vehicle_part",
@@ -1416,7 +1416,7 @@
       { "item": "steel_chunk", "count": [ 3, 5 ] },
       { "item": "scrap", "count": [ 3, 5 ] }
     ],
-    "damage_reduction": { "all": 12 }
+    "damage_reduction": { "all": 9 }
   },
   {
     "type": "vehicle_part",
@@ -1563,7 +1563,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] }
     },
     "breaks_into": [ { "item": "splinter", "count": [ 40, 60 ] } ],
-    "damage_reduction": { "all": 32 }
+    "damage_reduction": { "all": 15 }
   },
   {
     "type": "vehicle_part",
@@ -1587,7 +1587,7 @@
       "removal": { "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] }
     },
     "breaks_into": [ { "item": "splinter", "count": [ 60, 100 ] } ],
-    "damage_reduction": { "all": 33 }
+    "damage_reduction": { "all": 16 }
   },
   {
     "type": "vehicle_part",
@@ -1811,7 +1811,7 @@
       { "item": "scrap", "count": [ 3, 6 ] },
       { "item": "welder", "charges": 0, "prob": 50 }
     ],
-    "damage_reduction": { "all": 38 }
+    "damage_reduction": { "all": 24 }
   },
   {
     "type": "vehicle_part",
@@ -1841,7 +1841,7 @@
       { "item": "food_processor", "charges": 0, "prob": 50 },
       { "item": "press", "charges": 0, "prob": 50 }
     ],
-    "damage_reduction": { "all": 32 }
+    "damage_reduction": { "all": 20 }
   },
   {
     "type": "vehicle_part",
@@ -1866,7 +1866,7 @@
       { "item": "chemistry_set", "charges": 0, "prob": 50 },
       { "item": "hotplate", "charges": 0, "prob": 50 }
     ],
-    "damage_reduction": { "all": 28 }
+    "damage_reduction": { "all": 19 }
   },
   {
     "type": "vehicle_part",
@@ -1889,7 +1889,7 @@
       { "item": "steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
     ],
-    "damage_reduction": { "all": 40 }
+    "damage_reduction": { "all": 29 }
   },
   {
     "type": "vehicle_part",
@@ -1912,7 +1912,7 @@
       { "item": "steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
     ],
-    "damage_reduction": { "all": 30 }
+    "damage_reduction": { "all": 25 }
   },
   {
     "type": "vehicle_part",
@@ -2150,7 +2150,7 @@
     "location": "center",
     "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "TOOL_WRENCH", "LOW_FINAL_AIR_DRAG", "NO_ROOF_NEEDED" ],
     "breaks_into": "ig_vp_frame",
-    "damage_reduction": { "all": 48 }
+    "damage_reduction": { "all": 25 }
   },
   {
     "type": "vehicle_part",
@@ -2187,7 +2187,7 @@
     "location": "center",
     "flags": [ "OPAQUE", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "TOOL_WRENCH" ],
     "breaks_into": "ig_vp_sheet_metal",
-    "damage_reduction": { "all": 46 }
+    "damage_reduction": { "all": 24 }
   },
   {
     "type": "vehicle_part",
@@ -2205,7 +2205,7 @@
     "location": "center",
     "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "TOOL_WRENCH" ],
     "breaks_into": "ig_vp_frame",
-    "damage_reduction": { "all": 48 }
+    "damage_reduction": { "all": 26 }
   },
   {
     "type": "vehicle_part",
@@ -2226,7 +2226,7 @@
       { "item": "steel_chunk", "count": [ 6, 8 ] },
       { "item": "scrap", "count": [ 6, 8 ] }
     ],
-    "damage_reduction": { "all": 48 }
+    "damage_reduction": { "all": 28 }
   },
   {
     "type": "vehicle_part",
@@ -2249,7 +2249,7 @@
       { "item": "steel_chunk", "count": [ 6, 8 ] },
       { "item": "scrap", "count": [ 6, 8 ] }
     ],
-    "damage_reduction": { "all": 52 }
+    "damage_reduction": { "all": 30 }
   },
   {
     "type": "vehicle_part",
@@ -2287,7 +2287,7 @@
       { "item": "scrap", "count": [ 1, 2 ] },
       { "item": "cable", "charges": [ 1, 3 ] }
     ],
-    "damage_reduction": { "all": 16 }
+    "damage_reduction": { "all": 10 }
   },
   {
     "type": "vehicle_part",
@@ -2444,7 +2444,7 @@
     "location": "center",
     "flags": [ "SEAT", "BOARDABLE", "BELTABLE", "NAILABLE" ],
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
-    "damage_reduction": { "all": 20 }
+    "damage_reduction": { "all": 8 }
   },
   {
     "type": "vehicle_part",
@@ -2462,8 +2462,7 @@
     "folded_volume": 5,
     "location": "structure",
     "flags": [ "SHARP", "PROTRUSION", "NAILABLE", "FOLDABLE" ],
-    "breaks_into": [ { "item": "splinter", "count": [ 3, 7 ] } ],
-    "damage_reduction": { "all": 6 }
+    "breaks_into": [ { "item": "splinter", "count": [ 3, 7 ] } ]
   },
   {
     "type": "vehicle_part",
@@ -2481,7 +2480,7 @@
     "location": "center",
     "flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "NAILABLE" ],
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
-    "damage_reduction": { "all": 40 }
+    "damage_reduction": { "all": 8 }
   },
   {
     "type": "vehicle_part",
@@ -2499,7 +2498,7 @@
     "location": "center",
     "flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "OPAQUE", "NAILABLE" ],
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
-    "damage_reduction": { "all": 46 }
+    "damage_reduction": { "all": 12 }
   },
   {
     "type": "vehicle_part",
@@ -2516,7 +2515,7 @@
     "location": "roof",
     "flags": [ "ROOF", "NAILABLE" ],
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
-    "damage_reduction": { "all": 40 }
+    "damage_reduction": { "all": 16 }
   },
   {
     "type": "vehicle_part",
@@ -2811,7 +2810,7 @@
     "transform_terrain": { "pre_flags": [ "PLOWABLE" ], "post_terrain": "t_dirtmound" },
     "flags": [ "TRANSFORM_TERRAIN", "PLOW", "EXTRA_DRAG" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
-    "damage_reduction": { "all": 72 }
+    "damage_reduction": { "all": 46 }
   },
   {
     "type": "vehicle_part",
@@ -2943,6 +2942,6 @@
     },
     "flags": [ "TURRET_MOUNT" ],
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
-    "damage_reduction": { "all": 62 }
+    "damage_reduction": { "all": 54 }
   }
 ]

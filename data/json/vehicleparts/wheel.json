@@ -65,7 +65,7 @@
     "flags": [ "ARMOR", "OBSTACLE", "WHEEL", "STEERABLE" ],
     "wheel_type": "rigid",
     "contact_area": 400,
-    "damage_reduction": { "all": 225 }
+    "damage_reduction": { "all": 280 }
   },
   {
     "id": "wheel",

@@ -15,7 +15,7 @@
     "breaks_into": [ { "item": "pipe", "count": [ 8, 32 ] }, { "item": "scrap", "count": [ 8, 24 ] } ],
     "qualities": [ [ "LIFT", 40 ], [ "JACK", 40 ] ],
     "flags": [ "TOOL_WRENCH", "PROTRUSION" ],
-    "damage_reduction": { "all": 60 }
+    "damage_reduction": { "all": 48 }
   },
   {
     "id": "crane_medium_internal",
@@ -34,7 +34,7 @@
     "breaks_into": [ { "item": "pipe", "count": [ 8, 32 ] }, { "item": "scrap", "count": [ 8, 24 ] } ],
     "qualities": [ [ "LIFT", 40 ], [ "JACK", 40 ] ],
     "flags": [ "TOOL_WRENCH", "OBSTACLE" ],
-    "damage_reduction": { "all": 60 }
+    "damage_reduction": { "all": 48 }
   },
   {
     "id": "crane_small",
@@ -53,7 +53,7 @@
     "breaks_into": [ { "item": "pipe", "count": [ 2, 8 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
     "qualities": [ [ "LIFT", 7 ], [ "JACK", 7 ] ],
     "flags": [ "TOOL_WRENCH", "PROTRUSION", "FOLDABLE" ],
-    "damage_reduction": { "all": 50 }
+    "damage_reduction": { "all": 42 }
   },
   {
     "id": "crane_tiny",
@@ -72,7 +72,7 @@
     "breaks_into": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
     "qualities": [ [ "LIFT", 1 ], [ "JACK", 1 ] ],
     "flags": [ "TOOL_WRENCH", "PROTRUSION", "FOLDABLE" ],
-    "damage_reduction": { "all": 45 }
+    "damage_reduction": { "all": 40 }
   },
   {
     "id": "forklift_fork",
@@ -96,7 +96,7 @@
     ],
     "qualities": [ [ "LIFT", 2 ], [ "JACK", 6 ] ],
     "flags": [ "CARGO", "PROTRUSION" ],
-    "damage_reduction": { "all": 48 }
+    "damage_reduction": { "all": 42 }
   },
   {
     "id": "rockwheel",
@@ -122,7 +122,7 @@
     ],
     "transform_terrain": { "pre_flags": [ "DIGGABLE" ], "post_terrain": "t_pit_shallow" },
     "flags": [ "FOLDABLE", "PROTRUSION", "EXTRA_DRAG", "ROCKWHEEL", "TRANSFORM_TERRAIN" ],
-    "damage_reduction": { "all": 126 }
+    "damage_reduction": { "all": 132 }
   },
   {
     "type": "vehicle_part",
@@ -145,7 +145,7 @@
     ],
     "qualities": [ [ "SELF_JACK", 17 ] ],
     "flags": [ "PROTRUSION", "SELF_JACK" ],
-    "damage_reduction": { "all": 42 }
+    "damage_reduction": { "all": 36 }
   },
   {
     "type": "vehicle_part",
@@ -162,6 +162,6 @@
     "breaks_into": [ { "item": "pipe", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
     "qualities": [ [ "SELF_JACK", 1 ] ],
     "flags": [ "SELF_JACK" ],
-    "damage_reduction": { "all": 8 }
+    "damage_reduction": { "all": 5 }
   }
 ]
