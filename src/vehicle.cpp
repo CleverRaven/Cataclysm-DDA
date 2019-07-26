@@ -5842,7 +5842,6 @@ void vehicle::calc_mass_center( bool use_precalc ) const
         units::mass m_part_items = 0_gram;
         m_part += vp.part().base.weight();
         for( const auto &j : get_items( i ) ) {
-            // Change back to the above if it runs too slowly
             m_part_items += j.weight();
         }
         if( vp.part().info().cargo_modifier != 100 ) {
