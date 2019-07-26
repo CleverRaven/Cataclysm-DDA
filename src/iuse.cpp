@@ -9144,8 +9144,6 @@ int iuse::wash_items( player *p, bool cbm )
             return location->item_tags.find( "FILTHY" ) != location->item_tags.end() && !location->is_bionic();
         }
     } );
-
-
     auto make_raw_stats = [available_water, available_cleanser](
                               const std::map<const item *, int> &items
     ) {
@@ -9162,12 +9160,11 @@ int iuse::wash_items( player *p, bool cbm )
             return string_format( "%3d", val );
         };
         using stats = inventory_selector::stats;
-        return stats{ {
+        return stats{{
                 display_stat( _( "Water" ), required.water, available_water, to_string ),
                 display_stat( _( "Cleanser" ), required.cleanser, available_cleanser, to_string )
-            } };
+            }};
     };
-
     // TODO: this should also search surrounding area, not just player inventory.
     inventory_iuse_selector inv_s( *p, _( "ITEMS TO CLEAN" ), preset, make_raw_stats );
     inv_s.add_character_items( *p );

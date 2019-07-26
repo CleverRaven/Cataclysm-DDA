@@ -67,7 +67,6 @@ harvest_entry harvest_entry::load( JsonObject &jo, const std::string &src )
     assign( jo, "flags", ret.flags );
     assign( jo, "faults", ret.faults );
 
-
     return ret;
 }
 
