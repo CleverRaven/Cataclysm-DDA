@@ -318,17 +318,17 @@ static void butcher_cbm_item( const std::string &what, const tripoint &pos,
         for( const std::string &flg : flags ) {
             cbm.set_flag( flg );
         }
-        for( const fault_id flt : faults ) {
+        for( const fault_id &flt : faults ) {
             cbm.faults.emplace( flt );
         }
         add_msg( m_good, _( "You discover a %s!" ), cbm.tname() );
         g->m.add_item( pos, cbm );
     } else if( check_butcher_cbm( roll ) ) {
         item something( what, age );
-        for( const std::string flg : flags ) {
+        for( const std::string &flg : flags ) {
             something.set_flag( flg );
         }
-        for( const fault_id flt : faults ) {
+        for( const fault_id &flt : faults ) {
             something.faults.emplace( flt );
         }
         add_msg( m_good, _( "You discover a %s!" ), something.tname() );
@@ -351,10 +351,10 @@ static void butcher_cbm_group( const std::string &group, const tripoint &pos,
         //The CBM works
         const auto spawned = g->m.put_items_from_loc( group, pos, age );
         for( item *it : spawned ) {
-            for( const std::string flg : flags ) {
+            for( const std::string &flg : flags ) {
                 it->set_flag( flg );
             }
-            for( const fault_id flt : faults ) {
+            for( const fault_id &flt : faults ) {
                 it->faults.emplace( flt );
             }
             add_msg( m_good, _( "You discover a %s!" ), it->tname() );
@@ -362,10 +362,10 @@ static void butcher_cbm_group( const std::string &group, const tripoint &pos,
     } else {
         //There is a burnt out CBM
         item cbm( "burnt_out_bionic", age );
-        for( const std::string flg : flags ) {
+        for( const std::string &flg : flags ) {
             cbm.set_flag( flg );
         }
-        for( const fault_id flt : faults ) {
+        for( const fault_id &flt : faults ) {
             cbm.faults.emplace( flt );
         }
         add_msg( m_good, _( "You discover a %s!" ), cbm.tname() );
@@ -967,10 +967,10 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
                 }
-                for( std::string flg : entry.flags ) {
+                for( const std::string &flg : entry.flags ) {
                     obj.set_flag( flg );
                 }
-                for( const fault_id flt : entry.faults ) {
+                for( const fault_id &flt : entry.faults ) {
                     obj.faults.emplace( flt );
                 }
                 liquid_handler::handle_all_liquid( obj, 1 );
@@ -982,10 +982,10 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
                 }
-                for( std::string flg : entry.flags ) {
+                for( const std::string &flg : entry.flags ) {
                     obj.set_flag( flg );
                 }
-                for( const fault_id flt : entry.faults ) {
+                for( const fault_id &flt : entry.faults ) {
                     obj.faults.emplace( flt );
                 }
                 g->m.add_item_or_charges( p.pos(), obj );
@@ -998,10 +998,10 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
                 }
-                for( std::string flg : entry.flags ) {
+                for( const std::string &flg : entry.flags ) {
                     obj.set_flag( flg );
                 }
-                for( const fault_id flt : entry.faults ) {
+                for( const fault_id &flt : entry.faults ) {
                     obj.faults.emplace( flt );
                 }
                 for( int i = 0; i != roll; ++i ) {

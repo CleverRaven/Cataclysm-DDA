@@ -2154,12 +2154,8 @@ int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
         }
     }
 
-    if( bionic.get_item()->has_flag( "NO_PACKED" ) ) {
-        bionic.get_item()->unset_flag( "NO_PACKED" );
-    }
-    if( bionic.get_item()->has_flag( "PACKED_FAULTY" ) ) {
-        bionic.get_item()->unset_flag( "PACKED_FAULTY" );
-    }
+    bionic.get_item()->unset_flag( "NO_PACKED" );
+    bionic.get_item()->unset_flag( "PACKED_FAULTY" );
 
     const int success = p->get_skill_level( skill_firstaid ) - rng( 0, 6 );
     if( success > 0 ) {
