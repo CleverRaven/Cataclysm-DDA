@@ -9133,14 +9133,13 @@ int iuse::wash_items( player *p, bool cbm )
     int available_cleanser = std::max( crafting_inv.charges_of( "soap" ),
                                        crafting_inv.charges_of( "detergent" ) );
 
-    const inventory_filter_preset preset( []( const item_location & location ) {
-        return location->item_tags.find( "FILTHY" ) != location->item_tags.end() && !location->is_bionic();
+    const inventory_filter_preset preset( [cbm]( const item_location & location ) {
+        if( cbm ) {
+            return location->item_tags.find( "FILTHY" ) != location->item_tags.end() && location->is_bionic();
+        } else {
+            return location->item_tags.find( "FILTHY" ) != location->item_tags.end() && !location->is_bionic();
+        }
     } );
-
-    const inventory_filter_preset cbm_preset( []( const item_location & location ) {
-        return location->item_tags.find( "FILTHY" ) != location->item_tags.end() && location->is_bionic();
-    } );
-
 
 
     auto make_raw_stats = [available_water, available_cleanser](
@@ -9165,36 +9164,20 @@ int iuse::wash_items( player *p, bool cbm )
             } };
     };
 
-    std::list<std::pair<int, int>> to_clean;
-    if( cbm ) {
-        // TODO: this should also search surrounding area, not just player inventory.
-        inventory_iuse_selector inv_cbm( *p, _( "ITEMS TO CLEAN" ), cbm_preset, make_raw_stats );
-        inv_cbm.add_character_items( *p );
-        inv_cbm.set_title( _( "Multiclean" ) );
-        inv_cbm.set_hint( _( "To clean x items, type a number before selecting." ) );
-        if( inv_cbm.empty() ) {
-            popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
-            return 0;
-        }
-        to_clean = inv_cbm.execute();
-        if( to_clean.empty() ) {
-            return 0;
-        }
-    } else {
-        // TODO: this should also search surrounding area, not just player inventory.
-        inventory_iuse_selector inv_s( *p, _( "ITEMS TO CLEAN" ), preset, make_raw_stats );
-        inv_s.add_character_items( *p );
-        inv_s.set_title( _( "Multiclean" ) );
-        inv_s.set_hint( _( "To clean x items, type a number before selecting." ) );
-        if( inv_s.empty() ) {
-            popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
-            return 0;
-        }
-        to_clean = inv_s.execute();
-        if( to_clean.empty() ) {
-            return 0;
-        }
+    // TODO: this should also search surrounding area, not just player inventory.
+    inventory_iuse_selector inv_s( *p, _( "ITEMS TO CLEAN" ), preset, make_raw_stats );
+    inv_s.add_character_items( *p );
+    inv_s.set_title( _( "Multiclean" ) );
+    inv_s.set_hint( _( "To clean x items, type a number before selecting." ) );
+    if( inv_s.empty() ) {
+        popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
+        return 0;
     }
+    const std::list<std::pair<int, int>> to_clean = inv_s.execute();
+    if( to_clean.empty() ) {
+        return 0;
+    }
+
     // Determine if we have enough water and cleanser for all the items.
     units::volume total_volume = 0_ml;
     for( std::pair<int, int> pair : to_clean ) {
