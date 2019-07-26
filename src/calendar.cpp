@@ -61,8 +61,11 @@ calendar::calendar()
 
 calendar::calendar( int Minute, int Hour, int Day, season_type Season, int Year )
 {
-    turn_number = MINUTES( Minute ) + HOURS( Hour ) + DAYS( Day ) + Season * to_days<int>
-                  ( season_length() ) + Year * to_turns<int>( year_length() );
+    turn_number = MINUTES( Minute ) +
+                  HOURS( Hour ) +
+                  DAYS( Day ) +
+                  Season * to_turns<int>( season_length() ) +
+                  Year * to_turns<int>( year_length() );
     sync();
 }
 

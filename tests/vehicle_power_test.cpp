@@ -71,8 +71,8 @@ TEST_CASE( "vehicle_power" )
         g->weather.weather_override = WEATHER_SUNNY;
         veh_ptr->update_time( start_time + 30_minutes );
         int approx_battery1 = veh_ptr->fuel_left( fuel_type_battery ) / 100;
-        const int exp_min = 12;
-        const int exp_max = 14;
+        const int exp_min = 10;
+        const int exp_max = 15;
         CHECK( approx_battery1 >= exp_min );
         CHECK( approx_battery1 <= exp_max );
         veh_ptr->update_time( start_time + 2 * 30_minutes );
