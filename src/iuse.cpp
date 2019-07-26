@@ -4910,7 +4910,10 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
         {AEA_TELEGLOW, "get_teleglow"}, {AEA_NOISE, "noise"}, {AEA_SCREAM, "scream"}, {AEA_DIM, "dim"}, {AEA_FLASH, "flash"}, {AEA_VOMIT, "vomit"}, {AEA_SHADOWS, "shadows"}, {AEA_STAMINA_EMPTY, "stamina_empty"}
     };
 
-    for( size_t i = 0; i < num_used && !art->effects_activated.empty(); i++ ) {
+    std::vector<art_effect_active> effects = art->effects_activated;
+    for( size_t i = 0; i < num_used && !effects.empty(); i++ ) {
+        const art_effect_active used = random_entry_removed( effects );
+
         player_activity cast_spell = player_activity( activity_id( "ACT_SPELLCASTING" ) );
         // [0] this is used as a spell level override for items casting spells
         cast_spell.values.emplace_back( 0 );
@@ -4918,7 +4921,9 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
         cast_spell.values.emplace_back( 1 );
         // [2] this value overrides the mana cost if set to 0
         cast_spell.values.emplace_back( 0 );
-        cast_spell.name = art_active_to_string.at( art->effects_activated[i] );
+        // [3] this disables the casting message, if there is no spell-specific one
+        cast_spell.values.emplace_back( 0 );
+        cast_spell.name = art_active_to_string.at( used );
         cast_spell.str_values = { it->tname() };
         p->assign_activity( cast_spell, false );
     }
