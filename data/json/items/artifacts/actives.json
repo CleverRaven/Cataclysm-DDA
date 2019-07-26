@@ -30,9 +30,10 @@
     "valid_targets": [ "self" ],
     "effect": "target_attack",
     "effect_str": "adrenaline",
-    "base_energy_cost": 5,
-    "min_duration": 1200,
-    "max_duration": 1500
+    "min_duration": 120000,
+    "max_duration": 160000,
+    "duration_rng_mod": 30000,
+    "base_energy_cost": 5
   },
   {
     "id": "map",
@@ -53,8 +54,9 @@
     "effect": "blood",
     "base_energy_cost": 0,
     "min_aoe": 4,
+    "field_change": 4,
+    "field_change_inv": true,
     "field_id": "fd_blood",
-    "field_chance": "",
     "min_field_intensity": 3
   },
   {
@@ -82,7 +84,7 @@
     "min_aoe": 1,
     "field_id": "fd_acid",
     "min_field_intensity": 2,
-    "max_field_intensity": 3
+    "field_intensity_variance": 0.2
   },
   {
     "id": "pulse",
@@ -116,7 +118,8 @@
     "base_energy_cost": 3,
     "min_aoe": 8,
     "min_duration": 500,
-    "max_duration": 1500
+    "max_duration": 1500,
+    "duration_rng_mod": 1000
   },
   {
     "id": "entrance",
@@ -171,9 +174,10 @@
     "type": "SPELL",
     "name": "Hurt",
     "description": "Waves of energie flow from around you and hurt all monsters around you.",
-    "//": "was originally rng(0,5) damage. 3 for now.",
     "valid_targets": [ "hostile" ],
-    "min_damage": 3,
+    "min_damage": 0,
+    "max_damage": 5,
+    "damage_rng_mod": 5,
     "effect": "target_attack",
     "base_energy_cost": 6,
     "min_aoe": 50
@@ -218,6 +222,9 @@
     "valid_targets": [ "self" ],
     "effect": "target_attack",
     "effect_str": "paralysed",
+    "min_duration": 50,
+    "max_duration": 200,
+    "duration_rng_mod": 150,
     "base_energy_cost": -2
   },
   {
@@ -230,7 +237,8 @@
     "base_energy_cost": -3,
     "aoe_min": 3,
     "field_id": "fd_fire",
-    "field_chance": 2,
+    "field_chance": 3,
+    "field_chance_inf": true,
     "min_field_intensity": 1
   },
   {
@@ -241,15 +249,21 @@
     "valid_targets": [ "self" ],
     "effect": "target_attack",
     "effect_str": "attention",
+    "min_duration": 360000,
+    "max_duration": 1070000,
+    "duration_rng_mod": 710000,
     "base_energy_cost": -6
   },
   {
-    "id": "tele_glow",
+    "id": "get_teleglow",
     "type": "SPELL",
     "name": "Teleglow",
     "description": "You and your tool start glowing in a feint bright light and you change position.",
     "valid_targets": [ "self" ],
     "effect": "teleglow",
+    "min_duration": 180000,
+    "max_duration": 720000,
+    "duration_rng_mod": 540000,
     "base_energy_cost": -4
   },
   {

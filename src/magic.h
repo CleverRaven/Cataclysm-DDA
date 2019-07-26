@@ -105,6 +105,8 @@ class spell_type
         cata::optional<field_type_id> field;
         // the chance one_in( field_chance ) that the field spawns at a tripoint in the area of the spell
         int field_chance;
+        // invert the field chance to !one_in( field_change )
+        bool field_chance_inv;
         // field intensity at spell level 0
         int min_field_intensity;
         // increment of field intensity per level
@@ -120,6 +122,8 @@ class spell_type
         float damage_increment;
         // maximum damage this spell can cause
         int max_damage;
+        // amount of randomly added damage
+        int damage_rng_mod;
 
         // minimum range of a spell
         int min_range;
@@ -154,6 +158,8 @@ class spell_type
         int duration_increment;
         // max time for effect in moves
         int max_duration;
+        // amount of randomly added time
+        int duration_rng_mod;
 
         // amount of damage that is piercing damage
         // not added to damage stat
@@ -316,7 +322,7 @@ class spell
         int get_difficulty() const;
 
         // tries to create a field at the location specified
-        void create_field( const tripoint &at ) const;
+        bool create_field( const tripoint &at ) const;
 
         // makes a spell sound at the location
         void make_sound( const tripoint &target ) const;

@@ -567,10 +567,7 @@ void spell_effect::blood( const spell &sp, const Creature &caster, const tripoin
 {
     bool blood = false;
     for( const tripoint &tmp : g->m.points_in_radius( target, sp.aoe() ) ) {
-        if( !one_in( 4 ) ) {
-            sp.create_field( tmp );
-            blood |= g->u.sees( tmp );
-        }
+        blood |= sp.create_field( tmp ) && g->u.sees( tmp );
     }
     if( blood ) {
         caster.add_msg_if_player( m_warning, _( "Blood soaks out of the ground and walls." ) );

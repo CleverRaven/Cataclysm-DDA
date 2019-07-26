@@ -208,6 +208,7 @@ void spell_type::load( JsonObject &jo, const std::string & )
         field = field_type_id( field_input );
     }
     optional( jo, was_loaded, "field_chance", field_chance, 1 );
+    optional( jo, was_loaded, "field_chance_inv", field_chance_inv, false );
     optional( jo, was_loaded, "min_field_intensity", min_field_intensity, 0 );
     optional( jo, was_loaded, "max_field_intensity", max_field_intensity, 0 );
     optional( jo, was_loaded, "field_intensity_increment", field_intensity_increment, 0.0f );
@@ -216,6 +217,7 @@ void spell_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "min_damage", min_damage, 0 );
     optional( jo, was_loaded, "damage_increment", damage_increment, 0.0f );
     optional( jo, was_loaded, "max_damage", max_damage, 0 );
+    optional( jo, was_loaded, "damage_rng_mod", damage_rng_mod, 0 );
 
     optional( jo, was_loaded, "min_range", min_range, 0 );
     optional( jo, was_loaded, "range_increment", range_increment, 0.0f );
@@ -232,6 +234,7 @@ void spell_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "min_duration", min_duration, 0 );
     optional( jo, was_loaded, "duration_increment", duration_increment, 0.0f );
     optional( jo, was_loaded, "max_duration", max_duration, 0 );
+    optional( jo, was_loaded, "duration_rng_mod", duration_rng_mod, 0 );
 
     optional( jo, was_loaded, "min_pierce", min_pierce, 0 );
     optional( jo, was_loaded, "pierce_increment", pierce_increment, 0.0f );
@@ -376,7 +379,7 @@ int spell::field_intensity() const
 
 int spell::damage() const
 {
-    const int leveled_damage = type->min_damage + round( get_level() * type->damage_increment );
+    const int leveled_damage = type->min_damage + round( get_level() * type->damage_increment ) + rng(0, type->damage_rng_mod);
     if( type->min_damage >= 0 || type->max_damage >= type->min_damage ) {
         return std::min( leveled_damage, type->max_damage );
     } else { // if it's negative, min and max work differently
@@ -407,7 +410,7 @@ int spell::range() const
 int spell::duration() const
 {
     const int leveled_duration = type->min_duration + round( get_level() *
-                                 type->duration_increment );
+                                 type->duration_increment ) + rng(0, type->duration_rng_mod);
     if( type->max_duration >= type->min_duration ) {
         return std::min( leveled_duration, type->max_duration );
     } else {
@@ -684,24 +687,26 @@ bool spell::bp_is_affected( body_part bp ) const
     return type->affected_bps[bp];
 }
 
-void spell::create_field( const tripoint &at ) const
+bool spell::create_field( const tripoint &at ) const
 {
     if( !type->field ) {
-        return;
+        return false;
     }
     const int intensity = field_intensity() + rng( -type->field_intensity_variance * field_intensity(),
                           type->field_intensity_variance * field_intensity() );
     if( intensity <= 0 ) {
-        return;
+        return false;
     }
-    if( one_in( type->field_chance ) ) {
+    if( one_in( type->field_chance ) == !type->field_chance_inv ) {
         field_entry *field = g->m.get_field( at, *type->field );
         if( field ) {
             field->set_field_intensity( field->get_field_intensity() + intensity );
         } else {
             g->m.add_field( at, *type->field, intensity );
         }
+        return true;
     }
+    return false;
 }
 
 void spell::make_sound( const tripoint &target ) const

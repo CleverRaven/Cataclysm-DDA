@@ -4907,7 +4907,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
         {AEA_MAP, "_map"}, {AEA_BLOOD, "blood"}, {AEA_FATIGUE, "fatigue"}, {AEA_ACIDBALL, "acid_ball"}, {AEA_PULSE, "pulse"}, {AEA_HEAL, "heal"}, {AEA_CONFUSED, "confuse"},
         {AEA_ENTRANCE, "entrance"}, {AEA_BUGS, "bugs"}, {AEA_TELEPORT, "teleport"}, {AEA_LIGHT, "light"}, {AEA_GROWTH, "growth"}, {AEA_HURTALL, "hurtall"}, {AEA_FUN, "fun"},
         {AEA_RADIATION, "radiation"}, {AEA_PAIN, "pain"}, {AEA_MUTATE, "mutate"}, {AEA_PARALYZE, "paralyze"}, {AEA_FIRESTORM, "fire_storm"}, {AEA_ATTENTION, "attention"},
-        {AEA_TELEGLOW, "teleglow"}, {AEA_NOISE, "noise"}, {AEA_SCREAM, "scream"}, {AEA_DIM, "dim"}, {AEA_FLASH, "flash"}, {AEA_VOMIT, "vomit"}, {AEA_SHADOWS, "shadows"}, {AEA_STAMINA_EMPTY, "stamina_empty"}
+        {AEA_TELEGLOW, "get_teleglow"}, {AEA_NOISE, "noise"}, {AEA_SCREAM, "scream"}, {AEA_DIM, "dim"}, {AEA_FLASH, "flash"}, {AEA_VOMIT, "vomit"}, {AEA_SHADOWS, "shadows"}, {AEA_STAMINA_EMPTY, "stamina_empty"}
     };
 
     for( size_t i = 0; i < num_used && !art->effects_activated.empty(); i++ ) {
