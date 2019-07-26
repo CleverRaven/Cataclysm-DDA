@@ -1274,6 +1274,8 @@ bool player::can_continue_craft( item &craft )
                     adjusted_alternative.count *= batch_size;
                     // Only for the next 5% progress
                     adjusted_alternative.count /= 20;
+                    // Tools which require charges MUST leave here with at least 1 charge requirement or enter invalid state.
+                    adjusted_alternative.count = ( adjusted_alternative.count < 1 ) ? 1 : adjusted_alternative.count;
                 }
                 adjusted_alternatives.push_back( adjusted_alternative );
             }
