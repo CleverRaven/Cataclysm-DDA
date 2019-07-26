@@ -498,6 +498,7 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
+    "fear_triggers": [ "SOUND" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ], [ "PARROT", 0 ] ],
@@ -593,8 +594,8 @@
     "vision_night": 3,
     "harvest": "mammal_tiny",
     "path_settings": { "max_dist": 10 },
-    "upgrades": { "age_grow": 42, "into": "mon_dog_bull" },
-    "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "upgrades": { "age_grow": 42, "into": "mon_dog_bull" },    
+    "fear_triggers": [ "SOUND", "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
@@ -656,8 +657,8 @@
     "vision_night": 4,
     "path_settings": { "max_dist": 10 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_pitbullmix" },
-    "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
-    "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },    
+    "fear_triggers": [ "SOUND", "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
@@ -676,7 +677,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 1,
     "melee_cut": 2,
-    "fear_triggers": [ "HURT" ],
+    "fear_triggers": [ "SOUND", "HURT" ],
     "reproduction": { "baby_monster": "mon_dog_beagle_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size tiny canines",
     "flags": [
@@ -723,7 +724,7 @@
     "path_settings": { "max_dist": 10 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_beagle" },
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
-    "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "fear_triggers": [ "SOUND", "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "flags": [ "ANIMAL", "DOGFOOD", "GROUP_MORALE", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "SWARMS", "WARM" ]
@@ -786,7 +787,7 @@
     "path_settings": { "max_dist": 10 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_bcollie" },
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
-    "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "fear_triggers": [ "SOUND", "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
@@ -805,7 +806,7 @@
     "melee_cut": 4,
     "vision_night": 4,
     "harvest": "mammal_small_leather",
-    "fear_triggers": [ "HURT" ],
+    "fear_triggers": [ "SOUND", "HURT" ],
     "special_attacks": [ [ "LUNGE", 5 ] ],
     "reproduction": { "baby_monster": "mon_dog_boxer_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines"
@@ -839,7 +840,7 @@
     "path_settings": { "max_dist": 10 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_boxer" },
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
-    "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "fear_triggers": [ "SOUND", "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "flags": [
@@ -873,7 +874,7 @@
     "melee_cut": 2,
     "vision_night": 6,
     "harvest": "mammal_tiny",
-    "fear_triggers": [ "HURT" ],
+    "fear_triggers": [ "SOUND", "HURT" ],
     "reproduction": { "baby_monster": "mon_dog_chihuahua_pup", "baby_count": 3, "baby_timer": 240 },
     "//": "1-3 puppies & 240 days per-litter for size tiny canines",
     "flags": [
@@ -917,7 +918,7 @@
     "path_settings": { "max_dist": 10 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_chihuahua" },
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
-    "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "fear_triggers": [ "SOUND", "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "flags": [ "ANIMAL", "DOGFOOD", "HARDTOSHOOT", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
@@ -936,7 +937,7 @@
     "melee_skill": 3,
     "melee_dice_sides": 2,
     "vision_night": 6,
-    "fear_triggers": [ "HURT" ],
+    "fear_triggers": [ "SOUND", "HURT" ],
     "harvest": "mammal_small_leather",
     "reproduction": { "baby_monster": "mon_dog_dachshund_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
@@ -983,7 +984,7 @@
     "path_settings": { "max_dist": 10 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_dachshund" },
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
-    "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "fear_triggers": [ "SOUND", "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "flags": [ "ANIMAL", "DOGFOOD", "HARDTOSHOOT", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "STUMBLES", "WARM" ]
@@ -1034,7 +1035,7 @@
     "path_settings": { "max_dist": 10 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_gshepherd" },
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
-    "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "fear_triggers": [ "SOUND", "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
@@ -1101,7 +1102,7 @@
     "path_settings": { "max_dist": 10 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_gpyrenees" },
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
-    "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "fear_triggers": [ "SOUND", "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
@@ -1169,7 +1170,7 @@
     "path_settings": { "max_dist": 10 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_rottweiler" },
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
-    "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "fear_triggers": [ "SOUND", "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
@@ -1234,7 +1235,7 @@
     "path_settings": { "max_dist": 10 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_auscattle" },
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
-    "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "fear_triggers": [ "SOUND", "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
@@ -1975,6 +1976,7 @@
     "harvest": "mammal_fur",
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
+    "fear_triggers": [ "SOUND" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
