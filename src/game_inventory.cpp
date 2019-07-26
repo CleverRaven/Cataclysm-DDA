@@ -1817,7 +1817,7 @@ class bionic_sterilize_preset : public inventory_selector_preset
             }, _( "CYCLE DURATION" ) );
 
             append_cell( []( const item_location & ) {
-                return "2 L";
+                return pgettext( "volume of water", "2 L" );
             }, _( "WATER REQUIRED" ) );
         }
 
@@ -1829,7 +1829,7 @@ class bionic_sterilize_preset : public inventory_selector_preset
             auto reqs = *requirement_id( "autoclave_item" );
 
             if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
-                return "2 L";
+                return pgettext( "volume of water", "2 L" );
             }
 
             return std::string();
