@@ -689,7 +689,7 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
     // Local destination - relative to base
     const point finish = ( dest - base ).xy();
 
-    const auto get_ter_at = [&]( const point &p ) {
+    const auto get_ter_at = [&]( const point & p ) {
         return ter( base + p );
     };
 
@@ -743,7 +743,7 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, 
     // Local destination - relative to base
     const point finish = ( dest - base ).xy();
 
-    const auto get_ter_at = [&]( const point &p ) {
+    const auto get_ter_at = [&]( const point & p ) {
         return ter( base + p );
     };
 
