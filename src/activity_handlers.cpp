@@ -308,14 +308,14 @@ static bool check_butcher_cbm( const int roll )
 
 static void butcher_cbm_item( const std::string &what, const tripoint &pos,
                               const time_point &age, const int roll, const std::vector<std::string> &flags,
-                              const std::vector<fault_id> faults )
+                              const std::vector<fault_id> &faults )
 {
     if( roll < 0 ) {
         return;
     }
     if( item::find_type( itype_id( what ) )->bionic.has_value() ) {
         item cbm( check_butcher_cbm( roll ) ? what : "burnt_out_bionic", age );
-        for( const std::string flg : flags ) {
+        for( const std::string &flg : flags ) {
             cbm.set_flag( flg );
         }
         for( const fault_id flt : faults ) {

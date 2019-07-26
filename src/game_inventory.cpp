@@ -1844,7 +1844,7 @@ static item_location autoclave_internal( player &u,
         int radius )
 {
     inventory_pick_selector inv_s( u, preset );
-    inv_s.set_title( string_format( _( "Sterilization" ) ) );
+    inv_s.set_title( _( "Sterilization" ) );
     inv_s.set_hint( _( "<color_yellow>Select one CBM to sterilize</color>" ) );
     inv_s.set_display_stats( false );
 
