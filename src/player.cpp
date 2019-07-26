@@ -6616,9 +6616,12 @@ void player::process_active_items()
         } else if( identifier == "adv_UPS_off" ) {
             ch_UPS += it.ammo_remaining() / 0.6;
         }
-        if( !it.has_flag( "USE_UPS" ) && it.charges < it.type->maximum_charges() ) {
+        if( it.has_flag( "USE_UPS" ) && it.charges < it.type->maximum_charges() ) {
             active_held_items.push_back( index );
         }
+    }
+    if( has_active_bionic( bionic_id( "bio_ups" ) ) ) {
+        ch_UPS += power_level;
     }
     int ch_UPS_used = 0;
     if( cloak != nullptr ) {
