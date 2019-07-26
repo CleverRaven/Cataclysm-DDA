@@ -1043,7 +1043,7 @@ void debug()
             for( int i = 0; i < OMAPX; i++ ) {
                 for( int j = 0; j < OMAPY; j++ ) {
                     for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
-                        cur_om.seen( i, j, k ) = true;
+                        cur_om.seen( { i, j, k } ) = true;
                     }
                 }
             }

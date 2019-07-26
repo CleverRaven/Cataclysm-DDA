@@ -1084,27 +1084,23 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
 
     for( int x = curs.x - OMAPX / 2; x < curs.x + OMAPX / 2; x++ ) {
         for( int y = curs.y - OMAPY / 2; y < curs.y + OMAPY / 2; y++ ) {
-            overmap *om = overmap_buffer.get_existing_om_global( point( x, y ) ).om;
+            tripoint p( x, y, curs.z );
+            overmap_with_local_coords om_loc = overmap_buffer.get_existing_om_global( p );
 
-            if( om ) {
-                int om_relative_x = x;
-                int om_relative_y = y;
-                omt_to_om_remain( om_relative_x, om_relative_y );
+            if( om_loc ) {
+                tripoint om_relative = om_loc.local;
+                point om_cache = omt_to_om_copy( p.xy() );
 
-                int om_cache_x = x;
-                int om_cache_y = y;
-                omt_to_om( om_cache_x, om_cache_y );
-
-                if( std::find( overmap_checked.begin(), overmap_checked.end(), point( om_cache_x,
-                               om_cache_y ) ) == overmap_checked.end() ) {
-                    overmap_checked.push_back( point( om_cache_x, om_cache_y ) );
-                    std::vector<point> notes = om->find_notes( curs.z, term );
+                if( std::find( overmap_checked.begin(), overmap_checked.end(), om_cache ) ==
+                    overmap_checked.end() ) {
+                    overmap_checked.push_back( om_cache );
+                    std::vector<point> notes = om_loc.om->find_notes( curs.z, term );
                     locations.insert( locations.end(), notes.begin(), notes.end() );
                 }
 
-                if( om->seen( om_relative_x, om_relative_y, curs.z ) &&
-                    match_include_exclude( om->ter( om_relative_x, om_relative_y, curs.z )->get_name(), term ) ) {
-                    locations.push_back( om->global_base_point() + point( om_relative_x, om_relative_y ) );
+                if( om_loc.om->seen( om_relative ) &&
+                    match_include_exclude( om_loc.om->ter( om_relative )->get_name(), term ) ) {
+                    locations.push_back( om_loc.om->global_base_point() + om_relative.xy() );
                 }
             }
         }
