@@ -917,7 +917,7 @@
     "location": "center",
     "flags": [ "CARGO", "BOARDABLE", "COVERED", "NAILABLE", "LOCKABLE_CARGO" ],
     "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
-    "damage_reduction": { "all": 16, "stab": 6, "cut":6 }
+    "damage_reduction": { "all": 16, "stab": 6, "cut": 6 }
   },
   {
     "type": "vehicle_part",
@@ -1565,7 +1565,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] }
     },
     "breaks_into": [ { "item": "splinter", "count": [ 40, 60 ] } ],
-    "damage_reduction": { "all": 15, "stab":6, "cut":8 }
+    "damage_reduction": { "all": 15, "stab": 6, "cut": 8 }
   },
   {
     "type": "vehicle_part",
@@ -1589,7 +1589,7 @@
       "removal": { "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] }
     },
     "breaks_into": [ { "item": "splinter", "count": [ 60, 100 ] } ],
-    "damage_reduction": { "all": 16, "stab":6, "cut":8 }
+    "damage_reduction": { "all": 16, "stab": 6, "cut": 8 }
   },
   {
     "type": "vehicle_part",
@@ -1930,7 +1930,7 @@
     "location": "armor",
     "flags": [ "ARMOR", "NAILABLE" ],
     "breaks_into": "ig_vp_wood_plate",
-    "damage_reduction": { "all": 16, "cut": 8, "stab":8 }
+    "damage_reduction": { "all": 16, "cut": 8, "stab": 8 }
   },
   {
     "type": "vehicle_part",

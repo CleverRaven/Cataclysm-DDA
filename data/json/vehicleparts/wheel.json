@@ -139,7 +139,7 @@
     "wheel_type": "standard",
     "contact_area": 480,
     "flags": [ "WHEEL" ],
-    "damage_reduction": { "all": 60, "cut": 30, "stab": 16	}
+    "damage_reduction": { "all": 60, "cut": 30, "stab": 16 }
   },
   {
     "id": "wheel_armor_steerable",

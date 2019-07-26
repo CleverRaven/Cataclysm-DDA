@@ -113,7 +113,7 @@
     "description": "A wooden wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "breaks_into": "ig_vp_wood_plate",
     "flags": [ "OPAQUE", "OBSTACLE", "NAILABLE", "FULL_BOARD", "NO_ROOF_NEEDED" ],
-    "damage_reduction": { "all": 16, "cut": 8, "stab":8 }
+    "damage_reduction": { "all": 16, "cut": 8, "stab": 8 }
   },
   {
     "abstract": "woodhalfboard",
@@ -124,7 +124,7 @@
     "proportional": { "durability": 0.8 },
     "extend": { "flags": [ "HALF_BOARD" ] },
     "delete": { "flags": [ "OPAQUE", "FULL_BOARD" ] },
-    "damage_reduction": { "all": 16, "cut": 8, "stab":8 }
+    "damage_reduction": { "all": 16, "cut": 8, "stab": 8 }
   },
   {
     "abstract": "xlhalfboard",
