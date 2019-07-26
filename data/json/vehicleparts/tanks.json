@@ -15,7 +15,7 @@
     "folded_volume": 8,
     "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
     "flags": [ "FLUIDTANK", "FOLDABLE" ],
-    "damage_reduction": { "all": 26 }
+    "damage_reduction": { "all": 26, "stab": 8 }
   },
   {
     "id": "tank_small",
@@ -32,7 +32,7 @@
     "damage_modifier": 80,
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 40 ] } ],
     "flags": [ "FLUIDTANK" ],
-    "damage_reduction": { "all": 9 }
+    "damage_reduction": { "all": 9, "stab": 0 }
   },
   {
     "id": "tank_medium",
@@ -53,7 +53,7 @@
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "flags": [ "FLUIDTANK" ],
-    "damage_reduction": { "all": 28 }
+    "damage_reduction": { "all": 28, "stab": 10 }
   },
   {
     "id": "tank",
@@ -74,7 +74,7 @@
       { "item": "scrap", "count": [ 1, 5 ] }
     ],
     "flags": [ "FLUIDTANK" ],
-    "damage_reduction": { "all": 28 }
+    "damage_reduction": { "all": 28, "stab": 12 }
   },
   {
     "id": "external_tank_small",
@@ -90,7 +90,7 @@
     "size": 100000,
     "damage_modifier": 80,
     "flags": [ "PROTRUSION", "UNMOUNT_ON_DAMAGE", "FLUIDTANK" ],
-    "damage_reduction": { "all": 30 }
+    "damage_reduction": { "all": 30, "stab": 12 }
   },
   {
     "id": "external_tank",
@@ -99,7 +99,7 @@
     "name": "external tank (200L)",
     "item": "55gal_drum",
     "size": 200000,
-    "damage_reduction": { "all": 30 }
+    "damage_reduction": { "all": 30, "stab": 12 }
   },
   {
     "id": "tank_barrel",
@@ -120,7 +120,7 @@
       { "item": "scrap", "count": [ 1, 3 ] }
     ],
     "flags": [ "NAILABLE", "FLUIDTANK" ],
-    "damage_reduction": { "all": 18 }
+    "damage_reduction": { "all": 18, "stab": 12 }
   },
   {
     "id": "tank_30gal_drum",
@@ -141,7 +141,7 @@
       { "item": "scrap", "count": [ 1, 5 ] }
     ],
     "flags": [ "FLUIDTANK" ],
-    "damage_reduction": { "all": 30 }
+    "damage_reduction": { "all": 30, "stab": 12 }
   },
   {
     "id": "tank_55gal_drum",
@@ -156,7 +156,7 @@
       { "item": "scrap", "count": [ 2, 10 ] }
     ],
     "flags": [ "FLUIDTANK", "OPAQUE", "OBSTACLE" ],
-    "damage_reduction": { "all": 30 }
+    "damage_reduction": { "all": 30, "stab": 12 }
   },
   {
     "id": "fuel_bunker",
@@ -178,6 +178,6 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 5 ] }
     ],
-    "damage_reduction": { "all": 24 }
+    "damage_reduction": { "all": 24, "stab": 18 }
   }
 ]

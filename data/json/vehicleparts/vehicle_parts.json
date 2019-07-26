@@ -899,7 +899,7 @@
       "install": { "time": 60000, "using": [ [ "rope_natural_short", 1 ] ] },
       "repair": { "time": 30000, "using": [ [ "adhesive", 1 ] ] }
     },
-    "damage_reduction": { "all": 18 }
+    "damage_reduction": { "all": 18, "stab": 8, "cut": 8 }
   },
   {
     "type": "vehicle_part",
@@ -917,7 +917,7 @@
     "location": "center",
     "flags": [ "CARGO", "BOARDABLE", "COVERED", "NAILABLE", "LOCKABLE_CARGO" ],
     "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
-    "damage_reduction": { "all": 16 }
+    "damage_reduction": { "all": 16, "stab": 6, "cut":6 }
   },
   {
     "type": "vehicle_part",
@@ -936,7 +936,7 @@
     "location": "center",
     "flags": [ "CARGO", "BOARDABLE", "COVERED", "NAILABLE", "FOLDABLE", "LOCKABLE_CARGO" ],
     "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
-    "damage_reduction": { "all": 10 }
+    "damage_reduction": { "all": 10, "stab": 4, "cut": 5 }
   },
   {
     "type": "vehicle_part",
@@ -1131,7 +1131,7 @@
     "location": "under",
     "flags": [ "FLOATS" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 4, 8 ] } ],
-    "damage_reduction": { "all": 12 }
+    "damage_reduction": { "all": 12, "stab": 4, "cut": 4 }
   },
   {
     "type": "vehicle_part",
@@ -1186,7 +1186,8 @@
     "location": "structure",
     "folded_volume": 3,
     "flags": [ "MOUNTABLE", "FOLDABLE", "BOARDABLE", "CARGO" ],
-    "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 20 ] } ]
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 20 ] } ],
+    "damage_reduction": { "smash": 10 }
   },
   {
     "type": "vehicle_part",
@@ -1203,7 +1204,8 @@
     "location": "under",
     "folded_volume": 3,
     "flags": [ "FLOATS", "VARIABLE_SIZE", "FOLDABLE" ],
-    "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 20 ] } ]
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 20 ] } ],
+    "damage_reduction": { "smash": 10 }
   },
   {
     "type": "vehicle_part",
@@ -1511,7 +1513,7 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": 2000, "using": [ [ "adhesive", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
     },
-    "flags": [ "OPENABLE", "OPENCLOSE_INSIDE", "OPAQUE", "CURTAIN", "WINDOW_CURTAIN" ],
+    "flags": [ "OPENABLE", "OPENCLOSE_INSIDE", "OPAQUE", "CURTAIN", "WINDOW_CURTAIN", "MULTISQUARE" ],
     "breaks_into": [  ]
   },
   {
@@ -1538,7 +1540,7 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": 2000, "using": [ [ "adhesive", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
     },
-    "flags": [ "OPENABLE", "OPAQUE", "OPENCLOSE_INSIDE", "CURTAIN" ],
+    "flags": [ "OPENABLE", "OPAQUE", "OPENCLOSE_INSIDE", "CURTAIN", "MULTISQUARE" ],
     "breaks_into": [  ]
   },
   {
@@ -1563,7 +1565,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] }
     },
     "breaks_into": [ { "item": "splinter", "count": [ 40, 60 ] } ],
-    "damage_reduction": { "all": 15 }
+    "damage_reduction": { "all": 15, "stab":6, "cut":8 }
   },
   {
     "type": "vehicle_part",
@@ -1587,7 +1589,7 @@
       "removal": { "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] }
     },
     "breaks_into": [ { "item": "splinter", "count": [ 60, 100 ] } ],
-    "damage_reduction": { "all": 16 }
+    "damage_reduction": { "all": 16, "stab":6, "cut":8 }
   },
   {
     "type": "vehicle_part",
@@ -1922,13 +1924,13 @@
     "color": "brown",
     "broken_symbol": ")",
     "broken_color": "brown",
-    "durability": 300,
+    "durability": 250,
     "item": "wood_plate",
     "difficulty": 2,
     "location": "armor",
     "flags": [ "ARMOR", "NAILABLE" ],
     "breaks_into": "ig_vp_wood_plate",
-    "damage_reduction": { "all": 45 }
+    "damage_reduction": { "all": 16, "cut": 8, "stab":8 }
   },
   {
     "type": "vehicle_part",
@@ -1938,13 +1940,13 @@
     "color": "light_cyan",
     "broken_symbol": ")",
     "broken_color": "light_cyan",
-    "durability": 1000,
+    "durability": 660,
     "item": "steel_plate",
     "difficulty": 2,
     "location": "armor",
     "flags": [ "ARMOR" ],
     "breaks_into": "ig_vp_steel_plate",
-    "damage_reduction": { "all": 60 }
+    "damage_reduction": { "all": 56 }
   },
   {
     "type": "vehicle_part",
@@ -1954,7 +1956,7 @@
     "color": "dark_gray",
     "broken_symbol": ")",
     "broken_color": "dark_gray",
-    "durability": 900,
+    "durability": 600,
     "item": "alloy_plate",
     "difficulty": 4,
     "location": "armor",
@@ -1964,7 +1966,7 @@
       { "item": "steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
     ],
-    "damage_reduction": { "all": 65 }
+    "damage_reduction": { "all": 56 }
   },
   {
     "type": "vehicle_part",
@@ -1975,7 +1977,7 @@
     "broken_symbol": ")",
     "broken_color": "red",
     "damage_modifier": 150,
-    "durability": 500,
+    "durability": 620,
     "description": "A spiked plate that will increase the damage delivered to someone else in collisions.",
     "item": "spiked_plate",
     "difficulty": 3,
@@ -1997,7 +1999,7 @@
     "color": "cyan",
     "broken_symbol": ")",
     "broken_color": "cyan",
-    "durability": 1000,
+    "durability": 780,
     "item": "hard_plate",
     "difficulty": 4,
     "location": "armor",
@@ -2007,7 +2009,7 @@
       { "item": "steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
     ],
-    "damage_reduction": { "all": 124 }
+    "damage_reduction": { "all": 75 }
   },
   {
     "type": "vehicle_part",
@@ -2017,7 +2019,7 @@
     "color": "green",
     "broken_symbol": ")",
     "broken_color": "green",
-    "durability": 2000,
+    "durability": 700,
     "item": "mil_plate",
     "difficulty": 6,
     "location": "armor",
@@ -2028,7 +2030,7 @@
       { "item": "scrap", "count": [ 4, 6 ] },
       { "item": "ceramic_armor", "count": [ 0, 4 ] }
     ],
-    "damage_reduction": { "all": 116, "cut": 130, "stab": 165 }
+    "damage_reduction": { "all": 70, "cut": 95, "stab": 88 }
   },
   {
     "type": "vehicle_part",
@@ -2525,7 +2527,7 @@
     "color": "yellow",
     "broken_symbol": ")",
     "broken_color": "light_gray",
-    "durability": 500,
+    "durability": 320,
     "item": "chitin_plate",
     "difficulty": 2,
     "location": "armor",
@@ -2555,13 +2557,13 @@
     "color": "white",
     "broken_symbol": ")",
     "broken_color": "light_gray",
-    "durability": 400,
+    "durability": 120,
     "item": "bone_plate",
     "difficulty": 2,
     "location": "armor",
     "flags": [ "ARMOR" ],
     "breaks_into": [ { "item": "bone_tainted", "count": [ 10, 30 ] } ],
-    "damage_reduction": { "all": 52 }
+    "damage_reduction": { "all": 18 }
   },
   {
     "type": "vehicle_part",
@@ -2931,7 +2933,7 @@
     "broken_symbol": "X",
     "broken_color": "light_gray",
     "damage_modifier": 80,
-    "durability": 400,
+    "durability": 320,
     "description": "A rotating, universal mount for a weapon.  If your hands are empty, you can stand next to a turret mount and 'f'ire the weapon by selecting the tile.",
     "item": "turret_mount",
     "difficulty": 2,

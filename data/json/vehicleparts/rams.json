@@ -19,7 +19,7 @@
     "color": "dark_gray",
     "broken_color": "dark_gray",
     "difficulty": 4,
-    "durability": 900,
+    "durability": 650,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },
       { "item": "steel_chunk", "count": [ 4, 6 ] },
@@ -35,7 +35,7 @@
     "item": "hard_plate",
     "color": "cyan",
     "broken_color": "cyan",
-    "durability": 2300,
+    "durability": 860,
     "difficulty": 4,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },
@@ -52,7 +52,7 @@
     "item": "mil_plate",
     "color": "green",
     "broken_color": "green",
-    "durability": 2000,
+    "durability": 800,
     "difficulty": 6,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },
@@ -70,7 +70,7 @@
     "item": "spiked_plate",
     "color": "red",
     "broken_color": "red",
-    "durability": 900,
+    "durability": 550,
     "difficulty": 3,
     "damage_modifier": 200,
     "breaks_into": [
@@ -89,7 +89,7 @@
     "item": "steel_plate",
     "color": "light_cyan",
     "broken_color": "light_cyan",
-    "durability": 1000,
+    "durability": 650,
     "breaks_into": "ig_vp_steel_plate",
     "damage_reduction": { "all": 156 }
   },
@@ -104,7 +104,7 @@
     "durability": 300,
     "extend": { "flags": [ "NAILABLE" ] },
     "breaks_into": "ig_vp_wood_plate",
-    "damage_reduction": { "all": 82 }
+    "damage_reduction": { "all": 75 }
   },
   {
     "id": "ram_chitin",
@@ -115,9 +115,9 @@
     "color": "yellow",
     "broken_color": "light_gray",
     "looks_like": "ram_wood",
-    "durability": 500,
+    "durability": 320,
     "breaks_into": [ { "item": "chitin_piece", "count": [ 5, 15 ] } ],
-    "damage_reduction": { "all": 112 }
+    "damage_reduction": { "all": 80 }
   },
   {
     "id": "ram_acidchitin",
@@ -127,7 +127,7 @@
     "item": "acidchitin_plate",
     "proportional": { "durability": 1.5 },
     "breaks_into": [ { "item": "chitin_piece", "count": [ 6, 19 ] } ],
-    "damage_reduction": { "all": 118 }
+    "damage_reduction": { "all": 110 }
   },
   {
     "id": "tearer",
@@ -140,12 +140,12 @@
     "color": "dark_gray",
     "broken_color": "dark_gray",
     "difficulty": 5,
-    "durability": 900,
+    "durability": 450,
     "power": -1750,
     "damage_modifier": 500,
     "breaks_into": [  ],
     "description": "A circular blade, powered by the vehicle's engine.  It will dramatically increase the damage the vehicle delivers in collisions.  Mount on the edges of the vehicle, preferably the front.",
     "flags": [ "UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION" ],
-    "damage_reduction": { "all": 100 }
+    "damage_reduction": { "all": 82 }
   }
 ]
