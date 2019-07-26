@@ -48,7 +48,7 @@ markComment: >
 # Comment to post when closing a stale Issue or Pull Request.
 closeComment: >
   This issue has been automatically closed due to lack of activity. This does
-  not mean that do not value the issue, and feel free to request that it be
+  not mean that we do not value the issue. Feel free to request that it be
   re-opened if you are going to actively work on it
 
 # Limit the number of actions per hour, from 1-30. Default is 30
