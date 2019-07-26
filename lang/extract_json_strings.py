@@ -117,6 +117,7 @@ automatically_convertible = {
     "AMMO",
     "ammunition_type",
     "ARMOR",
+    "BATTERY",
     "bionic",
     "BIONIC_ITEM",
     "BOOK",
