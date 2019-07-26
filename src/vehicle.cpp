@@ -5845,7 +5845,7 @@ void vehicle::calc_mass_center( bool use_precalc ) const
             m_part_items += j.weight();
         }
         if( vp.part().info().cargo_modifier != 100 ) {
-            m_part_items *= ( vp.part().info().cargo_modifier / 100 );
+            m_part_items *= vp.part().info().cargo_modifier / 100;
         }
         m_part += m_part_items;
 
