@@ -1332,22 +1332,15 @@ void player::perform_uninstall( bionic_id bid, int difficulty, int success, int 
         // remove power bank provided by bionic
         max_power_level -= power_lvl;
 
+        item cbm( "burnt_out_bionic" );
         if( item::type_is_defined( bid.c_str() ) ) {
-            item cbm( bid.c_str() );
-            cbm.set_flag( "FILTHY" );
-            cbm.set_flag( "NO_STERILE" );
-            cbm.set_flag( "NO_PACKED" );
-            cbm.faults.emplace( fault_id( "fault_bionic_salvaged" ) );
-            g->m.add_item( pos(), cbm );
-        } else {
-            item burnt_out( "burnt_out_bionic" );
-            burnt_out.set_flag( "FILTHY" );
-            burnt_out.set_flag( "NO_STERILE" );
-            burnt_out.set_flag( "NO_PACKED" );
-            burnt_out.faults.emplace( fault_id( "fault_bionic_salvaged" ) );
-            g->m.add_item( pos(), burnt_out );
+            cbm = item( bid.c_str() );
         }
-
+        cbm.set_flag( "FILTHY" );
+        cbm.set_flag( "NO_STERILE" );
+        cbm.set_flag( "NO_PACKED" );
+        cbm.faults.emplace( fault_id( "fault_bionic_salvaged" ) );
+        g->m.add_item( pos(), cbm );
     } else {
         if( is_player() ) {
             add_memorial_log( pgettext( "memorial_male", "Failed to remove bionic: %s." ),
