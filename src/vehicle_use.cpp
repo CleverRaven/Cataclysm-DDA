@@ -1053,27 +1053,6 @@ void vehicle::reload_seeds( const tripoint &pos )
     }
 }
 
-static void use_towel( const tripoint &pos )
-{
-    ( void )pos; // TODO soil the towel
-    player &p = g->u;
-    bool slime = p.has_effect( effect_slimed );
-    bool boom = p.has_effect( effect_boomered );
-    bool glow = p.has_effect( effect_glowing );
-    int mult = slime + boom + glow; // cleaning off more than one at once makes it take longer
-    p.remove_effect( effect_slimed ); // able to clean off all at once
-    p.remove_effect( effect_boomered );
-    p.remove_effect( effect_glowing );
-    if( abs( p.has_morale( MORALE_WET ) ) ) {
-        p.rem_morale( MORALE_WET );
-        p.body_wetness.fill( 0 );
-        p.add_msg_if_player( _( "You use the towel to dry off." ) );
-        mult += 1;
-
-    }
-    p.moves -= 50 * mult;
-}
-
 void vehicle::beeper_sound()
 {
     // No power = no sound
@@ -1687,7 +1666,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case USE_TOWEL: {
-            use_towel( pos );
+            iuse::towel_common( &g->u, NULL, false );
             return;
         }
         case USE_WASHMACHINE: {
