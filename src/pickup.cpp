@@ -510,16 +510,14 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
         int itemsW = pickupW;
 
-        int pickupX;
+        int pickupX = 0;
         std::string position = get_option<std::string>( "PICKUP_POSITION" );
         if( position == "left" ) {
             pickupX = panel_manager::get_manager().get_width_left();
         } else if( position == "right" ) {
             pickupX = TERMX - panel_manager::get_manager().get_width_right() - pickupW;
         } else if( position == "overlapping" ) {
-            if( get_option<std::string>("SIDEBAR_POSITION") == "left" ) {
-                pickupX = 0;
-            } else {
+            if( get_option<std::string>( "SIDEBAR_POSITION" ) == "right" ) {
                 pickupX = TERMX - pickupW;
             }
         }
