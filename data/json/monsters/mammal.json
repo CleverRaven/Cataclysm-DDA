@@ -594,7 +594,7 @@
     "vision_night": 3,
     "harvest": "mammal_tiny",
     "path_settings": { "max_dist": 10 },
-    "upgrades": { "age_grow": 42, "into": "mon_dog_bull" },    
+    "upgrades": { "age_grow": 42, "into": "mon_dog_bull" },
     "fear_triggers": [ "SOUND", "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
@@ -657,7 +657,7 @@
     "vision_night": 4,
     "path_settings": { "max_dist": 10 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_pitbullmix" },
-    "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },    
+    "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "SOUND", "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
