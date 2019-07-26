@@ -43,9 +43,9 @@
         "  x|xxxx,,,*****,,,,xx| ",
         "   |xxxxxx,,,,,,,xxxxx|x",
         "  ----+---xxxxxxxxxxxx| ",
-        "  -A....R-xxxxxxxxxxxx| ",
-        "  -A....R-|||cc|||||||| ",
-        "  -A....R-              ",
+        "  -R.|..A-xxxxxxxxxxxx| ",
+        "  -R.c..A-|||cc|||||||| ",
+        "  -R.|..A-              ",
         "  ----+---              ",
         "                        ",
         "                        "
@@ -63,7 +63,7 @@
         "|": "t_chainfence"
       },
       "set": [ { "square": "radiation", "amount": [ 20, 60 ], "x": 3, "y": 3, "x2": 21, "y2": 16 } ],
-      "furniture": { "R": "f_rack", "A": "f_recycle_bin" },
+      "furniture": { "R": "f_rack", "A": "f_dumpster" },
       "place_signs": [ { "signage": "RESTRICTED AREA! AUTHORIZED PERSONNEL ONLY", "x": 10, "y": 23 } ],
       "items": {
         "R": { "item": "toxic_dump_equipment", "chance": 60 },
@@ -72,7 +72,7 @@
       },
       "place_loot": [
         { "group": "toxic_waste", "x": [ 5, 20 ], "y": [ 5, 16 ], "chance": 40, "repeat": [ 3, 15 ] },
-        { "item": "id_military", "x": 8, "y": [ 18, 20 ], "chance": 10 }
+        { "item": "id_military", "x": 3, "y": [ 18, 20 ], "chance": 10 }
       ]
     }
   }
