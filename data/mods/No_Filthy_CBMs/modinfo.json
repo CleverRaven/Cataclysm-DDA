@@ -1,0 +1,10 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "no_filthy_cbm",
+    "name": "No Filthy CBM",
+    "description": "CBMs extracted from zombies will be completely clean.  This does not affect CBMs extracted through surgery.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  }
+]
