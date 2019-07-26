@@ -61,7 +61,7 @@
     "looks_like": "f_armchair",
     "symbol": "H",
     "description": "A more comfortable way of sitting down.",
-    "color": "grey",
+    "color": "gray",
     "move_cost_mod": 1,
     "coverage": 45,
     "comfort": 3,
