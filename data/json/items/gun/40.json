@@ -244,5 +244,24 @@
     "durability": 9,
     "magazine_well": 1,
     "magazines": [ [ "40", [ "ppq40mag_10rd", "ppq40mag_12rd", "ppq40mag_14rd" ] ] ]
+  },
+  {
+    "id": "hptjcp",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": "Hi-Point Model JCP",
+    "description": "The Hi-Point Model JCP is a blowback operated semi automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky, uncomfortable, and absolutely invincible.",
+    "weight": 800,
+    "volume": "275 ml",
+    "price": 7500,
+    "to_hit": -4,
+    "bashing": 8,
+    "material": [ "plastic", "steel" ],
+    "color": "dark_gray",
+    "ammo": "40",
+    "dispersion": 480,
+    "durability": 10,
+    "magazine_well": 1,
+    "magazines": [ [ "40", [ "hptjcpmag" ] ] ]
   }
 ]

@@ -177,5 +177,21 @@
     "capacity": 12,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "hptjhpmag",
+    "type": "MAGAZINE",
+    "name": "Model JHP magazine",
+    "description": "A 9-round steel box magazine for use with the Hi-Point Model JHP.",
+    "weight": 110,
+    "volume": "38 ml",
+    "price": 2500,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "45",
+    "capacity": 9,
+    "reliability": 8,
+    "flags": [ "MAG_COMPACT" ]
   }
 ]

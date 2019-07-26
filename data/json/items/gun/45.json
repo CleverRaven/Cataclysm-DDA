@@ -289,5 +289,24 @@
     "durability": 9,
     "magazine_well": 1,
     "magazines": [ [ "45", [ "ppq45mag" ] ] ]
+  },
+  {
+    "id": "hptjhp",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": "Hi-Point Model JHP",
+    "description": "The Hi-Point Model JHP is a blowback operated semi automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky, uncomfortable, and absolutely invincible.",
+    "weight": 800,
+    "volume": "275 ml",
+    "price": 7500,
+    "to_hit": -4,
+    "bashing": 8,
+    "material": [ "plastic", "steel" ],
+    "color": "dark_gray",
+    "ammo": "45",
+    "dispersion": 480,
+    "durability": 10,
+    "magazine_well": 1,
+    "magzines": [ [ "45", [ "hptjhpmag" ] ] ]
   }
 ]

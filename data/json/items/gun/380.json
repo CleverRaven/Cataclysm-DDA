@@ -60,5 +60,24 @@
     "dispersion": 480,
     "durability": 8,
     "magazines": [ [ "380", [ "rugerlcpmag" ] ] ]
+  },
+  {
+    "id": "hptcf380",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": "Hi-Point CF-380",
+    "description": "The Hi-Point CF-380 is a blowback operated semi automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky, uncomfortable, and absolutely invincible.",
+    "weight": 709,
+    "volume": "167 ml",
+    "price": 7500,
+    "to_hit": -4,
+    "bashing": 8,
+    "material": [ "plastic", "steel" ],
+    "color": "dark_gray",
+    "ammo": "380",
+    "dispersion": 480,
+    "durability": 10,
+    "magazine_well": 1,
+    "magazines": [ [ "380", [ "hptcf380mag_8rd", "hptcf380mag_10rd" ] ] ]
   }
 ]

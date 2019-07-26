@@ -123,7 +123,11 @@
       [ "ppq40mag_10rd", 8 ],
       [ "ppq40mag_12rd", 4 ],
       [ "ppq40mag_14rd", 2 ],
-      [ "ppq45mag", 1 ]
+      [ "ppq45mag", 1 ],
+      [ "hptc9", 20 ],
+      [ "hptcf380", 20 ],
+      [ "hptjcp", 20 ],
+      [ "hptjhp", 20 ]
     ]
   },
   {

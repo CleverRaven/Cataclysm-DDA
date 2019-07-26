@@ -639,5 +639,24 @@
     "durability": 9,
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "ppq9mag_10rd", "ppq9mag_15rd", "ppq9mag_17rd" ] ] ]
+  },
+  {
+    "id": "hptc9",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": "Hi-Point C-9",
+    "description": "The Hi-Point C-9 is a blowback operated semi automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky, uncomfortable, and absolutely invincible.",
+    "weight": 709,
+    "volume": "167 ml",
+    "price": 7500,
+    "to_hit": -4,
+    "bashing": 8,
+    "material": [ "plastic", "steel" ],
+    "color": "dark_gray",
+    "ammo": "9mm",
+    "dispersion": 480,
+    "durability": 10,
+    "magazine_well": 1,
+    "magazines": [ [ "9mm", [ "hptc9mag_8rd", "hptc9mag_10rd", "hptc9mag_15rd" ] ] ]
   }
 ]

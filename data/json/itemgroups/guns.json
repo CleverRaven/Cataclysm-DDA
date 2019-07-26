@@ -26,7 +26,11 @@
       { "item": "walther_p38", "prob": 5, "charges-min": 0, "charges-max": 8 },
       { "item": "walther_ppq_9mm", "prob": 15, "charges-min": 0, "charges-max": 17 },
       { "item": "walther_ppq_40", "prob": 10, "charges-min": 0, "charges-max": 14 },
-      { "item": "walther_ppq_45", "prob": 5, "charges-min": 0, "charges-max": 12 }
+      { "item": "walther_ppq_45", "prob": 5, "charges-min": 0, "charges-max": 12 },
+      { "item": "hptc9", "prob": 25, "charges-min": 0, "charges-max": 15 },
+      { "item": "hptcf380", "prob": 25, "charges-min": 0, "charges-max": 10 },
+      { "item": "hptjcp", "prob": 25, "charges-min": 0, "charges-max": 10 },
+      { "item": "hptjhp", "prob": 25, "charges-min": 0, "charges-max": 9 }
     ]
   },
   {
