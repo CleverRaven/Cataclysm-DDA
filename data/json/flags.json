@@ -619,5 +619,11 @@
     "type": "json_flag",
     "context": [ "SPELL" ],
     "description": "This spell requires focus to cast.  The lower your focus, the higher failure rate to cast."
+  },
+  {
+    "id": "PLAYER_MSG",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "This spell is not cast traditionally. The description is given to the player instead."
   }
 ]

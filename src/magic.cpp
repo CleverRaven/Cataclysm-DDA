@@ -73,6 +73,7 @@ const std::map<std::string, spell_flag> flag_map = {
     { "SOMATIC", spell_flag::SOMATIC },
     { "NO_HANDS", spell_flag::NO_HANDS },
     { "NO_LEGS", spell_flag::NO_LEGS },
+    { "PLAYER_MSG", spell_flag::PLAYER_MSG },
     { "CONCENTRATE", spell_flag::CONCENTRATE }
 };
 } // namespace
@@ -208,6 +209,7 @@ void spell_type::load( JsonObject &jo, const std::string & )
         field = field_type_id( field_input );
     }
     optional( jo, was_loaded, "field_chance", field_chance, 1 );
+    optional( jo, was_loaded, "field_chance_inv", field_chance_inv, false );
     optional( jo, was_loaded, "min_field_intensity", min_field_intensity, 0 );
     optional( jo, was_loaded, "max_field_intensity", max_field_intensity, 0 );
     optional( jo, was_loaded, "field_intensity_increment", field_intensity_increment, 0.0f );
@@ -216,6 +218,7 @@ void spell_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "min_damage", min_damage, 0 );
     optional( jo, was_loaded, "damage_increment", damage_increment, 0.0f );
     optional( jo, was_loaded, "max_damage", max_damage, 0 );
+    optional( jo, was_loaded, "damage_rng_mod", damage_rng_mod, 0 );
 
     optional( jo, was_loaded, "min_range", min_range, 0 );
     optional( jo, was_loaded, "range_increment", range_increment, 0.0f );
@@ -232,6 +235,7 @@ void spell_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "min_duration", min_duration, 0 );
     optional( jo, was_loaded, "duration_increment", duration_increment, 0.0f );
     optional( jo, was_loaded, "max_duration", max_duration, 0 );
+    optional( jo, was_loaded, "duration_rng_mod", duration_rng_mod, 0 );
 
     optional( jo, was_loaded, "min_pierce", min_pierce, 0 );
     optional( jo, was_loaded, "pierce_increment", pierce_increment, 0.0f );
@@ -352,6 +356,7 @@ spell::spell( const spell_type *sp, int xp )
 {
     type = sp;
     experience = xp;
+    obj_name = "";
 }
 
 spell::spell( spell_id sp, int xp ) : spell( &sp.obj(), xp ) {}
@@ -375,7 +380,7 @@ int spell::field_intensity() const
 
 int spell::damage() const
 {
-    const int leveled_damage = type->min_damage + round( get_level() * type->damage_increment );
+    const int leveled_damage = type->min_damage + round( get_level() * type->damage_increment ) + rng(0, type->damage_rng_mod);
     if( type->min_damage >= 0 || type->max_damage >= type->min_damage ) {
         return std::min( leveled_damage, type->max_damage );
     } else { // if it's negative, min and max work differently
@@ -406,7 +411,7 @@ int spell::range() const
 int spell::duration() const
 {
     const int leveled_duration = type->min_duration + round( get_level() *
-                                 type->duration_increment );
+                                 type->duration_increment ) + rng(0, type->duration_rng_mod);
     if( type->max_duration >= type->min_duration ) {
         return std::min( leveled_duration, type->max_duration );
     } else {
@@ -683,24 +688,26 @@ bool spell::bp_is_affected( body_part bp ) const
     return type->affected_bps[bp];
 }
 
-void spell::create_field( const tripoint &at ) const
+bool spell::create_field( const tripoint &at ) const
 {
     if( !type->field ) {
-        return;
+        return false;
     }
     const int intensity = field_intensity() + rng( -type->field_intensity_variance * field_intensity(),
                           type->field_intensity_variance * field_intensity() );
     if( intensity <= 0 ) {
-        return;
+        return false;
     }
-    if( one_in( type->field_chance ) ) {
+    if( one_in( type->field_chance ) == !type->field_chance_inv ) {
         field_entry *field = g->m.get_field( at, *type->field );
         if( field ) {
             field->set_field_intensity( field->get_field_intensity() + intensity );
         } else {
             g->m.add_field( at, *type->field, intensity );
         }
+        return true;
     }
+    return false;
 }
 
 void spell::make_sound( const tripoint &target ) const
@@ -959,6 +966,46 @@ bool spell::cast_spell_effect( const Creature &source, const tripoint &target ) 
         spell_effect::spawn_summoned_monster( *this, source, target );
     } else if( fx == "translocate" ) {
         spell_effect::translocate( *this, source, target, g->u.translocators );
+    } else if( fx == "storm" ) {
+        spell_effect::storm( *this, target );
+    } else if( fx == "fire_ball" ) {
+        spell_effect::fire_ball( target );
+    } else if( fx == "map" ) {
+        spell_effect::map( *this, target );
+    } else if( fx == "blood" ) {
+        spell_effect::blood( *this, source, target );
+    } else if( fx == "fatigue" ) {
+        spell_effect::fatigue( *this, source, target );
+    } else if( fx == "pulse" ) {
+        spell_effect::pulse( *this, target );
+    } else if( fx == "entrance" ) {
+        spell_effect::entrance( *this, target );
+    } else if( fx == "bugs" ) {
+        spell_effect::bugs( *this, source, target );
+    } else if( fx == "light" ) {
+        spell_effect::light( *this, source );
+    } else if( fx == "growth" ) {
+        spell_effect::growth( target );
+    } else if( fx == "mutate" ) {
+        spell_effect::mutate( source );
+    } else if( fx == "teleglow" ) {
+        spell_effect::teleglow( source );
+    } else if( fx == "noise" ) {
+        spell_effect::noise( *this, source, target );
+    } else if( fx == "scream" ) {
+        spell_effect::scream( *this, source, target );
+    } else if( fx == "dim" ) {
+        spell_effect::dim( source );
+    } else if( fx == "flash" ) {
+        spell_effect::flash( source, target );
+    } else if( fx == "vomit" ) {
+        spell_effect::vomit( source );
+    } else if( fx == "shadows" ) {
+        spell_effect::shadows( source, target );
+    } else if( fx == "stamina_empty" ) {
+        spell_effect::stamina_empty( source );
+    } else if( fx == "fun" ) {
+        spell_effect::fun( source );
     } else {
         debugmsg( "ERROR: Spell effect not defined properly." );
         return false;
@@ -987,6 +1034,21 @@ bool spell::cast_all_effects( const Creature &source, const tripoint &target ) c
         }
     }
     return success;
+}
+
+void spell::set_obj_name( std::string new_name )
+{
+    obj_name = new_name;
+}
+
+const char *spell::get_obj_name() const
+{
+    return obj_name.c_str();
+}
+
+std::string spell::desc() const
+{
+    return type->description;
 }
 
 // player

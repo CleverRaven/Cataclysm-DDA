@@ -4210,6 +4210,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     act->set_to_null();
     const int level_override = act->get_value( 0 );
     spell &casting = player_or_item_spell( p, spell_id( act->name ), level_override );
+    casting.set_obj_name( act->get_str_value( 0, "" ) );
     const bool no_fail = act->get_value( 1 ) == 1;
     const bool no_mana = act->get_value( 2 ) == 0;
 
@@ -4257,7 +4258,12 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                        false );
     }
 
-    p->add_msg_if_player( _( "You cast %s!" ), casting.name() );
+    if( casting.has_flag( spell_flag::PLAYER_MSG ) ) {
+        p->add_msg_if_player( casting.desc() );
+    }
+    else if( act->get_value( 3 , 1) == 1 ){
+        p->add_msg_if_player( _( "You cast %s!" ), casting.name() );
+    }
 
     casting.cast_all_effects( *p, target );
 

@@ -1411,7 +1411,7 @@ bool game::do_turn()
         sfx::do_hearing_loss();
     }
 
-    if( !u.has_effect( efftype_id( "sleep" ) ) ) {
+    if( !u.has_effect( effect_sleep ) && !u.has_effect( efftype_id( "paralysed" ) ) ) {
         if( u.moves > 0 || uquit == QUIT_WATCH ) {
             while( u.moves > 0 || uquit == QUIT_WATCH ) {
                 cleanup_dead();
