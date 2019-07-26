@@ -8,6 +8,7 @@ add_library(
     CataTidyModule.cpp
     NoLongCheck.cpp
     PointInitializationCheck.cpp
+    XYCheck.cpp
     )
 
 target_include_directories(
