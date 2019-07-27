@@ -25,6 +25,9 @@ struct point {
         y += rhs.y;
         return *this;
     }
+    constexpr point operator-() const {
+        return point( -x, -y );
+    }
     constexpr point operator-( const point &rhs ) const {
         return point( x - rhs.x, y - rhs.y );
     }
