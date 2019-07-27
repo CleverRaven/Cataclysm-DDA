@@ -2453,12 +2453,6 @@ void iexamine::fireplace( player &p, const tripoint &examp )
     const bool already_on_fire = g->m.has_nearby_fire( examp, 0 );
     const bool furn_is_deployed = !g->m.furn( examp ).obj().deployed_item.empty();
 
-    if( already_on_fire && !furn_is_deployed ) {
-        none( p, examp );
-        Pickup::pick_up( examp, 0 );
-        return;
-    }
-
     std::multimap<int, item *> firestarters;
     for( item *it : p.items_with( []( const item & it ) {
     return it.has_flag( "FIRESTARTER" ) || it.has_flag( "FIRE" );
@@ -2485,6 +2479,10 @@ void iexamine::fireplace( player &p, const tripoint &examp )
         if( has_bionic_firestarter ) {
             selection_menu.addentry( 2, true, 'b', _( "Use a CBM to start a fire" ) );
         }
+    } else if( p.weapon.damage_melee( DT_BASH ) ) {
+        selection_menu.addentry( 4, true, 's', _( "Put out fire" ) );
+    } else {
+        selection_menu.addentry( 4, false, 's', _( "Put out fire - wield bashing item" ) );
     }
     if( furn_is_deployed ) {
         selection_menu.addentry( 3, true, 't', string_format( _( "Take down the %s" ),
@@ -2536,6 +2534,13 @@ void iexamine::fireplace( player &p, const tripoint &examp )
             const auto furn_item = g->m.furn( examp ).obj().deployed_item;
             g->m.add_item_or_charges( examp, item( furn_item, calendar::turn ) );
             g->m.furn_set( examp, f_null );
+            return;
+        }
+        case 4: {
+            g->m.remove_field( examp, fd_fire );
+            p.mod_moves( -200 );
+            p.add_msg_if_player( m_info, _( "With a few determined moves you put out the fire in the %s." ),
+                                 g->m.furnname( examp ) );
             return;
         }
         default:
