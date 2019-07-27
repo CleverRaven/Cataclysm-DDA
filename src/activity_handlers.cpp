@@ -3118,7 +3118,7 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
     if( act->str_values[6] == "true" ) {
         if( act->values[1] > 0 ) {
             add_msg( m_good,
-                     _( "The Autodoc retuns to its resting position after succesfully performing the operation." ) );
+                     _( "The Autodoc returns to its resting position after succesfully performing the operation." ) );
             const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
                                                  furn_str_id( "f_autodoc" ) );
             sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
@@ -3141,7 +3141,7 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
                      _( "The operation is a success." ) );
         } else {
             add_msg( m_bad,
-                     _( "The operation is a failuer." ) );
+                     _( "The operation is a failure." ) );
         }
     }
     act->set_to_null();
