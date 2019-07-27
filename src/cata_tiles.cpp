@@ -199,9 +199,6 @@ cata_tiles::cata_tiles( const SDL_Renderer_Ptr &renderer ) :
 
     nv_goggles_activated = false;
 
-    last_pos_x = 0;
-    last_pos_y = 0;
-
     on_options_changed();
 }
 
