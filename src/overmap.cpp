@@ -2992,9 +2992,7 @@ bool overmap::build_lab( const tripoint &p, int s, std::vector<point> *lab_train
                 }
                 generated_lab.push_back( cand );
                 // add new candidates, don't backtrack
-                for( const point &offset : {
-                point_north, point_east, point_south, point_west
-            } ) {
+                for( const point &offset : four_adjacent_offsets ) {
                     const tripoint new_cand = cand + offset;
                     const int new_dist = manhattan_dist( p.xy(), new_cand.xy() );
                     if( ter( new_cand ) != labt && new_dist > dist ) {
