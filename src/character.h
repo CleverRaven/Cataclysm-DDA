@@ -47,6 +47,7 @@ class JsonOut;
 class vehicle;
 struct mutation_branch;
 class bionic_collection;
+struct points_left;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -787,8 +788,12 @@ class Character : public Creature, public visitable<Character>
         }
         /** Empties the trait list */
         void empty_traits();
-        /** Adds mandatory scenario and profession traits unless you already have them */
+        /**
+         * Adds mandatory scenario and profession traits unless you already have them
+         * And if you do already have them, refunds the points for the trait
+         */
         void add_traits();
+        void add_traits( points_left &points );
 
         // --------------- Values ---------------
         std::string name;
