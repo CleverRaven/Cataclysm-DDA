@@ -48,7 +48,6 @@ struct city {
     int size;
     std::string name;
     city( const point &P = point_zero, const int S = -1 );
-    city( const int X, const int Y, const int S ) : city( point( X, Y ), S ) {}
 
     operator bool() const {
         return size >= 0;
@@ -59,14 +58,12 @@ struct city {
 
 struct om_note {
     std::string text;
-    int         x;
-    int         y;
+    point p;
 };
 
 struct om_map_extra {
     string_id<map_extra> id;
-    int                  x;
-    int                  y;
+    point p;
 };
 
 struct om_vehicle {
@@ -86,15 +83,14 @@ extern std::map<enum radio_type, std::string> radio_type_names;
 
 struct radio_tower {
     // local (to the containing overmap) submap coordinates
-    int x;
-    int y;
+    point pos;
     int strength;
     radio_type type;
     std::string message;
     int frequency;
-    radio_tower( int X = -1, int Y = -1, int S = -1, const std::string &M = "",
+    radio_tower( const point &p, int S = -1, const std::string &M = "",
                  radio_type T = MESSAGE_BROADCAST ) :
-        x( X ), y( Y ), strength( S ), type( T ), message( M ) {
+        pos( p ), strength( S ), type( T ), message( M ) {
         frequency = rng( 0, INT_MAX );
     }
 };
@@ -161,8 +157,7 @@ class overmap
     public:
         overmap( const overmap & ) = default;
         overmap( overmap && ) = default;
-        overmap( int x, int y );
-        overmap( const point &p ) : overmap( p.x, p.y ) {}
+        overmap( const point &p );
         ~overmap();
 
         overmap &operator=( const overmap & ) = default;
@@ -193,60 +188,22 @@ class overmap
          */
         std::vector<point> find_terrain( const std::string &term, int zlevel );
 
-        oter_id &ter( const int x, const int y, const int z );
         oter_id &ter( const tripoint &p );
-        const oter_id get_ter( const int x, const int y, const int z ) const;
         const oter_id get_ter( const tripoint &p ) const;
-        bool &seen( int x, int y, int z );
-        bool &seen( const tripoint &p ) {
-            return seen( p.x, p.y, p.z );
-        }
-        bool seen( int x, int y, int z ) const;
-        bool seen( const tripoint &p ) const {
-            return seen( p.x, p.y, p.z );
-        }
-        bool &explored( int x, int y, int z );
-        bool &explored( const tripoint &p ) {
-            return explored( p.x, p.y, p.z );
-        }
-        bool is_explored( const int x, const int y, const int z ) const;
-        bool is_explored( const tripoint &p ) const {
-            return is_explored( p.x, p.y, p.z );
-        }
+        bool &seen( const tripoint &p );
+        bool seen( const tripoint &p ) const;
+        bool &explored( const tripoint &p );
+        bool is_explored( const tripoint &p ) const;
 
-        bool has_note( int x, int y, int z ) const;
-        bool has_note( const tripoint &p ) const {
-            return has_note( p.x, p.y, p.z );
-        }
-        const std::string &note( int x, int y, int z ) const;
-        const std::string &note( const tripoint &p ) const {
-            return note( p.x, p.y, p.z );
-        }
-        void add_note( int x, int y, int z, std::string message );
-        void add_note( const tripoint &p, std::string message ) {
-            add_note( p.x, p.y, p.z, message );
-        }
-        void delete_note( int x, int y, int z );
-        void delete_note( const tripoint &p ) {
-            delete_note( p.x, p.y, p.z );
-        }
+        bool has_note( const tripoint &p ) const;
+        const std::string &note( const tripoint &p ) const;
+        void add_note( const tripoint &p, std::string message );
+        void delete_note( const tripoint &p );
 
-        bool has_extra( int x, int y, int z ) const;
-        bool has_extra( const tripoint &p ) const {
-            return has_extra( p.x, p.y, p.z );
-        }
-        const string_id<map_extra> &extra( int x, int y, int z ) const;
-        const string_id<map_extra> &extra( const tripoint &p ) const {
-            return extra( p.x, p.y, p.z );
-        }
-        void add_extra( int x, int y, int z, const string_id<map_extra> &id );
-        void add_extra( const tripoint &p, const string_id<map_extra> &id ) {
-            add_extra( p.x, p.y, p.z, id );
-        }
-        void delete_extra( int x, int y, int z );
-        void delete_extra( const tripoint &p ) {
-            delete_extra( p.x, p.y, p.z );
-        }
+        bool has_extra( const tripoint &p ) const;
+        const string_id<map_extra> &extra( const tripoint &p ) const;
+        void add_extra( const tripoint &p, const string_id<map_extra> &id );
+        void delete_extra( const tripoint &p );
 
         /**
          * Getter for overmap scents.
@@ -314,10 +271,7 @@ class overmap
         std::vector<basecamp> camps;
         std::vector<city> cities;
         std::vector<city> roads_out;
-        cata::optional<basecamp *> find_camp( const int x, const int y );
-        cata::optional<basecamp *> find_camp( const point &p ) {
-            return find_camp( p.x, p.y );
-        }
+        cata::optional<basecamp *> find_camp( const point &p );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
         void insert_npc( std::shared_ptr<npc> who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).
@@ -412,13 +366,12 @@ class overmap
 
         void build_city_street( const overmap_connection &connection, const point &p, int cs,
                                 om_direction::type dir, const city &town, int block_width = 2 );
-        bool build_lab( int x, int y, int z, int s, std::vector<point> *lab_train_points,
+        bool build_lab( const tripoint &p, int s, std::vector<point> *lab_train_points,
                         const std::string &prefix, int train_odds );
-        void build_anthill( int x, int y, int z, int s );
-        void build_tunnel( int x, int y, int z, int s, om_direction::type dir );
-        bool build_slimepit( int x, int y, int z, int s );
-        void build_mine( int x, int y, int z, int s );
-        void place_rifts( const int z );
+        void build_anthill( const tripoint &p, int s );
+        void build_tunnel( const tripoint &p, int s, om_direction::type dir );
+        bool build_slimepit( const tripoint &p, int s );
+        void build_mine( const tripoint &p, int s );
 
         // Connection laying
         pf::path lay_out_connection( const overmap_connection &connection, const point &source,
@@ -434,15 +387,12 @@ class overmap
         void connect_closest_points( const std::vector<point> &points, int z,
                                      const overmap_connection &connection );
         // Polishing
-        bool check_ot( const std::string &otype, ot_match_type match_type, int x, int y, int z ) const;
-        bool check_ot( const std::string &otype, ot_match_type match_type, const tripoint &p ) const {
-            return check_ot( otype, match_type, p.x, p.y, p.z );
-        }
+        bool check_ot( const std::string &otype, ot_match_type match_type, const tripoint &p ) const;
         bool check_overmap_special_type( const overmap_special_id &id, const tripoint &location ) const;
-        void chip_rock( int x, int y, int z );
+        void chip_rock( const tripoint &p );
 
         void polish_river();
-        void good_river( int x, int y, int z );
+        void good_river( const tripoint &p );
 
         om_direction::type random_special_rotation( const overmap_special &special,
                 const tripoint &p, bool must_be_unexplored ) const;

@@ -186,5 +186,20 @@
     "material": "stone",
     "weight": 120,
     "volume": 1
+  },
+  {
+    "id": "dragon_essence",
+    "type": "COMESTIBLE",
+    "symbol": "~",
+    "color": "light_red",
+    "name": "dragon essence",
+    "description": "This is the magical essence from a dragon, distilled into a concentrated form.",
+    "volume": "250 ml",
+    "weight": 300,
+    "flags": [ "TRADER_AVOID", "INDEIBLE" ],
+    "container": "flask_glass",
+    "charges": 1,
+    "phase": "liquid",
+    "freezing_point": -100
   }
 ]

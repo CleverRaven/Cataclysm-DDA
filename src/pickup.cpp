@@ -274,7 +274,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
                 break;
             }
 
-            picked_up = newit.spill_contents( u );
+            picked_up = loc.get_item()->spill_contents( u );
             if( !picked_up ) {
                 break;
             }

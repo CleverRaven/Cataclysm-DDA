@@ -1734,8 +1734,9 @@ static int maptile_field_intensity( maptile &mt, field_type_id fld )
 {
     auto field_ptr = mt.find_field( fld );
 
-    return ( field_ptr == nullptr ? 0 : field_ptr->get_field_intensity() );
+    return field_ptr == nullptr ? 0 : field_ptr->get_field_intensity();
 }
+
 static bool maptile_trap_eq( maptile &mt, const trap_id &id )
 {
     return mt.get_trap() == id;
@@ -1786,33 +1787,19 @@ int get_heat_radiation( const tripoint &location, bool direct )
 
 int get_convection_temperature( const tripoint &location )
 {
-    // Heat from hot air (fields)
     int temp_mod = 0;
+    // Directly on lava tiles
     maptile mt = g->m.maptile_at( location );
-    // directly on fire/lava tiles
-    int tile_intensity = maptile_field_intensity( mt, fd_fire );
-    if( tile_intensity > 0 || maptile_trap_eq( mt, tr_lava ) ) {
-        temp_mod += 300;
+    int lava_mod = maptile_trap_eq( mt, tr_lava ) ? fd_fire.obj().get_convection_temperature_mod() : 0;
+    // Modifier from fields
+    for( auto fd : g->m.field_at( location ) ) {
+        // Nullify lava modifier when there is open fire
+        if( fd.first.obj().has_fire ) {
+            lava_mod = 0;
+        };
+        temp_mod += fd.second.convection_temperature_mod();
     }
-    // hot air of a fire/lava
-    auto tile_intensity_mod = []( maptile & mt, field_type_id fld, int case_1, int case_2,
-    int case_3 ) {
-        int field_intensity = maptile_field_intensity( mt, fld );
-        int cases[3] = { case_1, case_2, case_3 };
-        return ( field_intensity > 0 && field_intensity < 4 ) ? cases[ field_intensity - 1 ] : 0;
-    };
-
-    // TODO: Jsonize
-    temp_mod += tile_intensity_mod( mt, fd_hot_air1,  2,   6,  10 );
-    temp_mod += tile_intensity_mod( mt, fd_hot_air2,  6,  16,  20 );
-    temp_mod += tile_intensity_mod( mt, fd_hot_air3, 16,  40,  70 );
-    temp_mod += tile_intensity_mod( mt, fd_hot_air4, 70, 100, 160 );
-    temp_mod -= tile_intensity_mod( mt, fd_cold_air1,  2,   6,  10 );
-    temp_mod -= tile_intensity_mod( mt, fd_cold_air2,  6,  16,  20 );
-    temp_mod -= tile_intensity_mod( mt, fd_cold_air3, 16,  40,  70 );
-    temp_mod -= tile_intensity_mod( mt, fd_cold_air4, 70, 100, 160 );
-
-    return temp_mod;
+    return temp_mod + lava_mod;
 }
 
 int game::assign_mission_id()
@@ -5857,8 +5844,8 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
     const field &tmpfield = m.field_at( lp );
     for( auto &fld : tmpfield ) {
         const field_entry &cur = fld.second;
-        if( fld.first == fd_fire && ( m.has_flag( TFLAG_FIRE_CONTAINER, lp ) ||
-                                      m.ter( lp ) == t_pit_shallow || m.ter( lp ) == t_pit ) ) {
+        if( fld.first.obj().has_fire && ( m.has_flag( TFLAG_FIRE_CONTAINER, lp ) ||
+                                          m.ter( lp ) == t_pit_shallow || m.ter( lp ) == t_pit ) ) {
             const int max_width = getmaxx( w_look ) - column - 2;
             int lines = fold_and_print( w_look, ++line, column, max_width, cur.color(),
                                         get_fire_fuel_string( lp ) ) - 1;
@@ -9278,7 +9265,7 @@ point game::place_player( const tripoint &dest_loc )
             const auto pulp = [&]( const tripoint & pos ) {
                 for( const auto &maybe_corpse : m.i_at( pos ) ) {
                     if( maybe_corpse.is_corpse() && maybe_corpse.can_revive() &&
-                        maybe_corpse.get_mtype()->bloodType() != fd_acid ) {
+                        !maybe_corpse.get_mtype()->bloodType().obj().has_acid ) {
                         u.assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
                         u.activity.placement = pos;
                         u.activity.auto_resume = true;

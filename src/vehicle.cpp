@@ -75,6 +75,7 @@ static const fault_id fault_filter_fuel( "fault_engine_filter_fuel" );
 
 const skill_id skill_mechanics( "mechanics" );
 const efftype_id effect_harnessed( "harnessed" );
+const efftype_id effect_winded( "winded" );
 
 // 1 kJ per battery charge
 const int bat_energy_j = 1000;
@@ -4024,6 +4025,12 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
             fuel_remainder[ ft ] = -amnt_precise_j;
         }
     }
+    if( load > 0 && fuel_left( fuel_type_muscle ) > 0 && g->u.has_effect( effect_winded ) ) {
+        cruise_velocity = 0;
+        if( velocity == 0 ) {
+            stop();
+        }
+    }
     // we want this to update the activity level whenever the engine is running
     if( load > 0 && fuel_left( fuel_type_muscle ) > 0 ) {
         g->u.increase_activity_level( ACTIVE_EXERCISE );
@@ -4033,7 +4040,7 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
     if( load > 0 && fuel_left( fuel_type_muscle ) > 0 ) {
         int mod = 0 + 4 * st; // strain
         int base_burn = -3 + static_cast<int>( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) );
-        base_burn = ( load / 2 ) > base_burn ? ( load / 2 ) : base_burn;
+        base_burn = ( load / 3 ) > base_burn ? ( load / 3 ) : base_burn;
         //charge bionics when using muscle engine
         if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             if( one_in( 1000 / load ) ) { // more pedaling = more power

@@ -407,6 +407,13 @@
   },
   {
     "type": "snippet",
+    "category": "flier",
+    "text": [
+      "This is a leaflet about autoclaving procedure.  One sentence catches your attention \"/!\\Always place your tools into an autoclave pouch before autoclaving./!\\\""
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "note",
     "text": [ "\"WE WERE RIGHT THE GOVERNMENT DID IT\"" ]
   },
@@ -1611,11 +1618,6 @@
     "type": "snippet",
     "category": "note",
     "text": [ "\"ENGLAND DID THIS\"" ]
-  },
-  {
-    "type": "snippet",
-    "category": "note",
-    "text": [ "\"I finally dug to the hellmouth.  My body burns but my soul finally finds its purpose\"" ]
   },
   {
     "type": "snippet",

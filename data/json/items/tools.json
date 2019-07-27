@@ -1782,7 +1782,7 @@
     "symbol": "*",
     "color": "red",
     "explode_in_fire": true,
-    "explosion": { "power": 200 },
+    "explosion": { "power": 938 },
     "use_action": {
       "target": "dynamite_act",
       "msg": "You light the dynamite.",
@@ -1811,13 +1811,13 @@
     "color": "red",
     "turns_per_charge": 1,
     "explode_in_fire": true,
-    "explosion": { "power": 200 },
+    "explosion": { "power": 938 },
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "ssss...",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
-      "explosion": { "power": 250 }
+      "explosion": { "power": 938 }
     },
     "flags": [ "TRADER_AVOID", "BOMB" ]
   },
@@ -2129,7 +2129,8 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 2 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ]
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "use_action": "CROWBAR"
   },
   {
     "id": "fire_drill",
@@ -2869,7 +2870,7 @@
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "HAMMER", 3 ], [ "PRY", 1 ], [ "HAMMER_FINE", 1 ] ],
-    "use_action": "HAMMER",
+    "use_action": [ "HAMMER", "CROWBAR" ],
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ]
   },
   {
@@ -3315,7 +3316,7 @@
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ]
     ],
-    "use_action": "GUN_REPAIR",
+    "use_action": [ "GUN_REPAIR", "CROWBAR" ],
     "magazines": [
       [
         "battery",
@@ -3803,7 +3804,7 @@
     "max_charges": 200,
     "charges_per_use": 50,
     "qualities": [ [ "CHISEL", 3 ], [ "HAMMER_FINE", 1 ], [ "HAMMER", 3 ], [ "PRY", 1 ] ],
-    "use_action": "MISC_REPAIR",
+    "use_action": [ "MISC_REPAIR", "CROWBAR" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -4764,6 +4765,20 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
+    "id": "sponge",
+    "type": "TOOL",
+    "name": "sponge",
+    "description": "A sponge is a tool or cleaning aid made of soft, porous material. Typically used for cleaning impervious surfaces.",
+    "weight": 80,
+    "volume": 1,
+    "price": 0,
+    "material": "plastic",
+    "symbol": "s",
+    "color": "yellow",
+    "use_action": "WASHCBMS",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
     "id": "reading_light",
     "type": "TOOL",
     "name": "reading light",
@@ -5345,7 +5360,7 @@
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ]
     ],
-    "use_action": "GUN_REPAIR",
+    "use_action": [ "GUN_REPAIR", "CROWBAR" ],
     "magazines": [
       [
         "battery",
@@ -5518,6 +5533,30 @@
     "qualities": [ [ "DISTILL", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
+    "id": "autoclave",
+    "type": "TOOL",
+    "name": "autoclave",
+    "description": "This is an autoclave.  It's useful for sterilizing things like CBMs.  This machine draws a lot of power, standard battery might not be enough.",
+    "weight": 34500,
+    "volume": "76 L",
+    "price": 162654,
+    "to_hit": -6,
+    "bashing": 10,
+    "contains": 11,
+    "material": "steel",
+    "symbol": "A",
+    "color": "yellow",
+    "use_action": "AUTOCLAVE",
+    "power_draw": 1500000,
+    "charges_per_use": 1,
+    "looks_like": "microwave",
+    "ammo": "battery",
+    "magazines": [
+      [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+    ],
+    "magazine_well": 4
+  },
+  {
     "id": "survival_marker",
     "type": "TOOL",
     "name": "survival marker",
@@ -5658,7 +5697,12 @@
         "cost_scaling": 0.1,
         "move_cost": 800
       },
-      "SEW_ADVANCED"
+      {
+        "type": "sew_advanced",
+        "materials": [ "cotton", "leather", "fur", "nomex", "plastic", "kevlar", "wool" ],
+        "skill": "tailor",
+        "clothing_mods": [ "leather_padded", "kevlar_padded", "furred", "wooled" ]
+      }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
@@ -6339,7 +6383,7 @@
       [ "REAM", 1 ],
       [ "VICE", 1 ]
     ],
-    "use_action": [ "HAMMER" ]
+    "use_action": [ "HAMMER", "CROWBAR" ]
   },
   {
     "id": "toolset_extended",
@@ -7126,8 +7170,8 @@
     "type": "TOOL",
     "name": "hobo stove",
     "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  Useful for defrosting and reheating food, uses simple tinder.",
-    "weight": 1366,
-    "volume": 6,
+    "weight": 500,
+    "volume": 1,
     "price": 0,
     "to_hit": -1,
     "bashing": 2,
@@ -7155,8 +7199,8 @@
     "name": "hobo stove (lit)",
     "name_plural": "hobo stoves (lit)",
     "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  Useful for defrosting and reheating food, uses simple tinder.",
-    "weight": 1366,
-    "volume": 6,
+    "weight": 500,
+    "volume": 1,
     "price": 0,
     "to_hit": -1,
     "bashing": 2,

@@ -451,7 +451,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
-    "special_attacks": [ { "type": "leap", "cooldown": 2, "max_range": 5 } ],
+    "special_attacks": [ { "type": "leap", "cooldown": 2, "max_range": 5, "allow_no_target": true } ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "HIT_AND_RUN", "CLIMBS" ]
@@ -517,6 +517,38 @@
     "harvest": "arachnid",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS" ]
+  },
+  {
+    "id": "mon_spider_fungus",
+    "type": "MONSTER",
+    "name": "fungal spider",
+    "description": "The abdomen of this sickly looking giant spider is now home to many lumps of blooming fungi.  It is leaving behind a trail of tainted secretions when the spider struggles to drag it along the ground.",
+    "default_faction": "fungus",
+    "bodytype": "spider",
+    "species": [ "FUNGUS" ],
+    "diff": 2,
+    "volume": "62500 ml",
+    "weight": 81500,
+    "hp": 20,
+    "speed": 60,
+    "material": [ "iflesh" ],
+    "symbol": "s",
+    "color": "light_gray",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 4,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "melee_cut": 6,
+    "dodge": 2,
+    "armor_bash": 2,
+    "armor_cut": 6,
+    "vision_day": 5,
+    "vision_night": 5,
+    "harvest": "arachnid",
+    "special_attacks": [ [ "FUNGAL_TRAIL", 3 ] ],
+    "death_function": [ "NORMAL", "FUNGUS" ],
+    "flags": [ "SEES", "SMELLS", "VENOM", "WEBWALK", "CLIMBS" ]
   },
   {
     "id": "mon_spider_web_s",
@@ -1039,7 +1071,7 @@
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "death_function": [ "NORMAL" ],
-    "special_attacks": [ { "type": "leap", "cooldown": 2, "max_range": 8 }, [ "EAT_CROP", 60 ] ],
+    "special_attacks": [ { "type": "leap", "cooldown": 2, "max_range": 8, "allow_no_target": true }, [ "EAT_CROP", 60 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "STUMBLES" ]
   },
   {
@@ -1068,7 +1100,7 @@
     "harvest": "mammal_tiny",
     "upgrades": { "age_grow": 10, "into": "mon_locust" },
     "death_function": [ "NORMAL" ],
-    "special_attacks": [ { "type": "leap", "cooldown": 4, "max_range": 4 }, [ "EAT_CROP", 120 ] ],
+    "special_attacks": [ { "type": "leap", "cooldown": 4, "max_range": 4, "allow_no_target": true }, [ "EAT_CROP", 120 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "LARVA", "STUMBLES" ]
   }
 ]

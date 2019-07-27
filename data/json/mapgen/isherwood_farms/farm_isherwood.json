@@ -10,33 +10,33 @@
     "weight": 250,
     "object": {
       "faction_owner": [
-        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 0, 23 ] },
-        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 0, 23 ] },
-        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 24, 47 ] },
-        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 24, 47 ] },
-        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 24, 47 ] },
-        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 48, 71 ] },
-        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 48, 71 ] },
-        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 48, 71 ] }
+        { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "isherwood_family", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "isherwood_family", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 24, 47 ] },
+        { "id": "isherwood_family", "x": [ 24, 47 ], "y": [ 24, 47 ] },
+        { "id": "isherwood_family", "x": [ 48, 71 ], "y": [ 24, 47 ] },
+        { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 48, 71 ] },
+        { "id": "isherwood_family", "x": [ 24, 47 ], "y": [ 48, 71 ] },
+        { "id": "isherwood_family", "x": [ 48, 71 ], "y": [ 48, 71 ] }
       ],
       "fill_ter": "t_floor",
       "rows": [
-        "  333333333g333333333                            FFFFFFFFFFFFFFFFFFFFFF ",
-        "  3                 3                            F                    F ",
-        "  g                 g                            F  DDDDDDDDDDDDDDDD  F ",
-        "  3             O   3             ppp     ppppp  F                    F ",
-        "  ##W##MMMMMMMMM##W##             pXp   |--w-w-- F  DDDDDDDDDDDDDDDD  F ",
-        "  #yyy__________O_yy#    ,,,,,,   ppp,,pwN..H.*| F                    F ",
+        "  333333333g333333333      ,,        ,,          FFFFFFFFFFFFFFFFFFFFFF ",
+        "  3        ,,       3,   ,,,          ,,         F                    F ",
+        "  g      ,,,  ,,,,,,g,,,,,,,      ppp ,          F  DDDDDDDDDDDDDDDD  F ",
+        "  3    ,,,,,,,,,O,  3,,  ,,,     ppXpp,   ppppp  F                    F ",
+        "  ##W##MMMMMMMMM##W##     ,,      ppp , |--w-w-- F  DDDDDDDDDDDDDDDD  F ",
+        "  #yyy__________O_yy#    ,,,,,,       ,pwN..H.*| F                    F ",
         "  Wyyy____________y_W  ,,,,&,,,,,,,,,,,pwN....Lw F  DDDDDDDDDDDDDDDD  F ",
-        "  Wyyy______________+,,,,  ,,     UUU ,pwN....Lw F                    F ",
+        "  Wyyy______________+,,,, ,,,     UUU ,pwN....Lw F                    F ",
         "  #_________________W     ,,     --w--+-|Y.....| F  DDDDDDDDDDDDDDDD  F ",
         "  #33332_______23333W      ,,    -u5e4.u.......- F                    F ",
         "  #____2_______2____#     ,,,,   -o............- F  DDDDDDDDDDDDDDDD  F ",
         "  #____2_______2____#   ###++### -u.....hLLh..H- F          Q         F ",
         "  W____g_______g____W   #EE__@V# -e.....hLLh..Lw F  DDDDDDDDDDDDDDDD  F ",
         "  W____g_______g____W   #E__J_0# -z.....hLLh..H- F                    F ",
-        "  #____2_______2____#   ###___^+ +............*- F  DDDDDDDDDDDDDDDD  F ",
+        "  #____2_______2____#   ###___^+,+............*- F  DDDDDDDDDDDDDDDD  F ",
         "  #____2_______2____#   #>Z____# -*..Y----+----- F                    F ",
         "  #33332_______23333#   ###___V# --+---|kk..LH*- F  DDDDDDDDDDDDDDDD  F ",
         "  #______________yyy#   #s___JV# -*.S|d|kh.....w F                    F ",
@@ -109,6 +109,7 @@
         "X": "t_grass",
         "p": "t_grass",
         "U": "t_grass",
+        ",": "t_woodchips",
         "!": "t_gutter_downspout",
         "Z": "t_door_locked_interior"
       },
@@ -141,6 +142,10 @@
         { "monster": "mon_pig", "x": 4, "y": 14, "repeat": [ 2, 4 ], "density": 0.2 },
         { "monster": "mon_sheep", "x": 17, "y": 14, "repeat": [ 2, 4 ], "density": 0.2 }
       ],
+      "place_npcs": [
+        { "chance": 100, "class": "isherwood_jack", "x": 28, "y": 15 },
+        { "chance": 100, "class": "isherwood_claire", "x": 38, "y": 12 }
+      ],
       "palettes": [ "farm" ]
     }
   },
@@ -151,7 +156,7 @@
     "//": "Chicken Coop",
     "weight": 100,
     "object": {
-      "faction_owner": [ { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [ { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_dirtfloor",
       "rows": [
         "                        ",
@@ -205,7 +210,7 @@
     "//": "Greenhouse",
     "weight": 500,
     "object": {
-      "faction_owner": [ { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [ { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_dirtfloor",
       "rows": [
         "                        ",
@@ -255,7 +260,7 @@
     "method": "json",
     "om_terrain": "farm_isherwood_2_cellar",
     "object": {
-      "faction_owner": [ { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [ { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_rock_floor",
       "rows": [
         "                        ",
@@ -310,8 +315,8 @@
     "weight": 250,
     "object": {
       "faction_owner": [
-        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 0, 23 ] }
+        { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "isherwood_family", "x": [ 24, 47 ], "y": [ 0, 23 ] }
       ],
       "fill_ter": "t_shingle_flat_roof",
       "rows": [

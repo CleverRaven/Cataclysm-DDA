@@ -46,7 +46,10 @@ const std::map<std::string, valid_target> target_map = {
     { "hostile", valid_target::target_hostile },
     { "self", valid_target::target_self },
     { "ground", valid_target::target_ground },
-    { "none", valid_target::target_none }
+    { "none", valid_target::target_none },
+    { "item", valid_target::target_item },
+    { "fd_fire", valid_target::target_fd_fire },
+    { "fd_blood", valid_target::target_fd_blood }
 };
 const std::map<std::string, body_part> bp_map = {
     { "TORSO", body_part::bp_torso },
@@ -173,6 +176,9 @@ void spell_type::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
     mandatory( jo, was_loaded, "description", description, translated_string_reader );
     mandatory( jo, was_loaded, "effect", effect );
+
+    const auto effect_targets_reader = enum_flags_reader<valid_target> { "effect_targets" };
+    optional( jo, was_loaded, "effect_filter", effect_targets, effect_targets_reader );
 
     const auto trigger_reader = enum_flags_reader<valid_target> { "valid_targets" };
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
@@ -375,32 +381,43 @@ int spell::field_intensity() const
 
 int spell::damage() const
 {
-    if( type->min_damage >= 0 ) {
-        return std::min( static_cast<int>( type->min_damage + round( get_level() *
-                                           type->damage_increment ) ), type->max_damage );
+    const int leveled_damage = type->min_damage + round( get_level() * type->damage_increment );
+    if( type->min_damage >= 0 || type->max_damage >= type->min_damage ) {
+        return std::min( leveled_damage, type->max_damage );
     } else { // if it's negative, min and max work differently
-        return std::max( static_cast<int>( type->min_damage + round( get_level() *
-                                           type->damage_increment ) ), type->max_damage );
+        return std::max( leveled_damage, type->max_damage );
     }
 }
 
 int spell::aoe() const
 {
-    return std::min( static_cast<int>( type->min_aoe + round( get_level() * type->aoe_increment ) ),
-                     type->max_aoe );
+    const int leveled_aoe = type->min_aoe + round( get_level() * type->aoe_increment );
+    if( type->max_aoe >= type->min_aoe ) {
+        return std::min( leveled_aoe, type->max_aoe );
+    } else {
+        return std::max( leveled_aoe, type->max_aoe );
+    }
 }
 
 int spell::range() const
 {
-    return std::min( static_cast<int>( type->min_range + round( get_level() * type->range_increment ) ),
-                     type->max_range );
+    const int leveled_range = type->min_range + round( get_level() * type->range_increment );
+    if( type->max_range >= type->min_range ) {
+        return std::min( leveled_range, type->max_range );
+    } else {
+        return std::max( leveled_range, type->max_range );
+    }
 }
 
 int spell::duration() const
 {
-    return std::min( static_cast<int>( type->min_duration + round( get_level() *
-                                       type->duration_increment ) ),
-                     type->max_duration );
+    const int leveled_duration = type->min_duration + round( get_level() *
+                                 type->duration_increment );
+    if( type->max_duration >= type->min_duration ) {
+        return std::min( leveled_duration, type->max_duration );
+    } else {
+        return std::max( leveled_duration, type->max_duration );
+    }
 }
 
 time_duration spell::duration_turns() const
@@ -734,6 +751,11 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
     return valid;
 }
 
+bool spell::is_valid_effect_target( valid_target t ) const
+{
+    return type->effect_targets[t];
+}
+
 std::string spell::description() const
 {
     return _( type->description );
@@ -948,6 +970,10 @@ bool spell::cast_spell_effect( const Creature &source, const tripoint &target ) 
         spell_effect::spawn_summoned_monster( *this, source, target );
     } else if( fx == "translocate" ) {
         spell_effect::translocate( *this, source, target, g->u.translocators );
+    } else if( fx == "area_pull" ) {
+        spell_effect::area_pull( *this, source, target );
+    } else if( fx == "area_push" ) {
+        spell_effect::area_push( *this, source, target );
     } else {
         debugmsg( "ERROR: Spell effect not defined properly." );
         return false;
@@ -1510,7 +1536,7 @@ void known_magic::on_mutation_gain( const trait_id &mid, player &p )
     for( const std::pair<spell_id, int> &sp : mid->spells_learned ) {
         learn_spell( sp.first, p, true );
         spell &temp_sp = get_spell( sp.first );
-        for( int level = 0; level <= sp.second; level++ ) {
+        for( int level = 0; level < sp.second; level++ ) {
             temp_sp.gain_level();
         }
     }
@@ -1600,6 +1626,8 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
         damage_string = _( "Recover" );
     } else if( fx == "teleport_random" ) {
         aoe_string = _( "Variance" );
+    } else if( fx == "area_pull" || fx == "area_push" ) {
+        aoe_string = _( "AoE" );
     }
 
     if( has_damage_type ) {
@@ -1622,7 +1650,7 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     }
 
     if( sp.min_aoe != 0 && sp.max_aoe != 0 && !aoe_string.empty() ) {
-        rows.emplace_back( aoe_string, sp.min_aoe, sp.range_increment, sp.max_aoe );
+        rows.emplace_back( aoe_string, sp.min_aoe, sp.aoe_increment, sp.max_aoe );
     }
 
     if( sp.min_duration != 0 && sp.max_duration != 0 ) {
