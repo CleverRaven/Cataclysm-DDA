@@ -1012,7 +1012,7 @@
     "color": "white",
     "description": "The incomplete process of converting coal and lime into calcium carbide. Useless in this state/",
     "material": "cac2powder",
-    "volume": 1,
+    "volume": "250 ml",
     "weight": 300,
     "ammo_type": "unfinished_cac2"
   },
