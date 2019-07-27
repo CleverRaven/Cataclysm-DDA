@@ -52,7 +52,7 @@
   {
     "id": "anesthetic",
     "type": "requirement",
-    "//": "Anesthetic used in dL/Kg/min for a suregy",
+    "//": "Anesthetic used in dL/Kg/min for a surgery",
     "tools": [ [ [ "anesthetic_kit", 3 ] ] ]
   },
   {
