@@ -1061,7 +1061,7 @@ void player::bionics_uninstall_failure( monster &installer, player &patient, int
 
 }
 
-bool player::has_enough_anesth( const itype *cbm )
+bool player::has_enough_anesth( const itype *cbm, player &patient )
 {
     if( !cbm->bionic ) {
         debugmsg( "has_enough_anesth( const itype *cbm ): %s is not a bionic", cbm->get_id() );
@@ -1073,7 +1073,7 @@ bool player::has_enough_anesth( const itype *cbm )
         return true;
     }
 
-    const int weight = units::to_kilogram( g->u.bodyweight() ) / 10;
+    const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
     const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
                                         cbm->bionic->difficulty * 2 * weight;
 
