@@ -70,7 +70,7 @@
     "weight": 709,
     "volume": "539 ml",
     "price": 7500,
-    "to_hit": -4,
+    "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic", "steel", "zinc" ],
     "color": "dark_gray",
