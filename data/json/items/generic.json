@@ -2922,7 +2922,7 @@
     "price": 2500,
     "material": [ "clay", "stone" ],
     "weight": 969,
-    "volume": 2,
+    "volume": "500 ml",
     "bashing": 8,
     "to_hit": -2,
     "qualities": [ [ "HAMMER", 1 ] ]
