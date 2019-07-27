@@ -1429,7 +1429,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 parts->test( iteminfo_parts::AMMO_FX_BLACKPOWDER ) ) {
                 fx.emplace_back(
                     _( "This ammo has been loaded with <bad>blackpowder</bad>, and will quickly "
-                       "clog up most guns, and cause rust if the gun is not cleaned." ) );
+                       "clog up most guns." ) );
             }
             if( ammo.ammo_effects.count( "NEVER_MISFIRES" ) &&
                 parts->test( iteminfo_parts::AMMO_FX_CANTMISSFIRE ) ) {
@@ -3252,9 +3252,17 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     // for portions of string that have <color_ etc in them, this aims to truncate the whole string correctly
     unsigned int truncate_override = 0;
 
-    if( ( damage() != 0 || ( get_option<bool>( "ITEM_HEALTH_BAR" ) && is_armor() ) ) && !is_null() &&
+    if( ( damage() != 0 || is_gun() || ( get_option<bool>( "ITEM_HEALTH_BAR" ) && is_armor() ) ) &&
+        !is_null() &&
         with_prefix ) {
-        damtext = durability_indicator();
+        if( is_gun() && dirt_symbol() != "0" ) {
+            damtext = durability_indicator() + ":" + dirt_symbol() + " ";
+        } else if( is_gun() ) {
+            damtext = durability_indicator() + " ";
+        } else {
+            damtext = durability_indicator() + " ";
+        }
+
         if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
             truncate_override = damtext.length() - 3;
         }
@@ -4802,6 +4810,11 @@ std::string item::damage_symbol() const
     }
 }
 
+std::string item::dirt_symbol() const
+{
+    return to_string( dirt );
+}
+
 std::string item::durability_indicator( bool include_intact ) const
 {
     std::string outputstring;
@@ -4834,14 +4847,13 @@ std::string item::durability_indicator( bool include_intact ) const
         }
     } else if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
         outputstring = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() +
-                       " </color>";
+                       "</color>";
     } else {
         outputstring = string_format( "%s ", get_base_material().dmg_adj( damage_level( 4 ) ) );
         if( include_intact && outputstring == " " ) {
             outputstring = _( "fully intact " );
         }
     }
-
     return  outputstring;
 }
 
@@ -8207,15 +8219,6 @@ bool item::process_tool( player *carrier, const tripoint &pos )
     }
 
     type->tick( carrier != nullptr ? *carrier : g->u, *this, pos );
-    return false;
-}
-
-bool item::process_blackpowder_fouling( player *carrier )
-{
-    if( damage() < max_damage() && one_in( 2000 ) ) {
-        inc_damage( DT_ACID );
-        carrier->add_msg_if_player( m_bad, _( "Your %s rusts due to blackpowder fouling." ), tname() );
-    }
     return false;
 }
 

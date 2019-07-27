@@ -636,11 +636,6 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
         return false;
     }
 
-    if( weapon.faults.count( fault_gun_clogged ) ) {
-        add_msg( m_info, _( "Your %s is too clogged with blackpowder fouling to fire." ), gun->tname() );
-        return false;
-    }
-
     if( gun->has_flag( "FIRE_TWOHAND" ) && ( !you.has_two_arms() ||
             you.worn_with_flag( "RESTRICT_HANDS" ) ) ) {
         add_msg( m_info, _( "You need two free hands to fire your %s." ), gun->tname() );
