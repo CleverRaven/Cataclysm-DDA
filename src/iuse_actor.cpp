@@ -1052,14 +1052,15 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
     }
 
     if( can_function_as.empty() ) {
-        std::string message =
-            _( "Can be <info>activated</info> to deploy as furniture (<stat>%s</stat>)." );
-        dump.emplace_back( "DESCRIPTION", string_format( message, furn_name ) );
+        dump.emplace_back( "DESCRIPTION",
+                           string_format( _( "Can be <info>activated</info> to deploy as furniture (<stat>%s</stat>)." ),
+                                          furn_name ) );
     } else {
-        std::string message =
-            _( "Can be <info>activated</info> to deploy as furniture (<stat>%s</stat>), which can then be used as %s." );
         std::string furn_usages = enumerate_as_string( can_function_as, enumeration_conjunction::or_ );
-        dump.emplace_back( "DESCRIPTION", string_format( message, furn_name, furn_usages ) );
+        dump.emplace_back( "DESCRIPTION",
+                           string_format(
+                               _( "Can be <info>activated</info> to deploy as furniture (<stat>%s</stat>), which can then be used as %s." ),
+                               furn_name, furn_usages ) );
     }
 }
 
