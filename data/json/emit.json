@@ -187,5 +187,24 @@
     "field": "fd_dazzling",
     "qty": 2,
     "chance": 75
+  },
+  {
+    "id": "emit_fungal_haze_plume",
+    "type": "emit",
+    "field": "fd_fungal_haze",
+    "intensity": 3,
+    "qty": 3
+  },
+  {
+    "id": "emit_fungal_leak",
+    "type": "emit",
+    "field": "fd_fungal_haze",
+    "chance": 15
+  },
+  {
+    "id": "emit_fungal_blast",
+    "type": "emit",
+    "field": "fd_fungal_haze",
+    "qty": 200
   }
 ]
