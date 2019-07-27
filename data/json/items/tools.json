@@ -7429,7 +7429,7 @@
     "color": "light_gray",
     "description": "This bulky device takes water and calcium carbide and yields unpressurised acetylene.",
     "weight": 8000,
-    "volume": 12,
+    "volume": "3 L",
     "price": "3200",
     "to-hit": -4,
     "bashing": 12,
