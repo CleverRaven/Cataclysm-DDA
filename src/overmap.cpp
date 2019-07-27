@@ -788,7 +788,6 @@ bool oter_t::is_hardcoded() const
         "temple",
         "temple_finale",
         "temple_stairs",
-        "toxic_dump",
         "triffid_finale",
         "triffid_roots"
     };
