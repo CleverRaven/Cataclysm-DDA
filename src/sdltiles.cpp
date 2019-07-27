@@ -3578,7 +3578,7 @@ input_event input_manager::get_input_event()
     }
 
     if( last_input.type == CATA_INPUT_MOUSE ) {
-        SDL_GetMouseState( &last_input.mouse_x, &last_input.mouse_y );
+        SDL_GetMouseState( &last_input.mouse_pos.x, &last_input.mouse_pos.y );
     } else if( last_input.type == CATA_INPUT_KEYBOARD ) {
         previously_pressed_key = last_input.get_first_input();
 #if defined(__ANDROID__)
@@ -3638,16 +3638,15 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 
     // Translate mouse coordinates to map coordinates based on tile size,
     // the window position is *always* in standard font dimensions!
-    const int win_left = capture_win->x * fontwidth;
-    const int win_top = capture_win->y * fontheight;
+    const point win_min( capture_win->x * fontwidth, capture_win->y * fontheight );
     // But the size of the window is in the font dimensions of the window.
-    const int win_right = win_left + ( capture_win->width * fw );
-    const int win_bottom = win_top + ( capture_win->height * fh );
+    const point win_size( capture_win->width * fw, capture_win->height * fh );
+    const point win_max = win_min + win_size;
     // add_msg( m_info, "win_ left %d top %d right %d bottom %d", win_left,win_top,win_right,win_bottom);
     // add_msg( m_info, "coordinate_ x %d y %d", coordinate_x, coordinate_y);
     // Check if click is within bounds of the window we care about
-    if( coordinate_x < win_left || coordinate_x > win_right ||
-        coordinate_y < win_top || coordinate_y > win_bottom ) {
+    const rectangle win_bounds( win_min, win_max );
+    if( !win_bounds.contains_inclusive( coordinate ) ) {
         return cata::nullopt;
     }
 
@@ -3656,25 +3655,21 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         view_offset = g->ter_view_p.xy();
     }
 
-    int x, y;
+    const point screen_pos = coordinate - win_min;
+    point p;
     if( tile_iso && use_tiles ) {
-        const int screen_column = round( static_cast<float>( coordinate_x - win_left - ( (
-                                             win_right - win_left ) / 2 + win_left ) ) / ( fw / 2 ) );
-        const int screen_row = round( static_cast<float>( coordinate_y - win_top -
-                                      ( win_bottom - win_top ) / 2 + win_top ) / ( fw / 4 ) );
-        const int selected_x = ( screen_column - screen_row ) / 2;
-        const int selected_y = ( screen_row + screen_column ) / 2;
-        x = view_offset.x + selected_x;
-        y = view_offset.y + selected_y;
+        const int screen_col = round( static_cast<float>(
+                                          screen_pos.x - ( win_size.x / 2 + win_min.x ) ) / ( fw / 2 ) );
+        const int screen_row = round( static_cast<float>(
+                                          screen_pos.y - win_size.y / 2 + win_min.y ) / ( fw / 4 ) );
+        const point selected( ( screen_col - screen_row ) / 2, ( screen_row + screen_col ) / 2 );
+        p = view_offset + selected;
     } else {
-        const int selected_column = ( coordinate_x - win_left ) / fw;
-        const int selected_row = ( coordinate_y - win_top ) / fh;
-
-        x = view_offset.x + selected_column - capture_win->width / 2;
-        y = view_offset.y + selected_row - capture_win->height / 2;
+        const point selected( screen_pos.x / fw, screen_pos.y / fh );
+        p = view_offset + selected - point( capture_win->width / 2, capture_win->height / 2 );
     }
 
-    return tripoint( x, y, g->get_levz() );
+    return tripoint( p, g->get_levz() );
 }
 
 int get_terminal_width()

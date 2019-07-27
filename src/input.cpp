@@ -839,8 +839,7 @@ const std::string &input_context::handle_input( const int timeout )
             }
 
             coordinate_input_received = true;
-            coordinate_x = next_action.mouse_x;
-            coordinate_y = next_action.mouse_y;
+            coordinate = next_action.mouse_pos;
         } else {
             coordinate_input_received = false;
         }
@@ -1262,14 +1261,11 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
     if( !coordinate_input_received ) {
         return cata::nullopt;
     }
-    int view_columns = getmaxx( capture_win );
-    int view_rows = getmaxy( capture_win );
-    int win_left = getbegx( capture_win ) - VIEW_OFFSET_X;
-    int win_right = win_left + view_columns - 1;
-    int win_top = getbegy( capture_win ) - VIEW_OFFSET_Y;
-    int win_bottom = win_top + view_rows - 1;
-    if( coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top ||
-        coordinate_y > win_bottom ) {
+    const point view_size( getmaxx( capture_win ), getmaxy( capture_win ) );
+    const point win_min( getbegx( capture_win ) - VIEW_OFFSET_X,
+                         getbegy( capture_win ) - VIEW_OFFSET_Y );
+    const rectangle win_bounds( win_min, win_min + view_size );
+    if( !win_bounds.contains_half_open( coordinate ) ) {
         return cata::nullopt;
     }
 
@@ -1278,10 +1274,8 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         view_offset = g->ter_view_p.xy();
     }
 
-    const int x = view_offset.x - ( ( view_columns / 2 ) - coordinate_x );
-    const int y = view_offset.y - ( ( view_rows / 2 ) - coordinate_y );
-
-    return tripoint( x, y, g->get_levz() );
+    const point p = view_offset - ( view_size / 2 - coordinate );
+    return tripoint( p, g->get_levz() );
 }
 #endif
 
