@@ -991,8 +991,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         render_fill_rect( renderer, clipRect, 0, 0, 0 );
     }
 
-    int posx = center.x;
-    int posy = center.y;
+    const point pos = center.xy();
 
     int sx = 0;
     int sy = 0;
@@ -1004,11 +1003,9 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
     const bool iso_mode = tile_iso;
 
-    o_x = iso_mode ? posx : posx - POSX;
-    o_y = iso_mode ? posy : posy - POSY;
+    o = iso_mode ? pos : pos - point( POSX, POSY );
 
-    op_x = destx;
-    op_y = desty;
+    op = point( destx, desty );
     // Rounding up to include incomplete tiles at the bottom/right edges
     screentile_width = divide_round_up( width, tile_width );
     screentile_height = divide_round_up( height, tile_height );
@@ -1058,14 +1055,14 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             if( iso_mode ) {
                 //in isometric, rows and columns represent a checkerboard screen space, and we place
                 //the appropriate tile in valid squares by getting position relative to the screen center.
-                if( ( row + o_y ) % 2 != ( col + o_x ) % 2 ) {
+                if( ( row + o.y ) % 2 != ( col + o.x ) % 2 ) {
                     continue;
                 }
-                x = ( col  - row - sx / 2 + sy / 2 ) / 2 + o_x;
-                y = ( row + col - sy / 2 - sx / 2 ) / 2 + o_y;
+                x = ( col - row - sx / 2 + sy / 2 ) / 2 + o.x;
+                y = ( row + col - sy / 2 - sx / 2 ) / 2 + o.y;
             } else {
-                x = col + o_x;
-                y = row + o_y;
+                x = col + o.x;
+                y = row + o.y;
             }
             if( y < min_visible_y || y > max_visible_y || x < min_visible_x || x > max_visible_x ) {
                 int height_3d = 0;
@@ -1184,12 +1181,12 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     //Memorize everything the character just saw even if it wasn't displayed.
     for( int mem_y = 0; mem_y < MAPSIZE_Y; mem_y++ ) {
         for( int mem_x = 0; mem_x < MAPSIZE_X; mem_x++ ) {
-            //just finished o_x,o_y through sx+o_x,sy+o_y so skip them
-            if( mem_x >= o_x && mem_x < sx + o_x &&
-                mem_y >= o_y && mem_y < sy + o_y ) {
+            tripoint p( mem_x, mem_y, center.z );
+            //just finished o through s+o so skip them
+            rectangle skip_region( o, o + point( sx, sy ) );
+            if( skip_region.contains_half_open( p.xy() ) ) {
                 continue;
             }
-            tripoint p( mem_x, mem_y, center.z );
             int height_3d = 0;
             if( iso_mode ) {
                 //Iso_mode skips in a checkerboard
@@ -1201,8 +1198,8 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                 p.x = ( mem_x - mem_y - MAPSIZE_X / 2 + MAPSIZE_Y / 2 ) / 2 + MAPSIZE_X / 2;
                 p.y = ( mem_y + mem_x - MAPSIZE_Y / 2 - MAPSIZE_X / 2 ) / 2 + MAPSIZE_Y / 2;
                 //Check if we're in previously done iso_mode space
-                if( p.x >= ( 0 - sy - sx / 2 + sy / 2 ) / 2 + o_x && p.x < ( sx - 0 - sx / 2 + sy / 2 ) / 2 + o_x &&
-                    p.y >= ( 0 + 0 - sy / 2 - sx / 2 ) / 2 + o_y && p.y < ( sy + sx - sy / 2 - sx / 2 ) / 2 + o_y ) {
+                if( p.x >= ( 0 - sy - sx / 2 + sy / 2 ) / 2 + o.x && p.x < ( sx - 0 - sx / 2 + sy / 2 ) / 2 + o.x &&
+                    p.y >= ( 0 + 0 - sy / 2 - sx / 2 ) / 2 + o.y && p.y < ( sy + sx - sy / 2 - sx / 2 ) / 2 + o.y ) {
                     continue;
                 }
             }
@@ -1448,9 +1445,9 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
     // check to make sure that we are drawing within a valid area
     // [0->width|height / tile_width|height]
 
+    rectangle screen_bounds( o, o + point( screentile_width, screentile_height ) );
     if( !tile_iso &&
-        ( pos.x - o_x < 0 || pos.x - o_x >= screentile_width ||
-          pos.y - o_y < 0 || pos.y - o_y >= screentile_height ) ) {
+        !screen_bounds.contains_half_open( pos.xy() ) ) {
         return false;
     }
 
@@ -1937,16 +1934,16 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/
     int screen_x = 0;
     int screen_y = 0;
     if( tile_iso ) {
-        screen_x = ( ( pbelow.x - o_x ) - ( o_y - pbelow.y ) + screentile_width - 2 ) * tile_width / 2 +
-                   op_x;
+        screen_x = ( ( pbelow.x - o.x ) - ( o.y - pbelow.y ) + screentile_width - 2 ) * tile_width / 2 +
+                   op.x;
         // y uses tile_width because width is definitive for iso tiles
         // tile footprints are half as tall as wide, arbitrarily tall
-        screen_y = ( ( pbelow.y - o_y ) - ( pbelow.x - o_x ) - 4 ) * tile_width / 4 +
+        screen_y = ( ( pbelow.y - o.y ) - ( pbelow.x - o.x ) - 4 ) * tile_width / 4 +
                    screentile_height * tile_height / 2 + // TODO: more obvious centering math
-                   op_y;
+                   op.y;
     } else {
-        screen_x = ( pbelow.x - o_x ) * tile_width + op_x;
-        screen_y = ( pbelow.y - o_y ) * tile_height + op_y;
+        screen_x = ( pbelow.x - o.x ) * tile_width + op.x;
+        screen_y = ( pbelow.y - o.y ) * tile_height + op.y;
     }
     belowRect.x = screen_x + ( tile_width - belowRect.w ) / 2;
     belowRect.y = screen_y + ( tile_height - belowRect.h ) / 2;
@@ -2662,17 +2659,12 @@ void cata_tiles::draw_weather_frame()
 
     for( auto &vdrop : anim_weather.vdrops ) {
         // TODO: Z-level awareness if weather ever happens on anything but z-level 0.
-        int x = 0;
-        int y = 0;
-        if( tile_iso ) {
-            x = vdrop.first;
-            y = vdrop.second;
-        } else {
+        tripoint p( vdrop.first, vdrop.second, 0 );
+        if( !tile_iso ) {
             // currently in ASCII screen coordinates
-            x = vdrop.first + o_x;
-            y = vdrop.second + o_y;
+            p += o;
         }
-        draw_from_id_string( weather_name, C_WEATHER, empty_string, {x, y, 0}, 0, 0,
+        draw_from_id_string( weather_name, C_WEATHER, empty_string, p, 0, 0,
                              LL_LIT, nv_goggles_activated );
     }
 }
@@ -2910,16 +2902,16 @@ point cata_tiles::player_to_screen( const int x, const int y ) const
     int screen_x = 0;
     int screen_y = 0;
     if( tile_iso ) {
-        screen_x = ( ( x - o_x ) - ( o_y - y ) + screentile_width - 2 ) * tile_width / 2 +
-                   op_x;
+        screen_x = ( ( x - o.x ) - ( o.y - y ) + screentile_width - 2 ) * tile_width / 2 +
+                   op.x;
         // y uses tile_width because width is definitive for iso tiles
         // tile footprints are half as tall as wide, arbitrarily tall
-        screen_y = ( ( y - o_y ) - ( x - o_x ) - 4 ) * tile_width / 4 +
+        screen_y = ( ( y - o.y ) - ( x - o.x ) - 4 ) * tile_width / 4 +
                    screentile_height * tile_height / 2 + // TODO: more obvious centering math
-                   op_y;
+                   op.y;
     } else {
-        screen_x = ( x - o_x ) * tile_width + op_x;
-        screen_y = ( y - o_y ) * tile_height + op_y;
+        screen_x = ( x - o.x ) * tile_width + op.x;
+        screen_y = ( y - o.y ) * tile_height + op.y;
     }
     return {screen_x, screen_y};
 }
