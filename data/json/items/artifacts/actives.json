@@ -146,7 +146,7 @@
     "id": "bugs",
     "type": "SPELL",
     "name": "Bugs",
-    "description": "Summen Flying monsters.",
+    "description": "Summon flying monsters.",
     "valid_targets": [ "ground" ],
     "effect": "bugs",
     "base_energy_cost": 3,
