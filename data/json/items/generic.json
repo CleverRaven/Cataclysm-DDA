@@ -2237,8 +2237,8 @@
     "price": 2000,
     "material": [ "flesh" ],
     "flags": [ "NO_SALVAGE" ],
-    "weight": 600,
-    "volume": 3,
+    "weight": 12,
+    "volume": "15ml",
     "category": "spare_parts",
     "to_hit": -1
   },
@@ -2268,8 +2268,8 @@
     "price": 2000,
     "material": [ "fur", "flesh" ],
     "flags": [ "NO_SALVAGE" ],
-    "weight": 684,
-    "volume": 4,
+    "weight": 14,
+    "volume": "20ml",
     "category": "spare_parts",
     "to_hit": -1
   },
@@ -2283,7 +2283,7 @@
     "description": "A folded sheet of leather made from carefully tanned animal hide, with the fur still intact.  Can be cut up or used as is.",
     "price": 5000,
     "material": [ "fur" ],
-    "weight": 684,
+    "weight": 700,
     "volume": 6,
     "category": "spare_parts",
     "to_hit": -1

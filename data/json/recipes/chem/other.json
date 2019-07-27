@@ -33,7 +33,7 @@
         [ "bone", 20 ],
         [ "bone_human", 20 ],
         [ "bone_tainted", 40 ],
-        [ "cured_hide", 2 ],
+        [ "cured_hide", 100 ],
         [ "pine_bough", 10 ],
         [ "raw_dandelion", 20 ],
         [ "biollante_bud", 1 ],
