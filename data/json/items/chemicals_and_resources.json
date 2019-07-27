@@ -1239,7 +1239,7 @@
     "category": "chems",
     "description": "A flammable gas that explodes under pressure. Combined with oxygen, acetylene makes a great welding gas.",
     "weight": 40,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 1200,
     "material": [ "hydrocarbons" ],
     "symbol": "=",
