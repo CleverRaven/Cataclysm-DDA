@@ -122,14 +122,14 @@ bool handle_liquid_from_ground( map_stack::iterator on_ground,
 }
 
 bool handle_liquid_from_container( std::list<item>::iterator in_container,
-                                   item &container,
+                                   item &container, Character &handler,
                                    int radius )
 {
     // TODO: not all code paths on handle_liquid consume move points, fix that.
     const int old_charges = in_container->charges;
     handle_liquid( *in_container, &container, radius );
     if( in_container->charges != old_charges ) {
-        container.on_contents_changed( &g->u );
+        container.on_contents_changed( &handler );
     }
 
     if( in_container->charges > 0 ) {
@@ -139,9 +139,9 @@ bool handle_liquid_from_container( std::list<item>::iterator in_container,
     return true;
 }
 
-bool handle_liquid_from_container( item &container, int radius )
+bool handle_liquid_from_container( item &container, Character &handler, int radius )
 {
-    return handle_liquid_from_container( container.contents.begin(), container, radius );
+    return handle_liquid_from_container( container.contents.begin(), container, handler, radius );
 }
 
 static bool get_liquid_target( item &liquid, item *const source, const int radius,
