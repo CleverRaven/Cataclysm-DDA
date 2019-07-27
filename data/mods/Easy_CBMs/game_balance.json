@@ -1,0 +1,16 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "MANUAL_BIONIC_INSTALLATION",
+    "info": "Permits manual self-installation of bionics.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SAFE_AUTODOC",
+    "info": "Makes autodoc operations completely safe, independent of the player's skill",
+    "stype": "bool",
+    "value": true
+  }
+]

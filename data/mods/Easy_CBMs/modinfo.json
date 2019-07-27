@@ -1,0 +1,10 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "easy_cbm",
+    "name": "Easy CBMs",
+    "description": "CBMs extracted from zombies will be completely clean.  This does not affect CBMs extracted through surgery.  \nAllows CBMs to be installed by hand.  \nMakes Autodoc operations completely safe, independent of the player's skill.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  }
+]
