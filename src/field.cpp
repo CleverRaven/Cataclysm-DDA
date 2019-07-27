@@ -10,6 +10,16 @@ int field_entry::move_cost() const
     return type.obj().get_move_cost( intensity - 1 );
 }
 
+int field_entry::extra_radiation_min() const
+{
+    return type.obj().get_extra_radiation_min( intensity - 1 );
+}
+
+int field_entry::extra_radiation_max() const
+{
+    return type.obj().get_extra_radiation_max( intensity - 1 );
+}
+
 float field_entry::light_emitted() const
 {
     return type.obj().get_light_emitted( intensity - 1 );
