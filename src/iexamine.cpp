@@ -2461,7 +2461,7 @@ void iexamine::arcfurnace_full( player &, const tripoint &examp )
 }
 //arc furnace end
 
-void iexamine::fireplace( player &p, const tripoint &examp )
+void iexamine::fireplace( player &p, const tripoint &examp );
 
 void iexamine::autoclave_empty( player &p, const tripoint &examp )
 {
