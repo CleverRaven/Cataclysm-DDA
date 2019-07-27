@@ -50,6 +50,12 @@
     "components": [ [ [ "solder_wire", 1 ] ] ]
   },
   {
+    "id": "anesthetic",
+    "type": "requirement",
+    "//": "Anesthetic used in dL/Kg/min for a suregy",
+    "tools": [ [ [ "anesthetic_kit", 3 ] ] ]
+  },
+  {
     "id": "cutting_wire_standard",
     "type": "requirement",
     "//": "Cutting wires",
