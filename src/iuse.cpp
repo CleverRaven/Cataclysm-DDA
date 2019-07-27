@@ -1325,8 +1325,8 @@ int iuse::marloss( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    p->add_memorial_log( pgettext( "memorial_male", "Ate a marloss berry." ),
-                         pgettext( "memorial_female", "Ate a marloss berry." ) );
+    p->add_memorial_log( pgettext( "memorial_male", "Consumed a marloss product." ),
+                         pgettext( "memorial_female", "Consumed a marloss product." ) );
 
     marloss_common( *p, *it, trait_MARLOSS );
     return it->type->charges_to_use();
@@ -1343,8 +1343,8 @@ int iuse::marloss_seed( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    p->add_memorial_log( pgettext( "memorial_male", "Ate a marloss seed." ),
-                         pgettext( "memorial_female", "Ate a marloss seed." ) );
+    p->add_memorial_log( pgettext( "memorial_male", "Consumed a marloss seed." ),
+                         pgettext( "memorial_female", "Consumed a marloss seed." ) );
 
     marloss_common( *p, *it, trait_MARLOSS_BLUE );
     return it->type->charges_to_use();
@@ -1356,8 +1356,8 @@ int iuse::marloss_gel( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    p->add_memorial_log( pgettext( "memorial_male", "Ate some marloss jelly." ),
-                         pgettext( "memorial_female", "Ate some marloss jelly." ) );
+    p->add_memorial_log( pgettext( "memorial_male", "Consumed some marloss jelly." ),
+                         pgettext( "memorial_female", "Consumed some marloss jelly." ) );
 
     marloss_common( *p, *it, trait_MARLOSS_YELLOW );
     return it->type->charges_to_use();
@@ -1373,14 +1373,14 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
         p->add_memorial_log( pgettext( "memorial_male", "Became one with the Mycus." ),
                              pgettext( "memorial_female", "Became one with the Mycus." ) );
         p->add_msg_if_player( m_neutral,
-                              _( "The apple tastes amazing, and you finish it quickly, not even noticing the lack of any core or seeds." ) );
+                              _( "It tastes amazing, and you finish it quickly." ) );
         p->add_msg_if_player( m_good, _( "You feel better all over." ) );
         p->mod_painkiller( 30 );
         this->purifier( p, it, t, pos ); // Clear out some of that goo you may have floating around
         p->radiation = 0;
         p->healall( 4 ); // Can't make you a whole new person, but not for lack of trying
         p->add_msg_if_player( m_good,
-                              _( "As the apple settles in, you feel ecstasy radiating through every part of your body..." ) );
+                              _( "As it settles in, you feel ecstasy radiating through every part of your body..." ) );
         p->add_morale( MORALE_MARLOSS, 1000, 1000 ); // Last time you'll ever have it this good.  So enjoy.
         p->add_msg_if_player( m_good,
                               _( "Your eyes roll back in your head.  Everything dissolves into a blissful haze..." ) );
@@ -1444,7 +1444,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
     } else { // In case someone gets one without having been adapted first.
         // Marloss is the Mycus' method of co-opting humans.  Mycus fruit is for symbiotes' maintenance and development.
         p->add_msg_if_player(
-            _( "This apple tastes really weird!  You're not sure it's good for you..." ) );
+            _( "This tastes really weird!  You're not sure it's good for you..." ) );
         p->mutate();
         p->mod_pain( 2 * rng( 1, 5 ) );
         p->mod_stored_nutr( 10 );
