@@ -5253,8 +5253,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
         amenu.addentry( get_items,    items_at_loc,    'g', _( "Get items" ) );
     }
     if( is_undeployable ) {
-        amenu.addentry( undeploy,     true,            't', string_format( _( "Take down the %s" ),
-                        name ) );
+        amenu.addentry( undeploy,     true,            't', _( "Take down the %s" ), name );
     }
 
     amenu.query();

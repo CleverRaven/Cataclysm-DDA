@@ -1023,10 +1023,8 @@ iuse_actor *deploy_furn_actor::clone() const
 
 void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
-    std::string message =
-        _( "Can be <info>activated</info> to deploy as furniture (<stat>%s</stat>)." );
     std::vector<std::string> can_function_as;
-    const furn_t the_furn = furn_type.obj();
+    const furn_t &the_furn = furn_type.obj();
     const std::string furn_name = the_furn.name();
 
     if( the_furn.workbench.has_value() ) {
@@ -1054,9 +1052,12 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
     }
 
     if( can_function_as.empty() ) {
+        std::string message =
+            _( "Can be <info>activated</info> to deploy as furniture (<stat>%s</stat>)." );
         dump.emplace_back( "DESCRIPTION", string_format( message, furn_name ) );
     } else {
-        message = _( "Can be <info>activated</info> to deploy as furniture (<stat>%s</stat>), which can then be used as %s." );
+        std::string message =
+            _( "Can be <info>activated</info> to deploy as furniture (<stat>%s</stat>), which can then be used as %s." );
         std::string furn_usages = enumerate_as_string( can_function_as, enumeration_conjunction::or_ );
         dump.emplace_back( "DESCRIPTION", string_format( message, furn_name, furn_usages ) );
     }
