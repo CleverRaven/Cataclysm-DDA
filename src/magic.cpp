@@ -46,7 +46,10 @@ const std::map<std::string, valid_target> target_map = {
     { "hostile", valid_target::target_hostile },
     { "self", valid_target::target_self },
     { "ground", valid_target::target_ground },
-    { "none", valid_target::target_none }
+    { "none", valid_target::target_none },
+    { "item", valid_target::target_item },
+    { "fd_fire", valid_target::target_fd_fire },
+    { "fd_blood", valid_target::target_fd_blood }
 };
 const std::map<std::string, body_part> bp_map = {
     { "TORSO", body_part::bp_torso },
@@ -173,6 +176,9 @@ void spell_type::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
     mandatory( jo, was_loaded, "description", description, translated_string_reader );
     mandatory( jo, was_loaded, "effect", effect );
+
+    const auto effect_targets_reader = enum_flags_reader<valid_target> { "effect_targets" };
+    optional( jo, was_loaded, "effect_filter", effect_targets, effect_targets_reader );
 
     const auto trigger_reader = enum_flags_reader<valid_target> { "valid_targets" };
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
@@ -745,6 +751,11 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
     return valid;
 }
 
+bool spell::is_valid_effect_target( valid_target t ) const
+{
+    return type->effect_targets[t];
+}
+
 std::string spell::description() const
 {
     return _( type->description );
@@ -959,6 +970,10 @@ bool spell::cast_spell_effect( const Creature &source, const tripoint &target ) 
         spell_effect::spawn_summoned_monster( *this, source, target );
     } else if( fx == "translocate" ) {
         spell_effect::translocate( *this, source, target, g->u.translocators );
+    } else if( fx == "area_pull" ) {
+        spell_effect::area_pull( *this, source, target );
+    } else if( fx == "area_push" ) {
+        spell_effect::area_push( *this, source, target );
     } else {
         debugmsg( "ERROR: Spell effect not defined properly." );
         return false;
@@ -1611,6 +1626,8 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
         damage_string = _( "Recover" );
     } else if( fx == "teleport_random" ) {
         aoe_string = _( "Variance" );
+    } else if( fx == "area_pull" || fx == "area_push" ) {
+        aoe_string = _( "AoE" );
     }
 
     if( has_damage_type ) {
@@ -1633,7 +1650,7 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     }
 
     if( sp.min_aoe != 0 && sp.max_aoe != 0 && !aoe_string.empty() ) {
-        rows.emplace_back( aoe_string, sp.min_aoe, sp.range_increment, sp.max_aoe );
+        rows.emplace_back( aoe_string, sp.min_aoe, sp.aoe_increment, sp.max_aoe );
     }
 
     if( sp.min_duration != 0 && sp.max_duration != 0 ) {

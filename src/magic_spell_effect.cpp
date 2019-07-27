@@ -10,6 +10,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <queue>
 
 #include "magic.h"
 #include "avatar.h"
@@ -18,6 +19,7 @@
 #include "color.h"
 #include "creature.h"
 #include "enums.h"
+#include "field.h"
 #include "game.h"
 #include "item.h"
 #include "line.h"
@@ -382,6 +384,186 @@ void spell_effect::line_attack( const spell &sp, const Creature &caster,
 {
     damage_targets( sp, caster, spell_effect_area( sp, target, spell_effect_line, caster,
                     sp.has_flag( spell_flag::IGNORE_WALLS ) ) );
+}
+
+area_expander::area_expander() : frontier( area_node_comparator( area ) )
+{
+}
+
+// Check whether we have already visited this node.
+int area_expander::contains( const tripoint &pt ) const
+{
+    return area_search.count( pt ) > 0;
+}
+
+// Adds node to a search tree. Returns true if new node is allocated.
+bool area_expander::enqueue( const tripoint &from, const tripoint &to, float cost )
+{
+    if( contains( to ) ) {
+        // We will modify existing node if its cost is lower.
+        int index = area_search[to];
+        node &node = area[index];
+        if( cost < node.cost ) {
+            node.from = from;
+            node.cost = cost;
+        }
+        return false;
+    }
+    int index = area.size();
+    area.push_back( {to, from, cost} );
+    frontier.push( index );
+    area_search[to] = index;
+    return true;
+}
+
+// Run wave propagation
+int area_expander::run( const tripoint &center )
+{
+    enqueue( center, center, 0.0 );
+
+    static constexpr std::array<int, 8> x_offset = {{ -1, 1,  0, 0,  1, -1, -1, 1  }};
+    static constexpr std::array<int, 8> y_offset = {{  0, 0, -1, 1, -1,  1, -1, 1  }};
+
+    // Number of nodes expanded.
+    int expanded = 0;
+
+    while( !frontier.empty() ) {
+        int best_index = frontier.top();
+        frontier.pop();
+        node &best = area[best_index];
+
+        for( size_t i = 0; i < 8; i++ ) {
+            tripoint pt = best.position + point( x_offset[ i ], y_offset[ i ] );
+
+            if( g->m.impassable( pt ) ) {
+                continue;
+            }
+
+            float center_range = static_cast<float>( rl_dist( center, pt ) );
+            if( max_range > 0 && center_range > max_range ) {
+                continue;
+            }
+
+            if( max_expand > 0 && expanded > max_expand && contains( pt ) ) {
+                continue;
+            }
+
+            float delta_range = trig_dist( best.position, pt );
+
+            if( enqueue( best.position, pt, best.cost + delta_range ) ) {
+                expanded++;
+            }
+        }
+    }
+    return expanded;
+}
+
+// Sort nodes by its cost.
+void area_expander::sort_ascending()
+{
+    // Since internal caches like 'area_search' and 'frontier' use indexes inside 'area',
+    // these caches will be invalidated.
+    std::sort( area.begin(), area.end(),
+    []( const node & a, const node & b )  -> bool {
+        return a.cost < b.cost;
+    } );
+}
+
+void area_expander::sort_descending()
+{
+    // Since internal caches like 'area_search' and 'frontier' use indexes inside 'area',
+    // these caches will be invalidated.
+    std::sort( area.begin(), area.end(),
+    []( const node & a, const node & b ) -> bool {
+        return a.cost > b.cost;
+    } );
+}
+
+// Moving all objects from one point to another by the power of magic.
+static void spell_move( const spell &sp, const Creature &caster,
+                        const tripoint &from, const tripoint &to )
+{
+    if( from == to ) {
+        return;
+    }
+
+    // Moving creatures
+    bool can_target_creature = sp.is_valid_effect_target( target_self ) ||
+                               sp.is_valid_effect_target( target_ally ) ||
+                               sp.is_valid_effect_target( target_hostile );
+
+    if( can_target_creature ) {
+        if( Creature *victim = g->critter_at<Creature>( from ) ) {
+            Creature::Attitude cr_att = victim->attitude_to( g->u );
+            bool valid = ( cr_att != Creature::A_FRIENDLY && sp.is_valid_effect_target( target_hostile ) );
+            valid |= ( cr_att == Creature::A_FRIENDLY && sp.is_valid_effect_target( target_ally ) );
+            valid |= ( victim == &caster && sp.is_valid_effect_target( target_self ) );
+            if( valid ) {
+                victim->knock_back_to( to );
+            }
+        }
+    }
+
+    // Moving items
+    if( sp.is_valid_effect_target( target_item ) ) {
+        auto src_items = g->m.i_at( from );
+        auto dst_items = g->m.i_at( to );
+        for( const item &item : src_items ) {
+            dst_items.insert( item );
+        }
+        src_items.clear();
+    }
+
+    // Helper function to move particular field type if corresponding target flag is enabled.
+    auto move_field = [&sp, from, to]( valid_target target, field_type_id fid ) {
+        if( !sp.is_valid_effect_target( target ) ) {
+            return;
+        }
+        auto &src_field = g->m.field_at( from );
+        if( field_entry *entry = src_field.find_field( fid ) ) {
+            int intensity = entry->get_field_intensity();
+            g->m.remove_field( from, fid );
+            g->m.set_field_intensity( to, fid, intensity );
+        }
+    };
+    // Moving fields.
+    move_field( target_fd_fire, fd_fire );
+    move_field( target_fd_blood, fd_blood );
+    move_field( target_fd_blood, fd_gibs_flesh );
+}
+
+void spell_effect::area_pull( const spell &sp, const Creature &caster, const tripoint &center )
+{
+    area_expander expander;
+
+    expander.max_range = sp.aoe();
+    expander.run( center );
+    expander.sort_ascending();
+
+    for( const auto &node : expander.area ) {
+        if( node.from == node.position ) {
+            continue;
+        }
+
+        spell_move( sp, caster, node.position, node.from );
+    }
+}
+
+void spell_effect::area_push( const spell &sp, const Creature &caster, const tripoint &center )
+{
+    area_expander expander;
+
+    expander.max_range = sp.aoe();
+    expander.run( center );
+    expander.sort_descending();
+
+    for( const auto &node : expander.area ) {
+        if( node.from == node.position ) {
+            continue;
+        }
+
+        spell_move( sp, caster, node.from, node.position );
+    }
 }
 
 void spell_effect::spawn_ethereal_item( const spell &sp )

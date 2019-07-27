@@ -7,6 +7,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <queue>
 
 #include "bodypart.h"
 #include "damage.h"
@@ -56,6 +57,9 @@ enum valid_target {
     target_self,
     target_ground,
     target_none,
+    target_item,
+    target_fd_fire,
+    target_fd_blood,
     _LAST
 };
 
@@ -194,6 +198,9 @@ class spell_type
 
         damage_type dmg_type;
 
+        // list of valid targets to be affected by the area of effect.
+        enum_bitset<valid_target> effect_targets;
+
         // list of valid targets enum
         enum_bitset<valid_target> valid_targets;
 
@@ -329,6 +336,7 @@ class spell
         // is the target valid for this spell?
         bool is_valid_target( const Creature &caster, const tripoint &p ) const;
         bool is_valid_target( valid_target t ) const;
+        bool is_valid_effect_target( valid_target t ) const;
 };
 
 class known_magic
@@ -395,6 +403,7 @@ class known_magic
 
 namespace spell_effect
 {
+
 void teleport( int min_distance, int max_distance );
 void pain_split(); // only does g->u
 void move_earth( const tripoint &target );
@@ -406,6 +415,10 @@ void cone_attack( const spell &sp, const Creature &caster,
                   const tripoint &target );
 void line_attack( const spell &sp, const Creature &caster,
                   const tripoint &target );
+
+void area_pull( const spell &sp, const Creature &caster, const tripoint &target );
+void area_push( const spell &sp, const Creature &caster, const tripoint &target );
+
 
 std::set<tripoint> spell_effect_blast( const spell &, const tripoint &, const tripoint &target,
                                        const int aoe_radius, const bool ignore_walls );
@@ -430,6 +443,58 @@ class spellbook_callback : public uilist_callback
     public:
         void add_spell( const spell_id &sp );
         void select( int entnum, uilist *menu ) override;
+};
+
+// Utility structure to run area queries over weight map. It uses shortest-path-expanding-tree,
+// similar to the ones used in pathfinding. Some spell effects, like area_pull use the final
+// tree to determine where to move affected objects.
+struct area_expander {
+    // A single node for a tree.
+    struct node {
+        // Expanded position
+        tripoint position;
+        // Previous position
+        tripoint from;
+        // Accumulated cost.
+        float cost = 0;
+    };
+
+    int max_range = -1;
+    int max_expand = -1;
+
+    // The area we have visited already.
+    std::vector<node> area;
+
+    // Maps coordinate to expanded node.
+    std::map<tripoint, int> area_search;
+
+    struct area_node_comparator {
+        area_node_comparator( std::vector<area_expander::node> &area ) : area( area ) {
+        }
+
+        bool operator()( int a, int b ) const {
+            return area[a].cost < area[b].cost;
+        }
+
+        std::vector<area_expander::node> &area;
+    };
+
+    std::priority_queue<int, std::vector<int>, area_node_comparator> frontier;
+
+    area_expander();
+    // Check whether we have already visited this node.
+    int contains( const tripoint &pt ) const;
+
+    // Adds node to a search tree. Returns true if new node is allocated.
+    bool enqueue( const tripoint &from, const tripoint &to, float cost );
+
+    // Run wave propagation
+    int run( const tripoint &center );
+
+    // Sort nodes by its cost.
+    void sort_ascending();
+
+    void sort_descending();
 };
 
 #endif

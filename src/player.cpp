@@ -3572,16 +3572,11 @@ int player::impact( const int force, const tripoint &p )
     return total_dealt;
 }
 
-void player::knock_back_from( const tripoint &p )
+void player::knock_back_to( const tripoint &to )
 {
-    if( p == pos() ) {
+    if( to == pos() ) {
         return;
     }
-
-    tripoint to = pos();
-    const tripoint dp = pos() - p;
-    to.x += sgn( dp.x );
-    to.y += sgn( dp.y );
 
     // First, see if we hit a monster
     if( monster *const critter = g->critter_at<monster>( to ) ) {
