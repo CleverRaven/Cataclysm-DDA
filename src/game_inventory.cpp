@@ -1535,8 +1535,9 @@ class bionic_install_preset: public inventory_selector_preset
                 return _( "CBM not compatible with patient" );
             } else if( !p.has_enough_anesth( itemtype ) ) {
                 const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
+                const int duration = loc.get_item()->type->bionic->difficulty * 2;
                 const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
-                                                    loc.get_item()->type->bionic->difficulty * 2 * weight;
+                                                    duration * 2 * weight;
                 return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
             }
 
@@ -1604,8 +1605,9 @@ class bionic_install_preset: public inventory_selector_preset
         std::string get_anesth_amount( const item_location &loc ) {
 
             const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
+            const int duration = loc.get_item()->type->bionic->difficulty * 2;
             const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
-                                                loc.get_item()->type->bionic->difficulty * 2 * weight;
+                                                duration * 2 * weight;
 
             std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
                 return it.has_flag( "ANESTHESIA" ); // legacy
@@ -1652,8 +1654,9 @@ class bionic_uninstall_preset : public inventory_selector_preset
 
             if( !p.has_enough_anesth( itemtype ) ) {
                 const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
+                const int duration = loc.get_item()->type->bionic->difficulty * 2;
                 const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
-                                                    loc.get_item()->type->bionic->difficulty * 2 * weight;
+                                                    duration * 2 * weight;
                 return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
             }
 
@@ -1722,8 +1725,9 @@ class bionic_uninstall_preset : public inventory_selector_preset
         std::string get_anesth_amount( const item_location &loc ) {
 
             const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
+            const int duration = loc.get_item()->type->bionic->difficulty * 2;
             const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
-                                                loc.get_item()->type->bionic->difficulty * 2 * weight;
+                                                duration * 2 * weight;
 
             std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
                 return it.has_flag( "ANESTHESIA" ); // legacy

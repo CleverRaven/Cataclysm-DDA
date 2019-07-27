@@ -4168,8 +4168,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
+            const int surgery_duration = itemtype->bionic->difficulty * 2;
             const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
-                                                itemtype->bionic->difficulty * 2 * weight;
+                                                surgery_duration * 2 * weight;
 
             if( patient.can_install_bionics( ( *itemtype ), installer, true ) ) {
                 const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
