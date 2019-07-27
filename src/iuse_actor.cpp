@@ -2697,8 +2697,8 @@ void ammobelt_actor::load( JsonObject &obj )
 
 void ammobelt_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
-    std::string name = item::find_type( belt )->nname( 1 );
-    dump.emplace_back( "AMMO", string_format( _( "Can be used to assemble: %s" ), name ) );
+    dump.emplace_back( "AMMO", string_format( _( "Can be used to assemble: %s" ),
+                       item::nname( belt ) ) );
 }
 
 int ammobelt_actor::use( player &p, item &, bool, const tripoint & ) const
