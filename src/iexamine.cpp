@@ -2333,6 +2333,121 @@ void iexamine::kiln_full( player &, const tripoint &examp )
     add_msg( _( "It has finished burning, yielding %d charcoal." ), result.charges );
 }
 
+void iexamine::autoclave_empty( player &p, const tripoint &examp )
+{
+    furn_id cur_autoclave_type = g->m.furn( examp );
+    furn_id next_autoclave_type = f_null;
+    if( cur_autoclave_type == furn_id( "f_autoclave" ) ) {
+        next_autoclave_type = furn_id( "f_autoclave_full" );
+    } else {
+        debugmsg( "Examined furniture has action autoclave_empty, but is of type %s",
+                  g->m.furn( examp ).id().c_str() );
+        return;
+    }
+
+    map_stack items = g->m.i_at( examp );
+    bool cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
+        return i.is_bionic();
+    } );
+
+    bool filthy_cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
+        return i.is_bionic() && i.has_flag( "FILTHY" );
+    } );
+
+    if( items.empty() ) {
+        add_msg( _( "This autoclave is empty..." ) );
+        return;
+    }
+    if( !cbms ) {
+        add_msg( m_bad,
+                 _( "You need to remove all non-CBM items from the autoclave to start the program." ) );
+        return;
+    }
+    if( filthy_cbms ) {
+        add_msg( m_bad,
+                 _( "Some of those CBMs are filthy, you should wash them first for the sterilization process to work properly." ) );
+        return;
+    }
+    auto reqs = *requirement_id( "autoclave" );
+
+    if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
+        popup( "%s", reqs.list_missing() );
+        return;
+    }
+
+    if( query_yn( _( "Start the autoclave?" ) ) ) {
+
+        for( const auto &e : reqs.get_components() ) {
+            p.consume_items( e, 1, is_crafting_component );
+        }
+        for( const auto &e : reqs.get_tools() ) {
+            p.consume_tools( e );
+        }
+        p.invalidate_crafting_inventory();
+        for( item &it : items ) {
+            it.set_birthday( calendar::turn );
+        }
+        g->m.furn_set( examp, next_autoclave_type );
+        add_msg( _( "You start the autoclave." ) );
+    }
+}
+
+void iexamine::autoclave_full( player &, const tripoint &examp )
+{
+    furn_id cur_autoclave_type = g->m.furn( examp );
+    furn_id next_autoclave_type = f_null;
+    if( cur_autoclave_type == furn_id( "f_autoclave_full" ) ) {
+        next_autoclave_type = furn_id( "f_autoclave" );
+    } else {
+        debugmsg( "Examined furniture has action autoclave_full, but is of type %s",
+                  g->m.furn( examp ).id().c_str() );
+        return;
+    }
+
+    map_stack items = g->m.i_at( examp );
+    bool cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
+        return i.is_bionic();
+    } );
+
+    bool cbms_not_packed = std::all_of( items.begin(), items.end(), []( const item & i ) {
+        return i.is_bionic() && i.has_flag( "NO_PACKED" );
+    } );
+
+    if( items.empty() ) {
+        add_msg( _( "This autoclave is empty..." ) );
+        g->m.furn_set( examp, next_autoclave_type );
+        return;
+    }
+    if( !cbms ) {
+        add_msg( m_bad,
+                 _( "ERROR Autoclave can't process non CBM items." ) );
+        return;
+    }
+    add_msg( _( "The autoclave is running." ) );
+
+    const item &clock = *items.begin();
+    const time_duration Cycle_time = 90_minutes;
+    const time_duration time_left = Cycle_time - clock.age();
+
+    if( time_left > 0_turns ) {
+        add_msg( _( "The cycle will be complete in %s." ), to_string( time_left ) );
+        return;
+    }
+
+    g->m.furn_set( examp, next_autoclave_type );
+    for( auto &it : items ) {
+        it.unset_flag( "NO_STERILE" );
+        it.set_var( "sterile", 1 ); // sterile for 1s if not (packed)
+    }
+    add_msg( m_good, _( "The cycle is complete, the CBMs are now sterile." ) );
+
+    if( cbms_not_packed ) {
+        add_msg( m_info,
+                 _( "CBMs in direct contact with the environment will almost immediately become contaminated." ) );
+    }
+    g->m.furn_set( examp, next_autoclave_type );
+}
+
 void iexamine::fireplace( player &p, const tripoint &examp )
 {
     const bool already_on_fire = g->m.has_nearby_fire( examp, 0 );
@@ -4153,14 +4268,13 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
     switch( amenu.ret ) {
         case INSTALL_CBM: {
-            const item_location bionic = game_menus::inv::install_bionic( p, patient );
+            item_location bionic = game_menus::inv::install_bionic( p, patient );
 
             if( !bionic ) {
                 return;
             }
 
-            const item *it = bionic.get_item();
-            const itype *itemtype = it->type;
+            const itype *itemtype = bionic.get_item()->type;
 
             player &installer = best_installer( p, null_player, itemtype->bionic->difficulty );
             if( &installer == &null_player ) {
@@ -4172,9 +4286,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             if( patient.can_install_bionics( ( *itemtype ), installer, true ) ) {
                 const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
-                std::vector<item_comp> comps;
-                comps.push_back( item_comp( it->typeId(), 1 ) );
-                p.consume_items( comps, 1, is_crafting_component );
+                bionic.remove_item();
                 if( needs_anesthesia ) {
                     // Consume obsolete anesthesia first
                     if( acomps.empty() ) {
@@ -4207,6 +4319,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     if( item::type_is_defined( bio.id.str() ) ) {// put cbm items in your inventory
                         item bionic_to_uninstall( bio.id.str(), calendar::turn );
                         bionic_to_uninstall.set_flag( "IN_CBM" );
+                        bionic_to_uninstall.set_flag( "NO_STERILE" );
+                        bionic_to_uninstall.set_flag( "NO_PACKED" );
                         g->u.i_add( bionic_to_uninstall );
                     }
                 }
@@ -5397,6 +5511,8 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "locked_object", &iexamine::locked_object },
             { "kiln_empty", &iexamine::kiln_empty },
             { "kiln_full", &iexamine::kiln_full },
+            { "autoclave_empty", &iexamine::autoclave_empty },
+            { "autoclave_full", &iexamine::autoclave_full },
             { "fireplace", &iexamine::fireplace },
             { "ledge", &iexamine::ledge },
             { "autodoc", &iexamine::autodoc },

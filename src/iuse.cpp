@@ -2131,6 +2131,50 @@ int iuse::unpack_item( player *p, item *it, bool, const tripoint & )
     return 0;
 }
 
+int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
+{
+    item_location bionic = g->inv_map_splice( []( const item & e ) {
+        return e.is_bionic();
+    }, _( "Choose CBM to pack" ), PICKUP_RANGE, _( "You don't have any CBMs." ) );
+
+    if( !bionic ) {
+        return 0;
+    }
+    if( !bionic.get_item()->faults.empty() ) {
+        if( p->query_yn( _( "This CBM is faulty.  You should mend it first.  Do you want to try?" ) ) ) {
+            p->mend_item( std::move( bionic ) );
+        }
+        return 0;
+    }
+
+    if( !bionic.get_item()->has_flag( "NO_PACKED" ) ||
+        bionic.get_item()->has_flag( "PACKED_FAULTY" ) ) {
+        if( !p->query_yn( _( "This CBM is already packed.  Do you want to put it in a new pouch?" ) ) ) {
+            return 0;
+        }
+    }
+
+    bionic.get_item()->unset_flag( "NO_PACKED" );
+    bionic.get_item()->unset_flag( "PACKED_FAULTY" );
+
+    const int success = p->get_skill_level( skill_firstaid ) - rng( 0, 6 );
+    if( success > 0 ) {
+        add_msg( m_info, _( "You carefully prepare the CBM for sterilization." ) );
+    } else {
+        bionic.get_item()->set_flag( "PACKED_FAULTY" );
+        add_msg( m_info, _( "You put the CBM in the pouch and close it." ) );
+        if( success == 0 ) {
+            add_msg( m_bad, _( "You're not sure about the quality of your work." ) );
+        }
+    }
+
+    std::vector<item_comp> comps;
+    comps.push_back( item_comp( it->typeId(), 1 ) );
+    p->consume_items( comps, 1, is_crafting_component );
+
+    return 0;
+}
+
 int iuse::pack_item( player *p, item *it, bool t, const tripoint & )
 {
     if( p->is_underwater() ) {
@@ -8173,6 +8217,86 @@ static bool multicooker_hallu( player &p )
 
 }
 
+int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
+{
+    if( t ) {
+        if( !it->units_sufficient( *p ) ) {
+            add_msg( m_bad, _( "The autoclave ran out of battery and stopped before completing its cycle." ) );
+            it->active = false;
+            item *clean_cbm = nullptr;
+            for( item &bio : it->contents ) {
+                if( bio.is_bionic() ) {
+                    clean_cbm = &bio;
+                }
+            }
+            if( clean_cbm ) {
+                g->m.add_item( pos, *clean_cbm );
+                it->remove_item( *clean_cbm );
+            }
+            return 0;
+        }
+
+        int Cycle_time = it->get_var( "CYCLETIME", 0 );
+        Cycle_time -= 1;
+        if( Cycle_time <= 0 ) {
+            it->active = false;
+            it->erase_var( "CYCLETIME" );
+            item *clean_cbm = nullptr;
+            for( item &bio : it->contents ) {
+                if( bio.is_bionic() ) {
+                    bio.unset_flag( "NO_STERILE" );
+                    bio.set_var( "sterile", 1 ); // sterile for 1s if not (packed);
+                    clean_cbm = &bio;
+                }
+            }
+            if( clean_cbm ) {
+                g->m.add_item( pos, *clean_cbm );
+                it->remove_item( *clean_cbm );
+            }
+        } else {
+            it->set_var( "CYCLETIME", Cycle_time );
+        }
+    } else if( !it->active ) {
+        if( p->is_underwater() ) {
+            p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+            return 0;
+        }
+
+        auto reqs = *requirement_id( "autoclave_item" );
+
+        item_location to_sterile = game_menus::inv::sterilize_cbm( *p );
+
+        if( !to_sterile ) {
+            return 0;
+        }
+
+        if( query_yn( _( "Start the autoclave?" ) ) ) {
+
+            for( const auto &e : reqs.get_components() ) {
+                p->consume_items( e, 1, is_crafting_component );
+            }
+            for( const auto &e : reqs.get_tools() ) {
+                p->consume_tools( e );
+            }
+            p->invalidate_crafting_inventory();
+            const item *cbm = to_sterile.get_item();
+
+            it->put_in( *cbm );
+            to_sterile.remove_item();
+
+            it->activate();
+            it->set_var( "CYCLETIME", to_seconds<int>( 90_minutes ) ); // one cycle
+            return it->type->charges_to_use();
+        }
+    } else {
+        int Cycle_time = it->get_var( "CYCLETIME", 0 );
+        add_msg( _( "The cycle will be completed in %s." ),
+                 to_string( time_duration::from_seconds( Cycle_time ) ) );
+    }
+
+    return 0;
+}
+
 int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 {
     static const std::set<std::string> multicooked_subcats = { "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" };
@@ -8967,11 +9091,30 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
         return 0;
     }
 
+    wash_items( p, false );
+    return 0;
+}
+
+int iuse::washcbms( player *p, item *, bool, const tripoint & )
+{
     if( p->fine_detail_vision_mod() > 4 ) {
         p->add_msg_if_player( _( "You can't see to do that!" ) );
         return 0;
     }
 
+    // Check that player isn't over volume limit as this might cause it to break... this is a hack.
+    // TODO: find a better solution.
+    if( p->volume_capacity() < p->volume_carried() ) {
+        p->add_msg_if_player( _( "You're carrying too much to clean anything." ) );
+        return 0;
+    }
+
+    wash_items( p, true );
+    return 0;
+}
+
+int iuse::wash_items( player *p, bool cbm )
+{
     p->inv.restack( *p );
     const inventory &crafting_inv = p->crafting_inventory();
 
@@ -8985,8 +9128,12 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
     int available_cleanser = std::max( crafting_inv.charges_of( "soap" ),
                                        crafting_inv.charges_of( "detergent" ) );
 
-    const inventory_filter_preset preset( []( const item_location & location ) {
-        return location->item_tags.find( "FILTHY" ) != location->item_tags.end();
+    const inventory_filter_preset preset( [cbm]( const item_location & location ) {
+        if( cbm ) {
+            return location->item_tags.find( "FILTHY" ) != location->item_tags.end() && location->is_bionic();
+        } else {
+            return location->item_tags.find( "FILTHY" ) != location->item_tags.end() && !location->is_bionic();
+        }
     } );
     auto make_raw_stats = [available_water, available_cleanser](
                               const std::map<const item *, int> &items
@@ -9018,7 +9165,7 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
         popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
         return 0;
     }
-    std::list<std::pair<int, int>> to_clean = inv_s.execute();
+    const std::list<std::pair<int, int>> to_clean = inv_s.execute();
     if( to_clean.empty() ) {
         return 0;
     }
@@ -9064,6 +9211,7 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
 
     return 0;
 }
+
 int iuse::break_stick( player *p, item *it, bool, const tripoint & )
 {
     p->moves -= to_moves<int>( 2_seconds );

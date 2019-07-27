@@ -4764,6 +4764,20 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
+    "id": "sponge",
+    "type": "TOOL",
+    "name": "sponge",
+    "description": "A sponge is a tool or cleaning aid made of soft, porous material. Typically used for cleaning impervious surfaces.",
+    "weight": 80,
+    "volume": 1,
+    "price": 0,
+    "material": "plastic",
+    "symbol": "s",
+    "color": "yellow",
+    "use_action": "WASHCBMS",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
     "id": "reading_light",
     "type": "TOOL",
     "name": "reading light",
@@ -5516,6 +5530,30 @@
     "symbol": "L",
     "color": "white",
     "qualities": [ [ "DISTILL", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "autoclave",
+    "type": "TOOL",
+    "name": "autoclave",
+    "description": "This is an autoclave.  It's useful for sterilizing things like CBMs.  This machine draws a lot of power, standard battery might not be enough.",
+    "weight": 34500,
+    "volume": "76 L",
+    "price": 162654,
+    "to_hit": -6,
+    "bashing": 10,
+    "contains": 11,
+    "material": "steel",
+    "symbol": "A",
+    "color": "yellow",
+    "use_action": "AUTOCLAVE",
+    "power_draw": 1500000,
+    "charges_per_use": 1,
+    "looks_like": "microwave",
+    "ammo": "battery",
+    "magazines": [
+      [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+    ],
+    "magazine_well": 4
   },
   {
     "id": "survival_marker",

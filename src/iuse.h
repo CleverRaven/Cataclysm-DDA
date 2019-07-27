@@ -176,6 +176,7 @@ class iuse
         int rm13armor_off( player *, item *, bool, const tripoint & );
         int rm13armor_on( player *, item *, bool, const tripoint & );
         int unpack_item( player *, item *, bool, const tripoint & );
+        int pack_cbm( player *p, item *it, bool, const tripoint & );
         int pack_item( player *, item *, bool, const tripoint & );
         int radglove( player *, item *, bool, const tripoint & );
         int robotcontrol( player *, item *, bool, const tripoint & );
@@ -191,6 +192,8 @@ class iuse
         int weather_tool( player *, item *, bool, const tripoint & );
         int ladder( player *, item *, bool, const tripoint & );
         int washclothes( player *, item *, bool, const tripoint & );
+        int washcbms( player *, item *, bool, const tripoint & );
+        int wash_items( player *p, bool cbm );
         int solarpack( player *, item *, bool, const tripoint & );
         int solarpack_off( player *, item *, bool, const tripoint & );
         int break_stick( player *, item *, bool, const tripoint & );
@@ -208,6 +211,8 @@ class iuse
         int radiocar( player *, item *, bool, const tripoint & );
         int radiocaron( player *, item *, bool, const tripoint & );
         int radiocontrol( player *, item *, bool, const tripoint & );
+
+        int autoclave( player *, item *, bool, const tripoint & );
 
         int multicooker( player *, item *, bool, const tripoint & );
 

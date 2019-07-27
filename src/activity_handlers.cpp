@@ -307,17 +307,30 @@ static bool check_butcher_cbm( const int roll )
 }
 
 static void butcher_cbm_item( const std::string &what, const tripoint &pos,
-                              const time_point &age, const int roll )
+                              const time_point &age, const int roll, const std::vector<std::string> &flags,
+                              const std::vector<fault_id> &faults )
 {
     if( roll < 0 ) {
         return;
     }
     if( item::find_type( itype_id( what ) )->bionic.has_value() ) {
         item cbm( check_butcher_cbm( roll ) ? what : "burnt_out_bionic", age );
+        for( const std::string &flg : flags ) {
+            cbm.set_flag( flg );
+        }
+        for( const fault_id &flt : faults ) {
+            cbm.faults.emplace( flt );
+        }
         add_msg( m_good, _( "You discover a %s!" ), cbm.tname() );
         g->m.add_item( pos, cbm );
     } else if( check_butcher_cbm( roll ) ) {
         item something( what, age );
+        for( const std::string &flg : flags ) {
+            something.set_flag( flg );
+        }
+        for( const fault_id &flt : faults ) {
+            something.faults.emplace( flt );
+        }
         add_msg( m_good, _( "You discover a %s!" ), something.tname() );
         g->m.add_item( pos, something );
     } else {
@@ -326,7 +339,8 @@ static void butcher_cbm_item( const std::string &what, const tripoint &pos,
 }
 
 static void butcher_cbm_group( const std::string &group, const tripoint &pos,
-                               const time_point &age, const int roll )
+                               const time_point &age, const int roll, const std::vector<std::string> flags,
+                               const std::vector<fault_id> faults )
 {
     if( roll < 0 ) {
         return;
@@ -336,12 +350,24 @@ static void butcher_cbm_group( const std::string &group, const tripoint &pos,
     if( check_butcher_cbm( roll ) ) {
         //The CBM works
         const auto spawned = g->m.put_items_from_loc( group, pos, age );
-        for( const auto &it : spawned ) {
+        for( item *it : spawned ) {
+            for( const std::string &flg : flags ) {
+                it->set_flag( flg );
+            }
+            for( const fault_id &flt : faults ) {
+                it->faults.emplace( flt );
+            }
             add_msg( m_good, _( "You discover a %s!" ), it->tname() );
         }
     } else {
         //There is a burnt out CBM
         item cbm( "burnt_out_bionic", age );
+        for( const std::string &flg : flags ) {
+            cbm.set_flag( flg );
+        }
+        for( const fault_id &flt : faults ) {
+            cbm.faults.emplace( flt );
+        }
         add_msg( m_good, _( "You discover a %s!" ), cbm.tname() );
         g->m.add_item( pos, cbm );
     }
@@ -826,9 +852,9 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             roll = std::min( entry.max, roll );
             add_msg( m_debug, _( "Roll penalty for corpse damage = %s" ), 0 - corpse_item->damage_level( 4 ) );
             if( entry.type == "bionic" ) {
-                butcher_cbm_item( entry.drop, p.pos(), calendar::turn, roll );
+                butcher_cbm_item( entry.drop, p.pos(), calendar::turn, roll, entry.flags, entry.faults );
             } else if( entry.type == "bionic_group" ) {
-                butcher_cbm_group( entry.drop, p.pos(), calendar::turn, roll );
+                butcher_cbm_group( entry.drop, p.pos(), calendar::turn, roll, entry.flags, entry.faults );
             }
             continue;
         }
@@ -941,6 +967,12 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
                 }
+                for( const std::string &flg : entry.flags ) {
+                    obj.set_flag( flg );
+                }
+                for( const fault_id &flt : entry.faults ) {
+                    obj.faults.emplace( flt );
+                }
                 liquid_handler::handle_all_liquid( obj, 1 );
             } else if( drop->count_by_charges() ) {
                 item obj( drop, calendar::turn, roll );
@@ -949,6 +981,12 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 }
                 if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
+                }
+                for( const std::string &flg : entry.flags ) {
+                    obj.set_flag( flg );
+                }
+                for( const fault_id &flt : entry.faults ) {
+                    obj.faults.emplace( flt );
                 }
                 g->m.add_item_or_charges( p.pos(), obj );
             } else {
@@ -960,11 +998,16 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
                 }
+                for( const std::string &flg : entry.flags ) {
+                    obj.set_flag( flg );
+                }
+                for( const fault_id &flt : entry.faults ) {
+                    obj.faults.emplace( flt );
+                }
                 for( int i = 0; i != roll; ++i ) {
                     g->m.add_item_or_charges( p.pos(), obj );
                 }
             }
-
             p.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ) );
         }
         practice++;
