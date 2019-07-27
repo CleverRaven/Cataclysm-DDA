@@ -587,62 +587,6 @@
   },
   {
     "type": "technique",
-    "id": "tec_biojutsu_counter",
-    "name": "biojutsu counter",
-    "min_melee": 4,
-    "unarmed_allowed": true,
-    "block_counter": true,
-    "crit_ok": true,
-    "mult_bonuses": [ [ "movecost", 0.0 ] ],
-    "messages": [ "You block and counter-attack %s", "<npcname> blocks and counter-attacks %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_biojutsu_rapid_unarmed",
-    "name": "quick punch",
-    "min_melee": 0,
-    "unarmed_allowed": true,
-    "messages": [ "You quickly punch %s", "<npcname> quickly punches %s" ],
-    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_biojutsu_rapid_armed",
-    "name": "quick slash",
-    "min_melee": 0,
-    "messages": [ "You quickly slash %s", "<npcname> quickly slashes %s" ],
-    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_biojutsu_impale",
-    "name": "biojutsu impale",
-    "min_melee": 3,
-    "crit_tec": true,
-    "mult_bonuses": [ [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ] ],
-    "messages": [ "You brutally impale %s", "<npcname> brutally impales %s" ],
-    "stun_dur": 1
-  },
-  {
-    "type": "technique",
-    "id": "tec_biojutsu_sweep",
-    "name": "sweep kick",
-    "min_melee": 3,
-    "unarmed_allowed": true,
-    "messages": [ "You sweep-kick %s", "<npcname> sweep-kicks %s" ],
-    "down_dur": 2
-  },
-  {
-    "type": "technique",
-    "id": "tec_biojutsu_wide",
-    "min_melee": 5,
-    "crit_tec": true,
-    "name": "wide strike",
-    "messages": [ "You cleave through %s", "<npcname> cleave through %s" ],
-    "aoe": "wide"
-  },
-  {
-    "type": "technique",
     "id": "tec_zuiquan_feint",
     "name": "Drunk feint",
     "min_unarmed": 3,
