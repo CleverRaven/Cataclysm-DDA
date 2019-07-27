@@ -295,6 +295,7 @@
     "knockback_dist": 1,
     "knockback_spread": 1,
     "stun_dur": 1,
+    "down_dur": 1,
     "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 1.25 ] ]
   },
   {
@@ -314,7 +315,6 @@
     "min_unarmed": 4,
     "unarmed_allowed": true,
     "crit_tec": true,
-    "down_dur": 1,
     "stun_dur": 1,
     "mult_bonuses": [ [ "damage", "bash", 1.4 ] ]
   },
