@@ -1729,7 +1729,7 @@
     "type": "effect_type",
     "id": "paralysed",
     "name": [ "Paralysed" ],
-    "desc": [ "You loose the chance to move for a short while." ],
+    "desc": [ "You lose the chance to move for a short while." ],
     "apply_message": "You're paralyzed!",
     "max_duration": "1 s"
   }
