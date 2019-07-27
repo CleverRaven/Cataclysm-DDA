@@ -1537,7 +1537,7 @@ class bionic_install_preset: public inventory_selector_preset
                 const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
                 const int duration = loc.get_item()->type->bionic->difficulty * 2;
                 const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
-                                                    duration * 2 * weight;
+                                                    duration * weight;
                 return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
             }
 
@@ -1607,7 +1607,7 @@ class bionic_install_preset: public inventory_selector_preset
             const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
             const int duration = loc.get_item()->type->bionic->difficulty * 2;
             const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
-                                                duration * 2 * weight;
+                                                duration * weight;
 
             std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
                 return it.has_flag( "ANESTHESIA" ); // legacy
@@ -1656,7 +1656,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
                 const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
                 const int duration = loc.get_item()->type->bionic->difficulty * 2;
                 const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
-                                                    duration * 2 * weight;
+                                                    duration * weight;
                 return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
             }
 
@@ -1727,7 +1727,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
             const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
             const int duration = loc.get_item()->type->bionic->difficulty * 2;
             const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
-                                                duration * 2 * weight;
+                                                duration * weight;
 
             std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
                 return it.has_flag( "ANESTHESIA" ); // legacy
