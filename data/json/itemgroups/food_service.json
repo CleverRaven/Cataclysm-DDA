@@ -79,6 +79,7 @@
       [ "european_pilsner", 60 ],
       [ "pale_ale", 60 ],
       [ "india_pale_ale", 57 ],
+      [ "wine_barley", 55 ],
       [ "stout", 56 ],
       [ "belgian_ale", 50 ],
       [ "imperial_stout", 45 ],
@@ -91,13 +92,15 @@
       [ "fruit_wine", 5 ],
       [ "wine_riesling", 7 ],
       [ "wine_chardonnay", 4 ],
+      [ "wine_vermouth", 5 ],
       [ "wine_cabernet", 1 ],
       [ "wine_noir", 1 ],
       [ "brandy", 5 ],
       [ "drink_rumcola", 50 ],
       [ "drink_screwdriver", 45 ],
       [ "drink_wild_apple", 20 ],
-      [ "long_island", 27 ]
+      [ "long_island", 27 ],
+      [ "drink_martini", 60 ]
     ]
   },
   {
@@ -236,6 +239,7 @@
       [ "india_pale_ale", 20 ],
       [ "pale_ale", 15 ],
       [ "european_pilsner", 17 ],
+      [ "wine_barley", 17 ],
       [ "mead", 5 ],
       [ "beer", 18 ]
     ]
@@ -728,6 +732,8 @@
       [ "foon", 10 ],
       [ "bottle_glass", 15 ],
       [ "fruit_wine", 10 ],
+      [ "wine_vermouth", 8 ],
+      [ "wine_marsala", 6 ],
       [ "wine_riesling", 7 ],
       [ "wine_chardonnay", 8 ],
       [ "wine_cabernet", 8 ],
@@ -770,6 +776,8 @@
       [ "wine_riesling", 7 ],
       [ "wine_chardonnay", 8 ],
       [ "wine_cabernet", 8 ],
+      [ "wine_marsala", 6 ],
+      [ "wine_vermouth", 9 ],
       [ "wine_noir", 6 ],
       [ "fish_fried", 7 ],
       [ "cheese", 10 ],
@@ -870,6 +878,8 @@
       [ "wine_riesling", 10 ],
       [ "wine_chardonnay", 13 ],
       [ "wine_cabernet", 13 ],
+      [ "wine_marsala", 9 ],
+      [ "wine_vermouth", 15 ],
       [ "wine_noir", 9 ],
       [ "hat_chef", 30 ],
       [ "jacket_chef", 30 ],
@@ -981,6 +991,7 @@
       { "item": "beer", "prob": 40, "container-item": "keg" },
       { "item": "belgian_ale", "prob": 30, "container-item": "keg" },
       { "item": "european_pilsner", "prob": 20, "container-item": "keg" },
+      { "item": "wine_barley", "prob": 17, "container-item": "keg" },
       { "item": "india_pale_ale", "prob": 20, "container-item": "keg" },
       { "item": "pale_ale", "prob": 20, "container-item": "keg" },
       { "item": "stout", "prob": 10, "container-item": "keg" },

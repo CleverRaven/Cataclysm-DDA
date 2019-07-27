@@ -285,6 +285,7 @@
       [ "beer", 60 ],
       [ "european_pilsner", 50 ],
       [ "pale_ale", 50 ],
+      [ "wine_barley", 45 ],
       [ "india_pale_ale", 47 ],
       [ "stout", 46 ],
       [ "belgian_ale", 40 ],
