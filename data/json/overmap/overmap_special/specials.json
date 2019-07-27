@@ -153,30 +153,32 @@
     "id": "Sewage Treatment Plant",
     "overmaps": [
       { "point": [ 0, -1, 0 ], "overmap": "road_end_north" },
-      { "point": [ 0, 0, 0 ], "overmap": "s_lot" },
-      { "point": [ 0, 1, 0 ], "overmap": "sewage_treatment" },
-      { "point": [ 0, 1, -1 ], "overmap": "sewage_treatment_hub" },
-      { "point": [ 0, 0, -1 ], "overmap": "sewage_treatment_under" },
-      { "point": [ -1, 0, -1 ], "overmap": "sewage_treatment_under" },
-      { "point": [ 1, 0, -1 ], "overmap": "sewage_treatment_under" },
-      { "point": [ -1, 1, -1 ], "overmap": "sewage_treatment_under" },
-      { "point": [ 1, 1, -1 ], "overmap": "sewage_treatment_under" },
-      { "point": [ -1, 2, -1 ], "overmap": "sewage_treatment_under" },
-      { "point": [ 0, 2, -1 ], "overmap": "sewage_treatment_under" },
-      { "point": [ 1, 2, -1 ], "overmap": "sewage_treatment_under" }
-    ],
-    "connections": [
-      { "point": [ 0, -1, 0 ] },
-      { "point": [ 0, -1, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 0, 0, -1 ] },
-      { "point": [ 2, 1, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 1, 1, -1 ] },
-      { "point": [ 0, 3, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 0, 2, -1 ] },
-      { "point": [ -2, 1, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ -1, 1, -1 ] }
+      { "point": [ 0, 0, 0 ], "overmap": "sewage_treatment_0_0_0_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "sewage_treatment_0_0_roof_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "sewage_treatment_1_0_0_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "sewage_treatment_1_0_roof_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "sewage_treatment_0_1_0_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "sewage_treatment_0_1_roof_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "sewage_treatment_1_1_0_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "sewage_treatment_1_1_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "sewage_treatment_0_0_-1_north" },
+      { "point": [ 1, 0, -1 ], "overmap": "sewage_treatment_1_0_-1_north" },
+      { "point": [ 2, 0, -1 ], "overmap": "sewage_treatment_2_0_-1_north" },
+      { "point": [ 0, 1, -1 ], "overmap": "sewage_treatment_0_1_-1_north" },
+      { "point": [ 1, 1, -1 ], "overmap": "sewage_treatment_1_1_-1_north" },
+      { "point": [ 2, 1, -1 ], "overmap": "sewage_treatment_2_1_-1_north" }
     ],
     "locations": [ "land" ],
+    "connections": [
+      { "point": [ 0, -1, 0 ], "terrain": "road" },
+      { "point": [ -1, 0, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 0, 0, -1 ] },
+      { "point": [ 1, -1, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 1, 0, -1 ] },
+      { "point": [ 3, 0, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 2, 0, -1 ] },
+      { "point": [ 1, 2, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 1, 1, -1 ] }
+    ],
     "city_distance": [ 10, 20 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 4 ],
-    "rotate": false,
     "flags": [ "CLASSIC" ]
   },
   {
