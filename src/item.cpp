@@ -3174,6 +3174,9 @@ void item::on_wield( player &p, int mv )
     if( p.style_selected != matype_id( "style_none" ) ) {
         p.martialart_use_message();
     }
+
+    // Update encumbrance in case we were wearing it
+    p.reset_encumbrance();
 }
 
 void item::handle_pickup_ownership( Character &c )
