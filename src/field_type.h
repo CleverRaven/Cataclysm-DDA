@@ -29,6 +29,8 @@ struct field_intensity_level {
     bool dangerous = false;
     bool transparent = true;
     int move_cost = 0;
+    int extra_radiation_min = 0;
+    int extra_radiation_max = 0;
     float light_emitted = 0.0f;
     float translucency = 0.0f;
     int convection_temperature_mod = 0.0f;
@@ -37,6 +39,7 @@ struct field_intensity_level {
 struct field_type {
     public:
         void load( JsonObject &jo, const std::string &src );
+        void finalize();
         void check() const;
 
     public:
@@ -44,13 +47,18 @@ struct field_type {
         field_type_str_id id;
         bool was_loaded = false;
 
+        // Used only during loading
+        std::string wandering_field_id = "fd_null";
+
     public:
         int legacy_enum_id = -1;
 
         std::vector<field_intensity_level> intensity_levels;
 
         time_duration underwater_age_speedup = 0_turns;
+        time_duration outdoor_age_speedup = 0_turns;
         int decay_amount_factor = 0;
+        int percent_spread = 0;
         int apply_slime_factor = 0;
         int gas_absorption_factor = 0;
         bool is_splattering = false;
@@ -59,6 +67,9 @@ struct field_type {
         bool has_acid = false;
         bool has_elec = false;
         bool has_fume = false;
+
+        // chance, issue, duration, speech
+        std::tuple<int, std::string, time_duration, std::string> npc_complain_data;
 
         std::vector<trait_id> immunity_data_traits;
         std::vector<std::pair<body_part, int>> immunity_data_body_part_env_resistance;
@@ -69,6 +80,7 @@ struct field_type {
         bool accelerated_decay = false;
         bool display_items = true;
         bool display_field = false;
+        field_type_id wandering_field;
 
     public:
         std::string get_name( int level = 0 ) const {
@@ -91,6 +103,12 @@ struct field_type {
         }
         int get_move_cost( int level = 0 ) const {
             return intensity_levels[level].move_cost;
+        }
+        int get_extra_radiation_min( int level = 0 ) const {
+            return intensity_levels[level].extra_radiation_min;
+        }
+        int get_extra_radiation_max( int level = 0 ) const {
+            return intensity_levels[level].extra_radiation_max;
         }
         float get_light_emitted( int level = 0 ) const {
             return intensity_levels[level].light_emitted;

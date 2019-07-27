@@ -1567,27 +1567,15 @@ void monster::stumble()
     }
 }
 
-void monster::knock_back_from( const tripoint &p )
+void monster::knock_back_to( const tripoint &to )
 {
-    if( p == pos() ) {
+    if( to == pos() ) {
         return; // No effect
     }
+
     if( is_hallucination() ) {
         die( nullptr );
         return;
-    }
-    tripoint to = pos();
-    if( p.x < posx() ) {
-        to.x++;
-    }
-    if( p.x > posx() ) {
-        to.x--;
-    }
-    if( p.y < posy() ) {
-        to.y++;
-    }
-    if( p.y > posy() ) {
-        to.y--;
     }
 
     bool u_see = g->u.sees( to );

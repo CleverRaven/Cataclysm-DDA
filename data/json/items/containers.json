@@ -440,7 +440,7 @@
     "category": "other",
     "name": "tin can",
     "description": "A tin can, like what beans come in.",
-    "weight": 400,
+    "weight": 40,
     "volume": 1,
     "price": 0,
     "material": "steel",
@@ -1114,5 +1114,34 @@
     "watertight": true,
     "seals": true,
     "properties": [ [ "burst_when_filled", "75" ] ]
+  },
+  {
+    "id": "can_food_big",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "large tin can",
+    "description": "A large tin can, like what beans come in. Holds a substantial amount of food.",
+    "weight": 350,
+    "volume": "3L",
+    "price": 0,
+    "material": "steel",
+    "symbol": ")",
+    "color": "blue",
+    "contains": 12,
+    "watertight": true,
+    "preserves": true,
+    "unseals_into": "can_food_big_unsealed"
+  },
+  {
+    "id": "can_food_big_unsealed",
+    "copy-from": "can_food_big",
+    "type": "CONTAINER",
+    "name": "opened large tin can",
+    "description": "A large tin can, like what beans come in. This one is opened and can't be easily sealed.",
+    "symbol": ")",
+    "color": "blue",
+    "preserves": false,
+    "unseals_into": "null",
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   }
 ]

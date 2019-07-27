@@ -68,7 +68,6 @@ ignorable = {
     "colordef",
     "emit",
     "EXTERNAL_OPTION",
-    "field_type",
     "GAME_OPTION",
     "ITEM_BLACKLIST",
     "item_group",
@@ -117,6 +116,7 @@ automatically_convertible = {
     "AMMO",
     "ammunition_type",
     "ARMOR",
+    "BATTERY",
     "bionic",
     "BIONIC_ITEM",
     "BOOK",
@@ -205,13 +205,16 @@ def extract_harvest(item):
 
 def extract_bodypart(item):
     outfile = get_outfile("bodypart")
-    writestr(outfile, item["name"])
     writestr(outfile, item["name"], context="bodypart_accusative")
     writestr(outfile, item["encumbrance_text"])
     writestr(outfile, item["heading_singular"], item["heading_plural"])
     if "hp_bar_ui_text" in item:
         writestr(outfile, item["hp_bar_ui_text"])
 
+def extract_clothing_mod(item):
+    outfile = get_outfile("clothing_mod")
+    writestr(outfile, item["implement_prompt"])
+    writestr(outfile, item["destroy_prompt"])
 
 def extract_construction(item):
     outfile = get_outfile("construction")
@@ -680,10 +683,17 @@ def extract_gate(item):
         writestr(outfile, v,
                  comment="'{}' action message of some gate object.".format(k))
 
+def extract_field_type(item):
+    outfile = get_outfile("field_type")
+    for fd in item.get("intensity_levels"):
+       if "name" in fd:
+           writestr(outfile,fd.get("name"))
+
 # these objects need to have their strings specially extracted
 extract_specials = {
     "harvest" : extract_harvest,
     "body_part": extract_bodypart,
+    "clothing_mod": extract_clothing_mod,
     "construction": extract_construction,
     "effect_type": extract_effect_type,
     "GUN": extract_gun,
@@ -702,7 +712,9 @@ extract_specials = {
     "scenario": extract_scenarios,
     "talk_topic": extract_talk_topic,
     "gate": extract_gate,
-    "vehicle_spawn": extract_vehspawn
+    "vehicle_spawn": extract_vehspawn,
+    "field_type": extract_field_type
+
 }
 
 ##

@@ -1098,4 +1098,25 @@ class weigh_self_actor : public iuse_actor
         iuse_actor *clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
 };
+
+/**
+ * Modify clothing
+ */
+class sew_advanced_actor : public iuse_actor
+{
+    public:
+        /** Materials */
+        std::set<material_id> materials;
+        /** Clothing mods */
+        std::vector<clothing_mod_id> clothing_mods;
+        /** Skill used */
+        skill_id used_skill;
+
+        sew_advanced_actor( const std::string &type = "sew_advanced" ) : iuse_actor( type ) {}
+
+        ~sew_advanced_actor() override = default;
+        void load( JsonObject &jo ) override;
+        int use( player &, item &, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+};
 #endif

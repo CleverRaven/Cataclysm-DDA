@@ -49,7 +49,7 @@
     "category": "DIG",
     "required_skills": [ [ "survival", 1 ] ],
     "time": "30 m",
-    "components": [ [ [ "glass_shard", 20 ] ] ],
+    "components": [ [ [ "glass_shard", 168 ] ] ],
     "pre_terrain": "t_pit",
     "post_terrain": "t_pit_glass"
   },

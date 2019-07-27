@@ -27,6 +27,9 @@ class field_entry
         //returns the move cost of this field
         int move_cost() const;
 
+        int extra_radiation_min() const;
+        int extra_radiation_max() const;
+
         float light_emitted() const;
         float translucency() const;
         bool is_transparent() const;
@@ -72,6 +75,10 @@ class field_entry
         //Returns true if this is an active field, false if it should be removed.
         bool is_field_alive() {
             return is_alive;
+        }
+
+        bool gas_can_spread() {
+            return is_field_alive() && type.obj().phase == GAS && type.obj().percent_spread > 0;
         }
 
         time_duration get_underwater_age_speedup() const {

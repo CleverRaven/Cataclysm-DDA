@@ -385,37 +385,6 @@
   },
   {
     "type": "martial_art",
-    "id": "style_biojutsu",
-    "name": "Bionic Combatives",
-    "description": "A modern combat style for the post-modern human.  Bionic Combatives combines integrated weaponry, armor and augments into an consolidated fighting discipline.",
-    "initiate": [ "BEGINING BIONIC COMBATIVES PROGRAM. INITIATING COMBAT PROTOCOLS.", "%s starts moving with swift robotic percision." ],
-    "arm_block": 99,
-    "leg_block": 99,
-    "arm_block_with_bio_armor_arms": true,
-    "leg_block_with_bio_armor_legs": true,
-    "static_buffs": [
-      {
-        "id": "biojutsu_static",
-        "name": "Biojutsu",
-        "unarmed_allowed": true,
-        "melee_allowed": true,
-        "min_unarmed": 2,
-        "description": "+1 Blocks",
-        "bonus_blocks": 1
-      }
-    ],
-    "techniques": [
-      "tec_biojutsu_counter",
-      "tec_biojutsu_rapid_unarmed",
-      "tec_biojutsu_rapid_armed",
-      "tec_biojutsu_impale",
-      "tec_biojutsu_sweep",
-      "tec_biojutsu_wide"
-    ],
-    "weapons": [ "bio_claws_weapon", "bio_blade_weapon" ]
-  },
-  {
-    "type": "martial_art",
     "id": "style_zui_quan",
     "name": "Zui Quan",
     "description": "AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse the enemy, giving you a passive dodge bonus based on your intelligence.  The turn after you attack, you may dodge any number of attacks with no penalty, and successfully dodging an attack gives you bonus damage and to-hit based on your intelligence.",

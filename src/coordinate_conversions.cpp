@@ -38,6 +38,11 @@ point omt_to_om_remain( int &x, int &y )
     return point( divide( x, OMAPX, x ), divide( y, OMAPY, y ) );
 }
 
+point om_to_omt_copy( const point &p )
+{
+    return point( p.x * OMAPX, p.y * OMAPY );
+}
+
 point sm_to_omt_copy( int x, int y )
 {
     return point( divide( x, 2 ), divide( y, 2 ) );

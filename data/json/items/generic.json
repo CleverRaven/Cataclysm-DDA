@@ -2385,6 +2385,24 @@
     "price": 0
   },
   {
+    "id": "pouch_autoclave",
+    "type": "AMMO",
+    "ammo_type": "NULL",
+    "category": "other",
+    "name": "autoclave pouch",
+    "name_plural": "autoclave pouches",
+    "description": "This is a medical device that bears the approval of the FDA (Food and Drug Administration).  If used properly, these pouches can keep things sterile indefinitely.",
+    "weight": 2,
+    "volume": 0,
+    "price": 5,
+    "use_action": "PACK_CBM",
+    "to_hit": -1,
+    "material": [ "plastic", "paper" ],
+    "symbol": "]",
+    "count": 25,
+    "color": "light_gray"
+  },
+  {
     "type": "GENERIC",
     "id": "cigar_lit",
     "name": "cigar",

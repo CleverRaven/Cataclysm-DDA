@@ -285,6 +285,7 @@
       [ "beer", 60 ],
       [ "european_pilsner", 50 ],
       [ "pale_ale", 50 ],
+      [ "wine_barley", 45 ],
       [ "india_pale_ale", 47 ],
       [ "stout", 46 ],
       [ "belgian_ale", 40 ],
@@ -1212,7 +1213,7 @@
     "id": "oa_ig_rd_glass_trash",
     "//": "for ws_regional_dump",
     "items": [
-      { "item": "glass_shard", "prob": 100, "count-min": 1, "count-max": 20 },
+      { "item": "glass_shard", "prob": 100, "count-min": 8, "count-max": 168 },
       [ "bottle_glass", 30 ],
       [ "jar_glass", 20 ],
       [ "jar_3l_glass", 10 ]

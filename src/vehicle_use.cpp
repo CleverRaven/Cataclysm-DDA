@@ -382,7 +382,7 @@ int vehicle::select_engine()
                                   fuel_left( fuel_id ) );
             tmenu.addentry( i++, is_available, -1, "[%s] %s %s",
                             is_active ? "x" : " ", parts[ e ].name(),
-                            item::find_type( fuel_id )->nname( 1 ) );
+                            item::nname( fuel_id ) );
         }
     }
     tmenu.query();
@@ -1362,6 +1362,10 @@ void vehicle::use_washing_machine( int p )
         return i.has_flag( filthy );
     } );
 
+    bool cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
+        return i.is_bionic();
+    } );
+
     if( parts[p].enabled ) {
         parts[p].enabled = false;
         add_msg( m_bad,
@@ -1374,6 +1378,9 @@ void vehicle::use_washing_machine( int p )
     } else if( !filthy_items ) {
         add_msg( m_bad,
                  _( "You need to remove all non-filthy items from the washing machine to start the washing program." ) );
+    } else if( cbms ) {
+        add_msg( m_bad,
+                 _( "CBMs can't be cleaned in a washing machine.  You need to remove them." ) );
     } else {
         parts[p].enabled = true;
         for( auto &n : items ) {

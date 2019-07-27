@@ -225,8 +225,8 @@
       "place_item": [
         { "item": "rock", "repeat": 1, "x": 9, "y": 15 },
         { "item": "pine_bough", "repeat": 1, "x": 9, "y": 21 },
-        { "item": "glass_shard", "repeat": [ 5, 10 ], "x": 10, "y": 22 },
-        { "item": "glass_shard", "repeat": [ 5, 10 ], "x": 11, "y": [ 21, 23 ] }
+        { "item": "glass_shard", "repeat": [ 42, 84 ], "x": 10, "y": 22 },
+        { "item": "glass_shard", "repeat": [ 42, 84 ], "x": 11, "y": [ 21, 23 ] }
       ],
       "place_monster": [ { "monster": "mon_coyote", "x": 8, "y": 16 }, { "monster": "mon_coyote", "x": 9, "y": 17 } ],
       "place_monsters": [ { "monster": "GROUP_BEARS", "x": 8, "y": 20 } ]
