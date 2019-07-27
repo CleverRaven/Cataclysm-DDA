@@ -13,7 +13,7 @@
 #include <algorithm>
 #endif
 
-struct tripoint;
+#include "point.h"
 
 namespace cata
 {
@@ -87,7 +87,7 @@ struct input_event {
     // triggers this event. For single-key
     // events, simply make this of size 1.
 
-    int mouse_x, mouse_y;       // Mouse click co-ordinates, if applicable
+    point mouse_pos;       // Mouse click co-ordinates, if applicable
 
     // Actually entered text (if any), UTF-8 encoded, might be empty if
     // the input is not UTF-8 or not even text.
@@ -101,7 +101,7 @@ struct input_event {
 #endif
 
     input_event() {
-        mouse_x = mouse_y = 0;
+        mouse_pos = point_zero;
         type = CATA_INPUT_ERROR;
 #if defined(__ANDROID__)
         shortcut_last_used_action_counter = 0;
@@ -109,7 +109,7 @@ struct input_event {
     }
     input_event( int s, input_event_t t )
         : type( t ) {
-        mouse_x = mouse_y = 0;
+        mouse_pos = point_zero;
         sequence.push_back( s );
 #if defined(__ANDROID__)
         shortcut_last_used_action_counter = 0;
@@ -674,8 +674,7 @@ class input_context
     private:
         bool registered_any_input;
         std::string category; // The input category this context uses.
-        int coordinate_x;
-        int coordinate_y;
+        point coordinate;
         bool coordinate_input_received;
         bool handling_coordinate_input;
         input_event next_action;

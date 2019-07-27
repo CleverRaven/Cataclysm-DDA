@@ -33,6 +33,12 @@ struct point {
         y -= rhs.y;
         return *this;
     }
+    constexpr point operator*( const int rhs ) const {
+        return point( x * rhs, y * rhs );
+    }
+    constexpr point operator/( const int rhs ) const {
+        return point( x / rhs, y / rhs );
+    }
 
     /**
      * Rotate point clockwise @param turns times, 90 degrees per turn,
