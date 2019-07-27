@@ -119,7 +119,7 @@
       "items": [ { "item": "leather_tarp", "count": [ 1, 1 ] } ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 0.85, "mass": 100000, "volume": "500L" }
+    "workbench": { "multiplier": 0.85, "mass": 500000, "volume": "500L" }
   },
   {
     "type": "furniture",
@@ -141,7 +141,7 @@
       "items": [ { "item": "plastic_sheet", "count": 1 } ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 0.85, "mass": 100000, "volume": "500L" }
+    "workbench": { "multiplier": 0.85, "mass": 500000, "volume": "500L" }
   },
   {
     "type": "furniture",
@@ -163,7 +163,7 @@
       "items": [ { "item": "fiber_mat", "count": [ 1, 1 ] } ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 0.85, "mass": 100000, "volume": "500L" }
+    "workbench": { "multiplier": 0.85, "mass": 500000, "volume": "500L" }
   },
   {
     "type": "furniture",
