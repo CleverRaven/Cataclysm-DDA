@@ -72,7 +72,7 @@
     "price": 7500,
     "to_hit": -4,
     "bashing": 8,
-    "material": [ "plastic", "steel" ],
+    "material": [ "plastic", "steel", "zinc" ],
     "color": "dark_gray",
     "ammo": "380",
     "dispersion": 480,
