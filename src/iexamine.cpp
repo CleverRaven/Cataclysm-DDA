@@ -5204,6 +5204,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
 {
     std::vector<item_location> crafts;
     std::string name;
+    bool is_undeployable = false;
 
     bool items_at_loc = false;
 
@@ -5218,6 +5219,9 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
         }
     } else {
         name = g->m.furn( examp ).obj().name();
+        if( item::type_is_defined( g->m.furn( examp ).obj().deployed_item ) ) {
+            is_undeployable = true;
+        }
 
         auto items_at_furn = g->m.i_at( examp );
         items_at_loc = !items_at_furn.empty();
@@ -5236,7 +5240,8 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
         repeat_craft,
         start_long_craft,
         work_on_craft,
-        get_items
+        get_items,
+        undeploy
     };
 
     amenu.text = string_format( pgettext( "furniture", "What to do at the %s?" ), name );
@@ -5246,6 +5251,10 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
     amenu.addentry( work_on_craft,    !crafts.empty(), '4', _( "Work on craft" ) );
     if( !part ) {
         amenu.addentry( get_items,    items_at_loc,    'g', _( "Get items" ) );
+    }
+    if( is_undeployable ) {
+        amenu.addentry( undeploy,     true,            't', string_format( _( "Take down the %s" ),
+                        name ) );
     }
 
     amenu.query();
@@ -5316,6 +5325,10 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
         }
         case get_items: {
             Pickup::pick_up( examp, 0 );
+            break;
+        }
+        case undeploy: {
+            deployed_furniture( p, examp );
             break;
         }
     }
