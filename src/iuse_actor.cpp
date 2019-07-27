@@ -2669,18 +2669,16 @@ int bandolier_actor::use( player &p, item &it, bool, const tripoint & ) const
 
 units::volume bandolier_actor::max_stored_volume() const
 {
-    // This is relevant only for bandoliers with the non-rigid flag.  There are
-    // no such items in the base game at time of writing, but I created some to
-    // test this and it does seem to work as expected.
+    // This is relevant only for bandoliers with the non-rigid flag
 
     // Find all valid ammo
     auto ammo_types = Item_factory::find( [&]( const itype & t ) {
         return is_valid_ammo_type( t );
     } );
-    // Figure out which has the greateset volume and calculate on that basis
+    // Figure out which has the greatest volume and calculate on that basis
     units::volume max_ammo_volume{};
     for( const auto *ammo_type : ammo_types ) {
-        max_ammo_volume = std::max( max_ammo_volume, ammo_type->volume );
+        max_ammo_volume = std::max( max_ammo_volume, ammo_type->volume / ammo_type->stack_size );
     }
     return max_ammo_volume * capacity;
 }
