@@ -1028,7 +1028,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         tilecontext->draw(
             win->x * fontwidth,
             win->y * fontheight,
-            tripoint( g->ter_view_x, g->ter_view_y, g->ter_view_z ),
+            g->ter_view_p,
             TERRAIN_WINDOW_TERM_WIDTH * font->fontwidth,
             TERRAIN_WINDOW_TERM_HEIGHT * font->fontheight,
             overlay_strings,
@@ -1153,7 +1153,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         clear_window_area( w );
         tilecontext->draw_minimap(
             win->x * fontwidth, win->y * fontheight,
-            tripoint( g->u.pos().x, g->u.pos().y, g->ter_view_z ),
+            tripoint( g->u.pos().xy(), g->ter_view_p.z ),
             win->width * font->fontwidth, win->height * font->fontheight );
         update = true;
 
@@ -3651,11 +3651,9 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         return cata::nullopt;
     }
 
-    int view_offset_x = 0;
-    int view_offset_y = 0;
+    point view_offset;
     if( capture_win == g->w_terrain ) {
-        view_offset_x = g->ter_view_x;
-        view_offset_y = g->ter_view_y;
+        view_offset = g->ter_view_p.xy();
     }
 
     int x, y;
@@ -3666,14 +3664,14 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
                                       ( win_bottom - win_top ) / 2 + win_top ) / ( fw / 4 ) );
         const int selected_x = ( screen_column - screen_row ) / 2;
         const int selected_y = ( screen_row + screen_column ) / 2;
-        x = view_offset_x + selected_x;
-        y = view_offset_y + selected_y;
+        x = view_offset.x + selected_x;
+        y = view_offset.y + selected_y;
     } else {
         const int selected_column = ( coordinate_x - win_left ) / fw;
         const int selected_row = ( coordinate_y - win_top ) / fh;
 
-        x = view_offset_x + selected_column - capture_win->width / 2;
-        y = view_offset_y + selected_row - capture_win->height / 2;
+        x = view_offset.x + selected_column - capture_win->width / 2;
+        y = view_offset.y + selected_row - capture_win->height / 2;
     }
 
     return tripoint( x, y, g->get_levz() );

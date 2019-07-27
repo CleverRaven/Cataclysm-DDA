@@ -914,9 +914,7 @@ class game
         std::vector<monster> coming_to_stairs;
         int monstairz;
 
-        int ter_view_x;
-        int ter_view_y;
-        int ter_view_z;
+        tripoint ter_view_p;
         catacurses::window w_terrain;
         catacurses::window w_overmap;
         catacurses::window w_omlegend;

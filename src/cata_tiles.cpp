@@ -1269,8 +1269,8 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     } else if( g->u.view_offset != tripoint_zero && !g->u.in_vehicle ) {
         // check to see if player is located at ter
         draw_from_id_string( "cursor", C_NONE, empty_string,
-        {g->ter_view_x, g->ter_view_y, center.z}, 0, 0, LL_LIT,
-        false );
+                             tripoint( g->ter_view_p.xy(), center.z ), 0, 0, LL_LIT,
+                             false );
     }
     if( g->u.controlling_vehicle ) {
         if( cata::optional<tripoint> indicator_offset = g->get_veh_dir_indicator_location( true ) ) {
