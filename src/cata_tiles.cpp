@@ -629,8 +629,8 @@ void tileset_loader::load_internal( JsonObject &config, const std::string &tiles
             sprite_width = tile_part_def.get_int( "sprite_width", ts.tile_width );
             sprite_height = tile_part_def.get_int( "sprite_height", ts.tile_height );
             // Now load the tile definitions for the loaded tileset image.
-            sprite_offset_x = tile_part_def.get_int( "sprite_offset_x", 0 );
-            sprite_offset_y = tile_part_def.get_int( "sprite_offset_y", 0 );
+            sprite_offset.x = tile_part_def.get_int( "sprite_offset_x", 0 );
+            sprite_offset.y = tile_part_def.get_int( "sprite_offset_y", 0 );
             // First load the tileset image to get the number of available tiles.
             dbg( D_INFO ) << "Attempting to Load Tileset file " << tileset_image_path;
             load_tileset( tileset_image_path );
@@ -645,8 +645,7 @@ void tileset_loader::load_internal( JsonObject &config, const std::string &tiles
     } else {
         sprite_width = ts.tile_width;
         sprite_height = ts.tile_height;
-        sprite_offset_x = 0;
-        sprite_offset_y = 0;
+        sprite_offset = point_zero;
         R = -1;
         G = -1;
         B = -1;
@@ -768,8 +767,7 @@ void tileset_loader::load_ascii_set( JsonObject &entry )
         }
         const std::string id = get_ascii_tile_id( ascii_char, FG, -1 );
         tile_type curr_tile;
-        curr_tile.offset.x = sprite_offset_x;
-        curr_tile.offset.y = sprite_offset_y;
+        curr_tile.offset = sprite_offset;
         auto &sprites = *( curr_tile.fg.add( std::vector<int>( {index_in_image + offset} ), 1 ) );
         switch( ascii_char ) {
             // box bottom/top side (horizontal line)
@@ -849,8 +847,7 @@ void tileset_loader::load_tilejson_from_file( JsonObject &config )
         }
         for( const std::string &t_id : ids ) {
             tile_type &curr_tile = load_tile( entry, t_id );
-            curr_tile.offset.x = sprite_offset_x;
-            curr_tile.offset.y = sprite_offset_y;
+            curr_tile.offset = sprite_offset;
             bool t_multi = entry.get_bool( "multitile", false );
             bool t_rota = entry.get_bool( "rotates", t_multi );
             int t_h3d = entry.get_int( "height_3d", 0 );
@@ -862,8 +859,7 @@ void tileset_loader::load_tilejson_from_file( JsonObject &config )
                     const std::string s_id = subentry.get_string( "id" );
                     const std::string m_id = t_id + "_" + s_id;
                     tile_type &curr_subtile = load_tile( subentry, m_id );
-                    curr_subtile.offset.x = sprite_offset_x;
-                    curr_subtile.offset.y = sprite_offset_y;
+                    curr_subtile.offset = sprite_offset;
                     curr_subtile.rotates = true;
                     curr_subtile.height_3d = t_h3d;
                     curr_tile.available_subtiles.push_back( s_id );

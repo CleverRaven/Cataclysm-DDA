@@ -159,8 +159,7 @@ class tileset_loader
         tileset &ts;
         const SDL_Renderer_Ptr &renderer;
 
-        int sprite_offset_x;
-        int sprite_offset_y;
+        point sprite_offset;
 
         int sprite_width;
         int sprite_height;
