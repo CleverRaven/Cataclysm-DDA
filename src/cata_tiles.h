@@ -485,8 +485,6 @@ class cata_tiles
         point op = point_zero;
 
     private:
-        int last_pos_x = 0;
-        int last_pos_y = 0;
         /**
          * Tracks active night vision goggle status for each draw call.
          * Allows usage of night vision tilesets during sprite rendering.
