@@ -186,7 +186,7 @@
     "id": "hurt_all",
     "type": "SPELL",
     "name": "Hurt",
-    "description": "Waves of energie flow from around you and hurt all monsters around you.",
+    "description": "Waves of energy flow from around you and hurt all monsters around you.",
     "valid_targets": [ "hostile" ],
     "min_damage": 0,
     "max_damage": 5,
