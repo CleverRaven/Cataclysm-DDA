@@ -1273,15 +1273,13 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         return cata::nullopt;
     }
 
-    int view_offset_x = 0;
-    int view_offset_y = 0;
+    point view_offset = point_zero;
     if( capture_win == g->w_terrain ) {
-        view_offset_x = g->ter_view_x;
-        view_offset_y = g->ter_view_y;
+        view_offset = g->ter_view_p.xy();
     }
 
-    const int x = view_offset_x - ( ( view_columns / 2 ) - coordinate_x );
-    const int y = view_offset_y - ( ( view_rows / 2 ) - coordinate_y );
+    const int x = view_offset.x - ( ( view_columns / 2 ) - coordinate_x );
+    const int y = view_offset.y - ( ( view_rows / 2 ) - coordinate_y );
 
     return tripoint( x, y, g->get_levz() );
 }
