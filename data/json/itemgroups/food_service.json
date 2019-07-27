@@ -849,7 +849,7 @@
       [ "flyer", 15 ],
       [ "mag_news", 15 ],
       [ "news_regional", 15 ],
-      [ "glass_shard", 30 ],
+      { "item": "glass_shard", "prob": 30, "count": [ 1, 8 ] },
       [ "jug_plastic", 25 ],
       [ "fetus", 1 ]
     ]

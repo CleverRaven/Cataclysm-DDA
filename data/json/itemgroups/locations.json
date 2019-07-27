@@ -1212,7 +1212,7 @@
     "id": "oa_ig_rd_glass_trash",
     "//": "for ws_regional_dump",
     "items": [
-      { "item": "glass_shard", "prob": 100, "count-min": 1, "count-max": 20 },
+      { "item": "glass_shard", "prob": 100, "count-min": 8, "count-max": 168 },
       [ "bottle_glass", 30 ],
       [ "jar_glass", 20 ],
       [ "jar_3l_glass", 10 ]

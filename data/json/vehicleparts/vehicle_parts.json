@@ -614,7 +614,7 @@
     "difficulty": 1,
     "location": "center",
     "flags": [ "OVER", "WINDSHIELD", "OBSTACLE", "WINDOW" ],
-    "breaks_into": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
+    "breaks_into": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
   },
   {
     "type": "vehicle_part",
@@ -1981,7 +1981,7 @@
     "difficulty": 4,
     "location": "center",
     "flags": [ "WINDSHIELD", "OBSTACLE", "WINDOW" ],
-    "breaks_into": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "wire", "count": [ 4, 8 ] } ]
+    "breaks_into": [ { "item": "glass_shard", "count": [ 25, 50 ] }, { "item": "wire", "count": [ 4, 8 ] } ]
   },
   {
     "type": "vehicle_part",
@@ -2237,7 +2237,7 @@
     },
     "location": "structure",
     "flags": [ "VISION", "PROTRUSION", "UNMOUNT_ON_DAMAGE", "FOLDABLE" ],
-    "breaks_into": [ { "item": "glass_shard", "count": [ 0, 2 ] } ]
+    "breaks_into": [ { "item": "glass_shard", "count": [ 0, 16 ] } ]
   },
   {
     "type": "vehicle_part",
@@ -2259,7 +2259,7 @@
     },
     "location": "on_windshield",
     "flags": [ "VISION", "FOLDABLE" ],
-    "breaks_into": [ { "item": "glass_shard", "count": [ 0, 2 ] } ]
+    "breaks_into": [ { "item": "glass_shard", "count": [ 0, 16 ] } ]
   },
   {
     "type": "vehicle_part",

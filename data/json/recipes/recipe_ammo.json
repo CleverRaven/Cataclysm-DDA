@@ -81,7 +81,7 @@
     "autolearn": true,
     "book_learn": [ [ "glassblowing_book", 5 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
-    "components": [ [ [ "glass_shard", 2 ] ] ]
+    "components": [ [ [ "glass_shard", 8 ] ] ]
   },
   {
     "type": "recipe",
