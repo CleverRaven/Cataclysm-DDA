@@ -83,10 +83,12 @@
 #include "clzones.h"
 #include "faction.h"
 #include "magic.h"
+#include "clothing_mod.h"
 
 class npc_class;
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
+static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
 
 const skill_id skill_survival( "survival" );
 const skill_id skill_melee( "melee" );
@@ -3295,8 +3297,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             ret << string_format( "+%d", amt );
         }
         maintext = ret.str();
-    } else if( is_armor() && item_tags.count( "wooled" ) + item_tags.count( "furred" ) +
-               item_tags.count( "leather_padded" ) + item_tags.count( "kevlar_padded" ) > 0 ) {
+    } else if( is_armor() && has_clothing_mod() ) {
         ret.str( "" );
         ret << label( quantity );
         ret << "+1";
@@ -4297,8 +4298,11 @@ units::volume item::get_storage() const
     if( t == nullptr ) {
         return is_pet_armor() ? type->pet_armor->storage : 0_ml;
     }
+    units::volume storage = t->storage;
+    float mod = get_clothing_mod_val( clothing_mod_type_storage );
+    storage += lround( mod ) * units::legacy_volume_factor;
 
-    return t->storage;
+    return storage;
 }
 
 int item::get_env_resist( int override_base_resist ) const
@@ -4379,21 +4383,7 @@ int item::get_encumber_when_containing(
             break;
     }
 
-    const int thickness = get_thickness();
-    const int coverage = get_coverage();
-    if( item_tags.count( "wooled" ) ) {
-        encumber += 1 + 3 * coverage / 100;
-    }
-    if( item_tags.count( "furred" ) ) {
-        encumber += 1 + 4 * coverage / 100;
-    }
-
-    if( item_tags.count( "leather_padded" ) ) {
-        encumber += ceil( 2 * thickness * coverage / 100.0f );
-    }
-    if( item_tags.count( "kevlar_padded" ) ) {
-        encumber += ceil( 2 * thickness * coverage / 100.0f );
-    }
+    encumber += static_cast<int>( std::ceil( get_clothing_mod_val( clothing_mod_type_encumbrance ) ) );
 
     return encumber;
 }
@@ -4439,23 +4429,15 @@ int item::get_thickness() const
 
 int item::get_warmth() const
 {
-    int fur_lined = 0;
-    int wool_lined = 0;
     const auto t = find_armor_data();
     if( t == nullptr ) {
         return 0;
     }
     int result = t->warmth;
 
-    if( item_tags.count( "furred" ) > 0 ) {
-        fur_lined = 35 * get_coverage() / 100;
-    }
+    result += get_clothing_mod_val( clothing_mod_type_warmth );
 
-    if( item_tags.count( "wooled" ) > 0 ) {
-        wool_lined = 20 * get_coverage() / 100;
-    }
-
-    return result + fur_lined + wool_lined;
+    return result;
 }
 
 units::volume item::get_pet_armor_max_vol() const
@@ -4567,9 +4549,8 @@ int item::bash_resist( bool to_self ) const
         return 0;
     }
 
-    const int base_thickness = get_thickness();
     float resist = 0;
-    float padding = 0;
+    float mod = get_clothing_mod_val( clothing_mod_type_bash );
     int eff_thickness = 1;
 
     // Armor gets an additional multiplier.
@@ -4579,12 +4560,6 @@ int item::bash_resist( bool to_self ) const
         const int dmg = damage_level( 4 );
         const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
         eff_thickness = std::max( 1, get_thickness() - eff_damage );
-    }
-    if( item_tags.count( "leather_padded" ) > 0 ) {
-        padding += base_thickness;
-    }
-    if( item_tags.count( "kevlar_padded" ) > 0 ) {
-        padding += base_thickness;
     }
 
     const std::vector<const material_type *> mat_types = made_of_types();
@@ -4596,7 +4571,7 @@ int item::bash_resist( bool to_self ) const
         resist /= mat_types.size();
     }
 
-    return lround( ( resist * eff_thickness ) + padding );
+    return lround( ( resist * eff_thickness ) + mod );
 }
 
 int item::cut_resist( bool to_self ) const
@@ -4607,7 +4582,7 @@ int item::cut_resist( bool to_self ) const
 
     const int base_thickness = get_thickness();
     float resist = 0;
-    float padding = 0;
+    float mod = get_clothing_mod_val( clothing_mod_type_cut );
     int eff_thickness = 1;
 
     // Armor gets an additional multiplier.
@@ -4617,12 +4592,6 @@ int item::cut_resist( bool to_self ) const
         const int dmg = damage_level( 4 );
         const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
         eff_thickness = std::max( 1, base_thickness - eff_damage );
-    }
-    if( item_tags.count( "leather_padded" ) > 0 ) {
-        padding += base_thickness;
-    }
-    if( item_tags.count( "kevlar_padded" ) > 0 ) {
-        padding += base_thickness * 2;
     }
 
     const std::vector<const material_type *> mat_types = made_of_types();
@@ -4634,7 +4603,7 @@ int item::cut_resist( bool to_self ) const
         resist /= mat_types.size();
     }
 
-    return lround( ( resist * eff_thickness ) + padding );
+    return lround( ( resist * eff_thickness ) + mod );
 }
 
 #if defined(_MSC_VER)
@@ -4655,6 +4624,7 @@ int item::acid_resist( bool to_self, int base_env_resist ) const
     }
 
     float resist = 0.0;
+    float mod = get_clothing_mod_val( clothing_mod_type_acid );
     if( is_null() ) {
         return 0.0;
     }
@@ -4677,7 +4647,7 @@ int item::acid_resist( bool to_self, int base_env_resist ) const
         resist *= env / 10.0f;
     }
 
-    return lround( resist );
+    return lround( resist + mod );
 }
 
 int item::fire_resist( bool to_self, int base_env_resist ) const
@@ -4688,6 +4658,7 @@ int item::fire_resist( bool to_self, int base_env_resist ) const
     }
 
     float resist = 0.0;
+    float mod = get_clothing_mod_val( clothing_mod_type_fire );
     if( is_null() ) {
         return 0.0;
     }
@@ -4707,7 +4678,7 @@ int item::fire_resist( bool to_self, int base_env_resist ) const
         resist *= env / 10.0f;
     }
 
-    return lround( resist );
+    return lround( resist + mod );
 }
 
 int item::chip_resistance( bool worst ) const
@@ -8757,5 +8728,37 @@ const cata::optional<islot_comestible> &item::get_comestible() const
         return find_type( making->result() )->comestible;
     } else {
         return type->comestible;
+    }
+}
+
+bool item::has_clothing_mod() const
+{
+    for( auto &cm : clothing_mods::get_all() ) {
+        if( item_tags.count( cm.flag ) > 0 ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+float item::get_clothing_mod_val( clothing_mod_type type ) const
+{
+    const std::string key = CLOTHING_MOD_VAR_PREFIX + clothing_mods::string_from_clothing_mod_type(
+                                type );
+    return get_var( key, 0.0 );
+}
+
+void item::update_clothing_mod_val()
+{
+    for( auto type : clothing_mods::all_clothing_mod_types ) {
+        const std::string key = CLOTHING_MOD_VAR_PREFIX + clothing_mods::string_from_clothing_mod_type(
+                                    type );
+        float tmp = 0.0;
+        for( auto cm : clothing_mods::get_all_with( type ) ) {
+            if( item_tags.count( cm.flag ) > 0 ) {
+                tmp += cm.get_mod_val( type, *this );
+            }
+        }
+        set_var( key, tmp );
     }
 }

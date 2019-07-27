@@ -69,7 +69,6 @@ class iuse
         int feedcattle( player *, item *, bool, const tripoint & );
         int feedbird( player *, item *, bool, const tripoint & );
         // TOOLS
-        int sew_advanced( player *, item *, bool, const tripoint & );
         int extinguisher( player *, item *, bool, const tripoint & );
         int hammer( player *, item *, bool, const tripoint & );
         int water_purifier( player *, item *, bool, const tripoint & );

@@ -213,6 +213,10 @@ def extract_bodypart(item):
     if "hp_bar_ui_text" in item:
         writestr(outfile, item["hp_bar_ui_text"])
 
+def extract_clothing_mod(item):
+    outfile = get_outfile("clothing_mod")
+    writestr(outfile, item["implement_prompt"])
+    writestr(outfile, item["destroy_prompt"])
 
 def extract_construction(item):
     outfile = get_outfile("construction")
@@ -685,6 +689,7 @@ def extract_gate(item):
 extract_specials = {
     "harvest" : extract_harvest,
     "body_part": extract_bodypart,
+    "clothing_mod": extract_clothing_mod,
     "construction": extract_construction,
     "effect_type": extract_effect_type,
     "GUN": extract_gun,

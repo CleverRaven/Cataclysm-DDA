@@ -737,7 +737,6 @@ void Item_factory::init()
     add_iuse( "ROYAL_JELLY", &iuse::royal_jelly );
     add_iuse( "SEED", &iuse::seed );
     add_iuse( "SEWAGE", &iuse::sewage );
-    add_iuse( "SEW_ADVANCED", &iuse::sew_advanced );
     add_iuse( "SHAVEKIT", &iuse::shavekit );
     add_iuse( "SHOCKTONFA_OFF", &iuse::shocktonfa_off );
     add_iuse( "SHOCKTONFA_ON", &iuse::shocktonfa_on );
@@ -810,6 +809,7 @@ void Item_factory::init()
     add_actor( new learn_spell_actor() );
     add_actor( new cast_spell_actor() );
     add_actor( new weigh_self_actor() );
+    add_actor( new sew_advanced_actor() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups["EMPTY_GROUP"].reset( new Item_group( Item_group::G_COLLECTION, 100, 0, 0 ) );

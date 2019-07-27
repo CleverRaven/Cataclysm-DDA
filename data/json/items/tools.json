@@ -5696,7 +5696,12 @@
         "cost_scaling": 0.1,
         "move_cost": 800
       },
-      "SEW_ADVANCED"
+      {
+        "type": "sew_advanced",
+        "materials": [ "cotton", "leather", "fur", "nomex", "plastic", "kevlar", "wool" ],
+        "skill": "tailor",
+        "clothing_mods": [ "leather_padded", "kevlar_padded", "furred", "wooled" ]
+      }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
