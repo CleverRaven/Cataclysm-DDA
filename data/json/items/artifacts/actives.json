@@ -279,9 +279,11 @@
     "type": "SPELL",
     "name": "Teleglow",
     "description": "You feel unhinged.",
+    "msg_type": "m_warning",
     "valid_targets": [ "self" ],
     "flags": [ "PLAYER_MSG" ],
-    "effect": "teleglow",
+    "effect": "target_attack",
+    "effect_str": "effect_teleglow",
     "min_duration": 180000,
     "max_duration": 720000,
     "duration_rng_mod": 540000,
@@ -295,7 +297,7 @@
     "valid_targets": [ "self" ],
     "effect": "noise",
     "base_energy_cost": -2,
-    "min_damage": 100
+    "sound": { "msg":"a deafening boom from ", "vol":100, "type":"combat", "id":"misc", "var":"shockwave", "emitted":true }
   },
   {
     "id": "scream",
@@ -303,9 +305,11 @@
     "name": "Scream",
     "description": "A terrifiyng scream.",
     "valid_targets": [ "self" ],
-    "effect": "scream",
+    "effect": "noise",
     "base_energy_cost": -2,
-    "min_damage": 40
+    "min_damage": 40,
+    "sound": { "msg":"a disturbing scream from ", "vol":40, "type":"alert", "id":"shout", "var":"scream", "emitted":true },
+    "morale": { "senses": { "hear" }, "type":"MORALE_SCREAM", "bonus":-10, "duration":180000, "decay":6000 }
   },
   {
     "id": "dim",
@@ -356,9 +360,12 @@
     "id": "fun",
     "type": "SPELL",
     "name": "Fun",
-    "description": "",
+    "description": "You're filled with euphoria!",
+    "msg_type": "m_good",
     "valid_targets": [ "self" ],
-    "effect": "fun",
-    "base_energy_cost": 2
+    "flags": [ "PLAYER_MSG" ],
+    "effect": "pass",
+    "base_energy_cost": 2,
+    "morale": { "senses": { "n/a" }, "type":"MORALE_FEELING_GOOD", "bonus":20, "bonus_rng_mod":30, "duration":30000, "decay":500 }
   }
 ]

@@ -610,13 +610,9 @@ void spell_effect::bugs( const spell &sp, const Creature &caster, const tripoint
     int roll = rng( 1, 10 );
     mtype_id bug = mtype_id::NULL_ID();
     int num = 0;
-    std::vector<tripoint> empty;
-    for( const tripoint &dest : g->m.points_in_radius( target, sp.aoe() ) ) {
-        if( g->is_empty( dest ) ) {
-            empty.push_back( dest );
-        }
-    }
-    if( empty.empty() || roll <= 4 ) {
+    std::set<tripoint> targets = spell_effect_area( sp, target, spell_effect_blast, caster,
+                    sp.has_flag( spell_flag::IGNORE_WALLS ) );
+    if( targets.empty() || roll <= 4 ) {
         caster.add_msg_if_player( m_warning, _( "Flies buzz around you." ) );
     } else if( roll <= 7 ) {
         caster.add_msg_if_player( m_warning, _( "Giant flies appear!" ) );
@@ -632,8 +628,8 @@ void spell_effect::bugs( const spell &sp, const Creature &caster, const tripoint
         num = rng( 1, 2 );
     }
     if( bug ) {
-        for( int j = 0; j < num && !empty.empty(); j++ ) {
-            const tripoint spawnp = random_entry_removed( empty );
+        for( int j = 0; j < num && !targets.empty(); j++ ) {
+            const tripoint spawnp = random_entry_removed( targets );
             if( monster *const b = g->summon_mon( bug, spawnp ) ) {
                 b->friendly = -1;
                 b->add_effect( static_cast<efftype_id>( "pet" ), 1_turns, num_bp, true );
@@ -642,11 +638,11 @@ void spell_effect::bugs( const spell &sp, const Creature &caster, const tripoint
     }
 }
 
-void spell_effect::light( const spell &sp, const Creature &caster )
+/*void spell_effect::light( const spell &sp, const Creature &caster )
 {
     caster.add_msg_if_player( _( "The %s glows brightly!" ), sp.get_obj_name() );
     g->events.add( EVENT_ARTIFACT_LIGHT, calendar::turn + 3_minutes );
-}
+}*/
 
 void spell_effect::growth( const tripoint &target )
 {
@@ -659,31 +655,6 @@ void spell_effect::mutate( const Creature &caster )
     player *p = g->critter_at<player>( caster.pos() );
     if( !one_in( 3 ) ) {
         p->mutate();
-    }
-}
-
-void spell_effect::teleglow( const Creature &caster )
-{
-    player *p = g->critter_at<player>( caster.pos() );
-    p->add_msg_if_player( m_warning, _( "You feel unhinged." ) );
-    p->add_effect( efftype_id( "effect_teleglow" ), rng( 30_minutes, 120_minutes ) );
-}
-
-void spell_effect::noise( const spell &sp, const Creature &caster, const tripoint &target )
-{
-    sounds::sound( target, sp.damage(), sounds::sound_t::combat,
-                   string_format( _( "a deafening boom from %s %s" ),
-                                  caster.disp_name( true ), sp.get_obj_name() ), true, "misc", "shockwave" );
-}
-
-void spell_effect::scream( const spell &sp, const Creature &caster, const tripoint &target )
-{
-    player *p = g->critter_at<player>( caster.pos() );
-    sounds::sound( target, sp.damage(), sounds::sound_t::alert,
-                   string_format( _( "a disturbing scream from %s %s" ),
-                                  p->disp_name( true ), sp.get_obj_name() ), true, "shout", "scream" );
-    if( !p->is_deaf() ) {
-        p->add_morale( MORALE_SCREAM, -10, 0, 30_minutes, 1_minutes );
     }
 }
 
@@ -743,11 +714,4 @@ void spell_effect::stamina_empty( const Creature &caster )
     player *p = g->critter_at<player>( caster.pos() );
     p->add_msg_if_player( m_bad, _( "Your body feels like jelly." ) );
     p->stamina = p->stamina * 1 / ( rng( 3, 8 ) );
-}
-
-void spell_effect::fun( const Creature &caster )
-{
-    player *p = g->critter_at<player>( caster.pos() );
-    p->add_msg_if_player( m_good, _( "You're filled with euphoria!" ) );
-    p->add_morale( MORALE_FEELING_GOOD, rng( 20, 50 ), 0, 5_minutes, 5_turns, false );
 }

@@ -4259,14 +4259,13 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     }
 
     if( casting.has_flag( spell_flag::PLAYER_MSG ) ) {
-        p->add_msg_if_player( casting.desc() );
+        p->add_msg_if_player( casting.msg_type(), casting.desc() );
     }
     else if( act->get_value( 3 , 1 ) == 1 ){
         p->add_msg_if_player( _( "You cast %s!" ), casting.name() );
     }
 
     casting.cast_all_effects( *p, target );
-
     if( !no_mana ) {
         // pay the cost
         int cost = casting.energy_cost( *p );

@@ -201,12 +201,16 @@ void spell_type::load( JsonObject &jo, const std::string & )
     const auto flag_reader = enum_flags_reader<spell_flag> { "flags" };
     optional( jo, was_loaded, "flags", spell_tags, flag_reader );
 
+    std::string input;
     optional( jo, was_loaded, "effect_str", effect_str, "" );
 
-    std::string field_input;
-    optional( jo, was_loaded, "field_id", field_input, "none" );
-    if( field_input != "none" ) {
-        field = field_type_id( field_input );
+    optional( jo, was_loaded, "msg_type", input, "m_neutral" );
+    //custom_msg_type = io::string_to_enum<game_message_type>( input );
+    custom_msg_type = static_cast<game_message_type>( input );
+
+    optional( jo, was_loaded, "field_id", input, "none" );
+    if( input != "none" ) {
+        field = static_cast<field_type_id>( input );
     }
     optional( jo, was_loaded, "field_chance", field_chance, 1 );
     optional( jo, was_loaded, "field_chance_inv", field_chance_inv, false );
@@ -245,19 +249,47 @@ void spell_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "final_energy_cost", final_energy_cost, base_energy_cost );
     optional( jo, was_loaded, "energy_increment", energy_increment, 0.0f );
 
-    std::string temp_string;
-    optional( jo, was_loaded, "spell_class", temp_string, "NONE" );
-    spell_class = trait_id( temp_string );
-    optional( jo, was_loaded, "energy_source", temp_string, "NONE" );
-    energy_source = energy_source_from_string( temp_string );
-    optional( jo, was_loaded, "damage_type", temp_string, "NONE" );
-    dmg_type = damage_type_from_string( temp_string );
+    optional( jo, was_loaded, "spell_class", input, "NONE" );
+    spell_class = trait_id( input );
+    optional( jo, was_loaded, "energy_source", input, "NONE" );
+    energy_source = energy_source_from_string( input );
+    optional( jo, was_loaded, "damage_type", input, "NONE" );
+    dmg_type = damage_type_from_string( input );
     optional( jo, was_loaded, "difficulty", difficulty, 0 );
     optional( jo, was_loaded, "max_level", max_level, 0 );
 
     optional( jo, was_loaded, "base_casting_time", base_casting_time, 0 );
     optional( jo, was_loaded, "final_casting_time", final_casting_time, base_casting_time );
     optional( jo, was_loaded, "casting_time_increment", casting_time_increment, 0.0f );
+
+    s_id = ""; s_var = "default";
+    if( jo.has_object( "sound" ) ) {
+        JsonObject jobj = jo.get_object( "sound" );
+        mandatory( jobj, was_loaded, "msg", s_msg);
+        optional( jobj, was_loaded, "vol", s_vol, 0);
+        optional( jobj, was_loaded, "type", input, "combat");
+        s_type = string_id<sounds::sound_t>( input );
+        optional( jobj, was_loaded, "id", s_id);
+        optional( jobj, was_loaded, "var", s_var);
+    } else {
+        s_type = static_cast<sounds::sound_t>( "combat" );
+    }
+
+    m_senses = {};
+    if( jo.has_object( "morale_mod" ) ) {
+        JsonObject jobj = jo.get_object( "morale_mod" );
+        JsonArray jarray = jo.get_array( "senses" );
+        for( uint8_t i = 0 ; i < jarray.size(); i++ ) {
+            m_senses.emplace( jarray.get_string( i ) );
+        }
+        mandatory( jobj, was_loaded, "type", input);
+        m_type = static_cast<morale_type>( input );
+        mandatory( jobj, was_loaded, "bonus", m_bonus);
+        optional( jobj, was_loaded, "bonus_rng_mod", m_bonus_rng_mod, 0);
+        optional( jobj, was_loaded, "max_bonus", m_max_bonus, 0);
+        optional( jobj, was_loaded, "duration", m_duration, 0);
+        optional( jobj, was_loaded, "decay", m_decay, 0);
+    }
 }
 
 static bool spell_infinite_loop_check( std::set<spell_id> spell_effects, const spell_id &sp )
@@ -710,14 +742,29 @@ bool spell::create_field( const tripoint &at ) const
     return false;
 }
 
-void spell::make_sound( const tripoint &target ) const
+void spell::make_sound( const Creature &caster, const tripoint &target ) const
 {
     if( !has_flag( spell_flag::SILENT ) ) {
-        int loudness = abs( damage() ) / 3;
+        int loudness = abs( damage() ) / 3 ;
         if( has_flag( spell_flag::LOUD ) ) {
             loudness += 1 + damage() / 3;
         }
-        sounds::sound( target, loudness, sounds::sound_t::combat, _( "an explosion" ), false );
+        if( type->s_vol != 0) {
+            loudness += type->s_vol;
+        }
+        if( has_flag( spell_flag::SOUND_SOURCE ) ) {
+            const std::string msg =  type->s_msg.append( caster.disp_name( true ) )
+                .push_back( " " ).append( this->obj_name );
+        } else {
+            const std::string msg = type->s_msg.empty() ? "an explosion!" : type->s_msg;
+        }
+
+        sounds::sound( target, loudness, type->s_type,
+                msg, has_flag( spell_flag::SOUND_SOURCE ) ), type->s_id, type->s_var );
+
+        if( type->m_senses.count( "hear" ) > 0 && !caster.as_player().is_deaf() ) {
+            mod_morale( target );
+        }
     }
 }
 
@@ -941,10 +988,10 @@ bool spell::cast_spell_effect( const Creature &source, const tripoint &target ) 
     const std::string fx = effect();
     if( fx == "pain_split" ) {
         spell_effect::pain_split();
-        make_sound( source.pos() );
+        make_sound( source, source.pos() );
     } else if( fx == "move_earth" ) {
         spell_effect::move_earth( target );
-        make_sound( target );
+        make_sound( source, target );
     } else if( fx == "target_attack" ) {
         spell_effect::target_attack( *this, source, target );
     } else if( fx == "projectile_attack" ) {
@@ -955,13 +1002,13 @@ bool spell::cast_spell_effect( const Creature &source, const tripoint &target ) 
         spell_effect::line_attack( *this, source, target );
     } else if( fx == "teleport_random" ) {
         spell_effect::teleport( range(), range() + aoe() );
-        make_sound( source.pos() );
+        make_sound( source, source.pos() );
     } else if( fx == "spawn_item" ) {
         spell_effect::spawn_ethereal_item( *this );
-        make_sound( source.pos() );
+        make_sound( source, source.pos() );
     } else if( fx == "recover_energy" ) {
         spell_effect::recover_energy( *this, target );
-        make_sound( target );
+        make_sound( source, target );
     } else if( fx == "summon" ) {
         spell_effect::spawn_summoned_monster( *this, source, target );
     } else if( fx == "translocate" ) {
@@ -988,12 +1035,8 @@ bool spell::cast_spell_effect( const Creature &source, const tripoint &target ) 
         spell_effect::growth( target );
     } else if( fx == "mutate" ) {
         spell_effect::mutate( source );
-    } else if( fx == "teleglow" ) {
-        spell_effect::teleglow( source );
     } else if( fx == "noise" ) {
-        spell_effect::noise( *this, source, target );
-    } else if( fx == "scream" ) {
-        spell_effect::scream( *this, source, target );
+        make_sound( source, target );
     } else if( fx == "dim" ) {
         spell_effect::dim( source );
     } else if( fx == "flash" ) {
@@ -1006,6 +1049,7 @@ bool spell::cast_spell_effect( const Creature &source, const tripoint &target ) 
         spell_effect::stamina_empty( source );
     } else if( fx == "fun" ) {
         spell_effect::fun( source );
+    } else if( fx == "pass" ) {
     } else {
         debugmsg( "ERROR: Spell effect not defined properly." );
         return false;
@@ -1033,6 +1077,9 @@ bool spell::cast_all_effects( const Creature &source, const tripoint &target ) c
             success = success && sp.cast_all_effects( source, target );
         }
     }
+    if( type->m_senses.count( "n/a" ) > 0 ) {
+        mod_morale( target );
+    }
     return success;
 }
 
@@ -1041,14 +1088,20 @@ void spell::set_obj_name( std::string new_name )
     obj_name = new_name;
 }
 
-const char *spell::get_obj_name() const
-{
-    return obj_name.c_str();
-}
-
 std::string spell::desc() const
 {
     return type->description;
+}
+
+game_message_type spell::msg_type() const
+{
+    return type->custom_msg_type;
+}
+
+void spell::mod_morale( const tripoint &target ) {
+    player *p = g->critter_at<player>( target );
+    p->add_morale( type->m_type, type->m_bonus + rng( 0, type->m_bonus_rng_mod ),
+                type->m_max_bonus, type->m_duration, type->m_decay );
 }
 
 // player

@@ -11,9 +11,10 @@
 #include "bodypart.h"
 #include "damage.h"
 #include "enum_bitset.h"
+#include "sounds.h"
+#include "string_id.h"
 #include "type_id.h"
 #include "ui.h"
-#include "string_id.h"
 
 struct tripoint;
 class Creature;
@@ -101,6 +102,8 @@ class spell_type
         std::string effect_str;
         // list of additional "spell effects"
         std::vector<fake_spell> additional_spells;
+        // type of the custom message
+        game_message_type custom_msg_type;
 
         // if the spell has a field name defined, this is where it is
         cata::optional<field_type_id> field;
@@ -208,6 +211,23 @@ class spell_type
         enum_bitset<body_part> affected_bps;
 
         enum_bitset<spell_flag> spell_tags;
+
+        // sound related info
+        std::string s_msg;
+        int s_vol;
+        sounds::sound_t s_type;
+        std::string s_id;
+        std::string s_var;
+        bool s_emit;
+
+        // moral effect related info
+        std::set<std::string> m_senses;
+        morale_type m_type;
+        int m_bonus;
+        int m_bonus_rng_mod;
+        int m_max_bonus;
+        int m_duration;
+        int m_decay;
 
         static void load_spell( JsonObject &jo, const std::string &src );
         void load( JsonObject &jo, const std::string & );
@@ -341,10 +361,15 @@ class spell
 
         // acceess the name to the object causing related to the spell
         void set_obj_name( std::string );
-        const char *get_obj_name() const;
 
         // access to the description
         std::string desc() const;
+
+        // type of used messages
+        game_message_type msg_type() const;
+
+        // modify the players morale
+        void mod_morale( const tripoint &target );
 };
 
 class known_magic
@@ -449,15 +474,11 @@ void bugs( const spell &sp, const Creature &caster, const tripoint &target );
 void light( const spell &sp, const Creature &caster );
 void growth( const tripoint &target );
 void mutate( const Creature &caster );
-void teleglow( const Creature &caster );
-void noise( const spell &sp, const Creature &caster, const tripoint &target );
-void scream( const spell &sp, const Creature &caster, const tripoint &target );
 void dim( const Creature &caster );
 void flash( const Creature &caster, const tripoint &target );
 void vomit( const Creature &caster );
 void shadows( const Creature &caster, const tripoint &target );
 void stamina_empty( const Creature &caster );
-void fun( const Creature &caster );
 } // namespace spell_effect
 
 class spellbook_callback : public uilist_callback
