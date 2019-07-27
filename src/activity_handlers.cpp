@@ -4254,7 +4254,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     if( casting.has_flag( spell_flag::PLAYER_MSG ) ) {
         p->add_msg_if_player( casting.desc() );
     }
-    else if( act->get_value( 3 , 1) == 1 ){
+    else if( act->get_value( 3 , 1 ) == 1 ){
         p->add_msg_if_player( _( "You cast %s!" ), casting.name() );
     }
 
