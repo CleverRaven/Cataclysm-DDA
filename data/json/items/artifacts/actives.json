@@ -135,7 +135,7 @@
     "id": "entrance",
     "type": "SPELL",
     "name": "Entrance",
-    "description": "Hypnotise your enemies to make them friendly.",
+    "description": "Hypnotize your enemies to make them friendly.",
     "valid_targets": [ "self", "ground", "hostile" ],
     "effect": "entrance",
     "base_energy_cost": 3,
