@@ -1411,9 +1411,12 @@ void vehicle::use_dishwasher( int p )
         return i.has_flag( filthy );
     } );
 
-    bool soft_armor = std::any_of( items.begin(), items.end(), []( const item & i ) {
-        return i.is_soft();
-    } );
+    std::vector<const item > soft_items;
+    for( const item &it : items ) {
+        if( it.is_soft() ) {
+            soft_items.push_back( it );
+        }
+    }
 
     if( parts[p].enabled ) {
         parts[p].enabled = false;
@@ -1427,9 +1430,13 @@ void vehicle::use_dishwasher( int p )
     } else if( !filthy_items ) {
         add_msg( m_bad,
                  _( "You need to remove all non-filthy items from the dishwasher to start the washing program." ) );
-    } else if( soft_armor ) {
-        add_msg( m_bad,
-                 _( "Soft items can't be cleaned in a dishwasher, you should use a washing machine for that.  You need to remove them." ) );
+    } else if( !soft_items.empty() ) {
+        std::ostringstream buffer;
+        buffer << _( "Soft items can't be cleaned in a dishwasher, you should use a washing machine for that.  You need to remove them:" );
+        for( const item &it : soft_items ) {
+            buffer << " " << it.tname();
+        }
+        add_msg( m_bad, buffer.str() );
     } else {
         parts[p].enabled = true;
         for( auto &n : items ) {
