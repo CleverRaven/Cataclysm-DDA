@@ -76,7 +76,7 @@ void spell_effect::teleport_random( const spell &sp, Creature &caster, const tri
     }
 }
 
-void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint &target )
+void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint & )
 {
     player *p = caster.as_player();
     if( p == nullptr ) {
