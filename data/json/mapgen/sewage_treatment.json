@@ -70,7 +70,7 @@
       "h": "t_thconc_floor",
       "D": "t_thconc_floor",
       "1": "t_thconc_floor",
-	  "=": "t_rock_floor",
+      "=": "t_rock_floor",
       ">": "t_stairs_up",
       "!": "t_bars",
       "~": "t_sewage",
