@@ -2700,8 +2700,6 @@ void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const o
             draw_triffid( terrain_type, dat, when, density );
         } else if( is_ot_match( "office", terrain_type, ot_match_type::prefix ) ) {
             draw_office_tower( terrain_type, dat, when, density );
-        } else if( is_ot_match( "sewage", terrain_type, ot_match_type::prefix ) ) {
-            draw_sewer( terrain_type, dat, when, density );
         } else if( is_ot_match( "spider", terrain_type, ot_match_type::prefix ) ) {
             draw_spider_pit( terrain_type, dat, when, density );
         } else if( is_ot_match( "spiral", terrain_type, ot_match_type::prefix ) ) {
