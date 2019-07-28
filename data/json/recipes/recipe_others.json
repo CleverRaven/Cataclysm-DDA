@@ -3712,7 +3712,7 @@
   {
     "type": "recipe",
     "result": "air_curing_hide",
-    "category": "CC_OTHER", 
+    "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
     "difficulty": 1,
