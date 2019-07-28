@@ -167,6 +167,7 @@ bool player::handle_gun_damage( item &it, int shots_fired )
 
     const auto &curammo_effects = it.ammo_effects();
     const cata::optional<islot_gun> &firing = it.type->gun;
+    const std::string thistimefired = to_string_time_of_day(calendar::turn);
     // Here we check for a chance for the weapon to suffer a misfire due to
     // being dirty (blackpowder fouling effect only; typical dirt accumulation
     // from smokeless powder is not currently modeled by this effect).
@@ -176,6 +177,15 @@ bool player::handle_gun_damage( item &it, int shots_fired )
     // effects will be in force even when firing retail ammo, though the gun
     // won't get MORE foul.
 
+    // causes failure to cycle if weapon is fired too quickly:
+    if (it.last_fired == thistimefired && ( curammo_effects.count("MUZZLE_SMOKE") || curammo_effects.count("BLACKPOWDER") ) ) {
+        add_msg_player_or_npc(_("Your %s fails to cycle!"),
+            _("<npcname>'s %s fails to cycle!"),
+            it.tname());
+            // Don't increment until after the message
+        return false;
+    }
+    it.last_fired = thistimefired;
     // chance to cause malfunction, which always happens when clogged:
     if( ( it.dirt > 100 && one_in( ( ( 501 - it.dirt ) ) / 40 ) ) ||
         ( it.has_fault( fault_gun_clogged ) ) ) {
