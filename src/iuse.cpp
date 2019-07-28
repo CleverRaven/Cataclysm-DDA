@@ -8044,12 +8044,10 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
         if( Cycle_time <= 0 ) {
             it->active = false;
             it->erase_var( "CYCLETIME" );
-            item *clean_cbm = nullptr;
             for( item &bio : it->contents ) {
                 if( bio.is_bionic() ) {
                     bio.unset_flag( "NO_STERILE" );
                     bio.set_var( "sterile", 1 ); // sterile for 1s if not (packed);
-                    clean_cbm = &bio;
                 }
             }
         } else {
