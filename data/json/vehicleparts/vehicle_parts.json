@@ -829,7 +829,7 @@
     "item": "dishwasher",
     "difficulty": 3,
     "location": "center",
-    "flags": [ "CARGO", "OBSTACLE", "DISHWASHER" , "COVERED", "TOOL_WRENCH", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "CARGO", "OBSTACLE", "DISHWASHER", "COVERED", "TOOL_WRENCH", "ENABLED_DRAINS_EPOWER" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 8, 13 ] },
       { "item": "steel_chunk", "count": [ 8, 13 ] },
