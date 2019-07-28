@@ -608,6 +608,11 @@ void game::setup()
     uquit = QUIT_NO;   // We haven't quit the game
     bVMonsterLookFire = true;
 
+    // invalidate calendar caches in case we were previously playing
+    // a different world
+    calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
+    calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
+
     weather.weather = WEATHER_CLEAR; // Start with some nice weather...
     // Weather shift in 30
     // TODO: shouldn't that use calendar::start instead of INITIAL_TIME?
@@ -2674,6 +2679,12 @@ void game::load( const save_t &name )
             }
         }
     }
+
+    // populate calendar caches now, after active world is set, but before we do
+    // anything else, to ensure they pick up the correct value from the save's
+    // worldoptions
+    calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
+    calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
     u.reset();
     draw();
