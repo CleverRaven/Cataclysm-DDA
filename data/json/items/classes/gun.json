@@ -78,7 +78,7 @@
     "type": "GUN",
     "name": "revolver",
     "proportional": { "reload": 0.7 },
-    "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ] },
+    "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS", "MANUAL_ACTION" ] },
     "//": "Revolvers exclude the muzzle location preventing installation of suppressors",
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -120,6 +120,7 @@
     "type": "GUN",
     "name": "rifle with manual actions",
     "name_plural": "rifles with manual actions",
+    "extend": { "flags": [ "MANUAL_ACTION" ] },
     "//": "Manual actions exclude the magazine location preventing installation of belt-feed adaptors",
     "valid_mod_locations": [
       [ "accessories", 4 ],

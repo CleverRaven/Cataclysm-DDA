@@ -18,7 +18,7 @@
     "durability": 8,
     "barrel_length": 2,
     "magazines": [ [ "300", [ "m2010mag" ] ] ],
-    "flags": [ "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS", "MANUAL_ACTION" ]
   },
   {
     "id": "weatherby_5",

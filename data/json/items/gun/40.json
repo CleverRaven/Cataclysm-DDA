@@ -174,7 +174,7 @@
       [ "underbarrel", 1 ],
       [ "rail mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT", "MANUAL_ACTION" ]
   },
   {
     "id": "sw_610",

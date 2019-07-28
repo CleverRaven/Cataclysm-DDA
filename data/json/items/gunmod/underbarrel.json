@@ -175,7 +175,7 @@
       "durability": 10,
       "clip_size": 1
     },
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE", "MANUAL_ACTION" ]
   },
   {
     "id": "m203",

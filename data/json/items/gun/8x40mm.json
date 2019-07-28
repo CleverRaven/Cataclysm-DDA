@@ -270,6 +270,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "WATERPROOF_GUN", "RELOAD_ONE", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "RELOAD_ONE", "NEVER_JAMS", "MANUAL_ACTION" ]
   }
 ]
