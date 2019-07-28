@@ -115,8 +115,7 @@ class editmap
         std::map<std::string, editmap_hilight> hilights;
         bool blink;
         bool altblink;
-        int tmaxx;
-        int tmaxy;
+        point tmax;
         bool uberdraw;
 
         editmap();
