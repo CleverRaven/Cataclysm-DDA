@@ -180,7 +180,7 @@ bool player::handle_gun_damage( item &it, int shots_fired )
         if( !it.has_fault( fault_gun_clogged ) ) {
             it.faults.insert( fault_gun_clogged );
         }
-        if( it.faults.count( fault_gun_blackpowder ) ) {
+        if( it.has_fault( fault_gun_blackpowder ) ) {
             it.faults.erase( fault_gun_blackpowder );
         }
         add_msg_player_or_npc( _( "Your foul %s misfires with a muffled click!" ),
