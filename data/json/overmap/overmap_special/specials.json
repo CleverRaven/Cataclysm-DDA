@@ -3621,23 +3621,6 @@
   },
   {
     "type": "overmap_special",
-    "id": "campground_npc",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "campground_1a_npc_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "campground_1b_npc_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "campground_2a_npc_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "campground_2b_npc_north" },
-      { "point": [ 1, 0, 1 ], "overmap": "campground_roof_npc_north" }
-    ],
-    "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ] } ],
-    "locations": [ "forest" ],
-    "city_distance": [ 10, -1 ],
-    "city_sizes": [ 3, 12 ],
-    "occurrences": [ 3, 100 ],
-    "flags": [ "CLASSIC" ]
-  },
-  {
-    "type": "overmap_special",
     "id": "desolate barn",
     "locations": [ "land" ],
     "city_distance": [ 10, -1 ],
@@ -5398,7 +5381,7 @@
     "connections": [ { "point": [ -1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ -1, 1, 0 ] } ],
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 3, 20 ],
-    "occurrences": [ 75, 100 ],
+    "occurrences": [ 0, 0 ],
     "flags": [ "UNIQUE" ]
   }
 ]
