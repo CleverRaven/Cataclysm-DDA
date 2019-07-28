@@ -1231,5 +1231,25 @@
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "components"
+  },
+  {
+    "id": "acetylene",
+    "type": "COMESTIBLE",
+    "name": "acetylene",
+    "category": "chems",
+    "description": "A flammable gas that explodes under pressure. Combined with oxygen, acetylene makes a great welding gas.",
+    "weight": 40,
+    "volume": "250 ml",
+    "price": 1200,
+    "material": [ "hydrocarbons" ],
+    "symbol": "=",
+    "color": "red",
+    "count": 100,
+    "stack_size": 100,
+    "phase": "liquid",
+    "effects": [ "COOKOFF" ],
+    "explode_in_fire": true,
+    "explosion": { "power": 20, "shrapnel": 0 },
+    "flags": [ "NO_DROP", "IRREMOVABLE" ]
   }
 ]

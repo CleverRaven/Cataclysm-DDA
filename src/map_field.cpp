@@ -413,6 +413,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     debugmsg( "Whoooooa intensity of %d", cur.get_field_intensity() );
                 }
 
+                dirty_transparency_cache = curtype.obj().dirty_transparency_cache;
+
                 // Don't process "newborn" fields. This gives the player time to run if they need to.
                 if( cur.get_field_age() == 0_turns ) {
                     curtype = fd_null;
@@ -426,40 +428,34 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 }
                 if( curtype == fd_acid ) {
                     // Try to fall by a z-level
-                    if( !zlevels || p.z <= -OVERMAP_DEPTH ) {
-                        break;
-                    }
+                    if( zlevels && p.z > -OVERMAP_DEPTH ) {
+                        tripoint dst{ p.x, p.y, p.z - 1 };
+                        if( valid_move( p, dst, true, true ) ) {
+                            maptile dst_tile = maptile_at_internal( dst );
+                            field_entry *acid_there = dst_tile.find_field( fd_acid );
+                            if( acid_there == nullptr ) {
+                                dst_tile.add_field( fd_acid, cur.get_field_intensity(), cur.get_field_age() );
+                            } else {
+                                // Math can be a bit off,
+                                // but "boiling" falling acid can be allowed to be stronger
+                                // than acid that just lies there
+                                const int sum_intensity = cur.get_field_intensity() + acid_there->get_field_intensity();
+                                const int new_intensity = std::min( 3, sum_intensity );
+                                // No way to get precise elapsed time, let's always reset
+                                // Allow falling acid to last longer than regular acid to show it off
+                                const time_duration new_age = -1_minutes * ( sum_intensity - new_intensity );
+                                acid_there->set_field_intensity( new_intensity );
+                                acid_there->set_field_age( new_age );
+                            }
 
-                    tripoint dst{ p.x, p.y, p.z - 1 };
-                    if( valid_move( p, dst, true, true ) ) {
-                        maptile dst_tile = maptile_at_internal( dst );
-                        field_entry *acid_there = dst_tile.find_field( fd_acid );
-                        if( acid_there == nullptr ) {
-                            dst_tile.add_field( fd_acid, cur.get_field_intensity(), cur.get_field_age() );
-                        } else {
-                            // Math can be a bit off,
-                            // but "boiling" falling acid can be allowed to be stronger
-                            // than acid that just lies there
-                            const int sum_intensity = cur.get_field_intensity() + acid_there->get_field_intensity();
-                            const int new_intensity = std::min( 3, sum_intensity );
-                            // No way to get precise elapsed time, let's always reset
-                            // Allow falling acid to last longer than regular acid to show it off
-                            const time_duration new_age = -1_minutes * ( sum_intensity - new_intensity );
-                            acid_there->set_field_intensity( new_intensity );
-                            acid_there->set_field_age( new_age );
+                            // Set ourselves up for removal
+                            cur.set_field_intensity( 0 );
                         }
-
-                        // Set ourselves up for removal
-                        cur.set_field_intensity( 0 );
                     }
-
                     // TODO: Allow spreading to the sides if age < 0 && intensity == 3
                 }
-                if( curtype == fd_slime ) {
-                    sblk.apply_slime( p, cur.get_field_intensity() * 10 );
-                }
-                if( curtype == fd_plasma || curtype == fd_laser ) {
-                    dirty_transparency_cache = true;
+                if( curtype.obj().apply_slime_factor > 0 ) {
+                    sblk.apply_slime( p, cur.get_field_intensity() * curtype.obj().apply_slime_factor );
                 }
                 if( curtype == fd_fire ) {
                     // Entire objects for ter/frn for flags
@@ -940,97 +936,50 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         create_hot_air( p, cur.get_field_intensity() );
                     }
                 }
-                if( curtype == fd_smoke || curtype == fd_tear_gas ) {
-                    dirty_transparency_cache = true;
-                    spread_gas( cur, p, 10, 0_turns, sblk );
+
+                // Spread gaseous fields
+                if( cur.gas_can_spread() ) {
+                    const int gas_percent_spread = curtype.obj().percent_spread;
+                    if( gas_percent_spread > 0 ) {
+                        const time_duration outdoor_age_speedup = curtype.obj().outdoor_age_speedup;
+                        spread_gas( cur, p, gas_percent_spread, outdoor_age_speedup, sblk );
+                    }
                 }
-                if( curtype == fd_relax_gas ) {
-                    dirty_transparency_cache = true;
-                    spread_gas( cur, p, 15, 5_minutes, sblk );
-                }
+
                 if( curtype == fd_fungal_haze ) {
-                    dirty_transparency_cache = true;
-                    spread_gas( cur, p, 13, 5_turns, sblk );
                     if( one_in( 10 - 2 * cur.get_field_intensity() ) ) {
                         // Haze'd terrain
                         fungal_effects( *g, g->m ).spread_fungus( p );
                     }
                 }
-                if( curtype == fd_toxic_gas ) {
-                    dirty_transparency_cache = true;
-                    spread_gas( cur, p, 30, 3_minutes, sblk );
-                }
 
-                if( curtype == fd_cigsmoke ) {
-                    dirty_transparency_cache = true;
-                    spread_gas( cur, p, 250, 6_minutes, sblk );
-                }
-                if( curtype == fd_weedsmoke ) {
-                    dirty_transparency_cache = true;
-                    spread_gas( cur, p, 200, 6_minutes, sblk );
-
-                    if( one_in( 20 ) ) {
-                        if( npc *const np = g->critter_at<npc>( p ) ) {
-                            np->complain_about( "weed_smell", 10_minutes, "<weed_smell>" );
-                        }
-                    }
-
-                }
-
-                if( curtype == fd_methsmoke ) {
-                    dirty_transparency_cache = true;
-                    spread_gas( cur, p, 175, 7_minutes, sblk );
-                    if( one_in( 20 ) ) {
-                        if( npc *const np = g->critter_at<npc>( p ) ) {
-                            np->complain_about( "meth_smell", 30_minutes, "<meth_smell>" );
-                        }
+                // Process npc complaints
+                const std::tuple<int, std::string, time_duration, std::string> &npc_complain_data =
+                    curtype.obj().npc_complain_data;
+                const int chance = std::get<0>( npc_complain_data );
+                if( chance > 0 && one_in( chance ) ) {
+                    if( npc *const np = g->critter_at<npc>( p ) ) {
+                        np->complain_about( std::get<1>( npc_complain_data ),
+                                            std::get<2>( npc_complain_data ),
+                                            std::get<3>( npc_complain_data ) );
                     }
                 }
-                if( curtype == fd_cracksmoke ) {
-                    dirty_transparency_cache = true;
-                    spread_gas( cur, p, 175, 8_minutes, sblk );
 
-                    if( one_in( 20 ) ) {
-                        if( npc *const np = g->critter_at<npc>( p ) ) {
-                            np->complain_about( "crack_smell", 30_minutes, "<crack_smell>" );
-                        }
-                    }
-                }
-                if( curtype == fd_nuke_gas ) {
-                    dirty_transparency_cache = true;
-                    int extra_radiation = rng( 0, cur.get_field_intensity() );
+                // Apply radition
+                if( cur.extra_radiation_max() > 0 ) {
+                    int extra_radiation = rng( cur.extra_radiation_min(), cur.extra_radiation_max() );
                     adjust_radiation( p, extra_radiation );
-                    spread_gas( cur, p, 15, 1_minutes, sblk );
-                    break;
                 }
-                if( curtype == fd_cold_air1 || curtype == fd_cold_air2 ||
-                    curtype == fd_cold_air3 || curtype == fd_cold_air4 ||
-                    curtype == fd_hot_air1 || curtype == fd_hot_air2 ||
-                    curtype == fd_hot_air3 || curtype == fd_hot_air4 ) {
-                    // No transparency cache wrecking here!
-                    spread_gas( cur, p, 100, 100_minutes, sblk );
-                }
-                if( curtype == fd_gas_vent ) {
-                    dirty_transparency_cache = true;
+
+                // Apply wandering fields from vents
+                if( curtype.obj().wandering_field.is_valid() ) {
                     for( const tripoint &pnt : points_in_radius( p, cur.get_field_intensity() - 1 ) ) {
                         field &wandering_field = get_field( pnt );
-                        tmpfld = wandering_field.find_field( fd_toxic_gas );
+                        tmpfld = wandering_field.find_field( curtype.obj().wandering_field );
                         if( tmpfld && tmpfld->get_field_intensity() < cur.get_field_intensity() ) {
                             tmpfld->set_field_intensity( tmpfld->get_field_intensity() + 1 );
                         } else {
-                            add_field( pnt, fd_toxic_gas, cur.get_field_intensity() );
-                        }
-                    }
-                }
-                if( curtype == fd_smoke_vent ) {
-                    dirty_transparency_cache = true;
-                    for( const tripoint &pnt : points_in_radius( p, cur.get_field_intensity() - 1 ) ) {
-                        field &wandering_field = get_field( pnt );
-                        tmpfld = wandering_field.find_field( fd_smoke );
-                        if( tmpfld && tmpfld->get_field_intensity() < cur.get_field_intensity() ) {
-                            tmpfld->set_field_intensity( tmpfld->get_field_intensity() + 1 );
-                        } else {
-                            add_field( pnt, fd_smoke, cur.get_field_intensity() );
+                            add_field( pnt, curtype.obj().wandering_field, cur.get_field_intensity() );
                         }
                     }
                 }
@@ -1232,7 +1181,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     }
                 }
                 if( curtype == fd_bees ) {
-                    dirty_transparency_cache = true;
                     // Poor bees are vulnerable to so many other fields.
                     // TODO: maybe adjust effects based on different fields.
                     if( curfield.find_field( fd_web ) ||
@@ -1286,7 +1234,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 }
                 if( curtype == fd_incendiary ) {
                     // Needed for variable scope
-                    dirty_transparency_cache = true;
                     tripoint dst( p.x + rng( -1, 1 ), p.y + rng( -1, 1 ), p.z );
                     if( has_flag( TFLAG_FLAMMABLE, dst ) ||
                         has_flag( TFLAG_FLAMMABLE_ASH, dst ) ||
@@ -1299,7 +1246,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         add_field( dst, fd_fire, 1 );
                     }
 
-                    spread_gas( cur, p, 66, 4_minutes, sblk );
                     create_hot_air( p, cur.get_field_intensity() );
                 }
                 if( curtype == fd_rubble ) {
@@ -1307,8 +1253,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     make_rubble( p );
                 }
                 if( curtype == fd_fungicidal_gas ) {
-                    dirty_transparency_cache = true;
-                    spread_gas( cur, p, 120, 1_minutes, sblk );
                     // Check the terrain and replace it accordingly to simulate the fungus dieing off
                     const ter_t &ter = map_tile.get_ter_t();
                     const furn_t &frn = map_tile.get_furn_t();
@@ -1407,63 +1351,54 @@ void map::player_in_field( player &u )
         if( ft == fd_acid ) {
             // Assume vehicles block acid damage entirely,
             // you're certainly not standing in it.
-            if( u.in_vehicle ) {
-                break;
-            }
-
-            if( u.has_trait( trait_id( "ACIDPROOF" ) ) ) {
-                // No need for warnings
-                break;
-            }
-
-            int total_damage = 0;
-            const int intensity = cur.get_field_intensity();
-            // 1-3 at intensity, 1-4 at 2, 1-5 at 3
-            total_damage += burn_body_part( u, cur, bp_foot_l, 2 );
-            total_damage += burn_body_part( u, cur, bp_foot_r, 2 );
-            // 1 dmg at 1 intensity, 1-3 at 2, 1-5 at 3
-            total_damage += burn_body_part( u, cur, bp_leg_l, intensity - 1 );
-            total_damage += burn_body_part( u, cur, bp_leg_r, intensity - 1 );
-            const bool on_ground = u.is_on_ground();
-            if( on_ground ) {
-                // Before, it would just break the legs and leave the survivor alone
-                total_damage += burn_body_part( u, cur, bp_hand_l, 2 );
-                total_damage += burn_body_part( u, cur, bp_hand_r, 2 );
-                total_damage += burn_body_part( u, cur, bp_torso, 2 );
-                // Less arms = less ability to keep upright
-                if( ( !u.has_two_arms() && one_in( 4 ) ) || one_in( 2 ) ) {
-                    total_damage += burn_body_part( u, cur, bp_arm_l, 1 );
-                    total_damage += burn_body_part( u, cur, bp_arm_r, 1 );
-                    total_damage += burn_body_part( u, cur, bp_head, 1 );
+            if( !u.in_vehicle && !u.has_trait( trait_id( "ACIDPROOF" ) ) ) {
+                int total_damage = 0;
+                const int intensity = cur.get_field_intensity();
+                // 1-3 at intensity, 1-4 at 2, 1-5 at 3
+                total_damage += burn_body_part( u, cur, bp_foot_l, 2 );
+                total_damage += burn_body_part( u, cur, bp_foot_r, 2 );
+                // 1 dmg at 1 intensity, 1-3 at 2, 1-5 at 3
+                total_damage += burn_body_part( u, cur, bp_leg_l, intensity - 1 );
+                total_damage += burn_body_part( u, cur, bp_leg_r, intensity - 1 );
+                const bool on_ground = u.is_on_ground();
+                if( on_ground ) {
+                    // Before, it would just break the legs and leave the survivor alone
+                    total_damage += burn_body_part( u, cur, bp_hand_l, 2 );
+                    total_damage += burn_body_part( u, cur, bp_hand_r, 2 );
+                    total_damage += burn_body_part( u, cur, bp_torso, 2 );
+                    // Less arms = less ability to keep upright
+                    if( ( !u.has_two_arms() && one_in( 4 ) ) || one_in( 2 ) ) {
+                        total_damage += burn_body_part( u, cur, bp_arm_l, 1 );
+                        total_damage += burn_body_part( u, cur, bp_arm_r, 1 );
+                        total_damage += burn_body_part( u, cur, bp_head, 1 );
+                    }
                 }
-            }
 
-            if( on_ground && total_damage > 0 ) {
-                u.add_msg_player_or_npc( m_bad, _( "The acid burns your body!" ),
-                                         _( "The acid burns <npcname>s body!" ) );
-            } else if( total_damage > 0 ) {
-                u.add_msg_player_or_npc( m_bad, _( "The acid burns your legs and feet!" ),
-                                         _( "The acid burns <npcname>s legs and feet!" ) );
-            } else if( on_ground ) {
-                u.add_msg_if_player( m_warning, _( "You're lying in a pool of acid" ) );
-            } else {
-                u.add_msg_if_player( m_warning, _( "You're standing in a pool of acid" ) );
-            }
+                if( on_ground && total_damage > 0 ) {
+                    u.add_msg_player_or_npc( m_bad, _( "The acid burns your body!" ),
+                                             _( "The acid burns <npcname>s body!" ) );
+                } else if( total_damage > 0 ) {
+                    u.add_msg_player_or_npc( m_bad, _( "The acid burns your legs and feet!" ),
+                                             _( "The acid burns <npcname>s legs and feet!" ) );
+                } else if( on_ground ) {
+                    u.add_msg_if_player( m_warning, _( "You're lying in a pool of acid" ) );
+                } else {
+                    u.add_msg_if_player( m_warning, _( "You're standing in a pool of acid" ) );
+                }
 
-            u.check_dead_state();
+                u.check_dead_state();
+            }
         }
         if( ft == fd_sap ) {
             // Sap causes the player to get sap disease, slowing them down.
-            if( u.in_vehicle ) {
-                // Sap does nothing to cars.
-                break;
+            // Sap does nothing to cars.
+            if( !u.in_vehicle ) {
+                u.add_msg_player_or_npc( m_bad, _( "The sap sticks to you!" ),
+                                         _( "The sap sticks to <npcname>!" ) );
+                u.add_effect( effect_sap, cur.get_field_intensity() * 2_turns );
+                // Use up sap.
+                cur.set_field_intensity( cur.get_field_intensity() - 1 );
             }
-            u.add_msg_player_or_npc( m_bad, _( "The sap sticks to you!" ),
-                                     _( "The sap sticks to <npcname>!" ) );
-            u.add_effect( effect_sap, cur.get_field_intensity() * 2_turns );
-            // Use up sap.
-            cur.set_field_intensity( cur.get_field_intensity() - 1 );
-
         }
         if( ft == fd_sludge ) {
             // Sludge is on the ground, but you are above the ground when boarded on a vehicle
@@ -1474,87 +1409,84 @@ void map::player_in_field( player &u )
             }
         }
         if( ft == fd_fire ) {
-            if( u.has_active_bionic( bionic_id( "bio_heatsink" ) ) || u.is_wearing( "rm13_armor_on" ) ) {
-                // Heatsink or suit prevents ALL fire damage.
-                break;
-            }
-            // To modify power of a field based on... whatever is relevant for the effect.
-            int adjusted_intensity = cur.get_field_intensity();
-            // Burn the player. Less so if you are in a car or ON a car.
-            if( u.in_vehicle ) {
-                if( inside ) {
-                    adjusted_intensity -= 2;
-                } else {
-                    adjusted_intensity -= 1;
-                }
-            }
+            // Heatsink or suit prevents ALL fire damage.
+            if( !u.has_active_bionic( bionic_id( "bio_heatsink" ) ) && !u.is_wearing( "rm13_armor_on" ) ) {
 
-            if( adjusted_intensity < 1 ) {
-                break;
-            }
-            {
-                // Burn message by intensity
-                static const std::array<std::string, 4> player_burn_msg = { {
-                        translate_marker( "You burn your legs and feet!" ),
-                        translate_marker( "You're burning up!" ),
-                        translate_marker( "You're set ablaze!" ),
-                        translate_marker( "Your whole body is burning!" )
+                // To modify power of a field based on... whatever is relevant for the effect.
+                int adjusted_intensity = cur.get_field_intensity();
+                // Burn the player. Less so if you are in a car or ON a car.
+                if( u.in_vehicle ) {
+                    if( inside ) {
+                        adjusted_intensity -= 2;
+                    } else {
+                        adjusted_intensity -= 1;
                     }
-                };
-                static const std::array<std::string, 4> npc_burn_msg = { {
-                        translate_marker( "<npcname> burns their legs and feet!" ),
-                        translate_marker( "<npcname> is burning up!" ),
-                        translate_marker( "<npcname> is set ablaze!" ),
-                        translate_marker( "<npcname>s whole body is burning!" )
-                    }
-                };
-                static const std::array<std::string, 4> player_warn_msg = { {
-                        translate_marker( "You're standing in a fire!" ),
-                        translate_marker( "You're waist-deep in a fire!" ),
-                        translate_marker( "You're surrounded by raging fire!" ),
-                        translate_marker( "You're lying in fire!" )
-                    }
-                };
-
-                const int burn_min = adjusted_intensity;
-                const int burn_max = 3 * adjusted_intensity + 3;
-                std::list<body_part> parts_burned;
-                int msg_num = adjusted_intensity - 1;
-                if( !u.is_on_ground() ) {
-                    switch( adjusted_intensity ) {
-                        case 3:
-                            parts_burned.push_back( bp_hand_l );
-                            parts_burned.push_back( bp_hand_r );
-                            parts_burned.push_back( bp_arm_l );
-                            parts_burned.push_back( bp_arm_r );
-                        /* fallthrough */
-                        case 2:
-                            parts_burned.push_back( bp_torso );
-                        /* fallthrough */
-                        case 1:
-                            parts_burned.push_back( bp_foot_l );
-                            parts_burned.push_back( bp_foot_r );
-                            parts_burned.push_back( bp_leg_l );
-                            parts_burned.push_back( bp_leg_r );
-                    }
-                } else {
-                    // Lying in the fire is BAAAD news, hits every body part.
-                    msg_num = 3;
-                    parts_burned.assign( all_body_parts.begin(), all_body_parts.end() );
                 }
 
-                int total_damage = 0;
-                for( body_part part_burned : parts_burned ) {
-                    const dealt_damage_instance dealt = u.deal_damage( nullptr, part_burned,
-                                                        damage_instance( DT_HEAT, rng( burn_min, burn_max ) ) );
-                    total_damage += dealt.type_damage( DT_HEAT );
+                if( adjusted_intensity >= 1 ) {
+                    // Burn message by intensity
+                    static const std::array<std::string, 4> player_burn_msg = { {
+                            translate_marker( "You burn your legs and feet!" ),
+                            translate_marker( "You're burning up!" ),
+                            translate_marker( "You're set ablaze!" ),
+                            translate_marker( "Your whole body is burning!" )
+                        }
+                    };
+                    static const std::array<std::string, 4> npc_burn_msg = { {
+                            translate_marker( "<npcname> burns their legs and feet!" ),
+                            translate_marker( "<npcname> is burning up!" ),
+                            translate_marker( "<npcname> is set ablaze!" ),
+                            translate_marker( "<npcname>s whole body is burning!" )
+                        }
+                    };
+                    static const std::array<std::string, 4> player_warn_msg = { {
+                            translate_marker( "You're standing in a fire!" ),
+                            translate_marker( "You're waist-deep in a fire!" ),
+                            translate_marker( "You're surrounded by raging fire!" ),
+                            translate_marker( "You're lying in fire!" )
+                        }
+                    };
+
+                    const int burn_min = adjusted_intensity;
+                    const int burn_max = 3 * adjusted_intensity + 3;
+                    std::list<body_part> parts_burned;
+                    int msg_num = adjusted_intensity - 1;
+                    if( !u.is_on_ground() ) {
+                        switch( adjusted_intensity ) {
+                            case 3:
+                                parts_burned.push_back( bp_hand_l );
+                                parts_burned.push_back( bp_hand_r );
+                                parts_burned.push_back( bp_arm_l );
+                                parts_burned.push_back( bp_arm_r );
+                            /* fallthrough */
+                            case 2:
+                                parts_burned.push_back( bp_torso );
+                            /* fallthrough */
+                            case 1:
+                                parts_burned.push_back( bp_foot_l );
+                                parts_burned.push_back( bp_foot_r );
+                                parts_burned.push_back( bp_leg_l );
+                                parts_burned.push_back( bp_leg_r );
+                        }
+                    } else {
+                        // Lying in the fire is BAAAD news, hits every body part.
+                        msg_num = 3;
+                        parts_burned.assign( all_body_parts.begin(), all_body_parts.end() );
+                    }
+
+                    int total_damage = 0;
+                    for( body_part part_burned : parts_burned ) {
+                        const dealt_damage_instance dealt = u.deal_damage( nullptr, part_burned,
+                                                            damage_instance( DT_HEAT, rng( burn_min, burn_max ) ) );
+                        total_damage += dealt.type_damage( DT_HEAT );
+                    }
+                    if( total_damage > 0 ) {
+                        u.add_msg_player_or_npc( m_bad, _( player_burn_msg[msg_num] ), _( npc_burn_msg[msg_num] ) );
+                    } else {
+                        u.add_msg_if_player( m_warning, _( player_warn_msg[msg_num] ) );
+                    }
+                    u.check_dead_state();
                 }
-                if( total_damage > 0 ) {
-                    u.add_msg_player_or_npc( m_bad, _( player_burn_msg[msg_num] ), _( npc_burn_msg[msg_num] ) );
-                } else {
-                    u.add_msg_if_player( m_warning, _( player_warn_msg[msg_num] ) );
-                }
-                u.check_dead_state();
             }
 
         }
@@ -1640,47 +1572,45 @@ void map::player_in_field( player &u )
         }
         if( ft == fd_flame_burst ) {
             // A burst of flame? Only hits the legs and torso.
-            if( inside ) {
+            if( !inside ) {
                 // Fireballs can't touch you inside a car.
-                break;
-            }
-            // Heatsink or suit stops fire.
-            if( !u.has_active_bionic( bionic_id( "bio_heatsink" ) ) &&
-                !u.is_wearing( "rm13_armor_on" ) ) {
-                u.add_msg_player_or_npc( m_bad, _( "You're torched by flames!" ),
-                                         _( "<npcname> is torched by flames!" ) );
-                u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
-                u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
-                u.deal_damage( nullptr, bp_torso, damage_instance( DT_HEAT, rng( 4, 9 ) ) );
-                u.check_dead_state();
-            } else {
-                u.add_msg_player_or_npc( _( "These flames do not burn you." ),
-                                         _( "Those flames do not burn <npcname>." ) );
+                // Heatsink or suit stops fire.
+                if( !u.has_active_bionic( bionic_id( "bio_heatsink" ) ) &&
+                    !u.is_wearing( "rm13_armor_on" ) ) {
+                    u.add_msg_player_or_npc( m_bad, _( "You're torched by flames!" ),
+                                             _( "<npcname> is torched by flames!" ) );
+                    u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
+                    u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
+                    u.deal_damage( nullptr, bp_torso, damage_instance( DT_HEAT, rng( 4, 9 ) ) );
+                    u.check_dead_state();
+                } else {
+                    u.add_msg_player_or_npc( _( "These flames do not burn you." ),
+                                             _( "Those flames do not burn <npcname>." ) );
+                }
             }
         }
         if( ft == fd_electricity ) {
             // Small universal damage based on intensity, only if not electroproofed.
-            if( u.is_elec_immune() ) {
-                break;
-            }
-            int total_damage = 0;
-            for( size_t i = 0; i < num_hp_parts; i++ ) {
-                const body_part bp = player::hp_to_bp( static_cast<hp_part>( i ) );
-                const int dmg = rng( 1, cur.get_field_intensity() );
-                total_damage += u.deal_damage( nullptr, bp, damage_instance( DT_ELECTRIC, dmg ) ).total_damage();
-            }
-
-            if( total_damage > 0 ) {
-                if( u.has_trait( trait_ELECTRORECEPTORS ) ) {
-                    u.add_msg_player_or_npc( m_bad, _( "You're painfully electrocuted!" ),
-                                             _( "<npcname> is shocked!" ) );
-                    u.mod_pain( total_damage / 2 );
-                } else {
-                    u.add_msg_player_or_npc( m_bad, _( "You're shocked!" ), _( "<npcname> is shocked!" ) );
+            if( !u.is_elec_immune() ) {
+                int total_damage = 0;
+                for( size_t i = 0; i < num_hp_parts; i++ ) {
+                    const body_part bp = player::hp_to_bp( static_cast<hp_part>( i ) );
+                    const int dmg = rng( 1, cur.get_field_intensity() );
+                    total_damage += u.deal_damage( nullptr, bp, damage_instance( DT_ELECTRIC, dmg ) ).total_damage();
                 }
-            } else {
-                u.add_msg_player_or_npc( _( "The electric cloud doesn't affect you." ),
-                                         _( "The electric cloud doesn't seem to affect <npcname>." ) );
+
+                if( total_damage > 0 ) {
+                    if( u.has_trait( trait_ELECTRORECEPTORS ) ) {
+                        u.add_msg_player_or_npc( m_bad, _( "You're painfully electrocuted!" ),
+                                                 _( "<npcname> is shocked!" ) );
+                        u.mod_pain( total_damage / 2 );
+                    } else {
+                        u.add_msg_player_or_npc( m_bad, _( "You're shocked!" ), _( "<npcname> is shocked!" ) );
+                    }
+                } else {
+                    u.add_msg_player_or_npc( _( "The electric cloud doesn't affect you." ),
+                                             _( "The electric cloud doesn't seem to affect <npcname>." ) );
+                }
             }
         }
         if( ft == fd_fatigue ) {
@@ -1762,24 +1692,22 @@ void map::player_in_field( player &u )
         // Fungicidal gas is unhealthy and becomes deadly if you cross a related threshold.
         if( ft == fd_fungicidal_gas ) {
             // The gas won't harm you inside a vehicle.
-            if( inside ) {
-                break;
-            }
-            // Full body suits protect you from the effects of the gas.
-            if( u.worn_with_flag( "GAS_PROOF" ) && u.get_env_resist( bp_mouth ) >= 15 &&
-                u.get_env_resist( bp_eyes ) >= 15 ) {
-                break;
-            }
-            const int intensity = cur.get_field_intensity();
-            bool inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, intensity * 1_minutes );
-            if( u.has_trait( trait_id( "THRESH_MYCUS" ) ) || u.has_trait( trait_id( "THRESH_MARLOSS" ) ) ) {
-                inhaled |= u.add_env_effect( effect_badpoison, bp_mouth, 5, intensity * 1_minutes );
-                u.hurtall( rng( intensity, intensity * 2 ), nullptr );
-                u.add_msg_if_player( m_bad, _( "The %s burns your skin." ), cur.name() );
-            }
+            if( !inside ) {
+                // Full body suits protect you from the effects of the gas.
+                if( !( u.worn_with_flag( "GAS_PROOF" ) && u.get_env_resist( bp_mouth ) >= 15 &&
+                       u.get_env_resist( bp_eyes ) >= 15 ) ) {
+                    const int intensity = cur.get_field_intensity();
+                    bool inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, intensity * 1_minutes );
+                    if( u.has_trait( trait_id( "THRESH_MYCUS" ) ) || u.has_trait( trait_id( "THRESH_MARLOSS" ) ) ) {
+                        inhaled |= u.add_env_effect( effect_badpoison, bp_mouth, 5, intensity * 1_minutes );
+                        u.hurtall( rng( intensity, intensity * 2 ), nullptr );
+                        u.add_msg_if_player( m_bad, _( "The %s burns your skin." ), cur.name() );
+                    }
 
-            if( inhaled ) {
-                u.add_msg_if_player( m_bad, _( "The %s makes you feel sick." ), cur.name() );
+                    if( inhaled ) {
+                        u.add_msg_if_player( m_bad, _( "The %s makes you feel sick." ), cur.name() );
+                    }
+                }
             }
         }
     }
@@ -1976,8 +1904,6 @@ void map::monster_in_field( monster &z )
             // We don't want to increase dam, but deal a separate hit so that it can apply effects
             z.deal_damage( nullptr, bp_torso,
                            damage_instance( DT_ELECTRIC, rng( 1, cur.get_field_intensity() * 3 ) ) );
-            break;
-
         }
         if( cur_field_type == fd_fatigue ) {
             if( rng( 0, 2 ) < cur.get_field_intensity() ) {

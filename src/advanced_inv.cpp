@@ -761,8 +761,7 @@ void advanced_inv_area::init()
     const field &tmpfld = g->m.field_at( pos );
     for( auto &fld : tmpfld ) {
         const field_entry &cur = fld.second;
-        field_type_id curType = cur.get_field_type();
-        if( curType == fd_fire ) {
+        if( fld.first.obj().has_fire ) {
             flags.append( _( " <color_white_red>FIRE</color>" ) );
         } else {
             if( cur.is_dangerous() ) {

@@ -74,6 +74,7 @@ struct damage_unit;
 class map;
 
 enum damage_type : int;
+enum clothing_mod_type : int;
 
 const std::string &rad_badge_color( int rad );
 
@@ -1301,6 +1302,9 @@ class item : public visitable<item>
         void unset_flags();
         /*@}*/
 
+        /**Does this item have the specified fault*/
+        bool has_fault( const fault_id fault ) const;
+
         /**
          * @name Item properties
          *
@@ -2075,6 +2079,9 @@ class item : public visitable<item>
         bool is_favorite = false;
 
         void set_favorite( const bool favorite );
+        bool has_clothing_mod() const;
+        float get_clothing_mod_val( clothing_mod_type type ) const;
+        void update_clothing_mod_val();
 };
 
 bool item_compare_by_charges( const item &left, const item &right );
