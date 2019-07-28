@@ -592,42 +592,6 @@ mission_type_id mission::mission_id()
     return type->id;
 }
 
-void mission::load_info( std::istream &data )
-{
-    int type_id = 0;
-    int rewtype = 0;
-    int reward_id = 0;
-    int rew_skill = 0;
-    int tmpfollow = 0;
-    int item_num = 0;
-    int target_npc_id = 0;
-    int deadline_ = 0;
-    std::string rew_item;
-    std::string itemid;
-    data >> type_id;
-    type = mission_type::get( mission_type::from_legacy( type_id ) );
-    std::string tmpdesc;
-    do {
-        data >> tmpdesc;
-        if( tmpdesc != "<>" ) {
-            description += tmpdesc + " ";
-        }
-    } while( tmpdesc != "<>" );
-    description = description.substr( 0, description.size() - 1 ); // Ending ' '
-    bool failed; // Dummy, no one has saves this old
-    data >> failed >> value >> rewtype >> reward_id >> rew_item >> rew_skill >>
-         uid >> target.x >> target.y >> itemid >> item_num >> deadline_ >> npc_id >>
-         good_fac_id >> bad_fac_id >> step >> tmpfollow >> target_npc_id;
-    deadline = time_point::from_turn( deadline_ );
-    target.z = 0;
-    follow_up = mission_type::from_legacy( tmpfollow );
-    reward.type = static_cast<npc_favor_type>( reward_id );
-    reward.item_id = itype_id( rew_item );
-    reward.skill = Skill::from_legacy_int( rew_skill );
-    item_id = itype_id( itemid );
-    item_count = static_cast<int>( item_num );
-}
-
 std::string mission::dialogue_for_topic( const std::string &in_topic ) const
 {
     // The internal keys are pretty ugly, it's better to translate them here than globally
