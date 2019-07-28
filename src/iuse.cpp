@@ -8061,15 +8061,6 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
             return 0;
         }
 
-        // Power_draw seem to consume random amount of battery so +100 to be safe
-        if( ( ( it->type->tool->power_draw / 1000 ) * to_seconds<int>( 90_minutes ) ) / 1000 + 100 >
-            it->ammo_remaining() ) {
-            popup( string_format(
-                       _( "The autoclave doesn't have enough battery for one cycle.  You need at least %s charges." ),
-                       ( ( it->type->tool->power_draw / 1000 ) * to_seconds<int>( 90_minutes ) ) / 1000 + 100 ) );
-            return 0;
-        }
-
         bool empty = true;
         item *clean_cbm = nullptr;
         for( item &bio : it->contents ) {
@@ -8087,6 +8078,15 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
                 }
                 empty = true;
             }
+        }
+
+        // Power_draw seem to consume random amount of battery so +100 to be safe
+        if( ( ( it->type->tool->power_draw / 1000 ) * to_seconds<int>( 90_minutes ) ) / 1000 + 100 >
+            it->ammo_remaining() ) {
+            popup( string_format(
+                       _( "The autoclave doesn't have enough battery for one cycle.  You need at least %s charges." ),
+                       ( ( it->type->tool->power_draw / 1000 ) * to_seconds<int>( 90_minutes ) ) / 1000 + 100 ) );
+            return 0;
         }
 
         item_location to_sterile;
