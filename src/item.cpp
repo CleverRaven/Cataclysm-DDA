@@ -3258,7 +3258,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         if( is_gun() && dirt_symbol() != "0" ) {
             damtext = durability_indicator() + ":" + dirt_symbol() + " ";
         } else if( is_gun() ) {
-            damtext = durability_indicator() + " ";
+            damtext = durability_indicator();
         } else {
             damtext = durability_indicator();
         }
