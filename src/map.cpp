@@ -4837,14 +4837,13 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
 {
     std::list<item> ret;
 
+    // populate a grid of spots that can be reached
+    std::vector<tripoint> reachable_pts;
+    reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+
     // We prefer infinite map sources where available, so search for those
     // first
-    for( const tripoint &p : closest_tripoints_first( range, origin ) ) {
-        // can not reach this -> can not access its contents
-        if( origin != p && !clear_path( origin, p, range, 1, 100 ) ) {
-            continue;
-        }
-
+    for( const tripoint &p : reachable_pts ) {
         // Handle infinite map sources.
         item water = water_from( p );
         if( water.typeId() == type ) {
@@ -4862,12 +4861,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
         }
     }
 
-    for( const tripoint &p : closest_tripoints_first( range, origin ) ) {
-        // can not reach this -> can not access its contents
-        if( origin != p && !clear_path( origin, p, range, 1, 100 ) ) {
-            continue;
-        }
-
+    for( const tripoint &p : reachable_pts ) {
         if( has_furn( p ) ) {
             use_charges_from_furn( furn( p ).obj(), type, quantity, this, p, ret, filter );
             if( quantity <= 0 ) {
