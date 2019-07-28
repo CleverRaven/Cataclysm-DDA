@@ -2227,13 +2227,22 @@
     "to_hit": -5
   },
   {
+    "type": "COMESTIBLE",
+    "id": "clean_hide",
+    "copy-from": "raw_leather",
+    "looks_like": "cured_hide",
+    "name": "clean hide",
+    "name_plural": "clean hides",
+    "description": "A animal hide that has been scrapped of extraneous hair and flesh and is ready for the next process, by either curing for preservation or tanning directly."
+  },
+  {
     "type": "GENERIC",
     "id": "cured_hide",
     "symbol": ",",
     "color": "white",
     "name": "cured hide",
     "name_plural": "cured hides",
-    "description": "A rolled up animal hide which has been scraped of extraneous hair and flesh and treated to prevent decay.  It still requires tanning to become usable leather.",
+    "description": "A rolled up animal hide which has been preserved by either salting or drying.  It still requires tanning to become usable leather.",
     "price": 40,
     "material": [ "flesh" ],
     "flags": [ "NO_SALVAGE" ],
@@ -2258,13 +2267,22 @@
     "to_hit": -1
   },
   {
+    "type": "COMESTIBLE",
+    "id": "clean_fur",
+    "copy-from": "raw_fur",
+    "looks_like": "cured_pelt",
+    "name": "clean pelt",
+    "name_plural": "clean pelts",
+    "description": "A animal hide that has been scrapped of extraneous hair and flesh and is ready for the next process, by either curing for preservation or tanning directly."
+  },
+  {
     "type": "GENERIC",
     "id": "cured_pelt",
     "symbol": ",",
     "color": "brown",
     "name": "cured pelt",
     "name_plural": "cured pelts",
-    "description": "A rolled up animal hide which has been scraped of extraneous hair and flesh and treated to prevent decay.  It still requires tanning to become usable fur.",
+    "description": "A rolled up animal hide which has been preserved by either salting or drying.  It still requires tanning to become usable fur.",
     "price": 40,
     "material": [ "fur", "flesh" ],
     "flags": [ "NO_SALVAGE" ],
