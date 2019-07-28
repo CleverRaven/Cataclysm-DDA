@@ -1362,7 +1362,7 @@ void vehicle::use_washing_machine( int p )
         return i.has_flag( filthy );
     } );
 
-    bool cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
+    bool cbms = std::any_of( items.begin(), items.end(), []( const item & i ) {
         return i.is_bionic();
     } );
 
