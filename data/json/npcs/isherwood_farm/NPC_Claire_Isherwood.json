@@ -104,7 +104,6 @@
       },
       {
         "text": "Have anything to trade?",
-        "topic": "TALK_ISHERWOOD_CLAIRE",
         "effect": "start_trade",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       },
@@ -216,6 +215,7 @@
       { "text": "Your daughter lives down the road?", "topic": "TALK_CLAIRE_DAUGHTER" },
       { "text": "Where is your brother's place?", "topic": "TALK_CLAIRE_BROTHER" },
       { "text": "A farm must be a pretty safe place these days.", "topic": "TALK_CLAIRE_FARM" },
+      { "text": "You are lucky to have your family still together.", "topic": "TALK_ISHERWOOD_CLAIRE2" },
       { "text": "Let's trade items.", "topic": "TALK_ISHERWOOD_CLAIRE", "effect": "start_trade" },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -265,7 +265,8 @@
       "effect": [
         { "u_buy_item": "pine_tea", "container": "jar_glass_sealed", "count": 2 },
         { "u_buy_item": "royal_jelly", "count": 1 },
-        { "u_buy_item": "bee_balm_tea", "container": "jar_glass_sealed", "count": 2 }
+        { "u_buy_item": "bee_balm_tea", "container": "jar_glass_sealed", "count": 2 },
+        { "u_add_var": "u_did_claire_missions", "type": "general", "context": "mission", "value": "yes" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

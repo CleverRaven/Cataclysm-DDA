@@ -1453,8 +1453,6 @@ class map
                           const float density );
         void draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
                                const float density );
-        void draw_toxic_dump( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                              const float density );
         void draw_megastore( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
                              const float density );
         void draw_fema( const oter_id &terrain_type, mapgendata &dat, const time_point &when,

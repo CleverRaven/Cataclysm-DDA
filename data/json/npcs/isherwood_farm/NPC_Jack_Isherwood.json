@@ -331,7 +331,8 @@
       "effect": [
         { "u_buy_item": "tomato", "count": 5 },
         { "u_buy_item": "onion", "count": 5 },
-        { "u_buy_item": "cucumber", "count": 5 }
+        { "u_buy_item": "cucumber", "count": 5 },
+        { "u_add_var": "u_did_jack_missions", "type": "general", "context": "mission", "value": "yes" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

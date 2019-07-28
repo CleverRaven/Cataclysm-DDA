@@ -231,5 +231,10 @@
     "type": "tool_quality",
     "id": "VICE",
     "name": "vicing"
+  },
+  {
+    "type": "tool_quality",
+    "id": "PRESSURIZATION",
+    "name": "pressurizing"
   }
 ]

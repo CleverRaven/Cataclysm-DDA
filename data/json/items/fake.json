@@ -8,6 +8,12 @@
     "color": "red"
   },
   {
+    "id": "arcfurnace",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": "arc furnace"
+  },
+  {
     "id": "fake_burrowing",
     "copy-from": "fake_item",
     "type": "TOOL",

@@ -5236,23 +5236,47 @@ void game::control_vehicle()
             }
             veh->start_engines( true );
         }
-    } else {
-        const cata::optional<tripoint> examp_ = choose_adjacent( _( "Control vehicle where?" ) );
-        if( !examp_ ) {
-            return;
+    } else {    // Start looking for nearby vehicle controls.
+        int num_valid_controls = 0;
+        cata::optional<tripoint> vehicle_position;
+        cata::optional<vpart_reference> vehicle_controls;
+        for( const tripoint elem : m.points_in_radius( g->u.pos(), 1 ) ) {
+            if( const optional_vpart_position vp = m.veh_at( elem ) ) {
+                const cata::optional<vpart_reference> controls = vp.value().part_with_feature( "CONTROLS", true );
+                if( controls ) {
+                    num_valid_controls++;
+                    vehicle_position = elem;
+                    vehicle_controls = controls;
+                }
+            }
         }
-        const optional_vpart_position vp = m.veh_at( *examp_ );
-        if( !vp ) {
-            add_msg( _( "No vehicle there." ) );
+        if( num_valid_controls < 1 ) {
+            add_msg( _( "No vehicle controls found." ) );
             return;
+        } else if( num_valid_controls > 1 ) {
+            vehicle_position = choose_adjacent( _( "Control vehicle where?" ) );
+            if( !vehicle_position ) {
+                return;
+            }
+            const optional_vpart_position vp = m.veh_at( *vehicle_position );
+            if( vp ) {
+                vehicle_controls = vp.value().part_with_feature( "CONTROLS", true );
+                if( !vehicle_controls ) {
+                    add_msg( _( "The vehicle doesn't have controls there." ) );
+                    return;
+                }
+            } else {
+                add_msg( _( "No vehicle there." ) );
+                return;
+            }
         }
-        veh = &vp->vehicle();
-        veh_part = vp->part_index();
-        if( veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 ) {
+        // If we hit neither of those, there's only one set of vehicle controls, which should already have been found.
+        if( vehicle_controls ) {
+            veh = &vehicle_controls->vehicle();
             if( !veh->handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
                 return;
             }
-            veh->use_controls( *examp_ );
+            veh->use_controls( *vehicle_position );
         }
     }
     if( veh ) {

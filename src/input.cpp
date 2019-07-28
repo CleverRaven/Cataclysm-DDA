@@ -769,7 +769,7 @@ const std::string input_context::get_desc( const std::string &action_descriptor,
 {
     if( action_descriptor == "ANY_INPUT" ) {
         //~ keybinding description for anykey
-        return string_format( pgettext( "keybinding", "[any] %s" ) + text );
+        return string_format( pgettext( "keybinding", "[any] %s" ), text );
     }
 
     const auto &events = inp_mngr.get_input_for_action( action_descriptor, category );

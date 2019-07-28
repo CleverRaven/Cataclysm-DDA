@@ -511,8 +511,8 @@
     "name": "glass shiv",
     "description": "A glass shard with wrapping at one end so it can be safely wielded.",
     "material": [ "glass", "cotton" ],
-    "weight": 129,
-    "volume": 1,
+    "weight": 115,
+    "volume": "30 ml",
     "cutting": 6,
     "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE" ],
     "qualities": [ [ "BUTCHER", -18 ] ]

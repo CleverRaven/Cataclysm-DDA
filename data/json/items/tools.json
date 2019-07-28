@@ -100,7 +100,8 @@
     "weight": 113,
     "volume": 2,
     "bashing": 4,
-    "to_hit": -1
+    "to_hit": -1,
+    "qualities": [ [ "PRESSURIZATION", 1 ] ]
   },
   {
     "id": "UPS_off",
@@ -4764,6 +4765,20 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
+    "id": "sponge",
+    "type": "TOOL",
+    "name": "sponge",
+    "description": "A sponge is a tool or cleaning aid made of soft, porous material. Typically used for cleaning impervious surfaces.",
+    "weight": 80,
+    "volume": 1,
+    "price": 0,
+    "material": "plastic",
+    "symbol": "s",
+    "color": "yellow",
+    "use_action": "WASHCBMS",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
     "id": "reading_light",
     "type": "TOOL",
     "name": "reading light",
@@ -5518,6 +5533,30 @@
     "qualities": [ [ "DISTILL", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
+    "id": "autoclave",
+    "type": "TOOL",
+    "name": "autoclave",
+    "description": "This is an autoclave.  It's useful for sterilizing things like CBMs.  This machine draws a lot of power, standard battery might not be enough.",
+    "weight": 34500,
+    "volume": "76 L",
+    "price": 162654,
+    "to_hit": -6,
+    "bashing": 10,
+    "contains": 11,
+    "material": "steel",
+    "symbol": "A",
+    "color": "yellow",
+    "use_action": "AUTOCLAVE",
+    "power_draw": 1500000,
+    "charges_per_use": 1,
+    "looks_like": "microwave",
+    "ammo": "battery",
+    "magazines": [
+      [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+    ],
+    "magazine_well": 4
+  },
+  {
     "id": "survival_marker",
     "type": "TOOL",
     "name": "survival marker",
@@ -5658,7 +5697,12 @@
         "cost_scaling": 0.1,
         "move_cost": 800
       },
-      "SEW_ADVANCED"
+      {
+        "type": "sew_advanced",
+        "materials": [ "cotton", "leather", "fur", "nomex", "plastic", "kevlar", "wool" ],
+        "skill": "tailor",
+        "clothing_mods": [ "leather_padded", "kevlar_padded", "furred", "wooled" ]
+      }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
@@ -7420,5 +7464,19 @@
     "bashing": 6,
     "material": "steel",
     "use_action": { "type": "weigh_self", "max_weight": 150000 }
+  },
+  {
+    "id": "acetylene_machine",
+    "type": "TOOL",
+    "name": "acetylene-gas machine",
+    "symbol": "&",
+    "color": "light_gray",
+    "description": "This bulky device takes water and calcium carbide and yields unpressurised acetylene.",
+    "weight": 8000,
+    "volume": "3 L",
+    "price": "3200",
+    "to-hit": -4,
+    "bashing": 12,
+    "material": "steel"
   }
 ]
