@@ -1449,7 +1449,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         }
 
         Creature *critter_recur = g->critter_at( dest );
-        if( critter_recur == nullptr || critter_recur->is_hallucination() ) {
+        if( !( critter_recur == nullptr || critter_recur->is_hallucination() ) ) {
             // Try to push recursively
             monster *mon_recur = dynamic_cast< monster * >( critter_recur );
             if( mon_recur == nullptr ) {
@@ -1471,7 +1471,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
 
                 return true;
             } else {
-                continue;
+                return false;
             }
         }
 
@@ -1479,20 +1479,17 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         if( critter_recur != nullptr ) {
             if( critter_recur->is_hallucination() ) {
                 critter_recur->die( nullptr );
+            }
+        } else {
+            critter->setpos( dest );
+            move_to( p );
+            moves -= movecost_attacker;
+            if( movecost_from > 100 ) {
+                critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
             } else {
-                return false;
+                critter->moves -= movecost_from;
             }
         }
-
-        critter->setpos( dest );
-        move_to( p );
-        moves -= movecost_attacker;
-        if( movecost_from > 100 ) {
-            critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
-        } else {
-            critter->moves -= movecost_from;
-        }
-
         return true;
     }
 
