@@ -1520,7 +1520,7 @@
     "material": [ "steel" ],
     "techniques": [ "WBLOCK_1" ],
     "weight": 907,
-    "volume": 4,
+    "volume": "1 L",
     "bashing": 12,
     "cutting": 6,
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
