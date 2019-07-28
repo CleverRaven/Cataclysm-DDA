@@ -328,5 +328,17 @@
     "using": [ [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "sheet_metal", 3 ] ], [ [ "hinge", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "towel_hanger",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLES",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "40 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "2x4", 2 ] ], [ [ "stick", 2 ], [ "2x4", 2 ] ], [ [ "towel", 3 ] ] ]
   }
 ]
