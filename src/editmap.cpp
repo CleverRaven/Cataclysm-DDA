@@ -201,8 +201,7 @@ editmap::editmap()
     editshape = editmap_rect;
     refresh_mplans = true;
 
-    tmaxx = getmaxx( g->w_terrain );
-    tmaxy = getmaxy( g->w_terrain );
+    tmax = point( getmaxx( g->w_terrain ), getmaxy( g->w_terrain ) );
     fids[fd_null] = "-clear-";
     fids[fd_fire_vent] = "fire_vent";
     fids[fd_push_items] = "push_items";
@@ -271,7 +270,7 @@ void editmap_hilight::draw( editmap &em, bool update )
  */
 tripoint editmap::pos2screen( const tripoint &p )
 {
-    return tripoint( tmaxx / 2 + p.x - target.x, tmaxy / 2 + p.y - target.y, p.z );
+    return p + tmax / 2 - target.xy();
 }
 
 /*
@@ -291,13 +290,13 @@ bool editmap::eget_direction( tripoint &p, const std::string &action ) const
     if( action == "CENTER" ) {
         p = ( g->u.pos() - target );
     } else if( action == "LEFT_WIDE" ) {
-        p.x = 0 - ( tmaxx / 2 );
+        p.x = -tmax.x / 2;
     } else if( action == "DOWN_WIDE" ) {
-        p.y = ( tmaxy / 2 );
+        p.y = tmax.y / 2;
     } else if( action == "UP_WIDE" ) {
-        p.y = 0 - ( tmaxy / 2 );
+        p.y = -tmax.y / 2;
     } else if( action == "RIGHT_WIDE" ) {
-        p.x = ( tmaxx / 2 );
+        p.x = tmax.x / 2;
     } else if( action == "LEVEL_DOWN" ) {
         p.z = -1;
     } else if( action == "LEVEL_UP" ) {
@@ -564,12 +563,11 @@ void editmap::update_view( bool update_info )
 
     // draw arrows if altblink is set (ie, [m]oving a large selection
     if( blink && altblink ) {
-        int mpx = ( tmaxx / 2 ) + 1;
-        int mpy = ( tmaxy / 2 ) + 1;
-        mvwputch( g->w_terrain, mpy, 1, c_yellow, '<' );
-        mvwputch( g->w_terrain, mpy, tmaxx - 1, c_yellow, '>' );
-        mvwputch( g->w_terrain, 1, mpx, c_yellow, '^' );
-        mvwputch( g->w_terrain, tmaxy - 1, mpx, c_yellow, 'v' );
+        const point mp = tmax / 2 + point( 1, 1 );
+        mvwputch( g->w_terrain, mp.y, 1, c_yellow, '<' );
+        mvwputch( g->w_terrain, mp.y, tmax.x - 1, c_yellow, '>' );
+        mvwputch( g->w_terrain, 1, mp.x, c_yellow, '^' );
+        mvwputch( g->w_terrain, tmax.y - 1, mp.x, c_yellow, 'v' );
     }
 
     wrefresh( g->w_terrain );
