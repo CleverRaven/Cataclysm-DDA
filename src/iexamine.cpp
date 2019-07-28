@@ -2332,6 +2332,136 @@ void iexamine::kiln_full( player &, const tripoint &examp )
     g->m.furn_set( examp, next_kiln_type );
     add_msg( _( "It has finished burning, yielding %d charcoal." ), result.charges );
 }
+//arc furnance start
+void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
+{
+    furn_id cur_arcfurnace_type = g->m.furn( examp );
+    furn_id next_arcfurnace_type = f_null;
+    if( cur_arcfurnace_type == f_arcfurnace_empty ) {
+        next_arcfurnace_type = f_arcfurnace_full;
+    } else {
+        debugmsg( "Examined furniture has action arcfurnace_empty, but is of type %s",
+                  g->m.furn( examp ).id().c_str() );
+        return;
+    }
+
+    static const std::set<material_id> arcfurnaceable{ material_id( "cac2powder" ) };
+    bool fuel_present = false;
+    auto items = g->m.i_at( examp );
+    for( const item &i : items ) {
+        if( i.typeId() == "chem_carbide" ) {
+            add_msg( _( "This furnace already contains calcium carbide." ) );
+            add_msg( _( "Remove it before activating the arc furnace again." ) );
+            return;
+        } else if( i.made_of_any( arcfurnaceable ) ) {
+            fuel_present = true;
+        } else {
+            add_msg( m_bad, _( "This furnace contains %s, which can't be made into calcium carbide!" ),
+                     i.tname( 1, false ) );
+            return;
+        }
+    }
+
+    if( !fuel_present ) {
+        add_msg( _( "This furance is empty. Fill it with powdered coke and lime mix, and try again." ) );
+        return;
+    }
+
+    ///\EFFECT_FABRICATION decreases loss when firing a furnace
+    const int skill = p.get_skill_level( skill_fabrication );
+    int loss = 60 - 2 *
+               skill; // Inefficency is still fine, coal and limestone is abundant
+
+    // Burn stuff that should get charred, leave out the rest
+    units::volume total_volume = 0_ml;
+    for( const item &i : items ) {
+        total_volume += i.volume();
+    }
+
+    auto char_type = item::find_type( "unfinished_cac2" );
+    int char_charges = char_type->charges_per_volume( ( 100 - loss ) * total_volume / 100 );
+    if( char_charges < 1 ) {
+        add_msg( _( "The batch in this furance is too small to yield usable calcium carbide." ) );
+        return;
+    }
+    //arc furnaces require a huge amount of current, so 1 full storage battery would work as a stand in
+    if( !p.has_charges( "UPS", 1250 ) ) {
+        add_msg( _( "This furnace is ready to be turned on, but you lack a UPS with sufficient power." ) );
+        return;
+    } else {
+        add_msg( _( "This furnace contains %s %s of material, and is ready to be turned on." ),
+                 format_volume( total_volume ), volume_units_abbr() );
+        if( !query_yn( _( "Turn on the furnace?" ) ) ) {
+            return;
+        }
+    }
+
+    p.use_charges( "UPS", 1250 );
+    g->m.i_clear( examp );
+    g->m.furn_set( examp, next_arcfurnace_type );
+    item result( "unfinished_cac2", calendar::turn );
+    result.charges = char_charges;
+    g->m.add_item( examp, result );
+    add_msg( _( "You turn on the furnace." ) );
+}
+
+void iexamine::arcfurnace_full( player &, const tripoint &examp )
+{
+    furn_id cur_arcfurnace_type = g->m.furn( examp );
+    furn_id next_arcfurnace_type = f_null;
+    if( cur_arcfurnace_type == f_arcfurnace_full ) {
+        next_arcfurnace_type = f_arcfurnace_empty;
+    } else {
+        debugmsg( "Examined furniture has action arcfurnace_full, but is of type %s",
+                  g->m.furn( examp ).id().c_str() );
+        return;
+    }
+
+    map_stack items = g->m.i_at( examp );
+    if( items.empty() ) {
+        add_msg( _( "This furnace is empty..." ) );
+        g->m.furn_set( examp, next_arcfurnace_type );
+        return;
+    }
+    auto char_type = item::find_type( "chem_carbide" );
+    add_msg( _( "There's an arc furnace there." ) );
+    const time_duration firing_time = 2_hours; // Arc furnaces work really fast in reality
+    const time_duration time_left = firing_time - items.only_item().age();
+    if( time_left > 0_turns ) {
+        int hours = to_hours<int>( time_left );
+        int minutes = to_minutes<int>( time_left ) + 1;
+        if( minutes > 60 ) {
+            add_msg( ngettext( "It will finish burning in about %d hour.",
+                               "It will finish burning in about %d hours.",
+                               hours ), hours );
+        } else if( minutes > 30 ) {
+            add_msg( _( "It will finish burning in less than an hour." ) );
+        } else {
+            add_msg( _( "It should take about %d minutes to finish burning." ), minutes );
+        }
+        return;
+    }
+
+    units::volume total_volume = 0_ml;
+    // Burn stuff that should get charred, leave out the rest
+    for( auto item_it = items.begin(); item_it != items.end(); ) {
+        if( item_it->typeId() == "unfinished_cac2" || item_it->typeId() == "chem_carbide" ) {
+            total_volume += item_it->volume();
+            item_it = items.erase( item_it );
+        } else {
+            item_it++;
+        }
+    }
+
+    item result( "chem_carbide", calendar::turn );
+    result.charges = char_type->charges_per_volume( total_volume );
+    g->m.add_item( examp, result );
+    g->m.furn_set( examp, next_arcfurnace_type );
+    add_msg( _( "It has finished burning, yielding %d calcium carbide." ), result.charges );
+}
+//arc furnace end
+
+void iexamine::fireplace( player &p, const tripoint &examp );
 
 void iexamine::autoclave_empty( player &p, const tripoint &examp )
 {
@@ -5516,6 +5646,8 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "locked_object", &iexamine::locked_object },
             { "kiln_empty", &iexamine::kiln_empty },
             { "kiln_full", &iexamine::kiln_full },
+            { "arcfurnace_empty", &iexamine::arcfurnace_empty },
+            { "arcfurnace_full", &iexamine::arcfurnace_full },
             { "autoclave_empty", &iexamine::autoclave_empty },
             { "autoclave_full", &iexamine::autoclave_full },
             { "fireplace", &iexamine::fireplace },

@@ -985,5 +985,17 @@
         [ "willowbark", 1 ]
       ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "cac2powder",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "60 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "coal_lump", 30 ] ], [ [ "material_quicklime", 44 ] ] ]
   }
 ]

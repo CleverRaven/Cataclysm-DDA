@@ -2928,5 +2928,21 @@
     "material": [ "steel", "plastic", "wood" ],
     "weight": 11339,
     "volume": 12
+  },
+  {
+    "type": "GENERIC",
+    "id": "fire_brick",
+    "symbol": ",",
+    "color": "brown",
+    "name": "fire brick",
+    "category": "spare_parts",
+    "description": "A reinforced brick designed to withstand intense heat.",
+    "price": 2500,
+    "material": [ "clay", "stone" ],
+    "weight": 969,
+    "volume": "500 ml",
+    "bashing": 8,
+    "to_hit": -2,
+    "qualities": [ [ "HAMMER", 1 ] ]
   }
 ]

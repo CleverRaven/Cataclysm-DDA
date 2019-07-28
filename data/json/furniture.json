@@ -1990,6 +1990,58 @@
   },
   {
     "type": "furniture",
+    "id": "f_arcfurnace_empty",
+    "name": "arc furnace",
+    "description": "An arc furnace designed to burn a powdery mix of coke and limestone to create calcium carbide.",
+    "symbol": "U",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "examine_action": "arcfurnace_empty",
+    "max_volume": 800,
+    "crafting_pseudo_item": "arcfurnace",
+    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
+    "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "pipe", "count": [ 0, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_arcfurnace_full",
+    "name": "filled arc furnace",
+    "description": "An arc furnace designed to burn a powdery mix of coke and limestone to create calcium carbide.",
+    "symbol": "U",
+    "color": "blue_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "examine_action": "arcfurnace_full",
+    "flags": [ "NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM" ],
+    "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "pipe", "count": [ 0, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_robotic_arm",
     "name": "robotic arm",
     "description": "Automation!  Science!  Industry!  Make a better horse!  This robot arm promises to do it all.  Except it's currently unpowered.  You could remove the casing and retrieve the electronics through disassembly.",
