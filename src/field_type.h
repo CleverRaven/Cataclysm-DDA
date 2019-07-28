@@ -16,6 +16,8 @@
 #include "enums.h"
 #include "type_id.h"
 #include "string_id.h"
+#include "translations.h"
+
 
 class JsonObject;
 
@@ -84,7 +86,7 @@ struct field_type {
 
     public:
         std::string get_name( int level = 0 ) const {
-            return intensity_levels[level].name;
+            return _( intensity_levels[level].name );
         }
         uint32_t get_codepoint( int level = 0 ) const {
             return intensity_levels[level].symbol;
