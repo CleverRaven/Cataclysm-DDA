@@ -460,11 +460,9 @@ TEST_CASE( "vision_wall_can_be_lit_by_player", "[shadowcasting][vision]" )
 
 TEST_CASE( "vision_see_wall_in_moonlight", "[shadowcasting][vision]" )
 {
-    const time_duration till_full_moon = calendar::season_length() / 3;
+    const time_point full_moon = calendar::turn_zero + calendar::season_length() / 3;
     // Verify that I've picked the full_moon time correctly.
-    CHECK( get_moon_phase( calendar::turn_zero + till_full_moon ) == MOON_FULL );
-    // Want a night time
-    const int days_till_full_moon = to_days<int>( till_full_moon );
+    CHECK( get_moon_phase( full_moon ) == MOON_FULL );
 
     vision_test_case t {
         {
@@ -481,7 +479,8 @@ TEST_CASE( "vision_see_wall_in_moonlight", "[shadowcasting][vision]" )
             "111",
             "111",
         },
-        DAYS( days_till_full_moon ),
+        // Want a night time
+        full_moon - time_past_midnight( full_moon ),
         true
     };
 
