@@ -8065,7 +8065,7 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
         if( ( ( it->type->tool->power_draw / 1000 ) * to_seconds<int>( 90_minutes ) ) / 1000 + 100 >
             it->ammo_remaining() ) {
             popup( string_format(
-                       _( "The autoclave deosn't have enough battery for one cycle.  You need atleast %s charges." ),
+                       _( "The autoclave doesn't have enough battery for one cycle.  You need at least %s charges." ),
                        ( ( it->type->tool->power_draw / 1000 ) * to_seconds<int>( 90_minutes ) ) / 1000 + 100 ) );
             return 0;
         }
