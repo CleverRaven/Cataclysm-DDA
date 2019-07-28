@@ -1429,7 +1429,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 parts->test( iteminfo_parts::AMMO_FX_BLACKPOWDER ) ) {
                 fx.emplace_back(
                     _( "This ammo has been loaded with <bad>blackpowder</bad>, and will quickly "
-                        "clog up most guns, and cause rust if the gun is not cleaned." ) );
+                       "clog up most guns, and cause rust if the gun is not cleaned." ) );
             }
             if( ammo.ammo_effects.count( "NEVER_MISFIRES" ) &&
                 parts->test( iteminfo_parts::AMMO_FX_CANTMISSFIRE ) ) {
