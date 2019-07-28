@@ -247,12 +247,12 @@ bool player::handle_gun_damage( item &it, int shots_fired )
             it.inc_damage();
         }
         return false;
-    }
-    // Here we check for a chance for attached mods to get damaged if they are flagged as 'CONSUMABLE'.
-    // This is mostly for crappy handmade expedient stuff  or things that rarely receive damage during normal usage.
-    // Default chance is 1/10000 unless set via json, damage is proportional to caliber(see below).
-    // Can be toned down with 'consume_divisor.'
-    else if( it.has_flag( "CONSUMABLE" )  && !curammo_effects.count( "LASER" ) &&
+        // Here we check for a chance for attached mods to get damaged if they are flagged as 'CONSUMABLE'.
+        // This is mostly for crappy handmade expedient stuff  or things that rarely receive damage during normal usage.
+        // Default chance is 1/10000 unless set via json, damage is proportional to caliber(see below).
+        // Can be toned down with 'consume_divisor.'
+
+    } else if( it.has_flag( "CONSUMABLE" )  && !curammo_effects.count( "LASER" ) &&
              !curammo_effects.count( "PLASMA" ) ) {
         int uncork = ( ( 10 * it.ammo_data()->ammo->loudness )
                        + ( it.ammo_data()->ammo->recoil / 2 ) ) / 100;
