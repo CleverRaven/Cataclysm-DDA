@@ -513,7 +513,7 @@ class monster : public Creature
         bool reproduces;
         cata::optional<time_point> baby_timer;
         bool biosignatures;
-        int biosig_timer;
+        cata::optional<time_point> biosig_timer;
         monster_horde_attraction horde_attraction;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;

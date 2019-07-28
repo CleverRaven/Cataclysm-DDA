@@ -768,7 +768,14 @@ void mtype::load( JsonObject &jo, const std::string &src )
 
     if( jo.has_member( "biosignature" ) ) {
         JsonObject biosig = jo.get_object( "biosignature" );
-        optional( biosig, was_loaded, "biosig_timer", biosig_timer, -1 );
+        if( biosig.has_int( "biosig_timer" ) ) {
+            biosig_timer = time_duration::from_days( biosig.get_int( "biosig_timer" ) );
+        } else if( biosig.has_string( "biosig_timer" ) ) {
+            biosig_timer = read_from_json_string<time_duration>( *biosig.get_raw( "biosig_timer" ),
+                           time_duration::units );
+        }
+
+
         optional( biosig, was_loaded, "biosig_item", biosig_item, auto_flags_reader<itype_id> {},
                   "null" );
         biosignatures = true;
@@ -1116,9 +1123,9 @@ void MonsterGenerator::check_monster_definitions() const
         }
 
         if( mon.biosignatures ) {
-            if( mon.biosig_timer < 1 ) {
+            if( !mon.biosig_timer || *mon.biosig_timer <= 0_seconds ) {
                 debugmsg( "Time between biosignature drops (%d) is invalid for %s",
-                          mon.biosig_timer, mon.id.c_str() );
+                          mon.biosig_timer ? to_turns<int>( *mon.biosig_timer ) : -1, mon.id.c_str() );
             }
             if( mon.biosig_item == "null" ) {
                 debugmsg( "No biosignature drop defined for monster %s", mon.id.c_str() );

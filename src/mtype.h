@@ -301,7 +301,7 @@ struct mtype {
         std::vector<std::string> baby_flags;
 
         // Monster biosignature variables
-        int biosig_timer;
+        cata::optional<time_duration> biosig_timer;
         itype_id biosig_item;
 
         // Monster's ability to destroy terrain and vehicles
