@@ -2922,7 +2922,7 @@
     "price": 1000,
     "material": [ "steel", "plastic" ],
     "weight": 62650,
-    "volume": 120,
+    "volume": "30 L",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
