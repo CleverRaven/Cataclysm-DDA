@@ -364,6 +364,7 @@ class deploy_furn_actor : public iuse_actor
         void load( JsonObject &jo ) override;
         int use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 /**

@@ -1022,6 +1022,49 @@ iuse_actor *deploy_furn_actor::clone() const
     return new deploy_furn_actor( *this );
 }
 
+void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    std::vector<std::string> can_function_as;
+    const furn_t &the_furn = furn_type.obj();
+    const std::string furn_name = the_furn.name();
+
+    if( the_furn.workbench.has_value() ) {
+        can_function_as.emplace_back( _( "a <info>crafting station</info>" ) );
+    }
+    if( the_furn.has_flag( "BUTCHER_EQ" ) ) {
+        can_function_as.emplace_back(
+            _( "a place to hang <info>corpses for butchering</info>" ) );
+    }
+    if( the_furn.has_flag( "FLAT_SURF" ) ) {
+        can_function_as.emplace_back(
+            _( "a flat surface to <info>butcher</info> onto or <info>eat meals</info> from" ) );
+    }
+    if( the_furn.has_flag( "CAN_SIT" ) ) {
+        can_function_as.emplace_back( _( "a place to <info>sit</info>" ) );
+    }
+    if( the_furn.has_flag( "HIDE_PLACE" ) ) {
+        can_function_as.emplace_back( _( "a place to <info>hide</info>" ) );
+    }
+    if( the_furn.has_flag( "FIRE_CONTAINER" ) ) {
+        can_function_as.emplace_back( _( "a safe place to <info>contain a fire</info>" ) );
+    }
+    if( the_furn.crafting_pseudo_item == "char_smoker" ) {
+        can_function_as.emplace_back( _( "a place to <info>smoke or dry food</info> for preservation" ) );
+    }
+
+    if( can_function_as.empty() ) {
+        dump.emplace_back( "DESCRIPTION",
+                           string_format( _( "Can be <info>activated</info> to deploy as furniture (<stat>%s</stat>)." ),
+                                          furn_name ) );
+    } else {
+        std::string furn_usages = enumerate_as_string( can_function_as, enumeration_conjunction::or_ );
+        dump.emplace_back( "DESCRIPTION",
+                           string_format(
+                               _( "Can be <info>activated</info> to deploy as furniture (<stat>%s</stat>), which can then be used as %s." ),
+                               furn_name, furn_usages ) );
+    }
+}
+
 void deploy_furn_actor::load( JsonObject &obj )
 {
     furn_type = furn_str_id( obj.get_string( "furn_type" ) );
