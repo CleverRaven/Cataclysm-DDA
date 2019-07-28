@@ -344,8 +344,15 @@
     "name": "Shadow",
     "description": "",
     "valid_targets": [ "self" ],
-    "effect": "shadows",
-    "base_energy_cost": -5
+    "flags": [ "ELUSIVE" ],
+    "min_damage": 4,
+    "max_damage": 8,
+    "damage_rng_mod": 4,
+    "effect": "summon_square",
+    "effect_str": "mon_shadow",
+    "base_energy_cost": -5,
+    "min_aoe": 5,
+    "max_aoe": 5
   },
   {
     "id": "stamina_empty",

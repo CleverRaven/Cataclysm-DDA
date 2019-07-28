@@ -265,6 +265,29 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
     return targets;
 }
 
+std::set<tripoint> spell_effect::spell_effect_square( const spell &, const tripoint &,
+        const tripoint &target, const int aoe_radius, const bool ignore_walls )
+{
+    std::set<tripoint> targets;
+    for( int y = target.y - aoe_radius; y <= target.y + aoe_radius; y += 2 * aoe_radius ) {
+        for( int x = target.x - aoe_radius; x <= target.x + aoe_radius; x++ ) {
+            const tripoint potential_target( x, y, target.z );
+            if( in_spell_aoe( target, potential_target, aoe_radius, ignore_walls ) ) {
+                targets.emplace( potential_target );
+            }
+        }
+    }
+    for( int x = target.x - aoe_radius + 1; x < target.x + aoe_radius; x += 2 * aoe_radius ) {
+        for( int y = target.y - aoe_radius; y <= target.y + aoe_radius; y++ ) {
+            const tripoint potential_target( x, y, target.z );
+            if( in_spell_aoe( target, potential_target, aoe_radius, ignore_walls ) ) {
+                targets.emplace( potential_target );
+            }
+        }
+    }
+    return targets;
+}
+
 // spells do not reduce in damage the further away from the epicenter the targets are
 // rather they do their full damage in the entire area of effect
 static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &target,
@@ -477,15 +500,19 @@ static bool add_summoned_mon( const mtype_id &id, const tripoint &pos, const tim
     if( !permanent ) {
         spawned_mon.set_summon_time( time );
     }
+    if( has_flag( spell_flag::ELUSIVE ) ) {
+        spawned->reset_special_rng( "DISAPPEAR" );
+    }
     spawned_mon.no_extra_death_drops = true;
     return g->add_zombie( spawned_mon );
 }
 
-void spell_effect::spawn_summoned_monster( const spell &sp, const Creature &caster,
-        const tripoint &target )
+void spell_effect::summon_monster( const spell &sp, Creature &caster,
+        const tripoint &target, std::function<std::set<tripoint>( const spell &, const tripoint &, const tripoint &, const int, const bool )>
+        aoe_func )
 {
     const mtype_id mon_id( sp.effect_data() );
-    std::set<tripoint> area = spell_effect_area( sp, target, spell_effect_blast, caster );
+    std::set<tripoint> area = spell_effect_area( sp, target, aoe_func, caster );
     // this should never be negative, but this'll keep problems from happening
     size_t num_mons = abs( sp.damage() );
     const time_duration summon_time = sp.duration_turns();
@@ -502,6 +529,18 @@ void spell_effect::spawn_summoned_monster( const spell &sp, const Creature &cast
         // whether or not we succeed in spawning a monster, we don't want to try this tripoint again
         area.erase( iter );
     }
+}
+
+void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
+        const tripoint &target)
+{
+    summon_monster( sp, caster, target, spell_effect_blast);
+}
+
+void spell_effect::spawn_monster_square( const spell &sp, Creature &caster,
+        const tripoint &target)
+{
+    summon_monster( sp, caster, target, spell_effect_square);
 }
 
 void spell_effect::translocate( const spell &sp, const Creature &caster,

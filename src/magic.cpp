@@ -77,6 +77,7 @@ const std::map<std::string, spell_flag> flag_map = {
     { "CONCENTRATE", spell_flag::CONCENTRATE },
     { "PLAYER_MSG", spell_flag::PLAYER_MSG },
     { "SOUND_SOURCE", spell_flag::SOUND_SOURCE },
+    { "ELUSIVE", spell_flag::ELUSIVE }
 };
 const std::map<std::string, game_message_type> game_msg_map = {
     { "m_good", game_message_type::m_good },
@@ -1067,8 +1068,8 @@ bool spell::cast_spell_effect( const Creature &source, const tripoint &target ) 
         spell_effect::flash( source, target );
     } else if( fx == "vomit" ) {
         spell_effect::vomit( source );
-    } else if( fx == "shadows" ) {
-        spell_effect::shadows( source, target );
+    } else if( fx == "summon_square" ) {
+        spell_effect::spawn_monster_square( *this, source, target );
     } else if( fx == "stamina_empty" ) {
         spell_effect::stamina_empty( source );
     } else if( fx == "pass" ) {

@@ -41,6 +41,7 @@ enum spell_flag {
     CONCENTRATE, // focus affects spell fail %
     PLAYER_MSG, // custom message to the player from the description
     SOUND_SOURCE, // the spell leads to a sound from the specifiec obj_name item
+    ELUSIVE, // effects can disappear suddenly
     LAST
 };
 
@@ -461,6 +462,7 @@ std::set<tripoint> spell_effect_line( const spell &, const tripoint &source,
 void spawn_ethereal_item( const spell &sp );
 void recover_energy( const spell &sp, const tripoint &target );
 void spawn_summoned_monster( const spell &sp, const Creature &caster, const tripoint &target );
+void spawn_monster_square( const spell &sp, Creature &caster, const tripoint &target);
 void translocate( const spell &sp, const Creature &caster, const tripoint &target,
                   teleporter_list &tp_list );
 
