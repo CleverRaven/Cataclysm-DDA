@@ -172,7 +172,9 @@ static damage_type damage_type_from_string( const std::string &str )
 
 void spell_type::load( JsonObject &jo, const std::string & )
 {
-    static const std::map<std::string, std::function<void( const spell &, Creature &, const tripoint & )>> effect_map{
+    static const
+    std::map<std::string, std::function<void( const spell &, Creature &, const tripoint & )>>
+    effect_map{
         { "pain_split", spell_effect::pain_split },
         { "target_attack", spell_effect::target_attack },
         { "projectile_attack", spell_effect::projectile_attack },
@@ -193,12 +195,10 @@ void spell_type::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "description", description, translated_string_reader );
     mandatory( jo, was_loaded, "effect", effect_name );
     const auto found_effect = effect_map.find( effect_name );
-    if ( found_effect == effect_map.cend() )
-    {
+    if( found_effect == effect_map.cend() ) {
         effect = spell_effect::none;
         debugmsg( "ERROR: spell %s has invalid effect %s", id.c_str(), effect_name );
-    }
-    else {
+    } else {
         effect = found_effect->second;
     }
 
