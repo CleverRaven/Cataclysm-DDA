@@ -431,8 +431,6 @@ class mission
 
     private:
         bool legacy_no_player_id = false;
-        // Don't use this, it's only for loading legacy saves.
-        void load_info( std::istream &info );
 
         void set_target_to_mission_giver();
 
