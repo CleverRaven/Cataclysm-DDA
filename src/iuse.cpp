@@ -8061,6 +8061,14 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
             return 0;
         }
 
+        if( ( ( it->type->tool->power_draw / 1000 ) * to_seconds<int>( 90_minutes ) ) / 1000 >
+            it->ammo_remaining() ) {
+            popup( string_format(
+                       _( "The autoclave deosn't have enough battery for one cycle.  You need atleast %s charges." ),
+                       ( ( it->type->tool->power_draw / 1000 ) * to_seconds<int>( 90_minutes ) ) / 1000 ) );
+            return 0;
+        }
+
         bool empty = true;
         item *clean_cbm = nullptr;
         for( item &bio : it->contents ) {
@@ -8070,10 +8078,10 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
         }
         if( clean_cbm ) {
             empty = false;
-            if( query_yn( "Autoclave already contains a CBM.  Do you want to remove it?" ) ) {
+            if( query_yn( _( "Autoclave already contains a CBM.  Do you want to remove it?" ) ) ) {
                 g->m.add_item( pos, *clean_cbm );
                 it->remove_item( *clean_cbm );
-                if( !query_yn( "Do you want to use the autoclave?" ) ) {
+                if( !query_yn( _( "Do you want to use the autoclave?" ) ) ) {
                     return 0;
                 }
                 empty = true;
