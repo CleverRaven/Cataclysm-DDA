@@ -1993,7 +1993,7 @@ void item::io( Archive &archive )
     archive.io( "damaged", damage_, 0 );
     archive.io( "dirty", dirt,
                 0 ); // This is the parameter the keeps track of weapon dirt condition, which exists separately (but can affect) damage condition.
-    archive.io("last_fired", last_fired, std::string()); // keeps track of last time a gun was fired
+    archive.io( "last_fired", last_fired, std::string() ); // keeps track of last time a gun was fired
     archive.io( "active", active, false );
     archive.io( "is_favorite", is_favorite, false );
     archive.io( "item_counter", item_counter, static_cast<decltype( item_counter )>( 0 ) );
