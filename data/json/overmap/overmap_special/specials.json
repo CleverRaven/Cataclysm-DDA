@@ -170,7 +170,7 @@
     ],
     "locations": [ "land" ],
     "connections": [
-      { "point": [ 0, -1, 0 ], "terrain": "road" },
+      { "point": [ 0, -2, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, -1, 0 ] },
       { "point": [ -1, 0, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 0, 0, -1 ] },
       { "point": [ 1, -1, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 1, 0, -1 ] },
       { "point": [ 3, 0, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 2, 0, -1 ] },
