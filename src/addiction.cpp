@@ -69,7 +69,7 @@ void addict_effect( player &u, addiction &add )
 
             u.mod_per_bonus( -1 );
             u.mod_int_bonus( -1 );
-            if( x_in_y( in, HOURS( 2 ) ) ) {
+            if( x_in_y( in, to_turns<int>( 2_hours ) ) ) {
                 u.mod_healthy_mod( -1, -in * 10 );
             }
             if( one_in( 20 ) && rng( 0, 20 ) < in ) {

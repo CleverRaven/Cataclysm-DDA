@@ -5651,7 +5651,7 @@ void player::suffer()
     // Spread less radiation when sleeping (slower metabolism etc.)
     // Otherwise it can quickly get to the point where you simply can't sleep at all
     const bool rad_mut_proc = rad_mut > 0 &&
-                              x_in_y( rad_mut, in_sleep_state() ? HOURS( 3 ) : MINUTES( 30 ) );
+                              x_in_y( rad_mut, to_turns<int>( in_sleep_state() ? 3_hours : 30_minutes ) );
 
     bool has_helmet = false;
     const bool power_armored = is_wearing_power_armor( &has_helmet );
@@ -6441,7 +6441,7 @@ void player::update_body_wetness( const w_point &weather )
 {
     // Average number of turns to go from completely soaked to fully dry
     // assuming average temperature and humidity
-    constexpr int average_drying = HOURS( 2 );
+    constexpr time_duration average_drying = 2_hours;
 
     // A modifier on drying time
     double delay = 1.0;
@@ -6458,7 +6458,7 @@ void player::update_body_wetness( const w_point &weather )
         delay *= 1.5;
     }
 
-    if( !x_in_y( 1, average_drying / 100.0 * delay ) ) {
+    if( !x_in_y( 1, to_turns<int>( average_drying * delay / 100.0 ) ) ) {
         // No drying this turn
         return;
     }

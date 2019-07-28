@@ -88,7 +88,7 @@ defense_game::defense_game()
 
 bool defense_game::init()
 {
-    calendar::turn = HOURS( 12 ); // Start at noon
+    calendar::turn = calendar::turn_zero + 12_hours; // Start at noon
     g->weather.temperature = 65;
     if( !g->u.create( PLTYPE_CUSTOM ) ) {
         return false;

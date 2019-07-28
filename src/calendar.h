@@ -25,17 +25,6 @@ constexpr int MINUTES( int n )
 }
 
 /**
- * Convert hours to one-second turns
- *
- * @param n Time in hours
- * @returns Time in one-second turns
- */
-constexpr int HOURS( int n )
-{
-    return n * MINUTES( 60 );
-}
-
-/**
  * Convert ticks to seconds.
  *
  * @param ticks number of ticks

@@ -280,10 +280,10 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     CHECK( can_craft == expect_craftable );
 }
 
-static constexpr int midnight = HOURS( 0 );
-static constexpr int midday = HOURS( 12 );
+static time_point midnight = calendar::turn_zero + 0_hours;
+static time_point midday = calendar::turn_zero + 12_hours;
 
-static void set_time( int time )
+static void set_time( const time_point &time )
 {
     calendar::turn = time;
     g->reset_light_level();

@@ -41,7 +41,7 @@ bool tutorial_game::init()
 {
     // TODO: clean up old tutorial
 
-    calendar::turn = HOURS( 12 ); // Start at noon
+    calendar::turn = calendar::turn_zero + 12_hours; // Start at noon
     for( auto &elem : tutorials_seen ) {
         elem = false;
     }

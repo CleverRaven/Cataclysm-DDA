@@ -429,7 +429,7 @@ TEST_CASE( "npc-movement" )
 TEST_CASE( "npc_can_target_player" )
 {
     // Set to daytime for visibiliity
-    calendar::turn = HOURS( 12 );
+    calendar::turn = calendar::turn_zero + 12_hours;
 
     g->faction_manager_ptr->create_if_needed();
 
