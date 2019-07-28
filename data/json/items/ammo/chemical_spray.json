@@ -41,7 +41,7 @@
     "name": "sprayable insecticide",
     "description": "Strong sprayable insecticide ammo for the chemical thrower.  Best be used with some kind of mask or mouth protection.",
     "weight": 3,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 3500,
     "material": "water",
     "symbol": "=",
