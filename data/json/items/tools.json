@@ -5663,6 +5663,31 @@
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
+    "id": "air_curing_hide",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": "air drying leather hide",
+    "name_plural": "air drying leather hides",
+    "description": "A clean animal hide which is being left to dry to prevent decay. Keep it away from the rain and water. You will be able to activate it when it has finished drying.",
+    "weight": 12,
+    "volume": "30 ml",
+    "price": 0,
+    "to_hit": -2,
+    "material": [ "flesh", "leather" ],
+    "symbol": ",",
+    "color": "brown",
+    "use_action": {
+      "target": "cured_hide",
+      "msg": "You unstretch the cured leather hide and fold it for storage.",
+      "moves": 15,
+      "type": "delayed_transform",
+      "transform_age": 345600,
+      "not_ready_msg": "The hide isn't dry yet.",
+      "//": "4 days"
+    },
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
     "id": "tanning_hide",
     "type": "TOOL",
     "category": "spare_parts",
@@ -5680,9 +5705,34 @@
       "msg": "You carefully unfold the tanning leather hide and shake it clean.",
       "moves": 150,
       "type": "delayed_transform",
-      "transform_age": 28800,
+      "transform_age": 518400,
       "not_ready_msg": "The tanning leather hide isn't done yet.",
-      "//": "2 days"
+      "//": "6 days"
+    },
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "air_curing_pelt",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": "air drying pelt",
+    "name_plural": "air drying pelts",
+    "description": "A clean animal fur which is being left to dry to prevent decay. Keep it away from the rain and water. You will be able to activate it when it has finished drying.",
+    "weight": 12,
+    "volume": "30 ml",
+    "price": 0,
+    "to_hit": -2,
+    "material": [ "fur", "flesh" ],
+    "symbol": ",",
+    "color": "brown",
+    "use_action": {
+      "target": "cured_pelt",
+      "msg": "You unstretch the cured pelt and fold it for storage.",
+      "moves": 15,
+      "type": "delayed_transform",
+      "transform_age": 345600,
+      "not_ready_msg": "The pelt isn't dry yet.",
+      "//": "4 days"
     },
     "flags": [ "NO_SALVAGE" ]
   },
@@ -5704,9 +5754,9 @@
       "msg": "You carefully unfold the tanning fur pelt and shake it clean.",
       "moves": 150,
       "type": "delayed_transform",
-      "transform_age": 28800,
+      "transform_age": 518400,
       "not_ready_msg": "The tanning fur pelt isn't done yet.",
-      "//": "2 days"
+      "//": "6 days"
     },
     "flags": [ "NO_SALVAGE" ]
   },

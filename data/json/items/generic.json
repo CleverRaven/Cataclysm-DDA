@@ -2233,7 +2233,7 @@
     "looks_like": "cured_hide",
     "name": "clean hide",
     "name_plural": "clean hides",
-    "description": "A animal hide that has been scrapped of extraneous hair and flesh and is ready for the next process, by either curing for preservation or tanning directly."
+    "description": "This is the first step into the tanning process. A animal hide that has been scrapped of extraneous hair and flesh and is ready for the next process, by either curing for preservation or tanning directly."
   },
   {
     "type": "GENERIC",
@@ -2273,7 +2273,7 @@
     "looks_like": "cured_pelt",
     "name": "clean pelt",
     "name_plural": "clean pelts",
-    "description": "A animal hide that has been scrapped of extraneous hair and flesh and is ready for the next process, by either curing for preservation or tanning directly."
+    "description": "This is the first step into the tanning process. A animal hide that has been scrapped of extraneous hair and flesh and is ready for the next process, by either curing for preservation or tanning directly."
   },
   {
     "type": "GENERIC",
