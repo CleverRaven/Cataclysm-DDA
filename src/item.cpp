@@ -3260,7 +3260,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         } else if( is_gun() ) {
             damtext = durability_indicator() + " ";
         } else {
-            damtext = durability_indicator() + " ";
+            damtext = durability_indicator();
         }
 
         if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
