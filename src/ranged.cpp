@@ -174,9 +174,9 @@ bool player::handle_gun_damage( item &it, int shots_fired )
     // so you can screw up your MP5 by firing blackpowder rounds and the
     // effects will be in force even when firing retail ammo, though the gun
     // won't get MORE foul.
-    if( ( it.dirt > 100 && one_in( ( ( 501 - it.dirt ) ) / 40 ) ) ||
-        ( it.has_fault(
-              fault_gun_clogged ) ) ) { // chance to cause malfunction, which always happens when clogged
+    
+    // chance to cause malfunction, which always happens when clogged:
+    if( ( it.dirt > 100 && one_in( ( ( 501 - it.dirt ) ) / 40 ) ) || ( it.has_fault( fault_gun_clogged ) ) ) {
         if( !it.has_fault( fault_gun_clogged ) ) {
             it.faults.insert( fault_gun_clogged );
         }
@@ -186,8 +186,8 @@ bool player::handle_gun_damage( item &it, int shots_fired )
         add_msg_player_or_npc( _( "Your foul %s misfires with a muffled click!" ),
                                _( "<npcname>'s foul %s misfires with a muffled click!" ),
                                it.tname() );
-        if( it.damage() < it.max_damage() && it.dirt > 350 &&
-            one_in( ( ( 505 - it.dirt ) ) / 30 ) ) { // chance to damage gun
+    // chance to damage gun:
+        if( it.damage() < it.max_damage() && it.dirt > 350 && one_in( ( ( 505 - it.dirt ) ) / 30 ) ) { 
             add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the blackpowder fouling accumulation!" ),
                                    _( "<npcname>'s %s is damaged by the blackpowder fouling accumulation!" ),
                                    it.tname() );
