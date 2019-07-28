@@ -103,14 +103,14 @@ advanced_inventory::advanced_inventory()
     // initialize screen coordinates for small overview 3x3 grid, depending on control scheme
     if( tile_iso && use_tiles ) {
         // Rotate the coordinates.
-        squares[1].hscreenx = 33;
-        squares[2].hscreenx = 36;
-        squares[3].hscreeny = 2;
-        squares[4].hscreeny = 3;
-        squares[6].hscreeny = 1;
-        squares[7].hscreeny = 2;
-        squares[8].hscreenx = 30;
-        squares[9].hscreenx = 33;
+        squares[1].hscreen.x = 33;
+        squares[2].hscreen.x = 36;
+        squares[3].hscreen.y = 2;
+        squares[4].hscreen.y = 3;
+        squares[6].hscreen.y = 1;
+        squares[7].hscreen.y = 2;
+        squares[8].hscreen.x = 30;
+        squares[9].hscreen.x = 33;
     }
 }
 // *INDENT-ON*
@@ -561,8 +561,8 @@ void advanced_inventory::menu_square( uilist &menu )
         bool canputitems = ( menu.entries[i - 1].enabled && squares[loc].canputitems() );
         nc_color bcolor = ( canputitems ? ( sel == loc ? h_white : c_light_gray ) : c_dark_gray );
         nc_color kcolor = ( canputitems ? ( sel == loc ? h_white : c_light_gray ) : c_dark_gray );
-        const int x = squares[loc].hscreenx + ofs;
-        const int y = squares[loc].hscreeny + 5;
+        const int x = squares[loc].hscreen.x + ofs;
+        const int y = squares[loc].hscreen.y + 5;
         mvwprintz( menu.window, y, x, bcolor, "%c", bracket[0] );
         wprintz( menu.window, kcolor, "%c", key );
         wprintz( menu.window, bcolor, "%c", bracket[1] );
@@ -648,13 +648,13 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
                      ( area == i || all_brackets ) ? c_light_gray : c_dark_gray;
             kcolor = ( area == i ) ? c_white : ( sel == i ) ? c_light_gray : c_dark_gray;
         }
-        const int x = squares[i].hscreenx + ofs;
-        const int y = squares[i].hscreeny;
+        const int x = squares[i].hscreen.x + ofs;
+        const int y = squares[i].hscreen.y;
         mvwprintz( window, y, x, bcolor, "%c", bracket[0] );
         wprintz( window, kcolor, "%c", ( in_vehicle && sel != AIM_DRAGGED ) ? 'V' : key );
         wprintz( window, bcolor, "%c", bracket[1] );
     }
-    return squares[AIM_INVENTORY].hscreeny + ofs;
+    return squares[AIM_INVENTORY].hscreen.y + ofs;
 }
 
 int advanced_inv_area::get_item_count() const

@@ -74,8 +74,7 @@ struct advanced_inv_listitem;
 struct advanced_inv_area {
     const aim_location id;
     // Used for the small overview 3x3 grid
-    int hscreenx = 0;
-    int hscreeny = 0;
+    point hscreen = point_zero;
     // relative (to the player) position of the map point
     tripoint off;
     /** Long name, displayed, translated */
@@ -103,7 +102,7 @@ struct advanced_inv_area {
     advanced_inv_area( aim_location id ) : id( id ) {}
     advanced_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off,
                        const std::string &name, const std::string &shortname ) : id( id ),
-        hscreenx( hscreenx ), hscreeny( hscreeny ), off( off ), name( name ), shortname( shortname ),
+        hscreen( hscreenx, hscreeny ), off( off ), name( name ), shortname( shortname ),
         canputitemsloc( false ), veh( nullptr ), vstor( -1 ), volume( 0_ml ),
         weight( 0_gram ), max_size( 0 ) {
     }
