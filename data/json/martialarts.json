@@ -1060,7 +1060,7 @@
       {
         "id": "medievalpole_move",
         "name": "You moved",
-        "description": "Nulifies Stand Your Ground, don't move, stand there and counter!",
+        "description": "Nullifies Stand Your Ground, don't move, stand there and counter!",
         "melee_allowed": true,
         "flat_bonuses": [ [ "block", "str", -1.0 ] ],
         "mult_bonuses": [ [ "dodge", 1.0 ] ],
