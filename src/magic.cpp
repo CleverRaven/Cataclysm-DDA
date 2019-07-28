@@ -13,6 +13,7 @@
 #include "calendar.h"
 #include "color.h"
 #include "damage.h"
+#include "enums.h"
 #include "field.h"
 #include "game.h"
 #include "generic_factory.h"
@@ -73,8 +74,32 @@ const std::map<std::string, spell_flag> flag_map = {
     { "SOMATIC", spell_flag::SOMATIC },
     { "NO_HANDS", spell_flag::NO_HANDS },
     { "NO_LEGS", spell_flag::NO_LEGS },
+    { "CONCENTRATE", spell_flag::CONCENTRATE },
     { "PLAYER_MSG", spell_flag::PLAYER_MSG },
-    { "CONCENTRATE", spell_flag::CONCENTRATE }
+    { "SOUND_SOURCE", spell_flag::SOUND_SOURCE },
+};
+const std::map<std::string, game_message_type> game_msg_map = {
+    { "m_good", game_message_type::m_good },
+    { "m_bad", game_message_type::m_bad },
+    { "m_mixed", game_message_type::m_mixed },
+    { "m_warning", game_message_type::m_warning },
+    { "m_neutral", game_message_type::m_neutral },
+    { "m_debug", game_message_type::m_debug },
+    { "m_headshot", game_message_type::m_headshot },
+    { "m_critical", game_message_type::m_critical },
+    { "m_grazing", game_message_type::m_grazing }
+};
+const std::map<std::string, sounds::sound_t> sounds_map = {
+    { "background", sounds::sound_t::background },
+    { "weather", sounds::sound_t::weather },
+    { "music", sounds::sound_t::music },
+    { "movement", sounds::sound_t::movement },
+    { "speech", sounds::sound_t::speech },
+    { "activity", sounds::sound_t::activity },
+    { "destructive_activity", sounds::sound_t::destructive_activity },
+    { "combat", sounds::sound_t::combat },
+    { "alert", sounds::sound_t::alert },
+    { "order", sounds::sound_t::order }
 };
 } // namespace
 
@@ -205,8 +230,7 @@ void spell_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "effect_str", effect_str, "" );
 
     optional( jo, was_loaded, "msg_type", input, "m_neutral" );
-    //custom_msg_type = io::string_to_enum<game_message_type>( input );
-    custom_msg_type = static_cast<game_message_type>( input );
+    custom_msg_type = io::string_to_enum_look_up( game_msg_map, input );
 
     optional( jo, was_loaded, "field_id", input, "none" );
     if( input != "none" ) {
@@ -268,11 +292,11 @@ void spell_type::load( JsonObject &jo, const std::string & )
         mandatory( jobj, was_loaded, "msg", s_msg);
         optional( jobj, was_loaded, "vol", s_vol, 0);
         optional( jobj, was_loaded, "type", input, "combat");
-        s_type = string_id<sounds::sound_t>( input );
+        s_type = io::string_to_enum_look_up( sounds_map, input );
         optional( jobj, was_loaded, "id", s_id);
         optional( jobj, was_loaded, "var", s_var);
     } else {
-        s_type = static_cast<sounds::sound_t>( "combat" );
+        s_type = io::string_to_enum_look_up( sounds_map, "combat" );
     }
 
     m_senses = {};
@@ -388,7 +412,6 @@ spell::spell( const spell_type *sp, int xp )
 {
     type = sp;
     experience = xp;
-    obj_name = "";
 }
 
 spell::spell( spell_id sp, int xp ) : spell( &sp.obj(), xp ) {}
@@ -752,18 +775,19 @@ void spell::make_sound( const Creature &caster, const tripoint &target ) const
         if( type->s_vol != 0) {
             loudness += type->s_vol;
         }
+
+        std::string msg = type->s_msg.empty() ? "an explosion!" : type->s_msg;
         if( has_flag( spell_flag::SOUND_SOURCE ) ) {
-            const std::string msg =  type->s_msg.append( caster.disp_name( true ) )
-                .push_back( " " ).append( this->obj_name );
-        } else {
-            const std::string msg = type->s_msg.empty() ? "an explosion!" : type->s_msg;
+            msg.append( caster.disp_name( true ) );
+            msg.push_back( ' ' );
+            msg.append( this->obj_name );
         }
 
         sounds::sound( target, loudness, type->s_type,
-                msg, has_flag( spell_flag::SOUND_SOURCE ) ), type->s_id, type->s_var );
+                msg, has_flag( spell_flag::SOUND_SOURCE ), type->s_id, type->s_var );
 
-        if( type->m_senses.count( "hear" ) > 0 && !caster.as_player().is_deaf() ) {
-            mod_morale( target );
+        if( type->m_senses.count( "hear" ) > 0 && !caster.as_player()->is_deaf() ) {
+            mod_morale( caster );
         }
     }
 }
@@ -1047,8 +1071,6 @@ bool spell::cast_spell_effect( const Creature &source, const tripoint &target ) 
         spell_effect::shadows( source, target );
     } else if( fx == "stamina_empty" ) {
         spell_effect::stamina_empty( source );
-    } else if( fx == "fun" ) {
-        spell_effect::fun( source );
     } else if( fx == "pass" ) {
     } else {
         debugmsg( "ERROR: Spell effect not defined properly." );
@@ -1078,7 +1100,7 @@ bool spell::cast_all_effects( const Creature &source, const tripoint &target ) c
         }
     }
     if( type->m_senses.count( "n/a" ) > 0 ) {
-        mod_morale( target );
+        mod_morale( source );
     }
     return success;
 }
@@ -1088,7 +1110,7 @@ void spell::set_obj_name( std::string new_name )
     obj_name = new_name;
 }
 
-std::string spell::desc() const
+const std::string &spell::desc() const
 {
     return type->description;
 }
@@ -1100,8 +1122,8 @@ game_message_type spell::msg_type() const
 
 void spell::mod_morale( const tripoint &target ) {
     player *p = g->critter_at<player>( target );
-    p->add_morale( type->m_type, type->m_bonus + rng( 0, type->m_bonus_rng_mod ),
-                type->m_max_bonus, type->m_duration, type->m_decay );
+    p.add_morale( type->m_type, type->m_bonus + rng( 0, type->m_bonus_rng_mod ),
+                type->m_max_bonus, time_duration::from_turns<int>( type->m_duration ), time_duration::from_turns<int>( type->m_decay ) );
 }
 
 // player

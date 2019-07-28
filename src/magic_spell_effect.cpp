@@ -325,7 +325,7 @@ static void damage_targets( const spell &sp, const Creature &caster,
         if( !sp.is_valid_target( caster, target ) ) {
             continue;
         }
-        sp.make_sound( target );
+        sp.make_sound( caster, target );
         sp.create_field( target );
         Creature *const cr = g->critter_at<Creature>( target );
         if( !cr ) {
@@ -495,7 +495,7 @@ void spell_effect::spawn_summoned_monster( const spell &sp, const Creature &cast
         std::advance( iter, mon_spot );
         if( add_summoned_mon( mon_id, *iter, summon_time, sp ) ) {
             num_mons--;
-            sp.make_sound( *iter );
+            sp.make_sound( caster, *iter );
         } else {
             add_msg( m_bad, "failed to place monster" );
         }

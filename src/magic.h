@@ -11,8 +11,8 @@
 #include "bodypart.h"
 #include "damage.h"
 #include "enum_bitset.h"
+#include "enums.h"
 #include "sounds.h"
-#include "string_id.h"
 #include "type_id.h"
 #include "ui.h"
 
@@ -40,6 +40,7 @@ enum spell_flag {
     NO_LEGS, // legs do not affect casting time
     CONCENTRATE, // focus affects spell fail %
     PLAYER_MSG, // custom message to the player from the description
+    SOUND_SOURCE, // the spell leads to a sound from the specifiec obj_name item
     LAST
 };
 
@@ -363,7 +364,7 @@ class spell
         void set_obj_name( std::string );
 
         // access to the description
-        std::string desc() const;
+        const std::string &desc() const;
 
         // type of used messages
         game_message_type msg_type() const;
