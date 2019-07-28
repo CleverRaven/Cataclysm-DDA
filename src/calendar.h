@@ -36,17 +36,6 @@ constexpr int HOURS( int n )
 }
 
 /**
- * Convert days to one-second turns
- *
- * @param n Time in days
- * @returns Time in one-second turns
- */
-constexpr int DAYS( int n )
-{
-    return n * HOURS( 24 );
-}
-
-/**
  * Convert ticks to seconds.
  *
  * @param ticks number of ticks
