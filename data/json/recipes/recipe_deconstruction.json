@@ -1268,7 +1268,7 @@
     "difficulty": 3,
     "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "cable", 12 ] ], [ [ "amplifier", 2 ] ], [ [ "material_aluminium_ingot", 1 ] ] ]
+    "components": [ [ [ "cable", 12 ] ], [ [ "amplifier", 2 ] ], [ [ "lightstrip_inactive", 1 ] ], [ [ "material_aluminium_ingot", 1 ] ] ]
   },
   {
     "result": "holy_symbol",
