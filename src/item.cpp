@@ -1429,7 +1429,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 parts->test( iteminfo_parts::AMMO_FX_BLACKPOWDER ) ) {
                 fx.emplace_back(
                     _( "This ammo has been loaded with <bad>blackpowder</bad>, and will quickly "
-                       "clog up most guns." ) );
+                        "clog up most guns, and cause rust if the gun is not cleaned." ) );
             }
             if( ammo.ammo_effects.count( "NEVER_MISFIRES" ) &&
                 parts->test( iteminfo_parts::AMMO_FX_CANTMISSFIRE ) ) {
@@ -8219,6 +8219,15 @@ bool item::process_tool( player *carrier, const tripoint &pos )
     }
 
     type->tick( carrier != nullptr ? *carrier : g->u, *this, pos );
+    return false;
+}
+
+bool item::process_blackpowder_fouling( player *carrier )
+{
+    if ( damage() < max_damage() && one_in( 2000 ) ) {
+        inc_damage( DT_ACID );
+        carrier->add_msg_if_player( m_bad, _( "Your %s rusts due to blackpowder fouling." ), tname() );
+    }
     return false;
 }
 
