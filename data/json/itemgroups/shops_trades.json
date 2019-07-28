@@ -56,7 +56,7 @@
       [ "chisel", 30 ],
       [ "glasses_safety", 25 ],
       [ "charcoal", 50 ],
-      [ "glass_shard", 90 ],
+      { "item": "glass_shard", "prob": 90, "count": [ 1, 8 ] },
       [ "material_sand", 80 ],
       [ "chemistry_set", 5 ]
     ]

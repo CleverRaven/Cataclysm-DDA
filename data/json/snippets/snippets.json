@@ -407,6 +407,13 @@
   },
   {
     "type": "snippet",
+    "category": "flier",
+    "text": [
+      "This is a leaflet about autoclaving procedure.  One sentence catches your attention \"/!\\Always place your tools into an autoclave pouch before autoclaving./!\\\""
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "note",
     "text": [ "\"WE WERE RIGHT THE GOVERNMENT DID IT\"" ]
   },

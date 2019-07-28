@@ -462,9 +462,10 @@
     "ident": "heli_crash",
     "name": "Helicopter Crash",
     "points": -5,
-    "description": "You've crashed your precious helicopter, it'll never fly again.  You're the only survivor, but life without your Bird is worthless anyway.",
+    "description": "While being transported to a different military base, the pilot lost control of the helicopter and crashed in the middle of nowhere. Hopefully some of the soldiers that were with you also survived the accident.",
     "start_name": "Crash site",
     "allowed_locs": [ "field", "forest" ],
+    "professions": [ "soldier", "specops", "bio_soldier", "bio_sniper", "bionic_spy", "national_guard", "politician" ],
     "map_extra": "mx_helicopter",
     "flags": [ "HELI_CRASH", "LONE_START" ]
   },

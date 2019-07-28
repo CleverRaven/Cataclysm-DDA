@@ -24,7 +24,7 @@
     "time": "25 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "glass_shard", 3 ], [ "glass_sheet", 1 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
+    "components": [ [ [ "glass_shard", 322 ], [ "glass_sheet", 1 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3030,7 +3030,7 @@
   {
     "type": "recipe",
     "result": "glass_shard",
-    "byproducts": [ [ "glass_shard", 4 ] ],
+    "byproducts": [ [ "glass_shard", 33 ] ],
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -3064,7 +3064,7 @@
     "book_learn": [ [ "glassblowing_book", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 150 ] ] ],
-    "components": [ [ [ "glass_shard", 28 ], [ "flask_glass", 6 ], [ "jar_glass", 4 ] ] ]
+    "components": [ [ [ "glass_shard", 5 ], [ "flask_glass", 6 ], [ "jar_glass", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -3077,7 +3077,7 @@
     "book_learn": [ [ "glassblowing_book", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
-    "components": [ [ [ "glass_shard", 12 ], [ "flask_glass", 3 ], [ "jar_glass", 2 ] ] ]
+    "components": [ [ [ "glass_shard", 3 ], [ "flask_glass", 3 ], [ "jar_glass", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -3155,7 +3155,7 @@
     "book_learn": [ [ "glassblowing_book", 6 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
-    "components": [ [ [ "glass_shard", 4 ] ] ]
+    "components": [ [ [ "glass_shard", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -3167,7 +3167,7 @@
     "time": "60 m",
     "autolearn": true,
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "sheet_metal", -1 ] ], [ [ "forge", 75 ] ] ],
-    "components": [ [ [ "glass_shard", 16 ], [ "flask_glass", 4 ], [ "jar_glass", 2 ] ] ]
+    "components": [ [ [ "glass_shard", 322 ], [ "flask_glass", 80 ], [ "jar_glass", 40 ] ] ]
   },
   {
     "type": "recipe",

@@ -2695,9 +2695,6 @@ void map::decay_fields_and_scent( const time_duration &amount )
     // Decay scent separately, so that later we can use field count to skip empty submaps
     g->scent.decay();
 
-    const time_duration amount_fire = amount / 3; // Decay fire by this much
-    const time_duration amount_liquid = amount / 2; // Decay washable fields (blood, guts etc.) by this
-    const time_duration amount_gas = amount / 5; // Decay gas type fields by this
     // Coordinate code copied from lightmap calculations
     // TODO: Z
     const int smz = abs_sub.z;
@@ -2738,23 +2735,10 @@ void map::decay_fields_and_scent( const time_duration &amount )
                         to_proc--;
                         field_entry &cur = fp.second;
                         const field_type_id type = cur.get_field_type();
-                        if( type == fd_fire ) {
-                            cur.set_field_age( cur.get_field_age() + amount_fire );
-                        }
-                        if( type == fd_blood || type == fd_bile || type == fd_gibs_flesh ||
-                            type == fd_gibs_veggy || type == fd_slime || type == fd_blood_veggy ||
-                            type == fd_blood_insect || type == fd_blood_invertebrate ||
-                            type == fd_gibs_insect || type == fd_gibs_invertebrate ) {
-                            cur.set_field_age( cur.get_field_age() + amount_liquid );
-                        }
-                        if( type == fd_smoke || type == fd_toxic_gas || type == fd_fungicidal_gas ||
-                            type == fd_tear_gas || type == fd_nuke_gas || type == fd_cigsmoke ||
-                            type == fd_weedsmoke || type == fd_cracksmoke || type == fd_methsmoke ||
-                            type == fd_relax_gas || type == fd_fungal_haze || type == fd_cold_air1 ||
-                            type == fd_cold_air2 || type == fd_cold_air3 || type == fd_cold_air4 ||
-                            type == fd_hot_air1 || type == fd_hot_air2 || type == fd_hot_air3 ||
-                            type == fd_hot_air4 || type == fd_insecticidal_gas ) {
-                            cur.set_field_age( cur.get_field_age() + amount_gas );
+                        const int decay_amount_factor =  type.obj().decay_amount_factor;
+                        if( decay_amount_factor != 0 ) {
+                            const time_duration decay_amount = amount / decay_amount_factor;
+                            cur.set_field_age( cur.get_field_age() + decay_amount );
                         }
                     }
                 }
@@ -5393,7 +5377,7 @@ bool map::add_field( const tripoint &p, const field_type_id type, int intensity,
         return false;
     }
 
-    if( type == fd_null ) {
+    if( !type.id() ) {
         return false;
     }
 
@@ -5459,7 +5443,7 @@ void map::add_splatter( const field_type_id type, const tripoint &where, int int
     if( intensity <= 0 ) {
         return;
     }
-    if( type == fd_blood || type == fd_gibs_flesh ) { // giblets are also good for painting
+    if( type.obj().is_splattering ) {
         if( const optional_vpart_position vp = veh_at( where ) ) {
             vehicle *const veh = &vp->vehicle();
             // Might be -1 if all the vehicle's parts at where are marked for removal
@@ -5475,7 +5459,7 @@ void map::add_splatter( const field_type_id type, const tripoint &where, int int
 
 void map::add_splatter_trail( const field_type_id type, const tripoint &from, const tripoint &to )
 {
-    if( type == fd_null ) {
+    if( !type.id() ) {
         return;
     }
     const auto trail = line_to( from, to );
@@ -5492,7 +5476,7 @@ void map::add_splatter_trail( const field_type_id type, const tripoint &from, co
 
 void map::add_splash( const field_type_id type, const tripoint &center, int radius, int intensity )
 {
-    if( type == fd_null ) {
+    if( !type.id() ) {
         return;
     }
     // TODO: use Bresenham here and take obstacles into account
@@ -8380,7 +8364,7 @@ tripoint_range map::points_in_radius( const tripoint &center, size_t radius, siz
     return tripoint_range( tripoint( minx, miny, minz ), tripoint( maxx, maxy, maxz ) );
 }
 
-std::list<item_location> map::get_active_items_in_radius( const tripoint &center, int radius ) const
+std::list<item_location> map::get_active_items_in_radius( const tripoint &center, int radius, std::string type ) const
 {
     std::list<item_location> result;
 
@@ -8400,7 +8384,9 @@ std::list<item_location> map::get_active_items_in_radius( const tripoint &center
         }
         const point sm_offset( submap_loc.x * SEEX, submap_loc.y * SEEY );
 
-        for( const auto &elem : get_submap_at_grid( submap_loc )->active_items.get() ) {
+        submap *sm = get_submap_at_grid( submap_loc );
+        std::vector<item_reference> items = type.empty() ? sm->active_items.get() : sm->active_items.get_special( type );
+        for( const auto &elem : items ) {
             const tripoint pos( sm_offset + elem.location, submap_loc.z );
 
             if( rl_dist( pos, center ) > radius ) {

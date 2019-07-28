@@ -292,6 +292,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 - ```ACIDBOMB_ACT``` Get rid of it or you'll end up like that guy in Robocop.
 - ```ACIDBOMB``` Pull the pin on an acid bomb.
+- ```AUTOCLAVE``` Sterilize one CBM by autoclaving it.
 - ```ARROW_FLAMABLE``` Light your arrow and let fly.
 - ```BATTLETORCH``` Light the battle torch.
 - ```BELL``` Ring the bell.
@@ -348,6 +349,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NOISE_EMITTER_OFF``` Turn the noise emitter on.
 - ```NOISE_EMITTER_ON``` Turn the noise emitter off.
 - ```NONE``` Do nothing.
+- ```PACK_CBM``` Put CBM in special autoclave pouch so that they stay sterile once sterilized.
 - ```PHEROMONE``` Makes zombies ignore you.
 - ```PICKAXE``` Does nothing but berate you for having it (I'm serious).
 - ```PLACE_RANDOMLY``` This is very much like the flag in the manhack iuse, it prevents the item from querying the player as to where they want the monster unloaded to, and instead choses randomly.
@@ -379,6 +381,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```TOWEL``` Dry your character using the item as towel.
 - ```TURRET``` Activate a turret.
 - ```WASHCLOTHES``` Wash clothes with FILTHY flag.
+- ```WASHCBMS``` Wash CBMs with FILTHY flag.
 - ```WATER_PURIFIER``` Purify water.
 
 
@@ -573,6 +576,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 ### Examine Actions
 
 - ```aggie_plant``` Harvest plants.
+- ```autoclave_empty``` Start the autoclave cycle if it contains filthy CBM, and the player has enough water.
+- ```autoclave_full``` Check on the progress of the cycle, and collect sterile CBM once cycle is completed.
 - ```bars``` Take advantage of AMORPHOUS and slip through the bars.
 - ```bulletin_board``` Use this to arrange tasks for your faction camp.
 - ```cardreader``` Use the cardreader with a valid card, or attempt to hack.
@@ -633,9 +638,11 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```LEAK_ALWAYS``` ... Leaks (may be combined with "RADIOACTIVE").
 - ```LEAK_DAM``` ... Leaks when damaged (may be combined with "RADIOACTIVE").
 - ```NEEDS_UNFOLD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill. Stacks with "SLOW_WIELD".
+- ```NO_PACKED``` ... This item is not protected against contamination and won't stay sterile.  Only applies to CBMs.
 - ```NO_PICKUP``` ... Character can not pickup anything while wielding this item (e.g. bionic claws).
 - ```NO_REPAIR``` ... Prevents repairing of this item even if otherwise suitable tools exist.
 - ```NO_SALVAGE``` Item cannot be broken down through a salvage process. Best used when something should not be able to be broken down (i.e. base components like leather patches).
+- ```NO_STERILE``` ... This item is not sterile.  Only applies to CBMs.
 - ```NPC_ACTIVATE``` ... NPCs can activate this item as an alternative attack. Currently by throwing it right after activation. Implied by "BOMB".
 - ```NPC_ALT_ATTACK``` ... Shouldn't be set directly. Implied by "NPC_ACTIVATE" and "NPC_THROWN".
 - ```NPC_THROWN``` ... NPCs will throw this item (without activating it first) as an alternative attack.

@@ -26,6 +26,7 @@
 #include "line.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
+#include "mission.h"
 #include "mongroup.h"
 #include "npc.h"
 #include "options.h"
@@ -913,8 +914,9 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     }
 
     if( has_target ) {
-        const int distance = rl_dist( orig, target );
-        mvwprintz( wbar, ++lines, 1, c_white, _( "Distance to target: %d" ), distance );
+        const int distance = rl_dist( center, target );
+        mvwprintz( wbar, ++lines, 1, c_white, _( "Distance to active mission:" ) );
+        mvwprintz( wbar, ++lines, 1, c_white, _( "%d tiles" ), distance );
 
         const int above_below = target.z - orig.z;
         std::string msg;
@@ -927,6 +929,14 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             mvwprintz( wbar, ++lines, 1, c_white, _( "%s" ), msg );
         }
     }
+
+    //Show mission targets on this location
+    for( auto &mission : g->u.get_active_missions() ) {
+        if( mission->get_target() == center ) {
+            mvwprintz( wbar, ++lines, 1, c_white, mission->name() );
+        }
+    }
+
     mvwprintz( wbar, 12, 1, c_magenta, _( "Use movement keys to pan." ) );
     mvwprintz( wbar, 13, 1, c_magenta, _( "Press W to preview route." ) );
     mvwprintz( wbar, 14, 1, c_magenta, _( "Press again to confirm." ) );
@@ -1074,27 +1084,23 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
 
     for( int x = curs.x - OMAPX / 2; x < curs.x + OMAPX / 2; x++ ) {
         for( int y = curs.y - OMAPY / 2; y < curs.y + OMAPY / 2; y++ ) {
-            overmap *om = overmap_buffer.get_existing_om_global( point( x, y ) );
+            tripoint p( x, y, curs.z );
+            overmap_with_local_coords om_loc = overmap_buffer.get_existing_om_global( p );
 
-            if( om ) {
-                int om_relative_x = x;
-                int om_relative_y = y;
-                omt_to_om_remain( om_relative_x, om_relative_y );
+            if( om_loc ) {
+                tripoint om_relative = om_loc.local;
+                point om_cache = omt_to_om_copy( p.xy() );
 
-                int om_cache_x = x;
-                int om_cache_y = y;
-                omt_to_om( om_cache_x, om_cache_y );
-
-                if( std::find( overmap_checked.begin(), overmap_checked.end(), point( om_cache_x,
-                               om_cache_y ) ) == overmap_checked.end() ) {
-                    overmap_checked.push_back( point( om_cache_x, om_cache_y ) );
-                    std::vector<point> notes = om->find_notes( curs.z, term );
+                if( std::find( overmap_checked.begin(), overmap_checked.end(), om_cache ) ==
+                    overmap_checked.end() ) {
+                    overmap_checked.push_back( om_cache );
+                    std::vector<point> notes = om_loc.om->find_notes( curs.z, term );
                     locations.insert( locations.end(), notes.begin(), notes.end() );
                 }
 
-                if( om->seen( om_relative_x, om_relative_y, curs.z ) &&
-                    match_include_exclude( om->ter( om_relative_x, om_relative_y, curs.z )->get_name(), term ) ) {
-                    locations.push_back( om->global_base_point() + point( om_relative_x, om_relative_y ) );
+                if( om_loc.om->seen( om_relative ) &&
+                    match_include_exclude( om_loc.om->ter( om_relative )->get_name(), term ) ) {
+                    locations.push_back( om_loc.om->global_base_point() + om_relative.xy() );
                 }
             }
         }

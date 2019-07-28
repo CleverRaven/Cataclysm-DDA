@@ -382,7 +382,7 @@ int vehicle::select_engine()
                                   fuel_left( fuel_id ) );
             tmenu.addentry( i++, is_available, -1, "[%s] %s %s",
                             is_active ? "x" : " ", parts[ e ].name(),
-                            item::find_type( fuel_id )->nname( 1 ) );
+                            item::nname( fuel_id ) );
         }
     }
     tmenu.query();
@@ -898,8 +898,8 @@ bool vehicle::start_engine( const int e )
         return false;
     }
 
-    // Damaged engines have a chance of failing to start
-    if( x_in_y( dmg * 100, 120 ) ) {
+    // Damaged non-electric engines have a chance of failing to start
+    if( !is_engine_type( e, fuel_type_battery ) && x_in_y( dmg * 100, 120 ) ) {
         sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::movement,
                        string_format( _( "the %s clanking and grinding" ), eng.name() ), true, "vehicle",
                        "engine_clanking_fail" );
@@ -1110,7 +1110,7 @@ void vehicle::transform_terrain()
                 g->m.furn_set( start_pos, new_furn );
             }
             const field_type_id new_field = field_type_id( ttd.post_field );
-            if( new_field != fd_null ) {
+            if( new_field.id() ) {
                 g->m.add_field( start_pos, new_field, ttd.post_field_intensity, ttd.post_field_age );
             }
         } else {
@@ -1362,6 +1362,10 @@ void vehicle::use_washing_machine( int p )
         return i.has_flag( filthy );
     } );
 
+    bool cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
+        return i.is_bionic();
+    } );
+
     if( parts[p].enabled ) {
         parts[p].enabled = false;
         add_msg( m_bad,
@@ -1374,6 +1378,9 @@ void vehicle::use_washing_machine( int p )
     } else if( !filthy_items ) {
         add_msg( m_bad,
                  _( "You need to remove all non-filthy items from the washing machine to start the washing program." ) );
+    } else if( cbms ) {
+        add_msg( m_bad,
+                 _( "CBMs can't be cleaned in a washing machine.  You need to remove them." ) );
     } else {
         parts[p].enabled = true;
         for( auto &n : items ) {

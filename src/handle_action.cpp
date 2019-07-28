@@ -734,6 +734,12 @@ static void wait()
     player &u = g->u;
     bool setting_alarm = false;
 
+    if( u.controlling_vehicle && ( g->m.veh_at( u.pos() )->vehicle().velocity ||
+                                   g->m.veh_at( u.pos() )->vehicle().cruise_velocity ) ) {
+        popup( _( "You can't pass time while controlling a moving vehicle." ) );
+        return;
+    }
+
     if( u.has_alarm_clock() ) {
         setting_alarm = try_set_alarm();
     }

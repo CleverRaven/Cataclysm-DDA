@@ -585,6 +585,7 @@
     "name_plural": "dog food",
     "description": "This is food for dogs.  It smells strange, but dogs seem to love it.",
     "weight": 554,
+    "spoils_in": "1 day",
     "volume": 1,
     "price": 300,
     "to_hit": -5,
@@ -600,6 +601,17 @@
     "use_action": "DOGFOOD"
   },
   {
+    "type": "COMESTIBLE",
+    "id": "dogfood_canned",
+    "name": "canned dogfood",
+    "name_plural": "canned dogfood",
+    "copy-from": "dogfood",
+    "color": "light_gray",
+    "container": "can_food",
+    "description": "Canned food for dogs. Keeps the food preserved, not that the dogs care.",
+    "price": 400
+  },
+  {
     "id": "catfood",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
@@ -607,6 +619,7 @@
     "name_plural": "cat food",
     "description": "This is food for cats.  It smells strange, but cats seem to love it.",
     "weight": 223,
+    "spoils_in": "1 day",
     "volume": 1,
     "price": 300,
     "to_hit": -5,
@@ -620,6 +633,17 @@
     "color": "brown",
     "flags": [ "FELINE" ],
     "use_action": "CATFOOD"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "catfood_canned",
+    "name": "canned catfood",
+    "name_plural": "canned catfood",
+    "copy-from": "catfood",
+    "color": "light_gray",
+    "container": "can_food",
+    "description": "Canned food for cats. Keeps the food preserved, not that the cats care about you.",
+    "price": 400
   },
   {
     "type": "COMESTIBLE",

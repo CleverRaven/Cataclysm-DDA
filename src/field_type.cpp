@@ -82,9 +82,55 @@ void field_type::load( JsonObject &jo, const std::string & )
                   fallback_intensity_level.dangerous );
         optional( jao, was_loaded, "move_cost", intensity_level.move_cost,
                   fallback_intensity_level.move_cost );
+        optional( jao, was_loaded, "extra_radiation_min", intensity_level.extra_radiation_min,
+                  fallback_intensity_level.extra_radiation_min );
+        optional( jao, was_loaded, "extra_radiation_max", intensity_level.extra_radiation_max,
+                  fallback_intensity_level.extra_radiation_max );
+        optional( jao, was_loaded, "light_emitted", intensity_level.light_emitted,
+                  fallback_intensity_level.light_emitted );
+        optional( jao, was_loaded, "translucency", intensity_level.translucency,
+                  fallback_intensity_level.translucency );
+        optional( jao, was_loaded, "convection_temperature_mod", intensity_level.convection_temperature_mod,
+                  fallback_intensity_level.convection_temperature_mod );
         intensity_levels.emplace_back( intensity_level );
     }
+
+    if( jo.has_object( "npc_complain" ) ) {
+        JsonObject joc = jo.get_object( "npc_complain" );
+        int chance;
+        std::string issue;
+        time_duration duration;
+        std::string speech;
+        optional( joc, was_loaded, "chance", chance, 0 );
+        optional( joc, was_loaded, "issue", issue );
+        optional( joc, was_loaded, "duration", duration, 0_turns );
+        optional( joc, was_loaded, "speech", speech );
+        npc_complain_data = std::make_tuple( chance, issue, duration, speech );
+    }
+
+    JsonObject jid = jo.get_object( "immunity_data" );
+    JsonArray jidt = jid.get_array( "traits" );
+    while( jidt.has_more() ) {
+        immunity_data_traits.emplace_back( trait_id( jidt.next_string() ) );
+    }
+    JsonArray jidr = jid.get_array( "body_part_env_resistance" );
+    while( jidr.has_more() ) {
+        JsonArray jao = jidr.next_array();
+        immunity_data_body_part_env_resistance.emplace_back( std::make_pair( get_body_part_token(
+                    jao.get_string( 0 ) ), jao.get_int( 1 ) ) );
+    }
     optional( jo, was_loaded, "underwater_age_speedup", underwater_age_speedup, 0_turns );
+    optional( jo, was_loaded, "outdoor_age_speedup", outdoor_age_speedup, 0_turns );
+    optional( jo, was_loaded, "decay_amount_factor", decay_amount_factor, 0 );
+    optional( jo, was_loaded, "percent_spread", percent_spread, 0 );
+    optional( jo, was_loaded, "apply_slime_factor", apply_slime_factor, 0 );
+    optional( jo, was_loaded, "gas_absorption_factor", gas_absorption_factor, 0 );
+    optional( jo, was_loaded, "is_splattering", is_splattering, false );
+    optional( jo, was_loaded, "dirty_transparency_cache", dirty_transparency_cache, false );
+    optional( jo, was_loaded, "has_fire", has_fire, false );
+    optional( jo, was_loaded, "has_acid", has_acid, false );
+    optional( jo, was_loaded, "has_elec", has_elec, false );
+    optional( jo, was_loaded, "has_fume", has_fume, false );
     optional( jo, was_loaded, "priority", priority, 0 );
     optional( jo, was_loaded, "half_life", half_life, 0_turns );
     if( jo.has_member( "phase" ) ) {
@@ -93,6 +139,13 @@ void field_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "accelerated_decay", accelerated_decay, false );
     optional( jo, was_loaded, "display_items", display_items, true );
     optional( jo, was_loaded, "display_field", display_field, false );
+    optional( jo, was_loaded, "wandering_field_id", wandering_field_id, "fd_null" );
+}
+
+void field_type::finalize()
+{
+    wandering_field = field_type_id( wandering_field_id );
+    wandering_field_id.empty();
 }
 
 void field_type::check() const
@@ -122,6 +175,7 @@ void field_types::load( JsonObject &jo, const std::string &src )
 void field_types::finalize_all()
 {
     set_field_type_ids();
+    all_field_types.finalize();
 }
 
 void field_types::check_consistency()

@@ -72,19 +72,6 @@ bool monster::wander()
 
 bool monster::is_immune_field( const field_type_id fid ) const
 {
-    if( fid == fd_smoke || fid == fd_tear_gas || fid == fd_toxic_gas ||
-        fid == fd_relax_gas || fid == fd_nuke_gas ) {
-        return has_flag( MF_NO_BREATHE );
-    }
-    if( fid == fd_acid ) {
-        return has_flag( MF_ACIDPROOF ) || has_flag( MF_FLIES );
-    }
-    if( fid == fd_fire ) {
-        return has_flag( MF_FIREPROOF );
-    }
-    if( fid == fd_electricity ) {
-        return has_flag( MF_ELECTRIC );
-    }
     if( fid == fd_fungal_haze ) {
         return has_flag( MF_NO_BREATHE ) || type->in_species( FUNGUS );
     }
@@ -93,6 +80,19 @@ bool monster::is_immune_field( const field_type_id fid ) const
     }
     if( fid == fd_insecticidal_gas ) {
         return !type->in_species( INSECT ) && !type->in_species( SPIDER );
+    }
+    const field_type ft = fid.obj();
+    if( ft.has_fume ) {
+        return has_flag( MF_NO_BREATHE );
+    }
+    if( ft.has_acid ) {
+        return has_flag( MF_ACIDPROOF ) || has_flag( MF_FLIES );
+    }
+    if( ft.has_fire ) {
+        return has_flag( MF_FIREPROOF );
+    }
+    if( ft.has_elec ) {
+        return has_flag( MF_ELECTRIC );
     }
     // No specific immunity was found, so fall upwards
     return Creature::is_immune_field( fid );
@@ -1572,27 +1572,15 @@ void monster::stumble()
     }
 }
 
-void monster::knock_back_from( const tripoint &p )
+void monster::knock_back_to( const tripoint &to )
 {
-    if( p == pos() ) {
+    if( to == pos() ) {
         return; // No effect
     }
+
     if( is_hallucination() ) {
         die( nullptr );
         return;
-    }
-    tripoint to = pos();
-    if( p.x < posx() ) {
-        to.x++;
-    }
-    if( p.x > posx() ) {
-        to.x--;
-    }
-    if( p.y < posy() ) {
-        to.y++;
-    }
-    if( p.y > posy() ) {
-        to.y--;
     }
 
     bool u_see = g->u.sees( to );

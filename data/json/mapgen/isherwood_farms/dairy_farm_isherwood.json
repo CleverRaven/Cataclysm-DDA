@@ -7,8 +7,8 @@
     "object": {
       "fill_ter": "t_floor",
       "faction_owner": [
-        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 0, 23 ] }
+        { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "isherwood_family", "x": [ 24, 47 ], "y": [ 0, 23 ] }
       ],
       "rows": [
         ".$............................................$.",
@@ -117,7 +117,8 @@
       "place_vehicles": [
         { "vehicle": "quad_bike", "x": 17, "y": 2, "chance": 30, "fuel": 200, "status": -1, "rotation": 0 },
         { "vehicle": "bicycle", "x": 17, "y": 2, "chance": 80, "fuel": 0, "status": 0, "rotation": 0 }
-      ]
+      ],
+      "place_npcs": [ { "chance": 100, "class": "isherwood_eddie", "x": 8, "y": 17 } ]
     }
   },
   {
@@ -128,8 +129,8 @@
     "object": {
       "fill_ter": "t_dirt",
       "faction_owner": [
-        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 0, 23 ] }
+        { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "isherwood_family", "x": [ 24, 47 ], "y": [ 0, 23 ] }
       ],
       "rows": [
         ".$............................................$.",
@@ -179,8 +180,8 @@
     "om_terrain": [ [ "dairy_farm_isherwood_SW_roof", "dairy_farm_isherwood_SE_roof" ] ],
     "object": {
       "faction_owner": [
-        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 0, 23 ] }
+        { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "isherwood_family", "x": [ 24, 47 ], "y": [ 0, 23 ] }
       ],
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -220,6 +221,7 @@
     "om_terrain": "rural_outbuilding",
     "//": "for Isherwood farm future update mapgen via mission",
     "object": {
+      "faction_owner": [ { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_dirtfloor",
       "rows": [
         "........................",
@@ -228,12 +230,12 @@
         "........................",
         "........................",
         "....|||||||||||||||.,,,.",
-        "....|---M-M--h---b|,,,..",
-        "....|-M-----h-M--bw,,,..",
-        "....|---MM-------b|.,,,.",
-        "....|---M---|||w+||..,,,",
-        "....|tBBB--t|x.,,,,.,,..",
-        "....|t---M-h|x,,U,,,,...",
+        "....|---M-M--hh--b|,,,..",
+        "....|------------bw,,,..",
+        "....|--MMM-------b|.,,,.",
+        "....|------M|||w+||..,,,",
+        "....|------t|x.,,,,.,,..",
+        "....|-tBBB-h|x,,U,,,,...",
         "....||w|||w||x.,,,,9,,..",
         ".............,,,,...,,..",
         "..........,,,..9........",
@@ -247,6 +249,7 @@
         "........................",
         "........................"
       ],
+      "place_npcs": [ { "chance": 100, "class": "isherwood_luke", "x": 7, "y": 9 } ],
       "terrain": {
         ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
         "|": "t_wall_log",
@@ -334,8 +337,85 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "isherwood_outbuilding_kilns",
+    "//": "Updates outbuilding to include kilns.",
+    "object": {
+      "faction_owner": [ { "id": "isherwood_family", "x": [ 0, 19 ], "y": [ 0, 19 ] } ],
+      "mapgensize": [ 14, 14 ],
+      "fill_ter": "t_dirtfloor",
+      "rows": [
+        "........................",
+        "........................",
+        ".........9.......9......",
+        "........................",
+        "........................",
+        "....|||||||||||||||.,,,.",
+        "....|-t-t-tt-RRR-b|,,,..",
+        "....|--A---------bw,,,..",
+        "....|-YYYY-------b|.,,,.",
+        "....|------h|||w+||..,,,",
+        "....|------t|x.,,,,.,,..",
+        "....|-tBBB-h|x,,U,,,,...",
+        "....||w|||w||x.,,,,9,,..",
+        ".............,,,,...,,..",
+        "..........,,,..9........"
+      ],
+      "terrain": {
+        ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
+        "|": "t_wall_log",
+        "&": "t_water_pump",
+        ",": "t_dirt",
+        "x": "t_dirt",
+        "U": "t_dirt",
+        "w": "t_window_domestic",
+        "+": "t_door_c",
+        "-": "t_dirtfloor",
+        "9": [
+          "t_tree_blackjack",
+          "t_tree_walnut",
+          "t_tree_chestnut",
+          "t_tree_beech",
+          "t_tree_hazelnut",
+          "t_tree_cottonwood",
+          "t_tree",
+          "t_tree_elm",
+          "t_tree_dead",
+          "t_tree_apple",
+          "t_tree_pear",
+          "t_tree_cherry",
+          "t_tree_peach",
+          "t_tree_apricot",
+          "t_tree_plum",
+          "t_tree_mulberry",
+          "t_tree_elderberry",
+          "t_tree_pine",
+          "t_tree_birch",
+          "t_tree_willow",
+          "t_tree_maple",
+          "t_tree_hickory",
+          "t_tree_almond",
+          "t_tree_pecan"
+        ]
+      },
+      "furniture": {
+        "B": "f_sofa",
+        "t": "f_table",
+        "h": "f_chair",
+        "U": "f_55gal_firebarrel",
+        "b": "f_bench",
+        "x": "f_bench",
+        "Y": "f_workbench",
+        "A": "f_stool",
+        "R": "f_rack"
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": "smokehouse",
     "object": {
+      "faction_owner": [ { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_dirtfloor",
       "rows": [
         "............,,,.........",
@@ -370,7 +450,7 @@
         "x": "t_dirt",
         "t": "t_dirt",
         "U": "t_dirt",
-        ",": "t_dirt",
+        ",": "t_woodchips",
         "+": "t_door_c",
         "-": "t_dirtfloor",
         "9": [
