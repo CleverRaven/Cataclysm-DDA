@@ -70,7 +70,7 @@ void spell_effect::teleport_random( const spell &sp, Creature &caster, const tri
         return;
     }
     // TODO: make this spell work for non players
-    if ( caster.is_player() ) {
+    if( caster.is_player() ) {
         sp.make_sound( caster.pos() );
         g->place_player( target );
     }
@@ -79,8 +79,7 @@ void spell_effect::teleport_random( const spell &sp, Creature &caster, const tri
 void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint &target )
 {
     player *p = caster.as_player();
-    if ( p == nullptr )
-    {
+    if( p == nullptr ) {
         return;
     }
     sp.make_sound( caster.pos() );
@@ -668,8 +667,7 @@ void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
 void spell_effect::translocate( const spell &sp, Creature &caster, const tripoint &target )
 {
     avatar *you = caster.as_avatar();
-    if ( you == nullptr )
-    {
+    if( you == nullptr ) {
         return;
     }
     you->translocators.translocate( spell_effect_area( sp, target, spell_effect_blast, caster, true ) );
