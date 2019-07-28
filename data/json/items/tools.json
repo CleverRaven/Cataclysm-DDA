@@ -5548,6 +5548,7 @@
     "use_action": "AUTOCLAVE",
     "power_draw": 1500000,
     "charges_per_use": 1,
+    "revert_to": "autoclave",
     "looks_like": "microwave",
     "ammo": "battery",
     "magazines": [
