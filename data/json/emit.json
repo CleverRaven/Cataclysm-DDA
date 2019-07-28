@@ -193,14 +193,14 @@
     "type": "emit",
     "field": "fd_fungicidal_gas",
     "intensity": 3,
-    "qty": 15
+    "qty": 18
   },
   {
     "id": "emit_insecticidal_stream",
     "type": "emit",
     "field": "fd_insecticidal_gas",
     "intensity": 3,
-    "qty": 15
+    "qty": 18
   },
   {
     "id": "emit_small_fungicidal_stream",
