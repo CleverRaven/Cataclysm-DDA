@@ -436,8 +436,6 @@ class item : public visitable<item>
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
 
-        // Legacy function, don't use.
-        void load_info( const std::string &data );
         const std::string &symbol() const;
         /**
          * Returns the monetary value of an item.
