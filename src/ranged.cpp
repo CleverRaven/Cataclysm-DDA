@@ -175,7 +175,7 @@ bool player::handle_gun_damage( item &it, int shots_fired )
     // effects will be in force even when firing retail ammo, though the gun
     // won't get MORE foul.
     if( ( it.dirt > 100 && one_in( ( ( 501 - it.dirt ) ) / 40 ) ) ||
-        ( it.faults.count(
+        ( it.has_fault(
               fault_gun_clogged ) ) ) { // chance to cause malfunction, which always happens when clogged
         if( !it.faults.count( fault_gun_clogged ) ) {
             it.faults.insert( fault_gun_clogged );
