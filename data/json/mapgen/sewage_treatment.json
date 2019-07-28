@@ -70,6 +70,7 @@
       "h": "t_thconc_floor",
       "D": "t_thconc_floor",
       "1": "t_thconc_floor",
+	  "=": "t_rock_floor",
       ">": "t_stairs_up",
       "!": "t_bars",
       "~": "t_sewage",
@@ -372,7 +373,7 @@
         "%%%%%~#2%%%%%%%%HHHHHHHHHH..HHHbH~~~~~~%22222..2%%%%%%%%%%%%%%%%2#~%%%%%",
         "%%%%%~#2%%%HHHHHHww.............b##~~~%%%%%%%..22%%%%%%%%%%%%%%%2#~%%%%%",
         "%%%%%~#2%%%H{{{{Hw...HHHHHHHHHHHH!*!!!%%%%%%%...22222222222222222#`%%%%%",
-        "%%%%%`#2%%%H....C...^H%%%%%%%%~~~`````~~~~%%%%...................#!%%%%%",
+        "%%%%%`#2%%%H....C...^H%%%%%%%%~~~`````~~~~%%%....................#!%%%%%",
         "%%%%%!#2%%%H{{{{H....H%%%%%%%~~~~~~~~~~~~~~%%%.%%%%%%%%%%%%%%{{%%~~%%%%%",
         "%%%%~~##%%%HHHHHHHHbHH%%%%%%~~~~~~~~~~~~~~~~%%b%%%%%%%%%%%%%%%%%~~~~%%%%",
         "%%%~~~~############x~~~~~~~~~~~~~~~~~~~~~~~~~~x~~~~~~~~~~~~~~~~~~~~~~%%%",
@@ -422,7 +423,7 @@
         "{": [ { "item": "sewage_plant", "chance": 50 }, { "item": "supplies_plumbing", "chance": 30 } ],
         "r": { "item": "tools_electronics", "chance": 40, "repeat": [ 1, 3 ] },
         "w": { "item": "supplies_hardware", "chance": 50 },
-        "`": [ { "item": "sewer", "chance": 10 }, { "item": "trash_forest", "chance": 10 }, { "item": "trash", "chance": 10 } ],
+        "`": [ { "item": "sewer", "chance": 20 }, { "item": "trash_forest", "chance": 10 }, { "item": "trash", "chance": 10 } ],
         "0": [ { "item": "tools_science", "chance": 50 }, { "item": "sewage_samples", "chance": 20 } ],
         "h": { "item": "chem_home", "chance": 50, "repeat": [ 1, 3 ] },
         "D": { "item": "office_mess", "chance": 40 },
@@ -492,12 +493,12 @@
       "items": {
         "{": [ { "item": "sewage_plant", "chance": 30 }, { "item": "supplies_plumbing", "chance": 20 } ],
         "w": { "item": "supplies_hardware", "chance": 50 },
-        "=": [ { "item": "cannibal_corpse", "chance": 5 }, { "item": "human_remains", "chance": 5 } ],
+        "=": [ { "item": "cannibal_corpse", "chance": 15 }, { "item": "human_remains", "chance": 15 } ],
         "r": { "item": "tools_electronics", "chance": 30, "repeat": [ 1, 3 ] }
       },
       "fields": { "=": { "field": "fd_blood", "intensity": 1, "age": 990, "chance": 40 } },
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 16, 20 ], "y": [ 11, 14 ], "density": 0.35 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 16, 20 ], "y": [ 11, 14 ], "density": 0.2 },
         { "monster": "GROUP_CHUD", "x": [ 4, 6 ], "y": [ 16, 18 ], "density": 0.2 }
       ]
     }
@@ -506,7 +507,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "sewage_treatment_0_1_-1" ],
-    "//": "Easter egg - TNMT reference",
+    "//": "Easter egg - TMNT reference",
     "weight": 1,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -522,15 +523,15 @@
         "%%%%~~~~%%%%%%%%%%HbH%%%",
         "%%%%%%%%HHHHHHHHHHH.HHHH",
         "%%%%%%%%HGGG.|YYYYY...UH",
-        "%.KKK.%%HGGG.C........UH",
-        "%.KKK.%%HGGG.|........UH",
-        "%.KKK.%%HHHHHHr.......UH",
+        "%.III.%%HGGG.C........UH",
+        "%.III.%%HGGG.|........UH",
+        "%.III.%%HHHHHHr.......UH",
         "%%%O%%%%%%%%%H2.2.......",
-        "%t...%Q..B%%%H2222222222",
+        "%t...%Q..D%%%H2222222222",
         "%....O.::.%%%HHHHHHHHHHH",
-        "%ppT.%.::1%%%%%%%%%%%%%%",
-        "%%%%O%.::.O..P%%%%%%%%%%",
-        "%fo..%1...%B.P%%%%%%%%%%",
+        "%LL;.%.::1%%%%%%%%%%%%%%",
+        "%%%%O%.::.O..[%%%%%%%%%%",
+        "%f0..%1...%D.[%%%%%%%%%%",
         "%.c..%%*%%%%%%%%%%%%%%%%",
         "%ctc.%!~~~~~~~~~~~~~~~~~",
         "%.c..%%%%%%%%%%%%%%%%%%%",
@@ -542,27 +543,25 @@
         "{": "f_utility_shelf",
         "w": "f_workbench",
         "r": "f_rack",
-        "K": "f_tatami",
+        "I": "f_tatami",
         "c": "f_chair",
         "l": "f_locker",
         "n": "f_sink",
         "f": "f_fridge",
         "t": "f_table",
-        "V": "f_exercise",
-        "S": "f_ergometer",
-        "P": "f_bed",
-        "p": "f_sofa",
+        "[": "f_bed",
+        "L": "f_sofa",
         "1": "f_armchair",
-        "T": "f_floor_lamp",
-        "o": "f_oven",
-        "B": "f_bookcase"
+        ";": "f_floor_lamp",
+        "0": "f_oven",
+        "D": "f_bookcase"
       },
       "items": {
         "{": [ { "item": "sewage_plant", "chance": 30 }, { "item": "supplies_plumbing", "chance": 20 } ],
         "w": { "item": "supplies_hardware", "chance": 50 },
         "r": { "item": "tools_electronics", "chance": 30, "repeat": [ 1, 3 ] },
-        "B": { "item": "dojo_manuals", "chance": 60, "repeat": [ 1, 2 ] },
-        "P": { "item": "bed", "chance": 60 },
+        "D": { "item": "dojo_manuals", "chance": 60, "repeat": [ 1, 2 ] },
+        "[": { "item": "bed", "chance": 60 },
         "f": { "item": "fridgesnacks", "chance": 80, "repeat": [ 1, 2 ] }
       },
       "place_loot": [
@@ -573,14 +572,14 @@
         { "item": "judo_belt_blue", "x": 4, "y": 13 },
         { "item": "pizza_cheese", "x": 2, "y": 21 }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 16, 20 ], "y": [ 11, 14 ], "density": 0.35 } ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 16, 20 ], "y": [ 11, 14 ], "density": 0.2 } ]
     }
   },
   {
     "id": "cannibal_corpse",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "group": "clothing_work_set", "chance": 40 }, { "group": "supplies_plumbing", "chance": 10 }, { "item": "corpse" } ]
+    "items": [ { "group": "clothing_work_set", "chance": 40 }, { "group": "supplies_plumbing", "chance": 20 }, { "item": "corpse" } ]
   },
   {
     "id": "human_remains",
