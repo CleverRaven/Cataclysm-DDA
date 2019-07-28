@@ -193,49 +193,6 @@ std::string convert_talk_topic( talk_topic_enum const old_value )
     return iter->second;
 }
 
-const char ivaresc = 001;
-
-static bool itag2ivar( const std::string &item_tag,
-                       std::map<std::string, std::string> &item_vars )
-{
-    size_t pos = item_tag.find( '=' );
-    if( item_tag.at( 0 ) == ivaresc && pos != std::string::npos && pos >= 2 ) {
-        std::string val_decoded;
-        int svarlen = 0;
-        int svarsep = 0;
-        svarsep = item_tag.find( '=' );
-        svarlen = item_tag.size();
-        val_decoded.clear();
-        std::string var_name = item_tag.substr( 1, svarsep - 1 ); // will assume sanity here for now
-        for( int s = svarsep + 1; s < svarlen;
-             s++ ) { // cheap and temporary, AFAIK stringstream IFS = [\r\n\t ];
-            if( item_tag[s] == ivaresc && s < svarlen - 2 ) {
-                if( item_tag[s + 1] == '0' && item_tag[s + 2] == 'A' ) {
-                    s += 2;
-                    val_decoded.append( 1, '\n' );
-                } else if( item_tag[s + 1] == '0' && item_tag[s + 2] == 'D' ) {
-                    s += 2;
-                    val_decoded.append( 1, '\r' );
-                } else if( item_tag[s + 1] == '0' && item_tag[s + 2] == '6' ) {
-                    s += 2;
-                    val_decoded.append( 1, '\t' );
-                } else if( item_tag[s + 1] == '2' && item_tag[s + 2] == '0' ) {
-                    s += 2;
-                    val_decoded.append( 1, ' ' );
-                } else {
-                    val_decoded.append( 1, item_tag[s] ); // hhrrrmmmmm should be passing \a?
-                }
-            } else {
-                val_decoded.append( 1, item_tag[s] );
-            }
-        }
-        item_vars[var_name] = val_decoded;
-        return true;
-    } else {
-        return false;
-    }
-}
-
 // player_activity.h
 void player_activity::deserialize_legacy_type( int legacy_type, activity_id &dest )
 {
