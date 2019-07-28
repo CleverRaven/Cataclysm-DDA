@@ -1273,7 +1273,7 @@ bool player::can_continue_craft( item &craft )
                 if( adjusted_alternative.count > 0 ) {
                     adjusted_alternative.count *= batch_size;
                     // Only for the next 5% progress
-                    adjusted_alternative.count /= 20;
+                    adjusted_alternative.count = std::max( adjusted_alternative.count / 20, 1 );
                 }
                 adjusted_alternatives.push_back( adjusted_alternative );
             }
