@@ -2055,7 +2055,7 @@
       [ [ "cable", 8 ] ],
       [ [ "hose", 1 ] ],
       [ [ "cu_pipe", 3 ] ],
-      [ [ "motor_small", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "e_scrap", 4 ] ],
       [ [ "element", 4 ] ],
       [ [ "power_supply", 4 ] ],
