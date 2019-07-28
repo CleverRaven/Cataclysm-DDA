@@ -1093,7 +1093,7 @@
   {
     "type": "technique",
     "id": "tec_wingchun_feint",
-    "name": "keep punching at",
+    "name": "ask the way",
     "min_unarmed": 2,
     "unarmed_allowed": true,
     "strictly_unarmed": true,
@@ -1104,7 +1104,7 @@
   {
     "type": "technique",
     "id": "tec_wingchun_stumble",
-    "name": "stumble",
+    "name": "White Crane stumble",
     "min_unarmed": 4,
     "unarmed_allowed": true,
     "crit_tec": true,
