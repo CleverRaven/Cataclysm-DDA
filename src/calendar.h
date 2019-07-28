@@ -13,18 +13,6 @@ class JsonOut;
 class JsonIn;
 
 /**
- * Convert minutes to one-second turns
- *
- * @param n Time in minutes
- * @returns Time in one-second turns
- *
- */
-constexpr int MINUTES( int n )
-{
-    return n * 60;
-}
-
-/**
  * Convert ticks to seconds.
  *
  * @param ticks number of ticks
