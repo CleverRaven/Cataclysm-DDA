@@ -5228,6 +5228,11 @@ int iuse::hotplate( player *p, item *it, bool, const tripoint & )
 
 int iuse::towel( player *p, item *it, bool t, const tripoint & )
 {
+    return towel_common( p, it, t );
+}
+
+int iuse::towel_common( player *p, item *it, bool t )
+{
     if( t ) {
         // Continuous usage, do nothing as not initiated by the player, this is for
         // wet towels only as they are active items.
@@ -5238,9 +5243,10 @@ int iuse::towel( player *p, item *it, bool t, const tripoint & )
     bool glow = p->has_effect( effect_glowing );
     int mult = slime + boom + glow; // cleaning off more than one at once makes it take longer
     bool towelUsed = false;
+    const std::string name = it ? it->tname() : _( "towel" );
 
     // can't use an already wet towel!
-    if( it->has_flag( "WET" ) ) {
+    if( it && it->has_flag( "WET" ) ) {
         p->add_msg_if_player( m_info, _( "That %s is too wet to soak up any more liquid!" ),
                               it->tname() );
         // clean off the messes first, more important
@@ -5249,10 +5255,10 @@ int iuse::towel( player *p, item *it, bool t, const tripoint & )
         p->remove_effect( effect_boomered );
         p->remove_effect( effect_glowing );
         p->add_msg_if_player( _( "You use the %s to clean yourself off, saturating it with slime!" ),
-                              it->tname() );
+                              name );
 
         towelUsed = true;
-        if( it->typeId() == "towel" ) {
+        if( it && it->typeId() == "towel" ) {
             it->convert( "towel_soiled" );
         }
 
@@ -5261,14 +5267,16 @@ int iuse::towel( player *p, item *it, bool t, const tripoint & )
         p->rem_morale( MORALE_WET );
         p->body_wetness.fill( 0 );
         p->add_msg_if_player( _( "You use the %s to dry off, saturating it with water!" ),
-                              it->tname() );
+                              name );
 
         towelUsed = true;
-        it->item_counter = to_turns<int>( 30_minutes );
+        if( it ) {
+            it->item_counter = to_turns<int>( 30_minutes );
+        }
 
         // default message
     } else {
-        p->add_msg_if_player( _( "You are already dry, the %s does nothing." ), it->tname() );
+        p->add_msg_if_player( _( "You are already dry, the %s does nothing." ), name );
     }
 
     // towel was used
@@ -5277,16 +5285,18 @@ int iuse::towel( player *p, item *it, bool t, const tripoint & )
             mult = 1;
         }
         p->moves -= 50 * mult;
-        // change "towel" to a "towel_wet" (different flavor text/color)
-        if( it->typeId() == "towel" ) {
-            it->convert( "towel_wet" );
-        }
+        if( it ) {
+            // change "towel" to a "towel_wet" (different flavor text/color)
+            if( it->typeId() == "towel" ) {
+                it->convert( "towel_wet" );
+            }
 
-        // WET, active items have their timer decremented every turn
-        it->item_tags.insert( "WET" );
-        it->active = true;
+            // WET, active items have their timer decremented every turn
+            it->item_tags.insert( "WET" );
+            it->active = true;
+        }
     }
-    return it->type->charges_to_use();
+    return it ? it->type->charges_to_use() : 0;
 }
 
 int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )

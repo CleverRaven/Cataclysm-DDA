@@ -1525,6 +1525,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
 
     const bool has_kitchen = avail_part_with_feature( interact_part, "KITCHEN", true ) >= 0;
     const bool has_faucet = avail_part_with_feature( interact_part, "FAUCET", true ) >= 0;
+    const bool has_towel = avail_part_with_feature( interact_part, "TOWEL", true ) >= 0;
     const bool has_weldrig = avail_part_with_feature( interact_part, "WELDRIG", true ) >= 0;
     const bool has_chemlab = avail_part_with_feature( interact_part, "CHEMLAB", true ) >= 0;
     const bool has_purify = avail_part_with_feature( interact_part, "WATER_PURIFIER", true ) >= 0;
@@ -1554,7 +1555,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     enum {
         EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
         USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE, USE_MONSTER_CAPTURE,
-        USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, WORKBENCH
+        USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, WORKBENCH, USE_TOWEL,
     };
     uilist selectmenu;
 
@@ -1593,6 +1594,9 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     if( has_faucet && fuel_left( "water_clean" ) > 0 ) {
         selectmenu.addentry( FILL_CONTAINER, true, 'c', _( "Fill a container with water" ) );
         selectmenu.addentry( DRINK, true, 'd', _( "Have a drink" ) );
+    }
+    if( has_towel ) {
+        selectmenu.addentry( USE_TOWEL, true, 't', _( "Use a towel" ) );
     }
     if( has_weldrig && fuel_left( "battery" ) > 0 ) {
         selectmenu.addentry( USE_WELDER, true, 'w', _( "Use the welding rig?" ) );
@@ -1662,6 +1666,10 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         }
         case USE_HOTPLATE: {
             veh_tool( "hotplate" );
+            return;
+        }
+        case USE_TOWEL: {
+            iuse::towel_common( &g->u, NULL, false );
             return;
         }
         case USE_WASHMACHINE: {

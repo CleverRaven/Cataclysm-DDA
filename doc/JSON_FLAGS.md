@@ -1322,6 +1322,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```TOOL_NONE``` Can be removed/installed without any tools
 - ```TOOL_SCREWDRIVER``` Attached with screws, can be removed/installed with a screwdriver
 - ```TOOL_WRENCH``` Attached with bolts, can be removed/installed with a wrench
+- ```TOWEL``` Can be used to dry yourself up.
 - ```TRACKED``` Contributes to steering effectiveness but doesn't count as a steering axle for install difficulty and still contributes to drag for the center of steering calculation.
 - ```TRACK``` Allows the vehicle installed on, to be marked and tracked on map.
 - ```TURRET_MOUNT``` Parts with this flag are suitable for installing turrets.
