@@ -177,7 +177,7 @@ bool player::handle_gun_damage( item &it, int shots_fired )
     if( ( it.dirt > 100 && one_in( ( ( 501 - it.dirt ) ) / 40 ) ) ||
         ( it.has_fault(
               fault_gun_clogged ) ) ) { // chance to cause malfunction, which always happens when clogged
-        if( !it.faults.count( fault_gun_clogged ) ) {
+        if( !it.has_fault( fault_gun_clogged ) ) {
             it.faults.insert( fault_gun_clogged );
         }
         if( it.faults.count( fault_gun_blackpowder ) ) {
