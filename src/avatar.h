@@ -45,6 +45,13 @@ class avatar : public player
         void randomize( bool random_scenario, points_left &points, bool play_now = false );
         bool load_template( const std::string &template_name, points_left &points );
 
+        avatar *as_avatar() override {
+            return this;
+        }
+        const avatar *as_avatar() const override {
+            return this;
+        }
+
         /** Prints out the player's memorial file */
         void memorial( std::ostream &memorial_file, const std::string &epitaph );
 
