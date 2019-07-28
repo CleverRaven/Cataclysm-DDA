@@ -64,18 +64,18 @@ bool tutorial_game::init()
     g->u.name = _( "John Smith" );
     g->u.prof = profession::generic();
     // overmap terrain coordinates
-    const int lx = 50;
-    const int ly = 50;
+    const tripoint lp( 50, 50, 0 );
     auto &starting_om = overmap_buffer.get( point_zero );
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
-            starting_om.ter( i, j, -1 ) = rock;
+            tripoint p( i, j, 0 );
+            starting_om.ter( p + tripoint_below ) = rock;
             // Start with the overmap revealed
-            starting_om.seen( i, j, 0 ) = true;
+            starting_om.seen( p ) = true;
         }
     }
-    starting_om.ter( lx, ly, 0 ) = oter_id( "tutorial" );
-    starting_om.ter( lx, ly, -1 ) = oter_id( "tutorial" );
+    starting_om.ter( lp ) = oter_id( "tutorial" );
+    starting_om.ter( lp + tripoint_below ) = oter_id( "tutorial" );
     starting_om.clear_mon_groups();
 
     g->u.toggle_trait( trait_id( "QUICK" ) );
@@ -84,7 +84,7 @@ bool tutorial_game::init()
     g->u.inv.add_item( lighter, true, false );
     g->u.set_skill_level( skill_id( "gun" ), 5 );
     g->u.set_skill_level( skill_id( "melee" ), 5 );
-    g->load_map( omt_to_sm_copy( tripoint( lx, ly, 0 ) ) );
+    g->load_map( omt_to_sm_copy( lp ) );
     g->u.setx( 2 );
     g->u.sety( 4 );
 

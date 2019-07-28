@@ -1450,6 +1450,12 @@ void options_manager::add_options_interface()
          false
        );
 
+    add( "PICKUP_POSITION", "interface", translate_marker( "Pickup position" ),
+         translate_marker( "Switch between pickup panel being left, right, or overlapping the sidebar." ),
+    { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) }, { "overlapping", translate_marker( "Overlapping" ) } },
+    "left"
+       );
+
     add( "ACCURACY_DISPLAY", "interface", translate_marker( "Aim window display style" ),
          translate_marker( "How should confidence and steadiness be communicated to the player." ),
          //~ aim bar style - bars or numbers
@@ -1458,7 +1464,6 @@ void options_manager::add_options_interface()
 
     add( "MORALE_STYLE", "interface", translate_marker( "Morale style" ),
          translate_marker( "Morale display style in sidebar." ),
-         //~ aim bar style - bars or numbers
     { { "vertical", translate_marker( "Vertical" ) }, { "horizontal", translate_marker( "Horizontal" ) } },
     "Vertical"
        );

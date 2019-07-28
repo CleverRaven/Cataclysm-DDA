@@ -127,7 +127,7 @@ static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
 void Item_factory::finalize_pre( itype &obj )
 {
     // TODO: separate repairing from reinforcing/enhancement
-    if( obj.damage_max == obj.damage_min ) {
+    if( obj.damage_max() == obj.damage_min() ) {
         obj.item_tags.insert( "NO_REPAIR" );
     }
 
@@ -194,7 +194,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
     // for ammo and comestibles stack size defaults to count of initial charges
     // Set max stack size to 200 to prevent integer overflow
-    if( obj.stackable ) {
+    if( obj.count_by_charges() ) {
         if( obj.stack_size == 0 ) {
             obj.stack_size = obj.charges_default();
         } else if( obj.stack_size > 200 ) {
@@ -595,6 +595,7 @@ void Item_factory::init()
     add_iuse( "ARROW_FLAMABLE", &iuse::arrow_flammable );
     add_iuse( "ARTIFACT", &iuse::artifact );
     add_iuse( "ATOMIC_CAFF", &iuse::atomic_caff );
+    add_iuse( "AUTOCLAVE", &iuse::autoclave );
     add_iuse( "BELL", &iuse::bell );
     add_iuse( "BLECH", &iuse::blech );
     add_iuse( "BOLTCUTTERS", &iuse::boltcutters );
@@ -708,6 +709,7 @@ void Item_factory::init()
     add_iuse( "NOISE_EMITTER_ON", &iuse::noise_emitter_on );
     add_iuse( "OXYGEN_BOTTLE", &iuse::oxygen_bottle );
     add_iuse( "OXYTORCH", &iuse::oxytorch );
+    add_iuse( "PACK_CBM", &iuse::pack_cbm );
     add_iuse( "PACK_ITEM", &iuse::pack_item );
     add_iuse( "PANACEA", &iuse::panacea );
     add_iuse( "PHEROMONE", &iuse::pheromone );
@@ -735,7 +737,6 @@ void Item_factory::init()
     add_iuse( "ROYAL_JELLY", &iuse::royal_jelly );
     add_iuse( "SEED", &iuse::seed );
     add_iuse( "SEWAGE", &iuse::sewage );
-    add_iuse( "SEW_ADVANCED", &iuse::sew_advanced );
     add_iuse( "SHAVEKIT", &iuse::shavekit );
     add_iuse( "SHOCKTONFA_OFF", &iuse::shocktonfa_off );
     add_iuse( "SHOCKTONFA_ON", &iuse::shocktonfa_on );
@@ -764,6 +765,7 @@ void Item_factory::init()
     add_iuse( "HAND_CRANK", &iuse::hand_crank );
     add_iuse( "VORTEX", &iuse::vortex );
     add_iuse( "WASHCLOTHES", &iuse::washclothes );
+    add_iuse( "WASHCBMS", &iuse::washcbms );
     add_iuse( "WATER_PURIFIER", &iuse::water_purifier );
     add_iuse( "WEAK_ANTIBIOTIC", &iuse::weak_antibiotic );
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
@@ -807,6 +809,7 @@ void Item_factory::init()
     add_actor( new learn_spell_actor() );
     add_actor( new cast_spell_actor() );
     add_actor( new weigh_self_actor() );
+    add_actor( new sew_advanced_actor() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups["EMPTY_GROUP"].reset( new Item_group( Item_group::G_COLLECTION, 100, 0, 0 ) );
@@ -857,7 +860,7 @@ void Item_factory::check_definitions() const
         if( type->price < 0 ) {
             msg << "negative price" << "\n";
         }
-        if( type->damage_min > 0 || type->damage_max < 0 || type->damage_min > type->damage_max ) {
+        if( type->damage_min() > 0 || type->damage_max() < 0 || type->damage_min() > type->damage_max() ) {
             msg << "invalid damage range" << "\n";
         }
         if( type->description.empty() ) {
@@ -1270,16 +1273,6 @@ bool Item_factory::load_definition( JsonObject &jo, const std::string &src, ityp
     if( !jo.has_string( "copy-from" ) ) {
         // if this is a new definition ensure we start with a clean itype
         def = itype();
-
-        // adjust type specific defaults
-        auto opt = jo.get_string( "type" );
-
-        // ammo and comestibles by default lack differing damage levels and are always stackable
-        if( opt == "AMMO" || opt == "COMESTIBLE" ) {
-            def.damage_min = 0;
-            def.damage_max = 0;
-            def.stackable = true;
-        }
         return true;
     }
 
@@ -2036,7 +2029,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     assign( jo, "volume", def.volume );
     assign( jo, "price", def.price );
     assign( jo, "price_postapoc", def.price_post );
-    assign( jo, "stackable", def.stackable, strict );
+    assign( jo, "stackable", def.stackable_, strict );
     assign( jo, "integral_volume", def.integral_volume );
     assign( jo, "bashing", def.melee[DT_BASH], strict, 0 );
     assign( jo, "cutting", def.melee[DT_CUT], strict, 0 );
@@ -2063,8 +2056,8 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
 
     if( jo.has_member( "damage_states" ) ) {
         auto arr = jo.get_array( "damage_states" );
-        def.damage_min = arr.get_int( 0 ) * itype::damage_scale;
-        def.damage_max = arr.get_int( 1 ) * itype::damage_scale;
+        def.damage_min_ = arr.get_int( 0 ) * itype::damage_scale;
+        def.damage_max_ = arr.get_int( 1 ) * itype::damage_scale;
     }
 
     def.name = jo.get_string( "name" );

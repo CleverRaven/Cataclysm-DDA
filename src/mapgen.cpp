@@ -749,7 +749,7 @@ class jmapgen_field : public jmapgen_piece
             , ftype( field_type_id( jsi.get_string( "field" ) ) )
             , intensity( jsi.get_int( "intensity", 1 ) )
             , age( time_duration::from_turns( jsi.get_int( "age", 0 ) ) ) {
-            if( ftype == fd_null ) {
+            if( !ftype.id() ) {
                 set_mapgen_defer( jsi, "field", "invalid field type" );
             }
         }
@@ -2724,8 +2724,6 @@ void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const o
             draw_spiral( terrain_type, dat, when, density );
         } else if( is_ot_match( "temple", terrain_type, ot_match_type::prefix ) ) {
             draw_temple( terrain_type, dat, when, density );
-        } else if( is_ot_match( "toxic", terrain_type, ot_match_type::prefix ) ) {
-            draw_toxic_dump( terrain_type, dat, when, density );
         } else if( is_ot_match( "fema", terrain_type, ot_match_type::prefix ) ) {
             draw_fema( terrain_type, dat, when, density );
         } else if( is_ot_match( "mine", terrain_type, ot_match_type::prefix ) ) {
@@ -4173,6 +4171,8 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                             spawn_item( SEEX, SEEY - 1, "battery", dice( 4, 3 ) );
                             spawn_item( SEEX - 1, SEEY, "v29" );
                             spawn_item( SEEX - 1, SEEY, "laser_rifle", dice( 1, 0 ) );
+                            spawn_item( SEEX, SEEY, "plasma_gun" );
+                            spawn_item( SEEX, SEEY, "plasma" );
                             spawn_item( SEEX - 1, SEEY, "recipe_atomic_battery" );
                             spawn_item( SEEX, SEEY  - 1, "solar_panel_v3" );
                         } else if( loot_variant > 67 && loot_variant < 89 ) {
@@ -5446,38 +5446,6 @@ void map::draw_spiral( const oter_id &terrain_type, mapgendata &/*dat*/, const t
             ter_set( orx + 2, ory + 3, t_rock_floor );
             place_items( "spiral", 60, orx + 2, ory + 3, orx + 2, ory + 3, false, 0 );
         }
-    }
-}
-
-void map::draw_toxic_dump( const oter_id &terrain_type, mapgendata &/*dat*/,
-                           const time_point &/*when*/, const float /*density*/ )
-{
-    if( is_ot_match( "toxic_dump", terrain_type, ot_match_type::type ) ) {
-        fill_background( this, t_dirt );
-        for( int n = 0; n < 6; n++ ) {
-            int poolx = rng( 4, SEEX * 2 - 5 ), pooly = rng( 4, SEEY * 2 - 5 );
-            for( int i = poolx - 3; i <= poolx + 3; i++ ) {
-                for( int j = pooly - 3; j <= pooly + 3; j++ ) {
-                    if( rng( 2, 5 ) > rl_dist( poolx, pooly, i, j ) ) {
-                        ter_set( i, j, t_sewage );
-                        adjust_radiation( i, j, rng( 20, 60 ) );
-                    }
-                }
-            }
-        }
-        int buildx = rng( 6, SEEX * 2 - 7 ), buildy = rng( 6, SEEY * 2 - 7 );
-        square( this, t_floor, buildx - 3, buildy - 3, buildx + 3, buildy + 3 );
-        line( this, t_wall, buildx - 4, buildy - 4, buildx + 4, buildy - 4 );
-        line( this, t_wall, buildx - 4, buildy + 4, buildx + 4, buildy + 4 );
-        line( this, t_wall, buildx - 4, buildy - 4, buildx - 4, buildy + 4 );
-        line( this, t_wall, buildx + 4, buildy - 4, buildx + 4, buildy + 4 );
-        line_furn( this, f_counter, buildx - 3, buildy - 3, buildx + 3, buildy - 3 );
-        place_items( "toxic_dump_equipment", 80,
-                     buildx - 3, buildy - 3, buildx + 3, buildy - 3, false, 0 );
-        spawn_item( buildx, buildy, "id_military" );
-        ter_set( buildx, buildy + 4, t_door_locked );
-
-        rotate( rng( 0, 3 ) );
     }
 }
 
