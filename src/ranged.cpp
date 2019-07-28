@@ -167,7 +167,7 @@ bool player::handle_gun_damage( item &it, int shots_fired )
     int bpjamoccurredthisturn = 0;
     const auto &curammo_effects = it.ammo_effects();
     const cata::optional<islot_gun> &firing = it.type->gun;
-    const std::string thistimefired = to_string_time_of_day(calendar::turn);
+    const std::string thistimefired = to_string_time_of_day( calendar::turn );
     // Here we check for a chance for the weapon to suffer a misfire due to
     // being dirty (blackpowder fouling effect only; typical dirt accumulation
     // from smokeless powder is not currently modeled by this effect).
@@ -178,25 +178,27 @@ bool player::handle_gun_damage( item &it, int shots_fired )
     // won't get MORE foul.
 
     // causes failure to cycle if weapon is fired too quickly:
-    if (it.last_fired == thistimefired && !it.has_flag("PUMP_ACTION") && !it.has_flag("MANUAL_ACTION") && it.type->gun->ups_charges < 1 && ( curammo_effects.count("MUZZLE_SMOKE") || curammo_effects.count("BLACKPOWDER") ) ) {
-        add_msg_player_or_npc(_("Your %s fails to cycle!"),
-            _("<npcname>'s %s fails to cycle!"),
-            it.tname());
-            // Don't increment until after the message
+    if( it.last_fired == thistimefired && !it.has_flag( "PUMP_ACTION" ) &&
+        !it.has_flag( "MANUAL_ACTION" ) && it.type->gun->ups_charges < 1 &&
+        ( curammo_effects.count( "MUZZLE_SMOKE" ) || curammo_effects.count( "BLACKPOWDER" ) ) ) {
+        add_msg_player_or_npc( _( "Your %s fails to cycle!" ),
+                               _( "<npcname>'s %s fails to cycle!" ),
+                               it.tname() );
+        // Don't increment until after the message
         return false;
     }
     it.last_fired = thistimefired;
     // chance to cause malfunction, which always happens when clogged:
     int malfunctionreduction = 0;
-    if (it.has_flag("PUMP_ACTION") || it.has_flag("MANUAL_ACTION")) {
+    if( it.has_flag( "PUMP_ACTION" ) || it.has_flag( "MANUAL_ACTION" ) ) {
         malfunctionreduction = 30;
     }
-    for (const ammotype &ammo : it.type->gun->ammo) {
-        if (ammo == ammotype("flintlock") || ammo == ammotype("blunderbuss")) {
+    for( const ammotype &ammo : it.type->gun->ammo ) {
+        if( ammo == ammotype( "flintlock" ) || ammo == ammotype( "blunderbuss" ) ) {
             malfunctionreduction = 39;
         }
     }
-    if( ( it.dirt > 100 && one_in( ( ( 600 - it.dirt ) ) / ( 40 - malfunctionreduction) ) ) ||
+    if( ( it.dirt > 100 && one_in( ( ( 600 - it.dirt ) ) / ( 40 - malfunctionreduction ) ) ) ||
         ( it.has_fault( fault_gun_clogged ) ) ) {
         if( !it.has_fault( fault_gun_clogged ) ) {
             it.faults.insert( fault_gun_clogged );
@@ -209,7 +211,8 @@ bool player::handle_gun_damage( item &it, int shots_fired )
                                _( "<npcname>'s foul %s misfires with a muffled click!" ),
                                it.tname() );
         // chance to damage gun:
-        if( it.damage() < it.max_damage() && bpjamoccurredthisturn != 1 && it.dirt > 350 && one_in(((2000 - it.dirt)) / (40 - malfunctionreduction))) {
+        if( it.damage() < it.max_damage() && bpjamoccurredthisturn != 1 && it.dirt > 350 &&
+            one_in( ( ( 2000 - it.dirt ) ) / ( 40 - malfunctionreduction ) ) ) {
             add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the blackpowder charge!" ),
                                    _( "<npcname>'s %s is damaged by the blackpowder charge!" ),
                                    it.tname() );
@@ -218,10 +221,11 @@ bool player::handle_gun_damage( item &it, int shots_fired )
         }
         return false;
     }
-    if (it.damage() < it.max_damage() && bpjamoccurredthisturn != 1 && it.dirt > 350 && one_in(((650 - it.dirt)) / (40 - malfunctionreduction))) {
-        add_msg_player_or_npc(m_bad, _("Your %s is damaged by the blackpowder fouling accumulation!"),
-            _("<npcname>'s %s is damaged by the blackpowder fouling accumulation!"),
-            it.tname());
+    if( it.damage() < it.max_damage() && bpjamoccurredthisturn != 1 && it.dirt > 350 &&
+        one_in( ( ( 650 - it.dirt ) ) / ( 40 - malfunctionreduction ) ) ) {
+        add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the blackpowder fouling accumulation!" ),
+                               _( "<npcname>'s %s is damaged by the blackpowder fouling accumulation!" ),
+                               it.tname() );
         // Don't increment until after the message
         it.inc_damage();
     }
@@ -316,11 +320,11 @@ bool player::handle_gun_damage( item &it, int shots_fired )
     }
     if( curammo_effects.count( "MUZZLE_SMOKE" ) || curammo_effects.count( "BLACKPOWDER" ) ) {
         if( it.dirt < 500 ) {
-                it.dirt = it.dirt + 5;
-        if( it.dirt > 500 ) {
+            it.dirt = it.dirt + 5;
+            if( it.dirt > 500 ) {
                 it.dirt = 500;
             }
-        if( !it.has_fault( fault_gun_blackpowder ) && !it.has_fault( fault_gun_clogged ) ) {
+            if( !it.has_fault( fault_gun_blackpowder ) && !it.has_fault( fault_gun_clogged ) ) {
                 it.faults.insert( fault_gun_blackpowder );
             }
         }
