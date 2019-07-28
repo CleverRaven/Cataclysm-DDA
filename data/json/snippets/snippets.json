@@ -60,7 +60,8 @@
       "\"Have you found (y)our savior today?  Atom is here for you, it is inside you!\"  This flier marked the rising popularity of the Atom Cult, a religion in which the essence of life is discovered through meticulous inward study and pious donations.",
       "\"Joe's Diner; 1/2 pound of meat, 3 toppings, 'your choice', all with a side of freedom fries and a BIG Gulp size pop.\"",
       "This is an advertisement for the Wink & Nod brand Soporific Induction CBM.  It shows a picture of a woman sleeping on a bed of nails with a satisfied smile on her face.  The caption reads: \"Catch Zs with ease, wherever you please!\"",
-      "This is a leaflet about autoclaving procedure.  One sentence catches your attention \"/!\\Always place your tools into an autoclave pouch before autoclaving./!\\\""
+      "This is a leaflet about autoclaving procedure.  One sentence catches your attention \"/!\\Always place your tools into an autoclave pouch before autoclaving./!\\\"",
+      "This is an advertisement for a local hospital.  You see a clean hospital room with a smiling man lying on the bed.  The bed is connected to some medical apparatus with a \"Autodoc Mk. X\" printed on it.  A doctor is seen working with its console, while his assistant is unpacking some high-tech hardware.  The caption reads: \"Autodoc - augmentation has never been so easy, reliable, and safe.\""
     ]
   },
   {
@@ -440,314 +441,99 @@
   },
   {
     "type": "snippet",
-    "category": "flier",
+    "category": "scores",
     "text": [
-      "This is an advertisement for a local hospital.  You see a clean hospital room with a smiling man lying on the bed.  The bed is connected to some medical apparatus with a \"Autodoc Mk. X\" printed on it.  A doctor is seen working with its console, while his assistant is unpacking some high-tech hardware.  The caption reads: \"Autodoc - augmentation has never been so easy, reliable, and safe.\""
+      "The card is printed with 2 boxes.  In the first box you see a tally of 5 tick marks.  The second box has a total of 9.",
+      "The card is printed with 2 boxes.  In the first box you see a tally of 3 tick marks.  The second box has line trailing off to the edge and a bloody fingerprint.",
+      "The card is printed for a game of golf. Someone has filled out their score for the first 9 holes."
     ]
   },
   {
     "type": "snippet",
-    "category": "scores",
+    "category": "charsheet",
     "text": [
-      "The card is printed with 2 boxes.  In the first box you see a tally of 5 tick marks.  The second box has a total of 9."
+      "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a fighter.",
+      "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a bard.",
+      "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a cleric.",
+      "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a wizard.",
+      "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a rogue.",
+      "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a barbarian.",
+      "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a warlock.",
+      "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a paladin.",
+      "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a sorcerer."
     ]
   },
   {
     "type": "snippet",
-    "category": "scores",
+    "category": "pyromania_withdrawal",
     "text": [
-      "The card is printed with 2 boxes.  In the first box you see a tally of 3 tick marks.  The second box has line trailing off to the edge and a bloody fingerprint."
+      "You feel cold.  You need the warmth of a fire.",
+      "Maybe a fire could calm your nerves?",
+      "You need to ignite something.",
+      "You daydream of crackling fire...",
+      "You shiver.  A fire would be great right now.",
+      "You think of randomly lighting a fire, but decide against it."
     ]
   },
   {
     "type": "snippet",
-    "category": "scores",
-    "text": [ "The card is printed for a game of golf. Someone has filled out their score for the first 9 holes." ]
-  },
-  {
-    "type": "snippet",
-    "category": "charsheet",
-    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a fighter." ]
-  },
-  {
-    "type": "snippet",
-    "category": "charsheet",
-    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a bard." ]
-  },
-  {
-    "type": "snippet",
-    "category": "charsheet",
-    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a cleric." ]
-  },
-  {
-    "type": "snippet",
-    "category": "charsheet",
-    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a wizard." ]
-  },
-  {
-    "type": "snippet",
-    "category": "charsheet",
-    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a rogue." ]
-  },
-  {
-    "type": "snippet",
-    "category": "charsheet",
-    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a barbarian." ]
-  },
-  {
-    "type": "snippet",
-    "category": "charsheet",
-    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a warlock." ]
-  },
-  {
-    "type": "snippet",
-    "category": "charsheet",
-    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a paladin." ]
-  },
-  {
-    "type": "snippet",
-    "category": "charsheet",
-    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a sorcerer." ]
-  },
-  {
-    "type": "snippet",
-    "category": "pyromania_withdrawal",
-    "text": [ "You feel cold.  You need the warmth of a fire." ]
-  },
-  {
-    "type": "snippet",
-    "category": "pyromania_withdrawal",
-    "text": [ "Maybe a fire could calm your nerves?" ]
-  },
-  {
-    "type": "snippet",
-    "category": "pyromania_withdrawal",
-    "text": [ "You need to ignite something." ]
-  },
-  {
-    "type": "snippet",
-    "category": "pyromania_withdrawal",
-    "text": [ "You daydream of crackling fire..." ]
-  },
-  {
-    "type": "snippet",
-    "category": "pyromania_withdrawal",
-    "text": [ "You shiver.  A fire would be great right now." ]
-  },
-  {
-    "type": "snippet",
-    "category": "pyromania_withdrawal",
-    "text": [ "You think of randomly lighting a fire, but decide against it." ]
-  },
-  {
-    "type": "snippet",
     "category": "killer_withdrawal",
-    "text": [ "You think of steel blades and warm dripping blood." ]
-  },
-  {
-    "type": "snippet",
-    "category": "killer_withdrawal",
-    "text": [ "You'd like to hear the last breath of something living." ]
-  },
-  {
-    "type": "snippet",
-    "category": "killer_withdrawal",
-    "text": [ "So much death around.  Why not add some more?" ]
-  },
-  {
-    "type": "snippet",
-    "category": "killer_withdrawal",
-    "text": [ "You lick your lips, in anticipation for dead trophies." ]
-  },
-  {
-    "type": "snippet",
-    "category": "killer_withdrawal",
-    "text": [ "By the blade or by the gun?  How will you kill this time?" ]
-  },
-  {
-    "type": "snippet",
-    "category": "killer_withdrawal",
-    "text": [ "Ahh, how delightful would it be to kill something." ]
-  },
-  {
-    "type": "snippet",
-    "category": "killer_withdrawal",
-    "text": [ "You are death, and you are coming for them.  Soon." ]
-  },
-  {
-    "type": "snippet",
-    "category": "killer_withdrawal",
-    "text": [ "You whisper a song to yourself. \"Stab stab stab stab stab, and then you die!  Yeah!\"" ]
-  },
-  {
-    "type": "snippet",
-    "category": "killer_withdrawal",
-    "text": [ "You whisper to yourself. \"Come, oh sweet death of yours.\"" ]
-  },
-  {
-    "type": "snippet",
-    "category": "killer_withdrawal",
-    "text": [ "You whisper a song to yourself. \"I've seen the future, baby!  It is murder!\"" ]
+    "text": [
+      "You think of steel blades and warm dripping blood.",
+      "You'd like to hear the last breath of something living.",
+      "So much death around.  Why not add some more?",
+      "You lick your lips, in anticipation for dead trophies.",
+      "By the blade or by the gun?  How will you kill this time?",
+      "Ahh, how delightful would it be to kill something.",
+      "You are death, and you are coming for them.  Soon.",
+      "You whisper a song to yourself. \"Stab stab stab stab stab, and then you die!  Yeah!\"",
+      "You whisper to yourself. \"Come, oh sweet death of yours.\"",
+      "You whisper a song to yourself. \"I've seen the future, baby!  It is murder!\""
+    ]
   },
   {
     "type": "snippet",
     "category": "killer_on_kill",
-    "text": [ "You whisper to yourself. \"Now I am become death, the destroyer of worlds!\"" ]
-  },
-  {
-    "type": "snippet",
-    "category": "killer_on_kill",
-    "text": [ "You whisper to yourself. \"Another one bites the dust!\"" ]
-  },
-  {
-    "type": "snippet",
-    "category": "killer_on_kill",
-    "text": [ "You whisper to yourself. \"Death takes you away.\"" ]
-  },
-  {
-    "type": "snippet",
-    "category": "killer_on_kill",
-    "text": [ "You exhale in bliss." ]
-  },
-  {
-    "type": "snippet",
-    "category": "killer_on_kill",
-    "text": [ "You whisper to yourself. \"Your death is my life.\"" ]
-  },
-  {
-    "type": "snippet",
-    "category": "killer_on_kill",
-    "text": [ "You whisper to yourself. \"No light for you anymore.\"" ]
-  },
-  {
-    "type": "snippet",
-    "category": "killer_on_kill",
-    "text": [ "You whisper to yourself. \"Yet another one.\"" ]
-  },
-  {
-    "type": "snippet",
-    "category": "killer_on_kill",
-    "text": [ "You whisper to yourself. \"Keep'em coming.\"" ]
-  },
-  {
-    "type": "snippet",
-    "category": "killer_on_kill",
-    "text": [ "You whisper to yourself. \"Next!\"" ]
-  },
-  {
-    "type": "snippet",
-    "category": "killer_on_kill",
-    "text": [ "You whisper to yourself. \"The goal of all life is death!\"" ]
-  },
-  {
-    "type": "snippet",
-    "category": "killer_on_kill",
-    "text": [ "You whisper to yourself. \"By my hand!\"" ]
-  },
-  {
-    "type": "snippet",
-    "category": "killer_on_kill",
-    "text": [ "You whisper to yourself. \"Die!\"" ]
-  },
-  {
-    "type": "snippet",
-    "category": "killer_on_kill",
-    "text": [ "You whisper to yourself. \"Your time is up!\"" ]
+    "text": [
+      "You whisper to yourself. \"Now I am become death, the destroyer of worlds!\"",
+      "You whisper to yourself. \"Another one bites the dust!\"",
+      "You whisper to yourself. \"Death takes you away.\"",
+      "You exhale in bliss.",
+      "You whisper to yourself. \"Your death is my life.\"",
+      "You whisper to yourself. \"No light for you anymore.\"",
+      "You whisper to yourself. \"Yet another one.\"",
+      "You whisper to yourself. \"Keep'em coming.\"",
+      "You whisper to yourself. \"Next!\"",
+      "You whisper to yourself. \"The goal of all life is death!\"",
+      "You whisper to yourself. \"By my hand!\"",
+      "You whisper to yourself. \"Die!\"",
+      "You whisper to yourself. \"Your time is up!\""
+    ]
   },
   {
     "type": "snippet",
     "category": "tree_communion",
-    "text": [ "You catch a glimpse of distant green." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tree_communion",
-    "text": [ "The sense of a faraway place comes up through your roots." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tree_communion",
-    "text": [ "The trees tell you of the world." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tree_communion",
-    "text": [ "The rustling leaves paint a picture in your head." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tree_communion",
-    "text": [ "Your consciousness drifts into the wild green yonder." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tree_communion",
-    "text": [ "The trees whisper of remote acres." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tree_communion",
-    "text": [ "The trees speak of their far-flung relatives." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tree_communion",
-    "text": [ "Visions of unfamiliar forests flicker through your mind." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tree_communion",
-    "text": [ "You picture yourself as one branch among many." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tree_communion",
-    "text": [ "New knowledge blooms within you." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tree_communion",
-    "text": [ "The horizon beckons with promises of pollen." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tree_communion",
-    "text": [ "Your awareness grows in directions heretofore unknown." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tree_communion",
-    "text": [ "A tree falls in a forest, and you hear its sound." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tree_communion",
-    "text": [ "You feel the hum of untold biomass." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tree_communion",
-    "text": [ "A tingle of understanding runs from your roots and up your spine." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tree_communion",
-    "text": [ "You gain new appreciation for the interconnectedness of life." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tree_communion",
-    "text": [ "You ask, and the trees answer." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tree_communion",
-    "text": [ "You see the forest for the trees." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tree_communion",
-    "text": [ "In the minute shifts and pivots of the trees, you hear the language of the universe." ]
+    "text": [
+      "You catch a glimpse of distant green.",
+      "The sense of a faraway place comes up through your roots.",
+      "The trees tell you of the world.",
+      "The rustling leaves paint a picture in your head.",
+      "Your consciousness drifts into the wild green yonder.",
+      "The trees whisper of remote acres.",
+      "The trees speak of their far-flung relatives.",
+      "Visions of unfamiliar forests flicker through your mind.",
+      "You picture yourself as one branch among many.",
+      "New knowledge blooms within you.",
+      "The horizon beckons with promises of pollen.",
+      "Your awareness grows in directions heretofore unknown.",
+      "A tree falls in a forest, and you hear its sound.",
+      "You feel the hum of untold biomass.",
+      "A tingle of understanding runs from your roots and up your spine.",
+      "You gain new appreciation for the interconnectedness of life.",
+      "You ask, and the trees answer.",
+      "You see the forest for the trees.",
+      "In the minute shifts and pivots of the trees, you hear the language of the universe."
+    ]
   },
   {
     "type": "snippet",
