@@ -1607,7 +1607,7 @@ class bionic_install_preset: public inventory_selector_preset
             } );
 
             if( b_filter.size() > 0 ) {
-                return string_format( _( "kit available" ) );// legacy
+                return  _( "kit available" );// legacy
             } else {
                 return string_format( _( "%i mL" ), amount );
             }
@@ -1802,7 +1802,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
             } );
 
             if( b_filter.size() > 0 ) {
-                return string_format( _( "kit available" ) ); // legacy
+                return  _( "kit available" ); // legacy
             } else {
                 return string_format( _( "%i mL" ), amount );
             }
@@ -1843,7 +1843,7 @@ class bionic_sterilize_preset : public inventory_selector_preset
             }
 
             if( loc.get_item()->has_flag( "FILTHY" ) ) {
-                return string_format( _( "CBM is filthy.  Wash it first." ) );
+                return  _( "CBM is filthy.  Wash it first." );
             }
             return std::string();
         }
