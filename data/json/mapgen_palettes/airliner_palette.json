@@ -26,15 +26,7 @@
       ">": "t_slope_down",
       "<": "t_slope_up"
     },
-    "furniture": {
-      "a": "f_seat_airplane",
-      "c": "f_counter",
-      "f": "f_fridge",
-      "l": "f_locker",
-      "S": "f_sink",
-      "r": "f_rack",
-      "*": "f_wreckage"
-    },
+    "furniture": { "a": "f_seat_airplane", "c": "f_counter", "f": "f_fridge", "l": "f_locker", "S": "f_sink", "*": "f_wreckage" },
     "toilets": { "T": {  } }
   }
 ]
