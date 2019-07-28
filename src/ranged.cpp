@@ -307,7 +307,7 @@ bool player::handle_gun_damage( item &it, int shots_fired )
             if( it.dirt > 500 ) {
                 it.dirt = 500;
             }
-            if( !it.faults.count( fault_gun_blackpowder ) && !it.faults.count( fault_gun_clogged ) ) {
+            if( !it.has_fault( fault_gun_blackpowder ) && !it.has_fault( fault_gun_clogged ) ) {
                 it.faults.insert( fault_gun_blackpowder );
             }
         }
