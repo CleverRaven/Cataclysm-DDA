@@ -161,6 +161,7 @@ bool player::handle_gun_damage( item &it, int shots_fired )
 {
     if( !it.is_gun() ) {
         debugmsg( "Tried to handle_gun_damage of a non-gun %s", it.tname() );
+        shots_fired = shots_fired; // left this here in case someone needs shots_fired in the future.
         return false;
     }
 
