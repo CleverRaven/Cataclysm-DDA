@@ -458,27 +458,21 @@ void monster::try_biosignature()
     if( !biosignatures ) {
         return;
     }
+    if( !type->biosig_timer ) {
+        return;
+    }
 
-    const int current_day = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
-    if( biosig_timer < 0 ) {
-        biosig_timer = type->biosig_timer;
-        if( biosig_timer < 0 ) {
-            return;
-        }
-        biosig_timer += current_day;
+    if( !biosig_timer ) {
+        biosig_timer.emplace( calendar::turn + *type->biosig_timer );
     }
 
     while( true ) {
-        if( biosig_timer > current_day ) {
+        if( *biosig_timer > calendar::turn ) {
             return;
         }
 
-        g->m.add_item_or_charges( pos(), item( type->biosig_item, DAYS( biosig_timer ), 1 ), true );
-        const int next_biosig = type->biosig_timer;
-        if( next_biosig < 0 ) {
-            return;
-        }
-        biosig_timer += next_biosig;
+        g->m.add_item_or_charges( pos(), item( type->biosig_item, *biosig_timer, 1 ), true );
+        *biosig_timer += *type->biosig_timer;
     }
 }
 

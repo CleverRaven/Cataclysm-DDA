@@ -39,7 +39,6 @@ mtype::mtype()
     baby_egg = "null";
 
     biosignatures = false;
-    biosig_timer = -1;
     biosig_item = "null";
 
     burn_into = mtype_id::NULL_ID();
