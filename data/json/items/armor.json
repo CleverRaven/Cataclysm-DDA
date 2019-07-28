@@ -267,7 +267,7 @@
     "color": "brown",
     "covers": [ "ARMS" ],
     "coverage": 90,
-    "encumbrance": 16,
+    "encumbrance": 10,
     "warmth": 25,
     "material_thickness": 4,
     "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
