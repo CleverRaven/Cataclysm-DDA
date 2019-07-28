@@ -8043,7 +8043,9 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
             }
             if( clean_cbm ) {
                 g->m.add_item( pos, *clean_cbm );
-                it->remove_item( *clean_cbm );
+                it->remove_items_with( []( const item & e ) {
+                    return e.is_bionic();
+                }, 1 );
             }
             return 0;
         }
@@ -8063,7 +8065,9 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
             }
             if( clean_cbm ) {
                 g->m.add_item( pos, *clean_cbm );
-                it->remove_item( *clean_cbm );
+                it->remove_items_with( []( const item & e ) {
+                    return e.is_bionic();
+                }, 1 );
             }
         } else {
             it->set_var( "CYCLETIME", Cycle_time );
