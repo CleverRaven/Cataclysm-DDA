@@ -8061,11 +8061,12 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
             return 0;
         }
 
-        if( ( ( it->type->tool->power_draw / 1000 ) * to_seconds<int>( 90_minutes ) ) / 1000 >
+        // Power_draw seem to consume random amount of battery so +100 to be safe
+        if( ( ( it->type->tool->power_draw / 1000 ) * to_seconds<int>( 90_minutes ) ) / 1000 + 100 >
             it->ammo_remaining() ) {
             popup( string_format(
                        _( "The autoclave deosn't have enough battery for one cycle.  You need atleast %s charges." ),
-                       ( ( it->type->tool->power_draw / 1000 ) * to_seconds<int>( 90_minutes ) ) / 1000 ) );
+                       ( ( it->type->tool->power_draw / 1000 ) * to_seconds<int>( 90_minutes ) ) / 1000 + 100 ) );
             return 0;
         }
 
