@@ -265,6 +265,7 @@ void requirement_data::save_requirement( const requirement_data &req, const requ
     if( !id.is_null() ) {
         dup.id_ = id;
     }
+
     requirements_all[ dup.id_ ] = dup;
 }
 
