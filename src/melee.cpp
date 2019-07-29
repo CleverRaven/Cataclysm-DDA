@@ -400,7 +400,7 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
                 add_msg( m_info, _( "The %s hisses as its hydraulic arm pumps forward!" ), mons->get_name() );
                 mattack::smash_specific( mons, &t );
             } else {
-                mons->mod_mech_power( -2 );
+                mons->use_mech_power( -2 );
                 mons->melee_attack( t );
             }
             mod_moves( -mons->type->attack_cost );

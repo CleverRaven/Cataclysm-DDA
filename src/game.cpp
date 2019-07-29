@@ -9007,11 +9007,11 @@ bool game::walk_move( const tripoint &dest_loc )
         u.moves -= static_cast<int>( ceil( ( u.run_cost( mcost,
                                              diag ) * 100.0 / crit->get_speed() ) + ( ( u.get_weight() / 120_gram ) / 40 ) ) );
         if( u.movement_mode_is( PMM_WALK ) ) {
-            crit->mod_mech_power( -2 );
+            crit->use_mech_power( -2 );
         } else if( u.movement_mode_is( PMM_CROUCH ) ) {
-            crit->mod_mech_power( -1 );
+            crit->use_mech_power( -1 );
         } else if( u.movement_mode_is( PMM_RUN ) ) {
-            crit->mod_mech_power( -3 );
+            crit->use_mech_power( -3 );
         }
     } else {
         u.moves -= u.run_cost( mcost, diag );
@@ -10214,13 +10214,13 @@ void game::vertical_move( int movez, bool force )
     if( u.has_effect( effect_riding ) && u.mounted_creature ) {
         monster *crit = u.mounted_creature.get();
         if( crit->has_flag( MF_RIDEABLE_MECH ) ) {
-            crit->mod_mech_power( -1 );
+            crit->use_mech_power( -1 );
             if( u.movement_mode_is( PMM_WALK ) ) {
-                crit->mod_mech_power( -2 );
+                crit->use_mech_power( -2 );
             } else if( u.movement_mode_is( PMM_CROUCH ) ) {
-                crit->mod_mech_power( -1 );
+                crit->use_mech_power( -1 );
             } else if( u.movement_mode_is( PMM_RUN ) ) {
-                crit->mod_mech_power( -3 );
+                crit->use_mech_power( -3 );
             }
         }
     } else {

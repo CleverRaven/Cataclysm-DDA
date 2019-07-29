@@ -2160,7 +2160,7 @@ void monster::die( Creature *nkiller )
     }
 }
 
-bool monster::mod_mech_power( int amt )
+bool monster::use_mech_power( int amt )
 {
     if( is_hallucination() || !has_flag( MF_RIDEABLE_MECH ) || !battery_item ) {
         return false;

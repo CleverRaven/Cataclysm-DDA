@@ -154,8 +154,7 @@ bool monexamine::pet_menu( monster &z )
                             pet_name );
         }
     } else {
-        itype_id bat_type = z.type->mech_battery;
-        const itype &type = *item::find_type( bat_type );
+        const itype &type = *item::find_type( z.type->mech_battery );
         int max_charge = type.magazine->capacity;
         float charge_percent;
         if( z.battery_item ) {
@@ -174,7 +173,7 @@ bool monexamine::pet_menu( monster &z )
         }
         if( z.battery_item ) {
             amenu.addentry( remove_bat, true, 'x', _( "Remove the mech's battery pack" ) );
-        } else if( g->u.has_amount( bat_type, 1 ) ) {
+        } else if( g->u.has_amount( z.type->mech_battery, 1 ) ) {
             amenu.addentry( insert_bat, true, 'x', _( "Insert a new battery pack" ) );
         } else {
             amenu.addentry( insert_bat, false, 'x', _( "You need a %s to power this mech" ), type.nname( 1 ) );
@@ -263,6 +262,10 @@ void monexamine::remove_battery( monster &z )
 
 void monexamine::insert_battery( monster &z )
 {
+    if( z.battery_item ) {
+        // already has a battery, shouldnt be called with one, but just incase.
+        return;
+    }
     std::vector<item *> bat_inv = g->u.items_with( []( const item & itm ) {
         return itm.has_flag( "MECH_BAT" );
     } );

@@ -661,7 +661,7 @@ static void smash()
     if( u.has_effect( effect_riding ) && u.mounted_creature ) {
         monster *crit = u.mounted_creature.get();
         if( crit->has_flag( MF_RIDEABLE_MECH ) ) {
-            crit->mod_mech_power( -3 );
+            crit->use_mech_power( -3 );
         }
     }
     if( m.get_field( smashp, fd_web ) != nullptr ) {

@@ -548,7 +548,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         if( mons->type->mech_str_bonus != 0 ) {
             throw_assist = true;
             throw_assist_str = mons->type->mech_str_bonus;
-            mons->mod_mech_power( -3 );
+            mons->use_mech_power( -3 );
         }
     }
     if( !throw_assist ) {

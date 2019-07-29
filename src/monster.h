@@ -386,8 +386,8 @@ class monster : public Creature
         // Add an item to inventory
         void add_item( const item &it );
         // check mech power levels and modify it.
-        bool mod_mech_power( int amt );
-        bool check_mech_powered();
+        bool use_mech_power( int amt );
+        bool check_mech_powered() const;
 
         /**
          * Makes monster react to heard sound

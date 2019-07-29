@@ -989,7 +989,7 @@ void mattack::smash_specific( monster *z, Creature *target )
         return;
     }
     if( z->has_flag( MF_RIDEABLE_MECH ) ) {
-        z->mod_mech_power( -5 );
+        z->use_mech_power( -5 );
     }
     tripoint targ_pos = target->pos();
     z->set_goal( targ_pos );
