@@ -882,7 +882,7 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
         std::string limb = "~~%~~";
         nc_color color = c_light_red;
 
-        const auto bp = u.hp_to_bp( static_cast<hp_part>( limb_index ) );
+        const auto bp = avatar::hp_to_bp( static_cast<hp_part>( limb_index ) );
         if( u.worn_with_flag( "SPLINT", bp ) ) {
             static const efftype_id effect_mending( "mending" );
             const auto &eff = u.get_effect( effect_mending, bp );

@@ -120,7 +120,7 @@ void avatar::memorial( std::ostream &memorial_file, const std::string &epitaph )
 
     //Avoid saying "a male unemployed" or similar
     std::string profession_name;
-    if( prof == prof->generic( ) ) {
+    if( prof == profession::generic() ) {
         if( male ) {
             profession_name = _( "an unemployed male" );
         } else {

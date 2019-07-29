@@ -1027,7 +1027,7 @@ static void draw_initial_windows( const catacurses::window &w_stats,
         line++;
     }
     if( you.get_thirst() > 40 ) {
-        pen = abs( you.thirst_speed_penalty( you.get_thirst() ) );
+        pen = abs( player::thirst_speed_penalty( you.get_thirst() ) );
         mvwprintz( w_speed, line, 1, c_red, _( "Thirst              -%s%d%%" ),
                    ( pen < 10 ? " " : "" ), pen );
         line++;
@@ -1271,7 +1271,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
         }
         //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
         mvwprintw( w_tip, 0, 0, _( "%1$s | %2$s | %3$s" ), name, male ? _( "Male" ) : _( "Female" ), race );
-    } else if( prof == nullptr || prof == prof->generic() ) {
+    } else if( prof == nullptr || prof == profession::generic() ) {
         // Regular person. Nothing interesting.
         //~ player info window: 1s - name, 2s - gender, '|' - field separator.
         mvwprintw( w_tip, 0, 0, _( "%1$s | %2$s" ), name, male ? _( "Male" ) : _( "Female" ) );
