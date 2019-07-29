@@ -480,9 +480,9 @@ class cata_tiles
         tripoint zone_offset;
 
         // offset values, in tile coordinates, not pixels
-        point o = point_zero;
+        point o;
         // offset for drawing, in pixels.
-        point op = point_zero;
+        point op;
 
     private:
         /**

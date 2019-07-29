@@ -101,7 +101,6 @@ struct input_event {
 #endif
 
     input_event() {
-        mouse_pos = point_zero;
         type = CATA_INPUT_ERROR;
 #if defined(__ANDROID__)
         shortcut_last_used_action_counter = 0;
@@ -109,7 +108,6 @@ struct input_event {
     }
     input_event( int s, input_event_t t )
         : type( t ) {
-        mouse_pos = point_zero;
         sequence.push_back( s );
 #if defined(__ANDROID__)
         shortcut_last_used_action_counter = 0;

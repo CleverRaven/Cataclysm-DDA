@@ -1269,7 +1269,7 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         return cata::nullopt;
     }
 
-    point view_offset = point_zero;
+    point view_offset;
     if( capture_win == g->w_terrain ) {
         view_offset = g->ter_view_p.xy();
     }
