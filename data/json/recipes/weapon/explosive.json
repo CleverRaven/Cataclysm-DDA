@@ -318,8 +318,8 @@
     "difficulty": 2,
     "time": "15 m",
     "reversible": true,
-    "book_learn": [ [ "manual_launcher", 2 ], [ "textbook_anarch", 3 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "can_food_unsealed", 1 ] ], [ [ "chem_black_powder", 412 ] ], [ [ "string_6", 1 ] ] ]
   },
   {
