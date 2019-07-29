@@ -11,8 +11,6 @@
 #include "bodypart.h"
 #include "damage.h"
 #include "enum_bitset.h"
-#include "enums.h"
-#include "sounds.h"
 #include "type_id.h"
 #include "ui.h"
 
@@ -39,8 +37,6 @@ enum spell_flag {
     NO_HANDS, // hands do not affect spell energy cost
     NO_LEGS, // legs do not affect casting time
     CONCENTRATE, // focus affects spell fail %
-    PLAYER_MSG, // custom message to the player from the description
-    SOUND_SOURCE, // the spell leads to a sound from the specifiec obj_name item
     ELUSIVE, // effects can disappear suddenly
     LAST
 };
@@ -104,8 +100,6 @@ class spell_type
         std::string effect_str;
         // list of additional "spell effects"
         std::vector<fake_spell> additional_spells;
-        // type of the custom message
-        game_message_type custom_msg_type;
 
         // if the spell has a field name defined, this is where it is
         cata::optional<field_type_id> field;
@@ -214,22 +208,6 @@ class spell_type
 
         enum_bitset<spell_flag> spell_tags;
 
-        // sound related info
-        std::string s_msg;
-        int s_vol;
-        sounds::sound_t s_type;
-        std::string s_id;
-        std::string s_var;
-        bool s_emit;
-
-        // moral effect related info
-        std::set<std::string> m_senses;
-        morale_type m_type;
-        int m_bonus;
-        int m_bonus_rng_mod;
-        int m_max_bonus;
-        int m_duration;
-        int m_decay;
 
         static void load_spell( JsonObject &jo, const std::string &src );
         void load( JsonObject &jo, const std::string & );
@@ -252,8 +230,6 @@ class spell
         int experience;
         // returns damage type for the spell
         damage_type dmg_type() const;
-
-        std::string obj_name;
 
     public:
         spell() = default;
@@ -361,17 +337,6 @@ class spell
         bool is_valid_target( const Creature &caster, const tripoint &p ) const;
         bool is_valid_target( valid_target t ) const;
 
-        // acceess the name to the object causing related to the spell
-        void set_obj_name( std::string );
-
-        // access to the description
-        const std::string &desc() const;
-
-        // type of used messages
-        game_message_type msg_type() const;
-
-        // modify the players morale
-        void mod_morale( const tripoint &target );
 };
 
 class known_magic

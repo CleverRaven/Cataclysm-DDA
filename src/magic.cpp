@@ -75,8 +75,6 @@ const std::map<std::string, spell_flag> flag_map = {
     { "NO_HANDS", spell_flag::NO_HANDS },
     { "NO_LEGS", spell_flag::NO_LEGS },
     { "CONCENTRATE", spell_flag::CONCENTRATE },
-    { "PLAYER_MSG", spell_flag::PLAYER_MSG },
-    { "SOUND_SOURCE", spell_flag::SOUND_SOURCE },
     { "ELUSIVE", spell_flag::ELUSIVE }
 };
 const std::map<std::string, game_message_type> game_msg_map = {
@@ -229,9 +227,6 @@ void spell_type::load( JsonObject &jo, const std::string & )
 
     std::string input;
     optional( jo, was_loaded, "effect_str", effect_str, "" );
-
-    optional( jo, was_loaded, "msg_type", input, "m_neutral" );
-    custom_msg_type = io::string_to_enum_look_up( game_msg_map, input );
 
     optional( jo, was_loaded, "field_id", input, "none" );
     if( input != "none" ) {
@@ -766,30 +761,14 @@ bool spell::create_field( const tripoint &at ) const
     return false;
 }
 
-void spell::make_sound( const Creature &caster, const tripoint &target ) const
+void spell::make_sound( const tripoint &target ) const
 {
     if( !has_flag( spell_flag::SILENT ) ) {
-        int loudness = abs( damage() ) / 3 ;
+        int loudness = abs( damage() ) / 3;
         if( has_flag( spell_flag::LOUD ) ) {
             loudness += 1 + damage() / 3;
         }
-        if( type->s_vol != 0) {
-            loudness += type->s_vol;
-        }
-
-        std::string msg = type->s_msg.empty() ? "an explosion!" : type->s_msg;
-        if( has_flag( spell_flag::SOUND_SOURCE ) ) {
-            msg.append( caster.disp_name( true ) );
-            msg.push_back( ' ' );
-            msg.append( this->obj_name );
-        }
-
-        sounds::sound( target, loudness, type->s_type,
-                msg, has_flag( spell_flag::SOUND_SOURCE ), type->s_id, type->s_var );
-
-        if( type->m_senses.count( "hear" ) > 0 && !caster.as_player()->is_deaf() ) {
-            mod_morale( caster );
-        }
+        sounds::sound( target, loudness, sounds::sound_t::combat, _( "an explosion" ), false );
     }
 }
 
@@ -1100,9 +1079,6 @@ bool spell::cast_all_effects( const Creature &source, const tripoint &target ) c
             success = success && sp.cast_all_effects( source, target );
         }
     }
-    if( type->m_senses.count( "n/a" ) > 0 ) {
-        mod_morale( source );
-    }
     return success;
 }
 
@@ -1119,12 +1095,6 @@ const std::string &spell::desc() const
 game_message_type spell::msg_type() const
 {
     return type->custom_msg_type;
-}
-
-void spell::mod_morale( const tripoint &target ) {
-    player *p = g->critter_at<player>( target );
-    p.add_morale( type->m_type, type->m_bonus + rng( 0, type->m_bonus_rng_mod ),
-                type->m_max_bonus, time_duration::from_turns<int>( type->m_duration ), time_duration::from_turns<int>( type->m_decay ) );
 }
 
 // player
