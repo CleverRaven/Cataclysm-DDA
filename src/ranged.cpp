@@ -211,13 +211,13 @@ bool player::handle_gun_damage( item &it, int shots_fired )
                                it.tname() );
     }
         // chance to damage gun:
-     if( it.damage() < it.max_damage() && bp_jam_occurred_this_turn != 1 && dirt > 350 &&
-         one_in( ( ( 2000 - dirt ) ) / ( 40 - malfunctionreduction ) ) ) {
-         add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the blackpowder charge!" ),
-                                   _( "<npcname>'s %s is damaged by the blackpowder charge!" ),
-                                   it.tname() );
-            // Don't increment until after the message
-         it.inc_damage();
+    if( it.damage() < it.max_damage() && bp_jam_occurred_this_turn != 1 && dirt > 350 &&
+        one_in( ( ( 2000 - dirt ) ) / ( 40 - malfunctionreduction ) ) ) {
+        add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the blackpowder charge!" ),
+                               _( "<npcname>'s %s is damaged by the blackpowder charge!" ),
+                               it.tname() );
+        // Don't increment until after the message
+        it.inc_damage();
 
         return false;
     }
