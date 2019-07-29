@@ -6894,8 +6894,8 @@ std::list<item> player::use_charges( const itype_id &what, int qty,
         return res;
 
     } else if( what == "UPS" ) {
-        if( has_effect( effect_riding ) && mounted_creature &&
-            mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) && mounted_creature.get()->battery_item ) {
+        if( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
+            mounted_creature.get()->battery_item ) {
             auto mons = mounted_creature.get();
             int power_drain = std::min( mons->battery_item->ammo_remaining(), qty );
             mons->mod_mech_power( -power_drain );
@@ -6985,16 +6985,25 @@ int player::amount_worn( const itype_id &id ) const
     return amount;
 }
 
+bool player::is_mounted()
+{
+    return has_effect( effect_riding ) && mounted_creature;
+}
+
 bool player::has_charges( const itype_id &it, int quantity,
                           const std::function<bool( const item & )> &filter ) const
 {
     if( it == "fire" || it == "apparatus" ) {
         return has_fire( quantity );
     }
-    if( it == "UPS" && has_effect( effect_riding ) && mounted_creature &&
+    if( it == "UPS" && is_mounted() &&
         mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) ) {
         auto mons = mounted_creature.get();
-        return quantity <= mons->battery_item->ammo_remaining();
+        if( quantity <= mons->battery_item->ammo_remaining() ) {
+            return true;
+        } else {
+            quantity -= mons->battery_item->ammo_remaining();
+        }
     }
     return charges_of( it, quantity, filter ) == quantity;
 }
