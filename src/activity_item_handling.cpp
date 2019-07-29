@@ -939,11 +939,11 @@ static construction check_build_pre( const construction &con )
     return pre_con;
 }
 
-static bool character_has_skill_for( const player *p, const construction &con )
+static bool character_has_skill_for( const player &p, const construction &con )
 {
     return std::all_of( con.required_skills.begin(), con.required_skills.end(),
     [&]( const std::pair<skill_id, int> &pr ) {
-        return p->get_skill_level( pr.first ) >= pr.second;
+        return p.get_skill_level( pr.first ) >= pr.second;
     } );
 }
 
@@ -968,15 +968,15 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 continue;
             }
         }
-        for( const auto elem2 : g->m.i_at( elem ) ) {
+        for( const auto &elem2 : g->m.i_at( elem ) ) {
             if( in_loot_zones && elem2.made_of_from_type( LIQUID ) ) {
                 continue;
             }
             if( p.backlog.front().id() == activity_id( "ACT_MULTIPLE_FARM" ) ||
                 activity_to_restore == activity_id( "ACT_MULTIPLE_FARM" ) ) {
                 // this fetch task will need to pick up an item. so check for its weight/volume before setting off.
-                if( in_loot_zones && ( elem2.type->volume > volume_allowed ||
-                                       elem2.type->weight > weight_allowed ) ) {
+                if( in_loot_zones && ( elem2.volume() > volume_allowed ||
+                                       elem2.weight() > weight_allowed ) ) {
                     continue;
                 }
             }
@@ -985,9 +985,9 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
         if( !in_loot_zones ) {
             if( const cata::optional<vpart_reference> vp = g->m.veh_at( elem ).part_with_feature( "CARGO",
                     false ) ) {
-                vehicle *src_veh = &vp->vehicle();
+                vehicle &src_veh = vp->vehicle();
                 int src_part = vp->part_index();
-                for( auto &it : src_veh->get_items( src_part ) ) {
+                for( auto &it : src_veh.get_items( src_part ) ) {
                     temp_inv += it;
                 }
             }
@@ -1028,7 +1028,7 @@ static std::pair<bool, do_activity_reason> can_do_activity_there( const activity
         // if theres a partial construction on the tile, then we can work on it, no need to check inventories.
         if( nc ) {
             const construction &built = list_constructions[nc->id];
-            if( !character_has_skill_for( &p, built ) ) {
+            if( !character_has_skill_for( p, built ) ) {
                 return std::make_pair( false, DONT_HAVE_SKILL );
             }
             return std::make_pair( true, CAN_DO_CONSTRUCTION );
@@ -1205,7 +1205,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
     // will be filtered for amounts/charges afterwards.
     for( tripoint point_elem : farming_task ? loot_spots : combined_spots ) {
         std::map<itype_id, int> temp_map;
-        for( auto stack_elem : g->m.i_at( point_elem ) ) {
+        for( auto &stack_elem : g->m.i_at( point_elem ) ) {
             for( std::vector<item_comp> &elem : req_comps ) {
                 for( item_comp &comp_elem : elem ) {
                     if( comp_elem.type == stack_elem.typeId() ) {
@@ -1241,8 +1241,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                     if( stack_elem.has_quality( tool_qual, qual_level ) ) {
                         // check for weight/volume if its a task that involves needing a carried tool
                         // this is a shovel, we can just return this, nothing else is needed.
-                        if( farming_task && stack_elem.type->volume < volume_allowed &&
-                            stack_elem.type->weight < weight_allowed &&
+                        if( farming_task && stack_elem.volume() < volume_allowed &&
+                            stack_elem.weight() < weight_allowed &&
                             std::find( loot_spots.begin(), loot_spots.end(), point_elem ) != loot_spots.end() ) {
                             std::vector<std::tuple<tripoint, itype_id, int>> ret;
                             ret.push_back( std::make_tuple( point_elem, stack_elem.typeId(), 1 ) );
@@ -1570,7 +1570,7 @@ static void fetch_activity( player &p, const tripoint src_loc, activity_id activ
                 std::string seed_name = dynamic_cast<const plot_options &>
                                         ( backlog_act_zone->get_options() ).get_seed();
                 if( ( *it ).typeId() == itype_id( seed_name ) ) {
-                    if( ( *it ).type->volume > volume_allowed || ( *it ).type->weight > weight_allowed ) {
+                    if( ( *it ).volume() > volume_allowed || ( *it ).weight() > weight_allowed ) {
                         // this item is too heavy / big to pick up discount it.
                         continue;
                     }
@@ -1580,7 +1580,7 @@ static void fetch_activity( player &p, const tripoint src_loc, activity_id activ
                 // we need a shovel/hoe
             } else if( p.backlog.front().values.back() == NEEDS_TILLING ) {
                 if( ( *it ).has_quality( quality_id( "DIG" ), 1 ) ) {
-                    if( ( *it ).type->volume > volume_allowed || ( *it ).type->weight > weight_allowed ) {
+                    if( ( *it ).volume() > volume_allowed || ( *it ).weight() > weight_allowed ) {
                         // this item is too heavy / big to pick up discount it.
                         continue;
                     }
@@ -1761,7 +1761,7 @@ void generic_multi_activity_handler( player_activity &act, player &p )
                 }
                 continue;
             }
-            for( const auto stack_elem : g->m.i_at( elem ) ) {
+            for( const auto &stack_elem : g->m.i_at( elem ) ) {
                 if( stack_elem.has_var( "activity_var" ) && stack_elem.get_var( "activity_var", "" ) == p.name ) {
                     const furn_t &f = g->m.furn( elem ).obj();
                     if( !f.has_flag( "PLANT" ) ) {

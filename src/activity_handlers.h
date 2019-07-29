@@ -8,15 +8,12 @@
 #include <vector>
 #include <list>
 
-#include "item.h"
 #include "player_activity.h"
-#include "type_id.h"
 
 class player;
 class Character;
 class item;
 struct tripoint;
-using seed_map_t = std::map<itype_id, int>;
 
 std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles );
