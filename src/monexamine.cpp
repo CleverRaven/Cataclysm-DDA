@@ -183,65 +183,64 @@ bool monexamine::pet_menu( monster &z )
     amenu.query();
     int choice = amenu.ret;
 
-    switch( choice )
-    {
-    case swap_pos:
-        swap( z );
-        break;
-    case push_zlave:
-        push( z );
-        break;
-    case rename:
-        rename_pet( z );
-        break;
-    case attach_bag:
-        attach_bag_to( z );
-        break;
-    case drop_all:
-        dump_items( z );
-        break;
-    case give_items:
-        return give_items_to( z );
-    case mon_armor_add:
-        return add_armor( z );
-    case mon_harness_remove:
-        remove_harness( z );
-        break;
-    case mon_armor_remove:
-        remove_armor( z );
-        break;
-    case play_with_pet:
-        if( query_yn( _( "Spend a few minutes to play with your %s?" ), pet_name ) ) {
-            play_with( z );
-        }
-        break;
-    case pheromone:
-        if( query_yn( _( "Really kill the zombie slave?" ) ) ) {
-            kill_zslave( z );
-        }
-        break;
-    case rope:
-        tie_or_untie( z );
-        break;
-    case attach_saddle:
-    case remove_saddle:
-        attach_or_remove_saddle( z );
-        break;
-    case mount:
-        mount_pet( z );
-        break;
-    case milk:
-        milk_source( z );
-        break;
-    case remove_bat:
-        remove_battery( z );
-        break;
-    case insert_bat:
-        insert_battery( z );
-        break;
-    case check_bat:
-    default:
-        break;
+    switch( choice ) {
+        case swap_pos:
+            swap( z );
+            break;
+        case push_zlave:
+            push( z );
+            break;
+        case rename:
+            rename_pet( z );
+            break;
+        case attach_bag:
+            attach_bag_to( z );
+            break;
+        case drop_all:
+            dump_items( z );
+            break;
+        case give_items:
+            return give_items_to( z );
+        case mon_armor_add:
+            return add_armor( z );
+        case mon_harness_remove:
+            remove_harness( z );
+            break;
+        case mon_armor_remove:
+            remove_armor( z );
+            break;
+        case play_with_pet:
+            if( query_yn( _( "Spend a few minutes to play with your %s?" ), pet_name ) ) {
+                play_with( z );
+            }
+            break;
+        case pheromone:
+            if( query_yn( _( "Really kill the zombie slave?" ) ) ) {
+                kill_zslave( z );
+            }
+            break;
+        case rope:
+            tie_or_untie( z );
+            break;
+        case attach_saddle:
+        case remove_saddle:
+            attach_or_remove_saddle( z );
+            break;
+        case mount:
+            mount_pet( z );
+            break;
+        case milk:
+            milk_source( z );
+            break;
+        case remove_bat:
+            remove_battery( z );
+            break;
+        case insert_bat:
+            insert_battery( z );
+            break;
+        case check_bat:
+        default:
+            break;
     }
     return true;
 }
