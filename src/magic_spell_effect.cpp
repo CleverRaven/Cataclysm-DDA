@@ -595,7 +595,7 @@ void spell_effect::map( const spell &sp, const tripoint &target )
 {
     player *p = g->critter_at<player>( target );
     const bool new_map = overmap_buffer.reveal(
-                             point( target.x, target.y ), sp.aoe(), target.z );
+                             target.yx(), sp.aoe(), target.z );
     if( new_map ) {
         p->add_msg_if_player( m_warning, _( "You have a vision of the surrounding area..." ) );
         p->mod_moves( -to_moves<int>( 1_seconds ) );
