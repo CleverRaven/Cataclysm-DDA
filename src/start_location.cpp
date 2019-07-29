@@ -410,7 +410,7 @@ void start_location::handle_heli_crash( player &u ) const
 {
     for( int i = 2; i < num_hp_parts; i++ ) { // Skip head + torso for balance reasons.
         const auto part = static_cast<hp_part>( i );
-        const auto bp_part = u.hp_to_bp( part );
+        const auto bp_part = player::hp_to_bp( part );
         const int roll = static_cast<int>( rng( 1, 8 ) );
         switch( roll ) {
             // Damage + Bleed
