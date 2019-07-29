@@ -1435,6 +1435,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         }
 
         tripoint dest( p.x + dx, p.y + dy, p.z );
+        const int dest_movecost_from = 50 * g->m.move_cost( dest );
 
         // Pushing into cars/windows etc. is harder
         const int movecost_penalty = g->m.move_cost( dest ) - 2;
@@ -1463,12 +1464,10 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
                 }
 
                 moves -= movecost_attacker;
-                if( movecost_from > 100 ) {
-                    critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
-                } else {
-                    critter->moves -= movecost_from;
-                }
 
+                // Don't knock down a creature that successfully
+                // pushed another creature, just reduce moves
+                critter->moves -= dest_movecost_from;
                 return true;
             } else {
                 return false;
@@ -1484,11 +1483,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
             critter->setpos( dest );
             move_to( p );
             moves -= movecost_attacker;
-            if( movecost_from > 100 ) {
-                critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
-            } else {
-                critter->moves -= movecost_from;
-            }
+            critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
         }
         return true;
     }
