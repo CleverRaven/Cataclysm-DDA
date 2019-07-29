@@ -8948,7 +8948,7 @@ bool game::walk_move( const tripoint &dest_loc )
     if( m.impassable( dest_loc ) && !pushing && !shifting_furniture ) {
         if( vp_there && u.mounted_creature && u.mounted_creature->has_flag( MF_RIDEABLE_MECH ) &&
             vp_there->vehicle().handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
-            point diff = point( dest_loc.x - u.pos().x, dest_loc.y - u.pos().y );
+            tripoint diff = dest_loc - u.pos();
             if( diff.x < 0 ) {
                 diff.x -= 2;
             } else if( diff.x > 0 ) {

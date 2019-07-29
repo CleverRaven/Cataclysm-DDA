@@ -388,7 +388,7 @@ class monster : public Creature
         // check mech power levels and modify it.
         bool use_mech_power( int amt );
         bool check_mech_powered() const;
-
+        int mech_str_addition() const;
         /**
          * Makes monster react to heard sound
          *

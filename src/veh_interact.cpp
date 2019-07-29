@@ -456,7 +456,7 @@ void veh_interact::cache_tool_availability()
     cache_tool_availability_update_lifting( g->u.pos() );
     int mech_jack = 0;
     if( g->u.is_mounted() ) {
-        mech_jack = g->u.mounted_creature->type->mech_str_bonus + 10;
+        mech_jack = g->u.mounted_creature->mech_str_addition() + 10;
     }
     max_jack = std::max( { g->u.max_quality( JACK ), mech_jack,
                            map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( JACK ),

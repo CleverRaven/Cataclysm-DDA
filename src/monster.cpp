@@ -2173,6 +2173,11 @@ bool monster::use_mech_power( int amt )
     return true;
 }
 
+int monster::mech_str_addition() const
+{
+    return type->mech_str_bonus;
+}
+
 bool monster::check_mech_powered() const
 {
     if( is_hallucination() || !has_flag( MF_RIDEABLE_MECH ) || !battery_item ) {

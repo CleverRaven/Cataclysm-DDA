@@ -545,9 +545,9 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     int throw_assist_str = 0;
     if( is_mounted() ) {
         auto mons = mounted_creature.get();
-        if( mons->type->mech_str_bonus != 0 ) {
+        if( mons->mech_str_addition() != 0 ) {
             throw_assist = true;
-            throw_assist_str = mons->type->mech_str_bonus;
+            throw_assist_str = mons->mech_str_addition();
             mons->use_mech_power( -3 );
         }
     }

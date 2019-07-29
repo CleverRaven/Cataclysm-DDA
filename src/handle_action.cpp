@@ -634,7 +634,7 @@ static void smash()
     ///\EFFECT_STR increases smashing capability
     if( u.is_mounted() ) {
         auto mon = u.mounted_creature.get();
-        smashskill = u.str_cur + mon->type->mech_str_bonus + mon->type->melee_dice *
+        smashskill = u.str_cur + mon->mech_str_addition() + mon->type->melee_dice *
                      mon->type->melee_sides;
         mech_smash = true;
     } else {

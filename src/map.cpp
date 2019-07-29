@@ -1311,8 +1311,8 @@ bool map::can_move_furniture( const tripoint &pos, player *p )
     int adjusted_str = p->str_cur;
     if( p->is_mounted() ) {
         auto mons = p->mounted_creature.get();
-        if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->type->mech_str_bonus != 0 ) {
-            adjusted_str = mons->type->mech_str_bonus;
+        if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->mech_str_addition() != 0 ) {
+            adjusted_str = mons->mech_str_addition();
         }
     }
     if( adjusted_str < required_str ) {
