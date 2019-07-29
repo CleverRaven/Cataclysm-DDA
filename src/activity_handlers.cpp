@@ -4036,7 +4036,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
     float success = p->get_skill_level( skill_id( "computer" ) ) - 1.5 * ( z->type->difficulty ) /
                     ( ( rng( 2, p->int_cur ) / 2 ) + ( p->get_skill_level( skill_id( "computer" ) ) / 2 ) );
     if( z->has_flag( MF_RIDEABLE_MECH ) ) {
-        success = ( p->get_skill_level( skill_id( "computer" ) ) + rng( 2, p->int_cur ) ) - rng( 1, 11 );
+        success = p->get_skill_level( skill_id( "computer" ) ) + rng( 2, p->int_cur ) - rng( 1, 11 );
     }
     // rideable mechs are not hostile, they have no AI, they do not resist control as much.
     if( success >= 0 ) {

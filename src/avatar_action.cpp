@@ -334,7 +334,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         if( you.has_effect( effect_riding ) && you.mounted_creature != nullptr ) {
             auto mon = you.mounted_creature.get();
             if( !mon->has_flag( MF_SWIMS ) || mon->get_size() < you.get_size() + 2 ) {
-                add_msg( m_warning, _( "The creature you are riding cannot swim while it is carrying you!" ) );
+                add_msg( m_warning, _( "The %s cannot swim while it is carrying you!" ), mon->get_name() );
                 return false;
             }
         }
@@ -680,7 +680,7 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
                 }
             } else {
                 if( !you.has_charges( "UPS", ups_drain ) ) {
-                    add_msg( m_info, ( "Your mech has an empty battery, its weapon will not fire." ) );
+                    add_msg( m_info, _( "Your mech has an empty battery, its weapon will not fire." ) );
                     return false;
                 }
             }

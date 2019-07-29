@@ -393,7 +393,7 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
         auto mons = mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
             if( !mons->check_mech_powered() ) {
-                add_msg( m_bad, _( "The %s has dead batteries and will not move its arms" ), mons->get_name() );
+                add_msg( m_bad, _( "The %s has dead batteries and will not move its arms." ), mons->get_name() );
                 return;
             }
             if( mons->type->has_special_attack( "SMASH" ) && one_in( 3 ) ) {

@@ -154,7 +154,7 @@ bool monexamine::pet_menu( monster &z )
                             pet_name );
         }
     }
-    if( z.has_flag( MF_RIDEABLE_MECH ) ) {
+   } else {
         itype_id bat_type = z.type->mech_battery;
         const itype &type = *item::find_type( bat_type );
         int max_charge = type.magazine->capacity;
@@ -167,14 +167,14 @@ bool monexamine::pet_menu( monster &z )
         amenu.addentry( check_bat, false, 'c', _( "%s battery level is %d%%" ), z.get_name(),
                         static_cast<int>( charge_percent ) );
         if( g->u.weapon.is_null() && z.battery_item ) {
-            amenu.addentry( mount, true, 'r', _( "Climb into the mech and take control." ) );
+            amenu.addentry( mount, true, 'r', _( "Climb into the mech and take control" ) );
         } else if( !g->u.weapon.is_null() ) {
-            amenu.addentry( mount, false, 'r', _( "You cannot pilot the mech whilst wielding something." ) );
+            amenu.addentry( mount, false, 'r', _( "You cannot pilot the mech whilst wielding something" ) );
         } else if( !z.battery_item ) {
-            amenu.addentry( mount, false, 'r', _( "This mech has a dead battery and won't turn on." ) );
+            amenu.addentry( mount, false, 'r', _( "This mech has a dead battery and won't turn on" ) );
         }
         if( z.battery_item ) {
-            amenu.addentry( remove_bat, true, 'x', _( "Remove the mechs battery pack." ) );
+            amenu.addentry( remove_bat, true, 'x', _( "Remove the mech's battery pack" ) );
         } else if( g->u.has_amount( bat_type, 1 ) ) {
             amenu.addentry( insert_bat, true, 'x', _( "Insert a new battery pack" ) );
         } else {
@@ -297,7 +297,7 @@ bool monexamine::mech_hack( monster &z )
 {
     itype_id card_type = "id_military";
     if( g->u.has_amount( card_type, 1 ) ) {
-        if( query_yn( _( "Swipe your ID card into the mechs security port?" ) ) ) {
+        if( query_yn( _( "Swipe your ID card into the mech's security port?" ) ) ) {
             g->u.mod_moves( -to_turns<int>( 1_seconds ) );
             z.add_effect( effect_pet, 1_turns, num_bp, true );
             z.friendly = -1;

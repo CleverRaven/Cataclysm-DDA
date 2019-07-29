@@ -1279,7 +1279,7 @@ units::mass Character::weight_capacity() const
         auto *mons = g->u.mounted_creature.get();
         // the mech has an effective strength for other purposes, like hitting.
         // but for lifting, its effective strength is even higher, due to its sturdy construction, leverage,
-        // and being built entirely for tht purpose with hydraulics etc.
+        // and being built entirely for that purpose with hydraulics etc.
         ret = mons->type->mech_str_bonus == 0 ? ret : ( mons->type->mech_str_bonus + 10 ) * 4_kilogram;
     }
     return ret;

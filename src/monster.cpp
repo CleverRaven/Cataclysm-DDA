@@ -2173,7 +2173,7 @@ bool monster::mod_mech_power( int amt )
     return true;
 }
 
-bool monster::check_mech_powered()
+bool monster::check_mech_powered() const
 {
     if( is_hallucination() || !has_flag( MF_RIDEABLE_MECH ) || !battery_item ) {
         return false;
@@ -2181,7 +2181,7 @@ bool monster::check_mech_powered()
     if( battery_item->ammo_remaining() <= 0 ) {
         return false;
     }
-    itype_id mech_bat = itype_id( type->mech_battery );
+    const itype_id &mech_bat = type->mech_battery;
     const itype &type = *item::find_type( mech_bat );
     float low_charge = ( static_cast<float>( type.magazine->capacity ) / 100 ) * 10;
     if( battery_item->ammo_remaining() <= low_charge && one_in( 10 ) ) {

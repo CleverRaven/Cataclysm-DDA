@@ -1756,7 +1756,6 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                         shove_velocity = 1500;
                         shove_damage_min = 0.00F;
                         shove_damage_max = 0.05F;
-                        add_msg( "can shove veh" );
                     }
                     break;
                 default:

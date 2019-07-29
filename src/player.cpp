@@ -2554,7 +2554,7 @@ void player::set_movement_mode( const player_movemode new_mode )
             if( has_effect( effect_riding ) && mounted_creature ) {
                 auto mon = mounted_creature.get();
                 if( mon->has_flag( MF_RIDEABLE_MECH ) ) {
-                    add_msg( _( "You set your mechs leg power to a loping fast walk." ) );
+                    add_msg( _( "You set your mech's leg power to a loping fast walk." ) );
                 } else {
                     add_msg( _( "You nudge your steed into a steady trot." ) );
                 }
@@ -2571,7 +2571,7 @@ void player::set_movement_mode( const player_movemode new_mode )
                 if( has_effect( effect_riding ) && mounted_creature ) {
                     auto mon = mounted_creature.get();
                     if( mon->has_flag( MF_RIDEABLE_MECH ) ) {
-                        add_msg( _( "You set the power of your mechs leg servos to maximum." ) );
+                        add_msg( _( "You set the power of your mech's leg servos to maximum." ) );
                     } else {
                         add_msg( _( "You spur your steed into a gallop." ) );
                     }
@@ -2592,7 +2592,7 @@ void player::set_movement_mode( const player_movemode new_mode )
             if( has_effect( effect_riding ) && mounted_creature ) {
                 auto mon = mounted_creature.get();
                 if( mon->has_flag( MF_RIDEABLE_MECH ) ) {
-                    add_msg( _( "You reduce the power of your mechs leg servos to minimum." ) );
+                    add_msg( _( "You reduce the power of your mech's leg servos to minimum." ) );
                 } else {
                     add_msg( _( "You slow your steed to a walk." ) );
                 }

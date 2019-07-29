@@ -9087,7 +9087,7 @@ bool game::walk_move( const tripoint &dest_loc )
             }
             if( u.has_effect( effect_riding ) && u.mounted_creature ) {
                 auto mons = u.mounted_creature.get();
-                switch( mons->type->size ) {
+                switch( mons->get_size() ) {
                     case MS_TINY:
                         volume = 0; // No sound for the tinies
                         break;
@@ -10169,7 +10169,7 @@ void game::vertical_move( int movez, bool force )
     // Save all monsters that can reach the stairs, remove them from the tracker,
     // then despawn the remaining monsters. Because it's a vertical shift, all
     // monsters are out of the bounds of the map and will despawn.
-    monster stored_mount = monster();
+    monster stored_mount;
     if( !m.has_zlevels() ) {
         const int to_x = u.posx();
         const int to_y = u.posy();
