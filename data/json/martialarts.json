@@ -21,6 +21,51 @@
   },
   {
     "type": "martial_art",
+    "id": "style_aikido",
+    "name": "Aikido",
+    "description": "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker.  It uses defensive throws and disarms but lacks offensive tehcniques.",
+    "initiate": [ "You enter the hamni stance.", "%s changes into a relaxed combat posture." ],
+    "learn_difficulty": 5,
+    "arm_block": 0,
+    "static_buffs": [
+      {
+        "id": "buff_aikido_static1",
+        "name": "Aikido Stance",
+        "description": "By disregarding offensive in favor of self-defense, you are better at protecting. Blocked damage reduced by 100%% of Dexterity.",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "flat_bonuses": [ [ "block", "dex", 1.0 ] ]
+      },
+      {
+        "id": "buff_aikido_static2",
+        "name": "Intermediate Aikido",
+        "description": "An intermediate aikido practitioner can protect themselves against multiple opponents.\n\n+1 Block attempts, +1 Dodge attempts.",
+        "unarmed_allowed": true,
+        "min_unarmed": 3,
+        "bonus_dodges": 1,
+        "bonus_blocks": 1,
+        "flat_bonuses": [ [ "block", "dex", 1.0 ] ]
+      },
+      {
+        "id": "buff_aikido_static3",
+        "name": "Advanced Aikido",
+        "description": "An advanced aikido practitioner can protect themselves against even more opponents than normal.\n\n+1 Block attempts, +1 Dodge attempts.",
+        "unarmed_allowed": true,
+        "min_unarmed": 5,
+        "bonus_dodges": 1,
+        "bonus_blocks": 1
+      }
+    ],
+    "techniques": [
+      "tec_aikido_break",
+      "tec_aikido_dodgedisarm",
+      "tec_aikido_blockdisarm",
+      "tec_aikido_dodgethrow",
+      "tec_aikido_blockthrow"
+    ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_brawling",
     "name": "Brawling",
     "description": "You're used to hand-to-creature fighting.  Not stylish or sporting, but it gets the job done.",
@@ -53,28 +98,6 @@
       }
     ],
     "techniques": [ "tec_karate_rapid", "tec_karate_precise" ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_aikido",
-    "name": "Aikido",
-    "description": "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker.  It uses defensive throws and disarms.  Damage done while using this technique is halved, but pain inflicted is doubled.",
-    "initiate": [ "You enter the hamni stance.", "%s changes into a combat posture." ],
-    "learn_difficulty": 5,
-    "arm_block": 99,
-    "leg_block": 99,
-    "static_buffs": [
-      {
-        "id": "aikido_half_damage",
-        "name": "Aikido",
-        "unarmed_allowed": true,
-        "mult_bonuses": [ [ "damage", "bash", 0.5 ] ],
-        "min_unarmed": 0,
-        "buff_duration": 2,
-        "description": "Half damage to enemies."
-      }
-    ],
-    "techniques": [ "tec_aikido_feint", "tec_aikido_disarm", "tec_aikido_throw", "tec_aikido_dodgethrow" ]
   },
   {
     "type": "martial_art",
@@ -238,7 +261,7 @@
       "tec_krav_maga_grab",
       "tec_krav_maga_break"
     ],
-    "weapons": [ "tonfa", "tonfa_wood", "shocktonfa_off", "shocktonfa_on" ]
+    "weapons": [ "PR24-extended", "tonfa", "tonfa_wood", "shocktonfa_off", "shocktonfa_on" ]
   },
   {
     "type": "martial_art",
@@ -362,37 +385,6 @@
   },
   {
     "type": "martial_art",
-    "id": "style_biojutsu",
-    "name": "Bionic Combatives",
-    "description": "A modern combat style for the post-modern human.  Bionic Combatives combines integrated weaponry, armor and augments into an consolidated fighting discipline.",
-    "initiate": [ "BEGINING BIONIC COMBATIVES PROGRAM. INITIATING COMBAT PROTOCOLS.", "%s starts moving with swift robotic percision." ],
-    "arm_block": 99,
-    "leg_block": 99,
-    "arm_block_with_bio_armor_arms": true,
-    "leg_block_with_bio_armor_legs": true,
-    "static_buffs": [
-      {
-        "id": "biojutsu_static",
-        "name": "Biojutsu",
-        "unarmed_allowed": true,
-        "melee_allowed": true,
-        "min_unarmed": 2,
-        "description": "+1 Blocks",
-        "bonus_blocks": 1
-      }
-    ],
-    "techniques": [
-      "tec_biojutsu_counter",
-      "tec_biojutsu_rapid_unarmed",
-      "tec_biojutsu_rapid_armed",
-      "tec_biojutsu_impale",
-      "tec_biojutsu_sweep",
-      "tec_biojutsu_wide"
-    ],
-    "weapons": [ "bio_claws_weapon", "bio_blade_weapon" ]
-  },
-  {
-    "type": "martial_art",
     "id": "style_zui_quan",
     "name": "Zui Quan",
     "description": "AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse the enemy, giving you a passive dodge bonus based on your intelligence.  The turn after you attack, you may dodge any number of attacks with no penalty, and successfully dodging an attack gives you bonus damage and to-hit based on your intelligence.",
@@ -511,6 +503,8 @@
       "shishkebab_off",
       "shishkebab_on",
       "spear_knife",
+      "spear_knife_superior",
+      "spear_spike",
       "spear_rebar",
       "spear_pipe",
       "spear_forked",
@@ -999,6 +993,8 @@
       "spear_homemade_halfpike",
       "spear_pipe",
       "spear_knife",
+      "spear_knife_superior",
+      "spear_spike",
       "spear_rebar",
       "spear_steel",
       "spear_survivor",
@@ -1040,12 +1036,88 @@
   },
   {
     "type": "martial_art",
-    "id": "style_swordsmanship",
-    "name": "Medieval Swordsmanship",
-    "description": "The art of the longsword and sword & shield, preceding the later development of fencing.  Designed for combat both unarmored and in armor, it includes grappling as well as defensive and offensive sword techniques.  This treatise compares the Italian and German traditions of medieval combat with detailed step-by-step pictures.",
-    "initiate": [ "You stand tall and become vigilant against attacks.", "%s stands tall and becomes vigilant." ],
+    "id": "style_medievalpole",
+    "name": "Fior Di Battaglia",
+    "description": "Medieval Europe's martial techniques for fighting with polearms, great focus is given in countering one's opponent and knocking them down before landing a killing blow",
+    "initiate": [ "You set your feet apart and turn your torso slightly.", "%s sets their feet apart and turns their torso slightly." ],
+    "learn_difficulty": 6,
     "arm_block": 99,
     "leg_block": 99,
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "medievalpole_static",
+        "name": "Stand Your Ground",
+        "description": "+2 blocks -1 dodge, halves your dodge and damage is reduced by your strength when blocking",
+        "strictly_melee": true,
+        "flat_bonuses": [ [ "block", "str", 1.0 ] ],
+        "mult_bonuses": [ [ "dodge", 0.5 ] ],
+        "bonus_dodges": -1,
+        "bonus_blocks": 2
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "medievalpole_move",
+        "name": "You moved",
+        "description": "Nullifies Stand Your Ground, don't move, stand there and counter!",
+        "melee_allowed": true,
+        "flat_bonuses": [ [ "block", "str", -1.0 ] ],
+        "mult_bonuses": [ [ "dodge", 1.0 ] ],
+        "buff_duration": 2,
+        "max_stacks": 1,
+        "bonus_dodges": 1,
+        "bonus_blocks": -2
+      }
+    ],
+    "onmiss_buffs": [
+      {
+        "id": "medievalpole_setup",
+        "name": "Setup",
+        "description": "They fell for your feint!",
+        "melee_allowed": true,
+        "min_melee": 0,
+        "buff_duration": 2,
+        "max_stacks": 1
+      }
+    ],
+    "techniques": [
+      "tec_medievalpole_counter",
+      "tec_medievalpole_highround",
+      "tec_medievalpole_feint",
+      "tec_medievalpole_highstab",
+      "tec_medievalpole_break"
+    ],
+    "weapons": [
+      "halberd",
+      "halberd_fake",
+      "lucern_hammer",
+      "lucern_hammerfake",
+      "glaive",
+      "makeshift_halberd",
+      "battleaxe_fake",
+      "battleaxe_inferior",
+      "battleaxe",
+      "fire_ax",
+      "pickaxe",
+      "ax",
+      "lobotomizer",
+      "primitive_axe",
+      "copper_ax",
+      "ji",
+      "hoe"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_swordsmanship",
+    "name": "Medieval Swordsmanship",
+    "description": "The art of the sword & shield, preceding the later development of fencing.  Designed for combat in and out of armor, it includes grappling as well as defensive and offensive sword techniques.",
+    "initiate": [ "You stand tall and become vigilant against attacks.", "%s stands tall and becomes vigilant." ],
+    "learn_difficulty": 6,
+    "arm_block": 99,
+    "leg_block": 99,
+    "strictly_melee": true,
     "onattack_buffs": [
       {
         "id": "swordsmanship_attack_buff",

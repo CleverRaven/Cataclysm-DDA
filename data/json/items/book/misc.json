@@ -931,13 +931,105 @@
     "name": "book of philosophy",
     "name_plural": "books of philosophy",
     "description": "A deep discussion of morality with an emphasis on epistemology and logic.",
-    "weight": 1400,
+    "snippet_category": [
+      {
+        "id": "philosophy1",
+        "text": "This is a copy of Nietzsche's \"Beyond Good and Evil\". Its cover is dog-eared and creased."
+      },
+      {
+        "id": "philosophy2",
+        "text": "This is a copy of \"The Unique and Its Property\" by Max Stirner. A modern translation by Wolfi Landstreicher."
+      },
+      {
+        "id": "philosophy3",
+        "text": "This is a copy of Jean-Paul Sartre's \"Being and Nothingness\". A key work in the existentialist tradition."
+      },
+      {
+        "id": "philosophy4",
+        "text": "A large, extended version of \"Madness and Civilisation\" by Michel Foucault. The cover features a striking image of a Panopticonic Prison."
+      },
+      {
+        "id": "philosophy5",
+        "text": "This is a copy of \"The Postmodern Condition: A Report on Knowledge\" by Lyotard."
+      },
+      {
+        "id": "philosophy6",
+        "text": "A collection of texts and essays by Jacques Derrida. It's pages loose and yellowed, you should probably handle it with care."
+      },
+      {
+        "id": "philosophy7",
+        "text": "This is a copy of \"Society of the Spectacle\" by Guy Debord. Its cover shows rows of adults staring placidly into a screen."
+      },
+      {
+        "id": "philosophy8",
+        "text": "This is a split copy of both \"An Ethic of Sexual Difference\" and \"This Sex Which Is Not One\" by Luce Irigaray."
+      },
+      {
+        "id": "philosophy9",
+        "text": "This is a copy of Baudrillard's \"Simulation and Simulacra\". The cover contains an image of a man holding a colored pill in each hand, with the caption \"Welcome to the Desert of the Real.\". You think you've seen this movie."
+      },
+      {
+        "id": "philosophy10",
+        "text": "This is a small, pocket version of Sartre's \"Existentialism and Humanism.\" It looks to have been used as a coaster in a past life."
+      },
+      {
+        "id": "philosophy11",
+        "text": "This is a copy of \"Practical Ethics\" by Peter Singer. From the local university press."
+      },
+      {
+        "id": "philosophy12",
+        "text": "This is a photocopied spiral-bound copy of \"Industrial Society and Its Future\" by 'Freedom Club'. The original looks to have been written on a typewriter before being copied."
+      },
+      {
+        "id": "philosophy13",
+        "text": "This is a copy of \"Industrial Society and Its Future\" by Ted Kaczynski. Its cover is an image of a hand-crafted wooden box filled with wiring and an ominous looking metal tube. Provocative."
+      },
+      { "id": "philosophy14", "text": "This is a small reader on Hegel's Dialectics." },
+      {
+        "id": "philosophy15",
+        "text": "This is a copy of \"The State and Revolution\" by Vladimir Lenin. In English, thankfully."
+      },
+      { "id": "philosophy16", "text": "This is a copy of \"In Defence of Terrorism\" by Leon Trotsky." },
+      {
+        "id": "philosophy17",
+        "text": "This is a copy of \"Steal This Book\" by Abbie Hoffman. There is a security tag on the back cover. It appears to still be active."
+      },
+      {
+        "id": "philosophy18",
+        "text": "This is a copy of \"Walden: Or Life In The Woods\" by Henry David Thoreau. It contains a dried and pressed leaf as a bookmark."
+      },
+      {
+        "id": "philosophy19",
+        "text": "This is a copy of \"The Female Eunuch\" by Germaine Greer.  A child has scribbled over the contents page in red crayon."
+      },
+      { "id": "philosophy20", "text": "This is a copy of \"An Introduction to Metaphysics\" by Bergson." },
+      {
+        "id": "philosophy21",
+        "text": "This is a copy of \"The Four Fundamental Concepts of Psychoanalysis\" by Jacques Lacan."
+      },
+      { "id": "philosophy22", "text": "This is a copy of Machiavelli's \"The Prince\". With intro by Q. Skinner." },
+      { "id": "philosophy23", "text": "This is a copy of \"On The Revolution of Everyday Life\" by Raul Vangeigem." },
+      {
+        "id": "philosophy24",
+        "text": "This is a pocket copy of \"An Essay on Liberation\" by Herbert Marcuse. The cover contains an image of a pelican."
+      },
+      { "id": "philosophy25", "text": "This is a copy of \"Either-Or\" by Sören Kierkegaard." },
+      { "id": "philosophy26", "text": "This is a copy of \"Allegory of the Cave\" by Plato." },
+      { "id": "philosophy27", "text": "This is a copy of \"Leviathan\" by Thomas Hobbes." },
+      { "id": "philosophy28", "text": "This is a copy of \"Critique Of Pure Reason\" by Immanuel Kant." },
+      { "id": "philosophy29", "text": "This is a copy of \"Principles of Philosophy\" by Descartes." },
+      {
+        "id": "philosophy30",
+        "text": "This is a copy of both \"On The Genealogy of Morals\" and \"The Gay Science\" by Friederich Nietzsche."
+      }
+    ],
+    "weight": 350,
     "volume": 3,
     "price": 1250,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_blue",
-    "intelligence": 11,
+    "intelligence": 9,
     "time": "36 m",
     "chapters": 44,
     "fun": 3

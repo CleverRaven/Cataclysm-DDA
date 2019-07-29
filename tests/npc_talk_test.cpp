@@ -75,8 +75,8 @@ static void gen_response_lines( dialogue &d, size_t expected_count )
 
 static void change_om_type( const std::string &new_type )
 {
-    const point omt_pos = ms_to_omt_copy( g->m.getabs( g->u.posx(), g->u.posy() ) );
-    oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, g->u.posz() );
+    const tripoint omt_pos = ms_to_omt_copy( g->m.getabs( g->u.pos() ) );
+    oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     omt_ref = oter_id( new_type );
 }
 
@@ -286,7 +286,7 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[1].text == "This is a mission goal test response." );
 
     const calendar old_calendar = calendar::turn;
-    calendar::turn = calendar::start;
+    calendar::turn = calendar::start_of_cataclysm;
     d.add_topic( "TALK_TEST_SEASON" );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );

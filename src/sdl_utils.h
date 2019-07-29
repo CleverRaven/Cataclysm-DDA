@@ -101,13 +101,22 @@ inline SDL_Color color_pixel_memorized( const SDL_Color &color )
     if( is_black( color ) ) {
         return color;
     }
-    // 85/256 ~ 1/3
-    return {
-        std::max<Uint8>( 85 * color.r >> 8, 0x01 ),
-        std::max<Uint8>( 85 * color.g >> 8, 0x01 ),
-        std::max<Uint8>( 85 * color.b >> 8, 0x01 ),
-        color.a
-    };
+
+    /*
+     *  Objective is to provide a gradient between two color points
+     *  (sepia_dark and sepia_light) based on the grayscale value.
+     *  This presents an effect intended to mimic a faded sepia photograph.
+     */
+
+    const SDL_Color sepia_dark = { 39, 23, 19, color.a};
+    const SDL_Color sepia_light = { 241, 220, 163, color.a};
+
+    const Uint8 av = average_pixel_color( color );
+    const float gammav = 1.6;
+    const float pv = av / 255.0;
+    const Uint8 finalv = std::min( int( round( pow( pv, gammav ) * 150 ) ), 100 );
+
+    return mix_colors( sepia_dark, sepia_light, finalv );
 }
 
 SDL_Color curses_color_to_SDL( const nc_color &color );

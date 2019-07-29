@@ -24,6 +24,7 @@
 #include "game.h"
 #include "handle_liquid.h"
 #include "itype.h"
+#include "math_defines.h"
 #include "map.h"
 #include "map_selector.h"
 #include "messages.h"
@@ -1066,10 +1067,31 @@ bool veh_interact::do_repair( std::string &msg )
         if( most_repairable ) {
             move_cursor( most_repairable->mount.y + ddy, -( most_repairable->mount.x + ddx ) );
             return false;
-        } else {
-            msg = _( "There are no damaged parts on this vehicle." );
-            return false;
         }
+    }
+
+    auto can_repair = [&msg, &reason]() {
+        switch( reason ) {
+            case LOW_MORALE:
+                msg = _( "Your morale is too low to repair..." );
+                return false;
+            case LOW_LIGHT:
+                msg = _( "It's too dark to see what you are doing..." );
+                return false;
+            case MOVING_VEHICLE:
+                msg = _( "You can't repair stuff while driving." );
+                return false;
+            case INVALID_TARGET:
+                msg = _( "There are no damaged parts on this vehicle." );
+                return false;
+            default:
+                break;
+        }
+        return true;
+    };
+
+    if( !can_repair() ) {
+        return false;
     }
 
     set_title( _( "Choose a part here to repair:" ) );
@@ -1109,21 +1131,9 @@ bool veh_interact::do_repair( std::string &msg )
 
         const std::string action = main_context.handle_input();
         if( ( action == "REPAIR" || action == "CONFIRM" ) && ok ) {
-            switch( reason ) {
-                case LOW_MORALE:
-                    msg = _( "Your morale is too low to repair..." );
-                    return false;
-                case LOW_LIGHT:
-                    msg = _( "It's too dark to see what you are doing..." );
-                    return false;
-                case MOVING_VEHICLE:
-                    msg = _( "You can't repair stuff while driving." );
-                    return false;
-                case INVALID_TARGET:
-                    msg = _( "There are no damaged parts on this vehicle." );
-                    return false;
-                default:
-                    break;
+            reason = cant_do( 'r' );
+            if( !can_repair() ) {
+                return false;
             }
             sel_vehicle_part = &pt;
             sel_vpart_info = &vp;
@@ -2160,7 +2170,7 @@ void veh_interact::display_veh()
         int sym = veh->part_sym( p );
         nc_color col = veh->part_color( p );
 
-        int x =   veh->parts[p].mount.y + ddy;
+        int x =    veh->parts[p].mount.y + ddy;
         int y = -( veh->parts[p].mount.x + ddx );
 
         if( x == 0 && y == 0 ) {
@@ -2397,7 +2407,13 @@ void veh_interact::display_name()
 {
     werase( w_name );
     mvwprintz( w_name, 0, 1, c_light_gray, _( "Name: " ) );
-    mvwprintz( w_name, 0, 1 + utf8_width( _( "Name: " ) ), c_light_green, veh->name );
+    std::string fac_name = veh->get_owner() &&
+                           veh->get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ?
+                           veh->get_owner()->name : _( "Yours" );
+    mvwprintz( w_name, 0, 1 + utf8_width( _( "Name: " ) ),
+               veh->get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ? c_light_red :
+               c_light_green, string_format( _( "%s (%s)" ), veh->name,
+                       veh->get_owner() == nullptr ? _( "not owned" ) : fac_name ) );
     wrefresh( w_name );
 }
 
@@ -2943,9 +2959,8 @@ void veh_interact::complete_vehicle()
                     int delta_x = headlight_target->x - ( veh->global_pos3().x + q.x );
                     int delta_y = headlight_target->y - ( veh->global_pos3().y + q.y );
 
-                    const double PI = 3.14159265358979f;
                     dir = static_cast<int>( atan2( static_cast<float>( delta_y ),
-                                                   static_cast<float>( delta_x ) ) * 180.0 / PI );
+                                                   static_cast<float>( delta_x ) ) * 180.0 / M_PI );
                     dir -= veh->face.dir();
                     while( dir < 0 ) {
                         dir += 360;

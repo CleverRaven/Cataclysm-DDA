@@ -38,7 +38,6 @@ struct pathfinding_settings;
 struct trap;
 
 enum class mon_trigger;
-enum field_id : int;
 
 class monster;
 
@@ -205,7 +204,7 @@ class monster : public Creature
         int calc_movecost( const tripoint &f, const tripoint &t ) const;
         int calc_climb_cost( const tripoint &f, const tripoint &t ) const;
 
-        bool is_immune_field( const field_id fid ) const override;
+        bool is_immune_field( const field_type_id fid ) const override;
 
         /**
          * Attempt to move to p.
@@ -261,7 +260,7 @@ class monster : public Creature
         int group_bash_skill( const tripoint &target );
 
         void stumble();
-        void knock_back_from( const tripoint &p ) override;
+        void knock_back_to( const tripoint &p ) override;
 
         // Combat
         bool is_fleeing( player &u ) const; // True if we're fleeing
@@ -397,8 +396,8 @@ class monster : public Creature
 
         bool is_hallucination() const override;    // true if the monster isn't actually real
 
-        field_id bloodType() const override;
-        field_id gibType() const override;
+        field_type_id bloodType() const override;
+        field_type_id gibType() const override;
 
         using Creature::add_msg_if_npc;
         void add_msg_if_npc( const std::string &msg ) const override;
@@ -414,7 +413,7 @@ class monster : public Creature
         int wandf;           // Urge to wander - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
         player *dragged_foe; // player being dragged by the monster
-
+        cata::optional<item> tied_item; // item used to tie the monster
         // DEFINING VALUES
         int friendly;
         int anger = 0;
@@ -472,7 +471,7 @@ class monster : public Creature
          */
         void init_from_item( const item &itm );
 
-        time_point last_updated = calendar::time_of_cataclysm;
+        time_point last_updated = calendar::turn_zero;
         int last_baby;
         int last_biosig;
 

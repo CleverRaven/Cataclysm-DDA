@@ -12,6 +12,7 @@
 #include "avatar.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "game.h"
+#include "math_defines.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -42,18 +43,11 @@
 
 static constexpr point lightmap_boundary_min( point_zero );
 static constexpr point lightmap_boundary_max( LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y );
-static constexpr point lightmap_clearance_min( point_zero );
-static constexpr point lightmap_clearance_max( 1, 1 );
 
 const rectangle lightmap_boundaries( lightmap_boundary_min, lightmap_boundary_max );
-const rectangle lightmap_clearance( lightmap_clearance_min, lightmap_clearance_max );
 
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_haslight( "haslight" );
-
-constexpr double PI     = 3.14159265358979323846;
-constexpr double HALFPI = 1.57079632679489661923;
-constexpr double SQRT_2 = 1.41421356237309504880;
 
 std::string four_quadrants::to_string() const
 {
@@ -119,8 +113,6 @@ bool map::build_transparency_cache( const int zlev )
                         value = LIGHT_TRANSPARENCY_SOLID;
                         zero_value = LIGHT_TRANSPARENCY_SOLID;
                         continue;
-                    } else if( cur_submap->is_uniform ) {
-                        break;
                     }
 
                     if( outside_cache[x][y] ) {
@@ -129,47 +121,22 @@ bool map::build_transparency_cache( const int zlev )
                         // weather in vehicles.
                         value *= sight_penalty;
                     }
-
+                    if( cur_submap->is_uniform ) {
+                        if( value == LIGHT_TRANSPARENCY_OPEN_AIR ) {
+                            break;
+                        }
+                        zero_value = value;
+                        continue;
+                    }
                     for( const auto &fld : cur_submap->fld[sx][sy] ) {
                         const field_entry &cur = fld.second;
-                        const field_id type = cur.get_field_type();
-                        const int intensity = cur.get_field_intensity();
-
-                        if( all_field_types_enum_list[type].transparent[intensity - 1] ) {
+                        if( cur.is_transparent() ) {
                             continue;
                         }
-
                         // Fields are either transparent or not, however we want some to be translucent
-                        switch( type ) {
-                            case fd_cigsmoke:
-                            case fd_weedsmoke:
-                            case fd_cracksmoke:
-                            case fd_methsmoke:
-                            case fd_relax_gas:
-                                value *= 5;
-                                break;
-                            case fd_smoke:
-                            case fd_incendiary:
-                            case fd_toxic_gas:
-                            case fd_tear_gas:
-                                if( intensity == 3 ) {
-                                    value = LIGHT_TRANSPARENCY_SOLID;
-                                } else if( intensity == 2 ) {
-                                    value *= 10;
-                                }
-                                break;
-                            case fd_nuke_gas:
-                                value *= 10;
-                                break;
-                            case fd_fire:
-                                value *= 1.0 - ( intensity * 0.3 );
-                                break;
-                            default:
-                                value = LIGHT_TRANSPARENCY_SOLID;
-                                break;
-                        }
-                        // TODO: [lightmap] Have glass reduce light as well
+                        value = value * cur.translucency();
                     }
+                    // TODO: [lightmap] Have glass reduce light as well
                 }
             }
         }
@@ -226,9 +193,9 @@ void map::build_sunlight_cache( int zlev )
     // If uppermost level, just apply weather illumination since there's no opportunity
     // for light to be blocked.
     if( zlev == OVERMAP_HEIGHT ) {
-        for( int x = 0; x < MAPSIZE_X; x++ ) {
-            for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                lm[x][y].fill( outside_light_level );
+        for( auto &lm_col : lm ) {
+            for( four_quadrants &lm_entry : lm_col ) {
+                lm_entry.fill( outside_light_level );
             }
         }
         return;
@@ -294,10 +261,10 @@ void map::generate_lightmap( const int zlev )
     auto &light_source_buffer = map_cache.light_source_buffer;
     std::memset( light_source_buffer, 0, sizeof( light_source_buffer ) );
 
-    constexpr std::array<int, 4> dir_x = {{  0, -1, 1, 0 }};    //    [0]
-    constexpr std::array<int, 4> dir_y = {{ -1,  0, 0, 1 }};    // [1][X][2]
-    constexpr std::array<int, 4> dir_d = {{ 90, 0, 180, 270 }}; //    [3]
-    constexpr std::array<std::array<quadrant, 2>, 4> dir_quadrants = {{
+    constexpr std::array<int, 4> dir_x = { {  0, -1, 1, 0 } };    //    [0]
+    constexpr std::array<int, 4> dir_y = { { -1,  0, 0, 1 } };    // [1][X][2]
+    constexpr std::array<int, 4> dir_d = { { 90, 0, 180, 270 } }; //    [3]
+    constexpr std::array<std::array<quadrant, 2>, 4> dir_quadrants = { {
             {{ quadrant::NE, quadrant::NW }},
             {{ quadrant::SW, quadrant::NW }},
             {{ quadrant::SE, quadrant::NE }},
@@ -305,7 +272,7 @@ void map::generate_lightmap( const int zlev )
         }
     };
 
-    const float natural_light  = g->natural_light_level( zlev );
+    const float natural_light = g->natural_light_level( zlev );
     const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
     const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
     // Iterate top to bottom because sunlight cache needs to construct in that order.
@@ -331,9 +298,9 @@ void map::generate_lightmap( const int zlev )
                     if( !outside_cache[p.x][p.y] ) {
                         // Apply light sources for external/internal divide
                         for( int i = 0; i < 4; ++i ) {
-                            if( generic_inbounds( { p.x + dir_x[i], p.y + dir_y[i] },
-                                                  lightmap_boundaries, lightmap_clearance
-                                                ) && outside_cache[p.x + dir_x[i]][p.y + dir_y[i]]
+                            point neighbour = p.xy() + point( dir_x[i], dir_y[i] );
+                            if( lightmap_boundaries.contains_half_open( neighbour )
+                                && outside_cache[neighbour.x][neighbour.y]
                               ) {
                                 if( light_transparency( p ) > LIGHT_TRANSPARENCY_SOLID ) {
                                     update_light_quadrants(
@@ -355,65 +322,19 @@ void map::generate_lightmap( const int zlev )
                     }
 
                     const ter_id terrain = cur_submap->ter[sx][sy];
-                    if( terrain == t_lava ) {
-                        add_light_source( p, 50 );
-                    } else if( terrain == t_console ) {
-                        add_light_source( p, 10 );
-                    } else if( terrain == t_thconc_floor_olight ) {
-                        add_light_source( p, 120 );
-                    } else if( terrain == t_utility_light ) {
-                        add_light_source( p, 240 );
+                    if( terrain->light_emitted > 0 ) {
+                        add_light_source( p, terrain->light_emitted );
+                    }
+                    const furn_id furniture = cur_submap->frn[sx][sy];
+                    if( furniture->light_emitted > 0 ) {
+                        add_light_source( p, furniture->light_emitted );
                     }
 
                     for( auto &fld : cur_submap->fld[sx][sy] ) {
                         const field_entry *cur = &fld.second;
-                        // TODO: [lightmap] Attach light brightness to fields
-                        switch( cur->get_field_type() ) {
-                            case fd_fire:
-                                if( 3 == cur->get_field_intensity() ) {
-                                    add_light_source( p, 160 );
-                                } else if( 2 == cur->get_field_intensity() ) {
-                                    add_light_source( p, 60 );
-                                } else {
-                                    add_light_source( p, 20 );
-                                }
-                                break;
-                            case fd_fire_vent:
-                            case fd_flame_burst:
-                                add_light_source( p, 20 );
-                                break;
-                            case fd_electricity:
-                            case fd_plasma:
-                                if( 3 == cur->get_field_intensity() ) {
-                                    add_light_source( p, 20 );
-                                } else if( 2 == cur->get_field_intensity() ) {
-                                    add_light_source( p, 4 );
-                                } else {
-                                    // Kinda a hack as the square will still get marked.
-                                    apply_light_source( p, LIGHT_SOURCE_LOCAL );
-                                }
-                                break;
-                            case fd_incendiary:
-                                if( 3 == cur->get_field_intensity() ) {
-                                    add_light_source( p, 160 );
-                                } else if( 2 == cur->get_field_intensity() ) {
-                                    add_light_source( p, 60 );
-                                } else {
-                                    add_light_source( p, 20 );
-                                }
-                                break;
-                            case fd_laser:
-                                apply_light_source( p, 4 );
-                                break;
-                            case fd_spotlight:
-                                add_light_source( p, 80 );
-                                break;
-                            case fd_dazzling:
-                                add_light_source( p, 5 );
-                                break;
-                            default:
-                                //Suppress warnings
-                                break;
+                        const int light_emitted = cur->light_emitted();
+                        if( light_emitted > 0 ) {
+                            add_light_source( p, light_emitted );
                         }
                     }
                 }
@@ -468,18 +389,18 @@ void map::generate_lightmap( const int zlev )
 
             if( vp.has_flag( VPFLAG_CONE_LIGHT ) ) {
                 if( veh_luminance > LL_LIT ) {
-                    add_light_source( src, SQRT_2 ); // Add a little surrounding light
+                    add_light_source( src, M_SQRT2 ); // Add a little surrounding light
                     apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance, 45 );
                 }
 
             } else if( vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
                 if( veh_luminance > LL_LIT ) {
-                    add_light_source( src, SQRT_2 ); // Add a little surrounding light
+                    add_light_source( src, M_SQRT2 ); // Add a little surrounding light
                     apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance, 90 );
                 }
 
             } else if( vp.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ) {
-                add_light_source( src, SQRT_2 ); // Add a little surrounding light
+                add_light_source( src, M_SQRT2 ); // Add a little surrounding light
                 apply_light_arc( src, v->face.dir() + pt->direction, vp.bonus, 180 );
 
             } else if( vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
@@ -620,17 +541,16 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
 
         four_quadrants seen_from( 0 );
         for( const offset_and_quadrants &oq : adjacent_offsets ) {
-            const int neighbour_x = p.x + oq.offset.x;
-            const int neighbour_y = p.y + oq.offset.y;
+            const point neighbour = p.xy() + oq.offset;
 
-            if( !generic_inbounds( { neighbour_x, neighbour_y }, lightmap_boundaries, lightmap_clearance ) ) {
+            if( !lightmap_boundaries.contains_half_open( neighbour ) ) {
                 continue;
             }
-            if( is_opaque( neighbour_x, neighbour_y ) ) {
+            if( is_opaque( neighbour.x, neighbour.y ) ) {
                 continue;
             }
-            if( map_cache.seen_cache[neighbour_x][neighbour_y] == 0 &&
-                map_cache.camera_cache[neighbour_x][neighbour_y] == 0 ) {
+            if( map_cache.seen_cache[neighbour.x][neighbour.y] == 0 &&
+                map_cache.camera_cache[neighbour.x][neighbour.y] == 0 ) {
                 continue;
             }
             // This is a non-opaque visible neighbour, so count visibility from the relevant
@@ -1435,7 +1355,7 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
     int nangle = angle % 360;
 
     tripoint end;
-    double rad = PI * static_cast<double>( nangle ) / 180;
+    double rad = M_PI * static_cast<double>( nangle ) / 180;
     int range = LIGHT_RANGE( luminance );
     calc_ray_end( nangle, range, p, end );
     apply_light_ray( lit, p, end, luminance );
@@ -1449,13 +1369,13 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
     }
 
     // attempt to determine beam intensity required to cover all squares
-    const double wstep = ( wangle / ( wdist * SQRT_2 ) );
+    const double wstep = ( wangle / ( wdist * M_SQRT2 ) );
 
     // NOLINTNEXTLINE(clang-analyzer-security.FloatLoopCounter)
     for( double ao = wstep; ao <= wangle; ao += wstep ) {
         if( trigdist ) {
-            double fdist = ( ao * HALFPI ) / wangle;
-            double orad = ( PI * ao / 180.0 );
+            double fdist = ( ao * M_PI_2 ) / wangle;
+            double orad = ( M_PI * ao / 180.0 );
             end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos(
                                           rad + orad ) );
             end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin(
@@ -1513,7 +1433,7 @@ void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
             t += ay;
 
             // TODO: clamp coordinates to map bounds before this method is called.
-            if( generic_inbounds( { x, y }, lightmap_boundaries, lightmap_clearance ) ) {
+            if( lightmap_boundaries.contains_half_open( point( x, y ) ) ) {
                 float current_transparency = transparency_cache[x][y];
                 bool is_opaque = ( current_transparency == LIGHT_TRANSPARENCY_SOLID );
                 if( !lit[x][y] ) {
@@ -1545,7 +1465,7 @@ void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
             y += dy;
             t += ax;
 
-            if( generic_inbounds( { x, y }, lightmap_boundaries, lightmap_clearance ) ) {
+            if( lightmap_boundaries.contains_half_open( point( x, y ) ) ) {
                 float current_transparency = transparency_cache[x][y];
                 bool is_opaque = ( current_transparency == LIGHT_TRANSPARENCY_SOLID );
                 if( !lit[x][y] ) {

@@ -1023,7 +1023,7 @@ void debug()
     bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG, false ) != -1;
     int action = debug_menu_uilist( debug_menu_has_hotkey );
     g->refresh_all();
-    player &u = g->u;
+    avatar &u = g->u;
     map &m = g->m;
     switch( action ) {
         case DEBUG_WISH:
@@ -1043,7 +1043,7 @@ void debug()
             for( int i = 0; i < OMAPX; i++ ) {
                 for( int j = 0; j < OMAPY; j++ ) {
                     for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
-                        cur_om.seen( i, j, k ) = true;
+                        cur_om.seen( { i, j, k } ) = true;
                     }
                 }
             }
@@ -1101,6 +1101,9 @@ void debug()
                      u.get_healthy_kcal() );
             add_msg( m_info, _( "Body Mass Index: %.0f\nBasal Metabolic Rate: %i" ), u.get_bmi(), u.get_bmr() );
             add_msg( m_info, _( "Player activity level: %s" ), u.activity_level_str() );
+            if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
+                add_msg( m_info, _( "Kill xp: %d" ), u.kill_xp() );
+            }
             g->disp_NPCs();
             break;
         }
@@ -1179,7 +1182,7 @@ void debug()
 
         case DEBUG_SPAWN_ARTIFACT:
             if( const cata::optional<tripoint> center = g->look_around() ) {
-                artifact_natural_property prop = artifact_natural_property( rng( ARTPROP_NULL + 1,
+                artifact_natural_property prop = static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1,
                                                  ARTPROP_MAX - 1 ) );
                 m.create_anomaly( *center, prop );
                 m.spawn_natural_artifact( *center, prop );

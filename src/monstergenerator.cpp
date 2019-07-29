@@ -136,6 +136,7 @@ const std::map<std::string, m_flag> flag_map = {
     { "PRIORITIZE_TARGETS", MF_PRIORITIZE_TARGETS },
     { "NOT_HALLUCINATION", MF_NOT_HALLU },
     { "CATFOOD", MF_CATFOOD },
+    { "CANPLAY", MF_CANPLAY },
     { "CATTLEFODDER", MF_CATTLEFODDER },
     { "BIRDFOOD", MF_BIRDFOOD },
     { "PET_MOUNTABLE", MF_PET_MOUNTABLE },
@@ -146,6 +147,7 @@ const std::map<std::string, m_flag> flag_map = {
     { "DRIPS_NAPALM", MF_DRIPS_NAPALM },
     { "DRIPS_GASOLINE", MF_DRIPS_GASOLINE },
     { "ELECTRIC_FIELD", MF_ELECTRIC_FIELD },
+    { "STUN_IMMUNE", MF_STUN_IMMUNE },
     { "LOUDMOVES", MF_LOUDMOVES }
 };
 
@@ -427,6 +429,7 @@ void MonsterGenerator::init_death()
     // Gives a message about destroying ammo and then calls "BROKEN"
     death_map["BROKEN_AMMO"] = &mdeath::broken_ammo;
     death_map["SMOKEBURST"] = &mdeath::smokeburst;// Explode like a huge smoke bomb.
+    death_map["FUNGALBURST"] = &mdeath::fungalburst;// Explode with a cloud of fungal haze.
     death_map["JABBERWOCKY"] = &mdeath::jabberwock; // Snicker-snack!
     death_map["DETONATE"] = &mdeath::detonate; // Take them with you
     death_map["GAMEOVER"] = &mdeath::gameover;// Game over!  Defense mode
@@ -481,6 +484,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "FUNGUS_FORTIFY", mattack::fungus_fortify );
     add_hardcoded_attack( "DERMATIK", mattack::dermatik );
     add_hardcoded_attack( "DERMATIK_GROWTH", mattack::dermatik_growth );
+    add_hardcoded_attack( "FUNGAL_TRAIL", mattack::fungal_trail );
     add_hardcoded_attack( "PLANT", mattack::plant );
     add_hardcoded_attack( "DISAPPEAR", mattack::disappear );
     add_hardcoded_attack( "FORMBLOB", mattack::formblob );
@@ -886,6 +890,8 @@ mtype_special_attack MonsterGenerator::create_actor( JsonObject obj, const std::
         new_attack = new bite_actor();
     } else if( attack_type == "gun" ) {
         new_attack = new gun_actor();
+    } else if( attack_type == "spell" ) {
+        new_attack = new mon_spellcasting_actor();
     } else {
         obj.throw_error( "unknown monster attack", "attack_type" );
     }

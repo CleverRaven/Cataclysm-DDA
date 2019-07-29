@@ -120,8 +120,9 @@ static tripoint random_house_in_city( const city_reference &cref )
     int endy   = city_center_omt.y + size;
     for( int x = startx; x <= endx; x++ ) {
         for( int y = starty; y <= endy; y++ ) {
-            if( overmap_buffer.check_ot( "house", ot_match_type::TYPE, x, y, z ) ) {
-                valid.push_back( tripoint( x, y, z ) );
+            tripoint p( x, y, z );
+            if( overmap_buffer.check_ot( "house", ot_match_type::type, p ) ) {
+                valid.push_back( p );
             }
         }
     }
@@ -146,11 +147,11 @@ tripoint mission_util::target_closest_lab_entrance( const tripoint &origin, int 
     // Get the surface locations for labs and for spaces above hidden lab stairs.
     testpoint.z = 0;
     tripoint surface = overmap_buffer.find_closest( testpoint, "lab_stairs", 0, false,
-                       ot_match_type::CONTAINS );
+                       ot_match_type::contains );
 
     testpoint.z = -1;
     tripoint underground = overmap_buffer.find_closest( testpoint, "hidden_lab_stairs", 0, false,
-                           ot_match_type::CONTAINS );
+                           ot_match_type::contains );
     underground.z = 0;
 
     tripoint closest;
@@ -328,10 +329,12 @@ tripoint mission_util::target_om_ter_random( const std::string &omter, int revea
     if( places.empty() ) {
         return g->u.global_omt_location();
     }
-    const auto loc_om = overmap_buffer.get_existing_om_global( loc );
+    const overmap *loc_om = overmap_buffer.get_existing_om_global( loc ).om;
+    assert( loc_om );
+
     std::vector<tripoint> places_om;
     for( auto &i : places ) {
-        if( loc_om == overmap_buffer.get_existing_om_global( i ) ) {
+        if( loc_om == overmap_buffer.get_existing_om_global( i ).om ) {
             places_om.push_back( i );
         }
     }

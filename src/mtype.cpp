@@ -132,7 +132,7 @@ bool mtype::same_species( const mtype &other ) const
     return false;
 }
 
-field_id mtype::bloodType() const
+field_type_id mtype::bloodType() const
 {
     if( has_flag( MF_ACID_BLOOD ) )
         //A monster that has the death effect "ACID" does not need to have acid blood.
@@ -157,7 +157,7 @@ field_id mtype::bloodType() const
     return fd_null;
 }
 
-field_id mtype::gibType() const
+field_type_id mtype::gibType() const
 {
     if( has_flag( MF_LARVA ) || in_species( MOLLUSK ) ) {
         return fd_gibs_invertebrate;

@@ -25,7 +25,6 @@
 #include "faction.h"
 #include "fault.h"
 #include "filesystem.h"
-#include "field_type.h"
 #include "flag.h"
 #include "gates.h"
 #include "harvest.h"
@@ -78,6 +77,7 @@
 #include "type_id.h"
 #include "construction_category.h"
 #include "overmap.h"
+#include "clothing_mod.h"
 
 DynamicDataLoader::DynamicDataLoader()
 {
@@ -279,6 +279,9 @@ void DynamicDataLoader::initialize()
     add( "MAGAZINE", []( JsonObject & jo, const std::string & src ) {
         item_controller->load_magazine( jo, src );
     } );
+    add( "BATTERY", []( JsonObject & jo, const std::string & src ) {
+        item_controller->load_battery( jo, src );
+    } );
     add( "GENERIC", []( JsonObject & jo, const std::string & src ) {
         item_controller->load_generic( jo, src );
     } );
@@ -367,6 +370,7 @@ void DynamicDataLoader::initialize()
     add( "anatomy", &anatomy::load_anatomy );
     add( "morale_type", &morale_type_data::load_type );
     add( "SPELL", &spell_type::load_spell );
+    add( "clothing_mod", &clothing_mods::load );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -530,6 +534,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     const std::vector<named_entry> entries = {{
             { _( "Body parts" ), &body_part_struct::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },
+            { _( "Emissions" ), &emit::finalize },
             {
                 _( "Items" ), []()
                 {

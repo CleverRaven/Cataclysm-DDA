@@ -269,7 +269,8 @@
       [ "esbit_stove", 15 ],
       [ "mess_tin", 5 ],
       [ "riding_saddle", 3 ],
-      [ "saddlebag", 5 ]
+      [ "saddlebag", 5 ],
+      [ "acetylene_machine", 2 ]
     ]
   },
   {
@@ -345,7 +346,8 @@
       [ "syringe", 4 ],
       [ "xacto", 4 ],
       [ "cotton_ball", 4 ],
-      { "group": "ammo_any_batteries_full", "prob": 50 }
+      { "group": "ammo_any_batteries_full", "prob": 50 },
+      [ "acetylene_machine", 1 ]
     ]
   },
   {

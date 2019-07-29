@@ -18,7 +18,7 @@
       [ "cig_butt", 10 ],
       [ "string_36", 5 ],
       [ "scrap", 10 ],
-      [ "glass_shard", 10 ],
+      { "item": "glass_shard", "prob": 10, "count": [ 1, 8 ] },
       [ "wire", 5 ],
       [ "splinter", 10 ],
       [ "rag", 15 ],

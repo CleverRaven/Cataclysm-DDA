@@ -283,7 +283,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     int num_gtraits = 0;
     int num_btraits = 0;
     int tries = 0;
-    add_traits(); // adds mandatory profession/scenario traits.
+    add_traits( points ); // adds mandatory profession/scenario traits.
     for( const auto &mut : my_mutations ) {
         const mutation_branch &mut_info = mut.first.obj();
         if( mut_info.profession ) {
@@ -647,6 +647,8 @@ bool avatar::create( character_type type, const std::string &tempname )
             my_mutations[mut].powered = true;
         }
     }
+
+    prof->learn_spells( *this );
 
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
     apply_persistent_morale();
@@ -1543,6 +1545,13 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
                 buffer << mon.get_name() << "\n";
             }
         }
+        // Profession spells
+        if( !sorted_profs[cur_id]->spells().empty() ) {
+            buffer << "<color_light_blue>" << _( "Spells:" ) << "</color>\n";
+            for( const std::pair<spell_id, int> spell_pair : sorted_profs[cur_id]->spells() ) {
+                buffer << _( spell_pair.first->name ) << _( " level " ) << spell_pair.second << "\n";
+            }
+        }
         werase( w_items );
         const auto scroll_msg = string_format(
                                     _( "Press <color_light_green>%1$s</color> or <color_light_green>%2$s</color> to scroll." ),
@@ -1592,16 +1601,14 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
                 desc_offset++;
             }
         } else if( action == "CONFIRM" ) {
-            // Remove old profession-specific traits (e.g. pugilist for boxers)
+            // Remove traits from the previous profession
             for( const trait_id &old_trait : u.prof->get_locked_traits() ) {
-                if( old_trait.obj().profession ) {
-                    u.toggle_trait( old_trait );
-                }
+                u.toggle_trait( old_trait );
             }
             u.prof = &sorted_profs[cur_id].obj();
             // Add traits for the new profession (and perhaps scenario, if, for example,
             // both the scenario and old profession require the same trait)
-            u.add_traits();
+            u.add_traits( points );
             points.skill_points -= netPointCost;
         } else if( action == "CHANGE_GENDER" ) {
             u.male = !u.male;
@@ -1987,7 +1994,6 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
         mvwprintz( w, 3, pMsg_length + 9, can_pick ? c_green : c_light_red, scen_msg_temp.c_str(),
                    sorted_scens[cur_id]->gender_appropriate_name( u.male ),
                    pointsForScen );
-
 
         const std::string scenDesc = sorted_scens[cur_id]->description( u.male );
 
@@ -2495,10 +2501,18 @@ void Character::empty_skills()
 
 void Character::add_traits()
 {
+    points_left points = points_left();
+    add_traits( points );
+}
+
+void Character::add_traits( points_left &points )
+{
     // TODO: get rid of using g->u here, use `this` instead
     for( const trait_id &tr : g->u.prof->get_locked_traits() ) {
         if( !has_trait( tr ) ) {
             toggle_trait( tr );
+        } else {
+            points.trait_points += tr->points;
         }
     }
     for( const trait_id &tr : g->scen->get_locked_traits() ) {

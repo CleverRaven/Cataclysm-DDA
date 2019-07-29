@@ -322,6 +322,17 @@
     "volume": "5ml"
   },
   {
+    "id": "atgm_spent",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": "152mm ATGM tube",
+    "color": "dark_gray",
+    "description": "An empty steel tube which once contained a 152mm ATGM.  Now it's essentially just a huge pipe.",
+    "material": "steel",
+    "weight": 9500,
+    "volume": 30
+  },
+  {
     "id": "shot_hull",
     "type": "GENERIC",
     "category": "spare_parts",

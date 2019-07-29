@@ -1826,7 +1826,10 @@ item_location inventory_pick_selector::execute()
         } else if( input.action == "QUIT" ) {
             return item_location();
         } else if( input.action == "CONFIRM" ) {
-            return get_active_column().get_selected().any_item();
+            const inventory_entry &selected = get_active_column().get_selected();
+            if( selected ) {
+                return selected.any_item();
+            }
         } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
         } else {
@@ -2109,7 +2112,7 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
                 } );
 
                 // Otherwise, any favorite item to select?
-                const bool select_fav =  !select_nonfav && std::any_of( selected.begin(), selected.end(),
+                const bool select_fav = !select_nonfav && std::any_of( selected.begin(), selected.end(),
                 []( const inventory_entry * elem ) {
                     return elem->any_item()->is_favorite && elem->chosen_count == 0;
                 } );

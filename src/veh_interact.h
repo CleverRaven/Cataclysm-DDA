@@ -87,6 +87,7 @@ class veh_interact
         catacurses::window w_list;
         catacurses::window w_details;
         catacurses::window w_name;
+        catacurses::window w_owner;
 
         vehicle *veh;
         bool has_wrench;

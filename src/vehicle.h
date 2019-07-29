@@ -35,7 +35,6 @@
 
 class monster;
 
-enum field_id : int;
 class Creature;
 class nc_color;
 class player;
@@ -629,7 +628,6 @@ class vehicle
 
         //Refresh all caches and re-locate all parts
         void refresh();
-        bool no_refresh = false;
 
         // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
         bool do_environmental_effects();
@@ -651,6 +649,20 @@ class vehicle
         // How much does the temperature effect the engine starting (0.0 - 1.0)
         double engine_cold_factor( const int e ) const;
 
+        // refresh pivot_cache, clear pivot_dirty
+        void refresh_pivot() const;
+
+        void refresh_mass() const;
+        void calc_mass_center( bool precalc ) const;
+
+        /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
+        void leak_fuel( vehicle_part &pt );
+
+        /*
+         * Fire turret at automatically acquired targets
+         * @return number of shots actually fired (which may be zero)
+         */
+        int automatic_fire_turret( vehicle_part &pt );
         /**
          * Find a possibly off-map vehicle. If necessary, loads up its submap through
          * the global MAPBUFFER and pulls it from there. For this reason, you should only
@@ -730,7 +742,6 @@ class vehicle
         }
         void set_owner( faction *new_owner ) {
             owner = new_owner;
-            name = string_format( _( "%s (%s)" ), base_name.empty() ? name : base_name, new_owner->name );
         }
         void remove_owner() {
             owner = nullptr;
@@ -1142,7 +1153,7 @@ class vehicle
         int safe_velocity( bool fueled = true ) const;
 
         // Generate field from a part, either at front or back of vehicle depending on velocity.
-        void spew_field( double joules, int part, field_id type, int intensity = 1 );
+        void spew_field( double joules, int part, field_type_id type, int intensity = 1 );
 
         // Loop through engines and generate noise and smoke for each one
         void noise_and_smoke( int load, time_duration time = 1_turns );
@@ -1523,30 +1534,29 @@ class vehicle
         // Called by map.cpp to make sure the real position of each zone_data is accurate
         bool refresh_zones();
 
-        // config values
-        std::string base_name; // vehicle name without ownership
-        std::string name;   // vehicle name
+        bounding_box get_bounding_box();
+        // Retroactively pass time spent outside bubble
+        // Funnels, solar panels
+        void update_time( const time_point &update_to );
+
         // The faction that owns this vehicle.
         const faction *owner = nullptr;
         // The faction that previously owned this vehicle
         const faction *old_owner = nullptr;
-        // the time point when it was succesfully stolen
-        cata::optional<time_point> theft_time;
-        /**
-         * Type of the vehicle as it was spawned. This will never change, but it can be an invalid
-         * type (e.g. if the definition of the prototype has been removed from json or if it has been
-         * spawned with the default constructor).
-         */
-        vproto_id type;
+
+    private:
+        mutable double coefficient_air_resistance = 1;
+        mutable double coefficient_rolling_resistance = 1;
+        mutable double coefficient_water_resistance = 1;
+        mutable double draft_m = 1;
+        mutable double hull_height = 0.3;
+
+        // Cached points occupied by the vehicle
+        std::set<tripoint> occupied_points;
+
+    public:
         std::vector<vehicle_part> parts;   // Parts which occupy different tiles
-        int removed_part_count;            // Subtract from parts.size() to get the real part count.
-        std::map<point, std::vector<int> >
-        relative_parts;    // parts_at_relative(dp) is used a lot (to put it mildly)
-        std::set<label> labels;            // stores labels
-        std::unordered_multimap<point, zone_data> loot_zones;
-        bool is_autodriving = false;
         std::vector<tripoint> omt_path; // route for overmap-scale auto-driving
-        tripoint autodrive_local_target = tripoint_zero; // currrent node the autopilot is aiming for
         std::vector<int> alternators;      // List of alternator indices
         std::vector<int> engines;          // List of engine indices
         std::vector<int> reactors;         // List of reactor indices
@@ -1560,16 +1570,43 @@ class vehicle
         std::vector<int> wheelcache;       // List of wheels
         std::vector<int> rail_wheelcache;  // List of rail wheels
         std::vector<int> steering;         // List of STEERABLE parts
-        std::vector<int>
-        speciality;       // List of parts that will not be on a vehicle very often, or which only one will be present
+        // List of parts that will not be on a vehicle very often, or which only one will be present
+        std::vector<int> speciality;
         std::vector<int> floating;         // List of parts that provide buoyancy to boats
+
+        // config values
+        std::string name;   // vehicle name
+        /**
+         * Type of the vehicle as it was spawned. This will never change, but it can be an invalid
+         * type (e.g. if the definition of the prototype has been removed from json or if it has been
+         * spawned with the default constructor).
+         */
+        vproto_id type;
+        // parts_at_relative(dp) is used a lot (to put it mildly)
+        std::map<point, std::vector<int>> relative_parts;
+        std::set<label> labels;            // stores labels
         std::set<std::string> tags;        // Properties of the vehicle
         // After fuel consumption, this tracks the remainder of fuel < 1, and applies it the next time.
         std::map<itype_id, float> fuel_remainder;
+        std::unordered_multimap<point, zone_data> loot_zones;
         active_item_cache active_items;
 
-        bounding_box rail_wheel_bounding_box;
-        bounding_box get_bounding_box();
+    private:
+        mutable units::mass mass_cache;
+        // cached pivot point
+        mutable point pivot_cache;
+        /*
+         * The co-ordinates of the bounding box of the vehicle's mount points
+         */
+        mutable point mount_max;
+        mutable point mount_min;
+        mutable point mass_center_precalc;
+        mutable point mass_center_no_precalc;
+        tripoint autodrive_local_target = tripoint_zero; // currrent node the autopilot is aiming for
+
+    public:
+        // Subtract from parts.size() to get the real part count.
+        int removed_part_count;
 
         /**
          * Submap coordinates of the currently loaded submap (see game::m)
@@ -1589,16 +1626,10 @@ class vehicle
 
         // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
         int alternator_load;
-
         /// Time occupied points were calculated.
         time_point occupied_cache_time = calendar::before_time_starts;
-
         // Turn the vehicle was last processed
         time_point last_update = calendar::before_time_starts;
-        // Retroactively pass time spent outside bubble
-        // Funnels, solar panels
-        void update_time( const time_point &update_to );
-
         // save values
         /**
          * Position of the vehicle *inside* the submap that contains the vehicle.
@@ -1608,10 +1639,6 @@ class vehicle
          */
         int posx = 0;
         int posy = 0;
-        // frame direction
-        tileray face;
-        // direction we are moving
-        tileray move;
         // vehicle current velocity, mph * 100
         int velocity = 0;
         // velocity vehicle's cruise control trying to achieve
@@ -1623,85 +1650,36 @@ class vehicle
         // direction, to which vehicle is turning (player control). will rotate frame on next move
         // must be a multiple of 15 degrees
         int turn_dir = 0;
-
-        // points used for rotation of mount precalc values
-        std::array<point, 2> pivot_anchor;
-        // rotation used for mount precalc values
-        std::array<int, 2> pivot_rotation = {{ 0, 0 }};
-
         // amount of last turning (for calculate skidding due to handbrake)
         int last_turn = 0;
         // goes from ~1 to ~0 while proceeding every turn
         float of_turn;
         // leftover from previous turn
         float of_turn_carry;
-
-        int extra_drag          = 0;
-        bool all_wheels_on_one_axis;
-        // TODO: change these to a bitset + enum?
-        // cruise control on/off
-        bool cruise_on                  = true;
-        // at least one engine is on, of any type
-        bool engine_on                  = false;
-        // vehicle tracking on/off
-        bool tracking_on                = false;
-        // vehicle has no key
-        bool is_locked                  = false;
-        // vehicle has alarm on
-        bool is_alarm_on                = false;
-        bool camera_on                  = false;
-        // skidding mode
-        bool skidding                   = false;
-        // has bloody or smoking parts
-        bool check_environmental_effects = false;
-        // "inside" flags are outdated and need refreshing
-        bool insides_dirty              = true;
-        // Is the vehicle hanging in the air and expected to fall down in the next turn?
-        bool is_falling                 = false;
-        // zone_data positions are outdated and need refreshing
-        bool zones_dirty = true;
-        // current noise of vehicle (engine working, etc.)
-        unsigned char vehicle_noise = 0;
+        int extra_drag = 0;
         // last time point the fluid was inside tanks was checked for processing
-        time_point last_fluid_check = calendar::time_of_cataclysm;
+        time_point last_fluid_check = calendar::turn_zero;
+        // the time point when it was succesfully stolen
+        cata::optional<time_point> theft_time;
+        // rotation used for mount precalc values
+        std::array<int, 2> pivot_rotation = { { 0, 0 } };
+
+        bounding_box rail_wheel_bounding_box;
+        // points used for rotation of mount precalc values
+        std::array<point, 2> pivot_anchor;
+        // frame direction
+        tileray face;
+        // direction we are moving
+        tileray move;
 
     private:
-        // refresh pivot_cache, clear pivot_dirty
-        void refresh_pivot() const;
+        bool no_refresh = false;
 
         // if true, pivot_cache needs to be recalculated
         mutable bool pivot_dirty;
-        // cached pivot point
-        mutable point pivot_cache;
-
-        // Cached points occupied by the vehicle
-        std::set<tripoint> occupied_points;
-
-        void refresh_mass() const;
-        void calc_mass_center( bool precalc ) const;
-
-        /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
-        void leak_fuel( vehicle_part &pt );
-
-        /*
-         * The co-ordinates of the bounding box of the vehicle's mount points
-         */
-        mutable point mount_max;
-        mutable point mount_min;
-        /*
-         * Fire turret at automatically acquired targets
-         * @return number of shots actually fired (which may be zero)
-         */
-        int automatic_fire_turret( vehicle_part &pt );
-
-        mutable point mass_center_precalc;
-        mutable point mass_center_no_precalc;
-        mutable units::mass mass_cache;
-
-        mutable bool mass_dirty                     = true;
-        mutable bool mass_center_precalc_dirty      = true;
-        mutable bool mass_center_no_precalc_dirty   = true;
-
+        mutable bool mass_dirty = true;
+        mutable bool mass_center_precalc_dirty = true;
+        mutable bool mass_center_no_precalc_dirty = true;
         // cached values for air, water, and  rolling resistance;
         mutable bool coeff_rolling_dirty = true;
         mutable bool coeff_air_dirty = true;
@@ -1711,15 +1689,37 @@ class vehicle
         // and that's the bit that controls recalculation.  The intent is to only recalculate
         // the coeffs once per turn, even if multiple parts are destroyed in a collision
         mutable bool coeff_air_changed = true;
-
         // is the vehicle currently mostly in water
         mutable bool is_floating = false;
 
-        mutable double coefficient_air_resistance = 1;
-        mutable double coefficient_rolling_resistance = 1;
-        mutable double coefficient_water_resistance = 1;
-        mutable double draft_m = 1;
-        mutable double hull_height = 0.3;
+    public:
+        bool is_autodriving = false;
+        bool all_wheels_on_one_axis;
+        // TODO: change these to a bitset + enum?
+        // cruise control on/off
+        bool cruise_on = true;
+        // at least one engine is on, of any type
+        bool engine_on = false;
+        // vehicle tracking on/off
+        bool tracking_on = false;
+        // vehicle has no key
+        bool is_locked = false;
+        // vehicle has alarm on
+        bool is_alarm_on = false;
+        bool camera_on = false;
+        // skidding mode
+        bool skidding = false;
+        // has bloody or smoking parts
+        bool check_environmental_effects = false;
+        // "inside" flags are outdated and need refreshing
+        bool insides_dirty = true;
+        // Is the vehicle hanging in the air and expected to fall down in the next turn?
+        bool is_falling = false;
+        // zone_data positions are outdated and need refreshing
+        bool zones_dirty = true;
+
+        // current noise of vehicle (engine working, etc.)
+        unsigned char vehicle_noise = 0;
 };
 
 #endif

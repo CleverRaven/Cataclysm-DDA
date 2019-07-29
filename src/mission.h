@@ -145,7 +145,7 @@ struct mission_fail {
 
 struct mission_target_params {
     std::string overmap_terrain;
-    ot_match_type overmap_terrain_match_type = ot_match_type::TYPE;
+    ot_match_type overmap_terrain_match_type = ot_match_type::type;
     mission *mission_pointer;
 
     bool origin_u = true;
@@ -431,8 +431,6 @@ class mission
 
     private:
         bool legacy_no_player_id = false;
-        // Don't use this, it's only for loading legacy saves.
-        void load_info( std::istream &info );
 
         void set_target_to_mission_giver();
 

@@ -561,6 +561,12 @@
     "description": "This makes the spell's Area of Effect ignore walls."
   },
   {
+    "id": "MAGIC_FOCUS",
+    "type": "json_flag",
+    "context": [ "item" ],
+    "description": "You can cast spells with this item in your hand."
+  },
+  {
     "id": "HOSTILE_SUMMON",
     "type": "json_flag",
     "context": [ "SPELL" ],

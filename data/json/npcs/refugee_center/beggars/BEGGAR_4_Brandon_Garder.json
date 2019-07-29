@@ -52,12 +52,12 @@
     "id": "NC_BEGGAR_4_worn",
     "subtype": "collection",
     "items": [
-      { "item": "house_coat" },
+      { "item": "socks" },
       { "item": "briefs" },
       { "item": "tank_top" },
       { "item": "long_underpants" },
       { "item": "slippers" },
-      { "item": "socks" }
+      { "item": "house_coat" }
     ]
   },
   {

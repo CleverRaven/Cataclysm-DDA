@@ -369,6 +369,7 @@
     "type": "recipe",
     "result": "milk_powder",
     "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
@@ -396,6 +397,7 @@
     "type": "recipe",
     "result": "powder_eggs",
     "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
@@ -417,7 +419,7 @@
     "batch_time_factors": [ 83, 3 ],
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 25, "LIST" ], [ "mortar_pestle", -1 ] ] ],
+    "tools": [ [ [ "mortar_pestle", -1 ] ], [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "dry_meat", 1 ], [ "dry_fish", 1 ] ] ]
   },
   {
@@ -452,6 +454,7 @@
     "type": "recipe",
     "result": "dry_lentils",
     "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,

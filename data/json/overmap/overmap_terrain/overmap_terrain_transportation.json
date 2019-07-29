@@ -83,6 +83,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "roadstop_roof",
+    "name": "roadstop roof",
+    "sym": "^",
+    "color": "light_blue",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "roadstop_a",
     "name": "public washroom",
     "sym": "^",
@@ -92,8 +101,26 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "roadstop_a_roof",
+    "name": "public washroom roof",
+    "sym": "^",
+    "color": "light_blue",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "roadstop_b",
     "name": "roadside foodcart",
+    "sym": "^",
+    "color": "magenta",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "roadstop_b_roof",
+    "name": "roadside foodcart roof",
     "sym": "^",
     "color": "magenta",
     "mondensity": 2,
@@ -289,6 +316,17 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "sub_station_roof",
+    "name": "subway station roof",
+    "sym": "S",
+    "color": "yellow",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2,
+    "flags": [ "KNOWN_DOWN", "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "sewer_sub_station",
     "name": "subway station (sewer level)",
     "sym": "S",
@@ -331,9 +369,25 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_reststop_1_roof",
+    "copy-from": "generic_city_building",
+    "name": "rest area roof",
+    "sym": "#",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_reststop_2",
     "copy-from": "generic_city_building",
     "name": "rest area",
+    "sym": "#",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_reststop_2_roof",
+    "copy-from": "generic_city_building",
+    "name": "rest area roof",
     "sym": "#",
     "color": "blue"
   },

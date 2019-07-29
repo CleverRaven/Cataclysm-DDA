@@ -75,7 +75,6 @@ static const bionic_id bio_remote( "bio_remote" );
 
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_SHELL2( "SHELL2" );
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 const skill_id skill_driving( "driving" );
 const skill_id skill_melee( "melee" );
@@ -735,6 +734,12 @@ static void wait()
     player &u = g->u;
     bool setting_alarm = false;
 
+    if( u.controlling_vehicle && ( g->m.veh_at( u.pos() )->vehicle().velocity ||
+                                   g->m.veh_at( u.pos() )->vehicle().cruise_velocity ) ) {
+        popup( _( "You can't pass time while controlling a moving vehicle." ) );
+        return;
+    }
+
     if( u.has_alarm_clock() ) {
         setting_alarm = try_set_alarm();
     }
@@ -994,7 +999,6 @@ static void loot()
     }
     flags |= g->check_near_zone( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
                                  u.pos() ) ? ConstructPlots : 0;
-
 
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
@@ -1287,13 +1291,13 @@ static void open_movement_mode_menu()
 
     switch( as_m.ret ) {
         case 0:
-            u.set_movement_mode( "walk" );
+            u.set_movement_mode( PMM_WALK );
             break;
         case 1:
-            u.set_movement_mode( "run" );
+            u.set_movement_mode( PMM_RUN );
             break;
         case 2:
-            u.set_movement_mode( "crouch" );
+            u.set_movement_mode( PMM_CROUCH );
             break;
         default:
             break;
@@ -1303,11 +1307,6 @@ static void open_movement_mode_menu()
 static void cast_spell()
 {
     player &u = g->u;
-
-    if( u.is_armed() ) {
-        add_msg( m_bad, _( "You need your hands free to cast spells!" ) );
-        return;
-    }
 
     std::vector<spell_id> spells = u.magic.spells();
 
@@ -1334,6 +1333,11 @@ static void cast_spell()
     }
 
     spell &sp = *u.magic.get_spells()[spell_index];
+
+    if( u.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) && !u.weapon.has_flag( "MAGIC_FOCUS" ) ) {
+        add_msg( m_bad, _( "You need your hands free to cast this spell!" ) );
+        return;
+    }
 
     if( !u.magic.has_enough_energy( u, sp ) ) {
         add_msg( m_bad, _( "You don't have enough %s to cast the spell." ), sp.energy_string() );

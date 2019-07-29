@@ -5,6 +5,7 @@
 #include <string>
 #include <iosfwd>
 #include <utility>
+#include <vector>
 
 class time_duration;
 class time_point;
@@ -131,6 +132,8 @@ class calendar
          * calculates the current seconds/minutes/hour/day/season based on that counter value.
          */
         void sync();
+        static bool is_eternal_season;
+        static int cur_season_length;
 
     public:
         /** Initializers */
@@ -201,23 +204,34 @@ class calendar
 
     public:
         /**
-         * The expected duration of the cataclysm
-         *
-         * Large number that can be used to approximate infinite amounts of time.
+         * A number that represents the longest possible action.
          *
          * This number should be regarded as a number of turns, and can safely be converted to a
          * number of seconds or moves (movement points) without integer overflow.  If used to
          * represent a larger unit (hours/days/years), then this will result in integer overflow.
          */
         static const int INDEFINITELY_LONG;
+
+        /**
+         * The expected duration of the cataclysm
+         *
+         * Large duration that can be used to approximate infinite amounts of time.
+         *
+         * This number can't be safely converted to a number of moves without causing
+         * an integer overflow.
+         */
+        static const time_duration INDEFINITELY_LONG_DURATION;
+
         /// @returns Whether the eternal season is enabled.
         static bool eternal_season();
+        static void set_eternal_season( bool is_eternal_season );
 
         /** @returns Time in a year, (configured in current world settings) */
         static time_duration year_length();
 
         /** @returns Time of a season (configured in current world settings) */
         static time_duration season_length();
+        static void set_season_length( const int dur );
 
         /// @returns relative length of game season to real life season.
         static float season_ratio();
@@ -234,7 +248,7 @@ class calendar
         /** Returns the translated name of the season (with first letter being uppercase). */
         static const std::string name_season( season_type s );
 
-        static   calendar start;
+        static   calendar start_of_cataclysm;
         static   calendar turn;
         static season_type initial_season;
 
@@ -249,7 +263,7 @@ class calendar
          * Represents time point 0.
          */
         // TODO: flesh out the documentation
-        static const time_point time_of_cataclysm;
+        static const time_point turn_zero;
 };
 
 template<typename T>
@@ -316,8 +330,6 @@ class time_duration
 
         /// Allows writing `time_duration d = 0;`
         time_duration( const std::nullptr_t ) : turns_( 0 ) { }
-
-        static time_duration read_from_json_string( JsonIn &jsin );
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
@@ -459,6 +471,8 @@ class time_duration
 
         /// Returns a random duration in the range [low, hi].
         friend time_duration rng( time_duration lo, time_duration hi );
+
+        static const std::vector<std::pair<std::string, time_duration>> units;
 };
 
 /// @see x_in_y(int,int)
@@ -632,31 +646,31 @@ time_point inline &operator-=( time_point &lhs, const time_duration &rhs )
 
 inline time_duration time_past_midnight( const time_point &p )
 {
-    return ( p - calendar::time_of_cataclysm ) % 1_days;
+    return ( p - calendar::turn_zero ) % 1_days;
 }
 
 inline time_duration time_past_new_year( const time_point &p )
 {
-    return ( p - calendar::time_of_cataclysm ) % calendar::year_length();
+    return ( p - calendar::turn_zero ) % calendar::year_length();
 }
 
 template<typename T>
 inline T minute_of_hour( const time_point &p )
 {
-    return to_minutes<T>( ( p - calendar::time_of_cataclysm ) % 1_hours );
+    return to_minutes<T>( ( p - calendar::turn_zero ) % 1_hours );
 }
 
 template<typename T>
 inline T hour_of_day( const time_point &p )
 {
-    return to_hours<T>( ( p - calendar::time_of_cataclysm ) % 1_days );
+    return to_hours<T>( ( p - calendar::turn_zero ) % 1_days );
 }
 
 /// This uses the current season length.
 template<typename T>
 inline T day_of_season( const time_point &p )
 {
-    return to_days<T>( ( p - calendar::time_of_cataclysm ) % calendar::season_length() );
+    return to_days<T>( ( p - calendar::turn_zero ) % calendar::season_length() );
 }
 
 /// @returns The season of the of the given time point. Returns the same season for

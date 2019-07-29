@@ -122,7 +122,7 @@ std::string item_comp::to_string( int batch ) const
 {
     const int c = std::abs( count ) * batch;
     const auto type_ptr = item::find_type( type );
-    if( type_ptr->stackable ) {
+    if( type_ptr->count_by_charges() ) {
         return string_format( "%s (%d)", type_ptr->nname( 1 ), c );
     }
     //~ <item-count> <item-name>

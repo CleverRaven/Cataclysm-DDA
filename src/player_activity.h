@@ -8,6 +8,7 @@
 #include <vector>
 #include <memory>
 #include <string>
+#include <unordered_set>
 
 #include "enums.h"
 #include "item_location.h"
@@ -43,6 +44,7 @@ class player_activity
         std::vector<int> values;
         std::vector<std::string> str_values;
         std::vector<tripoint> coords;
+        std::unordered_set<tripoint> coord_set;
         std::vector<std::weak_ptr<monster>> monsters;
         tripoint placement;
         /** If true, the activity will be auto-resumed next time the player attempts

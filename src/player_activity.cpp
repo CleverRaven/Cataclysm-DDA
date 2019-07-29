@@ -56,14 +56,6 @@ std::string player_activity::get_str_value( size_t index, const std::string &def
 
 void player_activity::do_turn( player &p )
 {
-    // Activities should never excessively drain stamina.
-    if( p.stamina < p.get_stamina_max() / 3 ) {
-        if( one_in( 50 ) ) {
-            p.add_msg_if_player( _( "You pause for a second to catch your breath." ) );
-        }
-        p.moves = 0;
-        return;
-    }
     // Should happen before activity or it may fail du to 0 moves
     if( *this && type->will_refuel_fires() ) {
         try_fuel_fire( *this, p );
@@ -80,10 +72,21 @@ void player_activity::do_turn( player &p )
             moves_left = 0;
         }
     }
-
+    int previous_stamina = p.stamina;
     // This might finish the activity (set it to null)
     type->call_do_turn( this, &p );
 
+    // Activities should never excessively drain stamina.
+    if( p.stamina < previous_stamina && p.stamina < p.get_stamina_max() / 3 ) {
+        if( one_in( 50 ) ) {
+            p.add_msg_if_player( _( "You pause for a moment to catch your breath." ) );
+        }
+        auto_resume = true;
+        player_activity new_act( activity_id( "ACT_WAIT_STAMINA" ), to_moves<int>( 1_minutes ) );
+        new_act.values.push_back( 200 + ( p.get_stamina_max() / 3 ) );
+        p.assign_activity( new_act );
+        return;
+    }
     if( *this && type->rooted() ) {
         p.rooted();
         p.pause();

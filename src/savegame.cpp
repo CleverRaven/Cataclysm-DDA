@@ -73,7 +73,7 @@ void game::serialize( std::ostream &fout )
     json.start_object();
     // basic game state information.
     json.member( "turn", static_cast<int>( calendar::turn ) );
-    json.member( "calendar_start", static_cast<int>( calendar::start ) );
+    json.member( "calendar_start", static_cast<int>( calendar::start_of_cataclysm ) );
     json.member( "initial_season", static_cast<int>( calendar::initial_season ) );
     json.member( "auto_travel_mode", auto_travel_mode );
     json.member( "run_mode", static_cast<int>( safe_mode ) );
@@ -198,7 +198,7 @@ void game::unserialize( std::istream &fin )
         data.read( "om_y", comy );
 
         calendar::turn = tmpturn;
-        calendar::start = tmpcalstart;
+        calendar::start_of_cataclysm = tmpcalstart;
 
         load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 
@@ -282,7 +282,7 @@ void game::load_weather( std::istream &fin )
     if( fin.peek() == 'l' ) {
         std::string line;
         getline( fin, line );
-        weather.lightning_active = ( line.compare( "lightning: 1" ) == 0 );
+        weather.lightning_active = line == "lightning: 1";
     } else {
         weather.lightning_active = false;
     }
@@ -380,7 +380,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
     for( const auto &convert : needs_conversion ) {
         const tripoint pos = convert.first;
         const std::string old = convert.second;
-        oter_id &new_id = ter( pos.x, pos.y, pos.z );
+        oter_id &new_id = ter( pos );
 
         struct convert_nearby {
             int xoffset;
@@ -693,11 +693,11 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
         } else if( old == "bunker" ) {
             if( pos.z < 0 ) {
                 new_id = oter_id( "bunker_basement" );
-            } else if( is_ot_match( "road", get_ter( pos.x + 1, pos.y, pos.z ), ot_match_type::TYPE ) ) {
+            } else if( is_ot_match( "road", get_ter( pos + point( 1, 0 ) ), ot_match_type::type ) ) {
                 new_id = oter_id( "bunker_west" );
-            } else if( is_ot_match( "road", get_ter( pos.x - 1, pos.y, pos.z ), ot_match_type::TYPE ) ) {
+            } else if( is_ot_match( "road", get_ter( pos + point( -1, 0 ) ), ot_match_type::type ) ) {
                 new_id = oter_id( "bunker_east" );
-            } else if( is_ot_match( "road", get_ter( pos.x, pos.y + 1, pos.z ), ot_match_type::TYPE ) ) {
+            } else if( is_ot_match( "road", get_ter( pos + point( 0, 1 ) ), ot_match_type::type ) ) {
                 new_id = oter_id( "bunker_north" );
             } else {
                 new_id = oter_id( "bunker_south" );
@@ -753,7 +753,14 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                    old == "pwr_sub_s" ||
                    old == "radio_tower" ||
                    old == "sai" ||
-                   old == "toxic_dump" ) {
+                   old == "toxic_dump" ||
+                   old == "orchard_stall" ||
+                   old == "orchard_tree_apple" ||
+                   old == "orchard_processing" ||
+                   old == "dairy_farm_NW" ||
+                   old == "dairy_farm_NE" ||
+                   old == "dairy_farm_SW" ||
+                   old == "dairy_farm_SE" ) {
             new_id = oter_id( old + "_north" );
         }
 
@@ -803,23 +810,7 @@ void overmap::load_legacy_monstergroups( JsonIn &jsin )
 // throws std::exception
 void overmap::unserialize( std::istream &fin )
 {
-
-    if( fin.peek() == '#' ) {
-        // This was the last savegame version that produced the old format.
-        static int overmap_legacy_save_version = 24;
-        std::string vline;
-        getline( fin, vline );
-        std::string tmphash;
-        std::string tmpver;
-        int savedver = -1;
-        std::stringstream vliness( vline );
-        vliness >> tmphash >> tmpver >> savedver;
-        if( savedver <= overmap_legacy_save_version ) {
-            unserialize_legacy( fin );
-            return;
-        }
-    }
-
+    chkversion( fin );
     JsonIn jsin( fin );
     jsin.start_object();
     while( !jsin.end_object() ) {
@@ -911,7 +902,7 @@ void overmap::unserialize( std::istream &fin )
             jsin.start_array();
             while( !jsin.end_array() ) {
                 jsin.start_object();
-                radio_tower new_radio;
+                radio_tower new_radio( point_min );
                 while( !jsin.end_object() ) {
                     const std::string radio_member_name = jsin.get_member_name();
                     if( radio_member_name == "type" ) {
@@ -925,9 +916,9 @@ void overmap::unserialize( std::istream &fin )
                             new_radio.type = mapping->first;
                         }
                     } else if( radio_member_name == "x" ) {
-                        jsin.read( new_radio.x );
+                        jsin.read( new_radio.pos.x );
                     } else if( radio_member_name == "y" ) {
-                        jsin.read( new_radio.y );
+                        jsin.read( new_radio.pos.y );
                     } else if( radio_member_name == "strength" ) {
                         jsin.read( new_radio.strength );
                     } else if( radio_member_name == "message" ) {
@@ -957,9 +948,9 @@ void overmap::unserialize( std::istream &fin )
                     if( tracker_member_name == "id" ) {
                         jsin.read( id );
                     } else if( tracker_member_name == "x" ) {
-                        jsin.read( new_tracker.x );
+                        jsin.read( new_tracker.p.x );
                     } else if( tracker_member_name == "y" ) {
-                        jsin.read( new_tracker.y );
+                        jsin.read( new_tracker.p.y );
                     } else if( tracker_member_name == "name" ) {
                         jsin.read( new_tracker.name );
                     }
@@ -1045,7 +1036,7 @@ static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool ( &arr
     int count = 0;
     bool value = false;
     for( int j = 0; j < OMAPY; j++ ) {
-        for( int i = 0; i < OMAPX; i++ ) {
+        for( auto &array_col : array ) {
             if( count == 0 ) {
                 jsin.start_array();
                 jsin.read( value );
@@ -1053,7 +1044,7 @@ static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool ( &arr
                 jsin.end_array();
             }
             count--;
-            array[i][j] = value;
+            array_col[j] = value;
         }
     }
 }
@@ -1061,23 +1052,7 @@ static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool ( &arr
 // throws std::exception
 void overmap::unserialize_view( std::istream &fin )
 {
-    // Private/per-character view of the overmap.
-    if( fin.peek() == '#' ) {
-        // This was the last savegame version that produced the old format.
-        static int overmap_legacy_save_version = 24;
-        std::string vline;
-        getline( fin, vline );
-        std::string tmphash;
-        std::string tmpver;
-        int savedver = -1;
-        std::stringstream vliness( vline );
-        vliness >> tmphash >> tmpver >> savedver;
-        if( savedver <= overmap_legacy_save_version ) {
-            unserialize_view_legacy( fin );
-            return;
-        }
-    }
-
+    chkversion( fin );
     JsonIn jsin( fin );
     jsin.start_object();
     while( !jsin.end_object() ) {
@@ -1105,8 +1080,8 @@ void overmap::unserialize_view( std::istream &fin )
                 while( !jsin.end_array() ) {
                     om_note tmp;
                     jsin.start_array();
-                    jsin.read( tmp.x );
-                    jsin.read( tmp.y );
+                    jsin.read( tmp.p.x );
+                    jsin.read( tmp.p.y );
                     jsin.read( tmp.text );
                     jsin.end_array();
 
@@ -1121,8 +1096,8 @@ void overmap::unserialize_view( std::istream &fin )
                 while( !jsin.end_array() ) {
                     om_map_extra tmp;
                     jsin.start_array();
-                    jsin.read( tmp.x );
-                    jsin.read( tmp.y );
+                    jsin.read( tmp.p.x );
+                    jsin.read( tmp.p.y );
                     jsin.read( tmp.id );
                     jsin.end_array();
 
@@ -1140,8 +1115,8 @@ static void serialize_array_to_compacted_sequence( JsonOut &json,
     int count = 0;
     int lastval = -1;
     for( int j = 0; j < OMAPY; j++ ) {
-        for( int i = 0; i < OMAPX; i++ ) {
-            const int value = array[i][j];
+        for( const auto &array_col : array ) {
+            const int value = array_col[j];
             if( value != lastval ) {
                 if( count ) {
                     json.write( count );
@@ -1194,8 +1169,8 @@ void overmap::serialize_view( std::ostream &fout ) const
         json.start_array();
         for( auto &i : layer[z].notes ) {
             json.start_array();
-            json.write( i.x );
-            json.write( i.y );
+            json.write( i.p.x );
+            json.write( i.p.y );
             json.write( i.text );
             json.end_array();
             fout << std::endl;
@@ -1210,8 +1185,8 @@ void overmap::serialize_view( std::ostream &fout ) const
         json.start_array();
         for( auto &i : layer[z].extras ) {
             json.start_array();
-            json.write( i.x );
-            json.write( i.y );
+            json.write( i.p.x );
+            json.write( i.p.y );
             json.write( i.id );
             json.end_array();
             fout << std::endl;
@@ -1296,12 +1271,14 @@ void overmap::serialize( std::ostream &fout ) const
     json.member( "layers" );
     json.start_array();
     for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+        auto &layer_terrain = layer[z].terrain;
         int count = 0;
         oter_id last_tertype( -1 );
         json.start_array();
         for( int j = 0; j < OMAPY; j++ ) {
+            // NOLINTNEXTLINE(modernize-loop-convert)
             for( int i = 0; i < OMAPX; i++ ) {
-                oter_id t = layer[z].terrain[i][j];
+                oter_id t = layer_terrain[i][j];
                 if( t != last_tertype ) {
                     if( count ) {
                         json.write( count );
@@ -1361,8 +1338,8 @@ void overmap::serialize( std::ostream &fout ) const
     json.start_array();
     for( auto &i : radios ) {
         json.start_object();
-        json.member( "x", i.x );
-        json.member( "y", i.y );
+        json.member( "x", i.pos.x );
+        json.member( "y", i.pos.y );
         json.member( "strength", i.strength );
         json.member( "type", radio_type_names[i.type] );
         json.member( "message", i.message );
@@ -1386,8 +1363,8 @@ void overmap::serialize( std::ostream &fout ) const
         json.start_object();
         json.member( "id", i.first );
         json.member( "name", i.second.name );
-        json.member( "x", i.second.x );
-        json.member( "y", i.second.y );
+        json.member( "x", i.second.p.x );
+        json.member( "y", i.second.p.y );
         json.end_object();
     }
     json.end_array();

@@ -612,6 +612,10 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     for( damage_unit &du : impact.damage_units ) {
         du.res_pen += skill_level / 2.0f;
     }
+    // handling for tangling thrown items
+    if( thrown.has_flag( "TANGLE" ) ) {
+        proj_effects.insert( "TANGLE" );
+    }
 
     // Put the item into the projectile
     proj.set_drop( std::move( thrown ) );
@@ -1706,7 +1710,7 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
         const bool no_mana )
 {
     player &pc = g->u;
-    if( !casting.can_cast( pc ) ) {
+    if( !no_mana && !casting.can_cast( pc ) ) {
         pc.add_msg_if_player( m_bad, _( "You don't have enough %s to cast this spell" ),
                               casting.energy_string() );
     }
@@ -1874,7 +1878,8 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
 
         if( casting.aoe() > 0 ) {
             nc_color color = c_light_gray;
-            if( casting.effect() == "projectile_attack" || casting.effect() == "target_attack" ) {
+            if( casting.effect() == "projectile_attack" || casting.effect() == "target_attack" ||
+                casting.effect() == "area_pull" || casting.effect() == "area_push" ) {
                 line_number += fold_and_print( w_target, line_number, 1, getmaxx( w_target ) - 2, color,
                                                _( "Effective Spell Radius: %i%s" ), casting.aoe(), rl_dist( src,
                                                        dst ) <= casting.aoe() ? colorize( _( " WARNING! IN RANGE" ), c_red ) : "" );

@@ -11,6 +11,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "public_works_NE_roof",
+    "name": "public works roof",
+    "sym": "w",
+    "color": "light_gray",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": "public_works_NW",
     "name": "public works",
     "sym": "w",
@@ -18,6 +27,15 @@
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "public_works_NW_roof",
+    "name": "public works roof",
+    "sym": "w",
+    "color": "light_gray",
+    "see_cost": 5,
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -31,6 +49,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "public_works_SW_roof",
+    "name": "public works roof",
+    "sym": "W",
+    "color": "light_gray",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": "public_works_SE",
     "name": "public works",
     "sym": "w",
@@ -38,6 +65,15 @@
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "public_works_SE_roof",
+    "name": "public works roof",
+    "sym": "w",
+    "color": "light_gray",
+    "see_cost": 5,
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -58,6 +94,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "pwr_sub_s_roof",
+    "name": "small power substation roof",
+    "sym": "H",
+    "color": "light_cyan",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "pwr_large_entrance",
     "name": "large power substation",
     "sym": "H",
@@ -67,8 +112,26 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "pwr_large_entrance_roof",
+    "name": "large power substation roof",
+    "sym": "H",
+    "color": "cyan",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "pwr_large_2",
     "name": "large power substation",
+    "sym": "H",
+    "color": "cyan",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pwr_large_2_roof",
+    "name": "large power substation roof",
     "sym": "H",
     "color": "cyan",
     "see_cost": 5,
@@ -101,10 +164,42 @@
     "color": "light_blue"
   },
   {
+    "type": "overmap_terrain",
+    "id": "warehouse_roof",
+    "copy-from": "generic_city_building",
+    "name": "small warehouse roof",
+    "sym": "w",
+    "color": "light_blue"
+  },
+  {
     "id": "small_storage_units",
     "type": "overmap_terrain",
     "copy-from": "generic_city_building",
     "name": "small storage units",
+    "sym": "#",
+    "color": "i_yellow"
+  },
+  {
+    "id": "small_storage_units_roof",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "small storage units roof",
+    "sym": "#",
+    "color": "i_yellow"
+  },
+  {
+    "id": "small_storage_units_1",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "small storage units",
+    "sym": "#",
+    "color": "i_yellow"
+  },
+  {
+    "id": "small_storage_units_roof_1",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "small storage units roof",
     "sym": "#",
     "color": "i_yellow"
   },
@@ -343,9 +438,25 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "large_storage_units_roof_3",
+    "copy-from": "generic_city_building",
+    "name": "storage units roof",
+    "sym": "#",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "large_storage_units_2",
     "copy-from": "generic_city_building",
     "name": "storage units",
+    "sym": "#",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "large_storage_units_roof_2",
+    "copy-from": "generic_city_building",
+    "name": "storage units roof",
     "sym": "#",
     "color": "i_yellow"
   },
@@ -359,6 +470,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "large_storage_units_roof_1",
+    "copy-from": "generic_city_building",
+    "name": "storage units roof",
+    "sym": "#",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "medium_storage_units_1",
     "copy-from": "generic_city_building",
     "name": "storage units",
@@ -367,7 +486,23 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "medium_storage_units_roof_1",
+    "copy-from": "generic_city_building",
+    "name": "storage units roof",
+    "sym": "#",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "medium_storage_units_2",
+    "copy-from": "generic_city_building",
+    "name": "storage units",
+    "sym": "#",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "medium_storage_units_roof_2",
     "copy-from": "generic_city_building",
     "name": "storage units",
     "sym": "#",

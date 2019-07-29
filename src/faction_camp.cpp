@@ -431,12 +431,12 @@ static cata::optional<basecamp *> get_basecamp( npc &p, const std::string &camp_
 {
 
     tripoint omt_pos = p.global_omt_location();
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.x, omt_pos.y );
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
     if( bcp ) {
         return bcp;
     }
     g->m.add_camp( p.pos(), "faction_camp" );
-    bcp = overmap_buffer.find_camp( omt_pos.x, omt_pos.y );
+    bcp = overmap_buffer.find_camp( omt_pos.xy() );
     if( !bcp ) {
         return cata::nullopt;
     }
@@ -488,7 +488,7 @@ void talk_function::start_camp( npc &p )
     int near_fields = 0;
     for( const auto &om_near : om_region ) {
         const oter_id &om_type = oter_id( om_near.first );
-        if( is_ot_match( "field", om_type, ot_match_type::CONTAINS ) ) {
+        if( is_ot_match( "field", om_type, ot_match_type::contains ) ) {
             near_fields += 1;
         }
     }
@@ -503,17 +503,17 @@ void talk_function::start_camp( npc &p )
     int fields = 0;
     for( const auto &om_near : om_region_ext ) {
         const oter_id &om_type = oter_id( om_near.first );
-        if( is_ot_match( "faction_base", om_type, ot_match_type::CONTAINS ) ) {
+        if( is_ot_match( "faction_base", om_type, ot_match_type::contains ) ) {
             popup( _( "You are too close to another camp!" ) );
             return;
         }
-        if( is_ot_match( "forest_water", om_type, ot_match_type::TYPE ) ) {
+        if( is_ot_match( "forest_water", om_type, ot_match_type::type ) ) {
             swamps++;
-        } else if( is_ot_match( "forest", om_type, ot_match_type::CONTAINS ) ) {
+        } else if( is_ot_match( "forest", om_type, ot_match_type::contains ) ) {
             forests++;
-        } else if( is_ot_match( "river", om_type, ot_match_type::CONTAINS ) ) {
+        } else if( is_ot_match( "river", om_type, ot_match_type::contains ) ) {
             waters++;
-        } else if( is_ot_match( "field", om_type, ot_match_type::CONTAINS ) ) {
+        } else if( is_ot_match( "field", om_type, ot_match_type::contains ) ) {
             fields++;
         }
     }
@@ -990,19 +990,19 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
     if( has_provides( "scouting" ) ) {
         comp_list npc_list = get_mission_workers( "_faction_camp_scout_0" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_scout_0" ];
-        entry =  string_format( _( "Notes:\n"
-                                   "Send a companion out into the great unknown.  High survival "
-                                   "skills are needed to avoid combat but you should expect an "
-                                   "encounter or two.\n \n"
-                                   "Skill used: survival\n"
-                                   "Difficulty: 3\n"
-                                   "Effects:\n"
-                                   "> Select checkpoints to customize path.\n"
-                                   "> Reveals terrain around the path.\n"
-                                   "> Can bounce off hide sites to extend range.\n \n"
-                                   "Risk: High\n"
-                                   "Time: Travel\n"
-                                   "Positions: %d/3\n" ), npc_list.size() );
+        entry = string_format( _( "Notes:\n"
+                                  "Send a companion out into the great unknown.  High survival "
+                                  "skills are needed to avoid combat but you should expect an "
+                                  "encounter or two.\n \n"
+                                  "Skill used: survival\n"
+                                  "Difficulty: 3\n"
+                                  "Effects:\n"
+                                  "> Select checkpoints to customize path.\n"
+                                  "> Reveals terrain around the path.\n"
+                                  "> Can bounce off hide sites to extend range.\n \n"
+                                  "Risk: High\n"
+                                  "Time: Travel\n"
+                                  "Positions: %d/3\n" ), npc_list.size() );
         mission_key.add_start( miss_info.miss_id, miss_info.desc, "", entry, npc_list.size() < 3 );
         if( !npc_list.empty() ) {
             entry = miss_info.action;
@@ -1014,21 +1014,21 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
     if( has_provides( "patrolling" ) ) {
         comp_list npc_list = get_mission_workers( "_faction_camp_combat_0" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_combat_0" ];
-        entry =  string_format( _( "Notes:\n"
-                                   "Send a companion to purge the wasteland.  Their goal is to "
-                                   "kill anything hostile they encounter and return when "
-                                   "their wounds are too great or the odds are stacked against "
-                                   "them.\n \n"
-                                   "Skill used: survival\n"
-                                   "Difficulty: 4\n"
-                                   "Effects:\n"
-                                   "> Pulls creatures encountered into combat instead of "
-                                   "fleeing.\n"
-                                   "> Select checkpoints to customize path.\n"
-                                   "> Can bounce off hide sites to extend range.\n \n"
-                                   "Risk: Very High\n"
-                                   "Time: Travel\n"
-                                   "Positions: %d/3\n" ), npc_list.size() );
+        entry = string_format( _( "Notes:\n"
+                                  "Send a companion to purge the wasteland.  Their goal is to "
+                                  "kill anything hostile they encounter and return when "
+                                  "their wounds are too great or the odds are stacked against "
+                                  "them.\n \n"
+                                  "Skill used: survival\n"
+                                  "Difficulty: 4\n"
+                                  "Effects:\n"
+                                  "> Pulls creatures encountered into combat instead of "
+                                  "fleeing.\n"
+                                  "> Select checkpoints to customize path.\n"
+                                  "> Can bounce off hide sites to extend range.\n \n"
+                                  "Risk: Very High\n"
+                                  "Time: Travel\n"
+                                  "Positions: %d/3\n" ), npc_list.size() );
         mission_key.add_start( miss_info.miss_id, miss_info.desc, "", entry, npc_list.size() < 3 );
         if( !npc_list.empty() ) {
             entry = miss_info.action;
@@ -2569,7 +2569,7 @@ std::string talk_function::name_mission_tabs( const tripoint &omt_pos, const std
     if( role_id != base_camps::id ) {
         return cur_title;
     }
-    cata::optional<basecamp *> temp_camp = overmap_buffer.find_camp( omt_pos.x, omt_pos.y );
+    cata::optional<basecamp *> temp_camp = overmap_buffer.find_camp( omt_pos.xy() );
     if( !temp_camp ) {
         return cur_title;
     }
@@ -2907,7 +2907,7 @@ tripoint om_target_tile( const tripoint &omt_pos, int min_range, int range,
 
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt );
 
-    if( must_see && !overmap_buffer.seen( omt_tgt.x, omt_tgt.y, omt_tgt.z ) ) {
+    if( must_see && !overmap_buffer.seen( omt_tgt ) ) {
         errors = true;
         popup( _( "You must be able to see the target that you select." ) );
     }
@@ -3077,7 +3077,7 @@ int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp )
     units::mass max_m = comp ? comp->weight_capacity() - comp->weight_carried() : 30_kilogram;
     //Assume an additional pack will be carried in addition to normal gear
     units::volume sack_v = item( itype_id( "makeshift_sling" ) ).get_storage();
-    units::volume max_v =  comp ? comp->volume_capacity() - comp->volume_carried() : sack_v;
+    units::volume max_v = comp ? comp->volume_capacity() - comp->volume_carried() : sack_v;
     max_v += sack_v;
     return om_carry_weight_to_trips( total_m, total_v, max_m, max_v );
 }

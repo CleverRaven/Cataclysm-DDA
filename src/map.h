@@ -32,6 +32,8 @@
 
 struct furn_t;
 struct ter_t;
+struct scent_block;
+
 template <typename T> class string_id;
 template <typename T> class safe_reference;
 
@@ -45,7 +47,6 @@ class monster;
 class Creature;
 class tripoint_range;
 
-enum field_id : int;
 class field;
 class field_entry;
 class vehicle;
@@ -347,6 +348,9 @@ class map
          * @param update_vehicles If true, add vehicles to the vehicle cache.
          */
         void load( const int wx, const int wy, const int wz, const bool update_vehicles );
+        void load( const tripoint &p, const bool update_vehicles ) {
+            load( p.x, p.y, p.z, update_vehicles );
+        }
         /**
          * Shift the map along the vector (sx,sy).
          * This is like loading the map with coordinates derived from the current
@@ -371,6 +375,14 @@ class map
         // Versions of the above that don't do bounds checks
         const maptile maptile_at_internal( const tripoint &p ) const;
         maptile maptile_at_internal( const tripoint &p );
+        maptile maptile_has_bounds( const tripoint &p, const bool bounds_checked );
+        std::array<maptile, 8> get_neighbors( const tripoint &p );
+        void spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
+                         const time_duration &outdoor_age_speedup, scent_block &sblk );
+        void create_hot_air( const tripoint &p, int intensity );
+        bool gas_can_spread_to( field_entry &cur, const maptile &dst );
+        void gas_spread_to( field_entry &cur, maptile &dst );
+        int burn_body_part( player &u, field_entry &cur, body_part bp, const int scale );
     public:
 
         // Movement and LOS
@@ -904,7 +916,7 @@ class map
         void i_rem( const int x, const int y, item *it );
         void spawn_item( const int x, const int y, const std::string &itype_id,
                          const unsigned quantity = 1, const int charges = 0,
-                         const time_point &birthday = calendar::time_of_cataclysm, const int damlevel = 0 );
+                         const time_point &birthday = calendar::turn_zero, const int damlevel = 0 );
 
         item &add_item_or_charges( const int x, const int y, item obj, bool overflow = true );
 
@@ -930,7 +942,7 @@ class map
         void spawn_natural_artifact( const tripoint &p, const artifact_natural_property prop );
         void spawn_item( const tripoint &p, const std::string &itype_id,
                          const unsigned quantity = 1, const int charges = 0,
-                         const time_point &birthday = calendar::time_of_cataclysm, const int damlevel = 0 );
+                         const time_point &birthday = calendar::turn_zero, const int damlevel = 0 );
         units::volume max_volume( const tripoint &p );
         units::volume free_volume( const tripoint &p );
         units::volume stored_volume( const tripoint &p );
@@ -1019,7 +1031,7 @@ class map
         * @return Vector of pointers to placed items (can be empty, but no nulls).
         */
         std::vector<item *> put_items_from_loc( const items_location &loc, const tripoint &p,
-                                                const time_point &turn = calendar::time_of_cataclysm );
+                                                const time_point &turn = calendar::turn_zero );
 
         // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
         std::vector<item *> spawn_items( const tripoint &p, const std::vector<item> &new_items );
@@ -1037,6 +1049,7 @@ class map
 
         void disarm_trap( const tripoint &p );
         void remove_trap( const tripoint &p );
+        const std::vector<tripoint> &get_furn_field_locations() const;
         const std::vector<tripoint> &trap_locations( const trap_id &type ) const;
 
         //Spawns byproducts from items destroyed in fire.
@@ -1073,24 +1086,24 @@ class map
          * Get the age of a field entry (@ref field_entry::age), if there is no
          * field of that type, returns `-1_turns`.
          */
-        time_duration get_field_age( const tripoint &p, const field_id type ) const;
+        time_duration get_field_age( const tripoint &p, const field_type_id type ) const;
         /**
          * Get the intensity of a field entry (@ref field_entry::intensity),
          * if there is no field of that type, returns 0.
          */
-        int get_field_intensity( const tripoint &p, const field_id type ) const;
+        int get_field_intensity( const tripoint &p, const field_type_id type ) const;
         /**
          * Increment/decrement age of field entry at point.
          * @return resulting age or `-1_turns` if not present (does *not* create a new field).
          */
-        time_duration adjust_field_age( const tripoint &p, const field_id type,
-                                        const time_duration &offset );
+        time_duration mod_field_age( const tripoint &p, const field_type_id type,
+                                     const time_duration &offset );
         /**
          * Increment/decrement intensity of field entry at point, creating if not present,
          * removing if intensity becomes 0.
          * @return resulting intensity, or 0 for not present (either removed or not created at all).
          */
-        int mod_field_intensity( const tripoint &p, const field_id type, const int offset );
+        int mod_field_intensity( const tripoint &p, const field_type_id type, const int offset );
         /**
          * Set age of field entry at point.
          * @param p Location of field
@@ -1100,43 +1113,43 @@ class map
          * if false, the existing age is ignored and overridden.
          * @return resulting age or `-1_turns` if not present (does *not* create a new field).
          */
-        time_duration set_field_age( const tripoint &p, const field_id type, const time_duration &age,
-                                     bool isoffset = false );
+        time_duration set_field_age( const tripoint &p, const field_type_id type,
+                                     const time_duration &age, bool isoffset = false );
         /**
          * Set intensity of field entry at point, creating if not present,
          * removing if intensity becomes 0.
          * @param p Location of field
          * @param type ID of field
          * @param new_intensity New intensity of field
-         * @param isoffset If true, the given str value is added to the existing value,
+         * @param isoffset If true, the given new_intensity value is added to the existing value,
          * if false, the existing intensity is ignored and overridden.
          * @return resulting intensity, or 0 for not present (either removed or not created at all).
          */
-        int set_field_intensity( const tripoint &p, const field_id type, const int new_intensity,
+        int set_field_intensity( const tripoint &p, const field_type_id type, const int new_intensity,
                                  bool isoffset = false );
         /**
          * Get field of specific type at point.
          * @return NULL if there is no such field entry at that place.
          */
-        field_entry *get_field( const tripoint &p, const field_id type );
+        field_entry *get_field( const tripoint &p, const field_type_id type );
         /**
          * Add field entry at point, or set intensity if present
          * @return false if the field could not be created (out of bounds), otherwise true.
          */
-        bool add_field( const tripoint &p, const field_id type, int intensity,
+        bool add_field( const tripoint &p, const field_type_id type, int intensity = INT_MAX,
                         const time_duration &age = 0_turns );
         /**
          * Remove field entry at xy, ignored if the field entry is not present.
          */
-        void remove_field( const tripoint &p, const field_id field_to_remove );
+        void remove_field( const tripoint &p, const field_type_id field_to_remove );
 
         // Splatters of various kind
-        void add_splatter( const field_id type, const tripoint &where, int intensity = 1 );
-        void add_splatter_trail( const field_id type, const tripoint &from, const tripoint &to );
-        void add_splash( const field_id type, const tripoint &center, int radius, int intensity );
+        void add_splatter( const field_type_id type, const tripoint &where, int intensity = 1 );
+        void add_splatter_trail( const field_type_id type, const tripoint &from, const tripoint &to );
+        void add_splash( const field_type_id type, const tripoint &center, int radius, int intensity );
 
-        void propagate_field( const tripoint &center, const field_id type,
-                              int amount, int max_intensity = 3 );
+        void propagate_field( const tripoint &center, const field_type_id type,
+                              int amount, int max_intensity = 0 );
 
         /**
          * Runs one cycle of emission @ref src which **may** result in propagation of fields
@@ -1212,8 +1225,11 @@ class map
 
         // mapgen.cpp functions
         void generate( const int x, const int y, const int z, const time_point &when );
+        void generate( const tripoint &p, const time_point &when ) {
+            generate( p.x, p.y, p.z, when );
+        }
         void place_spawns( const mongroup_id &group, const int chance,
-                           const int x1, const int y1, const int x2, const int y2, const float density,
+                           const int x1, const int y1, const int x2, const int y2, const float intensity,
                            const bool individual = false, const bool friendly = false );
         void place_gas_pump( const int x, const int y, const int charges );
         void place_gas_pump( const int x, const int y, const int charges, const std::string &fuel_type );
@@ -1437,8 +1453,6 @@ class map
                           const float density );
         void draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
                                const float density );
-        void draw_toxic_dump( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                              const float density );
         void draw_megastore( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
                              const float density );
         void draw_fema( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
@@ -1646,6 +1660,10 @@ class map
          */
         std::vector< std::vector<tripoint> > traplocs;
         /**
+         * Vector of tripoints containing active field-emitting furniture
+         */
+        std::vector<tripoint> field_furn_locs;
+        /**
          * Holds caches for visibility, light, transparency and vehicles
          */
         std::array< std::unique_ptr<level_cache>, OVERMAP_LAYERS > caches;
@@ -1683,7 +1701,8 @@ class map
         tripoint_range points_in_rectangle( const tripoint &from, const tripoint &to ) const;
         tripoint_range points_in_radius( const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
 
-        std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius ) const;
+        std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius,
+                std::string type = "" ) const;
 
         /**returns positions of furnitures matching target in the specified radius*/
         std::list<tripoint> find_furnitures_in_radius( const tripoint &center, size_t radius,

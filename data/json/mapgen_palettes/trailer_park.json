@@ -64,7 +64,7 @@
       "t": "t_floor",
       "w": "t_window",
       "{": "t_floor",
-      "|": "t_wall",
+      "|": "t_wall_w",
       "-": "t_door_boarded",
       "0": "t_window_frame",
       "4": "t_tree_pine",

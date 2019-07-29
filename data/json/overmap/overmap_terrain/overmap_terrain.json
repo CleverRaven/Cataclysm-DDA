@@ -241,6 +241,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "radio_tower_1",
+    "name": "radio tower",
+    "sym": "X",
+    "color": "light_gray",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "radio_tower_roof_1",
+    "name": "radio tower roof",
+    "sym": "X",
+    "color": "light_gray",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": "bandit_cabin",
     "name": "forest",
     "sym": "F",
@@ -381,6 +397,33 @@
     "type": "overmap_terrain",
     "id": "hunter_shack",
     "name": "swamp shack",
+    "sym": "F",
+    "color": "cyan",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hunter_shack_roof",
+    "name": "swamp shack roof",
+    "sym": "F",
+    "color": "cyan",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hunter_shack_1",
+    "name": "swamp shack",
+    "sym": "F",
+    "color": "cyan",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hunter_shack_roof_1",
+    "name": "swamp shack roof",
     "sym": "F",
     "color": "cyan",
     "see_cost": 5,
@@ -748,6 +791,166 @@
     "name": "irradiation plant",
     "sym": "i",
     "color": "light_green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_2",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_3",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_4",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_5",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_6",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_7",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_8",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_9",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_1_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_2_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_3_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_4_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_5_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_6_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_7_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_8_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_9_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_1_2",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_2_2",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
     "see_cost": 5
   }
 ]

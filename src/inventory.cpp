@@ -839,47 +839,6 @@ item *inventory::most_appropriate_painkiller( int pain )
     return ret;
 }
 
-item *inventory::best_for_melee( player &p, double &best )
-{
-    item *ret = &null_item_reference();
-    for( auto &elem : items ) {
-        auto score = p.melee_value( elem.front() );
-        if( score > best ) {
-            best = score;
-            ret = &( elem.front() );
-        }
-    }
-
-    return ret;
-}
-
-item *inventory::most_loaded_gun()
-{
-    item *ret = &null_item_reference();
-    int max = 0;
-    for( auto &elem : items ) {
-        item &gun = elem.front();
-        if( !gun.is_gun() ) {
-            continue;
-        }
-
-        const auto required = gun.ammo_required();
-        int cur = 0;
-        if( required <= 0 ) {
-            // Arbitrary
-            cur = 5;
-        } else {
-            cur = gun.ammo_remaining() / required;
-        }
-
-        if( cur > max ) {
-            ret = &gun;
-            max = cur;
-        }
-    }
-    return ret;
-}
-
 void inventory::rust_iron_items()
 {
     for( auto &elem : items ) {
@@ -998,12 +957,9 @@ units::volume inventory::volume_without( const std::map<const item *, int> &with
 std::vector<item *> inventory::active_items()
 {
     std::vector<item *> ret;
-    for( auto &elem : items ) {
-        for( auto &elem_stack_iter : elem ) {
-            if( ( elem_stack_iter.is_artifact() && elem_stack_iter.is_tool() ) ||
-                elem_stack_iter.active ||
-                ( elem_stack_iter.is_container() && !elem_stack_iter.contents.empty() &&
-                  elem_stack_iter.contents.front().active ) ) {
+    for( std::list<item> &elem : items ) {
+        for( item &elem_stack_iter : elem ) {
+            if( elem_stack_iter.needs_processing() ) {
                 ret.push_back( &elem_stack_iter );
             }
         }

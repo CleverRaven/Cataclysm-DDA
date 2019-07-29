@@ -14,6 +14,7 @@
 #include "json.h"
 #include "translations.h"
 #include "player.h"
+#include "field.h"
 
 namespace
 {
@@ -286,7 +287,7 @@ bool material_type::reinforces() const
 
 const mat_burn_data &material_type::burn_data( size_t intensity ) const
 {
-    return _burn_data[ std::min<size_t>( intensity, _burn_data.size() ) - 1 ];
+    return _burn_data[ std::min<size_t>( intensity, fd_fire.obj().get_max_intensity() ) - 1 ];
 }
 
 const mat_burn_products &material_type::burn_products() const

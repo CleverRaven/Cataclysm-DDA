@@ -11,6 +11,7 @@
 
 #include "calendar.h"
 #include "color.h"
+#include "enums.h"
 #include "explosion.h"
 #include "game_constants.h"
 #include "iuse.h"
@@ -25,7 +26,6 @@ class player;
 struct iteminfo;
 struct tripoint;
 
-enum field_id : int;
 enum hp_part : int;
 enum body_part : int;
 class JsonObject;
@@ -151,9 +151,9 @@ class explosion_iuse : public iuse_actor
         bool flashbang_player_immune = false;
         /** Create fields of this type around the center of the explosion */
         int fields_radius = -1;
-        field_id fields_type;
+        field_type_id fields_type;
         int fields_min_intensity = 1;
-        int fields_max_intensity = 3;
+        int fields_max_intensity = 0;
         /** Calls game::emp_blast if >= 0 */
         int emp_blast_radius = -1;
         /** Calls game::scrambler_blast if >= 0 */
@@ -364,6 +364,7 @@ class deploy_furn_actor : public iuse_actor
         void load( JsonObject &jo ) override;
         int use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 /**
@@ -383,13 +384,14 @@ class reveal_map_actor : public iuse_actor
         /**
          * Overmap terrain types that get revealed.
          */
-        std::vector<std::string> omt_types;
+        std::vector<std::pair<std::string, ot_match_type>> omt_types;
         /**
          * The message displayed after revealing.
          */
         std::string message;
 
-        void reveal_targets( const tripoint &center, const std::string &target, int reveal_distance ) const;
+        void reveal_targets( const tripoint &center, const std::pair<std::string, ot_match_type> &target,
+                             int reveal_distance ) const;
 
         reveal_map_actor( const std::string &type = "reveal_map" ) : iuse_actor( type ) {}
 
@@ -1096,5 +1098,26 @@ class weigh_self_actor : public iuse_actor
         int use( player &p, item &itm, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
+};
+
+/**
+ * Modify clothing
+ */
+class sew_advanced_actor : public iuse_actor
+{
+    public:
+        /** Materials */
+        std::set<material_id> materials;
+        /** Clothing mods */
+        std::vector<clothing_mod_id> clothing_mods;
+        /** Skill used */
+        skill_id used_skill;
+
+        sew_advanced_actor( const std::string &type = "sew_advanced" ) : iuse_actor( type ) {}
+
+        ~sew_advanced_actor() override = default;
+        void load( JsonObject &jo ) override;
+        int use( player &, item &, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
 };
 #endif

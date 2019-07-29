@@ -330,7 +330,7 @@ bool mission::is_complete( const int _npc_id ) const
 
         case MGOAL_GO_TO_TYPE: {
             const auto cur_ter = overmap_buffer.ter( g->u.global_omt_location() );
-            return is_ot_match( type->target_id.str(), cur_ter, ot_match_type::TYPE );
+            return is_ot_match( type->target_id.str(), cur_ter, ot_match_type::type );
         }
 
         case MGOAL_FIND_ITEM_GROUP: {
@@ -339,7 +339,7 @@ bool mission::is_complete( const int _npc_id ) const
             tmp_inv.dump( items );
             Group_tag grp_type = type->group_id;
             itype_id container = type->container_id;
-            bool specific_container_required = container.compare( "null" ) != 0;
+            bool specific_container_required = container != "null";
 
             std::map<itype_id, int> matches = std::map<itype_id, int>();
             get_all_item_group_matches(
@@ -421,9 +421,7 @@ void mission::get_all_item_group_matches( std::vector<item *> &items,
         const itype_id &required_container, const itype_id &actual_container,
         bool &specific_container_required )
 {
-    for( std::vector<int>::size_type i = 0; i < ( items ).size(); i++ ) {
-        item *itm = items[i];
-
+    for( item *itm : items ) {
         bool correct_container = ( required_container == actual_container ) ||
                                  !specific_container_required;
 
@@ -592,42 +590,6 @@ mission_type_id mission::mission_id()
         return mission_type_id( "NULL" );
     }
     return type->id;
-}
-
-void mission::load_info( std::istream &data )
-{
-    int type_id = 0;
-    int rewtype = 0;
-    int reward_id = 0;
-    int rew_skill = 0;
-    int tmpfollow = 0;
-    int item_num = 0;
-    int target_npc_id = 0;
-    int deadline_ = 0;
-    std::string rew_item;
-    std::string itemid;
-    data >> type_id;
-    type = mission_type::get( mission_type::from_legacy( type_id ) );
-    std::string tmpdesc;
-    do {
-        data >> tmpdesc;
-        if( tmpdesc != "<>" ) {
-            description += tmpdesc + " ";
-        }
-    } while( tmpdesc != "<>" );
-    description = description.substr( 0, description.size() - 1 ); // Ending ' '
-    bool failed; // Dummy, no one has saves this old
-    data >> failed >> value >> rewtype >> reward_id >> rew_item >> rew_skill >>
-         uid >> target.x >> target.y >> itemid >> item_num >> deadline_ >> npc_id >>
-         good_fac_id >> bad_fac_id >> step >> tmpfollow >> target_npc_id;
-    deadline = time_point::from_turn( deadline_ );
-    target.z = 0;
-    follow_up = mission_type::from_legacy( tmpfollow );
-    reward.type = npc_favor_type( reward_id );
-    reward.item_id = itype_id( rew_item );
-    reward.skill = Skill::from_legacy_int( rew_skill );
-    item_id = itype_id( itemid );
-    item_count = static_cast<int>( item_num );
 }
 
 std::string mission::dialogue_for_topic( const std::string &in_topic ) const

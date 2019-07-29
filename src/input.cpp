@@ -769,7 +769,7 @@ const std::string input_context::get_desc( const std::string &action_descriptor,
 {
     if( action_descriptor == "ANY_INPUT" ) {
         //~ keybinding description for anykey
-        return string_format( pgettext( "keybinding", "[any] %s" ) + text );
+        return string_format( pgettext( "keybinding", "[any] %s" ), text );
     }
 
     const auto &events = inp_mngr.get_input_for_action( action_descriptor, category );
@@ -927,7 +927,7 @@ cata::optional<tripoint> input_context::get_direction( const std::string &action
         return transform( tripoint( 0, +1, 0 ) );
     } else if( action == "LEFT" ) {
         return transform( tripoint( -1, 0, 0 ) );
-    } else if( action ==  "RIGHT" ) {
+    } else if( action == "RIGHT" ) {
         return transform( tripoint( +1, 0, 0 ) );
     } else if( action == "LEFTUP" ) {
         return transform( tripoint( -1, -1, 0 ) );

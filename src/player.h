@@ -166,6 +166,20 @@ struct needs_rates {
     float kcal = 0.0f;
 };
 
+enum player_movemode : unsigned char {
+    PMM_WALK = 0,
+    PMM_RUN = 1,
+    PMM_CROUCH = 2,
+    PMM_COUNT
+};
+
+static const std::array< std::string, PMM_COUNT > player_movemode_str = { {
+        "walk",
+        "run",
+        "crouch"
+    }
+};
+
 class player : public Character
 {
     public:
@@ -185,6 +199,12 @@ class player : public Character
         bool is_player() const override {
             return true;
         }
+        player *as_player() override {
+            return this;
+        }
+        const player *as_player() const override {
+            return this;
+        }
 
         /** Processes human-specific effects of effects before calling Creature::process_effects(). */
         void process_effects() override;
@@ -203,11 +223,6 @@ class player : public Character
         /** Returns what color the player should be drawn as */
         nc_color basic_symbol_color() const override;
 
-        /** Deserializes string data when loading files */
-        virtual void load_info( std::string data );
-        /** Outputs a serialized json string for saving */
-        virtual std::string save_info() const;
-
         /** Returns an enumeration of visible mutations with colors */
         std::string visible_mutations( const int visibility_cap ) const;
         std::vector<std::string> short_description_parts() const;
@@ -222,16 +237,12 @@ class player : public Character
 
         /** Handles and displays detailed character info for the '@' screen */
         void disp_info();
-        /** Provides the window and detailed morale data */
-        void disp_morale();
 
         /**Estimate effect duration based on player relevant skill*/
         time_duration estimate_effect_dur( const skill_id &relevant_skill, const efftype_id &effect,
                                            const time_duration &error_magnitude,
                                            int threshold, const Creature &target ) const;
 
-        /** Resets stats, and applies effects in an idempotent manner */
-        void reset_stats() override;
         /** Resets movement points and applies other non-idempotent changes */
         void process_turn() override;
         /** Calculates the various speed bonuses we will get from mutations, etc. */
@@ -242,10 +253,6 @@ class player : public Character
         void update_morale();
         /** Ensures persistent morale effects are up-to-date */
         void apply_persistent_morale();
-        /** Uses calc_focus_equilibrium to update the player's current focus */
-        void update_mental_focus();
-        /** Uses morale and other factors to return the player's focus gain rate */
-        int calc_focus_equilibrium() const;
         /** Maintains body temperature */
         void update_bodytemp();
         /** Define color for displaying the body temperature */
@@ -328,25 +335,38 @@ class player : public Character
                                       const skill_id &important_skill,
                                       const skill_id &least_important_skill,
                                       int skill_level = -1 );
+        /** Calculate non adjusted skill for (un)installing bionics */
+        int bionics_pl_skill( const skill_id &most_important_skill,
+                              const skill_id &important_skill,
+                              const skill_id &least_important_skill,
+                              int skill_level = -1 );
         /**Is the installation possible*/
         bool can_install_bionics( const itype &type, player &installer, bool autodoc = false,
                                   int skill_level = -1 );
-        /** Attempts to install bionics, returns false if the player cancels prior to installation */
+        /** Initialize all the values needed to start the operation player_activity */
         bool install_bionics( const itype &type, player &installer, bool autodoc = false,
                               int skill_level = -1 );
-        void bionics_install_failure( player &installer, int difficulty, int success,
+        /**Success or failure of installation happens here*/
+        void perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
+                              int pl_skill,
+                              std::string cbm_name, std::string upcbm_name, std::string installer_name,
+                              std::vector<trait_id> trait_to_rem );
+        void bionics_install_failure( std::string installer, int difficulty, int success,
                                       float adjusted_skill );
         /**Is The uninstallation possible*/
         bool can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                    int skill_level = -1 );
-        /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
+        /** Initialize all the values needed to start the operation player_activity */
         bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                int skill_level = -1 );
+        /**Succes or failure of removal happens here*/
+        void perform_uninstall( bionic_id bid, int difficulty, int success, int power_lvl, int pl_skill,
+                                std::string cbm_name );
         /**Used by monster to perform surgery*/
         bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
                                float adjusted_skill, bool autodoc = false );
         /**When a player fails the surgery*/
-        void bionics_uninstall_failure( player &installer, int difficulty, int success,
+        void bionics_uninstall_failure( int difficulty, int success,
                                         float adjusted_skill );
         /**When a monster fails the surgery*/
         void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
@@ -385,6 +405,8 @@ class player : public Character
         void mutate();
         /** Picks a random valid mutation in a category and mutate_towards() it */
         void mutate_category( const std::string &mut_cat );
+        /** Mutates toward one of the given mutations, upgrading or removing conflicts if necessary */
+        bool mutate_towards( std::vector<trait_id> muts, int num_tries = INT_MAX );
         /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
         bool mutate_towards( const trait_id &mut );
         /** Removes a mutation, downgrading to the previous level if possible */
@@ -454,8 +476,8 @@ class player : public Character
 
         void pause(); // '.' command; pauses & reduces recoil
 
-        void set_movement_mode( const std::string &mode );
-        const std::string get_movement_mode() const;
+        void set_movement_mode( const player_movemode mode );
+        bool movement_mode_is( const player_movemode mode ) const;
 
         void cycle_move_mode(); // Cycles to the next move mode.
         void reset_move_mode(); // Resets to walking.
@@ -783,8 +805,8 @@ class player : public Character
         void hurtall( int dam, Creature *source, bool disturb = true );
         /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
         int hitall( int dam, int vary, Creature *source );
-        /** Knocks the player back one square from a tile */
-        void knock_back_from( const tripoint &p ) override;
+        /** Knocks the player to a specified tile */
+        void knock_back_to( const tripoint &p ) override;
 
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
         float fall_damage_mod() const override;
@@ -1141,7 +1163,7 @@ class player : public Character
 
     private:
         /** last time we checked for sleep */
-        time_point last_sleep_check = calendar::time_of_cataclysm;
+        time_point last_sleep_check = calendar::turn_zero;
         bool bio_soporific_powered_at_last_sleep_check;
 
     public:
@@ -1539,6 +1561,7 @@ class player : public Character
         player_activity activity;
         std::list<player_activity> backlog;
         int volume;
+        cata::optional<tripoint> destination_point;
         const profession *prof;
 
         start_location_id start_location;
@@ -1831,12 +1854,11 @@ class player : public Character
 
     protected:
         // TODO: move this to avatar
-        std::string move_mode;
+        player_movemode move_mode;
     private:
 
         std::vector<tripoint> auto_move_route;
         player_activity destination_activity;
-        cata::optional<tripoint> destination_point;
         // Used to make sure auto move is canceled if we stumble off course
         cata::optional<tripoint> next_expected_position;
         /** warnings from a faction about bad behaviour */

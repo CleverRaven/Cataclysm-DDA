@@ -1029,6 +1029,27 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "post_office_roof",
+    "name": "post office roof",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "post_office_1",
+    "name": "post office",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "post_office_roof_1",
+    "name": "post office roof",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mortuary",
     "name": "mortuary",
     "copy-from": "generic_city_building",

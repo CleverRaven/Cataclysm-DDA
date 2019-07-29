@@ -40,5 +40,18 @@
     "color": "brown",
     "symbol": "$",
     "material": [ "copper" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "signed_chit",
+    "name": "chit",
+    "description": "This is a slip of paper signed by the issuer.",
+    "price": 5,
+    "price_postapoc": 320,
+    "weight": 1,
+    "to_hit": -3,
+    "color": "white",
+    "symbol": "$",
+    "material": [ "paper" ]
   }
 ]

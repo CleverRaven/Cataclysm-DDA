@@ -577,6 +577,14 @@
     "suspendable": false
   },
   {
+    "id": "ACT_OPERATION",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "being operated on",
+    "based_on": "time",
+    "suspendable": false
+  },
+  {
     "id": "ACT_UNLOAD_MAG",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",

@@ -12,13 +12,17 @@
 
 // Divided by 100 to prevent overflowing when converted to moves
 const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
+const time_duration calendar::INDEFINITELY_LONG_DURATION(
+    time_duration::from_turns( std::numeric_limits<int>::max() ) );
+bool calendar::is_eternal_season = false;
+int calendar::cur_season_length = 1;
 
-calendar calendar::start;
+calendar calendar::start_of_cataclysm;
 calendar calendar::turn;
 season_type calendar::initial_season;
 
 const time_point calendar::before_time_starts = time_point::from_turn( -1 );
-const time_point calendar::time_of_cataclysm = time_point::from_turn( 0 );
+const time_point calendar::turn_zero = time_point::from_turn( 0 );
 
 // Internal constants, not part of the calendar interface.
 // Times for sunrise, sunset at equinoxes
@@ -148,7 +152,7 @@ moon_phase get_moon_phase( const time_point &p )
     //One full phase every 2 rl months = 2/3 season length
     const time_duration moon_phase_duration = calendar::season_length() * 2.0 / 3.0;
     //Switch moon phase at noon so it stays the same all night
-    const time_duration current_day = ( p - calendar::time_of_cataclysm ) + 1_days / 2;
+    const time_duration current_day = ( p - calendar::turn_zero ) + 1_days / 2;
     const double phase_change = current_day / moon_phase_duration;
     const int current_phase = static_cast<int>( round( phase_change * MOON_PHASE_MAX ) ) %
                               static_cast<int>( MOON_PHASE_MAX );
@@ -364,8 +368,7 @@ static std::string to_string_clipped( const int num, const clipped_unit type,
 
 std::pair<int, clipped_unit> clipped_time( const time_duration &d )
 {
-    // TODO: change INDEFINITELY_LONG to time_duration
-    if( to_turns<int>( d ) >= calendar::INDEFINITELY_LONG ) {
+    if( d >= calendar::INDEFINITELY_LONG_DURATION ) {
         return { 0, clipped_unit::forever };
     }
 
@@ -408,7 +411,7 @@ std::string to_string_clipped( const time_duration &d,
 
 std::string to_string( const time_duration &d )
 {
-    if( d >= time_duration::from_turns( calendar::INDEFINITELY_LONG ) ) {
+    if( d >= calendar::INDEFINITELY_LONG_DURATION ) {
         return _( "forever" );
     }
 
@@ -522,7 +525,7 @@ weekdays day_of_week( const time_point &p )
      * <wito> kevingranade: add four for thursday. ;)
      * <kevingranade> sounds like consensus to me
      * <kevingranade> Thursday it is */
-    const int day_since_cataclysm = to_days<int>( p - calendar::time_of_cataclysm );
+    const int day_since_cataclysm = to_days<int>( p - calendar::turn_zero );
     static const weekdays start_day = weekdays::THURSDAY;
     const int result = day_since_cataclysm + static_cast<int>( start_day );
     return static_cast<weekdays>( result % 7 );
@@ -530,8 +533,7 @@ weekdays day_of_week( const time_point &p )
 
 bool calendar::eternal_season()
 {
-    static const std::string eternal_season_option_name = "ETERNAL_SEASON";
-    return get_option<bool>( eternal_season_option_name );
+    return is_eternal_season;
 }
 
 time_duration calendar::year_length()
@@ -541,9 +543,15 @@ time_duration calendar::year_length()
 
 time_duration calendar::season_length()
 {
-    static const std::string s = "SEASON_LENGTH";
-    // Avoid returning 0 as this value is used in division and expected to be non-zero.
-    return time_duration::from_days( std::max( get_option<int>( s ), 1 ) );
+    return time_duration::from_days( std::max( cur_season_length, 1 ) );
+}
+void calendar::set_eternal_season( bool is_eternal )
+{
+    is_eternal_season = is_eternal;
+}
+void calendar::set_season_length( const int dur )
+{
+    cur_season_length = dur;
 }
 
 float calendar::season_ratio()
@@ -573,7 +581,7 @@ void calendar::sync()
         // mid-game, the result could be the wrong season!
         season = initial_season;
     } else {
-        season = season_type( turn_number / DAYS( sl ) % 4 );
+        season = static_cast<season_type>( turn_number / DAYS( sl ) % 4 );
     }
 
     day = turn_number / DAYS( 1 ) % sl;
@@ -618,6 +626,27 @@ bool x_in_y( const time_duration &a, const time_duration &b )
     return ::x_in_y( to_turns<int>( a ), to_turns<int>( b ) );
 }
 
+const std::vector<std::pair<std::string, time_duration>> time_duration::units = { {
+        { "turns", 1_turns },
+        { "turn", 1_turns },
+        { "t", 1_turns },
+        { "seconds", 1_seconds },
+        { "second", 1_seconds },
+        { "s", 1_seconds },
+        { "minutes", 1_minutes },
+        { "minute", 1_minutes },
+        { "m", 1_minutes },
+        { "hours", 1_hours },
+        { "hour", 1_hours },
+        { "h", 1_hours },
+        { "days", 1_days },
+        { "day", 1_days },
+        { "d", 1_days },
+        // TODO: maybe add seasons?
+        // TODO: maybe add years? Those two things depend on season length!
+    }
+};
+
 season_type season_of_year( const time_point &p )
 {
     static time_point prev_turn = calendar::before_time_starts;
@@ -640,7 +669,7 @@ season_type season_of_year( const time_point &p )
 
 std::string to_string( const time_point &p )
 {
-    const int year = to_turns<int>( p - calendar::time_of_cataclysm ) / to_turns<int>
+    const int year = to_turns<int>( p - calendar::turn_zero ) / to_turns<int>
                      ( calendar::year_length() ) + 1;
     const std::string time = to_string_time_of_day( p );
     if( calendar::eternal_season() ) {

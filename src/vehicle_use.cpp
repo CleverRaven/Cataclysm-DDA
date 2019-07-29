@@ -382,7 +382,7 @@ int vehicle::select_engine()
                                   fuel_left( fuel_id ) );
             tmenu.addentry( i++, is_available, -1, "[%s] %s %s",
                             is_active ? "x" : " ", parts[ e ].name(),
-                            item::find_type( fuel_id )->nname( 1 ) );
+                            item::nname( fuel_id ) );
         }
     }
     tmenu.query();
@@ -898,8 +898,8 @@ bool vehicle::start_engine( const int e )
         return false;
     }
 
-    // Damaged engines have a chance of failing to start
-    if( x_in_y( dmg * 100, 120 ) ) {
+    // Damaged non-electric engines have a chance of failing to start
+    if( !is_engine_type( e, fuel_type_battery ) && x_in_y( dmg * 100, 120 ) ) {
         sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::movement,
                        string_format( _( "the %s clanking and grinding" ), eng.name() ), true, "vehicle",
                        "engine_clanking_fail" );
@@ -1018,7 +1018,7 @@ void vehicle::reload_seeds( const tripoint &pos )
     } );
 
     auto seed_entries = iexamine::get_seed_entries( seed_inv );
-    seed_entries.emplace( seed_entries.begin(), seed_tuple( itype_id( "null" ), "No seed", 0 ) );
+    seed_entries.emplace( seed_entries.begin(), seed_tuple( itype_id( "null" ), _( "No seed" ), 0 ) );
 
     int seed_index = iexamine::query_seed( seed_entries );
 
@@ -1109,8 +1109,8 @@ void vehicle::transform_terrain()
             if( new_furn != f_null ) {
                 g->m.furn_set( start_pos, new_furn );
             }
-            const field_id new_field = field_from_ident( ttd.post_field );
-            if( new_field != fd_null ) {
+            const field_type_id new_field = field_type_id( ttd.post_field );
+            if( new_field.id() ) {
                 g->m.add_field( start_pos, new_field, ttd.post_field_intensity, ttd.post_field_age );
             }
         } else {
@@ -1128,7 +1128,7 @@ void vehicle::operate_reaper()
     for( const vpart_reference &vp : get_enabled_parts( "REAPER" ) ) {
         const size_t reaper_id = vp.part_index();
         const tripoint reaper_pos = vp.pos();
-        const int plant_produced =  rng( 1, vp.info().bonus );
+        const int plant_produced = rng( 1, vp.info().bonus );
         const int seed_produced = rng( 1, 3 );
         const units::volume max_pickup_volume = vp.info().size / 20;
         if( g->m.furn( reaper_pos ) != f_plant_harvest ) {
@@ -1362,6 +1362,10 @@ void vehicle::use_washing_machine( int p )
         return i.has_flag( filthy );
     } );
 
+    bool cbms = std::any_of( items.begin(), items.end(), []( const item & i ) {
+        return i.is_bionic();
+    } );
+
     if( parts[p].enabled ) {
         parts[p].enabled = false;
         add_msg( m_bad,
@@ -1374,6 +1378,9 @@ void vehicle::use_washing_machine( int p )
     } else if( !filthy_items ) {
         add_msg( m_bad,
                  _( "You need to remove all non-filthy items from the washing machine to start the washing program." ) );
+    } else if( cbms ) {
+        add_msg( m_bad,
+                 _( "CBMs can't be cleaned in a washing machine.  You need to remove them." ) );
     } else {
         parts[p].enabled = true;
         for( auto &n : items ) {
@@ -1430,8 +1437,10 @@ void vehicle::use_harness( int part, const tripoint &pos )
             if( f.has_effect( effect_tied ) ) {
                 add_msg( m_info, _( "You untie your %s." ), f.get_name() );
                 f.remove_effect( effect_tied );
-                item rope_6( "rope_6", 0 );
-                g->u.i_add( rope_6 );
+                if( f.tied_item ) {
+                    g->u.i_add( *f.tied_item );
+                    f.tied_item = cata::nullopt;
+                }
             }
         } else if( f.friendly == 0 ) {
             add_msg( m_info, _( "This creature is not friendly!" ) );
@@ -1516,6 +1525,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
 
     const bool has_kitchen = avail_part_with_feature( interact_part, "KITCHEN", true ) >= 0;
     const bool has_faucet = avail_part_with_feature( interact_part, "FAUCET", true ) >= 0;
+    const bool has_towel = avail_part_with_feature( interact_part, "TOWEL", true ) >= 0;
     const bool has_weldrig = avail_part_with_feature( interact_part, "WELDRIG", true ) >= 0;
     const bool has_chemlab = avail_part_with_feature( interact_part, "CHEMLAB", true ) >= 0;
     const bool has_purify = avail_part_with_feature( interact_part, "WATER_PURIFIER", true ) >= 0;
@@ -1545,7 +1555,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     enum {
         EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
         USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE, USE_MONSTER_CAPTURE,
-        USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, WORKBENCH
+        USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, WORKBENCH, USE_TOWEL,
     };
     uilist selectmenu;
 
@@ -1584,6 +1594,9 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     if( has_faucet && fuel_left( "water_clean" ) > 0 ) {
         selectmenu.addentry( FILL_CONTAINER, true, 'c', _( "Fill a container with water" ) );
         selectmenu.addentry( DRINK, true, 'd', _( "Have a drink" ) );
+    }
+    if( has_towel ) {
+        selectmenu.addentry( USE_TOWEL, true, 't', _( "Use a towel" ) );
     }
     if( has_weldrig && fuel_left( "battery" ) > 0 ) {
         selectmenu.addentry( USE_WELDER, true, 'w', _( "Use the welding rig?" ) );
@@ -1653,6 +1666,10 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         }
         case USE_HOTPLATE: {
             veh_tool( "hotplate" );
+            return;
+        }
+        case USE_TOWEL: {
+            iuse::towel_common( &g->u, NULL, false );
             return;
         }
         case USE_WASHMACHINE: {

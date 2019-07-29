@@ -51,6 +51,7 @@
 #include "item_stack.h"
 #include "mtype.h"
 #include "point.h"
+#include "units.h"
 
 class inventory;
 
@@ -684,8 +685,6 @@ int construction_menu( bool blueprint )
                     }
                 }
                 exit = true;
-
-
             }
         }
     } while( !exit );
@@ -900,7 +899,7 @@ void complete_construction( player *p )
         // Move any items that have found their way onto the construction site.
         std::vector<tripoint> dump_spots;
         for( const tripoint &pt : g->m.points_in_radius( terp, 1 ) ) {
-            if( g->is_empty( pt ) && pt != terp ) {
+            if( g->m.can_put_items( pt ) && pt != terp ) {
                 dump_spots.push_back( pt );
             }
         }
@@ -1220,7 +1219,7 @@ void construct::done_mine_downstair( const tripoint &p )
 
 void construct::done_mine_upstair( const tripoint &p )
 {
-    const tripoint abs_pos = p;
+    const tripoint abs_pos = g->m.getabs( p );
     const tripoint pos_sm = ms_to_sm_copy( abs_pos );
     tinymap tmpmap;
     tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z + 1, false );
@@ -1351,7 +1350,8 @@ void load_construction( JsonObject &jo )
     if( jo.has_int( "time" ) ) {
         con.time = to_moves<int>( time_duration::from_minutes( jo.get_int( "time" ) ) );
     } else if( jo.has_string( "time" ) ) {
-        con.time = to_moves<int>( time_duration::read_from_json_string( *jo.get_raw( "time" ) ) );
+        con.time = to_moves<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
+                                  time_duration::units ) );
     }
 
     if( jo.has_string( "using" ) ) {

@@ -1312,7 +1312,7 @@
     "comestible_type": "MED",
     "name": "disinfectant soaked rag",
     "name_plural": "disinfectant soaked rags",
-    "description": "A rag soaked in disinfectant.",
+    "description": "A rag soaked in disinfectant. Useful for light wounds, probaby won't help with deep bites.",
     "weight": 80,
     "//": "Can't copy-from rag, it breaks the stacking for some reason!",
     "volume": 1,
@@ -1323,8 +1323,8 @@
     "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "heal",
-      "disinfectant_power": 4,
-      "bite": 0.75,
+      "disinfectant_power": 2,
+      "bite": 0.5,
       "move_cost": 200,
       "used_up_item": { "id": "rag", "quantity": 1, "flags": [ "FILTHY" ] }
     }
@@ -1335,15 +1335,15 @@
     "type": "COMESTIBLE",
     "name": "disinfectant soaked cotton balls",
     "name_plural": "disinfectant soaked cotton balls",
-    "description": "Fluffy balls of clean white cotton.  Now soaked with disinfectant, they are useful to disinfect a wound.",
+    "description": "Fluffy balls of clean white cotton.  Now soaked with disinfectant, they are somewhat useful to disinfect a wound.",
     "category": "drugs",
     "price": 1000,
     "charges": 1,
     "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "heal",
-      "disinfectant_power": 4,
-      "bite": 0.95,
+      "disinfectant_power": 3,
+      "bite": 0.66,
       "move_cost": 300,
       "used_up_item": { "id": "cotton_ball", "quantity": 1, "charges": 1, "flags": [ "FILTHY" ] }
     }

@@ -120,28 +120,26 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
         }
     }
     // x, and y are submap coordinates, convert to overmap terrain coordinates
-    int overx = x;
-    int overy = y;
-    sm_to_omt( overx, overy );
-    const regional_settings *rsettings = &overmap_buffer.get_settings( overx, overy, z );
-    oter_id terrain_type = overmap_buffer.ter( overx, overy, z );
-    oter_id t_above = overmap_buffer.ter( overx, overy, z + 1 );
-    oter_id t_below = overmap_buffer.ter( overx, overy, z - 1 );
-    oter_id t_north = overmap_buffer.ter( overx, overy - 1, z );
-    oter_id t_neast = overmap_buffer.ter( overx + 1, overy - 1, z );
-    oter_id t_east  = overmap_buffer.ter( overx + 1, overy, z );
-    oter_id t_seast = overmap_buffer.ter( overx + 1, overy + 1, z );
-    oter_id t_south = overmap_buffer.ter( overx, overy + 1, z );
-    oter_id t_swest = overmap_buffer.ter( overx - 1, overy + 1, z );
-    oter_id t_west  = overmap_buffer.ter( overx - 1, overy, z );
-    oter_id t_nwest = overmap_buffer.ter( overx - 1, overy - 1, z );
+    tripoint abs_omt = sm_to_omt_copy( tripoint( x, y, z ) );
+    const regional_settings *rsettings = &overmap_buffer.get_settings( abs_omt );
+    oter_id terrain_type = overmap_buffer.ter( abs_omt );
+    oter_id t_above = overmap_buffer.ter( abs_omt + tripoint( 0, 0, 1 ) );
+    oter_id t_below = overmap_buffer.ter( abs_omt + tripoint( 0, 0, -1 ) );
+    oter_id t_north = overmap_buffer.ter( abs_omt + tripoint( 0, -1, 0 ) );
+    oter_id t_neast = overmap_buffer.ter( abs_omt + tripoint( 1, -1, 0 ) );
+    oter_id t_east  = overmap_buffer.ter( abs_omt + tripoint( 1, 0, 0 ) );
+    oter_id t_seast = overmap_buffer.ter( abs_omt + tripoint( 1, 1, 0 ) );
+    oter_id t_south = overmap_buffer.ter( abs_omt + tripoint( 0, 1, 0 ) );
+    oter_id t_swest = overmap_buffer.ter( abs_omt + tripoint( -1, 1, 0 ) );
+    oter_id t_west  = overmap_buffer.ter( abs_omt + tripoint( -1, 0, 0 ) );
+    oter_id t_nwest = overmap_buffer.ter( abs_omt + tripoint( -1, -1, 0 ) );
 
     // This attempts to scale density of zombies inversely with distance from the nearest city.
     // In other words, make city centers dense and perimeters sparse.
     float density = 0.0;
-    for( int i = overx - MON_RADIUS; i <= overx + MON_RADIUS; i++ ) {
-        for( int j = overy - MON_RADIUS; j <= overy + MON_RADIUS; j++ ) {
-            density += overmap_buffer.ter( i, j, z )->get_mondensity();
+    for( int i = -MON_RADIUS; i <= MON_RADIUS; i++ ) {
+        for( int j = -MON_RADIUS; j <= MON_RADIUS; j++ ) {
+            density += overmap_buffer.ter( abs_omt + point( i, j ) )->get_mondensity();
         }
     }
     density = density / 100;
@@ -690,7 +688,7 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray )
         pjo.read( "fuel", tmp_fuel );
         pjo.read( "status", tmp_status );
         jmapgen_setmap tmp( tmp_x, tmp_y, tmp_x2, tmp_y2,
-                            jmapgen_setmap_op( tmpop + setmap_optype ), tmp_i,
+                            static_cast<jmapgen_setmap_op>( tmpop + setmap_optype ), tmp_i,
                             tmp_chance, tmp_repeat, tmp_rotation, tmp_fuel, tmp_status );
 
         setmap_points.push_back( tmp );
@@ -744,14 +742,14 @@ class jmapgen_alternativly : public jmapgen_piece
 class jmapgen_field : public jmapgen_piece
 {
     public:
-        field_id ftype;
+        field_type_id ftype;
         int intensity;
         time_duration age;
         jmapgen_field( JsonObject &jsi ) : jmapgen_piece()
-            , ftype( field_from_ident( jsi.get_string( "field" ) ) )
+            , ftype( field_type_id( jsi.get_string( "field" ) ) )
             , intensity( jsi.get_int( "intensity", 1 ) )
             , age( time_duration::from_turns( jsi.get_int( "age", 0 ) ) ) {
-            if( ftype == fd_null ) {
+            if( !ftype.id() ) {
                 set_mapgen_defer( jsi, "field", "invalid field type" );
             }
         }
@@ -1051,7 +1049,7 @@ class jmapgen_liquid_item : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mon_density*/, mission * /*miss*/ ) const override {
             if( one_in( chance.get() ) ) {
-                item newliquid( liquid, calendar::time_of_cataclysm );
+                item newliquid( liquid, calendar::turn_zero );
                 if( amount.valmax > 0 ) {
                     newliquid.charges = amount.get();
                 }
@@ -1120,7 +1118,7 @@ class jmapgen_loot : public jmapgen_piece
                     const float /*mon_density*/, mission * ) const override {
             if( rng( 0, 99 ) < chance ) {
                 const Item_spawn_data *const isd = &result_group;
-                const std::vector<item> spawn = isd->create( calendar::time_of_cataclysm );
+                const std::vector<item> spawn = isd->create( calendar::turn_zero );
                 dat.m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ),
                                              dat.m.get_abs_sub().z ), spawn );
             }
@@ -1720,7 +1718,7 @@ class jmapgen_nested : public jmapgen_piece
                         bool this_direction_matches = false;
                         for( const oter_str_id &allowed_neighbor : allowed_neighbors ) {
                             this_direction_matches |= is_ot_match( allowed_neighbor.str(), dat.neighbor_at( dir ).id(),
-                                                                   ot_match_type::CONTAINS );
+                                                                   ot_match_type::contains );
                         }
                         all_directions_match &= this_direction_matches;
                     }
@@ -1728,7 +1726,7 @@ class jmapgen_nested : public jmapgen_piece
                     if( !above.empty() ) {
                         bool above_matches = false;
                         for( const oter_str_id &allowed_neighbor : above ) {
-                            above_matches |= is_ot_match( allowed_neighbor.str(), dat.above().id(), ot_match_type::CONTAINS );
+                            above_matches |= is_ot_match( allowed_neighbor.str(), dat.above().id(), ot_match_type::contains );
                         }
                         all_directions_match &= above_matches;
                     }
@@ -2707,36 +2705,34 @@ void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const o
     const bool generated = run_mapgen_func( function_key, this, terrain_type, dat, when, density );
 
     if( !generated ) {
-        if( is_ot_match( "megastore", terrain_type, ot_match_type::PREFIX ) ) {
+        if( is_ot_match( "megastore", terrain_type, ot_match_type::prefix ) ) {
             draw_megastore( terrain_type, dat, when, density );
-        } else if( is_ot_match( "slimepit", terrain_type, ot_match_type::PREFIX ) ||
-                   is_ot_match( "slime_pit", terrain_type, ot_match_type::PREFIX ) ) {
+        } else if( is_ot_match( "slimepit", terrain_type, ot_match_type::prefix ) ||
+                   is_ot_match( "slime_pit", terrain_type, ot_match_type::prefix ) ) {
             draw_slimepit( terrain_type, dat, when, density );
-        } else if( is_ot_match( "haz_sar", terrain_type, ot_match_type::PREFIX ) ) {
+        } else if( is_ot_match( "haz_sar", terrain_type, ot_match_type::prefix ) ) {
             draw_sarcophagus( terrain_type, dat, when, density );
-        } else if( is_ot_match( "triffid", terrain_type, ot_match_type::PREFIX ) ) {
+        } else if( is_ot_match( "triffid", terrain_type, ot_match_type::prefix ) ) {
             draw_triffid( terrain_type, dat, when, density );
-        } else if( is_ot_match( "office", terrain_type, ot_match_type::PREFIX ) ) {
+        } else if( is_ot_match( "office", terrain_type, ot_match_type::prefix ) ) {
             draw_office_tower( terrain_type, dat, when, density );
-        } else if( is_ot_match( "sewage", terrain_type, ot_match_type::PREFIX ) ) {
+        } else if( is_ot_match( "sewage", terrain_type, ot_match_type::prefix ) ) {
             draw_sewer( terrain_type, dat, when, density );
-        } else if( is_ot_match( "spider", terrain_type, ot_match_type::PREFIX ) ) {
+        } else if( is_ot_match( "spider", terrain_type, ot_match_type::prefix ) ) {
             draw_spider_pit( terrain_type, dat, when, density );
-        } else if( is_ot_match( "spiral", terrain_type, ot_match_type::PREFIX ) ) {
+        } else if( is_ot_match( "spiral", terrain_type, ot_match_type::prefix ) ) {
             draw_spiral( terrain_type, dat, when, density );
-        } else if( is_ot_match( "temple", terrain_type, ot_match_type::PREFIX ) ) {
+        } else if( is_ot_match( "temple", terrain_type, ot_match_type::prefix ) ) {
             draw_temple( terrain_type, dat, when, density );
-        } else if( is_ot_match( "toxic", terrain_type, ot_match_type::PREFIX ) ) {
-            draw_toxic_dump( terrain_type, dat, when, density );
-        } else if( is_ot_match( "fema", terrain_type, ot_match_type::PREFIX ) ) {
+        } else if( is_ot_match( "fema", terrain_type, ot_match_type::prefix ) ) {
             draw_fema( terrain_type, dat, when, density );
-        } else if( is_ot_match( "mine", terrain_type, ot_match_type::PREFIX ) ) {
+        } else if( is_ot_match( "mine", terrain_type, ot_match_type::prefix ) ) {
             draw_mine( terrain_type, dat, when, density );
-        } else if( is_ot_match( "silo", terrain_type, ot_match_type::PREFIX ) ) {
+        } else if( is_ot_match( "silo", terrain_type, ot_match_type::prefix ) ) {
             draw_silo( terrain_type, dat, when, density );
-        } else if( is_ot_match( "anthill", terrain_type, ot_match_type::CONTAINS ) ) {
+        } else if( is_ot_match( "anthill", terrain_type, ot_match_type::contains ) ) {
             draw_anthill( terrain_type, dat, when, density );
-        } else if( is_ot_match( "lab", terrain_type, ot_match_type::CONTAINS ) ) {
+        } else if( is_ot_match( "lab", terrain_type, ot_match_type::contains ) ) {
             draw_lab( terrain_type, dat, when, density );
         } else {
             found = false;
@@ -3341,9 +3337,9 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
         terrain_type == "central_lab_core" ||
         terrain_type == "tower_lab" || terrain_type == "tower_lab_stairs" ) {
 
-        ice_lab = is_ot_match( "ice_lab", terrain_type, ot_match_type::PREFIX );
-        central_lab = is_ot_match( "central_lab", terrain_type, ot_match_type::PREFIX );
-        tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::PREFIX );
+        ice_lab = is_ot_match( "ice_lab", terrain_type, ot_match_type::prefix );
+        central_lab = is_ot_match( "central_lab", terrain_type, ot_match_type::prefix );
+        tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::prefix );
 
         if( ice_lab ) {
             int temperature = -20 + 30 * ( dat.zlevel );
@@ -3358,16 +3354,16 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
         rw = 0;
         bw = 0;
         lw = 0;
-        if( is_ot_match( "sewer", dat.north(), ot_match_type::TYPE ) && connects_to( dat.north(), 2 ) ) {
+        if( is_ot_match( "sewer", dat.north(), ot_match_type::type ) && connects_to( dat.north(), 2 ) ) {
             tw = SOUTH_EDGE + 1;
         }
-        if( is_ot_match( "sewer", dat.east(), ot_match_type::TYPE ) && connects_to( dat.east(), 3 ) ) {
+        if( is_ot_match( "sewer", dat.east(), ot_match_type::type ) && connects_to( dat.east(), 3 ) ) {
             rw = EAST_EDGE + 1;
         }
-        if( is_ot_match( "sewer", dat.south(), ot_match_type::TYPE ) && connects_to( dat.south(), 0 ) ) {
+        if( is_ot_match( "sewer", dat.south(), ot_match_type::type ) && connects_to( dat.south(), 0 ) ) {
             bw = SOUTH_EDGE + 1;
         }
-        if( is_ot_match( "sewer", dat.west(), ot_match_type::TYPE ) && connects_to( dat.west(), 1 ) ) {
+        if( is_ot_match( "sewer", dat.west(), ot_match_type::type ) && connects_to( dat.west(), 1 ) ) {
             lw = EAST_EDGE + 1;
         }
         if( dat.zlevel == 0 ) { // We're on ground level
@@ -3399,11 +3395,11 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
 
             place_spawns( GROUP_TURRET_SMG, 1, SEEX, 5, SEEY, 5, 1, true );
 
-            if( is_ot_match( "road", dat.east(), ot_match_type::TYPE ) ) {
+            if( is_ot_match( "road", dat.east(), ot_match_type::type ) ) {
                 rotate( 1 );
-            } else if( is_ot_match( "road", dat.south(), ot_match_type::TYPE ) ) {
+            } else if( is_ot_match( "road", dat.south(), ot_match_type::type ) ) {
                 rotate( 2 );
-            } else if( is_ot_match( "road", dat.west(), ot_match_type::TYPE ) ) {
+            } else if( is_ot_match( "road", dat.west(), ot_match_type::type ) ) {
                 rotate( 3 );
             }
         } else if( tw != 0 || rw != 0 || lw != 0 || bw != 0 ) { // Sewers!
@@ -3414,7 +3410,7 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                         ( ( j < tw || j > SOUTH_EDGE - bw ) && i > SEEX - 3 && i < SEEX + 2 ) ) {
                         ter_set( i, j, t_sewage );
                     }
-                    if( ( i == 0 && is_ot_match( "lab", dat.east(), ot_match_type::CONTAINS ) ) || i == EAST_EDGE ) {
+                    if( ( i == 0 && is_ot_match( "lab", dat.east(), ot_match_type::contains ) ) || i == EAST_EDGE ) {
                         if( ter( i, j ) == t_sewage ) {
                             ter_set( i, j, t_bars );
                         } else if( j == SEEY - 1 || j == SEEY ) {
@@ -3422,7 +3418,7 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                         } else {
                             ter_set( i, j, t_concrete_wall );
                         }
-                    } else if( ( j == 0 && is_ot_match( "lab", dat.north(), ot_match_type::CONTAINS ) ) ||
+                    } else if( ( j == 0 && is_ot_match( "lab", dat.north(), ot_match_type::contains ) ) ||
                                j == SOUTH_EDGE ) {
                         if( ter( i, j ) == t_sewage ) {
                             ter_set( i, j, t_bars );
@@ -3436,10 +3432,10 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
             }
         } else { // We're below ground, and no sewers
             // Set up the boundaries of walls (connect to adjacent lab squares)
-            tw = is_ot_match( "lab", dat.north(), ot_match_type::CONTAINS ) ? 0 : 2;
-            rw = is_ot_match( "lab", dat.east(), ot_match_type::CONTAINS ) ? 1 : 2;
-            bw = is_ot_match( "lab", dat.south(), ot_match_type::CONTAINS ) ? 1 : 2;
-            lw = is_ot_match( "lab", dat.west(), ot_match_type::CONTAINS ) ? 0 : 2;
+            tw = is_ot_match( "lab", dat.north(), ot_match_type::contains ) ? 0 : 2;
+            rw = is_ot_match( "lab", dat.east(), ot_match_type::contains ) ? 1 : 2;
+            bw = is_ot_match( "lab", dat.south(), ot_match_type::contains ) ? 1 : 2;
+            lw = is_ot_match( "lab", dat.west(), ot_match_type::contains ) ? 0 : 2;
 
             int boarders = 0;
             if( tw == 0 ) {
@@ -3456,7 +3452,7 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
             }
 
             const auto maybe_insert_stairs = [this]( const oter_id & terrain,  const ter_id & t_stair_type ) {
-                if( is_ot_match( "stairs", terrain, ot_match_type::CONTAINS ) ) {
+                if( is_ot_match( "stairs", terrain, ot_match_type::contains ) ) {
                     const auto predicate = [this]( const tripoint & p ) {
                         return ter( p ) == t_thconc_floor && furn( p ) == f_null && tr_at( p ).is_null();
                     };
@@ -3583,7 +3579,7 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                                     }
                                 }
                             }
-                            if( is_ot_match( "stairs", dat.above(), ot_match_type::CONTAINS ) ) {
+                            if( is_ot_match( "stairs", dat.above(), ot_match_type::contains ) ) {
                                 ter_set( rng( SEEX - 1, SEEX ), rng( SEEY - 1, SEEY ),
                                          t_stairs_up );
                             }
@@ -3633,7 +3629,7 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                                 ter_set( SEEX - 1, SOUTH_EDGE, t_door_metal_c );
                                 ter_set( SEEX, SOUTH_EDGE, t_door_metal_c );
                             }
-                            if( is_ot_match( "stairs", terrain_type, ot_match_type::CONTAINS ) ) { // Stairs going down
+                            if( is_ot_match( "stairs", terrain_type, ot_match_type::contains ) ) { // Stairs going down
                                 std::vector<point> stair_points;
                                 if( tw != 0 ) {
                                     stair_points.push_back( point( SEEX - 1, 2 ) );
@@ -3687,7 +3683,7 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                                     }
                                 }
                             }
-                            if( is_ot_match( "stairs", dat.above(), ot_match_type::CONTAINS ) ) {
+                            if( is_ot_match( "stairs", dat.above(), ot_match_type::contains ) ) {
                                 ter_set( SEEX - 1, SEEY - 1, t_stairs_up );
                                 ter_set( SEEX, SEEY - 1, t_stairs_up );
                                 ter_set( SEEX - 1, SEEY, t_stairs_up );
@@ -3727,7 +3723,7 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                                 ter_set( SEEX - 1, SOUTH_EDGE, t_door_metal_c );
                                 ter_set( SEEX, SOUTH_EDGE, t_door_metal_c );
                             }
-                            if( is_ot_match( "stairs", terrain_type, ot_match_type::CONTAINS ) ) {
+                            if( is_ot_match( "stairs", terrain_type, ot_match_type::contains ) ) {
                                 ter_set( SEEX - 3 + 5 * rng( 0, 1 ), SEEY - 3 + 5 * rng( 0, 1 ),
                                          t_stairs_down );
                             }
@@ -3765,7 +3761,7 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
         } // end aboveground vs belowground
 
         // Ants will totally wreck up the place
-        if( is_ot_match( "ants", terrain_type, ot_match_type::CONTAINS ) ) {
+        if( is_ot_match( "ants", terrain_type, ot_match_type::contains ) ) {
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
                     // Carve out a diamond area that covers 2 spaces on each edge.
@@ -3849,8 +3845,8 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
             switch( rng( 1, 7 ) ) {
                 // full flooding/sewage
                 case 1: {
-                    if( is_ot_match( "stairs", terrain_type, ot_match_type::CONTAINS ) ||
-                        is_ot_match( "ice", terrain_type, ot_match_type::CONTAINS ) ) {
+                    if( is_ot_match( "stairs", terrain_type, ot_match_type::contains ) ||
+                        is_ot_match( "ice", terrain_type, ot_match_type::contains ) ) {
                         // don't flood if stairs because the floor below will not be flooded.
                         // don't flood if ice lab because there's no mechanic for freezing
                         // liquid floors.
@@ -3876,8 +3872,8 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                 }
                 // minor flooding/sewage
                 case 2: {
-                    if( is_ot_match( "stairs", terrain_type, ot_match_type::CONTAINS ) ||
-                        is_ot_match( "ice", terrain_type, ot_match_type::CONTAINS ) ) {
+                    if( is_ot_match( "stairs", terrain_type, ot_match_type::contains ) ||
+                        is_ot_match( "ice", terrain_type, ot_match_type::contains ) ) {
                         // don't flood if stairs because the floor below will not be flooded.
                         // don't flood if ice lab because there's no mechanic for freezing
                         // liquid floors.
@@ -3983,7 +3979,7 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                         spawn_item( marker_x, marker_y,
                                     "mininuke", 1, 1, 0, rng( 2, 4 ) );
                     } else {
-                        item newliquid( "plut_slurry_dense", calendar::time_of_cataclysm );
+                        item newliquid( "plut_slurry_dense", calendar::start_of_cataclysm );
                         newliquid.charges = 1;
                         add_item_or_charges( tripoint( marker_x, marker_y, get_abs_sub().z ),
                                              newliquid );
@@ -4040,9 +4036,9 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
     } else if( terrain_type == "lab_finale" || terrain_type == "ice_lab_finale" ||
                terrain_type == "central_lab_finale" || terrain_type == "tower_lab_finale" ) {
 
-        ice_lab = is_ot_match( "ice_lab", terrain_type, ot_match_type::PREFIX );
-        central_lab = is_ot_match( "central_lab", terrain_type, ot_match_type::PREFIX );
-        tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::PREFIX );
+        ice_lab = is_ot_match( "ice_lab", terrain_type, ot_match_type::prefix );
+        central_lab = is_ot_match( "central_lab", terrain_type, ot_match_type::prefix );
+        tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::prefix );
 
         if( ice_lab ) {
             int temperature = -20 + 30 * dat.zlevel;
@@ -4052,10 +4048,10 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
             set_temperature( x + SEEX, y + SEEY, temperature );
         }
 
-        tw = is_ot_match( "lab", dat.north(), ot_match_type::CONTAINS ) ? 0 : 2;
-        rw = is_ot_match( "lab", dat.east(), ot_match_type::CONTAINS ) ? 1 : 2;
-        bw = is_ot_match( "lab", dat.south(), ot_match_type::CONTAINS ) ? 1 : 2;
-        lw = is_ot_match( "lab", dat.west(), ot_match_type::CONTAINS ) ? 0 : 2;
+        tw = is_ot_match( "lab", dat.north(), ot_match_type::contains ) ? 0 : 2;
+        rw = is_ot_match( "lab", dat.east(), ot_match_type::contains ) ? 1 : 2;
+        bw = is_ot_match( "lab", dat.south(), ot_match_type::contains ) ? 1 : 2;
+        lw = is_ot_match( "lab", dat.west(), ot_match_type::contains ) ? 0 : 2;
 
         const std::string function_key = "lab_finale_1level";
         const auto fmapit = oter_mapgen.find( function_key );
@@ -4171,12 +4167,12 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                         furn_set( SEEX - 1, SEEY, f_table );
                         furn_set( SEEX, SEEY, f_table );
                         if( loot_variant <= 67 ) {
-                            spawn_item( SEEX - 1, SEEY - 1, "laser_pack", dice( 4, 3 ) );
                             spawn_item( SEEX, SEEY - 1, "UPS_off" );
                             spawn_item( SEEX, SEEY - 1, "battery", dice( 4, 3 ) );
                             spawn_item( SEEX - 1, SEEY, "v29" );
                             spawn_item( SEEX - 1, SEEY, "laser_rifle", dice( 1, 0 ) );
-                            spawn_item( SEEX, SEEY, "ftk93" );
+                            spawn_item( SEEX, SEEY, "plasma_gun" );
+                            spawn_item( SEEX, SEEY, "plasma" );
                             spawn_item( SEEX - 1, SEEY, "recipe_atomic_battery" );
                             spawn_item( SEEX, SEEY  - 1, "solar_panel_v3" );
                         } else if( loot_variant > 67 && loot_variant < 89 ) {
@@ -4320,7 +4316,7 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
         // Handle stairs in the unlikely case they are needed.
 
         const auto maybe_insert_stairs = [this]( const oter_id & terrain,  const ter_id & t_stair_type ) {
-            if( is_ot_match( "stairs", terrain, ot_match_type::CONTAINS ) ) {
+            if( is_ot_match( "stairs", terrain, ot_match_type::contains ) ) {
                 const auto predicate = [this]( const tripoint & p ) {
                     return ter( p ) == t_thconc_floor && furn( p ) == f_null &&
                            tr_at( p ).is_null();
@@ -4913,7 +4909,7 @@ void map::draw_sewer( const oter_id &terrain_type, mapgendata &dat, const time_p
     } else if( terrain_type == "sewage_treatment_under" ) {
         fill_background( this, t_floor );
         if( dat.north() == "sewage_treatment_under" || dat.north() == "sewage_treatment_hub" ||
-            ( is_ot_match( "sewer", dat.north(), ot_match_type::TYPE ) && connects_to( dat.north(), 2 ) ) ) {
+            ( is_ot_match( "sewer", dat.north(), ot_match_type::type ) && connects_to( dat.north(), 2 ) ) ) {
             if( dat.north() == "sewage_treatment_under" || dat.north() == "sewage_treatment_hub" ) {
                 line( this, t_wall,  0,  0, 23,  0 );
                 ter_set( 3, 0, t_door_c );
@@ -4922,17 +4918,17 @@ void map::draw_sewer( const oter_id &terrain_type, mapgendata &dat, const time_p
             square( this, t_sewage, 10, 0, 13, 13 );
         }
         if( dat.east() == "sewage_treatment_under" || dat.east() == "sewage_treatment_hub" ||
-            ( is_ot_match( "sewer", dat.east(), ot_match_type::TYPE ) && connects_to( dat.east(), 3 ) ) ) {
+            ( is_ot_match( "sewer", dat.east(), ot_match_type::type ) && connects_to( dat.east(), 3 ) ) ) {
             dat.e_fac = 1;
             square( this, t_sewage, 10, 10, 23, 13 );
         }
         if( dat.south() == "sewage_treatment_under" || dat.south() == "sewage_treatment_hub" ||
-            ( is_ot_match( "sewer", dat.south(), ot_match_type::TYPE ) && connects_to( dat.south(), 0 ) ) ) {
+            ( is_ot_match( "sewer", dat.south(), ot_match_type::type ) && connects_to( dat.south(), 0 ) ) ) {
             dat.s_fac = 1;
             square( this, t_sewage, 10, 10, 13, 23 );
         }
         if( dat.west() == "sewage_treatment_under" || dat.west() == "sewage_treatment_hub" ||
-            ( is_ot_match( "sewer", dat.west(), ot_match_type::TYPE ) && connects_to( dat.west(), 1 ) ) ) {
+            ( is_ot_match( "sewer", dat.west(), ot_match_type::type ) && connects_to( dat.west(), 1 ) ) ) {
             if( dat.west() == "sewage_treatment_under" ||
                 dat.west() == "sewage_treatment_hub" ) {
                 line( this, t_wall,  0,  1,  0, 23 );
@@ -4967,7 +4963,7 @@ void map::draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_po
                     }
                 }
                 if( okay ) {
-                    room_type type = room_type( rng( room_mine_office, room_mine_housing ) );
+                    room_type type = static_cast<room_type>( rng( room_mine_office, room_mine_housing ) );
                     build_mine_room( this, type, x1, y1, x2, y2, dat );
                     tries = 0;
                 } else {
@@ -4991,22 +4987,22 @@ void map::draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_po
         rotate( rng( 0, 3 ) );
     } else if( terrain_type == "mine" ||
                terrain_type == "mine_down" ) {
-        if( is_ot_match( "mine", dat.north(), ot_match_type::PREFIX ) ) {
+        if( is_ot_match( "mine", dat.north(), ot_match_type::prefix ) ) {
             dat.n_fac = ( one_in( 10 ) ? 0 : -2 );
         } else {
             dat.n_fac = 4;
         }
-        if( is_ot_match( "mine", dat.east(), ot_match_type::PREFIX ) ) {
+        if( is_ot_match( "mine", dat.east(), ot_match_type::prefix ) ) {
             dat.e_fac = ( one_in( 10 ) ? 0 : -2 );
         } else {
             dat.e_fac = 4;
         }
-        if( is_ot_match( "mine", dat.south(), ot_match_type::PREFIX ) ) {
+        if( is_ot_match( "mine", dat.south(), ot_match_type::prefix ) ) {
             dat.s_fac = ( one_in( 10 ) ? 0 : -2 );
         } else {
             dat.s_fac = 4;
         }
-        if( is_ot_match( "mine", dat.west(), ot_match_type::PREFIX ) ) {
+        if( is_ot_match( "mine", dat.west(), ot_match_type::prefix ) ) {
             dat.w_fac = ( one_in( 10 ) ? 0 : -2 );
         } else {
             dat.w_fac = 4;
@@ -5453,38 +5449,6 @@ void map::draw_spiral( const oter_id &terrain_type, mapgendata &/*dat*/, const t
     }
 }
 
-void map::draw_toxic_dump( const oter_id &terrain_type, mapgendata &/*dat*/,
-                           const time_point &/*when*/, const float /*density*/ )
-{
-    if( terrain_type == "toxic_dump" ) {
-        fill_background( this, t_dirt );
-        for( int n = 0; n < 6; n++ ) {
-            int poolx = rng( 4, SEEX * 2 - 5 ), pooly = rng( 4, SEEY * 2 - 5 );
-            for( int i = poolx - 3; i <= poolx + 3; i++ ) {
-                for( int j = pooly - 3; j <= pooly + 3; j++ ) {
-                    if( rng( 2, 5 ) > rl_dist( poolx, pooly, i, j ) ) {
-                        ter_set( i, j, t_sewage );
-                        adjust_radiation( i, j, rng( 20, 60 ) );
-                    }
-                }
-            }
-        }
-        int buildx = rng( 6, SEEX * 2 - 7 ), buildy = rng( 6, SEEY * 2 - 7 );
-        square( this, t_floor, buildx - 3, buildy - 3, buildx + 3, buildy + 3 );
-        line( this, t_wall, buildx - 4, buildy - 4, buildx + 4, buildy - 4 );
-        line( this, t_wall, buildx - 4, buildy + 4, buildx + 4, buildy + 4 );
-        line( this, t_wall, buildx - 4, buildy - 4, buildx - 4, buildy + 4 );
-        line( this, t_wall, buildx + 4, buildy - 4, buildx + 4, buildy + 4 );
-        line_furn( this, f_counter, buildx - 3, buildy - 3, buildx + 3, buildy - 3 );
-        place_items( "toxic_dump_equipment", 80,
-                     buildx - 3, buildy - 3, buildx + 3, buildy - 3, false, 0 );
-        spawn_item( buildx, buildy, "id_military" );
-        ter_set( buildx, buildy + 4, t_door_locked );
-
-        rotate( rng( 0, 3 ) );
-    }
-}
-
 void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                             const time_point &/*when*/, const float /*density*/ )
 {
@@ -5522,7 +5486,15 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                                             f_counter, f_chair, f_desk, f_rack,  f_null, f_null,
                                             f_null, f_null, f_null, f_null, f_null, f_null,
                                             f_locker, f_sink,  f_toilet );
-    if( terrain_type == "haz_sar_entrance" ) {
+
+    // Convenience function because this big block of hardcoded mapgen does a LOT of overmap terrain
+    // comparisons and it gets very verbose. What would be better is to convert all this to JSON mapgen.
+    const auto match = []( const oter_id & oterid, const std::string & oterstr ) {
+        return is_ot_match( oterstr, oterid, ot_match_type::type );
+    };
+
+
+    if( match( terrain_type, "haz_sar_entrance" ) ) {
         // Init to grass & dirt;
         dat.fill_groundcover();
         mapf::formatted_set_simple( this, 0, 0,
@@ -5562,22 +5534,21 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                 adjust_radiation( x, y, rng( 10, 30 ) );
             }
         }
-        if( dat.north() == "haz_sar" && dat.west() == "haz_sar" ) {
+        if( match( dat.north(), "haz_sar" ) && match( dat.west(), "haz_sar" ) ) {
             rotate( 3 );
-        } else if( dat.north() == "haz_sar" && dat.east() == "haz_sar" ) {
+        } else if( match( dat.north(), "haz_sar" ) && match( dat.east(), "haz_sar" ) ) {
             rotate( 0 );
-        } else if( dat.south() == "haz_sar" && dat.east() == "haz_sar" ) {
+        } else if( match( dat.south(), "haz_sar" ) && match( dat.east(), "haz_sar" ) ) {
             rotate( 1 );
-        } else if( dat.west() == "haz_sar" && dat.south() == "haz_sar" ) {
+        } else if( match( dat.west(), "haz_sar" ) && match( dat.south(), "haz_sar" ) ) {
             rotate( 2 );
         }
-    } else if( terrain_type == "haz_sar" ) {
+    } else if( match( terrain_type, "haz_sar" ) ) {
         dat.fill_groundcover();
-        if( ( dat.south() == "haz_sar_entrance" && dat.east() == "haz_sar" ) ||
-            ( dat.north() == "haz_sar" &&
-              dat.east() == "haz_sar_entrance" ) || ( dat.west() == "haz_sar" &&
-                      dat.north() == "haz_sar_entrance" ) ||
-            ( dat.south() == "haz_sar" && dat.west() == "haz_sar_entrance" ) ) {
+        if( ( match( dat.south(), "haz_sar_entrance" ) && match( dat.east(), "haz_sar" ) ) ||
+            ( match( dat.north(), "haz_sar" ) && match( dat.east(), "haz_sar_entrance" ) ) ||
+            ( match( dat.west(), "haz_sar" ) && match( dat.north(), "haz_sar_entrance" ) ) ||
+            ( match( dat.south(), "haz_sar" ) && match( dat.west(), "haz_sar_entrance" ) ) ) {
             mapf::formatted_set_simple( this, 0, 0,
                                         "                        \n"
                                         " fFFFFFFFFFFFFFFFFFFFFFF\n"
@@ -5615,17 +5586,17 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                     adjust_radiation( x, y, rng( 10, 30 ) );
                 }
             }
-            if( dat.west() == "haz_sar_entrance" ) {
+            if( match( dat.west(), "haz_sar_entrance" ) ) {
                 rotate( 1 );
                 if( x_in_y( 1, 4 ) ) {
                     add_vehicle( vproto_id( "military_cargo_truck" ), 10, 11, 0 );
                 }
-            } else if( dat.north() == "haz_sar_entrance" ) {
+            } else if( match( dat.north(), "haz_sar_entrance" ) ) {
                 rotate( 2 );
                 if( x_in_y( 1, 4 ) ) {
                     add_vehicle( vproto_id( "military_cargo_truck" ), 12, 10, 90 );
                 }
-            } else if( dat.east() == "haz_sar_entrance" ) {
+            } else if( match( dat.east(), "haz_sar_entrance" ) ) {
                 rotate( 3 );
                 if( x_in_y( 1, 4 ) ) {
                     add_vehicle( vproto_id( "military_cargo_truck" ), 13, 12, 180 );
@@ -5634,10 +5605,10 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                 add_vehicle( vproto_id( "military_cargo_truck" ), 11, 13, 270 );
             }
 
-        } else if( ( dat.west() == "haz_sar_entrance" && dat.north() == "haz_sar" ) ||
-                   ( dat.north() == "haz_sar_entrance" && dat.east() == "haz_sar" ) ||
-                   ( dat.west() == "haz_sar" && dat.south() == "haz_sar_entrance" ) ||
-                   ( dat.south() == "haz_sar" && dat.east() == "haz_sar_entrance" ) ) {
+        } else if( ( match( dat.west(), "haz_sar_entrance" ) && match( dat.north(), "haz_sar" ) ) ||
+                   ( match( dat.north(), "haz_sar_entrance" ) && match( dat.east(), "haz_sar" ) ) ||
+                   ( match( dat.west(), "haz_sar" ) && match( dat.south(), "haz_sar_entrance" ) ) ||
+                   ( match( dat.south(), "haz_sar" ) && match( dat.east(), "haz_sar_entrance" ) ) ) {
             mapf::formatted_set_simple( this, 0, 0,
                                         "......|-+-|-+|...h..w f \n"
                                         ".c....|.............w f \n"
@@ -5673,13 +5644,13 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                     adjust_radiation( x, y, rng( 10, 30 ) );
                 }
             }
-            if( dat.north() == "haz_sar_entrance" ) {
+            if( match( dat.north(), "haz_sar_entrance" ) ) {
                 rotate( 1 );
             }
-            if( dat.east() == "haz_sar_entrance" ) {
+            if( match( dat.east(), "haz_sar_entrance" ) ) {
                 rotate( 2 );
             }
-            if( dat.south() == "haz_sar_entrance" ) {
+            if( match( dat.south(), "haz_sar_entrance" ) ) {
                 rotate( 3 );
             }
         } else {
@@ -5733,17 +5704,17 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
             tmpcomp->add_option( _( "COMMAND: REACTIVATE ELEVATOR" ), COMPACT_SRCF_ELEVATOR, 0 );
             tmpcomp->add_option( _( "COMMAND: SEAL SRCF [4423]" ), COMPACT_SRCF_SEAL, 5 );
             tmpcomp->add_failure( COMPFAIL_ALARM );
-            if( dat.west() == "haz_sar" && dat.north() == "haz_sar" ) {
+            if( match( dat.west(), "haz_sar" ) && match( dat.north(), "haz_sar" ) ) {
                 rotate( 1 );
             }
-            if( dat.east() == "haz_sar" && dat.north() == "haz_sar" ) {
+            if( match( dat.east(), "haz_sar" ) && match( dat.north(), "haz_sar" ) ) {
                 rotate( 2 );
             }
-            if( dat.east() == "haz_sar" && dat.south() == "haz_sar" ) {
+            if( match( dat.east(), "haz_sar" ) && match( dat.south(), "haz_sar" ) ) {
                 rotate( 3 );
             }
         }
-    } else if( terrain_type == "haz_sar_entrance_b1" ) {
+    } else if( match( terrain_type, "haz_sar_entrance_b1" ) ) {
         // Init to grass & dirt;
         dat.fill_groundcover();
         mapf::formatted_set_simple( this, 0, 0,
@@ -5802,22 +5773,21 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                 }
             }
         }
-        if( dat.north() == "haz_sar_b1" && dat.west() == "haz_sar_b1" ) {
+        if( match( dat.north(), "haz_sar_b1" ) && match( dat.west(), "haz_sar_b1" ) ) {
             rotate( 3 );
-        } else if( dat.north() == "haz_sar_b1" && dat.east() == "haz_sar_b1" ) {
+        } else if( match( dat.north(), "haz_sar_b1" ) && match( dat.east(), "haz_sar_b1" ) ) {
             rotate( 0 );
-        } else if( dat.south() == "haz_sar_b1" && dat.east() == "haz_sar_b1" ) {
+        } else if( match( dat.south(), "haz_sar_b1" ) && match( dat.east(), "haz_sar_b1" ) ) {
             rotate( 1 );
-        } else if( dat.west() == "haz_sar_b1" && dat.south() == "haz_sar_b1" ) {
+        } else if( match( dat.west(), "haz_sar_b1" ) && match( dat.south(), "haz_sar_b1" ) ) {
             rotate( 2 );
         }
-    } else if( terrain_type == "haz_sar_b1" ) {
+    } else if( match( terrain_type, "haz_sar_b1" ) ) {
         dat.fill_groundcover();
-        if( ( dat.south() == "haz_sar_entrance_b1" && dat.east() == "haz_sar_b1" ) ||
-            ( dat.north() == "haz_sar_b1" &&
-              dat.east() == "haz_sar_entrance_b1" ) || ( dat.west() == "haz_sar_b1" &&
-                      dat.north() == "haz_sar_entrance_b1" ) ||
-            ( dat.south() == "haz_sar_b1" && dat.west() == "haz_sar_entrance_b1" ) ) {
+        if( ( match( dat.south(), "haz_sar_entrance_b1" ) && match( dat.east(), "haz_sar_b1" ) ) ||
+            ( match( dat.north(), "haz_sar_b1" ) && match( dat.east(), "haz_sar_entrance_b1" ) ) ||
+            ( match( dat.west(), "haz_sar_b1" ) && match( dat.north(), "haz_sar_entrance_b1" ) ) ||
+            ( match( dat.south(), "haz_sar_b1" ) && match( dat.west(), "haz_sar_entrance_b1" ) ) ) {
             mapf::formatted_set_simple( this, 0, 0,
                                         "########################\n"
                                         "####################.##.\n"
@@ -5878,17 +5848,17 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                     }
                 }
             }
-            if( dat.west() == "haz_sar_entrance_b1" ) {
+            if( match( dat.west(), "haz_sar_entrance_b1" ) ) {
                 rotate( 1 );
-            } else if( dat.north() == "haz_sar_entrance_b1" ) {
+            } else if( match( dat.north(), "haz_sar_entrance_b1" ) ) {
                 rotate( 2 );
-            } else if( dat.east() == "haz_sar_entrance_b1" ) {
+            } else if( match( dat.east(), "haz_sar_entrance_b1" ) ) {
                 rotate( 3 );
             }
-        } else if( ( dat.west() == "haz_sar_entrance_b1" && dat.north() == "haz_sar_b1" ) ||
-                   ( dat.north() == "haz_sar_entrance_b1" && dat.east() == "haz_sar_b1" ) ||
-                   ( dat.west() == "haz_sar_b1" && dat.south() == "haz_sar_entrance_b1" ) ||
-                   ( dat.south() == "haz_sar_b1" && dat.east() == "haz_sar_entrance_b1" ) ) {
+        } else if( ( match( dat.west(), "haz_sar_entrance_b1" ) && match( dat.north(), "haz_sar_b1" ) ) ||
+                   ( match( dat.north(), "haz_sar_entrance_b1" ) && match( dat.east(), "haz_sar_b1" ) ) ||
+                   ( match( dat.west(), "haz_sar_b1" ) && match( dat.south(), "haz_sar_entrance_b1" ) ) ||
+                   ( match( dat.south(), "haz_sar_b1" ) && match( dat.east(), "haz_sar_entrance_b1" ) ) ) {
             mapf::formatted_set_simple( this, 0, 0,
                                         "....M..|,,,,|........###\n"
                                         ".......|-HH=|.........##\n"
@@ -5945,13 +5915,13 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                     }
                 }
             }
-            if( dat.north() == "haz_sar_entrance_b1" ) {
+            if( match( dat.north(), "haz_sar_entrance_b1" ) ) {
                 rotate( 1 );
             }
-            if( dat.east() == "haz_sar_entrance_b1" ) {
+            if( match( dat.east(), "haz_sar_entrance_b1" ) ) {
                 rotate( 2 );
             }
-            if( dat.south() == "haz_sar_entrance_b1" ) {
+            if( match( dat.south(), "haz_sar_entrance_b1" ) ) {
                 rotate( 3 );
             }
         } else {
@@ -6036,13 +6006,13 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
             tmpcomp->add_option( _( "USARMY: SEAL SRCF [987167]" ), COMPACT_SRCF_SEAL_ORDER, 4 );
             tmpcomp->add_option( _( "COMMAND: REACTIVATE ELEVATOR" ), COMPACT_SRCF_ELEVATOR, 0 );
             tmpcomp->add_failure( COMPFAIL_ALARM );
-            if( dat.west() == "haz_sar_b1" && dat.north() == "haz_sar_b1" ) {
+            if( match( dat.west(), "haz_sar_b1" ) && match( dat.north(), "haz_sar_b1" ) ) {
                 rotate( 1 );
             }
-            if( dat.east() == "haz_sar_b1" && dat.north() == "haz_sar_b1" ) {
+            if( match( dat.east(), "haz_sar_b1" ) && match( dat.north(), "haz_sar_b1" ) ) {
                 rotate( 2 );
             }
-            if( dat.east() == "haz_sar_b1" && dat.south() == "haz_sar_b1" ) {
+            if( match( dat.east(), "haz_sar_b1" ) && match( dat.south(), "haz_sar_b1" ) ) {
                 rotate( 3 );
             }
         }
@@ -6096,16 +6066,16 @@ void map::draw_megastore( const oter_id &terrain_type, mapgendata &dat, const ti
         }
         // Finally, figure out where the road is; construct our entrance facing that.
         std::vector<direction> faces_road;
-        if( is_ot_match( "road", dat.east(), ot_match_type::TYPE ) ||
-            is_ot_match( "bridge", dat.east(), ot_match_type::TYPE ) ) {
+        if( is_ot_match( "road", dat.east(), ot_match_type::type ) ||
+            is_ot_match( "bridge", dat.east(), ot_match_type::type ) ) {
             rotate( 1 );
         }
-        if( is_ot_match( "road", dat.south(), ot_match_type::TYPE ) ||
-            is_ot_match( "bridge", dat.south(), ot_match_type::TYPE ) ) {
+        if( is_ot_match( "road", dat.south(), ot_match_type::type ) ||
+            is_ot_match( "bridge", dat.south(), ot_match_type::type ) ) {
             rotate( 2 );
         }
-        if( is_ot_match( "road", dat.west(), ot_match_type::TYPE ) ||
-            is_ot_match( "bridge", dat.west(), ot_match_type::TYPE ) ) {
+        if( is_ot_match( "road", dat.west(), ot_match_type::type ) ||
+            is_ot_match( "bridge", dat.west(), ot_match_type::type ) ) {
             rotate( 3 );
         }
     } else if( terrain_type == "megastore" ) {
@@ -6268,16 +6238,16 @@ void map::draw_fema( const oter_id &terrain_type, mapgendata &dat, const time_po
         place_spawns( GROUP_MIL_WEAK, 1, 3, 15, 4, 17, 0.2 );
 
         // Rotate to face the road
-        if( is_ot_match( "road", dat.east(), ot_match_type::TYPE ) ||
-            is_ot_match( "bridge", dat.east(), ot_match_type::TYPE ) ) {
+        if( is_ot_match( "road", dat.east(), ot_match_type::type ) ||
+            is_ot_match( "bridge", dat.east(), ot_match_type::type ) ) {
             rotate( 1 );
         }
-        if( is_ot_match( "road", dat.south(), ot_match_type::TYPE ) ||
-            is_ot_match( "bridge", dat.south(), ot_match_type::TYPE ) ) {
+        if( is_ot_match( "road", dat.south(), ot_match_type::type ) ||
+            is_ot_match( "bridge", dat.south(), ot_match_type::type ) ) {
             rotate( 2 );
         }
-        if( is_ot_match( "road", dat.west(), ot_match_type::TYPE ) ||
-            is_ot_match( "bridge", dat.west(), ot_match_type::TYPE ) ) {
+        if( is_ot_match( "road", dat.west(), ot_match_type::type ) ||
+            is_ot_match( "bridge", dat.west(), ot_match_type::type ) ) {
             rotate( 3 );
         }
     } else if( terrain_type == "fema" ) {
@@ -6497,7 +6467,7 @@ void map::draw_anthill( const oter_id &terrain_type, mapgendata &dat, const time
 void map::draw_slimepit( const oter_id &terrain_type, mapgendata &dat, const time_point &/*when*/,
                          const float /*density*/ )
 {
-    if( is_ot_match( "slimepit", terrain_type, ot_match_type::PREFIX ) ) {
+    if( is_ot_match( "slimepit", terrain_type, ot_match_type::prefix ) ) {
         for( int i = 0; i < SEEX * 2; i++ ) {
             for( int j = 0; j < SEEY * 2; j++ ) {
                 if( !one_in( 10 ) && ( j < dat.n_fac * SEEX ||
@@ -6687,8 +6657,8 @@ void map::draw_connections( const oter_id &terrain_type, mapgendata &dat,
                             const time_point &/*when*/, const float /*density*/ )
 {
     if( is_ot_match( "subway", terrain_type,
-                     ot_match_type::TYPE ) ) { // FUUUUU it's IF ELIF ELIF ELIF's mini-me =[
-        if( is_ot_match( "sewer", dat.north(), ot_match_type::TYPE ) &&
+                     ot_match_type::type ) ) { // FUUUUU it's IF ELIF ELIF ELIF's mini-me =[
+        if( is_ot_match( "sewer", dat.north(), ot_match_type::type ) &&
             !connects_to( terrain_type, 0 ) ) {
             if( connects_to( dat.north(), 2 ) ) {
                 for( int i = SEEX - 2; i < SEEX + 2; i++ ) {
@@ -6705,7 +6675,7 @@ void map::draw_connections( const oter_id &terrain_type, mapgendata &dat,
                 ter_set( SEEX - 1, 3, t_door_metal_c );
             }
         }
-        if( is_ot_match( "sewer", dat.east(), ot_match_type::TYPE ) &&
+        if( is_ot_match( "sewer", dat.east(), ot_match_type::type ) &&
             !connects_to( terrain_type, 1 ) ) {
             if( connects_to( dat.east(), 3 ) ) {
                 for( int i = SEEX; i < SEEX * 2; i++ ) {
@@ -6722,7 +6692,7 @@ void map::draw_connections( const oter_id &terrain_type, mapgendata &dat,
                 ter_set( SEEX * 2 - 4, SEEY - 1, t_door_metal_c );
             }
         }
-        if( is_ot_match( "sewer", dat.south(), ot_match_type::TYPE ) &&
+        if( is_ot_match( "sewer", dat.south(), ot_match_type::type ) &&
             !connects_to( terrain_type, 2 ) ) {
             if( connects_to( dat.south(), 0 ) ) {
                 for( int i = SEEX - 2; i < SEEX + 2; i++ ) {
@@ -6739,7 +6709,7 @@ void map::draw_connections( const oter_id &terrain_type, mapgendata &dat,
                 ter_set( SEEX - 1, SEEY * 2 - 4, t_door_metal_c );
             }
         }
-        if( is_ot_match( "sewer", dat.west(), ot_match_type::TYPE ) &&
+        if( is_ot_match( "sewer", dat.west(), ot_match_type::type ) &&
             !connects_to( terrain_type, 3 ) ) {
             if( connects_to( dat.west(), 1 ) ) {
                 for( int i = 0; i < SEEX; i++ ) {
@@ -6756,11 +6726,11 @@ void map::draw_connections( const oter_id &terrain_type, mapgendata &dat,
                 ter_set( 3, SEEY - 1, t_door_metal_c );
             }
         }
-    } else if( is_ot_match( "sewer", terrain_type, ot_match_type::TYPE ) ) {
+    } else if( is_ot_match( "sewer", terrain_type, ot_match_type::type ) ) {
         if( dat.above() == "road_nesw_manhole" ) {
             ter_set( rng( SEEX - 2, SEEX + 1 ), rng( SEEY - 2, SEEY + 1 ), t_ladder_up );
         }
-        if( is_ot_match( "subway", dat.north(), ot_match_type::TYPE ) &&
+        if( is_ot_match( "subway", dat.north(), ot_match_type::type ) &&
             !connects_to( terrain_type, 0 ) ) {
             for( int j = 0; j < SEEY - 3; j++ ) {
                 ter_set( SEEX, j, t_rock_floor );
@@ -6769,7 +6739,7 @@ void map::draw_connections( const oter_id &terrain_type, mapgendata &dat,
             ter_set( SEEX, SEEY - 3, t_door_metal_c );
             ter_set( SEEX - 1, SEEY - 3, t_door_metal_c );
         }
-        if( is_ot_match( "subway", dat.east(), ot_match_type::TYPE ) &&
+        if( is_ot_match( "subway", dat.east(), ot_match_type::type ) &&
             !connects_to( terrain_type, 1 ) ) {
             for( int i = SEEX + 3; i < SEEX * 2; i++ ) {
                 ter_set( i, SEEY, t_rock_floor );
@@ -6778,7 +6748,7 @@ void map::draw_connections( const oter_id &terrain_type, mapgendata &dat,
             ter_set( SEEX + 2, SEEY, t_door_metal_c );
             ter_set( SEEX + 2, SEEY - 1, t_door_metal_c );
         }
-        if( is_ot_match( "subway", dat.south(), ot_match_type::TYPE ) &&
+        if( is_ot_match( "subway", dat.south(), ot_match_type::type ) &&
             !connects_to( terrain_type, 2 ) ) {
             for( int j = SEEY + 3; j < SEEY * 2; j++ ) {
                 ter_set( SEEX, j, t_rock_floor );
@@ -6787,7 +6757,7 @@ void map::draw_connections( const oter_id &terrain_type, mapgendata &dat,
             ter_set( SEEX, SEEY + 2, t_door_metal_c );
             ter_set( SEEX - 1, SEEY + 2, t_door_metal_c );
         }
-        if( is_ot_match( "subway", dat.west(), ot_match_type::TYPE ) &&
+        if( is_ot_match( "subway", dat.west(), ot_match_type::type ) &&
             !connects_to( terrain_type, 3 ) ) {
             for( int i = 0; i < SEEX - 3; i++ ) {
                 ter_set( i, SEEY, t_rock_floor );
@@ -6796,7 +6766,7 @@ void map::draw_connections( const oter_id &terrain_type, mapgendata &dat,
             ter_set( SEEX - 3, SEEY, t_door_metal_c );
             ter_set( SEEX - 3, SEEY - 1, t_door_metal_c );
         }
-    } else if( is_ot_match( "ants", terrain_type, ot_match_type::TYPE ) ) {
+    } else if( is_ot_match( "ants", terrain_type, ot_match_type::type ) ) {
         if( dat.above() == "anthill" ) {
             if( const auto p = random_point( *this, [this]( const tripoint & n ) {
             return ter( n ) == t_rock_floor;
@@ -6840,8 +6810,8 @@ void map::place_spawns( const mongroup_id &group, const int chance,
                         const bool individual, const bool friendly )
 {
     if( !group.is_valid() ) {
-        const point omt = sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
-        const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
+        const tripoint omt = sm_to_omt_copy( get_abs_sub() );
+        const oter_id &oid = overmap_buffer.ter( omt );
         debugmsg( "place_spawns: invalid mongroup '%s', om_terrain = '%s' (%s)", group.c_str(),
                   oid.id().c_str(), oid->get_mapgen_id().c_str() );
         return;
@@ -6954,7 +6924,6 @@ void map::apply_faction_ownership( const int x1, const int y1, const int x2, con
         vehicle *source_veh = veh_pointer_or_null( veh_at( p ) );
         if( source_veh ) {
             if( !source_veh->has_owner() ) {
-                source_veh->base_name = source_veh->name;
                 source_veh->set_owner( fac );
             }
         }
@@ -6983,8 +6952,8 @@ std::vector<item *> map::place_items( const items_location &loc, int chance, int
         return res;
     }
     if( !item_group::group_is_defined( loc ) ) {
-        const point omt = sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
-        const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
+        const tripoint omt = sm_to_omt_copy( get_abs_sub() );
+        const oter_id &oid = overmap_buffer.ter( omt );
         debugmsg( "place_items: invalid item group '%s', om_terrain = '%s' (%s)",
                   loc.c_str(), oid.id().c_str(), oid->get_mapgen_id().c_str() );
         return res;
@@ -7277,8 +7246,7 @@ void map::rotate( int turns )
     // TODO: This radius can be smaller - how small?
     const int radius = HALF_MAPSIZE + 3;
     // uses submap coordinates
-    const std::vector<std::shared_ptr<npc>> npcs = overmap_buffer.get_npcs_near( abs_sub.x, abs_sub.y,
-                                         abs_sub.z, radius );
+    const std::vector<std::shared_ptr<npc>> npcs = overmap_buffer.get_npcs_near( abs_sub, radius );
     for( const std::shared_ptr<npc> &i : npcs ) {
         npc &np = *i;
         const tripoint sq = np.global_square_location();
@@ -8256,13 +8224,13 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
 
         case ARTPROP_FRACTAL:
             create_anomaly( cx - 4, cy - 4,
-                            artifact_natural_property( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
+                            static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
             create_anomaly( cx + 4, cy - 4,
-                            artifact_natural_property( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
+                            static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
             create_anomaly( cx - 4, cy + 4,
-                            artifact_natural_property( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
+                            static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
             create_anomaly( cx + 4, cy - 4,
-                            artifact_natural_property( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
+                            static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
             break;
         default:
             break;
@@ -8354,9 +8322,9 @@ bool update_mapgen_function_json::update_map( const tripoint &omt_pos, int offse
         mission *miss, bool verify ) const
 {
     tinymap update_tmap;
-    const regional_settings &rsettings = overmap_buffer.get_settings( omt_pos.x, omt_pos.y,
-                                         omt_pos.z );
-    update_tmap.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
+    const regional_settings &rsettings = overmap_buffer.get_settings( omt_pos );
+    const tripoint sm_pos = omt_to_sm_copy( omt_pos );
+    update_tmap.load( sm_pos, false );
     const std::string map_id = overmap_buffer.ter( omt_pos ).id().c_str();
     oter_id north = overmap_buffer.ter( omt_pos + tripoint( 0, -1, 0 ) );
     oter_id south = overmap_buffer.ter( omt_pos + tripoint( 0, 1, 0 ) );

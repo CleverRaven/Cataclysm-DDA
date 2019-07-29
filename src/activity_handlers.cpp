@@ -102,8 +102,12 @@ const skill_id skill_electronics( "electronics" );
 const species_id HUMAN( "HUMAN" );
 const species_id ZOMBIE( "ZOMBIE" );
 
+const efftype_id effect_bleed( "bleed" );
+const efftype_id effect_blind( "blind" );
+const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_milked( "milked" );
 const efftype_id effect_sleep( "sleep" );
+const efftype_id effect_under_op( "under_operation" );
 
 using namespace activity_handlers;
 
@@ -160,6 +164,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn },
     { activity_id( "ACT_FERTILIZE_PLOT" ), fertilize_plot_do_turn },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn },
+    { activity_id( "ACT_OPERATION" ), operation_do_turn },
     { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_do_turn },
     { activity_id( "ACT_TREE_COMMUNION" ), tree_communion_do_turn },
     { activity_id( "ACT_STUDY_SPELL" ), study_spell_do_turn},
@@ -205,6 +210,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_WAIT_STAMINA" ), wait_stamina_finish },
     { activity_id( "ACT_SOCIALIZE" ), socialize_finish },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_finish },
+    { activity_id( "ACT_OPERATION" ), operation_finish },
     { activity_id( "ACT_DISASSEMBLE" ), disassemble_finish },
     { activity_id( "ACT_VIBE" ), vibe_finish },
     { activity_id( "ACT_ATM" ), atm_finish },
@@ -301,17 +307,30 @@ static bool check_butcher_cbm( const int roll )
 }
 
 static void butcher_cbm_item( const std::string &what, const tripoint &pos,
-                              const time_point &age, const int roll )
+                              const time_point &age, const int roll, const std::vector<std::string> &flags,
+                              const std::vector<fault_id> &faults )
 {
     if( roll < 0 ) {
         return;
     }
     if( item::find_type( itype_id( what ) )->bionic.has_value() ) {
         item cbm( check_butcher_cbm( roll ) ? what : "burnt_out_bionic", age );
+        for( const std::string &flg : flags ) {
+            cbm.set_flag( flg );
+        }
+        for( const fault_id &flt : faults ) {
+            cbm.faults.emplace( flt );
+        }
         add_msg( m_good, _( "You discover a %s!" ), cbm.tname() );
         g->m.add_item( pos, cbm );
     } else if( check_butcher_cbm( roll ) ) {
         item something( what, age );
+        for( const std::string &flg : flags ) {
+            something.set_flag( flg );
+        }
+        for( const fault_id &flt : faults ) {
+            something.faults.emplace( flt );
+        }
         add_msg( m_good, _( "You discover a %s!" ), something.tname() );
         g->m.add_item( pos, something );
     } else {
@@ -320,7 +339,8 @@ static void butcher_cbm_item( const std::string &what, const tripoint &pos,
 }
 
 static void butcher_cbm_group( const std::string &group, const tripoint &pos,
-                               const time_point &age, const int roll )
+                               const time_point &age, const int roll, const std::vector<std::string> flags,
+                               const std::vector<fault_id> faults )
 {
     if( roll < 0 ) {
         return;
@@ -330,12 +350,24 @@ static void butcher_cbm_group( const std::string &group, const tripoint &pos,
     if( check_butcher_cbm( roll ) ) {
         //The CBM works
         const auto spawned = g->m.put_items_from_loc( group, pos, age );
-        for( const auto &it : spawned ) {
+        for( item *it : spawned ) {
+            for( const std::string &flg : flags ) {
+                it->set_flag( flg );
+            }
+            for( const fault_id &flt : faults ) {
+                it->faults.emplace( flt );
+            }
             add_msg( m_good, _( "You discover a %s!" ), it->tname() );
         }
     } else {
         //There is a burnt out CBM
         item cbm( "burnt_out_bionic", age );
+        for( const std::string &flg : flags ) {
+            cbm.set_flag( flg );
+        }
+        for( const fault_id &flt : faults ) {
+            cbm.faults.emplace( flt );
+        }
         add_msg( m_good, _( "You discover a %s!" ), cbm.tname() );
         g->m.add_item( pos, cbm );
     }
@@ -778,7 +810,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
         // BIONIC handling - no code for DISSECT to let the bionic drop fall through
         if( entry.type == "bionic" || entry.type == "bionic_group" ) {
             if( action == F_DRESS ) {
-                if( entry.drop == "pheromone" ) {
+                if( drop != nullptr && !drop->bionic ) {
                     if( one_in( 3 ) ) {
                         p.add_msg_if_player( m_bad,
                                              _( "You notice some strange organs, perhaps harvestable via careful dissection." ) );
@@ -790,7 +822,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 continue;
             }
             if( action == BUTCHER || action == BUTCHER_FULL || action == DISMEMBER ) {
-                if( entry.drop == "pheromone" ) {
+                if( drop != nullptr && !drop->bionic ) {
                     if( one_in( 3 ) ) {
                         p.add_msg_if_player( m_bad,
                                              _( "Your butchering tool destroys a strange organ.  Perhaps a more surgical approach would allow harvesting it." ) );
@@ -820,9 +852,9 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             roll = std::min( entry.max, roll );
             add_msg( m_debug, _( "Roll penalty for corpse damage = %s" ), 0 - corpse_item->damage_level( 4 ) );
             if( entry.type == "bionic" ) {
-                butcher_cbm_item( entry.drop, p.pos(), calendar::turn, roll );
+                butcher_cbm_item( entry.drop, p.pos(), calendar::turn, roll, entry.flags, entry.faults );
             } else if( entry.type == "bionic_group" ) {
-                butcher_cbm_group( entry.drop, p.pos(), calendar::turn, roll );
+                butcher_cbm_group( entry.drop, p.pos(), calendar::turn, roll, entry.flags, entry.faults );
             }
             continue;
         }
@@ -935,8 +967,14 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
                 }
+                for( const std::string &flg : entry.flags ) {
+                    obj.set_flag( flg );
+                }
+                for( const fault_id &flt : entry.faults ) {
+                    obj.faults.emplace( flt );
+                }
                 liquid_handler::handle_all_liquid( obj, 1 );
-            } else if( drop->stackable ) {
+            } else if( drop->count_by_charges() ) {
                 item obj( drop, calendar::turn, roll );
                 if( obj.has_temperature() ) {
                     obj.set_item_temperature( 0.00001 * corpse_item->temperature );
@@ -944,9 +982,15 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
                 }
+                for( const std::string &flg : entry.flags ) {
+                    obj.set_flag( flg );
+                }
+                for( const fault_id &flt : entry.faults ) {
+                    obj.faults.emplace( flt );
+                }
                 g->m.add_item_or_charges( p.pos(), obj );
             } else {
-                item obj( drop, calendar::turn, roll );
+                item obj( drop, calendar::turn );
                 obj.set_mtype( &mt );
                 if( obj.has_temperature() ) {
                     obj.set_item_temperature( 0.00001 * corpse_item->temperature );
@@ -954,11 +998,16 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
                 }
+                for( const std::string &flg : entry.flags ) {
+                    obj.set_flag( flg );
+                }
+                for( const fault_id &flt : entry.faults ) {
+                    obj.faults.emplace( flt );
+                }
                 for( int i = 0; i != roll; ++i ) {
                     g->m.add_item_or_charges( p.pos(), obj );
                 }
             }
-
             p.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ) );
         }
         practice++;
@@ -1056,8 +1105,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     item &corpse_item = *target;
     std::list<item> contents = corpse_item.contents;
     const mtype *corpse = corpse_item.get_mtype();
-    const field_id type_blood = corpse->bloodType();
-    const field_id type_gib = corpse->gibType();
+    const field_type_id type_blood = corpse->bloodType();
+    const field_type_id type_gib = corpse->gibType();
 
     if( action == QUARTER ) {
         butchery_quarter( &corpse_item, *p );
@@ -1736,6 +1785,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     ///\EFFECT_STR increases pulping power, with diminishing returns
     float pulp_power = sqrt( ( p->str_cur + p->weapon.damage_melee( DT_BASH ) ) *
                              ( cut_power + 1.0f ) );
+    float pulp_effort = p->str_cur + p->weapon.damage_melee( DT_BASH );
     // Multiplier to get the chance right + some bonus for survival skill
     pulp_power *= 40 + p->get_skill_level( skill_survival ) * 5;
 
@@ -1748,7 +1798,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
         const mtype *corpse_mtype = corpse.get_mtype();
         if( !corpse.is_corpse() || !corpse_mtype->has_flag( MF_REVIVES ) ||
             ( std::find( act->str_values.begin(), act->str_values.end(), "auto_pulp_no_acid" ) !=
-              act->str_values.end() && corpse_mtype->bloodType() == fd_acid ) ) {
+              act->str_values.end() && corpse_mtype->bloodType().obj().has_acid ) ) {
             // Don't smash non-rezing corpses //don't smash acid zombies when auto pulping
             continue;
         }
@@ -1767,14 +1817,13 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 // Splatter a bit more randomly, so that it looks cooler
                 const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
                 const tripoint dest( pos.x + rng( -radius, radius ), pos.y + rng( -radius, radius ), pos.z );
-                const field_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
-                                            corpse.get_mtype()->gibType() :
-                                            corpse.get_mtype()->bloodType();
+                const field_type_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
+                                                 corpse.get_mtype()->gibType() :
+                                                 corpse.get_mtype()->bloodType();
                 g->m.add_splatter_trail( type_blood, pos, dest );
             }
 
-            p->mod_stat( "stamina", -pulp_power - static_cast<int>
-                         ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) );
+            p->mod_stat( "stamina", -pulp_effort );
 
             if( one_in( 4 ) ) {
                 // Smashing may not be butchery, but it involves some zombie anatomy
@@ -1783,6 +1832,10 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
 
             float stamina_ratio = static_cast<float>( p->stamina ) / p->get_stamina_max();
             moves += 100 / std::max( 0.25f, stamina_ratio );
+            if( stamina_ratio < 0.33 ) {
+                p->moves = std::min( 0, p->moves - moves );
+                return;
+            }
             if( moves >= p->moves ) {
                 // Enough for this turn;
                 p->moves -= moves;
@@ -1826,7 +1879,8 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     item &reloadable = *act->targets[ 0 ];
     item &ammo = *act->targets[1];
     const int qty = act->index;
-    const bool is_speedloader = act->targets[ 1 ]->has_flag( "SPEEDLOADER" );
+    const bool is_speedloader = ammo.has_flag( "SPEEDLOADER" );
+    const bool is_bolt = ammo.ammo_type() == ammotype( "bolt" );
 
     if( !reloadable.reload( *p, std::move( act->targets[ 1 ] ), qty ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable.tname() );
@@ -1840,7 +1894,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
         if( reloadable.has_flag( "RELOAD_ONE" ) && !is_speedloader ) {
             for( int i = 0; i != qty; ++i ) {
-                if( ammo.ammo_type() == ammotype( "bolt" ) )  {
+                if( is_bolt ) {
                     msg = _( "You insert a bolt into the %s." );
                 } else {
                     msg = _( "You insert a cartridge into the %s." );
@@ -2663,7 +2717,6 @@ void activity_handlers::drive_do_turn( player_activity *act, player *p )
 
 void activity_handlers::travel_do_turn( player_activity *act, player *p )
 {
-    const activity_id act_travel = activity_id( "ACT_TRAVELLING" );
     if( !p->omt_path.empty() ) {
         p->omt_path.pop_back();
         if( p->omt_path.empty() ) {
@@ -2673,7 +2726,7 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
             return;
         }
         tripoint sm_tri = g->m.getlocal( sm_to_ms_copy( omt_to_sm_copy( p->omt_path.back() ) ) );
-        tripoint centre_sub = tripoint( sm_tri.x + SEEX / 2, sm_tri.y + SEEY / 2, sm_tri.z );
+        tripoint centre_sub = tripoint( sm_tri.x + SEEX, sm_tri.y + SEEY, sm_tri.z );
         if( !g->m.passable( centre_sub ) ) {
             auto candidates = g->m.points_in_radius( centre_sub, 2 );
             for( const auto &elem : candidates ) {
@@ -2686,6 +2739,7 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
         const auto route_to = g->m.route( p->pos(), centre_sub, p->get_pathfinding_settings(),
                                           p->get_path_avoid() );
         if( !route_to.empty() ) {
+            const activity_id act_travel = activity_id( "ACT_TRAVELLING" );
             p->set_destination( route_to, player_activity( act_travel ) );
         } else {
             p->add_msg_if_player( _( "You cannot reach that destination" ) );
@@ -2696,7 +2750,6 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
     g->draw();
     act->set_to_null();
 }
-
 
 void activity_handlers::armor_layers_do_turn( player_activity *, player *p )
 {
@@ -2746,8 +2799,7 @@ void activity_handlers::fish_do_turn( player_activity *act, player *p )
         survival_skill += dice( 4, 9 );
         survival_skill *= 2;
     }
-    const tripoint fish_pos = act->placement;
-    std::vector<monster *> fishables = g->get_fishable( 60, fish_pos );
+    std::vector<monster *> fishables = g->get_fishable_monsters( act->coord_set );
     // Fish are always there, even if it dosnt seem like they are visible!
     if( fishables.empty() ) {
         fish_chance += survival_skill / 2;
@@ -2855,20 +2907,27 @@ void activity_handlers::wait_npc_finish( player_activity *act, player *p )
 
 void activity_handlers::wait_stamina_do_turn( player_activity *act, player *p )
 {
-    if( p->stamina == p->get_stamina_max() ) {
+    int stamina_threshold = p->get_stamina_max();
+    if( !act->values.empty() ) {
+        stamina_threshold = act->values.front();
+    }
+    if( p->stamina >= stamina_threshold ) {
         wait_stamina_finish( act, p );
     }
 }
 
 void activity_handlers::wait_stamina_finish( player_activity *act, player *p )
 {
-    // in case it takes longer then expected
-    if( p->stamina != p->get_stamina_max() ) {
+    if( !act->values.empty() ) {
+        if( p->stamina < act->values.front() ) {
+            debugmsg( "Failed to wait until stamina threshold %d reached, only at %d. You may not be regaining stamina.",
+                      act->values.front(), p->stamina );
+        }
+    } else if( p->stamina < p->get_stamina_max() ) {
         p->add_msg_if_player( _( "You are bored of waiting, so you stop." ) );
-        act->set_to_null();
-        return;
+    } else {
+        p->add_msg_if_player( _( "You finish waiting and feel refreshed." ) );
     }
-    p->add_msg_if_player( _( "You finish waiting and feel refreshed." ) );
     act->set_to_null();
 }
 
@@ -2890,10 +2949,200 @@ void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
     }
 }
 
+void activity_handlers::operation_do_turn( player_activity *act, player *p )
+{
+    /**
+    - values[0]: Difficulty
+    - values[1]: success
+    - values[2]: max_power_level
+    - values[3]: pl_skill
+    - values[4] and above: occupied body_parts
+    - str_values[0]: install/uninstall
+    - str_values[1]: cbm name
+    - str_values[2]: bionic_id
+    - str_values[3]: upgraded cbm name
+    - str_values[4]: upgraded cbm bionic_id
+    - str_values[5]: installer name
+    - str_values[6]: bool autodoc
+    - str_values[7] and above: traits removed by the cbm
+    */
+    enum operation_values_ids {
+        operation_type = 0,
+        cbm_name = 1,
+        cbm_id = 2,
+        upgraded_cbm_name = 3,
+        upgraded_cbm_id = 4,
+        installer_name = 5,
+        is_autodoc = 6,
+        trait_first = 7
+    };
+    const bool autodoc = act->str_values[is_autodoc] == "true";
+    const bool u_see = p->is_player() ? true : g->u.sees( p->pos() ) &&
+                       !g->u.has_effect( effect_narcosis );
+
+    const int difficulty = act->values.front();
+
+    const time_duration half_op_duration = difficulty * 10_minutes;
+    time_duration time_left = time_duration::from_turns( act->moves_left / 100 ) ;
+
+    if( autodoc ) {
+        const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
+                                             furn_str_id( "f_autodoc" ) );
+
+        if( g->m.furn( p->pos() ) != furn_str_id( "f_autodoc_couch" ) || autodocs.empty() ) {
+            p->remove_effect( effect_under_op );
+            act->set_to_null();
+
+            if( u_see ) {
+                add_msg( m_bad, _( "The autodoc suffers a catastrophic failure." ) );
+
+                p->add_msg_player_or_npc( m_bad,
+                                          _( "The Autodoc's failure damages you greatly." ),
+                                          _( "The Autodoc's failure damages <npcname> greatly." ) );
+            }
+
+            if( act->values.size() > 4 ) {
+                for( size_t i = 4; i < act->values.size(); i++ ) {
+                    p->add_effect( effect_bleed, 1_turns, body_part( act->values[i] ), true, difficulty );
+                    p->apply_damage( nullptr, body_part( act->values[i] ), 20 * difficulty );
+
+                    if( u_see ) {
+                        p->add_msg_player_or_npc( m_bad, _( "Your %s is ripped open." ),
+                                                  _( "<npcname>'s %s is ripped open." ),
+                                                  body_part_name_accusative( body_part( act->values[i] ) ) );
+                    }
+
+                    if( body_part( act->values[i] ) == bp_eyes ) {
+                        p->add_effect( effect_blind, 1_hours, num_bp );
+                    }
+                    p->remove_effect( effect_under_op, body_part( act->values[i] ) );
+                }
+            } else {
+                p->add_effect( effect_bleed, 1_turns, num_bp, true, difficulty );
+                p->apply_damage( nullptr, num_bp, 20 * difficulty );
+            }
+        }
+    }
+
+    if( time_left > half_op_duration ) {
+        if( act->values.size() > 4 ) {
+            for( size_t i = 4; i < act->values.size(); i++ ) {
+                if( calendar::once_every( 5_minutes ) && u_see && autodoc ) {
+                    p->add_msg_player_or_npc( m_info,
+                                              _( "The Autodoc is meticulously cutting your %s open." ),
+                                              _( "The Autodoc is meticulously cutting <npcname>'s %s open." ),
+                                              body_part_name_accusative( body_part( act->values[i] ) ) );
+                }
+            }
+        } else {
+            if( calendar::once_every( 5_minutes ) && u_see ) {
+                p->add_msg_player_or_npc( m_info,
+                                          _( "The Autodoc is meticulously cutting you open." ),
+                                          _( "The Autodoc is meticulously cutting <npcname> open." ) );
+            }
+        }
+    } else if( time_left == half_op_duration ) {
+        if( act->str_values[operation_type] == "uninstall" ) {
+            if( u_see && autodoc ) {
+                add_msg( m_info, _( "The Autodoc attempts to carefully extract the bionic." ) );
+            }
+
+            if( p->has_bionic( bionic_id( act->str_values[cbm_id] ) ) ) {
+                p->perform_uninstall( bionic_id( act->str_values[cbm_id] ), act->values[0], act->values[1],
+                                      act->values[2], act->values[3], act->str_values[cbm_name] );
+            } else {
+                debugmsg( _( "Tried to uninstall %s, but you don't have this bionic installed." ),
+                          act->str_values[cbm_id] );
+                p->remove_effect( effect_under_op );
+                act->set_to_null();
+            }
+        } else {
+            if( u_see && autodoc ) {
+                add_msg( m_info, _( "The Autodoc attempts to carefully insert the bionic." ) );
+            }
+
+            if( bionic_id( act->str_values[cbm_id] ).is_valid() ) {
+                std::vector<trait_id> trait_to_rem;
+                if( act->str_values.size() > trait_first + 1 ) {
+                    for( size_t i = trait_first; i < act->str_values.size(); i++ ) {
+                        trait_to_rem.emplace_back( trait_id( act->str_values[i] ) );
+                    }
+                }
+                p->perform_install( bionic_id( act->str_values[cbm_id] ),
+                                    bionic_id( act->str_values[upgraded_cbm_id] ), act->values[0], act->values[1], act->values[3],
+                                    act->str_values[cbm_name], act->str_values[upgraded_cbm_name], act->str_values[installer_name],
+                                    trait_to_rem );
+            } else {
+                debugmsg( _( "%s is no a valid bionic_id" ), act->str_values[cbm_id] );
+                p->remove_effect( effect_under_op );
+                act->set_to_null();
+            }
+        }
+    } else if( act->values[1] > 0 ) {
+        if( act->values.size() > 4 ) {
+            for( size_t i = 4; i < act->values.size(); i++ ) {
+                if( calendar::once_every( 5_minutes ) && u_see && autodoc ) {
+                    p->add_msg_player_or_npc( m_info,
+                                              _( "The Autodoc is stitching your %s back up." ),
+                                              _( "The Autodoc is stitching <npcname>'s %s back up." ),
+                                              body_part_name_accusative( body_part( act->values[i] ) ) );
+                }
+            }
+        } else {
+            if( calendar::once_every( 5_minutes ) && u_see && autodoc ) {
+                p->add_msg_player_or_npc( m_info,
+                                          _( "The Autodoc is stitching you back up." ),
+                                          _( "The Autodoc is stitching <npcname> back up." ) );
+            }
+        }
+    } else {
+        if( calendar::once_every( 5_minutes ) && u_see && autodoc ) {
+            p->add_msg_player_or_npc( m_bad,
+                                      _( "The Autodoc is moving erratically through the rest of its program, not actually stitching your wounds." ),
+                                      _( "The Autodoc is moving erratically through the rest of its program, not actually stitching <npcname>'s wounds." ) );
+        }
+    }
+    p->set_moves( 0 );
+}
+
 void activity_handlers::try_sleep_finish( player_activity *act, player *p )
 {
     if( !p->has_effect( effect_sleep ) ) {
         p->add_msg_if_player( _( "You try to sleep, but can't..." ) );
+    }
+    act->set_to_null();
+}
+
+void activity_handlers::operation_finish( player_activity *act, player *p )
+{
+    if( act->str_values[6] == "true" ) {
+        if( act->values[1] > 0 ) {
+            add_msg( m_good,
+                     _( "The Autodoc returns to its resting position after successfully performing the operation." ) );
+            const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
+                                                 furn_str_id( "f_autodoc" ) );
+            sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
+                           _( "a short upbeat jingle: \"Operation successful\"" ), true,
+                           "Autodoc",
+                           "success" );
+        } else {
+            add_msg( m_bad,
+                     _( "The Autodoc jerks back to its resting position after failing the operation." ) );
+            const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
+                                                 furn_str_id( "f_autodoc" ) );
+            sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
+                           _( "a sad beeping noise: \"Operation failed\"" ), true,
+                           "Autodoc",
+                           "failure" );
+        }
+    } else {
+        if( act->values[1] > 0 ) {
+            add_msg( m_good,
+                     _( "The operation is a success." ) );
+        } else {
+            add_msg( m_bad,
+                     _( "The operation is a failure." ) );
+        }
     }
     act->set_to_null();
 }
@@ -3204,45 +3453,45 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
 
     if( g->m.furn( pos ) == f_rack ) {
         g->m.furn_set( pos, f_null );
-        g->m.spawn_item( pos, "pipe", rng( 1, 3 ) );
-        g->m.spawn_item( pos, "steel_chunk" );
+        g->m.spawn_item( p->pos(), "pipe", rng( 1, 3 ) );
+        g->m.spawn_item( p->pos(), "steel_chunk" );
     } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l ) {
         g->m.ter_set( pos, t_dirt );
-        g->m.spawn_item( pos, "pipe", 6 );
-        g->m.spawn_item( pos, "wire", 20 );
+        g->m.spawn_item( p->pos(), "pipe", 6 );
+        g->m.spawn_item( p->pos(), "wire", 20 );
     } else if( ter == t_chainfence_posts ) {
         g->m.ter_set( pos, t_dirt );
-        g->m.spawn_item( pos, "pipe", 6 );
+        g->m.spawn_item( p->pos(), "pipe", 6 );
     } else if( ter == t_window_bars_alarm ) {
         g->m.ter_set( pos, t_window_alarm );
-        g->m.spawn_item( pos, "pipe", 6 );
+        g->m.spawn_item( p->pos(), "pipe", 6 );
     } else if( ter == t_window_bars ) {
         g->m.ter_set( pos, t_window_empty );
-        g->m.spawn_item( pos, "pipe", 6 );
+        g->m.spawn_item( p->pos(), "pipe", 6 );
     } else if( ter == t_window_enhanced ) {
         g->m.ter_set( pos, t_window_reinforced );
-        g->m.spawn_item( pos, "spike", rng( 1, 4 ) );
+        g->m.spawn_item( p->pos(), "spike", rng( 1, 4 ) );
     } else if( ter == t_window_enhanced_noglass ) {
         g->m.ter_set( pos, t_window_reinforced_noglass );
-        g->m.spawn_item( pos, "spike", rng( 1, 4 ) );
+        g->m.spawn_item( p->pos(), "spike", rng( 1, 4 ) );
     } else if( ter == t_reb_cage ) {
         g->m.ter_set( pos, t_pit );
-        g->m.spawn_item( pos, "spike", 19 );
-        g->m.spawn_item( pos, "scrap", 8 );
+        g->m.spawn_item( p->pos(), "spike", 19 );
+        g->m.spawn_item( p->pos(), "scrap", 8 );
     } else if( ter == t_bars ) {
         if( g->m.ter( { pos.x + 1, pos.y, pos.z } ) == t_sewage || g->m.ter( { pos.x, pos.y + 1, pos.z } )
             == t_sewage ||
             g->m.ter( { pos.x - 1, pos.y, pos.z } ) == t_sewage || g->m.ter( { pos.x, pos.y - 1, pos.z } ) ==
             t_sewage ) {
             g->m.ter_set( pos, t_sewage );
-            g->m.spawn_item( pos, "pipe", 3 );
+            g->m.spawn_item( p->pos(), "pipe", 3 );
         } else {
             g->m.ter_set( pos, t_floor );
-            g->m.spawn_item( pos, "pipe", 3 );
+            g->m.spawn_item( p->pos(), "pipe", 3 );
         }
     } else if( ter == t_door_bar_c || ter == t_door_bar_locked ) {
         g->m.ter_set( pos, t_mdoor_frame );
-        g->m.spawn_item( pos, "pipe", 12 );
+        g->m.spawn_item( p->pos(), "pipe", 12 );
     }
 
     p->mod_stored_nutr( 5 );
@@ -4027,7 +4276,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
             std::vector<tripoint> trajectory = th.target_ui( casting, no_fail, no_mana );
             if( !trajectory.empty() ) {
                 target = trajectory.back();
-                target_is_valid = casting.is_valid_target( target );
+                target_is_valid = casting.is_valid_target( *p, target );
                 if( !( casting.is_valid_target( target_ground ) || p->sees( target ) ) ) {
                     target_is_valid = false;
                 }
@@ -4063,39 +4312,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
     p->add_msg_if_player( _( "You cast %s!" ), casting.name() );
 
-    // figure out which function is the effect (maybe change this into how iuse or activity_handlers does it)
-    // TODO: refactor these so make_sound can be called inside each of these functions
-    const std::string fx = casting.effect();
-    if( fx == "pain_split" ) {
-        spell_effect::pain_split();
-        casting.make_sound( p->pos() );
-    } else if( fx == "move_earth" ) {
-        spell_effect::move_earth( target );
-        casting.make_sound( target );
-    } else if( fx == "target_attack" ) {
-        spell_effect::target_attack( casting, p->pos(), target );
-    } else if( fx == "projectile_attack" ) {
-        spell_effect::projectile_attack( casting, p->pos(), target );
-    } else if( fx == "cone_attack" ) {
-        spell_effect::cone_attack( casting, p->pos(), target );
-    } else if( fx == "line_attack" ) {
-        spell_effect::line_attack( casting, p->pos(), target );
-    } else if( fx == "teleport_random" ) {
-        spell_effect::teleport( casting.range(), casting.range() + casting.aoe() );
-        casting.make_sound( p->pos() );
-    } else if( fx == "spawn_item" ) {
-        spell_effect::spawn_ethereal_item( casting );
-        casting.make_sound( p->pos() );
-    } else if( fx == "recover_energy" ) {
-        spell_effect::recover_energy( casting, target );
-        casting.make_sound( target );
-    } else if( fx == "summon" ) {
-        spell_effect::spawn_summoned_monster( casting, p->pos(), target );
-    } else if( fx == "translocate" ) {
-        spell_effect::translocate( casting, p->pos(), target, g->u.translocators );
-    } else {
-        debugmsg( "ERROR: Spell effect not defined properly." );
-    }
+    casting.cast_all_effects( *p, target );
+
     if( !no_mana ) {
         // pay the cost
         int cost = casting.energy_cost( *p );
