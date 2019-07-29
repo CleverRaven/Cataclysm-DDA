@@ -2199,14 +2199,14 @@ tripoint game::mouse_edge_scrolling( input_context ctxt, const int speed )
     if( event.type == CATA_INPUT_MOUSE ) {
         const int threshold_x = projected_window_width() / 100;
         const int threshold_y = projected_window_height() / 100;
-        if( event.mouse_x <= threshold_x ) {
+        if( event.mouse_pos.x <= threshold_x ) {
             ret.x -= speed;
-        } else if( event.mouse_x >= projected_window_width() - threshold_x ) {
+        } else if( event.mouse_pos.x >= projected_window_width() - threshold_x ) {
             ret.x += speed;
         }
-        if( event.mouse_y <= threshold_y ) {
+        if( event.mouse_pos.y <= threshold_y ) {
             ret.y -= speed;
-        } else if( event.mouse_y >= projected_window_height() - threshold_y ) {
+        } else if( event.mouse_pos.y >= projected_window_height() - threshold_y ) {
             ret.y += speed;
         }
         last_mouse_edge_scroll_vector = ret;
@@ -3187,9 +3187,9 @@ void game::draw()
     }
 
     //temporary fix for updating visibility for minimap
-    ter_view_z = ( u.pos() + u.view_offset ).z;
-    m.build_map_cache( ter_view_z );
-    m.update_visibility_cache( ter_view_z );
+    ter_view_p.z = ( u.pos() + u.view_offset ).z;
+    m.build_map_cache( ter_view_p.z );
+    m.update_visibility_cache( ter_view_p.z );
 
     werase( w_terrain );
     draw_ter();
@@ -3313,9 +3313,7 @@ void game::draw_ter( const bool draw_sounds )
 
 void game::draw_ter( const tripoint &center, const bool looking, const bool draw_sounds )
 {
-    ter_view_x = center.x;
-    ter_view_y = center.y;
-    ter_view_z = center.z;
+    ter_view_p = center;
     const int posx = center.x;
     const int posy = center.y;
 
