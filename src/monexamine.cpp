@@ -153,99 +153,97 @@ bool monexamine::pet_menu( monster &z )
             amenu.addentry( mount, false, 'r', _( "Despite the saddle, you still don't know how to ride %s" ),
                             pet_name );
         }
-    }
-} else
-{
-    itype_id bat_type = z.type->mech_battery;
-    const itype &type = *item::find_type( bat_type );
-    int max_charge = type.magazine->capacity;
-    float charge_percent;
-    if( z.battery_item ) {
-        charge_percent = ( static_cast<float>( z.battery_item->ammo_remaining() ) / max_charge ) * 100;
     } else {
-        charge_percent = 0.0;
+        itype_id bat_type = z.type->mech_battery;
+        const itype &type = *item::find_type( bat_type );
+        int max_charge = type.magazine->capacity;
+        float charge_percent;
+        if( z.battery_item ) {
+            charge_percent = ( static_cast<float>( z.battery_item->ammo_remaining() ) / max_charge ) * 100;
+        } else {
+            charge_percent = 0.0;
+        }
+        amenu.addentry( check_bat, false, 'c', _( "%s battery level is %d%%" ), z.get_name(),
+                        static_cast<int>( charge_percent ) );
+        if( g->u.weapon.is_null() && z.battery_item ) {
+            amenu.addentry( mount, true, 'r', _( "Climb into the mech and take control" ) );
+        } else if( !g->u.weapon.is_null() ) {
+            amenu.addentry( mount, false, 'r', _( "You cannot pilot the mech whilst wielding something" ) );
+        } else if( !z.battery_item ) {
+            amenu.addentry( mount, false, 'r', _( "This mech has a dead battery and won't turn on" ) );
+        }
+        if( z.battery_item ) {
+            amenu.addentry( remove_bat, true, 'x', _( "Remove the mech's battery pack" ) );
+        } else if( g->u.has_amount( bat_type, 1 ) ) {
+            amenu.addentry( insert_bat, true, 'x', _( "Insert a new battery pack" ) );
+        } else {
+            amenu.addentry( insert_bat, false, 'x', _( "You need a %s to power this mech" ), type.nname( 1 ) );
+        }
     }
-    amenu.addentry( check_bat, false, 'c', _( "%s battery level is %d%%" ), z.get_name(),
-                    static_cast<int>( charge_percent ) );
-    if( g->u.weapon.is_null() && z.battery_item ) {
-        amenu.addentry( mount, true, 'r', _( "Climb into the mech and take control" ) );
-    } else if( !g->u.weapon.is_null() ) {
-        amenu.addentry( mount, false, 'r', _( "You cannot pilot the mech whilst wielding something" ) );
-    } else if( !z.battery_item ) {
-        amenu.addentry( mount, false, 'r', _( "This mech has a dead battery and won't turn on" ) );
-    }
-    if( z.battery_item ) {
-        amenu.addentry( remove_bat, true, 'x', _( "Remove the mech's battery pack" ) );
-    } else if( g->u.has_amount( bat_type, 1 ) ) {
-        amenu.addentry( insert_bat, true, 'x', _( "Insert a new battery pack" ) );
-    } else {
-        amenu.addentry( insert_bat, false, 'x', _( "You need a %s to power this mech" ), type.nname( 1 ) );
-    }
-}
-amenu.query();
-int choice = amenu.ret;
+    amenu.query();
+    int choice = amenu.ret;
 
-switch( choice )
-{
-case swap_pos:
-    swap( z );
-    break;
-case push_zlave:
-    push( z );
-    break;
-case rename:
-    rename_pet( z );
-    break;
-case attach_bag:
-    attach_bag_to( z );
-    break;
-case drop_all:
-    dump_items( z );
-    break;
-case give_items:
-    return give_items_to( z );
-case mon_armor_add:
-    return add_armor( z );
-case mon_harness_remove:
-    remove_harness( z );
-    break;
-case mon_armor_remove:
-    remove_armor( z );
-    break;
-case play_with_pet:
-    if( query_yn( _( "Spend a few minutes to play with your %s?" ), pet_name ) ) {
-        play_with( z );
+    switch( choice )
+    {
+    case swap_pos:
+        swap( z );
+        break;
+    case push_zlave:
+        push( z );
+        break;
+    case rename:
+        rename_pet( z );
+        break;
+    case attach_bag:
+        attach_bag_to( z );
+        break;
+    case drop_all:
+        dump_items( z );
+        break;
+    case give_items:
+        return give_items_to( z );
+    case mon_armor_add:
+        return add_armor( z );
+    case mon_harness_remove:
+        remove_harness( z );
+        break;
+    case mon_armor_remove:
+        remove_armor( z );
+        break;
+    case play_with_pet:
+        if( query_yn( _( "Spend a few minutes to play with your %s?" ), pet_name ) ) {
+            play_with( z );
+        }
+        break;
+    case pheromone:
+        if( query_yn( _( "Really kill the zombie slave?" ) ) ) {
+            kill_zslave( z );
+        }
+        break;
+    case rope:
+        tie_or_untie( z );
+        break;
+    case attach_saddle:
+    case remove_saddle:
+        attach_or_remove_saddle( z );
+        break;
+    case mount:
+        mount_pet( z );
+        break;
+    case milk:
+        milk_source( z );
+        break;
+    case remove_bat:
+        remove_battery( z );
+        break;
+    case insert_bat:
+        insert_battery( z );
+        break;
+    case check_bat:
+    default:
+        break;
     }
-    break;
-case pheromone:
-    if( query_yn( _( "Really kill the zombie slave?" ) ) ) {
-        kill_zslave( z );
-    }
-    break;
-case rope:
-    tie_or_untie( z );
-    break;
-case attach_saddle:
-case remove_saddle:
-    attach_or_remove_saddle( z );
-    break;
-case mount:
-    mount_pet( z );
-    break;
-case milk:
-    milk_source( z );
-    break;
-case remove_bat:
-    remove_battery( z );
-    break;
-case insert_bat:
-    insert_battery( z );
-    break;
-case check_bat:
-default:
-    break;
-}
-return true;
+    return true;
 }
 
 int monexamine::pet_armor_pos( monster &z )
@@ -300,7 +298,7 @@ bool monexamine::mech_hack( monster &z )
     itype_id card_type = "id_military";
     if( g->u.has_amount( card_type, 1 ) ) {
         if( query_yn( _( "Swipe your ID card into the mech's security port?" ) ) ) {
-            g->u.mod_moves( -to_turns<int>( 1_seconds ) );
+            g->u.mod_moves( -100 );
             z.add_effect( effect_pet, 1_turns, num_bp, true );
             z.friendly = -1;
             add_msg( m_good, _( "The %s whirs into life and opens its restraints to accept a pilot." ),
