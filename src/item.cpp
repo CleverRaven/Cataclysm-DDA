@@ -3245,7 +3245,7 @@ void item::on_damage( int, damage_type )
 std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int truncate ) const
 {
     std::stringstream ret;
-    std::string dirt_symbol = to_string( ( int ) get_var( "dirt", 0 ) );
+    std::string dirt_symbol = to_string( static_cast<int>( get_var( "dirt", 0 ) ) );
     // TODO: MATERIALS put this in json
     std::string damtext;
 
