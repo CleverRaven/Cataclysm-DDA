@@ -1942,7 +1942,7 @@ void options_manager::add_options_world_default()
 
     add( "INITIAL_DAY", "world_default", translate_marker( "Initial day" ),
          translate_marker( "How many days into the year the cataclysm occurred. Day 0 is Spring 1. Can be overridden by scenarios. This does not advance food rot or monster evolution." ),
-         0, 999, 0
+         0, 999, 30
        );
 
     add( "SPAWN_DELAY", "world_default", translate_marker( "Spawn delay" ),
