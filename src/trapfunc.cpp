@@ -321,7 +321,7 @@ void trapfunc::tripwire( const tripoint &p, Creature *c, item * )
         if( c == &g->u ) {
             g->update_map( g->u );
         }
-        if( !n->has_effect( effect_riding ) ) {
+        if( !n->is_mounted() ) {
             ///\EFFECT_DEX decreases chance of taking damage from a tripwire trap
             if( rng( 5, 20 ) > n->dex_cur ) {
                 n->hurtall( rng( 1, 4 ), nullptr );

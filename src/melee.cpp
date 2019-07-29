@@ -389,7 +389,7 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
         // TODO: Per-NPC tracking? Right now monster hit by either npc or player will draw aggro...
         t.add_effect( effect_hit_by_player, 10_minutes ); // Flag as attacked by us for AI
     }
-    if( has_effect( effect_riding ) && mounted_creature != nullptr ) {
+    if( is_mounted() ) {
         auto mons = mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
             if( !mons->check_mech_powered() ) {

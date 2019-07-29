@@ -317,8 +317,8 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         return 0;
     }
     bool is_mech_weapon = false;
-    if( has_effect( effect_riding ) && mounted_creature &&
-        mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) ) {
+    if( is_mounted() &&
+        mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
         is_mech_weapon = true;
     }
     // Number of shots to fire is limited by the amount of remaining ammo
@@ -543,7 +543,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
                                + ( weight / 10_gram ) + 200 ) * -1;
     bool throw_assist = false;
     int throw_assist_str = 0;
-    if( has_effect( effect_riding ) && mounted_creature ) {
+    if( is_mounted() ) {
         auto mons = mounted_creature.get();
         if( mons->type->mech_str_bonus != 0 ) {
             throw_assist = true;

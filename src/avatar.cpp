@@ -1391,7 +1391,7 @@ void avatar::reset_stats()
     }
     // depending on mounts size, attacks will hit the mount and use their dodge rating.
     // if they hit the player, the player cannot dodge as effectively.
-    if( has_effect( effect_riding ) ) {
+    if( is_mounted() ) {
         mod_dodge_bonus( -4 );
     }
     // Spider hair is basically a full-body set of whiskers, once you get the brain for it

@@ -1296,6 +1296,9 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
 
 bool map::can_move_furniture( const tripoint &pos, player *p )
 {
+    if( !p ) {
+        return false;
+    }
     const furn_t &furniture_type = furn( pos ).obj();
     int required_str = furniture_type.move_str_req;
 
@@ -1306,13 +1309,13 @@ bool map::can_move_furniture( const tripoint &pos, player *p )
 
     ///\EFFECT_STR determines what furniture the player can move
     int adjusted_str = p->str_cur;
-    if( p->has_effect( effect_riding ) && p->mounted_creature ) {
+    if( p->is_mounted() ) {
         auto mons = p->mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->type->mech_str_bonus != 0 ) {
             adjusted_str = mons->type->mech_str_bonus;
         }
     }
-    if( p != nullptr && adjusted_str < required_str ) {
+    if( adjusted_str < required_str ) {
         return false;
     }
 

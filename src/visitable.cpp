@@ -854,7 +854,7 @@ int visitable<Character>::charges_of( const std::string &what, int limit,
         if( p && p->has_active_bionic( bionic_id( "bio_ups" ) ) ) {
             qty = sum_no_wrap( qty, p->power_level );
         }
-        if( p && p->has_effect( effect_riding ) && p->mounted_creature ) {
+        if( p && p->is_mounted() ) {
             auto mons = p->mounted_creature.get();
             if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->battery_item ) {
                 qty = sum_no_wrap( qty, mons->battery_item->ammo_remaining() );

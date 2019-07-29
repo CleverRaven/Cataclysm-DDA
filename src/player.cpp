@@ -1572,7 +1572,7 @@ int player::run_cost( int base_cost, bool diag ) const
         }
     }
 
-    if( !has_effect( effect_riding ) ) {
+    if( !is_mounted() ) {
         if( movecost > 100 ) {
             movecost *= Character::mutation_value( "movecost_obstacle_modifier" );
             if( movecost < 100 ) {
@@ -1690,7 +1690,7 @@ int player::run_cost( int base_cost, bool diag ) const
 int player::swim_speed() const
 {
     int ret;
-    if( has_effect( effect_riding ) && mounted_creature != nullptr ) {
+    if( is_mounted() ) {
         monster *mon = mounted_creature.get();
         // no difference in swim speed by monster type yet.
         // TODO : difference in swim speed by monster type.
@@ -2368,8 +2368,8 @@ int player::overmap_sight_range( int light_level ) const
     float multiplier = Character::mutation_value( "overmap_multiplier" );
     // Binoculars double your sight range.
     const bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( bio_eye_optic ) ||
-                             ( has_effect( effect_riding ) && mounted_creature &&
-                               mounted_creature.get()->has_flag( MF_MECH_RECON_VISION ) ) );
+                             ( is_mounted() &&
+                               mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) );
     if( has_optic ) {
         multiplier += 1;
     }
@@ -2551,9 +2551,8 @@ void player::set_movement_mode( const player_movemode new_mode )
 {
     switch( new_mode ) {
         case PMM_WALK: {
-            if( has_effect( effect_riding ) && mounted_creature ) {
-                auto mon = mounted_creature.get();
-                if( mon->has_flag( MF_RIDEABLE_MECH ) ) {
+            if( is_mounted() ) {
+                if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
                     add_msg( _( "You set your mech's leg power to a loping fast walk." ) );
                 } else {
                     add_msg( _( "You nudge your steed into a steady trot." ) );
@@ -2568,9 +2567,8 @@ void player::set_movement_mode( const player_movemode new_mode )
                 if( is_hauling() ) {
                     stop_hauling();
                 }
-                if( has_effect( effect_riding ) && mounted_creature ) {
-                    auto mon = mounted_creature.get();
-                    if( mon->has_flag( MF_RIDEABLE_MECH ) ) {
+                if( is_mounted() ) {
+                    if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
                         add_msg( _( "You set the power of your mech's leg servos to maximum." ) );
                     } else {
                         add_msg( _( "You spur your steed into a gallop." ) );
@@ -2579,7 +2577,7 @@ void player::set_movement_mode( const player_movemode new_mode )
                     add_msg( _( "You start running." ) );
                 }
             } else {
-                if( has_effect( effect_riding ) ) {
+                if( is_mounted() ) {
                     // mounts dont currently have stamina, but may do in future.
                     add_msg( m_bad, _( "Your steed is too tired to go faster." ) );
                 } else {
@@ -2589,9 +2587,8 @@ void player::set_movement_mode( const player_movemode new_mode )
             break;
         }
         case PMM_CROUCH: {
-            if( has_effect( effect_riding ) && mounted_creature ) {
-                auto mon = mounted_creature.get();
-                if( mon->has_flag( MF_RIDEABLE_MECH ) ) {
+            if( is_mounted() ) {
+                if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
                     add_msg( _( "You reduce the power of your mech's leg servos to minimum." ) );
                 } else {
                     add_msg( _( "You slow your steed to a walk." ) );
@@ -6898,7 +6895,7 @@ std::list<item> player::use_charges( const itype_id &what, int qty,
             mounted_creature.get()->battery_item ) {
             auto mons = mounted_creature.get();
             int power_drain = std::min( mons->battery_item->ammo_remaining(), qty );
-            mons->mod_mech_power( -power_drain );
+            mons->use_mech_power( -power_drain );
             qty -= std::min( qty, power_drain );
         }
         if( power_level > 0 && has_active_bionic( bio_ups ) ) {
@@ -6983,11 +6980,6 @@ int player::amount_worn( const itype_id &id ) const
         }
     }
     return amount;
-}
-
-bool player::is_mounted()
-{
-    return has_effect( effect_riding ) && mounted_creature;
 }
 
 bool player::has_charges( const itype_id &it, int quantity,
@@ -11126,7 +11118,7 @@ void player::forced_dismount()
 
 void player::dismount()
 {
-    if( has_effect( effect_riding ) && mounted_creature != nullptr ) {
+    if( is_mounted() ) {
         if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Dismount where?" ) ) ) {
             if( g->is_empty( *pnt ) ) {
                 tripoint temp_pt = *pnt;
