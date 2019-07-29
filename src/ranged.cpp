@@ -198,9 +198,7 @@ bool player::handle_gun_damage( item &it, int shots_fired )
     }
     if( ( it.dirt > 100 && one_in( ( 600 - it.dirt ) / ( 40 - malfunctionreduction ) ) ) ||
         it.has_fault( fault_gun_clogged ) ) {
-        if( !it.has_fault( fault_gun_clogged ) ) {
             it.faults.insert( fault_gun_clogged );
-        }
         if( it.has_fault( fault_gun_blackpowder ) ) {
             it.faults.erase( fault_gun_blackpowder );
         }
@@ -218,14 +216,6 @@ bool player::handle_gun_damage( item &it, int shots_fired )
             it.inc_damage();
         }
         return false;
-    }
-    if( it.damage() < it.max_damage() && bp_jam_occurred_this_turn != 1 && it.dirt > 350 &&
-        one_in( ( ( 650 - it.dirt ) ) / ( 40 - malfunctionreduction ) ) ) {
-        add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the blackpowder fouling accumulation!" ),
-                               _( "<npcname>'s %s is damaged by the blackpowder fouling accumulation!" ),
-                               it.tname() );
-        // Don't increment until after the message
-        it.inc_damage();
     }
     // Here we check if we're underwater and whether we should misfire.
     // As a result this causes no damage to the firearm, note that some guns are waterproof
