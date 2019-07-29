@@ -1435,7 +1435,7 @@
     "name": "briefcase",
     "description": "Useful for carrying money, documents, or smuggled goods.",
     "weight": 1700,
-    "volume": 6,
+    "volume": 60,
     "price": 24000,
     "to_hit": -2,
     "bashing": 5,
@@ -1445,7 +1445,7 @@
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 10,
     "encumbrance": 30,
-    "storage": 24,
+    "storage": 60,
     "material_thickness": 2,
     "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
