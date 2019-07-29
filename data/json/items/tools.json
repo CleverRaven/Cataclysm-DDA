@@ -6117,7 +6117,7 @@
       "sound_volume": 0,
       "sound_msg": "Kshhh.",
       "no_deactivate_msg": "You've already lit the fuse - throw it!",
-      "explosion": { "power": 88, "shrapnel": { "casing_mass": 3, "fragment_mass": 0.12 } },
+      "explosion": { "power": 88, "shrapnel": { "casing_mass": 3, "fragment_mass": 0.12 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
   },
