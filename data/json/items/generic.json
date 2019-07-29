@@ -1035,7 +1035,7 @@
   {
     "type": "GENERIC",
     "id": "broken_mech_recon",
-    "name": "broken mech recon",
+    "name": "broken recon mech",
     "description": "This is a broken mech exoskeleton suit, it looks beyond repair.",
     "weight": 700388,
     "volume": 500,
