@@ -57,6 +57,7 @@ const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_pushed( "pushed" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_harnessed( "harnessed" );
+const efftype_id effect_in_pit( "in_pit" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id BLOB( "BLOB" );
@@ -1392,7 +1393,8 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
 
     // TODO: Generalize this to Creature
     monster *const critter = g->critter_at<monster>( p );
-    if( critter == nullptr || critter == this || p == pos() ) {
+    if( critter == nullptr || critter == this ||
+        p == pos() || critter->has_effect( effect_in_pit ) ) {
         return false;
     }
 
