@@ -1068,7 +1068,7 @@
     "name": "broken combat mech",
     "description": "This is a broken mech exoskeleton suit, it looks beyond repair.",
     "weight": 1480388,
-    "volume": 1000,
+    "volume": "250 L",
     "price": 1000,
     "to_hit": -3,
     "bashing": 8,
