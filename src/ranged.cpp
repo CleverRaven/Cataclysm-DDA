@@ -167,7 +167,7 @@ bool player::handle_gun_damage( item &it, int shots_fired )
     int bp_jam_occurred_this_turn = 0;
     int dirt = it.get_var( "dirt", 0 );
     int last_fired = it.get_var( "last_fired", 0 );
-    int just_unclogged = it.get_var("just_unclogged", 0);
+    int just_unclogged = it.get_var( "just_unclogged", 0 );
     const auto &curammo_effects = it.ammo_effects();
     const cata::optional<islot_gun> &firing = it.type->gun;
     const std::string thistimefired = to_string_time_of_day( calendar::turn );
@@ -196,12 +196,16 @@ bool player::handle_gun_damage( item &it, int shots_fired )
     if( it.has_flag( "PUMP_ACTION" ) || it.has_flag( "MANUAL_ACTION" ) ) {
         malfunctionreduction = 30;
     }
-    if( ( it.type->gun->ammo.count( ammotype( "flintlock" ) ) ) || ( it.type->gun->ammo.count( ammotype( "flintlock" ) ) ) ) {
-            malfunctionreduction = 39;
+    if( ( it.type->gun->ammo.count( ammotype( "flintlock" ) ) ) ||
+        ( it.type->gun->ammo.count( ammotype( "blunderbuss" ) ) ) ||
+        ( it.type->gun->ammo.count( ammotype( "36paper" ) ) ) ||
+        ( it.type->gun->ammo.count( ammotype( "44paper" ) ) ) ) {
+        malfunctionreduction = 39;
     }
-    if( ( just_unclogged != 1 && dirt > 100 && one_in( ( 600 - dirt ) / ( 40 - malfunctionreduction ) ) ) ||
+    if( ( just_unclogged != 1 && dirt > 100 &&
+          one_in( ( 600 - dirt ) / ( 40 - malfunctionreduction ) ) ) ||
         it.has_fault( fault_gun_clogged ) ) {
-            it.faults.insert( fault_gun_clogged );
+        it.faults.insert( fault_gun_clogged );
         if( it.has_fault( fault_gun_blackpowder ) ) {
             it.faults.erase( fault_gun_blackpowder );
         }
@@ -211,7 +215,7 @@ bool player::handle_gun_damage( item &it, int shots_fired )
                                it.tname() );
         return false;
     }
-        // chance to damage gun:
+    // chance to damage gun:
     if( it.damage() < it.max_damage() && bp_jam_occurred_this_turn != 1 && dirt > 350 &&
         one_in( ( ( 2000 - dirt ) ) / ( 40 - malfunctionreduction ) ) ) {
         add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the blackpowder charge!" ),
@@ -312,7 +316,7 @@ bool player::handle_gun_damage( item &it, int shots_fired )
     if( curammo_effects.count( "MUZZLE_SMOKE" ) || curammo_effects.count( "BLACKPOWDER" ) ) {
         if( dirt < 500 ) {
             it.set_var( "dirt", dirt + 5 );
-            if(dirt > 500 ) {
+            if( dirt > 500 ) {
                 it.set_var( "dirt", 500 );
             }
             if( !it.has_fault( fault_gun_blackpowder ) && !it.has_fault( fault_gun_clogged ) ) {
