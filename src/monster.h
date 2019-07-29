@@ -158,7 +158,7 @@ class monster : public Creature
 
         // Movement
         void shift( int sx, int sy ); // Shifts the monster to the appropriate submap
-        void set_goal( tripoint &p );
+        void set_goal( const tripoint &p );
         // Updates current pos AND our plans
         bool wander(); // Returns true if we have no plans
 

@@ -854,7 +854,7 @@ bool monster::made_of( phase_id p ) const
     return type->phase == p;
 }
 
-void monster::set_goal( tripoint &p )
+void monster::set_goal( const tripoint &p )
 {
     goal = p;
 }
