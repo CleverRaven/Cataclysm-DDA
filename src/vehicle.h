@@ -1658,7 +1658,7 @@ class vehicle
         float of_turn_carry;
         int extra_drag = 0;
         // last time point the fluid was inside tanks was checked for processing
-        time_point last_fluid_check = calendar::time_of_cataclysm;
+        time_point last_fluid_check = calendar::turn_zero;
         // the time point when it was succesfully stolen
         cata::optional<time_point> theft_time;
         // rotation used for mount precalc values

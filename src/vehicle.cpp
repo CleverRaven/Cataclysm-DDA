@@ -4703,7 +4703,7 @@ void vehicle::place_spawn_items()
                     created.emplace_back( item( e ).in_its_container() );
                 }
                 for( const std::string &e : spawn.item_groups ) {
-                    item_group::ItemList group_items = item_group::items_from( e, calendar::time_of_cataclysm );
+                    item_group::ItemList group_items = item_group::items_from( e, calendar::start_of_cataclysm );
                     for( auto spawn_item : group_items ) {
                         created.emplace_back( spawn_item );
                     }

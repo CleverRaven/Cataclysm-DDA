@@ -2122,7 +2122,7 @@ void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id 
     }
 
     // TODO: item should probably clamp the value on its own
-    seed->set_birthday( std::max( calendar::time_of_cataclysm, seed->birthday() - fertilizerEpoch ) );
+    seed->set_birthday( seed->birthday() - fertilizerEpoch );
     // The plant furniture has the NOITEM token which prevents adding items on that square,
     // spawned items are moved to an adjacent field instead, but the fertilizer token
     // must be on the square of the plant, therefore this hack:

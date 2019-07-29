@@ -462,7 +462,7 @@ TEST_CASE( "vision_see_wall_in_moonlight", "[shadowcasting][vision]" )
 {
     const time_duration till_full_moon = calendar::season_length() / 3;
     // Verify that I've picked the full_moon time correctly.
-    CHECK( get_moon_phase( calendar::time_of_cataclysm + till_full_moon ) == MOON_FULL );
+    CHECK( get_moon_phase( calendar::turn_zero + till_full_moon ) == MOON_FULL );
     // Want a night time
     const int days_till_full_moon = to_days<int>( till_full_moon );
 
