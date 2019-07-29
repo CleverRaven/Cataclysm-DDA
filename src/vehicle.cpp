@@ -3860,7 +3860,7 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
     if( prompt ) {
         if( !query_yn(
                 _( "This vehicle belongs to: %s, there may be consequences if you are observed interacting with it, continue?" ),
-                get_owner()->name ) ) {
+                _( get_owner()->name ) ) ) {
             return false;
         }
     }
