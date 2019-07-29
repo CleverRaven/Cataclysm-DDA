@@ -267,7 +267,7 @@ class vpart_info
         int bonus = 0;
 
         /** cargo weight modifier (percentage) */
-        int cargo_modifier = 100;
+        int cargo_weight_modifier = 100;
 
         /** Flat decrease of damage of a given type. */
         std::array<float, NUM_DT> damage_reduction;
