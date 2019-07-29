@@ -62,7 +62,11 @@
       "mon_zombie_grenadier",
       "mon_zombie_grenadier_elite",
       "mon_zombie_soldier_acid_1",
-      "mon_zombie_soldier_acid_2"
+      "mon_zombie_soldier_acid_2",
+      "mon_zombie_gasbag_fungus",
+      "mon_zombie_smoker_fungus",
+      "mon_skeleton_hulk_fungus",
+      "mon_skeleton_electric"
     ]
   }
 ]
