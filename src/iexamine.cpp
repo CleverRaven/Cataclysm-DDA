@@ -3576,9 +3576,6 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
             return;
         }
     }
-    //~ %1$s - furniture, %2$d - number, %3$s items.
-    add_msg( _( "The %1$s contains %2$d %3$s." ), f.name(), amount_in_furn,
-             ammo->nname( amount_in_furn ) );
 
     const int max_amount_in_furn = ammo->charges_per_volume( f.max_volume );
     const int max_reload_amount = max_amount_in_furn - amount_in_furn;
@@ -3617,6 +3614,12 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
         item it( ammo, calendar::turn, amount );
         g->m.add_item( examp, it );
     }
+
+    const int amount_in_furn_after_placing = count_charges_in_list( ammo, items );
+    //~ %1$s - furniture, %2$d - number, %3$s items.
+    add_msg( _( "The %1$s contains %2$d %3$s." ), f.name(), amount_in_furn_after_placing,
+        ammo->nname( amount_in_furn_after_placing ) );
+
     add_msg( _( "You reload the %s." ), g->m.furnname( examp ) );
     p.moves -= to_moves<int>( 5_seconds );
 }
