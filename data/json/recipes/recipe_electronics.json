@@ -41,7 +41,7 @@
     "components": [
       [ [ "antenna", 1 ], [ "screwdriver", 1 ], [ "xacto", 1 ], [ "knife_butter", 1 ] ],
       [ [ "plastic_chunk", 6 ] ],
-      [ [ "motor_small", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 5 ] ],
       [ [ "scrap", 1 ], [ "steel_chunk", 1 ] ]
