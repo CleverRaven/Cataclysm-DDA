@@ -964,7 +964,6 @@ class item : public visitable<item>
         /** Provide prefix symbol for UI display dependent upon current item damage level */
         std::string damage_symbol() const;
         std::string dirt_symbol() const;
-        std::string last_fired;
 
         /**
          * Provides a prefix for the durability state of the item. with ITEM_HEALTH_BAR enabled,
@@ -973,8 +972,6 @@ class item : public visitable<item>
          * with ITEM_HEALTH_BAR disabled, but we need still a string for some reason.
          */
         std::string durability_indicator( bool include_intact = false ) const;
-
-        int dirt = 0;
 
         /** If possible to repair this item what tools could potentially be used for this purpose? */
         const std::set<itype_id> &repaired_with() const;

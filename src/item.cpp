@@ -4812,7 +4812,7 @@ std::string item::damage_symbol() const
 
 std::string item::dirt_symbol() const
 {
-    return to_string( dirt );
+    return to_string( ( int ) get_var( "dirt", 0 ) );
 }
 
 std::string item::durability_indicator( bool include_intact ) const

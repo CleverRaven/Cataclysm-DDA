@@ -2542,9 +2542,10 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     target->faults.erase( *f );
     if( act->name == "fault_gun_clogged" ) {
         target->faults.insert( fault_gun_blackpowder );
+        target->set_var( "just_unclogged", 1 );
     }
     if( act->name == "fault_gun_blackpowder" ) {
-        target->dirt = 0;
+        target->set_var( "dirt", 0 );
     }
     add_msg( m_good, _( "You successfully mended the %s." ), target->tname() );
 }
