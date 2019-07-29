@@ -110,6 +110,7 @@ std::vector<point> line_to( const point &p1, const point &p2, int t = 0 );
 std::vector<tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t = 0, int t2 = 0 );
 // sqrt(dX^2 + dY^2)
 float trig_dist( int x1, int y1, int x2, int y2 );
+float trig_dist( const point &loc1, const point &loc2 );
 float trig_dist( const tripoint &loc1, const tripoint &loc2 );
 // Roguelike distance; minimum of dX and dY
 int square_dist( int x1, int y1, int x2, int y2 );
