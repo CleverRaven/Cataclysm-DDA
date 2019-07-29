@@ -2680,7 +2680,7 @@ void activity_handlers::move_items_do_turn( player_activity *act, player *p )
 
 void activity_handlers::move_loot_do_turn( player_activity *act, player *p )
 {
-    activity_on_turn_move_loot( *act, *p );
+    generic_multi_activity_handler( *act, *p );
 }
 
 void activity_handlers::adv_inventory_do_turn( player_activity *, player *p )
@@ -3798,10 +3798,13 @@ void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
     const auto reject_tile = []( const tripoint & tile ) {
         return !g->m.has_flag_furn( "GROWTH_HARVEST", tile );
     };
+    const auto harvest = [&]( player & p, const tripoint & tile ) {
+        iexamine::harvest_plant( p, tile, false );
+    };
     perform_zone_activity_turn( p,
                                 zone_type_id( "FARM_PLOT" ),
                                 reject_tile,
-                                iexamine::harvest_plant,
+                                harvest,
                                 _( "You harvested all the plots you could." ) );
 
 }

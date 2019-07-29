@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <sstream>
 #include <iterator>
+#include <iostream>
 #include <map>
 #include <memory>
 #include <set>
@@ -2022,7 +2023,7 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
 /**
  * Actual harvesting of selected plant
  */
-void iexamine::harvest_plant( player &p, const tripoint &examp )
+void iexamine::harvest_plant( player &p, const tripoint &examp, bool from_activity )
 {
     // Can't use item_stack::only_item() since there might be fertilizer
     map_stack items = g->m.i_at( examp );
@@ -2076,6 +2077,10 @@ void iexamine::harvest_plant( player &p, const tripoint &examp )
         }
         const int seedCount = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
         for( auto &i : get_harvest_items( type, plant_count, seedCount, true ) ) {
+            if( from_activity ){
+                std::cout << "added var" << std::endl;
+                i.set_var( "activity_var", p.name );
+            }
             g->m.add_item_or_charges( examp, i );
         }
         g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
