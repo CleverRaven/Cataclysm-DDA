@@ -3245,7 +3245,7 @@ void item::on_damage( int, damage_type )
 std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int truncate ) const
 {
     std::stringstream ret;
-
+    std::string dirt_symbol = to_string( ( int ) get_var( "dirt", 0 ) );
     // TODO: MATERIALS put this in json
     std::string damtext;
 
@@ -3255,8 +3255,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( ( damage() != 0 || is_gun() || ( get_option<bool>( "ITEM_HEALTH_BAR" ) && is_armor() ) ) &&
         !is_null() &&
         with_prefix ) {
-        if( is_gun() && dirt_symbol() != "0" ) {
-            damtext = durability_indicator() + ":" + dirt_symbol() + " ";
+        if( is_gun() && dirt_symbol != "0" ) {
+            damtext = durability_indicator() + ":" + dirt_symbol + " ";
         } else if( is_gun() ) {
             damtext = durability_indicator() + " ";
         } else {
@@ -4808,11 +4808,6 @@ std::string item::damage_symbol() const
             }
 
     }
-}
-
-std::string item::dirt_symbol() const
-{
-    return to_string( ( int ) get_var( "dirt", 0 ) );
 }
 
 std::string item::durability_indicator( bool include_intact ) const
