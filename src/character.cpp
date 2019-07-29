@@ -2766,7 +2766,7 @@ int Character::throw_range( const item &it ) const
     int str_override = str_cur;
     if( is_mounted() ) {
         auto mons = g->u.mounted_creature.get();
-        str_override = mons->mech_str_addition() != 0 ? mons-> > mech_str_addition() : str_cur;
+        str_override = mons->mech_str_addition() != 0 ? mons->mech_str_addition() : str_cur;
     }
     int ret = ( str_override * 10 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 -
                                         static_cast<int>(
