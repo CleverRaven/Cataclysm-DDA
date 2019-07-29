@@ -641,7 +641,7 @@ void player::process_turn()
     // player::read, player::practice, ...
     // Check for spontaneous discovery of martial art styles
     for( auto &style : autolearn_martialart_types() ) {
-        const matype_id ma( style );
+        const matype_id &ma( style );
 
         if( !has_martialart( ma ) && can_autolearn( ma ) ) {
             add_martialart( ma );

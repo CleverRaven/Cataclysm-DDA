@@ -995,6 +995,7 @@ TEST_CASE( "list emplace, move, copy, and reverse iterate", "[list]" )
     }
 
     SECTION( "copy constructor" ) {
+        // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
         cata::list<small_struct> list3( test_list );
 
         bool passed = true;

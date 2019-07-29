@@ -54,7 +54,7 @@ static void arm_shooter( npc &shooter, const std::string &gun_type,
 {
     shooter.remove_weapon();
 
-    const itype_id gun_id( gun_type );
+    const itype_id &gun_id( gun_type );
     // Give shooter a loaded gun of the requested type.
     item &gun = shooter.i_add( item( gun_id ) );
     const itype_id ammo_id = gun.ammo_default();

@@ -1123,7 +1123,7 @@ void known_magic::forget_spell( const spell_id &sp )
 
 bool known_magic::can_learn_spell( const player &p, const spell_id &sp ) const
 {
-    const spell_type sp_t = sp.obj();
+    const spell_type &sp_t = sp.obj();
     if( sp_t.spell_class == trait_id( "NONE" ) ) {
         return true;
     }
