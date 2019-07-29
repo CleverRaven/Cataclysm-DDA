@@ -8275,7 +8275,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate,
         return false;
     }
 
-    if( faults.count( fault_gun_blackpowder ) ) {
+    if( has_fault( fault_gun_blackpowder ) ) {
         return process_blackpowder_fouling( carrier );
     }
 
