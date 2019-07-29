@@ -205,10 +205,11 @@ bool player::handle_gun_damage( item &it, int shots_fired )
         if( it.has_fault( fault_gun_blackpowder ) ) {
             it.faults.erase( fault_gun_blackpowder );
         }
-        int bp_jam_occurred_this_turn = 1;
+        bp_jam_occurred_this_turn = 1;
         add_msg_player_or_npc( _( "Your foul %s misfires with a muffled click!" ),
                                _( "<npcname>'s foul %s misfires with a muffled click!" ),
                                it.tname() );
+        return false;
     }
         // chance to damage gun:
     if( it.damage() < it.max_damage() && bp_jam_occurred_this_turn != 1 && dirt > 350 &&
@@ -218,8 +219,6 @@ bool player::handle_gun_damage( item &it, int shots_fired )
                                it.tname() );
         // Don't increment until after the message
         it.inc_damage();
-
-        return false;
     }
     // Here we check if we're underwater and whether we should misfire.
     // As a result this causes no damage to the firearm, note that some guns are waterproof
