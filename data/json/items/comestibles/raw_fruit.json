@@ -36,6 +36,8 @@
     "material": "fruit",
     "volume": 2,
     "fun": 5,
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitA", 1 ], [ "vitC", 17 ], [ "iron", 1 ] ]
   },
   {
@@ -55,7 +57,8 @@
     "material": "fruit",
     "volume": "375 ml",
     "fun": 3,
-    "flags": [ "FREEZERBURN" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitA", 7 ], [ "vitC", 138 ], [ "calcium", 4 ], [ "iron", 1 ] ]
   },
   {
@@ -74,7 +77,8 @@
     "price": 120,
     "material": "fruit",
     "volume": 1,
-    "flags": [ "FREEZERBURN" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", 74 ], [ "calcium", 1 ], [ "iron", 2 ] ],
     "fun": -4
   },
@@ -96,7 +100,7 @@
     "material": "fruit",
     "volume": 1,
     "fun": 2,
-    "flags": [ "SMOKABLE" ],
+    "flags": [ "SMOKABLE", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitA", 1 ], [ "vitC", 24 ], [ "calcium", 1 ], [ "iron", 2 ] ]
   },
@@ -140,6 +144,8 @@
     "material": "fruit",
     "volume": 1,
     "charges": 3,
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitA", 1 ], [ "vitC", 27 ], [ "iron", 1 ] ]
   },
   {
@@ -204,6 +210,8 @@
     "material": "fruit",
     "volume": 1,
     "fun": 4,
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", 60 ], [ "calcium", 6 ], [ "iron", 14 ] ]
   },
   {
@@ -224,6 +232,8 @@
     "material": "fruit",
     "volume": 1,
     "fun": -2,
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitA", 5 ], [ "vitC", 61 ], [ "calcium", 6 ], [ "iron", 14 ] ]
   },
   {
@@ -304,7 +314,8 @@
     "price": 180,
     "material": "fruit",
     "volume": 1,
-    "flags": [ "FREEZERBURN" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitA", 16 ], [ "vitC", 84 ], [ "calcium", 5 ], [ "iron", 1 ] ],
     "fun": 2
   },
@@ -326,6 +337,8 @@
     "material": "fruit",
     "volume": 1,
     "fun": 3,
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", 11 ], [ "calcium", 2 ], [ "iron", 3 ] ]
   },
   {
@@ -345,6 +358,8 @@
     "material": "fruit",
     "volume": "66 ml",
     "fun": 3,
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", 8 ] ]
   },
   {
@@ -388,6 +403,8 @@
     "charges": 5,
     "bashing": 1,
     "fun": 4,
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", 93 ], [ "calcium", 2 ], [ "iron", 3 ] ]
   },
   {
@@ -451,8 +468,9 @@
     "volume": 20,
     "charges": 20,
     "bashing": 2,
-    "flags": [ "EATEN_COLD", "FREEZERBURN" ],
+    "flags": [ "EATEN_COLD", "FREEZERBURN", "SMOKABLE" ],
     "fun": 4,
+    "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitA", 5 ], [ "vitC", 14 ], [ "calcium", 1 ], [ "iron", 2 ] ]
   },
   {
@@ -474,8 +492,9 @@
     "volume": 5,
     "charges": 5,
     "bashing": 1,
-    "flags": [ "EATEN_COLD", "FREEZERBURN" ],
+    "flags": [ "EATEN_COLD", "FREEZERBURN", "SMOKABLE" ],
     "fun": 4,
+    "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitA", 30 ], [ "vitC", 65 ], [ "calcium", 1 ], [ "iron", 2 ] ]
   },
   {
@@ -519,6 +538,8 @@
     "volume": 4,
     "charges": 2,
     "fun": 5,
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitA", 10 ], [ "vitC", 70 ], [ "calcium", 2 ], [ "iron", 2 ] ]
   },
   {
@@ -539,6 +560,8 @@
     "volume": 2,
     "charges": 2,
     "fun": 7,
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", 21 ], [ "calcium", 2 ], [ "iron", 3 ] ]
   },
   {
@@ -559,6 +582,8 @@
     "volume": 3,
     "charges": 3,
     "fun": 5,
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitA", 13 ], [ "vitC", 164 ], [ "calcium", 5 ], [ "iron", 3 ] ]
   },
   {
@@ -578,6 +603,8 @@
     "material": "fruit",
     "volume": 1,
     "fun": 3,
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitA", 2 ], [ "vitC", 80 ], [ "calcium", 1 ], [ "iron", 1 ] ]
   },
   {
