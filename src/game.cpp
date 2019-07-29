@@ -611,8 +611,7 @@ void game::setup()
 
     weather.weather = WEATHER_CLEAR; // Start with some nice weather...
     // Weather shift in 30
-    // TODO: shouldn't that use calendar::start instead of INITIAL_TIME?
-    weather.nextweather = calendar::time_of_cataclysm + time_duration::from_hours(
+    weather.nextweather = calendar::start_of_cataclysm + time_duration::from_hours(
                               get_option<int>( "INITIAL_TIME" ) ) + 30_minutes;
 
     turnssincelastmon = 0; //Auto safe mode init
@@ -1088,7 +1087,7 @@ bool game::cleanup_at_end()
 
         center_print( w_rip, iInfoLine++, c_white, _( "Survived:" ) );
 
-        int turns = calendar::turn - calendar::start;
+        int turns = calendar::turn - calendar::start_of_cataclysm;
         int minutes = ( turns / MINUTES( 1 ) ) % 60;
         int hours = ( turns / HOURS( 1 ) ) % 24;
         int days = turns / DAYS( 1 );
@@ -11376,8 +11375,8 @@ void game::start_calendar()
                              scen->has_flag( "SUM_ADV_START" );
 
     if( scen_season ) {
-        // Configured starting date overridden by scenario, calendar::start is left as Spring 1
-        calendar::start = HOURS( get_option<int>( "INITIAL_TIME" ) );
+        // Configured starting date overridden by scenario, calendar::start_of_cataclysm is left as Spring 1
+        calendar::start_of_cataclysm = HOURS( get_option<int>( "INITIAL_TIME" ) );
         calendar::turn = HOURS( get_option<int>( "INITIAL_TIME" ) );
         if( scen->has_flag( "SPR_START" ) ) {
             calendar::initial_season = SPRING;
@@ -11399,7 +11398,7 @@ void game::start_calendar()
     } else {
         // No scenario, so use the starting date+time configured in world options
         const int initial_days = get_option<int>( "INITIAL_DAY" );
-        calendar::start = DAYS( initial_days );
+        calendar::start_of_cataclysm = DAYS( initial_days );
 
         // Determine the season based off how long the seasons are set to be
         // First mod by length of season to get number of seasons elapsed, then mod by 4 to force a 0-3 range of values
@@ -11414,7 +11413,7 @@ void game::start_calendar()
             calendar::initial_season = WINTER;
         }
 
-        calendar::turn = calendar::start
+        calendar::turn = calendar::start_of_cataclysm
                          + HOURS( get_option<int>( "INITIAL_TIME" ) )
                          + DAYS( get_option<int>( "SPAWN_DELAY" ) );
     }

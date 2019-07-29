@@ -186,7 +186,7 @@ class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritanc
         active_item_cache active_items;
 
         int field_count = 0;
-        time_point last_touched = calendar::time_of_cataclysm;
+        time_point last_touched = calendar::turn_zero;
         std::vector<spawn_point> spawns;
         /**
          * Vehicles on this submap (their (0,0) point is on this submap).

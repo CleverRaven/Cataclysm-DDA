@@ -286,7 +286,7 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[1].text == "This is a mission goal test response." );
 
     const calendar old_calendar = calendar::turn;
-    calendar::turn = calendar::start;
+    calendar::turn = calendar::start_of_cataclysm;
     d.add_topic( "TALK_TEST_SEASON" );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );

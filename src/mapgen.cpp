@@ -1049,7 +1049,7 @@ class jmapgen_liquid_item : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mon_density*/, mission * /*miss*/ ) const override {
             if( one_in( chance.get() ) ) {
-                item newliquid( liquid, calendar::time_of_cataclysm );
+                item newliquid( liquid, calendar::turn_zero );
                 if( amount.valmax > 0 ) {
                     newliquid.charges = amount.get();
                 }
@@ -1118,7 +1118,7 @@ class jmapgen_loot : public jmapgen_piece
                     const float /*mon_density*/, mission * ) const override {
             if( rng( 0, 99 ) < chance ) {
                 const Item_spawn_data *const isd = &result_group;
-                const std::vector<item> spawn = isd->create( calendar::time_of_cataclysm );
+                const std::vector<item> spawn = isd->create( calendar::turn_zero );
                 dat.m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ),
                                              dat.m.get_abs_sub().z ), spawn );
             }
@@ -3979,7 +3979,7 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                         spawn_item( marker_x, marker_y,
                                     "mininuke", 1, 1, 0, rng( 2, 4 ) );
                     } else {
-                        item newliquid( "plut_slurry_dense", calendar::time_of_cataclysm );
+                        item newliquid( "plut_slurry_dense", calendar::start_of_cataclysm );
                         newliquid.charges = 1;
                         add_item_or_charges( tripoint( marker_x, marker_y, get_abs_sub().z ),
                                              newliquid );

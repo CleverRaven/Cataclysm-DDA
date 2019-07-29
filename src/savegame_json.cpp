@@ -331,8 +331,7 @@ void SkillLevel::deserialize( JsonIn &jsin )
     data.read( "exercise", _exercise );
     data.read( "istraining", _isTraining );
     if( !data.read( "lastpracticed", _lastPracticed ) ) {
-        // TODO: shouldn't that be calendar::start?
-        _lastPracticed = calendar::time_of_cataclysm + time_duration::from_hours(
+        _lastPracticed = calendar::start_of_cataclysm + time_duration::from_hours(
                              get_option<int>( "INITIAL_TIME" ) );
     }
     data.read( "highestlevel", _highestLevel );
@@ -1984,7 +1983,7 @@ void item::io( Archive &archive )
     archive.io( "note", note, 0 );
     // NB! field is named `irridation` in legacy files
     archive.io( "irridation", irradiation, 0 );
-    archive.io( "bday", bday, calendar::time_of_cataclysm );
+    archive.io( "bday", bday, calendar::turn_zero );
     archive.io( "mission_id", mission_id, -1 );
     archive.io( "player_id", player_id, -1 );
     archive.io( "item_vars", item_vars, io::empty_default_tag() );
@@ -1998,8 +1997,8 @@ void item::io( Archive &archive )
     archive.io( "is_favorite", is_favorite, false );
     archive.io( "item_counter", item_counter, static_cast<decltype( item_counter )>( 0 ) );
     archive.io( "rot", rot, 0_turns );
-    archive.io( "last_rot_check", last_rot_check, calendar::time_of_cataclysm );
-    archive.io( "last_temp_check", last_temp_check, calendar::time_of_cataclysm );
+    archive.io( "last_rot_check", last_rot_check, calendar::turn_zero );
+    archive.io( "last_temp_check", last_temp_check, calendar::turn_zero );
     archive.io( "current_phase", cur_phase, static_cast<int>( type->phase ) );
     archive.io( "techniques", techniques, io::empty_default_tag() );
     archive.io( "faults", faults, io::empty_default_tag() );

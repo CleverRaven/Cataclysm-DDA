@@ -33,9 +33,9 @@ class Creature;
 
 static void on_load_test( npc &who, const time_duration &from, const time_duration &to )
 {
-    calendar::turn = to_turn<int>( calendar::time_of_cataclysm + from );
+    calendar::turn = to_turn<int>( calendar::turn_zero + from );
     who.on_unload();
-    calendar::turn = to_turn<int>( calendar::time_of_cataclysm + to );
+    calendar::turn = to_turn<int>( calendar::turn_zero + to );
     who.on_load();
 }
 
@@ -138,8 +138,8 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
         const int five_min_ticks = 2;
         on_load_test( on_load_npc, 0_turns, 5_minutes * five_min_ticks );
         for( time_duration turn = 0_turns; turn < 5_minutes * five_min_ticks; turn += 1_turns ) {
-            iterated_npc.update_body( calendar::time_of_cataclysm + turn,
-                                      calendar::time_of_cataclysm + turn + 1_turns );
+            iterated_npc.update_body( calendar::turn_zero + turn,
+                                      calendar::turn_zero + turn + 1_turns );
         }
 
         const int margin = 2;
@@ -156,8 +156,8 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
         const auto five_min_ticks = 6_hours / 5_minutes;
         on_load_test( on_load_npc, 0_turns, 5_minutes * five_min_ticks );
         for( time_duration turn = 0_turns; turn < 5_minutes * five_min_ticks; turn += 1_turns ) {
-            iterated_npc.update_body( calendar::time_of_cataclysm + turn,
-                                      calendar::time_of_cataclysm + turn + 1_turns );
+            iterated_npc.update_body( calendar::turn_zero + turn,
+                                      calendar::turn_zero + turn + 1_turns );
         }
 
         const int margin = 10;

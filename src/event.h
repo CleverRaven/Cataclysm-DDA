@@ -26,7 +26,7 @@ enum event_type : int {
 struct event {
     event_type type = EVENT_NULL;
     /** On which turn event should be happening. */
-    time_point when = calendar::time_of_cataclysm;
+    time_point when = calendar::turn_zero;
     /** Which faction is responsible for handling this event. */
     int faction_id = -1;
     /** Where the event happens, in global submap coordinates */

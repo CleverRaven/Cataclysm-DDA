@@ -2056,9 +2056,9 @@ class item : public visitable<item>
          */
         time_duration rot = 0_turns;
         /** Time when the rot calculation was last performed. */
-        time_point last_rot_check = calendar::time_of_cataclysm;
+        time_point last_rot_check = calendar::turn_zero;
         /** the last time the temperature was updated for this item */
-        time_point last_temp_check = calendar::time_of_cataclysm;
+        time_point last_temp_check = calendar::turn_zero;
         /// The time the item was created.
         time_point bday;
         /**
