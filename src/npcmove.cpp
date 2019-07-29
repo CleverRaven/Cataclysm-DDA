@@ -775,9 +775,9 @@ void npc::move()
         if( !activity_route.empty() && !has_destination_activity() ) {
             tripoint final_destination;
             if( destination_point ) {
-              final_destination = g->m.getlocal( *destination_point );
+                final_destination = g->m.getlocal( *destination_point );
             } else {
-              final_destination = activity_route.back();
+                final_destination = activity_route.back();
             }
             update_path( final_destination );
             if( !path.empty() ) {

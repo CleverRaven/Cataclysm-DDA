@@ -3165,7 +3165,6 @@ void activity_handlers::churn_do_turn( player_activity *act, player *p )
     ( void )act;
     ( void )p;
     p->set_moves( 0 );
-    std::cout << "churn do turn" << std::endl;
 }
 
 void activity_handlers::churn_finish( player_activity *act, player *p )

@@ -274,7 +274,7 @@ void talk_function::assign_guard( npc &p )
         return;
     }
 
-    if( p.has_player_activity() ){
+    if( p.has_player_activity() ) {
         p.revert_after_activity();
     }
 

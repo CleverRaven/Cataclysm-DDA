@@ -6,7 +6,6 @@
 #include <cstdlib>
 #include <sstream>
 #include <iterator>
-#include <iostream>
 #include <map>
 #include <memory>
 #include <set>
@@ -1914,7 +1913,7 @@ void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &see
     }
     if( !used_seed.empty() ) {
         used_seed.front().set_age( 0_turns );
-        if( used_seed.front().has_var( "activity_var" ) ){
+        if( used_seed.front().has_var( "activity_var" ) ) {
             used_seed.front().erase_var( "activity_var" );
         }
         g->m.add_item_or_charges( examp, used_seed.front() );
@@ -2077,8 +2076,7 @@ void iexamine::harvest_plant( player &p, const tripoint &examp, bool from_activi
         }
         const int seedCount = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
         for( auto &i : get_harvest_items( type, plant_count, seedCount, true ) ) {
-            if( from_activity ){
-                std::cout << "added var" << std::endl;
+            if( from_activity ) {
                 i.set_var( "activity_var", p.name );
             }
             g->m.add_item_or_charges( examp, i );

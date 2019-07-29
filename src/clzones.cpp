@@ -525,22 +525,24 @@ std::unordered_set<tripoint> zone_manager::get_point_set( const zone_type_id &ty
     return type_iter->second;
 }
 
-std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint &where, const int radius, const faction_id &fac ) const
+std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint &where,
+        const int radius, const faction_id &fac ) const
 {
     return get_point_set_loot( where, radius, false, fac );
 }
 
-std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint &where, const int radius, const bool npc_search, const faction_id &fac ) const
+std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint &where,
+        const int radius, const bool npc_search, const faction_id &fac ) const
 {
-    (void)fac;
+    ( void )fac;
     std::unordered_set<tripoint> res;
-    for( const tripoint elem : g->m.points_in_radius( g->m.getlocal( where ), radius ) ){
+    for( const tripoint elem : g->m.points_in_radius( g->m.getlocal( where ), radius ) ) {
         const zone_data *zone = get_zone_at( g->m.getabs( elem ) );
         // if not a LOOT zone
-        if( ( !zone ) || ( zone->get_type().str().substr( 0, 4 ) != "LOOT" ) ){
+        if( ( !zone ) || ( zone->get_type().str().substr( 0, 4 ) != "LOOT" ) ) {
             continue;
         }
-        if( npc_search && ( has( zone_type_id( "NO_NPC_PICKUP" ), elem ) ) ){
+        if( npc_search && ( has( zone_type_id( "NO_NPC_PICKUP" ), elem ) ) ) {
             continue;
         }
         res.insert( elem );
@@ -618,7 +620,7 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     for( auto &point : point_set ) {
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
-                if( npc_search && ( has( zone_type_id( "NO_NPC_PICKUP" ), point ) ) ){
+                if( npc_search && ( has( zone_type_id( "NO_NPC_PICKUP" ), point ) ) ) {
                     continue;
                 }
                 near_point_set.insert( point );
@@ -630,7 +632,7 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     for( auto &point : vzone_set ) {
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
-                if( npc_search && ( has( zone_type_id( "NO_NPC_PICKUP" ), point ) ) ){
+                if( npc_search && ( has( zone_type_id( "NO_NPC_PICKUP" ), point ) ) ) {
                     continue;
                 }
                 near_point_set.insert( point );

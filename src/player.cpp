@@ -9706,7 +9706,8 @@ float player::fine_detail_vision_mod( const tripoint &p ) const
     float own_light = std::max( 1.0, LIGHT_AMBIENT_LIT - active_light() - 2 );
 
     // Same calculation as above, but with a result 3 lower.
-    float ambient_light = std::max( 1.0, LIGHT_AMBIENT_LIT - g->m.ambient_light_at( p == tripoint_zero ? pos() : p ) + 1.0 );
+    float ambient_light = std::max( 1.0,
+                                    LIGHT_AMBIENT_LIT - g->m.ambient_light_at( p == tripoint_zero ? pos() : p ) + 1.0 );
 
     return std::min( own_light, ambient_light );
 }
