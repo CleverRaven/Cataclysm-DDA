@@ -164,7 +164,7 @@ bool player::handle_gun_damage( item &it, int shots_fired )
         shots_fired = shots_fired + 0; // left this here in case someone needs shots_fired in the future.
         return false;
     }
-    int bpjamoccurredthisturn = 0;
+    int bp_jam_occurred_this_turn = 0;
     const auto &curammo_effects = it.ammo_effects();
     const cata::optional<islot_gun> &firing = it.type->gun;
     const std::string thistimefired = to_string_time_of_day( calendar::turn );
@@ -206,12 +206,12 @@ bool player::handle_gun_damage( item &it, int shots_fired )
         if( it.has_fault( fault_gun_blackpowder ) ) {
             it.faults.erase( fault_gun_blackpowder );
         }
-        int bpjamoccurredthisturn = 1;
+        int bp_jam_occurred_this_turn = 1;
         add_msg_player_or_npc( _( "Your foul %s misfires with a muffled click!" ),
                                _( "<npcname>'s foul %s misfires with a muffled click!" ),
                                it.tname() );
         // chance to damage gun:
-        if( it.damage() < it.max_damage() && bpjamoccurredthisturn != 1 && it.dirt > 350 &&
+        if( it.damage() < it.max_damage() && bp_jam_occurred_this_turn != 1 && it.dirt > 350 &&
             one_in( ( ( 2000 - it.dirt ) ) / ( 40 - malfunctionreduction ) ) ) {
             add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the blackpowder charge!" ),
                                    _( "<npcname>'s %s is damaged by the blackpowder charge!" ),
@@ -221,7 +221,7 @@ bool player::handle_gun_damage( item &it, int shots_fired )
         }
         return false;
     }
-    if( it.damage() < it.max_damage() && bpjamoccurredthisturn != 1 && it.dirt > 350 &&
+    if( it.damage() < it.max_damage() && bp_jam_occurred_this_turn != 1 && it.dirt > 350 &&
         one_in( ( ( 650 - it.dirt ) ) / ( 40 - malfunctionreduction ) ) ) {
         add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the blackpowder fouling accumulation!" ),
                                _( "<npcname>'s %s is damaged by the blackpowder fouling accumulation!" ),
