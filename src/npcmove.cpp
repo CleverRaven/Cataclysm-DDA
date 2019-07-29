@@ -432,7 +432,7 @@ void npc::assess_danger()
         } else if( is_friendly( g->u ) ) {
             float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
             assessment = std::max( min_danger, assessment - player_diff * 0.5f );
-            ai_cache.friends.emplace_back(g->shared_from(g->u));
+            ai_cache.friends.emplace_back( g->shared_from( g->u ) );
         }
     }
     assessment *= 0.1f;
@@ -1573,7 +1573,6 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
             return false;
         }
     }
-    
 
     return true;
 }
