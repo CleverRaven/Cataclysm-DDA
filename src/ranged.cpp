@@ -216,7 +216,9 @@ bool player::handle_gun_damage( item &it, int shots_fired )
         return false;
     }
     // chance to damage gun:
-    if( it.damage() < it.max_damage() && bp_jam_occurred_this_turn != 1 && dirt > 350 &&
+    if( it.damage() < it.max_damage() &&
+        ( curammo_effects.count( "MUZZLE_SMOKE" ) || curammo_effects.count( "BLACKPOWDER" ) ) &&
+        bp_jam_occurred_this_turn != 1 && dirt > 350 &&
         one_in( ( ( 2000 - dirt ) ) / ( 40 - malfunctionreduction ) ) ) {
         add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the blackpowder charge!" ),
                                _( "<npcname>'s %s is damaged by the blackpowder charge!" ),
@@ -254,7 +256,7 @@ bool player::handle_gun_damage( item &it, int shots_fired )
         // Here we check for a chance for the weapon to suffer a misfire due to
         // using OEM bullets. Note that these misfires cause no damage to the weapon and
         // some types of ammunition are immune to this effect via the NEVER_MISFIRES effect.
-    } else if( !curammo_effects.count( "NEVER_MISFIRES" ) && one_in( 1728 ) ) {
+    } else if( !curammo_effects.count( "NEVER_MISFIRES" ) && one_in( 1728 - ( dirt * 2 ) ) ) {
         add_msg_player_or_npc( _( "Your %s misfires with a dry click!" ),
                                _( "<npcname>'s %s misfires with a dry click!" ),
                                it.tname() );
@@ -263,7 +265,7 @@ bool player::handle_gun_damage( item &it, int shots_fired )
         // using player-made 'RECYCLED' bullets. Note that not all forms of
         // player-made ammunition have this effect the misfire may cause damage, but never
         // enough to push the weapon beyond 'shattered'.
-    } else if( curammo_effects.count( "RECYCLED" ) && one_in( 256 ) ) {
+    } else if( curammo_effects.count( "RECYCLED" ) && one_in( 256 - ( dirt / 3 ) ) ) {
         add_msg_player_or_npc( _( "Your %s misfires with a muffled click!" ),
                                _( "<npcname>'s %s misfires with a muffled click!" ),
                                it.tname() );
