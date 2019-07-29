@@ -197,7 +197,7 @@ bool player::handle_gun_damage( item &it, int shots_fired )
             malfunctionreduction = 39;
     }
     if( ( it.dirt > 100 && one_in( ( 600 - it.dirt ) / ( 40 - malfunctionreduction ) ) ) ||
-        ( it.has_fault( fault_gun_clogged ) ) ) {
+        it.has_fault( fault_gun_clogged ) ) {
         if( !it.has_fault( fault_gun_clogged ) ) {
             it.faults.insert( fault_gun_clogged );
         }
