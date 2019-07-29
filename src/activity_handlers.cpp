@@ -2540,11 +2540,10 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     p->invalidate_crafting_inventory();
 
     target->faults.erase( *f );
-    std::string thefault = act->name.c_str();
-    if( thefault == "fault_gun_clogged" ) {
+    if( act->name == "fault_gun_clogged" ) {
         target->faults.insert( fault_gun_blackpowder );
     }
-    if( thefault == "fault_gun_blackpowder" ) {
+    if( act->name == "fault_gun_blackpowder" ) {
         target->dirt = 0;
     }
     add_msg( m_good, _( "You successfully mended the %s." ), target->tname() );
