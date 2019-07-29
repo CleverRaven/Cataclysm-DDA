@@ -117,6 +117,42 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "cabin_lake",
+    "name": "forest",
+    "sym": "F",
+    "color": "green",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cabin_lake_roof",
+    "name": "forest",
+    "sym": "F",
+    "color": "green",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_cabin_boathouse",
+    "name": "forest",
+    "sym": "F",
+    "color": "green",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_cabin_boathouse_roof",
+    "name": "forest",
+    "sym": "F",
+    "color": "green",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "cabin_strange",
     "name": "forest",
     "sym": "F",
