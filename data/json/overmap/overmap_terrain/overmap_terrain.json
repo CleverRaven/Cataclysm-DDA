@@ -792,5 +792,165 @@
     "sym": "i",
     "color": "light_green",
     "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_2",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_3",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_4",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_5",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_6",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_7",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_8",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_9",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_1_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_2_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_3_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_4_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_5_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_6_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_7_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_8_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_9_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_1_2",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_2_2",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
   }
 ]
