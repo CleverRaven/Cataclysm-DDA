@@ -6082,7 +6082,7 @@
     "symbol": "*",
     "color": "red",
     "explode_in_fire": true,
-    "explosion": { "power": 60, "shrapnel": { "casing_mass": 2, "fragment_mass": 0.10 } },
+    "explosion": { "power": 88, "shrapnel": { "casing_mass": 3, "fragment_mass": 0.12 } },
     "use_action": {
       "target": "tool_black_powder_bomb_act",
       "msg": "You light the fuse on the black gunpowder bomb.  Throw it before it blows in your face!",
@@ -6111,13 +6111,13 @@
     "max_charges": 3,
     "turns_per_charge": 1,
     "explode_in_fire": true,
-    "explosion": { "power": 60, "shrapnel": { "casing_mass": 2, "fragment_mass": 0.10 } },
+    "explosion": { "power": 88, "shrapnel": { "casing_mass": 3, "fragment_mass": 0.12 } },
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "Kshhh.",
       "no_deactivate_msg": "You've already lit the fuse - throw it!",
-      "explosion": { "power": 88, "shrapnel": { "casing_mass": 3, "fragment_mass": 0.12 } }
+      "explosion": { "power": 88, "shrapnel": { "casing_mass": 3, "fragment_mass": 0.12 } },
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
   },
