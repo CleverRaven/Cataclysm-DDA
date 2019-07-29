@@ -1486,6 +1486,11 @@ void monster::die_in_explosion( Creature *source )
     die( source );
 }
 
+bool monster::movement_impaired()
+{
+    return effect_cache[MOVEMENT_IMPAIRED];
+}
+
 bool monster::move_effects( bool )
 {
     // This function is relatively expensive, we want that cached

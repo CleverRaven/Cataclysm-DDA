@@ -305,6 +305,9 @@ class monster : public Creature
 
         /** Processes monster-specific effects before calling Creature::process_effects(). */
         void process_effects() override;
+
+        /** Returns true if the monster has its movement impaired */
+        bool movement_impaired();
         /** Processes effects which may prevent the monster from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
