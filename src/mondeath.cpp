@@ -656,7 +656,6 @@ void mdeath::broken( monster &z )
 
     // adds ammo drop
     if( z.type->has_flag( MF_DROPS_AMMO ) ) {
-    if( drops_ammo ) {
         for( const std::pair<std::string, int> &ammo_entry : z.type->starting_ammo ) {
             if( z.ammo[ammo_entry.first] > 0 ) {
                 g->m.spawn_item( z.pos(), ammo_entry.first, z.ammo[ammo_entry.first], 1,
