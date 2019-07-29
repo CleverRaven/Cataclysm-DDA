@@ -861,6 +861,7 @@ class game
         tripoint mouse_edge_scrolling_terrain( input_context &ctxt );
         /** This variant is suitable for the overmap. */
         tripoint mouse_edge_scrolling_overmap( input_context &ctxt );
+        void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
     private:
         void quickload();        // Loads the previously saved game if it exists
 
@@ -872,7 +873,6 @@ class game
         void disp_kills();          // Display the player's kill counts
         void disp_faction_ends();   // Display the faction endings
         void disp_NPC_epilogues();  // Display NPC endings
-        void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
 
         // Debug functions
         void display_scent();   // Displays the scent map

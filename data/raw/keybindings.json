@@ -784,6 +784,13 @@
   },
   {
     "type": "keybinding",
+    "name": "View Missions",
+    "category": "OVERMAP",
+    "id": "MISSIONS",
+    "bindings": [ { "input_method": "keyboard", "key": "M" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ROTATE",
     "category": "OVERMAP_EDITOR",
     "name": "Rotate",

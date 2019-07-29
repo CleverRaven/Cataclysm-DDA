@@ -965,6 +965,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         print_hint( "CREATE_NOTE" );
         print_hint( "DELETE_NOTE" );
         print_hint( "LIST_NOTES" );
+        print_hint( "MISSIONS" );
         print_hint( "TOGGLE_MAP_NOTES", uistate.overmap_show_map_notes ? c_pink : c_magenta );
         print_hint( "TOGGLE_BLINKING", uistate.overmap_blinking ? c_pink : c_magenta );
         print_hint( "TOGGLE_OVERLAYS", show_overlays ? c_pink : c_magenta );
@@ -1335,6 +1336,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
     ictxt.register_action( "TOGGLE_EXPLORED" );
     ictxt.register_action( "TOGGLE_FAST_SCROLL" );
     ictxt.register_action( "TOGGLE_FOREST_TRAILS" );
+    ictxt.register_action( "MISSIONS" );
 
     if( data.debug_editor ) {
         ictxt.register_action( "PLACE_TERRAIN" );
@@ -1467,6 +1469,8 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             }
         } else if( action == "PLACE_TERRAIN" || action == "PLACE_SPECIAL" ) {
             place_ter_or_special( curs, orig, show_explored, fast_scroll, action );
+        } else if( action == "MISSIONS" ) {
+            g->list_missions();
         }
 
         std::chrono::time_point<std::chrono::steady_clock> now = std::chrono::steady_clock::now();
