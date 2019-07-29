@@ -199,7 +199,7 @@ bool player::handle_gun_damage( item &it, int shots_fired )
     if( ( it.type->gun->ammo.count( ammotype( "flintlock" ) ) ) || ( it.type->gun->ammo.count( ammotype( "flintlock" ) ) ) ) {
             malfunctionreduction = 39;
     }
-    if( just_unclogged != 1 && ( dirt > 100 && one_in( ( 600 - dirt ) / ( 40 - malfunctionreduction ) ) ) ||
+    if( ( just_unclogged != 1 && dirt > 100 && one_in( ( 600 - dirt ) / ( 40 - malfunctionreduction ) ) ) ||
         it.has_fault( fault_gun_clogged ) ) {
             it.faults.insert( fault_gun_clogged );
         if( it.has_fault( fault_gun_blackpowder ) ) {
@@ -209,15 +209,16 @@ bool player::handle_gun_damage( item &it, int shots_fired )
         add_msg_player_or_npc( _( "Your foul %s misfires with a muffled click!" ),
                                _( "<npcname>'s foul %s misfires with a muffled click!" ),
                                it.tname() );
+    }
         // chance to damage gun:
-        if( it.damage() < it.max_damage() && bp_jam_occurred_this_turn != 1 && dirt > 350 &&
-            one_in( ( ( 2000 - dirt ) ) / ( 40 - malfunctionreduction ) ) ) {
-            add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the blackpowder charge!" ),
+     if( it.damage() < it.max_damage() && bp_jam_occurred_this_turn != 1 && dirt > 350 &&
+         one_in( ( ( 2000 - dirt ) ) / ( 40 - malfunctionreduction ) ) ) {
+         add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the blackpowder charge!" ),
                                    _( "<npcname>'s %s is damaged by the blackpowder charge!" ),
                                    it.tname() );
             // Don't increment until after the message
-            it.inc_damage();
-        }
+         it.inc_damage();
+
         return false;
     }
     // Here we check if we're underwater and whether we should misfire.
