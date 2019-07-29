@@ -1394,7 +1394,7 @@ void debug()
                             break;
                         case 1:
                             set_turn( static_cast<int>( season_of_year( calendar::turn ) ),
-                                      to_turns<int>( calendar::turn.season_length() ),
+                                      to_turns<int>( calendar::season_length() ),
                                       _( "Set season to? (0 = spring)" ) );
                             break;
                         case 2:

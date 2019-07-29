@@ -242,11 +242,11 @@ void requirement_data::load_requirement( JsonObject &jsobj, const requirement_id
     requirement_data req;
 
     JsonArray jsarr = jsobj.get_array( "components" );
-    req.load_obj_list( jsarr, req.components );
+    requirement_data::load_obj_list( jsarr, req.components );
     jsarr = jsobj.get_array( "qualities" );
-    req.load_obj_list( jsarr, req.qualities );
+    requirement_data::load_obj_list( jsarr, req.qualities );
     jsarr = jsobj.get_array( "tools" );
-    req.load_obj_list( jsarr, req.tools );
+    requirement_data::load_obj_list( jsarr, req.tools );
 
     if( !id.is_null() ) {
         req.id_ = id;

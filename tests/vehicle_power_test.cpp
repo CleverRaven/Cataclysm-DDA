@@ -63,7 +63,7 @@ TEST_CASE( "vehicle_power" )
         veh_ptr = g->m.add_vehicle( vproto_id( "solar_panel_test" ), solar_origin, 0, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
         g->refresh_all();
-        calendar::turn = to_turns<int>( calendar::turn.season_length() ) + DAYS( 1 );
+        calendar::turn = to_turns<int>( calendar::season_length() ) + DAYS( 1 );
         const time_point start_time = calendar::turn.sunrise() + 3_hours;
         veh_ptr->update_time( start_time );
         veh_ptr->discharge_battery( veh_ptr->fuel_left( fuel_type_battery ) );
