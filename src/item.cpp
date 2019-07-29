@@ -3258,9 +3258,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         if( is_gun() && dirt_symbol() != "0" ) {
             damtext = durability_indicator() + ":" + dirt_symbol() + " ";
         } else if( is_gun() ) {
-            damtext = durability_indicator();
+            damtext = durability_indicator() + " ";
         } else {
-            damtext = durability_indicator();
+            damtext = durability_indicator() + " ";
         }
 
         if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
@@ -4847,7 +4847,7 @@ std::string item::durability_indicator( bool include_intact ) const
         }
     } else if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
         outputstring = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() +
-                       " </color>";
+                       "</color>";
     } else {
         outputstring = string_format( "%s ", get_base_material().dmg_adj( damage_level( 4 ) ) );
         if( include_intact && outputstring == " " ) {
