@@ -844,6 +844,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "name": "laptop computer",
+    "category": "other",
     "description": "A broken laptop, basically a paperweight now.",
     "price": 1000,
     "material": [ "plastic", "aluminum" ],
