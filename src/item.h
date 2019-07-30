@@ -963,7 +963,6 @@ class item : public visitable<item>
 
         /** Provide prefix symbol for UI display dependent upon current item damage level */
         std::string damage_symbol() const;
-        std::string dirt_symbol() const;
 
         /**
          * Provides a prefix for the durability state of the item. with ITEM_HEALTH_BAR enabled,
