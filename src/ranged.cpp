@@ -161,10 +161,13 @@ bool player::handle_gun_damage( item &it, int shots_fired )
 {
     if( !it.is_gun() ) {
         debugmsg( "Tried to handle_gun_damage of a non-gun %s", it.tname() );
-        shots_fired = shots_fired + 0; // left this here in case someone needs shots_fired in the future.
+        // left this here in case someone needs shots_fired in the future.
+        shots_fired = shots_fired + 0;
+        if( shots_fired == 0 ) {
+            shots_fired = 0;
+        }
         return false;
     }
-    int bp_jam_occurred_this_turn = 0;
     int dirt = it.get_var( "dirt", 0 );
     int last_fired = it.get_var( "last_fired", 0 );
     int just_unclogged = it.get_var( "just_unclogged", 0 );
@@ -206,7 +209,6 @@ bool player::handle_gun_damage( item &it, int shots_fired )
         it.has_fault( fault_gun_clogged ) ) {
         it.faults.insert( fault_gun_clogged );
         it.faults.erase( fault_gun_blackpowder );
-        bp_jam_occurred_this_turn = 1;
         add_msg_player_or_npc( _( "Your foul %s misfires with a muffled click!" ),
                                _( "<npcname>'s foul %s misfires with a muffled click!" ),
                                it.tname() );
@@ -215,8 +217,7 @@ bool player::handle_gun_damage( item &it, int shots_fired )
     // chance to damage gun:
     if( it.damage() < it.max_damage() &&
         ( curammo_effects.count( "MUZZLE_SMOKE" ) || curammo_effects.count( "BLACKPOWDER" ) ) &&
-        bp_jam_occurred_this_turn != 1 && dirt > 350 &&
-        one_in( ( ( 2000 - dirt ) ) / ( 40 - malfunctionreduction ) ) ) {
+        dirt > 350 && one_in( ( ( 2000 - dirt ) ) / ( 40 - malfunctionreduction ) ) ) {
         add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the blackpowder charge!" ),
                                _( "<npcname>'s %s is damaged by the blackpowder charge!" ),
                                it.tname() );
