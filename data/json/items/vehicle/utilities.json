@@ -25,7 +25,7 @@
     "weight": 34500,
     "volume": "76 L",
     "copy-from": "washing_machine"
-  }
+  },
   {
     "type": "GENERIC",
     "copy-from": "washing_machine",
