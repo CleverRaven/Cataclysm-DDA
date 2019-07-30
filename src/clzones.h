@@ -358,7 +358,7 @@ class zone_manager
                   const bool invert, const bool enabled,
                   const tripoint &start, const tripoint &end,
                   std::shared_ptr<zone_options> options = nullptr );
-        const zone_data *get_zone_at( const tripoint &where ) const;
+        const zone_data *get_zone_at( const tripoint &where, const zone_type_id &type ) const;
         void create_vehicle_loot_zone( class vehicle &vehicle, const point &mount_point,
                                        zone_data &new_zone );
 

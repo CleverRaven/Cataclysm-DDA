@@ -648,12 +648,12 @@ bool zone_manager::has_loot_dest_near( const tripoint &where ) const
     return false;
 }
 
-const zone_data *zone_manager::get_zone_at( const tripoint &where ) const
+const zone_data *zone_manager::get_zone_at( const tripoint &where, const zone_type_id &type ) const
 {
     for( auto it = zones.rbegin(); it != zones.rend(); ++it ) {
         const auto &zone = *it;
 
-        if( zone.has_inside( where ) ) {
+        if( zone.has_inside( where ) && zone.get_type() == type ) {
             return &zone;
         }
     }
@@ -662,8 +662,8 @@ const zone_data *zone_manager::get_zone_at( const tripoint &where ) const
 
 bool zone_manager::custom_loot_has( const tripoint &where, const itype_id item_type ) const
 {
-    auto zone = get_zone_at( where );
-    if( !zone || !has( zone_type_id( "LOOT_CUSTOM" ), where ) ) {
+    auto zone = get_zone_at( where, zone_type_id( "LOOT_CUSTOM" ) );
+    if( !zone ) {
         return false;
     }
     const loot_options options = dynamic_cast<const loot_options &>( zone->get_options() );
