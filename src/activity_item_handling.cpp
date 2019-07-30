@@ -5,6 +5,7 @@
 #include <list>
 #include <vector>
 #include <iterator>
+#include <iostream>
 #include <memory>
 #include <string>
 #include <utility>
@@ -1175,6 +1176,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
     if( g->m.check_vehicle_zones( g->get_levz() ) ) {
         mgr.cache_vzones();
     }
+    std::cout << "on_turn_move_loot" << std::endl;
     const auto abspos = g->m.getabs( p.pos() );
     const auto &src_set = mgr.get_near( zone_type_id( "LOOT_UNSORTED" ), abspos );
     vehicle *src_veh, *dest_veh;
@@ -1215,7 +1217,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
         }
 
         bool is_adjacent_or_closer = square_dist( p.pos(), src_loc ) <= 1;
-
+        std::cout << "1220" << std::endl;
         // skip tiles in IGNORE zone and tiles on fire
         // (to prevent taking out wood off the lit brazier)
         // and inaccessible furniture, like filled charcoal kiln
@@ -1227,7 +1229,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
 
         // the boolean in this pair being true indicates the item is from a vehicle storage space
         auto items = std::vector<std::pair<item *, bool>>();
-
+        std::cout << "1232" << std::endl;
         //Check source for cargo part
         //map_stack and vehicle_stack are different types but inherit from item_stack
         // TODO: use one for loop
@@ -1245,6 +1247,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
         for( auto &it : g->m.i_at( src_loc ) ) {
             items.push_back( std::make_pair( &it, false ) );
         }
+        std::cout << "1250" << std::endl;
         //Skip items that have already been processed
         for( auto it = items.begin() + mgr.get_num_processed( src ); it < items.end(); it++ ) {
 
@@ -1255,18 +1258,20 @@ void activity_on_turn_move_loot( player_activity &, player &p )
             if( thisitem->made_of_from_type( LIQUID ) ) { // skip unpickable liquid
                 continue;
             }
-
+            std::cout << "1261" << std::endl;
             // Only if it's from a vehicle do we use the vehicle source location information.
             vehicle *this_veh = it->second ? src_veh : nullptr;
             const int this_part = it->second ? src_part : -1;
 
             const auto id = mgr.get_near_zone_type_for_item( *thisitem, abspos );
+            std::cout << id.str() << std::endl;
 
             // checks whether the item is already on correct loot zone or not
             // if it is, we can skip such item, if not we move the item to correct pile
             // think empty bag on food pile, after you ate the content
+            std::cout << "before move - thisitem->typeid " << thisitem->typeId() << std::endl;
             if( !mgr.has( id, src ) ) {
-                const auto &dest_set = mgr.get_near( id, abspos );
+                const auto &dest_set = mgr.get_near( id, abspos, 60, thisitem->typeId() );
 
                 for( auto &dest : dest_set ) {
                     const auto &dest_loc = g->m.getlocal( dest );
