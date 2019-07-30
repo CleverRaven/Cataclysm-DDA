@@ -1,0 +1,180 @@
+[
+  {
+    "type": "npc",
+    "id": "isherwood_chris",
+    "//": "Part of Isherwood family.",
+    "name_unique": "Chris Isherwood",
+    "gender": "male",
+    "class": "NC_ISHERWOOD_CHRIS",
+    "worn_override": "NC_Isherwood_worn",
+    "carry_override": "NC_ISHERWOOD_rifle",
+    "weapon_override": "NC_ISHERWOOD_archery",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ISHERWOOD_CHRIS",
+    "mission_offered": "MISSION_ISHERWOOD_CHRIS_1",
+    "faction": "isherwood_family"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ISHERWOOD_CHRIS",
+    "name": "Chris Isherwood",
+    "job_description": "I'm Jesse and Carlos' son, part of the Isherwood family",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "common": false,
+    "bonus_per": { "one_in": 4 },
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "barter", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 7, 10 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 4, 8 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 7, 10 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 8, 10 ] } }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": "I see that badge, You need to leave our land, my relatives have no fondess for Marshals.",
+      "no": { "u_male": true, "yes": "Hello Sir, what brings you here?", "no": "Hello Ma'am, what brings you here?" }
+    },
+    "responses": [
+      {
+        "text": "...",
+        "topic": "TALK_LEAVE_NOW",
+        "opinion": { "trust": -20, "value": -20 },
+        "condition": { "u_is_wearing": "badge_marshal" }
+      },
+      {
+        "text": "Hi, Your dad asked me to come find you.",
+        "topic": "TALK_ISHERWOOD_CHRIS_TALK1",
+        "effect": { "u_add_var": "u_met_chris_isherwood", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "I was talking to Luke earlier, said you had some interesting ideas about the world ending.",
+        "topic": "TALK_CHRIS_THEORIES",
+        "condition": {
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "u_has_var": "u_heard_about_chris", "type": "general", "context": "meeting", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "Can I do anything for you?",
+        "topic": "TALK_MISSION_LIST",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      },
+      {
+        "text": "I'd better get going.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_TALK1",
+    "dynamic_line": "Yeah, they are always worried about us, I prefer to talk the land and try to track the changes.  I'm thinking about fixing up this cabin for some peace and quiet...",
+    "responses": [
+      { "text": "Sounds like you are restless, why not leave?", "topic": "TALK_ISHERWOOD_CHRIS_WANTS" },
+      {
+        "text": "I was talking to Luke earlier, said you had some interesting ideas about the world ending.",
+        "topic": "TALK_CHRIS_THEORIES",
+        "condition": {
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "u_has_var": "u_heard_about_chris", "type": "general", "context": "meeting", "value": "yes" }
+          ]
+        }
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_WANTS",
+    "dynamic_line": "My family is convinced that if we stay here, we'll be able to weather this catastrophy.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CHRIS_THEORIES",
+    "dynamic_line": "The big item I need is an anvil, once I have that I can get a lot of repairs done.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CHRIS_CHRIS",
+    "dynamic_line": "CHRIS is hiking the perimeter of our land, planning some defense options.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LEAVE_NOW",
+    "dynamic_line": "You should leave before my family sees you.",
+    "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_TOPICS",
+    "dynamic_line": "Go on...",
+    "responses": [
+      { "text": "Your dad asked me to come find you.", "topic": "TALK_ISHERWOOD_CHRIS_TALK1" },
+      {
+        "text": "I was talking to Luke earlier, said you had some interesting ideas about the world ending.",
+        "topic": "TALK_CHRIS_THEORIES"
+      },
+      { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_ISHERWOOD_CHRIS_1",
+    "type": "mission_definition",
+    "name": "Find an anvil",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "anvil",
+    "count": 1,
+    "origins": [ "ORIGIN_ANY_NPC" ],
+    "dialogue": {
+      "describe": "I need an anvil to do advanced metal work.",
+      "offer": "I could really use an anvil.",
+      "accepted": "You might be able to find one in a hardware store or similar.",
+      "rejected": "Thanks anyway, we'll find the time to make it ourselves.",
+      "advice": "If you can't find one, maybe you can make one for me.",
+      "inquire": "Do you have the anvil?",
+      "success": "I appreciate it, this will really make a difference.",
+      "success_lie": "What good does this do me?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "opinion": { "trust": 1, "value": 1 },
+      "update_mapgen": [
+        {
+          "om_terrain": "horse_farm_isherwood_4",
+          "om_special": "Isherwood Farms",
+          "set": [ { "point": "furniture", "id": "f_anvil", "x": 7, "y": 12 } ]
+        }
+      ]
+    }
+  }
+]

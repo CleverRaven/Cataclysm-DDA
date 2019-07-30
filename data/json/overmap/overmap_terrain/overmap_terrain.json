@@ -107,6 +107,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "cabin_isherwood",
+    "name": "forest",
+    "sym": "C",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "riverside_dwelling",
     "name": "riverside dwelling",
     "sym": "+",
