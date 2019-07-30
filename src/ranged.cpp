@@ -187,7 +187,6 @@ bool player::handle_gun_damage( item &it, int shots_fired )
         add_msg_player_or_npc( _( "Your %s fails to cycle!" ),
                                _( "<npcname>'s %s fails to cycle!" ),
                                it.tname() );
-        // Don't increment until after the message
         return false;
     }
     it.set_var( "last_fired", to_turn<int>( calendar::turn ) );
