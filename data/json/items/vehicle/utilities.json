@@ -17,7 +17,7 @@
   {
     "type": "GENERIC",
     "id": "vh_autoclave",
-    "name": "autoclave",
+    "name": "mountable autoclave",
     "description": "This autoclave has been rigged to run off a vehicle power grid.",
     "price": 162654,
     "symbol": "A",
