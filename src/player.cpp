@@ -6995,7 +6995,7 @@ bool player::has_charges( const itype_id &it, int quantity,
         if( quantity <= mons->battery_item->ammo_remaining() ) {
             return true;
         } else {
-            quantity -= mons->battery_item->ammo_remaining();
+            return false;
         }
     }
     return charges_of( it, quantity, filter ) == quantity;
