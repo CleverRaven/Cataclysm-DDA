@@ -867,10 +867,7 @@ class jmapgen_sign : public jmapgen_piece
             return signtext;
         }
         bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
-            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
-                return true;
-            }
-            return false;
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
         }
 };
 /**
@@ -947,10 +944,7 @@ class jmapgen_vending_machine : public jmapgen_piece
             dat.m.place_vending( rx, ry, item_group_id, reinforced );
         }
         bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
-            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
-                return true;
-            }
-            return false;
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
         }
 };
 /**
@@ -977,10 +971,7 @@ class jmapgen_toilet : public jmapgen_piece
             }
         }
         bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
-            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
-                return true;
-            }
-            return false;
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
         }
 };
 /**
@@ -1019,10 +1010,7 @@ class jmapgen_gaspump : public jmapgen_piece
             }
         }
         bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
-            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
-                return true;
-            }
-            return false;
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
         }
 };
 
@@ -1289,10 +1277,7 @@ class jmapgen_vehicle : public jmapgen_piece
             dat.m.add_vehicle( type, point( x.get(), y.get() ), random_entry( rotation ), fuel, status );
         }
         bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
-            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
-                return true;
-            }
-            return false;
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
         }
 };
 /**
@@ -1360,10 +1345,7 @@ class jmapgen_trap : public jmapgen_piece
             dat.m.trap_set( actual_loc, id );
         }
         bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
-            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
-                return true;
-            }
-            return false;
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
         }
 };
 /**
@@ -1381,10 +1363,7 @@ class jmapgen_furniture : public jmapgen_piece
             dat.m.furn_set( x.get(), y.get(), id );
         }
         bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
-            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
-                return true;
-            }
-            return false;
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
         }
 };
 /**
@@ -1410,10 +1389,7 @@ class jmapgen_terrain : public jmapgen_piece
             }
         }
         bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
-            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
-                return true;
-            }
-            return false;
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
         }
 };
 /**
@@ -1494,10 +1470,7 @@ class jmapgen_computer : public jmapgen_piece
             }
         }
         bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
-            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
-                return true;
-            }
-            return false;
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
         }
 };
 
@@ -1601,10 +1574,7 @@ class jmapgen_sealed_item : public jmapgen_piece
             dat.m.furn_set( x.get(), y.get(), furniture );
         }
         bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
-            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
-                return true;
-            }
-            return false;
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
         }
 };
 /**
