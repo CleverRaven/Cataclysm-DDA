@@ -6992,11 +6992,7 @@ bool player::has_charges( const itype_id &it, int quantity,
     if( it == "UPS" && is_mounted() &&
         mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) ) {
         auto mons = mounted_creature.get();
-        if( quantity <= mons->battery_item->ammo_remaining() ) {
-            return true;
-        } else {
-            return false;
-        }
+        return quantity <= mons->battery_item->ammo_remaining();
     }
     return charges_of( it, quantity, filter ) == quantity;
 }
