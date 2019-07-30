@@ -4653,7 +4653,7 @@
     "material": [ "stone", "wood" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "SAW_W", 1 ], [ "BUTCHER", -56 ] ],
+    "qualities": [ [ "AXE", 1 ], [ "SAW_W", 1 ], [ "BUTCHER", -56 ] ],
     "flags": [ "BELT_CLIP" ]
   },
   {
