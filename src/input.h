@@ -125,8 +125,7 @@ struct input_event {
         type = other.type;
         modifiers = other.modifiers;
         sequence = other.sequence;
-        mouse_x = other.mouse_x;
-        mouse_y = other.mouse_y;
+        mouse_pos = other.mouse_pos;
         text = other.text;
         shortcut_last_used_action_counter = other.shortcut_last_used_action_counter;
         return *this;
@@ -443,8 +442,7 @@ class input_context
             allow_text_entry = other.allow_text_entry;
             registered_any_input = other.registered_any_input;
             category = other.category;
-            coordinate_x = other.coordinate_x;
-            coordinate_y = other.coordinate_y;
+            coordinate = other.coordinate;
             coordinate_input_received = other.coordinate_input_received;
             handling_coordinate_input = other.handling_coordinate_input;
             next_action = other.next_action;
