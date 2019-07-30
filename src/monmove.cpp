@@ -1091,6 +1091,13 @@ bool monster::bash_at( const tripoint &p )
     if( is_hallucination() ) {
         return false;
     }
+
+    // Don't bash if a friendly monster is standing there
+    monster *target = g->critter_at<monster>( p );
+    if( target != nullptr && attitude_to( *target ) == A_FRIENDLY ) {
+        return false;
+    }
+
     bool try_bash = !can_move_to( p ) || one_in( 3 );
     bool can_bash = g->m.is_bashable( p ) && bash_skill() > 0;
 
