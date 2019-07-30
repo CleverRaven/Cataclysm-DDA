@@ -6897,6 +6897,7 @@ std::list<item> player::use_charges( const itype_id &what, int qty,
             int power_drain = std::min( mons->battery_item->ammo_remaining(), qty );
             mons->use_mech_power( -power_drain );
             qty -= std::min( qty, power_drain );
+            return res;
         }
         if( power_level > 0 && has_active_bionic( bio_ups ) ) {
             int bio = std::min( power_level, qty );
