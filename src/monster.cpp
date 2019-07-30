@@ -2187,7 +2187,7 @@ bool monster::check_mech_powered() const
         return false;
     }
     const itype &type = *battery_item->type;
-    if( battery_item->ammo_remaining() <= ( type.magazine->capacity / 100 ) * 10 && one_in( 10 ) ) {
+    if( battery_item->ammo_remaining() <= type.magazine->capacity / 10 && one_in( 10 ) ) {
         add_msg( m_bad, _( "Your %s emits a beeping noise as its batteries start to get low." ),
                  get_name() );
     }
