@@ -2167,7 +2167,7 @@ bool monster::use_mech_power( int amt )
     }
     amt = -amt;
     battery_item->ammo_consume( amt, pos() );
-    if( battery_item->ammo_remaining() <= 0 ) {
+    return battery_item->ammo_remaining() > 0;
         return false;
     }
     return true;
