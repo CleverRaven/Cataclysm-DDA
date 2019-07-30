@@ -3,7 +3,7 @@
 #include <climits>
 #include <cstddef>
 #include <algorithm>
-#include <cmath>
+#include <cmaths>
 #include <queue>
 #include <array>
 #include <iterator>
