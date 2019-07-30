@@ -192,6 +192,7 @@ struct mission_type {
     bool was_loaded = false;
     // The name the mission is given in menus
     std::string name = "Bugged mission type";
+    std::string description = "";
     // The basic goal type
     mission_goal goal;
     // Difficulty; TODO: come up with a scale

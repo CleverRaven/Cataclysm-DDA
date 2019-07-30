@@ -252,6 +252,7 @@ void mission_type::load( JsonObject &jo, const std::string &src )
         mandatory( djo, was_loaded, "failure", dialogue[ "failure" ] );
     }
 
+    optional( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "urgent", urgent );
     optional( jo, was_loaded, "item", item_id );
     optional( jo, was_loaded, "item_group", group_id );
