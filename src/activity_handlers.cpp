@@ -3576,7 +3576,7 @@ void activity_handlers::chop_planks_finish( player_activity *act, player *p )
     int wasted_planks = max_planks - planks;
     int scraps = rng( wasted_planks, wasted_planks * 3 ) ;
     planks = std::min( planks, max_planks );
-    
+
     if( planks > 0 ) {
         g->m.spawn_item( act->placement, "2x4", planks, 0, calendar::turn );
         p->add_msg_if_player( m_good, _( "You produce %d planks." ), planks );
