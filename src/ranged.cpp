@@ -257,7 +257,7 @@ bool player::handle_gun_damage( item &it, int shots_fired )
         // using OEM bullets. Note that these misfires cause no damage to the weapon and
         // some types of ammunition are immune to this effect via the NEVER_MISFIRES effect.
     } else if( !curammo_effects.count( "NEVER_MISFIRES" ) &&
-               one_in( 1728 - ( dirt * 3.4 ) + ( malfunctionreduction * 2 ) ) ) {
+               one_in( 1728 - dirt * 3.4 + malfunctionreduction * 2 ) ) {
         add_msg_player_or_npc( _( "Your %s misfires with a dry click!" ),
                                _( "<npcname>'s %s misfires with a dry click!" ),
                                it.tname() );
