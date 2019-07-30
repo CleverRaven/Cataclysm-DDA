@@ -1527,7 +1527,7 @@ static void fetch_activity( player &p, const tripoint src_loc, activity_id activ
     int pickup_count = 1;
     auto items_there = g->m.i_at( src_loc );
     vehicle *src_veh = nullptr;
-    int src_part;
+    int src_part = 0;
     if( const cata::optional<vpart_reference> vp = g->m.veh_at( src_loc ).part_with_feature( "CARGO",
             false ) ) {
         src_veh = &vp->vehicle();
