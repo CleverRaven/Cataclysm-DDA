@@ -3245,7 +3245,31 @@ void item::on_damage( int, damage_type )
 std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int truncate ) const
 {
     std::stringstream ret;
-    std::string dirt_symbol = to_string( static_cast<int>( get_var( "dirt", 0 ) ) );
+    int dirt_level =  static_cast<int>( get_var( "dirt", 0 ) / 100 );
+    //  std::string dirt_symbol = to_string( static_cast<int>( get_var( "dirt", 0 ) ) );
+    std::string dirt_symbol;
+    switch( dirt_level ) {
+        case 0:
+            dirt_symbol = "";
+            break;
+        case 1:
+            dirt_symbol = "1";
+            break;
+        case 2:
+            dirt_symbol = "2";
+            break;
+        case 3:
+            dirt_symbol = "3";
+            break;
+        case 4:
+            dirt_symbol = "4";
+            break;
+        case 5:
+            dirt_symbol = "5";
+            break;
+        default:
+            dirt_symbol = "";
+    }
     // TODO: MATERIALS put this in json
     std::string damtext;
 
@@ -3255,14 +3279,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( ( damage() != 0 || is_gun() || ( get_option<bool>( "ITEM_HEALTH_BAR" ) && is_armor() ) ) &&
         !is_null() &&
         with_prefix ) {
-        if( is_gun() && dirt_symbol != "0" ) {
-            damtext = durability_indicator() + ":" + dirt_symbol + " ";
-        } else if( is_gun() ) {
-            damtext = durability_indicator() + " ";
-        } else {
-            damtext = durability_indicator() + " ";
-        }
-
+        damtext = dirt_symbol + durability_indicator();
         if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
             truncate_override = damtext.length() - 3;
         }
@@ -4842,7 +4859,7 @@ std::string item::durability_indicator( bool include_intact ) const
         }
     } else if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
         outputstring = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() +
-                       "</color>";
+                       " </color>";
     } else {
         outputstring = string_format( "%s ", get_base_material().dmg_adj( damage_level( 4 ) ) );
         if( include_intact && outputstring == " " ) {
