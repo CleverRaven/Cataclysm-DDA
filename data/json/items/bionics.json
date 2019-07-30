@@ -901,6 +901,7 @@
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Squeaky Ankles",
+    "plural_name": "Squeaky Ankles",
     "description": "A pair of defective bionics that make squeaking noises.",
     "difficulty": 4
   },
@@ -909,6 +910,7 @@
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Pieces Of Junk",
+    "plural_name": "Pieces of Junk",
     "description": "A jumble of broken metal pieces that were removed during reconstructive surgery.",
     "difficulty": 5
   },
@@ -1021,6 +1023,7 @@
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Wire-Induced Stiffness",
+    "plural_name": "Wire-Induced Stiffnesses",
     "description": "A length of poorly installed wiring that would cause stiffness.",
     "difficulty": 7
   },
@@ -1029,6 +1032,7 @@
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Self-Locking Thumbs",
+    "plural_name": "Self-Locking Thumbs",
     "description": "A pair of faulty, self-locking thumb bionics.",
     "difficulty": 5
   },
