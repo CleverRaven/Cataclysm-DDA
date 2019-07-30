@@ -2780,8 +2780,7 @@ point vehicle::rotate_mount( int old_dir, int new_dir, const point &pivot, const
 
 tripoint vehicle::mount_to_tripoint( const point &mount ) const
 {
-    point offset_zero( 0, 0 );
-    return mount_to_tripoint( mount, offset_zero );
+    return mount_to_tripoint( mount, point_zero );
 }
 
 tripoint vehicle::mount_to_tripoint( const point &mount, const point &offset ) const

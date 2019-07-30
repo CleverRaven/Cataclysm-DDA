@@ -633,8 +633,8 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
     const bool vertical = veh.smz != veh2.smz;
 
     // Used to calculate the epicenter of the collision.
-    point epicenter1( 0, 0 );
-    point epicenter2( 0, 0 );
+    point epicenter1;
+    point epicenter2;
 
     float dmg;
     // Vertical collisions will be simpler for a while (1D)
@@ -7872,7 +7872,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     }
 
     // Initial value is illegal player position.
-    static tripoint player_prev_pos = tripoint_zero;
+    static tripoint player_prev_pos;
     if( seen_cache_dirty || player_prev_pos != p ) {
         build_seen_cache( g->u.pos(), zlev );
         player_prev_pos = p;
