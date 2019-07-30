@@ -660,26 +660,25 @@ const zone_data *zone_manager::get_zone_at( const tripoint &where, const zone_ty
     return nullptr;
 }
 
-bool zone_manager::custom_loot_has( const tripoint &where, const itype_id item_type ) const
+bool zone_manager::custom_loot_has( const tripoint &where, const item *item_type ) const
 {
     auto zone = get_zone_at( where, zone_type_id( "LOOT_CUSTOM" ) );
-    if( !zone ) {
+    if( !zone || !item_type ) {
         return false;
     }
     const loot_options options = dynamic_cast<const loot_options &>( zone->get_options() );
     std::string filter_string = options.get_mark();
     auto z = item_filter_from_string( filter_string );
 
-    item example_item( item_type, 0 );
 
-    if( z( example_item ) ) {
+    if( z( *item_type ) ) {
         return true;
     }
     return false;
 }
 
 std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
-        const tripoint &where, int range, const itype_id item_type, const faction_id &fac ) const
+        const tripoint &where, int range, const item *item_type, const faction_id &fac ) const
 {
     const auto &point_set = get_point_set( type, fac );
     auto near_point_set = std::unordered_set<tripoint>();
@@ -687,7 +686,7 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     for( auto &point : point_set ) {
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
-                if( item_type != "null" && has( zone_type_id( "LOOT_CUSTOM" ), point ) ) {
+                if( item_type && has( zone_type_id( "LOOT_CUSTOM" ), point ) ) {
                     if( custom_loot_has( point, item_type ) ) {
                         near_point_set.insert( point );
                     }
@@ -702,7 +701,7 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     for( auto &point : vzone_set ) {
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
-                if( item_type != "null" && has( zone_type_id( "LOOT_CUSTOM" ), point ) ) {
+                if( item_type && has( zone_type_id( "LOOT_CUSTOM" ), point ) ) {
                     if( custom_loot_has( point, item_type ) ) {
                         near_point_set.insert( point );
                     }
@@ -759,7 +758,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
 {
     auto cat = it.get_category();
     if( has_near( zone_type_id( "LOOT_CUSTOM" ), where ) ) {
-        for( const auto elem : get_near( zone_type_id( "LOOT_CUSTOM" ), where, 60, it.typeId() ) ) {
+        for( const auto elem : get_near( zone_type_id( "LOOT_CUSTOM" ), where, 60, &it ) ) {
             ( void )elem;
             return zone_type_id( "LOOT_CUSTOM" );
         }

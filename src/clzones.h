@@ -380,9 +380,9 @@ class zone_manager
         bool has_near( const zone_type_id &type, const tripoint &where, int range = MAX_DISTANCE,
                        const faction_id &fac = your_fac ) const;
         bool has_loot_dest_near( const tripoint &where ) const;
-        bool custom_loot_has( const tripoint &where, const itype_id item_type ) const;
+        bool custom_loot_has( const tripoint &where, const item *item_type ) const;
         std::unordered_set<tripoint> get_near( const zone_type_id &type, const tripoint &where,
-                                               int range = MAX_DISTANCE, const itype_id item_type = "null",
+                                               int range = MAX_DISTANCE, const item *item_type = nullptr,
                                                const faction_id &fac = your_fac ) const;
         cata::optional<tripoint> get_nearest( const zone_type_id &type, const tripoint &where,
                                               int range = MAX_DISTANCE,
