@@ -4593,7 +4593,6 @@ cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item 
     // add creaking sounds and damage to overloaded vpart, outright break it past a certain point, or when hitting bumps etc
     vehicle_part &p = parts[ part ];
     if( p.is_broken() ) {
-        //debugmsg( "Tried to add item (%s) to a broken part (%s)", itm.tname(), p.name() );
         return cata::nullopt;
     }
 
