@@ -205,9 +205,7 @@ bool player::handle_gun_damage( item &it, int shots_fired )
           one_in( ( 600 - dirt ) / ( 40 - malfunctionreduction ) ) ) ||
         it.has_fault( fault_gun_clogged ) ) {
         it.faults.insert( fault_gun_clogged );
-        if( it.has_fault( fault_gun_blackpowder ) ) {
-            it.faults.erase( fault_gun_blackpowder );
-        }
+        it.faults.erase( fault_gun_blackpowder );
         bp_jam_occurred_this_turn = 1;
         add_msg_player_or_npc( _( "Your foul %s misfires with a muffled click!" ),
                                _( "<npcname>'s foul %s misfires with a muffled click!" ),
