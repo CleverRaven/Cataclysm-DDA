@@ -111,13 +111,24 @@
     "type": "martial_art",
     "id": "style_brawling",
     "name": "Brawling",
-    "description": "You're used to hand-to-creature fighting.  Not stylish or sporting, but it gets the job done.",
+    "description": "You're used to hand-to-creature fighting.  You know how to fight when unarmed or with any weapon to a certain extent.  It's not stylish or sporting, but it gets the job done.",
     "initiate": [ "You grit your teeth and prepare for a good fight.", "%s gets ready to brawl." ],
-    "autolearn": [ [ "unarmed", "2" ] ],
-    "arm_block": -1,
+    "autolearn": [ [ "melee", "1" ] ],
+    "arm_block": 1,
     "leg_block": 7,
     "allow_melee": true,
-    "techniques": [ "tec_brawl_feint", "tec_brawl_power", "tec_brawl_trip", "tec_brawl_counter" ]
+    "techniques": [ 
+	 "tec_brawl_disarm_unarmed",
+	 "tec_brawl_feint_unarmed", 
+	 "tec_brawl_counter_unarmed",
+	 "tec_brawl_break_unarmed", 
+	 "tec_brawl_power", 
+	 "tec_brawl_trip", 
+	 "tec_brawl_disarm_melee", 
+	 "tec_brawl_counter_melee",  
+	 "tec_brawl_feint_melee", 
+	 "tec_brawl_break_melee"
+	]
   },
   {
     "type": "martial_art",
