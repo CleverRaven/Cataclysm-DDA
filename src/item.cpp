@@ -3246,7 +3246,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 {
     std::stringstream ret;
     int dirt_level =  static_cast<int>( get_var( "dirt", 0 ) / 100 );
-    //  std::string dirt_symbol = to_string( static_cast<int>( get_var( "dirt", 0 ) ) );
     std::string dirt_symbol;
     switch( dirt_level ) {
         case 0:
