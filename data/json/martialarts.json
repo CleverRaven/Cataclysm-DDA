@@ -117,18 +117,18 @@
     "arm_block": 1,
     "leg_block": 7,
     "allow_melee": true,
-    "techniques": [ 
-	 "tec_brawl_disarm_unarmed",
-	 "tec_brawl_feint_unarmed", 
-	 "tec_brawl_counter_unarmed",
-	 "tec_brawl_break_unarmed", 
-	 "tec_brawl_power", 
-	 "tec_brawl_trip", 
-	 "tec_brawl_disarm_melee", 
-	 "tec_brawl_counter_melee",  
-	 "tec_brawl_feint_melee", 
-	 "tec_brawl_break_melee"
-	]
+    "techniques": [
+      "tec_brawl_disarm_unarmed",
+      "tec_brawl_feint_unarmed",
+      "tec_brawl_counter_unarmed",
+      "tec_brawl_break_unarmed",
+      "tec_brawl_power",
+      "tec_brawl_trip",
+      "tec_brawl_disarm_melee",
+      "tec_brawl_counter_melee",
+      "tec_brawl_feint_melee",
+      "tec_brawl_break_melee"
+    ]
   },
   {
     "type": "martial_art",
