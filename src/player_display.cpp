@@ -26,13 +26,13 @@
 
 const skill_id skill_swimming( "swimming" );
 
-static const std::string title_STATS = _( "STATS" );
-static const std::string title_ENCUMB = _( "ENCUMBRANCE AND WARMTH" );
-static const std::string title_EFFECTS = _( "EFFECTS" );
-static const std::string title_SPEED = _( "SPEED" );
-static const std::string title_SKILLS = _( "SKILLS" );
-static const std::string title_BIONICS = _( "BIONICS" );
-static const std::string title_TRAITS = _( "TRAITS" );
+static const std::string title_STATS = translate_marker( "STATS" );
+static const std::string title_ENCUMB = translate_marker( "ENCUMBRANCE AND WARMTH" );
+static const std::string title_EFFECTS = translate_marker( "EFFECTS" );
+static const std::string title_SPEED = translate_marker( "SPEED" );
+static const std::string title_SKILLS = translate_marker( "SKILLS" );
+static const std::string title_BIONICS = translate_marker( "BIONICS" );
+static const std::string title_TRAITS = translate_marker( "TRAITS" );
 
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 
