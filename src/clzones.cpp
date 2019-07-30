@@ -6,7 +6,6 @@
 #include <list>
 #include <tuple>
 #include <algorithm>
-#include <iostream>
 
 #include "avatar.h"
 #include "cata_utility.h"
@@ -176,7 +175,7 @@ bool zone_options::is_valid( const zone_type_id &type, const zone_options &optio
         return dynamic_cast<const plot_options *>( &options ) != nullptr ;
     } else if( type == zone_type_id( "CONSTRUCTION_BLUEPRINT" ) ) {
         return dynamic_cast<const blueprint_options *>( &options ) != nullptr ;
-    } else if( type == zone_type_id( "LOOT_CUSTOM" ) ){
+    } else if( type == zone_type_id( "LOOT_CUSTOM" ) ) {
         return dynamic_cast<const loot_options *>( &options ) != nullptr ;
     }
 
@@ -664,7 +663,7 @@ const zone_data *zone_manager::get_zone_at( const tripoint &where ) const
 bool zone_manager::custom_loot_has( const tripoint &where, const itype_id item_type ) const
 {
     auto zone = get_zone_at( where );
-    if( !zone || !has( zone_type_id( "LOOT_CUSTOM" ), where ) ){
+    if( !zone || !has( zone_type_id( "LOOT_CUSTOM" ), where ) ) {
         return false;
     }
     const loot_options options = dynamic_cast<const loot_options &>( zone->get_options() );
@@ -673,7 +672,7 @@ bool zone_manager::custom_loot_has( const tripoint &where, const itype_id item_t
 
     item example_item( item_type, 0 );
 
-    if( z( example_item ) ){
+    if( z( example_item ) ) {
         return true;
     }
     return false;
@@ -688,8 +687,8 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     for( auto &point : point_set ) {
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
-                if( item_type != "null" && has( zone_type_id( "LOOT_CUSTOM" ), point ) ){
-                    if( custom_loot_has( point, item_type ) ){
+                if( item_type != "null" && has( zone_type_id( "LOOT_CUSTOM" ), point ) ) {
+                    if( custom_loot_has( point, item_type ) ) {
                         near_point_set.insert( point );
                     }
                 } else {
@@ -703,8 +702,8 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     for( auto &point : vzone_set ) {
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
-                if( item_type != "null" && has( zone_type_id( "LOOT_CUSTOM" ), point ) ){
-                    if( custom_loot_has( point, item_type ) ){
+                if( item_type != "null" && has( zone_type_id( "LOOT_CUSTOM" ), point ) ) {
+                    if( custom_loot_has( point, item_type ) ) {
                         near_point_set.insert( point );
                     }
                 } else {
@@ -759,9 +758,9 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         const tripoint &where ) const
 {
     auto cat = it.get_category();
-    if( has_near( zone_type_id( "LOOT_CUSTOM" ), where ) ){
-        for( const auto elem : get_near( zone_type_id( "LOOT_CUSTOM" ), where, 60, it.typeId() ) ){
-            (void)elem;
+    if( has_near( zone_type_id( "LOOT_CUSTOM" ), where ) ) {
+        for( const auto elem : get_near( zone_type_id( "LOOT_CUSTOM" ), where, 60, it.typeId() ) ) {
+            ( void )elem;
             return zone_type_id( "LOOT_CUSTOM" );
         }
     }
