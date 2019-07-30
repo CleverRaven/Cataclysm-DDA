@@ -4439,27 +4439,11 @@ int iuse::mind_splicer( player *p, item *it, bool, const tripoint & )
 
 void iuse::cut_log_into_planks( player &p )
 {
-    p.moves -= to_moves<int>( 20_minutes );
+    int moves = to_moves<int>( 20_minutes );
     p.add_msg_if_player( _( "You cut the log into planks." ) );
-    const int max_planks = 10;
-    /** @EFFECT_FABRICATION increases number of planks cut from a log */
-    int planks = normal_roll( 2 + p.get_skill_level( skill_fabrication ), 1 );
-    int wasted_planks = max_planks - planks;
-    int scraps = rng( wasted_planks, wasted_planks * 3 );
-    planks = std::min( planks, max_planks );
-    if( planks > 0 ) {
-        item plank( "2x4", calendar::turn );
-        p.i_add_or_drop( plank, planks );
-        p.add_msg_if_player( m_good, _( "You produce %d planks." ), planks );
-    }
-    if( scraps > 0 ) {
-        item scrap( "splinter", calendar::turn );
-        p.i_add_or_drop( scrap, scraps );
-        p.add_msg_if_player( m_good, _( "You produce %d splinters." ), scraps );
-    }
-    if( planks < max_planks / 2 ) {
-        add_msg( m_bad, _( "You waste a lot of the wood." ) );
-    }
+
+    p.assign_activity( activity_id( "ACT_CHOP_PLANKS" ), moves, -1 );
+    p.activity.placement = p.pos();
 }
 
 int iuse::lumber( player *p, item *it, bool t, const tripoint & )
