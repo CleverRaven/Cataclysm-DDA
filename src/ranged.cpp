@@ -267,7 +267,7 @@ bool player::handle_gun_damage( item &it, int shots_fired )
         // player-made ammunition have this effect the misfire may cause damage, but never
         // enough to push the weapon beyond 'shattered'.
     } else if( curammo_effects.count( "RECYCLED" ) &&
-               one_in( 256 - ( dirt * 0.3 ) + ( malfunctionreduction * 2 ) ) ) {
+               one_in( 256 - dirt * 0.3 + malfunctionreduction * 2 ) ) {
         add_msg_player_or_npc( _( "Your %s misfires with a muffled click!" ),
                                _( "<npcname>'s %s misfires with a muffled click!" ),
                                it.tname() );
