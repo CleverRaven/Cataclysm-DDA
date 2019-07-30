@@ -26,6 +26,7 @@
 #include "output.h"
 #include "panels.h"
 #include "player.h"
+#include "popup.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -214,7 +215,21 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         picked_up = true;
         option = NUM_ANSWERS; //Skip the options part
     } else if( newit.made_of_from_type( LIQUID ) ) {
-        got_water = true;
+        if( newit.has_flag( "FROZEN" ) ) {
+            map_stack items_here = g->m.i_at( loc.position() );
+            int units = newit.charges;
+            std::string action = query_popup()
+                                 .context( "YESNO" )
+                                 .message( _( "Do you want to gather %d %s?" ), units, newit.display_name() )
+                                 .option( "YES" )
+                                 .option( "NO" )
+                                 .cursor( 1 )
+                                 .query()
+                                 .action;
+            option = STASH;
+        } else {
+            got_water = true;
+        }
     } else if( !u.can_pickWeight( newit, false ) ) {
         if( !autopickup ) {
             const std::string &explain = string_format( _( "The %s is too heavy!" ),
