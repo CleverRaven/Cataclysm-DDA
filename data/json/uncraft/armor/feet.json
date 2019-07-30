@@ -1,0 +1,25 @@
+[
+  {
+    "result": "nomex_socks",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": "3 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "nomex", 4 ] ], [ [ "scrap_nomex", 32 ] ] ]
+  },
+  {
+    "result": "sneakers",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": "6 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "sole_rubber", 2 ] ],
+      [ [ "string_6", 4 ] ],
+      [ [ "rag", 4 ] ],
+      [ [ "leather", 2 ] ],
+      [ [ "scrap_cotton", 8 ] ],
+      [ [ "scrap_leather", 8 ] ]
+    ]
+  }
+]

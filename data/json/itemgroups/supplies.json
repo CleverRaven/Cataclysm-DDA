@@ -32,6 +32,36 @@
     ]
   },
   {
+    "id": "tailoring_extra",
+    "type": "item_group",
+    "//": "Parts and materials for making clothing, other than fabric itself and thread.",
+    "items": [
+      [ "buckle_steel", 10 ],
+      [ "button_plastic", 60 ],
+      [ "button_steel", 10 ],
+      [ "button_wood", 2 ],
+      [ "snapfastener_steel", 40 ],
+      [ "touch_fastener", 15 ],
+      [ "zipper_long_plastic", 30 ],
+      [ "zipper_short_plastic", 40 ]
+    ]
+  },
+  {
+    "id": "tailoring_fabric",
+    "type": "item_group",
+    "//": "Fabric sheets used for tailoring.",
+    "items": [
+      [ "sheet_cotton", 200 ],
+      [ "sheet_faux_fur", 40 ],
+      [ "sheet_felt", 80 ],
+      [ "sheet_kevlar", 5 ],
+      [ "sheet_neoprene", 10 ],
+      [ "sheet_nomex", 5 ],
+      [ "tanned_pelt", 50 ],
+      [ "tanned_hide", 50 ]
+    ]
+  },
+  {
     "id": "paint",
     "type": "item_group",
     "items": [
@@ -209,6 +239,8 @@
     "id": "supplies_reagents_lab",
     "//": "General laboratory reagents and expendibles.  This list contains most conceivable chemicals in the game.  More specific lists for each type of lab would be reasonable eventually.",
     "items": [
+      [ "dye_powder", 5 ],
+      [ "potassium_alum", 10 ],
       [ "water_clean", 90 ],
       [ "salt_water", 20 ],
       [ "detergent", 10 ],

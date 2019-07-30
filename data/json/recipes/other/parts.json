@@ -1,5 +1,58 @@
 [
   {
+    "result": "buckle_steel",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "180 m",
+    "autolearn": true,
+    "charges": 10,
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "using": [ [ "forging_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ]
+  },
+  {
+    "type": "recipe",
+    "result": "button_plastic",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": true,
+    "charges": 70,
+    "using": [ [ "plastic_molding", 1 ] ]
+  },
+  {
+    "result": "button_steel",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "180 m",
+    "autolearn": true,
+    "charges": 31,
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "using": [ [ "forging_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ]
+  },
+  {
+    "type": "recipe",
+    "result": "button_wood",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "90 m",
+    "autolearn": true,
+    "charges": 200,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "splinter", 1 ] ] ]
+  },
+  {
     "result": "hinge",
     "type": "recipe",
     "category": "CC_OTHER",

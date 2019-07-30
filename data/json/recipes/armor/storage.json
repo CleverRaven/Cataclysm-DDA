@@ -362,10 +362,11 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
-    "time": "8 m",
+    "time": "180 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 12 ] ],
-    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
+    "byproducts": [ [ "scrap_leather", 23 ] ],
+    "using": [ [ "tailoring_leather_small", 1 ] ],
+    "components": [ [ [ "buckle_steel", 1 ] ] ]
   },
   {
     "result": "leather_pouch",

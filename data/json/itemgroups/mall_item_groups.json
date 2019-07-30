@@ -47,6 +47,7 @@
     "type": "item_group",
     "items": [
       [ "blazer", 75 ],
+      [ "button_plastic", 20 ],
       [ "skinny_tie", 65 ],
       [ "tieclip", 25 ],
       [ "polo_shirt", 35 ],
@@ -201,6 +202,8 @@
     "id": "leather_shop_repair",
     "type": "item_group",
     "items": [
+      { "group": "tailoring_extra", "prob": 40 },
+      [ "awl_steel", 40 ],
       [ "sewing_kit", 5 ],
       [ "tailors_kit", 50 ],
       [ "thread", 10 ],
@@ -280,6 +283,7 @@
     "ammo": 75,
     "magazine": 100,
     "items": [
+      [ "dye_powder", 5 ],
       [ "mag_glam", 40 ],
       [ "mag_beauty", 30 ],
       [ "hairpin", 40 ],

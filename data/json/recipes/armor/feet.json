@@ -372,10 +372,10 @@
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
     "difficulty": 6,
-    "time": "24 m",
+    "time": "180 m",
     "book_learn": [ [ "textbook_fireman", 6 ], [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
-    "using": [ [ "sewing_standard", 12 ] ],
-    "components": [ [ [ "nomex", 9 ] ] ]
+    "byproducts": [ [ "scrap_nomex", 22 ] ],
+    "using": [ [ "tailoring_nomex", 2 ] ]
   },
   {
     "result": "shoes_birchbark",
@@ -389,6 +389,19 @@
     "book_learn": [ [ "textbook_survival", 1 ], [ "pocket_survival", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "birchbark", 3 ] ] ]
+  },
+  {
+    "result": "sneakers",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "480 m",
+    "autolearn": true,
+    "byproducts": [ [ "scrap_cotton", 22 ], [ "leather", 2 ], [ "scrap_leather", 60 ] ],
+    "using": [ [ "fastener_small", 2 ], [ "tailoring_leather", 1 ], [ "tailoring_cotton", 2 ] ],
+    "components": [ [ [ "sole_rubber", 2 ] ], [ [ "superglue", 1 ] ] ]
   },
   {
     "result": "socks",
