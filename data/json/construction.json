@@ -55,17 +55,6 @@
   },
   {
     "type": "construction",
-    "description": "Chop Tree Trunk Into Planks",
-    "category": "FARM_WOOD",
-    "required_skills": [ [ "survival", 2 ] ],
-    "time": "60 m",
-    "qualities": [ [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 } ] ],
-    "pre_terrain": "t_trunk",
-    "post_terrain": "t_dirt",
-    "post_special": "done_trunk_plank"
-  },
-  {
-    "type": "construction",
     "skill": "survival",
     "description": "Build Improvised Shelter",
     "category": "CONSTRUCT",

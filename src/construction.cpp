@@ -85,7 +85,6 @@ bool check_no_trap( const tripoint & );
 
 // Special actions to be run post-terrain-mod
 static void done_nothing( const tripoint & ) {}
-void done_trunk_plank( const tripoint & );
 void done_grave( const tripoint & );
 void done_vehicle( const tripoint & );
 void done_deconstruct( const tripoint & );
@@ -1000,15 +999,6 @@ bool construct::check_no_trap( const tripoint &p )
     return g->m.tr_at( p ).is_null();
 }
 
-void construct::done_trunk_plank( const tripoint &p )
-{
-    ( void )p; //unused
-    int num_logs = rng( 2, 3 );
-    for( int i = 0; i < num_logs; ++i ) {
-        iuse::cut_log_into_planks( g->u );
-    }
-}
-
 void construct::done_grave( const tripoint &p )
 {
     map_stack its = g->m.i_at( p );
@@ -1403,7 +1393,6 @@ void load_construction( JsonObject &jo )
     };
     static const std::map<std::string, std::function<void( const tripoint & )>> post_special_map = {{
             { "", construct::done_nothing },
-            { "done_trunk_plank", construct::done_trunk_plank },
             { "done_grave", construct::done_grave },
             { "done_vehicle", construct::done_vehicle },
             { "done_deconstruct", construct::done_deconstruct },
