@@ -178,8 +178,8 @@
     "id": "FILTHY",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Zombie-dropped clothing giving various penalties if Filthy mod is active.",
-    "info": "This piece of clothing is <bad>filthy</bad>."
+    "description": "Zombie-dropped clothing giving various penalties if Filthy mod is active.  Also CBMs harvested from zombies.",
+    "info": "This item is <bad>filthy</bad>."
   },
   {
     "id": "FLASH_PROTECTION",
