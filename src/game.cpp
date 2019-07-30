@@ -2181,7 +2181,7 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
 tripoint game::mouse_edge_scrolling( input_context ctxt, const int speed )
 {
     const int rate = get_option<int>( "EDGE_SCROLL" );
-    tripoint ret = tripoint_zero;
+    tripoint ret;
     if( rate == -1 ) {
         // Fast return when the option is disabled.
         return ret;
@@ -6692,7 +6692,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                     const tripoint start = tripoint( std::min( dx, POSX ), std::min( dy, POSY ), lz );
                     const tripoint end = tripoint( std::max( dx, POSX ), std::max( dy, POSY ), lz );
 
-                    tripoint offset = tripoint_zero; //ASCII/SDL
+                    tripoint offset; //ASCII/SDL
 #if defined(TILES)
                     if( use_tiles ) {
                         offset = tripoint( offset_x + lx - u.posx(), offset_y + ly - u.posy(), 0 ); //TILES
@@ -10134,7 +10134,7 @@ void game::vertical_move( int movez, bool force )
     u.moves -= move_cost;
 
     const tripoint old_pos = g->u.pos();
-    point submap_shift = point_zero;
+    point submap_shift;
     vertical_shift( z_after );
     if( !force ) {
         submap_shift = update_map( stairs.x, stairs.y );

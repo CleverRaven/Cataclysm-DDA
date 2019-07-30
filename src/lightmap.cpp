@@ -204,7 +204,7 @@ void map::build_sunlight_cache( int zlev )
     // Replace this with a calculated shift based on time of day and date.
     // At first compress the angle such that it takes no more than one tile of shift per level.
     // To exceed that, we'll have to handle casting light from the side instead of the top.
-    point offset( 0, 0 );
+    point offset;
     const level_cache &prev_map_cache = get_cache_ref( zlev + 1 );
     const auto &prev_lm = prev_map_cache.lm;
     const auto &prev_transparency_cache = prev_map_cache.transparency_cache;
@@ -701,8 +701,8 @@ void cast_zlight_segment(
 
     T last_intensity = 0.0;
     static constexpr tripoint origin( 0, 0, 0 );
-    tripoint delta( 0, 0, 0 );
-    tripoint current( 0, 0, 0 );
+    tripoint delta;
+    tripoint current;
     for( int distance = row; distance <= radius; distance++ ) {
         delta.y = distance;
         bool started_block = false;
@@ -966,7 +966,7 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
     }
     T last_intensity = 0.0;
     static constexpr tripoint origin( 0, 0, 0 );
-    tripoint delta( 0, 0, 0 );
+    tripoint delta;
     for( int distance = row; distance <= radius; distance++ ) {
         delta.y = -distance;
         bool started_row = false;
