@@ -320,6 +320,108 @@
   },
   {
     "type": "technique",
+    "id": "tec_brawl_break_melee",
+    "name": "Grab Break",
+    "messages": [ "The %s tries to grab you, but you force yourself free!", "The %s tries to grab <npcname>, but they break free!" ],
+    "min_melee": 6,
+    "melee_allowed": true,
+    "defensive": true,
+    "grab_break": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_brawl_break_unarmed",
+    "name": "Grab Break",
+    "messages": [ "The %s tries to grab you, but you force yourself free!", "The %s tries to grab <npcname>, but they break free!" ],
+    "min_unarmed": 6,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "grab_break": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_brawl_counter_melee",
+    "name": "Hit Them Back",
+    "messages": [ "You catch %s's attack, and hit back", "<npcname> catches %s, and counters" ],
+    "min_melee": 5,
+    "melee_allowed": true,
+    "block_counter": true,
+    "crit_ok": true,    
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_brawl_counter_unarmed",
+    "name": "Hit Them Back",
+    "messages": [ "You catch %s's attack, and hit back", "<npcname> catches %s, and counters" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "block_counter": true,
+    "crit_ok": true,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_brawl_feint_melee",
+    "name": "Feint",
+    "messages": [ "You fake a strike at %s", "<npcname> fakes a strike at %s" ],
+    "min_melee": 3,
+    "melee_allowed": true,
+    "defensive": true,
+    "miss_recovery": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_brawl_feint_unarmed",
+    "name": "Feint",
+    "messages": [ "You fake a strike at %s", "<npcname> fakes a strike at %s" ],
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "miss_recovery": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_brawl_disarm_melee",
+    "name": "Disarm",
+    "messages": [ "You knock %s's weapon away", "<npcname> knock %s's weapon away" ],
+    "min_melee": 8,
+    "melee_allowed": true,
+    "disarms": true,
+    "crit_ok": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_brawl_disarm_unarmed",
+    "name": "Disarm",
+    "messages": [ "You knock %s's weapon away", "<npcname> knock %s's weapon away" ],
+    "min_unarmed": 8,
+    "unarmed_allowed": true,
+    "disarms": true,
+    "crit_ok": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_brawl_power",
+    "name": "Power Hit",
+    "messages": [ "You send %s reeling", "<npcname> sends %s reeling" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "knockback_dist": 1,
+    "stun_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "tec_brawl_trip",
+    "name": "Trip",
+    "messages": [ "You trip %s", "<npcname> trip %s" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "down_dur": 1
+  },  
+  {
+    "type": "technique",
     "id": "tec_karate_rapid",
     "name": "quick punch",
     "min_unarmed": 0,
@@ -913,51 +1015,6 @@
     "crit_tec": true,
     "messages": [ "You strike out at %s", "<npcname> strikes out at %s" ],
     "stun_dur": 2
-  },
-  {
-    "type": "technique",
-    "id": "tec_brawl_feint",
-    "name": "Feint",
-    "min_unarmed": 3,
-    "unarmed_allowed": true,
-    "melee_allowed": true,
-    "defensive": true,
-    "miss_recovery": true,
-    "messages": [ "You fake a strike at %s", "<npcname> feints at %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_brawl_power",
-    "name": "Power Hit",
-    "min_unarmed": 4,
-    "unarmed_allowed": true,
-    "melee_allowed": true,
-    "crit_tec": true,
-    "stun_dur": 1,
-    "knockback_dist": 1,
-    "messages": [ "You send %s reeling", "<npcname> sends %s reeling" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_brawl_counter",
-    "name": "Hit Them Back",
-    "min_unarmed": 5,
-    "unarmed_allowed": true,
-    "block_counter": true,
-    "melee_allowed": true,
-    "crit_ok": true,
-    "mult_bonuses": [ [ "movecost", 0.0 ] ],
-    "messages": [ "You catch %s's attack, and hit back", "<npcname> catches %s, and counters" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_brawl_trip",
-    "name": "Trip",
-    "min_unarmed": 5,
-    "unarmed_allowed": true,
-    "melee_allowed": true,
-    "down_dur": 2,
-    "messages": [ "You trip %s", "<npcname> trips %s" ]
   },
   {
     "type": "technique",
