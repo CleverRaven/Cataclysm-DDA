@@ -196,7 +196,7 @@ bool player::handle_gun_damage( item &it, int shots_fired )
     if( it.has_flag( "PUMP_ACTION" ) || it.has_flag( "MANUAL_ACTION" ) ) {
         malfunctionreduction = 30;
     }
-    if( ( it.type->gun->ammo.count( ammotype( "flintlock" ) ) ) ||
+    if( it.type->gun->ammo.count( ammotype( "flintlock" ) ) ||
         ( it.type->gun->ammo.count( ammotype( "blunderbuss" ) ) ) ||
         ( it.type->gun->ammo.count( ammotype( "36paper" ) ) ) ||
         ( it.type->gun->ammo.count( ammotype( "44paper" ) ) ) ) {
