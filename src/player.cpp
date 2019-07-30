@@ -11108,9 +11108,9 @@ void player::forced_dismount()
     } else {
         add_msg( m_debug, "Forced_dismount could not find a square to deposit player" );
     }
-    if( get_grab_type() != OBJECT_NONE ) {
+    if( g->u.get_grab_type() != OBJECT_NONE ) {
         add_msg( m_warning, _( "You let go of the grabbed object." ) );
-        grab( OBJECT_NONE );
+        g->u.grab( OBJECT_NONE );
     }
     moves -= 150;
     set_movement_mode( PMM_WALK );
