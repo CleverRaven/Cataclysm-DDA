@@ -1155,7 +1155,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list ) ) );
         }
         if( has_owner() ) {
-            info.push_back( iteminfo( "BASE", string_format( _( "Owner: %s" ), get_owner()->name ) ) );
+            info.push_back( iteminfo( "BASE", string_format( _( "Owner: %s" ), _( get_owner()->name ) ) ) );
         }
         if( has_var( "contained_name" ) && parts->test( iteminfo_parts::BASE_CONTENTS ) ) {
             info.push_back( iteminfo( "BASE", string_format( _( "Contains: %s" ),

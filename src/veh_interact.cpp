@@ -363,7 +363,7 @@ void veh_interact::do_main_loop()
             if( owned_by_player ) {
                 redraw = do_rename( msg );
             } else {
-                popup( _( "You cannot rename this vehicle as it is owned by: %s." ), veh->get_owner()->name );
+                popup( _( "You cannot rename this vehicle as it is owned by: %s." ), _( veh->get_owner()->name) );
                 redraw = true;
             }
         } else if( action == "SIPHON" ) {
@@ -397,14 +397,14 @@ void veh_interact::do_main_loop()
                 redraw = do_assign_crew( msg );
             } else {
                 popup( _( "You cannot assign crew on this vehicle as it is owned by: %s." ),
-                       veh->get_owner()->name );
+                       _( veh->get_owner()->name ) );
                 redraw = true;
             }
         } else if( action == "RELABEL" ) {
             if( owned_by_player ) {
                 redraw = do_relabel( msg );
             } else {
-                popup( _( "You cannot relabel this vehicle as it is owned by: %s." ), veh->get_owner()->name );
+                popup( _( "You cannot relabel this vehicle as it is owned by: %s." ), _( veh->get_owner()->name ) );
                 redraw = true;
             }
         } else if( action == "FUEL_LIST_DOWN" ) {
@@ -2409,7 +2409,7 @@ void veh_interact::display_name()
     mvwprintz( w_name, 0, 1, c_light_gray, _( "Name: " ) );
     std::string fac_name = veh->get_owner() &&
                            veh->get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ?
-                           veh->get_owner()->name : _( "Yours" );
+                           _( veh->get_owner()->name ) : _( "Yours" );
     mvwprintz( w_name, 0, 1 + utf8_width( _( "Name: " ) ),
                veh->get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ? c_light_red :
                c_light_green, string_format( _( "%s (%s)" ), veh->name,
