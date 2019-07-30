@@ -2543,7 +2543,7 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     if( act->name == "fault_gun_clogged" ) {
         target->faults.insert( fault_gun_blackpowder );
         target->set_var( "just_unclogged", 1 );
-        if( ( target->get_var( "dirt", 0 ) ) > 150 ) {
+        if( target->get_var( "dirt", 0 ) > 150 ) {
             target->set_var( "dirt", target->get_var( "dirt", 0 ) - 25 );
         }
     }
