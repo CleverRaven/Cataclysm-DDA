@@ -3588,6 +3588,7 @@ void activity_handlers::chop_planks_finish( player_activity *act, player *p )
     if( planks < max_planks / 2 ) {
         p->add_msg_if_player( m_bad, _( "You waste a lot of the wood." ) );
     }
+    act->set_to_null();
 }
 
 void activity_handlers::jackhammer_do_turn( player_activity *act, player *p )
