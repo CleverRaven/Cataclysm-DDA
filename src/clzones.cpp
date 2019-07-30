@@ -292,8 +292,7 @@ std::string loot_options::get_zone_name_suggestion() const
 
 std::vector<std::pair<std::string, std::string>> loot_options::get_descriptions() const
 {
-    std::vector<std::pair<std::string, std::string>> options =
-                std::vector<std::pair<std::string, std::string>>();
+    std::vector<std::pair<std::string, std::string>> options;
     options.emplace_back( std::make_pair( _( "Loot: Custom: " ),
                                           !mark.empty() ? mark : _( "No filter" ) ) );
 
@@ -670,11 +669,7 @@ bool zone_manager::custom_loot_has( const tripoint &where, const item *item_type
     std::string filter_string = options.get_mark();
     auto z = item_filter_from_string( filter_string );
 
-
-    if( z( *item_type ) ) {
-        return true;
-    }
-    return false;
+    return z( *item_type );
 }
 
 std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,

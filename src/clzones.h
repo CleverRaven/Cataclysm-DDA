@@ -12,7 +12,6 @@
 #include <memory>
 #include <string>
 
-#include "item.h"
 #include "optional.h"
 #include "point.h"
 #include "string_id.h"
