@@ -40,6 +40,7 @@ mission mission_type::create( const int npc_id ) const
     ret.item_id = item_id;
     ret.item_count = item_count;
     ret.value = value;
+    ret.description = description;
     ret.follow_up = follow_up;
     ret.monster_species = monster_species;
     ret.monster_type = monster_type;
