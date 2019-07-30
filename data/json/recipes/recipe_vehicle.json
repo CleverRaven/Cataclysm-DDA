@@ -220,7 +220,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "soldering_standard", 5 ] ],
-    "components": [ [ [ "autoclave", 1 ] ], [ [ "wire", 2 ] ], [ [ "power_supply", 2 ] ] ]
+    "components": [ [ [ "autoclave", 1 ] ], [ [ "cable", 2 ] ], [ [ "power_supply", 2 ] ] ]
   },
   {
     "result": "washing_machine",
