@@ -76,7 +76,7 @@ bool monster::is_immune_field( const field_type_id fid ) const
     if( fid == fd_fungicidal_gas ) {
         return !type->in_species( FUNGUS );
     }
-    const field_type ft = fid.obj();
+    const field_type &ft = fid.obj();
     if( ft.has_fume ) {
         return has_flag( MF_NO_BREATHE );
     }

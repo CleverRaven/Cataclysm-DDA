@@ -326,7 +326,7 @@ class map_notes_callback : public uilist_callback
         bool key( const input_context &ctxt, const input_event &event, int, uilist *menu ) override {
             _selected = menu->selected;
             if( _selected >= 0 && _selected < static_cast<int>( _notes.size() ) ) {
-                const std::string action = ctxt.input_to_action( event );
+                const std::string &action = ctxt.input_to_action( event );
                 if( action == "DELETE_NOTE" ) {
                     if( overmap_buffer.has_note( note_location() ) &&
                         query_yn( _( "Really delete note?" ) ) ) {

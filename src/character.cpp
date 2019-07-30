@@ -2690,7 +2690,7 @@ bool Character::is_immune_field( const field_type_id fid ) const
         return true;
     }
     // Check to see if we are immune
-    const field_type ft = fid.obj();
+    const field_type &ft = fid.obj();
     for( const trait_id &t : ft.immunity_data_traits ) {
         if( has_trait( t ) ) {
             return true;
