@@ -26,13 +26,13 @@
 
 const skill_id skill_swimming( "swimming" );
 
-static const std::string title_STATS = _( "STATS" );
-static const std::string title_ENCUMB = _( "ENCUMBRANCE AND WARMTH" );
-static const std::string title_EFFECTS = _( "EFFECTS" );
-static const std::string title_SPEED = _( "SPEED" );
-static const std::string title_SKILLS = _( "SKILLS" );
-static const std::string title_BIONICS = _( "BIONICS" );
-static const std::string title_TRAITS = _( "TRAITS" );
+static const std::string title_STATS = translate_marker( "STATS" );
+static const std::string title_ENCUMB = translate_marker( "ENCUMBRANCE AND WARMTH" );
+static const std::string title_EFFECTS = translate_marker( "EFFECTS" );
+static const std::string title_SPEED = translate_marker( "SPEED" );
+static const std::string title_SKILLS = translate_marker( "SKILLS" );
+static const std::string title_BIONICS = translate_marker( "BIONICS" );
+static const std::string title_TRAITS = translate_marker( "TRAITS" );
 
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 
@@ -256,7 +256,7 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
 {
 
     mvwprintz( w_stats, 0, 0, h_light_gray, header_spaces );
-    center_print( w_stats, 0, h_light_gray, title_STATS );
+    center_print( w_stats, 0, h_light_gray, _( title_STATS ) );
 
     // Clear bonus/penalty menu.
     mvwprintz( w_stats, 7, 0, c_light_gray, "%26s", "" );
@@ -342,7 +342,7 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
         }
     } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
         mvwprintz( w_stats, 0, 0, c_light_gray, header_spaces );
-        center_print( w_stats, 0, c_light_gray, title_STATS );
+        center_print( w_stats, 0, c_light_gray, _( title_STATS ) );
         wrefresh( w_stats );
         line = 0;
         curtab = action == "NEXT_TAB" ? curtab + 1 : 6;
@@ -366,7 +366,7 @@ static void draw_encumbrance_tab( const catacurses::window &w_encumb,
                                   bool &done, std::string &action )
 {
     werase( w_encumb );
-    center_print( w_encumb, 0, h_light_gray, title_ENCUMB );
+    center_print( w_encumb, 0, h_light_gray, _( title_ENCUMB ) );
     you.print_encumbrance( w_encumb, line );
     wrefresh( w_encumb );
 
@@ -401,7 +401,7 @@ static void draw_encumbrance_tab( const catacurses::window &w_encumb,
         }
     } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
         mvwprintz( w_encumb, 0, 0, c_light_gray, header_spaces );
-        center_print( w_encumb, 0, c_light_gray, title_ENCUMB );
+        center_print( w_encumb, 0, c_light_gray, _( title_ENCUMB ) );
         wrefresh( w_encumb );
         line = 0;
         curtab = action == "NEXT_TAB" ? curtab + 1 : curtab - 1;
@@ -417,7 +417,7 @@ static void draw_traits_tab( const catacurses::window &w_traits, const catacurse
 {
     werase( w_traits );
     mvwprintz( w_traits, 0, 0, h_light_gray, header_spaces );
-    center_print( w_traits, 0, h_light_gray, title_TRAITS );
+    center_print( w_traits, 0, h_light_gray, _( title_TRAITS ) );
 
     size_t min = 0;
     size_t max = 0;
@@ -466,7 +466,7 @@ static void draw_traits_tab( const catacurses::window &w_traits, const catacurse
         }
     } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
         mvwprintz( w_traits, 0, 0, c_light_gray, header_spaces );
-        center_print( w_traits, 0, c_light_gray, title_TRAITS );
+        center_print( w_traits, 0, c_light_gray, _( title_TRAITS ) );
         for( size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++ ) {
             const auto &mdata = traitslist[i].obj();
             mvwprintz( w_traits, static_cast<int>( i + 1 ), 1, c_black, "                         " );
@@ -489,7 +489,7 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
 {
     werase( w_bionics );
     mvwprintz( w_bionics, 0, 0, h_light_gray, header_spaces );
-    center_print( w_bionics, 0, h_light_gray, title_BIONICS );
+    center_print( w_bionics, 0, h_light_gray, _( title_BIONICS ) );
     trim_and_print( w_bionics, 1, 1, getmaxx( w_bionics ) - 1, c_white,
                     string_format( _( "Bionic Power: <color_light_blue>%1$d</color>" ), you.max_power_level ) );
 
@@ -533,7 +533,7 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
         }
     } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
         mvwprintz( w_bionics, 0, 0, c_light_gray, header_spaces );
-        center_print( w_bionics, 0, c_light_gray, title_BIONICS );
+        center_print( w_bionics, 0, c_light_gray, _( title_BIONICS ) );
         trim_and_print( w_bionics, 1, 1, getmaxx( w_bionics ) - 1, c_white,
                         string_format( _( "Bionic Power: <color_light_blue>%1$d</color>" ), you.max_power_level ) );
         for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y - 1; i++ ) {
@@ -556,7 +556,7 @@ static void draw_effects_tab( const catacurses::window &w_effects, const catacur
                               const std::vector<std::string> &effect_text )
 {
     mvwprintz( w_effects, 0, 0, h_light_gray, header_spaces );
-    center_print( w_effects, 0, h_light_gray, title_EFFECTS );
+    center_print( w_effects, 0, h_light_gray, _( title_EFFECTS ) );
 
     const size_t half_y = effect_win_size_y / 2;
 
@@ -602,7 +602,7 @@ static void draw_effects_tab( const catacurses::window &w_effects, const catacur
         }
     } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
         mvwprintz( w_effects, 0, 0, c_light_gray, header_spaces );
-        center_print( w_effects, 0, c_light_gray, title_EFFECTS );
+        center_print( w_effects, 0, c_light_gray, _( title_EFFECTS ) );
         for( size_t i = 0; i < effect_name.size() && i < 7; i++ ) {
             trim_and_print( w_effects, static_cast<int>( i ) + 1, 0, getmaxx( w_effects ) - 1, c_light_gray,
                             effect_name[i] );
@@ -621,7 +621,7 @@ static void draw_skills_tab( const catacurses::window &w_skills, const catacurse
                              const size_t skill_win_size_y )
 {
     mvwprintz( w_skills, 0, 0, h_light_gray, header_spaces );
-    center_print( w_skills, 0, h_light_gray, title_SKILLS );
+    center_print( w_skills, 0, h_light_gray, _( title_SKILLS ) );
 
     size_t min = 0;
     size_t max = 0;
@@ -722,7 +722,7 @@ static void draw_skills_tab( const catacurses::window &w_skills, const catacurse
     } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
         werase( w_skills );
         mvwprintz( w_skills, 0, 0, c_light_gray, header_spaces );
-        center_print( w_skills, 0, c_light_gray, title_SKILLS );
+        center_print( w_skills, 0, c_light_gray, _( title_SKILLS ) );
         for( size_t i = 0; i < skillslist.size() && i < static_cast<size_t>( skill_win_size_y ); i++ ) {
             const Skill *thisSkill = skillslist[i];
             const SkillLevel &level = you.get_skill_level_object( thisSkill->ident() );
@@ -890,7 +890,7 @@ static void draw_initial_windows( const catacurses::window &w_stats,
                                   const size_t skill_win_size_y )
 {
     // First!  Default STATS screen.
-    center_print( w_stats, 0, c_light_gray, title_STATS );
+    center_print( w_stats, 0, c_light_gray, _( title_STATS ) );
 
     // Stats
     const auto display_stat = [&w_stats]( const char *name, int cur, int max, int line_n ) {
@@ -924,12 +924,12 @@ static void draw_initial_windows( const catacurses::window &w_stats,
     wrefresh( w_stats );
 
     // Next, draw encumbrance.
-    center_print( w_encumb, 0, c_light_gray, title_ENCUMB );
+    center_print( w_encumb, 0, c_light_gray, _( title_ENCUMB ) );
     you.print_encumbrance( w_encumb );
     wrefresh( w_encumb );
 
     // Next, draw traits.
-    center_print( w_traits, 0, c_light_gray, title_TRAITS );
+    center_print( w_traits, 0, c_light_gray, _( title_TRAITS ) );
     std::sort( traitslist.begin(), traitslist.end(), trait_display_sort );
     for( size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++ ) {
         const auto &mdata = traitslist[i].obj();
@@ -940,7 +940,7 @@ static void draw_initial_windows( const catacurses::window &w_stats,
     wrefresh( w_traits );
 
     // Next, draw bionics
-    center_print( w_bionics, 0, c_light_gray, title_BIONICS );
+    center_print( w_bionics, 0, c_light_gray, _( title_BIONICS ) );
     trim_and_print( w_bionics, 1, 1, getmaxx( w_bionics ) - 1, c_white,
                     string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
                                    you.power_level, you.max_power_level ) );
@@ -951,7 +951,7 @@ static void draw_initial_windows( const catacurses::window &w_stats,
     wrefresh( w_bionics );
 
     // Next, draw effects.
-    center_print( w_effects, 0, c_light_gray, title_EFFECTS );
+    center_print( w_effects, 0, c_light_gray, _( title_EFFECTS ) );
     for( size_t i = 0; i < effect_name.size() && i < effect_win_size_y; i++ ) {
         trim_and_print( w_effects, static_cast<int>( i ) + 1, 0, getmaxx( w_effects ) - 1, c_light_gray,
                         effect_name[i] );
@@ -961,7 +961,7 @@ static void draw_initial_windows( const catacurses::window &w_stats,
     // Next, draw skills.
     line = 1;
 
-    center_print( w_skills, 0, c_light_gray, title_SKILLS );
+    center_print( w_skills, 0, c_light_gray, _( title_SKILLS ) );
 
     for( auto &elem : skillslist ) {
         const SkillLevel &level = you.get_skill_level_object( elem->ident() );
@@ -1008,7 +1008,7 @@ static void draw_initial_windows( const catacurses::window &w_stats,
     wrefresh( w_skills );
 
     // Finally, draw speed.
-    center_print( w_speed, 0, c_light_gray, title_SPEED );
+    center_print( w_speed, 0, c_light_gray, _( title_SPEED ) );
     mvwprintz( w_speed, 1, 1, c_light_gray, _( "Base Move Cost:" ) );
     mvwprintz( w_speed, 2, 1, c_light_gray, _( "Current Speed:" ) );
     int newmoves = you.get_speed();
