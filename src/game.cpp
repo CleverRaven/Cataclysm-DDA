@@ -2858,8 +2858,7 @@ bool game::save()
             uistate.serialize( jsout );
         }, _( "uistate data" ) ) ) {
             return false;
-        }
-        else {
+        } else {
             world_generator->active_world->add_save( save_t::from_player_name( u.name ) );
             return true;
         }
@@ -2961,10 +2960,10 @@ void game::disp_kills()
     for( auto &elem : kills ) {
         const mtype &m = elem.first.obj();
         kill_counts[std::tuple<std::string, std::string, std::string>(
-                        m.nname(),
-                        m.sym,
-                        string_from_color( m.color )
-                    )] += elem.second;
+                                                m.nname(),
+                                                m.sym,
+                                                string_from_color( m.color )
+                                            )] += elem.second;
         totalkills += elem.second;
     }
 
@@ -6195,28 +6194,28 @@ void game::zones_manager()
         tripoint center = u.pos() + u.view_offset;
 
         const look_around_result first = look_around( w_zones_info, center, center, false, true,
-        false );
+                false );
         if( first.position )
         {
             mvwprintz( w_zones_info, 3, 2, c_white, _( "Select second point." ) );
             wrefresh( w_zones_info );
 
             const look_around_result second = look_around( w_zones_info, center, *first.position,
-            true, true, false );
+                    true, true, false );
             if( second.position ) {
                 werase( w_zones_info );
                 wrefresh( w_zones_info );
 
                 tripoint first_abs = m.getabs( tripoint( std::min( first.position->x,
-                second.position->x ),
-                std::min( first.position->y, second.position->y ),
-                std::min( first.position->z,
-                second.position->z ) ) );
+                                               second.position->x ),
+                                               std::min( first.position->y, second.position->y ),
+                                               std::min( first.position->z,
+                                                       second.position->z ) ) );
                 tripoint second_abs = m.getabs( tripoint( std::max( first.position->x,
-                second.position->x ),
-                std::max( first.position->y, second.position->y ),
-                std::max( first.position->z,
-                second.position->z ) ) );
+                                                second.position->x ),
+                                                std::max( first.position->y, second.position->y ),
+                                                std::max( first.position->z,
+                                                        second.position->z ) ) );
                 return std::pair<tripoint, tripoint>( first_abs, second_abs );
             }
         }
