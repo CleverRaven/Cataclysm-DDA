@@ -4504,7 +4504,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             }
         }
         if( autoclave_finished ) {
-            add_msg( _( "The washing machine in the %s has finished washing." ), cur_veh.name );
+            add_msg( _( "The autoclave in the %s has finished washing." ), cur_veh.name );
         }
     }
 
