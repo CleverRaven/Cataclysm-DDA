@@ -1370,7 +1370,7 @@ void vehicle::use_autoclave( int p )
         add_msg( m_bad,
                  _( "You turn the autoclave off before it's finished the program, and open its door." ) );
     } else if( fuel_left( "water" ) < 8 && fuel_left( "water_clean" ) < 8 ) {
-        add_msg( m_bad, _( "You need 8 charges of water in tanks of the %s for the autodoc to run." ),
+        add_msg( m_bad, _( "You need 8 charges of water in tanks of the %s for the autoclave to run." ),
                  name );
     } else if( filthy_items ) {
         add_msg( m_bad,
