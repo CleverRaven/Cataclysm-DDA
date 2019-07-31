@@ -663,6 +663,7 @@
     "difficulty": 8,
     "durability": 400,
     "size": 40000,
+    "cargo_weight_modifier": 0,
     "breaks_into": [  ],
     "flags": [ "CARGO", "COVERED", "UNMOUNT_ON_DAMAGE" ]
   },

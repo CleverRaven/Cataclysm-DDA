@@ -266,6 +266,9 @@ class vpart_info
         /** seatbelt (str), muffler (%), horn (vol), light (intensity) */
         int bonus = 0;
 
+        /** cargo weight modifier (percentage) */
+        int cargo_weight_modifier = 100;
+
         /** Flat decrease of damage of a given type. */
         std::array<float, NUM_DT> damage_reduction;
 
