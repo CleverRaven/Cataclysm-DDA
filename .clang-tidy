@@ -78,7 +78,6 @@ readability-*,\
 -readability-container-size-empty,\
 -readability-redundant-control-flow,\
 -readability-redundant-declaration,\
--readability-redundant-member-init,\
 -readability-redundant-preprocessor,\
 -readability-redundant-string-init,\
 "
