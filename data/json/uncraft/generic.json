@@ -38,7 +38,6 @@
     "components": [ [ [ "yarn", 1 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
-  ,
   {
     "result": "scrap_kevlar",
     "type": "uncraft",
