@@ -1374,7 +1374,7 @@ void vehicle::use_autoclave( int p )
                  name );
     } else if( filthy_items ) {
         add_msg( m_bad,
-                 _( "You need to remove all filthy items from the autoclave to start the sterilising cycle." ) );
+                 _( "You need to remove all filthy items from the autoclave to start the sterilizing cycle." ) );
     } else if( !cbms ) {
         add_msg( m_bad,
                  _( "Only CBMs can be sterilized in an autoclave." ) );
