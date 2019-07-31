@@ -7030,15 +7030,11 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const int d
         return nullptr;
     }
 
-    const int smx = p.x / SEEX;
-    const int smy = p.y / SEEY;
     // debugmsg("n=%d x=%d y=%d MAPSIZE=%d ^2=%d", nonant, x, y, MAPSIZE, MAPSIZE*MAPSIZE);
     auto veh = std::make_unique<vehicle>( type, veh_fuel, veh_status );
-    veh->posx = p.x % SEEX;
-    veh->posy = p.y % SEEY;
-    veh->smx = smx;
-    veh->smy = smy;
-    veh->smz = p.z;
+    tripoint p_ms = p;
+    veh->sm_pos = ms_to_sm_remain( p_ms );
+    veh->pos = p_ms.xy();
     veh->place_spawn_items();
     veh->face.init( dir );
     veh->turn_dir = dir;
@@ -7051,11 +7047,11 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const int d
     vehicle *placed_vehicle = placed_vehicle_up.get();
 
     if( placed_vehicle != nullptr ) {
-        submap *place_on_submap = get_submap_at_grid( { placed_vehicle->smx, placed_vehicle->smy, placed_vehicle->smz} );
+        submap *place_on_submap = get_submap_at_grid( placed_vehicle->sm_pos );
         place_on_submap->vehicles.push_back( std::move( placed_vehicle_up ) );
         place_on_submap->is_uniform = false;
 
-        auto &ch = get_cache( placed_vehicle->smz );
+        auto &ch = get_cache( placed_vehicle->sm_pos.z );
         ch.vehicle_list.insert( placed_vehicle );
         add_vehicle_to_cache( placed_vehicle );
 
@@ -7123,11 +7119,8 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
              * p and then install them that way.
              * Create a vehicle with type "null" so it starts out empty. */
             auto wreckage = std::make_unique<vehicle>();
-            wreckage->posx = other_veh->posx;
-            wreckage->posy = other_veh->posy;
-            wreckage->smx = other_veh->smx;
-            wreckage->smy = other_veh->smy;
-            wreckage->smz = other_veh->smz;
+            wreckage->pos = other_veh->pos;
+            wreckage->sm_pos = other_veh->sm_pos;
 
             //Where are we on the global scale?
             const tripoint global_pos = wreckage->global_pos3();
@@ -7266,13 +7259,13 @@ void map::rotate( int turns )
     // Then rotate them and recalculate vehicle positions.
     for( int j = 0; j < 2; ++j ) {
         for( int i = 0; i < 2; ++i ) {
-            auto sm = get_submap_at_grid( { i, j } );
+            point p( i, j );
+            auto sm = get_submap_at_grid( p );
 
             sm->rotate( turns );
 
             for( auto &veh : sm->vehicles ) {
-                veh->smx = abs_sub.x + i;
-                veh->smy = abs_sub.y + j;
+                veh->sm_pos = abs_sub + p;
             }
         }
     }

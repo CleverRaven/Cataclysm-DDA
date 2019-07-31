@@ -128,9 +128,7 @@ vehicle::vehicle( const vproto_id &type_id, int init_veh_fuel,
 
 vehicle::vehicle() : vehicle( vproto_id() )
 {
-    smx = 0;
-    smy = 0;
-    smz = 0;
+    sm_pos = tripoint_zero;
 }
 
 vehicle::~vehicle() = default;
@@ -581,7 +579,7 @@ void vehicle::do_autodrive()
     tripoint global_a = tripoint( veh_omt_pos.x * ( 2 * SEEX ), veh_omt_pos.y * ( 2 * SEEY ),
                                   veh_omt_pos.z );
     tripoint autodrive_local_target = ( global_a + tripoint( x_side, y_side,
-                                        smz ) - g->m.getabs( vehpos ) ) + global_pos3();
+                                        sm_pos.z ) - g->m.getabs( vehpos ) ) + global_pos3();
     rl_vec2d facevec = face_vec();
     point rel_pos_target = point( autodrive_local_target.x - vehpos.x,
                                   autodrive_local_target.y - vehpos.y );
@@ -597,8 +595,8 @@ void vehicle::do_autodrive()
     // Check the tileray in the direction we need to head towards.
     std::set<point> points_to_check = immediate_path( angle );
     for( const auto &elem : points_to_check ) {
-        const optional_vpart_position ovp = g->m.veh_at( tripoint( elem.x, elem.y, smz ) );
-        if( g->m.impassable_ter_furn( tripoint( elem.x, elem.y, smz ) ) || ( ovp &&
+        const optional_vpart_position ovp = g->m.veh_at( tripoint( elem, sm_pos.z ) );
+        if( g->m.impassable_ter_furn( tripoint( elem, sm_pos.z ) ) || ( ovp &&
                 &ovp->vehicle() != this ) ) {
             if( velocity > 0 ) {
                 pldrive( 0, 10 );
@@ -1610,7 +1608,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         add_msg( _( "You load the %1$s on the rack" ), carry_veh->name );
         g->m.destroy_vehicle( carry_veh );
         g->m.dirty_vehicle_list.insert( this );
-        g->m.set_transparency_cache_dirty( smz );
+        g->m.set_transparency_cache_dirty( sm_pos.z );
         refresh();
     } else {
         //~ %1$s is the vehicle being loaded onto the bicycle rack
@@ -1668,7 +1666,7 @@ bool vehicle::remove_part( int p )
     // if a windshield is removed (usually destroyed) also remove curtains
     // attached to it.
     if( remove_dependent_part( "WINDOW", "CURTAIN" ) || part_flag( p, VPFLAG_OPAQUE ) ) {
-        g->m.set_transparency_cache_dirty( smz );
+        g->m.set_transparency_cache_dirty( sm_pos.z );
     }
 
     remove_dependent_part( "SEAT", "SEATBELT" );
@@ -1792,7 +1790,7 @@ void vehicle::part_removal_cleanup()
             g->m.destroy_vehicle( this );
             return;
         } else {
-            g->m.update_vehicle_cache( this, smz );
+            g->m.update_vehicle_cache( this, sm_pos.z );
         }
     }
     shift_if_needed();
@@ -2142,7 +2140,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
         new_vehicle->zones_dirty = true;
 
         g->m.dirty_vehicle_list.insert( new_vehicle );
-        g->m.set_transparency_cache_dirty( smz );
+        g->m.set_transparency_cache_dirty( sm_pos.z );
         if( !new_labels.empty() ) {
             new_vehicle->labels = new_labels;
         }
@@ -2859,7 +2857,7 @@ monster *vehicle::get_pet( int p ) const
 
 tripoint vehicle::global_pos3() const
 {
-    return tripoint( smx * SEEX + posx, smy * SEEY + posy, smz );
+    return sm_to_ms_copy( sm_pos ) + pos;
 }
 
 tripoint vehicle::global_part_pos3( const int &index ) const
@@ -2874,9 +2872,9 @@ tripoint vehicle::global_part_pos3( const vehicle_part &pt ) const
 
 void vehicle::set_submap_moved( int x, int y )
 {
-    const point old_msp = g->m.getabs( global_pos3().x, global_pos3().y );
-    smx = x;
-    smy = y;
+    const point old_msp = g->m.getabs( global_pos3().xy() );
+    sm_pos.x = x;
+    sm_pos.y = y;
     if( !tracking_on ) {
         return;
     }
@@ -4256,19 +4254,17 @@ vehicle *vehicle::find_vehicle( const tripoint &where )
     }
 
     // Nope. Load up its submap...
-    point veh_in_sm = point( where.x, where.y );
-    point veh_sm = ms_to_sm_remain( veh_in_sm );
+    tripoint veh_in_sm = where;
+    tripoint veh_sm = ms_to_sm_remain( veh_in_sm );
 
-    auto sm = MAPBUFFER.lookup_submap( veh_sm.x, veh_sm.y, where.z );
+    auto sm = MAPBUFFER.lookup_submap( veh_sm );
     if( sm == nullptr ) {
         return nullptr;
     }
 
     for( auto &elem : sm->vehicles ) {
         vehicle *found_veh = elem.get();
-        point veh_location( found_veh->posx, found_veh->posy );
-
-        if( veh_in_sm == veh_location ) {
+        if( veh_in_sm.xy() == found_veh->pos ) {
             return found_veh;
         }
     }
@@ -5311,7 +5307,7 @@ void vehicle::shift_parts( const point &delta )
     pivot_anchor[0] -= delta;
     refresh();
     //Need to also update the map after this
-    g->m.reset_vehicle_cache( smz );
+    g->m.reset_vehicle_cache( sm_pos.z );
 }
 
 /**
@@ -5682,7 +5678,7 @@ void vehicle::update_time( const time_point &update_to )
         discharge_battery( pt.info().epower );
     }
 
-    if( smz < 0 ) {
+    if( sm_pos.z < 0 ) {
         return;
     }
 

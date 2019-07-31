@@ -215,7 +215,7 @@ void map::add_vehicle_to_cache( vehicle *veh )
         return;
     }
 
-    auto &ch = get_cache( veh->smz );
+    auto &ch = get_cache( veh->sm_pos.z );
     ch.veh_in_active_range = true;
     // Get parts
     std::vector<vehicle_part> &parts = veh->parts;
@@ -301,11 +301,12 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
         return std::unique_ptr<vehicle>();
     }
 
-    if( veh->smz < -OVERMAP_DEPTH || veh->smz > OVERMAP_HEIGHT ) {
+    int z = veh->sm_pos.z;
+    if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
         debugmsg( "detach_vehicle got a vehicle outside allowed z-level range! name=%s, submap:%d,%d,%d",
-                  veh->name, veh->smx, veh->smy, veh->smz );
+                  veh->name, veh->sm_pos.x, veh->sm_pos.y, veh->sm_pos.z );
         // Try to fix by moving the vehicle here
-        veh->smz = abs_sub.z;
+        z = veh->sm_pos.z = abs_sub.z;
     }
 
     // Unboard all passengers before detaching
@@ -316,14 +317,13 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
         }
     }
 
-    submap *const current_submap = get_submap_at_grid( {veh->smx, veh->smy, veh->smz} );
-    auto &ch = get_cache( veh->smz );
+    submap *const current_submap = get_submap_at_grid( veh->sm_pos );
+    auto &ch = get_cache( z );
     for( size_t i = 0; i < current_submap->vehicles.size(); i++ ) {
         if( current_submap->vehicles[i].get() == veh ) {
-            const int zlev = veh->smz;
             ch.vehicle_list.erase( veh );
             ch.zone_vehicles.erase( veh );
-            reset_vehicle_cache( zlev );
+            reset_vehicle_cache( z );
             std::unique_ptr<vehicle> result = std::move( current_submap->vehicles[i] );
             current_submap->vehicles.erase( current_submap->vehicles.begin() + i );
             if( veh->tracking_on ) {
@@ -333,8 +333,8 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
             return result;
         }
     }
-    debugmsg( "detach_vehicle can't find it! name=%s, submap:%d,%d,%d", veh->name, veh->smx,
-              veh->smy, veh->smz );
+    debugmsg( "detach_vehicle can't find it! name=%s, submap:%d,%d,%d", veh->name, veh->sm_pos.x,
+              veh->sm_pos.y, veh->sm_pos.z );
     return std::unique_ptr<vehicle>();
 }
 
@@ -441,7 +441,8 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         return &veh;
     }
 
-    if( dp.z + veh.smz < -OVERMAP_DEPTH || dp.z + veh.smz > OVERMAP_HEIGHT ) {
+    const int target_z = dp.z + veh.sm_pos.z;
+    if( target_z < -OVERMAP_DEPTH || target_z > OVERMAP_HEIGHT ) {
         return &veh;
     }
 
@@ -630,7 +631,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
              veh.name,  veh.part_info( c.part ).name(),
              veh2.name, veh2.part_info( c.target_part ).name() );
 
-    const bool vertical = veh.smz != veh2.smz;
+    const bool vertical = veh.sm_pos.z != veh2.sm_pos.z;
 
     // Used to calculate the epicenter of the collision.
     point epicenter1;
@@ -838,14 +839,10 @@ VehicleList map::get_vehicles( const tripoint &start, const tripoint &end )
                 submap *current_submap = get_submap_at_grid( { cx, cy, cz } );
                 for( const auto &elem : current_submap->vehicles ) {
                     // Ensure the vehicle z-position is correct
-                    elem->smz = cz;
+                    elem->sm_pos.z = cz;
                     wrapped_vehicle w;
                     w.v = elem.get();
-                    w.x = w.v->posx + cx * SEEX;
-                    w.y = w.v->posy + cy * SEEY;
-                    w.z = cz;
-                    w.i = cx;
-                    w.j = cy;
+                    w.pos = w.v->global_pos3();
                     vehs.push_back( w );
                 }
             }
@@ -985,8 +982,7 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
     // first, let's find our position in current vehicles vector
     int our_i = -1;
     for( size_t i = 0; i < src_submap->vehicles.size(); i++ ) {
-        if( src_submap->vehicles[i]->posx == src_offset.x &&
-            src_submap->vehicles[i]->posy == src_offset.y ) {
+        if( src_submap->vehicles[i]->pos == src_offset ) {
             our_i = i;
             break;
         }
@@ -1080,9 +1076,8 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
     veh->pivot_anchor[0] = veh->pivot_anchor[1];
     veh->pivot_rotation[0] = veh->pivot_rotation[1];
 
-    veh->posx = dst_offset.x;
-    veh->posy = dst_offset.y;
-    veh->smz = p2.z;
+    veh->pos = dst_offset;
+    veh->sm_pos.z = p2.z;
     // Invalidate vehicle's point cache
     veh->occupied_cache_time = calendar::before_time_starts;
     if( src_submap != dst_submap ) {
@@ -1115,7 +1110,7 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
     //global positions of vehicle loot zones have changed.
     veh->zones_dirty = true;
 
-    on_vehicle_moved( veh->smz );
+    on_vehicle_moved( veh->sm_pos.z );
     return veh;
 }
 
@@ -6771,9 +6766,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
         vehicle *veh = iter->get();
         if( !veh->parts.empty() ) {
             // Always fix submap coordinates for easier Z-level-related operations
-            veh->smx = gridx;
-            veh->smy = gridy;
-            veh->smz = gridz;
+            veh->sm_pos = tripoint( gridx, gridy, gridz );
             iter++;
         } else {
             reset_vehicle_cache( gridz );
@@ -7258,8 +7251,7 @@ void map::copy_grid( const tripoint &to, const tripoint &from )
     const auto smap = get_submap_at_grid( from );
     setsubmap( get_nonant( to ), smap );
     for( auto &it : smap->vehicles ) {
-        it->smx = to.x;
-        it->smy = to.y;
+        it->sm_pos = to;
     }
 }
 
@@ -7735,22 +7727,21 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
         }
     }
     VehicleList vehs = get_vehicles( start, end );
+    const box bounds( start, end );
     // Cache all the vehicle stuff in one loop
     for( auto &v : vehs ) {
         for( const vpart_reference &vp : v.v->get_all_parts() ) {
-            int px = v.x + vp.part().precalc[0].x;
-            int py = v.y + vp.part().precalc[0].y;
-            if( v.z != start.z ) {
+            tripoint p = v.pos + vp.part().precalc[0];
+            if( p.z != start.z ) {
                 break;
             }
-            if( px < start.x || py < start.y || v.z < start.z ||
-                px > end.x || py > end.y || v.z > end.z ) {
+            if( !bounds.contains_inclusive( p ) ) {
                 continue;
             }
 
             if( vp.obstacle_at_part() ) {
-                obstacle_cache[px][py].velocity = 1000.0f;
-                obstacle_cache[px][py].density = 0.0f;
+                obstacle_cache[p.x][p.y].velocity = 1000.0f;
+                obstacle_cache[p.x][p.y].density = 0.0f;
             }
         }
     }
