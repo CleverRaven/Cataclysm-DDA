@@ -12,17 +12,6 @@ class time_point;
 class JsonOut;
 class JsonIn;
 
-/**
- * Convert ticks to seconds.
- *
- * @param ticks number of ticks
- * @returns Time in seconds
- */
-constexpr int TICKS_TO_SECONDS( int ticks )
-{
-    return static_cast<int>( static_cast<float>( ticks ) / 100 );
-}
-
 /** How much light moon provides per lit-up quarter (Full-moon light is four times this value) */
 #define MOONLIGHT_PER_QUARTER 2.25
 
