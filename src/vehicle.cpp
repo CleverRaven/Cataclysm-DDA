@@ -3883,24 +3883,21 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
 
 bool vehicle::balanced_wheel_config() const
 {
-    int xmin = INT_MAX;
-    int ymin = INT_MAX;
-    int xmax = INT_MIN;
-    int ymax = INT_MIN;
+    point min = point_max;
+    point max = point_min;
     // find the bounding box of the wheels
     for( auto &w : wheelcache ) {
         const auto &pt = parts[ w ].mount;
-        xmin = std::min( xmin, pt.x );
-        ymin = std::min( ymin, pt.y );
-        xmax = std::max( xmax, pt.x );
-        ymax = std::max( ymax, pt.y );
+        min.x = std::min( min.x, pt.x );
+        min.y = std::min( min.y, pt.y );
+        max.x = std::max( max.x, pt.x );
+        max.y = std::max( max.y, pt.y );
     }
 
+    // Check center of mass inside support of wheels (roughly)
     const point &com = local_center_of_mass();
-    if( com.x < xmin || com.x > xmax || com.y < ymin || com.y > ymax ) {
-        return false; // center of mass not inside support of wheels (roughly)
-    }
-    return true;
+    const rectangle support( min, max );
+    return support.contains_inclusive( com );
 }
 
 bool vehicle::valid_wheel_config() const

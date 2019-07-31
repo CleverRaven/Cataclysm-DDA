@@ -1294,10 +1294,7 @@ static bool casting_time_encumbered( const spell &sp, const player &p )
         // the first 20 points of encumbrance combined is ignored
         encumb += std::max( 0, p.encumb( bp_arm_l ) + p.encumb( bp_arm_r ) - 20 );
     }
-    if( encumb > 0 ) {
-        return true;
-    }
-    return false;
+    return encumb > 0;
 }
 
 static bool energy_cost_encumbered( const spell &sp, const player &p )

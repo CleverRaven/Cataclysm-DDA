@@ -1639,10 +1639,7 @@ bool npc::is_assigned_to_camp() const
     if( !bcp ) {
         return false;
     }
-    if( !has_companion_mission() && mission == NPC_MISSION_GUARD_ALLY ) {
-        return true;
-    }
-    return false;
+    return !has_companion_mission() && mission == NPC_MISSION_GUARD_ALLY;
 }
 
 bool npc::is_enemy() const

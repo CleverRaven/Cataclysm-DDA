@@ -601,7 +601,7 @@ void sfx::do_vehicle_engine_sfx()
     float pitch = 1.0f;
     int safe_speed = veh->safe_velocity();
     int current_gear;
-    if( in_reverse == true ) {
+    if( in_reverse ) {
         current_gear = -1;
     } else if( current_speed == 0 ) {
         current_gear = 0;
