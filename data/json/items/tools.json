@@ -5536,7 +5536,7 @@
     "id": "autoclave",
     "type": "TOOL",
     "name": "autoclave",
-    "description": "This is an autoclave.  It's useful for sterilizing things like CBMs.  This machine draws a lot of power, standard battery might not be enough.",
+    "description": "This is an autoclave.  It's useful for sterilizing things like CBMs.  It requires a massive amount of power, so standard batteries will not power it sufficiently.",
     "weight": 34500,
     "volume": "76 L",
     "price": 162654,
