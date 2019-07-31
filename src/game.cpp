@@ -5279,6 +5279,8 @@ void game::control_vehicle()
                 return;
             }
             veh->use_controls( *vehicle_position );
+            //May be folded up (destroyed), so need to re-get it
+            veh = g->remoteveh();
         }
     }
     if( veh ) {
