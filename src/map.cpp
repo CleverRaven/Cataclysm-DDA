@@ -1,4 +1,4 @@
-#include "map.h" //test
+#include "map.h"
 
 #include <climits>
 #include <algorithm>
