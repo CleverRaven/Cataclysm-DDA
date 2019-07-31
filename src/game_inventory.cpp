@@ -1607,7 +1607,7 @@ class bionic_install_preset: public inventory_selector_preset
             } );
 
             if( b_filter.size() > 0 ) {
-                return string_format( _( "kit available" ) );// legacy
+                return  _( "kit available" );// legacy
             } else {
                 return string_format( _( "%i mL" ), amount );
             }
@@ -1802,7 +1802,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
             } );
 
             if( b_filter.size() > 0 ) {
-                return string_format( _( "kit available" ) ); // legacy
+                return  _( "kit available" ); // legacy
             } else {
                 return string_format( _( "%i mL" ), amount );
             }
@@ -1835,13 +1835,16 @@ class bionic_sterilize_preset : public inventory_selector_preset
             return loc->has_flag( "NO_STERILE" ) && loc->is_bionic();
         }
 
-        std::string get_denial( const item_location & ) const override {
+        std::string get_denial( const item_location &loc ) const override {
             auto reqs = *requirement_id( "autoclave_item" );
 
             if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
                 return pgettext( "volume of water", "2 L" );
             }
 
+            if( loc.get_item()->has_flag( "FILTHY" ) ) {
+                return  _( "CBM is filthy.  Wash it first." );
+            }
             return std::string();
         }
 
