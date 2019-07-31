@@ -216,17 +216,29 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         option = NUM_ANSWERS; //Skip the options part
     } else if( newit.made_of_from_type( LIQUID ) ) {
         if( newit.has_flag( "FROZEN" ) ) {
-            map_stack items_here = g->m.i_at( loc.position() );
-            int units = newit.charges;
-            std::string action = query_popup()
-                                 .context( "YESNO" )
-                                 .message( _( "Do you want to gather %d %s?" ), units, newit.display_name() )
-                                 .option( "YES" )
-                                 .option( "NO" )
-                                 .cursor( 1 )
-                                 .query()
-                                 .action;
-            option = STASH;
+            if (u.has_quality(quality_id("HAMMER"), 1, 1)) {
+                int units = newit.charges;
+                std::string action = query_popup()
+                    .context("YESNO")
+                    .message(_("Do you want to gather %d %s?"), units, newit.display_name())
+                    .option("YES")
+                    .option("NO")
+                    .cursor(1)
+                    .query()
+                    .action;
+                if (action == "YES") {
+                    option = STASH;
+                }
+            }
+            else{
+                query_popup()
+                    .context("YES")
+                    .message("%s", "You don't have a Hammering 1 tool.")
+                    .option("CANCEL")
+                    .cursor(0)
+                    .query();
+                got_water = true;
+            }
         } else {
             got_water = true;
         }
@@ -351,7 +363,7 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
     }
 
     if( got_water ) {
-        add_msg( m_info, _( "You can't pick up a liquid!" ) );
+        add_msg( m_info, _( "You can't pick up this liquid!" ) );
     }
     if( weight_is_okay && g->u.weight_carried() > g->u.weight_capacity() ) {
         add_msg( m_bad, _( "You're overburdened!" ) );
