@@ -11,7 +11,7 @@
     "to_hit": -1,
     "material": "stone",
     "symbol": ";",
-    "color": "gray",
+    "color": "light_gray",
     "qualities": [ [ "HAMMER", 2 ] ],
     "use_action": "HAMMER",
     "//": "In terms of alchemy the gastrolith could serve to combie different effects, such as safely mixing together potions, or it could be used as an element of change, such as for shapechanging potions."
@@ -20,7 +20,7 @@
     "id": "stone_shell",
     "type": "GENERIC",
     "symbol": "*",
-    "color": "gray",
+    "color": "light_gray",
     "name": "stone shell",
     "description": "The broken fragment of an owlbear egg.  With luck it might still contain some of its former power, though if nothing else it's still a bit sharp.",
     "material": "stone",

@@ -159,7 +159,7 @@
     "type": "TOOL_ARMOR",
     "name": "C.R.I.T helmet (off)",
     "description": "C.R.T standard-issue helmet. Protects the noggin and has a stretch of insulated steel mesh for neck warmth and protection.",
-    "color": "ltgray",
+    "color": "light_gray",
     "material": [ "kevlar", "hardsteel" ],
     "material_thickness": 2,
     "warmth": 20,
@@ -182,7 +182,7 @@
     "type": "TOOL_ARMOR",
     "name": "C.R.I.T helmet (on)",
     "description": "C.R.I.T standard-issue helmet. Protects the noggin and has a stretch of insulated steel mesh for neck warmth and protection. A tactically dim flashlight is attatched to the side. This light is currently on and drawing power.",
-    "color": "ltgray",
+    "color": "light_gray",
     "material": [ "kevlar", "hardsteel" ],
     "flags": [
       "WATERPROOF",

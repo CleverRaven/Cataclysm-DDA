@@ -10,7 +10,7 @@
     "price_postapoc": 20000,
     "material": [ "superalloy", "diamond" ],
     "symbol": "[",
-    "color": "ltgray",
+    "color": "light_gray",
     "ammo": "battery",
     "charges_per_use": 1,
     "use_action": {
