@@ -1456,11 +1456,8 @@ WORLDPTR worldfactory::get_world( const std::string &name )
 // Helper predicate to exclude files from deletion when resetting a world directory.
 static bool isForbidden( const std::string &candidate )
 {
-    if( candidate.find( FILENAMES["worldoptions"] ) != std::string::npos ||
-        candidate.find( "mods.json" ) != std::string::npos ) {
-        return true;
-    }
-    return false;
+    return candidate.find( FILENAMES["worldoptions"] ) != std::string::npos ||
+           candidate.find( "mods.json" ) != std::string::npos;
 }
 
 void worldfactory::delete_world( const std::string &worldname, const bool delete_folder )

@@ -81,7 +81,6 @@ readability-*,\
 -readability-redundant-member-init,\
 -readability-redundant-preprocessor,\
 -readability-redundant-string-init,\
--readability-simplify-boolean-expr,\
 "
 WarningsAsErrors: '*'
 HeaderFilterRegex: '(src|test).*'
