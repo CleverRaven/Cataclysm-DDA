@@ -379,7 +379,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "720 m",
+    "time": "12 h",
     "autolearn": true,
     "byproducts": [ [ "rag", 1 ], [ "scrap_cotton", 8 ] ],
     "using": [ [ "fastener_large", 1 ], [ "tailoring_cotton", 8 ] ]

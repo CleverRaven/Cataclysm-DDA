@@ -4019,7 +4019,7 @@
     "sub": "sewing_kit",
     "max_charges": 200,
     "charges_per_use": 1,
-    "qualities": [ [ "SEW", 1 ] ],
+    "qualities": [ [ "SEW", 2 ] ],
     "use_action": {
       "type": "repair_item",
       "item_action_type": "repair_fabric",
@@ -4062,7 +4062,7 @@
     "id": "needle_wood",
     "type": "TOOL",
     "name": "wooden needle",
-    "description": "This is a wooden needle whittled down to a sharp point.  It has a narrow hole carved into the head for threading.  Its low quality makes it rather unsuitable for anything requiring speed or precision.",
+    "description": "This is a wooden needle whittled down to a sharp point.  It has a narrow hole carved into the head for threading.  Its low quality makes it rather unsuitable for anything requiring speed or precision, or involving tougher materials like Kevlar.",
     "weight": 85,
     "volume": 1,
     "price": 0,
@@ -4077,7 +4077,7 @@
     "use_action": {
       "type": "repair_item",
       "item_action_type": "repair_fabric",
-      "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "kevlar" ],
+      "materials": [ "cotton", "leather", "wool", "fur", "faux_fur" ],
       "skill": "tailor",
       "tool_quality": -1,
       "cost_scaling": 0.1,
@@ -5131,7 +5131,7 @@
     "initial_charges": 50,
     "max_charges": 200,
     "charges_per_use": 1,
-    "qualities": [ [ "SEW", 1 ] ],
+    "qualities": [ [ "SEW", 3 ] ],
     "use_action": {
       "type": "repair_item",
       "item_action_type": "repair_fabric",
@@ -5686,7 +5686,7 @@
     "initial_charges": 50,
     "max_charges": 400,
     "charges_per_use": 1,
-    "qualities": [ [ "SEW", 1 ], [ "SEW_CURVED", 1 ], [ "KNIT", 1 ], [ "LEATHER_AWL", 2 ], [ "CUT", 1 ] ],
+    "qualities": [ [ "SEW", 4 ], [ "SEW_CURVED", 1 ], [ "KNIT", 1 ], [ "LEATHER_AWL", 2 ], [ "CUT", 1 ] ],
     "use_action": [
       {
         "type": "repair_item",

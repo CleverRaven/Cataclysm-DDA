@@ -71,7 +71,7 @@
         [ "ash", 100 ],
         [ "tanbark", 1 ],
         [ "salt", 100 ],
-        [ "potassium_alum", 100 ]
+        [ "chem_potassium_alum", 100 ]
       ],
       [ [ "water", 3 ], [ "water_clean", 3 ] ]
     ]
@@ -150,7 +150,7 @@
     "id": "tailoring_kevlar",
     "type": "requirement",
     "//": "Crafting Kevlar items, per 101 g of Kevlar; 10 g + excessive weight of material is wasted, producing Kevlar scraps as byproducts.  Time needed is 90 minutes per unit if hand-stitching.",
-    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "sheet_kevlar", 22 ] ], [ [ "thread_kevlar", 1 ] ] ]
   },
    {
@@ -178,7 +178,7 @@
     "id": "tailoring_nomex",
     "type": "requirement",
     "//": "Crafting Nomex items, per 101 g of Nomex; 10 g + excessive weight of material is wasted, producing Nomex scraps as byproducts.  Time needed is 90 minutes per unit if hand-stitching.",
-    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "sheet_nomex", 22 ] ], [ [ "thread_nomex", 1 ] ] ]
   },
   {
@@ -188,7 +188,7 @@
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [
-      [ [ "potassium_alum", 50 ] ],
+      [ [ "chem_potassium_alum", 50 ] ],
       [ [ "detergent", 10 ] ],
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
       [ [ "duct_tape", 5 ] ]

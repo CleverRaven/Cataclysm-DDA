@@ -50,7 +50,7 @@
     "use_action": { "type": "deploy_furn", "furn_type": "f_floor_mattress" }
   },
   {
-    "id": "potassium_alum",
+    "id": "chem_potassium_alum",
     "type": "AMMO",
     "category": "chems",
     "name": "potassium alum",

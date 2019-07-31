@@ -31,48 +31,29 @@
   },
   {
     "id": "button_steel",
+    "copy-from": "button_plastic",
     "type": "AMMO",
-    "category": "spare_parts",
     "name": "steel button",
     "description": "A steel button, usually found on clothing.",
     "weight": 8,
-    "volume": "20 ml",
     "price": 300,
-    "material": "steel",
-    "symbol": "=",
-    "color": "dark_gray",
-    "count": 20,
-    "ammo_type": "components"
+    "material": "steel"
   },
   {
     "id": "button_wood",
+    "copy-from": "button_plastic",
     "type": "AMMO",
-    "category": "spare_parts",
     "name": "wooden button",
     "description": "A primitive wooden button, usually found on clothing.",
-    "weight": 1,
-    "volume": "20 ml",
-    "price": 100,
-    "material": "wood",
-    "symbol": "=",
-    "color": "dark_gray",
-    "count": 20,
-    "ammo_type": "components"
+    "material": "wood"
   },
   {
     "id": "snapfastener_steel",
+    "copy-from": "button_steel",
     "type": "AMMO",
     "category": "spare_parts",
     "name": "steel snap fastener",
-    "description": "A steel snap fastener, usually found on clothing.",
-    "weight": 8,
-    "volume": "20 ml",
-    "price": 300,
-    "material": "steel",
-    "symbol": "=",
-    "color": "dark_gray",
-    "count": 20,
-    "ammo_type": "components"
+    "description": "A steel snap fastener, usually found on clothing."
   },
   {
     "id": "touch_fastener",

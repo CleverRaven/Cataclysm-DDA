@@ -240,7 +240,7 @@
     "//": "General laboratory reagents and expendibles.  This list contains most conceivable chemicals in the game.  More specific lists for each type of lab would be reasonable eventually.",
     "items": [
       [ "dye_powder", 5 ],
-      [ "potassium_alum", 10 ],
+      [ "chem_potassium_alum", 10 ],
       [ "water_clean", 90 ],
       [ "salt_water", 20 ],
       [ "detergent", 10 ],

@@ -94,7 +94,7 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "tailor",
     "difficulty": 10,
-    "time": "5760 m",
+    "time": "4 d",
     "autolearn": true,
     "byproducts": [ [ "rag", 25 ], [ "scrap_cotton", 2000 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
