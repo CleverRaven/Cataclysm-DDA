@@ -1386,6 +1386,38 @@
     ]
   },
   {
+    "id": "fishing_items",
+    "type": "item_group",
+    "//": "For fishing themed locations",
+    "items": [
+      [ "flotation_vest", 50 ],
+      [ "plastic_sheet", 10 ],
+      [ "fishing_waders", 5 ],
+      [ "wetsuit", 10 ],
+      [ "wetsuit_spring", 10 ],
+      [ "wetsuit_gloves", 20 ],
+      [ "wetsuit_booties", 20 ],
+      [ "wetsuit_hood", 10 ],
+      [ "scuba_tank", 5 ],
+      [ "small_scuba_tank", 5 ],
+      [ "dive_bag", 10 ],
+      [ "rebreather", 2 ],
+      [ "rebreather_filter", 4 ],
+      [ "glowstick", 60 ],
+      [ "handflare", 40 ],
+      [ "grapnel", 40 ],
+      [ "fishing_rod_professional", 60 ],
+      [ "fishing_rod_basic", 60 ],
+      [ "rope_6", 60 ],
+      [ "rope_30", 60 ],
+      [ "fish_bait", 100 ],
+      [ "fish_trap", 100 ],
+      [ "bucket", 100 ],
+      [ "fishing_hook_basic", 100 ],
+      [ "fishing_hook_bone", 100 ]
+    ]
+  },
+  {
     "id": "laundromat_bleach",
     "type": "item_group",
     "items": [ [ "bleach", 50 ] ]
