@@ -102,7 +102,7 @@ static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 
 const skill_id skill_unarmed( "unarmed" );
 
-avatar::avatar() : player()
+avatar::avatar()
 {
     show_map_memory = true;
     active_mission = nullptr;
@@ -120,7 +120,7 @@ void avatar::memorial( std::ostream &memorial_file, const std::string &epitaph )
 
     //Avoid saying "a male unemployed" or similar
     std::string profession_name;
-    if( prof == prof->generic( ) ) {
+    if( prof == profession::generic() ) {
         if( male ) {
             profession_name = _( "an unemployed male" );
         } else {
@@ -1354,7 +1354,7 @@ void avatar::reset_stats()
     // Starvation
     const float bmi = get_bmi();
     if( bmi < character_weight_category::underweight ) {
-        const int str_penalty = floor( ( 1.0f - ( bmi - 13.0f ) / 3.0f ) * get_str_base() ) + 0.5f;
+        const int str_penalty = floor( ( 1.0f - ( bmi - 13.0f ) / 3.0f ) * get_str_base() );
         add_miss_reason( _( "You're weak from hunger." ),
                          static_cast<unsigned>( ( get_starvation() + 300 ) / 1000 ) );
         mod_str_bonus( -str_penalty );

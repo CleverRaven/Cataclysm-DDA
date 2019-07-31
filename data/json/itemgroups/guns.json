@@ -224,7 +224,12 @@
     "type": "item_group",
     "id": "guns_energy",
     "//": "Assorted factory crafted energy weapons.",
-    "items": [ { "item": "laser_rifle", "prob": 30 }, { "item": "emp_gun", "prob": 10 }, { "item": "v29", "prob": 70 } ]
+    "items": [
+      { "item": "laser_rifle", "prob": 30 },
+      { "item": "emp_gun", "prob": 10 },
+      { "item": "v29", "prob": 70 },
+      { "item": "plasma_gun", "prob": 10 }
+    ]
   },
   {
     "type": "item_group",

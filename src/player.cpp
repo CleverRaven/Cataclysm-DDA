@@ -455,8 +455,8 @@ stat_mod player::get_pain_penalty() const
     return ret;
 }
 
-player::player() : Character()
-    , next_climate_control_check( calendar::before_time_starts )
+player::player() :
+    next_climate_control_check( calendar::before_time_starts )
     , cached_time( calendar::before_time_starts )
 {
     id = -1; // -1 is invalid
@@ -641,7 +641,7 @@ void player::process_turn()
     // player::read, player::practice, ...
     // Check for spontaneous discovery of martial art styles
     for( auto &style : autolearn_martialart_types() ) {
-        const matype_id ma( style );
+        const matype_id &ma( style );
 
         if( !has_martialart( ma ) && can_autolearn( ma ) ) {
             add_martialart( ma );
@@ -1102,7 +1102,9 @@ void player::update_bodytemp()
             // Morale bonus for comfiness - only if actually comfy (not too warm/cold)
             // Spread the morale bonus in time.
             if( comfortable_warmth > 0 &&
-                calendar::turn % MINUTES( 1 ) == ( MINUTES( bp ) / MINUTES( num_bp ) ) &&
+                // @todo make this simpler and use time_duration/time_point
+                to_turn<int>( calendar::turn ) % to_turns<int>( 1_minutes ) == ( MINUTES( bp ) / MINUTES(
+                            num_bp ) ) &&
                 get_effect_int( effect_cold, num_bp ) == 0 &&
                 get_effect_int( effect_hot, num_bp ) == 0 &&
                 temp_cur[bp] > BODYTEMP_COLD && temp_cur[bp] <= BODYTEMP_NORM ) {
@@ -3572,16 +3574,11 @@ int player::impact( const int force, const tripoint &p )
     return total_dealt;
 }
 
-void player::knock_back_from( const tripoint &p )
+void player::knock_back_to( const tripoint &to )
 {
-    if( p == pos() ) {
+    if( to == pos() ) {
         return;
     }
-
-    tripoint to = pos();
-    const tripoint dp = pos() - p;
-    to.x += sgn( dp.x );
-    to.y += sgn( dp.y );
 
     // First, see if we hit a monster
     if( monster *const critter = g->critter_at<monster>( to ) ) {
@@ -6611,14 +6608,17 @@ void player::process_active_items()
     for( size_t index = 0; index < inv.size(); index++ ) {
         item &it = inv.find_item( index );
         itype_id identifier = it.type->get_id();
-        if( identifier == "UPS_off" && it.charges > 0 ) {
+        if( identifier == "UPS_off" ) {
             ch_UPS += it.ammo_remaining();
-        } else if( identifier == "adv_UPS_off" && it.charges > 0 ) {
+        } else if( identifier == "adv_UPS_off" ) {
             ch_UPS += it.ammo_remaining() / 0.6;
         }
-        if( !it.has_flag( "USE_UPS" ) && it.charges < it.type->maximum_charges() ) {
+        if( it.has_flag( "USE_UPS" ) && it.charges < it.type->maximum_charges() ) {
             active_held_items.push_back( index );
         }
+    }
+    if( has_active_bionic( bionic_id( "bio_ups" ) ) ) {
+        ch_UPS += power_level;
     }
     int ch_UPS_used = 0;
     if( cloak != nullptr ) {

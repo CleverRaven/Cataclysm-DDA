@@ -267,7 +267,7 @@
     "color": "brown",
     "covers": [ "ARMS" ],
     "coverage": 90,
-    "encumbrance": 16,
+    "encumbrance": 10,
     "warmth": 25,
     "material_thickness": 4,
     "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
@@ -1435,7 +1435,7 @@
     "name": "briefcase",
     "description": "Useful for carrying money, documents, or smuggled goods.",
     "weight": 1700,
-    "volume": 6,
+    "volume": 60,
     "price": 24000,
     "to_hit": -2,
     "bashing": 5,
@@ -1445,7 +1445,7 @@
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 10,
     "encumbrance": 30,
-    "storage": 24,
+    "storage": 60,
     "material_thickness": 2,
     "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
@@ -5838,6 +5838,7 @@
     "description": "A small pouch that can be used to store most types of small ammunition, rockets will not fit.  Activate to store ammunition.",
     "looks_like": "leather_pouch",
     "weight": 490,
+    "rigid": false,
     "volume": 2,
     "price": 1000,
     "to_hit": 1,
@@ -5847,7 +5848,7 @@
     "color": "brown",
     "covers": [ "TORSO" ],
     "coverage": 10,
-    "encumbrance": 2,
+    "encumbrance": 5,
     "material_thickness": 1,
     "use_action": {
       "type": "bandolier",
@@ -5898,7 +5899,7 @@
         "762R",
         "paintball"
       ],
-      "draw_cost": 20
+      "draw_cost": 35
     },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },

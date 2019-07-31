@@ -14,6 +14,7 @@
 
 #include "debug.h"
 #include "field.h"
+#include "flood_fill.h"
 #include "item.h"
 #include "line.h"
 #include "map.h"
@@ -2056,7 +2057,7 @@ void mapgen_parking_lot( map *m, oter_id, mapgendata dat, const time_point &turn
 void house_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata &dat )
 {
     // TODO: change this into a parameter
-    const time_point turn = calendar::time_of_cataclysm;
+    const time_point turn = calendar::turn_zero;
     int pos_x1 = 0;
     int pos_y1 = 0;
 
@@ -4145,11 +4146,22 @@ void mapgen_lake_shore( map *m, oter_id, mapgendata dat, const time_point &turn,
     bool did_extend_adjacent_terrain = false;
     if( !dat.region.overmap_lake.shore_extendable_overmap_terrain.empty() ) {
         std::map<oter_id, int> adjacent_type_count;
-        for( auto &adjacent : dat.t_nesw ) {
+        for( oter_id &adjacent : dat.t_nesw ) {
+            // Define the terrain we'll look for a match on.
+            oter_id match = adjacent;
+
+            // Check if this terrain has an alias to something we actually will extend, and if so, use it.
+            for( auto &alias : dat.region.overmap_lake.shore_extendable_overmap_terrain_aliases ) {
+                if( is_ot_match( alias.overmap_terrain, adjacent, alias.match_type ) ) {
+                    match = alias.alias;
+                    break;
+                }
+            }
+
             if( std::find( dat.region.overmap_lake.shore_extendable_overmap_terrain.begin(),
                            dat.region.overmap_lake.shore_extendable_overmap_terrain.end(),
-                           adjacent ) != dat.region.overmap_lake.shore_extendable_overmap_terrain.end() ) {
-                adjacent_type_count[adjacent] += 1;
+                           match ) != dat.region.overmap_lake.shore_extendable_overmap_terrain.end() ) {
+                adjacent_type_count[match] += 1;
             }
         }
 
@@ -4491,31 +4503,20 @@ void mapgen_lake_shore( map *m, oter_id, mapgendata dat, const time_point &turn,
     // we'll floodfill the sections adjacent to the lake with deep water. As before, we also clear
     // out any furniture that we placed by the extended mapgen.
     std::unordered_set<point> visited;
+
+    const auto should_fill = [&]( const point & p ) {
+        if( !map_boundaries.contains_inclusive( p ) ) {
+            return false;
+        }
+        return m->ter( p.x, p.y ) != t_null;
+    };
+
     const auto fill_deep_water = [&]( const point & starting_point ) {
-        std::queue<point> to_check;
-        to_check.push( starting_point );
-        while( !to_check.empty() ) {
-            const point current_point = to_check.front();
-            to_check.pop();
-
-            if( visited.find( current_point ) != visited.end() ) {
-                continue;
-            }
-
-            visited.emplace( current_point );
-
-            if( !map_boundaries.contains_inclusive( current_point ) ) {
-                continue;
-            }
-
-            if( m->ter( current_point.x, current_point.y ) != t_null ) {
-                m->ter_set( current_point.x, current_point.y, t_water_dp );
-                m->furn_set( current_point.x, current_point.y, f_null );
-                to_check.push( point( current_point.x, current_point.y + 1 ) );
-                to_check.push( point( current_point.x, current_point.y - 1 ) );
-                to_check.push( point( current_point.x + 1, current_point.y ) );
-                to_check.push( point( current_point.x - 1, current_point.y ) );
-            }
+        std::vector<point> water_points = ff::point_flood_fill_4_connected( starting_point, visited,
+                                          should_fill );
+        for( auto &wp : water_points ) {
+            m->ter_set( wp.x, wp.y, t_water_dp );
+            m->furn_set( wp.x, wp.y, f_null );
         }
     };
 
@@ -4628,7 +4629,7 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
     std::shuffle( std::begin( tripoints ), std::end( tripoints ), rng_get_engine() );
 
     bool all_can_be_placed = false;
-    tripoint shift( 0, 0, 0 );
+    tripoint shift;
     int match_count = 0;
 
     // Find a tripoint where all the underground tripoints for stairs are on

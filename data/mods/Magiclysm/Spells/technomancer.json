@@ -187,6 +187,7 @@
     "aoe_increment": -0.25,
     "min_range": 5,
     "max_range": 10,
+    "range_increment": 0.25,
     "min_duration": 100,
     "max_duration": 100
   },

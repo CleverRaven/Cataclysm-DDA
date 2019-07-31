@@ -27,6 +27,14 @@ class field_entry
         //returns the move cost of this field
         int move_cost() const;
 
+        int extra_radiation_min() const;
+        int extra_radiation_max() const;
+
+        float light_emitted() const;
+        float translucency() const;
+        bool is_transparent() const;
+        int convection_temperature_mod() const;
+
         //Returns the field_type_id of the current field entry.
         field_type_id get_field_type() const;
 
@@ -69,8 +77,16 @@ class field_entry
             return is_alive;
         }
 
+        bool gas_can_spread() {
+            return is_field_alive() && type.obj().phase == GAS && type.obj().percent_spread > 0;
+        }
+
         time_duration get_underwater_age_speedup() const {
             return type.obj().underwater_age_speedup;
+        }
+
+        int get_gas_absorption_factor() const {
+            return type.obj().gas_absorption_factor;
         }
 
         bool decays_on_actualize() const {

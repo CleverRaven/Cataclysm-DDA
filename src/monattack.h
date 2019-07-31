@@ -44,6 +44,7 @@ bool fungus_fortify( monster *z );    // Grow fungal hedgerows
 bool impale( monster *z );
 bool dermatik( monster *z );
 bool dermatik_growth( monster *z );
+bool fungal_trail( monster *z );
 bool plant( monster *z );
 bool disappear( monster *z );
 bool formblob( monster *z );

@@ -72,6 +72,7 @@
 #include "rng.h"
 #include "flat_set.h"
 #include "point.h"
+#include "clothing_mod.h"
 
 class npc;
 
@@ -466,7 +467,7 @@ int explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) cons
     if( do_flashbang ) {
         explosion_handler::flashbang( pos, flashbang_player_immune );
     }
-    if( fields_radius >= 0 && fields_type != fd_null ) {
+    if( fields_radius >= 0 && fields_type.id() ) {
         std::vector<tripoint> gas_sources = points_for_gas_cloud( pos, fields_radius );
         for( auto &gas_source : gas_sources ) {
             const int field_intensity = rng( fields_min_intensity, fields_max_intensity );
@@ -1021,6 +1022,49 @@ iuse_actor *deploy_furn_actor::clone() const
     return new deploy_furn_actor( *this );
 }
 
+void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    std::vector<std::string> can_function_as;
+    const furn_t &the_furn = furn_type.obj();
+    const std::string furn_name = the_furn.name();
+
+    if( the_furn.workbench.has_value() ) {
+        can_function_as.emplace_back( _( "a <info>crafting station</info>" ) );
+    }
+    if( the_furn.has_flag( "BUTCHER_EQ" ) ) {
+        can_function_as.emplace_back(
+            _( "a place to hang <info>corpses for butchering</info>" ) );
+    }
+    if( the_furn.has_flag( "FLAT_SURF" ) ) {
+        can_function_as.emplace_back(
+            _( "a flat surface to <info>butcher</info> onto or <info>eat meals</info> from" ) );
+    }
+    if( the_furn.has_flag( "CAN_SIT" ) ) {
+        can_function_as.emplace_back( _( "a place to <info>sit</info>" ) );
+    }
+    if( the_furn.has_flag( "HIDE_PLACE" ) ) {
+        can_function_as.emplace_back( _( "a place to <info>hide</info>" ) );
+    }
+    if( the_furn.has_flag( "FIRE_CONTAINER" ) ) {
+        can_function_as.emplace_back( _( "a safe place to <info>contain a fire</info>" ) );
+    }
+    if( the_furn.crafting_pseudo_item == "char_smoker" ) {
+        can_function_as.emplace_back( _( "a place to <info>smoke or dry food</info> for preservation" ) );
+    }
+
+    if( can_function_as.empty() ) {
+        dump.emplace_back( "DESCRIPTION",
+                           string_format( _( "Can be <info>activated</info> to deploy as furniture (<stat>%s</stat>)." ),
+                                          furn_name ) );
+    } else {
+        std::string furn_usages = enumerate_as_string( can_function_as, enumeration_conjunction::or_ );
+        dump.emplace_back( "DESCRIPTION",
+                           string_format(
+                               _( "Can be <info>activated</info> to deploy as furniture (<stat>%s</stat>), which can then be used as %s." ),
+                               furn_name, furn_usages ) );
+    }
+}
+
 void deploy_furn_actor::load( JsonObject &obj )
 {
     furn_type = furn_str_id( obj.get_string( "furn_type" ) );
@@ -1172,12 +1216,9 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
             has_unactivated_brazier = true;
         }
     }
-    if( has_unactivated_brazier &&
-        !query_yn(
-            _( "There's a brazier there but you haven't set it up to contain the fire. Continue?" ) ) ) {
-        return false;
-    }
-    return true;
+    return !has_unactivated_brazier ||
+           query_yn(
+               _( "There's a brazier there but you haven't set it up to contain the fire. Continue?" ) );
 }
 
 void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos )
@@ -2307,7 +2348,7 @@ void cast_spell_actor::load( JsonObject &obj )
 void cast_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
     const std::string message = string_format( _( "This item casts %s at level %i." ),
-                                item_spell.c_str(),
+                                _( item_spell->name ),
                                 spell_level );
     dump.emplace_back( "DESCRIPTION", message );
     if( no_fail ) {
@@ -2668,18 +2709,16 @@ int bandolier_actor::use( player &p, item &it, bool, const tripoint & ) const
 
 units::volume bandolier_actor::max_stored_volume() const
 {
-    // This is relevant only for bandoliers with the non-rigid flag.  There are
-    // no such items in the base game at time of writing, but I created some to
-    // test this and it does seem to work as expected.
+    // This is relevant only for bandoliers with the non-rigid flag
 
     // Find all valid ammo
     auto ammo_types = Item_factory::find( [&]( const itype & t ) {
         return is_valid_ammo_type( t );
     } );
-    // Figure out which has the greateset volume and calculate on that basis
+    // Figure out which has the greatest volume and calculate on that basis
     units::volume max_ammo_volume{};
     for( const auto *ammo_type : ammo_types ) {
-        max_ammo_volume = std::max( max_ammo_volume, ammo_type->volume );
+        max_ammo_volume = std::max( max_ammo_volume, ammo_type->volume / ammo_type->stack_size );
     }
     return max_ammo_volume * capacity;
 }
@@ -2696,8 +2735,8 @@ void ammobelt_actor::load( JsonObject &obj )
 
 void ammobelt_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
-    std::string name = item::find_type( belt )->nname( 1 );
-    dump.emplace_back( "AMMO", string_format( _( "Can be used to assemble: %s" ), name ) );
+    dump.emplace_back( "AMMO", string_format( _( "Can be used to assemble: %s" ),
+                       item::nname( belt ) ) );
 }
 
 int ammobelt_actor::use( player &p, item &, bool, const tripoint & ) const
@@ -3930,7 +3969,11 @@ iuse_actor *saw_barrel_actor::clone() const
 
 int install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    return p.install_bionics( *it.type, p, false ) ? it.type->charges_to_use() : 0;
+    if( p.can_install_bionics( *it.type, p, false ) ) {
+        return p.install_bionics( *it.type, p, false ) ? it.type->charges_to_use() : 0;
+    } else {
+        return 0;
+    }
 }
 
 ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bool,
@@ -4288,4 +4331,217 @@ void weigh_self_actor::load( JsonObject &jo )
 iuse_actor *weigh_self_actor::clone() const
 {
     return new weigh_self_actor( *this );
+}
+
+void sew_advanced_actor::load( JsonObject &obj )
+{
+    // Mandatory:
+    JsonArray jarr = obj.get_array( "materials" );
+    while( jarr.has_more() ) {
+        materials.emplace( jarr.next_string() );
+    }
+    jarr = obj.get_array( "clothing_mods" );
+    while( jarr.has_more() ) {
+        clothing_mods.push_back( clothing_mod_id( jarr.next_string() ) );
+    }
+
+    // TODO: Make skill non-mandatory while still erroring on invalid skill
+    const std::string skill_string = obj.get_string( "skill" );
+    used_skill = skill_id( skill_string );
+    if( !used_skill.is_valid() ) {
+        obj.throw_error( "Invalid skill", "skill" );
+    }
+}
+
+int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
+{
+    if( p.is_npc() ) {
+        return 0;
+    }
+
+    if( p.is_underwater() ) {
+        p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+        return 0;
+    }
+
+    if( p.fine_detail_vision_mod() > 4 ) {
+        add_msg( m_info, _( "You can't see to sew!" ) );
+        return 0;
+    }
+
+    int pos = g->inv_for_filter( _( "Enhance which clothing?" ), [ this ]( const item & itm ) {
+        return itm.is_armor() && !itm.is_firearm() && !itm.is_power_armor() &&
+               itm.made_of_any( materials );
+    } );
+    item &mod = p.i_at( pos );
+    if( mod.is_null() ) {
+        p.add_msg_if_player( m_info, _( "You do not have that item!" ) );
+        return 0;
+    }
+    if( &mod == &it ) {
+        p.add_msg_if_player( m_info,
+                             _( "This can be used to repair or modify other items, not itself." ) );
+        return 0;
+    }
+
+    // Gives us an item with the mod added or removed (toggled)
+    const auto modded_copy = []( const item & proto, const std::string & mod_type ) {
+        item mcopy = proto;
+        if( mcopy.item_tags.count( mod_type ) == 0 ) {
+            mcopy.item_tags.insert( mod_type );
+        } else {
+            mcopy.item_tags.erase( mod_type );
+        }
+
+        return mcopy;
+    };
+
+    // Cache available materials
+    std::map< itype_id, bool > has_enough;
+    const int items_needed = mod.volume() / 750_ml + 1;
+    const inventory &crafting_inv = p.crafting_inventory();
+    // Go through all discovered repair items and see if we have any of them available
+    for( auto &cm : clothing_mods::get_all() ) {
+        has_enough[cm.item_string] = crafting_inv.has_amount( cm.item_string, items_needed );
+    }
+
+    int mod_count = 0;
+    for( auto &cm : clothing_mods::get_all() ) {
+        mod_count += mod.item_tags.count( cm.flag );
+    }
+
+    // We need extra thread to lose it on bad rolls
+    const int thread_needed = mod.volume() / 125_ml + 10;
+    // Returns true if the item already has the mod or if we have enough materials and thread to add it
+    const auto can_add_mod = [&]( const std::string & new_mod, const itype_id & mat_item ) {
+        return mod.item_tags.count( new_mod ) > 0 ||
+               ( it.charges >= thread_needed && has_enough[mat_item] );
+    };
+
+    const auto get_compare_color = [&]( const int before, const int after,
+    const bool higher_is_better ) {
+        return before == after ? c_unset : ( ( after > before ) == higher_is_better ? c_light_green :
+                                             c_red );
+    };
+    const auto get_volume_compare_color = [&]( const units::volume before, const units::volume after,
+    const bool higher_is_better ) {
+        return before == after ? c_unset : ( ( after > before ) == higher_is_better ? c_light_green :
+                                             c_red );
+    };
+    const auto format_desc_string = [&]( const std::string label, const int before, const int after,
+    const bool higher_is_better ) {
+        return colorize( string_format( "%s: %d->%d\n", label, before, after ), get_compare_color( before,
+                         after, higher_is_better ) );
+    };
+
+    uilist tmenu;
+    // TODO: Tell how much thread will we use
+    if( it.charges >= thread_needed ) {
+        tmenu.text = _( "How do you want to modify it?" );
+    } else {
+        tmenu.text = _( "Not enough thread to modify. Which modification do you want to remove?" );
+    }
+
+    int index = 0;
+    for( auto cm : clothing_mods ) {
+        auto obj = cm.obj();
+        item temp_item = modded_copy( mod, obj.flag );
+        temp_item.update_clothing_mod_val();
+        bool enab = can_add_mod( obj.flag, obj.item_string );
+        std::string prompt;
+        if( mod.item_tags.count( obj.flag ) == 0 ) {
+            prompt = string_format( "%s (%d %s)", obj.implement_prompt, items_needed,
+                                    item::nname( obj.item_string, items_needed ) );
+        } else {
+            prompt = obj.destroy_prompt;
+        }
+        std::ostringstream desc;
+        desc << format_desc_string( _( "Bash" ), mod.bash_resist(), temp_item.bash_resist(), true );
+        desc << format_desc_string( _( "Cut" ), mod.cut_resist(), temp_item.cut_resist(), true );
+        desc << format_desc_string( _( "Acid" ), mod.acid_resist(), temp_item.acid_resist(), true );
+        desc << format_desc_string( _( "Fire" ), mod.fire_resist(), temp_item.fire_resist(), true );
+        desc << format_desc_string( _( "Warmth" ), mod.get_warmth(), temp_item.get_warmth(), true );
+        desc << format_desc_string( _( "Encumbrance" ), mod.get_encumber( p ), temp_item.get_encumber( p ),
+                                    false );
+        auto before = mod.get_storage();
+        auto after = temp_item.get_storage();
+        desc << colorize( string_format( "%s: %s %s->%s %s\n", _( "Storage" ),
+                                         format_volume( before ), volume_units_abbr(), format_volume( after ),
+                                         volume_units_abbr() ), get_volume_compare_color( before, after, true ) );
+
+        tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, string_format( "%s", _( prompt.c_str() ) ),
+                             desc.str() );
+    }
+    tmenu.textwidth = 80;
+    tmenu.desc_enabled = true;
+    tmenu.query();
+    const int choice = tmenu.ret;
+
+    if( choice < 0 || choice >= static_cast<int>( clothing_mods.size() ) ) {
+        return 0;
+    }
+
+    // The mod player picked
+    const std::string &the_mod = clothing_mods[choice].obj().flag;
+
+    // If the picked mod already exists, player wants to destroy it
+    if( mod.item_tags.count( the_mod ) ) {
+        if( query_yn( _( "Are you sure?  You will not gain any materials back." ) ) ) {
+            mod.item_tags.erase( the_mod );
+        }
+        mod.update_clothing_mod_val();
+
+        return 0;
+    }
+
+    // Get the id of the material used
+    const auto &repair_item = clothing_mods[choice].obj().item_string;
+
+    std::vector<item_comp> comps;
+    comps.push_back( item_comp( repair_item, items_needed ) );
+    p.moves -= to_moves<int>( 30_seconds * p.fine_detail_vision_mod() );
+    p.practice( used_skill, items_needed * 3 + 3 );
+    /** @EFFECT_TAILOR randomly improves clothing modification efforts */
+    int rn = dice( 3, 2 + p.get_skill_level( used_skill ) ); // Skill
+    /** @EFFECT_DEX randomly improves clothing modification efforts */
+    rn += rng( 0, p.dex_cur / 2 );                    // Dexterity
+    /** @EFFECT_PER randomly improves clothing modification efforts */
+    rn += rng( 0, p.per_cur / 2 );                    // Perception
+    rn -= mod_count * 10;                              // Other mods
+
+    if( rn <= 8 ) {
+        const std::string startdurability = mod.durability_indicator( true );
+        const auto destroyed = mod.inc_damage();
+        const std::string resultdurability = mod.durability_indicator( true );
+        p.add_msg_if_player( m_bad, _( "You damage your %s trying to modify it! ( %s-> %s)" ),
+                             mod.tname( 1, false ), startdurability, resultdurability );
+        if( destroyed ) {
+            p.add_msg_if_player( m_bad, _( "You destroy it!" ) );
+            p.i_rem_keep_contents( pos );
+        }
+        return thread_needed / 2;
+    } else if( rn <= 10 ) {
+        p.add_msg_if_player( m_bad,
+                             _( "You fail to modify the clothing, and you waste thread and materials." ) );
+        p.consume_items( comps, 1, is_crafting_component );
+        return thread_needed;
+    } else if( rn <= 14 ) {
+        p.add_msg_if_player( m_mixed, _( "You modify your %s, but waste a lot of thread." ),
+                             mod.tname() );
+        p.consume_items( comps, 1, is_crafting_component );
+        mod.item_tags.insert( the_mod );
+        mod.update_clothing_mod_val();
+        return thread_needed;
+    }
+
+    p.add_msg_if_player( m_good, _( "You modify your %s!" ), mod.tname() );
+    mod.item_tags.insert( the_mod );
+    mod.update_clothing_mod_val();
+    p.consume_items( comps, 1, is_crafting_component );
+    return thread_needed / 2;
+}
+
+iuse_actor *sew_advanced_actor::clone() const
+{
+    return new sew_advanced_actor( *this );
 }

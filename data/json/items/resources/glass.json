@@ -8,8 +8,8 @@
     "category": "other",
     "description": "A broken shard of glass covered in sharp edges.  You could use it as a weapon, but you might want to wear gloves.",
     "material": "glass",
-    "weight": 89,
-    "volume": 1,
+    "weight": 75,
+    "volume": "30 ml",
     "cutting": 6,
     "use_action": {
       "type": "place_trap",

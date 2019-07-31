@@ -69,7 +69,6 @@ class iuse
         int feedcattle( player *, item *, bool, const tripoint & );
         int feedbird( player *, item *, bool, const tripoint & );
         // TOOLS
-        int sew_advanced( player *, item *, bool, const tripoint & );
         int extinguisher( player *, item *, bool, const tripoint & );
         int hammer( player *, item *, bool, const tripoint & );
         int water_purifier( player *, item *, bool, const tripoint & );
@@ -176,6 +175,7 @@ class iuse
         int rm13armor_off( player *, item *, bool, const tripoint & );
         int rm13armor_on( player *, item *, bool, const tripoint & );
         int unpack_item( player *, item *, bool, const tripoint & );
+        int pack_cbm( player *p, item *it, bool, const tripoint & );
         int pack_item( player *, item *, bool, const tripoint & );
         int radglove( player *, item *, bool, const tripoint & );
         int robotcontrol( player *, item *, bool, const tripoint & );
@@ -191,6 +191,8 @@ class iuse
         int weather_tool( player *, item *, bool, const tripoint & );
         int ladder( player *, item *, bool, const tripoint & );
         int washclothes( player *, item *, bool, const tripoint & );
+        int washcbms( player *, item *, bool, const tripoint & );
+        int wash_items( player *p, bool cbm );
         int solarpack( player *, item *, bool, const tripoint & );
         int solarpack_off( player *, item *, bool, const tripoint & );
         int break_stick( player *, item *, bool, const tripoint & );
@@ -209,6 +211,8 @@ class iuse
         int radiocaron( player *, item *, bool, const tripoint & );
         int radiocontrol( player *, item *, bool, const tripoint & );
 
+        int autoclave( player *, item *, bool, const tripoint & );
+
         int multicooker( player *, item *, bool, const tripoint & );
 
         int remoteveh( player *, item *, bool, const tripoint & );
@@ -225,6 +229,7 @@ class iuse
 
         // Helper for listening to music, might deserve a better home, but not sure where.
         static void play_music( player &p, const tripoint &source, int volume, int max_morale );
+        static int towel_common( player *, item *, bool );
 
         // Helper for handling pesky wannabe-artists
         static int handle_ground_graffiti( player &p, item *it, const std::string &prefix,

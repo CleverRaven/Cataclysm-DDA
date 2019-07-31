@@ -844,6 +844,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "name": "laptop computer",
+    "category": "other",
     "description": "A broken laptop, basically a paperweight now.",
     "price": 1000,
     "material": [ "plastic", "aluminum" ],
@@ -2385,6 +2386,24 @@
     "price": 0
   },
   {
+    "id": "pouch_autoclave",
+    "type": "AMMO",
+    "ammo_type": "NULL",
+    "category": "other",
+    "name": "autoclave pouch",
+    "name_plural": "autoclave pouches",
+    "description": "This is a medical device that bears the approval of the FDA (Food and Drug Administration).  If used properly, these pouches can keep things sterile indefinitely.",
+    "weight": 2,
+    "volume": 0,
+    "price": 5,
+    "use_action": "PACK_CBM",
+    "to_hit": -1,
+    "material": [ "plastic", "paper" ],
+    "symbol": "]",
+    "count": 25,
+    "color": "light_gray"
+  },
+  {
     "type": "GENERIC",
     "id": "cigar_lit",
     "name": "cigar",
@@ -2868,7 +2887,7 @@
     "volume": 1,
     "max_charges": 20,
     "use_action": "CRAFT",
-    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ]
+    "flags": [ "NO_SALVAGE", "TRADER_AVOID", "CAN_HAVE_CHARGES" ]
   },
   {
     "type": "GENERIC",
@@ -2910,5 +2929,21 @@
     "material": [ "steel", "plastic", "wood" ],
     "weight": 11339,
     "volume": 12
+  },
+  {
+    "type": "GENERIC",
+    "id": "fire_brick",
+    "symbol": ",",
+    "color": "brown",
+    "name": "fire brick",
+    "category": "spare_parts",
+    "description": "A reinforced brick designed to withstand intense heat.",
+    "price": 2500,
+    "material": [ "clay", "stone" ],
+    "weight": 969,
+    "volume": "500 ml",
+    "bashing": 8,
+    "to_hit": -2,
+    "qualities": [ [ "HAMMER", 1 ] ]
   }
 ]

@@ -227,16 +227,11 @@ bool mod_ui::can_shift_up( size_t selection, const std::vector<mod_id> &active_l
     // see if the mod at selection-1 is a) a core, or b) is depended on by this mod
     int newsel = selection - 1;
 
-    mod_id modstring = active_list[newsel];
+    mod_id newsel_id = active_list[newsel];
+    bool newsel_is_dependency =
+        std::find( dependencies.begin(), dependencies.end(), newsel_id ) != dependencies.end();
 
-    if( modstring->core ||
-        std::find( dependencies.begin(), dependencies.end(), modstring ) != dependencies.end() ) {
-        // can't move up due to a blocker
-        return false;
-    } else {
-        // we can shift!
-        return true;
-    }
+    return !newsel_id->core && !newsel_is_dependency;
 }
 
 bool mod_ui::can_shift_down( size_t selection, const std::vector<mod_id> &active_list )
@@ -258,13 +253,8 @@ bool mod_ui::can_shift_down( size_t selection, const std::vector<mod_id> &active
 
     mod_id modstring = active_list[newsel];
     mod_id selstring = active_list[oldsel];
+    bool sel_is_dependency =
+        std::find( dependents.begin(), dependents.end(), selstring ) != dependents.end();
 
-    if( modstring->core ||
-        std::find( dependents.begin(), dependents.end(), selstring ) != dependents.end() ) {
-        // can't move down due to a blocker
-        return false;
-    } else {
-        // we can shift!
-        return true;
-    }
+    return !modstring->core && !sel_is_dependency;
 }

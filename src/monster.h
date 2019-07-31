@@ -260,7 +260,7 @@ class monster : public Creature
         int group_bash_skill( const tripoint &target );
 
         void stumble();
-        void knock_back_from( const tripoint &p ) override;
+        void knock_back_to( const tripoint &p ) override;
 
         // Combat
         bool is_fleeing( player &u ) const; // True if we're fleeing
@@ -471,7 +471,7 @@ class monster : public Creature
          */
         void init_from_item( const item &itm );
 
-        time_point last_updated = calendar::time_of_cataclysm;
+        time_point last_updated = calendar::turn_zero;
         int last_baby;
         int last_biosig;
 
