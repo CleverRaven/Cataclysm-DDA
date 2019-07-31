@@ -1635,7 +1635,7 @@ class vehicle
          * Note that vehicles are "moved" by map::displace_vehicle. You should not
          * set them directly, except when initializing the vehicle or during mapgen.
          */
-        point pos = point_zero;
+        point pos;
         // vehicle current velocity, mph * 100
         int velocity = 0;
         // velocity vehicle's cruise control trying to achieve
