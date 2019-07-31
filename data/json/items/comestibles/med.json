@@ -1337,7 +1337,7 @@
     "description": "Fluffy balls of clean white cotton.  Now soaked with disinfectant, they are somewhat useful to disinfect a wound.",
     "weight": 25,
     "//": "Can't copy-from cotton_ball, breaks volume",
-    "volume": 0.125,
+    "volume": "31 ml",
     "material": "cotton",
     "category": "drugs",
     "price": 1000,
