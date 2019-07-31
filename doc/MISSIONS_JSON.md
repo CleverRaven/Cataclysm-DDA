@@ -51,6 +51,7 @@ Must be included, and must be one of these strings:
 "MGOAL_FIND_ANY_ITEM"     - Find 1 or more items of a given type, tagged for this mission
 "MGOAL_FIND_MONSTER"      - Find and retrieve a friendly monster
 "MGOAL_FIND_NPC"          - Find a specific NPC
+"MGOAL_TALK_TO_NPC"       - Talk to a specific NPC
 "MGOAL_RECRUIT_NPC"       - Recruit a specific NPC
 "MGOAL_RECRUIT_NPC_CLASS" - Recruit an NPC of a specific class
 "MGOAL_ASSASSINATE"       - Kill a specific NPC

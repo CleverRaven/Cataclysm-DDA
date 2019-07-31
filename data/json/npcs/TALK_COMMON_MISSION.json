@@ -184,6 +184,13 @@
         "effect": "mission_success"
       },
       {
+        "text": "I talked to them.",
+        "topic": "TALK_MISSION_SUCCESS",
+        "condition": { "and": [ "mission_complete", { "mission_goal": "MGOAL_TALK_TO_NPC" } ] },
+        "switch": true,
+        "effect": "mission_success"
+      },
+      {
         "text": "Here it is!",
         "topic": "TALK_MISSION_SUCCESS",
         "condition": { "and": [ "mission_complete", { "mission_goal": "MGOAL_FIND_MONSTER" } ] },

@@ -179,6 +179,21 @@ void mission::on_creature_death( Creature &poor_dead_dude )
     }
 }
 
+void mission::on_talk_with_npc( const int npc_id )
+{
+    switch( type->goal ) {
+        case MGOAL_TALK_TO_NPC:
+            // If our goal is to talk to this npc, and we haven't yet completed a step for this
+            // mission, then complete a step.
+            if( npc_id == target_npc_id && step == 0 ) {
+                step_complete( 1 );
+            }
+            break;
+        default:
+            break;
+    }
+}
+
 mission *mission::reserve_random( const mission_origin origin, const tripoint &p, const int npc_id )
 {
     const auto type = mission_type::get_random_id( origin, p );
@@ -242,6 +257,7 @@ void mission::step_complete( const int _step )
         case MGOAL_ASSASSINATE:
         case MGOAL_KILL_MONSTER:
         case MGOAL_COMPUTER_TOGGLE:
+        case MGOAL_TALK_TO_NPC:
             // Go back and report.
             set_target_to_mission_giver();
             break;
@@ -401,6 +417,7 @@ bool mission::is_complete( const int _npc_id ) const
         case MGOAL_FIND_NPC:
             return npc_id == _npc_id;
 
+        case MGOAL_TALK_TO_NPC:
         case MGOAL_ASSASSINATE:
         case MGOAL_KILL_MONSTER:
         case MGOAL_COMPUTER_TOGGLE:

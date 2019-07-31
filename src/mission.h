@@ -66,6 +66,7 @@ enum mission_goal {
     MGOAL_RECRUIT_NPC_CLASS, // Recruit an NPC class
     MGOAL_COMPUTER_TOGGLE,   // Activating the correct terminal will complete the mission
     MGOAL_KILL_MONSTER_SPEC,  // Kill a number of monsters from a given species
+    MGOAL_TALK_TO_NPC,       // Talk to a given NPC
     NUM_MGOAL
 };
 const std::unordered_map<std::string, mission_goal> mission_goal_strs = { {
@@ -83,7 +84,8 @@ const std::unordered_map<std::string, mission_goal> mission_goal_strs = { {
         { "MGOAL_RECRUIT_NPC", MGOAL_RECRUIT_NPC },
         { "MGOAL_RECRUIT_NPC_CLASS", MGOAL_RECRUIT_NPC_CLASS },
         { "MGOAL_COMPUTER_TOGGLE", MGOAL_COMPUTER_TOGGLE },
-        { "MGOAL_KILL_MONSTER_SPEC", MGOAL_KILL_MONSTER_SPEC }
+        { "MGOAL_KILL_MONSTER_SPEC", MGOAL_KILL_MONSTER_SPEC },
+        { "MGOAL_TALK_TO_NPC", MGOAL_TALK_TO_NPC }
     }
 };
 
@@ -382,6 +384,8 @@ class mission
         bool in_progress() const;
         /** Processes this mission. */
         void process();
+        /** Called when the player talks with an NPC. May resolve mission goals, e.g. MGOAL_TALK_TO_NPC. */
+        void on_talk_with_npc( const int npc_id );
 
         // TODO: Give topics a string_id
         std::string dialogue_for_topic( const std::string &topic ) const;
