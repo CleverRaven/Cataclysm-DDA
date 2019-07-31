@@ -71,7 +71,7 @@ struct component {
 };
 
 struct tool_comp : public component {
-    tool_comp() : component() { }
+    tool_comp() { }
     tool_comp( const itype_id &TYPE, int COUNT ) : component( TYPE, COUNT ) { }
 
     void load( JsonArray &ja );
@@ -87,7 +87,7 @@ struct tool_comp : public component {
 };
 
 struct item_comp : public component {
-    item_comp() : component() { }
+    item_comp() { }
     item_comp( const itype_id &TYPE, int COUNT ) : component( TYPE, COUNT ) { }
 
     void load( JsonArray &ja );

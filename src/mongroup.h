@@ -106,8 +106,7 @@ struct mongroup {
         : type( ptype )
         , pos( ppos )
         , radius( prad )
-        , population( ppop )
-        , target() {
+        , population( ppop ) {
     }
     mongroup( const mongroup_id &ptype, int pposx, int pposy, int pposz,
               unsigned int prad, unsigned int ppop )

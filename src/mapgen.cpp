@@ -745,8 +745,8 @@ class jmapgen_field : public jmapgen_piece
         field_type_id ftype;
         int intensity;
         time_duration age;
-        jmapgen_field( JsonObject &jsi ) : jmapgen_piece()
-            , ftype( field_type_id( jsi.get_string( "field" ) ) )
+        jmapgen_field( JsonObject &jsi ) :
+            ftype( field_type_id( jsi.get_string( "field" ) ) )
             , intensity( jsi.get_int( "intensity", 1 ) )
             , age( time_duration::from_turns( jsi.get_int( "age", 0 ) ) ) {
             if( !ftype.id() ) {
@@ -768,8 +768,8 @@ class jmapgen_npc : public jmapgen_piece
         string_id<npc_template> npc_class;
         bool target;
         std::vector<std::string> traits;
-        jmapgen_npc( JsonObject &jsi ) : jmapgen_piece()
-            , npc_class( jsi.get_string( "class" ) )
+        jmapgen_npc( JsonObject &jsi ) :
+            npc_class( jsi.get_string( "class" ) )
             , target( jsi.get_bool( "target", false ) ) {
             if( !npc_class.is_valid() ) {
                 set_mapgen_defer( jsi, "class", "unknown npc class" );
@@ -806,7 +806,7 @@ class jmapgen_faction : public jmapgen_piece
 {
     public:
         faction_id id;
-        jmapgen_faction( JsonObject &jsi ) : jmapgen_piece() {
+        jmapgen_faction( JsonObject &jsi ) {
             if( jsi.has_string( "id" ) ) {
                 id = faction_id( jsi.get_string( "id" ) );
             }
@@ -825,8 +825,8 @@ class jmapgen_sign : public jmapgen_piece
     public:
         std::string signage;
         std::string snippet;
-        jmapgen_sign( JsonObject &jsi ) : jmapgen_piece()
-            , signage( jsi.get_string( "signage", "" ) )
+        jmapgen_sign( JsonObject &jsi ) :
+            signage( jsi.get_string( "signage", "" ) )
             , snippet( jsi.get_string( "snippet", "" ) ) {
             if( signage.empty() && snippet.empty() ) {
                 jsi.throw_error( "jmapgen_sign: needs either signage or snippet" );
@@ -880,8 +880,8 @@ class jmapgen_graffiti : public jmapgen_piece
     public:
         std::string text;
         std::string snippet;
-        jmapgen_graffiti( JsonObject &jsi ) : jmapgen_piece()
-            , text( jsi.get_string( "text", "" ) )
+        jmapgen_graffiti( JsonObject &jsi ) :
+            text( jsi.get_string( "text", "" ) )
             , snippet( jsi.get_string( "snippet", "" ) ) {
             if( text.empty() && snippet.empty() ) {
                 jsi.throw_error( "jmapgen_graffiti: needs either text or snippet" );
@@ -929,8 +929,8 @@ class jmapgen_vending_machine : public jmapgen_piece
     public:
         bool reinforced;
         std::string item_group_id;
-        jmapgen_vending_machine( JsonObject &jsi ) : jmapgen_piece()
-            , reinforced( jsi.get_bool( "reinforced", false ) )
+        jmapgen_vending_machine( JsonObject &jsi ) :
+            reinforced( jsi.get_bool( "reinforced", false ) )
             , item_group_id( jsi.get_string( "item_group", "default_vending_machine" ) ) {
             if( !item_group::group_is_defined( item_group_id ) ) {
                 set_mapgen_defer( jsi, "item_group", "no such item group" );
@@ -955,8 +955,8 @@ class jmapgen_toilet : public jmapgen_piece
 {
     public:
         jmapgen_int amount;
-        jmapgen_toilet( JsonObject &jsi ) : jmapgen_piece()
-            , amount( jsi, "amount", 0, 0 ) {
+        jmapgen_toilet( JsonObject &jsi ) :
+            amount( jsi, "amount", 0, 0 ) {
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mon_density*/, mission * /*miss*/ ) const override {
@@ -983,8 +983,8 @@ class jmapgen_gaspump : public jmapgen_piece
     public:
         jmapgen_int amount;
         std::string fuel;
-        jmapgen_gaspump( JsonObject &jsi ) : jmapgen_piece()
-            , amount( jsi, "amount", 0, 0 ) {
+        jmapgen_gaspump( JsonObject &jsi ) :
+            amount( jsi, "amount", 0, 0 ) {
             if( jsi.has_string( "fuel" ) ) {
                 fuel = jsi.get_string( "fuel" );
 
@@ -1026,8 +1026,8 @@ class jmapgen_liquid_item : public jmapgen_piece
         jmapgen_int amount;
         std::string liquid;
         jmapgen_int chance;
-        jmapgen_liquid_item( JsonObject &jsi ) : jmapgen_piece()
-            , amount( jsi, "amount", 0, 0 )
+        jmapgen_liquid_item( JsonObject &jsi ) :
+            amount( jsi, "amount", 0, 0 )
             , liquid( jsi.get_string( "liquid" ) )
             , chance( jsi, "chance", 1, 1 ) {
             if( !item::type_is_defined( itype_id( liquid ) ) ) {
@@ -1057,8 +1057,8 @@ class jmapgen_item_group : public jmapgen_piece
     public:
         std::string group_id;
         jmapgen_int chance;
-        jmapgen_item_group( JsonObject &jsi ) : jmapgen_piece()
-            , group_id( jsi.get_string( "item" ) )
+        jmapgen_item_group( JsonObject &jsi ) :
+            group_id( jsi.get_string( "item" ) )
             , chance( jsi, "chance", 1, 1 ) {
             if( !item_group::group_is_defined( group_id ) ) {
                 set_mapgen_defer( jsi, "item", "no such item type" );
@@ -1077,9 +1077,9 @@ class jmapgen_loot : public jmapgen_piece
         friend jmapgen_objects;
 
     public:
-        jmapgen_loot( JsonObject &jsi ) : jmapgen_piece()
-            , result_group( Item_group::Type::G_COLLECTION, 100, jsi.get_int( "ammo", 0 ),
-                            jsi.get_int( "magazine", 0 ) )
+        jmapgen_loot( JsonObject &jsi ) :
+            result_group( Item_group::Type::G_COLLECTION, 100, jsi.get_int( "ammo", 0 ),
+                          jsi.get_int( "magazine", 0 ) )
             , chance( jsi.get_int( "chance", 100 ) ) {
             const std::string group = jsi.get_string( "group", std::string() );
             const std::string name = jsi.get_string( "item", std::string() );
@@ -1129,8 +1129,8 @@ class jmapgen_monster_group : public jmapgen_piece
         mongroup_id id;
         float density;
         jmapgen_int chance;
-        jmapgen_monster_group( JsonObject &jsi ) : jmapgen_piece()
-            , id( jsi.get_string( "monster" ) )
+        jmapgen_monster_group( JsonObject &jsi ) :
+            id( jsi.get_string( "monster" ) )
             , density( jsi.get_float( "density", -1.0f ) )
             , chance( jsi, "chance", 1, 1 ) {
             if( !id.is_valid() ) {
@@ -1165,8 +1165,8 @@ class jmapgen_monster : public jmapgen_piece
         bool friendly;
         std::string name;
         bool target;
-        jmapgen_monster( JsonObject &jsi ) : jmapgen_piece()
-            , chance( jsi, "chance", 100, 100 )
+        jmapgen_monster( JsonObject &jsi ) :
+            chance( jsi, "chance", 100, 100 )
             , pack_size( jsi, "pack_size", 1, 1 )
             , one_or_none( jsi.get_bool( "one_or_none",
                                          !( jsi.has_member( "repeat" ) || jsi.has_member( "pack_size" ) ) ) )
@@ -1252,8 +1252,8 @@ class jmapgen_vehicle : public jmapgen_piece
         std::vector<int> rotation;
         int fuel;
         int status;
-        jmapgen_vehicle( JsonObject &jsi ) : jmapgen_piece()
-            , type( jsi.get_string( "vehicle" ) )
+        jmapgen_vehicle( JsonObject &jsi ) :
+            type( jsi.get_string( "vehicle" ) )
             , chance( jsi, "chance", 1, 1 )
             //, rotation( jsi.get_int( "rotation", 0 ) ) // unless there is a way for the json parser to
             // return a single int as a list, we have to manually check this in the constructor below
@@ -1293,8 +1293,8 @@ class jmapgen_spawn_item : public jmapgen_piece
         itype_id type;
         jmapgen_int amount;
         jmapgen_int chance;
-        jmapgen_spawn_item( JsonObject &jsi ) : jmapgen_piece()
-            , type( jsi.get_string( "item" ) )
+        jmapgen_spawn_item( JsonObject &jsi ) :
+            type( jsi.get_string( "item" ) )
             , amount( jsi, "amount", 1, 1 )
             , chance( jsi, "chance", 100, 100 ) {
             if( !item::type_is_defined( type ) ) {
@@ -1322,8 +1322,8 @@ class jmapgen_trap : public jmapgen_piece
 {
     public:
         trap_id id;
-        jmapgen_trap( JsonObject &jsi ) : jmapgen_piece()
-            , id( 0 ) {
+        jmapgen_trap( JsonObject &jsi ) :
+            id( 0 ) {
             const trap_str_id sid( jsi.get_string( "trap" ) );
             if( !sid.is_valid() ) {
                 set_mapgen_defer( jsi, "trap", "no such trap" );
@@ -1331,8 +1331,8 @@ class jmapgen_trap : public jmapgen_piece
             id = sid.id();
         }
 
-        jmapgen_trap( const std::string &tid ) : jmapgen_piece()
-            , id( 0 ) {
+        jmapgen_trap( const std::string &tid ) :
+            id( 0 ) {
             const trap_str_id sid( tid );
             if( !sid.is_valid() ) {
                 throw std::runtime_error( "unknown trap type" );
@@ -1357,7 +1357,7 @@ class jmapgen_furniture : public jmapgen_piece
     public:
         furn_id id;
         jmapgen_furniture( JsonObject &jsi ) : jmapgen_furniture( jsi.get_string( "furn" ) ) {}
-        jmapgen_furniture( const std::string &fid ) : jmapgen_piece(), id( furn_id( fid ) ) {}
+        jmapgen_furniture( const std::string &fid ) : id( furn_id( fid ) ) {}
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mdensity*/, mission * ) const override {
             dat.m.furn_set( x.get(), y.get(), id );
@@ -1375,7 +1375,7 @@ class jmapgen_terrain : public jmapgen_piece
     public:
         ter_id id;
         jmapgen_terrain( JsonObject &jsi ) : jmapgen_terrain( jsi.get_string( "ter" ) ) {}
-        jmapgen_terrain( const std::string &tid ) : jmapgen_piece(), id( ter_id( tid ) ) {}
+        jmapgen_terrain( const std::string &tid ) : id( ter_id( tid ) ) {}
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mdensity*/, mission * ) const override {
             dat.m.ter_set( x.get(), y.get(), id );
@@ -1403,7 +1403,7 @@ class jmapgen_make_rubble : public jmapgen_piece
         bool items = false;
         ter_id floor_type = t_dirt;
         bool overwrite = false;
-        jmapgen_make_rubble( JsonObject &jsi ) : jmapgen_piece() {
+        jmapgen_make_rubble( JsonObject &jsi ) {
             if( jsi.has_string( "rubble_type" ) ) {
                 rubble_type = furn_id( jsi.get_string( "rubble_type" ) );
             }
@@ -1433,7 +1433,7 @@ class jmapgen_computer : public jmapgen_piece
         std::vector<computer_option> options;
         std::vector<computer_failure> failures;
         bool target;
-        jmapgen_computer( JsonObject &jsi ) : jmapgen_piece() {
+        jmapgen_computer( JsonObject &jsi ) {
             name = jsi.get_string( "name" );
             security = jsi.get_int( "security", 0 );
             target = jsi.get_bool( "target", false );
@@ -1486,8 +1486,8 @@ class jmapgen_sealed_item : public jmapgen_piece
         furn_id furniture;
         cata::optional<jmapgen_spawn_item> item_spawner;
         cata::optional<jmapgen_item_group> item_group_spawner;
-        jmapgen_sealed_item( JsonObject &jsi ) : jmapgen_piece()
-            , furniture( jsi.get_string( "furniture" ) ) {
+        jmapgen_sealed_item( JsonObject &jsi ) :
+            furniture( jsi.get_string( "furniture" ) ) {
             if( jsi.has_object( "item" ) ) {
                 JsonObject item_obj = jsi.get_object( "item" );
                 item_spawner = jmapgen_spawn_item( item_obj );
@@ -1588,7 +1588,7 @@ class jmapgen_translate : public jmapgen_piece
     public:
         ter_id from;
         ter_id to;
-        jmapgen_translate( JsonObject &jsi ) : jmapgen_piece() {
+        jmapgen_translate( JsonObject &jsi ) {
             if( jsi.has_string( "from" ) && jsi.has_string( "to" ) ) {
                 const std::string from_id = jsi.get_string( "from" );
                 const std::string to_id = jsi.get_string( "to" );
@@ -1610,7 +1610,7 @@ class jmapgen_zone : public jmapgen_piece
         zone_type_id zone_type;
         faction_id faction;
         std::string name = "";
-        jmapgen_zone( JsonObject &jsi ) : jmapgen_piece() {
+        jmapgen_zone( JsonObject &jsi ) {
             if( jsi.has_string( "faction" ) && jsi.has_string( "type" ) ) {
                 std::string fac_id = jsi.get_string( "faction" );
                 faction = faction_id( fac_id );
@@ -1709,7 +1709,7 @@ class jmapgen_nested : public jmapgen_piece
         weighted_int_list<std::string> entries;
         weighted_int_list<std::string> else_entries;
         neighborhood_check neighbors;
-        jmapgen_nested( JsonObject &jsi ) : jmapgen_piece(), neighbors( jsi.get_object( "neighbors" ) ) {
+        jmapgen_nested( JsonObject &jsi ) : neighbors( jsi.get_object( "neighbors" ) ) {
             load_weighted_entries( jsi, "chunks", entries );
             load_weighted_entries( jsi, "else_chunks", else_entries );
         }
