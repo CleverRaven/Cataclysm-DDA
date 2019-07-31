@@ -344,7 +344,7 @@
     "skill_used": "tailor",
     "difficulty": 2,
     "skills_required": [ "survival", 1 ],
-    "time": "30 h",
+    "time": "8 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_survival", 1 ], [ "survival_book", 1 ] ],
     "byproducts": [ [ "fur", 14 ], [ "scrap_fur", 109 ] ],
@@ -357,7 +357,7 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "36 h",
+    "time": "8 h",
     "autolearn": true,
     "byproducts": [ [ "leather", 15 ], [ "scrap_leather", 64 ] ],
     "using": [ [ "tailoring_leather", 6 ] ]

@@ -27,7 +27,8 @@
     "price": 450,
     "cutting": 10,
     "material": [ "steel", "wood" ],
-    "qualities": [ [ "LEATHER_AWL", 2 ] ]
+    "delete": { "qualities": [ [ "LEATHER_AWL", 1 ] ] },
+    "extend": { "qualities": [ [ "LEATHER_AWL", 2 ] ] }
   },
   {
     "id": "loom_frame",
