@@ -7048,9 +7048,8 @@ void item::set_item_specific_energy( const float new_specific_energy )
     } else if( new_item_temperature < temp_to_kelvin( temperatures::cold ) ) {
         item_tags.insert( "COLD" );
     }
-    //The extra 0.5 are there to make rounding go better
-    temperature = static_cast<int>( 100000 * new_item_temperature + 0.5 );
-    specific_energy = static_cast<int>( 100000 * new_specific_energy + 0.5 );
+    temperature = lround( 100000 * new_item_temperature );
+    specific_energy = lround( 100000 * new_specific_energy );
     reset_temp_check();
 }
 
@@ -7084,8 +7083,8 @@ void item::set_item_temperature( float new_temperature )
     float new_specific_energy = get_specific_energy_from_temperature( new_temperature );
     float freeze_percentage = 0;
 
-    temperature = static_cast<int>( 100000 * new_temperature + 0.5 );
-    specific_energy = static_cast<int>( 100000 * new_specific_energy + 0.5 );
+    temperature = lround( 100000 * new_temperature );
+    specific_energy = lround( 100000 * new_specific_energy );
 
     const float completely_frozen_specific_energy = specific_heat_solid *
             freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
@@ -7805,9 +7804,8 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
     } else if( new_item_temperature < temp_to_kelvin( temperatures::cold ) ) {
         item_tags.insert( "COLD" );
     }
-    //The extra 0.5 are there to make rounding go better
-    temperature = static_cast<int>( 100000 * new_item_temperature + 0.5 );
-    specific_energy = static_cast<int>( 100000 * new_specific_energy + 0.5 );
+    temperature = lround( 100000 * new_item_temperature );
+    specific_energy = lround( 100000 * new_specific_energy );
 
     last_temp_check = time;
 }
@@ -7827,7 +7825,7 @@ void item::heat_up()
     // Set item temperature to 60 C (333.15 K, 122 F)
     // Also set the energy to match
     temperature = 333.15 * 100000;
-    specific_energy = static_cast<int>( 100000 * get_specific_energy_from_temperature( 333.15 ) + 0.5 );
+    specific_energy = lround( 100000 * get_specific_energy_from_temperature( 333.15 ) );
 
     reset_temp_check();
 }
@@ -7841,7 +7839,7 @@ void item::cold_up()
     // Set item temperature to 3 C (276.15 K, 37.4 F)
     // Also set the energy to match
     temperature = 276.15 * 100000;
-    specific_energy = static_cast<int>( 100000 * get_specific_energy_from_temperature( 276.15 ) + 0.5 );
+    specific_energy = lround( 100000 * get_specific_energy_from_temperature( 276.15 ) );
 
     reset_temp_check();
 }

@@ -291,7 +291,7 @@ static time_info get_time() noexcept
     const auto current = localtime( &tt );
 
     return time_info { current->tm_hour, current->tm_min, current->tm_sec,
-                       static_cast<int>( tv.tv_usec / 1000.0 + 0.5 )
+                       static_cast<int>( lround( tv.tv_usec / 1000.0 ) )
                      };
 }
 #endif
