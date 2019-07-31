@@ -458,8 +458,7 @@ class input_context
                    registered_manual_keys == other.registered_manual_keys &&
                    allow_text_entry == other.allow_text_entry &&
                    registered_any_input == other.registered_any_input &&
-                   coordinate_x == other.coordinate_x &&
-                   coordinate_y == other.coordinate_y &&
+                   coordinate == other.coordinate &&
                    coordinate_input_received == other.coordinate_input_received &&
                    handling_coordinate_input == other.handling_coordinate_input &&
                    next_action == other.next_action &&
