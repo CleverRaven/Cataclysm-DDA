@@ -325,6 +325,7 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     assign( jo, "size", def.size );
     assign( jo, "difficulty", def.difficulty );
     assign( jo, "bonus", def.bonus );
+    assign( jo, "cargo_weight_modifier", def.cargo_weight_modifier );
     assign( jo, "flags", def.flags );
     assign( jo, "description", def.description );
 
