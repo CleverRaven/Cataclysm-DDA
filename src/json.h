@@ -14,6 +14,7 @@
 #include <stdexcept>
 
 #include "colony.h"
+#include "optional.h"
 
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
@@ -1062,5 +1063,26 @@ class JsonDeserializer
 };
 
 std::ostream &operator<<( std::ostream &stream, const JsonError &err );
+
+template<typename T>
+void serialize( const cata::optional<T> &obj, JsonOut &jsout )
+{
+    if( obj ) {
+        jsout.write( *obj );
+    } else {
+        jsout.write_null();
+    }
+}
+
+template<typename T>
+void deserialize( cata::optional<T> &obj, JsonIn &jsin )
+{
+    if( jsin.test_null() ) {
+        obj.reset();
+    } else {
+        obj.emplace();
+        jsin.read( *obj );
+    }
+}
 
 #endif

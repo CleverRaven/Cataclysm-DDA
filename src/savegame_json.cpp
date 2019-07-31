@@ -148,27 +148,6 @@ static void deserialize( std::weak_ptr<monster> &obj, JsonIn &jsin )
     //    }
 }
 
-template<typename T>
-void serialize( const cata::optional<T> &obj, JsonOut &jsout )
-{
-    if( obj ) {
-        jsout.write( *obj );
-    } else {
-        jsout.write_null();
-    }
-}
-
-template<typename T>
-void deserialize( cata::optional<T> &obj, JsonIn &jsin )
-{
-    if( jsin.test_null() ) {
-        obj.reset();
-    } else {
-        obj.emplace();
-        jsin.read( *obj );
-    }
-}
-
 std::vector<item> item::magazine_convert()
 {
     std::vector<item> res;
