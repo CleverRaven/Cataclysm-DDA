@@ -3252,19 +3252,19 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             dirt_symbol = "";
             break;
         case 1:
-            dirt_symbol = "1";
+            dirt_symbol = "<color_white>\u2581</color>";
             break;
         case 2:
-            dirt_symbol = "2";
+            dirt_symbol = "<color_light_gray>\u2583</color>";
             break;
         case 3:
-            dirt_symbol = "3";
+            dirt_symbol = "<color_light_gray>\u2585</color>";
             break;
         case 4:
-            dirt_symbol = "4";
+            dirt_symbol = "<color_dark_gray>\u2587</color>";
             break;
         case 5:
-            dirt_symbol = "5";
+            dirt_symbol = "<color_brown>\u2588</color>";
             break;
         default:
             dirt_symbol = "";

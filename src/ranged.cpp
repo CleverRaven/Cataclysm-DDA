@@ -156,16 +156,11 @@ int player::gun_engagement_moves( const item &gun, int target, int start ) const
 
     return mv;
 }
+bool player::handle_gun_damage( item &it )
 
-bool player::handle_gun_damage( item &it, int shots_fired )
 {
     if( !it.is_gun() ) {
         debugmsg( "Tried to handle_gun_damage of a non-gun %s", it.tname() );
-        // left this here in case someone needs shots_fired in the future.
-        shots_fired = shots_fired + 0;
-        if( shots_fired == 0 ) {
-            shots_fired = 0;
-        }
         return false;
     }
     int dirt = it.get_var( "dirt", 0 );
@@ -399,7 +394,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     int hits = 0; // total shots on target
     int delay = 0; // delayed recoil that has yet to be applied
     while( curshot != shots ) {
-        if( !handle_gun_damage( gun, curshot ) ) {
+        if( !handle_gun_damage( gun ) ) {
             break;
         }
 
