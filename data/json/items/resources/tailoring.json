@@ -220,11 +220,11 @@
     "description": "A small quantity of very durable Kevlar thread that would be particularly useful for making modern body armor, though it's fine to use in place of normal thread too, in most cases.",
     "material": "kevlar",
     "flags": [ "NO_SALVAGE" ],
-    "volume": "250 ml",
+    "volume": "200 ml",
     "weight": 1,
     "ammo_type": "thread",
     "count": 50,
-    "stack_size": 250
+    "stack_size": 200
   },
   {
     "type": "AMMO",
@@ -237,10 +237,10 @@
     "description": "A small quantity of heat-resistant Nomex thread that would be particularly useful for making heat protection gear, though it's fine to use in place of normal thread too.",
     "material": "nomex",
     "flags": [ "NO_SALVAGE" ],
-    "volume": "250 ml",
+    "volume": "200 ml",
     "weight": 1,
     "ammo_type": "thread",
     "count": 50,
-    "stack_size": 250
+    "stack_size": 200
   }
 ]
