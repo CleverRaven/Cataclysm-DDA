@@ -1338,7 +1338,6 @@
     "weight": 25,
     "//": "Can't copy-from cotton_ball, breaks volume",
     "volume": 0.125,
-    "price": 250,
     "material": "cotton",
     "category": "drugs",
     "price": 1000,
