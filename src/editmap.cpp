@@ -1124,7 +1124,7 @@ int editmap::edit_fld()
                 int i = 0;
                 for( const auto &intensity_level : ftype.intensity_levels ) {
                     i++;
-                    femenu.addentry( string_format( "%d: %s", i, intensity_level.name ) );
+                    femenu.addentry( string_format( "%d: %s", i, _( intensity_level.name ) ) );
                 }
                 femenu.entries[field_intensity].text_color = c_cyan;
                 femenu.selected = ( sel_field_intensity > 0 ? sel_field_intensity : field_intensity );
