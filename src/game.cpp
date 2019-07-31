@@ -5046,7 +5046,7 @@ void game::use_item( int pos )
 
 void game::exam_vehicle( vehicle &veh, int cx, int cy )
 {
-    auto act = veh_interact::run( veh, cx, cy );
+    auto act = veh_interact::run( veh, point( cx, cy ) );
     if( act ) {
         u.moves = 0;
         u.assign_activity( act );

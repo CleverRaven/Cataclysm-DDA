@@ -1738,9 +1738,7 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                         std::swap( *destsm, *srcsm );
 
                         for( auto &veh : destsm->vehicles ) {
-                            veh->smx = dest_pos.x;
-                            veh->smy = dest_pos.y;
-                            veh->smz = dest_pos.z;
+                            veh->sm_pos = dest_pos;
                         }
 
                         g->m.update_vehicle_list( destsm, target.z ); // update real map's vcaches

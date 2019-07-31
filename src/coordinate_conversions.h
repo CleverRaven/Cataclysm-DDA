@@ -177,6 +177,10 @@ inline point ms_to_sm_remain( point &p )
 {
     return ms_to_sm_remain( p.x, p.y );
 }
+inline tripoint ms_to_sm_remain( tripoint &p )
+{
+    return tripoint( ms_to_sm_remain( p.x, p.y ), p.z );
+}
 // submap back to map squares, basically: x *= SEEX
 // Note: this gives you the map square coordinates of the top-left corner
 // of the given submap.

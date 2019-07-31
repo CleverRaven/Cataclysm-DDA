@@ -2427,8 +2427,8 @@ void vehicle::deserialize( JsonIn &jsin )
     int mdir = 0;
 
     data.read( "type", type );
-    data.read( "posx", posx );
-    data.read( "posy", posy );
+    data.read( "posx", pos.x );
+    data.read( "posy", pos.y );
     data.read( "om_id", om_id );
     data.read( "faceDir", fdir );
     data.read( "moveDir", mdir );
@@ -2559,8 +2559,8 @@ void vehicle::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "type", type );
-    json.member( "posx", posx );
-    json.member( "posy", posy );
+    json.member( "posx", pos.x );
+    json.member( "posy", pos.y );
     json.member( "om_id", om_id );
     json.member( "faceDir", face.dir() );
     json.member( "moveDir", move.dir() );
