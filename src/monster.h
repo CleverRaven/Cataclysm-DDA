@@ -511,7 +511,7 @@ class monster : public Creature
         bool upgrades;
         int upgrade_time;
         bool reproduces;
-        int baby_timer;
+        cata::optional<time_point> baby_timer;
         bool biosignatures;
         int biosig_timer;
         monster_horde_attraction horde_attraction;

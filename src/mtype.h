@@ -8,6 +8,7 @@
 #include <string>
 
 #include "color.h"
+#include "optional.h"
 #include "damage.h"
 #include "enum_bitset.h"
 #include "enums.h"
@@ -293,7 +294,7 @@ struct mtype {
         mtype_id burn_into;
 
         // Monster reproduction variables
-        int baby_timer;
+        cata::optional<time_duration> baby_timer;
         int baby_count;
         mtype_id baby_monster;
         itype_id baby_egg;

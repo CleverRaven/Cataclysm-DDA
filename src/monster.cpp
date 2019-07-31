@@ -208,7 +208,6 @@ monster::monster()
     upgrades = false;
     upgrade_time = -1;
     last_updated = 0;
-    baby_timer = -1;
     last_baby = 0;
     biosig_timer = -1;
     last_biosig = 0;
@@ -400,14 +399,14 @@ void monster::try_reproduce()
     if( !reproduces ) {
         return;
     }
+    // This can happen if the monster type has changed (from reproducing to non-reproducing monster)
+    if( !type->baby_timer ) {
+        return;
+    }
 
-    const int current_day = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
-    if( baby_timer < 0 ) {
-        baby_timer = type->baby_timer;
-        if( baby_timer < 0 ) {
-            return;
-        }
-        baby_timer += current_day;
+    if( !baby_timer ) {
+        // Assume this is a freshly spawned monster (because baby_timer is not set yet), set the point when it reproduce to somewhere in the future.
+        baby_timer.emplace( calendar::turn + *type->baby_timer );
     }
 
     bool season_spawn = false;
@@ -424,21 +423,17 @@ void monster::try_reproduce()
     // add a decreasing chance of additional spawns when "catching up" an existing animal
     int chance = -1;
     while( true ) {
-        if( baby_timer > current_day ) {
-            return;
-        }
-        const int next_baby = type->baby_timer;
-        if( next_baby < 0 ) {
+        if( *baby_timer > calendar::turn ) {
             return;
         }
 
         if( season_spawn ) {
             season_match = false;
             for( auto &elem : type->baby_flags ) {
-                if( ( season_of_year( DAYS( baby_timer ) ) == SUMMER && elem == "SUMMER" ) ||
-                    ( season_of_year( DAYS( baby_timer ) ) == WINTER && elem == "WINTER" ) ||
-                    ( season_of_year( DAYS( baby_timer ) ) == SPRING && elem == "SPRING" ) ||
-                    ( season_of_year( DAYS( baby_timer ) ) == AUTUMN && elem == "AUTUMN" ) ) {
+                if( ( season_of_year( *baby_timer ) == SUMMER && elem == "SUMMER" ) ||
+                    ( season_of_year( *baby_timer ) == WINTER && elem == "WINTER" ) ||
+                    ( season_of_year( *baby_timer ) == SPRING && elem == "SPRING" ) ||
+                    ( season_of_year( *baby_timer ) == AUTUMN && elem == "AUTUMN" ) ) {
                     season_match = true;
                 }
             }
@@ -450,11 +445,11 @@ void monster::try_reproduce()
             if( type->baby_monster ) {
                 g->m.add_spawn( type->baby_monster, spawn_cnt, pos().xy() );
             } else {
-                g->m.add_item_or_charges( pos(), item( type->baby_egg, DAYS( baby_timer ), spawn_cnt ), true );
+                g->m.add_item_or_charges( pos(), item( type->baby_egg, *baby_timer, spawn_cnt ), true );
             }
         }
 
-        baby_timer += next_baby;
+        *baby_timer += *type->baby_timer;
     }
 }
 
