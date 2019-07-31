@@ -882,7 +882,7 @@ bool vehicle::start_engine( const int e )
         }
         const int start_draw_bat = power_to_energy_bat( engine_power *
                                    ( 1.0 + dmg / 2 + cold_factor / 5 ) * 10,
-                                   TICKS_TO_SECONDS( start_moves ) );
+                                   time_duration::from_seconds( TICKS_TO_SECONDS( start_moves ) ) );
         if( discharge_battery( start_draw_bat, true ) != 0 ) {
             sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::alarm,
                            string_format( _( "the %s rapidly clicking" ), eng.name() ), true, "vehicle",

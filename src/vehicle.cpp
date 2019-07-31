@@ -895,10 +895,10 @@ int vehicle::part_epower_w( const int index ) const
     return e * parts[ index ].health_percent();
 }
 
-int vehicle::power_to_energy_bat( const int power_w, const int t_seconds ) const
+int vehicle::power_to_energy_bat( const int power_w, const time_duration &d ) const
 {
     // Integrate constant epower (watts) over time to get units of battery energy
-    int energy_j = power_w * t_seconds;
+    int energy_j = power_w * to_seconds<int>( d );
     int energy_bat = energy_j / bat_energy_j;
     int sign = power_w >= 0 ? 1 : -1;
     // energy_bat remainder results in chance at additional charge/discharge
@@ -4143,7 +4143,7 @@ void vehicle::power_parts()
     int epower = total_epower_w( engine_epower );
 
     bool reactor_online = false;
-    int delta_energy_bat = power_to_energy_bat( epower, to_turns<int>( 1_turns ) );
+    int delta_energy_bat = power_to_energy_bat( epower, 1_turns );
     int storage_deficit_bat = std::max( 0, fuel_capacity( fuel_type_battery ) -
                                         fuel_left( fuel_type_battery ) - delta_energy_bat );
     if( !reactors.empty() && storage_deficit_bat > 0 ) {
@@ -4158,8 +4158,7 @@ void vehicle::power_parts()
             // Keep track whether or not the vehicle has any reactors activated
             reactor_online = true;
             // the amount of energy the reactor generates each turn
-            const int gen_energy_bat = power_to_energy_bat( part_epower_w( elem ),
-                                       to_turns<int>( 1_turns ) );
+            const int gen_energy_bat = power_to_energy_bat( part_epower_w( elem ), 1_turns );
             if( parts[ elem ].is_unavailable() ) {
                 continue;
             } else if( parts[ elem ].info().has_flag( "PERPETUAL" ) ) {
@@ -5741,7 +5740,7 @@ void vehicle::update_time( const time_point &update_to )
             epower_w += part_epower_w( part );
         }
         double intensity = accum_weather.sunlight / DAYLIGHT_LEVEL / to_turns<double>( elapsed );
-        int energy_bat = power_to_energy_bat( epower_w * intensity, to_turns<int>( elapsed ) );
+        int energy_bat = power_to_energy_bat( epower_w * intensity, elapsed );
         if( energy_bat > 0 ) {
             add_msg( m_debug, "%s got %d kJ energy from solar panels", name, energy_bat );
             charge_battery( energy_bat );
@@ -5767,7 +5766,7 @@ void vehicle::update_time( const time_point &update_to )
             }
             epower_w += part_epower_w( part ) * windpower;
         }
-        int energy_bat = power_to_energy_bat( epower_w, to_turns<int>( elapsed ) );
+        int energy_bat = power_to_energy_bat( epower_w, elapsed );
         if( energy_bat > 0 ) {
             add_msg( m_debug, "%s got %d kJ energy from wind turbines", name, energy_bat );
             charge_battery( energy_bat );
@@ -5787,7 +5786,7 @@ void vehicle::update_time( const time_point &update_to )
             epower_w += part_epower_w( part );
         }
         // TODO: river current intensity changes power - flat for now.
-        int energy_bat = power_to_energy_bat( epower_w, to_turns<int>( elapsed ) );
+        int energy_bat = power_to_energy_bat( epower_w, elapsed );
         if( energy_bat > 0 ) {
             add_msg( m_debug, "%s got %d kJ energy from water wheels", name, energy_bat );
             charge_battery( energy_bat );
