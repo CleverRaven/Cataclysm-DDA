@@ -45,6 +45,7 @@
 #include "rng.h"
 #include "type_id.h"
 #include "cata_utility.h"
+#include "calendar.h"
 
 using name_value_pair_t = std::pair<std::string, std::string>;
 using option_overrides_t = std::vector<name_value_pair_t>;
@@ -138,6 +139,9 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     assert( test_world != NULL );
     world_generator->set_active_world( test_world );
     assert( world_generator->active_world != NULL );
+
+    calendar::set_eternal_season( get_option<bool>( "ETERNAL_SEASON" ) );
+    calendar::set_season_length( get_option<int>( "SEASON_LENGTH" ) );
 
     loading_ui ui( false );
     g->load_core_data( ui );
