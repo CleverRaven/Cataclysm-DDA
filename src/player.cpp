@@ -455,8 +455,8 @@ stat_mod player::get_pain_penalty() const
     return ret;
 }
 
-player::player() : Character()
-    , next_climate_control_check( calendar::before_time_starts )
+player::player() :
+    next_climate_control_check( calendar::before_time_starts )
     , cached_time( calendar::before_time_starts )
 {
     id = -1; // -1 is invalid

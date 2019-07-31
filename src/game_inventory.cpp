@@ -453,7 +453,7 @@ item_location game_menus::inv::disassemble( player &p )
 class comestible_inventory_preset : public inventory_selector_preset
 {
     public:
-        comestible_inventory_preset( const player &p ) : inventory_selector_preset(), p( p ) {
+        comestible_inventory_preset( const player &p ) : p( p ) {
 
             append_cell( [ &p, this ]( const item_location & loc ) {
                 return good_bad_none( p.kcal_for( get_consumable_item( loc ) ) );
@@ -1194,7 +1194,7 @@ class salvage_inventory_preset: public inventory_selector_preset
 {
     public:
         salvage_inventory_preset( const salvage_actor *actor ) :
-            inventory_selector_preset(), actor( actor ) {
+            actor( actor ) {
 
             append_cell( [ actor ]( const item_location & loc ) {
                 return to_string_clipped( time_duration::from_turns( actor->time_to_cut_up(
@@ -1221,7 +1221,7 @@ class repair_inventory_preset: public inventory_selector_preset
 {
     public:
         repair_inventory_preset( const repair_item_actor *actor, const item *main_tool ) :
-            inventory_selector_preset(), actor( actor ), main_tool( main_tool ) {
+            actor( actor ), main_tool( main_tool ) {
         }
 
         bool is_shown( const item_location &loc ) const override {
