@@ -105,8 +105,8 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
                     int volume_limit = get_option<int>( "AUTO_PICKUP_VOL_LIMIT" );
                     if( weight_limit && volume_limit ) {
                         if( begin_iterator->volume() <= units::from_milliliter( volume_limit * 50 ) &&
-                            begin_iterator->weight() <= weight_limit * 50_gram &&
-                            get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
+                                begin_iterator->weight() <= weight_limit * 50_gram &&
+                                get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
                             bPickup = true;
                         }
                     }
@@ -187,13 +187,13 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
 
     const auto wield_check = u.can_wield( newit );
     if( newit.has_owner() &&
-        newit.get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ) {
+            newit.get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ) {
         if( !query_yn( "Picking up this item will be considered stealing, continue?" ) ) {
             return false;
         }
     }
     if( newit.invlet != '\0' &&
-        u.invlet_to_position( newit.invlet ) != INT_MIN ) {
+            u.invlet_to_position( newit.invlet ) != INT_MIN ) {
         // Existing invlet is not re-usable, remove it and let the code in player.cpp/inventory.cpp
         // add a new invlet, otherwise keep the (usable) invlet.
         newit.invlet = '\0';
@@ -219,24 +219,24 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             if (u.has_quality(quality_id("HAMMER"), 1, 1)) {
                 int units = newit.charges;
                 std::string action = query_popup()
-                    .context("YESNO")
-                    .message(_("Do you want to gather %d %s?"), units, newit.display_name())
-                    .option("YES")
-                    .option("NO")
-                    .cursor(1)
-                    .query()
-                    .action;
+                                     .context("YESNO")
+                                     .message(_("Do you want to gather %d %s?"), units, newit.display_name())
+                                     .option("YES")
+                                     .option("NO")
+                                     .cursor(1)
+                                     .query()
+                                     .action;
                 if (action == "YES") {
                     option = STASH;
                 }
             }
-            else{
+            else {
                 query_popup()
-                    .context("YES")
-                    .message("%s", "You don't have a Hammering 1 tool.")
-                    .option("CANCEL")
-                    .cursor(0)
-                    .query();
+                .context("YES")
+                .message("%s", "You don't have a Hammering 1 tool.")
+                .option("CANCEL")
+                .cursor(0)
+                .query();
                 got_water = true;
             }
         } else {
@@ -274,45 +274,45 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
     }
 
     switch( option ) {
-        case NUM_ANSWERS:
-            // Some other option
-            break;
-        case CANCEL:
-            picked_up = false;
-            break;
-        case WEAR:
-            picked_up = !!u.wear_item( newit );
-            break;
-        case WIELD:
-            if( wield_check.success() ) {
-                picked_up = u.wield( newit );
-                if( u.weapon.invlet ) {
-                    add_msg( m_info, _( "Wielding %c - %s" ), u.weapon.invlet,
-                             u.weapon.display_name() );
-                } else {
-                    add_msg( m_info, _( "Wielding - %s" ), u.weapon.display_name() );
-                }
+    case NUM_ANSWERS:
+        // Some other option
+        break;
+    case CANCEL:
+        picked_up = false;
+        break;
+    case WEAR:
+        picked_up = !!u.wear_item( newit );
+        break;
+    case WIELD:
+        if( wield_check.success() ) {
+            picked_up = u.wield( newit );
+            if( u.weapon.invlet ) {
+                add_msg( m_info, _( "Wielding %c - %s" ), u.weapon.invlet,
+                         u.weapon.display_name() );
             } else {
-                add_msg( m_neutral, wield_check.c_str() );
+                add_msg( m_info, _( "Wielding - %s" ), u.weapon.display_name() );
             }
+        } else {
+            add_msg( m_neutral, wield_check.c_str() );
+        }
+        break;
+    case SPILL:
+        if( newit.is_container_empty() ) {
+            debugmsg( "Tried to spill contents from an empty container" );
             break;
-        case SPILL:
-            if( newit.is_container_empty() ) {
-                debugmsg( "Tried to spill contents from an empty container" );
-                break;
-            }
+        }
 
-            picked_up = loc.get_item()->spill_contents( u );
-            if( !picked_up ) {
-                break;
-            }
-        // Intentional fallthrough
-        case STASH:
-            auto &entry = mapPickup[newit.tname()];
-            entry.second += newit.count();
-            entry.first = u.i_add( newit );
-            picked_up = true;
+        picked_up = loc.get_item()->spill_contents( u );
+        if( !picked_up ) {
             break;
+        }
+    // Intentional fallthrough
+    case STASH:
+        auto &entry = mapPickup[newit.tname()];
+        entry.second += newit.count();
+        entry.first = u.i_add( newit );
+        picked_up = true;
+        break;
     }
 
     if( picked_up ) {
@@ -599,7 +599,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                            "                                                " );
             }
             if( action == "ANY_INPUT" &&
-                raw_input_char >= '0' && raw_input_char <= '9' ) {
+                    raw_input_char >= '0' && raw_input_char <= '9' ) {
                 int raw_input_char_value = static_cast<char>( raw_input_char ) - '0';
                 itemcount *= 10;
                 itemcount += raw_input_char_value;
@@ -836,7 +836,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                             unsigned int charges = 0;
                             int c = getitem[true_it].count;
                             for( std::list<item_stack::iterator>::iterator it = stacked_here[true_it].begin();
-                                 it != stacked_here[true_it].end() && c > 0; ++it, --c ) {
+                                    it != stacked_here[true_it].end() && c > 0; ++it, --c ) {
                                 charges += ( *it )->charges;
                             }
                             if( stealing ) {
