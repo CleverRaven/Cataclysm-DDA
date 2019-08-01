@@ -11803,7 +11803,6 @@ std::string game::get_player_base_save_path() const
 std::string game::get_world_base_save_path() const
 {
     if( world_generator->active_world == nullptr ) {
-        debugmsg( "world_generator->active_world == nullptr" );
         return FILENAMES["savedir"];
     }
     return world_generator->active_world->folder_path();
