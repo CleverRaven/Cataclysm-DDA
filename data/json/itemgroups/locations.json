@@ -64,7 +64,9 @@
       [ "longshirt", 30 ],
       [ "polo_shirt", 30 ],
       [ "dress_shirt", 30 ],
-      [ "skinny_tie", 10 ],
+      [ "tie_skinny", 10 ],
+      [ "tie_necktie", 10 ],
+      [ "tie_clipon", 10 ],
       [ "tieclip", 10 ],
       [ "collarpin", 10 ],
       [ "blazer", 35 ],
@@ -958,7 +960,7 @@
     "entries": [
       { "group": "female_underwear_top" },
       { "group": "female_underwear_bottom" },
-      { "item": "ring" },
+      { "item": "gold_ring" },
       { "item": "veil_wedding" },
       { "item": "dress_wedding" },
       { "item": "corpse" }

@@ -493,7 +493,7 @@
     "items": [
       [ "gold_watch", 50 ],
       [ "sf_watch", 50 ],
-      [ "brooch", 80 ],
+      [ "jade_brooch", 80 ],
       [ "pearl_collar", 50 ],
       [ "silver_bracelet", 30 ],
       [ "gold_bracelet", 20 ]
@@ -529,5 +529,10 @@
     "id": "wedding_suits",
     "type": "item_group",
     "items": [ [ "tux", 100 ], [ "suit", 80 ], [ "waistcoat", 50 ], [ "dress_shirt", 100 ], [ "undershirt", 50 ] ]
+  },
+  {
+    "id": "neckties",
+    "type": "item_group",
+    "items": [ [ "tie_skinny", 40 ], [ "tie_necktie", 40 ], [ "tie_bow", 40 ], [ "tie_clipon", 40 ] ]
   }
 ]
