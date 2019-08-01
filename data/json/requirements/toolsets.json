@@ -52,7 +52,8 @@
   {
     "id": "anesthetic",
     "type": "requirement",
-    "//": "Anesthetic used in dL/Kg/min for a surgery",
+    "//": "Autodoc interface only supports charges of anesthetic_kit, any other requirement will have unexpected results.",
+    "//": "Rate of anesthetic used for a surgery in 1E-2 mL/kg/min",
     "tools": [ [ [ "anesthetic_kit", 3 ] ] ]
   },
   {
