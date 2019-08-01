@@ -120,6 +120,11 @@ int rl_dist( const tripoint &loc1, const tripoint &loc2 );
 int rl_dist( const point &a, const point &b );
 // Sum of distance in both axes
 int manhattan_dist( const point &loc1, const point &loc2 );
+
+// get angle of direction represented by point (in radians or degrees)
+double atan2( const point & );
+double atan2_degrees( const point & );
+
 // Get the magnitude of the slope ranging from 0.0 to 1.0
 float get_normalized_angle( const point &start, const point &end );
 std::vector<tripoint> continue_line( const std::vector<tripoint> &line, int distance );

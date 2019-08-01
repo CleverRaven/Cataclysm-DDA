@@ -2,6 +2,8 @@
 #ifndef TILERAY_H
 #define TILERAY_H
 
+#include "point.h"
+
 // Class for calculating tile coordinates
 // of a point that moves along the ray with given
 // direction (dir) or delta tile coordinates (dx, dy).
@@ -23,14 +25,11 @@
 class tileray
 {
     private:
-        int deltax;     // ray delta x
-        int deltay;     // ray delta y
+        point delta;    // ray delta
         int leftover;   // counter to shift coordinates
-        int ax;         // absolute value of deltax
-        int ay;         // absolute value of deltay
+        point abs_d;    // absolute value of delta
         int direction;  // ray direction
-        int last_dx;    // dx of last advance
-        int last_dy;    // dy of last advance
+        point last_d;   // delta of last advance
         int steps;      // how many steps we advanced so far
         bool infinite;  // ray is infinite (end will always return true)
     public:
