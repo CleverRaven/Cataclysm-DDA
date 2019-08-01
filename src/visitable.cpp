@@ -705,7 +705,7 @@ std::list<item> visitable<vehicle_cursor>::remove_items_with( const
         return res; // nothing to do
     }
 
-    int idx = cur->veh.part_with_feature( cur->part, "CARGO", true );
+    int idx = cur->veh.part_with_feature( cur->part, "CARGO", false );
     if( idx < 0 ) {
         return res;
     }

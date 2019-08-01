@@ -4583,9 +4583,13 @@ cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item 
     }
     // const int max_weight = ?! // TODO: weight limit, calculation per vpart & vehicle stats, not a hard user limit.
     // add creaking sounds and damage to overloaded vpart, outright break it past a certain point, or when hitting bumps etc
+    vehicle_part &p = parts[ part ];
+    if( p.is_broken() ) {
+        return cata::nullopt;
+    }
 
-    if( parts[ part ].base.is_gun() ) {
-        if( !itm.is_ammo() || !parts[ part ].base.ammo_types().count( itm.ammo_type() ) ) {
+    if( p.base.is_gun() ) {
+        if( !itm.is_ammo() || !p.base.ammo_types().count( itm.ammo_type() ) ) {
             return cata::nullopt;
         }
     }
@@ -4617,9 +4621,9 @@ cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item 
         itm_copy.contents.clear();
     }
 
-    const vehicle_stack::iterator new_pos = parts[part].items.insert( itm_copy );
+    const vehicle_stack::iterator new_pos = p.items.insert( itm_copy );
     if( itm_copy.needs_processing() ) {
-        active_items.add( *new_pos, parts[part].mount );
+        active_items.add( *new_pos, p.mount );
     }
 
     invalidate_mass();
