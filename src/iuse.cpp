@@ -8978,7 +8978,11 @@ int iuse::wash_items( player *p, bool cbm )
     ) {
         units::volume total_volume = 0_ml;
         for( const auto &p : items ) {
-            total_volume += p.first->volume() * p.second;
+            if( p.first->count_by_charges() ) {
+                total_volume += p.first->volume() * p.second / p.first->charges_per_volume( 250_ml );
+            } else {
+                total_volume += p.first->volume() * p.second;
+            }
         }
         washing_requirements required = washing_requirements_for_volume( total_volume );
         auto to_string = []( int val ) -> std::string {
@@ -9016,7 +9020,11 @@ int iuse::wash_items( player *p, bool cbm )
             p->add_msg_if_player( m_info, _( "Never mind." ) );
             return 0;
         }
-        total_volume += i.volume() * pair.second;
+        if( i.count_by_charges() ) {
+            total_volume += i.volume() * pair.second / i.charges_per_volume( 250_ml );
+        } else {
+            total_volume += i.volume() * pair.second;
+        }
     }
 
     washing_requirements required = washing_requirements_for_volume( total_volume );
