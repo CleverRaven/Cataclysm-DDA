@@ -636,7 +636,7 @@
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "throwing_knife",
     "category": "weapons",
     "price": 5200,
@@ -655,7 +655,7 @@
     "count": 5
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "throwing_axe",
     "category": "weapons",
     "price": 12400,
@@ -673,7 +673,7 @@
     "count": 3
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "lawn_dart",
     "category": "weapons",
     "price": 1000,
@@ -691,7 +691,7 @@
     "count": 2
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "frisbee",
     "category": "weapons",
     "price": 1000,
@@ -708,7 +708,7 @@
     "count": 2
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "disc_golf",
     "category": "weapons",
     "price": 1000,
