@@ -102,7 +102,7 @@
     "melee_allowed": true,
     "mult_bonuses": [ [ "movecost", 0.65 ], [ "damage", "bash", 0.55 ], [ "damage", "cut", 0.6 ], [ "damage", "stab", 0.55 ] ],
     "flat_bonuses": [ [ "damage", "stab", "dex", 0.01 ], [ "damage", "cut", "dex", 0.015 ], [ "movecost", "dex", -0.45 ] ],
-    "messages": [ "You swiftly jab your weapon into %s joints", "<npcname> swiftly jabs their weapon into %s" ],
+    "messages": [ "You swiftly jab your weapon at %s", "<npcname> swiftly jabs their weapon at %s" ],
   },
   {
     "type": "technique",
@@ -115,7 +115,7 @@
     "mult_bonuses": [ [ "movecost", 0.8 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 1.05 ], [ "damage", "stab", 1.0 ] ],
     "flat_bonuses": [ [ "damage", "stab", "dex", 0.1 ], [ "damage", "cut", "dex", 0.5 ], [ "movecost", "dex", -0.2 ] ],
     "crit_tec": true,
-    "messages": [ "You steady your hand and release a piercing jab at %s", "<npcname> releases a piercing jab at %s" ],
+    "messages": [ "You steady your hand and release a debilitating swipe at %s", "<npcname> releases a debilitating swipe at %s" ],
     "stun_dur": 1.5
   },
   {
