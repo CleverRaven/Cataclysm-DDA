@@ -50,7 +50,7 @@
     "color": "cyan",
     "skill": "launcher",
     "range": 25,
-    "ranged_damage": { "damage_type": "heat", "amount": 9 },
+    "ranged_damage": 9,
     "pierce": 8,
     "dispersion": 150,
     "durability": 9,
