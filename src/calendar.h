@@ -227,10 +227,7 @@ class time_duration
         explicit constexpr time_duration( const int t ) : turns_( t ) { }
 
     public:
-        time_duration() = default;
-
-        /// Allows writing `time_duration d = 0;`
-        time_duration( const std::nullptr_t ) : turns_( 0 ) { }
+        time_duration() : turns_( 0 ) {}
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
@@ -477,8 +474,6 @@ class time_point
         constexpr time_point( const int t ) : turn_( t ) { }
 
     public:
-        /// Allows writing `time_point p = 0;`
-        constexpr time_point( const std::nullptr_t ) : turn_( 0 ) { }
         // TODO: remove this, nobody should need it, one should use a constant `time_point`
         // (representing turn 0) and a `time_duration` instead.
         static constexpr time_point from_turn( const int t ) {
