@@ -6608,11 +6608,6 @@ bool item::reload( player &u, item_location loc, int qty )
             debugmsg( "Tried to reload liquid container with non-liquid." );
             return false;
         }
-        if( !ammo->made_of( LIQUID ) ) {
-            u.add_msg_if_player( m_bad, _( "The %s froze solid before you could finish." ),
-                                 ammo->tname() );
-            return false;
-        }
         if( container ) {
             container->on_contents_changed();
         }

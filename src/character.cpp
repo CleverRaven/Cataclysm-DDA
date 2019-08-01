@@ -1094,7 +1094,9 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 // guns/tools never contain usable ammo so most efficient to skip them now
                 return VisitResponse::SKIP;
             }
-            if( !node->made_of( SOLID ) ) {
+            if( node->has_flag( "FROZEN" ) && node->made_of_from_type( LIQUID ) ) {
+                out = item_location( src, node );
+            } else if( !node->made_of( SOLID ) ) {
                 // some liquids are ammo but we can't reload with them unless within a container
                 return VisitResponse::SKIP;
             }

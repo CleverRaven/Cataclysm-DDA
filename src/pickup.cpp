@@ -230,12 +230,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
                     option = STASH;
                 }
             } else {
-                query_popup()
-                .context( "YES" )
-                .message( "%s", "You don't have a Hammering 1 tool." )
-                .option( "CANCEL" )
-                .cursor( 0 )
-                .query();
+                popup( _( "You need a tool with 1 hammering to chip frozen liquids!" ) );
                 got_water = true;
             }
         } else {
