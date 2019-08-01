@@ -1339,6 +1339,8 @@
     "//": "Can't copy-from cotton_ball, breaks volume",
     "volume": "31 ml",
     "material": "cotton",
+    "symbol": "*",
+    "color": "white",
     "category": "drugs",
     "price": 1000,
     "flags": [ "NO_INGEST" ],
