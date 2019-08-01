@@ -4775,7 +4775,7 @@
     "material": "plastic",
     "symbol": "s",
     "color": "yellow",
-    "use_action": "WASHCBMS",
+    "use_action": [ "WASHCLOTHES", "WASHCBMS" ],
     "flags": [ "NO_SALVAGE" ]
   },
   {
