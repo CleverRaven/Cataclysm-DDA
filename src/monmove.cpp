@@ -1091,6 +1091,13 @@ bool monster::bash_at( const tripoint &p )
     if( is_hallucination() ) {
         return false;
     }
+
+    // Don't bash if a friendly monster is standing there
+    monster *target = g->critter_at<monster>( p );
+    if( target != nullptr && attitude_to( *target ) == A_FRIENDLY ) {
+        return false;
+    }
+
     bool try_bash = !can_move_to( p ) || one_in( 3 );
     bool can_bash = g->m.is_bashable( p ) && bash_skill() > 0;
 
@@ -1392,7 +1399,8 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
 
     // TODO: Generalize this to Creature
     monster *const critter = g->critter_at<monster>( p );
-    if( critter == nullptr || critter == this || p == pos() ) {
+    if( critter == nullptr || critter == this ||
+        p == pos() || critter->movement_impaired() ) {
         return false;
     }
 
@@ -1435,6 +1443,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         }
 
         tripoint dest( p.x + dx, p.y + dy, p.z );
+        const int dest_movecost_from = 50 * g->m.move_cost( dest );
 
         // Pushing into cars/windows etc. is harder
         const int movecost_penalty = g->m.move_cost( dest ) - 2;
@@ -1449,7 +1458,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         }
 
         Creature *critter_recur = g->critter_at( dest );
-        if( critter_recur == nullptr || critter_recur->is_hallucination() ) {
+        if( !( critter_recur == nullptr || critter_recur->is_hallucination() ) ) {
             // Try to push recursively
             monster *mon_recur = dynamic_cast< monster * >( critter_recur );
             if( mon_recur == nullptr ) {
@@ -1463,15 +1472,13 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
                 }
 
                 moves -= movecost_attacker;
-                if( movecost_from > 100 ) {
-                    critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
-                } else {
-                    critter->moves -= movecost_from;
-                }
 
+                // Don't knock down a creature that successfully
+                // pushed another creature, just reduce moves
+                critter->moves -= dest_movecost_from;
                 return true;
             } else {
-                continue;
+                return false;
             }
         }
 
@@ -1479,20 +1486,13 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         if( critter_recur != nullptr ) {
             if( critter_recur->is_hallucination() ) {
                 critter_recur->die( nullptr );
-            } else {
-                return false;
             }
-        }
-
-        critter->setpos( dest );
-        move_to( p );
-        moves -= movecost_attacker;
-        if( movecost_from > 100 ) {
-            critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
         } else {
-            critter->moves -= movecost_from;
+            critter->setpos( dest );
+            move_to( p );
+            moves -= movecost_attacker;
+            critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
         }
-
         return true;
     }
 
