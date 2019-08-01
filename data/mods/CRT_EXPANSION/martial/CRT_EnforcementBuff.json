@@ -103,15 +103,14 @@
   {
     "type": "technique",
     "id": "tec_crt_enforcement_rapid",
-    "name": "Unrelenting Smackos",
+    "name": "Forced Compliance",
     "min_unarmed": 2,
     "min_melee": 2,
     "unarmed_allowed": true,
     "melee_allowed": true,
     "mult_bonuses": [ [ "movecost", 1.0 ], [ "damage", "bash", 1.0 ], [ "damage", "cut", 0.1 ], [ "damage", "stab", 0.15 ] ],
     "flat_bonuses": [ [ "damage", "bash", "str", 0.2 ], [ "movecost", "str", -2 ] ],
-    "messages": [ "You swiftly swipe your weapon's tip at %s", "<npcname> swiftly jabs their weapon into %s" ],
-    "down_dur": 0.2
+    "messages": [ "You swiftly swipe your weapon's tip at %s", "<npcname> swiftly jabs their weapon into %s" ]
   },
   {
     "type": "technique",
