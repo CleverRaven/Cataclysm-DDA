@@ -936,85 +936,50 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         create_hot_air( p, cur.get_field_intensity() );
                     }
                 }
-                if( curtype == fd_smoke || curtype == fd_tear_gas ) {
-                    spread_gas( cur, p, 10, 0_turns, sblk );
+
+                // Spread gaseous fields
+                if( cur.gas_can_spread() ) {
+                    const int gas_percent_spread = curtype.obj().percent_spread;
+                    if( gas_percent_spread > 0 ) {
+                        const time_duration outdoor_age_speedup = curtype.obj().outdoor_age_speedup;
+                        spread_gas( cur, p, gas_percent_spread, outdoor_age_speedup, sblk );
+                    }
                 }
-                if( curtype == fd_relax_gas ) {
-                    spread_gas( cur, p, 15, 5_minutes, sblk );
-                }
+
                 if( curtype == fd_fungal_haze ) {
-                    spread_gas( cur, p, 13, 5_turns, sblk );
                     if( one_in( 10 - 2 * cur.get_field_intensity() ) ) {
                         // Haze'd terrain
                         fungal_effects( *g, g->m ).spread_fungus( p );
                     }
                 }
-                if( curtype == fd_toxic_gas ) {
-                    spread_gas( cur, p, 30, 3_minutes, sblk );
-                }
 
-                if( curtype == fd_cigsmoke ) {
-                    spread_gas( cur, p, 250, 6_minutes, sblk );
-                }
-                if( curtype == fd_weedsmoke ) {
-                    spread_gas( cur, p, 200, 6_minutes, sblk );
-
-                    if( one_in( 20 ) ) {
-                        if( npc *const np = g->critter_at<npc>( p ) ) {
-                            np->complain_about( "weed_smell", 10_minutes, "<weed_smell>" );
-                        }
-                    }
-
-                }
-
-                if( curtype == fd_methsmoke ) {
-                    spread_gas( cur, p, 175, 7_minutes, sblk );
-                    if( one_in( 20 ) ) {
-                        if( npc *const np = g->critter_at<npc>( p ) ) {
-                            np->complain_about( "meth_smell", 30_minutes, "<meth_smell>" );
-                        }
+                // Process npc complaints
+                const std::tuple<int, std::string, time_duration, std::string> &npc_complain_data =
+                    curtype.obj().npc_complain_data;
+                const int chance = std::get<0>( npc_complain_data );
+                if( chance > 0 && one_in( chance ) ) {
+                    if( npc *const np = g->critter_at<npc>( p ) ) {
+                        np->complain_about( std::get<1>( npc_complain_data ),
+                                            std::get<2>( npc_complain_data ),
+                                            std::get<3>( npc_complain_data ) );
                     }
                 }
-                if( curtype == fd_cracksmoke ) {
-                    spread_gas( cur, p, 175, 8_minutes, sblk );
 
-                    if( one_in( 20 ) ) {
-                        if( npc *const np = g->critter_at<npc>( p ) ) {
-                            np->complain_about( "crack_smell", 30_minutes, "<crack_smell>" );
-                        }
-                    }
-                }
-                if( curtype == fd_nuke_gas ) {
-                    int extra_radiation = rng( 0, cur.get_field_intensity() );
+                // Apply radition
+                if( cur.extra_radiation_max() > 0 ) {
+                    int extra_radiation = rng( cur.extra_radiation_min(), cur.extra_radiation_max() );
                     adjust_radiation( p, extra_radiation );
-                    spread_gas( cur, p, 15, 1_minutes, sblk );
                 }
-                if( curtype == fd_cold_air1 || curtype == fd_cold_air2 ||
-                    curtype == fd_cold_air3 || curtype == fd_cold_air4 ||
-                    curtype == fd_hot_air1 || curtype == fd_hot_air2 ||
-                    curtype == fd_hot_air3 || curtype == fd_hot_air4 ) {
-                    // No transparency cache wrecking here!
-                    spread_gas( cur, p, 100, 100_minutes, sblk );
-                }
-                if( curtype == fd_gas_vent ) {
+
+                // Apply wandering fields from vents
+                if( curtype.obj().wandering_field.is_valid() ) {
                     for( const tripoint &pnt : points_in_radius( p, cur.get_field_intensity() - 1 ) ) {
                         field &wandering_field = get_field( pnt );
-                        tmpfld = wandering_field.find_field( fd_toxic_gas );
+                        tmpfld = wandering_field.find_field( curtype.obj().wandering_field );
                         if( tmpfld && tmpfld->get_field_intensity() < cur.get_field_intensity() ) {
                             tmpfld->set_field_intensity( tmpfld->get_field_intensity() + 1 );
                         } else {
-                            add_field( pnt, fd_toxic_gas, cur.get_field_intensity() );
-                        }
-                    }
-                }
-                if( curtype == fd_smoke_vent ) {
-                    for( const tripoint &pnt : points_in_radius( p, cur.get_field_intensity() - 1 ) ) {
-                        field &wandering_field = get_field( pnt );
-                        tmpfld = wandering_field.find_field( fd_smoke );
-                        if( tmpfld && tmpfld->get_field_intensity() < cur.get_field_intensity() ) {
-                            tmpfld->set_field_intensity( tmpfld->get_field_intensity() + 1 );
-                        } else {
-                            add_field( pnt, fd_smoke, cur.get_field_intensity() );
+                            add_field( pnt, curtype.obj().wandering_field, cur.get_field_intensity() );
                         }
                     }
                 }
@@ -1281,7 +1246,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         add_field( dst, fd_fire, 1 );
                     }
 
-                    spread_gas( cur, p, 66, 4_minutes, sblk );
                     create_hot_air( p, cur.get_field_intensity() );
                 }
                 if( curtype == fd_rubble ) {
@@ -1289,7 +1253,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     make_rubble( p );
                 }
                 if( curtype == fd_fungicidal_gas ) {
-                    spread_gas( cur, p, 120, 1_minutes, sblk );
                     // Check the terrain and replace it accordingly to simulate the fungus dieing off
                     const ter_t &ter = map_tile.get_ter_t();
                     const furn_t &frn = map_tile.get_furn_t();

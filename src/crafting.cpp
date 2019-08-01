@@ -1273,7 +1273,7 @@ bool player::can_continue_craft( item &craft )
                 if( adjusted_alternative.count > 0 ) {
                     adjusted_alternative.count *= batch_size;
                     // Only for the next 5% progress
-                    adjusted_alternative.count /= 20;
+                    adjusted_alternative.count = std::max( adjusted_alternative.count / 20, 1 );
                 }
                 adjusted_alternatives.push_back( adjusted_alternative );
             }
@@ -1709,9 +1709,9 @@ bool player::craft_consume_tools( item &craft, int mulitplier, bool start_craft 
                     if( !has_charges( type, count ) ) {
                         add_msg_player_or_npc(
                             string_format( _( "You have insufficient %s charges and can't continue crafting" ),
-                                           item::find_type( type )->nname( 1 ) ),
+                                           item::nname( type ) ),
                             string_format( _( "<npcname> has insufficient %s charges and can't continue crafting" ),
-                                           item::find_type( type )->nname( 1 ) ) );
+                                           item::nname( type ) ) );
                         craft.set_tools_to_continue( false );
                         return false;
                     }
@@ -1720,9 +1720,9 @@ bool player::craft_consume_tools( item &craft, int mulitplier, bool start_craft 
                     if( !map_inv.has_charges( type, count ) ) {
                         add_msg_player_or_npc(
                             string_format( _( "You have insufficient %s charges and can't continue crafting" ),
-                                           item::find_type( type )->nname( 1 ) ),
+                                           item::nname( type ) ),
                             string_format( _( "<npcname> has insufficient %s charges and can't continue crafting" ),
-                                           item::find_type( type )->nname( 1 ) ) );
+                                           item::nname( type ) ) );
                         craft.set_tools_to_continue( false );
                         return false;
                     }
@@ -1735,9 +1735,9 @@ bool player::craft_consume_tools( item &craft, int mulitplier, bool start_craft 
         } else if( !has_amount( type, 1 ) && !map_inv.has_tools( type, 1 ) ) {
             add_msg_player_or_npc(
                 string_format( _( "You no longer have a %s and can't continue crafting" ),
-                               item::find_type( type )->nname( 1 ) ),
+                               item::nname( type ) ),
                 string_format( _( "<npcname> no longer has a %s and can't continue crafting" ),
-                               item::find_type( type )->nname( 1 ) ) );
+                               item::nname( type ) ) );
             craft.set_tools_to_continue( false );
             return false;
         }

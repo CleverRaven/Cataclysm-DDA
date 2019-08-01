@@ -1081,13 +1081,7 @@ bool player::has_enough_anesth( const itype *cbm, player &patient )
         return it.has_flag( "ANESTHESIA" ); // legacy
     } );
 
-
-    if( req_anesth.can_make_with_inventory( crafting_inventory(), is_crafting_component ) ||
-        b_filter.size() > 0 ) {
-        return true;
-    }
-
-    return false;
+    return amount req_anesth.can_make_with_inventory( crafting_inventory(), is_crafting_component ) || b_filter.size() > 0;
 }
 
 // bionic manipulation adjusted skill
@@ -1335,12 +1329,15 @@ void player::perform_uninstall( bionic_id bid, int difficulty, int success, int 
         // remove power bank provided by bionic
         max_power_level -= power_lvl;
 
+        item cbm( "burnt_out_bionic" );
         if( item::type_is_defined( bid.c_str() ) ) {
-            g->m.spawn_item( pos(), bid.c_str(), 1 );
-        } else {
-            g->m.spawn_item( pos(), "burnt_out_bionic", 1 );
+            cbm = item( bid.c_str() );
         }
-
+        cbm.set_flag( "FILTHY" );
+        cbm.set_flag( "NO_STERILE" );
+        cbm.set_flag( "NO_PACKED" );
+        cbm.faults.emplace( fault_id( "fault_bionic_salvaged" ) );
+        g->m.add_item( pos(), cbm );
     } else {
         if( is_player() ) {
             add_memorial_log( pgettext( "memorial_male", "Failed to remove bionic: %s." ),
@@ -1417,11 +1414,15 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, pla
         // remove power bank provided by bionic
         patient.max_power_level -= target_cbm.info().capacity;
         patient.remove_bionic( target_cbm.id );
+        item cbm( "burnt_out_bionic" );
         if( item::type_is_defined( target_cbm.id.c_str() ) ) {
-            g->m.spawn_item( patient.pos(), target_cbm.id.c_str(), 1 );
-        } else {
-            g->m.spawn_item( patient.pos(), "burnt_out_bionic", 1 );
+            cbm = item( target_cbm.id.c_str() );
         }
+        cbm.set_flag( "FILTHY" );
+        cbm.set_flag( "NO_STERILE" );
+        cbm.set_flag( "NO_PACKED" );
+        cbm.faults.emplace( fault_id( "fault_bionic_salvaged" ) );
+        g->m.add_item( patient.pos(), cbm );
     } else {
         bionics_uninstall_failure( installer, patient, difficulty, success, adjusted_skill );
     }

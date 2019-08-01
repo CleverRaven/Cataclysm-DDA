@@ -609,7 +609,7 @@ static const std::array<artifact_dream_datum, NUM_ACRS> artifact_dream_data = { 
 };
 
 // Constructors for artifact itypes.
-it_artifact_tool::it_artifact_tool() : itype()
+it_artifact_tool::it_artifact_tool()
 {
     tool.emplace();
     artifact.emplace();
@@ -625,7 +625,7 @@ it_artifact_tool::it_artifact_tool() : itype()
     use_methods.emplace( "ARTIFACT", use_function( "ARTIFACT", &iuse::artifact ) );
 }
 
-it_artifact_tool::it_artifact_tool( JsonObject &jo ) : itype()
+it_artifact_tool::it_artifact_tool( JsonObject &jo )
 {
     tool.emplace();
     artifact.emplace();
@@ -633,7 +633,7 @@ it_artifact_tool::it_artifact_tool( JsonObject &jo ) : itype()
     deserialize( jo );
 }
 
-it_artifact_armor::it_artifact_armor() : itype()
+it_artifact_armor::it_artifact_armor()
 {
     armor.emplace();
     artifact.emplace();
@@ -641,7 +641,7 @@ it_artifact_armor::it_artifact_armor() : itype()
     price = 0;
 }
 
-it_artifact_armor::it_artifact_armor( JsonObject &jo ) : itype()
+it_artifact_armor::it_artifact_armor( JsonObject &jo )
 {
     armor.emplace();
     artifact.emplace();

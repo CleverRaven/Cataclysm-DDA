@@ -167,7 +167,7 @@
     "to_hit": -1,
     "material": [ "neoprene", "rubber", "kevlar" ],
     "symbol": "[",
-    "color": "dark_green",
+    "color": "black_green",
     "covers": [ "TORSO", "ARMS", "LEGS" ],
     "coverage": 100,
     "encumbrance": 20,

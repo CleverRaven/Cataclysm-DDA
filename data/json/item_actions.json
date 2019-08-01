@@ -11,7 +11,7 @@
   },
   {
     "type": "item_action",
-    "id": "SEW_ADVANCED",
+    "id": "sew_advanced",
     "name": "Modify Clothing"
   },
   {
@@ -53,6 +53,11 @@
     "type": "item_action",
     "id": "PICKAXE",
     "name": "Dig through rock"
+  },
+  {
+    "type": "item_action",
+    "id": "PACK_CBM",
+    "name": "Pack CBM in pouch"
   },
   {
     "type": "item_action",
@@ -278,6 +283,11 @@
     "type": "item_action",
     "id": "ATOMIC_CAFF",
     "name": "Drink"
+  },
+  {
+    "type": "item_action",
+    "id": "AUTOCLAVE",
+    "name": "Sterilize"
   },
   {
     "type": "item_action",
@@ -928,6 +938,11 @@
     "type": "item_action",
     "id": "WASHCLOTHES",
     "name": "Wash clothes"
+  },
+  {
+    "type": "item_action",
+    "id": "WASHCBMS",
+    "name": "Wash CBMs"
   },
   {
     "type": "item_action",

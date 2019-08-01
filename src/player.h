@@ -805,8 +805,8 @@ class player : public Character
         void hurtall( int dam, Creature *source, bool disturb = true );
         /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
         int hitall( int dam, int vary, Creature *source );
-        /** Knocks the player back one square from a tile */
-        void knock_back_from( const tripoint &p ) override;
+        /** Knocks the player to a specified tile */
+        void knock_back_to( const tripoint &p ) override;
 
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
         float fall_damage_mod() const override;
@@ -1163,7 +1163,7 @@ class player : public Character
 
     private:
         /** last time we checked for sleep */
-        time_point last_sleep_check = calendar::time_of_cataclysm;
+        time_point last_sleep_check = calendar::turn_zero;
         bool bio_soporific_powered_at_last_sleep_check;
 
     public:

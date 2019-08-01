@@ -45,7 +45,7 @@ class veh_interact
         using part_selector = std::function<bool( const vehicle_part &pt )>;
 
     public:
-        static player_activity run( vehicle &veh, int x, int y );
+        static player_activity run( vehicle &veh, const point &p );
 
         /** Prompt for a part matching the selector function */
         static vehicle_part &select_part( const vehicle &veh, const part_selector &sel,
@@ -54,13 +54,12 @@ class veh_interact
         static void complete_vehicle();
 
     private:
-        veh_interact( vehicle &veh, int x = 0, int y = 0 );
+        veh_interact( vehicle &veh, const point &p = point_zero );
         ~veh_interact();
 
         item_location target;
 
-        int ddx = 0;
-        int ddy = 0;
+        point dd = point_zero;
         /* starting offset for vehicle parts description display and max offset for scrolling */
         int start_at = 0;
         int start_limit = 0;
@@ -107,8 +106,8 @@ class veh_interact
         bool format_reqs( std::ostringstream &msg, const requirement_data &reqs,
                           const std::map<skill_id, int> &skills, int moves ) const;
 
-        int part_at( int dx, int dy );
-        void move_cursor( int dx, int dy, int dstart_at = 0 );
+        int part_at( const point &d );
+        void move_cursor( const point &d, int dstart_at = 0 );
         task_reason cant_do( char mode );
         bool can_potentially_install( const vpart_info &vpart );
         /** Move index (parameter pos) according to input action:

@@ -182,7 +182,7 @@ editmap::editmap()
     sel_frn = undefined_furn_id;
     target_frn = undefined_furn_id;
     ter_frn_mode = 0;
-    cur_field = 0;
+    cur_field = nullptr;
     cur_trap = tr_null;
     sel_field = -1;
     sel_field_intensity = -1;
@@ -1124,7 +1124,7 @@ int editmap::edit_fld()
                 int i = 0;
                 for( const auto &intensity_level : ftype.intensity_levels ) {
                     i++;
-                    femenu.addentry( string_format( "%d: %s", i, intensity_level.name ) );
+                    femenu.addentry( string_format( "%d: %s", i, _( intensity_level.name ) ) );
                 }
                 femenu.entries[field_intensity].text_color = c_cyan;
                 femenu.selected = ( sel_field_intensity > 0 ? sel_field_intensity : field_intensity );
@@ -1738,9 +1738,7 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                         std::swap( *destsm, *srcsm );
 
                         for( auto &veh : destsm->vehicles ) {
-                            veh->smx = dest_pos.x;
-                            veh->smy = dest_pos.y;
-                            veh->smz = dest_pos.z;
+                            veh->sm_pos = dest_pos;
                         }
 
                         g->m.update_vehicle_list( destsm, target.z ); // update real map's vcaches

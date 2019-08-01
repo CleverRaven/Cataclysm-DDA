@@ -788,7 +788,6 @@ bool oter_t::is_hardcoded() const
         "temple",
         "temple_finale",
         "temple_stairs",
-        "toxic_dump",
         "triffid_finale",
         "triffid_roots"
     };
@@ -2992,9 +2991,7 @@ bool overmap::build_lab( const tripoint &p, int s, std::vector<point> *lab_train
                 }
                 generated_lab.push_back( cand );
                 // add new candidates, don't backtrack
-                for( const point &offset : {
-                point_north, point_east, point_south, point_west
-            } ) {
+                for( const point &offset : four_adjacent_offsets ) {
                     const tripoint new_cand = cand + offset;
                     const int new_dist = manhattan_dist( p.xy(), new_cand.xy() );
                     if( ter( new_cand ) != labt && new_dist > dist ) {
@@ -3967,7 +3964,28 @@ void overmap::place_specials_pass( overmap_special_batch &enabled_specials,
 // and when a special reaches max instances it is also removed.
 void overmap::place_specials( overmap_special_batch &enabled_specials )
 {
+    // Calculate if this overmap has any lake terrain--if it doesn't, we should just
+    // completely skip placing any lake specials here since they'll never place and if
+    // they're mandatory they just end up causing us to spiral out into adjacent overmaps
+    // which probably don't have lakes either.
+    bool overmap_has_lake = false;
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT && !overmap_has_lake; z++ ) {
+        for( int x = 0; x < OMAPX && !overmap_has_lake; x++ ) {
+            for( int y = 0; y < OMAPY && !overmap_has_lake; y++ ) {
+                overmap_has_lake = ter( { x, y, z } )->is_lake();
+            }
+        }
+    }
+
     for( auto iter = enabled_specials.begin(); iter != enabled_specials.end(); ) {
+        // If this special has the LAKE flag and the overmap doesn't have any
+        // lake terrain, then remove this special from the candidates for this
+        // overmap.
+        if( iter->special_details->flags.count( "LAKE" ) > 0 && !overmap_has_lake ) {
+            iter = enabled_specials.erase( iter );
+            continue;
+        }
+
         if( iter->special_details->flags.count( "UNIQUE" ) > 0 ) {
             const int min = iter->special_details->occurrences.min;
             const int max = iter->special_details->occurrences.max;

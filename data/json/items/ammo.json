@@ -743,6 +743,25 @@
   },
   {
     "type": "AMMO",
+    "id": "cac2powder",
+    "category": "spare_parts",
+    "price": 200,
+    "name": "calcium carbide premix",
+    "name_plural": "calcium carbide premix",
+    "symbol": "=",
+    "color": "dark_gray",
+    "description": "A powdered mixture of coke and lime ready to be smelted into usable calcium carbide in an arc furnace.",
+    "material": "cac2powder",
+    "phase": "solid",
+    "volume": "250 ml",
+    "weight": 11,
+    "ammo_type": "cac2powder",
+    "count": 25,
+    "stack_size": 10,
+    "fuel": { "energy": 5.2 }
+  },
+  {
+    "type": "AMMO",
     "id": "coal_lump",
     "category": "spare_parts",
     "price": 200,
@@ -909,7 +928,7 @@
     "material": "steel",
     "volume": 10,
     "weight": 1183,
-    "ammo_type": "components",
+    "ammo_type": "oxygen",
     "count": 10
   },
   {
@@ -982,6 +1001,20 @@
     "volume": 1,
     "weight": 300,
     "ammo_type": "unfinished_char"
+  },
+  {
+    "type": "AMMO",
+    "id": "unfinished_cac2",
+    "category": "spare_parts",
+    "price": 0,
+    "name": "unfinished calcium carbide",
+    "symbol": "=",
+    "color": "white",
+    "description": "The incomplete process of converting coal and lime into calcium carbide. Useless in this state/",
+    "material": "cac2powder",
+    "volume": "250 ml",
+    "weight": 300,
+    "ammo_type": "unfinished_cac2"
   },
   {
     "type": "AMMO",
