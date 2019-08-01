@@ -38,7 +38,7 @@ void render_fill_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
 {
     if( alt_rect_tex_enabled ) {
         SetTextureColorMod( alt_rect_tex, r, g, b );
-        RenderCopy( renderer, alt_rect_tex, NULL, &rect );
+        RenderCopy( renderer, alt_rect_tex, nullptr, &rect );
     } else {
         SetRenderDrawColor( renderer, r, g, b, 255 );
         RenderFillRect( renderer, &rect );

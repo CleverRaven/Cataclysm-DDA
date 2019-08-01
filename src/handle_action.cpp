@@ -808,7 +808,8 @@ static void wait()
                        diurnal_time_before( last_midnight + 0_hours ) );
         if( setting_alarm ) {
             if( u.has_effect( effect_alarm_clock ) ) {
-                add_menu_item( 11, 'x', _( "Cancel the currently set alarm." ), 0 );
+                add_menu_item( 11, 'x', _( "Cancel the currently set alarm." ),
+                               0_turns );
             }
         } else {
             add_menu_item( 11, 'W', _( "Wait till weather changes" ) );

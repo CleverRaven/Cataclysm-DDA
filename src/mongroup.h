@@ -164,7 +164,7 @@ class MonsterGroupManager
         static void LoadMonsterBlacklist( JsonObject &jo );
         static void LoadMonsterWhitelist( JsonObject &jo );
         static void FinalizeMonsterGroups();
-        static MonsterGroupResult GetResultFromGroup( const mongroup_id &group, int *quantity = 0 );
+        static MonsterGroupResult GetResultFromGroup( const mongroup_id &group, int *quantity = nullptr );
         static bool IsMonsterInGroup( const mongroup_id &group, const mtype_id &id );
         static bool isValidMonsterGroup( const mongroup_id &group );
         static const mongroup_id &Monster2Group( const mtype_id &id );

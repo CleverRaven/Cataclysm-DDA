@@ -296,7 +296,7 @@ static void line_to_comparison( const int iterations )
     REQUIRE( trig_dist( 0, 0, 0, 0 ) == 0 );
     REQUIRE( trig_dist( 0, 0, 1, 0 ) == 1 );
 
-    const int seed = time( NULL );
+    const int seed = time( nullptr );
     std::srand( seed );
 
     for( int i = 0; i < RANDOM_TEST_NUM; ++i ) {

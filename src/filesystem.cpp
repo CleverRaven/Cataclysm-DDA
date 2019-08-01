@@ -269,7 +269,7 @@ bool name_contains( const dirent &entry, const std::string &match, const bool at
     }
 
     const auto offset = at_end ? ( len_fname - len_match ) : 0;
-    return strstr( entry.d_name + offset, match.c_str() ) != 0;
+    return strstr( entry.d_name + offset, match.c_str() ) != nullptr;
 }
 
 //--------------------------------------------------------------------------------------------------

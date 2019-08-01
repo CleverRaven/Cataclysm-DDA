@@ -28,13 +28,6 @@ class quantity
         constexpr quantity() : value_() {
         }
         /**
-         * Constructor for initializing from literal 0, but not from any other literal
-         * number. It allows `quantity<foo> x = 0;` but does forbid `quantity<foo> x = 1;`.
-         * The former does not require an explicit unit as 0 is always 0 regardless of the unit.
-         */
-        constexpr quantity( std::nullptr_t ) : value_() {
-        }
-        /**
          * Construct from value. This is supposed to be wrapped into a static
          * function (e.g. `from_liter(int)` ) to provide context.
          */
@@ -541,7 +534,7 @@ T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, 
     if( skip_spaces() ) {
         error( "invalid quantity string: empty string" );
     }
-    T result = 0;
+    T result{};
     do {
         int sign_value = +1;
         if( s[i] == '-' ) {

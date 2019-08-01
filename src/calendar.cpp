@@ -437,7 +437,7 @@ float calendar::season_from_default_ratio()
 
 bool calendar::once_every( const time_duration &event_frequency )
 {
-    return ( ( calendar::turn - calendar::turn_zero ) % event_frequency ) == 0;
+    return ( calendar::turn - calendar::turn_zero ) % event_frequency == 0_turns;
 }
 
 const std::string calendar::name_season( season_type s )
