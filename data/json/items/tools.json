@@ -5547,6 +5547,7 @@
     "symbol": "A",
     "color": "yellow",
     "use_action": "AUTOCLAVE",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "power_draw": 1500000,
     "revert_to": "autoclave",
     "looks_like": "microwave",
