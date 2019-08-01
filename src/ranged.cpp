@@ -1453,7 +1453,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         // Clear the activity if any, we'll re-set it later if we need to.
         pc.cancel_activity();
 
-        tripoint targ( 0, 0, 0 );
+        tripoint targ;
         cata::optional<tripoint> mouse_pos;
         // Our coordinates will either be determined by coordinate input(mouse),
         // by a direction key, or by the previous value.
@@ -1924,7 +1924,7 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
         // Clear the activity if any, we'll re-set it later if we need to.
         pc.cancel_activity();
 
-        tripoint targ( 0, 0, 0 );
+        tripoint targ;
         cata::optional<tripoint> mouse_pos;
         // Our coordinates will either be determined by coordinate input(mouse),
         // by a direction key, or by the previous value.

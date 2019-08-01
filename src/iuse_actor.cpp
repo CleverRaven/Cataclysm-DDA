@@ -1216,12 +1216,9 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
             has_unactivated_brazier = true;
         }
     }
-    if( has_unactivated_brazier &&
-        !query_yn(
-            _( "There's a brazier there but you haven't set it up to contain the fire. Continue?" ) ) ) {
-        return false;
-    }
-    return true;
+    return !has_unactivated_brazier ||
+           query_yn(
+               _( "There's a brazier there but you haven't set it up to contain the fire. Continue?" ) );
 }
 
 void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos )

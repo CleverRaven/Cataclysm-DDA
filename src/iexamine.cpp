@@ -1809,7 +1809,7 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
         }
     }
     int roll = rng( 1, 5 );
-    bool drop_eggs = ( monster_count >= 1 ? true : false );
+    bool drop_eggs = monster_count >= 1;
     for( int i = 0; i < roll; i++ ) {
         handle_harvest( p, "spider_egg", drop_eggs );
     }
@@ -2600,6 +2600,10 @@ void iexamine::fireplace( player &p, const tripoint &examp )
     const bool has_bionic_firestarter = p.has_bionic( bionic_id( "bio_lighter" ) ) &&
                                         p.power_level >= bionic_id( "bio_lighter" )->power_activate;
 
+    auto firequenchers = p.items_with( []( const item & it ) {
+        return it.damage_melee( DT_BASH );
+    } );
+
     uilist selection_menu;
     selection_menu.text = _( "Select an action" );
     selection_menu.addentry( 0, true, 'e', _( "Examine" ) );
@@ -2609,10 +2613,10 @@ void iexamine::fireplace( player &p, const tripoint &examp )
         if( has_bionic_firestarter ) {
             selection_menu.addentry( 2, true, 'b', _( "Use a CBM to start a fire" ) );
         }
-    } else if( p.weapon.damage_melee( DT_BASH ) ) {
+    } else if( !firequenchers.empty() ) {
         selection_menu.addentry( 4, true, 's', _( "Put out fire" ) );
     } else {
-        selection_menu.addentry( 4, false, 's', _( "Put out fire - wield bashing item" ) );
+        selection_menu.addentry( 4, false, 's', _( "Put out fire (bashing item required)" ) );
     }
     if( furn_is_deployed ) {
         selection_menu.addentry( 3, true, 't', string_format( _( "Take down the %s" ),

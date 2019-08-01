@@ -455,8 +455,8 @@ stat_mod player::get_pain_penalty() const
     return ret;
 }
 
-player::player() : Character()
-    , next_climate_control_check( calendar::before_time_starts )
+player::player() :
+    next_climate_control_check( calendar::before_time_starts )
     , cached_time( calendar::before_time_starts )
 {
     id = -1; // -1 is invalid
@@ -1102,7 +1102,9 @@ void player::update_bodytemp()
             // Morale bonus for comfiness - only if actually comfy (not too warm/cold)
             // Spread the morale bonus in time.
             if( comfortable_warmth > 0 &&
-                calendar::turn % MINUTES( 1 ) == ( MINUTES( bp ) / MINUTES( num_bp ) ) &&
+                // @todo make this simpler and use time_duration/time_point
+                to_turn<int>( calendar::turn ) % to_turns<int>( 1_minutes ) == ( MINUTES( bp ) / MINUTES(
+                            num_bp ) ) &&
                 get_effect_int( effect_cold, num_bp ) == 0 &&
                 get_effect_int( effect_hot, num_bp ) == 0 &&
                 temp_cur[bp] > BODYTEMP_COLD && temp_cur[bp] <= BODYTEMP_NORM ) {

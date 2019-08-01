@@ -75,13 +75,8 @@ class tileray;
 class npc_template;
 class vpart_reference;
 
-// TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle {
-    int x;
-    int y;
-    int z;
-    int i; // submap col
-    int j; // submap row
+    tripoint pos;
     vehicle *v;
 };
 

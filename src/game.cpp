@@ -1086,10 +1086,10 @@ bool game::cleanup_at_end()
 
         center_print( w_rip, iInfoLine++, c_white, _( "Survived:" ) );
 
-        int turns = calendar::turn - calendar::start_of_cataclysm;
-        int minutes = ( turns / MINUTES( 1 ) ) % 60;
-        int hours = ( turns / HOURS( 1 ) ) % 24;
-        int days = turns / DAYS( 1 );
+        const time_duration survived = calendar::turn - calendar::start_of_cataclysm;
+        const int minutes = to_minutes<int>( survived ) % 60;
+        const int hours = to_hours<int>( survived ) % 24;
+        const int days = to_days<int>( survived );
 
         if( days > 0 ) {
             sTemp = string_format( "%dd %dh %dm", days, hours, minutes );
@@ -1351,7 +1351,7 @@ bool game::do_turn()
         new_game = false;
     } else {
         gamemode->per_turn();
-        calendar::turn.increment();
+        calendar::turn += 1_turns;
     }
 
     // starting a new turn, clear out temperature cache
@@ -2180,7 +2180,7 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
 tripoint game::mouse_edge_scrolling( input_context ctxt, const int speed )
 {
     const int rate = get_option<int>( "EDGE_SCROLL" );
-    tripoint ret = tripoint_zero;
+    tripoint ret;
     if( rate == -1 ) {
         // Fast return when the option is disabled.
         return ret;
@@ -3206,7 +3206,7 @@ void game::draw_panels( bool force_draw )
 void game::draw_panels( size_t column, size_t index, bool force_draw )
 {
     static int previous_turn = -1;
-    const int current_turn = calendar::turn;
+    const int current_turn = to_turns<int>( calendar::turn - calendar::turn_zero );
     const bool draw_this_turn = current_turn > previous_turn || force_draw;
     auto &mgr = panel_manager::get_manager();
     int y = 0;
@@ -3637,7 +3637,7 @@ float game::natural_light_level( const int zlev ) const
 
     // Sunlight/moonlight related stuff
     if( !weather.lightning_active ) {
-        ret = calendar::turn.sunlight();
+        ret = sunlight( calendar::turn );
     } else {
         // Recent lightning strike has lit the area
         ret = DAYLIGHT_LEVEL;
@@ -3825,7 +3825,8 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
     new_seen_mon.clear();
 
     static int previous_turn = 0;
-    const int current_turn = calendar::turn;
+    // @todo change current_turn to time_point
+    const int current_turn = to_turns<int>( calendar::turn - calendar::turn_zero );
     const int sm_ignored_turns = get_option<int>( "SAFEMODEIGNORETURNS" );
 
     for( auto &c : u.get_visible_creatures( MAPSIZE_X ) ) {
@@ -4697,8 +4698,10 @@ bool game::add_zombie( monster &critter, bool pin_upgrade )
     }
 
     critter.last_updated = calendar::turn;
-    critter.last_baby = calendar::turn;
-    critter.last_biosig = calendar::turn;
+    // @todo change last_baby to time_point
+    critter.last_baby = to_turn<int>( calendar::turn );
+    // @todo change last_biosig to time_point
+    critter.last_biosig = to_turn<int>( calendar::turn );
     return critter_tracker->add( critter );
 }
 
@@ -5041,7 +5044,7 @@ void game::use_item( int pos )
 
 void game::exam_vehicle( vehicle &veh, int cx, int cy )
 {
-    auto act = veh_interact::run( veh, cx, cy );
+    auto act = veh_interact::run( veh, point( cx, cy ) );
     if( act ) {
         u.moves = 0;
         u.assign_activity( act );
@@ -5274,6 +5277,8 @@ void game::control_vehicle()
                 return;
             }
             veh->use_controls( *vehicle_position );
+            //May be folded up (destroyed), so need to re-get it
+            veh = g->remoteveh();
         }
     }
     if( veh ) {
@@ -6686,7 +6691,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                     const tripoint start = tripoint( std::min( dx, POSX ), std::min( dy, POSY ), lz );
                     const tripoint end = tripoint( std::max( dx, POSX ), std::max( dy, POSY ), lz );
 
-                    tripoint offset = tripoint_zero; //ASCII/SDL
+                    tripoint offset; //ASCII/SDL
 #if defined(TILES)
                     if( use_tiles ) {
                         offset = tripoint( offset_x + lx - u.posx(), offset_y + ly - u.posy(), 0 ); //TILES
@@ -10124,7 +10129,7 @@ void game::vertical_move( int movez, bool force )
     u.moves -= move_cost;
 
     const tripoint old_pos = g->u.pos();
-    point submap_shift = point_zero;
+    point submap_shift;
     vertical_shift( z_after );
     if( !force ) {
         submap_shift = update_map( stairs.x, stairs.y );
@@ -11372,23 +11377,23 @@ void game::start_calendar()
             calendar::initial_season = SPRING;
         } else if( scen->has_flag( "SUM_START" ) ) {
             calendar::initial_season = SUMMER;
-            calendar::turn += to_turns<int>( calendar::season_length() );
+            calendar::turn += calendar::season_length();
         } else if( scen->has_flag( "AUT_START" ) ) {
             calendar::initial_season = AUTUMN;
-            calendar::turn += to_turns<int>( calendar::season_length() * 2 );
+            calendar::turn += calendar::season_length() * 2;
         } else if( scen->has_flag( "WIN_START" ) ) {
             calendar::initial_season = WINTER;
-            calendar::turn += to_turns<int>( calendar::season_length() * 3 );
+            calendar::turn += calendar::season_length() * 3;
         } else if( scen->has_flag( "SUM_ADV_START" ) ) {
             calendar::initial_season = SUMMER;
-            calendar::turn += to_turns<int>( calendar::season_length() * 5 );
+            calendar::turn += calendar::season_length() * 5;
         } else {
             debugmsg( "The Unicorn" );
         }
     } else {
         // No scenario, so use the starting date+time configured in world options
         const int initial_days = get_option<int>( "INITIAL_DAY" );
-        calendar::start_of_cataclysm = DAYS( initial_days );
+        calendar::start_of_cataclysm = calendar::turn_zero + 1_days * initial_days;
 
         // Determine the season based off how long the seasons are set to be
         // First mod by length of season to get number of seasons elapsed, then mod by 4 to force a 0-3 range of values
@@ -11404,8 +11409,8 @@ void game::start_calendar()
         }
 
         calendar::turn = calendar::start_of_cataclysm
-                         + HOURS( get_option<int>( "INITIAL_TIME" ) )
-                         + DAYS( get_option<int>( "SPAWN_DELAY" ) );
+                         + 1_days * get_option<int>( "INITIAL_TIME" )
+                         + 1_days * get_option<int>( "SPAWN_DELAY" );
     }
 
 }
