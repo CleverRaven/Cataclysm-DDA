@@ -9,8 +9,7 @@
 static const int sx[4] = { 1, -1, -1, 1 };
 static const int sy[4] = { 1, 1, -1, -1 };
 
-tileray::tileray(): delta( point_zero ), leftover( 0 ), direction( 0 ),
-    last_d( point_zero ), steps( 0 ), infinite( false )
+tileray::tileray(): leftover( 0 ), direction( 0 ), steps( 0 ), infinite( false )
 {
 }
 
