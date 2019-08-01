@@ -1081,7 +1081,8 @@ bool player::has_enough_anesth( const itype *cbm, player &patient )
         return it.has_flag( "ANESTHESIA" ); // legacy
     } );
 
-    return amount req_anesth.can_make_with_inventory( crafting_inventory(), is_crafting_component ) || b_filter.size() > 0;
+    return req_anesth.can_make_with_inventory( crafting_inventory(), is_crafting_component ) ||
+           b_filter.size() > 0;
 }
 
 // bionic manipulation adjusted skill
