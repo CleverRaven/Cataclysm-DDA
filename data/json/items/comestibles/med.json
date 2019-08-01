@@ -1331,14 +1331,16 @@
   },
   {
     "id": "disincotton_ball",
-    "copy-from": "cotton_ball",
     "type": "COMESTIBLE",
     "name": "disinfectant soaked cotton balls",
     "name_plural": "disinfectant soaked cotton balls",
     "description": "Fluffy balls of clean white cotton.  Now soaked with disinfectant, they are somewhat useful to disinfect a wound.",
+    "weight": 25,
+    "//": "Can't copy-from cotton_ball, breaks volume",
+    "volume": "31 ml",
+    "material": "cotton",
     "category": "drugs",
     "price": 1000,
-    "charges": 1,
     "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "heal",
