@@ -1620,3 +1620,29 @@ std::string Creature::replace_with_npc_name( std::string input ) const
     replace_substring( input, "<npcname>", disp_name(), true );
     return input;
 }
+
+void Creature::knock_back_from( const tripoint &p )
+{
+    if( p == pos() ) {
+        return; // No effect
+    }
+    if( is_hallucination() ) {
+        die( nullptr );
+        return;
+    }
+    tripoint to = pos();
+    if( p.x < posx() ) {
+        to.x++;
+    }
+    if( p.x > posx() ) {
+        to.x--;
+    }
+    if( p.y < posy() ) {
+        to.y++;
+    }
+    if( p.y > posy() ) {
+        to.y--;
+    }
+
+    knock_back_to( to );
+}

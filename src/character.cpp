@@ -118,7 +118,7 @@ static const trait_id debug_nodmg( "DEBUG_NODMG" );
 
 // *INDENT-OFF*
 Character::Character() :
-    Creature(),
+
     visitable<Character>(),
     hp_cur( {{ 0 }} ),
     hp_max( {{ 0 }} ),
@@ -801,11 +801,7 @@ bool Character::has_active_bionic( const bionic_id &b ) const
 
 bool Character::has_any_bionic() const
 {
-    bionic_collection tmp_collec = *my_bionics;
-    if( !tmp_collec.empty() ) {
-        return true;
-    }
-    return false;
+    return !my_bionics->empty();
 }
 
 std::vector<item_location> Character::nearby( const
@@ -2654,31 +2650,19 @@ nc_color Character::symbol_color() const
 
     const auto &fields = g->m.field_at( pos() );
 
+    // Priority: electricity, fire, acid, gases
+    bool has_elec = false;
     bool has_fire = false;
     bool has_acid = false;
-    bool has_elec = false;
     bool has_fume = false;
     for( const auto &field : fields ) {
-        if( field.first == fd_incendiary || field.first == fd_fire ) {
-            has_fire = true;
+        has_elec = field.first.obj().has_elec;
+        if( has_elec ) {
+            return hilite( basic );
         }
-        if( field.first == fd_electricity ) {
-            has_elec = true;
-        }
-        if( field.first == fd_acid ) {
-            has_acid = true;
-        }
-        if( field.first == fd_relax_gas || field.first == fd_fungal_haze ||
-            field.first == fd_fungicidal_gas || field.first == fd_toxic_gas ||
-            field.first == fd_tear_gas || field.first == fd_nuke_gas ||
-            field.first == fd_smoke ) {
-            has_fume = true;
-        }
-    }
-    // Priority: electricity, fire, acid, gases
-    // Can't just return in the switch, because field order is alphabetic
-    if( has_elec ) {
-        return hilite( basic );
+        has_fire = field.first.obj().has_fire;
+        has_acid = field.first.obj().has_acid;
+        has_fume = field.first.obj().has_fume;
     }
     if( has_fire ) {
         return red_background( basic );
@@ -2701,39 +2685,37 @@ bool Character::is_immune_field( const field_type_id fid ) const
     if( has_trait( debug_nodmg ) ) {
         return true;
     }
-
     // Check to see if we are immune
-    if( fid == fd_smoke ) {
-        return get_env_resist( bp_mouth ) >= 12;
+    const field_type &ft = fid.obj();
+    for( const trait_id &t : ft.immunity_data_traits ) {
+        if( has_trait( t ) ) {
+            return true;
+        }
     }
-    if( fid == fd_tear_gas || fid == fd_toxic_gas || fid == fd_gas_vent || fid == fd_relax_gas ) {
-        return get_env_resist( bp_mouth ) >= 15;
+    bool immune_by_body_part_resistance = false;
+    for( const std::pair<body_part, int> &fide : ft.immunity_data_body_part_env_resistance ) {
+        immune_by_body_part_resistance = immune_by_body_part_resistance &&
+                                         get_env_resist( fide.first ) >= fide.second;
     }
-    if( fid == fd_fungal_haze ) {
-        return has_trait( trait_id( "M_IMMUNE" ) ) || ( get_env_resist( bp_mouth ) >= 15 &&
-                get_env_resist( bp_eyes ) >= 15 );
+    if( immune_by_body_part_resistance ) {
+        return true;
     }
-    if( fid == fd_electricity ) {
+    if( ft.has_elec ) {
         return is_elec_immune();
     }
-    if( fid == fd_acid ) {
-        return has_trait( trait_id( "ACIDPROOF" ) ) ||
-               ( !is_on_ground() && get_env_resist( bp_foot_l ) >= 15 &&
-                 get_env_resist( bp_foot_r ) >= 15 &&
-                 get_env_resist( bp_leg_l ) >= 15 &&
-                 get_env_resist( bp_leg_r ) >= 15 &&
-                 get_armor_type( DT_ACID, bp_foot_l ) >= 5 &&
-                 get_armor_type( DT_ACID, bp_foot_r ) >= 5 &&
-                 get_armor_type( DT_ACID, bp_leg_l ) >= 5 &&
-                 get_armor_type( DT_ACID, bp_leg_r ) >= 5 );
-    }
-    if( fid == fd_web ) {
-        return has_trait( trait_id( "WEB_WALKER" ) );
-    }
-    if( fid == fd_fire || fid == fd_flame_burst ) {
+    if( ft.has_fire ) {
         return has_active_bionic( bionic_id( "bio_heatsink" ) ) || is_wearing( "rm13_armor_on" );
     }
-
+    if( ft.has_acid ) {
+        return !is_on_ground() && get_env_resist( bp_foot_l ) >= 15 &&
+               get_env_resist( bp_foot_r ) >= 15 &&
+               get_env_resist( bp_leg_l ) >= 15 &&
+               get_env_resist( bp_leg_r ) >= 15 &&
+               get_armor_type( DT_ACID, bp_foot_l ) >= 5 &&
+               get_armor_type( DT_ACID, bp_foot_r ) >= 5 &&
+               get_armor_type( DT_ACID, bp_leg_l ) >= 5 &&
+               get_armor_type( DT_ACID, bp_leg_r ) >= 5;
+    }
     // If we haven't found immunity yet fall up to the next level
     return Creature::is_immune_field( fid );
 }

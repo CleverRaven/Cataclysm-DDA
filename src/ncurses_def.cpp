@@ -261,8 +261,7 @@ input_event input_manager::get_input_event()
         MEVENT event;
         if( getmouse( &event ) == OK ) {
             rval.type = CATA_INPUT_MOUSE;
-            rval.mouse_x = event.x - VIEW_OFFSET_X;
-            rval.mouse_y = event.y - VIEW_OFFSET_Y;
+            rval.mouse_pos = point( event.x, event.y ) - point( VIEW_OFFSET_X, VIEW_OFFSET_Y );
             if( event.bstate & BUTTON1_CLICKED ) {
                 rval.add_input( MOUSE_BUTTON_LEFT );
             } else if( event.bstate & BUTTON3_CLICKED ) {

@@ -446,7 +446,7 @@
       "sound_fail": "whack!",
       "sound_vol": 16,
       "furn_set": "f_bigmirror_b",
-      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
     }
   },
   {
@@ -488,7 +488,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 12,
       "furn_set": "f_vending_o",
-      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
     }
   },
   {
@@ -1129,7 +1129,9 @@
     "move_cost_mod": 2,
     "required_str": 8,
     "flags": [ "TRANSPARENT", "BASHABLE" ],
-    "deconstruct": { "items": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": 2 }, { "item": "cable", "count": 10 } ] },
+    "deconstruct": {
+      "items": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": 2 }, { "item": "cable", "charges": 10 } ]
+    },
     "bash": {
       "str_min": 6,
       "str_max": 10,
@@ -1618,7 +1620,7 @@
       "sound_fail": "whack!",
       "furn_set": "f_vending_o",
       "items": [
-        { "item": "glass_shard", "count": [ 1, 3 ] },
+        { "item": "glass_shard", "count": [ 8, 25 ] },
         { "item": "sheet_metal", "count": [ 0, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 5 ] }
       ]
@@ -1705,7 +1707,7 @@
         { "item": "power_supply", "prob": 50 },
         { "item": "RAM", "prob": 50 },
         { "item": "pipe", "count": [ 0, 2 ] },
-        { "item": "glass_shard", "count": [ 4, 8 ] },
+        { "item": "glass_shard", "count": [ 33, 67 ] },
         { "item": "plastic_chunk", "count": [ 1, 3 ] },
         { "item": "bearing", "charges": [ 0, 16 ] }
       ]
@@ -1810,7 +1812,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 12,
       "furn_set": "f_displaycase_b",
-      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
     }
   },
   {
@@ -1976,6 +1978,58 @@
     "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
     "bash": {
       "str_min": 12,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "pipe", "count": [ 0, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_arcfurnace_empty",
+    "name": "arc furnace",
+    "description": "An arc furnace designed to burn a powdery mix of coke and limestone to create calcium carbide.",
+    "symbol": "U",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "examine_action": "arcfurnace_empty",
+    "max_volume": 800,
+    "crafting_pseudo_item": "arcfurnace",
+    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
+    "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "pipe", "count": [ 0, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_arcfurnace_full",
+    "name": "filled arc furnace",
+    "description": "An arc furnace designed to burn a powdery mix of coke and limestone to create calcium carbide.",
+    "symbol": "U",
+    "color": "blue_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "examine_action": "arcfurnace_full",
+    "flags": [ "NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM" ],
+    "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
+    "bash": {
+      "str_min": 18,
       "str_max": 40,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
@@ -2237,7 +2291,7 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "thump.",
-      "items": [ { "item": "rock", "count": [ 1, 6 ] } ]
+      "items": [ { "item": "rock", "count": [ 1, 6 ] }, { "item": "sharp_rock", "count": [ 0, 2 ] } ]
     }
   },
   {
@@ -2257,7 +2311,7 @@
       "str_max": 80,
       "sound": "smash!",
       "sound_fail": "thump.",
-      "items": [ { "item": "rock", "count": [ 5, 11 ] } ]
+      "items": [ { "item": "rock", "count": [ 5, 11 ] }, { "item": "sharp_rock", "count": [ 1, 4 ] } ]
     }
   },
   {
@@ -2278,6 +2332,7 @@
       "sound_fail": "thump.",
       "items": [
         { "item": "rock", "count": [ 10, 22 ] },
+        { "item": "sharp_rock", "count": [ 3, 7 ] },
         { "item": "material_limestone", "charges": [ 2, 5 ], "prob": 30 },
         { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 10 }
       ]
@@ -2750,95 +2805,6 @@
   },
   {
     "type": "furniture",
-    "id": "f_tourist_table",
-    "name": "tourist table",
-    "description": "Small metal folding table, ideal for off-road trips into the wild.",
-    "symbol": "#",
-    "bgcolor": "light_gray",
-    "move_cost_mod": 2,
-    "coverage": 40,
-    "required_str": -1,
-    "deployed_item": "tourist_table",
-    "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
-    "deconstruct": { "items": [ { "item": "tourist_table", "count": 1 } ] },
-    "bash": {
-      "str_min": 16,
-      "str_max": 50,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "pipe", "count": [ 1, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 4, 8 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_leather_tarp",
-    "name": "leather tarp",
-    "description": "A large sheet of sewn leather that can be used instead of a picnic blanket, but it's more valuable as a butchery appliance as it does not soak in blood.",
-    "symbol": "D",
-    "bgcolor": "brown",
-    "move_cost_mod": 0,
-    "required_str": 3,
-    "deployed_item": "leather_tarp",
-    "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF", "CAN_SIT" ],
-    "deconstruct": { "items": [ { "item": "leather_tarp", "count": 1 } ] },
-    "bash": {
-      "str_min": 5,
-      "str_max": 10,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "leather_tarp", "count": [ 1, 1 ] } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_plastic_groundsheet",
-    "name": "plastic groundsheet",
-    "description": "A large sheet of thick plastic has been tossed on the ground here.  It would be a useful place to do some butchery, perhaps.",
-    "symbol": "D",
-    "bgcolor": "light_blue",
-    "move_cost_mod": 0,
-    "required_str": 3,
-    "deployed_item": "plastic_sheet",
-    "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF", "CAN_SIT" ],
-    "deconstruct": { "items": [ { "item": "plastic_sheet", "count": 1 } ] },
-    "bash": {
-      "str_min": 5,
-      "str_max": 10,
-      "sound": "whuff!",
-      "sound_fail": "crinkle.",
-      "items": [ { "item": "plastic_sheet", "count": 1 } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_fiber_mat",
-    "name": "fiber mat",
-    "description": "A large mat woven from fibrous material that can be used instead of a picnic blanket, but it's more valuable as a butchery appliance.  Too thin to be a comfortable sleeping place.",
-    "symbol": "Q",
-    "bgcolor": "yellow",
-    "move_cost_mod": 0,
-    "required_str": 3,
-    "deployed_item": "fiber_mat",
-    "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF", "CAN_SIT" ],
-    "deconstruct": { "items": [ { "item": "fiber_mat", "count": 1 } ] },
-    "bash": {
-      "str_min": 5,
-      "str_max": 10,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "fiber_mat", "count": [ 1, 1 ] } ]
-    }
-  },
-  {
-    "type": "furniture",
     "id": "f_pillow_fort",
     "name": "pillow fort",
     "symbol": "^",
@@ -2972,7 +2938,7 @@
       "str_max": 15,
       "sound": "crumple!",
       "sound_fail": "thud.",
-      "items": [ { "item": "paper", "count": [ 50, 100 ] } ]
+      "items": [ { "item": "paper", "charges": [ 50, 100 ] } ]
     }
   },
   {
@@ -3574,75 +3540,6 @@
   },
   {
     "type": "furniture",
-    "id": "f_utility_shelf",
-    "name": "utility shelf",
-    "symbol": "{",
-    "looks_like": "f_rack",
-    "description": "A simple heavy-duty plastic and metal shelving unit.",
-    "color": "light_gray",
-    "move_cost_mod": -1,
-    "coverage": 55,
-    "required_str": 6,
-    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
-        { "item": "plastic_chunk", "count": [ 2, 12 ] },
-        { "item": "pipe", "count": [ 4, 8 ] }
-      ]
-    },
-    "max_volume": 2000,
-    "bash": {
-      "str_min": 16,
-      "str_max": 40,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "plastic_chunk", "count": [ 1, 6 ] },
-        { "item": "sheet_metal_small", "count": [ 1, 4 ] },
-        { "item": "pipe", "count": 1 }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_glass_cabinet",
-    "name": "glass front cabinet",
-    "symbol": "[",
-    "looks_like": "f_display_rack",
-    "description": "A tall storage cabinet with a clear glass window.",
-    "color": "light_gray",
-    "move_cost_mod": -1,
-    "coverage": 30,
-    "required_str": 8,
-    "flags": [ "PLACE_ITEM", "TRANSPARENT", "BLOCKSDOOR" ],
-    "deconstruct": {
-      "items": [
-        { "item": "2x4", "count": [ 2, 6 ] },
-        { "item": "nail", "charges": [ 4, 16 ] },
-        { "item": "glass_sheet", "count": [ 1, 2 ] },
-        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
-        { "item": "pipe", "count": [ 0, 4 ] }
-      ]
-    },
-    "max_volume": 1600,
-    "bash": {
-      "str_min": 12,
-      "str_max": 40,
-      "sound": "glass breaking!",
-      "sound_fail": "crunch!",
-      "items": [
-        { "item": "2x4", "count": [ 1, 4 ] },
-        { "item": "splinter", "count": [ 1, 4 ] },
-        { "item": "nail", "charges": [ 4, 8 ] },
-        { "item": "glass_shard", "count": [ 2, 12 ] },
-        { "item": "scrap", "count": [ 0, 2 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
     "id": "f_floor_lamp",
     "name": "floor lamp",
     "symbol": "T",
@@ -3670,7 +3567,7 @@
         { "item": "scrap", "count": [ 1, 2 ] },
         { "item": "cable", "charges": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 0, 1 ] },
-        { "item": "glass_shard", "count": [ 0, 1 ] },
+        { "item": "glass_shard", "count": [ 0, 8 ] },
         { "item": "pipe", "count": [ 0, 1 ] }
       ]
     }
@@ -3758,7 +3655,7 @@
         { "item": "element", "count": [ 1, 3 ] },
         { "item": "plastic_chunk", "count": [ 30, 50 ] },
         { "item": "pipe", "count": 1 },
-        { "item": "glass_shard", "count": [ 3, 12 ] },
+        { "item": "glass_shard", "count": [ 25, 100 ] },
         { "item": "cable", "charges": [ 1, 2 ] }
       ]
     }
@@ -3821,6 +3718,7 @@
       "items": [
         { "item": "pipe", "count": 1 },
         { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "e_scrap", "count": [ 2, 6 ] },
         { "item": "steel_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
@@ -3830,6 +3728,52 @@
         { "item": "cu_pipe", "count": [ 2, 5 ] }
       ]
     },
+    "examine_action": "autoclave_empty",
+    "bash": {
+      "str_min": 40,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_autoclave_full",
+    "name": "filled autoclave",
+    "description": "This thing is basically an extremely high tech laundry machine or dishwasher.  It steams things at temperatures that will kill almost anything.",
+    "symbol": "0",
+    "color": "light_blue_white",
+    "move_cost_mod": 3,
+    "coverage": 60,
+    "required_str": 16,
+    "max_volume": 4000,
+    "insulation": 2,
+    "looks_like": "f_washer",
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "SEALED" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 1 },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 1, 2 ] },
+        { "item": "motor_small", "count": 1 },
+        { "item": "cu_pipe", "count": [ 2, 5 ] }
+      ]
+    },
+    "examine_action": "autoclave_full",
     "bash": {
       "str_min": 40,
       "str_max": 80,
@@ -3988,7 +3932,7 @@
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "glass_shard", "count": [ 5, 10 ] },
+        { "item": "glass_shard", "count": [ 42, 84 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
@@ -4033,7 +3977,7 @@
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "glass_shard", "count": [ 5, 10 ] },
+        { "item": "glass_shard", "count": [ 42, 84 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
@@ -4317,7 +4261,7 @@
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "glass_shard", "count": [ 5, 10 ] },
+        { "item": "glass_shard", "count": [ 42, 84 ] },
         { "item": "metal_tank_little", "count": [ 0, 1 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 0, 1 ] },
@@ -4405,7 +4349,7 @@
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "glass_shard", "count": [ 5, 10 ] },
+        { "item": "glass_shard", "count": [ 42, 84 ] },
         { "item": "metal_tank_little", "count": [ 0, 1 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 0, 1 ] },

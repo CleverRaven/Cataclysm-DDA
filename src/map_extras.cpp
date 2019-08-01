@@ -71,6 +71,8 @@ static const mongroup_id GROUP_NETHER_CAPTURED( "GROUP_NETHER_CAPTURED" );
 static const mongroup_id GROUP_NETHER_PORTAL( "GROUP_NETHER_PORTAL" );
 static const mongroup_id GROUP_MAYBE_MIL( "GROUP_MAYBE_MIL" );
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
+static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
+static const mongroup_id GROUP_MI_GO_CAMP_OM( "GROUP_MI-GO_CAMP_OM" );
 
 static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 static const mtype_id mon_marloss_zealot_f( "mon_marloss_zealot_f" );
@@ -98,6 +100,58 @@ static const mtype_id mon_wolf( "mon_wolf" );
 static void mx_null( map &, const tripoint & )
 {
     debugmsg( "Tried to generate null map extra." );
+}
+
+static void dead_vegetation_parser( map &m, const tripoint &loc )
+{
+    // furniture plants die to withered plants
+    const furn_t &fid = m.furn( loc ).obj();
+    if( fid.has_flag( "PLANT" ) || fid.has_flag( "FLOWER" ) || fid.has_flag( "ORGANIC" ) ) {
+        m.i_clear( loc );
+        m.furn_set( loc, f_null );
+        m.spawn_item( loc, "withered" );
+    }
+    // terrain specific conversions
+    const ter_id tid = m.ter( loc );
+    static const std::map<ter_id, ter_str_id> dies_into {{
+            {t_grass, ter_str_id( "t_grass_dead" )},
+            {t_grass_long, ter_str_id( "t_grass_dead" )},
+            {t_grass_tall, ter_str_id( "t_grass_dead" )},
+            {t_moss, ter_str_id( "t_grass_dead" )},
+            {t_tree_pine, ter_str_id( "t_tree_deadpine" )},
+            {t_tree_birch, ter_str_id( "t_tree_birch_harvested" )},
+            {t_tree_willow, ter_str_id( "t_tree_dead" )},
+            {t_tree_hickory, ter_str_id( "t_tree_hickory_dead" )},
+            {t_tree_hickory_harvested, ter_str_id( "t_tree_hickory_dead" )},
+            {t_grass_golf, ter_str_id( "t_grass_dead" )},
+            {t_grass_white, ter_str_id( "t_grass_dead" )},
+        }};
+
+    const auto iter = dies_into.find( tid );
+    if( iter != dies_into.end() ) {
+        m.ter_set( loc, iter->second );
+    }
+    // non-specific small vegetation falls into sticks, large dies and randomly falls
+    const ter_t &tr = tid.obj();
+    if( tr.has_flag( "SHRUB" ) ) {
+        m.ter_set( loc, t_dirt );
+        if( one_in( 2 ) ) {
+            m.spawn_item( loc, "stick" );
+        }
+    } else if( tr.has_flag( "TREE" ) ) {
+        if( one_in( 4 ) ) {
+            m.ter_set( loc, ter_str_id( "t_trunk" ) );
+        } else if( one_in( 4 ) ) {
+            m.ter_set( loc, ter_str_id( "t_stump" ) );
+        } else {
+            m.ter_set( loc, ter_str_id( "t_tree_dead" ) );
+        }
+    } else if( tr.has_flag( "YOUNG" ) ) {
+        m.ter_set( loc, ter_str_id( "t_dirt" ) );
+        if( one_in( 2 ) ) {
+            m.spawn_item( loc, "stick_long" );
+        }
+    }
 }
 
 static void mx_house_wasp( map &m, const tripoint & )
@@ -1348,6 +1402,7 @@ static void place_fumarole( map &m, int x1, int y1, int x2, int y2, std::set<poi
 
 }
 
+//Obsolete, remove after 0.E.
 static void mx_fumarole( map &m, const tripoint &abs_sub )
 {
     if( abs_sub.z <= 0 ) {
@@ -1399,21 +1454,130 @@ static void mx_fumarole( map &m, const tripoint &abs_sub )
 
 static void mx_portal_in( map &m, const tripoint &abs_sub )
 {
-    int x = rng( 5, SEEX * 2 - 6 ), y = rng( 5, SEEY * 2 - 6 );
-    m.add_field( {x, y, abs_sub.z}, fd_fatigue, 3, 0_turns );
-    fungal_effects fe( *g, m );
-    for( int i = x - 5; i <= x + 5; i++ ) {
-        for( int j = y - 5; j <= y + 5; j++ ) {
-            if( rng( 1, 9 ) >= trig_dist( x, y, i, j ) ) {
-                fe.marlossify( tripoint( i, j, abs_sub.z ) );
-                if( one_in( 15 ) ) {
-                    m.place_spawns( GROUP_NETHER_PORTAL, 1, i, j, i, j, 1, true );
+    const tripoint portal_location = { rng( 5, SEEX * 2 - 6 ), rng( 5, SEEX * 2 - 6 ), abs_sub.z };
+    const int x = portal_location.x;
+    const int y = portal_location.y;
+
+    switch( rng( 1, 7 ) ) {
+        //Mycus spreading through the portal
+        case 1: {
+            m.add_field( portal_location, fd_fatigue, 3 );
+            fungal_effects fe( *g, m );
+            for( const auto &loc : g->m.points_in_radius( portal_location, 5 ) ) {
+                if( one_in( 3 ) ) {
+                    fe.marlossify( loc );
                 }
             }
+            //50% chance to spawn pouf-maker
+            m.place_spawns( GROUP_FUNGI_FUNGALOID, 2, x - 1, y - 1, x + 1, y + 1, 1, true );
+            break;
+        }
+        //Netherworld monsters spawning around the portal
+        case 2: {
+            m.add_field( portal_location, fd_fatigue, 3 );
+            for( const auto &loc : g->m.points_in_radius( portal_location, 5 ) ) {
+                m.place_spawns( GROUP_NETHER_PORTAL, 15, loc.x - 5, loc.y - 5, loc.x + 5, loc.y + 5, 1, true );
+            }
+            break;
+        }
+        //Several cracks in the ground originating from the portal
+        case 3: {
+            m.add_field( portal_location, fd_fatigue, 3 );
+            for( int i = 0; i < rng( 1, 10 ); i++ ) {
+                tripoint end_location = { rng( 0, SEEX * 2 - 1 ), rng( 0, SEEY * 2 - 1 ), abs_sub.z };
+                std::vector<tripoint> failure = line_to( portal_location, end_location );
+                for( auto &i : failure ) {
+                    m.ter_set( { i.x, i.y, abs_sub.z }, t_pit );
+                }
+            }
+            break;
+        }
+        //Radiation from the portal killed the vegetation
+        case 4: {
+            m.add_field( portal_location, fd_fatigue, 3 );
+            const int rad = 10;
+            for( int i = x - rad; i <= x + rad; i++ ) {
+                for( int j = y - rad; j <= y + rad; j++ ) {
+                    if( trig_dist( x, y, i, j ) + rng( 0, 3 ) <= rad ) {
+                        const tripoint loc( i, j, abs_sub.z );
+                        dead_vegetation_parser( m, loc );
+                        m.adjust_radiation( loc.x, loc.y, rng( 20, 40 ) );
+                    }
+                }
+            }
+            break;
+        }
+        //Lava seams originating from the portal
+        case 5: {
+            if( abs_sub.z <= 0 ) {
+                int x1 = rng( 0,    SEEX     - 3 ), y1 = rng( 0,    SEEY     - 3 ),
+                    x2 = rng( SEEX, SEEX * 2 - 3 ), y2 = rng( SEEY, SEEY * 2 - 3 );
+                // Pick a random cardinal direction to also spawn lava in
+                // This will make the lava a single connected line, not just on diagonals
+                static const std::array<direction, 4> possibilities = { { EAST, WEST, NORTH, SOUTH } };
+                const direction extra_lava_dir = random_entry( possibilities );
+                int x_extra = 0;
+                int y_extra = 0;
+                switch( extra_lava_dir ) {
+                    case NORTH:
+                        y_extra = -1;
+                        break;
+                    case EAST:
+                        x_extra = 1;
+                        break;
+                    case SOUTH:
+                        y_extra = 1;
+                        break;
+                    case WEST:
+                        x_extra = -1;
+                        break;
+                    default:
+                        break;
+                }
+
+                const tripoint portal_location = { x1 + x_extra, y1 + y_extra, abs_sub.z };
+                m.add_field( portal_location, fd_fatigue, 3 );
+
+                std::set<point> ignited;
+                place_fumarole( m, x1, y1, x2, y2, ignited );
+                place_fumarole( m, x1 + x_extra, y1 + y_extra, x2 + x_extra, y2 + y_extra, ignited );
+
+                for( auto &i : ignited ) {
+                    // Don't need to do anything to tiles that already have lava on them
+                    if( m.ter( i.x, i.y ) != t_lava ) {
+                        // Spawn an intense but short-lived fire
+                        // Any furniture or buildings will catch fire, otherwise it will burn out quickly
+                        m.add_field( tripoint( i.x, i.y, abs_sub.z ), fd_fire, 15, 1_minutes );
+                    }
+                }
+            }
+            break;
+        }
+        case 6: {
+            //Mi-go went through the portal and began constructing their base of operations
+            m.add_field( portal_location, fd_fatigue, 3 );
+            for( const auto &loc : g->m.points_in_radius( portal_location, 5 ) ) {
+                m.place_spawns( GROUP_MI_GO_CAMP_OM, 30, loc.x - 5, loc.y - 5, loc.x + 5, loc.y + 5, 1, true );
+            }
+            const int x_pos = x + rng( -5, 5 );
+            const int y_pos = y + rng( -5, 5 );
+            circle( &m, ter_id( "t_wall_resin" ), x_pos, y_pos, 6 );
+            rough_circle( &m, ter_id( "t_floor_resin" ), x_pos, y_pos, 5 );
+            break;
+        }
+        //Anomaly caused by the portal and spawned an artifact
+        case 7: {
+            m.add_field( portal_location, fd_fatigue, 3 );
+            artifact_natural_property prop =
+                static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) );
+            m.create_anomaly( portal_location, prop );
+            m.spawn_natural_artifact( { x + rng( -1, 1 ), y + rng( -1, 1 ), abs_sub.z }, prop );
+            break;
         }
     }
 }
 
+//Obsolete, remove after 0.E.
 static void mx_anomaly( map &m, const tripoint &abs_sub )
 {
     tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
@@ -1643,58 +1807,6 @@ static void mx_clay_deposit( map &m, const tripoint &abs_sub )
         // If we got here, it meant we had a successful try and can just break out of
         // our retry loop.
         break;
-    }
-}
-
-static void dead_vegetation_parser( map &m, const tripoint &loc )
-{
-    // furniture plants die to withered plants
-    const furn_t &fid = m.furn( loc ).obj();
-    if( fid.has_flag( "PLANT" ) || fid.has_flag( "FLOWER" ) || fid.has_flag( "ORGANIC" ) ) {
-        m.i_clear( loc );
-        m.furn_set( loc, f_null );
-        m.spawn_item( loc, "withered" );
-    }
-    // terrain specific conversions
-    const ter_id tid = m.ter( loc );
-    static const std::map<ter_id, ter_str_id> dies_into {{
-            {t_grass, ter_str_id( "t_grass_dead" )},
-            {t_grass_long, ter_str_id( "t_grass_dead" )},
-            {t_grass_tall, ter_str_id( "t_grass_dead" )},
-            {t_moss, ter_str_id( "t_grass_dead" )},
-            {t_tree_pine, ter_str_id( "t_tree_deadpine" )},
-            {t_tree_birch, ter_str_id( "t_tree_birch_harvested" )},
-            {t_tree_willow, ter_str_id( "t_tree_dead" )},
-            {t_tree_hickory, ter_str_id( "t_tree_hickory_dead" )},
-            {t_tree_hickory_harvested, ter_str_id( "t_tree_hickory_dead" )},
-            {t_grass_golf, ter_str_id( "t_grass_dead" )},
-            {t_grass_white, ter_str_id( "t_grass_dead" )},
-        }};
-
-    const auto iter = dies_into.find( tid );
-    if( iter != dies_into.end() ) {
-        m.ter_set( loc, iter->second );
-    }
-    // non-specific small vegetation falls into sticks, large dies and randomly falls
-    const ter_t &tr = tid.obj();
-    if( tr.has_flag( "SHRUB" ) ) {
-        m.ter_set( loc, t_dirt );
-        if( one_in( 2 ) ) {
-            m.spawn_item( loc, "stick" );
-        }
-    } else if( tr.has_flag( "TREE" ) ) {
-        if( one_in( 4 ) ) {
-            m.ter_set( loc, ter_str_id( "t_trunk" ) );
-        } else if( one_in( 4 ) ) {
-            m.ter_set( loc, ter_str_id( "t_stump" ) );
-        } else {
-            m.ter_set( loc, ter_str_id( "t_tree_dead" ) );
-        }
-    } else if( tr.has_flag( "YOUNG" ) ) {
-        m.ter_set( loc, ter_str_id( "t_dirt" ) );
-        if( one_in( 2 ) ) {
-            m.spawn_item( loc, "stick_long" );
-        }
     }
 }
 
@@ -2239,7 +2351,7 @@ static void mx_mayhem( map &m, const tripoint &abs_sub )
 
             m.add_field( { 16, 15, abs_sub.z }, fd_blood, rng( 1, 3 ) );
 
-            m.spawn_item( { 16, 16, abs_sub.z }, "wheel", 1, 0, calendar::time_of_cataclysm, 4 );
+            m.spawn_item( { 16, 16, abs_sub.z }, "wheel", 1, 0, calendar::start_of_cataclysm, 4 );
             m.spawn_item( { 16, 16, abs_sub.z }, "wrench" );
 
             if( one_in( 2 ) ) { //Unknown people killed and robbed the poor guy

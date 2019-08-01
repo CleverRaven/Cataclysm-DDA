@@ -25,6 +25,9 @@ struct point {
         y += rhs.y;
         return *this;
     }
+    constexpr point operator-() const {
+        return point( -x, -y );
+    }
     constexpr point operator-( const point &rhs ) const {
         return point( x - rhs.x, y - rhs.y );
     }
@@ -32,6 +35,17 @@ struct point {
         x -= rhs.x;
         y -= rhs.y;
         return *this;
+    }
+    constexpr point operator*( const int rhs ) const {
+        return point( x * rhs, y * rhs );
+    }
+    point &operator*=( const int rhs ) {
+        x *= rhs;
+        y *= rhs;
+        return *this;
+    }
+    constexpr point operator/( const int rhs ) const {
+        return point( x / rhs, y / rhs );
     }
 
     /**
@@ -90,6 +104,11 @@ inline constexpr bool operator==( const point &a, const point &b )
 inline constexpr bool operator!=( const point &a, const point &b )
 {
     return !( a == b );
+}
+
+inline point abs( const point &p )
+{
+    return point( abs( p.x ), abs( p.y ) );
 }
 
 struct tripoint {
@@ -278,6 +297,13 @@ static constexpr point point_south{ 0, 1 };
 static constexpr point point_south_west{ -1, 1 };
 static constexpr point point_west{ -1, 0 };
 static constexpr point point_north_west{ -1, -1 };
+
+static constexpr std::array<point, 4> four_adjacent_offsets{{
+        point_north, point_east, point_south, point_west
+    }};
+
+static constexpr tripoint tripoint_above{ 0, 0, 1 };
+static constexpr tripoint tripoint_below{ 0, 0, -1 };
 
 static constexpr box box_zero( tripoint_zero, tripoint_zero );
 static constexpr rectangle rectangle_zero( point_zero, point_zero );

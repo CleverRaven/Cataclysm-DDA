@@ -77,6 +77,7 @@
 #include "type_id.h"
 #include "construction_category.h"
 #include "overmap.h"
+#include "clothing_mod.h"
 
 DynamicDataLoader::DynamicDataLoader()
 {
@@ -369,6 +370,7 @@ void DynamicDataLoader::initialize()
     add( "anatomy", &anatomy::load_anatomy );
     add( "morale_type", &morale_type_data::load_type );
     add( "SPELL", &spell_type::load_spell );
+    add( "clothing_mod", &clothing_mods::load );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else

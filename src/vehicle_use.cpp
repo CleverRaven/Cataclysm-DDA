@@ -382,7 +382,7 @@ int vehicle::select_engine()
                                   fuel_left( fuel_id ) );
             tmenu.addentry( i++, is_available, -1, "[%s] %s %s",
                             is_active ? "x" : " ", parts[ e ].name(),
-                            item::find_type( fuel_id )->nname( 1 ) );
+                            item::nname( fuel_id ) );
         }
     }
     tmenu.query();
@@ -898,8 +898,8 @@ bool vehicle::start_engine( const int e )
         return false;
     }
 
-    // Damaged engines have a chance of failing to start
-    if( x_in_y( dmg * 100, 120 ) ) {
+    // Damaged non-electric engines have a chance of failing to start
+    if( !is_engine_type( e, fuel_type_battery ) && x_in_y( dmg * 100, 120 ) ) {
         sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::movement,
                        string_format( _( "the %s clanking and grinding" ), eng.name() ), true, "vehicle",
                        "engine_clanking_fail" );
@@ -1110,7 +1110,7 @@ void vehicle::transform_terrain()
                 g->m.furn_set( start_pos, new_furn );
             }
             const field_type_id new_field = field_type_id( ttd.post_field );
-            if( new_field != fd_null ) {
+            if( new_field.id() ) {
                 g->m.add_field( start_pos, new_field, ttd.post_field_intensity, ttd.post_field_age );
             }
         } else {
@@ -1338,7 +1338,7 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     //find_lines_of_parts() doesn't return the part_index we passed, so we set it on it's own
     parts[part_index].open = opening;
     insides_dirty = true;
-    g->m.set_transparency_cache_dirty( smz );
+    g->m.set_transparency_cache_dirty( sm_pos.z );
     const int dist = rl_dist( g->u.pos(), mount_to_tripoint( parts[part_index].mount ) );
     if( dist < 20 ) {
         sfx::play_variant_sound( opening ? "vehicle_open" : "vehicle_close",
@@ -1362,6 +1362,10 @@ void vehicle::use_washing_machine( int p )
         return i.has_flag( filthy );
     } );
 
+    bool cbms = std::any_of( items.begin(), items.end(), []( const item & i ) {
+        return i.is_bionic();
+    } );
+
     if( parts[p].enabled ) {
         parts[p].enabled = false;
         add_msg( m_bad,
@@ -1374,6 +1378,9 @@ void vehicle::use_washing_machine( int p )
     } else if( !filthy_items ) {
         add_msg( m_bad,
                  _( "You need to remove all non-filthy items from the washing machine to start the washing program." ) );
+    } else if( cbms ) {
+        add_msg( m_bad,
+                 _( "CBMs can't be cleaned in a washing machine.  You need to remove them." ) );
     } else {
         parts[p].enabled = true;
         for( auto &n : items ) {
@@ -1518,6 +1525,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
 
     const bool has_kitchen = avail_part_with_feature( interact_part, "KITCHEN", true ) >= 0;
     const bool has_faucet = avail_part_with_feature( interact_part, "FAUCET", true ) >= 0;
+    const bool has_towel = avail_part_with_feature( interact_part, "TOWEL", true ) >= 0;
     const bool has_weldrig = avail_part_with_feature( interact_part, "WELDRIG", true ) >= 0;
     const bool has_chemlab = avail_part_with_feature( interact_part, "CHEMLAB", true ) >= 0;
     const bool has_purify = avail_part_with_feature( interact_part, "WATER_PURIFIER", true ) >= 0;
@@ -1547,7 +1555,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     enum {
         EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
         USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE, USE_MONSTER_CAPTURE,
-        USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, WORKBENCH
+        USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, WORKBENCH, USE_TOWEL,
     };
     uilist selectmenu;
 
@@ -1586,6 +1594,9 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     if( has_faucet && fuel_left( "water_clean" ) > 0 ) {
         selectmenu.addentry( FILL_CONTAINER, true, 'c', _( "Fill a container with water" ) );
         selectmenu.addentry( DRINK, true, 'd', _( "Have a drink" ) );
+    }
+    if( has_towel ) {
+        selectmenu.addentry( USE_TOWEL, true, 't', _( "Use a towel" ) );
     }
     if( has_weldrig && fuel_left( "battery" ) > 0 ) {
         selectmenu.addentry( USE_WELDER, true, 'w', _( "Use the welding rig?" ) );
@@ -1655,6 +1666,10 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         }
         case USE_HOTPLATE: {
             veh_tool( "hotplate" );
+            return;
+        }
+        case USE_TOWEL: {
+            iuse::towel_common( &g->u, nullptr, false );
             return;
         }
         case USE_WASHMACHINE: {

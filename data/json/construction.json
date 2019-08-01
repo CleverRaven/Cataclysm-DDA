@@ -49,7 +49,7 @@
     "category": "DIG",
     "required_skills": [ [ "survival", 1 ] ],
     "time": "30 m",
-    "components": [ [ [ "glass_shard", 20 ] ] ],
+    "components": [ [ [ "glass_shard", 168 ] ] ],
     "pre_terrain": "t_pit",
     "post_terrain": "t_pit_glass"
   },
@@ -2008,7 +2008,7 @@
   },
   {
     "type": "construction",
-    "description": "Paint Wall white",
+    "description": "Paint Wall White",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "40 m",
@@ -2915,5 +2915,32 @@
     "qualities": [ { "id": "DIG", "level": 2 } ],
     "pre_flags": [ "DIGGABLE", "FLAT" ],
     "post_terrain": "t_pit"
+  },
+  {
+    "type": "construction",
+    "description": "Build Arc Furnace",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "120 m",
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "SAW_M", "level": 1 } ],
+      [ { "id": "WELD", "level": 2 } ],
+      [ { "id": "DRILL", "level": 3 } ],
+      [ { "id": "WRENCH", "level": 2 } ]
+    ],
+    "components": [
+      [ [ "fire_brick", 40 ] ],
+      [ [ "cu_pipe", 4 ] ],
+      [ [ "cable", 12 ] ],
+      [ [ "pipe", 4 ] ],
+      [ [ "hand_vice", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "medium_storage_battery", 2 ] ],
+      [ [ "frame", 1 ] ],
+      [ [ "mortar_build", 10 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_arcfurnace_empty"
   }
 ]

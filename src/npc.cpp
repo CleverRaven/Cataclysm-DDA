@@ -106,8 +106,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male );
 void starting_inv( npc &who, const npc_class_id &type );
 
 npc::npc()
-    : player()
-    , restock( calendar::before_time_starts )
+    : restock( calendar::before_time_starts )
     , companion_mission_time( calendar::before_time_starts )
     , companion_mission_time_ret( calendar::before_time_starts )
     , last_updated( calendar::turn )
@@ -1049,7 +1048,7 @@ void npc::form_opinion( const player &u )
         set_attitude( NPCATT_FLEE_TEMP );
     }
 
-    add_msg( m_debug, "%s formed an opinion of u: %s", name, npc_attitude_name( attitude ) );
+    add_msg( m_debug, "%s formed an opinion of u: %s", name, npc_attitude_id( attitude ) );
 }
 
 float npc::vehicle_danger( int radius ) const
@@ -1639,10 +1638,7 @@ bool npc::is_assigned_to_camp() const
     if( !bcp ) {
         return false;
     }
-    if( !has_companion_mission() && mission == NPC_MISSION_GUARD_ALLY ) {
-        return true;
-    }
-    return false;
+    return !has_companion_mission() && mission == NPC_MISSION_GUARD_ALLY;
 }
 
 bool npc::is_enemy() const
@@ -2045,6 +2041,38 @@ void npc::die( Creature *nkiller )
     place_corpse();
 }
 
+std::string npc_attitude_id( npc_attitude att )
+{
+    static const std::map<npc_attitude, std::string> npc_attitude_ids = {
+        { NPCATT_NULL, "NPCATT_NULL" },
+        { NPCATT_TALK, "NPCATT_TALK" },
+        { NPCATT_FOLLOW, "NPCATT_FOLLOW" },
+        { NPCATT_LEAD, "NPCATT_LEAD" },
+        { NPCATT_WAIT, "NPCATT_WAIT" },
+        { NPCATT_MUG, "NPCATT_MUG" },
+        { NPCATT_WAIT_FOR_LEAVE, "NPCATT_WAIT_FOR_LEAVE" },
+        { NPCATT_KILL, "NPCATT_KILL" },
+        { NPCATT_FLEE, "NPCATT_FLEE" },
+        { NPCATT_FLEE_TEMP, "NPCATT_FLEE_TEMP" },
+        { NPCATT_HEAL, "NPCATT_HEAL" },
+        { NPCATT_ACTIVITY, "NPCATT_ACTIVITY" },
+        { NPCATT_RECOVER_GOODS, "NPCATT_RECOVER_GOODS" },
+        { NPCATT_LEGACY_1, "NPCATT_LEGACY_1" },
+        { NPCATT_LEGACY_2, "NPCATT_LEGACY_2" },
+        { NPCATT_LEGACY_3, "NPCATT_LEGACY_3" },
+        { NPCATT_LEGACY_4, "NPCATT_LEGACY_4" },
+        { NPCATT_LEGACY_5, "NPCATT_LEGACY_5" },
+        { NPCATT_LEGACY_6, "NPCATT_LEGACY_6" },
+    };
+    const auto &iter = npc_attitude_ids.find( att );
+    if( iter == npc_attitude_ids.end() ) {
+        debugmsg( "Invalid attitude: %d", att );
+        return "NPCATT_INVALID";
+    }
+
+    return iter->second;
+}
+
 std::string npc_attitude_name( npc_attitude att )
 {
     switch( att ) {
@@ -2156,12 +2184,10 @@ void npc::on_unload()
 // A throtled version of player::update_body since npc's don't need to-the-turn updates.
 void npc::npc_update_body()
 {
-    static const time_duration npc_body_update_rate = 10_seconds;
-    if( calendar::turn - last_updated < npc_body_update_rate ) {
-        return;
+    if( calendar::once_every( 10_seconds ) ) {
+        update_body( last_updated, calendar::turn );
+        last_updated = calendar::turn;
     }
-    update_body( last_updated, calendar::turn );
-    last_updated = calendar::turn;
 }
 
 void npc::on_load()
@@ -2370,7 +2396,6 @@ void npc::process_turn()
         // TODO: Similar checks for fear and anger
     }
 
-    last_updated = calendar::turn;
     // TODO: Add decreasing trust/value/etc. here when player doesn't provide food
     // TODO: Make NPCs leave the player if there's a path out of map and player is sleeping/unseen/etc.
 }
@@ -2669,7 +2694,7 @@ void npc::set_attitude( npc_attitude new_attitude )
     }
 
     add_msg( m_debug, "%s changes attitude from %s to %s",
-             name, npc_attitude_name( attitude ), npc_attitude_name( new_attitude ) );
+             name, npc_attitude_id( attitude ), npc_attitude_id( new_attitude ) );
     attitude_group new_group = get_attitude_group( new_attitude );
     attitude_group old_group = get_attitude_group( attitude );
     if( new_group != old_group && !is_fake() ) {

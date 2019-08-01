@@ -64,7 +64,9 @@
     "id": "worthy_wine",
     "type": "requirement",
     "//": "More expensive wines.",
-    "components": [ [ [ "wine_riesling", 1 ], [ "wine_chardonnay", 1 ], [ "wine_cabernet", 1 ], [ "wine_noir", 1 ] ] ]
+    "components": [
+      [ [ "wine_riesling", 1 ], [ "wine_chardonnay", 1 ], [ "wine_cabernet", 1 ], [ "wine_noir", 1 ], [ "wine_vermouth", 1 ] ]
+    ]
   },
   {
     "id": "hard_liquor_chem",
@@ -314,8 +316,6 @@
         [ "veggy_wild", 1 ],
         [ "zucchini", 1 ],
         [ "irradiated_zucchini", 1 ],
-        [ "veggy", 1 ],
-        [ "veggy_wild", 1 ],
         [ "carrot_wild", 1 ]
       ]
     ]
@@ -343,6 +343,7 @@
         [ "european_pilsner", 1 ],
         [ "hb_beer", 1 ],
         [ "india_pale_ale", 1 ],
+        [ "wine_barley", 1 ],
         [ "pale_ale", 1 ],
         [ "stout", 1 ],
         [ "mixed_alcohol_weak", 1 ]

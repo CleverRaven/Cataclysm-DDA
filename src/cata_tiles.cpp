@@ -199,9 +199,6 @@ cata_tiles::cata_tiles( const SDL_Renderer_Ptr &renderer ) :
 
     nv_goggles_activated = false;
 
-    last_pos_x = 0;
-    last_pos_y = 0;
-
     on_options_changed();
 }
 
@@ -308,7 +305,7 @@ static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,
     assert( original );
     SDL_Surface_Ptr surf = create_surface_32( original->w, original->h );
     assert( surf );
-    throwErrorIf( SDL_BlitSurface( original.get(), NULL, surf.get(), NULL ) != 0,
+    throwErrorIf( SDL_BlitSurface( original.get(), nullptr, surf.get(), nullptr ) != 0,
                   "SDL_BlitSurface failed" );
 
     auto pix = reinterpret_cast<SDL_Color *>( surf->pixels );
@@ -469,7 +466,7 @@ void tileset_loader::load_tileset( const std::string &img_path )
             smaller_surf = ::create_surface_32( w, h );
             assert( smaller_surf );
             const SDL_Rect inp{ sub_rect.x, sub_rect.y, w, h };
-            throwErrorIf( SDL_BlitSurface( tile_atlas.get(), &inp, smaller_surf.get(), NULL ) != 0,
+            throwErrorIf( SDL_BlitSurface( tile_atlas.get(), &inp, smaller_surf.get(), nullptr ) != 0,
                           "SDL_BlitSurface failed" );
         }
         const SDL_Surface_Ptr &surf_to_use = smaller_surf ? smaller_surf : tile_atlas;
@@ -629,8 +626,8 @@ void tileset_loader::load_internal( JsonObject &config, const std::string &tiles
             sprite_width = tile_part_def.get_int( "sprite_width", ts.tile_width );
             sprite_height = tile_part_def.get_int( "sprite_height", ts.tile_height );
             // Now load the tile definitions for the loaded tileset image.
-            sprite_offset_x = tile_part_def.get_int( "sprite_offset_x", 0 );
-            sprite_offset_y = tile_part_def.get_int( "sprite_offset_y", 0 );
+            sprite_offset.x = tile_part_def.get_int( "sprite_offset_x", 0 );
+            sprite_offset.y = tile_part_def.get_int( "sprite_offset_y", 0 );
             // First load the tileset image to get the number of available tiles.
             dbg( D_INFO ) << "Attempting to Load Tileset file " << tileset_image_path;
             load_tileset( tileset_image_path );
@@ -645,8 +642,7 @@ void tileset_loader::load_internal( JsonObject &config, const std::string &tiles
     } else {
         sprite_width = ts.tile_width;
         sprite_height = ts.tile_height;
-        sprite_offset_x = 0;
-        sprite_offset_y = 0;
+        sprite_offset = point_zero;
         R = -1;
         G = -1;
         B = -1;
@@ -768,8 +764,7 @@ void tileset_loader::load_ascii_set( JsonObject &entry )
         }
         const std::string id = get_ascii_tile_id( ascii_char, FG, -1 );
         tile_type curr_tile;
-        curr_tile.offset.x = sprite_offset_x;
-        curr_tile.offset.y = sprite_offset_y;
+        curr_tile.offset = sprite_offset;
         auto &sprites = *( curr_tile.fg.add( std::vector<int>( {index_in_image + offset} ), 1 ) );
         switch( ascii_char ) {
             // box bottom/top side (horizontal line)
@@ -849,8 +844,7 @@ void tileset_loader::load_tilejson_from_file( JsonObject &config )
         }
         for( const std::string &t_id : ids ) {
             tile_type &curr_tile = load_tile( entry, t_id );
-            curr_tile.offset.x = sprite_offset_x;
-            curr_tile.offset.y = sprite_offset_y;
+            curr_tile.offset = sprite_offset;
             bool t_multi = entry.get_bool( "multitile", false );
             bool t_rota = entry.get_bool( "rotates", t_multi );
             int t_h3d = entry.get_int( "height_3d", 0 );
@@ -862,8 +856,7 @@ void tileset_loader::load_tilejson_from_file( JsonObject &config )
                     const std::string s_id = subentry.get_string( "id" );
                     const std::string m_id = t_id + "_" + s_id;
                     tile_type &curr_subtile = load_tile( subentry, m_id );
-                    curr_subtile.offset.x = sprite_offset_x;
-                    curr_subtile.offset.y = sprite_offset_y;
+                    curr_subtile.offset = sprite_offset;
                     curr_subtile.rotates = true;
                     curr_subtile.height_3d = t_h3d;
                     curr_tile.available_subtiles.push_back( s_id );
@@ -995,8 +988,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         render_fill_rect( renderer, clipRect, 0, 0, 0 );
     }
 
-    int posx = center.x;
-    int posy = center.y;
+    const point pos = center.xy();
 
     int sx = 0;
     int sy = 0;
@@ -1008,11 +1000,9 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
     const bool iso_mode = tile_iso;
 
-    o_x = iso_mode ? posx : posx - POSX;
-    o_y = iso_mode ? posy : posy - POSY;
+    o = iso_mode ? pos : pos - point( POSX, POSY );
 
-    op_x = destx;
-    op_y = desty;
+    op = point( destx, desty );
     // Rounding up to include incomplete tiles at the bottom/right edges
     screentile_width = divide_round_up( width, tile_width );
     screentile_height = divide_round_up( height, tile_height );
@@ -1062,14 +1052,14 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             if( iso_mode ) {
                 //in isometric, rows and columns represent a checkerboard screen space, and we place
                 //the appropriate tile in valid squares by getting position relative to the screen center.
-                if( ( row + o_y ) % 2 != ( col + o_x ) % 2 ) {
+                if( ( row + o.y ) % 2 != ( col + o.x ) % 2 ) {
                     continue;
                 }
-                x = ( col  - row - sx / 2 + sy / 2 ) / 2 + o_x;
-                y = ( row + col - sy / 2 - sx / 2 ) / 2 + o_y;
+                x = ( col - row - sx / 2 + sy / 2 ) / 2 + o.x;
+                y = ( row + col - sy / 2 - sx / 2 ) / 2 + o.y;
             } else {
-                x = col + o_x;
-                y = row + o_y;
+                x = col + o.x;
+                y = row + o.y;
             }
             if( y < min_visible_y || y > max_visible_y || x < min_visible_x || x > max_visible_x ) {
                 int height_3d = 0;
@@ -1176,12 +1166,12 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     //Memorize everything the character just saw even if it wasn't displayed.
     for( int mem_y = 0; mem_y < MAPSIZE_Y; mem_y++ ) {
         for( int mem_x = 0; mem_x < MAPSIZE_X; mem_x++ ) {
-            //just finished o_x,o_y through sx+o_x,sy+o_y so skip them
-            if( mem_x >= o_x && mem_x < sx + o_x &&
-                mem_y >= o_y && mem_y < sy + o_y ) {
+            tripoint p( mem_x, mem_y, center.z );
+            //just finished o through s+o so skip them
+            rectangle skip_region( o, o + point( sx, sy ) );
+            if( skip_region.contains_half_open( p.xy() ) ) {
                 continue;
             }
-            tripoint p( mem_x, mem_y, center.z );
             int height_3d = 0;
             if( iso_mode ) {
                 //Iso_mode skips in a checkerboard
@@ -1193,8 +1183,8 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                 p.x = ( mem_x - mem_y - MAPSIZE_X / 2 + MAPSIZE_Y / 2 ) / 2 + MAPSIZE_X / 2;
                 p.y = ( mem_y + mem_x - MAPSIZE_Y / 2 - MAPSIZE_X / 2 ) / 2 + MAPSIZE_Y / 2;
                 //Check if we're in previously done iso_mode space
-                if( p.x >= ( 0 - sy - sx / 2 + sy / 2 ) / 2 + o_x && p.x < ( sx - 0 - sx / 2 + sy / 2 ) / 2 + o_x &&
-                    p.y >= ( 0 + 0 - sy / 2 - sx / 2 ) / 2 + o_y && p.y < ( sy + sx - sy / 2 - sx / 2 ) / 2 + o_y ) {
+                if( p.x >= ( 0 - sy - sx / 2 + sy / 2 ) / 2 + o.x && p.x < ( sx - 0 - sx / 2 + sy / 2 ) / 2 + o.x &&
+                    p.y >= ( 0 + 0 - sy / 2 - sx / 2 ) / 2 + o.y && p.y < ( sy + sx - sy / 2 - sx / 2 ) / 2 + o.y ) {
                     continue;
                 }
             }
@@ -1257,8 +1247,8 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     } else if( g->u.view_offset != tripoint_zero && !g->u.in_vehicle ) {
         // check to see if player is located at ter
         draw_from_id_string( "cursor", C_NONE, empty_string,
-        {g->ter_view_x, g->ter_view_y, center.z}, 0, 0, LL_LIT,
-        false );
+                             tripoint( g->ter_view_p.xy(), center.z ), 0, 0, LL_LIT,
+                             false );
     }
     if( g->u.controlling_vehicle ) {
         if( cata::optional<tripoint> indicator_offset = g->get_veh_dir_indicator_location( true ) ) {
@@ -1440,9 +1430,9 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
     // check to make sure that we are drawing within a valid area
     // [0->width|height / tile_width|height]
 
+    rectangle screen_bounds( o, o + point( screentile_width, screentile_height ) );
     if( !tile_iso &&
-        ( pos.x - o_x < 0 || pos.x - o_x >= screentile_width ||
-          pos.y - o_y < 0 || pos.y - o_y >= screentile_height ) ) {
+        !screen_bounds.contains_half_open( pos.xy() ) ) {
         return false;
     }
 
@@ -1797,24 +1787,24 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile,
         switch( rota ) {
             default:
             case 0: // unrotated (and 180, with just two sprites)
-                ret = sprite_tex->render_copy_ex( renderer, &destination, 0, NULL, SDL_FLIP_NONE );
+                ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr, SDL_FLIP_NONE );
                 break;
             case 1: // 90 degrees (and 270, with just two sprites)
 #if defined(_WIN32)
                 destination.y -= 1;
 #endif
                 if( ! tile_iso ) { // never rotate isometric tiles
-                    ret = sprite_tex->render_copy_ex( renderer, &destination, -90, NULL, SDL_FLIP_NONE );
+                    ret = sprite_tex->render_copy_ex( renderer, &destination, -90, nullptr, SDL_FLIP_NONE );
                 } else {
-                    ret = sprite_tex->render_copy_ex( renderer, &destination, 0, NULL, SDL_FLIP_NONE );
+                    ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr, SDL_FLIP_NONE );
                 }
                 break;
             case 2: // 180 degrees, implemented with flips instead of rotation
                 if( ! tile_iso ) { // never flip isometric tiles vertically
-                    ret = sprite_tex->render_copy_ex( renderer, &destination, 0, NULL,
+                    ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr,
                                                       static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ) );
                 } else {
-                    ret = sprite_tex->render_copy_ex( renderer, &destination, 0, NULL, SDL_FLIP_NONE );
+                    ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr, SDL_FLIP_NONE );
                 }
                 break;
             case 3: // 270 degrees
@@ -1822,17 +1812,17 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile,
                 destination.x -= 1;
 #endif
                 if( ! tile_iso ) { // never rotate isometric tiles
-                    ret = sprite_tex->render_copy_ex( renderer, &destination, 90, NULL, SDL_FLIP_NONE );
+                    ret = sprite_tex->render_copy_ex( renderer, &destination, 90, nullptr, SDL_FLIP_NONE );
                 } else {
-                    ret = sprite_tex->render_copy_ex( renderer, &destination, 0, NULL, SDL_FLIP_NONE );
+                    ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr, SDL_FLIP_NONE );
                 }
                 break;
             case 4: // flip horizontally
-                ret = sprite_tex->render_copy_ex( renderer, &destination, 0, NULL,
+                ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr,
                                                   static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL ) );
         }
     } else { // don't rotate, same as case 0 above
-        ret = sprite_tex->render_copy_ex( renderer, &destination, 0, NULL, SDL_FLIP_NONE );
+        ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr, SDL_FLIP_NONE );
     }
 
     printErrorIf( ret != 0, "SDL_RenderCopyEx() failed" );
@@ -1929,16 +1919,16 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/
     int screen_x = 0;
     int screen_y = 0;
     if( tile_iso ) {
-        screen_x = ( ( pbelow.x - o_x ) - ( o_y - pbelow.y ) + screentile_width - 2 ) * tile_width / 2 +
-                   op_x;
+        screen_x = ( ( pbelow.x - o.x ) - ( o.y - pbelow.y ) + screentile_width - 2 ) * tile_width / 2 +
+                   op.x;
         // y uses tile_width because width is definitive for iso tiles
         // tile footprints are half as tall as wide, arbitrarily tall
-        screen_y = ( ( pbelow.y - o_y ) - ( pbelow.x - o_x ) - 4 ) * tile_width / 4 +
+        screen_y = ( ( pbelow.y - o.y ) - ( pbelow.x - o.x ) - 4 ) * tile_width / 4 +
                    screentile_height * tile_height / 2 + // TODO: more obvious centering math
-                   op_y;
+                   op.y;
     } else {
-        screen_x = ( pbelow.x - o_x ) * tile_width + op_x;
-        screen_y = ( pbelow.y - o_y ) * tile_height + op_y;
+        screen_x = ( pbelow.x - o.x ) * tile_width + op.x;
+        screen_y = ( pbelow.y - o.y ) * tile_height + op.y;
     }
     belowRect.x = screen_x + ( tile_width - belowRect.w ) / 2;
     belowRect.y = screen_y + ( tile_height - belowRect.h ) / 2;
@@ -2379,7 +2369,7 @@ void tileset_loader::ensure_default_item_highlight()
 
     const SDL_Surface_Ptr surface = create_surface_32( ts.tile_width, ts.tile_height );
     assert( surface );
-    throwErrorIf( SDL_FillRect( surface.get(), NULL, SDL_MapRGBA( surface->format, 0, 0, 127,
+    throwErrorIf( SDL_FillRect( surface.get(), nullptr, SDL_MapRGBA( surface->format, 0, 0, 127,
                                 highlight_alpha ) ) != 0, "SDL_FillRect failed" );
     ts.tile_values.emplace_back( CreateTextureFromSurface( renderer, surface ), SDL_Rect{ 0, 0, ts.tile_width, ts.tile_height } );
     ts.tile_ids[ITEM_HIGHLIGHT].fg.add( std::vector<int>( {index} ), 1 );
@@ -2654,17 +2644,12 @@ void cata_tiles::draw_weather_frame()
 
     for( auto &vdrop : anim_weather.vdrops ) {
         // TODO: Z-level awareness if weather ever happens on anything but z-level 0.
-        int x = 0;
-        int y = 0;
-        if( tile_iso ) {
-            x = vdrop.first;
-            y = vdrop.second;
-        } else {
+        tripoint p( vdrop.first, vdrop.second, 0 );
+        if( !tile_iso ) {
             // currently in ASCII screen coordinates
-            x = vdrop.first + o_x;
-            y = vdrop.second + o_y;
+            p += o;
         }
-        draw_from_id_string( weather_name, C_WEATHER, empty_string, {x, y, 0}, 0, 0,
+        draw_from_id_string( weather_name, C_WEATHER, empty_string, p, 0, 0,
                              LL_LIT, nv_goggles_activated );
     }
 }
@@ -2902,16 +2887,16 @@ point cata_tiles::player_to_screen( const int x, const int y ) const
     int screen_x = 0;
     int screen_y = 0;
     if( tile_iso ) {
-        screen_x = ( ( x - o_x ) - ( o_y - y ) + screentile_width - 2 ) * tile_width / 2 +
-                   op_x;
+        screen_x = ( ( x - o.x ) - ( o.y - y ) + screentile_width - 2 ) * tile_width / 2 +
+                   op.x;
         // y uses tile_width because width is definitive for iso tiles
         // tile footprints are half as tall as wide, arbitrarily tall
-        screen_y = ( ( y - o_y ) - ( x - o_x ) - 4 ) * tile_width / 4 +
+        screen_y = ( ( y - o.y ) - ( x - o.x ) - 4 ) * tile_width / 4 +
                    screentile_height * tile_height / 2 + // TODO: more obvious centering math
-                   op_y;
+                   op.y;
     } else {
-        screen_x = ( x - o_x ) * tile_width + op_x;
-        screen_y = ( y - o_y ) * tile_height + op_y;
+        screen_x = ( x - o.x ) * tile_width + op.x;
+        screen_y = ( y - o.y ) * tile_height + op.y;
     }
     return {screen_x, screen_y};
 }

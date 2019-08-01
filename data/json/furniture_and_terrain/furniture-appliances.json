@@ -252,7 +252,7 @@
         { "item": "hose", "count": 1 },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] },
-        { "item": "glass_shard", "count": [ 3, 6 ] },
+        { "item": "glass_shard", "count": [ 25, 50 ] },
         { "item": "motor_tiny", "prob": 25 }
       ]
     }

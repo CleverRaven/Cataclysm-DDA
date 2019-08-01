@@ -490,6 +490,222 @@
     "flags": [ "SIDEWALK" ]
   },
   {
+    "id": "dairy_farm_isherwood_W",
+    "type": "overmap_terrain",
+    "name": "dairy farm",
+    "sym": "w",
+    "color": "brown",
+    "see_cost": 1,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "dairy_farm_isherwood_E",
+    "type": "overmap_terrain",
+    "name": "dairy farm",
+    "sym": "w",
+    "color": "brown",
+    "see_cost": 1,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "dairy_farm_isherwood_SE",
+    "type": "overmap_terrain",
+    "name": "dairy farm",
+    "sym": "w",
+    "color": "brown",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "dairy_farm_isherwood_SE_roof",
+    "type": "overmap_terrain",
+    "name": "dairy farm roof",
+    "sym": "w",
+    "color": "brown",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "dairy_farm_isherwood_SW",
+    "type": "overmap_terrain",
+    "name": "dairy farm",
+    "sym": "w",
+    "color": "brown",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "dairy_farm_isherwood_SW_roof",
+    "type": "overmap_terrain",
+    "name": "dairy farm roof",
+    "sym": "w",
+    "color": "brown",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "smokehouse",
+    "type": "overmap_terrain",
+    "name": "smokehouse",
+    "sym": "u",
+    "color": "brown",
+    "see_cost": 5
+  },
+  {
+    "id": "smokehouse_roof",
+    "type": "overmap_terrain",
+    "name": "smokehouse roof",
+    "sym": "#",
+    "color": "brown",
+    "see_cost": 5
+  },
+  {
+    "id": "rural_outbuilding",
+    "type": "overmap_terrain",
+    "name": "outbuilding",
+    "sym": "#",
+    "color": "brown",
+    "see_cost": 5
+  },
+  {
+    "id": "rural_outbuilding_roof",
+    "type": "overmap_terrain",
+    "name": "outbuilding roof",
+    "sym": "u",
+    "color": "brown",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_isherwood_1",
+    "name": "farm field",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_isherwood_2",
+    "name": "farm house",
+    "sym": "^",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_isherwood_2_cellar",
+    "name": "farm house cellar",
+    "sym": "O",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_isherwood_2_roof",
+    "name": "farm house roof",
+    "sym": "^",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_isherwood_3",
+    "name": "farm barn",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_isherwood_3_hayloft",
+    "name": "farm barn hayloft",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_isherwood_3_roof",
+    "name": "farm barn roof",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_isherwood_4",
+    "name": "farm field",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_isherwood_5",
+    "name": "farm field",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_isherwood_6",
+    "name": "farm field",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_isherwood_7",
+    "name": "farm field",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_isherwood_8",
+    "name": "farm field",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_isherwood_9",
+    "name": "farm field",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
     "id": "cemetery_small",
     "type": "overmap_terrain",
     "copy-from": "generic_city_building",

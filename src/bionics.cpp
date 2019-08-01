@@ -1089,11 +1089,7 @@ bool player::has_enough_anesth( const itype *cbm )
         }
     }
 
-    if( amount <= anesth_count || b_filter.size() > 0 ) {
-        return true;
-    }
-
-    return false;
+    return amount <= anesth_count || b_filter.size() > 0;
 }
 
 // bionic manipulation adjusted skill
@@ -1303,8 +1299,17 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     activity.values.push_back( success );
     activity.values.push_back( bionics[b_id].capacity );
     activity.values.push_back( pl_skill );
+    activity.str_values.push_back( "uninstall" );
     activity.str_values.push_back( bionics[b_id].name );
     activity.str_values.push_back( b_id.c_str() );
+    activity.str_values.push_back( "" );
+    activity.str_values.push_back( "" );
+    activity.str_values.push_back( "" );
+    if( autodoc ) {
+        activity.str_values.push_back( "true" );
+    } else {
+        activity.str_values.push_back( "false" );
+    }
     for( const auto &elem : bionics[b_id].occupied_bodyparts ) {
         activity.values.push_back( elem.first );
         add_effect( effect_under_op, difficulty * 20_minutes, elem.first, false, difficulty );
@@ -1332,12 +1337,15 @@ void player::perform_uninstall( bionic_id bid, int difficulty, int success, int 
         // remove power bank provided by bionic
         max_power_level -= power_lvl;
 
+        item cbm( "burnt_out_bionic" );
         if( item::type_is_defined( bid.c_str() ) ) {
-            g->m.spawn_item( pos(), bid.c_str(), 1 );
-        } else {
-            g->m.spawn_item( pos(), "burnt_out_bionic", 1 );
+            cbm = item( bid.c_str() );
         }
-
+        cbm.set_flag( "FILTHY" );
+        cbm.set_flag( "NO_STERILE" );
+        cbm.set_flag( "NO_PACKED" );
+        cbm.faults.emplace( fault_id( "fault_bionic_salvaged" ) );
+        g->m.add_item( pos(), cbm );
     } else {
         if( is_player() ) {
             add_memorial_log( pgettext( "memorial_male", "Failed to remove bionic: %s." ),
@@ -1414,11 +1422,15 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, pla
         // remove power bank provided by bionic
         patient.max_power_level -= target_cbm.info().capacity;
         patient.remove_bionic( target_cbm.id );
+        item cbm( "burnt_out_bionic" );
         if( item::type_is_defined( target_cbm.id.c_str() ) ) {
-            g->m.spawn_item( patient.pos(), target_cbm.id.c_str(), 1 );
-        } else {
-            g->m.spawn_item( patient.pos(), "burnt_out_bionic", 1 );
+            cbm = item( target_cbm.id.c_str() );
         }
+        cbm.set_flag( "FILTHY" );
+        cbm.set_flag( "NO_STERILE" );
+        cbm.set_flag( "NO_PACKED" );
+        cbm.faults.emplace( fault_id( "fault_bionic_salvaged" ) );
+        g->m.add_item( patient.pos(), cbm );
     } else {
         bionics_uninstall_failure( installer, patient, difficulty, success, adjusted_skill );
     }
@@ -1539,6 +1551,7 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
     activity.values.push_back( success );
     activity.values.push_back( bionics[bioid].capacity );
     activity.values.push_back( pl_skill );
+    activity.str_values.push_back( "install" );
     activity.str_values.push_back( bionics[bioid].name );
     activity.str_values.push_back( bioid.c_str() );
     if( upbioid ) {

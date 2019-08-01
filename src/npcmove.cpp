@@ -314,7 +314,7 @@ std::vector<sphere> npc::find_dangerous_explosives() const
 {
     std::vector<sphere> result;
 
-    const auto active_items = g->m.get_active_items_in_radius( pos(), MAX_VIEW_DISTANCE );
+    const auto active_items = g->m.get_active_items_in_radius( pos(), MAX_VIEW_DISTANCE, "explosives" );
 
     for( const auto &elem : active_items ) {
         const auto use = elem->type->get_use( "explosion" );
@@ -546,6 +546,7 @@ void npc::assess_danger()
         } else if( is_friendly( g->u ) ) {
             float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
             assessment = std::max( min_danger, assessment - player_diff * 0.5f );
+            ai_cache.friends.emplace_back( g->shared_from( g->u ) );
         }
     }
     assessment *= 0.1f;
@@ -2970,7 +2971,7 @@ bool npc::find_corpse_to_pulp()
     if( corpse == nullptr ) {
         // If we're following the player, don't wander off to pulp corpses
         const tripoint &around = is_walking_with() ? g->u.pos() : pos();
-        for( const item_location &location : g->m.get_active_items_in_radius( around, range ) ) {
+        for( const item_location &location : g->m.get_active_items_in_radius( around, range, "corpse" ) ) {
             corpse = check_tile( location.position() );
 
             if( corpse != nullptr ) {

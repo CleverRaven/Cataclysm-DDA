@@ -307,17 +307,30 @@ static bool check_butcher_cbm( const int roll )
 }
 
 static void butcher_cbm_item( const std::string &what, const tripoint &pos,
-                              const time_point &age, const int roll )
+                              const time_point &age, const int roll, const std::vector<std::string> &flags,
+                              const std::vector<fault_id> &faults )
 {
     if( roll < 0 ) {
         return;
     }
     if( item::find_type( itype_id( what ) )->bionic.has_value() ) {
         item cbm( check_butcher_cbm( roll ) ? what : "burnt_out_bionic", age );
+        for( const std::string &flg : flags ) {
+            cbm.set_flag( flg );
+        }
+        for( const fault_id &flt : faults ) {
+            cbm.faults.emplace( flt );
+        }
         add_msg( m_good, _( "You discover a %s!" ), cbm.tname() );
         g->m.add_item( pos, cbm );
     } else if( check_butcher_cbm( roll ) ) {
         item something( what, age );
+        for( const std::string &flg : flags ) {
+            something.set_flag( flg );
+        }
+        for( const fault_id &flt : faults ) {
+            something.faults.emplace( flt );
+        }
         add_msg( m_good, _( "You discover a %s!" ), something.tname() );
         g->m.add_item( pos, something );
     } else {
@@ -326,7 +339,8 @@ static void butcher_cbm_item( const std::string &what, const tripoint &pos,
 }
 
 static void butcher_cbm_group( const std::string &group, const tripoint &pos,
-                               const time_point &age, const int roll )
+                               const time_point &age, const int roll, const std::vector<std::string> flags,
+                               const std::vector<fault_id> faults )
 {
     if( roll < 0 ) {
         return;
@@ -336,12 +350,24 @@ static void butcher_cbm_group( const std::string &group, const tripoint &pos,
     if( check_butcher_cbm( roll ) ) {
         //The CBM works
         const auto spawned = g->m.put_items_from_loc( group, pos, age );
-        for( const auto &it : spawned ) {
+        for( item *it : spawned ) {
+            for( const std::string &flg : flags ) {
+                it->set_flag( flg );
+            }
+            for( const fault_id &flt : faults ) {
+                it->faults.emplace( flt );
+            }
             add_msg( m_good, _( "You discover a %s!" ), it->tname() );
         }
     } else {
         //There is a burnt out CBM
         item cbm( "burnt_out_bionic", age );
+        for( const std::string &flg : flags ) {
+            cbm.set_flag( flg );
+        }
+        for( const fault_id &flt : faults ) {
+            cbm.faults.emplace( flt );
+        }
         add_msg( m_good, _( "You discover a %s!" ), cbm.tname() );
         g->m.add_item( pos, cbm );
     }
@@ -784,7 +810,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
         // BIONIC handling - no code for DISSECT to let the bionic drop fall through
         if( entry.type == "bionic" || entry.type == "bionic_group" ) {
             if( action == F_DRESS ) {
-                if( entry.drop == "pheromone" ) {
+                if( drop != nullptr && !drop->bionic ) {
                     if( one_in( 3 ) ) {
                         p.add_msg_if_player( m_bad,
                                              _( "You notice some strange organs, perhaps harvestable via careful dissection." ) );
@@ -796,7 +822,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 continue;
             }
             if( action == BUTCHER || action == BUTCHER_FULL || action == DISMEMBER ) {
-                if( entry.drop == "pheromone" ) {
+                if( drop != nullptr && !drop->bionic ) {
                     if( one_in( 3 ) ) {
                         p.add_msg_if_player( m_bad,
                                              _( "Your butchering tool destroys a strange organ.  Perhaps a more surgical approach would allow harvesting it." ) );
@@ -826,9 +852,9 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             roll = std::min( entry.max, roll );
             add_msg( m_debug, _( "Roll penalty for corpse damage = %s" ), 0 - corpse_item->damage_level( 4 ) );
             if( entry.type == "bionic" ) {
-                butcher_cbm_item( entry.drop, p.pos(), calendar::turn, roll );
+                butcher_cbm_item( entry.drop, p.pos(), calendar::turn, roll, entry.flags, entry.faults );
             } else if( entry.type == "bionic_group" ) {
-                butcher_cbm_group( entry.drop, p.pos(), calendar::turn, roll );
+                butcher_cbm_group( entry.drop, p.pos(), calendar::turn, roll, entry.flags, entry.faults );
             }
             continue;
         }
@@ -941,8 +967,14 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
                 }
+                for( const std::string &flg : entry.flags ) {
+                    obj.set_flag( flg );
+                }
+                for( const fault_id &flt : entry.faults ) {
+                    obj.faults.emplace( flt );
+                }
                 liquid_handler::handle_all_liquid( obj, 1 );
-            } else if( drop->stackable ) {
+            } else if( drop->count_by_charges() ) {
                 item obj( drop, calendar::turn, roll );
                 if( obj.has_temperature() ) {
                     obj.set_item_temperature( 0.00001 * corpse_item->temperature );
@@ -950,9 +982,15 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
                 }
+                for( const std::string &flg : entry.flags ) {
+                    obj.set_flag( flg );
+                }
+                for( const fault_id &flt : entry.faults ) {
+                    obj.faults.emplace( flt );
+                }
                 g->m.add_item_or_charges( p.pos(), obj );
             } else {
-                item obj( drop, calendar::turn, roll );
+                item obj( drop, calendar::turn );
                 obj.set_mtype( &mt );
                 if( obj.has_temperature() ) {
                     obj.set_item_temperature( 0.00001 * corpse_item->temperature );
@@ -960,11 +998,16 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
                 }
+                for( const std::string &flg : entry.flags ) {
+                    obj.set_flag( flg );
+                }
+                for( const fault_id &flt : entry.faults ) {
+                    obj.faults.emplace( flt );
+                }
                 for( int i = 0; i != roll; ++i ) {
                     g->m.add_item_or_charges( p.pos(), obj );
                 }
             }
-
             p.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ) );
         }
         practice++;
@@ -1385,6 +1428,9 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                     if( !liquid.charges ) {
                         act_ref.set_to_null();
                     } else {
+                        if( act_ref.str_values.empty() ) {
+                            act_ref.str_values.push_back( std::string() );
+                        }
                         act_ref.str_values.at( 0 ) = serialize( liquid );
                     }
                 } else {
@@ -1755,7 +1801,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
         const mtype *corpse_mtype = corpse.get_mtype();
         if( !corpse.is_corpse() || !corpse_mtype->has_flag( MF_REVIVES ) ||
             ( std::find( act->str_values.begin(), act->str_values.end(), "auto_pulp_no_acid" ) !=
-              act->str_values.end() && corpse_mtype->bloodType() == fd_acid ) ) {
+              act->str_values.end() && corpse_mtype->bloodType().obj().has_acid ) ) {
             // Don't smash non-rezing corpses //don't smash acid zombies when auto pulping
             continue;
         }
@@ -1892,7 +1938,7 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
     p->consume_charges( it, it.type->charges_to_use() );
     p->practice( skill_survival, act->index, 5 );
 
-    actor->resolve_firestarter_use( *p, act->placement );
+    firestarter_actor::resolve_firestarter_use( *p, act->placement );
     act->set_to_null();
 }
 
@@ -2360,7 +2406,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
         // TODO: Allow setting this in the actor
         // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
-        if( !used_tool->ammo_sufficient() ) {
+        if( !used_tool->units_sufficient( *p ) ) {
             p->add_msg_if_player( _( "Your %s ran out of charges" ), used_tool->tname() );
             act->set_to_null();
             return;
@@ -2864,20 +2910,27 @@ void activity_handlers::wait_npc_finish( player_activity *act, player *p )
 
 void activity_handlers::wait_stamina_do_turn( player_activity *act, player *p )
 {
-    if( p->stamina == p->get_stamina_max() ) {
+    int stamina_threshold = p->get_stamina_max();
+    if( !act->values.empty() ) {
+        stamina_threshold = act->values.front();
+    }
+    if( p->stamina >= stamina_threshold ) {
         wait_stamina_finish( act, p );
     }
 }
 
 void activity_handlers::wait_stamina_finish( player_activity *act, player *p )
 {
-    // in case it takes longer then expected
-    if( p->stamina != p->get_stamina_max() ) {
+    if( !act->values.empty() ) {
+        if( p->stamina < act->values.front() ) {
+            debugmsg( "Failed to wait until stamina threshold %d reached, only at %d. You may not be regaining stamina.",
+                      act->values.front(), p->stamina );
+        }
+    } else if( p->stamina < p->get_stamina_max() ) {
         p->add_msg_if_player( _( "You are bored of waiting, so you stop." ) );
-        act->set_to_null();
-        return;
+    } else {
+        p->add_msg_if_player( _( "You finish waiting and feel refreshed." ) );
     }
-    p->add_msg_if_player( _( "You finish waiting and feel refreshed." ) );
     act->set_to_null();
 }
 
@@ -2907,16 +2960,28 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     - values[2]: max_power_level
     - values[3]: pl_skill
     - values[4] and above: occupied body_parts
-    - str_values[0]: cbm name
-    - str_values[1]: bionic_id
-    - str_values[2]: upgraded cbm name
-    - str_values[3]: upgraded cbm bionic_id
-    - str_values[4]: installer name
-    - str_values[5]: bool autodoc
-    - str_values[6] and above: traits removed by the cbm
+    - str_values[0]: install/uninstall
+    - str_values[1]: cbm name
+    - str_values[2]: bionic_id
+    - str_values[3]: upgraded cbm name
+    - str_values[4]: upgraded cbm bionic_id
+    - str_values[5]: installer name
+    - str_values[6]: bool autodoc
+    - str_values[7] and above: traits removed by the cbm
     */
-    const bool autodoc = act->str_values[5] == "true";
-    const bool u_see = g->u.sees( p->pos() ) && !g->u.has_effect( effect_narcosis );
+    enum operation_values_ids {
+        operation_type = 0,
+        cbm_name = 1,
+        cbm_id = 2,
+        upgraded_cbm_name = 3,
+        upgraded_cbm_id = 4,
+        installer_name = 5,
+        is_autodoc = 6,
+        trait_first = 7
+    };
+    const bool autodoc = act->str_values[is_autodoc] == "true";
+    const bool u_see = p->is_player() ? true : g->u.sees( p->pos() ) &&
+                       !g->u.has_effect( effect_narcosis );
 
     const int difficulty = act->values.front();
 
@@ -2980,17 +3045,17 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
             }
         }
     } else if( time_left == half_op_duration ) {
-        if( act->str_values.size() < 3 ) {
+        if( act->str_values[operation_type] == "uninstall" ) {
             if( u_see && autodoc ) {
                 add_msg( m_info, _( "The Autodoc attempts to carefully extract the bionic." ) );
             }
 
-            if( p->has_bionic( bionic_id( act->str_values[1] ) ) ) {
-                p->perform_uninstall( bionic_id( act->str_values[1] ), act->values[0], act->values[1],
-                                      act->values[2], act->values[3], act->str_values[0] );
+            if( p->has_bionic( bionic_id( act->str_values[cbm_id] ) ) ) {
+                p->perform_uninstall( bionic_id( act->str_values[cbm_id] ), act->values[0], act->values[1],
+                                      act->values[2], act->values[3], act->str_values[cbm_name] );
             } else {
                 debugmsg( _( "Tried to uninstall %s, but you don't have this bionic installed." ),
-                          act->str_values[1] );
+                          act->str_values[cbm_id] );
                 p->remove_effect( effect_under_op );
                 act->set_to_null();
             }
@@ -2999,19 +3064,19 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                 add_msg( m_info, _( "The Autodoc attempts to carefully insert the bionic." ) );
             }
 
-            if( bionic_id( act->str_values[1] ).is_valid() ) {
+            if( bionic_id( act->str_values[cbm_id] ).is_valid() ) {
                 std::vector<trait_id> trait_to_rem;
-                if( act->str_values.size() > 7 ) {
-                    for( size_t i = 6; i < act->str_values.size(); i++ ) {
+                if( act->str_values.size() > trait_first + 1 ) {
+                    for( size_t i = trait_first; i < act->str_values.size(); i++ ) {
                         trait_to_rem.emplace_back( trait_id( act->str_values[i] ) );
                     }
                 }
-                p->perform_install( bionic_id( act->str_values[1] ), bionic_id( act->str_values[3] ),
-                                    act->values[0], act->values[1],
-                                    act->values[3], act->str_values[0], act->str_values[2], act->str_values[4],
+                p->perform_install( bionic_id( act->str_values[cbm_id] ),
+                                    bionic_id( act->str_values[upgraded_cbm_id] ), act->values[0], act->values[1], act->values[3],
+                                    act->str_values[cbm_name], act->str_values[upgraded_cbm_name], act->str_values[installer_name],
                                     trait_to_rem );
             } else {
-                debugmsg( _( "%s is no a valid bionic_id" ), act->str_values[1] );
+                debugmsg( _( "%s is no a valid bionic_id" ), act->str_values[cbm_id] );
                 p->remove_effect( effect_under_op );
                 act->set_to_null();
             }
@@ -3053,24 +3118,34 @@ void activity_handlers::try_sleep_finish( player_activity *act, player *p )
 
 void activity_handlers::operation_finish( player_activity *act, player *p )
 {
-    if( act->values[1] > 0 ) {
-        add_msg( m_good,
-                 _( "The Autodoc retuns to its resting position after succesfully performing the operation." ) );
-        const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
-                                             furn_str_id( "f_autodoc" ) );
-        sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
-                       _( "a short upbeat jingle: \"Operation successful\"" ), true,
-                       "Autodoc",
-                       "success" );
+    if( act->str_values[6] == "true" ) {
+        if( act->values[1] > 0 ) {
+            add_msg( m_good,
+                     _( "The Autodoc returns to its resting position after successfully performing the operation." ) );
+            const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
+                                                 furn_str_id( "f_autodoc" ) );
+            sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
+                           _( "a short upbeat jingle: \"Operation successful\"" ), true,
+                           "Autodoc",
+                           "success" );
+        } else {
+            add_msg( m_bad,
+                     _( "The Autodoc jerks back to its resting position after failing the operation." ) );
+            const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
+                                                 furn_str_id( "f_autodoc" ) );
+            sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
+                           _( "a sad beeping noise: \"Operation failed\"" ), true,
+                           "Autodoc",
+                           "failure" );
+        }
     } else {
-        add_msg( m_bad,
-                 _( "The Autodoc jerks back to its resting position after failing the operation." ) );
-        const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
-                                             furn_str_id( "f_autodoc" ) );
-        sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
-                       _( "a sad beeping noise: \"Operation failed\"" ), true,
-                       "Autodoc",
-                       "failure" );
+        if( act->values[1] > 0 ) {
+            add_msg( m_good,
+                     _( "The operation is a success." ) );
+        } else {
+            add_msg( m_bad,
+                     _( "The operation is a failure." ) );
+        }
     }
     act->set_to_null();
 }

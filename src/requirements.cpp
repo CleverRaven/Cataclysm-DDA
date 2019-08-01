@@ -122,7 +122,7 @@ std::string item_comp::to_string( int batch ) const
 {
     const int c = std::abs( count ) * batch;
     const auto type_ptr = item::find_type( type );
-    if( type_ptr->stackable ) {
+    if( type_ptr->count_by_charges() ) {
         return string_format( "%s (%d)", type_ptr->nname( 1 ), c );
     }
     //~ <item-count> <item-name>
@@ -242,11 +242,11 @@ void requirement_data::load_requirement( JsonObject &jsobj, const requirement_id
     requirement_data req;
 
     JsonArray jsarr = jsobj.get_array( "components" );
-    req.load_obj_list( jsarr, req.components );
+    requirement_data::load_obj_list( jsarr, req.components );
     jsarr = jsobj.get_array( "qualities" );
-    req.load_obj_list( jsarr, req.qualities );
+    requirement_data::load_obj_list( jsarr, req.qualities );
     jsarr = jsobj.get_array( "tools" );
-    req.load_obj_list( jsarr, req.tools );
+    requirement_data::load_obj_list( jsarr, req.tools );
 
     if( !id.is_null() ) {
         req.id_ = id;
@@ -891,7 +891,7 @@ requirement_data requirement_data::disassembly_requirements() const
                 new_qualities.emplace_back( quality_id( "PULL" ), 1, 1 );
                 break;
             }
-            if( type == "fire" && remove_fire == true ) {
+            if( type == "fire" && remove_fire ) {
                 replaced = true;
                 break;
             }

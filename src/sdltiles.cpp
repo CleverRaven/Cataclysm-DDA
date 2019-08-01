@@ -91,7 +91,7 @@ static uint32_t interval = 25;
 static bool needupdate = false;
 
 // used to replace SDL_RenderFillRect with a more efficient SDL_RenderCopy
-SDL_Texture_Ptr alt_rect_tex = NULL;
+SDL_Texture_Ptr alt_rect_tex = nullptr;
 bool alt_rect_tex_enabled = false;
 
 std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> windowsPalette;
@@ -246,7 +246,7 @@ static void generate_alt_rect_texture()
 
     SDL_Surface_Ptr alt_surf( SDL_CreateRGBSurface( 0, 1, 1, 32, rmask, gmask, bmask, amask ) );
     if( alt_surf ) {
-        FillRect( alt_surf, NULL, SDL_MapRGB( alt_surf->format, 255, 255, 255 ) );
+        FillRect( alt_surf, nullptr, SDL_MapRGB( alt_surf->format, 255, 255, 255 ) );
 
         alt_rect_tex.reset( SDL_CreateTextureFromSurface( renderer.get(), alt_surf.get() ) );
         alt_surf.reset();
@@ -267,7 +267,7 @@ void draw_alt_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
                     Uint32 r, Uint32 g, Uint32 b )
 {
     SetTextureColorMod( alt_rect_tex, r, g, b );
-    RenderCopy( renderer, alt_rect_tex, NULL, &rect );
+    RenderCopy( renderer, alt_rect_tex, nullptr, &rect );
 }
 
 static bool operator==( const cata_cursesport::WINDOW *const lhs, const catacurses::window &rhs )
@@ -294,7 +294,7 @@ static void InitSDL()
     // https://bugzilla.libsdl.org/show_bug.cgi?id=3472#c5
     if( SDL_COMPILEDVERSION == SDL_VERSIONNUM( 2, 0, 5 ) ) {
         const char *xmod = getenv( "XMODIFIERS" );
-        if( xmod && strstr( xmod, "@im=ibus" ) != NULL ) {
+        if( xmod && strstr( xmod, "@im=ibus" ) != nullptr ) {
             setenv( "XMODIFIERS", "@im=none", 1 );
         }
     }
@@ -505,7 +505,7 @@ static void WinCreate()
                           "SDL_JoystickEventState(SDL_ENABLE) failed" );
         }
     } else {
-        joystick = NULL;
+        joystick = nullptr;
     }
 
     // Set up audio mixer.
@@ -533,7 +533,7 @@ static void WinDestroy()
         SDL_JoystickClose( joystick );
         alt_rect_tex.reset();
 
-        joystick = 0;
+        joystick = nullptr;
     }
     format.reset();
     display_buffer.reset();
@@ -600,7 +600,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
     SDL_Surface_Ptr sglyph( function( font.get(), ch.c_str(), windowsPalette[color] ) );
     if( !sglyph ) {
         dbg( D_ERROR ) << "Failed to create glyph for " << ch << ": " << TTF_GetError();
-        return NULL;
+        return nullptr;
     }
     /* SDL interprets each pixel as a 32-bit number, so our masks must depend
        on the endianness (byte order) of the machine */
@@ -796,7 +796,7 @@ void refresh_display()
 
     // Select default target (the window), copy rendered buffer
     // there, present it, select the buffer as target again.
-    SetRenderTarget( renderer, NULL );
+    SetRenderTarget( renderer, nullptr );
 #if defined(__ANDROID__)
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth,
                        TERMINAL_HEIGHT * fontheight );
@@ -804,7 +804,7 @@ void refresh_display()
     RenderClear( renderer );
     RenderCopy( renderer, display_buffer, NULL, &dstrect );
 #else
-    RenderCopy( renderer, display_buffer, NULL, NULL );
+    RenderCopy( renderer, display_buffer, nullptr, nullptr );
 #endif
 #if defined(__ANDROID__)
     draw_terminal_size_preview();
@@ -1028,7 +1028,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         tilecontext->draw(
             win->x * fontwidth,
             win->y * fontheight,
-            tripoint( g->ter_view_x, g->ter_view_y, g->ter_view_z ),
+            g->ter_view_p,
             TERRAIN_WINDOW_TERM_WIDTH * font->fontwidth,
             TERRAIN_WINDOW_TERM_HEIGHT * font->fontheight,
             overlay_strings,
@@ -1153,7 +1153,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         clear_window_area( w );
         tilecontext->draw_minimap(
             win->x * fontwidth, win->y * fontheight,
-            tripoint( g->u.pos().x, g->u.pos().y, g->ter_view_z ),
+            tripoint( g->u.pos().xy(), g->ter_view_p.z ),
             win->width * font->fontwidth, win->height * font->fontheight );
         update = true;
 
@@ -3152,7 +3152,7 @@ static void font_folder_list( std::ostream &fout, const std::string &path,
 
             // Add font family
             char *fami = TTF_FontFaceFamilyName( fnt.get() );
-            if( fami != NULL ) {
+            if( fami != nullptr ) {
                 fout << fami;
             } else {
                 continue;
@@ -3161,7 +3161,7 @@ static void font_folder_list( std::ostream &fout, const std::string &path,
             // Add font style
             char *style = TTF_FontFaceStyleName( fnt.get() );
             bool isbitmap = ends_with( f, ".fon" );
-            if( style != NULL && !isbitmap && strcasecmp( style, "Regular" ) != 0 ) {
+            if( style != nullptr && !isbitmap && strcasecmp( style, "Regular" ) != 0 ) {
                 fout << " " << style;
             }
             if( isbitmap ) {
@@ -3278,13 +3278,13 @@ static int test_face_size( const std::string &f, int size, int faceIndex )
     const TTF_Font_Ptr fnt( TTF_OpenFontIndex( f.c_str(), size, faceIndex ) );
     if( fnt ) {
         char *style = TTF_FontFaceStyleName( fnt.get() );
-        if( style != NULL ) {
+        if( style != nullptr ) {
             int faces = TTF_FontFaces( fnt.get() );
             for( int i = faces - 1; i >= 0; i-- ) {
                 const TTF_Font_Ptr tf( TTF_OpenFontIndex( f.c_str(), size, i ) );
-                char *ts = NULL;
+                char *ts = nullptr;
                 if( tf ) {
-                    if( NULL != ( ts = TTF_FontFaceStyleName( tf.get() ) ) ) {
+                    if( nullptr != ( ts = TTF_FontFaceStyleName( tf.get() ) ) ) {
                         if( 0 == strcasecmp( ts, style ) && TTF_FontHeight( tf.get() ) <= size ) {
                             return i;
                         }
@@ -3578,7 +3578,7 @@ input_event input_manager::get_input_event()
     }
 
     if( last_input.type == CATA_INPUT_MOUSE ) {
-        SDL_GetMouseState( &last_input.mouse_x, &last_input.mouse_y );
+        SDL_GetMouseState( &last_input.mouse_pos.x, &last_input.mouse_pos.y );
     } else if( last_input.type == CATA_INPUT_KEYBOARD ) {
         previously_pressed_key = last_input.get_first_input();
 #if defined(__ANDROID__)
@@ -3596,7 +3596,7 @@ input_event input_manager::get_input_event()
 
 bool gamepad_available()
 {
-    return joystick != NULL;
+    return joystick != nullptr;
 }
 
 void rescale_tileset( int size )
@@ -3638,45 +3638,38 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 
     // Translate mouse coordinates to map coordinates based on tile size,
     // the window position is *always* in standard font dimensions!
-    const int win_left = capture_win->x * fontwidth;
-    const int win_top = capture_win->y * fontheight;
+    const point win_min( capture_win->x * fontwidth, capture_win->y * fontheight );
     // But the size of the window is in the font dimensions of the window.
-    const int win_right = win_left + ( capture_win->width * fw );
-    const int win_bottom = win_top + ( capture_win->height * fh );
+    const point win_size( capture_win->width * fw, capture_win->height * fh );
+    const point win_max = win_min + win_size;
     // add_msg( m_info, "win_ left %d top %d right %d bottom %d", win_left,win_top,win_right,win_bottom);
     // add_msg( m_info, "coordinate_ x %d y %d", coordinate_x, coordinate_y);
     // Check if click is within bounds of the window we care about
-    if( coordinate_x < win_left || coordinate_x > win_right ||
-        coordinate_y < win_top || coordinate_y > win_bottom ) {
+    const rectangle win_bounds( win_min, win_max );
+    if( !win_bounds.contains_inclusive( coordinate ) ) {
         return cata::nullopt;
     }
 
-    int view_offset_x = 0;
-    int view_offset_y = 0;
+    point view_offset;
     if( capture_win == g->w_terrain ) {
-        view_offset_x = g->ter_view_x;
-        view_offset_y = g->ter_view_y;
+        view_offset = g->ter_view_p.xy();
     }
 
-    int x, y;
+    const point screen_pos = coordinate - win_min;
+    point p;
     if( tile_iso && use_tiles ) {
-        const int screen_column = round( static_cast<float>( coordinate_x - win_left - ( (
-                                             win_right - win_left ) / 2 + win_left ) ) / ( fw / 2 ) );
-        const int screen_row = round( static_cast<float>( coordinate_y - win_top -
-                                      ( win_bottom - win_top ) / 2 + win_top ) / ( fw / 4 ) );
-        const int selected_x = ( screen_column - screen_row ) / 2;
-        const int selected_y = ( screen_row + screen_column ) / 2;
-        x = view_offset_x + selected_x;
-        y = view_offset_y + selected_y;
+        const int screen_col = round( static_cast<float>(
+                                          screen_pos.x - ( win_size.x / 2 + win_min.x ) ) / ( fw / 2 ) );
+        const int screen_row = round( static_cast<float>(
+                                          screen_pos.y - win_size.y / 2 + win_min.y ) / ( fw / 4 ) );
+        const point selected( ( screen_col - screen_row ) / 2, ( screen_row + screen_col ) / 2 );
+        p = view_offset + selected;
     } else {
-        const int selected_column = ( coordinate_x - win_left ) / fw;
-        const int selected_row = ( coordinate_y - win_top ) / fh;
-
-        x = view_offset_x + selected_column - capture_win->width / 2;
-        y = view_offset_y + selected_row - capture_win->height / 2;
+        const point selected( screen_pos.x / fw, screen_pos.y / fh );
+        p = view_offset + selected - point( capture_win->width / 2, capture_win->height / 2 );
     }
 
-    return tripoint( x, y, g->get_levz() );
+    return tripoint( p, g->get_levz() );
 }
 
 int get_terminal_width()

@@ -66,6 +66,7 @@ const mtype_id mon_ant_soldier( "mon_ant_soldier" );
 const mtype_id mon_bee( "mon_bee" );
 const mtype_id mon_beekeeper( "mon_beekeeper" );
 const mtype_id mon_boomer( "mon_boomer" );
+const mtype_id mon_boomer_huge( "mon_boomer_huge" );
 const mtype_id mon_boomer_fungus( "mon_boomer_fungus" );
 const mtype_id mon_fungaloid( "mon_fungaloid" );
 const mtype_id mon_triffid( "mon_triffid" );
@@ -82,10 +83,13 @@ const mtype_id mon_zombie_fat( "mon_zombie_fat" );
 const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
 const mtype_id mon_zombie_fungus( "mon_zombie_fungus" );
 const mtype_id mon_zombie_gasbag( "mon_zombie_gasbag" );
+const mtype_id mon_zombie_gasbag_fungus( "mon_zombie_gasbag_fungus" );
 const mtype_id mon_zombie_grabber( "mon_zombie_grabber" );
 const mtype_id mon_zombie_hazmat( "mon_zombie_hazmat" );
 const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
 const mtype_id mon_skeleton_hulk( "mon_skeleton_hulk" );
+const mtype_id mon_skeleton_hulk_fungus( "mon_skeleton_hulk_fungus" );
+const mtype_id mon_skeleton_brute( "mon_skeleton_brute" );
 const mtype_id mon_zombie_hunter( "mon_zombie_hunter" );
 const mtype_id mon_zombie_master( "mon_zombie_master" );
 const mtype_id mon_zombie_necro( "mon_zombie_necro" );
@@ -94,6 +98,7 @@ const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
 const mtype_id mon_zombie_scorched( "mon_zombie_scorched" );
 const mtype_id mon_zombie_shrieker( "mon_zombie_shrieker" );
 const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
+const mtype_id mon_zombie_smoker_fungus( "mon_zombie_smoker_fungus" );
 const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
 const mtype_id mon_zombie_survivor( "mon_zombie_survivor" );
@@ -107,6 +112,7 @@ const mtype_id mon_zombie_sproglodyte( "mon_zombie_sproglodyte" );
 const mtype_id mon_zombie_shriekling( "mon_zombie_shriekling" );
 const mtype_id mon_zombie_snotgobbler( "mon_zombie_snotgobbler" );
 const mtype_id mon_zombie_waif( "mon_zombie_waif" );
+const mtype_id mon_spider_fungus( "mon_spider_fungus" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id FUNGUS( "FUNGUS" );
@@ -116,6 +122,7 @@ const species_id ABERRATION( "ABERRATION" );
 const species_id MOLLUSK( "MOLLUSK" );
 const species_id ROBOT( "ROBOT" );
 const species_id FISH( "FISH" );
+const species_id SPIDER( "SPIDER" );
 
 const efftype_id effect_badpoison( "badpoison" );
 const efftype_id effect_beartrap( "beartrap" );
@@ -330,7 +337,7 @@ void monster::try_upgrade( bool pin_time )
         return;
     }
 
-    const int current_day = to_days<int>( calendar::turn - time_point( calendar::start ) );
+    const int current_day = to_days<int>( calendar::turn - time_point( calendar::start_of_cataclysm ) );
     //This should only occur when a monster is created or upgraded to a new form
     if( upgrade_time < 0 ) {
         upgrade_time = next_upgrade_time();
@@ -342,7 +349,8 @@ void monster::try_upgrade( bool pin_time )
             upgrade_time += current_day;
         } else {
             // offset by starting season
-            upgrade_time += calendar::start;
+            // @todo revisit this and make it simpler
+            upgrade_time += to_turn<int>( calendar::start_of_cataclysm );
         }
     }
 
@@ -384,7 +392,7 @@ void monster::try_reproduce()
         return;
     }
 
-    const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
+    const int current_day = to_days<int>( calendar::turn - calendar::turn_zero );
     if( baby_timer < 0 ) {
         baby_timer = type->baby_timer;
         if( baby_timer < 0 ) {
@@ -447,7 +455,7 @@ void monster::try_biosignature()
         return;
     }
 
-    const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
+    const int current_day = to_days<int>( calendar::turn - calendar::turn_zero );
     if( biosig_timer < 0 ) {
         biosig_timer = type->biosig_timer;
         if( biosig_timer < 0 ) {
@@ -1153,6 +1161,10 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
                ( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) ) );
     }
 
+    if( effect == effect_stunned ) {
+        return has_flag( MF_STUN_IMMUNE );
+    }
+
     return false;
 }
 
@@ -1473,6 +1485,11 @@ void monster::die_in_explosion( Creature *source )
 {
     hp = -9999; // huge to trigger explosion and prevent corpse item
     die( source );
+}
+
+bool monster::movement_impaired()
+{
+    return effect_cache[MOVEMENT_IMPAIRED];
 }
 
 bool monster::move_effects( bool )
@@ -2143,7 +2160,8 @@ void monster::drop_items_on_death()
     if( type->death_drops.empty() ) {
         return;
     }
-    const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(), calendar::start );
+    const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(),
+                         calendar::start_of_cataclysm );
 
     if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
         for( const auto &it : dropped ) {
@@ -2290,7 +2308,7 @@ bool monster::make_fungus()
     } else if( tid == mon_zombie || tid == mon_zombie_shrieker || tid == mon_zombie_electric ||
                tid == mon_zombie_spitter || tid == mon_zombie_brute ||
                tid == mon_zombie_hulk || tid == mon_zombie_soldier || tid == mon_zombie_tough ||
-               tid == mon_zombie_scientist || tid == mon_zombie_hunter || tid == mon_skeleton_hulk ||
+               tid == mon_zombie_scientist || tid == mon_zombie_hunter || tid == mon_skeleton_brute ||
                tid == mon_zombie_bio_op || tid == mon_zombie_survivor || tid == mon_zombie_fireman ||
                tid == mon_zombie_cop || tid == mon_zombie_fat || tid == mon_zombie_rot ||
                tid == mon_zombie_swimmer || tid == mon_zombie_grabber || tid == mon_zombie_technician ||
@@ -2301,7 +2319,7 @@ bool monster::make_fungus()
         // Necro and Master have enough Goo to resist conversion.
         // Firefighter, hazmat, and scarred/beekeeper have the PPG on.
         return true;
-    } else if( tid == mon_boomer || tid == mon_zombie_gasbag || tid == mon_zombie_smoker ) {
+    } else if( tid == mon_boomer || tid == mon_boomer_huge ) {
         polypick = 3;
     } else if( tid == mon_triffid || tid == mon_triffid_young || tid == mon_triffid_queen ) {
         polypick = 4;
@@ -2309,6 +2327,14 @@ bool monster::make_fungus()
                tid == mon_zombie_shriekling || tid == mon_zombie_snotgobbler || tid == mon_zombie_sproglodyte ||
                tid == mon_zombie_waif ) {
         polypick = 5;
+    } else if( tid == mon_skeleton_hulk ) {
+        polypick = 6;
+    } else if( tid == mon_zombie_smoker ) {
+        polypick = 7;
+    } else if( tid == mon_zombie_gasbag ) {
+        polypick = 8;
+    } else if( type->in_species( SPIDER ) && get_size() > MS_TINY ) {
+        polypick = 9;
     }
 
     const std::string old_name = name();
@@ -2327,6 +2353,18 @@ bool monster::make_fungus()
             break;
         case 5:
             poly( mon_zombie_child_fungus );
+            break;
+        case 6:
+            poly( mon_skeleton_hulk_fungus );
+            break;
+        case 7:
+            poly( mon_zombie_smoker_fungus );
+            break;
+        case 8:
+            poly( mon_zombie_gasbag_fungus );
+            break;
+        case 9:
+            poly( mon_spider_fungus );
             break;
         default:
             return false;

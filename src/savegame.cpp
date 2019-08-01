@@ -72,8 +72,8 @@ void game::serialize( std::ostream &fout )
 
     json.start_object();
     // basic game state information.
-    json.member( "turn", static_cast<int>( calendar::turn ) );
-    json.member( "calendar_start", static_cast<int>( calendar::start ) );
+    json.member( "turn", calendar::turn );
+    json.member( "calendar_start", calendar::start_of_cataclysm );
     json.member( "initial_season", static_cast<int>( calendar::initial_season ) );
     json.member( "auto_travel_mode", auto_travel_mode );
     json.member( "run_mode", static_cast<int>( safe_mode ) );
@@ -198,7 +198,7 @@ void game::unserialize( std::istream &fin )
         data.read( "om_y", comy );
 
         calendar::turn = tmpturn;
-        calendar::start = tmpcalstart;
+        calendar::start_of_cataclysm = tmpcalstart;
 
         load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 
@@ -380,7 +380,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
     for( const auto &convert : needs_conversion ) {
         const tripoint pos = convert.first;
         const std::string old = convert.second;
-        oter_id &new_id = ter( pos.x, pos.y, pos.z );
+        oter_id &new_id = ter( pos );
 
         struct convert_nearby {
             int xoffset;
@@ -693,11 +693,11 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
         } else if( old == "bunker" ) {
             if( pos.z < 0 ) {
                 new_id = oter_id( "bunker_basement" );
-            } else if( is_ot_match( "road", get_ter( pos.x + 1, pos.y, pos.z ), ot_match_type::type ) ) {
+            } else if( is_ot_match( "road", get_ter( pos + point( 1, 0 ) ), ot_match_type::type ) ) {
                 new_id = oter_id( "bunker_west" );
-            } else if( is_ot_match( "road", get_ter( pos.x - 1, pos.y, pos.z ), ot_match_type::type ) ) {
+            } else if( is_ot_match( "road", get_ter( pos + point( -1, 0 ) ), ot_match_type::type ) ) {
                 new_id = oter_id( "bunker_east" );
-            } else if( is_ot_match( "road", get_ter( pos.x, pos.y + 1, pos.z ), ot_match_type::type ) ) {
+            } else if( is_ot_match( "road", get_ter( pos + point( 0, 1 ) ), ot_match_type::type ) ) {
                 new_id = oter_id( "bunker_north" );
             } else {
                 new_id = oter_id( "bunker_south" );
@@ -753,7 +753,14 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                    old == "pwr_sub_s" ||
                    old == "radio_tower" ||
                    old == "sai" ||
-                   old == "toxic_dump" ) {
+                   old == "toxic_dump" ||
+                   old == "orchard_stall" ||
+                   old == "orchard_tree_apple" ||
+                   old == "orchard_processing" ||
+                   old == "dairy_farm_NW" ||
+                   old == "dairy_farm_NE" ||
+                   old == "dairy_farm_SW" ||
+                   old == "dairy_farm_SE" ) {
             new_id = oter_id( old + "_north" );
         }
 
@@ -895,7 +902,7 @@ void overmap::unserialize( std::istream &fin )
             jsin.start_array();
             while( !jsin.end_array() ) {
                 jsin.start_object();
-                radio_tower new_radio;
+                radio_tower new_radio( point_min );
                 while( !jsin.end_object() ) {
                     const std::string radio_member_name = jsin.get_member_name();
                     if( radio_member_name == "type" ) {
@@ -909,9 +916,9 @@ void overmap::unserialize( std::istream &fin )
                             new_radio.type = mapping->first;
                         }
                     } else if( radio_member_name == "x" ) {
-                        jsin.read( new_radio.x );
+                        jsin.read( new_radio.pos.x );
                     } else if( radio_member_name == "y" ) {
-                        jsin.read( new_radio.y );
+                        jsin.read( new_radio.pos.y );
                     } else if( radio_member_name == "strength" ) {
                         jsin.read( new_radio.strength );
                     } else if( radio_member_name == "message" ) {
@@ -1073,8 +1080,8 @@ void overmap::unserialize_view( std::istream &fin )
                 while( !jsin.end_array() ) {
                     om_note tmp;
                     jsin.start_array();
-                    jsin.read( tmp.x );
-                    jsin.read( tmp.y );
+                    jsin.read( tmp.p.x );
+                    jsin.read( tmp.p.y );
                     jsin.read( tmp.text );
                     jsin.end_array();
 
@@ -1089,8 +1096,8 @@ void overmap::unserialize_view( std::istream &fin )
                 while( !jsin.end_array() ) {
                     om_map_extra tmp;
                     jsin.start_array();
-                    jsin.read( tmp.x );
-                    jsin.read( tmp.y );
+                    jsin.read( tmp.p.x );
+                    jsin.read( tmp.p.y );
                     jsin.read( tmp.id );
                     jsin.end_array();
 
@@ -1162,8 +1169,8 @@ void overmap::serialize_view( std::ostream &fout ) const
         json.start_array();
         for( auto &i : layer[z].notes ) {
             json.start_array();
-            json.write( i.x );
-            json.write( i.y );
+            json.write( i.p.x );
+            json.write( i.p.y );
             json.write( i.text );
             json.end_array();
             fout << std::endl;
@@ -1178,8 +1185,8 @@ void overmap::serialize_view( std::ostream &fout ) const
         json.start_array();
         for( auto &i : layer[z].extras ) {
             json.start_array();
-            json.write( i.x );
-            json.write( i.y );
+            json.write( i.p.x );
+            json.write( i.p.y );
             json.write( i.id );
             json.end_array();
             fout << std::endl;
@@ -1331,8 +1338,8 @@ void overmap::serialize( std::ostream &fout ) const
     json.start_array();
     for( auto &i : radios ) {
         json.start_object();
-        json.member( "x", i.x );
-        json.member( "y", i.y );
+        json.member( "x", i.pos.x );
+        json.member( "y", i.pos.y );
         json.member( "strength", i.strength );
         json.member( "type", radio_type_names[i.type] );
         json.member( "message", i.message );

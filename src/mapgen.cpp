@@ -745,11 +745,11 @@ class jmapgen_field : public jmapgen_piece
         field_type_id ftype;
         int intensity;
         time_duration age;
-        jmapgen_field( JsonObject &jsi ) : jmapgen_piece()
-            , ftype( field_type_id( jsi.get_string( "field" ) ) )
+        jmapgen_field( JsonObject &jsi ) :
+            ftype( field_type_id( jsi.get_string( "field" ) ) )
             , intensity( jsi.get_int( "intensity", 1 ) )
             , age( time_duration::from_turns( jsi.get_int( "age", 0 ) ) ) {
-            if( ftype == fd_null ) {
+            if( !ftype.id() ) {
                 set_mapgen_defer( jsi, "field", "invalid field type" );
             }
         }
@@ -768,8 +768,8 @@ class jmapgen_npc : public jmapgen_piece
         string_id<npc_template> npc_class;
         bool target;
         std::vector<std::string> traits;
-        jmapgen_npc( JsonObject &jsi ) : jmapgen_piece()
-            , npc_class( jsi.get_string( "class" ) )
+        jmapgen_npc( JsonObject &jsi ) :
+            npc_class( jsi.get_string( "class" ) )
             , target( jsi.get_bool( "target", false ) ) {
             if( !npc_class.is_valid() ) {
                 set_mapgen_defer( jsi, "class", "unknown npc class" );
@@ -806,7 +806,7 @@ class jmapgen_faction : public jmapgen_piece
 {
     public:
         faction_id id;
-        jmapgen_faction( JsonObject &jsi ) : jmapgen_piece() {
+        jmapgen_faction( JsonObject &jsi ) {
             if( jsi.has_string( "id" ) ) {
                 id = faction_id( jsi.get_string( "id" ) );
             }
@@ -825,8 +825,8 @@ class jmapgen_sign : public jmapgen_piece
     public:
         std::string signage;
         std::string snippet;
-        jmapgen_sign( JsonObject &jsi ) : jmapgen_piece()
-            , signage( jsi.get_string( "signage", "" ) )
+        jmapgen_sign( JsonObject &jsi ) :
+            signage( jsi.get_string( "signage", "" ) )
             , snippet( jsi.get_string( "snippet", "" ) ) {
             if( signage.empty() && snippet.empty() ) {
                 jsi.throw_error( "jmapgen_sign: needs either signage or snippet" );
@@ -867,10 +867,7 @@ class jmapgen_sign : public jmapgen_piece
             return signtext;
         }
         bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
-            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
-                return true;
-            }
-            return false;
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
         }
 };
 /**
@@ -883,8 +880,8 @@ class jmapgen_graffiti : public jmapgen_piece
     public:
         std::string text;
         std::string snippet;
-        jmapgen_graffiti( JsonObject &jsi ) : jmapgen_piece()
-            , text( jsi.get_string( "text", "" ) )
+        jmapgen_graffiti( JsonObject &jsi ) :
+            text( jsi.get_string( "text", "" ) )
             , snippet( jsi.get_string( "snippet", "" ) ) {
             if( text.empty() && snippet.empty() ) {
                 jsi.throw_error( "jmapgen_graffiti: needs either text or snippet" );
@@ -932,8 +929,8 @@ class jmapgen_vending_machine : public jmapgen_piece
     public:
         bool reinforced;
         std::string item_group_id;
-        jmapgen_vending_machine( JsonObject &jsi ) : jmapgen_piece()
-            , reinforced( jsi.get_bool( "reinforced", false ) )
+        jmapgen_vending_machine( JsonObject &jsi ) :
+            reinforced( jsi.get_bool( "reinforced", false ) )
             , item_group_id( jsi.get_string( "item_group", "default_vending_machine" ) ) {
             if( !item_group::group_is_defined( item_group_id ) ) {
                 set_mapgen_defer( jsi, "item_group", "no such item group" );
@@ -947,10 +944,7 @@ class jmapgen_vending_machine : public jmapgen_piece
             dat.m.place_vending( rx, ry, item_group_id, reinforced );
         }
         bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
-            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
-                return true;
-            }
-            return false;
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
         }
 };
 /**
@@ -961,8 +955,8 @@ class jmapgen_toilet : public jmapgen_piece
 {
     public:
         jmapgen_int amount;
-        jmapgen_toilet( JsonObject &jsi ) : jmapgen_piece()
-            , amount( jsi, "amount", 0, 0 ) {
+        jmapgen_toilet( JsonObject &jsi ) :
+            amount( jsi, "amount", 0, 0 ) {
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mon_density*/, mission * /*miss*/ ) const override {
@@ -977,10 +971,7 @@ class jmapgen_toilet : public jmapgen_piece
             }
         }
         bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
-            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
-                return true;
-            }
-            return false;
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
         }
 };
 /**
@@ -992,8 +983,8 @@ class jmapgen_gaspump : public jmapgen_piece
     public:
         jmapgen_int amount;
         std::string fuel;
-        jmapgen_gaspump( JsonObject &jsi ) : jmapgen_piece()
-            , amount( jsi, "amount", 0, 0 ) {
+        jmapgen_gaspump( JsonObject &jsi ) :
+            amount( jsi, "amount", 0, 0 ) {
             if( jsi.has_string( "fuel" ) ) {
                 fuel = jsi.get_string( "fuel" );
 
@@ -1019,10 +1010,7 @@ class jmapgen_gaspump : public jmapgen_piece
             }
         }
         bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
-            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
-                return true;
-            }
-            return false;
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
         }
 };
 
@@ -1038,8 +1026,8 @@ class jmapgen_liquid_item : public jmapgen_piece
         jmapgen_int amount;
         std::string liquid;
         jmapgen_int chance;
-        jmapgen_liquid_item( JsonObject &jsi ) : jmapgen_piece()
-            , amount( jsi, "amount", 0, 0 )
+        jmapgen_liquid_item( JsonObject &jsi ) :
+            amount( jsi, "amount", 0, 0 )
             , liquid( jsi.get_string( "liquid" ) )
             , chance( jsi, "chance", 1, 1 ) {
             if( !item::type_is_defined( itype_id( liquid ) ) ) {
@@ -1049,7 +1037,7 @@ class jmapgen_liquid_item : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mon_density*/, mission * /*miss*/ ) const override {
             if( one_in( chance.get() ) ) {
-                item newliquid( liquid, calendar::time_of_cataclysm );
+                item newliquid( liquid, calendar::turn_zero );
                 if( amount.valmax > 0 ) {
                     newliquid.charges = amount.get();
                 }
@@ -1069,8 +1057,8 @@ class jmapgen_item_group : public jmapgen_piece
     public:
         std::string group_id;
         jmapgen_int chance;
-        jmapgen_item_group( JsonObject &jsi ) : jmapgen_piece()
-            , group_id( jsi.get_string( "item" ) )
+        jmapgen_item_group( JsonObject &jsi ) :
+            group_id( jsi.get_string( "item" ) )
             , chance( jsi, "chance", 1, 1 ) {
             if( !item_group::group_is_defined( group_id ) ) {
                 set_mapgen_defer( jsi, "item", "no such item type" );
@@ -1089,9 +1077,9 @@ class jmapgen_loot : public jmapgen_piece
         friend jmapgen_objects;
 
     public:
-        jmapgen_loot( JsonObject &jsi ) : jmapgen_piece()
-            , result_group( Item_group::Type::G_COLLECTION, 100, jsi.get_int( "ammo", 0 ),
-                            jsi.get_int( "magazine", 0 ) )
+        jmapgen_loot( JsonObject &jsi ) :
+            result_group( Item_group::Type::G_COLLECTION, 100, jsi.get_int( "ammo", 0 ),
+                          jsi.get_int( "magazine", 0 ) )
             , chance( jsi.get_int( "chance", 100 ) ) {
             const std::string group = jsi.get_string( "group", std::string() );
             const std::string name = jsi.get_string( "item", std::string() );
@@ -1118,7 +1106,7 @@ class jmapgen_loot : public jmapgen_piece
                     const float /*mon_density*/, mission * ) const override {
             if( rng( 0, 99 ) < chance ) {
                 const Item_spawn_data *const isd = &result_group;
-                const std::vector<item> spawn = isd->create( calendar::time_of_cataclysm );
+                const std::vector<item> spawn = isd->create( calendar::turn_zero );
                 dat.m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ),
                                              dat.m.get_abs_sub().z ), spawn );
             }
@@ -1141,8 +1129,8 @@ class jmapgen_monster_group : public jmapgen_piece
         mongroup_id id;
         float density;
         jmapgen_int chance;
-        jmapgen_monster_group( JsonObject &jsi ) : jmapgen_piece()
-            , id( jsi.get_string( "monster" ) )
+        jmapgen_monster_group( JsonObject &jsi ) :
+            id( jsi.get_string( "monster" ) )
             , density( jsi.get_float( "density", -1.0f ) )
             , chance( jsi, "chance", 1, 1 ) {
             if( !id.is_valid() ) {
@@ -1177,8 +1165,8 @@ class jmapgen_monster : public jmapgen_piece
         bool friendly;
         std::string name;
         bool target;
-        jmapgen_monster( JsonObject &jsi ) : jmapgen_piece()
-            , chance( jsi, "chance", 100, 100 )
+        jmapgen_monster( JsonObject &jsi ) :
+            chance( jsi, "chance", 100, 100 )
             , pack_size( jsi, "pack_size", 1, 1 )
             , one_or_none( jsi.get_bool( "one_or_none",
                                          !( jsi.has_member( "repeat" ) || jsi.has_member( "pack_size" ) ) ) )
@@ -1264,8 +1252,8 @@ class jmapgen_vehicle : public jmapgen_piece
         std::vector<int> rotation;
         int fuel;
         int status;
-        jmapgen_vehicle( JsonObject &jsi ) : jmapgen_piece()
-            , type( jsi.get_string( "vehicle" ) )
+        jmapgen_vehicle( JsonObject &jsi ) :
+            type( jsi.get_string( "vehicle" ) )
             , chance( jsi, "chance", 1, 1 )
             //, rotation( jsi.get_int( "rotation", 0 ) ) // unless there is a way for the json parser to
             // return a single int as a list, we have to manually check this in the constructor below
@@ -1289,10 +1277,7 @@ class jmapgen_vehicle : public jmapgen_piece
             dat.m.add_vehicle( type, point( x.get(), y.get() ), random_entry( rotation ), fuel, status );
         }
         bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
-            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
-                return true;
-            }
-            return false;
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
         }
 };
 /**
@@ -1308,8 +1293,8 @@ class jmapgen_spawn_item : public jmapgen_piece
         itype_id type;
         jmapgen_int amount;
         jmapgen_int chance;
-        jmapgen_spawn_item( JsonObject &jsi ) : jmapgen_piece()
-            , type( jsi.get_string( "item" ) )
+        jmapgen_spawn_item( JsonObject &jsi ) :
+            type( jsi.get_string( "item" ) )
             , amount( jsi, "amount", 1, 1 )
             , chance( jsi, "chance", 100, 100 ) {
             if( !item::type_is_defined( type ) ) {
@@ -1337,8 +1322,8 @@ class jmapgen_trap : public jmapgen_piece
 {
     public:
         trap_id id;
-        jmapgen_trap( JsonObject &jsi ) : jmapgen_piece()
-            , id( 0 ) {
+        jmapgen_trap( JsonObject &jsi ) :
+            id( 0 ) {
             const trap_str_id sid( jsi.get_string( "trap" ) );
             if( !sid.is_valid() ) {
                 set_mapgen_defer( jsi, "trap", "no such trap" );
@@ -1346,8 +1331,8 @@ class jmapgen_trap : public jmapgen_piece
             id = sid.id();
         }
 
-        jmapgen_trap( const std::string &tid ) : jmapgen_piece()
-            , id( 0 ) {
+        jmapgen_trap( const std::string &tid ) :
+            id( 0 ) {
             const trap_str_id sid( tid );
             if( !sid.is_valid() ) {
                 throw std::runtime_error( "unknown trap type" );
@@ -1360,10 +1345,7 @@ class jmapgen_trap : public jmapgen_piece
             dat.m.trap_set( actual_loc, id );
         }
         bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
-            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
-                return true;
-            }
-            return false;
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
         }
 };
 /**
@@ -1375,16 +1357,13 @@ class jmapgen_furniture : public jmapgen_piece
     public:
         furn_id id;
         jmapgen_furniture( JsonObject &jsi ) : jmapgen_furniture( jsi.get_string( "furn" ) ) {}
-        jmapgen_furniture( const std::string &fid ) : jmapgen_piece(), id( furn_id( fid ) ) {}
+        jmapgen_furniture( const std::string &fid ) : id( furn_id( fid ) ) {}
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mdensity*/, mission * ) const override {
             dat.m.furn_set( x.get(), y.get(), id );
         }
         bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
-            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
-                return true;
-            }
-            return false;
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
         }
 };
 /**
@@ -1396,7 +1375,7 @@ class jmapgen_terrain : public jmapgen_piece
     public:
         ter_id id;
         jmapgen_terrain( JsonObject &jsi ) : jmapgen_terrain( jsi.get_string( "ter" ) ) {}
-        jmapgen_terrain( const std::string &tid ) : jmapgen_piece(), id( ter_id( tid ) ) {}
+        jmapgen_terrain( const std::string &tid ) : id( ter_id( tid ) ) {}
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mdensity*/, mission * ) const override {
             dat.m.ter_set( x.get(), y.get(), id );
@@ -1410,10 +1389,7 @@ class jmapgen_terrain : public jmapgen_piece
             }
         }
         bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
-            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
-                return true;
-            }
-            return false;
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
         }
 };
 /**
@@ -1427,7 +1403,7 @@ class jmapgen_make_rubble : public jmapgen_piece
         bool items = false;
         ter_id floor_type = t_dirt;
         bool overwrite = false;
-        jmapgen_make_rubble( JsonObject &jsi ) : jmapgen_piece() {
+        jmapgen_make_rubble( JsonObject &jsi ) {
             if( jsi.has_string( "rubble_type" ) ) {
                 rubble_type = furn_id( jsi.get_string( "rubble_type" ) );
             }
@@ -1457,7 +1433,7 @@ class jmapgen_computer : public jmapgen_piece
         std::vector<computer_option> options;
         std::vector<computer_failure> failures;
         bool target;
-        jmapgen_computer( JsonObject &jsi ) : jmapgen_piece() {
+        jmapgen_computer( JsonObject &jsi ) {
             name = jsi.get_string( "name" );
             security = jsi.get_int( "security", 0 );
             target = jsi.get_bool( "target", false );
@@ -1494,10 +1470,7 @@ class jmapgen_computer : public jmapgen_piece
             }
         }
         bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
-            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
-                return true;
-            }
-            return false;
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
         }
 };
 
@@ -1513,8 +1486,8 @@ class jmapgen_sealed_item : public jmapgen_piece
         furn_id furniture;
         cata::optional<jmapgen_spawn_item> item_spawner;
         cata::optional<jmapgen_item_group> item_group_spawner;
-        jmapgen_sealed_item( JsonObject &jsi ) : jmapgen_piece()
-            , furniture( jsi.get_string( "furniture" ) ) {
+        jmapgen_sealed_item( JsonObject &jsi ) :
+            furniture( jsi.get_string( "furniture" ) ) {
             if( jsi.has_object( "item" ) ) {
                 JsonObject item_obj = jsi.get_object( "item" );
                 item_spawner = jmapgen_spawn_item( item_obj );
@@ -1601,10 +1574,7 @@ class jmapgen_sealed_item : public jmapgen_piece
             dat.m.furn_set( x.get(), y.get(), furniture );
         }
         bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
-            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
-                return true;
-            }
-            return false;
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
         }
 };
 /**
@@ -1618,7 +1588,7 @@ class jmapgen_translate : public jmapgen_piece
     public:
         ter_id from;
         ter_id to;
-        jmapgen_translate( JsonObject &jsi ) : jmapgen_piece() {
+        jmapgen_translate( JsonObject &jsi ) {
             if( jsi.has_string( "from" ) && jsi.has_string( "to" ) ) {
                 const std::string from_id = jsi.get_string( "from" );
                 const std::string to_id = jsi.get_string( "to" );
@@ -1640,7 +1610,7 @@ class jmapgen_zone : public jmapgen_piece
         zone_type_id zone_type;
         faction_id faction;
         std::string name = "";
-        jmapgen_zone( JsonObject &jsi ) : jmapgen_piece() {
+        jmapgen_zone( JsonObject &jsi ) {
             if( jsi.has_string( "faction" ) && jsi.has_string( "type" ) ) {
                 std::string fac_id = jsi.get_string( "faction" );
                 faction = faction_id( fac_id );
@@ -1739,7 +1709,7 @@ class jmapgen_nested : public jmapgen_piece
         weighted_int_list<std::string> entries;
         weighted_int_list<std::string> else_entries;
         neighborhood_check neighbors;
-        jmapgen_nested( JsonObject &jsi ) : jmapgen_piece(), neighbors( jsi.get_object( "neighbors" ) ) {
+        jmapgen_nested( JsonObject &jsi ) : neighbors( jsi.get_object( "neighbors" ) ) {
             load_weighted_entries( jsi, "chunks", entries );
             load_weighted_entries( jsi, "else_chunks", else_entries );
         }
@@ -2724,8 +2694,6 @@ void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const o
             draw_spiral( terrain_type, dat, when, density );
         } else if( is_ot_match( "temple", terrain_type, ot_match_type::prefix ) ) {
             draw_temple( terrain_type, dat, when, density );
-        } else if( is_ot_match( "toxic", terrain_type, ot_match_type::prefix ) ) {
-            draw_toxic_dump( terrain_type, dat, when, density );
         } else if( is_ot_match( "fema", terrain_type, ot_match_type::prefix ) ) {
             draw_fema( terrain_type, dat, when, density );
         } else if( is_ot_match( "mine", terrain_type, ot_match_type::prefix ) ) {
@@ -3981,7 +3949,7 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                         spawn_item( marker_x, marker_y,
                                     "mininuke", 1, 1, 0, rng( 2, 4 ) );
                     } else {
-                        item newliquid( "plut_slurry_dense", calendar::time_of_cataclysm );
+                        item newliquid( "plut_slurry_dense", calendar::start_of_cataclysm );
                         newliquid.charges = 1;
                         add_item_or_charges( tripoint( marker_x, marker_y, get_abs_sub().z ),
                                              newliquid );
@@ -4173,6 +4141,8 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                             spawn_item( SEEX, SEEY - 1, "battery", dice( 4, 3 ) );
                             spawn_item( SEEX - 1, SEEY, "v29" );
                             spawn_item( SEEX - 1, SEEY, "laser_rifle", dice( 1, 0 ) );
+                            spawn_item( SEEX, SEEY, "plasma_gun" );
+                            spawn_item( SEEX, SEEY, "plasma" );
                             spawn_item( SEEX - 1, SEEY, "recipe_atomic_battery" );
                             spawn_item( SEEX, SEEY  - 1, "solar_panel_v3" );
                         } else if( loot_variant > 67 && loot_variant < 89 ) {
@@ -5446,38 +5416,6 @@ void map::draw_spiral( const oter_id &terrain_type, mapgendata &/*dat*/, const t
             ter_set( orx + 2, ory + 3, t_rock_floor );
             place_items( "spiral", 60, orx + 2, ory + 3, orx + 2, ory + 3, false, 0 );
         }
-    }
-}
-
-void map::draw_toxic_dump( const oter_id &terrain_type, mapgendata &/*dat*/,
-                           const time_point &/*when*/, const float /*density*/ )
-{
-    if( is_ot_match( "toxic_dump", terrain_type, ot_match_type::type ) ) {
-        fill_background( this, t_dirt );
-        for( int n = 0; n < 6; n++ ) {
-            int poolx = rng( 4, SEEX * 2 - 5 ), pooly = rng( 4, SEEY * 2 - 5 );
-            for( int i = poolx - 3; i <= poolx + 3; i++ ) {
-                for( int j = pooly - 3; j <= pooly + 3; j++ ) {
-                    if( rng( 2, 5 ) > rl_dist( poolx, pooly, i, j ) ) {
-                        ter_set( i, j, t_sewage );
-                        adjust_radiation( i, j, rng( 20, 60 ) );
-                    }
-                }
-            }
-        }
-        int buildx = rng( 6, SEEX * 2 - 7 ), buildy = rng( 6, SEEY * 2 - 7 );
-        square( this, t_floor, buildx - 3, buildy - 3, buildx + 3, buildy + 3 );
-        line( this, t_wall, buildx - 4, buildy - 4, buildx + 4, buildy - 4 );
-        line( this, t_wall, buildx - 4, buildy + 4, buildx + 4, buildy + 4 );
-        line( this, t_wall, buildx - 4, buildy - 4, buildx - 4, buildy + 4 );
-        line( this, t_wall, buildx + 4, buildy - 4, buildx + 4, buildy + 4 );
-        line_furn( this, f_counter, buildx - 3, buildy - 3, buildx + 3, buildy - 3 );
-        place_items( "toxic_dump_equipment", 80,
-                     buildx - 3, buildy - 3, buildx + 3, buildy - 3, false, 0 );
-        spawn_item( buildx, buildy, "id_military" );
-        ter_set( buildx, buildy + 4, t_door_locked );
-
-        rotate( rng( 0, 3 ) );
     }
 }
 
@@ -7092,15 +7030,11 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const int d
         return nullptr;
     }
 
-    const int smx = p.x / SEEX;
-    const int smy = p.y / SEEY;
     // debugmsg("n=%d x=%d y=%d MAPSIZE=%d ^2=%d", nonant, x, y, MAPSIZE, MAPSIZE*MAPSIZE);
     auto veh = std::make_unique<vehicle>( type, veh_fuel, veh_status );
-    veh->posx = p.x % SEEX;
-    veh->posy = p.y % SEEY;
-    veh->smx = smx;
-    veh->smy = smy;
-    veh->smz = p.z;
+    tripoint p_ms = p;
+    veh->sm_pos = ms_to_sm_remain( p_ms );
+    veh->pos = p_ms.xy();
     veh->place_spawn_items();
     veh->face.init( dir );
     veh->turn_dir = dir;
@@ -7113,11 +7047,11 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const int d
     vehicle *placed_vehicle = placed_vehicle_up.get();
 
     if( placed_vehicle != nullptr ) {
-        submap *place_on_submap = get_submap_at_grid( { placed_vehicle->smx, placed_vehicle->smy, placed_vehicle->smz} );
+        submap *place_on_submap = get_submap_at_grid( placed_vehicle->sm_pos );
         place_on_submap->vehicles.push_back( std::move( placed_vehicle_up ) );
         place_on_submap->is_uniform = false;
 
-        auto &ch = get_cache( placed_vehicle->smz );
+        auto &ch = get_cache( placed_vehicle->sm_pos.z );
         ch.vehicle_list.insert( placed_vehicle );
         add_vehicle_to_cache( placed_vehicle );
 
@@ -7185,11 +7119,8 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
              * p and then install them that way.
              * Create a vehicle with type "null" so it starts out empty. */
             auto wreckage = std::make_unique<vehicle>();
-            wreckage->posx = other_veh->posx;
-            wreckage->posy = other_veh->posy;
-            wreckage->smx = other_veh->smx;
-            wreckage->smy = other_veh->smy;
-            wreckage->smz = other_veh->smz;
+            wreckage->pos = other_veh->pos;
+            wreckage->sm_pos = other_veh->sm_pos;
 
             //Where are we on the global scale?
             const tripoint global_pos = wreckage->global_pos3();
@@ -7328,13 +7259,13 @@ void map::rotate( int turns )
     // Then rotate them and recalculate vehicle positions.
     for( int j = 0; j < 2; ++j ) {
         for( int i = 0; i < 2; ++i ) {
-            auto sm = get_submap_at_grid( { i, j } );
+            point p( i, j );
+            auto sm = get_submap_at_grid( p );
 
             sm->rotate( turns );
 
             for( auto &veh : sm->vehicles ) {
-                veh->smx = abs_sub.x + i;
-                veh->smy = abs_sub.y + j;
+                veh->sm_pos = abs_sub + p;
             }
         }
     }

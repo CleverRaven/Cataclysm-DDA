@@ -1,5 +1,22 @@
 [
   {
+    "id": "clothing_biker",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Protective clothing for motorbike riding.",
+    "items": [
+      { "item": "helmet_motor" },
+      { "item": "motorbike_boots", "prob": 80 },
+      {
+        "distribution": [
+          { "collection": [ { "item": "motorbike_armor" }, { "item": "motorbike_pants", "prob": 80 } ], "prob": 40 },
+          { "item": "touring_suit", "prob": 60 }
+        ],
+        "prob": 80
+      }
+    ]
+  },
+  {
     "id": "clothing_glasses",
     "type": "item_group",
     "items": [
@@ -476,7 +493,7 @@
     "items": [
       [ "gold_watch", 50 ],
       [ "sf_watch", 50 ],
-      [ "brooch", 80 ],
+      [ "jade_brooch", 80 ],
       [ "pearl_collar", 50 ],
       [ "silver_bracelet", 30 ],
       [ "gold_bracelet", 20 ]
@@ -512,5 +529,10 @@
     "id": "wedding_suits",
     "type": "item_group",
     "items": [ [ "tux", 100 ], [ "suit", 80 ], [ "waistcoat", 50 ], [ "dress_shirt", 100 ], [ "undershirt", 50 ] ]
+  },
+  {
+    "id": "neckties",
+    "type": "item_group",
+    "items": [ [ "tie_skinny", 40 ], [ "tie_necktie", 40 ], [ "tie_bow", 40 ], [ "tie_clipon", 40 ] ]
   }
 ]

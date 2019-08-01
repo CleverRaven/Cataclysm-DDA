@@ -210,46 +210,113 @@
   },
   {
     "type": "technique",
-    "id": "tec_boxing_cross",
-    "name": "Cross",
+    "id": "tec_aikido_blockdisarm",
+    "name": "Block Counter Disarm",
+    "messages": [ "You block and smoothly disarm %s", "<npcname> blocks and smoothly disarms %s" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "block_counter": true,
+    "crit_ok": true,
+    "disarms": true,
+    "down_dur": 1,
+    "knockback_dist": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_aikido_blockthrow",
+    "name": "Block Counter Throw",
+    "messages": [ "You block and smoothly throw %s", "<npcname> blocks and smoothly throws %s" ],
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "block_counter": true,
+    "crit_ok": true,
+    "down_dur": 1,
+    "knockback_dist": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_aikido_dodgethrow",
+    "name": "Dodge Counter Throw",
+    "messages": [ "You dodge and smoothly throw %s", "<npcname> dodges and smoothly throws %s" ],
     "min_unarmed": 2,
     "unarmed_allowed": true,
+    "dodge_counter": true,
+    "crit_ok": true,
+    "down_dur": 1,
+    "knockback_dist": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_aikido_dodgedisarm",
+    "name": "Dodge Counter Disarm",
+    "messages": [ "You dodge and smoothly disarm %s", "<npcname> dodges and smoothly disarms %s" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "dodge_counter": true,
+    "crit_ok": true,
+    "disarms": true,
+    "down_dur": 1,
+    "knockback_dist": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_aikido_break",
+    "name": "Grab Break",
+    "messages": [
+      "The %s tries to grab you, but you smoothly break free!",
+      "The %s tries to grab <npcname>, but they smoothly break free!"
+    ],
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "grab_break": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_boxing_cross",
+    "name": "Cross",
     "messages": [ "You throw a heavy cross at %s", "<npcname> throws a cross at %s" ],
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
     "mult_bonuses": [ [ "damage", "bash", 1.2 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_boxing_counter",
+    "name": "Cross Counter",
+    "messages": [ "You cross-counter %s", "<npcname> throws a perfect counter at %s" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "dodge_counter": true,
+    "knockback_dist": 1,
+    "knockback_spread": 1,
+    "stun_dur": 1,
+    "down_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 1.25 ] ]
   },
   {
     "type": "technique",
     "id": "tec_boxing_rapid",
     "name": "Jab",
-    "min_unarmed": 3,
-    "unarmed_allowed": true,
     "messages": [ "You quickly jab %s", "<npcname> quickly jabs at %s" ],
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
     "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ]
   },
   {
     "type": "technique",
     "id": "tec_boxing_upper",
     "name": "Uppercut",
+    "messages": [ "You uppercut %s", "<npcname> uppercuts %s" ],
     "min_unarmed": 4,
     "unarmed_allowed": true,
     "crit_tec": true,
-    "messages": [ "You uppercut %s", "<npcname> uppercuts %s" ],
-    "mult_bonuses": [ [ "damage", "bash", 1.4 ] ],
-    "stun_dur": 2
-  },
-  {
-    "type": "technique",
-    "id": "tec_boxing_counter",
-    "name": "Cross Counter",
-    "min_unarmed": 5,
-    "unarmed_allowed": true,
-    "crit_tec": true,
-    "knockback_dist": 1,
-    "knockback_spread": 1,
-    "req_buffs": [ "boxing_counter" ],
-    "messages": [ "You cross-counter %s", "<npcname> throws a perfect counter at %s" ],
-    "mult_bonuses": [ [ "movecost", 0.0 ] ],
-    "stun_dur": 2
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 1.4 ] ]
   },
   {
     "type": "technique",
@@ -269,50 +336,6 @@
     "crit_tec": true,
     "messages": [ "You karate chop %s", "<npcname> karate chops %s" ],
     "stun_dur": 2
-  },
-  {
-    "type": "technique",
-    "id": "tec_aikido_throw",
-    "name": "throw",
-    "min_unarmed": 2,
-    "unarmed_allowed": true,
-    "down_dur": 1,
-    "knockback_dist": 1,
-    "knockback_spread": 1,
-    "messages": [ "You throw %s", "<npcname> throws %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_aikido_dodgethrow",
-    "name": "dodge throw",
-    "min_unarmed": 6,
-    "unarmed_allowed": true,
-    "dodge_counter": true,
-    "crit_ok": true,
-    "down_dur": 1,
-    "knockback_dist": 1,
-    "knockback_spread": 1,
-    "mult_bonuses": [ [ "movecost", 0.0 ] ],
-    "messages": [ "You smoothly throw %s", "<npcname> smoothly throws %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_aikido_feint",
-    "name": "feint at",
-    "min_unarmed": 2,
-    "unarmed_allowed": true,
-    "defensive": true,
-    "miss_recovery": true,
-    "messages": [ "You feint at %s", "<npcname> feints at %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_aikido_disarm",
-    "name": "disarm",
-    "min_unarmed": 3,
-    "unarmed_allowed": true,
-    "disarms": true,
-    "messages": [ "You disarm %s", "<npcname> disarms %s" ]
   },
   {
     "type": "technique",
@@ -561,62 +584,6 @@
     "unarmed_allowed": true,
     "messages": [ "You sweep-kick %s", "<npcname> sweep-kicks %s" ],
     "down_dur": 2
-  },
-  {
-    "type": "technique",
-    "id": "tec_biojutsu_counter",
-    "name": "biojutsu counter",
-    "min_melee": 4,
-    "unarmed_allowed": true,
-    "block_counter": true,
-    "crit_ok": true,
-    "mult_bonuses": [ [ "movecost", 0.0 ] ],
-    "messages": [ "You block and counter-attack %s", "<npcname> blocks and counter-attacks %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_biojutsu_rapid_unarmed",
-    "name": "quick punch",
-    "min_melee": 0,
-    "unarmed_allowed": true,
-    "messages": [ "You quickly punch %s", "<npcname> quickly punches %s" ],
-    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_biojutsu_rapid_armed",
-    "name": "quick slash",
-    "min_melee": 0,
-    "messages": [ "You quickly slash %s", "<npcname> quickly slashes %s" ],
-    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_biojutsu_impale",
-    "name": "biojutsu impale",
-    "min_melee": 3,
-    "crit_tec": true,
-    "mult_bonuses": [ [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ] ],
-    "messages": [ "You brutally impale %s", "<npcname> brutally impales %s" ],
-    "stun_dur": 1
-  },
-  {
-    "type": "technique",
-    "id": "tec_biojutsu_sweep",
-    "name": "sweep kick",
-    "min_melee": 3,
-    "unarmed_allowed": true,
-    "messages": [ "You sweep-kick %s", "<npcname> sweep-kicks %s" ],
-    "down_dur": 2
-  },
-  {
-    "type": "technique",
-    "id": "tec_biojutsu_wide",
-    "min_melee": 5,
-    "crit_tec": true,
-    "name": "wide strike",
-    "messages": [ "You cleave through %s", "<npcname> cleave through %s" ],
-    "aoe": "wide"
   },
   {
     "type": "technique",
@@ -1031,7 +998,6 @@
     "messages": [ "You strike at %s's weaknesses", "<npcname> strikes %s's weaknesses" ],
     "//": "Damage bonus plus Quick is severely powerful--generi-Quick takes a damage nerf.",
     "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ] ],
-    "//": "Minimum effective time for a status in combat is two turns, as you have one deducted on the same turn its applied.",
     "stun_dur": 2
   },
   {
@@ -1127,7 +1093,7 @@
   {
     "type": "technique",
     "id": "tec_wingchun_feint",
-    "name": "keep punching at",
+    "name": "ask the way",
     "min_unarmed": 2,
     "unarmed_allowed": true,
     "strictly_unarmed": true,
@@ -1138,7 +1104,7 @@
   {
     "type": "technique",
     "id": "tec_wingchun_stumble",
-    "name": "stumble",
+    "name": "White Crane stumble",
     "min_unarmed": 4,
     "unarmed_allowed": true,
     "crit_tec": true,
