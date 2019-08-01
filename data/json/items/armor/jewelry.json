@@ -189,7 +189,9 @@
     "weight": 30,
     "volume": 0,
     "price": 3000,
-    "material": [ "copper" ]
+    "material": [ "copper" ],
+    "symbol": "[",
+    "color": "brown"
   },
   {
     "id": "copper_ring",
