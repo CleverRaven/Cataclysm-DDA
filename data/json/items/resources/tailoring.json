@@ -182,7 +182,7 @@
     "name": "Kevlar thread",
     "symbol": "=",
     "color": "light_gray",
-    "description": "A small quantity of very durable Kevlar thread that would be particularly useful for making modern body armor, though it's fine to use in place of normal thread too, in most cases.",
+    "description": "A small quantity of very durable Kevlar thread that would be particularly useful for making modern body armor, though it's fine to use in place of normal thread too, in most cases.  Making armor-grade Kevlar sheets from this would need a particularly tight weave, and so would need some advanced machinery.",
     "material": "kevlar",
     "flags": [ "NO_SALVAGE" ],
     "volume": "200 ml",

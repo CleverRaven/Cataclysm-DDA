@@ -76,20 +76,6 @@
     "components": [ [ [ "thread", 5 ] ] ]
   },
   {
-    "result": "sheet_kevlar",
-    "type": "recipe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "tailor",
-    "difficulty": 2,
-    "time": "10 m",
-    "charges": 1,
-    "autolearn": true,
-    "tools": [ [ [ "loom_frame", -1 ] ], [ [ "shed_stick", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "thread_kevlar", 5 ] ] ]
-  },
-  {
     "result": "sheet_nomex",
     "type": "recipe",
     "category": "CC_OTHER",
