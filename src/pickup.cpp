@@ -230,7 +230,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
                     option = STASH;
                 }
             } else {
-                popup( _( "You need a tool with 1 hammering to chip frozen liquids!" ) );
+                popup( _( "You need a hammering tool to chip frozen liquids!" ) );
                 got_water = true;
             }
         } else {
