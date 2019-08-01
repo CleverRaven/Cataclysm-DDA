@@ -11417,7 +11417,7 @@ void game::start_calendar()
         }
 
         calendar::turn = calendar::start_of_cataclysm
-                         + 1_days * get_option<int>( "INITIAL_TIME" )
+                         + 1_hours * get_option<int>( "INITIAL_TIME" )
                          + 1_days * get_option<int>( "SPAWN_DELAY" );
     }
 
