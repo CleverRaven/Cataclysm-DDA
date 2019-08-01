@@ -1,0 +1,92 @@
+[
+  {
+    "id": "bioshop_house",
+    "type": "overmap_terrain",
+    "name": "House",
+    "sym": "+",
+    "color": "pink",
+    "see_cost": 3,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "id": "bioshop_basement",
+    "type": "overmap_terrain",
+    "name": "Underground Bionics Clinic",
+    "sym": "w",
+    "color": "pink",
+    "see_cost": 3,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "id": "warehouse_squat_1",
+    "type": "overmap_terrain",
+    "name": "Old Warehouse",
+    "sym": "w",
+    "color": "pink",
+    "see_cost": 3,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "id": "warehouse_squat_road",
+    "type": "overmap_terrain",
+    "name": "Old Warehouse",
+    "sym": "w",
+    "color": "pink",
+    "see_cost": 3,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "id": "warehouse_squat_z1",
+    "type": "overmap_terrain",
+    "name": "Old Warehouse First Floor",
+    "sym": "w",
+    "color": "pink",
+    "see_cost": 3,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "id": "warehouse_squat_nw",
+    "type": "overmap_terrain",
+    "name": "Old Warehouse First Floor",
+    "sym": "w",
+    "color": "brown",
+    "see_cost": 3,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "id": "warehouse_squat_ne",
+    "type": "overmap_terrain",
+    "name": "Old Warehouse First Floor",
+    "sym": "w",
+    "color": "brown",
+    "see_cost": 3,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "warehouse_squat_roof",
+    "name": "Old Warehouse Roof",
+    "sym": "+",
+    "color": "pink",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "warehouse_squat_2",
+    "name": "Warehouse Field",
+    "sym": "+",
+    "color": "pink",
+    "see_cost": 3,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "warehouse_squat_3",
+    "name": "Warehouse Field",
+    "sym": "+",
+    "color": "pink",
+    "see_cost": 3,
+    "flags": [ "NO_ROTATE" ]
+  }
+]
