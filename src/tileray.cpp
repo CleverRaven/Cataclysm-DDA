@@ -3,13 +3,13 @@
 #include <cmath>
 #include <cstdlib>
 
+#include "line.h"
 #include "math_defines.h"
 
 static const int sx[4] = { 1, -1, -1, 1 };
 static const int sy[4] = { 1, 1, -1, -1 };
 
-tileray::tileray(): deltax( 0 ), deltay( 0 ),  leftover( 0 ), direction( 0 ),
-    last_dx( 0 ), last_dy( 0 ), steps( 0 ), infinite( false )
+tileray::tileray(): leftover( 0 ), direction( 0 ), steps( 0 ), infinite( false )
 {
 }
 
@@ -25,21 +25,18 @@ tileray::tileray( int adir ): direction( adir )
 
 void tileray::init( int adx, int ady )
 {
-    deltax = adx;
-    deltay = ady;
-    ax = abs( deltax );
-    ay = abs( deltay );
-    if( !adx && !ady ) {
+    delta.x = adx;
+    delta.y = ady;
+    abs_d = abs( delta );
+    if( delta == point_zero ) {
         direction = 0;
     } else {
-        direction = static_cast<int>( atan2( static_cast<double>( deltay ),
-                                             static_cast<double>( deltax ) ) * 180.0 / M_PI );
+        direction = static_cast<int>( atan2_degrees( delta ) );
         if( direction < 0 ) {
             direction += 360;
         }
     }
-    last_dx = 0;
-    last_dy = 0;
+    last_d = point_zero;
     steps = 0;
     infinite = false;
 }
@@ -49,12 +46,11 @@ void tileray::init( int adir )
     leftover = 0;
     // Clamp adir to the range [0, 359]
     direction = ( adir < 0 ? 360 - ( ( -adir ) % 360 ) : adir % 360 );
-    last_dx = 0;
-    last_dy = 0;
-    deltax = static_cast<int>( cos( static_cast<float>( direction ) * M_PI / 180.0 ) * 100 );
-    deltay = static_cast<int>( sin( static_cast<float>( direction ) * M_PI / 180.0 ) * 100 );
-    ax = abs( deltax );
-    ay = abs( deltay );
+    last_d = point_zero;
+    float direction_radians = static_cast<float>( direction ) * M_PI / 180.0;
+    rl_vec2d delta_f( cos( direction_radians ), sin( direction_radians ) );
+    delta = ( delta_f * 100 ).as_point();
+    abs_d = abs( delta );
     steps = 0;
     infinite = true;
 }
@@ -62,19 +58,18 @@ void tileray::init( int adir )
 void tileray::clear_advance()
 {
     leftover = 0;
-    last_dx = 0;
-    last_dy = 0;
+    last_d = point_zero;
     steps = 0;
 }
 
 int tileray::dx() const
 {
-    return last_dx;
+    return last_d.x;
 }
 
 int tileray::dy() const
 {
-    return last_dy;
+    return last_d.y;
 }
 
 int tileray::dir() const
@@ -178,12 +173,12 @@ int tileray::ortho_dy( int od ) const
 
 bool tileray::mostly_vertical() const
 {
-    return ax <= ay;
+    return abs_d.x <= abs_d.y;
 }
 
 void tileray::advance( int num )
 {
-    last_dx = last_dy = 0;
+    last_d = point_zero;
     if( num == 0 ) {
         return;
     }
@@ -194,34 +189,33 @@ void tileray::advance( int num )
         for( int i = 0; i < anum; i++ ) {
             if( vertical ) {
                 // mostly vertical line
-                leftover += ax;
-                if( leftover >= ay ) {
-                    last_dx++;
-                    leftover -= ay;
+                leftover += abs_d.x;
+                if( leftover >= abs_d.y ) {
+                    last_d.x++;
+                    leftover -= abs_d.y;
                 }
             } else {
                 // mostly horizontal line
-                leftover += ay;
-                if( leftover >= ax ) {
-                    last_dy++;
-                    leftover -= ax;
+                leftover += abs_d.y;
+                if( leftover >= abs_d.x ) {
+                    last_d.y++;
+                    leftover -= abs_d.x;
                 }
             }
         }
     }
     if( vertical ) {
-        last_dy = anum;
+        last_d.y = anum;
     } else {
-        last_dx = anum;
+        last_d.x = anum;
     }
 
     // offset calculated for 0-90 deg quadrant, we need to adjust if direction is other
     int quadr = ( direction / 90 ) % 4;
-    last_dx *= sx[quadr];
-    last_dy *= sy[quadr];
+    last_d.x *= sx[quadr];
+    last_d.y *= sy[quadr];
     if( num < 0 ) {
-        last_dx = -last_dx;
-        last_dy = -last_dy;
+        last_d = -last_d;
     }
 }
 
@@ -230,5 +224,5 @@ bool tileray::end()
     if( infinite ) {
         return true;
     }
-    return mostly_vertical() ? steps >= ay - 1 : steps >= ax - 1;
+    return mostly_vertical() ? steps >= abs_d.y - 1 : steps >= abs_d.x - 1;
 }

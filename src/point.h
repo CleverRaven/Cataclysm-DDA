@@ -39,6 +39,11 @@ struct point {
     constexpr point operator*( const int rhs ) const {
         return point( x * rhs, y * rhs );
     }
+    point &operator*=( const int rhs ) {
+        x *= rhs;
+        y *= rhs;
+        return *this;
+    }
     constexpr point operator/( const int rhs ) const {
         return point( x / rhs, y / rhs );
     }
@@ -99,6 +104,11 @@ inline constexpr bool operator==( const point &a, const point &b )
 inline constexpr bool operator!=( const point &a, const point &b )
 {
     return !( a == b );
+}
+
+inline point abs( const point &p )
+{
+    return point( abs( p.x ), abs( p.y ) );
 }
 
 struct tripoint {
