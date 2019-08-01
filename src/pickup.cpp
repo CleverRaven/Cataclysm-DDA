@@ -216,7 +216,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         option = NUM_ANSWERS; //Skip the options part
     } else if( newit.made_of_from_type( LIQUID ) ) {
         if( newit.has_flag( "FROZEN" ) ) {
-            if( u.has_quality( quality_id( "HAMMER" ), 1, 1 ) ) {
+            if( u.has_quality( quality_id( "HAMMER" ) ) ) {
                 int units = newit.charges;
                 std::string action = query_popup()
                                      .context( "YESNO" )
