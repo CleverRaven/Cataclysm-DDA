@@ -34,6 +34,7 @@
 #include "martialarts.h"
 #include "messages.h"
 #include "mondefense.h"
+#include "monfaction.h"
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
@@ -4261,6 +4262,14 @@ bool mattack::longswipe( monster *z )
     return true;
 }
 
+static void parrot_common( monster *parrot )
+{
+    parrot->moves -= 100;  // It takes a while
+    const SpeechBubble &speech = get_speech( parrot->type->id.str() );
+    sounds::sound( parrot->pos(), speech.volume, sounds::sound_t::speech, speech.text, false, "speech",
+                   parrot->type->id.str() );
+}
+
 bool mattack::parrot( monster *z )
 {
     if( z->has_effect( effect_shrieking ) ) {
@@ -4269,11 +4278,22 @@ bool mattack::parrot( monster *z )
         z->moves -= 40;
         return false;
     } else if( one_in( 20 ) ) {
-        z->moves -= 100;  // It takes a while
-        const SpeechBubble &speech = get_speech( z->type->id.str() );
-        sounds::sound( z->pos(), speech.volume, sounds::sound_t::speech, speech.text, false, "speech",
-                       z->type->id.str() );
+        parrot_common( z );
         return true;
+    }
+
+    return false;
+}
+
+bool mattack::parrot_at_danger( monster *parrot )
+{
+    for( monster &monster : g->all_monsters() ) {
+        if( one_in( 20 ) && monster.anger > 0 &&
+            monster.faction->attitude( parrot->faction ) == mf_attitude::MFA_BY_MOOD &&
+            parrot->sees( monster ) ) {
+            parrot_common( parrot );
+            return true;
+        }
     }
 
     return false;
