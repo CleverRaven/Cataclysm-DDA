@@ -7811,7 +7811,7 @@
     "flags": [ "VARSIZE" ]
   },
   {
-    "id": "skinny_tie",
+    "id": "tie_skinny",
     "type": "ARMOR",
     "name": "skinny tie",
     "description": "A skinny black and white checkered necktie.",
