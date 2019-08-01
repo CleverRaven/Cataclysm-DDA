@@ -182,7 +182,7 @@ editmap::editmap()
     sel_frn = undefined_furn_id;
     target_frn = undefined_furn_id;
     ter_frn_mode = 0;
-    cur_field = 0;
+    cur_field = nullptr;
     cur_trap = tr_null;
     sel_field = -1;
     sel_field_intensity = -1;

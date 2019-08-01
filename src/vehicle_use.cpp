@@ -1669,7 +1669,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case USE_TOWEL: {
-            iuse::towel_common( &g->u, NULL, false );
+            iuse::towel_common( &g->u, nullptr, false );
             return;
         }
         case USE_WASHMACHINE: {

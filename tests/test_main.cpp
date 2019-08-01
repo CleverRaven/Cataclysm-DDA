@@ -132,12 +132,12 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     g->new_game = true;
     g->load_static_data();
 
-    world_generator->set_active_world( NULL );
+    world_generator->set_active_world( nullptr );
     world_generator->init();
     WORLDPTR test_world = world_generator->make_new_world( mods );
-    assert( test_world != NULL );
+    assert( test_world != nullptr );
     world_generator->set_active_world( test_world );
-    assert( world_generator->active_world != NULL );
+    assert( world_generator->active_world != nullptr );
 
     loading_ui ui( false );
     g->load_core_data( ui );
