@@ -2425,7 +2425,7 @@
       "both": {
         "items": [
           "suit",
-          "skinny_tie",
+          "tie_skinny",
           "tieclip",
           "socks",
           "dress_shoes",
@@ -3842,7 +3842,7 @@
         "smart_phone",
         "gold_watch",
         "briefcase",
-        "skinny_tie",
+        "tie_skinny",
         "file",
         "ref_lighter",
         "cigar"
