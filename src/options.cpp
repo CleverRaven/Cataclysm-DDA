@@ -1728,7 +1728,7 @@ void options_manager::add_options_graphics()
     add( "FULLSCREEN", "graphics", translate_marker( "Fullscreen" ),
          translate_marker( "Starts Cataclysm in one of the fullscreen modes.  Requires restart." ),
     { { "no", translate_marker( "No" ) }, { "fullscreen", translate_marker( "Fullscreen" ) }, { "windowedbl", translate_marker( "Windowed borderless" ) } },
-    "no", COPT_CURSES_HIDE
+    "windowedbl", COPT_CURSES_HIDE
        );
 #endif
 
