@@ -903,8 +903,9 @@
       [ "gold_ear", 10 ],
       [ "bone_tainted", 5 ],
       [ "silver_ear", 5 ],
+      [ "platinum_ear", 1 ],
       { "group": "corpse_mansion", "prob": 5 },
-      [ "skinny_tie", 1 ]
+      { "group": "neckties", "prob": 1 }
     ]
   },
   {
@@ -1300,7 +1301,7 @@
       [ "jacket_army", 10 ],
       [ "army_top", 20 ],
       [ "porkpie", 5 ],
-      [ "skinny_tie", 5 ],
+      { "group": "neckties", "prob": 5 },
       [ "jersey", 60 ],
       [ "maid_hat", 3 ],
       [ "halter_top", 50 ],
@@ -1333,7 +1334,7 @@
       [ "long_glove_white", 5 ],
       [ "veil_wedding", 1 ],
       [ "dress_wedding", 1 ],
-      [ "skinny_tie", 5 ],
+      { "group": "neckties", "prob": 5 },
       [ "tieclip", 2 ],
       [ "collarpin", 2 ],
       [ "kilt", 5 ],

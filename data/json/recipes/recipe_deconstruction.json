@@ -1368,7 +1368,7 @@
     "components": [ [ [ "pilot_light", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
-    "result": "locket",
+    "result": "silver_locket",
     "type": "uncraft",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -1502,7 +1502,7 @@
     ]
   },
   {
-    "result": "necklace",
+    "result": "silver_necklace",
     "type": "uncraft",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -1685,7 +1685,7 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "ring",
+    "result": "gold_ring",
     "type": "uncraft",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],

@@ -588,6 +588,31 @@
     "replace": "10mm_fmj"
   },
   {
+    "id": "locket",
+    "type": "MIGRATION",
+    "replace": "silver_locket"
+  },
+  {
+    "id": "ring",
+    "type": "MIGRATION",
+    "replace": "gold_ring"
+  },
+  {
+    "id": "necklace",
+    "type": "MIGRATION",
+    "replace": "silver_necklace"
+  },
+  {
+    "id": "brooch",
+    "type": "MIGRATION",
+    "replace": "jade_brooch"
+  },
+  {
+    "id": "skinny_tie",
+    "type": "MIGRATION",
+    "replace": "tie_skinny"
+  },
+  {
     "id": "270",
     "type": "MIGRATION",
     "replace": "270win_jsp"

@@ -147,11 +147,11 @@
       },
       {
         "collection": [
-          { "item": "ring", "prob": 15 },
+          { "item": "gold_ring", "prob": 15 },
           { "item": "diamond_ring", "prob": 15 },
           { "item": "gold_ear", "prob": 15 },
           { "item": "silver_ear", "prob": 15 },
-          { "item": "necklace", "prob": 15 }
+          { "item": "silver_necklace", "prob": 15 }
         ],
         "prob": 10
       }
