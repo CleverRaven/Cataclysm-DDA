@@ -533,6 +533,6 @@
   {
     "id": "neckties",
     "type": "item_group",
-    "items": [ [ "skinny_tie", 40 ], [ "tie_necktie", 40 ], [ "tie_bow", 40 ], [ "tie_clipon", 40 ] ]
+    "items": [ [ "tie_skinny", 40 ], [ "tie_necktie", 40 ], [ "tie_bow", 40 ], [ "tie_clipon", 40 ] ]
   }
 ]
