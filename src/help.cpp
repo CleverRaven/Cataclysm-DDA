@@ -99,8 +99,8 @@ void help::draw_menu( const catacurses::window &win )
 Please press one of the following for help on that topic:\n\
 Press ESC to return to the game." ) ) + 1;
 
-    size_t half_size = help_texts.size() / 2;
-    int second_column = getmaxx( win ) / 2;
+    size_t half_size = help_texts.size() / 2 + 1;
+    int second_column = getmaxx( win ) / 2 + 1;
     for( size_t i = 0; i < help_texts.size(); i++ ) {
         std::string cat_name = _( help_texts[i].first );
         if( i < half_size ) {
