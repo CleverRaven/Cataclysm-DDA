@@ -27,7 +27,7 @@
     "type": "martial_art",
     "id": "style_crt_cqb",
     "name": "C.R.I.T CQB",
-    "description": "A defensive style centered around rapid paralyzing strikes and piercing jabs.  Each attack landed increases your speed by 0.5 along with a slew of combat bonuses. 25 percent bash damage.",
+    "description": "A defensive style centered around rapid strikes and piercing jabs.  Each attack landed increases your speed by 0.5 along with a slew of combat bonuses. 25 percent bash damage.",
     "initiate": [ "Initiate CQB.", "%s initiates CQB." ],
     "arm_block": 3,
     "leg_block": 6,
@@ -54,12 +54,12 @@
       {
         "id": "crt_cqb_hit_buff",
         "name": "C.R.I.T Tenacity",
-        "description": "+0.5 Atk Speed and other small bonuses based on DEX per stack. Max of 25 stacks",
+        "description": "+0.5 Atk Speed and other small bonuses based on DEX per stack. Max of 5 stacks",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "min_unarmed": 1,
-        "buff_duration": 100,
-        "max_stacks": 25,
+        "buff_duration": 2,
+        "max_stacks": 5,
         "flat_bonuses": [
           [ "hit", "dex", 0.01 ],
           [ "damage", "bash", "dex", 0.01 ],
@@ -108,8 +108,7 @@
     "melee_allowed": true,  
     "mult_bonuses": [ [ "movecost", 0.85 ], [ "damage", "bash", 0.8 ], [ "damage", "cut", 1.0 ], [ "damage", "stab", 1.1 ] ],
     "flat_bonuses": [ [ "damage", "stab", "dex", 0.2 ], [ "damage", "cut", "dex", 0.1 ], [ "movecost", "dex", -0.15 ] ],
-    "messages": [ "You quickly batter %s", "<npcname> batters %s" ],
-    "stun_dur": 0.1
+    "messages": [ "You quickly batter %s", "<npcname> batters %s" ]
   },
   {
     "type": "technique",
@@ -120,8 +119,7 @@
     "melee_allowed": true,  
     "mult_bonuses": [ [ "movecost", 0.7 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.7 ], [ "damage", "stab", 0.8 ] ],
     "flat_bonuses": [ [ "damage", "stab", "dex", 0.015 ], [ "damage", "cut", "dex", 0.0125 ], [ "movecost", "dex", -0.35 ] ],
-    "messages": [ "You swiftly impale your fingers into %s joints", "<npcname> swiftly impales their fingers into %s" ],
-    "stun_dur": 0.05
+    "messages": [ "You swiftly impale your fingers into %s joints", "<npcname> swiftly impales their fingers into %s" ]
   },
   {
     "type": "technique",
