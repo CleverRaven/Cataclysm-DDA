@@ -9,11 +9,11 @@
     "skills": [
       { "level": 2, "name": "gun" },
       { "level": 2, "name": "rifle" },
-      { "level": 3, "name": "stabbing" },
-      { "level": 3, "name": "melee" },
-      { "level": 2, "name": "survival" },
-      { "level": 2, "name": "firstaid" },
-      { "level": 2, "name": "swimming" }
+      { "level": 1, "name": "stabbing" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "survival" },
+      { "level": 1, "name": "firstaid" },
+      { "level": 1, "name": "swimming" }
     ],
     "items": {
       "both": {
@@ -75,8 +75,8 @@
     "skills": [
       { "level": 2, "name": "gun" },
       { "level": 2, "name": "rifle" },
-      { "level": 2, "name": "stabbing" },
-      { "level": 3, "name": "speech" },
+      { "level": 1, "name": "melee" },
+      { "level": 4, "name": "speech" },
       { "level": 1, "name": "survival" },
       { "level": 1, "name": "firstaid" },
       { "level": 1, "name": "barter" }
@@ -158,7 +158,7 @@
     "type": "profession",
     "ident": "crt_medic",
     "name": "C.R.I.T Combat Medic",
-    "description": "You were a combat medic taught how to engage an anomaly. However, your main focus was the burden that was keeping your squadmates in one piece. For weeks, you crossed through hell and back to ensure this true mission was fufilled. During a one-sided firefight between the undead and the rogue ai that has now run rampant through government robots, you were singled out and overtaken. Forced to flee without your comrades in tow, will you have what it takes to survive or will your unforgivable sin come back to haunt you?",
+    "description": "You were a combat medic taught on how to engage anomalies. However, your main focus was the burden that was keeping your squadmates in one piece. For weeks, you crossed through hell and back to ensure this true mission was fufilled. During a one-sided firefight between the undead and the rogue ai that has now run rampant through government robots, you were singled out and overtaken. Forced to flee without your comrades in tow, will you have what it takes to survive or will your unforgivable sin come back to haunt you?",
     "points": 8,
     "traits": [ "MARTIAL_CRT" ],
     "skills": [
@@ -365,17 +365,10 @@
       "bio_speed",
       "bio_str_enhancer",
       "bio_dex_enhancer",
-      "bio_int_enhancer",
-      "bio_membrane",
-      "bio_lockpick",
-      "bio_heat_absorb",
-      "bio_furnace",
       "bio_tattoo_led",
       "bio_eye_optic",
       "bio_targeting",
-      "bio_alarm",
       "bio_eye_enhancer",
-      "bio_solar",
       "bio_carbon",
       "bio_power_storage_mkII"
     ],
@@ -442,12 +435,11 @@
     "skills": [
       { "level": 3, "name": "gun" },
       { "level": 3, "name": "pistol" },
-      { "level": 4, "name": "stabbing" },
-      { "level": 4, "name": "bashing" },
-      { "level": 4, "name": "cutting" },
-      { "level": 4, "name": "dodge" },
-      { "level": 4, "name": "melee" },
-      { "level": 4, "name": "unarmed" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 1, "name": "cutting" },
+      { "level": 2, "name": "dodge" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "unarmed" },
       { "level": 2, "name": "survival" }
     ],
     "items": {
