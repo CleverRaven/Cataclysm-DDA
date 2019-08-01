@@ -376,7 +376,7 @@ bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
             std::cerr << "Error loading data: " << err.what() << std::endl;
         }
 
-        auto world_name = world_generator->active_world->world_name;
+        std::string world_name = world_generator->active_world->world_name;
         world_generator->delete_world( world_name, true );
 
         MAPBUFFER.reset();
