@@ -51,7 +51,7 @@
     "flags": [ "VARSIZE", "FANCY" ],
     "material": [ "wood", "plastic" ],
     "symbol": "[",
-    "color": "purple"
+    "color": "red"
   },
   {
     "id": "bronze_medal",
