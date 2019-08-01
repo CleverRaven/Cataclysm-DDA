@@ -1334,7 +1334,7 @@ void game::calc_driving_offset( vehicle *veh )
 
     const point offset_sign( ( offset_difference.x < 0 ) ? -1 : 1,
                              ( offset_difference.y < 0 ) ? -1 : 1 );
-    // Shift the current offset in the direction of the calculated offset by one tile
+    // ( the current offset in the direction of the calculated offset by one tile
     // per draw event, but snap to calculated offset if we're close enough to avoid jitter.
     offset.x = ( std::abs( offset_difference.x ) > 1 ) ?
                ( driving_view_offset.x + offset_sign.x ) : offset.x;
@@ -10498,7 +10498,13 @@ point game::update_map( int &x, int &y )
     load_npcs();
 
     // Make sure map cache is consistent since it may have shifted.
-    m.invalidate_map_cache( get_levz() );
+    if( m.hasm.has_zlevels() ) {
+        for( int zlev = -OVERMAP_DEPTH; zlev <= OVERMAP_HEIGHT; ++zlev ) {
+            m.invalidate_map_cache( zlev );
+        }
+    } else {
+        m.invalidate_map_cache( get_levz() );
+    }
     m.build_map_cache( get_levz() );
 
     // Spawn monsters if appropriate
