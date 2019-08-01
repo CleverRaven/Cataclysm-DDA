@@ -1430,6 +1430,9 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                     if( !liquid.charges ) {
                         act_ref.set_to_null();
                     } else {
+                        if( act_ref.str_values.empty() ) {
+                            act_ref.str_values.push_back( std::string() );
+                        }
                         act_ref.str_values.at( 0 ) = serialize( liquid );
                     }
                 } else {
