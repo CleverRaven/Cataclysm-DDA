@@ -195,7 +195,7 @@ bool Creature::sees( const Creature &critter ) const
     if( wanted_range <= 1 &&
         ( posz() == critter.posz() || g->m.valid_move( pos(), critter.pos(), false, true ) ) ) {
         return true;
-    } else if( ( wanted_range > 1 && critter.digging() ) ||
+    } else if( ( wanted_range > 1 && critter.digging() ) || ( critter.has_flag( MF_INVISIBLE ) ) ||
                ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && g->m.light_at( critter.pos() ) <= LL_LOW ) ||
                ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos() ) ) ||
                ( g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, critter.pos() ) &&

@@ -100,6 +100,8 @@ const mtype_id mon_triffid( "mon_triffid" );
 const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
 const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
 const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
+const mtype_id mon_shadow_hunter( "mon_shadow_hunter" );
+const mtype_id mon_shadow_hunter_h( "mon_shadow_hunter_h" );
 const mtype_id mon_zombie_skeltal_minion( "mon_zombie_skeltal_minion" );
 
 const skill_id skill_melee( "melee" );
@@ -142,6 +144,7 @@ const efftype_id effect_slimed( "slimed" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_targeted( "targeted" );
 const efftype_id effect_teleglow( "teleglow" );
+const efftype_id effect_took_damage( "took_damage" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
@@ -4326,7 +4329,54 @@ bool mattack::darkman( monster *z )
     return true;
 }
 
-bool mattack::slimespring( monster *z )
+bool mattack::shadow_hunter( monster *z )
+{
+    bool damaged = z->has_effect( effect_took_damage );
+    Creature *target = z->attack_target();
+    if( target == nullptr ) {
+        return false;
+    }
+    //Hide and teleport randomly after being attacked or just randomly
+    if  ( ( damaged && one_in( 3 ) ) || ( one_in( 15 ) ) ) {
+        int tries = 0;
+        int maxtries = 20;
+        int telerange = 30;
+        tripoint newpos = z->pos();
+        do {
+            newpos.x = rng( z->posx() - telerange, z->posx() + telerange );
+            newpos.y = rng( z->posy() - telerange, z->posy() + telerange );
+            tries++;
+        } while( ( tries > maxtries ) &&
+                 ( g->is_in_sunlight( newpos ) || g->m.impassable( newpos )  ||  g->mon_at( newpos ) == -1 ) );
+        if( tries == maxtries ) {
+            return false;
+        } else {
+            if ( g->u.sees( *z ) ) {
+                add_msg( m_neutral, _( "The %s melts away." ), z->name().c_str() );
+            }
+            z->remove_effect( effect_took_damage );
+            z->poly( mon_shadow_hunter_h );
+            z->setpos( newpos );
+        }
+    }
+    return true;
+}
+
+bool mattack::shadow_hunter_h( monster *z )
+{
+    Creature *target = z->attack_target();
+    if( target == nullptr ) {
+        return false;
+    }
+    if ( rl_dist( z->pos(), target->pos() ) < 6  || z->has_effect( effect_took_damage ) ) {
+        z->remove_effect( effect_took_damage );
+        z->poly( mon_shadow_hunter );
+        return true;
+    }
+    return false;
+}
+
+bool mattack::slimespring(monster *z)
 {
     if( rl_dist( z->pos(), g->u.pos() ) > 30 ) {
         return false;

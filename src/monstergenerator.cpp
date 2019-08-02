@@ -514,6 +514,8 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "LONGSWIPE", mattack::longswipe );
     add_hardcoded_attack( "PARROT", mattack::parrot );
     add_hardcoded_attack( "DARKMAN", mattack::darkman );
+    add_hardcoded_attack( "SHADOW_HUNTER", mattack::shadow_hunter );
+    add_hardcoded_attack( "SHADOW_HUNTER_H", mattack::shadow_hunter_h );
     add_hardcoded_attack( "SLIMESPRING", mattack::slimespring );
     add_hardcoded_attack( "BIO_OP_TAKEDOWN", mattack::bio_op_takedown );
     add_hardcoded_attack( "SUICIDE", mattack::suicide );
@@ -534,6 +536,109 @@ void MonsterGenerator::init_defense()
     defense_map["NONE"] = &mdefense::none; //No special attack-back
     defense_map["ZAPBACK"] = &mdefense::zapback; //Shock attacker on hit
     defense_map["ACIDSPLASH"] = &mdefense::acidsplash; //Splash acid on the attacker
+}
+
+void MonsterGenerator::init_trigger()
+{
+    trigger_map["NULL"] = MTRIG_NULL;// = 0,
+    trigger_map["STALK"] = MTRIG_STALK;//  // Increases when following the player
+    trigger_map["MEAT"] = MTRIG_MEAT;//  // Meat or a corpse nearby
+    trigger_map["PLAYER_WEAK"] = MTRIG_HOSTILE_WEAK;// // Hurt hostile player/npc/monster seen
+    trigger_map["PLAYER_CLOSE"] = MTRIG_HOSTILE_CLOSE;// // Hostile creature within a few tiles
+    trigger_map["HURT"] = MTRIG_HURT;//  // We are hurt
+    trigger_map["FIRE"] = MTRIG_FIRE;//  // Fire nearby
+    trigger_map["FRIEND_DIED"] = MTRIG_FRIEND_DIED;// // A monster of the same type died
+    trigger_map["FRIEND_ATTACKED"] = MTRIG_FRIEND_ATTACKED;// // A monster of the same type attacked
+    trigger_map["SOUND"] = MTRIG_SOUND;//  // Heard a sound
+}
+
+void MonsterGenerator::init_flags()
+{
+    // see mtype.h for commentary
+    flag_map["NULL"] = MF_NULL;
+    flag_map["SEES"] = MF_SEES;
+    flag_map["HEARS"] = MF_HEARS;
+    flag_map["GOODHEARING"] = MF_GOODHEARING;
+    flag_map["SMELLS"] = MF_SMELLS;
+    flag_map["KEENNOSE"] = MF_KEENNOSE;
+    flag_map["STUMBLES"] = MF_STUMBLES;
+    flag_map["WARM"] = MF_WARM;
+    flag_map["NOHEAD"] = MF_NOHEAD;
+    flag_map["HARDTOSHOOT"] = MF_HARDTOSHOOT;
+    flag_map["GRABS"] = MF_GRABS;
+    flag_map["BASHES"] = MF_BASHES;
+    flag_map["GROUP_BASH"] = MF_GROUP_BASH;
+    flag_map["DESTROYS"] = MF_DESTROYS;
+    flag_map["BORES"] = MF_BORES;
+    flag_map["POISON"] = MF_POISON;
+    flag_map["VENOM"] = MF_VENOM;
+    flag_map["BADVENOM"] = MF_BADVENOM;
+    flag_map["PARALYZEVENOM"] = MF_PARALYZE;
+    flag_map["BLEED"] = MF_BLEED;
+    flag_map["WEBWALK"] = MF_WEBWALK;
+    flag_map["DIGS"] = MF_DIGS;
+    flag_map["CAN_DIG"] = MF_CAN_DIG;
+    flag_map["FLIES"] = MF_FLIES;
+    flag_map["AQUATIC"] = MF_AQUATIC;
+    flag_map["SWIMS"] = MF_SWIMS;
+    flag_map["FISHABLE"] = MF_FISHABLE;
+    flag_map["ATTACKMON"] = MF_ATTACKMON;
+    flag_map["ANIMAL"] = MF_ANIMAL;
+    flag_map["PLASTIC"] = MF_PLASTIC;
+    flag_map["SUNDEATH"] = MF_SUNDEATH;
+    flag_map["ELECTRIC"] = MF_ELECTRIC;
+    flag_map["ACIDPROOF"] = MF_ACIDPROOF;
+    flag_map["ACIDTRAIL"] = MF_ACIDTRAIL;
+    flag_map["FIREPROOF"] = MF_FIREPROOF;
+    flag_map["SLUDGEPROOF"] = MF_SLUDGEPROOF;
+    flag_map["SLUDGETRAIL"] = MF_SLUDGETRAIL;
+    flag_map["FIREY"] = MF_FIREY;
+    flag_map["QUEEN"] = MF_QUEEN;
+    flag_map["ELECTRONIC"] = MF_ELECTRONIC;
+    flag_map["FUR"] = MF_FUR;
+    flag_map["LEATHER"] = MF_LEATHER;
+    flag_map["WOOL"] = MF_WOOL;
+    flag_map["FEATHER"] = MF_FEATHER;
+    flag_map["CBM_CIV"] = MF_CBM_CIV;
+    flag_map["BONES"] = MF_BONES;
+    flag_map["FAT"] = MF_FAT;
+    flag_map["IMMOBILE"] = MF_IMMOBILE;
+    flag_map["HIT_AND_RUN"] = MF_HIT_AND_RUN;
+    flag_map["GUILT"] = MF_GUILT;
+    flag_map["HUMAN"] = MF_HUMAN;
+    flag_map["NO_BREATHE"] = MF_NO_BREATHE;
+    flag_map["REGENERATES_50"] = MF_REGENERATES_50;
+    flag_map["REGENERATES_10"] = MF_REGENERATES_10;
+    flag_map["REGENERATES_IN_DARK"] = MF_REGENERATES_IN_DARK;
+    flag_map["FLAMMABLE"] = MF_FLAMMABLE;
+    flag_map["REVIVES"] = MF_REVIVES;
+    flag_map["CHITIN"] = MF_CHITIN;
+    flag_map["VERMIN"] = MF_VERMIN;
+    flag_map["NOGIB"] = MF_NOGIB;
+    flag_map["ABSORBS"] = MF_ABSORBS;
+    flag_map["LARVA"] = MF_LARVA;
+    flag_map["ARTHROPOD_BLOOD"] = MF_ARTHROPOD_BLOOD;
+    flag_map["ACID_BLOOD"] = MF_ACID_BLOOD;
+    flag_map["BILE_BLOOD"] = MF_BILE_BLOOD;
+    flag_map["REGEN_MORALE"] = MF_REGENMORALE;
+    flag_map["CBM_POWER"] = MF_CBM_POWER;
+    flag_map["CBM_SCI"] = MF_CBM_SCI;
+    flag_map["CBM_OP"] = MF_CBM_OP;
+    flag_map["CBM_TECH"] = MF_CBM_TECH;
+    flag_map["CBM_SUBS"] = MF_CBM_SUBS;
+    flag_map["SWARMS"] = MF_SWARMS;
+    flag_map["CLIMBS"] = MF_CLIMBS;
+    flag_map["GROUP_MORALE"] = MF_GROUP_MORALE;
+    flag_map["INTERIOR_AMMO"] = MF_INTERIOR_AMMO;
+    flag_map["NIGHT_INVISIBILITY"] = MF_NIGHT_INVISIBILITY;
+    flag_map["INVISIBLE"] = MF_INVISIBLE;
+    flag_map["REVIVES_HEALTHY"] = MF_REVIVES_HEALTHY;
+    flag_map["NO_NECRO"] = MF_NO_NECRO;
+    flag_map["PUSH_MON"] = MF_PUSH_MON;
+    flag_map["PATH_AVOID_DANGER_1"] = MF_AVOID_DANGER_1;
+    flag_map["PATH_AVOID_DANGER_2"] = MF_AVOID_DANGER_2;
+    flag_map["PRIORITIZE_TARGETS"] = MF_PRIORITIZE_TARGETS;
+    flag_map["NOT_HALLUCINATION"] = MF_NOT_HALLU;
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )
