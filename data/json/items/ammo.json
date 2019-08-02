@@ -888,7 +888,7 @@
   {
     "type": "AMMO",
     "id": "nicotine_liquid",
-    "category": "spare_parts",
+    "category": "drugs",
     "price": 1000,
     "name": "nicotine liquid",
     "symbol": "=",
