@@ -242,6 +242,11 @@ float trig_dist( const int x1, const int y1, const int x2, const int y2 )
     return trig_dist( tripoint( x1, y1, 0 ), tripoint( x2, y2, 0 ) );
 }
 
+float trig_dist( const point &loc1, const point &loc2 )
+{
+    return trig_dist( tripoint( loc1, 0 ), tripoint( loc2, 0 ) );
+}
+
 float trig_dist( const tripoint &loc1, const tripoint &loc2 )
 {
     return sqrt( static_cast<double>( ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) ) +

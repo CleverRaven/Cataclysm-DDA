@@ -694,7 +694,7 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
 
     const auto estimate = [&]( const pf::node & cur, const pf::node * ) {
         int res = 0;
-        const oter_id oter = get_ter_at( { cur.x, cur.y } );
+        const oter_id oter = get_ter_at( cur.pos );
         int travel_cost = static_cast<int>( oter->get_travel_cost() );
         if( ( road_only && ( oter->get_name() != "road" && oter->get_name() != "bridge" ) ) ||
             ( oter->get_name() == "solid rock" ||
@@ -710,15 +710,14 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
             travel_cost = 20;
         }
         res += travel_cost;
-        res += std::abs( finish.x - cur.x ) +
-               std::abs( finish.y - cur.y );
+        res += manhattan_dist( finish, cur.pos );
 
         return res;
     };
     pf::path route = pf::find_path( point( start.x, start.y ), point( finish.x, finish.y ), 2 * OX,
                                     2 * OY, estimate );
     for( auto node : route.nodes ) {
-        tripoint convert_result = base + tripoint( node.x, node.y, base.z );
+        tripoint convert_result = base + tripoint( node.pos, base.z );
         path.push_back( convert_result );
     }
     return path;
@@ -756,7 +755,7 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, 
     const auto estimate = [&]( const pf::node & cur, const pf::node * ) {
         int res = 0;
 
-        const oter_id oter = get_ter_at( { cur.x, cur.y } );
+        const oter_id oter = get_ter_at( cur.pos );
 
         if( !connection->has( oter ) ) {
             if( road_only ) {
@@ -771,8 +770,7 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, 
             res += 250;
         }
 
-        res += std::abs( finish.x - cur.x ) +
-               std::abs( finish.y - cur.y );
+        res += manhattan_dist( finish, cur.pos );
 
         return res;
     };
@@ -781,7 +779,7 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, 
                                      2 * OY, estimate );
 
     for( const auto &node : path.nodes ) {
-        reveal( base + node.pos(), radius );
+        reveal( base + node.pos, radius );
     }
     return !path.nodes.empty();
 }
