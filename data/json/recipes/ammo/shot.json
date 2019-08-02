@@ -143,7 +143,7 @@
     "reversible": true,
     "using": [ [ "ammo_shot", 1 ] ],
     "tools": [ [ [ "press", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 6 ] ], [ [ "magnesium", 5 ] ] ]
+    "components": [ [ [ "chem_black_powder", 3 ] ], [ [ "magnesium", 5 ] ] ]
   },
   {
     "result": "bp_shot_flechette",
