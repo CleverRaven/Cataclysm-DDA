@@ -986,7 +986,11 @@ rl_vec2d vehicle::velo_vec() const
     rl_vec2d ret;
     if( skidding ) {
         ret = move_vec();
-    } else {
+    } else if( move_vec().dot_product( face_vec() ) < 0 ){
+		// Car is being pushed backwards. Make it move backwards
+		ret = -face_vec();
+	} else {
+		// Normal operation. Car moves forwards
         ret = face_vec();
     }
     ret = ret.normalized();
