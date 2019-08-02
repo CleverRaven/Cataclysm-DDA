@@ -2,17 +2,17 @@
   {
     "id": "bioshop_house",
     "type": "overmap_terrain",
-    "name": "House",
-    "sym": "+",
-    "color": "pink",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
     "see_cost": 3,
     "flags": [ "NO_ROTATE" ]
   },
   {
     "id": "bioshop_basement",
     "type": "overmap_terrain",
-    "name": "Underground Bionics Clinic",
-    "sym": "w",
+    "name": "underground bionics clinic",
+    "sym": "+",
     "color": "pink",
     "see_cost": 3,
     "flags": [ "NO_ROTATE" ]
