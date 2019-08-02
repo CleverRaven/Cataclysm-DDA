@@ -519,6 +519,14 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_CHOP_PLANKS",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": "cutting planks",
+    "based_on": "speed",
+    "no_resume": true
+  },
+  {
     "id": "ACT_JACKHAMMER",
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
