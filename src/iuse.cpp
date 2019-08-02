@@ -9262,7 +9262,8 @@ use_function::use_function( const use_function &other )
 
 use_function &use_function::operator=( iuse_actor *const f )
 {
-    return operator=( use_function( f ) );
+    *this = use_function( f );
+    return *this;
 }
 
 use_function &use_function::operator=( const use_function &other )
