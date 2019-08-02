@@ -85,7 +85,7 @@
       "NOGIB"
     ]
   },
-    {
+  {
     "id": "mon_shadow_hunter",
     "type": "MONSTER",
     "name": "adumbration",
@@ -109,7 +109,23 @@
     "special_attacks": [ [ "SHADOW_HUNTER", 1 ] ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "NOHEAD", "HARDTOSHOOT", "GRABS", "WEBWALK", "FLIES", "PLASTIC", "SUNDEATH", "ELECTRIC", "ACIDPROOF", "NO_BREATHE", "NOGIB" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "SMELLS",
+      "NOHEAD",
+      "HARDTOSHOOT",
+      "GRABS",
+      "WEBWALK",
+      "FLIES",
+      "PLASTIC",
+      "SUNDEATH",
+      "ELECTRIC",
+      "ACIDPROOF",
+      "NO_BREATHE",
+      "NOGIB"
+    ]
   },
   {
     "id": "mon_shadow_hunter_h",
@@ -137,7 +153,20 @@
     "special_attacks": [ [ "SHADOW_HUNTER_H", 1 ] ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "INVISIBLE", "NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "PLASTIC", "SUNDEATH", "ELECTRIC", "ACIDPROOF", "NO_BREATHE", "NOGIB" ]
+    "flags": [
+      "SEES",
+      "INVISIBLE",
+      "NOHEAD",
+      "HARDTOSHOOT",
+      "WEBWALK",
+      "FLIES",
+      "PLASTIC",
+      "SUNDEATH",
+      "ELECTRIC",
+      "ACIDPROOF",
+      "NO_BREATHE",
+      "NOGIB"
+    ]
   },
   {
     "id": "mon_shadow_snake",

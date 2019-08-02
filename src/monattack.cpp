@@ -4378,7 +4378,7 @@ bool mattack::shadow_hunter( monster *z )
         return false;
     }
     //Hide and teleport randomly after being attacked or just randomly
-    if  ( ( damaged && one_in( 3 ) ) || ( one_in( 15 ) ) ) {
+    if( ( damaged && one_in( 3 ) ) || ( one_in( 15 ) ) ) {
         int tries = 0;
         int maxtries = 20;
         int telerange = 30;
@@ -4388,11 +4388,11 @@ bool mattack::shadow_hunter( monster *z )
             newpos.y = rng( z->posy() - telerange, z->posy() + telerange );
             tries++;
         } while( ( tries > maxtries ) &&
-                 ( g->is_in_sunlight( newpos ) || !g->is_empty( newpos )) );
+                 ( g->is_in_sunlight( newpos ) || !g->is_empty( newpos ) ) );
         if( tries == maxtries ) {
             return false;
         } else {
-            if ( g->u.sees( *z ) ) {
+            if( g->u.sees( *z ) ) {
                 add_msg( m_neutral, _( "The %s melts away." ), z->name().c_str() );
             }
             z->remove_effect( effect_took_damage );
@@ -4409,7 +4409,7 @@ bool mattack::shadow_hunter_h( monster *z )
     if( target == nullptr ) {
         return false;
     }
-    if ( rl_dist( z->pos(), target->pos() ) < 4  || z->has_effect( effect_took_damage ) ) {
+    if( rl_dist( z->pos(), target->pos() ) < 4  || z->has_effect( effect_took_damage ) ) {
         z->remove_effect( effect_took_damage );
         z->poly( mon_shadow_hunter );
         return true;
@@ -4417,7 +4417,7 @@ bool mattack::shadow_hunter_h( monster *z )
     return false;
 }
 
-bool mattack::slimespring(monster *z)
+bool mattack::slimespring( monster *z )
 {
     if( rl_dist( z->pos(), g->u.pos() ) > 30 ) {
         return false;

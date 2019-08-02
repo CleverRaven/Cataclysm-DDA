@@ -1492,7 +1492,7 @@ void monster::apply_damage( Creature *source, body_part /*bp*/, int dam,
     if( hp < 1 ) {
         set_killer( source );
     } else if( dam > 0 ) {
-        process_trigger(mon_trigger::HURT, 1 + static_cast<int>(dam / 3));
+        process_trigger( mon_trigger::HURT, 1 + static_cast<int>( dam / 3 ) );
         add_effect( effect_took_damage, dam * 1_turns );
     }
 }
