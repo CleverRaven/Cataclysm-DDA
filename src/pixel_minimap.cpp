@@ -84,7 +84,7 @@ SDL_Color get_critter_color( Creature *critter, int flicker, int mixture )
 
     if( const auto m = dynamic_cast<monster *>( critter ) ) {
         //faction status (attacking or tracking) determines if red highlights get applied to creature
-        const auto matt = m->attitude( &( g->u ) );
+        const auto matt = m->attitude( &g->u );
 
         if( MATT_ATTACK == matt || MATT_FOLLOW == matt ) {
             const auto red_pixel = SDL_Color{ 0xFF, 0x0, 0x0, 0xFF };
@@ -410,8 +410,8 @@ void pixel_minimap::render_cache( const tripoint &center )
 {
     const auto sm_center = g->m.get_abs_sub() + ms_to_sm_copy( center );
     const auto sm_offset = tripoint{
-        ( tiles_limit.x / SEEX ) / 2,
-        ( tiles_limit.y / SEEY ) / 2, 0
+        tiles_limit.x / SEEX / 2,
+        tiles_limit.y / SEEY / 2, 0
     };
 
     auto ms_offset = point{ center.x, center.y };
@@ -477,7 +477,7 @@ void pixel_minimap::render_critters( const tripoint &center )
                 continue;
             }
 
-            if( critter != &( g->u ) && !g->u.sees( *critter ) ) {
+            if( critter != &g->u && !g->u.sees( *critter ) ) {
                 continue;
             }
 
@@ -529,7 +529,7 @@ void pixel_minimap::draw_beacon( const SDL_Rect &rect, const SDL_Color &color )
 {
     for( int x = -rect.w, x_max = rect.w; x <= x_max; ++x ) {
         for( int y = -rect.h + std::abs( x ), y_max = rect.h - std::abs( x ); y <= y_max; ++y ) {
-            const int divisor = 2 * ( ( std::abs( y ) == rect.h - std::abs( x ) ) ? 1 : 0 ) + 1;
+            const int divisor = 2 * ( std::abs( y ) == rect.h - std::abs( x ) ? 1 : 0 ) + 1;
 
             SetRenderDrawColor( renderer, color.r / divisor, color.g / divisor, color.b / divisor, 0xFF );
             RenderDrawPoint( renderer, rect.x + x, rect.y + y );

@@ -263,7 +263,7 @@ void avatar::memorial( std::ostream &memorial_file, const std::string &epitaph )
     memorial_file << _( "Bionics:" ) << eol;
     int total_bionics = 0;
     for( size_t i = 0; i < my_bionics->size(); ++i ) {
-        memorial_file << indent << ( i + 1 ) << ": " << ( *my_bionics )[i].id->name << eol;
+        memorial_file << indent << i + 1 << ": " << ( *my_bionics )[i].id->name << eol;
         total_bionics++;
     }
     if( total_bionics == 0 ) {
@@ -693,8 +693,7 @@ bool avatar::read( int inventory_position, const bool continuous )
                 const int lvl = elem.first->get_skill_level( skill );
                 const std::string lvl_text = skill ? string_format( _( " | current level: %d" ), lvl ) : "";
                 const std::string name_text = elem.first->disp_name() + elem.second;
-                return string_format( ( "%-*s%s" ), static_cast<int>( max_length( m ) ),
-                                      name_text, lvl_text );
+                return string_format( "%-*s%s", static_cast<int>( max_length( m ) ), name_text, lvl_text );
             };
 
             auto add_header = [&menu]( const std::string & str ) {
@@ -1249,11 +1248,11 @@ void avatar::update_mental_focus()
     // for every 100 points, we have a flat gain of 1 focus.
     // for every n points left over, we have an n% chance of 1 focus
     int gain = focus_gain_rate / 100;
-    if( rng( 1, 100 ) <= ( focus_gain_rate % 100 ) ) {
+    if( rng( 1, 100 ) <= focus_gain_rate % 100 ) {
         gain++;
     }
 
-    focus_pool += ( gain * base_change );
+    focus_pool += gain * base_change;
 
     // Fatigue should at least prevent high focus
     // This caps focus gain at 60(arbitrary value) if you're Dead Tired
@@ -1380,8 +1379,7 @@ void avatar::reset_stats()
 
     // Dodge-related effects
     mod_dodge_bonus( mabuff_dodge_bonus() -
-                     ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20.0f -
-                     ( encumb( bp_torso ) / 10.0f ) );
+                     ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20.0f - encumb( bp_torso ) / 10.0f );
     // Whiskers don't work so well if they're covered
     if( has_trait( trait_WHISKERS ) && !wearing_something_on( bp_mouth ) ) {
         mod_dodge_bonus( 1 );
