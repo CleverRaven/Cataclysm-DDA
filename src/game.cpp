@@ -46,7 +46,7 @@
 #include "dependency_tree.h"
 #include "editmap.h"
 #include "enums.h"
-#include "event.h"
+#include "timed_event.h"
 #include "faction.h"
 #include "filesystem.h"
 #include "game_constants.h"
@@ -255,12 +255,13 @@ game::game() :
     m( *map_ptr ),
     u( *u_ptr ),
     scent( *scent_ptr ),
-    events( *event_manager_ptr ),
+    timed_events( *timed_event_manager_ptr ),
     uquit( QUIT_NO ),
     new_game( false ),
     displaying_scent( false ),
     displaying_temperature( false ),
     displaying_visibility( false ),
+    displaying_radiation( false ),
     safe_mode( SAFE_MODE_ON ),
     pixel_minimap_option( 0 ),
     mostseen( 0 ),
@@ -627,7 +628,7 @@ void game::setup()
     faction_manager_ptr->clear();
     mission::clear_all();
     Messages::clear_messages();
-    events = event_manager();
+    timed_events = timed_event_manager();
 
     SCT.vSCT.clear(); //Delete pending messages
 
@@ -1366,7 +1367,7 @@ bool game::do_turn()
         load_npcs();
     }
 
-    events.process();
+    timed_events.process();
     mission::process_all();
     // If controlling a vehicle that is owned by someone else
     if( u.in_vehicle && u.controlling_vehicle ) {
@@ -2343,6 +2344,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "debug_scent" );
     ctxt.register_action( "debug_temp" );
     ctxt.register_action( "debug_visibility" );
+    ctxt.register_action( "debug_radiation" );
     ctxt.register_action( "debug_mode" );
     ctxt.register_action( "zoom_out" );
     ctxt.register_action( "zoom_in" );
@@ -3662,10 +3664,10 @@ float game::natural_light_level( const int zlev ) const
     float mod_ret = -1;
     // Each artifact change does std::max(mod_ret, new val) since a brighter end value
     // will trump a lower one.
-    if( const event *e = events.get( EVENT_DIM ) ) {
-        // EVENT_DIM slowly dims the natural sky level, then relights it.
+    if( const timed_event *e = timed_events.get( TIMED_EVENT_DIM ) ) {
+        // TIMED_EVENT_DIM slowly dims the natural sky level, then relights it.
         const time_duration left = e->when - calendar::turn;
-        // EVENT_DIM has an occurrence date of turn + 50, so the first 25 dim it,
+        // TIMED_EVENT_DIM has an occurrence date of turn + 50, so the first 25 dim it,
         if( left > 25_turns ) {
             mod_ret = std::max( static_cast<double>( mod_ret ), ( ret * ( left - 25_turns ) ) / 25_turns );
             // and the last 25 scale back towards normal.
@@ -3673,8 +3675,8 @@ float game::natural_light_level( const int zlev ) const
             mod_ret = std::max( static_cast<double>( mod_ret ), ( ret * ( 25_turns - left ) ) / 25_turns );
         }
     }
-    if( events.queued( EVENT_ARTIFACT_LIGHT ) ) {
-        // EVENT_ARTIFACT_LIGHT causes everywhere to become as bright as day.
+    if( timed_events.queued( TIMED_EVENT_ARTIFACT_LIGHT ) ) {
+        // TIMED_EVENT_ARTIFACT_LIGHT causes everywhere to become as bright as day.
         mod_ret = std::max<float>( ret, DAYLIGHT_LEVEL );
     }
     // If we had a changed light level due to an artifact event then it overwrites
@@ -5512,7 +5514,7 @@ void game::examine( const tripoint &examp )
             if( monexamine::pet_menu( *mon ) ) {
                 return;
             }
-        } else if( mon->has_flag( MF_RIDEABLE_MECH ) && !mon->has_effect( effect_pet ) ) {
+        } else if( mon && mon->has_flag( MF_RIDEABLE_MECH ) && !mon->has_effect( effect_pet ) ) {
             if( monexamine::mech_hack( *mon ) ) {
                 return;
             }
@@ -6661,6 +6663,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     ctxt.register_action( "debug_scent" );
     ctxt.register_action( "debug_temp" );
     ctxt.register_action( "debug_visibility" );
+    ctxt.register_action( "debug_radiation" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -6789,6 +6792,10 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
         } else if( action == "debug_temp" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_temperature();
+            }
+        } else if( action == "debug_radiation" ) {
+            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
+                display_radiation();
             }
         } else if( action == "EXTENDED_DESCRIPTION" ) {
             extended_description( lp );
@@ -11071,12 +11078,9 @@ void game::teleport( player *p, bool add_teleglow )
 void game::display_scent()
 {
     if( use_tiles ) {
-        if( displaying_temperature ) {
-            displaying_temperature = false;
-        }
-        if( displaying_visibility ) {
-            displaying_visibility = false;
-        }
+        displaying_temperature = false;
+        displaying_visibility = false;
+        displaying_radiation = false;
         displaying_scent = !displaying_scent;
     } else {
         int div;
@@ -11096,12 +11100,9 @@ void game::display_scent()
 void game::display_temperature()
 {
     if( use_tiles ) {
-        if( displaying_scent ) {
-            displaying_scent = false;
-        }
-        if( displaying_visibility ) {
-            displaying_visibility = false;
-        }
+        displaying_scent = false;
+        displaying_visibility = false;
+        displaying_radiation = false;
         displaying_temperature = !displaying_temperature;
     }
 }
@@ -11109,13 +11110,20 @@ void game::display_temperature()
 void game::display_visibility()
 {
     if( use_tiles ) {
-        if( displaying_scent ) {
-            displaying_scent = false;
-        }
-        if( displaying_temperature ) {
-            displaying_temperature = false;
-        }
+        displaying_scent = false;
+        displaying_temperature = false;
+        displaying_radiation = false;
         displaying_visibility = !displaying_visibility;
+    }
+}
+
+void game::display_radiation()
+{
+    if( use_tiles ) {
+        displaying_scent = false;
+        displaying_visibility = false;
+        displaying_temperature = false;
+        displaying_radiation = !displaying_radiation;
     }
 }
 

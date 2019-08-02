@@ -588,6 +588,9 @@ class map
 
         // Furniture: 2D overloads
         void set( const int x, const int y, const ter_id &new_terrain, const furn_id &new_furniture );
+        void set( const point &p, const ter_id &new_terrain, const furn_id &new_furniture ) {
+            set( p.x, p.y, new_terrain, new_furniture );
+        }
 
         std::string name( const int x, const int y );
         bool has_furn( const int x, const int y ) const;
@@ -596,6 +599,10 @@ class map
         furn_id furn( const int x, const int y ) const;
 
         void furn_set( const int x, const int y, const furn_id &new_furniture );
+
+        void furn_set( const point &p, const furn_id &new_furniture ) {
+            furn_set( p.x, p.y, new_furniture );
+        }
 
         std::string furnname( const int x, const int y );
         // Furniture: 3D
@@ -621,6 +628,10 @@ class map
         ter_id ter( const int x, const int y ) const;
 
         bool ter_set( const int x, const int y, const ter_id &new_terrain );
+
+        bool ter_set( const point &p, const ter_id &new_terrain ) {
+            return ter_set( p.x, p.y, new_terrain );
+        }
 
         std::string tername( const int x, const int y ) const; // Name of terrain at (x, y)
         // Terrain: 3D
