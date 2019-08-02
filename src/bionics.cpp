@@ -1659,10 +1659,6 @@ void player::bionics_install_failure( bionic_id bid, std::string installer, int 
         }
     }
 
-    if( fail_type == 3 && num_bionics() == 0 ) {
-        fail_type = 2;    // If we have no bionics, take damage instead of losing some
-    }
-
     if( fail_type <= 0 ) {
         add_msg( m_neutral, _( "The installation fails without incident." ) );
         drop_cbm = true;
