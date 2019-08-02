@@ -16,6 +16,7 @@
 #include "field.h"
 #include "game.h"
 #include "item.h"
+#include "itype.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -233,6 +234,14 @@ monster::monster( const mtype_id &id ) : monster()
     if( monster::has_flag( MF_AQUATIC ) ) {
         fish_population = dice( 1, 20 );
     }
+    if( monster::has_flag( MF_RIDEABLE_MECH ) ) {
+        itype_id mech_bat = itype_id( type->mech_battery );
+        const itype &type = *item::find_type( mech_bat );
+        int max_charge = type.magazine->capacity;
+        item mech_bat_item = item( mech_bat, 0 );
+        mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero );
+        battery_item = mech_bat_item;
+    }
 }
 
 monster::monster( const mtype_id &id, const tripoint &p ) : monster( id )
@@ -337,7 +346,7 @@ void monster::try_upgrade( bool pin_time )
         return;
     }
 
-    const int current_day = to_days<int>( calendar::turn - time_point( calendar::start ) );
+    const int current_day = to_days<int>( calendar::turn - time_point( calendar::start_of_cataclysm ) );
     //This should only occur when a monster is created or upgraded to a new form
     if( upgrade_time < 0 ) {
         upgrade_time = next_upgrade_time();
@@ -349,7 +358,8 @@ void monster::try_upgrade( bool pin_time )
             upgrade_time += current_day;
         } else {
             // offset by starting season
-            upgrade_time += calendar::start;
+            // @todo revisit this and make it simpler
+            upgrade_time += to_turn<int>( calendar::start_of_cataclysm );
         }
     }
 
@@ -391,7 +401,7 @@ void monster::try_reproduce()
         return;
     }
 
-    const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
+    const int current_day = to_days<int>( calendar::turn - calendar::turn_zero );
     if( baby_timer < 0 ) {
         baby_timer = type->baby_timer;
         if( baby_timer < 0 ) {
@@ -454,7 +464,7 @@ void monster::try_biosignature()
         return;
     }
 
-    const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
+    const int current_day = to_days<int>( calendar::turn - calendar::turn_zero );
     if( biosig_timer < 0 ) {
         biosig_timer = type->biosig_timer;
         if( biosig_timer < 0 ) {
@@ -843,6 +853,11 @@ bool monster::made_of_any( const std::set<material_id> &ms ) const
 bool monster::made_of( phase_id p ) const
 {
     return type->phase == p;
+}
+
+void monster::set_goal( const tripoint &p )
+{
+    goal = p;
 }
 
 void monster::shift( int sx, int sy )
@@ -1484,6 +1499,11 @@ void monster::die_in_explosion( Creature *source )
 {
     hp = -9999; // huge to trigger explosion and prevent corpse item
     die( source );
+}
+
+bool monster::movement_impaired()
+{
+    return effect_cache[MOVEMENT_IMPAIRED];
 }
 
 bool monster::move_effects( bool )
@@ -2146,6 +2166,37 @@ void monster::die( Creature *nkiller )
     }
 }
 
+bool monster::use_mech_power( int amt )
+{
+    if( is_hallucination() || !has_flag( MF_RIDEABLE_MECH ) || !battery_item ) {
+        return false;
+    }
+    amt = -amt;
+    battery_item->ammo_consume( amt, pos() );
+    return battery_item->ammo_remaining() > 0;
+}
+
+int monster::mech_str_addition() const
+{
+    return type->mech_str_bonus;
+}
+
+bool monster::check_mech_powered() const
+{
+    if( is_hallucination() || !has_flag( MF_RIDEABLE_MECH ) || !battery_item ) {
+        return false;
+    }
+    if( battery_item->ammo_remaining() <= 0 ) {
+        return false;
+    }
+    const itype &type = *battery_item->type;
+    if( battery_item->ammo_remaining() <= type.magazine->capacity / 10 && one_in( 10 ) ) {
+        add_msg( m_bad, _( "Your %s emits a beeping noise as its batteries start to get low." ),
+                 get_name() );
+    }
+    return true;
+}
+
 void monster::drop_items_on_death()
 {
     if( is_hallucination() ) {
@@ -2154,7 +2205,8 @@ void monster::drop_items_on_death()
     if( type->death_drops.empty() ) {
         return;
     }
-    const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(), calendar::start );
+    const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(),
+                         calendar::start_of_cataclysm );
 
     if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
         for( const auto &it : dropped ) {

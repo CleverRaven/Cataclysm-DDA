@@ -109,16 +109,12 @@ TEST_CASE( "Rate of temperature change" )
     }
 
     SECTION( "Hot liquid to frozen" ) {
-        // 2x cooked meat (50 C) cooling in -20 C enviroment for ~190 minutes
-        // 0 min: All 3 at 50C and hot
-        // 11 min: meat 1 at 33.5 C and not hot
-        // 22 min: meat 1 step
-        // 33 min: meat 1 step
-        // 53 min: Meat 1 and 2 at 0 C not frozen
-        // 143 min: Meat 1 and 2 at 0 C fozen
-        // 154 min: meat 1 step
-        // 174 min: meat 1 step
-        // 194 min: Meat 1 and 2 at -x C
+        // 2x cooked meat (50 C) cooling in -20 C enviroment for several hours
+        // 1) Both at 50C and hot
+        // 2) Wait a short time then Meat 1 at 33.5 C and not hot
+        // 3) Wait less than an hour then Meat 1 and 2 at 0 C not frozen
+        // 4) Wait a few hours then Meat 1 and 2 at 0 C frozen
+        // 5) Wait a short time then Meat 1 and 2 at -x C
 
         item meat1( "meat_cooked" );
         item meat2( "meat_cooked" );
@@ -135,7 +131,7 @@ TEST_CASE( "Rate of temperature change" )
 
         set_map_temperature( -4 ); // -20 C
 
-        calendar::turn = to_turn<int>( calendar::turn + 11_minutes );
+        calendar::turn = to_turn<int>( calendar::turn + 15_minutes );
         meat1.process_temperature_rot( 1, pos, nullptr );
 
         // 33.5 C
@@ -147,7 +143,7 @@ TEST_CASE( "Rate of temperature change" )
         calendar::turn = to_turn<int>( calendar::turn + 11_minutes );
         meat1.process_temperature_rot( 1, pos, nullptr );
 
-        calendar::turn = to_turn<int>( calendar::turn + 20_minutes );
+        calendar::turn = to_turn<int>( calendar::turn + 30_minutes );
         meat1.process_temperature_rot( 1, pos, nullptr );
         meat2.process_temperature_rot( 1, pos, nullptr );
         // 0C
@@ -157,10 +153,10 @@ TEST_CASE( "Rate of temperature change" )
         CHECK( !meat1.item_tags.count( "FROZEN" ) );
         CHECK( !meat2.item_tags.count( "FROZEN" ) );
 
-        calendar::turn = to_turn<int>( calendar::turn + 45_minutes );
+        calendar::turn = to_turn<int>( calendar::turn + 60_minutes );
         meat1.process_temperature_rot( 1, pos, nullptr );
         meat2.process_temperature_rot( 1, pos, nullptr );
-        calendar::turn = to_turn<int>( calendar::turn + 45_minutes );
+        calendar::turn = to_turn<int>( calendar::turn + 60_minutes );
         meat1.process_temperature_rot( 1, pos, nullptr );
         meat2.process_temperature_rot( 1, pos, nullptr );
 

@@ -137,8 +137,8 @@ class effect_type
 class effect
 {
     public:
-        effect() : eff_type( NULL ), duration( 0_turns ), bp( num_bp ),
-            permanent( false ), intensity( 1 ), start_time( calendar::time_of_cataclysm ) {
+        effect() : eff_type( nullptr ), duration( 0_turns ), bp( num_bp ),
+            permanent( false ), intensity( 1 ), start_time( calendar::turn_zero ) {
         }
         effect( const effect_type *peff_type, const time_duration &dur, body_part part,
                 bool perm, int nintensity, const time_point &nstart_time ) :

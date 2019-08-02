@@ -8,7 +8,7 @@
 #include "avatar.h"
 #include "debug.h"
 #include "explosion.h"
-#include "event.h"
+#include "timed_event.h"
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -321,7 +321,7 @@ void trapfunc::tripwire( const tripoint &p, Creature *c, item * )
         if( c == &g->u ) {
             g->update_map( g->u );
         }
-        if( !n->has_effect( effect_riding ) ) {
+        if( !n->is_mounted() ) {
             ///\EFFECT_DEX decreases chance of taking damage from a tripwire trap
             if( rng( 5, 20 ) > n->dex_cur ) {
                 n->hurtall( rng( 1, 4 ), nullptr );
@@ -1275,7 +1275,7 @@ void trapfunc::temple_flood( const tripoint &p, Creature *c, item * )
                 }
             }
         }
-        g->events.add( EVENT_TEMPLE_FLOOD, calendar::turn + 3_turns );
+        g->timed_events.add( TIMED_EVENT_TEMPLE_FLOOD, calendar::turn + 3_turns );
     }
 }
 

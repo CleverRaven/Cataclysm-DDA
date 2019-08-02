@@ -168,7 +168,8 @@ static const std::map<std::string, mission_goal> goal_map = {{
         { "MGOAL_KILL_MONSTER_SPEC", MGOAL_KILL_MONSTER_SPEC },
         { "MGOAL_RECRUIT_NPC", MGOAL_RECRUIT_NPC },
         { "MGOAL_RECRUIT_NPC_CLASS", MGOAL_RECRUIT_NPC_CLASS },
-        { "MGOAL_COMPUTER_TOGGLE", MGOAL_COMPUTER_TOGGLE }
+        { "MGOAL_COMPUTER_TOGGLE", MGOAL_COMPUTER_TOGGLE },
+        { "MGOAL_TALK_TO_NPC", MGOAL_TALK_TO_NPC }
     }
 };
 template<>

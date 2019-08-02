@@ -446,6 +446,69 @@
     ]
   },
   {
+    "result": "broken_mech_recon",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "time": "600 m",
+    "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "power_supply", 20 ] ],
+      [ [ "storage_battery", 2 ] ],
+      [ [ "plut_cell", 4 ] ],
+      [ [ "mil_plate", 15 ] ]
+    ]
+  },
+  {
+    "result": "broken_mech_lifter",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "time": "600 m",
+    "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "power_supply", 20 ] ],
+      [ [ "storage_battery", 2 ] ],
+      [ [ "plut_cell", 4 ] ],
+      [ [ "mil_plate", 6 ] ]
+    ]
+  },
+  {
+    "result": "broken_mech_combat",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "time": "600 m",
+    "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "power_supply", 20 ] ],
+      [ [ "storage_battery", 2 ] ],
+      [ [ "plut_cell", 4 ] ],
+      [ [ "mil_plate", 20 ] ]
+    ]
+  },
+  {
     "result": "broken_tankbot",
     "type": "uncraft",
     "skill_used": "electronics",
@@ -1164,7 +1227,7 @@
     "difficulty": 3,
     "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "cable", 12 ] ], [ [ "amplifier", 2 ] ], [ [ "material_aluminium_ingot", 1 ] ] ]
+    "components": [ [ [ "cable", 12 ] ], [ [ "amplifier", 2 ] ], [ [ "lightstrip_inactive", 1 ] ], [ [ "material_aluminium_ingot", 1 ] ] ]
   },
   {
     "result": "holy_symbol",
@@ -1264,7 +1327,7 @@
     "components": [ [ [ "pilot_light", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
-    "result": "locket",
+    "result": "silver_locket",
     "type": "uncraft",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -1398,7 +1461,7 @@
     ]
   },
   {
-    "result": "necklace",
+    "result": "silver_necklace",
     "type": "uncraft",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -1581,7 +1644,7 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "ring",
+    "result": "gold_ring",
     "type": "uncraft",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],

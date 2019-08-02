@@ -11,6 +11,7 @@
 class JsonOut;
 class JsonIn;
 
+// NOLINTNEXTLINE(cata-xy)
 struct point {
     int x = 0;
     int y = 0;
@@ -25,6 +26,9 @@ struct point {
         y += rhs.y;
         return *this;
     }
+    constexpr point operator-() const {
+        return point( -x, -y );
+    }
     constexpr point operator-( const point &rhs ) const {
         return point( x - rhs.x, y - rhs.y );
     }
@@ -32,6 +36,17 @@ struct point {
         x -= rhs.x;
         y -= rhs.y;
         return *this;
+    }
+    constexpr point operator*( const int rhs ) const {
+        return point( x * rhs, y * rhs );
+    }
+    point &operator*=( const int rhs ) {
+        x *= rhs;
+        y *= rhs;
+        return *this;
+    }
+    constexpr point operator/( const int rhs ) const {
+        return point( x / rhs, y / rhs );
     }
 
     /**
@@ -92,6 +107,12 @@ inline constexpr bool operator!=( const point &a, const point &b )
     return !( a == b );
 }
 
+inline point abs( const point &p )
+{
+    return point( abs( p.x ), abs( p.y ) );
+}
+
+// NOLINTNEXTLINE(cata-xy)
 struct tripoint {
     int x = 0;
     int y = 0;

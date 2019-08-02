@@ -81,10 +81,6 @@ struct weather_printable {
     std::vector<std::pair<int, int> > vdrops; //!< Coordinates targeted for droplets.
     nc_color colGlyph; //!< Color to draw glyph this animation frame.
     char cGlyph; //!< Glyph to draw this animation frame.
-    int startx;
-    int starty;
-    int endx;
-    int endy;
 };
 
 /**

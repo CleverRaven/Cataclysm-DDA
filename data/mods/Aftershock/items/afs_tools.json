@@ -127,7 +127,7 @@
     "cutting": 3,
     "material": [ "steel", "plastic", "diamond" ],
     "symbol": "/",
-    "color": "ltred",
+    "color": "light_red",
     "ammo": "gasoline",
     "max_charges": 500,
     "charges_per_use": 1,

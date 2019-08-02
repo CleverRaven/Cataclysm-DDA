@@ -2351,7 +2351,7 @@ static void mx_mayhem( map &m, const tripoint &abs_sub )
 
             m.add_field( { 16, 15, abs_sub.z }, fd_blood, rng( 1, 3 ) );
 
-            m.spawn_item( { 16, 16, abs_sub.z }, "wheel", 1, 0, calendar::time_of_cataclysm, 4 );
+            m.spawn_item( { 16, 16, abs_sub.z }, "wheel", 1, 0, calendar::start_of_cataclysm, 4 );
             m.spawn_item( { 16, 16, abs_sub.z }, "wrench" );
 
             if( one_in( 2 ) ) { //Unknown people killed and robbed the poor guy

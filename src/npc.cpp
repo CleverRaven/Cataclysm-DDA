@@ -106,8 +106,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male );
 void starting_inv( npc &who, const npc_class_id &type );
 
 npc::npc()
-    : player()
-    , restock( calendar::before_time_starts )
+    : restock( calendar::before_time_starts )
     , companion_mission_time( calendar::before_time_starts )
     , companion_mission_time_ret( calendar::before_time_starts )
     , last_updated( calendar::turn )
@@ -1639,10 +1638,7 @@ bool npc::is_assigned_to_camp() const
     if( !bcp ) {
         return false;
     }
-    if( !has_companion_mission() && mission == NPC_MISSION_GUARD_ALLY ) {
-        return true;
-    }
-    return false;
+    return !has_companion_mission() && mission == NPC_MISSION_GUARD_ALLY;
 }
 
 bool npc::is_enemy() const

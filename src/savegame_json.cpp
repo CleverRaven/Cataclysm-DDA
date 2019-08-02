@@ -331,8 +331,7 @@ void SkillLevel::deserialize( JsonIn &jsin )
     data.read( "exercise", _exercise );
     data.read( "istraining", _isTraining );
     if( !data.read( "lastpracticed", _lastPracticed ) ) {
-        // TODO: shouldn't that be calendar::start?
-        _lastPracticed = calendar::time_of_cataclysm + time_duration::from_hours(
+        _lastPracticed = calendar::start_of_cataclysm + time_duration::from_hours(
                              get_option<int>( "INITIAL_TIME" ) );
     }
     data.read( "highestlevel", _highestLevel );
@@ -474,6 +473,15 @@ void Character::load( JsonObject &data )
     weapon = item( "null", 0 );
     data.read( "weapon", weapon );
 
+    if( has_effect( effect_riding ) ) {
+        int temp_id;
+        if( data.read( "mounted_creature", temp_id ) ) {
+            mounted_creature = g->critter_tracker->from_temporary_id( temp_id );
+        } else {
+            mounted_creature = nullptr;
+        }
+    }
+
     _skills->clear();
     JsonObject pmap = data.get_object( "skills" );
     for( const std::string &member : pmap.get_member_names() ) {
@@ -559,7 +567,10 @@ void Character::store( JsonOut &json ) const
 
     // "Fracking Toasters" - Saul Tigh, toaster
     json.member( "my_bionics", *my_bionics );
-
+    // storing the mount
+    if( is_mounted() ) {
+        json.member( "mounted_creature", g->critter_tracker->temporary_id( *mounted_creature ) );
+    }
     // skills
     json.member( "skills" );
     json.start_object();
@@ -686,9 +697,6 @@ void player::store( JsonOut &json ) const
         }
         json.end_array();
     }
-    if( has_effect( effect_riding ) && mounted_creature ) {
-        json.member( "mounted_creature", g->critter_tracker->temporary_id( *mounted_creature ) );
-    }
 }
 
 /**
@@ -799,14 +807,7 @@ void player::load( JsonObject &data )
         // Need to do this *after* the monsters have been loaded!
         last_target = g->critter_tracker->from_temporary_id( tmptar );
     }
-    if( has_effect( effect_riding ) ) {
-        int temp_id;
-        if( data.read( "mounted_creature", temp_id ) ) {
-            mounted_creature = g->critter_tracker->from_temporary_id( temp_id );
-        } else {
-            mounted_creature = nullptr;
-        }
-    }
+
     JsonArray basecamps = data.get_array( "camps" );
     camps.clear();
     while( basecamps.has_more() ) {
@@ -1730,6 +1731,7 @@ void monster::load( JsonObject &data )
     }
     data.read( "tied_item", tied_item );
     data.read( "hp", hp );
+    data.read( "battery_item", battery_item );
 
     // sp_timeout indicates an old save, prior to the special_attacks refactor
     if( data.has_array( "sp_timeout" ) ) {
@@ -1819,8 +1821,8 @@ void monster::load( JsonObject &data )
     if( !data.read( "last_updated", last_updated ) ) {
         last_updated = calendar::turn;
     }
-    last_baby = data.get_int( "last_baby", calendar::turn );
-    last_biosig = data.get_int( "last_biosig", calendar::turn );
+    last_baby = data.get_int( "last_baby", to_turn<int>( calendar::turn ) );
+    last_biosig = data.get_int( "last_biosig", to_turn<int>( calendar::turn ) );
 
     data.read( "path", path );
 }
@@ -1862,6 +1864,7 @@ void monster::store( JsonOut &json ) const
     json.member( "hallucination", hallucination );
     json.member( "stairscount", staircount );
     json.member( "tied_item", tied_item );
+    json.member( "battery_item", battery_item );
     // Store the relative position of the goal so it loads correctly after a map shift.
     json.member( "destination", goal - pos() );
     json.member( "ammo", ammo );
@@ -1984,7 +1987,7 @@ void item::io( Archive &archive )
     archive.io( "note", note, 0 );
     // NB! field is named `irridation` in legacy files
     archive.io( "irridation", irradiation, 0 );
-    archive.io( "bday", bday, calendar::time_of_cataclysm );
+    archive.io( "bday", bday, calendar::turn_zero );
     archive.io( "mission_id", mission_id, -1 );
     archive.io( "player_id", player_id, -1 );
     archive.io( "item_vars", item_vars, io::empty_default_tag() );
@@ -1995,8 +1998,8 @@ void item::io( Archive &archive )
     archive.io( "is_favorite", is_favorite, false );
     archive.io( "item_counter", item_counter, static_cast<decltype( item_counter )>( 0 ) );
     archive.io( "rot", rot, 0_turns );
-    archive.io( "last_rot_check", last_rot_check, calendar::time_of_cataclysm );
-    archive.io( "last_temp_check", last_temp_check, calendar::time_of_cataclysm );
+    archive.io( "last_rot_check", last_rot_check, calendar::turn_zero );
+    archive.io( "last_temp_check", last_temp_check, calendar::turn_zero );
     archive.io( "current_phase", cur_phase, static_cast<int>( type->phase ) );
     archive.io( "techniques", techniques, io::empty_default_tag() );
     archive.io( "faults", faults, io::empty_default_tag() );
@@ -2428,8 +2431,8 @@ void vehicle::deserialize( JsonIn &jsin )
     int mdir = 0;
 
     data.read( "type", type );
-    data.read( "posx", posx );
-    data.read( "posy", posy );
+    data.read( "posx", pos.x );
+    data.read( "posy", pos.y );
     data.read( "om_id", om_id );
     data.read( "faceDir", fdir );
     data.read( "moveDir", mdir );
@@ -2560,8 +2563,8 @@ void vehicle::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "type", type );
-    json.member( "posx", posx );
-    json.member( "posy", posy );
+    json.member( "posx", pos.x );
+    json.member( "posy", pos.y );
     json.member( "om_id", om_id );
     json.member( "faceDir", face.dir() );
     json.member( "moveDir", move.dir() );

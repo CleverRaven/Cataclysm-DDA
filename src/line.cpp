@@ -242,6 +242,11 @@ float trig_dist( const int x1, const int y1, const int x2, const int y2 )
     return trig_dist( tripoint( x1, y1, 0 ), tripoint( x2, y2, 0 ) );
 }
 
+float trig_dist( const point &loc1, const point &loc2 )
+{
+    return trig_dist( tripoint( loc1, 0 ), tripoint( loc2, 0 ) );
+}
+
 float trig_dist( const tripoint &loc1, const tripoint &loc2 )
 {
     return sqrt( static_cast<double>( ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) ) +
@@ -290,9 +295,18 @@ int rl_dist( const tripoint &loc1, const tripoint &loc2 )
 
 int manhattan_dist( const point &loc1, const point &loc2 )
 {
-    const int dx = abs( loc1.x - loc2.x );
-    const int dy = abs( loc1.y - loc2.y );
-    return dx + dy;
+    const point d = abs( loc1 - loc2 );
+    return d.x + d.y;
+}
+
+double atan2( const point &p )
+{
+    return atan2( static_cast<double>( p.y ), static_cast<double>( p.x ) );
+}
+
+double atan2_degrees( const point &p )
+{
+    return atan2( p ) * 180.0 / M_PI;
 }
 
 // This more general version of this function gives correct values for larger values.

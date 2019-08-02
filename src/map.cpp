@@ -22,7 +22,7 @@
 #include "drawing_primitives.h"
 #include "emit.h"
 #include "explosion.h"
-#include "event.h"
+#include "timed_event.h"
 #include "fragment_cloud.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -94,6 +94,7 @@ const species_id ZOMBIE( "ZOMBIE" );
 const efftype_id effect_boomered( "boomered" );
 const efftype_id effect_crushed( "crushed" );
 const efftype_id effect_stunned( "stunned" );
+const efftype_id effect_riding( "riding" );
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -215,7 +216,7 @@ void map::add_vehicle_to_cache( vehicle *veh )
         return;
     }
 
-    auto &ch = get_cache( veh->smz );
+    auto &ch = get_cache( veh->sm_pos.z );
     ch.veh_in_active_range = true;
     // Get parts
     std::vector<vehicle_part> &parts = veh->parts;
@@ -301,11 +302,12 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
         return std::unique_ptr<vehicle>();
     }
 
-    if( veh->smz < -OVERMAP_DEPTH || veh->smz > OVERMAP_HEIGHT ) {
+    int z = veh->sm_pos.z;
+    if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
         debugmsg( "detach_vehicle got a vehicle outside allowed z-level range! name=%s, submap:%d,%d,%d",
-                  veh->name, veh->smx, veh->smy, veh->smz );
+                  veh->name, veh->sm_pos.x, veh->sm_pos.y, veh->sm_pos.z );
         // Try to fix by moving the vehicle here
-        veh->smz = abs_sub.z;
+        z = veh->sm_pos.z = abs_sub.z;
     }
 
     // Unboard all passengers before detaching
@@ -316,14 +318,13 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
         }
     }
 
-    submap *const current_submap = get_submap_at_grid( {veh->smx, veh->smy, veh->smz} );
-    auto &ch = get_cache( veh->smz );
+    submap *const current_submap = get_submap_at_grid( veh->sm_pos );
+    auto &ch = get_cache( z );
     for( size_t i = 0; i < current_submap->vehicles.size(); i++ ) {
         if( current_submap->vehicles[i].get() == veh ) {
-            const int zlev = veh->smz;
             ch.vehicle_list.erase( veh );
             ch.zone_vehicles.erase( veh );
-            reset_vehicle_cache( zlev );
+            reset_vehicle_cache( z );
             std::unique_ptr<vehicle> result = std::move( current_submap->vehicles[i] );
             current_submap->vehicles.erase( current_submap->vehicles.begin() + i );
             if( veh->tracking_on ) {
@@ -333,8 +334,8 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
             return result;
         }
     }
-    debugmsg( "detach_vehicle can't find it! name=%s, submap:%d,%d,%d", veh->name, veh->smx,
-              veh->smy, veh->smz );
+    debugmsg( "detach_vehicle can't find it! name=%s, submap:%d,%d,%d", veh->name, veh->sm_pos.x,
+              veh->sm_pos.y, veh->sm_pos.z );
     return std::unique_ptr<vehicle>();
 }
 
@@ -441,7 +442,8 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         return &veh;
     }
 
-    if( dp.z + veh.smz < -OVERMAP_DEPTH || dp.z + veh.smz > OVERMAP_HEIGHT ) {
+    const int target_z = dp.z + veh.sm_pos.z;
+    if( target_z < -OVERMAP_DEPTH || target_z > OVERMAP_HEIGHT ) {
         return &veh;
     }
 
@@ -630,11 +632,11 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
              veh.name,  veh.part_info( c.part ).name(),
              veh2.name, veh2.part_info( c.target_part ).name() );
 
-    const bool vertical = veh.smz != veh2.smz;
+    const bool vertical = veh.sm_pos.z != veh2.sm_pos.z;
 
     // Used to calculate the epicenter of the collision.
-    point epicenter1( 0, 0 );
-    point epicenter2( 0, 0 );
+    point epicenter1;
+    point epicenter2;
 
     float dmg;
     // Vertical collisions will be simpler for a while (1D)
@@ -838,14 +840,10 @@ VehicleList map::get_vehicles( const tripoint &start, const tripoint &end )
                 submap *current_submap = get_submap_at_grid( { cx, cy, cz } );
                 for( const auto &elem : current_submap->vehicles ) {
                     // Ensure the vehicle z-position is correct
-                    elem->smz = cz;
+                    elem->sm_pos.z = cz;
                     wrapped_vehicle w;
                     w.v = elem.get();
-                    w.x = w.v->posx + cx * SEEX;
-                    w.y = w.v->posy + cy * SEEY;
-                    w.z = cz;
-                    w.i = cx;
-                    w.j = cy;
+                    w.pos = w.v->global_pos3();
                     vehs.push_back( w );
                 }
             }
@@ -985,8 +983,7 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
     // first, let's find our position in current vehicles vector
     int our_i = -1;
     for( size_t i = 0; i < src_submap->vehicles.size(); i++ ) {
-        if( src_submap->vehicles[i]->posx == src_offset.x &&
-            src_submap->vehicles[i]->posy == src_offset.y ) {
+        if( src_submap->vehicles[i]->pos == src_offset ) {
             our_i = i;
             break;
         }
@@ -1080,9 +1077,8 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
     veh->pivot_anchor[0] = veh->pivot_anchor[1];
     veh->pivot_rotation[0] = veh->pivot_rotation[1];
 
-    veh->posx = dst_offset.x;
-    veh->posy = dst_offset.y;
-    veh->smz = p2.z;
+    veh->pos = dst_offset;
+    veh->sm_pos.z = p2.z;
     // Invalidate vehicle's point cache
     veh->occupied_cache_time = calendar::before_time_starts;
     if( src_submap != dst_submap ) {
@@ -1115,7 +1111,7 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
     //global positions of vehicle loot zones have changed.
     veh->zones_dirty = true;
 
-    on_vehicle_moved( veh->smz );
+    on_vehicle_moved( veh->sm_pos.z );
     return veh;
 }
 
@@ -1295,6 +1291,9 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
 
 bool map::can_move_furniture( const tripoint &pos, player *p )
 {
+    if( !p ) {
+        return false;
+    }
     const furn_t &furniture_type = furn( pos ).obj();
     int required_str = furniture_type.move_str_req;
 
@@ -1304,11 +1303,14 @@ bool map::can_move_furniture( const tripoint &pos, player *p )
     }
 
     ///\EFFECT_STR determines what furniture the player can move
-    if( p != nullptr && p->str_cur < required_str ) {
-        return false;
+    int adjusted_str = p->str_cur;
+    if( p->is_mounted() ) {
+        auto mons = p->mounted_creature.get();
+        if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->mech_str_addition() != 0 ) {
+            adjusted_str = mons->mech_str_addition();
+        }
     }
-
-    return true;
+    return adjusted_str >= required_str;
 }
 
 std::string map::furnname( const tripoint &p )
@@ -1922,11 +1924,7 @@ bool map::supports_above( const tripoint &p ) const
         }
     }
 
-    if( veh_at( p ) ) {
-        return true;
-    }
-
-    return false;
+    return veh_at( p ).has_value();
 }
 
 bool map::has_floor_or_support( const tripoint &p ) const
@@ -3078,7 +3076,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     // TODO: what if silent is true?
-    if( has_flag( "ALARMED", p ) && !g->events.queued( EVENT_WANTED ) ) {
+    if( has_flag( "ALARMED", p ) && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
         sounds::sound( p, 40, sounds::sound_t::alarm, _( "an alarm go off!" ),
                        false, "environment", "alarm" );
         // Blame nearby player
@@ -3086,7 +3084,8 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
             g->u.add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
                                    pgettext( "memorial_female", "Set off an alarm." ) );
             const point abs = ms_to_sm_copy( getabs( p.x, p.y ) );
-            g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, tripoint( abs.x, abs.y, p.z ) );
+            g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
+                                 tripoint( abs.x, abs.y, p.z ) );
         }
     }
 
@@ -3498,11 +3497,11 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     float dam = initial_damage;
     const auto &ammo_effects = proj.proj_effects;
 
-    if( has_flag( "ALARMED", p ) && !g->events.queued( EVENT_WANTED ) ) {
+    if( has_flag( "ALARMED", p ) && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
         sounds::sound( p, 30, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                        "alarm" );
         const tripoint abs = ms_to_sm_copy( getabs( p ) );
-        g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, abs );
+        g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0, abs );
     }
 
     const bool inc = ( ammo_effects.count( "INCENDIARY" ) || ammo_effects.count( "FLAME" ) );
@@ -4837,14 +4836,13 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
 {
     std::list<item> ret;
 
+    // populate a grid of spots that can be reached
+    std::vector<tripoint> reachable_pts;
+    reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+
     // We prefer infinite map sources where available, so search for those
     // first
-    for( const tripoint &p : closest_tripoints_first( range, origin ) ) {
-        // can not reach this -> can not access its contents
-        if( origin != p && !clear_path( origin, p, range, 1, 100 ) ) {
-            continue;
-        }
-
+    for( const tripoint &p : reachable_pts ) {
         // Handle infinite map sources.
         item water = water_from( p );
         if( water.typeId() == type ) {
@@ -4862,12 +4860,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
         }
     }
 
-    for( const tripoint &p : closest_tripoints_first( range, origin ) ) {
-        // can not reach this -> can not access its contents
-        if( origin != p && !clear_path( origin, p, range, 1, 100 ) ) {
-            continue;
-        }
-
+    for( const tripoint &p : reachable_pts ) {
         if( has_furn( p ) ) {
             use_charges_from_furn( furn( p ).obj(), type, quantity, this, p, ret, filter );
             if( quantity <= 0 ) {
@@ -6781,9 +6774,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
         vehicle *veh = iter->get();
         if( !veh->parts.empty() ) {
             // Always fix submap coordinates for easier Z-level-related operations
-            veh->smx = gridx;
-            veh->smy = gridy;
-            veh->smz = gridz;
+            veh->sm_pos = tripoint( gridx, gridy, gridz );
             iter++;
         } else {
             reset_vehicle_cache( gridz );
@@ -7268,8 +7259,7 @@ void map::copy_grid( const tripoint &to, const tripoint &from )
     const auto smap = get_submap_at_grid( from );
     setsubmap( get_nonant( to ), smap );
     for( auto &it : smap->vehicles ) {
-        it->smx = to.x;
-        it->smy = to.y;
+        it->sm_pos = to;
     }
 }
 
@@ -7745,22 +7735,21 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
         }
     }
     VehicleList vehs = get_vehicles( start, end );
+    const box bounds( start, end );
     // Cache all the vehicle stuff in one loop
     for( auto &v : vehs ) {
         for( const vpart_reference &vp : v.v->get_all_parts() ) {
-            int px = v.x + vp.part().precalc[0].x;
-            int py = v.y + vp.part().precalc[0].y;
-            if( v.z != start.z ) {
+            tripoint p = v.pos + vp.part().precalc[0];
+            if( p.z != start.z ) {
                 break;
             }
-            if( px < start.x || py < start.y || v.z < start.z ||
-                px > end.x || py > end.y || v.z > end.z ) {
+            if( !bounds.contains_inclusive( p ) ) {
                 continue;
             }
 
             if( vp.obstacle_at_part() ) {
-                obstacle_cache[px][py].velocity = 1000.0f;
-                obstacle_cache[px][py].density = 0.0f;
+                obstacle_cache[p.x][p.y].velocity = 1000.0f;
+                obstacle_cache[p.x][p.y].density = 0.0f;
             }
         }
     }
@@ -7878,7 +7867,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     }
 
     // Initial value is illegal player position.
-    static tripoint player_prev_pos = tripoint_zero;
+    static tripoint player_prev_pos;
     if( seen_cache_dirty || player_prev_pos != p ) {
         build_seen_cache( g->u.pos(), zlev );
         player_prev_pos = p;
