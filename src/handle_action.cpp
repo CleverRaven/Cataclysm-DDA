@@ -178,10 +178,6 @@ input_context game::get_player_input( std::string &action )
         wPrint.cGlyph = weather_info.glyph;
         wPrint.wtype = weather.weather;
         wPrint.vdrops.clear();
-        wPrint.startx = iStartX;
-        wPrint.starty = iStartY;
-        wPrint.endx = iEndX;
-        wPrint.endy = iEndY;
 
         ctxt.set_timeout( 125 );
         bool initial_draw = true;
