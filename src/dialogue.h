@@ -119,6 +119,7 @@ struct talk_effect_fun_t {
         void set_mapgen_update( JsonObject jo, const std::string &member );
         void set_bulk_trade_accept( bool is_trade, bool is_npc = false );
         void set_npc_gets_item( bool to_use );
+        void set_add_mission( const std::string mission_id );
 
         void operator()( const dialogue &d ) const {
             if( !function ) {
