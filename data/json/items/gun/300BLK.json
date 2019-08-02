@@ -56,7 +56,7 @@
     ],
     "magazines": [ [ "300blk", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
-    {
+  {
     "id": "ar15_retool_300blk",
     "copy-from": "rifle_semi",
     "type": "GUN",
