@@ -107,7 +107,6 @@ const efftype_id effect_mending( "mending" );
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_under_op( "under_operation" );
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -4436,7 +4435,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
                 }
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
-                patient.add_effect( effect_under_op, duration, num_bp );
                 patient.install_bionics( ( *itemtype ), installer, true );
             }
             break;
@@ -4501,7 +4499,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
                 }
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
-                patient.add_effect( effect_under_op, duration, num_bp );
                 patient.uninstall_bionic( bid, installer, true );
             }
             break;
