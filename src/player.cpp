@@ -46,6 +46,7 @@
 #include "martialarts.h"
 #include "material.h"
 #include "messages.h"
+#include "monster.h"
 #include "morale.h"
 #include "morale_types.h"
 #include "mtype.h"
@@ -84,7 +85,6 @@
 #include "lightmap.h"
 #include "line.h"
 #include "math_defines.h"
-#include "monster.h"
 #include "omdata.h"
 #include "overmap_types.h"
 #include "recipe.h"
@@ -124,6 +124,7 @@ const efftype_id effect_cig( "cig" );
 const efftype_id effect_cold( "cold" );
 const efftype_id effect_common_cold( "common_cold" );
 const efftype_id effect_contacts( "contacts" );
+const efftype_id effect_controlled( "controlled" );
 const efftype_id effect_corroding( "corroding" );
 const efftype_id effect_cough_suppress( "cough_suppress" );
 const efftype_id effect_darkness( "darkness" );
@@ -1573,7 +1574,7 @@ int player::run_cost( int base_cost, bool diag ) const
         }
     }
 
-    if( !has_effect( effect_riding ) ) {
+    if( !is_mounted() ) {
         if( movecost > 100 ) {
             movecost *= Character::mutation_value( "movecost_obstacle_modifier" );
             if( movecost < 100 ) {
@@ -1691,7 +1692,7 @@ int player::run_cost( int base_cost, bool diag ) const
 int player::swim_speed() const
 {
     int ret;
-    if( has_effect( effect_riding ) && mounted_creature != nullptr ) {
+    if( is_mounted() ) {
         monster *mon = mounted_creature.get();
         // no difference in swim speed by monster type yet.
         // TODO : difference in swim speed by monster type.
@@ -2368,7 +2369,9 @@ int player::overmap_sight_range( int light_level ) const
 
     float multiplier = Character::mutation_value( "overmap_multiplier" );
     // Binoculars double your sight range.
-    const bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( bio_eye_optic ) );
+    const bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( bio_eye_optic ) ||
+                             ( is_mounted() &&
+                               mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) );
     if( has_optic ) {
         multiplier += 1;
     }
@@ -2550,8 +2553,12 @@ void player::set_movement_mode( const player_movemode new_mode )
 {
     switch( new_mode ) {
         case PMM_WALK: {
-            if( has_effect( effect_riding ) ) {
-                add_msg( _( "You nudge your steed to a steady trot." ) );
+            if( is_mounted() ) {
+                if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+                    add_msg( _( "You set your mech's leg power to a loping fast walk." ) );
+                } else {
+                    add_msg( _( "You nudge your steed into a steady trot." ) );
+                }
             } else {
                 add_msg( _( "You start walking." ) );
             }
@@ -2562,13 +2569,18 @@ void player::set_movement_mode( const player_movemode new_mode )
                 if( is_hauling() ) {
                     stop_hauling();
                 }
-                if( has_effect( effect_riding ) ) {
-                    add_msg( _( "You spur your steed into a gallop." ) );
+                if( is_mounted() ) {
+                    if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+                        add_msg( _( "You set the power of your mech's leg servos to maximum." ) );
+                    } else {
+                        add_msg( _( "You spur your steed into a gallop." ) );
+                    }
                 } else {
                     add_msg( _( "You start running." ) );
                 }
             } else {
-                if( has_effect( effect_riding ) ) {
+                if( is_mounted() ) {
+                    // mounts dont currently have stamina, but may do in future.
                     add_msg( m_bad, _( "Your steed is too tired to go faster." ) );
                 } else {
                     add_msg( m_bad, _( "You're too tired to run." ) );
@@ -2577,8 +2589,12 @@ void player::set_movement_mode( const player_movemode new_mode )
             break;
         }
         case PMM_CROUCH: {
-            if( has_effect( effect_riding ) ) {
-                add_msg( _( "You slow your steed to a walk." ) );
+            if( is_mounted() ) {
+                if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+                    add_msg( _( "You reduce the power of your mech's leg servos to minimum." ) );
+                } else {
+                    add_msg( _( "You slow your steed to a walk." ) );
+                }
             } else {
                 add_msg( _( "You start crouching." ) );
             }
@@ -6877,6 +6893,14 @@ std::list<item> player::use_charges( const itype_id &what, int qty,
         return res;
 
     } else if( what == "UPS" ) {
+        if( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
+            mounted_creature.get()->battery_item ) {
+            auto mons = mounted_creature.get();
+            int power_drain = std::min( mons->battery_item->ammo_remaining(), qty );
+            mons->use_mech_power( -power_drain );
+            qty -= std::min( qty, power_drain );
+            return res;
+        }
         if( power_level > 0 && has_active_bionic( bio_ups ) ) {
             int bio = std::min( power_level, qty );
             charge_power( -bio );
@@ -6966,6 +6990,11 @@ bool player::has_charges( const itype_id &it, int quantity,
 {
     if( it == "fire" || it == "apparatus" ) {
         return has_fire( quantity );
+    }
+    if( it == "UPS" && is_mounted() &&
+        mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) ) {
+        auto mons = mounted_creature.get();
+        return quantity <= mons->battery_item->ammo_remaining();
     }
     return charges_of( it, quantity, filter ) == quantity;
 }
@@ -11006,8 +11035,13 @@ void player::burn_move_stamina( int moves )
 void player::forced_dismount()
 {
     remove_effect( effect_riding );
+    bool mech = false;
     if( mounted_creature ) {
         auto mon = mounted_creature.get();
+        if( mon->has_flag( MF_RIDEABLE_MECH ) && !mon->type->mech_weapon.empty() ) {
+            mech = true;
+            remove_item( g->u.weapon );
+        }
         mon->remove_effect( effect_ridden );
         mounted_creature = nullptr;
     }
@@ -11019,7 +11053,11 @@ void player::forced_dismount()
     }
     if( !valid.empty() ) {
         setpos( random_entry( valid ) );
-        add_msg( m_bad, _( "You fall off your mount!" ) );
+        if( mech ) {
+            add_msg( m_bad, _( "You are ejected from your mech!" ) );
+        } else {
+            add_msg( m_bad, _( "You fall off your mount!" ) );
+        }
         const int dodge = get_dodge();
         const int damage = std::max( 0, rng( 1, 20 ) - rng( dodge, dodge * 2 ) );
         body_part hit = num_bp;
@@ -11068,6 +11106,10 @@ void player::forced_dismount()
     } else {
         add_msg( m_debug, "Forced_dismount could not find a square to deposit player" );
     }
+    if( g->u.get_grab_type() != OBJECT_NONE ) {
+        add_msg( m_warning, _( "You let go of the grabbed object." ) );
+        g->u.grab( OBJECT_NONE );
+    }
     moves -= 150;
     set_movement_mode( PMM_WALK );
     g->update_map( g->u );
@@ -11075,7 +11117,7 @@ void player::forced_dismount()
 
 void player::dismount()
 {
-    if( has_effect( effect_riding ) && mounted_creature != nullptr ) {
+    if( is_mounted() ) {
         if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Dismount where?" ) ) ) {
             if( g->is_empty( *pnt ) ) {
                 tripoint temp_pt = *pnt;
@@ -11083,11 +11125,19 @@ void player::dismount()
                 int ydiff = pos().y - temp_pt.y;
                 remove_effect( effect_riding );
                 monster *critter = mounted_creature.get();
+                if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.empty() ) {
+                    remove_item( g->u.weapon );
+                }
+                if( g->u.get_grab_type() != OBJECT_NONE ) {
+                    add_msg( m_warning, _( "You let go of the grabbed object." ) );
+                    g->u.grab( OBJECT_NONE );
+                }
                 critter->remove_effect( effect_ridden );
                 mounted_creature = nullptr;
                 setpos( *pnt );
                 g->refresh_all();
-                critter->setpos( tripoint( pos().x - xdiff, pos().y - ydiff, pos().z ) );
+                critter->setpos( tripoint( pos().x + xdiff, pos().y + ydiff, pos().z ) );
+                critter->add_effect( effect_controlled, 5_turns );
                 mod_moves( -100 );
                 set_movement_mode( PMM_WALK );
                 return;

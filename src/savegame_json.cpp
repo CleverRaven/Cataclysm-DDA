@@ -473,6 +473,15 @@ void Character::load( JsonObject &data )
     weapon = item( "null", 0 );
     data.read( "weapon", weapon );
 
+    if( has_effect( effect_riding ) ) {
+        int temp_id;
+        if( data.read( "mounted_creature", temp_id ) ) {
+            mounted_creature = g->critter_tracker->from_temporary_id( temp_id );
+        } else {
+            mounted_creature = nullptr;
+        }
+    }
+
     _skills->clear();
     JsonObject pmap = data.get_object( "skills" );
     for( const std::string &member : pmap.get_member_names() ) {
@@ -558,7 +567,10 @@ void Character::store( JsonOut &json ) const
 
     // "Fracking Toasters" - Saul Tigh, toaster
     json.member( "my_bionics", *my_bionics );
-
+    // storing the mount
+    if( is_mounted() ) {
+        json.member( "mounted_creature", g->critter_tracker->temporary_id( *mounted_creature ) );
+    }
     // skills
     json.member( "skills" );
     json.start_object();
@@ -685,9 +697,6 @@ void player::store( JsonOut &json ) const
         }
         json.end_array();
     }
-    if( has_effect( effect_riding ) && mounted_creature ) {
-        json.member( "mounted_creature", g->critter_tracker->temporary_id( *mounted_creature ) );
-    }
 }
 
 /**
@@ -798,14 +807,7 @@ void player::load( JsonObject &data )
         // Need to do this *after* the monsters have been loaded!
         last_target = g->critter_tracker->from_temporary_id( tmptar );
     }
-    if( has_effect( effect_riding ) ) {
-        int temp_id;
-        if( data.read( "mounted_creature", temp_id ) ) {
-            mounted_creature = g->critter_tracker->from_temporary_id( temp_id );
-        } else {
-            mounted_creature = nullptr;
-        }
-    }
+
     JsonArray basecamps = data.get_array( "camps" );
     camps.clear();
     while( basecamps.has_more() ) {
@@ -1729,6 +1731,7 @@ void monster::load( JsonObject &data )
     }
     data.read( "tied_item", tied_item );
     data.read( "hp", hp );
+    data.read( "battery_item", battery_item );
 
     // sp_timeout indicates an old save, prior to the special_attacks refactor
     if( data.has_array( "sp_timeout" ) ) {
@@ -1861,6 +1864,7 @@ void monster::store( JsonOut &json ) const
     json.member( "hallucination", hallucination );
     json.member( "stairscount", staircount );
     json.member( "tied_item", tied_item );
+    json.member( "battery_item", battery_item );
     // Store the relative position of the goal so it loads correctly after a map shift.
     json.member( "destination", goal - pos() );
     json.member( "ammo", ammo );

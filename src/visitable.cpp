@@ -26,6 +26,8 @@
 #include "colony.h"
 #include "point.h"
 
+const efftype_id effect_riding( "riding" );
+
 /** @relates visitable */
 template <typename T>
 item *visitable<T>::find_parent( const item &it )
@@ -851,6 +853,12 @@ int visitable<Character>::charges_of( const std::string &what, int limit,
         qty = sum_no_wrap( qty, static_cast<int>( charges_of( "adv_UPS_off" ) / 0.6 ) );
         if( p && p->has_active_bionic( bionic_id( "bio_ups" ) ) ) {
             qty = sum_no_wrap( qty, p->power_level );
+        }
+        if( p && p->is_mounted() ) {
+            auto mons = p->mounted_creature.get();
+            if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->battery_item ) {
+                qty = sum_no_wrap( qty, mons->battery_item->ammo_remaining() );
+            }
         }
         return std::min( qty, limit );
     }
