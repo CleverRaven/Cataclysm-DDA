@@ -2985,7 +2985,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     const time_duration half_op_duration = difficulty * 10_minutes;
     time_duration time_left = time_duration::from_turns( act->moves_left / 100 ) ;
 
-    if( autodoc ) {
+    if( autodoc && !( p->posx() < 0 || p->posy() < 0 || p->posx() > 121 || p->posy() > 121 ) ) {
         const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
                                              furn_str_id( "f_autodoc" ) );
 
@@ -3000,7 +3000,6 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                                           _( "The Autodoc's failure damages you greatly." ),
                                           _( "The Autodoc's failure damages <npcname> greatly." ) );
             }
-
             if( act->values.size() > 4 ) {
                 for( size_t i = 4; i < act->values.size(); i++ ) {
                     p->add_effect( effect_bleed, 1_turns, body_part( act->values[i] ), true, difficulty );
