@@ -41,7 +41,6 @@ readability-*,\
 -misc-redundant-expression,\
 -modernize-avoid-c-arrays,\
 -modernize-deprecated-headers,\
--modernize-make-unique,\
 -modernize-pass-by-value,\
 -modernize-raw-string-literal,\
 -modernize-return-braced-init-list,\
