@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "river_shack" ],
+    "om_terrain": [ "outs_lake_shack" ],
     "weight": 100,
     "object": {
       "fill_ter": "t_water_dp",
@@ -179,7 +179,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "river_shack_basement" ],
+    "om_terrain": [ "outs_lake_shack_basement" ],
     "weight": 100,
     "object": {
       "faction_owner": [ { "id": "outsiders", "x": [ 8, 4 ], "y": [ 18, 17 ] } ],
@@ -269,7 +269,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "river_shack_roof" ],
+    "om_terrain": [ "outs_lake_shack_roof" ],
     "weight": 100,
     "object": {
       "fill_ter": "t_rock",
