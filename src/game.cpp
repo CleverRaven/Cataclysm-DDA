@@ -10505,7 +10505,13 @@ point game::update_map( int &x, int &y )
     load_npcs();
 
     // Make sure map cache is consistent since it may have shifted.
-    m.invalidate_map_cache( get_levz() );
+    if( m.has_zlevels() ) {
+        for( int zlev = -OVERMAP_DEPTH; zlev <= OVERMAP_HEIGHT; ++zlev ) {
+            m.invalidate_map_cache( zlev );
+        }
+    } else {
+        m.invalidate_map_cache( get_levz() );
+    }
     m.build_map_cache( get_levz() );
 
     // Spawn monsters if appropriate
