@@ -412,7 +412,7 @@ void load_mapgen( JsonObject &jo )
     if( jo.has_array( "om_terrain" ) ) {
         JsonArray ja = jo.get_array( "om_terrain" );
         if( ja.test_array() ) {
-            point offset = point_zero;
+            point offset;
             while( ja.has_more() ) {
                 JsonArray row_items = ja.next_array();
                 while( row_items.has_more() ) {
@@ -507,7 +507,6 @@ mapgen_function_json_base::mapgen_function_json_base( const std::string &s )
     , do_format( false )
     , is_ready( false )
     , mapgensize( SEEX * 2, SEEY * 2 )
-    , m_offset( point_zero )
     , objects( m_offset, mapgensize )
 {
 }
