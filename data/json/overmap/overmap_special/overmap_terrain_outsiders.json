@@ -1,0 +1,29 @@
+[
+	  {
+	    "id": "outs_lake_shack",
+	    "type": "overmap_terrain",
+	    "name": "island shack",
+	    "sym": "^",
+	    "color": "green",
+	    "see_cost": 3,
+	    "flags": [ "NO_ROTATE" ]
+	  },
+	  {
+	    "id": "outs_lake_shack_basement",
+	    "type": "overmap_terrain",
+	    "name": "island shack basement",
+	    "sym": "+",
+	    "color": "green",
+	    "see_cost": 3,
+	    "flags": [ "NO_ROTATE" ]
+	  },
+	  {
+	    "id": "outs_lake_shack_roof",
+	    "type": "overmap_terrain",
+	    "name": "island shack roof",
+	    "sym": "+",
+	    "color": "green",
+	    "see_cost": 3,
+	    "flags": [ "NO_ROTATE" ]
+	  }
+]
