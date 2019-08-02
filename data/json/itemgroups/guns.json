@@ -32,7 +32,8 @@
       { "item": "hptjcp", "prob": 1, "charges-min": 0, "charges-max": 10 },
       { "item": "hptjhp", "prob": 1, "charges-min": 0, "charges-max": 9 },
       { "item": "cz75", "prob": 18, "charges-min": 0, "charges-max": 26 },
-      { "item": "walther_ccp", "prob": 8, "charges-min": 0, "charges-max": 8 }
+      { "item": "walther_ccp", "prob": 8, "charges-min": 0, "charges-max": 8 },
+      { "item": "walther_p22", "prob": 13, "charges-min": 0, "charges-max": 10 }
     ]
   },
   {

@@ -177,5 +177,21 @@
     "capacity": 6,
     "reliability": 6,
     "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "wp22mag",
+    "type": "MAGAZINE",
+    "name": "Walther P22 magazine",
+    "description": "A 10-round box magazine for the Walther P22.",
+    "weight": 25,
+    "volume": "126 ml",
+    "price": 3250,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "22",
+    "capacity": 10,
+    "reliability": 8,
+    "flags": [ "MAG_COMPACT" ]
   }
 ]
