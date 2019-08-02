@@ -2985,7 +2985,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     const time_duration half_op_duration = difficulty * 10_minutes;
     time_duration time_left = time_duration::from_turns( act->moves_left / 100 ) ;
 
-    if( autodoc && !( p->posx() < 0 || p->posy() < 0 || p->posx() > 121 || p->posy() > 121 ) ) {
+    if( autodoc && g->m.inbounds( p->pos() ) ) {
         const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
                                              furn_str_id( "f_autodoc" ) );
 
