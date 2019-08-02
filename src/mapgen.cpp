@@ -5455,7 +5455,6 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
         return is_ot_match( oterstr, oterid, ot_match_type::type );
     };
 
-
     if( match( terrain_type, "haz_sar_entrance" ) ) {
         // Init to grass & dirt;
         dat.fill_groundcover();

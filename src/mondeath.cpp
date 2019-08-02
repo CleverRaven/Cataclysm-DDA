@@ -358,8 +358,6 @@ void mdeath::triffid_heart( monster &z )
 
 void mdeath::fungus( monster &z )
 {
-
-
     //~ the sound of a fungus dying
     sounds::sound( z.pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
 

@@ -18,7 +18,6 @@
 #include "string_id.h"
 #include "translations.h"
 
-
 class JsonObject;
 
 enum phase_id : int;

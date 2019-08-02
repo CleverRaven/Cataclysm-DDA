@@ -1051,7 +1051,6 @@ bool player::can_autolearn( const matype_id &ma_id ) const
         return false;
     }
 
-
     for( const std::pair<std::string, int> &elem : ma_id.obj().autolearn_skills ) {
         const skill_id skill_req( elem.first );
         const int required_level = elem.second;
