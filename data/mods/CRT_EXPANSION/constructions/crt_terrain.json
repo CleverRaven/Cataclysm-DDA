@@ -21,26 +21,5 @@
         { "item": "splinter", "count": [ 1, 6 ] }
       ]
     }
-  },
-  {
-    "type": "terrain",
-    "id": "t_log_pillar",
-    "name": "log support",
-    "description": "A log pillar support for the makeshift wall. Flammable.",
-    "symbol": "LINE_OXOX",
-    "color": "tan",
-    "move_cost": 25,
-    "flags": [ "FLAMMABLE", "NOITEM"],
-    "bash": {
-      "str_min": 8,
-      "str_max": 15,
-      "sound": "crunch!",
-      "sound_fail": "krick!",
-      "ter_set": "t_null",
-      "items": [
-        { "item": "stick", "count": [ 0, 1 ] },
-        { "item": "splinter", "count": [ 1, 6 ] }
-      ]
-    }
-  }  
+  }
 ]
