@@ -519,6 +519,14 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_CHOP_PLANKS",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": "cutting planks",
+    "based_on": "speed",
+    "no_resume": true
+  },
+  {
     "id": "ACT_JACKHAMMER",
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
@@ -574,6 +582,14 @@
     "verb": "trying to fall asleep",
     "rooted": true,
     "based_on": "speed",
+    "suspendable": false
+  },
+  {
+    "id": "ACT_OPERATION",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "being operated on",
+    "based_on": "time",
     "suspendable": false
   },
   {

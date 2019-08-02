@@ -17,6 +17,20 @@ struct StringMaker<item> {
     }
 };
 
+template<>
+struct StringMaker<rectangle> {
+    static std::string convert( const rectangle &r ) {
+        return string_format( "[%s-%s]", r.p_min.to_string(), r.p_max.to_string() );
+    }
+};
+
+template<>
+struct StringMaker<box> {
+    static std::string convert( const box &b ) {
+        return string_format( "[%s-%s]", b.p_min.to_string(), b.p_max.to_string() );
+    }
+};
+
 } // namespace Catch
 
 #endif // CATA_TESTS_STRINGMAKER_H

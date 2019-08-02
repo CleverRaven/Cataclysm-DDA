@@ -118,7 +118,7 @@ static const trait_id debug_nodmg( "DEBUG_NODMG" );
 
 // *INDENT-OFF*
 Character::Character() :
-    Creature(),
+
     visitable<Character>(),
     hp_cur( {{ 0 }} ),
     hp_max( {{ 0 }} ),
@@ -376,6 +376,11 @@ double Character::aim_per_move( const item &gun, double recoil ) const
     return std::min( aim_speed, recoil - limit );
 }
 
+bool Character::is_mounted() const
+{
+    return has_effect( effect_riding ) && mounted_creature;
+}
+
 bool Character::move_effects( bool attacking )
 {
     if( has_effect( effect_downed ) ) {
@@ -392,8 +397,8 @@ bool Character::move_effects( bool attacking )
         return false;
     }
     if( has_effect( effect_webbed ) ) {
-        if( has_effect( effect_riding ) && g->u.mounted_creature ) {
-            auto mon = g->u.mounted_creature.get();
+        if( is_mounted() ) {
+            auto mon = mounted_creature.get();
             if( x_in_y( mon->type->melee_dice * mon->type->melee_sides,
                         6 * get_effect_int( effect_webbed ) ) ) {
                 add_msg( _( "The %s breaks free of the webs!" ), mon->get_name() );
@@ -411,8 +416,8 @@ bool Character::move_effects( bool attacking )
         return false;
     }
     if( has_effect( effect_lightsnare ) ) {
-        if( has_effect( effect_riding ) && g->u.mounted_creature ) {
-            auto mon = g->u.mounted_creature.get();
+        if( is_mounted() ) {
+            auto mon = mounted_creature.get();
             if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 12 ) ) {
                 mon->remove_effect( effect_lightsnare );
                 remove_effect( effect_lightsnare );
@@ -440,8 +445,8 @@ bool Character::move_effects( bool attacking )
         }
     }
     if( has_effect( effect_heavysnare ) ) {
-        if( has_effect( effect_riding ) && g->u.mounted_creature ) {
-            auto mon = g->u.mounted_creature.get();
+        if( is_mounted() ) {
+            auto mon = mounted_creature.get();
             if( mon->type->melee_dice * mon->type->melee_sides >= 7 ) {
                 if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 32 ) ) {
                     mon->remove_effect( effect_heavysnare );
@@ -478,8 +483,8 @@ bool Character::move_effects( bool attacking )
         */
         /** @EFFECT_STR increases chance to escape bear trap */
         // If is riding, then despite the character having the effect, it is the mounted creature that escapes.
-        if( has_effect( effect_riding ) && is_player() && g->u.mounted_creature ) {
-            auto mon = g->u.mounted_creature.get();
+        if( is_player() && is_mounted() ) {
+            auto mon = mounted_creature.get();
             if( mon->type->melee_dice * mon->type->melee_sides >= 18 ) {
                 if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 200 ) ) {
                     mon->remove_effect( effect_beartrap );
@@ -537,8 +542,8 @@ bool Character::move_effects( bool attacking )
     }
     if( has_effect( effect_grabbed ) && !attacking ) {
         int zed_number = 0;
-        if( has_effect( effect_riding ) && g->u.mounted_creature ) {
-            auto mon = g->u.mounted_creature.get();
+        if( is_mounted() ) {
+            auto mon = mounted_creature.get();
             if( mon->has_effect( effect_grabbed ) ) {
                 if( ( dice( mon->type->melee_dice + mon->type->melee_sides,
                             3 ) < get_effect_int( effect_grabbed ) ) ||
@@ -554,7 +559,7 @@ bool Character::move_effects( bool attacking )
                 if( one_in( 4 ) ) {
                     add_msg( m_bad, _( "You are pulled from your %s!" ), mon->get_name() );
                     remove_effect( effect_grabbed );
-                    g->u.forced_dismount();
+                    dynamic_cast<player &>( *this ).forced_dismount();
                 }
             }
         } else {
@@ -692,7 +697,8 @@ void Character::recalc_sight_limits()
     if( has_nv() ) {
         vision_mode_cache.set( NV_GOGGLES );
     }
-    if( has_active_mutation( trait_NIGHTVISION3 ) || is_wearing( "rm13_armor_on" ) ) {
+    if( has_active_mutation( trait_NIGHTVISION3 ) || is_wearing( "rm13_armor_on" ) ||
+        ( is_mounted() && mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) ) {
         vision_mode_cache.set( NIGHTVISION_3 );
     }
     if( has_active_mutation( trait_ELFA_FNV ) ) {
@@ -724,7 +730,8 @@ void Character::recalc_sight_limits()
     if( has_active_bionic( bionic_id( "bio_infrared" ) ) ||
         has_trait( trait_id( "INFRARED" ) ) ||
         has_trait( trait_id( "LIZ_IR" ) ) ||
-        worn_with_flag( "IR_EFFECT" ) ) {
+        worn_with_flag( "IR_EFFECT" ) || ( is_mounted() &&
+                                           mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) ) {
         vision_mode_cache.set( IR_VISION );
     }
 
@@ -801,11 +808,7 @@ bool Character::has_active_bionic( const bionic_id &b ) const
 
 bool Character::has_any_bionic() const
 {
-    bionic_collection tmp_collec = *my_bionics;
-    if( !tmp_collec.empty() ) {
-        return true;
-    }
-    return false;
+    return !my_bionics->empty();
 }
 
 std::vector<item_location> Character::nearby( const
@@ -898,6 +901,7 @@ item &Character::i_add( item it, bool should_stack )
     }
     auto &item_in_inv = inv.add_item( it, keep_invlet, true, should_stack );
     item_in_inv.on_pickup( *this );
+    cached_info.erase( "reloadables" );
     return item_in_inv;
 }
 
@@ -1199,7 +1203,14 @@ int Character::best_nearby_lifting_assist() const
 int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
 {
     const quality_id LIFT( "LIFT" );
-    return std::max( { this->max_quality( LIFT ),
+    int mech_lift = 0;
+    if( is_mounted() ) {
+        auto mons = mounted_creature.get();
+        if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
+            mech_lift = mons->mech_str_addition() + 10;
+        }
+    }
+    return std::max( { this->max_quality( LIFT ), mech_lift,
                        map_selector( this->pos(), PICKUP_RANGE ).max_quality( LIFT ),
                        vehicle_selector( world_pos, 4, true, true ).max_quality( LIFT )
                      } );
@@ -1263,6 +1274,13 @@ units::mass Character::weight_capacity() const
     }
     if( ret < 0_gram ) {
         ret = 0_gram;
+    }
+    if( is_mounted() ) {
+        auto *mons = mounted_creature.get();
+        // the mech has an effective strength for other purposes, like hitting.
+        // but for lifting, its effective strength is even higher, due to its sturdy construction, leverage,
+        // and being built entirely for that purpose with hydraulics etc.
+        ret = mons->mech_str_addition() == 0 ? ret : ( mons->mech_str_addition() + 10 ) * 4_kilogram;
     }
     return ret;
 }
@@ -2319,8 +2337,6 @@ void Character::reset_bonuses()
     per_bonus = 0;
     int_bonus = 0;
 
-    reset_encumbrance();
-
     Creature::reset_bonuses();
 }
 
@@ -2655,31 +2671,19 @@ nc_color Character::symbol_color() const
 
     const auto &fields = g->m.field_at( pos() );
 
+    // Priority: electricity, fire, acid, gases
+    bool has_elec = false;
     bool has_fire = false;
     bool has_acid = false;
-    bool has_elec = false;
     bool has_fume = false;
     for( const auto &field : fields ) {
-        if( field.first == fd_incendiary || field.first == fd_fire ) {
-            has_fire = true;
+        has_elec = field.first.obj().has_elec;
+        if( has_elec ) {
+            return hilite( basic );
         }
-        if( field.first == fd_electricity ) {
-            has_elec = true;
-        }
-        if( field.first == fd_acid ) {
-            has_acid = true;
-        }
-        if( field.first == fd_relax_gas || field.first == fd_fungal_haze ||
-            field.first == fd_fungicidal_gas || field.first == fd_toxic_gas ||
-            field.first == fd_tear_gas || field.first == fd_nuke_gas ||
-            field.first == fd_smoke ) {
-            has_fume = true;
-        }
-    }
-    // Priority: electricity, fire, acid, gases
-    // Can't just return in the switch, because field order is alphabetic
-    if( has_elec ) {
-        return hilite( basic );
+        has_fire = field.first.obj().has_fire;
+        has_acid = field.first.obj().has_acid;
+        has_fume = field.first.obj().has_fume;
     }
     if( has_fire ) {
         return red_background( basic );
@@ -2702,39 +2706,37 @@ bool Character::is_immune_field( const field_type_id fid ) const
     if( has_trait( debug_nodmg ) ) {
         return true;
     }
-
     // Check to see if we are immune
-    if( fid == fd_smoke ) {
-        return get_env_resist( bp_mouth ) >= 12;
+    const field_type &ft = fid.obj();
+    for( const trait_id &t : ft.immunity_data_traits ) {
+        if( has_trait( t ) ) {
+            return true;
+        }
     }
-    if( fid == fd_tear_gas || fid == fd_toxic_gas || fid == fd_gas_vent || fid == fd_relax_gas ) {
-        return get_env_resist( bp_mouth ) >= 15;
+    bool immune_by_body_part_resistance = false;
+    for( const std::pair<body_part, int> &fide : ft.immunity_data_body_part_env_resistance ) {
+        immune_by_body_part_resistance = immune_by_body_part_resistance &&
+                                         get_env_resist( fide.first ) >= fide.second;
     }
-    if( fid == fd_fungal_haze ) {
-        return has_trait( trait_id( "M_IMMUNE" ) ) || ( get_env_resist( bp_mouth ) >= 15 &&
-                get_env_resist( bp_eyes ) >= 15 );
+    if( immune_by_body_part_resistance ) {
+        return true;
     }
-    if( fid == fd_electricity ) {
+    if( ft.has_elec ) {
         return is_elec_immune();
     }
-    if( fid == fd_acid ) {
-        return has_trait( trait_id( "ACIDPROOF" ) ) ||
-               ( !is_on_ground() && get_env_resist( bp_foot_l ) >= 15 &&
-                 get_env_resist( bp_foot_r ) >= 15 &&
-                 get_env_resist( bp_leg_l ) >= 15 &&
-                 get_env_resist( bp_leg_r ) >= 15 &&
-                 get_armor_type( DT_ACID, bp_foot_l ) >= 5 &&
-                 get_armor_type( DT_ACID, bp_foot_r ) >= 5 &&
-                 get_armor_type( DT_ACID, bp_leg_l ) >= 5 &&
-                 get_armor_type( DT_ACID, bp_leg_r ) >= 5 );
-    }
-    if( fid == fd_web ) {
-        return has_trait( trait_id( "WEB_WALKER" ) );
-    }
-    if( fid == fd_fire || fid == fd_flame_burst ) {
+    if( ft.has_fire ) {
         return has_active_bionic( bionic_id( "bio_heatsink" ) ) || is_wearing( "rm13_armor_on" );
     }
-
+    if( ft.has_acid ) {
+        return !is_on_ground() && get_env_resist( bp_foot_l ) >= 15 &&
+               get_env_resist( bp_foot_r ) >= 15 &&
+               get_env_resist( bp_leg_l ) >= 15 &&
+               get_env_resist( bp_leg_r ) >= 15 &&
+               get_armor_type( DT_ACID, bp_foot_l ) >= 5 &&
+               get_armor_type( DT_ACID, bp_foot_r ) >= 5 &&
+               get_armor_type( DT_ACID, bp_leg_l ) >= 5 &&
+               get_armor_type( DT_ACID, bp_leg_r ) >= 5;
+    }
     // If we haven't found immunity yet fall up to the next level
     return Creature::is_immune_field( fid );
 }
@@ -2757,9 +2759,14 @@ int Character::throw_range( const item &it ) const
     }
     // Increases as weight decreases until 150 g, then decreases again
     /** @EFFECT_STR increases throwing range, vs item weight (high or low) */
-    int ret = ( str_cur * 10 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 -
-                                   static_cast<int>(
-                                       tmp.weight() / 15_gram ) );
+    int str_override = str_cur;
+    if( is_mounted() ) {
+        auto mons = mounted_creature.get();
+        str_override = mons->mech_str_addition() != 0 ? mons->mech_str_addition() : str_cur;
+    }
+    int ret = ( str_override * 10 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 -
+                                        static_cast<int>(
+                                            tmp.weight() / 15_gram ) );
     ret -= tmp.volume() / 1000_ml;
     static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
     if( has_active_bionic( bionic_id( "bio_railgun" ) ) && tmp.made_of_any( affected_materials ) ) {
@@ -2772,8 +2779,8 @@ int Character::throw_range( const item &it ) const
     /** @EFFECT_STR caps throwing range */
 
     /** @EFFECT_THROW caps throwing range */
-    if( ret > str_cur * 3 + get_skill_level( skill_throw ) ) {
-        return str_cur * 3 + get_skill_level( skill_throw );
+    if( ret > str_override * 3 + get_skill_level( skill_throw ) ) {
+        return str_override * 3 + get_skill_level( skill_throw );
     }
 
     return ret;
@@ -3135,7 +3142,9 @@ mutation_value_map = {
     { "hearing_modifier", calc_mutation_value_multiplicative<&mutation_branch::hearing_modifier> },
     { "noise_modifier", calc_mutation_value_multiplicative<&mutation_branch::noise_modifier> },
     { "overmap_sight", calc_mutation_value_multiplicative<&mutation_branch::overmap_sight> },
-    { "overmap_multiplier", calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier> }
+    { "overmap_multiplier", calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier> },
+    { "map_memory_capacity_multiplier", calc_mutation_value_multiplicative<&mutation_branch::map_memory_capacity_multiplier> },
+    { "skill_rust_multiplier", calc_mutation_value_multiplicative<&mutation_branch::skill_rust_multiplier> }
 };
 
 float Character::mutation_value( const std::string &val ) const

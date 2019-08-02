@@ -106,8 +106,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male );
 void starting_inv( npc &who, const npc_class_id &type );
 
 npc::npc()
-    : player()
-    , restock( calendar::before_time_starts )
+    : restock( calendar::before_time_starts )
     , companion_mission_time( calendar::before_time_starts )
     , companion_mission_time_ret( calendar::before_time_starts )
     , last_updated( calendar::turn )
@@ -213,8 +212,8 @@ void npc_template::load( JsonObject &jsobj )
         guy.myclass = npc_class_id( jsobj.get_string( "class" ) );
     }
 
-    guy.set_attitude( npc_attitude( jsobj.get_int( "attitude" ) ) );
-    guy.mission = npc_mission( jsobj.get_int( "mission" ) );
+    guy.set_attitude( static_cast<npc_attitude>( jsobj.get_int( "attitude" ) ) );
+    guy.mission = static_cast<npc_mission>( jsobj.get_int( "mission" ) );
     guy.chatbin.first_topic = jsobj.get_string( "chat" );
     if( jsobj.has_string( "mission_offered" ) ) {
         guy.miss_ids.emplace_back( mission_type_id( jsobj.get_string( "mission_offered" ) ) );
@@ -291,27 +290,6 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
 }
 
 npc::~npc() = default;
-
-std::string npc::save_info() const
-{
-    return ::serialize( *this );
-}
-
-void npc::load_info( std::string data )
-{
-    std::stringstream dump;
-    dump << data;
-
-    JsonIn jsin( dump );
-    try {
-        deserialize( jsin );
-    } catch( const JsonError &jsonerr ) {
-        debugmsg( "Bad npc json\n%s", jsonerr.c_str() );
-    }
-    if( !fac_id.str().empty() ) {
-        set_fac( fac_id );
-    }
-}
 
 void npc::randomize( const npc_class_id &type )
 {
@@ -643,8 +621,8 @@ void npc::setpos( const tripoint &pos )
     submap_coords.y = g->get_levy() + pos.y / SEEY;
     const point pos_om_new = sm_to_om_copy( submap_coords );
     if( !is_fake() && pos_om_old != pos_om_new ) {
-        overmap &om_old = overmap_buffer.get( pos_om_old.x, pos_om_old.y );
-        overmap &om_new = overmap_buffer.get( pos_om_new.x, pos_om_new.y );
+        overmap &om_old = overmap_buffer.get( pos_om_old );
+        overmap &om_new = overmap_buffer.get( pos_om_new );
         if( const auto ptr = om_old.erase_npc( getID() ) ) {
             om_new.insert_npc( ptr );
         } else {
@@ -664,8 +642,8 @@ void npc::travel_overmap( const tripoint &pos )
         reach_omt_destination();
     }
     if( !is_fake() && pos_om_old != pos_om_new ) {
-        overmap &om_old = overmap_buffer.get( pos_om_old.x, pos_om_old.y );
-        overmap &om_new = overmap_buffer.get( pos_om_new.x, pos_om_new.y );
+        overmap &om_old = overmap_buffer.get( pos_om_old );
+        overmap &om_new = overmap_buffer.get( pos_om_new );
         if( const auto ptr = om_old.erase_npc( getID() ) ) {
             om_new.insert_npc( ptr );
         } else {
@@ -827,7 +805,7 @@ bool npc::wear_if_wanted( const item &it )
     if( splint ) {
         splint = false;
         for( int i = 0; i < num_hp_parts; i++ ) {
-            hp_part hpp = hp_part( i );
+            hp_part hpp = static_cast<hp_part>( i );
             body_part bp = player::hp_to_bp( hpp );
             if( hp_cur[i] <= 0 && it.covers( bp ) ) {
                 splint = true;
@@ -924,6 +902,7 @@ void npc::stow_item( item &it )
 
 bool npc::wield( item &it )
 {
+    cached_info.erase( "weapon_value" );
     if( is_armed() ) {
         stow_item( weapon );
     }
@@ -1069,7 +1048,7 @@ void npc::form_opinion( const player &u )
         set_attitude( NPCATT_FLEE_TEMP );
     }
 
-    add_msg( m_debug, "%s formed an opinion of u: %s", name, npc_attitude_name( attitude ) );
+    add_msg( m_debug, "%s formed an opinion of u: %s", name, npc_attitude_id( attitude ) );
 }
 
 float npc::vehicle_danger( int radius ) const
@@ -1100,7 +1079,8 @@ float npc::vehicle_danger( int radius ) const
             int size = std::max( last_part.mount.x, last_part.mount.y );
 
             double normal = sqrt( static_cast<float>( ( bx - ax ) * ( bx - ax ) + ( by - ay ) * ( by - ay ) ) );
-            int closest = int( abs( ( posx() - ax ) * ( by - ay ) - ( posy() - ay ) * ( bx - ax ) ) / normal );
+            int closest = static_cast<int>( abs( ( posx() - ax ) * ( by - ay ) - ( posy() - ay ) *
+                                                 ( bx - ax ) ) / normal );
 
             if( size > closest ) {
                 danger = i;
@@ -1221,12 +1201,12 @@ void npc::decide_needs()
         if( needrank[i] < 20 ) {
             for( j = 0; j < needs.size(); j++ ) {
                 if( needrank[i] < needrank[needs[j]] ) {
-                    needs.insert( needs.begin() + j, npc_need( i ) );
+                    needs.insert( needs.begin() + j, static_cast<npc_need>( i ) );
                     j = needs.size() + 1;
                 }
             }
             if( j == needs.size() ) {
-                needs.push_back( npc_need( i ) );
+                needs.push_back( static_cast<npc_need>( i ) );
             }
         }
     }
@@ -1654,15 +1634,11 @@ bool npc::is_leader() const
 
 bool npc::is_assigned_to_camp() const
 {
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( global_omt_location().x,
-                                     global_omt_location().y );
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( global_omt_location().xy() );
     if( !bcp ) {
         return false;
     }
-    if( !has_companion_mission() && mission == NPC_MISSION_GUARD_ALLY ) {
-        return true;
-    }
-    return false;
+    return !has_companion_mission() && mission == NPC_MISSION_GUARD_ALLY;
 }
 
 bool npc::is_enemy() const
@@ -2065,6 +2041,38 @@ void npc::die( Creature *nkiller )
     place_corpse();
 }
 
+std::string npc_attitude_id( npc_attitude att )
+{
+    static const std::map<npc_attitude, std::string> npc_attitude_ids = {
+        { NPCATT_NULL, "NPCATT_NULL" },
+        { NPCATT_TALK, "NPCATT_TALK" },
+        { NPCATT_FOLLOW, "NPCATT_FOLLOW" },
+        { NPCATT_LEAD, "NPCATT_LEAD" },
+        { NPCATT_WAIT, "NPCATT_WAIT" },
+        { NPCATT_MUG, "NPCATT_MUG" },
+        { NPCATT_WAIT_FOR_LEAVE, "NPCATT_WAIT_FOR_LEAVE" },
+        { NPCATT_KILL, "NPCATT_KILL" },
+        { NPCATT_FLEE, "NPCATT_FLEE" },
+        { NPCATT_FLEE_TEMP, "NPCATT_FLEE_TEMP" },
+        { NPCATT_HEAL, "NPCATT_HEAL" },
+        { NPCATT_ACTIVITY, "NPCATT_ACTIVITY" },
+        { NPCATT_RECOVER_GOODS, "NPCATT_RECOVER_GOODS" },
+        { NPCATT_LEGACY_1, "NPCATT_LEGACY_1" },
+        { NPCATT_LEGACY_2, "NPCATT_LEGACY_2" },
+        { NPCATT_LEGACY_3, "NPCATT_LEGACY_3" },
+        { NPCATT_LEGACY_4, "NPCATT_LEGACY_4" },
+        { NPCATT_LEGACY_5, "NPCATT_LEGACY_5" },
+        { NPCATT_LEGACY_6, "NPCATT_LEGACY_6" },
+    };
+    const auto &iter = npc_attitude_ids.find( att );
+    if( iter == npc_attitude_ids.end() ) {
+        debugmsg( "Invalid attitude: %d", att );
+        return "NPCATT_INVALID";
+    }
+
+    return iter->second;
+}
+
 std::string npc_attitude_name( npc_attitude att )
 {
     switch( att ) {
@@ -2171,7 +2179,15 @@ void npc::add_new_mission( class mission *miss )
 
 void npc::on_unload()
 {
-    last_updated = calendar::turn;
+}
+
+// A throtled version of player::update_body since npc's don't need to-the-turn updates.
+void npc::npc_update_body()
+{
+    if( calendar::once_every( 10_seconds ) ) {
+        update_body( last_updated, calendar::turn );
+        last_updated = calendar::turn;
+    }
 }
 
 void npc::on_load()
@@ -2380,7 +2396,6 @@ void npc::process_turn()
         // TODO: Similar checks for fear and anger
     }
 
-    last_updated = calendar::turn;
     // TODO: Add decreasing trust/value/etc. here when player doesn't provide food
     // TODO: Make NPCs leave the player if there's a path out of map and player is sleeping/unseen/etc.
 }
@@ -2679,7 +2694,7 @@ void npc::set_attitude( npc_attitude new_attitude )
     }
 
     add_msg( m_debug, "%s changes attitude from %s to %s",
-             name, npc_attitude_name( attitude ), npc_attitude_name( new_attitude ) );
+             name, npc_attitude_id( attitude ), npc_attitude_id( new_attitude ) );
     attitude_group new_group = get_attitude_group( new_attitude );
     attitude_group old_group = get_attitude_group( attitude );
     if( new_group != old_group && !is_fake() ) {

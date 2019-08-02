@@ -47,6 +47,7 @@ class JsonOut;
 class vehicle;
 struct mutation_branch;
 class bionic_collection;
+struct points_left;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -387,6 +388,7 @@ class Character : public Creature, public visitable<Character>
         /** Converts an hp_part to a body_part */
         static body_part hp_to_bp( hp_part hpart );
 
+        bool is_mounted() const;
         /**
          * Displays menu with body part hp, optionally with hp estimation after healing.
          * Returns selected part.
@@ -676,7 +678,7 @@ class Character : public Creature, public visitable<Character>
 
         void drop_invalid_inventory();
 
-        bool has_artifact_with( const art_effect_passive effect ) const;
+        virtual bool has_artifact_with( const art_effect_passive effect ) const;
 
         // --------------- Clothing Stuff ---------------
         /** Returns true if the player is wearing the item. */
@@ -787,8 +789,12 @@ class Character : public Creature, public visitable<Character>
         }
         /** Empties the trait list */
         void empty_traits();
-        /** Adds mandatory scenario and profession traits unless you already have them */
+        /**
+         * Adds mandatory scenario and profession traits unless you already have them
+         * And if you do already have them, refunds the points for the trait
+         */
         void add_traits();
+        void add_traits( points_left &points );
 
         // --------------- Values ---------------
         std::string name;
@@ -812,6 +818,8 @@ class Character : public Creature, public visitable<Character>
         int oxygen;
         int stamina;
         int radiation;
+
+        std::shared_ptr<monster> mounted_creature;
 
         void initialize_stomach_contents();
 
@@ -906,6 +914,7 @@ class Character : public Creature, public visitable<Character>
         float activity_level = NO_EXERCISE;
 
         std::array<encumbrance_data, num_bp> encumbrance_cache;
+        mutable std::map<std::string, double> cached_info;
 
         /**
          * Traits / mutations of the character. Key is the mutation id (it's also a valid

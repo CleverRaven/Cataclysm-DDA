@@ -18,6 +18,24 @@
     "min_skills": [ [ "weapon", 4 ] ]
   },
   {
+    "id": "focusing_lens",
+    "type": "GUNMOD",
+    "name": "focusing lens",
+    "description": "A set of optics to concentrate the laser beam on a smaller focus point. This increases range and damage output, but complicates targeting.",
+    "weight": 380,
+    "volume": 1,
+    "price": 84000,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "lens",
+    "mod_targets": [ "rifle", "pistol" ],
+    "range_modifier": 15,
+    "dispersion_modifier": 15,
+    "damage_modifier": 5,
+    "min_skills": [ [ "weapon", 4 ] ]
+  },
+  {
     "id": "electrolaser_conversion",
     "type": "GUNMOD",
     "name": "electrolaser conversion",
@@ -34,6 +52,23 @@
     "damage_modifier": -8,
     "ups_charges": 10,
     "ammo_effects": [ "BEANBAG" ],
+    "min_skills": [ [ "weapon", 4 ], [ "electronics", 5 ] ]
+  },
+  {
+    "id": "effective_emitter",
+    "type": "GUNMOD",
+    "name": "effective emitter",
+    "description": "A set of electronics to optimize emitter workcycle and increase overall energy efficiency. Decreases power consumption.",
+    "weight": 380,
+    "volume": 1,
+    "integral_volume": 0,
+    "price": 84000,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "emitter",
+    "mod_targets": [ "pistol", "rifle" ],
+    "ups_charges": -5,
     "min_skills": [ [ "weapon", 4 ], [ "electronics", 5 ] ]
   },
   {

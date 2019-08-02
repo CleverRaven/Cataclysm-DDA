@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <cstdlib>
 #include <cstring>
-#include <fstream>
 #include <map>
 #include <string>
 #include <vector>
@@ -52,12 +51,9 @@
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 static constexpr tripoint editmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
-static constexpr tripoint editmap_boundary_max( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT );
-static constexpr tripoint editmap_clearance_min( tripoint_zero );
-static constexpr tripoint editmap_clearance_max( 1, 1, 0 );
+static constexpr tripoint editmap_boundary_max( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT + 1 );
 
 static constexpr box editmap_boundaries( editmap_boundary_min, editmap_boundary_max );
-static constexpr box editmap_clearance( editmap_clearance_min, editmap_clearance_max );
 
 static const ter_id undefined_ter_id( -1 );
 static const furn_id undefined_furn_id( -1 );
@@ -149,14 +145,12 @@ void edit_json( SAVEOBJ &it )
                 tmret = -2;
             }
         } else if( tmret == 2 ) {
-            std::ofstream fout;
-            fout.open( "save/jtest-1j.txt" );
-            fout << osave1;
-            fout.close();
-
-            fout.open( "save/jtest-2j.txt" );
-            fout << serialize( it );
-            fout.close();
+            write_to_file( "save/jtest-1j.txt", [&]( std::ostream & fout ) {
+                fout << osave1;
+            }, nullptr );
+            write_to_file( "save/jtest-2j.txt", [&]( std::ostream & fout ) {
+                fout << serialize( it );
+            }, nullptr );
         }
         tm.addentry( 0, true, 'r', pgettext( "item manipulation debug menu entry", "rehash" ) );
         tm.addentry( 1, true, 'e', pgettext( "item manipulation debug menu entry", "edit" ) );
@@ -188,7 +182,7 @@ editmap::editmap()
     sel_frn = undefined_furn_id;
     target_frn = undefined_furn_id;
     ter_frn_mode = 0;
-    cur_field = 0;
+    cur_field = nullptr;
     cur_trap = tr_null;
     sel_field = -1;
     sel_field_intensity = -1;
@@ -207,8 +201,7 @@ editmap::editmap()
     editshape = editmap_rect;
     refresh_mplans = true;
 
-    tmaxx = getmaxx( g->w_terrain );
-    tmaxy = getmaxy( g->w_terrain );
+    tmax = point( getmaxx( g->w_terrain ), getmaxy( g->w_terrain ) );
     fids[fd_null] = "-clear-";
     fids[fd_fire_vent] = "fire_vent";
     fids[fd_push_items] = "push_items";
@@ -277,7 +270,7 @@ void editmap_hilight::draw( editmap &em, bool update )
  */
 tripoint editmap::pos2screen( const tripoint &p )
 {
-    return tripoint( tmaxx / 2 + p.x - target.x, tmaxy / 2 + p.y - target.y, p.z );
+    return p + tmax / 2 - target.xy();
 }
 
 /*
@@ -297,13 +290,13 @@ bool editmap::eget_direction( tripoint &p, const std::string &action ) const
     if( action == "CENTER" ) {
         p = ( g->u.pos() - target );
     } else if( action == "LEFT_WIDE" ) {
-        p.x = 0 - ( tmaxx / 2 );
+        p.x = -tmax.x / 2;
     } else if( action == "DOWN_WIDE" ) {
-        p.y = ( tmaxy / 2 );
+        p.y = tmax.y / 2;
     } else if( action == "UP_WIDE" ) {
-        p.y = 0 - ( tmaxy / 2 );
+        p.y = -tmax.y / 2;
     } else if( action == "RIGHT_WIDE" ) {
-        p.x = ( tmaxx / 2 );
+        p.x = tmax.x / 2;
     } else if( action == "LEVEL_DOWN" ) {
         p.z = -1;
     } else if( action == "LEVEL_UP" ) {
@@ -570,12 +563,11 @@ void editmap::update_view( bool update_info )
 
     // draw arrows if altblink is set (ie, [m]oving a large selection
     if( blink && altblink ) {
-        int mpx = ( tmaxx / 2 ) + 1;
-        int mpy = ( tmaxy / 2 ) + 1;
-        mvwputch( g->w_terrain, mpy, 1, c_yellow, '<' );
-        mvwputch( g->w_terrain, mpy, tmaxx - 1, c_yellow, '>' );
-        mvwputch( g->w_terrain, 1, mpx, c_yellow, '^' );
-        mvwputch( g->w_terrain, tmaxy - 1, mpx, c_yellow, 'v' );
+        const point mp = tmax / 2 + point( 1, 1 );
+        mvwputch( g->w_terrain, mp.y, 1, c_yellow, '<' );
+        mvwputch( g->w_terrain, mp.y, tmax.x - 1, c_yellow, '>' );
+        mvwputch( g->w_terrain, 1, mp.x, c_yellow, '^' );
+        mvwputch( g->w_terrain, tmax.y - 1, mp.x, c_yellow, 'v' );
     }
 
     wrefresh( g->w_terrain );
@@ -1130,7 +1122,7 @@ int editmap::edit_fld()
                 int i = 0;
                 for( const auto &intensity_level : ftype.intensity_levels ) {
                     i++;
-                    femenu.addentry( string_format( "%d: %s", i, intensity_level.name ) );
+                    femenu.addentry( string_format( "%d: %s", i, _( intensity_level.name ) ) );
                 }
                 femenu.entries[field_intensity].text_color = c_cyan;
                 femenu.selected = ( sel_field_intensity > 0 ? sel_field_intensity : field_intensity );
@@ -1429,7 +1421,7 @@ tripoint editmap::recalc_target( shapetype shape )
                 for( int y = origin.y - radius; y <= origin.y + radius; y++ ) {
                     const tripoint p( x, y, z );
                     if( rl_dist( p, origin ) <= radius ) {
-                        if( generic_inbounds( p, editmap_boundaries, editmap_clearance ) ) {
+                        if( editmap_boundaries.contains_half_open( p ) ) {
                             target_list.push_back( p );
                         }
                     }
@@ -1461,7 +1453,7 @@ tripoint editmap::recalc_target( shapetype shape )
                 for( int y = sy; y <= ey; y++ ) {
                     if( shape == editmap_rect_filled || x == sx || x == ex || y == sy || y == ey ) {
                         const tripoint p( x, y, z );
-                        if( generic_inbounds( p, editmap_boundaries, editmap_clearance ) ) {
+                        if( editmap_boundaries.contains_half_open( p ) ) {
                             target_list.push_back( p );
                         }
                     }
@@ -1647,7 +1639,7 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
     // Coordinates of the overmap terrain that should be generated.
     const point omt_pos = ms_to_omt_copy( tc.abs_pos );
-    oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, target.z );
+    oter_id &omt_ref = overmap_buffer.ter( tripoint( omt_pos, target.z ) );
     // Copy to store the original value, to restore it upon canceling
     const oter_id orig_oters = omt_ref;
     omt_ref = oter_id( gmenu.ret );
@@ -1744,9 +1736,7 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                         std::swap( *destsm, *srcsm );
 
                         for( auto &veh : destsm->vehicles ) {
-                            veh->smx = dest_pos.x;
-                            veh->smy = dest_pos.y;
-                            veh->smz = dest_pos.z;
+                            veh->sm_pos = dest_pos;
                         }
 
                         g->m.update_vehicle_list( destsm, target.z ); // update real map's vcaches
@@ -1871,9 +1861,8 @@ int editmap::mapgen_retarget()
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             tripoint ptarget = tripoint( target.x + ( vec->x * SEEX * 2 ), target.y + ( vec->y * SEEY * 2 ),
                                          target.z );
-            if( generic_inbounds( ptarget, editmap_boundaries, editmap_clearance ) &&
-                generic_inbounds( { ptarget.x + SEEX, ptarget.y + SEEY, ptarget.z },
-                                  editmap_boundaries, editmap_clearance ) ) {
+            if( editmap_boundaries.contains_half_open( ptarget ) &&
+                editmap_boundaries.contains_half_open( ptarget + point( SEEX, SEEY ) ) ) {
                 target = ptarget;
 
                 target_list.clear();

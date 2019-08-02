@@ -15,6 +15,7 @@
 #include <utility>
 
 #include "debug.h"
+#include "cata_utility.h"
 
 #if defined(_MSC_VER)
 #   include <direct.h>
@@ -268,7 +269,7 @@ bool name_contains( const dirent &entry, const std::string &match, const bool at
     }
 
     const auto offset = at_end ? ( len_fname - len_match ) : 0;
-    return strstr( entry.d_name + offset, match.c_str() ) != 0;
+    return strstr( entry.d_name + offset, match.c_str() ) != nullptr;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -409,12 +410,12 @@ std::vector<std::string> get_directories_with( const std::vector<std::string> &p
 bool copy_file( const std::string &source_path, const std::string &dest_path )
 {
     std::ifstream source_stream( source_path.c_str(), std::ifstream::in | std::ifstream::binary );
-    std::ofstream dest_stream( dest_path.c_str(), std::ofstream::out | std::ofstream::binary );
-
-    dest_stream << source_stream.rdbuf();
-    dest_stream.close();
-
-    return dest_stream && source_stream;
+    if( !source_stream ) {
+        return false;
+    }
+    return write_to_file( dest_path, [&]( std::ostream & dest_stream ) {
+        dest_stream << source_stream.rdbuf();
+    }, nullptr ) &&source_stream;
 }
 
 std::string ensure_valid_file_name( const std::string &file_name )

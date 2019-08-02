@@ -31,7 +31,7 @@ static const itype_id fuel_type_battery( "battery" );
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
 vehicle_part::vehicle_part()
-    : mount( 0, 0 ), id( vpart_id::NULL_ID() ) {}
+    : id( vpart_id::NULL_ID() ) {}
 
 vehicle_part::vehicle_part( const vpart_id &vp, const point &dp, item &&obj )
     : mount( dp ), id( vp ), base( std::move( obj ) )
@@ -95,7 +95,7 @@ std::string vehicle_part::name( bool with_prefix ) const
     }
 
     if( base.is_faulty() ) {
-        res += ( _( " (faulty)" ) );
+        res += _( " (faulty)" );
     }
 
     if( base.has_var( "contained_name" ) ) {
@@ -113,7 +113,7 @@ int vehicle_part::hp() const
 {
     const int dur = info().durability;
     if( base.max_damage() > 0 ) {
-        return dur - ( dur * base.damage() / base.max_damage() );
+        return dur - dur * base.damage() / base.max_damage();
     } else {
         return dur;
     }
@@ -131,7 +131,7 @@ int vehicle_part::damage_level( int max ) const
 
 double vehicle_part::health_percent() const
 {
-    return ( 1.0 - static_cast<double>( base.damage() ) / base.max_damage() );
+    return 1.0 - static_cast<double>( base.damage() ) / base.max_damage();
 }
 
 double vehicle_part::damage_percent() const

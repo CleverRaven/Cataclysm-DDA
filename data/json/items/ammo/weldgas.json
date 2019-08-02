@@ -13,6 +13,7 @@
     "count": 100,
     "stack_size": 100,
     "ammo_type": "weldgas",
+    "phase": "liquid",
     "effects": [ "COOKOFF" ],
     "explode_in_fire": true,
     "explosion": { "power": 20, "shrapnel": 0 },

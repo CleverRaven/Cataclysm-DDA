@@ -71,6 +71,7 @@ const efftype_id effect_depressants( "depressants" );
 const efftype_id effect_happy( "happy" );
 const efftype_id effect_irradiated( "irradiated" );
 const efftype_id effect_pkill( "pkill" );
+const efftype_id effect_riding( "riding" );
 const efftype_id effect_sad( "sad" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_sleep_deprived( "sleep_deprived" );
@@ -89,8 +90,6 @@ static const trait_id trait_CHITIN2( "CHITIN2" );
 static const trait_id trait_CHITIN3( "CHITIN3" );
 static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
 static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
-static const trait_id trait_FORGETFUL( "FORGETFUL" );
-static const trait_id trait_GOODMEMORY( "GOODMEMORY" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
@@ -104,7 +103,7 @@ static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 
 const skill_id skill_unarmed( "unarmed" );
 
-avatar::avatar() : player()
+avatar::avatar()
 {
     show_map_memory = true;
     active_mission = nullptr;
@@ -122,7 +121,7 @@ void avatar::memorial( std::ostream &memorial_file, const std::string &epitaph )
 
     //Avoid saying "a male unemployed" or similar
     std::string profession_name;
-    if( prof == prof->generic( ) ) {
+    if( prof == profession::generic() ) {
         if( male ) {
             profession_name = _( "an unemployed male" );
         } else {
@@ -378,15 +377,12 @@ size_t avatar::max_memorized_tiles() const
     // Only check traits once a turn since this is called a huge number of times.
     if( current_map_memory_turn != calendar::turn ) {
         current_map_memory_turn = calendar::turn;
+        float map_memory_capacity_multiplier =
+            mutation_value( "map_memory_capacity_multiplier" );
         if( has_active_bionic( bio_memory ) ) {
-            current_map_memory_capacity = SEEX * SEEY * 20000; // 5000 overmap tiles
-        } else if( has_trait( trait_FORGETFUL ) ) {
-            current_map_memory_capacity = SEEX * SEEY * 200; // 50 overmap tiles
-        } else if( has_trait( trait_GOODMEMORY ) ) {
-            current_map_memory_capacity = SEEX * SEEY * 800; // 200 overmap tiles
-        } else {
-            current_map_memory_capacity = SEEX * SEEY * 400; // 100 overmap tiles
+            map_memory_capacity_multiplier = 50;
         }
+        current_map_memory_capacity = 2 * SEEX * 2 * SEEY * 100 * map_memory_capacity_multiplier;
     }
     return current_map_memory_capacity;
 }
@@ -1357,13 +1353,14 @@ void avatar::reset_stats()
         set_fake_effect_dur( effect_stim_overdose, 1_turns * ( stim - 30 ) );
     }
     // Starvation
-    if( get_starvation() >= 200 ) {
-        // We die at 6000
-        const int dex_mod = -( get_starvation() + 300 ) / 1000;
-        add_miss_reason( _( "You're weak from hunger." ), static_cast<unsigned>( -dex_mod ) );
-        mod_str_bonus( -( get_starvation() + 300 ) / 500 );
-        mod_dex_bonus( dex_mod );
-        mod_int_bonus( -( get_starvation() + 300 ) / 1000 );
+    const float bmi = get_bmi();
+    if( bmi < character_weight_category::underweight ) {
+        const int str_penalty = floor( ( 1.0f - ( bmi - 13.0f ) / 3.0f ) * get_str_base() );
+        add_miss_reason( _( "You're weak from hunger." ),
+                         static_cast<unsigned>( ( get_starvation() + 300 ) / 1000 ) );
+        mod_str_bonus( -str_penalty );
+        mod_dex_bonus( -( str_penalty / 2 ) );
+        mod_int_bonus( -( str_penalty / 2 ) );
     }
     // Thirst
     if( get_thirst() >= 200 ) {
@@ -1391,6 +1388,11 @@ void avatar::reset_stats()
     }
     if( has_trait( trait_WHISKERS_RAT ) && !wearing_something_on( bp_mouth ) ) {
         mod_dodge_bonus( 2 );
+    }
+    // depending on mounts size, attacks will hit the mount and use their dodge rating.
+    // if they hit the player, the player cannot dodge as effectively.
+    if( is_mounted() ) {
+        mod_dodge_bonus( -4 );
     }
     // Spider hair is basically a full-body set of whiskers, once you get the brain for it
     if( has_trait( trait_CHITIN_FUR3 ) ) {

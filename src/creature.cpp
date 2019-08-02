@@ -181,20 +181,24 @@ bool Creature::sees( const Creature &critter ) const
         return is_player();
     }
 
-    const auto p = dynamic_cast< const player * >( &critter );
-    if( p != nullptr && p->is_invisible() ) {
-        // Let invisible players see themselves (simplifies drawing)
-        return p == this;
-    }
-
     if( !fov_3d && !debug_mode && posz() != critter.posz() ) {
         return false;
     }
 
+    // Creatures always see themselves (simplifies drawing).
+    if( this == &critter ) {
+        return true;
+    }
+    // This check is ridiculously expensive so defer it to after everything else.
+    auto visible = []( const player * p ) {
+        return p == nullptr || !p->is_invisible();
+    };
+
+    const player *p = critter.as_player();
     const int wanted_range = rl_dist( pos(), critter.pos() );
     if( wanted_range <= 1 &&
         ( posz() == critter.posz() || g->m.valid_move( pos(), critter.pos(), false, true ) ) ) {
-        return true;
+        return visible( p );
     } else if( ( wanted_range > 1 && critter.digging() ) || ( critter.has_flag( MF_INVISIBLE ) ) ||
                ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && g->m.light_at( critter.pos() ) <= LL_LOW ) ||
                ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos() ) ) ||
@@ -203,11 +207,11 @@ bool Creature::sees( const Creature &critter ) const
                     abs( posz() - critter.posz() ) <= 1 ) ) ) {
         return false;
     }
-    if( const player *p = dynamic_cast<const player *>( &critter ) ) {
-        if( p->get_movement_mode() == "crouch" ) {
+    if( p != nullptr ) {
+        if( p->movement_mode_is( PMM_CROUCH ) ) {
             const int coverage = g->m.obstacle_coverage( pos(), critter.pos() );
             if( coverage < 30 ) {
-                return sees( critter.pos(), critter.is_player() );
+                return sees( critter.pos(), critter.is_player() ) && visible( p );
             }
             float size_modifier = 1.0;
             switch( p->get_size() ) {
@@ -228,12 +232,12 @@ bool Creature::sees( const Creature &critter ) const
             }
             const int vision_modifier = 30 - 0.5 * coverage * size_modifier;
             if( vision_modifier > 1 ) {
-                return sees( critter.pos(), critter.is_player(), vision_modifier );
+                return sees( critter.pos(), critter.is_player(), vision_modifier ) && visible( p );
             }
             return false;
         }
     }
-    return sees( critter.pos(), critter.is_player() );
+    return sees( critter.pos(), p != nullptr ) && visible( p );
 }
 
 bool Creature::sees( const tripoint &t, bool is_player, int range_mod ) const
@@ -330,13 +334,13 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     }
 
     std::vector<Creature *> targets = g->get_creatures_if( [&]( const Creature & critter ) {
-        if( const monster *const mon_ptr = dynamic_cast<const monster *>( &critter ) ) {
+        if( critter.is_monster() ) {
             // friendly to the player, not a target for us
-            return mon_ptr->friendly == 0;
+            return static_cast<const monster *>( &critter )->friendly == 0;
         }
-        if( const npc *const npc_ptr = dynamic_cast<const npc *>( &critter ) ) {
+        if( critter.is_npc() ) {
             // friendly to the player, not a target for us
-            return npc_ptr->get_attitude() == NPCATT_KILL;
+            return static_cast<const npc *>( &critter )->get_attitude() == NPCATT_KILL;
         }
         // TODO: what about g->u?
         return false;
@@ -1615,4 +1619,30 @@ std::string Creature::replace_with_npc_name( std::string input ) const
 {
     replace_substring( input, "<npcname>", disp_name(), true );
     return input;
+}
+
+void Creature::knock_back_from( const tripoint &p )
+{
+    if( p == pos() ) {
+        return; // No effect
+    }
+    if( is_hallucination() ) {
+        die( nullptr );
+        return;
+    }
+    tripoint to = pos();
+    if( p.x < posx() ) {
+        to.x++;
+    }
+    if( p.x > posx() ) {
+        to.x--;
+    }
+    if( p.y < posy() ) {
+        to.y++;
+    }
+    if( p.y > posy() ) {
+        to.y--;
+    }
+
+    knock_back_to( to );
 }

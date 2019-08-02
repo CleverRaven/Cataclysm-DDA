@@ -47,6 +47,9 @@ IRC:
 `irc.freenode.net` ; `#CataclysmDDA`
 http://webchat.freenode.net/?channels=#CataclysmDDA
 
+Official Discord:
+https://discord.gg/jFEc7Yp
+
 ## Frequently Asked Questions
 
 #### Is there a tutorial?

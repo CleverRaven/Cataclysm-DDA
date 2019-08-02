@@ -337,6 +337,27 @@ static void load_overmap_lake_settings( JsonObject &jo,
                 overmap_lake_settings.unfinalized_shore_extendable_overmap_terrain.end(), from_json.begin(),
                 from_json.end() );
         }
+
+        if( !overmap_lake_settings_jo.has_array( "shore_extendable_overmap_terrain_aliases" ) ) {
+            if( !overlay ) {
+                overmap_lake_settings_jo.throw_error( "shore_extendable_overmap_terrain_aliases required" );
+            }
+        } else {
+            JsonArray aliases_jarr =
+                overmap_lake_settings_jo.get_array( "shore_extendable_overmap_terrain_aliases" );
+            std::string ter;
+            ot_match_type ter_match_type;
+            oter_str_id alias;
+            while( aliases_jarr.has_more() ) {
+                shore_extendable_overmap_terrain_alias alias;
+                JsonObject jo = aliases_jarr.next_object();
+                jo.read( "om_terrain", alias.overmap_terrain );
+                jo.read( "alias", alias.alias );
+                alias.match_type = ter_match_type = jo.get_enum_value<ot_match_type>
+                                                    ( jo.get_string( "om_terrain_match_type", "CONTAINS" ), ot_match_type::contains );
+                overmap_lake_settings.shore_extendable_overmap_terrain_aliases.emplace_back( alias );
+            }
+        }
     }
 }
 
@@ -868,6 +889,15 @@ void overmap_lake_settings::finalize()
             continue;
         }
         shore_extendable_overmap_terrain.emplace_back( ot.id() );
+    }
+
+    for( shore_extendable_overmap_terrain_alias &alias : shore_extendable_overmap_terrain_aliases ) {
+        if( std::find( shore_extendable_overmap_terrain.begin(), shore_extendable_overmap_terrain.end(),
+                       alias.alias ) == shore_extendable_overmap_terrain.end() ) {
+            debugmsg( " %s was referenced as an alias in overmap_lake_settings shore_extendable_overmap_terrain_alises, but the value is not present in the shore_extendable_overmap_terrain.",
+                      alias.alias.c_str() );
+            continue;
+        }
     }
 }
 

@@ -1301,7 +1301,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "tailor",
-    "time": "0 m",
+    "time": "30 s",
     "autolearn": true,
     "tools": [  ],
     "components": [ [ [ "aluminum_foil", 4 ] ] ]

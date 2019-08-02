@@ -8,6 +8,7 @@
 #include <tuple>
 #include <utility>
 
+#include "math_defines.h"
 #include "translations.h"
 #include "string_formatter.h"
 #include "output.h"
@@ -241,6 +242,11 @@ float trig_dist( const int x1, const int y1, const int x2, const int y2 )
     return trig_dist( tripoint( x1, y1, 0 ), tripoint( x2, y2, 0 ) );
 }
 
+float trig_dist( const point &loc1, const point &loc2 )
+{
+    return trig_dist( tripoint( loc1, 0 ), tripoint( loc2, 0 ) );
+}
+
 float trig_dist( const tripoint &loc1, const tripoint &loc2 )
 {
     return sqrt( static_cast<double>( ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) ) +
@@ -250,7 +256,14 @@ float trig_dist( const tripoint &loc1, const tripoint &loc2 )
 
 int square_dist( const int x1, const int y1, const int x2, const int y2 )
 {
-    return square_dist( tripoint( x1, y1, 0 ), tripoint( x2, y2, 0 ) );
+    return square_dist( point( x1, y1 ), point( x2, y2 ) );
+}
+
+int square_dist( const point &loc1, const point &loc2 )
+{
+    const int dx = abs( loc1.x - loc2.x );
+    const int dy = abs( loc1.y - loc2.y );
+    return dx > dy ? dx : dy;
 }
 
 int square_dist( const tripoint &loc1, const tripoint &loc2 )
@@ -280,10 +293,26 @@ int rl_dist( const tripoint &loc1, const tripoint &loc2 )
     return square_dist( loc1, loc2 );
 }
 
+int manhattan_dist( const point &loc1, const point &loc2 )
+{
+    const point d = abs( loc1 - loc2 );
+    return d.x + d.y;
+}
+
+double atan2( const point &p )
+{
+    return atan2( static_cast<double>( p.y ), static_cast<double>( p.x ) );
+}
+
+double atan2_degrees( const point &p )
+{
+    return atan2( p ) * 180.0 / M_PI;
+}
+
 // This more general version of this function gives correct values for larger values.
 unsigned make_xyz( const int x, const int y, const int z )
 {
-    static const double sixteenth_arc = 0.392699082;
+    static constexpr double sixteenth_arc = M_PI / 8;
     int vertical_position = ( ( z > 0 ) ? 2u : ( z < 0 ) ? 1u : 0u ) * 9u;
     if( x == 0 && y == 0 ) {
         return vertical_position;

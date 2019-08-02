@@ -16,7 +16,6 @@ misc-*,\
 modernize-*,\
 performance-*,\
 readability-*,\
--bugprone-incorrect-roundings,\
 -bugprone-integer-division,\
 -bugprone-macro-parentheses,\
 -bugprone-misplaced-widening-cast,\
@@ -26,7 +25,6 @@ readability-*,\
 -bugprone-undefined-memory-manipulation,\
 -bugprone-unused-return-value,\
 -bugprone-use-after-move,\
--cert-dcl16-c,\
 -cert-dcl21-cpp,\
 -cert-dcl50-cpp,\
 -cert-dcl58-cpp,\
@@ -41,7 +39,6 @@ readability-*,\
 -misc-definitions-in-headers,\
 -misc-non-private-member-variables-in-classes,\
 -misc-redundant-expression,\
--misc-unconventional-assign-operator,\
 -modernize-avoid-c-arrays,\
 -modernize-deprecated-headers,\
 -modernize-make-unique,\
@@ -53,8 +50,6 @@ readability-*,\
 -modernize-use-emplace,\
 -modernize-use-equals-default,\
 -modernize-use-equals-delete,\
--modernize-use-nullptr,\
--modernize-use-override,\
 -modernize-use-transparent-functors,\
 -performance-for-range-copy,\
 -performance-inefficient-vector-operation,\
@@ -64,7 +59,6 @@ readability-*,\
 -performance-inefficient-algorithm,\
 -performance-inefficient-string-concatenation,\
 -performance-type-promotion-in-math-fn,\
--performance-unnecessary-copy-initialization,\
 -performance-unnecessary-value-param,\
 -readability-avoid-const-params-in-decls,\
 -readability-braces-around-statements,\
@@ -76,20 +70,17 @@ readability-*,\
 -readability-isolate-declaration,\
 -readability-magic-numbers,\
 -readability-named-parameter,\
--readability-non-const-parameter,\
 -readability-container-size-empty,\
 -readability-redundant-control-flow,\
 -readability-redundant-declaration,\
--readability-redundant-member-init,\
 -readability-redundant-preprocessor,\
 -readability-redundant-string-init,\
--readability-simplify-boolean-expr,\
--readability-static-accessed-through-instance,\
--readability-string-compare,\
--readability-uppercase-literal-suffix,\
 "
 WarningsAsErrors: '*'
 HeaderFilterRegex: '(src|test).*'
 FormatStyle:     none
+CheckOptions:
+  - key: readability-uppercase-literal-suffix.NewSuffixes
+    value: 'L;UL;LL;ULL'
 
 # vim:tw=0

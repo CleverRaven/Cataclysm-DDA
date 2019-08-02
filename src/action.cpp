@@ -312,6 +312,8 @@ std::string action_ident( action_id act )
             return "debug_temp";
         case ACTION_DISPLAY_VISIBILITY:
             return "debug_visibility";
+        case ACTION_DISPLAY_RADIATION:
+            return "debug_radiation";
         case ACTION_TOGGLE_DEBUG_MODE:
             return "debug_mode";
         case ACTION_ZOOM_OUT:
@@ -415,6 +417,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_DISPLAY_SCENT:
         case ACTION_DISPLAY_TEMPERATURE:
         case ACTION_DISPLAY_VISIBILITY:
+        case ACTION_DISPLAY_RADIATION:
         case ACTION_ZOOM_OUT:
         case ACTION_ZOOM_IN:
         case ACTION_TOGGLE_PIXEL_MINIMAP:
@@ -458,8 +461,8 @@ action_id look_up_action( const std::string &ident )
     }
     // ^^ Temporarily for the interface with the input manager!
     for( int i = 0; i < NUM_ACTIONS; i++ ) {
-        if( action_ident( action_id( i ) ) == ident ) {
-            return action_id( i );
+        if( action_ident( static_cast<action_id>( i ) ) == ident ) {
+            return static_cast<action_id>( i );
         }
     }
     return ACTION_NULL;
@@ -678,11 +681,11 @@ action_id handle_action_menu()
     }
 
     // If we're already running, make it simple to toggle running to off.
-    if( g->u.get_movement_mode() == "run" ) {
+    if( g->u.movement_mode_is( PMM_RUN ) ) {
         action_weightings[ACTION_TOGGLE_RUN] = 300;
     }
     // If we're already crouching, make it simple to toggle crouching to off.
-    if( g->u.get_movement_mode() == "crouch" ) {
+    if( g->u.movement_mode_is( PMM_CROUCH ) ) {
         action_weightings[ACTION_TOGGLE_CROUCH] = 300;
     }
 
@@ -813,6 +816,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_DISPLAY_SCENT );
             REGISTER_ACTION( ACTION_DISPLAY_TEMPERATURE );
             REGISTER_ACTION( ACTION_DISPLAY_VISIBILITY );
+            REGISTER_ACTION( ACTION_DISPLAY_RADIATION );
             REGISTER_ACTION( ACTION_TOGGLE_DEBUG_MODE );
         } else if( category == _( "Interact" ) ) {
             REGISTER_ACTION( ACTION_EXAMINE );

@@ -431,12 +431,12 @@ static cata::optional<basecamp *> get_basecamp( npc &p, const std::string &camp_
 {
 
     tripoint omt_pos = p.global_omt_location();
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.x, omt_pos.y );
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
     if( bcp ) {
         return bcp;
     }
     g->m.add_camp( p.pos(), "faction_camp" );
-    bcp = overmap_buffer.find_camp( omt_pos.x, omt_pos.y );
+    bcp = overmap_buffer.find_camp( omt_pos.xy() );
     if( !bcp ) {
         return cata::nullopt;
     }
@@ -2569,7 +2569,7 @@ std::string talk_function::name_mission_tabs( const tripoint &omt_pos, const std
     if( role_id != base_camps::id ) {
         return cur_title;
     }
-    cata::optional<basecamp *> temp_camp = overmap_buffer.find_camp( omt_pos.x, omt_pos.y );
+    cata::optional<basecamp *> temp_camp = overmap_buffer.find_camp( omt_pos.xy() );
     if( !temp_camp ) {
         return cur_title;
     }
@@ -2907,7 +2907,7 @@ tripoint om_target_tile( const tripoint &omt_pos, int min_range, int range,
 
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt );
 
-    if( must_see && !overmap_buffer.seen( omt_tgt.x, omt_tgt.y, omt_tgt.z ) ) {
+    if( must_see && !overmap_buffer.seen( omt_tgt ) ) {
         errors = true;
         popup( _( "You must be able to see the target that you select." ) );
     }

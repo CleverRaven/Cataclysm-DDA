@@ -96,9 +96,9 @@
         "CCC..................CCC",
         "C..........YY..........C",
         "........................",
-        "....cc............cc....",
+        "....cc...........cc.....",
         "....cc..c......c..cc....",
-        "....cc..c..//..c..cc....",
+        "...cc..c..//..c..cc.....",
         "........c..//..c........",
         "........c......c........",
         "....cc.....YY.....cc....",
@@ -133,7 +133,8 @@
       "place_monster": [
         { "monster": "mon_tripod", "x": [ 1, 4 ], "y": [ 20, 22 ], "chance": 90 },
         { "monster": "mon_tripod", "x": [ 19, 20 ], "y": [ 20, 22 ], "chance": 90 },
-        { "monster": "mon_zombie_scientist", "x": [ 2, 20 ], "y": [ 1, 9 ], "chance": 90, "repeat": [ 1, 2 ] }
+        { "monster": "mon_zombie_scientist", "x": [ 2, 20 ], "y": [ 1, 9 ], "chance": 90, "repeat": [ 1, 2 ] },
+        { "monster": "mon_mech_lifter", "x": 2, "y": 2, "chance": 50 }
       ]
     }
   },
@@ -166,10 +167,10 @@
         "........g,V,g...........",
         "........|,,,|......C....",
         "........|-g-|...........",
-        "........................",
-        "...................C....",
-        "........................",
-        "........................",
+        ".7......................",
+        ".|L|...............C....",
+        ".g.g....................",
+        ".|g|....................",
         "........................"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
@@ -182,6 +183,12 @@
           "security": 2,
           "options": [ { "name": "UNLOCK STORAGE", "action": "unlock", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]
+        },
+        "7": {
+          "name": "Prototype DARPA-713 AUTHORIZED PILOTS ONLY",
+          "security": 2,
+          "options": [ { "name": "UNLOCK STORAGE", "action": "unlock", "security": 4 } ],
+          "failures": [ { "action": "damage" }, { "action": "secubots" } ]
         }
       },
       "place_monster": [
@@ -189,7 +196,8 @@
         { "monster": "mon_secubot", "x": [ 1, 22 ], "y": [ 10, 13 ], "chance": 50, "repeat": 2 },
         { "monster": "mon_secubot", "x": [ 13, 22 ], "y": [ 10, 22 ], "chance": 50, "repeat": 2 },
         { "monster": "mon_secubot", "x": [ 1, 7 ], "y": [ 10, 22 ], "chance": 50, "repeat": 2 },
-        { "monster": "mon_secubot", "x": [ 1, 22 ], "y": [ 21, 22 ], "chance": 50 }
+        { "monster": "mon_secubot", "x": [ 1, 22 ], "y": [ 21, 22 ], "chance": 50 },
+        { "monster": "mon_mech_recon", "x": 3, "y": 21, "chance": 80 }
       ],
       "place_loot": [ { "item": "id_science", "x": 6, "y": 14, "chance": 100 } ],
       "place_nested": [
@@ -356,7 +364,10 @@
       ],
       "palettes": [ "lab_palette" ],
       "monster": { "7": { "monster": "mon_turret" } },
-      "place_monster": [ { "monster": "mon_secubot", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 75, "repeat": 2 } ],
+      "place_monster": [
+        { "monster": "mon_secubot", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 75, "repeat": 2 },
+        { "monster": "mon_mech_combat", "x": 2, "y": 2, "chance": 33 }
+      ],
       "place_loot": [ { "item": "id_science", "x": 7, "y": 11, "chance": 100 } ],
       "place_nested": [ { "chunks": [ "lab_finale_4x4" ], "x": 10, "y": 10 }, { "chunks": [ "lab_border_walls" ], "x": 0, "y": 0 } ]
     }

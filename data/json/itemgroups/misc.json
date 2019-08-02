@@ -135,5 +135,11 @@
       { "item": "mre_meatball_box" },
       { "item": "water_clean", "count": 2, "charges": 2, "container-item": "bottle_plastic" }
     ]
+  },
+  {
+    "id": "horse_gear",
+    "type": "item_group",
+    "//": "Horse vehicle items",
+    "items": [ [ "riding_saddle", 50 ], [ "yoke_harness", 50 ] ]
   }
 ]

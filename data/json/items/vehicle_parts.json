@@ -65,6 +65,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "towel_hanger",
+    "name": "towel hanger",
+    "description": "A towel hanger with towels.",
+    "weight": 2000,
+    "to_hit": -1,
+    "color": "brown",
+    "symbol": "-",
+    "material": [ "wood" ],
+    "volume": "2500 ml",
+    "bashing": 4,
+    "category": "veh_parts",
+    "price": 3000
+  },
+  {
+    "type": "GENERIC",
     "id": "veh_tracker",
     "name": "vehicle tracking device",
     "description": "A vehicle tracking device.  When installed on a vehicle it allows you track the vehicle.",

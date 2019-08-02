@@ -171,11 +171,13 @@
     "subtype": "distribution",
     "items": [
       [ "null", 100 ],
-      { "item": "glass_shard", "prob": 50, "count": [ 1, 12 ] },
+      { "item": "glass_shard", "prob": 50, "count": [ 8, 100 ] },
       { "item": "bottle_glass", "prob": 50, "count": [ 1, 6 ] },
       { "item": "wine_cabernet", "prob": 14, "count": [ 1, 12 ] },
       { "item": "wine_riesling", "prob": 12, "count": [ 1, 12 ] },
       { "item": "wine_chardonnay", "prob": 10, "count": [ 1, 12 ] },
+      { "item": "wine_marsala", "prob": 8, "count": [ 1, 12 ] },
+      { "item": "wine_vermouth", "prob": 13, "count": [ 1, 12 ] },
       { "item": "wine_noir", "prob": 8, "count": [ 1, 12 ] },
       { "item": "fruit_wine", "prob": 6, "count": [ 1, 12 ] }
     ]
@@ -201,6 +203,7 @@
       { "item": "wine_cabernet", "prob": 40, "container-item": "wooden_barrel" },
       { "item": "wine_riesling", "prob": 30, "container-item": "wooden_barrel" },
       { "item": "wine_chardonnay", "prob": 20, "container-item": "wooden_barrel" },
+      { "item": "wine_marsala", "prob": 15, "container-item": "wooden_barrel" },
       { "item": "wine_noir", "prob": 10, "container-item": "wooden_barrel" },
       { "item": "fruit_wine", "prob": 5, "container-item": "wooden_barrel" }
     ]
@@ -739,7 +742,7 @@
       [ "cup_plastic_unsealed", 30 ],
       [ "can_drink_unsealed", 30 ],
       [ "bottle_plastic", 30 ],
-      [ "glass_shard", 30 ],
+      { "item": "glass_shard", "prob": 30, "count": [ 1, 8 ] },
       [ "bag_plastic", 30 ],
       { "group": "vending_food", "prob": 20 },
       [ "rag_bloody", 20 ],
@@ -814,7 +817,7 @@
       [ "sinew", 40 ],
       [ "rag", 40 ],
       [ "bottle_plastic", 30 ],
-      [ "glass_shard", 30 ],
+      { "item": "glass_shard", "prob": 30, "count": [ 1, 8 ] },
       [ "rag_bloody", 20 ],
       [ "9mm_casing", 20 ],
       [ "38_casing", 20 ],
@@ -883,7 +886,7 @@
       [ "ceramic_shard", 40 ],
       [ "shot_hull", 40 ],
       [ "sinew", 40 ],
-      [ "glass_shard", 30 ],
+      { "item": "glass_shard", "prob": 30, "count": [ 1, 8 ] },
       [ "wrapper", 30 ],
       [ "dance_shoes", 20 ],
       [ "dress_shoes", 20 ],
@@ -900,8 +903,9 @@
       [ "gold_ear", 10 ],
       [ "bone_tainted", 5 ],
       [ "silver_ear", 5 ],
+      [ "platinum_ear", 1 ],
       { "group": "corpse_mansion", "prob": 5 },
-      [ "skinny_tie", 1 ]
+      { "group": "neckties", "prob": 1 }
     ]
   },
   {
@@ -1080,6 +1084,7 @@
       [ "india_pale_ale", 20 ],
       [ "belgian_ale", 20 ],
       [ "pale_ale", 20 ],
+      [ "wine_barley", 20 ],
       [ "stout", 20 ]
     ]
   },
@@ -1296,7 +1301,7 @@
       [ "jacket_army", 10 ],
       [ "army_top", 20 ],
       [ "porkpie", 5 ],
-      [ "skinny_tie", 5 ],
+      { "group": "neckties", "prob": 5 },
       [ "jersey", 60 ],
       [ "maid_hat", 3 ],
       [ "halter_top", 50 ],
@@ -1329,7 +1334,7 @@
       [ "long_glove_white", 5 ],
       [ "veil_wedding", 1 ],
       [ "dress_wedding", 1 ],
-      [ "skinny_tie", 5 ],
+      { "group": "neckties", "prob": 5 },
       [ "tieclip", 2 ],
       [ "collarpin", 2 ],
       [ "kilt", 5 ],

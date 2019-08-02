@@ -632,7 +632,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     comps1.push_back( item_comp( "detergent", required.cleanser ) );
     p->consume_items( comps1 );
 
-    p->add_msg_if_player( m_good, _( "You washed your clothing." ) );
+    p->add_msg_if_player( m_good, _( "You washed your items." ) );
 
     // Make sure newly washed components show up as available if player attempts to craft immediately
     p->invalidate_crafting_inventory();
@@ -1163,7 +1163,7 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
     // If we got here without restarting the activity, it means we're done.
     if( p.is_npc() ) {
         npc *guy = dynamic_cast<npc *>( &p );
-        guy->current_activity = "";
+        guy->current_activity.clear();
         guy->revert_after_activity();
     }
 }

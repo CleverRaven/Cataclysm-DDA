@@ -13,7 +13,7 @@
 
 #include "avatar.h"
 #include "explosion.h"
-#include "event.h"
+#include "timed_event.h"
 #include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -134,7 +134,7 @@ static void scatter_chunks( const std::string &chunk_name, int chunk_amt, monste
 
         for( size_t j = 0; j < traj.size(); j++ ) {
             tarp = traj[j];
-            if( one_in( 2 ) && z.bloodType() != fd_null ) {
+            if( one_in( 2 ) && z.bloodType().id() ) {
                 g->m.add_splatter( z.bloodType(), tarp );
             } else {
                 g->m.add_splatter( z.gibType(), tarp, rng( 1, j + 1 ) );
@@ -353,15 +353,12 @@ void mdeath::triffid_heart( monster &z )
     if( g->u.sees( z ) ) {
         add_msg( m_warning, _( "The surrounding roots begin to crack and crumble." ) );
     }
-    g->events.add( EVENT_ROOTS_DIE, calendar::turn + 10_minutes );
+    g->timed_events.add( TIMED_EVENT_ROOTS_DIE, calendar::turn + 10_minutes );
 }
 
 void mdeath::fungus( monster &z )
 {
-    // If the fungus died from anti-fungal poison, don't pouf
-    if( g->m.get_field_intensity( z.pos(), fd_fungicidal_gas ) ) {
-        return;
-    }
+
 
     //~ the sound of a fungus dying
     sounds::sound( z.pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
@@ -705,6 +702,21 @@ void mdeath::smokeburst( monster &z )
     g->m.emit_field( z.pos(), emit_id( "emit_smoke_blast" ) );
 }
 
+void mdeath::fungalburst( monster &z )
+{
+    // If the fungus died from anti-fungal poison, don't pouf
+    if( g->m.get_field_intensity( z.pos(), fd_fungicidal_gas ) ) {
+        if( g->u.sees( z ) ) {
+            add_msg( m_good, _( "The %s inflates and melts away." ), z.name() );
+        }
+        return;
+    }
+
+    std::string explode = string_format( _( "a %s explodes!" ), z.name() );
+    sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );
+    g->m.emit_field( z.pos(), emit_id( "emit_fungal_blast" ) );
+}
+
 void mdeath::jabberwock( monster &z )
 {
     player *ch = dynamic_cast<player *>( z.get_killer() );
@@ -712,7 +724,7 @@ void mdeath::jabberwock( monster &z )
     bool vorpal = ch && ch->is_player() &&
                   rl_dist( z.pos(), ch->pos() ) <= 1 &&
                   ch->weapon.has_flag( "DIAMOND" ) &&
-                  ch->weapon.volume() > units::from_milliliter( 750 );
+                  ch->weapon.volume() > 750_ml;
 
     if( vorpal && !ch->weapon.has_technique( matec_id( "VORPAL" ) ) ) {
         if( ch->sees( z ) ) {

@@ -1450,6 +1450,12 @@ void options_manager::add_options_interface()
          false
        );
 
+    add( "PICKUP_POSITION", "interface", translate_marker( "Pickup position" ),
+         translate_marker( "Switch between pickup panel being left, right, or overlapping the sidebar." ),
+    { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) }, { "overlapping", translate_marker( "Overlapping" ) } },
+    "left"
+       );
+
     add( "ACCURACY_DISPLAY", "interface", translate_marker( "Aim window display style" ),
          translate_marker( "How should confidence and steadiness be communicated to the player." ),
          //~ aim bar style - bars or numbers
@@ -1458,7 +1464,6 @@ void options_manager::add_options_interface()
 
     add( "MORALE_STYLE", "interface", translate_marker( "Morale style" ),
          translate_marker( "Morale display style in sidebar." ),
-         //~ aim bar style - bars or numbers
     { { "vertical", translate_marker( "Vertical" ) }, { "horizontal", translate_marker( "Horizontal" ) } },
     "Vertical"
        );
@@ -1723,7 +1728,7 @@ void options_manager::add_options_graphics()
     add( "FULLSCREEN", "graphics", translate_marker( "Fullscreen" ),
          translate_marker( "Starts Cataclysm in one of the fullscreen modes.  Requires restart." ),
     { { "no", translate_marker( "No" ) }, { "fullscreen", translate_marker( "Fullscreen" ) }, { "windowedbl", translate_marker( "Windowed borderless" ) } },
-    "no", COPT_CURSES_HIDE
+    "windowedbl", COPT_CURSES_HIDE
        );
 #endif
 
@@ -1937,7 +1942,7 @@ void options_manager::add_options_world_default()
 
     add( "INITIAL_DAY", "world_default", translate_marker( "Initial day" ),
          translate_marker( "How many days into the year the cataclysm occurred. Day 0 is Spring 1. Can be overridden by scenarios. This does not advance food rot or monster evolution." ),
-         0, 999, 0
+         0, 999, 30
        );
 
     add( "SPAWN_DELAY", "world_default", translate_marker( "Spawn delay" ),
@@ -2816,8 +2821,6 @@ void options_manager::load()
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
-    calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
-    calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 #if defined(SDL_SOUND)
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 #endif

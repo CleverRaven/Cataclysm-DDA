@@ -19,6 +19,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "color.h"
+#include "coordinate_conversions.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
@@ -822,10 +823,9 @@ void nuke( const tripoint &p )
 {
     // TODO: nukes hit above surface, not critter = 0
     // TODO: Z
-    int x = p.x;
-    int y = p.y;
+    tripoint p_surface( p.xy(), 0 );
     tinymap tmpmap;
-    tmpmap.load( x * 2, y * 2, 0, false );
+    tmpmap.load( omt_to_sm_copy( p_surface ), false );
     tripoint dest( 0, 0, p.z );
     int &i = dest.x;
     int &j = dest.y;
@@ -841,9 +841,9 @@ void nuke( const tripoint &p )
         }
     }
     tmpmap.save();
-    overmap_buffer.ter( x, y, 0 ) = oter_id( "crater" );
+    overmap_buffer.ter( p_surface ) = oter_id( "crater" );
     // Kill any npcs on that omap location.
-    for( const auto &npc : overmap_buffer.get_npcs_near_omt( x, y, 0, 0 ) ) {
+    for( const auto &npc : overmap_buffer.get_npcs_near_omt( p_surface, 0 ) ) {
         npc->marked_for_death = true;
     }
 }

@@ -33,6 +33,44 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "SWARMS" ]
   },
   {
+    "id": "mon_nothic",
+    "name": "nothic",
+    "description": "A baleful eye peers out from the darkness, its gleam hinting at a weird intelligence and unnerving malevolence.",
+    "symbol": "N",
+    "color": "dark_gray",
+    "type": "MONSTER",
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM" ],
+    "harvest": "human",
+    "material": [ "hflesh" ],
+    "bodytype": "human",
+    "default_faction": "magical_beast",
+    "species": [ "MAGICAL_BEAST", "HUMAN" ],
+    "volume": "62500 ml",
+    "weight": 81500,
+    "hp": 60,
+    "speed": 100,
+    "aggression": 30,
+    "morale": 100,
+    "melee_skill": 3,
+    "melee_cut": 20,
+    "melee_dice": 3,
+    "melee_dice_sides": 10,
+    "dodge": 6,
+    "vision_night": 30,
+    "vision_day": 30,
+    "path_settings": { "max_dist": 35 },
+    "death_function": [ "NORMAL" ],
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
+    "special_attacks": [
+      {
+        "id": "scratch",
+        "cooldown": 1,
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 25, "armor_multiplier": 1.2 } ]
+      },
+      { "type": "spell", "spell_id": "necrotic_gaze", "cooldown": 5 }
+    ]
+  },
+  {
     "id": "mon_owlbear_cub",
     "type": "MONSTER",
     "name": "owlbear cub",

@@ -114,6 +114,10 @@
     "base_energy_cost": 350,
     "energy_source": "MANA",
     "difficulty": 4,
+    "field_id": "fd_cold_air2",
+    "min_field_intensity": 0,
+    "max_field_intensity": 4,
+    "intensity_increment": 0.5,
     "damage_type": "cold"
   },
   {
@@ -140,31 +144,6 @@
     "energy_source": "MANA",
     "difficulty": 2,
     "damage_type": "fire"
-  },
-  {
-    "id": "iceball",
-    "type": "SPELL",
-    "name": "Hoary Blast",
-    "description": "A glowing chunk of ice bursts into being from your hand and explodes into a wave of intense cold on impact.",
-    "effect": "projectile_attack",
-    "valid_targets": [ "self", "ally", "hostile", "ground" ],
-    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS" ],
-    "max_level": 20,
-    "min_damage": 24,
-    "max_damage": 68,
-    "damage_increment": 1.2,
-    "min_aoe": 3,
-    "max_aoe": 5,
-    "aoe_increment": 0.1,
-    "min_range": 6,
-    "max_range": 20,
-    "range_increment": 1,
-    "spell_class": "KELVINIST",
-    "base_casting_time": 150,
-    "base_energy_cost": 150,
-    "energy_source": "MANA",
-    "difficulty": 3,
-    "damage_type": "cold"
   },
   {
     "id": "frost_spray",

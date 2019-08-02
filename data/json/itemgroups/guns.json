@@ -228,7 +228,7 @@
       { "item": "laser_rifle", "prob": 30 },
       { "item": "emp_gun", "prob": 10 },
       { "item": "v29", "prob": 70 },
-      { "item": "ftk93", "prob": 10 }
+      { "item": "plasma_gun", "prob": 10 }
     ]
   },
   {

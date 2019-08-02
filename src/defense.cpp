@@ -213,11 +213,12 @@ void defense_game::init_constructions()
 
 void defense_game::init_map()
 {
-    auto &starting_om = overmap_buffer.get( 0, 0 );
+    auto &starting_om = overmap_buffer.get( point_zero );
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
-            starting_om.ter( x, y, 0 ) = oter_id( "field" );
-            starting_om.seen( x, y, 0 ) = true;
+            tripoint p( x, y, 0 );
+            starting_om.ter( p ) = oter_id( "field" );
+            starting_om.seen( p ) = true;
         }
     }
 
@@ -228,67 +229,67 @@ void defense_game::init_map()
             break;
 
         case DEFLOC_HOSPITAL:
-            starting_om.ter( 51, 49, 0 ) = oter_id( "road_end_north" );
-            starting_om.ter( 50, 50, 0 ) = oter_id( "hospital_3_north" );
-            starting_om.ter( 51, 50, 0 ) = oter_id( "hospital_2_north" );
-            starting_om.ter( 52, 50, 0 ) = oter_id( "hospital_1_north" );
-            starting_om.ter( 50, 51, 0 ) = oter_id( "hospital_6_north" );
-            starting_om.ter( 51, 51, 0 ) = oter_id( "hospital_5_north" );
-            starting_om.ter( 52, 51, 0 ) = oter_id( "hospital_4_north" );
-            starting_om.ter( 50, 52, 0 ) = oter_id( "hospital_9_north" );
-            starting_om.ter( 51, 52, 0 ) = oter_id( "hospital_8_north" );
-            starting_om.ter( 52, 52, 0 ) = oter_id( "hospital_7_north" );
+            starting_om.ter( { 51, 49, 0 } ) = oter_id( "road_end_north" );
+            starting_om.ter( { 50, 50, 0 } ) = oter_id( "hospital_3_north" );
+            starting_om.ter( { 51, 50, 0 } ) = oter_id( "hospital_2_north" );
+            starting_om.ter( { 52, 50, 0 } ) = oter_id( "hospital_1_north" );
+            starting_om.ter( { 50, 51, 0 } ) = oter_id( "hospital_6_north" );
+            starting_om.ter( { 51, 51, 0 } ) = oter_id( "hospital_5_north" );
+            starting_om.ter( { 52, 51, 0 } ) = oter_id( "hospital_4_north" );
+            starting_om.ter( { 50, 52, 0 } ) = oter_id( "hospital_9_north" );
+            starting_om.ter( { 51, 52, 0 } ) = oter_id( "hospital_8_north" );
+            starting_om.ter( { 52, 52, 0 } ) = oter_id( "hospital_7_north" );
             break;
 
         case DEFLOC_WORKS:
-            starting_om.ter( 50, 52, 0 ) = oter_id( "road_end_north" );
-            starting_om.ter( 50, 50, 0 ) = oter_id( "public_works_NW_north" );
-            starting_om.ter( 51, 50, 0 ) = oter_id( "public_works_NE_north" );
-            starting_om.ter( 50, 51, 0 ) = oter_id( "public_works_SW_north" );
-            starting_om.ter( 51, 51, 0 ) = oter_id( "public_works_SE_north" );
+            starting_om.ter( { 50, 52, 0 } ) = oter_id( "road_end_north" );
+            starting_om.ter( { 50, 50, 0 } ) = oter_id( "public_works_NW_north" );
+            starting_om.ter( { 51, 50, 0 } ) = oter_id( "public_works_NE_north" );
+            starting_om.ter( { 50, 51, 0 } ) = oter_id( "public_works_SW_north" );
+            starting_om.ter( { 51, 51, 0 } ) = oter_id( "public_works_SE_north" );
             break;
 
         case DEFLOC_MALL:
             for( int x = 49; x <= 51; x++ ) {
                 for( int y = 49; y <= 51; y++ ) {
-                    starting_om.ter( x, y, 0 ) = oter_id( "megastore" );
+                    starting_om.ter( { x, y, 0 } ) = oter_id( "megastore" );
                 }
             }
-            starting_om.ter( 50, 49, 0 ) = oter_id( "megastore_entrance" );
+            starting_om.ter( { 50, 49, 0 } ) = oter_id( "megastore_entrance" );
             break;
 
         case DEFLOC_BAR:
-            starting_om.ter( 50, 50, 0 ) = oter_id( "bar_north" );
+            starting_om.ter( { 50, 50, 0 } ) = oter_id( "bar_north" );
             break;
 
         case DEFLOC_MANSION:
-            starting_om.ter( 49, 49, 0 ) = oter_id( "mansion_c3_north" );
-            starting_om.ter( 50, 49, 0 ) = oter_id( "mansion_e1_north" );
-            starting_om.ter( 51, 49, 0 ) = oter_id( "mansion_c1_east" );
-            starting_om.ter( 49, 50, 0 ) = oter_id( "mansion_t4_east" );
-            starting_om.ter( 50, 50, 0 ) = oter_id( "mansion_+4_north" );
-            starting_om.ter( 51, 50, 0 ) = oter_id( "mansion_t2_west" );
-            starting_om.ter( 49, 51, 0 ) = oter_id( "mansion_c2_west" );
-            starting_om.ter( 50, 51, 0 ) = oter_id( "mansion_t2_north" );
-            starting_om.ter( 51, 51, 0 ) = oter_id( "mansion_c4_south" );
-            starting_om.ter( 49, 49, 1 ) = oter_id( "mansion_c3u_north" );
-            starting_om.ter( 50, 49, 1 ) = oter_id( "mansion_e1u_north" );
-            starting_om.ter( 51, 49, 1 ) = oter_id( "mansion_c1u_east" );
-            starting_om.ter( 49, 50, 1 ) = oter_id( "mansion_t4u_east" );
-            starting_om.ter( 50, 50, 1 ) = oter_id( "mansion_+4u_north" );
-            starting_om.ter( 51, 50, 1 ) = oter_id( "mansion_t2u_west" );
-            starting_om.ter( 49, 51, 1 ) = oter_id( "mansion_c2u_west" );
-            starting_om.ter( 50, 51, 1 ) = oter_id( "mansion_t2u_north" );
-            starting_om.ter( 51, 51, 1 ) = oter_id( "mansion_c4u_south" );
-            starting_om.ter( 49, 49, -1 ) = oter_id( "mansion_c3d_north" );
-            starting_om.ter( 50, 49, -1 ) = oter_id( "mansion_e1d_north" );
-            starting_om.ter( 51, 49, -1 ) = oter_id( "mansion_c1d_east" );
-            starting_om.ter( 49, 50, -1 ) = oter_id( "mansion_t4d_east" );
-            starting_om.ter( 50, 50, -1 ) = oter_id( "mansion_+4d_north" );
-            starting_om.ter( 51, 50, -1 ) = oter_id( "mansion_t2d_west" );
-            starting_om.ter( 49, 51, -1 ) = oter_id( "mansion_c2d_west" );
-            starting_om.ter( 50, 51, -1 ) = oter_id( "mansion_t2d_north" );
-            starting_om.ter( 51, 51, -1 ) = oter_id( "mansion_c4d_south" );
+            starting_om.ter( { 49, 49, 0 } ) = oter_id( "mansion_c3_north" );
+            starting_om.ter( { 50, 49, 0 } ) = oter_id( "mansion_e1_north" );
+            starting_om.ter( { 51, 49, 0 } ) = oter_id( "mansion_c1_east" );
+            starting_om.ter( { 49, 50, 0 } ) = oter_id( "mansion_t4_east" );
+            starting_om.ter( { 50, 50, 0 } ) = oter_id( "mansion_+4_north" );
+            starting_om.ter( { 51, 50, 0 } ) = oter_id( "mansion_t2_west" );
+            starting_om.ter( { 49, 51, 0 } ) = oter_id( "mansion_c2_west" );
+            starting_om.ter( { 50, 51, 0 } ) = oter_id( "mansion_t2_north" );
+            starting_om.ter( { 51, 51, 0 } ) = oter_id( "mansion_c4_south" );
+            starting_om.ter( { 49, 49, 1 } ) = oter_id( "mansion_c3u_north" );
+            starting_om.ter( { 50, 49, 1 } ) = oter_id( "mansion_e1u_north" );
+            starting_om.ter( { 51, 49, 1 } ) = oter_id( "mansion_c1u_east" );
+            starting_om.ter( { 49, 50, 1 } ) = oter_id( "mansion_t4u_east" );
+            starting_om.ter( { 50, 50, 1 } ) = oter_id( "mansion_+4u_north" );
+            starting_om.ter( { 51, 50, 1 } ) = oter_id( "mansion_t2u_west" );
+            starting_om.ter( { 49, 51, 1 } ) = oter_id( "mansion_c2u_west" );
+            starting_om.ter( { 50, 51, 1 } ) = oter_id( "mansion_t2u_north" );
+            starting_om.ter( { 51, 51, 1 } ) = oter_id( "mansion_c4u_south" );
+            starting_om.ter( { 49, 49, -1 } ) = oter_id( "mansion_c3d_north" );
+            starting_om.ter( { 50, 49, -1 } ) = oter_id( "mansion_e1d_north" );
+            starting_om.ter( { 51, 49, -1 } ) = oter_id( "mansion_c1d_east" );
+            starting_om.ter( { 49, 50, -1 } ) = oter_id( "mansion_t4d_east" );
+            starting_om.ter( { 50, 50, -1 } ) = oter_id( "mansion_+4d_north" );
+            starting_om.ter( { 51, 50, -1 } ) = oter_id( "mansion_t2d_west" );
+            starting_om.ter( { 49, 51, -1 } ) = oter_id( "mansion_c2d_west" );
+            starting_om.ter( { 50, 51, -1 } ) = oter_id( "mansion_t2d_north" );
+            starting_om.ter( { 51, 51, -1 } ) = oter_id( "mansion_c4d_south" );
             break;
     }
     starting_om.save();
@@ -538,17 +539,17 @@ void defense_game::setup()
             switch( selection ) {
                 case 1: // Scenario selection
                     if( action == "RIGHT" ) {
-                        if( style == defense_style( NUM_DEFENSE_STYLES - 1 ) ) {
-                            style = defense_style( 1 );
+                        if( style == static_cast<defense_style>( NUM_DEFENSE_STYLES - 1 ) ) {
+                            style = static_cast<defense_style>( 1 );
                         } else {
-                            style = defense_style( style + 1 );
+                            style = static_cast<defense_style>( style + 1 );
                         }
                     }
                     if( action == "LEFT" ) {
-                        if( style == defense_style( 1 ) ) {
-                            style = defense_style( NUM_DEFENSE_STYLES - 1 );
+                        if( style == static_cast<defense_style>( 1 ) ) {
+                            style = static_cast<defense_style>( NUM_DEFENSE_STYLES - 1 );
                         } else {
-                            style = defense_style( style - 1 );
+                            style = static_cast<defense_style>( style - 1 );
                         }
                     }
                     init_to_style( style );
@@ -556,17 +557,17 @@ void defense_game::setup()
 
                 case 2: // Location selection
                     if( action == "RIGHT" ) {
-                        if( location == defense_location( NUM_DEFENSE_LOCATIONS - 1 ) ) {
-                            location = defense_location( 1 );
+                        if( location == static_cast<defense_location>( NUM_DEFENSE_LOCATIONS - 1 ) ) {
+                            location = static_cast<defense_location>( 1 );
                         } else {
-                            location = defense_location( location + 1 );
+                            location = static_cast<defense_location>( location + 1 );
                         }
                     }
                     if( action == "LEFT" ) {
-                        if( location == defense_location( 1 ) ) {
-                            location = defense_location( NUM_DEFENSE_LOCATIONS - 1 );
+                        if( location == static_cast<defense_location>( 1 ) ) {
+                            location = static_cast<defense_location>( NUM_DEFENSE_LOCATIONS - 1 );
                         } else {
-                            location = defense_location( location - 1 );
+                            location = static_cast<defense_location>( location - 1 );
                         }
                     }
                     mvwprintz( w, 5, 2, c_black, "\
@@ -900,7 +901,7 @@ void defense_game::caravan()
 
     // Init the items for each category
     for( int i = 0; i < NUM_CARAVAN_CATEGORIES; i++ ) {
-        items[i] = caravan_items( caravan_category( i ) );
+        items[i] = caravan_items( static_cast<caravan_category>( i ) );
         for( std::vector<itype_id>::iterator it = items[i].begin();
              it != items[i].end(); ) {
             if( current_wave == 0 || !one_in( 4 ) ) {
@@ -1286,7 +1287,7 @@ void draw_caravan_categories( const catacurses::window &w, int category_selected
 
     for( int i = 0; i < NUM_CARAVAN_CATEGORIES; i++ ) {
         mvwprintz( w, i + 3, 1, ( i == category_selected ? h_white : c_white ),
-                   caravan_category_name( caravan_category( i ) ) );
+                   caravan_category_name( static_cast<caravan_category>( i ) ) );
     }
     wrefresh( w );
 }

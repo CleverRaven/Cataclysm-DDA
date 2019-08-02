@@ -123,7 +123,7 @@ std::string body_part_names( const std::vector<body_part> &parts )
     names.reserve( parts.size() );
     for( size_t i = 0; i < parts.size(); ++i ) {
         const body_part part = parts[i];
-        if( i + 1 < parts.size() && parts[i + 1] == body_part( bp_aiOther[part] ) ) {
+        if( i + 1 < parts.size() && parts[i + 1] == static_cast<body_part>( bp_aiOther[part] ) ) {
             // Can combine two body parts (e.g. arms)
             names.push_back( body_part_name_accusative( part, 2 ) );
             ++i;

@@ -319,12 +319,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "fusion",
-    "name": "fusion cell",
-    "default": "laser_pack"
-  },
-  {
-    "type": "ammunition_type",
     "id": "12mm",
     "name": "12mm slugs",
     "default": "12mm"
@@ -388,6 +382,12 @@
     "id": "charcoal",
     "name": "charcoal",
     "default": "charcoal"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "cac2powder",
+    "name": "powdered calcium carbide premix",
+    "default": "cac2powder"
   },
   {
     "type": "ammunition_type",
@@ -529,6 +529,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "unfinished_cac2",
+    "name": "partially burned calcium carbide",
+    "default": "unfinished_cac2"
+  },
+  {
+    "type": "ammunition_type",
     "id": "chemical_spray",
     "name": "sprayable chemical",
     "default": "gas_fungicidal"
@@ -561,6 +567,12 @@
     "id": "esbit",
     "name": "hexamine",
     "default": "chem_hexamine",
+    "type": "ammunition_type"
+  },
+  {
+    "id": "oxygen",
+    "name": "oxygen",
+    "default": "oxygen",
     "type": "ammunition_type"
   }
 ]

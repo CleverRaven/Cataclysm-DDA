@@ -93,6 +93,7 @@ enum npc_attitude : int {
     NPCATT_END
 };
 
+std::string npc_attitude_id( npc_attitude );
 std::string npc_attitude_name( npc_attitude );
 
 // Attitudes are grouped by overall behavior towards player
@@ -756,10 +757,6 @@ class npc : public player
         void starting_weapon( const npc_class_id &type );
 
         // Save & load
-        // Overloaded from player
-        void load_info( std::string data ) override;
-        std::string save_info() const override;
-
         void deserialize( JsonIn &jsin ) override;
         void serialize( JsonOut &jsout ) const override;
 
@@ -868,6 +865,9 @@ class npc : public player
         void activate_item( int position );
         bool has_identified( const std::string & ) const override {
             return true;
+        }
+        bool has_artifact_with( const art_effect_passive ) const override {
+            return false;
         }
         /** Is the item safe or does the NPC trust you enough? */
         bool will_accept_from_player( const item &it ) const;
@@ -1240,6 +1240,10 @@ class npc : public player
          * Retroactively update npc.
          */
         void on_load();
+        /**
+         * Update body, but throttled.
+         */
+        void npc_update_body();
 
         /// Set up (start) a companion mission.
         void set_companion_mission( npc &p, const std::string &mission_id );

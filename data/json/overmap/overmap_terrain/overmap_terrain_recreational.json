@@ -689,9 +689,25 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "zoo_0_1_roof",
+    "copy-from": "generic_city_building",
+    "name": "zoo roof",
+    "sym": "Z",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "zoo_1_1",
     "copy-from": "generic_city_building",
     "name": "zoo",
+    "sym": "Z",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_1_1_roof",
+    "copy-from": "generic_city_building",
+    "name": "zoo roof",
     "sym": "Z",
     "color": "i_green"
   },
@@ -705,9 +721,25 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "zoo_2_1_roof",
+    "copy-from": "generic_city_building",
+    "name": "zoo roof",
+    "sym": "Z",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "zoo_0_2",
     "copy-from": "generic_city_building",
     "name": "zoo",
+    "sym": "Z",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_0_2_roof",
+    "copy-from": "generic_city_building",
+    "name": "zoo roof",
     "sym": "Z",
     "color": "i_green"
   },
@@ -721,9 +753,25 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "zoo_1_2_roof",
+    "copy-from": "generic_city_building",
+    "name": "zoo roof",
+    "sym": "Z",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "zoo_2_2",
     "copy-from": "generic_city_building",
     "name": "zoo",
+    "sym": "Z",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_2_2_roof",
+    "copy-from": "generic_city_building",
+    "name": "zoo roof",
     "sym": "Z",
     "color": "i_green"
   },

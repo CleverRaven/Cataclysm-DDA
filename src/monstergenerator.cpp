@@ -95,6 +95,9 @@ const std::map<std::string, m_flag> flag_map = {
     { "BONES", MF_BONES },
     { "FAT", MF_FAT },
     { "IMMOBILE", MF_IMMOBILE },
+    { "RIDEABLE_MECH", MF_RIDEABLE_MECH },
+    { "MILITARY_MECH", MF_MILITARY_MECH },
+    { "MECH_RECON_VISION", MF_MECH_RECON_VISION },
     { "HIT_AND_RUN", MF_HIT_AND_RUN },
     { "GUILT", MF_GUILT },
     { "HUMAN", MF_HUMAN },
@@ -148,6 +151,7 @@ const std::map<std::string, m_flag> flag_map = {
     { "DRIPS_NAPALM", MF_DRIPS_NAPALM },
     { "DRIPS_GASOLINE", MF_DRIPS_GASOLINE },
     { "ELECTRIC_FIELD", MF_ELECTRIC_FIELD },
+    { "STUN_IMMUNE", MF_STUN_IMMUNE },
     { "LOUDMOVES", MF_LOUDMOVES }
 };
 
@@ -429,6 +433,7 @@ void MonsterGenerator::init_death()
     // Gives a message about destroying ammo and then calls "BROKEN"
     death_map["BROKEN_AMMO"] = &mdeath::broken_ammo;
     death_map["SMOKEBURST"] = &mdeath::smokeburst;// Explode like a huge smoke bomb.
+    death_map["FUNGALBURST"] = &mdeath::fungalburst;// Explode with a cloud of fungal haze.
     death_map["JABBERWOCKY"] = &mdeath::jabberwock; // Snicker-snack!
     death_map["DETONATE"] = &mdeath::detonate; // Take them with you
     death_map["GAMEOVER"] = &mdeath::gameover;// Game over!  Defense mode
@@ -483,6 +488,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "FUNGUS_FORTIFY", mattack::fungus_fortify );
     add_hardcoded_attack( "DERMATIK", mattack::dermatik );
     add_hardcoded_attack( "DERMATIK_GROWTH", mattack::dermatik_growth );
+    add_hardcoded_attack( "FUNGAL_TRAIL", mattack::fungal_trail );
     add_hardcoded_attack( "PLANT", mattack::plant );
     add_hardcoded_attack( "DISAPPEAR", mattack::disappear );
     add_hardcoded_attack( "FORMBLOB", mattack::formblob );
@@ -514,6 +520,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "LUNGE", mattack::lunge );
     add_hardcoded_attack( "LONGSWIPE", mattack::longswipe );
     add_hardcoded_attack( "PARROT", mattack::parrot );
+    add_hardcoded_attack( "PARROT_AT_DANGER", mattack::parrot_at_danger );
     add_hardcoded_attack( "DARKMAN", mattack::darkman );
     add_hardcoded_attack( "SHADOW_HUNTER", mattack::shadow_hunter );
     add_hardcoded_attack( "SHADOW_HUNTER_H", mattack::shadow_hunter_h );
@@ -651,6 +658,9 @@ void mtype::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "luminance", luminance, 0 );
     optional( jo, was_loaded, "revert_to_itype", revert_to_itype, "" );
     optional( jo, was_loaded, "attack_effs", atk_effs, mon_attack_effect_reader{} );
+    optional( jo, was_loaded, "mech_weapon", mech_weapon, "" );
+    optional( jo, was_loaded, "mech_str_bonus", mech_str_bonus, 0 );
+    optional( jo, was_loaded, "mech_battery", mech_battery, "" );
 
     // TODO: make this work with `was_loaded`
     if( jo.has_array( "melee_damage" ) ) {
@@ -1026,6 +1036,14 @@ void MonsterGenerator::check_monster_definitions() const
         if( !mon.revert_to_itype.empty() && !item::type_is_defined( mon.revert_to_itype ) ) {
             debugmsg( "monster %s has unknown revert_to_itype: %s", mon.id.c_str(),
                       mon.revert_to_itype.c_str() );
+        }
+        if( !mon.mech_weapon.empty() && !item::type_is_defined( mon.mech_weapon ) ) {
+            debugmsg( "monster %s has unknown mech_weapon: %s", mon.id.c_str(),
+                      mon.mech_weapon.c_str() );
+        }
+        if( !mon.mech_battery.empty() && !item::type_is_defined( mon.mech_battery ) ) {
+            debugmsg( "monster %s has unknown mech_battery: %s", mon.id.c_str(),
+                      mon.mech_battery.c_str() );
         }
         for( auto &s : mon.starting_ammo ) {
             if( !item::type_is_defined( s.first ) ) {

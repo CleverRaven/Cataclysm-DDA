@@ -6,7 +6,7 @@
     "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "firstaid",
     "difficulty": 1,
-    "time": "0 m",
+    "time": "30 s",
     "autolearn": true,
     "components": [
       [ [ "rag", 3 ], [ "medical_gauze", 1 ] ],
@@ -20,7 +20,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "tailor",
-    "time": "0 m",
+    "time": "9 s",
     "autolearn": true,
     "charges": 1,
     "components": [ [ [ "rag", 1 ] ] ]
@@ -72,7 +72,7 @@
     "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "cooking",
     "autolearn": true,
-    "time": "0 m",
+    "time": "30 s",
     "components": [ [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ] ]
   },
   {
