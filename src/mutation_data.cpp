@@ -628,7 +628,7 @@ static Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid
             throw std::runtime_error( buf.str() );
         }
     }
-    return *( found->second );
+    return *found->second;
 }
 
 void mutation_branch::load_trait_group( JsonArray &entries, const trait_group::Trait_group_tag &gid,
@@ -658,7 +658,7 @@ void mutation_branch::load_trait_group( JsonObject &jsobj, const trait_group::Tr
         jsobj.throw_error( "unknown trait group type", "subtype" );
     }
 
-    Trait_group &tg = make_group_or_throw( gid, ( subtype == "collection" || subtype == "old" ) );
+    Trait_group &tg = make_group_or_throw( gid, subtype == "collection" || subtype == "old" );
 
     // TODO: (sm) Looks like this makes the new code backwards-compatible with the old format. Great if so!
     if( subtype == "old" ) {

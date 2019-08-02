@@ -852,7 +852,7 @@ bool zone_manager::remove( zone_data &zone )
     //If the zone was added this session
     //remove from added, and don't add to removed
     for( auto it = added_vzones.begin(); it != added_vzones.end(); ++it ) {
-        if( ( *it ) == &zone ) {
+        if( *it == &zone ) {
             added = true;
             added_vzones.erase( it );
             break;
@@ -899,8 +899,7 @@ void zone_manager::rotate_zones( map &target_map, const int turns )
             tripoint z_l_start3 = target_map.getlocal( z_start );
             tripoint z_l_end3 = target_map.getlocal( z_end );
             // don't rotate centered squares
-            if( z_l_start3.x == z_l_start3.y && z_l_end3.x == z_l_end3.y &&
-                ( z_l_start3.x + z_l_end3.x ) == 23 ) {
+            if( z_l_start3.x == z_l_start3.y && z_l_end3.x == z_l_end3.y && z_l_start3.x + z_l_end3.x == 23 ) {
                 continue;
             }
             point z_l_start = point( z_l_start3.x, z_l_start3.y ).rotate( turns, dim );

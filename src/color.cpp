@@ -487,49 +487,49 @@ void init_colors()
 nc_color invert_color( const nc_color &c )
 {
     const nc_color color = all_colors.get_invert( c );
-    return ( static_cast<int>( color ) > 0 ) ? color : c_pink;
+    return static_cast<int>( color ) > 0 ? color : c_pink;
 }
 
 nc_color hilite( const nc_color &c )
 {
     const nc_color color = all_colors.get_highlight( c, HL_BLUE );
-    return ( static_cast<int>( color ) > 0 ) ? color : h_white;
+    return static_cast<int>( color ) > 0 ? color : h_white;
 }
 
 nc_color red_background( const nc_color &c )
 {
     const nc_color color = all_colors.get_highlight( c, HL_RED );
-    return ( static_cast<int>( color ) > 0 ) ? color : c_white_red;
+    return static_cast<int>( color ) > 0 ? color : c_white_red;
 }
 
 nc_color white_background( const nc_color &c )
 {
     const nc_color color = all_colors.get_highlight( c, HL_WHITE );
-    return ( static_cast<int>( color ) > 0 ) ? color : c_black_white;
+    return static_cast<int>( color ) > 0 ? color : c_black_white;
 }
 
 nc_color green_background( const nc_color &c )
 {
     const nc_color color = all_colors.get_highlight( c, HL_GREEN );
-    return ( static_cast<int>( color ) > 0 ) ? color : c_black_green;
+    return static_cast<int>( color ) > 0 ? color : c_black_green;
 }
 
 nc_color yellow_background( const nc_color &c )
 {
     const nc_color color = all_colors.get_highlight( c, HL_YELLOW );
-    return ( static_cast<int>( color ) > 0 ) ? color : c_black_yellow;
+    return static_cast<int>( color ) > 0 ? color : c_black_yellow;
 }
 
 nc_color magenta_background( const nc_color &c )
 {
     const nc_color color = all_colors.get_highlight( c, HL_MAGENTA );
-    return ( static_cast<int>( color ) > 0 ) ? color : c_black_magenta;
+    return static_cast<int>( color ) > 0 ? color : c_black_magenta;
 }
 
 nc_color cyan_background( const nc_color &c )
 {
     const nc_color color = all_colors.get_highlight( c, HL_CYAN );
-    return ( static_cast<int>( color ) > 0 ) ? color : c_black_cyan;
+    return static_cast<int>( color ) > 0 ? color : c_black_cyan;
 }
 
 /**
@@ -714,8 +714,8 @@ void color_manager::show_gui()
     const int iHeaderHeight = 4;
     const int iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
 
-    const int iOffsetX = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-    const int iOffsetY = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+    const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+    const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
 
     std::vector<int> vLines;
     vLines.push_back( -1 );
@@ -790,7 +790,7 @@ void color_manager::show_gui()
         // display color manager
         for( int i = iStartPos; iter != name_color_map.end(); ++iter, ++i ) {
             if( i >= iStartPos &&
-                i < iStartPos + ( ( iContentHeight > iMaxColors ) ? iMaxColors : iContentHeight ) ) {
+                i < iStartPos + ( iContentHeight > iMaxColors ? iMaxColors : iContentHeight ) ) {
                 auto &entry = iter->second;
 
                 if( iCurrentLine == i ) {
@@ -979,7 +979,7 @@ bool color_manager::save_custom()
 
 void color_manager::load_custom( const std::string &sPath )
 {
-    const auto file = ( sPath.empty() ) ? FILENAMES["custom_colors"] : sPath;
+    const auto file = sPath.empty() ? FILENAMES["custom_colors"] : sPath;
 
     read_from_file_optional_json( file, [this]( JsonIn & jsonin ) {
         deserialize( jsonin );

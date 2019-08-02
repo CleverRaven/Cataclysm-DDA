@@ -505,8 +505,7 @@ std::string monster::name( unsigned int quantity ) const
         return std::string();
     }
     if( !unique_name.empty() ) {
-        return string_format( "%s: %s",
-                              ( type->nname( quantity ) ), unique_name );
+        return string_format( "%s: %s", type->nname( quantity ), unique_name );
     }
     return type->nname( quantity );
 }
@@ -564,7 +563,7 @@ void monster::get_HP_Bar( nc_color &color, std::string &text ) const
 
 std::pair<std::string, nc_color> monster::get_attitude() const
 {
-    const auto att = attitude_names.at( attitude( &( g->u ) ) );
+    const auto att = attitude_names.at( attitude( &g->u ) );
     return {
         _( att.first ),
         all_colors.get( att.second )
@@ -755,7 +754,7 @@ nc_color monster::symbol_color() const
 
 bool monster::is_symbol_highlighted() const
 {
-    return ( friendly != 0 );
+    return friendly != 0;
 }
 
 nc_color monster::color_with_effects() const
@@ -833,8 +832,7 @@ int monster::sight_range( const int light_level ) const
         return 1;
     }
 
-    int range = ( light_level * type->vision_day ) +
-                ( ( DAYLIGHT_LEVEL - light_level ) * type->vision_night );
+    int range = light_level * type->vision_day + ( DAYLIGHT_LEVEL - light_level ) * type->vision_night;
     range /= DAYLIGHT_LEVEL;
 
     return range;
@@ -903,7 +901,7 @@ bool monster::is_fleeing( player &u ) const
         return false;
     }
     monster_attitude att = attitude( &u );
-    return ( att == MATT_FLEE || ( att == MATT_FOLLOW && rl_dist( pos(), u.pos() ) <= 4 ) );
+    return att == MATT_FLEE || ( att == MATT_FOLLOW && rl_dist( pos(), u.pos() ) <= 4 );
 }
 
 Creature::Attitude monster::attitude_to( const Creature &other ) const
@@ -1061,7 +1059,7 @@ monster_attitude monster::attitude( const Character *u ) const
 
 int monster::hp_percentage() const
 {
-    return ( get_hp( hp_torso ) * 100 ) / get_hp_max();
+    return get_hp( hp_torso ) * 100 / get_hp_max();
 }
 
 void monster::process_triggers()
@@ -1639,7 +1637,7 @@ bool monster::move_effects( bool )
         }
     }
     if( has_effect( effect_grabbed ) ) {
-        if( ( dice( type->melee_dice + type->melee_sides, 3 ) < get_effect_int( effect_grabbed ) ) ||
+        if( dice( type->melee_dice + type->melee_sides, 3 ) < get_effect_int( effect_grabbed ) ||
             !one_in( 4 ) ) {
             return false;
         } else {
@@ -1908,7 +1906,7 @@ void monster::normalize_ammo( const int old_ammo )
     // Previous code gave robots 100 rounds of ammo.
     // This reassigns whatever is left from that in the appropriate proportions.
     for( const auto &ammo_entry : type->starting_ammo ) {
-        ammo[ammo_entry.first] = ( old_ammo * ammo_entry.second ) / ( 100 * total_ammo );
+        ammo[ammo_entry.first] = old_ammo * ammo_entry.second / ( 100 * total_ammo );
     }
 }
 
@@ -2653,7 +2651,7 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
     }
 
     const bool goodhearing = has_flag( MF_GOODHEARING );
-    const int volume = goodhearing ? ( ( 2 * vol ) - dist ) : ( vol - dist );
+    const int volume = goodhearing ? 2 * vol - dist : vol - dist;
     // Error is based on volume, louder sound = less error
     if( volume <= 0 ) {
         return;

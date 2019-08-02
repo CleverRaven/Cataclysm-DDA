@@ -378,8 +378,8 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
 
     camp_tab_mode tab_mode = TAB_MAIN;
 
-    size_t part_y = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
-    size_t part_x = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
+    size_t part_y = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
+    size_t part_x = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
     size_t maxy = part_y ? TERMY - 2 * part_y : FULL_SCREEN_HEIGHT;
     size_t maxx = part_x ? TERMX - 2 * part_x : FULL_SCREEN_WIDTH;
 

@@ -77,7 +77,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
     //vehicle movement: strength check
     int mc = 0;
-    int str_req = ( grabbed_vehicle->total_mass() / 25_kilogram ); //strength required to move vehicle.
+    int str_req = grabbed_vehicle->total_mass() / 25_kilogram; //strength required to move vehicle.
 
     //if vehicle is rollable we modify str_req based on a function of movecost per wheel.
 
@@ -96,7 +96,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         for( int p : wheel_indices ) {
             const tripoint wheel_pos = vehpos + grabbed_vehicle->parts[p].precalc[0];
             const int mapcost = m.move_cost( wheel_pos, grabbed_vehicle );
-            mc += ( str_req / wheel_indices.size() ) * mapcost;
+            mc += str_req / wheel_indices.size() * mapcost;
         }
         //set strength check threshold
         //if vehicle has many or only one wheel (shopping cart), it is as if it had four.

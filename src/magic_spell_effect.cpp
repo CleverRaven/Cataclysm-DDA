@@ -476,9 +476,9 @@ static void spell_move( const spell &sp, const Creature &caster,
     if( can_target_creature ) {
         if( Creature *victim = g->critter_at<Creature>( from ) ) {
             Creature::Attitude cr_att = victim->attitude_to( g->u );
-            bool valid = ( cr_att != Creature::A_FRIENDLY && sp.is_valid_effect_target( target_hostile ) );
-            valid |= ( cr_att == Creature::A_FRIENDLY && sp.is_valid_effect_target( target_ally ) );
-            valid |= ( victim == &caster && sp.is_valid_effect_target( target_self ) );
+            bool valid = cr_att != Creature::A_FRIENDLY && sp.is_valid_effect_target( target_hostile );
+            valid |= cr_att == Creature::A_FRIENDLY && sp.is_valid_effect_target( target_ally );
+            valid |= victim == &caster && sp.is_valid_effect_target( target_self );
             if( valid ) {
                 victim->knock_back_to( to );
             }

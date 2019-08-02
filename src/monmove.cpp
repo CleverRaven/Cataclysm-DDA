@@ -133,7 +133,7 @@ bool monster::can_move_to( const tripoint &p ) const
         }
 
         // The following behaviors are overridden when attacking
-        if( attitude( &( g->u ) ) != MATT_ATTACK ) {
+        if( attitude( &g->u ) != MATT_ATTACK ) {
             if( g->m.has_flag( "SHARP", p ) &&
                 !( type->size == MS_TINY || has_flag( MF_FLIES ) ) ) {
                 return false;
@@ -670,7 +670,7 @@ void monster::move()
     monster_attitude current_attitude = attitude( nullptr );
     if( !wander() ) {
         if( goal == g->u.pos() ) {
-            current_attitude = attitude( &( g->u ) );
+            current_attitude = attitude( &g->u );
         } else {
             for( const npc &guy : g->all_npcs() ) {
                 if( goal == guy.pos() ) {
@@ -1653,7 +1653,7 @@ void monster::knock_back_to( const tripoint &to )
  */
 bool monster::will_reach( int x, int y )
 {
-    monster_attitude att = attitude( &( g->u ) );
+    monster_attitude att = attitude( &g->u );
     if( att != MATT_FOLLOW && att != MATT_ATTACK && att != MATT_FRIEND && att != MATT_ZLAVE ) {
         return false;
     }

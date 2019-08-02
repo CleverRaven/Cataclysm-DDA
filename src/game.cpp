@@ -1049,8 +1049,8 @@ bool game::cleanup_at_end()
             vRip.emplace_back( "@%@@%%%%%@@@@@@%%%%%%%%@@%%@@@%%%@%%@" );
         }
 
-        const int iOffsetX = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-        const int iOffsetY = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+        const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+        const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
 
         catacurses::window w_rip = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY,
                                    iOffsetX );
@@ -1081,7 +1081,7 @@ bool game::cleanup_at_end()
                         ncColor = c_red;
                     }
 
-                    mvwputch( w_rip, iY + 1, iX + ( FULL_SCREEN_WIDTH / 2 ) - ( iMaxWidth / 2 ), ncColor,
+                    mvwputch( w_rip, iY + 1, iX + FULL_SCREEN_WIDTH / 2 - ( iMaxWidth / 2 ), ncColor,
                               vRip[iY][iX] );
                 }
             }
@@ -1118,22 +1118,22 @@ bool game::cleanup_at_end()
         ssTemp << iTotalKills;
 
         sTemp = _( "Kills:" );
-        mvwprintz( w_rip, 1 + iInfoLine++, ( FULL_SCREEN_WIDTH / 2 ) - 5, c_light_gray,
+        mvwprintz( w_rip, 1 + iInfoLine++, FULL_SCREEN_WIDTH / 2 - 5, c_light_gray,
                    ( sTemp + " " ) );
         wprintz( w_rip, c_magenta, ssTemp.str() );
 
         sTemp = _( "In memory of:" );
-        mvwprintz( w_rip, iNameLine++, ( FULL_SCREEN_WIDTH / 2 ) - ( sTemp.length() / 2 ), c_light_gray,
+        mvwprintz( w_rip, iNameLine++, FULL_SCREEN_WIDTH / 2 - ( sTemp.length() / 2 ), c_light_gray,
                    sTemp );
 
         sTemp = u.name;
-        mvwprintz( w_rip, iNameLine++, ( FULL_SCREEN_WIDTH / 2 ) - ( sTemp.length() / 2 ), c_white, sTemp );
+        mvwprintz( w_rip, iNameLine++, FULL_SCREEN_WIDTH / 2 - ( sTemp.length() / 2 ), c_white, sTemp );
 
         sTemp = _( "Last Words:" );
-        mvwprintz( w_rip, iNameLine++, ( FULL_SCREEN_WIDTH / 2 ) - ( sTemp.length() / 2 ), c_light_gray,
+        mvwprintz( w_rip, iNameLine++, FULL_SCREEN_WIDTH / 2 - ( sTemp.length() / 2 ), c_light_gray,
                    sTemp );
 
-        int iStartX = ( FULL_SCREEN_WIDTH / 2 ) - ( ( iMaxWidth - 4 ) / 2 );
+        int iStartX = FULL_SCREEN_WIDTH / 2 - ( ( iMaxWidth - 4 ) / 2 );
         std::string sLastWords = string_input_popup()
                                  .window( w_rip, iStartX, iNameLine, iStartX + iMaxWidth - 4 - 1 )
                                  .max_length( iMaxWidth - 4 - 1 )
@@ -3156,8 +3156,8 @@ struct npc_dist_to_player {
 void game::disp_NPCs()
 {
     catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                           ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                           ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+                           TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                           TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
 
     const tripoint ppos = u.global_omt_location();
     const tripoint &lpos = u.pos();

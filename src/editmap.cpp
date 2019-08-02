@@ -288,7 +288,7 @@ bool editmap::eget_direction( tripoint &p, const std::string &action ) const
 {
     p = tripoint_zero;
     if( action == "CENTER" ) {
-        p = ( g->u.pos() - target );
+        p = g->u.pos() - target;
     } else if( action == "LEFT_WIDE" ) {
         p.x = -tmax.x / 2;
     } else if( action == "DOWN_WIDE" ) {
@@ -322,7 +322,7 @@ void editmap::uphelp( const std::string &txt1, const std::string &txt2, const st
     if( !txt1.empty() ) {
         mvwprintw( w_help, 0, 0, padding );
         mvwprintw( w_help, 1, 0, padding );
-        mvwprintw( w_help, ( !txt2.empty() ? 0 : 1 ), 0, txt1 );
+        mvwprintw( w_help, !txt2.empty() ? 0 : 1, 0, txt1 );
         if( !txt2.empty() ) {
             mvwprintw( w_help, 1, 0, txt2 );
         }
@@ -447,7 +447,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
         bool draw_veh=true;
     */
     bool draw_itm = true;
-    bool game_map = ( m == &g->m || w == g->w_terrain );
+    bool game_map = m == &g->m || w == g->w_terrain;
     const int msize = MAPSIZE_X;
     if( refresh_mplans ) {
         hilights["mplan"].points.clear();
@@ -455,7 +455,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
     for( int x = start.x, sx = 0; x <= end.x; x++, sx++ ) {
         for( int y = start.y, sy = 0; y <= end.y; y++, sy++ ) {
             tripoint p{ x, y, target.z };
-            int sym = ( game_map ? '%' : ' ' );
+            int sym = game_map ? '%' : ' ';
             if( x >= 0 && x < msize && y >= 0 && y < msize ) {
                 if( game_map ) {
                     Creature *critter = g->critter_at( p );
@@ -695,10 +695,10 @@ static ter_id get_alt_ter( bool isvert, ter_id sel_ter )
     const int sidlen = tersid.size();
     for( std::map<std::string, std::string>::const_iterator it = alts.begin(); it != alts.end();
          ++it ) {
-        const std::string suffix = ( isvert ? it->first : it->second );
+        const std::string suffix = isvert ? it->first : it->second;
         const int slen = suffix.size();
         if( sidlen > slen && tersid.substr( sidlen - slen, slen ) == suffix ) {
-            const std::string asuffix = ( isvert ? it->second : it->first );
+            const std::string asuffix = isvert ? it->second : it->first;
             const std::string terasid = tersid.substr( 0, sidlen - slen ) + asuffix;
             const ter_str_id tid( terasid );
 
@@ -799,8 +799,8 @@ int editmap::edit_ter()
         }
 
         // cursor is green for terrain or furniture, depending on selection
-        nc_color c_tercurs = ( ter_frn_mode == 0 ? c_light_green : c_dark_gray );
-        nc_color c_frncurs = ( ter_frn_mode == 1 ? c_light_green : c_dark_gray );
+        nc_color c_tercurs = ter_frn_mode == 0 ? c_light_green : c_dark_gray;
+        nc_color c_frncurs = ter_frn_mode == 1 ? c_light_green : c_dark_gray;
 
         int cur_t = 0;
         int tstart = 2;
@@ -809,7 +809,7 @@ int editmap::edit_ter()
             for( int x = xmin; x < pickw && cur_t < static_cast<int>( ter_t::count() ); x++, cur_t++ ) {
                 const ter_id tid( cur_t );
                 const ter_t &ttype = tid.obj();
-                mvwputch( w_pickter, y, x, ( ter_frn_mode == 0 ? ttype.color() : c_dark_gray ), ttype.symbol() );
+                mvwputch( w_pickter, y, x, ter_frn_mode == 0 ? ttype.color() : c_dark_gray, ttype.symbol() );
                 if( tid == sel_ter ) {
                     sel_terp = tripoint( x, y, target.z );
                 } else if( tid == lastsel_ter ) {
@@ -865,7 +865,7 @@ int editmap::edit_ter()
             for( int x = xmin; x < pickw && cur_f < static_cast<int>( furn_t::count() ); x++, cur_f++ ) {
                 const furn_id fid( cur_f );
                 const furn_t &ftype = fid.obj();
-                mvwputch( w_pickter, y, x, ( ter_frn_mode == 1 ? ftype.color() : c_dark_gray ), ftype.symbol() );
+                mvwputch( w_pickter, y, x, ter_frn_mode == 1 ? ftype.color() : c_dark_gray, ftype.symbol() );
 
                 if( fid == sel_frn ) {
                     sel_frnp = tripoint( x, y, target.z );
@@ -915,12 +915,12 @@ int editmap::edit_ter()
 
         // draw green |'s around terrain or furniture tilesets depending on selection
         for( int y = tstart - 1; y < tstart + tlen + 1; y++ ) {
-            mvwputch( w_pickter, y, 1, c_light_green, ( ter_frn_mode == 0 ? '|' : ' ' ) );
-            mvwputch( w_pickter, y, width - 2, c_light_green, ( ter_frn_mode == 0 ? '|' : ' ' ) );
+            mvwputch( w_pickter, y, 1, c_light_green, ter_frn_mode == 0 ? '|' : ' ' );
+            mvwputch( w_pickter, y, width - 2, c_light_green, ter_frn_mode == 0 ? '|' : ' ' );
         }
         for( int y = fstart - 1; y < fstart + flen + 1; y++ ) {
-            mvwputch( w_pickter, y, 1, c_light_green, ( ter_frn_mode == 1 ? '|' : ' ' ) );
-            mvwputch( w_pickter, y, width - 2, c_light_green, ( ter_frn_mode == 1 ? '|' : ' ' ) );
+            mvwputch( w_pickter, y, 1, c_light_green, ter_frn_mode == 1 ? '|' : ' ' );
+            mvwputch( w_pickter, y, width - 2, c_light_green, ter_frn_mode == 1 ? '|' : ' ' );
         }
 
         uphelp( pgettext( "Map editor: terrain/furniture shortkeys",
@@ -941,13 +941,13 @@ int editmap::edit_ter()
                 increment( sel_ter, +1, ter_t::count() );
             } else if( action == "UP" ) {
                 if( would_overflow( sel_ter, -xmax, ter_t::count() ) ) {
-                    ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
+                    ter_frn_mode = ter_frn_mode == 0 ? 1 : 0;
                 } else {
                     increment( sel_ter, -xmax, ter_t::count() );
                 }
             } else if( action == "DOWN" ) {
                 if( would_overflow( sel_ter, +xmax, ter_t::count() ) ) {
-                    ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
+                    ter_frn_mode = ter_frn_mode == 0 ? 1 : 0;
                 } else {
                     increment( sel_ter, +xmax, ter_t::count() );
                 }
@@ -996,7 +996,7 @@ int editmap::edit_ter()
                 update_view( false );
             } else if( action == "EDITMAP_TAB" || action == "EDITMAP_MOVE" ) {
                 ter_id sel_tmp = sel_ter;
-                select_shape( editshape, ( action == "EDITMAP_MOVE" ? 1 : 0 ) );
+                select_shape( editshape, action == "EDITMAP_MOVE" ? 1 : 0 );
                 sel_ter = sel_tmp;
             } else if( action == "EDITMAP_SHOW_ALL" ) {
                 uberdraw = !uberdraw;
@@ -1009,13 +1009,13 @@ int editmap::edit_ter()
                 increment( sel_frn, +1, furn_t::count() );
             } else if( action == "UP" ) {
                 if( would_overflow( sel_frn, -xmax, furn_t::count() ) ) {
-                    ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
+                    ter_frn_mode = ter_frn_mode == 0 ? 1 : 0;
                 } else {
                     increment( sel_frn, -xmax, furn_t::count() );
                 }
             } else if( action == "DOWN" ) {
                 if( would_overflow( sel_frn, +xmax, furn_t::count() ) ) {
-                    ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
+                    ter_frn_mode = ter_frn_mode == 0 ? 1 : 0;
                 } else {
                     increment( sel_frn, +xmax, furn_t::count() );
                 }
@@ -1030,7 +1030,7 @@ int editmap::edit_ter()
             } else if( action == "EDITMAP_TAB" || action == "EDITMAP_MOVE" ) {
                 furn_id sel_frn_tmp = sel_frn;
                 ter_id sel_ter_tmp = sel_ter;
-                select_shape( editshape, ( action == "EDITMAP_MOVE" ? 1 : 0 ) );
+                select_shape( editshape, action == "EDITMAP_MOVE" ? 1 : 0 );
                 sel_frn = sel_frn_tmp;
                 sel_ter = sel_ter_tmp;
             } else if( action == "EDITMAP_SHOW_ALL" ) {
@@ -1125,7 +1125,7 @@ int editmap::edit_fld()
                     femenu.addentry( string_format( "%d: %s", i, _( intensity_level.name ) ) );
                 }
                 femenu.entries[field_intensity].text_color = c_cyan;
-                femenu.selected = ( sel_field_intensity > 0 ? sel_field_intensity : field_intensity );
+                femenu.selected = sel_field_intensity > 0 ? sel_field_intensity : field_intensity;
 
                 femenu.query();
                 if( femenu.ret >= 0 ) {
@@ -1179,7 +1179,7 @@ int editmap::edit_fld()
             sel_field_intensity = 0;
         } else if( fmenu.keypress == 's' || fmenu.keypress == '\t' || fmenu.keypress == 'm' ) {
             int sel_tmp = fmenu.selected;
-            int ret = select_shape( editshape, ( fmenu.keypress == 'm' ? 1 : 0 ) );
+            int ret = select_shape( editshape, fmenu.keypress == 'm' ? 1 : 0 );
             if( ret > 0 ) {
                 setup_fmenu( fmenu );
             }
@@ -1242,8 +1242,9 @@ int editmap::edit_trp()
                 }
                 mvwputch( w_picktrap, t + 1 - tshift, 2, tr.color, tr.sym );
                 mvwprintz( w_picktrap, t + 1 - tshift, 4,
-                           ( trsel == tr.loadid ? h_white : ( cur_trap == tr.loadid ? c_green : c_light_gray ) ), "%d %s", t,
-                           tnam.c_str() );
+                           trsel == tr.loadid ? h_white :
+                           cur_trap == tr.loadid ? c_green : c_light_gray,
+                           "%d %s", t, tnam.c_str() );
             }
         }
         wrefresh( w_picktrap );
@@ -1264,7 +1265,7 @@ int editmap::edit_trp()
             update_view( false );
         } else if( action == "EDITMAP_TAB" || action == "EDITMAP_MOVE" ) {
             trap_id sel_tmp = trsel;
-            select_shape( editshape, ( action == "EDITMAP_MOVE" ? 1 : 0 ) );
+            select_shape( editshape, action == "EDITMAP_MOVE" ? 1 : 0 );
             trsel = sel_tmp;
         } else if( action == "EDITMAP_SHOW_ALL" ) {
             uberdraw = !uberdraw;
@@ -1491,7 +1492,8 @@ static int limited_shift( int var, int &shift, int min, int max )
 bool editmap::move_target( const std::string &action, int moveorigin )
 {
     tripoint mp;
-    bool move_origin = ( moveorigin == 1 ? true : ( moveorigin == 0 ? false : moveall ) );
+    bool move_origin = moveorigin == 1 ? true :
+                       moveorigin == 0 ? false : moveall;
     if( eget_direction( mp, action ) ) {
         target.x = limited_shift( target.x, mp.x, 0, MAPSIZE_X );
         target.y = limited_shift( target.y, mp.y, 0, MAPSIZE_Y );
@@ -1534,7 +1536,7 @@ int editmap::select_shape( shapetype shape, int mode )
     bool update = false;
     blink = true;
     if( mode >= 0 ) {
-        moveall = ( mode != 0 );
+        moveall = mode != 0;
     }
     altblink = moveall;
     update_view( false );
@@ -1758,7 +1760,7 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
         } else if( gpmenu.keypress == KEY_NPAGE || gpmenu.keypress == KEY_PPAGE ||
                    gpmenu.keypress == KEY_LEFT || gpmenu.keypress == KEY_RIGHT ) {
 
-            int dir = ( gpmenu.keypress == KEY_NPAGE || gpmenu.keypress == KEY_RIGHT ? 1 : -1 );
+            int dir = gpmenu.keypress == KEY_NPAGE || gpmenu.keypress == KEY_RIGHT ? 1 : -1;
             gmenu.scrollby( dir );
             gpmenu.selected = gpmenupos;
             gmenu.show();
@@ -1859,8 +1861,7 @@ int editmap::mapgen_retarget()
         action = ctxt.handle_input( BLINK_SPEED );
         blink = !blink;
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            tripoint ptarget = tripoint( target.x + ( vec->x * SEEX * 2 ), target.y + ( vec->y * SEEY * 2 ),
-                                         target.z );
+            tripoint ptarget = tripoint( target.x + vec->x * SEEX * 2, target.y + vec->y * SEEY * 2, target.z );
             if( editmap_boundaries.contains_half_open( ptarget ) &&
                 editmap_boundaries.contains_half_open( ptarget + point( SEEX, SEEY ) ) ) {
                 target = ptarget;

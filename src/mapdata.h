@@ -281,7 +281,7 @@ struct map_data_common_t {
         bool connects( int &ret ) const;
 
         bool connects_to( int test_connect_group ) const {
-            return ( connect_group != TERCONN_NONE ) && ( connect_group == test_connect_group );
+            return connect_group != TERCONN_NONE && connect_group == test_connect_group;
         }
 
         int symbol() const;

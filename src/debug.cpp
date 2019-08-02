@@ -765,7 +765,7 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
 
     // Error are always logged, they are important,
     // Messages from D_MAIN come from debugmsg and are equally important.
-    if( ( ( lev & debugLevel ) && ( cl & debugClass ) ) || lev & D_ERROR || cl & D_MAIN ) {
+    if( ( lev & debugLevel && cl & debugClass ) || lev & D_ERROR || cl & D_MAIN ) {
         std::ostream &out = *debugFile.file;
         out << std::endl;
         out << get_time() << " ";

@@ -99,8 +99,8 @@ void minesweeper_game::new_level( const catacurses::window &w_minesweeper )
             break;
     }
 
-    iOffsetX = ( ( iMaxX - iLevelX ) / 2 ) + 1;
-    iOffsetY = ( ( iMaxY - iLevelY ) / 2 ) + 1;
+    iOffsetX = ( iMaxX - iLevelX ) / 2 + 1;
+    iOffsetY = ( iMaxY - iLevelY ) / 2 + 1;
 
     int iRandX;
     int iRandY;
@@ -155,8 +155,8 @@ bool minesweeper_game::check_win()
 
 int minesweeper_game::start_game()
 {
-    const int iCenterX = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-    const int iCenterY = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+    const int iCenterX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+    const int iCenterY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
 
     catacurses::window w_minesweeper_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
             iCenterY, iCenterX );
@@ -233,7 +233,7 @@ int minesweeper_game::start_game()
 
             } else {
                 mvwputch( w_minesweeper, iOffsetY + y, iOffsetX + x,
-                          ( x == iPlayerX && y == iPlayerY ) ? hilite( aColors[mLevel[y][x]] ) : aColors[mLevel[y][x]],
+                          x == iPlayerX && y == iPlayerY ? hilite( aColors[mLevel[y][x]] ) : aColors[mLevel[y][x]],
                           to_string( mLevel[y][x] ) );
             }
         }
@@ -285,7 +285,7 @@ int minesweeper_game::start_game()
                     }
 
                     mvwputch( w_minesweeper, iOffsetY + iPlayerY, iOffsetX + iPlayerX,
-                              ( i == 0 ) ? cColor : hilite( cColor ), sGlyph );
+                              i == 0 ? cColor : hilite( cColor ), sGlyph );
 
                     if( i == 0 ) {
                         iPlayerX += vec->x;
@@ -309,7 +309,7 @@ int minesweeper_game::start_game()
                         for( int x = 0; x < iLevelX; x++ ) {
                             if( mLevel[y][x] == static_cast<int>( bomb ) ) {
                                 mvwputch( w_minesweeper, iOffsetY + y, iOffsetX + x, hilite( c_red ),
-                                          ( mLevelReveal[y][x] == flag ) ? "!" : "*" );
+                                          mLevelReveal[y][x] == flag ? "!" : "*" );
                             }
                         }
                     }

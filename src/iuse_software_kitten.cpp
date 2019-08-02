@@ -423,17 +423,17 @@ void robot_finds_kitten::process_input( int input, const catacurses::window &w )
                 /* The grand cinema scene. */
                 for( int c = 0; c <= 3; c++ ) {
 
-                    wmove( w, 1, ( rfkCOLS / 2 ) - 5 + c );
+                    wmove( w, 1, rfkCOLS / 2 - 5 + c );
                     wputch( w, c_white, ' ' );
-                    wmove( w, 1, ( rfkCOLS / 2 ) + 4 - c );
+                    wmove( w, 1, rfkCOLS / 2 + 4 - c );
                     wputch( w, c_white, ' ' );
-                    wmove( w, 1, ( rfkCOLS / 2 ) - 4 + c );
+                    wmove( w, 1, rfkCOLS / 2 - 4 + c );
                     if( input == KEY_LEFT || input == KEY_UP ) {
                         draw_kitten( w );
                     } else {
                         draw_robot( w );
                     }
-                    wmove( w, 1, ( rfkCOLS / 2 ) + 3 - c );
+                    wmove( w, 1,  rfkCOLS / 2 + 3 - c );
                     if( input == KEY_LEFT || input == KEY_UP ) {
                         draw_robot( w );
                     } else {
@@ -445,7 +445,7 @@ void robot_finds_kitten::process_input( int input, const catacurses::window &w )
                 }
 
                 /* They're in love! */
-                mvwprintz( w, 0, ( ( rfkCOLS - 6 ) / 2 ) - 1, c_light_red, "<3<3<3" );
+                mvwprintz( w, 0, ( rfkCOLS - 6 ) / 2 - 1, c_light_red, "<3<3<3" );
                 wrefresh( w );
                 refresh_display();
                 nanosleep( &ts, nullptr );
