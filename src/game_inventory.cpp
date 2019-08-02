@@ -1814,7 +1814,6 @@ item_location game_menus::inv::uninstall_bionic( player &p, player &patient )
     return autodoc_internal( p, patient, bionic_uninstall_preset( p, patient ), 0, true );
 }
 
-
 // Menu used by autoclave when sterilizing a bionic
 class bionic_sterilize_preset : public inventory_selector_preset
 {

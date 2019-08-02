@@ -1801,7 +1801,7 @@ int get_convection_temperature( const tripoint &location )
         // Nullify lava modifier when there is open fire
         if( fd.first.obj().has_fire ) {
             lava_mod = 0;
-        };
+        }
         temp_mod += fd.second.convection_temperature_mod();
     }
     return temp_mod + lava_mod;

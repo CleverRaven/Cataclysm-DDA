@@ -420,7 +420,6 @@ void line_attack( const spell &sp, Creature &caster,
 void area_pull( const spell &sp, Creature &caster, const tripoint &target );
 void area_push( const spell &sp, Creature &caster, const tripoint &target );
 
-
 std::set<tripoint> spell_effect_blast( const spell &, const tripoint &, const tripoint &target,
                                        const int aoe_radius, const bool ignore_walls );
 std::set<tripoint> spell_effect_cone( const spell &sp, const tripoint &source,
