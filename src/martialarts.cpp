@@ -1051,7 +1051,6 @@ bool player::can_autolearn( const matype_id &ma_id ) const
         return false;
     }
 
-
     for( const std::pair<std::string, int> &elem : ma_id.obj().autolearn_skills ) {
         const skill_id skill_req( elem.first );
         const int required_level = elem.second;
@@ -1258,8 +1257,8 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         }
 
         catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                               ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                               ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+                               TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                               TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
 
         std::string text = replace_colors( buffer.str() );
         int width = FULL_SCREEN_WIDTH - 4;

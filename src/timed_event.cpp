@@ -109,7 +109,7 @@ void timed_event::actualize()
                     if( g->m.ter( x, y ) == t_fault ) {
                         faultx = x;
                         faulty = y;
-                        horizontal = ( g->m.ter( x - 1, y ) == t_fault || g->m.ter( x + 1, y ) == t_fault );
+                        horizontal = g->m.ter( x - 1, y ) == t_fault || g->m.ter( x + 1, y ) == t_fault;
                     }
                 }
             }
