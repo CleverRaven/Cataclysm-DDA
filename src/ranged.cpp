@@ -70,6 +70,7 @@ const skill_id skill_launcher( "launcher" );
 
 const efftype_id effect_on_roof( "on_roof" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
+const efftype_id effect_riding( "riding" );
 
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
@@ -359,7 +360,11 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         debugmsg( "%s tried to fire non-gun (%s).", name, gun.tname() );
         return 0;
     }
-
+    bool is_mech_weapon = false;
+    if( is_mounted() &&
+        mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+        is_mech_weapon = true;
+    }
     // Number of shots to fire is limited by the amount of remaining ammo
     if( gun.ammo_required() ) {
         shots = std::min( shots, static_cast<int>( gun.ammo_remaining() / gun.ammo_required() ) );
@@ -452,6 +457,10 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
 
     // apply delayed recoil
     recoil += delay;
+    if( is_mech_weapon ) {
+        // mechs can handle recoil far better. they are built around their main gun.
+        recoil = recoil / 2;
+    }
     // Reset aim for bows and other reload-and-shoot weapons.
     if( gun.has_flag( "RELOAD_AND_SHOOT" ) ) {
         recoil = MAX_RECOIL;
@@ -576,7 +585,19 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     const int stamina_cost = ( static_cast<int>( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) )
                                + ( weight / 10_gram ) + 200 ) * -1;
-    mod_stat( "stamina", stamina_cost );
+    bool throw_assist = false;
+    int throw_assist_str = 0;
+    if( is_mounted() ) {
+        auto mons = mounted_creature.get();
+        if( mons->mech_str_addition() != 0 ) {
+            throw_assist = true;
+            throw_assist_str = mons->mech_str_addition();
+            mons->use_mech_power( -3 );
+        }
+    }
+    if( !throw_assist ) {
+        mod_stat( "stamina", stamina_cost );
+    }
 
     const skill_id &skill_used = skill_throw;
     const int skill_level = std::min( MAX_SKILL, get_skill_level( skill_throw ) );
@@ -590,13 +611,15 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
 
-    bool do_railgun = has_active_bionic( bionic_id( "bio_railgun" ) ) && thrown.made_of_any( ferric );
+    bool do_railgun = has_active_bionic( bionic_id( "bio_railgun" ) ) && thrown.made_of_any( ferric ) &&
+                      !throw_assist;
 
     // The damage dealt due to item's weight, player's strength, and skill level
     // Up to str/2 or weight/100g (lower), so 10 str is 5 damage before multipliers
     // Railgun doubles the effective strength
     ///\EFFECT_STR increases throwing damage
     double stats_mod = do_railgun ? get_str() : ( get_str() / 2.0 );
+    stats_mod = throw_assist ? throw_assist_str / 2.0 : stats_mod;
     // modify strength impact based on skill level, clamped to [0.15 - 1]
     // mod = mod * [ ( ( skill / max_skill ) * 0.85 ) + 0.15 ]
     stats_mod *= ( std::min( MAX_SKILL,

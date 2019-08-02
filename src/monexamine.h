@@ -7,6 +7,9 @@ class monster;
 namespace monexamine
 {
 bool pet_menu( monster &z );
+bool mech_hack( monster &z );
+void remove_battery( monster &z );
+void insert_battery( monster &z );
 void swap( monster &z );
 void push( monster &z );
 void rename_pet( monster &z );

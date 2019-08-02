@@ -107,6 +107,9 @@ enum m_flag : int {
     MF_BONES,               // May produce bones and sinews when butchered; if combined with POISON flag, tainted bones, if combined with HUMAN, human bones
     MF_FAT,                 // May produce fat when butchered; if combined with POISON flag, tainted fat
     MF_IMMOBILE,            // Doesn't move (e.g. turrets)
+    MF_RIDEABLE_MECH,       // A rideable mech that is immobile until ridden.
+    MF_MILITARY_MECH,        // A rideable mech that was designed for military work.
+    MF_MECH_RECON_VISION,   // This mech gives you IR night-vision.
     MF_HIT_AND_RUN,         // Flee for several turns after a melee attack
     MF_GUILT,               // You feel guilty for killing it
     MF_HUMAN,               // It's a live human, as long as it's alive
@@ -321,6 +324,18 @@ struct mtype {
          * of this type (if it's friendly).
          */
         itype_id revert_to_itype;
+        /**
+         * If this monster is a rideable mech with built-in weapons, this is the weapons id
+         */
+        itype_id mech_weapon;
+        /**
+         * If this monster is a rideable mech it needs a power source battery type
+         */
+        itype_id mech_battery;
+        /**
+         * If this monster is a rideable mech with enhanced strength, this is the strength it gives to the player
+         */
+        int mech_str_bonus = 0;
 
         /** Emission sources that cycle each turn the monster remains alive */
         std::set<emit_id> emit_fields;

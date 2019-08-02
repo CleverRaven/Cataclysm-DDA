@@ -26,6 +26,7 @@
 #include "map_iterator.h"
 #include "martialarts.h"
 #include "messages.h"
+#include "monattack.h"
 #include "monster.h"
 #include "mutation.h"
 #include "npc.h"
@@ -79,6 +80,7 @@ const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_lightsnare( "lightsnare" );
 const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_poison( "poison" );
+const efftype_id effect_riding( "riding" );
 const efftype_id effect_stunned( "stunned" );
 
 static const trait_id trait_CLAWS( "CLAWS" );
@@ -387,7 +389,24 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
         // TODO: Per-NPC tracking? Right now monster hit by either npc or player will draw aggro...
         t.add_effect( effect_hit_by_player, 10_minutes ); // Flag as attacked by us for AI
     }
-
+    if( is_mounted() ) {
+        auto mons = mounted_creature.get();
+        if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
+            if( !mons->check_mech_powered() ) {
+                add_msg( m_bad, _( "The %s has dead batteries and will not move its arms." ), mons->get_name() );
+                return;
+            }
+            if( mons->type->has_special_attack( "SMASH" ) && one_in( 3 ) ) {
+                add_msg( m_info, _( "The %s hisses as its hydraulic arm pumps forward!" ), mons->get_name() );
+                mattack::smash_specific( mons, &t );
+            } else {
+                mons->use_mech_power( -2 );
+                mons->melee_attack( t );
+            }
+            mod_moves( -mons->type->attack_cost );
+            return;
+        }
+    }
     item &cur_weapon = allow_unarmed ? used_weapon() : weapon;
     const bool critical_hit = scored_crit( t.dodge_roll(), cur_weapon );
     int move_cost = attack_speed( cur_weapon );

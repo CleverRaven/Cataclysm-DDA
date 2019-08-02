@@ -110,6 +110,7 @@ const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_milked( "milked" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_under_op( "under_operation" );
+const efftype_id effect_pet( "pet" );
 
 using namespace activity_handlers;
 
@@ -4072,12 +4073,19 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
 
     /** @EFFECT_INT increases chance of successful robot reprogramming, vs difficulty */
     /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
-    const float success = p->get_skill_level( skill_id( "computer" ) ) - 1.5 * ( z->type->difficulty ) /
-                          ( ( rng( 2, p->int_cur ) / 2 ) + ( p->get_skill_level( skill_id( "computer" ) ) / 2 ) );
+    float success = p->get_skill_level( skill_id( "computer" ) ) - 1.5 * ( z->type->difficulty ) /
+                    ( ( rng( 2, p->int_cur ) / 2 ) + ( p->get_skill_level( skill_id( "computer" ) ) / 2 ) );
+    if( z->has_flag( MF_RIDEABLE_MECH ) ) {
+        success = p->get_skill_level( skill_id( "computer" ) ) + rng( 2, p->int_cur ) - rng( 1, 11 );
+    }
+    // rideable mechs are not hostile, they have no AI, they do not resist control as much.
     if( success >= 0 ) {
         p->add_msg_if_player( _( "You successfully override the %s's IFF protocols!" ),
                               z->name() );
         z->friendly = -1;
+        if( z->has_flag( MF_RIDEABLE_MECH ) ) {
+            z->add_effect( effect_pet, 1_turns, num_bp, true );
+        }
     } else if( success >= -2 ) { //A near success
         p->add_msg_if_player( _( "The %s short circuits as you attempt to reprogram it!" ),
                               z->name() );

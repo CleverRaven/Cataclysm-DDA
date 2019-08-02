@@ -95,6 +95,9 @@ const std::map<std::string, m_flag> flag_map = {
     { "BONES", MF_BONES },
     { "FAT", MF_FAT },
     { "IMMOBILE", MF_IMMOBILE },
+    { "RIDEABLE_MECH", MF_RIDEABLE_MECH },
+    { "MILITARY_MECH", MF_MILITARY_MECH },
+    { "MECH_RECON_VISION", MF_MECH_RECON_VISION },
     { "HIT_AND_RUN", MF_HIT_AND_RUN },
     { "GUILT", MF_GUILT },
     { "HUMAN", MF_HUMAN },
@@ -653,6 +656,9 @@ void mtype::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "luminance", luminance, 0 );
     optional( jo, was_loaded, "revert_to_itype", revert_to_itype, "" );
     optional( jo, was_loaded, "attack_effs", atk_effs, mon_attack_effect_reader{} );
+    optional( jo, was_loaded, "mech_weapon", mech_weapon, "" );
+    optional( jo, was_loaded, "mech_str_bonus", mech_str_bonus, 0 );
+    optional( jo, was_loaded, "mech_battery", mech_battery, "" );
 
     // TODO: make this work with `was_loaded`
     if( jo.has_array( "melee_damage" ) ) {
@@ -1028,6 +1034,14 @@ void MonsterGenerator::check_monster_definitions() const
         if( !mon.revert_to_itype.empty() && !item::type_is_defined( mon.revert_to_itype ) ) {
             debugmsg( "monster %s has unknown revert_to_itype: %s", mon.id.c_str(),
                       mon.revert_to_itype.c_str() );
+        }
+        if( !mon.mech_weapon.empty() && !item::type_is_defined( mon.mech_weapon ) ) {
+            debugmsg( "monster %s has unknown mech_weapon: %s", mon.id.c_str(),
+                      mon.mech_weapon.c_str() );
+        }
+        if( !mon.mech_battery.empty() && !item::type_is_defined( mon.mech_battery ) ) {
+            debugmsg( "monster %s has unknown mech_battery: %s", mon.id.c_str(),
+                      mon.mech_battery.c_str() );
         }
         for( auto &s : mon.starting_ammo ) {
             if( !item::type_is_defined( s.first ) ) {

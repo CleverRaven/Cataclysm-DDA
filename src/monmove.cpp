@@ -638,7 +638,7 @@ void monster::move()
         moves = 0;
         return;
     }
-    if( has_flag( MF_IMMOBILE ) ) {
+    if( has_flag( MF_IMMOBILE ) || has_flag( MF_RIDEABLE_MECH ) ) {
         moves = 0;
         return;
     }
@@ -1662,7 +1662,8 @@ bool monster::will_reach( int x, int y )
         return false;
     }
 
-    if( has_flag( MF_IMMOBILE ) && ( posx() != x || posy() != y ) ) {
+    if( ( has_flag( MF_IMMOBILE ) || has_flag( MF_RIDEABLE_MECH ) ) && ( posx() != x ||
+            posy() != y ) ) {
         return false;
     }
 
@@ -1749,7 +1750,7 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                     }
                     break;
                 case MS_HUGE:
-                    if( veh_mass < 1500_kilogram ) {
+                    if( veh_mass < 2000_kilogram ) {
                         shove_moves_minimal = 50;
                         shove_veh_mass_moves_factor = 4;
                         shove_velocity = 1500;

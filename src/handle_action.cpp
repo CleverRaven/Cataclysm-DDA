@@ -613,11 +613,29 @@ static void smash()
 {
     player &u = g->u;
     map &m = g->m;
-
+    if( u.is_mounted() ) {
+        auto mons = u.mounted_creature.get();
+        if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
+            if( !mons->check_mech_powered() ) {
+                add_msg( m_bad, _( "Your %s refuses to move as its batteries have been drained." ),
+                         mons->get_name() );
+                return;
+            }
+        }
+    }
     const int move_cost = !u.is_armed() ? 80 : u.weapon.attack_time() * 0.8;
     bool didit = false;
+    bool mech_smash = false;
+    int smashskill;
     ///\EFFECT_STR increases smashing capability
-    int smashskill = u.str_cur + u.weapon.damage_melee( DT_BASH );
+    if( u.is_mounted() ) {
+        auto mon = u.mounted_creature.get();
+        smashskill = u.str_cur + mon->mech_str_addition() + mon->type->melee_dice *
+                     mon->type->melee_sides;
+        mech_smash = true;
+    } else {
+        smashskill = u.str_cur + u.weapon.damage_melee( DT_BASH );
+    }
 
     const bool allow_floor_bash = debug_mode; // Should later become "true"
     const cata::optional<tripoint> smashp_ = choose_adjacent( _( "Smash where?" ), allow_floor_bash );
@@ -636,7 +654,12 @@ static void smash()
         smashp.z = u.posz();
         smash_floor = true;
     }
-
+    if( u.is_mounted() ) {
+        monster *crit = u.mounted_creature.get();
+        if( crit->has_flag( MF_RIDEABLE_MECH ) ) {
+            crit->use_mech_power( -3 );
+        }
+    }
     if( m.get_field( smashp, fd_web ) != nullptr ) {
         m.remove_field( smashp, fd_web );
         sounds::sound( smashp, 2, sounds::sound_t::combat, "hsh!", true, "smash", "web" );
@@ -662,33 +685,35 @@ static void smash()
     }
     didit = m.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
     if( didit ) {
-        u.increase_activity_level( MODERATE_EXERCISE );
-        u.handle_melee_wear( u.weapon );
+        if( !mech_smash ) {
+            u.increase_activity_level( MODERATE_EXERCISE );
+            u.handle_melee_wear( u.weapon );
+            const int mod_sta = ( ( u.weapon.weight() / 10_gram ) + 200 + static_cast<int>
+                                  ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) ) * -1;
+            u.mod_stat( "stamina", mod_sta );
+            if( u.get_skill_level( skill_melee ) == 0 ) {
+                u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
+            }
+            const int vol = u.weapon.volume() / units::legacy_volume_factor;
+            if( u.weapon.made_of( material_id( "glass" ) ) &&
+                rng( 0, vol + 3 ) < vol ) {
+                add_msg( m_bad, _( "Your %s shatters!" ), u.weapon.tname() );
+                for( auto &elem : u.weapon.contents ) {
+                    m.add_item_or_charges( u.pos(), elem );
+                }
+                sounds::sound( u.pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash", "glass" );
+                u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, vol ) ) );
+                if( vol > 20 ) {
+                    // Hurt left arm too, if it was big
+                    u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0,
+                                   static_cast<int>( vol * .5 ) ) ) );
+                }
+                u.remove_weapon();
+                u.check_dead_state();
+            }
+        }
         u.moves -= move_cost;
-        const int mod_sta = ( ( u.weapon.weight() / 10_gram ) + 200 + static_cast<int>
-                              ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) ) * -1;
-        u.mod_stat( "stamina", mod_sta );
 
-        if( u.get_skill_level( skill_melee ) == 0 ) {
-            u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
-        }
-        const int vol = u.weapon.volume() / units::legacy_volume_factor;
-        if( u.weapon.made_of( material_id( "glass" ) ) &&
-            rng( 0, vol + 3 ) < vol ) {
-            add_msg( m_bad, _( "Your %s shatters!" ), u.weapon.tname() );
-            for( auto &elem : u.weapon.contents ) {
-                m.add_item_or_charges( u.pos(), elem );
-            }
-            sounds::sound( u.pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash", "glass" );
-            u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, vol ) ) );
-            if( vol > 20 ) {
-                // Hurt left arm too, if it was big
-                u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0,
-                               static_cast<int>( vol * .5 ) ) ) );
-            }
-            u.remove_weapon();
-            u.check_dead_state();
-        }
         if( smashskill < m.bash_resistance( smashp ) && one_in( 10 ) ) {
             if( m.has_furn( smashp ) && m.furn( smashp ).obj().bash.str_min != -1 ) {
                 // %s is the smashed furniture
@@ -1656,25 +1681,35 @@ bool game::handle_action()
                 dest_delta = get_delta_from_movement_direction( act );
                 break;
             case ACTION_MOVE_DOWN:
-                if( !u.in_vehicle && !u.has_effect( effect_riding ) ) {
+                if( u.is_mounted() ) {
+                    auto mon = u.mounted_creature.get();
+                    if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
+                        add_msg( m_info, _( "You can't go down stairs while you're riding." ) );
+                        break;
+                    }
+                }
+                if( !u.in_vehicle ) {
                     vertical_move( -1, false );
-                } else if( u.has_effect( effect_riding ) ) {
-                    add_msg( m_info, _( "You can't go down stairs while you're riding." ) );
                 }
                 break;
 
             case ACTION_MOVE_UP:
-                if( !u.in_vehicle && !u.has_effect( effect_riding ) ) {
+                if( u.is_mounted() ) {
+                    auto mon = u.mounted_creature.get();
+                    if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
+                        add_msg( m_info, _( "You can't go down stairs while you're riding." ) );
+                        break;
+                    }
+                }
+                if( !u.in_vehicle ) {
                     vertical_move( 1, false );
-                } else if( u.has_effect( effect_riding ) ) {
-                    add_msg( m_info, _( "You can't go up stairs while you're riding." ) );
                 }
                 break;
 
             case ACTION_OPEN:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't open things while you're in your shell." ) );
-                } else if( u.has_effect( effect_riding ) ) {
+                } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't open things while you're riding." ) );
                 } else {
                     open();
@@ -1684,8 +1719,11 @@ bool game::handle_action()
             case ACTION_CLOSE:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't close things while you're in your shell." ) );
-                } else if( u.has_effect( effect_riding ) ) {
-                    add_msg( m_info, _( "You can't close things while you're riding." ) );
+                } else if( u.is_mounted() ) {
+                    auto mon = u.mounted_creature.get();
+                    if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
+                        add_msg( m_info, _( "You can't close things while you're riding." ) );
+                    }
                 } else if( mouse_target ) {
                     doors::close_door( m, u, *mouse_target );
                 } else {
@@ -1716,7 +1754,7 @@ bool game::handle_action()
             case ACTION_ADVANCEDINV:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't move mass quantities while you're in your shell." ) );
-                } else if( u.has_effect( effect_riding ) ) {
+                } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't move mass quantities while you're riding." ) );
                 } else {
                     advanced_inv();
@@ -1726,7 +1764,7 @@ bool game::handle_action()
             case ACTION_PICKUP:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't pick anything up while you're in your shell." ) );
-                } else if( u.has_effect( effect_riding ) ) {
+                } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't pick anything up while you're riding." ) );
                 } else if( mouse_target ) {
                     pickup( *mouse_target );
@@ -1746,7 +1784,7 @@ bool game::handle_action()
             case ACTION_GRAB:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't grab things while you're in your shell." ) );
-                } else if( u.has_effect( effect_riding ) ) {
+                } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't grab things while you're riding." ) );
                 } else {
                     grab();
@@ -1756,7 +1794,7 @@ bool game::handle_action()
             case ACTION_HAUL:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't haul things while you're in your shell." ) );
-                } else if( u.has_effect( effect_riding ) ) {
+                } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't haul things while you're riding." ) );
                 } else {
                     haul();
@@ -1766,7 +1804,7 @@ bool game::handle_action()
             case ACTION_BUTCHER:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't butcher while you're in your shell." ) );
-                } else if( u.has_effect( effect_riding ) ) {
+                } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't butcher while you're riding." ) );
                 } else {
                     butcher();
@@ -1780,7 +1818,7 @@ bool game::handle_action()
             case ACTION_PEEK:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't peek around corners while you're in your shell." ) );
-                } else if( u.has_effect( effect_riding ) ) {
+                } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't peek around corners while you're riding." ) );
                 } else {
                     peek();
@@ -1937,7 +1975,7 @@ bool game::handle_action()
             case ACTION_CRAFT:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't craft while you're in your shell." ) );
-                } else if( u.has_effect( effect_riding ) ) {
+                } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't craft while you're riding." ) );
                 } else {
                     u.craft();
@@ -1947,7 +1985,7 @@ bool game::handle_action()
             case ACTION_RECRAFT:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't craft while you're in your shell." ) );
-                } else if( u.has_effect( effect_riding ) ) {
+                } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't craft while you're riding." ) );
                 } else {
                     u.recraft();
@@ -1957,7 +1995,7 @@ bool game::handle_action()
             case ACTION_LONGCRAFT:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't craft while you're in your shell." ) );
-                } else if( u.has_effect( effect_riding ) ) {
+                } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't craft while you're riding." ) );
                 } else {
                     u.long_craft();
@@ -1967,7 +2005,7 @@ bool game::handle_action()
             case ACTION_DISASSEMBLE:
                 if( u.controlling_vehicle ) {
                     add_msg( m_info, _( "You can't disassemble items while driving." ) );
-                } else if( u.has_effect( effect_riding ) ) {
+                } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't disassemble items while you're riding." ) );
                 } else {
                     u.disassemble();
@@ -1980,7 +2018,7 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't construct while in a vehicle." ) );
                 } else if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't construct while you're in your shell." ) );
-                } else if( u.has_effect( effect_riding ) ) {
+                } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't construct while you're riding." ) );
                 } else {
                     construction_menu( false );
@@ -2000,7 +2038,7 @@ bool game::handle_action()
             case ACTION_CONTROL_VEHICLE:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't operate a vehicle while you're in your shell." ) );
-                } else if( u.has_effect( effect_riding ) ) {
+                } else if( u.is_mounted() ) {
                     u.dismount();
                 } else {
                     control_vehicle();

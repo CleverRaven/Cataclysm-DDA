@@ -36,6 +36,7 @@
 #include "pldata.h"
 #include "type_id.h"
 #include "magic.h"
+#include "monster.h"
 #include "craft_command.h"
 #include "point.h"
 #include "faction.h"
@@ -974,6 +975,10 @@ class player : public Character
         bool can_lift( const T &obj ) const {
             // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
             int str = get_str();
+            if( mounted_creature ) {
+                auto mons = mounted_creature.get();
+                str = mons->mech_str_addition() == 0 ? str : mons->mech_str_addition();
+            }
             const int npc_str = get_lift_assist();
             if( has_trait( trait_id( "STRONGBACK" ) ) ) {
                 str *= 1.35;
@@ -1584,7 +1589,6 @@ class player : public Character
         int stim;
         int cash;
         int movecounter;
-        std::shared_ptr<monster> mounted_creature;
         bool death_drops;// Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
         std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
         // Equalizes heat between body parts

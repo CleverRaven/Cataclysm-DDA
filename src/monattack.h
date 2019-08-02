@@ -26,6 +26,7 @@ bool boomer( monster *z );
 bool boomer_glow( monster *z );
 bool resurrect( monster *z );
 bool smash( monster *z );
+void smash_specific( monster *z, Creature *target );
 bool science( monster *z );
 bool growplants( monster *z );
 bool grow_vine( monster *z );

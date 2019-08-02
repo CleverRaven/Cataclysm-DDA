@@ -388,6 +388,7 @@ class Character : public Creature, public visitable<Character>
         /** Converts an hp_part to a body_part */
         static body_part hp_to_bp( hp_part hpart );
 
+        bool is_mounted() const;
         /**
          * Displays menu with body part hp, optionally with hp estimation after healing.
          * Returns selected part.
@@ -817,6 +818,8 @@ class Character : public Creature, public visitable<Character>
         int oxygen;
         int stamina;
         int radiation;
+
+        std::shared_ptr<monster> mounted_creature;
 
         void initialize_stomach_contents();
 

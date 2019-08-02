@@ -57,6 +57,8 @@
 #include "point.h"
 #include "material.h"
 
+const efftype_id effect_riding( "riding" );
+
 class player;
 
 static inline const std::string status_color( bool status )
@@ -452,8 +454,11 @@ void veh_interact::cache_tool_availability()
     } );
 
     cache_tool_availability_update_lifting( g->u.pos() );
-
-    max_jack = std::max( { g->u.max_quality( JACK ),
+    int mech_jack = 0;
+    if( g->u.is_mounted() ) {
+        mech_jack = g->u.mounted_creature->mech_str_addition() + 10;
+    }
+    max_jack = std::max( { g->u.max_quality( JACK ), mech_jack,
                            map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( JACK ),
                            vehicle_selector( g->u.pos(), 2, true, *veh ).max_quality( JACK )
                          } );
@@ -462,7 +467,7 @@ void veh_interact::cache_tool_availability()
 
     has_jack = g->u.has_quality( JACK, qual ) ||
                map_selector( g->u.pos(), PICKUP_RANGE ).has_quality( JACK, qual ) ||
-               vehicle_selector( g->u.pos(), 2, true, *veh ).has_quality( JACK,  qual );
+               vehicle_selector( g->u.pos(), 2, true, *veh ).has_quality( JACK,  qual ) || mech_jack >= qual;
 }
 
 void veh_interact::cache_tool_availability_update_lifting( const tripoint &world_cursor_pos )

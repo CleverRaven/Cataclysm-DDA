@@ -15,6 +15,7 @@
 #include "game_inventory.h"
 #include "handle_liquid.h"
 #include "item.h"
+#include "itype.h"
 #include "iuse.h"
 #include "map.h"
 #include "messages.h"
@@ -42,6 +43,7 @@ const efftype_id effect_harnessed( "harnessed" );
 const efftype_id effect_has_bag( "has_bag" );
 const efftype_id effect_milked( "milked" );
 const efftype_id effect_monster_armor( "monster_armor" );
+const efftype_id effect_pet( "pet" );
 const efftype_id effect_tied( "tied" );
 const efftype_id effect_riding( "riding" );
 const efftype_id effect_ridden( "ridden" );
@@ -66,7 +68,10 @@ bool monexamine::pet_menu( monster &z )
         attach_saddle,
         remove_saddle,
         mount,
-        rope
+        rope,
+        remove_bat,
+        insert_bat,
+        check_bat,
     };
 
     uilist amenu;
@@ -85,7 +90,7 @@ bool monexamine::pet_menu( monster &z )
         amenu.addentry( give_items, true, 'g', _( "Place items into bag" ) );
         amenu.addentry( drop_all, true, 'd', _( "Drop all items except armor" ) );
     }
-    if( !z.has_effect( effect_has_bag ) ) {
+    if( !z.has_effect( effect_has_bag ) && !z.has_flag( MF_RIDEABLE_MECH ) ) {
         amenu.addentry( attach_bag, true, 'b', _( "Attach bag" ) );
     }
     if( z.has_effect( effect_harnessed ) ) {
@@ -93,7 +98,7 @@ bool monexamine::pet_menu( monster &z )
     }
     if( z.has_effect( effect_monster_armor ) ) {
         amenu.addentry( mon_armor_remove, true, 'a', _( "Remove armor from %s" ), pet_name );
-    } else {
+    } else if( !z.has_flag( MF_RIDEABLE_MECH ) ) {
         amenu.addentry( mon_armor_add, true, 'a', _( "Equip %s with armor" ), pet_name );
     }
     if( z.has_flag( MF_BIRDFOOD ) || z.has_flag( MF_CATFOOD ) || z.has_flag( MF_DOGFOOD ) ||
@@ -102,7 +107,7 @@ bool monexamine::pet_menu( monster &z )
     }
     if( z.has_effect( effect_tied ) ) {
         amenu.addentry( rope, true, 't', _( "Untie" ) );
-    } else {
+    } else if( !z.has_flag( MF_RIDEABLE_MECH ) ) {
         std::vector<item *> rope_inv = g->u.items_with( []( const item & itm ) {
             return itm.has_flag( "TIE_UP" );
         } );
@@ -129,23 +134,50 @@ bool monexamine::pet_menu( monster &z )
                g->u.has_amount( "riding_saddle", 1 ) && g->u.get_skill_level( skill_survival ) < 1 ) {
         amenu.addentry( remove_saddle, false, 'h', _( "You don't know how to saddle %s" ), pet_name );
     }
-    if( z.has_flag( MF_PET_MOUNTABLE ) && ( ( z.has_effect( effect_saddled ) &&
-                                            g->u.get_skill_level( skill_survival ) >= 1 ) || g->u.get_skill_level( skill_survival ) >= 4 ) &&
-        z.get_size() >= ( g->u.get_size() + 1 ) && g->u.get_weight() <= z.get_weight() / 5 ) {
-        amenu.addentry( mount, true, 'r', _( "Mount %s" ), pet_name );
-    } else if( !z.has_flag( MF_PET_MOUNTABLE ) ) {
-        amenu.addentry( mount, false, 'r', _( "%s cannot be mounted" ), pet_name );
-    } else if( z.get_size() <= g->u.get_size() ) {
-        amenu.addentry( mount, false, 'r', _( "%s is too small to carry your weight" ), pet_name );
-    } else if( g->u.get_skill_level( skill_survival ) < 1 ) {
-        amenu.addentry( mount, false, 'r', _( "You have no knowledge of riding at all" ) );
-    } else if( g->u.get_weight() >= z.get_weight() / 5 ) {
-        amenu.addentry( mount, false, 'r', _( "You are too heavy to mount %s" ), pet_name );
-    } else if( !z.has_effect( effect_saddled ) && g->u.get_skill_level( skill_survival ) < 4 ) {
-        amenu.addentry( mount, false, 'r', _( "You are not skilled enough to ride without a saddle" ) );
-    } else if( z.has_effect( effect_saddled ) && g->u.get_skill_level( skill_survival ) < 1 ) {
-        amenu.addentry( mount, false, 'r', _( "Despite the saddle, you still don't know how to ride %s" ),
-                        pet_name );
+    if( !z.has_flag( MF_RIDEABLE_MECH ) ) {
+        if( z.has_flag( MF_PET_MOUNTABLE ) && ( ( z.has_effect( effect_saddled ) &&
+                                                g->u.get_skill_level( skill_survival ) >= 1 ) || g->u.get_skill_level( skill_survival ) >= 4 ) &&
+            z.get_size() >= ( g->u.get_size() + 1 ) && g->u.get_weight() <= z.get_weight() / 5 ) {
+            amenu.addentry( mount, true, 'r', _( "Mount %s" ), pet_name );
+        } else if( !z.has_flag( MF_PET_MOUNTABLE ) ) {
+            amenu.addentry( mount, false, 'r', _( "%s cannot be mounted" ), pet_name );
+        } else if( z.get_size() <= g->u.get_size() ) {
+            amenu.addentry( mount, false, 'r', _( "%s is too small to carry your weight" ), pet_name );
+        } else if( g->u.get_skill_level( skill_survival ) < 1 ) {
+            amenu.addentry( mount, false, 'r', _( "You have no knowledge of riding at all" ) );
+        } else if( g->u.get_weight() >= z.get_weight() / 5 ) {
+            amenu.addentry( mount, false, 'r', _( "You are too heavy to mount %s" ), pet_name );
+        } else if( !z.has_effect( effect_saddled ) && g->u.get_skill_level( skill_survival ) < 4 ) {
+            amenu.addentry( mount, false, 'r', _( "You are not skilled enough to ride without a saddle" ) );
+        } else if( z.has_effect( effect_saddled ) && g->u.get_skill_level( skill_survival ) < 1 ) {
+            amenu.addentry( mount, false, 'r', _( "Despite the saddle, you still don't know how to ride %s" ),
+                            pet_name );
+        }
+    } else {
+        const itype &type = *item::find_type( z.type->mech_battery );
+        int max_charge = type.magazine->capacity;
+        float charge_percent;
+        if( z.battery_item ) {
+            charge_percent = static_cast<float>( z.battery_item->ammo_remaining() ) / max_charge * 100;
+        } else {
+            charge_percent = 0.0;
+        }
+        amenu.addentry( check_bat, false, 'c', _( "%s battery level is %d%%" ), z.get_name(),
+                        static_cast<int>( charge_percent ) );
+        if( g->u.weapon.is_null() && z.battery_item ) {
+            amenu.addentry( mount, true, 'r', _( "Climb into the mech and take control" ) );
+        } else if( !g->u.weapon.is_null() ) {
+            amenu.addentry( mount, false, 'r', _( "You cannot pilot the mech whilst wielding something" ) );
+        } else if( !z.battery_item ) {
+            amenu.addentry( mount, false, 'r', _( "This mech has a dead battery and won't turn on" ) );
+        }
+        if( z.battery_item ) {
+            amenu.addentry( remove_bat, true, 'x', _( "Remove the mech's battery pack" ) );
+        } else if( g->u.has_amount( z.type->mech_battery, 1 ) ) {
+            amenu.addentry( insert_bat, true, 'x', _( "Insert a new battery pack" ) );
+        } else {
+            amenu.addentry( insert_bat, false, 'x', _( "You need a %s to power this mech" ), type.nname( 1 ) );
+        }
     }
     amenu.query();
     int choice = amenu.ret;
@@ -199,6 +231,13 @@ bool monexamine::pet_menu( monster &z )
         case milk:
             milk_source( z );
             break;
+        case remove_bat:
+            remove_battery( z );
+            break;
+        case insert_bat:
+            insert_battery( z );
+            break;
+        case check_bat:
         default:
             break;
     }
@@ -213,6 +252,66 @@ int monexamine::pet_armor_pos( monster &z )
                z.get_volume() <= it.get_pet_armor_max_vol();
     } );
     return pos;
+}
+
+void monexamine::remove_battery( monster &z )
+{
+    g->m.add_item_or_charges( g->u.pos(), *z.battery_item );
+    z.battery_item = cata::nullopt;
+}
+
+void monexamine::insert_battery( monster &z )
+{
+    if( z.battery_item ) {
+        // already has a battery, shouldnt be called with one, but just incase.
+        return;
+    }
+    std::vector<item *> bat_inv = g->u.items_with( []( const item & itm ) {
+        return itm.has_flag( "MECH_BAT" );
+    } );
+    if( bat_inv.empty() ) {
+        return;
+    }
+    int i = 0;
+    uilist selection_menu;
+    selection_menu.text = string_format( _( "Select an battery to insert into your %s." ),
+                                         z.get_name() );
+    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
+    for( auto iter : bat_inv ) {
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use %s" ), iter->tname() );
+    }
+    selection_menu.selected = 1;
+    selection_menu.query();
+    auto index = selection_menu.ret;
+    if( index == 0 || index == UILIST_CANCEL || index < 0 ||
+        index > static_cast<int>( bat_inv.size() ) ) {
+        return;
+    }
+    auto bat_item = bat_inv[index - 1];
+    int item_pos = g->u.get_item_position( bat_item );
+    if( item_pos != INT_MIN ) {
+        z.battery_item = *bat_item;
+        g->u.i_rem( item_pos );
+    }
+}
+
+bool monexamine::mech_hack( monster &z )
+{
+    itype_id card_type = "id_military";
+    if( g->u.has_amount( card_type, 1 ) ) {
+        if( query_yn( _( "Swipe your ID card into the mech's security port?" ) ) ) {
+            g->u.mod_moves( -100 );
+            z.add_effect( effect_pet, 1_turns, num_bp, true );
+            z.friendly = -1;
+            add_msg( m_good, _( "The %s whirs into life and opens its restraints to accept a pilot." ),
+                     z.get_name() );
+            g->u.use_amount( card_type, 1 );
+            return true;
+        }
+    } else {
+        add_msg( m_info, _( "You do not have the required ID card to activate this mech." ) );
+    }
+    return false;
 }
 
 void monexamine::attach_or_remove_saddle( monster &z )
@@ -258,7 +357,16 @@ void monexamine::mount_pet( monster &z )
     }
     g->place_player( pnt );
     z.facing = g->u.facing;
-    add_msg( m_good, _( "You mount your steed." ) );
+    add_msg( m_good, _( "You climb on the %s." ), z.get_name() );
+    if( z.has_flag( MF_RIDEABLE_MECH ) ) {
+        if( !z.type->mech_weapon.empty() ) {
+            item mechwep = item( z.type->mech_weapon );
+            g->u.wield( mechwep );
+        }
+        add_msg( m_good, _( "You hear your %s whir to life." ), z.get_name() );
+    }
+    // some rideable mechs have night-vision
+    g->u.recalc_sight_limits();
     g->u.mod_moves( -100 );
 }
 

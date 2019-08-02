@@ -763,8 +763,8 @@ void character_edit_menu()
             if( const cata::optional<tripoint> newpos = g->look_around() ) {
                 p.setpos( *newpos );
                 if( p.is_player() ) {
-                    if( p.has_effect( effect_riding ) && p.mounted_creature ) {
-                        p.mounted_creature.get()->setpos( *newpos );
+                    if( p.is_mounted() ) {
+                        p.mounted_creature->setpos( *newpos );
                     }
                     g->update_map( g->u );
                 }

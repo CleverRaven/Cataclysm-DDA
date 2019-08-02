@@ -94,7 +94,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     if( m.has_flag( TFLAG_MINEABLE, dest_loc ) && g->mostseen == 0 &&
         get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
         !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
-        !you.has_effect( effect_riding ) ) {
+        !you.is_mounted() ) {
         if( you.weapon.has_flag( "DIG_TOOL" ) ) {
             if( you.weapon.type->can_use( "JACKHAMMER" ) && you.weapon.ammo_sufficient() ) {
                 you.invoke_item( &you.weapon, "JACKHAMMER", dest_loc );
@@ -130,15 +130,13 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     if( ! tile_iso ) {
         if( new_dx > 0 ) {
             you.facing = FD_RIGHT;
-            if( you.has_effect( effect_riding ) && you.mounted_creature ) {
-                auto mons = you.mounted_creature.get();
-                mons->facing = FD_RIGHT;
+            if( you.is_mounted() ) {
+                you.mounted_creature->facing = FD_RIGHT;
             }
         } else if( new_dx < 0 ) {
             you.facing = FD_LEFT;
-            if( you.has_effect( effect_riding ) && you.mounted_creature ) {
-                auto mons = you.mounted_creature.get();
-                mons->facing = FD_LEFT;
+            if( you.is_mounted() ) {
+                you.mounted_creature->facing = FD_LEFT;
             }
         }
     } else {
@@ -174,14 +172,14 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         //
         if( new_dx >= 0 && new_dy >= 0 ) {
             you.facing = FD_RIGHT;
-            if( you.has_effect( effect_riding ) && you.mounted_creature ) {
+            if( you.is_mounted() ) {
                 auto mons = you.mounted_creature.get();
                 mons->facing = FD_RIGHT;
             }
         }
         if( new_dy <= 0 && new_dx <= 0 ) {
             you.facing = FD_LEFT;
-            if( you.has_effect( effect_riding ) && you.mounted_creature ) {
+            if( you.is_mounted() ) {
                 auto mons = you.mounted_creature.get();
                 mons->facing = FD_LEFT;
             }
@@ -331,10 +329,10 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
 
     if( toSwimmable && toDeepWater && !toBoat ) {  // Dive into water!
         // Requires confirmation if we were on dry land previously
-        if( you.has_effect( effect_riding ) && you.mounted_creature != nullptr ) {
+        if( you.is_mounted() ) {
             auto mon = you.mounted_creature.get();
             if( !mon->has_flag( MF_SWIMS ) || mon->get_size() < you.get_size() + 2 ) {
-                add_msg( m_warning, _( "Your mount shies away from the water!" ) );
+                add_msg( m_warning, _( "The %s cannot swim while it is carrying you!" ), mon->get_name() );
                 return false;
             }
         }
@@ -482,7 +480,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     if( you.has_effect( effect_onfire ) ) {
         add_msg( _( "The water puts out the flames!" ) );
         you.remove_effect( effect_onfire );
-        if( you.has_effect( effect_riding ) && you.mounted_creature != nullptr ) {
+        if( you.is_mounted() ) {
             monster *mon = you.mounted_creature.get();
             if( mon->has_effect( effect_onfire ) ) {
                 mon->remove_effect( effect_onfire );
@@ -515,8 +513,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     if( you.in_vehicle ) {
         m.unboard_vehicle( you.pos() );
     }
-    if( you.has_effect( effect_riding ) &&
-        m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+    if( you.is_mounted() && m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         add_msg( m_warning, _( "You cannot board a vehicle while mounted." ) );
         return;
     }
@@ -533,7 +530,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     you.moves -= ( movecost > 200 ? 200 : movecost ) * ( trigdist && diagonal ? 1.41 : 1 );
     you.inv.rust_iron_items();
 
-    if( !you.has_effect( effect_riding ) ) {
+    if( !you.is_mounted() ) {
         you.burn_move_stamina( movecost );
     }
 
@@ -657,14 +654,27 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
         if( gun->get_gun_ups_drain() > 0 ) {
             const int ups_drain = gun->get_gun_ups_drain();
             const int adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
-
-            if( !( you.has_charges( "UPS_off", ups_drain ) ||
-                   you.has_charges( "adv_UPS_off", adv_ups_drain ) ||
-                   ( you.has_active_bionic( bionic_id( "bio_ups" ) ) && you.power_level >= ups_drain ) ) ) {
-                add_msg( m_info,
-                         _( "You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!" ),
-                         ups_drain, adv_ups_drain );
-                return false;
+            bool is_mech_weapon = false;
+            if( you.is_mounted() ) {
+                auto mons = g->u.mounted_creature.get();
+                if( !mons->type->mech_weapon.empty() ) {
+                    is_mech_weapon = true;
+                }
+            }
+            if( !is_mech_weapon ) {
+                if( !( you.has_charges( "UPS_off", ups_drain ) ||
+                       you.has_charges( "adv_UPS_off", adv_ups_drain ) ||
+                       ( you.has_active_bionic( bionic_id( "bio_ups" ) ) && you.power_level >= ups_drain ) ) ) {
+                    add_msg( m_info,
+                             _( "You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!" ),
+                             ups_drain, adv_ups_drain );
+                    return false;
+                }
+            } else {
+                if( !you.has_charges( "UPS", ups_drain ) ) {
+                    add_msg( m_info, _( "Your mech has an empty battery, its weapon will not fire." ) );
+                    return false;
+                }
             }
         }
 
@@ -809,6 +819,16 @@ void avatar_action::plthrow( avatar &you, int pos,
     if( you.has_active_mutation( trait_SHELL2 ) ) {
         add_msg( m_info, _( "You can't effectively throw while you're in your shell." ) );
         return;
+    }
+    if( you.is_mounted() ) {
+        auto mons = g->u.mounted_creature.get();
+        if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
+            if( !mons->check_mech_powered() ) {
+                add_msg( m_bad, _( "Your %s refuses to move as its batteries have been drained." ),
+                         mons->get_name() );
+                return;
+            }
+        }
     }
 
     if( pos == INT_MIN ) {
