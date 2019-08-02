@@ -1310,11 +1310,7 @@ bool map::can_move_furniture( const tripoint &pos, player *p )
             adjusted_str = mons->mech_str_addition();
         }
     }
-    if( adjusted_str < required_str ) {
-        return false;
-    }
-
-    return true;
+    return adjusted_str >= required_str;
 }
 
 std::string map::furnname( const tripoint &p )
