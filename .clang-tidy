@@ -51,7 +51,6 @@ readability-*,\
 -modernize-use-emplace,\
 -modernize-use-equals-default,\
 -modernize-use-equals-delete,\
--modernize-use-override,\
 -modernize-use-transparent-functors,\
 -performance-for-range-copy,\
 -performance-inefficient-vector-operation,\

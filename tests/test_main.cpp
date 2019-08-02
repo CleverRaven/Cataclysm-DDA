@@ -230,7 +230,7 @@ static std::string extract_user_dir( std::vector<const char *> &arg_vec )
 struct CataListener : Catch::TestEventListenerBase {
     using TestEventListenerBase::TestEventListenerBase;
 
-    virtual void sectionStarting( Catch::SectionInfo const &sectionInfo ) override {
+    void sectionStarting( Catch::SectionInfo const &sectionInfo ) override {
         TestEventListenerBase::sectionStarting( sectionInfo );
         // Initialize the cata RNG with the Catch seed for reproducible tests
         rng_set_engine_seed( m_config->rngSeed() );
