@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <memory>
 #include <sstream>
 #include <array>
 #include <iterator>
@@ -574,7 +575,7 @@ void Item_factory::add_item_type( const itype &def )
     }
 
     auto &new_item_ptr = m_runtimes[ def.id ];
-    new_item_ptr.reset( new itype( def ) );
+    new_item_ptr = std::make_unique<itype>( def );
     if( frozen ) {
         finalize_pre( *new_item_ptr );
         finalize_post( *new_item_ptr );
@@ -812,7 +813,8 @@ void Item_factory::init()
     add_actor( new sew_advanced_actor() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
-    m_template_groups["EMPTY_GROUP"].reset( new Item_group( Item_group::G_COLLECTION, 100, 0, 0 ) );
+    m_template_groups["EMPTY_GROUP"] = std::make_unique<Item_group>( Item_group::G_COLLECTION, 100, 0,
+                                       0 );
 }
 
 bool Item_factory::check_ammo_type( std::ostream &msg, const ammotype &ammo ) const
@@ -2458,12 +2460,12 @@ void Item_factory::add_entry( Item_group &ig, JsonObject &obj )
     int probability = obj.get_int( "prob", 100 );
     JsonArray jarr;
     if( obj.has_member( "collection" ) ) {
-        gptr.reset( new Item_group( Item_group::G_COLLECTION, probability, ig.with_ammo,
-                                    ig.with_magazine ) );
+        gptr = std::make_unique<Item_group>( Item_group::G_COLLECTION, probability, ig.with_ammo,
+                                             ig.with_magazine );
         jarr = obj.get_array( "collection" );
     } else if( obj.has_member( "distribution" ) ) {
-        gptr.reset( new Item_group( Item_group::G_DISTRIBUTION, probability, ig.with_ammo,
-                                    ig.with_magazine ) );
+        gptr = std::make_unique<Item_group>( Item_group::G_DISTRIBUTION, probability, ig.with_ammo,
+                                             ig.with_magazine );
         jarr = obj.get_array( "distribution" );
     }
     if( gptr ) {
@@ -2477,11 +2479,11 @@ void Item_factory::add_entry( Item_group &ig, JsonObject &obj )
 
     std::unique_ptr<Single_item_creator> sptr;
     if( obj.has_member( "item" ) ) {
-        sptr.reset( new Single_item_creator( obj.get_string( "item" ), Single_item_creator::S_ITEM,
-                                             probability ) );
+        sptr = std::make_unique<Single_item_creator>(
+                   obj.get_string( "item" ), Single_item_creator::S_ITEM, probability );
     } else if( obj.has_member( "group" ) ) {
-        sptr.reset( new Single_item_creator( obj.get_string( "group" ), Single_item_creator::S_ITEM_GROUP,
-                                             probability ) );
+        sptr = std::make_unique<Single_item_creator>(
+                   obj.get_string( "group" ), Single_item_creator::S_ITEM_GROUP, probability );
     }
     if( !sptr ) {
         return;

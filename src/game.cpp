@@ -10,6 +10,7 @@
 #include <iterator>
 #include <locale>
 #include <map>
+#include <memory>
 #include <queue>
 #include <set>
 #include <sstream>
@@ -275,7 +276,7 @@ game::game() :
 {
     player_was_sleeping = false;
     reset_light_level();
-    world_generator.reset( new worldfactory() );
+    world_generator = std::make_unique<worldfactory>();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
 }
@@ -663,7 +664,7 @@ void game::load_map( const tripoint &pos_sm )
 bool game::start_game()
 {
     if( !gamemode ) {
-        gamemode.reset( new special_game() );
+        gamemode = std::make_unique<special_game>();
     }
 
     seed = rng_bits();
@@ -1206,7 +1207,7 @@ bool game::cleanup_at_end()
             popup( message.str(), PF_NONE );
         }
         if( gamemode ) {
-            gamemode.reset( new special_game() ); // null gamemode or something..
+            gamemode = std::make_unique<special_game>(); // null gamemode or something..
         }
     }
 
@@ -2646,7 +2647,7 @@ void game::load( const save_t &name )
     u.recalc_sight_limits();
 
     if( !gamemode ) {
-        gamemode.reset( new special_game() );
+        gamemode = std::make_unique<special_game>();
     }
 
     safe_mode = get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF;
@@ -10160,7 +10161,7 @@ void game::vertical_move( int movez, bool force )
 
     std::unique_ptr<map> tmp_map_ptr;
     if( !m.has_zlevels() ) {
-        tmp_map_ptr.reset( new map() );
+        tmp_map_ptr = std::make_unique<map>();
     }
 
     map &maybetmp = m.has_zlevels() ? m : *( tmp_map_ptr.get() );

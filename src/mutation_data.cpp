@@ -1,6 +1,7 @@
 #include "mutation.h" // IWYU pragma: associated
 
 #include <map>
+#include <memory>
 #include <set>
 #include <sstream>
 #include <vector>
@@ -715,10 +716,10 @@ void mutation_branch::add_entry( Trait_group &tg, JsonObject &obj )
     JsonArray jarr;
 
     if( obj.has_member( "collection" ) ) {
-        ptr.reset( new Trait_group_collection( probability ) );
+        ptr = std::make_unique<Trait_group_collection>( probability );
         jarr = obj.get_array( "collection" );
     } else if( obj.has_member( "distribution" ) ) {
-        ptr.reset( new Trait_group_distribution( probability ) );
+        ptr = std::make_unique<Trait_group_distribution>( probability );
         jarr = obj.get_array( "distribution" );
     }
 
@@ -734,10 +735,11 @@ void mutation_branch::add_entry( Trait_group &tg, JsonObject &obj )
 
     if( obj.has_member( "trait" ) ) {
         trait_id id( obj.get_string( "trait" ) );
-        ptr.reset( new Single_trait_creator( id, probability ) );
+        ptr = std::make_unique<Single_trait_creator>( id, probability );
     } else if( obj.has_member( "group" ) ) {
-        ptr.reset( new Trait_group_creator( trait_group::Trait_group_tag( obj.get_string( "group" ) ),
-                                            probability ) );
+        ptr = std::make_unique<Trait_group_creator>( trait_group::Trait_group_tag(
+                    obj.get_string( "group" ) ),
+                probability );
     }
 
     if( !ptr ) {
