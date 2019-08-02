@@ -1,30 +1,30 @@
 #pragma once
-#ifndef EVENT_H
-#define EVENT_H
+#ifndef TIMED_EVENT_H
+#define TIMED_EVENT_H
 
 #include <list>
 
 #include "calendar.h"
 #include "point.h"
 
-enum event_type : int {
-    EVENT_NULL,
-    EVENT_HELP,
-    EVENT_WANTED,
-    EVENT_ROBOT_ATTACK,
-    EVENT_SPAWN_WYRMS,
-    EVENT_AMIGARA,
-    EVENT_ROOTS_DIE,
-    EVENT_TEMPLE_OPEN,
-    EVENT_TEMPLE_FLOOD,
-    EVENT_TEMPLE_SPAWN,
-    EVENT_DIM,
-    EVENT_ARTIFACT_LIGHT,
-    NUM_EVENT_TYPES
+enum timed_event_type : int {
+    TIMED_EVENT_NULL,
+    TIMED_EVENT_HELP,
+    TIMED_EVENT_WANTED,
+    TIMED_EVENT_ROBOT_ATTACK,
+    TIMED_EVENT_SPAWN_WYRMS,
+    TIMED_EVENT_AMIGARA,
+    TIMED_EVENT_ROOTS_DIE,
+    TIMED_EVENT_TEMPLE_OPEN,
+    TIMED_EVENT_TEMPLE_FLOOD,
+    TIMED_EVENT_TEMPLE_SPAWN,
+    TIMED_EVENT_DIM,
+    TIMED_EVENT_ARTIFACT_LIGHT,
+    NUM_TIMED_EVENT_TYPES
 };
 
-struct event {
-    event_type type = EVENT_NULL;
+struct timed_event {
+    timed_event_type type = TIMED_EVENT_NULL;
     /** On which turn event should be happening. */
     time_point when = calendar::turn_zero;
     /** Which faction is responsible for handling this event. */
@@ -32,7 +32,7 @@ struct event {
     /** Where the event happens, in global submap coordinates */
     tripoint map_point = tripoint_min;
 
-    event( event_type e_t, const time_point &w, int f_id, tripoint p );
+    timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint p );
 
     // When the time runs out
     void actualize();
@@ -40,27 +40,27 @@ struct event {
     void per_turn();
 };
 
-class event_manager
+class timed_event_manager
 {
     private:
-        std::list<event> events;
+        std::list<timed_event> events;
 
     public:
         /**
          * Add an entry to the event queue. Parameters are basically passed
-         * through to @ref event::event.
+         * through to @ref timed_event::timed_event.
          */
-        void add( event_type type, const time_point &when, int faction_id = -1 );
+        void add( timed_event_type type, const time_point &when, int faction_id = -1 );
         /**
          * Add an entry to the event queue. Parameters are basically passed
-         * through to @ref event::event.
+         * through to @ref timed_event::timed_event.
          */
-        void add( event_type type, const time_point &when, int faction_id, const tripoint &where );
+        void add( timed_event_type type, const time_point &when, int faction_id, const tripoint &where );
         /// @returns Whether at least one element of the given type is queued.
-        bool queued( event_type type ) const;
+        bool queued( timed_event_type type ) const;
         /// @returns One of the queued events of the given type, or `nullptr`
         /// if no event of that type is queued.
-        event *get( event_type type );
+        timed_event *get( timed_event_type type );
         /// Process all queued events, potentially altering the game state and
         /// modifying the event queue.
         void process();

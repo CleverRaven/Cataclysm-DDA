@@ -97,7 +97,7 @@ class save_t;
 
 using WORLDPTR = WORLD *;
 class overmap;
-class event_manager;
+class timed_event_manager;
 
 enum event_type : int;
 class live_view;
@@ -892,14 +892,14 @@ class game
         pimpl<live_view> liveview_ptr;
         live_view &liveview;
         pimpl<scent_map> scent_ptr;
-        pimpl<event_manager> event_manager_ptr;
+        pimpl<timed_event_manager> timed_event_manager_ptr;
 
     public:
         /** Make map a reference here, to avoid map.h in game.h */
         map &m;
         avatar &u;
         scent_map &scent;
-        event_manager &events;
+        timed_event_manager &timed_events;
 
         pimpl<Creature_tracker> critter_tracker;
         pimpl<faction_manager> faction_manager_ptr;

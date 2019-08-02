@@ -15,7 +15,7 @@
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "explosion.h"
-#include "event.h"
+#include "timed_event.h"
 #include "field.h"
 #include "game.h"
 #include "input.h"
@@ -812,7 +812,7 @@ PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
         }
 
         case COMPACT_AMIGARA_START:
-            g->events.add( EVENT_AMIGARA, calendar::turn + 1_minutes );
+            g->timed_events.add( TIMED_EVENT_AMIGARA, calendar::turn + 1_minutes );
             if( !g->u.has_artifact_with( AEP_PSYSHIELD ) ) {
                 g->u.add_effect( effect_amigara, 2_minutes );
             }
@@ -1511,8 +1511,9 @@ void computer::activate_failure( computer_failure_type fail )
                                    pgettext( "memorial_female", "Set off an alarm." ) );
             sounds::sound( g->u.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
                            "alarm" );
-            if( g->get_levz() > 0 && !g->events.queued( EVENT_WANTED ) ) {
-                g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, g->u.global_sm_location() );
+            if( g->get_levz() > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
+                g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
+                                     g->u.global_sm_location() );
             }
             break;
 
@@ -1610,7 +1611,7 @@ void computer::activate_failure( computer_failure_type fail )
             break;
 
         case COMPFAIL_AMIGARA:
-            g->events.add( EVENT_AMIGARA, calendar::turn + 30_seconds );
+            g->timed_events.add( TIMED_EVENT_AMIGARA, calendar::turn + 30_seconds );
             g->u.add_effect( effect_amigara, 2_minutes );
             explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
                                           10,

@@ -8,7 +8,7 @@
 #include "avatar.h"
 #include "debug.h"
 #include "explosion.h"
-#include "event.h"
+#include "timed_event.h"
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -1275,7 +1275,7 @@ void trapfunc::temple_flood( const tripoint &p, Creature *c, item * )
                 }
             }
         }
-        g->events.add( EVENT_TEMPLE_FLOOD, calendar::turn + 3_turns );
+        g->timed_events.add( TIMED_EVENT_TEMPLE_FLOOD, calendar::turn + 3_turns );
     }
 }
 

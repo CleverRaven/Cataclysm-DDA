@@ -25,7 +25,7 @@
 #include "debug.h"
 #include "vpart_position.h"
 #include "effect.h"
-#include "event.h"
+#include "timed_event.h"
 #include "explosion.h"
 #include "field.h"
 #include "game.h"
@@ -1006,8 +1006,9 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll ) {
         sounds::sound( p.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                        "alarm" );
-        if( !g->events.queued( EVENT_WANTED ) ) {
-            g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p.global_sm_location() );
+        if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
+            g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
+                                 p.global_sm_location() );
         }
     }
     if( destroy ) {

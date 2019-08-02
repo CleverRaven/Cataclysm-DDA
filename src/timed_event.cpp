@@ -1,4 +1,4 @@
-#include "event.h"
+#include "timed_event.h"
 
 #include <array>
 #include <memory>
@@ -31,7 +31,7 @@ const mtype_id mon_sewer_snake( "mon_sewer_snake" );
 const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 
-event::event( event_type e_t, const time_point &w, int f_id, tripoint p )
+timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint p )
     : type( e_t )
     , when( w )
     , faction_id( f_id )
@@ -39,14 +39,14 @@ event::event( event_type e_t, const time_point &w, int f_id, tripoint p )
 {
 }
 
-void event::actualize()
+void timed_event::actualize()
 {
     switch( type ) {
-        case EVENT_HELP:
+        case TIMED_EVENT_HELP:
             debugmsg( "Currently disabled while NPC and monster factions are being rewritten." );
             break;
 
-        case EVENT_ROBOT_ATTACK: {
+        case TIMED_EVENT_ROBOT_ATTACK: {
             const auto u_pos = g->u.global_sm_location();
             if( rl_dist( u_pos, map_point ) <= 4 ) {
                 const mtype_id &robot_type = one_in( 2 ) ? mon_copbot : mon_riotbot;
@@ -60,7 +60,7 @@ void event::actualize()
         }
         break;
 
-        case EVENT_SPAWN_WYRMS: {
+        case TIMED_EVENT_SPAWN_WYRMS: {
             if( g->get_levz() >= 0 ) {
                 return;
             }
@@ -91,12 +91,13 @@ void event::actualize()
                 }
             }
             if( !one_in( 25 ) ) { // They just keep coming!
-                g->events.add( EVENT_SPAWN_WYRMS, calendar::turn + rng( 1_minutes, 3_minutes ) );
+                g->timed_events.add( TIMED_EVENT_SPAWN_WYRMS,
+                                     calendar::turn + rng( 1_minutes, 3_minutes ) );
             }
         }
         break;
 
-        case EVENT_AMIGARA: {
+        case TIMED_EVENT_AMIGARA: {
             g->u.add_memorial_log( pgettext( "memorial_male", "Angered a group of amigara horrors!" ),
                                    pgettext( "memorial_female", "Angered a group of amigara horrors!" ) );
             int num_horrors = rng( 3, 5 );
@@ -142,7 +143,7 @@ void event::actualize()
         }
         break;
 
-        case EVENT_ROOTS_DIE:
+        case TIMED_EVENT_ROOTS_DIE:
             g->u.add_memorial_log( pgettext( "memorial_male", "Destroyed a triffid grove." ),
                                    pgettext( "memorial_female", "Destroyed a triffid grove." ) );
             for( int x = 0; x < MAPSIZE_X; x++ ) {
@@ -154,7 +155,7 @@ void event::actualize()
             }
             break;
 
-        case EVENT_TEMPLE_OPEN: {
+        case TIMED_EVENT_TEMPLE_OPEN: {
             g->u.add_memorial_log( pgettext( "memorial_male", "Opened a strange temple." ),
                                    pgettext( "memorial_female", "Opened a strange temple." ) );
             bool saw_grate = false;
@@ -174,7 +175,7 @@ void event::actualize()
         }
         break;
 
-        case EVENT_TEMPLE_FLOOD: {
+        case TIMED_EVENT_TEMPLE_FLOOD: {
             bool flooded = false;
 
             ter_id flood_buf[MAPSIZE_X][MAPSIZE_Y];
@@ -236,11 +237,12 @@ void event::actualize()
                     g->m.ter_set( x, y, flood_buf[x][y] );
                 }
             }
-            g->events.add( EVENT_TEMPLE_FLOOD, calendar::turn + rng( 2_turns, 3_turns ) );
+            g->timed_events.add( TIMED_EVENT_TEMPLE_FLOOD,
+                                 calendar::turn + rng( 2_turns, 3_turns ) );
         }
         break;
 
-        case EVENT_TEMPLE_SPAWN: {
+        case TIMED_EVENT_TEMPLE_SPAWN: {
             static const std::array<mtype_id, 4> temple_monsters = { {
                     mon_sewer_snake, mon_dermatik, mon_spider_widow_giant, mon_spider_cellar_giant
                 }
@@ -266,10 +268,10 @@ void event::actualize()
     }
 }
 
-void event::per_turn()
+void timed_event::per_turn()
 {
     switch( type ) {
-        case EVENT_WANTED: {
+        case TIMED_EVENT_WANTED: {
             // About once every 5 minutes. Suppress in classic zombie mode.
             if( g->get_levz() >= 0 && one_in( 50 ) && !get_option<bool>( "DISABLE_ROBOT_RESPONSE" ) ) {
                 point place = g->m.random_outdoor_tile();
@@ -286,7 +288,7 @@ void event::per_turn()
         }
         break;
 
-        case EVENT_SPAWN_WYRMS:
+        case TIMED_EVENT_SPAWN_WYRMS:
             if( g->get_levz() >= 0 ) {
                 when -= 1_turns;
                 return;
@@ -296,11 +298,11 @@ void event::per_turn()
             }
             break;
 
-        case EVENT_AMIGARA:
+        case TIMED_EVENT_AMIGARA:
             add_msg( m_warning, _( "The entire cavern shakes!" ) );
             break;
 
-        case EVENT_TEMPLE_OPEN:
+        case TIMED_EVENT_TEMPLE_OPEN:
             add_msg( m_warning, _( "The earth rumbles." ) );
             break;
 
@@ -309,7 +311,7 @@ void event::per_turn()
     }
 }
 
-void event_manager::process()
+void timed_event_manager::process()
 {
     for( auto it = events.begin(); it != events.end(); ) {
         it->per_turn();
@@ -322,23 +324,25 @@ void event_manager::process()
     }
 }
 
-void event_manager::add( const event_type type, const time_point &when, const int faction_id )
+void timed_event_manager::add( const timed_event_type type, const time_point &when,
+                               const int faction_id )
 {
     add( type, when, faction_id, g->u.global_sm_location() );
 }
 
-void event_manager::add( const event_type type, const time_point &when, const int faction_id,
-                         const tripoint &where )
+void timed_event_manager::add( const timed_event_type type, const time_point &when,
+                               const int faction_id,
+                               const tripoint &where )
 {
     events.emplace_back( type, when, faction_id, where );
 }
 
-bool event_manager::queued( const event_type type ) const
+bool timed_event_manager::queued( const timed_event_type type ) const
 {
-    return const_cast<event_manager &>( *this ).get( type ) != nullptr;
+    return const_cast<timed_event_manager &>( *this ).get( type ) != nullptr;
 }
 
-event *event_manager::get( const event_type type )
+timed_event *timed_event_manager::get( const timed_event_type type )
 {
     for( auto &e : events ) {
         if( e.type == type ) {

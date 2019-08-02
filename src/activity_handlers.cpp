@@ -84,7 +84,7 @@
 #include "string_id.h"
 #include "units.h"
 #include "type_id.h"
-#include "event.h"
+#include "timed_event.h"
 #include "options.h"
 #include "colony.h"
 #include "color.h"
@@ -4255,8 +4255,9 @@ void activity_handlers::hack_safe_finish( player_activity *act, player *p )
                              pgettext( "memorial_female", "Set off an alarm." ) );
         sounds::sound( p->pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
                        "alarm" );
-        if( act->placement.z > 0 && !g->events.queued( EVENT_WANTED ) ) {
-            g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p->global_sm_location() );
+        if( act->placement.z > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
+            g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
+                                 p->global_sm_location() );
         }
     } else if( result == HACK_SUCCESS ) {
         add_msg( m_good, _( "The door on the safe swings open." ) );
