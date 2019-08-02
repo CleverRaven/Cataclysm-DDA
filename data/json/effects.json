@@ -12,6 +12,12 @@
   },
   {
     "type": "effect_type",
+    "id": "took_damage",
+    "name": [ "Took Damage" ],
+    "desc": [ "AI tag for when a monster has taken damage.  Differs from the above by considering any possible source of damage. This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "ridden",
     "name": [ "Ridden" ],
     "desc": [ "AI tag for when critter is being ridden. This is a bug if you have it." ]

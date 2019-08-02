@@ -150,7 +150,6 @@ enum m_flag : int {
     MF_AVOID_DANGER_1,      // This monster will path around some dangers instead of through them.
     MF_AVOID_DANGER_2,      // This monster will path around most dangers instead of through them.
     MF_PRIORITIZE_TARGETS,  // This monster will prioritize targets depending on their danger levels
-    MF_TRACK_DAMAGE,        // This monsters will receive effect_took_damage after taking damage
     MF_NOT_HALLU,           // Monsters that will NOT appear when player's producing hallucinations
     MF_CATFOOD,             // This monster will become friendly when fed cat food.
     MF_CATTLEFODDER,        // This monster will become friendly when fed cattle fodder.

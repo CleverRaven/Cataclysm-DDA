@@ -79,6 +79,8 @@ bool lunge( monster *z );
 bool longswipe( monster *z );
 bool parrot( monster *z );
 bool darkman( monster *z );
+bool shadow_hunter( monster *z);
+bool shadow_hunter_h( monster *z);
 bool slimespring( monster *z );
 bool bio_op_takedown( monster *z );
 bool ranged_pull( monster *z );

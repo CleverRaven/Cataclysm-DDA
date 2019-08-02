@@ -4347,7 +4347,7 @@ bool mattack::shadow_hunter( monster *z )
             newpos.y = rng( z->posy() - telerange, z->posy() + telerange );
             tries++;
         } while( ( tries > maxtries ) &&
-                 ( g->is_in_sunlight( newpos ) || g->m.impassable( newpos )  ||  g->mon_at( newpos ) == -1 ) );
+                 ( g->is_in_sunlight( newpos ) || !g->is_empty( newpos )) );
         if( tries == maxtries ) {
             return false;
         } else {
@@ -4368,7 +4368,7 @@ bool mattack::shadow_hunter_h( monster *z )
     if( target == nullptr ) {
         return false;
     }
-    if ( rl_dist( z->pos(), target->pos() ) < 6  || z->has_effect( effect_took_damage ) ) {
+    if ( rl_dist( z->pos(), target->pos() ) < 4  || z->has_effect( effect_took_damage ) ) {
         z->remove_effect( effect_took_damage );
         z->poly( mon_shadow_hunter );
         return true;
