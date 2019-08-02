@@ -471,7 +471,7 @@
     "req_buffs": [ "buff_capoeira_onmove" ],
     "weighting": 2,
     "crit_tec": true,
-    "down_dur": 1,
+    "stun_dur": 1,
     "mult_bonuses": [ [ "movecost", 0.75 ], [ "damage", "bash", 1.4 ] ]
   },
   {
