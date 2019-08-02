@@ -398,7 +398,7 @@ bool Character::move_effects( bool attacking )
     }
     if( has_effect( effect_webbed ) ) {
         if( is_mounted() ) {
-            auto mon = g->u.mounted_creature.get();
+            auto mon = mounted_creature.get();
             if( x_in_y( mon->type->melee_dice * mon->type->melee_sides,
                         6 * get_effect_int( effect_webbed ) ) ) {
                 add_msg( _( "The %s breaks free of the webs!" ), mon->get_name() );
@@ -417,7 +417,7 @@ bool Character::move_effects( bool attacking )
     }
     if( has_effect( effect_lightsnare ) ) {
         if( is_mounted() ) {
-            auto mon = g->u.mounted_creature.get();
+            auto mon = mounted_creature.get();
             if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 12 ) ) {
                 mon->remove_effect( effect_lightsnare );
                 remove_effect( effect_lightsnare );
@@ -446,7 +446,7 @@ bool Character::move_effects( bool attacking )
     }
     if( has_effect( effect_heavysnare ) ) {
         if( is_mounted() ) {
-            auto mon = g->u.mounted_creature.get();
+            auto mon = mounted_creature.get();
             if( mon->type->melee_dice * mon->type->melee_sides >= 7 ) {
                 if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 32 ) ) {
                     mon->remove_effect( effect_heavysnare );
@@ -484,7 +484,7 @@ bool Character::move_effects( bool attacking )
         /** @EFFECT_STR increases chance to escape bear trap */
         // If is riding, then despite the character having the effect, it is the mounted creature that escapes.
         if( is_player() && is_mounted() ) {
-            auto mon = g->u.mounted_creature.get();
+            auto mon = mounted_creature.get();
             if( mon->type->melee_dice * mon->type->melee_sides >= 18 ) {
                 if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 200 ) ) {
                     mon->remove_effect( effect_beartrap );
@@ -543,7 +543,7 @@ bool Character::move_effects( bool attacking )
     if( has_effect( effect_grabbed ) && !attacking ) {
         int zed_number = 0;
         if( is_mounted() ) {
-            auto mon = g->u.mounted_creature.get();
+            auto mon = mounted_creature.get();
             if( mon->has_effect( effect_grabbed ) ) {
                 if( ( dice( mon->type->melee_dice + mon->type->melee_sides,
                             3 ) < get_effect_int( effect_grabbed ) ) ||
@@ -559,7 +559,7 @@ bool Character::move_effects( bool attacking )
                 if( one_in( 4 ) ) {
                     add_msg( m_bad, _( "You are pulled from your %s!" ), mon->get_name() );
                     remove_effect( effect_grabbed );
-                    g->u.forced_dismount();
+                    dynamic_cast<player &>( *this ).forced_dismount();
                 }
             }
         } else {
@@ -698,7 +698,7 @@ void Character::recalc_sight_limits()
         vision_mode_cache.set( NV_GOGGLES );
     }
     if( has_active_mutation( trait_NIGHTVISION3 ) || is_wearing( "rm13_armor_on" ) ||
-        ( is_mounted() && g->u.mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) ) {
+        ( is_mounted() && mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) ) {
         vision_mode_cache.set( NIGHTVISION_3 );
     }
     if( has_active_mutation( trait_ELFA_FNV ) ) {
@@ -731,7 +731,7 @@ void Character::recalc_sight_limits()
         has_trait( trait_id( "INFRARED" ) ) ||
         has_trait( trait_id( "LIZ_IR" ) ) ||
         worn_with_flag( "IR_EFFECT" ) || ( is_mounted() &&
-                                           g->u.mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) ) {
+                                           mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) ) {
         vision_mode_cache.set( IR_VISION );
     }
 
@@ -1205,7 +1205,7 @@ int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
     const quality_id LIFT( "LIFT" );
     int mech_lift = 0;
     if( is_mounted() ) {
-        auto mons = g->u.mounted_creature.get();
+        auto mons = mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
             mech_lift = mons->mech_str_addition() + 10;
         }
@@ -1276,7 +1276,7 @@ units::mass Character::weight_capacity() const
         ret = 0_gram;
     }
     if( is_mounted() ) {
-        auto *mons = g->u.mounted_creature.get();
+        auto *mons = mounted_creature.get();
         // the mech has an effective strength for other purposes, like hitting.
         // but for lifting, its effective strength is even higher, due to its sturdy construction, leverage,
         // and being built entirely for that purpose with hydraulics etc.
@@ -2761,7 +2761,7 @@ int Character::throw_range( const item &it ) const
     /** @EFFECT_STR increases throwing range, vs item weight (high or low) */
     int str_override = str_cur;
     if( is_mounted() ) {
-        auto mons = g->u.mounted_creature.get();
+        auto mons = mounted_creature.get();
         str_override = mons->mech_str_addition() != 0 ? mons->mech_str_addition() : str_cur;
     }
     int ret = ( str_override * 10 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 -

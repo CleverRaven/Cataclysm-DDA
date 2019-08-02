@@ -5514,7 +5514,7 @@ void game::examine( const tripoint &examp )
             if( monexamine::pet_menu( *mon ) ) {
                 return;
             }
-        } else if( mon->has_flag( MF_RIDEABLE_MECH ) && !mon->has_effect( effect_pet ) ) {
+        } else if( mon && mon->has_flag( MF_RIDEABLE_MECH ) && !mon->has_effect( effect_pet ) ) {
             if( monexamine::mech_hack( *mon ) ) {
                 return;
             }
