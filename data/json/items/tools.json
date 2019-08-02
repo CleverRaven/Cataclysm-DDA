@@ -2873,7 +2873,7 @@
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ]
   },
   {
-  "id": "claw_bar",
+    "id": "claw_bar",
     "type": "TOOL",
     "name": "claw bar",
     "description": "This is a small prying tool with a clawed bend at one end for pulling spikes.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
