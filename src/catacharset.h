@@ -113,7 +113,8 @@ class utf8_wrapper
         }
 
         utf8_wrapper &operator=( const std::string &d ) {
-            return *this = utf8_wrapper( d );
+            *this = utf8_wrapper( d );
+            return *this;
         }
         const std::string &str() const {
             return _data;

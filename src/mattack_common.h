@@ -45,8 +45,9 @@ struct mtype_special_attack {
 
         ~mtype_special_attack() = default;
 
-        void operator=( const mtype_special_attack &other ) {
+        mtype_special_attack &operator=( const mtype_special_attack &other ) {
             actor.reset( other.actor->clone() );
+            return *this;
         }
 
         const mattack_actor &operator*() const {

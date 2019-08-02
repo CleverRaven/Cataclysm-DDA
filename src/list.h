@@ -818,7 +818,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     return *this;
                 }
 
-                inline list_iterator &operator=( const list_iterator &&rh ) noexcept {
+                inline list_iterator &operator=( list_iterator &&rh ) noexcept {
                     node_pointer = std::move( rh.node_pointer );
                     return *this;
                 }
@@ -923,7 +923,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     return *this;
                 }
 
-                inline list_reverse_iterator &operator=( const list_reverse_iterator &&rh ) noexcept {
+                inline list_reverse_iterator &operator=( list_reverse_iterator &&rh ) noexcept {
                     node_pointer = std::move( rh.node_pointer );
                     return *this;
                 }

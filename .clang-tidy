@@ -39,7 +39,6 @@ readability-*,\
 -misc-definitions-in-headers,\
 -misc-non-private-member-variables-in-classes,\
 -misc-redundant-expression,\
--misc-unconventional-assign-operator,\
 -modernize-avoid-c-arrays,\
 -modernize-deprecated-headers,\
 -modernize-make-unique,\
