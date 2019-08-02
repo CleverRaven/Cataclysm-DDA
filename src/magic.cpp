@@ -1123,7 +1123,7 @@ void known_magic::forget_spell( const spell_id &sp )
 
 bool known_magic::can_learn_spell( const player &p, const spell_id &sp ) const
 {
-    const spell_type sp_t = sp.obj();
+    const spell_type &sp_t = sp.obj();
     if( sp_t.spell_class == trait_id( "NONE" ) ) {
         return true;
     }
@@ -1294,10 +1294,7 @@ static bool casting_time_encumbered( const spell &sp, const player &p )
         // the first 20 points of encumbrance combined is ignored
         encumb += std::max( 0, p.encumb( bp_arm_l ) + p.encumb( bp_arm_r ) - 20 );
     }
-    if( encumb > 0 ) {
-        return true;
-    }
-    return false;
+    return encumb > 0;
 }
 
 static bool energy_cost_encumbered( const spell &sp, const player &p )

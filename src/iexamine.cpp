@@ -1809,7 +1809,7 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
         }
     }
     int roll = rng( 1, 5 );
-    bool drop_eggs = ( monster_count >= 1 ? true : false );
+    bool drop_eggs = monster_count >= 1;
     for( int i = 0; i < roll; i++ ) {
         handle_harvest( p, "spider_egg", drop_eggs );
     }
@@ -2600,6 +2600,10 @@ void iexamine::fireplace( player &p, const tripoint &examp )
     const bool has_bionic_firestarter = p.has_bionic( bionic_id( "bio_lighter" ) ) &&
                                         p.power_level >= bionic_id( "bio_lighter" )->power_activate;
 
+    auto firequenchers = p.items_with( []( const item & it ) {
+        return it.damage_melee( DT_BASH );
+    } );
+
     uilist selection_menu;
     selection_menu.text = _( "Select an action" );
     selection_menu.addentry( 0, true, 'e', _( "Examine" ) );
@@ -2609,10 +2613,10 @@ void iexamine::fireplace( player &p, const tripoint &examp )
         if( has_bionic_firestarter ) {
             selection_menu.addentry( 2, true, 'b', _( "Use a CBM to start a fire" ) );
         }
-    } else if( p.weapon.damage_melee( DT_BASH ) ) {
+    } else if( !firequenchers.empty() ) {
         selection_menu.addentry( 4, true, 's', _( "Put out fire" ) );
     } else {
-        selection_menu.addentry( 4, false, 's', _( "Put out fire - wield bashing item" ) );
+        selection_menu.addentry( 4, false, 's', _( "Put out fire (bashing item required)" ) );
     }
     if( furn_is_deployed ) {
         selection_menu.addentry( 3, true, 't', string_format( _( "Take down the %s" ),
@@ -4511,7 +4515,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             int broken_limbs_count = 0;
             for( int i = 0; i < num_hp_parts; i++ ) {
                 const bool broken = patient.get_hp( static_cast<hp_part>( i ) ) <= 0;
-                body_part part = patient.hp_to_bp( static_cast<hp_part>( i ) );
+                body_part part = player::hp_to_bp( static_cast<hp_part>( i ) );
                 effect &existing_effect = patient.get_effect( effect_mending, part );
                 // Skip part if not broken or already healed 50%
                 if( !broken || ( !existing_effect.is_null() &&
@@ -4922,8 +4926,8 @@ static void smoker_load_food( player &p, const tripoint &examp,
     for( const item &m : moved ) {
         g->m.add_item( examp, m );
         p.mod_moves( -p.item_handling_cost( m ) );
-        add_msg( m_info, _( "You carefully place %s %s in the rack." ), amount, m.nname( m.typeId(),
-                 amount ) );
+        add_msg( m_info, _( "You carefully place %s %s in the rack." ), amount,
+                 item::nname( m.typeId(), amount ) );
     }
     p.invalidate_crafting_inventory();
 }
@@ -5030,8 +5034,7 @@ static void mill_load_food( player &p, const tripoint &examp,
         g->m.add_item( examp, m );
         p.mod_moves( -p.item_handling_cost( m ) );
         add_msg( m_info, pgettext( "item amount and name", "You carefully place %s %s in the mill." ),
-                 amount, m.nname( m.typeId(),
-                                  amount ) );
+                 amount, item::nname( m.typeId(), amount ) );
     }
     p.invalidate_crafting_inventory();
 }
@@ -5167,7 +5170,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
                             "\n ";
                         continue;
                     }
-                    pop << "-> " << it.nname( it.typeId(), it.charges );
+                    pop << "-> " << item::nname( it.typeId(), it.charges );
                     pop << " (" << std::to_string( it.charges ) << ") \n ";
                 }
             }
@@ -5371,7 +5374,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                             "\n ";
                         continue;
                     }
-                    pop << "-> " << it.nname( it.typeId(), it.charges );
+                    pop << "-> " << item::nname( it.typeId(), it.charges );
                     pop << " (" << std::to_string( it.charges ) << ") \n ";
                 }
             }

@@ -1620,9 +1620,7 @@ class vehicle
          * is loaded into the map the values are directly set. The vehicles position does
          * not change therefor no call to set_submap_moved is required.
          */
-        int smx;
-        int smy;
-        int smz;
+        tripoint sm_pos;
 
         // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
         int alternator_load;
@@ -1637,8 +1635,7 @@ class vehicle
          * Note that vehicles are "moved" by map::displace_vehicle. You should not
          * set them directly, except when initializing the vehicle or during mapgen.
          */
-        int posx = 0;
-        int posy = 0;
+        point pos;
         // vehicle current velocity, mph * 100
         int velocity = 0;
         // velocity vehicle's cruise control trying to achieve

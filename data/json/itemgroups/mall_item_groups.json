@@ -48,7 +48,10 @@
     "items": [
       [ "blazer", 75 ],
       [ "button_plastic", 20 ],
-      [ "skinny_tie", 65 ],
+      [ "tie_skinny", 40 ],
+      [ "tie_necktie", 40 ],
+      [ "tie_bow", 30 ],
+      [ "tie_clipon", 20 ],
       [ "tieclip", 25 ],
       [ "polo_shirt", 35 ],
       [ "dress_shirt", 70 ],

@@ -350,9 +350,8 @@ bool write_to_file( const std::string &path, const std::function<void( std::ostr
 }
 
 ofstream_wrapper::ofstream_wrapper( const std::string &path, const std::ios::openmode mode )
-    : file_stream()
-    , path( path )
-    , temp_path()
+    : path( path )
+
 {
     open( mode );
 }

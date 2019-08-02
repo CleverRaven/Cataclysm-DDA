@@ -9,6 +9,8 @@
 #include <string>
 #include <vector>
 
+#include "point.h"
+
 namespace catacurses
 {
 class window;
@@ -52,10 +54,8 @@ struct curseline {
 
 // The curses window struct
 struct WINDOW {
-    // Left side of window
-    int x;
-    // Top side of window
-    int y;
+    // Top-left corner of window
+    point pos;
     int width;
     int height;
     // Current foreground color from attron
@@ -66,8 +66,7 @@ struct WINDOW {
     bool inuse;
     // Tracks if the window text has been changed
     bool draw;
-    int cursorx;
-    int cursory;
+    point cursor;
     std::vector<curseline> line;
 };
 

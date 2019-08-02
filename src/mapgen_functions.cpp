@@ -4629,7 +4629,7 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
     std::shuffle( std::begin( tripoints ), std::end( tripoints ), rng_get_engine() );
 
     bool all_can_be_placed = false;
-    tripoint shift( 0, 0, 0 );
+    tripoint shift;
     int match_count = 0;
 
     // Find a tripoint where all the underground tripoints for stairs are on

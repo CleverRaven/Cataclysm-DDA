@@ -349,7 +349,8 @@ void monster::try_upgrade( bool pin_time )
             upgrade_time += current_day;
         } else {
             // offset by starting season
-            upgrade_time += calendar::start_of_cataclysm;
+            // @todo revisit this and make it simpler
+            upgrade_time += to_turn<int>( calendar::start_of_cataclysm );
         }
     }
 
@@ -1484,6 +1485,11 @@ void monster::die_in_explosion( Creature *source )
 {
     hp = -9999; // huge to trigger explosion and prevent corpse item
     die( source );
+}
+
+bool monster::movement_impaired()
+{
+    return effect_cache[MOVEMENT_IMPAIRED];
 }
 
 bool monster::move_effects( bool )

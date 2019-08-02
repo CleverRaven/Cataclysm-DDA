@@ -290,9 +290,18 @@ int rl_dist( const tripoint &loc1, const tripoint &loc2 )
 
 int manhattan_dist( const point &loc1, const point &loc2 )
 {
-    const int dx = abs( loc1.x - loc2.x );
-    const int dy = abs( loc1.y - loc2.y );
-    return dx + dy;
+    const point d = abs( loc1 - loc2 );
+    return d.x + d.y;
+}
+
+double atan2( const point &p )
+{
+    return atan2( static_cast<double>( p.y ), static_cast<double>( p.x ) );
+}
+
+double atan2_degrees( const point &p )
+{
+    return atan2( p ) * 180.0 / M_PI;
 }
 
 // This more general version of this function gives correct values for larger values.

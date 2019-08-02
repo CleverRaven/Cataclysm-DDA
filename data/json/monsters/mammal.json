@@ -500,7 +500,7 @@
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "special_attacks": [ [ "EAT_FOOD", 100 ], [ "PARROT", 0 ] ],
+    "special_attacks": [ [ "EAT_FOOD", 100 ], [ "PARROT_AT_DANGER", 0 ] ],
     "flags": [
       "ANIMAL",
       "DOGFOOD",

@@ -1428,6 +1428,9 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                     if( !liquid.charges ) {
                         act_ref.set_to_null();
                     } else {
+                        if( act_ref.str_values.empty() ) {
+                            act_ref.str_values.push_back( std::string() );
+                        }
                         act_ref.str_values.at( 0 ) = serialize( liquid );
                     }
                 } else {
@@ -1935,7 +1938,7 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
     p->consume_charges( it, it.type->charges_to_use() );
     p->practice( skill_survival, act->index, 5 );
 
-    actor->resolve_firestarter_use( *p, act->placement );
+    firestarter_actor::resolve_firestarter_use( *p, act->placement );
     act->set_to_null();
 }
 
@@ -2403,7 +2406,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
         // TODO: Allow setting this in the actor
         // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
-        if( !used_tool->ammo_sufficient() ) {
+        if( !used_tool->units_sufficient( *p ) ) {
             p->add_msg_if_player( _( "Your %s ran out of charges" ), used_tool->tname() );
             act->set_to_null();
             return;

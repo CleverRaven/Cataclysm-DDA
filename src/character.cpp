@@ -118,7 +118,7 @@ static const trait_id debug_nodmg( "DEBUG_NODMG" );
 
 // *INDENT-OFF*
 Character::Character() :
-    Creature(),
+
     visitable<Character>(),
     hp_cur( {{ 0 }} ),
     hp_max( {{ 0 }} ),
@@ -801,11 +801,7 @@ bool Character::has_active_bionic( const bionic_id &b ) const
 
 bool Character::has_any_bionic() const
 {
-    bionic_collection tmp_collec = *my_bionics;
-    if( !tmp_collec.empty() ) {
-        return true;
-    }
-    return false;
+    return !my_bionics->empty();
 }
 
 std::vector<item_location> Character::nearby( const
@@ -2690,7 +2686,7 @@ bool Character::is_immune_field( const field_type_id fid ) const
         return true;
     }
     // Check to see if we are immune
-    const field_type ft = fid.obj();
+    const field_type &ft = fid.obj();
     for( const trait_id &t : ft.immunity_data_traits ) {
         if( has_trait( t ) ) {
             return true;
