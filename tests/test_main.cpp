@@ -129,7 +129,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     }
     init_colors();
 
-    g.reset( new game );
+    g = std::make_unique<game>( );
     g->new_game = true;
     g->load_static_data();
 

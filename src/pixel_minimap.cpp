@@ -4,6 +4,7 @@
 
 #include <assert.h>
 #include <stdlib.h>
+#include <memory>
 #include <set>
 #include <vector>
 #include <algorithm>
@@ -379,7 +380,7 @@ void pixel_minimap::set_screen_rect( const SDL_Rect &screen_rect )
     cache.clear();
 
     main_tex = create_cache_texture( renderer, clip_rect.w, clip_rect.h );
-    tex_pool.reset( new shared_texture_pool() );
+    tex_pool = std::make_unique<shared_texture_pool>();
 
     for( auto &elem : tex_pool->texture_pool ) {
         elem = create_cache_texture( renderer, tile_size.x * SEEX, tile_size.y * SEEY );

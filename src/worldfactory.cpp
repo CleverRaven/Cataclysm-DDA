@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <iterator>
+#include <memory>
 #include <set>
 #include <sstream>
 #include <unordered_map>
@@ -276,7 +277,7 @@ void worldfactory::init()
         worldname = native_to_utf8( world_dir.substr( name_index + 1 ) );
 
         // create and store the world
-        all_worlds[worldname].reset( new WORLD() );
+        all_worlds[worldname] = std::make_unique<WORLD>();
         // give the world a name
         all_worlds[worldname]->world_name = worldname;
         // add sav files
