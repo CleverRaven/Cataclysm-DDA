@@ -11602,6 +11602,22 @@ std::vector<const item *> player::all_items_with_flag( const std::string &flag )
     } );
 }
 
+item player::item_with_best_of_quality(quality_id qid)
+{
+    int maxq = max_quality(qid);
+    item res_item;
+    auto items_with_quality = items_with([qid](const item & it) {
+        return it.has_quality(qid);
+        });
+    for (item* it : items_with_quality) {
+        if (it->get_quality(qid) == maxq) {
+            res_item = *it;
+            break;
+        }
+    }
+    return res_item;
+}
+
 bool player::has_item_with_flag( const std::string &flag, bool need_charges ) const
 {
     return has_item_with( [&flag, &need_charges]( const item & it ) {

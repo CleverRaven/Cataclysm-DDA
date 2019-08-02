@@ -217,20 +217,23 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
     } else if( newit.made_of_from_type( LIQUID ) ) {
         if( newit.has_flag( "FROZEN" ) ) {
             if( u.has_quality( quality_id( "HAMMER" ) ) ) {
-                int units = newit.charges;
+                item hammering_item = u.item_with_best_of_quality(quality_id("HAMMER"));
                 std::string action = query_popup()
                                      .context( "YESNO" )
-                                     .message( _( "Do you want to gather %d %s?" ), units, newit.display_name() )
+                                     .message( _( "Do you want to crush up %s with your %s?\n" + colorize("Be wary of fragile items nearby!", color_from_string("red"))), newit.display_name(), hammering_item.display_name() )
                                      .option( "YES" )
                                      .option( "NO" )
                                      .cursor( 1 )
                                      .query()
                                      .action;
                 if( action == "YES" ) {
+                    int smashskill = u.str_cur + hammering_item.damage_melee(DT_BASH);
+                    g->m.bash(loc.position(), smashskill, false, false, false);
                     option = STASH;
+                    add_msg(_("You crush up and gather %s with your %s."), newit.display_name(), hammering_item.display_name());
                 }
             } else {
-                popup( _( "You need a hammering tool to chip frozen liquids!" ) );
+                popup( _( "You need a hammering tool to crush up frozen liquids!" ) );
                 got_water = true;
             }
         } else {

@@ -1336,6 +1336,9 @@ class player : public Character
         // Carried items may leak radiation or chemicals
         int  leak_level( const std::string &flag ) const;
 
+        /** Returns the item in the player's inventory with the highest of the specified quality*/
+        item item_with_best_of_quality(quality_id qid);
+
         // Has a weapon, inventory item or worn item with flag
         bool has_item_with_flag( const std::string &flag, bool need_charges = false ) const;
 
