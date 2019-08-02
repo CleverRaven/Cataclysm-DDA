@@ -26,7 +26,7 @@
 #include "debug.h"
 #include "effect.h" // for weed_msg
 #include "explosion.h"
-#include "event.h"
+#include "timed_event.h"
 #include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -2421,8 +2421,9 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
                                  pgettext( "memorial_female", "Set off an alarm." ) );
             sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                            "alarm" );
-            if( !g->events.queued( EVENT_WANTED ) ) {
-                g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p->global_sm_location() );
+            if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
+                g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
+                                     p->global_sm_location() );
             }
         }
     } else {
@@ -4921,7 +4922,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_LIGHT:
                 p->add_msg_if_player( _( "The %s glows brightly!" ), it->tname() );
-                g->events.add( EVENT_ARTIFACT_LIGHT, calendar::turn + 3_minutes );
+                g->timed_events.add( TIMED_EVENT_ARTIFACT_LIGHT, calendar::turn + 3_minutes );
                 break;
 
             case AEA_GROWTH: {
@@ -5000,7 +5001,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_DIM:
                 p->add_msg_if_player( _( "The sky starts to dim." ) );
-                g->events.add( EVENT_DIM, calendar::turn + 5_minutes );
+                g->timed_events.add( TIMED_EVENT_DIM, calendar::turn + 5_minutes );
                 break;
 
             case AEA_FLASH:

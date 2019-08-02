@@ -20,7 +20,7 @@
 #include "bodypart.h"
 #include "debug.h"
 #include "effect.h"
-#include "event.h"
+#include "timed_event.h"
 #include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -3086,8 +3086,8 @@ bool mattack::photograph( monster *z )
         const SpeechBubble &speech = get_speech( z->type->id.str() );
         sounds::sound( z->pos(), speech.volume, sounds::sound_t::alert, speech.text );
     }
-    g->events.add( EVENT_ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ), 0,
-                   g->u.global_sm_location() );
+    g->timed_events.add( TIMED_EVENT_ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ), 0,
+                         g->u.global_sm_location() );
 
     return true;
 }
