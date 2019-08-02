@@ -2874,6 +2874,24 @@
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ]
   },
   {
+    "id": "claw_bar",
+    "type": "TOOL",
+    "name": "claw bar",
+    "description": "This is a small prying tool with a clawed bend at one end for pulling spikes.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
+    "weight": 340,
+    "volume": "375 ml",
+    "price": 1000,
+    "to_hit": 1,
+    "bashing": 10,
+    "cutting": 1,
+    "material": "steel",
+    "symbol": ";",
+    "color": "dark_gray",
+    "qualities": [ [ "PRY", 2 ], [ "HAMMER", 1 ] ],
+    "use_action": [ "CROWBAR", "HAMMER" ],
+    "flags": [ "BELT_CLIP" ]
+  },
+  {
     "id": "hand_drill",
     "type": "TOOL",
     "name": "hand drill",
