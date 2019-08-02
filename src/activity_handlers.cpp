@@ -3014,7 +3014,6 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                     if( body_part( act->values[i] ) == bp_eyes ) {
                         p->add_effect( effect_blind, 1_hours, num_bp );
                     }
-                    p->remove_effect( effect_under_op, body_part( act->values[i] ) );
                 }
             } else {
                 p->add_effect( effect_bleed, 1_turns, num_bp, true, difficulty );
@@ -3156,6 +3155,7 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
                      _( "The operation is a failure." ) );
         }
     }
+    p->remove_effect( effect_under_op );
     act->set_to_null();
 }
 
