@@ -2101,9 +2101,9 @@ void talk_effect_fun_t::set_npc_gets_item( bool to_use )
 
 void talk_effect_fun_t::set_add_mission( const std::string mission_id )
 {
-    function = [mission_id](const dialogue & d) {
+    function = [mission_id]( const dialogue & d ) {
         npc &p = *d.beta;
-        mission *miss = mission::reserve_new(mission_type_id(mission_id), p.getID());
+        mission *miss = mission::reserve_new( mission_type_id( mission_id ), p.getID() );
         miss->assign( g->u );
         p.chatbin.missions_assigned.push_back( miss );
     };
