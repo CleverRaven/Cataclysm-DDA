@@ -4,6 +4,7 @@
 #include "ClangTidyModuleRegistry.h"
 #include "NoLongCheck.h"
 #include "PointInitializationCheck.h"
+#include "XYCheck.h"
 
 namespace clang
 {
@@ -18,6 +19,7 @@ class CataModule : public ClangTidyModule
         void addCheckFactories( ClangTidyCheckFactories &CheckFactories ) override {
             CheckFactories.registerCheck<NoLongCheck>( "cata-no-long" );
             CheckFactories.registerCheck<PointInitializationCheck>( "cata-point-initialization" );
+            CheckFactories.registerCheck<XYCheck>( "cata-xy" );
         }
 };
 

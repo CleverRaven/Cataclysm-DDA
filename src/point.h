@@ -11,6 +11,7 @@
 class JsonOut;
 class JsonIn;
 
+// NOLINTNEXTLINE(cata-xy)
 struct point {
     int x = 0;
     int y = 0;
@@ -111,6 +112,7 @@ inline point abs( const point &p )
     return point( abs( p.x ), abs( p.y ) );
 }
 
+// NOLINTNEXTLINE(cata-xy)
 struct tripoint {
     int x = 0;
     int y = 0;

@@ -398,6 +398,7 @@ static bool msg_type_from_name( game_message_type &type, const std::string &name
 
 namespace Messages
 {
+// NOLINTNEXTLINE(cata-xy)
 class dialog
 {
     public:
