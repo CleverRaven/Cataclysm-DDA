@@ -3003,7 +3003,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     const time_duration half_op_duration = difficulty * 10_minutes;
     time_duration time_left = time_duration::from_turns( act->moves_left / 100 ) ;
 
-    if( autodoc ) {
+    if( autodoc && g->m.inbounds( p->pos() ) ) {
         const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
                                              furn_str_id( "f_autodoc" ) );
 
@@ -3018,7 +3018,6 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                                           _( "The Autodoc's failure damages you greatly." ),
                                           _( "The Autodoc's failure damages <npcname> greatly." ) );
             }
-
             if( act->values.size() > 4 ) {
                 for( size_t i = 4; i < act->values.size(); i++ ) {
                     p->add_effect( effect_bleed, 1_turns, body_part( act->values[i] ), true, difficulty );
@@ -3033,7 +3032,6 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                     if( body_part( act->values[i] ) == bp_eyes ) {
                         p->add_effect( effect_blind, 1_hours, num_bp );
                     }
-                    p->remove_effect( effect_under_op, body_part( act->values[i] ) );
                 }
             } else {
                 p->add_effect( effect_bleed, 1_turns, num_bp, true, difficulty );
@@ -3120,6 +3118,19 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                                       _( "The Autodoc is moving erratically through the rest of its program, not actually stitching <npcname>'s wounds." ) );
         }
     }
+
+    // Makes sure NPC is still under anesthesia
+    if( p->has_effect( effect_narcosis ) ) {
+        const time_duration remaining_time = p->get_effect_dur( effect_narcosis );
+        if( remaining_time <= time_left ) {
+            const time_duration top_off_time = time_left - remaining_time;
+            p->add_effect( effect_narcosis, top_off_time );
+            p->add_effect( effect_sleep, top_off_time );
+        }
+    } else {
+        p->add_effect( effect_narcosis, time_left );
+        p->add_effect( effect_sleep, time_left );
+    }
     p->set_moves( 0 );
 }
 
@@ -3162,6 +3173,7 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
                      _( "The operation is a failure." ) );
         }
     }
+    p->remove_effect( effect_under_op );
     act->set_to_null();
 }
 
