@@ -399,7 +399,7 @@ def extract_gunmod(item):
             writestr(outfile, fire_mode[1])
     if "location" in item:
         location = item.get("location")
-        writestr(outfile, location)
+        writestr(outfile, location, context="gunmod")
     if "mod_targets" in item:
         for target in item["mod_targets"]:
             writestr(outfile, target, context="gun_type_type")
