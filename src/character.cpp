@@ -611,6 +611,8 @@ void Character::process_turn()
     }
 
     Creature::process_turn();
+
+    check_item_encumbrance_flag();
 }
 
 void Character::recalc_hp()
@@ -794,6 +796,10 @@ void Character::check_item_encumbrance_flag()
             update_required = true;
         }
         i.unset_flag( "ENCUMBRANCE_UPDATE" );
+    }
+
+    if( update_required ) {
+        reset_encumbrance();
     }
 }
 
