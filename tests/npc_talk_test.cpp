@@ -744,8 +744,15 @@ TEST_CASE( "npc_talk_bionics", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a u_has_bionics bio_ads test response." );
     CHECK( d.responses[2].text == "This is a npc_has_bionics ANY response." );
+}
+
+TEST_CASE( "npc_talk_effects", "[npc_talk]" )
+{
+    dialogue d;
+    npc &talker_npc = prep_test( d );
 
     // speaker effects just use are owed because I don't want to do anything complicated
+    g->u.cash = 1000;
     talker_npc.op_of_u.owed = 2000;
     CHECK( talker_npc.op_of_u.owed == 2000 );
     d.add_topic( "TALK_TEST_SPEAKER_EFFECT_SIMPLE" );
