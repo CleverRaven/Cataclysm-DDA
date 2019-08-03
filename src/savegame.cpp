@@ -575,6 +575,23 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                 nearby.push_back( {  0, hospital,          -2, hospital_entrance, hospital + "_8_north" } );
                 nearby.push_back( {  2, hospital,          -2, hospital,          hospital + "_9_north" } );
             }
+			
+        } else if( old == "sewage_treatment" ) {
+            new_id = oter_id( "sewage_treatment_1_1_0_north" );	
+        } else if( old == "sewage_treatment_under" ) {
+            const std::string base = "sewage_treatment_under";
+            const std::string other = "sewage_treatment_hub";
+                nearby.push_back( {  1, other,  0, base,  "sewage_treatment_0_0_-1_north" } );
+                nearby.push_back( { -1, other,  0, base,  "sewage_treatment_0_0_-1_north" } );
+                nearby.push_back( {  2, base,  -1, other, "sewage_treatment_0_0_-1_north" } );
+                nearby.push_back( {  0, other, -1, other, "sewage_treatment_0_0_-1_north" } );
+                nearby.push_back( { -2, base,  -1, other, "sewage_treatment_0_0_-1_north" } );
+                nearby.push_back( {  0, other,  1, other, "sewage_treatment_0_0_-1_north" } );
+                nearby.push_back( {  1, other,  1, other, "sewage_treatment_0_0_-1_north" } );
+                nearby.push_back( { -1, other,  1, other, "sewage_treatment_0_0_-1_north" } );
+        } else if( old == "sewage_treatment_hub" ) {
+            new_id = oter_id( "sewage_treatment_1_0_-1_north" );
+			
         } else if( old == "cathedral_1_entrance" ) {
             const std::string base = "cathedral_1_";
             const std::string other = "cathedral_1";
