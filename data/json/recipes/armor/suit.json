@@ -569,18 +569,43 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
-    "difficulty": 6,
+    "difficulty": 5,
+    "skills_required": [ "fabrication", 6 ],
     "time": "3080 m",
     "autolearn": true,
-    "byproducts": [ [ "rag", 2 ], [ "scrap_cotton", 15 ], [ "scrap_kevlar", 175 ] ],
-    "tools": [ [ [ "tailoring_pattern_set", -1 ] ] ],
     "using": [
+      [ "sewing_standard", 50 ],
       [ "waterproofing_cloth", 2 ],
-      [ "tailoring_cotton", 15 ],
-      [ "tailoring_kevlar", 15 ],
-      [ "armor_kevlar_plate", 6 ],
-      [ "fastener_small", 6 ],
-      [ "fastener_large", 1 ]
+      [ "tailoring_kevlar", 4 ],
+      [ "tailoring_cotton_patchwork", 6 ],
+      [ "tailoring_leather_small", 4 ],
+      [ "fastener_small", 4 ]
+    ],
+    "components": [
+      [ [ "jumpsuit", 1 ] ],
+      [
+        [ "coat_rain", 1 ],
+        [ "jacket_windbreaker", 1 ],
+        [ "jacket_evac", 1 ],
+        [ "coat_gut", 1 ],
+        [ "tarp", 1 ],
+        [ "folding_poncho", 1 ],
+        [ "folding_poncho_on", 1 ]
+      ],
+      [
+        [ "chestrig", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "police_belt", 1 ],
+        [ "ragpouch", 1 ],
+        [ "leather_pouch", 1 ],
+        [ "dump_pouch", 1 ],
+        [ "fanny", 1 ]
+      ],
+      [ [ "duct_tape", 200 ] ],
+      [ [ "superglue", 4 ] ],
+      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ]
     ]
   },
   {
