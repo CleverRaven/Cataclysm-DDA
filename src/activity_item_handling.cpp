@@ -1456,7 +1456,9 @@ static void construction_activity( player &p, const zone_data *zone, const tripo
     pc.id = built_chosen.id;
     pc.counter = 0;
     // Set the trap that has the examine function
-    g->m.trap_set( src_loc, tr_unfinished_construction );
+    if( g->m.tr_at( src_loc ).loadid == tr_null ) {
+        g->m.trap_set( src_loc, tr_unfinished_construction );
+    }
     // Use up the components
     for( const std::vector<item_comp> &it : built_chosen.requirements->get_components() ) {
         std::list<item> tmp = p.consume_items( it, 1, is_crafting_component );
