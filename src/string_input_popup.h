@@ -41,7 +41,7 @@ class utf8_wrapper;
  * ignored and the returned string is never longer than this.
  * @param only_digits Whether to only allow digits in the string.
  */
-class string_input_popup
+class string_input_popup // NOLINT(cata-xy)
 {
     private:
         std::string _title;

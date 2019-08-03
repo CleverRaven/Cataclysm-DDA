@@ -436,8 +436,6 @@ class item : public visitable<item>
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
 
-        // Legacy function, don't use.
-        void load_info( const std::string &data );
         const std::string &symbol() const;
         /**
          * Returns the monetary value of an item.
@@ -446,6 +444,14 @@ class item : public visitable<item>
          */
         int price( bool practical ) const;
 
+        /**
+         * Whether two items should stack when displayed in a inventory menu.
+         * This is different from stacks_with, when two previously non-stackable
+         * items are now stackable and mergeable because, for example, they
+         * reaches the same temperature. This is necessary to avoid misleading
+         * stacks like "3 items-count-by-charge (5)".
+         */
+        bool display_stacked_with( const item &rhs, bool check_components = false ) const;
         bool stacks_with( const item &rhs, bool check_components = false ) const;
         /**
          * Merge charges of the other item into this item.
@@ -2054,9 +2060,9 @@ class item : public visitable<item>
          */
         time_duration rot = 0_turns;
         /** Time when the rot calculation was last performed. */
-        time_point last_rot_check = calendar::time_of_cataclysm;
+        time_point last_rot_check = calendar::turn_zero;
         /** the last time the temperature was updated for this item */
-        time_point last_temp_check = calendar::time_of_cataclysm;
+        time_point last_temp_check = calendar::turn_zero;
         /// The time the item was created.
         time_point bday;
         /**

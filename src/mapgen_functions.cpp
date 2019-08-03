@@ -2057,7 +2057,7 @@ void mapgen_parking_lot( map *m, oter_id, mapgendata dat, const time_point &turn
 void house_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata &dat )
 {
     // TODO: change this into a parameter
-    const time_point turn = calendar::time_of_cataclysm;
+    const time_point turn = calendar::turn_zero;
     int pos_x1 = 0;
     int pos_y1 = 0;
 
@@ -4146,11 +4146,22 @@ void mapgen_lake_shore( map *m, oter_id, mapgendata dat, const time_point &turn,
     bool did_extend_adjacent_terrain = false;
     if( !dat.region.overmap_lake.shore_extendable_overmap_terrain.empty() ) {
         std::map<oter_id, int> adjacent_type_count;
-        for( auto &adjacent : dat.t_nesw ) {
+        for( oter_id &adjacent : dat.t_nesw ) {
+            // Define the terrain we'll look for a match on.
+            oter_id match = adjacent;
+
+            // Check if this terrain has an alias to something we actually will extend, and if so, use it.
+            for( auto &alias : dat.region.overmap_lake.shore_extendable_overmap_terrain_aliases ) {
+                if( is_ot_match( alias.overmap_terrain, adjacent, alias.match_type ) ) {
+                    match = alias.alias;
+                    break;
+                }
+            }
+
             if( std::find( dat.region.overmap_lake.shore_extendable_overmap_terrain.begin(),
                            dat.region.overmap_lake.shore_extendable_overmap_terrain.end(),
-                           adjacent ) != dat.region.overmap_lake.shore_extendable_overmap_terrain.end() ) {
-                adjacent_type_count[adjacent] += 1;
+                           match ) != dat.region.overmap_lake.shore_extendable_overmap_terrain.end() ) {
+                adjacent_type_count[match] += 1;
             }
         }
 
@@ -4618,7 +4629,7 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
     std::shuffle( std::begin( tripoints ), std::end( tripoints ), rng_get_engine() );
 
     bool all_can_be_placed = false;
-    tripoint shift( 0, 0, 0 );
+    tripoint shift;
     int match_count = 0;
 
     // Find a tripoint where all the underground tripoints for stairs are on

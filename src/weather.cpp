@@ -127,8 +127,7 @@ inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
     }
 
     // TODO: Change this sunlight "sampling" here into a proper interpolation
-    const float tick_sunlight = calendar( to_turn<int>( t ) ).sunlight() + weather::light_modifier(
-                                    wtype );
+    const float tick_sunlight = sunlight( t ) + weather::light_modifier( wtype );
     data.sunlight += std::max<float>( 0.0f, to_turns<int>( tick_size ) * tick_sunlight );
 }
 
@@ -617,7 +616,7 @@ std::string weather_forecast( const point &abs_sm_pos )
     double low = 100.0;
     const tripoint abs_ms_pos = tripoint( sm_to_ms_copy( abs_sm_pos ), 0 );
     // TODO: wind direction and speed
-    const time_point last_hour = calendar::turn - ( calendar::turn - calendar::time_of_cataclysm ) %
+    const time_point last_hour = calendar::turn - ( calendar::turn - calendar::turn_zero ) %
                                  1_hours;
     for( int d = 0; d < 6; d++ ) {
         weather_type forecast = WEATHER_NULL;
@@ -631,7 +630,7 @@ std::string weather_forecast( const point &abs_sm_pos )
         std::string day;
         bool started_at_night;
         const time_point c = last_hour + 12_hours * d;
-        if( d == 0 && calendar( to_turn<int>( c ) ).is_night() ) {
+        if( d == 0 && is_night( c ) ) {
             day = _( "Tonight" );
             started_at_night = true;
         } else {
@@ -977,7 +976,7 @@ void weather_manager::update_weather()
         weather = weather_override == WEATHER_NULL ?
                   weather_gen.get_weather_conditions( w )
                   : weather_override;
-        if( weather == WEATHER_SUNNY && calendar::turn.is_night() ) {
+        if( weather == WEATHER_SUNNY && is_night( calendar::turn ) ) {
             weather = WEATHER_CLEAR;
         }
         sfx::do_ambient();

@@ -79,7 +79,7 @@ int base_camps::max_upgrade_by_type( const std::string &type )
     return max_upgrade_cache[type];
 }
 
-basecamp::basecamp(): bb_pos( tripoint_zero )
+basecamp::basecamp()
 {
 }
 

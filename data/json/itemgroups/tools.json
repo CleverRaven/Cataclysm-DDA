@@ -52,6 +52,7 @@
       [ "bucket", 5 ],
       [ "jumper_cable", 10 ],
       [ "funnel", 50 ],
+      [ "claw_bar", 2 ],
       [ "crowbar", 10 ],
       [ "thermometer", 5 ],
       [ "multitool", 10 ],
@@ -112,6 +113,7 @@
     "items": [
       { "group": "tools_common", "prob": 100 },
       [ "wrench", 200 ],
+      [ "claw_bar", 2 ],
       [ "crowbar", 10 ],
       [ "pliers", 200 ],
       [ "bucket", 50 ],
@@ -149,7 +151,7 @@
     "id": "tools_entry",
     "type": "item_group",
     "//": "Tools used for forcing entry into a building",
-    "items": [ [ "boltcutters", 30 ], [ "crowbar", 50 ], [ "hammer_sledge", 20 ], [ "halligan", 10 ] ]
+    "items": [ [ "boltcutters", 30 ], [ "crowbar", 50 ], [ "claw_bar", 25 ], [ "hammer_sledge", 20 ], [ "halligan", 10 ] ]
   },
   {
     "id": "tools_home",
