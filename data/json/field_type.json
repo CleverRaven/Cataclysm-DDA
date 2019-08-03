@@ -169,7 +169,7 @@
     "id": "fd_rubble",
     "type": "field_type",
     "legacy_enum_id": 11,
-    "intensity_levels": [ { "name": "legacy_rubble", "sym": "#", "color": "dark_gray" } ],
+    "intensity_levels": [ { "name": "legacy rubble", "sym": "#", "color": "dark_gray" } ],
     "half_life": "1 turns",
     "phase": "solid",
     "display_items": false,
@@ -442,7 +442,7 @@
     "type": "field_type",
     "legacy_enum_id": 30,
     "intensity_levels": [
-      { "name": "hemolymphd splatter", "color": "light_gray" },
+      { "name": "hemolymph splatter", "color": "light_gray" },
       { "name": "hemolymph stain" },
       { "name": "puddle of hemolymph" }
     ],

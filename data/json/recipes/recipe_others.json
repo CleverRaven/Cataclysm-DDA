@@ -3921,6 +3921,24 @@
   },
   {
     "type": "recipe",
+    "result": "fire_brick",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "40 m",
+    "autolearn": true,
+    "batch_time_factors": [ 70, 4 ],
+    "using": [ [ "earthenware_firing", 60 ] ],
+    "components": [
+      [ [ "clay_lump", 1 ] ],
+      [ [ "material_sand", 5 ] ],
+      [ [ "rock", 1 ], [ "pebble", 10 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "soft_adobe_brick",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",

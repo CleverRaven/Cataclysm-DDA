@@ -15,8 +15,8 @@ void dialogue_window::open_dialogue( bool text_only )
         this->text_only = true;
         return;
     }
-    int win_beginy = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
-    int win_beginx = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
+    int win_beginy = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
+    int win_beginx = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
     int maxy = win_beginy ? TERMY - 2 * win_beginy : FULL_SCREEN_HEIGHT;
     int maxx = win_beginx ? TERMX - 2 * win_beginx : FULL_SCREEN_WIDTH;
     d_win = catacurses::newwin( maxy, maxx, win_beginy, win_beginx );

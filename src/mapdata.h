@@ -281,7 +281,7 @@ struct map_data_common_t {
         bool connects( int &ret ) const;
 
         bool connects_to( int test_connect_group ) const {
-            return ( connect_group != TERCONN_NONE ) && ( connect_group == test_connect_group );
+            return connect_group != TERCONN_NONE && connect_group == test_connect_group;
         }
 
         int symbol() const;
@@ -536,6 +536,7 @@ extern furn_id f_null,
        f_flower_marloss,
        f_tatami,
        f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
+       f_arcfurnace_empty, f_arcfurnace_full,
        f_smoking_rack, f_smoking_rack_active, f_metal_smoking_rack, f_metal_smoking_rack_active,
        f_water_mill, f_water_mill_active,
        f_wind_mill, f_wind_mill_active,

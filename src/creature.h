@@ -27,6 +27,7 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
+class avatar;
 class field;
 class field_entry;
 class JsonObject;
@@ -86,6 +87,12 @@ class Creature
             return nullptr;
         }
         virtual const player *as_player() const {
+            return nullptr;
+        }
+        virtual avatar *as_avatar() {
+            return nullptr;
+        }
+        virtual const avatar *as_avatar() const {
             return nullptr;
         }
         /** return the direction the creature is facing, for sdl horizontal flip **/

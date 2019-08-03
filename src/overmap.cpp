@@ -788,7 +788,6 @@ bool oter_t::is_hardcoded() const
         "temple",
         "temple_finale",
         "temple_stairs",
-        "toxic_dump",
         "triffid_finale",
         "triffid_roots"
     };
@@ -2920,19 +2919,19 @@ void overmap::build_city_street( const overmap_connection &connection, const poi
                 right++;
             }
 
-            build_city_street( connection, iter->pos(), left, om_direction::turn_left( dir ),
+            build_city_street( connection, iter->pos, left, om_direction::turn_left( dir ),
                                town, new_width );
 
-            build_city_street( connection, iter->pos(), right, om_direction::turn_right( dir ),
+            build_city_street( connection, iter->pos, right, om_direction::turn_right( dir ),
                                town, new_width );
 
-            auto &oter = ter( tripoint( iter->pos(), 0 ) );
+            auto &oter = ter( tripoint( iter->pos, 0 ) );
             // TODO: Get rid of the hardcoded terrain ids.
             if( one_in( 2 ) && oter->get_line() == 15 && oter->type_is( oter_type_id( "road" ) ) ) {
                 oter = oter_id( "road_nesw_manhole" );
             }
         }
-        const tripoint rp( iter->x, iter->y, 0 );
+        const tripoint rp( iter->pos, 0 );
 
         if( !one_in( BUILDINGCHANCE ) ) {
             place_building( rp, om_direction::turn_left( dir ), town );
@@ -2949,9 +2948,9 @@ void overmap::build_city_street( const overmap_connection &connection, const poi
     if( cs >= 2 && c == 0 ) {
         const auto &last_node = street_path.nodes.back();
         const auto rnd_dir = om_direction::turn_random( dir );
-        build_city_street( connection, last_node.pos(), cs, rnd_dir, town );
+        build_city_street( connection, last_node.pos, cs, rnd_dir, town );
         if( one_in( 5 ) ) {
-            build_city_street( connection, last_node.pos(), cs, om_direction::opposite( rnd_dir ),
+            build_city_street( connection, last_node.pos, cs, om_direction::opposite( rnd_dir ),
                                town, new_width );
         }
     }
@@ -3264,7 +3263,7 @@ pf::path overmap::lay_out_connection( const overmap_connection &connection, cons
                                       const point &dest, int z, const bool must_be_unexplored ) const
 {
     const auto estimate = [&]( const pf::node & cur, const pf::node * prev ) {
-        const auto &id( get_ter( tripoint( cur.pos(), z ) ) );
+        const auto &id( get_ter( tripoint( cur.pos, z ) ) );
 
         const overmap_connection::subtype *subtype = connection.pick_subtype_for( id );
 
@@ -3277,7 +3276,7 @@ pf::path overmap::lay_out_connection( const overmap_connection &connection, cons
         // Only do this check if it needs to be unexplored and there isn't already a connection.
         if( must_be_unexplored && !existing_connection ) {
             // If this must be unexplored, check if we've already got a submap generated.
-            const bool existing_submap = is_omt_generated( tripoint( cur.x, cur.y, z ) );
+            const bool existing_submap = is_omt_generated( tripoint( cur.pos, z ) );
 
             // If there is an existing submap, this area has already been explored and this
             // isn't a valid placement.
@@ -3292,7 +3291,7 @@ pf::path overmap::lay_out_connection( const overmap_connection &connection, cons
         }
 
         if( prev && prev->dir != cur.dir ) { // Direction has changed.
-            const auto &prev_id( get_ter( tripoint( prev->pos(), z ) ) );
+            const auto &prev_id( get_ter( tripoint( prev->pos, z ) ) );
             const overmap_connection::subtype *prev_subtype = connection.pick_subtype_for( prev_id );
 
             if( !prev_subtype || !prev_subtype->allows_turns() ) {
@@ -3300,10 +3299,9 @@ pf::path overmap::lay_out_connection( const overmap_connection &connection, cons
             }
         }
 
-        const int dx = dest.x - cur.x;
-        const int dy = dest.y - cur.y;
-        const int dist = subtype->is_orthogonal() ? std::abs( dx ) + std::abs( dy ) : std::sqrt(
-                             dx * dx + dy * dy );
+        const int dist = subtype->is_orthogonal() ?
+                         manhattan_dist( dest, cur.pos ) :
+                         trig_dist( dest, cur.pos );
         const int existency_mult = existing_connection ? 1 : 5; // Prefer existing connections.
 
         return existency_mult * dist + subtype->basic_cost;
@@ -3381,7 +3379,7 @@ void overmap::build_connection( const overmap_connection &connection, const pf::
     om_direction::type prev_dir = initial_dir;
 
     for( const auto &node : path.nodes ) {
-        const tripoint pos( node.x, node.y, z );
+        const tripoint pos( node.pos, z );
         auto &ter_id( ter( pos ) );
         // TODO: Make 'node' support 'om_direction'.
         const om_direction::type new_dir( static_cast<om_direction::type>( node.dir ) );
@@ -3965,7 +3963,28 @@ void overmap::place_specials_pass( overmap_special_batch &enabled_specials,
 // and when a special reaches max instances it is also removed.
 void overmap::place_specials( overmap_special_batch &enabled_specials )
 {
+    // Calculate if this overmap has any lake terrain--if it doesn't, we should just
+    // completely skip placing any lake specials here since they'll never place and if
+    // they're mandatory they just end up causing us to spiral out into adjacent overmaps
+    // which probably don't have lakes either.
+    bool overmap_has_lake = false;
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT && !overmap_has_lake; z++ ) {
+        for( int x = 0; x < OMAPX && !overmap_has_lake; x++ ) {
+            for( int y = 0; y < OMAPY && !overmap_has_lake; y++ ) {
+                overmap_has_lake = ter( { x, y, z } )->is_lake();
+            }
+        }
+    }
+
     for( auto iter = enabled_specials.begin(); iter != enabled_specials.end(); ) {
+        // If this special has the LAKE flag and the overmap doesn't have any
+        // lake terrain, then remove this special from the candidates for this
+        // overmap.
+        if( iter->special_details->flags.count( "LAKE" ) > 0 && !overmap_has_lake ) {
+            iter = enabled_specials.erase( iter );
+            continue;
+        }
+
         if( iter->special_details->flags.count( "UNIQUE" ) > 0 ) {
             const int min = iter->special_details->occurrences.min;
             const int max = iter->special_details->occurrences.max;

@@ -1089,11 +1089,7 @@ bool player::has_enough_anesth( const itype *cbm )
         }
     }
 
-    if( amount <= anesth_count || b_filter.size() > 0 ) {
-        return true;
-    }
-
-    return false;
+    return amount <= anesth_count || b_filter.size() > 0;
 }
 
 // bionic manipulation adjusted skill

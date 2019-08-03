@@ -1708,6 +1708,27 @@
   },
   {
     "type": "vehicle_part",
+    "id": "towel_hanger",
+    "name": "towel hanger",
+    "symbol": "h",
+    "color": "brown",
+    "broken_symbol": "-",
+    "broken_color": "brown",
+    "damage_modifier": 10,
+    "description": "A towel hanger with towels.",
+    "durability": 45,
+    "folded_volume": "2500 ml",
+    "item": "towel_hanger",
+    "requirements": {
+      "install": { "time": 30000, "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": 2000, "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] }
+    },
+    "flags": [ "TOWEL", "FOLDABLE" ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 3 ] }, { "item": "rag", "count": [ 1, 6 ] } ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "kitchen_unit",
     "name": "kitchen unit",
     "symbol": "&",

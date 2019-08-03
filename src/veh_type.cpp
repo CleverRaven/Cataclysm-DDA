@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include <cstddef>
+#include <memory>
 #include <numeric>
 #include <sstream>
 #include <unordered_map>
@@ -325,6 +326,7 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     assign( jo, "size", def.size );
     assign( jo, "difficulty", def.difficulty );
     assign( jo, "bonus", def.bonus );
+    assign( jo, "cargo_weight_modifier", def.cargo_weight_modifier );
     assign( jo, "flags", def.flags );
     assign( jo, "description", def.description );
 
@@ -1059,7 +1061,7 @@ void vehicle_prototype::finalize()
         // Calls the default constructor to create an empty vehicle. Calling the constructor with
         // the type as parameter would make it look up the type in the map and copy the
         // (non-existing) blueprint.
-        proto.blueprint.reset( new vehicle() );
+        proto.blueprint = std::make_unique<vehicle>();
         vehicle &blueprint = *proto.blueprint;
         blueprint.type = id;
         blueprint.name = _( proto.name );

@@ -66,15 +66,69 @@
   },
   {
     "type": "martial_art",
+    "id": "style_boxing",
+    "name": "Boxing",
+    "description": "Sport of the true gentleman, modern boxing has evolved from the prizefights of the Victorian era.  Strength reduces blocked damage and moving increase dodge skill.",
+    "initiate": [ "You lower your chin and raise your fists to eye level.", "%s prepares to fight with raised fists." ],
+    "learn_difficulty": 1,
+    "arm_block": 1,
+    "static_buffs": [
+      {
+        "id": "buff_boxing_static",
+        "name": "Boxing Stance",
+        "description": "A solid stance allows you block more damage than normal and deliver better punches.\n\n+2 Bash damage, Blocked damge reduced by 50%% of Strength.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "block", "str", 0.5 ], [ "damage", "bash", 2.0 ] ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_boxing_onmove",
+        "name": "Footwork",
+        "description": "You are make yourself harder to hit by bobbing and weaving as you move.\n\n+1.0 Dodge skill.\nLasts for 1 turns.  Stacks 2 times.",
+        "min_unarmed": 3,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 2,
+        "flat_bonuses": [ [ "dodge", 1.0 ] ]
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "buff_boxing_ondodge",
+        "name": "Counter Chance",
+        "description": "You've seen your chance. Now strike back!\n\n+25% Bash damage.\nLasts for 1 turn.",
+        "min_unarmed": 5,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "mult_bonuses": [ [ "damage", "bash", 1.25 ] ]
+      }
+    ],
+    "techniques": [ "tec_boxing_rapid", "tec_boxing_cross", "tec_boxing_upper", "tec_boxing_counter" ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_brawling",
     "name": "Brawling",
-    "description": "You're used to hand-to-creature fighting.  Not stylish or sporting, but it gets the job done.",
+    "description": "You're used to hand-to-creature fighting.  You know how to fight when unarmed or with any weapon to a certain extent.  It's not stylish or sporting, but it gets the job done.",
     "initiate": [ "You grit your teeth and prepare for a good fight.", "%s gets ready to brawl." ],
-    "autolearn": [ [ "unarmed", "2" ] ],
-    "arm_block": -1,
+    "autolearn": [ [ "melee", "1" ] ],
+    "arm_block": 1,
     "leg_block": 7,
     "allow_melee": true,
-    "techniques": [ "tec_brawl_feint", "tec_brawl_power", "tec_brawl_trip", "tec_brawl_counter" ]
+    "techniques": [
+      "tec_brawl_disarm_unarmed",
+      "tec_brawl_feint_unarmed",
+      "tec_brawl_counter_unarmed",
+      "tec_brawl_break_unarmed",
+      "tec_brawl_power",
+      "tec_brawl_trip",
+      "tec_brawl_disarm_melee",
+      "tec_brawl_counter_melee",
+      "tec_brawl_feint_melee",
+      "tec_brawl_break_melee"
+    ]
   },
   {
     "type": "martial_art",
@@ -98,52 +152,6 @@
       }
     ],
     "techniques": [ "tec_karate_rapid", "tec_karate_precise" ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_boxing",
-    "name": "Boxing",
-    "description": "Sport of the true gentleman, modern boxing has evolved from the prizefights of the Victorian era.",
-    "initiate": [ "You lower your chin and raise your fists to eye level.", "%s prepares to fight with raised fists." ],
-    "learn_difficulty": 1,
-    "arm_block": 2,
-    "leg_block": 99,
-    "static_buffs": [
-      {
-        "id": "boxing_static",
-        "name": "Boxing",
-        "description": "Per increases unarmed power, Str reduces block damage.",
-        "unarmed_allowed": true,
-        "min_unarmed": 0,
-        "max_stacks": 1,
-        "flat_bonuses": [ [ "damage", "bash", "per", 0.4 ], [ "block", "str", 0.5 ] ]
-      }
-    ],
-    "onmove_buffs": [
-      {
-        "id": "boxing_move_buff",
-        "name": "Footwork",
-        "description": "Gain an extra dodge while moving.",
-        "unarmed_allowed": true,
-        "min_unarmed": 4,
-        "buff_duration": 2,
-        "max_stacks": 2,
-        "bonus_dodges": 1
-      }
-    ],
-    "ondodge_buffs": [
-      {
-        "id": "boxing_counter",
-        "name": "Counter Chance",
-        "description": "They're wide open!",
-        "min_unarmed": 5,
-        "unarmed_allowed": true,
-        "max_stacks": 2,
-        "buff_duration": 3,
-        "mult_bonuses": [ [ "damage", "bash", 1.25 ] ]
-      }
-    ],
-    "techniques": [ "tec_boxing_rapid", "tec_boxing_cross", "tec_boxing_upper", "tec_boxing_counter" ]
   },
   {
     "type": "martial_art",
@@ -1060,7 +1068,7 @@
       {
         "id": "medievalpole_move",
         "name": "You moved",
-        "description": "Nulifies Stand Your Ground, don't move, stand there and counter!",
+        "description": "Nullifies Stand Your Ground, don't move, stand there and counter!",
         "melee_allowed": true,
         "flat_bonuses": [ [ "block", "str", -1.0 ] ],
         "mult_bonuses": [ [ "dodge", 1.0 ] ],
