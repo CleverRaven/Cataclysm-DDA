@@ -3251,7 +3251,7 @@ void item::on_contents_changed()
         convert( type->container->unseals_into );
     }
 
-    set_flag("ENCUMBRANCE_UPDATE");
+    set_flag( "ENCUMBRANCE_UPDATE" );
 }
 
 void item::on_damage( int, damage_type )
@@ -6965,7 +6965,7 @@ bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
     }
 
     if( quantity != old_quantity ) {
-        on_contents_changed( );
+        on_contents_changed();
     }
 
     // Now check the item itself
