@@ -62,7 +62,7 @@
     "looks_like": "f_armchair",
     "symbol": "H",
     "description": "An airplane seat with a seatbelt.",
-    "color": "gray",
+    "color": "light_gray",
     "move_cost_mod": 1,
     "coverage": 45,
     "comfort": 3,
