@@ -43,6 +43,7 @@
       [ "mininuke", 10 ],
       [ "mutagen", 80 ],
       [ "optical_cloak", 20 ],
+      [ "holo_cloak", 20 ],
       [ "pickaxe", 10 ],
       [ "plasma", 80 ],
       [ "plasma_rifle", 10 ],

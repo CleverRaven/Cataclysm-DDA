@@ -674,6 +674,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```FIRE_50``` Uses 50 shots per firing.
 - ```FIRE_TWOHAND``` Gun can only be fired if player has two free hands.
 - ```IRREMOVABLE``` Makes so that the gunmod cannot be removed.
+- ```MECH_BAT```    This is an exotic battery designed to power military mechs.
+- ```MECH_WEAPON``` A built-in mech weapon, cannot be removed or have mods added / removed.
 - ```MOUNTED_GUN``` Gun can only be used on terrain / furniture with the "MOUNTABLE" flag.
 - ```NEVER_JAMS``` Never malfunctions.
 - ```NO_BOOM``` Cancels the ammo effect "FLAME".
@@ -903,6 +905,8 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```LARVA``` Creature is a larva. Currently used for gib and blood handling.
 - ```LEATHER``` May produce leather when butchered.
 - ```LOUDMOVES``` Mkes move noises as if ~2 sizes louder, even if flying.
+- ```MECH_RECON_VISION``` This mech grants you night-vision and enhanced overmap sight radius when piloted.
+- ```MILITARY_MECH``` Is a military-grade mech.
 - ```MILKABLE``` Produces milk when milked.
 - ```NIGHT_INVISIBILITY``` Monster becomes invisible if it's more than one tile away and the lighting on its tile is LL_LOW or less. Visibility is not affected by night vision.
 - ```NOGIB``` Does not leave gibs / meat chunks when killed with huge damage.
@@ -922,6 +926,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```REGENERATES_IN_DARK``` Monster regenerates very quickly in poorly lit tiles.
 - ```REGEN_MORALE``` Will stop fleeing if at max hp, and regen anger and morale.
 - ```REVIVES``` Monster corpse will revive after a short period of time.
+- ```RIDEABLE_MECH``` This monster is a mech suit that can be piloted.
 - ```SEES``` It can see you (and will run/follow).
 - ```SLUDGEPROOF``` Ignores the effect of sludge trails.
 - ```SLUDGETRAIL``` Causes the monster to leave a sludge trap trail when moving.
@@ -1006,6 +1011,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```NONE``` No special attack.
 - ```PARA_STING``` Shoot a paralyzing dart at the player.
 - ```PARROT``` Parrots the speech defined in `speech.json`, picks one of the lines randomly. "speaker" points to a monster id.
+- ```PARROT_AT_DANGER``` Performs the same function as PARROT, but only if the creature sees an angry monster from a hostile faction.
 - ```PHOTOGRAPH``` Photograph the player. Causes a robot attack?
 - ```PLANT``` Fungal spores take seed and grow into a fungaloid.
 - ```PULL_METAL_WEAPON``` Pull weapon that's made of iron or steel from the player's hand.
@@ -1023,7 +1029,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```SHRIEK_STUN``` "a stunning shriek!", causes a small bash, can cause a stun.
 - ```SHRIEK``` "a terrible shriek!"
 - ```SLIMESPRING``` Can provide a morale boost to the player, and cure bite and bleed effects.
-- ```SMASH``` Smashes the target for massive damage, sending it flying for a number of tiles equal to `("melee_dice" * "melee_dice_sides" * 3) / 10`. 
+- ```SMASH``` Smashes the target for massive damage, sending it flying for a number of tiles equal to `("melee_dice" * "melee_dice_sides" * 3) / 10`.
 - ```SMG``` SMG turret fires.
 - ```SPIT_SAP``` Spit sap.
 - ```STARE``` Stare at the player and inflict teleglow.
@@ -1079,6 +1085,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```CLASSIC``` Location is allowed when classic zombies are enabled.
 - ```FUNGAL``` Location is related to fungi. Used to classify location.
 - ```TRIFFID``` Location is related to triffids. Used to classify location.
+- ```LAKE``` Location is is placed on a lake and will be ignored for placement if the overmap doesn't contain any lake terrain.
 - ```UNIQUE``` Location is unique and will only occur once per overmap. `occurrences` is overridden to define a percent chance (e.g. `"occurrences" : [75, 100]` is 75%)
 
 ### Overmap terrains
@@ -1332,6 +1339,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```VARIABLE_SIZE``` Has 'bigness' for power, wheel radius, etc.
 - ```VISION```
 - ```WASHING_MACHINE``` Can be used to wash filthy clothes en masse.
+- ```DISHWASHER``` Can be used to wash filthy non-soft items en masse.
 - ```WATER_WHEEL``` Recharges vehicle batteries when in flowing water.
 - ```WATER_WHEEL``` Recharges vehicle batteries when submerged in moving water.
 - ```WELDRIG``` Acts as a welder for crafting.

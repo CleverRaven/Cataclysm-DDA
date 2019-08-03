@@ -774,6 +774,34 @@
       { "monster": "mon_turkey", "freq": 6, "cost_multiplier": 2, "pack_size": [ 1, 18 ] },
       { "monster": "mon_turkey", "freq": 9, "cost_multiplier": 2, "pack_size": [ 1, 18 ], "conditions": [ "DAY" ] },
       {
+        "monster": "mon_duck",
+        "freq": 4,
+        "cost_multiplier": 5,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_duck",
+        "freq": 6,
+        "cost_multiplier": 5,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "DAWN", "DAY", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_goose_canadian",
+        "freq": 4,
+        "cost_multiplier": 5,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_goose_canadian",
+        "freq": 6,
+        "cost_multiplier": 5,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "DAWN", "DAY", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
         "monster": "mon_raccoon",
         "freq": 8,
         "cost_multiplier": 0,
@@ -1826,6 +1854,20 @@
       },
       {
         "monster": "mon_duck",
+        "freq": 60,
+        "cost_multiplier": 5,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "DAWN", "DAY", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_goose_canadian",
+        "freq": 30,
+        "cost_multiplier": 5,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_goose_canadian",
         "freq": 60,
         "cost_multiplier": 5,
         "pack_size": [ 1, 4 ],
@@ -4585,6 +4627,7 @@
       { "monster": "mon_chipmunk", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_crow", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_deer", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_duck", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_dog", "freq": 1, "cost_multiplier": 1 },
       { "monster": "mon_dog_bull", "freq": 1, "cost_multiplier": 1 },
       { "monster": "mon_dog_auscattle", "freq": 1, "cost_multiplier": 1 },
@@ -4597,6 +4640,7 @@
       { "monster": "mon_dog_gshepherd", "freq": 1, "cost_multiplier": 1 },
       { "monster": "mon_fox_gray", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_fox_red", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_goose_canadian", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_groundhog", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_hare", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_rabbit", "freq": 10, "cost_multiplier": 1 },
@@ -5061,7 +5105,10 @@
     "name": "GROUP_POND_BIRD",
     "default": "mon_null",
     "is_animal": true,
-    "monsters": [ { "monster": "mon_duck", "freq": 50, "cost_multiplier": 0 } ]
+    "monsters": [
+      { "monster": "mon_duck", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_goose_canadian", "freq": 50, "cost_multiplier": 0 }
+    ]
   },
   {
     "type": "monstergroup",

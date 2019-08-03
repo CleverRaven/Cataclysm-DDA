@@ -101,7 +101,12 @@
         "|": "t_reinforced_glass"
       },
       "furniture": { "r": "f_rack" },
-      "items": { "r": { "item": "bunker_basement_loot", "chance": 15, "repeat": [ 1, 5 ] } }
+      "items": { "r": { "item": "bunker_basement_loot", "chance": 15, "repeat": [ 1, 5 ] } },
+      "place_monster": [
+        { "monster": "mon_mech_combat", "x": 5, "y": 5, "chance": 2 },
+        { "monster": "mon_mech_lifter", "x": 6, "y": 6, "chance": 5 },
+        { "monster": "mon_mech_recon", "x": 7, "y": 6, "chance": 3 }
+      ]
     }
   },
   {
