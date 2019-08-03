@@ -1678,7 +1678,7 @@ void options_manager::add_options_graphics()
 
     add( "MEMORY_MAP_MODE", "graphics", translate_marker( "Memory map drawing mode" ),
     translate_marker( "Specified the mode in which the memory map is drawn.  Requires restart." ), {
-        { "color_pixel_gray_out", translate_marker( "Classic (Gray)" ) },
+        { "color_pixel_darken", translate_marker( "Classic (Darkened)" ) },
         { "color_pixel_sepia", translate_marker( "Modern (Sepia)" ) }
     }, "color_pixel_sepia", COPT_CURSES_HIDE
        );

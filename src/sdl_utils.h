@@ -3,6 +3,7 @@
 #define SDL_UTILS_H
 
 #include <algorithm>
+#include <cmath>
 #include <unordered_map>
 
 #include "color.h"
@@ -102,7 +103,7 @@ inline SDL_Color color_pixel_overexposed( const SDL_Color &color )
     };
 }
 
-inline SDL_Color color_pixel_gray_out( const SDL_Color &color )
+inline SDL_Color color_pixel_darken( const SDL_Color &color )
 {
     if( is_black( color ) ) {
         return color;
