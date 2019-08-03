@@ -377,7 +377,7 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Prevents the item from participating in the encumbrance system when worn.",
-    "info": "It seems <info>partially intangible</info>, and can occupy the same space as other things."
+    "info": "It seems <info>partially intangible</info>, and can occupy the same space as other things when worn."
   },
   {
     "id": "SHEATH_KNIFE",
