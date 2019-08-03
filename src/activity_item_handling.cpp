@@ -674,7 +674,10 @@ void activity_on_turn_pickup()
     // Otherwise, we are done.
     if( !keep_going || g->u.activity.targets.empty() ) {
         g->u.cancel_activity();
-        // TODO: Move this to advanced inventory instead of hacking it in here
+    }
+
+    // TODO: Move this to advanced inventory instead of hacking it in here
+    if( !keep_going ) {
         cancel_aim_processing();
     }
 }
