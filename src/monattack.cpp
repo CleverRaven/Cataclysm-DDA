@@ -4378,7 +4378,7 @@ bool mattack::shadow_hunter( monster *z )
         return false;
     }
     //Hide and teleport randomly after being attacked or just randomly
-    if( ( damaged && one_in( 3 ) ) || ( one_in( 15 ) ) ) {
+    if( ( damaged && one_in( 3 ) ) || one_in( 15 ) ) {
         int tries = 0;
         int maxtries = 20;
         int telerange = 30;
