@@ -151,7 +151,8 @@ const std::map<std::string, m_flag> flag_map = {
     { "DRIPS_GASOLINE", MF_DRIPS_GASOLINE },
     { "ELECTRIC_FIELD", MF_ELECTRIC_FIELD },
     { "STUN_IMMUNE", MF_STUN_IMMUNE },
-    { "LOUDMOVES", MF_LOUDMOVES }
+    { "LOUDMOVES", MF_LOUDMOVES },
+    { "DROPS_AMMO", MF_DROPS_AMMO }
 };
 
 } // namespace
