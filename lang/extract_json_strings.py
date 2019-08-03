@@ -720,7 +720,7 @@ extract_specials = {
     "talk_topic": extract_talk_topic,
     "gate": extract_gate,
     "vehicle_spawn": extract_vehspawn,
-    "field_type": extract_field_type
+    "field_type": extract_field_type,
     "ter_furn_transform": extract_ter_furn_transform_messages
 }
 
