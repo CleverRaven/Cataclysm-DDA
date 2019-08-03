@@ -1353,6 +1353,48 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     coeff_air_changed = true;
 }
 
+void vehicle::use_autoclave( int p )
+{
+    auto items = get_items( p );
+    static const std::string filthy( "FILTHY" );
+    bool filthy_items = std::any_of( items.begin(), items.end(), []( const item & i ) {
+        return i.has_flag( filthy );
+    } );
+
+    bool cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
+        return i.is_bionic();
+    } );
+
+    if( parts[p].enabled ) {
+        parts[p].enabled = false;
+        add_msg( m_bad,
+                 _( "You turn the autoclave off before it's finished the program, and open its door." ) );
+    } else if( fuel_left( "water" ) < 8 && fuel_left( "water_clean" ) < 8 ) {
+        add_msg( m_bad, _( "You need 8 charges of water in tanks of the %s for the autoclave to run." ),
+                 name );
+    } else if( filthy_items ) {
+        add_msg( m_bad,
+                 _( "You need to remove all filthy items from the autoclave to start the sterilizing cycle." ) );
+    } else if( !cbms ) {
+        add_msg( m_bad,
+                 _( "Only CBMs can be sterilized in an autoclave." ) );
+    } else {
+        parts[p].enabled = true;
+        for( auto &n : items ) {
+            n.set_age( 0_turns );
+        }
+
+        if( fuel_left( "water" ) >= 8 ) {
+            drain( "water", 8 );
+        } else {
+            drain( "water_clean", 8 );
+        }
+
+        add_msg( m_good,
+                 _( "You turn the autoclave on and it starts its cycle." ) );
+    }
+}
+
 void vehicle::use_washing_machine( int p )
 {
     bool detergent_is_enough = g->u.crafting_inventory().has_charges( "detergent", 5 );
@@ -1536,6 +1578,10 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     const bool can_be_folded = is_foldable();
     const bool is_convertible = tags.count( "convertible" ) > 0;
     const bool remotely_controlled = g->remoteveh() == this;
+    const int autoclave_part = avail_part_with_feature( interact_part, "AUTOCLAVE", true );
+    const bool has_autoclave = autoclave_part >= 0;
+    bool autoclave_on = ( autoclave_part == -1 ) ? false :
+                        parts[autoclave_part].enabled;
     const int washing_machine_part = avail_part_with_feature( interact_part, "WASHING_MACHINE", true );
     const bool has_washmachine = washing_machine_part >= 0;
     bool washing_machine_on = ( washing_machine_part == -1 ) ? false :
@@ -1554,7 +1600,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
 
     enum {
         EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
-        USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE, USE_MONSTER_CAPTURE,
+        USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_AUTOCLAVE, USE_WASHMACHINE, USE_MONSTER_CAPTURE,
         USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, WORKBENCH, USE_TOWEL,
     };
     uilist selectmenu;
@@ -1567,6 +1613,11 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     if( has_electronics ) {
         selectmenu.addentry( CONTROL_ELECTRONICS, true, keybind( "CONTROL_MANY_ELECTRONICS" ),
                              _( "Control multiple electronics" ) );
+    }
+    if( has_autoclave ) {
+        selectmenu.addentry( USE_AUTOCLAVE, true, 'a',
+                             autoclave_on ? _( "Deactivate the autoclave" ) :
+                             _( "Activate the autoclave (1.5 hours)" ) );
     }
     if( has_washmachine ) {
         selectmenu.addentry( USE_WASHMACHINE, true, 'W',
@@ -1670,6 +1721,10 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         }
         case USE_TOWEL: {
             iuse::towel_common( &g->u, nullptr, false );
+            return;
+        }
+        case USE_AUTOCLAVE: {
+            use_autoclave( autoclave_part );
             return;
         }
         case USE_WASHMACHINE: {
