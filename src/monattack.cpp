@@ -4387,7 +4387,7 @@ bool mattack::shadow_hunter( monster *z )
             newpos.x = rng( z->posx() - telerange, z->posx() + telerange );
             newpos.y = rng( z->posy() - telerange, z->posy() + telerange );
             tries++;
-        } while( ( tries > maxtries ) &&
+        } while( tries < maxtries &&
                  ( g->is_in_sunlight( newpos ) || !g->is_empty( newpos ) ) );
         if( tries == maxtries ) {
             return false;
