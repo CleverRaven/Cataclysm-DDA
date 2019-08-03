@@ -3414,6 +3414,28 @@ void player::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
     on_hurt( source, disturb );
 }
 
+void player::hurt_parts( int dam, std::vector<body_part> bps, Creature *source, bool disturb )
+{
+    if( is_dead_state() || has_trait( trait_DEBUG_NODMG ) || dam <= 0 ) {
+        return;
+    }
+
+    for( const body_part &part : bps ) {
+        const hp_part bp = static_cast<hp_part>( part );
+        // Don't use apply_damage here or it will annoy the player with 6 queries
+        hp_cur[bp] -= dam;
+        lifetime_stats.damage_taken += dam;
+        if( hp_cur[bp] < 0 ) {
+            lifetime_stats.damage_taken += hp_cur[bp];
+            hp_cur[bp] = 0;
+        }
+    }
+
+    // Low pain: damage is spread all over the body, so not as painful as 6 hits in one part
+    mod_pain( dam );
+    on_hurt( source, disturb );
+}
+
 int player::hitall( int dam, int vary, Creature *source )
 {
     int damage_taken = 0;

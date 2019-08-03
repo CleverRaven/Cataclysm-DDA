@@ -804,6 +804,8 @@ class player : public Character
         void healall( int dam );
         /** Hurts all body parts for dam, no armor reduction */
         void hurtall( int dam, Creature *source, bool disturb = true );
+        /** Hurts specified body parts for dam, no armor reduction */
+        void hurt_parts( int dam, std::vector<body_part> bps, Creature *source, bool disturb = true );
         /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
         int hitall( int dam, int vary, Creature *source );
         /** Knocks the player to a specified tile */
