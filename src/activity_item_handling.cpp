@@ -1266,7 +1266,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
             // if it is, we can skip such item, if not we move the item to correct pile
             // think empty bag on food pile, after you ate the content
             if( !mgr.has( id, src ) ) {
-                const auto &dest_set = mgr.get_near( id, abspos );
+                const auto &dest_set = mgr.get_near( id, abspos, 60, thisitem );
 
                 for( auto &dest : dest_set ) {
                     const auto &dest_loc = g->m.getlocal( dest );

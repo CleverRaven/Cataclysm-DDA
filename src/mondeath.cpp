@@ -13,7 +13,7 @@
 
 #include "avatar.h"
 #include "explosion.h"
-#include "event.h"
+#include "timed_event.h"
 #include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -353,13 +353,11 @@ void mdeath::triffid_heart( monster &z )
     if( g->u.sees( z ) ) {
         add_msg( m_warning, _( "The surrounding roots begin to crack and crumble." ) );
     }
-    g->events.add( EVENT_ROOTS_DIE, calendar::turn + 10_minutes );
+    g->timed_events.add( TIMED_EVENT_ROOTS_DIE, calendar::turn + 10_minutes );
 }
 
 void mdeath::fungus( monster &z )
 {
-
-
     //~ the sound of a fungus dying
     sounds::sound( z.pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
 

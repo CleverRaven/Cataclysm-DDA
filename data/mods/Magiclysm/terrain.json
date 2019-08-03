@@ -48,5 +48,17 @@
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL"
+  },
+  {
+    "type": "terrain",
+    "id": "t_dirt_barren",
+    "name": "barren dirt",
+    "description": "It's dirt.  The ground here is infertile.  Could also be dug out for construction projects.",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "looks-like": "t_dirt",
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   }
 ]

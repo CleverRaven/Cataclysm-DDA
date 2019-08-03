@@ -72,8 +72,8 @@ void game::serialize( std::ostream &fout )
 
     json.start_object();
     // basic game state information.
-    json.member( "turn", static_cast<int>( calendar::turn ) );
-    json.member( "calendar_start", static_cast<int>( calendar::start ) );
+    json.member( "turn", calendar::turn );
+    json.member( "calendar_start", calendar::start_of_cataclysm );
     json.member( "initial_season", static_cast<int>( calendar::initial_season ) );
     json.member( "auto_travel_mode", auto_travel_mode );
     json.member( "run_mode", static_cast<int>( safe_mode ) );
@@ -198,7 +198,7 @@ void game::unserialize( std::istream &fin )
         data.read( "om_y", comy );
 
         calendar::turn = tmpturn;
-        calendar::start = tmpcalstart;
+        calendar::start_of_cataclysm = tmpcalstart;
 
         load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 

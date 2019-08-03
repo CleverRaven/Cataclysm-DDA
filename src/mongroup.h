@@ -106,8 +106,7 @@ struct mongroup {
         : type( ptype )
         , pos( ppos )
         , radius( prad )
-        , population( ppop )
-        , target() {
+        , population( ppop ) {
     }
     mongroup( const mongroup_id &ptype, int pposx, int pposy, int pposz,
               unsigned int prad, unsigned int ppop )
@@ -165,7 +164,7 @@ class MonsterGroupManager
         static void LoadMonsterBlacklist( JsonObject &jo );
         static void LoadMonsterWhitelist( JsonObject &jo );
         static void FinalizeMonsterGroups();
-        static MonsterGroupResult GetResultFromGroup( const mongroup_id &group, int *quantity = 0 );
+        static MonsterGroupResult GetResultFromGroup( const mongroup_id &group, int *quantity = nullptr );
         static bool IsMonsterInGroup( const mongroup_id &group, const mtype_id &id );
         static bool isValidMonsterGroup( const mongroup_id &group );
         static const mongroup_id &Monster2Group( const mtype_id &id );

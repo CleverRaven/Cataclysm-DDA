@@ -52,9 +52,9 @@ TEST_CASE( "gun_layer", "[item]" )
 TEST_CASE( "stacking_cash_cards", "[item]" )
 {
     // Differently-charged cash cards should stack if neither is zero.
-    item cash0( "cash_card", calendar::time_of_cataclysm, 0 );
-    item cash1( "cash_card", calendar::time_of_cataclysm, 1 );
-    item cash2( "cash_card", calendar::time_of_cataclysm, 2 );
+    item cash0( "cash_card", calendar::turn_zero, 0 );
+    item cash1( "cash_card", calendar::turn_zero, 1 );
+    item cash2( "cash_card", calendar::turn_zero, 2 );
     CHECK( !cash0.stacks_with( cash1 ) );
     CHECK( cash1.stacks_with( cash2 ) );
 }
