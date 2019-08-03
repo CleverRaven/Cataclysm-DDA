@@ -1168,105 +1168,219 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
     }
 }
 
-void activity_on_turn_move_loot( player_activity &, player &p )
+
+void activity_on_turn_move_loot( player_activity &act, player &p )
 {
-    const activity_id act_move_loot = activity_id( "ACT_MOVE_LOOT" );
-    auto &mgr = zone_manager::get_manager();
-    if( g->m.check_vehicle_zones( g->get_levz() ) ) {
-        mgr.cache_vzones();
+    enum activity_value_idx : int {
+        STAGE_IDX = 0,      //Current stage
+        NUM_PROCESSED_IDX   //Number of items already processed at this source tile
+    };
+    enum move_loot_stage : int {
+        STAGE_INIT = 0,     //Initial stage (find all sources)
+        STAGE_MOVE_PLAYER,  //Moving to source
+        STAGE_MOVE_ITEM,    //Moving items from source to destination
+    };
+
+    const int MAX_SEARCH_RANGE = 60;
+
+    zone_manager &mgr = zone_manager::get_manager();
+    int stage = act.get_value( STAGE_IDX, STAGE_INIT );
+    if( act.values.size() == 0 ) {
+        act.coords.clear();
+        act.values.resize( 2 );
+        act.values[STAGE_IDX] = stage;          //stage
+        act.values[NUM_PROCESSED_IDX] = 0;      //num processed
     }
+
     const auto abspos = g->m.getabs( p.pos() );
-    const auto &src_set = mgr.get_near( zone_type_id( "LOOT_UNSORTED" ), abspos );
-    vehicle *src_veh, *dest_veh;
-    int src_part, dest_part;
 
-    // Nuke the current activity, leaving the backlog alone.
-    p.activity = player_activity();
-
-    // sort source tiles by distance
-    const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
-
-    if( !mgr.is_sorting() ) {
-        mgr.start_sort( src_sorted );
-    }
-
-    for( auto &src : src_sorted ) {
-        const auto &src_loc = g->m.getlocal( src );
-        if( !g->m.inbounds( src_loc ) ) {
-            if( !g->m.inbounds( p.pos() ) ) {
+    switch( stage ) {
+        //initial sorting
+        case STAGE_INIT: {
+            if( p.is_npc() && !g->m.inbounds( p.pos() ) ) {
                 // p is implicitly an NPC that has been moved off the map, so reset the activity
                 // and unload them
-                p.assign_activity( act_move_loot );
-                p.set_moves( 0 );
-                g->reload_npcs();
-                mgr.end_sort();
+                debugmsg( "activity_on_turn_move_loot npc TODO" );
+                //g->reload_npcs();
                 return;
             }
-            std::vector<tripoint> route;
-            route = g->m.route( p.pos(), src_loc, p.get_pathfinding_settings(),
-                                p.get_path_avoid() );
-            if( route.empty() ) {
-                // can't get there, can't do anything, skip it
-                continue;
+
+            if( g->m.check_vehicle_zones( g->get_levz() ) ) {
+                mgr.cache_vzones();
             }
-            p.set_destination( route, player_activity( act_move_loot ) );
-            mgr.end_sort();
-            return;
-        }
+            const auto &src_set = mgr.get_near( zone_type_id( "LOOT_UNSORTED" ), abspos, MAX_SEARCH_RANGE );
 
-        bool is_adjacent_or_closer = square_dist( p.pos(), src_loc ) <= 1;
-
-        // skip tiles in IGNORE zone and tiles on fire
-        // (to prevent taking out wood off the lit brazier)
-        // and inaccessible furniture, like filled charcoal kiln
-        if( mgr.has( zone_type_id( "LOOT_IGNORE" ), src ) ||
-            g->m.get_field( src_loc, fd_fire ) != nullptr ||
-            !g->m.can_put_items_ter_furn( src_loc ) ) {
-            continue;
-        }
-
-        // the boolean in this pair being true indicates the item is from a vehicle storage space
-        auto items = std::vector<std::pair<item *, bool>>();
-
-        //Check source for cargo part
-        //map_stack and vehicle_stack are different types but inherit from item_stack
-        // TODO: use one for loop
-        if( const cata::optional<vpart_reference> vp = g->m.veh_at( src_loc ).part_with_feature( "CARGO",
-                false ) ) {
-            src_veh = &vp->vehicle();
-            src_part = vp->part_index();
-            for( auto &it : src_veh->get_items( src_part ) ) {
-                items.push_back( std::make_pair( &it, true ) );
-            }
-        } else {
-            src_veh = nullptr;
-            src_part = -1;
-        }
-        for( auto &it : g->m.i_at( src_loc ) ) {
-            items.push_back( std::make_pair( &it, false ) );
-        }
-        //Skip items that have already been processed
-        for( auto it = items.begin() + mgr.get_num_processed( src ); it < items.end(); it++ ) {
-
-            mgr.increment_num_processed( src );
-
-            const auto thisitem = it->first;
-
-            if( thisitem->made_of_from_type( LIQUID ) ) { // skip unpickable liquid
-                continue;
+            // sort source tiles by distance
+            act.coords = get_sorted_tiles_by_distance( abspos, src_set );
+            if( act.coords.empty() ) {
+                break;
             }
 
-            // Only if it's from a vehicle do we use the vehicle source location information.
-            vehicle *this_veh = it->second ? src_veh : nullptr;
-            const int this_part = it->second ? src_part : -1;
+            act.values[STAGE_IDX] = stage = STAGE_MOVE_PLAYER;
+            //fallthrough intended
+        }
+        case STAGE_MOVE_PLAYER: {
+            //get current source location
+            std::vector<tripoint> &src_sorted = act.coords;
 
-            const auto id = mgr.get_near_zone_type_for_item( *thisitem, abspos );
+            if( p.has_destination() ) {
+                //not there yet, continue moving
+                return;
+            }
 
-            // checks whether the item is already on correct loot zone or not
-            // if it is, we can skip such item, if not we move the item to correct pile
-            // think empty bag on food pile, after you ate the content
-            if( !mgr.has( id, src ) ) {
-                const auto &dest_set = mgr.get_near( id, abspos );
+            bool reached = false;
+
+            while( !src_sorted.empty() ) {
+                const tripoint &src = src_sorted[0];
+                const tripoint &src_loc = g->m.getlocal( src );
+
+                //check items
+                vehicle *src_veh;
+                int src_part;
+                bool has_items = false;
+                if( const cata::optional<vpart_reference> vp = g->m.veh_at( src_loc ).part_with_feature( "CARGO",
+                        false ) ) {
+                    src_veh = &vp->vehicle();
+                    src_part = vp->part_index();
+                    has_items = !src_veh->get_items( src_part ).empty();
+                }
+                if( !has_items ) {
+                    has_items = !g->m.i_at( src_loc ).empty();
+                }
+
+                if( !has_items ) {
+                    //no items here, skip source
+                    src_sorted.erase( src_sorted.begin() );
+                    continue;
+                }
+
+                bool is_adjacent_or_closer = square_dist( p.pos(), src_loc ) <= 1;
+                //already here?
+                if( is_adjacent_or_closer ) {
+                    p.clear_destination();
+                    reached = true;
+                    break;
+                }
+
+                // skip tiles in IGNORE zone and tiles on fire
+                // (to prevent taking out wood off the lit brazier)
+                // and inaccessible furniture, like filled charcoal kiln
+                if( mgr.has( zone_type_id( "LOOT_IGNORE" ), src ) ||
+                    g->m.get_field( src_loc, fd_fire ) != nullptr ||
+                    !g->m.can_put_items_ter_furn( src_loc ) ) {
+                    src_sorted.erase( src_sorted.begin() );
+                    continue;
+                }
+
+                std::vector<tripoint> route;
+                bool adjacent = false;
+
+                // get either direct route or route to nearest adjacent tile if
+                // source tile is impassable
+                if( g->m.passable( src_loc ) ) {
+                    route = g->m.route( p.pos(), src_loc, p.get_pathfinding_settings(),
+                                        p.get_path_avoid() );
+                } else {
+                    // immpassable source tile (locker etc.),
+                    // get route to nerest adjacent tile instead
+                    route = route_adjacent( p, src_loc );
+                    adjacent = true;
+                }
+
+                // check if we found path to source / adjacent tile
+                if( route.empty() ) {
+                    add_msg( m_info, _( "%s can't reach the source tile. Try to sort out loot without a cart." ),
+                             p.disp_name() );
+                    break;
+                }
+
+                // shorten the route to adjacent tile, if necessary
+                if( !adjacent && !route.empty() ) {
+                    route.pop_back();
+                }
+                //Try leave current activity in place?
+                p.set_destination( route, act );
+                p.activity = player_activity();
+                return;
+            }
+
+            //nowhere to move -> end sort loot
+            if( !reached ) {
+                break;
+            }
+            act.values[STAGE_IDX] = stage = STAGE_MOVE_ITEM;
+            act.values[NUM_PROCESSED_IDX] = 0;
+            //fallthrough intended
+        }
+        case STAGE_MOVE_ITEM: {
+            std::vector<tripoint> &src_sorted = act.coords;
+            if( src_sorted.empty() ) {
+                //no source location -> end sort loot
+                break;
+            }
+            const tripoint &src = src_sorted[0];
+            const tripoint &src_loc = g->m.getlocal( src );
+
+            bool is_adjacent_or_closer = square_dist( p.pos(), src_loc ) <= 1;
+            //already here?
+            if( !is_adjacent_or_closer ) {
+                p.cancel_activity();
+                return;
+            }
+
+            //find destination location for all items
+            //move items from source to destination
+
+            //nowhere to move -> end sort loot
+
+            // the boolean in this pair being true indicates the item is from a vehicle storage space
+            auto items = std::vector<std::pair<item *, bool>>();
+
+            //Check source for cargo part
+            //map_stack and vehicle_stack are different types but inherit from item_stack
+            vehicle *src_veh, *dest_veh;
+            int src_part, dest_part;
+            if( const cata::optional<vpart_reference> vp = g->m.veh_at( src_loc ).part_with_feature( "CARGO",
+                    false ) ) {
+                src_veh = &vp->vehicle();
+                src_part = vp->part_index();
+                for( auto &it : src_veh->get_items( src_part ) ) {
+                    items.push_back( std::make_pair( &it, true ) );
+                }
+            } else {
+                src_veh = nullptr;
+                src_part = -1;
+            }
+            for( auto &it : g->m.i_at( src_loc ) ) {
+                items.push_back( std::make_pair( &it, false ) );
+            }
+
+            //Process all items from source
+            //Skip items that have already been processed
+            for( auto it = items.begin() + act.get_value( NUM_PROCESSED_IDX ); it < items.end(); it++ ) {
+                ++act.values[NUM_PROCESSED_IDX];
+
+                const auto thisitem = it->first;
+
+                if( thisitem->made_of_from_type( LIQUID ) ) { // skip unpickable liquid
+                    continue;
+                }
+
+                // Only if it's from a vehicle do we use the vehicle source location information.
+                vehicle *this_veh = it->second ? src_veh : nullptr;
+                const int this_part = it->second ? src_part : -1;
+
+                const auto id = mgr.get_near_zone_type_for_item( *thisitem, abspos );
+
+                // checks whether the item is already on correct loot zone or not
+                // if it is, we can skip such item, if not we move the item to correct pile
+                // think empty bag on food pile, after you ate the content
+                if( mgr.has( id, src ) ) {
+                    continue;
+                }
+
+                const auto &dest_set = mgr.get_near( id, abspos, MAX_SEARCH_RANGE );
+                //select correct destination
 
                 for( auto &dest : dest_set ) {
                     const auto &dest_loc = g->m.getlocal( dest );
@@ -1294,71 +1408,44 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                         free_space = g->m.free_volume( dest_loc );
                     }
                     // check free space at destination
-                    if( free_space >= thisitem->volume() ) {
-                        // before we move any item, check if player is at or
-                        // adjacent to the loot source tile
-                        if( !is_adjacent_or_closer ) {
-                            std::vector<tripoint> route;
-                            bool adjacent = false;
-
-                            // get either direct route or route to nearest adjacent tile if
-                            // source tile is impassable
-                            if( g->m.passable( src_loc ) ) {
-                                route = g->m.route( p.pos(), src_loc, p.get_pathfinding_settings(),
-                                                    p.get_path_avoid() );
-                            } else {
-                                // immpassable source tile (locker etc.),
-                                // get route to nerest adjacent tile instead
-                                route = route_adjacent( p, src_loc );
-                                adjacent = true;
-                            }
-
-                            // check if we found path to source / adjacent tile
-                            if( route.empty() ) {
-                                add_msg( m_info, _( "%s can't reach the source tile. Try to sort out loot without a cart." ),
-                                         p.disp_name() );
-                                mgr.end_sort();
-                                return;
-                            }
-
-                            // shorten the route to adjacent tile, if necessary
-                            if( !adjacent ) {
-                                route.pop_back();
-                            }
-
-                            // set the destination and restart activity after player arrives there
-                            // we don't need to check for safe mode,
-                            // activity will be restarted only if
-                            // player arrives on destination tile
-                            p.set_destination( route, player_activity( act_move_loot ) );
-                            mgr.end_sort();
-                            return;
-                        }
-                        move_item( p, *thisitem, thisitem->count(), src_loc, dest_loc, this_veh, this_part );
-
-                        // moved item away from source so decrement
-                        mgr.decrement_num_processed( src );
-
-                        break;
+                    if( free_space < thisitem->volume() ) {
+                        continue;
                     }
+
+                    move_item( p, *thisitem, thisitem->count(), src_loc, dest_loc, this_veh, this_part );
+
+                    //now this item is moved, new item takes its index on the source tile
+                    --act.values[NUM_PROCESSED_IDX];
+                    break;
                 }
                 if( p.moves <= 0 ) {
-                    // Restart activity and break from cycle.
-                    p.assign_activity( act_move_loot );
-                    mgr.end_sort();
+                    // Continue later
                     return;
                 }
             }
+            //END OF: Process all items from source
+
+            //this source is done
+            if( !src_sorted.empty() ) {
+                src_sorted.erase( src_sorted.begin() );
+            }
+
+            //more soucres?
+            if( !src_sorted.empty() ) {
+                //more items to process at other sources
+                act.values[STAGE_IDX] = stage = STAGE_MOVE_PLAYER;
+                return;
+            }
+            //fallthrough intended
         }
     }
-
     // If we got here without restarting the activity, it means we're done
     add_msg( m_info, string_format( _( "%s sorted out every item possible." ), p.disp_name() ) );
+    p.activity = player_activity();
     if( p.is_npc() ) {
         npc *guy = dynamic_cast<npc *>( &p );
         guy->current_activity.clear();
     }
-    mgr.end_sort();
 }
 
 static cata::optional<tripoint> find_best_fire(

@@ -362,13 +362,6 @@ class zone_manager
         void swap( zone_data &a, zone_data &b );
         void rotate_zones( map &target_map, const int turns );
 
-        void start_sort( const std::vector<tripoint> &src_sorted );
-        void end_sort();
-        bool is_sorting() const;
-        int get_num_processed( const tripoint &src ) const;
-        void increment_num_processed( const tripoint &src );
-        void decrement_num_processed( const tripoint &src );
-
         // 'direct' access to zone_manager::zones, giving direct access was nono
         std::vector<ref_zone_data> get_zones( const faction_id &fac = your_fac );
         std::vector<ref_const_zone_data> get_zones( const faction_id &fac = your_fac ) const;
