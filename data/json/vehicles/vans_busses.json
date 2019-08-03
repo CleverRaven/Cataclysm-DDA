@@ -797,7 +797,7 @@
       { "x": -5, "y": -1, "part": "windshield" },
       { "x": -5, "y": -1, "part": "v_curtain" },
       { "x": -5, "y": 0, "part": "frame_vertical_2" },
-      { "x": -5, "y": 0, "part": "veh_table" },
+      { "x": -5, "y": 0, "part": "dishwasher" },
       { "x": -5, "y": 0, "part": "roof" },
       { "x": -5, "y": 1, "part": "frame_vertical_2" },
       { "x": -5, "y": 1, "part": "aisle_horizontal" },

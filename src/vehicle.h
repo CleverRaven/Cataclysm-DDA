@@ -1521,6 +1521,7 @@ class vehicle
         void set_submap_moved( int x, int y );
         void use_autoclave( int p );
         void use_washing_machine( int p );
+        void use_dishwasher( int p );
         void use_monster_capture( int part, const tripoint &pos );
         void use_bike_rack( int part );
         void use_harness( int part, const tripoint &pos );

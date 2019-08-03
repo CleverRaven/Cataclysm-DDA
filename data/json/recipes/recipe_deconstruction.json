@@ -2213,6 +2213,24 @@
     ]
   },
   {
+    "result": "dishwasher",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "time": "60 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "cable", 8 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "cu_pipe", 3 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "e_scrap", 4 ] ],
+      [ [ "element", 4 ] ],
+      [ [ "power_supply", 4 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "RAM", 1 ] ]
+    ]
+  },
+  {
     "//": "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
     "result": "solarpack",
     "type": "uncraft",

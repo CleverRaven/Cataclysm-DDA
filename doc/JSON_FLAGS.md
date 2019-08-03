@@ -1339,6 +1339,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```VARIABLE_SIZE``` Has 'bigness' for power, wheel radius, etc.
 - ```VISION```
 - ```WASHING_MACHINE``` Can be used to wash filthy clothes en masse.
+- ```DISHWASHER``` Can be used to wash filthy non-soft items en masse.
 - ```WATER_WHEEL``` Recharges vehicle batteries when in flowing water.
 - ```WATER_WHEEL``` Recharges vehicle batteries when submerged in moving water.
 - ```WELDRIG``` Acts as a welder for crafting.

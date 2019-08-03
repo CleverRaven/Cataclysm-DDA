@@ -99,6 +99,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "ENABLED_DRAINS_EPOWER", VPFLAG_ENABLED_DRAINS_EPOWER },
     { "AUTOCLAVE", VPFLAG_AUTOCLAVE },
     { "WASHING_MACHINE", VPFLAG_WASHING_MACHINE },
+    { "DISHWASHER", VPFLAG_DISHWASHER },
     { "FLUIDTANK", VPFLAG_FLUIDTANK },
     { "REACTOR", VPFLAG_REACTOR },
     { "RAIL", VPFLAG_RAIL },

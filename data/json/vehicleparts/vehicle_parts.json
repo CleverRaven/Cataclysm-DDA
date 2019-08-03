@@ -815,6 +815,31 @@
   },
   {
     "type": "vehicle_part",
+    "id": "dishwasher",
+    "name": "dishwasher",
+    "symbol": "d",
+    "color": "light_blue",
+    "broken_symbol": "#",
+    "broken_color": "light_blue",
+    "damage_modifier": 80,
+    "durability": 100,
+    "description": "A small dishwasher.  With detergent or soap, water, and some electrical power, you could clean your dishes...  Or something more useful like a CBM dripping with zombie gore.  'e'xamine the tile with the dishwasher to use it.",
+    "epower": -400,
+    "size": 160,
+    "item": "dishwasher",
+    "difficulty": 3,
+    "location": "center",
+    "looks_like": "washing_machine",
+    "flags": [ "CARGO", "OBSTACLE", "DISHWASHER", "COVERED", "TOOL_WRENCH", "ENABLED_DRAINS_EPOWER" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 8, 13 ] },
+      { "item": "steel_chunk", "count": [ 8, 13 ] },
+      { "item": "scrap", "count": [ 8, 13 ] },
+      { "item": "hose", "prob": 50 }
+    ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "autoclave",
     "name": "autoclave",
     "symbol": "A",
