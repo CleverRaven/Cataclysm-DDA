@@ -1194,6 +1194,11 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
 
     const auto abspos = g->m.getabs( p.pos() );
 
+    //faction id for NPC or player
+    faction_id fac_id = p.is_npc() ?
+                        dynamic_cast<npc *>( &p )->fac_id :
+                        faction_id( "your_followers" );
+
     switch( stage ) {
         //initial sorting
         case STAGE_INIT: {
@@ -1208,7 +1213,8 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
             if( g->m.check_vehicle_zones( g->get_levz() ) ) {
                 mgr.cache_vzones();
             }
-            const auto &src_set = mgr.get_near( zone_type_id( "LOOT_UNSORTED" ), abspos, MAX_SEARCH_RANGE );
+            const auto &src_set = mgr.get_near( zone_type_id( "LOOT_UNSORTED" ), abspos, MAX_SEARCH_RANGE,
+                                                fac_id );
 
             // sort source tiles by distance
             act.coords = get_sorted_tiles_by_distance( abspos, src_set );
@@ -1379,7 +1385,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
                     continue;
                 }
 
-                const auto &dest_set = mgr.get_near( id, abspos, MAX_SEARCH_RANGE );
+                const auto &dest_set = mgr.get_near( id, abspos, MAX_SEARCH_RANGE, fac_id );
                 //select correct destination
 
                 for( auto &dest : dest_set ) {
