@@ -42,5 +42,13 @@
     "price": 70000,
     "insulation": 4,
     "copy-from": "minifridge"
+  },
+  {
+    "type": "GENERIC",
+    "id": "dishwasher",
+    "name": "dishwasher",
+    "description": "A very small dishwasher designed for use in vehicles.",
+    "looks_like": "washing_machine",
+    "copy-from": "washing_machine"
   }
 ]

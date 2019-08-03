@@ -248,6 +248,31 @@
     "byproducts": [ [ "scrap", 6 ] ]
   },
   {
+    "result": "dishwasher",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "skill_required": [ "mechanics", 5 ],
+    "difficulty": 5,
+    "time": "170 m",
+    "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 5 ] ],
+    "using": [ [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 2 } ],
+    "components": [
+      [ [ "sheet_metal", 3 ] ],
+      [ [ "wire", 6 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "e_scrap", 3 ] ],
+      [ [ "circuit", 1 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "steel_chunk", 2 ] ],
+      [ [ "metal_tank", 1 ] ],
+      [ [ "motor_tiny", 1 ] ]
+    ],
+    "byproducts": [ [ "scrap", 6 ] ]
+  },
+  {
     "result": "wheel_caster",
     "type": "recipe",
     "category": "CC_OTHER",
