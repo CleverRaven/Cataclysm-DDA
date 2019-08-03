@@ -4393,7 +4393,7 @@ bool mattack::shadow_hunter( monster *z )
             return false;
         } else {
             if( g->u.sees( *z ) ) {
-                add_msg( m_neutral, _( "The %s melts away." ), z->name().c_str() );
+                add_msg( m_neutral, _( "The %s melts away." ), z->name() );
             }
             z->remove_effect( effect_took_damage );
             z->poly( mon_shadow_hunter_h );
