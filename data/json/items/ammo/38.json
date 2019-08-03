@@ -73,7 +73,7 @@
     "name": "blackpowder .38 Special",
     "description": "This .38 Special cartridge is loaded with a 200gr cast lead hollowpoint and 23gr of blackpowder.  While it's much slower than a regular .38, it has tremendous stopping power.",
     "proportional": { "price": 0.6, "damage": 1.15, "dispersion": 1.3 },
-    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE" ] },
+    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   }
 ]

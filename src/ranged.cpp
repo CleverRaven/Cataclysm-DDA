@@ -182,7 +182,7 @@ bool player::handle_gun_damage( item &it )
     // causes failure to cycle if weapon is fired too quickly:
     if( last_fired == to_turn<int>( calendar::turn ) && !it.has_flag( "PUMP_ACTION" ) &&
         !it.has_flag( "MANUAL_ACTION" ) && it.type->gun->ups_charges < 1 &&
-        ( curammo_effects.count( "MUZZLE_SMOKE" ) || curammo_effects.count( "BLACKPOWDER" ) ) ) {
+        ( curammo_effects.count( "BLACKPOWDER" ) ) ) {
         add_msg_player_or_npc( _( "Your %s fails to cycle!" ),
                                _( "<npcname>'s %s fails to cycle!" ),
                                it.tname() );
@@ -212,7 +212,7 @@ bool player::handle_gun_damage( item &it )
     }
     // chance to damage gun:
     if( it.damage() < it.max_damage() &&
-        ( curammo_effects.count( "MUZZLE_SMOKE" ) || curammo_effects.count( "BLACKPOWDER" ) ) &&
+        ( curammo_effects.count( "BLACKPOWDER" ) ) &&
         dirt > 350 && one_in( ( ( 2000 - dirt ) ) / ( 40 - malfunctionreduction ) ) ) {
         add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the blackpowder charge!" ),
                                _( "<npcname>'s %s is damaged by the blackpowder charge!" ),
@@ -311,7 +311,7 @@ bool player::handle_gun_damage( item &it )
             }
         }
     }
-    if( curammo_effects.count( "MUZZLE_SMOKE" ) || curammo_effects.count( "BLACKPOWDER" ) ) {
+    if( curammo_effects.count( "BLACKPOWDER" ) ) {
         if( dirt < 500 ) {
             it.set_var( "dirt", dirt + 5 );
             if( dirt > 500 ) {

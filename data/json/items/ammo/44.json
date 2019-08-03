@@ -55,7 +55,7 @@
     "description": "This .44 Magnum cartridge is loaded with 39gr of blackpowder and a 200gr cast lead semi-wadcutter.",
     "proportional": { "price": 0.6, "dispersion": 1.2 },
     "pierce": 0,
-    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE" ] },
+    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   }
 ]
