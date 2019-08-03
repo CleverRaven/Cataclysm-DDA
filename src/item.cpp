@@ -679,6 +679,11 @@ int item::charges_per_volume( const units::volume &vol ) const
     }
 }
 
+bool item::display_stacked_with( const item &rhs, bool check_components ) const
+{
+    return !count_by_charges() && stacks_with( rhs, check_components );
+}
+
 bool item::stacks_with( const item &rhs, bool check_components ) const
 {
     if( type != rhs.type ) {
@@ -6588,10 +6593,19 @@ bool item::reload( player &u, item_location loc, int qty )
             }
         }
 
-        contents.emplace_back( *ammo );
-        contents.back().charges = qty;
+        item to_reload = *ammo;
+        to_reload.charges = qty;
         ammo->charges -= qty;
-
+        bool merged = false;
+        for( auto &it : contents ) {
+            if( it.merge_charges( to_reload ) ) {
+                merged = true;
+                break;
+            }
+        }
+        if( !merged ) {
+            contents.emplace_back( to_reload );
+        }
     } else if( is_watertight_container() ) {
         if( !ammo->made_of_from_type( LIQUID ) ) {
             debugmsg( "Tried to reload liquid container with non-liquid." );
