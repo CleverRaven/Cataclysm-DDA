@@ -13,7 +13,7 @@ struct tripoint;
 std::string gunmod_location::name() const
 {
     // Yes, currently the name is just the translated id.
-    return _( _id );
+    return pgettext( "gunmod", _id.data() );
 }
 
 std::string itype::nname( unsigned int quantity ) const
