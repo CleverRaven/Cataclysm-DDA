@@ -254,6 +254,8 @@
     "material": "fruit",
     "volume": 1,
     "fun": 2,
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitA", 32 ], [ "vitC", 634 ], [ "calcium", 23 ], [ "iron", 8 ] ]
   },
   {
