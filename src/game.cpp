@@ -10188,6 +10188,9 @@ void game::vertical_move( int movez, bool force )
     // then despawn the remaining monsters. Because it's a vertical shift, all
     // monsters are out of the bounds of the map and will despawn.
     monster stored_mount;
+    if( u.is_mounted() ) {
+        stored_mount = *u.mounted_creature.get();
+    }
     if( !m.has_zlevels() ) {
         const int to_x = u.posx();
         const int to_y = u.posy();
@@ -10201,12 +10204,9 @@ void game::vertical_move( int movez, bool force )
                 remove_zombie( critter );
             }
         }
-        if( u.is_mounted() ) {
-            stored_mount = *u.mounted_creature.get();
-            auto mons = critter_tracker->find( g->u.pos() );
-            if( mons != nullptr ) {
-                critter_tracker->remove( *mons );
-            }
+        auto mons = critter_tracker->find( g->u.pos() );
+        if( mons != nullptr ) {
+            critter_tracker->remove( *mons );
         }
         shift_monsters( 0, 0, movez );
     }
@@ -10254,13 +10254,15 @@ void game::vertical_move( int movez, bool force )
         if( !m.has_zlevels() ) {
             stored_mount.spawn( g->u.pos() );
             if( add_zombie( stored_mount ) ) {
+                auto mons = critter_tracker->find( g->u.pos() );
+                if( mons ) {
+                    u.mounted_creature = mons;
+                }
+                stored_mount.setpos( g->u.pos() );
             }
-            auto mons = critter_tracker->find( g->u.pos() );
-            if( mons != nullptr ) {
-                u.mounted_creature = mons;
-            }
+        } else {
+            u.mounted_creature->setpos( g->u.pos() );
         }
-        stored_mount.setpos( g->u.pos() );
     }
 
     if( !npcs_to_bring.empty() ) {
