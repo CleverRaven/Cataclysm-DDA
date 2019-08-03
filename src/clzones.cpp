@@ -656,6 +656,14 @@ const zone_data *zone_manager::get_zone_at( const tripoint &where, const zone_ty
             return &zone;
         }
     }
+    auto vzones = g->m.get_vehicle_zones( g->get_levz() );
+    for( auto it = vzones.rbegin(); it != vzones.rend(); ++it ) {
+        const auto &zone = *it;
+
+        if( zone->has_inside( where ) && zone->get_type() == type ) {
+            return zone;
+        }
+    }
     return nullptr;
 }
 
