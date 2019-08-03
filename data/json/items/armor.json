@@ -6308,6 +6308,25 @@
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
+    "id": "long_undertop_sleeveless",
+    "type": "ARMOR",
+    "name": "sleeveless underwear top",
+    "description": "A sleeveless underwear top that helps to maintain body temperature.",
+    "looks_like": "long_undertop",
+    "weight": 80,
+    "volume": "400 ml",
+    "price": 1200,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "TORSO" ],
+    "coverage": 95,
+    "encumbrance": 3,
+    "warmth": 30,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "SKINTIGHT" ]
+  },
+  {
     "id": "longshirt",
     "type": "ARMOR",
     "name": "long-sleeved shirt",

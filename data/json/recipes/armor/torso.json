@@ -412,6 +412,20 @@
     "components": [ [ [ "rag", 10 ] ] ]
   },
   {
+    "result": "long_undertop_sleeveless",
+    "type": "recipe",
+    "id_suffix": "cutting",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "6 m",
+    "autolearn": true,
+    "byproducts": [ [ "rag", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "long_undertop", 1 ] ] ]
+  },
+  {
     "result": "longshirt",
     "type": "recipe",
     "category": "CC_ARMOR",
