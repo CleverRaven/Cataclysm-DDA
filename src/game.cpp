@@ -10222,7 +10222,8 @@ void game::vertical_move( int movez, bool force )
 
     if( m.has_zlevels() && abs( movez ) == 1 ) {
         for( monster &critter : all_monsters() ) {
-            if( critter.attack_target() == &g->u || ( critter.has_effect( effect_pet ) && critter.friendly == -1 ) ){
+            if( critter.attack_target() == &g->u || ( critter.has_effect( effect_pet ) &&
+                    critter.friendly == -1 ) ) {
                 monsters_following.push_back( &critter );
             }
         }
@@ -10253,13 +10254,15 @@ void game::vertical_move( int movez, bool force )
         if( !m.has_zlevels() ) {
             stored_mount.spawn( g->u.pos() );
             if( add_zombie( stored_mount ) ) {
+                auto mons = critter_tracker->find( g->u.pos() );
+                if( mons ) {
+                    u.mounted_creature = mons;
+                }
+                stored_mount.setpos( g->u.pos() );
             }
-            auto mons = critter_tracker->find( g->u.pos() );
-            if( mons != nullptr ) {
-                u.mounted_creature = mons;
-            }
+        } else {
+            u.mounted_creature->setpos( g->u.pos() );
         }
-        stored_mount.setpos( g->u.pos() );
     }
 
     if( !npcs_to_bring.empty() ) {
