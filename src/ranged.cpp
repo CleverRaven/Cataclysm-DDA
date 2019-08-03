@@ -169,7 +169,6 @@ bool player::handle_gun_damage( item &it )
     int just_unclogged = it.get_var( "just_unclogged", 0 );
     const auto &curammo_effects = it.ammo_effects();
     const cata::optional<islot_gun> &firing = it.type->gun;
-    const std::string thistimefired = to_string_time_of_day( calendar::turn );
     // Here we check for a chance for the weapon to suffer a misfire due to
     // being dirty (blackpowder fouling effect only; typical dirt accumulation
     // from smokeless powder is not currently modeled by this effect).
