@@ -1585,7 +1585,7 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
 
 void player::perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
                               int pl_skill, std::string cbm_name, std::string upcbm_name, std::string installer_name,
-                              std::vector<trait_id> trait_to_rem )
+                              std::vector<trait_id> trait_to_rem, tripoint patient_pos )
 {
     if( success > 0 ) {
 
@@ -1623,14 +1623,15 @@ void player::perform_install( bionic_id bid, bionic_id upbid, int difficulty, in
         float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
                                static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>
                                ( 10.0 ) );
-        bionics_install_failure( installer_name, difficulty, success, adjusted_skill );
+        bionics_install_failure( bid, installer_name, difficulty, success, adjusted_skill, patient_pos );
     }
     g->m.invalidate_map_cache( g->get_levz() );
     g->refresh_all();
 }
 
-void player::bionics_install_failure( std::string installer, int difficulty, int success,
-                                      float adjusted_skill )
+void player::bionics_install_failure( bionic_id bid, std::string installer, int difficulty,
+                                      int success,
+                                      float adjusted_skill, tripoint patient_pos )
 {
     // "success" should be passed in as a negative integer representing how far off we
     // were for a successful install.  We use this to determine consequences for failing.
@@ -1642,13 +1643,10 @@ void player::bionics_install_failure( std::string installer, int difficulty, int
     // are more likely.
     int failure_level = static_cast<int>( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
     int fail_type = ( failure_level > 5 ? 5 : failure_level );
-
+    bool drop_cbm = false;
     add_msg( m_neutral, _( "The installation is a failure." ) );
 
-    if( fail_type <= 0 ) {
-        add_msg( m_neutral, _( "The installation fails without incident." ) );
-        return;
-    }
+
 
     if( installer != "NOT_MED" ) {
         //~"Complications" is USian medical-speak for "unintended damage from a medical procedure".
@@ -1661,57 +1659,67 @@ void player::bionics_install_failure( std::string installer, int difficulty, int
         }
     }
 
-    if( fail_type == 3 && num_bionics() == 0 ) {
-        fail_type = 2;    // If we have no bionics, take damage instead of losing some
-    }
+    if( fail_type <= 0 ) {
+        add_msg( m_neutral, _( "The installation fails without incident." ) );
+        drop_cbm = true;
+    } else {
+        switch( fail_type ) {
 
-    switch( fail_type ) {
+            case 1:
+                if( !( has_trait( trait_id( "NOPAIN" ) ) ) ) {
+                    add_msg_if_player( m_bad, _( "It really hurts!" ) );
+                    mod_pain( rng( failure_level * 3, failure_level * 6 ) );
+                }
+                drop_cbm = true;
+                break;
 
-        case 1:
-            if( !( has_trait( trait_id( "NOPAIN" ) ) ) ) {
-                add_msg_if_player( m_bad, _( "It really hurts!" ) );
-                mod_pain( rng( failure_level * 3, failure_level * 6 ) );
-            }
-            break;
+            case 2:
+            case 3:
+                add_msg( m_bad, _( "%s body is damaged!" ), disp_name( true ) );
+                hurtall( rng( failure_level, failure_level * 2 ), this ); // you hurt yourself
+                drop_cbm = true;
+                break;
 
-        case 2:
-        case 3:
-            add_msg( m_bad, _( "%s body is damaged!" ), disp_name( true ) );
-            hurtall( rng( failure_level, failure_level * 2 ), this ); // you hurt yourself
-            break;
+            case 4:
+            case 5: {
+                add_msg( m_bad, _( "The installation is faulty!" ) );
+                std::vector<bionic_id> valid;
+                std::copy_if( begin( faulty_bionics ), end( faulty_bionics ), std::back_inserter( valid ),
+                [&]( const bionic_id & id ) {
+                    return !has_bionic( id );
+                } );
 
-        case 4:
-        case 5: {
-            add_msg( m_bad, _( "The installation is faulty!" ) );
-            std::vector<bionic_id> valid;
-            std::copy_if( begin( faulty_bionics ), end( faulty_bionics ), std::back_inserter( valid ),
-            [&]( const bionic_id & id ) {
-                return !has_bionic( id );
-            } );
-
-            if( valid.empty() ) { // We've got all the bad bionics!
-                if( max_power_level > 0 ) {
-                    int old_power = max_power_level;
-                    add_msg( m_bad, _( "%s lose power capacity!" ), disp_name() );
-                    max_power_level = rng( 0, max_power_level - 25 );
+                if( valid.empty() ) { // We've got all the bad bionics!
+                    if( max_power_level > 0 ) {
+                        int old_power = max_power_level;
+                        add_msg( m_bad, _( "%s lose power capacity!" ), disp_name() );
+                        max_power_level = rng( 0, max_power_level - 25 );
+                        if( is_player() ) {
+                            add_memorial_log( pgettext( "memorial_male", "Lost %d units of power capacity." ),
+                                              pgettext( "memorial_female", "Lost %d units of power capacity." ),
+                                              old_power - max_power_level );
+                        }
+                    }
+                    // TODO: What if we can't lose power capacity?  No penalty?
+                } else {
+                    const bionic_id &id = random_entry( valid );
+                    add_bionic( id );
                     if( is_player() ) {
-                        add_memorial_log( pgettext( "memorial_male", "Lost %d units of power capacity." ),
-                                          pgettext( "memorial_female", "Lost %d units of power capacity." ),
-                                          old_power - max_power_level );
+                        add_memorial_log( pgettext( "memorial_male", "Installed bad bionic: %s." ),
+                                          pgettext( "memorial_female", "Installed bad bionic: %s." ),
+                                          bionics[ id ].name );
                     }
                 }
-                // TODO: What if we can't lose power capacity?  No penalty?
-            } else {
-                const bionic_id &id = random_entry( valid );
-                add_bionic( id );
-                if( is_player() ) {
-                    add_memorial_log( pgettext( "memorial_male", "Installed bad bionic: %s." ),
-                                      pgettext( "memorial_female", "Installed bad bionic: %s." ),
-                                      bionics[ id ].name );
-                }
             }
+            break;
         }
-        break;
+    }
+    if( drop_cbm ) {
+        item cbm( bid.c_str() );
+        cbm.set_flag( "NO_STERILE" );
+        cbm.set_flag( "NO_PACKED" );
+        cbm.faults.emplace( fault_id( "fault_bionic_salvaged" ) );
+        g->m.add_item( patient_pos, cbm );
     }
 }
 

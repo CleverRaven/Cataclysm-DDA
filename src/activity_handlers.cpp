@@ -3087,7 +3087,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                 p->perform_install( bionic_id( act->str_values[cbm_id] ),
                                     bionic_id( act->str_values[upgraded_cbm_id] ), act->values[0], act->values[1], act->values[3],
                                     act->str_values[cbm_name], act->str_values[upgraded_cbm_name], act->str_values[installer_name],
-                                    trait_to_rem );
+                                    trait_to_rem, p->pos() );
             } else {
                 debugmsg( _( "%s is no a valid bionic_id" ), act->str_values[cbm_id] );
                 p->remove_effect( effect_under_op );
