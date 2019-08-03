@@ -1312,7 +1312,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     }
     for( const auto &elem : bionics[b_id].occupied_bodyparts ) {
         activity.values.push_back( elem.first );
-        add_effect( effect_under_op, difficulty * 20_minutes, elem.first, false, difficulty );
+        add_effect( effect_under_op, difficulty * 20_minutes, elem.first, true, difficulty );
     }
     return true;
 }
@@ -1573,7 +1573,7 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
     }
     for( const auto &elem : bionics[bioid].occupied_bodyparts ) {
         activity.values.push_back( elem.first );
-        add_effect( effect_under_op, difficulty * 20_minutes, elem.first, false, difficulty );
+        add_effect( effect_under_op, difficulty * 20_minutes, elem.first, true, difficulty );
     }
     for( const trait_id &mid : bioid->canceled_mutations ) {
         if( has_trait( mid ) ) {

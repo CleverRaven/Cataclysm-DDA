@@ -665,7 +665,7 @@ void npc::move()
     regen_ai_cache();
     adjust_power_cbms();
 
-    if( has_effect( effect_under_op ) ) {
+    if( activity.id() == "ACT_OPERATION" ) {
         execute_action( npc_player_activity );
         return;// NPCs under operation should just stay still
     }

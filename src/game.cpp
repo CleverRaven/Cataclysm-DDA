@@ -204,7 +204,6 @@ const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
-const efftype_id effect_under_op( "under_operation" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_winded( "winded" );
 const efftype_id effect_ridden( "ridden" );
@@ -4274,7 +4273,7 @@ void game::monmove()
         int turns = 0;
         m.creature_in_field( guy );
         guy.process_turn();
-        while( !guy.is_dead() && ( !guy.in_sleep_state() || guy.has_effect( effect_under_op ) ) &&
+        while( !guy.is_dead() && ( !guy.in_sleep_state() || guy.activity.id() == "ACT_OPERATION" ) &&
                guy.moves > 0 && turns < 10 ) {
             int moves = guy.moves;
             guy.move();
