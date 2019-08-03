@@ -1708,6 +1708,16 @@ static void layer_item( std::array<encumbrance_data, num_bp> &vals,
     // For the purposes of layering penalty, set a min of 2 and a max of 10 per item.
     int layering_encumbrance = std::min( 10, std::max( 2, encumber_val ) );
 
+    /*
+     * Setting layering_encumbrance to 0 at this point makes the item cease to exist
+     * for the purposes of the layer penalty system. (normally an item has a minimum
+     * layering_encumbrance of 2 )
+     */
+    if( it.has_flag( "SEMITANGIBLE" ) ) {
+        encumber_val = 0;
+        layering_encumbrance = 0;
+    }
+
     const int armorenc = !power_armor || !it.is_power_armor() ?
                          encumber_val : std::max( 0, encumber_val - 40 );
 
@@ -1750,6 +1760,16 @@ void layer_details::reset()
 // So we add them together and then subtract out the highest.
 int layer_details::layer( const int encumbrance )
 {
+    /*
+     * We should only get to this point with an encumbrance value of 0
+     * if the item is 'semitangible'. A normal item has a minimum of
+     * 2 encumbrance for layer penalty purposes.
+     * ( even if normally its encumbrance is 0 )
+     */
+    if( encumbrance == 0 ) {
+        return total; // skip over the other logic because this item doesn't count
+    }
+
     pieces.push_back( encumbrance );
 
     int current = total;
@@ -1811,7 +1831,7 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
     // items
     std::array<layer_level, num_bp> highest_layer_so_far;
     std::fill( highest_layer_so_far.begin(), highest_layer_so_far.end(),
-               UNDERWEAR );
+               PERSONAL_LAYER );
 
     const bool power_armored = is_wearing_active_power_armor();
     for( auto w_it = worn.begin(); w_it != worn.end(); ++w_it ) {

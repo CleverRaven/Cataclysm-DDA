@@ -24,6 +24,14 @@
     "info": "This item can be activated or reloaded from adjacent tile without picking it up."
   },
   {
+    "id": "AURA",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "This item goes in the outer aura layer, intended for metaphysical effects.",
+    "info": "This is in your <info>outer aura</info>.",
+    "conflicts": [ "OUTER", "SKINTIGHT", "WAIST", "PERSONAL", "BELTED" ]
+  },
+  {
     "id": "BAROMETER",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -41,7 +49,7 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Layer for backpacks and things worn over outerwear.",
     "info": "This gear is <info>strapped</info> onto you.",
-    "conflicts": [ "OUTER", "SKINTIGHT", "WAIST" ]
+    "conflicts": [ "OUTER", "SKINTIGHT", "WAIST", "PERSONAL", "AURA" ]
   },
   {
     "id": "BIONIC_NPC_USABLE",
@@ -275,7 +283,7 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Outer garment layer.",
     "info": "This gear is generally <info>worn over</info> clothing.",
-    "conflicts": [ "BELTED", "SKINTIGHT", "WAIST" ]
+    "conflicts": [ "BELTED", "SKINTIGHT", "WAIST", "PERSONAL", "AURA" ]
   },
   {
     "id": "OVERSIZE",
@@ -296,6 +304,14 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This gear <good>reduces</good> the volume of <info>sounds</info> to a safe level.",
     "conflicts": [ "DEAF" ]
+  },
+  {
+    "id": "PERSONAL",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "This item goes in the personal aura layer, intended for metaphysical effects.",
+    "info": "This is in your <info>personal aura</info>.",
+    "conflicts": [ "BELTED", "OUTER", "WAIST", "SKINTIGHT", "AURA" ]
   },
   {
     "id": "POCKETS",
@@ -357,6 +373,13 @@
     "description": "Prevents the player from wielding a weapon two-handed, forcing one-handed use if the weapon permits it."
   },
   {
+    "id": "SEMITANGIBLE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Prevents the item from participating in the encumbrance system when worn.",
+    "info": "It seems <info>partially intangible</info>, and can occupy the same space as other things."
+  },
+  {
     "id": "SHEATH_KNIFE",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
@@ -386,7 +409,7 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Undergarment layer.",
     "info": "This clothing <info>lies close</info> to the skin.",
-    "conflicts": [ "BELTED", "OUTER", "WAIST" ]
+    "conflicts": [ "BELTED", "OUTER", "WAIST", "PERSONAL", "AURA" ]
   },
   {
     "id": "SLOWS_MOVEMENT",
@@ -448,7 +471,7 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Layer for belts and other things worn on the waist.",
     "info": "This gear is worn on or around your <info>waist</info>.",
-    "conflicts": [ "BELTED", "OUTER", "SKINTIGHT" ]
+    "conflicts": [ "BELTED", "OUTER", "SKINTIGHT", "PERSONAL", "AURA" ]
   },
   {
     "id": "WATCH",
