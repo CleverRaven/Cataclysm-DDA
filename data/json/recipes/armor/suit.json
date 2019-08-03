@@ -11,7 +11,11 @@
     "book_learn": [ [ "tailor_portfolio", 7 ], [ "textbook_tailor", 8 ], [ "textbook_fireman", 6 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "welder", 112 ], [ "welder_crude", 168 ], [ "soldering_iron", 168 ], [ "toolset", 168 ] ] ],
-    "components": [ [ [ "cleansuit", 1 ] ], [ [ "duct_tape", 600 ] ], [ [ "kevlar", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ] ]
+    "components": [
+      [ [ "cleansuit", 1 ] ],
+      [ [ "duct_tape", 600 ] ],
+      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ]
+    ]
   },
   {
     "result": "anbc_suit",
@@ -25,7 +29,11 @@
     "book_learn": [ [ "tailor_portfolio", 7 ], [ "textbook_fireman", 7 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "welder", 112 ], [ "welder_crude", 168 ], [ "soldering_iron", 168 ], [ "toolset", 168 ] ] ],
-    "components": [ [ [ "hazmat_suit", 1 ] ], [ [ "duct_tape", 800 ] ], [ [ "kevlar", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ] ]
+    "components": [
+      [ [ "hazmat_suit", 1 ] ],
+      [ [ "duct_tape", 800 ] ],
+      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ]
+    ]
   },
   {
     "result": "armor_blarmor",
