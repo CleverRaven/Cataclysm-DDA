@@ -1183,15 +1183,21 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
         // if there is a loot zone thats already near the work spot, we dont want it to be added twice.
         if( std::find( already_there_spots.begin(), already_there_spots.end(),
                        elem ) != already_there_spots.end() ) {
-            continue;
+            // construction tasks dont need the loot spot *and* the already_there/cmbined spots both added.
+            // but a farming task will need to go and fetch the tool no matter if its near the work spot.
+            // wheras the construction will automaticlaly use whats nearby anyway.
+            if( farming_task ) {
+                loot_spots.push_back( elem );
+            } else {
+                continue;
+            }
         }
-        loot_spots.push_back( elem );
         combined_spots.push_back( elem );
     }
     // are the requirements in total - alreayd near work spot and nearby loot zones together , available?
     // return as not possible, fetching cant be done.
     if( !are_requirements_nearby( farming_task ? loot_spots : combined_spots, things_to_fetch_id, p,
-                                  activity_to_restore, farming_task ? true : false ) ) {
+                                  activity_to_restore, farming_task ) ) {
         return requirement_map;
     }
     // are the requirements all already near the work spot?
@@ -1498,9 +1504,9 @@ static bool tidy_activity( player &p, const tripoint src_loc, activity_id activi
         dest_veh = nullptr;
         dest_part = -1;
     }
-    for( map_stack::iterator it = items_there.begin(); it != items_there.end(); it++ ) {
-        if( it->has_var( "activity_var" ) && it->get_var( "activity_var", "" ) == p.name ) {
-            move_item( p, ( *it ), ( *it ).count(), src_loc, loot_src_lot, dest_veh, dest_part,
+    for( auto it : items_there ) {
+        if( it.has_var( "activity_var" ) && it.get_var( "activity_var", "" ) == p.name ) {
+            move_item( p, it, it.count(), src_loc, loot_src_lot, dest_veh, dest_part,
                        activity_to_restore );
             break;
         }
@@ -1538,10 +1544,10 @@ static void fetch_activity( player &p, const tripoint src_loc, activity_id activ
     const units::volume volume_allowed = p.volume_capacity() - p.volume_carried();
     const units::mass weight_allowed = p.weight_capacity() - p.weight_carried();
     if( !p.backlog.empty() && p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) ) {
-        for( map_stack::iterator it = items_there.begin(); it != items_there.end(); it++ ) {
+        for( auto it : items_there ) {
             for( auto elem : mental_map_2 ) {
-                if( std::get<0>( elem ) == src_loc && ( *it ).typeId() == std::get<1>( elem ) ) {
-                    move_item( p, *it, ( *it ).count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
+                if( std::get<0>( elem ) == src_loc && it.typeId() == std::get<1>( elem ) ) {
+                    move_item( p, it, it.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
                                g->m.getlocal( p.backlog.front().coords.back() ), nullptr, 0, activity_to_restore );
                     return;
                 }
@@ -1549,10 +1555,10 @@ static void fetch_activity( player &p, const tripoint src_loc, activity_id activ
         }
         if( src_veh ) {
             auto items_at_veh = src_veh->get_items( src_part );
-            for( auto it = items_at_veh.begin(); it != items_at_veh.end(); it++ ) {
+            for( auto it : items_at_veh ) {
                 for( auto elem : mental_map_2 ) {
-                    if( std::get<0>( elem ) == src_loc && ( *it ).typeId() == std::get<1>( elem ) ) {
-                        move_item( p, *it, ( *it ).count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
+                    if( std::get<0>( elem ) == src_loc && it.typeId() == std::get<1>( elem ) ) {
+                        move_item( p, it, it.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
                                    g->m.getlocal( p.backlog.front().coords.back() ), src_veh, src_part, activity_to_restore );
                         return;
                     }
@@ -1939,7 +1945,7 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             // is it even worth fetching anything if there isnt enough nearby?
             if( !are_requirements_nearby( ( reason == NEEDS_TILLING ||
                                             reason == NEEDS_PLANTING ) ? loot_zone_spots : combined_spots, what_we_need, p, activity_to_restore,
-                                          ( reason == NEEDS_TILLING || reason == NEEDS_PLANTING ) ? true : false ) ) {
+                                          ( reason == NEEDS_TILLING || reason == NEEDS_PLANTING ) ) ) {
                 p.add_msg_if_player( m_info, _( "The required items are not available to complete this task." ) );
                 continue;
             } else {
