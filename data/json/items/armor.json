@@ -9007,7 +9007,7 @@
     "id": "tie_necktie",
     "type": "ARMOR",
     "name": "necktie",
-    "description": "An ordinary, green necktie.  It's more difficult to put on, but it takes real skill to do so. Wearing a necktie is much better than wearing a clip-on tie.",
+    "description": "An ordinary, green necktie.  It's more difficult to put on, but it takes real skill to do so.  Wearing a necktie is much better than wearing a clip-on tie.",
     "weight": 15,
     "volume": 0,
     "price": 1000,
@@ -9326,7 +9326,7 @@
       },
       {
         "id": "nuwave",
-        "text": "A short-sleeved black cotton shirt with a stylised representation of a radio wave printed on the front."
+        "text": "A short-sleeved black cotton shirt with a stylized representation of a radio wave printed on the front."
       },
       {
         "id": "an_punk",

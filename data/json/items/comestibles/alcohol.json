@@ -178,7 +178,7 @@
     "quench": 4,
     "addiction_potential": 5,
     "calories": 47,
-    "description": "A soft wine with a pleasant herbal flavor and aroma. It is a common cocktail ingredient, and can be used as a substitute for white wine.",
+    "description": "A soft wine with a pleasant herbal flavor and aroma.  It is a common cocktail ingredient, and can be used as a substitute for white wine.",
     "price": 1500,
     "material": [ "alcohol", "water" ],
     "primary_material": "alcohol",
