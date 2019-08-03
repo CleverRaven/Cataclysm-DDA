@@ -146,7 +146,7 @@
         "min_unarmed": 0,
         "bonus_dodges": 1,
         "flat_bonuses": [ [ "dodge", 1.0 ] ]
-      } 
+      }
     ],
     "onmiss_buffs": [
       {
@@ -171,13 +171,13 @@
         "flat_bonuses": [ [ "dodge", 1.0 ] ]
       }
     ],
-    "techniques": [ 
-	 "tec_capoeira_feint", 
-	 "tec_capoeira_pushkick", 
-	 "tec_capoeira_sweepkick", 
-	 "tec_capoeira_circlekick", 
-	 "tec_capoeira_spinkick" 
-	]
+    "techniques": [
+      "tec_capoeira_feint",
+      "tec_capoeira_pushkick",
+      "tec_capoeira_sweepkick",
+      "tec_capoeira_circlekick",
+      "tec_capoeira_spinkick"
+    ]
   },
   {
     "type": "martial_art",
