@@ -600,6 +600,11 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
 
     chatbin.check_missions();
 
+    // For each active mission we have, let the mission know we talked to this NPC.
+    for( auto &mission : g->u.get_active_missions() ) {
+        mission->on_talk_with_npc( this->getID() );
+    }
+
     for( auto &mission : chatbin.missions_assigned ) {
         if( mission->get_assigned_player_id() == g->u.getID() ) {
             d.missions_assigned.push_back( mission );
@@ -3154,7 +3159,7 @@ void conditional_t::set_has_stolen_item( bool is_npc )
 void conditional_t::set_is_day()
 {
     condition = []( const dialogue & ) {
-        return !calendar::turn.is_night();
+        return !is_night( calendar::turn );
     };
 }
 

@@ -379,18 +379,18 @@ units::energy item::set_energy( const units::energy &qty )
 {
     if( !is_battery() ) {
         debugmsg( "Tried to set energy of non-battery item" );
-        return 0;
+        return 0_J;
     }
 
     units::energy val = energy_remaining() + qty;
-    if( val < 0 ) {
+    if( val < 0_J ) {
         return val;
     } else if( val > type->battery->max_capacity ) {
         energy = type->battery->max_capacity;
     } else {
         energy = val;
     }
-    return 0;
+    return 0_J;
 }
 
 item &item::ammo_set( const itype_id &ammo, int qty )
@@ -1155,7 +1155,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list ) ) );
         }
         if( has_owner() ) {
-            info.push_back( iteminfo( "BASE", string_format( _( "Owner: %s" ), get_owner()->name ) ) );
+            info.push_back( iteminfo( "BASE", string_format( _( "Owner: %s" ), _( get_owner()->name ) ) ) );
         }
         if( has_var( "contained_name" ) && parts->test( iteminfo_parts::BASE_CONTENTS ) ) {
             info.push_back( iteminfo( "BASE", string_format( _( "Contains: %s" ),
@@ -4009,11 +4009,7 @@ int item::get_quality( const quality_id &id ) const
                                          ( is_tool() && std::all_of( contents.begin(), contents.end(),
     [this]( const item & itm ) {
     if( itm.is_ammo() ) {
-            if( ammo_types().count( itm.ammo_type() ) ) {
-                return true;
-            } else {
-                return false;
-            }
+            return ammo_types().count( itm.ammo_type() ) != 0;
         } else if( itm.is_magazine() ) {
             for( const ammotype &at : ammo_types() ) {
                 for( const ammotype &mag_at : itm.ammo_types() ) {
@@ -4127,7 +4123,7 @@ void item::set_relative_rot( double val )
 {
     if( goes_bad() ) {
         rot = get_shelf_life() * val;
-        // calc_rot uses last_rot_check (when it's not time_of_cataclysm) instead of bday.
+        // calc_rot uses last_rot_check (when it's not turn_zero) instead of bday.
         // this makes sure the rotting starts from now, not from bday.
         // if this item is the result of smoking or milling don't do this, we want to start from bday.
         if( !has_flag( "PROCESSING_RESULT" ) ) {
@@ -4468,13 +4464,9 @@ const std::vector<itype_id> &item::brewing_results() const
 
 bool item::can_revive() const
 {
-    if( is_corpse() && corpse->has_flag( MF_REVIVES ) && damage() < max_damage() &&
-        !( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) || has_flag( "QUARTERED" ) ||
-           has_flag( "SKINNED" ) ) ) {
-
-        return true;
-    }
-    return false;
+    return is_corpse() && corpse->has_flag( MF_REVIVES ) && damage() < max_damage() &&
+           !( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) || has_flag( "QUARTERED" ) ||
+              has_flag( "SKINNED" ) );
 }
 
 bool item::ready_to_revive( const tripoint &pos ) const
@@ -5002,7 +4994,7 @@ bool item::reinforceable() const
     // If a material is reinforceable, so are we
     const auto mats = made_of_types();
     return std::any_of( mats.begin(), mats.end(), []( const material_type * mt ) {
-        return mt->reinforces() == true;
+        return mt->reinforces();
     } );
 }
 
@@ -5345,11 +5337,8 @@ bool item::can_unload_liquid() const
     }
 
     const item &cts = contents.front();
-    if( !is_bucket() && cts.made_of_from_type( LIQUID ) && cts.made_of( SOLID ) ) {
-        return false;
-    }
-
-    return true;
+    bool cts_is_frozen_liquid = cts.made_of_from_type( LIQUID ) && cts.made_of( SOLID );
+    return is_bucket() || !cts_is_frozen_liquid;
 }
 
 bool item::can_reload_with( const itype_id &ammo ) const
@@ -5833,7 +5822,7 @@ units::energy item::energy_remaining() const
         return energy;
     }
 
-    return 0;
+    return 0_J;
 }
 
 int item::ammo_remaining() const
@@ -5879,7 +5868,7 @@ int item::ammo_capacity( bool potential_capacity ) const
 
     if( is_tool() ) {
         res = type->tool->max_charges;
-        if( res == 0 && magazine_default() != "null" && potential_capacity == true ) {
+        if( res == 0 && magazine_default() != "null" && potential_capacity ) {
             res = find_type( magazine_default() )->magazine->capacity;
         }
         for( const auto e : toolmods() ) {
@@ -7036,9 +7025,8 @@ void item::set_item_specific_energy( const float new_specific_energy )
     } else if( new_item_temperature < temp_to_kelvin( temperatures::cold ) ) {
         item_tags.insert( "COLD" );
     }
-    //The extra 0.5 are there to make rounding go better
-    temperature = static_cast<int>( 100000 * new_item_temperature + 0.5 );
-    specific_energy = static_cast<int>( 100000 * new_specific_energy + 0.5 );
+    temperature = lround( 100000 * new_item_temperature );
+    specific_energy = lround( 100000 * new_specific_energy );
     reset_temp_check();
 }
 
@@ -7072,8 +7060,8 @@ void item::set_item_temperature( float new_temperature )
     float new_specific_energy = get_specific_energy_from_temperature( new_temperature );
     float freeze_percentage = 0;
 
-    temperature = static_cast<int>( 100000 * new_temperature + 0.5 );
-    specific_energy = static_cast<int>( 100000 * new_specific_energy + 0.5 );
+    temperature = lround( 100000 * new_temperature );
+    specific_energy = lround( 100000 * new_specific_energy );
 
     const float completely_frozen_specific_energy = specific_heat_solid *
             freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
@@ -7793,9 +7781,8 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
     } else if( new_item_temperature < temp_to_kelvin( temperatures::cold ) ) {
         item_tags.insert( "COLD" );
     }
-    //The extra 0.5 are there to make rounding go better
-    temperature = static_cast<int>( 100000 * new_item_temperature + 0.5 );
-    specific_energy = static_cast<int>( 100000 * new_specific_energy + 0.5 );
+    temperature = lround( 100000 * new_item_temperature );
+    specific_energy = lround( 100000 * new_specific_energy );
 
     last_temp_check = time;
 }
@@ -7815,7 +7802,7 @@ void item::heat_up()
     // Set item temperature to 60 C (333.15 K, 122 F)
     // Also set the energy to match
     temperature = 333.15 * 100000;
-    specific_energy = static_cast<int>( 100000 * get_specific_energy_from_temperature( 333.15 ) + 0.5 );
+    specific_energy = lround( 100000 * get_specific_energy_from_temperature( 333.15 ) );
 
     reset_temp_check();
 }
@@ -7829,7 +7816,7 @@ void item::cold_up()
     // Set item temperature to 3 C (276.15 K, 37.4 F)
     // Also set the energy to match
     temperature = 276.15 * 100000;
-    specific_energy = static_cast<int>( 100000 * get_specific_energy_from_temperature( 276.15 ) + 0.5 );
+    specific_energy = lround( 100000 * get_specific_energy_from_temperature( 276.15 ) );
 
     reset_temp_check();
 }
@@ -8168,7 +8155,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
 {
     int energy = 0;
     if( type->tool->turns_per_charge > 0 &&
-        static_cast<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
+        to_turn<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
         energy = std::max( ammo_required(), 1 );
 
     } else if( type->tool->power_draw > 0 ) {
@@ -8357,10 +8344,7 @@ bool item::has_effect_when_wielded( art_effect_passive effect ) const
         return false;
     }
     auto &ew = type->artifact->effects_wielded;
-    if( std::find( ew.begin(), ew.end(), effect ) != ew.end() ) {
-        return true;
-    }
-    return false;
+    return std::find( ew.begin(), ew.end(), effect ) != ew.end();
 }
 
 bool item::has_effect_when_worn( art_effect_passive effect ) const
@@ -8369,10 +8353,7 @@ bool item::has_effect_when_worn( art_effect_passive effect ) const
         return false;
     }
     auto &ew = type->artifact->effects_worn;
-    if( std::find( ew.begin(), ew.end(), effect ) != ew.end() ) {
-        return true;
-    }
-    return false;
+    return std::find( ew.begin(), ew.end(), effect ) != ew.end();
 }
 
 bool item::has_effect_when_carried( art_effect_passive effect ) const

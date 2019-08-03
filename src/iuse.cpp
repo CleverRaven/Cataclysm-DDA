@@ -26,7 +26,7 @@
 #include "debug.h"
 #include "effect.h" // for weed_msg
 #include "explosion.h"
-#include "event.h"
+#include "timed_event.h"
 #include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -2125,7 +2125,7 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
             } );
 
             std::vector<std::string> segments = foldstring( message, RADIO_PER_TURN );
-            int index = calendar::turn % segments.size();
+            int index = to_turn<int>( calendar::turn ) % segments.size();
             std::stringstream messtream;
             messtream << string_format( _( "radio: %s" ), segments[index] );
             message = messtream.str();
@@ -2421,8 +2421,9 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
                                  pgettext( "memorial_female", "Set off an alarm." ) );
             sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                            "alarm" );
-            if( !g->events.queued( EVENT_WANTED ) ) {
-                g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p->global_sm_location() );
+            if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
+                g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
+                                     p->global_sm_location() );
             }
         }
     } else {
@@ -4440,27 +4441,11 @@ int iuse::mind_splicer( player *p, item *it, bool, const tripoint & )
 
 void iuse::cut_log_into_planks( player &p )
 {
-    p.moves -= to_moves<int>( 20_minutes );
+    int moves = to_moves<int>( 20_minutes );
     p.add_msg_if_player( _( "You cut the log into planks." ) );
-    const int max_planks = 10;
-    /** @EFFECT_FABRICATION increases number of planks cut from a log */
-    int planks = normal_roll( 2 + p.get_skill_level( skill_fabrication ), 1 );
-    int wasted_planks = max_planks - planks;
-    int scraps = rng( wasted_planks, wasted_planks * 3 );
-    planks = std::min( planks, max_planks );
-    if( planks > 0 ) {
-        item plank( "2x4", calendar::turn );
-        p.i_add_or_drop( plank, planks );
-        p.add_msg_if_player( m_good, _( "You produce %d planks." ), planks );
-    }
-    if( scraps > 0 ) {
-        item scrap( "splinter", calendar::turn );
-        p.i_add_or_drop( scrap, scraps );
-        p.add_msg_if_player( m_good, _( "You produce %d splinters." ), scraps );
-    }
-    if( planks < max_planks / 2 ) {
-        add_msg( m_bad, _( "You waste a lot of the wood." ) );
-    }
+
+    p.assign_activity( activity_id( "ACT_CHOP_PLANKS" ), moves, -1 );
+    p.activity.placement = p.pos();
 }
 
 int iuse::lumber( player *p, item *it, bool t, const tripoint & )
@@ -4938,7 +4923,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_LIGHT:
                 p->add_msg_if_player( _( "The %s glows brightly!" ), it->tname() );
-                g->events.add( EVENT_ARTIFACT_LIGHT, calendar::turn + 3_minutes );
+                g->timed_events.add( TIMED_EVENT_ARTIFACT_LIGHT, calendar::turn + 3_minutes );
                 break;
 
             case AEA_GROWTH: {
@@ -5017,7 +5002,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_DIM:
                 p->add_msg_if_player( _( "The sky starts to dim." ) );
-                g->events.add( EVENT_DIM, calendar::turn + 5_minutes );
+                g->timed_events.add( TIMED_EVENT_DIM, calendar::turn + 5_minutes );
                 break;
 
             case AEA_FLASH:
@@ -6605,9 +6590,9 @@ static std::string effects_description_for_creature( Creature *const creature, s
         ef_con( std::string status, std::string pose ) :
             status( status ), pose( pose ), intensity_lower_limit( 0 ) {}
         ef_con( std::string status, int intensity_lower_limit ) :
-            status( status ), pose(), intensity_lower_limit( intensity_lower_limit ) {}
+            status( status ), intensity_lower_limit( intensity_lower_limit ) {}
         ef_con( std::string status ) :
-            status( status ), pose(), intensity_lower_limit( 0 ) {}
+            status( status ), intensity_lower_limit( 0 ) {}
     };
     static const std::unordered_map<efftype_id, ef_con> vec_effect_status = {
         { effect_onfire, ef_con( _( " is on <color_red>fire</color>. " ) ) },
@@ -7058,11 +7043,11 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
 
     if( g->get_levz() >= 0 && need_store_weather ) {
         photo_text += "\n\n";
-        if( calendar::turn.is_sunrise_now() ) {
+        if( is_sunrise_now( calendar::turn ) ) {
             photo_text += _( "It is <color_yellow>sunrise</color>. " );
-        } else if( calendar::turn.is_sunset_now() ) {
+        } else if( is_sunset_now( calendar::turn ) ) {
             photo_text += _( "It is <color_light_red>sunset</color>. " );
-        } else if( calendar::turn.is_night() ) {
+        } else if( is_night( calendar::turn ) ) {
             photo_text += _( "It is <color_dark_gray>night</color>. " );
         } else {
             photo_text += _( "It is day. " );
@@ -8046,16 +8031,7 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
         if( !it->units_sufficient( *p ) ) {
             add_msg( m_bad, _( "The autoclave ran out of battery and stopped before completing its cycle." ) );
             it->active = false;
-            item *clean_cbm = nullptr;
-            for( item &bio : it->contents ) {
-                if( bio.is_bionic() ) {
-                    clean_cbm = &bio;
-                }
-            }
-            if( clean_cbm ) {
-                g->m.add_item( pos, *clean_cbm );
-                it->remove_item( *clean_cbm );
-            }
+            it->erase_var( "CYCLETIME" );
             return 0;
         }
 
@@ -8064,17 +8040,11 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
         if( Cycle_time <= 0 ) {
             it->active = false;
             it->erase_var( "CYCLETIME" );
-            item *clean_cbm = nullptr;
             for( item &bio : it->contents ) {
                 if( bio.is_bionic() ) {
                     bio.unset_flag( "NO_STERILE" );
                     bio.set_var( "sterile", 1 ); // sterile for 1s if not (packed);
-                    clean_cbm = &bio;
                 }
-            }
-            if( clean_cbm ) {
-                g->m.add_item( pos, *clean_cbm );
-                it->remove_item( *clean_cbm );
             }
         } else {
             it->set_var( "CYCLETIME", Cycle_time );
@@ -8085,16 +8055,45 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
             return 0;
         }
 
-        auto reqs = *requirement_id( "autoclave_item" );
+        bool empty = true;
+        item *clean_cbm = nullptr;
+        for( item &bio : it->contents ) {
+            if( bio.is_bionic() ) {
+                clean_cbm = &bio;
+            }
+        }
+        if( clean_cbm ) {
+            empty = false;
+            if( query_yn( _( "Autoclave already contains a CBM.  Do you want to remove it?" ) ) ) {
+                g->m.add_item( pos, *clean_cbm );
+                it->remove_item( *clean_cbm );
+                if( !query_yn( _( "Do you want to use the autoclave?" ) ) ) {
+                    return 0;
+                }
+                empty = true;
+            }
+        }
 
-        item_location to_sterile = game_menus::inv::sterilize_cbm( *p );
-
-        if( !to_sterile ) {
+        //Using power_draw seem to consume random amount of battery so +100 to be safe
+        static const int power_need = ( ( it->type->tool->power_draw / 1000 ) * to_seconds<int>
+                                        ( 90_minutes ) ) / 1000 + 100;
+        if( power_need > it->ammo_remaining() ) {
+            popup( string_format(
+                       _( "The autoclave doesn't have enough battery for one cycle.  You need at least %s charges." ),
+                       power_need ) );
             return 0;
         }
 
-        if( query_yn( _( "Start the autoclave?" ) ) ) {
+        item_location to_sterile;
+        if( empty ) {
+            to_sterile = game_menus::inv::sterilize_cbm( *p );
+            if( !to_sterile ) {
+                return 0;
+            }
+        }
 
+        if( query_yn( _( "Start the autoclave?" ) ) ) {
+            auto reqs = *requirement_id( "autoclave_item" );
             for( const auto &e : reqs.get_components() ) {
                 p->consume_items( e, 1, is_crafting_component );
             }
@@ -8102,10 +8101,12 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
                 p->consume_tools( e );
             }
             p->invalidate_crafting_inventory();
-            const item *cbm = to_sterile.get_item();
 
-            it->put_in( *cbm );
-            to_sterile.remove_item();
+            if( empty ) {
+                const item *cbm = to_sterile.get_item();
+                it->put_in( *cbm );
+                to_sterile.remove_item();
+            }
 
             it->activate();
             it->set_var( "CYCLETIME", to_seconds<int>( 90_minutes ) ); // one cycle
@@ -9263,7 +9264,8 @@ use_function::use_function( const use_function &other )
 
 use_function &use_function::operator=( iuse_actor *const f )
 {
-    return operator=( use_function( f ) );
+    *this = use_function( f );
+    return *this;
 }
 
 use_function &use_function::operator=( const use_function &other )

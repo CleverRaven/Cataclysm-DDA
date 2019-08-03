@@ -68,7 +68,9 @@ enum vpart_bitflags : int {
     VPFLAG_RECHARGE,
     VPFLAG_EXTENDS_VISION,
     VPFLAG_ENABLED_DRAINS_EPOWER,
+    VPFLAG_AUTOCLAVE,
     VPFLAG_WASHING_MACHINE,
+    VPFLAG_DISHWASHER,
     VPFLAG_FLUIDTANK,
     VPFLAG_REACTOR,
     VPFLAG_RAIL,
@@ -265,6 +267,9 @@ class vpart_info
 
         /** seatbelt (str), muffler (%), horn (vol), light (intensity) */
         int bonus = 0;
+
+        /** cargo weight modifier (percentage) */
+        int cargo_weight_modifier = 100;
 
         /** Flat decrease of damage of a given type. */
         std::array<float, NUM_DT> damage_reduction;

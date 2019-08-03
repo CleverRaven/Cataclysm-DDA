@@ -25,7 +25,7 @@
 #include "craft_command.h"
 #include "debug.h"
 #include "effect.h"
-#include "event.h"
+#include "timed_event.h"
 #include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -107,7 +107,6 @@ const efftype_id effect_mending( "mending" );
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_under_op( "under_operation" );
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -1347,7 +1346,7 @@ void iexamine::pedestal_wyrm( player &p, const tripoint &examp )
     sounds::sound( examp, 80, sounds::sound_t::combat, _( "an ominous grinding noise..." ), true,
                    "misc", "stones_grinding" );
     g->m.ter_set( examp, t_rock_floor );
-    g->events.add( EVENT_SPAWN_WYRMS, calendar::turn + rng( 30_seconds, 60_seconds ) );
+    g->timed_events.add( TIMED_EVENT_SPAWN_WYRMS, calendar::turn + rng( 30_seconds, 60_seconds ) );
 }
 
 /**
@@ -1360,13 +1359,13 @@ void iexamine::pedestal_temple( player &p, const tripoint &examp )
         add_msg( _( "The pedestal sinks into the ground..." ) );
         g->m.ter_set( examp, t_dirt );
         g->m.i_clear( examp );
-        g->events.add( EVENT_TEMPLE_OPEN, calendar::turn + 10_seconds );
+        g->timed_events.add( TIMED_EVENT_TEMPLE_OPEN, calendar::turn + 10_seconds );
     } else if( p.has_amount( "petrified_eye", 1 ) &&
                query_yn( _( "Place your petrified eye on the pedestal?" ) ) ) {
         p.use_amount( "petrified_eye", 1 );
         add_msg( _( "The pedestal sinks into the ground..." ) );
         g->m.ter_set( examp, t_dirt );
-        g->events.add( EVENT_TEMPLE_OPEN, calendar::turn + 10_seconds );
+        g->timed_events.add( TIMED_EVENT_TEMPLE_OPEN, calendar::turn + 10_seconds );
     } else {
         add_msg( _( "This pedestal is engraved in eye-shaped diagrams, and has a \
 large semi-spherical indentation at the top." ) );
@@ -1468,7 +1467,7 @@ void iexamine::fswitch( player &p, const tripoint &examp )
         }
     }
     add_msg( m_warning, _( "You hear the rumble of rock shifting." ) );
-    g->events.add( EVENT_TEMPLE_SPAWN, calendar::turn + 3_turns );
+    g->timed_events.add( TIMED_EVENT_TEMPLE_SPAWN, calendar::turn + 3_turns );
 }
 
 /**
@@ -1809,7 +1808,7 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
         }
     }
     int roll = rng( 1, 5 );
-    bool drop_eggs = ( monster_count >= 1 ? true : false );
+    bool drop_eggs = monster_count >= 1;
     for( int i = 0; i < roll; i++ ) {
         handle_harvest( p, "spider_egg", drop_eggs );
     }
@@ -2609,6 +2608,10 @@ void iexamine::fireplace( player &p, const tripoint &examp )
     const bool has_bionic_firestarter = p.has_bionic( bionic_id( "bio_lighter" ) ) &&
                                         p.power_level >= bionic_id( "bio_lighter" )->power_activate;
 
+    auto firequenchers = p.items_with( []( const item & it ) {
+        return it.damage_melee( DT_BASH );
+    } );
+
     uilist selection_menu;
     selection_menu.text = _( "Select an action" );
     selection_menu.addentry( 0, true, 'e', _( "Examine" ) );
@@ -2618,10 +2621,10 @@ void iexamine::fireplace( player &p, const tripoint &examp )
         if( has_bionic_firestarter ) {
             selection_menu.addentry( 2, true, 'b', _( "Use a CBM to start a fire" ) );
         }
-    } else if( p.weapon.damage_melee( DT_BASH ) ) {
+    } else if( !firequenchers.empty() ) {
         selection_menu.addentry( 4, true, 's', _( "Put out fire" ) );
     } else {
-        selection_menu.addentry( 4, false, 's', _( "Put out fire - wield bashing item" ) );
+        selection_menu.addentry( 4, false, 's', _( "Put out fire (bashing item required)" ) );
     }
     if( furn_is_deployed ) {
         selection_menu.addentry( 3, true, 't', string_format( _( "Take down the %s" ),
@@ -4075,8 +4078,9 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
                                     pgettext( "memorial_female", "Set off an alarm." ) );
                 sounds::sound( p.pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
                                "alarm" );
-                if( examp.z > 0 && !g->events.queued( EVENT_WANTED ) ) {
-                    g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p.global_sm_location() );
+                if( examp.z > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
+                    g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
+                                         p.global_sm_location() );
                 }
                 break;
             case HACK_NOTHING:
@@ -4370,9 +4374,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
             return;
         }
-    } else if( patient.has_effect( effect_under_op ) ) {
+    } else if( patient.activity.id() == "ACT_OPERATION" ) {
         popup( _( "Operation underway.  Please wait until the end of the current procedure.  Estimated time remaining: %s." ),
-               to_string( patient.get_effect_dur( effect_under_op ) ) );
+               to_string( time_duration::from_turns( patient.activity.moves_left / 100 ) ) );
         p.add_msg_if_player( m_info, _( "The autodoc is working on %s." ), patient.disp_name() );
         return;
     }
@@ -4445,7 +4449,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
                 }
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
-                patient.add_effect( effect_under_op, duration, num_bp );
                 patient.install_bionics( ( *itemtype ), installer, true );
             }
             break;
@@ -4510,7 +4513,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
                 }
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
-                patient.add_effect( effect_under_op, duration, num_bp );
                 patient.uninstall_bionic( bid, installer, true );
             }
             break;
@@ -4520,7 +4522,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             int broken_limbs_count = 0;
             for( int i = 0; i < num_hp_parts; i++ ) {
                 const bool broken = patient.get_hp( static_cast<hp_part>( i ) ) <= 0;
-                body_part part = patient.hp_to_bp( static_cast<hp_part>( i ) );
+                body_part part = player::hp_to_bp( static_cast<hp_part>( i ) );
                 effect &existing_effect = patient.get_effect( effect_mending, part );
                 // Skip part if not broken or already healed 50%
                 if( !broken || ( !existing_effect.is_null() &&
@@ -4931,8 +4933,8 @@ static void smoker_load_food( player &p, const tripoint &examp,
     for( const item &m : moved ) {
         g->m.add_item( examp, m );
         p.mod_moves( -p.item_handling_cost( m ) );
-        add_msg( m_info, _( "You carefully place %s %s in the rack." ), amount, m.nname( m.typeId(),
-                 amount ) );
+        add_msg( m_info, _( "You carefully place %s %s in the rack." ), amount,
+                 item::nname( m.typeId(), amount ) );
     }
     p.invalidate_crafting_inventory();
 }
@@ -5039,8 +5041,7 @@ static void mill_load_food( player &p, const tripoint &examp,
         g->m.add_item( examp, m );
         p.mod_moves( -p.item_handling_cost( m ) );
         add_msg( m_info, pgettext( "item amount and name", "You carefully place %s %s in the mill." ),
-                 amount, m.nname( m.typeId(),
-                                  amount ) );
+                 amount, item::nname( m.typeId(), amount ) );
     }
     p.invalidate_crafting_inventory();
 }
@@ -5176,7 +5177,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
                             "\n ";
                         continue;
                     }
-                    pop << "-> " << it.nname( it.typeId(), it.charges );
+                    pop << "-> " << item::nname( it.typeId(), it.charges );
                     pop << " (" << std::to_string( it.charges ) << ") \n ";
                 }
             }
@@ -5380,7 +5381,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                             "\n ";
                         continue;
                     }
-                    pop << "-> " << it.nname( it.typeId(), it.charges );
+                    pop << "-> " << item::nname( it.typeId(), it.charges );
                     pop << " (" << std::to_string( it.charges ) << ") \n ";
                 }
             }

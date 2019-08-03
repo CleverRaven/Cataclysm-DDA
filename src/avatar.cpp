@@ -71,6 +71,7 @@ const efftype_id effect_depressants( "depressants" );
 const efftype_id effect_happy( "happy" );
 const efftype_id effect_irradiated( "irradiated" );
 const efftype_id effect_pkill( "pkill" );
+const efftype_id effect_riding( "riding" );
 const efftype_id effect_sad( "sad" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_sleep_deprived( "sleep_deprived" );
@@ -102,7 +103,7 @@ static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 
 const skill_id skill_unarmed( "unarmed" );
 
-avatar::avatar() : player()
+avatar::avatar()
 {
     show_map_memory = true;
     active_mission = nullptr;
@@ -120,7 +121,7 @@ void avatar::memorial( std::ostream &memorial_file, const std::string &epitaph )
 
     //Avoid saying "a male unemployed" or similar
     std::string profession_name;
-    if( prof == prof->generic( ) ) {
+    if( prof == profession::generic() ) {
         if( male ) {
             profession_name = _( "an unemployed male" );
         } else {
@@ -262,7 +263,7 @@ void avatar::memorial( std::ostream &memorial_file, const std::string &epitaph )
     memorial_file << _( "Bionics:" ) << eol;
     int total_bionics = 0;
     for( size_t i = 0; i < my_bionics->size(); ++i ) {
-        memorial_file << indent << ( i + 1 ) << ": " << ( *my_bionics )[i].id->name << eol;
+        memorial_file << indent << i + 1 << ": " << ( *my_bionics )[i].id->name << eol;
         total_bionics++;
     }
     if( total_bionics == 0 ) {
@@ -692,8 +693,7 @@ bool avatar::read( int inventory_position, const bool continuous )
                 const int lvl = elem.first->get_skill_level( skill );
                 const std::string lvl_text = skill ? string_format( _( " | current level: %d" ), lvl ) : "";
                 const std::string name_text = elem.first->disp_name() + elem.second;
-                return string_format( ( "%-*s%s" ), static_cast<int>( max_length( m ) ),
-                                      name_text, lvl_text );
+                return string_format( "%-*s%s", static_cast<int>( max_length( m ) ), name_text, lvl_text );
             };
 
             auto add_header = [&menu]( const std::string & str ) {
@@ -1248,11 +1248,11 @@ void avatar::update_mental_focus()
     // for every 100 points, we have a flat gain of 1 focus.
     // for every n points left over, we have an n% chance of 1 focus
     int gain = focus_gain_rate / 100;
-    if( rng( 1, 100 ) <= ( focus_gain_rate % 100 ) ) {
+    if( rng( 1, 100 ) <= focus_gain_rate % 100 ) {
         gain++;
     }
 
-    focus_pool += ( gain * base_change );
+    focus_pool += gain * base_change;
 
     // Fatigue should at least prevent high focus
     // This caps focus gain at 60(arbitrary value) if you're Dead Tired
@@ -1354,7 +1354,7 @@ void avatar::reset_stats()
     // Starvation
     const float bmi = get_bmi();
     if( bmi < character_weight_category::underweight ) {
-        const int str_penalty = floor( ( 1.0f - ( bmi - 13.0f ) / 3.0f ) * get_str_base() ) + 0.5f;
+        const int str_penalty = floor( ( 1.0f - ( bmi - 13.0f ) / 3.0f ) * get_str_base() );
         add_miss_reason( _( "You're weak from hunger." ),
                          static_cast<unsigned>( ( get_starvation() + 300 ) / 1000 ) );
         mod_str_bonus( -str_penalty );
@@ -1379,14 +1379,18 @@ void avatar::reset_stats()
 
     // Dodge-related effects
     mod_dodge_bonus( mabuff_dodge_bonus() -
-                     ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20.0f -
-                     ( encumb( bp_torso ) / 10.0f ) );
+                     ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20.0f - encumb( bp_torso ) / 10.0f );
     // Whiskers don't work so well if they're covered
     if( has_trait( trait_WHISKERS ) && !wearing_something_on( bp_mouth ) ) {
         mod_dodge_bonus( 1 );
     }
     if( has_trait( trait_WHISKERS_RAT ) && !wearing_something_on( bp_mouth ) ) {
         mod_dodge_bonus( 2 );
+    }
+    // depending on mounts size, attacks will hit the mount and use their dodge rating.
+    // if they hit the player, the player cannot dodge as effectively.
+    if( is_mounted() ) {
+        mod_dodge_bonus( -4 );
     }
     // Spider hair is basically a full-body set of whiskers, once you get the brain for it
     if( has_trait( trait_CHITIN_FUR3 ) ) {

@@ -88,6 +88,8 @@ Any aoe will manifest as a circular area centered on the target, and will only d
 - "PAIN"
 - "BIONIC"
 
+* "ter_transform" - transform the terrain and furniture in an area centered at the target.  The chance of any one of the points in the area of effect changing is one_in( damage ).  The effect_str is the id of a ter_furn_transform.
+
 ##### For Spells that have an attack type, these are the available damage types:
 * "fire"
 * "acid"
