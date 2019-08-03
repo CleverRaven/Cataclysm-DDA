@@ -3,6 +3,7 @@
 #define SDL_UTILS_H
 
 #include <algorithm>
+#include <cmath>
 
 #include "color.h"
 #include "sdl_wrappers.h"
