@@ -1925,7 +1925,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( parts->test( iteminfo_parts::ARMOR_LAYER ) && covers_anything ) {
             temp1.str( "" );
             temp1 << _( "Layer: " );
-            if( has_flag( "SKINTIGHT" ) ) {
+            if( has_flag( "PERSONAL" ) ) {
+                temp1 << _( "<stat>Personal aura</stat>. " );
+            } else if( has_flag( "SKINTIGHT" ) ) {
                 temp1 << _( "<stat>Close to skin</stat>. " );
             } else if( has_flag( "BELTED" ) ) {
                 temp1 << _( "<stat>Strapped</stat>. " );
@@ -1933,6 +1935,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 temp1 << _( "<stat>Outer</stat>. " );
             } else if( has_flag( "WAIST" ) ) {
                 temp1 << _( "<stat>Waist</stat>. " );
+            } else if( has_flag( "AURA" ) ) {
+                temp1 << _( "<stat>Outer aura</stat>. " );
             } else {
                 temp1 << _( "<stat>Normal</stat>. " );
             }
@@ -4421,14 +4425,18 @@ layer_level item::get_layer() const
         return type->layer;
     }
 
-    if( has_flag( "SKINTIGHT" ) ) {
-        return UNDERWEAR;
+    if( has_flag( "PERSONAL" ) ) {
+        return PERSONAL_LAYER;
+    } else if( has_flag( "SKINTIGHT" ) ) {
+        return UNDERWEAR_LAYER;
     } else if( has_flag( "WAIST" ) ) {
         return WAIST_LAYER;
     } else if( has_flag( "OUTER" ) ) {
         return OUTER_LAYER;
     } else if( has_flag( "BELTED" ) ) {
         return BELTED_LAYER;
+    } else if( has_flag( "AURA" ) ) {
+        return AURA_LAYER;
     } else {
         return REGULAR_LAYER;
     }

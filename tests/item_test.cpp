@@ -33,7 +33,7 @@ TEST_CASE( "item_volume", "[item]" )
 
 TEST_CASE( "simple_item_layers", "[item]" )
 {
-    CHECK( item( "arm_warmers" ).get_layer() == UNDERWEAR );
+    CHECK( item( "arm_warmers" ).get_layer() == UNDERWEAR_LAYER );
     CHECK( item( "10gal_hat" ).get_layer() == REGULAR_LAYER );
     CHECK( item( "baldric" ).get_layer() == WAIST_LAYER );
     CHECK( item( "aep_suit" ).get_layer() == OUTER_LAYER );

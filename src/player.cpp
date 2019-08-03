@@ -7627,24 +7627,24 @@ ret_val<bool> player::can_wear( const item &it ) const
 
     if( ( ( it.covers( bp_foot_l ) && is_wearing_shoes( side::LEFT ) ) ||
           ( it.covers( bp_foot_r ) && is_wearing_shoes( side::RIGHT ) ) ) &&
-        ( !it.has_flag( "OVERSIZE" ) || !it.has_flag( "OUTER" ) ) &&
-        !it.has_flag( "SKINTIGHT" ) && !it.has_flag( "BELTED" ) ) {
+        ( !it.has_flag( "OVERSIZE" ) || !it.has_flag( "OUTER" ) ) && !it.has_flag( "SKINTIGHT" ) &&
+        !it.has_flag( "BELTED" ) && !it.has_flag( "PERSONAL" ) && !it.has_flag( "AURA" ) &&
+        !it.has_flag( "SEMITANGIBLE" ) ) {
         // Checks to see if the player is wearing shoes
         return ret_val<bool>::make_failure( ( is_player() ? _( "You're already wearing footwear!" )
                                               : string_format( _( "%s is already wearing footwear!" ), name ) ) );
     }
 
     if( it.covers( bp_head ) &&
-        !it.has_flag( "HELMET_COMPAT" ) &&
-        !it.has_flag( "SKINTIGHT" ) &&
-        !it.has_flag( "OVERSIZE" ) &&
+        !it.has_flag( "HELMET_COMPAT" ) && !it.has_flag( "SKINTIGHT" ) && !it.has_flag( "PERSONAL" ) &&
+        !it.has_flag( "AURA" ) && !it.has_flag( "SEMITANGIBLE" ) && !it.has_flag( "OVERSIZE" ) &&
         is_wearing_helmet() ) {
         return ret_val<bool>::make_failure( wearing_something_on( bp_head ),
                                             ( is_player() ? _( "You can't wear that with other headgear!" )
                                               : string_format( _( "%s can't wear that with other headgear!" ), name ) ) );
     }
 
-    if( it.covers( bp_head ) &&
+    if( it.covers( bp_head ) && !it.has_flag( "SEMITANGIBLE" ) &&
         ( it.has_flag( "SKINTIGHT" ) || it.has_flag( "HELMET_COMPAT" ) ) &&
         ( head_cloth_encumbrance() + it.get_encumber( *this ) > 40 ) ) {
         return ret_val<bool>::make_failure( ( is_player() ? _( "You can't wear that much on your head!" )
@@ -7660,7 +7660,7 @@ ret_val<bool> player::can_wear( const item &it ) const
         return ret_val<bool>::make_failure( _( "Can't wear that, it's filthy!" ) );
     }
 
-    if( !it.has_flag( "OVERSIZE" ) ) {
+    if( !it.has_flag( "OVERSIZE" ) && !it.has_flag( "SEMITANGIBLE" ) ) {
         for( const trait_id &mut : get_mutations() ) {
             const auto &branch = mut.obj();
             if( branch.conflicts_with_item( it ) ) {
@@ -7668,7 +7668,7 @@ ret_val<bool> player::can_wear( const item &it ) const
                                                     branch.name(), it.type_name() );
             }
         }
-        if( it.covers( bp_head ) &&
+        if( it.covers( bp_head ) && !it.has_flag( "SEMITANGIBLE" ) &&
             !it.made_of( material_id( "wool" ) ) && !it.made_of( material_id( "cotton" ) ) &&
             !it.made_of( material_id( "nomex" ) ) && !it.made_of( material_id( "leather" ) ) &&
             ( has_trait( trait_HORNS_POINTED ) || has_trait( trait_ANTENNAE ) ||
@@ -8154,7 +8154,10 @@ int player::item_wear_cost( const item &it ) const
     double mv = item_handling_cost( it );
 
     switch( it.get_layer() ) {
-        case UNDERWEAR:
+        case PERSONAL_LAYER:
+            break;
+
+        case UNDERWEAR_LAYER:
             mv *= 1.5;
             break;
 
@@ -8169,6 +8172,10 @@ int player::item_wear_cost( const item &it ) const
         case BELTED_LAYER:
             mv /= 2.0;
             break;
+
+        case AURA_LAYER:
+            break;
+
         default:
             break;
     }

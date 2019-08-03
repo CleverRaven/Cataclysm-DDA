@@ -118,8 +118,8 @@ struct encumbrance_data {
     std::array<layer_details, static_cast<size_t>( layer_level::MAX_CLOTHING_LAYER )>
     layer_penalty_details;
 
-    void layer( const layer_level level, const int emcumbrance ) {
-        layer_penalty += layer_penalty_details[static_cast<size_t>( level )].layer( emcumbrance );
+    void layer( const layer_level level, const int encumbrance ) {
+        layer_penalty += layer_penalty_details[static_cast<size_t>( level )].layer( encumbrance );
     }
 
     void reset() {

@@ -71,7 +71,7 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
         }
         const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
         [layer, bp]( const item & i ) {
-            return i.get_layer() == layer && i.covers( bp );
+            return i.get_layer() == layer && i.covers( bp ) && !i.has_flag( "SEMITANGIBLE" );
         } );
         if( num_items > 1 ) {
             body_parts_with_stacking_penalty.push_back( bp );
@@ -179,7 +179,9 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
     if( !penalties.body_parts_with_stacking_penalty.empty() ) {
         std::string layer_description = [&]() {
             switch( worn_item_it->get_layer() ) {
-                case UNDERWEAR:
+                case PERSONAL_LAYER:
+                    return _( "in your <color_light_blue>personal aura</color>" );
+                case UNDERWEAR_LAYER:
                     return _( "<color_light_blue>close to your skin</color>" );
                 case REGULAR_LAYER:
                     return _( "of <color_light_blue>normal</color> clothing" );
@@ -189,6 +191,8 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
                     return _( "of <color_light_blue>outer</color> clothing" );
                 case BELTED_LAYER:
                     return _( "<color_light_blue>strapped</color> to you" );
+                case AURA_LAYER:
+                    return _( "an <color_light_blue>aura</color> around you" );
                 default:
                     debugmsg( "Unexpected layer" );
                     return "";
@@ -243,7 +247,9 @@ std::string clothing_layer( const item &worn_item )
 {
     std::string layer;
 
-    if( worn_item.has_flag( "SKINTIGHT" ) ) {
+    if( worn_item.has_flag( "PERSONAL" ) ) {
+        layer = _( "This is in your personal aura." );
+    } else if( worn_item.has_flag( "SKINTIGHT" ) ) {
         layer = _( "This is worn next to the skin." );
     } else if( worn_item.has_flag( "WAIST" ) ) {
         layer = _( "This is worn on or around your waist." );
@@ -251,6 +257,8 @@ std::string clothing_layer( const item &worn_item )
         layer = _( "This is worn over your other clothes." );
     } else if( worn_item.has_flag( "BELTED" ) ) {
         layer = _( "This is strapped onto you." );
+    } else if( worn_item.has_flag( "AURA" ) ) {
+        layer = _( "This is an aura around you." );
     }
 
     return layer;
@@ -328,6 +336,9 @@ std::vector<std::string> clothing_flags_description( const item &worn_item )
     }
     if( worn_item.has_flag( "SWIM_GOGGLES" ) ) {
         description_stack.push_back( _( "It helps you to see clearly underwater." ) );
+    }
+    if( worn_item.has_flag( "SEMITANGIBLE" ) ) {
+        description_stack.push_back( _( "It can occupy the same space as other things." ) );
     }
 
     return description_stack;

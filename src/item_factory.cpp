@@ -354,14 +354,18 @@ void Item_factory::finalize_pre( itype &obj )
         obj.drop_action.get_actor_ptr()->finalize( obj.id );
     }
 
-    if( obj.item_tags.count( "SKINTIGHT" ) ) {
-        obj.layer = UNDERWEAR;
+    if( obj.item_tags.count( "PERSONAL" ) ) {
+        obj.layer = PERSONAL_LAYER;
+    } else if( obj.item_tags.count( "SKINTIGHT" ) ) {
+        obj.layer = UNDERWEAR_LAYER;
     } else if( obj.item_tags.count( "WAIST" ) ) {
         obj.layer = WAIST_LAYER;
     } else if( obj.item_tags.count( "OUTER" ) ) {
         obj.layer = OUTER_LAYER;
     } else if( obj.item_tags.count( "BELTED" ) ) {
         obj.layer = BELTED_LAYER;
+    } else if( obj.item_tags.count( "AURA" ) ) {
+        obj.layer = AURA_LAYER;
     } else {
         obj.layer = REGULAR_LAYER;
     }
