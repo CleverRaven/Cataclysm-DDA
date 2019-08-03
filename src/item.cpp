@@ -679,6 +679,11 @@ int item::charges_per_volume( const units::volume &vol ) const
     }
 }
 
+bool item::display_stacked_with( const item &rhs, bool check_components ) const
+{
+    return !count_by_charges() && stacks_with( rhs, check_components );
+}
+
 bool item::stacks_with( const item &rhs, bool check_components ) const
 {
     if( type != rhs.type ) {

@@ -457,7 +457,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     for( item_stack::iterator it : here ) {
         bool found_stack = false;
         for( std::list<item_stack::iterator> &stack : stacked_here ) {
-            if( stack.front()->stacks_with( *it ) ) {
+            if( stack.front()->display_stacked_with( *it ) ) {
                 stack.push_back( it );
                 found_stack = true;
                 break;
