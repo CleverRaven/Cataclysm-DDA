@@ -209,6 +209,20 @@
     ]
   },
   {
+    "result": "vh_autoclave",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "skill_required": [ "electronics", 4 ],
+    "difficulty": 4,
+    "time": "30 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 5 ] ],
+    "components": [ [ [ "autoclave", 1 ] ], [ [ "cable", 2 ] ], [ [ "power_supply", 2 ] ] ]
+  },
+  {
     "result": "washing_machine",
     "type": "recipe",
     "category": "CC_OTHER",

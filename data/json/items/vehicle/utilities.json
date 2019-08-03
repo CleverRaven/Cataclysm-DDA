@@ -16,6 +16,18 @@
   },
   {
     "type": "GENERIC",
+    "id": "vh_autoclave",
+    "name": "mountable autoclave",
+    "description": "This autoclave has been rigged to run off a vehicle power grid.",
+    "price": 162654,
+    "symbol": "A",
+    "color": "yellow",
+    "weight": 34500,
+    "volume": "76 L",
+    "copy-from": "washing_machine"
+  },
+  {
+    "type": "GENERIC",
     "copy-from": "washing_machine",
     "id": "minifridge",
     "name": "minifridge",

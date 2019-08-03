@@ -4484,6 +4484,29 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
         }
     }
 
+    const bool autoclave_here = cur_veh.part_flag( part, VPFLAG_AUTOCLAVE ) &&
+                                cur_veh.is_part_on( part );
+    bool autoclave_finished = false;
+    if( autoclave_here ) {
+        for( auto &n : cur_veh.get_items( part ) ) {
+            const time_duration cycle_time = 90_minutes;
+            const time_duration time_left = cycle_time - n.age();
+            static const std::string no_sterile( "NO_STERILE" );
+            if( time_left <= 0_turns ) {
+                n.item_tags.erase( no_sterile );
+                autoclave_finished = true;
+                cur_veh.parts[part].enabled = false;
+            } else if( calendar::once_every( 15_minutes ) ) {
+                add_msg( _( "It should take %d minutes to finish sterilising items in the %s." ),
+                         to_minutes<int>( time_left ) + 1, cur_veh.name );
+                break;
+            }
+        }
+        if( autoclave_finished ) {
+            add_msg( _( "The autoclave in the %s has finished washing." ), cur_veh.name );
+        }
+    }
+
     if( cur_veh.part_with_feature( part, VPFLAG_RECHARGE, true ) >= 0 &&
         cur_veh.has_part( "RECHARGE", true ) ) {
         for( auto &n : cur_veh.get_items( part ) ) {

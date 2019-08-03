@@ -815,6 +815,30 @@
   },
   {
     "type": "vehicle_part",
+    "id": "autoclave",
+    "name": "autoclave",
+    "symbol": "A",
+    "color": "yellow",
+    "broken_symbol": "#",
+    "broken_color": "light_blue",
+    "damage_modifier": 80,
+    "durability": 100,
+    "description": "This is an autoclave.  It's useful for sterilizing things like CBMs.  'e'xamine the tile with the autoclave to use it.",
+    "epower": -1500,
+    "size": 11,
+    "item": "vh_autoclave",
+    "difficulty": 3,
+    "location": "center",
+    "flags": [ "CARGO", "OBSTACLE", "AUTOCLAVE", "COVERED", "TOOL_WRENCH", "ENABLED_DRAINS_EPOWER" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 6, 10 ] },
+      { "item": "steel_chunk", "count": [ 6, 10 ] },
+      { "item": "scrap", "count": [ 6, 10 ] },
+      { "item": "hose", "prob": 50 }
+    ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "trunk",
     "name": "trunk",
     "symbol": "H",
