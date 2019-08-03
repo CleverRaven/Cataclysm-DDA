@@ -14,6 +14,7 @@
 #include "game.h"
 #include "iexamine.h"
 #include "item_category.h"
+#include "item_search.h"
 #include "itype.h"
 #include "json.h"
 #include "line.h"
@@ -22,6 +23,7 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
+#include "uistate.h"
 #include "vehicle.h"
 #include "item.h"
 #include "player.h"
@@ -126,6 +128,9 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "LOOT_WOOD" ),
                    zone_type( translate_marker( "Loot: Wood" ),
                               translate_marker( "Destination for firewood and items that can be used as such." ) ) );
+    types.emplace( zone_type_id( "LOOT_CUSTOM" ),
+                   zone_type( translate_marker( "Loot: Custom" ),
+                              translate_marker( "Destination for loot with a custom filter that you can modify." ) ) );
     types.emplace( zone_type_id( "LOOT_IGNORE" ),
                    zone_type( translate_marker( "Loot: Ignore" ),
                               translate_marker( "Items inside of this zone are ignored by \"sort out loot\" zone-action." ) ) );
@@ -157,6 +162,8 @@ std::shared_ptr<zone_options> zone_options::create( const zone_type_id &type )
         return std::make_shared<plot_options>();
     } else if( type == zone_type_id( "CONSTRUCTION_BLUEPRINT" ) ) {
         return std::make_shared<blueprint_options>();
+    } else if( type == zone_type_id( "LOOT_CUSTOM" ) ) {
+        return std::make_shared<loot_options>();
     }
 
     return std::make_shared<zone_options>();
@@ -168,6 +175,8 @@ bool zone_options::is_valid( const zone_type_id &type, const zone_options &optio
         return dynamic_cast<const plot_options *>( &options ) != nullptr ;
     } else if( type == zone_type_id( "CONSTRUCTION_BLUEPRINT" ) ) {
         return dynamic_cast<const blueprint_options *>( &options ) != nullptr ;
+    } else if( type == zone_type_id( "LOOT_CUSTOM" ) ) {
+        return dynamic_cast<const loot_options *>( &options ) != nullptr ;
     }
 
     // ensure options is not derived class for the rest of zone types
@@ -197,6 +206,25 @@ blueprint_options::query_con_result blueprint_options::query_con()
     } else {
         return canceled;
     }
+}
+
+loot_options::query_loot_result loot_options::query_loot()
+{
+    int w_height = TERMY / 2;
+
+    const int w_width = TERMX / 2;
+    const int w_y0 = ( TERMY > w_height ) ? ( TERMY - w_height ) / 4 : 0;
+    const int w_x0 = ( TERMX > w_width ) ? ( TERMX - w_width ) / 2 : 0;
+
+    catacurses::window w_con = catacurses::newwin( w_height, w_width, w_y0, w_x0 );
+    draw_item_filter_rules( w_con, 1, w_height - 1, item_filter_type::FILTER );
+    string_input_popup()
+    .title( _( "Filter:" ) )
+    .width( 55 )
+    .identifier( "item_filter" )
+    .max_length( 256 )
+    .edit( mark );
+    return changed;
 }
 
 plot_options::query_seed_result plot_options::query_seed()
@@ -242,6 +270,43 @@ plot_options::query_seed_result plot_options::query_seed()
     } else {
         return canceled;
     }
+}
+
+bool loot_options::query_at_creation()
+{
+    return query_loot() != canceled;
+}
+
+bool loot_options::query()
+{
+    return query_loot() == changed;
+}
+
+std::string loot_options::get_zone_name_suggestion() const
+{
+    if( !mark.empty() ) {
+        return string_format( _( "Loot: Custom : %s" ), mark );
+    }
+    return _( "Loot: Custom : No Filter" );
+}
+
+std::vector<std::pair<std::string, std::string>> loot_options::get_descriptions() const
+{
+    std::vector<std::pair<std::string, std::string>> options;
+    options.emplace_back( std::make_pair( _( "Loot: Custom: " ),
+                                          !mark.empty() ? mark : _( "No filter" ) ) );
+
+    return options;
+}
+
+void loot_options::serialize( JsonOut &json ) const
+{
+    json.member( "mark", mark );
+}
+
+void loot_options::deserialize( JsonObject &jo_zone )
+{
+    jo_zone.read( "mark", mark );
 }
 
 bool blueprint_options::query_at_creation()
@@ -582,8 +647,33 @@ bool zone_manager::has_loot_dest_near( const tripoint &where ) const
     return false;
 }
 
+const zone_data *zone_manager::get_zone_at( const tripoint &where, const zone_type_id &type ) const
+{
+    for( auto it = zones.rbegin(); it != zones.rend(); ++it ) {
+        const auto &zone = *it;
+
+        if( zone.has_inside( where ) && zone.get_type() == type ) {
+            return &zone;
+        }
+    }
+    return nullptr;
+}
+
+bool zone_manager::custom_loot_has( const tripoint &where, const item *it ) const
+{
+    auto zone = get_zone_at( where, zone_type_id( "LOOT_CUSTOM" ) );
+    if( !zone || !it ) {
+        return false;
+    }
+    const loot_options options = dynamic_cast<const loot_options &>( zone->get_options() );
+    std::string filter_string = options.get_mark();
+    auto z = item_filter_from_string( filter_string );
+
+    return z( *it );
+}
+
 std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
-        const tripoint &where, int range, const faction_id &fac ) const
+        const tripoint &where, int range, const item *it, const faction_id &fac ) const
 {
     const auto &point_set = get_point_set( type, fac );
     auto near_point_set = std::unordered_set<tripoint>();
@@ -591,7 +681,13 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     for( auto &point : point_set ) {
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
-                near_point_set.insert( point );
+                if( it && has( zone_type_id( "LOOT_CUSTOM" ), point ) ) {
+                    if( custom_loot_has( point, it ) ) {
+                        near_point_set.insert( point );
+                    }
+                } else {
+                    near_point_set.insert( point );
+                }
             }
         }
     }
@@ -600,7 +696,13 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     for( auto &point : vzone_set ) {
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
-                near_point_set.insert( point );
+                if( it && has( zone_type_id( "LOOT_CUSTOM" ), point ) ) {
+                    if( custom_loot_has( point, it ) ) {
+                        near_point_set.insert( point );
+                    }
+                } else {
+                    near_point_set.insert( point );
+                }
             }
         }
     }
@@ -650,7 +752,12 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         const tripoint &where ) const
 {
     auto cat = it.get_category();
-
+    if( has_near( zone_type_id( "LOOT_CUSTOM" ), where ) ) {
+        for( const auto elem : get_near( zone_type_id( "LOOT_CUSTOM" ), where, 60, &it ) ) {
+            ( void )elem;
+            return zone_type_id( "LOOT_CUSTOM" );
+        }
+    }
     if( it.has_flag( "FIREWOOD" ) ) {
         if( has_near( zone_type_id( "LOOT_WOOD" ), where ) ) {
             return zone_type_id( "LOOT_WOOD" );
