@@ -690,10 +690,21 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         rl_vec2d final2 = collision_axis_y * vel2_y_a + collision_axis_x * vel2_x_a;
 
         veh.move.init( final1.x, final1.y );
-        veh.velocity = final1.magnitude();
+        if( final1.dot_product( veh.face_vec() ) < 0 ) {
+            // Car is being pushed backwards. Make it move backwards
+            veh.velocity = -final1.magnitude();
+        } else {
+            veh.velocity = final1.magnitude();
+        }
 
         veh2.move.init( final2.x, final2.y );
-        veh2.velocity = final2.magnitude();
+        if( final2.dot_product( veh2.face_vec() ) < 0 ) {
+            // Car is being pushed backwards. Make it move backwards
+            veh2.velocity = -final2.magnitude();
+        } else {
+            veh2.velocity = final2.magnitude();
+        }
+
         //give veh2 the initiative to proceed next before veh1
         float avg_of_turn = ( veh2.of_turn + veh.of_turn ) / 2;
         if( avg_of_turn < .1f ) {
