@@ -73,7 +73,6 @@ readability-*,\
 -readability-redundant-control-flow,\
 -readability-redundant-declaration,\
 -readability-redundant-preprocessor,\
--readability-redundant-string-init,\
 "
 WarningsAsErrors: '*'
 HeaderFilterRegex: '(src|test).*'
