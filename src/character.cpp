@@ -3520,7 +3520,7 @@ int Character::get_shout_volume() const
 void Character::shout( std::string msg, bool order )
 {
     int base = 10;
-    std::string shout = "";
+    std::string shout;
 
     // You can't shout without your face
     if( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_id( "foodperson_mask" ) ) ||

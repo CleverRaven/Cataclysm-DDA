@@ -1419,7 +1419,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             }
             if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
                 auto m = relevant->gun_current_mode();
-                std::string str = "";
+                std::string str;
                 nc_color col = c_light_gray;
                 if( relevant != m.target ) {
                     str = string_format( _( "Firing mode: <color_cyan>%s %s (%d)</color>" ),
