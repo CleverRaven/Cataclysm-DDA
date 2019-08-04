@@ -32,6 +32,9 @@ struct field_intensity_level {
     int move_cost = 0;
     int extra_radiation_min = 0;
     int extra_radiation_max = 0;
+    int radiation_hurt_damage_min = 0;
+    int radiation_hurt_damage_max = 0;
+    std::string radiation_hurt_message;
     float light_emitted = 0.0f;
     float translucency = 0.0f;
     int convection_temperature_mod = 0.0f;
@@ -110,6 +113,15 @@ struct field_type {
         }
         int get_extra_radiation_max( int level = 0 ) const {
             return intensity_levels[level].extra_radiation_max;
+        }
+        int get_radiation_hurt_damage_min( int level = 0 ) const {
+            return intensity_levels[level].radiation_hurt_damage_min;
+        }
+        int get_radiation_hurt_damage_max( int level = 0 ) const {
+            return intensity_levels[level].radiation_hurt_damage_max;
+        }
+        std::string get_radiation_hurt_message( int level = 0 ) const {
+            return _( intensity_levels[level].radiation_hurt_message );
         }
         float get_light_emitted( int level = 0 ) const {
             return intensity_levels[level].light_emitted;
