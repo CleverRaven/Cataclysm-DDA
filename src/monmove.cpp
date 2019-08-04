@@ -114,27 +114,53 @@ bool monster::can_move_to( const tripoint &p ) const
         return false;
     }
 
-    // Various avoiding behaviors
-    if( has_flag( MF_AVOID_DANGER_1 ) || has_flag( MF_AVOID_DANGER_2 ) ) {
+    // Various avoiding behaviors.
+
+    bool avoid_fire = has_flag( MF_AVOID_FIRE );
+    bool avoid_fall = has_flag( MF_AVOID_FALL );
+    bool avoid_simple = has_flag( MF_AVOID_DANGER_1 );
+    bool avoid_complex = has_flag( MF_AVOID_DANGER_2 );
+    /*
+     * Because some avoidance behaviors are supersets of others,
+     * we can cascade through the implications. Complex implies simple,
+     * and simple implies fire and fall.
+     * unfortunately, fall does not necessarily imply fire, nor the converse.
+     */
+    if( avoid_complex ) {
+        avoid_simple = true;
+    }
+    if( avoid_simple ) {
+        avoid_fire = true;
+        avoid_fall = true;
+    }
+
+    // technically this will shortcut in evaluation from fire or fall
+    // before hitting simple or complex but this is more explicit
+    if( avoid_fire || avoid_fall || avoid_simple || avoid_complex ) {
         const ter_id target = g->m.ter( p );
-        // Don't enter lava ever
-        if( target == t_lava ) {
-            return false;
-        }
-        // Don't ever throw ourselves off cliffs
-        if( !g->m.has_floor( p ) && !has_flag( MF_FLIES ) ) {
+
+        // Don't enter lava if we have any concept of heat being bad
+        if( avoid_fire && target == t_lava ) {
             return false;
         }
 
-        // Don't enter open pits ever unless tiny, can fly or climb well
-        if( !( type->size == MS_TINY || can_climb ) &&
-            ( target == t_pit || target == t_pit_spiked || target == t_pit_glass ) ) {
-            return false;
+        if( avoid_fall ) {
+            // Don't throw ourselves off cliffs if we have a concept of falling
+            if( !g->m.has_floor( p ) && !has_flag( MF_FLIES ) ) {
+                return false;
+            }
+
+            // Don't enter open pits ever unless tiny, can fly or climb well
+            if( !( type->size == MS_TINY || can_climb ) &&
+                ( target == t_pit || target == t_pit_spiked || target == t_pit_glass ) ) {
+                return false;
+            }
         }
 
-        // The following behaviors are overridden when attacking
+        // Some things are only avoided if we're not attacking
         if( attitude( &g->u ) != MATT_ATTACK ) {
-            if( g->m.has_flag( "SHARP", p ) &&
+            // Sharp terrain is ignored while attacking
+            if( avoid_simple && g->m.has_flag( "SHARP", p ) &&
                 !( type->size == MS_TINY || has_flag( MF_FLIES ) ) ) {
                 return false;
             }
@@ -142,8 +168,8 @@ bool monster::can_move_to( const tripoint &p ) const
 
         const field &target_field = g->m.field_at( p );
 
-        // Differently handled behaviors
-        if( has_flag( MF_AVOID_DANGER_2 ) ) {
+        // Higher awareness is needed for identifying these as threats.
+        if( avoid_complex ) {
             const trap &target_trap = g->m.tr_at( p );
             // Don't enter any dangerous fields
             if( is_dangerous_fields( target_field ) ) {
@@ -153,11 +179,14 @@ bool monster::can_move_to( const tripoint &p ) const
             if( has_flag( MF_SEES ) && !target_trap.is_benign() && g->m.has_floor( p ) ) {
                 return false;
             }
-        } else if( has_flag( MF_AVOID_DANGER_1 ) ) {
-            // Don't enter fire or electricity ever (other dangerous fields are fine though)
-            if( target_field.find_field( fd_fire ) || target_field.find_field( fd_electricity ) ) {
-                return false;
-            }
+        }
+
+        // Without avoid_complex, only fire and electricity are checked for field avoidance.
+        if( avoid_fire && target_field.find_field( fd_fire ) ) {
+            return false;
+        }
+        if( avoid_simple && target_field.find_field( fd_electricity ) ) {
+            return false;
         }
     }
 
