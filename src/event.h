@@ -11,6 +11,11 @@
 
 using itype_id = std::string;
 
+// An event is something to be passed via the event_bus to subscribers
+// interested in being notified about events.
+//
+// Each event is of a specific type, taken from the event_type enum.
+
 enum class event_type {
     kill_monster,
 };
@@ -19,6 +24,10 @@ class event;
 
 namespace event_detail
 {
+
+// An event has various data stored in a map keyed by strings.  The specific
+// keys and corresponding data types are specified in a specialization of
+// event_spec.
 
 template<event_type Type>
 struct event_spec;
@@ -49,7 +58,7 @@ class event
 
         // Call this to construct an event in a type-safe manner.  It will
         // verify that the types you pass match the expected types for the
-        // event_type you pass as a tempalte parameter.
+        // event_type you pass as a template parameter.
         template<event_type Type, typename... Args>
         static event make( time_point time, Args &&... args ) {
             using Spec = event_detail::event_spec<Type>;
