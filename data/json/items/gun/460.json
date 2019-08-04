@@ -6,7 +6,8 @@
     "name": "L39-460",
     "description": "Developed as a testament to the L39 family of pistols' strength, this hefty pistol chambers powerful .460 Rowland.  In addition to the heavy slide and L39 standard sighting package, this pistol sports a large compensator.  Notably, normal .45ACP can also be fired through the weapon.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "price": 90000,
-    "ammo": "460",
+    "ammo": [ "460", "45" ],
+    "magazines": [ [ "460", [ "lw12mag" ] ], [ "45", [ "lw12mag" ] ] ],
     "relative": { "durability": -1 },
     "built_in_mods": [ "lead_holo_sight", "muzzle_brake", "lead_laser_sight" ]
   },
@@ -16,7 +17,8 @@
     "type": "GUN",
     "name": "L39B-45",
     "description": "After the success of their 9x19mm machine pistol, Leadworks LLC developed the L39B-45 from their .460 Rowland semi-autos, intending them to be used with .45ACP.  Because it shares most of its parts with the L39-460, this variant retains the ability to fire fearsome .460 Rowland, though users are strongly advised not to do so during automatic fire.  Comes with built in red dot, recoil compensator and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
-    "ammo": "460",
+    "ammo": [ "460", "45" ],
+    "magazines": [ [ "460", [ "lw12mag" ] ], [ "45", [ "lw12mag" ] ] ],
     "relative": { "durability": -1 },
     "built_in_mods": [ "lead_holo_sight", "muzzle_brake", "lead_laser_sight" ]
   },
@@ -41,7 +43,7 @@
     "dispersion": 360,
     "durability": 8,
     "clip_size": 6,
-    "magazines": [ [ "460", [ "460_speedloader6" ] ] ],
+    "magazines": [ [ "460", [ "460_speedloader6" ] ], [ "45", [ "460_speedloader6" ] ] ],
     "built_in_mods": [ "lead_holo_sight", "lead_laser_sight" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -68,7 +70,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "460",
+    "ammo": [ "460", "45" ],
     "skill": "rifle",
     "range": 8,
     "ranged_damage": 4,
