@@ -2605,7 +2605,9 @@
   {
     "type": "overmap_terrain",
     "id": "s_hunting_roof",
-    "copy-from": "s_hunting",
-    "name": "hunting supply store roof"
+    "copy-from": "generic_city_building",
+    "name": "hunting supply store roof",
+    "sym": "H",
+    "color": "brown"
   }
 ]
