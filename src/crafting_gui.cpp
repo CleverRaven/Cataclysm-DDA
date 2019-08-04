@@ -329,15 +329,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                                     filtered_recipes = filtered_recipes.intersection( temp_subset );
                                     break;
                                 }
-
-                                case 'h': {
-                                    filtered_recipes = filtered_recipes.intersection( available_recipes );
-                                    if( query_is_yes( qry_filter_str ) ) {
-                                        show_hidden = true;
-                                    }
-                                    break;
-                                }
-
+                                    
                                 default:
                                     current.clear();
                             }
@@ -741,8 +733,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 { 's', _( "cooking" ), _( "<color_cyan>any skill</color> used to craft" ) },
                 { 'Q', _( "fine bolt turning" ), _( "<color_cyan>quality</color> required to craft" ) },
                 { 't', _( "soldering iron" ), _( "<color_cyan>tool</color> required to craft" ) },
-                { 'h', _( "yes" ), _( "recipes which are <color_cyan>hidden</color> or not" ) },
-                { 'm', _( "no" ), _( "recipes which are <color_cyan>memorized</color> or not" ) },
+                { 'm', _( "yes" ), _( "recipes which are <color_cyan>memorized</color> or not" ) },
             };
             int max_example_length = 0;
             for( const auto &prefix : prefixes ) {
