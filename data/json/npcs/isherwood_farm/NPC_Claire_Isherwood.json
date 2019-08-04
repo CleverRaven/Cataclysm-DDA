@@ -230,7 +230,7 @@
   {
     "id": "MISSION_ISHERWOOD_CLAIRE_1",
     "type": "mission_definition",
-    "name": "Gather 50 dandelions.",
+    "name": "Gather 50 dandelions",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,
@@ -278,14 +278,14 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I could use some seeds from the forest.",
-      "offer": "We could use some seeds for the next planting season.  Can you bring me 20 bee balm seeds.",
+      "offer": "We could use some seeds for the next planting season.  Can you bring me 20 bee balm seeds?",
       "accepted": "Thank you.  It's important to have a good stock before the flu season hits.",
       "rejected": "Oh well.  Maybe some other time, thanks.",
       "advice": "You should search through the forest, make sure to check in the underbrush for beebalm and then harvest its seeds.",
       "inquire": "How is the search going?",
       "success": "Wow, perfect.  Here are some of my own remedies and if those don't work try my other gift.",
       "success_lie": "What good does this do us?",
-      "failure": "I'll have to find someone more comforable in the forest..."
+      "failure": "I'll have to find someone more at home in the forest..."
     }
   }
 ]
