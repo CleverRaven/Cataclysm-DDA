@@ -10286,7 +10286,7 @@
     "name": "large tactical backpack",
     "description": "A large tactical multi-compartment backpack that has great lower back support.",
     "weight": 2291,
-    "volume": 60,
+    "volume": "15 L",
     "price": 9000,
     "material": [ "leather" ],
     "symbol": "[",
