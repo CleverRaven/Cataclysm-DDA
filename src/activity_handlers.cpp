@@ -624,94 +624,6 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     return time_to_cut;
 }
 
-// The below function exists to allow mods to migrate their content fully to the new harvest system. This function should be removed eventually.
-static harvest_id butchery_flags_deprecate( const mtype &mt )
-{
-    std::string harvest_id_name = "null";
-    if( mt.has_flag( MF_CBM_CIV ) ) {
-        harvest_id_name = "CBM_CIV";
-    } else if( mt.has_flag( MF_CBM_SCI ) ) {
-        harvest_id_name = "CBM_SCI";
-    } else if( mt.has_flag( MF_CBM_TECH ) ) {
-        harvest_id_name = "CBM_TECH";
-    } else if( mt.has_flag( MF_CBM_SUBS ) ) {
-        harvest_id_name = "CBM_SUBS";
-    } else if( mt.has_flag( MF_CBM_OP ) ) {
-        harvest_id_name = "CBM_OP";
-    } else if( mt.has_flag( MF_POISON ) ) { // POISON tag means tainted meat
-        if( mt.made_of( material_id( "veggy" ) ) ) {
-            harvest_id_name = "fungaloid";
-        } else if( mt.made_of( material_id( "bone" ) ) ) {
-            harvest_id_name = "mr_bones";
-        } else if( mt.has_flag( MF_CHITIN ) ) { // only arachnids drop chitin
-            harvest_id_name = "arachnid_tainted";
-            // acid ants have ACIDPROOF and do not have the CHITIN flag
-        } else if( mt.has_flag( MF_ACIDPROOF ) ) {
-            harvest_id_name = "arachnid_acid";
-        } else if( mt.has_flag( MF_LEATHER ) ) {
-            harvest_id_name = "zombie_leather";
-        } else if( mt.has_flag( MF_FUR ) ) {
-            harvest_id_name = "zombie_fur";
-        } else if( mt.has_flag( MF_BONES ) ) {
-            harvest_id_name = "zombie";
-        } else {
-            harvest_id_name = "zombie_meatslug";
-        }
-    } else { // drops regular edible meat
-        if( mt.made_of( material_id( "veggy" ) ) ) {
-            harvest_id_name = "triffid_small";
-        } else if( mt.size == MS_TINY ) {
-            if( mt.has_flag( MF_FEATHER ) ) {
-                harvest_id_name = "bird_tiny";
-            } else if( mt.has_flag( MF_AQUATIC ) ) {
-                harvest_id_name = "fish_small";
-            } else {
-                harvest_id_name = "mammal_tiny";
-            }
-        } else if( mt.has_flag( MF_HUMAN ) ) {
-            harvest_id_name = "human";
-        } else if( mt.size >= MS_SMALL && mt.size <= MS_MEDIUM ) {
-            if( mt.has_flag( MF_LEATHER ) ) {
-                harvest_id_name = "mammal_leather";
-            } else if( mt.has_flag( MF_FUR ) ) {
-                harvest_id_name = "mammal_fur";
-            } else if( mt.has_flag( MF_WOOL ) ) {
-                harvest_id_name = "mammal_wool";
-            } else if( mt.has_flag( MF_FEATHER ) ) {
-                harvest_id_name = "bird_small";
-            } else if( mt.has_flag( MF_AQUATIC ) ) {
-                harvest_id_name = "fish_large";
-            } else if( mt.has_flag( MF_CHITIN ) ) {
-                harvest_id_name = "arachnid";
-            } else if( mt.has_flag( MF_BONES ) ) {
-                harvest_id_name = "animal_noskin";
-            } else {
-                harvest_id_name = "meatslug";
-            }
-        } else if( mt.size >= MS_LARGE ) {
-            if( mt.has_flag( MF_LEATHER ) ) {
-                harvest_id_name = "mammal_large_leather";
-            } else if( mt.has_flag( MF_FUR ) ) {
-                harvest_id_name = "mammal_large_fur";
-            } else if( mt.has_flag( MF_WOOL ) ) {
-                harvest_id_name = "mammal_large_wool";
-            } else if( mt.has_flag( MF_FEATHER ) ) {
-                harvest_id_name = "bird_large";
-            } else if( mt.has_flag( MF_AQUATIC ) ) {
-                harvest_id_name = "fish_large";
-            } else if( mt.has_flag( MF_CHITIN ) ) {
-                harvest_id_name = "arachnid";
-            } else if( mt.has_flag( MF_BONES ) ) {
-                harvest_id_name = "animal_large_noskin";
-            } else {
-                harvest_id_name = "meatslug";
-            }
-        }
-    }
-
-    return harvest_id( harvest_id_name );
-}
-
 // this function modifies the input weight by its damage level, depending on the bodypart
 static int corpse_damage_effect( int weight, const std::string &entry_type, int damage_level )
 {
@@ -789,10 +701,12 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
     int monster_weight_remaining = monster_weight;
     int practice = 4 + roll_butchery();
 
-    const harvest_id hid = mt.harvest.is_null() ? butchery_flags_deprecate( mt ) : mt.harvest;
-    const harvest_list &harvest = *hid;
+    if( mt.harvest.is_null() ) {
+        debugmsg( "ERROR: %s has no harvest entry.", mt.id.c_str() );
+        return;
+    }
 
-    for( const auto &entry : harvest ) {
+    for( const harvest_entry &entry : *mt.harvest ) {
         const int butchery = roll_butchery();
         const float min_num = entry.base_num.first + butchery * entry.scale_num.first;
         const float max_num = entry.base_num.second + butchery * entry.scale_num.second;
