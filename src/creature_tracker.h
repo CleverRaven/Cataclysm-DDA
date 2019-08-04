@@ -5,9 +5,11 @@
 #include <cstddef>
 #include <memory>
 #include <unordered_map>
+#include <set>
 #include <vector>
 
 #include "point.h"
+#include "type_id.h"
 
 class monster;
 class JsonIn;
@@ -15,6 +17,20 @@ class JsonOut;
 
 class Creature_tracker
 {
+    private:
+        void add_to_faction_map( std::shared_ptr<monster> critter );
+
+        class weak_ptr_comparator
+        {
+            public:
+                bool operator()( const std::weak_ptr<monster> &lhs, const std::weak_ptr<monster> &rhs ) const {
+                    return lhs.lock().get() == rhs.lock().get();
+                }
+        };
+
+        std::unordered_map<mfaction_id, std::set<std::weak_ptr<monster>, weak_ptr_comparator>>
+                monster_faction_map_;
+
     public:
         Creature_tracker();
         ~Creature_tracker();
@@ -56,6 +72,10 @@ class Creature_tracker
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
+
+        const decltype( monster_faction_map_ ) &factions() const {
+            return monster_faction_map_;
+        }
 
     private:
         std::vector<std::shared_ptr<monster>> monsters_list;

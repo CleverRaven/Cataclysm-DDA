@@ -21,6 +21,7 @@
 #include "messages.h"
 #include "monfaction.h"
 #include "mtype.h"
+#include "creature_tracker.h"
 #include "npc.h"
 #include "rng.h"
 #include "scent_map.h"
@@ -251,8 +252,10 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
     return INT_MAX;
 }
 
-void monster::plan( const mfactions &factions )
+void monster::plan()
 {
+    const auto &factions = g->critter_tracker->factions();
+
     // Bots are more intelligent than most living stuff
     bool smart_planning = has_flag( MF_PRIORITIZE_TARGETS );
     Creature *target = nullptr;
@@ -375,8 +378,12 @@ void monster::plan( const mfactions &factions )
                 continue;
             }
 
-            for( monster *const mon_ptr : fac.second ) {
-                monster &mon = *mon_ptr;
+            for( const std::weak_ptr<monster> &weak : fac.second ) {
+                const std::shared_ptr<monster> shared = weak.lock();
+                if( !shared ) {
+                    continue;
+                }
+                monster &mon = *shared;
                 float rating = rate_target( mon, dist, smart_planning );
                 if( rating < dist ) {
                     target = &mon;
@@ -403,8 +410,12 @@ void monster::plan( const mfactions &factions )
     }
     swarms = swarms && target == nullptr; // Only swarm if we have no target
     if( group_morale || swarms ) {
-        for( monster *const mon_ptr : myfaction_iter->second ) {
-            monster &mon = *mon_ptr;
+        for( const std::weak_ptr<monster> &weak : myfaction_iter->second ) {
+            const std::shared_ptr<monster> shared = weak.lock();
+            if( !shared ) {
+                continue;
+            }
+            monster &mon = *shared;
             float rating = rate_target( mon, dist, smart_planning );
             if( group_morale && rating <= 10 ) {
                 morale += 10 - rating;
