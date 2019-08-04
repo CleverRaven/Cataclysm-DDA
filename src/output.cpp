@@ -1634,7 +1634,7 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt )
     return fmt;
 }
 
-const std::pair<std::string, nc_color>
+std::pair<std::string, nc_color>
 get_bar( float cur, float max, int width, bool extra_resolution,
          const std::vector<nc_color> &colors )
 {
@@ -1659,7 +1659,7 @@ get_bar( float cur, float max, int width, bool extra_resolution,
     return std::make_pair( result, col );
 }
 
-const std::pair<std::string, nc_color> get_hp_bar( const int cur_hp, const int max_hp,
+std::pair<std::string, nc_color> get_hp_bar( const int cur_hp, const int max_hp,
         const bool is_mon )
 {
     if( cur_hp == 0 ) {
@@ -1668,7 +1668,7 @@ const std::pair<std::string, nc_color> get_hp_bar( const int cur_hp, const int m
     return get_bar( cur_hp, max_hp, 5, !is_mon );
 }
 
-const std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam )
+std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam )
 {
     if( cur_stam == 0 ) {
         return std::make_pair( "-----", c_light_gray );

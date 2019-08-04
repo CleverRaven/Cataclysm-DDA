@@ -147,7 +147,7 @@ float season_ratio();
 float season_from_default_ratio();
 
 /** Returns the translated name of the season (with first letter being uppercase). */
-const std::string name_season( season_type s );
+std::string name_season( season_type s );
 
 extern time_point start_of_cataclysm;
 extern time_point turn;

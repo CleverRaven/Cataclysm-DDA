@@ -1502,7 +1502,7 @@ item_location npc::find_usable_ammo( const item &weap )
     return loc;
 }
 
-const item_location npc::find_usable_ammo( const item &weap ) const
+item_location npc::find_usable_ammo( const item &weap ) const
 {
     return const_cast<npc *>( this )->find_usable_ammo( weap );
 }
