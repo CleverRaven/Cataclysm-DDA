@@ -121,7 +121,7 @@
     "ammo": "9mm",
     "clip_size": 18,
     "reload": 150,
-    "built_in_mods": [ [ "crt_cqb_si_shotgun" ] ],
+    "built_in_mods": [ "crt_cqb_si_shotgun" ],
     "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "NEVER_JAMS", "FIRE_TWOHAND", "RELOAD_ONE" ]
   },
@@ -297,7 +297,7 @@
     "reload": 15,
     "modes": [ [ "BURST", "3 rd.", 3 ] ],
     "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
-    "ammo_effects": [ "NOGIB", "BEANBAG"],
+    "ammo_effects": [ "NOGIB", "BEANBAG" ],
     "flags": [ "NEVER_JAMS" ]
   },
   {
