@@ -2,7 +2,7 @@
   {
     "id": "crt_laser_pistol",
     "type": "GUN",
-    "name": "C.R.I.T .5 LP",
+    "name": "CRIT .5 LP",
     "description": "Experimental low power sidearm under development in C.R.I.T R&D, the .5 LP is a relatively weak but accurate laser pistol. The double-barrel design compensates for the lack of raw power and yet the gun manages to be relatively easy to aim and lightweight due to the superalloy construction.",
     "weight": 650,
     "volume": 3,
@@ -38,7 +38,7 @@
   {
     "id": "crt_laser_gatling",
     "type": "GUN",
-    "name": "C.R.I.T Chain Laser",
+    "name": "CRIT Chain Laser",
     "description": "A tried and true favorite from the bowels of R&D hell. Based off of a researcher's video on three taped-together .5 LPs on a hand held power drill, this gun is a relatively light weapon for the amount of UPS it eats and destruction it can cause.",
     "weight": 2650,
     "volume": 10,
@@ -65,7 +65,7 @@
   {
     "id": "crt_laser_carbine",
     "type": "GUN",
-    "name": "C.R.I.T Laser Carbine",
+    "name": "CRIT Laser Carbine",
     "description": "A lightweight laser gun developed by C.R.I.T R&D. Mainly developed to test out a new breakthrough in laser weapons.",
     "weight": 2150,
     "volume": 8,
@@ -101,8 +101,8 @@
   {
     "id": "crt_cqb_si",
     "type": "GUN",
-    "name": "C.R.I.T ZCQB Standard Issue",
-    "description": "A simple combination gun to repel the undead. This military-grade semi-auto carbine chambers the common but effective 9mm for mid-range engagements and the close range power of the 12 gauge shotgun. To further compliment the CQB aspect of the gun however, the stock is quite heavy to amplify the user's force and the rugged construction with tonfa-like grip can handle bashing in enemy heads. An integrated magazine makes it a pain to reload, but keeps your clip from ejecting accidently.",
+    "name": "CRIT CQB Standard Issue",
+    "description": "A simple combination gun. This military-grade semi-auto carbine chambers the couples the mid-range of the 9mm with the power of the 12 gauge shotgun. To further compliment the CQB aspect, the stock is built heavy to amplify the user's force and the rugged construction with tonfa-like grip can handle bashing in enemy heads. An integrated magazine makes it a pain to reload, but keeps your clip from ejecting accidently.",
     "weight": 1650,
     "volume": 3,
     "price": 1000000,
@@ -119,16 +119,16 @@
     "durability": 10,
     "loudness": 30,
     "ammo": "9mm",
-    "clip_size": 12,
-    "reload": 170,
+    "clip_size": 18,
+    "reload": 150,
     "built_in_mods": [ [ "crt_cqb_si_shotgun" ] ],
-    "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ], [ "sights", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "NEVER_JAMS", "FIRE_TWOHAND", "RELOAD_ONE" ]
   },
   {
     "id": "crt_fire_glove",
     "type": "GUN",
-    "name": "C.R.I.T Fire Glove",
+    "name": "CRIT Fire Glove",
     "description": "Experimental CQB weapon system under development in C.R.I.T R&D.",
     "weight": 650,
     "volume": 3,
