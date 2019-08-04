@@ -68,7 +68,7 @@
       [ "boots_steel", 25 ],
       [ "fishing_waders", 25 ]
     ]
-  }
+  },
   {
     "id": "clothing_outdoor_set",
     "type": "item_group",
@@ -562,5 +562,5 @@
     "id": "neckties",
     "type": "item_group",
     "items": [ [ "tie_skinny", 40 ], [ "tie_necktie", 40 ], [ "tie_bow", 40 ], [ "tie_clipon", 40 ] ]
-  },
+  }
 ]
