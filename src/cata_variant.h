@@ -20,14 +20,24 @@ enum class cata_variant_type : int {
     num_types, // last
 };
 
+// Here follows various implementation details.  Skip to the bottom of the file
+// to see cata_variant itself.
+
 namespace cata_variant_detail
 {
 
+// Converting cata_variant_type enum values to and from string for serialization and error
+// reporting.
 std::string to_string( cata_variant_type );
 cata_variant_type from_string( const std::string & );
 
+// The convert struct is specialized for each cata_variant_type to provide the
+// code for converting that type to or from a string.
 template<cata_variant_type Type>
 struct convert;
+
+// type_for<T>() returns the cata_variant_type enum value corresponding to the
+// given value type.  e.g. type_for<mtype_id>() == cata_variant_type::mtype_id.
 
 template<typename T, size_t... I>
 constexpr cata_variant_type type_for_impl( std::index_sequence<I...> )
@@ -53,6 +63,8 @@ constexpr cata_variant_type type_for()
     using SimpleT = std::remove_reference_t<T>;
     return type_for_impl<SimpleT>( std::make_index_sequence<num_types> {} );
 }
+
+// These are the specializations of convert for each value type.
 
 template<>
 struct convert<cata_variant_type::itype_id> {
