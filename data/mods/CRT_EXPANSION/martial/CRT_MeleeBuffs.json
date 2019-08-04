@@ -72,7 +72,7 @@
         ]
       }
     ],
-    "techniques": [ "tec_crt_cqb_normal", "tec_crt_cqb_rapid", "tec_crt_cqb_precise", "tec_crt_cqb_arpen", "tec_feint" ],
+    "techniques": [ "tec_crt_cqb_normal", "tec_crt_cqb_rapid", "tec_crt_cqb_rapid_wp", "tec_crt_cqb_precise", "tec_crt_cqb_arpen", "tec_feint" ],
     "weapons": [
       "sword_crt",
       "blade_crt",
@@ -105,10 +105,10 @@
     "name": "Measured Footwork",
     "min_unarmed": 1,
     "unarmed_allowed": true,
-    "melee_allowed": true,  
+    "melee_allowed": false,  
     "mult_bonuses": [ [ "movecost", 0.85 ], [ "damage", "bash", 0.8 ], [ "damage", "cut", 1.0 ], [ "damage", "stab", 1.1 ] ],
     "flat_bonuses": [ [ "damage", "stab", "dex", 0.2 ], [ "damage", "cut", "dex", 0.1 ], [ "movecost", "dex", -0.15 ] ],
-    "messages": [ "You quickly batter %s", "<npcname> batters %s" ]
+    "messages": [ "You quickly dig your fingers into %s", "<npcname> digs their fingers into %s" ]
   },
   {
     "type": "technique",
@@ -121,6 +121,17 @@
     "flat_bonuses": [ [ "damage", "stab", "dex", 0.015 ], [ "damage", "cut", "dex", 0.0125 ], [ "movecost", "dex", -0.35 ] ],
     "messages": [ "You swiftly impale your fingers into %s joints", "<npcname> swiftly impales their fingers into %s" ]
   },
+  {
+    "type": "technique",
+    "id": "tec_crt_cqb_rapid_wp",
+    "name": "Joint Pain",
+    "min_melee": 3,
+    "unarmed_allowed": false,
+    "melee_allowed": true,  
+    "mult_bonuses": [ [ "movecost", 0.8 ], [ "damage", "bash", 0.50 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.75 ] ],
+    "flat_bonuses": [ [ "damage", "stab", "dex", 0.015 ], [ "damage", "cut", "dex", 0.0125 ], [ "movecost", "dex", -0.35 ] ],
+    "messages": [ "You explosively jab your weapon at %s joints", "<npcname> explosively jabs at %s" ]
+  },  
   {
     "type": "technique",
     "id": "tec_crt_cqb_precise",
@@ -157,6 +168,6 @@
       "<npcname> lands a piercing blow on %s's face"
     ],
     "stun_dur": 1,
-    "down_dur": 1.25
+    "down_dur": 2
   }
 ]
