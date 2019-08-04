@@ -10,6 +10,7 @@
 #include <iterator>
 #include <locale>
 #include <map>
+#include <memory>
 #include <queue>
 #include <set>
 #include <sstream>
@@ -203,7 +204,6 @@ const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
-const efftype_id effect_under_op( "under_operation" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_winded( "winded" );
 const efftype_id effect_ridden( "ridden" );
@@ -275,7 +275,7 @@ game::game() :
 {
     player_was_sleeping = false;
     reset_light_level();
-    world_generator.reset( new worldfactory() );
+    world_generator = std::make_unique<worldfactory>();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
 }
@@ -663,7 +663,7 @@ void game::load_map( const tripoint &pos_sm )
 bool game::start_game()
 {
     if( !gamemode ) {
-        gamemode.reset( new special_game() );
+        gamemode = std::make_unique<special_game>();
     }
 
     seed = rng_bits();
@@ -1049,8 +1049,8 @@ bool game::cleanup_at_end()
             vRip.emplace_back( "@%@@%%%%%@@@@@@%%%%%%%%@@%%@@@%%%@%%@" );
         }
 
-        const int iOffsetX = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-        const int iOffsetY = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+        const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+        const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
 
         catacurses::window w_rip = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY,
                                    iOffsetX );
@@ -1081,7 +1081,7 @@ bool game::cleanup_at_end()
                         ncColor = c_red;
                     }
 
-                    mvwputch( w_rip, iY + 1, iX + ( FULL_SCREEN_WIDTH / 2 ) - ( iMaxWidth / 2 ), ncColor,
+                    mvwputch( w_rip, iY + 1, iX + FULL_SCREEN_WIDTH / 2 - ( iMaxWidth / 2 ), ncColor,
                               vRip[iY][iX] );
                 }
             }
@@ -1118,22 +1118,22 @@ bool game::cleanup_at_end()
         ssTemp << iTotalKills;
 
         sTemp = _( "Kills:" );
-        mvwprintz( w_rip, 1 + iInfoLine++, ( FULL_SCREEN_WIDTH / 2 ) - 5, c_light_gray,
+        mvwprintz( w_rip, 1 + iInfoLine++, FULL_SCREEN_WIDTH / 2 - 5, c_light_gray,
                    ( sTemp + " " ) );
         wprintz( w_rip, c_magenta, ssTemp.str() );
 
         sTemp = _( "In memory of:" );
-        mvwprintz( w_rip, iNameLine++, ( FULL_SCREEN_WIDTH / 2 ) - ( sTemp.length() / 2 ), c_light_gray,
+        mvwprintz( w_rip, iNameLine++, FULL_SCREEN_WIDTH / 2 - ( sTemp.length() / 2 ), c_light_gray,
                    sTemp );
 
         sTemp = u.name;
-        mvwprintz( w_rip, iNameLine++, ( FULL_SCREEN_WIDTH / 2 ) - ( sTemp.length() / 2 ), c_white, sTemp );
+        mvwprintz( w_rip, iNameLine++, FULL_SCREEN_WIDTH / 2 - ( sTemp.length() / 2 ), c_white, sTemp );
 
         sTemp = _( "Last Words:" );
-        mvwprintz( w_rip, iNameLine++, ( FULL_SCREEN_WIDTH / 2 ) - ( sTemp.length() / 2 ), c_light_gray,
+        mvwprintz( w_rip, iNameLine++, FULL_SCREEN_WIDTH / 2 - ( sTemp.length() / 2 ), c_light_gray,
                    sTemp );
 
-        int iStartX = ( FULL_SCREEN_WIDTH / 2 ) - ( ( iMaxWidth - 4 ) / 2 );
+        int iStartX = FULL_SCREEN_WIDTH / 2 - ( ( iMaxWidth - 4 ) / 2 );
         std::string sLastWords = string_input_popup()
                                  .window( w_rip, iStartX, iNameLine, iStartX + iMaxWidth - 4 - 1 )
                                  .max_length( iMaxWidth - 4 - 1 )
@@ -1206,7 +1206,7 @@ bool game::cleanup_at_end()
             popup( message.str(), PF_NONE );
         }
         if( gamemode ) {
-            gamemode.reset( new special_game() ); // null gamemode or something..
+            gamemode = std::make_unique<special_game>(); // null gamemode or something..
         }
     }
 
@@ -1801,7 +1801,7 @@ int get_convection_temperature( const tripoint &location )
         // Nullify lava modifier when there is open fire
         if( fd.first.obj().has_fire ) {
             lava_mod = 0;
-        };
+        }
         temp_mod += fd.second.convection_temperature_mod();
     }
     return temp_mod + lava_mod;
@@ -2646,7 +2646,7 @@ void game::load( const save_t &name )
     u.recalc_sight_limits();
 
     if( !gamemode ) {
-        gamemode.reset( new special_game() );
+        gamemode = std::make_unique<special_game>();
     }
 
     safe_mode = get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF;
@@ -3156,8 +3156,8 @@ struct npc_dist_to_player {
 void game::disp_NPCs()
 {
     catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                           ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                           ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+                           TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                           TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
 
     const tripoint ppos = u.global_omt_location();
     const tripoint &lpos = u.pos();
@@ -4273,7 +4273,7 @@ void game::monmove()
         int turns = 0;
         m.creature_in_field( guy );
         guy.process_turn();
-        while( !guy.is_dead() && ( !guy.in_sleep_state() || guy.has_effect( effect_under_op ) ) &&
+        while( !guy.is_dead() && ( !guy.in_sleep_state() || guy.activity.id() == "ACT_OPERATION" ) &&
                guy.moves > 0 && turns < 10 ) {
             int moves = guy.moves;
             guy.move();
@@ -6343,7 +6343,7 @@ void game::zones_manager()
                 as_m.entries.emplace_back( 1, true, '1', _( "Edit name" ) );
                 as_m.entries.emplace_back( 2, true, '2', _( "Edit type" ) );
                 as_m.entries.emplace_back( 3, zone.get_options().has_options(), '3',
-                                           _( "Edit options" ) );
+                                           zone.get_type() == zone_type_id( "LOOT_CUSTOM" ) ? _( "Edit filter" ) : _( "Edit options" ) );
                 as_m.entries.emplace_back( 4, !zone.get_is_vehicle(), '4', _( "Edit position" ) );
                 as_m.query();
 
@@ -10160,7 +10160,7 @@ void game::vertical_move( int movez, bool force )
 
     std::unique_ptr<map> tmp_map_ptr;
     if( !m.has_zlevels() ) {
-        tmp_map_ptr.reset( new map() );
+        tmp_map_ptr = std::make_unique<map>();
     }
 
     map &maybetmp = m.has_zlevels() ? m : *( tmp_map_ptr.get() );
@@ -10188,6 +10188,9 @@ void game::vertical_move( int movez, bool force )
     // then despawn the remaining monsters. Because it's a vertical shift, all
     // monsters are out of the bounds of the map and will despawn.
     monster stored_mount;
+    if( u.is_mounted() ) {
+        stored_mount = *u.mounted_creature.get();
+    }
     if( !m.has_zlevels() ) {
         const int to_x = u.posx();
         const int to_y = u.posy();
@@ -10201,12 +10204,9 @@ void game::vertical_move( int movez, bool force )
                 remove_zombie( critter );
             }
         }
-        if( u.is_mounted() ) {
-            stored_mount = *u.mounted_creature.get();
-            auto mons = critter_tracker->find( g->u.pos() );
-            if( mons != nullptr ) {
-                critter_tracker->remove( *mons );
-            }
+        auto mons = critter_tracker->find( g->u.pos() );
+        if( mons != nullptr ) {
+            critter_tracker->remove( *mons );
         }
         shift_monsters( 0, 0, movez );
     }
@@ -10254,13 +10254,15 @@ void game::vertical_move( int movez, bool force )
         if( !m.has_zlevels() ) {
             stored_mount.spawn( g->u.pos() );
             if( add_zombie( stored_mount ) ) {
+                auto mons = critter_tracker->find( g->u.pos() );
+                if( mons ) {
+                    u.mounted_creature = mons;
+                }
+                stored_mount.setpos( g->u.pos() );
             }
-            auto mons = critter_tracker->find( g->u.pos() );
-            if( mons != nullptr ) {
-                u.mounted_creature = mons;
-            }
+        } else {
+            u.mounted_creature->setpos( g->u.pos() );
         }
-        stored_mount.setpos( g->u.pos() );
     }
 
     if( !npcs_to_bring.empty() ) {

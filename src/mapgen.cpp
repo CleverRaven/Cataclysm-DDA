@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <algorithm>
 #include <list>
+#include <memory>
 #include <sstream>
 #include <array>
 #include <functional>
@@ -5455,7 +5456,6 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
         return is_ot_match( oterstr, oterid, ot_match_type::type );
     };
 
-
     if( match( terrain_type, "haz_sar_entrance" ) ) {
         // Init to grass & dirt;
         dat.fill_groundcover();
@@ -7176,7 +7176,7 @@ computer *map::add_computer( const tripoint &p, const std::string &name, int sec
 {
     ter_set( p, t_console ); // TODO: Turn this off?
     submap *place_on_submap = get_submap_at( p );
-    place_on_submap->comp.reset( new computer( name, security ) );
+    place_on_submap->comp = std::make_unique<computer>( name, security );
     return place_on_submap->comp.get();
 }
 

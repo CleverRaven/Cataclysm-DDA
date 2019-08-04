@@ -116,7 +116,6 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 previous( p )
             {}
 
-
             node_base( node_pointer_type &&n, node_pointer_type &&p ) noexcept:
                 next( std::move( n ) ),
                 previous( std::move( p ) )
@@ -501,7 +500,6 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     bool right_not_beyond_back = ( right < beyond_end_group );
                     bool left_not_beyond_front = ( left >= block_pointer );
 
-
                     // ie. location is within last_search_group
                     if( location_node >= last_searched_group->nodes &&
                         location_node < last_searched_group->beyond_end ) {
@@ -540,7 +538,6 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                                         last_searched_group = right;
                                         left_distance = right - left;
                                     }
-
 
                                     // Otherwise find closest group with freelist - check an equal distance on the right to the distance we've checked on the left:
                                     const group_pointer_type end_group = ( ( ( right + left_distance ) > beyond_end_group ) ?
@@ -2210,7 +2207,6 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
             begin_iterator.node_pointer->next = source.begin_iterator.node_pointer;
             source.begin_iterator.node_pointer->previous = begin_iterator.node_pointer;
-
 
             while( ( current1 != this_end ) & ( current2 != source_end ) ) {
                 previous->next = current1;

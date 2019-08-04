@@ -1353,8 +1353,7 @@ void debug()
                     creature_menu.callback = &callback;
                     creature_menu.w_y = 0;
                     creature_menu.query();
-                    if( ( creature_menu.ret >= 0 ) &&
-                        ( static_cast<size_t>( creature_menu.ret ) < locations.size() ) ) {
+                    if( creature_menu.ret >= 0 && static_cast<size_t>( creature_menu.ret ) < locations.size() ) {
                         Creature *creature = g->critter_at<Creature>( locations[creature_menu.ret] );
                         g->displaying_visibility_creature = creature;
                     }

@@ -186,12 +186,12 @@ void sokoban_game::draw_level( const catacurses::window &w_sokoban )
     const int iOffsetY = ( FULL_SCREEN_HEIGHT - 2 - mLevelInfo[iCurrentLevel]["MaxLevelY"] ) / 2;
 
     for( auto &elem : mLevel ) {
-        for( std::map<int, std::string>::iterator iterX = ( elem.second ).begin();
-             iterX != ( elem.second ).end(); ++iterX ) {
+        for( std::map<int, std::string>::iterator iterX = elem.second.begin();
+             iterX != elem.second.end(); ++iterX ) {
             std::string sTile = iterX->second;
 
             if( sTile == "#" ) {
-                mvwputch( w_sokoban, iOffsetY + ( elem.first ), iOffsetX + ( iterX->first ),
+                mvwputch( w_sokoban, iOffsetY + elem.first, iOffsetX + iterX->first,
                           c_white, get_wall_connection( elem.first, iterX->first ) );
 
             } else {
@@ -213,7 +213,7 @@ void sokoban_game::draw_level( const catacurses::window &w_sokoban )
                     sTile = "@";
                 }
 
-                mvwprintz( w_sokoban, iOffsetY + ( elem.first ), iOffsetX + ( iterX->first ), cCol, sTile );
+                mvwprintz( w_sokoban, iOffsetY + elem.first, iOffsetX + iterX->first, cCol, sTile );
             }
         }
     }
@@ -238,8 +238,8 @@ int sokoban_game::start_game()
     int iDirY = 0;
     int iDirX = 0;
 
-    const int iOffsetX = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-    const int iOffsetY = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+    const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+    const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
 
     using namespace std::placeholders;
     read_from_file( FILENAMES["sokoban"], std::bind( &sokoban_game::parse_level, this, _1 ) );
@@ -324,7 +324,7 @@ int sokoban_game::start_game()
             //undo move
             if( !vUndo.empty() ) {
                 //reset last player pos
-                mLevel[iPlayerY][iPlayerX] = ( mLevel[iPlayerY][iPlayerX] == "+" ) ? "." : " ";
+                mLevel[iPlayerY][iPlayerX] = mLevel[iPlayerY][iPlayerX] == "+" ? "." : " ";
                 iPlayerYNew = vUndo[vUndo.size() - 1].iOldY;
                 iPlayerXNew = vUndo[vUndo.size() - 1].iOldX;
                 mLevel[iPlayerYNew][iPlayerXNew] = vUndo[vUndo.size() - 1].sTileOld;
@@ -340,8 +340,8 @@ int sokoban_game::start_game()
 
                 if( vUndo[vUndo.size() - 1].sTileOld == "$" ||
                     vUndo[vUndo.size() - 1].sTileOld == "*" ) {
-                    mLevel[iPlayerY][iPlayerX] = ( mLevel[iPlayerY][iPlayerX] == "." ) ? "*" : "$";
-                    mLevel[iPlayerY + iDirY][iPlayerX + iDirX] = ( mLevel[iPlayerY + iDirY][iPlayerX + iDirX] == "*" ) ?
+                    mLevel[iPlayerY][iPlayerX] = mLevel[iPlayerY][iPlayerX] == "." ? "*" : "$";
+                    mLevel[iPlayerY + iDirY][iPlayerX + iDirX] = mLevel[iPlayerY + iDirY][iPlayerX + iDirX] == "*" ?
                             "." : " ";
 
                     vUndo.pop_back();
@@ -381,11 +381,11 @@ int sokoban_game::start_game()
             if( sMoveTo != "#" ) {
                 if( sMoveTo == "$" || sMoveTo == "*" ) {
                     //Check if we can move the package
-                    std::string sMovePackTo = mLevel[iPlayerY + ( iDirY * 2 )][iPlayerX + ( iDirX * 2 )];
+                    std::string sMovePackTo = mLevel[iPlayerY + iDirY * 2][iPlayerX + iDirX * 2];
                     if( sMovePackTo == "." || sMovePackTo == " " ) {
                         //move both
                         bMovePlayer = true;
-                        mLevel[iPlayerY + ( iDirY * 2 )][iPlayerX + ( iDirX * 2 )] = ( sMovePackTo == "." ) ? "*" : "$";
+                        mLevel[iPlayerY + iDirY * 2][iPlayerX + iDirX * 2] = sMovePackTo == "." ? "*" : "$";
 
                         vUndo.push_back( cUndo( iDirY, iDirX, sMoveTo ) );
 
@@ -399,8 +399,8 @@ int sokoban_game::start_game()
                     //move player
                     vUndo.push_back( cUndo( iPlayerY, iPlayerX, mLevel[iPlayerY][iPlayerX] ) );
 
-                    mLevel[iPlayerY][iPlayerX] = ( mLevel[iPlayerY][iPlayerX] == "+" ) ? "." : " ";
-                    mLevel[iPlayerY + iDirY][iPlayerX + iDirX] = ( sMoveTo == "." || sMoveTo == "*" ) ? "+" : "@";
+                    mLevel[iPlayerY][iPlayerX] = mLevel[iPlayerY][iPlayerX] == "+" ? "." : " ";
+                    mLevel[iPlayerY + iDirY][iPlayerX + iDirX] = sMoveTo == "." || sMoveTo == "*" ? "+" : "@";
 
                     iPlayerY += iDirY;
                     iPlayerX += iDirX;

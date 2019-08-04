@@ -665,7 +665,7 @@ void npc::move()
     regen_ai_cache();
     adjust_power_cbms();
 
-    if( has_effect( effect_under_op ) ) {
+    if( activity.id() == "ACT_OPERATION" ) {
         execute_action( npc_player_activity );
         return;// NPCs under operation should just stay still
     }
@@ -2162,7 +2162,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
                 realnomove = nomove;
             } else {
                 // create the no-move list
-                newnomove.reset( new std::set<tripoint>() );
+                newnomove = std::make_unique<std::set<tripoint>>();
                 realnomove = newnomove.get();
             }
             // other npcs should not try to move into this npc anymore,

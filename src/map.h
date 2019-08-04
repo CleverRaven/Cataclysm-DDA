@@ -235,7 +235,7 @@ class map
         /*@}*/
 
         void set_memory_seen_cache_dirty( const tripoint &p ) {
-            const int offset = p.x + ( p.y * MAPSIZE_Y );
+            const int offset = p.x + p.y * MAPSIZE_Y;
             if( offset >= 0 && offset < MAPSIZE_X * MAPSIZE_Y ) {
                 get_cache( p.z ).map_memory_seen_cache.reset( offset );
             }
@@ -253,8 +253,8 @@ class map
         bool check_and_set_seen_cache( const tripoint &p ) const {
             std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
                 get_cache( p.z ).map_memory_seen_cache;
-            if( !memory_seen_cache[ static_cast<size_t>( p.x + ( p.y * MAPSIZE_Y ) ) ] ) {
-                memory_seen_cache.set( static_cast<size_t>( p.x + ( p.y * MAPSIZE_Y ) ) );
+            if( !memory_seen_cache[ static_cast<size_t>( p.x + p.y * MAPSIZE_Y ) ] ) {
+                memory_seen_cache.set( static_cast<size_t>( p.x + p.y * MAPSIZE_Y ) );
                 return true;
             }
             return false;
