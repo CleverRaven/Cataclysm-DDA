@@ -10217,7 +10217,7 @@
     "name": "high-volume rucksack",
     "description": "Also know as \"a bigpack\", this rucksack is prized by pack rats but may lead to a bad back.",
     "weight": 3539,
-    "volume": 85,
+    "volume": "21 L",
     "price": 20000,
     "material": [ "steel", "leather" ],
     "symbol": "[",
