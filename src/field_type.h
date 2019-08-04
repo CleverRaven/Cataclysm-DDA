@@ -35,6 +35,8 @@ struct field_intensity_level {
     int radiation_hurt_damage_min = 0;
     int radiation_hurt_damage_max = 0;
     std::string radiation_hurt_message;
+    int intensity_upgrade_chance = 0;
+    time_duration intensity_upgrade_duration = 0_turns;
     float light_emitted = 0.0f;
     float translucency = 0.0f;
     int convection_temperature_mod = 0.0f;
@@ -122,6 +124,12 @@ struct field_type {
         }
         std::string get_radiation_hurt_message( int level = 0 ) const {
             return _( intensity_levels[level].radiation_hurt_message );
+        }
+        int get_intensity_upgrade_chance( int level = 0 ) const {
+            return intensity_levels[level].intensity_upgrade_chance;
+        }
+        time_duration get_intensity_upgrade_duration( int level = 0 ) const {
+            return intensity_levels[level].intensity_upgrade_duration;
         }
         float get_light_emitted( int level = 0 ) const {
             return intensity_levels[level].light_emitted;
