@@ -32,6 +32,8 @@ class field_entry
         int radiation_hurt_damage_min() const;
         int radiation_hurt_damage_max() const;
         std::string radiation_hurt_message() const;
+        int intensity_upgrade_chance() const;
+        time_duration intensity_upgrade_duration() const;
 
         float light_emitted() const;
         float translucency() const;

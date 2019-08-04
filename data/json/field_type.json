@@ -324,7 +324,14 @@
     "type": "field_type",
     "legacy_enum_id": 20,
     "intensity_levels": [
-      { "name": "odd ripple", "color": "light_gray", "sym": "*", "dangerous": true },
+      {
+        "name": "odd ripple",
+        "color": "light_gray",
+        "sym": "*",
+        "dangerous": true,
+        "intensity_upgrade_chance": 10,
+        "intensity_upgrade_duration": "6 hours"
+      },
       { "name": "swirling air", "color": "dark_gray" },
       { "name": "tear in reality", "color": "magenta", "transparent": false }
     ],

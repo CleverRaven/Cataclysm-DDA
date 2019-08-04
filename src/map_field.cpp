@@ -421,6 +421,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     curtype = fd_null;
                 }
 
+                // Upgrade field intensity
+                if( cur.intensity_upgrade_chance() > 0 &&
+                    one_in( cur.intensity_upgrade_chance() ) &&
+                    cur.intensity_upgrade_duration() > 0_turns &&
+                    calendar::once_every( cur.intensity_upgrade_duration() ) ) {
+                    cur.set_field_intensity( cur.get_field_intensity() + 1 );
+                }
+
                 int part;
                 const ter_t &ter = map_tile.get_ter_t();
                 // Dissipate faster in water

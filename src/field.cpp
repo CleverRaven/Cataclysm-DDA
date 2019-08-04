@@ -35,6 +35,15 @@ std::string field_entry::radiation_hurt_message() const
     return type.obj().get_radiation_hurt_message( intensity - 1 );
 }
 
+int field_entry::intensity_upgrade_chance() const
+{
+    return type.obj().get_intensity_upgrade_chance( intensity - 1 );
+}
+
+time_duration field_entry::intensity_upgrade_duration() const
+{
+    return type.obj().get_intensity_upgrade_duration( intensity - 1 );
+}
 float field_entry::light_emitted() const
 {
     return type.obj().get_light_emitted( intensity - 1 );
