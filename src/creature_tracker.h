@@ -31,6 +31,12 @@ class Creature_tracker
         std::unordered_map<mfaction_id, std::set<std::weak_ptr<monster>, weak_ptr_comparator>>
                 monster_faction_map_;
 
+        /**
+         * Creatures that get removed via @ref remove are stored here until the end of the turn.
+         * This keeps the objects valid and they can still be accessed instead of causing UB.
+         */
+        std::vector<std::shared_ptr<monster>> removed_;
+
     public:
         Creature_tracker();
         ~Creature_tracker();

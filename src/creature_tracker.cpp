@@ -170,7 +170,17 @@ void Creature_tracker::remove( const monster &critter )
         return;
     }
 
+    for( auto &pair : monster_faction_map_ ) {
+        const auto fac_iter = pair.second.find( *iter );
+        if( fac_iter != pair.second.end() ) {
+            // Need to do this manually because the shared pointer containing critter is kept valid
+            // within removed_ and so the weak pointer in monster_faction_map_ is also valid.
+            pair.second.erase( fac_iter );
+            break;
+        }
+    }
     remove_from_location_map( critter );
+    removed_.push_back( *iter );
     monsters_list.erase( iter );
 }
 
@@ -179,6 +189,7 @@ void Creature_tracker::clear()
     monsters_list.clear();
     monsters_by_location.clear();
     monster_faction_map_.clear();
+    removed_.clear();
 }
 
 void Creature_tracker::rebuild_cache()
@@ -261,4 +272,6 @@ void Creature_tracker::remove_dead()
             ++iter;
         }
     }
+
+    removed_.clear();
 }

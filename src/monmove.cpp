@@ -622,6 +622,9 @@ void monster::move()
     const bool can_fly = has_flag( MF_FLIES );
     if( !can_fly && g->m.has_flag( TFLAG_NO_FLOOR, pos() ) ) {
         g->m.creature_on_trap( *this, false );
+        if( is_dead() ) {
+            return;
+        }
     }
 
     // The monster is in a deep water tile and has a chance to drown
@@ -1407,6 +1410,9 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     }
 
     g->m.creature_on_trap( *this );
+    if( is_dead() ) {
+        return true;
+    }
     if( !will_be_water && ( has_flag( MF_DIGS ) || has_flag( MF_CAN_DIG ) ) ) {
         underwater = g->m.has_flag( "DIGGABLE", pos() );
     }
@@ -1634,7 +1640,7 @@ void monster::stumble()
             valid_stumbles.push_back( above );
         }
     }
-    while( !valid_stumbles.empty() ) {
+    while( !valid_stumbles.empty() && !is_dead() ) {
         const tripoint dest = random_entry_removed( valid_stumbles );
         if( can_move_to( dest ) &&
             //Stop zombies and other non-breathing monsters wandering INTO water
