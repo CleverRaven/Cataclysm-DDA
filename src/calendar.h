@@ -162,8 +162,8 @@ extern season_type initial_season;
 extern const time_point before_time_starts;
 /**
  * Represents time point 0.
+ * TODO: flesh out the documentation
  */
-// TODO: flesh out the documentation
 extern const time_point turn_zero;
 } // namespace calendar
 
