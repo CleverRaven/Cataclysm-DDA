@@ -42,7 +42,7 @@
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
       "yes": "I see that badge, You need to leave our land, my relatives have no fondess for Marshals.",
-      "no": { "u_male": true, "yes": "Hello Sir, what brings you here?", "no": "Hello Ma'am, what brings you here?" }
+      "no": "Hi, what's up?"
     },
     "responses": [
       {
@@ -67,11 +67,6 @@
         }
       },
       {
-        "text": "Can I do anything for you?",
-        "topic": "TALK_MISSION_LIST",
-        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
-      },
-      {
         "text": "I'd better get going.",
         "topic": "TALK_DONE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
@@ -81,9 +76,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_TALK1",
-    "dynamic_line": "Yeah, they are always worried about us, I prefer to talk the land and try to track the changes.  I'm thinking about fixing up this cabin for some peace and quiet...",
+    "dynamic_line": "Yeah, they are always worried about us, I prefer to survey the land and try to track the changes.  I'm thinking about fixing up this cabin for some peace and quiet...",
     "responses": [
       { "text": "Sounds like you are restless, why not leave?", "topic": "TALK_ISHERWOOD_CHRIS_WANTS" },
+      { "text": "What sort of changes have you seen?", "topic": "TALK_ISHERWOOD_CHRIS_LAND" },
       {
         "text": "I was talking to Luke earlier, said you had some interesting ideas about the world ending.",
         "topic": "TALK_CHRIS_THEORIES",
@@ -101,7 +97,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_WANTS",
-    "dynamic_line": "My family is convinced that if we stay here, we'll be able to weather this catastrophy.",
+    "dynamic_line": "My family is convinced that if we stay here, we'll be able to weather this catastrophe.  Since technology has failed, they've doubled down on older traditions.  I think we need to get out there and find some answers before settling on a path.",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -110,16 +106,37 @@
   {
     "type": "talk_topic",
     "id": "TALK_CHRIS_THEORIES",
-    "dynamic_line": "The big item I need is an anvil, once I have that I can get a lot of repairs done.",
+    "dynamic_line": "In one of my longer trips I saw something out in a field, I didn't get close but I swear unbelievable monsters were coming out of it.  It kinda shimmered, almost like it wasn't quite there.  I followed the monsters for a while...",
     "responses": [
+      { "text": "What did you find?", "topic": "TALK_ISHERWOOD_CHRIS_MIGO_BASE" },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_CHRIS_CHRIS",
-    "dynamic_line": "CHRIS is hiking the perimeter of our land, planning some defense options.",
+    "id": "TALK_ISHERWOOD_CHRIS_MIGO_BASE",
+    "dynamic_line": "They made their way to this weird structure, I've never seen anything like it, it glistened in the sun like something organic...",
+    "responses": [
+      { "text": "If you join up with me, we can go check it out.", "topic": "TALK_SUGGEST_GO_CHRIS" },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SUGGEST_GO_CHRIS",
+    "dynamic_line": "Yeah, I'll join with you, I hope we can come back and check on my family some occasionally.  Getting some information is more important now though.",
+    "responses": [
+      { "text": "What is this place we are going to?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_LAND",
+    "dynamic_line": "Well, wildlife is more hostile and I've seen gigantic insects around, never mind all these monsters.  I've also found mysterious dead spots and mutated vegetation.  I don't think staying on a farm is sustainable forever, there are big planet wide changes occurring.",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -138,41 +155,44 @@
     "responses": [
       { "text": "Your dad asked me to come find you.", "topic": "TALK_ISHERWOOD_CHRIS_TALK1" },
       {
-        "text": "I was talking to Luke earlier, said you had some interesting ideas about the world ending.",
+        "text": "I was talking to Luke earlier, he said you had some interesting ideas about the world ending.",
         "topic": "TALK_CHRIS_THEORIES"
       },
-      { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
+      { "text": "What sort of changes have you seen?", "topic": "TALK_ISHERWOOD_CHRIS_LAND" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "MISSION_ISHERWOOD_CHRIS_1",
     "type": "mission_definition",
-    "name": "Find an anvil",
-    "goal": "MGOAL_FIND_ITEM",
+    "name": "Find mysterious structure",
+    "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 5,
     "value": 50000,
-    "item": "anvil",
-    "count": 1,
+    "start": {
+      "effect": "follow",
+      "assign_mission_target": { "om_terrain": "mi-go_camp2", "om_special": "Mi-Go Encampment", "reveal_radius": 3 }
+    },
     "origins": [ "ORIGIN_ANY_NPC" ],
+    "destination": "mi-go_camp2",
     "dialogue": {
-      "describe": "I need an anvil to do advanced metal work.",
-      "offer": "I could really use an anvil.",
-      "accepted": "You might be able to find one in a hardware store or similar.",
-      "rejected": "Thanks anyway, we'll find the time to make it ourselves.",
-      "advice": "If you can't find one, maybe you can make one for me.",
-      "inquire": "Do you have the anvil?",
-      "success": "I appreciate it, this will really make a difference.",
-      "success_lie": "What good does this do me?",
+      "describe": "We need to investigate the alien encampment.",
+      "offer": "I can take you to the structure those things were building.",
+      "accepted": "Awesome, I want some answers!",
+      "rejected": "Thanks anyway, I'll keep my eye on it.",
+      "advice": "I feel like we are underprepared if they see us, I marked the location for you.",
+      "inquire": "You ready?",
+      "success": "It's even bigger then I remember, we should explore some.  I left a note for my family before we left. If we survive, the cabin should be fixed up and ready for you to move in if you want to stay.",
+      "success_lie": "Well it was here...",
       "failure": "It was a lost cause anyways..."
     },
     "end": {
-      "opinion": { "trust": 1, "value": 1 },
+      "opinion": { "trust": 5, "value": 5 },
       "update_mapgen": [
         {
-          "om_terrain": "horse_farm_isherwood_4",
+          "om_terrain": "cabin_isherwood",
           "om_special": "Isherwood Farms",
-          "set": [ { "point": "furniture", "id": "f_anvil", "x": 7, "y": 12 } ]
+          "place_nested": [ { "chunks": [ "cabin_isherwood_update" ], "x": 3, "y": 1 } ]
         }
       ]
     }

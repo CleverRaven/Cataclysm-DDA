@@ -2,7 +2,7 @@
   {
     "type": "npc",
     "id": "isherwood_lisa",
-    "//": "Dairy farmer the Isherwood family.",
+    "//": "Part of the Isherwood family.",
     "name_unique": "Lisa Isherwood",
     "gender": "female",
     "class": "NC_ISHERWOOD_LISA",
@@ -67,7 +67,12 @@
       {
         "text": "Hi, I'm looking for Chris.",
         "topic": "TALK_LISA_CHRIS",
-        "condition": { "u_has_var": "u_heard_about_chris", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": {
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "u_has_var": "u_heard_about_chris", "type": "general", "context": "meeting", "value": "yes" }
+          ]
+        }
       },
       {
         "text": "I'd better get going.",

@@ -32,8 +32,8 @@
       { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "survival", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "gun", "bonus": { "rng": [ 3, 6 ] } },
-      { "skill": "rifle", "bonus": { "rng": [ 4, 8 ] } },
-      { "skill": "archery", "bonus": { "rng": [ 4, 8 ] } }
+      { "skill": "rifle", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 4, 6 ] } }
     ]
   },
   {
@@ -95,10 +95,17 @@
     "id": "TALK_ISHERWOOD_JESSE_TALK1",
     "dynamic_line": "It would be a lot harder without family.  Keeping the animals safe is essential to our future.",
     "responses": [
-      {
-        "text": "Sounds like you are betting on civilization not coming back.  Do you have any animal care tips?",
-        "topic": "TALK_ISHERWOOD_JESSE_TIPS"
-      },
+      { "text": "Sounds like you are betting on civilization not coming back.", "topic": "TALK_ISHERWOOD_JESSE_OPINION" },
+      { "text": "Do you have any animal care tips?", "topic": "TALK_ISHERWOOD_JESSE_TIPS" },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_JESSE_OPINION",
+    "dynamic_line": "We can't wait for someone else to fix things, we need to take care of ourselves.",
+    "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
@@ -181,7 +188,6 @@
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 5,
     "value": 50000,
-    "urgent": true,
     "start": {
       "assign_mission_target": { "om_terrain": "forest_thick", "reveal_radius": 1, "random": true, "search_range": 20, "min_distance": 8 },
       "update_mapgen": { "place_monster": [ { "monster": "mon_flying_polyp", "x": 11, "y": 11, "target": true } ] }
@@ -189,12 +195,12 @@
     "origins": [ "ORIGIN_ANY_NPC" ],
     "dialogue": {
       "describe": "We could use some help killing some monsters.",
-      "offer": "I don't know what it is, but it is very fast.",
+      "offer": "I don't know what it is, but it is very fast, I'm willing to outfit you with a horse if you succeed.",
       "accepted": "Be ready for anything.",
       "rejected": "Thanks anyway, we will try some traps.",
       "advice": "A gun will probably help.",
       "inquire": "Did you kill it?",
-      "success": "I appreciate it, this will help keep our animals safe, here's an extra saddle for you.  Take this fodder and choose a horse for your help too.",
+      "success": "I appreciate it, this will help keep our animals safe, here's an extra saddle for you.  Take this fodder and choose a horse for your bravery.",
       "success_lie": "Show me the body.",
       "failure": "It was a lost cause anyways..."
     },
@@ -203,7 +209,7 @@
       "effect": [
         { "u_buy_item": "riding_saddle", "count": 1 },
         { "u_buy_item": "cattlefodder", "count": 3 },
-        { "u_add_var": "u_did_jesse_missions", "type": "general", "context": "mission", "value": "yes" }
+        { "u_add_var": "u_did_jesse_missions", "type": "general", "context": "recruit", "value": "yes" }
       ]
     }
   }

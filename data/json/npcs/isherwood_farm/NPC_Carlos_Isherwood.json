@@ -61,11 +61,11 @@
       {
         "text": "Hi, looks like you are building a forage setup.",
         "topic": "TALK_ISHERWOOD_CARLOS_TALK1",
-        "effect": { "u_add_var": "u_met_Carlos_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+        "speaker_effect": { "effect": { "u_add_var": "u_met_carlos_isherwood", "type": "general", "context": "meeting", "value": "yes" } }
       },
       {
         "text": "Hi, Jack and Claire suggested I come talk to you about a job.",
-        "topic": "TALK_CARLOS_FORAGE",
+        "topic": "TALK_CARLOS_FORGE",
         "condition": {
           "and": [
             { "not": { "u_is_wearing": "badge_marshal" } },
@@ -88,7 +88,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CARLOS_TALK1",
-    "dynamic_line": "It is coming together.  I want to make our own tools, repair our items and even try some weapons and ammuntion reloading.",
+    "dynamic_line": "It is coming together.  I want to make our own tools, repair our items and even create some weapons and ammuntion reloading.",
     "responses": [
       { "text": "What do you need?", "topic": "TALK_MISSION_LIST" },
       {
@@ -108,7 +108,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARLOS_BARRY",
-    "dynamic_line": "It was huge, and easily kept up with us when we tried to escape.  It looked like it had merged a bunch of corpses togehter, horrifying stuff.  We burned the corpse to be safe.",
+    "dynamic_line": "It was pink and really fast, it had lots of limbs, definitly not human. It easily kept up with us when we tried to escape, horrifying stuff.  We burned the corpse to be safe.",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -173,7 +173,10 @@
     },
     "end": {
       "opinion": { "trust": 1, "value": 1 },
-      "effect": [ { "u_buy_item": "chainmail_armor_horse", "count": 1 } ],
+      "effect": [
+        { "u_buy_item": "chainmail_armor_horse", "count": 1 },
+        { "u_add_var": "u_did_carlos_missions", "type": "general", "context": "recruit", "value": "yes" }
+      ],
       "update_mapgen": [
         {
           "om_terrain": "horse_farm_isherwood_4",
@@ -187,16 +190,12 @@
     "id": "MISSION_ISHERWOOD_CARLOS_2",
     "type": "mission_definition",
     "name": "Find Chris Isherwood",
-    "goal": "MGOAL_FIND_NPC",
+    "goal": "MGOAL_TALK_TO_NPC",
     "difficulty": 3,
     "value": 20000,
     "start": {
       "assign_mission_target": { "om_terrain": "cabin_isherwood", "reveal_radius": 1, "random": true, "search_range": 20, "min_distance": 8 },
       "update_mapgen": { "place_npcs": [ { "class": "isherwood_chris", "x": 8, "y": 17, "target": true } ] }
-    },
-    "end": {
-      "opinion": { "trust": 2, "value": 2 },
-      "condition": { "u_has_var": "u_met_chris_isherwood", "type": "general", "context": "meeting", "value": "yes" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
