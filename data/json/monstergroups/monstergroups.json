@@ -4305,6 +4305,22 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_NETHER_FATIGUE_FIELD",
+    "default": "mon_blank",
+    "monsters": [
+      { "monster": "mon_flying_polyp", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_hunting_horror", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_yugg", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_gelatin", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_flaming_eye", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_kreck", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_gracke", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_blank", "freq": 100, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_SPIRAL",
     "default": "mon_human_snail",
     "monsters": [

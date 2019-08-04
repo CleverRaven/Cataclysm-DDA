@@ -44,6 +44,27 @@ time_duration field_entry::intensity_upgrade_duration() const
 {
     return type.obj().get_intensity_upgrade_duration( intensity - 1 );
 }
+
+int field_entry::monster_spawn_chance() const
+{
+    return type.obj().get_monster_spawn_chance( intensity - 1 );
+}
+
+int field_entry::monster_spawn_count() const
+{
+    return type.obj().get_monster_spawn_count( intensity - 1 );
+}
+
+int field_entry::monster_spawn_radius() const
+{
+    return type.obj().get_monster_spawn_radius( intensity - 1 );
+}
+
+mongroup_id field_entry::monster_spawn_group() const
+{
+    return type.obj().get_monster_spawn_group( intensity - 1 );
+}
+
 float field_entry::light_emitted() const
 {
     return type.obj().get_light_emitted( intensity - 1 );
