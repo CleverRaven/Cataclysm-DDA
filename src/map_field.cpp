@@ -410,6 +410,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 field_type_id curtype = cur.get_field_type();
                 // Again, legacy support in the event someone Mods set_field_intensity to allow more values.
                 if( cur.get_field_intensity() > 3 || cur.get_field_intensity() < 1 ) {
+                    // TODO: Remove this eventually as we would suppoort more than 3 field intensity levels
                     debugmsg( "Whoooooa intensity of %d", cur.get_field_intensity() );
                 }
 
@@ -965,7 +966,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     }
                 }
 
-                // Apply radition
+                // Apply radiation
                 if( cur.extra_radiation_max() > 0 ) {
                     int extra_radiation = rng( cur.extra_radiation_min(), cur.extra_radiation_max() );
                     adjust_radiation( p, extra_radiation );
