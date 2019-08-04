@@ -136,6 +136,8 @@ const std::map<std::string, m_flag> flag_map = {
     { "PUSH_VEH", MF_PUSH_VEH },
     { "PATH_AVOID_DANGER_1", MF_AVOID_DANGER_1 },
     { "PATH_AVOID_DANGER_2", MF_AVOID_DANGER_2 },
+    { "PATH_AVOID_FALL", MF_AVOID_FALL },
+    { "PATH_AVOID_FIRE", MF_AVOID_FIRE },
     { "PRIORITIZE_TARGETS", MF_PRIORITIZE_TARGETS },
     { "NOT_HALLUCINATION", MF_NOT_HALLU },
     { "CATFOOD", MF_CATFOOD },
