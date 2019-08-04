@@ -10236,7 +10236,7 @@
     "name": "hiking backpack",
     "description": "A large sized hiking backpack with plenty of storage space.",
     "weight": 2291,
-    "volume": 55,
+    "volume": "14 L",
     "price": 10000,
     "material": [ "leather" ],
     "symbol": "[",
