@@ -10939,6 +10939,8 @@ void game::despawn_monster( monster &critter )
 
     critter.on_unload();
     remove_zombie( critter );
+    // simulate it being dead so further processing of it (e.g. in monmove) will yield
+    critter.set_hp( 0 );
 }
 
 void game::shift_monsters( const int shiftx, const int shifty, const int shiftz )
