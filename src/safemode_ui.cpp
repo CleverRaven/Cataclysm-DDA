@@ -52,8 +52,8 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
     const int header_height = 4;
     const int content_height = FULL_SCREEN_HEIGHT - 2 - header_height;
 
-    const int offset_x = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-    const int offset_y = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+    const int offset_x = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+    const int offset_y = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
 
     enum Columns : int {
         COLUMN_RULE,
@@ -70,8 +70,8 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
     const int num_columns = column_pos.size();
 
-    catacurses::window w_help = catacurses::newwin( ( FULL_SCREEN_HEIGHT / 2 ) - 2,
-                                FULL_SCREEN_WIDTH * 3 / 4, 7 + offset_y + ( FULL_SCREEN_HEIGHT / 2 ) / 2, offset_x + 19 / 2 );
+    catacurses::window w_help = catacurses::newwin( FULL_SCREEN_HEIGHT / 2 - 2,
+                                FULL_SCREEN_WIDTH * 3 / 4, 7 + offset_y + FULL_SCREEN_HEIGHT / 2 / 2, offset_x + 19 / 2 );
     catacurses::window w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                   offset_y, offset_x );
     catacurses::window w_header = catacurses::newwin( header_height, FULL_SCREEN_WIDTH - 2,
@@ -426,8 +426,8 @@ void safemode::test_pattern( const int tab_in, const int row_in )
         }
     }
 
-    const int offset_x = 15 + ( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
-    const int offset_y = 5 + ( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 :
+    const int offset_x = 15 + ( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+    const int offset_y = 5 + ( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 :
                                0 );
 
     int start_pos = 0;

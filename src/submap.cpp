@@ -212,10 +212,9 @@ void submap::rotate( int turns )
     }
 
     for( auto &elem : vehicles ) {
-        const auto new_pos = rotate_point( { elem->posx, elem->posy } );
+        const auto new_pos = rotate_point( elem->pos );
 
-        elem->posx = new_pos.x;
-        elem->posy = new_pos.y;
+        elem->pos = new_pos;
         // turn the steering wheel, vehicle::turn does not actually
         // move the vehicle.
         elem->turn( turns * 90 );

@@ -18,6 +18,7 @@
 
 #include <cstdlib>
 #include <algorithm>
+#include <memory>
 #include <vector>
 
 string_input_popup::string_input_popup() = default;
@@ -92,7 +93,7 @@ void string_input_popup::create_window()
 
 void string_input_popup::create_context()
 {
-    ctxt_ptr.reset( new input_context( "STRING_INPUT" ) );
+    ctxt_ptr = std::make_unique<input_context>( "STRING_INPUT" );
     ctxt = ctxt_ptr.get();
     ctxt->register_action( "ANY_INPUT" );
 }

@@ -236,13 +236,13 @@
     "id": "npc_extra",
     "items": [
       [ "null", 20 ],
-      [ "ring", 20 ],
+      [ "gold_ring", 20 ],
       [ "diamond_ring", 2 ],
       [ "copper_bracelet", 10 ],
       [ "gold_bracelet", 10 ],
       [ "silver_bracelet", 10 ],
-      [ "necklace", 5 ],
-      [ "locket", 5 ]
+      [ "silver_necklace", 5 ],
+      [ "silver_locket", 5 ]
     ]
   },
   {
@@ -693,7 +693,7 @@
       [ "lighter", 20 ],
       [ "lgpistol_primer", 3 ],
       [ "lgrifle_primer", 3 ],
-      [ "locket", 10 ],
+      [ "silver_locket", 10 ],
       [ "long_island", 3 ],
       [ "lsd", 3 ],
       [ "lunchmeat", 3 ],
@@ -823,7 +823,7 @@
       [ "nail", 3 ],
       [ "nailgun", 3 ],
       [ "neccowafers", 4 ],
-      [ "necklace", 5 ],
+      [ "silver_necklace", 5 ],
       [ "news_regional", 3 ],
       [ "nic_gum", 8 ],
       [ "nicotine_liquid", 6 ],
@@ -942,7 +942,7 @@
       [ "restaurantmap", 5 ],
       [ "rhubarb", 1 ],
       [ "rifle_scope", 4 ],
-      [ "ring", 6 ],
+      [ "gold_ring", 6 ],
       [ "roadmap", 4 ],
       [ "rolling_paper", 3 ],
       [ "rollmat", 8 ],

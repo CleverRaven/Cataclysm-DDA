@@ -507,8 +507,8 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     // and record the bounds to optimize lookups below
     std::unordered_map<point, std::pair<std::string, nc_color>> special_cache;
 
-    point s_begin = point_zero;
-    point s_end = point_zero;
+    point s_begin;
+    point s_end;
     if( blink && uistate.place_special ) {
         for( const auto &s_ter : uistate.place_special->terrains ) {
             if( s_ter.p.z == 0 ) {

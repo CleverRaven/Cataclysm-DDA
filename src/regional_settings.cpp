@@ -345,16 +345,14 @@ static void load_overmap_lake_settings( JsonObject &jo,
         } else {
             JsonArray aliases_jarr =
                 overmap_lake_settings_jo.get_array( "shore_extendable_overmap_terrain_aliases" );
-            std::string ter;
-            ot_match_type ter_match_type;
             oter_str_id alias;
             while( aliases_jarr.has_more() ) {
                 shore_extendable_overmap_terrain_alias alias;
                 JsonObject jo = aliases_jarr.next_object();
                 jo.read( "om_terrain", alias.overmap_terrain );
                 jo.read( "alias", alias.alias );
-                alias.match_type = ter_match_type = jo.get_enum_value<ot_match_type>
-                                                    ( jo.get_string( "om_terrain_match_type", "CONTAINS" ), ot_match_type::contains );
+                alias.match_type = jo.get_enum_value<ot_match_type>( jo.get_string( "om_terrain_match_type",
+                                   "CONTAINS" ), ot_match_type::contains );
                 overmap_lake_settings.shore_extendable_overmap_terrain_aliases.emplace_back( alias );
             }
         }
